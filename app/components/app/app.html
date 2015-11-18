@@ -1,0 +1,22 @@
+<header>
+    <nav class="top-nav">
+        <div class="nav-wrapper">
+            <ul class="right hide-on-med-and-down">
+                <li><a href="#"><i class="material-icons left">settings</i>Settings</a></li>
+            </ul>
+        </div>
+    </nav>
+    <ul id="nav-mobile" class="side-nav fixed" style="width:240px;">
+        <user-login (logout-event)="logoutEvent()"></user-login>
+        <div *ng-if="user">
+            <li><a [router-link]="['/Home']"><i class="material-icons left medium">store</i>Home</a></li>
+            <li><a [router-link]="['/SurveyProgram']"><i class="material-icons left medium">assignment</i>Survey</a>
+            </li>
+        </div>
+    </ul>
+</header>
+
+<main>
+    <router-outlet></router-outlet>
+</main>
+

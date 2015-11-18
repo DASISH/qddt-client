@@ -1,0 +1,78 @@
+<div class="row" *ng-if="user">
+  <div class="col s12 m6">
+
+    <div class="card white lighten-2">
+      <div class="card-content red-text text-lighten-2">
+        <span class="card-title red-text text-lighten-2"><i class="material-icons large right">assignment</i>Survey</span>
+        <p>
+          Start here for survey program related work-flows. You can choose to either create  anew survey program
+          or get a list of all available survey programs you can choose from to work on.
+        </p>
+      </div>
+      <div class="card-action">
+        <a [router-link]="['/SurveyProgram']">New Survey Program</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col s12 m6">
+    <div class="card blue-grey darken-1">
+      <div class="card-content white-text">
+        <span class="card-title"><i class="material-icons large right">business</i>My Agency</span>
+
+        <p>Agency is ---- data about agency</p>
+      </div>
+      <div class="card-action">
+        <a href="#">Edit</a>
+        <a href="#">More info</a>
+      </div>
+    </div>
+    <div class="card blue-grey darken-1">
+      <div class="card-content white-text">
+        <span class="card-title"><i class="material-icons large right">comment</i>Latest comments</span>
+        <p>A comment in [data] [link]</p>
+        <p>A comment in [data] [link]</p>
+        <p>A comment in [data] [link]</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="row" *ng-if="!user">
+  <div class="col s12 m6">
+    <div class="card blue-grey darken-1">
+      <div class="card-content white-text">
+        <span class="card-title"><i class="material-icons large right">new_releases</i>Welcome QDDT</span>
+        <p>
+        Welcome to the prototype client for QDDT. This client will change a lot, and some features are likely to be broken
+        from time to time. Expect features to change, appear and disappear quickly and without notice.
+        <blockquote>
+          Please report any bugs, tips or ideas to us on <a href="mailto:qddt@nsd.no">qddt@nsd.no</a>
+        </blockquote>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col s12 m6">
+
+    <div class="card blue-grey darken-1">
+      <div class="card-content white-text">
+        <span class="card-title"><i class="material-icons large right">announcement</i>Whats new in QDDT</span>
+        <p>
+        The latest changes
+        <blockquote>
+          Login is active
+        </blockquote>
+        <blockquote>
+          Material design on all components
+        </blockquote>
+        <blockquote>
+          Adding a survey is possible
+        </blockquote>
+        </p>
+      </div>
+    </div>
+
+  </div>
+</div>

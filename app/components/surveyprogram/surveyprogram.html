@@ -1,0 +1,28 @@
+<div class="row">
+
+  <tabs></tabs>
+
+  <div class="col s6">
+    <h2>Survey programs</h2>
+    <button (click)="refresh()" class="btn btn-default">Refresh</button>
+    <div *ng-for="#surveyProgram of surveyPrograms">
+      {{surveyProgram.name}}
+    </div>
+  </div>
+
+  <div class="col s6">
+    <h2>Create new Survey program</h2>
+    <form (ng-submit)="save()" #hf="form">
+      <div class="form-group">
+        <label for="model.name">Name</label>
+
+        <input type="text"  class="form-control" required
+               [(ng-model)]="model.name" >
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+  </div>
+
+</div>
+
+
