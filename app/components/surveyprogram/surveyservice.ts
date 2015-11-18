@@ -1,4 +1,4 @@
-import {Injectable, Inject} from 'angular2/angular2';
+import {Injectable} from 'angular2/angular2';
 import {Http, Headers} from 'angular2/http';
 
 export class SurveyProgram {
@@ -59,7 +59,7 @@ export class SurveyService {
           data.forEach(s => {
             console.log(s);
             this.surveyPrograms.push(s);
-          })
+          });
         }
       );
   }

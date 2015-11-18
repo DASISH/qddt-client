@@ -1,14 +1,11 @@
-import {Component, NgFor, CORE_DIRECTIVES, FORM_DIRECTIVES, Inject} from 'angular2/angular2';
-import {HTTP_PROVIDERS, Http} from 'angular2/http';
+import {Component, NgFor, CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/angular2';
 
-import {Tabs} from '../../common/tabs/tabs';
 import {SurveyService, SurveyProgram} from '../surveyprogram/surveyservice';
 
 @Component({
   selector: 'surveyprogram',
   templateUrl: './components/surveyprogram/surveyprogram.html',
-  directives: [CORE_DIRECTIVES, FORM_DIRECTIVES, NgFor, Tabs],
-  viewProviders: [HTTP_PROVIDERS],
+  directives: [CORE_DIRECTIVES, FORM_DIRECTIVES, NgFor],
   providers: [SurveyService]
 })
 export class SurveyProgramComponent {
