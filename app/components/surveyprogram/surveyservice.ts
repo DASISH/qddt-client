@@ -15,6 +15,7 @@ export class SurveyService {
 
   constructor(http: Http) {
     this.http = http;
+    this.getAll();
   }
 
   save(surveyProgram: SurveyProgram): SurveyProgram {
@@ -70,6 +71,4 @@ export class SurveyService {
   logError(err: string) {
     console.log('Error: ', err);
   }
-
-  get diagnostic() { return JSON.stringify(this.surveyProgram); }
 }

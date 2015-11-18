@@ -5,7 +5,7 @@ import {Tabs} from '../../common/tabs/tabs';
 import {SurveyService, SurveyProgram} from '../surveyprogram/surveyservice';
 
 @Component({
-  selector: 'surveyprogram-form',
+  selector: 'surveyprogram',
   templateUrl: './components/surveyprogram/surveyprogram.html',
   directives: [CORE_DIRECTIVES, FORM_DIRECTIVES, NgFor, Tabs],
   viewProviders: [HTTP_PROVIDERS],
@@ -30,6 +30,6 @@ export class SurveyProgramComponent {
   }
 
   refresh() {
-    this.surveyPrograms = this.service.getAll();
+    this.surveyPrograms = this.service.getModel();
   }
 }

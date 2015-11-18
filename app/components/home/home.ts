@@ -3,12 +3,13 @@ import {ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {LoginComponent} from '../login/login';
 import {UserService} from '../../common/userservice';
+import {SurveyProgramComponent} from '../surveyprogram/surveyprogram';
 
 @Component({
   selector: 'home',
   templateUrl: './components/home/home.html',
   styleUrls: ['./components/home/home.css'],
-  directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES, LoginComponent]
+  directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES, LoginComponent, SurveyProgramComponent]
 })
 export class HomeCmp {
 

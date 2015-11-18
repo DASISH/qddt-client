@@ -5,7 +5,6 @@ import {Router} from 'angular2/router';
 // import {HTTP_BINDINGS} from 'http/http';
 
 import {HomeCmp} from '../home/home';
-import {SurveyProgramComponent} from '../surveyprogram/surveyprogram';
 import {UserLogin} from '../../common/user';
 import {UserService} from '../../common/userservice';
 
@@ -18,7 +17,6 @@ import {UserService} from '../../common/userservice';
 })
 @RouteConfig([
   { path: '/', component: HomeCmp, as: 'Home' },
-  { path: '/surveyprogram', component: SurveyProgramComponent, as: 'SurveyProgram' }
 ])
 export class AppCmp {
 
