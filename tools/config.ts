@@ -10,22 +10,29 @@ export const DEBUG            = argv['debug']       || false;
 
 export const PORT             = argv['port']        || 5555;
 export const LIVE_RELOAD_PORT = argv['reload-port'] || 4002;
+export const DOCS_PORT        = argv['docs-port']   || 4003;
 export const APP_BASE         = argv['base']        || '/';
 
 export const APP_SRC          = 'app';
 export const APP_DEST         = 'dist';
+export const APP_DOCS         = 'docs';
 export const ANGULAR_BUNDLES  = './node_modules/angular2/bundles';
 export const VERSION          = version();
+
+export const VERSION_NPM      = '3.0.0';
+export const VERSION_NODE     = '4.0.0';
 
 export const PATH = {
   cwd: process.cwd(),
   tools: 'tools',
+  docs :`${APP_DEST}/${APP_DOCS}`,
   dest: {
     all: APP_DEST,
     dev: {
       all: `${APP_DEST}/${ENV}`,
       lib: `${APP_DEST}/${ENV}/lib`,
       css: `${APP_DEST}/${ENV}/css`,
+      assets: `${APP_DEST}/${ENV}/assets`,
       fonts: `${APP_DEST}/${ENV}/fonts`
     },
     test: 'test',
@@ -53,6 +60,9 @@ export const PATH = {
     ],
     csslib: [
       resolve('materialize-css/dist/css/materialize.css')
+    ],
+    assets: [
+      `${APP_SRC}/assets/**/*`
     ],
     fonts: [
       resolve('materialize-css/dist/font/roboto/Roboto-Bold.woff'),

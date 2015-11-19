@@ -15,7 +15,6 @@ autoRegisterTasks();
 registerInjectableAssetsRef(PATH.src.jslib_inject, PATH.dest.dev.lib);
 registerInjectableAssetsRef(PATH.src.csslib, PATH.dest.dev.css);
 
-
 // --------------
 // Clean (override).
 gulp.task('clean',       task('clean', 'all'));
@@ -26,52 +25,57 @@ gulp.task('clean.test',  task('clean', 'test'));
 // Postinstall.
 gulp.task('postinstall', done =>
   runSequence('clean',
-              'npm',
-              done));
-
+    'npm',
+    done));
 
 // --------------
 // Build dev.
 gulp.task('build.dev', done =>
   runSequence('clean.dist',
-              'tslint',
-              'build.jslib.dev',
-              'build.sass.dev',
-              'build.js.dev',
-              'build.csslib.dev',
-              'build.fonts',
-              'build.index.dev',
-              done));
+    'tslint',
+    'build.jslib.dev',
+    'build.sass.dev',
+    'build.js.dev',
+    'build.csslib.dev',
+    'build.assets',
+    'build.fonts',
+    'build.index.dev',
+    'build.images.dev',
+    done));
 
 gulp.task('build.dev.watch', done =>
   runSequence('build.dev',
-              'watch.dev',
-              done));
+    'watch.dev',
+    done));
 
 gulp.task('build.test.watch', done =>
   runSequence('build.test',
-              'watch.test',
-              done));
+    'watch.test',
+    done));
 
 // --------------
 // Test.
 gulp.task('test', done =>
   runSequence('clean.test',
-              'tslint',
-              'build.test',
-              'karma.start',
-              done));
-
+    'tslint',
+    'build.test',
+    'karma.start',
+    done));
 
 // --------------
 // Serve.
 gulp.task('serve', done =>
   runSequence(`build.${ENV}`,
-              'server.start',
-              'watch.serve',
-              done));
+    'server.start',
+    'watch.serve',
+    done));
 
-
+// --------------
+// Docs
+gulp.task('docs', done =>
+  runSequence('build.docs',
+    'serve.docs',
+    done));
 
 // --------------
 // Build prod.
