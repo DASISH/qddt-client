@@ -69,4 +69,4 @@ Follow this structure for now. Please, feel free to submit changes to this struc
 ## Credits
 
 Based on https://github.com/mgechev/angular2-seed/  
-We will follow changes here as well, and implement big changes to our tool chain as they appear.
+We will follow changes here as well, and implement them to our tool chain as they appear.
