@@ -3,33 +3,34 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>qddt prototype</title>
+  <title><%= APP_TITLE %></title>
   <base href="<%= APP_BASE %>">
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
   <!-- inject:css -->
   <!-- endinject -->
-
 </head>
 <body>
 
-  <app>
-    <div class="progress">
-      <div class="indeterminate"></div>
-    </div>
-  </app>
+<app>Loading...</app>
 
-  <!-- inject:js -->
-  <!-- endinject -->
+<!-- shims:js -->
+<!-- endinject -->
 
-  <script>
-    System.import('bootstrap')
-      .catch(function (e) {
-        console.error(e,
-          'Report this error at https://github.com/mgechev/angular2-seed/issues');
-      });
-  </script>
+<script>
+  System.config(<%= JSON.stringify(SYSTEM_CONFIG) %>)
+
+  System.import('bootstrap')
+    .catch(function (e) {
+      console.error(e,
+        'Report this error at https://github.com/mgechev/angular2-seed/issues');
+    });
+</script>
+
+<!-- inject:js -->
+<!-- endinject -->
 
 </body>
 </html>
