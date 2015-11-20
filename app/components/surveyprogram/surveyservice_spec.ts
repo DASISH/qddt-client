@@ -13,18 +13,11 @@ import {
   injectAsync,
   fakeAsync,
   TestComponentBuilder,
-  AsyncTestCompleter,
   tick
 } from 'angular2/testing';
 import {SurveyService} from "./surveyservice";
 import {SurveyService} from "./surveyservice";
 import {SurveyProgram} from "./create/create";
-import FancyService from "./";
-
-class FancyService {
-  value: string = 'real value';
-  getAsyncValue() { return Promise.resolve('async value'); }
-}
 
 export function main() {
   describe('SurveyService Service', () => {
@@ -37,40 +30,13 @@ export function main() {
           return new Http(backend, defaultOptions);
         },
         deps: [MockBackend, BaseRequestOptions]}),
-      provide(SurveyService, {useClass: SurveyService}),
-      provide(FancyService, {useClass: FancyService()})
+      provide(SurveyService, {useClass: SurveyService})
     ]);
 
-    it('should return the list of names',(inject([SurveyService], (surveyService) => {
+    it('should return a list of surveys',(inject([SurveyService], (surveyService) => {
       //let surveys = surveyService.getAll();
       //expect(surveys).toEqual(jasmine.any(Array));
-      var hello = surveyService.test();
-      expect(hello).toEqual("hello");
     })));
 
-    //it('test http', (injectAsync([Http], (http) => {
-    //  var headers = new Headers();
-    //  headers.append('Authorization', 'Basic ' + btoa('client:password'));
-    //  http.post('http://localhost:8080/oauth/token' +
-    //      '?username=admin@example.org' +
-    //      '&password=password' +
-    //      '&scope=write' +
-    //      '&grant_type=password' +
-    //      '&client_secret=password' +
-    //      '&client=client',
-    //    null
-    //    ,
-    //    {
-    //      headers: headers
-    //    })
-    //    .map(res => res.json())
-    //    .subscribe(
-    //      //data  => token = JSON.stringify(data),
-    //      data  => console.log('JWT', data),
-    //      err   => this.logError(err),
-    //      ()    => console.log('Done')
-    //    );
-    //
-    //})));
   });
 }
