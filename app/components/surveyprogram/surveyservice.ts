@@ -2,6 +2,7 @@ import {Injectable} from 'angular2/angular2';
 import {Http, Headers} from 'angular2/http';
 
 export class SurveyProgram {
+  public id: string;
   public name: string;
 }
 
@@ -15,7 +16,7 @@ export class SurveyService {
 
   constructor(http: Http) {
     this.http = http;
-    //this.getAll(); //must be changed to life cycle events on component
+    this.getAll(); //must be changed to life cycle events on component
   }
 
   save(surveyProgram: SurveyProgram): SurveyProgram {
@@ -50,7 +51,6 @@ export class SurveyService {
   }
 
   getAll(): Array<SurveyProgram> {
-    console.log('getting all');
     var headers = new Headers();
     headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
 
@@ -61,7 +61,6 @@ export class SurveyService {
       .map(res => res.json()).subscribe(
         data  => {
           data.forEach(s => {
-            console.log(s);
             this.surveyPrograms.push(s);
           });
         }

@@ -1,11 +1,12 @@
 import {Component, NgFor, CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/angular2';
 
 import {SurveyService, SurveyProgram} from '../surveyprogram/surveyservice';
+import {CommentListComponent} from '../comment/comment_list';
 
 @Component({
   selector: 'surveyprogram',
   templateUrl: './components/surveyprogram/surveyprogram.html',
-  directives: [CORE_DIRECTIVES, FORM_DIRECTIVES, NgFor],
+  directives: [CORE_DIRECTIVES, FORM_DIRECTIVES, NgFor, CommentListComponent],
   providers: [SurveyService]
 })
 export class SurveyProgramComponent {

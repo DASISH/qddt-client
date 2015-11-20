@@ -9,10 +9,12 @@
 
             <ul class="collection" *ng-for="#surveyProgram of surveyPrograms">
                 <li class="collection-item avatar">
-                    <i class="material-icons circle">folder</i>
+                    <i class="material-icons circle">assignment</i>
                     <span class="title">{{surveyProgram.name}}</span>
-                    <p>F{{surveyProgram.created}}<br>
+                    <p>{{surveyProgram.created}}<br>
+                        {{surveyProgram.id}}
                         {{surveyProgram.createdBy.username}}
+                        <comment-list owner-id="5"></comment-list>
                     </p>
                     <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
                 </li>
