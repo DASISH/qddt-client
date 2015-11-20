@@ -5,15 +5,16 @@ import {CommentService, Comment} from './commentservice';
 @Component({
   selector: 'comment-list',
   template: `
-        <ul class="collection" *ng-for="#comment of comments">
+        <ul *ng-for="#comment of comments">
           <li class="collection-item avatar">
             <img src="images/avatar-default.png" alt="" class="circle">
-            <span class="title">{{comment.createdBy}} said:</span>
-            <p><br>
+            <span class="title">{{comment.createdBy}}</span>
+            <p>
                {{comment.comment}}
             </p>
-            <a href="#!" class="secondary-content"><i class="material-icons right">comment</i></a>
+            <i class="secondary-content material-icons right">comment</i>
           </li>
+        </ul>
 
       </div>
       </div>
