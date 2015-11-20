@@ -15,7 +15,7 @@ export class SurveyService {
 
   constructor(http: Http) {
     this.http = http;
-    this.getAll();
+    //this.getAll(); //must be changed to life cycle events on component
   }
 
   save(surveyProgram: SurveyProgram): SurveyProgram {
@@ -38,6 +38,10 @@ export class SurveyService {
       );
 
     return this.surveyProgram;
+  }
+
+  test(): String {
+    return "hello";
   }
 
 
