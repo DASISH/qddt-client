@@ -15,9 +15,6 @@ import {CommentService, Comment} from './commentservice';
             <i class="secondary-content material-icons right">comment</i>
           </li>
         </ul>
-
-      </div>
-      </div>
   `,
   directives: [CORE_DIRECTIVES, NgFor],
   providers: [CommentService],
