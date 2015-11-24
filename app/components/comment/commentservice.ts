@@ -1,7 +1,5 @@
-import {Injectable} from 'angular2/angular2';
-import {Http, Headers} from 'angular2/http';
-import {ListWrapper} from "../../../node_modules/angular2/src/facade/collection";
-
+import {Injectable, Observable} from 'angular2/angular2';
+import {Http, Headers, Response} from 'angular2/http';
 
 export class Comment {
   id: string;
@@ -13,7 +11,7 @@ export class Comment {
 @Injectable()
 export class CommentService {
   private comment: Comment;
-  private comments: Array<Comment> = [];
+  public comments: Array<Comment> = [];
 
   constructor(private http: Http) {
     this.http = http;
@@ -31,7 +29,7 @@ export class CommentService {
       {
         headers: headers
       })
-      .map(res => res.json())
+      .map((res:Response) => res.json())
       .subscribe(
         data  =>  this.comment = data,
         err   =>  this.logError(err)
@@ -40,21 +38,25 @@ export class CommentService {
     return this.comment;
   }
 
-  getAll(ownerId: string): Array<Comment> {
+  getAll(ownerId: string): any {
     var headers = new Headers();
-    headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
+    headers.append('Authorization', 'Bearer  ' + JSON.parse(localStorage.getItem('jwt')).access_token);
     headers.append('Content-Type', 'application/json');
 
-    this.http.post('http://localhost:8080/comment/page/'+ownerId,
-      JSON.stringify(this.comment),
+    this.http.get('http://localhost:8080/comment/by-owner/' + ownerId + '?page=0&size=20',
       {
         headers: headers
       })
-      .map(res => res.json())
+      .map((res:Response) => res.json())
       .subscribe(
-        data  =>  this.comments.push(data),
-        err   =>  this.logError(err)
+        emitter   =>   this.comments.push(emitter),
+        onError   =>   console.log('onError', onError),
+        ()        =>   console.log('Complete ['+ownerId+']', this.comments)
       );
+
+    return this.comments;
+
+  //static subscribe<T>(emitter: any, onNext: (value: T) => void, onError?: (exception: any) => void, onComplete?: () => void): Object;
   }
 
   logError(err: string) {

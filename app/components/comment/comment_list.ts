@@ -1,18 +1,19 @@
 import {Component, NgFor, CORE_DIRECTIVES, Inject, Input} from 'angular2/angular2';
 
 import {CommentService, Comment} from './commentservice';
+import {NewCommentComponent} from '../comment/new_comment';
 
 @Component({
   selector: 'comment-list',
   template: `
-        <ul *ng-for="#comment of comments">
-          <li class="collection-item avatar">
+        <ul *ng-for="#content of commentsPage">
+          <li class="collection-item avatar" *ng-for="#comment of content.content">
             <img src="images/avatar-default.png" alt="" class="circle">
-            <span class="title">{{comment.createdBy}}</span>
-            <p>
-               {{comment.comment}}
-            </p>
-            <i class="secondary-content material-icons right">comment</i>
+            <span class="title">{{comment.createdBy.username}}</span>
+              <p>
+                 {{comment.comment}}
+              </p>
+            <i class="secondary-content material-icons right ">comment</i>
           </li>
         </ul>
   `,
@@ -23,31 +24,15 @@ import {CommentService, Comment} from './commentservice';
 export class CommentListComponent {
 
   commentService: CommentService;
-  comments: Array<Comment> = [];
+  commentsPage: any;
 
   @Input('owner-id') ownerId: string;
 
   constructor(@Inject(CommentService)commentService: CommentService) {
     this.commentService = commentService;
-    //this.comments = this.commentService.getAll(this.ownerId);
-    console.log('ID...', this.ownerId);
-    this.comments = this.dummycomments();
-    console.log(this.comments);
   }
 
-
-  dummycomments(): Array<Comment> {
-    var cmnts: Array<Comment> = [];
-
-    for(var i = 0; i < 3; i++) {
-      var cmnt = new Comment();
-      cmnt.id = 'f324f-'+i*2500+'-4321-'+i*40+(i/20);
-      cmnt.createdBy = "admin";
-      cmnt.ownerId = "this";
-      cmnt.comment = 'I am a comment for this ' + cmnt.id;
-      cmnts.push(cmnt);
-    }
-
-    return cmnts;
+  onInit() {
+    this.commentsPage = this.commentService.getAll(this.ownerId);
   }
 }

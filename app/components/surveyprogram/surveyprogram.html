@@ -15,7 +15,8 @@
                         {{surveyProgram.id}}
                         {{surveyProgram.createdBy.username}}
                         <div class="divider"></div>
-                        <comment-list owner-id="5"></comment-list>
+                        <comment-list [owner-id]="surveyProgram.id"></comment-list>
+                        <new-comment [owner-id]="surveyProgram.id"></new-comment>
                     </p>
                 </li>
             </ul>
