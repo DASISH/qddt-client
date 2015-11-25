@@ -59,6 +59,10 @@ export class CommentService {
   //static subscribe<T>(emitter: any, onNext: (value: T) => void, onError?: (exception: any) => void, onComplete?: () => void): Object;
   }
 
+  getModel(): any {
+    return this.comments;
+  }
+
   logError(err: string) {
     console.log('Error: ', err);
   }

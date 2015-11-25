@@ -30,4 +30,8 @@ export class SurveyProgramComponent {
   refresh() {
     this.surveyPrograms = this.service.getModel();
   }
+
+  addedComment() {
+    console.log('added comment');
+  }
 }

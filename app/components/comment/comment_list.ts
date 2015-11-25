@@ -6,6 +6,7 @@ import {NewCommentComponent} from '../comment/new_comment';
 @Component({
   selector: 'comment-list',
   template: `
+      <div *ng-if="commentsPage">
         <ul *ng-for="#content of commentsPage">
           <li class="collection-item avatar" *ng-for="#comment of content.content">
             <img src="images/avatar-default.png" alt="" class="circle">
@@ -16,6 +17,7 @@ import {NewCommentComponent} from '../comment/new_comment';
             <i class="secondary-content material-icons right ">comment</i>
           </li>
         </ul>
+      </div>
   `,
   directives: [CORE_DIRECTIVES, NgFor],
   providers: [CommentService],

@@ -1,41 +1,45 @@
 <div class="col s12 m6">
 
-    <div class="card white lighten-2">
-        <div class="card-content red-text text-lighten-2">
-            <span class="card-title red-text text-lighten-2"><i class="material-icons large right">assignment</i>Survey</span>
-            <p>
-                Start here for survey program related work-flows. You can choose to either create  anew survey program
-                or get a list of all available survey programs you can choose from to work on.
+  <div class="card white lighten-2">
+    <div class="card-content red-text text-lighten-2">
+      <span class="card-title red-text text-lighten-2"><i class="material-icons large right">assignment</i>Survey</span>
 
-            <ul class="collection" *ng-for="#surveyProgram of surveyPrograms">
-                <li class="collection-item avatar">
-                    <i class="material-icons circle">assignment</i>
-                    <span class="title">{{surveyProgram.name}}</span>
-                    <p>{{surveyProgram.created}}<br>
-                        {{surveyProgram.id}}
-                        {{surveyProgram.createdBy.username}}
-                        <div class="divider"></div>
-                        <comment-list [owner-id]="surveyProgram.id"></comment-list>
-                        <new-comment [owner-id]="surveyProgram.id"></new-comment>
-                    </p>
-                </li>
-            </ul>
-            </p>
-        </div>
-        <div class="card-action">
-            <a href="">New Survey Program</a>
+      <p>
+        Start here for survey program related work-flows. You can choose to either create anew survey program
+        or get a list of all available survey programs you can choose from to work on.
 
-            <form (ng-submit)="save()" #hf="form">
-                <div class="form-group">
-                    <label for="model.name">Name</label>
+        <div *ng-if="surveyPrograms">
+          <ul class="collection" *ng-for="#surveyProgram of surveyPrograms">
+            <li class="collection-item avatar">
+              <i class="material-icons circle">assignment</i>
+              <span class="title">{{surveyProgram.name}}</span>
+      <p>{{surveyProgram.created}}<br>
+        {{surveyProgram.id}}
+        {{surveyProgram.createdBy.username}}
 
-                    <input type="text"  class="form-control" required
-                           [(ng-model)]="model.name" >
-                </div>
-                <button type="submit" class="btn btn-default">Submit</button>
-            </form>
-        </div>
+      <div class="divider"></div>
+      <comment-list [owner-id]="surveyProgram.id"></comment-list>
+      <new-comment (added-comment-event)="addedComment()" [owner-id]="surveyProgram.id"></new-comment>
+      </p>
+      </li>
+      </ul>
     </div>
+    </p>
+  </div>
+  <div class="card-action">
+    <a href="">New Survey Program</a>
+
+    <form (ng-submit)="save()" #hf="form">
+      <div class="form-group">
+        <label for="model.name">Name</label>
+
+        <input type="text" class="form-control" required
+               [(ng-model)]="model.name">
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+  </div>
+</div>
 </div>
 
 
