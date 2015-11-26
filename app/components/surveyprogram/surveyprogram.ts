@@ -26,12 +26,4 @@ export class SurveyProgramComponent {
     this.service.save(this.model);
     this.surveyPrograms = this.service.getModel();
   }
-
-  refresh() {
-    this.surveyPrograms = this.service.getModel();
-  }
-
-  addedComment() {
-    console.log('added comment');
-  }
 }

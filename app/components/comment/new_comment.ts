@@ -12,7 +12,7 @@ import {CommentService, Comment} from './commentservice';
                 <label for="comment">Write a new comment</label>
               </div>
             </div>
-            <button type="submit" class="btn btn-default">Submit</button>
+            <button type="submit" class="btn btn-small">Submit</button>
           </form>
   `,
   providers: [CommentService]

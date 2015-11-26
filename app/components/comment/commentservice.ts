@@ -50,13 +50,10 @@ export class CommentService {
       .map((res:Response) => res.json())
       .subscribe(
         emitter   =>   this.comments.push(emitter),
-        onError   =>   console.log('onError', onError),
-        ()        =>   console.log('Complete ['+ownerId+']', this.comments)
+        onError   =>   this.logError(onError)
       );
 
     return this.comments;
-
-  //static subscribe<T>(emitter: any, onNext: (value: T) => void, onError?: (exception: any) => void, onComplete?: () => void): Object;
   }
 
   getModel(): any {
