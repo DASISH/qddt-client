@@ -29,9 +29,9 @@ import {NewCommentComponent} from '../comment/new_comment';
 })
 export class CommentListComponent {
 
-  commentService: CommentService;
-  commentsPage: any;
-  @Input('owner-id') ownerId: string;
+  private commentService: CommentService;
+  private commentsPage: any;
+  @Input('owner-id') private ownerId: string;
 
   constructor(@Inject(CommentService)commentService: CommentService) {
     this.commentService = commentService;
@@ -41,8 +41,8 @@ export class CommentListComponent {
     this.commentsPage = this.commentService.getAll(this.ownerId);
   }
 
-  addedComment(comment: any) {
-    console.log('[CommentListComponent].EVENT(added comment)' , comment);
+  addedComment() {
+    console.log('comment_list', this.ownerId);
     this.commentsPage = [];
     this.commentsPage = this.commentService.getAll(this.ownerId);
   }
