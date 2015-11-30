@@ -4,7 +4,6 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title><%= APP_TITLE %></title>
-  <base href="<%= APP_BASE %>">
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -21,13 +20,13 @@
 
 <script>
   System.config(<%= JSON.stringify(SYSTEM_CONFIG) %>)
-
-  System.import('bootstrap')
+  System.import('<%= APP_BASE + APP_DEST %>/bootstrap')
     .catch(function (e) {
       console.error(e,
         'Report this error at https://github.com/mgechev/angular2-seed/issues');
     });
 </script>
+
 
 <!-- inject:js -->
 <!-- endinject -->

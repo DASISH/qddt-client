@@ -62,13 +62,19 @@ export const DEV_DEPENDENCIES = [
 
 ];
 
+DEV_DEPENDENCIES.forEach(d => d.src = require.resolve(d.src));
+
+export const APP_ASSETS = [
+  { src: `${ASSETS_DEST}/main.css`, inject: true, dest: ASSETS_DEST }
+];
+
 export const SYSTEM_CONFIG = {
   defaultJSExtensions: true,
   paths: {
-    '@reactivex/rxjs/dist/cjs/*': 'lib/@reactivex/*',
-    'angular2/*': 'lib/angular2/*'
+    '*': `${APP_BASE}node_modules/*`
   }
 };
+
 
 // --------------
 // Private.
