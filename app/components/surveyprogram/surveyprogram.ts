@@ -2,12 +2,12 @@ import {Component, NgFor, CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/angul
 
 import {SurveyService, SurveyProgram} from '../surveyprogram/surveyservice';
 import {CommentListComponent} from '../comment/comment_list';
-import {NewCommentComponent} from '../comment/new_comment';
+import {SurveyProgram} from "./create/create";
 
 @Component({
   selector: 'surveyprogram',
   templateUrl: './components/surveyprogram/surveyprogram.html',
-  directives: [CORE_DIRECTIVES, FORM_DIRECTIVES, NgFor, CommentListComponent, NewCommentComponent],
+  directives: [CORE_DIRECTIVES, FORM_DIRECTIVES, NgFor, CommentListComponent],
   providers: [SurveyService]
 })
 export class SurveyProgramComponent {
@@ -25,5 +25,7 @@ export class SurveyProgramComponent {
   save() {
     this.service.save(this.model);
     this.surveyPrograms = this.service.getModel();
+    this.model = new SurveyProgram();
   }
+
 }

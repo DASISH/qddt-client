@@ -21,17 +21,19 @@ export class NewCommentComponent {
 
   @Output() addedCommentEvent: EventEmitter  = new EventEmitter();
   @Input('owner-id') private ownerId: string;
-  private comment: Comment;
+  private comment: Comment = new Comment();
   private commentService: CommentService;
 
   constructor(@Inject(CommentService)commentService: CommentService) {
     this.commentService = commentService;
-    this.comment = new Comment();
   }
 
   save() {
     this.comment.ownerId = this.ownerId;
-    this.commentService.save(this.comment);
-    this.addedCommentEvent.next('event');
+    this.commentService.save(this.comment).subscribe(result => {
+      this.comment = new Comment();
+      this.addedCommentEvent.next(result);
+    });
   }
+
 }
