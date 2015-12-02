@@ -31,6 +31,7 @@
 
 
 <div class="row" *ng-if="!user">
+
   <div class="col s12 m6">
     <div class="card blue-grey darken-1">
       <div class="card-content white-text">
@@ -47,25 +48,16 @@
       </div>
     </div>
   </div>
-  <div class="col s12 m6">
 
+  <div class="col s12 m6">
     <div class="card blue-grey darken-1">
       <div class="card-content white-text">
-        <span class="card-title"><i class="material-icons large right">announcement</i>Whats new in QDDT</span>
+        <span class="card-title"><i class="material-icons large right">announcement</i>Latest changes</span>
         <p>
-        The latest changes
-        <blockquote>
-          Login is active
-        </blockquote>
-        <blockquote>
-          Material design on all components
-        </blockquote>
-        <blockquote>
-          Adding a survey is possible
-        </blockquote>
+          <commit-list></commit-list>
         </p>
       </div>
     </div>
-
   </div>
+
 </div>
