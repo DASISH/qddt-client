@@ -1,17 +1,22 @@
 import {Component, NgFor, CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/angular2';
 
+import {LocalDatePipe} from '../../common/date_pipe';
+
 import {SurveyService, SurveyProgram} from '../surveyprogram/surveyservice';
 import {CommentListComponent} from '../comment/comment_list';
-import {SurveyProgram} from "./create/create";
+import {SurveyProgram} from './create/create';
+import {SurveyProgramEditComponent} from './edit/surveyprogram_edit'
 
 @Component({
   selector: 'surveyprogram',
   templateUrl: './components/surveyprogram/surveyprogram.html',
-  directives: [CORE_DIRECTIVES, FORM_DIRECTIVES, NgFor, CommentListComponent],
-  providers: [SurveyService]
+  directives: [CORE_DIRECTIVES, FORM_DIRECTIVES, NgFor, CommentListComponent, SurveyProgramEditComponent],
+  providers: [SurveyService],
+  pipes: [LocalDatePipe]
 })
 export class SurveyProgramComponent {
 
+  showEdit: boolean = false;
   model: SurveyProgram;
   surveyPrograms: Array<SurveyProgram> = [];
   private service: SurveyService;
@@ -26,6 +31,15 @@ export class SurveyProgramComponent {
     this.service.save(this.model);
     this.surveyPrograms = this.service.getModel();
     this.model = new SurveyProgram();
+  }
+
+  toggleEdit() {
+    if(this.showEdit != false) {
+      this.showEdit = false;
+    }
+    else {
+      this.showEdit = true;
+    }
   }
 
 }
