@@ -29,6 +29,7 @@ export class SurveyProgramComponent {
   }
 
   save() {
+    this.showSurveyForm = false;
     this.service.save(this.model);
     this.surveyPrograms = this.service.getModel();
     this.model = new SurveyProgram();
