@@ -40,12 +40,7 @@ export class SurveyProgramComponent {
   }
 
   toggleEdit() {
-    if(this.showEdit != false) {
-      this.showEdit = false;
-    }
-    else {
-      this.showEdit = true;
-    }
+    this.showEdit = !this.showEdit;
   }
 
 }
