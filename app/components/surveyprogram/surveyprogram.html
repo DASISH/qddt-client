@@ -3,7 +3,10 @@
     <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
       <i class="material-icons large right">assignment</i><h4 style="font-weight:300;">Survey</h4>
 
-      <a class="btn" (click)="toggleSurveyForm()"><i class="material-icons right">keyboard_arrow_down</i>New</a>
+      <a class="btn" (click)="toggleSurveyForm()">
+        <i class="material-icons right" *ng-if="!showSurveyForm">keyboard_arrow_down</i>
+        <i class="material-icons right" *ng-if="showSurveyForm">keyboard_arrow_up</i>
+        New</a>
 
       <div *ng-if="showSurveyForm">
       <div class="card-action">
