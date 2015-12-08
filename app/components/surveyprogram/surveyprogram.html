@@ -34,7 +34,7 @@
         <div class="col s1 m1 l1">
           <br />
           <div class="row">
-          <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"><i class="material-icons">mode_edit</i></a>
+          <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" button (click)="thing.isVisible = !thing.isVisible"><i class="material-icons">mode_edit</i></a>
           </div>
         </div>
 
@@ -49,12 +49,12 @@
             <p>
               {{surveyProgram.description}}
             </p>
-
           </div>
 
-          <div *ng-if="showEdit">
-            <surveyprogram-edit [survey-program]="surveyProgram"></surveyprogram-edit>
-          </div>
+
+
+          <surveyprogram-edit [isVisible]="thing.isVisible" [survey-program]="surveyProgram" #thing></surveyprogram-edit>
+
           <div class="row">
             <comment-list [owner-id]="surveyProgram.id"></comment-list>
           </div>

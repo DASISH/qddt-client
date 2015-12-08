@@ -7,18 +7,25 @@ import {SurveyService, SurveyProgram} from '../../surveyprogram/surveyservice';
   directives: [CORE_DIRECTIVES, FORM_DIRECTIVES],
   providers: [SurveyService],
   template: `
-    <div *ng-if="surveyProgram" class="card">
-      {{surveyProgram}}
-      <form (ng-submit)="save()">
-      <div class="form-group">
-        <label for="surveyProgram.name">Name</label>
-
-        <input type="text" class="form-control" required
-               [(ng-model)]="surveyProgram.name">
-      </div>
+  <div *ng-if="isVisible">
+    <div *ng-if="surveyProgram" class="card" id="{{surveyProgram.id}}"  >
+        <form (ng-submit)="save()" #hf="form">
+          <div class="row">
+            <div class="input-field col">
+              <input id="name" type="text" [(ng-model)]="surveyProgram.name" required>
+              <label for="name" class="white-text">Name</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s10">
+              <textarea id="description" class="materialize-textarea" [(ng-model)]="surveyProgram.description" required></textarea>
+              <label for="description" class="white-text">Description</label>
+            </div>
+          </div>
       <button type="submit" class="btn btn-default">Submit</button>
     </form>
     </div>
+  </div>
 
   `
 })

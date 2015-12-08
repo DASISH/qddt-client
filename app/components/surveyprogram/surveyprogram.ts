@@ -17,7 +17,6 @@ import {SurveyProgramEditComponent} from './edit/surveyprogram_edit'
 export class SurveyProgramComponent {
 
   showSurveyForm: boolean = false;
-  showEdit: boolean = false;
   model: SurveyProgram;
   surveyPrograms: Array<SurveyProgram> = [];
   private service: SurveyService;
@@ -36,11 +35,7 @@ export class SurveyProgramComponent {
   }
 
   toggleSurveyForm() {
-   this.showSurveyForm = !this.showSurveyForm;
-  }
-
-  toggleEdit() {
-    this.showEdit = !this.showEdit;
+    this.showSurveyForm = !this.showSurveyForm;
   }
 
 }
