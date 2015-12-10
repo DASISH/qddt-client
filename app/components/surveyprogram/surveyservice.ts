@@ -1,15 +1,15 @@
 import {Injectable} from 'angular2/angular2';
-import {Http, Headers} from 'angular2/http';
+import {Http, Headers, Response} from 'angular2/http';
 
 export class SurveyProgram {
-  public id: string;
-  public name: string;
+  id: string;
+  name: string;
 }
 
 @Injectable()
 export class SurveyService {
 
-  surveyProgram: SurveyProgram;
+  surveyProgram: SurveyProgram = new SurveyProgram();
   surveyPrograms: Array<SurveyProgram> = [];
 
   http: Http;
@@ -17,6 +17,11 @@ export class SurveyService {
   constructor(http: Http) {
     this.http = http;
     this.getAll(); //must be changed to life cycle events on component
+  }
+
+
+  static logError(err: string) {
+    console.log('SurveyService: ', err);
   }
 
   save(surveyProgram: SurveyProgram): SurveyProgram {
@@ -31,26 +36,20 @@ export class SurveyService {
       {
         headers: headers
       })
-      .map(res => res.json())
+      .map((res:Response) => res.json())
       .subscribe(
-        data  =>  this.surveyPrograms.push(data),
-        data  =>  this.surveyProgram = data,
-        err   =>  this.logError(err)
+        (data:SurveyProgram)  => {
+          this.surveyProgram = data;
+          this.surveyPrograms.push(this.surveyProgram);
+          console.log('DEMO', this.surveyProgram);
+        },
+        err   =>  SurveyService.logError('Unable to save SurveyProgram.')
       );
 
     return this.surveyProgram;
   }
 
-  test(): String {
-    return "hello";
-  }
-
-
-  get(): SurveyProgram {
-    return new SurveyProgram();
-  }
-
-  getAll(): Array<SurveyProgram> {
+  getAll() {
     var headers = new Headers();
     headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
 
@@ -58,20 +57,19 @@ export class SurveyService {
       {
         headers: headers
       })
-      .map(res => res.json()).subscribe(
-        data  => {
+      .map((res:Response) => res.json())
+      .subscribe(
+        (data:Array<SurveyProgram>)  => {
           data.forEach(s => {
             this.surveyPrograms.push(s);
           });
-        }
+        },
+        (err: any) => SurveyService.logError('Unable to get all SurveyProgram')
       );
+
   }
 
   getModel(): Array<SurveyProgram> {
     return this.surveyPrograms;
-  }
-
-  logError(err: string) {
-    console.log('SurveyService: ', err);
   }
 }

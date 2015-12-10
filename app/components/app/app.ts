@@ -1,4 +1,4 @@
-import {Component, ViewEncapsulation, CORE_DIRECTIVES, Inject} from 'angular2/angular2';
+import {Component, ViewEncapsulation, Inject} from 'angular2/angular2';
 import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
 import {Router} from 'angular2/router';
 
@@ -13,7 +13,7 @@ import {UserService} from '../../common/userservice';
   templateUrl: './components/app/app.html',
   styleUrls: ['./components/app/app.css'],
   encapsulation: ViewEncapsulation.None,
-  directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES, UserLogin]
+  directives: [ROUTER_DIRECTIVES, UserLogin]
 })
 @RouteConfig([
   { path: '/', component: HomeCmp, as: 'Home' },

@@ -1,4 +1,4 @@
-import {Injectable, Observable} from 'angular2/angular2';
+import {Injectable} from 'angular2/angular2';
 import {Http, Headers, Response} from 'angular2/http';
 
 export class Comment {
@@ -15,7 +15,7 @@ export class CommentService {
     this.http = http;
   }
 
-  save(comment: Comment): Comment {
+  save(comment: Comment): any {
     var headers = new Headers();
     headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
     headers.append('Content-Type', 'application/json');
@@ -40,7 +40,7 @@ export class CommentService {
         headers: headers
       })
       .map((res:Response) => {
-        return res.json()
+        return res.json();
       });
   }
 

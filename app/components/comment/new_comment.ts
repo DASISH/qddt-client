@@ -1,4 +1,4 @@
-import {Component, FORM_DIRECTIVES, CORE_DIRECTIVES, Inject, Input, Output, EventEmitter} from 'angular2/angular2';
+import {Component, Inject, Input, Output, EventEmitter} from 'angular2/angular2';
 
 import {CommentService, Comment} from './commentservice';
 
@@ -19,7 +19,7 @@ import {CommentService, Comment} from './commentservice';
 })
 export class NewCommentComponent {
 
-  @Output() addedCommentEvent: EventEmitter  = new EventEmitter();
+  @Output() addedCommentEvent: EventEmitter<Comment>  = new EventEmitter();
   @Input('owner-id') private ownerId: string;
   private comment: Comment = new Comment();
   private commentService: CommentService;

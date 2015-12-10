@@ -1,11 +1,11 @@
-import {Component, EventEmitter, CORE_DIRECTIVES, Output, Inject} from 'angular2/angular2';
+import {Component, EventEmitter, Output, Inject} from 'angular2/angular2';
 
 import {LoginComponent} from '../components/login/login';
 import {UserService} from './userservice';
 
 @Component({
   selector: 'user-login',
-  directives: [CORE_DIRECTIVES, LoginComponent],
+  directives: [LoginComponent],
   template: `
       <div class="container z-depth-1" style="margin-top:0px;width:100%;padding:10%;">
         <div *ng-if="user">
@@ -33,7 +33,7 @@ import {UserService} from './userservice';
 })
 export class UserLogin {
 
-  @Output('logoutEvent') logoutEvent: EventEmitter = new EventEmitter();
+  @Output('logoutEvent') logoutEvent: EventEmitter<string> = new EventEmitter();
   user: string;
   private userService: UserService;
 

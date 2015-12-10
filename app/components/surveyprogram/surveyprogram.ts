@@ -1,15 +1,15 @@
-import {Component, NgFor, CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/angular2';
+import {Component} from 'angular2/angular2';
 
 import {LocalDatePipe} from '../../common/date_pipe';
 
 import {SurveyService, SurveyProgram} from '../surveyprogram/surveyservice';
 import {CommentListComponent} from '../comment/comment_list';
-import {SurveyProgramEditComponent} from './edit/surveyprogram_edit'
+import {SurveyProgramEditComponent} from './edit/surveyprogram_edit';
 
 @Component({
   selector: 'surveyprogram',
   templateUrl: './components/surveyprogram/surveyprogram.html',
-  directives: [CORE_DIRECTIVES, FORM_DIRECTIVES, NgFor, CommentListComponent, SurveyProgramEditComponent],
+  directives: [CommentListComponent, SurveyProgramEditComponent],
   providers: [SurveyService],
   pipes: [LocalDatePipe]
 })

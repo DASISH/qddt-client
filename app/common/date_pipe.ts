@@ -1,4 +1,4 @@
-import {Component, Pipe} from 'angular2/angular2';
+import {Pipe} from 'angular2/angular2';
 
 @Pipe({
   name: 'localDate',

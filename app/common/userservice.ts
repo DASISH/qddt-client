@@ -9,7 +9,7 @@ export class UserService {
     this.user = localStorage.getItem('user');
   }
 
-  get() : string {
+  get() : any {
     return JSON.parse(this.user);
   }
 

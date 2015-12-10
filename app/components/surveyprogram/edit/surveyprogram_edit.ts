@@ -1,10 +1,9 @@
-import {Component, CORE_DIRECTIVES, FORM_DIRECTIVES, Input} from 'angular2/angular2';
+import {Component, Input} from 'angular2/angular2';
 
 import {SurveyService, SurveyProgram} from '../../surveyprogram/surveyservice';
 
 @Component({
   selector: 'surveyprogram-edit',
-  directives: [CORE_DIRECTIVES, FORM_DIRECTIVES],
   providers: [SurveyService],
   template: `
   <div *ng-if="isVisible">
@@ -31,8 +30,8 @@ import {SurveyService, SurveyProgram} from '../../surveyprogram/surveyservice';
 })
 export class SurveyProgramEditComponent {
 
-  private service: SurveyService;
   @Input() surveyProgram: SurveyProgram;
+  private service: SurveyService;
 
   constructor(surveyService: SurveyService) {
     this.service = surveyService;

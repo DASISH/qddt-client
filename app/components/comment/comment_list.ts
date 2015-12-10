@@ -1,8 +1,6 @@
-import {Component, NgFor, CORE_DIRECTIVES, Inject, Input, Observable, OnInit, OnChanges} from 'angular2/angular2';
-import {Response} from 'angular2/http';
+import {Component, Inject, Input, OnInit} from 'angular2/angular2';
 import {CommentService, Comment} from './commentservice';
 import {NewCommentComponent} from '../comment/new_comment';
-import {OnChanges} from "../../../node_modules/angular2/src/core/linker/interfaces";
 
 @Component({
   selector: 'comment-list',
@@ -31,7 +29,7 @@ import {OnChanges} from "../../../node_modules/angular2/src/core/linker/interfac
     </div>
 
   `,
-  directives: [CORE_DIRECTIVES, NgFor, CommentListComponent, NewCommentComponent],
+  directives: [CommentListComponent, NewCommentComponent],
   providers: [CommentService],
   bindings: [CommentService]
 })

@@ -1,5 +1,5 @@
-import {Component, View, CORE_DIRECTIVES, FORM_DIRECTIVES, Output, EventEmitter, Inject} from 'angular2/angular2';
-import {Http, HTTP_PROVIDERS, Headers} from 'angular2/http';
+import {Component, Output, EventEmitter, Inject} from 'angular2/angular2';
+import {Http, Headers, Response} from 'angular2/http';
 
 import {UserService} from '../../common/userservice';
 
@@ -11,16 +11,12 @@ export class LoginForm {
 @Component({
   selector: 'login',
   events: ['loginEvent'],
-  viewProviders: [HTTP_PROVIDERS]
-})
-@View({
-  templateUrl: './components/login/login.html',
-  directives: [CORE_DIRECTIVES, FORM_DIRECTIVES]
+  templateUrl: './components/login/login.html'
 })
 export class LoginComponent {
 
-  @Output() loginEvent: EventEmitter  = new EventEmitter();
-  user: string;
+  @Output() loginEvent: EventEmitter<string>  = new EventEmitter();
+  user: any;
   loginForm: LoginForm;
   private userService: UserService;
   private http: Http;
@@ -29,6 +25,10 @@ export class LoginComponent {
     this.userService = userService;
     this.http = http;
     this.loginForm = new LoginForm();
+  }
+
+  static logError(err: any) {
+    console.log('LoginComponent: ', err.toString());
   }
 
   login() {
@@ -47,15 +47,15 @@ export class LoginComponent {
       {
         headers: headers
       })
-      .map(res => res.json())
+      .map((res:Response) => res.json())
       .subscribe(
-        data  => this.saveJwt(data),
-        err   => this.logError(err),
-        ()    => this.createUser()
+        (data: any) => this.saveJwt(data),
+        (err: any)  => LoginComponent.logError('Unable to log in user.'),
+        ()          => this.createUser()
     );
   }
 
-  saveJwt(jwt: any) {
+  saveJwt(jwt: string) {
     if(jwt) {
       localStorage.setItem('jwt', JSON.stringify(jwt));
     }
@@ -68,23 +68,19 @@ export class LoginComponent {
       {
         headers: headers
       })
-      .map(res => res.json()).subscribe(
-      user  => this.createSession(user),
-      err   => this.logError(err)
-
+      .map((res:Response) => res.json())
+      .subscribe(
+        (user: any)  => this.createSession(user),
+        (err: any)   => LoginComponent.logError('Unable to create user.')
     );
   }
 
-  createSession(user: string) {
+  createSession(user: any) {
     this.user = user;
     this.userService.set(user);
     localStorage.setItem('user', JSON.stringify(user));
 
     this.loginEvent.next('event');
-  }
-
-  logError(err: string) {
-    console.log('Error: ', err);
   }
 
   get diagnostic() { return JSON.stringify(this.loginForm); }

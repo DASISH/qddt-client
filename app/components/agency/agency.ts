@@ -1,5 +1,4 @@
 import {Component, Inject} from 'angular2/angular2';
-import {Response} from 'angular2/http';
 
 import {AgencyService, Agency} from '../agency/agencyservice';
 
@@ -30,5 +29,4 @@ export class AgencyComponent {
     this.agencyService = agencyService;
     this.agency = this.agencyService.get();
   }
-
 }

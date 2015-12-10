@@ -1,10 +1,9 @@
-import {Component, CORE_DIRECTIVES, NgFor} from 'angular2/angular2';
-import {Http, Headers, Response} from 'angular2/http';
+import {Component} from 'angular2/angular2';
+import {Http, Response} from 'angular2/http';
 
 
 @Component({
   selector: 'commit-list',
-  directives: [CORE_DIRECTIVES, NgFor],
   template: `
     <div *ng-if="loading">
       <div class="preloader-wrapper big active">
@@ -50,7 +49,7 @@ export class CommitListComponent {
     this.http.get('https://api.github.com/repos/DASISH/qddt-client/commits')
       .map((res:Response) => {
         this.loading = false;
-        return res.json()
+        return res.json();
       }).subscribe(result => this.commits = result);
   }
 }

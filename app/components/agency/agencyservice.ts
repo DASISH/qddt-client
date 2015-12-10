@@ -1,5 +1,4 @@
-import {Injectable, Observable, Inject} from 'angular2/angular2';
-import {Http, Headers, Response} from 'angular2/http';
+import {Injectable, Inject} from 'angular2/angular2';
 
 import {UserService} from '../../common/userservice';
 
@@ -11,11 +10,9 @@ export class Agency {
 @Injectable()
 export class AgencyService {
 
-  private http: Http;
   private userService: UserService;
 
-  constructor(http: Http, @Inject(UserService)userService: UserService) {
-    this.http = http;
+  constructor(@Inject(UserService)userService: UserService) {
     this.userService = userService;
   }
 

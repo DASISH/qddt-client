@@ -1,4 +1,4 @@
-import {Component, Inject, CORE_DIRECTIVES, Input} from 'angular2/angular2';
+import {Component, Inject, Input} from 'angular2/angular2';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {LoginComponent} from '../login/login';
@@ -12,7 +12,7 @@ import {AgencyComponent} from '../agency/agency';
   selector: 'home',
   templateUrl: './components/home/home.html',
   styleUrls: ['./components/home/home.css'],
-  directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES, LoginComponent, SurveyProgramComponent, CommitListComponent, AgencyComponent]
+  directives: [ROUTER_DIRECTIVES, LoginComponent, SurveyProgramComponent, CommitListComponent, AgencyComponent]
 })
 export class HomeCmp {
 
