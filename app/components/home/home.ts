@@ -5,13 +5,14 @@ import {LoginComponent} from '../login/login';
 import {UserService} from '../../common/userservice';
 import {SurveyProgramComponent} from '../surveyprogram/surveyprogram';
 import {CommitListComponent} from '../github/commit_list';
+import {AgencyComponent} from '../agency/agency';
 
 
 @Component({
   selector: 'home',
   templateUrl: './components/home/home.html',
   styleUrls: ['./components/home/home.css'],
-  directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES, LoginComponent, SurveyProgramComponent, CommitListComponent]
+  directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES, LoginComponent, SurveyProgramComponent, CommitListComponent, AgencyComponent]
 })
 export class HomeCmp {
 
