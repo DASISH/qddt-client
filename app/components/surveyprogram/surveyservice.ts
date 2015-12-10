@@ -72,6 +72,6 @@ export class SurveyService {
   }
 
   logError(err: string) {
-    console.log('Error: ', err);
+    console.log('SurveyService: ', err);
   }
 }
