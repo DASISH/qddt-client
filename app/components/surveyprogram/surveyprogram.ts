@@ -4,7 +4,6 @@ import {LocalDatePipe} from '../../common/date_pipe';
 
 import {SurveyService, SurveyProgram} from '../surveyprogram/surveyservice';
 import {CommentListComponent} from '../comment/comment_list';
-import {SurveyProgram} from './create/create';
 import {SurveyProgramEditComponent} from './edit/surveyprogram_edit'
 
 @Component({
