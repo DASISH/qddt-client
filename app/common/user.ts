@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output, Inject} from 'angular2/angular2';
+import {Component, EventEmitter, Output, Inject} from 'angular2/core';
 
 import {LoginComponent} from '../components/login/login';
 import {UserService} from './userservice';
@@ -8,7 +8,7 @@ import {UserService} from './userservice';
   directives: [LoginComponent],
   template: `
       <div class="container z-depth-1" style="margin-top:0px;width:100%;padding:10%;">
-        <div *ng-if="user">
+        <div *ngIf="user">
 
 
         <div class="row red-text text-lighten-2">
@@ -21,9 +21,9 @@ import {UserService} from './userservice';
           <button class="btn" value="logout" (click)="logout()"><i class="material-icons right">exit_to_app</i>Logout</button>
         </div>
 
-        <div *ng-if="!user">
+        <div *ngIf="!user">
           <span class="black-text">
-            <login (login-event)="loginEvent()"></login>
+            <login (loginEvent)="loginEvent()"></login>
           </span>
         </div>
 
@@ -48,6 +48,6 @@ export class UserLogin {
 
   logout() {
     this.user = null;
-    this.logoutEvent.next('');
+    this.logoutEvent.emit('');
   }
 }

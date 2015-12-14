@@ -1,8 +1,5 @@
-import {Component, ViewEncapsulation, Inject} from 'angular2/angular2';
-import {RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
-import {Router} from 'angular2/router';
-
-// import {HTTP_BINDINGS} from 'http/http';
+import {Component, ViewEncapsulation, Inject} from 'angular2/core';
+import {Router, RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {HomeCmp} from '../home/home';
 import {UserLogin} from '../../common/user';
@@ -30,7 +27,7 @@ export class AppCmp {
     this.user = this.userService.get();
   }
 
-  afterContentChecked() {
+  ngAfterContentChecked() {
     this.user = this.userService.get();
   }
 

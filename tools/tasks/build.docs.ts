@@ -5,9 +5,9 @@ export = function buildDocs(gulp, plugins, option) {
   return function() {
 
     let src = [
-      join(APP_SRC, '**/*.ts'),
-      '!' + join(APP_SRC, '**/*_spec.ts')
-    ];
+                join(APP_SRC, '**/*.ts'),
+                '!' + join(APP_SRC, '**/*_spec.ts')
+              ];
 
     return gulp.src(src)
       .pipe(plugins.typedoc({
@@ -23,5 +23,5 @@ export = function buildDocs(gulp, plugins, option) {
         experimentalDecorators: true,
         version: true
       }));
-  };
+    };
 }

@@ -1,4 +1,4 @@
-import {Component, Input} from 'angular2/angular2';
+import {Component, Input} from 'angular2/core';
 
 import {SurveyService, SurveyProgram} from '../../surveyprogram/surveyservice';
 
@@ -6,18 +6,18 @@ import {SurveyService, SurveyProgram} from '../../surveyprogram/surveyservice';
   selector: 'surveyprogram-edit',
   providers: [SurveyService],
   template: `
-  <div *ng-if="isVisible">
-    <div *ng-if="surveyProgram" class="card" id="{{surveyProgram.id}}"  >
-        <form (ng-submit)="save()" #hf="form">
+  <div *ngIf="isVisible">
+    <div *ngIf="surveyProgram" class="card" id="{{surveyProgram.id}}"  >
+        <form (ngSubmit)="save()" #hf="ngForm">
           <div class="row">
             <div class="input-field col">
-              <input id="name" type="text" [(ng-model)]="surveyProgram.name" required>
+              <input id="name" type="text" [(ngModel)]="surveyProgram.name" required>
               <label for="name" class="white-text">Name</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s10">
-              <textarea id="description" class="materialize-textarea" [(ng-model)]="surveyProgram.description" required></textarea>
+              <textarea id="description" class="materialize-textarea" [(ngModel)]="surveyProgram.description" required></textarea>
               <label for="description" class="white-text">Description</label>
             </div>
           </div>

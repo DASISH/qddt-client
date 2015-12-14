@@ -1,5 +1,6 @@
-import {Component, Output, EventEmitter, Inject} from 'angular2/angular2';
-import {Http, Headers, Response} from 'angular2/http';
+import {Component, Output, EventEmitter, Inject} from 'angular2/core';
+import {HTTP_PROVIDERS, Http, Headers, Response} from 'angular2/http';
+import 'rxjs/add/operator/map';
 
 import {UserService} from '../../common/userservice';
 
@@ -11,17 +12,17 @@ export class LoginForm {
 @Component({
   selector: 'login',
   events: ['loginEvent'],
-  templateUrl: './components/login/login.html'
+  templateUrl: './components/login/login.html',
+  providers: [HTTP_PROVIDERS]
 })
 export class LoginComponent {
 
   @Output() loginEvent: EventEmitter<string>  = new EventEmitter();
   user: any;
   loginForm: LoginForm;
-  private userService: UserService;
-  private http: Http;
 
-  constructor(@Inject(UserService)userService: UserService, http: Http) {
+  constructor(@Inject(UserService) private userService: UserService,
+              @Inject(Http)private http:Http) {
     this.userService = userService;
     this.http = http;
     this.loginForm = new LoginForm();
@@ -79,8 +80,9 @@ export class LoginComponent {
     this.user = user;
     this.userService.set(user);
     localStorage.setItem('user', JSON.stringify(user));
+    this.loginEvent.emit('logged_in');
 
-    this.loginEvent.next('event');
+    console.log('logged in');
   }
 
   get diagnostic() { return JSON.stringify(this.loginForm); }

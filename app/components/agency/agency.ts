@@ -1,4 +1,4 @@
-import {Component, Inject} from 'angular2/angular2';
+import {Component, Inject} from 'angular2/core';
 
 import {AgencyService, Agency} from '../agency/agencyservice';
 

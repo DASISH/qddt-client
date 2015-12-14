@@ -7,7 +7,6 @@
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
   <!-- inject:css -->
   <!-- endinject -->
 </head>
@@ -18,15 +17,18 @@
 <!-- shims:js -->
 <!-- endinject -->
 
+<script>System.config(<%= JSON.stringify(SYSTEM_CONFIG) %>)</script>
+
+<!-- libs:js -->
+<!-- endinject -->
+
 <script>
-  System.config(<%= JSON.stringify(SYSTEM_CONFIG) %>)
-  System.import('<%= APP_BASE + APP_DEST %>/bootstrap')
+  System.import('bootstrap')
     .catch(function (e) {
       console.error(e,
         'Report this error at https://github.com/mgechev/angular2-seed/issues');
     });
 </script>
-
 
 <!-- inject:js -->
 <!-- endinject -->

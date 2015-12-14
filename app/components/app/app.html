@@ -7,10 +7,9 @@
         </div>
     </nav>
     <ul id="nav-mobile" class="side-nav fixed" style="width:240px;">
-        <user-login (logout-event)="logoutEvent()"></user-login>
-        <div *ng-if="user">
-            <li><a [router-link]="['/Home']"><i class="material-icons left medium">store</i>Home</a></li>
-            </li>
+        <user-login (logoutEvent)="logoutEvent()"></user-login>
+        <div *ngIf="user">
+            <li><a [routerLink]="['/Home']"><i class="material-icons left medium">store</i>Home</a></li>
         </div>
     </ul>
 </header>

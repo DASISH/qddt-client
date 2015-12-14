@@ -34,12 +34,12 @@ export function notifyLiveReload(e) {
 export function serveDocs() {
   let server = express();
 
-  server.use(
+   server.use(
     APP_BASE,
     serveStatic(resolve(process.cwd(), DOCS_DEST))
   );
 
-  server.listen(DOCS_PORT, () =>
+   server.listen(DOCS_PORT, () =>
     openResource('http://localhost:' + DOCS_PORT + APP_BASE)
   );
 }

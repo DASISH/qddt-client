@@ -1,4 +1,4 @@
-import {Component} from 'angular2/angular2';
+import {Component, Inject} from 'angular2/core';
 
 import {LocalDatePipe} from '../../common/date_pipe';
 
@@ -10,7 +10,6 @@ import {SurveyProgramEditComponent} from './edit/surveyprogram_edit';
   selector: 'surveyprogram',
   templateUrl: './components/surveyprogram/surveyprogram.html',
   directives: [CommentListComponent, SurveyProgramEditComponent],
-  providers: [SurveyService],
   pipes: [LocalDatePipe]
 })
 export class SurveyProgramComponent {
@@ -18,18 +17,17 @@ export class SurveyProgramComponent {
   showSurveyForm: boolean = false;
   model: SurveyProgram;
   surveyPrograms: Array<SurveyProgram> = [];
-  private service: SurveyService;
 
-  constructor(surveyService: SurveyService) {
-    this.service = surveyService;
+  constructor(@Inject(SurveyService) private surveyService: SurveyService) {
+    this.surveyService = surveyService;
     this.model = new SurveyProgram();
-    this.surveyPrograms = this.service.getModel();
+    this.surveyPrograms = this.surveyService.getModel();
   }
 
   save() {
     this.showSurveyForm = false;
-    this.service.save(this.model);
-    this.surveyPrograms = this.service.getModel();
+    this.surveyService.save(this.model);
+    this.surveyPrograms = this.surveyService.getModel();
     this.model = new SurveyProgram();
   }
 

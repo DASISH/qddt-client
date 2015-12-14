@@ -1,14 +1,14 @@
 <div class="row">
-  <form (ng-submit)="login()">
+  <form (ngSubmit)="login()">
     <div class="row">
       <div class="input-field col">
-        <input id="username" type="text" [(ng-model)]="loginForm.username" required>
+        <input id="username" type="text" [(ngModel)]="loginForm.username" required>
         <label for="username">Username</label>
       </div>
     </div>
     <div class="row">
       <div class="input-field col">
-        <input id="password" type="text" [(ng-model)]="loginForm.password" required>
+        <input id="password" type="text" [(ngModel)]="loginForm.password" required>
         <label for="password">Password</label>
       </div>
     </div>

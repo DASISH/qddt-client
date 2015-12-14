@@ -1,4 +1,4 @@
-import {Component, Inject, Input} from 'angular2/angular2';
+import {Component, Inject, Input} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {LoginComponent} from '../login/login';
@@ -23,7 +23,7 @@ export class HomeCmp {
     this.userService = userService;
   }
 
-  afterContentChecked() {
+  ngAfterContentChecked() {
     this.user = this.userService.get();
   }
 

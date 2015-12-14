@@ -1,18 +1,18 @@
-import {Component, Inject, Input, OnInit} from 'angular2/angular2';
+import {Component, Inject, Input, OnInit} from 'angular2/core';
 import {CommentService, Comment} from './commentservice';
 import {NewCommentComponent} from '../comment/new_comment';
 
 @Component({
   selector: 'comment-list',
   template: `
-    <div *ng-if="commentsPage">
+    <div *ngIf="commentsPage">
       <a class="btn btn-flat btn-medium waves-effect waves-light teal white-text" (click)="toggleComments()">
       <i class="material-icons left">message</i>{{commentsPage.page.totalElements}} </a>
     </div>
-  <div *ng-if="showComments">
-    <div *ng-if="commentsPage" class="card">
+  <div *ngIf="showComments">
+    <div *ngIf="commentsPage" class="card">
         <ul>
-            <li class="collection-item avatar" *ng-for="#comment of commentsPage.content">
+            <li class="collection-item avatar" *ngFor="#comment of commentsPage.content">
                 <img src="images/avatar-default.png" alt="" class="circle">
                 <span class="title">{{comment.createdBy.username}}</span>
                   <p>
@@ -33,7 +33,7 @@ import {NewCommentComponent} from '../comment/new_comment';
   providers: [CommentService],
   bindings: [CommentService]
 })
-export class CommentListComponent implements OnInit {
+export class CommentListComponent {
 
   showComments: boolean = false;
   commentsPage:any;

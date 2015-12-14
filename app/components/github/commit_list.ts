@@ -1,11 +1,13 @@
-import {Component} from 'angular2/angular2';
-import {Http, Response} from 'angular2/http';
+import {Component, Inject} from 'angular2/core';
+import {CORE_DIRECTIVES} from 'angular2/common';
+import {HTTP_PROVIDERS, Http, Response} from 'angular2/http';
+import 'rxjs/add/operator/map';
 
 
 @Component({
   selector: 'commit-list',
   template: `
-    <div *ng-if="loading">
+    <div *ngIf="loading">
       <div class="preloader-wrapper big active">
         <div class="spinner-layer spinner-red">
           <div class="circle-clipper left">
@@ -24,8 +26,8 @@ import {Http, Response} from 'angular2/http';
       </div>
     </div>
 
-    <div *ng-if="!loading">
-      <div *ng-for="#commit of commits">
+    <div *ngIf="!loading">
+      <div *ngFor="#commit of commits">
         <div class="section">
           <b>{{commit.commit.message}}</b><br />
           {{commit.commit.author.date}}<br />
@@ -33,14 +35,16 @@ import {Http, Response} from 'angular2/http';
         </div>
       </div>
     </div>
-  `
+  `,
+  directives: [CORE_DIRECTIVES],
+  providers: [HTTP_PROVIDERS]
 })
 export class CommitListComponent {
 
   private commits: any;
   private loading: boolean = true;
 
-  constructor(private http: Http) {
+  constructor(@Inject(Http)private http:Http) {
     this.http = http;
     this.getCommits();
   }

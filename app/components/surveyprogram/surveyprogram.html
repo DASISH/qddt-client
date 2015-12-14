@@ -4,22 +4,22 @@
       <i class="material-icons large right">assignment</i><h4 style="font-weight:300;">Survey</h4>
 
       <a class="btn" (click)="toggleSurveyForm()">
-        <i class="material-icons right" *ng-if="!showSurveyForm">keyboard_arrow_down</i>
-        <i class="material-icons right" *ng-if="showSurveyForm">keyboard_arrow_up</i>
+        <i class="material-icons right" *ngIf="!showSurveyForm">keyboard_arrow_down</i>
+        <i class="material-icons right" *ngIf="showSurveyForm">keyboard_arrow_up</i>
         New</a>
 
-      <div *ng-if="showSurveyForm">
+      <div *ngIf="showSurveyForm">
       <div class="card-action">
-        <form (ng-submit)="save()" #hf="form">
+        <form (ngSubmit)="save()" #hf="ngForm">
           <div class="row">
             <div class="input-field col">
-              <input id="name" type="text" [(ng-model)]="model.name" required>
+              <input id="name" type="text" [(ngModel)]="model.name" required>
               <label for="name" class="white-text">Name</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s10">
-              <textarea id="description" class="materialize-textarea" [(ng-model)]="model.description" required></textarea>
+              <textarea id="description" class="materialize-textarea" [(ngModel)]="model.description" required></textarea>
               <label for="description" class="white-text">Description</label>
             </div>
           </div>
@@ -29,8 +29,8 @@
     </div>
     </div>
 
-    <div *ng-if="surveyPrograms">
-      <div class="row" *ng-for="#surveyProgram of surveyPrograms" style="padding-left:2%">
+    <div *ngIf="surveyPrograms">
+      <div class="row" *ngFor="#surveyProgram of surveyPrograms" style="padding-left:2%">
         <div class="col s1 m1 l1">
           <br />
           <div class="row">
@@ -61,7 +61,6 @@
         </div>
 
       </div>
-    </div>
     </div>
   </div>
 </div>

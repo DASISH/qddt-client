@@ -1,14 +1,14 @@
-import {Component, Inject, Input, Output, EventEmitter} from 'angular2/angular2';
+import {Component, Inject, Input, Output, EventEmitter} from 'angular2/core';
 
 import {CommentService, Comment} from './commentservice';
 
 @Component({
   selector: 'new-comment',
   template: `
-          <form (ng-submit)="save()" #hf="form">
+          <form (ngSubmit)="save()" #hf="ngForm">
             <div class="row">
               <div class="input-field col">
-                <input id="comment" type="text" [(ng-model)]="comment.comment" required>
+                <input id="comment" type="text" [(ngModel)]="comment.comment" required>
                 <label for="comment">Write a new comment</label>
               </div>
             </div>
@@ -32,7 +32,7 @@ export class NewCommentComponent {
     this.comment.ownerId = this.ownerId;
     this.commentService.save(this.comment).subscribe(result => {
       this.comment = new Comment();
-      this.addedCommentEvent.next(result);
+      this.addedCommentEvent.emit(result);
     });
   }
 
