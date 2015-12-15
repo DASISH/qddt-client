@@ -20,11 +20,10 @@ import {CommentService, Comment} from './commentservice';
 export class NewCommentComponent {
 
   @Output() addedCommentEvent: EventEmitter<Comment>  = new EventEmitter();
-  @Input('owner-id') private ownerId: string;
+  @Input() private ownerId: string;
   private comment: Comment = new Comment();
-  private commentService: CommentService;
 
-  constructor(@Inject(CommentService)commentService: CommentService) {
+  constructor(private commentService: CommentService) {
     this.commentService = commentService;
   }
 

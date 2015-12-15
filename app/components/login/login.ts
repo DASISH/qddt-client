@@ -13,7 +13,6 @@ export class LoginForm {
   selector: 'login',
   events: ['loginEvent'],
   templateUrl: './components/login/login.html',
-  providers: [HTTP_PROVIDERS]
 })
 export class LoginComponent {
 

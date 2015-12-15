@@ -21,17 +21,16 @@ import {NewCommentComponent} from '../comment/new_comment';
                      ownerid: {{comment.ownerId}}
                   </p>
                 <i class="secondary-content material-icons right ">comment</i>
-                <comment-list [owner-id]="comment.id"></comment-list>
+                <comment-list [ownerId]="comment.id"></comment-list>
               </li>
             </ul>
         </div>
-    <new-comment (added-comment-event)="addedComment($event)" [owner-id]="ownerId"></new-comment>
+    <new-comment (addedCommentEvent)="addedComment($event)" [ownerId]="ownerId"></new-comment>
     </div>
 
   `,
   directives: [CommentListComponent, NewCommentComponent],
-  providers: [CommentService],
-  bindings: [CommentService]
+  providers: [CommentService]
 })
 export class CommentListComponent {
 
@@ -39,13 +38,13 @@ export class CommentListComponent {
   commentsPage:any;
   comment: Comment = new Comment();
   commentService: CommentService;
-  @Input('owner-id') ownerId: string;
+  @Input() ownerId: string;
 
   constructor(@Inject(CommentService)commentService: CommentService) {
     this.commentService = commentService;
   }
 
-  onInit() {
+  ngOnInit() {
     this.commentService.getAll(this.ownerId).subscribe(result => this.commentsPage = result);
   }
 

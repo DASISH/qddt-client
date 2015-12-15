@@ -12,9 +12,8 @@ export class SurveyService {
   surveyProgram: SurveyProgram = new SurveyProgram();
   surveyPrograms: Array<SurveyProgram> = [];
 
-  constructor(@Inject(Http) private http: Http) {
-    this.http = http;
-    this.getAll(); //must be changed to life cycle events on component
+  constructor(private http: Http) {
+    this.getAll();
   }
 
 
@@ -64,7 +63,6 @@ export class SurveyService {
         },
         (err: any) => SurveyService.logError('Unable to get all SurveyProgram')
       );
-
   }
 
   getModel(): Array<SurveyProgram> {
