@@ -38,7 +38,6 @@ export class SurveyService {
         (data:SurveyProgram)  => {
           this.surveyProgram = data;
           this.surveyPrograms.push(this.surveyProgram);
-          console.log('DEMO', this.surveyProgram);
         },
         err   =>  SurveyService.logError('Unable to save SurveyProgram.')
       );
