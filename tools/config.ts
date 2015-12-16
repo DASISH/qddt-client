@@ -44,8 +44,8 @@ export const NPM_DEPENDENCIES = [
   { src: 'angular2/bundles/router.js', inject: 'libs', dest: LIB_DEST },
   { src: 'angular2/bundles/http.min.js', inject: 'libs', dest: LIB_DEST },
 
-  { src: 'jquery/dist/jquery.min.js', dest: LIB_DEST },
-  { src: 'materialize-css/dist/js/materialize.js', dest: LIB_DEST },
+  { src: 'jquery/dist/jquery.min.js', inject: true, dest: LIB_DEST },
+  { src: 'materialize-css/dist/js/materialize.js', inject: true, dest: LIB_DEST },
   { src: 'materialize-css/dist/css/materialize.css',inject: true, dest: CSS_DEST },
 
   { src: 'materialize-css/dist/font/roboto/Roboto-Bold.woff2',                          dest: FONTS_DEST},
