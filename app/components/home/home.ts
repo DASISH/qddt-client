@@ -6,17 +6,25 @@ import {UserService} from '../../common/userservice';
 import {SurveyProgramComponent} from '../surveyprogram/surveyprogram';
 import {CommitListComponent} from '../github/commit_list';
 import {AgencyComponent} from '../agency/agency';
-
+import {StudyCreateComponent} from '../study/create';
 
 @Component({
   selector: 'home',
   templateUrl: './components/home/home.html',
   styleUrls: ['./components/home/home.css'],
-  directives: [ROUTER_DIRECTIVES, LoginComponent, SurveyProgramComponent, CommitListComponent, AgencyComponent]
+  directives: [
+    ROUTER_DIRECTIVES,
+    LoginComponent,
+    SurveyProgramComponent,
+    CommitListComponent,
+    AgencyComponent,
+    StudyCreateComponent
+  ]
 })
 export class HomeCmp {
 
   @Input() userService: UserService;
+  surveyProgram: any;
   user: string;
 
   constructor(@Inject(UserService)userService: UserService) {
@@ -29,5 +37,9 @@ export class HomeCmp {
 
   loginEvent() {
     this.user = this.userService.get();
+  }
+
+  surveyCreateEvent(surveyProgram: any) {
+    this.surveyProgram = surveyProgram;
   }
 }

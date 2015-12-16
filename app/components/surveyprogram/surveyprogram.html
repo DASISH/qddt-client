@@ -35,8 +35,15 @@
           <br />
           <div class="row">
           <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" button (click)="thing.isVisible = !thing.isVisible"><i class="material-icons">mode_edit</i></a>
+
+          <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"><i class="material-icons left medium">search</i></a>
+
+          <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="create(surveyProgram)"><i class="material-icons left medium">add</i></a>
+
           </div>
         </div>
+
+        <!--<a [routerLink]="['/Survey']"><i class="material-icons left medium">store</i>DETAILS</a>-->
 
         <div class="col s9 m9 l9 grey-text text-darken-2">
           <h5>{{surveyProgram.name}}</h5>
@@ -50,8 +57,6 @@
               {{surveyProgram.description}}
             </p>
           </div>
-
-
 
           <surveyprogram-edit [isVisible]="thing.isVisible" [surveyProgram]="surveyProgram" #thing></surveyprogram-edit>
 

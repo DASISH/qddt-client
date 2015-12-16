@@ -1,9 +1,9 @@
 <div class="row" *ngIf="user">
 
-  <surveyprogram></surveyprogram>
+  <surveyprogram (surveyCreateEvent)="surveyCreateEvent($event)"></surveyprogram>
 
   <div class="col s12 m6">
-  <create-study></create-study>
+    <study-create [surveyProgram]="surveyProgram"></study-create>
   </div>
 
 </div>
