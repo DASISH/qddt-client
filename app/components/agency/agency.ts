@@ -17,8 +17,7 @@ import {AgencyService, Agency} from '../agency/agencyservice';
         </div>
       </div>
   `,
-  providers: [AgencyService],
-  bindings: [AgencyService]
+  providers: [AgencyService]
 })
 export class AgencyComponent {
 
