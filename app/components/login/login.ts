@@ -80,8 +80,6 @@ export class LoginComponent {
     this.userService.set(user);
     localStorage.setItem('user', JSON.stringify(user));
     this.loginEvent.emit('logged_in');
-
-    console.log('logged in');
   }
 
   get diagnostic() { return JSON.stringify(this.loginForm); }
