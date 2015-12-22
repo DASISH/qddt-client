@@ -34,16 +34,11 @@
         <div class="col s1 m1 l1">
           <br />
           <div class="row">
-          <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" button (click)="thing.isVisible = !thing.isVisible"><i class="material-icons">mode_edit</i></a>
-
-          <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"><i class="material-icons left medium">search</i></a>
-
+          <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="edit.isVisible = !edit.isVisible"><i class="material-icons">mode_edit</i></a>
+          <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium">history</i></a>
           <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="create(surveyProgram)"><i class="material-icons left medium">add</i></a>
-
           </div>
         </div>
-
-        <!--<a [routerLink]="['/Survey']"><i class="material-icons left medium">store</i>DETAILS</a>-->
 
         <div class="col s9 m9 l9 grey-text text-darken-2">
           <h5>{{surveyProgram.name}}</h5>
@@ -58,7 +53,9 @@
             </p>
           </div>
 
-          <surveyprogram-edit [isVisible]="thing.isVisible" [surveyProgram]="surveyProgram" #thing></surveyprogram-edit>
+          <surveyprogram-edit [isVisible]="edit.isVisible" [surveyProgram]="surveyProgram" #edit></surveyprogram-edit>
+
+          <surveyprogram-revision  [isVisible]="revision.isVisible" [surveyProgramId]="surveyProgram.id" #revision></surveyprogram-revision>
 
           <div class="row">
             <comment-list [ownerId]="surveyProgram.id"></comment-list>
@@ -69,4 +66,3 @@
     </div>
   </div>
 </div>
-

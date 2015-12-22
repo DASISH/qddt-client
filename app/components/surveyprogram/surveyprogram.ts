@@ -1,23 +1,19 @@
 import {Component, Inject, EventEmitter, Output} from 'angular2/core';
-import {Router, RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {LocalDatePipe} from '../../common/date_pipe';
-import {SurveyProgramDetails} from './details/surveyprogram_details';
 
 import {SurveyService, SurveyProgram} from './surveyservice';
 import {CommentListComponent} from '../comment/comment_list';
 import {SurveyProgramEditComponent} from './edit/surveyprogram_edit';
+import {SurveyProgramRevision} from './surveyprogram_revision';
 
 @Component({
   selector: 'surveyprogram',
   templateUrl: './components/surveyprogram/surveyprogram.html',
-  directives: [CommentListComponent, SurveyProgramEditComponent],
+  directives: [CommentListComponent, SurveyProgramEditComponent, SurveyProgramRevision],
   pipes: [LocalDatePipe],
   providers: [SurveyService]
 })
-@RouteConfig([
-  { path: '/survey/:id', component: SurveyProgramDetails, as: 'Survey'},
-])
 export class SurveyProgramComponent {
 
   showSurveyForm: boolean = false;
