@@ -1,5 +1,5 @@
-import {Injectable, Inject} from 'angular2/core';
-import {HTTP_PROVIDERS, Http, Headers, Response} from 'angular2/http';
+import {Injectable} from 'angular2/core';
+import {Http, Headers, Response} from 'angular2/http';
 
 @Injectable()
 export class SurveyProgramRevisionService {

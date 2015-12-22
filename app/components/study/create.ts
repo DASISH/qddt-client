@@ -25,7 +25,5 @@ export class StudyCreateComponent {
 
   @Input() surveyProgram: any;
 
-  constructor() {
 
-  }
 }

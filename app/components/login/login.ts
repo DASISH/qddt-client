@@ -1,5 +1,5 @@
 import {Component, Output, EventEmitter, Inject} from 'angular2/core';
-import {HTTP_PROVIDERS, Http, Headers, Response} from 'angular2/http';
+import {Http, Headers, Response} from 'angular2/http';
 import 'rxjs/add/operator/map';
 
 import {UserService} from '../../common/userservice';
@@ -12,7 +12,7 @@ export class LoginForm {
 @Component({
   selector: 'login',
   events: ['loginEvent'],
-  templateUrl: './components/login/login.html',
+  templateUrl: './components/login/login.html'
 })
 export class LoginComponent {
 

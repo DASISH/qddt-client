@@ -1,5 +1,4 @@
-import {Component, Inject, EventEmitter, Input} from 'angular2/core';
-import {Router, RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
+import {Component, Input} from 'angular2/core';
 
 import {SurveyProgramRevisionService} from './surveyprogram_revisionservice';
 

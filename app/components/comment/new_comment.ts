@@ -1,4 +1,4 @@
-import {Component, Inject, Input, Output, EventEmitter} from 'angular2/core';
+import {Component, Input, Output, EventEmitter} from 'angular2/core';
 
 import {CommentService, Comment} from './commentservice';
 
