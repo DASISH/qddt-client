@@ -4,10 +4,13 @@
 
 Basic features:
 
-* Login and logout
-* A dashboard
-* Create survey programs
-* See last comments
+- [x] Login and logout
+- [x] A dashboard
+- [x] Create survey programs
+- [x] See comments
+- [x] See revision of survey programs 
+- [ ] Create all other elements 
+- [ ] Create a better workflow
 
 As this project is based on highly experimental software, it is to be considered a prototype that can be discarded at any time if during the process of development should it become obvious that it is not giving us the results we are expecting.
 
