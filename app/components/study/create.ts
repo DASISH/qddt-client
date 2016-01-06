@@ -1,29 +1,55 @@
 import {Component, Input} from 'angular2/core';
 
+import {StudyService, Study} from './studyservice';
+
 @Component({
   selector: 'study-create',
+  providers: [StudyService],
   template: `
-    <div *ngIf="surveyProgram">
-     <div class="card white white-text text-lighten-2">
-        <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
-          <i class="material-icons large right">comment</i><h4 style="font-weight:300;">Studies for {{surveyProgram.name}}</h4>
-          This is where you create a study for the selected survey.
-        </div>
-        <div class="row" style="padding-left:2%">
-          <div class="col s12 m6 l6 grey-text text-darken-2">
+      <a class="btn" (click)="toggleForm()">
+      <i class="material-icons right" *ngIf="!showForm">keyboard_arrow_down</i>
+      <i class="material-icons right" *ngIf="showForm">keyboard_arrow_up</i>
+      New</a>
 
-              {{surveyProgram.name}}
-
-          </div>
+      <div *ngIf="showForm">
+        <div class="card-action">
+          <form (ngSubmit)="save()" #hf="ngForm">
+            <div class="row">
+              <div class="input-field col">
+                <input id="name" type="text" [(ngModel)]="study.name" required>
+                <label for="name" class="white-text">Name</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s10">
+                <textarea id="description" class="materialize-textarea" [(ngModel)]="study.description" required></textarea>
+                <label for="description" class="white-text">Description</label>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>
         </div>
       </div>
-     </div>
   `
 
 })
 export class StudyCreateComponent {
 
   @Input() surveyProgram: any;
+  showForm: boolean = false;
+  private study: Study;
 
+  constructor(private studyService: StudyService) {
+    this.study = new Study();
+  }
+
+  toggleForm() {
+    this.showForm = !this.showForm;
+  }
+
+  save() {
+    this.studyService.save(this.study, this.surveyProgram.id);
+    this.study = new Study();
+  }
 
 }

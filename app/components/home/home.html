@@ -2,8 +2,8 @@
 
   <surveyprogram (surveyCreateEvent)="surveyCreateEvent($event)"></surveyprogram>
 
-  <div class="col s12 m6">
-    <study-create [surveyProgram]="surveyProgram"></study-create>
+  <div class="col s12 m6" *ngIf="surveyProgram">
+    <study [surveyProgram]="surveyProgram"></study>
   </div>
 
 </div>
