@@ -1,6 +1,7 @@
 import {Injectable} from 'angular2/core';
 import {Http, Headers, Response} from 'angular2/http';
 import {Observable} from "../../../node_modules/rxjs/Observable";
+import {Headers} from "../../../node_modules/angular2/src/http/headers";
 
 export class Study {
   id: string;
@@ -11,8 +12,12 @@ export class Study {
 @Injectable()
 export class StudyService {
 
-  constructor(private http: Http) {
+  private headers: Headers;
 
+  constructor(private http: Http) {
+    this.headers = new Headers();
+    this.headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
+    this.headers.append('Content-Type', 'application/json');
   }
 
   static logError(err: string) {
@@ -21,14 +26,10 @@ export class StudyService {
 
 
   save(study: Study, surveyProgramId: String): Study {
-    var headers = new Headers();
-    headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
-    headers.append('Content-Type', 'application/json');
-
     this.http.post('http://localhost:8080/study/'+surveyProgramId+'/create',
       JSON.stringify(study),
       {
-        headers: headers
+        headers: this.headers
       })
       .map((res:Response) => res.json())
       .subscribe(
@@ -39,13 +40,21 @@ export class StudyService {
     return study;
   }
 
-  getAll(surveyProgramId: String) : any {
-    var headers = new Headers();
-    headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
+  update(study: Study): any {
+    return this.http.post('http://localhost:8080/study/',
+      JSON.stringify(study),
+      {
+        headers: this.headers
+      })
+      .map((res: Response) => {
+        return res.json()
+      });
+  }
 
+  getAll(surveyProgramId: String) : any {
     return this.http.get('http://localhost:8080/surveyprogram/list/user',
       {
-        headers: headers
+        headers: this.headers
       })
       .map((res:Response) => {
         return res.json();
