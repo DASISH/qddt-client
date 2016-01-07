@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output} from 'angular2/core';
+import {Component, Input, EventEmitter, Output} from 'angular2/core';
 
 import {LocalDatePipe} from '../../common/date_pipe';
 
@@ -17,6 +17,7 @@ import {SurveyProgramRevision} from './surveyprogram_revision';
 export class SurveyProgramComponent {
 
   showSurveyForm: boolean = false;
+  @Input() showSurveyProgram: boolean;
   model: SurveyProgram;
   surveyPrograms: Array<SurveyProgram> = [];
   @Output() surveyCreateEvent: EventEmitter<String> = new EventEmitter();

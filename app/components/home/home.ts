@@ -25,6 +25,7 @@ import {SurveyProgram} from '../surveyprogram/surveyservice';
 export class HomeCmp {
 
   surveyProgram: any;
+  showSurveyProgram: boolean = true;
   user: string;
 
   constructor(private userService: UserService) {
@@ -41,5 +42,9 @@ export class HomeCmp {
 
   surveyCreateEvent(surveyProgram: any) {
     this.surveyProgram = surveyProgram;
+  }
+
+  selectedStudy() {
+    this.showSurveyProgram = !this.showSurveyProgram;
   }
 }
