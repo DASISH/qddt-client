@@ -24,6 +24,8 @@ import {SurveyService, SurveyProgram} from '../../surveyprogram/surveyservice';
           <div class="row">
             <div class="input-field col s4">
               <input type="text" [(ngModel)]="surveyProgram.changeReason" >
+            </div>
+            <div class="input-field col s8">
               <input type="text" [(ngModel)]="surveyProgram.changeComment" required>
               <label for="changeComment" class="active teal-text">Save Comment</label>
             </div>
