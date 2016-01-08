@@ -10,21 +10,30 @@ import {SurveyService, SurveyProgram} from '../../surveyprogram/surveyservice';
     <div *ngIf="surveyProgram" class="card" id="{{surveyProgram.id}}"  >
         <form (ngSubmit)="save()" #hf="ngForm">
           <div class="row">
-            <div class="input-field">
+            <div class="input-field col s12">
               <input type="text" [(ngModel)]="surveyProgram.name" required>
               <label for="name" class="active teal-text">Name</label>
             </div>
           </div>
           <div class="row">
-            <div class="input-field">
-              <textarea class="materialize-textarea" [(ngModel)]="surveyProgram.description" required></textarea>
+            <div class="input-field col s12">
+              <textarea class="materialize-textarea"  [(ngModel)]="surveyProgram.description" required></textarea>
               <label for="description" class="active teal-text">Description</label>
             </div>
           </div>
           <div class="row">
-            <div class="input-field">
+            <div class="input-field col s4">
+              <input type="text" [(ngModel)]="surveyProgram.changeReason" >
               <input type="text" [(ngModel)]="surveyProgram.changeComment" required>
-              <label for="changeComment" class="active teal-text">ChangeComment</label>
+              <label for="changeComment" class="active teal-text">Save Comment</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+                <p><label class="active teal-text">Authors</label></p>
+                
+                <div id="author1" class="chip">Admin <i class="material-icons">close</i></div>
+                <div id="author2" class="chip">Stig Norland <i class="material-icons">close</i></div>
             </div>
           </div>
       <button type="submit" class="btn btn-default">Submit</button>
