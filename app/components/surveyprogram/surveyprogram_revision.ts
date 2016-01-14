@@ -10,6 +10,7 @@ import {SurveyProgramRevisionService} from './surveyprogram_revisionservice';
       <table>
         <thead>
           <tr>
+              <th data-field="id">Revision</th>
               <th data-field="id">Version</th>
               <th data-field="id">Timestamp</th>
               <th data-field="id">Reason</th>
@@ -18,7 +19,8 @@ import {SurveyProgramRevisionService} from './surveyprogram_revisionservice';
         </thead>
         <tbody>
           <tr *ngFor="#content of revisions.content">
-              <td >{{content.metadata.revisionNumber}}</td>
+              <td>{{content.metadata.revisionNumber}}</td>
+              <td>{{content.entity.version.major}}.{{content.entity.version.minor}} {{content.entity.version.versionLabel}}</td>
               <td>{{content.metadata.delegate.timestamp | date:'short'}}</td>
               <td>{{content.entity.changeKind}}</td>
               <td>{{content.entity.changeComment}}</td>

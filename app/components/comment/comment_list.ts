@@ -1,9 +1,11 @@
 import {Component, Inject, Input} from 'angular2/core';
 import {CommentService, Comment} from './commentservice';
 import {NewCommentComponent} from '../comment/new_comment';
+import {LocalDatePipe} from '../../common/date_pipe';
 
 @Component({
   selector: 'comment-list',
+   pipes: [LocalDatePipe],
   template: `
     <div *ngIf="commentsPage">
       <a class="btn btn-flat btn-medium waves-effect waves-light teal white-text" (click)="toggleComments()">
@@ -13,12 +15,10 @@ import {NewCommentComponent} from '../comment/new_comment';
     <div *ngIf="commentsPage" class="card">
         <ul>
             <li class="collection-item avatar" *ngFor="#comment of commentsPage.content">
-                <img src="images/avatar-default.png" alt="" class="circle">
-                <span class="title">{{comment.createdBy.username}}</span>
+                <img src="images/avatar-default.png" WIDTH=50 style="float:left;" alt="" class="circle">
+                <span class="title">{{comment.createdBy.username}}@{{comment.createdBy.agency.name}} </span>
                   <p>
-                     id: {{comment.id}} <br />
-                     comment: {{comment.comment}}<br />
-                     ownerid: {{comment.ownerId}}
+                     {{comment.comment}}
                   </p>
                 <i class="secondary-content material-icons right ">comment</i>
                 <comment-list [ownerId]="comment.id"></comment-list>

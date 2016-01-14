@@ -76,7 +76,7 @@
         <div class="col s9 m9 l9 grey-text text-darken-2">
           <h5>{{surveyProgram.name}}</h5>
           {{surveyProgram.created | localDate}} by
-          {{surveyProgram.createdBy.username}}
+          <div class="chip" ><img src="http://coraljs.com/example/contact/john-doe.jpeg">{{surveyProgram.createdBy.username}}@{{surveyProgram.createdBy.agency.name}} </div>
         </div>
 
         <div class="col s9 m9 l9 white grey-text text-darken-1">

@@ -28,7 +28,8 @@ export class SurveyService {
     headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
     headers.append('Content-Type', 'application/json');
 
-    this.http.post('https://qddt.nsd.no/api/surveyprogram/create',
+
+    this.http.post('http://localhost:8080/surveyprogram/create',
       JSON.stringify(this.surveyProgram),
       {
         headers: headers
