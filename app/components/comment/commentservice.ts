@@ -19,8 +19,9 @@ export class CommentService {
     var headers = new Headers();
     headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
     headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json');
 
-    return this.http.post('http://localhost:8080/comment/create/' + comment.ownerId,
+    return this.http.post('https://qddt.nsd.no/api/comment/create/' + comment.ownerId,
       JSON.stringify(comment),
       {
         headers: headers
@@ -34,8 +35,9 @@ export class CommentService {
     var headers = new Headers();
     headers.append('Authorization', 'Bearer  ' + JSON.parse(localStorage.getItem('jwt')).access_token);
     headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json');
 
-    return this.http.get('http://localhost:8080/comment/by-owner/' + ownerId + '?page=0&size=20&sort=asc',
+    return this.http.get('https://qddt.nsd.no/api/comment/by-owner/' + ownerId + '?page=0&size=20&sort=asc',
       {
         headers: headers
       })
