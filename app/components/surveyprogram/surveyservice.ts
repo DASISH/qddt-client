@@ -29,7 +29,7 @@ export class SurveyService {
     headers.append('Content-Type', 'application/json');
 
 
-    this.http.post('http://localhost:8080/surveyprogram/create',
+    this.http.post('https://qddt.nsd.no/surveyprogram/create',
       JSON.stringify(this.surveyProgram),
       {
         headers: headers
