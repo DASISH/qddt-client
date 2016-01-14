@@ -13,17 +13,15 @@ import {LocalDatePipe} from '../../common/date_pipe';
     </div>
   <div *ngIf="showComments">
     <div *ngIf="commentsPage" class="card">
-        <ul>
+        <ul class="collection">
             <li class="collection-item avatar" *ngFor="#comment of commentsPage.content">
-                <img src="images/avatar-default.png" WIDTH=50 style="float:left;" alt="" class="circle">
-                <span class="title">{{comment.createdBy.username}}@{{comment.createdBy.agency.name}} </span>
-                  <p>
-                     {{comment.comment}}
-                  </p>
-                <i class="secondary-content material-icons right ">comment</i>
-                <comment-list [ownerId]="comment.id"></comment-list>
-              </li>
-            </ul>
+                  <img src="images/avatar-default.png"  alt ="" class="circle">
+                <span class="title">{{comment.createdBy.username}}@{{comment.createdBy.agency.name}} - {{comment.created|localDate }} </span>
+                <p><br>{{comment.comment}}</p>
+              <i class="secondary-content material-icons right ">comment</i>
+              <comment-list [ownerId]="comment.id"></comment-list>
+            </li>
+          </ul>
         </div>
     <new-comment (addedCommentEvent)="addedComment($event)" [ownerId]="ownerId"></new-comment>
     </div>
