@@ -16,7 +16,7 @@ export class SurveyProgramRevisionService {
     var headers = new Headers();
     headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
 
-    return this.http.get('http://localhost:8080/audit/surveyprogram/'+id+'/list',
+    return this.http.get('https://qddt.nsd.no/api/audit/surveyprogram/'+id+'/list',
       {
         headers: headers
       })

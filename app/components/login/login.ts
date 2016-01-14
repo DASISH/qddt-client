@@ -35,7 +35,7 @@ export class LoginComponent {
     var headers = new Headers();
     headers.append('Authorization', 'Basic ' + btoa('client:password'));
 
-    this.http.post('http://localhost:8080/oauth/token' +
+    this.http.post('https://qddt.nsd.no/api/oauth/token' +
         '?username='+ this.loginForm.username +
         '&password='+ this.loginForm.password +
         '&scope=write' +
@@ -49,13 +49,13 @@ export class LoginComponent {
       })
       .map((res:Response) => res.json())
       .subscribe(
-        (data: any) => this.saveJwt(data),
+        (data: any) => LoginComponent.saveJwt(data),
         (err: any)  => LoginComponent.logError('Unable to log in user.'),
         ()          => this.createUser()
     );
   }
 
-  saveJwt(jwt: string) {
+  static saveJwt(jwt: string) {
     if(jwt) {
       localStorage.setItem('jwt', JSON.stringify(jwt));
     }
@@ -64,7 +64,7 @@ export class LoginComponent {
   createUser() {
     var headers = new Headers();
     headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
-    this.http.get('http://localhost:8080/user',
+    this.http.get('https://qddt.nsd.no/api/user',
       {
         headers: headers
       })

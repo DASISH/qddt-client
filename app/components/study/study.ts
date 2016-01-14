@@ -2,11 +2,12 @@ import {Component, Input, EventEmitter, Output} from 'angular2/core';
 
 import {StudyService, Study} from './studyservice';
 import {StudyCreateComponent} from './create';
+import {CommentListComponent} from '../comment/comment_list';
 
 @Component({
   selector: 'study',
   providers: [StudyService],
-  directives: [StudyCreateComponent],
+  directives: [StudyCreateComponent, CommentListComponent],
   template: `
      <div class="card white white-text text-lighten-2">
       <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
@@ -56,7 +57,11 @@ import {StudyCreateComponent} from './create';
             </p>
           </div>
         </div>
+        <div class="row">
+          <comment-list [ownerId]="activeStudy.id"></comment-list>
+        </div>
       </div>
+
 
   `
 })

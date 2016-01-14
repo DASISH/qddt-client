@@ -1,4 +1,4 @@
-import {Component, Input, EventEmitter, Output} from 'angular2/core';
+import {Component, Input, EventEmitter, Output, ElementRef} from 'angular2/core';
 
 import {LocalDatePipe} from '../../common/date_pipe';
 
@@ -6,6 +6,8 @@ import {SurveyService, SurveyProgram} from './surveyservice';
 import {CommentListComponent} from '../comment/comment_list';
 import {SurveyProgramEditComponent} from './edit/surveyprogram_edit';
 import {SurveyProgramRevision} from './surveyprogram_revision';
+
+declare var jQuery:any;
 
 @Component({
   selector: 'surveyprogram',
@@ -22,9 +24,14 @@ export class SurveyProgramComponent {
   surveyPrograms: Array<SurveyProgram> = [];
   @Output() surveyCreateEvent: EventEmitter<String> = new EventEmitter();
 
-  constructor(private surveyService: SurveyService) {
+  constructor(private surveyService: SurveyService, private elementRef: ElementRef) {
     this.model = new SurveyProgram();
     this.surveyPrograms = this.surveyService.getModel();
+  }
+
+  ngOnInit() {
+    console.log("init");
+    jQuery(this.elementRef.nativeElement).find('select').material_select();
   }
 
   save() {
@@ -35,6 +42,7 @@ export class SurveyProgramComponent {
   }
 
   toggleSurveyForm() {
+    jQuery(this.elementRef.nativeElement).find('select').material_select();
     this.showSurveyForm = !this.showSurveyForm;
   }
 

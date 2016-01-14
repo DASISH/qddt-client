@@ -26,7 +26,7 @@ export class StudyService {
 
 
   save(study: Study, surveyProgramId: String): Study {
-    this.http.post('http://localhost:8080/study/'+surveyProgramId+'/create',
+    this.http.post('https://qddt.nsd.no/api/study/'+surveyProgramId+'/create',
       JSON.stringify(study),
       {
         headers: this.headers
@@ -41,7 +41,7 @@ export class StudyService {
   }
 
   update(study: Study): any {
-    return this.http.post('http://localhost:8080/study/',
+    return this.http.post('https://qddt.nsd.no/api/study/',
       JSON.stringify(study),
       {
         headers: this.headers
@@ -52,7 +52,7 @@ export class StudyService {
   }
 
   getAll(surveyProgramId: String) : any {
-    return this.http.get('http://localhost:8080/surveyprogram/list/user',
+    return this.http.get('https://qddt.nsd.no/api/surveyprogram/list/user',
       {
         headers: this.headers
       })
