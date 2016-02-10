@@ -29,7 +29,7 @@ export class SurveyService {
     headers.append('Content-Type', 'application/json');
 
 
-    this.http.post('https://qddt.nsd.no/surveyprogram/create',
+    this.http.post('http://nsd349.nsd.lan:8080/surveyprogram/create',
       JSON.stringify(this.surveyProgram),
       {
         headers: headers
@@ -50,7 +50,7 @@ export class SurveyService {
     var headers = new Headers();
     headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
 
-    return this.http.get('https://qddt.nsd.no/api/surveyprogram/list/user',
+    return this.http.get('http://nsd349.nsd.lan:8080/surveyprogram/list/user',
       {
         headers: headers
       })

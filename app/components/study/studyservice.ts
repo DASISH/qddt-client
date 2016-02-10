@@ -1,7 +1,7 @@
 import {Injectable} from 'angular2/core';
 import {Http, Headers, Response} from 'angular2/http';
 import {Observable} from "../../../node_modules/rxjs/Observable";
-import {Headers} from "../../../node_modules/angular2/src/http/headers";
+// import {Headers} from "../../../node_modules/angular2/src/http/headers";
 
 export class Study {
   id: string;
@@ -26,7 +26,7 @@ export class StudyService {
 
 
   save(study: Study, surveyProgramId: String): Study {
-    this.http.post('https://qddt.nsd.no/api/study/'+surveyProgramId+'/create',
+    this.http.post('http://nsd349.nsd.lan:8080/study/'+surveyProgramId+'/create',
       JSON.stringify(study),
       {
         headers: this.headers
@@ -41,7 +41,7 @@ export class StudyService {
   }
 
   update(study: Study): any {
-    return this.http.post('https://qddt.nsd.no/api/study/',
+    return this.http.post('http://nsd349.nsd.lan:8080/study/',
       JSON.stringify(study),
       {
         headers: this.headers
@@ -52,7 +52,7 @@ export class StudyService {
   }
 
   getAll(surveyProgramId: String) : any {
-    return this.http.get('https://qddt.nsd.no/api/surveyprogram/list/user',
+    return this.http.get('http://nsd349.nsd.lan:8080/surveyprogram/list/user',
       {
         headers: this.headers
       })

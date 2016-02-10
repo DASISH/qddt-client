@@ -24,7 +24,7 @@ import {SurveyService, SurveyProgram} from '../../surveyprogram/surveyservice';
         <div class="row">
 		  <div class="input-field col s4">
               <label class="active teal-text">Version Reason</label>
-              <select  class="browser-default"  [(ngModel)]="surveyProgram.changeKind">
+              <select  class="browser-default input-sm"  [(ngModel)]="surveyProgram.changeKind">
                 <option *ngFor="#changereason of changes" [value]="changereason">{{changereason}}</option>
               </select>
           </div>
@@ -36,7 +36,14 @@ import {SurveyService, SurveyProgram} from '../../surveyprogram/surveyservice';
         <div class="row">
           <div class="input-field col s8">
             <p><label class="active teal-text">Authors</label></p>
-            <div class="chip" *ngFor="#author of surveyProgram.authors" ><img src="{{author.picture}}">{{author.name}} <i class="material-icons">close</i></div>
+            <div class="chip" *ngFor="#author of surveyProgram.authors" >
+              <img src="{{author.picture}}">
+
+              <a *ngIf="!author.email && !author.homepage">{{author.name}}</a>
+              <a *ngIf="author.email" href="mailto:{{author.email}}">{{author.name}}</a>
+              <a *ngIf="author.homepage && !author.email" href="{{author.homepage}}" target="_blank">{{author.name}}</a>
+
+              <i class="material-icons">close</i></div>
           </div>
           <div class="input-field col s4">
             <p><label class="active teal-text">Agency</label></p>
@@ -53,6 +60,8 @@ import {SurveyService, SurveyProgram} from '../../surveyprogram/surveyservice';
 export class SurveyProgramEditComponent {
 
     @Input() surveyProgram: SurveyProgram;
+    private changes:any;
+
     private service: SurveyService;
   constructor(surveyService: SurveyService) {
       this.service = surveyService;

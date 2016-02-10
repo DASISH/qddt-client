@@ -8,7 +8,7 @@ import {AppCmp} from './components/app/app';
 import {UserService} from './common/userservice';
 import {SurveyService} from './components/surveyprogram/surveyservice';
 
-System.import('//localhost:<%= HOT_LOADER_PORT %>/ng2-hot-loader')
+System.import('//nsd349.nsd.lan:<%= HOT_LOADER_PORT %>/ng2-hot-loader')
   .then(loader => {
     loader.ng2HotLoaderBootstrap(AppCmp, [
       ROUTER_PROVIDERS,

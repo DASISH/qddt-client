@@ -21,7 +21,7 @@ export class CommentService {
     headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json');
 
-    return this.http.post('https://qddt.nsd.no/api/comment/create/' + comment.ownerId,
+    return this.http.post('http://nsd349.nsd.lan:8080/comment/create/' + comment.ownerId,
       JSON.stringify(comment),
       {
         headers: headers
@@ -37,7 +37,7 @@ export class CommentService {
     headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json');
 
-    return this.http.get('https://qddt.nsd.no/api/comment/by-owner/' + ownerId + '?page=0&size=20&sort=asc',
+    return this.http.get('http://nsd349.nsd.lan:8080/comment/by-owner/' + ownerId + '?page=0&size=20&sort=asc',
       {
         headers: headers
       })

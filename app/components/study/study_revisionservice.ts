@@ -2,7 +2,7 @@ import {Injectable} from 'angular2/core';
 import {Http, Headers, Response} from 'angular2/http';
 
 @Injectable()
-export class SurveyProgramRevisionService {
+export class StudyRevisionService {
 
   constructor(private http: Http) {
 
@@ -16,7 +16,7 @@ export class SurveyProgramRevisionService {
     var headers = new Headers();
     headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
 
-    return this.http.get('http://nsd349.nsd.lan:8080/audit/surveyprogram/'+id+'/list',
+    return this.http.get('http://nsd349.nsd.lan:8080/audit/study/'+id+'/list',
       {
         headers: headers
       })

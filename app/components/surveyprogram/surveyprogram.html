@@ -30,20 +30,6 @@
                 <label for="description" class="white-text">Description</label>
               </div>
             </div>
-
-            <div class="row">
-              <div class="input-field col s12">
-                <!--<select class="select-author">-->
-                <select>
-                  <option value="" disabled selected>Choose your option</option>
-                  <option value="1">Option 1</option>
-                  <option value="2">Option 2</option>
-                  <option value="3">Option 3</option>
-                </select>
-                <label>Materialize Select</label>
-              </div>
-            </div>
-
             <button type="submit" class="btn btn-default">Submit</button>
           </form>
         </div>
@@ -73,13 +59,13 @@
           </div>
         </div>
 
-        <div class="col s9 m9 l9 grey-text text-darken-2">
+        <div class="col s10 m10 l10 grey-text text-darken-2">
           <h5>{{surveyProgram.name}}</h5>
-          {{surveyProgram.created | localDate}} by
-          <div class="chip" ><img src="http://coraljs.com/example/contact/john-doe.jpeg">{{surveyProgram.createdBy.username}}@{{surveyProgram.createdBy.agency.name}} </div>
+          {{surveyProgram.created | localDate}} by <strong>{{surveyProgram.createdBy.username}}@{{surveyProgram.createdBy.agency.name}}</strong>
+          <!--<div class="chip" ><img src="http://coraljs.com/example/contact/john-doe.jpeg">{{surveyProgram.createdBy.username}}@{{surveyProgram.createdBy.agency.name}} </div>-->
         </div>
 
-        <div class="col s9 m9 l9 white grey-text text-darken-1">
+        <div class="col s10 m10 l10 white grey-text text-darken-1">
           <div class="row">
             <p>
               {{surveyProgram.description}}

@@ -35,7 +35,7 @@ export class LoginComponent {
     var headers = new Headers();
     headers.append('Authorization', 'Basic ' + btoa('client:password'));
 
-    this.http.post('https://qddt.nsd.no/api/oauth/token' +
+    this.http.post('http://nsd349.nsd.lan:8080/oauth/token' +
         '?username='+ this.loginForm.username +
         '&password='+ this.loginForm.password +
         '&scope=write' +
@@ -64,7 +64,7 @@ export class LoginComponent {
   createUser() {
     var headers = new Headers();
     headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
-    this.http.get('https://qddt.nsd.no/api/user',
+    this.http.get('http://nsd349.nsd.lan:8080/user',
       {
         headers: headers
       })

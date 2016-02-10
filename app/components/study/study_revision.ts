@@ -1,9 +1,9 @@
 import {Component, Input} from 'angular2/core';
 
-import {SurveyProgramRevisionService} from './surveyprogram_revisionservice';
+import {StudyRevisionService} from './study_revisionservice';
 
 @Component({
-  selector: 'surveyprogram-revision',
+  selector: 'study-revision',
   template: `
   <div *ngIf="isVisible">
     <div *ngIf="revisions">
@@ -32,26 +32,26 @@ import {SurveyProgramRevisionService} from './surveyprogram_revisionservice';
 
 
   `,
-  providers: [SurveyProgramRevisionService]
+  providers: [StudyRevisionService]
 })
-export class SurveyProgramRevision {
+export class StudyRevision {
 
-  @Input() surveyProgramId: string;
+  @Input() studyId: string;
   revisions: any;
 
-  constructor(private service: SurveyProgramRevisionService) {
+  constructor(private service: StudyRevisionService) {
 
   }
 
   ngAfterViewInit() {
-    this.getRevisionsById(this.surveyProgramId);
+    this.getRevisionsById(this.studyId);
   }
 
   getRevisionsById(id: string) {
     this.service.getAllRevisions(id)
       .subscribe(
         (revisions: any) => this.revisions = revisions,
-        (err: any) => SurveyProgramRevisionService.logError('Unable to get all revisions')
+        (err: any) => StudyRevisionService.logError('Unable to get all revisions')
       );
   }
 

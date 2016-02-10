@@ -7,9 +7,9 @@ import {CommentService, Comment} from './commentservice';
   template: `
           <form (ngSubmit)="save()" #hf="ngForm">
             <div class="row">
-              <div class="input-field col">
-                <input id="comment" type="text" [(ngModel)]="comment.comment" required>
+              <div class="input-field col s8 m8 l8">
                 <label for="comment">Write a new comment</label>
+                <textarea class="materialize-textarea" [(ngModel)]="comment.comment" required></textarea>
               </div>
             </div>
             <button type="submit" class="btn">Submit</button>

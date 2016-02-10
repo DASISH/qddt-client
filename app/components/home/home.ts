@@ -8,7 +8,7 @@ import {SurveyProgram} from '../surveyprogram/surveyservice';
 import {CommitListComponent} from '../github/commit_list';
 import {AgencyComponent} from '../agency/agency';
 import {StudyComponent} from '../study/study';
-import {SurveyProgram} from '../surveyprogram/surveyservice';
+import {TopicComponent} from '../topic/topic';
 
 @Component({
   selector: 'home',
@@ -19,12 +19,14 @@ import {SurveyProgram} from '../surveyprogram/surveyservice';
     LoginComponent,
     SurveyProgramComponent,
     CommitListComponent,
-    StudyComponent
+    StudyComponent,
+    TopicComponent
   ]
 })
 export class HomeCmp {
 
   surveyProgram: any;
+  study:any;
   showSurveyProgram: boolean = true;
   user: string;
 
