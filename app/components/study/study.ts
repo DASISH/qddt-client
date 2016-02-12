@@ -1,4 +1,4 @@
-import {Component, Input, EventEmitter, Output} from 'angular2/core';
+import {Component, Input, EventEmitter, Output, ElementRef} from 'angular2/core';
 
 import {StudyService, Study} from './studyservice';
 import {StudyCreateComponent} from './create';
@@ -16,10 +16,12 @@ import {StudyEditComponent} from './edit/study_edit';
 })
 export class StudyComponent {
 
+  showStudyForm: boolean = false;
+
   @Input() surveyProgram: any;
-  @Output() selectedStudy: EventEmitter<any> = new EventEmitter();
   private studies: any;
   private activeStudy: any;
+  @Output() studyCreateEvent: EventEmitter<any> = new EventEmitter();
 
   constructor(private studyService: StudyService) {
 
@@ -29,9 +31,24 @@ export class StudyComponent {
     this.studies = this.surveyProgram.studies;
   }
 
-  selectStudy(activeStudy: any) {
-    this.selectedStudy.emit(null);
-    this.activeStudy = activeStudy;
+  selectStudy(study: any) {
+    this.studyCreateEvent.emit(null);
+    this.activeStudy = study;
+  }
+
+  save() {
+    this.showStudyForm = false;
+    this.studyService.save(this.activeStudy);
+    this.activeStudy  = new Study();
+  }
+
+  toggleStudyForm() {
+    jQuery(this.elementRef.nativeElement).find('select').material_select();
+    this.showSurveyForm = !this.showSurveyForm;
+  }
+
+  create(study: any) {
+    this.studyCreateEvent.emit(study);
   }
 
 }

@@ -20,12 +20,12 @@ export class SurveyProgramComponent {
 
   showSurveyForm: boolean = false;
   @Input() showSurveyProgram: boolean;
-  model: SurveyProgram;
+  selectedSurvey: SurveyProgram;
   surveyPrograms: Array<SurveyProgram> = [];
   @Output() surveyCreateEvent: EventEmitter<String> = new EventEmitter();
 
   constructor(private surveyService: SurveyService, private elementRef: ElementRef) {
-    this.model = new SurveyProgram();
+    this.selectedSurvey = new SurveyProgram();
     this.surveyPrograms = this.surveyService.getModel();
   }
 
@@ -36,9 +36,9 @@ export class SurveyProgramComponent {
 
   save() {
     this.showSurveyForm = false;
-    this.surveyService.save(this.model);
+    this.surveyService.save(this.selectedSurvey);
     this.surveyPrograms = this.surveyService.getModel();
-    this.model = new SurveyProgram();
+    this.selectedSurvey = new SurveyProgram();
   }
 
   toggleSurveyForm() {

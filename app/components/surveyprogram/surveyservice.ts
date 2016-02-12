@@ -1,9 +1,11 @@
 import {Injectable} from 'angular2/core';
 import {Http, Headers, Response} from 'angular2/http';
+import DateTimeFormat = Intl.DateTimeFormat;
 
 export class SurveyProgram {
   id: string;
   name: string;
+  created:DateTimeFormat;
 }
 
 @Injectable()
@@ -56,7 +58,7 @@ export class SurveyService {
       })
       .map((res:Response) => res.json())
       .subscribe(
-        (data:Array<SurveyProgram>)  => {
+        (data:Array<SurveyProgram>)  =>  {
           data.forEach(s => {
             this.surveyPrograms.push(s);
           });

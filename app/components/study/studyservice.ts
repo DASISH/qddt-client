@@ -52,7 +52,7 @@ export class StudyService {
   }
 
   getAll(surveyProgramId: String) : any {
-    return this.http.get('http://nsd349.nsd.lan:8080/surveyprogram/list/user',
+    return this.http.get('http://nsd349.nsd.lan:8080/surveyprogram/'+surveyProgramId,
       {
         headers: this.headers
       })
@@ -60,5 +60,12 @@ export class StudyService {
         return res.json();
       });
   }
+
+
+  getModel(): Array<Study> {
+    return this.getAll(surveyProgramId);
+  }
+
+
 
 }
