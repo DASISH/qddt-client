@@ -2,7 +2,10 @@
   <ul id="nav-mobile" class="side-nav fixed" style="width:240px;">
     <user-login (logoutEvent)="logoutEvent()"></user-login>
     <div *ngIf="user">
-      <li><a [routerLink]="['/Home']"><i class="material-icons left medium">store</i>Home</a></li>
+        <li><a [routerLink]="['/Home']"><i class="material-icons left medium">store</i>Home</a></li>
+        <li><a [routerLink]="['/Questions']"><i class="material-icons left medium">help</i>Questions</a></li>
+        <!--<li><a [routerLink]="['/Responsedomain']"><i class="material-icons left medium">settings</i>Responses</a></li>-->
+        <!--<li><a [routerLink]="['/Search']"><i class="material-icons left medium">search</i>Search</a></li>-->
     </div>
   </ul>
 </header>

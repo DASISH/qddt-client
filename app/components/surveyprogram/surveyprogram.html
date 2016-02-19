@@ -55,7 +55,8 @@
           <div class="row">
           <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="edit.isVisible = !edit.isVisible"><i class="material-icons">mode_edit</i></a>
           <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium">history</i></a>
-          <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="create(surveyProgram)"><i class="material-icons left medium">add</i></a>
+            <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="delete(surveyProgram)"><i class="material-icons left medium">remove</i></a>
+            <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="create(surveyProgram)"><i class="material-icons left medium">add</i></a>
           </div>
         </div>
 
@@ -72,9 +73,9 @@
             </p>
           </div>
 
-          <surveyprogram-edit [isVisible]="edit.isVisible" [surveyProgram]="surveyProgram" #edit></surveyprogram-edit>
+          <surveyprogram-edit  [surveyProgram]="surveyProgram" #edit></surveyprogram-edit>
 
-          <surveyprogram-revision  [isVisible]="revision.isVisible" [surveyProgramId]="surveyProgram.id" #revision></surveyprogram-revision>
+          <surveyprogram-revision  [surveyProgramId]="surveyProgram.id" #revision></surveyprogram-revision>
 
           <div class="row">
             <comment-list [ownerId]="surveyProgram.id"></comment-list>

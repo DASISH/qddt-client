@@ -23,7 +23,7 @@ export class StudyComponent {
   private activeStudy: any;
   @Output() studyCreateEvent: EventEmitter<any> = new EventEmitter();
 
-  constructor(private studyService: StudyService) {
+  constructor(private studyService: StudyService, private elementRef: ElementRef) {
 
   }
 
@@ -38,13 +38,13 @@ export class StudyComponent {
 
   save() {
     this.showStudyForm = false;
-    this.studyService.save(this.activeStudy);
+    this.studyService.save(this.activeStudy,this.surveyProgram.id);
     this.activeStudy  = new Study();
   }
 
   toggleStudyForm() {
-    jQuery(this.elementRef.nativeElement).find('select').material_select();
-    this.showSurveyForm = !this.showSurveyForm;
+    //jQuery(this.elementRef.nativeElement).find('select').material_select();
+    this.showStudyForm = !this.showStudyForm;
   }
 
   create(study: any) {

@@ -23,6 +23,8 @@ export class SurveyProgramComponent {
   selectedSurvey: SurveyProgram;
   surveyPrograms: Array<SurveyProgram> = [];
   @Output() surveyCreateEvent: EventEmitter<String> = new EventEmitter();
+  @Output() surveyDeleteEvent: EventEmitter<String> = new EventEmitter();
+
 
   constructor(private surveyService: SurveyService, private elementRef: ElementRef) {
     this.selectedSurvey = new SurveyProgram();
@@ -49,5 +51,11 @@ export class SurveyProgramComponent {
   create(surveyProgram: any) {
     this.surveyCreateEvent.emit(surveyProgram);
   }
+
+  delete(surveyProgram: any) {
+    //this.surveyService.delete(surveyProgram);
+    //this.surveyDeleteEvent.emit(surveyProgram);
+  }
+
 
 }

@@ -48,7 +48,24 @@ export class SurveyService {
     return this.surveyProgram;
   }
 
-  getAll() {
+  //delete(surveyProgram: SurveyProgram){
+  //  var headers = new Headers();
+  //  headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
+  //  headers.append('Content-Type', 'application/json');
+  //
+  //
+  //  this.http.post('http://nsd349.nsd.lan:8080/surveyprogram/delete/'+ surveyProgram.id,
+  //    null,{
+  //      headers: headers
+  //    }),
+  //    err =>  SurveyService.logError('Unable to delete SurveyProgram.')
+  //    );
+  //
+  //}
+
+
+
+  getAll(){
     var headers = new Headers();
     headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
 

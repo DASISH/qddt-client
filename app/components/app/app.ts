@@ -4,6 +4,9 @@ import {Router, RouteConfig, ROUTER_DIRECTIVES} from 'angular2/router';
 import {HomeCmp} from '../home/home';
 import {UserLogin} from '../../common/user';
 import {UserService} from '../../common/userservice';
+import {QuestionComp} from "../question/question";
+import {SearchComp} from "../search/search";
+import {ResponsedomainComp} from "../responsedomain/responsdomain";
 
 @Component({
   selector: 'app',
@@ -14,6 +17,9 @@ import {UserService} from '../../common/userservice';
 })
 @RouteConfig([
   { path: '/', component: HomeCmp, as: 'Home' },
+  { path: '/question', component: QuestionComp, as: 'Questions' },
+  //{ path: '/responsedomain', component: ResponsedomainComp, as: 'Responsedomain' },
+  //{ path: '/search', component: SearchComp, as: 'Search' },
 ])
 export class AppCmp {
 
