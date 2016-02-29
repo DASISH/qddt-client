@@ -63,8 +63,6 @@ export class SurveyService {
   //
   //}
 
-
-
   getAll(){
     var headers = new Headers();
     headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);

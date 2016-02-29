@@ -7,6 +7,7 @@ import {Pipe} from 'angular2/core';
 export class LocalDatePipe {
 
   transform(input: Array<number>): string {
+    if (input === null) return "";
     var date: Date = new Date();
     date.setUTCFullYear(input[0], input[1]-1, input[2]);
     return date.toDateString();
