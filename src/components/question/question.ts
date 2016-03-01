@@ -3,6 +3,7 @@ import {ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {Question,QuestionService} from './questionservice';
 import {QuestionList} from './question_list';
+import {QuestionDetail} from './question_detail';
 import {UserService} from '../../common/userservice';
 import {LoginComponent} from '../login/login';
 
@@ -20,10 +21,10 @@ import {LoginComponent} from '../login/login';
 export class QuestionComp {
 
   @Output() questionCreateEvent: EventEmitter<String> = new EventEmitter();
-  private showQuestionDetail;
+  //private showQuestionDetail;
   private questions;
-  private selectedQuestion;
   private user:any;
+  public selectedQuestion:any;
 
   constructor(private questionService: QuestionService,private userService: UserService) {
 
@@ -42,17 +43,15 @@ export class QuestionComp {
     //jQuery(this.elementRef.nativeElement).find('select').material_select();
   }
 
-  save() {
-    this.showQuestionDetail = false;
-    this.questionService.save(this.selectedQuestion);
-    this.questions = this.questionService.getModel();
-    this.selectedQuestion = new Question();
+  questionSelectEvent(question:any) {
+    this.selectedQuestion = question;
+    console.log("selectedEvent -> " + question.name);
   }
 
-  toggleSurveyForm() {
-    //jQuery(this.elementRef.nativeElement).find('select').material_select();
-    this.showQuestionDetail = !this.showQuestionDetail;
-  }
+  //toggleSurveyForm() {
+  //  //jQuery(this.elementRef.nativeElement).find('select').material_select();
+  //  this.showQuestionDetail = !this.showQuestionDetail;
+  //}
 
   create(question: any) {
     this.questionCreateEvent.emit(question);

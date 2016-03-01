@@ -1,0 +1,42 @@
+
+<div *ngIf="isVisible">
+  <div *ngIf="study" class="card" id="{{study.id}}"  >
+    <form (ngSubmit)="save()" #hf="ngForm">
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="name" type="text" [(ngModel)]="study.name" required>
+          <label for="name" class="active teal-text">Name</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <textarea id="description" class="materialize-textarea"  [(ngModel)]="study.description" required></textarea>
+          <label for="description" class="active teal-text">Description</label>
+        </div>
+      </div>
+      <div class="row">
+   <div class="input-field col s4">
+            <label class="active teal-text">Version Reason</label>
+            <select  class="browser-default input-sm"  [(ngModel)]="study.changeKind">
+              <option *ngFor="#changereason of changes" [value]="changereason">{{changereason}}</option>
+            </select>
+        </div>
+        <div class="input-field col s8">
+          <input id="changeComment" type="text" [(ngModel)]="study.changeComment" required>
+          <label for="changeComment" class="active teal-text">Save Comment</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s8">
+          <p><label class="active teal-text">Authors</label></p>
+          <div class="chip" *ngFor="#author of study.authors" ><img src="{{author.picture}}">{{author.name}} <i class="material-icons">close</i></div>
+        </div>
+        <div class="input-field col s4">
+          <p><label class="active teal-text">Agency</label></p>
+          <div class="chip" >{{activeStudy.createdBy.agency.name}}</div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+  </div>
+</div>

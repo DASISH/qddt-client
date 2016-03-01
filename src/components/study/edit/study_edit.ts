@@ -1,6 +1,3 @@
-/**
- * Created by SNO on 13.01.2016.
- */
  import {Component, Input} from 'angular2/core';
 
  import {StudyService, Study} from '../studyservice';
@@ -8,7 +5,7 @@
  @Component({
     selector: 'study-edit',
     providers: [StudyService],
-    templateUrl: './components/study/edit/study_edit.html'
+    templateUrl: './study_edit.html'
 
  })
  export class StudyEditComponent {
