@@ -1,10 +1,9 @@
   <div class="row" *ngIf="user">
     <div class="col s12 m10 L6  white grey-text text-darken-1">
 
-      <question-list></question-list>
+      <question-list (questionSelectEvent)="questionSelectEvent($event)"></question-list>
 
-      <question-detail [Question]="question" #edit></question-detail>
-
+      <question-detail [question]="selectedQuestion" #show ></question-detail>
 
     </div>
   </div>

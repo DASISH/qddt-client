@@ -12,17 +12,17 @@
 
     @Input() study: Study;
     private service: StudyService;
-    private parentid:String;
+    private parentId:String;
     private changes:any;
 
-    constructor(studyService: StudyService,parentid:String) {
+    constructor(studyService: StudyService,parentId:String) {
        this.service = studyService;
-       this.parentid = parentid;
+       this.parentId = parentId;
        this.changes = ['IN_DEVELOPMENT','TYPO','NEW_MAJOR'];
     }
 
     save() {
-         this.service.save(this.study,this.parentid);
+         this.service.save(this.study,this.parentId);
     }
 
  }

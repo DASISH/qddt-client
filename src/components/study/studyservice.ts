@@ -11,6 +11,7 @@ export class Study {
 export class StudyService {
 
   private headers: Headers;
+  private surveyProgramId:string;
 
   constructor(private http: Http) {
     this.headers = new Headers();
@@ -60,7 +61,7 @@ export class StudyService {
 
 
   getModel(): Array<Study> {
-    return this.getAll(surveyProgramId);
+    return this.getAll(this.surveyProgramId);
   }
 
 
