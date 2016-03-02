@@ -1,4 +1,4 @@
-import {Component, Input, EventEmitter, Output, ElementRef} from '../../../node_modules/angular2/core.d';
+import {Component,  EventEmitter, Output, ElementRef} from '../../../node_modules/angular2/core.d';
 
 import {LocalDatePipe} from '../../common/date_pipe';
 
@@ -19,10 +19,10 @@ declare var jQuery:any;
 export class TopicComponent {
 
   showTopicForm: boolean = false;
-  @Input() showTopic: boolean;
+  //@Input() showTopic: boolean;
   model: Topic;
   topics: Array<Topic> = [];
-  @Output() surveyCreateEvent: EventEmitter<String> = new EventEmitter();
+  @Output() topicCreateEvent: EventEmitter<String> = new EventEmitter();
 
   constructor(private topicService: TopicService, private elementRef: ElementRef) {
     this.model = new Topic();
@@ -30,7 +30,7 @@ export class TopicComponent {
   }
 
   ngOnInit() {
-    console.log("init");
+    console.log('init');
     jQuery(this.elementRef.nativeElement).find('select').material_select();
   }
 

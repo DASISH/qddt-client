@@ -36,7 +36,9 @@ import {TopicService, Topic} from '../topicservice';
         <div class="row">
           <div class="input-field col s8">
             <p><label class="active teal-text">Authors</label></p>
-            <div class="chip" *ngFor="#author of topic.authors" ><img src="{{author.picture}}">{{author.name}} <i class="material-icons">close</i></div>
+            <div class="chip" *ngFor="#author of topic.authors" >
+              <img src="{{author.picture}}">{{author.name}} <i class="material-icons">close</i>
+            </div>
           </div>
           <div class="input-field col s4">
             <p><label class="active teal-text">Agency</label></p>

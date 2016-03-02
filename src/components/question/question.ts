@@ -3,7 +3,7 @@ import {ROUTER_DIRECTIVES} from 'angular2/router';
 
 import {Question,QuestionService} from './questionservice';
 import {QuestionList} from './question_list';
-import {QuestionDetail} from './question_detail';
+//import {QuestionDetail} from './question_detail';
 import {UserService} from '../../common/userservice';
 import {LoginComponent} from '../login/login';
 
@@ -20,11 +20,11 @@ import {LoginComponent} from '../login/login';
 
 export class QuestionComp {
 
+  public selectedQuestion:Question;
   @Output() questionCreateEvent: EventEmitter<String> = new EventEmitter();
-  //private showQuestionDetail;
+
   private questions;
   private user:any;
-  public selectedQuestion:any;
 
   constructor(private questionService: QuestionService,private userService: UserService) {
 
@@ -45,7 +45,7 @@ export class QuestionComp {
 
   questionSelectEvent(question:any) {
     this.selectedQuestion = question;
-    console.log("selectedEvent -> " + question.name);
+    console.log('selectedEvent -> ' + question.name);
   }
 
   //toggleSurveyForm() {
