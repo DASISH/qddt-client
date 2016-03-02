@@ -11,7 +11,6 @@ export class LoginForm {
 
 @Component({
   selector: 'login',
-  events: ['loginEvent'],
   templateUrl: './components/login/login.html'
 })
 export class LoginComponent {

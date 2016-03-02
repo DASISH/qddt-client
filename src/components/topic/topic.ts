@@ -1,4 +1,4 @@
-import {Component,  EventEmitter, Output, ElementRef} from '../../../node_modules/angular2/core.d';
+import {Component,  EventEmitter, Output, ElementRef} from 'angular2/core';
 
 import {LocalDatePipe} from '../../common/date_pipe';
 

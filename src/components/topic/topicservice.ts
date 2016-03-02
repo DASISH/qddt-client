@@ -1,5 +1,5 @@
-import {Injectable} from '../../../node_modules/angular2/core.d';
-import {Http, Headers, Response} from '../../../node_modules/angular2/http.d';
+import {Injectable} from 'angular2/core';
+import {Http, Headers, Response} from 'angular2/http';
 
 export class Topic {
   id: string;
