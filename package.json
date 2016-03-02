@@ -28,7 +28,7 @@
     "webdriver-start": "webdriver-manager start",
     "webdriver-update": "webdriver-manager update"
   },
-  "author": "Minko Gechev <mgechev>",
+  "author": "NSD",
   "license": "MIT",
   "devDependencies": {
     "async": "^1.4.2",
