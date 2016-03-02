@@ -30,7 +30,7 @@ export class ConceptComponent {
   }
 
   ngOnInit() {
-    console.log("init");
+    console.log('init');
     jQuery(this.elementRef.nativeElement).find('select').material_select();
   }
 
