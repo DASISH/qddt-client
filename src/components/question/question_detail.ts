@@ -17,14 +17,15 @@ export class QuestionDetail {
   constructor(private service: QuestionService) {
     this.service = service;
     this.changeReasons = ['IN_DEVELOPMENT','TYPO','NEW_MAJOR'];
-    console.log('question detail');
+
   }
 
   ngAfterViewInit() {
     QuestionService.logError('Detail init');
   }
 
-  save() {
-    this.service.save(this.question);
+  saveQuestion() {
+    console.log('question save');
+    this.question = this.service.save(this.question);
   }
 }
