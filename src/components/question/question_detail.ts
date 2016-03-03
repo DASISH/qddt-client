@@ -1,20 +1,20 @@
 import {Component, Input} from 'angular2/core';
 import {Question,QuestionService} from './questionservice';
 import {LocalDatePipe} from '../../common/date_pipe';
-import {ResponseDomain} from '../responsedomain/responsdomainservice';
+//import {ResponseDomain} from '../responsedomain/responsdomainservice';
 
 @Component({
   selector: 'question-detail',
   providers: [QuestionService],
   pipes: [LocalDatePipe],
-  directives: [ResponseDomain],
+  //directives: [ResponseDomain],
   templateUrl: './components/question/question_detail.html'
 })
 
 export class QuestionDetail {
 
   @Input() question: Question;
-  public selectedResponsedomain:any;
+  //public selectedResponsedomain:any;
 
   private changeReasons: any;
 
