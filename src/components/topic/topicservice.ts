@@ -1,5 +1,7 @@
-import {Injectable} from 'angular2/core';
+import {Injectable, Inject} from 'angular2/core';
 import {Http, Headers, Response} from 'angular2/http';
+
+import {API_BASE_HREF} from '../../api';
 
 export class Topic {
   id: string;
@@ -12,7 +14,7 @@ export class TopicService {
   topic: Topic = new Topic();
   topics: Array<Topic> = [];
 
-  constructor(private http: Http) {
+  constructor(private http: Http, @Inject(API_BASE_HREF) private api: string) {
     this.getAll();
   }
 
@@ -29,7 +31,7 @@ export class TopicService {
     headers.append('Content-Type', 'application/json');
 
 
-    this.http.post('http://nsd349.nsd.lan:8080/topic/create',
+    this.http.post(this.api+'topic/create',
       JSON.stringify(this.topic),
       {
         headers: headers
@@ -50,7 +52,7 @@ export class TopicService {
     var headers = new Headers();
     headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
 
-    return this.http.get('http://nsd349.nsd.lan:8080/topic/list/user',
+    return this.http.get(this.api+'topic/list/user',
       {
         headers: headers
       })

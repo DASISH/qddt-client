@@ -1,7 +1,7 @@
 import {Component, Output, EventEmitter, Inject} from 'angular2/core';
 import {Http, Headers, Response} from 'angular2/http';
 import 'rxjs/add/operator/map';
-
+import {API_BASE_HREF} from '../../api';
 import {UserService} from '../../common/userservice';
 
 export class LoginForm {
@@ -20,7 +20,7 @@ export class LoginComponent {
   loginForm: LoginForm;
 
   constructor(@Inject(UserService) private userService: UserService,
-              @Inject(Http)private http:Http) {
+              @Inject(Http)private http:Http, @Inject(API_BASE_HREF) private api: string) {
     this.userService = userService;
     this.http = http;
     this.loginForm = new LoginForm();
@@ -40,7 +40,7 @@ export class LoginComponent {
     var headers = new Headers();
     headers.append('Authorization', 'Basic ' + btoa('client:password'));
 
-    this.http.post('http://nsd349.nsd.lan:8080/oauth/token' +
+    this.http.post(this.api+'oauth/token' +
         '?username='+ this.loginForm.username +
         '&password='+ this.loginForm.password +
         '&scope=write' +
@@ -63,7 +63,7 @@ export class LoginComponent {
   createUser() {
     var headers = new Headers();
     headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
-    this.http.get('http://nsd349.nsd.lan:8080/user',
+    this.http.get(this.api+'user',
       {
         headers: headers
       })

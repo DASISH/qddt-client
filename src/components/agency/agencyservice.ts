@@ -2,6 +2,7 @@ import {Injectable, Inject} from 'angular2/core';
 
 import {UserService} from '../../common/userservice';
 
+
 export class Agency {
   id: any;
   name: string;

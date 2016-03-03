@@ -1,5 +1,7 @@
-import {Injectable} from 'angular2/core';
+import {Injectable, Inject} from 'angular2/core';
 import {Http, Headers, Response} from 'angular2/http';
+
+import {API_BASE_HREF} from '../../api';
 
 export class Comment {
   id: string;
@@ -11,7 +13,7 @@ export class Comment {
 @Injectable()
 export class CommentService {
 
-  constructor(private http: Http) {
+  constructor(private http: Http, @Inject(API_BASE_HREF) private api: String) {
     this.http = http;
   }
 
@@ -21,7 +23,7 @@ export class CommentService {
     headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json');
 
-    return this.http.post('http://nsd349.nsd.lan:8080/comment/create/' + comment.ownerId,
+    return this.http.post(this.api+'comment/create/' + comment.ownerId,
       JSON.stringify(comment),
       {
         headers: headers
@@ -37,7 +39,7 @@ export class CommentService {
     headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json');
 
-    return this.http.get('http://nsd349.nsd.lan:8080/comment/by-owner/' + ownerId + '?page=0&size=20&sort=asc',
+    return this.http.get(this.api+'comment/by-owner/' + ownerId + '?page=0&size=20&sort=asc',
       {
         headers: headers
       })
