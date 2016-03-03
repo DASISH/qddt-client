@@ -7,7 +7,11 @@
   <surveyprogram [showSurveyProgram]="showSurveyProgram" (surveyCreateEvent)="surveyCreateEvent($event)"></surveyprogram>
 
   <div class="col s12 m6" *ngIf="surveyProgram">
-    <study [surveyProgram]="surveyProgram" (selectedStudy)="selectedStudy()"></study>
+    <study [surveyProgram]="surveyProgram" (selectedStudy)="selectedStudy($event)"></study>
+  </div>
+
+  <div class="col s12 m6" *ngIf="study">
+    <topic [study]="study"></topic>
   </div>
 
   <!--<div class="col s12 m6" *ngIf="study">-->

@@ -1,4 +1,4 @@
-import {Component,  EventEmitter, Output, ElementRef} from 'angular2/core';
+import {Component,  EventEmitter, Output, Input, ElementRef} from 'angular2/core';
 
 import {LocalDatePipe} from '../../common/date_pipe';
 
@@ -19,7 +19,7 @@ declare var jQuery:any;
 export class TopicComponent {
 
   showTopicForm: boolean = false;
-  //@Input() showTopic: boolean;
+  @Input() study: any;
   model: Topic;
   topics: Array<Topic> = [];
   @Output() topicCreateEvent: EventEmitter<String> = new EventEmitter();

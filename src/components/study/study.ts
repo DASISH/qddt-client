@@ -14,7 +14,7 @@ import {CommentListComponent} from '../comment/comment_list';
 export class StudyComponent {
 
   showStudyForm: boolean = false;
-  @Output() studyCreateEvent: EventEmitter<any> = new EventEmitter();
+  @Output() selectedStudy: EventEmitter<any> = new EventEmitter();
   @Input() surveyProgram: any;
   private studies: any;
   private activeStudy: any;
@@ -28,7 +28,7 @@ export class StudyComponent {
   }
 
   selectStudy(study: any) {
-    this.studyCreateEvent.emit(null);
+    this.selectedStudy.emit(study);
     this.activeStudy = study;
   }
 
@@ -44,7 +44,7 @@ export class StudyComponent {
   }
 
   create(study: any) {
-    this.studyCreateEvent.emit(study);
+    //this.studyCreateEvent.emit(study);
   }
 
 }

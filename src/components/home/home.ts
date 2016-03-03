@@ -41,10 +41,13 @@ export class HomeCmp {
   }
 
   surveyCreateEvent(surveyProgram: any) {
+    console.log('surveyCreateEvent()');
     this.surveyProgram = surveyProgram;
   }
 
-  selectedStudy() {
+  selectedStudy(study: any) {
+    console.log('selectedStudy()');
+    this.study = study;
     this.showSurveyProgram = !this.showSurveyProgram;
   }
 }
