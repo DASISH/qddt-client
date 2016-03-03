@@ -1,10 +1,12 @@
-import {Injectable} from '../../../node_modules/angular2/core.d';
-import {Http, Headers, Response} from '../../../node_modules/angular2/http.d';
+import {Injectable, Inject} from 'angular2/core';
+import {Http, Headers, Response} from 'angular2/http';
+
+import {API_BASE_HREF} from '../../api';
 
 @Injectable()
 export class ConceptRevisionService {
 
-  constructor(private http: Http) {
+  constructor(private http: Http, @Inject(API_BASE_HREF) private api: string) {
 
   }
 
@@ -16,7 +18,7 @@ export class ConceptRevisionService {
     var headers = new Headers();
     headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
 
-    return this.http.get('http://nsd349.nsd.lan:8080/audit/concept/'+id+'/list',
+    return this.http.get(this.api+'audit/concept/'+id+'/list',
       {
         headers: headers
       })

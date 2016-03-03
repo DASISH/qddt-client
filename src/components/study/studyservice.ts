@@ -1,5 +1,7 @@
-import {Injectable} from 'angular2/core';
+import {Injectable, Inject} from 'angular2/core';
 import {Http, Headers, Response} from 'angular2/http';
+
+import {API_BASE_HREF} from '../../api';
 
 export class Study {
   id: string;
@@ -13,7 +15,7 @@ export class StudyService {
   private headers: Headers;
   private surveyProgramId:string;
 
-  constructor(private http: Http) {
+  constructor(private http: Http, @Inject(API_BASE_HREF) private api: string) {
     this.headers = new Headers();
     this.headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
     this.headers.append('Content-Type', 'application/json');
@@ -24,7 +26,7 @@ export class StudyService {
   }
 
   save(study: Study, surveyProgramId: String): Study {
-    this.http.post('http://nsd349.nsd.lan:8080/study/'+surveyProgramId+'/create',
+    this.http.post(this.api+'study/'+surveyProgramId+'/create',
       JSON.stringify(study),
       {
         headers: this.headers
@@ -39,7 +41,7 @@ export class StudyService {
   }
 
   update(study: Study): any {
-    return this.http.post('http://nsd349.nsd.lan:8080/study/',
+    return this.http.post(this.api+'study/',
       JSON.stringify(study),
       {
         headers: this.headers
@@ -50,7 +52,7 @@ export class StudyService {
   }
 
   getAll(surveyProgramId: String) : any {
-    return this.http.get('http://nsd349.nsd.lan:8080/surveyprogram/'+surveyProgramId,
+    return this.http.get(this.api+'surveyprogram/'+surveyProgramId,
       {
         headers: this.headers
       })

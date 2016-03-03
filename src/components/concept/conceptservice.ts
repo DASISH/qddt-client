@@ -1,5 +1,7 @@
-import {Injectable} from '../../../node_modules/angular2/core.d';
-import {Http, Headers, Response} from '../../../node_modules/angular2/http.d';
+import {Injectable, Inject} from 'angular2/core';
+import {Http, Headers, Response} from 'angular2/http';
+
+import {API_BASE_HREF} from '../../api';
 
 export class Concept {
   id: string;
@@ -12,7 +14,7 @@ export class ConceptService {
   concept: Concept = new Concept();
   concepts: Array<Concept> = [];
 
-  constructor(private http: Http) {
+  constructor(private http: Http, @Inject(API_BASE_HREF) private api: string) {
     this.getAll();
   }
 
@@ -29,7 +31,7 @@ export class ConceptService {
     headers.append('Content-Type', 'application/json');
 
 
-    this.http.post('http://nsd349.nsd.lan:8080/concept/create',
+    this.http.post(this.api+'concept/create',
       JSON.stringify(this.concept),
       {
         headers: headers
@@ -50,7 +52,7 @@ export class ConceptService {
     var headers = new Headers();
     headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
 
-    return this.http.get('http://nsd349.nsd.lan:8080/concept/list/user',
+    return this.http.get(this.api+'concept/list/user',
       {
         headers: headers
       })

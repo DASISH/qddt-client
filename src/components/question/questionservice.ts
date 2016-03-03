@@ -1,7 +1,8 @@
-import {Injectable} from 'angular2/core';
+import {Injectable, Inject} from 'angular2/core';
 import {Http, Headers, Response} from 'angular2/http';
 import DateTimeFormat = Intl.DateTimeFormat;
 
+import {API_BASE_HREF} from '../../api';
 
 export class Question {
   id: string;
@@ -19,7 +20,7 @@ export class QuestionService {
   private totalPages: number;
   private question;
 
-  constructor(private http: Http) {
+  constructor(private http: Http, @Inject(API_BASE_HREF) private api: string) {
     this.page = 0;
     this.totalPages = 0;
   }
@@ -49,7 +50,7 @@ export class QuestionService {
     headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
 
 
-    return this.http.get('http://nsd349.nsd.lan:8080/question/page', //?page=' +this.page,
+    return this.http.get(this.api+'question/page', //?page=' +this.page,
       {
         headers: headers
       })
@@ -81,7 +82,7 @@ export class QuestionService {
     headers.append('Content-Type', 'application/json');
 
 
-    this.http.post('http://nsd349.nsd.lan:8080/question/save',
+    this.http.post(this.api+'question/create',
       JSON.stringify(this.question),
       {
         headers: headers
@@ -90,7 +91,7 @@ export class QuestionService {
       .subscribe(
         (data:Question)  => {
           this.question = data;
-          //this.question.push(this.question);
+          this.question.push(this.question);
         },
         err   =>  QuestionService.logError('Unable to save Question.')
       );

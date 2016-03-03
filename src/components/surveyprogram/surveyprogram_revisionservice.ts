@@ -1,10 +1,12 @@
-import {Injectable} from 'angular2/core';
+import {Injectable, Inject} from 'angular2/core';
 import {Http, Headers, Response} from 'angular2/http';
+
+import {API_BASE_HREF} from '../../api';
 
 @Injectable()
 export class SurveyProgramRevisionService {
 
-  constructor(private http: Http) {
+  constructor(private http: Http, @Inject(API_BASE_HREF) private api: string) {
 
   }
 
@@ -16,7 +18,7 @@ export class SurveyProgramRevisionService {
     var headers = new Headers();
     headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
 
-    return this.http.get('http://nsd349.nsd.lan:8080/audit/surveyprogram/'+id+'/list',
+    return this.http.get(this.api+'audit/surveyprogram/'+id+'/list',
       {
         headers: headers
       })
