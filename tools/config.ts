@@ -11,13 +11,14 @@ const ENVIRONMENTS = {
   PRODUCTION: 'prod'
 };
 
-export const PORT                 = argv['port']        || 5555;
 export const PROJECT_ROOT         = normalize(join(__dirname, '..'));
 export const ENV                  = getEnvironment();
-export const DEBUG                = argv['debug']       || false;
-export const DOCS_PORT            = argv['docs-port'] || 4003;
+export const DEBUG                = argv['debug']         || false;
+export const PORT                 = argv['port']          || 5555;
+export const DOCS_PORT            = argv['docs-port']     || 4003;
 export const COVERAGE_PORT        = argv['coverage-port'] || 4004;
-export const APP_BASE             = argv['base']        || '/';
+export const APP_BASE             = argv['base']          || '/';
+export const API_BASE             = argv['api']           || 'http://localhost:8080/';
 
 export const ENABLE_HOT_LOADING   = !!argv['hot-loader'];
 export const HOT_LOADER_PORT      = 5578;
