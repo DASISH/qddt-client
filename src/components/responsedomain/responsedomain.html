@@ -1,5 +1,10 @@
-<div class="row" *ngIf="user">
-
-<responsedomain></responsedomain>
-
+<div *ngIf="responsedomain.name" class="card" id="{{responsedomain.id}}"  >
+  <form (ngSubmit)="save()" #hf="ngForm">
+    <div class="row">
+      <div class="input-field col s12">
+        <input id=name type="text" [(ngModel)]="responsedomain.name" required>
+        <label for="name" class="active teal-text">Label</label>
+      </div>
+    </div>
+  </form>
 </div>

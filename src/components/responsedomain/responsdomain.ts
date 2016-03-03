@@ -1,24 +1,24 @@
-import {Component} from 'angular2/core';
-import {ROUTER_DIRECTIVES} from 'angular2/router';
-import {LoginComponent} from '../login/login';
-import {SurveyProgramComponent} from '../surveyprogram/surveyprogram';
-import {CommitListComponent} from '../github/commit_list';
-import {StudyComponent} from '../study/study';
+import {Component,Input} from 'angular2/core';
+import {ResponseDomain,ResponseDomainService} from './responsdomainservice';
+import {QuestionDetail} from '../question/question_detail';
 
 
 @Component({
   selector: 'responsedomain',
   templateUrl: './components/responsedomain/responsedomain.html',
   styleUrls: ['./components/responsedomain/responsedomain.css'],
-  directives: [
-    ROUTER_DIRECTIVES,
-    LoginComponent,
-    SurveyProgramComponent,
-    CommitListComponent,
-    StudyComponent
-  ]
+  directives: [QuestionDetail]
 })
 
 export class ResponsedomainComp {
+  @Input() selectedentity: ResponseDomain;
 
+  constructor(private service: ResponseDomainService) {
+    this.service = service;
+  }
+
+  save() {
+    console.log('ResponseDomain save');
+    this.selectedentity = this.service.save(this.selectedentity);
+  }
 }

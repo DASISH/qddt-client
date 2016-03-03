@@ -81,7 +81,7 @@ export class QuestionService {
     headers.append('Content-Type', 'application/json');
 
 
-    this.http.post('http://nsd349.nsd.lan:8080/question/create',
+    this.http.post('http://nsd349.nsd.lan:8080/question/save',
       JSON.stringify(this.question),
       {
         headers: headers
@@ -90,7 +90,7 @@ export class QuestionService {
       .subscribe(
         (data:Question)  => {
           this.question = data;
-          this.question.push(this.question);
+          //this.question.push(this.question);
         },
         err   =>  QuestionService.logError('Unable to save Question.')
       );
