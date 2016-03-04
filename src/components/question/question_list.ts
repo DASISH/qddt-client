@@ -12,7 +12,7 @@ import {LocalDatePipe} from '../../common/date_pipe';
     <table class="highlight hoverable">
       <thead>
         <tr>
-          <th data-field="id">Name</th>
+          <th data-field="id">Label</th>
           <th data-field="id">Question</th>
           <th data-field="id">Version</th>
           <th data-field="id">Modified</th>
@@ -23,7 +23,7 @@ import {LocalDatePipe} from '../../common/date_pipe';
         <tr *ngFor="#row of questions" (click)="onSelect(row)">
           <td>{{row.name}}</td>
           <td>{{row.question}}</td>
-          <td>{{row.version.major}}.{{row.version.minor}}.{{row.version.versionlabel}}</td>
+          <td>{{row.version.major}}.{{row.version.minor}} {{row.version.versionlabel}}</td>
           <td>{{row.updated | localDate}}</td>
           <td>{{row.createdBy.username}}</td>
         </tr>

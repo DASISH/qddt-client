@@ -21,33 +21,23 @@
       </div>
     </div>
     <div class="row">
-      <div class="input-field col s6">
+      <div class="input-field col s4">
         <input id=basedOnObject type="text" [(ngModel)]="question.basedOnObject" >
         <label for="basedOnObject" class="active teal-text">Based On Object</label>
       </div>
-      <div class="input-field col s6">
+      <div class="input-field col s4">
         <input id =conceptReference type="text" [(ngModel)]="question.conceptReference" >
         <label for="conceptReference" class="active teal-text">Concept Reference</label>
       </div>
     </div>
     <div class="row">
-      <div class="input-field col s1">
-        <input id=gridIdx type="text" [(ngModel)]="question.gridIdx">
-        <label for="gridIdx" class="active teal-text">Idx</label>
-      </div>
-      <div class="input-field col s6">
-        <input id=gridIdxRationale type="text" [(ngModel)]="question.gridIdxRationale">
-        <label for="gridIdxRationale" class="active teal-text">Index Rationale</label>
-      </div>
-    </div>
-    <div class="row">
-      <div class="input-field col s3">
+      <div class="input-field col s2">
         <p><label class="active teal-text">Version</label></p>
-        {{question.version.major}}.{{question.version.minor}}.{{question.version.versionlabel}}
+        {{question.version.major}}.{{question.version.minor}} {{question.version.versionlabel}}
       </div>
-      <div class="input-field col s3">
+      <div class="input-field col s4">
         <p><label class="active teal-text">Last Saved</label></p>
-        <div>{{question.updated | localDate}}</div>
+        <div>{{question.updated | localShortDateTime}}</div>
       </div>
       <div class="input-field col s3">
         <p><label class="active teal-text">Last Saved By</label></p>
@@ -61,7 +51,7 @@
     <div class="row">
       <div class="input-field col s4">
         <label class="active teal-text">Version Reason</label>
-        <select  class="browser-default" [(ngModel)]="question.changeKind">
+        <select  class="browser-default input-sm" [(ngModel)]="question.changeKind">
           <option *ngFor="#reason of changeReasons" [value]="reason">{{reason}}</option>
         </select>
       </div>
@@ -72,4 +62,5 @@
     </div>
     <button type="submit" class="btn btn-default">Submit</button>
   </form>
+  <!--<responsedomain [responsedomain]="question.responsedomain" ></responsedomain>-->
 </div>
