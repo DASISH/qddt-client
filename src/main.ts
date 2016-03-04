@@ -1,5 +1,6 @@
 import {provide, enableProdMode} from 'angular2/core';
 import {bootstrap} from 'angular2/platform/browser';
+
 import {HTTP_PROVIDERS} from 'angular2/http';
 import {ROUTER_PROVIDERS, APP_BASE_HREF, LocationStrategy, HashLocationStrategy} from 'angular2/router';
 import {API_BASE_HREF} from './api';
