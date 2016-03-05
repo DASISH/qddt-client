@@ -1,10 +1,13 @@
 import {Component, Input} from 'angular2/core';
 
+import {MaterializeDirective} from 'angular2-materialize/dist/materialize-directive';
+
 import {SurveyService, SurveyProgram} from '../../surveyprogram/surveyservice';
 
 @Component({
     selector: 'surveyprogram-edit',
     providers: [SurveyService],
+    directives: [MaterializeDirective],
     template: `
   <div *ngIf="isVisible">
     <div *ngIf="surveyProgram" class="card" id="{{surveyProgram.id}}"  >
@@ -24,9 +27,11 @@ import {SurveyService, SurveyProgram} from '../../surveyprogram/surveyservice';
         <div class="row">
 		      <div class="input-field col s4">
             <label class="active teal-text">Version Reason</label>
-            <select  class="browser-default input-sm"  [(ngModel)]="surveyProgram.changeKind">
-              <option *ngFor="#changereason of changes" [value]="changereason">{{changereason}}</option>
+            <select [(ngModel)]="surveyProgram.changeKind" materialize="material_select">
+              <option value="" disabled selected>Select reason</option>
+              <option *ngFor="#changereason of changes" [value]="reason">{{changereason}}</option>
             </select>
+
           </div>
           <div class="input-field col s8">
             <input type="text" [(ngModel)]="surveyProgram.changeComment" required>
