@@ -7,8 +7,6 @@ import {CommentListComponent} from '../comment/comment_list';
 import {SurveyProgramEditComponent} from './edit/surveyprogram_edit';
 import {SurveyProgramRevision} from './surveyprogram_revision';
 
-declare var jQuery:any;
-
 @Component({
   selector: 'surveyprogram',
   templateUrl: './components/surveyprogram/surveyprogram.html',
@@ -31,11 +29,6 @@ export class SurveyProgramComponent {
     this.surveyPrograms = this.surveyService.getModel();
   }
 
-  ngOnInit() {
-    console.log('init');
-    jQuery(this.elementRef.nativeElement).find('select').material_select();
-  }
-
   save() {
     this.showSurveyForm = false;
     this.surveyService.save(this.selectedSurvey);
@@ -44,7 +37,6 @@ export class SurveyProgramComponent {
   }
 
   toggleSurveyForm() {
-    jQuery(this.elementRef.nativeElement).find('select').material_select();
     this.showSurveyForm = !this.showSurveyForm;
   }
 
