@@ -67,13 +67,12 @@ export class SurveyProgramEditComponent {
     @Input() surveyProgram: SurveyProgram;
     private changes:any;
 
-    private service: SurveyService;
-  constructor(surveyService: SurveyService) {
-      this.service = surveyService;
+  constructor(private surveyService: SurveyService) {
       this.changes = ['IN_DEVELOPMENT','TYPO','NEW_MAJOR'];
     }
+
     save() {
-        this.service.save(this.surveyProgram);
+        this.surveyService.save(this.surveyProgram);
     }
 
 }
