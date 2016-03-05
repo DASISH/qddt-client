@@ -1,28 +1,29 @@
  import {Component, Input} from 'angular2/core';
 
- import {StudyService, Study} from '../studyservice';
+ import {MaterializeDirective} from 'angular2-materialize/dist/materialize-directive';
+
+ import {StudyService} from '../studyservice';
 
  @Component({
-    selector: 'study-edit',
-    providers: [StudyService],
-    templateUrl: './study_edit.html'
+   selector: 'study-edit',
+   templateUrl: './components/study/edit/study_edit.html',
+   providers: [StudyService],
+   directives: [MaterializeDirective]
+
 
  })
  export class StudyEditComponent {
 
-    @Input() study: Study;
-    private service: StudyService;
-    private parentId:String;
-    private changes:any;
+    @Input() study: any;
+    private changes: any;
 
-    constructor(studyService: StudyService,parentId:String) {
-       this.service = studyService;
-       this.parentId = parentId;
-       this.changes = ['IN_DEVELOPMENT','TYPO','NEW_MAJOR'];
+    constructor(private studyService: StudyService) {
+      this.changes = ['IN_DEVELOPMENT','TYPO','NEW_MAJOR'];
     }
 
     save() {
-         this.service.save(this.study,this.parentId);
+      console.log(this.study);
+         //this.studyService.save(this.study, this.study.surveyProgram.id);
     }
 
  }
