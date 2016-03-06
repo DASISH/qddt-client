@@ -18,7 +18,7 @@ export class StudyRevisionService {
     var headers = new Headers();
     headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
 
-    return this.http.get(this.api+'audit/study/'+id+'/list',
+    return this.http.get(this.api+'audit/study/'+id+'/all',
       {
         headers: headers
       })

@@ -25,19 +25,15 @@ export class StudyService {
     console.log('StudyService: ', err);
   }
 
-  save(study: Study, surveyProgramId: String): Study {
-    this.http.post(this.api+'study/'+surveyProgramId+'/create',
+  save(study: Study, surveyProgramId: String): any {
+    return this.http.post(this.api+'study/'+surveyProgramId+'/create',
       JSON.stringify(study),
       {
         headers: this.headers
       })
-      .map((res:Response) => res.json())
-      .subscribe(
-        (data:Study) => study = data,
-        err          => StudyService.logError('Unable to save SurveyProgram.')
-      );
-
-    return study;
+      .map((res: Response) => {
+        return res.json();
+      });
   }
 
   update(study: Study): any {
