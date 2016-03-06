@@ -11,11 +11,13 @@ export class Topic {
 @Injectable()
 export class TopicService {
 
-  topic: Topic = new Topic();
   topics: Array<Topic> = [];
+  private headers: Headers;
 
   constructor(private http: Http, @Inject(API_BASE_HREF) private api: string) {
-    this.getAll();
+    this.headers = new Headers();
+    this.headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
+    this.headers.append('Content-Type', 'application/json');
   }
 
 
@@ -23,51 +25,25 @@ export class TopicService {
     console.log('TopicService: ', err);
   }
 
-  save(topic: Topic): Topic {
-    this.topic = topic;
-
-    var headers = new Headers();
-    headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
-    headers.append('Content-Type', 'application/json');
-
-
-    this.http.post(this.api+'topic/create',
-      JSON.stringify(this.topic),
+  save(topic: Topic): any {
+    return this.http.post(this.api+'topicgroup/create',
+      JSON.stringify(topic),
       {
-        headers: headers
+        headers: this.headers
       })
-      .map((res:Response) => res.json())
-      .subscribe(
-        (data:Topic)  => {
-          this.topic = data;
-          this.topics.push(this.topic);
-        },
-        err   =>  TopicService.logError('Unable to save Topic.')
-      );
-
-    return this.topic;
+      .map((res: Response) => {
+        return res.json();
+      });
   }
 
-  getAll() {
-    var headers = new Headers();
-    headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
-
-    return this.http.get(this.api+'topic/list/user',
+  getAll(): any {
+    return this.http.get(this.api+'topicgroup/list/user',
       {
-        headers: headers
+        headers: this.headers
       })
-      .map((res:Response) => res.json())
-      .subscribe(
-        (data:Array<Topic>)  => {
-          data.forEach(s => {
-            this.topics.push(s);
-          });
-        },
-        (err: any) => TopicService.logError('Unable to get all Topic')
-      );
+      .map((res: Response) => {
+        return res.json();
+      });
   }
 
-  getModel(): Array<Topic> {
-    return this.topics;
-  }
 }
