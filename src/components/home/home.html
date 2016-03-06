@@ -1,22 +1,15 @@
-
-
-
-
 <div class="row" *ngIf="user">
 
-  <surveyprogram [showSurveyProgram]="showSurveyProgram" (surveyCreateEvent)="surveyCreateEvent($event)"></surveyprogram>
+  <surveyprogram [showSurveyProgram]="showSurveyProgram"
+                 (surveyCreateEvent)="surveyCreateEvent($event)"></surveyprogram>
 
   <div class="col s12 m6" *ngIf="surveyProgram">
     <study [surveyProgram]="surveyProgram" (selectedStudy)="selectedStudy($event)"></study>
   </div>
 
   <div class="col s12 m6" *ngIf="study">
-    <topic [study]="study"></topic>
+    <topic [study]="study" (selectedTopic)="selectedTopic($event)"></topic>
   </div>
-
-  <!--<div class="col s12 m6" *ngIf="study">-->
-    <!--<topic [study]="study" (selectedTopic)="selectedTopic()"></topic>-->
-  <!--</div>-->
 
 </div>
 
@@ -26,13 +19,14 @@
     <div class="card blue-grey darken-1">
       <div class="card-content white-text">
         <span class="card-title"><i class="material-icons large right">new_releases</i>Welcome QDDT</span>
-        Welcome to the prototype client for QDDT. This client will change a lot, and some features are likely to be broken
+        Welcome to the prototype client for QDDT. This client will change a lot, and some features are likely to be
+        broken
         from time to time. Expect features to change, appear and disappear quickly and without notice.
         <blockquote>
           Please report any bugs, tips or ideas to us on <a href="mailto:qddt@nsd.no">qddt@nsd.no</a>
         </blockquote>
-        More info at <br />
-          <a href="https://github.com/DASISH/qddt-client/"><img src="images/GitHub_Logo.png" height="20%" width="20%"></a>
+        More info at <br/>
+        <a href="https://github.com/DASISH/qddt-client/"><img src="images/GitHub_Logo.png" height="20%" width="20%"></a>
       </div>
     </div>
   </div>

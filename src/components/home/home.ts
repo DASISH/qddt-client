@@ -1,6 +1,8 @@
 import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 
+
+
 import {LoginComponent} from '../login/login';
 import {UserService} from '../../common/userservice';
 import {SurveyProgramComponent} from '../surveyprogram/surveyprogram';
@@ -25,6 +27,7 @@ export class HomeCmp {
 
   surveyProgram: any;
   study:any;
+  topic: any;
   showSurveyProgram: boolean = true;
   user: string;
 
@@ -41,13 +44,15 @@ export class HomeCmp {
   }
 
   surveyCreateEvent(surveyProgram: any) {
-    console.log('surveyCreateEvent()');
     this.surveyProgram = surveyProgram;
   }
 
   selectedStudy(study: any) {
-    console.log('selectedStudy()');
     this.study = study;
     this.showSurveyProgram = !this.showSurveyProgram;
+  }
+
+  selectedTopic(topic: any) {
+    this.topic = topic;
   }
 }
