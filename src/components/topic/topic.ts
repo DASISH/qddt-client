@@ -1,11 +1,11 @@
 import {Component,  EventEmitter, Output, Input, ElementRef} from 'angular2/core';
 
 import {LocalDatePipe} from '../../common/date_pipe';
-
-import {TopicService, Topic} from './topicservice';
 import {CommentListComponent} from '../comment/comment_list';
+import {TopicService, Topic} from './topicservice';
 import {TopicEditComponent} from './edit/topic_edit';
 import {TopicRevision} from './topic_revision';
+
 
 declare var jQuery:any;
 
@@ -19,35 +19,43 @@ declare var jQuery:any;
 export class TopicComponent {
 
   showTopicForm: boolean = false;
+  @Output() selectedTopic: EventEmitter<any> = new EventEmitter();
   @Input() study: any;
-  model: Topic;
-  topics: Array<Topic> = [];
-  @Output() topicCreateEvent: EventEmitter<String> = new EventEmitter();
+  private topics: any;
+  private activeTopic: any;
 
   constructor(private topicService: TopicService, private elementRef: ElementRef) {
-    this.model = new Topic();
-    this.topics = this.topicService.getModel();
+    console.log('topic ' + this.study);
+    this.ngOnChanges();
   }
 
-  ngOnInit() {
-    console.log('init');
-    jQuery(this.elementRef.nativeElement).find('select').material_select();
+  ngOnChanges() {
+    if (!this.study.topics.length >0) {
+      this.study.topics = this.topicService.getAll(this.study.id);
+    }
+
+    this.topics = this.study.topics;
+
+  }
+
+  selectTopic(study: any) {
+    this.selectedTopic.emit(study);
+    this.activeTopic = study;
+    console.log('topic-select');
   }
 
   save() {
     this.showTopicForm = false;
-    this.topicService.save(this.model);
-    this.topics = this.topicService.getModel();
-    this.model = new Topic();
+    this.topicService.save(this.activeTopic,this.study.id);
+    this.activeTopic  = new Topic();
   }
 
   toggleTopicForm() {
-    jQuery(this.elementRef.nativeElement).find('select').material_select();
+    //jQuery(this.elementRef.nativeElement).find('select').material_select();
     this.showTopicForm = !this.showTopicForm;
+    console.log('topic-toggle');
+
   }
 
-  create(topic: any) {
-    this.topicCreateEvent.emit(topic);
-  }
 
 }

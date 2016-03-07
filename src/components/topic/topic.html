@@ -1,6 +1,12 @@
+<div class="card white white-text text-lighten-2">
+  <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
+    <i class="material-icons large right">comment</i><h4>Topics for {{study.name}}</h4>
+    <topic-create [study]="study"></topic-create>
+  </div>
+
 <div class="white white-text text-lighten-2" *ngIf="!showTopic">
   <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
-    <i class="material-icons large right">assignment</i><h2>Survey</h2>
+    <i class="material-icons large right">assignment</i><h2>Topic header</h2>
   </div>
 </div>
 
@@ -8,10 +14,10 @@
 
   <div class="card white white-text text-lighten-2" *ngIf="showTopic">
     <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
-      <i class="material-icons large right">assignment</i><h4>Survey</h4>
+      <i class="material-icons large right">assignment</i><h4>Topic new header</h4>
 
       <a class="btn" (click)="toggleTopicForm()">
-        <i class="material-icons right" *ngIf="!showTopicForm">keyboard_arrow_down</i>
+        <i class="material-icons right" *ngIf="!showTopicForm">keyboard_arr1ow_down</i>
         <i class="material-icons right" *ngIf="showTopicForm">keyboard_arrow_up</i>
         New</a>
 
@@ -54,7 +60,7 @@
           <br />
           <div class="row">
           <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="edit.isVisible = !edit.isVisible"><i class="material-icons">mode_edit</i></a>
-          <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium">history</i></a>
+          <!--<a class="btn-flat btn-floating btn-medium waves-effect waves-li1ght teal" (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium">history</i></a>-->
           <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="create(topic)"><i class="material-icons left medium">add</i></a>
           </div>
         </div>

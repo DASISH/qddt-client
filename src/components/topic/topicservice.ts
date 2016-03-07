@@ -6,6 +6,7 @@ import {API_BASE_HREF} from '../../api';
 export class Topic {
   id: string;
   name: string;
+  description: string;
 }
 
 @Injectable()
@@ -13,8 +14,13 @@ export class TopicService {
 
   topic: Topic = new Topic();
   topics: Array<Topic> = [];
+  private headers;
 
-  constructor(private http: Http, @Inject(API_BASE_HREF) private api: string) {
+  constructor(private http: Http,   @Inject(API_BASE_HREF) private api: string) {
+    this.headers = new Headers();
+    this.headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
+    this.headers.append('Content-Type', 'application/json');
+
     this.getAll();
   }
 
@@ -23,18 +29,13 @@ export class TopicService {
     console.log('TopicService: ', err);
   }
 
-  save(topic: Topic): Topic {
+  save(topic: Topic,studyId:String): Topic {
     this.topic = topic;
 
-    var headers = new Headers();
-    headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
-    headers.append('Content-Type', 'application/json');
-
-
-    this.http.post(this.api+'topic/create',
+    this.http.post(this.api+'topic/'+studyId+'/create',
       JSON.stringify(this.topic),
       {
-        headers: headers
+        headers: this.headers
       })
       .map((res:Response) => res.json())
       .subscribe(
@@ -48,23 +49,14 @@ export class TopicService {
     return this.topic;
   }
 
-  getAll() {
-    var headers = new Headers();
-    headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
-
-    return this.http.get(this.api+'topic/list/user',
+  getAll(studyId: String) : any {
+    return this.http.get(this.api+'topic/'+studyId,
       {
-        headers: headers
+        headers: this.headers
       })
-      .map((res:Response) => res.json())
-      .subscribe(
-        (data:Array<Topic>)  => {
-          data.forEach(s => {
-            this.topics.push(s);
-          });
-        },
-        (err: any) => TopicService.logError('Unable to get all Topic')
-      );
+      .map((res:Response) => {
+        return res.json();
+      });
   }
 
   getModel(): Array<Topic> {

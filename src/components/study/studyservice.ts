@@ -7,13 +7,14 @@ export class Study {
   id: string;
   name: string;
   description: string;
+  topics: any[];
 }
 
 @Injectable()
 export class StudyService {
 
   private headers: Headers;
-  private surveyProgramId:string;
+  //private parentId:string;
 
   constructor(private http: Http, @Inject(API_BASE_HREF) private api: string) {
     this.headers = new Headers();
@@ -25,8 +26,8 @@ export class StudyService {
     console.log('StudyService: ', err);
   }
 
-  save(study: Study, surveyProgramId: String): Study {
-    this.http.post(this.api+'study/'+surveyProgramId+'/create',
+  save(study: Study, parentId: String): Study {
+    this.http.post(this.api+'study/'+parentId+'/create',
       JSON.stringify(study),
       {
         headers: this.headers
@@ -51,8 +52,8 @@ export class StudyService {
       });
   }
 
-  getAll(surveyProgramId: String) : any {
-    return this.http.get(this.api+'surveyprogram/'+surveyProgramId,
+  getAll(parentId: String) : any {
+    return this.http.get(this.api+'study/'+parentId,
       {
         headers: this.headers
       })
@@ -62,8 +63,8 @@ export class StudyService {
   }
 
 
-  getModel(): Array<Study> {
-    return this.getAll(this.surveyProgramId);
+  getModel(parentId: String): Array<Study> {
+    return this.getAll(parentId);
   }
 
 

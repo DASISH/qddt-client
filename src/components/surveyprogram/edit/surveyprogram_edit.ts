@@ -23,10 +23,10 @@ import {SurveyService, SurveyProgram} from '../../surveyprogram/surveyservice';
         </div>
         <div class="row">
 		      <div class="input-field col s4">
-            <label class="active teal-text">Version Reason</label>
-            <select  class="browser-default input-sm"  [(ngModel)]="surveyProgram.changeKind">
-              <option *ngFor="#changereason of changes" [value]="changereason">{{changereason}}</option>
-            </select>
+              <label class="active teal-text">Version Reason</label>
+              <select  class="browser-default input-sm"  [(ngModel)]="surveyProgram.changeKind">
+                <option *ngFor="#c of changes" [value]="c">{{c}}</option>
+              </select>
           </div>
           <div class="input-field col s8">
             <input type="text" [(ngModel)]="surveyProgram.changeComment" required>

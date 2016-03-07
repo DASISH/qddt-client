@@ -36,18 +36,6 @@
       </div>
     </div>
 
-    <!--<div class="row">-->
-      <!--<div class="input-field col s12">-->
-        <!--<select>-->
-          <!--<option value="" disabled selected>Choose your option</option>-->
-          <!--<option value="1">Option 1</option>-->
-          <!--<option value="2">Option 2</option>-->
-          <!--<option value="3">Option 3</option>-->
-        <!--</select>-->
-        <!--<label>Materialize Select</label>-->
-      <!--</div>-->
-    <!--</div>-->
-
     <div *ngIf="surveyPrograms">
       <div class="row" *ngFor="#surveyProgram of surveyPrograms" style="padding-left:2%">
         <div class="col s1 m1 l1">
@@ -74,6 +62,7 @@
           </div>
 
           <surveyprogram-edit  [surveyProgram]="surveyProgram" #edit></surveyprogram-edit>
+
 
           <surveyprogram-revision  [surveyProgramId]="surveyProgram.id" #revision></surveyprogram-revision>
 

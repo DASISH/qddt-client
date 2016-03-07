@@ -28,23 +28,31 @@ export class StudyComponent {
   }
 
   selectStudy(study: any) {
+    console.log('Study.selectStudy');
     this.selectedStudy.emit(study);
     this.activeStudy = study;
   }
 
   save() {
+    console.log('Study.save');
     this.showStudyForm = false;
     this.studyService.save(this.activeStudy,this.surveyProgram.id);
     this.activeStudy  = new Study();
   }
 
   toggleStudyForm() {
+    console.log('Study.toggleStudyForm');
     //jQuery(this.elementRef.nativeElement).find('select').material_select();
     this.showStudyForm = !this.showStudyForm;
   }
 
   create(study: any) {
-    //this.studyCreateEvent.emit(study);
+    console.log('Study.create');
+    this.selectedStudy.emit(study);
+  }
+
+  close() {
+    this.showStudyForm = false;
   }
 
 }
