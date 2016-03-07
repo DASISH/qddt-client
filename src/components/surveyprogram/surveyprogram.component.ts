@@ -42,10 +42,14 @@ export class SurveyProgramComponent {
   }
 
   create(surveyProgram: any) {
+    console.log('create');
+
     this.surveyCreateEvent.emit(surveyProgram);
   }
 
   delete(surveyProgram: any) {
+    console.log('delete');
+
     //this.surveyService.delete(surveyProgram);
     //this.surveyDeleteEvent.emit(surveyProgram);
   }

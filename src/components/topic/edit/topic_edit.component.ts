@@ -53,18 +53,22 @@ import {TopicService, Topic} from '../topic.service';
 
   `
 })
+
 export class TopicEditComponent {
 
-    @Input() topic: Topic;
-    private changes:any;
+  @Input() topic: Topic;
+  private changes:any;
+  private service: TopicService;
+  private parentId:String;
 
-    private service: TopicService;
-  constructor(topicService: TopicService) {
-      this.service = topicService;
+  constructor(topicService: TopicService,parentId:String) {
+    this.service = topicService;
+    this.parentId = parentId;
       this.changes = ['IN_DEVELOPMENT','TYPO','NEW_MAJOR'];
-    }
-    save() {
-        this.service.save(this.topic);
-    }
+  }
+
+  save() {
+      this.service.save(this.topic,this.parentId);
+  }
 
 }
