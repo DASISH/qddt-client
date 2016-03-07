@@ -7,14 +7,13 @@ export class Study {
   id: string;
   name: string;
   description: string;
-  topics: any[];
 }
 
 @Injectable()
 export class StudyService {
 
   private headers: Headers;
-  //private parentId:string;
+  private surveyProgramId:string;
 
   constructor(private http: Http, @Inject(API_BASE_HREF) private api: string) {
     this.headers = new Headers();
@@ -26,19 +25,15 @@ export class StudyService {
     console.log('StudyService: ', err);
   }
 
-  save(study: Study, parentId: String): Study {
-    this.http.post(this.api+'study/'+parentId+'/create',
+  save(study: Study, surveyProgramId: String): any {
+    return this.http.post(this.api+'study/'+surveyProgramId+'/create',
       JSON.stringify(study),
       {
         headers: this.headers
       })
-      .map((res:Response) => res.json())
-      .subscribe(
-        (data:Study) => study = data,
-        err          => StudyService.logError('Unable to save SurveyProgram.')
-      );
-
-    return study;
+      .map((res: Response) => {
+        return res.json();
+      });
   }
 
   update(study: Study): any {
@@ -52,8 +47,8 @@ export class StudyService {
       });
   }
 
-  getAll(parentId: String) : any {
-    return this.http.get(this.api+'study/'+parentId,
+  getAll(surveyProgramId: String) : any {
+    return this.http.get(this.api+'surveyprogram/'+surveyProgramId,
       {
         headers: this.headers
       })
@@ -63,8 +58,8 @@ export class StudyService {
   }
 
 
-  getModel(parentId: String): Array<Study> {
-    return this.getAll(parentId);
+  getModel(): Array<Study> {
+    return this.getAll(this.surveyProgramId);
   }
 
 

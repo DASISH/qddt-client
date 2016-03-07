@@ -1,15 +1,7 @@
-  <div class="row" *ngIf="user">
-    <div class="col s12 m10 L6  white grey-text text-darken-1">
-
-      <question-list (questionSelectEvent)="questionSelectEvent($event)"></question-list>
-
-      <question-detail [question]="selectedQuestion" ></question-detail>
-
-    </div>
+<div class="row">
+  <div class="col s12 m12 l12">
+    <h3 class="teal-text">Questions</h3>
+    <question-list></question-list>
   </div>
+</div>
 
-  <div class="row" *ngIf="!user">
-
-    <p>utlogget, ingen spørsmål her</p>
-
-  </div>

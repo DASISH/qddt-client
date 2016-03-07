@@ -1,10 +1,13 @@
 import {Component, Input} from 'angular2/core';
 
+import {MaterializeDirective} from 'angular2-materialize/dist/materialize-directive';
+
 import {SurveyService, SurveyProgram} from '../../surveyprogram/surveyservice';
 
 @Component({
     selector: 'surveyprogram-edit',
     providers: [SurveyService],
+    directives: [MaterializeDirective],
     template: `
   <div *ngIf="isVisible">
     <div *ngIf="surveyProgram" class="card" id="{{surveyProgram.id}}"  >
@@ -23,10 +26,12 @@ import {SurveyService, SurveyProgram} from '../../surveyprogram/surveyservice';
         </div>
         <div class="row">
 		      <div class="input-field col s4">
-              <label class="active teal-text">Version Reason</label>
-              <select  class="browser-default input-sm"  [(ngModel)]="surveyProgram.changeKind">
-                <option *ngFor="#c of changes" [value]="c">{{c}}</option>
-              </select>
+            <label class="active teal-text">Version Reason</label>
+            <select [(ngModel)]="surveyProgram.changeKind" materialize="material_select">
+              <option value="" disabled selected>Select reason</option>
+              <option *ngFor="#changereason of changes" [value]="reason">{{changereason}}</option>
+            </select>
+
           </div>
           <div class="input-field col s8">
             <input type="text" [(ngModel)]="surveyProgram.changeComment" required>
@@ -62,13 +67,12 @@ export class SurveyProgramEditComponent {
     @Input() surveyProgram: SurveyProgram;
     private changes:any;
 
-    private service: SurveyService;
-  constructor(surveyService: SurveyService) {
-      this.service = surveyService;
+  constructor(private surveyService: SurveyService) {
       this.changes = ['IN_DEVELOPMENT','TYPO','NEW_MAJOR'];
     }
+
     save() {
-        this.service.save(this.surveyProgram);
+        this.surveyService.save(this.surveyProgram);
     }
 
 }

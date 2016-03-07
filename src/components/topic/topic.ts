@@ -1,13 +1,11 @@
-import {Component,  EventEmitter, Output, Input, ElementRef} from 'angular2/core';
+import {Component, EventEmitter, Output, Input} from 'angular2/core';
 
 import {LocalDatePipe} from '../../common/date_pipe';
-import {CommentListComponent} from '../comment/comment_list';
+
 import {TopicService, Topic} from './topicservice';
+import {CommentListComponent} from '../comment/comment_list';
 import {TopicEditComponent} from './edit/topic_edit';
 import {TopicRevision} from './topic_revision';
-
-
-declare var jQuery:any;
 
 @Component({
   selector: 'topic',
@@ -21,41 +19,32 @@ export class TopicComponent {
   showTopicForm: boolean = false;
   @Output() selectedTopic: EventEmitter<any> = new EventEmitter();
   @Input() study: any;
-  private topics: any;
-  private activeTopic: any;
+  topic: Topic;
+  topics: Array<Topic> = [];
 
-  constructor(private topicService: TopicService, private elementRef: ElementRef) {
-    console.log('topic ' + this.study);
-    this.ngOnChanges();
+  constructor(private topicService: TopicService) {
+    this.topic = new Topic();
   }
 
-  ngOnChanges() {
-    if (!this.study.topics.length >0) {
-      this.study.topics = this.topicService.getAll(this.study.id);
-    }
-
-    this.topics = this.study.topics;
-
-  }
-
-  selectTopic(study: any) {
-    this.selectedTopic.emit(study);
-    this.activeTopic = study;
-    console.log('topic-select');
+  ngAfterContentInit() {
+    console.log('das topic!');
+    console.log(this.study);
   }
 
   save() {
     this.showTopicForm = false;
-    this.topicService.save(this.activeTopic,this.study.id);
-    this.activeTopic  = new Topic();
+    this.topicService.save(this.topic).subscribe(result => {
+      this.topics.push(result);
+    });
+    this.topic  = new Topic();
   }
 
   toggleTopicForm() {
-    //jQuery(this.elementRef.nativeElement).find('select').material_select();
     this.showTopicForm = !this.showTopicForm;
-    console.log('topic-toggle');
-
   }
 
+  create(topic: any) {
+    //nothng
+  }
 
 }

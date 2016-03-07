@@ -10,7 +10,6 @@ export class Question {
   created:DateTimeFormat;
 }
 
-
 @Injectable()
 export class QuestionService {
 
@@ -18,7 +17,6 @@ export class QuestionService {
 
   private page: number;
   private totalPages: number;
-  private question;
 
   constructor(private http: Http, @Inject(API_BASE_HREF) private api: string) {
     this.page = 0;
@@ -29,75 +27,35 @@ export class QuestionService {
     console.log(err);
   }
 
-  onPrev() {
-    if (this.page !== 0) {
-      --this.page;
-    }
-
-    this.getQuestions();
-  }
-
-  onNext() {
-    if (this.page <= this.totalPages) {
-      ++this.page;
-    }
-
-    this.getQuestions();
-  }
-
-  getQuestions() {
-    var headers = new Headers();
-    headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
-
-
-    return this.http.get(this.api+'question/page', //?page=' +this.page,
-      {
-        headers: headers
-      })
-      .map((res:Response) => res.json())
-      .subscribe(
-        (data:any)  =>  {
-          this.page = data.page;
-
-          data.content.forEach(s => {
-            this.questions.push(s);
-          });
-        },
-        (err: any) => QuestionService.logError(err.toLocaleString())
-      //.subscribe(q =>this.questions = q.content,
-      //  (err: any) => QuestionService.logError()
-      );
-  }
-
-  getModel(): Array<Question> {
-    this.getQuestions();
-    return this.questions;
-  }
-
-  save(entity: Question): Question {
-    this.question = entity;
-
+  save(question: Question): any {
     var headers = new Headers();
     headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
     headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json');
 
-
-    this.http.post(this.api+'question/create',
-      JSON.stringify(this.question),
+    return this.http.post(this.api+'question/create',
+      JSON.stringify(question),
       {
         headers: headers
       })
-      .map((res:Response) => res.json())
-      .subscribe(
-        (data:Question)  => {
-          this.question = data;
-          this.question.push(this.question);
-        },
-        err   =>  QuestionService.logError('Unable to save Question.')
-      );
-
-    return this.question;
+      .map((res:Response) => {
+        return res.json();
+      });
   }
 
+  getAll(): any {
+    var headers = new Headers();
+    headers.append('Authorization', 'Bearer  ' + JSON.parse(localStorage.getItem('jwt')).access_token);
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json');
+
+    return this.http.get(this.api+'question/page',
+      {
+        headers: headers
+      })
+      .map((res:Response) => {
+        return res.json();
+      });
+  }
 
 }

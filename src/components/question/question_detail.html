@@ -1,66 +1,79 @@
 
+<a materialize="leanModal" [materializeParams]="[{dismissible: false}]"
+   class="waves-effect waves-light modal-trigger" href="#question-detail-modal">
+  <i class="material-icons teal-text">search</i></a>
 
-<div *ngIf="question.name" class="card" id="{{question.id}}"  >
-  <form (ngSubmit)="saveQuestion()" #hf="ngForm">
-    <div class="row">
-      <div class="input-field col s12">
-        <input id=name type="text" [(ngModel)]="question.name" required>
-        <label for="name" class="active teal-text">Label</label>
-      </div>
+<div id="question-detail-modal" class="modal">
+  <div class="modal-content">
+    <div *ngIf="question.name" class="card" id="{{question.id}}"  >
+      <form (ngSubmit)="saveQuestion()" #hf="ngForm">
+        <div class="row">
+          <div class="input-field col s12">
+            <input id=name type="text" [(ngModel)]="question.name" required>
+            <label for="name" class="active teal-text">Label</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+             <textarea id=question class="materialize-textarea" [(ngModel)]="question.question" required></textarea>
+            <label for="question" class="active teal-text">Question</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <textarea id=intent class="materialize-textarea" [(ngModel)]="question.intent" required></textarea>
+            <label for="intent" class="active teal-text">Intent</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s4">
+            <input id=basedOnObject type="text" [(ngModel)]="question.basedOnObject" >
+            <label for="basedOnObject" class="active teal-text">Based On Object</label>
+          </div>
+          <div class="input-field col s4">
+            <input id =conceptReference type="text" [(ngModel)]="question.conceptReference" >
+            <label for="conceptReference" class="active teal-text">Concept Reference</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s2">
+            <p><label class="active teal-text">Version</label></p>
+            {{question.version.major}}.{{question.version.minor}} {{question.version.versionlabel}}
+          </div>
+          <div class="input-field col s4">
+            <p><label class="active teal-text">Last Saved</label></p>
+            <div>{{question.updated}}</div>
+          </div>
+          <div class="input-field col s3">
+            <p><label class="active teal-text">Last Saved By</label></p>
+            <div class="chip" >{{question.createdBy.username}}</div>
+          </div>
+          <div class="input-field col s3">
+            <p><label class="active teal-text">Agency</label></p>
+            <div class="chip" >{{question.createdBy.agency.name}}</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s4">
+            <label class="active teal-text">Version Reason</label>
+            <select [(ngModel)]="question.changeKind" materialize="material_select">
+              <option value="" disabled selected>Select reason</option>
+              <option *ngFor="#reason of changeReasons" [value]="reason">{{reason}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s8">
+            <input id="changeComment" type="text" [(ngModel)]="question.changeComment" required>
+            <label for="changeComment" class="active teal-text">Save Comment</label>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-default green waves-green">Submit</button>
+      </form>
     </div>
-    <div class="row">
-      <div class="input-field col s12">
-         <textarea id=question class="materialize-textarea" [(ngModel)]="question.question" required></textarea>
-        <label for="question" class="active teal-text">Question</label>
-      </div>
-    </div>
-    <div class="row">
-      <div class="input-field col s12">
-        <textarea id=intent class="materialize-textarea" [(ngModel)]="question.intent" required></textarea>
-        <label for="intent" class="active teal-text">Intent</label>
-      </div>
-    </div>
-    <div class="row">
-      <div class="input-field col s4">
-        <input id=basedOnObject type="text" [(ngModel)]="question.basedOnObject" >
-        <label for="basedOnObject" class="active teal-text">Based On Object</label>
-      </div>
-      <div class="input-field col s4">
-        <input id =conceptReference type="text" [(ngModel)]="question.conceptReference" >
-        <label for="conceptReference" class="active teal-text">Concept Reference</label>
-      </div>
-    </div>
-    <div class="row">
-      <div class="input-field col s2">
-        <p><label class="active teal-text">Version</label></p>
-        {{question.version.major}}.{{question.version.minor}} {{question.version.versionlabel}}
-      </div>
-      <div class="input-field col s4">
-        <p><label class="active teal-text">Last Saved</label></p>
-        <div>{{question.updated | localShortDateTime}}</div>
-      </div>
-      <div class="input-field col s3">
-        <p><label class="active teal-text">Last Saved By</label></p>
-        <div class="chip" >{{question.createdBy.username}}</div>
-      </div>
-      <div class="input-field col s3">
-        <p><label class="active teal-text">Agency</label></p>
-        <div class="chip" >{{question.createdBy.agency.name}}</div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="input-field col s4">
-        <label class="active teal-text">Version Reason</label>
-        <select  class="browser-default input-sm" [(ngModel)]="question.changeKind">
-          <option *ngFor="#reason of changeReasons" [value]="reason">{{reason}}</option>
-        </select>
-      </div>
-      <div class="input-field col s8">
-        <input id="changeComment" type="text" [(ngModel)]="question.changeComment" required>
-        <label for="changeComment" class="active teal-text">Save Comment</label>
-      </div>
-    </div>
-    <button type="submit" class="btn btn-default">Submit</button>
-  </form>
-  <!--<responsedomain [responsedomain]="question.responsedomain" ></responsedomain>-->
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-default red modal-action modal-close waves-effect waves-red">Dismiss</button>
+  </div>
 </div>

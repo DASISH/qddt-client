@@ -1,10 +1,12 @@
 import {Component} from 'angular2/core';
 import {ROUTER_DIRECTIVES} from 'angular2/router';
 
-import {CommitListComponent} from '../github/commit_list';
+
+
 import {LoginComponent} from '../login/login';
 import {UserService} from '../../common/userservice';
 import {SurveyProgramComponent} from '../surveyprogram/surveyprogram';
+import {CommitListComponent} from '../github/commit_list';
 import {StudyComponent} from '../study/study';
 import {TopicComponent} from '../topic/topic';
 
@@ -25,11 +27,8 @@ export class HomeCmp {
 
   surveyProgram: any;
   study:any;
-  topic:any;
-
-  showTopic:boolean = false;
+  topic: any;
   showSurveyProgram: boolean = true;
-  showStudy:boolean = false;
   user: string;
 
   constructor(private userService: UserService) {
@@ -45,21 +44,15 @@ export class HomeCmp {
   }
 
   surveyCreateEvent(surveyProgram: any) {
-    console.log('surveyCreateEvent()');
     this.surveyProgram = surveyProgram;
   }
 
   selectedStudy(study: any) {
-    console.log('selectedStudy('+study.name +')');
     this.study = study;
     this.showSurveyProgram = !this.showSurveyProgram;
-    this.showTopic = false;
   }
 
   selectedTopic(topic: any) {
-    console.log('selectedTopic()');
     this.topic = topic;
-    this.showStudy = !this.showStudy;
-    this.showTopic = true;
   }
 }
