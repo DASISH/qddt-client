@@ -27,11 +27,6 @@ export class TopicComponent {
     this.topic = new Topic();
   }
 
-  ngAfterContentInit() {
-    console.log('das topic!');
-    console.log(this.study);
-  }
-
   save() {
     this.showTopicForm = false;
     this.topicService.save(this.topic).subscribe(result => {
@@ -42,10 +37,6 @@ export class TopicComponent {
 
   toggleTopicForm() {
     this.showTopicForm = !this.showTopicForm;
-  }
-
-  create(topic: any) {
-    //nothng
   }
 
 }
