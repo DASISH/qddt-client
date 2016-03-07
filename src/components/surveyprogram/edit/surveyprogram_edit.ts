@@ -26,7 +26,7 @@ import {SurveyService, SurveyProgram} from '../../surveyprogram/surveyservice';
         </div>
         <div class="row">
 		      <div class="input-field col s4">
-            <label class="active teal-text">Version Reason</label>
+            <label class="active teal-text">Type of Change</label>
             <select [(ngModel)]="surveyProgram.changeKind" materialize="material_select">
               <option value="" disabled selected>Select reason</option>
               <option *ngFor="#changereason of changes" [value]="changereason[0]">{{changereason[1]}}</option>
@@ -35,7 +35,7 @@ import {SurveyService, SurveyProgram} from '../../surveyprogram/surveyservice';
           </div>
           <div class="input-field col s8">
             <input type="text" [(ngModel)]="surveyProgram.changeComment" required>
-            <label for="changeComment" class="active teal-text">Save Comment</label>
+            <label for="changeComment" class="active teal-text">Reason for change</label>
           </div>
         </div>
         <div class="row">
