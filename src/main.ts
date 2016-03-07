@@ -4,9 +4,9 @@ import {bootstrap} from 'angular2/platform/browser';
 import {HTTP_PROVIDERS} from 'angular2/http';
 import {ROUTER_PROVIDERS, APP_BASE_HREF, LocationStrategy, HashLocationStrategy} from 'angular2/router';
 import {API_BASE_HREF} from './api';
-import {AppCmp} from './components/app/app';
-import {UserService} from './common/userservice';
-import {SurveyService} from './components/surveyprogram/surveyservice';
+import {AppCmp} from './components/app/app.component';
+import {UserService} from './common/user.service';
+import {SurveyService} from './components/surveyprogram/survey.service';
 
 if ('<%= ENV %>' === 'prod') { enableProdMode(); }
 
