@@ -41,8 +41,6 @@ import {LocalDatePipe} from '../../common/date_pipe';
         </tbody>
       </table>
 
-
-
       <!--<li *ngFor="#question of questions | stringFilter: filter | paginate: config">-->
           <!--{{ question }}-->
       <!--</li>-->

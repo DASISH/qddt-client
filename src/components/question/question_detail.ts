@@ -16,11 +16,15 @@ import {LocalDatePipe} from '../../common/date_pipe';
 export class QuestionDetail {
 
   @Input() question: Question;
-  private changeReasons: any;
+  //private changeReasons: any;
 
   constructor(private service: QuestionService) {
-    this.service = service;
-    this.changeReasons = ['IN_DEVELOPMENT','TYPO','NEW_MAJOR'];
+    //this.service = service;
+    this.changes = [['IN_DEVELOPMENT','Work in progress'],
+      ['TYPO','Ortographical adjustment'],
+      ['NEW_MAJOR','Conceptual improvement'],
+      ['NEW_MAJOR','Real life change'],
+      ['NEW_MAJOR','Other purpose']];
   }
 
   saveQuestion() {

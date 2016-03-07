@@ -58,11 +58,9 @@
             <label class="active teal-text">Version Reason</label>
             <select [(ngModel)]="question.changeKind" materialize="material_select">
               <option value="" disabled selected>Select reason</option>
-              <option *ngFor="#reason of changeReasons" [value]="reason">{{reason}}</option>
+              <option *ngFor="#reason of changes" [value]="reason[0]">{{reason[1]}}</option>
             </select>
           </div>
-        </div>
-        <div class="row">
           <div class="input-field col s8">
             <input id="changeComment" type="text" [(ngModel)]="question.changeComment" required>
             <label for="changeComment" class="active teal-text">Save Comment</label>
