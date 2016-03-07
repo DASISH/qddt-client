@@ -22,7 +22,7 @@ import {TopicService, Topic} from './topicservice';
             </div>
             <div class="row">
               <div class="input-field col s10">
-                <textarea id="description" class="materialize-textarea" [(ngModel)]="topic.description" required></textarea>
+                <textarea id="description" class="materialize-textarea" [(ngModel)]="topic.abstract_description" required></textarea>
                 <label for="description" class="white-text">Description</label>
               </div>
             </div>

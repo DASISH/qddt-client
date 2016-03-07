@@ -6,6 +6,7 @@ import {API_BASE_HREF} from '../../api';
 export class Topic {
   id: string;
   name: string;
+  abstract_description:string;
 }
 
 @Injectable()
