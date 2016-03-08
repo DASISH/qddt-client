@@ -17,27 +17,29 @@ import {LocalDatePipe} from '../../common/date_pipe';
   <question-create (questionCreatedEvent)="questionCreatedEvent($event)"></question-create>
 
     <div *ngIf="questions">
-      <table class="striped">
+      <table class="highlight">
         <thead>
           <tr>
+            <th data-field="id">Details</th>
             <th data-field="id">Label</th>
             <th data-field="id">Question</th>
             <th data-field="id">Version</th>
+            <th data-field="id">Agency</th>
             <th data-field="id">Modified</th>
             <th data-field="id">Modified-By</th>
-            <th data-field="id">Details</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="#row of questions.content" (click)="selectQuestion(row)">
-            <td>{{row.name}}</td>
-            <td>{{row.question}}</td>
-            <td>{{row.version.major}}.{{row.version.minor}} {{row.version.versionlabel}}</td>
-            <td>{{row.updated | localDate}}</td>
-            <td>{{row.createdBy.username}}</td>
+          <tr id="{{row.id}}"  *ngFor="#row of questions.content" (click)="selectQuestion(row)">
             <td>
               <question-detail [question]="selectedQuestion" ></question-detail>
             </td>
+            <td>{{row.name}}</td>
+            <td>{{row.question}}</td>
+            <td>{{row.version.major}}.{{row.version.minor}} {{row.version.versionlabel}}</td>
+            <td>{{row.agency.name}}</td>
+            <td>{{row.updated | localDate}}</td>
+            <td>{{row.createdBy.username}}</td>
           </tr>
         </tbody>
       </table>
@@ -73,6 +75,7 @@ export class QuestionList {
   }
 
   selectQuestion(question: any) {
+    console.log(question.name);
     this.selectedQuestion = question;
     this.questionSelectEvent.emit(question);
   }

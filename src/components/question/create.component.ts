@@ -10,14 +10,14 @@ import {QuestionService, Question} from './question.service';
   template: `
 
       <a materialize="leanModal" [materializeParams]="[{dismissible: false}]"
-        class="teal-text modal-trigger" href="#question-modal">
-        <i class="material-icons left">create</i> Add new Question
+        class="modal-trigger btn " href="#question-modal">
+         <i class="material-icons left">create</i> Add new Question
       </a>
 
       <div id="question-modal" class="modal">
         <div class="modal-content">
 
-        <h3 class="teal-text">Add new Question</h3>
+        <h3 class="teal-text ">Add new Question</h3>
 
           <form (ngSubmit)="save()" #hf="ngForm">
 
