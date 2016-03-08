@@ -1,9 +1,10 @@
 import {Component, Input} from 'angular2/core';
 
-import {TopicService, Topic} from './topicservice';
+import {TopicService, Topic} from './topic.service';
 
 @Component({
   selector: 'topic-create',
+  moduleId: module.id,
   providers: [TopicService],
   template: `
       <a class="btn" (click)="toggleForm()">
@@ -48,7 +49,7 @@ export class TopicCreateComponent {
   }
 
   save() {
-    this.topicService.save(this.topic, this.study.id);
+    this.topicService.save(this.topic);
     this.topic = new Topic();
   }
 
