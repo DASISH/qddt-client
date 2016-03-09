@@ -29,10 +29,18 @@ export class TopicComponent {
 
   save() {
     this.showTopicForm = false;
-    this.topicService.save(this.topic).subscribe(result => {
+    this.topicService.save(this.topic, this.study).subscribe(result => {
       this.topics.push(result);
     });
     this.topic  = new Topic();
+  }
+
+
+
+  ngAfterViewInit() {
+    console.log('gei');
+    this.topicService.getAll(this.study).subscribe(result => this.topics = result);
+
   }
 
   toggleTopicForm() {

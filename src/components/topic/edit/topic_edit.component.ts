@@ -64,7 +64,7 @@ export class TopicEditComponent {
   }
 
   save() {
-      this.topicService.save(this.topic);
+      this.topicService.edit(this.topic);
   }
 
 }
