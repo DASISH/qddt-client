@@ -4,7 +4,7 @@ import {SeedConfig, normalizeDependencies} from './seed.config';
 
 export class ProjectConfig extends SeedConfig {
   PROJECT_TASKS_DIR       = join(process.cwd(), this.TOOLS_DIR, 'tasks', 'project');
-  API_BASE                = argv['api'] || 'http://localhost:8080/';
+  API_BASE                = argv['api'] || 'https://qddt.nsd.no/api/';
 
   constructor() {
     super();
