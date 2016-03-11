@@ -26,8 +26,8 @@ export class TopicService {
     console.log('TopicService: ', err);
   }
 
-  save(topic: Topic,studyId:String): any {
-    return this.http.post(this.api+'topicgroup/'+ studyId +'/create',
+  save(topic: Topic, survey: any): any {
+    return this.http.post(this.api+'topicgroup/create/'+survey.id,
       JSON.stringify(topic),
       {
         headers: this.headers
@@ -37,14 +37,24 @@ export class TopicService {
       });
   }
 
-  getAll(studyId:String): any {
-    console.log('Getall->' + studyId);
-    return this.http.get(this.api+'topicgroup/'+ studyId,
+  edit(topic: Topic): any {
+    return this.http.post(this.api+'topicgroup/',
+      JSON.stringify(topic),
       {
         headers: this.headers
       })
       .map((res: Response) => {
-        return res.json().topicGroups;
+        return res.json();
+      });
+  }
+
+  getAll(study: any): any {
+    return this.http.get(this.api+'topicgroup/all/'+study.id,
+      {
+        headers: this.headers
+      })
+      .map((res: Response) => {
+        return res.json();
       });
   }
 

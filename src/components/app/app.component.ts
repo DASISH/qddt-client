@@ -5,6 +5,7 @@ import {HomeCmp} from '../home/home.component';
 import {UserLogin} from '../../common/user.component';
 import {UserService} from '../../common/user.service';
 import {QuestionComp} from '../question/question.component';
+import {ConceptComponent} from '../concept/concept.component';
 
 @Component({
   selector: 'app',
@@ -15,8 +16,9 @@ import {QuestionComp} from '../question/question.component';
   directives: [ROUTER_DIRECTIVES, UserLogin]
 })
 @RouteConfig([
-  { path: '/', component: HomeCmp, as: 'Home' },
-  { path: '/question', component: QuestionComp, as: 'Questions' }
+  { path: '/', component: HomeCmp, as: 'Home', useAsDefault: true },
+  { path: '/question', component: QuestionComp, as: 'Questions' },
+  { path: '/concept', component: ConceptComponent, as: 'Concepts' }
 ])
 export class AppCmp {
 

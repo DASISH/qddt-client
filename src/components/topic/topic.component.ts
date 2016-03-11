@@ -37,17 +37,20 @@ export class TopicComponent {
     }
   }
 
-  onSelectTopic(topic: any) {
-    console.log('invoke topicSelected...' + topic.name);
+  ngAfterViewInit() {
+    console.log('gei');
+    this.topicService.getAll(this.study).subscribe(result => this.topics = result);
 
-    this._topic = topic;
-    this.topicSelectedEvent.emit(topic);
   }
 
   onToggleTopicForm() {
     this.showTopicForm = !this.showTopicForm;
   }
 
+  onSelectTopic(topic: any) {
+    this._topic = topic;
+    this.topicSelectedEvent.emit(topic);
+  }
 
   onSave() {
     this.showTopicForm = false;
