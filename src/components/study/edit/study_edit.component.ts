@@ -20,10 +20,10 @@
 
     constructor(private studyService: StudyService) {
       this._ChangeEnums = [['IN_DEVELOPMENT','Work in progress'],
-                      ['TYPO','Ortographical adjustment'],
-                      ['NEW_MAJOR','Conceptual improvement'],
-                      ['NEW_MAJOR','Real life change'],
-                      ['NEW_MAJOR','Other purpose']];
+        ['TYPO','Ortographical adjustment'],
+        ['NEW_MAJOR','Conceptual improvement'],
+        ['NEW_MAJOR','Real life change'],
+        ['NEW_MAJOR','Other purpose']];
     }
 
     onSave() {

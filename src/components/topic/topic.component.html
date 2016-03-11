@@ -12,13 +12,13 @@
         <form (ngSubmit)="onSave()" #hf="ngForm">
           <div class="row">
             <div class="input-field col">
-              <input id="name" type="text" [(ngModel)]="_topic.name" required>
+              <input id="name" type="text" [(ngModel)]="topic.name" required>
               <label for="name" class="white-text">Name</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s10">
-              <textarea id="description" class="materialize-textarea" [(ngModel)]="_topic.description"
+              <textarea id="description" class="materialize-textarea" [(ngModel)]="topic.description"
                         required></textarea>
               <label for="description" class="white-text">Description</label>
             </div>
@@ -30,8 +30,8 @@
   </div>
 
 
-  <div *ngIf="_topics">
-    <div class="row" *ngFor="#topic of _topics" style="padding-left:2%">
+  <div *ngIf="topics">
+    <div class="row" *ngFor="#topic of topics" style="padding-left:2%">
       <div class="col s1 m1 l1">
         <br/>
         <div class="row">
@@ -47,14 +47,11 @@
       <div class="col s10 m10 l10 grey-text text-darken-2">
         <h5>{{topic.name}}</h5>
         {{topic.modified | localDate}} by <strong>{{topic.modifiedBy.username}}@{{topic.modifiedBy.agency.name}}</strong>
-        <!--<div class="chip" ><img src="http://coraljs.com/example/contact/john-doe.jpeg">{{topic.modifiedBy.username}}@{{topic.modifiedBy.agency.name}} </div>-->
       </div>
 
       <div class="col s10 m10 l10 white grey-text text-darken-1">
         <div class="row">
-          <p>
-            {{topic.description}}
-          </p>
+          <p>{{topic.description}}</p>
         </div>
 
         <topic-edit [isVisible]="edit.isVisible" [topic]="topic" [studyId]="study.id" #edit></topic-edit>
@@ -62,7 +59,6 @@
         <topic-revision [isVisible]="revision.isVisible" [topicId]="topic.id" #revision></topic-revision>
 
       </div>
-
     </div>
   </div>
 </div>

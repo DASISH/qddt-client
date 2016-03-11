@@ -26,8 +26,8 @@ export class TopicService {
     console.log('TopicService: ', err);
   }
 
-  save(topic: Topic, survey: any): any {
-    return this.http.post(this.api+'topicgroup/create/'+survey.id,
+  save(topic: Topic, study: any): any {
+    return this.http.post(this.api+'topicgroup/create/'+study.id,
       JSON.stringify(topic),
       {
         headers: this.headers
