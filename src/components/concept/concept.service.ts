@@ -4,70 +4,45 @@ import {Http, Headers, Response} from 'angular2/http';
 import {API_BASE_HREF} from '../../api';
 
 export class Concept {
-  id: string;
-  name: string;
+  id:string;
+  name:string;
+  label:string;
+  description:string;
 }
 
 @Injectable()
 export class ConceptService {
 
-  concept: Concept = new Concept();
-  concepts: Array<Concept> = [];
+  private headers: Headers;
 
-  constructor(private http: Http, @Inject(API_BASE_HREF) private api: string) {
-    this.getAll();
+  constructor(private http:Http, @Inject(API_BASE_HREF) private api:string) {
+    this.headers = new Headers();
+    this.headers.append('Authorization', 'Bearer  ' + JSON.parse(localStorage.getItem('jwt')).access_token);
+    this.headers.append('Content-Type', 'application/json');
   }
 
-
-  static logError(err: string) {
+  static logError(err:string) {
     console.log('ConceptService: ', err);
   }
 
-  save(concept: Concept): Concept {
-    this.concept = concept;
-
-    var headers = new Headers();
-    headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
-    headers.append('Content-Type', 'application/json');
-
-
-    this.http.post(this.api+'concept/create',
-      JSON.stringify(this.concept),
+  save(concept: Concept) : any {
+    return this.http.post(this.api + 'concept/create',
+      JSON.stringify(concept),
       {
-        headers: headers
+        headers: this.headers
       })
-      .map((res:Response) => res.json())
-      .subscribe(
-        (data:Concept)  => {
-          this.concept = data;
-          this.concepts.push(this.concept);
-        },
-        err   =>  ConceptService.logError('Unable to save Concept.')
-      );
-
-    return this.concept;
+      .map((res:Response) => {
+        return res.json();
+      });
   }
 
-  getAll() {
-    var headers = new Headers();
-    headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
-
-    return this.http.get(this.api+'concept/list/user',
+  getAll() : any {
+    return this.http.get(this.api + 'concept/list',
       {
-        headers: headers
+        headers: this.headers
       })
-      .map((res:Response) => res.json())
-      .subscribe(
-        (data:Array<Concept>)  => {
-          data.forEach(s => {
-            this.concepts.push(s);
-          });
-        },
-        (err: any) => ConceptService.logError('Unable to get all Concept')
-      );
-  }
-
-  getModel(): Array<Concept> {
-    return this.concepts;
+      .map((res:Response) => {
+        return res.json();
+      });
   }
 }
