@@ -7,7 +7,7 @@ import {API_BASE_HREF} from '../../api';
 export class SurveyProgram {
   id: string;
   name: string;
-  created:DateTimeFormat;
+  modified:DateTimeFormat;
 }
 
 @Injectable()
@@ -17,7 +17,8 @@ export class SurveyService {
   surveyPrograms: Array<SurveyProgram> = [];
 
   constructor(private http: Http, @Inject(API_BASE_HREF) private api: string) {
-    this.getAll();
+    console.log('survey.service.const');
+    //this.getAll();
   }
 
 
@@ -85,6 +86,10 @@ export class SurveyService {
   }
 
   getModel(): Array<SurveyProgram> {
+    if (this.surveyPrograms.length === 0) {
+      this.getAll();
+    }
+
     return this.surveyPrograms;
   }
 }

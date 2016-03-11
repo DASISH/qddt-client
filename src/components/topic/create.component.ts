@@ -7,14 +7,14 @@ import {TopicService, Topic} from './topic.service';
   moduleId: module.id,
   providers: [TopicService],
   template: `
-      <a class="btn" (click)="toggleForm()">
+      <a class="btn" (click)="onToggleForm()">
       <i class="material-icons right" *ngIf="!showForm">keyboard_arrow_down</i>
       <i class="material-icons right" *ngIf="showForm">keyboard_arrow_up</i>
       New</a>
 
       <div *ngIf="showForm">
         <div class="card-action">
-          <form (ngSubmit)="save()" #hf="ngForm">
+          <form (ngSubmit)="onSave()" #hf="ngForm">
             <div class="row">
               <div class="input-field col">
                 <input id="name" type="text" [(ngModel)]="topic.name" required>
@@ -44,12 +44,12 @@ export class TopicCreateComponent {
     this.topic = new Topic();
   }
 
-  toggleForm() {
+  onToggleForm() {
     this.showForm = !this.showForm;
   }
 
-  save() {
-    this.topicService.save(this.topic);
+  onSave() {
+    this.topicService.save(this.topic, this.study.id);
     this.topic = new Topic();
   }
 

@@ -8,7 +8,7 @@ import {TopicRevisionService} from './topic_revision.service';
   template: `
   <div *ngIf="isVisible">
     <div *ngIf="revisions">
-      <table>
+      <table class="highlight hoverable">
         <thead>
           <tr>
               <th data-field="id"> # </th>

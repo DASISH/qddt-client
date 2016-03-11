@@ -2,23 +2,23 @@
   <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
     <i class="material-icons large right">assignment</i><h4>Topic for {{study.name}}</h4>
 
-    <a class="btn" (click)="toggleTopicForm()">
+    <a class="btn" (click)="onToggleTopicForm()">
       <i class="material-icons right" *ngIf="!showTopicForm">keyboard_arrow_down</i>
       <i class="material-icons right" *ngIf="showTopicForm">keyboard_arrow_up</i>
       New</a>
 
     <div *ngIf="showTopicForm">
       <div class="card-action">
-        <form (ngSubmit)="save()" #hf="ngForm">
+        <form (ngSubmit)="onSave()" #hf="ngForm">
           <div class="row">
             <div class="input-field col">
-              <input id="name" type="text" [(ngModel)]="topic.name" required>
+              <input id="name" type="text" [(ngModel)]="_topic.name" required>
               <label for="name" class="white-text">Name</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s10">
-              <textarea id="description" class="materialize-textarea" [(ngModel)]="topic.description"
+              <textarea id="description" class="materialize-textarea" [(ngModel)]="_topic.description"
                         required></textarea>
               <label for="description" class="white-text">Description</label>
             </div>
@@ -30,8 +30,8 @@
   </div>
 
 
-  <div *ngIf="topics">
-    <div class="row" *ngFor="#topic of topics" style="padding-left:2%">
+  <div *ngIf="_topics">
+    <div class="row" *ngFor="#topic of _topics" style="padding-left:2%">
       <div class="col s1 m1 l1">
         <br/>
         <div class="row">
@@ -40,14 +40,14 @@
           <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
              (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium">history</i></a>
           <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-             (click)="create(topic)"><i class="material-icons left medium">add</i></a>
+             (click)="onSelectTopic(topic)"><i class="material-icons left medium">add</i></a>
         </div>
       </div>
 
       <div class="col s10 m10 l10 grey-text text-darken-2">
         <h5>{{topic.name}}</h5>
-        {{topic.created | localDate}} by <strong>{{topic.createdBy.username}}@{{topic.createdBy.agency.name}}</strong>
-        <!--<div class="chip" ><img src="http://coraljs.com/example/contact/john-doe.jpeg">{{topic.createdBy.username}}@{{topic.createdBy.agency.name}} </div>-->
+        {{topic.modified | localDate}} by <strong>{{topic.modifiedBy.username}}@{{topic.modifiedBy.agency.name}}</strong>
+        <!--<div class="chip" ><img src="http://coraljs.com/example/contact/john-doe.jpeg">{{topic.modifiedBy.username}}@{{topic.modifiedBy.agency.name}} </div>-->
       </div>
 
       <div class="col s10 m10 l10 white grey-text text-darken-1">
@@ -57,7 +57,7 @@
           </p>
         </div>
 
-        <topic-edit [isVisible]="edit.isVisible" [topic]="topic" #edit></topic-edit>
+        <topic-edit [isVisible]="edit.isVisible" [topic]="topic" [studyId]="study.id" #edit></topic-edit>
 
         <topic-revision [isVisible]="revision.isVisible" [topicId]="topic.id" #revision></topic-revision>
 

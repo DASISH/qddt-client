@@ -6,37 +6,57 @@ import {TopicService, Topic} from './topic.service';
 import {CommentListComponent} from '../comment/comment_list.component';
 import {TopicEditComponent} from './edit/topic_edit.component';
 import {TopicRevision} from './topic_revision.component';
+import {TopicCreateComponent} from './create.component';
 
 @Component({
   selector: 'topic',
   moduleId: module.id,
   templateUrl: './topic.component.html',
-  directives: [CommentListComponent, TopicEditComponent, TopicRevision],
   pipes: [LocalDatePipe],
-  providers: [TopicService]
+  providers: [TopicService],
+  directives: [TopicCreateComponent, CommentListComponent, TopicEditComponent, TopicRevision]
 })
 export class TopicComponent {
 
   showTopicForm: boolean = false;
-  @Output() selectedTopic: EventEmitter<any> = new EventEmitter();
+  @Output() topicSelectedEvent: EventEmitter<any> = new EventEmitter();
   @Input() study: any;
-  topic: Topic;
-  topics: Array<Topic> = [];
+
+  private _topics:any;
+  private _topic: any;
 
   constructor(private topicService: TopicService) {
-    this.topic = new Topic();
+    this._topic = new Topic();
   }
 
-  save() {
-    this.showTopicForm = false;
-    this.topicService.save(this.topic).subscribe(result => {
-      this.topics.push(result);
-    });
-    this.topic  = new Topic();
+  ngOnChanges() {
+    if (this.study.topicGroups !== null) {
+      this._topics = this.study.topicGroups;
+    } else {
+      this._topics = this.topicService.getAll(this.study.id);
+    }
   }
 
-  toggleTopicForm() {
+  onSelectTopic(topic: any) {
+    console.log('invoke topicSelected...' + topic.name);
+
+    this._topic = topic;
+    this.topicSelectedEvent.emit(topic);
+  }
+
+  onToggleTopicForm() {
     this.showTopicForm = !this.showTopicForm;
   }
+
+
+  onSave() {
+    this.showTopicForm = false;
+    this.topicService.save(this._topic,this.study.id).subscribe(result => {
+      this._topics.push(result);
+    });
+    this._topic  = new Topic();
+  }
+
+
 
 }

@@ -20,34 +20,37 @@ import {CommentListComponent} from '../comment/comment_list.component';
 export class StudyComponent {
 
   showStudyForm: boolean = false;
-  @Output() selectedStudy: EventEmitter<any> = new EventEmitter();
-  @Input() surveyProgram: any;
-  private studies: any;
+  @Output() studySelectedEvent: EventEmitter<any> = new EventEmitter();
+  @Input() survey: any;
+
   private study: any;
+  private studies: any;
+
 
   constructor(private studyService: StudyService) {
     this.study = new Study();
   }
 
   ngOnChanges() {
-    this.studies = this.surveyProgram.studies;
+    this.studies = this.survey.studies;
   }
 
-  selectStudy(study: any) {
-    this.selectedStudy.emit(study);
-    this.study = study;
+  onStudySelect(study: any) {
+    this.studySelectedEvent.emit(study);
   }
 
-  save() {
+  onToggleStudyForm() {
+    this.showStudyForm = !this.showStudyForm;
+  }
+
+  onSave() {
     this.showStudyForm = false;
-    this.studyService.save(this.study,this.surveyProgram.id).subscribe(result => {
+    this.studyService.save(this.study,this.survey.id).subscribe(result => {
       this.studies.push(result);
     });
     this.study  = new Study();
   }
 
-  toggleStudyForm() {
-    this.showStudyForm = !this.showStudyForm;
-  }
+
 
 }

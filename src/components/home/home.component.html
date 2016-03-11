@@ -1,14 +1,14 @@
 <div class="row" *ngIf="user">
 
   <surveyprogram [showSurveyProgram]="showSurveyProgram"
-                 (surveyCreateEvent)="surveyCreateEvent($event)"></surveyprogram>
+                 (surveySelectEvent)="onSurveySelect($event)"></surveyprogram>
 
-  <div class="col s12 m6" *ngIf="surveyProgram">
-    <study [surveyProgram]="surveyProgram" (selectedStudy)="selectedStudy($event)"></study>
+  <div class="col s12 m6" *ngIf="survey">
+    <study [survey]="survey" (studySelectedEvent)="onStudySelected($event)"></study>
   </div>
 
   <div class="col s12 m6" *ngIf="study">
-    <topic [study]="study" (selectedTopic)="selectedTopic($event)"></topic>
+    <topic [study]="study" (topicSelectedEvent)="onTopicSelected($event)"></topic>
   </div>
 
 </div>

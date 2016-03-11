@@ -17,8 +17,8 @@ import {LocalDatePipe} from '../../common/date_pipe';
         <ul class="collection">
             <li class="collection-item avatar" *ngFor="#comment of commentsPage.content">
                   <img src="images/avatar-default.png"  alt ="" class="circle">
-                <span class="title">{{comment.createdBy.username}}@{{comment.createdBy.agency.name}}
-                                    - {{comment.created|localDate }} </span>
+                <span class="title">{{comment.modifiedBy.username}}@{{comment.modifiedBy.agency.name}}
+                                    - {{comment.modified|localDate }} </span>
                 <p><br>{{comment.comment}}</p>
               <i class="secondary-content material-icons right ">comment</i>
               <comment-list [ownerId]="comment.id"></comment-list>

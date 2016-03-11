@@ -18,7 +18,7 @@ export class ConceptRevisionService {
     var headers = new Headers();
     headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
 
-    return this.http.get(this.api+'audit/concept/'+id+'/list',
+    return this.http.get(this.api+'audit/concept/'+id+'/all',
       {
         headers: headers
       })

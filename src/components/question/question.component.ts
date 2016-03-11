@@ -14,10 +14,14 @@ import {QuestionDetail} from './question_detail.component';
 
 export class QuestionComp {
 
-  private questions: any;
+  //private questions: any;
 
   constructor(private questionService: QuestionService) {
-    this.questionService.getAll().subscribe(result => this.questions = result);
   }
 
+  //
+  //ngOnChanges() {
+  //  console.log('ngOnChanges - fetch questions');
+  //  this.questionService.getAll().subscribe(result => this.questions = result);
+  //}
 }

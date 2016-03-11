@@ -1,15 +1,15 @@
 <div class="card white white-text text-lighten-2">
  <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
-   <i class="material-icons large right">comment</i><h4>Studies for {{surveyProgram.name}}</h4>
+   <i class="material-icons large right">comment</i><h4>Studies for {{survey.name}}</h4>
 
-  <a class="btn" (click)="toggleStudyForm()">
+  <a class="btn" (click)="onToggleStudyForm()">
     <i class="material-icons right" *ngIf="!showStudyForm">keyboard_arrow_down</i>
     <i class="material-icons right" *ngIf="showStudyForm">keyboard_arrow_up</i>
     New</a>
 
   <div *ngIf="showStudyForm">
     <div class="card-action">
-      <form (ngSubmit)="save()" #hf="ngForm">
+      <form (ngSubmit)="onSave()" #hf="ngForm">
         <div class="row">
           <div class="input-field col">
             <input id="name" type="text" [(ngModel)]="study.name" required>
@@ -39,14 +39,14 @@
           <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
              (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium">history</i></a>
           <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-             (click)="selectStudy(study)"><i class="material-icons left medium">se</i></a>
+             (click)="onStudySelect(study)"><i class="material-icons left medium">add</i></a>
         </div>
       </div>
 
       <div class="col s10 m10 l10 grey-text text-darken-2">
         <h5>{{study.name}}</h5>
-        {{study.created | localDate}} by <strong>{{study.createdBy.username}}@{{study.createdBy.agency.name}}</strong>
-        <!--<div class="chip" ><img src="http://coraljs.com/example/contact/john-doe.jpeg">{{surveyProgram.createdBy.username}}@{{surveyProgram.createdBy.agency.name}} </div>-->
+        {{study.modified | localDate}} by <strong>{{study.modifiedBy.username}}@{{study.modifiedBy.agency.name}}</strong>
+        <!--<div class="chip" ><img src="http://coraljs.com/example/contact/john-doe.jpeg">{{surveyProgram.modifiedBy.username}}@{{surveyProgram.modifiedBy.agency.name}} </div>-->
       </div>
 
       <div class="col s10 m10 l10 white grey-text text-darken-1">

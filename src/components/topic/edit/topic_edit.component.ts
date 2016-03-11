@@ -43,7 +43,7 @@ import {TopicService, Topic} from '../topic.service';
           </div>
           <div class="input-field col s4">
             <p><label class="active teal-text">Agency</label></p>
-            <div class="chip" >{{topic.createdBy.agency.name}}</div>
+            <div class="chip" >{{topic.modifiedBy.agency.name}}</div>
           </div>
         </div>
         <button type="submit" class="btn btn-default">Submit</button>
@@ -57,6 +57,8 @@ import {TopicService, Topic} from '../topic.service';
 export class TopicEditComponent {
 
   @Input() topic: Topic;
+  @Input() studyId:string;
+
   private changes:any;
 
   constructor(private topicService: TopicService) {
@@ -64,7 +66,7 @@ export class TopicEditComponent {
   }
 
   save() {
-      this.topicService.save(this.topic);
+      this.topicService.save(this.topic,this.studyId);
   }
 
 }

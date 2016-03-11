@@ -53,7 +53,7 @@ import {SurveyService, SurveyProgram} from '../../surveyprogram/survey.service';
           </div>
           <div class="input-field col s4">
             <p><label class="active teal-text">Agency</label></p>
-            <div class="chip" >{{surveyProgram.createdBy.agency.name}}</div>
+            <div class="chip" >{{surveyProgram.modifiedBy.agency.name}}</div>
           </div>
         </div>
         <button type="submit" class="btn btn-default">Submit</button>

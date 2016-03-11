@@ -19,7 +19,7 @@ import {QuestionService, Question} from './question.service';
 
         <h3 class="teal-text ">Add new Question</h3>
 
-          <form (ngSubmit)="save()" #hf="ngForm">
+          <form id="question-create-form" (ngSubmit)="onSave()" #hf="ngForm">
 
             <div class="row">
               <div class="input-field col">
@@ -42,10 +42,10 @@ import {QuestionService, Question} from './question.service';
               </div>
             </div>
 
-            <button type="submit" class="btn btn-default green waves-green">Submit</button>
           </form>
         </div>
         <div class="modal-footer">
+          <button form="question-create-form"  type="submit" class="btn btn-default green waves-green">Submit</button>
           <button  class="btn btn-default red modal-action modal-close waves-effect waves-red">Dismiss</button>
         </div>
       </div>
@@ -60,11 +60,12 @@ export class QuestionCreateCmp {
     this.question = new Question();
   }
 
-  save() {
-    this.questionService.save(this.question).subscribe(result => {
-      this.question = new Question();
-      this.questionCreatedEvent.emit(result);
-    });
+  onSave() {
+    this.questionService.save(this.question)
+      .subscribe(result => {
+        this.question = new Question();
+        this.questionCreatedEvent.emit(result);
+      });
   }
 
 }

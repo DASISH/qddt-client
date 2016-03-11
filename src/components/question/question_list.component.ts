@@ -14,7 +14,7 @@ import {LocalDatePipe} from '../../common/date_pipe';
 `
   <div class="card white grey-text text-darken-1">
 
-  <question-create (questionCreatedEvent)="questionCreatedEvent($event)"></question-create>
+  <question-create (questionCreatedEvent)="onQuestionModified($event)"></question-create>
 
     <div *ngIf="questions">
       <table class="highlight">
@@ -30,16 +30,16 @@ import {LocalDatePipe} from '../../common/date_pipe';
           </tr>
         </thead>
         <tbody>
-          <tr id="{{row.id}}"  *ngFor="#row of questions.content" (click)="selectQuestion(row)">
+          <tr id="{{row.id}}"  *ngFor="#row of questions" (click)="onSelectQuestion(row)">
             <td>
-              <question-detail [question]="selectedQuestion" ></question-detail>
+              <question-detail [question]="selectedQuestion" (questionModifiedEvent)="onQuestionModified($event)"></question-detail>
             </td>
             <td>{{row.name}}</td>
             <td>{{row.question}}</td>
             <td>{{row.version.major}}.{{row.version.minor}} {{row.version.versionlabel}}</td>
             <td>{{row.agency.name}}</td>
-            <td>{{row.updated | localDate}}</td>
-            <td>{{row.createdBy.username}}</td>
+            <td>{{row.modified | localDate}}</td>
+            <td>{{row.modifiedBy.username}}</td>
           </tr>
         </tbody>
       </table>
@@ -56,33 +56,31 @@ import {LocalDatePipe} from '../../common/date_pipe';
       <!--</div>-->
     </div>
   </div>
-
 `
-
 })
 export class QuestionList {
 
-  questions: any;
+  questions: any[] = [];
   selectedQuestion: Question = new Question();
   @Output() questionSelectEvent: EventEmitter<String> = new EventEmitter();
 
-  constructor(private service: QuestionService) {
-
-  }
+  constructor(private service: QuestionService) {  }
 
   ngOnInit() {
-    this.service.getAll().subscribe(result => this.questions = result);
+    this.service.getPage()
+      .subscribe(result => {
+        this.questions = result.content;
+      });
   }
 
-  selectQuestion(question: any) {
-    console.log(question.name);
+  onSelectQuestion(question: any) {
     this.selectedQuestion = question;
     this.questionSelectEvent.emit(question);
   }
 
-  questionCreatedEvent() {
-    this.service.getAll().subscribe(result => this.questions = result);
+  onQuestionModified(question: any) {
+    this.questions = this.questions.filter((q) => q.id !== question.id);
+    this.questions.push(question);
   }
 
-  get diagnostic() { return JSON.stringify(this.questions); }
 }
