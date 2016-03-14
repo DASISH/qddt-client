@@ -11,40 +11,45 @@ import {TopicRevision} from './topic_revision.component';
   selector: 'topic',
   moduleId: module.id,
   templateUrl: './topic.component.html',
-  directives: [CommentListComponent, TopicEditComponent, TopicRevision],
   pipes: [LocalDatePipe],
-  providers: [TopicService]
+  providers: [TopicService],
+  directives: [ CommentListComponent, TopicEditComponent, TopicRevision]
 })
 export class TopicComponent {
 
   showTopicForm: boolean = false;
-  @Output() selectedTopic: EventEmitter<any> = new EventEmitter();
+  @Output() topicSelectedEvent: EventEmitter<any> = new EventEmitter();
   @Input() study: any;
-  topic: Topic;
-  topics: Array<Topic> = [];
+
+  private topics:any;
+  private topic: any;
 
   constructor(private topicService: TopicService) {
     this.topic = new Topic();
   }
 
-  save() {
+  ngAfterViewInit() {
+    console.log('gei');
+    this.topicService.getAll(this.study).subscribe(result => this.topics = result);
+  }
+
+  onToggleTopicForm() {
+    this.showTopicForm = !this.showTopicForm;
+  }
+
+  onSelectTopic(topic: any) {
+    this.topicSelectedEvent.emit(topic);
+  }
+
+  onSave() {
     this.showTopicForm = false;
-    this.topicService.save(this.topic, this.study).subscribe(result => {
-      this.topics.push(result);
-    });
+    this.topicService.save(this.topic,this.study.id)
+      .subscribe(result => {
+        this.topics.push(result);
+      });
     this.topic  = new Topic();
   }
 
 
-
-  ngAfterViewInit() {
-    console.log('gei');
-    this.topicService.getAll(this.study).subscribe(result => this.topics = result);
-
-  }
-
-  toggleTopicForm() {
-    this.showTopicForm = !this.showTopicForm;
-  }
 
 }

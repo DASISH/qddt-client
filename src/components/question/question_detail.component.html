@@ -5,7 +5,7 @@
 
 <div id="question-detail-modal" class="modal modal-fixed-footer">
     <div class="modal-content">
-      <form id="question-detail-modal-form"  (ngSubmit)="saveQuestion()" #hf="ngForm">
+      <form id="question-detail-modal-form"  (ngSubmit)="onSaveQuestion()" #hf="ngForm">
         <h5>Question Details</h5>
         <div *ngIf="question.name" class="card" id="{{question.id}}"  >
           <div class="row">
@@ -56,23 +56,24 @@
             </div>
             <div class="input-field col s4">
               <p><label class="active teal-text">Last Saved</label></p>
-              <div>{{question.updated | localDate}}</div>
+              <div>{{question.modified | localDate}}</div>
             </div>
             <div class="input-field col s3">
               <p><label class="active teal-text">Last Saved By</label></p>
-              <div class="chip" >{{question.createdBy.username}}</div>
+              <div class="chip" >{{question.modifiedBy.username}}</div>
             </div>
             <div class="input-field col s3">
               <p><label class="active teal-text">Agency</label></p>
-              <div class="chip" >{{question.createdBy.agency.name}}</div>
+              <div class="chip" >{{question.modifiedBy.agency.name}}</div>
             </div>
           </div>
         </div>
       </form>
     </div>
     <div class="modal-footer">
-      <button class="modal-action modal-close waves-effect waves-red btn-flat ">DISMISS</button>
+      <button class="btn btn-default modal-action modal-close waves-effect red lighten-2 waves-red">DISMISS</button>
 
-      <button type="submit" form="question-detail-modal-form" class="btn-flat modal-action modal-close waves-effect waves-green">SUBMIT</button>
+      <button type="submit" form="question-detail-modal-form" class="btn btn-default modal-action modal-close  waves-effect green lighten-2 waves-green">SUBMIT</button>
     </div>
+
 </div>

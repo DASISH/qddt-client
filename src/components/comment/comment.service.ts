@@ -7,7 +7,7 @@ export class Comment {
   id: string;
   ownerId: string;
   comment: string;
-  createdBy: any;
+  modifiedBy: any;
 }
 
 @Injectable()

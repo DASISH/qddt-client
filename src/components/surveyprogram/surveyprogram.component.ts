@@ -19,39 +19,40 @@ export class SurveyProgramComponent {
 
   showSurveyForm: boolean = false;
   @Input() showSurveyProgram: boolean;
-  selectedSurvey: SurveyProgram;
-  surveyPrograms: Array<SurveyProgram> = [];
-  @Output() surveyCreateEvent: EventEmitter<String> = new EventEmitter();
+  @Output() surveySelectEvent: EventEmitter<String> = new EventEmitter();
   @Output() surveyDeleteEvent: EventEmitter<String> = new EventEmitter();
+  @Output() entitySavedEvent: EventEmitter<String> = new EventEmitter();
+  private surveys: any;
+  private survey: SurveyProgram;
 
 
   constructor(private surveyService: SurveyService, private elementRef: ElementRef) {
-    this.selectedSurvey = new SurveyProgram();
-    this.surveyPrograms = this.surveyService.getModel();
+    this.survey = new SurveyProgram();
   }
 
-  save() {
+  ngOnChanges() {
+    this.surveys =  this.surveyService.getModel();
+  }
+
+  onSave() {
     this.showSurveyForm = false;
-    this.surveyService.save(this.selectedSurvey);
-    this.surveyPrograms = this.surveyService.getModel();
-    this.selectedSurvey = new SurveyProgram();
+    this.surveyService.save(this.survey);
+    this.surveys = this.surveyService.getModel();
+    this.survey = new SurveyProgram();
   }
 
-  toggleSurveyForm() {
+  onToggleSurveyForm() {
     this.showSurveyForm = !this.showSurveyForm;
   }
 
-  create(surveyProgram: any) {
-    console.log('create');
-
-    this.surveyCreateEvent.emit(surveyProgram);
+  onSurveySelect(surveyProgram: any) {
+    this.surveySelectEvent.emit(surveyProgram);
   }
 
-  delete(surveyProgram: any) {
-    console.log('delete');
-
+  onDelete(surveyProgram: any) {
+    console.log('delete -> not implemented');
+    this.surveyDeleteEvent.emit(surveyProgram);
     //this.surveyService.delete(surveyProgram);
-    //this.surveyDeleteEvent.emit(surveyProgram);
   }
 
 

@@ -10,23 +10,23 @@
     <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
       <i class="material-icons large right">assignment</i><h4>Survey</h4>
 
-      <a class="btn" (click)="toggleSurveyForm()">
+      <a class="btn" (click)="onToggleSurveyForm()">
         <i class="material-icons right" *ngIf="!showSurveyForm">keyboard_arrow_down</i>
         <i class="material-icons right" *ngIf="showSurveyForm">keyboard_arrow_up</i>
         New</a>
 
       <div *ngIf="showSurveyForm">
         <div class="card-action">
-          <form (ngSubmit)="save()" #hf="ngForm">
+          <form (ngSubmit)="onSave()" #hf="ngForm">
             <div class="row">
               <div class="input-field col">
-                <input id="name" type="text" [(ngModel)]="selectedSurvey.name" required>
+                <input id="name" type="text" [(ngModel)]="survey.name" required>
                 <label for="name" class="white-text">Name</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s10">
-                <textarea id="description" class="materialize-textarea" [(ngModel)]="selectedSurvey.description" required></textarea>
+                <textarea id="description" class="materialize-textarea" [(ngModel)]="survey.description" required></textarea>
                 <label for="description" class="white-text">Description</label>
               </div>
             </div>
@@ -36,22 +36,22 @@
       </div>
     </div>
 
-    <div *ngIf="surveyPrograms">
-      <div class="row" *ngFor="#surveyProgram of surveyPrograms" style="padding-left:2%">
+    <div *ngIf="surveys">
+      <div class="row" *ngFor="#surveyProgram of surveys" style="padding-left:2%">
         <div class="col s1 m1 l1">
           <br />
           <div class="row">
           <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="edit.isVisible = !edit.isVisible"><i class="material-icons">mode_edit</i></a>
           <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium">history</i></a>
-            <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="delete(surveyProgram)"><i class="material-icons left medium">remove</i></a>
-            <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="create(surveyProgram)"><i class="material-icons left medium">add</i></a>
+            <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="onDelete(surveyProgram)"><i class="material-icons left medium">remove</i></a>
+            <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="onSurveySelect(surveyProgram)"><i class="material-icons left medium">add</i></a>
           </div>
         </div>
 
         <div class="col s10 m10 l10 grey-text text-darken-2">
           <h5>{{surveyProgram.name}}</h5>
-          {{surveyProgram.created | localDate}} by <strong>{{surveyProgram.createdBy.username}}@{{surveyProgram.createdBy.agency.name}}</strong>
-          <!--<div class="chip" ><img src="http://coraljs.com/example/contact/john-doe.jpeg">{{surveyProgram.createdBy.username}}@{{surveyProgram.createdBy.agency.name}} </div>-->
+          {{surveyProgram.modified | localDate}} by <strong>{{surveyProgram.modifiedBy.username}}@{{surveyProgram.modifiedBy.agency.name}}</strong>
+          <!--<div class="chip" ><img src="http://coraljs.com/example/contact/john-doe.jpeg">{{surveyProgram.modifiedBy.username}}@{{surveyProgram.modifiedBy.agency.name}} </div>-->
         </div>
 
         <div class="col s10 m10 l10 white grey-text text-darken-1">
@@ -64,7 +64,7 @@
           <surveyprogram-edit  [surveyProgram]="surveyProgram" #edit></surveyprogram-edit>
 
 
-          <surveyprogram-revision  [surveyProgramId]="surveyProgram.id" #revision></surveyprogram-revision>
+          <surveyprogram-revision  [surveyProgramId]="surveyProgram.id" #revision  ></surveyprogram-revision>
 
           <div class="row">
             <comment-list [ownerId]="surveyProgram.id"></comment-list>

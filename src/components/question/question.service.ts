@@ -7,7 +7,7 @@ import {API_BASE_HREF} from '../../api';
 export class Question {
   id: string;
   name: string;
-  created:DateTimeFormat;
+  modified:DateTimeFormat;
 }
 
 @Injectable()
@@ -43,7 +43,7 @@ export class QuestionService {
       });
   }
 
-  getAll(): any {
+  getPage(): any {
     var headers = new Headers();
     headers.append('Authorization', 'Bearer  ' + JSON.parse(localStorage.getItem('jwt')).access_token);
     headers.append('Content-Type', 'application/json');

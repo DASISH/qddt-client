@@ -23,11 +23,12 @@ import {TopicComponent} from '../topic/topic.component';
 })
 export class HomeCmp {
 
-  surveyProgram: any;
-  study:any;
-  topic: any;
   showSurveyProgram: boolean = true;
   user: string;
+
+  private survey: any;
+  private study:any;
+  private _Topic: any;
 
   constructor(private userService: UserService) {
 
@@ -41,16 +42,20 @@ export class HomeCmp {
     this.user = this.userService.get();
   }
 
-  surveyCreateEvent(surveyProgram: any) {
-    this.surveyProgram = surveyProgram;
+  onSurveySelect(surveyProgram: any) {
+    this.survey = surveyProgram;
   }
 
-  selectedStudy(study: any) {
+  onStudySelected(study: any) {
     this.study = study;
     this.showSurveyProgram = !this.showSurveyProgram;
   }
 
-  selectedTopic(topic: any) {
-    this.topic = topic;
+  onTopicSelected(topic: any) {
+    this._Topic = topic;
   }
+
+  //selectedTopic(topic: any) {
+  //  this.topic = topic;
+  //}
 }

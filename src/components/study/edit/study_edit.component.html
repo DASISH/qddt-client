@@ -1,30 +1,30 @@
 
 <div *ngIf="isVisible">
   <div *ngIf="study" class="card" id="{{study.id}}"  >
-    <form (ngSubmit)="save()" #hf="ngForm">
+    <form (ngSubmit)="onSave()" #hf="ngForm">
       <div class="row">
         <div class="input-field col s12">
-          <input id="name" type="text" [(ngModel)]="study.name" required>
           <label for="name" class="active teal-text">Name</label>
+          <input id="name" type="text" [(ngModel)]="study.name" required>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <textarea id="description" class="materialize-textarea"  [(ngModel)]="study.description" required></textarea>
           <label for="description" class="active teal-text">Description</label>
+          <textarea id="description" class="materialize-textarea"  [(ngModel)]="study.description" required></textarea>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s5">
             <label class="active teal-text">Type of Change</label>
-            <select [(ngModel)]="study.changeKind" materialize="material_select">
+            <select [(ngModel)]="study.changeKind" materialize="material_select" required>
               <option value="" disabled selected>Select reason</option>
-              <option *ngFor="#changereason of changes" [value]="changereason[0]">{{changereason[1]}}</option>
+              <option *ngFor="#change of _ChangeEnums" [value]="change[0]">{{change[1]}}</option>
             </select>
         </div>
         <div class="input-field col s7">
-          <input id="changeComment" type="text" [(ngModel)]="study.changeComment" required>
           <label for="changeComment" class="active teal-text">Reason for change</label>
+          <input id="changeComment" type="text" [(ngModel)]="study.changeComment" required>
         </div>
       </div>
       <div class="row">
@@ -34,7 +34,7 @@
         </div>
         <div class="input-field col s4">
           <p><label class="active teal-text">Agency</label></p>
-          <div class="chip" >{{study.createdBy.agency.name}}</div>
+          <!--<div class="chip" >{{study.modifiedBy.agency.name}}</div>-->
         </div>
       </div>
       <button type="submit" class="btn btn-default">Submit</button>

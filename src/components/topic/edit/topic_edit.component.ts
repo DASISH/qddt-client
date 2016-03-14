@@ -9,7 +9,7 @@ import {TopicService, Topic} from '../topic.service';
   template: `
   <div *ngIf="isVisible">
     <div *ngIf="topic" class="card" id="{{topic.id}}"  >
-      <form (ngSubmit)="save()" #hf="ngForm">
+      <form (ngSubmit)="onSave()" #hf="ngForm">
         <div class="row">
           <div class="input-field col s12">
             <input type="text" [(ngModel)]="topic.name" required>
@@ -23,11 +23,12 @@ import {TopicService, Topic} from '../topic.service';
           </div>
         </div>
         <div class="row">
-		  <div class="input-field col s4">
-              <label class="active teal-text">Version Reason</label>
-              <select  class="browser-default input-sm"  [(ngModel)]="topic.changeKind">
-                <option *ngFor="#changereason of changes" [value]="changereason">{{changereason}}</option>
-              </select>
+		      <div class="input-field col s4">
+            <label class="active teal-text">Version Reason</label>
+            <select [(ngModel)]="topic.changeKind" materialize="material_select" required>
+              <option value="" disabled selected>Select reason</option>
+              <option *ngFor="#change of _ChangeEnums" [value]="change[0]">{{change[1]}}</option>
+            </select>
           </div>
           <div class="input-field col s8">
             <input type="text" [(ngModel)]="topic.changeComment" required>
@@ -43,7 +44,7 @@ import {TopicService, Topic} from '../topic.service';
           </div>
           <div class="input-field col s4">
             <p><label class="active teal-text">Agency</label></p>
-            <div class="chip" >{{topic.createdBy.agency.name}}</div>
+            <div class="chip" >{{topic.modifiedBy.agency.name}}</div>
           </div>
         </div>
         <button type="submit" class="btn btn-default">Submit</button>
@@ -57,14 +58,20 @@ import {TopicService, Topic} from '../topic.service';
 export class TopicEditComponent {
 
   @Input() topic: Topic;
-  private changes:any;
+  @Input() studyId:string;
+
+  private _ChangeEnums: any ;
 
   constructor(private topicService: TopicService) {
-      this.changes = ['IN_DEVELOPMENT','TYPO','NEW_MAJOR'];
+    this._ChangeEnums = [['IN_DEVELOPMENT','Work in progress'],
+      ['TYPO','Ortographical adjustment'],
+      ['NEW_MAJOR','Conceptual improvement'],
+      ['NEW_MAJOR','Real life change'],
+      ['NEW_MAJOR','Other purpose']];
   }
 
-  save() {
-      this.topicService.edit(this.topic);
+  onSave() {
+      this.topicService.save(this.topic,this.studyId);
   }
 
 }

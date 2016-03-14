@@ -52,7 +52,7 @@ export class SurveyProgramRevision {
     this.service.getAllRevisions(id)
       .subscribe(
         (revisions: any) => this.revisions = revisions,
-        (err: any) => SurveyProgramRevisionService.logError('Unable to get all revisions')
+        (err: any) => SurveyProgramRevisionService.logError('Unable to get all revisions ->' + err.toString())
       );
   }
 
