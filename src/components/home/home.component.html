@@ -3,8 +3,8 @@
   <surveyprogram [showSurveyProgram]="showSurveyProgram"
                  (surveySelectEvent)="onSurveySelect($event)"></surveyprogram>
 
-  <div class="col s12 m6" *ngIf="_Survey">
-    <study [survey]="_Survey" (studySelectedEvent)="onStudySelected($event)"></study>
+  <div class="col s12 m6" *ngIf="survey">
+    <study [survey]="survey" (studySelectedEvent)="onStudySelected($event)"></study>
   </div>
 
   <div class="col s12 m6" *ngIf="study">
