@@ -21,7 +21,6 @@ export class ConceptService {
     this.headers.append('Content-Type', 'application/json');
   }
 
-
   static logError(err:string) {
     console.log('ConceptService: ', err);
   }
