@@ -21,6 +21,7 @@ export class SurveyProgramComponent {
   @Input() showSurveyProgram: boolean;
   @Output() surveySelectEvent: EventEmitter<String> = new EventEmitter();
   @Output() surveyDeleteEvent: EventEmitter<String> = new EventEmitter();
+  @Output() entitySavedEvent: EventEmitter<String> = new EventEmitter();
   private surveys: any;
   private survey: SurveyProgram;
 
