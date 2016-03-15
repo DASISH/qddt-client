@@ -44,7 +44,7 @@ export class StudyService {
       })
       .map((res: Response) => {
         return res.json();
-      })
+      });
   }
 
   getAll(surveyProgramId: String) : any {
