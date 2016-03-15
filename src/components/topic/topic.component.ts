@@ -29,7 +29,6 @@ export class TopicComponent {
   }
 
   ngAfterViewInit() {
-    console.log('gei');
     this.topicService.getAll(this.study).subscribe(result => this.topics = result);
   }
 
@@ -43,7 +42,7 @@ export class TopicComponent {
 
   onSave() {
     this.showTopicForm = false;
-    this.topicService.save(this.topic,this.study.id)
+    this.topicService.save(this.topic, this.study)
       .subscribe(result => {
         this.topics.push(result);
       });
