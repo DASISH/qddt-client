@@ -28,7 +28,7 @@ export class HomeCmp {
 
   private survey: any;
   private study:any;
-  private _Topic: any;
+  private topic: any;
 
   constructor(private userService: UserService) {
 
@@ -52,10 +52,7 @@ export class HomeCmp {
   }
 
   onTopicSelected(topic: any) {
-    this._Topic = topic;
+    this.topic = topic;
   }
 
-  //selectedTopic(topic: any) {
-  //  this.topic = topic;
-  //}
 }
