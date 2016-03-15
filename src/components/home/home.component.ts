@@ -7,6 +7,7 @@ import {SurveyProgramComponent} from '../surveyprogram/surveyprogram.component';
 import {CommitListComponent} from '../github/commit_list.component';
 import {StudyComponent} from '../study/study.component';
 import {TopicComponent} from '../topic/topic.component';
+import {ConceptComponent} from '../concept/concept.component';
 
 @Component({
   selector: 'home',
@@ -18,7 +19,8 @@ import {TopicComponent} from '../topic/topic.component';
     SurveyProgramComponent,
     CommitListComponent,
     StudyComponent,
-    TopicComponent
+    TopicComponent,
+    ConceptComponent
   ]
 })
 export class HomeCmp {
@@ -27,7 +29,7 @@ export class HomeCmp {
   user: string;
 
   private survey: any;
-  private study:any;
+  private study: any;
   private topic: any;
 
   constructor(private userService: UserService) {

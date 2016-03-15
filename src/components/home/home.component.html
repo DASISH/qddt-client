@@ -11,6 +11,10 @@
     <topic [study]="study" (topicSelectedEvent)="onTopicSelected($event)"></topic>
   </div>
 
+  <div class="col s12 m6" *ngIf="topic">
+    <concept [topic]="topic"></concept>
+  </div>
+
 </div>
 
 
