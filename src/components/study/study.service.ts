@@ -33,8 +33,7 @@ export class StudyService {
       })
       .map((res: Response) => {
         return res.json();
-      }),
-      (err: any) => console.log('StudyService: ', err);
+      });
   }
 
   update(study: Study): any {
@@ -45,8 +44,7 @@ export class StudyService {
       })
       .map((res: Response) => {
         return res.json();
-      }),
-      (err: any) => console.log('StudyService: ', err);
+      })
   }
 
   getAll(surveyProgramId: String) : any {
