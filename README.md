@@ -15,7 +15,7 @@ Basic features:
 As this project is based on highly experimental software, it is to be considered a prototype that can be discarded at any time if during the process of development should it become obvious that it is not giving us the results we are expecting.
 
 ## Development  
-To run the application for local development, start it with ``npm start``.   
+To run the application for local development, start it with ``npm run dev``.   
 and wait for it to start. You should see this as an indication that it started:  
 ```javascript
 Finished 'serve' after 3.72 s
