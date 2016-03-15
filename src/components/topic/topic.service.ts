@@ -27,7 +27,7 @@ export class TopicService {
   }
 
   save(topic: Topic, study: any): any {
-    return this.http.post(this.api+'topicgroup/create/'+study.id,
+    return this.http.post(this.api+'topicgroup/'+study.id+'/create',
       JSON.stringify(topic),
       {
         headers: this.headers
