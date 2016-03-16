@@ -26,7 +26,13 @@ import {ConceptComponent} from '../concept/concept.component';
 export class HomeCmp {
 
   showSurveyProgram: boolean = true;
-  user: string;
+  showStudy: boolean = false;
+  showTopic: boolean = false;
+  showConcept: boolean = false;
+
+  components: any = [];
+
+  private user: string;
 
   private survey: any;
   private study: any;
@@ -44,13 +50,46 @@ export class HomeCmp {
     this.user = this.userService.get();
   }
 
+   onShowSurvey() {
+    this.showStudy = false;
+    this.showConcept = false;
+    this.showTopic = false;
+
+    this.showSurveyProgram =true;
+
+     this.study = null;
+     this.topic = null;
+  }
+
+  onShowStudy() {
+    this.showTopic = false;
+    this.showConcept = false;
+    this.showSurveyProgram = false;
+
+    this.showStudy = true;
+
+    this.topic = null;
+  }
+
+  onShowTopic() {
+    this.showConcept = false;
+    this.showSurveyProgram = false;
+    this.showStudy = false;
+
+    this.showTopic = true;
+  }
+
+
   onSurveySelect(surveyProgram: any) {
     this.survey = surveyProgram;
+    this.showStudy = true;
   }
 
   onStudySelected(study: any) {
     this.study = study;
-    this.showSurveyProgram = !this.showSurveyProgram;
+    this.showSurveyProgram = false;
+    this.showStudy = false;
+    this.showTopic = true;
   }
 
   onTopicSelected(topic: any) {

@@ -22,6 +22,7 @@ export class StudyComponent {
   showStudyForm: boolean = false;
   @Output() studySelectedEvent: EventEmitter<any> = new EventEmitter();
   @Input() survey: any;
+  @Input() show: boolean;
 
   private study: any;
   private studies: any;

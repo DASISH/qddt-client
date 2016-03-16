@@ -39,8 +39,8 @@ import {LocalDatePipe} from '../../common/date_pipe';
             <td>{{concept.description}}</td>
             <td>{{concept.version.major}}.{{concept.version.minor}} {{concept.version.versionlabel}}</td>
             <td>{{concept.agency.name}}</td>
-            <td>{{concept.updated | localDate}}</td>
-            <td>{{concept.createdBy.username}}</td>
+            <td>{{concept.modified | localDate}}</td>
+            <td>{{concept.modifiedBy.username}}</td>
           </tr>
         </tbody>
       </table>

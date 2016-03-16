@@ -9,7 +9,7 @@ import {ConceptService} from './concept.service';
   providers: [ConceptService],
   directives: [ConceptListComponent],
   template: `
-    <div class="white white-text text-lighten-2">
+    <div class="white white-text text-lighten-2" *ngIf="show">
       <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
         <i class="material-icons large right">content_paste</i><h2>Concept</h2>
         @ {{topic.name}}
@@ -26,6 +26,7 @@ export class ConceptComponent {
 
   @Output() conceptCreated: EventEmitter<any> = new EventEmitter();
   @Input() topic: any;
+  @Input() show: boolean;
 
   constructor(private conceptService: ConceptService) {
 
