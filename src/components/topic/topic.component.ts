@@ -29,8 +29,15 @@ export class TopicComponent {
   }
 
   ngAfterViewInit() {
-    console.log('gei');
-    this.topicService.getAll(this.study).subscribe(result => this.topics = result);
+    console.log('gei '+ this.study.name);
+  }
+
+  ngOnChanges() {
+    this.topicService.getAll(this.study.id)
+      .subscribe(result => {
+        this.topics = result;
+        console.log('Topics ' + result.length);
+      });
   }
 
   onToggleTopicForm() {

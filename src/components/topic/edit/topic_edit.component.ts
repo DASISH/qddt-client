@@ -1,11 +1,13 @@
 import {Component, Input} from 'angular2/core';
 
 import {TopicService, Topic} from '../topic.service';
+import {MaterializeDirective} from 'angular2-materialize/dist/materialize-directive';
 
 @Component({
   selector: 'topic-edit',
   moduleId: module.id,
   providers: [TopicService],
+  directives: [MaterializeDirective],
   template: `
   <div *ngIf="isVisible">
     <div *ngIf="topic" class="card" id="{{topic.id}}"  >
@@ -18,21 +20,21 @@ import {TopicService, Topic} from '../topic.service';
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <textarea class="materialize-textarea"  [(ngModel)]="topic.description" required></textarea>
+            <textarea class="materialize-textarea"  [(ngModel)]="topic.abstract_description" required></textarea>
             <label for="description" class="active teal-text">Description</label>
           </div>
         </div>
         <div class="row">
-		      <div class="input-field col s4">
-            <label class="active teal-text">Version Reason</label>
+          <div class="input-field col s5">
+            <label class="active teal-text">Type of Change</label>
             <select [(ngModel)]="topic.changeKind" materialize="material_select" required>
               <option value="" disabled selected>Select reason</option>
               <option *ngFor="#change of _ChangeEnums" [value]="change[0]">{{change[1]}}</option>
             </select>
           </div>
-          <div class="input-field col s8">
-            <input type="text" [(ngModel)]="topic.changeComment" required>
-            <label for="changeComment" class="active teal-text">Save Comment</label>
+          <div class="input-field col s7">
+            <label for="changeComment" class="active teal-text">Reason for change</label>
+            <input id="changeComment" type="text" [(ngModel)]="topic.changeComment" required>
           </div>
         </div>
         <div class="row">
@@ -51,14 +53,12 @@ import {TopicService, Topic} from '../topic.service';
       </form>
     </div>
   </div>
-
-  `
+`
 })
 
 export class TopicEditComponent {
 
   @Input() topic: Topic;
-  @Input() studyId:string;
 
   private _ChangeEnums: any ;
 
@@ -71,7 +71,11 @@ export class TopicEditComponent {
   }
 
   onSave() {
-      this.topicService.save(this.topic,this.studyId);
+    console.log('save topic');
+      this.topicService.edit(this.topic)
+        .subscribe(result => {
+        this.topic = result;
+      });
   }
 
 }
