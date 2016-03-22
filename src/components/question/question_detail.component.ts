@@ -28,7 +28,6 @@ export class QuestionDetail {
       ['NEW_MAJOR', 'Real life change'],
       ['NEW_MAJOR', 'Other purpose']
     ];
-
   }
 
 

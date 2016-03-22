@@ -8,7 +8,7 @@ import {UserService} from './user.service';
   moduleId: module.id,
   directives: [LoginComponent],
   template: `
-      <div class="container z-depth-1" style="margin-top:0px;width:100%;padding:10%;">
+      <div class="container z-depth-1" style="margin-top:0;width:100%;padding:10%;">
         <div *ngIf="user">
 
 

@@ -27,8 +27,30 @@ export class ConceptComponent {
   @Output() conceptCreated: EventEmitter<any> = new EventEmitter();
   @Input() topic: any;
   @Input() show: boolean;
+  private showConceptForm:boolean;
 
   constructor(private conceptService: ConceptService) {
 
   }
+
+  ngOnChanges() {
+    //this.studies = this.survey.studies;
+  }
+
+  onStudySelect(study: any) {
+    this.conceptCreated.emit(study);
+  }
+
+  onToggleStudyForm() {
+    this.show = !this.show;
+  }
+
+  onSave() {
+    this.showConceptForm = false;
+    //this.conceptService.save(this.study,this.survey.id).subscribe(result => {
+    //  this.studies.push(result);
+    //});
+    //this.study  = new Study();
+  }
+
 }

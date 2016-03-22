@@ -37,7 +37,17 @@ export class ConceptService {
   }
 
   getAll() : any {
-    return this.http.get(this.api + 'concept/list',
+    return this.http.get(this.api + 'concept/page',
+      {
+        headers: this.headers
+      })
+      .map((res:Response) => {
+        return res.json();
+      });
+  }
+
+  getByTopic(topicId:string) : any {
+    return this.http.get(this.api + 'concept/page/by-topicgroup/'+ topicId + '?page=0&size=20&sort=asc',
       {
         headers: this.headers
       })

@@ -71,7 +71,7 @@ export class SurveyService {
     var headers = new Headers();
     headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
 
-    return this.http.get(this.api+'surveyprogram/list/user',
+    return this.http.get(this.api+'surveyprogram/list/by-user',
       {
         headers: headers
       })

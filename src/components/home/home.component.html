@@ -1,18 +1,20 @@
 <div class="row" *ngIf="user">
-  <nav style="padding-left:2%">
+  <nav >
     <div class="nav-wrapper">
       <ul id="nav-mobile" class="left hide-on-med-and-down">
         <li *ngIf="survey">
-          <a (click)=onShowSurvey()>Survey</a>
+          <a (click)=onShowSurvey()>SURVEY [{{survey.name}}]</a>
         </li>
         <li *ngIf="study">
-          <a (click)=onShowStudy()>Study({{study.name}})</a>
+          <a (click)=onShowStudy()> STUDY [{{study.name}}]</a>
         </li>
         <li *ngIf="topic">
-          <a (click)=onShowTopic()>Topic ({{topic.name}})</a>
+
+          <a (click)=onShowTopic()>QUESTIONIARE MODULE [{{topic.name}}]</a>
         </li>
         <li *ngIf="concept">
-          <a (click)=onShowConcept()>Concepts</a>
+
+          <a (click)=onShowConcept()>CONCEPTS</a>
         </li>
       </ul>
     </div>

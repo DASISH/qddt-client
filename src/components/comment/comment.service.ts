@@ -39,7 +39,7 @@ export class CommentService {
     headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json');
 
-    return this.http.get(this.api+'comment/by-owner/' + ownerId + '?page=0&size=20&sort=asc',
+    return this.http.get(this.api+'comment/page/by-owner/' + ownerId + '?page=0&size=20&sort=asc',
       {
         headers: headers
       })

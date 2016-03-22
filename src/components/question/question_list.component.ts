@@ -1,5 +1,6 @@
 import {Component,  EventEmitter, Output} from 'angular2/core';
 import {Question,QuestionService} from './question.service';
+import {QuestionRevision} from './question_revision.component';
 import {QuestionDetail} from './question_detail.component';
 import {QuestionCreateCmp} from './create.component';
 import {LocalDatePipe} from '../../common/date_pipe';
@@ -8,7 +9,7 @@ import {LocalDatePipe} from '../../common/date_pipe';
   selector: 'question-list',
   moduleId: module.id,
   pipes: [LocalDatePipe],
-  directives: [QuestionCreateCmp, QuestionDetail],
+  directives: [QuestionCreateCmp, QuestionDetail,QuestionRevision],
   providers: [QuestionService],
   template:
 `
@@ -21,6 +22,7 @@ import {LocalDatePipe} from '../../common/date_pipe';
         <thead>
           <tr>
             <th data-field="id">Details</th>
+            <th data-field="id">Rev</th>
             <th data-field="id">Label</th>
             <th data-field="id">Question</th>
             <th data-field="id">Version</th>
@@ -30,9 +32,13 @@ import {LocalDatePipe} from '../../common/date_pipe';
           </tr>
         </thead>
         <tbody>
-          <tr id="{{row.id}}"  *ngFor="#row of questions" (click)="onSelectQuestion(row)">
-            <td>
+          <tr id="{{row.id}}"  *ngFor="#row of questions" >
+            <td (click)="onSelectQuestion(row)">
               <question-detail [question]="selectedQuestion" (questionModifiedEvent)="onQuestionModified($event)"></question-detail>
+            </td>
+            <td (click)="onShowRevision(row)">
+              <a><i class="material-icons left smal">history</i></a>
+              <!--<question-revision [parentId]="row.id" ></question-revision>-->
             </td>
             <td>{{row.name}}</td>
             <td>{{row.question}}</td>
@@ -61,10 +67,13 @@ import {LocalDatePipe} from '../../common/date_pipe';
 export class QuestionList {
 
   questions: any[] = [];
+  revision:any;
   selectedQuestion: Question = new Question();
   @Output() questionSelectEvent: EventEmitter<String> = new EventEmitter();
 
-  constructor(private service: QuestionService) {  }
+  constructor(private service: QuestionService) {
+    this.revision = '0';
+  }
 
   ngOnInit() {
     this.service.getPage()
@@ -81,6 +90,11 @@ export class QuestionList {
   onQuestionModified(question: any) {
     this.questions = this.questions.filter((q) => q.id !== question.id);
     this.questions.push(question);
+  }
+
+  onShowRevision(question: any) {
+    console.log('show me the money' + question.name);
+    this.revision = question.id;
   }
 
 }
