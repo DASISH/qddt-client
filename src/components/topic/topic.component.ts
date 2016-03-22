@@ -52,7 +52,7 @@ export class TopicComponent {
 
   onSave() {
     this.showTopicForm = false;
-    this.topicService.edit(this.topic)
+    this.topicService.save(this.topic,this.study.id)
       .subscribe(result => {
         this.topics.push(result);
       });

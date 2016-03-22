@@ -26,7 +26,7 @@ export class TopicService {
     console.log('TopicService: ', err);
   }
 
-  save(topic: Topic, studyId: any): any {
+  save(topic: Topic, studyId: string): any {
     return this.http.post(this.api+'topicgroup/create/'+studyId,
       JSON.stringify(topic),
       {
@@ -48,7 +48,7 @@ export class TopicService {
       });
   }
 
-  getAll(studyId: any): any {
+  getAll(studyId: string): any {
     return this.http.get(this.api+'topicgroup/list/by-study/'+studyId,
       {
         headers: this.headers
