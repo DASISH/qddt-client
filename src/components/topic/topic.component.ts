@@ -20,6 +20,7 @@ export class TopicComponent {
   showTopicForm: boolean = false;
   @Output() topicSelectedEvent: EventEmitter<any> = new EventEmitter();
   @Input() study: any;
+  @Input() show: boolean;
 
   private topics:any;
   private topic: any;
@@ -29,6 +30,7 @@ export class TopicComponent {
   }
 
   ngAfterViewInit() {
+    this.topicService.getAll(this.study).subscribe(result => this.topics = result);
     console.log('gei '+ this.study.name);
   }
 

@@ -1,14 +1,44 @@
 <div class="row" *ngIf="user">
+  <nav style="padding-left:2%">
+    <div class="nav-wrapper">
+      <ul id="nav-mobile" class="left hide-on-med-and-down">
+        <li *ngIf="survey">
+          <a (click)=onShowSurvey()>Survey</a>
+        </li>
+        <li *ngIf="study">
+          <a (click)=onShowStudy()>Study({{study.name}})</a>
+        </li>
+        <li *ngIf="topic">
+          <a (click)=onShowTopic()>Topic ({{topic.name}})</a>
+        </li>
+        <li *ngIf="concept">
+          <a (click)=onShowConcept()>Concepts</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
 
-  <surveyprogram [showSurveyProgram]="showSurveyProgram"
-                 (surveySelectEvent)="onSurveySelect($event)"></surveyprogram>
+
+  <surveyprogram [show]="showSurveyProgram"
+           (surveySelectEvent)="onSurveySelect($event)">
+  </surveyprogram>
 
   <div class="col s12 m6" *ngIf="survey">
-    <study [survey]="survey" (studySelectedEvent)="onStudySelected($event)"></study>
+    <study [show]="showStudy"
+      [survey]="survey" (studySelectedEvent)="onStudySelected($event)">
+    </study>
   </div>
 
   <div class="col s12 m6" *ngIf="study">
-    <topic [study]="study" (topicSelectedEvent)="onTopicSelected($event)"></topic>
+    <topic [show]="showTopic"
+      [study]="study" (topicSelectedEvent)="onTopicSelected($event)">
+    </topic>
+  </div>
+
+  <div class="col s12 m6" *ngIf="topic">
+    <concept [show]="showConcept"
+      [topic]="topic">
+    </concept>
   </div>
 
 </div>

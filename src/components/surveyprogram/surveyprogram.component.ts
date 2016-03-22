@@ -18,7 +18,7 @@ import {SurveyProgramRevision} from './surveyprogram_revision.component';
 export class SurveyProgramComponent {
 
   showSurveyForm: boolean = false;
-  @Input() showSurveyProgram: boolean;
+  @Input() show: boolean;
   @Output() surveySelectEvent: EventEmitter<String> = new EventEmitter();
   @Output() surveyDeleteEvent: EventEmitter<String> = new EventEmitter();
   @Output() entitySavedEvent: EventEmitter<String> = new EventEmitter();
