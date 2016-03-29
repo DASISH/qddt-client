@@ -39,7 +39,7 @@
 
   <div class="col s12 m9" *ngIf="topic">
     <concept [show]="showConcept"
-      [topic]="topic">
+      [topic]="topic"  (conceptSelectedEvent)="onConceptSelected($event)">
     </concept>
   </div>
 

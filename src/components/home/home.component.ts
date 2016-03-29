@@ -37,6 +37,7 @@ export class HomeCmp {
   private survey: any;
   private study: any;
   private topic: any;
+  private concept: any;
 
   constructor(private userService: UserService) {
 
@@ -81,6 +82,13 @@ export class HomeCmp {
     this.showTopic = true;
   }
 
+  onShowConcept() {
+    this.concept = null;
+    this.showSurveyProgram = false;
+    this.showStudy = false;
+    this.showTopic = true;
+    this.showConcept = true;
+  }
 
   onSurveySelect(surveyProgram: any) {
     this.survey = surveyProgram;
@@ -97,6 +105,17 @@ export class HomeCmp {
 
   onTopicSelected(topic: any) {
     this.topic = topic;
+    this.showSurveyProgram = false;
+    this.showStudy = false;
+    this.showTopic = true;
+    this.showConcept = true;
   }
 
+  onConceptSelected(concept: any) {
+    this.concept = concept;
+    this.showSurveyProgram = false;
+    this.showStudy = false;
+    this.showTopic = true;
+    this.showConcept = true;
+  }
 }
