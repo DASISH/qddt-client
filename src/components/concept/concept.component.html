@@ -29,38 +29,40 @@
           </div>
         </div>
       </div>
-
       <div *ngIf="concepts">
         <div class="row" *ngFor="#concept of concepts" style="padding-left:2%">
-          <div class="col s1 m1 l1">
-            <br />
-            <div class="row">
-              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                 (click)="edit.isVisible = !edit.isVisible"><i class="material-icons">mode_edit</i></a>
-              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                 (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium">history</i></a>
-              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                 (click)="onSelectConcept(concept)"><i class="material-icons left medium">add</i></a>
-            </div>
-          </div>
-
-          <div class="col s10 m10 l10 grey-text text-darken-2">
-            <h5>{{concept.name}}</h5>
-            {{concept.modified | localDate}} by <strong>{{concept.modifiedBy.username}}@{{concept.modifiedBy.agency.name}}</strong>
-          </div>
-
-          <div class="col s10 m10 l10 white grey-text text-darken-1">
-            <div class="row">
-              <p>{{concept.description}}</p>
+          <div id="{{concept.name}}" class="scrollspy">
+            <div class="col s1 m1 l1">
+              <br />
+              <div class="row">
+                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                   (click)="edit.isVisible = !edit.isVisible"><i class="material-icons">mode_edit</i></a>
+                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                   (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium">history</i></a>
+                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                   (click)="onSelectConcept(concept)"><i class="material-icons left medium">add</i></a>
+              </div>
             </div>
 
-            <concept-edit [isVisible]="edit.isVisible" [concept]="concept" [topicId]="topic.id" #edit></concept-edit>
-
-            <concept-revision [isVisible]="revision.isVisible" [conceptId]="concept.id" #revision ></concept-revision>
-
-            <div class="row">
-              <comment-list [ownerId]="concept.id"></comment-list>
+            <div class="col s10 m10 l10 grey-text text-darken-2">
+              <h5>{{concept.name}}</h5>
+              {{concept.modified | localDate}} by <strong>{{concept.modifiedBy.username}}@{{concept.modifiedBy.agency.name}}</strong>
             </div>
+
+            <div class="col s10 m10 l10 white grey-text text-darken-1">
+              <div class="row">
+                <p>{{concept.description}}</p>
+              </div>
+
+              <concept-edit [isVisible]="edit.isVisible" [concept]="concept" [topicId]="topic.id" #edit></concept-edit>
+
+              <concept-revision [isVisible]="revision.isVisible" [conceptId]="concept.id" #revision ></concept-revision>
+
+              <div class="row">
+                <comment-list [ownerId]="concept.id"></comment-list>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>

@@ -32,35 +32,38 @@
       </div>
       <div *ngIf="topics">
         <div class="row" *ngFor="#topic of topics" style="padding-left:2%">
-          <div class="col s1 m1 l1">
-            <br/>
-            <div class="row">
-              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                 (click)="edit.isVisible = !edit.isVisible"><i class="material-icons">mode_edit</i></a>
-              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                 (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium">history</i></a>
-              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                 (click)="onSelectTopic(topic)"><i class="material-icons left medium">add</i></a>
-            </div>
-          </div>
-
-          <div class="col s10 m10 l10 grey-text text-darken-2">
-            <h5>{{topic.name}}</h5>
-            {{topic.modified | localDate}} by <strong>{{topic.modifiedBy.username}}@{{topic.modifiedBy.agency.name}}</strong>
-          </div>
-
-          <div class="col s10 m10 l10 white grey-text text-darken-1">
-            <div class="row">
-              <p>{{topic.abstractDescription}}</p>
+          <div id="{{topic.name}}" class="scrollspy">
+            <div class="col s1 m1 l1">
+              <br/>
+              <div class="row">
+                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                   (click)="edit.isVisible = !edit.isVisible"><i class="material-icons">mode_edit</i></a>
+                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                   (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium">history</i></a>
+                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                   (click)="onSelectTopic(topic)"><i class="material-icons left medium">add</i></a>
+              </div>
             </div>
 
-            <topic-edit [isVisible]="edit.isVisible" [topic]="topic" [studyId]="study.id" #edit></topic-edit>
-
-            <topic-revision [isVisible]="revision.isVisible" [topicId]="topic.id" #revision ></topic-revision>
-
-            <div class="row">
-              <comment-list [ownerId]="topic.id"></comment-list>
+            <div class="col s10 m10 l10 grey-text text-darken-2">
+              <h5>{{topic.name}}</h5>
+              {{topic.modified | localDate}} by <strong>{{topic.modifiedBy.username}}@{{topic.modifiedBy.agency.name}}</strong>
             </div>
+
+            <div class="col s10 m10 l10 white grey-text text-darken-1">
+              <div class="row">
+                <p>{{topic.abstractDescription}}</p>
+              </div>
+
+              <topic-edit [isVisible]="edit.isVisible" [topic]="topic" [studyId]="study.id" #edit></topic-edit>
+
+              <topic-revision [isVisible]="revision.isVisible" [topicId]="topic.id" #revision ></topic-revision>
+
+              <div class="row">
+                <comment-list [ownerId]="topic.id"></comment-list>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
