@@ -56,7 +56,6 @@ export class HomeCmp {
      this.showStudy = false;
      this.showConcept = false;
      this.showTopic = false;
-
      this.showSurveyProgram =true;
 
      this.study = null;
@@ -68,25 +67,27 @@ export class HomeCmp {
     this.showTopic = false;
     this.showConcept = false;
     this.showSurveyProgram = false;
-
     this.showStudy = true;
 
     this.topic = null;
+    this.concept = null;
   }
 
   onShowTopic() {
     this.showConcept = false;
     this.showSurveyProgram = false;
     this.showStudy = false;
-
     this.showTopic = true;
+    this.showConcept = false;
+
+    this.concept = null;
   }
 
   onShowConcept() {
     this.concept = null;
     this.showSurveyProgram = false;
     this.showStudy = false;
-    this.showTopic = true;
+    this.showTopic = false;
     this.showConcept = true;
   }
 
@@ -98,24 +99,15 @@ export class HomeCmp {
   onStudySelected(study: any) {
     this.study = study;
     this.onShowTopic();
-    //this.showSurveyProgram = false;
-    //this.showStudy = false;
-    //this.showTopic = true;
   }
 
   onTopicSelected(topic: any) {
     this.topic = topic;
-    this.showSurveyProgram = false;
-    this.showStudy = false;
-    this.showTopic = true;
-    this.showConcept = true;
+    this.onShowConcept();
   }
 
   onConceptSelected(concept: any) {
     this.concept = concept;
-    this.showSurveyProgram = false;
-    this.showStudy = false;
-    this.showTopic = true;
     this.showConcept = true;
   }
 }

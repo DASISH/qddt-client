@@ -31,17 +31,13 @@
     [survey]="survey" (studySelectedEvent)="onStudySelected($event)">
   </study>
 
-  <div class="col s12 m9" *ngIf="study">
-    <topic [show]="showTopic"
+    <topic  *ngIf="study" [show]="showTopic"
       [study]="study" (topicSelectedEvent)="onTopicSelected($event)">
     </topic>
-  </div>
 
-  <div class="col s12 m9" *ngIf="topic">
-    <concept [show]="showConcept"
+    <concept *ngIf="topic"  [show]="showConcept"
       [topic]="topic"  (conceptSelectedEvent)="onConceptSelected($event)">
     </concept>
-  </div>
 
 
 </div>

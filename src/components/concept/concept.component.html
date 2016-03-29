@@ -1,66 +1,79 @@
-  <div class="white white-text text-lighten-2" *ngIf="show">
-    <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
-      <i class="material-icons large right">comment</i><h4>Concepts for {{topic.name}}</h4>
+<div *ngIf="show">
+  <div class="col s12 m9">
+    <div class="card white white-text text-lighten-2">
+      <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
+        <i class="material-icons large right">comment</i><h4>Concepts for {{topic.name}}</h4>
 
-      <a class="btn" (click)="onToggleConceptForm()">
-        <i class="material-icons right" *ngIf="!showConceptForm">keyboard_arrow_down</i>
-        <i class="material-icons right" *ngIf="showConceptForm">keyboard_arrow_up</i>
-        New</a>
+        <a class="btn" (click)="onToggleConceptForm()">
+          <i class="material-icons right" *ngIf="!showConceptForm">keyboard_arrow_down</i>
+          <i class="material-icons right" *ngIf="showConceptForm">keyboard_arrow_up</i>
+          New</a>
 
-      <div *ngIf="showConceptForm">
-        <div class="card-action">
-          <form (ngSubmit)="onSave()" #hf="ngForm">
-            <div class="row">
-              <div class="input-field col">
-                <input id="name" type="text" [(ngModel)]="concept.name" required>
-                <label for="name" class="white-text">Name</label>
+        <div *ngIf="showConceptForm">
+          <div class="card-action">
+            <form (ngSubmit)="onSave()" #hf="ngForm">
+              <div class="row">
+                <div class="input-field col">
+                  <input id="name" type="text" [(ngModel)]="concept.name" required>
+                  <label for="name" class="white-text">Name</label>
+                </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s10">
-                <textarea id="description" class="materialize-textarea" [(ngModel)]="concept.description" required></textarea>
-                <label for="description" class="white-text">Description</label>
+              <div class="row">
+                <div class="input-field col s10">
+                  <textarea id="description" class="materialize-textarea" [(ngModel)]="concept.description" required></textarea>
+                  <label for="description" class="white-text">Description</label>
+                </div>
               </div>
-            </div>
-            <button type="submit" class="btn btn-default">Submit</button>
-          </form>
+              <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div *ngIf="concepts">
-      <div class="row" *ngFor="#concept of concepts" style="padding-left:2%">
-        <div class="col s1 m1 l1">
-          <br />
-          <div class="row">
-          <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-             (click)="edit.isVisible = !edit.isVisible"><i class="material-icons">mode_edit</i></a>
-          <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-             (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium">history</i></a>
-          <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-             (click)="onSelectConcept(concept)"><i class="material-icons left medium">add</i></a>
-        </div>
-        </div>
-
-        <div class="col s10 m10 l10 grey-text text-darken-2">
-          <h5>{{concept.name}}</h5>
-          {{concept.modified | localDate}} by <strong>{{concept.modifiedBy.username}}@{{concept.modifiedBy.agency.name}}</strong>
-          <!--<div class="chip" ><img src="http://coraljs.com/example/contact/john-doe.jpeg">{{surveyProgram.modifiedBy.username}}@{{surveyProgram.modifiedBy.agency.name}} </div>-->
-        </div>
-
-        <div class="col s10 m10 l10 white grey-text text-darken-1">
-          <div class="row">
-            <p>
-              {{concept.description}}
-            </p>
+      <div *ngIf="concepts">
+        <div class="row" *ngFor="#concept of concepts" style="padding-left:2%">
+          <div class="col s1 m1 l1">
+            <br />
+            <div class="row">
+              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                 (click)="edit.isVisible = !edit.isVisible"><i class="material-icons">mode_edit</i></a>
+              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                 (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium">history</i></a>
+              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                 (click)="onSelectConcept(concept)"><i class="material-icons left medium">add</i></a>
+            </div>
           </div>
 
-          <concept-edit [isVisible]="edit.isVisible" [concept]="concept" [topicId]="topic.id" #edit></concept-edit>
+          <div class="col s10 m10 l10 grey-text text-darken-2">
+            <h5>{{concept.name}}</h5>
+            {{concept.modified | localDate}} by <strong>{{concept.modifiedBy.username}}@{{concept.modifiedBy.agency.name}}</strong>
+          </div>
 
-          <concept-revision [isVisible]="revision.isVisible" [conceptId]="concept.id" #revision ></concept-revision>
+          <div class="col s10 m10 l10 white grey-text text-darken-1">
+            <div class="row">
+              <p>{{concept.description}}</p>
+            </div>
+
+            <concept-edit [isVisible]="edit.isVisible" [concept]="concept" [topicId]="topic.id" #edit></concept-edit>
+
+            <concept-revision [isVisible]="revision.isVisible" [conceptId]="concept.id" #revision ></concept-revision>
+
+            <div class="row">
+              <comment-list [ownerId]="concept.id"></comment-list>
+            </div>
+          </div>
         </div>
-
       </div>
     </div>
-
   </div>
+
+  <div class="col hide-on-small-only m1 l1">
+    <div style="top: 55;" class="toc-wrapper pinned">
+      <h5>Module Toc</h5>
+      <ul class="section table-of-contents">
+        <li><a href="#topMenu">To the top </a> </li>
+        <li *ngFor="#topic of topics"><a href="#{{topic.name}}">{{topic.name}}</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
