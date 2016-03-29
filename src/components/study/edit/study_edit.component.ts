@@ -1,5 +1,4 @@
- import {Component, Input} from 'angular2/core';
-
+ import {Component, Input,Output, EventEmitter} from 'angular2/core';
  import {MaterializeDirective} from 'angular2-materialize/dist/materialize-directive';
 
  import {StudyService} from '../study.service';
@@ -60,6 +59,8 @@
   export class StudyEditComponent {
 
     @Input() study: any;
+    @Input() surveyId: any;
+    @Output() studySavedEvent: EventEmitter<any> = new EventEmitter();
     private _ChangeEnums: any;
 
     constructor(private studyService: StudyService) {
@@ -70,9 +71,14 @@
         ['NEW_MAJOR','Other purpose']];
     }
 
+
+
     onSave() {
       console.log('onSave Study');
-      this.studyService.save(this.study, this.study.surveyProgram.id);
+      this.studyService.save(this.study,this.surveyId).subscribe(result => {
+        this.study =result;
+        this.studySavedEvent.emit(result);
+      });
     }
 
  }

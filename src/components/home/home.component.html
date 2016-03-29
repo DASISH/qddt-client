@@ -1,47 +1,48 @@
 <div class="row" *ngIf="user">
-  <nav >
-    <div class="nav-wrapper">
-      <ul id="nav-mobile" class="left hide-on-med-and-down">
-        <li *ngIf="survey">
-          <a (click)=onShowSurvey()>SURVEY [{{survey.name}}]</a>
-        </li>
-        <li *ngIf="study">
-          <a (click)=onShowStudy()> STUDY [{{study.name}}]</a>
-        </li>
-        <li *ngIf="topic">
+  <div id="topMenu" class="scrollspy">
+    <nav >
+      <div class="nav-wrapper">
+        <ul id="nav-mobile" class="left hide-on-med-and-down">
+          <li *ngIf="survey">
+            <a (click)=onShowSurvey()>SURVEY [{{survey.name}}]</a>
+          </li>
+          <li *ngIf="study">
+            <a (click)=onShowStudy()> STUDY [{{study.name}}]</a>
+          </li>
+          <li *ngIf="topic">
 
-          <a (click)=onShowTopic()>QUESTIONIARE MODULE [{{topic.name}}]</a>
-        </li>
-        <li *ngIf="concept">
+            <a (click)=onShowTopic()>QUESTIONIARE MODULE [{{topic.name}}]</a>
+          </li>
+          <li *ngIf="concept">
 
-          <a (click)=onShowConcept()>CONCEPTS</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
+            <a (click)=onShowConcept()>CONCEPTS</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
 
 
   <surveyprogram [show]="showSurveyProgram"
            (surveySelectEvent)="onSurveySelect($event)">
   </surveyprogram>
 
-  <div class="col s12 m6" *ngIf="survey">
-    <study [show]="showStudy"
-      [survey]="survey" (studySelectedEvent)="onStudySelected($event)">
-    </study>
-  </div>
+  <study *ngIf="survey" [show]="showStudy"
+    [survey]="survey" (studySelectedEvent)="onStudySelected($event)">
+  </study>
 
-  <div class="col s12 m6" *ngIf="study">
+  <div class="col s12 m9" *ngIf="study">
     <topic [show]="showTopic"
       [study]="study" (topicSelectedEvent)="onTopicSelected($event)">
     </topic>
   </div>
 
-  <div class="col s12 m6" *ngIf="topic">
+  <div class="col s12 m9" *ngIf="topic">
     <concept [show]="showConcept"
       [topic]="topic">
     </concept>
   </div>
+
 
 </div>
 

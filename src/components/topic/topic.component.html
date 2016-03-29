@@ -18,7 +18,7 @@
           </div>
           <div class="row">
             <div class="input-field col s10">
-              <textarea id="description" class="materialize-textarea" [(ngModel)]="topic.abstract_description"
+              <textarea id="description" class="materialize-textarea" [(ngModel)]="topic.abstractDescription"
                         required></textarea>
               <label for="description" class="white-text">Description</label>
             </div>
@@ -51,7 +51,7 @@
 
       <div class="col s10 m10 l10 white grey-text text-darken-1">
         <div class="row">
-          <p>{{topic.abstract_description}}</p>
+          <p>{{topic.abstractDescription}}</p>
         </div>
 
         <topic-edit [isVisible]="edit.isVisible" [topic]="topic" [studyId]="study.id" #edit></topic-edit>

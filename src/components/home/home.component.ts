@@ -51,14 +51,16 @@ export class HomeCmp {
   }
 
    onShowSurvey() {
-    this.showStudy = false;
-    this.showConcept = false;
-    this.showTopic = false;
 
-    this.showSurveyProgram =true;
+     this.showStudy = false;
+     this.showConcept = false;
+     this.showTopic = false;
+
+     this.showSurveyProgram =true;
 
      this.study = null;
      this.topic = null;
+
   }
 
   onShowStudy() {
@@ -82,14 +84,15 @@ export class HomeCmp {
 
   onSurveySelect(surveyProgram: any) {
     this.survey = surveyProgram;
-    this.showStudy = true;
+    this.onShowStudy();
   }
 
   onStudySelected(study: any) {
     this.study = study;
-    this.showSurveyProgram = false;
-    this.showStudy = false;
-    this.showTopic = true;
+    this.onShowTopic();
+    //this.showSurveyProgram = false;
+    //this.showStudy = false;
+    //this.showTopic = true;
   }
 
   onTopicSelected(topic: any) {

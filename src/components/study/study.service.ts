@@ -26,7 +26,7 @@ export class StudyService {
   }
 
   save(study: Study, surveyProgramId: String): any {
-    return this.http.post(this.api+'study/create' +surveyProgramId,
+    return this.http.post(this.api+'study/create/' +surveyProgramId,
       JSON.stringify(study),
       {
         headers: this.headers
@@ -36,7 +36,7 @@ export class StudyService {
       });
   }
 
-  update(study: Study): any {
+    update(study: Study): any {
     return this.http.post(this.api+'study/',
       JSON.stringify(study),
       {

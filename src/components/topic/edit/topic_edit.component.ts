@@ -20,7 +20,7 @@ import {MaterializeDirective} from 'angular2-materialize/dist/materialize-direct
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <textarea class="materialize-textarea"  [(ngModel)]="topic.abstract_description" required></textarea>
+            <textarea class="materialize-textarea"  [(ngModel)]="topic.abstractDescription" required></textarea>
             <label for="description" class="active teal-text">Description</label>
           </div>
         </div>

@@ -47,6 +47,7 @@ export class SurveyProgramComponent {
 
   onSurveySelect(surveyProgram: any) {
     this.surveySelectEvent.emit(surveyProgram);
+    this.show = false;
   }
 
   onDelete(surveyProgram: any) {
