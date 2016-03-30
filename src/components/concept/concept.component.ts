@@ -1,6 +1,5 @@
 import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {LocalDatePipe} from '../../common/date_pipe';
-import {ConceptListComponent} from './concept_list.component';
 import {ConceptRevision} from './concept_revision.component';
 import {ConceptService, Concept} from './concept.service';
 
@@ -8,7 +7,7 @@ import {ConceptService, Concept} from './concept.service';
   selector: 'concept',
   moduleId: module.id,
   providers: [ConceptService],
-  directives: [ConceptListComponent, ConceptRevision],
+  directives: [ConceptRevision],
   pipes: [LocalDatePipe],
   templateUrl: './concept.component.html'
 })
@@ -26,7 +25,7 @@ export class ConceptComponent {
   }
 
   ngAfterViewInit() {
-    this.conceptService.getAll().subscribe(result => this.concepts = result.content);
+    this.conceptService.getByTopic(this.topic.id).subscribe(result => this.concepts = result.content);
   }
 
 
