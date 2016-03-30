@@ -2,12 +2,13 @@ import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {LocalDatePipe} from '../../common/date_pipe';
 import {ConceptRevision} from './concept_revision.component';
 import {ConceptService, Concept} from './concept.service';
+import {CommentListComponent} from '../comment/comment_list.component';
 
 @Component({
   selector: 'concept',
   moduleId: module.id,
   providers: [ConceptService],
-  directives: [ConceptRevision],
+  directives: [ConceptRevision,CommentListComponent],
   pipes: [LocalDatePipe],
   templateUrl: './concept.component.html'
 })
