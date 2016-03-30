@@ -31,7 +31,7 @@
       </div>
       <div *ngIf="concepts">
         <div class="row" *ngFor="#concept of concepts" style="padding-left:2%">
-          <div id="{{concept.name}}" class="scrollspy">
+          <div *ngIf="concept.name" id="{{concept.name}}" class="scrollspy">
             <div class="col s1 m1 l1">
               <br />
               <div class="row">
@@ -74,7 +74,7 @@
       <h5>Concept Toc</h5>
       <ul class="section table-of-contents">
         <li><a href="#topMenu">To the top </a> </li>
-        <li *ngFor="#concept of concepts"><a href="#{{concept.name}}">{{concept.name}}</a></li>
+        <li *ngFor="#concept of concepts"><a *ngIf="concept.name" href="#{{concept.name}}">{{concept.name}}</a></li>
       </ul>
     </div>
   </div>
