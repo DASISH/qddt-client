@@ -1,7 +1,6 @@
 import {Component} from 'angular2/core';
 
 import {ConceptService, Concept} from './concept.service';
-import {ConceptCreateComponent} from './concept_create.compoent';
 
 import {LocalDatePipe} from '../../common/date_pipe';
 
@@ -9,7 +8,7 @@ import {LocalDatePipe} from '../../common/date_pipe';
   selector: 'concept-list',
   moduleId: module.id,
   pipes: [LocalDatePipe],
-  directives: [ConceptCreateComponent],
+  directives: [],
   providers: [ConceptService],
   template: `
   <div class="card white grey-text text-darken-1">
