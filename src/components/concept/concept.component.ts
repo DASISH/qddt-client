@@ -20,12 +20,16 @@ export class ConceptComponent {
 
   private concept: any;
   private concepts: any;
+
+
   constructor(private conceptService: ConceptService) {
     this.concept = new Concept();
   }
 
-  ngAfterViewInit() {
-    this.conceptService.getByTopic(this.topic.id).subscribe(result => this.concepts = result.content);
+  ngOnChanges() {
+    console.log( 'Change getByTopic ->' +this.topic.id);
+    this.conceptService.getByTopic(this.topic.id)
+      .subscribe(result => this.concepts = result.content);
   }
 
 
@@ -39,9 +43,20 @@ export class ConceptComponent {
 
   onSave() {
     this.showConceptForm = false;
-    this.conceptService.save(this.concept).subscribe(result => {
-      this.concepts.push(result);
-    });
+    this.conceptService.save(this.concept,this.topic.id)
+      .subscribe(result => {
+        this.concepts.push(result);
+      });
     this.concept  = new Concept();
   }
+
+  onSaveChildConcept(parentConceptId :string) {
+
+    this.conceptService.saveChildConcept(this.concept, parentConceptId)
+      .subscribe(result => {
+        this.concepts.push(result);
+      });
+    this.concept  = new Concept();
+  }
+
 }

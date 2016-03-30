@@ -25,8 +25,8 @@ export class ConceptService {
     console.log('ConceptService: ', err);
   }
 
-  save(concept: Concept) : any {
-    return this.http.post(this.api + 'concept/create',
+  save(concept: Concept, topicId: string) : any {
+    return this.http.post(this.api + 'concept/create/by-topicgroup/'+ topicId,
       JSON.stringify(concept),
       {
         headers: this.headers
@@ -48,6 +48,17 @@ export class ConceptService {
 
   getByTopic(topicId:string) : any {
     return this.http.get(this.api + 'concept/page/by-topicgroup/'+ topicId + '?page=0&size=20&sort=asc',
+      {
+        headers: this.headers
+      })
+      .map((res:Response) => {
+        return res.json();
+      });
+  }
+
+  saveChildConcept(concept: any, parentId: string):any {
+    return this.http.post(this.api + 'concept/create/by-parent/'+ parentId,
+      JSON.stringify(concept),
       {
         headers: this.headers
       })

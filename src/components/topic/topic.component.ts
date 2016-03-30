@@ -38,7 +38,6 @@ export class TopicComponent {
     this.topicService.getAll(this.study.id)
       .subscribe(result => {
         this.topics = result;
-        console.log('Topics ' + result.length);
       });
   }
 
@@ -48,6 +47,7 @@ export class TopicComponent {
 
   onSelectTopic(topic: any) {
     this.topicSelectedEvent.emit(topic);
+    console.log(topic.name);
   }
 
   onSave() {

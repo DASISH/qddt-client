@@ -1,6 +1,7 @@
 import {Component, Input} from 'angular2/core';
 
 import {ConceptService, Concept} from '../concept.service';
+import {Topic} from '../../topic/topic.service';
 
 @Component({
   selector: 'surveyprogram-edit',
@@ -23,7 +24,7 @@ import {ConceptService, Concept} from '../concept.service';
           </div>
         </div>
         <div class="row">
-		  <div class="input-field col s4">
+		      <div class="input-field col s4">
               <label class="active teal-text">Version Reason</label>
               <select  class="browser-default input-sm"  [(ngModel)]="concept.changeKind">
                 <option *ngFor="#changereason of changes" [value]="changereason">{{changereason}}</option>
@@ -55,16 +56,19 @@ import {ConceptService, Concept} from '../concept.service';
 })
 export class ConceptEditComponent {
 
-    @Input() concept: Concept;
-    private changes:any;
 
-    private service: ConceptService;
+  @Input() concept: Concept;
+  @Input() topic: Topic;
+
+  private changes: any;
+  private service: ConceptService;
+
   constructor(conceptService: ConceptService) {
       this.service = conceptService;
       this.changes = ['IN_DEVELOPMENT','TYPO','NEW_MAJOR'];
     }
     save() {
-        this.service.save(this.concept);
+        this.service.save(this.concept,this.topic.id);
     }
 
 }
