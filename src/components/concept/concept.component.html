@@ -74,7 +74,7 @@
       <h5>Concept Toc</h5>
       <ul class="section table-of-contents">
         <li><a href="#topMenu">To the top </a> </li>
-        <li *ngFor="#concept of concepts"><a href="#{{concept.name}}">{{concept.name}}</a></li>
+        <li *ngFor="#concept of concepts"><a *ngIf="concept.name" href="#{{concept.name}}">{{concept.name}}</a></li>
       </ul>
     </div>
   </div>
