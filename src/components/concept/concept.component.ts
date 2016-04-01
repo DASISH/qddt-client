@@ -1,6 +1,8 @@
 import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {LocalDatePipe} from '../../common/date_pipe';
 import {ConceptRevision} from './concept_revision.component';
+import {ConceptChildrenList} from './concept_children_list.component';
+import {ConceptEditComponent} from './edit/concept_edit.component';
 import {ConceptService, Concept} from './concept.service';
 import {CommentListComponent} from '../comment/comment_list.component';
 
@@ -8,7 +10,7 @@ import {CommentListComponent} from '../comment/comment_list.component';
   selector: 'concept',
   moduleId: module.id,
   providers: [ConceptService],
-  directives: [ConceptRevision,CommentListComponent],
+  directives: [ConceptRevision,CommentListComponent, ConceptEditComponent, ConceptChildrenList],
   pipes: [LocalDatePipe],
   templateUrl: './concept.component.html'
 })
@@ -21,10 +23,14 @@ export class ConceptComponent {
 
   private concept: any;
   private concepts: any;
-
+  private children: any;
 
   constructor(private conceptService: ConceptService) {
     this.concept = new Concept();
+    this.children = [{'id':1, 'name':'Concept 1', 'description':'Concept Child  1', 'modified':'Thu Mar 31 2016', 'children':[
+                       {'id':12, 'name':'Concept 12', 'description':'Concept Child  12', 'modified':'Thu Mar 31 2016','children':[]}]},
+                     {'id':2, 'name':'Concept 2', 'description':'Concept Child  2', 'modified':'Thu Mar 31 2016', 'children':[]},
+                     {'id':3, 'name':'Concept 3', 'description':'Concept Child  3', 'modified':'Thu Mar 31 2016', 'children':[]}];
   }
 
   ngOnChanges() {

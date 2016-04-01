@@ -1,12 +1,12 @@
 import {Component, Input} from 'angular2/core';
-
+import {MaterializeDirective} from 'angular2-materialize/dist/materialize-directive';
 import {ConceptService, Concept} from '../concept.service';
-import {Topic} from '../../topic/topic.service';
 
 @Component({
-  selector: 'surveyprogram-edit',
+  selector: 'concept-edit',
   moduleId: module.id,
   providers: [ConceptService],
+  directives: [MaterializeDirective],
   template: `
   <div *ngIf="isVisible">
     <div *ngIf="concept" class="card" id="{{concept.id}}"  >
@@ -56,19 +56,20 @@ import {Topic} from '../../topic/topic.service';
 })
 export class ConceptEditComponent {
 
-
   @Input() concept: Concept;
-  @Input() topic: Topic;
 
   private changes: any;
   private service: ConceptService;
 
   constructor(conceptService: ConceptService) {
-      this.service = conceptService;
-      this.changes = ['IN_DEVELOPMENT','TYPO','NEW_MAJOR'];
-    }
-    save() {
-        this.service.save(this.concept,this.topic.id);
-    }
+    this.service = conceptService;
+    this.changes = ['IN_DEVELOPMENT','TYPO','NEW_MAJOR'];
+  }
+
+  save() {
+    this.service.updateConcept(this.concept).subscribe(result => {
+      this.concept = result;
+    });
+  }
 
 }
