@@ -36,6 +36,17 @@ export class ConceptService {
       });
   }
 
+  updateConcept(concept: Concept) : any {
+    return this.http.post(this.api + 'concept',
+      JSON.stringify(concept),
+      {
+        headers: this.headers
+      })
+      .map((res:Response) => {
+        return res.json();
+      });
+  }
+
   getAll() : any {
     return this.http.get(this.api + 'concept/page',
       {

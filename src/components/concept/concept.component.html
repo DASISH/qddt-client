@@ -41,6 +41,8 @@
                    (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium">history</i></a>
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                    (click)="onSelectConcept(concept)"><i class="material-icons left medium">add</i></a>
+                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                   (click)="list.isVisible = !list.isVisible"><i class="material-icons left medium">list</i></a>
               </div>
             </div>
 
@@ -57,7 +59,7 @@
               <concept-edit [isVisible]="edit.isVisible" [concept]="concept" [topicId]="topic.id" #edit></concept-edit>
 
               <concept-revision [isVisible]="revision.isVisible" [conceptId]="concept.id" #revision ></concept-revision>
-
+              <concept-children-list [isVisible]="list.isVisible" [children]='children' #list ></concept-children-list>
               <div class="row">
                 <comment-list [ownerId]="concept.id"></comment-list>
               </div>
