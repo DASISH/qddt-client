@@ -2,6 +2,7 @@ import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {LocalDatePipe} from '../../common/date_pipe';
 import {ConceptRevision} from './concept_revision.component';
 import {ConceptChildrenList} from './concept_children_list.component';
+import {QuestionListComponent} from './question_list.component';
 import {ConceptEditComponent} from './edit/concept_edit.component';
 import {ConceptService, Concept} from './concept.service';
 import {CommentListComponent} from '../comment/comment_list.component';
@@ -10,7 +11,7 @@ import {CommentListComponent} from '../comment/comment_list.component';
   selector: 'concept',
   moduleId: module.id,
   providers: [ConceptService],
-  directives: [ConceptRevision,CommentListComponent, ConceptEditComponent, ConceptChildrenList],
+  directives: [ConceptRevision,CommentListComponent, ConceptEditComponent, ConceptChildrenList, QuestionListComponent],
   pipes: [LocalDatePipe],
   templateUrl: './concept.component.html'
 })
