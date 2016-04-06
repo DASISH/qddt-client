@@ -2,22 +2,22 @@
   <div id="topMenu" class="scrollspy">
     <nav >
       <div class="nav-wrapper">
-        <ul id="nav-mobile" class="left hide-on-med-and-down">
-          <li *ngIf="survey">
-            <a (click)=onShowSurvey()>SURVEY [{{survey.name}}]</a>
-          </li>
-          <li *ngIf="study">
-            <a (click)=onShowStudy()> STUDY [{{study.name}}]</a>
-          </li>
-          <li *ngIf="topic">
+        <!--<ul id="nav-mobile" class="left hide-on-med-and-down">-->
+          <!--<li *ngIf="survey">-->
+            <a href="#!" *ngIf="survey" (click)=onShowSurvey() class="breadcrumb">SURVEY [{{survey.name}}]</a>
+          <!--</li>-->
+          <!--<li *ngIf="study">-->
+            <a href="#!" *ngIf="study" (click)=onShowStudy() class="breadcrumb"> STUDY [{{study.name}}]</a>
+          <!--</li>-->
+          <!--<li *ngIf="topic">-->
 
-            <a (click)=onShowTopic()>QUESTIONIARE MODULE [{{topic.name}}]</a>
-          </li>
-          <li *ngIf="concept">
+            <a href="#!" *ngIf="topic" (click)=onShowTopic() class="breadcrumb">QUESTIONIARE MODULE [{{topic.name}}]</a>
+          <!--</li>-->
+          <!--<li *ngIf="concept">-->
 
-            <a (click)=onShowConcept()>CONCEPTS</a>
-          </li>
-        </ul>
+            <a href="#!" *ngIf="concept" (click)=onShowConcept()  class="breadcrumb">CONCEPTS</a>
+          <!--</li>-->
+        <!--</ul>-->
       </div>
     </nav>
   </div>
@@ -31,13 +31,13 @@
     [survey]="survey" (studySelectedEvent)="onStudySelected($event)">
   </study>
 
-    <topic  *ngIf="study" [show]="showTopic"
-      [study]="study" (topicSelectedEvent)="onTopicSelected($event)">
-    </topic>
+  <topic  *ngIf="study" [show]="showTopic"
+    [study]="study" (topicSelectedEvent)="onTopicSelected($event)">
+  </topic>
 
-    <concept *ngIf="topic"  [show]="showConcept"
-      [topic]="topic"  (conceptSelectedEvent)="onConceptSelected($event)">
-    </concept>
+  <concept *ngIf="topic"  [show]="showConcept"
+    [topic]="topic"  (conceptSelectedEvent)="onConceptSelected($event)">
+  </concept>
 
 
 </div>

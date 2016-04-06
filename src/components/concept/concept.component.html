@@ -59,7 +59,9 @@
               <concept-edit [isVisible]="edit.isVisible" [concept]="concept" [topicId]="topic.id" #edit></concept-edit>
 
               <concept-revision [isVisible]="revision.isVisible" [conceptId]="concept.id" #revision ></concept-revision>
+
               <concept-children-list [isVisible]="list.isVisible" [children]='children' #list ></concept-children-list>
+
               <div class="row">
                 <comment-list [ownerId]="concept.id"></comment-list>
               </div>
