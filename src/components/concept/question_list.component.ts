@@ -55,11 +55,11 @@ export class QuestionListComponent {
   onSelectQuestoin(event) {
     var select = event.target,
       val = select.options[select.selectedIndex].value,
-      johnRemoved = this.allofquestions.filter(function (question) {
+      removed = this.allofquestions.filter(function (question) {
         return question.name === val;});
     this.allofquestions = this.allofquestions.filter(function (question) {
       return question.name !== val;});
-    this.questions.push(johnRemoved[0]);
+    this.questions.push(removed[0]);
     select.selectedIndex = 0;
   }
 }

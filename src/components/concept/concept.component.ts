@@ -24,25 +24,22 @@ export class ConceptComponent {
 
   private concept: any;
   private concepts: any;
-  private children: any;
+  private parentIsTopic: boolean;
 
   constructor(private conceptService: ConceptService) {
     this.concept = new Concept();
-    this.children = [{'id':1, 'name':'Concept 1', 'description':'Concept Child  1', 'modified':'Thu Mar 31 2016', 'children':[
-                       {'id':12, 'name':'Concept 12', 'description':'Concept Child  12', 'modified':'Thu Mar 31 2016','children':[]}]},
-                     {'id':2, 'name':'Concept 2', 'description':'Concept Child  2', 'modified':'Thu Mar 31 2016', 'children':[]},
-                     {'id':3, 'name':'Concept 3', 'description':'Concept Child  3', 'modified':'Thu Mar 31 2016', 'children':[]}];
+    this.parentIsTopic = true;
   }
 
   ngOnChanges() {
-    console.log( 'Change getByTopic ->' +this.topic.id);
     this.conceptService.getByTopic(this.topic.id)
-      .subscribe(result => this.concepts = result.content);
+      .subscribe(result => {this.concepts = result.content;});
   }
 
-
   onSelectConcept(concept: any) {
-    this.conceptSelectedEvent.emit(concept);
+    this.parentIsTopic = false;
+    this.topic = concept;
+    this.concepts = concept.children;
   }
 
   onToggleConceptForm() {
@@ -51,19 +48,17 @@ export class ConceptComponent {
 
   onSave() {
     this.showConceptForm = false;
-    this.conceptService.save(this.concept,this.topic.id)
-      .subscribe(result => {
-        this.concepts.push(result);
-      });
-    this.concept  = new Concept();
-  }
-
-  onSaveChildConcept(parentConceptId :string) {
-
-    this.conceptService.saveChildConcept(this.concept, parentConceptId)
-      .subscribe(result => {
-        this.concepts.push(result);
-      });
+    if(this.parentIsTopic) {
+      this.conceptService.save(this.concept, this.topic.id)
+        .subscribe(result => {
+          this.concepts.push(result);
+       });
+    } else {
+      this.conceptService.saveChildConcept(this.concept, this.topic.id)
+        .subscribe(result => {
+          this.concepts.push(result);
+       });
+    }
     this.concept  = new Concept();
   }
 

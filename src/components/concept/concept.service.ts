@@ -57,8 +57,18 @@ export class ConceptService {
       });
   }
 
-  getByTopic(topicId:string) : any {
+  getByTopic(topicId: string) : any {
     return this.http.get(this.api + 'concept/page/by-topicgroup/'+ topicId + '?page=0&size=20&sort=asc',
+      {
+        headers: this.headers
+      })
+      .map((res:Response) => {
+        return res.json();
+      });
+  }
+
+  getByConcept(conceptId: string) : any {
+    return this.http.get(this.api + 'concept/page/by-parent/'+ conceptId + '?page=0&size=20&sort=asc',
       {
         headers: this.headers
       })
@@ -77,4 +87,5 @@ export class ConceptService {
         return res.json();
       });
   }
+
 }
