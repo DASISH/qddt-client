@@ -14,7 +14,7 @@ import {LocalDatePipe} from '../../common/date_pipe';
            <i *ngIf="child.name" class="material-icons circle green">insert_chart</i>
              <span class="title">{{child.name}}</span>
              <p>{{child.description}} <br> {{child.modified | localDate}} </p>
-             <concept-children-list [isVisible]="isVisible" [concept]="child.children"></concept-children-list>
+             <concept-children-list [isVisible]="isVisible" [children]="child.children"></concept-children-list>
           </li>
         </ul>
     </div>
