@@ -25,10 +25,11 @@ import {ConceptService, Concept} from '../concept.service';
         </div>
         <div class="row">
 		      <div class="input-field col s4">
-              <label class="active teal-text">Version Reason</label>
-              <select  class="browser-default input-sm"  [(ngModel)]="concept.changeKind">
-                <option *ngFor="#changereason of changes" [value]="changereason">{{changereason}}</option>
-              </select>
+            <label class="active teal-text">Version Reason</label>
+            <select [(ngModel)]="concept.changeKind" materialize="material_select" required>
+             <option value="" disabled selected>Select reason</option>
+             <option *ngFor="#change of _ChangeEnums" [value]="change[0]">{{change[1]}}</option>
+            </select>
           </div>
           <div class="input-field col s8">
             <input type="text" [(ngModel)]="concept.changeComment" required>
@@ -57,13 +58,16 @@ import {ConceptService, Concept} from '../concept.service';
 export class ConceptEditComponent {
 
   @Input() concept: Concept;
-
-  private changes: any;
   private service: ConceptService;
+  private _ChangeEnums: any;
 
   constructor(conceptService: ConceptService) {
     this.service = conceptService;
-    this.changes = ['IN_DEVELOPMENT','TYPO','NEW_MAJOR'];
+    this._ChangeEnums = [['IN_DEVELOPMENT','Work in progress'],
+      ['TYPO','Ortographical adjustment'],
+      ['NEW_MAJOR','Conceptual improvement'],
+      ['NEW_MAJOR','Real life change'],
+      ['NEW_MAJOR','Other purpose']];
   }
 
   save() {
