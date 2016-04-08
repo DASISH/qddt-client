@@ -10,11 +10,11 @@ import {LocalDatePipe} from '../../common/date_pipe';
   <div *ngIf="isVisible">
     <div>
        <ul class="collection">
-         <li *ngFor="#child of concept.children"  class="collection-item avatar">
-           <i class="material-icons circle green">insert_chart</i>
+         <li *ngFor="#child of children"  class="collection-item avatar">
+           <i *ngIf="child.name" class="material-icons circle green">insert_chart</i>
              <span class="title">{{child.name}}</span>
              <p>{{child.description}} <br> {{child.modified | localDate}} </p>
-             <concept-children-list [isVisible]="isVisible" [concept]="child"></concept-children-list>
+             <concept-children-list [isVisible]="isVisible" [children]="child.children"></concept-children-list>
           </li>
         </ul>
     </div>
@@ -25,7 +25,7 @@ import {LocalDatePipe} from '../../common/date_pipe';
 })
 export class ConceptChildrenList {
 
-  @Input() concept: any;
+  @Input() children: any;
   @Input() isVisible: boolean;
 
 }
