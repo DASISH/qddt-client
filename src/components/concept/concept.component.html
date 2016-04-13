@@ -30,47 +30,7 @@
         </div>
       </div>
       <div *ngIf="concepts">
-        <div class="row" *ngFor="#concept of concepts" style="padding-left:2%">
-          <div *ngIf="concept.name" id="{{concept.name}}" class="scrollspy">
-            <div class="col s1 m1 l1">
-              <br />
-              <div class="row">
-                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                   (click)="edit.isVisible = !edit.isVisible"><i class="material-icons">mode_edit</i></a>
-                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                   (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium">history</i></a>
-                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                   (click)="onSelectConcept(concept)"><i class="material-icons left medium">add</i></a>
-                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                   (click)="list.isVisible = !list.isVisible"><i class="material-icons left medium">list</i></a>
-              </div>
-            </div>
-
-            <div class="col s10 m10 l10 grey-text text-darken-2">
-              <h5>{{concept.name}}</h5>
-              {{concept.modified | localDate}} by <strong>{{concept.modifiedBy.username}}@{{concept.modifiedBy.agency.name}}</strong>
-            </div>
-
-            <div class="col s10 m10 l10 white grey-text text-darken-1">
-              <div class="row">
-                <p>{{concept.description}}</p>
-              </div>
-
-              <question-list></question-list>
-
-              <concept-edit [isVisible]="edit.isVisible" [concept]="concept" [topicId]="topic.id" #edit></concept-edit>
-
-              <concept-revision [isVisible]="revision.isVisible" [conceptId]="concept.id" #revision ></concept-revision>
-
-              <concept-children-list [isVisible]="list.isVisible" [children]='concept.children' #list ></concept-children-list>
-
-              <div class="row">
-                <comment-list [ownerId]="concept.id"></comment-list>
-              </div>
-            </div>
-
-          </div>
-        </div>
+         <treenode *ngFor="#child of concepts" [concept]="child"></treenode>
       </div>
     </div>
   </div>
@@ -80,7 +40,7 @@
       <h5>Concept Toc</h5>
       <ul class="section table-of-contents">
         <li><a href="#topMenu">To the top </a> </li>
-        <li *ngFor="#concept of concepts"><a *ngIf="concept.name" href="#{{concept.name}}">{{concept.name}}</a></li>
+        <concept-toc [concepts]="concepts"></concept-toc>
       </ul>
     </div>
   </div>
