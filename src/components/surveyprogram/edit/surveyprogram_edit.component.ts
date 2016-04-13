@@ -3,7 +3,7 @@ import {Component, Input} from 'angular2/core';
 import {MaterializeDirective} from 'angular2-materialize/dist/materialize-directive';
 
 import {SurveyService, SurveyProgram} from '../../surveyprogram/survey.service';
-import {Change} from '../../../common/changeStatus';
+import {Change} from '../../../common/change_status';
 
 @Component({
   selector: 'surveyprogram-edit',

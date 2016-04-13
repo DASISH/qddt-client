@@ -2,7 +2,7 @@
  import {MaterializeDirective} from 'angular2-materialize/dist/materialize-directive';
 
  import {StudyService} from '../study.service';
- import {Change} from '../../../common/changeStatus';
+ import {Change} from '../../../common/change_status';
 
  @Component({
    selector: 'study-edit',

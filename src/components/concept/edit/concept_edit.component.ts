@@ -1,7 +1,7 @@
 import {Component, Input} from 'angular2/core';
 import {MaterializeDirective} from 'angular2-materialize/dist/materialize-directive';
 import {ConceptService, Concept} from '../concept.service';
-import {Change} from '../../../common/changeStatus';
+import {Change} from '../../../common/change_status';
 
 @Component({
   selector: 'concept-edit',

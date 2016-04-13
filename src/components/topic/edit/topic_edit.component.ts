@@ -2,7 +2,7 @@ import {Component, Input} from 'angular2/core';
 
 import {TopicService, Topic} from '../topic.service';
 import {MaterializeDirective} from 'angular2-materialize/dist/materialize-directive';
-import {Change} from '../../../common/changeStatus';
+import {Change} from '../../../common/change_status';
 
 @Component({
   selector: 'topic-edit',

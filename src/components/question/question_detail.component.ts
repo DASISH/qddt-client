@@ -3,7 +3,7 @@ import {QuestionService} from './question.service';
 import {MaterializeDirective} from 'angular2-materialize/dist/materialize-directive';
 
 import {LocalDatePipe} from '../../common/date_pipe';
-import {Change} from '../../common/changeStatus';
+import {Change} from '../../common/change_status';
 
 @Component({
   selector: 'question-detail',
