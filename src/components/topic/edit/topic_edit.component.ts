@@ -61,14 +61,10 @@ export class TopicEditComponent {
 
   @Input() topic: Topic;
 
-  private _ChangeEnums: any = Change.status;
+  private _ChangeEnums: any;
 
   constructor(private topicService: TopicService) {
-    this._ChangeEnums = [['IN_DEVELOPMENT','Work in progress'],
-      ['TYPO','Ortographical adjustment'],
-      ['CONCEPTUAL','Conceptual improvement'],
-      ['EXTERNAL','Real life change'],
-      ['OTHER','Other purpose']];
+    this._ChangeEnums = Change.status;
   }
 
   onSave() {

@@ -60,10 +60,11 @@ export class ConceptEditComponent {
 
   @Input() concept: Concept;
   private service: ConceptService;
-  private _ChangeEnums: any = Change.status;
+  private _ChangeEnums: any;
 
   constructor(conceptService: ConceptService) {
     this.service = conceptService;
+    this._ChangeEnums = Change.status;
   }
 
   save() {

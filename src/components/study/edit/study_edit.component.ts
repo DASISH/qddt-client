@@ -62,9 +62,10 @@
     @Input() study: any;
     @Input() surveyId: any;
     @Output() studySavedEvent: EventEmitter<any> = new EventEmitter();
-    private _ChangeEnums: any = Change.status;
+    private _ChangeEnums: any;
 
     constructor(private studyService: StudyService) {
+      this._ChangeEnums = Change.status;
     }
 
 

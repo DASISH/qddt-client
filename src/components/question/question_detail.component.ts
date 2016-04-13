@@ -19,10 +19,9 @@ export class QuestionDetail {
   @Output() questionModifiedEvent:EventEmitter<String> = new EventEmitter();
   @Input() question:any;
 
-  changes: any;
+  changes: any = Change.status;
 
   constructor(private service:QuestionService) {
-    this.changes = Change.status;
 
   }
 

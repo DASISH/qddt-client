@@ -67,9 +67,10 @@ import {Change} from '../../../common/change_status';
 export class SurveyProgramEditComponent {
 
     @Input() surveyProgram: SurveyProgram;
-    private changes:any = Change.status;
+    private changes: any;
 
   constructor(private surveyService: SurveyService) {
+      this.changes = Change.status;
     }
 
     save() {
