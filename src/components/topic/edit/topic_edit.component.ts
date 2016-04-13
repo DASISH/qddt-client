@@ -2,6 +2,7 @@ import {Component, Input} from 'angular2/core';
 
 import {TopicService, Topic} from '../topic.service';
 import {MaterializeDirective} from 'angular2-materialize/dist/materialize-directive';
+import {Change} from '../../../common/changeStatus';
 
 @Component({
   selector: 'topic-edit',
@@ -60,7 +61,7 @@ export class TopicEditComponent {
 
   @Input() topic: Topic;
 
-  private _ChangeEnums: any ;
+  private _ChangeEnums: any = Change.status;
 
   constructor(private topicService: TopicService) {
     this._ChangeEnums = [['IN_DEVELOPMENT','Work in progress'],

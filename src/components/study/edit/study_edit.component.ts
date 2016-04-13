@@ -2,6 +2,7 @@
  import {MaterializeDirective} from 'angular2-materialize/dist/materialize-directive';
 
  import {StudyService} from '../study.service';
+ import {Change} from '../../../common/changeStatus';
 
  @Component({
    selector: 'study-edit',
@@ -61,14 +62,9 @@
     @Input() study: any;
     @Input() surveyId: any;
     @Output() studySavedEvent: EventEmitter<any> = new EventEmitter();
-    private _ChangeEnums: any;
+    private _ChangeEnums: any = Change.status;
 
     constructor(private studyService: StudyService) {
-      this._ChangeEnums = [['IN_DEVELOPMENT','Work in progress'],
-        ['TYPO','Ortographical adjustment'],
-        ['CONCEPTUAL','Conceptual improvement'],
-        ['EXTERNAL','Real life change'],
-        ['OTHER','Other purpose']];
     }
 
 

@@ -3,6 +3,7 @@ import {QuestionService} from './question.service';
 import {MaterializeDirective} from 'angular2-materialize/dist/materialize-directive';
 
 import {LocalDatePipe} from '../../common/date_pipe';
+import {Change} from '../../common/changeStatus';
 
 @Component({
   selector: 'question-detail',
@@ -18,16 +19,11 @@ export class QuestionDetail {
   @Output() questionModifiedEvent:EventEmitter<String> = new EventEmitter();
   @Input() question:any;
 
-  private changes:any;
+  changes: any;
 
   constructor(private service:QuestionService) {
-    this.changes = [
-      ['IN_DEVELOPMENT', 'Work in progress'],
-      ['TYPO', 'Ortographical adjustment'],
-      ['NEW_MAJOR', 'Conceptual improvement'],
-      ['NEW_MAJOR', 'Real life change'],
-      ['NEW_MAJOR', 'Other purpose']
-    ];
+    this.changes = Change.status;
+
   }
 
 

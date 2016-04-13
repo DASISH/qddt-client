@@ -3,6 +3,7 @@ import {Component, Input} from 'angular2/core';
 import {MaterializeDirective} from 'angular2-materialize/dist/materialize-directive';
 
 import {SurveyService, SurveyProgram} from '../../surveyprogram/survey.service';
+import {Change} from '../../../common/changeStatus';
 
 @Component({
   selector: 'surveyprogram-edit',
@@ -66,14 +67,9 @@ import {SurveyService, SurveyProgram} from '../../surveyprogram/survey.service';
 export class SurveyProgramEditComponent {
 
     @Input() surveyProgram: SurveyProgram;
-    private changes:any;
+    private changes:any = Change.status;
 
   constructor(private surveyService: SurveyService) {
-    this.changes = [['IN_DEVELOPMENT','Work in progress'],
-      ['TYPO','Ortographical adjustment'],
-      ['CONCEPTUAL','Conceptual improvement'],
-      ['EXTERNAL','Real life change'],
-      ['OTHER','Other purpose']];
     }
 
     save() {

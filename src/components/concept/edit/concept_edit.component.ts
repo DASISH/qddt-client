@@ -1,6 +1,7 @@
 import {Component, Input} from 'angular2/core';
 import {MaterializeDirective} from 'angular2-materialize/dist/materialize-directive';
 import {ConceptService, Concept} from '../concept.service';
+import {Change} from '../../../common/changeStatus';
 
 @Component({
   selector: 'concept-edit',
@@ -59,15 +60,10 @@ export class ConceptEditComponent {
 
   @Input() concept: Concept;
   private service: ConceptService;
-  private _ChangeEnums: any;
+  private _ChangeEnums: any = Change.status;
 
   constructor(conceptService: ConceptService) {
     this.service = conceptService;
-    this._ChangeEnums = [['IN_DEVELOPMENT','Work in progress'],
-      ['TYPO','Ortographical adjustment'],
-      ['CONCEPTUAL','Conceptual improvement'],
-      ['EXTERNAL','Real life change'],
-      ['OTHER','Other purpose']];
   }
 
   save() {
