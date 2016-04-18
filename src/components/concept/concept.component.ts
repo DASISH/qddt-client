@@ -20,6 +20,7 @@ export class ConceptComponent {
 
   private concept: any;
   private concepts: any;
+  private allQuestions: any;
 
   constructor(private conceptService: ConceptService) {
     this.concept = new Concept();
@@ -28,6 +29,12 @@ export class ConceptComponent {
   ngOnChanges() {
     this.conceptService.getByTopic(this.topic.id)
       .subscribe(result => { this.concepts = result.content;});
+  }
+
+  ngOnInit() {
+    this.conceptService.getQuestions().subscribe(result => {
+        this.allQuestions = result.content;
+      });
   }
 
   onSelectConcept(concept: any) {

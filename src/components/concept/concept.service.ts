@@ -88,4 +88,29 @@ export class ConceptService {
       });
   }
 
+  attachQuestion(concept: any, questionId: string):any {
+    return this.http.post(this.api + 'concept/add-question/'+ questionId,
+      JSON.stringify(concept),
+      {
+        headers: this.headers
+      })
+      .map((res:Response) => {
+        return res.json();
+      });
+  }
+
+  getQuestions(): any {
+    let headers = new Headers();
+    headers.append('Authorization', 'Bearer  ' + JSON.parse(localStorage.getItem('jwt')).access_token);
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json');
+
+    return this.http.get(this.api+'question/page',
+      {
+        headers: headers
+      })
+      .map((res:Response) => {
+        return res.json();
+      });
+  }
 }

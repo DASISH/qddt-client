@@ -2,7 +2,7 @@ import { Component, Input} from 'angular2/core';
 import {LocalDatePipe} from '../../common/date_pipe';
 import {MaterializeDirective} from 'angular2-materialize/dist/materialize-directive';
 import {ConceptRevision} from './concept_revision.component';
-//import {QuestionListComponent} from './question_list.component';
+import {QuestionListComponent} from './question_list.component';
 import {ConceptEditComponent} from './edit/concept_edit.component';
 import {CommentListComponent} from '../comment/comment_list.component';
 import {ConceptService, Concept} from './concept.service';
@@ -10,7 +10,7 @@ import {ConceptService, Concept} from './concept.service';
 @Component({
   selector: 'treenode',
   providers: [ConceptService],
-  directives: [TreeNodeComponent, MaterializeDirective, ConceptRevision, ConceptEditComponent, CommentListComponent],
+  directives: [TreeNodeComponent, QuestionListComponent, MaterializeDirective, ConceptRevision, ConceptEditComponent, CommentListComponent],
   pipes: [LocalDatePipe],
   styles: [
     '.tree-children { padding-left: 5px }',
@@ -64,11 +64,12 @@ import {ConceptService, Concept} from './concept.service';
            </div>
            <concept-edit [isVisible]="edit.isVisible" [concept]="concept" #edit></concept-edit>
            <concept-revision [isVisible]="revision.isVisible" [conceptId]="concept.id" #revision ></concept-revision>
+           <question-list [concept]="concept" [allQuestions]="allQuestions"></question-list>
            <div class="row">
              <comment-list [ownerId]="concept.id"></comment-list>
            </div>
            <div class="tree-children">
-             <treenode *ngFor="#child of concept.children" [concept]="child"></treenode>
+             <treenode *ngFor="#child of concept.children" [concept]="child" [allQuestions]="allQuestions"></treenode>
            </div>
     </div></div></div>
   `
@@ -76,6 +77,7 @@ import {ConceptService, Concept} from './concept.service';
 
 export class TreeNodeComponent {
   @Input() concept: any;
+  @Input() allQuestions: any;
   showConceptChildForm: boolean = false;
   private newchild: any;
 
