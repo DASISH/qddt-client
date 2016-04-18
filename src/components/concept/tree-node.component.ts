@@ -20,7 +20,7 @@ import {ConceptService, Concept} from './concept.service';
     }`
   ],
   template: `
-    <div *ngIf="concept.name" class="row tree-node">      
+    <div *ngIf="concept.name" class="row card">
       <div id="{{concept.name}}" class="scrollspy">
          <div class="col s1 m1 l1">
            <br />
@@ -34,12 +34,12 @@ import {ConceptService, Concept} from './concept.service';
              </div>
            </div>
 
-           <div class="col s10 m10 l10 grey-text text-darken-2">
+           <div class="col s11 m11 l11 grey-text text-darken-2">
              <h5>{{concept.name}}</h5>
              {{concept.modified | localDate}} by <strong>{{concept.modifiedBy.username}}@{{concept.modifiedBy.agency.name}}</strong>
            </div>
 
-           <div class="col s10 m10 l10 white grey-text text-darken-1">
+           <div class="col s11 m11 l11 white grey-text text-darken-1">
              <div class="row">
                <p>{{concept.description}}</p>
               </div>
@@ -53,7 +53,7 @@ import {ConceptService, Concept} from './concept.service';
                    </div>
                  </div>
                  <div class="row">
-                   <div class="input-field col s10">
+                   <div class="input-field col s11">
                      <textarea id="description" class="materialize-textarea" [(ngModel)]="newchild.description" required></textarea>
                      <label for="description" class="blue-text">Description</label>
                    </div>
@@ -88,6 +88,7 @@ export class TreeNodeComponent {
   }
 
   onChildSave() {
+    console.log('onChildSave');
     this.showConceptChildForm = false;
     this.conceptService.saveChildConcept(this.newchild, this.concept.id)
         .subscribe(result => {

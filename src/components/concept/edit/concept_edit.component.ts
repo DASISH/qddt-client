@@ -68,9 +68,9 @@ export class ConceptEditComponent {
   }
 
   save() {
-    this.service.updateConcept(this.concept).subscribe(result => {
-      this.concept = result;
-    });
+    this.service.updateConcept(this.concept)
+      .subscribe(result => this.concept = result
+        ,(err) => console.log('ERROR: ', err));
   }
 
 }

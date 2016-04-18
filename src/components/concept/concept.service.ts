@@ -2,6 +2,8 @@ import {Injectable, Inject} from 'angular2/core';
 import {Http, Headers, Response} from 'angular2/http';
 
 import {API_BASE_HREF} from '../../api';
+import * as Rx from 'rxjs/Rx';
+//import {Observable} from 'rxjs/Observable';
 
 export class Concept {
   id:string;
@@ -33,7 +35,8 @@ export class ConceptService {
       })
       .map((res:Response) => {
         return res.json();
-      });
+      })
+      .catch(this.handleError);
   }
 
   updateConcept(concept: Concept) : any {
@@ -44,7 +47,8 @@ export class ConceptService {
       })
       .map((res:Response) => {
         return res.json();
-      });
+      })
+      .catch(this.handleError);
   }
 
   getAll() : any {
@@ -54,7 +58,8 @@ export class ConceptService {
       })
       .map((res:Response) => {
         return res.json();
-      });
+      })
+      .catch(this.handleError);
   }
 
   getByTopic(topicId: string) : any {
@@ -64,7 +69,8 @@ export class ConceptService {
       })
       .map((res:Response) => {
         return res.json();
-      });
+      })
+      .catch(this.handleError);
   }
 
   getByConcept(conceptId: string) : any {
@@ -74,7 +80,8 @@ export class ConceptService {
       })
       .map((res:Response) => {
         return res.json();
-      });
+      })
+      .catch(this.handleError);
   }
 
   saveChildConcept(concept: any, parentId: string):any {
@@ -85,7 +92,14 @@ export class ConceptService {
       })
       .map((res:Response) => {
         return res.json();
-      });
+      })
+      .catch(this.handleError);
+  }
+
+  private handleError(error: Response) {
+    console.log(error);
+
+    return  Rx.Observable.throw(error.json().exceptionMessage|| 'Server error');
   }
 
 }

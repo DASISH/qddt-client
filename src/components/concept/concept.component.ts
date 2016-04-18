@@ -3,6 +3,8 @@ import {LocalDatePipe} from '../../common/date_pipe';
 import {ConceptService, Concept} from './concept.service';
 import {TreeNodeComponent} from './tree-node.component';
 import {ConceptTocComponent} from './concept-toc';
+//import {Response} from 'angular2/http';
+
 @Component({
   selector: 'concept',
   moduleId: module.id,
@@ -27,7 +29,8 @@ export class ConceptComponent {
 
   ngOnChanges() {
     this.conceptService.getByTopic(this.topic.id)
-      .subscribe(result => { this.concepts = result.content;});
+      .subscribe(result => this.concepts = result.content
+                ,(err) => console.log('ERROR: ', err));
   }
 
   onSelectConcept(concept: any) {
@@ -42,8 +45,10 @@ export class ConceptComponent {
   onSave() {
     this.showConceptForm = false;
     this.conceptService.save(this.concept, this.topic.id)
-      .subscribe(result => {this.concepts.push(result);});
-    this.concept  = new Concept();
+      .subscribe(result => this.concepts.push(result)
+                ,(err) => console.log('ERROR: ', err));
+        this.concept  = new Concept();
   }
+
 
 }
