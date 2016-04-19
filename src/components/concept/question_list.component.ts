@@ -83,10 +83,12 @@ export class QuestionListComponent {
     this.showAutoComplete = false;
     this.concept.questions.push(suggestion);
     this.filterQuestions();
-    /*this.conceptService.attachQuestion(this.concept, suggestion.id).subscribe(result => {
+    this.conceptService.attachQuestion(this.concept.id, suggestion.id)
+      .subscribe(result => {
         this.concept = result;
         this.filterQuestions();
-      });*/
+      }
+      ,(err) => console.log('ERROR: ', err));
   }
 
 }

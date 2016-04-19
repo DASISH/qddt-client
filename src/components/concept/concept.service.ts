@@ -96,21 +96,16 @@ export class ConceptService {
       .catch(this.handleError);
   }
 
-  private handleError(error: Response) {
-    console.log(error);
 
-    return  Rx.Observable.throw(error.json().exceptionMessage|| 'Server error');
-  }
-
-  attachQuestion(concept: any, questionId: string):any {
-    return this.http.post(this.api + 'concept/add-question/'+ questionId,
-      JSON.stringify(concept),
+  attachQuestion(conceptId: string, questionId: string):any {
+    return this.http.get(this.api + 'concept/combine?question='+ questionId+ '&concept='+ conceptId,
       {
         headers: this.headers
       })
       .map((res:Response) => {
         return res.json();
-      });
+      })
+      .catch(this.handleError);
   }
 
   getQuestions(): any {
@@ -125,6 +120,14 @@ export class ConceptService {
       })
       .map((res:Response) => {
         return res.json();
-      });
+      })
+      .catch(this.handleError);
+  }
+
+
+  private handleError(error: Response) {
+    console.log(error);
+
+    return  Rx.Observable.throw(error.json().exceptionMessage|| 'Server error');
   }
 }
