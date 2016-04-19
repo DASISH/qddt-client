@@ -3,7 +3,6 @@ import {Http, Headers, Response} from 'angular2/http';
 
 import {API_BASE_HREF} from '../../api';
 import * as Rx from 'rxjs/Rx';
-//import {Observable} from 'rxjs/Observable';
 
 export class Concept {
   id:string;
