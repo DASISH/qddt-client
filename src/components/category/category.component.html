@@ -38,7 +38,7 @@
       </div>
       <div *ngIf="categories">
         <div class="row" *ngFor="#category of categories" style="padding-left:2%">
-          <div id="{{category.name}}" class="scrollspy">
+          <div id="{{category.id}}" class="scrollspy">
             <div class="col s1 m1 l1">
               <br/>
               <div class="row">
@@ -81,7 +81,7 @@
       <h5>Module Toc</h5>
       <ul class="section table-of-contents">
         <li><a href="#topMenu">To the top </a> </li>
-        <li *ngFor="#category of categories"><a href="/category#{{category.name}}">{{category.name}}</a></li>
+        <li *ngFor="#category of categories"><a href="/category#{{category.id}}">{{category.name}}</a></li>
       </ul>
     </div>
   </div>
