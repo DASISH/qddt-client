@@ -6,6 +6,7 @@ import {UserLogin} from '../../common/user.component';
 import {UserService} from '../../common/user.service';
 import {QuestionComp} from '../question/question.component';
 import {ConceptComponent} from '../concept/concept.component';
+import {CategoryComponent} from '../category/category.component';
 
 @Component({
   selector: 'app',
@@ -18,7 +19,8 @@ import {ConceptComponent} from '../concept/concept.component';
 @RouteConfig([
   { path: '/', component: HomeCmp, as: 'Home', useAsDefault: true },
   { path: '/question', component: QuestionComp, as: 'Questions' },
-  { path: '/concept', component: ConceptComponent, as: 'Concepts' }
+  { path: '/concept', component: ConceptComponent, as: 'Concepts' },
+  { path: '/category', component: CategoryComponent, as: 'Categories' }
 ])
 export class AppCmp {
 
