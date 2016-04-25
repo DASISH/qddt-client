@@ -6,6 +6,7 @@ import {TopicService, Topic} from './topic.service';
 import {CommentListComponent} from '../comment/comment_list.component';
 import {TopicEditComponent} from './edit/topic_edit.component';
 import {TopicRevision} from './topic_revision.component';
+import {AuthorChipComponent} from '../author/author_chip.component';
 
 @Component({
   selector: 'topic',
@@ -13,7 +14,7 @@ import {TopicRevision} from './topic_revision.component';
   templateUrl: './topic.component.html',
   pipes: [LocalDatePipe],
   providers: [TopicService],
-  directives: [ CommentListComponent, TopicEditComponent, TopicRevision]
+  directives: [ CommentListComponent, TopicEditComponent, TopicRevision,AuthorChipComponent]
 })
 export class TopicComponent {
 

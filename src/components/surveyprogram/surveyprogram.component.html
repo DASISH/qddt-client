@@ -33,7 +33,7 @@
 
       <div *ngIf="surveys">
         <div class="row" *ngFor="#surveyProgram of surveys" style="padding-left:2%">
-          <div id="{{surveyProgram.name}}" class="scrollspy">
+          <div id="{{surveyProgram.id}}" class="scrollspy">
 
             <div class="col s1 m1 l1">
               <br />
@@ -55,6 +55,7 @@
               <p>
                 {{surveyProgram.description}}
               </p>
+              <author-chip  [authors]="surveyProgram.authors" ></author-chip>
             </div>
 
             <surveyprogram-edit  [surveyProgram]="surveyProgram" #edit></surveyprogram-edit>
@@ -77,7 +78,7 @@
       <h5>Survey Toc</h5>
         <ul class="section table-of-contents">
           <li><a href="#topMenu">to the top </a> </li>
-          <li *ngFor="#surveyProgram of surveys"><a href="#{{surveyProgram.name}}">{{surveyProgram.name}}</a></li>
+          <li *ngFor="#surveyProgram of surveys"><a href="#{{surveyProgram.id}}">{{surveyProgram.name}}</a></li>
         </ul>
       </div>
   </div>

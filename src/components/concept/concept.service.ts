@@ -27,84 +27,43 @@ export class ConceptService {
   }
 
   save(concept: Concept, topicId: string) : any {
-    return this.http.post(this.api + 'concept/create/by-topicgroup/'+ topicId,
-      JSON.stringify(concept),
-      {
-        headers: this.headers
-      })
-      .map((res:Response) => {
-        return res.json();
-      })
-      .catch(this.handleError);
+    return this.post(concept, 'concept/create/by-topicgroup/'+ topicId);
   }
 
   updateConcept(concept: Concept) : any {
-    return this.http.post(this.api + 'concept',
-      JSON.stringify(concept),
-      {
-        headers: this.headers
-      })
-      .map((res:Response) => {
-        return res.json();
-      })
-      .catch(this.handleError);
+    return this.post(concept, 'concept');
   }
 
   getAll() : any {
-    return this.http.get(this.api + 'concept/page',
-      {
-        headers: this.headers
-      })
-      .map((res:Response) => {
-        return res.json();
-      })
-      .catch(this.handleError);
+    return this.get('concept/page');
   }
 
   getByTopic(topicId: string) : any {
-    return this.http.get(this.api + 'concept/page/by-topicgroup/'+ topicId + '?page=0&size=20&sort=asc',
-      {
-        headers: this.headers
-      })
-      .map((res:Response) => {
-        return res.json();
-      })
-      .catch(this.handleError);
+    return this.get('concept/page/by-topicgroup/'+ topicId + '?page=0&size=20&sort=asc');
   }
 
   getByConcept(conceptId: string) : any {
-    return this.http.get(this.api + 'concept/page/by-parent/'+ conceptId + '?page=0&size=20&sort=asc',
-      {
-        headers: this.headers
-      })
-      .map((res:Response) => {
-        return res.json();
-      })
-      .catch(this.handleError);
+    return this.get('concept/page/by-parent/'+ conceptId + '?page=0&size=20&sort=asc');
   }
 
   saveChildConcept(concept: any, parentId: string):any {
-    return this.http.post(this.api + 'concept/create/by-parent/'+ parentId,
-      JSON.stringify(concept),
-      {
-        headers: this.headers
-      })
-      .map((res:Response) => {
-        return res.json();
-      })
-      .catch(this.handleError);
+    return this.post(concept, 'concept/create/by-parent/'+ parentId);
   }
 
-
   attachQuestion(conceptId: string, questionId: string):any {
-    return this.http.get(this.api + 'concept/combine?question='+ questionId+ '&concept='+ conceptId,
-      {
-        headers: this.headers
-      })
-      .map((res:Response) => {
-        return res.json();
-      })
-      .catch(this.handleError);
+    return this.get('concept/combine?question='+ questionId+ '&concept='+ conceptId);
+  }
+
+  deattachQuestion(conceptId: string, questionId: string):any {
+    return this.get('concept/decombine?question='+ questionId+ '&concept='+ conceptId);
+  }
+
+  attachAuthor(conceptId: string, authorId: string):any {
+    return this.get('author/combine?authorId='+ authorId + '&conceptId=' +conceptId);
+  }
+
+  deattachAuthor(conceptId: string, authorId: string):any {
+    return this.get('author/decombine?authorId='+ authorId + '&conceptId=' +conceptId);
   }
 
   getQuestions(): any {
@@ -123,10 +82,33 @@ export class ConceptService {
       .catch(this.handleError);
   }
 
-
   private handleError(error: Response) {
     console.log(error);
 
     return  Rx.Observable.throw(error.json().exceptionMessage|| 'Server error');
   }
+
+  private get(url: String) : any {
+    return this.http.get(this.api + url,
+      {
+        headers: this.headers
+      })
+      .map((res:Response) => {
+        return res.json();
+      })
+      .catch(this.handleError);
+  }
+
+  private post(concept: any, url: String):any {
+    return this.http.post(this.api + url,
+      JSON.stringify(concept),
+      {
+        headers: this.headers
+      })
+      .map((res:Response) => {
+        return res.json();
+      })
+      .catch(this.handleError);
+  }
+
 }

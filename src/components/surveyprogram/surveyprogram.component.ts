@@ -6,12 +6,13 @@ import {SurveyService, SurveyProgram} from './survey.service';
 import {CommentListComponent} from '../comment/comment_list.component';
 import {SurveyProgramEditComponent} from './edit/surveyprogram_edit.component';
 import {SurveyProgramRevision} from './surveyprogram_revision.component';
+import {AuthorChipComponent} from '../author/author_chip.component';
 
 @Component({
   selector: 'surveyprogram',
   moduleId: module.id,
   templateUrl: './surveyprogram.component.html',
-  directives: [CommentListComponent, SurveyProgramEditComponent, SurveyProgramRevision],
+  directives: [CommentListComponent, SurveyProgramEditComponent, SurveyProgramRevision, AuthorChipComponent],
   pipes: [LocalDatePipe],
   providers: [SurveyService]
 })

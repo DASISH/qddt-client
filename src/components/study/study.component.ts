@@ -7,6 +7,7 @@ import {StudyCreateComponent} from './create.component';
 import {StudyEditComponent} from './edit/study_edit.component';
 import {StudyRevision} from './study_revision.component';
 import {CommentListComponent} from '../comment/comment_list.component';
+import {AuthorChipComponent} from '../author/author_chip.component';
 
 @Component({
   selector: 'study',
@@ -14,7 +15,7 @@ import {CommentListComponent} from '../comment/comment_list.component';
   templateUrl: './study.component.html',
   pipes: [LocalDatePipe],
   providers: [StudyService],
-  directives: [StudyCreateComponent, CommentListComponent, StudyEditComponent, StudyRevision]
+  directives: [StudyCreateComponent, CommentListComponent, StudyEditComponent, StudyRevision,AuthorChipComponent]
 
 })
 export class StudyComponent {

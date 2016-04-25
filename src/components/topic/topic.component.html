@@ -32,7 +32,7 @@
       </div>
       <div *ngIf="topics">
         <div class="row" *ngFor="#topic of topics" style="padding-left:2%">
-          <div id="{{topic.name}}" class="scrollspy">
+          <div id="{{topic.id}}" class="scrollspy">
             <div class="col s1 m1 l1">
               <br/>
               <div class="row">
@@ -53,6 +53,7 @@
             <div class="col s10 m10 l10 white grey-text text-darken-1">
               <div class="row">
                 <p>{{topic.abstractDescription}}</p>
+                <author-chip [authors]="topic.authors" ></author-chip>
               </div>
 
               <topic-edit [isVisible]="edit.isVisible" [topic]="topic" [studyId]="study.id" #edit></topic-edit>
@@ -75,7 +76,7 @@
       <h5>Module Toc</h5>
       <ul class="section table-of-contents">
         <li><a href="#topMenu">To the top </a> </li>
-        <li *ngFor="#topic of topics"><a href="#{{topic.name}}">{{topic.name}}</a></li>
+        <li *ngFor="#topic of topics"><a href="#{{topic.id}}">{{topic.name}}</a></li>
       </ul>
     </div>
   </div>

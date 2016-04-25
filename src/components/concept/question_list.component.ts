@@ -9,7 +9,7 @@ import {ConceptService} from './concept.service';
   directives: [],
   providers: [ConceptService],
   styles: [
-    '.questionlist{ border-color: #888; border-style: solid; width: 100%;}',
+    // '.questionlist{ class="z-depth-2" }',
     '.autocomplete { width: 100%; position: relative;}',
     '.autocomplete input{width: 80%;}',
     `.autocomplete ul{ position: absolute; left: 0;
@@ -29,24 +29,33 @@ import {ConceptService} from './concept.service';
       `.autocomplete li.active .highlight { background: #666; color: #fff;}`,
   ],
   template: `
-    <div *ngIf="concept" class="questionlist">
-      <label class="active teal-text">List Questions of {{concept.name}}</label>
-      <ul><li *ngFor="#question of concept.questions">{{question.question}}</li></ul>
-      <div *ngIf="concept" class="autocomplete">
-        <input
-          (blur)="showAutoComplete=false;"
-          (keyup)="enterText($event)"
-          (focus)="showAutoComplete=true;">
-          <ul *ngIf="showAutoComplete && suggestions != undefined && suggestions.length > 0">
-            <li
-              *ngFor="#suggestion of suggestions;#idx=index"
-              [ngClass]="{ active: (idx === selectedIndex) }"
-              (mouseover)="selectedIndex=idx;"
-              (mousedown)="select(suggestion)">{{suggestion.question}}
-            </li>
-         </ul>
-       </div>
-     </div>
+  <div *ngIf="concept" class="section">
+    <!--<div class="divider"></div>-->
+    <ul class="collection with-header">
+      <li class="collection-header">Questions</li>
+      <li class="collection-item" *ngFor="#question of concept.questions">
+        <div>
+          <i class="material-icons tiny">assignment_turned_in</i> {{question.question}}
+          <a href="#!" class="secondary-content" (click)="removeQuestion(question.id)"><i class="material-icons">delete_forever</i></a>
+        </div>
+      </li>
+    </ul>
+    <div *ngIf="concept" class="autocomplete">
+      <i class="material-icons">assignment_turned_in</i>
+      <input 
+        (blur)="showAutoComplete=false;"
+        (keyup)="enterText($event)"
+        (focus)="showAutoComplete=true;">
+        <ul *ngIf="showAutoComplete && suggestions != undefined && suggestions.length > 0">
+          <li
+            *ngFor="#suggestion of suggestions;#idx=index"
+            [ngClass]="{ active: (idx === selectedIndex) }"
+            (mouseover)="selectedIndex=idx;"
+            (mousedown)="select(suggestion)">{{suggestion.question}}
+          </li>
+        </ul>
+    </div>
+  </div>
 `
 })
 export class QuestionListComponent {
@@ -68,6 +77,15 @@ export class QuestionListComponent {
 
   enterText($event)  {
     this.filterQuestions($event.target.value);
+  }
+
+  removeQuestion(questionId:any) {
+    this.conceptService.deattachQuestion(this.concept.id, questionId)
+      .subscribe(result => {
+          this.concept = result;
+          this.filterQuestions();
+        }
+        ,(err) => console.log('ERROR: ', err));
   }
 
   filterQuestions(search: string = '') {

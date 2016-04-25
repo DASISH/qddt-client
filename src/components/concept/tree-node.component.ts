@@ -6,11 +6,13 @@ import {QuestionListComponent} from './question_list.component';
 import {ConceptEditComponent} from './edit/concept_edit.component';
 import {CommentListComponent} from '../comment/comment_list.component';
 import {ConceptService, Concept} from './concept.service';
+import {AuthorChipComponent} from '../author/author_chip.component';
 
 @Component({
   selector: 'treenode',
   providers: [ConceptService],
-  directives: [TreeNodeComponent, QuestionListComponent, MaterializeDirective, ConceptRevision, ConceptEditComponent, CommentListComponent],
+  directives: [TreeNodeComponent, QuestionListComponent, MaterializeDirective, ConceptRevision,
+              ConceptEditComponent, CommentListComponent,AuthorChipComponent],
   pipes: [LocalDatePipe],
   styles: [
     '.tree-children { padding-left: 5px }',
@@ -42,6 +44,7 @@ import {ConceptService, Concept} from './concept.service';
            <div class="col s11 m11 l11 white grey-text text-darken-1">
              <div class="row">
                <p>{{concept.description}}</p>
+               <author-chip [authors]="concept.authors" ></author-chip>
               </div>
            <div *ngIf="showConceptChildForm">
              <div class="card-action">
