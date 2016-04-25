@@ -6,6 +6,9 @@ import {CategoryService, Category} from './category.service';
 import {CommentListComponent} from '../comment/comment_list.component';
 import {CategoryEditComponent} from './edit/category_edit.component';
 import {CategoryRevision} from './category_revision.component';
+import {CategoryType} from './category_kind';
+import {MaterializeDirective} from 'angular2-materialize/dist/materialize-directive';
+
 
 @Component({
   selector: 'category',
@@ -13,7 +16,7 @@ import {CategoryRevision} from './category_revision.component';
   templateUrl: './category.component.html',
   pipes: [LocalDatePipe],
   providers: [CategoryService],
-  directives: [ CommentListComponent, CategoryEditComponent, CategoryRevision]
+  directives: [MaterializeDirective, CommentListComponent, CategoryEditComponent, CategoryRevision]
 })
 export class CategoryComponent {
 
@@ -22,9 +25,11 @@ export class CategoryComponent {
 
   private categories: any;
   private category: any;
+  private _CategoryEnums: any;
 
   constructor(private categoryService: CategoryService) {
     this.category = new Category();
+    this._CategoryEnums =  CategoryType.kind;
   }
 
   ngAfterViewInit() {

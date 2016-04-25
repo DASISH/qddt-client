@@ -3,6 +3,7 @@ import {Component, Input} from 'angular2/core';
 import {CategoryService, Category} from '../category.service';
 import {MaterializeDirective} from 'angular2-materialize/dist/materialize-directive';
 import {Change} from '../../../common/change_status';
+import {CategoryType} from '../category_kind';
 
 @Component({
   selector: 'category-edit',
@@ -23,6 +24,22 @@ import {Change} from '../../../common/change_status';
           <div class="input-field col s12">
             <input type="text" [(ngModel)]="category.label" required>
             <label for="label" class="active teal-text">Label</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s6">
+            <label class="active teal-text">Category Kind</label>
+            <select [(ngModel)]="category.categoryType" materialize="material_select" required>
+              <option value="" disabled selected>Select reason</option>
+              <option *ngFor="#change of _CategoryEnums" [value]="change[0]">{{change[1]}}</option>
+            </select>
+          </div>
+          <div class="input-field col s6">
+            <label class="active teal-text">hierarcyLevel</label>
+            <select [(ngModel)]="category.hierarcyLevel" materialize="material_select">
+              <option value="" disabled selected>Select reason</option>
+              <!--<option *ngFor="#change of _CategoryEnums" [value]="change[0]">{{change[1]}}</option>-->
+            </select>
           </div>
         </div>
         <div class="row">
@@ -67,10 +84,13 @@ export class CategoryEditComponent {
 
   @Input() category: Category;
 
+  private _CategoryEnums:any;
   private _ChangeEnums: any;
+
 
   constructor(private categoryService: CategoryService) {
     this._ChangeEnums = Change.status;
+    this._CategoryEnums =  CategoryType.kind;
   }
 
   onSave() {
