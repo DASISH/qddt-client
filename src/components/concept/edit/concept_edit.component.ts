@@ -41,7 +41,7 @@ import {Change} from '../../../common/change_status';
           <div class="input-field col s8">
             <p><label class="active teal-text">Authors</label></p>
             <div class="chip" *ngFor="#author of concept.authors" >
-              <img src="{{author.picture}}">{{author.name}} <i class="material-icons">close</i>
+              <img src="{{author.picture}}">{{author.name}} <i class="material-icons" (click)="removeAuthor(author.id)" >close</i>
             </div>
           </div>
           <div class="input-field col s4">
@@ -71,6 +71,19 @@ export class ConceptEditComponent {
     this.service.updateConcept(this.concept)
       .subscribe(result => this.concept = result
         ,(err) => console.log('ERROR: ', err));
+  }
+
+  removeAuthor(authorId:string):any {
+    console.log('remove->' + this.concept.authors.length);
+
+    for(var i = this.concept.authors.length - 1; i >= 0; i--) {
+      if(this.concept.authors[i].id === authorId) {
+        console.log('remove->' + this.concept.authors[i]);
+        this.concept.authors.splice(i, 1);
+      }
+    }
+    console.log('remove->' + this.concept.authors.length);
+    return this.concept;
   }
 
 }

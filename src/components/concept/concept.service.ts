@@ -9,6 +9,8 @@ export class Concept {
   name:string;
   label:string;
   description:string;
+  authors:any[];
+  questions:any[];
 }
 
 @Injectable()

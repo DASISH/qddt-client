@@ -14,6 +14,7 @@ import {ConceptRevisionService} from './concept_revision.service';
               <th data-field="id"> # </th>
               <th data-field="id">Version</th>
               <th data-field="id">Timestamp</th>
+              <th data-field="id">Saved By</th>
               <th data-field="id">Reason</th>
               <th data-field="id">Comment</th>
           </tr>
@@ -23,7 +24,8 @@ import {ConceptRevisionService} from './concept_revision.service';
               <td>{{content.metadata.revisionNumber}}</td>
               <td>{{content.entity.version.major}}.{{content.entity.version.minor}} {{content.entity.version.versionLabel}}</td>
               <td>{{content.metadata.delegate.timestamp | date:'dd MM yyyy HH:mm'}}</td>
-              <td>{{content.entity.changeKind}}</td>
+              <td>{{content.entity.modifiedBy.username}}</td>
+              <td>{{content.entity.changeKind}}</td>              
               <td>{{content.entity.changeComment}}</td>
           </tr>
         </tbody>

@@ -2,7 +2,7 @@ import { Component, Input} from 'angular2/core';
 import {LocalDatePipe} from '../../common/date_pipe';
 import {MaterializeDirective} from 'angular2-materialize/dist/materialize-directive';
 import {ConceptRevision} from './concept_revision.component';
-import {QuestionListComponent} from './question_list.component';
+import {ConceptQuestionComponent} from './concept_question.component';
 import {ConceptEditComponent} from './edit/concept_edit.component';
 import {CommentListComponent} from '../comment/comment_list.component';
 import {ConceptService, Concept} from './concept.service';
@@ -11,7 +11,7 @@ import {AuthorChipComponent} from '../author/author_chip.component';
 @Component({
   selector: 'treenode',
   providers: [ConceptService],
-  directives: [TreeNodeComponent, QuestionListComponent, MaterializeDirective, ConceptRevision,
+  directives: [TreeNodeComponent, ConceptQuestionComponent, MaterializeDirective, ConceptRevision,
               ConceptEditComponent, CommentListComponent,AuthorChipComponent],
   pipes: [LocalDatePipe],
   styles: [
@@ -23,7 +23,7 @@ import {AuthorChipComponent} from '../author/author_chip.component';
   ],
   template: `
     <div *ngIf="concept.name" class="row card">
-      <div id="{{concept.name}}" class="scrollspy">
+      <div id="{{concept.id}}" class="scrollspy">
          <div class="col s1 m1 l1">
            <br />
            <div class="row">
@@ -67,7 +67,7 @@ import {AuthorChipComponent} from '../author/author_chip.component';
            </div>
            <concept-edit [isVisible]="edit.isVisible" [concept]="concept" #edit></concept-edit>
            <concept-revision [isVisible]="revision.isVisible" [conceptId]="concept.id" #revision ></concept-revision>
-           <question-list [concept]="concept" [allQuestions]="allQuestions"></question-list>
+           <concept-question [concept]="concept" [allQuestions]="allQuestions"></concept-question>
            <div class="row">
              <comment-list [ownerId]="concept.id"></comment-list>
            </div>
