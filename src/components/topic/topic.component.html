@@ -60,6 +60,8 @@
 
               <topic-revision [isVisible]="revision.isVisible" [topicId]="topic.id" #revision ></topic-revision>
 
+              <concept-question [concept]="getDefaultConcept(topic)" [allQuestions]="questions"></concept-question>
+
               <div class="row">
                 <comment-list [ownerId]="topic.id"></comment-list>
               </div>
