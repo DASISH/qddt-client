@@ -3,7 +3,7 @@ import {Component, Input} from 'angular2/core';
 import {ConceptService} from './concept.service';
 
 @Component({
-  selector: 'question-list',
+  selector: 'concept-question',
   moduleId: module.id,
   pipes: [],
   directives: [],
@@ -58,7 +58,7 @@ import {ConceptService} from './concept.service';
   </div>
 `
 })
-export class QuestionListComponent {
+export class ConceptQuestionComponent {
 
   @Input() concept: any;
   @Input() allQuestions: any;
