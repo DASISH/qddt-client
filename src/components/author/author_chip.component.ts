@@ -7,7 +7,6 @@ import {MaterializeDirective} from 'angular2-materialize/dist/materialize-direct
   directives: [MaterializeDirective],
   template: `  
   <div *ngIf="authors">
-  Author(s):
     <div class="chip" *ngFor="#author of authors" >
       <img src="{{author.picture}}">
       <a *ngIf="!author.email && !author.homepage">{{author.name}}</a>
