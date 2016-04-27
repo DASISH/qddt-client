@@ -8,7 +8,8 @@ export class Change {
     ['TYPO', 'Ortographical adjustment'],
     ['CONCEPTUAL', 'Conceptual improvement'],
     ['EXTERNAL', 'Real life change'],
-    ['OTHER', 'Other purpose']
+    ['OTHER', 'Other purpose'],
+    ['MILESTONE', 'Milestone']
   ];
 
 
