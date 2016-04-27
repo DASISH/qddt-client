@@ -29,13 +29,16 @@ import {Change} from '../../../common/change_status';
         <div class="row">
 		      <div class="input-field col s4">
             <label class="active teal-text">Type of Change</label>
-            <select [(ngModel)]="surveyProgram.changeKind" materialize="material_select">
+            <select [(ngModel)]="surveyProgram.changeKind" materialize="material_select" (ngModelChange)="onChangeKind($event)">
               <option value="" disabled selected>Select reason</option>
               <option *ngFor="#changereason of changes" [value]="changereason[0]">{{changereason[1]}}</option>
             </select>
-
           </div>
-          <div class="input-field col s8">
+          <div *ngIf="showlabel"  class="input-field col s4">
+            <label for="versionlabel" class="active teal-text">Version label</label>
+            <input id="versionlabel" type="text" [(ngModel)]="surveyProgram.version.versionlabel">
+          </div>
+          <div class="input-field col">
             <input type="text" [(ngModel)]="surveyProgram.changeComment" required>
             <label for="changeComment" class="active teal-text">Reason for change</label>
           </div>
@@ -66,15 +69,21 @@ import {Change} from '../../../common/change_status';
 })
 export class SurveyProgramEditComponent {
 
-    @Input() surveyProgram: SurveyProgram;
-    private changes: any;
+  @Input() surveyProgram: SurveyProgram;
+  private changes: any;
+  private showlabel: boolean = false;
+
 
   constructor(private surveyService: SurveyService) {
-      this.changes = Change.status;
+    this.changes = Change.status;
     }
 
     save() {
         this.surveyService.save(this.surveyProgram);
     }
+
+  onChangeKind(value:any) {
+    this.showlabel = (value === 'MILESTONE');
+  }
 
 }

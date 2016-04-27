@@ -26,14 +26,18 @@ import {Change} from '../../../common/change_status';
           </div>
         </div>
         <div class="row">
-          <div class="input-field col s5">
+          <div class="input-field col s4">
             <label class="active teal-text">Type of Change</label>
-            <select [(ngModel)]="topic.changeKind" materialize="material_select" required>
+            <select [(ngModel)]="topic.changeKind" materialize="material_select" required (ngModelChange)="onChangeKind($event)">
               <option value="" disabled selected>Select reason</option>
               <option *ngFor="#change of _ChangeEnums" [value]="change[0]">{{change[1]}}</option>
             </select>
           </div>
-          <div class="input-field col s7">
+          <div *ngIf="showlabel"  class="input-field col s4">
+            <label for="versionlabel" class="active teal-text">Version label</label>
+            <input id="versionlabel" type="text" [(ngModel)]="topic.version.versionlabel">
+          </div>
+          <div class="input-field col">
             <label for="changeComment" class="active teal-text">Reason for change</label>
             <input id="changeComment" type="text" [(ngModel)]="topic.changeComment" required>
           </div>
@@ -62,6 +66,7 @@ export class TopicEditComponent {
   @Input() topic: Topic;
 
   private _ChangeEnums: any;
+  private showlabel: boolean = false;
 
   constructor(private topicService: TopicService) {
     this._ChangeEnums = Change.status;
@@ -75,4 +80,8 @@ export class TopicEditComponent {
       });
   }
 
+
+  onChangeKind(value:any) {
+    this.showlabel = (value === 'MILESTONE');
+  }
 }
