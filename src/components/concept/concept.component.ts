@@ -2,7 +2,7 @@ import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {LocalDatePipe} from '../../common/date_pipe';
 import {ConceptService, Concept} from './concept.service';
 import {TreeNodeComponent} from './tree-node.component';
-import {ConceptTocComponent} from './concept-toc';
+import {ConceptTocComponent} from './concept_toc.component';
 //import {Response} from 'angular2/http';
 
 @Component({
