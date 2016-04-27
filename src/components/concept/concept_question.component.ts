@@ -35,7 +35,7 @@ import {ConceptService} from './concept.service';
       <li class="collection-header">Questions</li>
       <li class="collection-item" *ngFor="#question of concept.questions">
         <div>
-          <i class="material-icons tiny">assignment_turned_in</i> {{question.question}}
+          <i class="material-icons tiny">help</i> {{question.question}}
           <a href="#!" class="secondary-content" (click)="removeQuestion(question.id)"><i class="material-icons">delete_forever</i></a>
         </div>
       </li>
