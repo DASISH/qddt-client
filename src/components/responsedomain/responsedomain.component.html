@@ -1,10 +1,68 @@
-<div *ngIf="responsedomain.name" class="card" id="{{responsedomain.id}}"  >
-  <form (ngSubmit)="save()" #hf="ngForm">
-    <div class="row">
-      <div class="input-field col s12">
-        <input id=name type="text" [(ngModel)]="responsedomain.name" required>
-        <label for="name" class="active teal-text">Label</label>
+<div class="row">
+<div class="col m10 l9">
+    <div class="card white white-text text-lighten-2">
+      <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
+        <i class="material-icons large right">comment</i><h4>Response Domains</h4>
       </div>
     </div>
-  </form>
+    <div class="row card">
+      <div class="response-domain-title">
+         <span name="text">Domain Type:</span>
+      </div>
+      <div class="col left" *ngFor="#domain of DomainTypeDescription" >
+        <input  name="domaintypegroup" type="radio" id="domain-type-{{domain.id}}"
+           (click)="domainType = domain.id"
+           [checked]="domainType === domain.id"/>
+           <label [attr.for]="'domain-type-' + domain.id">{{domain.label}}</label>
+       </div>
+    </div>
+
+    <div class="row card light-blue lighten-5 ">
+      <span name="text">Preview</span>
+      <div [ngSwitch]="domainType">
+        <responsedomain-scale *ngSwitchWhen="domainTypeDef.Scale" [n]="8"
+          [header]="scaleDomainDemo" [missingCode]="'88'" [missingLabel]="'donot know'"></responsedomain-scale>
+        <responsedomain-datetime *ngSwitchWhen="domainTypeDef.Datetime" [start]="'Job Begin on'" [end]="'Job End on'"></responsedomain-datetime>
+        <responsedomain-numeric *ngSwitchWhen="domainTypeDef.Numeric" [n]=5 [start]="'Not at all likely'" [end]="'Extremely likely'"></responsedomain-numeric>
+        <responsedomain-codelist *ngSwitchWhen="domainTypeDef.CodeList" [codes]="['red', 'green']"></responsedomain-codelist>
+        <responsedomain-categorylist *ngSwitchWhen="domainTypeDef.CategoryList" [codes]="['Category 1', 'Category 2']"></responsedomain-categorylist>
+        <responsedomain-text *ngSwitchWhen="domainTypeDef.Text" [label]="'Test text'"></responsedomain-text>
+        <responsedomain-missing *ngSwitchWhen="domainTypeDef.Missing"  [label]="'Test missing'"></responsedomain-missing>
+      </div>
+    </div>
+    
+    <div class="row card searchcard">
+      <div *ngIf="domainType" class="autocomplete">
+      <i class="material-icons">search</i>
+      <input placeholder="domain search"
+        (blur)="showAutoComplete=false;"
+        (keyup)="enterText($event)"
+        (focus)="showAutoComplete=true;">
+        <ul *ngIf="showAutoComplete && suggestions != undefined && suggestions.length > 0">
+          <li
+            *ngFor="#suggestion of suggestions;#idx=index"
+            [ngClass]="{ active: (idx === selectedIndex) }"
+            (mouseover)="selectedIndex=idx;"
+            (mousedown)="select(suggestion)">{{suggestion.label}}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="row card">
+    <a class="waves-effect waves-light btn">Use</a>
+    <a class="waves-effect waves-light btn" (click)="isVisible = !isVisible"><i class="material-icons left">cloud</i>Edit</a>
+    <a class="waves-effect waves-light btn" (click)="isVisible = !isVisible"><i class="material-icons right">cloud</i>New</a>
+    </div>
+    <responsedomain-form *ngIf="isVisible"  [responsedomain]="responseDomain"></responsedomain-form>
+  </div>
+
+  <div class="col hide-on-small-only m1 l1">
+    <div style="top: 55;" class="toc-wrapper pinned">
+      <h5>Response Domain Toc</h5>
+      <ul class="section table-of-contents">
+        <li><a href="#topMenu">To the top </a> </li>
+        <li *ngFor="#responseDomain of responseDomains"><a href="/responsedomain#{{responseDomain.id}}">{{responseDomain.name}}</a></li>
+      </ul>
+    </div>
+  </div>
 </div>
