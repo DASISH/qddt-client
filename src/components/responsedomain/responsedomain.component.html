@@ -50,8 +50,8 @@
     </div>
     <div class="row card">
     <a class="waves-effect waves-light btn">Use</a>
-    <a class="waves-effect waves-light btn" (click)="isVisible = !isVisible"><i class="material-icons left">cloud</i>Edit</a>
-    <a class="waves-effect waves-light btn" (click)="isVisible = !isVisible"><i class="material-icons right">cloud</i>New</a>
+    <a class="waves-effect waves-light btn" (click)="isVisible = !isVisible"><i class="material-icons">mode_edit</i></a>
+    <a class="waves-effect waves-light btn" (click)="isVisible = !isVisible"><i class="material-icons">add</i></a>
     </div>
     <responsedomain-form *ngIf="isVisible"  [responsedomain]="responseDomain"></responsedomain-form>
   </div>

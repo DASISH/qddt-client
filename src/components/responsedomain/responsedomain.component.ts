@@ -8,6 +8,7 @@ import {ResponsedomainScaleComponent} from './responsedomain.scale.component';
 import {ResponsedomainDatetimeComponent} from './responsedomain.datetime.component';
 import {ResponsedomainCodeListComponent} from './responsedomain.codelist.component';
 import {ResponsedomainCategoryListComponent} from './responsedomain.categorylist.component';
+import {ResponsedomainMissingComponent} from './responsedomain.missing.component';
 import {DomainType} from './responsedomain.constant';
 import {ResponseDomainService} from './responsedomain.service';
 import {ResponsedomainFormComponent} from './responsedomain.form.component';
@@ -42,7 +43,7 @@ import {ResponsedomainFormComponent} from './responsedomain.form.component';
     ResponsedomainNumericComponent,ResponsedomainScaleComponent,
     ResponsedomainDatetimeComponent,ResponsedomainTextComponent,
     ResponsedomainTextComponent, ResponsedomainFormComponent,
-    ResponsedomainCategoryListComponent]
+    ResponsedomainCategoryListComponent, ResponsedomainMissingComponent]
 })
 
 export class ResponsedomainComponent {
