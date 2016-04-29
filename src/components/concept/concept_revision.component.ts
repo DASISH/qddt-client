@@ -43,7 +43,6 @@ export class ConceptRevision {
   revisions: any;
 
   constructor(private service: ConceptRevisionService) {
-
   }
 
   ngAfterViewInit() {
@@ -58,5 +57,4 @@ export class ConceptRevision {
       );
   }
 
-  get diagnostic() { return JSON.stringify(this.revisions); }
 }
