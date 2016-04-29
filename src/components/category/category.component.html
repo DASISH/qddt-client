@@ -13,23 +13,20 @@
           <div class="card-action">
             <form (ngSubmit)="onSave()" #hf="ngForm">
               <div class="row">
-                <div class="input-field col">
-                  <input id="name" type="text" [(ngModel)]="category.name" required>
-                  <label for="name" class="white-text">Name</label>
-                </div>
-              </div>
-              <div class="row">
-                <div class="input-field col s5">
-                  <input id="name" type="text" [(ngModel)]="category.label" required>
+                <div class="input-field col s4">
+                  <input id="label" type="text" [(ngModel)]="category.label" required (ngModelChange)="category.name = category.label.toUpperCase()">
                   <label for="label" class="white-text">Label</label>
                 </div>
-                <div class="input-field col s5">
-                  <label for="categoryType" class="white-text">Category Kind</label>
-
-                    <select id="categoryType" [(ngModel)]="category.categoryType" materialize="material_select" required>
-                      <option value="" disabled selected>Select reason</option>
-                      <option *ngFor="#change of _CategoryEnums" [value]="change[0]">{{change[1]}}</option>
-                    </select>
+                <div class="input-field col s4">
+                  <label for="categoryType" class="active white-text">Category Kind</label>
+                  <select id="categoryType" [(ngModel)]="category.categoryType" materialize="material_select" required>
+                    <option value="" disabled selected>Select reason</option>
+                    <option *ngFor="#change of categoryEnums" [value]="change[0]">{{change[1]}}</option>
+                  </select>
+                </div>
+                <div class="input-field col s4">
+                  <input id="name" type="text" [(ngModel)]="category.name" required>
+                  <label for="name" class="white-text">Name</label>
                 </div>
               </div>
               <div class="row">

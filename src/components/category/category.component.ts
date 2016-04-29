@@ -25,11 +25,11 @@ export class CategoryComponent {
 
   private categories: any;
   private category: any;
-  private _CategoryEnums: any;
+  private categoryEnums: any;
 
   constructor(private categoryService: CategoryService) {
     this.category = new Category();
-    this._CategoryEnums =  CategoryType.kind;
+    this.categoryEnums =  CategoryType.kind;
   }
 
   ngAfterViewInit() {

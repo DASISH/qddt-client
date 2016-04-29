@@ -8,52 +8,41 @@ import {CategoryType} from '../category_kind';
 @Component({
   selector: 'category-edit',
   moduleId: module.id,
-  providers: [CategoryService],
+  providers: [CategoryService,CategoryType],
   directives: [MaterializeDirective],
   template: `
   <div *ngIf="isVisible">
     <div *ngIf="category" class="card" id="{{category.id}}"  >
       <form (ngSubmit)="onSave()" #hf="ngForm">
         <div class="row">
-          <div class="input-field col s12">
+          <div class="input-field col s4">
+            <input type="text" [(ngModel)]="category.label" required (ngModelChange)="category.name = category.label.toUpperCase()">
+            <label for="label" class="active teal-text">Label</label>
+          </div>
+          <div class="input-field col s4">
+            <label class="active teal-text">Category Kind</label>
+            <select [(ngModel)]="category.categoryType" materialize="material_select" required>
+              <option value="" disabled selected>Select reason</option>
+              <option *ngFor="#change of categoryEnums" [value]="change[0]">{{change[1]}}</option>
+            </select>
+          </div>
+          <div class="input-field col s4">
             <input type="text" [(ngModel)]="category.name" required>
             <label for="name" class="active teal-text">Name</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <input type="text" [(ngModel)]="category.label" required>
-            <label for="label" class="active teal-text">Label</label>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s6">
-            <label class="active teal-text">Category Kind</label>
-            <select [(ngModel)]="category.categoryType" materialize="material_select" required>
-              <option value="" disabled selected>Select reason</option>
-              <option *ngFor="#change of _CategoryEnums" [value]="change[0]">{{change[1]}}</option>
-            </select>
-          </div>
-          <div class="input-field col s6">
-            <label class="active teal-text">hierarcyLevel</label>
-            <select [(ngModel)]="category.hierarcyLevel" materialize="material_select">
-              <option value="" disabled selected>Select reason</option>
-              <!--<option *ngFor="#change of _CategoryEnums" [value]="change[0]">{{change[1]}}</option>-->
-            </select>
-          </div>
-        </div>
-        <div class="row">
-          <div class="input-field col s12">
-            <textarea class="materialize-textarea"  [(ngModel)]="category.description" required></textarea>
+            <textarea class="materialize-textarea"  [(ngModel)]="category.description" ></textarea>
             <label for="description" class="active teal-text">Description</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s5">
             <label class="active teal-text">Type of Change</label>
-            <select [(ngModel)]="category.changeKind" materialize="material_select" required>
+            <select [(ngModel)]="category.changeKind"  materialize="material_select" required>
               <option value="" disabled selected>Select reason</option>
-              <option *ngFor="#change of _ChangeEnums" [value]="change[0]">{{change[1]}}</option>
+              <option *ngFor="#change of changeEnums" [value]="change[0]">{{change[1]}}</option>
             </select>
           </div>
           <div class="input-field col s7">
@@ -84,13 +73,13 @@ export class CategoryEditComponent {
 
   @Input() category: Category;
 
-  private _CategoryEnums:any;
-  private _ChangeEnums: any;
+  private categoryEnums:any;
+  private changeEnums: any;
 
 
   constructor(private categoryService: CategoryService) {
-    this._ChangeEnums = Change.status;
-    this._CategoryEnums =  CategoryType.kind;
+    this.changeEnums = Change.status;
+    this.categoryEnums =  CategoryType.kind;
   }
 
   onSave() {
@@ -99,5 +88,6 @@ export class CategoryEditComponent {
         this.category = result;
       });
   }
+
 
 }
