@@ -2,7 +2,7 @@ import {Injectable, Inject} from 'angular2/core';
 import {Http, Headers, Response} from 'angular2/http';
 
 import {API_BASE_HREF} from '../../api';
-import * as Rx from 'rxjs/Rx';
+import {BaseService} from '../../common/base.service';
 
 export class Concept {
   id:string;
@@ -14,14 +14,10 @@ export class Concept {
 }
 
 @Injectable()
-export class ConceptService {
+export class ConceptService extends BaseService {
 
-  private headers: Headers;
-
-  constructor(private http:Http, @Inject(API_BASE_HREF) private api:string) {
-    this.headers = new Headers();
-    this.headers.append('Authorization', 'Bearer  ' + JSON.parse(localStorage.getItem('jwt')).access_token);
-    this.headers.append('Content-Type', 'application/json');
+  constructor(protected http:Http, @Inject(API_BASE_HREF) protected api:string) {
+    super(http ,api);
   }
 
   static logError(err:string) {
@@ -84,33 +80,5 @@ export class ConceptService {
       .catch(this.handleError);
   }
 
-  private handleError(error: Response) {
-    console.log(error);
-
-    return  Rx.Observable.throw(error.json().exceptionMessage|| 'Server error');
-  }
-
-  private get(url: String) : any {
-    return this.http.get(this.api + url,
-      {
-        headers: this.headers
-      })
-      .map((res:Response) => {
-        return res.json();
-      })
-      .catch(this.handleError);
-  }
-
-  private post(concept: any, url: String):any {
-    return this.http.post(this.api + url,
-      JSON.stringify(concept),
-      {
-        headers: this.headers
-      })
-      .map((res:Response) => {
-        return res.json();
-      })
-      .catch(this.handleError);
-  }
 
 }

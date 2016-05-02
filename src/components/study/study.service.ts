@@ -1,7 +1,8 @@
 import {Injectable, Inject} from 'angular2/core';
-import {Http, Headers, Response} from 'angular2/http';
+import {Http} from 'angular2/http';
 
 import {API_BASE_HREF} from '../../api';
+import {BaseService} from '../../common/base.service';
 
 export class Study {
   id: string;
@@ -10,58 +11,23 @@ export class Study {
 }
 
 @Injectable()
-export class StudyService {
+export class StudyService extends BaseService {
 
-  private headers: Headers;
-  private surveyProgramId:string;
-
-  constructor(private http: Http, @Inject(API_BASE_HREF) private api: string) {
-    this.headers = new Headers();
-    this.headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
-    this.headers.append('Content-Type', 'application/json');
+  constructor(protected http:Http, @Inject(API_BASE_HREF) protected api:string) {
+    super(http ,api);
   }
 
-  static logError(err: string) {
-    console.log('StudyService: ', err);
-  }
 
   save(study: Study, surveyProgramId: String): any {
-    return this.http.post(this.api+'study/create/' +surveyProgramId,
-      JSON.stringify(study),
-      {
-        headers: this.headers
-      })
-      .map((res: Response) => {
-        return res.json();
-      });
+    return this.post(study,'study/create/' +surveyProgramId);
   }
 
-    update(study: Study): any {
-    return this.http.post(this.api+'study/',
-      JSON.stringify(study),
-      {
-        headers: this.headers
-      })
-      .map((res: Response) => {
-        return res.json();
-      });
+  update(study: Study): any {
+    return this.post(study,'study/');
   }
 
   getAll(surveyProgramId: String) : any {
-    return this.http.get(this.api+'surveyprogram/'+surveyProgramId,
-      {
-        headers: this.headers
-      })
-      .map((res:Response) => {
-        return res.json();
-      });
+    return this.get('surveyprogram/'+surveyProgramId);
   }
-
-
-  getModel(): Array<Study> {
-    return this.getAll(this.surveyProgramId);
-  }
-
-
 
 }

@@ -1,96 +1,43 @@
 import {Injectable, Inject} from 'angular2/core';
-import {Http, Headers, Response} from 'angular2/http';
+import {Http} from 'angular2/http';
 import DateTimeFormat = Intl.DateTimeFormat;
 
 import {API_BASE_HREF} from '../../api';
+import {BaseService} from '../../common/base.service';
 
 export class SurveyProgram {
   id: string;
   name: string;
   modified:DateTimeFormat;
+  authors: any[];
 }
 
 @Injectable()
-export class SurveyService {
+export class SurveyService extends BaseService {
 
-  surveyProgram: SurveyProgram = new SurveyProgram();
-  surveyPrograms: Array<SurveyProgram> = [];
-
-  constructor(private http: Http, @Inject(API_BASE_HREF) private api: string) {
-    console.log('survey.service.const');
-    //this.getAll();
+  constructor(protected http:Http, @Inject(API_BASE_HREF) protected api:string) {
+    super(http ,api);
   }
-
 
   static logError(err: string) {
     console.log('SurveyService: ', err);
   }
 
-  save(surveyProgram: SurveyProgram): SurveyProgram {
-    this.surveyProgram = surveyProgram;
-
-    var headers = new Headers();
-    headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
-    headers.append('Content-Type', 'application/json');
-
-
-    this.http.post(this.api+'surveyprogram/create',
-      JSON.stringify(this.surveyProgram),
-      {
-        headers: headers
-      })
-      .map((res:Response) => res.json())
-      .subscribe(
-        (data:SurveyProgram)  => {
-          this.surveyProgram = data;
-          this.surveyPrograms.push(this.surveyProgram);
-
-        },
-        err   =>  SurveyService.logError('Unable to save SurveyProgram.')
-      );
-
-    return this.surveyProgram;
+  save(surveyProgram: SurveyProgram): any {
+    return this.post(surveyProgram, 'surveyprogram/create');
   }
 
-  //delete(surveyProgram: SurveyProgram){
-  //  var headers = new Headers();
-  //  headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
-  //  headers.append('Content-Type', 'application/json');
-  //
-  //
-  //  this.http.post('http://nsd349.nsd.lan:8080/surveyprogram/delete/'+ surveyProgram.id,
-  //    null,{
-  //      headers: headers
-  //    }),
-  //    err =>  SurveyService.logError('Unable to delete SurveyProgram.')
-  //    );
-  //
-  //}
 
-  getAll() {
-    var headers = new Headers();
-    headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
-
-    return this.http.get(this.api+'surveyprogram/list/by-user',
-      {
-        headers: headers
-      })
-      .map((res:Response) => res.json())
-      .subscribe(
-        (data:Array<SurveyProgram>)  =>  {
-          data.forEach(s => {
-            this.surveyPrograms.push(s);
-          });
-        },
-        (err: any) => SurveyService.logError('Unable to get all SurveyProgram')
-      );
+  getAll():any {
+    return this.get('surveyprogram/list/by-user');
   }
 
-  getModel(): Array<SurveyProgram> {
-    if (this.surveyPrograms.length === 0) {
-      this.getAll();
-    }
-
-    return this.surveyPrograms;
+  attachAuthor(surveyId: string, authorId: string):any {
+    return this.get('author/combine?authorId='+ authorId + '&surveyId=' +surveyId);
   }
+
+  deattachAuthor(surveyId: string, authorId: string):any {
+    return this.get('author/decombine?authorId='+ authorId + '&surveyId=' +surveyId);
+  }
+
 }

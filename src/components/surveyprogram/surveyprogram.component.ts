@@ -23,7 +23,8 @@ export class SurveyProgramComponent {
   @Output() surveySelectEvent: EventEmitter<String> = new EventEmitter();
   @Output() surveyDeleteEvent: EventEmitter<String> = new EventEmitter();
   @Output() entitySavedEvent: EventEmitter<String> = new EventEmitter();
-  private surveys: any;
+
+  private surveys: any[]=[];
   private survey: SurveyProgram;
 
 
@@ -32,18 +33,19 @@ export class SurveyProgramComponent {
   }
 
   ngOnChanges() {
-    this.surveys =  this.surveyService.getModel();
+    this.surveys = [];
+    this.surveyService.getAll()
+      .subscribe((data:Array<SurveyProgram>)  =>  {
+              data.forEach(s => this.surveys.push(s));
+            }
+      ,(err) => console.log('ERROR: ', err));
   }
 
-  onSave() {
-    this.showSurveyForm = false;
-    this.surveyService.save(this.survey);
-    this.surveys = this.surveyService.getModel();
+  onSurveySaved(survey:SurveyProgram) {
+    this.surveys = this.surveys.filter((q) => q.id !== survey.id);
+    this.surveys.push(survey);
     this.survey = new SurveyProgram();
-  }
-
-  onToggleSurveyForm() {
-    this.showSurveyForm = !this.showSurveyForm;
+    this.showSurveyForm = false;
   }
 
   onSurveySelect(surveyProgram: any) {

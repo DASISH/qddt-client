@@ -47,6 +47,7 @@ export class TopicRevision {
   }
 
   ngAfterViewInit() {
+    console.log('TopicRevision.ngAfterViewInit');
     this.getRevisionsById(this.topicId);
   }
 
@@ -54,9 +55,8 @@ export class TopicRevision {
     this.service.getAllRevisions(id)
       .subscribe(
         (revisions: any) => this.revisions = revisions,
-        (err: any) => TopicRevisionService.logError('Unable to get all revisions')
+        (err: any) => console.log('Unable to get all revisions->' + err)
       );
   }
 
-  get diagnostic() { return JSON.stringify(this.revisions); }
 }

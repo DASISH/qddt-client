@@ -8,7 +8,6 @@ import {TopicEditComponent} from './edit/topic_edit.component';
 import {TopicRevision} from './topic_revision.component';
 import {AuthorChipComponent} from '../author/author_chip.component';
 import {QuestionService} from '../question/question.service';
-// import {Concept} from '../concept/concept.service';
 import {ConceptQuestionComponent} from '../concept/concept_question.component';
 
 
@@ -30,6 +29,7 @@ export class TopicComponent {
   private topics:any;
   private topic: any;
   private questions: any;
+
 
   constructor(private topicService: TopicService, private questionService: QuestionService) {
     this.topic = new Topic();
@@ -74,12 +74,12 @@ export class TopicComponent {
      }
 
   getDefaultConcept(topic: any): any {
-    console.log(topic.concepts[0].name);
+    console.log('DefaultConcept->' + topic.name);
     return topic.concepts.find( item => ( this.isBlank(item.name) && this.isBlank(item.description) && this.isBlank(item.label)));
   }
 
 
-   isBlank(str): boolean {
-  return (!str || /^\s*$/.test(str));
-}
+  private isBlank(str): boolean {
+    return (!str || /^\s*$/.test(str));
+  }
 }

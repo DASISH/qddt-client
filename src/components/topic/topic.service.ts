@@ -1,7 +1,8 @@
 import {Injectable, Inject} from 'angular2/core';
-import {Http, Headers, Response} from 'angular2/http';
+import {Http} from 'angular2/http';
 
 import {API_BASE_HREF} from '../../api';
+import {BaseService} from '../../common/base.service';
 
 export class Topic {
   id: string;
@@ -10,52 +11,22 @@ export class Topic {
 }
 
 @Injectable()
-export class TopicService {
+export class TopicService extends BaseService {
 
-  topics: Array<Topic> = [];
-  private headers: Headers;
-
-  constructor(private http: Http, @Inject(API_BASE_HREF) private api: string) {
-    this.headers = new Headers();
-    this.headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
-    this.headers.append('Content-Type', 'application/json');
-  }
-
-
-  static logError(err: string) {
-    console.log('TopicService: ', err);
+  constructor(protected http:Http, @Inject(API_BASE_HREF) protected api:string) {
+    super(http ,api);
   }
 
   save(topic: Topic, studyId: string): any {
-    return this.http.post(this.api+'topicgroup/create/'+studyId,
-      JSON.stringify(topic),
-      {
-        headers: this.headers
-      })
-      .map((res: Response) => {
-        return res.json();
-      });
+    return this.post(topic,'topicgroup/create/'+studyId);
   }
 
   edit(topic: Topic): any {
-    return this.http.post(this.api+'topicgroup/',
-      JSON.stringify(topic),
-      {
-        headers: this.headers
-      })
-      .map((res: Response) => {
-        return res.json();
-      });
+    return this.post(topic,'topicgroup/');
   }
 
   getAll(studyId: string): any {
-    return this.http.get(this.api+'topicgroup/list/by-study/'+studyId,
-      {
-        headers: this.headers
-      })
-      .map((res: Response) => {
-        return res.json();
-      });
+    return this.get('topicgroup/list/by-study/'+studyId);
   }
 
 }
