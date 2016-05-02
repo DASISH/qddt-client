@@ -2,7 +2,6 @@ import {Injectable, Inject} from 'angular2/core';
 import {Http} from 'angular2/http';
 
 import {API_BASE_HREF} from '../../api';
-import * as Rx from 'rxjs/Rx';
 import {BaseService} from '../../common/base.service';
 
 export class Category {
@@ -34,5 +33,5 @@ export class CategoryService extends BaseService {
   getAll(): any {
     return this.get('category/page/search/?level=ENTITY');
   }
-  
+
 }

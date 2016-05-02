@@ -36,6 +36,4 @@ export class AuthorService extends BaseService {
   deattachAuthor(authorId: string, surveyId: string):any {
     return this.get('author/decombine?authorId='+ authorId + '&surveyId=' +surveyId);
   }
-  
-
 }
