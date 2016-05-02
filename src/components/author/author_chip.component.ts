@@ -7,7 +7,7 @@ import {MaterializeDirective} from 'angular2-materialize/dist/materialize-direct
   directives: [MaterializeDirective],
   template: `  
   <div *ngIf="authors">
-    <div class="chip" *ngFor="#author of authors" >
+    <div class="chip" *ngFor="#author of authors">
       <img src="{{author.picture}}">
       <a *ngIf="!author.email && !author.homepage">{{author.name}}</a>
       <a *ngIf="author.email" href="mailto:{{author.email}}">{{author.name}}</a>
@@ -19,4 +19,9 @@ import {MaterializeDirective} from 'angular2-materialize/dist/materialize-direct
 export class AuthorChipComponent {
 
   @Input() authors:any;
+
+
+  onAdd() {
+    console.log('added clicked');
+  }
 }
