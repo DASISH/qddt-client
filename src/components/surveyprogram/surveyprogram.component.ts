@@ -25,7 +25,7 @@ export class SurveyProgramComponent {
   @Output() entitySavedEvent: EventEmitter<String> = new EventEmitter();
 
   private surveys: any[]=[];
-  private survey: SurveyProgram;
+  private survey: any;
 
 
   constructor(private surveyService: SurveyService, private elementRef: ElementRef) {
@@ -41,11 +41,9 @@ export class SurveyProgramComponent {
       ,(err) => console.log('ERROR: ', err));
   }
 
-  onSurveySaved(survey:SurveyProgram) {
-    this.surveys = this.surveys.filter((q) => q.id !== survey.id);
-    this.surveys.push(survey);
-    this.survey = new SurveyProgram();
-    this.showSurveyForm = false;
+  onSurveySaved(surveyProgram:any) {
+    this.surveys = this.surveys.filter((q) => q.id !== surveyProgram.id);
+    this.surveys.push(surveyProgram);
   }
 
   onSurveySelect(surveyProgram: any) {
@@ -59,5 +57,13 @@ export class SurveyProgramComponent {
     //this.surveyService.delete(surveyProgram);
   }
 
+  onSave() {
+    this.surveyService.save(this.survey)
+      .subscribe(result => this.onSurveySaved(result)
+        ,(err) => console.log('ERROR: ', err));
+
+    this.survey = new SurveyProgram();
+    this.showSurveyForm = false;
+  }
 
 }
