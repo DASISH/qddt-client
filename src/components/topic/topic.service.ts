@@ -8,6 +8,7 @@ export class Topic {
   id: string;
   name: string;
   abstract_description:string;
+  authors: any[];
 }
 
 @Injectable()
@@ -29,4 +30,11 @@ export class TopicService extends BaseService {
     return this.get('topicgroup/list/by-study/'+studyId);
   }
 
+  attachAuthor(topicId: string, authorId: string):any {
+    return this.get('author/combine?authorId='+ authorId + '&topicId=' +topicId);
+  }
+
+  deattachAuthor(topicId: string, authorId: string):any {
+    return this.get('author/decombine?authorId='+ authorId + '&topicId=' +topicId);
+  }
 }

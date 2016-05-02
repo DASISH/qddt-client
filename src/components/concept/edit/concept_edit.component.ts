@@ -2,12 +2,13 @@ import {Component, Input} from 'angular2/core';
 import {MaterializeDirective} from 'angular2-materialize/dist/materialize-directive';
 import {ConceptService, Concept} from '../concept.service';
 import {Change} from '../../../common/change_status';
+import {AuthorChipEditComponent} from '../../author/author_chip.edit.component';
 
 @Component({
   selector: 'concept-edit',
   moduleId: module.id,
   providers: [ConceptService],
-  directives: [MaterializeDirective],
+  directives: [MaterializeDirective,AuthorChipEditComponent],
   template: `
   <div *ngIf="isVisible">
     <div *ngIf="concept" class="card" id="{{concept.id}}"  >
@@ -40,9 +41,9 @@ import {Change} from '../../../common/change_status';
         <div class="row">
           <div class="input-field col s8">
             <p><label class="active teal-text">Authors</label></p>
-            <div class="chip" *ngFor="#author of concept.authors" >
-              <img src="{{author.picture}}">{{author.name}} <i class="material-icons" (click)="removeAuthor(author.id)" >close</i>
-            </div>
+           <author-chip-edit [authors]="concept.authors"  
+            (authorRemovedEvent)="onAuthorRemoved($event)" 
+            (authorSelectedEvent)="onAuthorSelected($event)"></author-chip-edit>
           </div>
           <div class="input-field col s4">
             <p><label class="active teal-text">Agency</label></p>
@@ -73,17 +74,15 @@ export class ConceptEditComponent {
         ,(err) => console.log('ERROR: ', err));
   }
 
-  removeAuthor(authorId:string):any {
-    console.log('remove->' + this.concept.authors.length);
+  onAuthorSelected(author:any) {
+    this.service.attachAuthor(this.concept.id,author.id);
+    this.concept.authors.push(author);
+  }
 
-    for(var i = this.concept.authors.length - 1; i >= 0; i--) {
-      if(this.concept.authors[i].id === authorId) {
-        console.log('remove->' + this.concept.authors[i]);
-        this.concept.authors.splice(i, 1);
-      }
-    }
-    console.log('remove->' + this.concept.authors.length);
-    return this.concept;
+  onAuthorRemoved(author:any) {
+    this.service.deattachAuthor(this.concept.id,author.id);
+    var i = this.concept.authors.findIndex(F=>F===author);
+    this.concept.authors.splice(i,1);
   }
 
 }

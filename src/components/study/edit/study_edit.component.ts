@@ -3,12 +3,13 @@
 
  import {StudyService} from '../study.service';
  import {Change} from '../../../common/change_status';
+ import {AuthorChipEditComponent} from '../../author/author_chip.edit.component';
 
  @Component({
    selector: 'study-edit',
    moduleId: module.id,
    providers: [StudyService],
-   directives: [MaterializeDirective],
+   directives: [MaterializeDirective,AuthorChipEditComponent],
    template:
  `
    <div *ngIf="isVisible">
@@ -46,9 +47,9 @@
        <div class="row">
          <div class="input-field col s8">
            <p><label class="active teal-text">Authors</label></p>
-           <div class="chip" *ngFor="#author of study.authors" ><img src="{{author.picture}}">{{author.name}}
-            <i class="material-icons">close</i>
-           </div>
+           <author-chip-edit [authors]="study.authors"  
+            (authorRemovedEvent)="onAuthorRemoved($event)" 
+            (authorSelectedEvent)="onAuthorSelected($event)"></author-chip-edit>
        </div>
        <div class="input-field col s4">
          <p><label class="active teal-text">Agency</label></p>
@@ -69,11 +70,9 @@
     private _ChangeEnums: any;
     private showlabel: boolean = false;
 
-   constructor(private studyService: StudyService) {
+    constructor(private studyService: StudyService) {
       this._ChangeEnums = Change.status;
     }
-
-
 
     onSave() {
       console.log('onSave Study');
@@ -83,7 +82,18 @@
       });
     }
 
-   onChangeKind(value:any) {
+    onChangeKind(value:any) {
      this.showlabel = (value === 'MILESTONE');
-   }
+    }
+
+    onAuthorSelected(author:any) {
+     this.studyService.attachAuthor(this.study.id,author.id);
+     this.study.authors.push(author);
+    }
+
+    onAuthorRemoved(author:any) {
+     this.studyService.deattachAuthor(this.study.id,author.id);
+     var i = this.study.authors.findIndex(F=>F===author);
+     this.study.authors.splice(i,1);
+    }
  }

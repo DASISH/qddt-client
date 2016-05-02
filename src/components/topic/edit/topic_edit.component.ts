@@ -3,12 +3,13 @@ import {Component, Input} from 'angular2/core';
 import {TopicService, Topic} from '../topic.service';
 import {MaterializeDirective} from 'angular2-materialize/dist/materialize-directive';
 import {Change} from '../../../common/change_status';
+import {AuthorChipEditComponent} from '../../author/author_chip.edit.component';
 
 @Component({
   selector: 'topic-edit',
   moduleId: module.id,
   providers: [TopicService],
-  directives: [MaterializeDirective],
+  directives: [MaterializeDirective,AuthorChipEditComponent],
   template: `
   <div *ngIf="isVisible">
     <div *ngIf="topic" class="card" id="{{topic.id}}"  >
@@ -45,9 +46,9 @@ import {Change} from '../../../common/change_status';
         <div class="row">
           <div class="input-field col s8">
             <p><label class="active teal-text">Authors</label></p>
-            <div class="chip" *ngFor="#author of topic.authors" >
-              <img src="{{author.picture}}">{{author.name}} <i class="material-icons">close</i>
-            </div>
+            <author-chip-edit [authors]="topic.authors"  
+              (authorRemovedEvent)="onAuthorRemoved($event)" 
+              (authorSelectedEvent)="onAuthorSelected($event)"></author-chip-edit>
           </div>
           <div class="input-field col s4">
             <p><label class="active teal-text">Agency</label></p>
@@ -80,8 +81,18 @@ export class TopicEditComponent {
       });
   }
 
-
   onChangeKind(value:any) {
     this.showlabel = (value === 'MILESTONE');
+  }
+
+  onAuthorSelected(author:any) {
+    this.topicService.attachAuthor(this.topic.id,author.id);
+    this.topic.authors.push(author);
+  }
+
+  onAuthorRemoved(author:any) {
+    this.topicService.deattachAuthor(this.topic.id,author.id);
+    var i = this.topic.authors.findIndex(F=>F===author);
+    this.topic.authors.splice(i,1);
   }
 }
