@@ -12,44 +12,25 @@ import {ResponsedomainMissingComponent} from './responsedomain.missing.component
 import {DomainType} from './responsedomain.constant';
 import {ResponseDomainService} from './responsedomain.service';
 import {ResponsedomainFormComponent} from './responsedomain.form.component';
+import {AutocompleteComponent} from '../autocomplete/autocomplete.component';
 
 @Component({
   selector: 'responsedomain',
   moduleId: module.id,
   templateUrl: './responsedomain.component.html',
-  styles: [
-    '.searchcard i.material-icons { position: absolute;top: 10px;right: 10px;cursor: pointer;}',
-    '.autocomplete { width: 100%; position: relative;}',
-    '.autocomplete input{width: 80%;}',
-    `.autocomplete ul{ position: absolute; left: 0;
-        width: 100%; border-left: 1px solid #888;
-        border-right: 1px solid #888;
-        border-bottom: 1px solid #888;
-        margin-top: 2px;
-        z-index: 100;}`,
-     `.autocomplete li{
-        text-align: left;
-        list-style:none;
-        width: 100%;
-        padding:0.4em;
-        background-color: #fff;}`,
-      `.autocomplete li.active{ width: 100%;background-color: #4bf;}`,
-      `.autocomplete .highlight { background-color: #E2E2E2;}`,
-      `.autocomplete li.active .highlight { background: #666; color: #fff;}`,
-  ],
+  styles: [],
   pipes: [LocalDatePipe],
   providers: [ResponseDomainService],
   directives: [CommentListComponent, ResponsedomainCodeListComponent,
     ResponsedomainNumericComponent,ResponsedomainScaleComponent,
     ResponsedomainDatetimeComponent,ResponsedomainTextComponent,
     ResponsedomainTextComponent, ResponsedomainFormComponent,
-    ResponsedomainCategoryListComponent, ResponsedomainMissingComponent]
+    ResponsedomainCategoryListComponent, ResponsedomainMissingComponent,
+    AutocompleteComponent]
 })
 
 export class ResponsedomainComponent {
   domainType: DomainType;
-  showAutoComplete: boolean;
-  selectedIndex: any;
   suggestions: any[];
   DomainTypeDescription = [
     {id: DomainType.Scale, label:'Scale Domain', support: []},
@@ -74,8 +55,6 @@ export class ResponsedomainComponent {
   constructor(private responseDomainService: ResponseDomainService) {
     this.responseDomain = new ResponseDomain();
     this.responseDomains = null;
-    this.selectedIndex = 0;
-    this.showAutoComplete = false;
     this.suggestions = this.allsuggestions;
     this.isVisible = false;
     this.domainType = DomainType.Scale;
@@ -88,21 +67,12 @@ export class ResponsedomainComponent {
                                ];
   }
 
-  ngAfterViewInit() {
+  ngOnInit() {
     this.responseDomainService.getAll().subscribe(result => this.responseDomain = result);
   }
 
-  enterText($event) {
-    let search = $event.target.value;
-    this.suggestions = this.allsuggestions.filter(
-      function (suggestion) {
-        return suggestion.label.indexOf(search) >= 0;
-    });
-  }
-
   select(suggestion: any) {
-    this.showAutoComplete = false;
-    console.log(suggestion);
+    this.responseDomain.label=suggestion.label;
   }
 
   onToggleResponseDomainForm() {

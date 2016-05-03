@@ -8,8 +8,6 @@ export class ResponseDomain {
   name: string;
   label: string;
   description: string;
-  start: any;
-  end: any;
 }
 
 @Injectable()
