@@ -29,8 +29,8 @@ export class ResponseDomainService {
     return this.post(responseDomain,'responsedomain/');
   }
 
-  getAll(): any {
-    return this.get('responsedomain/d5dbaebb-65d0-11e5-9d70-feff819cdc9f');
+  getAll(domain: string): any {
+    return this.get('responsedomain/page/search?ResponseKind=' + domain);
   }
 
   private handleError(error: Response) {

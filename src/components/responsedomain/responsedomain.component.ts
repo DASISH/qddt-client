@@ -33,15 +33,15 @@ export class ResponsedomainComponent {
   domainType: DomainType;
   suggestions: any[];
   DomainTypeDescription = [
-    {id: DomainType.Scale, label:'Scale Domain', support: []},
-    {id: DomainType.CodeList, label:'Code List',
+    {id: DomainType.Scale, name:'Scale', label:'Scale Domain', support: []},
+    {id: DomainType.CodeList, name:'Code', label:'Code List',
       support: []},
-    {id: DomainType.CategoryList, label:'Category List',
+    {id: DomainType.CategoryList, name:'Category', label:'Category List',
       support: []},
-    {id: DomainType.Datetime, label: 'Datetime Domain', support: []},
-    {id: DomainType.Numeric, label:'Numeric Domain', support: []},
-    {id: DomainType.Text, label:'Text Domain', support: []},
-    {id: DomainType.Missing, label:'Missing Value Domain', support: []}];
+    {id: DomainType.Datetime, name:'Datetime', label: 'Datetime Domain', support: []},
+    {id: DomainType.Numeric, name:'Numeric', label:'Numeric Domain', support: []},
+    {id: DomainType.Text, name:'Text', label:'Text Domain', support: []},
+    {id: DomainType.Missing, name:'Missing', label:'Missing Value Domain', support: []}];
 
   allsuggestions:any[] = [{id: 'domain1', label:'domain test 1'},
                        {id: 'domain2', label:'yes or no test'},
@@ -55,7 +55,7 @@ export class ResponsedomainComponent {
   constructor(private responseDomainService: ResponseDomainService) {
     this.responseDomain = new ResponseDomain();
     this.responseDomains = null;
-    this.suggestions = this.allsuggestions;
+    this.suggestions = [];
     this.isVisible = false;
     this.domainType = DomainType.Scale;
     this.scaleDomainDemo =  ['less than 1/2 hour', '1/2 hour to 1 hour',
@@ -68,7 +68,17 @@ export class ResponsedomainComponent {
   }
 
   ngOnInit() {
-    this.responseDomainService.getAll().subscribe(result => this.responseDomain = result);
+    this.responseDomainService.getAll(this.DomainTypeDescription[this.domainType - 1].name).subscribe(result => {
+      this.responseDomains = result.content;
+      this.suggestions = this.responseDomains;});
+  }
+
+  selectDomainType(id: DomainType) {
+      this.suggestions = [];
+      this.domainType = id;
+      this.responseDomainService.getAll(this.DomainTypeDescription[this.domainType - 1].name).subscribe(result => {
+      this.responseDomains = result.content;
+      this.suggestions = this.responseDomains;});
   }
 
   select(suggestion: any) {

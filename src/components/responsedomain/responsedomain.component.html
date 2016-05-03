@@ -13,7 +13,7 @@
 			</div>
 			<div class="col left" *ngFor="#domain of DomainTypeDescription">
 				<input name="domaintypegroup" type="radio"
-					id="domain-type-{{domain.id}}" (click)="domainType = domain.id"
+					id="domain-type-{{domain.id}}" (click)="selectDomainType(domain.id)"
 					[checked]="domainType === domain.id" /> <label
 					[attr.for]="'domain-type-' + domain.id">{{domain.label}}</label>
 			</div>
@@ -41,8 +41,8 @@
 			</div>
 		</div>
 
-		<div class="row card searchcard">
-			<autocomplete [items]="suggestions" [searchField]="'label'"
+		<div *ngIf="responseDomains" class="row card searchcard">
+			<autocomplete [items]="suggestions" [searchField]="'name'"
 				(autocompleteFocusEvent)="showAutoComplete = true;"
 				[initialValue]="responseDomain?.label" (autocompleteSelectEvent)="select($event)">
 			</autocomplete>
