@@ -34,7 +34,7 @@ export class CategoryService extends BaseService {
     return this.get('category/page/search/?level=ENTITY');
   }
 
-  getAll(categoryKind:String): any {
+  getByCategoryKind(categoryKind: String): any {
     return this.get('category/page/search/?level=ENTITY&category=' & categoryKind);
   }
 
