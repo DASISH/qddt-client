@@ -65,7 +65,7 @@ import {AuthorChipEditComponent} from '../../author/author_chip.edit.component';
 export class TopicEditComponent {
 
   @Input() topic: Topic;
-
+  @Input() isVisible: boolean;
   private _ChangeEnums: any;
   private showlabel: boolean = false;
 
@@ -74,6 +74,7 @@ export class TopicEditComponent {
   }
 
   onSave() {
+    this.isVisible = false;
     console.log('save topic');
       this.topicService.edit(this.topic)
         .subscribe(result => {

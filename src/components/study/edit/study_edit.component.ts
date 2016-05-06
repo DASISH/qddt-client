@@ -65,6 +65,7 @@
   export class StudyEditComponent {
 
     @Input() study: any;
+    @Input() isVisible: boolean;
     @Input() surveyId: any;
     @Output() studySavedEvent: EventEmitter<any> = new EventEmitter();
     private _ChangeEnums: any;
@@ -76,6 +77,7 @@
 
     onSave() {
       console.log('onSave Study');
+      this.isVisible = false;
       this.studyService.save(this.study,this.surveyId).subscribe(result => {
         this.study =result;
         this.studySavedEvent.emit(result);

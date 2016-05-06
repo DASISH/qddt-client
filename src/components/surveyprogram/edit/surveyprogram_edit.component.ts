@@ -66,6 +66,7 @@ import {AuthorChipEditComponent} from '../../author/author_chip.edit.component';
 export class SurveyProgramEditComponent {
 
   @Input() survey: SurveyProgram;
+  @Input() isVisible: boolean;
   @Output() surveySavedEvent: EventEmitter<SurveyProgram> = new EventEmitter();
   private changes: any;
   private showlabel: boolean = false;
@@ -75,6 +76,7 @@ export class SurveyProgramEditComponent {
   }
 
   onSave() {
+    this.isVisible = false;
     this.surveyService.save(this.survey)
       .subscribe(result => this.survey = result.content
         ,(err) => console.log('ERROR: ', err));

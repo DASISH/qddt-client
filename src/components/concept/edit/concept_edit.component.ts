@@ -60,6 +60,7 @@ import {AuthorChipEditComponent} from '../../author/author_chip.edit.component';
 export class ConceptEditComponent {
 
   @Input() concept: Concept;
+  @Input() isVisible: boolean;
   private service: ConceptService;
   private _ChangeEnums: any;
 
@@ -69,6 +70,7 @@ export class ConceptEditComponent {
   }
 
   save() {
+    this.isVisible = false;
     this.service.updateConcept(this.concept)
       .subscribe(result => this.concept = result
         ,(err) => console.log('ERROR: ', err));
