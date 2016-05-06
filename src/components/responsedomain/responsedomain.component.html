@@ -11,7 +11,7 @@
 			<div class="response-domain-title">
 				<span name="text">Domain Type:</span>
 			</div>
-			<div class="col left" *ngFor="#domain of DomainTypeDescription">
+			<div class="col left" *ngFor="#domain of domainTypeDescription">
 				<input name="domaintypegroup" type="radio"
 					id="domain-type-{{domain.id}}" (click)="selectDomainType(domain.id)"
 					[checked]="domainType === domain.id" /> <label
@@ -42,19 +42,19 @@
 		</div>
 
 		<div *ngIf="responseDomains" class="row card searchcard">
-			<autocomplete [items]="suggestions" [searchField]="'name'"
+			<autocomplete [items]="responseDomains" [searchField]="'name'"
 				(autocompleteFocusEvent)="showAutoComplete = true;"
 				[initialValue]="responseDomain?.label" (autocompleteSelectEvent)="select($event)">
 			</autocomplete>
 		</div>
 		<div class="row card">
-			<a class="waves-effect waves-light btn">Use</a> <a
+		  <a *ngIf="responseDomain.id"
 				class="waves-effect waves-light btn"
 				(click)="isVisible = !isVisible"><i class="material-icons">mode_edit</i></a>
 			<a class="waves-effect waves-light btn"
-				(click)="isVisible = !isVisible"><i class="material-icons">add</i></a>
+				(click)="createResponseDomain()"><i class="material-icons">add</i></a>
 		</div>
-		<responsedomain-form *ngIf="isVisible"
+		<responsedomain-form *ngIf="isVisible" (formChange)="formChange()"
 			[responsedomain]="responseDomain" [domainType]="domainType"></responsedomain-form>
 	</div>
 

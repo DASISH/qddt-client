@@ -1,4 +1,4 @@
-import {Component, Input} from 'angular2/core';
+import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {MaterializeDirective} from 'angular2-materialize/dist/materialize-directive';
 import {Change} from '../../common/change_status';
 import {CategoryService, Category} from '../category/category.service';
@@ -18,6 +18,7 @@ import {DomainType} from './responsedomain.constant';
 export class ResponsedomainFormComponent {
   @Input() responsedomain: any;
   @Input() domainType: string;
+  @Output() formChange: EventEmitter<any>;
   public domainTypeDef = DomainType;
   private _ChangeEnums: any;
   private numberOfCategories: number;
@@ -31,6 +32,7 @@ export class ResponsedomainFormComponent {
     this.categories = [];
     this.codes = [];
     this.selectedCategoryIndex = 0;
+    this.formChange =  new EventEmitter();
   }
 
   ngOnInit() {
@@ -49,6 +51,10 @@ export class ResponsedomainFormComponent {
 
   select(candidate: any) {
     this.categories[this.selectedCategoryIndex] = candidate;
+  }
+
+  save() {
+    this.formChange.emit('change');
   }
 
 }

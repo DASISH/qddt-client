@@ -9,7 +9,7 @@ import {ResponsedomainDatetimeComponent} from './responsedomain.datetime.compone
 import {ResponsedomainCodeListComponent} from './responsedomain.codelist.component';
 import {ResponsedomainCategoryListComponent} from './responsedomain.categorylist.component';
 import {ResponsedomainMissingComponent} from './responsedomain.missing.component';
-import {DomainType} from './responsedomain.constant';
+import {DomainType, DomainTypeDescription} from './responsedomain.constant';
 import {ResponseDomainService} from './responsedomain.service';
 import {ResponsedomainFormComponent} from './responsedomain.form.component';
 import {AutocompleteComponent} from '../autocomplete/autocomplete.component';
@@ -31,33 +31,19 @@ import {AutocompleteComponent} from '../autocomplete/autocomplete.component';
 
 export class ResponsedomainComponent {
   domainType: DomainType;
-  suggestions: any[];
-  DomainTypeDescription = [
-    {id: DomainType.Scale, name:'Scale', label:'Scale Domain', support: []},
-    {id: DomainType.CodeList, name:'Code', label:'Code List',
-      support: []},
-    {id: DomainType.CategoryList, name:'Category', label:'Category List',
-      support: []},
-    {id: DomainType.Datetime, name:'Datetime', label: 'Datetime Domain', support: []},
-    {id: DomainType.Numeric, name:'Numeric', label:'Numeric Domain', support: []},
-    {id: DomainType.Text, name:'Text', label:'Text Domain', support: []},
-    {id: DomainType.Missing, name:'Missing', label:'Missing Value Domain', support: []}];
-
-  allsuggestions:any[] = [{id: 'domain1', label:'domain test 1'},
-                       {id: 'domain2', label:'yes or no test'},
-                       {id: 'domain3', label:'begin and end 3'},];
   public domainTypeDef = DomainType;
   private responseDomains: any;
   private responseDomain: ResponseDomain;
   private showResponseDomainForm: boolean;
   private isVisible: boolean;
   private scaleDomainDemo: any;
+  private domainTypeDescription: any[];
   constructor(private responseDomainService: ResponseDomainService) {
     this.responseDomain = new ResponseDomain();
     this.responseDomains = null;
-    this.suggestions = [];
     this.isVisible = false;
     this.domainType = DomainType.Scale;
+    this.domainTypeDescription = DomainTypeDescription;
     this.scaleDomainDemo =  ['less than 1/2 hour', '1/2 hour to 1 hour',
                                '1/2 hour to 1 hour', 'more than 1 hour, up to 1 1/2 hour',
                                'more than 1 1/2 hour, up to 2 hour',
@@ -68,24 +54,42 @@ export class ResponsedomainComponent {
   }
 
   ngOnInit() {
-    this.responseDomainService.getAll(this.DomainTypeDescription[this.domainType - 1].name).subscribe(result => {
-      this.responseDomains = result.content;
-      this.suggestions = this.responseDomains;});
+    this.responseDomainService.getAll(DomainTypeDescription[this.domainType - 1].name).subscribe(result => {
+      this.responseDomains = result.content;});
   }
 
   selectDomainType(id: DomainType) {
-      this.suggestions = [];
       this.domainType = id;
-      this.responseDomainService.getAll(this.DomainTypeDescription[this.domainType - 1].name).subscribe(result => {
-      this.responseDomains = result.content;
-      this.suggestions = this.responseDomains;});
+      this.responseDomain = new ResponseDomain();
+      this.responseDomain.responseKind = DomainTypeDescription[id - 1].name;
+      this.responseDomainService.getAll(DomainTypeDescription[this.domainType - 1].name).subscribe(result => {
+      this.responseDomains = result.content;});
   }
 
   select(suggestion: any) {
-    this.responseDomain.label=suggestion.label;
+    this.responseDomain = suggestion;
   }
 
   onToggleResponseDomainForm() {
     this.showResponseDomainForm = !this.showResponseDomainForm;
   }
+
+  formChange() {
+    this.isVisible = false;
+    if(this.responseDomain.id !== undefined && this.responseDomain.id !== '') {
+      this.responseDomainService.update(this.responseDomain).subscribe(result => {
+      this.responseDomain = result;});
+      return;
+    }
+    this.responseDomainService.create(this.responseDomain).subscribe(result => {
+      this.responseDomain = result;
+      this.responseDomains.push(this.responseDomain);});
+  }
+
+  createResponseDomain() {
+    this.isVisible = true;
+    this.responseDomain = new ResponseDomain();
+    this.responseDomain.responseKind = DomainTypeDescription[this.domainType - 1].name;
+  }
+
 }

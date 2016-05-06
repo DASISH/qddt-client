@@ -8,6 +8,7 @@ export class ResponseDomain {
   name: string;
   label: string;
   description: string;
+  responseKind: string;
 }
 
 @Injectable()
@@ -22,7 +23,7 @@ export class ResponseDomainService {
   }
 
   create(responseDomain: ResponseDomain): any {
-    return this.post(responseDomain,'responsedomain/create/');
+    return this.post(responseDomain,'responsedomain/create');
   }
 
   update(responseDomain: ResponseDomain): any {
