@@ -24,14 +24,40 @@
 			<div class="row">
 				<div [ngSwitch]="domainType">
 					<div *ngSwitchWhen="domainTypeDef.Scale">
-						<table>
+						<table *ngIf="numberOfCategories">
+						  <thead><tr><td>Index</td><td>Category</td></tr></thead>
 							<tbody>
-								<tr *ngFor="#code of codes;#idx=index">
-									<td><label>{{code}}</label></td>
+								<tr *ngFor="#category of categories;#idx=index">
+									<td><label>{{idx + 1}}</label></td>
 									<td><autocomplete [items]="suggestions"
 											[searchField]="'label'"
 											(autocompleteFocusEvent)="selectedCategoryIndex=idx;"
-											[initialValue]="categories[idx]?.label"
+											[initialValue]="category?.label"
+											(autocompleteSelectEvent)="select($event)"></autocomplete></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div *ngSwitchWhen="domainTypeDef.CodeList">
+					  <div *ngIf="numberOfCategories" class="row">
+					    <div class="col left">
+					      <input type="checkbox" id="code-search-codelist"/>
+					      <label for="code-search-codelist">include Code List</label>
+					    </div>
+					    <div class="col left">
+					      <input type="checkbox" id="code-search-categorylist"/>
+					      <label for="code-search-categorylist">include Category List</label>
+					    </div>
+					  </div>
+						<table *ngIf="numberOfCategories">
+						  <thead><tr><td>Index</td><td>Code</td></tr></thead>
+							<tbody>
+								<tr *ngFor="#category of categories;#idx=index">
+									<td><label>{{idx + 1}}</label></td>
+									<td><autocomplete [items]="suggestions"
+											[searchField]="'label'"
+											(autocompleteFocusEvent)="selectedCategoryIndex=idx;"
+											[initialValue]="category?.label"
 											(autocompleteSelectEvent)="select($event)"></autocomplete></td>
 								</tr>
 							</tbody>

@@ -23,14 +23,12 @@ export class ResponsedomainFormComponent {
   private _ChangeEnums: any;
   private numberOfCategories: number;
   private categories: Category[];
-  private codes: number[];
   private selectedCategoryIndex: number;
   private suggestions:  Category[];
 
   constructor(private categoryService:CategoryService) {
     this._ChangeEnums = Change.status;
     this.categories = [];
-    this.codes = [];
     this.selectedCategoryIndex = 0;
     this.formChange =  new EventEmitter();
   }
@@ -42,9 +40,7 @@ export class ResponsedomainFormComponent {
   setCategoryNumber(event:any) {
     this.numberOfCategories = event.target.value;
     this.categories= this.categories.slice(0, this.numberOfCategories);
-    this.codes= this.codes.slice(0, this.numberOfCategories);
     for(let i = this.categories.length; i < this.numberOfCategories; i++) {
-        this.codes.push(i+1);
         this.categories.push(new Category());
     }
   }
