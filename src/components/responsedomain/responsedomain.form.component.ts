@@ -26,6 +26,8 @@ export class ResponsedomainFormComponent {
   private codes: string[];
   private selectedCategoryIndex: number;
   private suggestions:  Category[];
+  private start: number;
+  private end: number;
 
   constructor(private categoryService:CategoryService) {
     this._ChangeEnums = Change.status;
@@ -33,6 +35,8 @@ export class ResponsedomainFormComponent {
     this.codes = [];
     this.selectedCategoryIndex = 0;
     this.formChange =  new EventEmitter();
+    this.start = 1;
+    this.end = 5;
   }
 
   ngOnInit() {
