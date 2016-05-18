@@ -25,10 +25,10 @@
 				<div [ngSwitch]="domainType">
 					<div *ngSwitchWhen="domainTypeDef.Scale">
 						<table *ngIf="numberOfCategories">
-						  <thead><tr><td>Index</td><td>Category</td></tr></thead>
+						  <thead><tr><td>Code</td><td>Category</td></tr></thead>
 							<tbody>
 								<tr *ngFor="#category of categories;#idx=index">
-									<td><label>{{idx + 1}}</label></td>
+									<td><input type="text" [(ngModel)]="codes[idx]" value="idx+1" required></td>
 									<td><autocomplete [items]="suggestions"
 											[searchField]="'label'"
 											(autocompleteFocusEvent)="selectedCategoryIndex=idx;"
@@ -50,10 +50,10 @@
 					    </div>
 					  </div>
 						<table *ngIf="numberOfCategories">
-						  <thead><tr><td>Index</td><td>Code</td></tr></thead>
+						  <thead><tr><td>Code</td><td>Category</td></tr></thead>
 							<tbody>
 								<tr *ngFor="#category of categories;#idx=index">
-									<td><label>{{idx + 1}}</label></td>
+									<td><input type="text" [(ngModel)]="codes[idx]" value="idx+1" required></td>
 									<td><autocomplete [items]="suggestions"
 											[searchField]="'label'"
 											(autocompleteFocusEvent)="selectedCategoryIndex=idx;"
