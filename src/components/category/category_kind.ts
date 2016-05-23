@@ -3,15 +3,18 @@
  */
 
 export class CategoryType {
-  public static kind:any = [
-    ['TIME', 'Time'],
-    ['DATE', 'Date'],
+
+  public static element:any = [
     ['DATETIME', 'Datetime'],
-    ['TEXT', 'Text'],
-    ['TEXT_MULTI', 'Text_Multi'],
     ['NUMERIC', 'Numeric'],
-    ['CODE', 'Code'],
-    ['LABEL', 'Label'],
-    ['XML_ELEMENT', 'Xml_Element']
+    ['TEXT','Text'],
+    ['CODE', 'Code']
+  ];
+
+  public static group:any = [
+    ['LIST', 'List'],
+    ['MISSING_GROUP', 'Missing Group'],
+    ['RANGE', 'Range']
+    // ['MIXED', 'Mixed']
   ];
 }

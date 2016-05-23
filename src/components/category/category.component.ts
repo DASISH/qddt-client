@@ -29,15 +29,15 @@ export class CategoryComponent {
 
   constructor(private categoryService: CategoryService) {
     this.category = new Category();
-    this.categoryEnums =  CategoryType.kind;
+    this.categoryEnums =  CategoryType.element;
   }
 
   ngAfterViewInit() {
-    this.categoryService.getAll().subscribe(result => this.categories = result.content);
+    this.categoryService.getAll('').subscribe(result => this.categories = result.content);
   }
 
   ngOnChanges() {
-    this.categoryService.getAll()
+    this.categoryService.getAll('')
       .subscribe(result => {
         this.categories = result;
       });

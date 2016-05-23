@@ -79,7 +79,7 @@ export class CategoryEditComponent {
 
   constructor(private categoryService: CategoryService) {
     this.changeEnums = Change.status;
-    this.categoryEnums =  CategoryType.kind;
+    this.categoryEnums =  CategoryType.element;
   }
 
   onSave() {
