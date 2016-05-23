@@ -33,11 +33,11 @@ export class CategoryComponent {
   }
 
   ngAfterViewInit() {
-    this.categoryService.getAll('').subscribe(result => this.categories = result.content);
+    this.categoryService.getAll('%').subscribe(result => this.categories = result.content);
   }
 
   ngOnChanges() {
-    this.categoryService.getAll('')
+    this.categoryService.getAll('%')
       .subscribe(result => {
         this.categories = result;
       });
