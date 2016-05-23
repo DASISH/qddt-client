@@ -30,12 +30,20 @@ export class CategoryService extends BaseService {
     return this.post(category,'category/');
   }
 
-  getAll(): any {
+  getAll(name: String): any {
+    if (name )
     return this.get('category/page/search/?level=ENTITY');
   }
 
-  getByCategoryKind(categoryKind: String): any {
+  getByCategoryKind(categoryKind: String, name: String): any {
     return this.get('category/page/search/?level=ENTITY&category=' + categoryKind);
   }
+
+  getAllTemplates(name: String): any {
+    return this.get('category/page/search/?level=GROUP_ENTITY');
+  }
+
+
+
 
 }
