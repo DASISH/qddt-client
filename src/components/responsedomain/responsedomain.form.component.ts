@@ -23,14 +23,20 @@ export class ResponsedomainFormComponent {
   private _ChangeEnums: any;
   private numberOfCategories: number;
   private categories: Category[];
+  private codes: string[];
   private selectedCategoryIndex: number;
   private suggestions:  Category[];
+  private start: number;
+  private end: number;
 
   constructor(private categoryService:CategoryService) {
     this._ChangeEnums = Change.status;
     this.categories = [];
+    this.codes = [];
     this.selectedCategoryIndex = 0;
     this.formChange =  new EventEmitter();
+    this.start = 1;
+    this.end = 5;
   }
 
   ngOnInit() {
@@ -40,8 +46,10 @@ export class ResponsedomainFormComponent {
   setCategoryNumber(event:any) {
     this.numberOfCategories = event.target.value;
     this.categories= this.categories.slice(0, this.numberOfCategories);
+    this.codes= this.codes.slice(0, this.numberOfCategories);
     for(let i = this.categories.length; i < this.numberOfCategories; i++) {
         this.categories.push(new Category());
+        this.codes.push((i+1).toString());
     }
   }
 
