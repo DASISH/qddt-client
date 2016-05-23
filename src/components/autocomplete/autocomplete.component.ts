@@ -18,7 +18,7 @@ export class AutocompleteComponent {
   private selectedIndex: number;
   private showAutoComplete: boolean;
   private value: string;
-  
+
   constructor() {
     this.selectedIndex = 0;
     this.showAutoComplete = false;
