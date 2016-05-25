@@ -36,6 +36,26 @@
                   <label for="description" class="white-text">Description</label>
                 </div>
               </div>
+              <div class="row">
+                <input id="isTemplate" type="checkbox" [ngModel]="isTemplate" (change)="setTemplate()" required>
+                <label for="isTemplate" class="white-text">Template</label>
+				<div *ngIf="isTemplate" class="range-field">
+					<input type="range" min="0" max="20"
+						(input)="setCategoryNumber($event)" />
+				</div>
+				<div class="row"><table *ngIf="isTemplate && category.children">
+				  <thead><tr><td>Category</td></tr></thead>
+                  <tbody>
+                    <tr *ngFor="#cat of category.children;#idx=index">
+                      <td><autocomplete [items]="categories"
+                        [searchField]="'label'"
+                        (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
+                        [initialValue]="cat?.label"
+                        (autocompleteSelectEvent)="select($event)"></autocomplete></td>
+                    </tr>
+                   </tbody>
+				 </table></div>
+              </div>
               <button type="submit" class="btn btn-default">Submit</button>
             </form>
           </div>

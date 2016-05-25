@@ -9,6 +9,7 @@ export class Category {
   name: string;
   label: string;
   description: string;
+  children: Category[];
 }
 
 @Injectable()
