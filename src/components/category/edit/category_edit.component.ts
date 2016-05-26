@@ -4,12 +4,12 @@ import {CategoryService, Category} from '../category.service';
 import {MaterializeDirective} from 'angular2-materialize/dist/materialize-directive';
 import {Change} from '../../../common/change_status';
 import {CategoryType} from '../category_kind';
-
+import {AutocompleteComponent} from '../../autocomplete/autocomplete.component';
 @Component({
   selector: 'category-edit',
   moduleId: module.id,
   providers: [CategoryService,CategoryType],
-  directives: [MaterializeDirective],
+  directives: [AutocompleteComponent, MaterializeDirective],
   template: `
   <div *ngIf="isVisible">
     <div *ngIf="category" class="card" id="{{category.id}}"  >
@@ -62,6 +62,23 @@ import {CategoryType} from '../category_kind';
             <div class="chip" >{{category.modifiedBy.agency.name}}</div>
           </div>
         </div>
+        <div *ngIf="isTemplate" class="row">
+           <div class="range-field">
+              <input type="range" min="0" max="20" (input)="setCategoryNumber($event)" value="{{category.children.length}}"/>
+           </div>
+           <div class="row"><table *ngIf="category.children">
+             <thead><tr><td>Category</td></tr></thead>
+             <tbody>
+               <tr *ngFor="#cat of category.children;#idx=index">
+                 <td><autocomplete [items]="categories"
+                       [searchField]="'label'"
+                       (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
+                       [initialValue]="cat?.label"
+                       (autocompleteSelectEvent)="select($event)"></autocomplete></td>
+                </tr>
+              </tbody>
+            </table></div>
+        </div>
         <button type="submit" class="btn btn-default">Submit</button>
       </form>
     </div>
@@ -72,22 +89,49 @@ import {CategoryType} from '../category_kind';
 export class CategoryEditComponent {
 
   @Input() category: Category;
-
+  @Input() categories: any;
+  @Input() isVisible: boolean;
   private categoryEnums:any;
   private changeEnums: any;
-
+  private isTemplate: boolean;
+  private selectedCategoryIndex: number;
+  private numberOfCategories: number;
 
   constructor(private categoryService: CategoryService) {
     this.changeEnums = Change.status;
     this.categoryEnums =  CategoryType.element;
+    this.selectedCategoryIndex = 0;
+    this.numberOfCategories = 0;
+  }
+
+  ngOnInit() {
+    this.isTemplate = this.category['hierarchyLevel'] === 'GROUP_ENTITY';
+    if(this.isTemplate) {
+      this.categoryEnums = CategoryType.group;
+    }
+  }
+
+  setCategoryNumber(event:any) {
+    this.numberOfCategories = event.target.value;
+    if(this.category.children === undefined) {
+      this.category.children = [];
+    }
+    this.category.children = this.category.children.slice(0, this.numberOfCategories);
+    for(let i = this.category.children.length; i < this.numberOfCategories; i++) {
+        this.category.children.push(new Category());
+    }
+  }
+
+  select(candidate: any) {
+    this.category.children[this.selectedCategoryIndex] = candidate;
   }
 
   onSave() {
-      this.categoryService.edit(this.category)
-        .subscribe(result => {
+    this.categoryService.edit(this.category)
+      .subscribe(result => {
         this.category = result;
+        this.isVisible = false;
       });
   }
-
 
 }

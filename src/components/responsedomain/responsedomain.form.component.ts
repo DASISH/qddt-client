@@ -40,7 +40,7 @@ export class ResponsedomainFormComponent {
   }
 
   ngOnInit() {
-    this.categoryService.getAll().subscribe(result => this.suggestions = result.content);
+    this.categoryService.getAll('%').subscribe(result => this.suggestions = result.content);
   }
 
   setCategoryNumber(event:any) {

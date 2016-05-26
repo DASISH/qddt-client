@@ -86,7 +86,7 @@
                 <p>{{category.description}}</p>
               </div>
 
-              <category-edit [isVisible]="edit.isVisible" [category]="category" #edit></category-edit>
+              <category-edit [isVisible]="edit.isVisible" [category]="category" [categories]="categories" #edit></category-edit>
 
               <category-revision [isVisible]="revision.isVisible" [categoryId]="category.id" #revision ></category-revision>
 
