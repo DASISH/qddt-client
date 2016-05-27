@@ -3,7 +3,7 @@ import {MaterializeDirective} from 'angular2-materialize/dist/materialize-direct
 import {Change} from '../../common/change_status';
 import {CategoryService, Category} from '../category/category.service';
 import {AutocompleteComponent} from '../autocomplete/autocomplete.component';
-import {DomainType} from './responsedomain.constant';
+import {DomainType, DomainTypeDescription} from './responsedomain.constant';
 
 @Component({
   selector: 'responsedomain-form',
@@ -17,12 +17,10 @@ import {DomainType} from './responsedomain.constant';
 
 export class ResponsedomainFormComponent {
   @Input() responsedomain: any;
-  @Input() domainType: string;
+  @Input() domainType: DomainType;
   @Output() formChange: EventEmitter<any>;
   public domainTypeDef = DomainType;
   private _ChangeEnums: any;
-  private numberOfCategories: number;
-  private categories: Category[];
   private codes: string[];
   private selectedCategoryIndex: number;
   private suggestions:  Category[];
@@ -31,7 +29,6 @@ export class ResponsedomainFormComponent {
 
   constructor(private categoryService:CategoryService) {
     this._ChangeEnums = Change.status;
-    this.categories = [];
     this.codes = [];
     this.selectedCategoryIndex = 0;
     this.formChange =  new EventEmitter();
@@ -40,21 +37,12 @@ export class ResponsedomainFormComponent {
   }
 
   ngOnInit() {
-    this.categoryService.getAll('%').subscribe(result => this.suggestions = result.content);
-  }
-
-  setCategoryNumber(event:any) {
-    this.numberOfCategories = event.target.value;
-    this.categories= this.categories.slice(0, this.numberOfCategories);
-    this.codes= this.codes.slice(0, this.numberOfCategories);
-    for(let i = this.categories.length; i < this.numberOfCategories; i++) {
-        this.categories.push(new Category());
-        this.codes.push((i+1).toString());
-    }
+    this.categoryService.getAllTemplates(DomainTypeDescription[this.domainType - 1].categoryType)
+        .subscribe(result => this.suggestions = result.content);
   }
 
   select(candidate: any) {
-    this.categories[this.selectedCategoryIndex] = candidate;
+    this.responsedomain.category = candidate;
   }
 
   save() {

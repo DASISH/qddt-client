@@ -108,6 +108,8 @@ export class CategoryEditComponent {
     this.isTemplate = this.category['hierarchyLevel'] === 'GROUP_ENTITY';
     if(this.isTemplate) {
       this.categoryEnums = CategoryType.group;
+    } else {
+      this.categoryEnums =  CategoryType.element;
     }
   }
 

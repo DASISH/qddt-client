@@ -91,6 +91,8 @@ export class CategoryComponent {
         this.categories.push(result);
       });
     this.category  = new Category();
+    this.isTemplate = false;
+    this.categoryEnums =  CategoryType.element;
   }
 
 }
