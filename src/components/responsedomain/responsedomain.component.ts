@@ -61,6 +61,7 @@ export class ResponsedomainComponent {
   selectDomainType(id: DomainType) {
       this.domainType = id;
       this.responseDomain = new ResponseDomain();
+      this.isVisible = false;
       this.responseDomain.responseKind = DomainTypeDescription[id - 1].name;
       this.responseDomainService.getAll(DomainTypeDescription[this.domainType - 1].name).subscribe(result => {
       this.responseDomains = result.content;});

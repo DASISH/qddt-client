@@ -11,19 +11,20 @@ import {MaterializeDirective} from 'angular2-materialize/dist/materialize-direct
 import {AutocompleteComponent} from '../autocomplete/autocomplete.component';
 
 @Component({
-  selector: 'category',
+  selector: 'category-scheme',
   moduleId: module.id,
-  templateUrl: './category.component.html',
+  templateUrl: './category.scheme.component.html',
   pipes: [LocalDatePipe],
   providers: [CategoryService],
   directives: [AutocompleteComponent, MaterializeDirective, CommentListComponent, CategoryEditComponent, CategoryRevision]
 })
-export class CategoryComponent {
+export class CategorySchemeComponent {
 
   showCategoryForm: boolean = false;
   @Output() categorySelectedEvent: EventEmitter<any> = new EventEmitter();
 
   private categories: any;
+  private templateCategories: any;
   private category: any;
   private categoryEnums: any;
   private isTemplate: boolean;
@@ -32,22 +33,22 @@ export class CategoryComponent {
 
   constructor(private categoryService: CategoryService) {
     this.category = new Category();
-    this.categoryEnums =  CategoryType.element;
-    this.isTemplate = false;
+    this.categoryEnums =  CategoryType.group;
+    this.isTemplate = true;
     this.selectedCategoryIndex = 0;
     this.numberOfCategories = 0;
     this.categories = [];
+    this.templateCategories = [];
   }
 
   ngOnInit() {
-    this.categoryService.getAll().subscribe(result => this.categories = result.content);
-  }
-
-  ngOnChanges() {
-    this.categoryService.getAll()
-      .subscribe(result => {
-        this.categories = result;
-      });
+    this.categoryService.getAllByLevel('GROUP_ENTITY').subscribe(result => {
+        this.templateCategories = result.content;
+        this.categories = this.categories.concat(this.templateCategories);
+    });
+    this.categoryService.getAllByLevel('ENTITY').subscribe(result => {
+        this.categories = this.categories.concat(result.content);
+    });
   }
 
   onToggleCategoryForm() {
@@ -78,10 +79,9 @@ export class CategoryComponent {
     this.categoryService.save(this.category)
       .subscribe(result => {
         this.categories.push(result);
+        this.templateCategories.push(result);
       });
     this.category  = new Category();
-    this.isTemplate = false;
-    this.categoryEnums =  CategoryType.element;
   }
 
 }

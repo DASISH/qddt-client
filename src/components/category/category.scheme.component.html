@@ -45,7 +45,7 @@
 				  <thead><tr><td>Category</td></tr></thead>
                   <tbody>
                     <tr *ngFor="#cat of category.children;#idx=index">
-                      <td><autocomplete [items]="categories"
+                      <td><autocomplete [items]="categories" class="black-text"
                         [searchField]="'label'"
                         (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
                         [initialValue]="cat?.label"
@@ -60,7 +60,7 @@
         </div>
       </div>
       <div *ngIf="categories">
-        <div class="row" *ngFor="#category of categories" style="padding-left:2%">
+        <div class="row" *ngFor="#category of templateCategories" style="padding-left:2%">
           <div id="{{category.id}}" class="scrollspy">
             <div class="col s1 m1 l1">
               <br/>
@@ -104,7 +104,7 @@
       <h5>Module Toc</h5>
       <ul class="section table-of-contents">
         <li><a href="#topMenu">To the top </a> </li>
-        <li *ngFor="#category of categories"><a href="/category#{{category.id}}">{{category.name}}</a></li>
+        <li *ngFor="#category of templateCategories"><a href="/category#{{category.id}}">{{category.name}}</a></li>
       </ul>
     </div>
   </div>

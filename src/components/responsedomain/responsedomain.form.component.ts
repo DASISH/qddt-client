@@ -37,7 +37,7 @@ export class ResponsedomainFormComponent {
   }
 
   ngOnInit() {
-    this.categoryService.getAllTemplates(DomainTypeDescription[this.domainType - 1].categoryType)
+    this.categoryService.getAllTemplatesByCategoryKind(DomainTypeDescription[this.domainType - 1].categoryType)
         .subscribe(result => this.suggestions = result.content);
   }
 

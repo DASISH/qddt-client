@@ -31,8 +31,7 @@ export class CategoryService extends BaseService {
     return this.post(category,'category/');
   }
 
-  getAll(name: String): any {
-    if (name )
+  getAll(): any {
     return this.get('category/page/search/?level=ENTITY');
   }
 
@@ -40,8 +39,11 @@ export class CategoryService extends BaseService {
     return this.get('category/page/search/?level=ENTITY&category=' + categoryKind);
   }
 
-  getAllTemplates(categoryKind: String): any {
-    return this.get('category/page/search/?level=GROUP_ENTITY&category=' + categoryKind);
+  getAllByLevel(level: String): any {
+    return this.get('category/page/search/?level=' + level);
   }
 
+  getAllTemplatesByCategoryKind(categoryKind: String): any {
+    return this.get('category/page/search/?level=GROUP_ENTITY&category=' + categoryKind);
+  }
 }

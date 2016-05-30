@@ -7,6 +7,7 @@ import {UserService} from '../../common/user.service';
 import {QuestionComp} from '../question/question.component';
 import {ConceptComponent} from '../concept/concept.component';
 import {CategoryComponent} from '../category/category.component';
+import {CategorySchemeComponent} from '../category/category.scheme.component';
 import {ResponsedomainComponent} from '../responsedomain/responsedomain.component';
 
 @Component({
@@ -22,6 +23,7 @@ import {ResponsedomainComponent} from '../responsedomain/responsedomain.componen
   { path: '/question', component: QuestionComp, as: 'Questions' },
   { path: '/concept', component: ConceptComponent, as: 'Concepts' },
   { path: '/responsedomain', component: ResponsedomainComponent, as: 'Responsedomains' },
+  { path: '/categoryScheme', component: CategorySchemeComponent, as: 'Categoryschemes' },
   { path: '/category', component: CategoryComponent, as: 'Categories' }
 ])
 export class AppCmp {
