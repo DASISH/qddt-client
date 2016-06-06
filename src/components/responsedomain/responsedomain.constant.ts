@@ -1,22 +1,17 @@
 export enum DomainType {
-    Scale = 1,
-    CodeList,
-    CategoryList,
-    Datetime,
-    Numeric,
-    Text,
-    Missing,
+      SCALE = 1,
+      LIST,
+      MIXED,
+      DATETIME,
+      NUMERIC,
+      TEXT,
 };
 
 export const DomainTypeDescription = [
-    { id: DomainType.Scale, name: 'Scale', label: 'Scale Domain', categoryType: 'LIST' },
-    {
-        id: DomainType.CodeList, name: 'List', label: 'Code List', categoryType: 'LIST'
-    },
-    {
-        id: DomainType.CategoryList, name: 'List', label: 'Category List', categoryType: 'LIST'
-    },
-    { id: DomainType.Datetime, name: 'Datetime', label: 'Datetime Domain', categoryType: 'LIST'},
-    { id: DomainType.Numeric, name: 'Numeric', label: 'Numeric Domain', categoryType: 'RANGE'},
-    { id: DomainType.Text, name: 'Text', label: 'Text Domain', categoryType: 'LIST'},
-    { id: DomainType.Missing, name: 'Missing', label: 'Missing Value Domain', categoryType: 'MISSING_GROUP'}];
+    { id: DomainType.SCALE, name: 'SCALE', label: 'Scale Domain', categoryType: 'SCALE' },
+    { id: DomainType.LIST, name: 'LIST', label: 'Category List', categoryType: 'LIST' },
+    { id: DomainType.MIXED, name: 'MIXED', label: 'Mixed Domain', categoryType: 'MIXED'},
+    { id: DomainType.DATETIME, name: 'DATETIME', label: 'Datetime Domain', categoryType: 'DATETIME'},
+    { id: DomainType.NUMERIC, name: 'NUMERIC', label: 'Numeric Domain', categoryType: 'NUMERIC'},
+    { id: DomainType.TEXT, name: 'TEXT', label: 'Text Domain', categoryType: 'TEXT'}];
+    // { id: DomainType.Missing, name: 'Missing', label: 'Missing Value Domain', categoryType: 'MISSING_GROUP'}];
