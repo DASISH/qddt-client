@@ -38,6 +38,8 @@ export class ResponsedomainComponent {
   private isVisible: boolean;
   private scaleDomainDemo: any;
   private domainTypeDescription: any[];
+
+
   constructor(private responseDomainService: ResponseDomainService) {
     this.responseDomain = new ResponseDomain();
     this.responseDomains = null;
