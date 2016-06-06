@@ -4,11 +4,20 @@ import {Http} from 'angular2/http';
 import {API_BASE_HREF} from '../../api';
 import {BaseService} from '../../common/base.service';
 
+export class ResponseCardinality {
+   minimum: String;
+   maximum: String;
+}
+
 export class Category {
   id: string;
   name: string;
   label: string;
   description: string;
+  inputLimit: ResponseCardinality;
+  hierarchyLevel: String;
+  categoryType: String;
+  categoryJsonDDI: String;
   children: Category[];
 }
 
