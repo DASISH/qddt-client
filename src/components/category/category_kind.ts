@@ -8,13 +8,13 @@ export class CategoryType {
     ['DATETIME', 'Datetime'],
     ['NUMERIC', 'Numeric'],
     ['TEXT','Text'],
-    ['CODE', 'Code']
+    ['CATEGORY', 'Category']
   ];
 
   public static group:any = [
     ['LIST', 'List'],
     ['MISSING_GROUP', 'Missing Group'],
-    ['RANGE', 'Range']
-    // ['MIXED', 'Mixed']
+    ['SCALE', 'Scale'],
+    ['MIXED', 'Mixed']
   ];
 }
