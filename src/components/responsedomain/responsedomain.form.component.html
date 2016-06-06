@@ -16,7 +16,7 @@
 			</div>
 			<div class="row">
 				<div [ngSwitch]="domainType">
-					<div *ngSwitchWhen="domainTypeDef.Scale">
+					<div *ngSwitchWhen="domainTypeDef.SCALE">
 					    <div class="row">
 					      <autocomplete [items]="suggestions"
 											[searchField]="'label'"
@@ -24,17 +24,17 @@
 											[initialValue]="''"
 											(autocompleteSelectEvent)="select($event)"></autocomplete>
 					    </div>
-						<table *ngIf="responsedomain.category">
+						<table *ngIf="responsedomain.managedRepresentation">
 						  <thead><tr><td>Code</td><td>Category</td></tr></thead>
 							<tbody>
-								<tr *ngFor="#category of responsedomain.category.children;#idx=index">
+								<tr *ngFor="#category of responsedomain.managedRepresentation.children;#idx=index">
 									<td><input type="text" [(ngModel)]="codes[idx]" value="idx+1" required></td>
 									<td>{{category.name}}</td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
-					<div *ngSwitchWhen="domainTypeDef.CodeList">
+					<div *ngSwitchWhen="domainTypeDef.LIST">
 					  <div class="row">
 					    <autocomplete [items]="suggestions"
 											[searchField]="'label'"
@@ -45,14 +45,14 @@
 						<table *ngIf="responsedomain.category">
 						  <thead><tr><td>Code</td><td>Category</td></tr></thead>
 							<tbody>
-								<tr *ngFor="#category of responsedomain.category.children;#idx=index">
+								<tr *ngFor="#category of responsedomain.managedRepresentation.children;#idx=index">
 									<td><input type="text" [(ngModel)]="codes[idx]" value="idx+1" required></td>
 									<td>{{category.name}}</td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
-					<div *ngSwitchWhen="domainTypeDef.Numeric">
+					<div *ngSwitchWhen="domainTypeDef.NUMERIC">
 						<table>
 						  <thead><tr><td>Numeric Range</td><td>Value</td></tr></thead>
 							<tbody>

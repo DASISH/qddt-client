@@ -2,6 +2,7 @@ import {Injectable, Inject} from 'angular2/core';
 import {Http, Headers, Response} from 'angular2/http';
 import {API_BASE_HREF} from '../../api';
 import * as Rx from 'rxjs/Rx';
+import {Category} from '../category/category.service';
 
 export class ResponseDomain {
   id: string;
@@ -9,6 +10,7 @@ export class ResponseDomain {
   label: string;
   description: string;
   responseKind: string;
+  managedRepresentation: Category;
 }
 
 @Injectable()

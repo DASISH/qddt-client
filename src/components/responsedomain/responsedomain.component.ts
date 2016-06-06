@@ -42,15 +42,17 @@ export class ResponsedomainComponent {
     this.responseDomain = new ResponseDomain();
     this.responseDomains = null;
     this.isVisible = false;
-    this.domainType = DomainType.Scale;
+    this.domainType = DomainType.SCALE;
     this.domainTypeDescription = DomainTypeDescription;
-    this.scaleDomainDemo =  ['less than 1/2 hour', '1/2 hour to 1 hour',
-                               '1/2 hour to 1 hour', 'more than 1 hour, up to 1 1/2 hour',
-                               'more than 1 1/2 hour, up to 2 hour',
-                               'more than 2 hour, up to 2 1/2 hour',
-                               'more than 2 1/2 hour, up to 3 hour',
-                               'more than 3 hours'
-                               ];
+    this.scaleDomainDemo =  ['less than 1/2 hour',
+                              '1/2 hour to 1 hour',
+                              '1/2 hour to 1 hour',
+                              'more than 1 hour, up to 1 1/2 hour',
+                              'more than 1 1/2 hour, up to 2 hour',
+                              'more than 2 hour, up to 2 1/2 hour',
+                              'more than 2 1/2 hour, up to 3 hour',
+                              'more than 3 hours'
+                            ];
   }
 
   ngOnInit() {
