@@ -7,7 +7,7 @@ import {CommentListComponent} from '../comment/comment_list.component';
 import {TopicEditComponent} from './edit/topic_edit.component';
 import {TopicRevision} from './topic_revision.component';
 import {AuthorChipComponent} from '../author/author_chip.component';
-import {QuestionService} from '../question/question.service';
+import {QuestionItemService} from '../questionitem/question_item.service';
 import {ConceptQuestionComponent} from '../concept/concept_question.component';
 
 
@@ -16,7 +16,7 @@ import {ConceptQuestionComponent} from '../concept/concept_question.component';
   moduleId: module.id,
   templateUrl: './topic.component.html',
   pipes: [LocalDatePipe],
-  providers: [TopicService, QuestionService],
+  providers: [TopicService, QuestionItemService],
   directives: [ CommentListComponent, TopicEditComponent, TopicRevision,AuthorChipComponent, ConceptQuestionComponent]
 })
 export class TopicComponent {
@@ -31,7 +31,7 @@ export class TopicComponent {
   private questions: any;
 
 
-  constructor(private topicService: TopicService, private questionService: QuestionService) {
+  constructor(private topicService: TopicService, private questionitemService: QuestionItemService) {
     this.topic = new Topic();
   }
 
@@ -67,7 +67,7 @@ export class TopicComponent {
   }
 
   getQuestions() {
-    this.questionService.getPage()
+    this.questionitemService.getPage()
       .subscribe(result => {
         this.questions = result.content;
       });
