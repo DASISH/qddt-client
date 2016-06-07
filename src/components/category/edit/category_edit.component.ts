@@ -38,6 +38,26 @@ import {AutocompleteComponent} from '../../autocomplete/autocomplete.component';
           </div>
         </div>
         <div class="row">
+          <div class="input-field col s6">
+            <input id="minimum" type="number"  [(ngModel)]="category.inputLimit.minimum" >
+            <div *ngIf="category.categoryType == 'SCALE'" >
+              <label for="minimum" class="active teal-text">Scale Begin</label>
+            </div>
+            <div *ngIf="category.categoryType !== 'SCALE'" >
+              <label for="minimum" class="active teal-text">minimum</label>
+            </div>
+          </div>
+          <div class="input-field col s6">
+            <input id="maximum" type="number" [(ngModel)]="category.inputLimit.maximum" >
+            <div *ngIf="category.categoryType == 'SCALE'" >
+              <label for="maximum" class="active teal-text">Scale End</label>
+            </div>
+            <div *ngIf="category.categoryType !== 'SCALE'" >
+              <label for="maximum" class="active teal-text">maximum</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
           <div class="input-field col s5">
             <label class="active teal-text">Type of Change</label>
             <select [(ngModel)]="category.changeKind"  materialize="material_select" required>

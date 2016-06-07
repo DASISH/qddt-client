@@ -13,7 +13,7 @@ export class CategoryType {
 
   public static group:any = [
     ['LIST', 'List'],
-    ['MISSING_GROUP', 'Missing Group'],
+    ['MISSING_GROUP', 'Missing-Group'],
     ['SCALE', 'Scale'],
     ['MIXED', 'Mixed']
   ];
