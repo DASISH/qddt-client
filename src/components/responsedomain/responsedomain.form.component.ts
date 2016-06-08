@@ -42,7 +42,14 @@ export class ResponsedomainFormComponent {
   }
 
   select(candidate: any) {
-    this.responsedomain.category = candidate;
+    this.responsedomain.managedRepresentation = candidate;
+    let index = 1;
+    for(let category of this.responsedomain.managedRepresentation.children) {
+      if(category.code === undefined || category.code === null) {
+        category.code = {'CodeValue' : index};
+        index = index + 1;
+      }
+    }
   }
 
   save() {
