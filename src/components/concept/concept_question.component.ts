@@ -3,7 +3,7 @@ import {Component, Input} from 'angular2/core';
 import {ConceptService} from './concept.service';
 
 @Component({
-  selector: 'concept-question',
+  selector: 'concept-questionitem',
   moduleId: module.id,
   pipes: [],
   directives: [],
@@ -33,10 +33,10 @@ import {ConceptService} from './concept.service';
     <!--<div class="divider"></div>-->
     <ul class="collection with-header">
       <li class="collection-header">Questions</li>
-      <li class="collection-item" *ngFor="#question of concept.questions">
+      <li class="collection-item" *ngFor="#questionitem of concept.questionitems">
         <div>
-          <i class="material-icons tiny">help</i> {{question.question}}
-          <a href="#!" class="secondary-content" (click)="removeQuestion(question.id)"><i class="material-icons">delete_forever</i></a>
+          <i class="material-icons tiny">help</i> {{questionitem.question}}
+          <a href="#!" class="secondary-content" (click)="removeQuestion(questionitem.id)"><i class="material-icons">delete_forever</i></a>
         </div>
       </li>
     </ul>
@@ -61,7 +61,7 @@ import {ConceptService} from './concept.service';
 export class ConceptQuestionComponent {
 
   @Input() concept: any;
-  @Input() allQuestions: any;
+  @Input() allQuestionItems: any;
   selectedIndex: any;
   showAutoComplete: boolean;
   private suggestions:any;
@@ -72,39 +72,39 @@ export class ConceptQuestionComponent {
   }
 
   ngOnInit() {
-    this.filterQuestions();
+    this.filterQuestionitems();
   }
 
   enterText($event)  {
-    this.filterQuestions($event.target.value);
+    this.filterQuestionitems($event.target.value);
   }
 
   removeQuestion(questionId:any) {
     this.conceptService.deattachQuestion(this.concept.id, questionId)
       .subscribe(result => {
           this.concept = result;
-          this.filterQuestions();
+          this.filterQuestionitems();
         }
         ,(err) => console.log('ERROR: ', err));
   }
 
-  filterQuestions(search: string = '') {
-    let questions = this.concept.questions;
-    this.suggestions = this.allQuestions.filter(
-      function (question) {
-        return questions.filter(function (k) {return k.name === question.name;}).length === 0
-          && question.question.indexOf(search) >= 0;
+  filterQuestionitems(search: string = '') {
+    let questionitems = this.concept.questionitems;
+    this.suggestions = this.allQuestionItems.filter(
+      function (questionitem) {
+        return questionitems.filter(function (k) {return k.name === questionitem.name;}).length === 0
+          && questionitem.question.indexOf(search) >= 0;
     });
   }
 
   select(suggestion: any) {
     this.showAutoComplete = false;
     this.concept.questions.push(suggestion);
-    this.filterQuestions();
+    this.filterQuestionitems();
     this.conceptService.attachQuestion(this.concept.id, suggestion.id)
       .subscribe(result => {
         this.concept = result;
-        this.filterQuestions();
+        this.filterQuestionitems();
       }
       ,(err) => console.log('ERROR: ', err));
   }

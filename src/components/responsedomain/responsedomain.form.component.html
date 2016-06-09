@@ -29,7 +29,7 @@
 							<tbody>
 								<tr *ngFor="#category of responsedomain.managedRepresentation.children;#idx=index">
 									<td><input type="text" [(ngModel)]="codes[idx]" value="idx+1" required></td>
-									<td>{{category.name}}</td>
+									<td>{{category.name}} [{{category.categoryType}}]</td>
 								</tr>
 							</tbody>
 						</table>
@@ -45,9 +45,10 @@
 						<table *ngIf="responsedomain.category">
 						  <thead><tr><td>Code</td><td>Category</td></tr></thead>
 							<tbody>
+								<!-- TODO this needs to be recursive -->
 								<tr *ngFor="#category of responsedomain.managedRepresentation.children;#idx=index">
 									<td><input type="text" [(ngModel)]="codes[idx]" value="idx+1" required></td>
-									<td>{{category.name}}</td>
+									<td>{{category.name}} [{{category.categoryType}}]</td>
 								</tr>
 							</tbody>
 						</table>
@@ -55,6 +56,7 @@
 					<div *ngSwitchWhen="domainTypeDef.NUMERIC">
 						<table>
 						  <thead><tr><td>Numeric Range</td><td>Value</td></tr></thead>
+							<!-- TODO this is part of Category Category.inputLimit (minimum/maximum) -->
 							<tbody>
 								<tr>
 								  <td><label>Start</label></td>

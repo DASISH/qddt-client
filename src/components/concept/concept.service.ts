@@ -10,7 +10,7 @@ export class Concept {
   label:string;
   description:string;
   authors:any[];
-  questions:any[];
+  questionItems:any[];
 }
 
 @Injectable()
@@ -70,7 +70,7 @@ export class ConceptService extends BaseService {
     headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json');
 
-    return this.http.get(this.api+'question/page',
+    return this.http.get(this.api+'questionitem/page',
       {
         headers: headers
       })

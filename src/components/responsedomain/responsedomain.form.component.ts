@@ -42,7 +42,7 @@ export class ResponsedomainFormComponent {
   }
 
   select(candidate: any) {
-    this.responsedomain.category = candidate;
+    this.responsedomain.managedRepresentation = candidate;
   }
 
   save() {
