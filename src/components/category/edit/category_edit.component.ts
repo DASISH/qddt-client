@@ -37,7 +37,7 @@ import {AutocompleteComponent} from '../../autocomplete/autocomplete.component';
             <label for="description" class="active teal-text">Description</label>
           </div>
         </div>
-        <div class="row">
+        <div *ngIf="!isTemplate" class="row">
           <div class="input-field col s6">
             <input id="minimum" type="number"  [(ngModel)]="category.inputLimit.minimum" >
             <div *ngIf="category.categoryType == 'SCALE'" >
