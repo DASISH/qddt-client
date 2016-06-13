@@ -22,19 +22,19 @@
 		<div class="row card light-blue lighten-5 ">
 			<span name="text">Preview</span>
 			<div [ngSwitch]="domainType">
-				<responsedomain-scale *ngSwitchWhen="domainTypeDef.Scale" [n]="8"
+				<responsedomain-scale *ngSwitchWhen="domainTypeDef.SCALE" [n]="8"
 					[header]="scaleDomainDemo" [missingCode]="'88'"
 					[missingLabel]="'donot know'"></responsedomain-scale>
-				<responsedomain-datetime *ngSwitchWhen="domainTypeDef.Datetime"
+				<responsedomain-datetime *ngSwitchWhen="domainTypeDef.DATETIME"
 					[start]="'Job Begin on'" [end]="'Job End on'"></responsedomain-datetime>
-				<responsedomain-numeric *ngSwitchWhen="domainTypeDef.Numeric" [n]=5
+				<responsedomain-numeric *ngSwitchWhen="domainTypeDef.NUMERIC" [n]=5
 					[start]="'Not at all likely'" [end]="'Extremely likely'"></responsedomain-numeric>
-				<responsedomain-codelist *ngSwitchWhen="domainTypeDef.CodeList"
+				<responsedomain-codelist *ngSwitchWhen="domainTypeDef.LIST"
 					[codes]="['red', 'green']"></responsedomain-codelist>
 				<responsedomain-categorylist
 					*ngSwitchWhen="domainTypeDef.CategoryList"
 					[codes]="['Category 1', 'Category 2']"></responsedomain-categorylist>
-				<responsedomain-text *ngSwitchWhen="domainTypeDef.Text"
+				<responsedomain-text *ngSwitchWhen="domainTypeDef.TEXT"
 					[label]="'Test text'"></responsedomain-text>
 				<responsedomain-missing *ngSwitchWhen="domainTypeDef.Missing"
 					[label]="'Test missing'"></responsedomain-missing>
