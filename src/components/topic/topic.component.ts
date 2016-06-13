@@ -5,7 +5,7 @@ import {LocalDatePipe} from '../../common/date_pipe';
 import {TopicService, Topic} from './topic.service';
 import {CommentListComponent} from '../comment/comment_list.component';
 import {TopicEditComponent} from './edit/topic_edit.component';
-import {TopicRevision} from './topic_revision.component';
+import {RevisionComponent} from '../revision/revision.component';
 import {AuthorChipComponent} from '../author/author_chip.component';
 import {QuestionItemService} from '../questionitem/question_item.service';
 import {ConceptQuestionComponent} from '../concept/concept_question.component';
@@ -17,7 +17,7 @@ import {ConceptQuestionComponent} from '../concept/concept_question.component';
   templateUrl: './topic.component.html',
   pipes: [LocalDatePipe],
   providers: [TopicService, QuestionItemService],
-  directives: [ CommentListComponent, TopicEditComponent, TopicRevision,AuthorChipComponent, ConceptQuestionComponent]
+  directives: [ CommentListComponent, TopicEditComponent, RevisionComponent,AuthorChipComponent, ConceptQuestionComponent]
 })
 export class TopicComponent {
 

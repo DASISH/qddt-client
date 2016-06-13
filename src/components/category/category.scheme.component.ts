@@ -5,7 +5,7 @@ import {LocalDatePipe} from '../../common/date_pipe';
 import {CategoryService, Category} from './category.service';
 import {CommentListComponent} from '../comment/comment_list.component';
 import {CategoryEditComponent} from './edit/category_edit.component';
-import {CategoryRevision} from './category_revision.component';
+import {RevisionComponent} from '../revision/revision.component';
 import {CategoryType} from './category_kind';
 import {MaterializeDirective} from 'angular2-materialize/dist/materialize-directive';
 import {AutocompleteComponent} from '../autocomplete/autocomplete.component';
@@ -16,7 +16,7 @@ import {AutocompleteComponent} from '../autocomplete/autocomplete.component';
   templateUrl: './category.scheme.component.html',
   pipes: [LocalDatePipe],
   providers: [CategoryService],
-  directives: [AutocompleteComponent, MaterializeDirective, CommentListComponent, CategoryEditComponent, CategoryRevision]
+  directives: [AutocompleteComponent, MaterializeDirective, CommentListComponent, CategoryEditComponent, RevisionComponent]
 })
 export class CategorySchemeComponent {
 

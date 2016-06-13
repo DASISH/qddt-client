@@ -5,7 +5,7 @@ import {LocalDatePipe} from '../../common/date_pipe';
 import {StudyService, Study} from './study.service';
 import {StudyCreateComponent} from './create.component';
 import {StudyEditComponent} from './edit/study_edit.component';
-import {StudyRevision} from './study_revision.component';
+import {RevisionComponent} from '../revision/revision.component';
 import {CommentListComponent} from '../comment/comment_list.component';
 import {AuthorChipComponent} from '../author/author_chip.component';
 
@@ -15,7 +15,7 @@ import {AuthorChipComponent} from '../author/author_chip.component';
   templateUrl: './study.component.html',
   pipes: [LocalDatePipe],
   providers: [StudyService],
-  directives: [StudyCreateComponent, CommentListComponent, StudyEditComponent, StudyRevision,AuthorChipComponent]
+  directives: [StudyCreateComponent, CommentListComponent, StudyEditComponent, RevisionComponent,AuthorChipComponent]
 
 })
 export class StudyComponent {

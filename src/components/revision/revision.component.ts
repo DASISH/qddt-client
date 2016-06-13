@@ -1,9 +1,9 @@
 import {Component, Input} from 'angular2/core';
 
-import {TopicRevisionService} from './topic_revision.service';
+import {RevisionService} from './revision.service';
 
 @Component({
-  selector: 'topic-revision',
+  selector: 'qddt-revision',
   moduleId: module.id,
   template: `
   <div *ngIf="isVisible">
@@ -15,7 +15,6 @@ import {TopicRevisionService} from './topic_revision.service';
               <th data-field="id">Version</th>
               <th data-field="id">Timestamp</th>
               <th data-field="id">Reason</th>
-              <th data-field="id">Saved By</th>
               <th data-field="id">Comment</th>
           </tr>
         </thead>
@@ -25,7 +24,6 @@ import {TopicRevisionService} from './topic_revision.service';
               <td>{{content.entity.version.major}}.{{content.entity.version.minor}} {{content.entity.version.versionLabel}}</td>
               <td>{{content.metadata.delegate.timestamp | date:'dd MM yyyy HH:mm'}}</td>
               <td>{{content.entity.changeKind}}</td>
-              <td>{{content.entity.modifiedBy.username}}</td>
               <td>{{content.entity.changeComment}}</td>
           </tr>
         </tbody>
@@ -35,28 +33,31 @@ import {TopicRevisionService} from './topic_revision.service';
 
 
   `,
-  providers: [TopicRevisionService]
+  providers: [RevisionService]
 })
-export class TopicRevision {
+export class RevisionComponent {
 
-  @Input() topicId: string;
+  @Input() qddtURI: string;
+  @Input() isVisible: boolean;
   revisions: any;
 
-  constructor(private service: TopicRevisionService) {
+  constructor(private service: RevisionService) {
 
   }
 
-  ngAfterViewInit() {
-    console.log('TopicRevision.ngAfterViewInit');
-    this.getRevisionsById(this.topicId);
+  ngOnChanges() {
+    if(this.isVisible) {
+      this.getRevisionsById();
+    }
   }
 
-  getRevisionsById(id: string) {
-    this.service.getAllRevisions(id)
+  getRevisionsById() {
+    this.service.getAllRevisions(this.qddtURI)
       .subscribe(
         (revisions: any) => this.revisions = revisions,
-        (err: any) => console.log('Unable to get all revisions->' + err)
+        (err: any) => RevisionService.logError('Unable to get all revisions')
       );
   }
 
+  get diagnostic() { return JSON.stringify(this.revisions); }
 }

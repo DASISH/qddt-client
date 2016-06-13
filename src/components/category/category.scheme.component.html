@@ -86,7 +86,7 @@
 
               <category-edit [isVisible]="edit.isVisible" [category]="category" [categories]="categories" #edit></category-edit>
 
-              <category-revision [isVisible]="revision.isVisible" [categoryId]="category.id" #revision ></category-revision>
+              <qddt-revision [isVisible]="revision.isVisible" [qddtURI]="'audit/category/' + category.id + '/all'" #revision ></qddt-revision>
 
               <div class="row">
                 <comment-list [ownerId]="category.id"></comment-list>
