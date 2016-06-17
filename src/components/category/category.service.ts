@@ -9,6 +9,11 @@ export class ResponseCardinality {
    maximum: String;
 }
 
+export class Code {
+  codeValue: String;
+}
+
+
 export class Category {
   id: string;
   name: string;
@@ -17,8 +22,8 @@ export class Category {
   inputLimit: ResponseCardinality;
   hierarchyLevel: String;
   categoryType: String;
-  categoryJsonDDI: String;
   children: Category[];
+  code:Code;
 }
 
 @Injectable()
