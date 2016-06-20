@@ -47,7 +47,7 @@
 							<tbody>
 								<!-- TODO this needs to be recursive -->
 								<tr *ngFor="#category of responsedomain.managedRepresentation.children;#idx=index">
-									<td><input type="text" [(ngModel)]="category.code.CodeValue" required></td>
+									<td><input type="text" [(ngModel)]="category.code.codeValue" required></td>
 									<td>{{category.name}}</td>
 								</tr>
 							</tbody>

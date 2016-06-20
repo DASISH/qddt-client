@@ -46,7 +46,7 @@ export class ResponsedomainFormComponent {
     let index = 1;
     for(let category of this.responsedomain.managedRepresentation.children) {
       if(category.code === undefined || category.code === null) {
-        category.code = {'CodeValue' : index};
+        category.code = {'codeValue' : index};
         index = index + 1;
       }
     }

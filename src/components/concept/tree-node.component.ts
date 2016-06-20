@@ -7,12 +7,17 @@ import {ConceptEditComponent} from './edit/concept_edit.component';
 import {CommentListComponent} from '../comment/comment_list.component';
 import {ConceptService, Concept} from './concept.service';
 import {AuthorChipComponent} from '../author/author_chip.component';
+import {AutocompleteComponent} from '../autocomplete/autocomplete.component';
+import {QuestionItem} from '../question/question.service';
+import {ResponseDomainService} from '../responsedomain/responsedomain.service';
+import {ResponseDomainSearchComponent} from '../responsedomain/responsedomain.search';
 
 @Component({
   selector: 'treenode',
-  providers: [ConceptService],
+  providers: [ConceptService, ResponseDomainService],
   directives: [TreeNodeComponent, ConceptQuestionComponent, MaterializeDirective, RevisionComponent,
-              ConceptEditComponent, CommentListComponent,AuthorChipComponent],
+              ConceptEditComponent, CommentListComponent, AuthorChipComponent,
+              ResponseDomainSearchComponent, AutocompleteComponent],
   pipes: [LocalDatePipe],
   styles: [
     '.tree-children { padding-left: 5px }',
@@ -31,6 +36,8 @@ import {AuthorChipComponent} from '../author/author_chip.component';
                    (click)="edit.isVisible = !edit.isVisible"><i class="material-icons">mode_edit</i></a>
              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                    (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium">history</i></a>
+             <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                   (click)="onCreateQuestionItem(concept)"><i class="material-icons left medium">playlist_add</i></a>
              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                    (click)="onCreateConcept(concept)"><i class="material-icons left medium">add</i></a>
              </div>
@@ -67,7 +74,36 @@ import {AuthorChipComponent} from '../author/author_chip.component';
            </div>
            <concept-edit [isVisible]="edit.isVisible" [concept]="concept" #edit></concept-edit>
            <qddt-revision [isVisible]="revision.isVisible" [qddtURI]="'audit/concept/' + concept.id + '/all'" #revision ></qddt-revision>
-           <concept-question [concept]="concept" [allQuestions]="allQuestions"></concept-question>
+           <div *ngIf="concept.questionItems.length > 0" class="section">
+             <ul class="collection with-header">
+               <li class="collection-header">Questions</li>
+               <li class="collection-item" *ngFor="#questionItem of concept.questionItems">
+                 <div>
+                   <i class="material-icons tiny">help</i> {{questionItem.question.question}}
+                   <a href="#!" class="secondary-content"
+                     (click)="removeQuestionItem(questionItem.id)"><i class="material-icons">delete_forever</i></a>
+                 </div>
+               </li>
+             </ul>
+           </div>
+           <div *ngIf="showQuestionForm">
+             <div class="card-action">
+               <div class="row"><span>Create a Question Item</span></div>
+               <form (ngSubmit)="onQuestionItemSave()" #hf="ngForm">
+                 <div class="row">
+                   <div class="row"><span>Select a Question text</span></div>
+                   <autocomplete [items]="allQuestions" [searchField]="'name'"
+                     (autocompleteFocusEvent)="showAutoComplete = true;"
+                     [initialValue]="''" (autocompleteSelectEvent)="select($event)">
+                   </autocomplete>
+                 </div>
+                 <div class="row">
+                     <responsedomain-search (selectResponseDomainEvent)="selectResponseDomain($event)"></responsedomain-search>
+                 </div>
+                 <button type="submit" class="btn btn-default">Submit</button>
+                 </form>
+             </div>
+           </div>
            <div class="row">
              <comment-list [ownerId]="concept.id"></comment-list>
            </div>
@@ -82,14 +118,32 @@ export class TreeNodeComponent {
   @Input() concept: any;
   @Input() allQuestions: any;
   showConceptChildForm: boolean = false;
+  showQuestionForm: boolean = false;
   private newchild: any;
+  private questionItem: any;
 
-  constructor(private conceptService: ConceptService) {
+  constructor(private conceptService: ConceptService,
+    private responseDomainService: ResponseDomainService) {
     this.newchild = new Concept();
   }
 
   onCreateConcept(concept: any) {
     this.showConceptChildForm = !this.showConceptChildForm;
+  }
+
+  onCreateQuestionItem(concept: any) {
+    this.questionItem = new QuestionItem();
+    this.conceptService.getQuestions().subscribe(result => {
+      this.allQuestions = result.content;});
+    this.showQuestionForm = !this.showQuestionForm;
+  }
+
+  select(suggestion: any) {
+    this.questionItem.question = suggestion;
+  }
+
+  selectResponseDomain(suggestion: any) {
+    this.questionItem.responseDomain = suggestion;
   }
 
   onChildSave() {
@@ -100,5 +154,22 @@ export class TreeNodeComponent {
           this.concept.children.push(result);
     });
     this.newchild  = new Concept();
+  }
+
+  onQuestionItemSave() {
+    this.showQuestionForm = false;
+    this.conceptService.createQuestionItem(this.questionItem)
+        .subscribe(result => {
+          this.concept.questionItems.push(result);
+    });
+    this.questionItem  = new QuestionItem();
+  }
+
+  removeQuestion(questionItemId:any) {
+    this.conceptService.deattachQuestion(this.concept.id, questionItemId)
+      .subscribe(result => {
+          this.concept = result;
+        }
+        ,(err) => console.log('ERROR: ', err));
   }
 }

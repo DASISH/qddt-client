@@ -11,6 +11,15 @@ export class Question {
   modified:DateTimeFormat;
 }
 
+export class QuestionItem {
+  question: Question;
+  responseDomain: any;
+  version: any;
+  agency: any;
+  name: any;
+  changeKind: any;
+}
+
 @Injectable()
 export class QuestionService extends BaseService {
 
@@ -26,4 +35,7 @@ export class QuestionService extends BaseService {
     return this.get('question/page');
   }
 
+  getQuestionItemPage(): any {
+    return this.get('questionitem/page');
+  }
 }

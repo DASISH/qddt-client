@@ -64,7 +64,7 @@ export class ConceptService extends BaseService {
     return this.get('author/decombine?authorId='+ authorId + '&conceptId=' +conceptId);
   }
 
-  getQuestions(): any {
+  getQuestionItems(): any {
     let headers = new Headers();
     headers.append('Authorization', 'Bearer  ' + JSON.parse(localStorage.getItem('jwt')).access_token);
     headers.append('Content-Type', 'application/json');
@@ -80,5 +80,23 @@ export class ConceptService extends BaseService {
       .catch(this.handleError);
   }
 
+  getQuestions(): any {
+    let headers = new Headers();
+    headers.append('Authorization', 'Bearer  ' + JSON.parse(localStorage.getItem('jwt')).access_token);
+    headers.append('Content-Type', 'application/json');
+    headers.append('Accept', 'application/json');
 
+    return this.http.get(this.api+'question/page',
+      {
+        headers: headers
+      })
+      .map((res:Response) => {
+        return res.json();
+      })
+      .catch(this.handleError);
+  }
+
+  createQuestionItem(question: any): any {
+    return this.post(question,'questionitem/create');
+  }
 }

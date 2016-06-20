@@ -7,7 +7,6 @@ import {CommentListComponent} from '../comment/comment_list.component';
 import {TopicEditComponent} from './edit/topic_edit.component';
 import {RevisionComponent} from '../revision/revision.component';
 import {AuthorChipComponent} from '../author/author_chip.component';
-import {QuestionItemService} from '../questionitem/question_item.service';
 import {ConceptQuestionComponent} from '../concept/concept_question.component';
 
 
@@ -16,7 +15,7 @@ import {ConceptQuestionComponent} from '../concept/concept_question.component';
   moduleId: module.id,
   templateUrl: './topic.component.html',
   pipes: [LocalDatePipe],
-  providers: [TopicService, QuestionItemService],
+  providers: [TopicService],
   directives: [ CommentListComponent, TopicEditComponent, RevisionComponent,AuthorChipComponent, ConceptQuestionComponent]
 })
 export class TopicComponent {
@@ -28,18 +27,9 @@ export class TopicComponent {
 
   private topics:any;
   private topic: any;
-  private questions: any;
 
-
-  constructor(private topicService: TopicService, private questionitemService: QuestionItemService) {
+  constructor(private topicService: TopicService) {
     this.topic = new Topic();
-  }
-
-  ngAfterViewInit() {
-    // this.topicService.getAll(this.study.id)
-    //   .subscribe(result => this.topics = result);
-    this.getQuestions();
-    console.log('AfterViewInit '+ this.study.name);
   }
 
   ngOnChanges() {
@@ -65,13 +55,6 @@ export class TopicComponent {
       });
     this.topic  = new Topic();
   }
-
-  getQuestions() {
-    this.questionitemService.getPage()
-      .subscribe(result => {
-        this.questions = result.content;
-      });
-     }
 
   getDefaultConcept(topic: any): any {
     console.log('DefaultConcept->' + topic.name);
