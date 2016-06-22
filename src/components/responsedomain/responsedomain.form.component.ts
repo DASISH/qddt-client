@@ -37,18 +37,31 @@ export class ResponsedomainFormComponent {
   }
 
   ngOnInit() {
-    this.categoryService.getAllTemplatesByCategoryKind(DomainTypeDescription[this.domainType - 1].categoryType)
+    if(this.domainType === DomainType.SCALE || this.domainType === DomainType.LIST) {
+      this.categoryService.getAllTemplatesByCategoryKind(DomainTypeDescription[this.domainType - 1].categoryType)
         .subscribe(result => this.suggestions = result.content);
+     } else {
+       this.categoryService.getByCategoryKind(DomainTypeDescription[this.domainType - 1].categoryType, '')
+        .subscribe(result => this.suggestions = result.content);
+     }
   }
 
   select(candidate: any) {
     this.responsedomain.managedRepresentation = candidate;
-    let index = 1;
-    for(let category of this.responsedomain.managedRepresentation.children) {
-      if(category.code === undefined || category.code === null) {
-        category.code = {'codeValue' : index};
-        index = index + 1;
+    if(this.domainType === DomainType.SCALE || this.domainType === DomainType.LIST) {
+      let index = 1;
+      for(let category of this.responsedomain.managedRepresentation.children) {
+        if(category.code === undefined || category.code === null) {
+          category.code = {'codeValue' : index};
+          index = index + 1;
+        }
       }
+      this.responsedomain.managedRepresentation.inputLimit = {'minimum': 1, 'maximum': 1};
+    } if(this.domainType === DomainType.DATETIME) {
+      this.responsedomain.managedRepresentation.inputLimit = {
+        'minimum': '2016-01-01 11:11:11', 'maximum': '2016-01-01 22:22:22'};
+    } else {
+      this.responsedomain.managedRepresentation.inputLimit = {'minimum': 1, 'maximum': 2};
     }
   }
 
