@@ -5,8 +5,13 @@
 				style="padding-left: 2%; padding-top: 1%; padding-bottom: 1%;">
 				<i class="material-icons large right">comment</i>
 				<h4>Response Domains</h4>
+				<a class="btn" (click)="onToggleResponseDomainForm()">
+                  <i class="material-icons right" *ngIf="!showResponseDomainForm">keyboard_arrow_down</i>
+                  <i class="material-icons right" *ngIf="showResponseDomainForm">keyboard_arrow_up</i>
+                New</a>
 			</div>
 		</div>
+		<div *ngIf="showResponseDomainForm" class="row">
 		<div class="row card">
 			<div class="response-domain-title">
 				<span name="text">Domain Type:</span>
@@ -56,6 +61,8 @@
 		</div>
 		<responsedomain-form *ngIf="isVisible" (formChange)="formChange()"
 			[responsedomain]="responseDomain" [domainType]="domainType"></responsedomain-form>
+	  </div>
+	  <responsedomain-list [responseDomains]="responseDomains"></responsedomain-list>
 	</div>
 
 	<div class="col hide-on-small-only m1 l1">

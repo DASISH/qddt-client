@@ -66,7 +66,7 @@ export class ResponsedomainFormComponent {
   }
 
   save() {
-    this.formChange.emit('change');
+    this.formChange.emit(this.responsedomain);
   }
 
 }

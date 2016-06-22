@@ -13,6 +13,7 @@ import {DomainType, DomainTypeDescription} from './responsedomain.constant';
 import {ResponseDomainService} from './responsedomain.service';
 import {ResponsedomainFormComponent} from './responsedomain.form.component';
 import {AutocompleteComponent} from '../autocomplete/autocomplete.component';
+import {ResponsedomainListComponent} from './responsedomain.list.component';
 
 @Component({
   selector: 'responsedomain',
@@ -26,7 +27,7 @@ import {AutocompleteComponent} from '../autocomplete/autocomplete.component';
     ResponsedomainDatetimeComponent,ResponsedomainTextComponent,
     ResponsedomainTextComponent, ResponsedomainFormComponent,
     ResponsedomainCategoryListComponent, ResponsedomainMissingComponent,
-    AutocompleteComponent]
+    AutocompleteComponent, ResponsedomainListComponent]
 })
 
 export class ResponsedomainComponent {
@@ -38,7 +39,6 @@ export class ResponsedomainComponent {
   private isVisible: boolean;
   private scaleDomainDemo: any;
   private domainTypeDescription: any[];
-
 
   constructor(private responseDomainService: ResponseDomainService) {
     this.responseDomain = new ResponseDomain();
@@ -55,6 +55,7 @@ export class ResponsedomainComponent {
                               'more than 2 1/2 hour, up to 3 hour',
                               'more than 3 hours'
                             ];
+    this.showResponseDomainForm = false;
   }
 
   ngOnInit() {
