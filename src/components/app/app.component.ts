@@ -20,12 +20,13 @@ import {ResponsedomainComponent} from '../responsedomain/responsedomain.componen
 })
 @RouteConfig([
   { path: '/', component: HomeCmp, as: 'Home', useAsDefault: true },
-  { path: '/question', component: QuestionComp, as: 'Questions' },
+  { path: '/Questions', component: QuestionComp, as: 'Questions' },
   { path: '/concept', component: ConceptComponent, as: 'Concepts' },
-  { path: '/responsedomain', component: ResponsedomainComponent, as: 'Responsedomains' },
-  { path: '/categoryScheme', component: CategorySchemeComponent, as: 'Categoryschemes' },
-  { path: '/category', component: CategoryComponent, as: 'Categories' }
+  { path: '/Responsedomains', component: ResponsedomainComponent, as: 'Responsedomains' },
+  { path: '/Schemes', component: CategorySchemeComponent, as: 'Schemes' },
+  { path: '/Responses', component: CategoryComponent, as: 'Responses' }
 ])
+
 export class AppCmp {
 
   public user: string;

@@ -25,18 +25,17 @@ export class CategorySchemeComponent {
 
   private categories: any;
   private templateCategories: any;
-  private category: any;
+  private category: Category;
   private categoryEnums: any;
   private isTemplate: boolean;
   private selectedCategoryIndex: number;
-  private numberOfCategories: number;
+
 
   constructor(private categoryService: CategoryService) {
     this.category = new Category();
     this.categoryEnums =  CategoryType.group;
     this.isTemplate = true;
     this.selectedCategoryIndex = 0;
-    this.numberOfCategories = 0;
     this.categories = [];
     this.templateCategories = [];
   }
@@ -60,12 +59,12 @@ export class CategorySchemeComponent {
   }
 
   setCategoryNumber(event:any) {
-    this.numberOfCategories = event.target.value;
+    this.category.inputLimit.maximum = event.target.value;
     if(this.category.children === undefined) {
       this.category.children = [];
     }
-    this.category.children = this.category.children.slice(0, this.numberOfCategories);
-    for(let i = this.category.children.length; i < this.numberOfCategories; i++) {
+    this.category.children = this.category.children.slice(0, parseInt(this.category.inputLimit.maximum));
+    for(let i = this.category.children.length; i < this.category.inputLimit.maximum; i++) {
         this.category.children.push(new Category());
     }
   }
