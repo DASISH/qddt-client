@@ -75,7 +75,7 @@
             </div>
 
             <div class="col s10 m10 l10 grey-text text-darken-2">
-              <h5>{{category.name}}</h5>
+              <h5>{{category.name}} [{{category.categoryType}}]</h5>
               {{category.modified | localDate}} by <strong>{{category?.modifiedBy?.username}}@{{category?.modifiedBy?.agency?.name}}</strong>
             </div>
 
@@ -101,7 +101,7 @@
 
   <div class="col hide-on-small-only m1 l1">
     <div style="top: 55;" class="toc-wrapper pinned">
-      <h5>Module Toc</h5>
+      <h5>Responses Toc</h5>
       <ul class="section table-of-contents">
         <li><a href="#topMenu">To the top </a> </li>
         <li *ngFor="#category of categories"><a href="/category#{{category.id}}">{{category.name}}</a></li>

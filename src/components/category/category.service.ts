@@ -5,12 +5,12 @@ import {API_BASE_HREF} from '../../api';
 import {BaseService} from '../../common/base.service';
 
 export class ResponseCardinality {
-   minimum: String;
-   maximum: String;
+   minimum: string;
+   maximum: string;
 }
 
 export class Code {
-  codeValue: String;
+  codeValue: string;
 }
 
 
@@ -20,8 +20,8 @@ export class Category {
   label: string;
   description: string;
   inputLimit: ResponseCardinality;
-  hierarchyLevel: String;
-  categoryType: String;
+  hierarchyLevel: string;
+  categoryType: string;
   children: Category[];
   code:Code;
 }
