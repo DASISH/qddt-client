@@ -64,7 +64,7 @@ export class CategorySchemeComponent {
       this.category.children = [];
     }
     this.category.children = this.category.children.slice(0, parseInt(this.category.inputLimit.maximum));
-    for(let i = this.category.children.length; i < this.category.inputLimit.maximum; i++) {
+    for(let i = this.category.children.length; i < parseInt(this.category.inputLimit.maximum); i++) {
         this.category.children.push(new Category());
     }
   }
