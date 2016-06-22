@@ -1,0 +1,36 @@
+<div *ngIf="responseDomains" class="row">
+        <div class="row" *ngFor="#responseDomain of responseDomains" style="padding-left:2%">
+          <div id="{{responseDomain.id}}" class="scrollspy">
+            <div class="col s1 m1 l1">
+              <br />
+              <div class="row">
+                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                   (click)="onEdit(responseDomain)"><i class="material-icons">mode_edit</i></a>
+                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                   (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium">history</i></a>
+              </div>
+            </div>
+
+            <div class="col s10 m10 l10 grey-text text-darken-2">
+              <h5>{{responseDomain.name}}</h5>
+              {{responseDomain.modified | localDate}} by <strong>{{responseDomain.modifiedBy.username}}@{{responseDomain.modifiedBy.agency.name}}</strong>
+            </div>
+
+            <div class="col s10 m10 l10 white grey-text text-darken-1">
+              <div class="row">
+                <p>{{responseDomain.description}}</p>
+                <author-chip [authors]="responseDomain.authors" ></author-chip>
+              </div>
+              <responsedomain-form *ngIf="editIsVisible && selectedDomainId === responseDomain.id" (formChange)="formChange($event)"
+			    [responsedomain]="responseDomain" [domainType]="domainType">
+			  </responsedomain-form>
+              <qddt-revision [isVisible]="revision.isVisible" [qddtURI]="'audit/responsedomain/' + responseDomain.id" #revision></qddt-revision>
+
+              <div class="row">
+                <comment-list [ownerId]="responseDomain.id"></comment-list>
+              </div>
+            </div>
+
+          </div>
+        </div>
+</div>
