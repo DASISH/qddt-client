@@ -159,9 +159,13 @@ export class TreeNodeComponent {
   onQuestionItemSave() {
     this.showQuestionForm = false;
     this.conceptService.createQuestionItem(this.questionItem)
-        .subscribe(result => {
-          this.concept.questionItems.push(result);
-    });
+      .subscribe(result => {
+        this.concept.questionItems.push(result);
+        this.conceptService.updateConcept(this.concept)
+          .subscribe(result => {
+            this.concept = result;
+        });
+      });
     this.questionItem  = new QuestionItem();
   }
 
