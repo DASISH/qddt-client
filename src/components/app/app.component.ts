@@ -24,7 +24,7 @@ import {ResponsedomainComponent} from '../responsedomain/responsedomain.componen
   { path: '/concept', component: ConceptComponent, as: 'Concepts' },
   { path: '/Responsedomains', component: ResponsedomainComponent, as: 'Responsedomains' },
   { path: '/Schemes', component: CategorySchemeComponent, as: 'Schemes' },
-  { path: '/Responses', component: CategoryComponent, as: 'Responses' }
+  { path: '/Categories', component: CategoryComponent, as: 'Categories' }
 ])
 
 export class AppCmp {
