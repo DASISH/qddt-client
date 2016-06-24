@@ -40,11 +40,11 @@ export class CategoryComponent {
   }
 
   ngOnInit() {
-    this.categoryService.getAll().subscribe(result => this.categories = result.content);
+    this.categoryService.getByCategoryKind('CATEGORY','').subscribe(result => this.categories = result.content);
   }
 
   ngOnChanges() {
-    this.categoryService.getAll()
+    this.categoryService.getByCategoryKind('CATEGORY','')
       .subscribe(result => {
         this.categories = result;
       });

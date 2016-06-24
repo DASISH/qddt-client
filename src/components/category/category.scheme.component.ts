@@ -2,7 +2,7 @@ import {Component, EventEmitter, Output} from 'angular2/core';
 
 import {LocalDatePipe} from '../../common/date_pipe';
 
-import {CategoryService, Category} from './category.service';
+import {CategoryService, Category, ResponseCardinality} from './category.service';
 import {CommentListComponent} from '../comment/comment_list.component';
 import {CategoryEditComponent} from './edit/category_edit.component';
 import {RevisionComponent} from '../revision/revision.component';
@@ -59,6 +59,8 @@ export class CategorySchemeComponent {
   }
 
   setCategoryNumber(event:any) {
+    if (this.category.inputLimit === undefined)
+      this.category.inputLimit = new ResponseCardinality();
     this.category.inputLimit.maximum = event.target.value;
     if(this.category.children === undefined) {
       this.category.children = [];
