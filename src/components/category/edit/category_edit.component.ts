@@ -20,13 +20,6 @@ import {AutocompleteComponent} from '../../autocomplete/autocomplete.component';
             <label for="label" class="active teal-text">Label</label>
           </div>
           <div class="input-field col s4">
-            <label class="active teal-text">Response Kind</label>
-            <select [(ngModel)]="category.categoryType" materialize="material_select" required>
-              <option value="" disabled selected>Select Kind</option>
-              <option *ngFor="#change of categoryEnums" [value]="change[0]">{{change[1]}}</option>
-            </select>
-          </div>
-          <div class="input-field col s4">
             <input type="text" [(ngModel)]="category.name" required>
             <label for="name" class="active teal-text">Name</label>
           </div>

@@ -18,13 +18,6 @@
                   <label for="label" class="white-text">Label</label>
                 </div>
                 <div class="input-field col s4">
-                  <label for="categoryType" class="active white-text">Response Kind</label>
-                  <select id="categoryType" [(ngModel)]="category.categoryType" materialize="material_select" required>
-                    <option value="" disabled selected>Select Kind</option>
-                    <option *ngFor="#change of categoryEnums" [value]="change[0]">{{change[1]}}</option>
-                  </select>
-                </div>
-                <div class="input-field col s4">
                   <input id="name" type="text" [(ngModel)]="category.name" required>
                   <label for="name" class="white-text">Name</label>
                 </div>
@@ -32,7 +25,7 @@
               <div class="row">
                 <div class="input-field col s10">
                   <textarea id="description" class="materialize-textarea" [(ngModel)]="category.description"
-                            required></textarea>
+                    ></textarea>
                   <label for="description" class="white-text">Description</label>
                 </div>
               </div>
@@ -101,10 +94,10 @@
 
   <div class="col hide-on-small-only m1 l1">
     <div style="top: 55;" class="toc-wrapper pinned">
-      <h5>Responses Toc</h5>
+      <h5>Categories Toc</h5>
       <ul class="section table-of-contents">
         <li><a href="#topMenu">To the top </a> </li>
-        <li *ngFor="#category of categories"><a href="/category#{{category.id}}">{{category.name}}</a></li>
+        <li *ngFor="#category of categories"><a href="/Categories#{{category.id}}">{{category.name}}</a></li>
       </ul>
     </div>
   </div>
