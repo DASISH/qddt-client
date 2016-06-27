@@ -13,13 +13,9 @@
           <div class="card-action">
             <form (ngSubmit)="onSave()" #hf="ngForm">
               <div class="row">
-                <div class="input-field col s4">
+                <div class="input-field col s10">
                   <input id="label" type="text" [(ngModel)]="category.label" required (ngModelChange)="category.name = category.label.toUpperCase()">
                   <label for="label" class="white-text">Label</label>
-                </div>
-                <div class="input-field col s4">
-                  <input id="name" type="text" [(ngModel)]="category.name" required>
-                  <label for="name" class="white-text">Name</label>
                 </div>
               </div>
               <div class="row">

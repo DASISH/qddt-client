@@ -15,39 +15,15 @@ import {AutocompleteComponent} from '../../autocomplete/autocomplete.component';
     <div *ngIf="category" class="card" id="{{category.id}}"  >
       <form (ngSubmit)="onSave()" #hf="ngForm">
         <div class="row">
-          <div class="input-field col s4">
+          <div class="input-field col s12">
             <input type="text" [(ngModel)]="category.label" required (ngModelChange)="category.name = category.label.toUpperCase()">
             <label for="label" class="active teal-text">Label</label>
-          </div>
-          <div class="input-field col s4">
-            <input type="text" [(ngModel)]="category.name" required>
-            <label for="name" class="active teal-text">Name</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
             <textarea class="materialize-textarea"  [(ngModel)]="category.description" ></textarea>
             <label for="description" class="active teal-text">Description</label>
-          </div>
-        </div>
-        <div *ngIf="!isTemplate" class="row">
-          <div class="input-field col s6">
-            <input id="minimum" type="number"  [(ngModel)]="category.inputLimit.minimum" >
-            <div *ngIf="category.categoryType == 'SCALE'" >
-              <label for="minimum" class="active teal-text">Scale Begin</label>
-            </div>
-            <div *ngIf="category.categoryType !== 'SCALE'" >
-              <label for="minimum" class="active teal-text">minimum</label>
-            </div>
-          </div>
-          <div class="input-field col s6">
-            <input id="maximum" type="number" [(ngModel)]="category.inputLimit.maximum" >
-            <div *ngIf="category.categoryType == 'SCALE'" >
-              <label for="maximum" class="active teal-text">Scale End</label>
-            </div>
-            <div *ngIf="category.categoryType !== 'SCALE'" >
-              <label for="maximum" class="active teal-text">maximum</label>
-            </div>
           </div>
         </div>
         <div class="row">
@@ -60,7 +36,7 @@ import {AutocompleteComponent} from '../../autocomplete/autocomplete.component';
           </div>
           <div class="input-field col s7">
             <label for="changeComment" class="active teal-text">Reason for change</label>
-            <input id="changeComment" type="text" [(ngModel)]="category.changeComment" required>
+            <input id="changeComment" type="text" [(ngModel)]="category.changeComment">
           </div>
         </div>
         <div class="row">
