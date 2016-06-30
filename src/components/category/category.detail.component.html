@@ -1,0 +1,41 @@
+<div class="row" *ngIf="category">
+  <div class="row">
+    <div class="col s10">
+      <label class="active teal-text flow-text">Version: {{category?.version?.major}}.{{category?.version?.minor}}</label>
+    </div>
+    <div class="row col s2">
+      <a class="right right-align btn-floating red"><i class="material-icons"
+          (click)="hidDetail()">replay</i>
+        </a>
+    </div>
+  </div>
+  <div id="{{category?.id}}" class="scrollspy">
+    <div class="col s1 m1 l1">
+      <br/>
+      <div class="row">
+        <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="edit.IsVisible = !edit.IsVisible"><i class="material-icons">mode_edit</i></a>
+        <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="revisionIsVisible = !revisionIsVisible"><i class="material-icons left medium">history</i></a>
+      </div>
+    </div>
+
+    <div class="col s10 m10 l10 grey-text text-darken-2">
+      <h5>{{category?.name}}</h5>
+      {{category?.modified | localDate}} by <strong>{{category?.modifiedBy?.username}}@{{category?.modifiedBy?.agency?.name}}</strong>
+    </div>
+
+    <div class="col s10 m10 l10 white grey-text text-darken-1">
+      <div class="row">
+        <p>{{category?.description}}</p>
+      </div>
+
+      <category-edit [isVisible]="edit.IsVisible" [category]="category" [categories]="categories" #edit></category-edit>
+
+      <qddt-revision [isVisible]="revisionIsVisible" [qddtURI]="'audit/category/' + category.id + '/all'"></qddt-revision>
+
+      <div class="row">
+        <comment-list [ownerId]="category.id"></comment-list>
+      </div>
+    </div>
+
+  </div>
+</div>

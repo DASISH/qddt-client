@@ -1,0 +1,41 @@
+<div *ngIf="rows" class="row">
+  <div class="card white grey-text text-darken-1">
+    <div class="input-field row">
+      <input id="filterKey" type="text" (keyup)="enterText($event)">
+      <label for="filterKey">Filter</label>
+    </div>
+    <table class="highlight">
+      <thead>
+        <tr>
+          <th>Detail</th>
+          <th *ngFor="#column of columns">{{column.label}}
+            <span *ngIf="column.sortable" (click)="sortRows(column)">
+              <i class="material-icons left smal">swap_vert</i>
+            </span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr id="{{row.id}}" *ngFor="#row of rows" (dblclick)="onDetail(row.Object)">
+          <td (click)="onDetail(row.Object)" [ngStyle]="{'cursor': 'pointer'}">
+            <a><i class="material-icons left smal">search</i></a>
+          </td>
+          <td *ngFor="#column of columns">{{row[column.name]}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="page !== undefined && page.totalPages !== undefined && page.totalPages > 1" class="row">
+      <ul class="pagination" [ngStyle]="{'cursor': 'pointer'}">
+        <li [ngClass]="{ disabled: (pages[0] === 0) }"
+        (click)="onPrev(pages[0]-1)">
+          <a><i class="material-icons">chevron_left</i></a></li>
+        <li *ngFor="#p of pages;" [ngClass]="{active: (p === page.number)}" (click)="onPage(p)">
+          <a>{{p}}</a></li>
+        <li [ngClass]="{disabled : (pages[pages.length - 1] >= (page.totalPages - 1))}"
+          (click)="onNext(pages[pages.length - 1] + 1)">
+          <a><i class="material-icons">chevron_right</i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
