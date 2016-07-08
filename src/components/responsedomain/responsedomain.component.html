@@ -1,77 +1,53 @@
 <div class="row">
 	<div class="col m10 l9">
 		<div class="card white white-text text-lighten-2">
-			<div class="row teal z-depth-1"
-				style="padding-left: 2%; padding-top: 1%; padding-bottom: 1%;">
+			<div class="row teal z-depth-1" style="padding-left: 2%; padding-top: 1%; padding-bottom: 1%;">
 				<i class="material-icons large right">comment</i>
 				<h4>Response Domains</h4>
 				<a class="btn" (click)="onToggleResponseDomainForm()">
-                  <i class="material-icons right" *ngIf="!showResponseDomainForm">keyboard_arrow_down</i>
-                  <i class="material-icons right" *ngIf="showResponseDomainForm">keyboard_arrow_up</i>
-                New</a>
+					<i class="material-icons right" *ngIf="!showResponseDomainForm">keyboard_arrow_down</i>
+					<i class="material-icons right" *ngIf="showResponseDomainForm">keyboard_arrow_up</i> New
+				</a>
 			</div>
 		</div>
-		<div *ngIf="showResponseDomainForm" class="row">
-		<div class="row card">
+    <div class="row card">
 			<div class="response-domain-title">
 				<span name="text">Domain Type:</span>
 			</div>
 			<div class="col left" *ngFor="#domain of domainTypeDescription">
-				<input name="domaintypegroup" type="radio"
-					id="domain-type-{{domain.id}}" (click)="selectDomainType(domain.id)"
-					[checked]="domainType === domain.id" /> <label
-					[attr.for]="'domain-type-' + domain.id">{{domain.label}}</label>
+				<input name="domaintypegroup" type="radio" id="domain-type-{{domain.id}}"
+          (click)="selectDomainType(domain.id)" [checked]="domainType === domain.id"
+				/> <label [attr.for]="'domain-type-' + domain.id">{{domain.label}}</label>
 			</div>
 		</div>
+		<div *ngIf="showResponseDomainForm" class="row">
 
-		<div class="row card light-blue lighten-5 ">
-			<span name="text">Preview</span>
-			<div [ngSwitch]="domainType">
-				<responsedomain-scale *ngSwitchWhen="domainTypeDef.SCALE" [n]="8"
-					[header]="scaleDomainDemo" [missingCode]="'88'"
-					[missingLabel]="'donot know'"></responsedomain-scale>
-				<responsedomain-datetime *ngSwitchWhen="domainTypeDef.DATETIME"
-					[start]="'Job Begin on'" [end]="'Job End on'"></responsedomain-datetime>
-				<responsedomain-numeric *ngSwitchWhen="domainTypeDef.NUMERIC" [n]=5
-					[start]="'Not at all likely'" [end]="'Extremely likely'"></responsedomain-numeric>
-				<responsedomain-codelist *ngSwitchWhen="domainTypeDef.LIST"
-					[codes]="['red', 'green']"></responsedomain-codelist>
-				<responsedomain-categorylist
-					*ngSwitchWhen="domainTypeDef.CategoryList"
-					[codes]="['Category 1', 'Category 2']"></responsedomain-categorylist>
-				<responsedomain-text *ngSwitchWhen="domainTypeDef.TEXT"
-					[label]="'Test text'"></responsedomain-text>
-				<responsedomain-missing *ngSwitchWhen="domainTypeDef.Missing"
-					[label]="'Test missing'"></responsedomain-missing>
+			<div *ngIf="responseDomains" class="row card searchcard">
+				<autocomplete [items]="responseDomains" [searchField]="'name'"
+				  (autocompleteFocusEvent)="showAutoComplete = true;" [initialValue]="responseDomain?.label"
+				  (autocompleteSelectEvent)="select($event)">
+				</autocomplete>
 			</div>
+			<div class="row card">
+				<a *ngIf="responseDomain.id" class="waves-effect waves-light btn"
+				  (click)="isVisible = !isVisible"><i class="material-icons">mode_edit</i></a>
+				<a class="waves-effect waves-light btn" (click)="createResponseDomain()">
+				  <i class="material-icons">add</i>
+				</a>
+			</div>
+			<responsedomain-form *ngIf="isVisible"
+        (formChange)="formChange()" [responsedomain]="responseDomain" [domainType]="domainType">
+      </responsedomain-form>
 		</div>
-
-		<div *ngIf="responseDomains" class="row card searchcard">
-			<autocomplete [items]="responseDomains" [searchField]="'name'"
-				(autocompleteFocusEvent)="showAutoComplete = true;"
-				[initialValue]="responseDomain?.label" (autocompleteSelectEvent)="select($event)">
-			</autocomplete>
-		</div>
-		<div class="row card">
-		  <a *ngIf="responseDomain.id"
-				class="waves-effect waves-light btn"
-				(click)="isVisible = !isVisible"><i class="material-icons">mode_edit</i></a>
-			<a class="waves-effect waves-light btn"
-				(click)="createResponseDomain()"><i class="material-icons">add</i></a>
-		</div>
-		<responsedomain-form *ngIf="isVisible" (formChange)="formChange()"
-			[responsedomain]="responseDomain" [domainType]="domainType"></responsedomain-form>
-	  </div>
-	  <responsedomain-list [responseDomains]="responseDomains"></responsedomain-list>
+		<responsedomain-list [responseDomains]="responseDomains"></responsedomain-list>
 	</div>
 
 	<div class="col hide-on-small-only m1 l1">
 		<div style="top: 55;" class="toc-wrapper pinned">
 			<h5>Response Domain Toc</h5>
 			<ul class="section table-of-contents">
-				<li><a href="#topMenu">To the top </a></li>
-				<li *ngFor="#responseDomain of responseDomains"><a
-					href="/responsedomain#{{responseDomain.id}}">{{responseDomain.name}}</a></li>
+				<li *ngFor="#responseDomain of responseDomains">
+				  <a href="/Responsedomains#{{responseDomain.id}}">{{responseDomain.name}}</a></li>
 			</ul>
 		</div>
 	</div>

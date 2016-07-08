@@ -14,6 +14,7 @@ import {ResponseDomainService} from './responsedomain.service';
 import {ResponsedomainFormComponent} from './responsedomain.form.component';
 import {AutocompleteComponent} from '../autocomplete/autocomplete.component';
 import {ResponsedomainListComponent} from './responsedomain.list.component';
+import {PreviewComponent} from './responsedomain.preview.component';
 
 @Component({
   selector: 'responsedomain',
@@ -27,7 +28,7 @@ import {ResponsedomainListComponent} from './responsedomain.list.component';
     ResponsedomainDatetimeComponent,ResponsedomainTextComponent,
     ResponsedomainTextComponent, ResponsedomainFormComponent,
     ResponsedomainCategoryListComponent, ResponsedomainMissingComponent,
-    AutocompleteComponent, ResponsedomainListComponent]
+    AutocompleteComponent, ResponsedomainListComponent, PreviewComponent]
 })
 
 export class ResponsedomainComponent {
@@ -93,9 +94,11 @@ export class ResponsedomainComponent {
   }
 
   createResponseDomain() {
-    this.isVisible = true;
-    this.responseDomain = new ResponseDomain();
-    this.responseDomain.responseKind = DomainTypeDescription[this.domainType - 1].name;
+    this.isVisible = !this.isVisible;
+    if(this.isVisible) {
+      this.responseDomain = new ResponseDomain();
+      this.responseDomain.responseKind = DomainTypeDescription[this.domainType - 1].name;
+    }
   }
 
 }

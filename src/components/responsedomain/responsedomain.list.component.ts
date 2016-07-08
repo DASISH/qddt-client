@@ -6,6 +6,7 @@ import {DomainType} from './responsedomain.constant';
 import {ResponseDomainService} from './responsedomain.service';
 import {ResponsedomainFormComponent} from './responsedomain.form.component';
 import {RevisionComponent} from '../revision/revision.component';
+import {PreviewComponent} from './responsedomain.preview.component';
 
 @Component({
   selector: 'responsedomain-list',
@@ -15,7 +16,7 @@ import {RevisionComponent} from '../revision/revision.component';
   pipes: [LocalDatePipe],
   providers: [ResponseDomainService],
   directives: [CommentListComponent, ResponsedomainFormComponent,
-    RevisionComponent]
+    RevisionComponent, PreviewComponent]
 })
 
 export class ResponsedomainListComponent {
