@@ -27,8 +27,6 @@ export class ResponsedomainFormComponent {
   private codes: string[];
   private selectedCategoryIndex: number;
   private suggestions: Category[];
-  private start: number;
-  private end: number;
   private numberOfAnchors: number;
 
   constructor(private categoryService: CategoryService) {
@@ -36,8 +34,6 @@ export class ResponsedomainFormComponent {
     this.codes = [];
     this.selectedCategoryIndex = 0;
     this.formChange = new EventEmitter();
-    this.start = 1;
-    this.end = 5;
     this.numberOfAnchors = 0;
   }
 
@@ -47,7 +43,7 @@ export class ResponsedomainFormComponent {
     }
     if (this.responsedomain.managedRepresentation.inputLimit === undefined) {
       this.responsedomain.managedRepresentation.inputLimit = new ResponseCardinality();
-      this.responsedomain.managedRepresentation.inputLimit = { 'minimum': 1, 'maximum': 0 };
+      this.responsedomain.managedRepresentation.inputLimit = { 'minimum': 1, 'maximum': 1 };
     }
     if (this.responsedomain.managedRepresentation.children === undefined) {
       this.responsedomain.managedRepresentation.children = [];
@@ -60,10 +56,12 @@ export class ResponsedomainFormComponent {
       this.numberOfAnchors = this.responsedomain.managedRepresentation.children.length;
     }
     if (this.domainType === DomainType.SCALE || this.domainType === DomainType.LIST) {
-      this.categoryService.getAllTemplatesByCategoryKind(DomainTypeDescription[this.domainType - 1].categoryType)
+      let categoryType = DomainTypeDescription.find(e=>e.id === this.domainType).categoryType;
+      this.categoryService.getAllTemplatesByCategoryKind(categoryType)
         .subscribe(result => this.suggestions = result.content);
     } else {
-      this.categoryService.getByCategoryKind(DomainTypeDescription[this.domainType - 1].categoryType, '')
+      let categoryType = DomainTypeDescription.find(e=>e.id === this.domainType).categoryType;
+      this.categoryService.getByCategoryKind(categoryType, '')
         .subscribe(result => this.suggestions = result.content);
     }
     this.categoryService.getAllByLevel('ENTITY').subscribe(result => {

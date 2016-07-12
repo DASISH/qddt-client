@@ -2,7 +2,7 @@ import {Component, Input} from 'angular2/core';
 import {ResponseDomain} from './responsedomain.service';
 import {LocalDatePipe} from '../../common/date_pipe';
 import {CommentListComponent} from '../comment/comment_list.component';
-import {DomainType} from './responsedomain.constant';
+import {DomainType, DomainTypeDescription} from './responsedomain.constant';
 import {ResponseDomainService} from './responsedomain.service';
 import {ResponsedomainFormComponent} from './responsedomain.form.component';
 import {RevisionComponent} from '../revision/revision.component';
@@ -33,10 +33,7 @@ export class ResponsedomainListComponent {
   }
 
   onEdit(responseDomain) {
-    let types = { 'SCALE': DomainType.SCALE, 'LIST': DomainType.LIST,
-     'MIXED': DomainType.MIXED, 'DATETIME': DomainType.DATETIME,
-     'NUMERIC': DomainType.NUMERIC, 'TEXT': DomainType.TEXT};
-    this.domainType = types[responseDomain['responseKind']];
+    this.domainType = DomainTypeDescription.find(e=>e.name === responseDomain['responseKind']).id;
     this.editIsVisible = !this.editIsVisible;
     this.selectedDomainId = responseDomain.id;
   }

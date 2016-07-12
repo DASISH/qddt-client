@@ -12,7 +12,7 @@ export const DomainTypeDescription = [
     { id: DomainType.LIST, name: 'LIST', label: 'Code Domain', categoryType: 'LIST' },
     //{ id: DomainType.MIXED, name: 'MIXED', label: 'Mixed Domain', categoryType: 'MIXED'},
     //{ id: DomainType.DATETIME, name: 'DATETIME', label: 'Datetime Domain', categoryType: 'DATETIME'},
-    //{ id: DomainType.NUMERIC, name: 'NUMERIC', label: 'Numeric Domain', categoryType: 'NUMERIC'},
+    { id: DomainType.NUMERIC, name: 'NUMERIC', label: 'Numeric Domain', categoryType: 'NUMERIC'},
     //{ id: DomainType.TEXT, name: 'TEXT', label: 'Text Domain', categoryType: 'TEXT'}];
     // { id: DomainType.Missing, name: 'Missing', label: 'Missing Value Domain', categoryType: 'MISSING_GROUP'}
 ];

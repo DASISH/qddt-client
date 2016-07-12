@@ -1,7 +1,7 @@
 import {Component, Input, OnChanges} from 'angular2/core';
 import {ResponseDomain} from './responsedomain.service';
 import {LocalDatePipe} from '../../common/date_pipe';
-import {DomainType} from './responsedomain.constant';
+import {DomainType, DomainTypeDescription} from './responsedomain.constant';
 import {ResponsedomainNumericComponent} from './responsedomain.numeric.component';
 import {ResponsedomainTextComponent} from './responsedomain.text.component';
 import {ResponsedomainScaleComponent} from './responsedomain.scale.component';
@@ -52,12 +52,7 @@ export class PreviewComponent implements OnChanges {
 
   ngOnChanges() {
     if (this.isVisible) {
-      let types = {
-        'SCALE': DomainType.SCALE, 'LIST': DomainType.LIST,
-        'MIXED': DomainType.MIXED, 'DATETIME': DomainType.DATETIME,
-        'NUMERIC': DomainType.NUMERIC, 'TEXT': DomainType.TEXT
-      };
-      this.domainType = types[this.responseDomain['responseKind']];
+      this.domainType = DomainTypeDescription.find(e=>e.name === this.responseDomain['responseKind']).id;
     }
   }
 }
