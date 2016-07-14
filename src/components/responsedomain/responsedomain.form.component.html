@@ -72,6 +72,18 @@
 								</tr>
 							</tbody>
 						</table>
+						<div *ngIf="responsedomain.managedRepresentation.inputLimit.maximum > 0" class="row card">
+							<div class="row input-field col s5">
+							  <input id="responseCardinality_minimum" type="number"
+							    [(ngModel)]="responsedomain.responseCardinality.minimum" required>
+							  <label for="responseCardinality_minimum">Min of Response Cardinality</label>
+						  </div>
+							<div class="row input-field col s5">
+							  <input id="responseCardinality_maximum" type="number"
+							    [(ngModel)]="responsedomain.responseCardinality.maximum" required>
+							  <label for="responseCardinality_maximum">Max of Response Cardinality</label>
+						  </div>							
+						</div>
 					</div>
 					<div *ngSwitchWhen="domainTypeDef.NUMERIC">
 					  <autocomplete [items]="suggestions"

@@ -38,6 +38,9 @@ export class ResponsedomainFormComponent {
   }
 
   ngOnInit() {
+    if(this.responsedomain.responseCardinality === undefined) {
+      this.responsedomain.responseCardinality = { 'minimum': 1, 'maximum': 1 };
+    }
     if (this.responsedomain.managedRepresentation === undefined) {
       this.responsedomain.managedRepresentation = new Category();
     }
