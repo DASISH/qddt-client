@@ -1,58 +1,38 @@
 import {Component, Input, Output, EventEmitter} from 'angular2/core';
-
+import {QddtPagination} from '../pagination/pagination'
 @Component({
   selector: 'qddt-table',
   moduleId: module.id,
   templateUrl: './table.component.html',
+  directives: [QddtPagination]
 })
 
 export class QddtTableComponent {
-
+  /**
+   * number: the current page beginning with zero
+   * size: the size of each page
+   * totalElements: the total number of elements
+   * totalPages: the total pages
+  */
   @Input() page: any;
   @Input() columns: any[];
   @Input() items: any[];
   @Output() detailEvent: EventEmitter<String> = new EventEmitter();
-  @Output() pageEvent: EventEmitter<String> = new EventEmitter();
+  @Output() pageChangeEvent: EventEmitter<String> = new EventEmitter();
 
   private rows: any[] = [];
   private _rows: any[] = [];
-  private pages: number[] = [];
 
   ngOnChanges() {
     this.init();
-  }
-
-  setPage(middle: number, total: number) {
-    if(total < 9) {
-      this.pages = Array(total).fill(0).map((e,i)=> i);
-      return;
-    }
-    this.pages = [];
-    for(let i:number = middle > 4? middle -4: 0; i < (middle + 4) && i < total; i++) {
-      this.pages.push(i);
-    }
   }
 
   onDetail(item: any) {
     this.detailEvent.emit(item);
   }
 
-  onPage(p: number) {
-    this.pageEvent.emit(p.toString());
-  }
-
-  onPrev(p: number) {
-    if(p < 0) {
-      return;
-    }
-    this.setPage(p - 4, this.page.totalPages);
-  }
-
-  onNext(p: number) {
-    if(p >= this.page.totalPages) {
-      return;
-    }
-    this.setPage(p + 4, this.page.totalPages);
+  pageChange(p: number) {
+    this.pageChangeEvent.emit(p.toString());
   }
 
   enterText(event) {
@@ -108,10 +88,5 @@ export class QddtTableComponent {
       });
     });
     this._rows = this.rows;
-    if(this.page !== undefined
-      && this.page.number !== undefined
-      && this.page.totalPages !== undefined) {
-      this.setPage(this.page.number, this.page.totalPages);
-    }
   }
 }

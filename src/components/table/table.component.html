@@ -24,18 +24,13 @@
         </tr>
       </tbody>
     </table>
-    <div *ngIf="page !== undefined && page.totalPages !== undefined && page.totalPages > 1" class="row">
-      <ul class="pagination" [ngStyle]="{'cursor': 'pointer'}">
-        <li [ngClass]="{ disabled: (pages[0] === 0) }"
-        (click)="onPrev(pages[0]-1)">
-          <a><i class="material-icons">chevron_left</i></a></li>
-        <li *ngFor="#p of pages;" [ngClass]="{active: (p === page.number)}" (click)="onPage(p)">
-          <a>{{p}}</a></li>
-        <li [ngClass]="{disabled : (pages[pages.length - 1] >= (page.totalPages - 1))}"
-          (click)="onNext(pages[pages.length - 1] + 1)">
-          <a><i class="material-icons">chevron_right</i></a>
-        </li>
-      </ul>
-    </div>
+    <qddt-pagination
+      [collectionSize]="page.totalElements"
+      [page]="page.number"
+      [pageSize]="page.size"
+      [maxSize]="5"
+      [rotate]="true"
+      [boundaryLinks]="true"
+      (pageChange)="pageChange($event)"></qddt-pagination>
   </div>
 </div>

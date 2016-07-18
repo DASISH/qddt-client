@@ -60,7 +60,6 @@ export class ResponsedomainCodeListComponent {
   checkOption(row, event) {
     row.checked = event.target.checked;
     if (this.type === 'checkbox') {
-      console.log(this.responseMax);
       if (this.rows.filter(e => e.checked).length >= this.responseMax) {
         this.rows.filter(e => !e.checked).forEach(e => e.disabled = 'disabled');
       } else {
