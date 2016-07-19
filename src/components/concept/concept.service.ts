@@ -37,11 +37,11 @@ export class ConceptService extends BaseService {
   }
 
   getByTopic(topicId: string) : any {
-    return this.get('concept/page/by-topicgroup/'+ topicId + '?page=0&size=20&sort=asc');
+    return this.get('concept/page/by-topicgroup/'+ topicId + '?page=0&size=50&sort=asc');
   }
 
   getByConcept(conceptId: string) : any {
-    return this.get('concept/page/by-parent/'+ conceptId + '?page=0&size=20&sort=asc');
+    return this.get('concept/page/by-parent/'+ conceptId + '?page=0&size=50&sort=asc');
   }
 
   saveChildConcept(concept: any, parentId: string):any {
