@@ -16,8 +16,8 @@ import {ResponseDomainSearchComponent} from '../responsedomain/responsedomain.se
   selector: 'treenode',
   providers: [ConceptService, ResponseDomainService],
   directives: [TreeNodeComponent, ConceptQuestionComponent, MaterializeDirective, RevisionComponent,
-              ConceptEditComponent, CommentListComponent, AuthorChipComponent,
-              ResponseDomainSearchComponent, AutocompleteComponent],
+    ConceptEditComponent, CommentListComponent, AuthorChipComponent,
+    ResponseDomainSearchComponent, AutocompleteComponent],
   pipes: [LocalDatePipe],
   styles: [
     '.tree-children { padding-left: 5px }',
@@ -81,7 +81,7 @@ import {ResponseDomainSearchComponent} from '../responsedomain/responsedomain.se
                  <div>
                    <i class="material-icons tiny">help</i> {{questionItem.question.question}}
                    <a href="#!" class="secondary-content"
-                     (click)="removeQuestionItem(questionItem.id)"><i class="material-icons">delete_forever</i></a>
+                     (click)="removeQuestionItem(questionItem.question.id)"><i class="material-icons">delete_forever</i></a>
                  </div>
                </li>
              </ul>
@@ -134,7 +134,8 @@ export class TreeNodeComponent {
   onCreateQuestionItem(concept: any) {
     this.questionItem = new QuestionItem();
     this.conceptService.getQuestions().subscribe(result => {
-      this.allQuestions = result.content;});
+      this.allQuestions = result.content;
+    });
     this.showQuestionForm = !this.showQuestionForm;
   }
 
@@ -147,33 +148,29 @@ export class TreeNodeComponent {
   }
 
   onChildSave() {
-    console.log('onChildSave');
     this.showConceptChildForm = false;
     this.conceptService.saveChildConcept(this.newchild, this.concept.id)
-        .subscribe(result => {
-          this.concept.children.push(result);
-    });
-    this.newchild  = new Concept();
+      .subscribe(result => {
+        this.concept.children.push(result);
+      });
+    this.newchild = new Concept();
   }
 
   onQuestionItemSave() {
     this.showQuestionForm = false;
-    this.conceptService.createQuestionItem(this.questionItem)
+    this.concept.questionItems.push(this.questionItem);
+    this.conceptService.updateConcept(this.concept)
       .subscribe(result => {
-        this.concept.questionItems.push(result);
-        this.conceptService.updateConcept(this.concept)
-          .subscribe(result => {
-            this.concept = result;
-        });
+        this.concept = result;
       });
-    this.questionItem  = new QuestionItem();
+    this.questionItem = new QuestionItem();
   }
 
-  removeQuestion(questionItemId:any) {
-    this.conceptService.deattachQuestion(this.concept.id, questionItemId)
+  removeQuestionItem(question: any) {
+    this.conceptService.deattachQuestion(this.concept.id, question)
       .subscribe(result => {
-          this.concept = result;
-        }
-        ,(err) => console.log('ERROR: ', err));
+        this.concept = result;
+      }
+      , (err) => console.log('ERROR: ', err));
   }
 }
