@@ -44,9 +44,11 @@
 									<td><input type="text" [(ngModel)]="category.code.codeValue" required></td>
 									<td><autocomplete [items]="categories" class="black-text"
                         [searchField]="'label'"
+												[searchFromServer]="true"
                         (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
                         [initialValue]="category?.label"
-                        (autocompleteSelectEvent)="select($event)"></autocomplete></td>
+                        (autocompleteSelectEvent)="select($event)"
+												(enterEvent)="searchCategories($event)"></autocomplete></td>
 								</tr>
 							</tbody>
 						</table>

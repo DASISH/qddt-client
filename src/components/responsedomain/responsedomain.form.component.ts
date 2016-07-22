@@ -113,4 +113,10 @@ export class ResponsedomainFormComponent {
     }
   }
 
+  searchCategories(name: string) {
+    this.categoryService.getAllByLevel('ENTITY', name).subscribe(result => {
+      this.categories = result.content;
+    });
+  }
+
 }

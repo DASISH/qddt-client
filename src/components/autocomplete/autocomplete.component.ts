@@ -11,9 +11,17 @@ import {Component, Input, Output, EventEmitter} from 'angular2/core';
 export class AutocompleteComponent {
   @Input() items:  any[];
   @Input() searchField: string;
+  /**
+   * set initial value
+   */
   @Input() initialValue: string;
+  /**
+   * searchable results from server
+   */
+  @Input() searchFromServer: boolean;
   @Output() autocompleteSelectEvent: EventEmitter<any> = new EventEmitter();
   @Output() autocompleteFocusEvent: EventEmitter<any> = new EventEmitter();
+  @Output() enterEvent: EventEmitter<any> = new EventEmitter();
   private candidates: any[];
   private selectedIndex: number;
   private showAutoComplete: boolean;
@@ -25,13 +33,23 @@ export class AutocompleteComponent {
   }
 
   ngOnInit() {
-    this.candidates = this.items;
     this.value = this.initialValue;
+    if(this.searchFromServer === null) {
+      this.searchFromServer = false;
+    }
+  }
+
+  ngOnChanges() {
+    this.candidates = this.items;
   }
 
   enterText(event) {
     this.value = event.target.value;
-    this.filterItems(this.value);
+    if(this.searchFromServer) {
+      this.enterEvent.emit(this.value);
+    } else {
+      this.filterItems(this.value);
+    }
   }
 
   onFocus() {
