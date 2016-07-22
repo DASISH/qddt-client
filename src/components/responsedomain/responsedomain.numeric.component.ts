@@ -5,18 +5,13 @@ import {ResponseDomain} from './responsedomain.service';
   selector: 'responsedomain-numeric',
   moduleId: module.id,
   template: `<div class="row">
-        <table>
-          <tbody>
-            <tr>
-              <td *ngFor="#n of numerics;#idx=index">
-                <span>
-                 <input name="group-{{responseDomain.id}}" type="radio" id="option-{{responseDomain.id}}-{{idx}}" />
-                 <label [attr.for]="'option-' + responseDomain.id + '-' + idx">{{n}}</label>
-                </span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <form>
+          <input type="number" min="{{low}}" max="{{high}}"
+            id="numeric-domain-{{responseDomain.id}}"
+            [ngModel]="value"
+            (ngModelChange)="changeNumber($event)">
+          <label>Range from {{low}} to {{high}}</label>
+        </form>
       </div>`,
   styles: [],
   pipes: [],
@@ -27,12 +22,11 @@ export class ResponsedomainNumericComponent {
   @Input() responseDomain: ResponseDomain;
   private low: number;
   private high: number;
-  private numerics: number[];
+  private value: number;
 
   ngOnInit() {
     this.low = 0;
     this.high = 1;
-    this.numerics = [];
     let rep = this.responseDomain.managedRepresentation;
     if (rep !== undefined) {
       if (rep.inputLimit !== undefined
@@ -44,8 +38,15 @@ export class ResponsedomainNumericComponent {
         this.low = parseInt(rep.inputLimit.minimum);
       }
     }
-    for (let i = this.low; i <= this.high; i++) {
-      this.numerics.push(i);
+  }
+
+  changeNumber(value: number) {
+    if(value >= this.low && value <= this.high) {
+      this.value = value;
+    } else if(value < this.low) {
+      this.value = this.low;
+    } else if(value > this.high) {
+      this.value = this.high;
     }
   }
 }

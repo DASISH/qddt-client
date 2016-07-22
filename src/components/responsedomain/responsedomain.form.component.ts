@@ -54,6 +54,8 @@ export class ResponsedomainFormComponent {
     if (this.domainType === DomainType.SCALE) {
       this.responsedomain.managedRepresentation.categoryType = 'SCALE';
       this.numberOfAnchors = this.responsedomain.managedRepresentation.children.length;
+    } else if (this.domainType === DomainType.NUMERIC) {
+      this.responsedomain.managedRepresentation.categoryType = 'NUMERIC';
     } else {
       this.responsedomain.managedRepresentation.categoryType = 'LIST';
       this.numberOfAnchors = this.responsedomain.managedRepresentation.children.length;
