@@ -54,8 +54,9 @@ export class CategoryService extends BaseService {
       + '&page=' + page);
   }
 
-  getAllByLevel(level: String): any {
-    return this.get('category/page/search/?level=' + level);
+  getAllByLevel(level: String, name: String = ''): any {
+    let query = name.length > 0? '&name=' + name + '*': name;
+    return this.get('category/page/search/?level=' + level + query);
   }
 
   getAllTemplatesByCategoryKind(categoryKind: String): any {
