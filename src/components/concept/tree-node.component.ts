@@ -79,9 +79,9 @@ import {ResponseDomainSearchComponent} from '../responsedomain/responsedomain.se
                <li class="collection-header">Questions</li>
                <li class="collection-item" *ngFor="#questionItem of concept.questionItems">
                  <div>
-                   <i class="material-icons tiny">help</i> {{questionItem.question.question}}
+                   <i class="material-icons tiny">help</i> {{questionItem?.question?.question}}
                    <a href="#!" class="secondary-content"
-                     (click)="removeQuestionItem(questionItem.question.id)"><i class="material-icons">delete_forever</i></a>
+                     (click)="removeQuestionItem(questionItem?.question?.id)"><i class="material-icons">delete_forever</i></a>
                  </div>
                </li>
              </ul>
