@@ -56,6 +56,8 @@ export class ResponsedomainFormComponent {
       this.numberOfAnchors = this.responsedomain.managedRepresentation.children.length;
     } else if (this.domainType === DomainType.NUMERIC) {
       this.responsedomain.managedRepresentation.categoryType = 'NUMERIC';
+    } else if (this.domainType === DomainType.TEXT) {
+      this.responsedomain.managedRepresentation.categoryType = 'TEXT';
     } else {
       this.responsedomain.managedRepresentation.categoryType = 'LIST';
       this.numberOfAnchors = this.responsedomain.managedRepresentation.children.length;
@@ -80,6 +82,7 @@ export class ResponsedomainFormComponent {
   }
 
   save() {
+    this.responsedomain.label = this.responsedomain.name;
     this.categoryService.save(this.responsedomain.managedRepresentation)
       .subscribe(result => {
         for(let i = 0; i < this.responsedomain.managedRepresentation.children.length; i++) {

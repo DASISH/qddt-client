@@ -108,26 +108,21 @@
 						</table>
 					</div>
 					<div *ngSwitchWhen="domainTypeDef.TEXT">
-					  <autocomplete [items]="suggestions"
-											[searchField]="'label'"
-											(autocompleteFocusEvent)="selectedCategoryIndex=idx;"
-											[initialValue]="''"
-											(autocompleteSelectEvent)="select($event)"></autocomplete>
 						<table *ngIf="responsedomain.managedRepresentation">
 						  <thead><tr><td>TEXT Range</td><td>Value</td></tr></thead>
 							<tbody>
 								<tr>
 								  <td><label>Minimum length</label></td>
-								  <td><input type="text" [(ngModel)]="responsedomain.managedRepresentation.inputLimit.minimum" required></td>
+								  <td><input type="number" [(ngModel)]="responsedomain.managedRepresentation.inputLimit.minimum" required></td>
 								</tr>
 								<tr>
 								  <td><label>Maximum length</label></td>
-								  <td><input type="text" [(ngModel)]="responsedomain.managedRepresentation.inputLimit.maximum" required></td>
+								  <td><input type="number" [(ngModel)]="responsedomain.managedRepresentation.inputLimit.maximum" required></td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
-                    <div *ngSwitchWhen="domainTypeDef.DATETIME">
+          <div *ngSwitchWhen="domainTypeDef.DATETIME">
 					  <autocomplete [items]="suggestions"
 											[searchField]="'label'"
 											(autocompleteFocusEvent)="selectedCategoryIndex=idx;"
