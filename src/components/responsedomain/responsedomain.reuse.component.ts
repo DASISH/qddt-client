@@ -20,10 +20,10 @@ import {ResponsedomainFormComponent} from './responsedomain.form.component';
           <label [attr.for]="'rdomain-type-' + domain.id">{{domain.label}}</label>
 			  </div>
         <div class="col right">
-          <i class="material-icons right" (click)="createResponseDomain()">add</i>
+          <i class="material-icons right" (click)="createResponseDomain()" title="new">add</i>
         </div>
         <div class="col right">
-          <i class="material-icons right" (click)="reuse()">autorenew</i>
+          <i class="material-icons right" (click)="reuse()" title="reuse">autorenew</i>
         </div>
       </div>
       <div *ngIf="showAutocomplete && responseDomains.length > 0">
@@ -87,5 +87,12 @@ export class ResponsedomainReuseComponent {
   select(responseDomain: any) {
     this.responseDomainReuse.emit(responseDomain);
     this.isVisible = false;
+  }
+
+  searchResponseDomains(key: string) {
+    let name = DomainTypeDescription.find(e=>e.id === this.domainType).name;
+    this.responseDomainService.getAll(name, key).subscribe(result => {
+      this.responseDomains = result.content;
+    });
   }
 }

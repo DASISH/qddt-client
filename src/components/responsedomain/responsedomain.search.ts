@@ -41,16 +41,24 @@ export class ResponseDomainSearchComponent {
   constructor(private responseDomainService: ResponseDomainService) {
     this.responseDomains = [];
     this.domainTypeDescription = DomainTypeDescription;
-    this.domainType = DomainType.SCALE;
+    this.selectDomainType(DomainType.SCALE);
   }
 
   selectDomainType(id: DomainType) {
     this.domainType = id;
-    this.responseDomainService.getAll(DomainTypeDescription[this.domainType - 1].name).subscribe(result => {
+    let name = DomainTypeDescription.find(e=>e.id === this.domainType).name;
+    this.responseDomainService.getAll(name).subscribe(result => {
     this.responseDomains = result.content;});
   }
 
   selectResponseDomain(suggestion: any) {
     this.selectResponseDomainEvent.emit(suggestion);
+  }
+
+  searchResponseDomains(key: string) {
+    let name = DomainTypeDescription.find(e=>e.id === this.domainType).name;
+    this.responseDomainService.getAll(name, key).subscribe(result => {
+      this.responseDomains = result.content;
+    });
   }
 }

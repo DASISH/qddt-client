@@ -32,8 +32,9 @@ export class ResponseDomainService {
     return this.post(responseDomain,'responsedomain/');
   }
 
-  getAll(domain: string): any {
-    return this.get('responsedomain/page/search?ResponseKind=' + domain);
+  getAll(domain: string, name: string = ''): any {
+    let query = name.length > 0? '&name=' + name + '*': name;
+    return this.get('responsedomain/page/search?ResponseKind=' + domain + query);
   }
 
   private handleError(error: Response) {

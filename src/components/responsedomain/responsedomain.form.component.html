@@ -70,6 +70,8 @@
                         [searchField]="'label'"
                         (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
                         [initialValue]="category?.label"
+												[searchFromServer]="true"
+												(enterEvent)="searchCategories($event)"
                         (autocompleteSelectEvent)="select($event)"></autocomplete></td>
 								</tr>
 							</tbody>
