@@ -1,79 +1,56 @@
+<div class="row" *ngIf="questionitem">
+  <div class="row">
+    <div class="col s10">
+      <label class="active teal-text flow-text">Version: {{questionitem?.version?.major}}.{{questionitem?.version?.minor}}</label>
+    </div>
+    <div class="row col s2">
+      <a class="right right-align btn-floating red"><i class="material-icons"
+          (click)="hidDetail()">replay</i>
+        </a>
+    </div>
+  </div>
+  <div id="{{questionitem?.id}}" class="scrollspy">
+    <div class="col s1 m1 l1">
+      <br/>
+      <div class="row">
+        <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="editIsVisible = !editIsVisible"><i class="material-icons">mode_edit</i></a>
+        <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="revisionIsVisible = !revisionIsVisible"><i class="material-icons left medium">history</i></a>
+      </div>
+    </div>
 
-<a materialize="leanModal" [materializeParams]="[{dismissible: false}]"
-   class="waves-effect waves-light modal-trigger" href="#question-detail-modal">
-  <i class="material-icons teal-text">search</i></a>
+    <div class="col s10 m10 l10 grey-text text-darken-2">
+      <h5>{{questionitem?.question?.question}}</h5>
+      {{questionitem?.modified | localDate}} by <strong>{{questionitem?.modifiedBy?.username}}@{{questionitem?.modifiedBy?.agency?.name}}</strong>
+    </div>
 
-<div id="question-detail-modal" class="modal modal-fixed-footer">
-    <div class="modal-content">
-      <form id="question-detail-modal-form"  (ngSubmit)="onSaveQuestion()" #hf="ngForm">
-        <h5>Question Details</h5>
-        <div *ngIf="question.name" class="card" id="{{question.id}}"  >
-          <div class="row">
-            <div class="input-field col s12">
-              <input id=name type="text" [(ngModel)]="question.name" required>
-              <label for="name" class="active teal-text">Label</label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s12">
-               <textarea id=question class="materialize-textarea" [(ngModel)]="question.question" required></textarea>
-              <label for="question" class="active teal-text">Question</label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s12">
-              <textarea id=intent class="materialize-textarea" [(ngModel)]="question.intent" required></textarea>
-              <label for="intent" class="active teal-text">Intent</label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s4">
-              <input id=basedOnObject type="text" [(ngModel)]="question.basedOnObject" >
-              <label for="basedOnObject" class="active teal-text">Based On Object</label>
-            </div>
-            <div class="input-field col s4">
-              <input id =conceptReference type="text" [(ngModel)]="question.conceptReference" >
-              <label for="conceptReference" class="active teal-text">Concept Reference</label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s4">
-              <label class="active teal-text">Version Reason</label>
-              <select [(ngModel)]="question.changeKind" materialize="material_select">
-                <option value="" disabled selected>Select reason</option>
-                <option *ngFor="#reason of changes" [value]="reason[0]">{{reason[1]}}</option>
-              </select>
-            </div>
-            <div class="input-field col s8">
-              <input id="changeComment" type="text" [(ngModel)]="question.changeComment" required>
-              <label for="changeComment" class="active teal-text">Save Comment</label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s2">
-              <p><label class="active teal-text">Version</label></p>
-              {{question.version.major}}.{{question.version.minor}} {{question.version.versionlabel}}
-            </div>
-            <div class="input-field col s4">
-              <p><label class="active teal-text">Last Saved</label></p>
-              <div>{{question.modified | localDate}}</div>
-            </div>
-            <div class="input-field col s3">
-              <p><label class="active teal-text">Last Saved By</label></p>
-              <div class="chip" >{{question.modifiedBy.username}}</div>
-            </div>
-            <div class="input-field col s3">
-              <p><label class="active teal-text">Agency</label></p>
-              <div class="chip" >{{question.modifiedBy.agency.name}}</div>
-            </div>
-          </div>
+    <div class="col s10 m10 l10 white grey-text text-darken-1">
+      <div class="row">
+        <p>{{questionitem?.description}}</p>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s5">
+          <p><label class="active teal-text">Last Saved By</label></p>
+          <div class="chip">{{questionitem?.modifiedBy?.username}}</div>
         </div>
-      </form>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-default modal-action modal-close waves-effect red lighten-2 waves-red">DISMISS</button>
+        <div class="input-field col s5">
+          <p><label class="active teal-text">Agency</label></p>
+          <div class="chip">{{questionitem?.modifiedBy?.agency?.name}}</div>
+        </div>
+      </div>
 
-      <button type="submit" form="question-detail-modal-form" class="btn btn-default modal-action modal-close  waves-effect green lighten-2 waves-green">SUBMIT</button>
+      <qddt-questionitem-edit [isVisible]="editIsVisible"
+        [questionitem]="questionitem"></qddt-questionitem-edit>
+
+      <qddt-revision [isVisible]="revisionIsVisible"
+        [qddtURI]="'audit/questionitem/' + questionitem.id + '/all'"></qddt-revision>
+      <qddt-responsedomain-preview *ngIf="questionitem.responseDomain"
+        [isVisible]="true" [responseDomain]="questionitem.responseDomain"
+        #preview></qddt-responsedomain-preview>
+      <div class="row">
+        <comment-list [ownerId]="questionitem.id"></comment-list>
+      </div>
     </div>
 
+  </div>
 </div>

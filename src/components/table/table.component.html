@@ -20,7 +20,7 @@
           <td (click)="onDetail(row.Object)" [ngStyle]="{'cursor': 'pointer'}">
             <a><i class="material-icons left smal">search</i></a>
           </td>
-          <td *ngFor="#column of columns">{{row[column.name]}}</td>
+          <td *ngFor="#column of columns">{{row[column.label]}}</td>
         </tr>
       </tbody>
     </table>
