@@ -83,14 +83,19 @@ export class ResponsedomainFormComponent {
 
   save() {
     this.responsedomain.label = this.responsedomain.name;
-    this.categoryService.save(this.responsedomain.managedRepresentation)
-      .subscribe(result => {
-        for(let i = 0; i < this.responsedomain.managedRepresentation.children.length; i++) {
-          result.children[i].code = this.responsedomain.managedRepresentation.children[i].code;
-        }
-        this.responsedomain.managedRepresentation = result;
-        this.formChange.emit(this.responsedomain);
-      });
+    let category = this.responsedomain.managedRepresentation;
+    if (category.id !== undefined && category.id !== '') {
+      this.formChange.emit(this.responsedomain);
+    } else {
+      this.categoryService.save(category)
+        .subscribe(result => {
+          for (let i = 0; i < category.children.length; i++) {
+            result.children[i].code = category.children[i].code;
+          }
+          this.responsedomain.managedRepresentation = result;
+          this.formChange.emit(this.responsedomain);
+        });
+    }
   }
 
   changeNumberOfCategories(num: number) {

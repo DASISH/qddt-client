@@ -63,7 +63,18 @@ export class ResponsedomainReuseComponent {
   }
 
   formChange() {
-    this.responseDomainReuse.emit(this.responseDomain);
+    if (this.responseDomain.id !== undefined && this.responseDomain.id !== '') {
+      this.responseDomainService.update(this.responseDomain).subscribe(result => {
+        this.responseDomain = result;
+        this.responseDomainReuse.emit(this.responseDomain);
+      });
+    } else {
+      this.responseDomainService.create(this.responseDomain).subscribe(result => {
+        this.responseDomain = result;
+        this.responseDomains.push(this.responseDomain);
+        this.responseDomainReuse.emit(this.responseDomain);
+      });
+    }
     this.isVisible = false;
   }
 
