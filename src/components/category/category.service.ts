@@ -33,10 +33,6 @@ export class CategoryService extends BaseService {
     super(http ,api);
   }
 
-  static logError(err: string) {
-    console.log('CategoryService: ', err);
-  }
-
   save(category: Category): any {
     return this.post(category,'category/create/');
   }

@@ -20,13 +20,6 @@ export class LoginComponent {
   user: any;
   loginForm: LoginForm;
 
-  constructor(@Inject(UserService) private userService: UserService,
-              @Inject(Http)private http:Http, @Inject(API_BASE_HREF) private api: string) {
-    this.userService = userService;
-    this.http = http;
-    this.loginForm = new LoginForm();
-  }
-
   static logError(err: any) {
     console.log('LoginComponent: ', err.toString());
   }
@@ -35,6 +28,13 @@ export class LoginComponent {
     if(jwt) {
       localStorage.setItem('jwt', JSON.stringify(jwt));
     }
+  }
+
+  constructor(@Inject(UserService) private userService: UserService,
+              @Inject(Http)private http:Http, @Inject(API_BASE_HREF) private api: string) {
+    this.userService = userService;
+    this.http = http;
+    this.loginForm = new LoginForm();
   }
 
   login() {

@@ -20,10 +20,6 @@ export class ConceptService extends BaseService {
     super(http ,api);
   }
 
-  static logError(err:string) {
-    console.log('ConceptService: ', err);
-  }
-
   save(concept: Concept, topicId: string) : any {
     return this.post(concept, 'concept/create/by-topicgroup/'+ topicId);
   }

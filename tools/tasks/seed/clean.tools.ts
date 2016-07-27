@@ -8,7 +8,7 @@ import {TOOLS_DIR} from '../../config';
 export = done => {
   deleteAndWalk(TOOLS_DIR);
   done();
-}
+};
 
 function walk(path) {
   let files = readdirSync(path);

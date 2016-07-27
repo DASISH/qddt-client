@@ -19,10 +19,6 @@ export class SurveyService extends BaseService {
     super(http ,api);
   }
 
-  static logError(err: string) {
-    console.log('SurveyService: ', err);
-  }
-
   save(surveyProgram: SurveyProgram): any {
     return this.post(surveyProgram, 'surveyprogram/create');
   }

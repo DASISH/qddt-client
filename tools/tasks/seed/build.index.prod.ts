@@ -19,7 +19,7 @@ export = () => {
     .pipe(injectCss())
     .pipe(plugins.template(templateLocals()))
     .pipe(gulp.dest(APP_DEST));
-}
+};
 
 function inject(...files) {
   return plugins.inject(
