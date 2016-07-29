@@ -5,7 +5,12 @@ import {ResponseDomain} from './responsedomain.service';
   selector: 'responsedomain-scale',
   moduleId: module.id,
   template: `<div *ngIf="responseDomain" class="row">
-        <table>
+        <div class="row">
+          <a class="right right-align btn-floating red"><i class="material-icons"
+            (click)="rotate()">loop</i>
+          </a>
+        </div>
+        <table *ngIf="degreeSlopeFromHorizontal>0">
         <thead>
           <tr>
             <th *ngFor="#item of header">
@@ -27,6 +32,21 @@ import {ResponseDomain} from './responsedomain.service';
           </tr>
         </tbody>
       </table>
+      <table *ngIf="degreeSlopeFromHorizontal === 0">
+        <tbody>
+          <tr *ngFor="#option of row;#idx=index">
+            <td>
+              <span>
+              <input name="{{responseDomain.id}}-group" type="radio" id="{{responseDomain.id}}option{{option.value}}" />
+              <label [attr.for]="responseDomain.id + 'option' + option.value">{{option?.label}}</label>
+              </span>
+            </td>
+            <td>
+              <span>{{option?.value}}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>`,
   styles: [],
   pipes: [],
@@ -39,6 +59,8 @@ export class ResponsedomainScaleComponent {
   private row: any[] = [];
   private max: number = 8;
   private min: number = 1;
+
+  private degreeSlopeFromHorizontal: number = 0;
 
   ngOnChanges() {
     let rep = this.responseDomain.managedRepresentation;
@@ -54,20 +76,56 @@ export class ResponsedomainScaleComponent {
       && rep.inputLimit.minimum !== undefined) {
       this.min = parseInt(rep.inputLimit.minimum);
     }
+
+    if (this.degreeSlopeFromHorizontal > 0) {
+      this.buildVerticalRows();
+    } else {
+      this.buildHorizontalRows();
+    }
+  }
+
+  rotate() {
+    if(this.degreeSlopeFromHorizontal === 0) {
+      this.degreeSlopeFromHorizontal = 90;
+      this.buildVerticalRows();
+    } else {
+      this.degreeSlopeFromHorizontal = 0;
+      this.buildHorizontalRows();
+    }
+  }
+
+  private buildVerticalRows() {
+    this.row = [];
+    this.header = [];
     let categories = [];
+    let rep = this.responseDomain.managedRepresentation;
     if (rep !== undefined && rep.children !== undefined) {
       categories = rep.children;
     }
-
     for (let i = this.min; i <= this.max; i++) {
       this.row.push(i);
       let c = categories
         .find(category => category.code.codeValue === i.toString());
-      if(c !== undefined) {
+      if (c !== undefined) {
         this.header.push(c.label);
       } else {
         this.header.push('');
       }
+    }
+  }
+
+  private buildHorizontalRows() {
+    this.row = [];
+    this.header = [];
+    let categories = [];
+    let rep = this.responseDomain.managedRepresentation;
+    if (rep !== undefined && rep.children !== undefined) {
+      categories = rep.children;
+    }
+    for (let i = this.min; i <= this.max; i++) {
+      let c = categories
+        .find(category => category.code.codeValue === i.toString());
+      this.row.push({ label: c !== undefined ? c.label : '', value: i });
     }
   }
 }

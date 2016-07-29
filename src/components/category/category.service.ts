@@ -33,10 +33,6 @@ export class CategoryService extends BaseService {
     super(http ,api);
   }
 
-  static logError(err: string) {
-    console.log('CategoryService: ', err);
-  }
-
   save(category: Category): any {
     return this.post(category,'category/create/');
   }
@@ -54,8 +50,9 @@ export class CategoryService extends BaseService {
       + '&page=' + page);
   }
 
-  getAllByLevel(level: String): any {
-    return this.get('category/page/search/?level=' + level);
+  getAllByLevel(level: String, name: String = ''): any {
+    let query = name.length > 0? '&name=' + name + '*': name;
+    return this.get('category/page/search/?level=' + level + query);
   }
 
   getAllTemplatesByCategoryKind(categoryKind: String): any {

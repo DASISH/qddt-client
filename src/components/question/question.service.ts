@@ -35,7 +35,15 @@ export class QuestionService extends BaseService {
     return this.get('question/page');
   }
 
-  getQuestionItemPage(): any {
-    return this.get('questionitem/page');
+  getQuestionItemPage(page: String = '0'): any {
+    return this.get('questionitem/page' + '?&page=' + page);
+  }
+
+  createQuestionItem(question: any): any {
+    return this.post(question,'questionitem/create');
+  }
+
+  updateQuestionItem(questionItem: QuestionItem) : any {
+    return this.post(questionItem, 'questionitem');
   }
 }

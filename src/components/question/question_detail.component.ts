@@ -1,36 +1,42 @@
-import {Component, Input,Output,EventEmitter} from 'angular2/core';
-import {QuestionService} from './question.service';
-import {MaterializeDirective} from 'angular2-materialize/dist/materialize-directive';
+import {Component, Input, Output, EventEmitter} from 'angular2/core';
 
 import {LocalDatePipe} from '../../common/date_pipe';
-import {Change} from '../../common/change_status';
+
+import {QuestionService, QuestionItem, Question} from './question.service';
+import {CommentListComponent} from '../comment/comment_list.component';
+import {QuestionItemEdit} from './question_edit.component';
+import {RevisionComponent} from '../revision/revision.component';
+import {PreviewComponent} from '../responsedomain/responsedomain.preview.component';
 
 @Component({
-  selector: 'question-detail',
+  selector: 'qddt-questionitem-detail',
   moduleId: module.id,
   templateUrl: './question_detail.component.html',
-  providers: [QuestionService],
   pipes: [LocalDatePipe],
-  directives: [MaterializeDirective],
+  providers: [QuestionService],
+  directives: [ CommentListComponent, RevisionComponent, PreviewComponent, QuestionItemEdit]
 })
 
 export class QuestionDetail {
+  @Input() questionitem: QuestionItem;
+  @Input() questionitems: QuestionItem[];
+  @Input() isVisible: boolean;
+  @Output() hideDetailEvent: EventEmitter<String> = new EventEmitter();
+  private revisionIsVisible: boolean;
+  private editIsVisible: boolean;
 
-  @Output() questionModifiedEvent:EventEmitter<String> = new EventEmitter();
-  @Input() question:any;
-
-  changes: any = Change.status;
-
-  constructor(private service:QuestionService) {
-
+  constructor() {
+    this.revisionIsVisible = false;
+    this.editIsVisible = false;
   }
 
-
-  onSaveQuestion() {
-    this.service.save(this.question)
-      .subscribe(result => {
-        this.questionModifiedEvent.emit(result);
-      });
+  ngOnInit() {
+    if(this.questionitem.question === null) {
+      this.questionitem.question = new Question();
+    }
   }
 
+  hidDetail() {
+    this.hideDetailEvent.emit('hide');
+  }
 }

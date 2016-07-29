@@ -21,4 +21,4 @@ export = () => {
 
   return result.js
     .pipe(gulp.dest(APP_DEST));
-}
+};

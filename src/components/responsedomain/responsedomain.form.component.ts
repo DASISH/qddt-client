@@ -54,6 +54,10 @@ export class ResponsedomainFormComponent {
     if (this.domainType === DomainType.SCALE) {
       this.responsedomain.managedRepresentation.categoryType = 'SCALE';
       this.numberOfAnchors = this.responsedomain.managedRepresentation.children.length;
+    } else if (this.domainType === DomainType.NUMERIC) {
+      this.responsedomain.managedRepresentation.categoryType = 'NUMERIC';
+    } else if (this.domainType === DomainType.TEXT) {
+      this.responsedomain.managedRepresentation.categoryType = 'TEXT';
     } else {
       this.responsedomain.managedRepresentation.categoryType = 'LIST';
       this.numberOfAnchors = this.responsedomain.managedRepresentation.children.length;
@@ -78,14 +82,20 @@ export class ResponsedomainFormComponent {
   }
 
   save() {
-    this.categoryService.save(this.responsedomain.managedRepresentation)
-      .subscribe(result => {
-        for(let i = 0; i < this.responsedomain.managedRepresentation.children.length; i++) {
-          result.children[i].code = this.responsedomain.managedRepresentation.children[i].code;
-        }
-        this.responsedomain.managedRepresentation = result;
-        this.formChange.emit(this.responsedomain);
-      });
+    this.responsedomain.label = this.responsedomain.name;
+    let category = this.responsedomain.managedRepresentation;
+    if (category.id !== undefined && category.id !== '') {
+      this.formChange.emit(this.responsedomain);
+    } else {
+      this.categoryService.save(category)
+        .subscribe(result => {
+          for (let i = 0; i < category.children.length; i++) {
+            result.children[i].code = category.children[i].code;
+          }
+          this.responsedomain.managedRepresentation = result;
+          this.formChange.emit(this.responsedomain);
+        });
+    }
   }
 
   changeNumberOfCategories(num: number) {
@@ -109,6 +119,12 @@ export class ResponsedomainFormComponent {
         rep.children.push(c);
       }
     }
+  }
+
+  searchCategories(name: string) {
+    this.categoryService.getAllByLevel('ENTITY', name).subscribe(result => {
+      this.categories = result.content;
+    });
   }
 
 }

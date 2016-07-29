@@ -44,9 +44,11 @@
 									<td><input type="text" [(ngModel)]="category.code.codeValue" required></td>
 									<td><autocomplete [items]="categories" class="black-text"
                         [searchField]="'label'"
+												[searchFromServer]="true"
                         (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
                         [initialValue]="category?.label"
-                        (autocompleteSelectEvent)="select($event)"></autocomplete></td>
+                        (autocompleteSelectEvent)="select($event)"
+												(enterEvent)="searchCategories($event)"></autocomplete></td>
 								</tr>
 							</tbody>
 						</table>
@@ -68,6 +70,8 @@
                         [searchField]="'label'"
                         (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
                         [initialValue]="category?.label"
+												[searchFromServer]="true"
+												(enterEvent)="searchCategories($event)"
                         (autocompleteSelectEvent)="select($event)"></autocomplete></td>
 								</tr>
 							</tbody>
@@ -106,26 +110,21 @@
 						</table>
 					</div>
 					<div *ngSwitchWhen="domainTypeDef.TEXT">
-					  <autocomplete [items]="suggestions"
-											[searchField]="'label'"
-											(autocompleteFocusEvent)="selectedCategoryIndex=idx;"
-											[initialValue]="''"
-											(autocompleteSelectEvent)="select($event)"></autocomplete>
 						<table *ngIf="responsedomain.managedRepresentation">
 						  <thead><tr><td>TEXT Range</td><td>Value</td></tr></thead>
 							<tbody>
 								<tr>
 								  <td><label>Minimum length</label></td>
-								  <td><input type="text" [(ngModel)]="responsedomain.managedRepresentation.inputLimit.minimum" required></td>
+								  <td><input type="number" [(ngModel)]="responsedomain.managedRepresentation.inputLimit.minimum" required></td>
 								</tr>
 								<tr>
 								  <td><label>Maximum length</label></td>
-								  <td><input type="text" [(ngModel)]="responsedomain.managedRepresentation.inputLimit.maximum" required></td>
+								  <td><input type="number" [(ngModel)]="responsedomain.managedRepresentation.inputLimit.maximum" required></td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
-                    <div *ngSwitchWhen="domainTypeDef.DATETIME">
+          <div *ngSwitchWhen="domainTypeDef.DATETIME">
 					  <autocomplete [items]="suggestions"
 											[searchField]="'label'"
 											(autocompleteFocusEvent)="selectedCategoryIndex=idx;"

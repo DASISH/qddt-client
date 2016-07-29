@@ -5,13 +5,12 @@ import {API_BASE_HREF} from '../../api';
 
 @Injectable()
 export class RevisionService {
+  static logError(err: any) {
+    console.log('LoginComponent: ', err.toString());
+  }
 
   constructor(private http: Http, @Inject(API_BASE_HREF) private api: string) {
 
-  }
-
-  static logError(err: string) {
-    console.log(err);
   }
 
   getAllRevisions(qddtURI: string) {
