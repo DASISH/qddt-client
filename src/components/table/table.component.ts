@@ -1,5 +1,5 @@
 import {Component, Input, Output, EventEmitter} from 'angular2/core';
-import {QddtPagination} from '../pagination/pagination'
+import {QddtPagination} from '../pagination/pagination';
 @Component({
   selector: 'qddt-table',
   moduleId: module.id,
