@@ -10,7 +10,7 @@ import {Component, Input, Output, EventEmitter} from 'angular2/core';
 
 export class AutocompleteComponent {
   @Input() items:  any[];
-  @Input() searchField: string;
+  @Input() searchField: any;
   /**
    * set initial value
    */
@@ -64,6 +64,22 @@ export class AutocompleteComponent {
     this.autocompleteSelectEvent.emit(candidate);
   }
 
+  getLabel(candiate: any) {
+    if (this.searchField instanceof Array) {
+      let result: any = candiate;
+      this.searchField.forEach(element => {
+        if (result !== null && result[element] !== undefined) {
+          result = result[element];
+        } else {
+          result = '';
+        }
+      });
+      return result;
+    } else {
+      return candiate[this.searchField] || '';
+    }
+  }
+
   private filterItems(search: string) {
     let field = this.searchField;
     this.candidates = this.items.filter(
@@ -72,4 +88,5 @@ export class AutocompleteComponent {
           || (item[field] !== undefined && item[field].toLowerCase().indexOf(search.toLowerCase()) >= 0);
     });
   }
+
 }

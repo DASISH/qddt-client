@@ -6,7 +6,7 @@
 		*ngIf="showAutoComplete && candidates != undefined && candidates.length > 0">
 		<li *ngFor="#candidate of candidates;#idx=index"
 			[ngClass]="{ active: (idx === selectedIndex) }"
-			(mouseover)="selectedIndex=idx;" (mousedown)="select(candidate)">{{candidate[searchField]}}
+			(mouseover)="selectedIndex=idx;" (mousedown)="select(candidate)">{{getLabel(candidate)}}
 		</li>
 	</ul>
 </div>
