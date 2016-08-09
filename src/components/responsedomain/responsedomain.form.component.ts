@@ -5,6 +5,9 @@ import {CategoryService, Category, ResponseCardinality} from '../category/catego
 import {AutocompleteComponent} from '../autocomplete/autocomplete.component';
 import {DomainType, DomainTypeDescription} from './responsedomain.constant';
 import {PreviewComponent} from './responsedomain.preview.component';
+import { Observable }     from 'rxjs/Observable';
+//import 'rxjs/add/operator/range';
+//import 'rxjs/add/operator/of';
 
 @Component({
   selector: 'responsedomain-form',
@@ -84,18 +87,46 @@ export class ResponsedomainFormComponent {
   save() {
     this.responsedomain.label = this.responsedomain.name;
     let category = this.responsedomain.managedRepresentation;
-    if (category.id !== undefined && category.id !== '') {
-      this.formChange.emit(this.responsedomain);
-    } else {
-      this.categoryService.save(category)
-        .subscribe(result => {
-          for (let i = 0; i < category.children.length; i++) {
-            result.children[i].code = category.children[i].code;
-          }
-          this.responsedomain.managedRepresentation = result;
-          this.formChange.emit(this.responsedomain);
-        });
-    }
+    let source = Observable.range(0, category.children.length)
+      .flatMap(x => {
+        let c = category.children[x];
+        if (c.isNew === true) {
+          c.name = c.label;
+          return this.categoryService.save(c);
+        } else {
+          return Observable.of(c);
+        }
+      });
+
+    let index = 0;
+    let changeEvent = this.formChange;
+    let rd = this.responsedomain;
+    let service = this.categoryService;
+
+    source.subscribe(
+      function (x) {
+        if (index < category.children.length) {
+          category.children[index] = x;
+          index = index + 1;
+        }
+      },
+      function (err) {
+        console.log('Error: %s', err);
+      },
+      function () {
+        if (category.id !== undefined && category.id !== '') {
+          changeEvent.emit(rd);
+        } else {
+          service.save(category)
+            .subscribe(result => {
+              for (let i = 0; i < category.children.length; i++) {
+                result.children[i].code = category.children[i].code;
+              }
+              rd.managedRepresentation = result;
+              changeEvent.emit(rd);
+            });
+        }
+      });
   }
 
   changeNumberOfCategories(num: number) {

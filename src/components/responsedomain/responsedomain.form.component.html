@@ -38,17 +38,22 @@
 						</div>
 
 						<table *ngIf="numberOfAnchors > 0">
-						  <thead><tr><td>Code</td><td>Category</td></tr></thead>
+						  <thead><tr><td>Code</td><td>Category</td><td>New</td></tr></thead>
 							<tbody>
 								<tr *ngFor="#category of responsedomain.managedRepresentation.children;#idx=index">
 									<td><input type="text" [(ngModel)]="category.code.codeValue" required></td>
-									<td><autocomplete [items]="categories" class="black-text"
+									<td><autocomplete *ngIf="!category.isNew" [items]="categories" class="black-text"
                         [searchField]="'label'"
 												[searchFromServer]="true"
                         (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
                         [initialValue]="category?.label"
                         (autocompleteSelectEvent)="select($event)"
-												(enterEvent)="searchCategories($event)"></autocomplete></td>
+												(enterEvent)="searchCategories($event)"></autocomplete>
+										  <input *ngIf="category.isNew" type="text" [(ngModel)]="category.label" required>
+										</td>
+										<td><div class="row"><input id="{{responsedomain?.id}}-group-{{idx}}" type="checkbox" [(ngModel)]="category.isNew">
+										<label [attr.for]="(responsedomain.id||'')+'-group-'+idx">new</label>
+										</div></td>
 								</tr>
 							</tbody>
 						</table>
@@ -62,17 +67,23 @@
 						</div>
 
 						<table *ngIf="responsedomain.managedRepresentation.inputLimit.maximum > 0">
-						  <thead><tr><td>Code</td><td>Category</td></tr></thead>
+						  <thead><tr><td>Code</td><td>Category</td><td>New</td></tr></thead>
 							<tbody>
 								<tr *ngFor="#category of responsedomain.managedRepresentation.children;#idx=index">
 									<td><input type="text" [(ngModel)]="category.code.codeValue" required></td>
-									<td><autocomplete [items]="categories" class="black-text"
+									<td><autocomplete  *ngIf="!category.isNew" [items]="categories" class="black-text"
                         [searchField]="'label'"
                         (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
                         [initialValue]="category?.label"
 												[searchFromServer]="true"
 												(enterEvent)="searchCategories($event)"
-                        (autocompleteSelectEvent)="select($event)"></autocomplete></td>
+                        (autocompleteSelectEvent)="select($event)"></autocomplete>
+												<input *ngIf="category.isNew" type="text" [(ngModel)]="category.label" required>
+									</td>
+									<td><div class="row"><input id="{{responsedomain?.id}}-group-{{idx}}" type="checkbox" [(ngModel)]="category.isNew">
+										<label [attr.for]="(responsedomain.id||'')+'-group-'+idx">new</label>
+										</div>
+									</td>
 								</tr>
 							</tbody>
 						</table>
@@ -90,11 +101,6 @@
 						</div>
 					</div>
 					<div *ngSwitchWhen="domainTypeDef.NUMERIC">
-					  <autocomplete [items]="suggestions"
-											[searchField]="'label'"
-											(autocompleteFocusEvent)="selectedCategoryIndex=idx;"
-											[initialValue]="''"
-											(autocompleteSelectEvent)="select($event)"></autocomplete>
 						<table *ngIf="responsedomain.managedRepresentation">
 						  <thead><tr><td>Numeric Range</td><td>Value</td></tr></thead>
 							<tbody>
