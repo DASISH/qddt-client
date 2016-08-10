@@ -11,13 +11,14 @@ import {AutocompleteComponent} from '../autocomplete/autocomplete.component';
 import {QuestionItem} from '../question/question.service';
 import {ResponseDomainService} from '../responsedomain/responsedomain.service';
 import {ResponseDomainSearchComponent} from '../responsedomain/responsedomain.search';
+import {QuestionReuseComponent} from '../question/question.reuse';
 
 @Component({
   selector: 'treenode',
   providers: [ConceptService, ResponseDomainService],
   directives: [TreeNodeComponent, ConceptQuestionComponent, MaterializeDirective, RevisionComponent,
     ConceptEditComponent, CommentListComponent, AuthorChipComponent,
-    ResponseDomainSearchComponent, AutocompleteComponent],
+    ResponseDomainSearchComponent, AutocompleteComponent, QuestionReuseComponent],
   pipes: [LocalDatePipe],
   styles: [
     '.tree-children { padding-left: 5px }',
@@ -36,8 +37,8 @@ import {ResponseDomainSearchComponent} from '../responsedomain/responsedomain.se
                    (click)="edit.isVisible = !edit.isVisible"><i class="material-icons">mode_edit</i></a>
              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                    (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium">history</i></a>
-             <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                   (click)="onCreateQuestionItem(concept)"><i class="material-icons left medium">playlist_add</i></a>
+             <questionitem-reuseorcreate [parentId]="concept.id"
+               (questionItemCreatedEvent)="setQuestionItem($event)"></questionitem-reuseorcreate>
              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                    (click)="onCreateConcept(concept)"><i class="material-icons left medium">add</i></a>
              </div>
@@ -76,7 +77,7 @@ import {ResponseDomainSearchComponent} from '../responsedomain/responsedomain.se
            <qddt-revision [isVisible]="revision.isVisible" [qddtURI]="'audit/concept/' + concept.id + '/all'" #revision ></qddt-revision>
            <div *ngIf="concept.questionItems.length > 0" class="section">
              <ul class="collection with-header">
-               <li class="collection-header">Questions</li>
+               <li class="collection-header">Question Items</li>
                <li class="collection-item" *ngFor="#questionItem of concept.questionItems">
                  <div>
                    <i class="material-icons tiny">help</i> {{questionItem?.question?.question}}
@@ -85,24 +86,6 @@ import {ResponseDomainSearchComponent} from '../responsedomain/responsedomain.se
                  </div>
                </li>
              </ul>
-           </div>
-           <div *ngIf="showQuestionForm">
-             <div class="card-action">
-               <div class="row"><span>Create a Question Item</span></div>
-               <form (ngSubmit)="onQuestionItemSave()" #hf="ngForm">
-                 <div class="row">
-                   <div class="row"><span>Select a Question text</span></div>
-                   <autocomplete [items]="allQuestions" [searchField]="'name'"
-                     (autocompleteFocusEvent)="showAutoComplete = true;"
-                     [initialValue]="''" (autocompleteSelectEvent)="select($event)">
-                   </autocomplete>
-                 </div>
-                 <div class="row">
-                     <responsedomain-search (selectResponseDomainEvent)="selectResponseDomain($event)"></responsedomain-search>
-                 </div>
-                 <button type="submit" class="btn btn-default">Submit</button>
-                 </form>
-             </div>
            </div>
            <div class="row">
              <comment-list [ownerId]="concept.id"></comment-list>
@@ -172,5 +155,14 @@ export class TreeNodeComponent {
         this.concept = result;
       }
       , (err) => console.log('ERROR: ', err));
+  }
+
+  setQuestionItem(questionItem) {
+    this.concept.questionItems.push(questionItem);
+    this.conceptService.updateConcept(this.concept)
+      .subscribe(result => {
+        this.concept = result;
+      });
+    this.questionItem = new QuestionItem();
   }
 }

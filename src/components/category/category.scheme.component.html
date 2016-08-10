@@ -2,7 +2,7 @@
   <div class="col m10 l9">
     <div class="card white white-text text-lighten-2">
       <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
-        <i class="material-icons large right">comment</i><h4>Managed Representations</h4>
+        <i class="material-icons large right">comment</i><h4>Catogry Schemes</h4>
 
         <a class="btn" (click)="onToggleCategoryForm()">
         <i class="material-icons right" *ngIf="!showCategoryForm">keyboard_arrow_down</i>
@@ -103,7 +103,7 @@
 
   <div class="col hide-on-small-only m1 l1">
     <div style="top: 55;" class="toc-wrapper pinned">
-      <h5>Managed Representation Toc</h5>
+      <h5>Catogry Schemes Toc</h5>
       <ul class="section table-of-contents">
         <li><a href="#topMenu">To the top </a> </li>
         <li *ngFor="#category of templateCategories"><a href="/Schemes#{{category.id}}">{{category.name}}</a></li>

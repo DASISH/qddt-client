@@ -61,7 +61,7 @@ export class QddtTableComponent {
     this.rows = this._rows.filter(
       function (row) {
         let items = columns.filter(function (column) {
-          return (row[column.label] !== undefined && column.sortable === true
+          return (row[column.label] !== undefined && row[column.label] !== null && column.sortable === true
             && row[column.label].toLowerCase().indexOf(search.toLowerCase()) >= 0);
         });
         return items.length > 0;
