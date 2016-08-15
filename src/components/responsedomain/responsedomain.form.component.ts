@@ -117,6 +117,7 @@ export class ResponsedomainFormComponent {
         if (category.id !== undefined && category.id !== '') {
           changeEvent.emit(rd);
         } else {
+          category.name = 'category scheme for ' + rd.name;
           service.save(category)
             .subscribe(result => {
               for (let i = 0; i < category.children.length; i++) {
