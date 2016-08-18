@@ -7,6 +7,7 @@ import {CommentListComponent} from '../comment/comment_list.component';
 import {QuestionItemEdit} from './question_edit.component';
 import {RevisionComponent} from '../revision/revision.component';
 import {PreviewComponent} from '../responsedomain/responsedomain.preview.component';
+import {Change} from '../../common/change_status';
 
 @Component({
   selector: 'qddt-questionitem-detail',
@@ -25,7 +26,7 @@ export class QuestionDetail {
   private revisionIsVisible: boolean;
   private editIsVisible: boolean;
 
-  constructor() {
+  constructor(private service: QuestionService) {
     this.revisionIsVisible = false;
     this.editIsVisible = false;
   }
@@ -38,5 +39,20 @@ export class QuestionDetail {
 
   hidDetail() {
     this.hideDetailEvent.emit('hide');
+  }
+
+  onRemoveResponsedomain(questionitem: QuestionItem) {
+    if (questionitem.responseDomain === undefined
+      || questionitem.responseDomain.id === ''
+      || questionitem.responseDomain.name === undefined) {
+      return;
+    }
+    questionitem.changeKind = Change.status[0][0];
+    questionitem['changeComment'] = 'remove response domain ' + questionitem.responseDomain.name;
+    questionitem.responseDomain = null;
+    this.service.updateQuestionItem(questionitem)
+      .subscribe(result => {
+        this.questionitem = result;
+      });
   }
 }
