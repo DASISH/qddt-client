@@ -23,6 +23,7 @@ export class QuestionDetail {
   @Input() questionitems: QuestionItem[];
   @Input() isVisible: boolean;
   @Output() hideDetailEvent: EventEmitter<String> = new EventEmitter();
+  @Output() editQuestionItem: EventEmitter<any> = new EventEmitter();
   private revisionIsVisible: boolean;
   private editIsVisible: boolean;
 
@@ -47,12 +48,19 @@ export class QuestionDetail {
       || questionitem.responseDomain.name === undefined) {
       return;
     }
+    this.editIsVisible = false;
     questionitem.changeKind = Change.status[0][0];
     questionitem['changeComment'] = 'remove response domain ' + questionitem.responseDomain.name;
     questionitem.responseDomain = null;
     this.service.updateQuestionItem(questionitem)
       .subscribe(result => {
         this.questionitem = result;
+        this.editIsVisible = true;
       });
+  }
+
+  onEditQuestionItem(questionitem: QuestionItem) {
+    let i = this.questionitems.findIndex(q => q['id'] === questionitem['id']);
+    this.questionitems[i] = questionitem;
   }
 }
