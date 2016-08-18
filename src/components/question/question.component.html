@@ -15,6 +15,9 @@
           <div class="card-action">
             <form (ngSubmit)="onCreateQuestionItem()" #hf="ngForm">
               <div class="row">
+                  <div class="row"><span>Name</span>
+                     <input type="text" [(ngModel)]="questionItem.name">
+                   </div>
                    <div class="row"><span>Question text</span>
                      <input type="text" [(ngModel)]="questionItem.question.question">
                    </div>

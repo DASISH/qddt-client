@@ -18,6 +18,9 @@ import {ResponsedomainReuseComponent} from '../responsedomain/responsedomain.reu
     <div *ngIf="questionitem">
       <div class="card-action">
         <form (ngSubmit)="onEditQuestionItem()" #hf="ngForm">
+          <div class="row"><span>Name</span>
+            <input type="text" [(ngModel)]="questionitem.name">
+          </div>
           <div class="row">
             <div class="row"><span>Question text</span>
               <input type="text" [(ngModel)]="questionitem.question.question">
