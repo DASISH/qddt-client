@@ -22,11 +22,22 @@ export class QddtTableComponent {
    */
   @Input() columns: any[];
   @Input() items: any[];
+  /**
+   * searchable results from server
+   */
+  @Input() searchFromServer: boolean;
   @Output() detailEvent: EventEmitter<String> = new EventEmitter();
   @Output() pageChangeEvent: EventEmitter<String> = new EventEmitter();
+  @Output() enterEvent: EventEmitter<any> = new EventEmitter();
 
   private rows: any[] = [];
   private _rows: any[] = [];
+
+  ngOnInit() {
+    if(this.searchFromServer === null) {
+      this.searchFromServer = false;
+    }
+  }
 
   ngOnChanges() {
     this.init();
@@ -42,7 +53,11 @@ export class QddtTableComponent {
 
   enterText(event) {
     let value = event.target.value;
-    this.filterItems(value);
+    if(this.searchFromServer) {
+      this.enterEvent.emit(value);
+    } else {
+      this.filterItems(value);
+    }
   }
 
   sortRows(column: any) {
