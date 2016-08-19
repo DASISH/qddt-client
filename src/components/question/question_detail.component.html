@@ -40,6 +40,7 @@
       </div>
 
       <qddt-questionitem-edit [isVisible]="editIsVisible"
+        (editQuestionItem)="onEditQuestionItem($event)"
         [questionitem]="questionitem"></qddt-questionitem-edit>
 
       <qddt-revision [isVisible]="revisionIsVisible"

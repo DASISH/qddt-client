@@ -1,4 +1,4 @@
-import {Component, Input} from 'angular2/core';
+import {Component, Input, Output, EventEmitter} from 'angular2/core';
 import {QuestionService} from './question.service';
 import {Change} from '../../common/change_status';
 import {LocalDatePipe} from '../../common/date_pipe';
@@ -18,15 +18,23 @@ import {ResponsedomainReuseComponent} from '../responsedomain/responsedomain.reu
     <div *ngIf="questionitem">
       <div class="card-action">
         <form (ngSubmit)="onEditQuestionItem()" #hf="ngForm">
+          <div class="row"><span>Name</span>
+            <input type="text" [(ngModel)]="questionitem.name">
+          </div>
           <div class="row">
             <div class="row"><span>Question text</span>
               <input type="text" [(ngModel)]="questionitem.question.question">
             </div>
           </div>
           <div class="row">
+            <div class="row"><span>Response Domain</span></div>
             <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
             (click)="showResponseDomainForm = !showResponseDomainForm">
             <i class="material-icons" title="response domain edit">mode_edit</i>
+            </a>
+            <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+              (click)="onRemoveResponsedomain(questionitem)">
+              <i class="material-icons left medium" title="remove response domain">remove</i>
             </a>
             <div *ngIf="showResponseDomainForm" class="row card">
 			        <responsedomain-reuse [isVisible]="true"
@@ -80,20 +88,22 @@ import {ResponsedomainReuseComponent} from '../responsedomain/responsedomain.reu
 export class QuestionItemEdit {
   @Input() isVisible: boolean;
   @Input() questionitem: any;
+  @Output() editQuestionItem: EventEmitter<any>;
   private showResponseDomainForm: boolean;
   private _ChangeEnums: any;
 
   constructor(private service: QuestionService) {
     this.showResponseDomainForm = false;
     this._ChangeEnums = Change.status;
+    this.editQuestionItem = new EventEmitter();
   }
 
   onEditQuestionItem() {
     this.showResponseDomainForm = false;
-    this.questionitem.question.name = this.questionitem.question.question;
     this.service.updateQuestionItem(this.questionitem)
       .subscribe(result => {
         this.questionitem = result;
+        this.editQuestionItem.emit(this.questionitem);
       });
     this.isVisible = false;
   }
@@ -101,5 +111,9 @@ export class QuestionItemEdit {
   responseDomainReuse(responseDomain: any) {
     this.questionitem.responseDomain = responseDomain;
     this.showResponseDomainForm = false;
+  }
+
+  onRemoveResponsedomain(questionitem: any) {
+    questionitem.responseDomain = null;
   }
 }
