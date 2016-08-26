@@ -12,6 +12,7 @@ export class Question {
 }
 
 export class QuestionItem {
+  id: string;
   question: Question;
   responseDomain: any;
   version: any;
@@ -45,5 +46,9 @@ export class QuestionService extends BaseService {
 
   updateQuestionItem(questionItem: QuestionItem) : any {
     return this.post(questionItem, 'questionitem');
+  }
+
+  getConceptsByQuestionitemId(id: string) {
+    return this.get('concept/list/by-QuestionItem/'+ id);
   }
 }

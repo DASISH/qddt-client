@@ -65,4 +65,10 @@ export class CategoryComponent {
     this.isDetail = false;
   }
 
+  searchCategories(name: string) {
+    this.categoryService.getAllByLevel('ENTITY', name).subscribe(result => {
+      this.page = result.page;
+      this.categories = result.content;
+    });
+  }
 }

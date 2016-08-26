@@ -41,7 +41,7 @@ export class CategorySchemeComponent {
   }
 
   ngOnInit() {
-    this.categoryService.getAllByLevel('GROUP_ENTITY').subscribe(result => {
+    this.categoryService.getAllTemplatesByCategoryKind('MISSING_GROUP').subscribe(result => {
         this.templateCategories = result.content;
         this.categories = this.categories.concat(this.templateCategories);
     });

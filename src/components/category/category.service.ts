@@ -51,7 +51,7 @@ export class CategoryService extends BaseService {
   }
 
   getAllByLevel(level: String, name: String = ''): any {
-    let query = name.length > 0? '&name=' + name + '*': name;
+    let query = name.length > 0? '&name=' + '*' + name + '*': name;
     return this.get('category/page/search/?level=' + level + query);
   }
 

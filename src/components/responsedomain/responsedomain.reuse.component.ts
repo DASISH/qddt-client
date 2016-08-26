@@ -62,6 +62,15 @@ export class ResponsedomainReuseComponent {
     this.selectedIndex = 0;
   }
 
+  ngOnInit() {
+    if (this.responseDomain !== undefined && this.responseDomain !== null) {
+      let description = this.domainTypeDescription.find(e => e.name === this.responseDomain.responseKind);
+      if (description !== undefined) {
+        this.domainType = description.id;
+      }
+    }
+  }
+
   formChange() {
     if (this.responseDomain.id !== undefined && this.responseDomain.id !== '') {
       this.responseDomainService.update(this.responseDomain).subscribe(result => {
