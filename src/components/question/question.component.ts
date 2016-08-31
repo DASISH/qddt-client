@@ -4,6 +4,7 @@ import {QuestionService, QuestionItem, Question} from './question.service';
 import {QuestionDetail} from './question_detail.component';
 import {QddtTableComponent} from '../table/table.component';
 import {ResponseDomainSearchComponent} from '../responsedomain/responsedomain.search';
+import {MaterializeDirective} from 'angular2-materialize/dist/materialize-directive';
 
 @Component({
   selector: 'question',
@@ -11,6 +12,7 @@ import {ResponseDomainSearchComponent} from '../responsedomain/responsedomain.se
   templateUrl: './question.component.html',
   directives: [QuestionDetail
     , QddtTableComponent
+    , MaterializeDirective
     , ResponseDomainSearchComponent],
   providers: [QuestionService]
 })
@@ -73,5 +75,10 @@ export class QuestionComp {
           });
       });
     this.isDetail = false;
+  }
+
+  selectResponseDomain(responseDomain: any) {
+    this.questionItem.responseDomain = responseDomain;
+    document.getElementById('questionItem-modal-close').click();
   }
 }

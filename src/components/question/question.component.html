@@ -22,8 +22,15 @@
                      <input type="text" [(ngModel)]="questionItem.question.question">
                    </div>
                  </div>
-                 <div class="row teal black-text">
-                     <responsedomain-search (selectResponseDomainEvent)="selectResponseDomain($event)"></responsedomain-search>
+                 <div class="row">
+                   <div class="row col s5"><span>Response Domain: </span><!--
+                     --><span *ngIf="questionItem.responseDomain">{{questionItem?.responseDomain?.name}}</span></div>
+                   <div class="row col s1"><a materialize="leanModal" [materializeParams]="[{dismissible: false}]"
+                     class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light"
+                     [attr.href]="'#create-questionItem-modal'">
+                     <i class="material-icons left medium">add</i>
+                     </a>
+                   </div>
                  </div>
                  <button type="submit" class="btn btn-default">Submit</button>
             </form>
@@ -39,4 +46,15 @@
 
   <qddt-questionitem-detail *ngIf="isDetail" [questionitem]="selectedQuestionItem"
     [questionitems]="questionitems" (hideDetailEvent)="hideDetail()"></qddt-questionitem-detail>
+</div>
+
+<div [attr.id]="'create-questionItem-modal'" class="modal">
+  <div class="modal-content">
+    <div class="row">
+      <responsedomain-search (selectResponseDomainEvent)="selectResponseDomain($event)"></responsedomain-search>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button id="questionItem-modal-close" class="btn btn-default red modal-action modal-close waves-effect waves-red">Dismiss</button>
+  </div>
 </div>
