@@ -63,15 +63,15 @@ export class QuestionComp {
 
   onCreateQuestionItem() {
     this.showQuestionItemForm = false;
-    this.questionItem.question.name = this.questionItem.question.question;
-    this.questionService.save(this.questionItem.question)
-      .subscribe(result => {
-        this.questionItem.question = result;
+    this.questionItem.question.name = this.questionItem.name;
+    // this.questionService.save(this.questionItem.question)
+    //   .subscribe(result => {
+    //     this.questionItem.question = result;
         this.questionService.createQuestionItem(this.questionItem)
           .subscribe(result => {
             this.questionitems.push(result);
           });
-      });
+      // });
     this.isDetail = false;
   }
 }
