@@ -6,10 +6,10 @@ import { Component, Input} from 'angular2/core';
   directives: [ConceptTocComponent],
   pipes: [],
   styles: [
-    '.toc-children { padding-left: 5px }',
+    '.toc-children { padding-left: 20px }',
   ],
   template: `
-    <ul class="toc-children" *ngFor="#concept of concepts">
+    <ul [ngClass]="{ 'toc-children': (level > 0) }" *ngFor="#concept of concepts">
       <li>
         <a *ngIf="concept.name" href="#{{concept.id}}">
           <span *ngIf="level > 0" class=" blue-grey-text" [ngClass]="'text-lighten-' + level">{{concept.name}}</span>
