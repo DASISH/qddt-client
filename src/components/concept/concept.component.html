@@ -30,7 +30,8 @@
         </div>
       </div>
       <div *ngIf="concepts">
-         <treenode *ngFor="#child of concepts" [concept]="child" [allQuestions]="allQuestions"></treenode>
+         <treenode *ngFor="#child of concepts" (deleteConceptEvent)="onDeleteConcept($event)"
+         [concept]="child" [allQuestions]="allQuestions"></treenode>
       </div>
     </div>
   </div>

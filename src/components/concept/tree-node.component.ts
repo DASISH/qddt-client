@@ -1,4 +1,4 @@
-import { Component, Input} from 'angular2/core';
+import { Component, Input, Output, EventEmitter} from 'angular2/core';
 import {LocalDatePipe} from '../../common/date_pipe';
 import {MaterializeDirective} from 'angular2-materialize/dist/materialize-directive';
 import {RevisionComponent} from '../revision/revision.component';
@@ -41,6 +41,8 @@ import {QuestionReuseComponent} from '../question/question.reuse';
                (questionItemCreatedEvent)="setQuestionItem($event)"></questionitem-reuseorcreate>
              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                    (click)="onCreateConcept(concept)"><i class="material-icons left medium">add</i></a>
+             <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                   (click)="onDeleteConcept(concept)"><i class="material-icons left medium">delete_forever</i></a>
              </div>
            </div>
 
@@ -98,6 +100,7 @@ import {QuestionReuseComponent} from '../question/question.reuse';
 })
 
 export class TreeNodeComponent {
+  @Output() deleteConceptEvent: EventEmitter<any> = new EventEmitter();
   @Input() concept: any;
   @Input() allQuestions: any;
   showConceptChildForm: boolean = false;
@@ -112,6 +115,10 @@ export class TreeNodeComponent {
 
   onCreateConcept(concept: any) {
     this.showConceptChildForm = !this.showConceptChildForm;
+  }
+
+  onDeleteConcept(concept: any) {
+    this.deleteConceptEvent.emit(concept.id);
   }
 
   onCreateQuestionItem(concept: any) {

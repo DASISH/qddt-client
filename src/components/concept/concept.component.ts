@@ -3,7 +3,6 @@ import {LocalDatePipe} from '../../common/date_pipe';
 import {ConceptService, Concept} from './concept.service';
 import {TreeNodeComponent} from './tree-node.component';
 import {ConceptTocComponent} from './concept_toc.component';
-//import {Response} from 'angular2/http';
 
 @Component({
   selector: 'concept',
@@ -57,5 +56,14 @@ export class ConceptComponent {
         this.concept  = new Concept();
   }
 
-
+  onDeleteConcept(id: string) {
+    this.conceptService.deleteConcept(id)
+      .subscribe(result => {
+        this.concepts = [];
+        this.conceptService.getByTopic(this.topic.id)
+          .subscribe(result => this.concepts = result.content
+          , (err) => console.log('ERROR: ', err));
+      },
+      error=> {console.log(error);});
+  }
 }

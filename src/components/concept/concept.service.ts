@@ -24,6 +24,10 @@ export class ConceptService extends BaseService {
     return this.post(concept, 'concept/create/by-topicgroup/'+ topicId);
   }
 
+  deleteConcept(conceptId: string) : any {
+    return this.post({id: conceptId}, 'concept/delete/'+ conceptId);
+  }
+
   updateConcept(concept: Concept) : any {
     return this.post(concept, 'concept');
   }

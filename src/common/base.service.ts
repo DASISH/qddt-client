@@ -41,7 +41,11 @@ export class BaseService {
         headers: this.headers
       })
       .map((res:Response) => {
-        return res.json();
+        try {
+          return res.json();
+        } catch (e) {
+          return [];
+        }
       })
       .catch(this.handleError);
   }
