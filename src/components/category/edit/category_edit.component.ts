@@ -16,8 +16,11 @@ import {AutocompleteComponent} from '../../autocomplete/autocomplete.component';
       <form (ngSubmit)="onSave()" #hf="ngForm">
         <div class="row">
           <div class="input-field col s12">
-            <input type="text" [(ngModel)]="category.label" required (ngModelChange)="category.name = category.label.toUpperCase()">
-            <label for="label" class="active teal-text">Label</label>
+            <textarea id="{{category?.id}}-label" class="materialize-textarea"
+              [(ngModel)]="category.label" [attr.maxlength]="255"
+              required (ngModelChange)="category.name = category.label.toUpperCase()">
+            </textarea>
+            <label [attr.for]="category.id + '-label'" class="active teal-text">Label</label>
           </div>
         </div>
         <div class="row">

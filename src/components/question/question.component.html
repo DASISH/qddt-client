@@ -18,8 +18,12 @@
                   <div class="row"><span>Name</span>
                      <input type="text" [(ngModel)]="questionItem.name">
                    </div>
-                   <div class="row"><span>Question text</span>
-                     <input type="text" [(ngModel)]="questionItem.question.question">
+                   <div class="row">
+                     <div class="input-field col s12">
+                       <textarea id="question-textarea" [(ngModel)]="questionItem.question.question"
+                         class="materialize-textarea" [attr.maxlength]="1500"></textarea>
+                       <label for="question-textarea" class="teal white-text">Question text</label>
+                     </div>
                    </div>
                  </div>
                  <div class="row">

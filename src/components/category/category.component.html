@@ -16,8 +16,10 @@
             <form (ngSubmit)="onCreateCategory()" #hf="ngForm">
               <div class="row">
                 <div class="input-field col s10">
-                  <input id="label" type="text" [(ngModel)]="category.label"
+                  <textarea id="label" class="materialize-textarea"
+                    [(ngModel)]="category.label" [attr.maxlength]="255"
                     required (ngModelChange)="category.name = category.label.toUpperCase()">
+                  </textarea>
                   <label for="label" class="white-text">Label</label>
                 </div>
               </div>

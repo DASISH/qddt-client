@@ -24,8 +24,12 @@ import {ResponseDomainSearchComponent} from '../responsedomain/responsedomain.se
             <input type="text" [(ngModel)]="questionitem.name">
           </div>
           <div class="row">
-            <div class="row"><span>Question text</span>
-              <input type="text" [(ngModel)]="questionitem.question.question">
+            <div class="row">
+              <div class="input-field col s12">
+                <textarea id="{{questionitem?.id}}-question-textarea" [(ngModel)]="questionitem.question.question"
+                  class="materialize-textarea" [attr.maxlength]="1500"></textarea>
+                <label [attr.for]="questionitem.id + '-question-textarea'" class="active teal-text">Question text</label>
+              </div>
             </div>
           </div>
           <div class="row">
