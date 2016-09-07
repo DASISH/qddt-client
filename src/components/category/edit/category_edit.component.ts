@@ -55,11 +55,13 @@ import {AutocompleteComponent} from '../../autocomplete/autocomplete.component';
           </div>
         </div>
         <div *ngIf="isTemplate" class="row">
-           <div class="range-field">
-              <p><label for="inputlimit" class="active teal-text">Choose number of repsonses</label></p>              
-              <input ID="inputlimit" type="range" min="0" max="20" 
-              (input)="setCategoryNumber($event)" value="{{category.children.length}}"/>
-           </div>
+          <div class="col s2 input-field">
+						<input id="{{category?.id}}-category_number" type="number"
+              value="{{category.children.length}}"
+							(input)="setCategoryNumber($event)" required>
+						<label class="active teal-text"
+              [attr.for]="category.id + '-category_number'">Number of Categories</label>
+					</div>
            <div class="row"><table *ngIf="category.children">
              <thead><tr><td>Select Responses</td></tr></thead>
              <tbody>

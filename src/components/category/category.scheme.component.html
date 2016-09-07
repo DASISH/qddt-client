@@ -37,10 +37,11 @@
                 </div>
               </div>
               <div class="row">
-                <div *ngIf="isTemplate" class="range-field">
-                  <input id="inputlimit" type="range" min="0" max="20"
-                    (input)="setCategoryNumber($event)" />
-                </div>
+                <div *ngIf="isTemplate" class="col s2 input-field">
+							    <input id="category_number" type="number"
+								    (input)="setCategoryNumber($event)" required>
+							    <label class="white-text" for="category_number">Number of Categories</label>
+						    </div>
         				<div class="row">
                   <table *ngIf="isTemplate && category.children">
 				            <thead><tr><td>Selected Responses</td></tr></thead>
