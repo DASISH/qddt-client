@@ -6,14 +6,16 @@ import {AutocompleteComponent} from '../autocomplete/autocomplete.component';
 import {DomainType, DomainTypeDescription} from './responsedomain.constant';
 import {PreviewComponent} from './responsedomain.preview.component';
 import { Observable }     from 'rxjs/Observable';
-//import 'rxjs/add/operator/range';
-//import 'rxjs/add/operator/of';
 
 @Component({
   selector: 'responsedomain-form',
   moduleId: module.id,
   templateUrl: './responsedomain.form.component.html',
-  styles: [],
+  styles: [
+    `.noItemFound {
+        border: thick solid red;
+    }`
+  ],
   pipes: [],
   providers: [CategoryService],
   directives: [MaterializeDirective, AutocompleteComponent, PreviewComponent]
@@ -154,6 +156,8 @@ export class ResponsedomainFormComponent {
   }
 
   searchCategories(name: string) {
+    this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex].isNew = true;
+    this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex].label = name;
     this.categoryService.getAllByLevel('ENTITY', name).subscribe(result => {
       this.categories = result.content;
     });
