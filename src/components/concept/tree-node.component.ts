@@ -81,10 +81,29 @@ import {QuestionReuseComponent} from '../question/question.reuse';
              <ul class="collection with-header">
                <li class="collection-header">Question Items</li>
                <li class="collection-item" *ngFor="#questionItem of concept.questionItems">
-                 <div>
-                   <i class="material-icons tiny">help</i> {{questionItem?.question?.question}}
-                   <a href="#!" class="secondary-content"
-                     (click)="removeQuestionItem(questionItem?.question?.id)"><i class="material-icons">delete_forever</i></a>
+                 <div class="row">
+                   <div class="col s1">
+                     <a materialize="leanModal" [materializeParams]="[{dismissible: true}]"
+                       class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                       [attr.href]="'#'+questionItem.id+'-questionitem-modal'">
+                       <i class="material-icons">search</i></a>
+                   </div>
+                   <div class="col s10">{{questionItem?.question?.question}}</div>
+                   <div class="col s1"><a href="#!" class="secondary-content"
+                     (click)="removeQuestionItem(questionItem?.question?.id)"><i class="material-icons">delete_forever</i>
+                     </a>
+                   </div>
+                   <div [attr.id]="questionItem.id + '-questionitem-modal'" class="modal">
+                     <div class="modal-content">
+                        <concept-questionitem [questionItem]="questionItem" [concept]="concept">
+                        </concept-questionitem>
+                     </div>
+                     <div class="modal-footer">
+                       <button id="questionitem-modal-close"
+                         class="btn btn-default red modal-action modal-close waves-effect waves-red">
+                         Dismiss</button>
+                     </div>
+                   </div>
                  </div>
                </li>
              </ul>

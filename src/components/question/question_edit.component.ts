@@ -32,7 +32,7 @@ import {ResponseDomainSearchComponent} from '../responsedomain/responsedomain.se
               </div>
             </div>
           </div>
-          <div class="row">
+          <div *ngIf="editResponseDomain" class="row">
             <div class="row"><span>Response Domain</span></div>
               <div class="row col s1">
                 <a materialize="leanModal" [materializeParams]="[{dismissible: false}]"
@@ -104,6 +104,7 @@ import {ResponseDomainSearchComponent} from '../responsedomain/responsedomain.se
 export class QuestionItemEdit {
   @Input() isVisible: boolean;
   @Input() questionitem: any;
+  @Input() editResponseDomain: boolean;
   @Output() editQuestionItem: EventEmitter<any>;
   private showResponseDomainForm: boolean;
   private _ChangeEnums: any;

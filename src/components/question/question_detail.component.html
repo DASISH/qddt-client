@@ -27,6 +27,7 @@
       </div>
 
       <qddt-questionitem-edit [isVisible]="true"
+        [editResponseDomain]="true"
         (editQuestionItem)="onEditQuestionItem($event)"
         [questionitem]="questionitem"></qddt-questionitem-edit>
       <div class="row card" *ngIf="conceptIsVisible">
