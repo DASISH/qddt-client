@@ -85,7 +85,9 @@ export class AutocompleteComponent {
     this.candidates = this.items.filter(
       function (item) {
         return search === undefined || search.length === 0
-          || (item[field] !== undefined && item[field].toLowerCase().indexOf(search.toLowerCase()) >= 0);
+          || (typeof item[field] === 'string'
+          && item[field].length > 0
+          && item[field].toLowerCase().indexOf(search.toLowerCase()) >= 0);
     });
   }
 

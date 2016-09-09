@@ -1,5 +1,5 @@
 <div class="row">
-	<div class="col m10 l9">
+	<div class="row">
 		<div class="card white white-text text-lighten-2">
 			<div class="row teal z-depth-1" style="padding-left: 2%; padding-top: 1%; padding-bottom: 1%;">
 				<i class="material-icons large right">comment</i>
@@ -10,7 +10,7 @@
 				</a>
 			</div>
 		</div>
-    <div class="row card">
+    <div *ngIf="!isDetail" class="row card">
 			<div class="response-domain-title">
 				<span name="text">Domain Type:</span>
 			</div>
@@ -21,34 +21,54 @@
 			</div>
 		</div>
 		<div *ngIf="showResponseDomainForm" class="row">
-
-			<div *ngIf="responseDomains" class="row card searchcard">
-				<autocomplete [items]="responseDomains" [searchField]="'name'"
-				  (autocompleteFocusEvent)="showAutoComplete = true;" [initialValue]="responseDomain?.label"
-				  (autocompleteSelectEvent)="select($event)">
-				</autocomplete>
-			</div>
-			<div class="row card">
-				<a *ngIf="responseDomain.id" class="waves-effect waves-light btn"
-				  (click)="isVisible = !isVisible"><i class="material-icons">mode_edit</i></a>
-				<a class="waves-effect waves-light btn" (click)="createResponseDomain()">
-				  <i class="material-icons">add</i>
-				</a>
-			</div>
-			<responsedomain-form *ngIf="isVisible"
-        (formChange)="formChange()" [responsedomain]="responseDomain" [domainType]="domainType">
+			<responsedomain-form
+        (formChange)="formCreate($event)" [responsedomain]="responseDomain" [domainType]="domainType">
       </responsedomain-form>
 		</div>
-		<responsedomain-list [responseDomains]="responseDomains"></responsedomain-list>
+		<qddt-table *ngIf="!isDetail" [items]="responseDomains" [page]="page" [columns]="columns"
+          [searchFromServer]="true"
+					(enterEvent)="searchResponseDomains($event)"
+          (detailEvent)="onDetail($event)" (pageChangeEvent)="onPage($event)"></qddt-table>
 	</div>
 
-	<div class="col hide-on-small-only m1 l1">
-		<div style="top: 55;" class="toc-wrapper pinned">
-			<h5>Response Domain Toc</h5>
-			<ul class="section table-of-contents">
-				<li *ngFor="#responseDomain of responseDomains">
-				  <a href="/Responsedomains#{{responseDomain.id}}">{{responseDomain.name}}</a></li>
-			</ul>
-		</div>
-	</div>
+<div class="row" *ngIf="isDetail">
+  <div class="row">
+    <div class="col s10">
+      <label class="active teal-text flow-text">Version: {{selectedResponseDomain?.version?.major}}.{{selectedResponseDomain?.version?.minor}}</label>
+    </div>
+  </div>
+  <div id="{{selectedResponseDomain?.id}}" class="scrollspy">
+    <div class="col s1 m1 l1">
+      <br/>
+      <div class="row">
+        <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+				  (click)="revisionIsVisible = !revisionIsVisible">
+					<i class="material-icons left medium">history</i>
+				</a>
+				<a class="btn-flat btn-floating btn-medium waves-effect waves-light red">
+          <i class="material-icons" (click)="hideDetail()">replay</i>
+        </a>
+      </div>
+    </div>
+
+    <div class="col s10 m10 l10 grey-text text-darken-2">
+      <h5>{{selectedResponseDomain?.name}}</h5>
+    </div>
+
+    <div class="col s10 m10 l10 white grey-text text-darken-1">
+        <responsedomain-form
+          (formChange)="formChange($event)" [responsedomain]="selectedResponseDomain"
+          [domainType]="domainType">
+        </responsedomain-form>
+        <qddt-revision [isVisible]="revisionIsVisible"
+          [qddtURI]="'audit/responsedomain/' + selectedResponseDomain.id + '/all'"></qddt-revision>
+        <qddt-responsedomain-preview [isVisible]="true"
+          [responseDomain]="selectedResponseDomain" #preview></qddt-responsedomain-preview>
+        <div class="row">
+          <comment-list [ownerId]="selectedResponseDomain.id"></comment-list>
+        </div>
+      </div>
+  </div>
+</div>
+
 </div>
