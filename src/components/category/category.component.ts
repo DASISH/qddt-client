@@ -18,6 +18,7 @@ export class CategoryComponent {
   private categories: any;
   private page: any;
   private category: any;
+  private searchKeys: string;
   private selectedCategory: any;
   private isDetail: boolean;
   private columns: any[];
@@ -25,6 +26,7 @@ export class CategoryComponent {
   constructor(private categoryService: CategoryService) {
     this.isDetail = false;
     this.categories = [];
+    this.searchKeys = '';
     this.page = {};
     this.columns = [{ 'label': 'Label', 'name': 'label', 'sortable': true },
       { 'label': 'Description', 'name': 'description', 'sortable': true }];
@@ -52,7 +54,7 @@ export class CategoryComponent {
   }
 
   onPage(page: string) {
-    this.categoryService.getByCategoryKind('CATEGORY', page).subscribe(
+    this.categoryService.getAllByLevelAndPage('ENTITY', this.searchKeys, page).subscribe(
       result => { this.page = result.page; this.categories = result.content; });
   }
 
@@ -66,6 +68,7 @@ export class CategoryComponent {
   }
 
   searchCategories(name: string) {
+    this.searchKeys = name;
     this.categoryService.getAllByLevel('ENTITY', name).subscribe(result => {
       this.page = result.page;
       this.categories = result.content;

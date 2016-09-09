@@ -3,17 +3,15 @@
     <div class="col s10">
       <label class="active teal-text flow-text">Version: {{category?.version?.major}}.{{category?.version?.minor}}</label>
     </div>
-    <div class="row col s2">
-      <a class="right right-align btn-floating red"><i class="material-icons"
-          (click)="hidDetail()">replay</i>
-        </a>
-    </div>
   </div>
   <div id="{{category?.id}}" class="scrollspy">
     <div class="col s1 m1 l1">
       <br/>
       <div class="row">
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="revisionIsVisible = !revisionIsVisible"><i class="material-icons left medium">history</i></a>
+        <a class="btn-flat btn-floating btn-medium waves-effect waves-light red">
+          <i class="material-icons" (click)="hidDetail()">replay</i>
+        </a>
       </div>
     </div>
 

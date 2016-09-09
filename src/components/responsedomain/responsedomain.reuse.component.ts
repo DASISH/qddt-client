@@ -31,6 +31,8 @@ import {ResponsedomainFormComponent} from './responsedomain.form.component';
           [searchField]="'name'"
           (autocompleteFocusEvent)="selectedIndex=idx;"
           [initialValue]="''"
+          [searchFromServer]="true"
+					(enterEvent)="searchResponseDomains($event)"
           (autocompleteSelectEvent)="select($event)">
         </autocomplete>
       </div>
