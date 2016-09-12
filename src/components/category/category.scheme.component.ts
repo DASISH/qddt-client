@@ -9,6 +9,8 @@ import {RevisionComponent} from '../revision/revision.component';
 import {CategoryType} from './category_kind';
 import {MaterializeDirective} from 'angular2-materialize/dist/materialize-directive';
 import {AutocompleteComponent} from '../autocomplete/autocomplete.component';
+import {QddtTableComponent} from '../table/table.component';
+import {Change} from '../../common/change_status';
 
 @Component({
   selector: 'category-scheme',
@@ -16,7 +18,9 @@ import {AutocompleteComponent} from '../autocomplete/autocomplete.component';
   templateUrl: './category.scheme.component.html',
   pipes: [LocalDatePipe],
   providers: [CategoryService],
-  directives: [AutocompleteComponent, MaterializeDirective, CommentListComponent, CategoryEditComponent, RevisionComponent]
+  directives: [AutocompleteComponent, MaterializeDirective,
+    QddtTableComponent, CommentListComponent,
+    CategoryEditComponent, RevisionComponent]
 })
 export class CategorySchemeComponent {
 
@@ -24,29 +28,38 @@ export class CategorySchemeComponent {
   @Output() categorySelectedEvent: EventEmitter<any> = new EventEmitter();
 
   private categories: any;
-  private templateCategories: any;
+  private missingCategories: any;
   private category: Category;
   private categoryEnums: any;
-  private isTemplate: boolean;
   private selectedCategoryIndex: number;
-
+  private isDetail: boolean;
+  private page: any;
+  private columns: any[];
+  private selectedCategory: Category;
+  private searchKeys: string;
+  private changeEnums: any;
 
   constructor(private categoryService: CategoryService) {
     this.category = new Category();
+    this.isDetail = false;
+    this.page = {};
+    this.changeEnums = Change.status;
+    this.category.categoryType = 'MISSING_GROUP';
     this.categoryEnums =  CategoryType.group;
-    this.isTemplate = true;
     this.selectedCategoryIndex = 0;
     this.categories = [];
-    this.templateCategories = [];
+    this.missingCategories = [];
+    this.columns = [{'name':'name', 'label':'Name', 'sortable':true}
+      ,{'name':'description', 'label':'Description', 'sortable':true}];
   }
 
   ngOnInit() {
     this.categoryService.getAllTemplatesByCategoryKind('MISSING_GROUP').subscribe(result => {
-        this.templateCategories = result.content;
-        this.categories = this.categories.concat(this.templateCategories);
+      this.page = result.page;
+      this.missingCategories = result.content;
     });
     this.categoryService.getAllByLevel('ENTITY').subscribe(result => {
-        this.categories = this.categories.concat(result.content);
+      this.categories = result.content;
     });
   }
 
@@ -59,30 +72,75 @@ export class CategorySchemeComponent {
   }
 
   setCategoryNumber(event:any) {
-    if (this.category.inputLimit === undefined)
-      this.category.inputLimit = new ResponseCardinality();
-    this.category.inputLimit.maximum = event.target.value;
-    if(this.category.children === undefined) {
-      this.category.children = [];
+    let c: any = this.category;
+    if (this.isDetail) {
+      c = this.selectedCategory;
     }
-    this.category.children = this.category.children.slice(0, parseInt(this.category.inputLimit.maximum));
-    for(let i = this.category.children.length; i < parseInt(this.category.inputLimit.maximum); i++) {
-        this.category.children.push(new Category());
+    if (c.inputLimit === undefined)
+      c.inputLimit = new ResponseCardinality();
+    c.inputLimit.maximum = event.target.value;
+    if (c.children === undefined) {
+      c.children = [];
+    }
+    c.children = c.children.slice(0, parseInt(c.inputLimit.maximum));
+    for(let i = c.children.length; i < parseInt(c.inputLimit.maximum); i++) {
+        c.children.push(new Category());
     }
   }
 
   select(candidate: any) {
-    this.category.children[this.selectedCategoryIndex] = candidate;
+    if(this.isDetail) {
+      this.selectedCategory.children[this.selectedCategoryIndex] = candidate;
+    } else {
+      this.category.children[this.selectedCategoryIndex] = candidate;
+    }
   }
 
   onSave() {
     this.showCategoryForm = false;
+    if(this.isDetail) {
+      this.categoryService.edit(this.selectedCategory)
+      .subscribe(result => {
+        this.selectedCategory = result;
+      });
+    } else {
     this.categoryService.save(this.category)
       .subscribe(result => {
         this.categories.push(result);
-        this.templateCategories.push(result);
+        this.category  = new Category();
+        this.category.categoryType = 'MISSING_GROUP';
       });
-    this.category  = new Category();
+    }
+  }
+
+  onDetail(category: any) {
+    this.selectedCategory = category;
+    this.isDetail = true;
+  }
+
+  hideDetail() {
+    this.isDetail = false;
+  }
+
+  onPage(page: string) {
+    this.categoryService.getAllTemplatesByCategoryKind('MISSING_GROUP', this.searchKeys, page)
+      .subscribe(
+        result => { this.page = result.page; this.missingCategories = result.content; }
+      );
+  }
+
+  searchCategories(name: string) {
+    this.categoryService.getAllByLevel('ENTITY', name).subscribe(result => {
+      this.categories = result.content;
+    });
+  }
+
+  searchMissingCategories(name: string) {
+    this.searchKeys = name;
+    this.categoryService.getAllTemplatesByCategoryKind('MISSING_GROUP', name).subscribe(result => {
+      this.page = result.page;
+      this.missingCategories = result.content;
+    });
   }
 
 }

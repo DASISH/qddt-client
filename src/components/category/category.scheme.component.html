@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col m10 l9">
+  <div class="row">
     <div class="card white white-text text-lighten-2">
       <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
         <i class="material-icons large right">comment</i><h4>Missing Values</h4>
@@ -18,13 +18,6 @@
                   <label for="label" class="white-text">Label</label>
                 </div>
                 <div class="input-field col s4">
-                  <label for="categoryType" class="active white-text">Response Kind</label>
-                  <select id="categoryType" [(ngModel)]="category.categoryType" materialize="material_select" required>
-                    <option value="" disabled selected>Select kind</option>
-                    <option *ngFor="#change of categoryEnums" [value]="change[0]">{{change[1]}}</option>
-                  </select>
-                </div>
-                <div class="input-field col s4">
                   <input id="name" type="text" [(ngModel)]="category.name" required>
                   <label for="name" class="white-text">Name</label>
                 </div>
@@ -37,13 +30,13 @@
                 </div>
               </div>
               <div class="row">
-                <div *ngIf="isTemplate" class="col s2 input-field">
+                <div class="col s2 input-field">
 							    <input id="category_number" type="number"
 								    (input)="setCategoryNumber($event)" required>
 							    <label class="white-text" for="category_number">Number of Categories</label>
 						    </div>
         				<div class="row">
-                  <table *ngIf="isTemplate && category.children">
+                  <table *ngIf="category.children">
 				            <thead><tr><td>Selected Responses</td></tr></thead>
                     <tbody>
                       <tr *ngFor="#cat of category.children;#idx=index">
@@ -51,6 +44,8 @@
                         [searchField]="'label'"
                         (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
                         [initialValue]="cat?.label"
+                        [searchFromServer]="true"
+										    (enterEvent)="searchCategories($event)"
                         (autocompleteSelectEvent)="select($event)"></autocomplete></td>
                       </tr>
                     </tbody>
@@ -62,53 +57,100 @@
           </div>
         </div>
       </div>
-      <div *ngIf="categories">
-        <div class="row" *ngFor="#category of templateCategories" style="padding-left:2%">
-          <div id="{{category.id}}" class="scrollspy">
-            <div class="col s1 m1 l1">
-              <br/>
-              <div class="row">
-                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                   (click)="edit.isVisible = !edit.isVisible"><i class="material-icons">mode_edit</i></a>
-                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                   (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium">history</i></a>
-                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                   (click)="onSelectCategory(category)"><i class="material-icons left medium">add</i></a>
+      <qddt-table *ngIf="!isDetail" [items]="missingCategories" [page]="page" [columns]="columns"
+        [searchFromServer]="true"
+				(enterEvent)="searchMissingCategories($event)"
+        (detailEvent)="onDetail($event)" (pageChangeEvent)="onPage($event)"></qddt-table>
+    </div>
+  
+    <div class="row" *ngIf="isDetail">
+      <div class="col s1 m1 l1">
+        <br/>
+        <div class="row">
+          <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+            (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium">history</i></a>
+          <a class="btn-flat btn-floating btn-medium waves-effect waves-light red">
+            <i class="material-icons" (click)="hideDetail()">replay</i>
+          </a>
+        </div>
+      </div>
+
+      <div class="col s10 m10 l10 white grey-text text-darken-1">
+        <form (ngSubmit)="onSave()" #hf="ngForm" class="card">
+          <div class="row">
+            <div class="input-field col s12">
+              <textarea id="{{selectedCategory?.id}}-label" class="materialize-textarea"
+              [(ngModel)]="selectedCategory.label" [attr.maxlength]="255"
+              required (ngModelChange)="selectedCategory.name = selectedCategory.label.toUpperCase()">
+              </textarea>
+              <label [attr.for]="selectedCategory.id + '-label'" class="active teal-text">Label</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <textarea class="materialize-textarea"  [(ngModel)]="selectedCategory.description" ></textarea>
+              <label for="description" class="active teal-text">Description</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s5">
+              <label class="active teal-text">Type of Change</label>
+              <select [(ngModel)]="selectedCategory.changeKind"  materialize="material_select" required>
+                <option value="" disabled selected>Select kind</option>
+                <option *ngFor="#change of changeEnums" [value]="change[0]">{{change[1]}}</option>
+              </select>
+            </div>
+            <div class="input-field col s7">
+              <label for="changeComment" class="active teal-text">Reason for change</label>
+              <input id="changeComment" type="text" [(ngModel)]="selectedCategory.changeComment">
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s8">
+              <p><label class="active teal-text">Authors</label></p>
+              <div class="chip" *ngFor="#author of selectedCategory.authors" >
+                <img src="{{author.picture}}">{{author.name}} <i class="material-icons">close</i>
               </div>
             </div>
-
-            <div class="col s10 m10 l10 grey-text text-darken-2">
-              <h5>{{category.name}} [{{category.categoryType}}]</h5>
-              {{category.modified | localDate}} by <strong>{{category?.modifiedBy?.username}}@{{category?.modifiedBy?.agency?.name}}</strong>
+            <div class="input-field col s4">
+              <p><label class="active teal-text">Agency</label></p>
+              <div class="chip" >{{selectedCategory.modifiedBy.agency.name}}</div>
             </div>
-
-            <div class="col s10 m10 l10 white grey-text text-darken-1">
-              <div class="row">
-                <p>{{category.description}}</p>
-              </div>
-
-              <category-edit [isVisible]="edit.isVisible" [category]="category" [categories]="categories" #edit></category-edit>
-
-              <qddt-revision [isVisible]="revision.isVisible" [qddtURI]="'audit/category/' + category.id + '/all'" #revision ></qddt-revision>
-
-              <div class="row">
-                <comment-list [ownerId]="category.id"></comment-list>
-              </div>
-            </div>
-
+          </div>
+          <div class="row">
+            <div class="col s2 input-field">
+						  <input id="{{selectedCategory?.id}}-category_number" type="number"
+              value="{{selectedCategory.children.length}}"
+							(input)="setCategoryNumber($event)" required>
+						  <label class="active teal-text"
+              [attr.for]="selectedCategory.id + '-category_number'">Number of Categories</label>
+					  </div>
+            <div class="row"><table *ngIf="selectedCategory.children">
+              <thead><tr><td>Select Responses</td></tr></thead>
+              <tbody>
+                <tr *ngFor="#cat of selectedCategory.children;#idx=index">
+                  <td><autocomplete [items]="categories"
+                    [searchField]="'label'"
+                    (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
+                    [initialValue]="cat?.label"
+                    [searchFromServer]="true"
+										(enterEvent)="searchCategories($event)"
+                    (autocompleteSelectEvent)="select($event)"></autocomplete>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+
+      <qddt-revision [isVisible]="revision.isVisible" [qddtURI]="'audit/category/' + selectedCategory.id + '/all'" #revision ></qddt-revision>
+
+      <div class="row">
+        <comment-list [ownerId]="selectedCategory.id"></comment-list>
       </div>
     </div>
   </div>
-
-  <div class="col hide-on-small-only m1 l1">
-    <div style="top: 55;" class="toc-wrapper pinned">
-      <h5>Missing Values Toc</h5>
-      <ul class="section table-of-contents">
-        <li><a href="#topMenu">To the top </a> </li>
-        <li *ngFor="#category of templateCategories"><a href="/Schemes#{{category.id}}">{{category.name}}</a></li>
-      </ul>
-    </div>
   </div>
 </div>

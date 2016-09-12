@@ -61,7 +61,9 @@ export class CategoryService extends BaseService {
       + '&page=' + page);
   }
 
-  getAllTemplatesByCategoryKind(categoryKind: String): any {
-    return this.get('category/page/search/?level=GROUP_ENTITY&category=' + categoryKind);
+  getAllTemplatesByCategoryKind(categoryKind: String, name: String = '', page: String = '0'): any {
+    let query = name.length > 0? '&name=' + '*' + name + '*': '';
+    return this.get('category/page/search/?level=GROUP_ENTITY&category=' + categoryKind
+      + query + '&page=' + page);
   }
 }
