@@ -49,11 +49,11 @@ export class ConceptService extends BaseService {
   }
 
   attachQuestion(conceptId: string, questionId: string):any {
-    return this.get('concept/combine?question='+ questionId+ '&concept='+ conceptId);
+    return this.get('concept/combine?questionitem='+ questionId+ '&concept='+ conceptId);
   }
 
   deattachQuestion(conceptId: string, questionId: string):any {
-    return this.get('concept/decombine?question='+ questionId+ '&concept='+ conceptId);
+    return this.get('concept/decombine?questionitem='+ questionId+ '&concept='+ conceptId);
   }
 
   attachAuthor(conceptId: string, authorId: string):any {

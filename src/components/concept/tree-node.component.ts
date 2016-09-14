@@ -91,7 +91,7 @@ import {QuestionReuseComponent} from '../question/question.reuse';
                    <div class="col s10">{{questionItem?.question?.question}}</div>
                    <div class="col s1">
                      <a href="#!" class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                     (click)="removeQuestionItem(questionItem?.question?.id)"><i class="material-icons">remove</i>
+                     (click)="removeQuestionItem(questionItem?.id)"><i class="material-icons">remove</i>
                      </a>
                    </div>
                    <div [attr.id]="questionItem.id + '-questionitem-modal'" class="modal">
