@@ -14,11 +14,8 @@
             <form (ngSubmit)="onSave()" #hf="ngForm">
               <div class="row">
                 <div class="input-field col s4">
-                  <input id="label" type="text" [(ngModel)]="category.label" required (ngModelChange)="category.name = category.label.toUpperCase()">
-                  <label for="label" class="white-text">Label</label>
-                </div>
-                <div class="input-field col s4">
-                  <input id="name" type="text" [(ngModel)]="category.name" required>
+                  <input id="name" type="text" [(ngModel)]="category.name" required
+                    (ngModelChange)="category.label = category.name.toUpperCase()">
                   <label for="name" class="white-text">Name</label>
                 </div>
               </div>
@@ -33,7 +30,7 @@
                 <div class="col s2 input-field">
 							    <input id="category_number" type="number"
 								    (input)="setCategoryNumber($event)" required>
-							    <label class="white-text" for="category_number">Number of Categories</label>
+							    <label class="white-text" for="category_number">Number of categories</label>
 						    </div>
         				<div class="row">
                   <table *ngIf="category.children">
@@ -79,11 +76,11 @@
         <form (ngSubmit)="onSave()" #hf="ngForm" class="card">
           <div class="row">
             <div class="input-field col s12">
-              <textarea id="{{selectedCategory?.id}}-label" class="materialize-textarea"
-              [(ngModel)]="selectedCategory.label" [attr.maxlength]="255"
-              required (ngModelChange)="selectedCategory.name = selectedCategory.label.toUpperCase()">
+              <textarea id="{{selectedCategory?.id}}-name" class="materialize-textarea"
+              [(ngModel)]="selectedCategory.name" [attr.maxlength]="255"
+              required (ngModelChange)="selectedCategory.label = selectedCategory.name.toUpperCase()">
               </textarea>
-              <label [attr.for]="selectedCategory.id + '-label'" class="active teal-text">Label</label>
+              <label [attr.for]="selectedCategory.id + '-name'" class="active teal-text">Name</label>
             </div>
           </div>
           <div class="row">
@@ -93,37 +90,12 @@
             </div>
           </div>
           <div class="row">
-            <div class="input-field col s5">
-              <label class="active teal-text">Type of Change</label>
-              <select [(ngModel)]="selectedCategory.changeKind"  materialize="material_select" required>
-                <option value="" disabled selected>Select kind</option>
-                <option *ngFor="#change of changeEnums" [value]="change[0]">{{change[1]}}</option>
-              </select>
-            </div>
-            <div class="input-field col s7">
-              <label for="changeComment" class="active teal-text">Reason for change</label>
-              <input id="changeComment" type="text" [(ngModel)]="selectedCategory.changeComment">
-            </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s8">
-              <p><label class="active teal-text">Authors</label></p>
-              <div class="chip" *ngFor="#author of selectedCategory.authors" >
-                <img src="{{author.picture}}">{{author.name}} <i class="material-icons">close</i>
-              </div>
-            </div>
-            <div class="input-field col s4">
-              <p><label class="active teal-text">Agency</label></p>
-              <div class="chip" >{{selectedCategory.modifiedBy.agency.name}}</div>
-            </div>
-          </div>
-          <div class="row">
             <div class="col s2 input-field">
 						  <input id="{{selectedCategory?.id}}-category_number" type="number"
               value="{{selectedCategory.children.length}}"
 							(input)="setCategoryNumber($event)" required>
 						  <label class="active teal-text"
-              [attr.for]="selectedCategory.id + '-category_number'">Number of Categories</label>
+              [attr.for]="selectedCategory.id + '-category_number'">Number of categories</label>
 					  </div>
             <div class="row"><table *ngIf="selectedCategory.children">
               <thead><tr><td>Select Responses</td></tr></thead>
@@ -140,6 +112,19 @@
                 </tr>
               </tbody>
             </table>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input-field col s5">
+            <label class="active teal-text">Type of Change</label>
+            <select [(ngModel)]="selectedCategory.changeKind"  materialize="material_select" required>
+              <option value="" disabled selected>Select kind</option>
+              <option *ngFor="#change of changeEnums" [value]="change[0]">{{change[1]}}</option>
+            </select>
+          </div>
+          <div class="input-field col s7">
+            <label for="changeComment" class="active teal-text">Reason for change</label>
+            <input id="changeComment" type="text" [(ngModel)]="selectedCategory.changeComment">
           </div>
         </div>
         <button type="submit" class="btn btn-default">Submit</button>
