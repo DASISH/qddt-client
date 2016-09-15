@@ -113,7 +113,8 @@ import {QuestionReuseComponent} from '../question/question.reuse';
              <comment-list [ownerId]="concept.id"></comment-list>
            </div>
            <div class="tree-children">
-             <treenode *ngFor="#child of concept.children" [concept]="child" [allQuestions]="allQuestions"></treenode>
+             <treenode *ngFor="#child of concept.children" [concept]="child"
+               (deleteConceptEvent)="onDeleteConcept($event)"></treenode>
            </div>
     </div></div></div>
   `
@@ -122,7 +123,6 @@ import {QuestionReuseComponent} from '../question/question.reuse';
 export class TreeNodeComponent {
   @Output() deleteConceptEvent: EventEmitter<any> = new EventEmitter();
   @Input() concept: any;
-  @Input() allQuestions: any;
   showConceptChildForm: boolean = false;
   showQuestionForm: boolean = false;
   private newchild: any;
@@ -138,14 +138,11 @@ export class TreeNodeComponent {
   }
 
   onDeleteConcept(concept: any) {
-    this.deleteConceptEvent.emit(concept.id);
+    this.deleteConceptEvent.emit(concept);
   }
 
   onCreateQuestionItem(concept: any) {
     this.questionItem = new QuestionItem();
-    this.conceptService.getQuestions().subscribe(result => {
-      this.allQuestions = result.content;
-    });
     this.showQuestionForm = !this.showQuestionForm;
   }
 

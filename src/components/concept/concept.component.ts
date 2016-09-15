@@ -21,7 +21,6 @@ export class ConceptComponent {
 
   private concept: any;
   private concepts: any;
-  private allQuestions: any;
 
   constructor(private conceptService: ConceptService) {
     this.concept = new Concept();
@@ -31,12 +30,6 @@ export class ConceptComponent {
     this.conceptService.getByTopic(this.topic.id)
       .subscribe(result => this.concepts = result.content
                 ,(err) => console.log('ERROR: ', err));
-  }
-
-  ngOnInit() {
-    this.conceptService.getQuestions().subscribe(result => {
-        this.allQuestions = result.content;
-      });
   }
 
   onSelectConcept(concept: any) {
@@ -56,7 +49,8 @@ export class ConceptComponent {
         this.concept  = new Concept();
   }
 
-  onDeleteConcept(id: string) {
+  onDeleteConcept(concept: any) {
+    let id = concept.id;
     this.conceptService.deleteConcept(id)
       .subscribe(result => {
         this.concepts = [];
