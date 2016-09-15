@@ -97,7 +97,7 @@ export class ResponsedomainComponent {
   formChange() {
     this.searchKeys = '';
     this.responseDomainService.update(this.selectedResponseDomain).subscribe(result => {
-    this.selectedResponseDomain = result;});
+      this.hideDetail();});
   }
 
   onDetail(responsedomain: any) {
