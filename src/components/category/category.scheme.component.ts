@@ -27,7 +27,7 @@ export class CategorySchemeComponent {
   showCategoryForm: boolean = false;
   @Output() categorySelectedEvent: EventEmitter<any> = new EventEmitter();
 
-  private categories: any;
+  private categories: any[];
   private missingCategories: any;
   private category: Category;
   private categoryEnums: any;
@@ -98,18 +98,23 @@ export class CategorySchemeComponent {
 
   onSave() {
     this.showCategoryForm = false;
-    if(this.isDetail) {
+    if (this.isDetail) {
       this.categoryService.edit(this.selectedCategory)
-      .subscribe(result => {
-        this.selectedCategory = result;
-      });
+        .subscribe(result => {
+          let id = this.missingCategories.findIndex(e => e.id === result.id);
+          if (id !== undefined) {
+            this.missingCategories[id] = result;
+          }
+          this.hideDetail();
+          this.selectedCategory = null;
+        });
     } else {
-    this.categoryService.save(this.category)
-      .subscribe(result => {
-        this.categories.push(result);
-        this.category  = new Category();
-        this.category.categoryType = 'MISSING_GROUP';
-      });
+      this.categoryService.save(this.category)
+        .subscribe(result => {
+          this.missingCategories.push(result);
+          this.category = new Category();
+          this.category.categoryType = 'MISSING_GROUP';
+        });
     }
   }
 
