@@ -95,14 +95,14 @@ import {QuestionReuseComponent} from '../question/question.reuse';
                      </a>
                    </div>
                    <div [attr.id]="questionItem.id + '-questionitem-modal'" class="modal">
-                     <div class="modal-content">
-                        <concept-questionitem [questionItem]="questionItem" [concept]="concept">
-                        </concept-questionitem>
-                     </div>
                      <div class="modal-footer">
                        <button id="questionitem-modal-close"
                          class="btn btn-default red modal-action modal-close waves-effect waves-red">
-                         Dismiss</button>
+                          <i class="close material-icons">close</i></button>
+                     </div>
+                     <div class="modal-content">
+                        <concept-questionitem [questionItem]="questionItem" [concept]="concept">
+                        </concept-questionitem>
                      </div>
                    </div>
                  </div>
