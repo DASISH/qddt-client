@@ -9,6 +9,7 @@ import {ConceptComponent} from '../concept/concept.component';
 import {CategoryComponent} from '../category/category.component';
 import {CategorySchemeComponent} from '../category/category.scheme.component';
 import {ResponsedomainComponent} from '../responsedomain/responsedomain.component';
+import {ControlConstructComponent} from '../controlconstruct/controlconstruct.component';
 
 @Component({
   selector: 'app',
@@ -24,6 +25,7 @@ import {ResponsedomainComponent} from '../responsedomain/responsedomain.componen
   { path: '/concept', component: ConceptComponent, as: 'Concepts' },
   { path: '/Responsedomains', component: ResponsedomainComponent, as: 'Responsedomains' },
   { path: '/Schemes', component: CategorySchemeComponent, as: 'Schemes' },
+  { path: '/Constructs', component: ControlConstructComponent, as: 'Constructs' },
   { path: '/Categories', component: CategoryComponent, as: 'Categories' }
 ])
 
