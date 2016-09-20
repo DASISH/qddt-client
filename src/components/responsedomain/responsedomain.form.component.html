@@ -67,7 +67,7 @@
 						</div>
 
 						<table *ngIf="responsedomain.managedRepresentation.inputLimit.maximum > 0">
-						  <thead><tr><td>Code</td><td>Category</td></tr></thead>
+						  <thead><tr><td>Code</td><td>Category</td><td></td></tr></thead>
 							<tbody>
 								<tr *ngFor="#category of responsedomain.managedRepresentation.children;#idx=index">
 									<td><input type="text" [(ngModel)]="category.code.codeValue" required></td>
@@ -82,6 +82,16 @@
                         (autocompleteSelectEvent)="select($event)">
 											</autocomplete>
 										</div>
+									</td>
+									<td>
+										<div class="row">
+                      <a class="btn-floating red right" (click)="onClickClear(idx)">
+												<i class="material-icons">clear</i></a>
+                      <a class="btn-floating yellow darken-1 right" (click)="onClickUp(idx)">
+												<i class="material-icons">keyboard_arrow_up</i></a>
+                      <a class="btn-floating yellow darken-1 right" (click)="onClickDown(idx)">
+												<i class="material-icons">keyboard_arrow_down</i></a>
+                    </div>
 									</td>
 								</tr>
 							</tbody>

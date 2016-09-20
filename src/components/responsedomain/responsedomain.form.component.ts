@@ -163,4 +163,44 @@ export class ResponsedomainFormComponent {
     });
   }
 
+  onClickClear(idx: number) {
+    let rep = this.responsedomain.managedRepresentation;
+    if (this.domainType === DomainType.LIST) {
+      if ( idx < rep.children.length) {
+        let c = new Category();
+        c.code = rep.children[idx].code;
+        rep.children[idx] = c;
+      }
+    }
+  }
+
+  onClickUp(idx: number) {
+    let rep = this.responsedomain.managedRepresentation;
+    if (this.domainType === DomainType.LIST) {
+      if ( idx < rep.children.length && idx > 0) {
+        let prev = rep.children[idx - 1];
+        let curr = rep.children[idx];
+        let code = curr.code;
+        curr.code = prev.code;
+        rep.children[idx - 1] = curr;
+        prev.code = code;
+        rep.children[idx] = prev;
+      }
+    }
+  }
+
+  onClickDown(idx: number) {
+    let rep = this.responsedomain.managedRepresentation;
+    if (this.domainType === DomainType.LIST) {
+      if ( idx < (rep.children.length - 1) && idx >= 0) {
+        let next = rep.children[idx + 1];
+        let curr = rep.children[idx];
+        let code = curr.code;
+        curr.code = next.code;
+        rep.children[idx + 1] = curr;
+        next.code = code;
+        rep.children[idx] = next;
+      }
+    }
+  }
 }
