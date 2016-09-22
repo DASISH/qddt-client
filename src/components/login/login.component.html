@@ -3,13 +3,13 @@
     <div class="row">
       <div class="input-field col">
         <input id="username" type="text" [(ngModel)]="loginForm.username" required>
-        <label for="username">Username</label>
+        <label for="username" class="active">Username</label>
       </div>
     </div>
     <div class="row">
       <div class="input-field col">
-        <input id="password" type="text" [(ngModel)]="loginForm.password" required>
-        <label for="password">Password</label>
+        <input id="password" type="password" [(ngModel)]="loginForm.password" required>
+        <label for="password" class="active">Password</label>
       </div>
     </div>
     <button type="submit" class="btn"><i class="material-icons right">lock_open</i>Login</button>

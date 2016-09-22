@@ -43,6 +43,10 @@ export class UserLogin {
     this.user = this.userService.get();
   }
 
+  ngAfterContentChecked() {
+    this.user = this.userService.get();
+  }
+
   loginEvent() {
     this.user = this.userService.get();
   }

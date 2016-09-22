@@ -10,7 +10,12 @@ export class UserService {
   }
 
   get() : any {
-    return JSON.parse(this.user);
+    try {
+      return JSON.parse(localStorage.getItem('user'));
+    } catch(e) {
+      this.user = null;
+      return null;
+    }
   }
 
   set(user: string) : string {

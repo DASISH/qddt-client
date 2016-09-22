@@ -4,7 +4,6 @@ import {Http, Headers, Response} from 'angular2/http';
 import {API_BASE_HREF} from '../api';
 import * as Rx from 'rxjs/Rx';
 
-
 @Injectable()
 export class BaseService {
 
@@ -12,13 +11,20 @@ export class BaseService {
 
   constructor(protected http:Http, @Inject(API_BASE_HREF) protected api:string) {
     this.headers = new Headers();
-    this.headers.append('Authorization', 'Bearer  ' + JSON.parse(localStorage.getItem('jwt')).access_token);
+    let jwt = localStorage.getItem('jwt');
+    if(jwt !== null) {
+      this.headers.append('Authorization', 'Bearer  '
+        + JSON.parse(jwt).access_token);
+    }
     this.headers.append('Content-Type', 'application/json');
   }
 
-
   protected handleError(error:Response) {
-    console.log(error);
+    if(error.status === 401 && error.text().indexOf('invalid_token') >= 0) {
+      localStorage.removeItem('jwt');
+      localStorage.removeItem('user');
+      return Rx.Observable.throw('Invalid token error');
+    }
 
     return Rx.Observable.throw(error.json().exceptionMessage || 'Server error');
   }

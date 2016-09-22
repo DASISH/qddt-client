@@ -85,11 +85,11 @@ export class RevisionComponent {
   getRevisionsById() {
     this.service.getAllRevisions(this.qddtURI)
       .subscribe(
-      (revisions: any) => {
+      revisions => {
         this._revisions = revisions.content;
         this.filterRevisions();
       },
-      (err: any) => RevisionService.logError('Unable to get all revisions')
+      (err: any) => console.log('Unable to get all revisions')
       );
   }
 

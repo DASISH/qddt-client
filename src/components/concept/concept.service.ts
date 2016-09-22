@@ -1,5 +1,5 @@
 import {Injectable, Inject} from 'angular2/core';
-import {Http, Headers, Response} from 'angular2/http';
+import {Http} from 'angular2/http';
 
 import {API_BASE_HREF} from '../../api';
 import {BaseService} from '../../common/base.service';
@@ -65,35 +65,7 @@ export class ConceptService extends BaseService {
   }
 
   getQuestionItems(): any {
-    let headers = new Headers();
-    headers.append('Authorization', 'Bearer  ' + JSON.parse(localStorage.getItem('jwt')).access_token);
-    headers.append('Content-Type', 'application/json');
-    headers.append('Accept', 'application/json');
-
-    return this.http.get(this.api+'questionitem/page',
-      {
-        headers: headers
-      })
-      .map((res:Response) => {
-        return res.json();
-      })
-      .catch(this.handleError);
-  }
-
-  getQuestions(): any {
-    let headers = new Headers();
-    headers.append('Authorization', 'Bearer  ' + JSON.parse(localStorage.getItem('jwt')).access_token);
-    headers.append('Content-Type', 'application/json');
-    headers.append('Accept', 'application/json');
-
-    return this.http.get(this.api+'question/page',
-      {
-        headers: headers
-      })
-      .map((res:Response) => {
-        return res.json();
-      })
-      .catch(this.handleError);
+    return this.get('questionitem/page');
   }
 
   createQuestionItem(question: any): any {
