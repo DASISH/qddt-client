@@ -5,12 +5,7 @@ import {ResponseDomain} from './responsedomain.service';
   selector: 'responsedomain-scale',
   moduleId: module.id,
   template: `<div *ngIf="responseDomain" class="row">
-        <div class="row">
-          <a class="right right-align btn-floating red"><i class="material-icons"
-            (click)="rotate()">loop</i>
-          </a>
-        </div>
-        <table *ngIf="degreeSlopeFromHorizontal>0">
+        <table *ngIf="degreeSlopeFromHorizontal === 0">
         <thead>
           <tr>
             <th *ngFor="#item of header">
@@ -25,14 +20,14 @@ import {ResponseDomain} from './responsedomain.service';
           <tr>
             <td *ngFor="#option of row;#idx=index">
               <span>
-              <input name="{{responseDomain.id}}-group" type="radio" id="{{responseDomain.id}}option{{option}}" />
-              <label [attr.for]="responseDomain.id + 'option' + option">{{option}}</label>
+              <input name="{{responseDomain.id}}-group" type="radio" id="{{responseDomain.id}}option{{option.value}}" />
+              <label [attr.for]="responseDomain.id + 'option' + option.value">{{option?.value}}</label>
               </span>
             </td>
           </tr>
         </tbody>
       </table>
-      <table *ngIf="degreeSlopeFromHorizontal === 0">
+      <table *ngIf="degreeSlopeFromHorizontal > 0">
         <tbody>
           <tr *ngFor="#option of row;#idx=index">
             <td>
@@ -76,6 +71,7 @@ export class ResponsedomainScaleComponent {
       && rep.inputLimit.minimum !== undefined) {
       this.min = parseInt(rep.inputLimit.minimum);
     }
+    this.degreeSlopeFromHorizontal = this.responseDomain['degreeSlopeFromHorizontal'] === 0 ? 0 : 90;
 
     if (this.degreeSlopeFromHorizontal > 0) {
       this.buildVerticalRows();
@@ -94,7 +90,7 @@ export class ResponsedomainScaleComponent {
     }
   }
 
-  private buildVerticalRows() {
+  private buildHorizontalRows() {
     this.row = [];
     this.header = [];
     let categories = [];
@@ -103,9 +99,9 @@ export class ResponsedomainScaleComponent {
       categories = rep.children;
     }
     for (let i = this.min; i <= this.max; i++) {
-      this.row.push(i);
       let c = categories
         .find(category => category.code.codeValue === i.toString());
+      this.row.push({ label: c !== undefined ? c.label : '', value: i });
       if (c !== undefined) {
         this.header.push(c.label);
       } else {
@@ -114,7 +110,7 @@ export class ResponsedomainScaleComponent {
     }
   }
 
-  private buildHorizontalRows() {
+  private buildVerticalRows() {
     this.row = [];
     this.header = [];
     let categories = [];

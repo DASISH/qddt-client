@@ -19,16 +19,21 @@
 				<div [ngSwitch]="domainType">
 					<div *ngSwitchWhen="domainTypeDef.SCALE">
 						<div class="row">
-              <div class="input-field col s6">
+              <div class="input-field col s4">
                 <input id="scale_start" type="number"
 					        [(ngModel)]="responsedomain.managedRepresentation.inputLimit.minimum" required>
-                <label for="scale_start">Start</label>
+                <label for="scale_start" class="active">Start</label>
               </div>
-              <div class="input-field col s6">
+              <div class="input-field col s4">
                 <input id="scale_end" type="number"
 					        [(ngModel)]="responsedomain.managedRepresentation.inputLimit.maximum" required>
-                <label for="scale_end">End</label>
+                <label for="scale_end" class="active">End</label>
               </div>
+							<div class="col s4 input-field">
+							  <input id="scale_DisplayLayout" type="number"
+							  [(ngModel)]="responsedomain.degreeSlopeFromHorizontal" required>
+							  <label for="scale_DisplayLayout" class="active">DisplayLayout</label>
+						  </div>
             </div>
 
 						<div class="row input-field">
@@ -63,7 +68,7 @@
 							<input id="code_number" type="number"
 							  [ngModel]="responsedomain.managedRepresentation.inputLimit.maximum"
 								(ngModelChange)="changeNumberOfCategories($event)" required>
-							<label for="code_number">Number of Codes</label>
+							<label for="code_number" class="active">Number of Codes</label>
 						</div>
 
 						<table *ngIf="responsedomain.managedRepresentation.inputLimit.maximum > 0">

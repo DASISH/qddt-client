@@ -67,6 +67,11 @@ export class ResponsedomainFormComponent {
       this.responsedomain.managedRepresentation.categoryType = 'LIST';
       this.numberOfAnchors = this.responsedomain.managedRepresentation.children.length;
     }
+    if (this.domainType === DomainType.SCALE) {
+      if (this.responsedomain.degreeSlopeFromHorizontal !== 90) {
+        this.responsedomain.degreeSlopeFromHorizontal = 0;
+      }
+    }
     if (this.domainType === DomainType.SCALE || this.domainType === DomainType.LIST) {
       let categoryType = DomainTypeDescription.find(e=>e.id === this.domainType).categoryType;
       this.categoryService.getAllTemplatesByCategoryKind(categoryType)
@@ -87,6 +92,11 @@ export class ResponsedomainFormComponent {
   }
 
   save() {
+    if (this.domainType === DomainType.SCALE) {
+      if (this.responsedomain.degreeSlopeFromHorizontal !== 90) {
+        this.responsedomain.degreeSlopeFromHorizontal = 0;
+      }
+    }
     this.responsedomain.label = this.responsedomain.name;
     let category = this.responsedomain.managedRepresentation;
     let source = Observable.range(0, category.children.length)
