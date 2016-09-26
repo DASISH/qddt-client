@@ -85,26 +85,17 @@ import {QuestionReuseComponent} from '../question/question.reuse';
                    <div class="col s1">
                      <a materialize="leanModal" [materializeParams]="[{dismissible: true}]"
                        class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                       [attr.href]="'#'+questionItem.id+'-questionitem-modal'">
+                       [attr.href]="'#'+questionItem.id+'-concept-questionitem-modal'">
                        <i class="material-icons">search</i></a>
                    </div>
                    <div class="col s10">{{questionItem?.question?.question}}</div>
                    <div class="col s1">
-                     <a href="#!" class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                     (click)="removeQuestionItem(questionItem?.id)"><i class="material-icons">remove</i>
+                     <a href="#!"
+                       class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                       (click)="removeQuestionItem(questionItem?.id)">
+                       <i class="material-icons">remove</i>
                      </a>
-                   </div>
-                   <div [attr.id]="questionItem.id + '-questionitem-modal'" class="modal">
-                     <div class="modal-footer">
-                       <button id="questionitem-modal-close"
-                         class="btn btn-default red modal-action modal-close waves-effect waves-red">
-                          <i class="close material-icons">close</i></button>
-                     </div>
-                     <div class="modal-content">
-                        <concept-questionitem [questionItem]="questionItem" [concept]="concept">
-                        </concept-questionitem>
-                     </div>
-                   </div>
+                   </div>                 
                  </div>
                </li>
              </ul>
@@ -116,7 +107,24 @@ import {QuestionReuseComponent} from '../question/question.reuse';
              <treenode *ngFor="#child of concept.children" [concept]="child"
                (deleteConceptEvent)="onDeleteConcept($event)"></treenode>
            </div>
-    </div></div></div>
+        </div>
+      </div>
+      <div *ngFor="#questionItem of concept.questionItems">
+        <div [attr.id]="questionItem.id + '-concept-questionitem-modal'"
+          class="modal modal-fixed-footer">
+          <div class="modal-footer">
+            <button id="questionitem-modal-close"
+            class="btn btn-default red modal-action modal-close waves-effect waves-red">
+            <i class="close material-icons">close</i>
+            </button>
+          </div>
+          <div class="modal-content">
+            <qddt-concept-questionitem [questionItem]="questionItem" [concept]="concept">
+            </qddt-concept-questionitem>
+          </div>
+        </div>
+      </div>
+    </div>
   `
 })
 
@@ -173,8 +181,8 @@ export class TreeNodeComponent {
     this.questionItem = new QuestionItem();
   }
 
-  removeQuestionItem(question: any) {
-    this.conceptService.deattachQuestion(this.concept.id, question)
+  removeQuestionItem(questionItem: any) {
+    this.conceptService.deattachQuestion(this.concept.id, questionItem)
       .subscribe(result => {
         this.concept = result;
       }

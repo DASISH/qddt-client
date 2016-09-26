@@ -37,7 +37,7 @@ import {ResponseDomainSearchComponent} from '../responsedomain/responsedomain.se
               <div class="row col s1">
                 <a materialize="leanModal" [materializeParams]="[{dismissible: false}]"
                   class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                  [attr.href]="'#edit-questionItem-modal'">
+                  [attr.href]="'#' + questionitem.id + '-edit-questionItem-modal'">
                   <i class="material-icons" title="response domain edit" (click)="onClickEdit()">mode_edit</i>
                 </a>
               </div>
@@ -57,8 +57,8 @@ import {ResponseDomainSearchComponent} from '../responsedomain/responsedomain.se
 					    </select>
 				    </div>
 				    <div class="input-field col s8">
-					    <input id="questionitemchangeComment" type="text" [(ngModel)]="questionitem.changeComment"
-						    required> <label for="questionitemchangeComment"
+					    <input id="{{questionitem?.id}}-questionitemchangeComment" type="text" [(ngModel)]="questionitem.changeComment"
+						    required> <label [attr.for]="questionitem.id + '-questionitemchangeComment'"
 						    class="active teal-text">Save Comment</label>
 				    </div>
 			    </div>
@@ -83,7 +83,7 @@ import {ResponseDomainSearchComponent} from '../responsedomain/responsedomain.se
           <button type="submit" class="btn btn-default">Submit</button>
         </form>
       </div>
-      <div [attr.id]="'edit-questionItem-modal'" class="modal">
+      <div *ngIf="editResponseDomain" [attr.id]="questionitem.id + '-edit-questionItem-modal'" class="modal">
         <div class="modal-content">
           <div *ngIf="showResponseDomainForm" class="row">
             <responsedomain-reuse [isVisible]="true"
@@ -113,6 +113,10 @@ export class QuestionItemEdit {
     this.showResponseDomainForm = false;
     this._ChangeEnums = Change.status;
     this.editQuestionItem = new EventEmitter();
+  }
+
+  ngOnInit() {
+    console.log(this.editResponseDomain);
   }
 
   onEditQuestionItem() {
