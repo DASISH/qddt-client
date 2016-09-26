@@ -115,10 +115,6 @@ export class QuestionItemEdit {
     this.editQuestionItem = new EventEmitter();
   }
 
-  ngOnInit() {
-    console.log(this.editResponseDomain);
-  }
-
   onEditQuestionItem() {
     this.showResponseDomainForm = false;
     this.service.updateQuestionItem(this.questionitem)
