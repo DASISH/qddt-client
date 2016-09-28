@@ -7,6 +7,16 @@ import {BaseService} from '../../common/base.service';
 export class ControlConstruct {
   id: string;
   name: string;
+  description: string;
+  questionItem: any;
+  otherMaterials: any;
+  preInstructions: any[];
+  postInstructions: any[];
+}
+
+export class Instruction {
+  id: string;
+  description: string;
 }
 
 @Injectable()
@@ -24,8 +34,17 @@ export class ControlConstructService extends BaseService {
     return this.post(c, 'controlconstruct/');
   }
 
-  getAll(): any {
-    return this.get('controlconstruct/page/search/');
+  getControlConstructsByQuestionItem(id: string): any {
+    return this.get('controlconstruct//list/by-question/' + id);
   }
+
+  getQuestionItems(key: string): any {
+    return this.get('questionitem/page');
+  }
+
+  getQuestionItemsRevisions(id: string) : any {
+    return this.get('audit/questionitem/' + id + '/all');
+  }
+
 
 }

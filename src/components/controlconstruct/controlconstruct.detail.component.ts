@@ -5,6 +5,8 @@ import {LocalDatePipe} from '../../common/date_pipe';
 import {ControlConstructService, ControlConstruct} from './controlconstruct.service';
 import {CommentListComponent} from '../comment/comment_list.component';
 import {RevisionComponent} from '../revision/revision.component';
+import {MaterializeDirective} from 'angular2-materialize/dist/materialize-directive';
+import {PreviewComponent} from '../responsedomain/responsedomain.preview.component';
 
 @Component({
   selector: 'qddt-controle-construct-detail',
@@ -12,7 +14,8 @@ import {RevisionComponent} from '../revision/revision.component';
   templateUrl: './controlconstruct.detail.component.html',
   pipes: [LocalDatePipe],
   providers: [ControlConstructService],
-  directives: [ CommentListComponent, RevisionComponent]
+  directives: [ CommentListComponent, RevisionComponent
+  , MaterializeDirective, PreviewComponent]
 })
 
 export class ControlConstructDetailComponent {
@@ -28,5 +31,13 @@ export class ControlConstructDetailComponent {
 
   hideDetail() {
     this.hideDetailEvent.emit('hide');
+  }
+
+  onDeletePreInstruction(id: number) {
+    this.controlConstruct.preInstructions.splice(id, 1);
+  }
+
+  onDeletePostInstruction(id: number) {
+    this.controlConstruct.postInstructions.splice(id, 1);
   }
 }
