@@ -61,7 +61,7 @@ export class QuestionComp {
   }
 
   onPage(page: string) {
-    this.questionService.getQuestionItemPage(this.searchKeys, page).subscribe(
+    this.questionService.searchQuestionItems(this.searchKeys, page).subscribe(
       result => { this.page = result.page; this.questionitems = result.content; });
   }
 
@@ -82,7 +82,7 @@ export class QuestionComp {
 
   searchResponseDomains(name: string) {
     this.searchKeys = name;
-    this.questionService.getQuestionItemPage(name).subscribe(result => {
+    this.questionService.searchQuestionItems(name).subscribe(result => {
       this.page = result.page;
       this.questionitems = result.content;
     });
