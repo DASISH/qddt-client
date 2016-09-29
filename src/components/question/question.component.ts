@@ -27,11 +27,13 @@ export class QuestionComp {
   private selectedQuestionItem: any;
   private isDetail: boolean;
   private columns: any[];
+  private searchKeys: string;
 
   constructor(private questionService: QuestionService) {
     this.isDetail = false;
     this.questionitems = [];
     this.page = {};
+    this.searchKeys = '';
     this.columns = [{'name':['question','question'], 'label':'Question Text', 'sortable':true}
       ,{'name':['responseDomain','name'], 'label':'ResponseDomain Name', 'sortable':true}];
   }
@@ -59,26 +61,30 @@ export class QuestionComp {
   }
 
   onPage(page: string) {
-    this.questionService.getQuestionItemPage(page).subscribe(
+    this.questionService.getQuestionItemPage(this.searchKeys, page).subscribe(
       result => { this.page = result.page; this.questionitems = result.content; });
   }
 
   onCreateQuestionItem() {
     this.showQuestionItemForm = false;
     this.questionItem.question.name = this.questionItem.name;
-    // this.questionService.save(this.questionItem.question)
-    //   .subscribe(result => {
-    //     this.questionItem.question = result;
-        this.questionService.createQuestionItem(this.questionItem)
-          .subscribe(result => {
-            this.questionitems.push(result);
-          });
-      // });
+    this.questionService.createQuestionItem(this.questionItem)
+      .subscribe(result => {
+        this.questionitems.push(result);
+      });
     this.isDetail = false;
   }
 
   selectResponseDomain(responseDomain: any) {
     this.questionItem.responseDomain = responseDomain;
     document.getElementById('questionItem-modal-close').click();
+  }
+
+  searchResponseDomains(name: string) {
+    this.searchKeys = name;
+    this.questionService.getQuestionItemPage(name).subscribe(result => {
+      this.page = result.page;
+      this.questionitems = result.content;
+    });
   }
 }

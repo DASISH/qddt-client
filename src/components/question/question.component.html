@@ -43,6 +43,8 @@
       </div>
       <div *ngIf="!isDetail && questionitems">
         <qddt-table [items]="questionitems" [page]="page" [columns]="columns"
+          [searchFromServer]="true"
+					(enterEvent)="searchResponseDomains($event)"
           (detailEvent)="onDetail($event)" (pageChangeEvent)="onPage($event)"></qddt-table>
       </div>
     </div>
