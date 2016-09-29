@@ -5,6 +5,11 @@ import {ResponseDomain} from './responsedomain.service';
   selector: 'responsedomain-scale',
   moduleId: module.id,
   template: `<div *ngIf="responseDomain" class="row">
+        <div class="row">
+          <a class="right right-align btn-floating red"><i class="material-icons"
+            (click)="rotate()">loop</i>
+          </a>
+        </div>
         <table *ngIf="degreeSlopeFromHorizontal === 0">
         <thead>
           <tr>
@@ -83,9 +88,11 @@ export class ResponsedomainScaleComponent {
   rotate() {
     if(this.degreeSlopeFromHorizontal === 0) {
       this.degreeSlopeFromHorizontal = 90;
+      this.responseDomain['degreeSlopeFromHorizontal'] = 90;
       this.buildVerticalRows();
     } else {
       this.degreeSlopeFromHorizontal = 0;
+      this.responseDomain['degreeSlopeFromHorizontal'] = 0;
       this.buildHorizontalRows();
     }
   }

@@ -30,9 +30,14 @@
                 <label for="scale_end" class="active">End</label>
               </div>
 							<div class="col s4 input-field">
-							  <input id="scale_DisplayLayout" type="number"
-							  [(ngModel)]="responsedomain.degreeSlopeFromHorizontal" required>
-							  <label for="scale_DisplayLayout" class="active">DisplayLayout</label>
+							  <label for="scale_DisplayLayout" class="active">Display Layout</label>
+								<select id="scale_DisplayLayout"
+								   [ngModel]="responsedomain.degreeSlopeFromHorizontal"
+									 (ngModelChange)="onChangeDegreeSlope($event)"
+						       materialize="material_select" required>
+						       <option [value]="0">horizontal</option>
+						       <option [value]="90">vertical</option>
+   					    </select>
 						  </div>
             </div>
 

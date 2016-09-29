@@ -92,11 +92,6 @@ export class ResponsedomainFormComponent {
   }
 
   save() {
-    if (this.domainType === DomainType.SCALE) {
-      if (this.responsedomain.degreeSlopeFromHorizontal !== 90) {
-        this.responsedomain.degreeSlopeFromHorizontal = 0;
-      }
-    }
     this.responsedomain.label = this.responsedomain.name;
     let category = this.responsedomain.managedRepresentation;
     let source = Observable.range(0, category.children.length)
@@ -211,6 +206,14 @@ export class ResponsedomainFormComponent {
         next.code = code;
         rep.children[idx] = next;
       }
+    }
+  }
+
+  onChangeDegreeSlope(degree: any) {
+    if(typeof degree === 'string') {
+      this.responsedomain.degreeSlopeFromHorizontal = parseInt(degree);
+    } else {
+      this.responsedomain.degreeSlopeFromHorizontal = degree;
     }
   }
 }
