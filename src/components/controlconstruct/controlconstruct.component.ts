@@ -117,7 +117,7 @@ export class ControlConstructComponent {
   onSelectQuestionItem(questionItem: any) {
     this.controlConstruct.questionItem = questionItem;
     this.service.getQuestionItemsRevisions(questionItem.id).subscribe(result => {
-      this.questionItemRevisions = result.content;
+      this.questionItemRevisions = result.content.filter(e => e.entity.changeKind !== 'IN_DEVELOPMENT');
     },
       error=> {console.log(error);});
   }

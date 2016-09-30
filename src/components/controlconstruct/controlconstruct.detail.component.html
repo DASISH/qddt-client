@@ -23,7 +23,7 @@
     <div class="col s10 m10 l10 grey-text text-darken-2">
       <h5>{{controlConstruct?.name}}</h5>
 
-      <div *ngIf="controlConstruct.preInstructions.length > 0" class="section">
+      <div *ngIf="controlConstruct.preInstructions && controlConstruct.preInstructions.length > 0" class="section">
         <ul class="collection with-header">
           <li class="collection-header">Pre Instructions</li>
           <li class="collection-item" *ngFor="#instruction of controlConstruct.preInstructions;#idx=index">
@@ -61,7 +61,7 @@
         </ul>
       </div>
 
-      <div *ngIf="controlConstruct.postInstructions.length > 0" class="section">
+      <div *ngIf="controlConstruct.postInstructions && controlConstruct.postInstructions.length > 0" class="section">
         <ul class="collection with-header">
           <li class="collection-header">Post Instructions</li>
           <li class="collection-item" *ngFor="#instruction of controlConstruct.postInstructions;#idx=index">

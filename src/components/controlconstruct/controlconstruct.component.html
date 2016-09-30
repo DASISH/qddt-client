@@ -96,14 +96,14 @@
                   <table>
                     <tbody>
                       <tr *ngFor="#instruction of controlConstruct.preInstructions;#idx=index">
-                        <td>Before Questoion</td><td>{{instruction.description}}</td>
+                        <td>Before Question</td><td>{{instruction.description}}</td>
                         <td><a class="waves-effect waves-light btn" (click)="onDeletePreInstruction(idx)">delete</a></td>
                       </tr>
                       <tr *ngIf="controlConstruct.preInstructions.length > 0 || controlConstruct.postInstructions.length > 0">
-                        <td>Questoion Text</td><td>{{controlConstruct?.questionItem?.name}}</td><td></td>
+                        <td>Question Text</td><td>{{controlConstruct?.questionItem?.name}}</td><td></td>
                       </tr>
                       <tr *ngFor="#instruction of controlConstruct.postInstructions;#idx=index">
-                        <td>After Questoion</td><td>{{instruction.description}}</td>
+                        <td>After Question</td><td>{{instruction.description}}</td>
                         <td><a class="waves-effect waves-light btn" (click)="onDeletePostInstruction(idx)">delete</a></td>
                       </tr>
                     </tbody>
