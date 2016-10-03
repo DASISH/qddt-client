@@ -6,6 +6,7 @@ import { CategoryService, Category } from './category.service';
   selector: 'category',
   moduleId: module.id,
   templateUrl: './category.component.html',
+  providers: [CategoryService]
 })
 export class CategoryComponent implements OnInit {
 

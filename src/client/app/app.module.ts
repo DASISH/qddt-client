@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }    from '@angular/forms';
 import { APP_BASE_HREF } from '@angular/common';
 import { API_BASE_HREF } from './api';
+import { MaterializeModule } from 'angular2-materialize';
 
 //import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
@@ -37,13 +38,13 @@ import { LocalDatePipe } from './common/date_pipe';
 import { AutocompleteComponent } from './components/autocomplete/autocomplete.component';
 
 @NgModule({
-  imports: [ BrowserModule, HttpModule, FormsModule, routing ],
+  imports: [ BrowserModule, HttpModule, FormsModule, MaterializeModule, routing],
   declarations: [ AppCmp, HomeCmp, CategoryComponent, CategorySchemeComponent
     ,LoginComponent, CommitListComponent, QddtTableComponent
     ,CategoryDetailComponent, RevisionComponent, CommentListComponent
     ,QddtPagination, CategoryEditComponent, DiffComponent, NewCommentComponent
     ,LocalDatePipe, AutocompleteComponent, UserLogin],
-  providers: [UserService, CategoryService, {
+  providers: [UserService, {
     provide: APP_BASE_HREF,
     useValue: '<%= APP_BASE %>'
   }, {
