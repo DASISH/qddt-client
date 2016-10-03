@@ -31,6 +31,13 @@ import {ResponseDomainSearchComponent} from '../responsedomain/responsedomain.se
                 <label [attr.for]="questionitem.id + '-question-textarea'" class="active teal-text">Question text</label>
               </div>
             </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <textarea id="{{questionitem?.id}}-question-intent" [(ngModel)]="questionitem.question.intent"
+                  class="materialize-textarea" [attr.maxlength]="1500"></textarea>
+                <label [attr.for]="questionitem.id + '-question-intent'" class="active teal-text">Question intent</label>
+              </div>
+            </div>
           </div>
           <div *ngIf="editResponseDomain" class="row">
             <div class="row"><span>Response Domain</span></div>

@@ -25,6 +25,13 @@
                        <label for="question-textarea" class="teal white-text">Question text</label>
                      </div>
                    </div>
+                   <div class="row">
+                     <div class="input-field col s12">
+                       <textarea id="question-intent" [(ngModel)]="questionItem.question.intent"
+                         class="materialize-textarea" [attr.maxlength]="1500"></textarea>
+                      <label [attr.for]="'question-intent'" class="active teal white-text">Question intent</label>
+                     </div>
+                   </div>
                  </div>
                  <div class="row">
                    <div class="row col s5"><span>Response Domain: </span><!--
