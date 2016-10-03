@@ -1,0 +1,132 @@
+<div class="row">
+  <div class="row">
+    <div class="card white white-text text-lighten-2">
+      <div class="row teal z-depth-1"
+        style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
+        <i class="material-icons large right">comment</i>
+        <h4>Question constructs</h4>
+
+        <a class="btn" (click)="onToggleControlConstructForm()">
+          <i class="material-icons right"
+            *ngIf="!showControlConstructForm">keyboard_arrow_down</i>
+          <i class="material-icons right"
+            *ngIf="showControlConstructForm">keyboard_arrow_up</i> New
+        </a>
+
+        <div *ngIf="showControlConstructForm">
+          <div class="card-action">
+            <form (ngSubmit)="onCreateControlConstruct()" #hf="ngForm">
+              <div class="row">
+                <div class="input-field col s10">
+                  <textarea id="name" class="materialize-textarea"
+                    [(ngModel)]="controlConstruct.name" [attr.maxlength]="255"
+                    required>
+                  </textarea>
+                  <label for="name" class="white-text">Name</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s10">
+                  <textarea id="description" class="materialize-textarea"
+                    [(ngModel)]="controlConstruct.description">
+                  </textarea>
+                  <label for="description" class="white-text">Description</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col s2">
+                  <span>Question Item</span>
+                </div>
+                <div class="col s2">
+                  <span>{{controlConstruct?.questionItem?.name}}</span>
+                </div>
+                <div class="col s5">
+                  <autocomplete [items]="questionItems"  class="black-text"
+					          [searchField]="'name'"
+					          (autocompleteFocusEvent)="selectedQuestionItemIndex=idx;"
+					          [initialValue]="''"
+                    [searchFromServer]="true"
+					          (enterEvent)="searchQuestionItems($event)"
+					          (autocompleteSelectEvent)="onSelectQuestionItem($event)">
+                  </autocomplete>
+                </div>
+              </div>
+              <div class="row" *ngIf="questionItemRevisions.length > 0">
+                <div class="input-field col s4">
+                  <label class="active black-text">QuestionItem Revisions</label>
+                  <select [(ngModel)]="controlConstruct.revisionNumber"
+                    materialize="material_select">
+                    <option value="" disabled selected>Select Revision</option>
+                    <option *ngFor="let revision of questionItemRevisions" [value]="revision.revisionNumber">
+                      {{revision.revisionNumber}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="row">
+                  <div class="col">
+                    <span>Instructions</span>
+                  </div>
+                  <div class="col">
+                    <i class="material-icons right" title="new"
+                      (click)="onToggleInstructionForm()">add</i>
+                  </div>
+                </div>
+                <div class="row card" *ngIf="showInstructionForm">
+                  <div class="switch">
+                    <label>Before Questoin
+                      <input type="checkbox" [(ngModel)]="instruction.isAfter">
+                      <span class="lever"></span>After Question
+                    </label>
+                  </div>
+                  <div class="row" class="black-text">
+                    <textarea id="instruction-description" class="materialize-textarea"
+                      [(ngModel)]="instruction.description">
+                    </textarea>
+                    <label for="instruction-description">Description</label>
+                  </div>
+                  <div class="row">
+                  <div class="col s2 right">
+                    <a class="waves-effect waves-light btn" (click)="onAddInstruction()">add</a>
+                  </div>
+                  </div>
+                </div>
+                <div class="card row black-text">
+                  <table>
+                    <tbody>
+                      <tr *ngFor="let instruction of controlConstruct.preInstructions; let idx=index">
+                        <td>Before Question</td><td>{{instruction.description}}</td>
+                        <td><a class="waves-effect waves-light btn" (click)="onDeletePreInstruction(idx)">delete</a></td>
+                      </tr>
+                      <tr *ngIf="controlConstruct.preInstructions.length > 0 || controlConstruct.postInstructions.length > 0">
+                        <td>Question Text</td><td>{{controlConstruct?.questionItem?.name}}</td><td></td>
+                      </tr>
+                      <tr *ngFor="let instruction of controlConstruct.postInstructions; let idx=index">
+                        <td>After Question</td><td>{{instruction.description}}</td>
+                        <td><a class="waves-effect waves-light btn" (click)="onDeletePostInstruction(idx)">delete</a></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!isDetail && controlConstructs.length > 0">
+        <qddt-table [items]="controlConstructs" [page]="page" [columns]="columns"
+          [searchFromServer]="true"
+		      (enterEvent)="searchControlConstructs($event)"
+          (detailEvent)="onDetail($event)" (pageChangeEvent)="onPage($event)"></qddt-table>
+      </div>
+    </div>
+  </div>
+
+  <qddt-controle-construct-detail *ngIf="isDetail"
+    [controlConstruct]="selectedControlConstruct"
+    [controlConstructs]="controlConstructs"
+    (hideDetailEvent)="hideDetail()">
+  </qddt-controle-construct-detail>
+</div>

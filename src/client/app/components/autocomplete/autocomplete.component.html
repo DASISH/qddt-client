@@ -1,0 +1,12 @@
+<div class="autocomplete">
+	<input type="text" placeholder="search" [ngModel]="value"
+		(blur)="showAutoComplete=false;" (keyup)="enterText($event)"
+		(focus)="onFocus()">
+	<ul
+		*ngIf="showAutoComplete && candidates != undefined && candidates.length > 0">
+		<li *ngFor="let candidate of candidates; let idx=index"
+			[ngClass]="{ active: (idx === selectedIndex) }"
+			(mouseover)="selectedIndex=idx;" (mousedown)="select(candidate)">{{getLabel(candidate)}}
+		</li>
+	</ul>
+</div>

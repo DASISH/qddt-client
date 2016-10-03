@@ -1,102 +1,153 @@
 import * as gulp from 'gulp';
+import * as util from 'gulp-util';
 import * as runSequence from 'run-sequence';
-import {loadTasks} from './tools/utils';
-import {SEED_TASKS_DIR, PROJECT_TASKS_DIR} from './tools/config';
 
-loadTasks(SEED_TASKS_DIR);
-loadTasks(PROJECT_TASKS_DIR);
+import Config from './tools/config';
+import { loadTasks } from './tools/utils';
+
+
+loadTasks(Config.SEED_TASKS_DIR);
+loadTasks(Config.PROJECT_TASKS_DIR);
 
 
 // --------------
 // Build dev.
-gulp.task('build.dev', done =>
-  runSequence('clean.dev',
-    'tslint',
-    'build.assets.dev',
-    'build.js.dev',
-    'build.index.dev',
-    done));
+gulp.task('build.dev', (done: any) =>
+  runSequence(//'clean.dev',
+//              'tslint',
+//              'css-lint',
+              'build.assets.dev',
+              'build.html_css',
+              'build.js.dev',
+              'build.index.dev',
+              done));
 
 // --------------
 // Build dev watch.
-gulp.task('build.dev.watch', done =>
+gulp.task('build.dev.watch', (done: any) =>
   runSequence('build.dev',
-    'watch.dev',
-    done));
+              'watch.dev',
+              done));
 
 // --------------
 // Build e2e.
-gulp.task('build.e2e', done =>
+gulp.task('build.e2e', (done: any) =>
   runSequence('clean.dev',
-    'tslint',
-    'build.assets.dev',
-    'build.js.e2e',
-    'build.index.dev',
-    done));
+              'tslint',
+              'build.assets.dev',
+              'build.js.e2e',
+              'build.index.dev',
+              done));
 
 // --------------
 // Build prod.
-gulp.task('build.prod', done =>
+gulp.task('build.prod', (done: any) =>
   runSequence('clean.prod',
-    'tslint',
-    'build.assets.prod',
-    'build.html_css.prod',
-    'build.js.prod',
-    'build.bundles',
-    'build.bundles.app',
-    'build.index.prod',
-    done));
+              //'tslint',
+              'css-lint',
+              'build.assets.prod',
+              'build.html_css',
+              'copy.prod',
+              'build.js.prod',
+              'build.bundles',
+              'build.bundles.app',
+              'minify.bundles',
+              'build.index.prod',
+              done));
+
+// --------------
+// Build prod.
+gulp.task('build.prod.exp', (done: any) =>
+  runSequence('clean.prod',
+              'tslint',
+              'css-lint',
+              'build.assets.prod',
+              'build.html_css',
+              'copy.prod',
+              'compile.ahead.prod',
+              'build.js.prod.exp',
+              'build.bundles',
+              'build.bundles.app.exp',
+              'minify.bundles',
+              'build.index.prod',
+              done));
 
 // --------------
 // Build test.
-gulp.task('build.test', done =>
-  runSequence('clean.dev',
-    'tslint',
-    'build.assets.dev',
-    'build.js.test',
-    'build.index.dev',
-    done));
+gulp.task('build.test', (done: any) =>
+  runSequence('clean.once',
+              'tslint',
+              'build.assets.dev',
+              'build.html_css',
+              'build.js.dev',
+              'build.js.test',
+              'build.index.dev',
+              done));
 
 // --------------
 // Build test watch.
-gulp.task('build.test.watch', done =>
+gulp.task('test.watch', (done: any) =>
   runSequence('build.test',
-    'watch.test',
-    done));
+              'watch.test',
+              'karma.watch',
+              done));
 
 // --------------
 // Build tools.
-gulp.task('build.tools', done =>
+gulp.task('build.tools', (done: any) =>
   runSequence('clean.tools',
-    'build.js.tools',
-    done));
+              'build.js.tools',
+              done));
 
 // --------------
 // Docs
-gulp.task('docs', done =>
-  runSequence('build.docs',
-    'serve.docs',
-    done));
+// gulp.task('docs', (done: any) =>
+//   runSequence('build.docs',
+//               'serve.docs',
+//               done));
 
 // --------------
 // Serve dev
-gulp.task('serve.dev', done =>
+gulp.task('serve.dev', (done: any) =>
   runSequence('build.dev',
-    'server.start',
-    'watch.dev',
-    done));
+              'server.start',
+              'watch.dev',
+              done));
 
 // --------------
 // Serve e2e
-gulp.task('serve.e2e', done =>
+gulp.task('serve.e2e', (done: any) =>
   runSequence('build.e2e',
-    'server.start',
-    'watch.e2e',
-    done));
+              'server.start',
+              'watch.e2e',
+              done));
+
+
+// --------------
+// Serve prod
+gulp.task('serve.prod', (done: any) =>
+  runSequence('build.prod',
+              'server.prod',
+              done));
+
 
 // --------------
 // Test.
-gulp.task('test', done =>
+gulp.task('test', (done: any) =>
   runSequence('build.test',
-    'karma.start',
-    done));
+              'karma.run',
+              done));
+
+// --------------
+// Clean dev/coverage that will only run once
+// this prevents karma watchers from being broken when directories are deleted
+let firstRun = true;
+gulp.task('clean.once', (done: any) => {
+  if (firstRun) {
+    firstRun = false;
+    runSequence('clean.dev', 'clean.coverage', done);
+  } else {
+    util.log('Skipping clean on rebuild');
+    done();
+  }
+});

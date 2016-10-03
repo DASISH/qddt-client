@@ -1,11 +1,12 @@
 import * as gulp from 'gulp';
-import {join} from 'path';
-import {APP_SRC, APP_DEST, ASSETS_SRC} from '../../config';
+import { join } from 'path';
+
+import Config from '../../config';
 
 // TODO There should be more elegant to prevent empty directories from copying
-let es = require('event-stream');
-var onlyDirs = function (es) {
-  return es.map(function (file, cb) {
+let es: any = require('event-stream');
+var onlyDirs = function (es: any) {
+  return es.map(function (file: any, cb: any) {
     if (file.stat.isFile()) {
       return cb(null, file);
     } else {
@@ -14,14 +15,20 @@ var onlyDirs = function (es) {
   });
 };
 
+/**
+ * Executes the build process, copying the assets located in `src/client` over to the appropriate
+ * `dist/prod` directory.
+ */
 export = () => {
   return gulp.src([
-      join(APP_SRC, '**'),
-      '!' + join(APP_SRC, '**', '*.ts'),
-      '!' + join(APP_SRC, '**', '*.css'),
-      '!' + join(APP_SRC, '**', '*.html'),
-      '!' + join(ASSETS_SRC, '**', '*.js')
-    ])
+    join(Config.APP_SRC, '**'),
+    '!' + join(Config.APP_SRC, 'tsconfig.json'),
+    '!' + join(Config.APP_SRC, '**', '*.ts'),
+    '!' + join(Config.APP_SRC, '**', '*.css'),
+    '!' + join(Config.APP_SRC, '**', '*.html'),
+    '!' + join(Config.APP_SRC, '**', '*.scss'),
+    '!' + join(Config.ASSETS_SRC, '**', '*.js')
+  ].concat(Config.TEMP_FILES.map((p) => { return '!' + p; })))
     .pipe(onlyDirs(es))
-    .pipe(gulp.dest(APP_DEST));
+    .pipe(gulp.dest(Config.APP_DEST));
 };

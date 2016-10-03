@@ -1,0 +1,17 @@
+<div class="row">
+  <form (ngSubmit)="login()" #loginForm="ngForm">
+    <div class="row">
+      <div class="input-field col">
+        <input id="username" name="username" type="text" [(ngModel)]="loginForm.username" required>
+        <label for="username" class="active">Username</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col">
+        <input id="password" name="password" type="password" [(ngModel)]="loginForm.password" required>
+        <label for="password" class="active">Password</label>
+      </div>
+    </div>
+    <button type="submit" class="btn"><i class="material-icons right">lock_open</i>Login</button>
+  </form>
+</div>

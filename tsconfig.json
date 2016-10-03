@@ -7,6 +7,7 @@
     "noLib": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "lib": ["es6", "es2015", "dom"],
     "sourceMap": true,
     "pretty": true,
     "allowUnreachableCode": false,
@@ -14,12 +15,19 @@
     "noImplicitAny": false,
     "noImplicitReturns": true,
     "noImplicitUseStrict": false,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "typeRoots": [
+      "./node_modules/@types",
+      "./node_modules"
+    ],
+    "types": [
+      "node"
+    ]
   },
   "exclude": [
     "node_modules",
-    "typings/browser.d.ts",
-    "typings/browser/**"
+    "dist",
+    "src"
   ],
   "compileOnSave": false
 }
