@@ -14,13 +14,13 @@
             <form (ngSubmit)="onSave()" #hf="ngForm">
               <div class="row">
                 <div class="input-field col">
-                  <input id="name" type="text" [(ngModel)]="topic.name" required>
+                  <input id="name" name="name" type="text" [(ngModel)]="topic.name" required>
                   <label for="name" class="white-text">Name</label>
                 </div>
               </div>
               <div class="row">
                 <div class="input-field col s10">
-                  <textarea id="description" class="materialize-textarea" [(ngModel)]="topic.abstractDescription"
+                  <textarea id="description" name="description" class="materialize-textarea" [(ngModel)]="topic.abstractDescription"
                             required></textarea>
                   <label for="description" class="white-text">Description</label>
                 </div>
@@ -56,11 +56,11 @@
                 <author-chip [authors]="topic.authors" ></author-chip>
               </div>
 
-              <topic-edit [isVisible]="edit.isVisible" [topic]="topic" [studyId]="study.id" #edit></topic-edit>
+              <!--topic-edit [isVisible]="edit.isVisible" [topic]="topic" [studyId]="study.id" #edit></topic-edit-->
 
               <qddt-revision [isVisible]="revision.isVisible" [qddtURI]="'audit/topicgroup/' + topic.id + '/all'" #revision ></qddt-revision>
 
-              <concept-question [concept]="getDefaultConcept(topic)" [allQuestions]="questions"></concept-question>
+              <!--concept-question [concept]="getDefaultConcept(topic)" [allQuestions]="questions"></concept-question-->
 
               <div class="row">
                 <comment-list [ownerId]="topic.id"></comment-list>

@@ -7,20 +7,20 @@ import { DomainType, DomainTypeDescription } from './responsedomain.constant';
   moduleId: module.id,
   template: `<div *ngIf="isVisible" class="card-panel lighten-2">
         <div [ngSwitch]="domainType">
-					<responsedomain-scale *ngSwitchWhen="domainTypeDef.SCALE"
+					<responsedomain-scale *ngSwitchCase="domainTypeDef.SCALE"
 					  [responseDomain]="responseDomain">
           </responsedomain-scale>
-					<responsedomain-datetime *ngSwitchWhen="domainTypeDef.DATETIME"
+					<responsedomain-datetime *ngSwitchCase="domainTypeDef.DATETIME"
 					  [responseDomain]="responseDomain"></responsedomain-datetime>
-					<responsedomain-numeric *ngSwitchWhen="domainTypeDef.NUMERIC"
+					<responsedomain-numeric *ngSwitchCase="domainTypeDef.NUMERIC"
 					  [responseDomain]="responseDomain"></responsedomain-numeric>
-					<responsedomain-codelist *ngSwitchWhen="domainTypeDef.LIST"
+					<responsedomain-codelist *ngSwitchCase="domainTypeDef.LIST"
             [responseDomain]="responseDomain"></responsedomain-codelist>
-					<responsedomain-categorylist *ngSwitchWhen="domainTypeDef.CategoryList"
+					<responsedomain-categorylist *ngSwitchCase="domainTypeDef.CategoryList"
 					  [responseDomain]="responseDomain"></responsedomain-categorylist>
-					<responsedomain-text *ngSwitchWhen="domainTypeDef.TEXT"
+					<responsedomain-text *ngSwitchCase="domainTypeDef.TEXT"
 					  [responseDomain]="responseDomain"></responsedomain-text>
-					<responsedomain-missing *ngSwitchWhen="domainTypeDef.Missing"
+					<responsedomain-missing *ngSwitchCase="domainTypeDef.Missing"
 					  [responseDomain]="responseDomain"></responsedomain-missing>
 				</div></div>`,
   styles: [],

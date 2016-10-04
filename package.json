@@ -145,7 +145,7 @@
     "zone.js": "0.6.23",
     "jquery": "^2.1.4",
     "materialize-css": "^0.97.7",
-    "angular2-materialize": "^5.1.4"
+    "angular2-materialize": "^5.2.0"
   }
 }
 

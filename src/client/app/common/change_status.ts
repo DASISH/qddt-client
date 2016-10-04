@@ -12,5 +12,4 @@ export class Change {
     ['MILESTONE', 'Milestone']
   ];
 
-
 }

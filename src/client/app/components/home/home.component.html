@@ -1,5 +1,5 @@
 <div class="row" *ngIf="user">
-  <!--div id="topMenu" class="scrollspy">
+  <div id="topMenu" class="scrollspy">
     <nav >
       <div class="nav-wrapper">
             <a href="#!" *ngIf="survey" (click)=onShowSurvey() class="breadcrumb">SURVEY [{{survey.name}}]</a>
@@ -23,7 +23,7 @@
     [study]="study" (topicSelectedEvent)="onTopicSelected($event)">
   </topic>
 
-  <concept *ngIf="topic"  [show]="showConcept"
+  <!--concept *ngIf="topic"  [show]="showConcept"
     [topic]="topic"  (conceptSelectedEvent)="onConceptSelected($event)">
   </concept-->
 

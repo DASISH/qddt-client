@@ -1,14 +1,14 @@
 <div class="row">
-  <form (ngSubmit)="login()" #loginForm="ngForm">
+  <form materialize (ngSubmit)="login()" #loginForm="ngForm">
     <div class="row">
       <div class="input-field col">
-        <input id="username" name="username" type="text" [(ngModel)]="loginForm.username" required>
+        <input id="username" name="username" type="text" [(ngModel)]="loginForm.username" [ngModelOptions]="{standalone: true}" required>
         <label for="username" class="active">Username</label>
       </div>
     </div>
     <div class="row">
       <div class="input-field col">
-        <input id="password" name="password" type="password" [(ngModel)]="loginForm.password" required>
+        <input id="password" name="password" type="password" [(ngModel)]="loginForm.password" [ngModelOptions]="{standalone: true}" required>
         <label for="password" class="active">Password</label>
       </div>
     </div>

@@ -2,16 +2,17 @@ import { ModuleWithProviders }  from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { HomeCmp }   from './components/home/home.component';
-//import { QuestionComp } from './components/question/question.component';
+import { QuestionComp } from './components/question/question.component';
 //import { ConceptComponent } from './components/concept/concept.component';
 import { CategoryComponent } from './components/category/category.component';
-//import { CategorySchemeComponent } from './components/category/category.scheme.component';
+import { CategorySchemeComponent } from './components/category/category.scheme.component';
 //import { ResponsedomainComponent } from './components/responsedomain/responsedomain.component';
 //import { ControlConstructComponent } from './components/controlconstruct/controlconstruct.component';
 
 const appRoutes: Routes = [
+  { path: '', redirectTo: 'Home', pathMatch: 'full'},
   {
-    path: '',
+    path: 'Home',
     component: HomeCmp
   },
   /*{
@@ -25,12 +26,12 @@ const appRoutes: Routes = [
   {
     path: 'Responsedomains',
     component: ResponsedomainComponent
-  },
+  },*/
   {
     path: 'Schemes',
     component: CategorySchemeComponent
   },
-  {
+  /*{
     path: 'Constructs',
     component: ControlConstructComponent
   },*/

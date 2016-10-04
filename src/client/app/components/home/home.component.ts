@@ -6,7 +6,6 @@ import { UserService } from '../../common/user.service';
   selector: 'home',
   moduleId: module.id,
   templateUrl: './home.component.html',
-  providers: [ UserService ]
 })
 export class HomeCmp implements AfterContentChecked {
 

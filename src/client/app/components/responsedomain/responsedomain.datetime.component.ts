@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'responsedomain-datetime',
-  moduleId: module.id,
+  //moduleId: module.id,
   template: `<div class="row">
                <span>
                <label>{{start}}

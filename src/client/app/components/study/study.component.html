@@ -14,13 +14,13 @@
             <form (ngSubmit)="onSave()" #hf="ngForm">
               <div class="row">
                 <div class="input-field col">
-                  <input id="name" type="text" [(ngModel)]="study.name" required>
+                  <input id="name" name="name" type="text" [(ngModel)]="study.name" required>
                   <label for="name" class="white-text">Name</label>
                 </div>
               </div>
               <div class="row">
                 <div class="input-field col s10">
-                  <textarea id="description" class="materialize-textarea" [(ngModel)]="study.description" required></textarea>
+                  <textarea id="description" name="description" class="materialize-textarea" [(ngModel)]="study.description" required></textarea>
                   <label for="description" class="white-text">Description</label>
                 </div>
               </div>

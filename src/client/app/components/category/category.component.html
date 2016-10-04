@@ -13,10 +13,10 @@
 
         <div *ngIf="showCategoryForm">
           <div class="card-action">
-            <form (ngSubmit)="onCreateCategory()" #hf="ngForm">
+            <form materialize (ngSubmit)="onCreateCategory()" #hf="ngForm">
               <div class="row">
                 <div class="input-field col s10">
-                  <textarea id="label" class="materialize-textarea"
+                  <textarea id="label" name="label" class="materialize-textarea"
                     [(ngModel)]="category.label" [attr.maxlength]="255"
                     required (ngModelChange)="category.name = category.label.toUpperCase()">
                   </textarea>
@@ -25,7 +25,7 @@
               </div>
               <div class="row">
                 <div class="input-field col s10">
-                  <textarea id="description" class="materialize-textarea"
+                  <textarea id="description" name="description" class="materialize-textarea"
                     [(ngModel)]="category.description"></textarea>
                   <label for="description" class="white-text">Description</label>
                 </div>

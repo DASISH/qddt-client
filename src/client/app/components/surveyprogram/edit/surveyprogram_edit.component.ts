@@ -1,8 +1,8 @@
 import {Component, Input, Output,EventEmitter} from '@angular/core';
 
 
-import {SurveyService, SurveyProgram} from '../../surveyprogram/survey.service';
-import {Change} from '../../../common/change_status';
+import { SurveyService, SurveyProgram } from '../../surveyprogram/survey.service';
+import { Change } from '../../../common/change_status';
 
 @Component({
   selector: 'surveyprogram-edit',
@@ -11,33 +11,38 @@ import {Change} from '../../../common/change_status';
   template: `
   <div *ngIf="isVisible">
     <div *ngIf="survey" class="card" id="{{survey.id}}"  >
-      <form (ngSubmit)="onSave()" #hf="ngForm">
+      <form materialize (ngSubmit)="onSave()" #surveyForm="ngForm">
         <div class="row">
           <div class="input-field col s12">
-            <input type="text" [(ngModel)]="survey.name" required>
-            <label for="name" class="active teal-text">Name</label>
+            <input id="{{survey?.id}}-name"
+              name="{{survey?.id}}-name"
+              type="text" [(ngModel)]="survey.name" required>
+            <label [attr.for]="survey.id + '-name'" class="active teal-text">Name</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <textarea class="materialize-textarea"  [(ngModel)]="survey.description" required></textarea>
-            <label for="description" class="active teal-text">Description</label>
+            <textarea id="{{survey?.id}}-description" name="{{survey?.id}}-description"
+              class="materialize-textarea"  [(ngModel)]="survey.description" required></textarea>
+            <label [attr.for]="survey.id + '-description'" class="active teal-text">Description</label>
           </div>
         </div>
         <div class="row">
 		      <div class="input-field col s4">
             <label class="active teal-text">Type of Change</label>
-            <select [(ngModel)]="survey.changeKind" materialize="material_select" (ngModelChange)="onChangeKind($event)">
+            <select [(ngModel)]="survey.changeKind"
+              name="{{survey?.id}}-survey.changeKind" materialize="material_select"
+              (ngModelChange)="onChangeKind($event)">
               <option value="" disabled selected>Select reason</option>
               <option *ngFor="let changereason of changes" [value]="changereason[0]">{{changereason[1]}}</option>
             </select>
           </div>
           <div *ngIf="showlabel"  class="input-field col s4">
             <label for="versionlabel" class="active teal-text">Version label</label>
-            <input id="versionlabel" type="text" [(ngModel)]="survey.version.versionLabel">
+            <input id="versionlabel" name="versionlabel" type="text" [(ngModel)]="survey.version.versionLabel">
           </div>
           <div class="input-field col">
-            <input type="text" [(ngModel)]="survey.changeComment" required>
+            <input id="changeComment" name="{{survey?.id}}-survey.changeComment" type="text" [(ngModel)]="survey.changeComment" required>
             <label for="changeComment" class="active teal-text">Reason for change</label>
           </div>
         </div>

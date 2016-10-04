@@ -85,7 +85,7 @@
           </div>
           <div class="row">
             <div class="input-field col s12">
-              <textarea class="materialize-textarea"  [(ngModel)]="selectedCategory.description" ></textarea>
+              <textarea class="materialize-textarea" name="description" [(ngModel)]="selectedCategory.description" ></textarea>
               <label for="description" class="active teal-text">Description</label>
             </div>
           </div>
@@ -117,14 +117,15 @@
         <div class="row">
           <div class="input-field col s5">
             <label class="active teal-text">Type of Change</label>
-            <select [(ngModel)]="selectedCategory.changeKind"  materialize="material_select" required>
+            <select [(ngModel)]="selectedCategory.changeKind"
+              name="{{selectedCategory?.id}}-category.changeKind" materialize="material_select" required>
               <option value="" disabled selected>Select kind</option>
               <option *ngFor="let change of changeEnums" [value]="change[0]">{{change[1]}}</option>
             </select>
           </div>
           <div class="input-field col s7">
             <label for="changeComment" class="active teal-text">Reason for change</label>
-            <input id="changeComment" type="text" [(ngModel)]="selectedCategory.changeComment">
+            <input id="changeComment" name="changeComment" type="text" [(ngModel)]="selectedCategory.changeComment">
           </div>
         </div>
         <button type="submit" class="btn btn-default">Submit</button>

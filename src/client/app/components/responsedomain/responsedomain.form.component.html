@@ -17,7 +17,7 @@
 			</div>
 			<div class="row">
 				<div [ngSwitch]="domainType">
-					<div *ngSwitchWhen="domainTypeDef.SCALE">
+					<div *ngSwitchCase="domainTypeDef.SCALE">
 						<div class="row">
               <div class="input-field col s4">
                 <input id="scale_start" type="number"
@@ -68,7 +68,7 @@
 							</tbody>
 						</table>
 					</div>
-					<div *ngSwitchWhen="domainTypeDef.LIST" class="row">
+					<div *ngSwitchCase="domainTypeDef.LIST" class="row">
 						<div class="col s2 input-field">
 							<input id="code_number" type="number"
 							  [ngModel]="responsedomain.managedRepresentation.inputLimit.maximum"
@@ -119,7 +119,7 @@
 						  </div>							
 						</div>
 					</div>
-					<div *ngSwitchWhen="domainTypeDef.NUMERIC">
+					<div *ngSwitchCase="domainTypeDef.NUMERIC">
 						<table *ngIf="responsedomain.managedRepresentation">
 						  <thead><tr><td>Numeric Range</td><td>Value</td></tr></thead>
 							<tbody>
@@ -134,7 +134,7 @@
 							</tbody>
 						</table>
 					</div>
-					<div *ngSwitchWhen="domainTypeDef.TEXT">
+					<div *ngSwitchCase="domainTypeDef.TEXT">
 						<table *ngIf="responsedomain.managedRepresentation">
 						  <thead><tr><td>TEXT Range</td><td>Value</td></tr></thead>
 							<tbody>
@@ -149,7 +149,7 @@
 							</tbody>
 						</table>
 					</div>
-          <div *ngSwitchWhen="domainTypeDef.DATETIME">
+          <div *ngSwitchCase="domainTypeDef.DATETIME">
 					  <autocomplete [items]="suggestions"
 											[searchField]="'label'"
 											(autocompleteFocusEvent)="selectedCategoryIndex=idx;"

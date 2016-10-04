@@ -13,31 +13,34 @@ import { Change } from '../../../common/change_status';
       <form (ngSubmit)="onSave()" #hf="ngForm">
         <div class="row">
           <div class="input-field col s12">
-            <input type="text" [(ngModel)]="topic.name" required>
-            <label for="name" class="active teal-text">Name</label>
+            <input id="{{topic?.id}}-name"
+              name="{{topic?.id}}-name"type="text" [(ngModel)]="topic.name" required>
+            <label [attr.for]="topic.id + '-name'" class="active teal-text">Name</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <textarea class="materialize-textarea"  [(ngModel)]="topic.abstractDescription" required></textarea>
-            <label for="description" class="active teal-text">Description</label>
+            <textarea id="{{topic?.id}}-description" name="{{topic?.id}}-description"
+              class="materialize-textarea"  [(ngModel)]="topic.abstractDescription" required></textarea>
+            <label [attr.for]="topic.id + '-description'" class="active teal-text">Description</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s4">
             <label class="active teal-text">Type of Change</label>
-            <select [(ngModel)]="topic.changeKind" materialize="material_select" required (ngModelChange)="onChangeKind($event)">
+            <select [(ngModel)]="topic.changeKind"
+              name="{{topic?.id}}-topic.changeKind" materialize="material_select" required (ngModelChange)="onChangeKind($event)">
               <option value="" disabled selected>Select reason</option>
               <option *ngFor="let change of _ChangeEnums" [value]="change[0]">{{change[1]}}</option>
             </select>
           </div>
           <div *ngIf="showlabel"  class="input-field col s4">
             <label for="versionlabel" class="active teal-text">Version label</label>
-            <input id="versionlabel" type="text" [(ngModel)]="topic.version.versionlabel">
+            <input id="versionlabel" name="versionlabel" type="text" [(ngModel)]="topic.version.versionlabel">
           </div>
           <div class="input-field col">
             <label for="changeComment" class="active teal-text">Reason for change</label>
-            <input id="changeComment" type="text" [(ngModel)]="topic.changeComment" required>
+            <input id="changeComment" name="changeComment" type="text" [(ngModel)]="topic.changeComment" required>
           </div>
         </div>
         <div class="row">

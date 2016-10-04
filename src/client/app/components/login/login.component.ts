@@ -5,8 +5,10 @@ import { API_BASE_HREF } from '../../api';
 import { UserService } from '../../common/user.service';
 
 export class LoginForm {
-  public username: string = 'admin@example.org';
-  public password: string = 'password';
+  constructor(
+    public username: string,
+    public password: string
+  ) { }
 }
 
 @Component({
@@ -34,13 +36,13 @@ export class LoginComponent {
               @Inject(Http)private http:Http, @Inject(API_BASE_HREF) private api: string) {
     this.userService = userService;
     this.http = http;
-    this.loginForm = new LoginForm();
+    this.loginForm = new LoginForm('admin@example.org', 'password');
   }
 
   login() {
     var headers = new Headers();
     headers.append('Authorization', 'Basic ' + btoa('client:password'));
-
+    console.log(this.loginForm);
     this.http.post(this.api+'oauth/token' +
         '?username='+ this.loginForm.username +
         '&password='+ this.loginForm.password +
