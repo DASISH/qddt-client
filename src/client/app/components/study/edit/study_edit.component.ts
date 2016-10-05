@@ -1,6 +1,6 @@
  import { Component, Input,Output, EventEmitter } from '@angular/core';
 
- import { StudyService } from '../study.service';
+ import { StudyService, Study } from '../study.service';
  import { Change } from '../../../common/change_status';
 
  @Component({
@@ -62,7 +62,7 @@
  })
   export class StudyEditComponent {
 
-    @Input() study: any;
+    @Input() study: Study;
     @Input() isVisible: boolean;
     @Input() surveyId: any;
     @Output() studySavedEvent: EventEmitter<any> = new EventEmitter<any>();
@@ -74,10 +74,9 @@
     }
 
     onSave() {
-      console.log('onSave Study');
       this.isVisible = false;
-      this.studyService.save(this.study,this.surveyId).subscribe((result: any) => {
-        this.study =result;
+      this.studyService.update(this.study).subscribe((result: any) => {
+        this.study = result;
         this.studySavedEvent.emit(result);
       });
     }
@@ -88,12 +87,12 @@
 
     onAuthorSelected(author:any) {
      this.studyService.attachAuthor(this.study.id,author.id);
-     this.study.authors.push(author);
+     this.study['authors'].push(author);
     }
 
     onAuthorRemoved(author:any) {
      this.studyService.deattachAuthor(this.study.id,author.id);
-     var i = this.study.authors.findIndex((F: any) => F===author);
-     this.study.authors.splice(i,1);
+     var i = this.study['authors'].findIndex((F: any) => F===author);
+     this.study['authors'].splice(i,1);
     }
  }

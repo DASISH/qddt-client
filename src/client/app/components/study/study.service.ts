@@ -17,13 +17,12 @@ export class StudyService extends BaseService {
     super(http ,api);
   }
 
-
   save(study: Study, surveyProgramId: String): any {
     return this.post(study,'study/create/' +surveyProgramId);
   }
 
   update(study: Study): any {
-    return this.post(study,'study/');
+    return this.post(study,'study');
   }
 
   getAll(surveyProgramId: String) : any {

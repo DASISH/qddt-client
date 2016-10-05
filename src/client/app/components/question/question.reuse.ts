@@ -26,7 +26,7 @@ import { QuestionService, Question, QuestionItem } from './question.service';
           <form id="questionitem-create-form" (ngSubmit)="onSave()" #hf="ngForm">
             <div class="row black-text">
               <div class="row"><span>Question text</span>
-                <input type="text" [(ngModel)]="questionItem.question.question" required>
+                <input name="question-text" type="text" [(ngModel)]="questionItem.question.question" required>
               </div>
             </div>
             <div class="row black-text">

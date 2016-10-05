@@ -22,7 +22,7 @@ import { UserService } from './user.service';
 
         <div *ngIf="!user">
           <span class="black-text">
-            <login (loginEvent)="loginEvent()"></login>
+            <qddt-login (loginEvent)="loginEvent()"></qddt-login>
           </span>
         </div>
 

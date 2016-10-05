@@ -1,22 +1,20 @@
-import { Component, Output, EventEmitter, Inject } from '@angular/core';
+import { Component, Output, EventEmitter, Inject, OnInit } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { API_BASE_HREF } from '../../api';
 import { UserService } from '../../common/user.service';
 
 export class LoginForm {
-  constructor(
-    public username: string,
-    public password: string
-  ) { }
+    public username: string;
+    public password: string;
 }
 
 @Component({
-  selector: 'login',
+  selector: 'qddt-login',
   moduleId: module.id,
   templateUrl: './login.component.html'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
   @Output() loginEvent: EventEmitter<string>  = new EventEmitter<string>();
   user: any;
@@ -36,7 +34,12 @@ export class LoginComponent {
               @Inject(Http)private http:Http, @Inject(API_BASE_HREF) private api: string) {
     this.userService = userService;
     this.http = http;
-    this.loginForm = new LoginForm('admin@example.org', 'password');
+    this.loginForm = new LoginForm();//'admin@example.org', 'password');
+  }
+
+  ngOnInit() {
+    this.loginForm.username = 'admin@example.org';
+    this.loginForm.password = 'password';
   }
 
   login() {
@@ -61,6 +64,14 @@ export class LoginComponent {
         (err: any)  => LoginComponent.logError('Unable to log in user.'),
         ()          => this.createUser()
     );
+  }
+
+  onChangeUsername(e: string) {
+    this.loginForm.username = e;
+  }
+
+  onChangePassword(e: string) {
+    this.loginForm.password = e;
   }
 
   createUser() {

@@ -18,7 +18,7 @@
             <form (ngSubmit)="onCreateControlConstruct()" #hf="ngForm">
               <div class="row">
                 <div class="input-field col s10">
-                  <textarea id="name" class="materialize-textarea"
+                  <textarea id="name" name="name" class="materialize-textarea"
                     [(ngModel)]="controlConstruct.name" [attr.maxlength]="255"
                     required>
                   </textarea>
@@ -27,7 +27,7 @@
               </div>
               <div class="row">
                 <div class="input-field col s10">
-                  <textarea id="description" class="materialize-textarea"
+                  <textarea id="description" name="description" class="materialize-textarea"
                     [(ngModel)]="controlConstruct.description">
                   </textarea>
                   <label for="description" class="white-text">Description</label>
@@ -55,6 +55,7 @@
                 <div class="input-field col s4">
                   <label class="active black-text">QuestionItem Revisions</label>
                   <select [(ngModel)]="controlConstruct.revisionNumber"
+                    name="controlConstruct_revisionNumber"
                     materialize="material_select">
                     <option value="" disabled selected>Select Revision</option>
                     <option *ngFor="let revision of questionItemRevisions" [value]="revision.revisionNumber">
@@ -76,12 +77,12 @@
                 <div class="row card" *ngIf="showInstructionForm">
                   <div class="switch">
                     <label>Before Questoin
-                      <input type="checkbox" [(ngModel)]="instruction.isAfter">
+                      <input name="instruction-before-questoin" type="checkbox" [(ngModel)]="instruction.isAfter">
                       <span class="lever"></span>After Question
                     </label>
                   </div>
                   <div class="row" class="black-text">
-                    <textarea id="instruction-description" class="materialize-textarea"
+                    <textarea id="instruction-description" name="instruction-description" class="materialize-textarea"
                       [(ngModel)]="instruction.description">
                     </textarea>
                     <label for="instruction-description">Description</label>

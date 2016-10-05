@@ -6,7 +6,7 @@ import { UserLogin } from '../../common/user.component';
 @NgModule({
     imports: [ SharedModule ],
     declarations: [ LoginComponent, UserLogin ],
-    exports: [ UserLogin, LoginComponent ]
+    exports: [ UserLogin ]
 })
 
 export class LoginModule { }

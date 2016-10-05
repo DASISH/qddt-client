@@ -30,6 +30,7 @@ export class ProjectConfig extends SeedConfig {
     // Add `local` third-party libraries to be injected/bundled.
     this.APP_ASSETS = [
       ...this.APP_ASSETS,
+      {src: `${this.ASSETS_SRC}/main.css`, inject: true},
       // {src: `${this.APP_SRC}/your-path-to-lib/libs/jquery-ui.js`, inject: true, vendor: false}
       // {src: `${this.CSS_SRC}/path-to-lib/test-lib.css`, inject: true, vendor: false},
     ];

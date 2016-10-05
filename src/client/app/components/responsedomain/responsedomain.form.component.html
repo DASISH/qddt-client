@@ -4,13 +4,14 @@
 		<form (ngSubmit)="save()" #hf="ngForm">
 			<div class="row">
 				<div class="input-field col s12">
-					<input type="text" [(ngModel)]="responsedomain.name" required>
+					<input id="name" name="name" type="text" [(ngModel)]="responsedomain.name" required>
 					<label for="name" class="active teal-text">Name</label>
 				</div>
 			</div>
 			<div class="row">
 				<div class="input-field col s12">
 					<textarea class="materialize-textarea"
+					  id="description" name="description"
 						[(ngModel)]="responsedomain.description"></textarea>
 					<label for="description" class="active teal-text">Description</label>
 				</div>
@@ -20,18 +21,18 @@
 					<div *ngSwitchCase="domainTypeDef.SCALE">
 						<div class="row">
               <div class="input-field col s4">
-                <input id="scale_start" type="number"
+                <input id="scale_start" name="scale_start" type="number"
 					        [(ngModel)]="responsedomain.managedRepresentation.inputLimit.minimum" required>
                 <label for="scale_start" class="active">Start</label>
               </div>
               <div class="input-field col s4">
-                <input id="scale_end" type="number"
+                <input id="scale_end" name="scale_end" type="number"
 					        [(ngModel)]="responsedomain.managedRepresentation.inputLimit.maximum" required>
                 <label for="scale_end" class="active">End</label>
               </div>
 							<div class="col s4 input-field">
 							  <label for="scale_DisplayLayout" class="active">Display Layout</label>
-								<select id="scale_DisplayLayout"
+								<select id="scale_DisplayLayout" name="scale_DisplayLayout"
 								   [ngModel]="responsedomain.degreeSlopeFromHorizontal"
 									 (ngModelChange)="onChangeDegreeSlope($event)"
 						       materialize="material_select" required>
@@ -42,7 +43,7 @@
             </div>
 
 						<div class="row input-field">
-							<input id="scale_anchor" type="number" [(ngModel)]="numberOfAnchors"
+							<input id="scale_anchor" name="scale_anchor" type="number" [(ngModel)]="numberOfAnchors"
 								(ngModelChange)="changeNumberOfAnchors($event)" required>
 							<label for="scale_anchor">Number of Anchor</label>
 						</div>
@@ -51,7 +52,7 @@
 						  <thead><tr><td>Code</td><td>Category</td></tr></thead>
 							<tbody>
 								<tr *ngFor="let category of responsedomain.managedRepresentation.children; let idx=index">
-									<td><input type="text" [(ngModel)]="category.code.codeValue" required></td>
+									<td><input name="{{category?.id}}-code-value" type="text" [(ngModel)]="category.code.codeValue" required></td>
 									<td>
 										<div [ngClass]="{ noItemFound: (category.isNew && category.label.length > 0 && categories.length === 0) }">
 										  <autocomplete [items]="categories" class="black-text"
@@ -70,7 +71,7 @@
 					</div>
 					<div *ngSwitchCase="domainTypeDef.LIST" class="row">
 						<div class="col s2 input-field">
-							<input id="code_number" type="number"
+							<input id="code_number" name="code_number" type="number"
 							  [ngModel]="responsedomain.managedRepresentation.inputLimit.maximum"
 								(ngModelChange)="changeNumberOfCategories($event)" required>
 							<label for="code_number" class="active">Number of Codes</label>
@@ -80,7 +81,7 @@
 						  <thead><tr><td>Code</td><td>Category</td><td></td></tr></thead>
 							<tbody>
 								<tr *ngFor="let category of responsedomain.managedRepresentation.children; let idx=index">
-									<td><input type="text" [(ngModel)]="category.code.codeValue" required></td>
+									<td><input name="{{category?.id}}-code-value" type="text" [(ngModel)]="category.code.codeValue" required></td>
 									<td>
 										<div [ngClass]="{ noItemFound: (category.isNew && category.label.length > 0 && categories.length === 0) }">
 										  <autocomplete [items]="categories" class="black-text"
@@ -108,12 +109,12 @@
 						</table>
 						<div *ngIf="responsedomain.managedRepresentation.inputLimit.maximum > 0" class="row card">
 							<div class="row input-field col s5">
-							  <input id="responseCardinality_minimum" type="number"
+							  <input id="responseCardinality_minimum" name="responseCardinality_minimum" type="number"
 							    [(ngModel)]="responsedomain.responseCardinality.minimum" required>
 							  <label for="responseCardinality_minimum">Min of Response Cardinality</label>
 						  </div>
 							<div class="row input-field col s5">
-							  <input id="responseCardinality_maximum" type="number"
+							  <input id="responseCardinality_maximum" name="responseCardinality_maximum" type="number"
 							    [(ngModel)]="responsedomain.responseCardinality.maximum" required>
 							  <label for="responseCardinality_maximum">Max of Response Cardinality</label>
 						  </div>							
@@ -125,11 +126,11 @@
 							<tbody>
 								<tr>
 								  <td><label>Low</label></td>
-								  <td><input type="text" [(ngModel)]="responsedomain.managedRepresentation.inputLimit.minimum" required></td>
+								  <td><input id="representation_low" name="representation_low" type="text" [(ngModel)]="responsedomain.managedRepresentation.inputLimit.minimum" required></td>
 								</tr>
 								<tr>
 								  <td><label>High</label></td>
-								  <td><input type="text" [(ngModel)]="responsedomain.managedRepresentation.inputLimit.maximum" required></td>
+								  <td><input id="representation_high" name="representation_high" type="text" [(ngModel)]="responsedomain.managedRepresentation.inputLimit.maximum" required></td>
 								</tr>
 							</tbody>
 						</table>
@@ -140,11 +141,11 @@
 							<tbody>
 								<tr>
 								  <td><label>Minimum length</label></td>
-								  <td><input type="number" [(ngModel)]="responsedomain.managedRepresentation.inputLimit.minimum" required></td>
+								  <td><input id="text_representation_min" name="text_representation_min" type="number" [(ngModel)]="responsedomain.managedRepresentation.inputLimit.minimum" required></td>
 								</tr>
 								<tr>
 								  <td><label>Maximum length</label></td>
-								  <td><input type="number" [(ngModel)]="responsedomain.managedRepresentation.inputLimit.maximum" required></td>
+								  <td><input id="text_representation_max" name="text_representation_max" type="number" [(ngModel)]="responsedomain.managedRepresentation.inputLimit.maximum" required></td>
 								</tr>
 							</tbody>
 						</table>
@@ -160,11 +161,11 @@
 							<tbody>
 								<tr>
 								  <td><label>Start</label></td>
-								  <td><input type="text" [(ngModel)]="responsedomain.managedRepresentation.inputLimit.minimum" required></td>
+								  <td><input id="datetime_representation_start" name="datetime_representation_start" type="text" [(ngModel)]="responsedomain.managedRepresentation.inputLimit.minimum" required></td>
 								</tr>
 								<tr>
 								  <td><label>End</label></td>
-								  <td><input type="text" [(ngModel)]="responsedomain.managedRepresentation.inputLimit.maximum" required></td>
+								  <td><input id="datetime_representation_end" name="datetime_representation_end" type="text" [(ngModel)]="responsedomain.managedRepresentation.inputLimit.maximum" required></td>
 								</tr>
 							</tbody>
 						</table>
@@ -174,6 +175,7 @@
 			<div *ngIf="responsedomain.changeKind" class="row">
 				<div class="input-field col s4">
 					<label class="active teal-text">Version Reason</label> <select
+					  name="{{responsedomain?.id}}-responsedomain.changeKind"
 						[(ngModel)]="responsedomain.changeKind"
 						materialize="material_select" required>
 						<option value="" disabled selected>Select reason</option>
@@ -181,7 +183,7 @@
 					</select>
 				</div>
 				<div class="input-field col s8">
-					<input id="changeComment" type="text" [(ngModel)]="responsedomain.changeComment"
+					<input id="changeComment" name="changeComment" type="text" [(ngModel)]="responsedomain.changeComment"
 						required> <label for="changeComment"
 						class="active teal-text">Save Comment</label>
 				</div>

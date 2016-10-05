@@ -56,7 +56,7 @@
                 <author-chip [authors]="topic.authors" ></author-chip>
               </div>
 
-              <!--topic-edit [isVisible]="edit.isVisible" [topic]="topic" [studyId]="study.id" #edit></topic-edit-->
+              <topic-edit [isVisible]="edit.isVisible" [topic]="topic" #edit></topic-edit>
 
               <qddt-revision [isVisible]="revision.isVisible" [qddtURI]="'audit/topicgroup/' + topic.id + '/all'" #revision ></qddt-revision>
 
@@ -77,8 +77,8 @@
     <div style="top: 55;" class="toc-wrapper pinned">
       <h5>Module Toc</h5>
       <ul class="section table-of-contents">
-        <li><a href="#topMenu">To the top </a> </li>
-        <li *ngFor="let topic of topics"><a href="#{{topic.id}}">{{topic.name}}</a></li>
+        <li><a href="Home#topMenu">To the top </a> </li>
+        <li *ngFor="let topic of topics"><a href="Home#{{topic.id}}">{{topic.name}}</a></li>
       </ul>
     </div>
   </div>

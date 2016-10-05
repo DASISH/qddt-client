@@ -16,15 +16,16 @@ import { CommentModule } from './components/comment/comment.module';
 import { CompareModule } from './components/compare/compare.module';
 import { SharedModule } from './shared/shared.module';
 import { CategoryModule } from './components/category/category.module';
-//import { QuestionModule } from './components/question/question.module';
-//import { ResponsedomainModule } from './components/responsedomain/responsedomain.module';
+import { QuestionModule } from './components/question/question.module';
+import { ResponsedomainModule } from './components/responsedomain/responsedomain.module';
+import { ControlConstructModule } from './components/controlconstruct/controlconstruct.module';
 
 @NgModule({
-  imports: [ BrowserModule, HttpModule, LoginModule, CategoryModule, //QuestionModule,
-    //ResponsedomainModule,
-    routing, HomeModule, RevisionModule, CompareModule, CommentModule, SharedModule],
-  declarations: [ AppCmp, 
-    ],
+  imports: [ BrowserModule, HttpModule, CategoryModule,
+    QuestionModule, ResponsedomainModule, ControlConstructModule,
+    routing, HomeModule, LoginModule, RevisionModule,
+    CompareModule, CommentModule, SharedModule],
+  declarations: [ AppCmp ],
   providers: [UserService, {
     provide: APP_BASE_HREF,
     useValue: '<%= APP_BASE %>'

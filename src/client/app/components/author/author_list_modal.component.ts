@@ -24,7 +24,7 @@ import { AuthorService } from './author.service';
       </ul>
     </div>
     <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Close</a>
+      <a class="modal-action modal-close waves-effect waves-red btn-flat ">Close</a>
     </div>
   </div>
   </div>

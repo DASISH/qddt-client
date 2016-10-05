@@ -27,10 +27,7 @@ import { ResponseDomainSearchComponent } from './responsedomain.search';
     PreviewComponent, ResponsedomainReuseComponent,
     ResponseDomainSearchComponent
     ],
-  exports: [ResponsedomainComponent, ResponsedomainNumericComponent,
-    ResponsedomainScaleComponent, ResponsedomainTextComponent,
-    ResponsedomainDatetimeComponent, ResponsedomainCodeListComponent,
-    ResponsedomainMissingComponent, ResponsedomainCategoryListComponent,
+  exports: [ResponsedomainComponent,
     ResponsedomainFormComponent, ResponsedomainListComponent,
     PreviewComponent, ResponsedomainReuseComponent,
     ResponseDomainSearchComponent

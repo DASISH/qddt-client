@@ -13,19 +13,21 @@ import { Change } from '../../common/change_status';
       <div class="card-action">
         <form (ngSubmit)="onEditQuestionItem()" #hf="ngForm">
           <div class="row"><span>Name</span>
-            <input type="text" [(ngModel)]="questionitem.name">
+            <input name="{{questionitem?.id}}-name" type="text" [(ngModel)]="questionitem.name">
           </div>
           <div class="row">
             <div class="row">
               <div class="input-field col s12">
-                <textarea id="{{questionitem?.id}}-question-textarea" [(ngModel)]="questionitem.question.question"
+                <textarea id="{{questionitem?.id}}-question-textarea"
+                  name="{{questionitem?.id}}-question-textarea" [(ngModel)]="questionitem.question.question"
                   class="materialize-textarea" [attr.maxlength]="1500"></textarea>
                 <label [attr.for]="questionitem.id + '-question-textarea'" class="active teal-text">Question text</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s12">
-                <textarea id="{{questionitem?.id}}-question-intent" [(ngModel)]="questionitem.question.intent"
+                <textarea id="{{questionitem?.id}}-question-intent"
+                  name="{{questionitem?.id}}-question-intent" [(ngModel)]="questionitem.question.intent"
                   class="materialize-textarea" [attr.maxlength]="1500"></textarea>
                 <label [attr.for]="questionitem.id + '-question-intent'" class="active teal-text">Question intent</label>
               </div>
@@ -49,6 +51,7 @@ import { Change } from '../../common/change_status';
 				    <div class="input-field col s4">
 					    <label class="active teal-text">Version Reason</label>
               <select
+                name="{{questionitem?.id}}-questionitem-changeKind" 
 						    [(ngModel)]="questionitem.changeKind"
 						    materialize="material_select" required>
 						    <option value="" disabled selected>Select reason</option>
@@ -56,7 +59,9 @@ import { Change } from '../../common/change_status';
 					    </select>
 				    </div>
 				    <div class="input-field col s8">
-					    <input id="{{questionitem?.id}}-questionitemchangeComment" type="text" [(ngModel)]="questionitem.changeComment"
+					    <input id="{{questionitem?.id}}-questionitemchangeComment"
+                name="{{questionitem?.id}}-questionitemchangeComment"
+                type="text" [(ngModel)]="questionitem.changeComment"
 						    required> <label [attr.for]="questionitem.id + '-questionitemchangeComment'"
 						    class="active teal-text">Save Comment</label>
 				    </div>

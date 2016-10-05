@@ -14,13 +14,13 @@
             <form (ngSubmit)="onSave()" #hf="ngForm">
               <div class="row">
                 <div class="input-field col">
-                  <input id="name" type="text" [(ngModel)]="concept.name" required>
+                  <input id="name" name="name" type="text" [(ngModel)]="concept.name" required>
                   <label for="name" class="white-text">Name</label>
                 </div>
               </div>
               <div class="row">
                 <div class="input-field col s10">
-                  <textarea id="description" class="materialize-textarea" [(ngModel)]="concept.description" required></textarea>
+                  <textarea id="description" name="description" class="materialize-textarea" [(ngModel)]="concept.description" required></textarea>
                   <label for="description" class="white-text">Description</label>
                 </div>
               </div>
@@ -40,7 +40,7 @@
     <div style="height: 800px; overflow-y: auto;" class="row toc-wrapper pinned">
       <h5>Concept Toc</h5>
       <ul class="section table-of-contents">
-        <li><a href="#topMenu">To the top </a> </li>
+        <li><a href="Home#topMenu">To the top </a> </li>
         <concept-toc [concepts]="concepts" [level]="0"></concept-toc>
       </ul>
     </div>

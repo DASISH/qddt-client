@@ -1,15 +1,14 @@
 <div class="row" *ngIf="user">
   <div id="topMenu" class="scrollspy">
     <nav >
-      <div class="nav-wrapper">
-            <a href="#!" *ngIf="survey" (click)=onShowSurvey() class="breadcrumb">SURVEY [{{survey.name}}]</a>
-            <a href="#!" *ngIf="study" (click)=onShowStudy() class="breadcrumb"> STUDY [{{study.name}}]</a>
-            <a href="#!" *ngIf="topic" (click)=onShowTopic() class="breadcrumb">QUESTIONNAIRE MODULE [{{topic.name}}]</a>
-            <a href="#!" *ngIf="concept" (click)=onShowConcept()  class="breadcrumb">CONCEPT</a>
+      <div class="nav-wrapper" [ngStyle]="{'cursor': 'pointer'}">
+            <a *ngIf="survey" (click)=onShowSurvey() class="breadcrumb">SURVEY [{{survey.name}}]</a>
+            <a *ngIf="study" (click)=onShowStudy() class="breadcrumb"> STUDY [{{study.name}}]</a>
+            <a *ngIf="topic" (click)=onShowTopic() class="breadcrumb">QUESTIONNAIRE MODULE [{{topic.name}}]</a>
+            <a *ngIf="concept" (click)=onShowConcept()  class="breadcrumb">CONCEPT</a>
       </div>
     </nav>
   </div>
-
 
   <surveyprogram [show]="showSurveyProgram"
            (surveySelectEvent)="onSurveySelect($event)">
@@ -23,9 +22,9 @@
     [study]="study" (topicSelectedEvent)="onTopicSelected($event)">
   </topic>
 
-  <!--concept *ngIf="topic"  [show]="showConcept"
+  <concept *ngIf="topic"  [show]="showConcept"
     [topic]="topic"  (conceptSelectedEvent)="onConceptSelected($event)">
-  </concept-->
+  </concept>
 
 
 </div>

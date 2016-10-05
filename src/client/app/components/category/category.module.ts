@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CategoryComponent } from './category.component';
-import { CategoryService } from './category.service';
 import { CategoryDetailComponent } from './category.detail.component';
 import { CategoryEditComponent } from './edit/category_edit.component';
 

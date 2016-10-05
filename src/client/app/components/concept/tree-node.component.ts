@@ -1,11 +1,10 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ConceptService, Concept } from './concept.service';
 import { QuestionItem } from '../question/question.service';
-import { ResponseDomainService } from '../responsedomain/responsedomain.service';
 
 @Component({
   selector: 'treenode',
-  providers: [ ConceptService, ResponseDomainService ],
+  providers: [ ConceptService ],
   styles: [
     '.tree-children { padding-left: 5px }',
     `.tree-node {
@@ -47,13 +46,14 @@ import { ResponseDomainService } from '../responsedomain/responsedomain.service'
                <form (ngSubmit)="onChildSave()" #hf="ngForm">
                  <div class="row">
                    <div class="input-field col">
-                     <input id="name" type="text" [(ngModel)]="newchild.name" required>
+                     <input id="name" name="name" type="text" [(ngModel)]="newchild.name" required>
                      <label for="name" class="blue-text">Name</label>
                    </div>
                  </div>
                  <div class="row">
                    <div class="input-field col s11">
-                     <textarea id="description" class="materialize-textarea" [(ngModel)]="newchild.description" required></textarea>
+                     <textarea id="description" name="description"
+                       class="materialize-textarea" [(ngModel)]="newchild.description" required></textarea>
                      <label for="description" class="blue-text">Description</label>
                    </div>
                  </div>
@@ -122,8 +122,7 @@ export class TreeNodeComponent {
   private newchild: any;
   private questionItem: any;
 
-  constructor(private conceptService: ConceptService,
-    private responseDomainService: ResponseDomainService) {
+  constructor(private conceptService: ConceptService) {
     this.newchild = new Concept();
   }
 
