@@ -1,9 +1,9 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { ConceptService, Concept } from './concept.service';
-import { QuestionItem } from '../question/question.service';
+import { ConceptService, Concept } from '../concept/concept.service';
+import { QuestionItem } from './question.service';
 
 @Component({
-  selector: 'treenode',
+  selector: 'qddt-question-treenode',
   providers: [ ConceptService ],
   styles: [
     '.tree-children { padding-left: 5px }',
@@ -18,8 +18,8 @@ import { QuestionItem } from '../question/question.service';
          <div class="col s1 m1 l1">
            <br />
            <div class="row">
-             <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                   (click)="edit.isVisible = !edit.isVisible"><i class="material-icons">mode_edit</i></a>
+             <!--a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                   (click)="edit.isVisible = !edit.isVisible"><i class="material-icons">mode_edit</i></a-->
              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                    (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium">history</i></a>
              <questionitem-reuseorcreate [parentId]="concept.id"
@@ -61,7 +61,7 @@ import { QuestionItem } from '../question/question.service';
                  </form>
              </div>
            </div>
-           <concept-edit [isVisible]="edit.isVisible" [concept]="concept" #edit></concept-edit>
+           <!--concept-edit [isVisible]="edit.isVisible" [concept]="concept" #edit></concept-edit-->
            <qddt-revision [isVisible]="revision.isVisible" [qddtURI]="'audit/concept/' + concept.id + '/all'" #revision ></qddt-revision>
            <div *ngIf="concept.questionItems.length > 0" class="section">
              <ul class="collection with-header">
@@ -76,7 +76,7 @@ import { QuestionItem } from '../question/question.service';
                    </div>
                    <div class="col s10">{{questionItem?.question?.question}}</div>
                    <div class="col s1">
-                     <a
+                     <a href="#!"
                        class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
                        (click)="removeQuestionItem(questionItem?.id)">
                        <i class="material-icons">remove</i>
@@ -90,8 +90,8 @@ import { QuestionItem } from '../question/question.service';
              <comment-list [ownerId]="concept.id"></comment-list>
            </div>
            <div class="tree-children">
-             <treenode *ngFor="let child of concept.children" [concept]="child"
-               (deleteConceptEvent)="onDeleteConcept($event)"></treenode>
+             <qddt-question-treenode *ngFor="let child of concept.children" [concept]="child"
+               (deleteConceptEvent)="onDeleteConcept($event)"></qddt-question-treenode>
            </div>
         </div>
       </div>
@@ -105,8 +105,8 @@ import { QuestionItem } from '../question/question.service';
             </button>
           </div>
           <div class="modal-content">
-            <qddt-concept-questionitem [questionItem]="questionItem" [concept]="concept">
-            </qddt-concept-questionitem>
+            <qddt-questionitem-edit [isVisible]="true" [questionitem]="questionItem" [editResponseDomain]="false">
+            </qddt-questionitem-edit>
           </div>
         </div>
       </div>

@@ -5,11 +5,6 @@ import { ResponseDomain } from './responsedomain.service';
   selector: 'responsedomain-scale',
   moduleId: module.id,
   template: `<div *ngIf="responseDomain" class="row">
-        <div class="row">
-          <a class="right right-align btn-floating red"><i class="material-icons"
-            (click)="rotate()">loop</i>
-          </a>
-        </div>
         <table *ngIf="degreeSlopeFromHorizontal === 0">
         <thead>
           <tr>

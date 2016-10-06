@@ -15,15 +15,15 @@ import { QuestionService, Question, QuestionItem } from './question.service';
         <div class="modal-content">
           <div class="switch">
             <label>New QuestionItem
-              <input type="checkbox" [(ngModel)]="reuseQuestionItem" >
+              <input type="checkbox" [(ngModel)]="reuseQuestionItem"
+              (ngModelChange)="onReuseQuestionItem()">
               <span class="lever"></span>
               Reuse QuestionItem
             </label>
           </div>
-          
+          <form #hf="ngForm">          
           <div *ngIf="!reuseQuestionItem">
           <h3 class="teal-text ">Add new Question Item</h3>
-          <form id="questionitem-create-form" (ngSubmit)="onSave()" #hf="ngForm">
             <div class="row black-text">
               <div class="row"><span>Question text</span>
                 <input name="question-text" type="text" [(ngModel)]="questionItem.question.question" required>
@@ -32,10 +32,10 @@ import { QuestionService, Question, QuestionItem } from './question.service';
             <div class="row black-text">
               <responsedomain-search (selectResponseDomainEvent)="selectResponseDomain($event)"></responsedomain-search>
             </div>
-          </form>
           </div>
           <div *ngIf="reuseQuestionItem">
             <h3 class="teal-text ">Reuse Question Item</h3>
+            <div class="row"><span>{{questionItem?.question?.question}}</span></div>
             <div class="row black-text">
               <autocomplete [items]="questionItems" [searchField]="['question','question']"
                 [initialValue]="''"
@@ -43,12 +43,12 @@ import { QuestionService, Question, QuestionItem } from './question.service';
               </autocomplete>
             </div>
           </div>
+          </form>
         </div>
         <div class="modal-footer">
-          <button *ngIf="!reuseQuestionItem"
-            form="questionitem-create-form" type="submit"
+          <button (click)="onSave()" type="submit"
             class="btn btn-default green waves-green">Submit</button>
-          <button id="questionitem-modal-close"
+          <button [attr.id]="parentId + '-questionitem-modal-close'"
             class="btn btn-default red modal-action modal-close waves-effect waves-red">Dismiss</button>
         </div>
       </div>
@@ -63,38 +63,50 @@ export class QuestionReuseComponent implements OnInit {
 
   constructor(private questionService: QuestionService) {
     this.questionItem = new QuestionItem();
-    this.questionItem.question = new Question();
     this.reuseQuestionItem = true;
     this.questionItems = [];
   }
 
   ngOnInit() {
     this.questionService.getQuestionItemPage().subscribe(
-      (result: any) => { this.questionItems = result.content; });
+      result => { this.questionItems = result.content; });
+  }
+
+  onReuseQuestionItem() {
+    if(!this.reuseQuestionItem) {
+      this.questionItem = new QuestionItem();
+      this.questionItem.question = new Question();
+    }
   }
 
   onSave() {
-    this.questionItem.question.name = this.questionItem.question['question'];
-    this.questionService.save(this.questionItem.question)
-      .subscribe((result: any) => {
+    if(!this.reuseQuestionItem) {
+      this.questionItem.question = new Question();
+      this.questionItem.question.name = this.questionItem.question['question'];
+      this.questionService.save(this.questionItem.question)
+      .subscribe(result => {
         this.questionItem.question = result;
         this.questionService.createQuestionItem(this.questionItem)
-          .subscribe((result: any) => {
+          .subscribe(result => {
             this.questionItem = new QuestionItem();
             this.questionItem.question = new Question();
             this.questionItemCreatedEvent.emit(result);
-            document.getElementById('questionitem-modal-close').click();
+            document.getElementById(this.parentId + '-questionitem-modal-close').click();
           });
       });
+    } else {
+      this.questionItemCreatedEvent.emit(this.questionItem);
+      this.questionItem = new QuestionItem();
+      document.getElementById(this.parentId + '-questionitem-modal-close').click();
+    }
   }
 
-  selectResponseDomain(responsedomain: any) {
+  selectResponseDomain(responsedomain) {
     this.questionItem.responseDomain = responsedomain;
   }
 
-  selectQuestionItem(questionItem: any) {
-    this.questionItemCreatedEvent.emit(questionItem);
-    document.getElementById('questionitem-modal-close').click();
+  selectQuestionItem(questionItem) {
+    this.questionItem = questionItem;
   }
 
 }

@@ -45,7 +45,6 @@ export class LoginComponent implements OnInit {
   login() {
     var headers = new Headers();
     headers.append('Authorization', 'Basic ' + btoa('client:password'));
-    console.log(this.loginForm);
     this.http.post(this.api+'oauth/token' +
         '?username='+ this.loginForm.username +
         '&password='+ this.loginForm.password +

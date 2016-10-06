@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { QuestionComp } from './question.component';
 import { QuestionDetail } from './question_detail.component';
 import { QuestionItemEdit } from './question_edit.component';
+import { TreeNodeComponent } from './question.tree.node.component';
 
 import { QuestionReuseComponent } from './question.reuse';
 import { RevisionModule } from '../revision/revision.module';
@@ -12,7 +13,7 @@ import { ResponsedomainModule } from '../responsedomain/responsedomain.module';
 
 @NgModule({
   imports: [ SharedModule, ResponsedomainModule, RevisionModule, CompareModule, CommentModule ],
-  declarations: [QuestionComp, QuestionDetail, QuestionReuseComponent, QuestionItemEdit],
+  declarations: [QuestionComp, QuestionDetail, QuestionReuseComponent, QuestionItemEdit, TreeNodeComponent],
   exports: [QuestionComp, QuestionReuseComponent, QuestionItemEdit]
 })
 
