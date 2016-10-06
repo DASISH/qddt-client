@@ -35,10 +35,13 @@ import { QuestionService, Question, QuestionItem } from './question.service';
           </div>
           <div *ngIf="reuseQuestionItem">
             <h3 class="teal-text ">Reuse Question Item</h3>
-            <div class="row"><span>{{questionItem?.question?.question}}</span></div>
+            <div class="row black-text"><span>{{questionItem?.question?.question}}</span></div>
             <div class="row black-text">
               <autocomplete [items]="questionItems" [searchField]="['question','question']"
                 [initialValue]="''"
+                [searchFromServer]="true"
+                (autocompleteFocusEvent)="selectedIndex=idx;"
+                (enterEvent)="searchQuestionItems($event)"
                 (autocompleteSelectEvent)="selectQuestionItem($event)">
               </autocomplete>
             </div>
@@ -58,18 +61,26 @@ export class QuestionReuseComponent implements OnInit {
   @Input() parentId: string;
   @Output() questionItemCreatedEvent: EventEmitter<any> = new EventEmitter<any>();
   reuseQuestionItem: boolean;
+  selectedIndex: number;
   private questionItem: QuestionItem;
   private questionItems: QuestionItem[];
 
   constructor(private questionService: QuestionService) {
     this.questionItem = new QuestionItem();
     this.reuseQuestionItem = true;
+    this.selectedIndex = 0;
     this.questionItems = [];
   }
 
   ngOnInit() {
     this.questionService.getQuestionItemPage().subscribe(
       result => { this.questionItems = result.content; });
+  }
+
+  searchQuestionItems(name: string) {
+    this.questionService.searchQuestionItems(name).subscribe((result: any) => {
+      this.questionItems = result.content;
+    });
   }
 
   onReuseQuestionItem() {
