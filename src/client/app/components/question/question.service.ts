@@ -41,7 +41,7 @@ export class QuestionService extends BaseService {
   }
 
   searchQuestionItems(name: string = '', page: String = '0'): any {
-    let query = name.length > 0? '&name=' + '*' + name + '*': '';
+    let query = name.length > 0? '&question=' + '*' + name +'*': '';
     return this.get('questionitem/page/search?' + 'page=' + page + query);
   }
 
