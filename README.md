@@ -1,6 +1,6 @@
 # QDDT Client
 
-*This is a prototype for the web client based on the QDDT API being developed at NSD. This prototype uses experimental software in alpha versions. Primarily Angular 2.0.0 releases and based on Typescript.*
+*This is a prototype for the web client based on the QDDT API being developed at NSD. This prototype uses Angular 2.0.0 releases.*
 
 ## Demo
 
@@ -35,8 +35,6 @@ npm run build.prod
 
 ```javascript
 var PORT             = 5555;
-var LIVE_RELOAD_PORT = 4002;
-var DOCS_PORT        = 4003;
 var APP_BASE         = '/';
 ```
 
