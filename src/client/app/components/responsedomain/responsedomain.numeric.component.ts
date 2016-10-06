@@ -8,6 +8,7 @@ import { ResponseDomain } from './responsedomain.service';
         <form>
           <input type="number" min="{{low}}" max="{{high}}"
             id="numeric-domain-{{responseDomain.id}}"
+            name="numeric-domain-{{responseDomain.id}}"
             [ngModel]="value"
             (ngModelChange)="changeNumber($event)">
           <label>Range from {{low}} to {{high}}</label>
