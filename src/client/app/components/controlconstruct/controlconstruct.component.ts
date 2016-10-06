@@ -103,7 +103,7 @@ export class ControlConstructComponent implements OnInit {
   }
 
   searchQuestionItems(key: string) {
-    this.service.getQuestionItems(key).subscribe((result: any) => {
+    this.service.searchQuestionItems(key).subscribe((result: any) => {
       this.questionItems = result.content;
     });
   }
@@ -114,5 +114,9 @@ export class ControlConstructComponent implements OnInit {
       this.questionItemRevisions = result.content.filter((e: any) => e.entity.changeKind !== 'IN_DEVELOPMENT');
     },
       (error: any)=> {console.log(error);});
+  }
+
+  onUploadFile(filename: string) {
+    console.log(filename);
   }
 }

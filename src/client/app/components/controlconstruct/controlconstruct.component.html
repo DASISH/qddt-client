@@ -26,14 +26,6 @@
                 </div>
               </div>
               <div class="row">
-                <div class="input-field col s10">
-                  <textarea id="description" name="description" class="materialize-textarea"
-                    [(ngModel)]="controlConstruct.description">
-                  </textarea>
-                  <label for="description" class="white-text">Description</label>
-                </div>
-              </div>
-              <div class="row">
                 <div class="col s2">
                   <span>Question Item</span>
                 </div>
@@ -53,11 +45,11 @@
               </div>
               <div class="row" *ngIf="questionItemRevisions.length > 0">
                 <div class="input-field col s4">
-                  <label class="active black-text">QuestionItem Revisions</label>
+                  <label class="active white-text">QuestionItem business version</label>
                   <select [(ngModel)]="controlConstruct.revisionNumber"
                     name="controlConstruct_revisionNumber"
                     materialize="material_select">
-                    <option value="" disabled selected>Select Revision</option>
+                    <option value="" disabled selected>Select version</option>
                     <option *ngFor="let revision of questionItemRevisions" [value]="revision.revisionNumber">
                       {{revision.revisionNumber}}
                     </option>
@@ -109,6 +101,11 @@
                       </tr>
                     </tbody>
                   </table>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s10">
+                  <input id="updatefile" name="updatefile" type="file" (change)="onUploadFile($event)">
                 </div>
               </div>
               <button type="submit" class="btn btn-default">Submit</button>
