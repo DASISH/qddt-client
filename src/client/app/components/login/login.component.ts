@@ -1,12 +1,12 @@
-import { Component, Output, EventEmitter, Inject, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, Inject } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { API_BASE_HREF } from '../../api';
 import { UserService } from '../../common/user.service';
 
 export class LoginForm {
-    public username: string;
-    public password: string;
+  username: string;
+  password: string;
 }
 
 @Component({
@@ -14,11 +14,11 @@ export class LoginForm {
   moduleId: module.id,
   templateUrl: './login.component.html'
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
   @Output() loginEvent: EventEmitter<string>  = new EventEmitter<string>();
   user: any;
-  loginForm: LoginForm;
+  loginData: LoginForm;
 
   static logError(err: any) {
     console.log('LoginComponent: ', err.toString());
@@ -34,20 +34,17 @@ export class LoginComponent implements OnInit {
               @Inject(Http)private http:Http, @Inject(API_BASE_HREF) private api: string) {
     this.userService = userService;
     this.http = http;
-    this.loginForm = new LoginForm();//'admin@example.org', 'password');
-  }
-
-  ngOnInit() {
-    this.loginForm.username = 'admin@example.org';
-    this.loginForm.password = 'password';
+    this.loginData = new LoginForm();
+    this.loginData.username = 'admin@example.org';
+    this.loginData.password = 'password';
   }
 
   login() {
     var headers = new Headers();
     headers.append('Authorization', 'Basic ' + btoa('client:password'));
     this.http.post(this.api+'oauth/token' +
-        '?username='+ this.loginForm.username +
-        '&password='+ this.loginForm.password +
+        '?username='+ this.loginData.username +
+        '&password='+ this.loginData.password +
         '&scope=write' +
         '&grant_type=password' +
         '&client_secret=password' +
@@ -63,14 +60,6 @@ export class LoginComponent implements OnInit {
         (err: any)  => LoginComponent.logError('Unable to log in user.'),
         ()          => this.createUser()
     );
-  }
-
-  onChangeUsername(e: string) {
-    this.loginForm.username = e;
-  }
-
-  onChangePassword(e: string) {
-    this.loginForm.password = e;
   }
 
   createUser() {
@@ -94,5 +83,5 @@ export class LoginComponent implements OnInit {
     this.loginEvent.emit('logged_in');
   }
 
-  get diagnostic() { return JSON.stringify(this.loginForm); }
+  get diagnostic() { return JSON.stringify(this.loginData); }
 }

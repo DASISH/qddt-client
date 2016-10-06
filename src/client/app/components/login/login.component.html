@@ -3,16 +3,14 @@
     <div class="row">
       <div class="input-field col">
         <input id="username" name="username" type="text"
-          (ngModelChange)="onChangeUsername($event)"
-          [ngModel]="loginForm.username" required>
+          [(ngModel)]="loginData.username" required>
         <label for="username" class="active">Username</label>
       </div>
     </div>
     <div class="row">
       <div class="input-field col">
         <input id="password" name="password" type="password"
-          (ngModelChange)="onChangePassword($event)"
-          [ngModel]="loginForm.password" required>
+          [(ngModel)]="loginData.password" required>
         <label for="password" class="active">Password</label>
       </div>
     </div>
