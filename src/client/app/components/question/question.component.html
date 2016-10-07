@@ -16,18 +16,18 @@
             <form (ngSubmit)="onCreateQuestionItem()" #hf="ngForm">
               <div class="row">
                   <div class="row"><span>Name</span>
-                     <input type="text" [(ngModel)]="questionItem.name">
+                     <input name="questionItem-name" type="text" [(ngModel)]="questionItem.name">
                    </div>
                    <div class="row">
                      <div class="input-field col s12">
-                       <textarea id="question-textarea" [(ngModel)]="questionItem.question.question"
+                       <textarea id="question-textarea" name="question-textarea" [(ngModel)]="questionItem.question.question"
                          class="materialize-textarea" [attr.maxlength]="1500"></textarea>
                        <label for="question-textarea" class="teal white-text">Question text</label>
                      </div>
                    </div>
                    <div class="row">
                      <div class="input-field col s12">
-                       <textarea id="question-intent" [(ngModel)]="questionItem.question.intent"
+                       <textarea id="question-intent" name="question-intent" [(ngModel)]="questionItem.question.intent"
                          class="materialize-textarea" [attr.maxlength]="1500"></textarea>
                       <label [attr.for]="'question-intent'" class="active teal white-text">Question intent</label>
                      </div>
