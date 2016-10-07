@@ -76,7 +76,7 @@ import { QuestionItem } from './question.service';
                    </div>
                    <div class="col s10">{{questionItem?.question?.question}}</div>
                    <div class="col s1">
-                     <a href="#!"
+                     <a
                        class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
                        (click)="removeQuestionItem(questionItem?.id)">
                        <i class="material-icons">remove</i>
