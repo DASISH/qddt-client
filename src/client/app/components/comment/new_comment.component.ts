@@ -25,7 +25,7 @@ export class NewCommentComponent {
 
   @Output() addedCommentEvent: EventEmitter<Comment>  = new EventEmitter<Comment>();
   comment: Comment = new Comment();
-  @Input() private ownerId: string;
+  @Input() ownerId: string;
 
   constructor(private commentService: CommentService) {
     this.commentService = commentService;

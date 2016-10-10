@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { CategoryService, Category } from '../category.service';
 import { Change } from '../../../common/change_status';
@@ -82,7 +82,7 @@ import { CategoryType } from '../category_kind';
 `
 })
 
-export class CategoryEditComponent {
+export class CategoryEditComponent implements OnInit {
 
   @Input() category: Category;
   @Input() categories: any;

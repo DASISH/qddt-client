@@ -1,6 +1,6 @@
-import { Component, Input, EventEmitter, Output, ElementRef } from '@angular/core';
+import { Component, Input, EventEmitter, Output, ElementRef, OnChanges } from '@angular/core';
 
-import {SurveyService, SurveyProgram} from './survey.service';
+import { SurveyService, SurveyProgram } from './survey.service';
 
 @Component({
   selector: 'surveyprogram',
@@ -8,7 +8,7 @@ import {SurveyService, SurveyProgram} from './survey.service';
   templateUrl: './surveyprogram.component.html',
   providers: [SurveyService]
 })
-export class SurveyProgramComponent {
+export class SurveyProgramComponent implements OnChanges {
 
   showSurveyForm: boolean = false;
   @Input() show: boolean;

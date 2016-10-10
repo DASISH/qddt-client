@@ -1,6 +1,6 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import {  DomainType, DomainTypeDescription } from './responsedomain.constant';
-import {ResponseDomainService, ResponseDomain } from './responsedomain.service';
+import { ResponseDomainService, ResponseDomain } from './responsedomain.service';
 
 @Component({
   selector: 'responsedomain-reuse',
@@ -42,7 +42,7 @@ import {ResponseDomainService, ResponseDomain } from './responsedomain.service';
   providers: [ResponseDomainService],
 })
 
-export class ResponsedomainReuseComponent {
+export class ResponsedomainReuseComponent implements OnInit {
   @Input() isVisible: boolean;
   @Input() responseDomain: any;
   @Output() responseDomainReuse: EventEmitter<any> = new EventEmitter();

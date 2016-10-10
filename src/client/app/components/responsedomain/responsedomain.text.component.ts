@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ResponseDomain } from './responsedomain.service';
 
 @Component({
@@ -14,10 +14,10 @@ import { ResponseDomain } from './responsedomain.service';
   styles: [],
 })
 
-export class ResponsedomainTextComponent {
+export class ResponsedomainTextComponent implements OnInit {
   @Input() responseDomain: ResponseDomain;
-  private low: number;
-  private high: number;
+  low: number;
+  high: number;
 
   ngOnInit() {
     this.low = 0;

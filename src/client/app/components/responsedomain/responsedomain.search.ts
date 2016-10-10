@@ -18,7 +18,6 @@ import { DomainType, DomainTypeDescription } from './responsedomain.constant';
                   </div></div>
                   <div class="row">
                      <autocomplete [items]="responseDomains" [searchField]="'name'"
-                       (autocompleteFocusEvent)="showAutoComplete = true;"
                        [initialValue]="''" (autocompleteSelectEvent)="selectResponseDomain($event)">
                      </autocomplete>
                   </div>
@@ -30,8 +29,8 @@ import { DomainType, DomainTypeDescription } from './responsedomain.constant';
 export class ResponseDomainSearchComponent {
   domainType: DomainType;
   @Output() selectResponseDomainEvent: EventEmitter<any> = new EventEmitter<any>();
-  private responseDomains: any[];
-  private domainTypeDescription: any[];
+  responseDomains: any[];
+  domainTypeDescription: any[];
 
   constructor(private responseDomainService: ResponseDomainService) {
     this.responseDomains = [];

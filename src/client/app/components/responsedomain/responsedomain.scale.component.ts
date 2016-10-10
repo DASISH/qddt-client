@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { ResponseDomain } from './responsedomain.service';
 
 @Component({
@@ -46,7 +46,7 @@ import { ResponseDomain } from './responsedomain.service';
   styles: [],
 })
 
-export class ResponsedomainScaleComponent {
+export class ResponsedomainScaleComponent implements OnChanges {
   @Input() responseDomain: ResponseDomain;
   private header: any[] = [];
   private row: any[] = [];

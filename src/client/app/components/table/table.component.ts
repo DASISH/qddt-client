@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'qddt-table',
@@ -6,7 +6,7 @@ import {Component, Input, Output, EventEmitter} from '@angular/core';
   templateUrl: './table.component.html',
 })
 
-export class QddtTableComponent {
+export class QddtTableComponent implements OnInit, OnChanges {
   /**
    * number: the current page beginning with zero
    * size: the size of each page
