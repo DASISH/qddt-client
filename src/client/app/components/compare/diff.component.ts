@@ -35,10 +35,31 @@ export class DiffComponent implements OnChanges {
     this.config.forEach(e => {
       let elementFieldChange = new ElementFieldChange();
       elementFieldChange.name = e['label'];
-      let ret = this.diff.diff_main(this.compared[e['name']] || '', this.current[e['name']] || '');
+      let ret = this.diff.diff_main(this.getValue(this.compared, e['name']),
+        this.getValue(this.current, e['name']));
       elementFieldChange.changes = ret;
       this.elementChange.changes.push(elementFieldChange);
     });
   }
 
+  private getValue(obj: any, names: string | any[]): string {
+    if (names instanceof Array) {
+      let result: any = obj;
+      names.forEach((e: any) => {
+        if (result !== null
+          && result[e] !== null
+          && result[e] !== undefined) {
+          result = result[e];
+        } else {
+          result = '';
+        }
+      });
+      return result.toString();
+    } else {
+      if(obj[names] === null || obj[names] === undefined) {
+        return '';
+      }
+      return obj[names].toString();
+    }
+  }
 }

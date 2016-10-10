@@ -69,7 +69,7 @@ export class ResponsedomainScaleComponent implements OnChanges {
       && rep.inputLimit.minimum !== undefined) {
       this.min = parseInt(rep.inputLimit.minimum);
     }
-    this.degreeSlopeFromHorizontal = this.responseDomain['degreeSlopeFromHorizontal'] === 0 ? 0 : 90;
+    this.degreeSlopeFromHorizontal = this.responseDomain['displayLayout'] === 0 ? 0 : 90;
 
     if (this.degreeSlopeFromHorizontal > 0) {
       this.buildVerticalRows();
@@ -81,11 +81,11 @@ export class ResponsedomainScaleComponent implements OnChanges {
   rotate() {
     if(this.degreeSlopeFromHorizontal === 0) {
       this.degreeSlopeFromHorizontal = 90;
-      this.responseDomain['degreeSlopeFromHorizontal'] = 90;
+      this.responseDomain['displayLayout'] = 90;
       this.buildVerticalRows();
     } else {
       this.degreeSlopeFromHorizontal = 0;
-      this.responseDomain['degreeSlopeFromHorizontal'] = 0;
+      this.responseDomain['displayLayout'] = 0;
       this.buildHorizontalRows();
     }
   }

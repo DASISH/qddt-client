@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges } from '@angular/core';
 
 import { RevisionService } from './revision.service';
 
@@ -11,7 +11,7 @@ import { RevisionService } from './revision.service';
       <qddt-diff *ngIf="selectRevisionId >= 0 && selectRevisionId !== currentRevisionId"
         [compared]="revisions[selectRevisionId].entity"
         [current]="revisions[currentRevisionId].entity"
-        [config]="[{'name':'label','label':'Label'},{'name':'description','label':'Description'}]"
+        [config]="config"
       >
       </qddt-diff>
       <div class="row">
@@ -53,10 +53,11 @@ import { RevisionService } from './revision.service';
   `,
   providers: [RevisionService]
 })
-export class RevisionComponent implements OnChanges {
+export class RevisionComponent implements OnChanges, OnInit {
 
   @Input() qddtURI: string;
   @Input() isVisible: boolean;
+  @Input() config: any[];
   private revisions: any[];
   private _revisions: any[];
   private selectRevisionId: number;
@@ -69,6 +70,12 @@ export class RevisionComponent implements OnChanges {
     this.currentRevisionId = -1;
     this.selectRevisionId = -1;
     this.includeRevisions = false;
+  }
+
+  ngOnInit() {
+    if(this.config === null || this.config === undefined) {
+      this.config = [{'name':'label','label':'Label'},{'name':'description','label':'Description'}];
+    }
   }
 
   ngOnChanges() {

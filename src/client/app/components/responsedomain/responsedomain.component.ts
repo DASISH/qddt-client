@@ -90,6 +90,7 @@ export class ResponsedomainComponent implements OnInit {
 
   onDetail(responsedomain: any) {
     this.selectedResponseDomain = responsedomain;
+    this.selectedResponseDomain['config'] = this.buildRevisionConfig();
     this.isDetail = true;
   }
 
@@ -117,6 +118,36 @@ export class ResponsedomainComponent implements OnInit {
       this.responseDomains = result.content;
       this.buildAnchorLabel();
     });
+  }
+
+  buildRevisionConfig(): any[] {
+    let config: any[] = [];
+    config.push({'name':'name','label':'Name'});
+    config.push({'name':'description','label':'Description'});
+    if(this.domainType === DomainType.SCALE) {
+      config.push({'name':['managedRepresentation', 'inputLimit', 'minimum'],'label':'Start'});
+      config.push({'name':['managedRepresentation', 'inputLimit', 'maximum'],'label':'End'});
+      config.push({'name':'displayLayout','label':'display Layout'});
+      let children: any[] = this.selectedResponseDomain.managedRepresentation.children;
+      for (let i = 0; i < children.length; i++) {
+        config.push({'name':['managedRepresentation', 'children', i, 'label'],'label':'Category' + i});
+        config.push({'name':['managedRepresentation', 'children', i, 'code', 'codeValue'],'label':'Code' + i});
+      }
+    } else if(this.domainType === DomainType.LIST) {
+      config.push({'name':['managedRepresentation', 'inputLimit', 'maximum'],'label':'Number of Codes'});
+      let children: any[] = this.selectedResponseDomain.managedRepresentation.children;
+      for (let i = 0; i < children.length; i++) {
+        config.push({'name':['managedRepresentation', 'children', i, 'label'],'label':'Category' + i});
+        config.push({'name':['managedRepresentation', 'children', i, 'code', 'codeValue'],'label':'Code' + i});
+      }
+    } else if(this.domainType === DomainType.NUMERIC) {
+      config.push({'name':['managedRepresentation', 'inputLimit', 'minimum'],'label':'Low'});
+      config.push({'name':['managedRepresentation', 'inputLimit', 'maximum'],'label':'High'});
+    } else if(this.domainType === DomainType.TEXT) {
+      config.push({'name':['managedRepresentation', 'inputLimit', 'minimum'],'label':'Min Length'});
+      config.push({'name':['managedRepresentation', 'inputLimit', 'maximum'],'label':'Max Length'});
+    }
+    return config;
   }
 
   private buildAnchorLabel() {

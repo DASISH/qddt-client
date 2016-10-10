@@ -206,9 +206,9 @@ export class ResponsedomainFormComponent implements OnInit {
 
   onChangeDegreeSlope(degree: any) {
     if(typeof degree === 'string') {
-      this.responsedomain.degreeSlopeFromHorizontal = parseInt(degree);
+      this.responsedomain.displayLayout = parseInt(degree);
     } else {
-      this.responsedomain.degreeSlopeFromHorizontal = degree;
+      this.responsedomain.displayLayout = degree;
     }
   }
 }
