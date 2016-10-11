@@ -11,7 +11,7 @@ import { QuestionService, Question, QuestionItem } from './question.service';
         [attr.href]="'#'+parentId+'-questionitem-modal'">
          <i class="material-icons left medium">playlist_add</i>
       </a>
-      <div [attr.id]="parentId + '-questionitem-modal'" class="modal">
+      <div [attr.id]="parentId + '-questionitem-modal'" class="modal modal-fixed-footer">
         <div class="modal-content">
           <div class="switch">
             <label>New QuestionItem
@@ -25,8 +25,18 @@ import { QuestionService, Question, QuestionItem } from './question.service';
           <div *ngIf="!reuseQuestionItem">
           <h3 class="teal-text ">Add new Question Item</h3>
             <div class="row black-text">
+              <div class="row"><span>Name</span>
+                <input name="question-name" type="text" [(ngModel)]="questionItem.name" required>
+              </div>
+            </div>
+            <div class="row black-text">
               <div class="row"><span>Question text</span>
                 <input name="question-text" type="text" [(ngModel)]="questionItem.question.question" required>
+              </div>
+            </div>
+            <div class="row black-text">
+              <div class="row"><span>Question intent</span>
+                <input name="question-intent" type="text" [(ngModel)]="questionItem.question.intent" required>
               </div>
             </div>
             <div class="row black-text">
@@ -67,6 +77,7 @@ export class QuestionReuseComponent implements OnInit {
 
   constructor(private questionService: QuestionService) {
     this.questionItem = new QuestionItem();
+    this.questionItem.question = new Question();
     this.reuseQuestionItem = true;
     this.selectedIndex = 0;
     this.questionItems = [];
@@ -92,10 +103,9 @@ export class QuestionReuseComponent implements OnInit {
 
   onSave() {
     if(!this.reuseQuestionItem) {
-      this.questionItem.question = new Question();
       this.questionItem.question.name = this.questionItem.question['question'];
       this.questionService.save(this.questionItem.question)
-      .subscribe(result => {
+        .subscribe(result => {
         this.questionItem.question = result;
         this.questionService.createQuestionItem(this.questionItem)
           .subscribe(result => {
