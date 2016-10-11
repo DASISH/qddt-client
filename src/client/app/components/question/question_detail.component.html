@@ -63,7 +63,8 @@
       </div>
 
       <qddt-revision [isVisible]="revisionIsVisible"
-        [qddtURI]="'audit/questionitem/' + questionitem.id + '/all'"></qddt-revision>
+        [qddtURI]="'audit/questionitem/' + questionitem.id + '/all'"
+        [config]="config"></qddt-revision>
       <qddt-responsedomain-preview *ngIf="questionitem.responseDomain"
         [isVisible]="true" [responseDomain]="questionitem.responseDomain"
         #preview></qddt-responsedomain-preview>

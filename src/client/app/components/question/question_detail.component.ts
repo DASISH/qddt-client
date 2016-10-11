@@ -20,6 +20,7 @@ export class QuestionDetail implements OnInit {
   private editIsVisible: boolean;
   private conceptIsVisible: boolean;
   private concepts: any[];
+  private config: any[];
 
   constructor(private service: QuestionService) {
     this.revisionIsVisible = false;
@@ -34,7 +35,9 @@ export class QuestionDetail implements OnInit {
     }
     this.service.getConceptsByQuestionitemId(this.questionitem.id)
     .subscribe(
-      (result: any) => { this.concepts = result; },
+      (result: any) => { this.concepts = result;
+        this.config = this.buildRevisionConfig();
+      },
       (error: any) => {console.log(error);});
   }
 
@@ -62,6 +65,18 @@ export class QuestionDetail implements OnInit {
   onEditQuestionItem(questionitem: QuestionItem) {
     let i = this.questionitems.findIndex(q => q['id'] === questionitem['id']);
     this.questionitems[i] = questionitem;
+  }
+
+  private buildRevisionConfig(): any[] {
+    let config: any[] = [];
+    config.push({'name':'name','label':'Name'});
+    config.push({'name':['question', 'question'],'label':'Question'});
+    config.push({'name':['question', 'intent'],'label':'Intent'});
+    config.push({'name':['responseDomain', 'name'],'label':'responseDomain'});
+    config.push({'name':['responseDomain', 'version', 'major'],'label':'major'});
+    config.push({'name':['responseDomain', 'version', 'minor'],'label':'minor'});
+
+    return config;
   }
 
 }
