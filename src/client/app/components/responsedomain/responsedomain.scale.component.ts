@@ -5,7 +5,7 @@ import { ResponseDomain } from './responsedomain.service';
   selector: 'responsedomain-scale',
   moduleId: module.id,
   template: `<div *ngIf="responseDomain" class="row">
-        <table *ngIf="degreeSlopeFromHorizontal === 0">
+        <table *ngIf="displayLayout === 0">
         <thead>
           <tr>
             <th *ngFor="let item of header">
@@ -27,7 +27,7 @@ import { ResponseDomain } from './responsedomain.service';
           </tr>
         </tbody>
       </table>
-      <table *ngIf="degreeSlopeFromHorizontal > 0">
+      <table *ngIf="displayLayout > 0">
         <tbody>
           <tr *ngFor="let option of row; let idx=index">
             <td>
@@ -53,7 +53,7 @@ export class ResponsedomainScaleComponent implements OnChanges {
   private max: number = 8;
   private min: number = 1;
 
-  private degreeSlopeFromHorizontal: number = 0;
+  private displayLayout: number = 0;
 
   ngOnChanges() {
     let rep = this.responseDomain.managedRepresentation;
@@ -69,9 +69,9 @@ export class ResponsedomainScaleComponent implements OnChanges {
       && rep.inputLimit.minimum !== undefined) {
       this.min = parseInt(rep.inputLimit.minimum);
     }
-    this.degreeSlopeFromHorizontal = this.responseDomain['displayLayout'] === 0 ? 0 : 90;
+    this.displayLayout = this.responseDomain['displayLayout'] === 0 ? 0 : 90;
 
-    if (this.degreeSlopeFromHorizontal > 0) {
+    if (this.displayLayout > 0) {
       this.buildVerticalRows();
     } else {
       this.buildHorizontalRows();
@@ -79,12 +79,12 @@ export class ResponsedomainScaleComponent implements OnChanges {
   }
 
   rotate() {
-    if(this.degreeSlopeFromHorizontal === 0) {
-      this.degreeSlopeFromHorizontal = 90;
+    if(this.displayLayout === 0) {
+      this.displayLayout = 90;
       this.responseDomain['displayLayout'] = 90;
       this.buildVerticalRows();
     } else {
-      this.degreeSlopeFromHorizontal = 0;
+      this.displayLayout = 0;
       this.responseDomain['displayLayout'] = 0;
       this.buildHorizontalRows();
     }
