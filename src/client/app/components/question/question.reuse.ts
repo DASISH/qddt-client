@@ -31,7 +31,9 @@ import { QuestionService, Question, QuestionItem } from './question.service';
             </div>
             <div class="row black-text">
               <div class="row"><span>Question text</span>
-                <input name="question-text" type="text" [(ngModel)]="questionItem.question.question" required>
+                <textarea name="question-text"
+                  [(ngModel)]="questionItem.question.question" required
+                  class="materialize-textarea" [attr.maxlength]="1500"></textarea>
               </div>
             </div>
             <div class="row black-text">
