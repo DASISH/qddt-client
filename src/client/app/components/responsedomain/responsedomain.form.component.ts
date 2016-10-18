@@ -63,6 +63,9 @@ export class ResponsedomainFormComponent implements OnInit {
       this.numberOfAnchors = this.responsedomain.managedRepresentation.children.length;
     }
     if (this.domainType === DomainType.SCALE) {
+      if(typeof this.responsedomain.displayLayout === 'string') {
+        this.responsedomain.displayLayout = parseInt(this.responsedomain.displayLayout);
+      }
       if (this.responsedomain.displayLayout !== 90) {
         this.responsedomain.displayLayout = 0;
       }
