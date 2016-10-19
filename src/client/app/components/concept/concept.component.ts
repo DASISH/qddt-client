@@ -13,9 +13,11 @@ export class ConceptComponent implements OnChanges {
   @Output() conceptSelectedEvent: EventEmitter<any> = new EventEmitter();
   @Input() topic: any;
   @Input() show: boolean;
+  actions = new EventEmitter<string>();
 
   private concept: any;
   private concepts: any;
+  private toDeletedConcept: any;
 
   constructor(private conceptService: ConceptService) {
     this.concept = new Concept();
@@ -45,7 +47,12 @@ export class ConceptComponent implements OnChanges {
   }
 
   onDeleteConcept(concept: any) {
-    let id = concept.id;
+    this.toDeletedConcept = concept;
+    this.actions.emit('openModal');
+  }
+
+  onConfirmDeleteConcept() {
+    let id = this.toDeletedConcept.id;
     this.conceptService.deleteConcept(id)
       .subscribe((result: any) => {
         this.concepts = [];

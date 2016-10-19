@@ -45,4 +45,24 @@
       </ul>
     </div>
   </div>
+  <div [attr.id]="'delete-concept-modal'" class="modal"
+    materialize [materializeActions]="actions">
+    <div class="modal-content">
+      <h4>Warning!</h4>
+      <div class="row">
+        <span>Are you sure to delete Concept: {{toDeletedConcept?.name}}?</span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        (click)="onConfirmDeleteConcept()"
+        class="btn btn-default green waves-green modal-close waves-effect">
+        <a><i class="material-icons left medium white-text">check</i></a>
+      </button>
+      <button id="concept-modal-close"
+        class="btn btn-default red modal-action modal-close waves-effect">
+        <a><i class="close material-icons medium white-text">close</i></a>
+      </button>
+    </div>
+  </div>
 </div>
