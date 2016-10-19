@@ -426,6 +426,10 @@ export class SeedConfig {
         main: 'index.js',
         defaultExtension: 'js'
       },
+      'angular2-materialize': {
+        'main': 'dist/index',
+        'defaultExtension': 'js'
+      },
       'rxjs': {
         main: 'Rx.js',
         defaultExtension: 'js'
