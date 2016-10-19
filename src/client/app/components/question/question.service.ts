@@ -56,4 +56,17 @@ export class QuestionService extends BaseService {
   getConceptsByQuestionitemId(id: string) {
     return this.get('concept/list/by-QuestionItem/'+ id);
   }
+
+  createCategory(category: any): any {
+    return this.post(category,'category/create/');
+  }
+
+  createResponseDomain(responseDomain: any): any {
+    return this.post(responseDomain,'responsedomain/create');
+  }
+
+  createResponseDomainWithMissing(responseDomainId: any, missingId: string): any {
+    return this.get('responsedomain/createmixed?responseDomaindId='
+      + responseDomainId + '&missingId=' + missingId);
+  }
 }

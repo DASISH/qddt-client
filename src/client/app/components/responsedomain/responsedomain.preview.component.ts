@@ -20,8 +20,10 @@ import { DomainType, DomainTypeDescription } from './responsedomain.constant';
 					  [responseDomain]="responseDomain"></responsedomain-categorylist>
 					<responsedomain-text *ngSwitchCase="domainTypeDef.TEXT"
 					  [responseDomain]="responseDomain"></responsedomain-text>
-					<responsedomain-missing *ngSwitchCase="domainTypeDef.Missing"
+					<responsedomain-missing *ngSwitchCase="domainTypeDef.MISSING"
 					  [responseDomain]="responseDomain"></responsedomain-missing>
+          <responsedomain-mixed *ngSwitchCase="domainTypeDef.MIXED"
+					  [responseDomain]="responseDomain"></responsedomain-mixed>
 				</div></div>`,
   styles: [],
   providers: [],

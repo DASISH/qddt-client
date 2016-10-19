@@ -32,7 +32,7 @@ export class ResponsedomainComponent implements OnInit {
     this.isDetail = false;
     this.revisionIsVisible = false;
     this.domainType = DomainType.SCALE;
-    this.domainTypeDescription = DomainTypeDescription;
+    this.domainTypeDescription = DomainTypeDescription.filter((e:any) => e.id !== DomainType.MIXED);
     this.showResponseDomainForm = false;
     this.page = {};
     this.columns = PredefinedColumns['SCALE'];

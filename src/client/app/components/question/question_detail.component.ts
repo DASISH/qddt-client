@@ -65,6 +65,7 @@ export class QuestionDetail implements OnInit {
   onEditQuestionItem(questionitem: QuestionItem) {
     let i = this.questionitems.findIndex(q => q['id'] === questionitem['id']);
     this.questionitems[i] = questionitem;
+    this.hidDetail();
   }
 
   private buildRevisionConfig(): any[] {

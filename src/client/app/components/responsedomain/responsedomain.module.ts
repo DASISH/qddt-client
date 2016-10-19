@@ -10,6 +10,7 @@ import { ResponsedomainTextComponent } from './responsedomain.text.component';
 import { ResponsedomainDatetimeComponent } from './responsedomain.datetime.component';
 import { ResponsedomainCodeListComponent } from './responsedomain.codelist.component';
 import { ResponsedomainMissingComponent } from './responsedomain.missing.component';
+import { ResponsedomainMixedComponent } from './responsedomain.mixed.component';
 import { ResponsedomainCategoryListComponent } from './responsedomain.categorylist.component';
 import { ResponsedomainFormComponent } from './responsedomain.form.component';
 import { ResponsedomainListComponent } from './responsedomain.list.component';
@@ -25,7 +26,7 @@ import { ResponseDomainSearchComponent } from './responsedomain.search';
     ResponsedomainMissingComponent, ResponsedomainCategoryListComponent,
     ResponsedomainFormComponent, ResponsedomainListComponent,
     PreviewComponent, ResponsedomainReuseComponent,
-    ResponseDomainSearchComponent
+    ResponseDomainSearchComponent, ResponsedomainMixedComponent
     ],
   exports: [ResponsedomainComponent,
     ResponsedomainFormComponent, ResponsedomainListComponent,

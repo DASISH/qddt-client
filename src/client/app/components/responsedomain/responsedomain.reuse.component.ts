@@ -47,7 +47,7 @@ export class ResponsedomainReuseComponent implements OnInit {
   @Input() responseDomain: any;
   @Output() responseDomainReuse: EventEmitter<any> = new EventEmitter();
   public domainTypeDef = DomainType;
-  public domainTypeDescription: any[] = DomainTypeDescription;
+  public domainTypeDescription: any[];
   private domainType: DomainType;
   private showAutocomplete: boolean;
   private responseDomains: any;
@@ -57,6 +57,7 @@ export class ResponsedomainReuseComponent implements OnInit {
     this.showAutocomplete = false;
     this.domainType = DomainType.SCALE;
     this.responseDomains = [];
+    this.domainTypeDescription = DomainTypeDescription.filter((e:any) => e.id !== DomainType.MIXED);
     this.selectedIndex = 0;
   }
 
