@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 
 import { ControlConstructService, ControlConstruct, Instruction } from './controlconstruct.service';
 
@@ -11,6 +11,8 @@ import { ControlConstructService, ControlConstruct, Instruction } from './contro
 export class ControlConstructComponent implements OnInit {
 
   showControlConstructForm: boolean = false;
+  actions = new EventEmitter<string>();
+  error: any;
 
   private controlConstructs: any;
   private page: any;
@@ -94,6 +96,9 @@ export class ControlConstructComponent implements OnInit {
     this.service.save(this.controlConstruct)
       .subscribe((result: any) => {
         this.controlConstructs.push(result);
+      }, (error: any) => {
+        this.error = error;
+        this.actions.emit('openModal');
       });
     this.isDetail = false;
   }
