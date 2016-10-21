@@ -29,18 +29,7 @@ import { CategoryType } from '../category_kind';
           </div>
         </div>
         <div class="row">
-          <div class="input-field col s5">
-            <label class="active teal-text">Type of Change</label>
-            <select [(ngModel)]="category.changeKind"
-              name="{{category?.id}}-category.changeKind" materialize="material_select" required>
-              <option value="" disabled selected>Select kind</option>
-              <option *ngFor="let change of changeEnums" [value]="change[0]">{{change[1]}}</option>
-            </select>
-          </div>
-          <div class="input-field col s7">
-            <label for="changeComment" class="active teal-text">Reason for change</label>
-            <input id="changeComment" name="{{category?.id}}-category.changeComment" type="text" [(ngModel)]="category.changeComment">
-          </div>
+          <qddt-rational [element]="category"></qddt-rational>
         </div>
         <div class="row">
           <div class="input-field col s8">
