@@ -25,22 +25,7 @@
          </div>
        </div>
        <div class="row">
-         <div class="input-field col s4">
-           <label class="active teal-text">Type of Change</label>
-           <select [(ngModel)]="study.changeKind"
-             name="{{study?.id}}-study.changeKind" materialize="material_select" required (ngModelChange)="onChangeKind($event)" >
-             <option value="" disabled selected>Select reason</option>
-             <option *ngFor="let change of _ChangeEnums" [value]="change[0]">{{change[1]}}</option>
-           </select>
-         </div>
-          <div *ngIf="showlabel"  class="input-field col s4">
-            <label for="versionlabel" class="active teal-text">Version label</label>
-            <input id="versionlabel" name="versionlabel" type="text" [(ngModel)]="study.version.versionlabel">
-          </div>
-          <div class="input-field col">
-           <label for="changeComment" class="active teal-text">Reason for change</label>
-           <input id="changeComment" name="changeComment" type="text" [(ngModel)]="study.changeComment" required>
-         </div>
+         <qddt-rational [element]="study"></qddt-rational>
        </div>
        <div class="row">
          <div class="input-field col s8">

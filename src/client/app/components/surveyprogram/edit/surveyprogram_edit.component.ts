@@ -28,23 +28,7 @@ import { Change } from '../../../common/change_status';
           </div>
         </div>
         <div class="row">
-		      <div class="input-field col s4">
-            <label class="active teal-text">Type of Change</label>
-            <select [(ngModel)]="survey.changeKind"
-              name="{{survey?.id}}-survey.changeKind" materialize="material_select"
-              (ngModelChange)="onChangeKind($event)">
-              <option value="" disabled selected>Select reason</option>
-              <option *ngFor="let changereason of changes" [value]="changereason[0]">{{changereason[1]}}</option>
-            </select>
-          </div>
-          <div *ngIf="showlabel"  class="input-field col s4">
-            <label for="versionlabel" class="active teal-text">Version label</label>
-            <input id="versionlabel" name="versionlabel" type="text" [(ngModel)]="survey.version.versionLabel">
-          </div>
-          <div class="input-field col">
-            <input id="changeComment" name="{{survey?.id}}-survey.changeComment" type="text" [(ngModel)]="survey.changeComment" required>
-            <label for="changeComment" class="active teal-text">Reason for change</label>
-          </div>
+		      <qddt-rational [element]="survey"></qddt-rational>
         </div>
         <div class="row">
           <div class="input-field col s8">

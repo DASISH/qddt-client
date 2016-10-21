@@ -26,18 +26,7 @@ import { Change } from '../../../common/change_status';
           </div>
         </div>
         <div class="row">
-		      <div class="input-field col s4">
-            <label class="active teal-text">Version Reason</label>
-            <select [(ngModel)]="concept.changeKind"
-              name="{{concept?.id}}-concept.changeKind" materialize="material_select" required>
-             <option value="" disabled selected>Select reason</option>
-             <option *ngFor="let change of _ChangeEnums" [value]="change[0]">{{change[1]}}</option>
-            </select>
-          </div>
-          <div class="input-field col s8">
-            <input id="changeComment" name="changeComment" type="text" [(ngModel)]="concept.changeComment" required>
-            <label for="changeComment" class="active teal-text">Save Comment</label>
-          </div>
+		      <qddt-rational [element]="concept"></qddt-rational>
         </div>
         <div class="row">
           <div class="input-field col s8">
