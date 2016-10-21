@@ -270,6 +270,9 @@ export class QuestionItemEdit implements OnInit {
       rd['description'] = '';
       rd['name'] = 'Mixed Domain at ' + new Date().toString();
       rd['managedRepresentation'] = result;
+      if (!this.isNull(this.mainResponseDomain)) {
+        rd['displayLayout'] = this.mainResponseDomain['displayLayout'];
+      }
       this.updateCodeValues(rd['managedRepresentation']);
       return this.service.createResponseDomain(rd);
     } else if (this.isNull(this.mainResponseDomain) && this.isNull(this.secondCS)) {
@@ -278,6 +281,9 @@ export class QuestionItemEdit implements OnInit {
     if(!this.isNull(this.questionitem.responseDomain)
       && !this.isNull(this.questionitem.responseDomain['managedRepresentation'])) {
       this.questionitem.responseDomain['managedRepresentation'] = result;
+      if (!this.isNull(this.mainResponseDomain)) {
+        this.questionitem.responseDomain['displayLayout'] = this.mainResponseDomain['displayLayout'];
+      }
       this.updateCodeValues(this.questionitem.responseDomain['managedRepresentation']);
     } else {
       this.questionitem.responseDomain = this.mainResponseDomain;
