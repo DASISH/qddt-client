@@ -9,13 +9,14 @@ import { AuthorListModalComponent } from '../components/author/author_list_modal
 import { QddtTableComponent } from '../components/table/table.component';
 import { QddtPagination } from '../components/pagination/pagination';
 import { AutocompleteComponent } from '../components/autocomplete/autocomplete.component';
+import { RationalComponent } from '../components/rational/rational.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, MaterializeModule],
   declarations: [ LocalDatePipe, QddtTableComponent, QddtPagination, AutocompleteComponent,
-  AuthorChipComponent, AuthorChipEditComponent, AuthorListModalComponent ],
+  AuthorChipComponent, AuthorChipEditComponent, AuthorListModalComponent, RationalComponent ],
   exports: [LocalDatePipe, CommonModule, FormsModule, MaterializeModule,
-      QddtTableComponent, QddtPagination, AutocompleteComponent,
+      QddtTableComponent, QddtPagination, AutocompleteComponent, RationalComponent,
   AuthorChipComponent, AuthorChipEditComponent, AuthorListModalComponent]
 })
 

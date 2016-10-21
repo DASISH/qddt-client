@@ -57,24 +57,8 @@ import { Observable }     from 'rxjs/Observable';
               </div>
             </div>
           </div>
-          <div *ngIf="questionitem.changeKind" class="row">
-				    <div class="input-field col s4">
-					    <label class="active teal-text">Version Reason</label>
-              <select
-                name="{{questionitem?.id}}-questionitem-changeKind" 
-						    [(ngModel)]="questionitem.changeKind"
-						    materialize="material_select" required>
-						    <option value="" disabled selected>Select reason</option>
-						    <option *ngFor="let change of _ChangeEnums" [value]="change[0]">{{change[1]}}</option>
-					    </select>
-				    </div>
-				    <div class="input-field col s8">
-					    <input id="{{questionitem?.id}}-questionitemchangeComment"
-                name="{{questionitem?.id}}-questionitemchangeComment"
-                type="text" [(ngModel)]="questionitem.changeComment"
-						    required> <label [attr.for]="questionitem.id + '-questionitemchangeComment'"
-						    class="active teal-text">Save Comment</label>
-				    </div>
+          <div class="row">
+            <qddt-rational [element]="questionitem"></qddt-rational>
 			    </div>
           <div *ngIf="questionitem" class="row">
             <div class="input-field col s2">

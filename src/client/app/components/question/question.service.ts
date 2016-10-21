@@ -65,6 +65,10 @@ export class QuestionService extends BaseService {
     return this.post(responseDomain,'responsedomain/create');
   }
 
+  createMixedResponseDomain(responseDomaindId: string, missingId: string): any {
+    return this.get('responsedomain/createmixed?responseDomaindId=' + responseDomaindId + '&missingId=' + missingId);
+  }
+
   createResponseDomainWithMissing(responseDomainId: any, missingId: string): any {
     return this.get('responsedomain/createmixed?responseDomaindId='
       + responseDomainId + '&missingId=' + missingId);
