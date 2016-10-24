@@ -138,11 +138,14 @@ export class RationalComponent {
   private _RationalIndex: number;
   private _Rational2Index: number;
   private saveOptionIndex: number;
+  private savedId: any;
+  private savedbasedOnObject: any;
 
   constructor() {
     this._RationalIndex = -1;
     this._Rational2Index = -1;
     this.saveOptionIndex = 0;
+    this.savedId = null;
   }
 
   onClickRational1(id: number) {
@@ -167,6 +170,17 @@ export class RationalComponent {
     this._Rational2Index = -1;
     if(this.rationalDescriptions[id]['change'] !== undefined) {
       this.element.changeKind = this.rationalDescriptions[id]['change'];
+    }
+    if(id === 2) {
+      this.savedId = this.element.id;
+      this.savedbasedOnObject = this.element.basedOnObject;
+      this.element.basedOnObject = this.element.id;
+      this.element.id = null;
+    } else {
+      if(this.element.id === null) {
+        this.element.id = this.savedId;
+        this.element.basedOnObject = this.savedbasedOnObject;
+      }
     }
   }
 
