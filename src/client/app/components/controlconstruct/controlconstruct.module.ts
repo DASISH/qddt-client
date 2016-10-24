@@ -6,9 +6,11 @@ import { SharedModule } from '../../shared/shared.module';
 import { ControlConstructComponent } from './controlconstruct.component';
 import { ControlConstructDetailComponent } from './controlconstruct.detail.component';
 import { ResponsedomainModule } from '../responsedomain/responsedomain.module';
+import { QuestionModule } from '../question/question.module';
 
 @NgModule({
-  imports: [ SharedModule, RevisionModule, CompareModule, CommentModule, ResponsedomainModule ],
+  imports: [ SharedModule, RevisionModule, CompareModule, CommentModule,
+    ResponsedomainModule, QuestionModule ],
   declarations: [ControlConstructComponent, ControlConstructDetailComponent
     ],
   exports: [ControlConstructComponent]

@@ -16,7 +16,7 @@ import { ResponsedomainModule } from '../responsedomain/responsedomain.module';
   imports: [ SharedModule, ResponsedomainModule, RevisionModule, CompareModule, CommentModule ],
   declarations: [QuestionComp, QuestionDetail, QuestionReuseComponent, QuestionItemEdit,
     TreeNodeComponent, QuestionItemEditMissing],
-  exports: [QuestionComp, QuestionReuseComponent, QuestionItemEdit ]
+  exports: [QuestionComp, QuestionReuseComponent, QuestionItemEdit, QuestionDetail ]
 })
 
 export class QuestionModule { }

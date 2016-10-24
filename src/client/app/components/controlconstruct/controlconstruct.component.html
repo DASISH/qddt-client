@@ -29,8 +29,9 @@
                 <div class="col s2">
                   <span>Question Item</span>
                 </div>
-                <div class="col s2">
-                  <span>{{controlConstruct?.questionItem?.name}}</span>
+                <div class="col s2" (click)="onClickQuestionItem()">
+                  <span>{{controlConstruct?.questionItem?.question?.question}}</span>
+                  <a *ngIf="controlConstruct.questionItem"><i class="material-icons left smal">search</i></a>
                 </div>
                 <div class="col s5">
                   <autocomplete [items]="questionItems"  class="black-text"
@@ -39,7 +40,7 @@
 					          [initialValue]="''"
                     [searchFromServer]="true"
 					          (enterEvent)="searchQuestionItems($event)"
-					          (autocompleteSelectEvent)="onSelectQuestionItem($event)">
+					          (autocompleteSelectEvent)="onSelectCreateQuestionItem($event)">
                   </autocomplete>
                 </div>
               </div>
@@ -51,7 +52,7 @@
                     materialize="material_select">
                     <option value="" disabled selected>Select version</option>
                     <option *ngFor="let revision of questionItemRevisions" [value]="revision.revisionNumber">
-                      {{revision.revisionNumber}}
+                      {{revision?.entity?.version?.major}}.{{revision?.entity?.version?.minor}}
                     </option>
                   </select>
                 </div>
@@ -93,7 +94,7 @@
                         <td><a class="waves-effect waves-light btn" (click)="onDeletePreInstruction(idx)">delete</a></td>
                       </tr>
                       <tr *ngIf="controlConstruct.preInstructions.length > 0 || controlConstruct.postInstructions.length > 0">
-                        <td>Question Text</td><td>{{controlConstruct?.questionItem?.name}}</td><td></td>
+                        <td>Question Text</td><td>{{controlConstruct?.questionItem?.question?.question}}</td><td></td>
                       </tr>
                       <tr *ngFor="let instruction of controlConstruct.postInstructions; let idx=index">
                         <td>After Question</td><td>{{instruction.description}}</td>
@@ -119,9 +120,20 @@
           </div>
         </div>
       </div>
+      <div *ngIf="!isDetail" class="card">
+        <autocomplete [items]="questionItems" class="black-text"
+					[searchField]="'name'"
+					(autocompleteFocusEvent)="selectedQuestionItemIndex=idx;"
+					[initialValue]="''"
+          [searchFromServer]="true"
+					(enterEvent)="searchQuestionItems($event)"
+					(autocompleteSelectEvent)="onSelectQuestionItem($event)">
+        </autocomplete>
+        <div class="row black-text">List question constructs by Question Item: {{selectedQuestionItem?.question?.question}}</div>
+      </div>
       <div *ngIf="!isDetail && controlConstructs.length > 0">
         <qddt-table [items]="controlConstructs" [page]="page" [columns]="columns"
-          [searchFromServer]="true"
+          [searchFromServer]="false"
 		      (enterEvent)="searchControlConstructs($event)"
           (detailEvent)="onDetail($event)" (pageChangeEvent)="onPage($event)"></qddt-table>
       </div>
@@ -141,6 +153,22 @@
     <div class="row">
       <h4>Ooops! Backend Exception</h4>
       <span>{{error}}</span>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button id="controlConstructs-modal-close"
+      class="btn btn-default red modal-action modal-close waves-effect">
+      <a><i class="close material-icons medium white-text">close</i></a>
+    </button>
+  </div>
+</div>
+
+<div [attr.id]="'questionitem-detail-modal'" class="modal modal-fixed-footer"
+  materialize [materializeActions]="questionitemActions">
+  <div class="modal-content">
+    <div class="row" *ngIf="controlConstruct && controlConstruct.questionItem">
+      <qddt-questionitem-detail [questionitem]="controlConstruct.questionItem"
+        [questionitems]="[]" [isVisible]="true"></qddt-questionitem-detail>
     </div>
   </div>
   <div class="modal-footer">

@@ -12,9 +12,10 @@ export class ControlConstructComponent implements OnInit {
 
   showControlConstructForm: boolean = false;
   actions = new EventEmitter<string>();
+  questionitemActions = new EventEmitter<string>();
   error: any;
 
-  private controlConstructs: any;
+  private controlConstructs: any[];
   private page: any;
   private controlConstruct: any;
   private instruction: any;
@@ -26,6 +27,7 @@ export class ControlConstructComponent implements OnInit {
   private selectedQuestionItemIndex: number;
   private showInstructionForm: boolean;
   private questionItemRevisions: any[];
+  private selectedQuestionItem: any;
 
   constructor(private service: ControlConstructService) {
     this.isDetail = false;
@@ -39,7 +41,6 @@ export class ControlConstructComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.controlConstructs = [];
     this.searchQuestionItems('');
   }
 
@@ -97,8 +98,7 @@ export class ControlConstructComponent implements OnInit {
       .subscribe((result: any) => {
         this.controlConstructs.push(result);
       }, (error: any) => {
-        this.error = error;
-        this.actions.emit('openModal');
+        this.popupModal(error);
       });
     this.isDetail = false;
   }
@@ -110,18 +110,36 @@ export class ControlConstructComponent implements OnInit {
   searchQuestionItems(key: string) {
     this.service.searchQuestionItems(key).subscribe((result: any) => {
       this.questionItems = result.content;
-    });
+    },
+      (error: any) => { this.popupModal(error); });
   }
 
-  onSelectQuestionItem(questionItem: any) {
+  onSelectCreateQuestionItem(questionItem: any) {
     this.controlConstruct.questionItem = questionItem;
     this.service.getQuestionItemsRevisions(questionItem.id).subscribe((result: any) => {
       this.questionItemRevisions = result.content.filter((e: any) => e.entity.changeKind !== 'IN_DEVELOPMENT');
     },
-      (error: any)=> {console.log(error);});
+      (error: any) => { this.popupModal(error); });
+  }
+
+  onSelectQuestionItem(questionItem: any) {
+    this.selectedQuestionItem = questionItem;
+    this.service.getControlConstructsByQuestionItem(questionItem.id).subscribe((result: any) => {
+      this.controlConstructs = result;
+    },
+      (error: any) => { this.popupModal(error); });
   }
 
   onUploadFile(filename: string) {
     console.log(filename);
+  }
+
+  onClickQuestionItem() {
+    this.questionitemActions.emit('openModal');
+  }
+
+  private popupModal(error: any) {
+    this.error = error;
+    this.actions.emit('openModal');
   }
 }

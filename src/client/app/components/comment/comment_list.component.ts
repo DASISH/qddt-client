@@ -13,7 +13,7 @@ import { CommentService, Comment } from './comment.service';
     <div *ngIf="commentsPage" class="card">
         <ul class="collection">
             <li class="collection-item avatar" *ngFor="let comment of commentsPage.content">
-                  <img src="images/avatar-default.png"  alt ="" class="circle">
+                  <img src="assets/images/avatar-default.png"  alt ="" class="circle">
                 <span class="title">{{comment.modifiedBy.username}}@{{comment.modifiedBy.agency.name}}
                                     - {{comment.modified|localDate }} </span>
                 <p><br>{{comment.comment}}</p>
