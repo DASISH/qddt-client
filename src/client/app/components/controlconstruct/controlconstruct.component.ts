@@ -6,6 +6,11 @@ import { ControlConstructService, ControlConstruct, Instruction } from './contro
   selector: 'qddt-controle-construct',
   moduleId: module.id,
   templateUrl: './controlconstruct.component.html',
+  styles: [
+    `.noItemFound {
+        border: thick solid red;
+    }`
+  ],
   providers: [ControlConstructService],
 })
 export class ControlConstructComponent implements OnInit {
@@ -28,6 +33,9 @@ export class ControlConstructComponent implements OnInit {
   private showInstructionForm: boolean;
   private questionItemRevisions: any[];
   private selectedQuestionItem: any;
+  private instructions: any[];
+  private isInstructionAfter: boolean;
+  private isInstructionNew: boolean;
 
   constructor(private service: ControlConstructService) {
     this.isDetail = false;
@@ -38,6 +46,7 @@ export class ControlConstructComponent implements OnInit {
     this.questionItems = [];
     this.selectedQuestionItemIndex = -1;
     this.showInstructionForm = false;
+    this.instructions = [];
   }
 
   ngOnInit() {
@@ -58,12 +67,14 @@ export class ControlConstructComponent implements OnInit {
     this.showInstructionForm = !this.showInstructionForm;
     if (this.showInstructionForm) {
       this.instruction = new Instruction();
-      this.instruction.isAfter = false;
+      this.isInstructionAfter = false;
+      this.isInstructionNew = false;
+      this.instruction.description = '';
     }
   }
 
   onAddInstruction() {
-    if (this.instruction.isAfter) {
+    if (this.isInstructionAfter) {
       this.controlConstruct.postInstructions.push(this.instruction);
     } else {
       this.controlConstruct.preInstructions.push(this.instruction);
@@ -136,6 +147,19 @@ export class ControlConstructComponent implements OnInit {
 
   onClickQuestionItem() {
     this.questionitemActions.emit('openModal');
+  }
+
+  onSearchInstructions(key: string) {
+    this.instruction.description = key;
+    this.service.searchInstructions(key).subscribe((result: any) => {
+      this.instructions = result.content;
+      this.isInstructionNew = this.instructions.length === 0;
+    },
+      (error: any) => { this.popupModal(error); });
+  }
+
+  onSelectInstruction(instruction: any) {
+    this.instruction = instruction;
   }
 
   private popupModal(error: any) {

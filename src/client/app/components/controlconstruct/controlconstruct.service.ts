@@ -50,4 +50,9 @@ export class ControlConstructService extends BaseService {
     let query = name.length > 0? '&question=' + '*' + name +'*': '';
     return this.get('questionitem/page/search?' + 'page=' + page + query);
   }
+
+  searchInstructions(description: string = '', page: String = '0'): any {
+    let query = description.length > 0? '&description=' + '*' + description +'*': '';
+    return this.get('instruction/page/search?' + 'page=' + page + query);
+  }
 }

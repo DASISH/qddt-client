@@ -70,15 +70,21 @@
                 <div class="row card" *ngIf="showInstructionForm">
                   <div class="switch">
                     <label>Before Questoin
-                      <input name="instruction-before-questoin" type="checkbox" [(ngModel)]="instruction.isAfter">
+                      <input name="instruction-before-questoin" type="checkbox" [(ngModel)]="isInstructionAfter">
                       <span class="lever"></span>After Question
                     </label>
                   </div>
-                  <div class="row" class="black-text">
-                    <textarea id="instruction-description" name="instruction-description" class="materialize-textarea"
-                      [(ngModel)]="instruction.description">
-                    </textarea>
-                    <label for="instruction-description">Description</label>
+                  <div class="row card" class="black-text">
+                    <label>Description</label>
+                    <div [ngClass]="{ noItemFound: (isInstructionNew && instruction.description.length > 0 && instructions.length === 0) }">
+										  <autocomplete [items]="instructions" class="black-text"
+                        [searchField]="'description'"
+												[searchFromServer]="true"
+                        [initialValue]="instruction?.description"
+                        (autocompleteSelectEvent)="onSelectInstruction($event)"
+												(enterEvent)="onSearchInstructions($event)">
+											</autocomplete>
+										</div>
                   </div>
                   <div class="row">
                   <div class="col s2 right">
