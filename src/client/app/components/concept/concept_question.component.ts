@@ -29,7 +29,7 @@ import { ConceptService } from './concept.service';
       <div class="col s11 m11 l11">
         <qddt-questionitem-edit [isVisible]="true"
           (editQuestionItem)="onEditQuestionItem($event)"
-          [editResponseDomain]="false"
+          [editResponseDomain]="true"
           [questionitem]="questionItem">
         </qddt-questionitem-edit>
 
