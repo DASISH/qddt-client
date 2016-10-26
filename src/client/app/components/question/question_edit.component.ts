@@ -81,7 +81,7 @@ import { Observable }     from 'rxjs/Observable';
           <button type="submit" class="btn btn-default">Submit</button>
         </form>
       </div>
-      <div *ngIf="editResponseDomain" [attr.id]="questionitem.id + '-edit-questionItem-modal'" class="modal">
+      <div *ngIf="editResponseDomain" [attr.id]="questionitem.id + '-edit-questionItem-modal'" class="modal modal-fixed-footer">
         <div class="modal-content">
           <div *ngIf="showResponseDomainForm" class="row">
             <responsedomain-reuse [isVisible]="true"

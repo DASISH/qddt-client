@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'qddt-rational',
@@ -8,10 +8,10 @@ import { Component, Input } from '@angular/core';
     <div class="card" >
       <div class="row">
         <div class="col left" *ngFor="let option of rationalDescriptions">
-          <input name="optiontypegroup" type="radio"
-            id="option-type-{{option.id}}" (click)="onSelectOption(option.id)"
+          <input name="{{originalId}}-optiontypegroup" type="radio"
+            id="{{originalId}}-option-type-{{option.id}}" (click)="onSelectOption(option.id)"
             [checked]="saveOptionIndex === option.id" />
-          <label [attr.for]="'option-type-' + option.id">{{option.name}}</label>
+          <label [attr.for]="originalId + '-option-type-' + option.id">{{option.name}}</label>
         </div>
       </div>
       <div *ngFor="let option of rationalDescriptions;">
@@ -19,7 +19,7 @@ import { Component, Input } from '@angular/core';
           <div class="row">
             <div class="input-field col s3">
               <select materialize="material_select" [ngModel]="_RationalIndex"
-              name="rationals"
+              name="{{originalId}}-rationals"
               (ngModelChange)="onClickRational1($event)">
               <option value="-1" disabled selected>Choose your rational</option>
               <option *ngFor="let rational of option.children;"
@@ -36,10 +36,10 @@ import { Component, Input } from '@angular/core';
           <div *ngIf="_RationalIndex>=0">
             <div *ngFor="let child of option.children[_RationalIndex].children; let idx = index">
               <div class="col left">
-                <input name="rationalgroup2" type="radio"
-                  id="rational2-type-{{idx}}" [checked]="_Rational2Index === idx"
+                <input name="{{originalId}}-rationalgroup2" type="radio"
+                  id="{{originalId}}-rational2-type-{{idx}}" [checked]="_Rational2Index === idx"
                   (click)="onClickRational2(child)"/>
-                <label title="{{child.description}}" [attr.for]="'rational2-type-' + idx">{{child.name}}</label>
+                <label title="{{child.description}}" [attr.for]="originalId + '-rational2-type-' + idx">{{child.name}}</label>
               </div>
             </div>
           </div>
@@ -48,8 +48,9 @@ import { Component, Input } from '@angular/core';
 
       <div *ngIf="saveOptionIndex >= 0 && rationalDescriptions[saveOptionIndex].showComment" class="row">
         <div class="input-field col s12">
-          <input id="changeComment" name="changeComment" type="text" [(ngModel)]="element.changeComment" required>
-          <label for="changeComment" class="active teal-text">Save Comment</label>
+          <input id="{{originalId}}-changeComment"
+            name="{{originalId}}-changeComment" type="text" [(ngModel)]="element.changeComment" required>
+          <label [attr.for]="originalId + '-changeComment'" class="active teal-text">Save Comment</label>
         </div>
       </div>
     </div>
@@ -57,7 +58,7 @@ import { Component, Input } from '@angular/core';
   `
 })
 
-export class RationalComponent {
+export class RationalComponent implements OnInit {
   rationalDescriptions: any = [
     { 'id': 0, 'name': 'Saved as work in progress', 'showComment': true, 'change':'IN_DEVELOPMENT', 'children': []},
     { 'id': 1, 'name': 'Saved as version', 'showComment': true,
@@ -140,12 +141,17 @@ export class RationalComponent {
   private saveOptionIndex: number;
   private savedId: any;
   private savedbasedOnObject: any;
+  private originalId: any;
 
   constructor() {
     this._RationalIndex = -1;
     this._Rational2Index = -1;
     this.saveOptionIndex = 0;
     this.savedId = null;
+  }
+
+  ngOnInit() {
+    this.originalId = this.element.id;
   }
 
   onClickRational1(id: number) {
