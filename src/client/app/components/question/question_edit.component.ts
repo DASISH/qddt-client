@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { QuestionService } from './question.service';
-import { Change } from '../../common/change_status';
 import { DomainType } from '../responsedomain/responsedomain.constant';
 import { Observable }     from 'rxjs/Observable';
 
@@ -57,6 +56,21 @@ import { Observable }     from 'rxjs/Observable';
               </div>
             </div>
           </div>
+          <div class="row card">
+            <table class="highlight" *ngIf="concepts.length > 0">
+              <thead><tr><th>Detail</th><th>Concept Names</th></tr></thead>
+              <tbody>
+                <tr *ngFor="let row of concepts">
+                  <td [ngStyle]="{'cursor': 'pointer'}" (click)="onClickConcept(row)">
+                    <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
+                     <i class="material-icons left smal">search</i>
+                    </a>
+                  </td>
+                  <td>{{row?.name}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
           <div class="row">
             <qddt-rational [element]="questionitem"></qddt-rational>
 			    </div>
@@ -95,6 +109,17 @@ import { Observable }     from 'rxjs/Observable';
         </div>
       </div>
     </div>
+    <div [attr.id]="'concept-detail-modal'" class="modal modal-fixed-footer"
+      materialize [materializeActions]="conceptActions">
+      <div class="modal-content" *ngIf="concepts.length > 0 && selectedConcept">
+        <h4>Concept {{selectedConcept?.name}}</h4>
+        <qddt-question-treenode [concept]="selectedConcept"></qddt-question-treenode>
+      </div>
+      <div class="modal-footer">
+        <button id="concept-modal-close"
+          class="btn btn-default red modal-action modal-close waves-effect waves-red">Dismiss</button>
+      </div>
+    </div>
   </div>
 `
 })
@@ -104,15 +129,17 @@ export class QuestionItemEdit implements OnInit {
   @Input() questionitem: any;
   @Input() editResponseDomain: boolean;
   @Output() editQuestionItem: EventEmitter<any>;
+  selectedConcept: any;
+  conceptActions = new EventEmitter<string>();
   private showResponseDomainForm: boolean;
-  private _ChangeEnums: any;
   private mainResponseDomain: any;
   private secondCS: any;
+  private concepts: any[];
 
   constructor(private service: QuestionService) {
     this.showResponseDomainForm = false;
-    this._ChangeEnums = Change.status;
     this.editQuestionItem = new EventEmitter<any>();
+    this.concepts = [];
   }
 
   ngOnInit() {
@@ -149,6 +176,19 @@ export class QuestionItemEdit implements OnInit {
         this.mainResponseDomain = this.questionitem.responseDomain;
       }
     }
+    if(this.questionitem.id !== null || this.questionitem.id !== undefined) {
+      this.service.getConceptsByQuestionitemId(this.questionitem.id)
+        .subscribe(
+        (result: any) => {
+        this.concepts = result;
+        },
+        (error: any) => { console.log(error); });
+    }
+  }
+
+  onClickConcept(concept: any) {
+    this.selectedConcept = concept;
+    this.conceptActions.emit('openModal');
   }
 
   onEditQuestionItem() {
@@ -309,4 +349,5 @@ export class QuestionItemEdit implements OnInit {
   private isNull(object: any) {
     return object === undefined || object === null;
   }
+
 }

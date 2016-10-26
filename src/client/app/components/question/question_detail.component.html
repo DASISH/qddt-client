@@ -9,8 +9,6 @@
       <br/>
       <div class="row">
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="revisionIsVisible = !revisionIsVisible"><i class="material-icons left medium">history</i></a>
-        <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="conceptIsVisible = !conceptIsVisible">
-          <i class="material-icons left medium">toll</i></a>
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light red">
           <i class="material-icons" (click)="hidDetail()">replay</i>
         </a>
@@ -30,37 +28,6 @@
         [editResponseDomain]="true"
         (editQuestionItem)="onEditQuestionItem($event)"
         [questionitem]="questionitem"></qddt-questionitem-edit>
-      <div class="row card" *ngIf="conceptIsVisible">
-        <table class="highlight">
-          <thead>
-            <tr>
-              <th>Detail</th>
-              <th>Concept Names</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr id="{{row.id}}" *ngFor="let row of concepts">
-              <td [ngStyle]="{'cursor': 'pointer'}">
-                <a materialize="leanModal" [materializeParams]="[{dismissible: false}]"
-                  class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                 [attr.href]="'#' + row.id + '-concept-modal'">
-                 <i class="material-icons left smal">search</i></a>
-              </td>
-              <td>{{row?.name}}</td>
-              <div [attr.id]="row.id + '-concept-modal'" class="modal">
-                <div class="modal-content">
-                   <h4>Concept {{row?.name}}</h4>
-                   <qddt-question-treenode [concept]="row"></qddt-question-treenode>
-                </div>
-                <div class="modal-footer">
-                   <button id="concept-modal-close"
-                    class="btn btn-default red modal-action modal-close waves-effect waves-red">Dismiss</button>
-                </div>
-              </div>
-            </tr>
-          </tbody>
-        </table>
-      </div>
 
       <qddt-revision [isVisible]="revisionIsVisible"
         [qddtURI]="'audit/questionitem/' + questionitem.id + '/all'"

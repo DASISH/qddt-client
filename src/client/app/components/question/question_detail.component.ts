@@ -19,26 +19,19 @@ export class QuestionDetail implements OnInit {
   private revisionIsVisible: boolean;
   private editIsVisible: boolean;
   private conceptIsVisible: boolean;
-  private concepts: any[];
   private config: any[];
 
   constructor(private service: QuestionService) {
     this.revisionIsVisible = false;
     this.editIsVisible = false;
     this.conceptIsVisible = false;
-    this.concepts = [];
   }
 
   ngOnInit() {
     if(this.questionitem.question === null) {
       this.questionitem.question = new Question();
     }
-    this.service.getConceptsByQuestionitemId(this.questionitem.id)
-    .subscribe(
-      (result: any) => { this.concepts = result;
-        this.config = this.buildRevisionConfig();
-      },
-      (error: any) => {console.log(error);});
+    this.config = this.buildRevisionConfig();
   }
 
   hidDetail() {
