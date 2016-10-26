@@ -42,7 +42,8 @@ export class ControlConstructComponent implements OnInit {
     this.controlConstructs = [];
     this.searchKeys = '';
     this.page = {};
-    this.columns = [{ 'label': 'Name', 'name': 'name', 'sortable': true }];
+    this.columns = [{ 'label': 'Name', 'name': 'name', 'sortable': true },
+      { 'label': 'Question Text', 'name': ['questionItem', 'question', 'question'], 'sortable': false }];
     this.questionItems = [];
     this.selectedQuestionItemIndex = -1;
     this.showInstructionForm = false;
