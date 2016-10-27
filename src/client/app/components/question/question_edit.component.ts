@@ -308,7 +308,7 @@ export class QuestionItemEdit implements OnInit {
       let rd: any = {};
       rd['responseKind'] = 'MIXED';
       rd['description'] = '';
-      rd['name'] = 'Mixed Domain at ' + new Date().toString();
+      rd['name'] = this.mainResponseDomain.name + ' + ' + this.secondCS.name;
       rd['managedRepresentation'] = result;
       if (!this.isNull(this.mainResponseDomain)) {
         rd['displayLayout'] = this.mainResponseDomain['displayLayout'];
