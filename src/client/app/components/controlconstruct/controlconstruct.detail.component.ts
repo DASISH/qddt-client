@@ -14,9 +14,12 @@ export class ControlConstructDetailComponent {
   @Input() controlConstructs: ControlConstruct[];
   @Input() isVisible: boolean;
   @Output() hideDetailEvent: EventEmitter<String> = new EventEmitter<String>();
+  instructionActions = new EventEmitter<string>();
   private revisionIsVisible: boolean;
+  private selectedInstruction: any;
+  private isPost: boolean;
 
-  constructor() {
+  constructor(private service: ControlConstructService) {
     this.revisionIsVisible = false;
   }
 
@@ -28,7 +31,39 @@ export class ControlConstructDetailComponent {
     this.controlConstruct.preInstructions.splice(id, 1);
   }
 
+  onAddPreInstruction() {
+    console.log('onAddPreInstruction');
+  }
+
   onDeletePostInstruction(id: number) {
     this.controlConstruct.postInstructions.splice(id, 1);
+  }
+
+  onAddPostInstruction() {
+    console.log('onAddPostInstruction');
+  }
+
+  onClickPreInstruction(id: number) {
+    this.selectedInstruction = this.controlConstruct.preInstructions[id];
+    this.isPost = false;
+    this.instructionActions.emit('openModal');
+  }
+
+  onClickPostInstruction(id: number) {
+    this.selectedInstruction = this.controlConstruct.postInstructions[id];
+    this.isPost = true;
+    this.instructionActions.emit('openModal');
+  }
+
+  onSaveControlConstruct() {
+    this.service.edit(this.controlConstruct).subscribe((result: any) => {
+        let index = this.controlConstructs.findIndex((e:any) => e.id === result.id);
+        if(index >= 0) {
+          this.controlConstructs[index] = result;
+        }
+        this.hideDetail();
+      }, (error: any) => {
+        console.log(error);
+      });
   }
 }
