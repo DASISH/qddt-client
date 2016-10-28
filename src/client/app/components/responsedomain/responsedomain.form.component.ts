@@ -142,18 +142,36 @@ export class ResponsedomainFormComponent implements OnInit {
 
   changeNumberOfAnchors(num: number) {
     let rep = this.responsedomain.managedRepresentation;
-    if (rep.inputLimit.maximum < num) {
-      this.numberOfAnchors = rep.inputLimit.maximum;
+    if(rep.children.length === num) {
+      return;
+    }
+    let count = rep.inputLimit.maximum - rep.inputLimit.minimum + 1;
+    if (count < num) {
+      this.numberOfAnchors = count;
+    } else if (num < 0) {
+      this.numberOfAnchors = 0;
     } else {
       this.numberOfAnchors = num;
     }
 
-    if (this.domainType === DomainType.SCALE || this.domainType === DomainType.LIST) {
-      rep.children = rep.children.slice(0, num);
-      for (let i = rep.children.length; i < num; i++) {
+    if (this.domainType === DomainType.LIST) {
+      rep.children = rep.children.slice(0, this.numberOfAnchors);
+      for (let i = rep.children.length; i < this.numberOfAnchors; i++) {
         let c = new Category();
         c.code = { codeValue: String(i + 1) };
         rep.children.push(c);
+      }
+    } else if (this.domainType === DomainType.SCALE) {
+      rep.children = rep.children.slice(0, this.numberOfAnchors);
+      let len = rep.children.length;
+      for (let i = 0; i < this.numberOfAnchors; i++) {
+        if(i >= len) {
+          let c = new Category();
+          c.code = { codeValue: '' };
+          rep.children.push(c);
+        } else {
+          rep.children[i].code.codeValue = '';
+        }
       }
     }
   }

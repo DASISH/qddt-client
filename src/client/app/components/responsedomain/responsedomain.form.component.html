@@ -42,17 +42,21 @@
 						  </div>
             </div>
 
-						<div class="row input-field">
-							<input id="scale_anchor" name="scale_anchor" type="number" [(ngModel)]="numberOfAnchors"
-								(ngModelChange)="changeNumberOfAnchors($event)" required>
-							<label for="scale_anchor">Number of Anchor</label>
+						<div class="row">
+							<div class="input-field col s4">
+							  <input id="scale_anchor" name="scale_anchor" type="number" [(ngModel)]="numberOfAnchors"
+								  min="0"
+								  [attr.max]="responsedomain.managedRepresentation.inputLimit.maximum - responsedomain.managedRepresentation.inputLimit.minimum + 1"
+								  (ngModelChange)="changeNumberOfAnchors($event)" required>
+							  <label for="scale_anchor" class="active">Number of Anchor</label>
+							</div>
 						</div>
 
 						<table *ngIf="numberOfAnchors > 0">
 						  <thead><tr><td>Code</td><td>Category</td></tr></thead>
 							<tbody>
 								<tr *ngFor="let category of responsedomain.managedRepresentation.children; let idx=index">
-									<td><input name="{{category?.id}}-code-value" type="text" [(ngModel)]="category.code.codeValue" required></td>
+									<td><input name="{{idx}}-code-value" type="text" [(ngModel)]="category.code.codeValue" required></td>
 									<td>
 										<div [ngClass]="{ noItemFound: (category.isNew && category.label.length > 0 && categories.length === 0) }">
 										  <autocomplete [items]="categories" class="black-text"
@@ -72,6 +76,7 @@
 					<div *ngSwitchCase="domainTypeDef.LIST" class="row">
 						<div class="col s2 input-field">
 							<input id="code_number" name="code_number" type="number"
+							  min="0"
 							  [ngModel]="responsedomain.managedRepresentation.inputLimit.maximum"
 								(ngModelChange)="changeNumberOfCategories($event)" required>
 							<label for="code_number" class="active">Number of Codes</label>
@@ -81,7 +86,7 @@
 						  <thead><tr><td>Code</td><td>Category</td><td></td></tr></thead>
 							<tbody>
 								<tr *ngFor="let category of responsedomain.managedRepresentation.children; let idx=index">
-									<td><input name="{{category?.id}}-code-value" type="text" [(ngModel)]="category.code.codeValue" required></td>
+									<td><input name="{{idx}}-code-value" type="text" [(ngModel)]="category.code.codeValue" required></td>
 									<td>
 										<div [ngClass]="{ noItemFound: (category.isNew && category.label.length > 0 && categories.length === 0) }">
 										  <autocomplete [items]="categories" class="black-text"

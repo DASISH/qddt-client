@@ -85,6 +85,10 @@ export class ResponsedomainComponent implements OnInit {
   formChange() {
     this.searchKeys = '';
     this.responseDomainService.update(this.selectedResponseDomain).subscribe((result: any) => {
+      let index = this.responseDomains.findIndex((e: any) => e.id === this.selectedResponseDomain.id);
+      if(index >= 0) {
+        this.responseDomains[index] = result;
+      }
       this.hideDetail();});
   }
 
