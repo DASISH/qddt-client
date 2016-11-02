@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 import { CategoryService, Category } from '../category.service';
 import { Change } from '../../../common/change_status';
@@ -76,6 +76,7 @@ export class CategoryEditComponent implements OnInit {
   @Input() category: Category;
   @Input() categories: any;
   @Input() isVisible: boolean;
+  @Output() editDetailEvent: EventEmitter<String> = new EventEmitter<String>();
   private categoryEnums:any;
   private changeEnums: any;
   private isTemplate: boolean;
@@ -116,8 +117,11 @@ export class CategoryEditComponent implements OnInit {
   onSave() {
     this.categoryService.edit(this.category)
       .subscribe((result: any) => {
-        this.category = result;
-        this.isVisible = false;
+        let i = this.categories.findIndex(q => q['id'] === result['id']);
+        if(i >= 0) {
+          this.categories[i] = result;
+        }
+        this.editDetailEvent.emit('edit');
       });
   }
 

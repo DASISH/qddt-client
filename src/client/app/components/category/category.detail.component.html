@@ -10,7 +10,7 @@
       <div class="row">
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="revisionIsVisible = !revisionIsVisible"><i class="material-icons left medium">history</i></a>
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light red">
-          <i class="material-icons" (click)="hidDetail()">replay</i>
+          <i class="material-icons" (click)="hideDetail()">replay</i>
         </a>
       </div>
     </div>
@@ -24,7 +24,9 @@
         <p>{{category?.description}}</p>
       </div>
 
-      <category-edit [isVisible]="true" [category]="category" [categories]="categories" #edit></category-edit>
+      <category-edit [isVisible]="true" [category]="category" [categories]="categories"
+        (editDetailEvent)="hideDetail()"
+        #edit></category-edit>
 
       <qddt-revision [isVisible]="revisionIsVisible" [qddtURI]="'audit/category/' + category.id + '/all'"></qddt-revision>
 

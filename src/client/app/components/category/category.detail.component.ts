@@ -20,7 +20,7 @@ export class CategoryDetailComponent {
     this.revisionIsVisible = false;
   }
 
-  hidDetail() {
+  hideDetail() {
     this.hideDetailEvent.emit('hide');
   }
 }
