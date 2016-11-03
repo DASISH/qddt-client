@@ -153,6 +153,7 @@ export class RationalComponent implements OnInit {
   ngOnInit() {
     this.originalId = this.element.id;
     this.element.changeComment = '';
+    this.element.changeKind = 'IN_DEVELOPMENT';
   }
 
   onClickRational1(id: number) {
