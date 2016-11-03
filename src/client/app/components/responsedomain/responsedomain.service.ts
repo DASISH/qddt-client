@@ -28,8 +28,11 @@ export class ResponseDomainService extends BaseService {
     return this.post(responseDomain,'responsedomain/');
   }
 
-  getAll(domain: string, name: string = '', page: String = '0'): any {
+  getAll(domain: string, name: string = '', page: String = '0', sort: String = ''): any {
     let query = name.length > 0? '&Name=' + name + '*': name;
+    if (sort.length > 0) {
+      query += '&sort=' + sort;
+    }
     return this.get('responsedomain/page/search?ResponseKind=' + domain + query + '&page=' + page);
   }
 

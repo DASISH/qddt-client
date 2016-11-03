@@ -37,8 +37,8 @@ export class CategorySchemeComponent implements OnInit {
     this.selectedCategoryIndex = 0;
     this.categories = [];
     this.missingCategories = [];
-    this.columns = [{'name':'name', 'label':'Name', 'sortable':true}
-      ,{'name':'description', 'label':'Description', 'sortable':true}];
+    this.columns = [{'name':'name', 'label':'Name', 'sortable':true, 'direction': '' }
+      ,{'name':'description', 'label':'Description', 'sortable':true, 'direction': '' }];
   }
 
   ngOnInit() {
@@ -116,7 +116,7 @@ export class CategorySchemeComponent implements OnInit {
   }
 
   onPage(page: string) {
-    this.categoryService.getAllTemplatesByCategoryKind('MISSING_GROUP', this.searchKeys, page)
+    this.categoryService.getAllTemplatesByCategoryKind('MISSING_GROUP', this.searchKeys, page, this.getSort())
       .subscribe(
         (result: any) => { this.page = result.page; this.missingCategories = result.content; }
       );
@@ -130,10 +130,23 @@ export class CategorySchemeComponent implements OnInit {
 
   searchMissingCategories(name: string) {
     this.searchKeys = name;
-    this.categoryService.getAllTemplatesByCategoryKind('MISSING_GROUP', name).subscribe((result: any) => {
+    this.categoryService.getAllTemplatesByCategoryKind('MISSING_GROUP', name, '0', this.getSort()).subscribe((result: any) => {
       this.page = result.page;
       this.missingCategories = result.content;
     });
+  }
+
+  private getSort() {
+    let i = this.columns.findIndex((e: any) => e.sortable && e.direction !== '');
+    let sort = '';
+    if (i >= 0) {
+      if (typeof this.columns[i].name === 'string') {
+        sort = this.columns[i].name + ',' + this.columns[i].direction;
+      } else {
+        sort = this.columns[i].name.join('.') + ',' + this.columns[i].direction;
+      }
+    }
+    return sort;
   }
 
 }

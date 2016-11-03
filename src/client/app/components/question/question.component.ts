@@ -26,8 +26,8 @@ export class QuestionComp implements OnInit {
     this.questionitems = [];
     this.page = {};
     this.searchKeys = '';
-    this.columns = [{'name':['question','question'], 'label':'Question Text', 'sortable':true}
-      ,{'name':['responseDomain','name'], 'label':'ResponseDomain Name', 'sortable':true}];
+    this.columns = [{'name':['question','question'], 'label':'Question Text', 'sortable':true, 'direction': '' }
+      ,{'name':['responseDomain','name'], 'label':'ResponseDomain Name', 'sortable':true, 'direction': '' }];
   }
 
   ngOnInit() {
@@ -53,7 +53,7 @@ export class QuestionComp implements OnInit {
   }
 
   onPage(page: string) {
-    this.questionService.searchQuestionItems(this.searchKeys, page).subscribe(
+    this.questionService.searchQuestionItems(this.searchKeys, page, this.getSort()).subscribe(
       (result: any) => { this.page = result.page; this.questionitems = result.content; });
   }
 
@@ -74,9 +74,22 @@ export class QuestionComp implements OnInit {
 
   searchResponseDomains(name: string) {
     this.searchKeys = name;
-    this.questionService.searchQuestionItems(name).subscribe((result: any) => {
+    this.questionService.searchQuestionItems(name, '0', this.getSort()).subscribe((result: any) => {
       this.page = result.page;
       this.questionitems = result.content;
     });
+  }
+
+  private getSort() {
+    let i = this.columns.findIndex((e: any) => e.sortable && e.direction !== '');
+    let sort = '';
+    if (i >= 0) {
+      if (typeof this.columns[i].name === 'string') {
+        sort = this.columns[i].name + ',' + this.columns[i].direction;
+      } else {
+        sort = this.columns[i].name.join('.') + ',' + this.columns[i].direction;
+      }
+    }
+    return sort;
   }
 }

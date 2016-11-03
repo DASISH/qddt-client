@@ -106,7 +106,7 @@ export class ResponsedomainComponent implements OnInit {
   onPage(page: string) {
     let domainType = DomainTypeDescription.find((e: any) =>e.id === this.domainType).name;
     this.responseDomainService
-      .getAll(domainType, this.searchKeys, page).subscribe(
+      .getAll(domainType, this.searchKeys, page, this.getSort()).subscribe(
       (result: any) => { this.page = result.page;
         this.responseDomains = result.content;
         this.buildAnchorLabel();
@@ -117,7 +117,7 @@ export class ResponsedomainComponent implements OnInit {
     this.searchKeys = name;
     let domainType = DomainTypeDescription.find((e: any)=>e.id === this.domainType).name;
     this.responseDomainService
-      .getAll(domainType, name).subscribe((result: any) => {
+      .getAll(domainType, name, '0', this.getSort()).subscribe((result: any) => {
       this.page = result.page;
       this.responseDomains = result.content;
       this.buildAnchorLabel();
@@ -169,6 +169,19 @@ export class ResponsedomainComponent implements OnInit {
         rd['anchorLabel'] = label;
       }
     }
+  }
+
+  private getSort() {
+    let i = this.columns.findIndex((e: any) => e.sortable && e.direction !== '');
+    let sort = '';
+    if (i >= 0) {
+      if (typeof this.columns[i].name === 'string') {
+        sort = this.columns[i].name + ',' + this.columns[i].direction;
+      } else {
+        sort = this.columns[i].name.join('.') + ',' + this.columns[i].direction;
+      }
+    }
+    return sort;
   }
 
 }

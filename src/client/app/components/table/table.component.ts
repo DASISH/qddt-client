@@ -63,7 +63,15 @@ export class QddtTableComponent implements OnInit, OnChanges {
     if (column.sortable === undefined || !column.sortable) {
       return;
     }
-    this.rows = this.rows.sort((a, b) => a[column.label].toLowerCase() > b[column.label].toLowerCase() ? 1 : -1);
+    this.columns.forEach((e: any) => { if (e !== column) {e.direction = '';} });
+    if(column.direction === '') {
+      column.direction = 'asc';
+    } else if(column.direction === 'asc') {
+      column.direction = 'desc';
+    } else {
+      column.direction = '';
+    }
+    this.pageChangeEvent.emit('0');
   }
 
   private filterItems(search: string) {

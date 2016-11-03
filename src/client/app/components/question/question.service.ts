@@ -40,8 +40,11 @@ export class QuestionService extends BaseService {
     return this.get('questionitem/page' + '?&page=' + page);
   }
 
-  searchQuestionItems(name: string = '', page: String = '0'): any {
+  searchQuestionItems(name: string = '', page: String = '0', sort: String = ''): any {
     let query = name.length > 0? '&question=' + '*' + name +'*': '';
+    if (sort.length > 0) {
+      query += '&sort=' + sort;
+    }
     return this.get('questionitem/page/search?' + 'page=' + page + query);
   }
 

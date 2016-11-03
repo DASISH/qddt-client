@@ -44,24 +44,36 @@ export class CategoryService extends BaseService {
     return this.get('category/page/search/?level=ENTITY');
   }
 
-  getByCategoryKind(categoryKind: String, page: String = '0'): any {
-    return this.get('category/page/search/?level=ENTITY&category=' + categoryKind
-      + '&page=' + page);
+  getByCategoryKind(categoryKind: String, page: String = '0', sort: String = ''): any {
+    let query = 'level=ENTITY&category=' + categoryKind + '&page=' + page;
+    if (sort.length > 0) {
+      query += '&sort=' + sort;
+    }
+    return this.get('category/page/search/?' + query);
   }
 
-  getAllByLevel(level: String, name: String = ''): any {
+  getAllByLevel(level: String, name: String = '', sort: String = ''): any {
     let query = name.length > 0? '&name=' + '*' + name + '*': name;
+    if (sort.length > 0) {
+      query += '&sort=' + sort;
+    }
     return this.get('category/page/search/?level=' + level + query);
   }
 
-  getAllByLevelAndPage(level: String, name: String = '', page: String = '0'): any {
+  getAllByLevelAndPage(level: String, name: String = '', page: String = '0', sort: String = ''): any {
     let query = name.length > 0? '&name=' + '*' + name + '*': '';
+    if (sort.length > 0) {
+      query += '&sort=' + sort;
+    }
     return this.get('category/page/search/?level=' + level + query
       + '&page=' + page);
   }
 
-  getAllTemplatesByCategoryKind(categoryKind: String, name: String = '', page: String = '0'): any {
+  getAllTemplatesByCategoryKind(categoryKind: String, name: String = '', page: String = '0', sort: String = ''): any {
     let query = name.length > 0? '&name=' + '*' + name + '*': '';
+    if (sort.length > 0) {
+      query += '&sort=' + sort;
+    }
     return this.get('category/page/search/?level=GROUP_ENTITY&category=' + categoryKind
       + query + '&page=' + page);
   }

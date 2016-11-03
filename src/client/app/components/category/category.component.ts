@@ -25,8 +25,8 @@ export class CategoryComponent implements OnInit {
     this.categories = [];
     this.searchKeys = '';
     this.page = {};
-    this.columns = [{ 'label': 'Label', 'name': 'label', 'sortable': true },
-      { 'label': 'Description', 'name': 'description', 'sortable': true }];
+    this.columns = [{ 'label': 'Label', 'name': 'label', 'sortable': true, 'direction': '' },
+      { 'label': 'Description', 'name': 'description', 'sortable': true, 'direction': '' }];
   }
 
   ngOnInit() {
@@ -51,7 +51,7 @@ export class CategoryComponent implements OnInit {
   }
 
   onPage(page: string) {
-    this.categoryService.getAllByLevelAndPage('ENTITY', this.searchKeys, page).subscribe(
+    this.categoryService.getAllByLevelAndPage('ENTITY', this.searchKeys, page, this.getSort()).subscribe(
       (result: any) => { this.page = result.page; this.categories = result.content; });
   }
 
@@ -66,9 +66,22 @@ export class CategoryComponent implements OnInit {
 
   searchCategories(name: string) {
     this.searchKeys = name;
-    this.categoryService.getAllByLevel('ENTITY', name).subscribe((result: any) => {
+    this.categoryService.getAllByLevel('ENTITY', name, this.getSort()).subscribe((result: any) => {
       this.page = result.page;
       this.categories = result.content;
     });
+  }
+
+  private getSort() {
+    let i = this.columns.findIndex((e: any) => e.sortable && e.direction !== '');
+    let sort = '';
+    if (i >= 0) {
+      if (typeof this.columns[i].name === 'string') {
+        sort = this.columns[i].name + ',' + this.columns[i].direction;
+      } else {
+        sort = this.columns[i].name.join('.') + ',' + this.columns[i].direction;
+      }
+    }
+    return sort;
   }
 }
