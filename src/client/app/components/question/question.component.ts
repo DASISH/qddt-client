@@ -74,7 +74,7 @@ export class QuestionComp implements OnInit {
 
   searchResponseDomains(name: string) {
     this.searchKeys = name;
-    this.questionService.searchQuestionItems(name, '0', this.getSort()).subscribe((result: any) => {
+    this.questionService.searchQuestionItemsByNameAndQuestion(name, '0', this.getSort()).subscribe((result: any) => {
       this.page = result.page;
       this.questionitems = result.content;
     });
