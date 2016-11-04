@@ -5,13 +5,14 @@ import { CommentModule } from '../comment/comment.module';
 import { SharedModule } from '../../shared/shared.module';
 import { ControlConstructComponent } from './controlconstruct.component';
 import { ControlConstructDetailComponent } from './controlconstruct.detail.component';
+import { InstructionComponent } from './instruction.component';
 import { ResponsedomainModule } from '../responsedomain/responsedomain.module';
 import { QuestionModule } from '../question/question.module';
 
 @NgModule({
   imports: [ SharedModule, RevisionModule, CompareModule, CommentModule,
     ResponsedomainModule, QuestionModule ],
-  declarations: [ControlConstructComponent, ControlConstructDetailComponent
+  declarations: [ControlConstructComponent, ControlConstructDetailComponent, InstructionComponent
     ],
   exports: [ControlConstructComponent]
 })

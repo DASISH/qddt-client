@@ -15,12 +15,14 @@ export class ControlConstructDetailComponent {
   @Input() isVisible: boolean;
   @Output() hideDetailEvent: EventEmitter<String> = new EventEmitter<String>();
   instructionActions = new EventEmitter<string>();
+  createPostInstruction: boolean;
   private revisionIsVisible: boolean;
   private selectedInstruction: any;
   private isPost: boolean;
 
   constructor(private service: ControlConstructService) {
     this.revisionIsVisible = false;
+    this.createPostInstruction = false;
   }
 
   hideDetail() {
@@ -31,16 +33,17 @@ export class ControlConstructDetailComponent {
     this.controlConstruct.preInstructions.splice(id, 1);
   }
 
-  onAddPreInstruction() {
-    console.log('onAddPreInstruction');
+  onAddPreInstruction(instruction: any) {
+    this.controlConstruct.preInstructions.push(instruction);
   }
 
   onDeletePostInstruction(id: number) {
     this.controlConstruct.postInstructions.splice(id, 1);
   }
 
-  onAddPostInstruction() {
-    console.log('onAddPostInstruction');
+  onAddPostInstruction(instruction: any) {
+    this.controlConstruct.postInstructions.push(instruction);
+    this.createPostInstruction = false;
   }
 
   onClickPreInstruction(id: number) {

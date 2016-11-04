@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Headers, RequestOptions } from '@angular/http';
 
 import { API_BASE_HREF } from '../../api';
 import { BaseService } from '../../common/base.service';
@@ -26,8 +26,27 @@ export class ControlConstructService extends BaseService {
     super(http ,api);
   }
 
-  save(c: ControlConstruct): any {
-    return this.post(c,'controlconstruct/create/');
+  create(c: ControlConstruct, files: any): any {
+    let headers = new Headers();
+    let jwt = localStorage.getItem('jwt');
+    if(jwt !== null) {
+      headers.append('Authorization', 'Bearer  ' + JSON.parse(jwt).access_token);
+    }
+    let options = new RequestOptions({ headers: headers });
+    const formData = new FormData();
+    if(files !== null) {
+        formData.append('files', files[0]);
+    }
+    formData.append('controlconstruct', JSON.stringify(c));
+    return this.http.post(this.api + 'controlconstruct/createfile/', formData, options)
+      .map((res:any) => {
+        try {
+          return res.json();
+        } catch (e) {
+          return [];
+        }
+      })
+      .catch(this.handleError);
   }
 
   edit(c: ControlConstruct): any {
@@ -35,7 +54,7 @@ export class ControlConstructService extends BaseService {
   }
 
   getControlConstructsByQuestionItem(id: string): any {
-    return this.get('controlconstruct//list/by-question/' + id);
+    return this.get('controlconstruct/list/by-question/' + id);
   }
 
   getQuestionItems(key: string): any {
@@ -54,5 +73,9 @@ export class ControlConstructService extends BaseService {
   searchInstructions(description: string = '', page: String = '0'): any {
     let query = description.length > 0? '&description=' + '*' + description +'*': '';
     return this.get('instruction/page/search?' + 'page=' + page + query);
+  }
+
+  getConceptsByQuestionitemId(id: string) {
+    return this.get('concept/list/by-QuestionItem/'+ id);
   }
 }
