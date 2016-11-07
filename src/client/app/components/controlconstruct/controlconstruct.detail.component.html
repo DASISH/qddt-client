@@ -39,11 +39,15 @@
               <div class="col s1">
                 <a
                   class="btn-flat btn-floating btn-small waves-effect waves-light teal"
-                  (click)="onAddPreInstruction()">
+                  (click)="createPreInstruction=!createPreInstruction">
                   <i class="material-icons">add</i>
                 </a>
               </div>
             </div>
+          </li>
+          <li class="collection-item" *ngIf="createPreInstruction">
+            <qddt-instruction-create (createInstructionEvent)="onAddPreInstruction($event)">
+            </qddt-instruction-create>
           </li>
           <li class="collection-item" *ngFor="let instruction of controlConstruct.preInstructions; let idx=index">
             <div class="row">
@@ -87,7 +91,7 @@
             </div>
           </li>
           <li class="collection-item" *ngIf="createPostInstruction">
-            <qddt-instruction-create (createInstructionEvent)="onAddPostInstruction()">
+            <qddt-instruction-create (createInstructionEvent)="onAddPostInstruction($event)">
             </qddt-instruction-create>
           </li>
           <li class="collection-item" *ngFor="let instruction of controlConstruct.postInstructions; let idx=index">
