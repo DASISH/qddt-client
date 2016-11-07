@@ -38,7 +38,7 @@ import { Observable }     from 'rxjs/Observable';
             <div class="card col s6">
               <div class="row"><span>Response Domain</span></div>
               <div class="row">
-                <a materialize="leanModal" [materializeParams]="[{dismissible: false}]"
+                <a *ngIf="!mainResponseDomain" materialize="leanModal" [materializeParams]="[{dismissible: false}]"
                   class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
                   [attr.href]="'#' + questionitem.id + '-edit-questionItem-modal'">
                   <i class="material-icons" title="response domain edit" (click)="onClickEdit()">mode_edit</i>
@@ -47,11 +47,12 @@ import { Observable }     from 'rxjs/Observable';
                   (click)="onRemoveResponsedomain(questionitem)">
                   <i class="material-icons left medium" title="remove response domain">remove</i>
                 </a>
+                <span *ngIf="mainResponseDomain">{{mainResponseDomain?.name}}</span>
               </div>
             </div>
             <div class="col s6">
               <div name="edit-missing-responsedomain" *ngIf="editResponseDomain" class="row">
-              <qddt-questionitem-edit-missing [questionitem]="questionitem"
+              <qddt-questionitem-edit-missing [missing]="secondCS"
                 (editMissing)="onEditMissing($event)"></qddt-questionitem-edit-missing>
               </div>
             </div>
@@ -218,6 +219,7 @@ export class QuestionItemEdit implements OnInit {
 
   onRemoveResponsedomain(questionitem: any) {
     this.mainResponseDomain = null;
+    this.secondCS = null;
     this.showResponseDomainForm = false;
   }
 
