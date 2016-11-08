@@ -30,6 +30,7 @@
                   <autocomplete [items]="questionItems"  class="black-text"
 					          [searchField]="['name', ['question','question']]"
                     [isMutipleFields]="true"
+                    [placeholder] = "'Search in question name or question text'"
 					          (autocompleteFocusEvent)="selectedQuestionItemIndex=idx;"
 					          [initialValue]="''"
                     [searchFromServer]="true"
