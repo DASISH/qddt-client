@@ -27,6 +27,7 @@ export class QuestionComp implements OnInit {
     this.page = {};
     this.searchKeys = '';
     this.columns = [{'name':['question','question'], 'label':'Question Text', 'sortable':true, 'direction': '' }
+      ,{'name':'name', 'label':'Question Name', 'sortable':false, 'direction': '' }
       ,{'name':['responseDomain','name'], 'label':'ResponseDomain Name', 'sortable':true, 'direction': '' }];
   }
 

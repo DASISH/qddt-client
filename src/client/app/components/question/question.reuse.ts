@@ -49,11 +49,13 @@ import { QuestionService, Question, QuestionItem } from './question.service';
             <h3 class="teal-text ">Reuse Question Item</h3>
             <div class="row black-text"><span>{{questionItem?.question?.question}}</span></div>
             <div class="row black-text">
-              <autocomplete [items]="questionItems" [searchField]="['question','question']"
+              <autocomplete [items]="questionItems" [searchField]="['name', ['question','question']]"
                 [initialValue]="''"
                 [searchFromServer]="true"
+                [isMutipleFields]="true"
                 (autocompleteFocusEvent)="selectedIndex=idx;"
                 (enterEvent)="searchQuestionItems($event)"
+                [placeholder] = "'Search in question name or question text'"
                 (autocompleteSelectEvent)="selectQuestionItem($event)">
               </autocomplete>
             </div>
@@ -91,7 +93,7 @@ export class QuestionReuseComponent implements OnInit {
   }
 
   searchQuestionItems(name: string) {
-    this.questionService.searchQuestionItems(name).subscribe((result: any) => {
+    this.questionService.searchQuestionItemsByNameAndQuestion(name).subscribe((result: any) => {
       this.questionItems = result.content;
     });
   }

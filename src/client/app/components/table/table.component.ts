@@ -21,6 +21,8 @@ export class QddtTableComponent implements OnInit, OnChanges {
    */
   @Input() columns: any[];
   @Input() items: any[];
+  @Input() placeholder: string;
+
   /**
    * searchable results from server
    */
@@ -33,8 +35,11 @@ export class QddtTableComponent implements OnInit, OnChanges {
   private _rows: any[] = [];
 
   ngOnInit() {
-    if(this.searchFromServer === null) {
+    if(this.searchFromServer === null || this.searchFromServer === undefined) {
       this.searchFromServer = false;
+    }
+    if(this.placeholder === null || this.placeholder === undefined) {
+      this.placeholder = 'Search';
     }
   }
 
@@ -102,7 +107,6 @@ export class QddtTableComponent implements OnInit, OnChanges {
         'Version': item.version.major + '.' + item.version.minor,
         'Agency': item.agency.name || '',
         'Modified': date.toDateString(),
-        'modifiedBy': item.modifiedBy.username || '',
         'Object': item,
       };
       this.columns.forEach((column: any) => {
@@ -123,7 +127,7 @@ export class QddtTableComponent implements OnInit, OnChanges {
         }
       });
       this.rows.push(row);
-      ['Version', 'Agency', 'Modified', 'modifiedBy'].forEach((item: any) => {
+      ['Version', 'Agency', 'Modified'].forEach((item: any) => {
         let column = this.columns.find((column: any) => column.label === item);
         if (!column) {
           this.columns.push({ 'name': item, 'label': item, 'sortable': false });

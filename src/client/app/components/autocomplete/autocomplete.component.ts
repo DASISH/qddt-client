@@ -10,6 +10,8 @@ import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angu
 export class AutocompleteComponent implements OnInit, OnChanges {
   @Input() items:  any[];
   @Input() searchField: any;
+  @Input() placeholder: string;
+  @Input() isMutipleFields: boolean;
   /**
    * set initial value
    */
@@ -33,8 +35,14 @@ export class AutocompleteComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.value = this.initialValue;
-    if(this.searchFromServer === null) {
+    if(this.isNull(this.searchFromServer)) {
       this.searchFromServer = false;
+    }
+    if(this.isNull(this.placeholder)) {
+      this.placeholder = 'Search';
+    }
+    if(this.isNull(this.isMutipleFields)) {
+      this.isMutipleFields = false;
     }
   }
 
@@ -64,10 +72,21 @@ export class AutocompleteComponent implements OnInit, OnChanges {
   }
 
   getLabel(candiate: any) {
-    if (this.searchField instanceof Array) {
-      let result: any = candiate;
-      this.searchField.forEach(element => {
-        if (result !== null && result[element] !== undefined) {
+    if (this.isMutipleFields) {
+      let results: any[] = this.searchField.map(element => {
+        return this.getFieldValue(candiate, element);
+      });
+      return results.join(' | ');
+    } else {
+      return this.getFieldValue(candiate, this.searchField);
+    }
+  }
+
+  private getFieldValue(object: any, path: any) {
+    if (path instanceof Array) {
+      let result: any = object;
+      path.forEach((element: any) => {
+        if (!this.isNull(result) && !this.isNull(result[element])) {
           result = result[element];
         } else {
           result = '';
@@ -75,19 +94,49 @@ export class AutocompleteComponent implements OnInit, OnChanges {
       });
       return result;
     } else {
-      return candiate[this.searchField] || '';
+      return object[path] || '';
     }
+  }
+
+  private isNull(object: any) {
+    return object === null || object === undefined;
   }
 
   private filterItems(search: string) {
     let field = this.searchField;
+    let isMutipleFields = this.isMutipleFields;
+    let filterItem = this.filterItem;
+    let isNull = this.isNull;
     this.candidates = this.items.filter(
       function (item) {
-        return search === undefined || search.length === 0
-          || (typeof item[field] === 'string'
-          && item[field].length > 0
-          && item[field].toLowerCase().indexOf(search.toLowerCase()) >= 0);
+        if (isMutipleFields) {
+          return field.findIndex((element: any) => {
+            return filterItem(item, element, search, isNull);
+          }) >= 0;
+        } else {
+          return filterItem(item, field, search, isNull);
+        }
     });
+  }
+
+  private filterItem(item: any, path: any, search: string, isNull: any) {
+    if(isNull(search) || search.length === 0) {
+      return true;
+    }
+    let result: any;
+    if (path instanceof Array) {
+      result = item;
+      path.forEach((element: any) => {
+        if (!isNull(result) && !isNull(result[element])) {
+          result = result[element];
+        } else {
+          result = '';
+        }
+      });
+    } else {
+      result = item[path] || '';
+    }
+    return result.toLowerCase().indexOf(search.toLowerCase()) >= 0;
   }
 
 }

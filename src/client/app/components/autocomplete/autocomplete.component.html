@@ -1,5 +1,5 @@
 <div class="autocomplete">
-	<input type="text" placeholder="search" [ngModel]="value"
+	<input type="text" placeholder="{{placeholder}}" [ngModel]="value"
 		(blur)="showAutoComplete=false;" (keyup)="enterText($event)"
 		(focus)="onFocus()">
 	<ul

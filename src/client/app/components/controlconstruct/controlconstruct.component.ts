@@ -127,7 +127,7 @@ export class ControlConstructComponent implements OnInit {
   }
 
   searchQuestionItems(key: string) {
-    this.service.searchQuestionItems(key).subscribe((result: any) => {
+    this.service.searchQuestionItemsByNameAndQuestion(key).subscribe((result: any) => {
       this.questionItems = result.content;
     },
       (error: any) => { this.popupModal(error); });

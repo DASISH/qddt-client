@@ -28,7 +28,8 @@
               <div class="row">
                 <div class="row">
                   <autocomplete [items]="questionItems"  class="black-text"
-					          [searchField]="'name'"
+					          [searchField]="['name', ['question','question']]"
+                    [isMutipleFields]="true"
 					          (autocompleteFocusEvent)="selectedQuestionItemIndex=idx;"
 					          [initialValue]="''"
                     [searchFromServer]="true"
@@ -144,11 +145,13 @@
       </div>
       <div *ngIf="!isDetail" class="card">
         <autocomplete [items]="questionItems" class="black-text"
-					[searchField]="'name'"
+					[searchField]="['name', ['question','question']]"
+          [isMutipleFields]="true"
 					(autocompleteFocusEvent)="selectedQuestionItemIndex=idx;"
 					[initialValue]="''"
           [searchFromServer]="true"
 					(enterEvent)="searchQuestionItems($event)"
+          [placeholder] = "'Search in question name or question text'"
 					(autocompleteSelectEvent)="onSelectQuestionItem($event)">
         </autocomplete>
         <div class="row black-text">List question constructs by Question Item: {{selectedQuestionItem?.question?.question}}</div>

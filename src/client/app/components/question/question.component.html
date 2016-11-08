@@ -52,6 +52,7 @@
         <qddt-table [items]="questionitems" [page]="page" [columns]="columns"
           [searchFromServer]="true"
 					(enterEvent)="searchResponseDomains($event)"
+          [placeholder] = "'Search in question name or question text'"
           (detailEvent)="onDetail($event)" (pageChangeEvent)="onPage($event)"></qddt-table>
       </div>
     </div>

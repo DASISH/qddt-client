@@ -65,8 +65,11 @@ export class ControlConstructService extends BaseService {
     return this.get('audit/questionitem/' + id + '/all');
   }
 
-  searchQuestionItems(name: string = '', page: String = '0'): any {
-    let query = name.length > 0? '&question=' + '*' + name +'*': '';
+  searchQuestionItemsByNameAndQuestion(name: string = '', page: String = '0', sort: String = ''): any {
+    let query = name.length > 0? '&question=' + '*' + name +'*' + '&name=' + '*' + name +'*': '';
+    if (sort.length > 0) {
+      query += '&sort=' + sort;
+    }
     return this.get('questionitem/page/search?' + 'page=' + page + query);
   }
 
