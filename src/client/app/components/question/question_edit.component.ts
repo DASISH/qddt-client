@@ -13,24 +13,25 @@ import { Observable }     from 'rxjs/Observable';
     <div *ngIf="questionitem">
       <div class="card-action">
         <form (ngSubmit)="onEditQuestionItem()" #hf="ngForm">
-          <div class="row"><span>Name</span>
-            <input name="{{questionitem?.id}}-name" type="text" [(ngModel)]="questionitem.name">
+          <div class="row">
+            <label [attr.for]="questionitem.id + '-question-name'" class="active teal-text">Name</label>
+            <input name="{{questionitem?.id}}-question-name" type="text" [(ngModel)]="questionitem.name">
           </div>
           <div class="row">
             <div class="row">
-              <div class="input-field col s12">
+              <div class="col s12">
+                <label [attr.for]="questionitem.id + '-question-textarea'" class="active teal-text">Question text</label>                
                 <textarea id="{{questionitem?.id}}-question-textarea"
                   name="{{questionitem?.id}}-question-textarea" [(ngModel)]="questionitem.question.question"
                   class="materialize-textarea" [attr.maxlength]="1500"></textarea>
-                <label [attr.for]="questionitem.id + '-question-textarea'" class="active teal-text">Question text</label>
               </div>
             </div>
             <div class="row">
-              <div class="input-field col s12">
+              <div class="col s12">
+                <label [attr.for]="questionitem.id + '-question-intent'" class="active teal-text">Question intent</label>                
                 <textarea id="{{questionitem?.id}}-question-intent"
                   name="{{questionitem?.id}}-question-intent" [(ngModel)]="questionitem.question.intent"
                   class="materialize-textarea" [attr.maxlength]="1500"></textarea>
-                <label [attr.for]="questionitem.id + '-question-intent'" class="active teal-text">Question intent</label>
               </div>
             </div>
           </div>

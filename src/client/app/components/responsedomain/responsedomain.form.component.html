@@ -3,32 +3,32 @@
 
 		<form (ngSubmit)="save()" #hf="ngForm">
 			<div class="row">
-				<div class="input-field col s12">
-					<input id="name" name="name" type="text" [(ngModel)]="responsedomain.name" required>
+				<div class="col s12">
 					<label for="name" class="active teal-text">Name</label>
+					<input id="name" name="name" type="text" [(ngModel)]="responsedomain.name" required>
 				</div>
 			</div>
 			<div class="row">
-				<div class="input-field col s12">
+				<div class="col s12">
+					<label for="description" class="active teal-text">Description</label>					
 					<textarea class="materialize-textarea"
 					  id="description" name="description"
 						[(ngModel)]="responsedomain.description"></textarea>
-					<label for="description" class="active teal-text">Description</label>
 				</div>
 			</div>
 			<div class="row">
 				<div [ngSwitch]="domainType">
 					<div *ngSwitchCase="domainTypeDef.SCALE">
 						<div class="row">
-              <div class="input-field col s4">
+              <div class="col s4">
+                <label for="scale_start" class="active">Start</label>
                 <input id="scale_start" name="scale_start" type="number"
 					        [(ngModel)]="responsedomain.managedRepresentation.inputLimit.minimum" required>
-                <label for="scale_start" class="active">Start</label>
               </div>
-              <div class="input-field col s4">
+              <div class="col s4">
+                <label for="scale_end" class="active">End</label>
                 <input id="scale_end" name="scale_end" type="number"
 					        [(ngModel)]="responsedomain.managedRepresentation.inputLimit.maximum" required>
-                <label for="scale_end" class="active">End</label>
               </div>
 							<div class="col s4 input-field">
 							  <label for="scale_DisplayLayout" class="active">Display Layout</label>
@@ -43,12 +43,12 @@
             </div>
 
 						<div class="row">
-							<div class="input-field col s4">
+							<div class="col s4">
+							  <label for="scale_anchor" class="active">Number of Anchor</label>
 							  <input id="scale_anchor" name="scale_anchor" type="number" [(ngModel)]="numberOfAnchors"
 								  min="0"
 								  [attr.max]="responsedomain.managedRepresentation.inputLimit.maximum - responsedomain.managedRepresentation.inputLimit.minimum + 1"
 								  (ngModelChange)="changeNumberOfAnchors($event)" required>
-							  <label for="scale_anchor" class="active">Number of Anchor</label>
 							</div>
 						</div>
 

@@ -12,17 +12,17 @@ import { Change } from '../../../common/change_status';
     <div *ngIf="topic" class="card" id="{{topic.id}}"  >
       <form (ngSubmit)="onSave()" #hf="ngForm">
         <div class="row">
-          <div class="input-field col s12">
+          <div class="col s12">
+            <label [attr.for]="topic.id + '-name'" class="active teal-text">Name</label>          
             <input id="{{topic?.id}}-name"
               name="{{topic?.id}}-name"type="text" [(ngModel)]="topic.name" required>
-            <label [attr.for]="topic.id + '-name'" class="active teal-text">Name</label>
           </div>
         </div>
         <div class="row">
-          <div class="input-field col s12">
+          <div class="col s12">
+            <label [attr.for]="topic.id + '-description'" class="active teal-text">Description</label>            
             <textarea id="{{topic?.id}}-description" name="{{topic?.id}}-description"
               class="materialize-textarea"  [(ngModel)]="topic.abstractDescription" required></textarea>
-            <label [attr.for]="topic.id + '-description'" class="active teal-text">Description</label>
           </div>
         </div>
         <div class="row">

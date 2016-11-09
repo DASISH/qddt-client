@@ -1,8 +1,6 @@
 import { Component, Input, Output,EventEmitter } from '@angular/core';
 
-
 import { SurveyService, SurveyProgram } from '../../surveyprogram/survey.service';
-import { Change } from '../../../common/change_status';
 
 @Component({
   selector: 'surveyprogram-edit',
@@ -13,18 +11,18 @@ import { Change } from '../../../common/change_status';
     <div *ngIf="survey" class="card" id="{{survey.id}}"  >
       <form materialize (ngSubmit)="onSave()" #surveyForm="ngForm">
         <div class="row">
-          <div class="input-field col s12">
+          <div class="col s12">
+            <label [attr.for]="survey.id + '-name'" class="active teal-text">Name</label>
             <input id="{{survey?.id}}-name"
               name="{{survey?.id}}-name"
               type="text" [(ngModel)]="survey.name" required>
-            <label [attr.for]="survey.id + '-name'" class="active teal-text">Name</label>
           </div>
         </div>
         <div class="row">
-          <div class="input-field col s12">
+          <div class="col s12">
+            <label [attr.for]="survey.id + '-description'" class="active teal-text">Description</label>
             <textarea id="{{survey?.id}}-description" name="{{survey?.id}}-description"
               class="materialize-textarea"  [(ngModel)]="survey.description" required></textarea>
-            <label [attr.for]="survey.id + '-description'" class="active teal-text">Description</label>
           </div>
         </div>
         <div class="row">
@@ -54,11 +52,9 @@ export class SurveyProgramEditComponent {
   @Input() survey: SurveyProgram;
   @Input() isVisible: boolean;
   @Output() surveySavedEvent: EventEmitter<SurveyProgram> = new EventEmitter<SurveyProgram>();
-  private changes: any;
   private showlabel: boolean = false;
 
   constructor(private surveyService: SurveyService) {
-    this.changes = Change.status;
   }
 
   onSave() {

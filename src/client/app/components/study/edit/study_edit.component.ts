@@ -13,13 +13,13 @@
      <div *ngIf="study" class="card" id="{{study.id}}"  >
      <form (ngSubmit)="onSave()" #hf="ngForm">
        <div class="row">
-         <div class="input-field col s12">
+         <div class="col s12">
            <label for="name" class="active teal-text">Name</label>
            <input id="name" name="name" type="text" [(ngModel)]="study.name" required>
          </div>
        </div>
        <div class="row">
-         <div class="input-field col s12">
+         <div class="col s12">
            <label for="description" class="active teal-text">Description</label>
            <textarea id="description" name="description" class="materialize-textarea"  [(ngModel)]="study.description" required></textarea>
          </div>

@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { ConceptService, Concept } from '../concept.service';
-import { Change } from '../../../common/change_status';
 
 @Component({
   selector: 'concept-edit',
@@ -11,18 +10,18 @@ import { Change } from '../../../common/change_status';
     <div *ngIf="concept" class="card" id="{{concept.id}}"  >
       <form (ngSubmit)="save()" #hf="ngForm">
         <div class="row">
-          <div class="input-field col s12">
+          <div class="col s12">
+            <label [attr.for]="concept.id + '-name'" class="active teal-text">Name</label>            
             <input id="{{concept?.id}}-name"
               name="{{concept?.id}}-name" type="text" [(ngModel)]="concept.name" required>
-            <label [attr.for]="concept.id + '-name'" class="active teal-text">Name</label>
           </div>
         </div>
         <div class="row">
-          <div class="input-field col s12">
+          <div class="col s12">
+            <label [attr.for]="concept.id + '-description'" class="active teal-text">Description</label>            
             <textarea class="materialize-textarea" id="{{concept?.id}}-description"
               name="{{concept?.id}}-description"
               [(ngModel)]="concept.description" required></textarea>
-            <label [attr.for]="concept.id + '-description'" class="active teal-text">Description</label>
           </div>
         </div>
         <div class="row">
@@ -52,11 +51,9 @@ export class ConceptEditComponent {
   @Input() concept: Concept;
   @Input() isVisible: boolean;
   private service: ConceptService;
-  private _ChangeEnums: any;
 
   constructor(conceptService: ConceptService) {
     this.service = conceptService;
-    this._ChangeEnums = Change.status;
   }
 
   save() {
