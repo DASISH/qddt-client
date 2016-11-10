@@ -10,14 +10,19 @@ import { QddtTableComponent } from '../components/table/table.component';
 import { QddtPagination } from '../components/pagination/pagination';
 import { AutocompleteComponent } from '../components/autocomplete/autocomplete.component';
 import { RationalComponent } from '../components/rational/rational.component';
+import { StudyUsedbyComponent } from '../components/study/study.usedby.component';
+import { TopicUsedbyComponent } from '../components/topic/topic.usedby.component';
+import { QuestionUsedbyComponent } from '../components/question/question.usedby.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, MaterializeModule],
   declarations: [ LocalDatePipe, QddtTableComponent, QddtPagination, AutocompleteComponent,
-  AuthorChipComponent, AuthorChipEditComponent, AuthorListModalComponent, RationalComponent ],
+    StudyUsedbyComponent, TopicUsedbyComponent, QuestionUsedbyComponent,
+    AuthorChipComponent, AuthorChipEditComponent, AuthorListModalComponent, RationalComponent ],
   exports: [LocalDatePipe, CommonModule, FormsModule, MaterializeModule,
-      QddtTableComponent, QddtPagination, AutocompleteComponent, RationalComponent,
-  AuthorChipComponent, AuthorChipEditComponent, AuthorListModalComponent]
+    StudyUsedbyComponent, TopicUsedbyComponent, QuestionUsedbyComponent,
+    QddtTableComponent, QddtPagination, AutocompleteComponent, RationalComponent,
+    AuthorChipComponent, AuthorChipEditComponent, AuthorListModalComponent]
 })
 
 export class SharedModule { }

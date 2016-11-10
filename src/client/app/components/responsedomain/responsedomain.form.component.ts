@@ -20,6 +20,7 @@ export class ResponsedomainFormComponent implements OnInit {
   @Input() responsedomain: any;
   @Input() domainType: DomainType;
   @Output() formChange: EventEmitter<any>;
+  responsedomainActions = new EventEmitter<string>();
 
   public domainTypeDef = DomainType;
   private categories: any;
@@ -28,6 +29,9 @@ export class ResponsedomainFormComponent implements OnInit {
   private selectedCategoryIndex: number;
   private suggestions: Category[];
   private numberOfAnchors: number;
+  private usedBy: any[];
+  private selectedId: string;
+  private selectedType: string;
 
   constructor(private categoryService: CategoryService) {
     this._ChangeEnums = Change.status;
@@ -35,6 +39,7 @@ export class ResponsedomainFormComponent implements OnInit {
     this.selectedCategoryIndex = 0;
     this.formChange = new EventEmitter<any>();
     this.numberOfAnchors = 0;
+    this.usedBy = [];
   }
 
   ngOnInit() {
@@ -82,6 +87,31 @@ export class ResponsedomainFormComponent implements OnInit {
     this.categoryService.getAllByLevel('ENTITY').subscribe((result: any) => {
       this.categories = result.content;
     });
+    this.buildUsedBy();
+  }
+
+  onClickStudy(id: string) {
+    this.selectedId = id;
+    this.selectedType = 'study';
+    this.responsedomainActions.emit('openModal');
+  }
+
+  onClickTopic(id: string) {
+    this.selectedId = id;
+    this.selectedType = 'topic';
+    this.responsedomainActions.emit('openModal');
+  }
+
+  onClickQuestion(id: string) {
+    this.selectedId = id;
+    this.selectedType = 'question';
+    this.responsedomainActions.emit('openModal');
+  }
+
+  onClickResponsedomain(id: string) {
+    this.selectedId = id;
+    this.selectedType = 'responsedomain';
+    this.responsedomainActions.emit('openModal');
   }
 
   select(candidate: any) {
@@ -230,6 +260,48 @@ export class ResponsedomainFormComponent implements OnInit {
       this.responsedomain.displayLayout = parseInt(degree);
     } else {
       this.responsedomain.displayLayout = degree;
+    }
+  }
+
+  private buildUsedBy() {
+    let usedBy = [];
+    if(this.responsedomain.questionRefs && this.responsedomain.questionRefs.length > 0) {
+      this.responsedomain.questionRefs.forEach((qRef: any) => {
+        if(qRef.conceptRefs.length > 0) {
+          qRef.conceptRefs.forEach((ref: any) => {
+            let index = usedBy.findIndex((e:any) => e.topic.id === ref.topicRef.id && e.study.id === ref.topicRef.studyRef.id);
+            if(index >= 0) {
+              let i = usedBy[index].questions.findIndex((e:any) => e.id === qRef.id);
+              if(i < 0) {
+                usedBy[index].questions.push({id: qRef.id, name: qRef.name});
+              }
+            } else {
+              let item = {
+                topic: {id: ref.topicRef.id, name: ref.topicRef.name},
+                study: {id: ref.topicRef.studyRef.id, name: ref.topicRef.studyRef.name},
+                questions: [{id: qRef.id, name: qRef.name}]};
+              usedBy.push(item);
+            }
+          });
+        } else {
+          let item = {
+            topic: {id: '', name: ''},
+            study: {id: '', name: ''},
+            questions: [{id: qRef.id, name: qRef.name}]};
+          usedBy.push(item);
+        }
+      });
+      usedBy.forEach((item: any) => {
+        if (item.questions.length <= 0) {
+          this.usedBy.push({topic: item.topic, study: item.study});
+        } else {
+          this.usedBy.push({topic: item.topic, study: item.study,
+            question: {id: item.questions[0].id, name: item.questions[0].name}});
+          for(let i = 1; i < item.questions.length; i++) {
+            this.usedBy.push({question: {id: item.questions[i].id, name: item.questions[i].name}});
+          }
+        }
+      });
     }
   }
 }

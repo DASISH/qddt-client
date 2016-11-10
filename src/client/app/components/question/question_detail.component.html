@@ -24,6 +24,36 @@
         <p>{{questionitem?.description}}</p>
       </div>
 
+      <div class="row card" *ngIf="questionitem.conceptRefs && questionitem.conceptRefs.length > 0" >
+        <div class="red-text">
+          <h5>Used by:</h5>
+        </div>
+        <table class="striped">
+        <thead>
+          <tr><th>Study</th><th>Module</th><th>Question Item Version</th></tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ref of questionitem.conceptRefs" >
+            <td>
+              <a [ngStyle]="{'text-decoration': 'underline'}" (click)="onClickStudy(ref.topicRef.studyRef.id)">
+                {{ref?.topicRef?.studyRef?.name}}
+              </a>
+            </td>
+            <td>
+              <a [ngStyle]="{'text-decoration': 'underline'}" (click)="onClickTopic(ref.topicRef.id)">
+                {{ref?.topicRef?.name}}
+              </a>
+            </td>
+            <td>
+              <a [ngStyle]="{'text-decoration': 'underline'}" (click)="onClickQuestion(questionitem.id)">
+                {{questionitem?.version?.major}}.{{questionitem?.version?.minor}}
+              </a>
+            </td>
+          </tr>
+        </tbody>
+        </table>
+      </div>
+
       <qddt-questionitem-edit [isVisible]="true"
         [editResponseDomain]="true"
         (editQuestionItem)="onEditQuestionItem($event)"
@@ -40,5 +70,29 @@
       </div>
     </div>
 
+  </div>
+</div>
+
+<div [attr.id]="'study-detail-readonly-modal'" class="modal modal-fixed-footer"
+  materialize [materializeActions]="studyActions">
+  <div class="modal-content">
+    <div class="row" *ngIf="selectedId && selectedType === 'study'">
+      <qddt-study-usedby [id]="selectedId">
+      </qddt-study-usedby>
+    </div>
+    <div class="row" *ngIf="selectedId && selectedType === 'topic'">
+      <qddt-topic-usedby [id]="selectedId">
+      </qddt-topic-usedby>
+    </div>
+    <div class="row" *ngIf="selectedId && selectedType === 'question'">
+      <qddt-question-usedby [id]="selectedId">
+      </qddt-question-usedby>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button id="controlConstructs-modal-close"
+      class="btn btn-default red modal-action modal-close waves-effect">
+      <a><i class="close material-icons medium white-text">close</i></a>
+    </button>
   </div>
 </div>

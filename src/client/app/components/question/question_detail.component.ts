@@ -16,10 +16,14 @@ export class QuestionDetail implements OnInit {
   @Input() isVisible: boolean;
   @Output() hideDetailEvent: EventEmitter<String> = new EventEmitter<String>();
   @Output() editQuestionItem: EventEmitter<any> = new EventEmitter<any>();
+  studyActions = new EventEmitter<string>();
+
   private revisionIsVisible: boolean;
   private editIsVisible: boolean;
   private conceptIsVisible: boolean;
   private config: any[];
+  private selectedId: string;
+  private selectedType: string;
 
   constructor(private service: QuestionService) {
     this.revisionIsVisible = false;
@@ -59,6 +63,24 @@ export class QuestionDetail implements OnInit {
     let i = this.questionitems.findIndex(q => q['id'] === questionitem['id']);
     this.questionitems[i] = questionitem;
     this.hidDetail();
+  }
+
+  onClickStudy(id: string) {
+    this.selectedId = id;
+    this.selectedType = 'study';
+    this.studyActions.emit('openModal');
+  }
+
+  onClickTopic(id: string) {
+    this.selectedId = id;
+    this.selectedType = 'topic';
+    this.studyActions.emit('openModal');
+  }
+
+  onClickQuestion(id: string) {
+    this.selectedId = id;
+    this.selectedType = 'question';
+    this.studyActions.emit('openModal');
   }
 
   private buildRevisionConfig(): any[] {

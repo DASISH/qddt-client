@@ -17,6 +17,7 @@ import { ResponsedomainListComponent } from './responsedomain.list.component';
 import { PreviewComponent } from './responsedomain.preview.component';
 import { ResponsedomainReuseComponent } from './responsedomain.reuse.component';
 import { ResponseDomainSearchComponent } from './responsedomain.search';
+import { ResponsedomainUsedbyComponent } from './responsedomain.usedby.component';
 
 @NgModule({
   imports: [ SharedModule, RevisionModule, CompareModule, CommentModule ],
@@ -26,7 +27,7 @@ import { ResponseDomainSearchComponent } from './responsedomain.search';
     ResponsedomainMissingComponent, ResponsedomainCategoryListComponent,
     ResponsedomainFormComponent, ResponsedomainListComponent,
     PreviewComponent, ResponsedomainReuseComponent,
-    ResponseDomainSearchComponent, ResponsedomainMixedComponent
+    ResponseDomainSearchComponent, ResponsedomainMixedComponent, ResponsedomainUsedbyComponent
     ],
   exports: [ResponsedomainComponent,
     ResponsedomainFormComponent, ResponsedomainListComponent,

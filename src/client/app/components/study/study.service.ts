@@ -29,6 +29,10 @@ export class StudyService extends BaseService {
     return this.get('surveyprogram/'+surveyProgramId);
   }
 
+  getStudy(id: String) : any {
+    return this.get('study/' + id);
+  }
+
   attachAuthor(studyId: string, authorId: string):any {
     return this.get('author/combine?authorId='+ authorId + '&studyId=' +studyId);
   }

@@ -1,6 +1,46 @@
 <div>
 	<div *ngIf="responsedomain" class="card" id="{{responsedomain.id}}">
 
+		<div class="row card"
+			*ngIf="usedBy && usedBy.length > 0" >
+      <div class="red-text">
+        <h5>Used by:</h5>
+      </div>
+      <table class="striped">
+        <thead>
+          <tr><th>Study</th><th>Module</th><th>Question Item</th><th>Response Domain-Version</th></tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of usedBy" >
+            <td>
+              <a *ngIf="row.study" [ngStyle]="{'text-decoration': 'underline'}"
+							  (click)="onClickStudy(row.study.id)">
+                {{row?.study?.name}}
+              </a>
+            </td>
+            <td>
+              <a *ngIf="row.topic" [ngStyle]="{'text-decoration': 'underline'}"
+							  (click)="onClickTopic(row.topic.id)">
+                {{row?.topic?.name}}
+              </a>
+            </td>
+            <td>
+              <a *ngIf="row.question" [ngStyle]="{'text-decoration': 'underline'}"
+							  (click)="onClickQuestion(row.question.id)">
+                {{row?.question?.name}}
+              </a>
+            </td>
+						<td>
+              <a *ngIf="row.question" [ngStyle]="{'text-decoration': 'underline'}"
+							  (click)="onClickResponsedomain(responsedomain.id)">
+								{{responsedomain?.version?.major}}.{{responsedomain?.version?.minor}}
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
 		<form (ngSubmit)="save()" #hf="ngForm">
 			<div class="row">
 				<div class="col s12">
@@ -200,4 +240,33 @@
 			<button type="submit" class="btn btn-default">Submit</button>
 		</form>
 	</div>
+</div>
+
+<div [attr.id]="'responsedomain-detail-readonly-modal'" class="modal modal-fixed-footer"
+  materialize [materializeActions]="responsedomainActions">
+  <div class="modal-content">
+    <div class="row" *ngIf="selectedId && selectedType === 'study'">
+      <qddt-study-usedby [id]="selectedId">
+      </qddt-study-usedby>
+    </div>
+    <div class="row" *ngIf="selectedId && selectedType === 'topic'">
+      <qddt-topic-usedby [id]="selectedId">
+      </qddt-topic-usedby>
+    </div>
+    <div class="row" *ngIf="selectedId && selectedType === 'question'">
+      <qddt-question-usedby [id]="selectedId">
+      </qddt-question-usedby>
+    </div>
+		<div class="row" *ngIf="selectedType === 'responsedomain'">
+      <qddt-responsedomain-usedby [responsedomain]="responsedomain"
+			  [domainType]="domainType">
+      </qddt-responsedomain-usedby>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button id="controlConstructs-modal-close"
+      class="btn btn-default red modal-action modal-close waves-effect">
+      <a><i class="close material-icons medium white-text">close</i></a>
+    </button>
+  </div>
 </div>

@@ -30,6 +30,10 @@ export class TopicService extends BaseService {
     return this.get('topicgroup/list/by-study/'+studyId);
   }
 
+  getTopic(id: string): any {
+    return this.get('topicgroup/' + id);
+  }
+
   attachAuthor(topicId: string, authorId: string):any {
     return this.get('author/combine?authorId='+ authorId + '&topicId=' +topicId);
   }
