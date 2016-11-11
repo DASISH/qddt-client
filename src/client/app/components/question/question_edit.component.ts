@@ -11,6 +11,9 @@ import { Observable }     from 'rxjs/Observable';
   `
   <div *ngIf="isVisible" class="card white grey-text text-darken-1">
     <div *ngIf="questionitem">
+      <qddt-responsedomain-preview *ngIf="privewResponseDomain"
+        [isVisible]="true" [responseDomain]="privewResponseDomain">
+      </qddt-responsedomain-preview>
       <div class="card-action">
         <form (ngSubmit)="onEditQuestionItem()" #hf="ngForm">
           <div class="row">
@@ -133,6 +136,7 @@ export class QuestionItemEdit implements OnInit {
   @Output() editQuestionItem: EventEmitter<any>;
   selectedConcept: any;
   conceptActions = new EventEmitter<string>();
+  privewResponseDomain: any;
   private showResponseDomainForm: boolean;
   private mainResponseDomain: any;
   private secondCS: any;
@@ -186,6 +190,7 @@ export class QuestionItemEdit implements OnInit {
         },
         (error: any) => { console.log(error); });
     }
+    this.buildPrivewResponseDomain();
   }
 
   onClickConcept(concept: any) {
@@ -210,18 +215,21 @@ export class QuestionItemEdit implements OnInit {
 
   onEditMissing(missing: any) {
     this.secondCS = missing;
+    this.buildPrivewResponseDomain();
   }
 
   responseDomainReuse(responseDomain: any) {
     this.mainResponseDomain = responseDomain;
     this.showResponseDomainForm = false;
     document.getElementById('questionItem-modal-close').click();
+    this.buildPrivewResponseDomain();
   }
 
   onRemoveResponsedomain(questionitem: any) {
     this.mainResponseDomain = null;
     this.secondCS = null;
     this.showResponseDomainForm = false;
+    this.privewResponseDomain = null;
   }
 
   onClickEdit() {
@@ -351,6 +359,28 @@ export class QuestionItemEdit implements OnInit {
 
   private isNull(object: any) {
     return object === undefined || object === null;
+  }
+
+  private buildPrivewResponseDomain() {
+    if (this.mainResponseDomain === null && this.secondCS === null) {
+      this.privewResponseDomain = null;
+    } else if (this.mainResponseDomain !== null && this.secondCS === null) {
+      this.privewResponseDomain = this.mainResponseDomain;
+    } else {
+      this.privewResponseDomain = {id: new Date().toString()};
+      this.privewResponseDomain.managedRepresentation = {children: []};
+      this.privewResponseDomain['responseKind'] = 'MIXED';
+      this.privewResponseDomain['description'] = '';
+      this.privewResponseDomain['name'] = '';
+      if(this.mainResponseDomain !== null) {
+        this.privewResponseDomain.managedRepresentation.children
+          .push(this.mainResponseDomain.managedRepresentation);
+      }
+      if(this.secondCS !== null) {
+        this.privewResponseDomain.managedRepresentation.children
+          .push(this.secondCS);
+      }
+    }
   }
 
 }
