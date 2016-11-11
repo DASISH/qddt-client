@@ -2,6 +2,12 @@
 
 *This is a prototype for the web client based on the QDDT API being developed at NSD. This prototype uses Angular 2.0.0 releases.*
 
+## Sites
+
+[QDDT Prod](https://qddt.nsd.no)
+
+[QDDT Test/Dev](http://qddt-dev.nsd.no)
+
 ## Demo
 
 [QDDT Client](http://dasish.github.io/qddt-client/)
