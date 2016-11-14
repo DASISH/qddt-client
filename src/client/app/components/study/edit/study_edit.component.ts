@@ -25,9 +25,6 @@
          </div>
        </div>
        <div class="row">
-         <qddt-rational [element]="study"></qddt-rational>
-       </div>
-       <div class="row">
          <div class="input-field col s8">
            <p><label class="active teal-text">Authors</label></p>
            <author-chip-edit [authors]="study.authors"  
@@ -38,6 +35,9 @@
          <p><label class="active teal-text">Agency</label></p>
           <div class="chip" >{{study.modifiedBy.agency.name}}</div>
          </div>
+       </div>
+       <div class="row">
+         <qddt-rational [element]="study"></qddt-rational>
        </div>
        <button type="submit" class="btn btn-default">Submit</button>
      </form>

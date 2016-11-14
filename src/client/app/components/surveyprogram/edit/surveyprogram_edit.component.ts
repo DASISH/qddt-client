@@ -25,9 +25,7 @@ import { SurveyService, SurveyProgram } from '../../surveyprogram/survey.service
               class="materialize-textarea"  [(ngModel)]="survey.description" required></textarea>
           </div>
         </div>
-        <div class="row">
-		      <qddt-rational [element]="survey"></qddt-rational>
-        </div>
+
         <div class="row">
           <div class="input-field col s8">
             <p><label class="active teal-text">Authors</label></p>
@@ -40,6 +38,11 @@ import { SurveyService, SurveyProgram } from '../../surveyprogram/survey.service
             <div class="chip" >{{survey.modifiedBy.agency.name}}</div>
           </div>
         </div>
+
+        <div class="row">
+		      <qddt-rational [element]="survey"></qddt-rational>
+        </div>
+        
         <button type="submit" class="btn btn-default">Submit</button>
       </form>
     </div>
