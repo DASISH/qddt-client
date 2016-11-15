@@ -373,6 +373,7 @@ export class QuestionItemEdit implements OnInit {
       this.privewResponseDomain['description'] = '';
       this.privewResponseDomain['name'] = '';
       if(this.mainResponseDomain !== null) {
+        this.privewResponseDomain['displayLayout'] = this.questionitem.responseDomain['displayLayout'];
         this.privewResponseDomain.managedRepresentation.children
           .push(this.mainResponseDomain.managedRepresentation);
       }

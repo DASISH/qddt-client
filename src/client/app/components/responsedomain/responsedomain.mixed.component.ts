@@ -60,6 +60,7 @@ export class ResponsedomainMixedComponent implements OnChanges {
         missing = rd;
         continue;
       }
+      rd['displayLayout'] = this.responseDomain['displayLayout'] | 0;
       this.mixedDomains.push(rd);
     }
 
