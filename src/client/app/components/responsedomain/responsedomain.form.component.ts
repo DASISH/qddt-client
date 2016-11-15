@@ -127,6 +127,7 @@ export class ResponsedomainFormComponent implements OnInit {
         let c = category.children[x];
         if (c.isNew === true) {
           c.name = c.label;
+          c.description = '';
           return this.categoryService.save(c);
         } else {
           return Observable.of(c);
@@ -153,6 +154,8 @@ export class ResponsedomainFormComponent implements OnInit {
           changeEvent.emit(rd);
         } else {
           category.name = 'category scheme for ' + rd.name;
+          category.description = '';
+          category.label = category.name;
           service.save(category)
             .subscribe((result: any) => {
               for (let i = 0; i < category.children.length; i++) {

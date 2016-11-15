@@ -217,7 +217,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="row">
+			<div *ngIf="responsedomain.id" class="row">
 				<qddt-rational [element]="responsedomain"></qddt-rational>
 			</div>
 			<div *ngIf="responsedomain.authors" class="row">
