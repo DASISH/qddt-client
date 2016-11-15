@@ -25,7 +25,6 @@ export class TopicComponent implements OnChanges {
   ngOnChanges() {
     this.topicService.getAll(this.study.id)
       .subscribe((result: any) => this.topics = result);
-    console.log('OnChanges '+ this.study.name);
   }
 
   onToggleTopicForm() {
@@ -34,7 +33,6 @@ export class TopicComponent implements OnChanges {
 
   onSelectTopic(topic: any) {
     this.topicSelectedEvent.emit(topic);
-    console.log('on select topic ' + topic.name);
   }
 
   onSave() {
@@ -47,7 +45,6 @@ export class TopicComponent implements OnChanges {
   }
 
   getDefaultConcept(topic: any): any {
-    console.log('DefaultConcept->' + topic.name);
     return topic.concepts.find( (item: any) => ( this.isBlank(item.name) && this.isBlank(item.description) && this.isBlank(item.label)));
   }
 

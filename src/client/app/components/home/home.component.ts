@@ -1,5 +1,4 @@
-import { Component, AfterContentChecked } from '@angular/core';
-
+import { Component, AfterContentChecked, OnInit } from '@angular/core';
 import { UserService } from '../../common/user.service';
 
 @Component({
@@ -7,7 +6,8 @@ import { UserService } from '../../common/user.service';
   moduleId: module.id,
   templateUrl: './home.component.html',
 })
-export class HomeCmp implements AfterContentChecked {
+
+export class HomeCmp implements AfterContentChecked, OnInit {
 
   showSurveyProgram: boolean = true;
   showStudy: boolean = false;
@@ -27,24 +27,29 @@ export class HomeCmp implements AfterContentChecked {
 
   }
 
+  ngOnInit() {
+    this.loadData();
+  }
+
   ngAfterContentChecked() {
     this.user = this.userService.get();
+    this.loadData();
   }
 
   loginEvent() {
     this.user = this.userService.get();
   }
 
-   onShowSurvey() {
+  onShowSurvey() {
+    this.showStudy = false;
+    this.showConcept = false;
+    this.showTopic = false;
+    this.showSurveyProgram = true;
 
-     this.showStudy = false;
-     this.showConcept = false;
-     this.showTopic = false;
-     this.showSurveyProgram =true;
-
-     this.study = null;
-     this.topic = null;
-
+    this.study = null;
+    this.topic = null;
+    this.concept = null;
+    this.saveGlobalConfig('survey');
   }
 
   onShowStudy() {
@@ -55,6 +60,7 @@ export class HomeCmp implements AfterContentChecked {
 
     this.topic = null;
     this.concept = null;
+    this.saveGlobalConfig('study');
   }
 
   onShowTopic() {
@@ -65,6 +71,7 @@ export class HomeCmp implements AfterContentChecked {
     this.showConcept = false;
 
     this.concept = null;
+    this.saveGlobalConfig('topic');
   }
 
   onShowConcept() {
@@ -73,6 +80,7 @@ export class HomeCmp implements AfterContentChecked {
     this.showStudy = false;
     this.showTopic = false;
     this.showConcept = true;
+    this.saveGlobalConfig('concept');
   }
 
   onSurveySelect(surveyProgram: any) {
@@ -93,5 +101,27 @@ export class HomeCmp implements AfterContentChecked {
   onConceptSelected(concept: any) {
     this.concept = concept;
     this.showConcept = true;
+  }
+
+  private saveGlobalConfig(name: string) {
+    this.userService.setGlobalObject('home', {
+      'current': name,
+      'survey': this.survey, 'study': this.study,
+      'topic': this.topic, 'concept': this.concept,
+    });
+  }
+
+  private loadData() {
+    let home = this.userService.getGlobalObject('home');
+    if (home !== '') {
+      this.showStudy = home.current === 'study';
+      this.showConcept = home.current === 'concept';
+      this.showTopic = home.current === 'topic';
+      this.showSurveyProgram = home.current === 'survey';
+      this.survey = home.survey;
+      this.study = home.study;
+      this.topic = home.topic;
+      this.concept = home.concept;
+    }
   }
 }

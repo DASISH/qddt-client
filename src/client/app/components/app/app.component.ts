@@ -28,4 +28,41 @@ export class AppCmp implements AfterContentChecked {
   logoutEvent() {
     this.userService.remove();
   }
+
+  onQuestions() {
+    this.checkRouter('questions', 'list');
+  }
+
+  onHome() {
+    this.checkRouter('home', 'survey');
+  }
+
+  onCategories() {
+    this.checkRouter('categories', 'list');
+  }
+
+  onSchemes() {
+    this.checkRouter('schemes', 'list');
+  }
+
+  onResponsedomains() {
+    this.checkRouter('responsedomains', 'list');
+  }
+
+  onConstructs() {
+    this.checkRouter('constructs', 'list');
+  }
+
+  private checkRouter(target: string, value: string) {
+    let current = this.userService.getGlobalObject('current');
+    if (current === target) {
+      let config = this.userService.getGlobalObject('home');
+      if(config.current !== value) {
+        this.userService.setGlobalObject(target, {'current': value});
+      }
+    } else if(this.userService.getGlobalObject(target) === '') {
+      this.userService.setGlobalObject(target, {'current': value});
+    }
+    this.userService.setGlobalObject('current', target);
+  }
 }

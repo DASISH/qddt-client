@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterContentChecked } from '@angular/core';
 
 import { QuestionService, QuestionItem, Question } from './question.service';
+import { UserService } from '../../common/user.service';
 
 @Component({
   selector: 'question',
@@ -9,7 +10,7 @@ import { QuestionService, QuestionItem, Question } from './question.service';
   providers: [QuestionService]
 })
 
-export class QuestionComp implements OnInit {
+export class QuestionComp implements AfterContentChecked, OnInit {
 
   showQuestionItemForm: boolean = false;
 
@@ -21,7 +22,7 @@ export class QuestionComp implements OnInit {
   private columns: any[];
   private searchKeys: string;
 
-  constructor(private questionService: QuestionService) {
+  constructor(private questionService: QuestionService, private userService: UserService) {
     this.isDetail = false;
     this.questionitems = [];
     this.page = {};
@@ -32,8 +33,28 @@ export class QuestionComp implements OnInit {
   }
 
   ngOnInit() {
-    this.questionService.getQuestionItemPage().subscribe(
+    let config = this.userService.getGlobalObject('questions');
+    if (config.current === 'detail' ) {
+      this.page = config.page;
+      this.questionitems = config.collection;
+      this.selectedQuestionItem = config.item;
+      this.isDetail = true;
+    } else {
+      this.questionService.getQuestionItemPage().subscribe(
       (result: any) => { this.page = result.page; this.questionitems = result.content; });
+    }
+  }
+
+  ngAfterContentChecked() {
+    let config = this.userService.getGlobalObject('questions');
+    if (config.current === 'detail' ) {
+      this.page = config.page;
+      this.questionitems = config.collection;
+      this.selectedQuestionItem = config.item;
+      this.isDetail = true;
+    } else {
+      this.isDetail = false;
+    }
   }
 
   onToggleQuestionItemForm() {
@@ -47,10 +68,16 @@ export class QuestionComp implements OnInit {
   onDetail(questionItem: any) {
     this.selectedQuestionItem = questionItem;
     this.isDetail = true;
+    this.userService.setGlobalObject('questions',
+      {'current': 'detail',
+        'page': this.page,
+        'item': this.selectedQuestionItem,
+        'collection': this.questionitems});
   }
 
   hideDetail() {
     this.isDetail = false;
+    this.userService.setGlobalObject('questions', {'current': 'list'});
   }
 
   onPage(page: string) {

@@ -4,9 +4,11 @@ import { Injectable } from '@angular/core';
 export class UserService {
 
   user: string;
+  private globalObjects: any;
 
   constructor() {
     this.user = localStorage.getItem('user');
+    this.globalObjects = {};
   }
 
   get() : any {
@@ -28,5 +30,13 @@ export class UserService {
     localStorage.removeItem('jwt');
     localStorage.removeItem('user');
     this.user = null;
+  }
+
+  setGlobalObject(name: string, value: any) {
+    this.globalObjects[name] = value;
+  }
+
+  getGlobalObject(name: string) {
+    return this.globalObjects[name] || '';
   }
 }
