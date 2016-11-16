@@ -22,14 +22,16 @@
 
     <div class="col s10 m10 l10 grey-text text-darken-2">
       <form (ngSubmit)="onSaveControlConstruct()" #qcform="ngForm">
-      <div class="input-field">
-        <textarea [attr.id]="controlConstruct.id + '-name'"
-          name="{{controlConstruct.id}}-name" class="materialize-textarea"
-          [(ngModel)]="controlConstruct.name" [attr.maxlength]="255"
-          required>
-        </textarea>
-        <label [attr.for]="controlConstruct.id + '-name'" class="active">Name</label>
-      </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <label [attr.for]="controlConstruct.id + '-name'" class="active">Name</label>
+            <textarea [attr.id]="controlConstruct.id + '-name'"
+              name="{{controlConstruct.id}}-name" class="materialize-textarea"
+              [(ngModel)]="controlConstruct.name" [attr.maxlength]="255"
+              required>
+            </textarea>
+          </div>
+        </div>
 
       <div class="section">
         <ul class="collection with-header">
@@ -114,16 +116,17 @@
           </li>
         </ul>
       </div>
+
+        <qddt-responsedomain-preview
+          *ngIf="controlConstruct.questionItem && controlConstruct.questionItem.responseDomain"
+          [isVisible]="true" [responseDomain]="controlConstruct.questionItem.responseDomain">
+        </qddt-responsedomain-preview>
+
         <div class="row">
 		      <qddt-rational [element]="controlConstruct"></qddt-rational>
         </div>
         <button type="submit" class="btn btn-default">Submit</button>
       </form>
-
-      <qddt-responsedomain-preview
-        *ngIf="controlConstruct.questionItem && controlConstruct.questionItem.responseDomain"
-        [isVisible]="true" [responseDomain]="controlConstruct.questionItem.responseDomain"
-        #preview></qddt-responsedomain-preview>
 
       <qddt-revision [isVisible]="revisionIsVisible"
         [qddtURI]="'audit/controlConstruct/' + controlConstruct.id + '/all'">

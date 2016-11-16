@@ -26,7 +26,11 @@ export class ControlConstructService extends BaseService {
     super(http ,api);
   }
 
-  create(c: ControlConstruct, files: any): any {
+  create(c: ControlConstruct): any {
+    return this.post(c, 'controlconstruct/create');
+  }
+
+  uploadFile(id: string, files: any): any {
     let headers = new Headers();
     let jwt = localStorage.getItem('jwt');
     if(jwt !== null) {
@@ -35,10 +39,9 @@ export class ControlConstructService extends BaseService {
     let options = new RequestOptions({ headers: headers });
     const formData = new FormData();
     if(files !== null) {
-        formData.append('files', files[0]);
+      formData.append('file', files[0]);
     }
-    formData.append('controlconstruct', JSON.stringify(c));
-    return this.http.post(this.api + 'controlconstruct/createfile/', formData, options)
+    return this.http.post(this.api + 'othermaterial/upload/' + id, formData, options)
       .map((res:any) => {
         try {
           return res.json();

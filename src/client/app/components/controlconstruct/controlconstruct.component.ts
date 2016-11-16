@@ -113,9 +113,15 @@ export class ControlConstructComponent implements OnInit {
 
   onCreateControlConstruct() {
     this.showControlConstructForm = false;
-    this.service.create(this.controlConstruct, this.files)
+    this.service.create(this.controlConstruct)
       .subscribe((result: any) => {
         this.controlConstructs.push(result);
+        this.service.uploadFile(result.id, this.files)
+          .subscribe((result: any) => {
+            console.log(result);
+          }, (error: any) => {
+            this.popupModal(error);
+          });
       }, (error: any) => {
         this.popupModal(error);
       });
