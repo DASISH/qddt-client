@@ -1,9 +1,5 @@
 <div class="row" *ngIf="questionitem">
-  <div class="row">
-    <div class="col s10">
-      <label class="active teal-text flow-text">Version: {{questionitem?.version?.major}}.{{questionitem?.version?.minor}}</label>
-    </div>
-  </div>
+  <label class="active teal-text">Version: {{questionitem?.version?.major}}.{{questionitem?.version?.minor}}</label>
   <div id="{{questionitem?.id}}" class="scrollspy">
     <div class="col s1 m1 l1">
       <br/>
