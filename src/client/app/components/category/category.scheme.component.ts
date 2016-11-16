@@ -1,8 +1,7 @@
-import { Component, EventEmitter, Output, OnInit } from '@angular/core';
-
+import { Component, EventEmitter, Output, OnInit, AfterContentChecked } from '@angular/core';
 import { CategoryService, Category, ResponseCardinality } from './category.service';
 import { CategoryType } from './category_kind';
-import { Change } from '../../common/change_status';
+import { UserService } from '../../common/user.service';
 
 @Component({
   selector: 'category-scheme',
@@ -10,7 +9,8 @@ import { Change } from '../../common/change_status';
   templateUrl: './category.scheme.component.html',
   providers: [CategoryService],
 })
-export class CategorySchemeComponent implements OnInit {
+
+export class CategorySchemeComponent implements OnInit, AfterContentChecked {
 
   showCategoryForm: boolean = false;
   @Output() categorySelectedEvent: EventEmitter<any> = new EventEmitter<any>();
@@ -25,13 +25,11 @@ export class CategorySchemeComponent implements OnInit {
   private columns: any[];
   private selectedCategory: Category;
   private searchKeys: string;
-  private changeEnums: any;
 
-  constructor(private categoryService: CategoryService) {
+  constructor(private categoryService: CategoryService, private userService: UserService) {
     this.category = new Category();
     this.isDetail = false;
     this.page = {};
-    this.changeEnums = Change.status;
     this.category.categoryType = 'MISSING_GROUP';
     this.categoryEnums =  CategoryType.group;
     this.selectedCategoryIndex = 0;
@@ -42,13 +40,33 @@ export class CategorySchemeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.categoryService.getAllTemplatesByCategoryKind('MISSING_GROUP').subscribe((result: any) => {
-      this.page = result.page;
-      this.missingCategories = result.content;
-    });
+    let config = this.userService.getGlobalObject('schemes');
+    if (config.current === 'detail' ) {
+      this.page = config.page;
+      this.missingCategories = config.collection;
+      this.selectedCategory = config.item;
+      this.isDetail = true;
+    } else {
+      this.categoryService.getAllTemplatesByCategoryKind('MISSING_GROUP').subscribe((result: any) => {
+        this.page = result.page;
+        this.missingCategories = result.content;
+      });
+    }
     this.categoryService.getAllByLevel('ENTITY').subscribe((result: any) => {
       this.categories = result.content;
     });
+  }
+
+  ngAfterContentChecked() {
+    let config = this.userService.getGlobalObject('schemes');
+    if (config.current === 'detail' ) {
+      this.page = config.page;
+      this.missingCategories = config.collection;
+      this.selectedCategory = config.item;
+      this.isDetail = true;
+    } else {
+      this.isDetail = false;
+    }
   }
 
   onToggleCategoryForm() {
@@ -109,10 +127,16 @@ export class CategorySchemeComponent implements OnInit {
   onDetail(category: any) {
     this.selectedCategory = category;
     this.isDetail = true;
+    this.userService.setGlobalObject('schemes',
+      {'current': 'detail',
+        'page': this.page,
+        'item': this.selectedCategory,
+        'collection': this.missingCategories});
   }
 
   hideDetail() {
     this.isDetail = false;
+    this.userService.setGlobalObject('schemes', {'current': 'list'});
   }
 
   onPage(page: string) {

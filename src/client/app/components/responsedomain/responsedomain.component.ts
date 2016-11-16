@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterContentChecked } from '@angular/core';
 import { ResponseDomain } from './responsedomain.service';
 import { DomainType, DomainTypeDescription, PredefinedColumns } from './responsedomain.constant';
 import { ResponseDomainService } from './responsedomain.service';
+import { UserService } from '../../common/user.service';
 
 @Component({
   selector: 'responsedomain',
   moduleId: module.id,
   templateUrl: './responsedomain.component.html',
-  styles: [],
   providers: [ResponseDomainService],
 })
 
-export class ResponsedomainComponent implements OnInit {
+export class ResponsedomainComponent implements OnInit, AfterContentChecked {
   domainType: DomainType;
   public domainTypeDef = DomainType;
   private responseDomains: any[];
@@ -25,7 +25,7 @@ export class ResponsedomainComponent implements OnInit {
   private isDetail: boolean;
   private revisionIsVisible: boolean;
 
-  constructor(private responseDomainService: ResponseDomainService) {
+  constructor(private responseDomainService: ResponseDomainService, private userService: UserService) {
     this.responseDomain = new ResponseDomain();
     this.responseDomains = [];
     this.searchKeys = '';
@@ -39,12 +39,32 @@ export class ResponsedomainComponent implements OnInit {
   }
 
   ngOnInit() {
-    let name = DomainTypeDescription.find((e: any) =>e.id === this.domainType).name;
-    this.responseDomainService.getAll(name).subscribe((result: any) => {
-      this.page = result.page;
-      this.responseDomains = result.content;
-      this.buildAnchorLabel();
-    });
+    let config = this.userService.getGlobalObject('responsedomains');
+    if (config.current === 'detail' ) {
+      this.page = config.page;
+      this.responseDomains = config.collection;
+      this.selectedResponseDomain = config.item;
+      this.isDetail = true;
+    } else {
+      let name = DomainTypeDescription.find((e: any) =>e.id === this.domainType).name;
+        this.responseDomainService.getAll(name).subscribe((result: any) => {
+        this.page = result.page;
+        this.responseDomains = result.content;
+        this.buildAnchorLabel();
+      });
+    }
+  }
+
+  ngAfterContentChecked() {
+    let config = this.userService.getGlobalObject('responsedomains');
+    if (config.current === 'detail' ) {
+      this.page = config.page;
+      this.responseDomains = config.collection;
+      this.selectedResponseDomain = config.item;
+      this.isDetail = true;
+    } else {
+      this.isDetail = false;
+    }
   }
 
   selectDomainType(id: DomainType) {
@@ -96,11 +116,17 @@ export class ResponsedomainComponent implements OnInit {
     this.selectedResponseDomain = responsedomain;
     this.selectedResponseDomain['config'] = this.buildRevisionConfig();
     this.isDetail = true;
+    this.userService.setGlobalObject('responsedomains',
+      {'current': 'detail',
+        'page': this.page,
+        'item': this.selectedResponseDomain,
+        'collection': this.responseDomains});
   }
 
   hideDetail() {
     this.selectedResponseDomain = null;
     this.isDetail = false;
+    this.userService.setGlobalObject('responsedomains', {'current': 'list'});
   }
 
   onPage(page: string) {

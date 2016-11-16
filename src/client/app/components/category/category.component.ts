@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit, AfterContentChecked } from '@angular/core';
 import { CategoryService, Category } from './category.service';
+import { UserService } from '../../common/user.service';
 
 @Component({
   selector: 'category',
@@ -8,7 +8,8 @@ import { CategoryService, Category } from './category.service';
   templateUrl: './category.component.html',
   providers: [CategoryService]
 })
-export class CategoryComponent implements OnInit {
+
+export class CategoryComponent implements OnInit, AfterContentChecked {
 
   showCategoryForm: boolean = false;
 
@@ -20,7 +21,7 @@ export class CategoryComponent implements OnInit {
   private isDetail: boolean;
   private columns: any[];
 
-  constructor(private categoryService: CategoryService) {
+  constructor(private categoryService: CategoryService, private userService: UserService) {
     this.isDetail = false;
     this.categories = [];
     this.searchKeys = '';
@@ -30,8 +31,28 @@ export class CategoryComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.categoryService.getByCategoryKind('CATEGORY', '0').subscribe(
+    let config = this.userService.getGlobalObject('categories');
+    if (config.current === 'detail' ) {
+      this.page = config.page;
+      this.categories = config.collection;
+      this.selectedCategory = config.item;
+      this.isDetail = true;
+    } else {
+      this.categoryService.getByCategoryKind('CATEGORY', '0').subscribe(
       (result: any) => { this.page = result.page; this.categories = result.content; });
+    }
+  }
+
+  ngAfterContentChecked() {
+    let config = this.userService.getGlobalObject('categories');
+    if (config.current === 'detail' ) {
+      this.page = config.page;
+      this.categories = config.collection;
+      this.selectedCategory = config.item;
+      this.isDetail = true;
+    } else {
+      this.isDetail = false;
+    }
   }
 
   onToggleCategoryForm() {
@@ -44,10 +65,16 @@ export class CategoryComponent implements OnInit {
   onDetail(category: any) {
     this.selectedCategory = category;
     this.isDetail = true;
+    this.userService.setGlobalObject('categories',
+      {'current': 'detail',
+        'page': this.page,
+        'item': this.selectedCategory,
+        'collection': this.categories});
   }
 
   hideDetail() {
     this.isDetail = false;
+    this.userService.setGlobalObject('categories', {'current': 'list'});
   }
 
   onPage(page: string) {
