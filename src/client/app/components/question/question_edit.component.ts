@@ -61,21 +61,37 @@ import { Observable }     from 'rxjs/Observable';
               </div>
             </div>
           </div>
-          <div class="row card">
-            <table class="highlight" *ngIf="concepts.length > 0">
-              <thead><tr><th>Detail</th><th>Concept Names</th></tr></thead>
+
+          <div class="row card" *ngIf="questionitem.conceptRefs && questionitem.conceptRefs.length > 0" >
+            <div class="red-text">
+              <h5>Used by:</h5>
+            </div>
+            <table class="striped">
+              <thead>
+                <tr><th>Study</th><th>Module</th><th>Concept names</th></tr>
+              </thead>
               <tbody>
-                <tr *ngFor="let row of concepts">
-                  <td [ngStyle]="{'cursor': 'pointer'}" (click)="onClickConcept(row)">
-                    <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
-                     <i class="material-icons left smal">search</i>
+                <tr *ngFor="let ref of questionitem.conceptRefs" >
+                  <td>
+                    <a [ngStyle]="{'text-decoration': 'underline'}" (click)="onClickStudy(ref.topicRef.studyRef.id)">
+                      {{ref?.topicRef?.studyRef?.name}}
                     </a>
                   </td>
-                  <td>{{row?.name}}</td>
+                  <td>
+                    <a [ngStyle]="{'text-decoration': 'underline'}" (click)="onClickTopic(ref.topicRef.id)">
+                      {{ref?.topicRef?.name}}
+                    </a>
+                  </td>
+                  <td>
+                    <a [ngStyle]="{'text-decoration': 'underline'}" (click)="onClickConcept(ref.id)">
+                      {{ref?.name}}
+                    </a>
+                  </td>
                 </tr>
               </tbody>
             </table>
           </div>
+
           <div class="row">
             <qddt-rational [element]="questionitem"></qddt-rational>
 			    </div>
@@ -114,18 +130,46 @@ import { Observable }     from 'rxjs/Observable';
         </div>
       </div>
     </div>
-    <div [attr.id]="'concept-detail-modal'" class="modal modal-fixed-footer"
-      materialize [materializeActions]="conceptActions">
-      <div class="modal-content" *ngIf="concepts.length > 0 && selectedConcept">
-        <h4>Concept {{selectedConcept?.name}}</h4>
-        <qddt-question-treenode [concept]="selectedConcept"></qddt-question-treenode>
-      </div>
-      <div class="modal-footer">
-        <button id="concept-modal-close"
-          class="btn btn-default red modal-action modal-close waves-effect waves-red">Dismiss</button>
-      </div>
+  
+  </div>
+
+  <div [attr.id]="'study-detail-readonly-modal'" class="modal modal-fixed-footer"
+    materialize [materializeActions]="studyActions">
+  <div class="modal-content">
+    <div class="row" *ngIf="selectedId && selectedType === 'study'">
+      <qddt-study-usedby [id]="selectedId">
+      </qddt-study-usedby>
+    </div>
+    <div class="row" *ngIf="selectedId && selectedType === 'topic'">
+      <qddt-topic-usedby [id]="selectedId">
+      </qddt-topic-usedby>
+    </div>
+    <div class="row" *ngIf="selectedId && selectedType === 'question'">
+      <qddt-question-usedby [id]="selectedId">
+      </qddt-question-usedby>
     </div>
   </div>
+  <div class="modal-footer">
+    <button id="controlConstructs-modal-close"
+      class="btn btn-default red modal-action modal-close waves-effect">
+      <a><i class="close material-icons medium white-text">close</i></a>
+    </button>
+  </div>
+</div>
+
+<div [attr.id]="'concept-detail-modal'" class="modal modal-fixed-footer"
+  materialize [materializeActions]="conceptActions">
+  <div class="modal-content" *ngIf="selectedConcept && selectedType === 'concept'">
+    <h4>Concept {{selectedConcept?.name}}</h4>
+    <qddt-question-treenode [concept]="selectedConcept"></qddt-question-treenode>
+  </div>
+  <div class="modal-footer">
+    <button id="concept-modal-close"
+      class="btn btn-default red modal-action modal-close waves-effect">
+      <a><i class="close material-icons medium white-text">close</i></a>
+    </button>
+  </div>
+</div>
 `
 })
 
@@ -134,13 +178,16 @@ export class QuestionItemEdit implements OnInit {
   @Input() questionitem: any;
   @Input() editResponseDomain: boolean;
   @Output() editQuestionItem: EventEmitter<any>;
-  selectedConcept: any;
   conceptActions = new EventEmitter<string>();
+  studyActions = new EventEmitter<string>();
+  selectedConcept: any;
   privewResponseDomain: any;
   private showResponseDomainForm: boolean;
   private mainResponseDomain: any;
   private secondCS: any;
   private concepts: any[];
+  private selectedId: string;
+  private selectedType: string;
 
   constructor(private service: QuestionService) {
     this.showResponseDomainForm = false;
@@ -193,11 +240,6 @@ export class QuestionItemEdit implements OnInit {
     this.buildPrivewResponseDomain();
   }
 
-  onClickConcept(concept: any) {
-    this.selectedConcept = concept;
-    this.conceptActions.emit('openModal');
-  }
-
   onEditQuestionItem() {
     this.showResponseDomainForm = false;
     this.getMixedCategory().subscribe((result: any) => {
@@ -216,6 +258,34 @@ export class QuestionItemEdit implements OnInit {
   onEditMissing(missing: any) {
     this.secondCS = missing;
     this.buildPrivewResponseDomain();
+  }
+
+  onClickStudy(id: string) {
+    this.selectedId = id;
+    this.selectedType = 'study';
+    this.studyActions.emit('openModal');
+  }
+
+  onClickTopic(id: string) {
+    this.selectedId = id;
+    this.selectedType = 'topic';
+    this.studyActions.emit('openModal');
+  }
+
+  onClickQuestion(id: string) {
+    this.selectedId = id;
+    this.selectedType = 'question';
+    this.studyActions.emit('openModal');
+  }
+
+  onClickConcept(id: string) {
+    this.selectedId = id;
+    this.selectedType = 'concept';
+    this.service.getConceptsById(id)
+      .subscribe((result: any) => {
+        this.selectedConcept = result;
+        this.conceptActions.emit('openModal');
+      });
   }
 
   responseDomainReuse(responseDomain: any) {

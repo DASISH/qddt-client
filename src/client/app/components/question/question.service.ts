@@ -72,6 +72,10 @@ export class QuestionService extends BaseService {
     return this.get('concept/list/by-QuestionItem/'+ id);
   }
 
+  getConceptsById(id: string) {
+    return this.get('concept/'+ id);
+  }
+
   createCategory(category: any): any {
     return this.post(category,'category/create/');
   }
