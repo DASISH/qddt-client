@@ -8,20 +8,12 @@ import { RevisionService } from './revision.service';
   template: `
   <div *ngIf="isVisible">
     <div *ngIf="revisions">
-      <qddt-diff *ngIf="selectRevisionId >= 0 && selectRevisionId !== currentRevisionId"
+      <qddt-diff *ngIf="selectRevisionId >= 0"
         [compared]="revisions[selectRevisionId].entity"
-        [current]="revisions[currentRevisionId].entity"
+        [current]="current"
         [config]="config"
       >
       </qddt-diff>
-      <div class="row">
-        <div class="input-field col s4 right">
-          <input id="{{qddtURI}}-revisions" type="checkbox" (click)="onIncludeRevisions($event)">
-          <label [attr.for]="qddtURI + '-revisions'" class="active teal-text">
-            include revisions
-          </label>
-        </div>
-      </div>
       <table class="highlight hoverable">
         <thead>
           <tr>
@@ -58,6 +50,7 @@ export class RevisionComponent implements OnChanges, OnInit {
   @Input() qddtURI: string;
   @Input() isVisible: boolean;
   @Input() config: any[];
+  @Input() current: any;
   private revisions: any[];
   private _revisions: any[];
   private selectRevisionId: number;
@@ -101,12 +94,6 @@ export class RevisionComponent implements OnChanges, OnInit {
     this.selectRevisionId = id;
   }
 
-  onIncludeRevisions(e: any) {
-    this.includeRevisions = e.target.checked;
-    this.filterRevisions();
-    this.selectRevisionId = -1;
-  }
-
   get diagnostic() { return JSON.stringify(this.revisions);}
 
   private filterRevisions() {
@@ -114,9 +101,6 @@ export class RevisionComponent implements OnChanges, OnInit {
       this.revisions = this._revisions.filter((e: any) => e.entity.changeKind !== 'IN_DEVELOPMENT');
     } else {
       this.revisions = this._revisions;
-    }
-    if (this.revisions.length > 0) {
-      this.currentRevisionId = this.revisions.length - 1;
     }
   }
 

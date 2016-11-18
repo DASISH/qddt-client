@@ -57,7 +57,8 @@
 
             <surveyprogram-edit [survey]="surveyProgram" (surveySavedEvent)="onSurveySaved($event)" #edit></surveyprogram-edit>
 
-            <qddt-revision [isVisible]="revision.isVisible" [qddtURI]="'audit/surveyprogram/'+surveyProgram.id+'/list'" #revision></qddt-revision>
+            <qddt-revision [isVisible]="revision.isVisible" [current]="surveyProgram"
+              [qddtURI]="'audit/surveyprogram/'+surveyProgram.id+'/list'" #revision></qddt-revision>
 
             <div class="row">
               <comment-list [ownerId]="surveyProgram.id"></comment-list>

@@ -68,8 +68,7 @@ export class QuestionDetail implements OnInit {
     config.push({'name':['question', 'question'],'label':'Question'});
     config.push({'name':['question', 'intent'],'label':'Intent'});
     config.push({'name':['responseDomain', 'name'],'label':'responseDomain'});
-    config.push({'name':['responseDomain', 'version', 'major'],'label':'major'});
-    config.push({'name':['responseDomain', 'version', 'minor'],'label':'minor'});
+    config.push({'name':['responseDomain', 'version', ['major', 'minor']],'label':'RespD', 'prefix': 'V'});
 
     return config;
   }

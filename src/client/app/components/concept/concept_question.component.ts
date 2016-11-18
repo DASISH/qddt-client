@@ -34,6 +34,7 @@ import { ConceptService } from './concept.service';
         </qddt-questionitem-edit>
 
         <qddt-revision [isVisible]="revisionIsVisible"
+          [current]="questionItem" class="black-text"
           [qddtURI]="'audit/questionitem/' + questionItem.id + '/all'">
         </qddt-revision>
         <qddt-responsedomain-preview *ngIf="questionItem.responseDomain"

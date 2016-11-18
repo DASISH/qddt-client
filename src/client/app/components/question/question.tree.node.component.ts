@@ -61,8 +61,9 @@ import { QuestionItem } from './question.service';
                  </form>
              </div>
            </div>
-           <!--concept-edit [isVisible]="edit.isVisible" [concept]="concept" #edit></concept-edit-->
-           <qddt-revision [isVisible]="revision.isVisible" [qddtURI]="'audit/concept/' + concept.id + '/all'" #revision ></qddt-revision>
+           <qddt-revision [isVisible]="revision.isVisible"
+             [current]="concept"
+             [qddtURI]="'audit/concept/' + concept.id + '/all'" #revision ></qddt-revision>
            <div *ngIf="concept.questionItems.length > 0" class="section">
              <ul class="collection with-header">
                <li class="collection-header">Question Items</li>

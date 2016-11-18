@@ -26,6 +26,7 @@
         [questionitem]="questionitem"></qddt-questionitem-edit>
 
       <qddt-revision [isVisible]="revisionIsVisible"
+        [current]="questionitem"
         [qddtURI]="'audit/questionitem/' + questionitem.id + '/all'"
         [config]="config"></qddt-revision>
       

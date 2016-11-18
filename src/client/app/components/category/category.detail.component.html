@@ -24,7 +24,9 @@
         (editDetailEvent)="hideDetail()"
         #edit></category-edit>
 
-      <qddt-revision [isVisible]="revisionIsVisible" [qddtURI]="'audit/category/' + category.id + '/all'"></qddt-revision>
+      <qddt-revision [isVisible]="revisionIsVisible"
+        [current]="category"
+        [qddtURI]="'audit/category/' + category.id + '/all'"></qddt-revision>
 
       <div class="row">
         <comment-list [ownerId]="category.id"></comment-list>

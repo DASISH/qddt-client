@@ -58,9 +58,8 @@
 
               <topic-edit [isVisible]="edit.isVisible" [topic]="topic" #edit></topic-edit>
 
-              <qddt-revision [isVisible]="revision.isVisible" [qddtURI]="'audit/topicgroup/' + topic.id + '/all'" #revision ></qddt-revision>
-
-              <!--concept-question [concept]="getDefaultConcept(topic)" [allQuestions]="questions"></concept-question-->
+              <qddt-revision [isVisible]="revision.isVisible" [current]="topic"
+                [qddtURI]="'audit/topicgroup/' + topic.id + '/all'" #revision ></qddt-revision>
 
               <div class="row">
                 <comment-list [ownerId]="topic.id"></comment-list>

@@ -29,6 +29,7 @@
           [domainType]="domainType">
         </responsedomain-form>
         <qddt-revision [isVisible]="revision.isVisible"
+          [current]="responseDomain"
           [qddtURI]="'audit/responsedomain/' + responseDomain.id + '/all'" #revision></qddt-revision>
         <qddt-responsedomain-preview [isVisible]="preview.isVisible"
           [responseDomain]="responseDomain" #preview></qddt-responsedomain-preview>

@@ -30,26 +30,32 @@ export class DiffComponent implements OnChanges {
   ngOnChanges() {
     this.elementChange.name = this.current['name'] || '';
     this.elementChange.version = this.compared.version.major + '.' + this.compared.version.minor
-      + ' vs ' + this.current.version.major + '.' + this.current.version.minor;
+      + ' vs Current working version';
     this.elementChange.changes = [];
     this.config.forEach(e => {
       let elementFieldChange = new ElementFieldChange();
       elementFieldChange.name = e['label'];
-      let ret = this.diff.diff_main(this.getValue(this.compared, e['name']),
-        this.getValue(this.current, e['name']));
+      let prefix = e['prefix'] || '';
+      let ret = this.diff.diff_main(this.getValue(this.compared, e['name'], prefix),
+        this.getValue(this.current, e['name'], prefix));
       elementFieldChange.changes = ret;
       this.elementChange.changes.push(elementFieldChange);
     });
   }
 
-  private getValue(obj: any, names: string | any[]): string {
+  private getValue(obj: any, names: string | any[], prefix: string): string {
     if (names instanceof Array) {
       let result: any = obj;
       names.forEach((e: any) => {
-        if (result !== null
-          && result[e] !== null
-          && result[e] !== undefined) {
-          result = result[e];
+        if (result !== null && result !== undefined) {
+          if(e instanceof Array && result !== '') {
+            result = e.map((item: any) => result[item]).join('.');
+            result = prefix + result;
+          } else if(result[e] !== null && result[e] !== undefined) {
+            result = result[e];
+          } else {
+            result = '';
+          }
         } else {
           result = '';
         }
