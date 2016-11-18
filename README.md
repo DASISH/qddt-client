@@ -6,7 +6,7 @@
 
 [QDDT Prod](https://qddt.nsd.no)
 
-[QDDT Test/Dev](http://qddt-dev.nsd.no)
+[QDDT Test/Dev](http://qddt-test.nsd.no)
 
 ## Demo
 
