@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { ResponseDomain } from './responsedomain.service';
 
 @Component({
@@ -14,12 +14,12 @@ import { ResponseDomain } from './responsedomain.service';
   styles: [],
 })
 
-export class ResponsedomainTextComponent implements OnInit {
+export class ResponsedomainTextComponent implements OnChanges {
   @Input() responseDomain: ResponseDomain;
   low: number;
   high: number;
 
-  ngOnInit() {
+  ngOnChanges() {
     this.low = 0;
     this.high = 20;
     let rep = this.responseDomain.managedRepresentation;

@@ -21,6 +21,7 @@ export class ResponsedomainFormComponent implements OnInit {
   @Input() domainType: DomainType;
   @Output() formChange: EventEmitter<any>;
   responsedomainActions = new EventEmitter<string>();
+  previewResponseDomain: any;
 
   public domainTypeDef = DomainType;
   private categories: any;
@@ -88,6 +89,7 @@ export class ResponsedomainFormComponent implements OnInit {
       this.categories = result.content;
     });
     this.buildUsedBy();
+    this.previewResponseDomain = this.responsedomain;
   }
 
   onClickStudy(id: string) {
@@ -117,6 +119,7 @@ export class ResponsedomainFormComponent implements OnInit {
   select(candidate: any) {
     candidate.code = this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex].code;
     this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex] = candidate;
+    this.buildPreviewResponseDomain();
   }
 
   save() {
@@ -207,6 +210,7 @@ export class ResponsedomainFormComponent implements OnInit {
         }
       }
     }
+    this.buildPreviewResponseDomain();
   }
 
   searchCategories(name: string) {
@@ -224,6 +228,7 @@ export class ResponsedomainFormComponent implements OnInit {
         let c = new Category();
         c.code = rep.children[idx].code;
         rep.children[idx] = c;
+        this.buildPreviewResponseDomain();
       }
     }
   }
@@ -239,6 +244,7 @@ export class ResponsedomainFormComponent implements OnInit {
         rep.children[idx - 1] = curr;
         prev.code = code;
         rep.children[idx] = prev;
+        this.buildPreviewResponseDomain();
       }
     }
   }
@@ -254,6 +260,7 @@ export class ResponsedomainFormComponent implements OnInit {
         rep.children[idx + 1] = curr;
         next.code = code;
         rep.children[idx] = next;
+        this.buildPreviewResponseDomain();
       }
     }
   }
@@ -264,6 +271,19 @@ export class ResponsedomainFormComponent implements OnInit {
     } else {
       this.responsedomain.displayLayout = degree;
     }
+    this.buildPreviewResponseDomain();
+  }
+
+  buildPreviewResponseDomain() {
+    this.previewResponseDomain = {};
+    this.previewResponseDomain['id'] = this.responsedomain['id'];
+    this.previewResponseDomain['description'] = this.responsedomain['description'];
+    this.previewResponseDomain['name'] = this.responsedomain['name'];
+    this.previewResponseDomain['label'] = this.responsedomain['label'];
+    this.previewResponseDomain['responseKind'] = this.responsedomain['responseKind'];
+    this.previewResponseDomain['managedRepresentation'] = this.responsedomain.managedRepresentation;
+    this.previewResponseDomain['responseCardinality'] = this.responsedomain.responseCardinality;
+    this.previewResponseDomain['displayLayout'] = this.responsedomain.displayLayout;
   }
 
   private buildUsedBy() {

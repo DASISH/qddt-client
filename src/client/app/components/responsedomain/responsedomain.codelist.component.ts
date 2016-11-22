@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { ResponseDomain } from './responsedomain.service';
 
 @Component({
@@ -17,7 +17,7 @@ import { ResponseDomain } from './responsedomain.service';
   styles: [],
 })
 
-export class ResponsedomainCodeListComponent implements OnInit {
+export class ResponsedomainCodeListComponent implements OnChanges {
   @Input() responseDomain: ResponseDomain;
 
   private rows: any[] = [];
@@ -26,7 +26,7 @@ export class ResponsedomainCodeListComponent implements OnInit {
   private type: string;
   private responseMax: number;
 
-  ngOnInit() {
+  ngOnChanges() {
     this.rows = [];
     let rep = this.responseDomain.managedRepresentation;
     if (rep !== undefined

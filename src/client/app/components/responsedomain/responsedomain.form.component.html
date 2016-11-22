@@ -1,6 +1,8 @@
 <div>
 	<div *ngIf="responsedomain" class="card" id="{{responsedomain.id}}">
-
+    <qddt-responsedomain-preview [isVisible]="true"
+      [responseDomain]="previewResponseDomain">
+		</qddt-responsedomain-preview>
 		<div class="row card"
 			*ngIf="usedBy && usedBy.length > 0" >
       <div class="red-text">
@@ -63,11 +65,13 @@
               <div class="col s4">
                 <label for="scale_start" class="active">Start</label>
                 <input id="scale_start" name="scale_start" type="number"
+								  (ngModelChange)="buildPreviewResponseDomain()"
 					        [(ngModel)]="responsedomain.managedRepresentation.inputLimit.minimum" required>
               </div>
               <div class="col s4">
                 <label for="scale_end" class="active">End</label>
                 <input id="scale_end" name="scale_end" type="number"
+								  (ngModelChange)="buildPreviewResponseDomain()"
 					        [(ngModel)]="responsedomain.managedRepresentation.inputLimit.maximum" required>
               </div>
 							<div class="col s4 input-field">
@@ -96,7 +100,9 @@
 						  <thead><tr><td>Code</td><td>Category</td></tr></thead>
 							<tbody>
 								<tr *ngFor="let category of responsedomain.managedRepresentation.children; let idx=index">
-									<td><input name="{{idx}}-code-value" type="text" [(ngModel)]="category.code.codeValue" required></td>
+									<td><input name="{{idx}}-code-value" type="text"
+									  (ngModelChange)="buildPreviewResponseDomain()"
+									  [(ngModel)]="category.code.codeValue" required></td>
 									<td>
 										<div [ngClass]="{ noItemFound: (category.isNew && category.label.length > 0 && categories.length === 0) }">
 										  <autocomplete [items]="categories" class="black-text"
@@ -126,7 +132,9 @@
 						  <thead><tr><td>Code</td><td>Category</td><td></td></tr></thead>
 							<tbody>
 								<tr *ngFor="let category of responsedomain.managedRepresentation.children; let idx=index">
-									<td><input name="{{idx}}-code-value" type="text" [(ngModel)]="category.code.codeValue" required></td>
+									<td><input name="{{idx}}-code-value" type="text"
+									  (ngModelChange)="buildPreviewResponseDomain()"
+									  [(ngModel)]="category.code.codeValue" required></td>
 									<td>
 										<div [ngClass]="{ noItemFound: (category.isNew && category.label.length > 0 && categories.length === 0) }">
 										  <autocomplete [items]="categories" class="black-text"
@@ -155,14 +163,16 @@
 						<div *ngIf="responsedomain.managedRepresentation.inputLimit.maximum > 0" class="row card">
 							<div class="row input-field col s5">
 							  <input id="responseCardinality_minimum" name="responseCardinality_minimum" type="number"
+								  (ngModelChange)="buildPreviewResponseDomain()"
 							    [(ngModel)]="responsedomain.responseCardinality.minimum" required>
 							  <label for="responseCardinality_minimum">Min of Response Cardinality</label>
 						  </div>
 							<div class="row input-field col s5">
 							  <input id="responseCardinality_maximum" name="responseCardinality_maximum" type="number"
+								  (ngModelChange)="buildPreviewResponseDomain()"
 							    [(ngModel)]="responsedomain.responseCardinality.maximum" required>
 							  <label for="responseCardinality_maximum">Max of Response Cardinality</label>
-						  </div>							
+						  </div>
 						</div>
 					</div>
 					<div *ngSwitchCase="domainTypeDef.NUMERIC">
@@ -171,11 +181,15 @@
 							<tbody>
 								<tr>
 								  <td><label>Low</label></td>
-								  <td><input id="representation_low" name="representation_low" type="text" [(ngModel)]="responsedomain.managedRepresentation.inputLimit.minimum" required></td>
+								  <td><input id="representation_low" name="representation_low" type="text"
+									  (ngModelChange)="buildPreviewResponseDomain()"
+									  [(ngModel)]="responsedomain.managedRepresentation.inputLimit.minimum" required></td>
 								</tr>
 								<tr>
 								  <td><label>High</label></td>
-								  <td><input id="representation_high" name="representation_high" type="text" [(ngModel)]="responsedomain.managedRepresentation.inputLimit.maximum" required></td>
+								  <td><input id="representation_high" name="representation_high" type="text"
+									  (ngModelChange)="buildPreviewResponseDomain()"
+									  [(ngModel)]="responsedomain.managedRepresentation.inputLimit.maximum" required></td>
 								</tr>
 							</tbody>
 						</table>
@@ -186,11 +200,15 @@
 							<tbody>
 								<tr>
 								  <td><label>Minimum length</label></td>
-								  <td><input id="text_representation_min" name="text_representation_min" type="number" [(ngModel)]="responsedomain.managedRepresentation.inputLimit.minimum" required></td>
+								  <td><input id="text_representation_min" name="text_representation_min" type="number"
+									  (ngModelChange)="buildPreviewResponseDomain()"
+									  [(ngModel)]="responsedomain.managedRepresentation.inputLimit.minimum" required></td>
 								</tr>
 								<tr>
 								  <td><label>Maximum length</label></td>
-								  <td><input id="text_representation_max" name="text_representation_max" type="number" [(ngModel)]="responsedomain.managedRepresentation.inputLimit.maximum" required></td>
+								  <td><input id="text_representation_max" name="text_representation_max" type="number"
+									  (ngModelChange)="buildPreviewResponseDomain()"
+									  [(ngModel)]="responsedomain.managedRepresentation.inputLimit.maximum" required></td>
 								</tr>
 							</tbody>
 						</table>

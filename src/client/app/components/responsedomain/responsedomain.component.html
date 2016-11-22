@@ -60,8 +60,6 @@
           [current]="selectedResponseDomain"
           [qddtURI]="'audit/responsedomain/' + selectedResponseDomain.id + '/all'"
           [config]="selectedResponseDomain.config"></qddt-revision>
-        <qddt-responsedomain-preview [isVisible]="true"
-          [responseDomain]="selectedResponseDomain" #preview></qddt-responsedomain-preview>
         <div class="row">
           <comment-list [ownerId]="selectedResponseDomain.id"></comment-list>
         </div>
