@@ -245,7 +245,7 @@ export class QuestionItemEdit implements OnInit {
     this.getMixedCategory().subscribe((result: any) => {
       this.getMixedResponseDomain(result).subscribe((result: any) => {
         this.questionitem.responseDomain = result;
-        this.service.updateQuestionItem(this.questionitem)
+          this.service.updateQuestionItem(this.questionitem)
           .subscribe((result: any) => {
             this.questionitem = result;
             this.editQuestionItem.emit(this.questionitem);
@@ -398,6 +398,8 @@ export class QuestionItemEdit implements OnInit {
       return this.service.createResponseDomain(rd);
     } else if (this.isNull(this.mainResponseDomain) && this.isNull(this.secondCS)) {
       return Observable.of(null);
+    } else if (!this.isNull(this.mainResponseDomain) && this.isNull(this.secondCS)) {
+      return Observable.of(this.mainResponseDomain);
     }
     if(!this.isNull(this.questionitem.responseDomain)
       && !this.isNull(this.questionitem.responseDomain['managedRepresentation'])) {
@@ -443,7 +445,9 @@ export class QuestionItemEdit implements OnInit {
       this.privewResponseDomain['description'] = '';
       this.privewResponseDomain['name'] = '';
       if(this.mainResponseDomain !== null) {
-        this.privewResponseDomain['displayLayout'] = this.questionitem.responseDomain['displayLayout'];
+        if(!this.isNull(this.questionitem.responseDomain)) {
+          this.privewResponseDomain['displayLayout'] = this.questionitem.responseDomain['displayLayout'] || 0;
+        }
         this.privewResponseDomain.managedRepresentation.children
           .push(this.mainResponseDomain.managedRepresentation);
       }
