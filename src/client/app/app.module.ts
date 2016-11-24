@@ -19,12 +19,13 @@ import { CategoryModule } from './components/category/category.module';
 import { QuestionModule } from './components/question/question.module';
 import { ResponsedomainModule } from './components/responsedomain/responsedomain.module';
 import { ControlConstructModule } from './components/controlconstruct/controlconstruct.module';
+import { InstrumentModule } from './components/instrument/instrument.module';
 
 @NgModule({
   imports: [ BrowserModule, HttpModule, CategoryModule,
     QuestionModule, ResponsedomainModule, ControlConstructModule,
     routing, HomeModule, LoginModule, RevisionModule,
-    CompareModule, CommentModule, SharedModule],
+    InstrumentModule, CompareModule, CommentModule, SharedModule],
   declarations: [ AppCmp ],
   providers: [UserService, {
     provide: APP_BASE_HREF,
