@@ -14,6 +14,8 @@ export class ControlConstructDetailComponent {
   @Input() controlConstructs: ControlConstruct[];
   @Input() isVisible: boolean;
   @Output() hideDetailEvent: EventEmitter<String> = new EventEmitter<String>();
+  @Output() exceptionEvent: EventEmitter<String> = new EventEmitter<String>();
+  editQuestoinItem: boolean;
   instructionActions = new EventEmitter<string>();
   createPostInstruction: boolean;
   createPreInstruction: boolean;
@@ -25,6 +27,7 @@ export class ControlConstructDetailComponent {
     this.revisionIsVisible = false;
     this.createPostInstruction = false;
     this.createPreInstruction = false;
+    this.editQuestoinItem = false;
   }
 
   hideDetail() {
@@ -61,15 +64,28 @@ export class ControlConstructDetailComponent {
     this.instructionActions.emit('openModal');
   }
 
+  onUseQuestionItem() {
+    this.editQuestoinItem = false;
+  }
+
+  onRemoveQuestoinItem() {
+    this.controlConstruct.questionItem = null;
+    this.editQuestoinItem = false;
+  }
+
   onSaveControlConstruct() {
-    this.service.edit(this.controlConstruct).subscribe((result: any) => {
+    this.service.update(this.controlConstruct).subscribe((result: any) => {
         let index = this.controlConstructs.findIndex((e:any) => e.id === result.id);
         if(index >= 0) {
           this.controlConstructs[index] = result;
         }
         this.hideDetail();
       }, (error: any) => {
-        console.log(error);
+        this.popupModal(error);
       });
+  }
+
+  private popupModal(error: any) {
+    this.exceptionEvent.emit('The backend has not supported editing a question contruct yet.');
   }
 }

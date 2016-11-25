@@ -8,11 +8,13 @@ import { ControlConstructDetailComponent } from './controlconstruct.detail.compo
 import { InstructionComponent } from './instruction.component';
 import { ResponsedomainModule } from '../responsedomain/responsedomain.module';
 import { QuestionModule } from '../question/question.module';
+import { ControlConstructQuestionItemSelectComponent } from './controlconstruct.questionitem.select.component';
 
 @NgModule({
   imports: [ SharedModule, RevisionModule, CompareModule, CommentModule,
     ResponsedomainModule, QuestionModule ],
-  declarations: [ControlConstructComponent, ControlConstructDetailComponent, InstructionComponent
+  declarations: [ControlConstructComponent,
+    ControlConstructQuestionItemSelectComponent, ControlConstructDetailComponent, InstructionComponent
     ],
   exports: [ControlConstructComponent]
 })

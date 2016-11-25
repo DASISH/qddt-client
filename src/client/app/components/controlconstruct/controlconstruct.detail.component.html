@@ -69,9 +69,30 @@
         </ul>
       </div>
 
-      <div class="row">
-        <h4>Question Text</h4>
-        <div>{{controlConstruct?.questionItem?.question?.question}}</div>
+      <div class="row card">
+        <div class="row">
+          <div class="col s10"><h4>Question Text</h4></div>
+          <div class="col s1">
+            <a
+              class="btn-flat btn-floating btn-small waves-effect waves-light teal"
+              (click)="editQuestoinItem = !editQuestoinItem">
+              <i class="material-icons">edit</i>
+            </a>
+          </div>
+          <div class="col s1">
+            <a
+              class="btn-flat btn-floating btn-small waves-effect waves-light teal"
+              (click)="onRemoveQuestoinItem()">
+              <i class="material-icons">remove</i>
+            </a>
+          </div>
+        </div>
+        <div><span>{{controlConstruct?.questionItem?.question?.question}}</span></div>
+        <qddt-control-construct-questionitem-select
+          *ngIf="editQuestoinItem"
+          (useQuestionItemEvent) = "onUseQuestionItem($event)"
+          [controlConstruct]="controlConstruct">
+        </qddt-control-construct-questionitem-select>
       </div>
 
       <div class="section">

@@ -52,7 +52,7 @@ export class ControlConstructService extends BaseService {
       .catch(this.handleError);
   }
 
-  edit(c: ControlConstruct): any {
+  update(c: ControlConstruct): any {
     return this.post(c, 'controlconstruct/');
   }
 

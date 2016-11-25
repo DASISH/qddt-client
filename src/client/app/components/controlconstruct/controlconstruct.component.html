@@ -27,53 +27,28 @@
               </div>
               <div class="row">
                 <div class="row">
-                  <autocomplete [items]="questionItems"  class="black-text"
-					          [searchField]="['name', ['question','question']]"
-                    [isMutipleFields]="true"
-                    [placeholder] = "'Search in question name or question text'"
-					          (autocompleteFocusEvent)="selectedQuestionItemIndex=idx;"
-					          [initialValue]="''"
-                    [searchFromServer]="true"
-					          (enterEvent)="searchQuestionItems($event)"
-					          (autocompleteSelectEvent)="onSelectCreateQuestionItem($event)">
-                  </autocomplete>
+                  <div class="col s10"><h4>Question Text</h4></div>
+                  <div class="col s1">
+                    <a
+                      class="btn-flat btn-floating btn-small waves-effect waves-light teal"
+                      (click)="editQuestoinItem = !editQuestoinItem">
+                      <i class="material-icons">edit</i>
+                    </a>
+                  </div>
+                  <div class="col s1">
+                    <a
+                      class="btn-flat btn-floating btn-small waves-effect waves-light teal"
+                      (click)="onRemoveQuestoinItem()">
+                      <i class="material-icons">remove</i>
+                    </a>
+                  </div>
                 </div>
-              </div>
-              <div *ngIf="controlConstruct.questionItem"
-                class="row card">
-                <div class="row">
-                  <ul class="collection with-header black-text">
-                    <li class="collection-header">Question Item</li>
-                    <li  class="collection-item">Version: {{controlConstruct?.questionItem?.version?.major}}.
-                      {{controlConstruct?.questionItem?.version?.minor}}
-                    </li>
-                    <li class="collection-item">Name: {{controlConstruct?.questionItem?.name}}</li>
-                    <li class="collection-item">Question: {{controlConstruct?.questionItem?.question?.question}}</li>
-                    <li class="collection-item">Intent: {{controlConstruct?.questionItem?.question?.intent}}</li>
-                    <li class="collection-item" *ngFor="let c of concepts" >Concept: {{c?.name}}</li>
-                  </ul>
-                </div>
-                <qddt-responsedomain-preview
-                  *ngIf="controlConstruct.questionItem.responseDomain"
-                  [isVisible]="true" [responseDomain]="controlConstruct.questionItem.responseDomain">
-                </qddt-responsedomain-preview>
-                <div class="row">
-                  <a class="waves-effect waves-light btn right red" (click)="useCurrentQuestionItem = false">Use Other</a>
-                  <a class="waves-effect waves-light btn right green" (click)="useCurrentQuestionItem = true">Use this</a>
-                </div>
-              </div>
-              <div class="row" *ngIf="!useCurrentQuestionItem && questionItemRevisions.length > 0">
-                <div class="input-field col s4">
-                  <label class="active white-text">QuestionItem business version</label>
-                  <select [(ngModel)]="controlConstruct.revisionNumber"
-                    name="controlConstruct_revisionNumber"
-                    materialize="material_select">
-                    <option value="" disabled selected>Select version</option>
-                    <option *ngFor="let revision of questionItemRevisions" [value]="revision.revisionNumber">
-                      {{revision?.entity?.version?.major}}.{{revision?.entity?.version?.minor}}
-                    </option>
-                  </select>
-                </div>
+                <div>{{controlConstruct?.questionItem?.question?.question}}</div>
+                <qddt-control-construct-questionitem-select
+                  *ngIf="editQuestoinItem"
+                  (useQuestionItemEvent) = "editQuestoinItem = false"
+                  [controlConstruct]="controlConstruct">
+                </qddt-control-construct-questionitem-select>
               </div>
               <div class="row">
                 <div class="row">
@@ -169,6 +144,7 @@
   <qddt-controle-construct-detail *ngIf="isDetail"
     [controlConstruct]="selectedControlConstruct"
     [controlConstructs]="controlConstructs"
+    (exceptionEvent)="popupModal($event)"
     (hideDetailEvent)="hideDetail()">
   </qddt-controle-construct-detail>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 
 import { ControlConstructService, ControlConstruct, Instruction } from './controlconstruct.service';
 
@@ -19,6 +19,9 @@ export class ControlConstructComponent implements OnInit {
   actions = new EventEmitter<string>();
   questionitemActions = new EventEmitter<string>();
   error: any;
+  editQuestoinItem: boolean;
+  questionItems: any[];
+  selectedQuestionItem: any;
 
   private controlConstructs: any[];
   private page: any;
@@ -28,16 +31,10 @@ export class ControlConstructComponent implements OnInit {
   private selectedControlConstruct: any;
   private isDetail: boolean;
   private columns: any[];
-  private questionItems: any[];
-  private selectedQuestionItemIndex: number;
   private showInstructionForm: boolean;
-  private questionItemRevisions: any[];
-  private selectedQuestionItem: any;
   private instructions: any[];
   private isInstructionAfter: boolean;
   private isInstructionNew: boolean;
-  private useCurrentQuestionItem: boolean;
-  private concepts: any[];
   private files: FileList;
 
   constructor(private service: ControlConstructService) {
@@ -45,14 +42,12 @@ export class ControlConstructComponent implements OnInit {
     this.controlConstructs = [];
     this.searchKeys = '';
     this.page = {};
+    this.editQuestoinItem = false;
+    this.questionItems = [];
     this.columns = [{ 'label': 'Name', 'name': 'name', 'sortable': true },
       { 'label': 'Question Text', 'name': ['questionItem', 'question', 'question'], 'sortable': false }];
-    this.questionItems = [];
-    this.selectedQuestionItemIndex = -1;
     this.showInstructionForm = false;
     this.instructions = [];
-    this.useCurrentQuestionItem = true;
-    this.concepts = [];
   }
 
   ngOnInit() {
@@ -66,7 +61,7 @@ export class ControlConstructComponent implements OnInit {
       this.controlConstruct.preInstructions = [];
       this.controlConstruct.postInstructions = [];
       this.controlConstruct.revisionNumber = 0;
-      this.questionItemRevisions = [];
+      this.controlConstruct.questionItem = null;
       this.files = null;
     }
   }
@@ -120,7 +115,7 @@ export class ControlConstructComponent implements OnInit {
             .subscribe((result: any) => {
               this.controlConstructs.push(result);
             }, (error: any) => {
-              this.popupModal(error);
+              this.popupModal('The backend has not supported uploading files yet.');
             });
         } else {
           this.controlConstructs.push(result);
@@ -142,20 +137,9 @@ export class ControlConstructComponent implements OnInit {
       (error: any) => { this.popupModal(error); });
   }
 
-  onSelectCreateQuestionItem(questionItem: any) {
-    this.controlConstruct.questionItem = questionItem;
-    this.useCurrentQuestionItem = true;
-    this.service.getQuestionItemsRevisions(questionItem.id).subscribe((result: any) => {
-      this.questionItemRevisions = result.content.filter((e: any) =>
-      e.entity.changeKind !== 'IN_DEVELOPMENT'
-      && e.entity.changeKind !== 'UPDATED_HIERARCY_RELATION');
-    },
-      (error: any) => { this.popupModal(error); });
-    this.concepts = [];
-    this.service.getConceptsByQuestionitemId(questionItem.id)
-      .subscribe(
-        (result: any) => { this.concepts = result; },
-        (error: any) => { this.popupModal(error); });
+  onRemoveQuestoinItem() {
+    this.controlConstruct.questionItem = null;
+    this.editQuestoinItem = false;
   }
 
   onSelectQuestionItem(questionItem: any) {
@@ -187,7 +171,7 @@ export class ControlConstructComponent implements OnInit {
     this.instruction = instruction;
   }
 
-  private popupModal(error: any) {
+  popupModal(error: any) {
     this.error = error;
     this.actions.emit('openModal');
   }
