@@ -90,7 +90,7 @@ export class QuestionComp implements AfterContentChecked, OnInit {
     this.questionItem.question.name = this.questionItem.name;
     this.questionService.createQuestionItem(this.questionItem)
       .subscribe((result: any) => {
-        this.questionitems.push(result);
+        this.questionitems = [result].concat(this.questionitems);
       });
     this.isDetail = false;
   }

@@ -117,7 +117,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
     } else {
       this.categoryService.save(this.category)
         .subscribe((result: any) => {
-          this.missingCategories.push(result);
+          this.missingCategories = [result].concat(this.missingCategories);
           this.category = new Category();
           this.category.categoryType = 'MISSING_GROUP';
         });

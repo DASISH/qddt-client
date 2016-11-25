@@ -63,7 +63,7 @@ export class InstrumentComponent implements OnInit {
     this.showInstrumentForm = false;
     this.service.create(this.instrument)
       .subscribe((result: any) => {
-          this.instruments.push(result);
+        this.instruments = [result].concat(this.instruments);
       }, (error: any) => {
         this.popupModal(error);
       });

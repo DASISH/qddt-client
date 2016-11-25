@@ -113,12 +113,12 @@ export class ControlConstructComponent implements OnInit {
         if (this.files !== null) {
           this.service.uploadFile(result.id, this.files)
             .subscribe((result: any) => {
-              this.controlConstructs.push(result);
+              this.controlConstructs = [result].concat(this.controlConstructs);
             }, (error: any) => {
               this.popupModal('The backend has not supported uploading files yet.');
             });
         } else {
-          this.controlConstructs.push(result);
+          this.controlConstructs = [result].concat(this.controlConstructs);
         }
       }, (error: any) => {
         this.popupModal(error);
