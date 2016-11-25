@@ -1,5 +1,5 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import {  DomainType, DomainTypeDescription } from './responsedomain.constant';
+import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { DomainType, DomainTypeDescription } from './responsedomain.constant';
 import { ResponseDomainService, ResponseDomain } from './responsedomain.service';
 
 @Component({
@@ -42,7 +42,7 @@ import { ResponseDomainService, ResponseDomain } from './responsedomain.service'
   providers: [ResponseDomainService],
 })
 
-export class ResponsedomainReuseComponent implements OnInit {
+export class ResponsedomainReuseComponent implements OnChanges {
   @Input() isVisible: boolean;
   @Input() responseDomain: any;
   @Output() responseDomainReuse: EventEmitter<any> = new EventEmitter();
@@ -61,12 +61,14 @@ export class ResponsedomainReuseComponent implements OnInit {
     this.selectedIndex = 0;
   }
 
-  ngOnInit() {
+  ngOnChanges() {
     if (this.responseDomain !== undefined && this.responseDomain !== null) {
       let description = this.domainTypeDescription.find((e: any) => e.name === this.responseDomain.responseKind);
       if (description !== undefined) {
         this.domainType = description.id;
       }
+    } else {
+      this.domainType = DomainType.SCALE;
     }
   }
 

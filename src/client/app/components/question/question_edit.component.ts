@@ -119,14 +119,18 @@ import { Observable }     from 'rxjs/Observable';
       <div *ngIf="editResponseDomain" [attr.id]="questionitem.id + '-edit-questionItem-modal'" class="modal modal-fixed-footer">
         <div class="modal-content">
           <div *ngIf="showResponseDomainForm" class="row">
-            <responsedomain-reuse [isVisible]="true"
+            <responsedomain-reuse [isVisible]="showResponseDomainForm"
               [responseDomain]="mainResponseDomain"
               (responseDomainReuse)="responseDomainReuse($event)">
             </responsedomain-reuse>
           </div>
         </div>
         <div class="modal-footer">
-          <button id="questionItem-modal-close" class="btn btn-default red modal-action modal-close waves-effect waves-red">Dismiss</button>
+          <button id="questionItem-modal-close"
+            (click)="showResponseDomainForm = false;"
+            class="btn btn-default red modal-action modal-close waves-effect waves-red">
+            <a><i class="close material-icons medium white-text">close</i></a>
+          </button>
         </div>
       </div>
     </div>
