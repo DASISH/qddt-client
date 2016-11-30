@@ -35,9 +35,7 @@ export class AuthorListModalComponent implements OnInit {
   @Output() authorSelectedEvent:EventEmitter<String> = new EventEmitter<String>();
   private  authors: any[];
 
-
   constructor(private authorService: AuthorService) {
-
   }
 
   onSelect(value:any ) {
@@ -46,13 +44,10 @@ export class AuthorListModalComponent implements OnInit {
     this.authorSelectedEvent.emit(value);
   }
 
-
   ngOnInit() {
-    console.log('ngOnInit');
     this.authorService.getAll()
       .subscribe( (result: any) => {
         this.authors = result.content;
       });
   }
 }
-

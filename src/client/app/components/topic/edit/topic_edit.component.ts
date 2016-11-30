@@ -26,16 +26,7 @@ import { Change } from '../../../common/change_status';
           </div>
         </div>
         <div class="row">
-          <div class="input-field col s8">
-            <p><label class="active teal-text">Authors</label></p>
-            <author-chip-edit [authors]="topic.authors"  
-              (authorRemovedEvent)="onAuthorRemoved($event)" 
-              (authorSelectedEvent)="onAuthorSelected($event)"></author-chip-edit>
-          </div>
-          <div class="input-field col s4">
-            <p><label class="active teal-text">Agency</label></p>
-            <div class="chip" >{{topic.modifiedBy.agency.name}}</div>
-          </div>
+          <qddt-revision-detail [element]="topic" [type]="'topic'"></qddt-revision-detail>
         </div>
         <div class="row">
           <qddt-rational [element]="topic"></qddt-rational>
@@ -71,14 +62,4 @@ export class TopicEditComponent {
     this.showlabel = (value === 'MILESTONE');
   }
 
-  onAuthorSelected(author:any) {
-    this.topicService.attachAuthor(this.topic.id,author.id);
-    this.topic.authors.push(author);
-  }
-
-  onAuthorRemoved(author:any) {
-    this.topicService.deattachAuthor(this.topic.id,author.id);
-    var i = this.topic.authors.findIndex(F=>F===author);
-    this.topic.authors.splice(i,1);
-  }
 }

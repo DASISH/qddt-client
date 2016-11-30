@@ -22,26 +22,18 @@ import { CategoryType } from '../category_kind';
           </div>
         </div>
         <div class="row">
-          <div class="input-field col s12">
+          <div class="col s12">
+            <label [attr.for]="category.id + '-category-description'"
+              class="active teal-text">Description</label>
             <textarea class="materialize-textarea"
-              name="{{category?.id}}-category.description" [(ngModel)]="category.description" ></textarea>
-            <label for="description" class="active teal-text">Description</label>
+              name="{{category?.id}}-category-description" [(ngModel)]="category.description" ></textarea>
           </div>
+        </div>
+        <div class="row">
+          <qddt-revision-detail [element]="category" [type]="'category'"></qddt-revision-detail>
         </div>
         <div class="row">
           <qddt-rational [element]="category"></qddt-rational>
-        </div>
-        <div class="row">
-          <div class="input-field col s8">
-            <p><label class="active teal-text">Authors</label></p>
-            <div class="chip" *ngFor="let author of category.authors" >
-              <img src="{{author.picture}}">{{author.name}} <i class="material-icons">close</i>
-            </div>
-          </div>
-          <div class="input-field col s4">
-            <p><label class="active teal-text">Agency</label></p>
-            <div class="chip" >{{category.modifiedBy.agency.name}}</div>
-          </div>
         </div>
         <div *ngIf="isTemplate" class="row">
           <div class="col s2 input-field">

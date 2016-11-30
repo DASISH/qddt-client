@@ -91,37 +91,12 @@ import { Observable }     from 'rxjs/Observable';
               </tbody>
             </table>
           </div>
-
+          <div class="row">
+				    <qddt-revision-detail [element]="questionitem" [type]="'questionitem'"></qddt-revision-detail>
+			    </div>
           <div class="row">
             <qddt-rational [element]="questionitem"></qddt-rational>
 			    </div>
-          <div *ngIf="questionitem" class="row">
-            <div class="input-field col s1">
-              <p><label class="active teal-text">Version</label></p>
-              <div class="chip">{{questionitem?.version?.major}}.{{questionitem?.version?.minor}}
-              </div>
-            </div>
-            <div class="input-field col s3">
-              <p><label class="active teal-text">Last Saved</label></p>
-              <div class="chip">{{questionitem.modified | localDate}}</div>
-            </div>
-            <div class="input-field col s3">
-              <p><label class="active teal-text">Last Saved By</label></p>
-              <div class="chip">{{questionitem?.modifiedBy?.username}}</div>
-            </div>
-            <div class="input-field col s3">
-              <p><label class="active teal-text">Agency</label></p>
-              <div class="chip">{{questionitem?.modifiedBy?.agency?.name}}</div>
-            </div>
-            <div class="input-field col s2">
-              <p><label class="active teal-text">Based On</label></p>
-              <div *ngIf="questionitem.basedOnObject" class="chip"
-                [ngStyle]="{'cursor': 'pointer'}"
-                (click)="onClickQuestion(questionitem.basedOnObject)">
-                Detail
-              </div>
-            </div>
-          </div>
           <button type="submit" class="btn btn-default">Submit</button>
         </form>
       </div>
@@ -163,7 +138,7 @@ import { Observable }     from 'rxjs/Observable';
     </div>
   </div>
   <div class="modal-footer">
-    <button id="controlConstructs-modal-close"
+    <button
       class="btn btn-default red modal-action modal-close waves-effect">
       <a><i class="close material-icons medium white-text">close</i></a>
     </button>

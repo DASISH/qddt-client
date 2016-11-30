@@ -18,7 +18,6 @@ export class AuthorChipComponent {
 
   @Input() authors:any;
 
-
   onAdd() {
     console.log('added clicked');
   }

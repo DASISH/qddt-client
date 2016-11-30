@@ -84,9 +84,9 @@
             </div>
           </div>
           <div class="row">
-            <div class="input-field col s12">
-              <textarea class="materialize-textarea" name="description" [(ngModel)]="selectedCategory.description" ></textarea>
+            <div class="col s12">
               <label for="description" class="active teal-text">Description</label>
+              <textarea class="materialize-textarea" name="description" [(ngModel)]="selectedCategory.description" ></textarea>
             </div>
           </div>
           <div class="row">
@@ -113,6 +113,9 @@
               </tbody>
             </table>
           </div>
+        </div>
+        <div class="row">
+          <qddt-revision-detail [element]="selectedCategory" [type]="'category'"></qddt-revision-detail>
         </div>
         <div class="row">
           <qddt-rational [element]="selectedCategory"></qddt-rational>

@@ -27,16 +27,7 @@ import { SurveyService, SurveyProgram } from '../../surveyprogram/survey.service
         </div>
 
         <div class="row">
-          <div class="input-field col s8">
-            <p><label class="active teal-text">Authors</label></p>
-            <author-chip-edit [authors]="survey.authors"  
-            (authorRemovedEvent)="onAuthorRemoved($event)" 
-            (authorSelectedEvent)="onAuthorSelected($event)"></author-chip-edit>
-          </div>
-          <div class="input-field col s4">
-            <p><label class="active teal-text">Agency</label></p>
-            <div class="chip" >{{survey.modifiedBy.agency.name}}</div>
-          </div>
+          <qddt-revision-detail [element]="survey" [type]="'survey'"></qddt-revision-detail>
         </div>
 
         <div class="row">

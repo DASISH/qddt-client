@@ -89,6 +89,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
     this.showResponseDomainForm = !this.showResponseDomainForm;
     if(this.showResponseDomainForm) {
       this.responseDomain = new ResponseDomain();
+      this.responseDomain['isNew'] = true;
       let name = DomainTypeDescription.find((e: any)=>e.id === this.domainType).name;
       this.responseDomain.responseKind = name;
     }

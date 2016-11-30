@@ -1,12 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { DomainType } from './responsedomain.constant';
+import { DomainType, DomainTypeDescription } from './responsedomain.constant';
+import { ResponseDomainService } from './responsedomain.service';
 
 @Component({
   selector: 'qddt-responsedomain-usedby',
   moduleId: module.id,
   template: `
-  <div *ngIf="responsedomain" class="row">
+  <div *ngIf="id && responsedomain" class="row">
     <div class="card">
       <h4>Responsedomain</h4>
       <label>Version: {{responsedomain?.version?.major}}.{{responsedomain?.version?.minor}}</label>
@@ -163,20 +164,27 @@ import { DomainType } from './responsedomain.constant';
 		</div>
  </div>
   `,
-  providers: [],
+  providers: [ResponseDomainService],
 })
 export class ResponsedomainUsedbyComponent implements OnInit {
-  @Input() responsedomain: any;
+	@Input() id: string;
   @Input() domainType: DomainType;
   numberOfAnchors: number;
   domainTypeDef = DomainType;
+  responsedomain: any;
+  constructor(private service: ResponseDomainService) {}
 
-  ngOnInit() {
-    if (this.domainType === DomainType.SCALE || this.domainType === DomainType.LIST) {
-      this.numberOfAnchors = this.responsedomain.managedRepresentation.children.length;
-    } else {
-      this.numberOfAnchors = 0;
-    }
-  }
+	ngOnInit() {
+		this.numberOfAnchors = 0;
+		this.service.getResponseDomain(this.id).subscribe((result: any) => {
+			this.responsedomain = result;
+			if (this.domainType === DomainType.SCALE || this.domainType === DomainType.LIST) {
+				this.numberOfAnchors = this.responsedomain.managedRepresentation.children.length;
+			}
+			if (this.domainType === null || this.domainType === undefined) {
+				this.domainType = DomainTypeDescription.find(e=>e.name === this.responsedomain['responseKind']).id;
+			}
+		});
+	}
 
 }

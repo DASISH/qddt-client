@@ -25,6 +25,9 @@ import { ConceptService, Concept } from '../concept.service';
           </div>
         </div>
         <div class="row">
+				  <qddt-revision-detail [element]="concept" [type]="'concept'"></qddt-revision-detail>
+			  </div>
+        <div class="row">
 		      <qddt-rational [element]="concept"></qddt-rational>
         </div>
         <div class="row">

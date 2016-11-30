@@ -24,17 +24,8 @@
            <textarea id="description" name="description" class="materialize-textarea"  [(ngModel)]="study.description" required></textarea>
          </div>
        </div>
-       <div class="row">
-         <div class="input-field col s8">
-           <p><label class="active teal-text">Authors</label></p>
-           <author-chip-edit [authors]="study.authors"  
-            (authorRemovedEvent)="onAuthorRemoved($event)" 
-            (authorSelectedEvent)="onAuthorSelected($event)"></author-chip-edit>
-       </div>
-       <div class="input-field col s4">
-         <p><label class="active teal-text">Agency</label></p>
-          <div class="chip" >{{study.modifiedBy.agency.name}}</div>
-         </div>
+       <div>
+         <qddt-revision-detail [element]="study" [type]="'study'"></qddt-revision-detail>
        </div>
        <div class="row">
          <qddt-rational [element]="study"></qddt-rational>

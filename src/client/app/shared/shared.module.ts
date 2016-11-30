@@ -13,14 +13,17 @@ import { RationalComponent } from '../components/rational/rational.component';
 import { StudyUsedbyComponent } from '../components/study/study.usedby.component';
 import { TopicUsedbyComponent } from '../components/topic/topic.usedby.component';
 import { QuestionUsedbyComponent } from '../components/question/question.usedby.component';
+import { ResponsedomainUsedbyComponent } from '../components/responsedomain/responsedomain.usedby.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, MaterializeModule],
   declarations: [ LocalDatePipe, QddtTableComponent, QddtPagination, AutocompleteComponent,
     StudyUsedbyComponent, TopicUsedbyComponent, QuestionUsedbyComponent,
+    ResponsedomainUsedbyComponent,
     AuthorChipComponent, AuthorChipEditComponent, AuthorListModalComponent, RationalComponent ],
   exports: [LocalDatePipe, CommonModule, FormsModule, MaterializeModule,
     StudyUsedbyComponent, TopicUsedbyComponent, QuestionUsedbyComponent,
+    ResponsedomainUsedbyComponent,
     QddtTableComponent, QddtPagination, AutocompleteComponent, RationalComponent,
     AuthorChipComponent, AuthorChipEditComponent, AuthorListModalComponent]
 })

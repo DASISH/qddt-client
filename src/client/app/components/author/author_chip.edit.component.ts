@@ -20,7 +20,6 @@ export class AuthorChipEditComponent {
   @Output() authorRemovedEvent:EventEmitter<String> = new EventEmitter<String>();
   @Output() authorSelectedEvent:EventEmitter<String> = new EventEmitter<String>();
 
-
   onRemove(author:any) {
     this.authorRemovedEvent.emit(author);
   }
