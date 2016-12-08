@@ -27,6 +27,9 @@ import { ConceptService } from './concept.service';
       </div>
 
       <div class="col s11 m11 l11">
+        <div class="row teal-text">
+          <h5>{{questionItem?.question?.question}}</h5>
+        </div>
         <qddt-questionitem-edit [isVisible]="true"
           (editQuestionItem)="onEditQuestionItem($event)"
           [editResponseDomain]="true"
@@ -37,10 +40,6 @@ import { ConceptService } from './concept.service';
           [current]="questionItem" class="black-text"
           [qddtURI]="'audit/questionitem/' + questionItem.id + '/all'">
         </qddt-revision>
-        <qddt-responsedomain-preview *ngIf="questionItem.responseDomain"
-          [isVisible]="true" [responseDomain]="questionItem.responseDomain"
-          #preview>
-        </qddt-responsedomain-preview>
         <div class="row">
           <comment-list [ownerId]="questionItem.id"></comment-list>
         </div>
