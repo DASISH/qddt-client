@@ -33,6 +33,10 @@ export class AppCmp implements AfterContentChecked {
     this.userService.setGlobalObject('current', 'instrument');
   }
 
+  onSequences() {
+    this.userService.setGlobalObject('current', 'sequence');
+  }
+
   onQuestions() {
     this.checkRouter('questions', 'list');
   }

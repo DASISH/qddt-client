@@ -1,0 +1,52 @@
+<div class="row">
+  <div class="row teal-text">
+		<span name="col text">Add element</span>
+    <div class="col right">
+      <i class="material-icons right" title="add Element"
+        (click)="showAddElement = !showAddElement; showReplayElement= false;">add
+      </i>
+    </div>
+  </div>
+  <div class="row" *ngIf="showAddElement">
+  <div class="row teal-text">
+		<span name="col text">Element Type:</span>
+	</div>
+  <div class="row" >
+		<div class="left" *ngFor="let element of elementTypeDescription">
+			<input name="elementtypegroup"
+        type="radio"
+        id="element-type-{{element.id}}"
+        (click)="onSelectElementType(element.id)"
+        [checked]="elementType === element.id"/>
+      <label [attr.for]="'element-type-' + element.id">{{element.label}}</label>
+		</div>
+  </div>
+  <div class="row">
+    <div class="row">
+      <autocomplete [items]="elements" class="black-text"
+        [searchField]="'name'"
+				[searchFromServer]="true"
+        (autocompleteSelectEvent)="onSelectElement($event)"
+				(enterEvent)="onSearchElements($event)">
+			</autocomplete>
+    </div>
+    <div [ngSwitch]="elementType" class="row teal-text">
+      <div *ngSwitchCase="0">
+        preview sequence
+      </div>
+      <div *ngSwitchCase="1">
+        preview Control construct
+      </div>
+      <div *ngSwitchCase="2">
+        preview Statement
+      </div>
+      <div *ngSwitchCase="3">
+        preview Condition
+      </div>
+    </div>
+  </div>
+  <div class="row teal-text">
+    <button class="right" (click)="false">use this</button>
+  </div>
+  </div>
+</div>

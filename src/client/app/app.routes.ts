@@ -8,6 +8,7 @@ import { CategorySchemeComponent } from './components/category/category.scheme.c
 import { ResponsedomainComponent } from './components/responsedomain/responsedomain.component';
 import { ControlConstructComponent } from './components/controlconstruct/controlconstruct.component';
 import { InstrumentComponent } from './components/instrument/instrument.component';
+import { SequenceComponent } from './components/sequence/sequence.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'Home', pathMatch: 'full'},
@@ -38,6 +39,10 @@ const appRoutes: Routes = [
   {
     path: 'Instruments',
     component: InstrumentComponent
+  },
+  {
+    path: 'Sequences',
+    component: SequenceComponent
   },
 ];
 
