@@ -14,10 +14,10 @@
 /*! @source http://purl.eligrey.com/github/FileSaver.js/blob/master/FileSaver.js */
 
 var saveAs = saveAs || (function(view) {
-	"use strict";
+	'use strict';
 	// IE <10 is explicitly unsupported
-	if (typeof view === "undefined" || typeof navigator !== "undefined" && /MSIE [1-9]\./.test(navigator.userAgent)) {
-		return;
+	if (typeof view === 'undefined' || typeof navigator !== 'undefined' && /MSIE [1-9]\./.test(navigator.userAgent)) {
+		return null;
 	}
 	var
 		  doc = view.document
@@ -25,10 +25,10 @@ var saveAs = saveAs || (function(view) {
 		, get_URL = function() {
 			return view.URL || view.webkitURL || view;
 		}
-		, save_link = doc.createElementNS("http://www.w3.org/1999/xhtml", "a")
-		, can_use_save_link = "download" in save_link
+		, save_link = doc.createElementNS('http://www.w3.org/1999/xhtml', 'a')
+		, can_use_save_link = 'download' in save_link
 		, click = function(node) {
-			var event = new MouseEvent("click");
+			var event = new MouseEvent('click');
 			node.dispatchEvent(event);
 		}
 		, is_safari = /constructor/i.test(view.HTMLElement) || view.safari
@@ -38,12 +38,12 @@ var saveAs = saveAs || (function(view) {
 				throw ex;
 			}, 0);
 		}
-		, force_saveable_type = "application/octet-stream"
+		, force_saveable_type = 'application/octet-stream'
 		// the Blob API is fundamentally broken as there is no "downloadfinished" event to subscribe to
 		, arbitrary_revoke_timeout = 1000 * 40 // in ms
 		, revoke = function(file) {
 			var revoker = function() {
-				if (typeof file === "string") { // file is an object URL
+				if (typeof file === 'string') { // file is an object URL
 					get_URL().revokeObjectURL(file);
 				} else { // file is a File
 					file.remove();
@@ -55,8 +55,8 @@ var saveAs = saveAs || (function(view) {
 			event_types = [].concat(event_types);
 			var i = event_types.length;
 			while (i--) {
-				var listener = filesaver["on" + event_types[i]];
-				if (typeof listener === "function") {
+				var listener = filesaver['on' + event_types[i]];
+				if (typeof listener === 'function') {
 					try {
 						listener.call(filesaver, event || filesaver);
 					} catch (ex) {
@@ -84,7 +84,7 @@ var saveAs = saveAs || (function(view) {
 				, force = type === force_saveable_type
 				, object_url
 				, dispatch_all = function() {
-					dispatch(filesaver, "writestart progress write writeend".split(" "));
+					dispatch(filesaver, 'writestart progress write writeend'.split(' '), '');
 				}
 				// on any filesys errors revert to saving with object URLs
 				, fs_error = function() {
@@ -110,9 +110,11 @@ var saveAs = saveAs || (function(view) {
 					if (force) {
 						view.location.href = object_url;
 					} else {
-						var opened = view.open(object_url, "_blank");
+						var opened = view.open(object_url, '_blank');
 						if (!opened) {
-							// Apple does not allow window.open, see https://developer.apple.com/library/safari/documentation/Tools/Conceptual/SafariExtensionGuide/WorkingwithWindowsandTabs/WorkingwithWindowsandTabs.html
+							// Apple does not allow window.open,
+							// see https://developer.apple.com/library/safari/documentation/
+							//Tools/Conceptual/SafariExtensionGuide/WorkingwithWindowsandTabs/WorkingwithWindowsandTabs.html
 							view.location.href = object_url;
 						}
 					}
@@ -140,13 +142,13 @@ var saveAs = saveAs || (function(view) {
 		}
 		, FS_proto = FileSaver.prototype
 		, saveAs = function(blob, name, no_auto_bom) {
-			return new FileSaver(blob, name || blob.name || "download", no_auto_bom);
+			return new FileSaver(blob, name || blob.name || 'download', no_auto_bom);
 		}
 	;
 	// IE 10+ (native saveAs)
-	if (typeof navigator !== "undefined" && navigator.msSaveOrOpenBlob) {
+	if (typeof navigator !== 'undefined' && navigator.msSaveOrOpenBlob) {
 		return function(blob, name, no_auto_bom) {
-			name = name || blob.name || "download";
+			name = name || blob.name || 'download';
 
 			if (!no_auto_bom) {
 				blob = auto_bom(blob);
@@ -155,7 +157,7 @@ var saveAs = saveAs || (function(view) {
 		};
 	}
 
-	FS_proto.abort = function(){};
+	FS_proto.abort = function(){console.log('abort');};
 	FS_proto.readyState = FS_proto.INIT = 0;
 	FS_proto.WRITING = 1;
 	FS_proto.DONE = 2;
@@ -171,18 +173,18 @@ var saveAs = saveAs || (function(view) {
 
 	return saveAs;
 }(
-	   typeof self !== "undefined" && self
-	|| typeof window !== "undefined" && window
+	   typeof self !== 'undefined' && self
+	|| typeof window !== 'undefined' && window
 	|| this.content
 ));
 // `self` is undefined in Firefox for Android content script context
 // while `this` is nsIContentFrameMessageManager
 // with an attribute `content` that corresponds to the window
 
-if (typeof module !== "undefined" && module.exports) {
+/*if (typeof module !== 'undefined' && module.exports) {
   module.exports.saveAs = saveAs;
-} else if ((typeof define !== "undefined" && define !== null) && (define.amd !== null)) {
+} else if ((typeof define !== 'undefined' && define !== null) && (define.amd !== null)) {
   define("FileSaver.js", function() {
     return saveAs;
   });
-}
+}*/
