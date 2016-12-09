@@ -52,6 +52,17 @@ export class ControlConstructService extends BaseService {
       .catch(this.handleError);
   }
 
+  getFile(id: string) {
+    let headers = new Headers();
+    let jwt = localStorage.getItem('jwt');
+    if(jwt !== null) {
+      headers.append('Authorization', 'Bearer  ' + JSON.parse(jwt).access_token);
+    }
+    let options = new RequestOptions({ headers: headers });
+    return this.http.get(this.api + 'othermaterial/files/' + id, options)
+      .catch(this.handleError);
+  }
+
   update(c: ControlConstruct): any {
     return this.post(c, 'controlconstruct/');
   }

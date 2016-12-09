@@ -139,6 +139,38 @@
           [isVisible]="true" [responseDomain]="controlConstruct.questionItem.responseDomain">
         </qddt-responsedomain-preview>
 
+        <div class="row card">
+          <div class="row">
+            <div class="col s6">
+              <a class="waves-effect waves-light btn"
+                (click)="showUploadFileForm=!showUploadFileForm">File Upload</a>
+            </div>
+            <div class="col s6">
+              <a class="waves-effect waves-light btn"
+              (click)="showUploadedFiles=!showUploadedFiles">Link to uploaded file</a>
+            </div>
+          </div>
+          <div class="row" *ngIf="showUploadedFiles">
+            <ul>
+              <li *ngFor="let m of controlConstruct.otherMaterials">
+                <a class="waves-effect waves-light" (click)="onDownloadFile(m)">{{m.originalName}}</a>
+              </li>
+            </ul>
+          </div>
+          <div class="row" *ngIf="showUploadFileForm">
+            <div class="file-field input-field">
+              <div class="btn">
+                <span>File</span>
+                <input type="file" (change)="onSelectFile($event)">
+              </div>
+              <div class="file-path-wrapper">
+                <input class="file-path validate" type="text" placeholder="Upload one file">
+              </div>
+            </div>
+              <button (click)="onUploadFile()" class="right">upload</button>
+          </div>
+        </div>
+
         <div class="row">
           <qddt-revision-detail [element]="controlConstruct" [type]="'controlconstruct'"></qddt-revision-detail>
         </div>
