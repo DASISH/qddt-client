@@ -16,8 +16,10 @@ export class Sequence {
   id: string;
   name: string;
   description: string;
-  statements: Statement[];
-  conditions: Condition[];
+  statement: any;
+  condition: any;
+  questionConstruct: any;
+  sequence: any;
 }
 
 export class Statement {
@@ -55,6 +57,27 @@ export class SequenceService extends BaseService {
         'agency': this.getAgency(),
         'modified': [2016, 11, 7, 10, 23, 57, 685000000],
         'modifiedBy': this.getModifiedBy(),
+        'sequence': {
+          id: '1', name: 'B1-B12', description: 'this is B1-B12 demo.',
+          'agency': this.getAgency(),
+          'modified': [2016, 11, 9, 10, 23, 57, 685000000],
+          'modifiedBy': this.getModifiedBy(),
+          version: { major: 1, minor: 0, versionLabel: '' }
+        },
+        'condition': {
+          id: '1', name: 'c1', description: 'this is Condition demo.',
+          'agency': this.getAgency(),
+          'modified': [2016, 11, 9, 10, 23, 57, 685000000],
+          'modifiedBy': this.getModifiedBy(),
+          version: { major: 1, minor: 0, versionLabel: '' }
+        },
+        'statement': {
+          id: '1', name: 's1', description: 'this is statement demo.',
+          'agency': this.getAgency(),
+          'modified': [2016, 11, 9, 10, 23, 57, 685000000],
+          'modifiedBy': this.getModifiedBy(),
+          version: { major: 1, minor: 0, versionLabel: '' }
+        },
         version: { major: 1, minor: 2, versionLabel: '' }
       },
       {

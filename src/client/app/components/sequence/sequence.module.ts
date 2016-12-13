@@ -6,10 +6,12 @@ import { SharedModule } from '../../shared/shared.module';
 import { SequenceComponent } from './sequence.component';
 import { SequenceDetailComponent } from './sequence.detail.component';
 import { SequenceReuseComponent } from './sequence.reuse.component';
+import { SequenceContentComponent } from './sequence.content.component';
 
 @NgModule({
   imports: [ SharedModule, RevisionModule, CompareModule, CommentModule ],
-  declarations: [ SequenceComponent, SequenceDetailComponent, SequenceReuseComponent ],
+  declarations: [ SequenceComponent, SequenceDetailComponent, SequenceReuseComponent,
+    SequenceContentComponent ],
   exports: [ SequenceComponent ]
 })
 

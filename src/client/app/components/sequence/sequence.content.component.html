@@ -1,0 +1,30 @@
+<div class="row card">
+  <ul>
+    <li>Sequence: <a (click)="onSelectedElement(sequence)">{{sequence?.name}}</a></li>
+  </ul>    
+  <ul class="control-children">
+    <li>Statement: <a (click)="onSelectedElement(sequence.statement)">{{sequence?.statement?.name}}</a></li>
+    <li>Condition: <a (click)="onSelectedElement(sequence.condition)">{{sequence?.condition?.name}}</a></li>
+    <li>Controlconstruct: <a (click)="onSelectedElement(sequence.controlconstruct)">{{sequence?.controlconstruct?.name}}</a></li>
+    <qddt-sequence-content 
+      *ngIf="sequence.sequence"
+      [sequence]="sequence.sequence">
+    </qddt-sequence-content>
+  </ul>
+</div>
+
+<div [attr.id]="'sequence-content-modal'"
+  class="modal modal-fixed-footer"
+  materialize [materializeActions]="sequenceContentActions">
+  <div class="modal-footer">
+    <button
+      (click)="false"
+      class="btn btn-default red modal-action modal-close waves-effect waves-red">
+      <i class="close material-icons">close</i>
+    </button>
+  </div>
+  <div class="modal-content">
+    <h2>Detail</h2>
+    <span>{{selectedElement?.name}}</span>
+  </div>
+</div>

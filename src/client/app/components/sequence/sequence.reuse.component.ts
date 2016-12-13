@@ -38,6 +38,10 @@ export class SequenceReuseComponent implements OnInit {
     this.searchSequences('');
   }
 
+  onSelectElement(e: any) {
+    console.log(e);
+  }
+
   onSearchElements(key: string) {
     console.log(key);
   }
