@@ -60,7 +60,7 @@ export class ControlConstructComponent implements OnInit {
       this.controlConstruct = new ControlConstruct();
       this.controlConstruct.preInstructions = [];
       this.controlConstruct.postInstructions = [];
-      this.controlConstruct.revisionNumber = 0;
+      this.controlConstruct.questionItemRevision = 0;
       this.controlConstruct.questionItem = null;
       this.files = null;
     }

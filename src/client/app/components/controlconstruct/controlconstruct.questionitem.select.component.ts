@@ -38,14 +38,14 @@ import { ControlConstructService } from './controlconstruct.service';
       <div class="row">
         <div class="input-field col s4" *ngIf="questionItemRevisions.length > 0">
           <label class="active black-text">QuestionItem business version</label>
-          <select [(ngModel)]="revisionNumber"
+          <select [(ngModel)]="questionItemRevision"
             (ngModelChange)="onSelectQuestionItemRevisions($event)"
             class="black-text"
-            name="controlConstruct_revisionNumber"
+            name="controlConstruct_questionItemRevision"
             materialize="material_select">
             <option *ngFor="let revision of questionItemRevisions"
-              [selected]="revision.revisionNumber === revisionNumber"
-              [value]="revision.revisionNumber">
+              [selected]="revision.questionItemRevision === questionItemRevision"
+              [value]="revision.questionItemRevision">
               {{revision?.entity?.version?.major}}.{{revision?.entity?.version?.minor}}
             </option>
           </select>
@@ -68,12 +68,12 @@ export class ControlConstructQuestionItemSelectComponent implements OnInit {
   selectedQuestionItemIndex: number;
   private questionItemRevisions: any[];
   private selectedQuestionItem: any;
-  private revisionNumber: number;
+  private questionItemRevision: number;
 
   constructor(private service: ControlConstructService) {
     this.questionItems = [];
     this.selectedQuestionItemIndex = -1;
-    this.revisionNumber = 0;
+    this.questionItemRevision = 0;
     this.questionItemRevisions = [];
   }
 
@@ -81,7 +81,7 @@ export class ControlConstructQuestionItemSelectComponent implements OnInit {
     this.selectedQuestionItem = this.controlConstruct.questionItem;
     if(this.selectedQuestionItem !== null && this.selectedQuestionItem !== undefined
       && this.selectedQuestionItem.id !== null && this.selectedQuestionItem.id !== undefined) {
-      this.revisionNumber = this.controlConstruct.revisionNumber;
+      this.questionItemRevision = this.controlConstruct.questionItemRevision;
       this.service.getQuestionItemsRevisions(this.selectedQuestionItem.id).subscribe((result: any) => {
       this.questionItemRevisions = result.content;
     },
@@ -98,16 +98,16 @@ export class ControlConstructQuestionItemSelectComponent implements OnInit {
   }
 
   onSelectQuestionItemRevisions() {
-    let r = this.revisionNumber;
+    let r = this.questionItemRevision;
     if(typeof r === 'string') {
       r = parseInt(r);
     }
-    this.revisionNumber = r;
+    this.questionItemRevision = r;
     if ( r === 0) {
       this.selectedQuestionItem = this.controlConstruct.questionItem;
     } else {
       let result = this.questionItemRevisions
-      .find((e: any) => e.revisionNumber === r);
+      .find((e: any) => e.questionItemRevision === r);
       this.selectedQuestionItem = result.entity;
     }
   }
@@ -115,7 +115,7 @@ export class ControlConstructQuestionItemSelectComponent implements OnInit {
   onSelectCreateQuestionItem(questionItem: any) {
     this.selectedQuestionItem = questionItem;
     this.controlConstruct.questionItem = questionItem;
-    this.revisionNumber = 0;
+    this.questionItemRevision = 0;
     this.service.getQuestionItemsRevisions(questionItem.id).subscribe((result: any) => {
       this.questionItemRevisions = result.content;
     },
@@ -125,7 +125,7 @@ export class ControlConstructQuestionItemSelectComponent implements OnInit {
   onUseQuestionItem() {
     this.useQuestionItemEvent.emit('use');
     this.controlConstruct.questionItem = this.selectedQuestionItem;
-    this.controlConstruct['revisionNumber'] = this.revisionNumber;
+    this.controlConstruct['questionItemRevision'] = this.questionItemRevision;
   }
 
   private popupModal(error: any) {
