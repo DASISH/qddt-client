@@ -44,8 +44,8 @@ import { ControlConstructService } from './controlconstruct.service';
             name="controlConstruct_questionItemRevision"
             materialize="material_select">
             <option *ngFor="let revision of questionItemRevisions"
-              [selected]="revision.questionItemRevision === questionItemRevision"
-              [value]="revision.questionItemRevision">
+              [selected]="revision.revisionNumber === questionItemRevision"
+              [value]="revision.revisionNumber">
               {{revision?.entity?.version?.major}}.{{revision?.entity?.version?.minor}}
             </option>
           </select>
@@ -107,8 +107,10 @@ export class ControlConstructQuestionItemSelectComponent implements OnInit {
       this.selectedQuestionItem = this.controlConstruct.questionItem;
     } else {
       let result = this.questionItemRevisions
-      .find((e: any) => e.questionItemRevision === r);
-      this.selectedQuestionItem = result.entity;
+      .find((e: any) => e.revisionNumber === r);
+      if(result !== null && result !== undefined) {
+        this.selectedQuestionItem = result.entity;
+      }
     }
   }
 
