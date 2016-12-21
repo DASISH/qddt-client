@@ -83,7 +83,8 @@ export class ControlConstructQuestionItemSelectComponent implements OnInit {
       && this.selectedQuestionItem.id !== null && this.selectedQuestionItem.id !== undefined) {
       this.questionItemRevision = this.controlConstruct.questionItemRevision;
       this.service.getQuestionItemsRevisions(this.selectedQuestionItem.id).subscribe((result: any) => {
-      this.questionItemRevisions = result.content;
+      this.questionItemRevisions = result.content.sort((e1: any, e2: any) => e2.revisionNumber - e1.revisionNumber);
+      this.onSelectQuestionItemRevisions();
     },
       (error: any) => { this.popupModal(error); });
     }
@@ -103,23 +104,23 @@ export class ControlConstructQuestionItemSelectComponent implements OnInit {
       r = parseInt(r);
     }
     this.questionItemRevision = r;
-    if ( r === 0) {
-      this.selectedQuestionItem = this.controlConstruct.questionItem;
-    } else {
-      let result = this.questionItemRevisions
+    let result = this.questionItemRevisions
       .find((e: any) => e.revisionNumber === r);
-      if(result !== null && result !== undefined) {
-        this.selectedQuestionItem = result.entity;
-      }
+    if(result !== null && result !== undefined) {
+      this.selectedQuestionItem = result.entity;
+    } else if(this.questionItemRevisions.length > 0) {
+      this.selectedQuestionItem = this.questionItemRevisions[0].entity;
+      this.questionItemRevision = this.questionItemRevisions[0].revisionNumber;
     }
   }
 
   onSelectCreateQuestionItem(questionItem: any) {
     this.selectedQuestionItem = questionItem;
     this.controlConstruct.questionItem = questionItem;
-    this.questionItemRevision = 0;
+    this.questionItemRevision = this.controlConstruct.questionItemRevision || 0;
     this.service.getQuestionItemsRevisions(questionItem.id).subscribe((result: any) => {
-      this.questionItemRevisions = result.content;
+      this.questionItemRevisions = result.content.sort((e1: any, e2: any) => e2.revisionNumber - e1.revisionNumber);
+      this.onSelectQuestionItemRevisions();
     },
       (error: any) => { this.popupModal(error); });
   }
