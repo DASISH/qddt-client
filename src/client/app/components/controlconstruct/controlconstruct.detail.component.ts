@@ -98,6 +98,13 @@ export class ControlConstructDetailComponent {
     this.files = filename.target.files;
   }
 
+  onDeleteFile(idx: number) {
+    if(this.controlConstruct.otherMaterials
+      && this.controlConstruct.otherMaterials.length > idx) {
+      this.controlConstruct.otherMaterials.splice(idx, 1);
+    }
+  }
+
   onUploadFile() {
     this.showUploadFileForm = false;
     this.service.uploadFile(this.controlConstruct.id, this.files)
