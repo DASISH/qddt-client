@@ -19,19 +19,19 @@ import { CommentService } from './comment.service';
               {{comment.modifiedBy.username}}@{{comment.modifiedBy.agency.name}}
               - {{comment.modified|localDate }}
             </span>
-            <div class="row" *ngIf="!isEditComment">
+            <div class="row" *ngIf="!isEditComment || selectedCommentId !== idx">
               <br>
               <div class="col s10">
                 {{comment.comment}}
               </div>
               <div class="col s2 right">
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                  (click)="isEditComment=true;message=comment.comment;">
+                  (click)="isEditComment=true;message=comment.comment;selectedCommentId=idx;">
                   <i class="material-icons left small">edit</i>
                 </a>
               </div>
             </div>
-            <div class="row" *ngIf="isEditComment">
+            <div class="row" *ngIf="isEditComment && selectedCommentId === idx">
               <br>
               <div class="col s10">
                 <textarea class="materialize-textarea"
@@ -63,12 +63,14 @@ import { CommentService } from './comment.service';
 
 export class CommentListComponent implements OnInit {
   isEditComment: boolean = false;
+  selectedCommentId: number;
   message: string = '';
   showComments: boolean = false;
   commentsPage:any;
   @Input() ownerId: string;
 
   constructor(private commentService: CommentService) {
+    this.selectedCommentId = 0;
   }
 
   ngOnInit() {

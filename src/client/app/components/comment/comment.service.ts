@@ -19,7 +19,7 @@ export class CommentService extends BaseService {
   }
 
   createComment(comment: Comment): any {
-    return this.post(comment, 'comment/create/');
+    return this.post(comment, 'comment/create/' + comment.ownerId);
   }
 
   updateComment(comment: Comment): any {
