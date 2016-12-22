@@ -34,7 +34,7 @@ export class ResponseDomainSearchComponent {
 
   constructor(private responseDomainService: ResponseDomainService) {
     this.responseDomains = [];
-    this.domainTypeDescription = DomainTypeDescription;
+    this.domainTypeDescription = DomainTypeDescription.filter((e:any) => e.id !== DomainType.MIXED);
     this.selectDomainType(DomainType.SCALE);
   }
 
