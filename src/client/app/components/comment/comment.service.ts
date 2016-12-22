@@ -1,7 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http, Headers, Response } from '@angular/http';
+import { Http } from '@angular/http';
 
 import { API_BASE_HREF } from '../../api';
+import { BaseService } from '../../common/base.service';
 
 export class Comment {
   id: string;
@@ -11,41 +12,22 @@ export class Comment {
 }
 
 @Injectable()
-export class CommentService {
+export class CommentService extends BaseService {
 
-  constructor(private http: Http, @Inject(API_BASE_HREF) private api: String) {
-    this.http = http;
+  constructor(protected http:Http, @Inject(API_BASE_HREF) protected api:string) {
+    super(http, api);
   }
 
-  save(comment: Comment): any {
-    var headers = new Headers();
-    headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
-    headers.append('Content-Type', 'application/json');
-    headers.append('Accept', 'application/json');
+  createComment(comment: Comment): any {
+    return this.post(comment, 'comment/create/');
+  }
 
-    return this.http.post(this.api+'comment/create/' + comment.ownerId,
-      JSON.stringify(comment),
-      {
-        headers: headers
-      })
-      .map((res:Response) => {
-        return res.json();
-      });
+  updateComment(comment: Comment): any {
+    return this.post(comment, 'comment');
   }
 
   getAll(ownerId: string): any {
-    var headers = new Headers();
-    headers.append('Authorization', 'Bearer  ' + JSON.parse(localStorage.getItem('jwt')).access_token);
-    headers.append('Content-Type', 'application/json');
-    headers.append('Accept', 'application/json');
-
-    return this.http.get(this.api+'comment/page/by-owner/' + ownerId + '?page=0&size=20&sort=asc',
-      {
-        headers: headers
-      })
-      .map((res:Response) => {
-        return res.json();
-      });
+    return this.get('comment/page/by-owner/' + ownerId + '?page=0&size=20&sort=asc');
   }
 
 }
