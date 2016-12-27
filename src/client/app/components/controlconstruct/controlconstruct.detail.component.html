@@ -15,12 +15,12 @@
         </a>
       </div>
     </div>
-
     <div class="col s10 m10 l10 grey-text text-darken-2">
       <form (ngSubmit)="onSaveControlConstruct()" #qcform="ngForm">
-        <div class="row">
+        <div class="nomargin">
           <div class="input-field col s12">
-            <label [attr.for]="controlConstruct.id + '-name'" class="active">Name</label>
+            <label [attr.for]="controlConstruct.id + '-name'"
+              class="active teal-text">Name</label>
             <textarea [attr.id]="controlConstruct.id + '-name'"
               name="{{controlConstruct.id}}-name" class="materialize-textarea"
               [(ngModel)]="controlConstruct.name" [attr.maxlength]="255"
@@ -28,12 +28,11 @@
             </textarea>
           </div>
         </div>
-
-      <div class="section">
+      <div class="nomargin">
         <ul class="collection with-header">
           <li class="collection-header">
             <div class="row">
-              <div class="col s11">Pre Instructions</div>
+              <div class="col s11"><label class="teal-text">Pre Instructions</label></div>
               <div class="col s1">
                 <a
                   class="btn-flat btn-floating btn-small waves-effect waves-light teal"
@@ -69,9 +68,9 @@
         </ul>
       </div>
 
-      <div class="row card">
+      <div class="nomargin">
         <div class="row">
-          <div class="col s10"><h4>Question Text</h4></div>
+          <div class="col s10"><label class="teal-text">Question Text</label></div>
           <div class="col s1">
             <a
               class="btn-flat btn-floating btn-small waves-effect waves-light teal"
@@ -87,19 +86,20 @@
             </a>
           </div>
         </div>
-        <div><span>{{controlConstruct?.questionItem?.question?.question}}</span></div>
+        <div class="row">
+          <h4>{{controlConstruct?.questionItem?.question?.question}}</h4>
+        </div>
         <qddt-control-construct-questionitem-select
           *ngIf="editQuestoinItem"
           (useQuestionItemEvent) = "onUseQuestionItem($event)"
           [controlConstruct]="controlConstruct">
         </qddt-control-construct-questionitem-select>
       </div>
-
-      <div class="section">
+      <div class="nomargin">
         <ul class="collection with-header">
           <li class="collection-header">
             <div class="row">
-              <div class="col s11">Post Instructions</div>
+              <div class="col s11"><label class="teal-text">Post Instructions</label></div>
               <div class="col s1">
                 <a
                   class="btn-flat btn-floating btn-small waves-effect waves-light teal"

@@ -6,6 +6,9 @@ let fileSaver = require('./filesaver');
   selector: 'qddt-controle-construct-detail',
   moduleId: module.id,
   templateUrl: './controlconstruct.detail.component.html',
+  styles: [
+    '.nomargin: { margin:0; }'
+  ],
   providers: [ControlConstructService],
 })
 
