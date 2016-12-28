@@ -52,6 +52,10 @@ export class ControlConstructService extends BaseService {
       .catch(this.handleError);
   }
 
+  deleteFile(id: string) {
+    return this.post(null, 'othermaterial/delete/' + id);
+  }
+
   getFile(id: string) {
     let headers = new Headers();
     let jwt = localStorage.getItem('jwt');

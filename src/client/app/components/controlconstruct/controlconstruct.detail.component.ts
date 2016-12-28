@@ -31,6 +31,7 @@ export class ControlConstructDetailComponent {
   private showUploadedFiles: boolean;
   private files: FileList;
   private fileStore: any[];
+  private toDeleteFiles: any[];
 
   constructor(private service: ControlConstructService) {
     this.revisionIsVisible = false;
@@ -40,6 +41,7 @@ export class ControlConstructDetailComponent {
     this.showUploadFileForm = false;
     this.showUploadedFiles = false;
     this.fileStore = [];
+    this.toDeleteFiles = [];
   }
 
   hideDetail() {
@@ -108,7 +110,10 @@ export class ControlConstructDetailComponent {
   onDeleteFile(idx: number) {
     if(this.controlConstruct.otherMaterials
       && this.controlConstruct.otherMaterials.length > idx) {
-      this.controlConstruct.otherMaterials.splice(idx, 1);
+      let items = this.controlConstruct.otherMaterials.splice(idx, 1);
+      if(items.length > 0) {
+        this.toDeleteFiles.push(items[0]);
+      }
     }
   }
 
@@ -130,11 +135,17 @@ export class ControlConstructDetailComponent {
     let files = this.fileStore;
     let len = files.length;
     let source = Observable.of({});
-    if (len > 0) {
-      source = Observable.range(0, len)
+    let toDeleteFiles = this.toDeleteFiles;
+    if (len > 0 || this.toDeleteFiles.length > 0) {
+      source = Observable.range(0, len + this.toDeleteFiles.length)
         .flatMap((x: any) => {
-          let file = files[x];
-          return this.service.uploadFile(controlConstruct.id, file);
+          if(x < len) {
+            let file = files[x];
+            return this.service.uploadFile(controlConstruct.id, file);
+          } else {
+            let file = toDeleteFiles[x - len];
+            return this.service.deleteFile(file.id);
+          }
         });
     }
     let index = 0;
@@ -142,7 +153,7 @@ export class ControlConstructDetailComponent {
     let service = this.service;
     source.subscribe(
       function (x: any) {
-        if (index < len) {
+        if (index < len && x.id !== undefined && x.id !== null) {
           controlConstruct['otherMaterials'].push(x);
           index = index + 1;
         }
