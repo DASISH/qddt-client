@@ -156,7 +156,10 @@
                 <input class="file-path validate" type="text" placeholder="Upload one file">
               </div>
             </div>
-              <button (click)="onUploadFile()" class="right">upload</button>
+            <a *ngIf="files" class="btn-flat right btn-floating btn-medium waves-effect waves-light teal"
+              (click)="onUploadFile()">
+              <i class="material-icons left medium">done</i>
+            </a>
           </div>
           <div class="row card">
             <ul>
@@ -167,6 +170,17 @@
                 <div class="col s2 right">
                   <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                     (click)="onDeleteFile(idx)">
+                    <i class="material-icons left medium">delete_forever</i>
+                  </a>
+                </div>
+              </li>
+              <li *ngFor="let file of fileStore; let idx=index;" class="row">
+                <div class="col s10">
+                  <a class="waves-effect waves-light">{{file[0]?.name}}</a>
+                </div>
+                <div class="col s2 right">
+                  <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                    (click)="onDeleteFileFromLocal(idx)">
                     <i class="material-icons left medium">delete_forever</i>
                   </a>
                 </div>

@@ -1,6 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { ControlConstructService, ControlConstruct } from './controlconstruct.service';
+import { Observable }     from 'rxjs/Observable';
+
 let fileSaver = require('./filesaver');
 @Component({
   selector: 'qddt-controle-construct-detail',
@@ -28,6 +30,7 @@ export class ControlConstructDetailComponent {
   private showUploadFileForm: boolean;
   private showUploadedFiles: boolean;
   private files: FileList;
+  private fileStore: any[];
 
   constructor(private service: ControlConstructService) {
     this.revisionIsVisible = false;
@@ -36,6 +39,7 @@ export class ControlConstructDetailComponent {
     this.editQuestoinItem = false;
     this.showUploadFileForm = false;
     this.showUploadedFiles = false;
+    this.fileStore = [];
   }
 
   hideDetail() {
@@ -108,25 +112,54 @@ export class ControlConstructDetailComponent {
     }
   }
 
+  onDeleteFileFromLocal(idx: number) {
+    if(this.fileStore && this.fileStore.length > idx) {
+      this.fileStore.splice(idx, 1);
+    }
+  }
+
   onUploadFile() {
+    this.fileStore.push(this.files);
     this.showUploadFileForm = false;
-    this.service.uploadFile(this.controlConstruct.id, this.files)
-      .subscribe((file: any) => {
-        this.controlConstruct['otherMaterials'].push(file);
-      }, (error: any) => {
-        this.popupModal('Fail to upload a file.');
-      });
+    this.files = null;
   }
 
   onSaveControlConstruct() {
-    this.service.update(this.controlConstruct).subscribe((result: any) => {
-        let index = this.controlConstructs.findIndex((e:any) => e.id === result.id);
-        if(index >= 0) {
-          this.controlConstructs[index] = result;
+    let controlConstruct = this.controlConstruct;
+    let controlConstructs = this.controlConstructs;
+    let files = this.fileStore;
+    let len = files.length;
+    let source = Observable.of({});
+    if (len > 0) {
+      source = Observable.range(0, len)
+        .flatMap((x: any) => {
+          let file = files[x];
+          return this.service.uploadFile(controlConstruct.id, file);
+        });
+    }
+    let index = 0;
+    let hideDetailEvent = this.hideDetailEvent;
+    let service = this.service;
+    source.subscribe(
+      function (x: any) {
+        if (index < len) {
+          controlConstruct['otherMaterials'].push(x);
+          index = index + 1;
         }
-        this.hideDetail();
-      }, (error: any) => {
-        this.popupModal(error);
+      },
+      function (error: any) {
+        console.log('Error: %s', error);
+      },
+      function () {
+        service.update(controlConstruct).subscribe((result: any) => {
+          let index = controlConstructs.findIndex((e: any) => e.id === result.id);
+          if (index >= 0) {
+            controlConstruct[index] = result;
+          }
+          hideDetailEvent.emit('hide');
+        }, (error: any) => {
+          console.log('Error: %s', error);
+        });
       });
   }
 
