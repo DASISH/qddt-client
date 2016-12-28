@@ -35,4 +35,9 @@ export class SequenceDetailComponent {
         console.log(error);
       });
   }
+
+  onGetElement(element: any) {
+    console.log(element);
+    this.sequence.children.push(element);
+  }
 }

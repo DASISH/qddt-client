@@ -41,9 +41,10 @@
       </div>
       <div *ngIf="!isDetail && sequences.length > 0">
         <qddt-table [items]="sequences" [page]="page" [columns]="columns"
-          [searchFromServer]="false"
+          [searchFromServer]="true"
 		      (enterEvent)="searchSequences($event)"
-          (detailEvent)="onDetail($event)" (pageChangeEvent)="onPage($event)"></qddt-table>
+          (detailEvent)="onDetail($event)"
+          (pageChangeEvent)="onPage($event)"></qddt-table>
       </div>
     </div>
   </div>

@@ -18,10 +18,10 @@
     </div>
 
     <div class="col s10 m10 l10 grey-text text-darken-2">
-      <form (ngSubmit)="onUpdateSequence()" #sequenceform="ngForm">
+      <form (ngSubmit)="onUpdateSequence()" #sequenceform="ngForm" card>
         <div class="row">
           <div class="input-field col s12">
-            <label [attr.for]="sequence.id + '-name'" class="active">Name</label>
+            <label [attr.for]="sequence.id + '-name'" class="active teal-text">Name</label>
             <textarea [attr.id]="sequence.id + '-name'"
               name="{{sequence.id}}-name" class="materialize-textarea"
               [(ngModel)]="sequence.name" [attr.maxlength]="255"
@@ -29,7 +29,7 @@
             </textarea>
           </div>
           <div class="input-field col s12">
-            <label [attr.for]="sequence.id + '-description'" class="active">Description</label>
+            <label [attr.for]="sequence.id + '-description'" class="active teal-text">Description</label>
             <textarea [attr.id]="sequence.id + '-description'"
               name="{{sequence.id}}-description" class="materialize-textarea"
               [(ngModel)]="sequence.description" [attr.maxlength]="255">
@@ -38,7 +38,7 @@
         </div>
 
         <div class="row">
-          <qddt-sequence-reuse></qddt-sequence-reuse>
+          <qddt-sequence-reuse (element)="onGetElement($event)"></qddt-sequence-reuse>
 		    </div>
 
         <div class="row">
@@ -54,12 +54,12 @@
 
       <qddt-revision [isVisible]="revisionIsVisible"
         [current]="sequence"
-        [qddtURI]="'audit/sequence/' + sequence.id + '/all'">
+        [qddtURI]="'audit/controlconstruct/' + sequence.id + '/all'">
       </qddt-revision>
 
-      <!--div class="row">
+      <div class="row">
         <comment-list [ownerId]="sequence.id"></comment-list>
-      </div-->
+      </div>
     </div>
 
   </div>

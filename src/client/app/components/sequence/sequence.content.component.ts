@@ -21,7 +21,7 @@ export class SequenceContentComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('SequenceContent');
+    //
   }
 
   onSelectedElement(element: any) {

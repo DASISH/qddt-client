@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { ElementTypeDescription, SequenceService } from './sequence.service';
 
 @Component({
@@ -12,47 +12,77 @@ import { ElementTypeDescription, SequenceService } from './sequence.service';
   ],
   providers: [SequenceService],
 })
-export class SequenceReuseComponent implements OnInit {
 
+export class SequenceReuseComponent implements OnInit {
+  @Output() element: any = new EventEmitter<any>();
   showAddElement: boolean = false;
   showReplayElement: boolean = false;
   error: any;
   elementTypeDescription: any = ElementTypeDescription;
+  actions = new EventEmitter<any>();
 
   private searchKeys: string;
-  private elementType: number;
+  private elementType: string;
   private elements: any[];
+  private selectedElement: any;
 
   constructor(private service: SequenceService) {
     this.searchKeys = '';
-    this.elementType = 0;
+    this.elementType = this.elementTypeDescription[0].name;
     this.elements = [];
   }
 
   ngOnInit() {
-    this.searchSequences('');
+    //
   }
 
-  onSelectElementType(id: number) {
-    this.elementType = id;
-    this.searchSequences('');
+  onSelectElementType(name: string) {
+    this.elementType = name;
+    this.selectedElement = null;
+    this.elements = [];
   }
 
   onSelectElement(e: any) {
-    console.log(e);
+    this.selectedElement = e;
   }
 
   onSearchElements(key: string) {
-    console.log(key);
+    this.service.getElements(this.elementType, key)
+      .subscribe((result: any) => {
+        this.elements = result.content;
+      }, (error: any) => {
+        this.popupModal(error);
+      });
   }
 
   searchSequences(key: string) {
     this.service.getElements(this.elementType, key)
       .subscribe((result: any) => {
-        this.elements = result;
+        this.elements = result.content;
       }, (error: any) => {
         this.popupModal(error);
       });
+  }
+
+  onCreateStatement() {
+    this.actions.emit('openModal');
+    return false;
+  }
+
+  onCreateCondition() {
+    this.actions.emit('openModal');
+    return false;
+  }
+
+  onUse() {
+    this.element.emit(this.selectedElement);
+    this.showAddElement = false;
+    this.selectedElement = null;
+    return false;
+  }
+
+  onGetElement(element) {
+    this.selectedElement = element;
   }
 
   private popupModal(error: any) {

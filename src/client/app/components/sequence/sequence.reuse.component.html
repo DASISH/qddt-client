@@ -3,50 +3,67 @@
 		<span name="col text">Add element</span>
     <div class="col right">
       <i class="material-icons right" title="add Element"
-        (click)="showAddElement = !showAddElement; showReplayElement= false;">add
+        (click)="showAddElement = !showAddElement;">add
       </i>
     </div>
   </div>
   <div class="row" *ngIf="showAddElement">
-  <div class="row teal-text">
-		<span name="col text">Element Type:</span>
-	</div>
-  <div class="row" >
-		<div class="left" *ngFor="let element of elementTypeDescription">
-			<input name="elementtypegroup"
+    <div class="row teal-text">
+		  <span name="col text">Element Type:</span>
+	  </div>
+    <div class="row" >
+		  <div class="left" *ngFor="let element of elementTypeDescription">
+			  <input name="elementtypegroup"
         type="radio"
         id="element-type-{{element.id}}"
-        (click)="onSelectElementType(element.id)"
-        [checked]="elementType === element.id"/>
-      <label [attr.for]="'element-type-' + element.id">{{element.label}}</label>
-		</div>
-  </div>
-  <div class="row">
+        (click)="onSelectElementType(element.name)"
+        [checked]="elementType === element.name"/>
+        <label [attr.for]="'element-type-' + element.id">{{element.label}}</label>
+		  </div>
+    </div>
     <div class="row">
-      <autocomplete [items]="elements" class="black-text"
+      <div class="row">
+        <autocomplete [items]="elements" class="black-text"
         [searchField]="'name'"
 				[searchFromServer]="true"
         (autocompleteSelectEvent)="onSelectElement($event)"
 				(enterEvent)="onSearchElements($event)">
-			</autocomplete>
+			  </autocomplete>
+      </div>
+      
     </div>
-    <div [ngSwitch]="elementType" class="row teal-text">
-      <div *ngSwitchCase="0">
-        preview sequence
-      </div>
-      <div *ngSwitchCase="1">
-        preview Control construct
-      </div>
-      <div *ngSwitchCase="2">
-        preview Statement
-      </div>
-      <div *ngSwitchCase="3">
-        preview Condition
-      </div>
+    <div class="row teal-text">
+      <button class="right" (click)="onUse()">use this</button>
+      <button *ngIf="elementType === 'STATEMENT_CONSTRUCT'"
+        class="right" (click)="onCreateStatement()">Create a new statement</button>
+      <button *ngIf="elementType === 'CONDITION_CONSTRUCT'"
+        class="right" (click)="onCreateCondition()">Create a new condition</button>
     </div>
   </div>
-  <div class="row teal-text">
-    <button class="right" (click)="false">use this</button>
+  <div *ngIf="selectedElement" class="row teal-text">
+    <qddt-construct-preview
+      [construct]="selectedElement">
+    </qddt-construct-preview>
   </div>
+</div>
+
+<div [attr.id]="'create-construct-modal'" class="modal"
+  materialize [materializeActions]="actions">
+  <div class="modal-content">
+    <div *ngIf="elementType === 'STATEMENT_CONSTRUCT'" class="row">
+      <h4>Statement</h4>
+      <qddt-statement-edit (element)="onGetElement($event)"></qddt-statement-edit>
+    </div>
+    <div *ngIf="elementType === 'CONDITION_CONSTRUCT'" class="row">
+      <h4>Condition</h4>
+      <qddt-condition-edit (element)="onGetElement($event)"></qddt-condition-edit>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      (click)="false"
+      class="btn btn-default red modal-action modal-close waves-effect">
+      <a><i class="close material-icons medium white-text">close</i></a>
+    </button>
   </div>
 </div>

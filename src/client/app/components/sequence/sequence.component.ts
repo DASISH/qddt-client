@@ -61,16 +61,8 @@ export class SequenceComponent implements OnInit {
     this.isDetail = false;
   }
 
-  onSelectElementType(id: string) {
-    console.log(id);
-  }
-
-  onSearchElements(key: string) {
-    console.log(key);
-  }
-
   onPage(page: string) {
-    console.log(page);
+    this.searchSequences(this.searchKeys, page);
   }
 
   onCreateSequence() {
@@ -84,10 +76,12 @@ export class SequenceComponent implements OnInit {
     this.isDetail = false;
   }
 
-  searchSequences(key: string) {
-    this.service.getSequences(key)
+  searchSequences(key: string, page: string = '') {
+    this.searchKeys = key;
+    this.service.getElements('SEQUENCE_CONSTRUCT', key, page)
       .subscribe((result: any) => {
-        this.sequences = result;
+        this.sequences = result.content;
+        this.page = result.page;
       }, (error: any) => {
         this.popupModal(error);
       });
@@ -95,6 +89,6 @@ export class SequenceComponent implements OnInit {
 
   private popupModal(error: any) {
     this.error = error;
-    this.actions.emit({action:'modal',params:['open']});
+    this.actions.emit('openModal');
   }
 }
