@@ -9,6 +9,7 @@
         </span>
         <span class="d2h-file-name">{{elementChange.name}} Version {{elementChange.version}}</span>
         <span class="d2h-tag d2h-changed d2h-changed-tag">CHANGED</span>
+        <a (click)="onHide()" [ngStyle]="{'cursor': 'pointer'}"><i class="close material-icons medium teal-text">close</i></a>
       </span>
     </div>
     <div class="d2h-files-diff">

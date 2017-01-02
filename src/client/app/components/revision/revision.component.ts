@@ -12,6 +12,7 @@ import { RevisionService } from './revision.service';
         [compared]="revisions[selectRevisionId].entity"
         [current]="current"
         [config]="config"
+        (hideCompareEvent)="onSelectRevision(-1);"
       >
       </qddt-diff>
       <table class="highlight hoverable">

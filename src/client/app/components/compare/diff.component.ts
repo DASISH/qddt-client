@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, Output, EventEmitter } from '@angular/core';
 import { DiffString } from './diff.string';
 
 export class ElementFieldChange {
@@ -24,6 +24,7 @@ export class DiffComponent implements OnChanges {
   @Input() compared: any;
   @Input() current: any;
   @Input() config: any[];
+  @Output() hideCompareEvent: EventEmitter<any> = new EventEmitter<any>();
   private diff: DiffString = new DiffString();
   private elementChange: ElementChange = new ElementChange();
 
@@ -41,6 +42,10 @@ export class DiffComponent implements OnChanges {
       elementFieldChange.changes = ret;
       this.elementChange.changes.push(elementFieldChange);
     });
+  }
+
+  onHide() {
+    this.hideCompareEvent.emit('hide');
   }
 
   private getValue(obj: any, names: string | any[], prefix: string): string {
