@@ -29,6 +29,10 @@ import { CommentService } from './comment.service';
                   (click)="isEditComment=true;message=comment.comment;selectedCommentId=idx;">
                   <i class="material-icons left small">edit</i>
                 </a>
+                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                  (click)="onDeleteComment(idx)">
+                  <i class="material-icons left medium">delete_forever</i>
+                </a>
               </div>
             </div>
             <div class="row" *ngIf="isEditComment && selectedCommentId === idx">
@@ -84,6 +88,15 @@ export class CommentListComponent implements OnInit {
   addedComment() {
     this.commentService.getAll(this.ownerId).subscribe((result: any) => this.commentsPage = result,
       (error: any) => console.log(error));
+  }
+
+  onDeleteComment(idx: number) {
+    let comment = this.commentsPage.content[idx];
+    comment.isHidden = true;
+    this.commentService.updateComment(comment).subscribe((result: any) => {
+          this.commentsPage.content.splice(idx, 1);
+          this.commentsPage.page.totalElements -= 1;
+        }, (error: any) => console.log(error));
   }
 
   onUpdateComment(idx: number) {
