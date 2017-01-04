@@ -290,6 +290,7 @@ export class QuestionItemEdit implements OnInit {
     this.secondCS = null;
     this.showResponseDomainForm = false;
     this.privewResponseDomain = null;
+    this.questionitem.responseDomainRevision = 0;
   }
 
   onClickEdit() {
