@@ -31,7 +31,7 @@
                   <label for="description" class="white-text">Description</label>
                 </div>
                 <div class="input-field col s10 card">
-                  <qddt-sequence-reuse></qddt-sequence-reuse>
+                  <qddt-sequence-reuse (element)="onGetElement($event)"></qddt-sequence-reuse>
 		            </div>
               </div>
               <button type="submit" class="btn btn-default">Submit</button>

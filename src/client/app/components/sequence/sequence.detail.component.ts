@@ -37,7 +37,6 @@ export class SequenceDetailComponent {
   }
 
   onGetElement(element: any) {
-    console.log(element);
     this.sequence.children.push(element);
   }
 }

@@ -1,15 +1,22 @@
 <div class="row card">
   <ul>
-    <li>Sequence: <a (click)="onSelectedElement(sequence)">{{sequence?.name}}</a></li>
-  </ul>    
+    <li>
+      <span [ngSwitch]="sequence.controlConstructKind">
+				<span *ngSwitchCase="'SEQUENCE_CONSTRUCT'">Sequence:</span>
+        <span *ngSwitchCase="'CONDITION_CONSTRUCT'">Condition:</span>
+        <span *ngSwitchCase="'STATEMENT_CONSTRUCT'">Statement:</span>
+        <span *ngSwitchCase="'QUESTION_CONSTRUCT'">Question Construct:</span>
+      </span> 
+      <a (click)="onSelectedElement(sequence)">{{sequence?.name}}</a>
+    </li>
+  </ul>
   <ul class="control-children">
-    <li>Statement: <a (click)="onSelectedElement(sequence.statement)">{{sequence?.statement?.name}}</a></li>
-    <li>Condition: <a (click)="onSelectedElement(sequence.condition)">{{sequence?.condition?.name}}</a></li>
-    <li>Controlconstruct: <a (click)="onSelectedElement(sequence.controlconstruct)">{{sequence?.controlconstruct?.name}}</a></li>
+    <li *ngFor="let item of sequence.children">
     <qddt-sequence-content 
-      *ngIf="sequence.sequence"
-      [sequence]="sequence.sequence">
+      *ngIf="item"
+      [sequence]="item">
     </qddt-sequence-content>
+    </li>
   </ul>
 </div>
 
@@ -24,7 +31,22 @@
     </button>
   </div>
   <div class="modal-content">
-    <h2>Detail</h2>
-    <span>{{selectedElement?.name}}</span>
+    <div *ngIf="selectedElement">
+      <div [ngSwitch]="selectedElement.controlConstructKind">
+				<div *ngSwitchCase="'SEQUENCE_CONSTRUCT'"><h2>Sequence:</h2>
+          <qddt-sequence-preview [sequence]="selectedElement"></qddt-sequence-preview>
+        </div>
+        <div *ngSwitchCase="'CONDITION_CONSTRUCT'"><h2>Condition:</h2>
+          <qddt-condition-preview [condition]="selectedElement"></qddt-condition-preview>
+        </div>
+        <div *ngSwitchCase="'STATEMENT_CONSTRUCT'"><h2>Statement:</h2>
+          <qddt-statement-preview [statement]="selectedElement"></qddt-statement-preview>
+        </div>
+        <div *ngSwitchCase="'QUESTION_CONSTRUCT'"><h2>Question Construct:</h2>
+          <qddt-control-construct-preview [controlConstruct]="selectedElement">
+          </qddt-control-construct-preview>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

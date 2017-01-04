@@ -35,8 +35,8 @@ export class ConditionCommand {
 export class Condition {
   id: string;
   name: string;
-  IfCondition: any;
-  ElseCondition: any[];
+  ifCondition: any;
+  elseConditions: any[];
 }
 
 @Injectable()

@@ -49,7 +49,13 @@ export class SequenceComponent implements OnInit {
     this.showSequenceForm = !this.showSequenceForm;
     if (this.showSequenceForm) {
       this.sequence = new Sequence();
+      this.sequence.children = [];
+      this.sequence.controlConstructKind = 'SEQUENCE_CONSTRUCT';
     }
+  }
+
+  onGetElement(element: any) {
+    this.sequence.children.push(element);
   }
 
   onDetail(i: any) {

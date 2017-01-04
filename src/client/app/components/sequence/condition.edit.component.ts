@@ -5,7 +5,7 @@ import { ElementTypeDescription, SequenceService, Sequence, ConditionCommand } f
   selector: 'qddt-condition-edit',
   moduleId: module.id,
   template: `
-    <div class="row">
+    <div class="row teal-text">
       <h5>Condition</h5>
       <div class="input-field row">
         <label [attr.for]="elementId + '-name'">Name</label>
