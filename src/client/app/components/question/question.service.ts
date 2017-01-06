@@ -92,4 +92,13 @@ export class QuestionService extends BaseService {
     return this.get('responsedomain/createmixed?responseDomaindId='
       + responseDomainId + '&missingId=' + missingId);
   }
+
+  getAllTemplatesByCategoryKind(categoryKind: String, name: String = '', page: String = '0', sort: String = ''): any {
+    let query = name.length > 0? '&name=' + '*' + name + '*': '';
+    if (sort.length > 0) {
+      query += '&sort=' + sort;
+    }
+    return this.get('category/page/search/?level=GROUP_ENTITY&category=' + categoryKind
+      + query + '&page=' + page);
+  }
 }

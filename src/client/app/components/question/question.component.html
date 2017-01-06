@@ -34,13 +34,29 @@
                    </div>
                  </div>
                  <div class="row">
-                   <div class="row col s5"><span>Response Domain: </span><!--
-                     --><span *ngIf="questionItem.responseDomain">{{questionItem?.responseDomain?.name}}</span></div>
-                   <div class="row col s1"><a materialize="leanModal" [materializeParams]="[{dismissible: false}]"
-                     class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light"
-                     [attr.href]="'#create-questionItem-modal'">
-                     <i class="material-icons left medium">add</i>
-                     </a>
+                   <div class="card col s6">
+                     <div class="row teal-text"><span>Response Domain:</span></div>
+                     <div class="row teal-text">
+                       <a *ngIf="!questionItem.responseDomain"
+                         materialize="leanModal" [materializeParams]="[{dismissible: false}]"
+                         class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                         [attr.href]="'#create-questionItem-modal'">
+                         <i class="material-icons" title="response domain edit">mode_edit</i>
+                       </a>
+                       <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                         *ngIf="questionItem.responseDomain"
+                         (click)="questionItem.responseDomain = null;secondCS=null;">
+                         <i class="material-icons left medium" title="remove response domain">remove</i>
+                       </a>
+                       <span *ngIf="questionItem.responseDomain">{{questionItem?.responseDomain?.name}}</span>
+                     </div>
+                   </div>
+                   <div class="col s6">
+                     <div class="row teal-text">
+                       <qddt-questionitem-edit-missing [missing]="secondCS"
+                         (editMissing)="onEditMissing($event)">
+                        </qddt-questionitem-edit-missing>
+                     </div>
                    </div>
                  </div>
                  <button type="submit" class="btn btn-default">Submit</button>
@@ -70,5 +86,21 @@
   </div>
   <div class="modal-footer">
     <button id="questionItem-modal-close" class="btn btn-default red modal-action modal-close waves-effect waves-red">Dismiss</button>
+  </div>
+</div>
+
+<div [attr.id]="'create-questionItem-error-modal'" class="modal"
+  materialize [materializeActions]="actions">
+  <div class="modal-content">
+    <div class="row">
+      <h4>An error occured</h4>
+      <span>{{error}}</span>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button id="controlConstructs-modal-close"
+      class="btn btn-default red modal-action modal-close waves-effect">
+      <a><i class="close material-icons medium white-text">close</i></a>
+    </button>
   </div>
 </div>
