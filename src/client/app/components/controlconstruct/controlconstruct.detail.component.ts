@@ -165,7 +165,7 @@ export class ControlConstructDetailComponent {
         service.update(controlConstruct).subscribe((result: any) => {
           let index = controlConstructs.findIndex((e: any) => e.id === result.id);
           if (index >= 0) {
-            controlConstruct[index] = result;
+            controlConstructs[index] = result;
           }
           hideDetailEvent.emit('hide');
         }, (error: any) => {
