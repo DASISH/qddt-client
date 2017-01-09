@@ -24,6 +24,8 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
   private columns: any[];
   private isDetail: boolean;
   private revisionIsVisible: boolean;
+  private savedObject: string;
+  private savedResponseDomainsIndex: number;
 
   constructor(private responseDomainService: ResponseDomainService, private userService: UserService) {
     this.responseDomain = new ResponseDomain();
@@ -106,15 +108,21 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
   formChange() {
     this.searchKeys = '';
     this.responseDomainService.update(this.selectedResponseDomain).subscribe((result: any) => {
-      let index = this.responseDomains.findIndex((e: any) => e.id === this.selectedResponseDomain.id);
+      let index = this.responseDomains.findIndex((e: any) => e.id === result.id);
       if(index >= 0) {
         this.responseDomains[index] = result;
+      } else if(this.selectedResponseDomain.id === null && this.savedResponseDomainsIndex >= 0) {
+        this.responseDomains[this.savedResponseDomainsIndex] = JSON.parse(this.savedObject);
+        this.responseDomains.push(result);
       }
       this.hideDetail();});
   }
 
   onDetail(responsedomain: any) {
     this.selectedResponseDomain = responsedomain;
+    this.savedObject = JSON.stringify(responsedomain);
+    this.savedResponseDomainsIndex = this.responseDomains
+      .findIndex(q => q['id'] === responsedomain['id']);
     this.selectedResponseDomain['config'] = this.buildRevisionConfig();
     this.isDetail = true;
     this.userService.setGlobalObject('responsedomains',
@@ -125,7 +133,9 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
   }
 
   hideDetail() {
+    this.savedObject = null;
     this.selectedResponseDomain = null;
+    this.savedResponseDomainsIndex = -1;
     this.isDetail = false;
     this.userService.setGlobalObject('responsedomains', {'current': 'list'});
   }

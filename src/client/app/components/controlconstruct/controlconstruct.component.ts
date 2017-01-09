@@ -93,8 +93,8 @@ export class ControlConstructComponent implements OnInit {
     this.controlConstruct.postInstructions.splice(id, 1);
   }
 
-  onDetail(category: any) {
-    this.selectedControlConstruct = category;
+  onDetail(controlConstruct: any) {
+    this.selectedControlConstruct = controlConstruct;
     this.isDetail = true;
   }
 
@@ -103,7 +103,7 @@ export class ControlConstructComponent implements OnInit {
   }
 
   onPage(page: string) {
-    console.log(page);
+    //console.log(page);
   }
 
   onCreateControlConstruct() {

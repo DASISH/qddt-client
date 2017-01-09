@@ -25,6 +25,8 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
   private columns: any[];
   private selectedCategory: Category;
   private searchKeys: string;
+  private savedObject: string;
+  private savedCategoriesIndex: number;
 
   constructor(private categoryService: CategoryService, private userService: UserService) {
     this.category = new Category();
@@ -108,8 +110,13 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
       this.categoryService.edit(this.selectedCategory)
         .subscribe((result: any) => {
           let id = this.missingCategories.findIndex((e: any) => e.id === result.id);
-          if (id !== undefined) {
+          if (id >= 0) {
             this.missingCategories[id] = result;
+          } else {
+            if (this.savedCategoriesIndex >= 0) {
+              this.missingCategories[this.savedCategoriesIndex] = JSON.parse(this.savedObject);
+            }
+            this.missingCategories.push(result);
           }
           this.hideDetail();
           this.selectedCategory = null;
@@ -126,6 +133,9 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
 
   onDetail(category: any) {
     this.selectedCategory = category;
+    this.savedObject = JSON.stringify(category);
+    this.savedCategoriesIndex = this.missingCategories
+      .findIndex(q => q['id'] === category['id']);
     this.isDetail = true;
     this.userService.setGlobalObject('schemes',
       {'current': 'detail',

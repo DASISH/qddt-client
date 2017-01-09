@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 
 import { ControlConstructService, ControlConstruct } from './controlconstruct.service';
 import { Observable }     from 'rxjs/Observable';
@@ -14,7 +14,7 @@ let fileSaver = require('./filesaver');
   providers: [ControlConstructService],
 })
 
-export class ControlConstructDetailComponent {
+export class ControlConstructDetailComponent implements OnInit {
   @Input() controlConstruct: ControlConstruct;
   @Input() controlConstructs: ControlConstruct[];
   @Input() isVisible: boolean;
@@ -32,6 +32,8 @@ export class ControlConstructDetailComponent {
   private files: FileList;
   private fileStore: any[];
   private toDeleteFiles: any[];
+  private savedObject: string;
+  private savedControlConstructsIndex: number;
 
   constructor(private service: ControlConstructService) {
     this.revisionIsVisible = false;
@@ -42,6 +44,12 @@ export class ControlConstructDetailComponent {
     this.showUploadedFiles = false;
     this.fileStore = [];
     this.toDeleteFiles = [];
+  }
+
+  ngOnInit() {
+    this.savedObject = JSON.stringify(this.controlConstruct);
+    this.savedControlConstructsIndex = this.controlConstructs
+      .findIndex(q => q['id'] === this.controlConstruct['id']);
   }
 
   hideDetail() {
@@ -151,6 +159,8 @@ export class ControlConstructDetailComponent {
     let index = 0;
     let hideDetailEvent = this.hideDetailEvent;
     let service = this.service;
+    let savedControlConstructsIndex = this.savedControlConstructsIndex;
+    let object = this.savedObject;
     source.subscribe(
       function (x: any) {
         if (index < len && x.id !== undefined && x.id !== null) {
@@ -166,6 +176,9 @@ export class ControlConstructDetailComponent {
           let index = controlConstructs.findIndex((e: any) => e.id === result.id);
           if (index >= 0) {
             controlConstructs[index] = result;
+          } else if (savedControlConstructsIndex >= 0) {
+            controlConstructs[savedControlConstructsIndex] = JSON.parse(object);
+            controlConstructs.push(result);
           }
           hideDetailEvent.emit('hide');
         }, (error: any) => {

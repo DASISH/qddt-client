@@ -74,6 +74,8 @@ export class CategoryEditComponent implements OnInit {
   private isTemplate: boolean;
   private selectedCategoryIndex: number;
   private numberOfCategories: number;
+  private savedObject: string;
+  private savedCategoriesIndex: number;
 
   constructor(private categoryService: CategoryService) {
     this.changeEnums = Change.status;
@@ -83,6 +85,9 @@ export class CategoryEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.savedObject = JSON.stringify(this.category);
+    this.savedCategoriesIndex = this.categories
+      .findIndex(q => q['id'] === this.category['id']);
     this.isTemplate = this.category['hierarchyLevel'] === 'GROUP_ENTITY';
     if(this.isTemplate) {
       this.categoryEnums = CategoryType.group;
@@ -110,8 +115,13 @@ export class CategoryEditComponent implements OnInit {
     this.categoryService.edit(this.category)
       .subscribe((result: any) => {
         let i = this.categories.findIndex(q => q['id'] === result['id']);
-        if(i >= 0) {
+        if (i >= 0) {
           this.categories[i] = result;
+        } else {
+          if (this.savedCategoriesIndex >= 0) {
+            this.categories[this.savedCategoriesIndex] = JSON.parse(this.savedObject);
+          }
+          this.categories.push(result);
         }
         this.editDetailEvent.emit('edit');
       });

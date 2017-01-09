@@ -184,6 +184,11 @@ export class RationalComponent implements OnInit {
       this.savedbasedOnObject = this.element.basedOnObject;
       this.element.basedOnObject = this.element.id;
       this.element.id = null;
+    } else if(id === 3) {
+      this.savedId = this.element.id;
+      this.element.basedOnObject = null;
+      this.element.id = null;
+      this.element.changeKind = null;
     } else {
       if(this.element.id === null) {
         this.element.id = this.savedId;

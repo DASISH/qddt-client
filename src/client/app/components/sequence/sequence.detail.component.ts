@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { SequenceService, Sequence } from './sequence.service';
 
 @Component({
@@ -8,16 +8,24 @@ import { SequenceService, Sequence } from './sequence.service';
   providers: [ SequenceService ],
 })
 
-export class SequenceDetailComponent {
+export class SequenceDetailComponent implements OnInit {
   @Input() sequence: Sequence;
   @Input() sequences: Sequence[];
   @Input() isVisible: boolean;
   @Output() hideDetailEvent: EventEmitter<String> = new EventEmitter<String>();
   sequenceActions = new EventEmitter<any>();
   private revisionIsVisible: boolean;
+  private savedObject: string;
+  private savedSequencesIndex: number;
 
   constructor(private service: SequenceService) {
     this.revisionIsVisible = false;
+  }
+
+  ngOnInit() {
+    this.savedObject = JSON.stringify(this.sequence);
+    this.savedSequencesIndex = this.sequences
+      .findIndex(q => q['id'] === this.sequence['id']);
   }
 
   hideDetail() {
@@ -26,10 +34,13 @@ export class SequenceDetailComponent {
 
   onUpdateSequence() {
     this.service.update(this.sequence).subscribe((result: any) => {
-        let index = this.sequences.findIndex((e:any) => e.id === result.id);
-        if(index >= 0) {
-          this.sequence[index] = result;
-        }
+      let index = this.sequences.findIndex((e: any) => e.id === result.id);
+      if (index >= 0) {
+        this.sequence[index] = result;
+      } else if (this.savedSequencesIndex >= 0) {
+        this.sequences[this.savedSequencesIndex] = JSON.parse(this.savedObject);
+        this.sequences.push(result);
+      }
         this.hideDetail();
       }, (error: any) => {
         console.log(error);

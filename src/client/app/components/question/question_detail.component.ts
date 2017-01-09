@@ -21,6 +21,8 @@ export class QuestionDetail implements OnInit {
   private editIsVisible: boolean;
   private conceptIsVisible: boolean;
   private config: any[];
+  private savedObject: string;
+  private savedQuestionitemsIndex: number;
 
   constructor(private service: QuestionService) {
     this.revisionIsVisible = false;
@@ -32,6 +34,9 @@ export class QuestionDetail implements OnInit {
     if(this.questionitem.question === null) {
       this.questionitem.question = new Question();
     }
+    this.savedObject = JSON.stringify(this.questionitem);
+    this.savedQuestionitemsIndex = this.questionitems
+      .findIndex(q => q['id'] === this.questionitem['id']);
     this.config = this.buildRevisionConfig();
   }
 
@@ -58,7 +63,14 @@ export class QuestionDetail implements OnInit {
 
   onEditQuestionItem(questionitem: QuestionItem) {
     let i = this.questionitems.findIndex(q => q['id'] === questionitem['id']);
-    this.questionitems[i] = questionitem;
+    if(i >= 0) {
+      this.questionitems[i] = questionitem;
+    } else {
+      if(this.savedQuestionitemsIndex >= 0) {
+        this.questionitems[this.savedQuestionitemsIndex] = JSON.parse(this.savedObject);
+      }
+      this.questionitems.push(questionitem);
+    }
     this.hidDetail();
   }
 

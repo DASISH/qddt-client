@@ -101,4 +101,8 @@ export class QuestionService extends BaseService {
     return this.get('category/page/search/?level=GROUP_ENTITY&category=' + categoryKind
       + query + '&page=' + page);
   }
+
+  getResponseDomainsRevisions(id: string) : any {
+    return this.get('audit/responsedomain/' + id + '/all');
+  }
 }
