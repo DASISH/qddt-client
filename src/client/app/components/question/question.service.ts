@@ -68,10 +68,6 @@ export class QuestionService extends BaseService {
     return this.post(questionItem, 'questionitem');
   }
 
-  getConceptsByQuestionitemId(id: string) {
-    return this.get('concept/list/by-QuestionItem/'+ id);
-  }
-
   getConceptsById(id: string) {
     return this.get('concept/'+ id);
   }

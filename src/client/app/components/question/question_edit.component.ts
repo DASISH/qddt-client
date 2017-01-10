@@ -173,14 +173,12 @@ export class QuestionItemEdit implements OnInit {
   private showResponseDomainForm: boolean;
   private mainResponseDomain: any;
   private secondCS: any;
-  private concepts: any[];
   private selectedId: string;
   private selectedType: string;
 
   constructor(private service: QuestionService) {
     this.showResponseDomainForm = false;
     this.editQuestionItem = new EventEmitter<any>();
-    this.concepts = [];
   }
 
   ngOnInit() {
@@ -218,14 +216,6 @@ export class QuestionItemEdit implements OnInit {
       } else {
         this.mainResponseDomain = this.questionitem.responseDomain;
       }
-    }
-    if(this.questionitem.id !== null || this.questionitem.id !== undefined) {
-      this.service.getConceptsByQuestionitemId(this.questionitem.id)
-        .subscribe(
-        (result: any) => {
-        this.concepts = result;
-        },
-        (error: any) => { console.log(error); });
     }
     this.buildPrivewResponseDomain();
   }
