@@ -64,10 +64,6 @@ export class ConceptService extends BaseService {
     return this.get('author/decombine?authorId='+ authorId + '&conceptId=' +conceptId);
   }
 
-  getQuestionItems(): any {
-    return this.get('questionitem/page');
-  }
-
   createQuestionItem(question: any): any {
     return this.post(question,'questionitem/create');
   }

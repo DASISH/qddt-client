@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 
 import { QuestionService, Question, QuestionItem } from './question.service';
 
@@ -97,7 +97,7 @@ import { QuestionService, Question, QuestionItem } from './question.service';
       </div>
   `
 })
-export class QuestionReuseComponent implements OnInit {
+export class QuestionReuseComponent {
   @Input() parentId: string;
   @Output() questionItemCreatedEvent: EventEmitter<any> = new EventEmitter<any>();
   reuseQuestionItem: boolean;
@@ -118,11 +118,6 @@ export class QuestionReuseComponent implements OnInit {
     this.secondCS = null;
     this.selectedCategoryIndex = 0;
     this.missingCategories = [];
-  }
-
-  ngOnInit() {
-    this.questionService.getQuestionItemPage().subscribe(
-      result => { this.questionItems = result.content; });
   }
 
   searchQuestionItems(name: string) {
@@ -181,6 +176,9 @@ export class QuestionReuseComponent implements OnInit {
 
   openModal() {
     this.actions.emit('openModal');
+    this.questionService.getQuestionItemPage().subscribe(
+      result => { this.questionItems = result.content;
+      }, (error: any) => console.log(error));
   }
 
   private createMixedQuestionItem() {
