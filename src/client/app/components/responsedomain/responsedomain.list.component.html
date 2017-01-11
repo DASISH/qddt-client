@@ -34,7 +34,7 @@
         <qddt-responsedomain-preview [isVisible]="preview.isVisible"
           [responseDomain]="responseDomain" #preview></qddt-responsedomain-preview>
         <div class="row">
-          <comment-list [ownerId]="responseDomain.id"></comment-list>
+          <comment-list [ownerId]="responseDomain.id" [comments]="responseDomain.comments"></comment-list>
         </div>
       </div>
 

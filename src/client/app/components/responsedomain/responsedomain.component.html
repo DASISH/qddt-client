@@ -61,7 +61,7 @@
           [qddtURI]="'audit/responsedomain/' + selectedResponseDomain.id + '/all'"
           [config]="selectedResponseDomain.config"></qddt-revision>
         <div class="row">
-          <comment-list [ownerId]="selectedResponseDomain.id"></comment-list>
+          <comment-list [ownerId]="selectedResponseDomain.id" [comments]="selectedResponseDomain.comments"></comment-list>
         </div>
       </div>
   </div>

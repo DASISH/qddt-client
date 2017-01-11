@@ -88,7 +88,7 @@ import { QuestionItem } from './question.service';
              </ul>
            </div>
            <div class="row">
-             <comment-list [ownerId]="concept.id"></comment-list>
+             <comment-list [ownerId]="concept.id" [comments]="concept.comments"></comment-list>
            </div>
            <div class="tree-children">
              <qddt-question-treenode *ngFor="let child of concept.children" [concept]="child"

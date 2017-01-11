@@ -5,15 +5,15 @@ import { CommentService } from './comment.service';
   selector: 'comment-list',
   moduleId: module.id,
   template: `
-    <div *ngIf="commentsPage">
+    <div *ngIf="comments">
       <a class="btn btn-flat btn-medium waves-effect waves-light teal white-text" (click)="toggleComments()">
-      <i class="material-icons left">message</i>{{commentsPage.page.totalElements}} </a>
+      <i class="material-icons left">message</i>{{comments.length}} </a>
     </div>
     <div *ngIf="showComments">
-      <div *ngIf="commentsPage" class="card">
+      <div *ngIf="comments" class="card">
         <ul class="collection">
           <li class="collection-item avatar"
-            *ngFor="let comment of commentsPage.content; let idx=index;">
+            *ngFor="let comment of comments; let idx=index;">
             <img src="assets/images/avatar-default.png"  alt ="" class="circle">
             <span class="title">
               {{comment.modifiedBy.username}}@{{comment.modifiedBy.agency.name}}
@@ -54,7 +54,9 @@ import { CommentService } from './comment.service';
               </div>
             </div>
             <i class="secondary-content material-icons right ">comment</i>
-            <comment-list [ownerId]="comment.id"></comment-list>
+            <comment-list *ngIf="showComments"
+              [ownerId]="comment.id" [comments]="comment.comments">
+            </comment-list>
           </li>
         </ul>
       </div>
@@ -70,15 +72,17 @@ export class CommentListComponent implements OnInit {
   selectedCommentId: number;
   message: string = '';
   showComments: boolean = false;
-  commentsPage:any;
   @Input() ownerId: string;
+  @Input() comments: any[];
 
   constructor(private commentService: CommentService) {
     this.selectedCommentId = 0;
   }
 
   ngOnInit() {
-    this.commentService.getAll(this.ownerId).subscribe((result: any) => this.commentsPage = result);
+    if(this.comments === null || this.comments === undefined) {
+      this.comments = [];
+    }
   }
 
   toggleComments() {
@@ -86,27 +90,26 @@ export class CommentListComponent implements OnInit {
   }
 
   addedComment() {
-    this.commentService.getAll(this.ownerId).subscribe((result: any) => this.commentsPage = result,
+    this.commentService.getAll(this.ownerId).subscribe((result: any) => this.comments = result.content,
       (error: any) => console.log(error));
   }
 
   onDeleteComment(idx: number) {
-    let comment = this.commentsPage.content[idx];
+    let comment = this.comments[idx];
     comment.isHidden = true;
     this.commentService.updateComment(comment).subscribe((result: any) => {
-          this.commentsPage.content.splice(idx, 1);
-          this.commentsPage.page.totalElements -= 1;
-        }, (error: any) => console.log(error));
+      this.comments.splice(idx, 1);
+    }, (error: any) => console.log(error));
   }
 
   onUpdateComment(idx: number) {
     this.isEditComment = false;
-    if(this.commentsPage.content.length > idx) {
-      let comment = this.commentsPage.content[idx];
+    if(this.comments.length > idx) {
+      let comment = this.comments[idx];
       if(this.message !== comment.comment) {
         comment.comment = this.message;
         this.commentService.updateComment(comment).subscribe((result: any) => {
-          this.commentsPage.content[idx] = result;
+          this.comments[idx] = result;
         }, (error: any) => console.log(error));
       }
     }
