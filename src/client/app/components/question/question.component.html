@@ -38,9 +38,8 @@
                      <div class="row teal-text"><span>Response Domain:</span></div>
                      <div class="row teal-text">
                        <a *ngIf="!questionItem.responseDomain"
-                         materialize="leanModal" [materializeParams]="[{dismissible: false}]"
                          class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                         [attr.href]="'#create-questionItem-modal'">
+                         (click)="openResponseDomainModal()">
                          <i class="material-icons" title="response domain edit">mode_edit</i>
                        </a>
                        <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
@@ -78,14 +77,20 @@
     [questionitems]="questionitems" (hideDetailEvent)="hideDetail()"></qddt-questionitem-detail>
 </div>
 
-<div [attr.id]="'create-questionItem-modal'" class="modal">
+<div [attr.id]="'response-reuse-modal'" class="modal modal-fixed-footer"
+  materialize [materializeActions]="responseDomainAction">
   <div class="modal-content">
     <div class="row">
-      <responsedomain-search (selectResponseDomainEvent)="selectResponseDomain($event)"></responsedomain-search>
+      <div *ngIf="showQuestionItemForm && showResponsedomainReuse" class="row">
+        <responsedomain-reuse [isVisible]="showResponsedomainReuse"
+          [responseDomain]="questionItem.responseDomain"
+          (responseDomainReuse)="responseDomainReuse($event)">
+        </responsedomain-reuse>
+      </div>
     </div>
   </div>
   <div class="modal-footer">
-    <button id="questionItem-modal-close" class="btn btn-default red modal-action modal-close waves-effect waves-red">Dismiss</button>
+    <button class="btn btn-default red modal-action modal-close waves-effect waves-red">Dismiss</button>
   </div>
 </div>
 

@@ -13,8 +13,10 @@ import { UserService } from '../../common/user.service';
 export class QuestionComp implements AfterContentChecked, OnInit {
 
   showQuestionItemForm: boolean = false;
+  showResponsedomainReuse: boolean = false;
   actions = new EventEmitter<any>();
   error: string;
+  responseDomainAction = new EventEmitter<string>();
 
   private questionitems: any;
   private page: any;
@@ -24,6 +26,7 @@ export class QuestionComp implements AfterContentChecked, OnInit {
   private columns: any[];
   private searchKeys: string;
   private secondCS: any;
+  private mainresponseDomainRevision: number;
 
   constructor(private questionService: QuestionService, private userService: UserService) {
     this.isDetail = false;
@@ -31,6 +34,7 @@ export class QuestionComp implements AfterContentChecked, OnInit {
     this.page = {};
     this.searchKeys = '';
     this.secondCS = null;
+    this.mainresponseDomainRevision = 0;
     this.columns = [{'name':['question','question'], 'label':'Question Text', 'sortable':true, 'direction': '' }
       ,{'name':'name', 'label':'Question Name', 'sortable':false, 'direction': '' }
       ,{'name':['responseDomain','name'], 'label':'ResponseDomain Name', 'sortable':true, 'direction': '' }];
@@ -72,6 +76,7 @@ export class QuestionComp implements AfterContentChecked, OnInit {
       this.questionItem = new QuestionItem();
       this.questionItem.question = new Question();
       this.secondCS = null;
+      this.questionItem.responseDomain = null;
     }
   }
 
@@ -99,11 +104,13 @@ export class QuestionComp implements AfterContentChecked, OnInit {
     this.showQuestionItemForm = false;
     this.questionItem.question.name = this.questionItem.name;
     if (this.secondCS === null) {
+      this.questionItem.responseDomainRevision = this.mainresponseDomainRevision;
       this.questionService.createQuestionItem(this.questionItem)
         .subscribe((result: any) => {
           this.questionitems = [result].concat(this.questionitems);
         }, (err: any) => { this.error = err.toString(); this.actions.emit('openModal'); });
     } else {
+      this.questionItem.responseDomainRevision = 0;
       this.createMixedCategory().subscribe((result: any) => {
         this.createMixedResponseDomain(result).subscribe((result: any) => {
           this.questionItem.responseDomain = result;
@@ -117,9 +124,16 @@ export class QuestionComp implements AfterContentChecked, OnInit {
     this.isDetail = false;
   }
 
-  selectResponseDomain(responseDomain: any) {
-    this.questionItem.responseDomain = responseDomain;
-    document.getElementById('questionItem-modal-close').click();
+  responseDomainReuse(item: any) {
+    this.questionItem.responseDomain = item.responseDomain;
+    this.mainresponseDomainRevision = item.responseDomainRevision;
+    this.showResponsedomainReuse = false;
+    this.responseDomainAction.emit('closeModal');
+  }
+
+  openResponseDomainModal() {
+    this.showResponsedomainReuse = true;
+    this.responseDomainAction.emit('openModal');
   }
 
   searchResponseDomains(name: string) {

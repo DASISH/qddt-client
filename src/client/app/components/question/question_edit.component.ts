@@ -172,6 +172,7 @@ export class QuestionItemEdit implements OnInit {
   privewResponseDomain: any;
   private showResponseDomainForm: boolean;
   private mainResponseDomain: any;
+  private mainresponseDomainRevision: number;
   private secondCS: any;
   private selectedId: string;
   private selectedType: string;
@@ -179,6 +180,7 @@ export class QuestionItemEdit implements OnInit {
   constructor(private service: QuestionService) {
     this.showResponseDomainForm = false;
     this.editQuestionItem = new EventEmitter<any>();
+    this.mainresponseDomainRevision = 0;
   }
 
   ngOnInit() {
@@ -215,6 +217,7 @@ export class QuestionItemEdit implements OnInit {
         }
       } else {
         this.mainResponseDomain = this.questionitem.responseDomain;
+        this.mainresponseDomainRevision = this.questionitem.responseDomainRevision || 0;
       }
     }
     this.buildPrivewResponseDomain();
@@ -225,7 +228,12 @@ export class QuestionItemEdit implements OnInit {
     this.getMixedCategory().subscribe((result: any) => {
       this.getMixedResponseDomain(result).subscribe((result: any) => {
         this.questionitem.responseDomain = result;
-          this.service.updateQuestionItem(this.questionitem)
+        if(this.secondCS !== null) {
+          this.questionitem.responseDomainRevision = 0;
+        } else {
+          this.questionitem.responseDomainRevision = this.mainresponseDomainRevision;
+        }
+        this.service.updateQuestionItem(this.questionitem)
           .subscribe((result: any) => {
             this.questionitem = result;
             this.editQuestionItem.emit(this.questionitem);
@@ -268,8 +276,9 @@ export class QuestionItemEdit implements OnInit {
       });
   }
 
-  responseDomainReuse(responseDomain: any) {
-    this.mainResponseDomain = responseDomain;
+  responseDomainReuse(item: any) {
+    this.mainResponseDomain = item.responseDomain;
+    this.mainresponseDomainRevision = item.responseDomainRevision;
     this.showResponseDomainForm = false;
     document.getElementById('questionItem-modal-close').click();
     this.buildPrivewResponseDomain();
@@ -281,6 +290,7 @@ export class QuestionItemEdit implements OnInit {
     this.showResponseDomainForm = false;
     this.privewResponseDomain = null;
     this.questionitem.responseDomainRevision = 0;
+    this.mainresponseDomainRevision = 0;
   }
 
   onClickEdit() {

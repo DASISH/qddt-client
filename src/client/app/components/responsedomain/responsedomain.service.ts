@@ -40,4 +40,8 @@ export class ResponseDomainService extends BaseService {
     return this.get('responsedomain/page/search?ResponseKind=' + domain + query + '&page=' + page);
   }
 
+  getResponseDomainsRevisions(id: string) : any {
+    return this.get('audit/responsedomain/' + id + '/all');
+  }
+
 }

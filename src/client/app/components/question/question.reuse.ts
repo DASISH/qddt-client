@@ -42,7 +42,29 @@ import { QuestionService, Question, QuestionItem } from './question.service';
               </div>
             </div>
             <div class="row black-text">
-              <responsedomain-search (selectResponseDomainEvent)="selectResponseDomain($event)"></responsedomain-search>
+              <div class="row">
+                <div class="card">
+                  <div class="row teal-text"><span>Response Domain:</span></div>
+                  <div class="row teal-text">
+                    <a *ngIf="!questionItem.responseDomain"
+                      class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                      (click)="showResponsedomainReuse = true">
+                      <i class="material-icons" title="response domain edit">mode_edit</i>
+                    </a>
+                    <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                      *ngIf="questionItem.responseDomain"
+                      (click)="questionItem.responseDomain = null;secondCS=null;">
+                      <i class="material-icons left medium" title="remove response domain">remove</i>
+                    </a>
+                    <span *ngIf="questionItem.responseDomain">{{questionItem?.responseDomain?.name}}</span>
+                  </div>
+                </div>
+              </div>
+              <responsedomain-reuse *ngIf="showResponsedomainReuse"
+                [isVisible]="true"
+                [responseDomain]="questionItem.responseDomain"
+                (responseDomainReuse)="responseDomainReuse($event)">
+              </responsedomain-reuse>
             </div>
             <div class="black-text card">
               <div class="row"><span>Missing</span></div>
@@ -105,19 +127,23 @@ export class QuestionReuseComponent {
   secondCS: any;
   missingCategories: any[];
   selectedCategoryIndex: number;
+  showResponsedomainReuse: boolean = false;
   actions = new EventEmitter<any>();
   private questionItem: QuestionItem;
   private questionItems: QuestionItem[];
+  private mainresponseDomainRevision: number;
 
   constructor(private questionService: QuestionService) {
     this.questionItem = new QuestionItem();
     this.questionItem.question = new Question();
+    this.questionItem.responseDomain = null;
     this.reuseQuestionItem = true;
     this.selectedIndex = 0;
     this.questionItems = [];
     this.secondCS = null;
     this.selectedCategoryIndex = 0;
     this.missingCategories = [];
+    this.mainresponseDomainRevision = 0;
   }
 
   searchQuestionItems(name: string) {
@@ -140,6 +166,7 @@ export class QuestionReuseComponent {
     if(!this.reuseQuestionItem) {
       this.questionItem = new QuestionItem();
       this.questionItem.question = new Question();
+      this.questionItem.responseDomain = null;
     }
   }
 
@@ -147,6 +174,7 @@ export class QuestionReuseComponent {
     if(!this.reuseQuestionItem) {
       this.questionItem.question.name = this.questionItem.question['question'];
       if (this.secondCS === null) {
+        this.questionItem['responseDomainRevision'] = this.mainresponseDomainRevision;
         this.questionService.save(this.questionItem.question)
           .subscribe(result => {
             this.questionItem.question = result;
@@ -158,6 +186,7 @@ export class QuestionReuseComponent {
               });
           });
       } else {
+        this.questionItem['responseDomainRevision'] = 0;
         this.createMixedQuestionItem();
       }
     } else {
@@ -168,6 +197,13 @@ export class QuestionReuseComponent {
 
   selectResponseDomain(responsedomain) {
     this.questionItem.responseDomain = responsedomain;
+    this.showResponsedomainReuse = true;
+  }
+
+  responseDomainReuse(item: any) {
+    this.questionItem.responseDomain = item.responseDomain;
+    this.mainresponseDomainRevision = item.responseDomainRevision;
+    this.showResponsedomainReuse = false;
   }
 
   selectQuestionItem(questionItem) {

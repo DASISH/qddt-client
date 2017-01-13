@@ -34,6 +34,13 @@ import { ResponseDomainService, ResponseDomain } from './responsedomain.service'
           (autocompleteSelectEvent)="select($event)">
         </autocomplete>
       </div>
+      <div class="row" *ngIf="selectedResponseDomain">
+        <qddt-responsedomain-select
+          [responseDomain]="selectedResponseDomain"
+          [revision]="selectedRevision"
+          (useResponseDomainEvent)="onUseResponseDomainEvent($event)">
+        </qddt-responsedomain-select>
+      </div>
       <responsedomain-form *ngIf="responseDomain"
         (formChange)="formChange()" [responsedomain]="responseDomain" [domainType]="domainType">
       </responsedomain-form>
@@ -46,6 +53,8 @@ export class ResponsedomainReuseComponent implements OnChanges {
   @Input() isVisible: boolean;
   @Input() responseDomain: any;
   @Output() responseDomainReuse: EventEmitter<any> = new EventEmitter();
+  selectedResponseDomain: any;
+  selectedRevision: number;
   public domainTypeDef = DomainType;
   public domainTypeDescription: any[];
   private domainType: DomainType;
@@ -107,7 +116,12 @@ export class ResponsedomainReuseComponent implements OnChanges {
   }
 
   select(responseDomain: any) {
-    this.responseDomainReuse.emit(responseDomain);
+    this.selectedResponseDomain = responseDomain;
+    this.selectedRevision = 0;
+  }
+
+  onUseResponseDomainEvent(item) {
+    this.responseDomainReuse.emit(item);
     this.isVisible = false;
   }
 
