@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterContentChecked } from '@angular/core';
 import { CategoryService, Category } from './category.service';
 import { UserService } from '../../common/user.service';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'category',
@@ -20,6 +21,7 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
   private selectedCategory: any;
   private isDetail: boolean;
   private columns: any[];
+  private searchKeysSubect: Subject<string> = new Subject<string>();
 
   constructor(private categoryService: CategoryService, private userService: UserService) {
     this.isDetail = false;
@@ -28,6 +30,15 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
     this.page = {};
     this.columns = [{ 'label': 'Label', 'name': 'label', 'sortable': true, 'direction': '' },
       { 'label': 'Description', 'name': 'description', 'sortable': true, 'direction': '' }];
+    this.searchKeysSubect
+      .debounceTime(300)
+      .distinctUntilChanged()
+      .subscribe((name: string) => {
+        this.categoryService.getAllByLevel('ENTITY', name, this.getSort()).subscribe((result: any) => {
+          this.page = result.page;
+          this.categories = result.content;
+        });
+      });
   }
 
   ngOnInit() {
@@ -93,10 +104,7 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
 
   searchCategories(name: string) {
     this.searchKeys = name;
-    this.categoryService.getAllByLevel('ENTITY', name, this.getSort()).subscribe((result: any) => {
-      this.page = result.page;
-      this.categories = result.content;
-    });
+    this.searchKeysSubect.next(name);
   }
 
   private getSort() {

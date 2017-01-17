@@ -2,6 +2,7 @@ import { Component, OnInit, AfterContentChecked, EventEmitter } from '@angular/c
 
 import { QuestionService, QuestionItem, Question } from './question.service';
 import { UserService } from '../../common/user.service';
+import { Subject }          from 'rxjs/Subject';
 
 @Component({
   selector: 'question',
@@ -24,6 +25,7 @@ export class QuestionComp implements AfterContentChecked, OnInit {
   private selectedQuestionItem: any;
   private isDetail: boolean;
   private columns: any[];
+  private searchKeysSubect: Subject<string> = new Subject<string>();
   private searchKeys: string;
   private secondCS: any;
   private mainresponseDomainRevision: number;
@@ -38,6 +40,15 @@ export class QuestionComp implements AfterContentChecked, OnInit {
     this.columns = [{'name':['question','question'], 'label':'Question Text', 'sortable':true, 'direction': '' }
       ,{'name':'name', 'label':'Question Name', 'sortable':false, 'direction': '' }
       ,{'name':['responseDomain','name'], 'label':'ResponseDomain Name', 'sortable':true, 'direction': '' }];
+    this.searchKeysSubect
+      .debounceTime(300)
+      .distinctUntilChanged()
+      .subscribe((name: string) => {
+        this.questionService.searchQuestionItemsByNameAndQuestion(name, '0', this.getSort()).subscribe((result: any) => {
+          this.page = result.page;
+          this.questionitems = result.content;
+        });
+      });
   }
 
   ngOnInit() {
@@ -138,10 +149,7 @@ export class QuestionComp implements AfterContentChecked, OnInit {
 
   searchResponseDomains(name: string) {
     this.searchKeys = name;
-    this.questionService.searchQuestionItemsByNameAndQuestion(name, '0', this.getSort()).subscribe((result: any) => {
-      this.page = result.page;
-      this.questionitems = result.content;
-    });
+    this.searchKeysSubect.next(name);
   }
 
   private getSort() {

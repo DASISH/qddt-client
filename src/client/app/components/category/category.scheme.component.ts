@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output, OnInit, AfterContentChecked } from '@a
 import { CategoryService, Category, ResponseCardinality } from './category.service';
 import { CategoryType } from './category_kind';
 import { UserService } from '../../common/user.service';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'category-scheme',
@@ -27,6 +28,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
   private searchKeys: string;
   private savedObject: string;
   private savedCategoriesIndex: number;
+  private searchKeysSubect: Subject<string> = new Subject<string>();
 
   constructor(private categoryService: CategoryService, private userService: UserService) {
     this.category = new Category();
@@ -39,6 +41,15 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
     this.missingCategories = [];
     this.columns = [{'name':'name', 'label':'Name', 'sortable':true, 'direction': '' }
       ,{'name':'description', 'label':'Description', 'sortable':true, 'direction': '' }];
+    this.searchKeysSubect
+      .debounceTime(300)
+      .distinctUntilChanged()
+      .subscribe((name: string) => {
+        this.categoryService.getAllTemplatesByCategoryKind('MISSING_GROUP', name, '0', this.getSort()).subscribe((result: any) => {
+          this.page = result.page;
+          this.missingCategories = result.content;
+        });
+      });
   }
 
   ngOnInit() {
@@ -164,10 +175,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
 
   searchMissingCategories(name: string) {
     this.searchKeys = name;
-    this.categoryService.getAllTemplatesByCategoryKind('MISSING_GROUP', name, '0', this.getSort()).subscribe((result: any) => {
-      this.page = result.page;
-      this.missingCategories = result.content;
-    });
+    this.searchKeysSubect.next(name);
   }
 
   private getSort() {

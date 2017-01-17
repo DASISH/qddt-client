@@ -1,5 +1,6 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
 import { ElementTypeDescription, SequenceService, Sequence } from './sequence.service';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'qddt-sequence',
@@ -29,6 +30,7 @@ export class SequenceComponent implements OnInit {
   private columns: any[];
   private elementType: number;
   private elements: any[];
+  private searchKeysSubect: Subject<string> = new Subject<string>();
 
   constructor(private service: SequenceService) {
     this.isDetail = false;
@@ -39,6 +41,18 @@ export class SequenceComponent implements OnInit {
     this.elements = [];
     this.columns = [{ 'label': 'Name', 'name': 'name', 'sortable': true },
     { 'label': 'Description', 'name': 'description', 'sortable': true }];
+    this.searchKeysSubect
+      .debounceTime(300)
+      .distinctUntilChanged()
+      .subscribe((name: string) => {
+        this.service.getElements('SEQUENCE_CONSTRUCT', name)
+          .subscribe((result: any) => {
+            this.sequences = result.content;
+            this.page = result.page;
+          }, (error: any) => {
+            this.popupModal(error);
+          });
+      });
   }
 
   ngOnInit() {
@@ -68,7 +82,13 @@ export class SequenceComponent implements OnInit {
   }
 
   onPage(page: string) {
-    this.searchSequences(this.searchKeys, page);
+    this.service.getElements('SEQUENCE_CONSTRUCT', this.searchKeys, page)
+      .subscribe((result: any) => {
+        this.sequences = result.content;
+        this.page = result.page;
+      }, (error: any) => {
+        this.popupModal(error);
+      });
   }
 
   onCreateSequence() {
@@ -82,15 +102,9 @@ export class SequenceComponent implements OnInit {
     this.isDetail = false;
   }
 
-  searchSequences(key: string, page: string = '') {
+  searchSequences(key: string) {
     this.searchKeys = key;
-    this.service.getElements('SEQUENCE_CONSTRUCT', key, page)
-      .subscribe((result: any) => {
-        this.sequences = result.content;
-        this.page = result.page;
-      }, (error: any) => {
-        this.popupModal(error);
-      });
+    this.searchKeysSubect.next(key);
   }
 
   private popupModal(error: any) {

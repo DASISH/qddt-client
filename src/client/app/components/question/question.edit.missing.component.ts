@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CategoryService } from '../category/category.service';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'qddt-questionitem-edit-missing',
@@ -62,11 +63,20 @@ export class QuestionItemEditMissing {
   @Output() editMissing: EventEmitter<any>;
   missingCategories: any[];
   selectedCategoryIndex: number;
+  private searchMissingCategoriesSubect: Subject<string> = new Subject<string>();
 
   constructor(private service: CategoryService) {
     this.editMissing = new EventEmitter<any>();
     this.selectedCategoryIndex = 0;
     this.missingCategories = [];
+    this.searchMissingCategoriesSubect
+      .debounceTime(300)
+      .distinctUntilChanged()
+      .subscribe((name: string) => {
+        this.service.getAllTemplatesByCategoryKind('MISSING_GROUP', name).subscribe((result: any) => {
+          this.missingCategories = result.content;
+        });
+      });
   }
 
   onRemoveMissingResponsedomain(questionitem: any) {
@@ -74,9 +84,7 @@ export class QuestionItemEditMissing {
   }
 
   searchMissingCategories(name: string) {
-    this.service.getAllTemplatesByCategoryKind('MISSING_GROUP', name).subscribe((result: any) => {
-      this.missingCategories = result.content;
-    });
+    this.searchMissingCategoriesSubect.next(name);
   }
 
   select(candidate: any) {

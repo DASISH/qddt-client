@@ -1,6 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { ResponseDomainService } from './responsedomain.service';
 import { DomainType, DomainTypeDescription } from './responsedomain.constant';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'responsedomain-search',
@@ -31,11 +32,22 @@ export class ResponseDomainSearchComponent {
   @Output() selectResponseDomainEvent: EventEmitter<any> = new EventEmitter<any>();
   responseDomains: any[];
   domainTypeDescription: any[];
+  private searchKeysSubect: Subject<string> = new Subject<string>();
 
   constructor(private responseDomainService: ResponseDomainService) {
     this.responseDomains = [];
     this.domainTypeDescription = DomainTypeDescription.filter((e:any) => e.id !== DomainType.MIXED);
     this.selectDomainType(DomainType.SCALE);
+    this.searchKeysSubect
+      .debounceTime(300)
+      .distinctUntilChanged()
+      .subscribe((name: string) => {
+        let domainType = DomainTypeDescription.find((e: any) => e.id === this.domainType).name;
+        this.responseDomainService
+          .getAll(domainType, name).subscribe((result: any) => {
+            this.responseDomains = result.content;
+          });
+      });
   }
 
   selectDomainType(id: DomainType) {
@@ -50,9 +62,6 @@ export class ResponseDomainSearchComponent {
   }
 
   searchResponseDomains(key: string) {
-    let name = DomainTypeDescription.find((e: any) =>e.id === this.domainType).name;
-    this.responseDomainService.getAll(name, key).subscribe((result: any) => {
-      this.responseDomains = result.content;
-    });
+    this.searchKeysSubect.next(key);
   }
 }

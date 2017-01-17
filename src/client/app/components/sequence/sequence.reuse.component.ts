@@ -1,5 +1,6 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { ElementTypeDescription, SequenceService } from './sequence.service';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'qddt-sequence-reuse',
@@ -21,15 +22,25 @@ export class SequenceReuseComponent implements OnInit {
   elementTypeDescription: any = ElementTypeDescription;
   actions = new EventEmitter<any>();
 
-  private searchKeys: string;
   private elementType: string;
   private elements: any[];
   private selectedElement: any;
+  private searchKeysSubect: Subject<string> = new Subject<string>();
 
   constructor(private service: SequenceService) {
-    this.searchKeys = '';
     this.elementType = this.elementTypeDescription[0].name;
     this.elements = [];
+    this.searchKeysSubect
+      .debounceTime(300)
+      .distinctUntilChanged()
+      .subscribe((name: string) => {
+        this.service.getElements(this.elementType, name)
+          .subscribe((result: any) => {
+            this.elements = result.content;
+          }, (error: any) => {
+            this.popupModal(error);
+          });
+      });
   }
 
   ngOnInit() {
@@ -47,12 +58,7 @@ export class SequenceReuseComponent implements OnInit {
   }
 
   onSearchElements(key: string) {
-    this.service.getElements(this.elementType, key)
-      .subscribe((result: any) => {
-        this.elements = result.content;
-      }, (error: any) => {
-        this.popupModal(error);
-      });
+    this.searchKeysSubect.next(key);
   }
 
   searchSequences(key: string) {

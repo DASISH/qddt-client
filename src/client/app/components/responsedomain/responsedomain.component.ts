@@ -3,6 +3,7 @@ import { ResponseDomain } from './responsedomain.service';
 import { DomainType, DomainTypeDescription, PredefinedColumns } from './responsedomain.constant';
 import { ResponseDomainService } from './responsedomain.service';
 import { UserService } from '../../common/user.service';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'responsedomain',
@@ -26,6 +27,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
   private revisionIsVisible: boolean;
   private savedObject: string;
   private savedResponseDomainsIndex: number;
+  private searchKeysSubect: Subject<string> = new Subject<string>();
 
   constructor(private responseDomainService: ResponseDomainService, private userService: UserService) {
     this.responseDomain = new ResponseDomain();
@@ -38,6 +40,18 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
     this.showResponseDomainForm = false;
     this.page = {};
     this.columns = PredefinedColumns['SCALE'];
+    this.searchKeysSubect
+      .debounceTime(300)
+      .distinctUntilChanged()
+      .subscribe((name: string) => {
+        let domainType = DomainTypeDescription.find((e: any) => e.id === this.domainType).name;
+        this.responseDomainService
+          .getAll(domainType, name, '0', this.getSort()).subscribe((result: any) => {
+            this.page = result.page;
+            this.responseDomains = result.content;
+            this.buildAnchorLabel();
+          });
+      });
   }
 
   ngOnInit() {
@@ -152,13 +166,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
 
   searchResponseDomains(name: string) {
     this.searchKeys = name;
-    let domainType = DomainTypeDescription.find((e: any)=>e.id === this.domainType).name;
-    this.responseDomainService
-      .getAll(domainType, name, '0', this.getSort()).subscribe((result: any) => {
-      this.page = result.page;
-      this.responseDomains = result.content;
-      this.buildAnchorLabel();
-    });
+    this.searchKeysSubect.next(name);
   }
 
   buildRevisionConfig(): any[] {

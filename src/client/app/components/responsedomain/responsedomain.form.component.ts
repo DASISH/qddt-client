@@ -3,6 +3,7 @@ import { Change } from '../../common/change_status';
 import { CategoryService, Category, ResponseCardinality } from '../category/category.service';
 import { DomainType, DomainTypeDescription } from './responsedomain.constant';
 import { Observable }     from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'responsedomain-form',
@@ -33,6 +34,7 @@ export class ResponsedomainFormComponent implements OnInit {
   private usedBy: any[];
   private selectedId: string;
   private selectedType: string;
+  private searchKeysSubect: Subject<string> = new Subject<string>();
 
   constructor(private categoryService: CategoryService) {
     this._ChangeEnums = Change.status;
@@ -41,6 +43,14 @@ export class ResponsedomainFormComponent implements OnInit {
     this.formChange = new EventEmitter<any>();
     this.numberOfAnchors = 0;
     this.usedBy = [];
+    this.searchKeysSubect
+      .debounceTime(300)
+      .distinctUntilChanged()
+      .subscribe((name: string) => {
+        this.categoryService.getAllByLevel('ENTITY', name).subscribe((result: any) => {
+          this.categories = result.content;
+        });
+      });
   }
 
   ngOnInit() {
@@ -216,9 +226,7 @@ export class ResponsedomainFormComponent implements OnInit {
   searchCategories(name: string) {
     this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex].isNew = true;
     this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex].label = name;
-    this.categoryService.getAllByLevel('ENTITY', name).subscribe((result: any) => {
-      this.categories = result.content;
-    });
+    this.searchKeysSubect.next(name);
   }
 
   onClickClear(idx: number) {

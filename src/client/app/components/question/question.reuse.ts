@@ -1,6 +1,7 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
 
 import { QuestionService, Question, QuestionItem } from './question.service';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'questionitem-reuseorcreate',
@@ -132,6 +133,8 @@ export class QuestionReuseComponent {
   private questionItem: QuestionItem;
   private questionItems: QuestionItem[];
   private mainresponseDomainRevision: number;
+  private searchKeysSubect: Subject<string> = new Subject<string>();
+  private searchMissingCategoriesSubect: Subject<string> = new Subject<string>();
 
   constructor(private questionService: QuestionService) {
     this.questionItem = new QuestionItem();
@@ -144,18 +147,30 @@ export class QuestionReuseComponent {
     this.selectedCategoryIndex = 0;
     this.missingCategories = [];
     this.mainresponseDomainRevision = 0;
+    this.searchKeysSubect
+      .debounceTime(300)
+      .distinctUntilChanged()
+      .subscribe((name: string) => {
+        this.questionService.searchQuestionItemsByNameAndQuestion(name).subscribe((result: any) => {
+          this.questionItems = result.content;
+        });
+      });
+    this.searchMissingCategoriesSubect
+      .debounceTime(300)
+      .distinctUntilChanged()
+      .subscribe((name: string) => {
+        this.questionService.getAllTemplatesByCategoryKind('MISSING_GROUP', name).subscribe((result: any) => {
+          this.missingCategories = result.content;
+        });
+      });
   }
 
   searchQuestionItems(name: string) {
-    this.questionService.searchQuestionItemsByNameAndQuestion(name).subscribe((result: any) => {
-      this.questionItems = result.content;
-    });
+    this.searchKeysSubect.next(name);
   }
 
   searchMissingCategories(name: string) {
-    this.questionService.getAllTemplatesByCategoryKind('MISSING_GROUP', name).subscribe((result: any) => {
-      this.missingCategories = result.content;
-    });
+    this.searchMissingCategoriesSubect.next(name);
   }
 
   select(candidate: any) {

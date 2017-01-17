@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { DomainType, DomainTypeDescription } from './responsedomain.constant';
 import { ResponseDomainService, ResponseDomain } from './responsedomain.service';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'responsedomain-reuse',
@@ -61,6 +62,7 @@ export class ResponsedomainReuseComponent implements OnChanges {
   private showAutocomplete: boolean;
   private responseDomains: any;
   private selectedIndex: number;
+  private searchKeysSubect: Subject<string> = new Subject<string>();
 
   constructor(private responseDomainService: ResponseDomainService) {
     this.showAutocomplete = false;
@@ -68,6 +70,16 @@ export class ResponsedomainReuseComponent implements OnChanges {
     this.responseDomains = [];
     this.domainTypeDescription = DomainTypeDescription.filter((e:any) => e.id !== DomainType.MIXED);
     this.selectedIndex = 0;
+    this.searchKeysSubect
+      .debounceTime(300)
+      .distinctUntilChanged()
+      .subscribe((name: string) => {
+        let domainType = DomainTypeDescription.find((e: any) => e.id === this.domainType).name;
+        this.responseDomainService
+          .getAll(domainType, name).subscribe((result: any) => {
+            this.responseDomains = result.content;
+          });
+      });
   }
 
   ngOnChanges() {
@@ -126,9 +138,6 @@ export class ResponsedomainReuseComponent implements OnChanges {
   }
 
   searchResponseDomains(key: string) {
-    let name = DomainTypeDescription.find((e: any)=>e.id === this.domainType).name;
-    this.responseDomainService.getAll(name, key).subscribe((result: any) => {
-      this.responseDomains = result.content;
-    });
+    this.searchKeysSubect.next(key);
   }
 }

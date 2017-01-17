@@ -39,7 +39,7 @@
           </div>
         </div>
       </div>
-      <div *ngIf="!isDetail && sequences.length > 0">
+      <div *ngIf="!isDetail">
         <qddt-table [items]="sequences" [page]="page" [columns]="columns"
           [searchFromServer]="true"
 		      (enterEvent)="searchSequences($event)"
