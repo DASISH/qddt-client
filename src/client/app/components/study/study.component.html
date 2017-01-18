@@ -59,7 +59,8 @@
               <study-edit [study]="study" [surveyId]="survey.id" #edit></study-edit>
 
               <qddt-revision [isVisible]="revision.isVisible" [current]="study"
-               [qddtURI]="'audit/study/' + study.id + '/all'" #revision></qddt-revision>
+                [config]="[{'name':'name','label':'Name'},{'name':'description','label':'Description'}]"
+                [qddtURI]="'audit/study/' + study.id + '/all'" #revision></qddt-revision>
 
               <div class="row">
                 <comment-list [ownerId]="study.id" [comments]="study.comments"></comment-list>

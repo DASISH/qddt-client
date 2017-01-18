@@ -59,6 +59,7 @@
               <topic-edit [isVisible]="edit.isVisible" [topic]="topic" #edit></topic-edit>
 
               <qddt-revision [isVisible]="revision.isVisible" [current]="topic"
+                [config]="[{'name':'name','label':'Name'},{'name':'description','label':'Description'}]"
                 [qddtURI]="'audit/topicgroup/' + topic.id + '/all'" #revision ></qddt-revision>
 
               <div class="row">
