@@ -44,7 +44,7 @@
                        </a>
                        <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                          *ngIf="questionItem.responseDomain"
-                         (click)="questionItem.responseDomain = null;secondCS=null;">
+                         (click)="questionItem.responseDomain = null;secondCS=null;previewResponseDomain=null;">
                          <i class="material-icons left medium" title="remove response domain">remove</i>
                        </a>
                        <span *ngIf="questionItem.responseDomain">{{questionItem?.responseDomain?.name}}</span>
@@ -57,6 +57,9 @@
                         </qddt-questionitem-edit-missing>
                      </div>
                    </div>
+                   <qddt-responsedomain-preview *ngIf="previewResponseDomain" [isVisible]="true"
+                     [responseDomain]="previewResponseDomain">
+		               </qddt-responsedomain-preview>
                  </div>
                  <button type="submit" class="btn btn-default">Submit</button>
             </form>

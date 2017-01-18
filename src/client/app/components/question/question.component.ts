@@ -18,6 +18,7 @@ export class QuestionComp implements AfterContentChecked, OnInit {
   actions = new EventEmitter<any>();
   error: string;
   responseDomainAction = new EventEmitter<string>();
+  previewResponseDomain: any;
 
   private questionitems: any;
   private page: any;
@@ -78,6 +79,7 @@ export class QuestionComp implements AfterContentChecked, OnInit {
 
   onEditMissing(missing: any) {
     this.secondCS = missing;
+    this.buildPreviewResponseDomain();
     return false;
   }
 
@@ -139,6 +141,7 @@ export class QuestionComp implements AfterContentChecked, OnInit {
     this.questionItem.responseDomain = item.responseDomain;
     this.mainresponseDomainRevision = item.responseDomainRevision;
     this.showResponsedomainReuse = false;
+    this.buildPreviewResponseDomain();
     this.responseDomainAction.emit('closeModal');
   }
 
@@ -203,5 +206,29 @@ export class QuestionComp implements AfterContentChecked, OnInit {
       }
     }
     return this.questionService.createResponseDomain(rd);
+  }
+
+  private buildPreviewResponseDomain() {
+    if (this.secondCS !== null) {
+      this.previewResponseDomain = {};
+      this.previewResponseDomain['responseKind'] = 'MIXED';
+      let rep = {};
+      rep['categoryType'] = 'MIXED';
+      rep['hierarchyLevel'] = 'GROUP_ENTITY';
+      rep['name'] = rep['description'] = 'mixed category';
+      rep['children'] = [];
+      if (this.questionItem.responseDomain !== null
+        && this.questionItem.responseDomain !== undefined) {
+        rep['children'].push(this.questionItem.responseDomain['managedRepresentation']);
+      }
+      if (this.secondCS !== null && this.secondCS !== undefined) {
+        rep['children'].push(this.secondCS);
+      }
+      this.previewResponseDomain['managedRepresentation'] = rep;
+      this.previewResponseDomain['responseCardinality'] = this.questionItem.responseDomain.responseCardinality;
+      this.previewResponseDomain['displayLayout'] = this.questionItem.responseDomain.displayLayout;
+    } else {
+      this.previewResponseDomain = this.questionItem.responseDomain;
+    }
   }
 }
