@@ -1,5 +1,4 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { Change } from '../../common/change_status';
 import { CategoryService, Category, ResponseCardinality } from '../category/category.service';
 import { DomainType, DomainTypeDescription } from './responsedomain.constant';
 import { Observable }     from 'rxjs/Observable';
@@ -26,7 +25,6 @@ export class ResponsedomainFormComponent implements OnInit {
 
   public domainTypeDef = DomainType;
   private categories: any;
-  private _ChangeEnums: any;
   private codes: string[];
   private selectedCategoryIndex: number;
   private suggestions: Category[];
@@ -37,7 +35,6 @@ export class ResponsedomainFormComponent implements OnInit {
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
   constructor(private categoryService: CategoryService) {
-    this._ChangeEnums = Change.status;
     this.codes = [];
     this.selectedCategoryIndex = 0;
     this.formChange = new EventEmitter<any>();

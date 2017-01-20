@@ -1,7 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 import { CategoryService, Category } from '../category.service';
-import { Change } from '../../../common/change_status';
 import { CategoryType } from '../category_kind';
 @Component({
   selector: 'category-edit',
@@ -70,7 +69,6 @@ export class CategoryEditComponent implements OnInit {
   @Input() isVisible: boolean;
   @Output() editDetailEvent: EventEmitter<String> = new EventEmitter<String>();
   private categoryEnums:any;
-  private changeEnums: any;
   private isTemplate: boolean;
   private selectedCategoryIndex: number;
   private numberOfCategories: number;
@@ -78,7 +76,6 @@ export class CategoryEditComponent implements OnInit {
   private savedCategoriesIndex: number;
 
   constructor(private categoryService: CategoryService) {
-    this.changeEnums = Change.status;
     this.categoryEnums =  CategoryType.element;
     this.selectedCategoryIndex = 0;
     this.numberOfCategories = 0;

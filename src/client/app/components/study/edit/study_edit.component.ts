@@ -1,7 +1,6 @@
  import { Component, Input,Output, EventEmitter } from '@angular/core';
 
  import { StudyService, Study } from '../study.service';
- import { Change } from '../../../common/change_status';
 
  @Component({
    selector: 'study-edit',
@@ -42,11 +41,9 @@
     @Input() isVisible: boolean;
     @Input() surveyId: any;
     @Output() studySavedEvent: EventEmitter<any> = new EventEmitter<any>();
-    private _ChangeEnums: any;
     private showlabel: boolean = false;
 
     constructor(private studyService: StudyService) {
-      this._ChangeEnums = Change.status;
     }
 
     onSave() {

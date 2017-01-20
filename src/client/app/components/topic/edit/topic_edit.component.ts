@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 
 import { TopicService, Topic } from '../topic.service';
-import { Change } from '../../../common/change_status';
 
 @Component({
   selector: 'topic-edit',
@@ -42,11 +41,9 @@ export class TopicEditComponent {
 
   @Input() topic: Topic;
   @Input() isVisible: boolean;
-  private _ChangeEnums: any;
   private showlabel: boolean = false;
 
   constructor(private topicService: TopicService) {
-    this._ChangeEnums = Change.status;
   }
 
   onSave() {

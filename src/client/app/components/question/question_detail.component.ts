@@ -1,7 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 
 import { QuestionService, QuestionItem, Question } from './question.service';
-import { Change } from '../../common/change_status';
 
 @Component({
   selector: 'qddt-questionitem-detail',
@@ -51,7 +50,7 @@ export class QuestionDetail implements OnInit {
       return;
     }
     this.editIsVisible = false;
-    questionitem.changeKind = Change.status[0][0];
+    questionitem.changeKind = 'IN_DEVELOPMENT';
     questionitem['changeComment'] = 'remove response domain ' + questionitem.responseDomain.name;
     questionitem.responseDomain = null;
     this.service.updateQuestionItem(questionitem)
