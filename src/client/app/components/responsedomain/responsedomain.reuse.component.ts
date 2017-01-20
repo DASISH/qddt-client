@@ -97,13 +97,19 @@ export class ResponsedomainReuseComponent implements OnChanges {
     if (this.responseDomain.id !== undefined && this.responseDomain.id !== '') {
       this.responseDomainService.update(this.responseDomain).subscribe((result: any) => {
         this.responseDomain = result;
-        this.responseDomainReuse.emit(this.responseDomain);
+        let object = {
+          responseDomain: this.responseDomain
+        };
+        this.responseDomainReuse.emit(object);
       });
     } else {
       this.responseDomainService.create(this.responseDomain).subscribe((result: any) => {
         this.responseDomain = result;
         this.responseDomains.push(this.responseDomain);
-        this.responseDomainReuse.emit(this.responseDomain);
+        let object = {
+          responseDomain: this.responseDomain
+        };
+        this.responseDomainReuse.emit(object);
       });
     }
     this.isVisible = false;
@@ -116,6 +122,7 @@ export class ResponsedomainReuseComponent implements OnChanges {
   createResponseDomain() {
     this.showAutocomplete = false;
     this.responseDomain = new ResponseDomain();
+    this.responseDomain.isNew = true;
     this.responseDomain.responseKind = DomainTypeDescription.find((e: any) =>e.id === this.domainType).name;
   }
 

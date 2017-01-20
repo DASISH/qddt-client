@@ -139,7 +139,7 @@ export class QuestionComp implements AfterContentChecked, OnInit {
 
   responseDomainReuse(item: any) {
     this.questionItem.responseDomain = item.responseDomain;
-    this.mainresponseDomainRevision = item.responseDomainRevision;
+    this.mainresponseDomainRevision = item.responseDomainRevision || 0;
     this.showResponsedomainReuse = false;
     this.buildPreviewResponseDomain();
     this.responseDomainAction.emit('closeModal');

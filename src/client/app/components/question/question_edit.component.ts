@@ -278,7 +278,7 @@ export class QuestionItemEdit implements OnInit {
 
   responseDomainReuse(item: any) {
     this.mainResponseDomain = item.responseDomain;
-    this.mainresponseDomainRevision = item.responseDomainRevision;
+    this.mainresponseDomainRevision = item.responseDomainRevision || 0;
     this.showResponseDomainForm = false;
     document.getElementById('questionItem-modal-close').click();
     this.buildPrivewResponseDomain();
