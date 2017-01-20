@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 
 import { API_BASE_HREF } from '../api';
-import * as Rx from 'rxjs/Rx';
+import { Observable } from 'rxjs/Rx';
 
 @Injectable()
 export class BaseService {
@@ -23,10 +23,10 @@ export class BaseService {
     if(error.status === 401 && error.text().indexOf('invalid_token') >= 0) {
       localStorage.removeItem('jwt');
       localStorage.removeItem('user');
-      return Rx.Observable.throw('Invalid token error');
+      return Observable.throw('Invalid token error');
     }
 
-    return Rx.Observable.throw(error.json().exceptionMessage || 'Server error');
+    return Observable.throw(error.json().exceptionMessage || 'Server error');
   }
 
   protected get(url:String):any {
