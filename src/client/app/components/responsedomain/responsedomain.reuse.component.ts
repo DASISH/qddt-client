@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { DomainType, DomainTypeDescription } from './responsedomain.constant';
-import { ResponseDomainService, ResponseDomain } from './responsedomain.service';
+import { ResponseDomainService } from './responsedomain.service';
 import { Subject } from 'rxjs/Subject';
 
 @Component({
@@ -8,7 +8,10 @@ import { Subject } from 'rxjs/Subject';
   moduleId: module.id,
   template: `
     <div *ngIf="isVisible" class="row">
-      <div *ngIf="responseDomain === null">
+      <div class="row">
+        <div>
+          <h4>Reuse Domain</h4>
+        </div>
         <div class="response-domain-title">
 			    <span name="text">Domain Type:</span>
 			  </div>
@@ -18,12 +21,6 @@ import { Subject } from 'rxjs/Subject';
 				  />
           <label [attr.for]="'rdomain-type-' + domain.id">{{domain.label}}</label>
 			  </div>
-        <div class="col right">
-          <i class="material-icons right" (click)="createResponseDomain()" title="new">add</i>
-        </div>
-        <div class="col right">
-          <i class="material-icons right" (click)="reuse()" title="reuse">autorenew</i>
-        </div>
       </div>
       <div *ngIf="showAutocomplete && responseDomains.length > 0">
         <autocomplete [items]="responseDomains" class="black-text"
@@ -80,6 +77,7 @@ export class ResponsedomainReuseComponent implements OnChanges {
             this.responseDomains = result.content;
           });
       });
+    this.reuse();
   }
 
   ngOnChanges() {
@@ -117,20 +115,15 @@ export class ResponsedomainReuseComponent implements OnChanges {
 
   selectDomainType(id: DomainType) {
     this.domainType = id;
-  }
-
-  createResponseDomain() {
-    this.showAutocomplete = false;
-    this.responseDomain = new ResponseDomain();
-    this.responseDomain.isNew = true;
-    this.responseDomain.responseKind = DomainTypeDescription.find((e: any) =>e.id === this.domainType).name;
+    this.reuse();
+    this.responseDomain = null;
   }
 
   reuse() {
     this.responseDomainService.getAll(DomainTypeDescription.find((e: any) =>
       e.id === this.domainType).name).subscribe((result: any) => {
       this.responseDomains = result.content;
-      this.showAutocomplete = !this.showAutocomplete;
+      this.showAutocomplete = true;
     });
   }
 
