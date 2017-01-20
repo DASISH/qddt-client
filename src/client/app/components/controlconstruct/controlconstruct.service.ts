@@ -83,6 +83,10 @@ export class ControlConstructService extends BaseService {
     return this.get('audit/questionitem/' + id + '/all');
   }
 
+  deleteControlConstruct(id: string): any {
+    return this.post(null, 'controlconstruct/delete/' + id);
+  }
+
   searchQuestionItemsByNameAndQuestion(name: string = '', page: String = '0', sort: String = ''): any {
     let query = name.length > 0? '&question=' + '*' + name +'*' + '&name=' + '*' + name +'*': '';
     if (sort.length > 0) {

@@ -8,6 +8,9 @@
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light red">
           <i class="material-icons" (click)="hidDetail()">replay</i>
         </a>
+        <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
+          <i class="material-icons" (click)="onDeleteQuestionItemModal()">delete</i>
+        </a>
       </div>
     </div>
 
@@ -35,5 +38,25 @@
       </div>
     </div>
 
+  </div>
+</div>
+
+<div class="modal" materialize [materializeActions]="deleteAction">
+  <div class="modal-content">
+    <div class="row">
+      <h4>Warning</h4>
+      <span>Are you sure to delete Question item {{questionitem?.question?.question}}?</span>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      (click)="onConfirmDeleting()"
+      class="btn btn-default green modal-action modal-close waves-effect">
+      <a><i class="close material-icons medium white-text">done</i></a>
+    </button>
+    <button
+      class="btn btn-default red modal-action modal-close waves-effect">
+      <a><i class="close material-icons medium white-text">close</i></a>
+    </button>
   </div>
 </div>

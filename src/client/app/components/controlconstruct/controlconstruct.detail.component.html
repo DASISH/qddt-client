@@ -13,6 +13,9 @@
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light red">
           <i class="material-icons" (click)="hideDetail()">replay</i>
         </a>
+        <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
+          <i class="material-icons" (click)="onDeleteControlConstructModal()">delete</i>
+        </a>
       </div>
     </div>
     <div class="col s10 m10 l10 grey-text text-darken-2">
@@ -225,5 +228,25 @@
     <h2 *ngIf="isPost">Post Instructions</h2>
     <h2 *ngIf="!isPost">Pre Instructions</h2>
     {{selectedInstruction?.description}}
+  </div>
+</div>
+
+<div class="modal" materialize [materializeActions]="deleteAction">
+  <div class="modal-content">
+    <div class="row">
+      <h4>Warning</h4>
+      <span>Are you sure to Control Construct {{controlConstruct?.name}}?</span>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      (click)="onConfirmDeleting()"
+      class="btn btn-default green modal-action modal-close waves-effect">
+      <a><i class="close material-icons medium white-text">done</i></a>
+    </button>
+    <button
+      class="btn btn-default red modal-action modal-close waves-effect">
+      <a><i class="close material-icons medium white-text">close</i></a>
+    </button>
   </div>
 </div>

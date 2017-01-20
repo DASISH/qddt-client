@@ -15,6 +15,7 @@ export class QuestionDetail implements OnInit {
   @Input() isVisible: boolean;
   @Output() hideDetailEvent: EventEmitter<String> = new EventEmitter<String>();
   @Output() editQuestionItem: EventEmitter<any> = new EventEmitter<any>();
+  deleteAction = new EventEmitter<any>();
 
   private revisionIsVisible: boolean;
   private editIsVisible: boolean;
@@ -71,6 +72,23 @@ export class QuestionDetail implements OnInit {
       this.questionitems.push(questionitem);
     }
     this.hidDetail();
+  }
+
+  onDeleteQuestionItemModal() {
+    this.deleteAction.emit('openModal');
+  }
+
+  onConfirmDeleting() {
+    this.service.deleteQuestionItem(this.questionitem.id)
+      .subscribe((result: any) => {
+        let i = this.questionitems.findIndex(q => q['id'] === this.questionitem.id);
+        if (i >= 0) {
+          this.questionitems.splice(i, 1);
+        }
+        this.hideDetailEvent.emit('hide');
+      },
+      (error: any) => console.log(error));
+
   }
 
   private buildRevisionConfig(): any[] {

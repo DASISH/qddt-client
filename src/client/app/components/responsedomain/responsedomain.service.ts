@@ -32,6 +32,10 @@ export class ResponseDomainService extends BaseService {
     return this.get('responsedomain/' + id);
   }
 
+  deleteResponseDomain(id: string): any {
+    return this.post(null, 'responsedomain/delete/' + id);
+  }
+
   getAll(domain: string, name: string = '', page: String = '0', sort: String = ''): any {
     let query = name.length > 0? '&Name=' + name + '*': name;
     if (sort.length > 0) {

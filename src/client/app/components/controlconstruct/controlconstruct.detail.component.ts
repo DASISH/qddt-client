@@ -22,6 +22,7 @@ export class ControlConstructDetailComponent implements OnInit {
   @Output() exceptionEvent: EventEmitter<String> = new EventEmitter<String>();
   editQuestoinItem: boolean;
   instructionActions = new EventEmitter<string>();
+  deleteAction = new EventEmitter<any>();
   createPostInstruction: boolean;
   createPreInstruction: boolean;
   private revisionIsVisible: boolean;
@@ -135,6 +136,22 @@ export class ControlConstructDetailComponent implements OnInit {
     this.fileStore.push(this.files);
     this.showUploadFileForm = false;
     this.files = null;
+  }
+
+  onDeleteControlConstructModal() {
+    this.deleteAction.emit('openModal');
+  }
+
+  onConfirmDeleting() {
+    this.service.deleteControlConstruct(this.controlConstruct.id)
+      .subscribe((result: any) => {
+        let i = this.controlConstructs.findIndex(q => q['id'] === this.controlConstruct.id);
+        if (i >= 0) {
+          this.controlConstructs.splice(i, 1);
+        }
+        this.hideDetailEvent.emit('hide');
+      },
+      (error: any) => console.log(error));
   }
 
   onSaveControlConstruct() {

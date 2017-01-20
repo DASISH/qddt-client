@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterContentChecked } from '@angular/core';
+import { Component, OnInit, AfterContentChecked, EventEmitter } from '@angular/core';
 import { ResponseDomain } from './responsedomain.service';
 import { DomainType, DomainTypeDescription, PredefinedColumns } from './responsedomain.constant';
 import { ResponseDomainService } from './responsedomain.service';
@@ -14,6 +14,7 @@ import { Subject } from 'rxjs/Subject';
 
 export class ResponsedomainComponent implements OnInit, AfterContentChecked {
   domainType: DomainType;
+  deleteAction = new EventEmitter<any>();
   public domainTypeDef = DomainType;
   private responseDomains: any[];
   private selectedResponseDomain: ResponseDomain;
@@ -162,6 +163,22 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
         this.responseDomains = result.content;
         this.buildAnchorLabel();
       });
+  }
+
+  onDeleteResponseDomainModal() {
+    this.deleteAction.emit('openModal');
+  }
+
+  onConfirmDeleting() {
+    this.responseDomainService.deleteResponseDomain(this.selectedResponseDomain.id)
+      .subscribe((result: any) => {
+        let i = this.responseDomains.findIndex(q => q['id'] === this.selectedResponseDomain.id);
+        if (i >= 0) {
+          this.responseDomains.splice(i, 1);
+        }
+        this.hideDetail();
+      },
+      (error: any) => console.log(error));
   }
 
   searchResponseDomains(name: string) {

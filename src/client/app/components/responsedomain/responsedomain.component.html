@@ -44,6 +44,9 @@
 				<a class="btn-flat btn-floating btn-medium waves-effect waves-light red">
           <i class="material-icons" (click)="hideDetail()">replay</i>
         </a>
+        <a *ngIf="selectedResponseDomain" class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
+          <i class="material-icons" (click)="onDeleteResponseDomainModal()">delete</i>
+        </a>
       </div>
     </div>
 
@@ -67,4 +70,24 @@
   </div>
 </div>
 
+</div>
+
+<div class="modal" materialize [materializeActions]="deleteAction">
+  <div class="modal-content">
+    <div class="row">
+      <h4>Warning</h4>
+      <span>Are you sure to delete Response Domain {{selectedResponseDomain?.name}}?</span>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      (click)="onConfirmDeleting()"
+      class="btn btn-default green modal-action modal-close waves-effect">
+      <a><i class="close material-icons medium white-text">done</i></a>
+    </button>
+    <button
+      class="btn btn-default red modal-action modal-close waves-effect">
+      <a><i class="close material-icons medium white-text">close</i></a>
+    </button>
+  </div>
 </div>
