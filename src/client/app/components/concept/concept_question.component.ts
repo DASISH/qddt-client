@@ -40,7 +40,7 @@ import { ConceptService } from './concept.service';
           [current]="questionItem" class="black-text"
           [qddtURI]="'audit/questionitem/' + questionItem.id + '/all'">
         </qddt-revision>
-        <div class="row">
+        <div class="row white grey-text text-darken-1">
           <comment-list [ownerId]="questionItem.id" [comments]="questionItem.comments"></comment-list>
         </div>
       </div>
