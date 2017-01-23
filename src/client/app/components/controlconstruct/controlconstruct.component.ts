@@ -1,6 +1,7 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, AfterContentChecked } from '@angular/core';
 
 import { ControlConstructService, ControlConstruct, Instruction } from './controlconstruct.service';
+import { UserService } from '../../common/user.service';
 
 @Component({
   selector: 'qddt-controle-construct',
@@ -13,7 +14,8 @@ import { ControlConstructService, ControlConstruct, Instruction } from './contro
   ],
   providers: [ControlConstructService],
 })
-export class ControlConstructComponent implements OnInit {
+
+export class ControlConstructComponent implements OnInit, AfterContentChecked {
 
   showControlConstructForm: boolean = false;
   actions = new EventEmitter<string>();
@@ -37,7 +39,7 @@ export class ControlConstructComponent implements OnInit {
   private isInstructionNew: boolean;
   private files: FileList;
 
-  constructor(private service: ControlConstructService) {
+  constructor(private service: ControlConstructService, private userService: UserService) {
     this.isDetail = false;
     this.controlConstructs = [];
     this.searchKeys = '';
@@ -51,7 +53,27 @@ export class ControlConstructComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.searchQuestionItems('');
+    let config = this.userService.getGlobalObject('constructs');
+    if (config.current === 'detail' ) {
+      this.page = config.page;
+      this.controlConstructs = config.collection;
+      this.selectedControlConstruct = config.item;
+      this.isDetail = true;
+    } else {
+      this.searchQuestionItems('');
+    }
+  }
+
+  ngAfterContentChecked() {
+    let config = this.userService.getGlobalObject('constructs');
+    if (config.current === 'detail' ) {
+      this.page = config.page;
+      this.controlConstructs = config.collection;
+      this.selectedControlConstruct = config.item;
+      this.isDetail = true;
+    } else {
+      this.isDetail = false;
+    }
   }
 
   onToggleControlConstructForm() {
@@ -96,14 +118,20 @@ export class ControlConstructComponent implements OnInit {
   onDetail(controlConstruct: any) {
     this.selectedControlConstruct = controlConstruct;
     this.isDetail = true;
+    this.userService.setGlobalObject('constructs',
+      {'current': 'detail',
+        'page': this.page,
+        'item': this.selectedControlConstruct,
+        'collection': this.controlConstructs});
   }
 
   hideDetail() {
     this.isDetail = false;
+    this.userService.setGlobalObject('constructs', {'current': 'list'});
   }
 
   onPage(page: string) {
-    //console.log(page);
+    //
   }
 
   onCreateControlConstruct() {
@@ -128,7 +156,7 @@ export class ControlConstructComponent implements OnInit {
   }
 
   searchControlConstructs(key: string) {
-    console.log(key);
+    //console.log(key);
   }
 
   searchQuestionItems(key: string) {
