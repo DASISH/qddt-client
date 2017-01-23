@@ -7,7 +7,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class LocalDatePipe implements PipeTransform {
 
   transform(input: Array<number>): string {
-    if (input === null || input === undefined) {
+    if (input === null || input === undefined || input.length < 2) {
       return '';
     }
     var date: Date = new Date();
