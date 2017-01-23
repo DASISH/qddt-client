@@ -38,8 +38,8 @@ export class QuestionComp implements AfterContentChecked, OnInit {
     this.searchKeys = '';
     this.secondCS = null;
     this.mainresponseDomainRevision = 0;
-    this.columns = [{'name':['question','question'], 'label':'Question Text', 'sortable':true, 'direction': '' }
-      ,{'name':'name', 'label':'Question Name', 'sortable':false, 'direction': '' }
+    this.columns = [{'name':'name', 'label':'Question Name', 'sortable':false, 'direction': '' }
+      ,{'name':['question','question'], 'label':'Question Text', 'sortable':true, 'direction': '' }
       ,{'name':['responseDomain','name'], 'label':'ResponseDomain Name', 'sortable':true, 'direction': '' }];
     this.searchKeysSubect
       .debounceTime(300)
