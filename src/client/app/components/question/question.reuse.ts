@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
 
-import { QuestionService, Question, QuestionItem } from './question.service';
+import { QuestionService, QuestionItem } from './question.service';
 import { Subject } from 'rxjs/Subject';
 
 @Component({
@@ -31,6 +31,33 @@ import { Subject } from 'rxjs/Subject';
             </div>
           </div>
           </form>
+          <div class="row" *ngIf="questionItem">
+            <div class="row teal-text">
+              <label class="active teal-text flow-text">Version: <!--
+                -->{{questionItem?.version?.major}}.{{questionItem?.version?.minor}}
+              </label>
+            </div>
+            <div class="col s1 m1 l1">
+              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                (click)="revisionIsVisible = !revisionIsVisible">
+                <i class="material-icons left medium">history</i>
+              </a>
+            </div>
+            <div class="col s10 m10 l10 grey-text text-darken-2">
+              <div class="row teal-text">
+                <h5>{{questionItem?.question?.question}}</h5>
+              </div>
+              <qddt-questionitem-edit [isVisible]="true"
+                [editResponseDomain]="true"
+                [readonly]="true"
+                [questionitem]="questionItem">
+              </qddt-questionitem-edit>
+              <qddt-revision [isVisible]="revisionIsVisible" *ngIf="revisionIsVisible"
+                [current]="questionItem"
+                [qddtURI]="'audit/questionitem/' + questionItem.id + '/all'"
+                [config]="config"></qddt-revision>
+            </div>
+          </div>
         </div>
         <div class="modal-footer">
           <button (click)="onSave()" type="submit"
@@ -50,21 +77,22 @@ export class QuestionReuseComponent {
   missingCategories: any[];
   selectedCategoryIndex: number;
   actions = new EventEmitter<any>();
-  private questionItem: QuestionItem;
+  questionItem: QuestionItem;
+  revisionIsVisible: boolean = false;
+  config: any[];
   private questionItems: QuestionItem[];
   private mainresponseDomainRevision: number;
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
   constructor(private questionService: QuestionService) {
-    this.questionItem = new QuestionItem();
-    this.questionItem.question = new Question();
-    this.questionItem.responseDomain = null;
+    this.questionItem = null;
     this.reuseQuestionItem = true;
     this.selectedIndex = 0;
     this.questionItems = [];
     this.secondCS = null;
     this.selectedCategoryIndex = 0;
     this.missingCategories = [];
+    this.config = this.buildRevisionConfig();
     this.mainresponseDomainRevision = 0;
     this.searchKeysSubect
       .debounceTime(300)
@@ -83,12 +111,13 @@ export class QuestionReuseComponent {
   onSave() {
     if(this.reuseQuestionItem) {
       this.questionItemCreatedEvent.emit(this.questionItem);
-      this.questionItem = new QuestionItem();
+      this.questionItem = null;
     }
   }
 
   selectQuestionItem(questionItem) {
     this.questionItem = questionItem;
+    this.revisionIsVisible = false;
   }
 
   openModal() {
@@ -96,6 +125,17 @@ export class QuestionReuseComponent {
     this.questionService.getQuestionItemPage().subscribe(
       result => { this.questionItems = result.content;
       }, (error: any) => console.log(error));
+  }
+
+  private buildRevisionConfig(): any[] {
+    let config: any[] = [];
+    config.push({'name':'name','label':'Name'});
+    config.push({'name':['question', 'question'],'label':'Question'});
+    config.push({'name':['question', 'intent'],'label':'Intent'});
+    config.push({'name':['responseDomain', 'name'],'label':'responseDomain'});
+    config.push({'name':['responseDomain', 'version', ['major', 'minor']],'label':'RespD', 'prefix': 'V'});
+
+    return config;
   }
 
 }
