@@ -42,12 +42,12 @@ import { Observable }     from 'rxjs/Observable';
             <div class="card col s6">
               <div class="row"><span>Response Domain</span></div>
               <div class="row">
-                <a *ngIf="!mainResponseDomain" materialize="leanModal" [materializeParams]="[{dismissible: false}]"
+                <a *ngIf="!mainResponseDomain && !readonly" materialize="leanModal" [materializeParams]="[{dismissible: false}]"
                   class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
                   [attr.href]="'#' + questionitem.id + '-edit-questionItem-modal'">
                   <i class="material-icons" title="response domain edit" (click)="onClickEdit()">mode_edit</i>
                 </a>
-                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                <a *ngIf="!readonly" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                   (click)="onRemoveResponsedomain(questionitem)">
                   <i class="material-icons left medium" title="remove response domain">remove</i>
                 </a>
@@ -57,6 +57,7 @@ import { Observable }     from 'rxjs/Observable';
             <div class="col s6">
               <div name="edit-missing-responsedomain" *ngIf="editResponseDomain" class="row">
               <qddt-questionitem-edit-missing [missing]="secondCS"
+                [readonly]="readonly"
                 (editMissing)="onEditMissing($event)"></qddt-questionitem-edit-missing>
               </div>
             </div>
@@ -94,10 +95,10 @@ import { Observable }     from 'rxjs/Observable';
           <div class="row">
 				    <qddt-revision-detail [element]="questionitem" [type]="'questionitem'"></qddt-revision-detail>
 			    </div>
-          <div class="row">
+          <div class="row" *ngIf="!readonly">
             <qddt-rational [element]="questionitem"></qddt-rational>
 			    </div>
-          <button type="submit" class="btn btn-default">Submit</button>
+          <button *ngIf="!readonly" type="submit" class="btn btn-default">Submit</button>
         </form>
       </div>
       <div *ngIf="editResponseDomain" [attr.id]="questionitem.id + '-edit-questionItem-modal'" class="modal modal-fixed-footer">
@@ -164,6 +165,7 @@ import { Observable }     from 'rxjs/Observable';
 export class QuestionItemEdit implements OnInit {
   @Input() isVisible: boolean;
   @Input() questionitem: any;
+  @Input() readonly: boolean;
   @Input() editResponseDomain: boolean;
   @Output() editQuestionItem: EventEmitter<any>;
   conceptActions = new EventEmitter<string>();
@@ -186,6 +188,9 @@ export class QuestionItemEdit implements OnInit {
   ngOnInit() {
     this.mainResponseDomain = null;
     this.secondCS = null;
+    if(this.isNull(this.readonly)) {
+      this.readonly = false;
+    }
     if (!this.isNull(this.questionitem.responseDomain)) {
       if (this.questionitem.responseDomain['responseKind'] === 'MIXED') {
         let rep = this.questionitem.responseDomain.managedRepresentation;

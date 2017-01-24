@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CategoryService } from '../category/category.service';
 import { Subject } from 'rxjs/Subject';
 
@@ -12,7 +12,7 @@ import { Subject } from 'rxjs/Subject';
     <div class="row">
       <div class="row"><span>Missing</span></div>
         <div class="row">
-          <a *ngIf="!missing" materialize="leanModal" [materializeParams]="[{dismissible: true}]"
+          <a *ngIf="!missing && !readonly" materialize="leanModal" [materializeParams]="[{dismissible: true}]"
             class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
             [attr.href]="'#' + '-edit-missing-modal'">
             <i class="material-icons" title="response domain add">add</i>
@@ -58,8 +58,9 @@ import { Subject } from 'rxjs/Subject';
 `
 })
 
-export class QuestionItemEditMissing {
+export class QuestionItemEditMissing implements OnInit {
   @Input() missing: any;
+  @Input() readonly: boolean;
   @Output() editMissing: EventEmitter<any>;
   missingCategories: any[];
   selectedCategoryIndex: number;
@@ -77,6 +78,12 @@ export class QuestionItemEditMissing {
           this.missingCategories = result.content;
         });
       });
+  }
+
+  ngOnInit() {
+    if(this.readonly === null || this.readonly === undefined) {
+      this.readonly = false;
+    }
   }
 
   onRemoveMissingResponsedomain(questionitem: any) {
