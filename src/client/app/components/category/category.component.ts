@@ -60,9 +60,15 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
       this.page = config.page;
       this.categories = config.collection;
       this.selectedCategory = config.item;
+      this.searchKeys = config.key;
       this.isDetail = true;
     } else {
       this.isDetail = false;
+      if(config.key === null || config.key === undefined) {
+        this.userService.setGlobalObject('categories', {'current': 'list', 'key': ''});
+        this.searchKeys = '';
+        this.searchKeysSubect.next('');
+      }
     }
   }
 
@@ -79,13 +85,14 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
     this.userService.setGlobalObject('categories',
       {'current': 'detail',
         'page': this.page,
+        'key': this.searchKeys,
         'item': this.selectedCategory,
         'collection': this.categories});
   }
 
   hideDetail() {
     this.isDetail = false;
-    this.userService.setGlobalObject('categories', {'current': 'list'});
+    this.userService.setGlobalObject('categories', {'current': 'list', 'key': this.searchKeys});
   }
 
   onPage(page: string) {

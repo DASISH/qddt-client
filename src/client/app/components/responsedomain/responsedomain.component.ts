@@ -63,6 +63,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
       this.selectedResponseDomain = config.item;
       this.isDetail = true;
     } else {
+      this.searchKeys = config.key;
       let name = DomainTypeDescription.find((e: any) =>e.id === this.domainType).name;
         this.responseDomainService.getAll(name).subscribe((result: any) => {
         this.page = result.page;
@@ -78,9 +79,15 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
       this.page = config.page;
       this.responseDomains = config.collection;
       this.selectedResponseDomain = config.item;
+      this.searchKeys = config.key;
       this.isDetail = true;
     } else {
       this.isDetail = false;
+      if(config.key === null || config.key === undefined) {
+        this.userService.setGlobalObject('responsedomains', {'current': 'list', 'key': ''});
+        this.searchKeys = '';
+        this.searchKeysSubect.next('');
+      }
     }
   }
 
@@ -143,6 +150,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
     this.userService.setGlobalObject('responsedomains',
       {'current': 'detail',
         'page': this.page,
+        'key': this.searchKeys,
         'item': this.selectedResponseDomain,
         'collection': this.responseDomains});
   }
@@ -152,7 +160,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
     this.selectedResponseDomain = null;
     this.savedResponseDomainsIndex = -1;
     this.isDetail = false;
-    this.userService.setGlobalObject('responsedomains', {'current': 'list'});
+    this.userService.setGlobalObject('responsedomains', {'current': 'list', 'key': this.searchKeys});
   }
 
   onPage(page: string) {

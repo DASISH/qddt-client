@@ -121,13 +121,14 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
     this.userService.setGlobalObject('constructs',
       {'current': 'detail',
         'page': this.page,
+        'key': this.searchKeys,
         'item': this.selectedControlConstruct,
         'collection': this.controlConstructs});
   }
 
   hideDetail() {
     this.isDetail = false;
-    this.userService.setGlobalObject('constructs', {'current': 'list'});
+    this.userService.setGlobalObject('constructs', {'current': 'list', 'key': this.searchKeys});
   }
 
   onPage(page: string) {

@@ -58,6 +58,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
       this.page = config.page;
       this.missingCategories = config.collection;
       this.selectedCategory = config.item;
+      this.searchKeys = config.key;
       this.isDetail = true;
     } else {
       this.categoryService.getAllTemplatesByCategoryKind('MISSING_GROUP').subscribe((result: any) => {
@@ -76,9 +77,15 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
       this.page = config.page;
       this.missingCategories = config.collection;
       this.selectedCategory = config.item;
+      this.searchKeys = config.key;
       this.isDetail = true;
     } else {
       this.isDetail = false;
+      if(config.key === null || config.key === undefined) {
+        this.userService.setGlobalObject('schemes', {'current': 'list', 'key': ''});
+        this.searchKeys = '';
+        this.searchKeysSubect.next('');
+      }
     }
   }
 
@@ -151,13 +158,14 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
     this.userService.setGlobalObject('schemes',
       {'current': 'detail',
         'page': this.page,
+        'key': this.searchKeys,
         'item': this.selectedCategory,
         'collection': this.missingCategories});
   }
 
   hideDetail() {
     this.isDetail = false;
-    this.userService.setGlobalObject('schemes', {'current': 'list'});
+    this.userService.setGlobalObject('schemes', {'current': 'list', 'key': this.searchKeys});
   }
 
   onPage(page: string) {

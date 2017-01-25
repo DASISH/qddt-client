@@ -60,6 +60,7 @@ export class QuestionComp implements AfterContentChecked, OnInit {
       this.selectedQuestionItem = config.item;
       this.isDetail = true;
     } else {
+      this.searchKeys = config.key;
       this.questionService.getQuestionItemPage().subscribe(
       (result: any) => { this.page = result.page; this.questionitems = result.content; });
     }
@@ -71,9 +72,15 @@ export class QuestionComp implements AfterContentChecked, OnInit {
       this.page = config.page;
       this.questionitems = config.collection;
       this.selectedQuestionItem = config.item;
+      this.searchKeys = config.key;
       this.isDetail = true;
     } else {
       this.isDetail = false;
+      if(config.key === null || config.key === undefined) {
+        this.userService.setGlobalObject('questions', {'current': 'list', 'key': ''});
+        this.searchKeys = '';
+        this.searchKeysSubect.next('');
+      }
     }
   }
 
@@ -99,13 +106,14 @@ export class QuestionComp implements AfterContentChecked, OnInit {
     this.userService.setGlobalObject('questions',
       {'current': 'detail',
         'page': this.page,
+        'key': this.searchKeys,
         'item': this.selectedQuestionItem,
         'collection': this.questionitems});
   }
 
   hideDetail() {
     this.isDetail = false;
-    this.userService.setGlobalObject('questions', {'current': 'list'});
+    this.userService.setGlobalObject('questions', {'current': 'list', 'key': this.searchKeys});
   }
 
   onPage(page: string) {
