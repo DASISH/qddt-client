@@ -9,7 +9,6 @@ import { UserService } from './user.service';
       <div class="container z-depth-1" style="margin-top:0;width:100%;padding:10%;">
         <div *ngIf="user">
 
-
         <div class="row red-text text-lighten-2">
           <div class="col s4"><i class="material-icons left medium">account_circle</i></div>
           <div class="col s4">
