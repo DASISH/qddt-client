@@ -133,7 +133,7 @@ export class ResponsedomainFormComponent implements OnInit {
     this.responsedomain.label = this.responsedomain.name;
     let category = this.responsedomain.managedRepresentation;
     let source = Observable.range(0, category.children.length)
-      .flatMap((x: any) => {
+      .concatMap((x: any) => {
         let c = category.children[x];
         if (c.isNew === true) {
           c.name = c.label;
