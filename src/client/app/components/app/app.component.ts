@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, Inject, AfterContentChecked } from '@angular/core';
+import { Component, ViewEncapsulation, AfterContentChecked } from '@angular/core';
 
 import { UserService } from '../../common/user.service';
 
@@ -8,16 +8,13 @@ import { UserService } from '../../common/user.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   encapsulation: ViewEncapsulation.None,
-  providers: [ UserService ]
+  providers: [ ]
 })
 
 export class AppCmp implements AfterContentChecked {
+  public user: any;
 
-  public user: string;
-  private userService: UserService;
-
-  constructor(@Inject(UserService)userService: UserService) {
-    this.userService = userService;
+  constructor(private userService: UserService) {
     this.user = this.userService.get();
   }
 
