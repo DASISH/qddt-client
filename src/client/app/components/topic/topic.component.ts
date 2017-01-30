@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Input, OnChanges } from '@angular/core';
+import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
 
 import { TopicService, Topic } from './topic.service';
 
@@ -8,7 +8,7 @@ import { TopicService, Topic } from './topic.service';
   templateUrl: './topic.component.html',
   providers: [TopicService],
 })
-export class TopicComponent implements OnChanges {
+export class TopicComponent implements OnInit {
 
   showTopicForm: boolean = false;
   @Output() topicSelectedEvent: EventEmitter<any> = new EventEmitter<any>();
@@ -22,7 +22,7 @@ export class TopicComponent implements OnChanges {
     this.topic = new Topic();
   }
 
-  ngOnChanges() {
+  ngOnInit() {
     this.topicService.getAll(this.study.id)
       .subscribe((result: any) => this.topics = result);
   }
