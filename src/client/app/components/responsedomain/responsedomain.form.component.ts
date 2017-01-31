@@ -152,6 +152,9 @@ export class ResponsedomainFormComponent implements OnInit {
     source.subscribe(
       function (x: any) {
         if (index < category.children.length) {
+          if(category.children[index].isNew === true) {
+            x.code = category.children[index].code;
+          }
           category.children[index] = x;
           index = index + 1;
         }
