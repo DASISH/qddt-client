@@ -49,6 +49,7 @@ import { Subject } from 'rxjs/Subject';
           <button type="submit"
             class="btn btn-default green waves-green">Submit</button>
           <button id="questionItem-missing-modal-close"
+            (click)="onDismiss()"
             class="btn btn-default red modal-action modal-close waves-effect waves-red">Dismiss</button>
         </div>
         </form>
@@ -96,6 +97,11 @@ export class QuestionItemEditMissing implements OnInit {
 
   select(candidate: any) {
     this.missing = candidate;
+  }
+
+  onDismiss() {
+    this.missing = null;
+    return false;
   }
 
   onSave() {
