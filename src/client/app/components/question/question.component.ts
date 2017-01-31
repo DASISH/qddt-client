@@ -233,8 +233,10 @@ export class QuestionComp implements AfterContentChecked, OnInit {
         rep['children'].push(this.secondCS);
       }
       this.previewResponseDomain['managedRepresentation'] = rep;
-      this.previewResponseDomain['responseCardinality'] = this.questionItem.responseDomain.responseCardinality;
-      this.previewResponseDomain['displayLayout'] = this.questionItem.responseDomain.displayLayout;
+      if (this.questionItem.responseDomain !== null && this.questionItem.responseDomain !== undefined) {
+        this.previewResponseDomain['responseCardinality'] = this.questionItem.responseDomain.responseCardinality;
+        this.previewResponseDomain['displayLayout'] = this.questionItem.responseDomain.displayLayout;
+      }
     } else {
       this.previewResponseDomain = this.questionItem.responseDomain;
     }
