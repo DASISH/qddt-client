@@ -213,8 +213,7 @@ export class QuestionItemEdit implements OnInit {
               rd['domainType'] = DomainType.LIST;
               rd['responseKind'] = 'LIST';
             }
-            let name = this.questionitem.responseDomain['name'];
-            rd['name'] = name.substring(name.indexOf('[') + 1, name.indexOf('-') -1);
+            rd['name'] = rep.children[i]['name'] || '';
             rd['responseCardinality'] = {minimum: '1', maximum: '1'};
             rd['managedRepresentation'] = rep.children[i];
             this.mainResponseDomain = rd;
