@@ -12,14 +12,15 @@ import { Subject } from 'rxjs/Subject';
     <div class="row">
       <div class="row"><span>Missing</span></div>
         <div class="row">
-          <a *ngIf="!missing && !readonly" materialize="leanModal" [materializeParams]="[{dismissible: true}]"
-            class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
-            [attr.href]="'#' + '-edit-missing-modal'">
+          <a *ngIf="!missing && !readonly"
+            (click)="onAddMissing()"
+            [ngClass]="{disabled:mainResponseDomain === null || mainResponseDomain === undefined}"
+            class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
             <i class="material-icons" title="response domain add">add</i>
           </a>
           <span *ngIf="missing">{{missing?.name}}</span>
         </div>
-      <div [attr.id]="'-edit-missing-modal'" class="modal">
+      <div class="modal" materialize [materializeActions]="missingAction">
         <form (ngSubmit)="onSave()" #missingForm="ngForm">
         <div class="modal-content">
           <div class="row">
@@ -62,9 +63,11 @@ import { Subject } from 'rxjs/Subject';
 export class QuestionItemEditMissing implements OnInit {
   @Input() missing: any;
   @Input() readonly: boolean;
+  @Input() mainResponseDomain: any;
   @Output() editMissing: EventEmitter<any>;
   missingCategories: any[];
   selectedCategoryIndex: number;
+  missingAction = new EventEmitter<string>();
   private searchMissingCategoriesSubect: Subject<string> = new Subject<string>();
 
   constructor(private service: CategoryService) {
@@ -99,15 +102,21 @@ export class QuestionItemEditMissing implements OnInit {
     this.missing = candidate;
   }
 
+  onAddMissing() {
+    if(this.mainResponseDomain !== null && this.mainResponseDomain !== undefined) {
+      this.missingAction.emit('openModal');
+    }
+  }
+
   onDismiss() {
     this.missing = null;
     return false;
   }
 
   onSave() {
+    this.missingAction.emit('closeModal');
     if(this.missing !== null) {
       this.editMissing.emit(this.missing);
-      document.getElementById('questionItem-missing-modal-close').click();
     }
   }
 }

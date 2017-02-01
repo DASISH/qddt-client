@@ -54,6 +54,7 @@
                    <div class="col s6">
                      <div class="row teal-text">
                        <qddt-questionitem-edit-missing [missing]="secondCS"
+                         [mainResponseDomain]="questionItem.responseDomain"
                          (editMissing)="onEditMissing($event)">
                         </qddt-questionitem-edit-missing>
                      </div>

@@ -58,6 +58,7 @@ import { Observable }     from 'rxjs/Observable';
               <div name="edit-missing-responsedomain" *ngIf="editResponseDomain" class="row">
               <qddt-questionitem-edit-missing [missing]="secondCS"
                 [readonly]="readonly"
+                [mainResponseDomain]="mainResponseDomain"
                 (editMissing)="onEditMissing($event)"></qddt-questionitem-edit-missing>
               </div>
             </div>
