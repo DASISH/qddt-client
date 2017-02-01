@@ -136,9 +136,11 @@ export class ResponsedomainFormComponent implements OnInit {
       .concatMap((x: any) => {
         let c = category.children[x];
         if (c.isNew === true) {
-          c.name = c.label;
-          c.description = '';
-          return this.categoryService.save(c);
+          let newCategory = new Category();
+          newCategory.label = c.label;
+          newCategory.name = c.label;
+          newCategory.description = '';
+          return this.categoryService.save(newCategory);
         } else {
           return Observable.of(c);
         }
