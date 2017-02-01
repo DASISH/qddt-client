@@ -55,6 +55,7 @@ export class ConceptComponent implements OnChanges {
     let id = this.toDeletedConcept.id;
     this.conceptService.deleteConcept(id)
       .subscribe((result: any) => {
+        this.actions.emit('closeModal');
         this.concepts = [];
         this.conceptService.getByTopic(this.topic.id)
           .subscribe((result: any) => this.concepts = result.content
