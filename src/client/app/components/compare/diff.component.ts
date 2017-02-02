@@ -36,9 +36,9 @@ export class DiffComponent implements OnChanges {
     this.config.forEach(e => {
       let elementFieldChange = new ElementFieldChange();
       elementFieldChange.name = e['label'];
-      let prefix = e['prefix'] || '';
-      let ret = this.diff.diff_main(this.getValue(this.compared, e['name'], prefix),
-        this.getValue(this.current, e['name'], prefix));
+      let init = e['init'];
+      let ret = this.diff.diff_main(this.getValue(this.compared, e['name'], init),
+        this.getValue(this.current, e['name'], init));
       elementFieldChange.changes = ret;
       this.elementChange.changes.push(elementFieldChange);
     });
@@ -48,15 +48,12 @@ export class DiffComponent implements OnChanges {
     this.hideCompareEvent.emit('hide');
   }
 
-  private getValue(obj: any, names: string | any[], prefix: string): string {
+  private getValue(obj: any, names: string | any[], init: any): string {
     if (names instanceof Array) {
       let result: any = obj;
       names.forEach((e: any) => {
         if (result !== null && result !== undefined) {
-          if(e instanceof Array && result !== '') {
-            result = e.map((item: any) => result[item]).join('.');
-            result = prefix + result;
-          } else if(result[e] !== null && result[e] !== undefined) {
+          if(result[e] !== null && result[e] !== undefined) {
             result = result[e];
           } else {
             result = '';
@@ -65,6 +62,10 @@ export class DiffComponent implements OnChanges {
           result = '';
         }
       });
+      if(init !== null && init !== undefined
+        && result !== null && result !== undefined && result !== '') {
+        return init(result);
+      }
       return result.toString();
     } else {
       if(obj[names] === null || obj[names] === undefined) {

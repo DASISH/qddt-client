@@ -35,6 +35,7 @@ export class ControlConstructDetailComponent implements OnInit {
   private toDeleteFiles: any[];
   private savedObject: string;
   private savedControlConstructsIndex: number;
+  private config: any[];
 
   constructor(private service: ControlConstructService) {
     this.revisionIsVisible = false;
@@ -51,6 +52,7 @@ export class ControlConstructDetailComponent implements OnInit {
     this.savedObject = JSON.stringify(this.controlConstruct);
     this.savedControlConstructsIndex = this.controlConstructs
       .findIndex(q => q['id'] === this.controlConstruct['id']);
+    this.config = this.buildRevisionConfig();
   }
 
   hideDetail() {
@@ -206,5 +208,41 @@ export class ControlConstructDetailComponent implements OnInit {
 
   private popupModal(error: any) {
     this.exceptionEvent.emit(error);
+  }
+
+  private buildRevisionConfig(): any[] {
+    let config: any[] = [];
+    config.push({'name':'name','label':'Name'});
+    config.push({'name':['questionItem'],'label':'Question Text', 'init': function (q: any) {
+      if(q && q['question'] && q['question']['question']) {
+        return q['question']['question'];
+      }
+      return '';
+    }});
+    config.push({'name':['questionItem', 'version'],'label':'QI_Version', 'init': function (version: any) {
+      if(version !== null && version !== undefined) {
+        return 'V' + version['major'] + '.' + version['minor'];
+      }
+      return '';
+    }});
+    config.push({'name':['preInstructions'],'label':'Pre Instructions', 'init': function (o: any) {
+      if(o !== null && o !== undefined) {
+        return o.map(element => {return element['description'] || '';}).sort().join(',');
+      }
+      return '';
+    }});
+    config.push({'name':['postInstructions'],'label':'Post Instructions', 'init': function (o: any) {
+      if(o !== null && o !== undefined) {
+        return o.map(element => {return element['description'] || '';}).sort().join(',');
+      }
+      return '';
+    }});
+    config.push({'name':['otherMaterials'],'label':'Files', 'init': function (o: any) {
+      if(o !== null && o !== undefined) {
+        return o.map(element => {return element['originalName'] || '';}).sort().join(',');
+      }
+      return '';
+    }});
+    return config;
   }
 }
