@@ -40,7 +40,9 @@ import { Observable }     from 'rxjs/Observable';
           </div>
           <div *ngIf="editResponseDomain" class="row">
             <div class="card col s6">
-              <div class="row"><span>Response Domain</span></div>
+              <div class="row"><span>Response Domain:<span *ngIf="mainResponseDomain && mainResponseDomain.managedRepresentation">
+                (V{{mainResponseDomain?.managedRepresentation?.version?.major}}<!--
+                -->.{{mainResponseDomain?.managedRepresentation?.version?.minor}})</span></span></div>
               <div class="row">
                 <a *ngIf="!mainResponseDomain && !readonly" materialize="leanModal" [materializeParams]="[{dismissible: false}]"
                   class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
