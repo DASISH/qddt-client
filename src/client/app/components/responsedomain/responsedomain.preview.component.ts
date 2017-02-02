@@ -5,7 +5,7 @@ import { DomainType, DomainTypeDescription } from './responsedomain.constant';
 @Component({
   selector: 'qddt-responsedomain-preview',
   moduleId: module.id,
-  template: `<div *ngIf="isVisible" class="card-panel lighten-2">
+  template: `<div *ngIf="isVisible" class="card-panel lighten-2 black-text">
         <div [ngSwitch]="domainType">
 					<responsedomain-scale *ngSwitchCase="domainTypeDef.SCALE"
 					  [responseDomain]="responseDomain">
