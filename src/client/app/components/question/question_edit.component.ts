@@ -47,7 +47,7 @@ import { Observable }     from 'rxjs/Observable';
                 <a *ngIf="!mainResponseDomain && !readonly" materialize="leanModal" [materializeParams]="[{dismissible: false}]"
                   class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
                   [attr.href]="'#' + questionitem.id + '-edit-questionItem-modal'">
-                  <i class="material-icons" title="response domain edit" (click)="onClickEdit()">mode_edit</i>
+                  <i class="material-icons" title="response domain edit" (click)="onClickEdit()">add</i>
                 </a>
                 <a *ngIf="!readonly" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                   (click)="onRemoveResponsedomain(questionitem)">
