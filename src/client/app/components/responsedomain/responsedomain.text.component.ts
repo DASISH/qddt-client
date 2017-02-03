@@ -5,11 +5,9 @@ import { ResponseDomain } from './responsedomain.service';
   selector: 'responsedomain-text',
   moduleId: module.id,
   template: `<div class="row">
-               <div class="input-field col s12">
-                 <textarea id="{{responseDomain.id}}-textarea" 
-                   class="materialize-textarea" [attr.maxlength]="high"></textarea>
-                 <label [attr.for]="responseDomain.id + '-textarea'" >{{responseDomain?.name}}</label>
-               </div>
+               <textarea id="{{responseDomain.id}}-textarea" 
+                 class="materialize-textarea" [attr.maxlength]="high"></textarea>
+               <label>Text length from {{low}} to {{high}}</label>
              </div>`,
   styles: [],
 })
