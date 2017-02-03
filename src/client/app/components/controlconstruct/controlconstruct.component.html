@@ -32,7 +32,8 @@
                     <a
                       class="btn-flat btn-floating btn-small waves-effect waves-light teal"
                       (click)="editQuestoinItem = !editQuestoinItem">
-                      <i class="material-icons">edit</i>
+                      <i *ngIf="controlConstruct.questionItem" class="material-icons">edit</i>
+                      <i *ngIf="!controlConstruct.questionItem" class="material-icons">add</i>
                     </a>
                   </div>
                   <div class="col s1">
