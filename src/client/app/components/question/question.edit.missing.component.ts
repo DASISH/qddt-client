@@ -6,6 +6,12 @@ import { Subject } from 'rxjs/Subject';
   selector: 'qddt-questionitem-edit-missing',
   moduleId: module.id,
   providers: [CategoryService],
+  styles: [
+    `.minHeight {
+       min-height: 400px;
+       height: auto;
+    }`
+  ],
   template:
   `
   <div class="card">
@@ -22,7 +28,7 @@ import { Subject } from 'rxjs/Subject';
         </div>
       <div class="modal" materialize [materializeActions]="missingAction">
         <form (ngSubmit)="onSave()" #missingForm="ngForm">
-        <div class="modal-content">
+        <div class="modal-content minHeight">
           <div class="row">
             <autocomplete [items]="missingCategories" class="black-text"
               [searchField]="'label'"
