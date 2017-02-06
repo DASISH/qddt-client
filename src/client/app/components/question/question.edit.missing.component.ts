@@ -14,7 +14,7 @@ import { Subject } from 'rxjs/Subject';
   ],
   template:
   `
-  <div class="card">
+  <div class="card hoverable">
     <div class="row">
       <div class="row"><span>Missing</span></div>
         <div class="row">

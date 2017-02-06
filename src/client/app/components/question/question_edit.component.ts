@@ -38,8 +38,8 @@ import { Observable }     from 'rxjs/Observable';
               </div>
             </div>
           </div>
-          <div *ngIf="editResponseDomain" class="row">
-            <div class="card col s6">
+          <div *ngIf="editResponseDomain" class="card row">
+            <div class="col s6">
               <div class="row"><span>Response Domain:<span *ngIf="mainResponseDomain && mainResponseDomain.managedRepresentation">
                 (V{{mainResponseDomain?.managedRepresentation?.version?.major}}<!--
                 -->.{{mainResponseDomain?.managedRepresentation?.version?.minor}})</span></span></div>
