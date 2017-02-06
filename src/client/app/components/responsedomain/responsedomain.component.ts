@@ -133,6 +133,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
       let index = this.responseDomains.findIndex((e: any) => e.id === result.id);
       if(index >= 0) {
         this.responseDomains[index] = result;
+        this.buildAnchorLabel();
       } else if(this.selectedResponseDomain.id === null && this.savedResponseDomainsIndex >= 0) {
         this.responseDomains[this.savedResponseDomainsIndex] = JSON.parse(this.savedObject);
         this.responseDomains.push(result);
