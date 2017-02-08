@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CommentService } from './comment.service';
 
 @Component({
-  selector: 'comment-list',
+  selector: 'qddt-comment-list',
   moduleId: module.id,
   template: `
     <div *ngIf="comments">
@@ -16,8 +16,8 @@ import { CommentService } from './comment.service';
             *ngFor="let comment of comments; let idx=index;">
             <img src="assets/images/avatar-default.png"  alt ="" class="circle">
             <span class="title">
-              {{comment.modifiedBy.username}}@{{comment.modifiedBy.agency.name}}
-              - {{comment.modified|localDate }}
+              {{comment?.modifiedBy?.username}}@{{comment?.modifiedBy?.agency?.name}}
+              - {{comment?.modified|localDate }}
             </span>
             <div class="row" *ngIf="!isEditComment || selectedCommentId !== idx">
               <br>
@@ -54,13 +54,13 @@ import { CommentService } from './comment.service';
               </div>
             </div>
             <i class="secondary-content material-icons right ">comment</i>
-            <comment-list *ngIf="showComments"
+            <qddt-comment-list *ngIf="showComments"
               [ownerId]="comment.id" [comments]="comment.comments">
-            </comment-list>
+            </qddt-comment-list>
           </li>
         </ul>
       </div>
-      <new-comment (addedCommentEvent)="addedComment($event)" [ownerId]="ownerId"></new-comment>
+      <qddt-comment-create (addedCommentEvent)="addedComment($event)" [ownerId]="ownerId"></qddt-comment-create>
     </div>
 
   `,

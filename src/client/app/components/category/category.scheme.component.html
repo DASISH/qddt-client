@@ -128,7 +128,7 @@
         [qddtURI]="'audit/category/' + selectedCategory.id + '/all'" #revision ></qddt-revision>
 
       <div class="row">
-        <comment-list [ownerId]="selectedCategory.id" [comments]="selectedCategory.comments"></comment-list>
+        <qddt-comment-list [ownerId]="selectedCategory.id" [comments]="selectedCategory.comments"></qddt-comment-list>
       </div>
     </div>
   </div>

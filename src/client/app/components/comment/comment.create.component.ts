@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommentService, Comment } from './comment.service';
 
 @Component({
-  selector: 'new-comment',
+  selector: 'qddt-comment-create',
   moduleId: module.id,
   template: `
     <form (ngSubmit)="save()" #hf="ngForm">
@@ -20,7 +20,7 @@ import { CommentService, Comment } from './comment.service';
   `,
   providers: [CommentService]
 })
-export class NewCommentComponent {
+export class CommentCreateComponent {
 
   @Output() addedCommentEvent: EventEmitter<Comment>  = new EventEmitter<Comment>();
   comment: Comment = new Comment();
