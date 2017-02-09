@@ -6,10 +6,9 @@ sudo: false
 
 os:
   - linux
-  - osx
 
 branches:
-  only: master
+  only: devel
 
 cache:
   directories: node_modules
