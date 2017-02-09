@@ -38,6 +38,7 @@ module.exports = function (config) {
       'node_modules/jquery/dist/jquery.min.js',
       'node_modules/materialize-css/dist/js/materialize.js',
       'node_modules/materialize-css/dist/css/materialize.css',
+      { pattern: 'node_modules/materialize-css/dist/fonts/roboto/*', included: false, watched: true },
 
       // RxJs.
       { pattern: 'node_modules/rxjs/**/*.js', included: false, watched: false },
