@@ -41,6 +41,9 @@ export class QddtTableComponent implements OnInit, OnChanges {
     if(this.placeholder === null || this.placeholder === undefined) {
       this.placeholder = 'Search';
     }
+    if(this.page === null || this.page === undefined) {
+      this.page = {};
+    }
   }
 
   ngOnChanges() {
@@ -102,13 +105,24 @@ export class QddtTableComponent implements OnInit, OnChanges {
       if (item.modified !== undefined && item.modified.length > 2) {
         date.setUTCFullYear(item.modified[0], item.modified[1] - 1, item.modified[2]);
       }
+      let version = '';
+      if (item.version && item.version.major && item.version.minor) {
+        version = item.version.major + '.' + item.version.minor;
+      }
+      let name = '';
+      if (item.agency && item.agency.name) {
+        name = item.agency.name;
+      }
       let row: any = {
         'id': item.id,
-        'Version': item.version.major + '.' + item.version.minor,
-        'Agency': item.agency.name || '',
+        'Version': version,
+        'Agency': name,
         'Modified': date.toDateString(),
         'Object': item,
       };
+      if(this.columns === null || this.columns === undefined) {
+        this.columns = [];
+      }
       this.columns.forEach((column: any) => {
         if (row[column.label] === undefined) {
           if (column.name instanceof Array) {
