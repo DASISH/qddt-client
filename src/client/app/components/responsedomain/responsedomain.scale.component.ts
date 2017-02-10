@@ -101,7 +101,7 @@ export class ResponsedomainScaleComponent implements OnChanges {
     }
     for (let i = this.min; i <= this.max; i++) {
       let c = categories
-        .find(category => category.code.codeValue === i.toString());
+        .find(category => category.code && category.code.codeValue === i.toString());
       this.row.push({ label: c !== undefined ? c.label : '', value: i });
       if (c !== undefined) {
         this.header.push(c.label);
@@ -121,7 +121,7 @@ export class ResponsedomainScaleComponent implements OnChanges {
     }
     for (let i = this.min; i <= this.max; i++) {
       let c = categories
-        .find(category => category.code.codeValue === i.toString());
+        .find(category => category.code && category.code.codeValue === i.toString());
       this.row.push({ label: c !== undefined ? c.label : '', value: i });
     }
   }
