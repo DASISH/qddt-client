@@ -45,11 +45,13 @@
   <div class="modal-content">
     <div class="row">
       <h4>Warning</h4>
-      <span>Are you sure to delete Question item {{questionitem?.question?.question}}?</span>
+      <div *ngIf="candelete > 1" class="progress"><div class="indeterminate"></div></div>
+      <span *ngIf="candelete === 1">Are you sure to delete Question item {{questionitem?.question?.question}}?</span>
+      <span *ngIf="candelete === 0">Please detach question item from module/concept and question construct before deleting!</span>
     </div>
   </div>
   <div class="modal-footer">
-    <button
+    <button *ngIf="candelete === 1"
       (click)="onConfirmDeleting()"
       class="btn btn-default green modal-action modal-close waves-effect">
       <a><i class="close material-icons medium white-text">done</i></a>

@@ -105,4 +105,8 @@ export class QuestionService extends BaseService {
   getResponseDomainsRevisions(id: string) : any {
     return this.get('audit/responsedomain/' + id + '/all');
   }
+
+  getControlConstructsByQuestionItem(id: string): any {
+    return this.get('controlconstruct/list/by-question/' + id);
+  }
 }

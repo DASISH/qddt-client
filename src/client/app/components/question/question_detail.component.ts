@@ -16,6 +16,7 @@ export class QuestionDetail implements OnInit {
   @Output() hideDetailEvent: EventEmitter<String> = new EventEmitter<String>();
   @Output() editQuestionItem: EventEmitter<any> = new EventEmitter<any>();
   deleteAction = new EventEmitter<any>();
+  candelete: number; // 0: cannot, 1: can, 2: checking
 
   private revisionIsVisible: boolean;
   private editIsVisible: boolean;
@@ -75,7 +76,26 @@ export class QuestionDetail implements OnInit {
   }
 
   onDeleteQuestionItemModal() {
+    this.checkDeleteQuestionItem();
     this.deleteAction.emit('openModal');
+  }
+
+  checkDeleteQuestionItem() {
+    let usedby: any = this.questionitem['conceptRefs'];
+    this.candelete = 2; //checking
+    if(usedby && usedby.length > 0) {
+      this.candelete = 0;
+    } else {
+      this.service.getControlConstructsByQuestionItem(this.questionitem.id)
+        .subscribe((result: any) => {
+          if (result.length > 0) {
+            this.candelete = 0;
+          } else {
+            this.candelete = 1;
+          }
+        },
+        (error: any) => { console.log(error); this.candelete = 0; });
+    }
   }
 
   onConfirmDeleting() {
@@ -85,6 +105,7 @@ export class QuestionDetail implements OnInit {
         if (i >= 0) {
           this.questionitems.splice(i, 1);
         }
+        this.deleteAction.emit('closeModal');
         this.hideDetailEvent.emit('hide');
       },
       (error: any) => console.log(error));
