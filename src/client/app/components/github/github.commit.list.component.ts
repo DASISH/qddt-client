@@ -3,7 +3,7 @@ import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 @Component({
-  selector: 'commit-list',
+  selector: 'qddt-commit-list',
   moduleId: module.id,
   template: `
     <div *ngIf="loading">
@@ -28,9 +28,9 @@ import 'rxjs/add/operator/map';
     <div *ngIf="!loading">
       <div *ngFor="let commit of commits">
         <div class="section">
-          <b>{{commit.commit.message}}</b><br />
-          {{commit.commit.author.date}}<br />
-          (<a href="{{commit.html_url}}">{{commit.sha}}</a>)
+          <b>{{commit?.commit?.message}}</b><br />
+          {{commit?.commit?.author?.date}}<br />
+          (<a href="{{commit?.html_url}}">{{commit?.sha}}</a>)
         </div>
       </div>
     </div>
@@ -41,8 +41,7 @@ export class CommitListComponent {
   private commits: any;
   private loading: boolean = true;
 
-  constructor(@Inject(Http)private http:Http) {
-    this.http = http;
+  constructor(private http:Http) {
     this.getCommits();
   }
 
@@ -51,6 +50,7 @@ export class CommitListComponent {
       .map((res:Response) => {
         this.loading = false;
         return res.json();
-      }).subscribe(result => this.commits = result);
+      }).subscribe(result => this.commits = result,
+      error => console.log(error));
   }
 }

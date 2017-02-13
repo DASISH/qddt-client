@@ -2,12 +2,12 @@ import { Component, AfterContentChecked, OnInit } from '@angular/core';
 import { UserService } from '../../common/user.service';
 
 @Component({
-  selector: 'home',
+  selector: 'qddt-home',
   moduleId: module.id,
   templateUrl: './home.component.html',
 })
 
-export class HomeCmp implements AfterContentChecked, OnInit {
+export class HomeComponent implements AfterContentChecked, OnInit {
 
   showSurveyProgram: boolean = true;
   showStudy: boolean = false;
@@ -113,7 +113,7 @@ export class HomeCmp implements AfterContentChecked, OnInit {
 
   private loadData() {
     let home = this.userService.getGlobalObject('home');
-    if (home !== '') {
+    if (home !== null && home !== '') {
       this.showStudy = home.current === 'study';
       this.showConcept = home.current === 'concept';
       this.showTopic = home.current === 'topic';

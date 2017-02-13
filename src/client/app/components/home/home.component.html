@@ -2,16 +2,16 @@
   <div id="topMenu" class="scrollspy">
     <nav >
       <div class="nav-wrapper" [ngStyle]="{'cursor': 'pointer'}">
-            <a *ngIf="survey" (click)=onShowSurvey() class="breadcrumb">SURVEY [{{survey.name}}]</a>
-            <a *ngIf="study" (click)=onShowStudy() class="breadcrumb"> STUDY [{{study.name}}]</a>
-            <a *ngIf="topic" (click)=onShowTopic() class="breadcrumb">QUESTIONNAIRE MODULE [{{topic.name}}]</a>
-            <a *ngIf="concept" (click)=onShowConcept()  class="breadcrumb">CONCEPT</a>
+        <a *ngIf="survey" (click)=onShowSurvey() class="breadcrumb">SURVEY [{{survey.name}}]</a>
+        <a *ngIf="study" (click)=onShowStudy() class="breadcrumb"> STUDY [{{study.name}}]</a>
+        <a *ngIf="topic" (click)=onShowTopic() class="breadcrumb">QUESTIONNAIRE MODULE [{{topic.name}}]</a>
+        <a *ngIf="concept" (click)=onShowConcept()  class="breadcrumb">CONCEPT</a>
       </div>
     </nav>
   </div>
 
   <surveyprogram [show]="showSurveyProgram"
-           (surveySelectEvent)="onSurveySelect($event)">
+    (surveySelectEvent)="onSurveySelect($event)">
   </surveyprogram>
 
   <study *ngIf="survey" [show]="showStudy"
@@ -25,10 +25,7 @@
   <concept *ngIf="topic"  [show]="showConcept"
     [topic]="topic"  (conceptSelectedEvent)="onConceptSelected($event)">
   </concept>
-
-
 </div>
-
 
 <div class="row" *ngIf="!user">
   <div class="col s12 m6">
@@ -52,7 +49,7 @@
       <div class="card-content white-text">
         <span class="card-title"><i class="material-icons large right">announcement</i>Latest changes</span>
         <p>
-          <commit-list></commit-list>
+          <qddt-commit-list></qddt-commit-list>
         </p>
       </div>
     </div>

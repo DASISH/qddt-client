@@ -1,7 +1,7 @@
 import { ModuleWithProviders }  from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { HomeCmp }   from './components/home/home.component';
+import { HomeComponent }   from './components/home/home.component';
 import { QuestionComp } from './components/question/question.component';
 import { CategoryComponent } from './components/category/category.component';
 import { CategorySchemeComponent } from './components/category/category.scheme.component';
@@ -14,7 +14,7 @@ const appRoutes: Routes = [
   { path: '', redirectTo: 'Home', pathMatch: 'full'},
   {
     path: 'Home',
-    component: HomeCmp
+    component: HomeComponent
   },
   {
     path: 'Questions',

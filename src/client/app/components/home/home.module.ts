@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { HomeCmp } from './home.component';
+import { HomeComponent } from './home.component';
 
-import { CommitListComponent } from '../github/commit_list.component';
+import { CommitListComponent } from '../github/github.commit.list.component';
 import { SharedModule } from '../../shared/shared.module';
 import { SurveyModule } from '../surveyprogram/survey.module';
 import { StudyModule } from '../study/study.module';
@@ -10,8 +10,8 @@ import { ConceptModule } from '../concept/concept.module';
 
 @NgModule({
     imports: [ SharedModule, SurveyModule, StudyModule, TopicModule, ConceptModule ],
-    declarations: [HomeCmp, CommitListComponent],
-    exports: [HomeCmp]
+    declarations: [HomeComponent, CommitListComponent],
+    exports: [HomeComponent]
 })
 
 export class HomeModule { }
