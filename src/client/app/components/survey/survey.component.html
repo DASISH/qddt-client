@@ -33,7 +33,7 @@
 
       <div *ngIf="surveys">
         <div class="row" *ngFor="let surveyProgram of surveys" style="padding-left:2%">
-          <div id="{{surveyProgram.id}}" class="scrollspy">
+          <div id="{{surveyProgram?.id}}" class="scrollspy">
 
             <div class="col s1 m1 l1">
               <br />
@@ -45,15 +45,15 @@
             </div>
 
             <div class="col s10 m10 grey-text text-darken-2">
-              <h5>{{surveyProgram.name}}</h5>
-              {{surveyProgram.modified | localDate}} by <strong>{{surveyProgram.modifiedBy.username}}@{{surveyProgram.modifiedBy.agency.name}}</strong>
+              <h5>{{surveyProgram?.name}}</h5>
+              {{surveyProgram.modified | localDate}} by <strong>{{surveyProgram.modifiedBy?.username}}@{{surveyProgram?.modifiedBy?.agency?.name}}</strong>
             
             <div class="row">
               <p>{{surveyProgram.description}}</p>
-              <author-chip [authors]="surveyProgram.authors" ></author-chip>
+              <qddt-author-chip [authors]="surveyProgram.authors" ></qddt-author-chip>
             </div>
 
-            <surveyprogram-edit [survey]="surveyProgram" (surveySavedEvent)="onSurveySaved($event)" #edit></surveyprogram-edit>
+            <qddt-survey-edit [survey]="surveyProgram" (surveySavedEvent)="onSurveySaved($event)" #edit></qddt-survey-edit>
 
             <qddt-revision [isVisible]="revision.isVisible" [current]="surveyProgram"
               [config]="[{'name':'name','label':'Name'},{'name':'description','label':'Description'}]"
@@ -74,7 +74,7 @@
       <h5>Survey Toc</h5>
         <ul class="section table-of-contents">
           <li><a href="Home#topMenu">to the top </a> </li>
-          <li *ngFor="let surveyProgram of surveys"><a href="Home#{{surveyProgram.id}}">{{surveyProgram.name}}</a></li>
+          <li *ngFor="let surveyProgram of surveys"><a href="Home#{{surveyProgram.id}}">{{surveyProgram?.name}}</a></li>
         </ul>
       </div>
   </div>

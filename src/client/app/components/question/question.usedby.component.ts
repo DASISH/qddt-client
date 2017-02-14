@@ -24,7 +24,7 @@ import { QuestionService, Question } from './question.service';
        <div class="row">
          <div class="input-field col s8">
            <p><label class="active teal-text">Authors</label></p>
-           <author-chip [authors]="question.authors"></author-chip>
+           <qddt-author-chip [authors]="question.authors"></qddt-author-chip>
        </div>
        <div class="input-field col s4">
          <p><label class="active teal-text">Agency</label></p>

@@ -1,9 +1,9 @@
 import { Component, Input, Output,EventEmitter } from '@angular/core';
 
-import { SurveyService, SurveyProgram } from '../../surveyprogram/survey.service';
+import { SurveyService, SurveyProgram } from '../survey.service';
 
 @Component({
-  selector: 'surveyprogram-edit',
+  selector: 'qddt-survey-edit',
   moduleId: module.id,
   providers: [SurveyService],
   template: `
@@ -41,7 +41,7 @@ import { SurveyService, SurveyProgram } from '../../surveyprogram/survey.service
 
   `
 })
-export class SurveyProgramEditComponent {
+export class SurveyEditComponent {
 
   @Input() survey: SurveyProgram;
   @Input() isVisible: boolean;
@@ -62,17 +62,5 @@ export class SurveyProgramEditComponent {
   onChangeKind(value:any) {
     this.showlabel = (value === 'MILESTONE');
   }
-
-  onAuthorSelected(author:any) {
-    this.surveyService.attachAuthor(this.survey.id,author.id);
-    this.survey.authors.push(author);
-  }
-
-  onAuthorRemoved(author:any) {
-    this.surveyService.deattachAuthor(this.survey.id,author.id);
-    var i = this.survey.authors.findIndex(F=>F===author);
-    this.survey.authors.splice(i,1);
-  }
-
 
 }

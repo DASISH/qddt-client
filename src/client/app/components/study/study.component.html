@@ -47,13 +47,12 @@
             <div class="col s10 m10 l10 grey-text text-darken-2">
               <h5>{{study.name}}</h5>
               {{study.modified | localDate}} by <strong>{{study.modifiedBy.username}}@{{study.modifiedBy.agency.name}}</strong>
-              <!--<div class="chip" ><img src="http://coraljs.com/example/contact/john-doe.jpeg">{{surveyProgram.modifiedBy.username}}@{{surveyProgram.modifiedBy.agency.name}} </div>-->
             </div>
 
             <div class="col s10 m10 l10 white grey-text text-darken-1">
               <div class="row">
                 <p>{{study.description}}</p>
-                <author-chip [authors]="study.authors" ></author-chip>
+                <qddt-author-chip [authors]="study.authors" ></qddt-author-chip>
               </div>
 
               <study-edit [study]="study" [surveyId]="survey.id" #edit></study-edit>

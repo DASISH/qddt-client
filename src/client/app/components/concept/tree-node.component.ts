@@ -39,7 +39,7 @@ import { QuestionItem } from '../question/question.service';
            <div class="col s11 m11 l11 white grey-text text-darken-1">
              <div class="row">
                <p>{{concept.description}}</p>
-               <author-chip [authors]="concept.authors" ></author-chip>
+               <qddt-author-chip [authors]="concept.authors" ></qddt-author-chip>
               </div>
            <div *ngIf="showConceptChildForm">
              <div class="card-action">

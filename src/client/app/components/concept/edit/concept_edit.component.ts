@@ -30,18 +30,6 @@ import { ConceptService, Concept } from '../concept.service';
         <div class="row">
 		      <qddt-rational [element]="concept"></qddt-rational>
         </div>
-        <div class="row">
-          <div class="input-field col s8">
-            <p><label class="active teal-text">Authors</label></p>
-           <author-chip-edit [authors]="concept.authors"  
-            (authorRemovedEvent)="onAuthorRemoved($event)" 
-            (authorSelectedEvent)="onAuthorSelected($event)"></author-chip-edit>
-          </div>
-          <div class="input-field col s4">
-            <p><label class="active teal-text">Agency</label></p>
-            <div class="chip" >{{concept.modifiedBy.agency.name}}</div>
-          </div>
-        </div>
         <button type="submit" class="btn btn-default">Submit</button>
       </form>
     </div>

@@ -3,7 +3,7 @@ import { HomeComponent } from './home.component';
 
 import { CommitListComponent } from '../github/github.commit.list.component';
 import { SharedModule } from '../../shared/shared.module';
-import { SurveyModule } from '../surveyprogram/survey.module';
+import { SurveyModule } from '../survey/survey.module';
 import { StudyModule } from '../study/study.module';
 import { TopicModule } from '../topic/topic.module';
 import { ConceptModule } from '../concept/concept.module';

@@ -22,7 +22,7 @@
       <div class="col s10 m10 l10 white grey-text text-darken-1">
         <div class="row">
           <p>{{responseDomain.description}}</p>
-          <author-chip [authors]="responseDomain.authors"></author-chip>
+          <qddt-author-chip [authors]="responseDomain.authors"></qddt-author-chip>
         </div>
         <responsedomain-form *ngIf="editIsVisible && selectedDomainId === responseDomain.id"
           (formChange)="formChange($event)" [responsedomain]="responseDomain"

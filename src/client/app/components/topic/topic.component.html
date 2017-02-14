@@ -53,7 +53,7 @@
             <div class="col s10 m10 l10 white grey-text text-darken-1">
               <div class="row">
                 <p>{{topic.abstractDescription}}</p>
-                <author-chip [authors]="topic.authors" ></author-chip>
+                <qddt-author-chip [authors]="topic.authors" ></qddt-author-chip>
               </div>
 
               <topic-edit [isVisible]="edit.isVisible" [topic]="topic" #edit></topic-edit>

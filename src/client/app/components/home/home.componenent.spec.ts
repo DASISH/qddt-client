@@ -61,7 +61,7 @@ export function main() {
 }
 
 @Component({
-  selector: 'surveyprogram',
+  selector: 'qddt-survey',
   template: `<div>
     </div>`
 })

@@ -3,9 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
 import { LocalDatePipe } from '../common/date_pipe';
-import { AuthorChipComponent } from '../components/author/author_chip.component';
-import { AuthorChipEditComponent } from '../components/author/author_chip.edit.component';
-import { AuthorListModalComponent } from '../components/author/author_list_modal.component';
+import { AuthorChipComponent } from '../components/author/author.chip.component';
 import { QddtTableComponent } from '../components/table/table.component';
 import { QddtPagination } from '../components/pagination/pagination';
 import { AutocompleteComponent } from '../components/autocomplete/autocomplete.component';
@@ -20,12 +18,12 @@ import { ResponsedomainUsedbyComponent } from '../components/responsedomain/resp
   declarations: [ LocalDatePipe, QddtTableComponent, QddtPagination, AutocompleteComponent,
     StudyUsedbyComponent, TopicUsedbyComponent, QuestionUsedbyComponent,
     ResponsedomainUsedbyComponent,
-    AuthorChipComponent, AuthorChipEditComponent, AuthorListModalComponent, RationalComponent ],
+    AuthorChipComponent, RationalComponent ],
   exports: [LocalDatePipe, CommonModule, FormsModule, MaterializeModule,
     StudyUsedbyComponent, TopicUsedbyComponent, QuestionUsedbyComponent,
     ResponsedomainUsedbyComponent,
     QddtTableComponent, QddtPagination, AutocompleteComponent, RationalComponent,
-    AuthorChipComponent, AuthorChipEditComponent, AuthorListModalComponent]
+    AuthorChipComponent]
 })
 
 export class SharedModule { }

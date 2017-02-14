@@ -1,14 +1,12 @@
 import { Injectable, Inject } from '@angular/core';
 import { Http } from '@angular/http';
-import DateTimeFormat = Intl.DateTimeFormat;
-
 import { API_BASE_HREF } from '../../api';
 import { BaseService } from '../../common/base.service';
 
 export class SurveyProgram {
   id: string;
   name: string;
-  modified:DateTimeFormat;
+  modified: any;
   authors: any[];
 }
 
@@ -23,17 +21,8 @@ export class SurveyService extends BaseService {
     return this.post(surveyProgram, 'surveyprogram/create');
   }
 
-
   getAll():any {
     return this.get('surveyprogram/list/by-user');
-  }
-
-  attachAuthor(surveyId: string, authorId: string):any {
-    return this.get('author/combine?authorId='+ authorId + '&surveyId=' +surveyId);
-  }
-
-  deattachAuthor(surveyId: string, authorId: string):any {
-    return this.get('author/decombine?authorId='+ authorId + '&surveyId=' +surveyId);
   }
 
 }

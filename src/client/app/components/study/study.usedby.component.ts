@@ -22,7 +22,7 @@ import { StudyService, Study } from './study.service';
        <div class="row">
          <div class="input-field col s8">
            <p><label class="active teal-text">Authors</label></p>
-           <author-chip [authors]="study.authors"></author-chip>
+           <qddt-author-chip [authors]="study.authors"></qddt-author-chip>
        </div>
        <div class="input-field col s4">
          <p><label class="active teal-text">Agency</label></p>

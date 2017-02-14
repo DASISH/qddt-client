@@ -10,9 +10,9 @@
     </nav>
   </div>
 
-  <surveyprogram [show]="showSurveyProgram"
+  <qddt-survey [show]="showSurveyProgram"
     (surveySelectEvent)="onSurveySelect($event)">
-  </surveyprogram>
+  </qddt-survey>
 
   <study *ngIf="survey" [show]="showStudy"
     [survey]="survey" (studySelectedEvent)="onStudySelected($event)">

@@ -1,14 +1,14 @@
-import { Component, Input, EventEmitter, Output, ElementRef, OnChanges } from '@angular/core';
+import { Component, Input, EventEmitter, Output, OnChanges } from '@angular/core';
 
 import { SurveyService, SurveyProgram } from './survey.service';
 
 @Component({
-  selector: 'surveyprogram',
+  selector: 'qddt-survey',
   moduleId: module.id,
-  templateUrl: './surveyprogram.component.html',
+  templateUrl: './survey.component.html',
   providers: [SurveyService]
 })
-export class SurveyProgramComponent implements OnChanges {
+export class SurveyComponent implements OnChanges {
 
   showSurveyForm: boolean = false;
   @Input() show: boolean;
@@ -19,7 +19,7 @@ export class SurveyProgramComponent implements OnChanges {
   private surveys: any[]=[];
   private survey: any;
 
-  constructor(private surveyService: SurveyService, private elementRef: ElementRef) {
+  constructor(private surveyService: SurveyService) {
     this.survey = new SurveyProgram();
   }
 
@@ -43,7 +43,6 @@ export class SurveyProgramComponent implements OnChanges {
   }
 
   onDelete(surveyProgram: any) {
-    console.log('delete -> not implemented');
     this.surveyDeleteEvent.emit(surveyProgram);
     //this.surveyService.delete(surveyProgram);
   }
