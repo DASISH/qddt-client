@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, OnInit } from '@angular/core';
 import { DomainType, DomainTypeDescription } from './responsedomain.constant';
 import { ResponseDomainService } from './responsedomain.service';
 import { Subject } from 'rxjs/Subject';
@@ -47,7 +47,7 @@ import { Subject } from 'rxjs/Subject';
   providers: [ResponseDomainService],
 })
 
-export class ResponsedomainReuseComponent implements OnChanges {
+export class ResponsedomainReuseComponent implements OnInit, OnChanges {
   @Input() isVisible: boolean;
   @Input() responseDomain: any;
   @Output() responseDomainReuse: EventEmitter<any> = new EventEmitter();
@@ -78,6 +78,10 @@ export class ResponsedomainReuseComponent implements OnChanges {
           });
       });
     this.reuse();
+  }
+
+  ngOnInit() {
+    this.searchKeysSubect.next('');
   }
 
   ngOnChanges() {
@@ -115,6 +119,7 @@ export class ResponsedomainReuseComponent implements OnChanges {
 
   selectDomainType(id: DomainType) {
     this.domainType = id;
+    this.selectedResponseDomain = null;
     this.reuse();
     this.responseDomain = null;
   }
