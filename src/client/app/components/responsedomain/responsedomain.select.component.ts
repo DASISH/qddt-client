@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
+import { Component, Input, Output, OnChanges, EventEmitter } from '@angular/core';
 import { ResponseDomainService } from './responsedomain.service';
 
 @Component({
@@ -46,7 +46,7 @@ import { ResponseDomainService } from './responsedomain.service';
   providers: [ ResponseDomainService ],
 })
 
-export class ResponseDomainSelectComponent implements OnInit {
+export class ResponseDomainSelectComponent implements OnChanges {
   @Input() responseDomain;
   @Input() revision;
   @Output() useResponseDomainEvent = new EventEmitter<any>();
@@ -64,7 +64,10 @@ export class ResponseDomainSelectComponent implements OnInit {
     this.responseDomainRevisions = [];
   }
 
-  ngOnInit() {
+  ngOnChanges() {
+    this.responseDomainRevisions = [];
+    this.selectedResponseDomainIndex = -1;
+    this.selectedResponseDomain = null;
     if (this.responseDomain !== null && this.responseDomain !== undefined
       && this.responseDomain.id !== null && this.responseDomain.id !== undefined) {
       this.service.getResponseDomainsRevisions(this.responseDomain.id).subscribe((result: any) => {
@@ -101,6 +104,7 @@ export class ResponseDomainSelectComponent implements OnInit {
 
   private popupModal(error: any) {
     this.error = error;
+    this.selectedResponseDomain = this.responseDomain;
   }
 
 }
