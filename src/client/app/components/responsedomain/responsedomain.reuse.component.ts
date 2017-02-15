@@ -22,7 +22,7 @@ import { Subject } from 'rxjs/Subject';
           <label [attr.for]="'rdomain-type-' + domain.id">{{domain.label}}</label>
 			  </div>
       </div>
-      <div *ngIf="showAutocomplete && responseDomains.length > 0">
+      <div *ngIf="showAutocomplete">
         <autocomplete [items]="responseDomains" class="black-text"
           [searchField]="'name'"
           (autocompleteFocusEvent)="selectedIndex=idx;"
