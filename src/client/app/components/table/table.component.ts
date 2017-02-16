@@ -106,11 +106,11 @@ export class QddtTableComponent implements OnInit, OnChanges {
         date.setUTCFullYear(item.modified[0], item.modified[1] - 1, item.modified[2]);
       }
       let version = '';
-      if (item.version && item.version.major && item.version.minor) {
+      if (item.version !== null && item.version !== undefined) {
         version = item.version.major + '.' + item.version.minor;
       }
       let name = '';
-      if (item.agency && item.agency.name) {
+      if (item.agency !== null && item.agency !== undefined) {
         name = item.agency.name;
       }
       let row: any = {
