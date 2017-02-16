@@ -30,6 +30,7 @@ export class QddtTableComponent implements OnInit, OnChanges {
   @Output() detailEvent: EventEmitter<String> = new EventEmitter<String>();
   @Output() pageChangeEvent: EventEmitter<String> = new EventEmitter<String>();
   @Output() enterEvent: EventEmitter<any> = new EventEmitter<any>();
+  value: string;
 
   private rows: any[] = [];
   private _rows: any[] = [];
@@ -59,11 +60,20 @@ export class QddtTableComponent implements OnInit, OnChanges {
   }
 
   enterText(event: any) {
-    let value = event.target.value;
+    this.value = event.target.value;
     if(this.searchFromServer) {
-      this.enterEvent.emit(value);
+      this.enterEvent.emit(this.value);
     } else {
-      this.filterItems(value);
+      this.filterItems(this.value);
+    }
+  }
+
+  onClearKeywords() {
+    this.value = '';
+    if(this.searchFromServer) {
+      this.enterEvent.emit(this.value);
+    } else {
+      this.filterItems(this.value);
     }
   }
 

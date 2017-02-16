@@ -1,8 +1,13 @@
 <div *ngIf="rows" class="row">
   <div class="card white grey-text text-darken-1">
-    <div class="input-field row">
-      <input id="filterKey" type="text" (keyup)="enterText($event)">
-      <label for="filterKey">{{placeholder}}</label>
+    <div class="row">
+      <div class="input-field col s11">
+        <input id="filterKey" type="text" [ngModel]="value" (keyup)="enterText($event)">
+        <label for="filterKey">{{placeholder}}</label>
+      </div>
+      <div class="input-field col s1">
+      	<a class="waves-effect waves-light btn" (click)="onClearKeywords()">x</a>    
+      </div>
     </div>
     <table class="highlight">
       <thead>

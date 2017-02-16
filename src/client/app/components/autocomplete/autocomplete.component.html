@@ -1,7 +1,10 @@
 <div class="autocomplete">
-	<input type="text" placeholder="{{placeholder}}" [ngModel]="value"
-		(blur)="showAutoComplete=false;" (keyup)="enterText($event)"
-		(focus)="onFocus()">
+	<div class="row">
+	  <input type="text" placeholder="{{placeholder}}" [ngModel]="value"
+		  (blur)="showAutoComplete=false;" (keyup)="enterText($event)"
+		  (focus)="onFocus()">
+	  <a class="waves-effect waves-light btn" (click)="onClearKeywords()">x</a>
+	</div>
 	<ul
 		*ngIf="showAutoComplete && candidates != undefined && candidates.length > 0">
 		<li *ngFor="let candidate of candidates; let idx=index"

@@ -82,6 +82,15 @@ export class AutocompleteComponent implements OnInit, OnChanges {
     }
   }
 
+  onClearKeywords() {
+    this.value = '';
+    if(this.searchFromServer) {
+      this.enterEvent.emit(this.value);
+    } else {
+      this.filterItems(this.value);
+    }
+  }
+
   private getFieldValue(object: any, path: any) {
     if (path instanceof Array) {
       let result: any = object;
