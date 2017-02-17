@@ -20,8 +20,8 @@
     </div>
     <div class="col s10 m10 l10 grey-text text-darken-2">
       <form (ngSubmit)="onSaveControlConstruct()" #qcform="ngForm">
-        <div class="nomargin">
-          <div class="input-field col s12">
+        <div class="row nomargin">
+          <div class="input-field">
             <label [attr.for]="controlConstruct.id + '-name'"
               class="active teal-text">Name</label>
             <textarea [attr.id]="controlConstruct.id + '-name'"
@@ -32,8 +32,8 @@
           </div>
         </div>
       <div class="nomargin">
-        <ul class="collection with-header">
-          <li class="collection-header">
+        <ul class="card">
+          <li>
             <div class="row">
               <div class="col s11"><label class="teal-text">Pre Instructions</label></div>
               <div class="col s1">
@@ -100,8 +100,8 @@
         </qddt-control-construct-questionitem-select>
       </div>
       <div class="nomargin">
-        <ul class="collection with-header">
-          <li class="collection-header">
+        <ul class="card">
+          <li>
             <div class="row">
               <div class="col s11"><label class="teal-text">Post Instructions</label></div>
               <div class="col s1">
