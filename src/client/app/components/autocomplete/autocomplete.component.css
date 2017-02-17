@@ -12,11 +12,11 @@
 
 .autocomplete input {
   width: 80%;
-  margin:0 0 5px 0;
+  margin: 0 0 5px;
 }
 
 .autocomplete .row {
-  margin:0;
+  margin: 0;
 }
 
 .autocomplete ul {

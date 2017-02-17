@@ -2,7 +2,7 @@
   <div class="col s12 m9">
     <div class="card white white-text text-lighten-2">
       <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
-        <i class="material-icons large right">comment</i><h4>Questionnaire modules for {{study.name}}</h4>
+        <i class="material-icons large right">comment</i><h4>Questionnaire modules for {{study?.name}}</h4>
 
         <a class="btn" (click)="onToggleTopicForm()">
         <i class="material-icons right" *ngIf="!showTopicForm">keyboard_arrow_down</i>
@@ -32,7 +32,7 @@
       </div>
       <div *ngIf="topics">
         <div class="row" *ngFor="let topic of topics" style="padding-left:2%">
-          <div id="{{topic.id}}" class="scrollspy">
+          <div id="{{topic?.id}}" class="scrollspy">
             <div class="col s1 m1 l1">
               <br/>
               <div class="row">
@@ -46,13 +46,13 @@
             </div>
 
             <div class="col s10 m10 l10 grey-text text-darken-2">
-              <h5>{{topic.name}}</h5>
-              {{topic.modified | localDate}} by <strong>{{topic.modifiedBy.username}}@{{topic.modifiedBy.agency.name}}</strong>
+              <h5>{{topic?.name}}</h5>
+              {{topic?.modified | localDate}} by <strong>{{topic?.modifiedBy?.username}}@{{topic?.modifiedBy?.agency?.name}}</strong>
             </div>
 
             <div class="col s10 m10 l10 white grey-text text-darken-1">
               <div class="row">
-                <p>{{topic.abstractDescription}}</p>
+                <p>{{topic?.abstractDescription}}</p>
                 <qddt-author-chip [authors]="topic.authors" ></qddt-author-chip>
               </div>
 

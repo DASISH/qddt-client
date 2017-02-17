@@ -23,8 +23,11 @@ export class TopicComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.topicService.getAll(this.study.id)
-      .subscribe((result: any) => this.topics = result);
+    if (this.study !== null && this.study !== undefined
+      && this.study.id !== null && this.study.id !== undefined) {
+      this.topicService.getAll(this.study.id)
+        .subscribe((result: any) => this.topics = result);
+    }
   }
 
   onToggleTopicForm() {

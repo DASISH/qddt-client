@@ -46,7 +46,6 @@ export class SurveyEditComponent {
   @Input() survey: SurveyProgram;
   @Input() isVisible: boolean;
   @Output() surveySavedEvent: EventEmitter<SurveyProgram> = new EventEmitter<SurveyProgram>();
-  private showlabel: boolean = false;
 
   constructor(private surveyService: SurveyService) {
   }
@@ -57,10 +56,6 @@ export class SurveyEditComponent {
       .subscribe((result: any) => this.survey = result.content
         ,(err: any) => console.log('ERROR: ', err));
     this.surveySavedEvent.emit(this.survey);
-  }
-
-  onChangeKind(value:any) {
-    this.showlabel = (value === 'MILESTONE');
   }
 
 }
