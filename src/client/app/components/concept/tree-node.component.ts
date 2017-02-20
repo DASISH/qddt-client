@@ -73,10 +73,10 @@ import { QuestionItem } from '../question/question.service';
                <li class="collection-item" *ngFor="let questionItem of concept.questionItems">
                  <div class="row">
                    <div class="col s1">
-                     <a materialize="leanModal" [materializeParams]="[{dismissible: true}]"
-                       class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                       [attr.href]="'#'+questionItem.id+'-concept-questionitem-modal'">
-                       <i class="material-icons">search</i></a>
+                     <a class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                       (click)="onClickQuestionItem(questionItem)">
+                       <i class="material-icons">search</i>
+                     </a>
                    </div>
                    <div class="col s10">{{questionItem?.question?.question}}</div>
                    <div class="col s1">
@@ -99,13 +99,14 @@ import { QuestionItem } from '../question/question.service';
            </div>
         </div>
       </div>
-      <div *ngFor="let questionItem of concept.questionItems">
-        <div [attr.id]="questionItem.id + '-concept-questionitem-modal'"
-          class="modal modal-fixed-footer">
+      <div>
+        <div [attr.id]="concept.id + '-concept-questionitem-modal'"
+          class="modal modal-fixed-footer"
+          materialize [materializeActions]="questionItemActions">
           <div class="modal-footer">
-            <button id="questionitem-modal-close"
-            class="btn btn-default red modal-action modal-close waves-effect waves-red">
-            <i class="close material-icons">close</i>
+            <button
+              class="btn btn-default red modal-action modal-close waves-effect waves-red">
+              <i class="close material-icons">close</i>
             </button>
           </div>
           <div class="modal-content">
@@ -123,6 +124,7 @@ export class TreeNodeComponent {
   @Input() concept: any;
   showConceptChildForm: boolean = false;
   showQuestionForm: boolean = false;
+  questionItemActions = new EventEmitter<string>();
   private newchild: any;
   private questionItem: any;
 
@@ -138,17 +140,9 @@ export class TreeNodeComponent {
     this.deleteConceptEvent.emit(concept);
   }
 
-  onCreateQuestionItem(concept: any) {
-    this.questionItem = new QuestionItem();
-    this.showQuestionForm = !this.showQuestionForm;
-  }
-
-  select(suggestion: any) {
-    this.questionItem.question = suggestion;
-  }
-
-  selectResponseDomain(suggestion: any) {
-    this.questionItem.responseDomain = suggestion;
+  onClickQuestionItem(questionItem) {
+    this.questionItem = questionItem;
+    this.questionItemActions.emit('openModal');
   }
 
   onChildSave() {
@@ -156,7 +150,7 @@ export class TreeNodeComponent {
     this.conceptService.saveChildConcept(this.newchild, this.concept.id)
       .subscribe((result: any) => {
         this.concept.children.push(result);
-      });
+      }, (error: any) => console.log(error));
     this.newchild = new Concept();
   }
 
@@ -166,8 +160,7 @@ export class TreeNodeComponent {
     this.conceptService.updateConcept(this.concept)
       .subscribe((result: any) => {
         this.concept = result;
-      });
-    this.questionItem = new QuestionItem();
+      }, (error: any) => console.log(error));
   }
 
   removeQuestionItem(questionItem: any) {
@@ -183,7 +176,6 @@ export class TreeNodeComponent {
     this.conceptService.updateConcept(this.concept)
       .subscribe((result: any) => {
         this.concept = result;
-      });
-    this.questionItem = new QuestionItem();
+      }, (error: any) => console.log(error));
   }
 }
