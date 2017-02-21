@@ -28,7 +28,7 @@ import { TopicService, Topic } from './topic.service';
        </div>
        <div class="input-field col s4">
          <p><label class="active teal-text">Agency</label></p>
-          <div class="chip" >{{topic.modifiedBy.agency.name}}</div>
+          <div class="chip" >{{topic?.modifiedBy?.agency?.name}}</div>
          </div>
        </div>
    </div>
@@ -39,8 +39,7 @@ import { TopicService, Topic } from './topic.service';
 export class TopicUsedbyComponent implements OnChanges {
 
   @Input() id: string;
-
-  private topic: Topic;
+  topic: Topic;
 
   constructor(private topicService: TopicService) {
   }
@@ -49,7 +48,7 @@ export class TopicUsedbyComponent implements OnChanges {
     if (this.id !== null && this.id !== undefined) {
       this.topicService.getTopic(this.id).subscribe((result: any) => {
         this.topic = result;
-      });
+      }, (error:any) => console.log(error));
     }
   }
 
