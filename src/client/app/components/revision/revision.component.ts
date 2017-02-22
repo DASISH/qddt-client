@@ -29,15 +29,15 @@ import { RevisionService } from './revision.service';
         </thead>
         <tbody>
           <tr *ngFor="let content of revisions; let idx=index">
-              <td>{{content.metadata.revisionNumber}}</td>
-              <td>{{content.entity.version.major}}.{{content.entity.version.minor}} {{content.entity.version.versionLabel}}</td>
+              <td>{{content?.metadata?.revisionNumber}}</td>
+              <td>{{content?.entity?.version?.major}}.{{content?.entity?.version?.minor}} {{content?.entity?.version?.versionLabel}}</td>
               <td (click)="onSelectRevision(idx)" [ngStyle]="{'cursor': 'pointer'}">
                 <i class="material-icons">transform</i>
               </td>
-              <td>{{content.metadata.delegate.timestamp | date:'dd MM yyyy HH:mm'}}</td>
-              <td>{{content.entity.changeKind}}</td>
+              <td>{{content?.metadata?.delegate?.timestamp | date:'dd MM yyyy HH:mm'}}</td>
+              <td>{{content?.entity?.changeKind}}</td>
               <td>{{content?.entity?.modifiedBy?.username}}</td>
-              <td>{{content.entity.changeComment}}</td>
+              <td>{{content?.entity?.changeComment}}</td>
           </tr>
         </tbody>
       </table>
