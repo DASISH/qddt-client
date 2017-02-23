@@ -4,24 +4,24 @@ import { TestBed, async } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
-import { TopicService } from '../topic.service';
+import { StudyService } from '../study.service';
 import { BaseService } from '../../../common/base.service';
-import { TopicEditComponent } from './topic_edit.component';
+import { StudyEditComponent } from './study.edit.component';
 import { API_BASE_HREF } from '../../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
 
 export function main() {
-  describe('Topic edit component', () => {
+  describe('Study edit component', () => {
     //
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [RevisionDetailComponent, RationalComponent, TopicEditComponent],
+        declarations: [RevisionDetailComponent, RationalComponent, StudyEditComponent],
         providers: [
           MockBackend,
           BaseRequestOptions,
-          { provide: TopicService, useClass: TopicServiceSpy },
+          { provide: StudyService, useClass: StudyServiceSpy },
           {
             provide: Http,
             useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),
@@ -36,12 +36,12 @@ export function main() {
       });
     });
 
-    it('should work with null topic',
+    it('should work with null study',
       async(() => {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(TopicEditComponent);
+            let fixture = TestBed.createComponent(StudyEditComponent);
             fixture.componentInstance.isVisible = true;
             fixture.detectChanges();
             let de: any = fixture.debugElement.queryAll(By.css('div'));
@@ -49,25 +49,23 @@ export function main() {
           });
       }));
 
-    it('should work with topics',
+    it('should work with studies',
       async(() => {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(TopicEditComponent);
+            let fixture = TestBed.createComponent(StudyEditComponent);
             fixture.componentInstance.isVisible = true;
-            fixture.componentInstance.topic = {
+            fixture.componentInstance.study = {
               'id': '7f000101-54aa-131e-8154-aa27fc230000',
-              'name': 'one topic',
-              'abstract_description': '',
-              'otherMaterials': [],
-              'authors': []
+              'name': 'one study',
+              'description': ''
             };
             fixture.detectChanges();
             fixture.whenStable().then(() => {
               let input: any = fixture.debugElement.queryAll(By.css('input'));
               expect(input.length).toBeGreaterThan(0);
-              expect(input[0].nativeNode.value).toContain('topic');
+              expect(input[0].nativeNode.value).toContain('study');
               fixture.componentInstance.onSave();
               fixture.detectChanges();
               fixture.whenStable().then(() => {
@@ -82,14 +80,12 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(TopicEditComponent);
+            let fixture = TestBed.createComponent(StudyEditComponent);
             fixture.componentInstance.isVisible = true;
-            fixture.componentInstance.topic = {
+            fixture.componentInstance.study = {
               'id': '7f000101-54aa-131e-8154-aa27fc230000',
-              'name': 'one topic',
-              'abstract_description': '',
-              'otherMaterials': [],
-              'authors': []
+              'name': 'one study',
+              'description': ''
             };
             fixture.componentInstance.onSave();
             fixture.detectChanges();
@@ -102,7 +98,7 @@ export function main() {
 }
 
 //override dependencies
-class TopicServiceSpy {
+class StudyServiceSpy {
   edit = jasmine.createSpy('edit').and.callFake(function (key) {
     return [];
   });

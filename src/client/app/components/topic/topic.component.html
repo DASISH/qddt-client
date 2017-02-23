@@ -56,7 +56,7 @@
                 <qddt-author-chip [authors]="topic.authors" ></qddt-author-chip>
               </div>
 
-              <topic-edit [isVisible]="edit.isVisible" [topic]="topic" #edit></topic-edit>
+              <qddt-topic-edit [isVisible]="edit.isVisible" [topic]="topic" #edit></qddt-topic-edit>
 
               <qddt-revision [isVisible]="revision.isVisible" [current]="topic"
                 [config]="[{'name':'name','label':'Name'},{'name':'description','label':'Description'}]"

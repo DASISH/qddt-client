@@ -2,7 +2,7 @@
   <div class="col s12 m9">
     <div class="card white white-text text-lighten-2">
       <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
-        <i class="material-icons large right">comment</i><h4>Studies for {{survey.name}}</h4>
+        <i class="material-icons large right">comment</i><h4>Studies for {{survey?.name}}</h4>
 
         <a class="btn" (click)="onToggleStudyForm()">
         <i class="material-icons right" *ngIf="!showStudyForm">keyboard_arrow_down</i>
@@ -45,17 +45,17 @@
             </div>
 
             <div class="col s10 m10 l10 grey-text text-darken-2">
-              <h5>{{study.name}}</h5>
-              {{study.modified | localDate}} by <strong>{{study.modifiedBy.username}}@{{study.modifiedBy.agency.name}}</strong>
+              <h5>{{study?.name}}</h5>
+              {{study?.modified | localDate}} by <strong>{{study?.modifiedBy?.username}}@{{study?.modifiedBy?.agency?.name}}</strong>
             </div>
 
             <div class="col s10 m10 l10 white grey-text text-darken-1">
               <div class="row">
-                <p>{{study.description}}</p>
+                <p>{{study?.description}}</p>
                 <qddt-author-chip [authors]="study.authors" ></qddt-author-chip>
               </div>
 
-              <study-edit [study]="study" [surveyId]="survey.id" #edit></study-edit>
+              <qddt-study-edit [study]="study" [surveyId]="survey.id" #edit></qddt-study-edit>
 
               <qddt-revision [isVisible]="revision.isVisible" [current]="study"
                 [config]="[{'name':'name','label':'Name'},{'name':'description','label':'Description'}]"

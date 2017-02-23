@@ -3,7 +3,7 @@ import { Component, Input, EventEmitter, Output, OnChanges } from '@angular/core
 import { StudyService, Study } from './study.service';
 
 @Component({
-  selector: 'study',
+  selector: 'qddt-study',
   moduleId: module.id,
   templateUrl: './study.component.html',
   providers: [StudyService],

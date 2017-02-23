@@ -3,7 +3,7 @@ import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
 import { TopicService, Topic } from './topic.service';
 
 @Component({
-  selector: 'topic',
+  selector: 'qddt-topic',
   moduleId: module.id,
   templateUrl: './topic.component.html',
   providers: [TopicService],

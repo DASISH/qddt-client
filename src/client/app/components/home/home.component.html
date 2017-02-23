@@ -14,13 +14,13 @@
     (surveySelectEvent)="onSurveySelect($event)">
   </qddt-survey>
 
-  <study *ngIf="survey" [show]="showStudy"
+  <qddt-study *ngIf="survey" [show]="showStudy"
     [survey]="survey" (studySelectedEvent)="onStudySelected($event)">
-  </study>
+  </qddt-study>
 
-  <topic  *ngIf="study" [show]="showTopic"
+  <qddt-topic  *ngIf="study" [show]="showTopic"
     [study]="study" (topicSelectedEvent)="onTopicSelected($event)">
-  </topic>
+  </qddt-topic>
 
   <concept *ngIf="topic"  [show]="showConcept"
     [topic]="topic"  (conceptSelectedEvent)="onConceptSelected($event)">

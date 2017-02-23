@@ -6,7 +6,7 @@ import { Observable }     from 'rxjs/Observable';
 let fileSaver = require('../../controlconstruct/filesaver');
 
 @Component({
-  selector: 'topic-edit',
+  selector: 'qddt-topic-edit',
   moduleId: module.id,
   providers: [TopicService],
   template: `

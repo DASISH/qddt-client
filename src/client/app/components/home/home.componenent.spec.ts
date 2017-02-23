@@ -70,7 +70,7 @@ class SurveyProgramComponent {
 }
 
 @Component({
-  selector: 'study',
+  selector: 'qddt-study',
   template: `<div>
     </div>`
 })
@@ -80,7 +80,7 @@ class StudyComponent {
 }
 
 @Component({
-  selector: 'topic',
+  selector: 'qddt-topic',
   template: `<div>
     </div>`
 })

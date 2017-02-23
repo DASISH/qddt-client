@@ -26,7 +26,7 @@ import { StudyService, Study } from './study.service';
        </div>
        <div class="input-field col s4">
          <p><label class="active teal-text">Agency</label></p>
-          <div class="chip" >{{study.modifiedBy.agency.name}}</div>
+          <div class="chip" >{{study?.modifiedBy?.agency?.name}}</div>
          </div>
        </div>
    </div>
@@ -38,7 +38,7 @@ export class StudyUsedbyComponent implements OnChanges {
 
   @Input() id: string;
 
-  private study: Study;
+  study: Study;
 
   constructor(private studyService: StudyService) {
   }

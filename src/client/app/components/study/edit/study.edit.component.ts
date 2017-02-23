@@ -3,7 +3,7 @@
  import { StudyService, Study } from '../study.service';
 
  @Component({
-   selector: 'study-edit',
+   selector: 'qddt-study-edit',
    moduleId: module.id,
    providers: [StudyService],
    template:
