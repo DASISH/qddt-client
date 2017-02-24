@@ -21,12 +21,14 @@ import { ResponsedomainModule } from './components/responsedomain/responsedomain
 import { ControlConstructModule } from './components/controlconstruct/controlconstruct.module';
 import { InstrumentModule } from './components/instrument/instrument.module';
 import { SequenceModule } from './components/sequence/sequence.module';
+import { PublicationModule } from './components/publication/publication.module';
 
 @NgModule({
   imports: [ BrowserModule, HttpModule, CategoryModule,
     QuestionModule, ResponsedomainModule, ControlConstructModule,
     routing, HomeModule, LoginModule, RevisionModule, SequenceModule,
-    InstrumentModule, CompareModule, CommentModule, SharedModule],
+    InstrumentModule, CompareModule, CommentModule, SharedModule,
+    PublicationModule ],
   declarations: [ AppCmp ],
   providers: [UserService, {
     provide: APP_BASE_HREF,

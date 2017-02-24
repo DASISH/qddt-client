@@ -58,6 +58,10 @@ export class AppCmp implements AfterContentChecked {
     this.checkRouter('constructs', 'list');
   }
 
+  onPublications() {
+    this.checkRouter('publications', 'list');
+  }
+
   private checkRouter(target: string, value: string) {
     let current = this.userService.getGlobalObject('current');
     if (current === target) {

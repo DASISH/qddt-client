@@ -9,6 +9,7 @@ import { ResponsedomainComponent } from './components/responsedomain/responsedom
 import { ControlConstructComponent } from './components/controlconstruct/controlconstruct.component';
 import { InstrumentComponent } from './components/instrument/instrument.component';
 import { SequenceComponent } from './components/sequence/sequence.component';
+import { PublicationComponent } from './components/publication/publication.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'Home', pathMatch: 'full'},
@@ -43,6 +44,10 @@ const appRoutes: Routes = [
   {
     path: 'Sequences',
     component: SequenceComponent
+  },
+  {
+    path: 'Publications',
+    component: PublicationComponent
   },
 ];
 
