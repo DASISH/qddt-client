@@ -24,19 +24,39 @@
                   </textarea>
                   <label for="name" class="white-text">Name</label>
                 </div>
-                <div class="input-field col s10">
+              </div>
+              <div class="row">
+                <div class="input-field col s6">
                   <textarea id="purpose" name="purpose" class="materialize-textarea"
-                    [(ngModel)]="publication.name" [attr.maxlength]="255"
+                    [(ngModel)]="publication.purpose" [attr.maxlength]="255"
                     required>
                   </textarea>
                   <label for="purpose" class="white-text">Purpose</label>
                 </div>
-                <div class="input-field col s10">
-                  <label [attr.for]="'publicationKind'" class="active white-text">Publication Type</label>
-                  <input [attr.id]="'publicationKind'"
-                    name="publicationKind"
-                    [(ngModel)]="publication.publicationKind">
+              </div>
+              <div class="row">
+                <div class="input-field col s6">
+                  <select materialize="material_select" [materializeSelectOptions]="selectOptions"
+                    (change)="onSelectChange($event.target.value)">
+                    <option
+                      [value]="0">Not Published</option>
+                    <optgroup *ngFor="let option of selectOptions"
+                      [attr.label]="option.label">
+                      <option *ngFor="let child of option.children"
+                        [value]="child.id">{{child.label}}</option>
+                    </optgroup>
+                  </select>
+                  <label class="white-text">Publication status</label>
                 </div>
+              </div>
+              <qddt-publication-reuse></qddt-publication-reuse>
+              <div class="row white teal-text">
+                <table>
+                  <tr><th>element id</th><th>revisionNumber</th><th>type</th></tr>
+                  <tr *ngFor="let e of publication.publicationElements">
+                    <td>{{e.id}}</td><td>{{e.revisionNumber}}</td><td>{{e.elementKind}}</td>
+                  </tr>
+                </table>
               </div>
               <button type="submit" class="btn btn-default disabled">Submit</button>
             </form>

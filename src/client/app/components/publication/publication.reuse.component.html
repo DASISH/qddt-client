@@ -1,0 +1,56 @@
+<div class="row white white-text">
+  <div class="row teal-text">
+		<span name="col text">Add element</span>
+    <div class="col right">
+      <i class="material-icons right" title="add Element" [ngStyle]="{'cursor': 'pointer'}"
+        (click)="onToggleAddElement()">add
+      </i>
+    </div>
+  </div>
+  <div class="row" *ngIf="showAddElement">
+    <div class="row teal-text">
+		  <span name="col text">Element Type:</span>
+	  </div>
+    <div class="row" >
+		  <div class="left" *ngFor="let element of elementTypes">
+			  <input name="elementtypegroup"
+        type="radio"
+        id="element-type-{{element.id}}"
+        (click)="onSelectElementType(element.id)"
+        [checked]="elementType === element.id"/>
+        <label [attr.for]="'element-type-' + element.id">{{element.label}}</label>
+		  </div>
+    </div>
+    <div class="row">
+      <div class="row">
+        <autocomplete [items]="elements" class="black-text"
+          [searchField]="'name'"
+		      [searchFromServer]="true"
+          (autocompleteSelectEvent)="onSelectElement($event)"
+		      (enterEvent)="onSearchElements($event)">
+		    </autocomplete>
+      </div>
+      
+    </div>
+  </div>
+  <div *ngIf="selectedElement" class="row teal-text">
+    <qddt-publication-preview *ngIf="showAddElement"
+      [element]="selectedElement"
+      [elementType]="elementType">
+    </qddt-publication-preview>
+  </div>
+</div>
+
+<div [attr.id]="'create-publication-modal'" class="modal"
+  materialize [materializeActions]="actions">
+  <div class="modal-content">
+    
+  </div>
+  <div class="modal-footer">
+    <button
+      (click)="false"
+      class="btn btn-default red modal-action modal-close waves-effect">
+      <a><i class="close material-icons medium white-text">close</i></a>
+    </button>
+  </div>
+</div>

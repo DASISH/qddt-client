@@ -3,14 +3,17 @@ import { Http } from '@angular/http';
 
 import { API_BASE_HREF } from '../../api';
 import { BaseService } from '../../common/base.service';
+import { Observable }     from 'rxjs/Observable';
+
+export const PUBLICATIONNOTPUBLISHED = { 'id': 0, 'name': 'NOTPUBLISHED', 'label':'Not Published', 'children': [],
+  'description': 'Elements and discussion made available for key '
+    + 'members of a questionnaire design sub'
+    + ' group, but not designed to be published internally'};
 
 export const PublicationStatus: any = [
-    { 'id': 0, 'name': 'NOTPUBLISHED', 'label':'Not Published', 'children': [],
-      'description': 'Elements and discussion made available for key '
-        + 'members of a questionnaire design sub'
-        + ' group, but not designed to be published internally'},
-    { 'id': 1, 'name': 'INTERNALPUBLICATION', 'label':'Internal publication',
-      'children': [
+  {
+    'id': 1, 'name': 'INTERNALPUBLICATION', 'label': 'Internal publication',
+    'children': [
       {
         'id': 10,
         'name': 'Designmeeting1', 'label': 'Designmeeting 1',
@@ -59,16 +62,18 @@ export const PublicationStatus: any = [
         'description': 'Use for publication of elements between key milestones.',
         'children': [],
       },
-      ]},
-    { 'id': 2, 'name': 'EXTERNALPUBLICATION', 'label': 'External publication',
-       'children': [
+    ]
+  },
+  {
+    'id': 2, 'name': 'EXTERNALPUBLICATION', 'label': 'External publication',
+    'children': [
       {
         'id': 20,
         'name': 'ExportToPublic_History', 'label': 'Export to Public History',
         'description': 'In addition to the final elements, '
-          + 'the development history will be made -available to the public. '
-          + 'The published development history might however be an edited '
-          + 'version of the development process that is stored in the database.'
+        + 'the development history will be made -available to the public. '
+        + 'The published development history might however be an edited '
+        + 'version of the development process that is stored in the database.'
       },
       {
         'id': 21,
@@ -80,7 +85,22 @@ export const PublicationStatus: any = [
         'name': 'ExportToQVDB', 'label': 'Export to QVDB',
         'description': 'Once finalized, elements will be exported to the QVDB to be made publically available'
       }]
-    }
+  }
+];
+
+export const ElementTypes: any[] = [
+    {'id': 1, 'label': 'Module', 'path': 'topic',
+      'fields': ['name', 'description']},
+    {'id': 2, 'label': 'Concept', 'path': 'concept',
+      'fields': ['name', 'description']},
+    {'id': 3, 'label': 'QuestionItem', 'path': 'questionitem',
+      'fields': ['name', 'question']},
+    {'id': 4, 'label': 'QuestionConstruct', 'path': 'controlconstruct',
+      'fields': ['name', 'questiontext'], 'parameter': '&constructkind=QUESTION_CONSTRUCT'},
+    {'id': 5, 'label': 'Sequence', 'path': 'controlconstruct',
+      'fields': ['name', 'description'], 'parameter': '&constructkind=SEQUENCE_CONSTRUCT'},
+    {'id': 6, 'label': 'Instrument', 'path': 'instrument',
+      'fields': ['name', 'description']}
   ];
 
 export class PublicationElement {
@@ -92,6 +112,7 @@ export class PublicationElement {
 export class Publication {
   id: string;
   name: string;
+  purpose: string;
   publicationKind: string;
   publicationElements: any[];
 }
@@ -113,6 +134,32 @@ export class PublicationService extends BaseService {
 
   getAll(page: String = '0'): any {
     return this.get('publication/page');
+  }
+
+  getElements(elementTypeId: number, name: string) {
+    let query = '?';
+    let e: any = ElementTypes.find(e => e.id === elementTypeId);
+    if (e !== undefined) {
+      if (name.length > 0) {
+        let fields: any[] = e.fields;
+        for (let i = 0; i < fields.length; i++) {
+          query += '&' + fields[i] + '=*' + name + '*';
+        }
+      }
+      if(e.parameter) {
+        query += e.parameter;
+      }
+      return this.get(e.path + '/page/search' + query);
+    }
+    return Observable.of([]);
+  }
+
+  getElementRevisions(elementTypeId: number, id: string) : any {
+    let e: any = ElementTypes.find(e => e.id === elementTypeId);
+    if (e !== undefined) {
+      return this.get('audit/' + e.path + '/' + id + '/all');
+    }
+    return Observable.of([]);
   }
 
 }

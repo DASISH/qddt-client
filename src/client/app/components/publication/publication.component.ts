@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
-import { PublicationService, Publication } from './publication.service';
+import { PublicationService, Publication, PublicationStatus, PUBLICATIONNOTPUBLISHED } from './publication.service';
 
 @Component({
   selector: 'qddt-publication',
@@ -17,6 +17,8 @@ export class PublicationComponent implements OnInit {
   showPublicationForm: boolean = false;
   actions = new EventEmitter<string>();
   error: any;
+  selectOptions: any[] = PublicationStatus;
+  showAddElement: boolean;
 
   private publications: any[];
   private page: any;
@@ -76,7 +78,11 @@ export class PublicationComponent implements OnInit {
     this.showPublicationForm = !this.showPublicationForm;
     if (this.showPublicationForm) {
       this.publication = new Publication();
-      this.publication.publicationElements = [];
+      this.publication.publicationElements = [
+        {id: '1', revisionNumber: '2', elementKind: 'questionitem'},
+        {id: '2', revisionNumber: '3', elementKind: 'questionitem'},
+      ];
+      this.publication.publicationKind = PUBLICATIONNOTPUBLISHED.name;
     }
   }
 
@@ -89,18 +95,27 @@ export class PublicationComponent implements OnInit {
     this.isDetail = false;
   }
 
+  onSelectChange(value: number) {
+    if(value >= 10 && value < 20) {
+      this.publication.publicationKind = this.selectOptions[0].children[value - 10].name;
+    } else if(value >= 20 && value < 30) {
+      this.publication.publicationKind = this.selectOptions[1].children[value - 20].name;
+    }
+  }
+
   onPage(page: string) {
-    console.log(page);
+    //console.log(page);
   }
 
   onCreatePublication() {
     this.showPublicationForm = false;
-    this.service.create(this.publication)
+    /*TODO disable for demo
+       this.service.create(this.publication)
       .subscribe((result: any) => {
         this.publications = [result].concat(this.publications);
       }, (error: any) => {
         this.popupModal(error);
-      });
+      });*/
     this.isDetail = false;
   }
 
