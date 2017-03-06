@@ -14,7 +14,7 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
 
   showCategoryForm: boolean = false;
 
-  private categories: any;
+  categories: any;
   private page: any;
   private category: any;
   private searchKeys: string;

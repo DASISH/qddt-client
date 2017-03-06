@@ -16,7 +16,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
   showCategoryForm: boolean = false;
   @Output() categorySelectedEvent: EventEmitter<any> = new EventEmitter<any>();
 
-  private categories: any[];
+  categories: any[];
   private missingCategories: any;
   private category: Category;
   private categoryEnums: any;

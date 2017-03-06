@@ -18,9 +18,9 @@
         <p>{{category?.description}}</p>
       </div>
 
-      <category-edit [isVisible]="true" [category]="category" [categories]="categories"
+      <qddt-category-edit [isVisible]="true" [category]="category" [categories]="categories"
         (editDetailEvent)="hideDetail()"
-        #edit></category-edit>
+        #edit></qddt-category-edit>
 
       <qddt-revision [isVisible]="revisionIsVisible"
         [current]="category"

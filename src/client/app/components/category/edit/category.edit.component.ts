@@ -3,7 +3,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { CategoryService, Category } from '../category.service';
 import { CategoryType } from '../category_kind';
 @Component({
-  selector: 'category-edit',
+  selector: 'qddt-category-edit',
   moduleId: module.id,
   providers: [CategoryService,CategoryType],
   template: `
@@ -82,7 +82,13 @@ export class CategoryEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    if(this.category === null || this.category === undefined) {
+      this.category = new Category();
+    }
     this.savedObject = JSON.stringify(this.category);
+    if(this.categories === null || this.categories === undefined) {
+      this.categories = [];
+    }
     this.savedCategoriesIndex = this.categories
       .findIndex(q => q['id'] === this.category['id']);
     this.isTemplate = this.category['hierarchyLevel'] === 'GROUP_ENTITY';
