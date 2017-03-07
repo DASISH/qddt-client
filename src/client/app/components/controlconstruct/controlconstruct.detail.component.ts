@@ -16,6 +16,7 @@ let fileSaver = require('./filesaver');
 
 export class ControlConstructDetailComponent implements OnInit {
   @Input() controlConstruct: ControlConstruct;
+  @Input() controlConstructId: string;
   @Input() controlConstructs: ControlConstruct[];
   @Input() isVisible: boolean;
   @Output() hideDetailEvent: EventEmitter<String> = new EventEmitter<String>();
@@ -49,10 +50,16 @@ export class ControlConstructDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.savedObject = JSON.stringify(this.controlConstruct);
-    this.savedControlConstructsIndex = this.controlConstructs
-      .findIndex(q => q['id'] === this.controlConstruct['id']);
-    this.config = this.buildRevisionConfig();
+    if (this.controlConstructId !== null && this.controlConstructId !== undefined) {
+      this.service.getControlConstruct(this.controlConstructId)
+        .subscribe((result: any) => {
+          this.controlConstruct = result;
+          this.init();
+        },
+        (error: any) => console.log(error));
+    } else {
+      this.init();
+    }
   }
 
   hideDetail() {
@@ -208,6 +215,13 @@ export class ControlConstructDetailComponent implements OnInit {
 
   private popupModal(error: any) {
     this.exceptionEvent.emit(error);
+  }
+
+  private init() {
+    this.savedObject = JSON.stringify(this.controlConstruct);
+    this.savedControlConstructsIndex = this.controlConstructs
+      .findIndex(q => q['id'] === this.controlConstruct['id']);
+    this.config = this.buildRevisionConfig();
   }
 
   private buildRevisionConfig(): any[] {

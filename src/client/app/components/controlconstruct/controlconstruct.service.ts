@@ -30,6 +30,10 @@ export class ControlConstructService extends BaseService {
     return this.post(c, 'controlconstruct/create');
   }
 
+  getControlConstruct(id: string): any {
+    return this.get('controlconstruct/' + id);
+  }
+
   uploadFile(id: string, files: any): any {
     let headers = new Headers();
     let jwt = localStorage.getItem('jwt');

@@ -143,7 +143,7 @@
   </div>
 
   <qddt-controle-construct-detail *ngIf="isDetail"
-    [controlConstruct]="selectedControlConstruct"
+    [controlConstructId]="selectedControlConstruct.id"
     [controlConstructs]="controlConstructs"
     (exceptionEvent)="popupModal($event)"
     (hideDetailEvent)="hideDetail()">
