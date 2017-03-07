@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Input } from '@angular/core';
+import { Component, OnChanges, EventEmitter, Input } from '@angular/core';
 import { PublicationStatus, PublicationService, ElementTypes } from './publication.service';
 import { Subject } from 'rxjs/Subject';
 
@@ -9,7 +9,7 @@ import { Subject } from 'rxjs/Subject';
   providers: [PublicationService],
 })
 
-export class PublicationPreviewComponent implements OnInit {
+export class PublicationPreviewComponent implements OnChanges {
   @Input() element: any;
   @Input() elementType: any;
 
@@ -21,14 +21,15 @@ export class PublicationPreviewComponent implements OnInit {
     this.elementRevisions = [];
   }
 
-  ngOnInit() {
+  ngOnChanges() {
+    this.selectedElement = this.element;
     if (this.element !== null && this.element !== undefined
       && this.element.id !== null && this.element.id !== undefined) {
-      /*this.service.getElementRevisions(this.elementType, this.element.id).subscribe((result: any) => {
+      this.service.getElementRevisions(this.elementType, this.element.id).subscribe((result: any) => {
         this.elementRevisions = result.content.sort((e1: any, e2: any) => e2.revisionNumber - e1.revisionNumber);
         this.onSelectElementRevisions();
       },
-        (error: any) => { console.log(error); });*/
+        (error: any) => { console.log('error'); });
     }
   }
 

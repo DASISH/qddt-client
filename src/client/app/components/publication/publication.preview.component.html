@@ -2,9 +2,13 @@
   Preview
   <div [ngSwitch]="elementType">
     <div *ngSwitchCase="3">
-      <div>{{element?.question?.question}}</div>
-      <qddt-responsedomain-preview *ngIf="element.responseDomain"
-        [isVisible]="true" [responseDomain]="element.responseDomain">
+      <div>{{selectedElement?.question?.question}}
+        <label class="active teal-text">V<!--
+        -->{{selectedElement?.version?.major}}.<!--
+        -->{{selectedElement?.version?.minor}}</label>
+      </div>
+      <qddt-responsedomain-preview *ngIf="selectedElement.responseDomain"
+        [isVisible]="true" [responseDomain]="selectedElement.responseDomain">
       </qddt-responsedomain-preview>
     </div>
   </div>
