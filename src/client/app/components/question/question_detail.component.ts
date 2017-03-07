@@ -11,6 +11,7 @@ import { QuestionService, QuestionItem, Question } from './question.service';
 
 export class QuestionDetail implements OnInit {
   @Input() questionitem: QuestionItem;
+  @Input() questionitemId: string;
   @Input() questionitems: QuestionItem[];
   @Input() isVisible: boolean;
   @Output() hideDetailEvent: EventEmitter<String> = new EventEmitter<String>();
@@ -32,13 +33,15 @@ export class QuestionDetail implements OnInit {
   }
 
   ngOnInit() {
-    if(this.questionitem.question === null) {
-      this.questionitem.question = new Question();
+    if(this.questionitemId !== null && this.questionitemId !== undefined) {
+      this.service.getquestion(this.questionitemId)
+        .subscribe((result: any) => {
+          this.questionitem = result;
+          this.init();
+        }, (error: any) => console.log(error));
+    } else {
+      this.init();
     }
-    this.savedObject = JSON.stringify(this.questionitem);
-    this.savedQuestionitemsIndex = this.questionitems
-      .findIndex(q => q['id'] === this.questionitem['id']);
-    this.config = this.buildRevisionConfig();
   }
 
   hidDetail() {
@@ -123,6 +126,16 @@ export class QuestionDetail implements OnInit {
     }});
 
     return config;
+  }
+
+  private init() {
+    if(this.questionitem.question === null) {
+      this.questionitem.question = new Question();
+    }
+    this.savedObject = JSON.stringify(this.questionitem);
+    this.savedQuestionitemsIndex = this.questionitems
+      .findIndex(q => q['id'] === this.questionitem['id']);
+    this.config = this.buildRevisionConfig();
   }
 
 }

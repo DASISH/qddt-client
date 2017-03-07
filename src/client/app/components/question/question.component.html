@@ -82,7 +82,7 @@
     </div>
   </div>
 
-  <qddt-questionitem-detail *ngIf="isDetail" [questionitem]="selectedQuestionItem"
+  <qddt-questionitem-detail *ngIf="isDetail" [questionitemId]="selectedQuestionItem.id"
     [questionitems]="questionitems" (hideDetailEvent)="hideDetail()"></qddt-questionitem-detail>
 </div>
 
