@@ -51,10 +51,15 @@
               </div>
               <qddt-publication-reuse></qddt-publication-reuse>
               <div class="row white teal-text">
+                <div class="row">Content list</div>
                 <table>
-                  <tr><th>element id</th><th>revisionNumber</th><th>type</th></tr>
+                  <tr><th>Detail</th><th>Element type</th><th>Element name</th><th>Version</th></tr>
                   <tr *ngFor="let e of publication.publicationElements">
-                    <td>{{e.id}}</td><td>{{e.revisionNumber}}</td><td>{{e.elementKind}}</td>
+                    <td (click)="onElementDetail(e)" [ngStyle]="{'cursor': 'pointer'}">
+                      <a><i class="material-icons left smal">search</i></a>
+                    </td>
+                    <td>{{e?.elementKind}}</td><td>{{e?.name}}</td>
+                    <td>{{e?.version?.major}}.{{e?.version?.minor}}</td>
                   </tr>
                 </table>
               </div>
@@ -79,12 +84,12 @@
   </qddt-publication-detail>
 </div>
 
-<div [attr.id]="'create-publication-modal'" class="modal"
+<div [attr.id]="'publication-detail-modal'" class="modal"
   materialize [materializeActions]="actions">
   <div class="modal-content">
     <div class="row">
-      <h4>An error occured</h4>
-      <span>{{error}}</span>
+      <h4>Detail</h4>
+      <span *ngIf="selectedElementDetail">{{selectedElementDetail.name}}</span>
     </div>
   </div>
   <div class="modal-footer">

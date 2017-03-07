@@ -22,6 +22,7 @@ export class PublicationComponent implements OnInit {
 
   private publications: any[];
   private page: any;
+  private selectedElementDetail: any;
   private publication: any;
   private searchKeys: string;
   private selectedPublication: any;
@@ -79,8 +80,10 @@ export class PublicationComponent implements OnInit {
     if (this.showPublicationForm) {
       this.publication = new Publication();
       this.publication.publicationElements = [
-        {id: '1', revisionNumber: '2', elementKind: 'questionitem'},
-        {id: '2', revisionNumber: '3', elementKind: 'questionitem'},
+        {id: '1', revisionNumber: '2', elementKind: 'questionitem',
+          'name': 'test1', 'version': { 'major': 2, 'minor': 1}},
+        {id: '2', revisionNumber: '3', elementKind: 'questionitem',
+          'name': 'test2', 'version': { 'major': 3, 'minor': 2}},
       ];
       this.publication.publicationKind = PUBLICATIONNOTPUBLISHED.name;
     }
@@ -89,6 +92,11 @@ export class PublicationComponent implements OnInit {
   onDetail(i: any) {
     this.selectedPublication = i;
     this.isDetail = true;
+  }
+
+  onElementDetail(e: any) {
+    this.selectedElementDetail = e;
+    this.actions.emit('openModal');
   }
 
   hideDetail() {
@@ -114,7 +122,7 @@ export class PublicationComponent implements OnInit {
       .subscribe((result: any) => {
         this.publications = [result].concat(this.publications);
       }, (error: any) => {
-        this.popupModal(error);
+        console.log(error);
       });*/
     this.isDetail = false;
   }
@@ -127,12 +135,8 @@ export class PublicationComponent implements OnInit {
         this.publications = this.demo;
         this.page = result.page;
       }, (error: any) => {
-        this.popupModal(error);
+        console.log(error);
       });
   }
 
-  private popupModal(error: any) {
-    this.error = error;
-    this.actions.emit('openModal');
-  }
 }
