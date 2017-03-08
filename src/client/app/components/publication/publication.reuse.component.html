@@ -36,6 +36,7 @@
   <div *ngIf="selectedElement" class="row teal-text">
     <qddt-publication-preview *ngIf="showAddElement"
       [element]="selectedElement"
+      (publicationElement)="onUse($event)"
       [elementType]="elementType">
     </qddt-publication-preview>
   </div>

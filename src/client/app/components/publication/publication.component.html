@@ -49,7 +49,7 @@
                   <label class="white-text">Publication status</label>
                 </div>
               </div>
-              <qddt-publication-reuse></qddt-publication-reuse>
+              <qddt-publication-reuse (publicationElement)="addElement($event)"></qddt-publication-reuse>
               <div class="row white teal-text">
                 <div class="row">Content list</div>
                 <table>
@@ -58,12 +58,12 @@
                     <td (click)="onElementDetail(e)" [ngStyle]="{'cursor': 'pointer'}">
                       <a><i class="material-icons left smal">search</i></a>
                     </td>
-                    <td>{{e?.elementKind}}</td><td>{{e?.name}}</td>
-                    <td>{{e?.version?.major}}.{{e?.version?.minor}}</td>
+                    <td>{{e?.elementKind}}</td><td>{{e?.element?.name}}</td>
+                    <td>{{e?.element?.version?.major}}.{{e?.element?.version?.minor}}</td>
                   </tr>
                 </table>
               </div>
-              <button type="submit" class="btn btn-default disabled">Submit</button>
+              <button type="submit" class="btn btn-default">Submit</button>
             </form>
           </div>
         </div>

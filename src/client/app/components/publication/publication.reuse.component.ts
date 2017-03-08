@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { PublicationStatus, PublicationService, ElementTypes } from './publication.service';
+import { PublicationStatus, PublicationService, ElementTypes, PublicationElement } from './publication.service';
 import { Subject } from 'rxjs/Subject';
 
 @Component({
@@ -18,7 +18,7 @@ import { Subject } from 'rxjs/Subject';
 })
 
 export class PublicationReuseComponent implements OnInit {
-  @Output() element: any = new EventEmitter<any>();
+  @Output() publicationElement: any = new EventEmitter<any>();
   showAddElement: boolean = false;
   showReplayElement: boolean = false;
   error: any;
@@ -71,15 +71,11 @@ export class PublicationReuseComponent implements OnInit {
     }
   }
 
-  onUse() {
-    this.element.emit(this.selectedElement);
+  onUse(element: any) {
+    this.publicationElement.emit(element);
     this.showAddElement = false;
     this.selectedElement = null;
     return false;
-  }
-
-  onGetElement(element) {
-    this.selectedElement = element;
   }
 
   private popupModal(error: any) {

@@ -1,5 +1,5 @@
-import { Component, OnChanges, EventEmitter, Input } from '@angular/core';
-import { PublicationStatus, PublicationService, ElementTypes } from './publication.service';
+import { Component, OnChanges, EventEmitter, Input, Output } from '@angular/core';
+import { PublicationStatus, PublicationService, ElementTypes, PublicationElement } from './publication.service';
 import { Subject } from 'rxjs/Subject';
 
 @Component({
@@ -12,6 +12,7 @@ import { Subject } from 'rxjs/Subject';
 export class PublicationPreviewComponent implements OnChanges {
   @Input() element: any;
   @Input() elementType: any;
+  @Output() publicationElement: any = new EventEmitter<any>();
 
   elementRevisions: any[];
   elementRevision: any;
@@ -50,7 +51,15 @@ export class PublicationPreviewComponent implements OnChanges {
   }
 
   onUseElement() {
-    //
+    let elementType: any = ElementTypes.find(e => e.id === this.elementType);
+    if (elementType !== undefined) {
+      let element: any = new PublicationElement();
+      element.id = this.selectedElement.id;
+      element.revisionNumber = this.elementRevision;
+      element.elementKind = elementType.type;
+      element.element = this.selectedElement;
+      this.publicationElement.emit(element);
+    }
   }
 
 }

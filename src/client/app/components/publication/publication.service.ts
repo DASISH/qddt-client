@@ -46,7 +46,7 @@ export const PublicationStatus: any = [
       },
       {
         'id': 15,
-        'name': 'PostPilot – SQP/TMT', 'label': 'PostPilotSQPTMT',
+        'name': 'PostPilotSQPTMT', 'label': 'PostPilot – SQP/TMT',
         'description': 'Elements reviewed on basis of the results from the pilot, export to SQP testing and translation.',
         'children': [],
       },
@@ -90,16 +90,22 @@ export const PublicationStatus: any = [
 
 export const ElementTypes: any[] = [
     {'id': 1, 'label': 'Module', 'path': 'topicgroup',
+      'type': 'TOPIC_GROUP',
       'fields': ['name', 'description']},
     {'id': 2, 'label': 'Concept', 'path': 'concept',
+      'type': 'CONCEPT',
       'fields': ['name', 'description']},
     {'id': 3, 'label': 'QuestionItem', 'path': 'questionitem',
+      'type': 'QUESTION_ITEM',
       'fields': ['name', 'question']},
     {'id': 4, 'label': 'QuestionConstruct', 'path': 'controlconstruct',
+      'type': 'CONTROL_CONSTRUCT',
       'fields': ['name', 'questiontext'], 'parameter': '&constructkind=QUESTION_CONSTRUCT'},
     {'id': 5, 'label': 'Sequence', 'path': 'controlconstruct',
+      'type': 'CONTROL_CONSTRUCT',
       'fields': ['name', 'description'], 'parameter': '&constructkind=SEQUENCE_CONSTRUCT'},
     {'id': 6, 'label': 'Instrument', 'path': 'instrument',
+      'type': 'INSTRUMENT',
       'fields': ['name', 'description']}
   ];
 
@@ -113,7 +119,7 @@ export class Publication {
   id: string;
   name: string;
   purpose: string;
-  publicationKind: string;
+  status: string;
   publicationElements: any[];
 }
 
@@ -134,6 +140,17 @@ export class PublicationService extends BaseService {
 
   getAll(page: String = '0'): any {
     return this.get('publication/page');
+  }
+
+  searchPublications(name: string = '', page: String = '0', sort: String = ''): any {
+    let query = '';
+    if(name.length > 0) {
+      query += '&name=' + '*' + name +'*' + '&status=' + '*' + name +'*';
+    }
+    if (sort.length > 0) {
+      query += '&sort=' + sort;
+    }
+    return this.get('publication/page/search?' + 'page=' + page + query);
   }
 
   getElements(elementTypeId: number, name: string) {

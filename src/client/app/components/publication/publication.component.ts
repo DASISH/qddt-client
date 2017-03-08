@@ -1,5 +1,6 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
 import { PublicationService, Publication, PublicationStatus, PUBLICATIONNOTPUBLISHED } from './publication.service';
+import { Subject }          from 'rxjs/Subject';
 
 @Component({
   selector: 'qddt-publication',
@@ -28,38 +29,7 @@ export class PublicationComponent implements OnInit {
   private selectedPublication: any;
   private isDetail: boolean;
   private columns: any[];
-  private demo: any[] = [
-    {
-      'id': '1',
-      'name': 'Plitics',
-      'publicationKind': 'Designmeeting 1',
-      'purpose': 'Political trust battery',
-      'agency' : {
-        'id' : '1359dede-9f18-11e5-8994-feff819cdc9f',
-        'name' : 'NSD-qddt'
-      },
-      'version': {
-        'major': 1,
-        'minor': 0
-      },
-      'publicationElements': []
-    },
-    {
-      'id': '2',
-      'name': 'House work',
-      'publicationKind': 'Expert to QVDB',
-      'purpose': 'Questions about housework',
-      'agency' : {
-        'id' : '1359dede-9f18-11e5-8994-feff819cdc9f',
-        'name' : 'NSD-qddt'
-      },
-      'version': {
-        'major': 2,
-        'minor': 1
-      },
-      'publicationElements': []
-    }
-  ];
+  private searchKeysSubect: Subject<string> = new Subject<string>();
 
   constructor(private service: PublicationService) {
     this.isDetail = false;
@@ -68,24 +38,31 @@ export class PublicationComponent implements OnInit {
     this.page = {};
     this.columns = [{ 'label': 'Name', 'name': 'name', 'sortable': true },
     { 'label': 'Purpose', 'name': 'purpose', 'sortable': true },
-    { 'label': 'Purpose Status', 'name': 'publicationKind', 'sortable': true }];
+    { 'label': 'Purpose Status', 'name': 'status', 'sortable': true }];
+    this.searchKeysSubect
+      .debounceTime(300)
+      .distinctUntilChanged()
+      .subscribe((name: string) => {
+        this.service.searchPublications(name)
+          .subscribe((result: any) => {
+            this.publications = result.content || [];
+            this.page = result.page;
+          }, (error: any) => {
+            console.log(error);
+          });
+      });
   }
 
   ngOnInit() {
-    this.searchPublications('');
+    this.searchKeysSubect.next('');
   }
 
   onTogglePublicationForm() {
     this.showPublicationForm = !this.showPublicationForm;
     if (this.showPublicationForm) {
       this.publication = new Publication();
-      this.publication.publicationElements = [
-        {id: '1', revisionNumber: '2', elementKind: 'questionitem',
-          'name': 'test1', 'version': { 'major': 2, 'minor': 1}},
-        {id: '2', revisionNumber: '3', elementKind: 'questionitem',
-          'name': 'test2', 'version': { 'major': 3, 'minor': 2}},
-      ];
-      this.publication.publicationKind = PUBLICATIONNOTPUBLISHED.name;
+      this.publication.publicationElements = [ ];
+      this.publication.status = PUBLICATIONNOTPUBLISHED.label;
     }
   }
 
@@ -99,44 +76,47 @@ export class PublicationComponent implements OnInit {
     this.actions.emit('openModal');
   }
 
+  addElement(e: any) {
+    this.publication.publicationElements.push(e);
+  }
+
   hideDetail() {
     this.isDetail = false;
   }
 
   onSelectChange(value: number) {
     if(value >= 10 && value < 20) {
-      this.publication.publicationKind = this.selectOptions[0].children[value - 10].name;
+      this.publication.status = this.selectOptions[0].children[value - 10].label;
     } else if(value >= 20 && value < 30) {
-      this.publication.publicationKind = this.selectOptions[1].children[value - 20].name;
+      this.publication.status = this.selectOptions[1].children[value - 20].label;
     }
   }
 
   onPage(page: string) {
-    //console.log(page);
-  }
-
-  onCreatePublication() {
-    this.showPublicationForm = false;
-    /*TODO disable for demo
-       this.service.create(this.publication)
-      .subscribe((result: any) => {
-        this.publications = [result].concat(this.publications);
-      }, (error: any) => {
-        console.log(error);
-      });*/
-    this.isDetail = false;
-  }
-
-  searchPublications(key: string) {
-    this.service.getAll()
+    this.service.searchPublications(this.searchKeys, page)
       .subscribe((result: any) => {
         this.publications = result.content || [];
-        //for demo
-        this.publications = this.demo;
         this.page = result.page;
       }, (error: any) => {
         console.log(error);
       });
+  }
+
+  onCreatePublication() {
+    this.showPublicationForm = false;
+    this.publication['changeKind'] = 'CREATED';
+    this.service.create(this.publication)
+      .subscribe((result: any) => {
+        this.publications = [result].concat(this.publications);
+      }, (error: any) => {
+        console.log(error);
+      });
+    this.isDetail = false;
+  }
+
+  searchPublications(key: string) {
+    this.searchKeys = key;
+    this.searchKeysSubect.next(key);
   }
 
 }
