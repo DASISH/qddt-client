@@ -6,6 +6,14 @@ import { Subject } from 'rxjs/Subject';
   selector: 'qddt-publication-reuse',
   moduleId: module.id,
   templateUrl: './publication.reuse.component.html',
+  styles: [
+    `label, [type="radio"] + label {
+      padding-left: 25px;
+    }
+    .left {
+      padding-right: 20px;
+    }`
+  ],
   providers: [ PublicationService ],
 })
 
