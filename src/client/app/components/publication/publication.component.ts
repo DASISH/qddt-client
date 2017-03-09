@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
-import { PublicationService, Publication, PublicationStatus, PUBLICATIONNOTPUBLISHED } from './publication.service';
+import { PublicationService, Publication, PublicationStatus, PUBLICATIONNOTPUBLISHED, ElementTypes } from './publication.service';
 import { Subject }          from 'rxjs/Subject';
 
 @Component({
@@ -24,6 +24,7 @@ export class PublicationComponent implements OnInit {
   private publications: any[];
   private page: any;
   private selectedElementDetail: any;
+  private selectedElementType: number;
   private publication: any;
   private searchKeys: string;
   private selectedPublication: any;
@@ -72,8 +73,12 @@ export class PublicationComponent implements OnInit {
   }
 
   onElementDetail(e: any) {
-    this.selectedElementDetail = e;
-    this.actions.emit('openModal');
+    this.selectedElementDetail = e.element;
+    let type = ElementTypes.find(el => el.type === e.elementKind);
+    if(type !== undefined) {
+      this.selectedElementType = type.id;
+      this.actions.emit('openModal');
+    }
   }
 
   addElement(e: any) {

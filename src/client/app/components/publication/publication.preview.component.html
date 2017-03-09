@@ -1,34 +1,51 @@
-<div>
-  Preview
-  <div [ngSwitch]="elementType">
-    <div *ngSwitchCase="3">
-      <div>{{selectedElement?.question?.question}}
-        <label class="active teal-text">V<!--
-        -->{{selectedElement?.version?.major}}.<!--
-        -->{{selectedElement?.version?.minor}}</label>
-      </div>
-      <qddt-responsedomain-preview *ngIf="selectedElement.responseDomain"
-        [isVisible]="true" [responseDomain]="selectedElement.responseDomain">
-      </qddt-responsedomain-preview>
-    </div>
+<div [ngSwitch]="elementType">
+  <div>{{element?.question?.question}}
+    <label class="active teal-text">V<!--
+      -->{{element?.version?.major}}.<!--
+      -->{{element?.version?.minor}}
+    </label>
   </div>
-  <div class="row">
-    <div class="input-field col s4" *ngIf="elementRevisions.length > 0">
-      <label class="active black-text">business version</label>
-      <select [(ngModel)]="elementRevision"
-        (ngModelChange)="onSelectElementRevisions($event)"
-        class="black-text"
-        name="element-revision"
-        materialize="material_select">
-        <option *ngFor="let revision of elementRevisions"
-          [selected]="revision.revisionNumber === elementRevision"
-          [value]="revision.revisionNumber">
-          {{revision?.entity?.version?.major}}.{{revision?.entity?.version?.minor}}
-        </option>
-      </select>
+  <div *ngSwitchCase="3">
+    <qddt-responsedomain-preview *ngIf="element.responseDomain"
+      [isVisible]="true" [responseDomain]="element.responseDomain">
+    </qddt-responsedomain-preview>
+  </div>
+  <div *ngSwitchCase="4">
+    <div class="row">
+      <div class="input-field">
+        <label [attr.for]="element.id + '-name'"
+          class="active teal-text">Name</label>
+        <textarea [attr.id]="element.id + '-name'"
+          class="materialize-textarea"
+          [(ngModel)]="element.name" readonly>
+        </textarea>
+      </div>
     </div>
-    <div class="input-field col s4 right">
-      <a class="waves-effect waves-light btn  green" (click)="onUseElement()">Use this</a>
+    <div class="row">
+      <h5>{{element?.questionItem?.question?.question}}</h5>
+    </div>
+    <qddt-responsedomain-preview
+      *ngIf="element.questionItem && element.questionItem.responseDomain"
+      [isVisible]="true" [responseDomain]="element.questionItem.responseDomain">
+    </qddt-responsedomain-preview>
+  </div>
+  <div *ngSwitchDefault>
+    <div class="row">
+      <div class="col s12">
+        <label [attr.for]="element.id + '-name'" class="active teal-text">Name</label>            
+        <input id="{{element?.id}}-name"
+          name="{{element?.id}}-name" type="text"
+          [(ngModel)]="element.name" readonly>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s12">
+        <label [attr.for]="element.id + '-description'" class="active teal-text">Description</label>            
+        <textarea class="materialize-textarea" id="{{element?.id}}-description"
+          name="{{element?.id}}-description"
+          [(ngModel)]="element.description" readonly>
+        </textarea>
+      </div>
     </div>
   </div>
 </div>

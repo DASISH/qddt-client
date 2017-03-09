@@ -34,11 +34,11 @@
     </div>
   </div>
   <div *ngIf="selectedElement" class="row teal-text">
-    <qddt-publication-preview *ngIf="showAddElement"
+    <qddt-publication-select *ngIf="showAddElement"
       [element]="selectedElement"
       (publicationElement)="onUse($event)"
       [elementType]="elementType">
-    </qddt-publication-preview>
+    </qddt-publication-select>
   </div>
 </div>
 
