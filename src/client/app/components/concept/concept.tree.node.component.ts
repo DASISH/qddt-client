@@ -3,7 +3,7 @@ import { ConceptService, Concept } from './concept.service';
 import { QuestionItem } from '../question/question.service';
 
 @Component({
-  selector: 'treenode',
+  selector: 'qddt-concept-treenode',
   providers: [ ConceptService ],
   styles: [
     '.tree-children { padding-left: 5px }',
@@ -13,8 +13,8 @@ import { QuestionItem } from '../question/question.service';
     }`
   ],
   template: `
-    <div *ngIf="concept.name" class="row card">
-      <div id="{{concept.id}}" class="scrollspy">
+    <div *ngIf="concept && concept.name" class="row card">
+      <div id="{{concept?.id}}" class="scrollspy">
          <div class="col s1 m1 l1">
            <br />
            <div class="row">
@@ -32,13 +32,13 @@ import { QuestionItem } from '../question/question.service';
            </div>
 
            <div class="col s11 m11 l11 grey-text text-darken-2">
-             <h5>{{concept.name}}</h5>
-             {{concept.modified | localDate}} by <strong>{{concept.modifiedBy.username}}@{{concept.modifiedBy.agency.name}}</strong>
+             <h5>{{concept?.name}}</h5>
+             {{concept?.modified | localDate}} by <strong>{{concept?.modifiedBy?.username}}@{{concept?.modifiedBy?.agency?.name}}</strong>
            </div>
 
            <div class="col s11 m11 l11 white grey-text text-darken-1">
              <div class="row">
-               <p>{{concept.description}}</p>
+               <p>{{concept?.description}}</p>
                <qddt-author-chip [authors]="concept.authors" ></qddt-author-chip>
               </div>
            <div *ngIf="showConceptChildForm">
@@ -61,7 +61,7 @@ import { QuestionItem } from '../question/question.service';
                  </form>
              </div>
            </div>
-           <concept-edit [isVisible]="edit.isVisible" [concept]="concept" #edit></concept-edit>
+           <qddt-concept-edit [isVisible]="edit.isVisible" [concept]="concept" #edit></qddt-concept-edit>
            <qddt-revision [isVisible]="revision.isVisible"
              [current]="concept"
              [qddtURI]="'audit/concept/' + concept.id + '/all'"
@@ -94,8 +94,8 @@ import { QuestionItem } from '../question/question.service';
              <qddt-comment-list [ownerId]="concept.id" [comments]="concept.comments"></qddt-comment-list>
            </div>
            <div class="tree-children">
-             <treenode *ngFor="let child of concept.children" [concept]="child"
-               (deleteConceptEvent)="onDeleteConcept($event)"></treenode>
+             <qddt-concept-treenode *ngFor="let child of concept.children" [concept]="child"
+               (deleteConceptEvent)="onDeleteConcept($event)"></qddt-concept-treenode>
            </div>
         </div>
       </div>

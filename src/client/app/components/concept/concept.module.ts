@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { ConceptComponent } from './concept.component';
-import { ConceptEditComponent } from './edit/concept_edit.component';
-import { ConceptQuestionComponent } from './concept_question.component';
-import { ConceptTocComponent } from './concept_toc.component';
-import { TreeNodeComponent } from './tree-node.component';
+import { ConceptEditComponent } from './edit/concept.edit.component';
+import { ConceptQuestionComponent } from './concept.question.component';
+import { ConceptTocComponent } from './concept.toc.component';
+import { TreeNodeComponent } from './concept.tree.node.component';
 
 import { SharedModule } from '../../shared/shared.module';
 import { QuestionModule } from '../question/question.module';

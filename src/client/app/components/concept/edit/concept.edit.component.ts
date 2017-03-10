@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ConceptService, Concept } from '../concept.service';
 
 @Component({
-  selector: 'concept-edit',
+  selector: 'qddt-concept-edit',
   moduleId: module.id,
   providers: [ConceptService],
   template: `

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'concept-toc',
+  selector: 'qddt-concept-toc',
   providers: [],
   styles: [
     '.toc-children { padding-left: 20px }',
@@ -13,7 +13,7 @@ import { Component, Input } from '@angular/core';
           <span *ngIf="level > 0" class=" blue-grey-text" [ngClass]="'text-lighten-' + level">{{concept.name}}</span>
           <span *ngIf="level === 0" class=" blue-grey-text" [ngClass]="'text-lighten-' + level"><b>{{concept.name}}</b></span>
         </a>
-        <concept-toc [concepts]=concept.children [level]="level+1"></concept-toc>
+        <qddt-concept-toc [concepts]=concept.children [level]="level+1"></qddt-concept-toc>
       </li>
     </ul>
   `

@@ -2,7 +2,7 @@
   <div class="col s12 m9">
     <div class="card white white-text text-lighten-2">
       <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
-        <i class="material-icons large right">comment</i><h4>Concepts for {{topic.name}}</h4>
+        <i class="material-icons large right">comment</i><h4>Concepts for {{topic?.name}}</h4>
 
         <a class="btn" (click)="onToggleConceptForm()">
           <i class="material-icons right" *ngIf="!showConceptForm">keyboard_arrow_down</i>
@@ -30,8 +30,8 @@
         </div>
       </div>
       <div *ngIf="concepts">
-         <treenode *ngFor="let child of concepts" (deleteConceptEvent)="onDeleteConcept($event)"
-         [concept]="child"></treenode>
+         <qddt-concept-treenode *ngFor="let child of concepts" (deleteConceptEvent)="onDeleteConcept($event)"
+         [concept]="child"></qddt-concept-treenode>
       </div>
     </div>
   </div>
@@ -41,7 +41,7 @@
       <h5>Concept Toc</h5>
       <ul class="section table-of-contents">
         <li><a href="Home#topMenu">To the top </a> </li>
-        <concept-toc [concepts]="concepts" [level]="0"></concept-toc>
+        <qddt-concept-toc [concepts]="concepts" [level]="0"></qddt-concept-toc>
       </ul>
     </div>
   </div>
