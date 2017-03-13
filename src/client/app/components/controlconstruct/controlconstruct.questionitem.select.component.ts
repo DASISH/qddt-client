@@ -78,7 +78,9 @@ export class ControlConstructQuestionItemSelectComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.selectedQuestionItem = this.controlConstruct.questionItem;
+    if(this.controlConstruct !== null && this.controlConstruct !== undefined) {
+      this.selectedQuestionItem = this.controlConstruct.questionItem;
+    }
     if(this.selectedQuestionItem !== null && this.selectedQuestionItem !== undefined
       && this.selectedQuestionItem.id !== null && this.selectedQuestionItem.id !== undefined) {
       this.questionItemRevision = this.controlConstruct.questionItemRevision;

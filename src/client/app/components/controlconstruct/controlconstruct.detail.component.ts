@@ -50,6 +50,9 @@ export class ControlConstructDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.controlConstructs === null || this.controlConstructs === undefined) {
+      this.controlConstructs = [];
+    }
     if (this.controlConstructId !== null && this.controlConstructId !== undefined) {
       this.service.getControlConstruct(this.controlConstructId)
         .subscribe((result: any) => {
