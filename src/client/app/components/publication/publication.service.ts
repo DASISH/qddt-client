@@ -52,12 +52,18 @@ export const PublicationStatus: any = [
       },
       {
         'id': 16,
+        'name': 'PostPilotSQPTMT', 'label': 'PostPilot',
+        'description': 'Elements reviewed on basis of the results from the pilot.',
+        'children': [],
+      },
+      {
+        'id': 17,
         'name': 'FinalSourceSQPTMT', 'label': 'FinalSource – SQP/TMT',
         'description': 'Elements agreed as going into the final source questionnaire.',
         'children': [],
       },
       {
-        'id': 17,
+        'id': 18,
         'name': 'NoMilestone', 'label': 'No Milestone',
         'description': 'Use for publication of elements between key milestones.',
         'children': [],
@@ -142,15 +148,26 @@ export class PublicationService extends BaseService {
     return this.get('publication/page');
   }
 
+  getPublication(id: string): any {
+    return this.get('publication/' + id);
+  }
+
   searchPublications(name: string = '', page: String = '0', sort: String = ''): any {
-    let query = '';
+    let queries: any[] = [];
     if(name.length > 0) {
-      query += '&name=' + '*' + name +'*' + '&status=' + '*' + name +'*';
+      queries.push('name=' + '*' + name +'*' + '&status=' + '*' + name +'*');
     }
     if (sort.length > 0) {
-      query += '&sort=' + sort;
+      queries.push('sort=' + sort);
     }
-    return this.get('publication/page/search?' + 'page=' + page + query);
+    if(page !== '0') {
+      queries.push('page=' + page);
+    }
+    let query: string = '';
+    if(queries.length > 0) {
+      query = '?' + queries.join('&');
+    }
+    return this.get('publication/page/search' + query);
   }
 
   getElements(elementTypeId: number, name: string) {

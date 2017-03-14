@@ -25,6 +25,7 @@ export class PublicationComponent implements OnInit {
   private page: any;
   private selectedElementDetail: any;
   private selectedElementType: number;
+  private selectedPublicationStatusOption: any;
   private publication: any;
   private searchKeys: string;
   private selectedPublication: any;
@@ -37,6 +38,7 @@ export class PublicationComponent implements OnInit {
     this.publications = [];
     this.searchKeys = '';
     this.page = {};
+    this.selectedPublicationStatusOption = PUBLICATIONNOTPUBLISHED.description;
     this.columns = [{ 'label': 'Name', 'name': 'name', 'sortable': true },
     { 'label': 'Purpose', 'name': 'purpose', 'sortable': true },
     { 'label': 'Purpose Status', 'name': 'status', 'sortable': true }];
@@ -90,10 +92,13 @@ export class PublicationComponent implements OnInit {
   }
 
   onSelectChange(value: number) {
+    this.selectedPublicationStatusOption = PUBLICATIONNOTPUBLISHED.description;
     if(value >= 10 && value < 20) {
       this.publication.status = this.selectOptions[0].children[value - 10].label;
+      this.selectedPublicationStatusOption = this.selectOptions[0].children[value - 10].description;
     } else if(value >= 20 && value < 30) {
       this.publication.status = this.selectOptions[1].children[value - 20].label;
+      this.selectedPublicationStatusOption = this.selectOptions[1].children[value - 20].description;
     }
   }
 
