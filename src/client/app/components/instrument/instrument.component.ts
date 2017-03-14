@@ -71,7 +71,7 @@ export class InstrumentComponent implements OnInit {
   }
 
   searchInstruments(key: string) {
-    console.log(key);
+    //console.log(key);
   }
 
   private popupModal(error: any) {
