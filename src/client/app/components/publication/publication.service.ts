@@ -46,13 +46,13 @@ export const PublicationStatus: any = [
       },
       {
         'id': 15,
-        'name': 'PostPilotSQPTMT', 'label': 'PostPilot – SQP/TMT',
-        'description': 'Elements reviewed on basis of the results from the pilot, export to SQP testing and translation.',
+        'name': 'PilotSQPTMT', 'label': 'Pilot – SQP/TMT',
+        'description': 'Elements agreed for pilot, export to SQP and translation.',
         'children': [],
       },
       {
         'id': 16,
-        'name': 'PostPilotSQPTMT', 'label': 'PostPilot',
+        'name': 'PostPilot', 'label': 'PostPilot',
         'description': 'Elements reviewed on basis of the results from the pilot.',
         'children': [],
       },
@@ -77,7 +77,7 @@ export const PublicationStatus: any = [
         'id': 20,
         'name': 'ExportToPublic_History', 'label': 'Export to Public History',
         'description': 'In addition to the final elements, '
-        + 'the development history will be made -available to the public. '
+        + 'the development history will be made available to the public. '
         + 'The published development history might however be an edited '
         + 'version of the development process that is stored in the database.'
       },
