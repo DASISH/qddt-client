@@ -81,7 +81,7 @@
   </div>
 
   <qddt-publication-detail *ngIf="isDetail"
-    [publication]="selectedPublication"
+    [publicationId]="selectedPublication.id"
     [publications]="publications"
     (hideDetailEvent)="hideDetail()">
   </qddt-publication-detail>

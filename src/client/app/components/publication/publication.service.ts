@@ -5,6 +5,57 @@ import { API_BASE_HREF } from '../../api';
 import { BaseService } from '../../common/base.service';
 import { Observable }     from 'rxjs/Observable';
 
+export const DEMO: any = {
+  'id': '80b4dc27-7d06-4560-845d-4eff9b0758a4',
+  'modified': [2017, 3, 15, 15, 17, 22, 550000000],
+  'modifiedBy': {
+    'id': '83d4c30a-4ff9-11e5-885d-feff819cdc9f',
+    'username': 'yong',
+    'email': 'yong@nsd.no',
+    'agency': {
+      'id': '1359dede-9f18-11e5-8994-feff819cdc9f',
+      'modified': [2016, 9, 28, 12, 0],
+      'modifiedBy': null,
+      'name': 'NSD-qddt'
+    }
+  },
+  'agency': {
+    'id': '1359dede-9f18-11e5-8994-feff819cdc9f',
+    'modified': [2016, 9, 28, 12, 0],
+    'modifiedBy': null,
+    'name': 'NSD-qddt'
+  },
+  'name': 'p5',
+  'basedOnObject': null,
+  'basedOnRevision': null,
+  'version': {
+    'major': 1,
+    'minor': 0,
+    'versionLabel': '',
+    'revision': null
+  },
+  'changeKind': 'CREATED',
+  'changeComment': null,
+  'purpose': 'Fake demo data at front end',
+  'status': 'PostPilot',
+  'publicationElements': [{
+    'id': '7f000101-54aa-131e-8155-0b37cc27000a',
+    'revisionNumber': 767,
+    'elementKind': 'TOPIC_GROUP',
+    'element': {
+      'name' : 'Welfare (Repeat)',
+      'basedOnObject' : null,
+      'basedOnRevision' : null,
+      'version' : {
+        'major' : 0,
+        'minor' : 1,
+        'versionLabel' : '',
+        'revision' : null
+      }
+    }
+  }]
+};
+
 export const PUBLICATIONNOTPUBLISHED = { 'id': 0, 'name': 'NOTPUBLISHED', 'label':'Not Published', 'children': [],
   'description': 'Elements and discussion made available for key '
     + 'members of a questionnaire design sub'
@@ -18,55 +69,46 @@ export const PublicationStatus: any = [
         'id': 10,
         'name': 'Designmeeting1', 'label': 'Designmeeting 1',
         'description': 'Elements shared after first meeting to discuss questionnaire.',
-        'children': [],
       },
       {
         'id': 11,
         'name': 'Designmeeting2', 'label': 'Designmeeting 2',
         'description': 'Elements shared after second meeting to discuss questionnaire.',
-        'children': [],
       },
       {
         'id': 12,
         'name': 'Designmeeting3', 'label': 'Designmeeting 3',
         'description': 'Elements shared  after third meeting to discuss questionnaire.',
-        'children': [],
       },
       {
         'id': 13,
         'name': 'EarlytestingSQPTMT', 'label': 'Earlytesting - SQP/TMT',
         'description': 'Elements agreed for early pre-testing, export to SQP and translation.',
-        'children': [],
       },
       {
         'id': 14,
         'name': 'PostEarlyTesting', 'label': 'PostEarlyTesting',
         'description': 'Elements reviewed on basis of the results from the early testing.',
-        'children': [],
       },
       {
         'id': 15,
         'name': 'PilotSQPTMT', 'label': 'Pilot – SQP/TMT',
         'description': 'Elements agreed for pilot, export to SQP and translation.',
-        'children': [],
       },
       {
         'id': 16,
         'name': 'PostPilot', 'label': 'PostPilot',
         'description': 'Elements reviewed on basis of the results from the pilot.',
-        'children': [],
       },
       {
         'id': 17,
         'name': 'FinalSourceSQPTMT', 'label': 'FinalSource – SQP/TMT',
         'description': 'Elements agreed as going into the final source questionnaire.',
-        'children': [],
       },
       {
         'id': 18,
         'name': 'NoMilestone', 'label': 'No Milestone',
         'description': 'Use for publication of elements between key milestones.',
-        'children': [],
       },
     ]
   },

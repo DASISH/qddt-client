@@ -17,21 +17,83 @@
     </div>
 
     <div class="col s10 m10 l10 grey-text text-darken-2">
+      <div class="card-action">
+        <form (ngSubmit)="onUpdatePublication()" #hf="ngForm">
+          <div class="row">
+            <div class="input-field col s10">
+              <textarea class="materialize-textarea"
+                name="{{publication?.id}}-publication-name"
+                [(ngModel)]="publication.name" [attr.maxlength]="255"
+                required>
+              </textarea>
+              <label [attr.for]="publication.id + '-publication-name'" class="teal-text">Name</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s6">
+              <textarea class="materialize-textarea"
+                name="{{publication?.id}}-publication-purpose" 
+                [(ngModel)]="publication.purpose" [attr.maxlength]="255"
+                required>
+              </textarea>
+              <label [attr.for]="publication.id + '-publication-purpose'" class="teal-text">Purpose</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s6">
+              <select materialize="material_select" [materializeSelectOptions]="selectOptions"
+                name="status-value"
+                [ngModel]="selectedOptionValue"
+                (change)="onSelectChange($event.target.value)">
+                <option [value]="0">Not Published</option>
+                <optgroup *ngFor="let option of selectOptions"
+                  [attr.label]="option.label">
+                  <option *ngFor="let child of option.children"
+                    [value]="child.id">{{child.label}}</option>
+                </optgroup>
+              </select>
+              <label class="teal-text">Publication status</label>
+            </div>
+            <div class="input-field col s6">
+              <label class="teal-text">{{selectedPublicationStatusOption}}</label>
+            </div>
+          </div>
+          <qddt-publication-reuse (publicationElement)="addElement($event)"></qddt-publication-reuse>
+          <div class="row card teal-text">
+            <div class="row">Content list</div>
+            <table>
+              <tr><th>Detail</th><th>Element type</th><th>Element name</th><th>Version</th><th>Delete</th></tr>
+              <tr *ngFor="let e of publication.publicationElements; let idx=index">
+                <td (click)="onElementDetail(e)" [ngStyle]="{'cursor': 'pointer'}">
+                  <a><i class="material-icons left smal">search</i></a>
+                </td>
+                <td>{{e?.elementKind}}</td><td>{{e?.element?.name}}</td>
+                <td>{{e?.element?.version?.major}}.{{e?.element?.version?.minor}}</td>
+                <td><a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                  (click)="onDeleteElement(idx)">
+                  <i class="material-icons left medium">delete_forever</i></a>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+      </div>
 
-      <!--qddt-revision [isVisible]="revisionIsVisible"
+      <qddt-revision [isVisible]="revisionIsVisible"
         [current]="instrument"
-        [qddtURI]="'audit/instrument/' + instrument.id + '/all'">
-      </qddt-revision-->
+        [qddtURI]="'audit/publication/' + publication.id + '/all'">
+      </qddt-revision>
 
-      <!--div class="row">
-        <qddt-comment-list [ownerId]="instrument.id" [comments]="instrument.comments"></qddt-comment-list>
-      </div-->
+      <div class="row">
+        <qddt-comment-list [ownerId]="publication.id" [comments]="publication.comments"></qddt-comment-list>
+      </div>
     </div>
 
   </div>
 </div>
 
-<div [attr.id]="'publication-modal'"
+<div [attr.id]="'publication-detail-modal'"
   class="modal modal-fixed-footer"
   materialize [materializeActions]="controlConstructsActions">
   <div class="modal-footer">
@@ -42,5 +104,24 @@
   </div>
   <div class="modal-content">
     <h2>publication</h2>
+  </div>
+</div>
+
+<div [attr.id]="'publication-element-detail-modal'" class="modal"
+  materialize [materializeActions]="actions">
+  <div class="modal-content">
+    <div class="row">
+      <h4>Detail</h4>
+      <qddt-publication-preview *ngIf="selectedElementDetail"
+        [element]="selectedElementDetail"
+        [elementType]="selectedElementType">
+      </qddt-publication-preview>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      class="btn btn-default red modal-action modal-close waves-effect">
+      <a><i class="close material-icons medium white-text">close</i></a>
+    </button>
   </div>
 </div>
