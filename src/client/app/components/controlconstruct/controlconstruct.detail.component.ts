@@ -114,12 +114,7 @@ export class ControlConstructDetailComponent implements OnInit {
     let len = o.size;
     this.service.getFile(o.id).subscribe(
       (data: any) => {
-        let blob: Blob = new Blob( Array.from(data._body), { type: fileType});
-        fileSaver(blob, fileName);
-        if(data._body.length !== len) {
-          this.popupModal('The received size of the file is ' + data._body.length
-            + '. But the expected size is ' + len);
-        }
+        fileSaver(data, fileName);
       },
       error => this.popupModal(error));
   }
