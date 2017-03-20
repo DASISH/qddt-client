@@ -73,7 +73,7 @@ export function main() {
             let mockBackend = TestBed.get(MockBackend);
             mockBackend.connections.subscribe((c: any) => {
               c.mockRespond(new Response(new ResponseOptions({
-                body: '[{'
+                body: '{"content": [{'
                 + '"id" : "7f000101-54aa-131e-8154-aa27fc230000",'
                 + '"modified" : [ 2016, 9, 8, 15, 21, 26, 254000000 ],'
                 + '"name" : "one controlConstruct",'
@@ -82,10 +82,10 @@ export function main() {
                 + '"version" : {"major" : 6, "minor" : 0, "versionLabel" : "", "revision" : null },'
                 + '"changeKind" : "CONCEPTUAL",'
                 + '"changeComment" : "Information added"'
-                + '}]'
+                + '}]}'
               })));
             });
-            fixture.componentInstance.onSelectQuestionItem(questionitem);
+            fixture.componentInstance.searchControlConstructs('test');
             fixture.detectChanges();
             fixture.whenStable().then(() => {
               let table: any = fixture.debugElement.queryAll(By.css('qddt-table'));
