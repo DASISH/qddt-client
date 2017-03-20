@@ -111,6 +111,7 @@ export class ControlConstructService extends BaseService {
 
   searchControlConstructs(key: string = '', page: String = '0'): any {
     let query = key.length > 0? '&name=' + '*' + key +'*'
+      + '&questionname=' + '*' + key +'*'
       + '&questiontext=' + '*' + key +'*': '';
     return this.get('controlconstruct/page/search?constructkind=QUESTION_CONSTRUCT' + '&page=' + page + query);
   }

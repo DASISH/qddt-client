@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, AfterContentChecked } from '@angular/c
 
 import { ControlConstructService, ControlConstruct, Instruction } from './controlconstruct.service';
 import { UserService } from '../../common/user.service';
+import { Subject }          from 'rxjs/Subject';
 
 @Component({
   selector: 'qddt-controle-construct',
@@ -39,6 +40,7 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
   private isInstructionAfter: boolean;
   private isInstructionNew: boolean;
   private files: FileList;
+  private searchKeysSubect: Subject<string> = new Subject<string>();
 
   constructor(private service: ControlConstructService, private userService: UserService) {
     this.isDetail = false;
@@ -48,9 +50,19 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
     this.editQuestoinItem = false;
     this.questionItems = [];
     this.columns = [{ 'label': 'Construct Name', 'name': 'name', 'sortable': true },
+      { 'label': 'Question Name', 'name': ['questionItem', 'name'], 'sortable': false },
       { 'label': 'Question Text', 'name': ['questionItem', 'question', 'question'], 'sortable': false }];
     this.showInstructionForm = false;
     this.instructions = [];
+    this.searchKeysSubect
+      .debounceTime(300)
+      .distinctUntilChanged()
+      .subscribe((name: string) => {
+        this.service.searchControlConstructs(name).subscribe((result: any) => {
+          this.page = result.page;
+          this.controlConstructs = result.content;
+        });
+      });
   }
 
   ngOnInit() {
@@ -61,7 +73,7 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
       this.selectedControlConstruct = config.item;
       this.isDetail = true;
     } else {
-      this.searchQuestionItems('');
+      this.searchControlConstructs('');
     }
   }
 
@@ -133,7 +145,9 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
   }
 
   onPage(page: string) {
-    //
+    this.service.searchControlConstructs(this.searchKeys, page).subscribe(
+      (result: any) => { this.page = result.page;
+        this.controlConstructs = result.content; });
   }
 
   onCreateControlConstruct() {
@@ -158,7 +172,8 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
   }
 
   searchControlConstructs(key: string) {
-    //console.log(key);
+    this.searchKeys = key;
+    this.searchKeysSubect.next(key);
   }
 
   searchQuestionItems(key: string) {
@@ -171,14 +186,6 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
   onRemoveQuestoinItem() {
     this.controlConstruct.questionItem = null;
     this.editQuestoinItem = false;
-  }
-
-  onSelectQuestionItem(questionItem: any) {
-    this.selectedQuestionItem = questionItem;
-    this.service.getControlConstructsByQuestionItem(questionItem.id).subscribe((result: any) => {
-      this.controlConstructs = result;
-    },
-      (error: any) => { this.popupModal(error); });
   }
 
   onUploadFile(filename: any) {

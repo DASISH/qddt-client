@@ -120,22 +120,10 @@
           </div>
         </div>
       </div>
-      <div *ngIf="!isDetail" class="card">
-        <autocomplete [items]="questionItems" class="black-text"
-					[searchField]="['name', ['question','question']]"
-          [isMutipleFields]="true"
-					(autocompleteFocusEvent)="selectedQuestionItemIndex=idx;"
-					[initialValue]="''"
-          [searchFromServer]="true"
-					(enterEvent)="searchQuestionItems($event)"
-          [placeholder] = "'Search in question name or question text'"
-					(autocompleteSelectEvent)="onSelectQuestionItem($event)">
-        </autocomplete>
-        <div class="row black-text">List question constructs by Question Item: {{selectedQuestionItem?.question?.question}}</div>
-      </div>
       <div *ngIf="!isDetail && controlConstructs.length > 0">
         <qddt-table [items]="controlConstructs" [page]="page" [columns]="columns"
-          [searchFromServer]="false"
+          [searchFromServer]="true"
+          [placeholder] = "'Search in construct name, question name or question text'"
 		      (enterEvent)="searchControlConstructs($event)"
           (detailEvent)="onDetail($event)" (pageChangeEvent)="onPage($event)"></qddt-table>
       </div>
