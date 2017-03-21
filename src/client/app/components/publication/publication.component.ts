@@ -51,7 +51,6 @@ export class PublicationComponent implements OnInit {
             this.publications = result.content || [];
             this.page = result.page;
           }, (error: any) => {
-            this.publications = [DEMO];
             console.log(error);
           });
       });

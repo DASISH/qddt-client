@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { PublicationService, DEMO, ElementTypes, Publication, PublicationStatus, PUBLICATIONNOTPUBLISHED } from './publication.service';
+import { PublicationService, ElementTypes, Publication, PublicationStatus, PUBLICATIONNOTPUBLISHED } from './publication.service';
 
 @Component({
   selector: 'qddt-publication-detail',
@@ -36,8 +36,7 @@ export class PublicationDetailComponent implements OnInit {
     if(this.publicationId !== null && this.publicationId !== undefined) {
       this.service.getPublication(this.publicationId)
         .subscribe((result: any) => {
-          //TODO this.publication = result;
-          this.publication = DEMO;
+          this.publication = result;
           let status = this.predefinedStatus.find(e => e.label === this.publication.status);
           if(status !== undefined) {
             this.selectedPublicationStatusOption = status.description;
