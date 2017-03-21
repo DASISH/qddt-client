@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
-import { PublicationService, DEMO, Publication, PublicationStatus, PUBLICATIONNOTPUBLISHED, ElementTypes } from './publication.service';
+import { PublicationService, Publication, PublicationStatus, PUBLICATIONNOTPUBLISHED, ElementTypes } from './publication.service';
 import { Subject }          from 'rxjs/Subject';
 
 @Component({
