@@ -25,12 +25,12 @@ export class PublicationReuseComponent implements OnInit {
   elementTypes: any[] = ElementTypes;
   actions = new EventEmitter<any>();
   queryFields: any[] = [
-    {id: 1, isMutipleFields: false,
-      placeholder: 'Search',
-      fields: 'name'},
-    {id: 2, isMutipleFields: false,
-      placeholder: 'Search',
-      fields: 'name'},
+    {id: 1, isMutipleFields: true,
+      placeholder: 'Search in module name or description',
+      fields: ['name', 'description']},
+    {id: 2, isMutipleFields: true,
+      placeholder: 'Search in concept name or description',
+      fields: ['name', 'description']},
     {id: 3, isMutipleFields: true,
       placeholder: 'Search in question name or question text',
       fields: ['name', ['question','question']]},
