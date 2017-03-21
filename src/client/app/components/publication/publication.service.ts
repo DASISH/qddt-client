@@ -87,22 +87,22 @@ export const PublicationStatus: any = [
 
 export const ElementTypes: any[] = [
     {'id': 1, 'label': 'Module', 'path': 'topicgroup',
-      'type': 'TOPIC_GROUP',
+      'type': 'Module',
       'fields': ['name', 'description']},
     {'id': 2, 'label': 'Concept', 'path': 'concept',
-      'type': 'CONCEPT',
+      'type': 'Concept',
       'fields': ['name', 'description']},
     {'id': 3, 'label': 'QuestionItem', 'path': 'questionitem',
-      'type': 'QUESTION_ITEM',
+      'type': 'QuestionItem',
       'fields': ['name', 'question']},
     {'id': 4, 'label': 'QuestionConstruct', 'path': 'controlconstruct',
-      'type': 'CONTROL_CONSTRUCT',
+      'type': 'QuestionConstruct',
       'fields': ['name', 'questiontext'], 'parameter': '&constructkind=QUESTION_CONSTRUCT'},
     {'id': 5, 'label': 'Sequence', 'path': 'controlconstruct',
-      'type': 'CONTROL_CONSTRUCT',
+      'type': 'Sequence',
       'fields': ['name', 'description'], 'parameter': '&constructkind=SEQUENCE_CONSTRUCT'},
     {'id': 6, 'label': 'Instrument', 'path': 'instrument',
-      'type': 'INSTRUMENT',
+      'type': 'Instrument',
       'fields': ['name', 'description']}
   ];
 
