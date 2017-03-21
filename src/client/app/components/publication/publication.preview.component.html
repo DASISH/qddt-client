@@ -1,4 +1,4 @@
-<div [ngSwitch]="elementType">
+<div *ngIf="element" [ngSwitch]="elementType">
   <div>{{element?.question?.question}}
     <label class="active teal-text">V<!--
       -->{{element?.version?.major}}.<!--
