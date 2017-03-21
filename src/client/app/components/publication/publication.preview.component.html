@@ -6,6 +6,18 @@
     </label>
   </div>
   <div *ngSwitchCase="3">
+    <div class="row">
+      <ul class="collection with-header black-text">
+        <li class="collection-header">Question Item</li>
+        <li  class="collection-item">Version: {{element?.version?.major}}.
+          {{element?.version?.minor}}
+        </li>
+        <li class="collection-item">Name: {{element?.name}}</li>
+        <li class="collection-item">Question Text: {{element?.question?.question}}</li>
+        <li class="collection-item">Intent: {{element?.question?.intent}}</li>
+        <li class="collection-item" *ngFor="let c of element.conceptRefs" >Concept: {{c?.name}}</li>
+      </ul>
+    </div>
     <qddt-responsedomain-preview *ngIf="element.responseDomain"
       [isVisible]="true" [responseDomain]="element.responseDomain">
     </qddt-responsedomain-preview>

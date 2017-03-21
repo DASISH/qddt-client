@@ -24,8 +24,10 @@
     <div class="row">
       <div class="row">
         <autocomplete [items]="elements" class="black-text"
-          [searchField]="'name'"
+          [searchField]="queryFields[elementType - 1].fields"
 		      [searchFromServer]="true"
+          [placeholder]="queryFields[elementType - 1].placeholder"
+          [isMutipleFields]="queryFields[elementType - 1].isMutipleFields"
           (autocompleteSelectEvent)="onSelectElement($event)"
 		      (enterEvent)="onSearchElements($event)">
 		    </autocomplete>
