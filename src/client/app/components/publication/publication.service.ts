@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, RequestOptions, Headers, ResponseContentType } from '@angular/http';
 
 import { API_BASE_HREF } from '../../api';
 import { BaseService } from '../../common/base.service';
@@ -185,6 +185,18 @@ export class PublicationService extends BaseService {
       return this.get('audit/' + e.path + '/' + id + '/all');
     }
     return Observable.of([]);
+  }
+
+  getFile(id: string) {
+    let headers = new Headers();
+    let jwt = localStorage.getItem('jwt');
+    if(jwt !== null) {
+      headers.append('Authorization', 'Bearer  ' + JSON.parse(jwt).access_token);
+    }
+    let options = new RequestOptions({ headers: headers, responseType: ResponseContentType.Blob });
+    return this.http.get(this.api + 'othermaterial/files/' + id, options)
+      .map(res => res.blob())
+      .catch(this.handleError);
   }
 
 }
