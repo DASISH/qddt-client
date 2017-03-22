@@ -19,7 +19,7 @@ export function main() {
     //
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [ PublicationPreviewComponent, ResponsedomainPreviewComponent],
+        declarations: [ PublicationPreviewComponent, QustionitemPreviewComponent, ResponsedomainPreviewComponent],
         providers: [
           MockBackend,
           BaseRequestOptions,
@@ -95,4 +95,13 @@ class PublicationServiceSpy {
 class ResponsedomainPreviewComponent {
   @Input() isVisible: boolean;
   @Input() responseDomain: any;
+}
+
+@Component({
+  selector: 'qddt-publication-questionitem-preview',
+  template: `<div></div>`
+})
+
+class QustionitemPreviewComponent {
+  @Input() element: any;
 }
