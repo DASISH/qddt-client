@@ -5,6 +5,25 @@
       -->{{element?.version?.minor}}
     </label>
   </div>
+  <div *ngSwitchCase="1">
+    <div class="row">
+      <div class="col s12">
+        <label [attr.for]="element.id + '-name'" class="active teal-text">Name</label>            
+        <input id="{{element?.id}}-name"
+          name="{{element?.id}}-name" type="text"
+          [(ngModel)]="element.name" readonly>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s12">
+        <label [attr.for]="element.id + '-description'" class="active teal-text">Description</label>            
+        <textarea class="materialize-textarea" id="{{element?.id}}-description"
+          name="{{element?.id}}-description"
+          [(ngModel)]="element.abstractDescription" readonly>
+        </textarea>
+      </div>
+    </div>
+  </div>
   <div *ngSwitchCase="3">
     <qddt-publication-questionitem-preview
       [element]=element>
