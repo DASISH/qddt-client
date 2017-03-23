@@ -6,8 +6,9 @@ import { DomainType, DomainTypeDescription } from './responsedomain.constant';
   selector: 'qddt-responsedomain-preview',
   moduleId: module.id,
   template: `<div *ngIf="isVisible" class="card-panel lighten-2 black-text">
-        <label class="active teal-text">{{responseDomain?.name}}
-        Version: {{responseDomain?.version?.major}}.{{responseDomain?.version?.minor}}</label>
+        <label *ngIf="domainType !== domainTypeDef.MIXED"
+          class="active teal-text">{{responseDomain?.name}}
+          Version: {{responseDomain?.version?.major}}.{{responseDomain?.version?.minor}}</label>
         <div [ngSwitch]="domainType">
 					<responsedomain-scale *ngSwitchCase="domainTypeDef.SCALE"
 					  [responseDomain]="responseDomain">

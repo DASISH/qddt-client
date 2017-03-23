@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { PublicationStatus, PublicationService, ElementTypes } from './publication.service';
 import { Subject } from 'rxjs/Subject';
 
@@ -61,15 +61,17 @@ enum DomainType {
   providers: [ ],
 })
 
-export class PublicationQuestionitemPreviewComponent implements OnInit {
+export class PublicationQuestionitemPreviewComponent implements OnChanges {
   @Input() element: any;
   private mainResponseDomain: any;
   private secondCS: any;
 
-  ngOnInit() {
+  ngOnChanges() {
     this.mainResponseDomain = null;
     this.secondCS = null;
-    if (this.element.responseDomain !== null
+    if (this.element !== null
+      && this.element !== undefined
+      && this.element.responseDomain !== null
       && this.element.responseDomain !== undefined) {
       if (this.element.responseDomain['responseKind'] === 'MIXED') {
         let rep = this.element.responseDomain.managedRepresentation;
@@ -77,7 +79,7 @@ export class PublicationQuestionitemPreviewComponent implements OnInit {
           if (rep.children[i].categoryType === 'MISSING_GROUP') {
             this.secondCS = rep.children[i];
           } else {
-            let rd = {};
+            let rd: any = {};
             rd['id'] = new Date().toString();
             if (rep.children[i].categoryType === 'SCALE') {
               rd['domainType'] = DomainType.SCALE;
@@ -95,6 +97,7 @@ export class PublicationQuestionitemPreviewComponent implements OnInit {
             rd['name'] = rep.children[i]['name'] || '';
             rd['responseCardinality'] = { minimum: '1', maximum: '1' };
             rd['managedRepresentation'] = rep.children[i];
+            rd['version'] = rep.children[i]['version'];
             this.mainResponseDomain = rd;
           }
         }

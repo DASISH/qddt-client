@@ -6,6 +6,9 @@ import { DomainType } from './responsedomain.constant';
   selector: 'responsedomain-mixed',
   moduleId: module.id,
   template: `<div>
+    <label *ngIf="mixedDomains && mixedDomains.length > 0"
+      class="active teal-text">{{mixedDomains[0]?.name}}
+      Version: {{mixedDomains[0]?.version?.major}}.{{mixedDomains[0]?.version?.minor}}</label>
     <div *ngFor="let domain of mixedDomains">
         <div [ngSwitch]="domain.domainType">
 					<responsedomain-scale *ngSwitchCase="domainTypeDef.SCALE"
@@ -42,6 +45,8 @@ export class ResponsedomainMixedComponent implements OnChanges {
       rd['id'] = new Date().toString();
       rd['responseCardinality'] = { minimum: '1', maximum: '1' };
       rd['managedRepresentation'] = rep.children[i];
+      rd['version'] = rep.children[i]['version'];
+      rd['name'] = rep.children[i]['name'] || '';
       if (rep.children[i].categoryType === 'SCALE') {
         rd['domainType'] = this.domainTypeDef.SCALE;
         rd['responseKind'] = 'SCALE';
