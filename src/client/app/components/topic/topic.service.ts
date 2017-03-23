@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http, Headers, RequestOptions } from '@angular/http';
+import { Http, Headers, RequestOptions, ResponseContentType } from '@angular/http';
 
 import { API_BASE_HREF } from '../../api';
 import { BaseService } from '../../common/base.service';
@@ -49,8 +49,9 @@ export class TopicService extends BaseService {
     if(jwt !== null) {
       headers.append('Authorization', 'Bearer  ' + JSON.parse(jwt).access_token);
     }
-    let options = new RequestOptions({ headers: headers });
+    let options = new RequestOptions({ headers: headers, responseType: ResponseContentType.Blob });
     return this.http.get(this.api + 'othermaterial/files/' + id, options)
+      .map(res => res.blob())
       .catch(this.handleError);
   }
 
