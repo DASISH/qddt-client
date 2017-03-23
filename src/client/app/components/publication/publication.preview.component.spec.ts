@@ -68,7 +68,7 @@ export function main() {
                 'changeComment' : 'Information added'
             };
             fixture.componentInstance.element = element;
-            fixture.componentInstance.elementType = 1;
+            fixture.componentInstance.elementType = 2;
             fixture.detectChanges();
             fixture.whenStable().then(() => {
               let de: any = fixture.debugElement.queryAll(By.css('textarea'));
