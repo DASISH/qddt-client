@@ -15,6 +15,8 @@ import { Subject } from 'rxjs/Subject';
 export class ResponsedomainComponent implements OnInit, AfterContentChecked {
   domainType: DomainType;
   deleteAction = new EventEmitter<any>();
+  errorAction = new EventEmitter<any>();
+  error: string;
   public domainTypeDef = DomainType;
   private responseDomains: any[];
   private selectedResponseDomain: ResponseDomain;
@@ -187,7 +189,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
         }
         this.hideDetail();
       },
-      (error: any) => console.log(error));
+      (error: any) => {this.error = error; this.errorAction.emit('openModal');});
   }
 
   searchResponseDomains(name: string) {
