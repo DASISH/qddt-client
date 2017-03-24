@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 
 import { RevisionService } from './revision.service';
 
@@ -93,6 +93,7 @@ export class RevisionDetailComponent {
 
   @Input() element: any;
   @Input() type: string;
+  @Output() BasedonObjectDetail: any = new EventEmitter<string>()
   id: any;
   basedon: any;
   elementActions = new EventEmitter<string>();
@@ -115,6 +116,8 @@ export class RevisionDetailComponent {
         },
         (err: any) => null
         );
+    } else if (this.type === 'responsedomain') {
+      this.BasedonObjectDetail.emit(id);
     } else {
       this.elementActions.emit('openModal');
     }

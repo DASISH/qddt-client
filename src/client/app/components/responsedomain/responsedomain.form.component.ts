@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CategoryService, Category, ResponseCardinality } from '../category/category.service';
 import { DomainType, DomainTypeDescription } from './responsedomain.constant';
+import { ResponseDomainService } from './responsedomain.service';
 import { Observable }     from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
@@ -19,9 +20,12 @@ import { Subject } from 'rxjs/Subject';
 export class ResponsedomainFormComponent implements OnInit {
   @Input() responsedomain: any;
   @Input() domainType: DomainType;
+  @Input() readonly: boolean;
   @Output() formChange: EventEmitter<any>;
   responsedomainActions = new EventEmitter<string>();
+  basedonActions = new EventEmitter<string>();
   previewResponseDomain: any;
+  basedonObject: any;
 
   public domainTypeDef = DomainType;
   private categories: any;
@@ -34,7 +38,7 @@ export class ResponsedomainFormComponent implements OnInit {
   private selectedType: string;
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
-  constructor(private categoryService: CategoryService) {
+  constructor(private categoryService: CategoryService, private service: ResponseDomainService) {
     this.codes = [];
     this.selectedCategoryIndex = 0;
     this.formChange = new EventEmitter<any>();
@@ -51,6 +55,9 @@ export class ResponsedomainFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    if(this.readonly === null || this.readonly === undefined) {
+      this.readonly = false;
+    }
     if(this.responsedomain.responseCardinality === undefined) {
       this.responsedomain.responseCardinality = { 'minimum': 1, 'maximum': 1 };
     }
@@ -294,6 +301,17 @@ export class ResponsedomainFormComponent implements OnInit {
     this.previewResponseDomain['managedRepresentation'] = this.responsedomain.managedRepresentation;
     this.previewResponseDomain['responseCardinality'] = this.responsedomain.responseCardinality;
     this.previewResponseDomain['displayLayout'] = this.responsedomain.displayLayout;
+  }
+
+  onBasedonObjectDetail(id: string) {
+    this.service.getResponseDomain(id)
+      .subscribe(
+      (result: any) => {
+        this.basedonObject = result;
+        this.basedonActions.emit('openModal');
+      },
+      (err: any) => null
+      );
   }
 
   private buildUsedBy() {
