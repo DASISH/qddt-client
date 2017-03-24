@@ -93,7 +93,7 @@ export class RevisionDetailComponent {
 
   @Input() element: any;
   @Input() type: string;
-  @Output() BasedonObjectDetail: any = new EventEmitter<string>()
+  @Output() BasedonObjectDetail: any = new EventEmitter<string>();
   id: any;
   basedon: any;
   elementActions = new EventEmitter<string>();
