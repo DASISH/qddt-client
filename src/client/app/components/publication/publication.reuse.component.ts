@@ -45,8 +45,8 @@ export class PublicationReuseComponent implements OnInit {
       fields: 'name'},
   ];
 
+  elements: any[];
   private elementType: number;
-  private elements: any[];
   private selectedElement: any;
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
