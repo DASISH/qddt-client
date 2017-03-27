@@ -96,7 +96,8 @@ import { Observable }     from 'rxjs/Observable';
             </table>
           </div>
           <div class="row">
-				    <qddt-revision-detail [element]="questionitem" [type]="'questionitem'"></qddt-revision-detail>
+				    <qddt-revision-detail [element]="questionitem" [type]="'questionitem'"
+              (BasedonObjectDetail)="onBasedonObjectDetail($event)"></qddt-revision-detail>
 			    </div>
           <div class="row" *ngIf="!readonly">
             <qddt-rational [element]="questionitem"></qddt-rational>
@@ -162,6 +163,25 @@ import { Observable }     from 'rxjs/Observable';
     </button>
   </div>
 </div>
+<div class="modal modal-fixed-footer"
+  materialize [materializeActions]="basedonActions">
+  <div class="modal-content">
+		<h4>Basedon Object Detail</h4>
+    <div class="row" *ngIf="basedonObject">
+			<qddt-questionitem-edit [readonly]="true"
+        [isVisible]="true"
+        [editResponseDomain]="true"
+			  [questionitem]="basedonObject">
+			</qddt-questionitem-edit>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button id="controlConstructs-modal-close"
+      class="btn btn-default red modal-action modal-close waves-effect">
+      <a><i class="close material-icons medium white-text">close</i></a>
+    </button>
+  </div>
+</div>
 `
 })
 
@@ -175,6 +195,8 @@ export class QuestionItemEdit implements OnInit {
   studyActions = new EventEmitter<string>();
   selectedConcept: any;
   privewResponseDomain: any;
+  basedonActions = new EventEmitter<string>();
+  basedonObject: any;
   private showResponseDomainForm: boolean;
   private mainResponseDomain: any;
   private mainresponseDomainRevision: number;
@@ -281,6 +303,17 @@ export class QuestionItemEdit implements OnInit {
         this.selectedConcept = result;
         this.conceptActions.emit('openModal');
       });
+  }
+
+  onBasedonObjectDetail(id: string) {
+    this.service.getquestion(id)
+      .subscribe(
+      (result: any) => {
+        this.basedonObject = result;
+        this.basedonActions.emit('openModal');
+      },
+      (err: any) => null
+      );
   }
 
   responseDomainReuse(item: any) {

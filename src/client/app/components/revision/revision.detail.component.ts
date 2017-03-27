@@ -68,14 +68,6 @@ import { RevisionService } from './revision.service';
             <qddt-topic-usedby [id]="id">
             </qddt-topic-usedby>
           </div>
-          <div class="row" *ngIf="id && type === 'questionitem'">
-            <qddt-question-usedby [id]="id">
-            </qddt-question-usedby>
-          </div>
-          <div class="row" *ngIf="id && type === 'responsedomain'">
-            <qddt-responsedomain-usedby [id]="id">
-            </qddt-responsedomain-usedby>
-          </div>
         </div>
         <div class="modal-footer">
           <button
@@ -116,7 +108,8 @@ export class RevisionDetailComponent {
         },
         (err: any) => null
         );
-    } else if (this.type === 'responsedomain') {
+    } else if (this.type === 'responsedomain'
+      || this.type === 'questionitem') {
       this.BasedonObjectDetail.emit(id);
     } else {
       this.elementActions.emit('openModal');
