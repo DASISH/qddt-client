@@ -21,7 +21,7 @@ export class SequenceComponent implements OnInit {
   error: any;
   elementTypeDescription:any = ElementTypeDescription;
 
-  private sequences: any[];
+  sequences: any[];
   private page: any;
   private sequence: any;
   private searchKeys: string;

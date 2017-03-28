@@ -1,6 +1,6 @@
 <div class="row card">
   <ul>
-    <li>
+    <li *ngIf="sequence">
       <span [ngSwitch]="sequence.controlConstructKind">
 				<span *ngSwitchCase="'SEQUENCE_CONSTRUCT'">Sequence:</span>
         <span *ngSwitchCase="'CONDITION_CONSTRUCT'">Condition:</span>
@@ -10,7 +10,7 @@
       <a (click)="onSelectedElement(sequence)">{{sequence?.name}}</a>
     </li>
   </ul>
-  <ul class="control-children">
+  <ul class="control-children" *ngIf="sequence">
     <li *ngFor="let item of sequence.children">
     <qddt-sequence-content 
       *ngIf="item"

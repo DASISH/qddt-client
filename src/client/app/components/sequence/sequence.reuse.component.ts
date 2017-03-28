@@ -22,8 +22,8 @@ export class SequenceReuseComponent implements OnInit {
   elementTypeDescription: any = ElementTypeDescription;
   actions = new EventEmitter<any>();
 
+  elements: any[];
   private elementType: string;
-  private elements: any[];
   private selectedElement: any;
   private searchKeysSubect: Subject<string> = new Subject<string>();
 

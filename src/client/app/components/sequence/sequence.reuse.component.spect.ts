@@ -4,27 +4,29 @@ import { TestBed, async } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
-import { PublicationService } from './publication.service';
+import { SequenceService } from './sequence.service';
 import { UserService } from '../../common/user.service';
 import { BaseService } from '../../common/base.service';
-import { PublicationSelectComponent } from './publication.select.component';
+import { SequenceReuseComponent } from './sequence.reuse.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Observable }     from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import { MaterializeModule } from 'angular2-materialize';
 
 export function main() {
-  describe('Publication select component', () => {
+  describe('Sequence reuse component', () => {
     //
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [ PublicationSelectComponent, ResponsedomainPreviewComponent,
-        PublicationPreviewComponent ],
+        declarations: [RevisionComponent,
+          SequenceReuseComponent, CommentListComponent,
+          RationalComponent, AutocompleteComponent,
+          AuthorChipComponent, SequenceContentComponent],
         providers: [
           MockBackend,
           BaseRequestOptions,
-          { provide: PublicationService, useClass: PublicationServiceSpy },
+          { provide: SequenceService, useClass: SequenceServiceSpy },
           {
             provide: Http,
             useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),
@@ -44,53 +46,41 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(PublicationSelectComponent);
+            let fixture = TestBed.createComponent(SequenceReuseComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('div'));
-            expect(de.length).toBeGreaterThan(1);
+            let de: any = fixture.debugElement.queryAll(By.css('input'));
+            expect(de.length).toBe(0);
           });
       }));
 
-    it('should work with element',
+    it('should work with autocomplete',
       async(() => {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(PublicationSelectComponent);
-            let element: any = {
-                'id' : '7f000101-54aa-131e-8154-aa27fc230000',
-                'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
-                'name' : 'one questionitem',
-                'description' : 'one questionitem',
-                'question': {'question': 'test'},
-                'basedOnObject' : null,
-                'basedOnRevision' : null,
-                'version' : {'major' : 6, 'minor' : 0, 'versionLabel' : '', 'revision' : null },
-                'changeKind' : 'CONCEPTUAL',
-                'changeComment' : 'Information added'
-            };
+            let fixture = TestBed.createComponent(SequenceReuseComponent);
             let mockBackend = TestBed.get(MockBackend);
             mockBackend.connections.subscribe((c: any) => {
               c.mockRespond(new Response(new ResponseOptions({
-                body: '{"content":[{"entity": [{'
+                body: '{"content":[{'
                 + '"id" : "7f000101-54aa-131e-8154-aa27fc230000",'
                 + '"modified" : [ 2016, 9, 8, 15, 21, 26, 254000000 ],'
-                + '"name" : "one publication",'
+                + '"name" : "one sequence",'
                 + '"basedOnObject" : null,'
                 + '"basedOnRevision" : null,'
                 + '"version" : {"major" : 6, "minor" : 0, "versionLabel" : "", "revision" : null },'
                 + '"changeKind" : "CONCEPTUAL",'
                 + '"changeComment" : "Information added"'
-                + '}] }],'
+                + '}],'
                 + '"page" : { "size" : 20, "totalElements" : 1, "totalPages" : 1, "number" : 0}}'
               })));
             });
-            fixture.componentInstance.element = element;
-            fixture.componentInstance.elementType = 3;
-            fixture.componentInstance.ngOnChanges();
+            fixture.componentInstance.showAddElement = true;
+            fixture.componentInstance.onSearchElements('test');
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              expect(fixture.componentInstance.elementRevisions.length).toBe(1);
+              expect(fixture.componentInstance.elements.length).toBeGreaterThan(0);
+              expect(fixture.componentInstance.elements[0].name).toBe('one sequence');
             });
           });
       }));
@@ -98,28 +88,74 @@ export function main() {
 }
 
 //override dependencies
-class PublicationServiceSpy {
-  getElementRevisions = jasmine.createSpy('getElementRevisions').and.callFake(function (key) {
+class SequenceServiceSpy {
+  getElements = jasmine.createSpy('getElements').and.callFake(function (key) {
     return [];
   });
 }
 
 @Component({
-  selector: 'qddt-responsedomain-preview',
+  selector: 'qddt-comment-list',
   template: `<div></div>`
 })
 
-class ResponsedomainPreviewComponent {
-  @Input() isVisible: boolean;
-  @Input() responseDomain: any;
+class CommentListComponent {
+  @Input() ownerId: any;
+  @Input() comments: any[];
 }
 
 @Component({
-  selector: 'qddt-publication-preview',
+  selector: 'qddt-revision',
   template: `<div></div>`
 })
 
-class PublicationPreviewComponent {
+class RevisionComponent {
+  @Input() isVisible: any;
+  @Input() config: any;
+  @Input() qddtURI: any;
+  @Input() current: any;
+}
+
+@Component({
+  selector: 'qddt-author-chip',
+  template: `<div></div>`
+})
+
+class AuthorChipComponent {
+  @Input() authors: any;
+}
+
+@Component({
+  selector: 'qddt-rational',
+  template: `<div></div>`
+})
+
+class RationalComponent {
   @Input() element: any;
-  @Input() elementType: any;
+}
+
+@Component({
+  selector: 'qddt-sequence-content',
+  template: `<div></div>`
+})
+
+class SequenceContentComponent {
+  @Input() sequence: any;
+}
+
+@Component({
+  selector: 'autocomplete',
+  template: `<div></div>`
+})
+
+class AutocompleteComponent {
+  @Input() items:  any[];
+  @Input() searchField: any;
+  @Input() placeholder: string;
+  @Input() isMutipleFields: boolean;
+  @Input() initialValue: string;
+  @Input() searchFromServer: boolean;
+  @Output() autocompleteSelectEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() autocompleteFocusEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() enterEvent: EventEmitter<any> = new EventEmitter<any>();
 }
