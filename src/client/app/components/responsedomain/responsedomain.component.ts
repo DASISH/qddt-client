@@ -67,7 +67,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
     } else {
       this.searchKeys = config.key;
       let name = DomainTypeDescription.find((e: any) =>e.id === this.domainType).name;
-        this.responseDomainService.getAll(name).subscribe((result: any) => {
+        this.responseDomainService.getAll(name, '', '0', this.getSort()).subscribe((result: any) => {
         this.page = result.page;
         this.responseDomains = result.content;
         this.buildAnchorLabel();

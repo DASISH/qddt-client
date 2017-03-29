@@ -54,13 +54,16 @@ export class SequenceService extends BaseService {
     return this.post(sequence, 'controlconstruct/');
   }
 
-  getElements(elementType: string, name: string, page: string = '0') {
+  getElements(elementType: string, name: string, page: string = '0', sort: string = '') {
     let query = '';
     if (name.length > 0) {
       query = '&name=*' + name + '*' + '&questiontext=*' + name + '*';
     }
     if (page.length > 0 && page !== '0') {
       query += '&page=' + page;
+    }
+    if (sort.length > 0) {
+      query += '&sort=' + sort;
     }
     return this.get('controlconstruct/page/search?constructkind=' + elementType + query);
   }

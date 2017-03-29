@@ -51,14 +51,15 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
     this.questionItems = [];
     this.columns = [{ 'label': 'Construct Name', 'name': 'name', 'sortable': true },
       { 'label': 'Question Name', 'name': ['questionItem', 'name'], 'sortable': false },
-      { 'label': 'Question Text', 'name': ['questionItem', 'question', 'question'], 'sortable': false }];
+      { 'label': 'Question Text', 'name': ['questionItem', 'question', 'question'], 'sortable': false },
+      { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' }];
     this.showInstructionForm = false;
     this.instructions = [];
     this.searchKeysSubect
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
-        this.service.searchControlConstructs(name).subscribe((result: any) => {
+        this.service.searchControlConstructs(name, '0', this.getSort()).subscribe((result: any) => {
           this.page = result.page;
           this.controlConstructs = result.content;
         });
@@ -145,7 +146,7 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
   }
 
   onPage(page: string) {
-    this.service.searchControlConstructs(this.searchKeys, page).subscribe(
+    this.service.searchControlConstructs(this.searchKeys, page, this.getSort()).subscribe(
       (result: any) => { this.page = result.page;
         this.controlConstructs = result.content; });
   }
@@ -160,7 +161,7 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
               result['otherMaterials'].push(file);
               this.controlConstructs = [result].concat(this.controlConstructs);
             }, (error: any) => {
-              this.popupModal('The backend has not supported uploading files yet.');
+              this.popupModal(error);
             });
         } else {
           this.controlConstructs = [result].concat(this.controlConstructs);
@@ -212,5 +213,18 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
   popupModal(error: any) {
     this.error = error;
     this.actions.emit('openModal');
+  }
+
+  private getSort() {
+    let i = this.columns.findIndex((e: any) => e.sortable && e.direction !== undefined && e.direction !== '');
+    let sort = '';
+    if (i >= 0) {
+      if (typeof this.columns[i].name === 'string') {
+        sort = this.columns[i].name + ',' + this.columns[i].direction;
+      } else {
+        sort = this.columns[i].name.join('.') + ',' + this.columns[i].direction;
+      }
+    }
+    return sort;
   }
 }

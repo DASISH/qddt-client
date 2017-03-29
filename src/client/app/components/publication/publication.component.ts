@@ -41,12 +41,13 @@ export class PublicationComponent implements OnInit {
     this.selectedPublicationStatusOption = PUBLICATIONNOTPUBLISHED.description;
     this.columns = [{ 'label': 'Name', 'name': 'name', 'sortable': true },
     { 'label': 'Purpose', 'name': 'purpose', 'sortable': true },
-    { 'label': 'Purpose Status', 'name': 'status', 'sortable': true }];
+    { 'label': 'Purpose Status', 'name': 'status', 'sortable': true },
+    { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' }];
     this.searchKeysSubect
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
-        this.service.searchPublications(name)
+        this.service.searchPublications(name, '0', this.getSort())
           .subscribe((result: any) => {
             this.publications = result.content || [];
             this.page = result.page;
@@ -103,7 +104,7 @@ export class PublicationComponent implements OnInit {
   }
 
   onPage(page: string) {
-    this.service.searchPublications(this.searchKeys, page)
+    this.service.searchPublications(this.searchKeys, page, this.getSort())
       .subscribe((result: any) => {
         this.publications = result.content || [];
         this.page = result.page;
@@ -127,6 +128,19 @@ export class PublicationComponent implements OnInit {
   searchPublications(key: string) {
     this.searchKeys = key;
     this.searchKeysSubect.next(key);
+  }
+
+  private getSort() {
+    let i = this.columns.findIndex((e: any) => e.sortable && e.direction !== undefined && e.direction !== '');
+    let sort = '';
+    if (i >= 0) {
+      if (typeof this.columns[i].name === 'string') {
+        sort = this.columns[i].name + ',' + this.columns[i].direction;
+      } else {
+        sort = this.columns[i].name.join('.') + ',' + this.columns[i].direction;
+      }
+    }
+    return sort;
   }
 
 }

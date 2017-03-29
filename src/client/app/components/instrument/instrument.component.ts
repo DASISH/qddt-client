@@ -31,7 +31,8 @@ export class InstrumentComponent implements OnInit {
     this.instruments = [];
     this.searchKeys = '';
     this.page = {};
-    this.columns = [{ 'label': 'Name', 'name': 'name', 'sortable': true }];
+    this.columns = [{ 'label': 'Name', 'name': 'name', 'sortable': true },
+    { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' }];
   }
 
   ngOnInit() {
@@ -77,5 +78,18 @@ export class InstrumentComponent implements OnInit {
   private popupModal(error: any) {
     this.error = error;
     this.actions.emit('openModal');
+  }
+
+  private getSort() {
+    let i = this.columns.findIndex((e: any) => e.sortable && e.direction !== undefined && e.direction !== '');
+    let sort = '';
+    if (i >= 0) {
+      if (typeof this.columns[i].name === 'string') {
+        sort = this.columns[i].name + ',' + this.columns[i].direction;
+      } else {
+        sort = this.columns[i].name.join('.') + ',' + this.columns[i].direction;
+      }
+    }
+    return sort;
   }
 }

@@ -151,7 +151,7 @@ export class QddtTableComponent implements OnInit, OnChanges {
         }
       });
       this.rows.push(row);
-      ['Version', 'Agency', 'Modified'].forEach((item: any) => {
+      ['Modified', 'Version', 'Agency'].forEach((item: any) => {
         let column = this.columns.find((column: any) => column.label === item);
         if (!column) {
           this.columns.push({ 'name': item, 'label': item, 'sortable': false });

@@ -29,7 +29,8 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
     this.searchKeys = '';
     this.page = {};
     this.columns = [{ 'label': 'Label', 'name': 'label', 'sortable': true, 'direction': '' },
-      { 'label': 'Description', 'name': 'description', 'sortable': true, 'direction': '' }];
+      { 'label': 'Description', 'name': 'description', 'sortable': true, 'direction': '' },
+      { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' }];
     this.searchKeysSubect
       .debounceTime(300)
       .distinctUntilChanged()
@@ -49,7 +50,7 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
       this.selectedCategory = config.item;
       this.isDetail = true;
     } else {
-      this.categoryService.getByCategoryKind('CATEGORY', '0').subscribe(
+      this.categoryService.getByCategoryKind('CATEGORY', '0', this.getSort()).subscribe(
       (result: any) => { this.page = result.page; this.categories = result.content; });
     }
   }

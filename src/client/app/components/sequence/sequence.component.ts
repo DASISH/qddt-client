@@ -40,12 +40,13 @@ export class SequenceComponent implements OnInit {
     this.elementType = 0;
     this.elements = [];
     this.columns = [{ 'label': 'Name', 'name': 'name', 'sortable': true },
-    { 'label': 'Description', 'name': 'description', 'sortable': true }];
+    { 'label': 'Description', 'name': 'description', 'sortable': true },
+    { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' }];
     this.searchKeysSubect
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
-        this.service.getElements('SEQUENCE_CONSTRUCT', name)
+        this.service.getElements('SEQUENCE_CONSTRUCT', name, '0', this.getSort())
           .subscribe((result: any) => {
             this.sequences = result.content;
             this.page = result.page;
@@ -82,7 +83,7 @@ export class SequenceComponent implements OnInit {
   }
 
   onPage(page: string) {
-    this.service.getElements('SEQUENCE_CONSTRUCT', this.searchKeys, page)
+    this.service.getElements('SEQUENCE_CONSTRUCT', this.searchKeys, page, this.getSort())
       .subscribe((result: any) => {
         this.sequences = result.content;
         this.page = result.page;
@@ -110,5 +111,18 @@ export class SequenceComponent implements OnInit {
   private popupModal(error: any) {
     this.error = error;
     this.actions.emit('openModal');
+  }
+
+  private getSort() {
+    let i = this.columns.findIndex((e: any) => e.sortable && e.direction !== undefined && e.direction !== '');
+    let sort = '';
+    if (i >= 0) {
+      if (typeof this.columns[i].name === 'string') {
+        sort = this.columns[i].name + ',' + this.columns[i].direction;
+      } else {
+        sort = this.columns[i].name.join('.') + ',' + this.columns[i].direction;
+      }
+    }
+    return sort;
   }
 }

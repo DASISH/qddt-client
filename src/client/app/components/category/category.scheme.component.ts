@@ -39,8 +39,9 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
     this.selectedCategoryIndex = 0;
     this.categories = [];
     this.missingCategories = [];
-    this.columns = [{'name':'name', 'label':'Name', 'sortable':true, 'direction': '' }
-      ,{'name':'description', 'label':'Description', 'sortable':true, 'direction': '' }];
+    this.columns = [{'name':'name', 'label':'Name', 'sortable':true, 'direction': '' },
+      {'name':'description', 'label':'Description', 'sortable':true, 'direction': '' },
+      { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' }];
     this.searchKeysSubect
       .debounceTime(300)
       .distinctUntilChanged()
@@ -61,7 +62,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
       this.searchKeys = config.key;
       this.isDetail = true;
     } else {
-      this.categoryService.getAllTemplatesByCategoryKind('MISSING_GROUP').subscribe((result: any) => {
+      this.categoryService.getAllTemplatesByCategoryKind('MISSING_GROUP', '', '0', this.getSort()).subscribe((result: any) => {
         this.page = result.page;
         this.missingCategories = result.content;
       });
