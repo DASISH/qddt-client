@@ -30,17 +30,17 @@
                   <div class="col s10"><h4>Question Text</h4></div>
                   <div class="col s1">
                     <a
-                      class="btn-flat btn-floating btn-small waves-effect waves-light teal"
+                      class="btn-flat btn-floating btn-small waves-effect waves-light white"
                       (click)="editQuestoinItem = !editQuestoinItem">
-                      <i *ngIf="controlConstruct.questionItem" class="material-icons">edit</i>
-                      <i *ngIf="!controlConstruct.questionItem" class="material-icons">add</i>
+                      <i *ngIf="controlConstruct.questionItem" class="material-icons teal-text">edit</i>
+                      <i *ngIf="!controlConstruct.questionItem" class="material-icons teal-text">add</i>
                     </a>
                   </div>
                   <div class="col s1">
                     <a
-                      class="btn-flat btn-floating btn-small waves-effect waves-light teal"
+                      class="btn-flat btn-floating btn-small waves-effect waves-light white"
                       (click)="onRemoveQuestoinItem()">
-                      <i class="material-icons">remove</i>
+                      <i class="material-icons teal-text">remove</i>
                     </a>
                   </div>
                 </div>
@@ -57,8 +57,10 @@
                     <span>Instructions</span>
                   </div>
                   <div class="col">
-                    <i class="material-icons right" title="new"
-                      (click)="onToggleInstructionForm()">add</i>
+                    <a class="btn-flat btn-floating btn-small waves-effect waves-light white">
+                      <i class="material-icons right teal-text" title="new"
+                        (click)="onToggleInstructionForm()">add</i>
+                    </a>
                   </div>
                 </div>
                 <div class="row card" *ngIf="showInstructionForm">
@@ -120,7 +122,7 @@
           </div>
         </div>
       </div>
-      <div *ngIf="!isDetail && controlConstructs.length > 0">
+      <div *ngIf="!isDetail && controlConstructs">
         <qddt-table [items]="controlConstructs" [page]="page" [columns]="columns"
           [searchFromServer]="true"
           [placeholder] = "'Search in construct name, question name or question text'"
