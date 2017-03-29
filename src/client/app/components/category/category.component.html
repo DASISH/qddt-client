@@ -16,9 +16,18 @@
             <form materialize (ngSubmit)="onCreateCategory()" #hf="ngForm">
               <div class="row">
                 <div class="input-field col s10">
+                  <textarea id="name" name="name" class="materialize-textarea"
+                    [(ngModel)]="category.name" [attr.maxlength]="255"
+                    required>
+                  </textarea>
+                  <label for="name" class="white-text">Names</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s10">
                   <textarea id="label" name="label" class="materialize-textarea"
                     [(ngModel)]="category.label" [attr.maxlength]="255"
-                    required (ngModelChange)="category.name = category.label.toUpperCase()">
+                    required>
                   </textarea>
                   <label for="label" class="white-text">Label</label>
                 </div>
