@@ -1,6 +1,7 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit, EventEmitter, AfterContentChecked } from '@angular/core';
 import { PublicationService, Publication, PublicationStatus, PUBLICATIONNOTPUBLISHED, ElementTypes } from './publication.service';
 import { Subject }          from 'rxjs/Subject';
+import { UserService } from '../../common/user.service';
 
 @Component({
   selector: 'qddt-publication',
@@ -13,7 +14,7 @@ import { Subject }          from 'rxjs/Subject';
   ],
   providers: [PublicationService],
 })
-export class PublicationComponent implements OnInit {
+export class PublicationComponent implements AfterContentChecked, OnInit {
 
   showPublicationForm: boolean = false;
   actions = new EventEmitter<string>();
@@ -33,7 +34,7 @@ export class PublicationComponent implements OnInit {
   private columns: any[];
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
-  constructor(private service: PublicationService) {
+  constructor(private service: PublicationService, private userService: UserService) {
     this.isDetail = false;
     this.publications = [];
     this.searchKeys = '';
@@ -58,7 +59,34 @@ export class PublicationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.searchKeysSubect.next('');
+    let config = this.userService.getGlobalObject('publications');
+    if (config.current === 'detail' ) {
+      this.page = config.page;
+      this.publications = config.collection;
+      this.selectedPublication = config.item;
+      this.isDetail = true;
+    } else {
+      this.searchKeys = config.key;
+      this.searchKeysSubect.next(this.searchKeys);
+    }
+  }
+
+  ngAfterContentChecked() {
+    let config = this.userService.getGlobalObject('publications');
+    if (config.current === 'detail' ) {
+      this.page = config.page;
+      this.publications = config.collection;
+      this.selectedPublication = config.item;
+      this.searchKeys = config.key;
+      this.isDetail = true;
+    } else {
+      this.isDetail = false;
+      if(config.key === null || config.key === undefined) {
+        this.userService.setGlobalObject('publications', {'current': 'list', 'key': ''});
+        this.searchKeys = '';
+        this.searchKeysSubect.next('');
+      }
+    }
   }
 
   onTogglePublicationForm() {
@@ -73,6 +101,12 @@ export class PublicationComponent implements OnInit {
   onDetail(i: any) {
     this.selectedPublication = i;
     this.isDetail = true;
+    this.userService.setGlobalObject('publications',
+      {'current': 'detail',
+        'page': this.page,
+        'key': this.searchKeys,
+        'item': this.selectedPublication,
+        'collection': this.publications});
   }
 
   onElementDetail(e: any) {
@@ -90,6 +124,7 @@ export class PublicationComponent implements OnInit {
 
   hideDetail() {
     this.isDetail = false;
+    this.userService.setGlobalObject('publications', {'current': 'list', 'key': this.searchKeys});
   }
 
   onSelectChange(value: number) {
