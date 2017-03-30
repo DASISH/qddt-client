@@ -27,6 +27,7 @@ export function main() {
           MockBackend,
           BaseRequestOptions,
           { provide: PublicationService, useClass: PublicationServiceSpy },
+          { provide: UserService, useClass: UserServiceSpy },
           {
             provide: Http,
             useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),
@@ -96,6 +97,16 @@ export function main() {
 class PublicationServiceSpy {
   searchPublications = jasmine.createSpy('searchPublications').and.callFake(function (key) {
     return [];
+  });
+}
+
+class UserServiceSpy {
+  getGlobalObject = jasmine.createSpy('getGlobalObject').and.callFake(function (key) {
+    return {};
+  });
+
+  setGlobalObject = jasmine.createSpy('setGlobalObject').and.callFake(function (key) {
+    return {};
   });
 }
 
