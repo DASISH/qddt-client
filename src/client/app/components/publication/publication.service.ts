@@ -91,7 +91,7 @@ export const ElementTypes: any[] = [
       'fields': ['name', 'description']},
     {'id': 2, 'label': 'Concept', 'path': 'concept',
       'type': 'Concept',
-      'fields': ['name', 'description']},
+      'fields': ['name']},
     {'id': 3, 'label': 'QuestionItem', 'path': 'questionitem',
       'type': 'QuestionItem',
       'fields': ['name', 'question']},
