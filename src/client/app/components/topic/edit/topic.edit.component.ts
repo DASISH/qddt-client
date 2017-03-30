@@ -51,26 +51,36 @@ let fileSaver = require('../../controlconstruct/filesaver');
           </div>
           <div class="row card">
             <ul>
-              <li *ngFor="let m of topic.otherMaterials; let idx=index;" class="row">
-                <div class="col s10">
-                  <a class="waves-effect waves-light" (click)="onDownloadFile(m)">{{m.originalName}}</a>
-                </div>
-                <div class="col s2 right">
-                  <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                    (click)="onDeleteFile(idx)">
-                    <i class="material-icons left medium">delete_forever</i>
-                  </a>
+              <li *ngFor="let m of topic.otherMaterials; let idx=index;">
+                <div class="row"
+                  (mouseenter)="m.showbutton = true"
+                  (mouseleave)="m.showbutton = false">
+                  <div class="col s10">
+                    <a class="waves-effect waves-light" (click)="onDownloadFile(m)">{{m.originalName}}</a>
+                  </div>
+                  <div class="col s2 right">
+                    <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                      [ngClass]="{hide: !m.showbutton}"
+                      (click)="onDeleteFile(idx)">
+                      <i class="material-icons left medium">delete_forever</i>
+                    </a>
+                  </div>
                 </div>
               </li>
-              <li *ngFor="let file of fileStore; let idx=index;" class="row">
-                <div class="col s10">
-                  <a class="waves-effect waves-light">{{file[0]?.name}}</a>
-                </div>
-                <div class="col s2 right">
-                  <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                    (click)="onDeleteFileFromLocal(idx)">
-                    <i class="material-icons left medium">delete_forever</i>
-                  </a>
+              <li *ngFor="let file of fileStore; let idx=index;">
+                <div class="row"
+                  (mouseenter)="file.showbutton = true"
+                  (mouseleave)="file.showbutton = false">
+                  <div class="col s10">
+                    <a class="waves-effect waves-light">{{file[0]?.name}}</a>
+                  </div>
+                  <div class="col s2 right">
+                    <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                      [ngClass]="{hide: !file.showbutton}"
+                      (click)="onDeleteFileFromLocal(idx)">
+                      <i class="material-icons left medium">delete_forever</i>
+                    </a>
+                  </div>
                 </div>
               </li>
             </ul>

@@ -15,10 +15,13 @@ import { Subject } from 'rxjs/Subject';
   template:
   `
   <div class="card hoverable">
-    <div class="row">
+    <div class="row"
+      (mouseenter)="showbutton = true"
+      (mouseleave)="showbutton = false">
       <div class="row"><span>Missing</span></div>
         <div class="row">
           <a *ngIf="!missing && !readonly"
+            [ngClass]="{hide: !showbutton}"
             (click)="onAddMissing()"
             [ngClass]="{disabled:mainResponseDomain === null || mainResponseDomain === undefined}"
             class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
@@ -71,6 +74,7 @@ export class QuestionItemEditMissing implements OnInit {
   @Input() readonly: boolean;
   @Input() mainResponseDomain: any;
   @Output() editMissing: EventEmitter<any>;
+  showbutton: any;
   missingCategories: any[];
   selectedCategoryIndex: number;
   missingAction = new EventEmitter<string>();

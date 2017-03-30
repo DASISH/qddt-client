@@ -35,7 +35,9 @@
                  </div>
                  <div class="row">
                    <div class="row">
-                   <div class="card col s6">
+                   <div class="card col s6"
+                     (mouseenter)="showbutton = true"
+                     (mouseleave)="showbutton = false">
                      <div class="row teal-text"><span>Response Domain:<span
                        *ngIf="questionItem.responseDomain && questionItem.responseDomain.managedRepresentation">
                        (V{{questionItem?.responseDomain?.managedRepresentation?.version?.major}}<!--
@@ -43,11 +45,13 @@
                      <div class="row teal-text">
                        <a *ngIf="!questionItem.responseDomain"
                          class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                         [ngClass]="{hide: !showbutton}"
                          (click)="openResponseDomainModal()">
                          <i class="material-icons" title="response domain edit">add</i>
                        </a>
                        <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                          *ngIf="questionItem.responseDomain"
+                         [ngClass]="{hide: !showbutton}"
                          (click)="questionItem.responseDomain = null;secondCS=null;previewResponseDomain=null;">
                          <i class="material-icons left medium" title="remove response domain">remove</i>
                        </a>

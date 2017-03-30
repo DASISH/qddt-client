@@ -71,9 +71,12 @@ import { QuestionItem } from '../question/question.service';
              <ul class="collection with-header">
                <li class="collection-header">Question Items</li>
                <li class="collection-item" *ngFor="let questionItem of concept.questionItems">
-                 <div class="row">
+                 <div class="row"
+                   (mouseenter)="questionItem.showbutton = true"
+                   (mouseleave)="questionItem.showbutton = false">
                    <div class="col s1">
                      <a class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                       [ngClass]="{hide: !questionItem.showbutton}"
                        (click)="onClickQuestionItem(questionItem)">
                        <i class="material-icons">search</i>
                      </a>
@@ -82,6 +85,7 @@ import { QuestionItem } from '../question/question.service';
                    <div class="col s1">
                      <a
                        class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                       [ngClass]="{hide: !questionItem.showbutton}"
                        (click)="removeQuestionItem(questionItem?.id)">
                        <i class="material-icons">remove</i>
                      </a>

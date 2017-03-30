@@ -19,7 +19,7 @@ export class QuestionComp implements AfterContentChecked, OnInit {
   error: string;
   responseDomainAction = new EventEmitter<string>();
   previewResponseDomain: any;
-
+  showbutton: any;
   private questionitems: any;
   private page: any;
   private questionItem: any;
@@ -38,6 +38,7 @@ export class QuestionComp implements AfterContentChecked, OnInit {
     this.searchKeys = '';
     this.secondCS = null;
     this.mainresponseDomainRevision = 0;
+    this.showbutton = false;
     this.columns = [{'name':'name', 'label':'Question Name', 'sortable':false, 'direction': '' },
       {'name':['question','question'], 'label':'Question Text', 'sortable':true, 'direction': '' },
       {'name':['responseDomain','name'], 'label':'ResponseDomain Name', 'sortable':true, 'direction': '' },

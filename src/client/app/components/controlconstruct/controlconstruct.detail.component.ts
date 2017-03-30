@@ -37,6 +37,9 @@ export class ControlConstructDetailComponent implements OnInit {
   private savedObject: string;
   private savedControlConstructsIndex: number;
   private config: any[];
+  private showPreinstructionButton: any;
+  private showPostinstructionButton: any;
+  private showQuestionButton: any;
 
   constructor(private service: ControlConstructService) {
     this.revisionIsVisible = false;
@@ -47,6 +50,9 @@ export class ControlConstructDetailComponent implements OnInit {
     this.showUploadedFiles = false;
     this.fileStore = [];
     this.toDeleteFiles = [];
+    this.showPreinstructionButton = false;
+    this.showPostinstructionButton = false;
+    this.showQuestionButton = false;
   }
 
   ngOnInit() {

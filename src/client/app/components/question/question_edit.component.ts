@@ -39,17 +39,20 @@ import { Observable }     from 'rxjs/Observable';
             </div>
           </div>
           <div *ngIf="editResponseDomain" class="card row">
-            <div class="col s6">
+            <div class="col s6"
+              (mouseenter)="showbutton = true"
+              (mouseleave)="showbutton = false">
               <div class="row"><span>Response Domain:<span *ngIf="mainResponseDomain && mainResponseDomain.managedRepresentation">
                 (V{{mainResponseDomain?.managedRepresentation?.version?.major}}<!--
                 -->.{{mainResponseDomain?.managedRepresentation?.version?.minor}})</span></span></div>
               <div class="row">
-                <a *ngIf="!mainResponseDomain && !readonly" materialize="leanModal" [materializeParams]="[{dismissible: false}]"
-                  class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                  [attr.href]="'#' + questionitem.id + '-edit-questionItem-modal'">
+                <a *ngIf="!mainResponseDomain && !readonly"
+                  [ngClass]="{hide: !showbutton}"
+                  class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal">
                   <i class="material-icons" title="response domain edit" (click)="onClickEdit()">add</i>
                 </a>
                 <a *ngIf="!readonly" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                  [ngClass]="{hide: !showbutton}"
                   (click)="onRemoveResponsedomain(questionitem)">
                   <i class="material-icons left medium" title="remove response domain">remove</i>
                 </a>
@@ -105,8 +108,9 @@ import { Observable }     from 'rxjs/Observable';
           <button *ngIf="!readonly" type="submit" class="btn btn-default">Submit</button>
         </form>
       </div>
-      <div *ngIf="editResponseDomain" [attr.id]="questionitem.id + '-edit-questionItem-modal'" class="modal modal-fixed-footer">
-        <div class="modal-content">
+      <div class="modal modal-fixed-footer"
+        materialize [materializeActions]="editResponseDomainActions">
+        <div class="modal-content" *ngIf="editResponseDomain">
           <div *ngIf="showResponseDomainForm" class="row">
             <responsedomain-reuse [isVisible]="showResponseDomainForm"
               [responseDomain]="mainResponseDomain"
@@ -115,7 +119,7 @@ import { Observable }     from 'rxjs/Observable';
           </div>
         </div>
         <div class="modal-footer">
-          <button id="questionItem-modal-close"
+          <button
             (click)="showResponseDomainForm = false;"
             class="btn btn-default red modal-action modal-close waves-effect waves-red">
             <a><i class="close material-icons medium white-text">close</i></a>
@@ -191,6 +195,8 @@ export class QuestionItemEdit implements OnInit {
   @Input() readonly: boolean;
   @Input() editResponseDomain: boolean;
   @Output() editQuestionItem: EventEmitter<any>;
+  showbutton: any;
+  editResponseDomainActions = new EventEmitter<string>();
   conceptActions = new EventEmitter<string>();
   studyActions = new EventEmitter<string>();
   selectedConcept: any;
@@ -208,6 +214,7 @@ export class QuestionItemEdit implements OnInit {
     this.showResponseDomainForm = false;
     this.editQuestionItem = new EventEmitter<any>();
     this.mainresponseDomainRevision = 0;
+    this.showbutton = false;
   }
 
   ngOnInit() {
@@ -335,6 +342,7 @@ export class QuestionItemEdit implements OnInit {
 
   onClickEdit() {
     this.showResponseDomainForm = true;
+    this.editResponseDomainActions.emit('openModal');
   }
 
   private getManagedRepresentation() {
