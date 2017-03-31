@@ -6,7 +6,7 @@ import { By } from '@angular/platform-browser';
 
 import { ControlConstructService } from './controlconstruct.service';
 import { BaseService } from '../../common/base.service';
-import { ControlConstructDetailComponent } from './controlconstruct.detail.component';
+import { ControlConstructFormComponent } from './controlconstruct.form.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -14,12 +14,11 @@ import { Observable }     from 'rxjs/Observable';
 import { MaterializeModule } from 'angular2-materialize';
 
 export function main() {
-  describe('Controlconstruct detail component', () => {
+  describe('Controlconstruct form component', () => {
     //
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [RevisionComponent,
-          ControlConstructDetailComponent, ControlConstructQuestionItemSelectComponent,
+        declarations: [RevisionComponent, ControlConstructQuestionItemSelectComponent,
           CommentListComponent, AuthorChipComponent, InstructionComponent,
           AutocompleteComponent, TableComponent, QuestionitemDetailComponent,
           ResponsedomainPreviewComponent, RevisionDetailComponent, RationalComponent,
@@ -47,7 +46,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(ControlConstructDetailComponent);
+            let fixture = TestBed.createComponent(ControlConstructFormComponent);
             fixture.detectChanges();
             let de: any = fixture.debugElement.queryAll(By.css('form'));
             expect(de.length).toBe(0);
@@ -59,7 +58,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(ControlConstructDetailComponent);
+            let fixture = TestBed.createComponent(ControlConstructFormComponent);
             let controlConstruct: any = {
               'id' : '7f000101-54aa-131e-8154-aa27fc230000',
               'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
@@ -73,7 +72,7 @@ export function main() {
             fixture.componentInstance.controlConstruct = controlConstruct;
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let form: any = fixture.debugElement.queryAll(By.css('qddt-control-construct-form'));
+              let form: any = fixture.debugElement.queryAll(By.css('form'));
               expect(form.length).toBeGreaterThan(0);
             });
           });
@@ -86,19 +85,6 @@ class ControlConstructServiceSpy {
   getControlConstruct = jasmine.createSpy('getControlConstruct').and.callFake(function (key) {
     return [];
   });
-}
-
-@Component({
-  selector: 'qddt-control-construct-form',
-  template: `<div></div>`
-})
-
-class ControlConstructFormComponent {
-  @Input() controlConstruct: any;
-  @Input() isNew: boolean;
-  @Input() readonly: boolean;
-  @Output() elementEvent: EventEmitter<any> = new EventEmitter<any>();
-  @Output() exceptionEvent: EventEmitter<String> = new EventEmitter<String>();
 }
 
 @Component({

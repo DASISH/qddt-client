@@ -96,8 +96,11 @@ export class RevisionDetailComponent {
 
   onClick(id: string) {
     this.id = id;
-    if (this.type !== 'questionitem'
-      && this.type !== 'study'
+    if (this.type === 'responsedomain'
+      || this.type === 'controlconstruct'
+      || this.type === 'questionitem') {
+      this.BasedonObjectDetail.emit(id);
+    } else if (this.type !== 'study'
       && this.type !== 'responsedomain'
       && this.type !== 'topic') {
       this.service.getelement(this.type, this.id)
@@ -108,9 +111,6 @@ export class RevisionDetailComponent {
         },
         (err: any) => null
         );
-    } else if (this.type === 'responsedomain'
-      || this.type === 'questionitem') {
-      this.BasedonObjectDetail.emit(id);
     } else {
       this.elementActions.emit('openModal');
     }
