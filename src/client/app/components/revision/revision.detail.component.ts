@@ -98,6 +98,7 @@ export class RevisionDetailComponent {
     this.id = id;
     if (this.type === 'responsedomain'
       || this.type === 'controlconstruct'
+      || this.type === 'concept'
       || this.type === 'questionitem') {
       this.BasedonObjectDetail.emit(id);
     } else if (this.type !== 'study'

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, EventEmitter } from '@angular/core';
 import { ConceptService, Concept } from '../concept.service';
 
 @Component({
@@ -25,26 +25,55 @@ import { ConceptService, Concept } from '../concept.service';
           </div>
         </div>
         <div class="row">
-				  <qddt-revision-detail [element]="concept" [type]="'concept'"></qddt-revision-detail>
+				  <qddt-revision-detail [element]="concept" [type]="'concept'"
+            (BasedonObjectDetail)="onBasedonObjectDetail($event)">
+          </qddt-revision-detail>
 			  </div>
-        <div class="row">
+        <div class="row" *ngIf="!readonly">
 		      <qddt-rational [element]="concept"></qddt-rational>
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button *ngIf="!readonly" type="submit" class="btn btn-default">Submit</button>
       </form>
     </div>
+    <div class="modal modal-fixed-footer"
+      *ngIf="basedonObject"
+      materialize [materializeActions]="basedonActions">
+      <div class="modal-content">
+		    <h4>Basedon Object Detail</h4>
+        <div class="row">
+			    <qddt-concept-edit
+            [readonly]="true"
+            [isVisible]="true"
+			      [concept]="basedonObject">
+			    </qddt-concept-edit>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          class="btn btn-default red modal-action modal-close waves-effect">
+          <a><i class="close material-icons medium white-text">close</i></a>
+        </button>
+      </div>
+    </div>
   </div>
-
   `
 })
-export class ConceptEditComponent {
+export class ConceptEditComponent implements OnInit {
 
   @Input() concept: Concept;
   @Input() isVisible: boolean;
-  private service: ConceptService;
+  @Input() readonly: boolean;
+  basedonObject: any;
+  basedonActions = new EventEmitter<string>();
 
-  constructor(conceptService: ConceptService) {
-    this.service = conceptService;
+  constructor(private service: ConceptService) {
+  }
+
+  ngOnInit() {
+    this.basedonObject = null;
+    if(this.readonly === null || this.readonly === undefined) {
+      this.readonly = false;
+    }
   }
 
   save() {
@@ -63,6 +92,17 @@ export class ConceptEditComponent {
     this.service.deattachAuthor(this.concept.id,author.id);
     var i = this.concept.authors.findIndex(F=>F===author);
     this.concept.authors.splice(i,1);
+  }
+
+  onBasedonObjectDetail(id: string) {
+    this.service.getConcept(id)
+      .subscribe(
+      (result: any) => {
+        this.basedonObject = result;
+        this.basedonActions.emit('openModal');
+      },
+      (err: any) => null
+      );
   }
 
 }
