@@ -235,7 +235,7 @@
 					</div>
 				</div>
 			</div>
-			<div *ngIf="!responsedomain.isNew && !readonly" class="row">
+			<div *ngIf="!responsedomain.isNew" class="row">
 				<qddt-revision-detail [element]="responsedomain"
 				  (BasedonObjectDetail)="onBasedonObjectDetail($event)"
 				  [type]="'responsedomain'"></qddt-revision-detail>
