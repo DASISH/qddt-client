@@ -22,6 +22,14 @@
           [(ngModel)]="element.abstractDescription" readonly>
         </textarea>
       </div>
+      <div class="row">
+        <qddt-comment-list [ownerId]="element.id" [comments]="element.comments"></qddt-comment-list>
+      </div>
+      <div class="col s12" *ngIf="children && children.length>0">
+        <qddt-publication-concept-preview
+          [concepts]="children">
+        </qddt-publication-concept-preview>
+      </div>
     </div>
   </div>
   <div *ngSwitchCase="3">
@@ -115,7 +123,7 @@
     </div>
   </div>
 
-  <div class="modal" materialize [materializeActions]="actions">
+  <div class="modal modal-fixed-footer" materialize [materializeActions]="actions">
     <div class="modal-content">
       <div class="row">
         <h4>Detail</h4>

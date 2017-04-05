@@ -179,6 +179,10 @@ export class PublicationService extends BaseService {
     return Observable.of([]);
   }
 
+  getByTopic(topicId: string) : any {
+    return this.get('concept/page/by-topicgroup/'+ topicId + '?page=0&size=50&sort=asc');
+  }
+
   getElementRevisions(elementTypeId: number, id: string) : any {
     let e: any = ElementTypes.find(e => e.id === elementTypeId);
     if (e !== undefined) {

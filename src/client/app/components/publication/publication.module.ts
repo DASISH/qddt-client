@@ -9,12 +9,14 @@ import { PublicationReuseComponent } from './publication.reuse.component';
 import { PublicationSelectComponent } from './publication.select.component';
 import { PublicationPreviewComponent } from './publication.preview.component';
 import { PublicationQuestionitemPreviewComponent } from './publication.questionitem.preview.component';
+import { PublicationConceptPreviewComponent } from './publication.concept.preview.component';
 import { ResponsedomainModule } from '../responsedomain/responsedomain.module';
+import { ConceptModule } from '../concept/concept.module';
 
 @NgModule({
-  imports: [ SharedModule, RevisionModule, ResponsedomainModule, CompareModule, CommentModule],
+  imports: [ SharedModule, RevisionModule, ResponsedomainModule, CompareModule, CommentModule, ConceptModule],
   declarations: [ PublicationComponent, PublicationDetailComponent,
-    PublicationReuseComponent, PublicationSelectComponent,
+    PublicationReuseComponent, PublicationSelectComponent, PublicationConceptPreviewComponent,
     PublicationPreviewComponent, PublicationQuestionitemPreviewComponent ],
   exports: [PublicationComponent]
 })

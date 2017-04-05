@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter } from '@angular/core';
+import { Component, Input, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { PublicationStatus, PublicationService, ElementTypes } from './publication.service';
 import { Subject } from 'rxjs/Subject';
 let fileSaver = require('../controlconstruct/filesaver');
@@ -10,12 +10,27 @@ let fileSaver = require('../controlconstruct/filesaver');
   providers: [PublicationService],
 })
 
-export class PublicationPreviewComponent {
+export class PublicationPreviewComponent implements OnChanges {
   @Input() element: any;
   @Input() elementType: any;
   actions = new EventEmitter<string>();
+  children: any[];
 
   constructor(private service: PublicationService) {
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if(this.elementType === 1
+      && changes['element'] !== null
+      && changes['element'] !== undefined) {
+      this.children = [];
+      this.service.getByTopic(this.element.id)
+        .subscribe((result: any) => {
+        this.children = result.content || [];
+      }, (error: any) => {
+        console.log(error);
+      });
+    }
   }
 
   onDownloadFile(o: any) {
