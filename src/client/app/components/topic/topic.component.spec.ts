@@ -1,4 +1,4 @@
-import { Component, Input, PipeTransform, Pipe } from '@angular/core';
+import { Component, Input, PipeTransform, Pipe, SimpleChanges, SimpleChange } from '@angular/core';
 import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
@@ -72,7 +72,8 @@ export function main() {
                 + '}]'
               })));
             });
-            fixture.componentInstance.ngOnInit();
+            let changes: SimpleChanges = {'study': new SimpleChange('test', 'test1')};
+            fixture.componentInstance.ngOnChanges(changes);
             fixture.detectChanges();
             fixture.whenStable().then(() => {
               let h5: any = fixture.debugElement.queryAll(By.css('h5'));

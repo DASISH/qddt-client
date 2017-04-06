@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 import { TopicService, Topic } from './topic.service';
 
@@ -8,7 +8,7 @@ import { TopicService, Topic } from './topic.service';
   templateUrl: './topic.component.html',
   providers: [TopicService],
 })
-export class TopicComponent implements OnInit {
+export class TopicComponent implements OnChanges {
 
   showTopicForm: boolean = false;
   @Output() topicSelectedEvent: EventEmitter<any> = new EventEmitter<any>();
@@ -22,11 +22,14 @@ export class TopicComponent implements OnInit {
     this.topic = new Topic();
   }
 
-  ngOnInit() {
-    if (this.study !== null && this.study !== undefined
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['study'] !== null && changes['study'] !== undefined
+      && this.study !== null && this.study !== undefined
       && this.study.id !== null && this.study.id !== undefined) {
+      this.topics = [];
       this.topicService.getAll(this.study.id)
-        .subscribe((result: any) => this.topics = result);
+        .subscribe((result: any) => this.topics = result,
+        (error: any) => console.log(error));
     }
   }
 
@@ -43,7 +46,7 @@ export class TopicComponent implements OnInit {
     this.topicService.save(this.topic,this.study.id)
       .subscribe((result: any) => {
         this.topics.push(result);
-      });
+      }, (error: any) => console.log(error));
     this.topic  = new Topic();
   }
 
