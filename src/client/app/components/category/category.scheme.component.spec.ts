@@ -192,6 +192,7 @@ class RevisionDetailComponent {
 
 class RationalComponent {
   @Input() element: any;
+  @Input() config: any;
 }
 
 @Component({

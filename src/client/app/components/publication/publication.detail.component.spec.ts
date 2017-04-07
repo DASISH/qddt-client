@@ -22,6 +22,7 @@ export function main() {
         declarations: [ RevisionComponent, PublicationReuseComponent,
           PublicationPreviewComponent, CommentListComponent,
           PublicationDetailComponent,
+          RationalComponent, RevisionDetailComponent,
           AuthorChipComponent, TableComponent],
         providers: [
           MockBackend,
@@ -154,4 +155,24 @@ class TableComponent {
   @Output() detailEvent: EventEmitter<String> = new EventEmitter<String>();
   @Output() pageChangeEvent: EventEmitter<String> = new EventEmitter<String>();
   @Output() enterEvent: EventEmitter<any> = new EventEmitter<any>();
+}
+
+@Component({
+  selector: 'qddt-rational',
+  template: `<div></div>`
+})
+
+class RationalComponent {
+  @Input() element: any;
+  @Input() config: any;
+}
+
+@Component({
+  selector: 'qddt-revision-detail',
+  template: `<div></div>`
+})
+
+class RevisionDetailComponent {
+  @Input() element: any;
+  @Input() type: any;
 }

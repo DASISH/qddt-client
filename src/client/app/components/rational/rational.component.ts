@@ -7,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
   <div class="row">
     <div class="card" >
       <div class="row">
-        <div class="col left" *ngFor="let option of rationalDescriptions">
+        <div class="col left" *ngFor="let option of rationalDescriptions" [ngClass]="{hide: option.hidden}">
           <input name="{{originalId}}-optiontypegroup" type="radio"
             id="{{originalId}}-option-type-{{option.id}}" (click)="onSelectOption(option.id)"
             [checked]="saveOptionIndex === option.id" />
@@ -136,6 +136,7 @@ export class RationalComponent implements OnInit {
     { 'id': 3, 'name': 'Saved as new', 'showComment': false, 'children': [] }
   ];
   @Input() element: any;
+  @Input() config: any;
   private _RationalIndex: number;
   private _Rational2Index: number;
   private saveOptionIndex: number;
@@ -151,6 +152,14 @@ export class RationalComponent implements OnInit {
   }
 
   ngOnInit() {
+    if(this.config !== null && this.config !== undefined) {
+      let hiddenIds: any[] = this.config.hidden || [];
+      for(let id of hiddenIds) {
+        if(id < this.rationalDescriptions.length) {
+          this.rationalDescriptions[id]['hidden'] = true;
+        }
+      }
+    }
     this.originalId = this.element.id;
     this.element.changeComment = '';
     this.element.changeKind = 'IN_DEVELOPMENT';
