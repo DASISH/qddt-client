@@ -69,7 +69,7 @@ import { Subject } from 'rxjs/Subject';
 `
 })
 
-export class QuestionItemEditMissing implements OnInit {
+export class QuestionItemEditMissingComponent implements OnInit {
   @Input() missing: any;
   @Input() readonly: boolean;
   @Input() mainResponseDomain: any;

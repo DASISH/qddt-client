@@ -2,7 +2,7 @@ import { ModuleWithProviders }  from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { HomeComponent }   from './components/home/home.component';
-import { QuestionComp } from './components/question/question.component';
+import { QuestionComponent } from './components/question/question.component';
 import { CategoryComponent } from './components/category/category.component';
 import { CategorySchemeComponent } from './components/category/category.scheme.component';
 import { ResponsedomainComponent } from './components/responsedomain/responsedomain.component';
@@ -19,7 +19,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'Questions',
-    component: QuestionComp
+    component: QuestionComponent
   },
   {
     path: 'Responsedomains',

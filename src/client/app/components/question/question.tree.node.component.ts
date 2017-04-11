@@ -3,7 +3,7 @@ import { ConceptService, Concept } from '../concept/concept.service';
 import { QuestionItem } from './question.service';
 
 @Component({
-  selector: 'qddt-question-treenode',
+  selector: 'qddt-questionitem-treenode',
   providers: [ ConceptService ],
   styles: [
     '.tree-children { padding-left: 5px }',
@@ -13,7 +13,7 @@ import { QuestionItem } from './question.service';
     }`
   ],
   template: `
-    <div *ngIf="concept.name" class="row card">
+    <div *ngIf="concept && concept.name" class="row card">
       <div id="{{concept.id}}" class="scrollspy">
          <div class="col s1 m1 l1">
            <br />
@@ -22,8 +22,8 @@ import { QuestionItem } from './question.service';
                    (click)="edit.isVisible = !edit.isVisible"><i class="material-icons">mode_edit</i></a-->
              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                    (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium">history</i></a>
-             <questionitem-reuseorcreate [parentId]="concept.id"
-               (questionItemCreatedEvent)="setQuestionItem($event)"></questionitem-reuseorcreate>
+             <qddt-questionitem-reuse [parentId]="concept.id"
+               (questionItemCreatedEvent)="setQuestionItem($event)"></qddt-questionitem-reuse>
              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                    (click)="onCreateConcept(concept)"><i class="material-icons left medium">add</i></a>
              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
@@ -33,7 +33,7 @@ import { QuestionItem } from './question.service';
 
            <div class="col s11 m11 l11 grey-text text-darken-2">
              <h5>{{concept.name}}</h5>
-             {{concept.modified | localDate}} by <strong>{{concept.modifiedBy.username}}@{{concept.modifiedBy.agency.name}}</strong>
+             {{concept.modified | localDate}} by <strong>{{concept?.modifiedBy?.username}}@{{concept?.modifiedBy?.agency?.name}}</strong>
            </div>
 
            <div class="col s11 m11 l11 white grey-text text-darken-1">
@@ -91,8 +91,8 @@ import { QuestionItem } from './question.service';
              <qddt-comment-list [ownerId]="concept.id" [comments]="concept.comments"></qddt-comment-list>
            </div>
            <div class="tree-children">
-             <qddt-question-treenode *ngFor="let child of concept.children" [concept]="child"
-               (deleteConceptEvent)="onDeleteConcept($event)"></qddt-question-treenode>
+             <qddt-questionitem-treenode *ngFor="let child of concept.children" [concept]="child"
+               (deleteConceptEvent)="onDeleteConcept($event)"></qddt-questionitem-treenode>
            </div>
         </div>
       </div>

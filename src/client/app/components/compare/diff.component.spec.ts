@@ -9,7 +9,7 @@ import { DiffComponent } from './diff.component';
 import { By } from '@angular/platform-browser';
 
 export function main() {
-  describe('autocomplete component', () => {
+  describe('Compare component', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({

@@ -4,7 +4,7 @@ import { QuestionService, QuestionItem } from './question.service';
 import { Subject } from 'rxjs/Subject';
 
 @Component({
-  selector: 'questionitem-reuseorcreate',
+  selector: 'qddt-questionitem-reuse',
   providers: [QuestionService],
   template: `
       <a class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
@@ -80,7 +80,7 @@ export class QuestionReuseComponent {
   questionItem: QuestionItem;
   revisionIsVisible: boolean = false;
   config: any[];
-  private questionItems: QuestionItem[];
+  questionItems: QuestionItem[];
   private mainresponseDomainRevision: number;
   private searchKeysSubect: Subject<string> = new Subject<string>();
 

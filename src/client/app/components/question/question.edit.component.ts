@@ -142,8 +142,8 @@ import { Observable }     from 'rxjs/Observable';
       </qddt-topic-usedby>
     </div>
     <div class="row" *ngIf="selectedId && selectedType === 'question'">
-      <qddt-question-usedby [id]="selectedId">
-      </qddt-question-usedby>
+      <qddt-questionitem-usedby [id]="selectedId">
+      </qddt-questionitem-usedby>
     </div>
   </div>
   <div class="modal-footer">
@@ -158,7 +158,7 @@ import { Observable }     from 'rxjs/Observable';
   materialize [materializeActions]="conceptActions">
   <div class="modal-content" *ngIf="selectedConcept && selectedType === 'concept'">
     <h4>Concept {{selectedConcept?.name}}</h4>
-    <qddt-question-treenode [concept]="selectedConcept"></qddt-question-treenode>
+    <qddt-questionitem-treenode [concept]="selectedConcept"></qddt-questionitem-treenode>
   </div>
   <div class="modal-footer">
     <button id="concept-modal-close"
@@ -189,7 +189,7 @@ import { Observable }     from 'rxjs/Observable';
 `
 })
 
-export class QuestionItemEdit implements OnInit {
+export class QuestionItemEditComponent implements OnInit {
   @Input() isVisible: boolean;
   @Input() questionitem: any;
   @Input() readonly: boolean;
@@ -223,7 +223,7 @@ export class QuestionItemEdit implements OnInit {
     if(this.isNull(this.readonly)) {
       this.readonly = false;
     }
-    if (!this.isNull(this.questionitem.responseDomain)) {
+    if (!this.isNull(this.questionitem) && !this.isNull(this.questionitem.responseDomain)) {
       if (this.questionitem.responseDomain['responseKind'] === 'MIXED') {
         let rep = this.questionitem.responseDomain.managedRepresentation;
         for (let i = 0; i < rep.children.length; i++) {

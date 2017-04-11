@@ -5,13 +5,13 @@ import { UserService } from '../../common/user.service';
 import { Subject }          from 'rxjs/Subject';
 
 @Component({
-  selector: 'question',
+  selector: 'qddt-questionitem',
   moduleId: module.id,
   templateUrl: './question.component.html',
   providers: [QuestionService]
 })
 
-export class QuestionComp implements AfterContentChecked, OnInit {
+export class QuestionComponent implements AfterContentChecked, OnInit {
 
   showQuestionItemForm: boolean = false;
   showResponsedomainReuse: boolean = false;
@@ -20,7 +20,7 @@ export class QuestionComp implements AfterContentChecked, OnInit {
   responseDomainAction = new EventEmitter<string>();
   previewResponseDomain: any;
   showbutton: any;
-  private questionitems: any;
+  questionitems: any;
   private page: any;
   private questionItem: any;
   private selectedQuestionItem: any;

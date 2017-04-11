@@ -5,11 +5,11 @@ import { QuestionService, QuestionItem, Question } from './question.service';
 @Component({
   selector: 'qddt-questionitem-detail',
   moduleId: module.id,
-  templateUrl: './question_detail.component.html',
+  templateUrl: './question.detail.component.html',
   providers: [QuestionService],
 })
 
-export class QuestionDetail implements OnInit {
+export class QuestionDetailComponent implements OnInit {
   @Input() questionitem: QuestionItem;
   @Input() questionitemId: string;
   @Input() questionitems: QuestionItem[];
@@ -33,6 +33,9 @@ export class QuestionDetail implements OnInit {
   }
 
   ngOnInit() {
+    if(this.questionitems === null || this.questionitems === undefined) {
+      this.questionitems = [];
+    }
     if(this.questionitemId !== null && this.questionitemId !== undefined) {
       this.service.getquestion(this.questionitemId)
         .subscribe((result: any) => {
@@ -44,7 +47,7 @@ export class QuestionDetail implements OnInit {
     }
   }
 
-  hidDetail() {
+  hideDetail() {
     this.hideDetailEvent.emit('hide');
   }
 
@@ -75,7 +78,7 @@ export class QuestionDetail implements OnInit {
       }
       this.questionitems.push(questionitem);
     }
-    this.hidDetail();
+    this.hideDetail();
   }
 
   onDeleteQuestionItemModal() {
@@ -129,12 +132,14 @@ export class QuestionDetail implements OnInit {
   }
 
   private init() {
-    if(this.questionitem.question === null) {
-      this.questionitem.question = new Question();
+    if (this.questionitem !== null && this.questionitem !== undefined) {
+      if (this.questionitem.question === null) {
+        this.questionitem.question = new Question();
+      }
+      this.savedObject = JSON.stringify(this.questionitem);
+      this.savedQuestionitemsIndex = this.questionitems
+        .findIndex(q => q['id'] === this.questionitem['id']);
     }
-    this.savedObject = JSON.stringify(this.questionitem);
-    this.savedQuestionitemsIndex = this.questionitems
-      .findIndex(q => q['id'] === this.questionitem['id']);
     this.config = this.buildRevisionConfig();
   }
 

@@ -22,8 +22,8 @@ import { QuestionItem } from '../question/question.service';
                    (click)="edit.isVisible = !edit.isVisible"><i class="material-icons">mode_edit</i></a>
              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                    (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium">history</i></a>
-             <questionitem-reuseorcreate [parentId]="concept.id"
-               (questionItemCreatedEvent)="setQuestionItem($event)"></questionitem-reuseorcreate>
+             <qddt-questionitem-reuse [parentId]="concept.id"
+               (questionItemCreatedEvent)="setQuestionItem($event)"></qddt-questionitem-reuse>
              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                    (click)="onCreateConcept(concept)"><i class="material-icons left medium">add</i></a>
              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"

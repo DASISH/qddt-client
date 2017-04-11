@@ -260,8 +260,8 @@
       </qddt-topic-usedby>
     </div>
     <div class="row" *ngIf="selectedId && selectedType === 'question'">
-      <qddt-question-usedby [id]="selectedId">
-      </qddt-question-usedby>
+      <qddt-questionitem-usedby [id]="selectedId">
+      </qddt-questionitem-usedby>
     </div>
 		<div class="row" *ngIf="selectedType === 'responsedomain'">
       <qddt-responsedomain-usedby [id]="responsedomain.id"

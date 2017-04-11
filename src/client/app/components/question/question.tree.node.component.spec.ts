@@ -4,27 +4,27 @@ import { TestBed, async } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
-import { ConceptService } from './concept.service';
+import { QuestionService } from './question.service';
 import { BaseService } from '../../common/base.service';
-import { TreeNodeComponent } from './concept.tree.node.component';
+import { TreeNodeComponent } from './question.tree.node.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
 
 export function main() {
-  describe('Concept tree node component', () => {
+  describe('Question tree node component', () => {
     //
     beforeEach(() => {
       TestBed.configureTestingModule({
         declarations: [ TreeNodeComponent, RevisionComponent,
           QuestionitemReuseComponent, ConceptEditReuseComponent,
           AuthorChipComponent, LocalDatePipe,
-          ConceptQuestionComponent, CommentListComponent ],
+          QuestionItemEdit, CommentListComponent ],
         providers: [
           MockBackend,
           BaseRequestOptions,
-          { provide: ConceptService, useClass: ConceptServiceSpy },
+          { provide: QuestionService, useClass: QuestionServiceSpy },
           {
             provide: Http,
             useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),
@@ -81,7 +81,7 @@ export function main() {
 }
 
 //override dependencies
-class ConceptServiceSpy {
+class QuestionServiceSpy {
 }
 
 @Component({
@@ -95,13 +95,16 @@ class CommentListComponent {
 }
 
 @Component({
-  selector: 'qddt-concept-questionitem',
+  selector: 'qddt-questionitem-edit',
   template: `<div></div>`
 })
 
-class ConceptQuestionComponent {
-  @Input() concept: any;
-  @Input() questionItem: any;
+class QuestionItemEdit {
+  @Input() isVisible: boolean;
+  @Input() questionitem: any;
+  @Input() readonly: boolean;
+  @Input() editResponseDomain: boolean;
+  @Output() editQuestionItem: EventEmitter<any>;
 }
 
 @Component({

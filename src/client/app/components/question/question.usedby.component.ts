@@ -3,7 +3,7 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { QuestionService, Question } from './question.service';
 
 @Component({
-  selector: 'qddt-question-usedby',
+  selector: 'qddt-questionitem-usedby',
   moduleId: module.id,
   template: `
   <div *ngIf="question" class="row">
@@ -28,7 +28,7 @@ import { QuestionService, Question } from './question.service';
        </div>
        <div class="input-field col s4">
          <p><label class="active teal-text">Agency</label></p>
-          <div class="chip" >{{question.modifiedBy.agency.name}}</div>
+          <div class="chip" >{{question?.modifiedBy?.agency?.name}}</div>
          </div>
        </div>
    </div>
@@ -40,7 +40,7 @@ export class QuestionUsedbyComponent implements OnChanges {
 
   @Input() id: string;
 
-  private question: Question;
+  question: Question;
 
   constructor(private questionService: QuestionService) {
   }
