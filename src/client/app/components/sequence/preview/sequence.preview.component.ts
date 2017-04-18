@@ -4,7 +4,7 @@ import { Component, OnInit, Input } from '@angular/core';
   selector: 'qddt-sequence-preview',
   moduleId: module.id,
   template: `
-    <div class="row" *ngIf="Sequence">
+    <div class="row" *ngIf="sequence">
       <h5>Sequence: {{sequence?.name}}</h5>
       <span class="row">{{text}}</span>
       <div *ngFor="let child of sequence.children">
