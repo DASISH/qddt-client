@@ -1,10 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'qddt-control-construct-preview',
   moduleId: module.id,
   template: `
-    <div class="row">
+    <div class="row" *ngIf="controlConstruct">
       <h5>Questoin construct</h5>
       <div class="row">
         <div class="input-field col s12">
@@ -64,11 +64,6 @@ import { Component, Input, OnInit } from '@angular/core';
   providers: [ ],
 })
 
-export class ControlConstructPreviewComponent implements OnInit {
+export class ControlConstructPreviewComponent {
   @Input() controlConstruct: any;
-
-  ngOnInit() {
-    console.log(this.controlConstruct);
-  }
-
 }

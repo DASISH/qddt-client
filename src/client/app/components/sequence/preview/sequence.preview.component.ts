@@ -4,7 +4,7 @@ import { Component, OnInit, Input } from '@angular/core';
   selector: 'qddt-sequence-preview',
   moduleId: module.id,
   template: `
-    <div class="row">
+    <div class="row" *ngIf="Sequence">
       <h5>Sequence: {{sequence?.name}}</h5>
       <span class="row">{{text}}</span>
       <div *ngFor="let child of sequence.children">
@@ -35,7 +35,10 @@ export class SequencePreviewComponent implements OnInit {
   text: string;
 
   ngOnInit() {
-    this.text = this.sequence.description || '';
+    this.text = '';
+    if(this.sequence !== null && this.sequence !== undefined) {
+      this.text = this.sequence.description || '';
+    }
   }
 
 }

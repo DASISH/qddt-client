@@ -18,7 +18,10 @@ export class StatementPreviewComponent implements OnInit {
   text: string;
 
   ngOnInit() {
-    this.text = this.statement.description || '';
+    this.text = '';
+    if(this.statement !== null && this.statement !== undefined) {
+      this.text = this.statement.description || '';
+    }
   }
 
 }

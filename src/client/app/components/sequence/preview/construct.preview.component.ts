@@ -4,7 +4,7 @@ import { Component, Input } from '@angular/core';
   selector: 'qddt-construct-preview',
   moduleId: module.id,
   template: `
-    <div class="row">
+    <div class="row" *ngIf="construct">
       <div [ngSwitch]="construct.controlConstructKind">
 				<div *ngSwitchCase="'SEQUENCE_CONSTRUCT'">
           <qddt-sequence-preview [sequence]="construct"></qddt-sequence-preview>

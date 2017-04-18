@@ -4,7 +4,7 @@ import { Component, OnInit, Input } from '@angular/core';
   selector: 'qddt-condition-preview',
   moduleId: module.id,
   template: `
-    <div class="row">
+    <div class="row" *ngIf="condition">
       <h5>Condition</h5>
       <div class="row teal-text">
         <label [attr.for]="elementId + '-name'">Name</label>
@@ -24,7 +24,7 @@ import { Component, OnInit, Input } from '@angular/core';
         </textarea>
         </div>
         <div class="input-field col s6">
-          <span>{{conditionjson.ifCondition.constructName}}</span>
+          <span>{{conditionjson?.ifCondition?.constructName}}</span>
         </div>
       </div>
       <div class="row card" *ngFor="let condition of conditionjson.elseConditions; let idx=index;">
@@ -38,7 +38,7 @@ import { Component, OnInit, Input } from '@angular/core';
         </textarea>
         </div>
         <div class="input-field col s6">
-          <span>{{condition.constructName}}</span>
+          <span>{{condition?.constructName}}</span>
         </div>
       </div>
     </div>`,
@@ -55,8 +55,20 @@ export class ConditionPreviewComponent implements OnInit {
   conditionjson: any;
 
   ngOnInit() {
-    this.conditionstring = this.condition.condition || '{}';
-    this.conditionjson = JSON.parse(this.conditionstring);
+    this.conditionstring = '{}';
+    this.conditionjson = {};
+    if(this.condition !== null && this.condition !== undefined) {
+      this.conditionstring = this.condition.condition || '{}';
+      this.conditionjson = JSON.parse(this.conditionstring);
+    }
+    if(this.conditionjson['ifCondition'] === null
+      || this.conditionjson['ifCondition'] === undefined) {
+      this.conditionjson['ifCondition'] = {};
+    }
+    if(this.conditionjson['elseConditions'] === null
+      || this.conditionjson['elseConditions'] === undefined) {
+      this.conditionjson['elseConditions'] = [];
+    }
   }
 
 }
