@@ -2,7 +2,7 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { ResponseDomain } from './responsedomain.service';
 
 @Component({
-  selector: 'responsedomain-codelist',
+  selector: 'qddt-responsedomain-codelist',
   moduleId: module.id,
   template: `<div class="row">
              <ul><li *ngFor="let row of rows" class="row">

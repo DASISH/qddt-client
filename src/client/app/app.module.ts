@@ -4,7 +4,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import { API_BASE_HREF } from './api';
 
 import { HttpModule } from '@angular/http';
-import { AppCmp } from './components/app/app.component';
+import { AppComponent } from './components/app/app.component';
 
 import { routing } from './app.routes';
 import { HomeModule }   from './components/home/home.module';
@@ -29,7 +29,7 @@ import { PublicationModule } from './components/publication/publication.module';
     routing, HomeModule, LoginModule, RevisionModule, SequenceModule,
     InstrumentModule, CompareModule, CommentModule, SharedModule,
     PublicationModule ],
-  declarations: [ AppCmp ],
+  declarations: [ AppComponent ],
   providers: [UserService, {
     provide: APP_BASE_HREF,
     useValue: '<%= APP_BASE %>'
@@ -37,7 +37,7 @@ import { PublicationModule } from './components/publication/publication.module';
     provide: API_BASE_HREF,
     useValue: '<%= API_BASE %>'
   }],
-  bootstrap: [ AppCmp ]
+  bootstrap: [ AppComponent ]
 
 })
 

@@ -3,30 +3,35 @@ import { ResponseDomain } from './responsedomain.service';
 import { DomainType } from './responsedomain.constant';
 
 @Component({
-  selector: 'responsedomain-mixed',
+  selector: 'qddt-responsedomain-mixed',
   moduleId: module.id,
   template: `<div>
     <label *ngIf="mixedDomains && mixedDomains.length > 0"
       class="active teal-text">{{mixedDomains[0]?.name}}
       Version: {{mixedDomains[0]?.version?.major}}.{{mixedDomains[0]?.version?.minor}}</label>
-    <div *ngFor="let domain of mixedDomains">
+      <div *ngFor="let domain of mixedDomains">
         <div [ngSwitch]="domain.domainType">
-					<responsedomain-scale *ngSwitchCase="domainTypeDef.SCALE"
+					<qddt-responsedomain-scale *ngSwitchCase="domainTypeDef.SCALE"
 					  [responseDomain]="domain">
-          </responsedomain-scale>
-					<responsedomain-datetime *ngSwitchCase="domainTypeDef.DATETIME"
-					  [responseDomain]="domain"></responsedomain-datetime>
-					<responsedomain-numeric *ngSwitchCase="domainTypeDef.NUMERIC"
-					  [responseDomain]="domain"></responsedomain-numeric>
-					<responsedomain-codelist *ngSwitchCase="domainTypeDef.LIST"
-            [responseDomain]="domain"></responsedomain-codelist>
-					<responsedomain-categorylist *ngSwitchCase="domainTypeDef.CategoryList"
-					  [responseDomain]="domain"></responsedomain-categorylist>
-					<responsedomain-text *ngSwitchCase="domainTypeDef.TEXT"
-					  [responseDomain]="domain"></responsedomain-text>
-					<responsedomain-missing *ngSwitchCase="domainTypeDef.MISSING"
-					  [responseDomain]="domain"></responsedomain-missing>
-		</div></div></div>`,
+          </qddt-responsedomain-scale>
+					<qddt-responsedomain-datetime *ngSwitchCase="domainTypeDef.DATETIME"
+					  [responseDomain]="domain">
+          </qddt-responsedomain-datetime>
+					<qddt-responsedomain-numeric *ngSwitchCase="domainTypeDef.NUMERIC"
+					  [responseDomain]="domain">
+          </qddt-responsedomain-numeric>
+					<qddt-responsedomain-codelist *ngSwitchCase="domainTypeDef.LIST"
+            [responseDomain]="domain">
+          </qddt-responsedomain-codelist>
+					<qddt-responsedomain-text *ngSwitchCase="domainTypeDef.TEXT"
+					  [responseDomain]="domain">
+          </qddt-responsedomain-text>
+          <qddt-responsedomain-missing *ngSwitchCase="domainTypeDef.MISSING"
+					  [responseDomain]="domain">
+          </qddt-responsedomain-missing>
+		    </div>
+      </div>
+    </div>`,
   styles: [],
   providers: [],
 })

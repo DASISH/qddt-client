@@ -4,7 +4,7 @@ import { ResponseDomainService } from './responsedomain.service';
 import { Subject } from 'rxjs/Subject';
 
 @Component({
-  selector: 'responsedomain-reuse',
+  selector: 'qddt-responsedomain-reuse',
   moduleId: module.id,
   template: `
     <div *ngIf="isVisible" class="row">
@@ -39,9 +39,9 @@ import { Subject } from 'rxjs/Subject';
           (useResponseDomainEvent)="onUseResponseDomainEvent($event)">
         </qddt-responsedomain-select>
       </div>
-      <responsedomain-form *ngIf="responseDomain"
+      <qddt-responsedomain-form *ngIf="responseDomain"
         (formChange)="formChange()" [responsedomain]="responseDomain" [domainType]="domainType">
-      </responsedomain-form>
+      </qddt-responsedomain-form>
     </div>`,
   styles: [],
   providers: [ResponseDomainService],

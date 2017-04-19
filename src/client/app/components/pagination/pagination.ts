@@ -48,7 +48,7 @@ import { Component, EventEmitter, Input, Output, OnChanges, ChangeDetectionStrat
     </div>
   `
 })
-export class QddtPagination implements OnChanges {
+export class QddtPaginationComponent implements OnChanges {
   pages: number[] = [];
   /**
    * Pagination display size: small or large

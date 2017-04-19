@@ -11,7 +11,6 @@ import { ResponsedomainDatetimeComponent } from './responsedomain.datetime.compo
 import { ResponsedomainCodeListComponent } from './responsedomain.codelist.component';
 import { ResponsedomainMissingComponent } from './responsedomain.missing.component';
 import { ResponsedomainMixedComponent } from './responsedomain.mixed.component';
-import { ResponsedomainCategoryListComponent } from './responsedomain.categorylist.component';
 import { ResponsedomainFormComponent } from './responsedomain.form.component';
 import { ResponsedomainListComponent } from './responsedomain.list.component';
 import { PreviewComponent } from './responsedomain.preview.component';
@@ -24,7 +23,7 @@ import { ResponseDomainSelectComponent } from './responsedomain.select.component
   declarations: [ResponsedomainComponent, ResponsedomainNumericComponent,
     ResponsedomainScaleComponent, ResponsedomainTextComponent,
     ResponsedomainDatetimeComponent, ResponsedomainCodeListComponent,
-    ResponsedomainMissingComponent, ResponsedomainCategoryListComponent,
+    ResponsedomainMissingComponent,
     ResponsedomainFormComponent, ResponsedomainListComponent,
     PreviewComponent, ResponsedomainReuseComponent,
     ResponseDomainSearchComponent, ResponsedomainMixedComponent,

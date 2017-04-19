@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
-import { QddtPagination } from './pagination';
+import { QddtPaginationComponent } from './pagination';
 
 export function main() {
   describe('Pagination Component', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [TestComponent, QddtPagination]
+        declarations: [TestComponent, QddtPaginationComponent]
       });
     });
 
@@ -16,7 +16,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture: any = TestBed.createComponent(QddtPagination);
+            let fixture: any = TestBed.createComponent(QddtPaginationComponent);
             let context: any = fixture.debugElement.componentInstance;
             let element: any = fixture.nativeElement;
             fixture.detectChanges();

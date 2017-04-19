@@ -112,10 +112,10 @@ import { Observable }     from 'rxjs/Observable';
         materialize [materializeActions]="editResponseDomainActions">
         <div class="modal-content" *ngIf="editResponseDomain">
           <div *ngIf="showResponseDomainForm" class="row">
-            <responsedomain-reuse [isVisible]="showResponseDomainForm"
+            <qddt-responsedomain-reuse [isVisible]="showResponseDomainForm"
               [responseDomain]="mainResponseDomain"
               (responseDomainReuse)="responseDomainReuse($event)">
-            </responsedomain-reuse>
+            </qddt-responsedomain-reuse>
           </div>
         </div>
         <div class="modal-footer">

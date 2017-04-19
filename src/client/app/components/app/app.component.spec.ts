@@ -9,7 +9,7 @@ import {
 } from '@angular/core/testing';
 
 import { UserService } from '../../common/user.service';
-import { AppCmp } from './app.component';
+import { AppComponent } from './app.component';
 import { By } from '@angular/platform-browser';
 
 class UserServiceSpy {
@@ -33,7 +33,7 @@ class DummyComponent {
 }
 
 @Component({
-  selector: 'user-login',
+  selector: 'qddt-user-login',
   moduleId: module.id,
   template: ''
 })
@@ -46,7 +46,7 @@ export function main() {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [TestComponent, DummyComponent, AppCmp, UserLoginComponent],
+        declarations: [TestComponent, DummyComponent, AppComponent, UserLoginComponent],
         providers: [
           { provide: UserService, useClass: UserServiceSpy }
         ],

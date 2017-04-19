@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ResponseDomain } from './responsedomain.service';
 
 @Component({
-  selector: 'responsedomain-datetime',
+  selector: 'qddt-responsedomain-datetime',
   moduleId: module.id,
   template: `<div class="row">
                <span>

@@ -20,7 +20,7 @@ export function main() {
         declarations: [ TreeNodeComponent, RevisionComponent,
           QuestionitemReuseComponent, ConceptEditReuseComponent,
           AuthorChipComponent, LocalDatePipe,
-          QuestionItemEdit, CommentListComponent ],
+          QuestionItemEditComponent, CommentListComponent ],
         providers: [
           MockBackend,
           BaseRequestOptions,
@@ -99,7 +99,7 @@ class CommentListComponent {
   template: `<div></div>`
 })
 
-class QuestionItemEdit {
+class QuestionItemEditComponent {
   @Input() isVisible: boolean;
   @Input() questionitem: any;
   @Input() readonly: boolean;

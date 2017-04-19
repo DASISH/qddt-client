@@ -6,7 +6,7 @@ import { Observable }     from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
 @Component({
-  selector: 'responsedomain-form',
+  selector: 'qddt-responsedomain-form',
   moduleId: module.id,
   templateUrl: './responsedomain.form.component.html',
   styles: [

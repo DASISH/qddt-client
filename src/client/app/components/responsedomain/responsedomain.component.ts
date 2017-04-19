@@ -6,7 +6,7 @@ import { UserService } from '../../common/user.service';
 import { Subject } from 'rxjs/Subject';
 
 @Component({
-  selector: 'responsedomain',
+  selector: 'qddt-responsedomain',
   moduleId: module.id,
   templateUrl: './responsedomain.component.html',
   providers: [ResponseDomainService],

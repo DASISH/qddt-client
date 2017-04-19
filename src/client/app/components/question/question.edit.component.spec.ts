@@ -176,7 +176,7 @@ class TreeNodeComponent {
 }
 
 @Component({
-  selector: 'responsedomain-reuse',
+  selector: 'qddt-responsedomain-reuse',
   template: `<div></div>`
 })
 

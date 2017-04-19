@@ -3,7 +3,7 @@ import { Component, EventEmitter, Output, Inject, AfterContentChecked } from '@a
 import { UserService } from './user.service';
 
 @Component({
-  selector: 'user-login',
+  selector: 'qddt-user-login',
   moduleId: module.id,
   template: `
       <div class="container z-depth-1" style="margin-top:0;width:100%;padding:10%;">
@@ -28,10 +28,10 @@ import { UserService } from './user.service';
       </div>
   `,
 })
-export class UserLogin implements AfterContentChecked {
+export class UserLoginComponent implements AfterContentChecked {
 
   @Output('logoutEvent') logoutEvent: EventEmitter<string> = new EventEmitter<string>();
-  user: string;
+  user: any;
   private userService: UserService;
 
   constructor(@Inject(UserService)userService: UserService) {

@@ -4,7 +4,7 @@ import { DomainType, DomainTypeDescription } from './responsedomain.constant';
 import { Subject } from 'rxjs/Subject';
 
 @Component({
-  selector: 'responsedomain-search',
+  selector: 'qddt-responsedomain-search',
   providers: [ResponseDomainService],
   styles: [ ],
   template: `

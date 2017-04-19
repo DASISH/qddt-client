@@ -2,7 +2,7 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { ResponseDomain } from './responsedomain.service';
 
 @Component({
-  selector: 'responsedomain-numeric',
+  selector: 'qddt-responsedomain-numeric',
   moduleId: module.id,
   template: `<div class="row">
         <form>

@@ -1,4 +1,4 @@
-import { LocalDatePipe } from './date_pipe';
+import { LocalDatePipe } from './date.pipe';
 
 export function main() {
   describe('LocalDatePipe', () => {

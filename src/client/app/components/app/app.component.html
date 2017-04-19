@@ -1,6 +1,6 @@
 <header>
   <ul id="nav-mobile" class="side-nav fixed" style="width:240px;">
-    <user-login (logoutEvent)="logoutEvent()"></user-login>
+    <qddt-user-login (logoutEvent)="logoutEvent()"></qddt-user-login>
     <div *ngIf="user">
         <li><a class="teal-text" [routerLink]="['/Home']" (click)="onHome()">
           <i class="material-icons teal-text left medium">store</i>Home</a>

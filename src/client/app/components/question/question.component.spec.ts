@@ -208,7 +208,7 @@ class ResponsedomainPreviewComponent {
 }
 
 @Component({
-  selector: 'responsedomain-reuse',
+  selector: 'qddt-responsedomain-reuse',
   template: `<div></div>`
 })
 

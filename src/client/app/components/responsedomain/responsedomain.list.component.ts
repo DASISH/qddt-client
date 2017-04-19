@@ -4,7 +4,7 @@ import { DomainType, DomainTypeDescription } from './responsedomain.constant';
 import { ResponseDomainService } from './responsedomain.service';
 
 @Component({
-  selector: 'responsedomain-list',
+  selector: 'qddt-responsedomain-list',
   moduleId: module.id,
   templateUrl: './responsedomain.list.component.html',
   styles: [],

@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ResponseDomain } from './responsedomain.service';
 
 @Component({
-  selector: 'responsedomain-missing',
+  selector: 'qddt-responsedomain-missing',
   moduleId: module.id,
   template: `<div class="row lime">
     <div *ngIf="responseDomain.managedRepresentation.children">

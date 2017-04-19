@@ -11,7 +11,7 @@ import { UserService } from '../../common/user.service';
   providers: [ ]
 })
 
-export class AppCmp implements AfterContentChecked {
+export class AppComponent implements AfterContentChecked {
   public user: any;
 
   constructor(private userService: UserService) {

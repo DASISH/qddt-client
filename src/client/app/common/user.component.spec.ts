@@ -3,22 +3,16 @@ import {
   async,
   TestBed
 } from '@angular/core/testing';
-import { UserLogin } from './user.component';
+import { UserLoginComponent } from './user.component';
 import { UserService } from './user.service';
 import { By } from '@angular/platform-browser';
-
-class UserServiceSpy {
-  get = jasmine.createSpy('get').and.callFake(function (key) {
-    return { username: 'qddt', email: 'test@qddt.no' };
-  });
-}
 
 export function main() {
   describe('User component', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [TestComponent, UserLogin, LoginComponent],
+        declarations: [UserLoginComponent, LoginComponent],
         providers: [
           { provide: UserService, useClass: UserServiceSpy }
         ],
@@ -31,15 +25,23 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(TestComponent);
+            let fixture = TestBed.createComponent(UserLoginComponent);
             fixture.detectChanges();
-            let de = fixture.debugElement.queryAll(By.css('.s4'));
-            expect(de.length).toBeGreaterThan(1);
-            let compiled: any = de[1].nativeElement;
-            let hasqddt: boolean = compiled.textContent.indexOf('qddt') >= 0;
-            expect(hasqddt).toBeTruthy();
+            fixture.whenStable().then(() => {
+              let de = fixture.debugElement.queryAll(By.css('.s4'));
+              expect(de.length).toBeGreaterThan(1);
+              expect(de[1].nativeElement.textContent.indexOf('qddt')).toBeGreaterThan(0);
+              expect(fixture.componentInstance.user['username']).toContain('qddt');
+            });
           });
       }));
+  });
+}
+
+//override dependencies
+class UserServiceSpy {
+  get = jasmine.createSpy('get').and.callFake(function (key) {
+    return { username: 'qddt', email: 'test@qddt.no' };
   });
 }
 
@@ -50,12 +52,4 @@ export function main() {
 })
 export class LoginComponent {
   @Output() loginEvent: EventEmitter<string> = new EventEmitter<string>();
-}
-
-@Component({
-  selector: 'test-cmp',
-  template: '<user-login></user-login>'
-})
-class TestComponent {
-
 }

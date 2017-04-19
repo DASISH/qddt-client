@@ -2,7 +2,7 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { ResponseDomain } from './responsedomain.service';
 
 @Component({
-  selector: 'responsedomain-text',
+  selector: 'qddt-responsedomain-text',
   moduleId: module.id,
   template: `<div class="row">
                <textarea id="{{responseDomain.id}}-textarea" 

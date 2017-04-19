@@ -95,10 +95,10 @@
   <div class="modal-content">
     <div class="row">
       <div *ngIf="showQuestionItemForm && showResponsedomainReuse" class="row">
-        <responsedomain-reuse [isVisible]="showResponsedomainReuse"
+        <qddt-responsedomain-reuse [isVisible]="showResponsedomainReuse"
           [responseDomain]="questionItem.responseDomain"
           (responseDomainReuse)="responseDomainReuse($event)">
-        </responsedomain-reuse>
+        </qddt-responsedomain-reuse>
       </div>
     </div>
   </div>

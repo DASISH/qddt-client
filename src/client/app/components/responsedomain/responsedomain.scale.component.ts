@@ -2,7 +2,7 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { ResponseDomain } from './responsedomain.service';
 
 @Component({
-  selector: 'responsedomain-scale',
+  selector: 'qddt-responsedomain-scale',
   moduleId: module.id,
   template: `<div *ngIf="responseDomain" class="row">
         <table *ngIf="displayLayout === 0">

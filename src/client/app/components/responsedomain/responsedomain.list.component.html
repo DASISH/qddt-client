@@ -24,10 +24,10 @@
           <p>{{responseDomain.description}}</p>
           <qddt-author-chip [authors]="responseDomain.authors"></qddt-author-chip>
         </div>
-        <responsedomain-form *ngIf="editIsVisible && selectedDomainId === responseDomain.id"
+        <qddt-responsedomain-form *ngIf="editIsVisible && selectedDomainId === responseDomain.id"
           (formChange)="formChange($event)" [responsedomain]="responseDomain"
           [domainType]="domainType">
-        </responsedomain-form>
+        </qddt-responsedomain-form>
         <qddt-revision [isVisible]="revision.isVisible"
           [current]="responseDomain"
           [qddtURI]="'audit/responsedomain/' + responseDomain.id + '/all'" #revision></qddt-revision>
