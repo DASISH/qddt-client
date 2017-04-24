@@ -158,7 +158,7 @@ import { ResponseDomainService } from './responsedomain.service';
         </div>
         <div class="input-field col s4">
           <p><label class="active teal-text">Agency</label></p>
-          <div class="chip" >{{responsedomain.modifiedBy.agency.name}}</div>
+          <div class="chip" >{{responsedomain?.modifiedBy?.agency?.name}}</div>
         </div>
       </div>
 		</div>

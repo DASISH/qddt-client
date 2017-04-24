@@ -18,7 +18,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
   errorAction = new EventEmitter<any>();
   error: string;
   public domainTypeDef = DomainType;
-  private responseDomains: any[];
+  responseDomains: any[];
   private selectedResponseDomain: ResponseDomain;
   private responseDomain: ResponseDomain;
   private showResponseDomainForm: boolean;

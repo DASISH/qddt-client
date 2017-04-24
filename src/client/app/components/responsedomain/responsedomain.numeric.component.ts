@@ -4,7 +4,7 @@ import { ResponseDomain } from './responsedomain.service';
 @Component({
   selector: 'qddt-responsedomain-numeric',
   moduleId: module.id,
-  template: `<div class="row">
+  template: `<div class="row" *ngIf="responseDomain">
         <form>
           <input type="number" min="{{low}}" max="{{high}}"
             id="numeric-domain-{{responseDomain.id}}"

@@ -15,13 +15,13 @@
       </div>
 
       <div class="col s10 m10 l10 grey-text text-darken-2">
-        <h5>{{responseDomain.name}}</h5>
-        {{responseDomain.modified | localDate}} by <strong>{{responseDomain.modifiedBy.username}}@{{responseDomain.modifiedBy.agency.name}}</strong>
+        <h5>{{responseDomain?.name}}</h5>
+        {{responseDomain?.modified | localDate}} by <strong>{{responseDomain.modifiedBy?.username}}@{{responseDomain?.modifiedBy?.agency?.name}}</strong>
       </div>
 
       <div class="col s10 m10 l10 white grey-text text-darken-1">
         <div class="row">
-          <p>{{responseDomain.description}}</p>
+          <p>{{responseDomain?.description}}</p>
           <qddt-author-chip [authors]="responseDomain.authors"></qddt-author-chip>
         </div>
         <qddt-responsedomain-form *ngIf="editIsVisible && selectedDomainId === responseDomain.id"

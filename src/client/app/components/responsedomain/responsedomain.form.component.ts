@@ -58,6 +58,9 @@ export class ResponsedomainFormComponent implements OnInit {
     if(this.readonly === null || this.readonly === undefined) {
       this.readonly = false;
     }
+    if(this.responsedomain === null || this.responsedomain === undefined) {
+      return;
+    }
     if(this.responsedomain.responseCardinality === undefined) {
       this.responsedomain.responseCardinality = { 'minimum': 1, 'maximum': 1 };
     }

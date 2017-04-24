@@ -4,14 +4,14 @@ import { ResponseDomain } from './responsedomain.service';
 @Component({
   selector: 'qddt-responsedomain-codelist',
   moduleId: module.id,
-  template: `<div class="row">
+  template: `<div class="row" *ngIf="responseDomain">
              <ul><li *ngFor="let row of rows" class="row">
-               <input name="{{responseDomain.id}}-codegroup" type="{{type}}"
-                 id="{{responseDomain.id}}code{{row.code}}"
+               <input name="{{responseDomain?.id}}-codegroup" type="{{type}}"
+                 id="{{responseDomain?.id}}code{{row?.code}}"
                  [disabled]="row.disabled"
                  (change)="checkOption(row, $event)"/>
-               <label [attr.for]="responseDomain.id + 'code' + row.code">{{row.label}}</label>
-               <span class="right"> {{row.code}}</span>
+               <label [attr.for]="responseDomain.id + 'code' + row.code">{{row?.label}}</label>
+               <span class="right"> {{row?.code}}</span>
              </li></ul>
              </div>`,
   styles: [],

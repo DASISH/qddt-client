@@ -15,7 +15,7 @@ import { ResponsedomainFormComponent } from './responsedomain.form.component';
 import { ResponsedomainListComponent } from './responsedomain.list.component';
 import { PreviewComponent } from './responsedomain.preview.component';
 import { ResponsedomainReuseComponent } from './responsedomain.reuse.component';
-import { ResponseDomainSearchComponent } from './responsedomain.search';
+import { ResponseDomainSearchComponent } from './responsedomain.search.component';
 import { ResponseDomainSelectComponent } from './responsedomain.select.component';
 
 @NgModule({

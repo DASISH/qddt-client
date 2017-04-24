@@ -4,7 +4,7 @@ import { ResponseDomain } from './responsedomain.service';
 @Component({
   selector: 'qddt-responsedomain-datetime',
   moduleId: module.id,
-  template: `<div class="row">
+  template: `<div class="row" *ngIf="responseDomain">
                <span>
                <label>{{low}}
                <input  type="date" class="datepicker"/></label>
@@ -22,15 +22,17 @@ export class ResponsedomainDatetimeComponent implements OnInit {
   ngOnInit() {
     this.low = 0;
     this.high = 1;
-    let rep = this.responseDomain.managedRepresentation;
-    if (rep !== undefined) {
-      if (rep.inputLimit !== undefined
-        && rep.inputLimit.maximum !== undefined) {
-        this.high = parseInt(rep.inputLimit.maximum);
-      }
-      if (rep.inputLimit !== undefined
-        && rep.inputLimit.minimum !== undefined) {
-        this.low = parseInt(rep.inputLimit.minimum);
+    if (this.responseDomain !== null && this.responseDomain !== undefined) {
+      let rep = this.responseDomain.managedRepresentation;
+      if (rep !== undefined) {
+        if (rep.inputLimit !== undefined
+          && rep.inputLimit.maximum !== undefined) {
+          this.high = parseInt(rep.inputLimit.maximum);
+        }
+        if (rep.inputLimit !== undefined
+          && rep.inputLimit.minimum !== undefined) {
+          this.low = parseInt(rep.inputLimit.minimum);
+        }
       }
     }
   }

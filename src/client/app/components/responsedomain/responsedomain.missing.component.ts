@@ -4,7 +4,7 @@ import { ResponseDomain } from './responsedomain.service';
 @Component({
   selector: 'qddt-responsedomain-missing',
   moduleId: module.id,
-  template: `<div class="row lime">
+  template: `<div class="row lime" *ngIf="responseDomain">
     <div *ngIf="responseDomain.managedRepresentation.children">
 		  <span>Missing</span>
 			<ul class="row">

@@ -5,7 +5,7 @@ import { DomainType, DomainTypeDescription } from './responsedomain.constant';
 @Component({
   selector: 'qddt-responsedomain-preview',
   moduleId: module.id,
-  template: `<div *ngIf="isVisible" class="card-panel lighten-2 black-text">
+  template: `<div *ngIf="isVisible && domainType" class="card-panel lighten-2 black-text">
         <label *ngIf="domainType !== domainTypeDef.MIXED"
           class="active teal-text">{{responseDomain?.name}}
           Version: {{responseDomain?.version?.major}}.{{responseDomain?.version?.minor}}</label>
@@ -34,11 +34,14 @@ export class PreviewComponent implements OnChanges {
   public domainTypeDef = DomainType;
   @Input() isVisible: boolean;
   @Input() responseDomain: ResponseDomain;
-  private domainType: DomainType;
+  domainType: DomainType;
 
   ngOnChanges() {
-    if (this.isVisible) {
-      this.domainType = DomainTypeDescription.find(e=>e.name === this.responseDomain['responseKind']).id;
+    if (this.isVisible && this.responseDomain !== undefined) {
+      let ret = DomainTypeDescription.find(e=>e.name === this.responseDomain['responseKind']);
+      if( ret !== undefined ) {
+        this.domainType = ret.id;
+      }
     }
   }
 }
