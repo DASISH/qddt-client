@@ -1,14 +1,17 @@
 <div *ngIf="element" [ngSwitch]="elementType">
-  <div>{{element?.question?.question}}
-    <label class="active teal-text">V<!--
+  <div class="row">
+    <div class="col s11">{{element?.question?.question}}</div>
+    <div class="col s1">
+      <label class="active teal-text">V<!--
       -->{{element?.version?.major}}.<!--
       -->{{element?.version?.minor}}
-    </label>
+      </label>
+    </div>
   </div>
   <div *ngSwitchCase="1">
     <div class="row">
       <div class="col s12">
-        <label [attr.for]="element.id + '-name'" class="active teal-text">Name</label>            
+        <label [attr.for]="element.id + '-name'" class="active teal-text">ModuleName</label>
         <input id="{{element?.id}}-name"
           name="{{element?.id}}-name" type="text"
           [(ngModel)]="element.name" readonly>
