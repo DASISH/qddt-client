@@ -53,7 +53,9 @@ import { PublicationStatus, PublicationService, ElementTypes } from './publicati
           </div>
         </div>
         <div class="row">
+        <p>
           <qddt-comment-list [ownerId]="concept.id" [comments]="concept.comments"></qddt-comment-list>
+        </p>
         </div>
         <div class="container" *ngIf="concept.children && concept.children.length > 0">
           <qddt-publication-concept-preview
