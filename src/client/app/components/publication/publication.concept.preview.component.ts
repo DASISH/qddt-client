@@ -10,7 +10,7 @@ import { PublicationStatus, PublicationService, ElementTypes } from './publicati
     <li *ngFor="let concept of concepts">
 		  <div class="collapsible-header">
         <div class="row">
-          <div class="col s11">{{concept?.name}}</div>
+          <div class="col s11">Concept: {{concept?.name}}</div>
           <div class="col s1">
             <label class="active teal-text">V{{concept?.version?.major}}.{{concept?.version?.minor}}
             </label>
