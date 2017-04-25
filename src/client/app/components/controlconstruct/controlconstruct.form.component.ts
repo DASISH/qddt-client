@@ -48,7 +48,7 @@ let fileSaver = require('./filesaver');
               (mouseleave)="instruction.showbutton = false">
               <div class="col s11">{{instruction?.description}}</div>
               <div class="col s1">
-              <a [ngClass]="{hide: !instruction.showbutton}"
+              <a [ngClass]="{hide: !showPreinstructionButton}"
                 class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
                 (click)="onDeletePreInstruction(idx)">
                 <i class="material-icons">remove</i>
@@ -115,7 +115,7 @@ let fileSaver = require('./filesaver');
               (mouseleave)="instruction.showbutton = false">
               <div class="col s11">{{instruction?.description}}</div>
               <div class="col s1">
-              <a [ngClass]="{hide: !instruction.showbutton}"
+              <a [ngClass]="{hide: !showPostinstructionButton}"
                 class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
                 (click)="onDeletePostInstruction(idx)">
                 <i class="material-icons">remove</i>
