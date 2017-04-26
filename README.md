@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/DASISH/qddt-client.svg?branch=devel)](https://travis-ci.org/DASISH/qddt-client)
 [![Angular Style Guide](https://mgechev.github.io/angular2-style-guide/images/badge.svg)](https://angular.io/styleguide)
+
 *This is a prototype for the web client based on the QDDT API being developed at NSD. This prototype uses Angular 2.0.0 releases.*
 
 ## Sites
