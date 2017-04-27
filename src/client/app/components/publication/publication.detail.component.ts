@@ -15,12 +15,9 @@ export class PublicationDetailComponent implements OnInit {
   @Input() isVisible: boolean;
   @Output() hideDetailEvent: EventEmitter<String> = new EventEmitter<String>();
   controlConstructsActions = new EventEmitter<string>();
-  actions = new EventEmitter<string>();
   selectOptions: any[] = PublicationStatus;
   selectedOptionValue: number;
   selectedPublicationStatusOption: any;
-  private selectedElementDetail: any;
-  private selectedElementType: number;
   private revisionIsVisible: boolean;
   private predefinedStatus: any[];
 
@@ -73,13 +70,12 @@ export class PublicationDetailComponent implements OnInit {
       });
   }
 
-  onElementDetail(e: any) {
-    this.selectedElementDetail = e.element;
-    let type = ElementTypes.find(el => el.type === e.elementKind);
+  getElementType(e: any) {
+    let type: any = ElementTypes.find(el => el.type === e.elementKind);
     if(type !== undefined) {
-      this.selectedElementType = type.id;
-      this.actions.emit('openModal');
+      return type.id;
     }
+    return null;
   }
 
   onDeleteElement(index: number) {
