@@ -10,7 +10,7 @@ export class Concept {
   label:string;
   description:string;
   authors:any[];
-  questionItems:any[];
+  conceptQuestionItems:any[];
 }
 
 @Injectable()

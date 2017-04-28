@@ -67,26 +67,26 @@ import { QuestionItem } from '../question/question.service';
              [qddtURI]="'audit/concept/' + concept.id + '/all'"
              [config]="[{'name':'name','label':'Name'},{'name':'description','label':'Description'}]"
              #revision ></qddt-revision>
-           <div *ngIf="concept.questionItems.length > 0" class="section">
+           <div *ngIf="concept.conceptQuestionItems.length > 0" class="section">
              <ul class="collection with-header">
                <li class="collection-header">Question Items</li>
-               <li class="collection-item" *ngFor="let questionItem of concept.questionItems">
+               <li class="collection-item" *ngFor="let questionItem of concept.conceptQuestionItems">
                  <div class="row"
                    (mouseenter)="questionItem.showbutton = true"
                    (mouseleave)="questionItem.showbutton = false">
                    <div class="col s1">
                      <a class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
                        [ngClass]="{hide: !questionItem.showbutton}"
-                       (click)="onClickQuestionItem(questionItem)">
+                       (click)="onClickQuestionItem(questionItem.questionItem)">
                        <i class="material-icons">search</i>
                      </a>
                    </div>
-                   <div class="col s10">{{questionItem?.question?.question}}</div>
+                   <div class="col s10">{{questionItem?.questionItem?.question?.question}}</div>
                    <div class="col s1">
                      <a
                        class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
                        [ngClass]="{hide: !questionItem.showbutton}"
-                       (click)="removeQuestionItem(questionItem?.id)">
+                       (click)="removeQuestionItem(questionItem?.questionItem?.id)">
                        <i class="material-icons">remove</i>
                      </a>
                    </div>                 
@@ -160,7 +160,7 @@ export class TreeNodeComponent {
 
   onQuestionItemSave() {
     this.showQuestionForm = false;
-    this.concept.questionItems.push(this.questionItem);
+    this.concept.conceptQuestionItems.push({'id': {questionItemId: this.questionItem.id, conceptId: this.concept.id}});
     this.conceptService.updateConcept(this.concept)
       .subscribe((result: any) => {
         this.concept = result;
@@ -176,10 +176,14 @@ export class TreeNodeComponent {
   }
 
   setQuestionItem(questionItem: any) {
-    this.concept.questionItems.push(questionItem);
-    this.conceptService.updateConcept(this.concept)
-      .subscribe((result: any) => {
-        this.concept = result;
-      }, (error: any) => console.log(error));
+    let i = this.concept.conceptQuestionItems.findIndex((q: any) => q['id'] !== undefined
+      && q['id'] !== null && q['id']['questionItemId'] === questionItem['id']);
+    if (i < 0) {
+      this.concept.conceptQuestionItems.push({ 'id': { questionItemId: questionItem.id, conceptId: this.concept.id } });
+      this.conceptService.updateConcept(this.concept)
+        .subscribe((result: any) => {
+          this.concept = result;
+        }, (error: any) => console.log(error));
+    }
   }
 }

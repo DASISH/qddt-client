@@ -106,5 +106,3 @@ export class ConceptEditComponent implements OnInit {
   }
 
 }
-
-

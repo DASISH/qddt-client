@@ -63,7 +63,7 @@ export function main() {
                 'name' : 'one concept',
                 'basedOnObject' : null,
                 'basedOnRevision' : null,
-                'questionItems': [],
+                'conceptQuestionItems': [],
                 'version' : {'major' : 6, 'minor' : 0, 'versionLabel' : '', 'revision' : null },
                 'changeKind' : 'CONCEPTUAL',
                 'changeComment' : 'Information added'

@@ -60,9 +60,10 @@ export class ConceptQuestionComponent {
   }
 
   onEditQuestionItem(questionitem: any) {
-    let i = this.concept.questionItems.findIndex((q: any) => q['id'] === questionitem['id']);
-    if(i !== undefined) {
-      this.concept.questionItems[i] = questionitem;
+    let i = this.concept.conceptQuestionItems.findIndex((q: any) => q['id'] !== undefined
+      && q['id'] !== null && q['id']['questionItemId'] === questionitem['id']);
+    if(i >= 0) {
+      this.concept.conceptQuestionItems[i] = {'id': {questionItemId: questionitem.id, conceptId: this.concept.id}};
     }
   }
 }
