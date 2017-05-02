@@ -6,6 +6,12 @@ let fileSaver = require('../controlconstruct/filesaver');
 @Component({
   selector: 'qddt-publication-preview',
   moduleId: module.id,
+  styles: [
+    `:host /deep/ .row {
+       margin-left: auto;
+       margin-right: auto;
+    }`
+  ],
   templateUrl: './publication.preview.component.html',
   providers: [PublicationService],
 })
