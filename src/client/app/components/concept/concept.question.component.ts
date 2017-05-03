@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { ConceptService } from './concept.service';
 
@@ -32,7 +32,7 @@ import { ConceptService } from './concept.service';
         </div>
         <qddt-questionitem-edit [isVisible]="true"
           (editQuestionItem)="onEditQuestionItem($event)"
-          [editResponseDomain]="true"
+          [editResponseDomain]="editResponseDomain"
           [readonly]="true"
           [questionitem]="questionItem">
         </qddt-questionitem-edit>
@@ -49,14 +49,21 @@ import { ConceptService } from './concept.service';
   </div>
 `
 })
-export class ConceptQuestionComponent {
+export class ConceptQuestionComponent implements OnInit {
 
   @Input() concept: any;
   @Input() questionItem: any;
+  @Input() editResponseDomain: boolean;
   private revisionIsVisible: boolean;
 
   constructor(private conceptService: ConceptService) {
     this.revisionIsVisible = false;
+  }
+
+  ngOnInit() {
+    if(this.editResponseDomain === null || this.editResponseDomain === undefined) {
+      this.editResponseDomain = true;
+    }
   }
 
   onEditQuestionItem(questionitem: any) {

@@ -108,4 +108,5 @@ class CommentListComponent {
 class ConceptQuestionitemPreviewComponent {
   @Input() questionItem: any;
   @Input() concept: any;
+  @Input() editResponseDomain: boolean;
 }

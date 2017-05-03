@@ -47,7 +47,9 @@ import { PublicationStatus, PublicationService, ElementTypes } from './publicati
               </button>
             </div>
             <div class="modal-content">
-              <qddt-concept-questionitem [questionItem]="questionItem" [concept]="concept">
+              <qddt-concept-questionitem [questionItem]="questionItem"
+                [editResponseDomain]="false"
+                [concept]="concept">
               </qddt-concept-questionitem>
             </div>
           </div>
