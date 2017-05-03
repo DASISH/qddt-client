@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { PublicationStatus, PublicationService, ElementTypes } from './publication.service';
 import { Subject } from 'rxjs/Subject';
 
@@ -32,25 +32,6 @@ enum DomainType {
     <qddt-responsedomain-preview *ngIf="element.responseDomain"
       [isVisible]="true" [responseDomain]="element.responseDomain">
     </qddt-responsedomain-preview>
-    <div class="card row">
-      <div class="col s6">
-        <div class="row"><span>Response Domain:<span *ngIf="mainResponseDomain && mainResponseDomain.managedRepresentation">
-          (V{{mainResponseDomain?.managedRepresentation?.version?.major}}<!--
-          -->.{{mainResponseDomain?.managedRepresentation?.version?.minor}})</span></span>
-        </div>
-        <div class="row">
-          <span *ngIf="mainResponseDomain">{{mainResponseDomain?.name}}</span>
-        </div>
-      </div>
-      <div class="col s6">
-        <div class="card">
-          <div class="row"><span>Missing</span></div>
-          <div class="row">
-            <span *ngIf="secondCS">{{secondCS?.name}}</span>
-          </div>
-        </div>
-      </div>
-    </div>
     <div class="row">
       <ul class="collection with-header black-text">
         <li class="collection-item" *ngFor="let c of element.conceptRefs" >Concept: {{c?.name}}</li>
@@ -61,49 +42,7 @@ enum DomainType {
   providers: [ ],
 })
 
-export class PublicationQuestionitemPreviewComponent implements OnChanges {
+export class PublicationQuestionitemPreviewComponent {
   @Input() element: any;
-  private mainResponseDomain: any;
-  private secondCS: any;
 
-  ngOnChanges() {
-    this.mainResponseDomain = null;
-    this.secondCS = null;
-    if (this.element !== null
-      && this.element !== undefined
-      && this.element.responseDomain !== null
-      && this.element.responseDomain !== undefined) {
-      if (this.element.responseDomain['responseKind'] === 'MIXED') {
-        let rep = this.element.responseDomain.managedRepresentation;
-        for (let i = 0; i < rep.children.length; i++) {
-          if (rep.children[i].categoryType === 'MISSING_GROUP') {
-            this.secondCS = rep.children[i];
-          } else {
-            let rd: any = {};
-            rd['id'] = new Date().toString();
-            if (rep.children[i].categoryType === 'SCALE') {
-              rd['domainType'] = DomainType.SCALE;
-              rd['responseKind'] = 'SCALE';
-            } else if (rep.children[i].categoryType === 'NUMERIC') {
-              rd['domainType'] = DomainType.NUMERIC;
-              rd['responseKind'] = 'NUMERIC';
-            } else if (rep.children[i].categoryType === 'TEXT') {
-              rd['domainType'] = DomainType.TEXT;
-              rd['responseKind'] = 'TEXT';
-            } else if (rep.children[i].categoryType === 'LIST') {
-              rd['domainType'] = DomainType.LIST;
-              rd['responseKind'] = 'LIST';
-            }
-            rd['name'] = rep.children[i]['name'] || '';
-            rd['responseCardinality'] = { minimum: '1', maximum: '1' };
-            rd['managedRepresentation'] = rep.children[i];
-            rd['version'] = rep.children[i]['version'];
-            this.mainResponseDomain = rd;
-          }
-        }
-      } else {
-        this.mainResponseDomain = this.element.responseDomain;
-      }
-    }
-  }
 }
