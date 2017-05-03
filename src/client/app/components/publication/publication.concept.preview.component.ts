@@ -12,7 +12,7 @@ import { PublicationStatus, PublicationService, ElementTypes } from './publicati
         <div class="row">
           <div class="col s11">Concept: {{concept?.name}}</div>
           <div class="col s1">
-            <label class="active teal-text">V{{concept?.version?.major}}.{{concept?.version?.minor}}
+            <label class="active">V{{concept?.version?.major}}.{{concept?.version?.minor}}
             </label>
           </div>
          </div>
@@ -76,7 +76,6 @@ export class PublicationConceptPreviewComponent {
   questionItem: any;
 
   onClickQuestionItem(questionItem) {
-    console.log(questionItem);
     this.questionItem = questionItem;
     this.questionItemActions.emit('openModal');
   }
