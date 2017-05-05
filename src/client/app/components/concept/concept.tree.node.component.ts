@@ -32,7 +32,12 @@ import { QuestionItem } from '../question/question.service';
            </div>
 
            <div class="col s11 m11 l11 grey-text text-darken-2">
-             <h5>{{concept?.name}}</h5>
+             <h5 class="row">
+                <div class="col s11">{{concept?.name}}</div>
+                <div class="col s1">
+                  <div>V{{concept?.version?.major}}.{{concept?.version?.minor}}</div>
+                </div>
+              </h5>
            </div>
 
            <div class="col s11 m11 l11 white grey-text text-darken-1">
