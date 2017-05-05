@@ -1,6 +1,7 @@
 import { Component, Input, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { PublicationStatus, PublicationService, ElementTypes } from './publication.service';
 import { Subject } from 'rxjs/Subject';
+import { Observable }     from 'rxjs/Observable';
 let fileSaver = require('../controlconstruct/filesaver');
 
 @Component({
@@ -21,6 +22,8 @@ export class PublicationPreviewComponent implements OnChanges {
   @Input() elementType: any;
   actions = new EventEmitter<string>();
   children: any[];
+  questionItemActions = new EventEmitter<string>();
+  questionItem: any;
 
   constructor(private service: PublicationService) {
   }
@@ -37,6 +40,42 @@ export class PublicationPreviewComponent implements OnChanges {
         console.log(error);
       });
     }
+    if(this.elementType === 2) {
+      this.loadQuestionitem();
+    }
+  }
+
+  loadQuestionitem() {
+    let conceptQuestionItems: any[] = this.element.conceptQuestionItems;
+    let source = Observable.range(0, conceptQuestionItems.length)
+      .concatMap((x: any) => {
+        let id: string = conceptQuestionItems[x].id.questionItemId;
+        return this.service.getQuestionitem(id);
+      });
+
+    let index = 0;
+    let service = this.service;
+    let questionItems: any[] = [];
+    let element = this.element;
+
+    source.subscribe(
+      function (x: any) {
+        if (index < conceptQuestionItems.length) {
+          questionItems[index] = x;
+          index = index + 1;
+        }
+      },
+      function (err: any) {
+        console.log('Error: %s', err);
+      },
+      function () {
+        element.questionItems = questionItems;
+      });
+  }
+
+  onClickQuestionItem(questionItem) {
+    this.questionItem = questionItem;
+    this.questionItemActions.emit('openModal');
   }
 
   onDownloadFile(o: any) {

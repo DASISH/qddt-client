@@ -203,4 +203,8 @@ export class PublicationService extends BaseService {
       .catch(this.handleError);
   }
 
+  getQuestionitem(id: string): any {
+    return this.get('questionitem/' + id);
+  }
+
 }
