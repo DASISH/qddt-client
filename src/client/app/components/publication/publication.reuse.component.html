@@ -1,4 +1,4 @@
-<div class="row white white-text">
+<div class="row">
   <div class="row teal-text">
 		<span name="col text">Add element</span>
     <div class="col right">
@@ -35,7 +35,7 @@
       
     </div>
   </div>
-  <div *ngIf="selectedElement" class="row teal-text">
+  <div *ngIf="selectedElement" class="row">
     <qddt-publication-select *ngIf="showAddElement"
       [element]="selectedElement"
       (publicationElement)="onUse($event)"
