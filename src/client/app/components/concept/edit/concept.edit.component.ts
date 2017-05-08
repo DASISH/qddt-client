@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
 import { ConceptService, Concept } from '../concept.service';
 
 @Component({
@@ -63,6 +63,7 @@ export class ConceptEditComponent implements OnInit {
   @Input() concept: Concept;
   @Input() isVisible: boolean;
   @Input() readonly: boolean;
+  @Output() conceptSavedEvent: EventEmitter<any> = new EventEmitter<any>();
   basedonObject: any;
   basedonActions = new EventEmitter<string>();
 
@@ -79,7 +80,10 @@ export class ConceptEditComponent implements OnInit {
   save() {
     this.isVisible = false;
     this.service.updateConcept(this.concept)
-      .subscribe((result: any) => this.concept = result
+      .subscribe((result: any) => {
+        this.concept = result;
+        this.conceptSavedEvent.emit(result);
+      }
         ,(err: any) => console.log('ERROR: ', err));
   }
 

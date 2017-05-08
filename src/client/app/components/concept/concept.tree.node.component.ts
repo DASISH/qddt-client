@@ -33,9 +33,15 @@ import { QuestionItem } from '../question/question.service';
 
            <div class="col s11 m11 l11 grey-text text-darken-2">
              <h5 class="row">
-                <div class="col s11">{{concept?.name}}</div>
+                <div class="col s9">{{concept?.name}}</div>
                 <div class="col s1">
                   <div>V{{concept?.version?.major}}.{{concept?.version?.minor}}</div>
+                </div>
+                <div class="col s2">
+                  <i *ngIf="concept.workinprogress"
+                    class="material-icons white yellow-text small">
+                    error
+                  </i>
                 </div>
               </h5>
            </div>
@@ -65,7 +71,10 @@ import { QuestionItem } from '../question/question.service';
                  </form>
              </div>
            </div>
-           <qddt-concept-edit [isVisible]="edit.isVisible" [concept]="concept" #edit></qddt-concept-edit>
+           <qddt-concept-edit [isVisible]="edit.isVisible" [concept]="concept"
+             (conceptSavedEvent)="onConceptSavedEvent($event)"
+             #edit>
+           </qddt-concept-edit>
            <qddt-revision [isVisible]="revision.isVisible"
              [current]="concept"
              [qddtURI]="'audit/concept/' + concept.id + '/all'"
@@ -142,6 +151,11 @@ export class TreeNodeComponent {
 
   onCreateConcept(concept: any) {
     this.showConceptChildForm = !this.showConceptChildForm;
+  }
+
+  onConceptSavedEvent(concept: any) {
+    this.concept.version = concept.version;
+    this.concept.workinprogress = concept.changeKind === 'IN_DEVELOPMENT';
   }
 
   onDeleteConcept(concept: any) {
