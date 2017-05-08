@@ -53,9 +53,9 @@ export class SurveyEditComponent {
   onSave() {
     this.isVisible = false;
     this.surveyService.save(this.survey)
-      .subscribe((result: any) => this.survey = result.content
+      .subscribe((result: any) => {
+        this.surveySavedEvent.emit(result);}
         ,(err: any) => console.log('ERROR: ', err));
-    this.surveySavedEvent.emit(this.survey);
   }
 
 }

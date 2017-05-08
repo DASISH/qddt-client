@@ -17,8 +17,12 @@ export class SurveyService extends BaseService {
     super(http ,api);
   }
 
-  save(surveyProgram: SurveyProgram): any {
+  create(surveyProgram: SurveyProgram): any {
     return this.post(surveyProgram, 'surveyprogram/create');
+  }
+
+  save(surveyProgram: SurveyProgram): any {
+    return this.post(surveyProgram, 'surveyprogram/');
   }
 
   getAll():any {

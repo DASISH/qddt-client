@@ -24,16 +24,21 @@ export class SurveyComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    this.surveys = [];
     this.surveyService.getAll()
       .subscribe((data:Array<SurveyProgram>)  =>  {
-              data.forEach(s => this.surveys.push(s));
-            }
+        this.surveys = data;
+        this.surveys.forEach(s => {
+          s.savedVersion = 'V' + s.version.major + '.' + s.version.minor;
+          s.workinprogress = s.changeKind === 'IN_DEVELOPMENT';
+        });
+      }
       ,(err: any) => console.log('ERROR: ', err));
   }
 
   onSurveySaved(surveyProgram:any) {
     this.surveys = this.surveys.filter((q) => q.id !== surveyProgram.id);
+    surveyProgram.savedVersion = 'V' + surveyProgram.version.major + '.' + surveyProgram.version.minor;
+    surveyProgram.workinprogress = surveyProgram.changeKind === 'IN_DEVELOPMENT';
     this.surveys.push(surveyProgram);
   }
 
@@ -42,13 +47,8 @@ export class SurveyComponent implements OnChanges {
     this.show = false;
   }
 
-  onDelete(surveyProgram: any) {
-    this.surveyDeleteEvent.emit(surveyProgram);
-    //this.surveyService.delete(surveyProgram);
-  }
-
   onSave() {
-    this.surveyService.save(this.survey)
+    this.surveyService.create(this.survey)
       .subscribe((result: any) => this.onSurveySaved(result)
         ,(err: any) => console.log('ERROR: ', err));
 
