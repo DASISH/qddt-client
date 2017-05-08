@@ -16,7 +16,7 @@ export class StudyComponent implements OnChanges {
   @Input() show: boolean;
 
   private study: any;
-  private studies: any;
+  private studies: any[];
 
   constructor(private studyService: StudyService) {
     this.study = new Study();
@@ -24,6 +24,9 @@ export class StudyComponent implements OnChanges {
 
   ngOnChanges() {
     this.studies = this.survey.studies;
+    this.studies.forEach((study: any) => {
+      study.workinprogress = study.changeKind === 'IN_DEVELOPMENT';
+    });
   }
 
   onStudySelect(study: any) {
@@ -32,6 +35,12 @@ export class StudyComponent implements OnChanges {
 
   onToggleStudyForm() {
     this.showStudyForm = !this.showStudyForm;
+  }
+
+  onStudySavedEvent(study: any) {
+    this.studies = this.studies.filter((s: any) => s.id !== study.id);
+    study.workinprogress = study.changeKind === 'IN_DEVELOPMENT';
+    this.studies.push(study);
   }
 
   onSave() {

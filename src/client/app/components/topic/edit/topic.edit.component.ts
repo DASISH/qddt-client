@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 
 import { TopicService, Topic } from '../topic.service';
 import { Observable }     from 'rxjs/Observable';
@@ -118,6 +118,7 @@ export class TopicEditComponent {
 
   @Input() topic: Topic;
   @Input() isVisible: boolean;
+  @Output() topicSavedEvent: EventEmitter<any> = new EventEmitter<any>();
   errors: string[];
   actions = new EventEmitter<string>();
   private showUploadFileForm: boolean;
@@ -207,7 +208,7 @@ export class TopicEditComponent {
       },
       function () {
         service.edit(topic).subscribe((result: any) => {
-          this.topic = result;
+          this.topicSavedEvent.emit(result);
         }, (error: any) => {
           errors.push(error);
           actions.emit('openModal');

@@ -28,7 +28,12 @@ export class TopicComponent implements OnChanges {
       && this.study.id !== null && this.study.id !== undefined) {
       this.topics = [];
       this.topicService.getAll(this.study.id)
-        .subscribe((result: any) => this.topics = result,
+        .subscribe((result: any) => {
+          this.topics = result;
+          this.topics.forEach((topic: any) => {
+            topic.workinprogress = topic.changeKind === 'IN_DEVELOPMENT';
+          });
+        },
         (error: any) => console.log(error));
     }
   }
@@ -39,6 +44,12 @@ export class TopicComponent implements OnChanges {
 
   onSelectTopic(topic: any) {
     this.topicSelectedEvent.emit(topic);
+  }
+
+  onTopicSavedEvent(topic: any) {
+    this.topics = this.topics.filter((s: any) => s.id !== topic.id);
+    topic.workinprogress = topic.changeKind === 'IN_DEVELOPMENT';
+    this.topics.push(topic);
   }
 
   onSave() {
