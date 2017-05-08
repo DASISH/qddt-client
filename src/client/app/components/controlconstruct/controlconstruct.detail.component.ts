@@ -84,7 +84,9 @@ export class ControlConstructDetailComponent implements OnInit {
   }
 
   private init() {
-    this.controlConstruct['workinprogress'] = this.controlConstruct['changeKind'] === 'IN_DEVELOPMENT';
+    if(this.controlConstruct !== null && this.controlConstruct !== undefined) {
+      this.controlConstruct['workinprogress'] = this.controlConstruct['changeKind'] === 'IN_DEVELOPMENT';
+    }
     this.savedObject = JSON.stringify(this.controlConstruct);
     this.savedControlConstructsIndex = this.controlConstructs
       .findIndex(q => q['id'] === this.controlConstruct['id']);

@@ -21,7 +21,9 @@ export class CategoryDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.category['workinprogress'] = this.category['changeKind'] === 'IN_DEVELOPMENT';
+    if(this.category !== null && this.category !== undefined) {
+      this.category['workinprogress'] = this.category['changeKind'] === 'IN_DEVELOPMENT';
+    }
   }
 
   hideDetail() {
