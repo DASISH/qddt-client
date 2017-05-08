@@ -1,5 +1,10 @@
 <div class="row" *ngIf="category">
-  <label class="active teal-text">Version: {{category?.version?.major}}.{{category?.version?.minor}}</label>
+  <label class="active teal-text">Version: {{category?.version?.major}}.{{category?.version?.minor}}
+    <i *ngIf="category.workinprogress"
+      class="material-icons white yellow-text small">
+      error
+    </i>
+  </label>
   <div id="{{category?.id}}" class="scrollspy">
     <div class="col s1 m1 l1">
       <br/>

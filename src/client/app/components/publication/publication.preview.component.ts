@@ -40,7 +40,9 @@ export class PublicationPreviewComponent implements OnChanges {
         console.log(error);
       });
     }
-    if(this.elementType === 2) {
+    if(this.elementType === 2 && changes['element'] !== null
+      && changes['element'] !== undefined) {
+        console.log(this.element);
       this.loadQuestionitem();
     }
   }
@@ -70,6 +72,7 @@ export class PublicationPreviewComponent implements OnChanges {
       },
       function () {
         element.questionItems = questionItems;
+        console.log(element);
       });
   }
 

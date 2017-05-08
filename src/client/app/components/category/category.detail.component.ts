@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 
 import { CategoryService, Category } from './category.service';
 
@@ -9,7 +9,7 @@ import { CategoryService, Category } from './category.service';
   providers: [CategoryService],
 })
 
-export class CategoryDetailComponent {
+export class CategoryDetailComponent implements OnInit {
   @Input() category: Category;
   @Input() categories: Category[];
   @Input() isVisible: boolean;
@@ -18,6 +18,10 @@ export class CategoryDetailComponent {
 
   constructor() {
     this.revisionIsVisible = false;
+  }
+
+  ngOnInit() {
+    this.category['workinprogress'] = this.category['changeKind'] === 'IN_DEVELOPMENT';
   }
 
   hideDetail() {

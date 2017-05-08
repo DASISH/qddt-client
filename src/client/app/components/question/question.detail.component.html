@@ -1,5 +1,10 @@
 <div class="row" *ngIf="questionitem">
-  <label class="active teal-text">Version: {{questionitem?.version?.major}}.{{questionitem?.version?.minor}}</label>
+  <label class="active teal-text">Version: {{questionitem?.version?.major}}.{{questionitem?.version?.minor}}
+    <i *ngIf="questionitem.workinprogress"
+      class="material-icons white yellow-text small">
+      error
+    </i>
+  </label>
   <div id="{{questionitem?.id}}" class="scrollspy">
     <div class="col s1 m1 l1">
       <br/>

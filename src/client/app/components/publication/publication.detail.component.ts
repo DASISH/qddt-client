@@ -34,6 +34,7 @@ export class PublicationDetailComponent implements OnInit {
       this.service.getPublication(this.publicationId)
         .subscribe((result: any) => {
           this.publication = result;
+          this.publication['workinprogress'] = this.publication['changeKind'] === 'IN_DEVELOPMENT';
           let status = this.predefinedStatus.find(e => e.label === this.publication.status);
           if(status !== undefined) {
             this.selectedPublicationStatusOption = status.description;

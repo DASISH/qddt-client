@@ -1,7 +1,12 @@
 <div class="row" *ngIf="controlConstruct">
   <label class="active teal-text">Version: <!--
         -->{{controlConstruct?.version?.major}}.<!--
-        -->{{controlConstruct?.version?.minor}}</label>
+        -->{{controlConstruct?.version?.minor}}
+    <i *ngIf="controlConstruct.workinprogress"
+      class="material-icons white yellow-text small">
+      error
+    </i>
+  </label>
   <div id="{{controlConstruct?.id}}" class="scrollspy">
     <div class="col s1 m1 l1">
       <br/>

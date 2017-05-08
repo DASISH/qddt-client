@@ -152,6 +152,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
 
   onDetail(category: any) {
     this.selectedCategory = category;
+    this.selectedCategory['workinprogress'] = this.selectedCategory['changeKind'] === 'IN_DEVELOPMENT';
     this.savedObject = JSON.stringify(category);
     this.savedCategoriesIndex = this.missingCategories
       .findIndex(q => q['id'] === category['id']);

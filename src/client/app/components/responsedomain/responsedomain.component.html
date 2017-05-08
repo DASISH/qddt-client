@@ -32,7 +32,12 @@
 	</div>
 
 <div class="row" *ngIf="isDetail">
-  <label class="active teal-text">Version: {{selectedResponseDomain?.version?.major}}.{{selectedResponseDomain?.version?.minor}}</label>
+  <label class="active teal-text">Version: {{selectedResponseDomain?.version?.major}}.{{selectedResponseDomain?.version?.minor}}
+    <i *ngIf="selectedResponseDomain.workinprogress"
+      class="material-icons white yellow-text small">
+      error
+    </i>
+  </label>
   <div id="{{selectedResponseDomain?.id}}" class="scrollspy">
     <div class="col s1 m1 l1">
       <br/>

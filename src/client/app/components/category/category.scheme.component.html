@@ -61,6 +61,14 @@
     </div>
   
     <div class="row" *ngIf="isDetail">
+      <div class="row">
+      <label class="active teal-text">Version: {{selectedCategory?.version?.major}}.{{selectedCategory?.version?.minor}}
+        <i *ngIf="selectedCategory.workinprogress"
+          class="material-icons white yellow-text small">
+          error
+        </i>
+      </label>
+      </div>
       <div class="col s1 m1 l1">
         <br/>
         <div class="row">

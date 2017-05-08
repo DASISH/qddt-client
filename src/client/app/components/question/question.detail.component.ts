@@ -133,6 +133,7 @@ export class QuestionDetailComponent implements OnInit {
 
   private init() {
     if (this.questionitem !== null && this.questionitem !== undefined) {
+      this.questionitem['workinprogress'] = this.questionitem.changeKind === 'IN_DEVELOPMENT';
       if (this.questionitem.question === null) {
         this.questionitem.question = new Question();
       }
