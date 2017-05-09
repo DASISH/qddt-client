@@ -37,6 +37,19 @@ npm run build.dev
 # prod build
 npm run build.prod
 ```
+## How to publish github page
+```bash
+#checkout devel branch, say directory path A
+npm run build.prod -- --base=/qddt-client/ --api=https://qddt-test.nsd.no/api/
+
+#checkout gh-pages branch , say directory path B
+cp -a A/dist/prod/* B/
+
+#goto B and commit the webpage to gh-pages
+git add *
+git commit -m "message"
+git push
+```
 
 ## Configuration
 
