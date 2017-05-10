@@ -154,6 +154,10 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
     this.responseDomainAction.emit('closeModal');
   }
 
+  onDismiss() {
+    this.responseDomainAction.emit('closeModal');
+  }
+
   openResponseDomainModal() {
     this.showResponsedomainReuse = true;
     this.responseDomainAction.emit('openModal');
