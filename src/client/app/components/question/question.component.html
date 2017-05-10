@@ -96,6 +96,7 @@
     <div class="row">
       <div *ngIf="showQuestionItemForm && showResponsedomainReuse" class="row">
         <qddt-responsedomain-reuse [isVisible]="showResponsedomainReuse"
+          (dismissEvent)="onDismiss()"
           [responseDomain]="questionItem.responseDomain"
           (responseDomainReuse)="responseDomainReuse($event)">
         </qddt-responsedomain-reuse>

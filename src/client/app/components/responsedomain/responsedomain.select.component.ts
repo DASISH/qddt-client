@@ -36,8 +36,9 @@ import { ResponseDomainService } from './responsedomain.service';
             </option>
           </select>
         </div>
-        <div class="input-field col s4 right">
+        <div class="input-field col s6 right">
           <a class="waves-effect waves-light btn  green" (click)="onUseResponseDomain()">Use this</a>
+          <a class="waves-effect waves-light btn  red" (click)="onDismiss()">Dismiss</a>
         </div>
       </div>
     </div>
@@ -50,6 +51,7 @@ export class ResponseDomainSelectComponent implements OnChanges {
   @Input() responseDomain;
   @Input() revision;
   @Output() useResponseDomainEvent = new EventEmitter<any>();
+  @Output() dismissEvent: any = new EventEmitter<any>();
   error: any;
   responseDomains: any[];
   selectedResponseDomainIndex: number;
@@ -100,6 +102,10 @@ export class ResponseDomainSelectComponent implements OnChanges {
       responseDomainRevision: this.responseDomainRevision
     };
     this.useResponseDomainEvent.emit(object);
+  }
+
+  onDismiss() {
+    this.dismissEvent.emit(true);
   }
 
   private popupModal(error: any) {

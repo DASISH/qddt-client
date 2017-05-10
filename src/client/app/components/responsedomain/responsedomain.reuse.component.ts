@@ -36,6 +36,7 @@ import { Subject } from 'rxjs/Subject';
         <qddt-responsedomain-select
           [responseDomain]="selectedResponseDomain"
           [revision]="selectedRevision"
+          (dismissEvent)="onDismiss()"
           (useResponseDomainEvent)="onUseResponseDomainEvent($event)">
         </qddt-responsedomain-select>
       </div>
@@ -51,6 +52,7 @@ export class ResponsedomainReuseComponent implements OnInit, OnChanges {
   @Input() isVisible: boolean;
   @Input() responseDomain: any;
   @Output() responseDomainReuse: EventEmitter<any> = new EventEmitter();
+  @Output() dismissEvent: any = new EventEmitter<any>();
   selectedResponseDomain: any;
   selectedRevision: number;
   public domainTypeDef = DomainType;
@@ -93,6 +95,10 @@ export class ResponsedomainReuseComponent implements OnInit, OnChanges {
     } else {
       this.domainType = DomainType.SCALE;
     }
+  }
+
+  onDismiss() {
+    this.dismissEvent.emit(true);
   }
 
   formChange() {
