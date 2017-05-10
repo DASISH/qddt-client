@@ -13,6 +13,7 @@ export class PublicationSelectComponent implements OnChanges {
   @Input() element: any;
   @Input() elementType: any;
   @Output() publicationElement: any = new EventEmitter<any>();
+  @Output() dismissEvent: any = new EventEmitter<any>();
 
   elementRevisions: any[];
   elementRevision: any;
@@ -60,6 +61,10 @@ export class PublicationSelectComponent implements OnChanges {
       element.element = this.selectedElement;
       this.publicationElement.emit(element);
     }
+  }
+
+  onDismiss() {
+    this.dismissEvent.emit(true);
   }
 
 }

@@ -39,6 +39,7 @@
     <qddt-publication-select *ngIf="showAddElement"
       [element]="selectedElement"
       (publicationElement)="onUse($event)"
+      (dismissEvent)="onToggleAddElement()"
       [elementType]="elementType">
     </qddt-publication-select>
   </div>
