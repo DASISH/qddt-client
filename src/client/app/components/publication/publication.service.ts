@@ -98,12 +98,6 @@ export const ElementTypes: any[] = [
     {'id': 4, 'label': 'QuestionConstruct', 'path': 'controlconstruct',
       'type': 'QuestionConstruct',
       'fields': ['name', 'questiontext'], 'parameter': '&constructkind=QUESTION_CONSTRUCT'},
-    {'id': 5, 'label': 'Sequence', 'path': 'controlconstruct',
-      'type': 'Sequence',
-      'fields': ['name', 'description'], 'parameter': '&constructkind=SEQUENCE_CONSTRUCT'},
-    {'id': 6, 'label': 'Instrument', 'path': 'instrument',
-      'type': 'Instrument',
-      'fields': ['name', 'description']}
   ];
 
 export class PublicationElement {
