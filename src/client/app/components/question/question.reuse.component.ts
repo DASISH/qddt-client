@@ -47,11 +47,42 @@ import { Subject } from 'rxjs/Subject';
               <div class="row teal-text">
                 <h5>{{questionItem?.question?.question}}</h5>
               </div>
-              <qddt-questionitem-edit [isVisible]="true"
-                [editResponseDomain]="true"
-                [readonly]="true"
-                [questionitem]="questionItem">
-              </qddt-questionitem-edit>
+              <div *ngIf="questionItem">
+                <div class="row">
+                  <ul class="collection with-header black-text">
+                    <li class="collection-header">Question Item</li>
+                    <li  class="collection-item">Version: {{questionItem?.version?.major}}.
+                      {{questionItem?.version?.minor}}
+                    </li>
+                    <li class="collection-item">Name: {{questionItem?.name}}</li>
+                    <li class="collection-item">Question Text: {{questionItem?.question?.question}}</li>
+                    <li class="collection-item">Intent: {{questionItem?.question?.intent}}</li>
+                  </ul>
+                </div>
+                <qddt-responsedomain-preview *ngIf="questionItem.responseDomain"
+                  [isVisible]="true" [responseDomain]="questionItem.responseDomain">
+                </qddt-responsedomain-preview>
+                <div class="row">
+                  <div class="input-field col s4" *ngIf="elementRevisions.length > 0">
+                    <label class="active black-text">business version</label>
+                    <select [(ngModel)]="elementRevision"
+                      (ngModelChange)="onSelectElementRevisions($event)"
+                      class="black-text"
+                      name="element-revision"
+                      materialize="material_select">
+                      <option *ngFor="let revision of elementRevisions"
+                        [selected]="revision.revisionNumber === elementRevision"
+                        [value]="revision.revisionNumber">
+                        {{revision?.entity?.version?.major}}.{{revision?.entity?.version?.minor}}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="input-field col s6 right">
+                    <a class="waves-effect waves-light btn green" (click)="onUseElement()">Use this</a>
+                    <a class="waves-effect waves-light btn red" (click)="closeModal()">Dismiss</a>
+                  </div>
+                </div>
+              </div>
               <qddt-revision [isVisible]="revisionIsVisible" *ngIf="revisionIsVisible"
                 [current]="questionItem"
                 [qddtURI]="'audit/questionitem/' + questionItem.id + '/all'"
@@ -60,8 +91,6 @@ import { Subject } from 'rxjs/Subject';
           </div>
         </div>
         <div class="modal-footer">
-          <button (click)="onSave()" type="submit"
-            class="btn btn-default modal-close green waves-green">Submit</button>
           <button
             class="btn btn-default red modal-action modal-close waves-effect waves-red">Dismiss</button>
         </div>
@@ -71,16 +100,17 @@ import { Subject } from 'rxjs/Subject';
 export class QuestionReuseComponent {
   @Input() parentId: string;
   @Output() questionItemCreatedEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() dismissEvent: any = new EventEmitter<any>();
   reuseQuestionItem: boolean;
   selectedIndex: number;
-  secondCS: any;
-  missingCategories: any[];
-  selectedCategoryIndex: number;
   actions = new EventEmitter<any>();
   questionItem: QuestionItem;
   revisionIsVisible: boolean = false;
   config: any[];
   questionItems: QuestionItem[];
+  elementRevisions: any[];
+  elementRevision: any;
+  selectedElement: any;
   private mainresponseDomainRevision: number;
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
@@ -89,9 +119,7 @@ export class QuestionReuseComponent {
     this.reuseQuestionItem = true;
     this.selectedIndex = 0;
     this.questionItems = [];
-    this.secondCS = null;
-    this.selectedCategoryIndex = 0;
-    this.missingCategories = [];
+    this.elementRevisions = [];
     this.config = this.buildRevisionConfig();
     this.mainresponseDomainRevision = 0;
     this.searchKeysSubect
@@ -104,20 +132,50 @@ export class QuestionReuseComponent {
       });
   }
 
-  searchQuestionItems(name: string) {
-    this.searchKeysSubect.next(name);
+  onSelectElementRevisions() {
+    let r = this.elementRevision;
+    if(typeof r === 'string') {
+      r = parseInt(r);
+    }
+    this.elementRevision = r;
+    let result = this.elementRevisions
+      .find((e: any) => e.revisionNumber === r);
+    if(result !== null && result !== undefined) {
+      this.selectedElement = result.entity;
+    } else if(this.elementRevisions.length > 0) {
+      this.selectedElement = this.elementRevisions[0].entity;
+      this.elementRevision = this.elementRevisions[0].revisionNumber;
+    }
   }
 
-  onSave() {
-    if(this.reuseQuestionItem) {
+  onUseElement() {
+     if(this.reuseQuestionItem) {
       this.questionItemCreatedEvent.emit(this.questionItem);
       this.questionItem = null;
+      this.actions.emit('closeModal');
     }
+  }
+
+  onDismiss() {
+    this.dismissEvent.emit(true);
+  }
+
+  searchQuestionItems(name: string) {
+    this.searchKeysSubect.next(name);
   }
 
   selectQuestionItem(questionItem) {
     this.questionItem = questionItem;
     this.revisionIsVisible = false;
+    this.selectedElement = this.questionItem;
+    if (this.questionItem !== null && this.questionItem !== undefined
+      && this.questionItem.id !== null && this.questionItem.id !== undefined) {
+      this.questionService.getQuestionItemRevisions(this.questionItem.id).subscribe((result: any) => {
+        this.elementRevisions = result.content.sort((e1: any, e2: any) => e2.revisionNumber - e1.revisionNumber);
+        this.onSelectElementRevisions();
+      },
+        (error: any) => { console.log('error'); });
+    }
   }
 
   openModal() {
@@ -125,6 +183,10 @@ export class QuestionReuseComponent {
     this.questionService.getQuestionItemPage().subscribe(
       result => { this.questionItems = result.content;
       }, (error: any) => console.log(error));
+  }
+
+  closeModal() {
+    this.actions.emit('closeModal');
   }
 
   private buildRevisionConfig(): any[] {
