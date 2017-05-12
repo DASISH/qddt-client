@@ -54,8 +54,9 @@ import { ControlConstructService } from './controlconstruct.service';
             </option>
           </select>
         </div>
-        <div class="input-field col s4 right">
+        <div class="input-field col s6 right">
         <a class="waves-effect waves-light btn  green" (click)="onUseQuestionItem()">Use this</a>
+        <a class="waves-effect waves-light btn  red" (click)="onDismiss()">Dismiss</a>
         </div>
       </div>
     </div>
@@ -67,6 +68,7 @@ import { ControlConstructService } from './controlconstruct.service';
 export class ControlConstructQuestionItemSelectComponent implements OnInit {
   @Input() controlConstruct;
   @Output() useQuestionItemEvent = new EventEmitter<any>();
+  @Output() dismissEvent: any = new EventEmitter<any>();
   error: any;
   questionItems: any[];
   selectedQuestionItemIndex: number;
@@ -135,6 +137,10 @@ export class ControlConstructQuestionItemSelectComponent implements OnInit {
     this.useQuestionItemEvent.emit('use');
     this.controlConstruct.questionItem = this.selectedQuestionItem;
     this.controlConstruct['questionItemRevision'] = this.questionItemRevision;
+  }
+
+  onDismiss() {
+    this.dismissEvent.emit(true);
   }
 
   private popupModal(error: any) {

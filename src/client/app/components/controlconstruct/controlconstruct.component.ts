@@ -26,6 +26,7 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
   questionItems: any[];
   selectedQuestionItem: any;
   selectedQuestionItemIndex: number;
+  savedquestionitem: any;
 
   private controlConstructs: any[];
   private page: any;
