@@ -150,6 +150,7 @@ export class QuestionReuseComponent {
 
   onUseElement() {
      if(this.reuseQuestionItem) {
+      this.questionItem['questionItemRevision'] = this.elementRevision;
       this.questionItemCreatedEvent.emit(this.questionItem);
       this.questionItem = null;
       this.actions.emit('closeModal');
