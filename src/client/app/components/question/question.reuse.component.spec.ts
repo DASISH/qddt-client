@@ -19,6 +19,7 @@ export function main() {
     beforeEach(() => {
       TestBed.configureTestingModule({
         declarations: [ RevisionComponent, QuestionReuseComponent,
+          ResponsedomainPreviewComponent,
           AutocompleteComponent, QuestionItemEditComponent],
         providers: [
           MockBackend,
@@ -133,4 +134,14 @@ class AutocompleteComponent {
   @Output() autocompleteSelectEvent: EventEmitter<any> = new EventEmitter<any>();
   @Output() autocompleteFocusEvent: EventEmitter<any> = new EventEmitter<any>();
   @Output() enterEvent: EventEmitter<any> = new EventEmitter<any>();
+}
+
+@Component({
+  selector: 'qddt-responsedomain-preview',
+  template: `<div></div>`
+})
+
+class ResponsedomainPreviewComponent {
+  @Input() isVisible: boolean;
+  @Input() responseDomain: any;
 }

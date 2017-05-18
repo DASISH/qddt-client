@@ -197,7 +197,10 @@ export class TreeNodeComponent {
     let i = this.concept.conceptQuestionItems.findIndex((q: any) => q['id'] !== undefined
       && q['id'] !== null && q['id']['questionItemId'] === questionItem['id']);
     if (i < 0) {
-      this.concept.conceptQuestionItems.push({ 'id': { questionItemId: questionItem.id, conceptId: this.concept.id } });
+      let questionitem: any = { 'id': { questionItemId: questionItem.id, conceptId: this.concept.id },
+        'questionItemRevision': questionItem['questionItemRevision']
+      };
+      this.concept.conceptQuestionItems.push(questionitem);
       this.conceptService.updateConcept(this.concept)
         .subscribe((result: any) => {
           this.concept = result;

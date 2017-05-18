@@ -67,7 +67,7 @@ let fileSaver = require('./filesaver');
           <div class="col s1">
             <a [ngClass]="{hide: !showQuestionButton}"
               class="btn-flat btn-floating btn-small waves-effect waves-light teal"
-              (click)="editQuestoinItem = !editQuestoinItem">
+              (click)="editQuestoinItem = !editQuestoinItem;savedquestionitem=controlConstruct.questionItem;">
               <i *ngIf="controlConstruct.questionItem"class="material-icons">play_for_work</i>
               <i *ngIf="!controlConstruct.questionItem" class="material-icons">add</i>
             </a>
@@ -85,6 +85,7 @@ let fileSaver = require('./filesaver');
         </div>
         <qddt-control-construct-questionitem-select
           *ngIf="editQuestoinItem"
+          (dismissEvent)="editQuestoinItem = false;controlConstruct.questionItem=savedquestionitem;"
           (useQuestionItemEvent) = "onUseQuestionItem($event)"
           [controlConstruct]="controlConstruct">
         </qddt-control-construct-questionitem-select>
@@ -240,6 +241,7 @@ export class ControlConstructFormComponent implements OnInit {
   createPreInstruction: boolean;
   basedonActions = new EventEmitter<string>();
   basedonObject: any;
+  savedquestionitem: any;
   private revisionIsVisible: boolean;
   private selectedInstruction: any;
   private showUploadFileForm: boolean;

@@ -31,7 +31,7 @@
                   <div class="col s1">
                     <a
                       class="btn-flat btn-floating btn-small waves-effect waves-light white"
-                      (click)="editQuestoinItem = !editQuestoinItem">
+                      (click)="editQuestoinItem = !editQuestoinItem;savedquestionitem=controlConstruct.questionItem;">
                       <i *ngIf="controlConstruct.questionItem" class="material-icons teal-text">play_for_work</i>
                       <i *ngIf="!controlConstruct.questionItem" class="material-icons teal-text">add</i>
                     </a>
@@ -47,6 +47,7 @@
                 <div>{{controlConstruct?.questionItem?.question?.question}}</div>
                 <qddt-control-construct-questionitem-select
                   *ngIf="editQuestoinItem"
+                  (dismissEvent)="editQuestoinItem = false;controlConstruct.questionItem=savedquestionitem;"
                   (useQuestionItemEvent) = "editQuestoinItem = false"
                   [controlConstruct]="controlConstruct">
                 </qddt-control-construct-questionitem-select>
