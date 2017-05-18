@@ -38,7 +38,7 @@ import { Observable }     from 'rxjs/Observable';
               </div>
             </div>
           </div>
-          <div *ngIf="editResponseDomain" class="card row">
+          <div *ngIf="editResponseDomain" class="hoverable row">
             <div class="col s6"
               (mouseenter)="showbutton = true"
               (mouseleave)="showbutton = false">
@@ -98,12 +98,12 @@ import { Observable }     from 'rxjs/Observable';
               </tbody>
             </table>
           </div>
+          <div class="row" *ngIf="!readonly">
+            <qddt-rational [element]="questionitem"></qddt-rational>
+			    </div>
           <div class="row">
 				    <qddt-revision-detail [element]="questionitem" [type]="'questionitem'"
               (BasedonObjectDetail)="onBasedonObjectDetail($event)"></qddt-revision-detail>
-			    </div>
-          <div class="row" *ngIf="!readonly">
-            <qddt-rational [element]="questionitem"></qddt-rational>
 			    </div>
           <button *ngIf="!readonly" type="submit" class="btn btn-default">Submit</button>
         </form>
