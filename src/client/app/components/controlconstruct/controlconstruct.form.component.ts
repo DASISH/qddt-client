@@ -192,6 +192,10 @@ let fileSaver = require('./filesaver');
         </div>
       </div>
 
+      <div class="row" *ngIf="!readonly">
+		    <qddt-rational [element]="controlConstruct"></qddt-rational>
+      </div>
+
       <div class="row">
         <qddt-revision-detail [element]="controlConstruct"
           (BasedonObjectDetail)="onBasedonObjectDetail($event)"
@@ -199,9 +203,6 @@ let fileSaver = require('./filesaver');
         </qddt-revision-detail>
       </div>
 
-      <div class="row" *ngIf="!readonly">
-		    <qddt-rational [element]="controlConstruct"></qddt-rational>
-      </div>
       <button *ngIf="!readonly" type="submit" class="btn btn-default">Submit</button>
     </form>
     <div class="modal modal-fixed-footer"
