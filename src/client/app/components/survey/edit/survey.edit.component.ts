@@ -27,11 +27,11 @@ import { SurveyService, SurveyProgram } from '../survey.service';
         </div>
 
         <div class="row">
-          <qddt-revision-detail [element]="survey" [type]="'survey'"></qddt-revision-detail>
+		      <qddt-rational [element]="survey"></qddt-rational>
         </div>
 
         <div class="row">
-		      <qddt-rational [element]="survey"></qddt-rational>
+          <qddt-revision-detail [element]="survey" [type]="'survey'"></qddt-revision-detail>
         </div>
         
         <button type="submit" class="btn btn-default">Submit</button>
