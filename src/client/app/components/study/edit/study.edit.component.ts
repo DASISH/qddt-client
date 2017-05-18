@@ -23,11 +23,11 @@
            <textarea id="description" name="description" class="materialize-textarea"  [(ngModel)]="study.description" required></textarea>
          </div>
        </div>
-       <div>
-         <qddt-revision-detail [element]="study" [type]="'study'"></qddt-revision-detail>
-       </div>
        <div class="row">
          <qddt-rational [element]="study"></qddt-rational>
+       </div>
+       <div>
+         <qddt-revision-detail [element]="study" [type]="'study'"></qddt-revision-detail>
        </div>
        <button type="submit" class="btn btn-default">Submit</button>
      </form>
