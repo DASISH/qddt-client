@@ -67,7 +67,8 @@
         <qddt-revision [isVisible]="revisionIsVisible"
           [current]="selectedResponseDomain"
           [qddtURI]="'audit/responsedomain/' + selectedResponseDomain.id + '/all'"
-          [config]="selectedResponseDomain.config"></qddt-revision>
+          [config]="selectedResponseDomain.config">
+        </qddt-revision>
         <div class="row">
           <qddt-comment-list [ownerId]="selectedResponseDomain.id" [comments]="selectedResponseDomain.comments"></qddt-comment-list>
         </div>
