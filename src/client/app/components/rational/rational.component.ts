@@ -5,7 +5,7 @@ import { Component, Input, OnInit } from '@angular/core';
   moduleId: module.id,
   template: `
   <div class="row">
-    <div class="card" >
+    <div class="hoverable" >
       <div class="row">
         <div class="col left" *ngFor="let option of rationalDescriptions" [ngClass]="{hide: option.hidden}">
           <input name="{{originalId}}-optiontypegroup" type="radio"
