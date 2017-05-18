@@ -14,7 +14,7 @@ import { Subject } from 'rxjs/Subject';
   ],
   template:
   `
-  <div class="card hoverable">
+  <div class="hoverable">
     <div class="row"
       (mouseenter)="showbutton = true"
       (mouseleave)="showbutton = false">
