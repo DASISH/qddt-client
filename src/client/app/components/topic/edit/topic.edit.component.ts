@@ -49,7 +49,7 @@ let fileSaver = require('../../controlconstruct/filesaver');
               <i class="material-icons left medium">done</i>
             </a>
           </div>
-          <div class="row card">
+          <div class="row hoverable">
             <ul>
               <li *ngFor="let m of topic.otherMaterials; let idx=index;">
                 <div class="row"
@@ -87,10 +87,10 @@ let fileSaver = require('../../controlconstruct/filesaver');
           </div>
         </div>
         <div class="row">
-          <qddt-revision-detail [element]="topic" [type]="'topic'"></qddt-revision-detail>
+          <qddt-rational [element]="topic"></qddt-rational>
         </div>
         <div class="row">
-          <qddt-rational [element]="topic"></qddt-rational>
+          <qddt-revision-detail [element]="topic" [type]="'topic'"></qddt-revision-detail>
         </div>
         <button type="submit" class="btn btn-default">Submit</button>
       </form>
