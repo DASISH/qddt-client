@@ -23,7 +23,7 @@ let fileSaver = require('./filesaver');
         </div>
       </div>
       <div class="nomargin">
-        <ul class="card"
+        <ul class="hoverable"
           (mouseenter)="showPreinstructionButton = !readonly"
           (mouseleave)="showPreinstructionButton = false">
           <li>
@@ -91,7 +91,7 @@ let fileSaver = require('./filesaver');
         </qddt-control-construct-questionitem-select>
       </div>
       <div class="nomargin">
-        <ul class="card"
+        <ul class="hoverable"
           (mouseenter)="showPostinstructionButton = !readonly"
           (mouseleave)="showPostinstructionButton = false">
           <li>
@@ -154,7 +154,7 @@ let fileSaver = require('./filesaver');
             <i class="material-icons left medium">done</i>
           </a>
         </div>
-        <div class="row card">
+        <div class="row hoverable">
           <ul>
             <li *ngFor="let m of controlConstruct.otherMaterials; let idx=index;">
               <div class="row"
