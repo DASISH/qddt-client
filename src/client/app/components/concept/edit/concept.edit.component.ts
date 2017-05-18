@@ -24,14 +24,14 @@ import { ConceptService, Concept } from '../concept.service';
               [(ngModel)]="concept.description" required></textarea>
           </div>
         </div>
+        <div class="row" *ngIf="!readonly">
+		      <qddt-rational [element]="concept"></qddt-rational>
+        </div>
         <div class="row">
 				  <qddt-revision-detail [element]="concept" [type]="'concept'"
             (BasedonObjectDetail)="onBasedonObjectDetail($event)">
           </qddt-revision-detail>
 			  </div>
-        <div class="row" *ngIf="!readonly">
-		      <qddt-rational [element]="concept"></qddt-rational>
-        </div>
         <button *ngIf="!readonly" type="submit" class="btn btn-default">Submit</button>
       </form>
     </div>
