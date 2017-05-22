@@ -25,7 +25,7 @@ import { ConceptService, Concept } from '../concept.service';
           </div>
         </div>
         <div class="row" *ngIf="!readonly">
-		      <qddt-rational [element]="concept"></qddt-rational>
+		      <qddt-rational [element]="concept" [config]="{hidden: [2,3]}"></qddt-rational>
         </div>
         <div class="row">
 				  <qddt-revision-detail [element]="concept" [type]="'concept'"

@@ -87,7 +87,7 @@ let fileSaver = require('../../controlconstruct/filesaver');
           </div>
         </div>
         <div class="row">
-          <qddt-rational [element]="topic"></qddt-rational>
+          <qddt-rational [element]="topic" [config]="{hidden: [2,3]}"></qddt-rational>
         </div>
         <div class="row">
           <qddt-revision-detail [element]="topic" [type]="'topic'"></qddt-revision-detail>

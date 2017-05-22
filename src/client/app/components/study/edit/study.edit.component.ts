@@ -24,7 +24,7 @@
          </div>
        </div>
        <div class="row">
-         <qddt-rational [element]="study"></qddt-rational>
+         <qddt-rational [element]="study" [config]="{hidden: [2,3]}"></qddt-rational>
        </div>
        <div>
          <qddt-revision-detail [element]="study" [type]="'study'"></qddt-revision-detail>

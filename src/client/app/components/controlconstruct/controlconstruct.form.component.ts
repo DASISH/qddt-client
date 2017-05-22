@@ -59,11 +59,11 @@ let fileSaver = require('./filesaver');
         </ul>
       </div>
 
-      <div class="nomargin"
+      <div class="hoverable"
         (mouseenter)="showQuestionButton = !readonly"
         (mouseleave)="showQuestionButton = false">
         <div class="row">
-          <div class="col s10"><label class="teal-text">Question Text</label></div>
+          <div class="col s11"><label class="teal-text">Question Text</label></div>
           <div class="col s1">
             <a [ngClass]="{hide: !showQuestionButton}"
               class="btn-flat btn-floating btn-small waves-effect waves-light teal"
@@ -72,6 +72,11 @@ let fileSaver = require('./filesaver');
               <i *ngIf="!controlConstruct.questionItem" class="material-icons">add</i>
             </a>
           </div>
+        </div>
+        <div class="row">
+          <div class="col s11">
+            <div class="flow-text">{{controlConstruct?.questionItem?.question?.question}}</div>
+          </div>  
           <div class="col s1">
             <a [ngClass]="{hide: !showQuestionButton}"
               class="btn-flat btn-floating btn-small waves-effect waves-light teal"
@@ -79,9 +84,6 @@ let fileSaver = require('./filesaver');
               <i class="material-icons">remove</i>
             </a>
           </div>
-        </div>
-        <div class="row">
-          <h5>{{controlConstruct?.questionItem?.question?.question}}</h5>
         </div>
         <qddt-control-construct-questionitem-select
           *ngIf="editQuestoinItem"
