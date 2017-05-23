@@ -47,18 +47,16 @@
 
             <div class="col s10 m10 l10 grey-text text-darken-2">
               <h5 class="row">
-                <div class="col s9">{{topic?.name}}</div>
-                <div class="col s1">
-                  <div>V{{topic?.version?.major}}.{{topic?.version?.minor}}</div>
-                </div>
+                <div class="col s10">{{topic?.name}}</div>
+
                 <div class="col s2">
-                  <i *ngIf="topic.workinprogress"
-                    class="material-icons white yellow-text small">
-                    error
-                  </i>
+                  <div class="text-align: right">
+                    <i *ngIf="topic.workinprogress" class="material-icons white yellow-text small font-size: 20px">error</i>
+                    V{{topic?.version?.major}}.{{topic?.version?.minor}}
+                  </div>
                 </div>
               </h5>
-            
+
               <div class="row">
                 <p>{{topic?.abstractDescription}}</p>
                 <qddt-author-chip [authors]="topic.authors" ></qddt-author-chip>

@@ -46,16 +46,13 @@
 
             <div class="col s10 m10 l10 grey-text text-darken-2">
               <h5 class="row">
-                <div class="col s9">{{study?.name}}</div>
-                <div class="col s1">
-                  <div>V{{study?.version?.major}}.{{study?.version?.minor}}</div>
-                </div>
+                <div class="col s10">{{study?.name}}</div>
                 <div class="col s2">
-                  <i *ngIf="study.workinprogress"
-                    class="material-icons white yellow-text small">
-                    error
-                  </i>
+                <div class="text-align: right">
+                  <i *ngIf="study.workinprogress" class="material-icons white yellow-text font-size: 15px">error</i>
+                  V{{study?.version?.major}}.{{study?.version?.minor}}
                 </div>
+              </div>
               </h5>
             </div>
 

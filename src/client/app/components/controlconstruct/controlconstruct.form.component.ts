@@ -8,18 +8,25 @@ let fileSaver = require('./filesaver');
   selector: 'qddt-control-construct-form',
   moduleId: module.id,
   template: `
-  <div *ngIf="controlConstruct">
+  <div *ngIf="controlConstruct" class="card">
     <form (ngSubmit)="onSaveControlConstruct()" #qcform="ngForm">
-      <div class="row nomargin">
-        <div class="input-field">
-          <label [attr.for]="controlConstruct.id + '-name'"
-            class="active teal-text">Name
+      <div class="row">
+        <div class="col s2 offset-s10">
+          <label class="active teal-text text-align: right">Version {{controlConstruct?.version?.major}}.{{controlConstruct?.version?.minor}}
+            <i *ngIf="controlConstruct.workinprogress"class="material-icons white yellow-text tiny">error</i>
           </label>
-          <textarea [attr.id]="controlConstruct.id + '-name'"
-            name="{{controlConstruct.id}}-name" class="materialize-textarea"
-            [(ngModel)]="controlConstruct.name" [attr.maxlength]="255"
-            required>
-          </textarea>
+        </div>  
+        <div class="col s12">
+          <div class="input-field">
+            <label [attr.for]="controlConstruct.id + '-name'"
+              class="active teal-text">Name
+            </label>
+            <textarea [attr.id]="controlConstruct.id + '-name'"
+              name="{{controlConstruct.id}}-name" class="materialize-textarea"
+              [(ngModel)]="controlConstruct.name" [attr.maxlength]="255"
+              required>
+            </textarea>
+          </div>
         </div>
       </div>
       <div class="nomargin">

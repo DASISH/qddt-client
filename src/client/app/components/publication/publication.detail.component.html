@@ -1,12 +1,4 @@
 <div class="row" *ngIf="publication">
-  <label class="active teal-text">Version: <!--
-        -->{{publication?.version?.major}}.<!--
-        -->{{publication?.version?.minor}}
-    <i *ngIf="publication.workinprogress"
-      class="material-icons white yellow-text small">
-      error
-    </i>
-  </label>
   <div id="{{publication?.id}}" class="scrollspy">
     <div class="col s1 m1 l1">
       <br/>
@@ -21,8 +13,22 @@
       </div>
     </div>
 
-    <div class="col s10 m10 l10 grey-text text-darken-2">
-      <div class="card-action">
+    <div class="col s9 grey-text text-darken-2">
+      <div class="flow-text">{{publication?.name}}</div>
+    </div>
+
+    <div class="col s1">
+      <label class="active teal-text text-align: right">Version: {{publication?.version?.major}}.{{publication?.version?.minor}}
+        <i *ngIf="publication.workinprogress"
+           class="material-icons white yellow-text tiny">
+          error
+        </i>
+      </label>
+    </div>
+
+
+    <div class="col s10 rey-text text-darken-2">
+      <div class="card-action card">
         <form (ngSubmit)="onUpdatePublication()" #hf="ngForm">
           <div class="row">
             <div class="input-field col s10">
@@ -63,8 +69,7 @@
               <label class="teal-text">{{selectedPublicationStatusOption}}</label>
             </div>
           </div>
-          <qddt-publication-reuse (publicationElement)="addElement($event)"></qddt-publication-reuse>
-          <div class="row card">
+          <div class="row">
             <div class="row teal-text">Content list</div>
             <ul *ngIf="publication.publicationElements" materialize="collapsible"
               class="collapsible popout" data-collapsible="accordion">
@@ -100,6 +105,7 @@
 		            </div>
               </li>
             </ul>
+            <qddt-publication-reuse (publicationElement)="addElement($event)"></qddt-publication-reuse>
           </div>
           <div class="row">
             <qddt-rational [element]="publication" [config]="{hidden: [2]}"></qddt-rational>

@@ -61,14 +61,6 @@
     </div>
 
     <div class="row" *ngIf="isDetail">
-      <div class="row">
-      <label class="active teal-text">Version: {{selectedCategory?.version?.major}}.{{selectedCategory?.version?.minor}}
-        <i *ngIf="selectedCategory.workinprogress"
-          class="material-icons white yellow-text small">
-          error
-        </i>
-      </label>
-      </div>
       <div class="col s1 m1 l1">
         <br/>
         <div class="row">
@@ -83,6 +75,11 @@
       <div class="col s10 m10 l10 white grey-text text-darken-1">
         <form (ngSubmit)="onSave()" #hf="ngForm" class="card">
           <div class="row">
+            <div class="col s2 offset-s10">
+              <label class="active teal-text text-align: right">Version {{selectedCategory?.version?.major}}.{{selectedCategory?.version?.minor}}
+                <i *ngIf="selectedCategory.workinprogress"class="material-icons white yellow-text tiny">error</i>
+              </label>
+            </div>
             <div class="input-field col s12">
               <textarea name="{{selectedCategory?.id}}-name" id="{{selectedCategory?.id}}-name" class="materialize-textarea"
               [(ngModel)]="selectedCategory.name" [attr.maxlength]="255"

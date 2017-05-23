@@ -1,13 +1,7 @@
 <div class="row" *ngIf="questionitem">
-  <label class="active teal-text">Version: {{questionitem?.version?.major}}.{{questionitem?.version?.minor}}
-    <i *ngIf="questionitem.workinprogress"
-      class="material-icons white yellow-text small">
-      error
-    </i>
-  </label>
   <div id="{{questionitem?.id}}" class="scrollspy">
-    <div class="col s1 m1 l1">
-      <br/>
+
+    <div class="col s1">
       <div class="row">
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="revisionIsVisible = !revisionIsVisible"><i class="material-icons left medium">history</i></a>
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light red">
@@ -19,8 +13,17 @@
       </div>
     </div>
 
-    <div class="col s10 m10 l10 grey-text text-darken-2">
-      <h5>{{questionitem?.question?.question}}</h5>
+    <div class="col s9 m9 l9 grey-text text-darken-2">
+      <div class="flow-text">{{questionitem?.question?.question}}</div>
+    </div>
+
+    <div class="col s1">
+      <label class="active teal-text text-align: right">Version: {{questionitem?.version?.major}}.{{questionitem?.version?.minor}}
+        <i *ngIf="questionitem.workinprogress"
+           class="material-icons white yellow-text tiny">
+          error
+        </i>
+      </label>
     </div>
 
     <div class="col s10 m10 l10 white grey-text text-darken-1">
@@ -37,7 +40,7 @@
         [current]="questionitem"
         [qddtURI]="'audit/questionitem/' + questionitem.id + '/all'"
         [config]="config"></qddt-revision>
-      
+
       <div class="row">
         <qddt-comment-list [ownerId]="questionitem.id" [comments]="questionitem.comments"></qddt-comment-list>
       </div>

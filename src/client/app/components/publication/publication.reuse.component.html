@@ -1,7 +1,8 @@
-<div class="row">
+<div class="row hoverable">
   <div class="row teal-text">
 		<span name="col text">Add element</span>
     <div class="col right">
+
       <i class="material-icons right" title="add Element" [ngStyle]="{'cursor': 'pointer'}"
         (click)="onToggleAddElement()">add
       </i>
@@ -32,7 +33,7 @@
 		      (enterEvent)="onSearchElements($event)">
 		    </autocomplete>
       </div>
-      
+
     </div>
   </div>
   <div *ngIf="selectedElement" class="row">
@@ -48,7 +49,7 @@
 <div [attr.id]="'create-publication-modal'" class="modal"
   materialize [materializeActions]="actions">
   <div class="modal-content">
-    
+
   </div>
   <div class="modal-footer">
     <button

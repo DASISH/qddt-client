@@ -47,19 +47,26 @@
             <div class="col s10 m10 grey-text text-darken-2">
               <div class="row">
               <h5>
-                <div class="col s9">{{surveyProgram?.name}}</div>
-                <div class="col s1">
-                  <div>{{surveyProgram?.savedVersion}}</div>
-                </div>
+                <div class="col s10">{{surveyProgram?.name}}</div>
                 <div class="col s2">
-                  <i *ngIf="surveyProgram.workinprogress"
-                    class="material-icons white yellow-text small">
-                    error
-                  </i>
+                  <div class="text-align: right">
+                    <i *ngIf="surveyProgram.workinprogress" class="material-icons white yellow-text small font-size: 15px">error</i>
+                    {{surveyProgram?.savedVersion}}
+                  </div>
                 </div>
+
+                <!--<div class="col s1">-->
+                  <!--<div>{{surveyProgram?.savedVersion}}</div>-->
+                <!--</div>-->
+                <!--<div class="col s2">-->
+                  <!--<i *ngIf="surveyProgram.workinprogress"-->
+                    <!--class="material-icons white yellow-text small">-->
+                    <!--error-->
+                  <!--</i>-->
+                <!--</div>-->
               </h5>
               </div>
-            
+
               <div class="row">
                 <p>{{surveyProgram?.description}}</p>
                 <qddt-author-chip [authors]="surveyProgram.authors" ></qddt-author-chip>

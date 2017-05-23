@@ -33,15 +33,12 @@ import { QuestionItem } from '../question/question.service';
 
            <div class="col s11 m11 l11 grey-text text-darken-2">
              <h5 class="row">
-                <div class="col s9">{{concept?.name}}</div>
-                <div class="col s1">
-                  <div>V{{concept?.version?.major}}.{{concept?.version?.minor}}</div>
-                </div>
+                <div class="col s10">{{concept?.name}}</div>
                 <div class="col s2">
-                  <i *ngIf="concept.workinprogress"
-                    class="material-icons white yellow-text small">
-                    error
-                  </i>
+                  <div class="text-align: right">
+                  <i *ngIf="concept.workinprogress" class="material-icons white yellow-text font-size: 20px">error</i>
+                  V{{concept?.version?.major}}.{{concept?.version?.minor}}
+                  </div>
                 </div>
               </h5>
            </div>

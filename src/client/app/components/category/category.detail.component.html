@@ -1,13 +1,7 @@
 <div class="row" *ngIf="category">
-  <label class="active teal-text">Version: {{category?.version?.major}}.{{category?.version?.minor}}
-    <i *ngIf="category.workinprogress"
-      class="material-icons white yellow-text small">
-      error
-    </i>
-  </label>
   <div id="{{category?.id}}" class="scrollspy">
-    <div class="col s1 m1 l1">
-      <br/>
+
+    <div class="col s1">
       <div class="row">
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="revisionIsVisible = !revisionIsVisible"><i class="material-icons left medium">history</i></a>
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light red">
@@ -16,12 +10,20 @@
       </div>
     </div>
 
-    <div class="col s10 m10 l10 grey-text text-darken-2">
-      <h5>{{category?.label}}</h5>
-    
-      <div class="row">
-        <p>{{category?.description}}</p>
-      </div>
+    <div class="col s9 grey-text text-darken-2">
+      <div class="flow-text">{{category?.label}}</div>
+    </div>
+
+    <div class="col s1">
+      <label class="active teal-text text-align: right">Version {{category?.version?.major}}.{{category?.version?.minor}}
+        <i *ngIf="category.workinprogress"
+           class="material-icons white yellow-text tiny">
+          error
+        </i>
+      </label>
+    </div>
+
+    <div class="col s10 white grey-text text-darken-1">
 
       <qddt-category-edit [isVisible]="true" [category]="category" [categories]="categories"
         (editDetailEvent)="hideDetail()"
@@ -35,6 +37,5 @@
         <qddt-comment-list [ownerId]="category.id" [comments]="category.comments"></qddt-comment-list>
       </div>
     </div>
-
   </div>
 </div>

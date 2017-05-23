@@ -32,15 +32,10 @@
 	</div>
 
 <div class="row" *ngIf="isDetail">
-  <label class="active teal-text">Version: {{selectedResponseDomain?.version?.major}}.{{selectedResponseDomain?.version?.minor}}
-    <i *ngIf="selectedResponseDomain.workinprogress"
-      class="material-icons white yellow-text small">
-      error
-    </i>
-  </label>
+
   <div id="{{selectedResponseDomain?.id}}" class="scrollspy">
-    <div class="col s1 m1 l1">
-      <br/>
+
+    <div class="col s1">
       <div class="row">
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
 				  (click)="revisionIsVisible = !revisionIsVisible">
@@ -55,9 +50,20 @@
       </div>
     </div>
 
-    <div class="col s10 m10 l10 grey-text text-darken-2">
-      <h5>{{selectedResponseDomain?.name}}</h5>
+    <div class="col s9 grey-text text-darken-2">
+      <div class="flow-text">{{selectedResponseDomain?.name}}</div>
     </div>
+
+    <div class="col s1">
+      <label class="active teal-text text-align: right">Version: {{selectedResponseDomain?.version?.major}}.{{selectedResponseDomain?.version?.minor}}
+        <i *ngIf="selectedResponseDomain.workinprogress"
+           class="material-icons white yellow-text tiny">
+          error
+        </i>
+      </label>
+    </div>
+
+
 
     <div class="col s10 m10 l10 white grey-text text-darken-1">
         <qddt-responsedomain-form
