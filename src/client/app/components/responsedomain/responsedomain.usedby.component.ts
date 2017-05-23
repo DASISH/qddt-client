@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-
+import 'rxjs/Rx';
 import { DomainType, DomainTypeDescription } from './responsedomain.constant';
 import { ResponseDomainService } from './responsedomain.service';
 

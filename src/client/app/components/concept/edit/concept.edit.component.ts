@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
 import { ConceptService, Concept } from '../concept.service';
+import 'rxjs/Rx';
 
 @Component({
   selector: 'qddt-concept-edit',

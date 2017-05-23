@@ -356,7 +356,7 @@
 }
 
 .selecting-left .d2h-code-line::-moz-selection,
-.selecting-left .d2h-code-line *::-moz-selection
+.selecting-left .d2h-code-line *::-moz-selection,
 .selecting-right td.d2h-code-linenumber::-moz-selection,
 .selecting-left .d2h-code-side-line::-moz-selection,
 .selecting-left .d2h-code-side-line *::-moz-selection,
@@ -366,7 +366,7 @@
 }
 
 .selecting-left .d2h-code-line::selection,
-.selecting-left .d2h-code-line *::selection
+.selecting-left .d2h-code-line *::selection,
 .selecting-right td.d2h-code-linenumber::selection,
 .selecting-left .d2h-code-side-line::selection,
 .selecting-left .d2h-code-side-line *::selection,

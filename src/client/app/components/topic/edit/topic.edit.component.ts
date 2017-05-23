@@ -15,14 +15,14 @@ let fileSaver = require('../../controlconstruct/filesaver');
       <form (ngSubmit)="onSave()" #hf="ngForm">
         <div class="row">
           <div class="col s12">
-            <label [attr.for]="topic.id + '-name'" class="active teal-text">Name</label>          
+            <label [attr.for]="topic.id + '-name'" class="active teal-text">Name</label>
             <input id="{{topic?.id}}-name"
               name="{{topic?.id}}-name"type="text" [(ngModel)]="topic.name" required>
           </div>
         </div>
         <div class="row">
           <div class="col s12">
-            <label [attr.for]="topic.id + '-description'" class="active teal-text">Description</label>            
+            <label [attr.for]="topic.id + '-description'" class="active teal-text">Description</label>
             <textarea id="{{topic?.id}}-description" name="{{topic?.id}}-description"
               class="materialize-textarea"  [(ngModel)]="topic.abstractDescription" required></textarea>
           </div>
