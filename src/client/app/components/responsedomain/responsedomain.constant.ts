@@ -5,7 +5,7 @@ export enum DomainType {
   NUMERIC,
   TEXT,
   MISSING,
-};
+}
 
 export const DomainTypeDescription = [
   { id: DomainType.SCALE, name: 'SCALE', label: 'Scale Domain', categoryType: 'SCALE' },

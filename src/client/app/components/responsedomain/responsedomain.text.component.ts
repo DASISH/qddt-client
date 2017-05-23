@@ -5,7 +5,7 @@ import { ResponseDomain } from './responsedomain.service';
   selector: 'qddt-responsedomain-text',
   moduleId: module.id,
   template: `<div class="row" *ngIf="responseDomain">
-               <textarea id="{{responseDomain?.id}}-textarea" 
+               <textarea id="{{responseDomain?.id}}-textarea"
                  class="materialize-textarea" [attr.maxlength]="high"></textarea>
                <label>Text length from {{low}} to {{high}}</label>
              </div>`,

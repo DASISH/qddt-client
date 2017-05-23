@@ -14,7 +14,7 @@ import { Subject } from 'rxjs/Subject';
       <div class="modal modal-fixed-footer"
         materialize [materializeActions]="actions">
         <div class="modal-content">
-          <form #hf="ngForm">          
+          <form #hf="ngForm">
           <div *ngIf="reuseQuestionItem">
             <h3 class="teal-text ">Reuse Question Item</h3>
             <div class="row black-text"><span>{{questionItem?.question?.question}}</span></div>

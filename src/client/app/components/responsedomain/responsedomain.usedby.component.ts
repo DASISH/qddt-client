@@ -20,7 +20,7 @@ import { ResponseDomainService } from './responsedomain.service';
 			</div>
 			<div class="row">
 				<div class="col s12">
-					<label for="description-readonly" class="active teal-text">Description</label>					
+					<label for="description-readonly" class="active teal-text">Description</label>
 					<textarea class="materialize-textarea"
 					  id="description-readonly" name="description-readonly"
 						[ngModel]="responsedomain.description" readonly>
@@ -108,7 +108,7 @@ import { ResponseDomainService } from './responsedomain.service';
                   name="responseCardinality_maximum-readonly" type="number"
 							    [ngModel]="responsedomain.responseCardinality.maximum" readonly>
 							  <label for="responseCardinality_maximum-readonly">Max of Response Cardinality</label>
-						  </div>							
+						  </div>
 						</div>
 					</div>
 					<div *ngSwitchCase="domainTypeDef.NUMERIC">

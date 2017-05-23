@@ -4,13 +4,13 @@ import { DiffString } from './diff.string';
 export class ElementFieldChange {
   name: string;
   changes: any[];
-};
+}
 
 export class ElementChange {
   name: string;
   version: string;
   changes: ElementFieldChange[];
-};
+}
 
 @Component({
   selector: 'qddt-diff',

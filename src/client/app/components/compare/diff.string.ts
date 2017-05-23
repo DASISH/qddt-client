@@ -73,7 +73,7 @@ export class DiffString {
     }
     this.diff_cleanupMerge(diffs);
     return diffs;
-  };
+  }
 
 
   /**
@@ -134,7 +134,7 @@ export class DiffString {
     }
 
     return this.diff_bisect_(text1, text2);
-  };
+  }
 
   /**
    * Find the 'middle snake' of a diff, split the problem in two
@@ -249,7 +249,7 @@ export class DiffString {
     // Diff took too long and hit the deadline or
     // number of diffs equals number of characters, no commonality at all.
     return [[DiffString.DIFF_DELETE, text1], [DiffString.DIFF_INSERT, text2]];
-  };
+  }
 
 
   /**
@@ -272,7 +272,7 @@ export class DiffString {
     var diffsb = this.diff_main(text1b, text2b);
 
     return diffs.concat(diffsb);
-  };
+  }
 
 
   /**
@@ -304,7 +304,7 @@ export class DiffString {
       pointermid = Math.floor((pointermax - pointermin) / 2 + pointermin);
     }
     return pointermid;
-  };
+  }
 
 
   /**
@@ -336,7 +336,7 @@ export class DiffString {
       pointermid = Math.floor((pointermax - pointermin) / 2 + pointermin);
     }
     return pointermid;
-  };
+  }
 
   /**
        * Does a substring of shorttext exist within longtext such that the substring
@@ -428,7 +428,7 @@ export class DiffString {
     }
     var mid_common = hm[4];
     return [text1_a, text1_b, text2_a, text2_b, mid_common];
-  };
+  }
 
   /**
    * Reorder and merge like edit sections.  Merge equalities.
@@ -554,6 +554,6 @@ export class DiffString {
     if (changes) {
       this.diff_cleanupMerge(diffs);
     }
-  };
+  }
 
 }

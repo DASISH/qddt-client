@@ -23,7 +23,7 @@ import { Observable }     from 'rxjs/Observable';
           <div class="row">
             <div class="row">
               <div class="col s12">
-                <label [attr.for]="questionitem.id + '-question-textarea'" class="active teal-text">Question text</label>                
+                <label [attr.for]="questionitem.id + '-question-textarea'" class="active teal-text">Question text</label>
                 <textarea id="{{questionitem?.id}}-question-textarea"
                   name="{{questionitem?.id}}-question-textarea" [(ngModel)]="questionitem.question.question"
                   class="materialize-textarea" [attr.maxlength]="1500"></textarea>
@@ -31,7 +31,7 @@ import { Observable }     from 'rxjs/Observable';
             </div>
             <div class="row">
               <div class="col s12">
-                <label [attr.for]="questionitem.id + '-question-intent'" class="active teal-text">Question intent</label>                
+                <label [attr.for]="questionitem.id + '-question-intent'" class="active teal-text">Question intent</label>
                 <textarea id="{{questionitem?.id}}-question-intent"
                   name="{{questionitem?.id}}-question-intent" [(ngModel)]="questionitem.question.intent"
                   class="materialize-textarea" [attr.maxlength]="1500"></textarea>
@@ -127,7 +127,6 @@ import { Observable }     from 'rxjs/Observable';
         </div>
       </div>
     </div>
-  
   </div>
 
   <div [attr.id]="'study-detail-readonly-modal'" class="modal modal-fixed-footer"

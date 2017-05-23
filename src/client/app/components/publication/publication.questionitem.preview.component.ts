@@ -1,6 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { PublicationStatus, PublicationService, ElementTypes } from './publication.service';
-import { Subject } from 'rxjs/Subject';
 
 enum DomainType {
   SCALE = 1,
@@ -10,7 +8,7 @@ enum DomainType {
   NUMERIC,
   TEXT,
   MISSING,
-};
+}
 
 @Component({
   selector: 'qddt-publication-questionitem-preview',

@@ -99,7 +99,7 @@ import { QuestionItem } from '../question/question.service';
                        (click)="removeQuestionItem(questionItem?.questionItem?.id)">
                        <i class="material-icons">remove</i>
                      </a>
-                   </div>                 
+                   </div>
                  </div>
                </li>
              </ul>
@@ -130,7 +130,7 @@ import { QuestionItem } from '../question/question.service';
         </div>
       </div>
     </div>
-  `
+`
 })
 
 export class TreeNodeComponent {

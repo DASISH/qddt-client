@@ -60,9 +60,8 @@ import { ControlConstructService } from './controlconstruct.service';
         </div>
       </div>
     </div>
-      
   </div>
-  `,
+`,
   providers: [ControlConstructService],
 })
 export class ControlConstructQuestionItemSelectComponent implements OnInit {

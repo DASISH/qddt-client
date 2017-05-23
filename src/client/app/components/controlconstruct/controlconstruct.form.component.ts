@@ -12,10 +12,11 @@ let fileSaver = require('./filesaver');
     <form (ngSubmit)="onSaveControlConstruct()" #qcform="ngForm">
       <div class="row">
         <div class="col s2 offset-s10">
-          <label class="active teal-text text-align: right">Version {{controlConstruct?.version?.major}}.{{controlConstruct?.version?.minor}}
+          <label class="active teal-text text-align: right">
+            Version {{controlConstruct?.version?.major}}.{{controlConstruct?.version?.minor}}
             <i *ngIf="controlConstruct.workinprogress"class="material-icons white yellow-text tiny">error</i>
           </label>
-        </div>  
+        </div>
         <div class="col s12">
           <div class="input-field">
             <label [attr.for]="controlConstruct.id + '-name'"
@@ -60,7 +61,7 @@ let fileSaver = require('./filesaver');
                 (click)="onDeletePreInstruction(idx)">
                 <i class="material-icons">remove</i>
               </a>
-              </div>                 
+              </div>
             </div>
           </li>
         </ul>
@@ -83,7 +84,7 @@ let fileSaver = require('./filesaver');
         <div class="row">
           <div class="col s11">
             <div class="flow-text">{{controlConstruct?.questionItem?.question?.question}}</div>
-          </div>  
+          </div>
           <div class="col s1">
             <a [ngClass]="{hide: !showQuestionButton}"
               class="btn-flat btn-floating btn-small waves-effect waves-light teal"
@@ -130,7 +131,7 @@ let fileSaver = require('./filesaver');
                 (click)="onDeletePostInstruction(idx)">
                 <i class="material-icons">remove</i>
               </a>
-              </div>                 
+              </div>
             </div>
           </li>
         </ul>
@@ -233,7 +234,7 @@ let fileSaver = require('./filesaver');
       </div>
     </div>
   </div>
-  `,
+`,
   styles: [
     '.nomargin: { margin:0; }'
   ],

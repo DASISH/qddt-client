@@ -82,7 +82,7 @@ import { QuestionItem } from './question.service';
                        (click)="removeQuestionItem(questionItem?.id)">
                        <i class="material-icons">remove</i>
                      </a>
-                   </div>                 
+                   </div>
                  </div>
                </li>
              </ul>

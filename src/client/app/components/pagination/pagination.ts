@@ -17,9 +17,9 @@ import { Component, EventEmitter, Input, Output, OnChanges, ChangeDetectionStrat
         <li *ngIf="boundaryLinks" class="page-item" [class.disabled]="!hasPrevious()" [ngStyle]="{'cursor': 'pointer'}">
           <a aria-label="First" class="page-link" (click)="selectPage(1)">
             <span aria-hidden="true">&laquo;&laquo;</span>
-          </a>                
+          </a>
         </li>
-      
+
         <li *ngIf="directionLinks"class="page-item" [class.disabled]="!hasPrevious()" [ngStyle]="{'cursor': 'pointer'}">
           <a aria-label="Previous" class="page-link" (click)="selectPage(page-1)">
             <span aria-hidden="true">&laquo;</span>
@@ -38,15 +38,15 @@ import { Component, EventEmitter, Input, Output, OnChanges, ChangeDetectionStrat
             <span aria-hidden="true">&raquo;</span>
           </a>
         </li>
-        
+
         <li *ngIf="boundaryLinks" class="page-item" [class.disabled]="!hasNext()" [ngStyle]="{'cursor': 'pointer'}">
           <a aria-label="Last" class="page-link" (click)="selectPage(_pageCount)">
             <span aria-hidden="true">&raquo;&raquo;</span>
-          </a>                
-        </li>        
+          </a>
+        </li>
       </ul>
     </div>
-  `
+`
 })
 export class QddtPaginationComponent implements OnChanges {
   pages: number[] = [];

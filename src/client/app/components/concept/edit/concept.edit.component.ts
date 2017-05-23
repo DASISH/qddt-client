@@ -11,14 +11,14 @@ import { ConceptService, Concept } from '../concept.service';
       <form (ngSubmit)="save()" #hf="ngForm">
         <div class="row">
           <div class="col s12">
-            <label [attr.for]="concept.id + '-name'" class="active teal-text">Name</label>            
+            <label [attr.for]="concept.id + '-name'" class="active teal-text">Name</label>
             <input id="{{concept?.id}}-name"
               name="{{concept?.id}}-name" type="text" [(ngModel)]="concept.name" required>
           </div>
         </div>
         <div class="row">
           <div class="col s12">
-            <label [attr.for]="concept.id + '-description'" class="active teal-text">Description</label>            
+            <label [attr.for]="concept.id + '-description'" class="active teal-text">Description</label>
             <textarea class="materialize-textarea" id="{{concept?.id}}-description"
               name="{{concept?.id}}-description"
               [(ngModel)]="concept.description" required></textarea>
