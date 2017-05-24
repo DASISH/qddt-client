@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-
 import { CategoryService, Category } from './category.service';
+import { RationalComponent } from '../rational/rational.component';
 
 @Component({
   selector: 'qddt-category-detail',
