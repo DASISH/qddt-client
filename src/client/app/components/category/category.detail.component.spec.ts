@@ -18,7 +18,7 @@ export function main() {
     //
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [CategoryDetailComponent, RevisionComponent, LocalDatePipe,
+        declarations: [CategoryDetailComponent, RevisionComponent, RationalComponent, LocalDatePipe,
           TableComponent, CategoryEditComponent, CommentListComponent,
           CategoryDetailComponent, AuthorChipComponent],
         providers: [

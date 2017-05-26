@@ -151,8 +151,8 @@ class AuthorChipComponent {
 
 class RationalComponent {
   @Input() element: any;
+  @Input() config: any;
 }
-
 @Component({
   selector: 'qddt-sequence-content',
   template: `<div></div>`
