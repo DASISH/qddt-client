@@ -10,6 +10,7 @@ import { HomeModule }   from './components/home/home.module';
 import { LoginModule } from './components/login/login.module';
 import { UserService } from './common/user.service';
 import { RevisionModule } from './components/revision/revision.module';
+import { RationalComponent } from './components/rational/rational.component';
 import { CommentModule } from './components/comment/comment.module';
 
 import { CompareModule } from './components/compare/compare.module';
@@ -23,7 +24,7 @@ import { SequenceModule } from './components/sequence/sequence.module';
 import { PublicationModule } from './components/publication/publication.module';
 
 @NgModule({
-  imports: [ BrowserModule, HttpModule, CategoryModule,
+  imports: [ BrowserModule, HttpModule, RationalComponent,CategoryModule,
     QuestionModule, ResponsedomainModule, ControlConstructModule,
     routing, HomeModule, LoginModule, RevisionModule, SequenceModule,
     InstrumentModule, CompareModule, CommentModule, SharedModule,
