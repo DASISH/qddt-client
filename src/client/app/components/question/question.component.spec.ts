@@ -6,7 +6,6 @@ import { By } from '@angular/platform-browser';
 
 import { QuestionService } from './question.service';
 import { UserService } from '../../common/user.service';
-import { BaseService } from '../../common/base.service';
 import { QuestionComponent } from './question.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';

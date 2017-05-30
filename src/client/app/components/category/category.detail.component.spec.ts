@@ -74,9 +74,9 @@ export function main() {
             fixture.componentInstance.category = category;
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let h5: any = fixture.debugElement.queryAll(By.css('h5'));
-              expect(h5.length).toBeGreaterThan(0);
-              expect(h5[0].nativeElement.textContent).toContain('ESS');
+              let flowtext: any = fixture.debugElement.queryAll(By.css('flow-text'));
+              expect(flowtext.length).toBeGreaterThan(0);
+              expect(flowtext[0].nativeElement.textContent).toContain('ESS');
             });
           });
       }));
