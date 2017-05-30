@@ -2,6 +2,7 @@ import { Component, Input, EventEmitter, Output } from '@angular/core';
 
 import { TopicService, Topic } from '../topic.service';
 import { Observable }     from 'rxjs/Observable';
+import { MaterializeAction } from 'angular2-materialize';
 
 let fileSaver = require('../../controlconstruct/filesaver');
 
@@ -120,7 +121,7 @@ export class TopicEditComponent {
   @Input() isVisible: boolean;
   @Output() topicSavedEvent: EventEmitter<any> = new EventEmitter<any>();
   errors: string[];
-  actions = new EventEmitter<string>();
+  actions = new EventEmitter<string|MaterializeAction>();
   private showUploadFileForm: boolean;
   private showUploadedFiles: boolean;
   private files: FileList;
@@ -204,14 +205,14 @@ export class TopicEditComponent {
       },
       function (error: any) {
         errors.push(error);
-        actions.emit('openModal');
+        actions.emit({action:'modal', params:['open']});
       },
       function () {
         service.edit(topic).subscribe((result: any) => {
           this.topicSavedEvent.emit(result);
         }, (error: any) => {
           errors.push(error);
-          actions.emit('openModal');
+          actions.emit({action:'modal', params:['open']});
         });
       });
   }

@@ -123,6 +123,9 @@
           </div>
         </div>
       </div>
+      <div *ngIf="isLoading" class="progress">
+        <div class="indeterminate"></div>
+      </div>
       <div *ngIf="!isDetail && controlConstructs">
         <qddt-table [items]="controlConstructs" [page]="page" [columns]="columns"
           [searchFromServer]="true"
@@ -142,7 +145,7 @@
 </div>
 
 <div [attr.id]="'create-controlConstructs-modal'" class="modal"
-  materialize [materializeActions]="actions">
+  materialize="modal" [materializeActions]="modalActions">
   <div class="modal-content">
     <div class="row">
       <h4>An error occured</h4>
@@ -158,7 +161,7 @@
 </div>
 
 <div [attr.id]="'questionitem-detail-modal'" class="modal modal-fixed-footer"
-  materialize [materializeActions]="questionitemActions">
+  materialize="modal" [materializeActions]="questionitemActions">
   <div class="modal-content">
     <div class="row" *ngIf="controlConstruct && controlConstruct.questionItem">
       <qddt-questionitem-detail [questionitem]="controlConstruct.questionItem"

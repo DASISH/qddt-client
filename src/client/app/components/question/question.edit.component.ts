@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { QuestionService } from './question.service';
 import { DomainType } from '../responsedomain/responsedomain.constant';
 import { Observable }     from 'rxjs/Observable';
+import { MaterializeAction } from 'angular2-materialize';
 
 @Component({
   selector: 'qddt-questionitem-edit',
@@ -17,12 +18,12 @@ export class QuestionItemEditComponent implements OnInit {
   @Input() editResponseDomain: boolean;
   @Output() editQuestionItem: EventEmitter<any>;
   showbutton: any;
-  editResponseDomainActions = new EventEmitter<string>();
-  conceptActions = new EventEmitter<string>();
-  studyActions = new EventEmitter<string>();
+  editResponseDomainActions = new EventEmitter<string|MaterializeAction>();
+  conceptActions = new EventEmitter<string|MaterializeAction>();
+  studyActions = new EventEmitter<string|MaterializeAction>();
+  basedonActions = new EventEmitter<string|MaterializeAction>();
   selectedConcept: any;
   privewResponseDomain: any;
-  basedonActions = new EventEmitter<string>();
   basedonObject: any;
   private showResponseDomainForm: boolean;
   private mainResponseDomain: any;
@@ -108,19 +109,19 @@ export class QuestionItemEditComponent implements OnInit {
   onClickStudy(id: string) {
     this.selectedId = id;
     this.selectedType = 'study';
-    this.studyActions.emit('openModal');
+    this.studyActions.emit({action:'modal', params:['open']});
   }
 
   onClickTopic(id: string) {
     this.selectedId = id;
     this.selectedType = 'topic';
-    this.studyActions.emit('openModal');
+    this.studyActions.emit({action:'modal', params:['open']});
   }
 
   onClickQuestion(id: string) {
     this.selectedId = id;
     this.selectedType = 'question';
-    this.studyActions.emit('openModal');
+    this.studyActions.emit({action:'modal', params:['open']});
   }
 
   onClickConcept(id: string) {
@@ -129,7 +130,7 @@ export class QuestionItemEditComponent implements OnInit {
     this.service.getConceptsById(id)
       .subscribe((result: any) => {
         this.selectedConcept = result;
-        this.conceptActions.emit('openModal');
+        this.conceptActions.emit({action:'modal', params:['open']});
       });
   }
 
@@ -138,7 +139,7 @@ export class QuestionItemEditComponent implements OnInit {
       .subscribe(
       (result: any) => {
         this.basedonObject = result;
-        this.basedonActions.emit('openModal');
+        this.basedonActions.emit({action:'modal', params:['open']});
       },
       (err: any) => null
       );
@@ -163,7 +164,7 @@ export class QuestionItemEditComponent implements OnInit {
 
   onClickEdit() {
     this.showResponseDomainForm = true;
-    this.editResponseDomainActions.emit('openModal');
+    this.editResponseDomainActions.emit({action:'modal', params:['open']});
   }
 
   private getManagedRepresentation() {

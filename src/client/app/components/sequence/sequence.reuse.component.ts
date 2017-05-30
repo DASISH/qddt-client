@@ -71,12 +71,12 @@ export class SequenceReuseComponent implements OnInit {
   }
 
   onCreateStatement() {
-    this.actions.emit('openModal');
+    this.actions.emit({action:'modal', params:['open']});
     return false;
   }
 
   onCreateCondition() {
-    this.actions.emit('openModal');
+    this.actions.emit({action:'modal', params:['open']});
     return false;
   }
 

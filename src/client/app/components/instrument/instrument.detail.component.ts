@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { InstrumentService, Instrument } from './instrument.service';
+import { MaterializeAction } from 'angular2-materialize';
 
 @Component({
   selector: 'qddt-instrument-detail',
@@ -13,7 +14,7 @@ export class InstrumentDetailComponent {
   @Input() instruments: Instrument[];
   @Input() isVisible: boolean;
   @Output() hideDetailEvent: EventEmitter<String> = new EventEmitter<String>();
-  controlConstructsActions = new EventEmitter<string>();
+  controlConstructsActions = new EventEmitter<string|MaterializeAction>();
   private revisionIsVisible: boolean;
   private selectedControlConstruct: any;
 
@@ -31,12 +32,14 @@ export class InstrumentDetailComponent {
 
   onAddControlConstruct() {
     //this.instrument.controlConstructs.push(c);
-    this.controlConstructsActions.emit('openModal');
+    this.controlConstructsActions.emit({action:'modal', params:['open']});
+    // this.controlConstructsActions.emit({action:'modal', params:['open']});
   }
 
   onClickControlConstruct(id: number) {
     this.selectedControlConstruct = this.instrument.controlConstructs[id];
-    this.controlConstructsActions.emit('openModal');
+    this.controlConstructsActions.emit({action:'modal', params:['open']});
+    // this.controlConstructsActions.emit({action:'modal', params:['open']});
   }
 
   onUpdateInstrument() {

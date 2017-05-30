@@ -38,7 +38,7 @@
                    <div class="card col s6"
                      (mouseenter)="showbutton = true"
                      (mouseleave)="showbutton = false">
-                     <div class="row teal-text"><span>Response Domain:<span
+                     <div class="row teal-text"><span>Response Domain<span
                        *ngIf="questionItem.responseDomain && questionItem.responseDomain.managedRepresentation">
                        (V{{questionItem?.responseDomain?.managedRepresentation?.version?.major}}<!--
                        -->.{{questionItem?.responseDomain?.managedRepresentation?.version?.minor}})</span></span></div>
@@ -76,6 +76,9 @@
           </div>
         </div>
       </div>
+      <div *ngIf="isLoading" class="progress">
+        <div class="indeterminate"></div>
+      </div>
       <div *ngIf="!isDetail && questionitems">
         <qddt-table [items]="questionitems" [page]="page" [columns]="columns"
           [searchFromServer]="true"
@@ -91,7 +94,7 @@
 </div>
 
 <div [attr.id]="'response-reuse-modal'" class="modal modal-fixed-footer"
-  materialize [materializeActions]="responseDomainAction">
+  materialize="modal" [materializeActions]="responseDomainAction">
   <div class="modal-content">
     <div class="row">
       <div *ngIf="showQuestionItemForm && showResponsedomainReuse" class="row">
@@ -111,7 +114,7 @@
 </div>
 
 <div [attr.id]="'create-questionItem-error-modal'" class="modal"
-  materialize [materializeActions]="actions">
+  materialize="modal" [materializeActions]="modalActions">
   <div class="modal-content">
     <div class="row">
       <h4>An error occured</h4>

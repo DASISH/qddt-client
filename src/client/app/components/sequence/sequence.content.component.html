@@ -6,13 +6,13 @@
         <span *ngSwitchCase="'CONDITION_CONSTRUCT'">Condition:</span>
         <span *ngSwitchCase="'STATEMENT_CONSTRUCT'">Statement:</span>
         <span *ngSwitchCase="'QUESTION_CONSTRUCT'">Question Construct:</span>
-      </span> 
+      </span>
       <a (click)="onSelectedElement(sequence)">{{sequence?.name}}</a>
     </li>
   </ul>
   <ul class="control-children" *ngIf="sequence">
     <li *ngFor="let item of sequence.children">
-    <qddt-sequence-content 
+    <qddt-sequence-content
       *ngIf="item"
       [sequence]="item">
     </qddt-sequence-content>
@@ -22,7 +22,7 @@
 
 <div [attr.id]="'sequence-content-modal'"
   class="modal modal-fixed-footer"
-  materialize [materializeActions]="sequenceContentActions">
+  materialize="modal" [materializeActions]="sequenceContentActions">
   <div class="modal-footer">
     <button
       (click)="false"

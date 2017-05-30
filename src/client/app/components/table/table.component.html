@@ -6,7 +6,7 @@
         <label for="filterKey">{{placeholder}}</label>
       </div>
       <div class="input-field col s1">
-      	<a class="waves-effect waves-light btn" (click)="onClearKeywords()">x</a>    
+      	<a class="waves-effect waves-light btn" (click)="onClearKeywords()">x</a>
       </div>
     </div>
     <table class="highlight">
@@ -20,6 +20,9 @@
           </th>
         </tr>
       </thead>
+      <!--<div *ngIf="isLoading" class="progress">-->
+        <!--<div class="indeterminate"></div>-->
+      <!--</div>-->
       <tbody>
         <tr id="{{row.id}}" *ngFor="let row of rows" (dblclick)="onDetail(row.Object)">
           <td (click)="onDetail(row.Object)" [ngStyle]="{'cursor': 'pointer'}">

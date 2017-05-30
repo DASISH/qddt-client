@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
+import { QddtPaginationComponent } from '../pagination/pagination';
 
 @Component({
   selector: 'qddt-table',
@@ -35,6 +36,7 @@ export class QddtTableComponent implements OnInit, OnChanges {
   private rows: any[] = [];
   private _rows: any[] = [];
 
+
   ngOnInit() {
     if(this.searchFromServer === null || this.searchFromServer === undefined) {
       this.searchFromServer = false;
@@ -43,7 +45,7 @@ export class QddtTableComponent implements OnInit, OnChanges {
       this.placeholder = 'Search';
     }
     if(this.page === null || this.page === undefined) {
-      this.page = {};
+      this.page = new QddtPaginationComponent();
     }
   }
 

@@ -3,6 +3,7 @@ import { Component, OnInit, AfterContentChecked, EventEmitter } from '@angular/c
 import { QuestionService, QuestionItem, Question } from './question.service';
 import { UserService } from '../../common/user.service';
 import { Subject }          from 'rxjs/Subject';
+import { MaterializeAction } from 'angular2-materialize';
 
 @Component({
   selector: 'qddt-questionitem',
@@ -15,9 +16,9 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
 
   showQuestionItemForm: boolean = false;
   showResponsedomainReuse: boolean = false;
-  actions = new EventEmitter<any>();
+  modalActions = new EventEmitter<string|MaterializeAction>();
   error: string;
-  responseDomainAction = new EventEmitter<string>();
+  responseDomainAction = new EventEmitter<string|MaterializeAction>();
   previewResponseDomain: any;
   showbutton: any;
   questionitems: any;
@@ -25,6 +26,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
   private questionItem: any;
   private selectedQuestionItem: any;
   private isDetail: boolean;
+  private isLoading: boolean = true;
   private columns: any[];
   private searchKeysSubect: Subject<string> = new Subject<string>();
   private searchKeys: string;
@@ -32,14 +34,13 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
   private mainresponseDomainRevision: number;
 
   constructor(private questionService: QuestionService, private userService: UserService) {
-    this.isDetail = false;
     this.questionitems = [];
     this.page = {};
     this.searchKeys = '';
     this.secondCS = null;
     this.mainresponseDomainRevision = 0;
     this.showbutton = false;
-    this.columns = [{'name':'name', 'label':'Question Name', 'sortable':false, 'direction': '' },
+    this.columns = [{'name':'name', 'label':'Question Name', 'sortable':true, 'direction': '' },
       {'name':['question','question'], 'label':'Question Text', 'sortable':true, 'direction': '' },
       {'name':['responseDomain','name'], 'label':'ResponseDomain Name', 'sortable':true, 'direction': '' },
       { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' }];
@@ -50,6 +51,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
         this.questionService.searchQuestionItemsByNameAndQuestion(name, '0', this.getSort()).subscribe((result: any) => {
           this.page = result.page;
           this.questionitems = result.content;
+          this.isLoading = false;
         });
       });
   }
@@ -118,11 +120,13 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
   }
 
   onPage(page: string) {
+    this.isLoading = true;
     this.questionService.searchQuestionItems(this.searchKeys, page, this.getSort()).subscribe(
-      (result: any) => { this.page = result.page; this.questionitems = result.content; });
+      (result: any) => { this.page = result.page; this.questionitems = result.content; this.isLoading = false;});
   }
 
   onCreateQuestionItem() {
+    this.isLoading = true;
     this.showQuestionItemForm = false;
     this.questionItem.question.name = this.questionItem.name;
     if (this.secondCS === null) {
@@ -130,7 +134,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
       this.questionService.createQuestionItem(this.questionItem)
         .subscribe((result: any) => {
           this.questionitems = [result].concat(this.questionitems);
-        }, (err: any) => { this.error = err.toString(); this.actions.emit('openModal'); });
+        }, (err: any) => { this.error = err.toString(); this.modalActions.emit({action:'modal', params:['open']}); });
     } else {
       this.questionItem.responseDomainRevision = 0;
       this.createMixedCategory().subscribe((result: any) => {
@@ -139,9 +143,10 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
           this.questionService.updateQuestionItem(this.questionItem)
             .subscribe((result: any) => {
               this.questionitems = [result].concat(this.questionitems);
-            }, (err: any) => { this.error = err.toString(); this.actions.emit('openModal'); });
-        }, (err: any) => { this.error = err.toString(); this.actions.emit('openModal'); });
-      }, (err: any) => { this.error = err.toString(); this.actions.emit('openModal'); });
+              this.isLoading = false;
+            }, (err: any) => { this.error = err.toString(); this.modalActions.emit({action:'modal', params:['open']}); });
+        }, (err: any) => { this.error = err.toString(); this.modalActions.emit({action:'modal', params:['open']}); });
+      }, (err: any) => { this.error = err.toString(); this.modalActions.emit({action:'modal', params:['open']}); });
     }
     this.isDetail = false;
   }
@@ -151,16 +156,16 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
     this.mainresponseDomainRevision = item.responseDomainRevision || 0;
     this.showResponsedomainReuse = false;
     this.buildPreviewResponseDomain();
-    this.responseDomainAction.emit('closeModal');
+    this.responseDomainAction.emit({action:'modal', params:['close']});
   }
 
   onDismiss() {
-    this.responseDomainAction.emit('closeModal');
+    this.responseDomainAction.emit({action:'modal', params:['close']});
   }
 
   openResponseDomainModal() {
     this.showResponsedomainReuse = true;
-    this.responseDomainAction.emit('openModal');
+    this.responseDomainAction.emit({action:'modal', params:['open']});
   }
 
   searchResponseDomains(name: string) {

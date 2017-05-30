@@ -30,7 +30,7 @@
 				(enterEvent)="onSearchElements($event)">
 			  </autocomplete>
       </div>
-      
+
     </div>
     <div class="row teal-text">
       <button class="right" (click)="onUse()">use this</button>
@@ -48,7 +48,7 @@
 </div>
 
 <div [attr.id]="'create-construct-modal'" class="modal"
-  materialize [materializeActions]="actions">
+  materialize="modal" [materializeActions]="modalActions">
   <div class="modal-content">
     <div *ngIf="elementType === 'STATEMENT_CONSTRUCT'" class="row">
       <h4>Statement</h4>

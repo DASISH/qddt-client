@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ConceptService, Concept } from './concept.service';
-import { QuestionItem } from '../question/question.service';
+import { MaterializeAction } from 'angular2-materialize';
 
 @Component({
   selector: 'qddt-concept-treenode',
@@ -21,13 +21,13 @@ import { QuestionItem } from '../question/question.service';
              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                    (click)="edit.isVisible = !edit.isVisible"><i class="material-icons">mode_edit</i></a>
              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                   (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium">history</i></a>
+                   (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium" title="Revision history">history</i></a>
              <qddt-questionitem-reuse [parentId]="concept.id"
                (questionItemCreatedEvent)="setQuestionItem($event)"></qddt-questionitem-reuse>
              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                    (click)="onCreateConcept(concept)"><i class="material-icons left medium">add</i></a>
              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                   (click)="onDeleteConcept(concept)"><i class="material-icons left medium">delete_forever</i></a>
+                   (click)="onDeleteConcept(concept)"><i class="material-icons left medium" title="Delete" >delete_forever</i></a>
              </div>
            </div>
 
@@ -116,7 +116,7 @@ import { QuestionItem } from '../question/question.service';
       <div>
         <div [attr.id]="concept.id + '-concept-questionitem-modal'"
           class="modal modal-fixed-footer"
-          materialize [materializeActions]="questionItemActions">
+          materialize="modal" [materializeActions]="questionItemActions">
           <div class="modal-footer">
             <button
               class="btn btn-default red modal-action modal-close waves-effect waves-red">
@@ -138,7 +138,7 @@ export class TreeNodeComponent {
   @Input() concept: any;
   showConceptChildForm: boolean = false;
   showQuestionForm: boolean = false;
-  questionItemActions = new EventEmitter<string>();
+  questionItemActions = new EventEmitter<string|MaterializeAction>();
   private newchild: any;
   private questionItem: any;
 
@@ -161,7 +161,8 @@ export class TreeNodeComponent {
 
   onClickQuestionItem(questionItem) {
     this.questionItem = questionItem;
-    this.questionItemActions.emit('openModal');
+    this.questionItemActions.emit({action:'modal', params:['open']});
+    // this.questionItemActions.emit({action:'modal', params:['open']});
   }
 
   onChildSave() {

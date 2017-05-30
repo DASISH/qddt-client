@@ -110,7 +110,7 @@ export class SequenceComponent implements OnInit {
 
   private popupModal(error: any) {
     this.error = error;
-    this.actions.emit('openModal');
+    this.actions.emit({action:'modal', params:['open']});
   }
 
   private getSort() {

@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
 import { ConceptService, Concept } from '../concept.service';
 import 'rxjs/Rx';
+import { MaterializeAction } from 'angular2-materialize';
 
 @Component({
   selector: 'qddt-concept-edit',
@@ -38,7 +39,7 @@ import 'rxjs/Rx';
     </div>
     <div class="modal modal-fixed-footer"
       *ngIf="basedonObject"
-      materialize [materializeActions]="basedonActions">
+      materialize="modal" [materializeActions]="basedonActions">
       <div class="modal-content">
 		    <h4>Basedon Object Detail</h4>
         <div class="row">
@@ -66,7 +67,7 @@ export class ConceptEditComponent implements OnInit {
   @Input() readonly: boolean;
   @Output() conceptSavedEvent: EventEmitter<any> = new EventEmitter<any>();
   basedonObject: any;
-  basedonActions = new EventEmitter<string>();
+  basedonActions = new EventEmitter<string|MaterializeAction>();
 
   constructor(private service: ConceptService) {
   }
@@ -104,7 +105,8 @@ export class ConceptEditComponent implements OnInit {
       .subscribe(
       (result: any) => {
         this.basedonObject = result;
-        this.basedonActions.emit('openModal');
+        this.basedonActions.emit({action:'modal', params:['open']});
+        // this.basedonActions.emit({action:'modal', params:['open']});
       },
       (err: any) => null
       );

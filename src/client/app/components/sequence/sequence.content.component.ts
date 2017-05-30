@@ -26,7 +26,7 @@ export class SequenceContentComponent implements OnInit {
 
   onSelectedElement(element: any) {
     this.selectedElement = element;
-    this.sequenceContentActions.emit('openModal');
+    this.sequenceContentActions.emit({action:'modal', params:['open']});
   }
 
   popupModal(error: any) {

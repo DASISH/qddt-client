@@ -5,13 +5,10 @@ import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { ConceptService } from './concept.service';
-import { UserService } from '../../common/user.service';
-import { BaseService } from '../../common/base.service';
 import { ConceptComponent } from './concept.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Observable }     from 'rxjs/Observable';
 import { MaterializeModule } from 'angular2-materialize';
 
 export function main() {

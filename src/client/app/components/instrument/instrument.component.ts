@@ -1,5 +1,6 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
 import { InstrumentService, Instrument } from './instrument.service';
+import { MaterializeAction } from 'angular2-materialize';
 
 @Component({
   selector: 'qddt-instrument',
@@ -15,7 +16,7 @@ import { InstrumentService, Instrument } from './instrument.service';
 export class InstrumentComponent implements OnInit {
 
   showInstrumentForm: boolean = false;
-  actions = new EventEmitter<string>();
+  actions = new EventEmitter<string|MaterializeAction>();
   error: any;
 
   private instruments: any[];
@@ -77,7 +78,8 @@ export class InstrumentComponent implements OnInit {
 
   private popupModal(error: any) {
     this.error = error;
-    this.actions.emit('openModal');
+    this.actions.emit({action:'modal', params:['open']});
+    // this.actions.emit({action:'modal', params:['open']});
   }
 
   private getSort() {

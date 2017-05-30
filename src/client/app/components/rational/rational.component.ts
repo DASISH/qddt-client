@@ -5,17 +5,19 @@ import { Component, Input, OnInit } from '@angular/core';
   moduleId: module.id,
   template: `
   <div class="row">
-    <div class="hoverable" >
+    <div class="hoverable"
+    (mouseenter)="showbutton = true"
+    (mouseleave)="showbutton = false">
       <div class="row">
         <div class="col left" *ngFor="let option of rationalDescriptions" [ngClass]="{hide: option.hidden}">
-          <input name="{{originalId}}-optiontypegroup" type="radio"
+          <input *ngIf="showbutton" name="{{originalId}}-optiontypegroup" type="radio"
             id="{{originalId}}-option-type-{{option.id}}" (click)="onSelectOption(option.id)"
             [checked]="saveOptionIndex === option.id" />
-          <label [attr.for]="originalId + '-option-type-' + option.id">{{option.name}}</label>
+          <label *ngIf="showbutton" [attr.for]="originalId + '-option-type-' + option.id">{{option.name}}</label>
         </div>
       </div>
       <div *ngFor="let option of rationalDescriptions;">
-        <div class="row" *ngIf="option.id === saveOptionIndex && option.children.length > 0">
+        <div class="row" *ngIf="option.id === saveOptionIndex && option.children.length > 0 && showbutton">
           <div class="row">
             <div class="input-field col s3">
               <select materialize="material_select" [ngModel]="_RationalIndex"
@@ -137,6 +139,7 @@ export class RationalComponent implements OnInit {
   ];
   @Input() element: any;
   @Input() config: any;
+  private showbutton: boolean = false;
   private _RationalIndex: number;
   private _Rational2Index: number;
   private saveOptionIndex: number;

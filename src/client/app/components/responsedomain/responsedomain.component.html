@@ -39,13 +39,13 @@
       <div class="row">
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
 				  (click)="revisionIsVisible = !revisionIsVisible">
-					<i class="material-icons left medium">history</i>
+					<i class="material-icons left medium" title="Revision history">history</i>
 				</a>
 				<a class="btn-flat btn-floating btn-medium waves-effect waves-light red">
-          <i class="material-icons" (click)="hideDetail()">replay</i>
+          <i class="material-icons" (click)="hideDetail()" title="Return to list view">replay</i>
         </a>
         <a *ngIf="selectedResponseDomain" class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
-          <i class="material-icons" (click)="onDeleteResponseDomainModal()">delete_forever</i>
+          <i class="material-icons" (click)="onDeleteResponseDomainModal()" title="Delete" >delete_forever</i>
         </a>
       </div>
     </div>
@@ -84,7 +84,7 @@
 
 </div>
 
-<div class="modal" materialize [materializeActions]="deleteAction">
+<div class="modal" materialize="modal" [materializeActions]="deleteAction">
   <div class="modal-content">
     <div class="row">
       <h4>Warning</h4>
@@ -104,7 +104,7 @@
   </div>
 </div>
 
-<div class="modal" materialize [materializeActions]="errorAction">
+<div class="modal" materialize="modal" [materializeActions]="errorAction">
   <div class="modal-content">
     <div class="row">
       <h4>Message</h4>

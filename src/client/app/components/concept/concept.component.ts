@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { ConceptService, Concept } from './concept.service';
+import { MaterializeAction } from 'angular2-materialize';
 
 @Component({
   selector: 'concept',
@@ -13,7 +14,7 @@ export class ConceptComponent implements OnChanges {
   @Output() conceptSelectedEvent: EventEmitter<any> = new EventEmitter();
   @Input() topic: any;
   @Input() show: boolean;
-  actions = new EventEmitter<string>();
+  actions = new EventEmitter<string|MaterializeAction>();
 
   private concept: any;
   private concepts: any;
@@ -48,14 +49,15 @@ export class ConceptComponent implements OnChanges {
 
   onDeleteConcept(concept: any) {
     this.toDeletedConcept = concept;
-    this.actions.emit('openModal');
+    this.actions.emit({action:'modal', params:['open']});
+    // this.actions.emit({action:'modal', params:['open']});
   }
 
   onConfirmDeleteConcept() {
     let id = this.toDeletedConcept.id;
     this.conceptService.deleteConcept(id)
       .subscribe((result: any) => {
-        this.actions.emit('closeModal');
+        this.actions.emit({action:'modal', params:['close']});
         this.concepts = [];
         this.conceptService.getByTopic(this.topic.id)
           .subscribe((result: any) => this.concepts = result.content

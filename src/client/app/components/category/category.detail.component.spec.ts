@@ -1,5 +1,5 @@
 import { Component, Input, PipeTransform, Pipe, EventEmitter, Output } from '@angular/core';
-import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
+import { BaseRequestOptions,   Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
@@ -74,9 +74,9 @@ export function main() {
             fixture.componentInstance.category = category;
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let flowtext: any = fixture.debugElement.queryAll(By.css('flow-text'));
-              expect(flowtext.length).toBeGreaterThan(0);
-              expect(flowtext[0].nativeElement.textContent).toContain('ESS');
+              let h5: any = fixture.debugElement.queryAll(By.css('h5'));
+              expect(h5.length).toBeGreaterThan(0);
+              expect(h5[0].nativeElement.textContent).toContain('ESS');
             });
           });
       }));

@@ -31,7 +31,7 @@ import { CommentService } from './comment.service';
                 </a>
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                   (click)="onDeleteComment(idx)">
-                  <i class="material-icons left medium">delete_forever</i>
+                  <i class="material-icons left medium" title="Delete" >delete_forever</i>
                 </a>
               </div>
             </div>

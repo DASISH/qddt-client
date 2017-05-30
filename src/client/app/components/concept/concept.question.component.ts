@@ -21,7 +21,7 @@ import { ConceptService } from './concept.service';
         <div class="row">
           <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
             (click)="revisionIsVisible = !revisionIsVisible">
-            <i class="material-icons left medium">history</i>
+            <i class="material-icons left medium" title="Revision history">history</i>
           </a>
         </div>
       </div>

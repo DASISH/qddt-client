@@ -21,13 +21,13 @@ import { QuestionItem } from './question.service';
              <!--a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                    (click)="edit.isVisible = !edit.isVisible"><i class="material-icons">mode_edit</i></a-->
              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                   (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium">history</i></a>
+                   (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium" title="Revision history">history</i></a>
              <qddt-questionitem-reuse [parentId]="concept.id"
                (questionItemCreatedEvent)="setQuestionItem($event)"></qddt-questionitem-reuse>
              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                    (click)="onCreateConcept(concept)"><i class="material-icons left medium">add</i></a>
              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                   (click)="onDeleteConcept(concept)"><i class="material-icons left medium">delete_forever</i></a>
+                   (click)="onDeleteConcept(concept)"><i class="material-icons left medium" title="Delete" >delete_forever</i></a>
              </div>
            </div>
 

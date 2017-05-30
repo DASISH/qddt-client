@@ -19,7 +19,7 @@
     </div>
     <div class="row">
       <div class="col s12">
-        <label [attr.for]="element.id + '-description'" class="active teal-text">Description</label>            
+        <label [attr.for]="element.id + '-description'" class="active teal-text">Description</label>
         <textarea class="materialize-textarea" id="{{element?.id}}-description"
           name="{{element?.id}}-description"
           [(ngModel)]="element.abstractDescription" readonly>
@@ -38,7 +38,7 @@
   <div *ngSwitchCase="2">
     <div class="row">
       <div class="col s12">
-        <label [attr.for]="element.id + '-name'" class="active teal-text">Name</label>            
+        <label [attr.for]="element.id + '-name'" class="active teal-text">Name</label>
         <input id="{{element?.id}}-name"
           name="{{element?.id}}-name" type="text"
           [(ngModel)]="element.name" readonly>
@@ -46,7 +46,7 @@
     </div>
     <div class="row">
       <div class="col s12">
-        <label [attr.for]="element.id + '-description'" class="active teal-text">Description</label>            
+        <label [attr.for]="element.id + '-description'" class="active teal-text">Description</label>
         <textarea class="materialize-textarea" id="{{element?.id}}-description"
           name="{{element?.id}}-description"
           [(ngModel)]="element.description" readonly>
@@ -74,7 +74,7 @@
         </ul>
         <div [attr.id]="element.id + '-element-questionitem-modal'"
           class="modal modal-fixed-footer"
-          materialize [materializeActions]="questionItemActions">
+          materialize="modal" [materializeActions]="questionItemActions">
           <div class="modal-footer">
               <button
               class="btn btn-default red modal-action modal-close waves-effect waves-red">
@@ -175,7 +175,7 @@
   <div *ngSwitchDefault>
     <div class="row">
       <div class="col s12">
-        <label [attr.for]="element.id + '-name'" class="active teal-text">Name</label>            
+        <label [attr.for]="element.id + '-name'" class="active teal-text">Name</label>
         <input id="{{element?.id}}-name"
           name="{{element?.id}}-name" type="text"
           [(ngModel)]="element.name" readonly>
@@ -183,7 +183,7 @@
     </div>
     <div class="row">
       <div class="col s12">
-        <label [attr.for]="element.id + '-description'" class="active teal-text">Description</label>            
+        <label [attr.for]="element.id + '-description'" class="active teal-text">Description</label>
         <textarea class="materialize-textarea" id="{{element?.id}}-description"
           name="{{element?.id}}-description"
           [(ngModel)]="element.description" readonly>
@@ -192,7 +192,7 @@
     </div>
   </div>
 
-  <div class="modal modal-fixed-footer" materialize [materializeActions]="actions">
+  <div class="modal modal-fixed-footer" materialize="modal" [materializeActions]="modalActions">
     <div class="modal-content">
       <div class="row">
         <h4>Detail</h4>

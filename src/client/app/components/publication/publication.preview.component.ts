@@ -1,7 +1,8 @@
 import { Component, Input, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { PublicationStatus, PublicationService, ElementTypes } from './publication.service';
-import { Subject } from 'rxjs/Subject';
+import {  PublicationService } from './publication.service';
 import { Observable }     from 'rxjs/Observable';
+import { MaterializeAction } from 'angular2-materialize';
+
 let fileSaver = require('../controlconstruct/filesaver');
 
 @Component({
@@ -20,9 +21,9 @@ let fileSaver = require('../controlconstruct/filesaver');
 export class PublicationPreviewComponent implements OnChanges {
   @Input() element: any;
   @Input() elementType: any;
-  actions = new EventEmitter<string>();
+  modalActions = new EventEmitter<string|MaterializeAction>();
+  questionItemActions = new EventEmitter<string|MaterializeAction>();
   children: any[];
-  questionItemActions = new EventEmitter<string>();
   questionItem: any;
 
   constructor(private service: PublicationService) {
@@ -78,7 +79,7 @@ export class PublicationPreviewComponent implements OnChanges {
 
   onClickQuestionItem(questionItem) {
     this.questionItem = questionItem;
-    this.questionItemActions.emit('openModal');
+    this.questionItemActions.emit({action:'modal', params:['open']});
   }
 
   onDownloadFile(o: any) {
@@ -93,7 +94,7 @@ export class PublicationPreviewComponent implements OnChanges {
   }
 
   onQuestionitemDetail(e: any) {
-    this.actions.emit('openModal');
+    this.modalActions.emit({action:'modal', params:['open']});
   }
 
 }

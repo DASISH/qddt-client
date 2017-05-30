@@ -1,5 +1,5 @@
 import { Component, Input, EventEmitter } from '@angular/core';
-import { PublicationStatus, PublicationService, ElementTypes } from './publication.service';
+import { MaterializeAction } from 'angular2-materialize';
 
 @Component({
   selector: 'qddt-publication-concept-preview',
@@ -39,7 +39,7 @@ import { PublicationStatus, PublicationService, ElementTypes } from './publicati
           </ul>
           <div [attr.id]="concept.id + '-concept-questionitem-modal'"
             class="modal modal-fixed-footer"
-            materialize [materializeActions]="questionItemActions">
+            materialize="modal" [materializeActions]="questionItemActions">
             <div class="modal-footer">
               <button
               class="btn btn-default red modal-action modal-close waves-effect waves-red">
@@ -74,12 +74,13 @@ import { PublicationStatus, PublicationService, ElementTypes } from './publicati
 export class PublicationConceptPreviewComponent {
   @Input() concepts: any[];
 
-  questionItemActions = new EventEmitter<string>();
+  questionItemActions = new EventEmitter<string|MaterializeAction>();
   questionItem: any;
 
   onClickQuestionItem(questionItem) {
     this.questionItem = questionItem;
-    this.questionItemActions.emit('openModal');
+    this.questionItemActions.emit({action:'modal', params:['open']});
+    // this.questionItemActions.emit({action:'modal', params:['open']});
   }
 
 }

@@ -1,12 +1,10 @@
-import { Component, Input, PipeTransform, Pipe, EventEmitter, Output } from '@angular/core';
+import { Component, Input,  EventEmitter, Output } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
+import { BaseRequestOptions,  Http, ConnectionBackend } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 
 import { ResponseDomainService } from './responsedomain.service';
-import { UserService } from '../../common/user.service';
-import { BaseService } from '../../common/base.service';
 import { ResponsedomainReuseComponent } from './responsedomain.reuse.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';

@@ -46,7 +46,7 @@
     </div>
   </div>
   <div [attr.id]="'delete-concept-modal'" class="modal"
-    materialize [materializeActions]="actions">
+       materialize="modal" [materializeActions]="actions">
     <div class="modal-content">
       <h4>Warning!</h4>
       <div class="row" *ngIf="toDeletedConcept && toDeletedConcept.questionItems && toDeletedConcept.questionItems.length === 0">

@@ -1,6 +1,7 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
 
 import { RevisionService } from './revision.service';
+import { MaterializeAction } from 'angular2-materialize/dist';
 
 @Component({
   selector: 'qddt-revision-detail',
@@ -33,7 +34,7 @@ import { RevisionService } from './revision.service';
         </div>
       </div>
       <div [attr.id]="element.id + '-detail-readonly-modal'" class="modal modal-fixed-footer"
-        materialize [materializeActions]="elementActions">
+        materialize="modal" [materializeActions]="elementActions">
         <div class="modal-content">
           <div class="row"
             *ngIf="basedon && (type === 'survey' || type === 'category'|| type === 'controlconstruct'|| type === 'concept')">
@@ -85,10 +86,10 @@ export class RevisionDetailComponent {
 
   @Input() element: any;
   @Input() type: string;
-  @Output() BasedonObjectDetail: any = new EventEmitter<string>();
+  @Output() BasedonObjectDetail: any = new EventEmitter<string|MaterializeAction>();
+  elementActions = new EventEmitter<string|MaterializeAction>();
   id: any;
   basedon: any;
-  elementActions = new EventEmitter<string>();
 
   constructor(private service: RevisionService) {
     this.basedon = null;
@@ -108,12 +109,12 @@ export class RevisionDetailComponent {
         .subscribe(
         (result: any) => {
           this.basedon = result;
-          this.elementActions.emit('openModal');
+          this.elementActions.emit({action:'modal', params:['open']});
         },
         (err: any) => null
         );
     } else {
-      this.elementActions.emit('openModal');
+      this.elementActions.emit({action:'modal', params:['open']});
     }
   }
 

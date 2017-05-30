@@ -2,6 +2,7 @@ import { Component, OnInit, EventEmitter, AfterContentChecked } from '@angular/c
 import { PublicationService, Publication, PublicationStatus, PUBLICATIONNOTPUBLISHED, ElementTypes } from './publication.service';
 import { Subject }          from 'rxjs/Subject';
 import { UserService } from '../../common/user.service';
+import { MaterializeAction } from 'angular2-materialize';
 
 @Component({
   selector: 'qddt-publication',
@@ -17,7 +18,7 @@ import { UserService } from '../../common/user.service';
 export class PublicationComponent implements AfterContentChecked, OnInit {
 
   showPublicationForm: boolean = false;
-  actions = new EventEmitter<string>();
+  modalActions = new EventEmitter<string|MaterializeAction>();
   error: any;
   selectOptions: any[] = PublicationStatus;
   showAddElement: boolean;
@@ -114,7 +115,8 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
     let type = ElementTypes.find(el => el.type === e.elementKind);
     if(type !== undefined) {
       this.selectedElementType = type.id;
-      this.actions.emit('openModal');
+      this.modalActions.emit({action:'modal', params:['open']});
+      // this.actions.emit({action:'modal', params:['open']});
     }
   }
 

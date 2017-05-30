@@ -5,7 +5,6 @@ import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { QuestionService } from './question.service';
-import { BaseService } from '../../common/base.service';
 import { QuestionDetailComponent } from './question.detail.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
@@ -76,9 +75,9 @@ export function main() {
             fixture.componentInstance.questionitems = [questionitem];
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let flowtext: any = fixture.debugElement.queryAll(By.css('flow-text'));
-              expect(flowtext.length).toBeGreaterThan(0);
-              expect(flowtext[0].nativeElement.textContent).toContain('questionitem');
+              let h5: any = fixture.debugElement.queryAll(By.css('h5'));
+              expect(h5.length).toBeGreaterThan(0);
+              expect(h5[0].nativeElement.textContent).toContain('questionitem');
             });
           });
       }));

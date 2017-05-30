@@ -249,7 +249,7 @@
 </div>
 
 <div [attr.id]="'responsedomain-detail-readonly-modal'" class="modal modal-fixed-footer"
-  materialize [materializeActions]="responsedomainActions">
+  materialize="modal" [materializeActions]="responsedomainActions">
   <div class="modal-content">
     <div class="row" *ngIf="selectedId && selectedType === 'study'">
       <qddt-study-usedby [id]="selectedId">
@@ -278,7 +278,7 @@
 </div>
 
 <div class="modal modal-fixed-footer"
-  materialize [materializeActions]="basedonActions">
+  materialize="modal" [materializeActions]="basedonActions">
   <div class="modal-content">
 		<h4>Basedon Object Detail</h4>
     <div class="row" *ngIf="basedonObject">

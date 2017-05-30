@@ -3,6 +3,7 @@ import { Component, EventEmitter, OnInit, AfterContentChecked } from '@angular/c
 import { ControlConstructService, ControlConstruct, Instruction } from './controlconstruct.service';
 import { UserService } from '../../common/user.service';
 import { Subject }          from 'rxjs/Subject';
+import { MaterializeAction } from 'angular2-materialize/dist';
 
 @Component({
   selector: 'qddt-controle-construct',
@@ -19,15 +20,15 @@ import { Subject }          from 'rxjs/Subject';
 export class ControlConstructComponent implements OnInit, AfterContentChecked {
 
   showControlConstructForm: boolean = false;
-  actions = new EventEmitter<string>();
-  questionitemActions = new EventEmitter<string>();
+  modalActions = new EventEmitter<string|MaterializeAction>();
+  questionitemActions = new EventEmitter<string|MaterializeAction>();
   error: any;
   editQuestoinItem: boolean;
   questionItems: any[];
   selectedQuestionItem: any;
-  selectedQuestionItemIndex: number;
-  savedquestionitem: any;
 
+  savedquestionitem: any;
+  private isLoading: boolean = true;
   private controlConstructs: any[];
   private page: any;
   private controlConstruct: any;
@@ -63,6 +64,7 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
         this.service.searchControlConstructs(name, '0', this.getSort()).subscribe((result: any) => {
           this.page = result.page;
           this.controlConstructs = result.content;
+          this.isLoading = false;
         });
       });
   }
@@ -147,9 +149,10 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
   }
 
   onPage(page: string) {
+    this.isLoading = true;
     this.service.searchControlConstructs(this.searchKeys, page, this.getSort()).subscribe(
       (result: any) => { this.page = result.page;
-        this.controlConstructs = result.content; });
+        this.controlConstructs = result.content; this.isLoading = false; });
   }
 
   onCreateControlConstruct() {
@@ -195,7 +198,7 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
   }
 
   onClickQuestionItem() {
-    this.questionitemActions.emit('openModal');
+    this.questionitemActions.emit({action:'modal', params:['open']});
   }
 
   onSearchInstructions(key: string) {
@@ -213,7 +216,7 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
 
   popupModal(error: any) {
     this.error = error;
-    this.actions.emit('openModal');
+    this.modalActions.emit({action:'modal', params:['open']});
   }
 
   private getSort() {

@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 
 import { QuestionService, QuestionItem, Question } from './question.service';
+import { MaterializeAction } from 'angular2-materialize';
 
 @Component({
   selector: 'qddt-questionitem-detail',
@@ -15,8 +16,8 @@ export class QuestionDetailComponent implements OnInit {
   @Input() questionitems: QuestionItem[];
   @Input() isVisible: boolean;
   @Output() hideDetailEvent: EventEmitter<String> = new EventEmitter<String>();
-  @Output() editQuestionItem: EventEmitter<any> = new EventEmitter<any>();
-  deleteAction = new EventEmitter<any>();
+  @Output() editQuestionItem: EventEmitter<any> = new EventEmitter<string|MaterializeAction>();
+  deleteAction = new EventEmitter<string|MaterializeAction>();
   candelete: number; // 0: cannot, 1: can, 2: checking
 
   private revisionIsVisible: boolean;
@@ -83,7 +84,7 @@ export class QuestionDetailComponent implements OnInit {
 
   onDeleteQuestionItemModal() {
     this.checkDeleteQuestionItem();
-    this.deleteAction.emit('openModal');
+    this.deleteAction.emit({action:'modal', params:['open']});
   }
 
   checkDeleteQuestionItem() {
@@ -111,7 +112,7 @@ export class QuestionDetailComponent implements OnInit {
         if (i >= 0) {
           this.questionitems.splice(i, 1);
         }
-        this.deleteAction.emit('closeModal');
+        this.deleteAction.emit({action:'modal', params:['close']});
         this.hideDetailEvent.emit('hide');
       },
       (error: any) => console.log(error));

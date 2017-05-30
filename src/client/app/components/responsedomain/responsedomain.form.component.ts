@@ -4,6 +4,7 @@ import { DomainType, DomainTypeDescription } from './responsedomain.constant';
 import { ResponseDomainService } from './responsedomain.service';
 import { Observable }     from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import { MaterializeAction } from 'angular2-materialize';
 
 @Component({
   selector: 'qddt-responsedomain-form',
@@ -22,8 +23,8 @@ export class ResponsedomainFormComponent implements OnInit {
   @Input() domainType: DomainType;
   @Input() readonly: boolean;
   @Output() formChange: EventEmitter<any>;
-  responsedomainActions = new EventEmitter<string>();
-  basedonActions = new EventEmitter<string>();
+  responsedomainActions = new EventEmitter<string|MaterializeAction>();
+  basedonActions = new EventEmitter<string|MaterializeAction>();
   previewResponseDomain: any;
   basedonObject: any;
 
@@ -112,25 +113,25 @@ export class ResponsedomainFormComponent implements OnInit {
   onClickStudy(id: string) {
     this.selectedId = id;
     this.selectedType = 'study';
-    this.responsedomainActions.emit('openModal');
+    this.responsedomainActions.emit({action:'modal', params:['open']});
   }
 
   onClickTopic(id: string) {
     this.selectedId = id;
     this.selectedType = 'topic';
-    this.responsedomainActions.emit('openModal');
+    this.responsedomainActions.emit({action:'modal', params:['open']});
   }
 
   onClickQuestion(id: string) {
     this.selectedId = id;
     this.selectedType = 'question';
-    this.responsedomainActions.emit('openModal');
+    this.responsedomainActions.emit({action:'modal', params:['open']});
   }
 
   onClickResponsedomain(id: string) {
     this.selectedId = id;
     this.selectedType = 'responsedomain';
-    this.responsedomainActions.emit('openModal');
+    this.responsedomainActions.emit({action:'modal', params:['open']});
   }
 
   select(candidate: any) {
@@ -311,7 +312,7 @@ export class ResponsedomainFormComponent implements OnInit {
       .subscribe(
       (result: any) => {
         this.basedonObject = result;
-        this.basedonActions.emit('openModal');
+        this.basedonActions.emit({action:'modal', params:['open']});
       },
       (err: any) => null
       );

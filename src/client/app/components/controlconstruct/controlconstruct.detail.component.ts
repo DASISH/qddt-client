@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 
 import { ControlConstructService, ControlConstruct } from './controlconstruct.service';
+import { MaterializeAction } from 'angular2-materialize';
 
 @Component({
   selector: 'qddt-controle-construct-detail',
@@ -18,7 +19,7 @@ export class ControlConstructDetailComponent implements OnInit {
   @Input() isVisible: boolean;
   @Output() hideDetailEvent: EventEmitter<String> = new EventEmitter<String>();
   @Output() exceptionEvent: EventEmitter<String> = new EventEmitter<String>();
-  deleteAction = new EventEmitter<any>();
+  deleteAction = new EventEmitter<string|MaterializeAction>();
   private revisionIsVisible: boolean;
   private savedObject: string;
   private savedControlConstructsIndex: number;
@@ -49,7 +50,8 @@ export class ControlConstructDetailComponent implements OnInit {
   }
 
   onDeleteControlConstructModal() {
-    this.deleteAction.emit('openModal');
+    this.deleteAction.emit({action:'modal', params:['open']});
+    // this.deleteAction.emit({action:'modal', params:['open']});
   }
 
   onConfirmDeleting() {

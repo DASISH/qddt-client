@@ -4,6 +4,7 @@ import { DomainType, DomainTypeDescription, PredefinedColumns } from './response
 import { ResponseDomainService } from './responsedomain.service';
 import { UserService } from '../../common/user.service';
 import { Subject } from 'rxjs/Subject';
+import { MaterializeAction } from 'angular2-materialize';
 
 @Component({
   selector: 'qddt-responsedomain',
@@ -15,7 +16,7 @@ import { Subject } from 'rxjs/Subject';
 export class ResponsedomainComponent implements OnInit, AfterContentChecked {
   domainType: DomainType;
   deleteAction = new EventEmitter<any>();
-  errorAction = new EventEmitter<any>();
+  errorAction = new EventEmitter<string|MaterializeAction>();
   error: string;
   public domainTypeDef = DomainType;
   responseDomains: any[];
@@ -178,7 +179,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
   }
 
   onDeleteResponseDomainModal() {
-    this.deleteAction.emit('openModal');
+    this.deleteAction.emit({action:'modal', params:['open']});
   }
 
   onConfirmDeleting() {
@@ -190,7 +191,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
         }
         this.hideDetail();
       },
-      (error: any) => {this.error = error; this.errorAction.emit('openModal');});
+      (error: any) => {this.error = error; this.errorAction.emit({action:'modal', params:['open']});});
   }
 
   searchResponseDomains(name: string) {

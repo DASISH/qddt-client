@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CategoryService } from '../category/category.service';
 import { Subject } from 'rxjs/Subject';
+import { MaterializeAction } from 'angular2-materialize';
 
 @Component({
   selector: 'qddt-questionitem-edit-missing',
@@ -18,7 +19,7 @@ import { Subject } from 'rxjs/Subject';
     <div class="row"
       (mouseenter)="showbutton = true"
       (mouseleave)="showbutton = false">
-      <div class="row"><span>Missing</span></div>
+      <div class="row teal-text"><span>Missing</span></div>
         <div class="row">
           <a *ngIf="!missing && !readonly"
             [ngClass]="{hide: !showbutton}"
@@ -29,7 +30,7 @@ import { Subject } from 'rxjs/Subject';
           </a>
           <span *ngIf="missing">{{missing?.name}}</span>
         </div>
-      <div class="modal" materialize [materializeActions]="missingAction">
+      <div class="modal" materialize="modal" [materializeActions]="missingAction">
         <form (ngSubmit)="onSave()" #missingForm="ngForm">
         <div class="modal-content minHeight">
           <div class="row">
@@ -77,7 +78,7 @@ export class QuestionItemEditMissingComponent implements OnInit {
   showbutton: any;
   missingCategories: any[];
   selectedCategoryIndex: number;
-  missingAction = new EventEmitter<string>();
+  missingAction = new EventEmitter<string|MaterializeAction>();
   private searchMissingCategoriesSubect: Subject<string> = new Subject<string>();
 
   constructor(private service: CategoryService) {
@@ -114,7 +115,7 @@ export class QuestionItemEditMissingComponent implements OnInit {
 
   onAddMissing() {
     if(this.mainResponseDomain !== null && this.mainResponseDomain !== undefined) {
-      this.missingAction.emit('openModal');
+      this.missingAction.emit({action:'modal', params:['open']});
     }
   }
 
@@ -124,7 +125,7 @@ export class QuestionItemEditMissingComponent implements OnInit {
   }
 
   onSave() {
-    this.missingAction.emit('closeModal');
+    this.missingAction.emit({action:'modal', params:['close']});
     if(this.missing !== null) {
       this.editMissing.emit(this.missing);
     }
