@@ -19,7 +19,7 @@ import { QuestionItem } from './question.service';
            <br />
            <div class="row">
              <!--a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                   (click)="edit.isVisible = !edit.isVisible"><i class="material-icons">mode_edit</i></a-->
+                   (click)="edit.isVisible = !edit.isVisible"><i class="material-icons"title="Edit element">mode_edit</i></a-->
              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                    (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium" title="Revision history">history</i></a>
              <qddt-questionitem-reuse [parentId]="concept.id"

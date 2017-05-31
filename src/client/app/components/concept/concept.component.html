@@ -29,6 +29,9 @@
           </div>
         </div>
       </div>
+      <div *ngIf="isLoading" class="progress">
+        <div class="indeterminate"></div>
+      </div>
       <div *ngIf="concepts">
          <qddt-concept-treenode *ngFor="let child of concepts" (deleteConceptEvent)="onDeleteConcept($event)"
          [concept]="child"></qddt-concept-treenode>
