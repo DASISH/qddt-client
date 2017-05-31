@@ -1,6 +1,7 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { PublicationStatus, PublicationService, ElementTypes, PublicationElement } from './publication.service';
 import { Subject } from 'rxjs/Subject';
+import { MaterializeAction } from 'angular2-materialize';
 
 @Component({
   selector: 'qddt-publication-reuse',
@@ -18,12 +19,13 @@ import { Subject } from 'rxjs/Subject';
 })
 
 export class PublicationReuseComponent implements OnInit {
+  @Input() showbutton:boolean;
   @Output() publicationElement: any = new EventEmitter<any>();
   showAddElement: boolean = false;
   showReplayElement: boolean = false;
   error: any;
   elementTypes: any[] = ElementTypes;
-  actions = new EventEmitter<any>();
+  modalActions = new EventEmitter<string|MaterializeAction>();
   queryFields: any[] = [
     {id: 1, isMutipleFields: true,
       placeholder: 'Search in module name or description',
@@ -101,4 +103,5 @@ export class PublicationReuseComponent implements OnInit {
   private popupModal(error: any) {
     this.error = error;
   }
+
 }

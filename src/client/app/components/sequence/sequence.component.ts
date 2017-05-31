@@ -1,6 +1,7 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
 import { ElementTypeDescription, SequenceService, Sequence } from './sequence.service';
 import { Subject } from 'rxjs/Subject';
+import { MaterializeAction } from 'angular2-materialize';
 
 @Component({
   selector: 'qddt-sequence',
@@ -17,7 +18,7 @@ export class SequenceComponent implements OnInit {
 
   showSequenceForm: boolean = false;
   showAddElement: boolean = false;
-  actions = new EventEmitter<any>();
+  modalActions = new EventEmitter<string|MaterializeAction>();
   error: any;
   elementTypeDescription:any = ElementTypeDescription;
 
@@ -110,7 +111,7 @@ export class SequenceComponent implements OnInit {
 
   private popupModal(error: any) {
     this.error = error;
-    this.actions.emit({action:'modal', params:['open']});
+    this.modalActions.emit({action:'modal', params:['open']});
   }
 
   private getSort() {

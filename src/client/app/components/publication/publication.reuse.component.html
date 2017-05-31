@@ -1,11 +1,14 @@
-<div class="row hoverable">
+<div class="row hoverable"
+     (mouseenter)="showbutton = true"
+     (mouseleave)="showbutton = false">
   <div class="row teal-text">
-		<span name="col text">Add element</span>
-    <div class="col right">
-
-      <i class="material-icons right" title="add Element" [ngStyle]="{'cursor': 'pointer'}"
-        (click)="onToggleAddElement()">add
-      </i>
+    <div class="col s2">Add element</div>
+    <div class="col s1 offset-s9">
+      <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" [ngClass]="{hide: !showbutton}">
+        <i class="material-icons" title="add Element" [ngStyle]="{'cursor': 'pointer'}"
+           (click)="onToggleAddElement()">add
+        </i>
+      </a>
     </div>
   </div>
   <div class="row" *ngIf="showAddElement">

@@ -49,7 +49,7 @@
                 <div class="col s10">{{study?.name}}</div>
                 <div class="col s2">
                 <div class="text-align: right">
-                  <i *ngIf="study.workinprogress" class="material-icons white yellow-text font-size: 15px">error</i>
+                  <i *ngIf="study.workinprogress" class="material-icons white yellow-text font-size: 15px" title="In development">error</i>
                   V{{study?.version?.major}}.{{study?.version?.minor}}
                 </div>
               </div>

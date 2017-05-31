@@ -104,8 +104,8 @@
                   </qddt-publication-preview>
 		            </div>
               </li>
+              <li><qddt-publication-reuse (publicationElement)="addElement($event)"></qddt-publication-reuse>
             </ul>
-            <qddt-publication-reuse (publicationElement)="addElement($event)"></qddt-publication-reuse>
           </div>
           <div class="row">
             <qddt-rational [element]="publication" [config]="{hidden: [2]}"></qddt-rational>

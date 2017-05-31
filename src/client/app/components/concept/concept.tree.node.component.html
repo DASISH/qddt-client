@@ -21,7 +21,7 @@
         <div class="col s10">{{concept?.name}}</div>
         <div class="col s2">
           <div class="text-align: right">
-            <i *ngIf="concept.workinprogress" class="material-icons white yellow-text font-size: 20px">error</i>
+            <i *ngIf="concept.workinprogress" class="material-icons white yellow-text font-size: 20px" title="In development">error</i>
             V{{concept?.version?.major}}.{{concept?.version?.minor}}
           </div>
         </div>

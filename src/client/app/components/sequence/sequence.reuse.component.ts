@@ -1,6 +1,7 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { ElementTypeDescription, SequenceService } from './sequence.service';
 import { Subject } from 'rxjs/Subject';
+import { MaterializeAction } from 'angular2-materialize';
 
 @Component({
   selector: 'qddt-sequence-reuse',
@@ -20,7 +21,7 @@ export class SequenceReuseComponent implements OnInit {
   showReplayElement: boolean = false;
   error: any;
   elementTypeDescription: any = ElementTypeDescription;
-  actions = new EventEmitter<any>();
+  modalActions = new EventEmitter<string|MaterializeAction>();
 
   elements: any[];
   private elementType: string;
@@ -71,12 +72,12 @@ export class SequenceReuseComponent implements OnInit {
   }
 
   onCreateStatement() {
-    this.actions.emit({action:'modal', params:['open']});
+    this.modalActions.emit({action:'modal', params:['open']});
     return false;
   }
 
   onCreateCondition() {
-    this.actions.emit({action:'modal', params:['open']});
+    this.modalActions.emit({action:'modal', params:['open']});
     return false;
   }
 
