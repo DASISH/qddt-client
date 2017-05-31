@@ -35,7 +35,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
 
   constructor(private questionService: QuestionService, private userService: UserService) {
     this.questionitems = [];
-    this.page = {};
+    this.page = {number:1, size:10};
     this.searchKeys = '';
     this.secondCS = null;
     this.mainresponseDomainRevision = 0;

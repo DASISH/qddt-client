@@ -68,7 +68,7 @@ export class QddtPaginationComponent implements OnChanges {
   private _maxSize = 0;
   private _page = 0;
   private _pageCount = 0;
-  private _pageSize = 10;
+  private _pageSize = 20;
   private _rotate = false;
 
   /**

@@ -25,6 +25,9 @@
         (formChange)="formCreate($event)" [responsedomain]="responseDomain" [domainType]="domainType">
       </qddt-responsedomain-form>
 		</div>
+    <div *ngIf="isLoading && !isDetail" class="progress">
+      <div class="indeterminate"></div>
+    </div>
 		<qddt-table *ngIf="!isDetail" [items]="responseDomains" [page]="page" [columns]="columns"
           [searchFromServer]="true"
 					(enterEvent)="searchResponseDomains($event)"

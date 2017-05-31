@@ -24,6 +24,8 @@ export class QuestionItem {
 @Injectable()
 export class QuestionService extends BaseService {
 
+  readonly pageSize = '&size=10';
+
   constructor(protected http:Http, @Inject(API_BASE_HREF) protected api:string) {
     super(http ,api);
   }
@@ -37,7 +39,7 @@ export class QuestionService extends BaseService {
   }
 
   getQuestionItemPage(page: String = '0'): any {
-    return this.get('questionitem/page' + '?&page=' + page);
+    return this.get('questionitem/page' + '?&page=' + page + this.pageSize );
   }
 
   getquestion(id: string): any {
@@ -53,7 +55,7 @@ export class QuestionService extends BaseService {
     if (sort.length > 0) {
       query += '&sort=' + sort;
     }
-    return this.get('questionitem/page/search?' + 'page=' + page + query);
+    return this.get('questionitem/page/search?' + 'page=' + page + this.pageSize + query);
   }
 
   searchQuestionItemsByNameAndQuestion(name: string = '', page: String = '0', sort: String = ''): any {
@@ -61,7 +63,7 @@ export class QuestionService extends BaseService {
     if (sort.length > 0) {
       query += '&sort=' + sort;
     }
-    return this.get('questionitem/page/search?' + 'page=' + page + query);
+    return this.get('questionitem/page/search?' + 'page=' + page + this.pageSize+ query);
   }
 
   createQuestionItem(question: any): any {
@@ -99,7 +101,7 @@ export class QuestionService extends BaseService {
       query += '&sort=' + sort;
     }
     return this.get('category/page/search/?level=GROUP_ENTITY&category=' + categoryKind
-      + query + '&page=' + page);
+      + query + '&page=' + page+ this.pageSize);
   }
 
   getResponseDomainsRevisions(id: string) : any {

@@ -74,6 +74,9 @@
         </div>
       </div>
       <div *ngIf="!isDetail">
+        <div *ngIf="isLoading" class="progress">
+          <div class="indeterminate"></div>
+        </div>
         <qddt-table [items]="publications" [page]="page" [columns]="columns"
           [searchFromServer]="true"
 		      (enterEvent)="searchPublications($event)"

@@ -22,6 +22,8 @@ export class Instruction {
 @Injectable()
 export class ControlConstructService extends BaseService {
 
+  readonly pageSize = '&size=10';
+
   constructor(protected http:Http, @Inject(API_BASE_HREF) protected api:string) {
     super(http ,api);
   }
@@ -97,12 +99,12 @@ export class ControlConstructService extends BaseService {
     if (sort.length > 0) {
       query += '&sort=' + sort;
     }
-    return this.get('questionitem/page/search?' + 'page=' + page + query);
+    return this.get('questionitem/page/search?' + 'page=' + page + this.pageSize + query);
   }
 
   searchInstructions(description: string = '', page: String = '0'): any {
     let query = description.length > 0? '&description=' + '*' + description +'*': '';
-    return this.get('instruction/page/search?' + 'page=' + page + query);
+    return this.get('instruction/page/search?' + 'page=' + page + this.pageSize + query);
   }
 
   getConceptsByQuestionitemId(id: string) {
@@ -116,6 +118,6 @@ export class ControlConstructService extends BaseService {
     if (sort.length > 0) {
       query += '&sort=' + sort;
     }
-    return this.get('controlconstruct/page/search?constructkind=QUESTION_CONSTRUCT' + '&page=' + page + query);
+    return this.get('controlconstruct/page/search?constructkind=QUESTION_CONSTRUCT' + '&page=' + page + this.pageSize + query);
   }
 }
