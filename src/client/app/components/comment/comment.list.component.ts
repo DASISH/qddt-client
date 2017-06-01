@@ -62,7 +62,6 @@ import { CommentService } from './comment.service';
       </div>
       <qddt-comment-create (addedCommentEvent)="addedComment($event)" [ownerId]="ownerId"></qddt-comment-create>
     </div>
-
   `,
   providers: [CommentService]
 })
