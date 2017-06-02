@@ -9,24 +9,34 @@ import { MaterializeAction } from 'angular2-materialize/dist';
   template: `
     <div *ngIf="element" class="row">
       <div class="input-field col s1">
-        <p><label class="active teal-text">Version</label></p>
+        <p style="padding: initial;margin: inherit;">
+          <label class="active teal-text">Version</label>
+        </p>
         <div class="chip">{{element?.version?.major}}.{{element?.version?.minor}}
         </div>
       </div>
       <div class="input-field col s3">
-        <p><label class="active teal-text">Last Saved</label></p>
+        <p style="padding: initial;margin: inherit;">
+          <label class="active teal-text">Last Saved</label>
+        </p>
         <div class="chip">{{element?.modified | localDate}}</div>
       </div>
       <div class="input-field col s3">
-        <p><label class="active teal-text">Last Saved By</label></p>
+        <p style="padding: initial;margin: inherit;">
+          <label class="active teal-text">Last Saved By</label>
+        </p>
         <div class="chip">{{element?.modifiedBy?.username}}</div>
       </div>
       <div class="input-field col s3">
-        <p><label class="active teal-text">Agency</label></p>
+        <p style="padding: initial;margin: inherit;">
+          <label class="active teal-text">Agency</label>
+        </p>
         <div class="chip">{{element?.modifiedBy?.agency?.name}}</div>
       </div>
       <div class="input-field col s2">
-        <p><label class="active teal-text">Based On Object</label></p>
+        <p style="padding: initial;margin: inherit;">
+          <label class="active teal-text">Based On Object</label>
+        </p>
         <div *ngIf="element.basedOnObject" class="chip"
           [ngStyle]="{'cursor': 'pointer'}"
           (click)="onClick(element.basedOnObject)">

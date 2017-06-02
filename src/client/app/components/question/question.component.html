@@ -76,7 +76,7 @@
           </div>
         </div>
       </div>
-      <div *ngIf="isLoading" class="progress">
+      <div *ngIf="showProgressBar && !isDetail" class="progress">
         <div class="indeterminate"></div>
       </div>
       <div *ngIf="!isDetail && questionitems">

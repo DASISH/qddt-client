@@ -6,9 +6,9 @@ import { MaterializeAction } from 'angular2-materialize';
   moduleId: module.id,
   template:
   `
-  <ul *ngIf="concepts" materialize="collapsible" class="collapsible" data-collapsible="accordion">
+  <ul *ngIf="concepts" materialize="collapsible" class="collapsible" data-collapsible="accordion" style="padding: 5pt;">
     <li *ngFor="let concept of concepts">
-		  <div class="collapsible-header">
+		  <div class="collapsible-header grey lighten-5">
         <div class="row">
           <div class="col s11">Concept: {{concept?.name}}</div>
           <div class="col s1">
@@ -30,7 +30,7 @@ import { MaterializeAction } from 'angular2-materialize';
                   <a class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
                     [ngClass]="{hide: !questionItem.showbutton}"
                     (click)="onClickQuestionItem(questionItem)">
-                    <i class="material-icons">search</i>
+                    <i class="material-icons" title="View QuestionItem">search</i>
                   </a>
                 </div>
                 <div class="col s11">{{questionItem?.question?.question}}</div>
@@ -55,11 +55,12 @@ import { MaterializeAction } from 'angular2-materialize';
           </div>
         </div>
         <div class="row">
-        <p>
-          <qddt-comment-list [ownerId]="concept.id" [comments]="concept.comments"></qddt-comment-list>
-        </p>
+          <qddt-revision-detail  [element]="concept" [type]="'concept'"></qddt-revision-detail>
         </div>
-        <div class="container" *ngIf="concept.children && concept.children.length > 0">
+        <div class="row">
+          <qddt-comment-list [ownerId]="concept.id" [comments]="concept.comments"></qddt-comment-list>
+        </div>
+        <div class="container" *ngIf="concept.children && concept.children.length > 0" style="width: 90%">
           <qddt-publication-concept-preview
             [concepts]="concept.children">
           </qddt-publication-concept-preview>

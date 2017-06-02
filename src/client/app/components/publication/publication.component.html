@@ -74,7 +74,7 @@
         </div>
       </div>
       <div *ngIf="!isDetail">
-        <div *ngIf="isLoading" class="progress">
+        <div *ngIf="showProgressBar" class="progress">
           <div class="indeterminate"></div>
         </div>
         <qddt-table [items]="publications" [page]="page" [columns]="columns"

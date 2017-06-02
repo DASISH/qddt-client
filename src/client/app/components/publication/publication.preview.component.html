@@ -1,22 +1,5 @@
 <div *ngIf="element" [ngSwitch]="elementType">
-  <div class="row">
-    <div class="col s11">{{element?.question?.question}}</div>
-    <div class="col s1">
-      <label class="active">V<!--
-      -->{{element?.version?.major}}.<!--
-      -->{{element?.version?.minor}}
-      </label>
-    </div>
-  </div>
   <div *ngSwitchCase="1">
-    <div class="row">
-      <div class="col s12">
-        <label [attr.for]="element.id + '-name'" class="active teal-text">ModuleName</label>
-        <input id="{{element?.id}}-name"
-          name="{{element?.id}}-name" type="text"
-          [(ngModel)]="element.name" readonly>
-      </div>
-    </div>
     <div class="row">
       <div class="col s12">
         <label [attr.for]="element.id + '-description'" class="active teal-text">Description</label>
@@ -34,16 +17,11 @@
         </qddt-publication-concept-preview>
       </div>
     </div>
+    <div class="row">
+      <qddt-revision-detail  [element]="element" [type]="'topic'"></qddt-revision-detail>
+    </div>
   </div>
   <div *ngSwitchCase="2">
-    <div class="row">
-      <div class="col s12">
-        <label [attr.for]="element.id + '-name'" class="active teal-text">Name</label>
-        <input id="{{element?.id}}-name"
-          name="{{element?.id}}-name" type="text"
-          [(ngModel)]="element.name" readonly>
-      </div>
-    </div>
     <div class="row">
       <div class="col s12">
         <label [attr.for]="element.id + '-description'" class="active teal-text">Description</label>
@@ -65,7 +43,7 @@
                 <a class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
                   [ngClass]="{hide: !questionItem.showbutton}"
                   (click)="onClickQuestionItem(questionItem)">
-                  <i class="material-icons">search</i>
+                  <i class="material-icons" title="View QuestionItem">search</i>
                 </a>
               </div>
               <div class="col s11">{{questionItem?.question?.question}}</div>
@@ -94,12 +72,15 @@
           <qddt-comment-list [ownerId]="element.id" [comments]="element.comments"></qddt-comment-list>
         </p>
         </div>
-        <div class="container" *ngIf="element.children && element.children.length > 0">
+        <div class="container" *ngIf="element.children && element.children.length > 0" style="width: 90%;">
           <qddt-publication-concept-preview
             [concepts]="element.children">
           </qddt-publication-concept-preview>
         </div>
       </div>
+    <div class="row">
+      <qddt-revision-detail  [element]="element" [type]="'concept'"></qddt-revision-detail>
+    </div>
   </div>
   <div *ngSwitchCase="3">
     <qddt-publication-questionitem-preview
@@ -107,18 +88,8 @@
     </qddt-publication-questionitem-preview>
   </div>
   <div *ngSwitchCase="4">
-    <div class="row">
-      <div class="input-field">
-        <label [attr.for]="element.id + '-name'"
-          class="active teal-text">Name</label>
-        <textarea [attr.id]="element.id + '-name'"
-          class="materialize-textarea"
-          [(ngModel)]="element.name" readonly>
-        </textarea>
-      </div>
-    </div>
     <div class="nomargin" *ngIf="element.preInstructions">
-      <ul class="card">
+      <ul>
         <li>
           <div class="row">
             <label class="teal-text">Pre Instructions</label>
@@ -138,7 +109,7 @@
       </div>
     </div>
     <div class="nomargin" *ngIf="element.postInstructions">
-      <ul class="card">
+      <ul>
         <li>
           <div class="row">
             <label class="teal-text">Post Instructions</label>
@@ -171,16 +142,11 @@
         </ul>
       </div>
     </div>
+    <div class="row">
+      <qddt-revision-detail  [element]="element" [type]="'controlconstruct'"></qddt-revision-detail>
+    </div>
   </div>
   <div *ngSwitchDefault>
-    <div class="row">
-      <div class="col s12">
-        <label [attr.for]="element.id + '-name'" class="active teal-text">Name</label>
-        <input id="{{element?.id}}-name"
-          name="{{element?.id}}-name" type="text"
-          [(ngModel)]="element.name" readonly>
-      </div>
-    </div>
     <div class="row">
       <div class="col s12">
         <label [attr.for]="element.id + '-description'" class="active teal-text">Description</label>
@@ -189,6 +155,9 @@
           [(ngModel)]="element.description" readonly>
         </textarea>
       </div>
+    </div>
+    <div class="row">
+      <qddt-revision-detail  [element]="element" [type]="''"></qddt-revision-detail>
     </div>
   </div>
 

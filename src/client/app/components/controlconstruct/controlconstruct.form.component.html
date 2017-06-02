@@ -9,6 +9,10 @@
       </div>
       <div class="col s12">
         <div class="input-field">
+          <!--<input id="controlConstructName" name="{{controlConstruct.id}}-name"-->
+                 <!--type="text" class="validate"  [(ngModel)]="controlConstruct.name" required>-->
+          <!--<label [ngClass]="{'active': controlConstruct.name}" for="controlConstructName" >Name</label>-->
+
           <label [attr.for]="controlConstruct.id + '-name'"
                  class="active teal-text">Name
           </label>
@@ -16,7 +20,7 @@
                     name="{{controlConstruct.id}}-name" class="materialize-textarea"
                     [(ngModel)]="controlConstruct.name" [attr.maxlength]="255"
                     required>
-            </textarea>
+          </textarea>
         </div>
       </div>
     </div>
@@ -61,7 +65,11 @@
          (mouseenter)="showQuestionButton = !readonly"
          (mouseleave)="showQuestionButton = false">
       <div class="row">
-        <div class="col s11"><label class="teal-text">Question Text</label></div>
+
+        <div class="col s11"><label class="teal-text">Question Text (Version
+          {{controlConstruct?.questionItem?.version?.major}}.{{controlConstruct?.questionItem?.version?.minor}})</label>
+          <!--<label ngIf="!controlConstruct?.questionItem" class="teal-text">Question Text</label>-->
+        </div>
         <div class="col s1">
           <a [ngClass]="{hide: !showQuestionButton}"
              class="btn-flat btn-floating btn-small waves-effect waves-light teal"

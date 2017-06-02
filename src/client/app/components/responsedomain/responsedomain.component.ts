@@ -28,7 +28,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
   private page: any;
   private columns: any[];
   private isDetail: boolean;
-  private isLoading: boolean = true;
+  private showProgressBar: boolean = true;
   private revisionIsVisible: boolean;
   private savedObject: string;
   private savedResponseDomainsIndex: number;
@@ -55,7 +55,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
             this.page = result.page;
             this.responseDomains = result.content;
             this.buildAnchorLabel();
-            this.isLoading = false;
+            this.showProgressBar = false;
           });
       });
   }
@@ -74,7 +74,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
         this.page = result.page;
         this.responseDomains = result.content;
         this.buildAnchorLabel();
-        this.isLoading = false;
+        this.showProgressBar = false;
       });
     }
   }
@@ -98,7 +98,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
   }
 
   selectDomainType(id: DomainType) {
-    this.isLoading = true;
+    this.showProgressBar = true;
     this.domainType = id;
     this.showResponseDomainForm = false;
     let domainType = DomainTypeDescription.find((e: any)=>e.id === id).name;
@@ -109,7 +109,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
       this.page = result.page;
       this.responseDomains = result.content;
       this.buildAnchorLabel();
-      this.isLoading = false;
+      this.showProgressBar = false;
     });
   }
 
@@ -174,14 +174,14 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
   }
 
   onPage(page: string) {
-    this.isLoading = true;
+    this.showProgressBar = true;
     let domainType = DomainTypeDescription.find((e: any) =>e.id === this.domainType).name;
     this.responseDomainService
       .getAll(domainType, this.searchKeys, page, this.getSort()).subscribe(
       (result: any) => { this.page = result.page;
         this.responseDomains = result.content;
         this.buildAnchorLabel();
-        this.isLoading = false;
+        this.showProgressBar = false;
       });
   }
 

@@ -32,7 +32,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
   private searchKeys: string;
   private selectedPublication: any;
   private isDetail: boolean;
-  private isLoading: boolean = true;
+  private showProgressBar: boolean = true;
   private columns: any[];
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
@@ -54,9 +54,9 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
           .subscribe((result: any) => {
             this.publications = result.content || [];
             this.page = result.page;
-            this.isLoading = false;
+            this.showProgressBar = false;
           }, (error: any) => {
-            this.isLoading = false;
+            this.showProgressBar = false;
             console.log(error);
           });
       });
@@ -144,14 +144,14 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
   }
 
   onPage(page: string) {
-    this.isLoading = true;
+    this.showProgressBar = true;
     this.service.searchPublications(this.searchKeys, page, this.getSort())
       .subscribe((result: any) => {
         this.publications = result.content || [];
         this.page = result.page;
-        this.isLoading = false;
+        this.showProgressBar = false;
       }, (error: any) => {
-        this.isLoading = false;
+        this.showProgressBar = false;
         console.log(error);
       });
   }

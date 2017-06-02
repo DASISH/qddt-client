@@ -1,5 +1,4 @@
 import { Component, OnInit, AfterContentChecked, EventEmitter } from '@angular/core';
-
 import { QuestionService, QuestionItem, Question } from './question.service';
 import { UserService } from '../../common/user.service';
 import { Subject }          from 'rxjs/Subject';
@@ -14,19 +13,20 @@ import { MaterializeAction } from 'angular2-materialize';
 
 export class QuestionComponent implements AfterContentChecked, OnInit {
 
-  showQuestionItemForm: boolean = false;
-  showResponsedomainReuse: boolean = false;
-  modalActions = new EventEmitter<string|MaterializeAction>();
-  error: string;
-  responseDomainAction = new EventEmitter<string|MaterializeAction>();
-  previewResponseDomain: any;
-  showbutton: any;
-  questionitems: any;
+  public modalActions = new EventEmitter<string|MaterializeAction>();
+  public responseDomainAction = new EventEmitter<string|MaterializeAction>();
+  public error: string;
+  public previewResponseDomain: any;
+  public showbutton: any;
+  public questionitems: any;
+
   private page: any;
   private questionItem: any;
   private selectedQuestionItem: any;
   private isDetail: boolean;
-  private isLoading: boolean = true;
+  private showProgressBar: boolean = false;
+  private showResponsedomainReuse: boolean = false;
+  private showQuestionItemForm: boolean = false;
   private columns: any[];
   private searchKeysSubect: Subject<string> = new Subject<string>();
   private searchKeys: string;
@@ -40,6 +40,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
     this.secondCS = null;
     this.mainresponseDomainRevision = 0;
     this.showbutton = false;
+    this.showProgressBar = true;
     this.columns = [{'name':'name', 'label':'Question Name', 'sortable':true, 'direction': '' },
       {'name':['question','question'], 'label':'Question Text', 'sortable':true, 'direction': '' },
       {'name':['responseDomain','name'], 'label':'ResponseDomain Name', 'sortable':true, 'direction': '' },
@@ -51,7 +52,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
         this.questionService.searchQuestionItemsByNameAndQuestion(name, '0', this.getSort()).subscribe((result: any) => {
           this.page = result.page;
           this.questionitems = result.content;
-          this.isLoading = false;
+          this.showProgressBar = false;
         });
       });
   }
@@ -120,13 +121,18 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
   }
 
   onPage(page: string) {
-    this.isLoading = true;
-    this.questionService.searchQuestionItems(this.searchKeys, page, this.getSort()).subscribe(
-      (result: any) => { this.page = result.page; this.questionitems = result.content; this.isLoading = false;});
+    this.showProgressBar = true;
+    this.questionService.searchQuestionItems(this.searchKeys, page, this.getSort())
+      .subscribe(
+      (result: any) => {
+        this.page = result.page;
+        this.questionitems = result.content;
+        this.showProgressBar = false;
+      });
   }
 
   onCreateQuestionItem() {
-    this.isLoading = true;
+    this.showProgressBar = true;
     this.showQuestionItemForm = false;
     this.questionItem.question.name = this.questionItem.name;
     if (this.secondCS === null) {
@@ -143,7 +149,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
           this.questionService.updateQuestionItem(this.questionItem)
             .subscribe((result: any) => {
               this.questionitems = [result].concat(this.questionitems);
-              this.isLoading = false;
+              this.showProgressBar = false;
             }, (err: any) => { this.error = err.toString(); this.modalActions.emit({action:'modal', params:['open']}); });
         }, (err: any) => { this.error = err.toString(); this.modalActions.emit({action:'modal', params:['open']}); });
       }, (err: any) => { this.error = err.toString(); this.modalActions.emit({action:'modal', params:['open']}); });

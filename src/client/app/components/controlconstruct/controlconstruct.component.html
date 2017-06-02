@@ -123,7 +123,7 @@
           </div>
         </div>
       </div>
-      <div *ngIf="isLoading" class="progress">
+      <div *ngIf="showProgressBar && !isDetail" class="progress">
         <div class="indeterminate"></div>
       </div>
       <div *ngIf="!isDetail && controlConstructs">
@@ -169,7 +169,7 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button id="controlConstructs-modal-close"
+    <button id="questionitem-detail-modal-close"
       class="btn btn-default red modal-action modal-close waves-effect">
       <a><i class="close material-icons medium white-text">close</i></a>
     </button>

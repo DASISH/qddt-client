@@ -19,44 +19,45 @@ import { MaterializeAction } from 'angular2-materialize/dist';
 
 export class ControlConstructComponent implements OnInit, AfterContentChecked {
 
-  showControlConstructForm: boolean = false;
-  modalActions = new EventEmitter<string|MaterializeAction>();
-  questionitemActions = new EventEmitter<string|MaterializeAction>();
-  error: any;
-  editQuestoinItem: boolean;
-  questionItems: any[];
-  selectedQuestionItem: any;
+  public error: any;
+  public selectedQuestionItem: any;
+  public savedquestionitem: any;
+  public questionItems: any[];
+  public modalActions = new EventEmitter<string|MaterializeAction>();
+  public questionitemActions = new EventEmitter<string|MaterializeAction>();
 
-  savedquestionitem: any;
-  private isLoading: boolean = true;
-  private controlConstructs: any[];
+  private showControlConstructForm: boolean = false;
+  private showProgressBar: boolean = false;
+  private editQuestoinItem: boolean;
+  private isDetail: boolean;
+  private isInstructionAfter: boolean;
+  private isInstructionNew: boolean;
+  private showInstructionForm: boolean;
+  private searchKeys: string;
   private page: any;
   private controlConstruct: any;
   private instruction: any;
-  private searchKeys: string;
   private selectedControlConstruct: any;
-  private isDetail: boolean;
+  private controlConstructs: any[];
   private columns: any[];
-  private showInstructionForm: boolean;
   private instructions: any[];
-  private isInstructionAfter: boolean;
-  private isInstructionNew: boolean;
   private files: FileList;
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
   constructor(private service: ControlConstructService, private userService: UserService) {
     this.isDetail = false;
-    this.controlConstructs = [];
+    this.editQuestoinItem = false;
+    this.showInstructionForm = false;
+    this.showProgressBar = true;
     this.searchKeys = '';
     this.page = {};
-    this.editQuestoinItem = false;
     this.questionItems = [];
+    this.instructions = [];
+    this.controlConstructs = [];
     this.columns = [{ 'label': 'Construct Name', 'name': 'name', 'sortable': true },
       { 'label': 'Question Name', 'name': ['questionItem', 'name'], 'sortable': false },
       { 'label': 'Question Text', 'name': ['questionItem', 'question', 'question'], 'sortable': false },
       { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' }];
-    this.showInstructionForm = false;
-    this.instructions = [];
     this.searchKeysSubect
       .debounceTime(300)
       .distinctUntilChanged()
@@ -64,7 +65,7 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
         this.service.searchControlConstructs(name, '0', this.getSort()).subscribe((result: any) => {
           this.page = result.page;
           this.controlConstructs = result.content;
-          this.isLoading = false;
+          this.showProgressBar = false;
         });
       });
   }
@@ -149,10 +150,14 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
   }
 
   onPage(page: string) {
-    this.isLoading = true;
+    this.showProgressBar = true;
     this.service.searchControlConstructs(this.searchKeys, page, this.getSort()).subscribe(
-      (result: any) => { this.page = result.page;
-        this.controlConstructs = result.content; this.isLoading = false; });
+      (result: any) => {
+        this.page = result.page;
+        this.controlConstructs = result.content;
+        this.showProgressBar = false;
+      },
+      (error: any) =>this.showProgressBar = false);
   }
 
   onCreateControlConstruct() {

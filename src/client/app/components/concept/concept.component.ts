@@ -19,18 +19,18 @@ export class ConceptComponent implements OnChanges {
   private concept: any;
   private concepts: any;
   private toDeletedConcept: any;
-  private isLoading: boolean = true;
+  private showProgressBar: boolean = false;
 
   constructor(private conceptService: ConceptService) {
     this.concept = new Concept();
   }
 
   ngOnChanges() {
-    this.isLoading = true;
+    this.showProgressBar = true;
     this.conceptService.getByTopic(this.topic.id)
       .subscribe((result: any) => {
         this.concepts = result.content;
-        this.isLoading = false;
+        this.showProgressBar = false;
       }
           ,(err: any) => console.log('ERROR: ', err)
       );
@@ -47,11 +47,11 @@ export class ConceptComponent implements OnChanges {
 
   onSave() {
     this.showConceptForm = false;
-    this.isLoading = true;
+    this.showProgressBar = true;
       this.conceptService.save(this.concept, this.topic.id)
       .subscribe((result: any) => {
                   this.concepts.push(result);
-                  this.isLoading = false;
+                  this.showProgressBar = false;
                 }
                 ,(err: any) => console.log('ERROR: ', err));
         this.concept  = new Concept();

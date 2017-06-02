@@ -21,12 +21,14 @@ export class ControlConstructFormComponent implements OnInit {
   @Input() readonly: boolean;
   @Output() elementEvent: EventEmitter<any> = new EventEmitter<any>();
   @Output() exceptionEvent: EventEmitter<String> = new EventEmitter<String>();
-  editQuestoinItem: boolean;
-  createPostInstruction: boolean;
-  createPreInstruction: boolean;
-  basedonActions = new EventEmitter<string|MaterializeAction>();
-  basedonObject: any;
-  savedquestionitem: any;
+
+  public createPostInstruction: boolean;
+  public createPreInstruction: boolean;
+  public basedonActions = new EventEmitter<string|MaterializeAction>();
+  public basedonObject: any;
+  public savedquestionitem: any;
+
+  private editQuestoinItem: boolean;
   private revisionIsVisible: boolean;
   // private selectedInstruction: any;
   private showUploadFileForm: boolean;

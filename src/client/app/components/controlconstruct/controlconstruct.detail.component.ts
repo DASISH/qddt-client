@@ -7,8 +7,7 @@ import { MaterializeAction } from 'angular2-materialize';
   selector: 'qddt-controle-construct-detail',
   moduleId: module.id,
   templateUrl: './controlconstruct.detail.component.html',
-  styles: [
-  ],
+  styles: [ ],
   providers: [ControlConstructService],
 })
 
@@ -19,7 +18,9 @@ export class ControlConstructDetailComponent implements OnInit {
   @Input() isVisible: boolean;
   @Output() hideDetailEvent: EventEmitter<String> = new EventEmitter<String>();
   @Output() exceptionEvent: EventEmitter<String> = new EventEmitter<String>();
-  deleteAction = new EventEmitter<string|MaterializeAction>();
+
+  public deleteAction = new EventEmitter<string|MaterializeAction>();
+
   private revisionIsVisible: boolean;
   private savedObject: string;
   private savedControlConstructsIndex: number;
