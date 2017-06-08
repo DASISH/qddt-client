@@ -20,8 +20,8 @@ export function main() {
     beforeEach(() => {
       TestBed.configureTestingModule({
         declarations: [ PublicationPreviewComponent, QustionitemPreviewComponent,
-          ConceptQuestionitemPreviewComponent,
-          ResponsedomainPreviewComponent, PublicationConceptPreviewComponent, CommentListComponent],
+          ConceptPreviewQuestionitemComponent,
+          ResponsedomainPreviewComponent, PublicationPreviewConceptComponent, CommentListComponent],
         providers: [
           MockBackend,
           BaseRequestOptions,
@@ -100,7 +100,7 @@ class ResponsedomainPreviewComponent {
 }
 
 @Component({
-  selector: 'qddt-publication-questionitem-preview',
+  selector: 'qddt-preview-questionitem',
   template: `<div></div>`
 })
 
@@ -113,7 +113,7 @@ class QustionitemPreviewComponent {
   template: `<div></div>`
 })
 
-class PublicationConceptPreviewComponent {
+class PublicationPreviewConceptComponent {
   @Input() concepts: any[];
 }
 
@@ -132,7 +132,7 @@ class CommentListComponent {
   template: `<div></div>`
 })
 
-class ConceptQuestionitemPreviewComponent {
+class ConceptPreviewQuestionitemComponent {
   @Input() questionItem: any;
   @Input() concept: any;
   @Input() editResponseDomain: boolean;

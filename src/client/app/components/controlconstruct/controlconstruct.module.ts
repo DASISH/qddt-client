@@ -10,10 +10,11 @@ import { ResponsedomainModule } from '../responsedomain/responsedomain.module';
 import { QuestionModule } from '../question/question.module';
 import { ControlConstructQuestionItemSelectComponent } from './controlconstruct.questionitem.select.component';
 import { ControlConstructFormComponent } from './controlconstruct.form.component';
+import { PreviewModule } from '../preview/preview.module';
 
 @NgModule({
   imports: [ SharedModule, RevisionModule, CompareModule, CommentModule,
-    ResponsedomainModule, QuestionModule ],
+    ResponsedomainModule, QuestionModule, PreviewModule],
   declarations: [ControlConstructComponent, ControlConstructFormComponent,
     ControlConstructQuestionItemSelectComponent, ControlConstructDetailComponent, InstructionComponent
     ],

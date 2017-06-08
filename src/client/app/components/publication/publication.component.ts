@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, AfterContentChecked } from '@angular/core';
-import { PublicationService, Publication, PublicationStatus, PUBLICATIONNOTPUBLISHED, ElementTypes } from './publication.service';
+import { PublicationService, Publication, ElementTypes, PUBLICATIONNOTPUBLISHED, PublicationStatus } from './publication.service';
 import { Subject }          from 'rxjs/Subject';
 import { UserService } from '../../common/user.service';
 import { MaterializeAction } from 'angular2-materialize';
@@ -38,6 +38,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
 
   constructor(private service: PublicationService, private userService: UserService) {
     this.isDetail = false;
+    this.showProgressBar = true;
     this.publications = [];
     this.searchKeys = '';
     this.page = {};
@@ -64,6 +65,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
 
   ngOnInit() {
     let config = this.userService.getGlobalObject('publications');
+    this.showProgressBar=true;
     if (config.current === 'detail' ) {
       this.page = config.page;
       this.publications = config.collection;
@@ -73,6 +75,12 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
       this.searchKeys = config.key;
       this.searchKeysSubect.next(this.searchKeys);
     }
+    this.service.getPublicationStatus().subscribe((result: any) => {
+      this.selectOptions = result;
+      this.showProgressBar=false;
+    }, (error: any) => {
+      console.log(error);
+    });
   }
 
   ngAfterContentChecked() {

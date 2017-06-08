@@ -13,10 +13,10 @@ import { ResponsedomainMissingComponent } from './responsedomain.missing.compone
 import { ResponsedomainMixedComponent } from './responsedomain.mixed.component';
 import { ResponsedomainFormComponent } from './responsedomain.form.component';
 import { ResponsedomainListComponent } from './responsedomain.list.component';
-import { PreviewComponent } from './responsedomain.preview.component';
 import { ResponsedomainReuseComponent } from './responsedomain.reuse.component';
 import { ResponseDomainSearchComponent } from './responsedomain.search.component';
 import { ResponseDomainSelectComponent } from './responsedomain.select.component';
+import { PreviewResponsedomainComponent } from './responsedomain.preview.component';
 
 @NgModule({
   imports: [ SharedModule, RevisionModule, CompareModule, CommentModule ],
@@ -25,13 +25,13 @@ import { ResponseDomainSelectComponent } from './responsedomain.select.component
     ResponsedomainDatetimeComponent, ResponsedomainCodeListComponent,
     ResponsedomainMissingComponent,
     ResponsedomainFormComponent, ResponsedomainListComponent,
-    PreviewComponent, ResponsedomainReuseComponent,
+    PreviewResponsedomainComponent, ResponsedomainReuseComponent,
     ResponseDomainSearchComponent, ResponsedomainMixedComponent,
     ResponseDomainSelectComponent
     ],
   exports: [ResponsedomainComponent,
     ResponsedomainFormComponent, ResponsedomainListComponent,
-    PreviewComponent, ResponsedomainReuseComponent,
+    PreviewResponsedomainComponent, ResponsedomainReuseComponent,
     ResponseDomainSearchComponent
     ]
 })

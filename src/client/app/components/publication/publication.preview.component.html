@@ -1,150 +1,15 @@
 <div *ngIf="element" [ngSwitch]="elementType">
   <div *ngSwitchCase="1">
-    <div class="row">
-      <div class="col s12">
-        <label [attr.for]="element.id + '-description'" class="active teal-text">Description</label>
-        <textarea class="materialize-textarea" id="{{element?.id}}-description"
-          name="{{element?.id}}-description"
-          [(ngModel)]="element.abstractDescription" readonly>
-        </textarea>
-      </div>
-      <div class="row">
-        <qddt-comment-list [ownerId]="element.id" [comments]="element.comments"></qddt-comment-list>
-      </div>
-      <div class="col s12" *ngIf="children && children.length>0">
-        <qddt-publication-concept-preview
-          [concepts]="children">
-        </qddt-publication-concept-preview>
-      </div>
-    </div>
-    <div class="row">
-      <qddt-revision-detail  [element]="element" [type]="'topic'"></qddt-revision-detail>
-    </div>
+    <qddt-preview-topic [topic]="element"></qddt-preview-topic>
   </div>
   <div *ngSwitchCase="2">
-    <div class="row">
-      <div class="col s12">
-        <label [attr.for]="element.id + '-description'" class="active teal-text">Description</label>
-        <textarea class="materialize-textarea" id="{{element?.id}}-description"
-          name="{{element?.id}}-description"
-          [(ngModel)]="element.description" readonly>
-        </textarea>
-      </div>
-    </div>
-		<div class="row">
-      <div *ngIf="element.questionItems && element.questionItems.length > 0" class="section">
-        <ul class="collection with-header">
-          <li class="collection-header">Question Items</li>
-          <li class="collection-item" *ngFor="let questionItem of element.questionItems">
-            <div class="row"
-              (mouseenter)="questionItem.showbutton = true"
-              (mouseleave)="questionItem.showbutton = false">
-              <div class="col s1">
-                <a class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                  [ngClass]="{hide: !questionItem.showbutton}"
-                  (click)="onClickQuestionItem(questionItem)">
-                  <i class="material-icons" title="View QuestionItem">search</i>
-                </a>
-              </div>
-              <div class="col s11">{{questionItem?.question?.question}}</div>
-            </div>
-          </li>
-        </ul>
-        <div [attr.id]="element.id + '-element-questionitem-modal'"
-          class="modal modal-fixed-footer"
-          materialize="modal" [materializeActions]="questionItemActions">
-          <div class="modal-footer">
-              <button
-              class="btn btn-default red modal-action modal-close waves-effect waves-red">
-              <i class="close material-icons">close</i>
-              </button>
-          </div>
-          <div class="modal-content">
-            <qddt-concept-questionitem [questionItem]="questionItem"
-              [editResponseDomain]="false"
-              [concept]="element">
-            </qddt-concept-questionitem>
-          </div>
-        </div>
-        </div>
-        <div class="row">
-        <p>
-          <qddt-comment-list [ownerId]="element.id" [comments]="element.comments"></qddt-comment-list>
-        </p>
-        </div>
-        <div class="container" *ngIf="element.children && element.children.length > 0" style="width: 90%;">
-          <qddt-publication-concept-preview
-            [concepts]="element.children">
-          </qddt-publication-concept-preview>
-        </div>
-      </div>
-    <div class="row">
-      <qddt-revision-detail  [element]="element" [type]="'concept'"></qddt-revision-detail>
-    </div>
+    <qddt-preview-concept [concept]="element"></qddt-preview-concept>
   </div>
   <div *ngSwitchCase="3">
-    <qddt-publication-questionitem-preview
-      [element]="element">
-    </qddt-publication-questionitem-preview>
+    <qddt-preview-questionitem [questionItem]="element"></qddt-preview-questionitem>
   </div>
   <div *ngSwitchCase="4">
-    <div class="nomargin" *ngIf="element.preInstructions">
-      <ul>
-        <li>
-          <div class="row">
-            <label class="teal-text">Pre Instructions</label>
-          </div>
-        </li>
-        <li class="collection-item" *ngFor="let instruction of element.preInstructions">
-          <div class="row">
-            <div class="col">{{instruction?.description}}</div>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div class="row">
-      <div (click)="onQuestionitemDetail(e)" [ngStyle]="{'cursor': 'pointer'}">
-        <a><i class="material-icons left small">search</i></a>
-        <h5>{{element?.questionItem?.question?.question}}</h5>
-      </div>
-    </div>
-    <div class="nomargin" *ngIf="element.postInstructions">
-      <ul>
-        <li>
-          <div class="row">
-            <label class="teal-text">Post Instructions</label>
-          </div>
-        </li>
-        <li class="collection-item" *ngFor="let instruction of element.postInstructions">
-          <div class="row">
-            <div class="col">{{instruction?.description}}</div>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <qddt-responsedomain-preview
-      *ngIf="element.questionItem && element.questionItem.responseDomain"
-      [isVisible]="true" [responseDomain]="element.questionItem.responseDomain">
-    </qddt-responsedomain-preview>
-    <div class="row card">
-      <div class="row">
-        <div class="col s6">
-          <label class="teal-text">External aid</label>
-        </div>
-      </div>
-      <div class="row card">
-        <ul>
-          <li *ngFor="let m of element.otherMaterials;" class="row">
-            <div class="col s10">
-              <a class="waves-effect waves-light" (click)="onDownloadFile(m)">{{m.originalName}}</a>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="row">
-      <qddt-revision-detail  [element]="element" [type]="'controlconstruct'"></qddt-revision-detail>
-    </div>
+    <qddt-preview-controlconstruct [controlConstruct]="element"></qddt-preview-controlconstruct>
   </div>
   <div *ngSwitchDefault>
     <div class="row">
@@ -158,25 +23,6 @@
     </div>
     <div class="row">
       <qddt-revision-detail  [element]="element" [type]="''"></qddt-revision-detail>
-    </div>
-  </div>
-
-  <div class="modal modal-fixed-footer" materialize="modal" [materializeActions]="modalActions">
-    <div class="modal-content">
-      <div class="row">
-        <h4>Detail</h4>
-        <qddt-publication-questionitem-preview
-          *ngIf="element && element.questionItem"
-          [element]=element.questionItem>
-        </qddt-publication-questionitem-preview>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button
-        (click)="false"
-        class="btn btn-default red modal-action modal-close waves-effect">
-        <a><i class="close material-icons medium white-text">close</i></a>
-      </button>
     </div>
   </div>
 </div>

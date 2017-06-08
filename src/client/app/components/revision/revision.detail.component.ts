@@ -31,7 +31,7 @@ import { MaterializeAction } from 'angular2-materialize/dist';
         <p style="padding: initial;margin: inherit;">
           <label class="active teal-text">Agency</label>
         </p>
-        <div class="chip">{{element?.modifiedBy?.agency?.name}}</div>
+        <div class="chip">{{element?.agency?.name}}</div>
       </div>
       <div class="input-field col s2">
         <p style="padding: initial;margin: inherit;">
@@ -39,7 +39,7 @@ import { MaterializeAction } from 'angular2-materialize/dist';
         </p>
         <div *ngIf="element.basedOnObject" class="chip"
           [ngStyle]="{'cursor': 'pointer'}"
-          (click)="onClick(element.basedOnObject)">
+          (click)="onClick(element.basedOnObject,element.basedOnRevision)">
           Detail
         </div>
       </div>
@@ -105,17 +105,12 @@ export class RevisionDetailComponent {
     this.basedon = null;
   }
 
-  onClick(id: string) {
+  onClick(id: string, rev:string) {
     this.id = id;
-    if (this.type === 'responsedomain'
-      || this.type === 'controlconstruct'
-      || this.type === 'concept'
-      || this.type === 'questionitem') {
-      this.BasedonObjectDetail.emit(id);
-    } else if (this.type !== 'study'
-      && this.type !== 'responsedomain'
-      && this.type !== 'topic') {
-      this.service.getelement(this.type, this.id)
+    if (this.type === 'responsedomain' || this.type === 'controlconstruct' || this.type === 'concept' || this.type === 'questionitem') {
+      this.BasedonObjectDetail.emit(id, rev);
+    } else if (this.type !== 'study' && this.type !== 'responsedomain' && this.type !== 'topic') {
+      this.service.getelement(this.type, this.id, rev)
         .subscribe(
         (result: any) => {
           this.basedon = result;

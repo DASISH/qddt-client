@@ -16,15 +16,15 @@ export class RevisionService extends BaseService {
     return this.get(qddtURI);
   }
 
-  getelement(type: string, id: string): any {
+  getelement(type: string, id: string, rev: string): any {
     if( type === 'survey') {
-      return this.get('surveyprogram/' + id);
+      return this.get('audit/surveyprogram/' + id +'/'+ rev);
     } else if( type === 'category') {
-      return this.get('category/' + id);
+      return this.get('audit/category/' + id +'/'+ rev);
     } else if( type === 'controlconstruct') {
-      return this.get('controlconstruct/' + id);
+      return this.get('audit/controlconstruct/' + id +'/'+ rev);
     } else if( type === 'concept') {
-      return this.get('concept/' + id);
+      return this.get('audit/concept/' + id +'/'+ rev);
     }
     return Observable.of({});
   }

@@ -11,9 +11,10 @@ import { CompareModule } from '../compare/compare.module';
 import { CommentModule } from '../comment/comment.module';
 import { SharedModule } from '../../shared/shared.module';
 import { ResponsedomainModule } from '../responsedomain/responsedomain.module';
+import { PreviewModule } from '../preview/preview.module';
 
 @NgModule({
-  imports: [ SharedModule, ResponsedomainModule, RevisionModule, CompareModule, CommentModule ],
+  imports: [ SharedModule, ResponsedomainModule, RevisionModule, CompareModule, CommentModule ,PreviewModule],
   declarations: [QuestionComponent, QuestionDetailComponent,
     QuestionReuseComponent, QuestionItemEditComponent,
     TreeNodeComponent, QuestionItemEditMissingComponent],

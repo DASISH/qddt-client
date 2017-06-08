@@ -30,7 +30,7 @@ import { DomainType, DomainTypeDescription } from './responsedomain.constant';
   providers: [],
 })
 
-export class PreviewComponent implements OnChanges {
+export class PreviewResponsedomainComponent implements OnChanges {
   public domainTypeDef = DomainType;
   @Input() isVisible: boolean;
   @Input() responseDomain: ResponseDomain;

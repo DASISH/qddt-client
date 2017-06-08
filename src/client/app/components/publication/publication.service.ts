@@ -1,6 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
 import { Http, RequestOptions, Headers, ResponseContentType } from '@angular/http';
-
 import { API_BASE_HREF } from '../../api';
 import { BaseService } from '../../common/base.service';
 import { Observable }     from 'rxjs/Observable';
@@ -117,6 +116,8 @@ export class Publication {
 @Injectable()
 export class PublicationService extends BaseService {
 
+  readonly pageSize = '&size=15';
+
   constructor(protected http:Http, @Inject(API_BASE_HREF) protected api:string) {
     super(http ,api);
   }
@@ -130,13 +131,16 @@ export class PublicationService extends BaseService {
   }
 
   getAll(page: String = '0'): any {
-    return this.get('publication/page');
+    return this.get('publication/page' + this.pageSize);
   }
 
   getPublication(id: string): any {
     return this.get('publication/' + id);
   }
 
+  getPublicationStatus():any {
+    return this.get('publicationstatus/list');
+  }
   searchPublications(name: string = '', page: String = '0', sort: String = ''): any {
     let queries: any[] = [];
     if(name.length > 0) {

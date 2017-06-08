@@ -3,6 +3,7 @@ import { QuestionService } from './question.service';
 import { DomainType } from '../responsedomain/responsedomain.constant';
 import { Observable }     from 'rxjs/Observable';
 import { MaterializeAction } from 'angular2-materialize';
+// import { PreviewConceptComponent } from '../publication/publication.concept.preview.component';
 
 @Component({
   selector: 'qddt-questionitem-edit',
@@ -134,7 +135,7 @@ export class QuestionItemEditComponent implements OnInit {
       });
   }
 
-  onBasedonObjectDetail(id: string) {
+  onBasedonObjectDetail(id: string,rev: string) {
     this.service.getquestion(id)
       .subscribe(
       (result: any) => {

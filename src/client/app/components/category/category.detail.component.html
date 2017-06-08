@@ -1,16 +1,20 @@
 <div class="row" *ngIf="category">
   <div id="{{category?.id}}" class="scrollspy">
 
-    <div class="col s1">
-      <div class="row">
-        <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="revisionIsVisible = !revisionIsVisible"><i class="material-icons left medium" title="Revision history">history</i></a>
-        <a class="btn-flat btn-floating btn-medium waves-effect waves-light red">
+    <div class="fixed-action-btn vertical click-to-toggle">
+      <a class="btn-floating btn-large teal"><i class="large material-icons">menu</i></a>
+      <ul>
+        <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light blue" (click)="revisionIsVisible = !revisionIsVisible"><i class="material-icons left medium" title="Revision history">history</i></a></li>
+        <!--<li><a class="btn-flat btn-floating btn-medium waves-effect waves-light red">-->
+        <!--<i class="material-icons" (click)="onDeleteQuestionItemModal()" title="Delete" >delete_forever</i>-->
+        <!--</a></li>-->
+        <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light yellow">
           <i class="material-icons" (click)="hideDetail()" title="Return to list view">replay</i>
-        </a>
-      </div>
+        </a></li>
+      </ul>
     </div>
 
-    <div class="col s9 grey-text text-darken-2">
+    <div class="col s9 offset-s1 grey-text text-darken-2">
       <div class="flow-text">{{category?.label}}</div>
     </div>
 
@@ -23,7 +27,7 @@
       </label>
     </div>
 
-    <div class="col s10 white grey-text text-darken-1">
+    <div class="col s10 offset-s1 white grey-text text-darken-1">
 
       <qddt-category-edit [isVisible]="true" [category]="category" [categories]="categories"
         (editDetailEvent)="hideDetail()"

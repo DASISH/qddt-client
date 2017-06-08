@@ -13,17 +13,16 @@ import { TopicUsedbyComponent } from '../components/topic/topic.usedby.component
 import { QuestionUsedbyComponent } from '../components/question/question.usedby.component';
 import { ResponsedomainUsedbyComponent } from '../components/responsedomain/responsedomain.usedby.component';
 
+
 @NgModule({
   imports: [CommonModule, FormsModule, MaterializeModule],
   declarations: [ LocalDatePipe, QddtTableComponent, QddtPaginationComponent, AutocompleteComponent,
     StudyUsedbyComponent, TopicUsedbyComponent, QuestionUsedbyComponent,
-    ResponsedomainUsedbyComponent,
-    AuthorChipComponent, RationalComponent ],
+    ResponsedomainUsedbyComponent,AuthorChipComponent, RationalComponent ],
   exports: [LocalDatePipe, CommonModule, FormsModule, MaterializeModule,
     StudyUsedbyComponent, TopicUsedbyComponent, QuestionUsedbyComponent,
-    ResponsedomainUsedbyComponent,
-    QddtTableComponent, QddtPaginationComponent, AutocompleteComponent, RationalComponent,
-    AuthorChipComponent]
+    ResponsedomainUsedbyComponent, QddtTableComponent, QddtPaginationComponent,
+    AutocompleteComponent, RationalComponent,AuthorChipComponent,]
 })
 
 export class SharedModule { }

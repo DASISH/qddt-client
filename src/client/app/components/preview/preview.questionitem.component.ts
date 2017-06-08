@@ -11,38 +11,42 @@ enum DomainType {
 }
 
 @Component({
-  selector: 'qddt-publication-questionitem-preview',
+  selector: 'qddt-preview-questionitem',
   moduleId: module.id,
+  styles: [
+    `:host /deep/ .row {
+       margin-left: auto;
+       margin-right: auto;
+       margin-bottom: 2px;
+    }`
+  ],
   template: `
-  <div *ngIf="element">
+  <div *ngIf="questionItem" style="color: black">
     <div class="row">
       <div class="flow-text" style="padding-top: 15pt;padding-left: 15pt;">
-      {{element.question?.question}}</div>
+      {{questionItem.question?.question}}</div>
     </div>
-    <div class="teal-text" *ngIf="element.question.intent" style="padding-left: 15pt; padding-bottom: 10pt">Intent</div>
-    <div style="padding-left: 15pt;">{{element.question?.intent}}</div>
-    <!--<div ngIf="element.question && element.question.intent" class="row">-->
-      
-    <!--</div>-->
+    <div class="teal-text" *ngIf="questionItem.question?.intent" style="padding-left: 15pt; padding-bottom: 10pt">Intent</div>
+    <div style="padding-left: 15pt;">{{questionItem.question?.intent}}</div>
     <div class="row">
-      <qddt-responsedomain-preview *ngIf="element.responseDomain" 
-        [isVisible]="true" [responseDomain]="element.responseDomain">
+      <qddt-responsedomain-preview *ngIf="questionItem.responseDomain" 
+        [isVisible]="true" [responseDomain]="questionItem.responseDomain">
       </qddt-responsedomain-preview>
     </div>
     <div class="row">
-      <qddt-revision-detail  [element]="element" [type]="'questionitem'"></qddt-revision-detail>
+      <qddt-revision-detail  [element]="questionItem" [type]="'questionitem'"></qddt-revision-detail>
     </div>
     <div class="row">
       <ul class="collection with-header black-text">
-        <li class="collection-item" *ngFor="let c of element.conceptRefs" >Concept: {{c?.name}}</li>
+        <li class="collection-item" *ngFor="let c of questionItem.conceptRefs" >Concept: {{c?.name}}</li>
       </ul>
     </div>
   </div>`,
   providers: [ ],
 })
 
-export class PublicationQuestionitemPreviewComponent {
-  @Input() element: any;
+export class PreviewQuestionitemComponent {
+  @Input() questionItem: any;
 
   // basedonActions = new EventEmitter<string|MaterializeAction>();
   //

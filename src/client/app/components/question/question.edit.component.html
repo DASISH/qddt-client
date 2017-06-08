@@ -117,6 +117,7 @@
 
 <div [attr.id]="'study-detail-readonly-modal'" class="modal modal-fixed-footer"
      materialize="modal" [materializeActions]="studyActions">
+
   <div class="modal-content">
     <div class="row" *ngIf="selectedId && selectedType === 'study'">
       <qddt-study-usedby [id]="selectedId">
@@ -141,9 +142,9 @@
 
 <div [attr.id]="'concept-detail-modal'" class="modal modal-fixed-footer"
      materialize="modal" [materializeActions]="conceptActions">
+
   <div class="modal-content" *ngIf="selectedConcept && selectedType === 'concept'">
-    <h4>Concept {{selectedConcept?.name}}</h4>
-    <qddt-questionitem-treenode [concept]="selectedConcept"></qddt-questionitem-treenode>
+    <qddt-preview-concept [concept]="selectedConcept"></qddt-preview-concept>
   </div>
   <div class="modal-footer">
     <button id="concept-modal-close"

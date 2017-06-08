@@ -19,21 +19,7 @@ import { ControlConstructService } from './controlconstruct.service';
       </autocomplete>
     </div>
     <div class="row" *ngIf="selectedQuestionItem">
-      <div class="row">
-        <ul class="collection with-header black-text">
-          <li class="collection-header">Question Item</li>
-          <li  class="collection-item">Version: {{selectedQuestionItem?.version?.major}}.
-            {{selectedQuestionItem?.version?.minor}}
-          </li>
-          <li class="collection-item">Name: {{selectedQuestionItem?.name}}</li>
-          <li class="collection-item">Question Text: {{selectedQuestionItem?.question?.question}}</li>
-          <li class="collection-item">Intent: {{selectedQuestionItem?.question?.intent}}</li>
-        </ul>
-      </div>
-      <qddt-responsedomain-preview
-        *ngIf="selectedQuestionItem.responseDomain"
-        [isVisible]="true" [responseDomain]="selectedQuestionItem.responseDomain">
-      </qddt-responsedomain-preview>
+      <qddt-preview-questionitem [questionItem]="selectedQuestionItem"></qddt-preview-questionitem>
       <div class="row">
         <ul class="collection with-header black-text">
           <li class="collection-item" *ngFor="let c of selectedQuestionItem.conceptRefs" >Concept: {{c?.name}}</li>
