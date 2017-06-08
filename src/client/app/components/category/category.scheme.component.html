@@ -49,7 +49,9 @@
 			        	  </table>
                 </div>
               </div>
-              <button type="submit" class="btn btn-default">Submit</button>
+              <div class="row right-align">
+                <button type="submit" class="btn btn-default">Submit</button>
+              </div>
             </form>
           </div>
         </div>
@@ -61,7 +63,7 @@
     </div>
 
     <div class="row" *ngIf="isDetail">
-      <div class="fixed-action-btn vertical click-to-toggle">
+      <div class="fixed-action-btn pulse vertical click-to-toggle">
         <a class="btn-floating btn-large teal"><i class="large material-icons">menu</i></a>
         <ul>
           <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light blue" (click)="revisionIsVisible = !revisionIsVisible">
@@ -129,7 +131,9 @@
         <div class="row">
           <qddt-revision-detail [element]="selectedCategory" [type]="'category'"></qddt-revision-detail>
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <div class="row right-align">
+          <button type="submit" class="btn btn-default">Submit</button>
+        </div>
       </form>
 
       <qddt-revision [isVisible]="revision.isVisible"

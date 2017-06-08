@@ -210,8 +210,9 @@
                             [type]="'controlconstruct'">
       </qddt-revision-detail>
     </div>
-
-    <button *ngIf="!readonly" type="submit" class="btn btn-default">Submit</button>
+    <div class="row right-align">
+      <button *ngIf="!readonly" type="submit" class="btn btn-default">Submit</button>
+    </div>
   </form>
   <div class="modal modal-fixed-footer"
        materialize="modal" [materializeActions]="basedonActions">

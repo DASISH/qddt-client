@@ -55,7 +55,9 @@ import { CategoryType } from '../category_kind';
               </tbody>
             </table></div>
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <div class="row right-align">
+          <button type="submit" class="btn btn-default">Submit</button>
+        </div>
       </form>
     </div>
   </div>
