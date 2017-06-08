@@ -29,6 +29,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
   private savedObject: string;
   private savedCategoriesIndex: number;
   private searchKeysSubect: Subject<string> = new Subject<string>();
+  private revisionIsVisible: boolean = false;
 
   constructor(private categoryService: CategoryService, private userService: UserService) {
     this.category = new Category();

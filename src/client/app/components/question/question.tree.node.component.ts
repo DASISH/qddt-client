@@ -21,6 +21,8 @@ export class TreeNodeComponent {
   @Input() concept: any;
   showConceptChildForm: boolean = false;
   showQuestionForm: boolean = false;
+  private revisionIsVisible: boolean = false;
+  private hideDetail: boolean = false;
   private newchild: any;
   private questionItem: any;
 
