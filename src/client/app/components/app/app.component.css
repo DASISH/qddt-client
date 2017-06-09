@@ -10,4 +10,9 @@ footer {
   footer {
     padding-left: 0;
   }
+
+  /*:host .hoverable .row::shadow {*/
+    /*min-height:4rem;*/
+    /*margin-bottom:0px;*/
+  /*}*/
 }
