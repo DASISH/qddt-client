@@ -13,7 +13,8 @@ import { MaterializeAction } from 'angular2-materialize';
     }
     .left {
       padding-right: 20px;
-    }`
+    }`,
+    ':host /deep/ .hoverable .row { min-height:4rem; margin-bottom:0px;}'
   ],
   providers: [ PublicationService ],
 })
@@ -37,7 +38,7 @@ export class PublicationReuseComponent implements OnInit {
       placeholder: 'Search in question name or question text',
       fields: ['name', ['question','question']]},
     {id: 4, isMutipleFields: false,
-      placeholder: 'Search',
+      placeholder: 'Search in construct name, question name or question text',
       fields: 'name'},
     {id: 5, isMutipleFields: false,
       placeholder: 'Search',
