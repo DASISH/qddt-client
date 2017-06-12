@@ -109,8 +109,11 @@
         </button>
       </div>
       <div class="modal-content">
-        <qddt-concept-questionitem [questionItem]="questionItem" [concept]="concept">
-        </qddt-concept-questionitem>
+        <div class="row" *ngIf="questionItem">
+            <label class="active teal-text ">Name</label>
+            <H5 class="grey-text darken-2">{{questionItem.name}}</H5>
+        </div>
+        <qddt-preview-questionitem [questionItem]="questionItem"></qddt-preview-questionitem>
       </div>
     </div>
   </div>

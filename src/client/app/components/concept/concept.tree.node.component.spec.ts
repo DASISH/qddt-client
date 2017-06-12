@@ -95,7 +95,7 @@ class CommentListComponent {
 }
 
 @Component({
-  selector: 'qddt-concept-questionitem',
+  selector: 'qddt-preview-questionitem',
   template: `<div></div>`
 })
 

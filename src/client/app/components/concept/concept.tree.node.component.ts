@@ -12,7 +12,8 @@ import { MaterializeAction } from 'angular2-materialize';
     `.tree-node {
         border-style: solid;
         border-color: green;
-    }`
+    }`,
+    ':host /deep/ .collection-item .row { min-height:4rem; margin-bottom:0px;}'
   ]
 })
 
@@ -74,17 +75,15 @@ export class TreeNodeComponent {
   }
 
   setQuestionItem(questionItem: any) {
-    let i = this.concept.conceptQuestionItems.findIndex((q: any) => q['id'] !== undefined
-      && q['id'] !== null && q['id']['questionItemId'] === questionItem['id']);
-    if (i < 0) {
-      let questionitem: any = { 'id': { questionItemId: questionItem.id, conceptId: this.concept.id },
-        'questionItemRevision': questionItem['questionItemRevision']
-      };
-      this.concept.conceptQuestionItems.push(questionitem);
-      this.conceptService.updateConcept(this.concept)
+    // let i = this.concept.conceptQuestionItems.findIndex((q: any) => q['id'] !== undefined
+    //   && q['id'] !== null && q['id']['questionItemId'] === questionItem['id']);
+    // if (i < 0) {
+    //   let questionitem: any = { 'id': { questionItemId: questionItem.id, conceptId: this.concept.id },
+    //     'questionItemRevision': questionItem['questionItemRevision']
+    //   };
+      this.conceptService.attachQuestion(this.concept.id,questionItem.id,questionItem['questionItemRevision'])
         .subscribe((result: any) => {
           this.concept = result;
         }, (error: any) => console.log(error));
-    }
   }
 }
