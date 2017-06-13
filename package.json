@@ -101,6 +101,7 @@
     "isstream": "^0.1.2",
     "jasmine-core": "~2.4.1",
     "jasmine-spec-reporter": "^2.5.0",
+    "jspm": "^0.16.53",
     "karma": "~1.5.0",
     "karma-chrome-launcher": "~1.0.1",
     "karma-coverage": "^1.1.0",

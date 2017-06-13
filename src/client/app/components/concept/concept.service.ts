@@ -3,7 +3,6 @@ import { Http } from '@angular/http';
 
 import { API_BASE_HREF } from '../../api';
 import { BaseService } from '../../common/base.service';
-import { isUndefined } from 'util';
 
 export class Concept {
   id:string;
@@ -54,7 +53,7 @@ export class ConceptService extends BaseService {
   }
 
   attachQuestion(conceptId: string, questionId: string, revision: string):any {
-    if (revision===null || isUndefined(revision))
+    if (revision===null)
       revision ='0';
     return this.get('concept/combine?questionitemid='+ questionId+ '&questionitemrevision=' + revision + '&conceptid='+ conceptId);
   }
