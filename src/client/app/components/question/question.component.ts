@@ -8,6 +8,7 @@ import { MaterializeAction } from 'angular2-materialize';
   selector: 'qddt-questionitem',
   moduleId: module.id,
   templateUrl: './question.component.html',
+  styles:[':host /deep/ .hoverable .row { min-height:4rem; margin-bottom:0px;}'],
   providers: [QuestionService]
 })
 
