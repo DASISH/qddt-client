@@ -68,7 +68,7 @@ export function main() {
                 'changeKind' : 'CONCEPTUAL',
                 'changeComment' : 'Information added'
             };
-            fixture.componentInstance.element = element;
+            fixture.componentInstance.questionItem = element;
             fixture.detectChanges();
             fixture.whenStable().then(() => {
               let de: any = fixture.debugElement.queryAll(By.css('li'));

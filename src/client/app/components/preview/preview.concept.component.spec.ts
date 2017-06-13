@@ -71,7 +71,7 @@ export function main() {
                 'changeKind' : 'CONCEPTUAL',
                 'changeComment' : 'Information added'
             };
-            fixture.componentInstance.concepts = [element];
+            fixture.componentInstance.concept = [element];
             fixture.detectChanges();
             fixture.whenStable().then(() => {
               let de: any = fixture.debugElement.queryAll(By.css('li'));
@@ -101,7 +101,7 @@ class CommentListComponent {
 }
 
 @Component({
-  selector: 'qddt-concept-questionitem',
+  selector: 'qddt-preview-questionitem',
   template: `<div></div>`
 })
 
