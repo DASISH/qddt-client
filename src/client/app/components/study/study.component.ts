@@ -25,7 +25,7 @@ export class StudyComponent implements OnChanges {
   ngOnChanges() {
     this.studies = this.survey.studies;
     this.studies.forEach((study: any) => {
-      study.workinprogress = study.changeKind === 'IN_DEVELOPMENT';
+      study.workinprogress = (study.version.versionLabel === 'In Development');
     });
   }
 
@@ -39,7 +39,7 @@ export class StudyComponent implements OnChanges {
 
   onStudySavedEvent(study: any) {
     this.studies = this.studies.filter((s: any) => s.id !== study.id);
-    study.workinprogress = study.changeKind === 'IN_DEVELOPMENT';
+    study.workinprogress = (study.version.versionLabel === 'In Development');
     this.studies.push(study);
   }
 
