@@ -29,7 +29,7 @@ export class SurveyComponent implements OnChanges {
         this.surveys = data;
         this.surveys.forEach(s => {
           s.savedVersion = 'V' + s.version.major + '.' + s.version.minor;
-          s.workinprogress = s.changeKind === 'IN_DEVELOPMENT';
+          s.workinprogress = (s.version.versionLabel === 'In Development');
         });
       }
       ,(err: any) => console.log('ERROR: ', err));
@@ -38,7 +38,7 @@ export class SurveyComponent implements OnChanges {
   onSurveySaved(surveyProgram:any) {
     this.surveys = this.surveys.filter((q) => q.id !== surveyProgram.id);
     surveyProgram.savedVersion = 'V' + surveyProgram.version.major + '.' + surveyProgram.version.minor;
-    surveyProgram.workinprogress = surveyProgram.changeKind === 'IN_DEVELOPMENT';
+    surveyProgram.workinprogress = (surveyProgram.version.versionLabel === 'In Development');
     this.surveys.push(surveyProgram);
   }
 
