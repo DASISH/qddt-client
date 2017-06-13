@@ -8,14 +8,19 @@
         <!--<li><a class="btn-flat btn-floating btn-medium waves-effect waves-light red">-->
           <!--<i class="material-icons" (click)="onDeleteQuestionItemModal()" title="Delete" >delete_forever</i>-->
         <!--</a></li>-->
-        <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light yellow">
+        <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light green darken-1">
           <i class="material-icons" (click)="hideDetail()" title="Return to list view">replay</i>
         </a></li>
       </ul>
     </div>
 
+    <div class="col s1">
+      <a class="btn-flat btn-floating btn-medium waves-effect waves-light  green darken-1">
+        <i class="material-icons" (click)="hideDetail()" title="Return to list view">replay</i>
+      </a>
+    </div>
 
-    <div class="col s9 offset-s1 grey-text text-darken-2">
+    <div class="col s9 grey-text text-darken-2">
       <div class="flow-text">{{publication?.name}}</div>
     </div>
 
@@ -28,7 +33,7 @@
       </label>
     </div>
 
-    <div class="col s10 offset-s1 rey-text text-darken-2">
+    <div class="col s10 rey-text text-darken-2">
       <div class="card-action card">
         <form (ngSubmit)="onUpdatePublication()" #hf="ngForm">
           <div class="row">

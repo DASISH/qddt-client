@@ -29,7 +29,7 @@ export function main() {
             let de = fixture.debugElement.queryAll(By.css('label'))
               .map(e => e.nativeElement);
             expect(de.length > 0).toBeTruthy();
-            expect(de[0].textContent).toEqual('Saved as work in progress');
+            expect(de[0].textContent).toEqual('Save Comment');
           });
       }));
   });

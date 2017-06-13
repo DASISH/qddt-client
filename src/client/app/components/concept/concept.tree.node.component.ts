@@ -36,7 +36,7 @@ export class TreeNodeComponent {
 
   onConceptSavedEvent(concept: any) {
     this.concept.version = concept.version;
-    this.concept.workinprogress = concept.changeKind === 'IN_DEVELOPMENT';
+    this.concept.workinprogress = (concept.version.versionLabel === 'In Development');
   }
 
   onDeleteConcept(concept: any) {
