@@ -7,7 +7,10 @@ import { MaterializeAction } from 'angular2-materialize';
   selector: 'qddt-controle-construct-detail',
   moduleId: module.id,
   templateUrl: './controlconstruct.detail.component.html',
-  styles: [ ],
+  styles: [`:host /deep/ .hoverable .row {
+            min-height:4rem;
+            margin-bottom:0px; 
+            }`],
   providers: [ControlConstructService],
 })
 

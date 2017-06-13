@@ -10,7 +10,8 @@ let fileSaver = require('./filesaver');
   moduleId: module.id,
   templateUrl:'controlconstruct.form.component.html',
   styles: [
-    '.nomargin: { margin:0; }'
+    '.nomargin: { margin:0; }',
+    ':host /deep/ .hoverable .row { min-height:4rem; margin-bottom:0px;}'
   ],
   providers: [ControlConstructService],
 })

@@ -103,7 +103,7 @@
           (mouseenter)="showPostinstructionButton = !readonly"
           (mouseleave)="showPostinstructionButton = false">
         <li>
-          <div class="row">
+          <div class="row" style="min-height:4rem">
             <div class="col s11"><label class="teal-text">Post Instructions</label></div>
             <div class="col s1">
               <a [ngClass]="{hide: !showPostinstructionButton}"
@@ -119,7 +119,7 @@
           </qddt-instruction-create>
         </li>
         <li class="collection-item" *ngFor="let instruction of controlConstruct.postInstructions; let idx=index">
-          <div class="row"
+          <div class="row" style="min-height:4rem"
                (mouseenter)="instruction.showbutton = !readonly"
                (mouseleave)="instruction.showbutton = false">
             <div class="col s11">{{instruction?.description}}</div>
@@ -171,7 +171,7 @@
               <div class="col s10">
                 <a class="waves-effect waves-light" (click)="onDownloadFile(m)">{{m.originalName}}</a>
               </div>
-              <div class="col s2 right">
+              <div class="col s2 right" style="min-height:4rem">
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                    [ngClass]="{hide: !m.showbutton}"
                    (click)="onDeleteFile(idx)">
@@ -187,7 +187,7 @@
               <div class="col s10">
                 <a class="waves-effect waves-light">{{file[0]?.name}}</a>
               </div>
-              <div class="col s2 right">
+              <div class="col s2 right" style="min-height:4rem">
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                    [ngClass]="{hide: !file.showbutton}"
                    (click)="onDeleteFileFromLocal(idx)">
