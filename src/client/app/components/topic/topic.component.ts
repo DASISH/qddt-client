@@ -1,12 +1,14 @@
 import { Component, EventEmitter, Output, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 import { TopicService, Topic } from './topic.service';
+import { ConceptService } from '../concept/concept.service';
+import { MaterializeAction } from 'angular2-materialize';
 
 @Component({
   selector: 'qddt-topic',
   moduleId: module.id,
   templateUrl: './topic.component.html',
-  providers: [TopicService],
+  providers: [TopicService,ConceptService],
 })
 export class TopicComponent implements OnChanges {
 
@@ -15,10 +17,11 @@ export class TopicComponent implements OnChanges {
   @Input() study: any;
   @Input() show: boolean;
 
+  questionItemActions = new EventEmitter<string|MaterializeAction>();
   private topics:any;
   private topic: any;
 
-  constructor(private topicService: TopicService) {
+  constructor(private topicService: TopicService, private conceptService: ConceptService) {
     this.topic = new Topic();
   }
 
@@ -31,7 +34,7 @@ export class TopicComponent implements OnChanges {
         .subscribe((result: any) => {
           this.topics = result;
           this.topics.forEach((topic: any) => {
-            topic.workinprogress = topic.changeKind === 'IN_DEVELOPMENT';
+            topic.workinprogress = (topic.version.versionLabel === 'In Development');
           });
         },
         (error: any) => console.log(error));
@@ -48,7 +51,7 @@ export class TopicComponent implements OnChanges {
 
   onTopicSavedEvent(topic: any) {
     this.topics = this.topics.filter((s: any) => s.id !== topic.id);
-    topic.workinprogress = topic.changeKind === 'IN_DEVELOPMENT';
+    topic.workinprogress = (topic.version.versionLabel === 'In Development');
     this.topics.push(topic);
   }
 
@@ -63,6 +66,14 @@ export class TopicComponent implements OnChanges {
 
   getDefaultConcept(topic: any): any {
     return topic.concepts.find( (item: any) => ( this.isBlank(item.name) && this.isBlank(item.description) && this.isBlank(item.label)));
+  }
+
+  setQuestionItem(questionItem: any) {
+
+    this.conceptService.attachQuestion(this.topics.topicQuestions.id,questionItem.id,questionItem['questionItemRevision'])
+      .subscribe((result: any) => {
+        this.topic.topicQuestions = result;
+      }, (error: any) => console.log(error));
   }
 
   private isBlank(str: any): boolean {

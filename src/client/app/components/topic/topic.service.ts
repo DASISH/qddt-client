@@ -7,9 +7,10 @@ import { BaseService } from '../../common/base.service';
 export class Topic {
   id: string;
   name: string;
-  abstract_description:string;
+  abstractDescription:string;
   authors: any[];
   otherMaterials: any[];
+  topicQuestions: any;
 }
 
 @Injectable()
