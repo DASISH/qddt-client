@@ -8,6 +8,8 @@ import { SharedModule } from '../../shared/shared.module';
 
 import { RevisionModule } from '../revision/revision.module';
 import { CommentModule } from '../comment/comment.module';
+// import { MenuComponent } from '../menu/menu.component';
+
 @NgModule({
     imports: [ SharedModule, RevisionModule, CommentModule ],
     declarations: [ CategoryComponent, CategoryDetailComponent,
