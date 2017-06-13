@@ -9,110 +9,13 @@ let fileSaver = require('../../controlconstruct/filesaver');
 @Component({
   selector: 'qddt-topic-edit',
   moduleId: module.id,
+  styles: [
+    '.nomargin: { margin:0; }',
+    ':host /deep/ .hoverable { margin-bottom:0px;}',
+    ':host /deep/ .hoverable .row { min-height:4rem; margin-bottom:0px;}'
+  ],
   providers: [TopicService],
-  template: `
-  <div *ngIf="isVisible">
-    <div *ngIf="topic" class="card" id="{{topic.id}}"  >
-      <form (ngSubmit)="onSave()" #hf="ngForm">
-        <div class="row">
-          <div class="col s12">
-            <label [attr.for]="topic.id + '-name'" class="active teal-text">Name</label>
-            <input id="{{topic?.id}}-name"
-              name="{{topic?.id}}-name"type="text" [(ngModel)]="topic.name" required>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col s12">
-            <label [attr.for]="topic.id + '-description'" class="active teal-text">Description</label>
-            <textarea id="{{topic?.id}}-description" name="{{topic?.id}}-description"
-              class="materialize-textarea"  [(ngModel)]="topic.abstractDescription" required></textarea>
-          </div>
-        </div>
-        <div class="row card">
-          <div class="row">
-            <div class="col s6">
-              <a class="waves-effect waves-light btn"
-                (click)="showUploadFileForm=!showUploadFileForm">File Upload</a>
-            </div>
-          </div>
-          <div class="row" *ngIf="showUploadFileForm">
-            <div class="file-field input-field">
-              <div class="btn">
-                <span>File</span>
-                <input type="file" (change)="onSelectFile($event)">
-              </div>
-              <div class="file-path-wrapper">
-                <input class="file-path validate" type="text" placeholder="Upload one file">
-              </div>
-            </div>
-            <a *ngIf="files" class="btn-flat right btn-floating btn-medium waves-effect waves-light teal"
-              (click)="onUploadFile()">
-              <i class="material-icons left medium">done</i>
-            </a>
-          </div>
-          <div class="row hoverable">
-            <ul>
-              <li *ngFor="let m of topic.otherMaterials; let idx=index;">
-                <div class="row"
-                  (mouseenter)="m.showbutton = true"
-                  (mouseleave)="m.showbutton = false">
-                  <div class="col s10">
-                    <a class="waves-effect waves-light" (click)="onDownloadFile(m)">{{m.originalName}}</a>
-                  </div>
-                  <div class="col s2 right">
-                    <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                      [ngClass]="{hide: !m.showbutton}"
-                      (click)="onDeleteFile(idx)">
-                      <i class="material-icons left medium">delete_forever</i>
-                    </a>
-                  </div>
-                </div>
-              </li>
-              <li *ngFor="let file of fileStore; let idx=index;">
-                <div class="row"
-                  (mouseenter)="file.showbutton = true"
-                  (mouseleave)="file.showbutton = false">
-                  <div class="col s10">
-                    <a class="waves-effect waves-light">{{file[0]?.name}}</a>
-                  </div>
-                  <div class="col s2 right">
-                    <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                      [ngClass]="{hide: !file.showbutton}"
-                      (click)="onDeleteFileFromLocal(idx)">
-                      <i class="material-icons left medium">delete_forever</i>
-                    </a>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="row">
-          <qddt-rational [element]="topic" [config]="{hidden: [2,3]}"></qddt-rational>
-        </div>
-        <div class="row">
-          <qddt-revision-detail [element]="topic" [type]="'topic'"></qddt-revision-detail>
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-      </form>
-    </div>
-  </div>
-  <div class="modal"
-  materialize [materializeActions]="actions">
-  <div class="modal-content">
-    <div class="row">
-      <h4>An error occured</h4>
-      <span *ngFor="let error of errors">{{error}}</span>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button id="controlConstructs-modal-close"
-      class="btn btn-default red modal-action modal-close waves-effect">
-      <a><i class="close material-icons medium white-text">close</i></a>
-    </button>
-  </div>
-</div>
-`
+  templateUrl: 'topic.edit.component.html'
 })
 
 export class TopicEditComponent {
