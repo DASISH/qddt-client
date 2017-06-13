@@ -40,12 +40,12 @@
               </select>
             </div>
             <div class="input-field col s6 right">
-              <a class="waves-effect waves-light btn green" (click)="onUseElement()">Use this</a>
-              <a class="waves-effect waves-light btn red" (click)="closeModal()">Dismiss</a>
+              <a class="waves-effect waves-light btn red right" (click)="closeModal()">Dismiss</a>
+              <a class="waves-effect waves-light btn green right" (click)="onUseElement()">Use this</a>
             </div>
           </div>
           <div class="row">
-            <qddt-preview-questionitem [questionItem]="questionItem"></qddt-preview-questionitem>
+            <qddt-preview-questionitem [questionItem]="selectedElement"></qddt-preview-questionitem>
           </div>
         </div>
       </div>

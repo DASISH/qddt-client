@@ -9,6 +9,9 @@ import { MaterializeAction } from 'angular2-materialize';
   selector: 'qddt-questionitem-edit',
   moduleId: module.id,
   providers: [QuestionService],
+  styles:[
+    ':host /deep/ .hoverable .row { min-height:4rem; margin-bottom:0px;}'
+  ],
   templateUrl:'./question.edit.component.html'
 })
 

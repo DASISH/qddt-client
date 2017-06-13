@@ -65,7 +65,7 @@ export class QuestionReuseComponent {
       this.questionItem['questionItemRevision'] = this.elementRevision;
       this.questionItemCreatedEvent.emit(this.questionItem);
       this.questionItem = null;
-      this.materializeActions.emit('closeModal');
+      this.materializeActions.emit({action:'modal', params:['close']});
     }
   }
 
@@ -99,7 +99,7 @@ export class QuestionReuseComponent {
   }
 
   closeModal() {
-    this.materializeActions.emit('closeModal');
+    this.materializeActions.emit({action:'modal', params:['close']});
   }
 
   private buildRevisionConfig(): any[] {
