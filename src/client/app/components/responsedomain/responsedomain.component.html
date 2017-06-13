@@ -47,14 +47,19 @@
         <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light red">
           <i class="material-icons" (click)="onDeleteResponseDomainModal()" title="Delete" >delete_forever</i>
         </a></li>
-        <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light yellow">
+        <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light green darken-1">
           <i class="material-icons" (click)="hideDetail()" title="Return to list view">replay</i>
         </a></li>
       </ul>
     </div>
 
+    <div class="col s1">
+      <a class="btn-flat btn-floating btn-medium waves-effect waves-light  green darken-1">
+        <i class="material-icons" (click)="hideDetail()" title="Return to list view">replay</i>
+      </a>
+    </div>
 
-    <div class="col s9 offset-s1 grey-text text-darken-2">
+    <div class="col s9 grey-text text-darken-2">
       <div class="flow-text">{{selectedResponseDomain?.name}}</div>
     </div>
 
@@ -69,7 +74,7 @@
 
 
 
-    <div class="col s10 offset-s1 white grey-text text-darken-1">
+    <div class="col s10  white grey-text text-darken-1">
         <qddt-responsedomain-form
           (formChange)="formChange($event)" [responsedomain]="selectedResponseDomain"
           [domainType]="domainType">
