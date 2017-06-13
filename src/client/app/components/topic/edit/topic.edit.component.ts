@@ -27,6 +27,7 @@ export class TopicEditComponent {
   actions = new EventEmitter<string|MaterializeAction>();
   private showUploadFileForm: boolean;
   private showUploadedFiles: boolean;
+  private showDeletebutton: boolean= false;
   private files: FileList;
   private fileStore: any[];
   private toDeleteFiles: any[];
