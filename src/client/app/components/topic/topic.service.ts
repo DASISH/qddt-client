@@ -44,6 +44,16 @@ export class TopicService extends BaseService {
     return this.get('author/decombine?authorId='+ authorId + '&topicId=' +topicId);
   }
 
+  attachQuestion(topicId: string, questionId: string, revision: string):any {
+    if (revision===null)
+      revision ='0';
+    return this.get('topicgroup/combine?questionitemid='+ questionId+ '&questionitemrevision=' + revision + '&topicid='+ topicId);
+  }
+
+  deattachQuestion(topicId: string, questionId: string):any {
+    return this.get('topicgroup/decombine?questionitem='+ questionId+ '&topicid='+ topicId);
+  }
+
   getFile(id: string) {
     let headers = new Headers();
     let jwt = localStorage.getItem('jwt');
