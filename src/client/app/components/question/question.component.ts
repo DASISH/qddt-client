@@ -41,7 +41,6 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
     this.secondCS = null;
     this.mainresponseDomainRevision = 0;
     this.showbutton = false;
-    this.showProgressBar = true;
     this.columns = [{'name':'name', 'label':'Question Name', 'sortable':true, 'direction': '' },
       {'name':['question','question'], 'label':'Question Text', 'sortable':true, 'direction': '' },
       {'name':['responseDomain','name'], 'label':'ResponseDomain Name', 'sortable':true, 'direction': '' },
@@ -50,6 +49,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
+        this.showProgressBar = true;
         this.questionService.searchQuestionItemsByNameAndQuestion(name, '0', this.getSort()).subscribe((result: any) => {
           this.page = result.page;
           this.questionitems = result.content;
@@ -141,6 +141,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
       this.questionService.createQuestionItem(this.questionItem)
         .subscribe((result: any) => {
           this.questionitems = [result].concat(this.questionitems);
+          this.showProgressBar = false;
         }, (err: any) => { this.error = err.toString(); this.modalActions.emit({action:'modal', params:['open']}); });
     } else {
       this.questionItem.responseDomainRevision = 0;

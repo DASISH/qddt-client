@@ -8,11 +8,10 @@ import { MaterializeAction } from 'angular2-materialize';
   selector: 'qddt-topic',
   moduleId: module.id,
   templateUrl: './topic.component.html',
-  providers: [TopicService,ConceptService],
+  providers: [TopicService],
 })
 export class TopicComponent implements OnChanges {
 
-  showTopicForm: boolean = false;
   @Output() topicSelectedEvent: EventEmitter<any> = new EventEmitter<any>();
   @Input() study: any;
   @Input() show: boolean;
@@ -20,8 +19,11 @@ export class TopicComponent implements OnChanges {
   questionItemActions = new EventEmitter<string|MaterializeAction>();
   private topics:any;
   private topic: any;
+  private showTopicForm: boolean = false;
+  private showQuestionbutton: boolean = false;
+  private questionItem: any;
 
-  constructor(private topicService: TopicService, private conceptService: ConceptService) {
+  constructor(private topicService: TopicService) {
     this.topic = new Topic();
   }
 
@@ -53,6 +55,7 @@ export class TopicComponent implements OnChanges {
     this.topics = this.topics.filter((s: any) => s.id !== topic.id);
     topic.workinprogress = (topic.version.versionLabel === 'In Development');
     this.topics.push(topic);
+
   }
 
   onSave() {
@@ -70,10 +73,23 @@ export class TopicComponent implements OnChanges {
 
   setQuestionItem(questionItem: any) {
 
-    this.conceptService.attachQuestion(this.topics.topicQuestions.id,questionItem.id,questionItem['questionItemRevision'])
+    this.topicService.attachQuestion(this.topics.topicQuestions.id,questionItem.id,questionItem['questionItemRevision'])
       .subscribe((result: any) => {
         this.topic.topicQuestions = result;
       }, (error: any) => console.log(error));
+  }
+
+  onClickQuestionItem(questionItem) {
+    this.questionItem = questionItem;
+    this.questionItemActions.emit({action:'modal', params:['open']});
+  }
+
+  removeQuestionItem(id: any) {
+    this.topicService.deattachQuestion(this.topic.id, id)
+      .subscribe((result: any) => {
+          this.topic = result;
+        }
+        , (err: any) => console.log('ERROR: ', err));
   }
 
   private isBlank(str: any): boolean {

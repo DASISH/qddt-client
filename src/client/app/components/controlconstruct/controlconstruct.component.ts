@@ -48,7 +48,6 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
     this.isDetail = false;
     this.editQuestoinItem = false;
     this.showInstructionForm = false;
-    this.showProgressBar = true;
     this.searchKeys = '';
     this.page = {};
     this.questionItems = [];
@@ -62,6 +61,7 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
+        this.showProgressBar = true;
         this.service.searchControlConstructs(name, '0', this.getSort()).subscribe((result: any) => {
           this.page = result.page;
           this.controlConstructs = result.content;

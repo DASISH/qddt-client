@@ -28,7 +28,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
   private page: any;
   private columns: any[];
   private isDetail: boolean;
-  private showProgressBar: boolean = true;
+  private showProgressBar: boolean = false;
   private revisionIsVisible: boolean;
   private savedObject: string;
   private savedResponseDomainsIndex: number;
@@ -49,6 +49,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
+        this.showProgressBar = true;
         let domainType = DomainTypeDescription.find((e: any) => e.id === this.domainType).name;
         this.responseDomainService
           .getAll(domainType, name, '0', this.getSort()).subscribe((result: any) => {
@@ -68,6 +69,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
       this.selectedResponseDomain = config.item;
       this.isDetail = true;
     } else {
+      this.showProgressBar = true;
       this.searchKeys = config.key;
       let name = DomainTypeDescription.find((e: any) =>e.id === this.domainType).name;
         this.responseDomainService.getAll(name, '', '0', this.getSort()).subscribe((result: any) => {

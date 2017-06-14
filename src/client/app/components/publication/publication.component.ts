@@ -38,7 +38,6 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
 
   constructor(private service: PublicationService, private userService: UserService) {
     this.isDetail = false;
-    this.showProgressBar = true;
     this.publications = [];
     this.searchKeys = '';
     this.page = {};
@@ -51,6 +50,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
+        this.showProgressBar = true;
         this.service.searchPublications(name, '0', this.getSort())
           .subscribe((result: any) => {
             this.publications = result.content || [];
