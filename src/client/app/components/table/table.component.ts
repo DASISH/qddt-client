@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angu
 
 @Component({
   selector: 'qddt-table',
+  styles: [':host /deep/ i.left  { margin-right: 0px; }'],
   moduleId: module.id,
   templateUrl: './table.component.html',
 })
@@ -34,6 +35,7 @@ export class QddtTableComponent implements OnInit, OnChanges {
 
   private rows: any[] = [];
   private _rows: any[] = [];
+  private directionsign: { [dir: string]: String; } = {'':'⇳','asc':'⇩','desc':'⇧' };
 
 
   ngOnInit() {
@@ -82,9 +84,9 @@ export class QddtTableComponent implements OnInit, OnChanges {
     if (column.sortable === undefined || !column.sortable) {
       return;
     }
-    this.columns.forEach((e: any) => { if (e !== column) {e.direction = '';} });
+    this.columns.forEach((e: any) => { if (e !== column) { e.direction = ''; } });
     if(column.direction === '') {
-      column.direction = 'asc';
+        column.direction = 'asc';
     } else if(column.direction === 'asc') {
       column.direction = 'desc';
     } else {

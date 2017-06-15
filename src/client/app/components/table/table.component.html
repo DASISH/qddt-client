@@ -14,8 +14,7 @@
         <tr>
           <!--<th>Detail</th>-->
           <th *ngFor="let column of columns">{{column.label}}
-            <span *ngIf="column.sortable" (click)="sortRows(column)">
-              <i class="material-icons left smal">swap_vert</i>
+            <span *ngIf="column.sortable" (click)="sortRows(column)" [ngStyle]="{'cursor': 'pointer'}">{{directionsign[column.direction]}}
             </span>
           </th>
         </tr>
