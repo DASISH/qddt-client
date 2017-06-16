@@ -19,14 +19,8 @@
           </th>
         </tr>
       </thead>
-      <!--<div *ngIf="showProgressBar" class="progress">-->
-        <!--<div class="indeterminate"></div>-->
-      <!--</div>-->
       <tbody>
         <tr id="{{row.id}}" *ngFor="let row of rows" (click)="onDetail(row.Object)" [ngStyle]="{'cursor': 'pointer'}">
-          <!--<td (click)="onDetail(row.Object)" [ngStyle]="{'cursor': 'pointer'}">-->
-            <!--<a><i class="material-icons left smal">search</i></a>-->
-          <!--</td>-->
           <td  *ngFor="let column of columns">{{row[column.label]}}</td>
         </tr>
       </tbody>

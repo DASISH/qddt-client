@@ -29,7 +29,7 @@ export class QddtTableComponent implements OnInit, OnChanges {
   /**
    * searchable results from server
    */
-  @Input() searchFromServer: boolean;
+  @Input() searchFromServer: boolean = true;
   @Output() detailEvent: EventEmitter<String> = new EventEmitter<String>();
   @Output() pageChangeEvent: EventEmitter<String> = new EventEmitter<String>();
   @Output() enterEvent: EventEmitter<any> = new EventEmitter<any>();
@@ -37,13 +37,10 @@ export class QddtTableComponent implements OnInit, OnChanges {
 
   private rows: any[] = [];
   private _rows: any[] = [];
-  private directionSign: { [dir: string]: String; } = {'':'⇳','asc':'⇩','desc':'⇧' };
+  private readonly directionSign: { [dir: string]: String; } = {'':'⇳','asc':'⇩','desc':'⇧' };
 
 
   ngOnInit() {
-    if(this.searchFromServer === null || this.searchFromServer === undefined) {
-      this.searchFromServer = false;
-    }
     if(this.placeholder === null || this.placeholder === undefined) {
       this.placeholder = 'Search';
     }
@@ -68,8 +65,6 @@ export class QddtTableComponent implements OnInit, OnChanges {
     this.value = event.target.value;
     if(this.searchFromServer) {
       this.enterEvent.emit(this.value);
-    } else {
-      this.filterItems(this.value);
     }
   }
 
@@ -77,8 +72,6 @@ export class QddtTableComponent implements OnInit, OnChanges {
     this.value = '';
     if(this.searchFromServer) {
       this.enterEvent.emit(this.value);
-    } else {
-      this.filterItems(this.value);
     }
   }
 
@@ -110,21 +103,21 @@ export class QddtTableComponent implements OnInit, OnChanges {
     return sort;
   }
 
-  private filterItems(search: string) {
-    if (search === undefined || search.length === 0) {
-      this.rows = this._rows;
-      return;
-    }
-    let columns = this.columns;
-    this.rows = this._rows.filter(
-      function (row) {
-        let items = columns.filter(function (column) {
-          return (row[column.label] !== undefined && row[column.label] !== null && column.sortable === true
-            && row[column.label].toLowerCase().indexOf(search.toLowerCase()) >= 0);
-        });
-        return items.length > 0;
-      });
-  }
+  // private filterItems(search: string) {
+  //   if (search === undefined || search.length === 0) {
+  //     this.rows = this._rows;
+  //     return;
+  //   }
+  //   let columns = this.columns;
+  //   this.rows = this._rows.filter(
+  //     function (row) {
+  //       let items = columns.filter(function (column) {
+  //         return (row[column.label] !== undefined && row[column.label] !== null && column.sortable === true
+  //           && row[column.label].toLowerCase().indexOf(search.toLowerCase()) >= 0);
+  //       });
+  //       return items.length > 0;
+  //     });
+  // }
 
   private init() {
     this.rows = [];
@@ -172,7 +165,7 @@ export class QddtTableComponent implements OnInit, OnChanges {
       ['Modified', 'Version', 'Agency'].forEach((item: any) => {
         let column = this.columns.find((column: any) => column.label === item);
         if (!column) {
-          this.columns.push({ 'name': item, 'label': item, 'sortable': false });
+          this.columns.push({ name: item, label: item, sortable: false , direction:''});
         }
       });
     });
