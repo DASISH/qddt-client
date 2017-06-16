@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
+import { Column } from './table.service';
 
 @Component({
   selector: 'qddt-table',
@@ -6,6 +7,7 @@ import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angu
   moduleId: module.id,
   templateUrl: './table.component.html',
 })
+
 
 export class QddtTableComponent implements OnInit, OnChanges {
   /**
@@ -20,7 +22,7 @@ export class QddtTableComponent implements OnInit, OnChanges {
    * label: column header
    * sortable: whether sortable
    */
-  @Input() columns: any[];
+  @Input() columns: Column[];
   @Input() items: any[];
   @Input() placeholder: string;
 
@@ -35,7 +37,7 @@ export class QddtTableComponent implements OnInit, OnChanges {
 
   private rows: any[] = [];
   private _rows: any[] = [];
-  private directionsign: { [dir: string]: String; } = {'':'⇳','asc':'⇩','desc':'⇧' };
+  private directionSign: { [dir: string]: String; } = {'':'⇳','asc':'⇩','desc':'⇧' };
 
 
   ngOnInit() {
@@ -93,6 +95,19 @@ export class QddtTableComponent implements OnInit, OnChanges {
       column.direction = '';
     }
     this.pageChangeEvent.emit('0');
+  }
+
+  public getSort() {
+    let i = this.columns.findIndex((e: any) => e.sortable && e.direction !== '');
+    let sort = '';
+    if (i >= 0) {
+      if (typeof this.columns[i].name === 'string') {
+        sort = this.columns[i].name + ',' + this.columns[i].direction;
+      } else {
+        sort = this.columns[i].name.join('.') + ',' + this.columns[i].direction;
+      }
+    }
+    return sort;
   }
 
   private filterItems(search: string) {
