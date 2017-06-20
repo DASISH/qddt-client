@@ -1,17 +1,14 @@
-import { Component, Input, PipeTransform, Pipe, EventEmitter, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { PublicationService } from './publication.service';
-import { UserService } from '../../common/user.service';
-import { BaseService } from '../../common/base.service';
 import { PublicationSelectComponent } from './publication.select.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Observable }     from 'rxjs/Observable';
 import { MaterializeModule } from 'angular2-materialize';
 
 export function main() {
@@ -105,7 +102,7 @@ class PublicationServiceSpy {
 }
 
 @Component({
-  selector: 'qddt-responsedomain-preview',
+  selector: 'qddt-preview-responsedomain',
   template: `<div></div>`
 })
 

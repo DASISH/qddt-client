@@ -1,11 +1,8 @@
-import { Component, Input, PipeTransform, Pipe, EventEmitter, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { ResponseDomainService } from './responsedomain.service';
-import { UserService } from '../../common/user.service';
-import { BaseService } from '../../common/base.service';
-import { ResponsedomainMixedComponent } from './responsedomain.mixed.component';
+import { ResponsedomainMixedComponent } from './preview.responsedomain.mixed.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Observable }     from 'rxjs/Observable';

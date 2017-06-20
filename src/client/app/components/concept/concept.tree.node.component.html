@@ -11,6 +11,8 @@
                                  (questionItemCreatedEvent)="setQuestionItem($event)"></qddt-questionitem-reuse>
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
            (click)="onCreateConcept(concept)"><i class="material-icons left medium" title="Add sub concept">add</i></a>
+        <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
+          <i class="material-icons" (click)="getPdf(concept)" title="Get as Pdf">description</i></a>
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
            (click)="onDeleteConcept(concept)"><i class="material-icons left medium" title="Delete" >delete_forever</i></a>
       </div>

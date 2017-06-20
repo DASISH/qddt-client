@@ -8,20 +8,6 @@ import { ResponseDomainService } from './responsedomain.service';
   <div class="row card">
     <div class="row" *ngIf="selectedResponseDomain">
       <div class="row">
-        <ul class="collection with-header black-text">
-          <li class="collection-header">Response domain</li>
-          <li class="collection-item">Version: {{selectedResponseDomain?.version?.major}}.
-            {{selectedResponseDomain?.version?.minor}}
-          </li>
-          <li class="collection-item">Name: {{selectedResponseDomain?.name}}</li>
-          <li class="collection-item">Description: {{selectedResponseDomain?.description}}</li>
-        </ul>
-      </div>
-      <qddt-responsedomain-preview
-        *ngIf="selectedResponseDomain"
-        [isVisible]="true" [responseDomain]="selectedResponseDomain">
-      </qddt-responsedomain-preview>
-      <div class="row">
         <div class="input-field col s4" *ngIf="responseDomainRevisions.length > 0">
           <label class="active black-text">responseDomain business version</label>
           <select [(ngModel)]="responseDomainRevision"
@@ -36,11 +22,19 @@ import { ResponseDomainService } from './responsedomain.service';
             </option>
           </select>
         </div>
-        <div class="input-field col s6 right">
-          <a class="waves-effect waves-light btn  green" (click)="onUseResponseDomain()">Use this</a>
-          <a class="waves-effect waves-light btn  red" (click)="onDismiss()">Dismiss</a>
+        <div class="input-field col s7 ">
+          <a class="waves-effect waves-light btn right red" (click)="onDismiss()">Dismiss</a>
+          <a class="waves-effect waves-light btn right green" (click)="onUseResponseDomain()">Use this</a>
         </div>
       </div>
+      <div class="row">
+        <label for="seldesc" class="teal-text">Description</label>
+        <span id="seldesc">{{selectedResponseDomain?.description}}</span>
+      </div>
+      <qddt-preview-responsedomain
+        *ngIf="selectedResponseDomain"
+        [isVisible]="true" [responseDomain]="selectedResponseDomain">
+      </qddt-preview-responsedomain>
     </div>
   </div>
   `,

@@ -1,8 +1,8 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { ResponseDomain } from './responsedomain.service';
+import { ResponseDomain } from '../responsedomain.service';
 
 @Component({
-  selector: 'qddt-responsedomain-text',
+  selector: 'qddt-preview-rd-text',
   moduleId: module.id,
   template: `<div class="row" *ngIf="responseDomain">
                <textarea id="{{responseDomain?.id}}-textarea"

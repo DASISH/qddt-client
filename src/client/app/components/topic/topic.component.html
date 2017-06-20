@@ -42,6 +42,9 @@
                    (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium" title="Revision history">history</i></a>
                 <!--<qddt-questionitem-reuse [parentId]="topic?.id"-->
                                          <!--(questionItemCreatedEvent)="setQuestionItem($event)"></qddt-questionitem-reuse>-->
+                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
+                  <i class="material-icons" (click)="getPdf(publication)" title="Get as Pdf">description</i>
+                </a>
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                    (click)="onSelectTopic(topic)"><i class="material-icons left medium"title="Go to child elements">play_arrow</i></a>
               </div>

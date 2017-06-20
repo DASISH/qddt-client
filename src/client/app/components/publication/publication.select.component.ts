@@ -1,6 +1,5 @@
 import { Component, OnChanges, EventEmitter, Input, Output } from '@angular/core';
-import { PublicationStatus, PublicationService, ElementTypes, PublicationElement } from './publication.service';
-import { Subject } from 'rxjs/Subject';
+import {  PublicationService, ElementTypes, PublicationElement } from './publication.service';
 
 @Component({
   selector: 'qddt-publication-select',

@@ -1,47 +1,32 @@
 <div>
 	<div *ngIf="responsedomain" class="card" id="{{responsedomain.id}}">
-    <qddt-responsedomain-preview [isVisible]="true"
-      [responseDomain]="previewResponseDomain">
-		</qddt-responsedomain-preview>
-		<div class="row card"
-			*ngIf="usedBy && usedBy.length > 0" >
-      <div class="red-text">
-        <h5>Used by:</h5>
-      </div>
-      <table class="striped">
-        <thead>
-          <tr><th>Study</th><th>Module</th><th>Question Item</th><th>Response Domain-Version</th></tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let row of usedBy" >
-            <td>
-              <a *ngIf="row.study" [ngStyle]="{'text-decoration': 'underline'}"
-							  (click)="onClickStudy(row.study.id)">
-                {{row?.study?.name}}
-              </a>
-            </td>
-            <td>
-              <a *ngIf="row.topic" [ngStyle]="{'text-decoration': 'underline'}"
-							  (click)="onClickTopic(row.topic.id)">
-                {{row?.topic?.name}}
-              </a>
-            </td>
-            <td>
-              <a *ngIf="row.question" [ngStyle]="{'text-decoration': 'underline'}"
-							  (click)="onClickQuestion(row.question.id)">
-                {{row?.question?.name}}
-              </a>
-            </td>
-						<td>
-              <a *ngIf="row.question" [ngStyle]="{'text-decoration': 'underline'}"
-							  (click)="onClickResponsedomain(responsedomain.id)">
-								{{responsedomain?.version?.major}}.{{responsedomain?.version?.minor}}
-              </a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <qddt-preview-responsedomain [isVisible]="true"
+      [responseDomain]="responsedomain">
+		</qddt-preview-responsedomain>
+    <!--<div *ngIf="usedBy && usedBy.length > 0" class="hoverable" style="margin: 1%">-->
+      <!--<table class="highlight">-->
+        <!--<caption>Used by</caption>-->
+        <!--<thead>-->
+        <!--<tr><th>Study</th><th>Module</th><th>Concept names</th></tr>-->
+        <!--</thead>-->
+        <!--<tbody>-->
+        <!--<tr *ngFor="let ref of responsedomain?.questionRefs" >-->
+          <!--<td>-->
+            <!--<a  style="cursor: pointer;" (click)="onClickStudy(ref.topicRef.studyRef.id)">{{ref?.topicRef?.studyRef?.name}}</a>-->
+          <!--</td>-->
+          <!--<td>-->
+            <!--<a  style="cursor: pointer;" (click)="onClickTopic(ref.topicRef.id)">{{ref?.topicRef?.name}}</a>-->
+          <!--</td>-->
+          <!--<td>-->
+            <!--<a  style="cursor: pointer;" (click)="onClickConcept(ref?.concept?.id)">{{ref?.concept?.name}}</a>-->
+          <!--</td>-->
+          <!--<td>-->
+            <!--<a  style="cursor: pointer;" (click)="onClickResponsedomain(ref.id)">{{ref?.name}}</a>-->
+          <!--</td>-->
+        <!--</tr>-->
+        <!--</tbody>-->
+      <!--</table>-->
+    <!--</div>-->
 
 		<form (ngSubmit)="save()" #hf="ngForm">
 			<div class="row">
@@ -250,30 +235,17 @@
 	</div>
 </div>
 
-<div [attr.id]="'responsedomain-detail-readonly-modal'" class="modal modal-fixed-footer"
-  materialize="modal" [materializeActions]="responsedomainActions">
-  <div class="modal-content">
-    <div class="row" *ngIf="selectedId && selectedType === 'study'">
-      <qddt-study-usedby [id]="selectedId">
-      </qddt-study-usedby>
-    </div>
-    <div class="row" *ngIf="selectedId && selectedType === 'topic'">
-      <qddt-topic-usedby [id]="selectedId">
-      </qddt-topic-usedby>
-    </div>
-    <div class="row" *ngIf="selectedId && selectedType === 'question'">
-      <qddt-questionitem-usedby [id]="selectedId">
-      </qddt-questionitem-usedby>
-    </div>
-		<div class="row" *ngIf="selectedType === 'responsedomain'">
-      <qddt-responsedomain-usedby [id]="responsedomain.id"
-			  [domainType]="domainType">
-      </qddt-responsedomain-usedby>
-    </div>
+<div [attr.id]="'usedby-detail-modal'" class="modal modal-fixed-footer"
+     materialize="modal" [materializeActions]="usedbyModalAction">
+  <div class="modal-content" *ngIf="selectedElement">
+    <h5 align="center">Preview of {{selectedElement.name}}</h5>
+    <!--<qddt-preview-concept *ngIf="selectedType === 'concept'" [concept]="selectedElement"></qddt-preview-concept>-->
+    <!--<qddt-preview-topic *ngIf="selectedType === 'topic'" [topic]="selectedElement"></qddt-preview-topic>-->
+    <!--<qddt-preview-study *ngIf="selectedType === 'study'" [study]="selectedElement"></qddt-preview-study>-->
   </div>
   <div class="modal-footer">
-    <button id="controlConstructs-modal-close"
-      class="btn btn-default red modal-action modal-close waves-effect">
+    <button id="concept-modal-close"
+            class="btn btn-default red modal-action modal-close waves-effect">
       <a><i class="close material-icons medium white-text">close</i></a>
     </button>
   </div>

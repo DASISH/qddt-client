@@ -1,11 +1,10 @@
 import { Component, Input, PipeTransform, Pipe } from '@angular/core';
-import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
+import { BaseRequestOptions,  Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { RevisionService } from './revision.service';
-import { BaseService } from '../../common/base.service';
 import { RevisionDetailComponent } from './revision.detail.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
@@ -86,49 +85,7 @@ export function main() {
 							'otherMaterials': [],
 							'abstractDescription': 'test',
 							'comments': [],
-							'topicQuestions': {
-								'id': '7f000101-5582-1585-8155-e89cdebb0002',
-								'name': null,
-								'modified': [2016, 7, 14, 10, 54, 2, 683000000],
-								'modifiedBy': {
-									'id': '83d4c30a-4ff9-11e5-885d-feff819cdc9f',
-									'username': 'test',
-									'email': 'test@nsd.no',
-									'agency': {
-										'id': '1359dede-9f18-11e5-8994-feff819cdc9f',
-										'name': 'NSD-qddt'
-									}
-								},
-								'agency': {
-									'id': '1359dede-9f18-11e5-8994-feff819cdc9f',
-									'name': 'NSD-qddt'
-								},
-								'basedOnObject': null,
-								'version': {
-									'major': 1,
-									'minor': 0,
-									'versionLabel': '',
-									'revision': null
-								},
-								'changeKind': 'CREATED',
-								'children': [],
-								'questionItems': [],
-								'label': null,
-								'description': null,
-								'comments': [],
-								'topicRef': {
-									'name': 'test',
-									'id': '7f000101-5582-1585-8155-e89cdeba0001',
-									'studyRef': {
-										'name': 'ESS7',
-										'id': '7f000101-54aa-131e-8154-aa2846a30001',
-										'surveyRef': {
-											'name': 'ESS',
-											'id': '7f000101-54aa-131e-8154-aa27fc230000'
-										}
-									}
-								}
-							}
+							'topicGroupQuestions': []
 						};
 						fixture.componentInstance.type = 'topic';
 						fixture.detectChanges();
@@ -163,7 +120,7 @@ class DiffComponent {
 }
 
 @Component({
-	selector: 'qddt-responsedomain-usedby',
+	selector: 'qddt-preview-responsedomain',
 	template: `<div></div>`
 })
 
@@ -172,7 +129,7 @@ class ResponsedomainUsedbyComponent {
 }
 
 @Component({
-	selector: 'qddt-question-usedby',
+	selector: 'qddt-preview-question',
 	template: `<div></div>`
 })
 
@@ -181,7 +138,7 @@ class QuestionUsedbyComponent {
 }
 
 @Component({
-	selector: 'qddt-topic-usedby',
+	selector: 'qddt-preview-topic',
 	template: `<div></div>`
 })
 
@@ -190,7 +147,7 @@ class TopicUsedbyComponent {
 }
 
 @Component({
-	selector: 'qddt-study-usedby',
+	selector: 'qddt-preview-study',
 	template: `<div></div>`
 })
 

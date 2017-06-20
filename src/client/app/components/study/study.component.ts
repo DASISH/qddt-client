@@ -51,4 +51,12 @@ export class StudyComponent implements OnChanges {
     this.study  = new Study();
   }
 
+  getPdf(element: Study) {
+    let fileName = element.name + '.pdf';
+    this.studyService.getPdf(element.id).subscribe(
+      (data: any) => {
+        saveAs(data, fileName);
+      },
+      error => console.log(error));
+  }
 }

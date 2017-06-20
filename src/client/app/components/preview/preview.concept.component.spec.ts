@@ -64,7 +64,7 @@ export function main() {
                 'description' : 'one concept',
                 'children': [],
                 'comments': [],
-                'questionItems': [],
+                'conceptQuestionItems': [],
                 'basedOnObject' : null,
                 'basedOnRevision' : null,
                 'version' : {'major' : 6, 'minor' : 0, 'versionLabel' : '', 'revision' : null },

@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { ResponseDomain } from './responsedomain.service';
+import { ResponseDomain } from '../responsedomain.service';
 
 @Component({
-  selector: 'qddt-responsedomain-missing',
+  selector: 'qddt-preview-rd-missing',
   moduleId: module.id,
   template: `<div class="row grey lighten-4" *ngIf="responseDomain">
     <div *ngIf="responseDomain.managedRepresentation.children">

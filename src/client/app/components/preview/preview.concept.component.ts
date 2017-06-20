@@ -7,11 +7,14 @@ import { Component, Input } from '@angular/core';
   //   '.collapsible { border:1px  }',
   // ],
   template: `
-  <div class="row">
-    <div class="col c12"><p>{{concept?.description}}</p></div>
+  <div class="row" *ngIf="concept?.description">
+    <div class="input-field col s10">
+      <label class="active teal-text">Description</label>
+      <span>{{concept?.description}}</span>
+    </div>
   </div>
   <div class="row">
-    <div *ngIf="concept?.conceptQuestionItems && concept.conceptQuestionItems.length > 0" class="section">
+    <div *ngIf="concept?.conceptQuestionItems && concept?.conceptQuestionItems?.length > 0" class="section">
       <ul *ngIf="concept?.conceptQuestionItems" materialize="collapsible" class="collapsible popout" 
         data-collapsible="expandable" style="padding: 5pt;">
         <li *ngFor="let cqi of concept.conceptQuestionItems; let idx=index">

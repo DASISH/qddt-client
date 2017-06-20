@@ -7,7 +7,7 @@ import { Component, Input } from '@angular/core';
   //   '.collapsible { border:1px  }',
   // ],
   template:`
-  <div class="row">
+  <div class="row"> 
     <div class="col s12">
       <label [attr.for]="topic.id + '-description'" class="active teal-text">Description</label>
       <textarea class="materialize-textarea" id="{{topic?.id}}-description"
@@ -15,10 +15,10 @@ import { Component, Input } from '@angular/core';
       </textarea>
     </div>
   </div>
-  <div *ngIf="topic.topicQuestions.questionItems && topic.topicQuestions.questionItems.length>0" class="section">
-    <ul *ngIf="topic.topicQuestions.questionItems" materialize="collapsible" class="collapsible popout" 
+  <div *ngIf="topic?.topicGroupQuestions && topic?.topicGroupQuestions?.length>0" class="section">
+    <ul *ngIf="topic?.topicGroupQuestions" materialize="collapsible" class="collapsible popout" 
       data-collapsible="expandable" style="padding: 5pt;">
-      <li *ngFor="let cqi of topic.topicQuestions.questionItems; let idx=index">
+      <li *ngFor="let cqi of topic?.topicGroupQuestions; let idx=index">
         <div class="collapsible-header green lighten-5">
           <div class="row"  style="margin-bottom: 0px;">
             <div class="col s10">QuestionItem [{{cqi?.questionItem?.name}}]</div>

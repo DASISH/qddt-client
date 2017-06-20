@@ -3,6 +3,7 @@ import { PublicationService, Publication, ElementTypes, PUBLICATIONNOTPUBLISHED,
 import { Subject }          from 'rxjs/Subject';
 import { UserService } from '../../common/user.service';
 import { MaterializeAction } from 'angular2-materialize';
+import { Column } from '../table/table.service';
 
 @Component({
   selector: 'qddt-publication',
@@ -33,7 +34,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
   private selectedPublication: any;
   private isDetail: boolean;
   private showProgressBar: boolean = true;
-  private columns: any[];
+  private columns: Column[];
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
   constructor(private service: PublicationService, private userService: UserService) {
@@ -42,9 +43,9 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
     this.searchKeys = '';
     this.page = {};
     this.selectedPublicationStatusOption = PUBLICATIONNOTPUBLISHED.description;
-    this.columns = [{ 'label': 'Name', 'name': 'name', 'sortable': true },
-    { 'label': 'Purpose', 'name': 'purpose', 'sortable': true },
-    { 'label': 'Purpose Status', 'name': 'status', 'sortable': true },
+    this.columns = [{ 'label': 'Name', 'name': 'name', 'sortable': true,  'direction': ''  },
+    { 'label': 'Purpose', 'name': 'purpose', 'sortable': true,  'direction': ''  },
+    { 'label': 'Purpose Status', 'name': 'status', 'sortable': true,  'direction': ''  },
     { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' }];
     this.searchKeysSubect
       .debounceTime(300)

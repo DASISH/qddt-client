@@ -205,4 +205,16 @@ export class PublicationService extends BaseService {
     return this.get('questionitem/' + id);
   }
 
+  getPdf(id: string): any {
+    let headers = new Headers();
+    let jwt = localStorage.getItem('jwt');
+    if(jwt !== null) {
+      headers.append('Authorization', 'Bearer  ' + JSON.parse(jwt).access_token);
+    }
+    let options = new RequestOptions({ headers: headers, responseType: ResponseContentType.Blob });
+    return this.http.get(this.api + 'publication/pdf/' + id, options)
+      .map(res => res.blob())
+      .catch(this.handleError);
+  }
+
 }

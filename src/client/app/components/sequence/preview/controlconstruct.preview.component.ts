@@ -56,10 +56,10 @@ import { Component, Input } from '@angular/core';
         </ul>
       </div>
 
-      <qddt-responsedomain-preview
+      <qddt-preview-responsedomain
         *ngIf="controlConstruct.questionItem && controlConstruct.questionItem.responseDomain"
         [isVisible]="true" [responseDomain]="controlConstruct.questionItem.responseDomain">
-      </qddt-responsedomain-preview>
+      </qddt-preview-responsedomain>
     </div>`,
   providers: [ ],
 })

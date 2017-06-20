@@ -152,7 +152,7 @@ class RevisionComponent {
 }
 
 @Component({
-  selector: 'qddt-responsedomain-usedby',
+  selector: 'qddt-preview-responsedomain',
   template: `<div></div>`
 })
 
@@ -162,7 +162,7 @@ class ResponsedomainUsedbyComponent {
 }
 
 @Component({
-  selector: 'qddt-study-usedby',
+  selector: 'qddt-preview-study',
   template: `<div></div>`
 })
 
@@ -171,7 +171,7 @@ class StudyUsedbyComponent {
 }
 
 @Component({
-  selector: 'qddt-topic-usedby',
+  selector: 'qddt-preview-topic',
   template: `<div></div>`
 })
 
@@ -190,7 +190,7 @@ class RationalComponent {
 }
 
 @Component({
-  selector: 'qddt-questionitem-usedby',
+  selector: 'qddt-preview-questionitem',
   template: `<div></div>`
 })
 
@@ -227,7 +227,7 @@ class AutocompleteComponent {
 }
 
 @Component({
-  selector: 'qddt-responsedomain-preview',
+  selector: 'qddt-preview-responsedomain',
   template: `<div></div>`
 })
 

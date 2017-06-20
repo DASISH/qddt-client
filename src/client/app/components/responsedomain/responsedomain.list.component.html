@@ -22,7 +22,6 @@
       <div class="col s10 m10 l10 white grey-text text-darken-1">
         <div class="row">
           <p>{{responseDomain?.description}}</p>
-          <qddt-author-chip [authors]="responseDomain.authors"></qddt-author-chip>
         </div>
         <qddt-responsedomain-form *ngIf="editIsVisible && selectedDomainId === responseDomain.id"
           (formChange)="formChange($event)" [responsedomain]="responseDomain"
@@ -31,8 +30,8 @@
         <qddt-revision [isVisible]="revision.isVisible"
           [current]="responseDomain"
           [qddtURI]="'audit/responsedomain/' + responseDomain.id + '/all'" #revision></qddt-revision>
-        <qddt-responsedomain-preview [isVisible]="preview.isVisible"
-          [responseDomain]="responseDomain" #preview></qddt-responsedomain-preview>
+        <qddt-preview-responsedomain [isVisible]="preview.isVisible"
+          [responseDomain]="responseDomain" #preview></qddt-preview-responsedomain>
         <div class="row">
           <qddt-comment-list [ownerId]="responseDomain.id" [comments]="responseDomain.comments"></qddt-comment-list>
         </div>

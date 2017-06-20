@@ -3,8 +3,7 @@ import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { TopicService, Topic } from '../topic.service';
 import { Observable }     from 'rxjs/Observable';
 import { MaterializeAction } from 'angular2-materialize';
-
-let fileSaver = require('../../controlconstruct/filesaver');
+import * as fileSaver from 'file-saver';
 
 @Component({
   selector: 'qddt-topic-edit',
@@ -41,12 +40,12 @@ export class TopicEditComponent {
   }
 
   onDownloadFile(o: any) {
-    let fileType = o.fileType || 'text/plain';
+    // let fileType = o.fileType || 'text/plain';
     let fileName = o.originalName;
-    let len = o.size;
+    // let len = o.size;
     this.service.getFile(o.id).subscribe(
       (data: any) => {
-        fileSaver(data, fileName);
+        fileSaver.saveAs(data, fileName);
       },
       error => console.log(error));
   }

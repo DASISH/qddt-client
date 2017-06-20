@@ -88,7 +88,7 @@ class PublicationServiceSpy {
 }
 
 @Component({
-  selector: 'qddt-responsedomain-preview',
+  selector: 'qddt-preview-responsedomain',
   template: `<div></div>`
 })
 

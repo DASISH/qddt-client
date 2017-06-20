@@ -1,22 +1,18 @@
-import { Component, Input, PipeTransform, Pipe, EventEmitter, Output } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { ResponseDomainService } from './responsedomain.service';
-import { UserService } from '../../common/user.service';
-import { BaseService } from '../../common/base.service';
-import { ResponsedomainNumericComponent } from './responsedomain.numeric.component';
+import { ResponsedomainDatetimeComponent } from './preview.responsedomain.datetime.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Observable }     from 'rxjs/Observable';
 import { MaterializeModule } from 'angular2-materialize';
 
 export function main() {
-  describe('Responsedomain numeric component', () => {
+  describe('Responsedomain datetime component', () => {
     //
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [ResponsedomainNumericComponent],
+        declarations: [ResponsedomainDatetimeComponent],
         providers: [
         ],
         imports: [CommonModule, FormsModule, MaterializeModule]
@@ -30,7 +26,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(ResponsedomainNumericComponent);
+            let fixture = TestBed.createComponent(ResponsedomainDatetimeComponent);
             fixture.detectChanges();
             let de: any = fixture.debugElement.queryAll(By.css('ul'));
             expect(de.length).toBe(0);
@@ -42,20 +38,20 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(ResponsedomainNumericComponent);
+            let fixture = TestBed.createComponent(ResponsedomainDatetimeComponent);
             let managedRepresentation: any = {
               'id': '0c3c168e-d1ea-421f-a629-7487c71fbf1a',
               'name': 'Code',
               'changeKind': 'CREATED',
               'label': 'category scheme for code',
-              'description': '[NUMERIC]',
+              'description': '[DATETIME] group - ',
               'inputLimit': {
                 'minimum': '1',
                 'maximum': '2'
               },
               'classificationLevel': 'Ordinal',
-              'hierarchyLevel': 'ENTITY',
-              'categoryType': 'NUMERIC',
+              'hierarchyLevel': 'GROUP_ENTITY',
+              'categoryType': 'DATETIME',
               'code': {
                 'codeValue': ''
               },
@@ -66,7 +62,7 @@ export function main() {
               'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
               'name' : 'responseDomain',
               'basedOnObject' : null,
-              'categoryType' : 'NUMERIC',
+              'categoryType' : 'DATETIME',
               'managedRepresentation' : managedRepresentation,
               'basedOnRevision' : null,
               'version' : {'major' : 6, 'minor' : 0, 'versionLabel' : '', 'revision' : null },
@@ -74,12 +70,12 @@ export function main() {
               'changeComment' : 'Information added'
             };
             fixture.componentInstance.responseDomain = responseDomain;
-            fixture.componentInstance.ngOnChanges();
+            fixture.componentInstance.ngOnInit();
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let labels: any[] = fixture.debugElement.queryAll(By.css('label'));
-              expect(labels.length).toBeGreaterThan(0);
-              expect(labels[0].nativeNode.textContent).toContain('Range from 1 to 2');
+              let label: any[] = fixture.debugElement.queryAll(By.css('label'));
+              expect(label.length).toBeGreaterThan(0);
+              expect(label[0].nativeNode.textContent).toContain('1');
             });
           });
       }));

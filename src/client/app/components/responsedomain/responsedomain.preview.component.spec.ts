@@ -1,11 +1,8 @@
-import { Component, Input, PipeTransform, Pipe, EventEmitter, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { ResponseDomainService } from './responsedomain.service';
-import { UserService } from '../../common/user.service';
-import { BaseService } from '../../common/base.service';
-import { PreviewResponsedomainComponent } from './responsedomain.preview.component';
+import { PreviewResponsedomainComponent } from './preview.responsedomain.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Observable }     from 'rxjs/Observable';
@@ -100,7 +97,7 @@ export function main() {
             fixture.componentInstance.ngOnChanges();
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let list: any[] = fixture.debugElement.queryAll(By.css('qddt-responsedomain-codelist'));
+              let list: any[] = fixture.debugElement.queryAll(By.css('qddt-preview-rd-codelist'));
               expect(list.length).toBeGreaterThan(0);
             });
           });
@@ -109,7 +106,7 @@ export function main() {
 }
 
 @Component({
-  selector: 'qddt-responsedomain-scale',
+  selector: 'qddt-preview-rd-scale',
   template: `<div></div>`
 })
 
@@ -118,7 +115,7 @@ class ResponsedomainScaleComponent {
 }
 
 @Component({
-  selector: 'qddt-responsedomain-numeric',
+  selector: 'qddt-preview-rd-numeric',
   template: `<div></div>`
 })
 
@@ -127,7 +124,7 @@ class ResponsedomainNumericComponent {
 }
 
 @Component({
-  selector: 'qddt-responsedomain-datetime',
+  selector: 'qddt-preview-rd-datetime',
   template: `<div></div>`
 })
 
@@ -136,7 +133,7 @@ class ResponsedomainDatetimeComponent {
 }
 
 @Component({
-  selector: 'qddt-responsedomain-codelist',
+  selector: 'qddt-preview-rd-codelist',
   template: `<div></div>`
 })
 
@@ -145,7 +142,7 @@ class ResponsedomainCodeListComponent {
 }
 
 @Component({
-  selector: 'qddt-responsedomain-text',
+  selector: 'qddt-preview-rd-text',
   template: `<div></div>`
 })
 
@@ -154,7 +151,7 @@ class ResponsedomainTextComponent {
 }
 
 @Component({
-  selector: 'qddt-responsedomain-missing',
+  selector: 'qddt-preview-rd-missing',
   template: `<div></div>`
 })
 
@@ -163,7 +160,7 @@ class ResponsedomainMissingComponent {
 }
 
 @Component({
-  selector: 'qddt-responsedomain-mixed',
+  selector: 'qddt-preview-rd-mixed',
   template: `<div></div>`
 })
 

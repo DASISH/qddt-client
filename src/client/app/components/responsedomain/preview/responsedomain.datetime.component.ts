@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ResponseDomain } from './responsedomain.service';
+import { ResponseDomain } from '../responsedomain.service';
 
 @Component({
-  selector: 'qddt-responsedomain-datetime',
+  selector: 'qddt-preview-rd-datetime',
   moduleId: module.id,
   template: `<div class="row" *ngIf="responseDomain">
                <span>

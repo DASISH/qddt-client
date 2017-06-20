@@ -2,8 +2,7 @@ import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { ControlConstructService, ControlConstruct } from './controlconstruct.service';
 import { Observable }     from 'rxjs/Observable';
 import { MaterializeAction } from 'angular2-materialize/dist';
-
-let fileSaver = require('./filesaver');
+import * as fileSaver from 'file-saver';
 
 @Component({
   selector: 'qddt-control-construct-form',
@@ -108,12 +107,13 @@ export class ControlConstructFormComponent implements OnInit {
   }
 
   onDownloadFile(o: any) {
-    let fileType = o.fileType || 'text/plain';
+    // let fileType = o.fileType || 'text/plain';
     let fileName = o.originalName;
-    let len = o.size;
+    // let len = o.size;
     this.service.getFile(o.id).subscribe(
       (data: any) => {
-        fileSaver(data, fileName);
+        console.debug('size of blob is:'+ data.length);
+        saveAs(data, fileName);
       },
       error => this.popupModal(error));
   }

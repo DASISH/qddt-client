@@ -120,4 +120,16 @@ export class ControlConstructService extends BaseService {
     }
     return this.get('controlconstruct/page/search?constructkind=QUESTION_CONSTRUCT' + '&page=' + page + this.pageSize + query);
   }
+
+  getPdf(id: string): any {
+    let headers = new Headers();
+    let jwt = localStorage.getItem('jwt');
+    if(jwt !== null) {
+      headers.append('Authorization', 'Bearer  ' + JSON.parse(jwt).access_token);
+    }
+    let options = new RequestOptions({ headers: headers, responseType: ResponseContentType.Blob });
+    return this.http.get(this.api + 'controlconstruct/pdf/' + id, options)
+      .map(res => res.blob())
+      .catch(this.handleError);
+  }
 }

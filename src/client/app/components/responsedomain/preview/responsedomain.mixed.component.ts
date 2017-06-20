@@ -1,9 +1,9 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { ResponseDomain } from './responsedomain.service';
-import { DomainType } from './responsedomain.constant';
+import { DomainType } from '../responsedomain.constant';
+import { ResponseDomain } from '../responsedomain.service';
 
 @Component({
-  selector: 'qddt-responsedomain-mixed',
+  selector: 'qddt-preview-rd-mixed',
   moduleId: module.id,
   template: `<div>
     <label *ngIf="mixedDomains && mixedDomains.length > 0"
@@ -11,24 +11,24 @@ import { DomainType } from './responsedomain.constant';
       Version: {{mixedDomains[0]?.version?.major}}.{{mixedDomains[0]?.version?.minor}}</label>
       <div *ngFor="let domain of mixedDomains">
         <div [ngSwitch]="domain.domainType">
-					<qddt-responsedomain-scale *ngSwitchCase="domainTypeDef.SCALE"
+					<qddt-preview-rd-scale *ngSwitchCase="domainTypeDef.SCALE"
 					  [responseDomain]="domain">
-          </qddt-responsedomain-scale>
-					<qddt-responsedomain-datetime *ngSwitchCase="domainTypeDef.DATETIME"
+          </qddt-preview-rd-scale>
+					<qddt-preview-rd-datetime *ngSwitchCase="domainTypeDef.DATETIME"
 					  [responseDomain]="domain">
-          </qddt-responsedomain-datetime>
-					<qddt-responsedomain-numeric *ngSwitchCase="domainTypeDef.NUMERIC"
+          </qddt-preview-rd-datetime>
+					<qddt-preview-rd-numeric *ngSwitchCase="domainTypeDef.NUMERIC"
 					  [responseDomain]="domain">
-          </qddt-responsedomain-numeric>
-					<qddt-responsedomain-codelist *ngSwitchCase="domainTypeDef.LIST"
+          </qddt-preview-rd-numeric>
+					<qddt-preview-rd-codelist *ngSwitchCase="domainTypeDef.LIST"
             [responseDomain]="domain">
-          </qddt-responsedomain-codelist>
-					<qddt-responsedomain-text *ngSwitchCase="domainTypeDef.TEXT"
+          </qddt-preview-rd-codelist>
+					<qddt-preview-rd-text *ngSwitchCase="domainTypeDef.TEXT"
 					  [responseDomain]="domain">
-          </qddt-responsedomain-text>
-          <qddt-responsedomain-missing *ngSwitchCase="domainTypeDef.MISSING"
+          </qddt-preview-rd-text>
+          <qddt-preview-rd-missing *ngSwitchCase="domainTypeDef.MISSING"
 					  [responseDomain]="domain">
-          </qddt-responsedomain-missing>
+          </qddt-preview-rd-missing>
 		    </div>
       </div>
     </div>`,
@@ -37,9 +37,10 @@ import { DomainType } from './responsedomain.constant';
 })
 
 export class ResponsedomainMixedComponent implements OnChanges {
-  public domainTypeDef = DomainType;
   @Input() responseDomain: ResponseDomain;
-  mixedDomains: any[];
+
+  public domainTypeDef = DomainType;
+  private mixedDomains: any[];
 
   ngOnChanges() {
     this.mixedDomains = [];

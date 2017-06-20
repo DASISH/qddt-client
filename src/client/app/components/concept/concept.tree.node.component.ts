@@ -86,4 +86,13 @@ export class TreeNodeComponent {
           this.concept = result;
         }, (error: any) => console.log(error));
   }
+
+  getPdf(concept: Concept) {
+    let fileName = concept.name + '.pdf';
+    this.conceptService.getPdf(concept.id).subscribe(
+      (data: any) => {
+        saveAs(data, fileName);
+      },
+      error => console.log(error));
+  }
 }

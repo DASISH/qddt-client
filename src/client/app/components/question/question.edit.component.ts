@@ -21,20 +21,20 @@ export class QuestionItemEditComponent implements OnInit {
   @Input() readonly: boolean;
   @Input() editResponseDomain: boolean;
   @Output() editQuestionItem: EventEmitter<any>;
+
   showbutton: any;
   editResponseDomainActions = new EventEmitter<string|MaterializeAction>();
-  conceptActions = new EventEmitter<string|MaterializeAction>();
-  studyActions = new EventEmitter<string|MaterializeAction>();
+  usedbyModalAction = new EventEmitter<string|MaterializeAction>();
   basedonActions = new EventEmitter<string|MaterializeAction>();
-  selectedConcept: any;
   privewResponseDomain: any;
   basedonObject: any;
-  private showResponseDomainForm: boolean;
+  showResponseDomainForm: boolean;
   private mainResponseDomain: any;
   private mainresponseDomainRevision: number;
   private secondCS: any;
-  private selectedId: string;
   private selectedType: string;
+  private selectedElement: any;
+
 
   constructor(private service: QuestionService) {
     this.showResponseDomainForm = false;
@@ -111,30 +111,29 @@ export class QuestionItemEditComponent implements OnInit {
   }
 
   onClickStudy(id: string) {
-    this.selectedId = id;
     this.selectedType = 'study';
-    this.studyActions.emit({action:'modal', params:['open']});
+    this.service.getStudyById(id)
+      .subscribe((result: any) => {
+        this.selectedElement = result;
+        this.usedbyModalAction.emit({action:'modal', params:['open']});
+      });
   }
 
   onClickTopic(id: string) {
-    this.selectedId = id;
     this.selectedType = 'topic';
-    this.studyActions.emit({action:'modal', params:['open']});
-  }
-
-  onClickQuestion(id: string) {
-    this.selectedId = id;
-    this.selectedType = 'question';
-    this.studyActions.emit({action:'modal', params:['open']});
+    this.service.getTopicById(id)
+      .subscribe((result: any) => {
+        this.selectedElement = result;
+        this.usedbyModalAction.emit({action:'modal', params:['open']});
+      });
   }
 
   onClickConcept(id: string) {
-    this.selectedId = id;
     this.selectedType = 'concept';
     this.service.getConceptsById(id)
       .subscribe((result: any) => {
-        this.selectedConcept = result;
-        this.conceptActions.emit({action:'modal', params:['open']});
+        this.selectedElement = result;
+        this.usedbyModalAction.emit({action:'modal', params:['open']});
       });
   }
 

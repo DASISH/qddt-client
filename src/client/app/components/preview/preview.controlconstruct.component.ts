@@ -46,10 +46,10 @@ let fileSaver = require('../controlconstruct/filesaver');
     </ul>
   </div>
   <div class="row" style="padding-left: 10pt;padding-right: 10pt;">
-    <qddt-responsedomain-preview
+    <qddt-preview-responsedomain
     *ngIf="controlConstruct.questionItem && controlConstruct.questionItem.responseDomain"
     [isVisible]="true" [responseDomain]="controlConstruct.questionItem.responseDomain">
-  </qddt-responsedomain-preview>
+  </qddt-preview-responsedomain>
   </div>
   <div class="row"style="padding-bottom: 10pt;">
     <div class="row">

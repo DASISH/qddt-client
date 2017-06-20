@@ -3,36 +3,32 @@ import { RevisionModule } from '../revision/revision.module';
 import { CompareModule } from '../compare/compare.module';
 import { CommentModule } from '../comment/comment.module';
 import { SharedModule } from '../../shared/shared.module';
+import { PreviewResponsedomainComponent } from './responsedomain.preview.component';
 import { ResponsedomainComponent } from './responsedomain.component';
-import { ResponsedomainNumericComponent } from './responsedomain.numeric.component';
-import { ResponsedomainScaleComponent } from './responsedomain.scale.component';
-import { ResponsedomainTextComponent } from './responsedomain.text.component';
-import { ResponsedomainDatetimeComponent } from './responsedomain.datetime.component';
-import { ResponsedomainCodeListComponent } from './responsedomain.codelist.component';
-import { ResponsedomainMissingComponent } from './responsedomain.missing.component';
-import { ResponsedomainMixedComponent } from './responsedomain.mixed.component';
 import { ResponsedomainFormComponent } from './responsedomain.form.component';
 import { ResponsedomainListComponent } from './responsedomain.list.component';
 import { ResponsedomainReuseComponent } from './responsedomain.reuse.component';
 import { ResponseDomainSearchComponent } from './responsedomain.search.component';
 import { ResponseDomainSelectComponent } from './responsedomain.select.component';
-import { PreviewResponsedomainComponent } from './responsedomain.preview.component';
+import { ResponsedomainCodeListComponent } from './preview/responsedomain.codelist.component';
+import { ResponsedomainDatetimeComponent } from './preview/responsedomain.datetime.component';
+import { ResponsedomainMissingComponent } from './preview/responsedomain.missing.component';
+import { ResponsedomainMixedComponent } from './preview/responsedomain.mixed.component';
+import { ResponsedomainNumericComponent } from './preview/responsedomain.numeric.component';
+import { ResponsedomainScaleComponent } from './preview/responsedomain.scale.component';
+import { ResponsedomainTextComponent } from './preview/responsedomain.text.component';
 
 @NgModule({
   imports: [ SharedModule, RevisionModule, CompareModule, CommentModule ],
-  declarations: [ResponsedomainComponent, ResponsedomainNumericComponent,
-    ResponsedomainScaleComponent, ResponsedomainTextComponent,
-    ResponsedomainDatetimeComponent, ResponsedomainCodeListComponent,
-    ResponsedomainMissingComponent,
-    ResponsedomainFormComponent, ResponsedomainListComponent,
-    PreviewResponsedomainComponent, ResponsedomainReuseComponent,
-    ResponseDomainSearchComponent, ResponsedomainMixedComponent,
-    ResponseDomainSelectComponent
+  declarations: [ResponsedomainComponent, ResponsedomainFormComponent, ResponsedomainListComponent,
+     ResponsedomainReuseComponent,ResponseDomainSearchComponent,ResponseDomainSelectComponent,
+    ResponsedomainCodeListComponent,ResponsedomainDatetimeComponent,ResponsedomainMissingComponent,
+    ResponsedomainMixedComponent,ResponsedomainNumericComponent,ResponsedomainScaleComponent,
+    ResponsedomainTextComponent,PreviewResponsedomainComponent
     ],
-  exports: [ResponsedomainComponent,
+  exports: [ResponsedomainComponent, PreviewResponsedomainComponent,
     ResponsedomainFormComponent, ResponsedomainListComponent,
-    PreviewResponsedomainComponent, ResponsedomainReuseComponent,
-    ResponseDomainSearchComponent
+    ResponsedomainReuseComponent, ResponseDomainSearchComponent
     ]
 })
 

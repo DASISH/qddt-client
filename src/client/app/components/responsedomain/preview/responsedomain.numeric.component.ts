@@ -1,8 +1,9 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { ResponseDomain } from './responsedomain.service';
+import { ResponseDomain } from '../responsedomain.service';
+
 
 @Component({
-  selector: 'qddt-responsedomain-numeric',
+  selector: 'qddt-preview-rd-numeric',
   moduleId: module.id,
   template: `<div class="row" *ngIf="responseDomain">
         <form>

@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, RequestOptions, Headers, ResponseContentType } from '@angular/http';
 import { API_BASE_HREF } from '../../api';
 import { BaseService } from '../../common/base.service';
 
@@ -29,4 +29,15 @@ export class SurveyService extends BaseService {
     return this.get('surveyprogram/list/by-user');
   }
 
+  getPdf(id: string): any {
+    let headers = new Headers();
+    let jwt = localStorage.getItem('jwt');
+    if(jwt !== null) {
+      headers.append('Authorization', 'Bearer  ' + JSON.parse(jwt).access_token);
+    }
+    let options = new RequestOptions({ headers: headers, responseType: ResponseContentType.Blob });
+    return this.http.get(this.api + 'surveyprogram/pdf/' + id, options)
+      .map(res => res.blob())
+      .catch(this.handleError);
+  }
 }

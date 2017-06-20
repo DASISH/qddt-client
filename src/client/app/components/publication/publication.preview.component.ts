@@ -1,6 +1,5 @@
-import { Component, Input, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { PublicationService } from './publication.service';
-import { MaterializeAction } from 'angular2-materialize';
 
 @Component({
   selector: 'qddt-publication-preview',

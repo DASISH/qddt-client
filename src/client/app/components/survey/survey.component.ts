@@ -56,4 +56,12 @@ export class SurveyComponent implements OnChanges {
     this.showSurveyForm = false;
   }
 
+  getPdf(element: SurveyProgram) {
+    let fileName = element.name + '.pdf';
+    this.surveyService.getPdf(element.id).subscribe(
+      (data: any) => {
+        saveAs(data, fileName);
+      },
+      error => console.log(error));
+  }
 }

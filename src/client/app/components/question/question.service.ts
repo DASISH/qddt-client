@@ -1,7 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, RequestOptions, Headers, ResponseContentType } from '@angular/http';
 import DateTimeFormat = Intl.DateTimeFormat;
-
 import { API_BASE_HREF } from '../../api';
 import { BaseService } from '../../common/base.service';
 
@@ -74,10 +73,6 @@ export class QuestionService extends BaseService {
     return this.post(questionItem, 'questionitem');
   }
 
-  getConceptsById(id: string) {
-    return this.get('concept/'+ id);
-  }
-
   createCategory(category: any): any {
     return this.post(category,'category/create/');
   }
@@ -114,5 +109,29 @@ export class QuestionService extends BaseService {
 
   getControlConstructsByQuestionItem(id: string): any {
     return this.get('controlconstruct/list/by-question/' + id);
+  }
+
+  getConceptsById(id: string) {
+    return this.get('concept/'+ id);
+  }
+
+  getTopicById(id: string) {
+    return this.get('topicgroup/'+ id);
+  }
+
+  getStudyById(id: string) {
+    return this.get('study/'+ id);
+  }
+
+  getPdf(id: string): any {
+    let headers = new Headers();
+    let jwt = localStorage.getItem('jwt');
+    if(jwt !== null) {
+      headers.append('Authorization', 'Bearer  ' + JSON.parse(jwt).access_token);
+    }
+    let options = new RequestOptions({ headers: headers, responseType: ResponseContentType.Blob });
+    return this.http.get(this.api + 'questionitem/pdf/' + id, options)
+      .map(res => res.blob())
+      .catch(this.handleError);
   }
 }

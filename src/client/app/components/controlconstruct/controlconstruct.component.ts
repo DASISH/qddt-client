@@ -4,6 +4,7 @@ import { ControlConstructService, ControlConstruct, Instruction } from './contro
 import { UserService } from '../../common/user.service';
 import { Subject }          from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize/dist';
+import { Column } from '../table/table.service';
 
 @Component({
   selector: 'qddt-controle-construct',
@@ -39,7 +40,7 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
   private instruction: any;
   private selectedControlConstruct: any;
   private controlConstructs: any[];
-  private columns: any[];
+  private columns: Column[];
   private instructions: any[];
   private files: FileList;
   private searchKeysSubect: Subject<string> = new Subject<string>();
@@ -53,10 +54,10 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
     this.questionItems = [];
     this.instructions = [];
     this.controlConstructs = [];
-    this.columns = [{ 'label': 'Construct Name', 'name': 'name', 'sortable': true },
-      { 'label': 'Question Name', 'name': ['questionItem', 'name'], 'sortable': false },
-      { 'label': 'Question Text', 'name': ['questionItem', 'question', 'question'], 'sortable': false },
-      { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' }];
+    this.columns = [{ label: 'Construct Name', name: 'name', sortable: true,  direction: '' },
+      { label: 'Question Name', name: ['questionItem', 'name'], sortable: false ,direction:''},
+      { label: 'Question Text', name: ['questionItem', 'question', 'question'], sortable: false ,direction:''},
+      { label: 'Modified', name: 'modified', sortable: true, direction: 'desc' }];
     this.searchKeysSubect
       .debounceTime(300)
       .distinctUntilChanged()

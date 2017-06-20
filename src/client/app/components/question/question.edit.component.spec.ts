@@ -139,7 +139,7 @@ class RationalComponent {
 }
 
 @Component({
-  selector: 'qddt-study-usedby',
+  selector: 'qddt-study-preview',
   template: `<div></div>`
 })
 
@@ -148,7 +148,7 @@ class StudyUsedbyComponent {
 }
 
 @Component({
-  selector: 'qddt-topic-usedby',
+  selector: 'qddt-topic-preview',
   template: `<div></div>`
 })
 
@@ -157,7 +157,7 @@ class TopicUsedbyComponent {
 }
 
 @Component({
-  selector: 'qddt-questionitem-usedby',
+  selector: 'qddt-questionitem-preview',
   template: `<div></div>`
 })
 
@@ -187,7 +187,7 @@ class ResponsedomainReuseComponent {
 }
 
 @Component({
-  selector: 'qddt-responsedomain-preview',
+  selector: 'qddt-preview-responsedomain',
   template: `<div></div>`
 })
 

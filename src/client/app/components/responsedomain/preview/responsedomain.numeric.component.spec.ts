@@ -1,22 +1,18 @@
-import { Component, Input, PipeTransform, Pipe, EventEmitter, Output } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { ResponseDomainService } from './responsedomain.service';
-import { UserService } from '../../common/user.service';
-import { BaseService } from '../../common/base.service';
-import { ResponsedomainCodeListComponent } from './responsedomain.codelist.component';
+import { ResponsedomainNumericComponent } from './preview.responsedomain.numeric.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Observable }     from 'rxjs/Observable';
 import { MaterializeModule } from 'angular2-materialize';
 
 export function main() {
-  describe('Responsedomain code list component', () => {
+  describe('Responsedomain numeric component', () => {
     //
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [ResponsedomainCodeListComponent],
+        declarations: [ResponsedomainNumericComponent],
         providers: [
         ],
         imports: [CommonModule, FormsModule, MaterializeModule]
@@ -30,7 +26,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(ResponsedomainCodeListComponent);
+            let fixture = TestBed.createComponent(ResponsedomainNumericComponent);
             fixture.detectChanges();
             let de: any = fixture.debugElement.queryAll(By.css('ul'));
             expect(de.length).toBe(0);
@@ -42,50 +38,31 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(ResponsedomainCodeListComponent);
+            let fixture = TestBed.createComponent(ResponsedomainNumericComponent);
             let managedRepresentation: any = {
               'id': '0c3c168e-d1ea-421f-a629-7487c71fbf1a',
               'name': 'Code',
               'changeKind': 'CREATED',
               'label': 'category scheme for code',
-              'description': '[List] group - ',
+              'description': '[NUMERIC]',
               'inputLimit': {
                 'minimum': '1',
                 'maximum': '2'
               },
               'classificationLevel': 'Ordinal',
-              'hierarchyLevel': 'GROUP_ENTITY',
-              'categoryType': 'LIST',
+              'hierarchyLevel': 'ENTITY',
+              'categoryType': 'NUMERIC',
               'code': {
                 'codeValue': ''
               },
-              'children': [{
-                'id': '103f75be-800d-4afb-aed3-298ba1b458bc',
-                'name': 'start',
-                'label': 'start',
-                'hierarchyLevel': 'ENTITY',
-                'categoryType': 'CATEGORY',
-                'code': {
-                  'codeValue': '1'
-                },
-              }, {
-                'id': '97478484-4c31-460d-a654-0672673b4b8f',
-                'name': 'end',
-                'changeKind': 'CREATED',
-                'label': 'end',
-                'hierarchyLevel': 'ENTITY',
-                'categoryType': 'CATEGORY',
-                'code': {
-                  'codeValue': '2'
-                },
-              }]
+              'children': []
             };
             let responseDomain: any = {
               'id' : '7f000101-54aa-131e-8154-aa27fc230000',
               'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
               'name' : 'responseDomain',
               'basedOnObject' : null,
-              'categoryType' : 'LIST',
+              'categoryType' : 'NUMERIC',
               'managedRepresentation' : managedRepresentation,
               'basedOnRevision' : null,
               'version' : {'major' : 6, 'minor' : 0, 'versionLabel' : '', 'revision' : null },
@@ -96,9 +73,9 @@ export function main() {
             fixture.componentInstance.ngOnChanges();
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let lis: any[] = fixture.debugElement.queryAll(By.css('li'));
-              expect(lis.length).toBeGreaterThan(0);
-              expect(lis[0].nativeNode.textContent).toContain('start');
+              let labels: any[] = fixture.debugElement.queryAll(By.css('label'));
+              expect(labels.length).toBeGreaterThan(0);
+              expect(labels[0].nativeNode.textContent).toContain('Range from 1 to 2');
             });
           });
       }));

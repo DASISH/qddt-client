@@ -147,7 +147,7 @@ class RevisionComponent {
 }
 
 @Component({
-  selector: 'qddt-responsedomain-preview',
+  selector: 'qddt-preview-responsedomain',
   template: `<div></div>`
 })
 

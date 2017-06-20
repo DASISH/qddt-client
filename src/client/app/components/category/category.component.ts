@@ -2,6 +2,7 @@ import { Component, OnInit, AfterContentChecked } from '@angular/core';
 import { CategoryService, Category } from './category.service';
 import { UserService } from '../../common/user.service';
 import { Subject } from 'rxjs/Subject';
+import { Column } from '../table/table.service';
 
 @Component({
   selector: 'category',
@@ -20,7 +21,7 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
   private searchKeys: string;
   private selectedCategory: any;
   private isDetail: boolean;
-  private columns: any[];
+  private columns: Column[];
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
   constructor(private categoryService: CategoryService, private userService: UserService) {
@@ -28,9 +29,9 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
     this.categories = [];
     this.searchKeys = '';
     this.page = {};
-    this.columns = [{ 'label': 'Label', 'name': 'label', 'sortable': true, 'direction': '' },
-      { 'label': 'Description', 'name': 'description', 'sortable': true, 'direction': '' },
-      { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' }];
+    this.columns = [{ label: 'Label', name: 'label', sortable: true, direction: '' },
+      { label: 'Description', name: 'description', sortable: true, direction: '' },
+      { label: 'Modified', name: 'modified', sortable: true, direction: 'desc' }];
     this.searchKeysSubect
       .debounceTime(300)
       .distinctUntilChanged()

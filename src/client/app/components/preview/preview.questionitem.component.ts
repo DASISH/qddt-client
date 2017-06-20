@@ -29,9 +29,9 @@ enum DomainType {
     <div class="teal-text" *ngIf="questionItem.question?.intent" style="padding-left: 15pt; padding-bottom: 10pt">Intent</div>
     <div style="padding-left: 15pt;">{{questionItem.question?.intent}}</div>
     <div class="row" style="padding-right: 5pt; padding-left:5pt ">
-      <qddt-responsedomain-preview *ngIf="questionItem.responseDomain" 
+      <qddt-preview-responsedomain *ngIf="questionItem.responseDomain" 
         [isVisible]="true" [responseDomain]="questionItem.responseDomain">
-      </qddt-responsedomain-preview>
+      </qddt-preview-responsedomain>
     </div>
     <div class="row">
       <qddt-revision-detail  [element]="questionItem" [type]="'questionitem'"></qddt-revision-detail>

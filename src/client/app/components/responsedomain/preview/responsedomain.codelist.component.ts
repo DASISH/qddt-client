@@ -1,8 +1,8 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { ResponseDomain } from './responsedomain.service';
+import { ResponseDomain } from '../responsedomain.service';
 
 @Component({
-  selector: 'qddt-responsedomain-codelist',
+  selector: 'qddt-preview-rd-codelist',
   moduleId: module.id,
   template: `<div class="row" *ngIf="responseDomain">
              <ul><li *ngFor="let row of rows" class="row">

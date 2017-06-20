@@ -67,8 +67,14 @@ export class TopicComponent implements OnChanges {
     this.topic  = new Topic();
   }
 
-  getDefaultConcept(topic: any): any {
-    return topic.concepts.find( (item: any) => ( this.isBlank(item.name) && this.isBlank(item.description) && this.isBlank(item.label)));
+
+  getPdf(element: Topic) {
+    let fileName = element.name + '.pdf';
+    this.topicService.getPdf(element.id).subscribe(
+      (data: any) => {
+        saveAs(data, fileName);
+      },
+      error => console.log(error));
   }
 
   setQuestionItem(questionItem: any) {

@@ -3,6 +3,7 @@ import { QuestionService, QuestionItem, Question } from './question.service';
 import { UserService } from '../../common/user.service';
 import { Subject }          from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
+import { Column } from '../table/table.service';
 
 @Component({
   selector: 'qddt-questionitem',
@@ -28,7 +29,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
   private showProgressBar: boolean = false;
   private showResponsedomainReuse: boolean = false;
   private showQuestionItemForm: boolean = false;
-  private columns: any[];
+  private columns: Column[];
   private searchKeysSubect: Subject<string> = new Subject<string>();
   private searchKeys: string;
   private secondCS: any;

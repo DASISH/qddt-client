@@ -1,9 +1,9 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { ResponseDomain } from './responsedomain.service';
 import { DomainType, DomainTypeDescription } from './responsedomain.constant';
+import { ResponseDomain } from './responsedomain.service';
 
 @Component({
-  selector: 'qddt-responsedomain-preview',
+  selector: 'qddt-preview-responsedomain',
   moduleId: module.id,
   template: `<div *ngIf="isVisible && domainType" class="card-panel lighten-2 black-text" 
               style="padding-left:3%; padding-right:5%; margin: 1%">
@@ -11,31 +11,31 @@ import { DomainType, DomainTypeDescription } from './responsedomain.constant';
           class="active teal-text">{{responseDomain?.name}}
           Version: {{responseDomain?.version?.major}}.{{responseDomain?.version?.minor}}</label>
         <div [ngSwitch]="domainType">
-					<qddt-responsedomain-scale *ngSwitchCase="domainTypeDef.SCALE"
+					<qddt-preview-rd-scale *ngSwitchCase="domainTypeDef.SCALE"
 					  [responseDomain]="responseDomain">
-          </qddt-responsedomain-scale>
-					<qddt-responsedomain-datetime *ngSwitchCase="domainTypeDef.DATETIME"
-					  [responseDomain]="responseDomain"></qddt-responsedomain-datetime>
-					<qddt-responsedomain-numeric *ngSwitchCase="domainTypeDef.NUMERIC"
-					  [responseDomain]="responseDomain"></qddt-responsedomain-numeric>
-					<qddt-responsedomain-codelist *ngSwitchCase="domainTypeDef.LIST"
-            [responseDomain]="responseDomain"></qddt-responsedomain-codelist>
-					<qddt-responsedomain-text *ngSwitchCase="domainTypeDef.TEXT"
-					  [responseDomain]="responseDomain"></qddt-responsedomain-text>
-					<qddt-responsedomain-missing *ngSwitchCase="domainTypeDef.MISSING"
-					  [responseDomain]="responseDomain"></qddt-responsedomain-missing>
-          <qddt-responsedomain-mixed *ngSwitchCase="domainTypeDef.MIXED"
-					  [responseDomain]="responseDomain"></qddt-responsedomain-mixed>
+          </qddt-preview-rd-scale>
+					<qddt-preview-rd-datetime *ngSwitchCase="domainTypeDef.DATETIME"
+					  [responseDomain]="responseDomain"></qddt-preview-rd-datetime>
+					<qddt-preview-rd-numeric *ngSwitchCase="domainTypeDef.NUMERIC"
+					  [responseDomain]="responseDomain"></qddt-preview-rd-numeric>
+					<qddt-preview-rd-codelist *ngSwitchCase="domainTypeDef.LIST"
+            [responseDomain]="responseDomain"></qddt-preview-rd-codelist>
+					<qddt-preview-rd-text *ngSwitchCase="domainTypeDef.TEXT"
+					  [responseDomain]="responseDomain"></qddt-preview-rd-text>
+					<qddt-preview-rd-missing *ngSwitchCase="domainTypeDef.MISSING"
+					  [responseDomain]="responseDomain"></qddt-preview-rd-missing>
+          <qddt-preview-rd-mixed *ngSwitchCase="domainTypeDef.MIXED"
+					  [responseDomain]="responseDomain"></qddt-preview-rd-mixed>
 				</div></div>`,
   styles: [],
   providers: [],
 })
 
 export class PreviewResponsedomainComponent implements OnChanges {
-  public domainTypeDef = DomainType;
-  @Input() isVisible: boolean;
+  @Input() isVisible: boolean = true;
   @Input() responseDomain: ResponseDomain;
-  domainType: DomainType;
+  public domainTypeDef = DomainType;
+  private domainType: DomainType;
 
   ngOnChanges() {
     if (this.isVisible && this.responseDomain !== undefined) {

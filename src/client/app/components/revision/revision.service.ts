@@ -8,12 +8,18 @@ import { Observable }     from 'rxjs/Observable';
 @Injectable()
 export class RevisionService extends BaseService {
 
+  readonly pageSize = '&size=10';
+
   constructor(protected http: Http, @Inject(API_BASE_HREF) protected api: string) {
     super(http, api);
   }
 
   getAllRevisions(qddtURI: string) : any {
     return this.get(qddtURI);
+  }
+
+  getRevisionPage(qddtURI: string, page: String = '0'): any {
+    return this.get(qddtURI + '?&page=' + page + this.pageSize );
   }
 
   getelement(type: string, id: string, rev: string): any {

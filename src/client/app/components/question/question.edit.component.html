@@ -1,8 +1,8 @@
 <div *ngIf="isVisible" class="card white grey-text text-darken-1">
   <div *ngIf="questionitem">
-    <qddt-responsedomain-preview *ngIf="privewResponseDomain"
+    <qddt-preview-responsedomain *ngIf="privewResponseDomain"
                                  [isVisible]="true" [responseDomain]="privewResponseDomain">
-    </qddt-responsedomain-preview>
+    </qddt-preview-responsedomain>
 
     <div class="row" *ngIf="questionitem.conceptRefs && questionitem.conceptRefs.length > 0" >
       <div class="hoverable" style="margin: 1%">
@@ -107,7 +107,6 @@
       </div>
       <div class="modal-footer">
         <button
-          (click)="showResponseDomainForm = false;"
           class="btn btn-default red modal-action modal-close waves-effect waves-red">
           <a><i class="close material-icons medium white-text">close</i></a>
         </button>
@@ -116,36 +115,13 @@
   </div>
 </div>
 
-<div [attr.id]="'study-detail-readonly-modal'" class="modal modal-fixed-footer"
-     materialize="modal" [materializeActions]="studyActions">
-
-  <div class="modal-content">
-    <div class="row" *ngIf="selectedId && selectedType === 'study'">
-      <qddt-study-usedby [id]="selectedId">
-      </qddt-study-usedby>
-    </div>
-    <div class="row" *ngIf="selectedId && selectedType === 'topic'">
-      <qddt-topic-usedby [id]="selectedId">
-      </qddt-topic-usedby>
-    </div>
-    <div class="row" *ngIf="selectedId && selectedType === 'question'">
-      <qddt-questionitem-usedby [id]="selectedId">
-      </qddt-questionitem-usedby>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button
-      class="btn btn-default red modal-action modal-close waves-effect">
-      <a><i class="close material-icons medium white-text">close</i></a>
-    </button>
-  </div>
-</div>
-
-<div [attr.id]="'concept-detail-modal'" class="modal modal-fixed-footer"
-     materialize="modal" [materializeActions]="conceptActions">
-
-  <div class="modal-content" *ngIf="selectedConcept && selectedType === 'concept'">
-    <qddt-preview-concept [concept]="selectedConcept"></qddt-preview-concept>
+<div [attr.id]="'usedby-detail-modal'" class="modal modal-fixed-footer"
+     materialize="modal" [materializeActions]="usedbyModalAction">
+  <div class="modal-content" *ngIf="selectedElement">
+    <h5 align="center">Preview of {{selectedElement.name}}</h5>
+    <qddt-preview-concept *ngIf="selectedType === 'concept'" [concept]="selectedElement"></qddt-preview-concept>
+    <qddt-preview-topic *ngIf="selectedType === 'topic'" [topic]="selectedElement"></qddt-preview-topic>
+    <qddt-preview-study *ngIf="selectedType === 'study'" [study]="selectedElement"></qddt-preview-study>
   </div>
   <div class="modal-footer">
     <button id="concept-modal-close"
@@ -154,22 +130,5 @@
     </button>
   </div>
 </div>
-<div class="modal modal-fixed-footer"
-     materialize="modal" [materializeActions]="basedonActions">
-  <div class="modal-content">
-    <h4>Basedon Object Detail</h4>
-    <div class="row" *ngIf="basedonObject">
-      <qddt-questionitem-edit [readonly]="true"
-                              [isVisible]="true"
-                              [editResponseDomain]="true"
-                              [questionitem]="basedonObject">
-      </qddt-questionitem-edit>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button id="controlConstructs-modal-close"
-            class="btn btn-default red modal-action modal-close waves-effect">
-      <a><i class="close material-icons medium white-text">close</i></a>
-    </button>
-  </div>
-</div>
+
+

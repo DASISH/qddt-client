@@ -1,12 +1,11 @@
-import { Component, Input, PipeTransform, Pipe, EventEmitter, Output } from '@angular/core';
+import { Component, Input,  EventEmitter, Output } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
+import { BaseRequestOptions,  Http, ConnectionBackend } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 
 import { ResponseDomainService } from './responsedomain.service';
-import { UserService } from '../../common/user.service';
-import { BaseService } from '../../common/base.service';
+
 import { LocalDatePipe } from '../../common/date.pipe';
 import { ResponsedomainListComponent } from './responsedomain.list.component';
 import { CommonModule } from '@angular/common';
@@ -142,7 +141,7 @@ class ResponsedomainFormComponent {
 }
 
 @Component({
-  selector: 'qddt-responsedomain-preview',
+  selector: 'qddt-preview-responsedomain',
   template: `<div></div>`
 })
 

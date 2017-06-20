@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { ResponseDomain } from './responsedomain.service';
+import { ResponseDomain,ResponseDomainService } from './responsedomain.service';
 import { DomainType, DomainTypeDescription } from './responsedomain.constant';
-import { ResponseDomainService } from './responsedomain.service';
+
 
 @Component({
   selector: 'qddt-responsedomain-list',

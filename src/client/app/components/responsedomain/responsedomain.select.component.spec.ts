@@ -5,8 +5,6 @@ import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend 
 import { MockBackend } from '@angular/http/testing';
 
 import { ResponseDomainService } from './responsedomain.service';
-import { UserService } from '../../common/user.service';
-import { BaseService } from '../../common/base.service';
 import { ResponseDomainSelectComponent } from './responsedomain.select.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -139,7 +137,7 @@ class ResponseDomainServiceSpy {
 }
 
 @Component({
-  selector: 'qddt-responsedomain-preview',
+  selector: 'qddt-preview-responsedomain',
   template: `<div></div>`
 })
 

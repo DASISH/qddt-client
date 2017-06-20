@@ -71,14 +71,6 @@ import { MaterializeAction } from 'angular2-materialize/dist';
               </div>
             </div>
           </div>
-          <div class="row" *ngIf="id && type === 'study'">
-            <qddt-study-usedby [id]="id">
-            </qddt-study-usedby>
-          </div>
-          <div class="row" *ngIf="id && type === 'topic'">
-            <qddt-topic-usedby [id]="id">
-            </qddt-topic-usedby>
-          </div>
         </div>
         <div class="modal-footer">
           <button

@@ -119,6 +119,15 @@ export class QuestionDetailComponent implements OnInit {
 
   }
 
+  getPdf(element: QuestionItem) {
+    let fileName = element.name + '.pdf';
+    this.service.getPdf(element.id).subscribe(
+      (data: any) => {
+        saveAs(data, fileName);
+      },
+      error => console.log(error));
+  }
+
   private buildRevisionConfig(): any[] {
     let config: any[] = [];
     config.push({'name':'name','label':'Name'});
@@ -144,5 +153,4 @@ export class QuestionDetailComponent implements OnInit {
     }
     this.config = this.buildRevisionConfig();
   }
-
 }
