@@ -114,6 +114,25 @@
         </div>
       </div>
     </div>
+    <div>
+      <div [attr.id]="topic.id + '-topic-questionitem-modal'"
+           class="modal modal-fixed-footer"
+           materialize="modal" [materializeActions]="questionItemActions">
+        <div class="modal-footer">
+          <button
+            class="btn btn-default red modal-action modal-close waves-effect waves-red">
+            <i class="close material-icons">close</i>
+          </button>
+        </div>
+        <div class="modal-content">
+          <div class="row" *ngIf="questionItem">
+            <label class="active teal-text ">Name</label>
+            <H5 class="grey-text darken-2">{{questionItem.name}}</H5>
+          </div>
+          <qddt-preview-questionitem [questionItem]="questionItem"></qddt-preview-questionitem>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="col hide-on-small-only m1 l1">
