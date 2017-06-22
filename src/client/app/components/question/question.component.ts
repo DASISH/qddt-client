@@ -3,13 +3,13 @@ import { QuestionService, QuestionItem, Question } from './question.service';
 import { UserService } from '../../common/user.service';
 import { Subject }          from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
-import { Column } from '../table/table.service';
+import { Column } from '../../common/table/table.service';
 
 @Component({
   selector: 'qddt-questionitem',
   moduleId: module.id,
   templateUrl: './question.component.html',
-  styles:[':host /deep/ .hoverable .row { min-height:4rem; margin-bottom:0px;}'],
+  styles:[':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'],
   providers: [QuestionService]
 })
 

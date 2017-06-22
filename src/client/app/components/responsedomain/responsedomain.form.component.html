@@ -224,9 +224,9 @@
         <qddt-rational [element]="responsedomain"></qddt-rational>
       </div>
 			<div *ngIf="!responsedomain.isNew" class="row">
-				<qddt-revision-detail [element]="responsedomain"
+				<qddt-element-footer [element]="responsedomain"
 				  (BasedonObjectDetail)="onBasedonObjectDetail($event)"
-				  [type]="'responsedomain'"></qddt-revision-detail>
+				  [type]="'responsedomain'"></qddt-element-footer>
 			</div>
       <div class="row right-align">
 			  <button *ngIf="!readonly" type="submit" class="btn btn-default">Submit</button>

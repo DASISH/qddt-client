@@ -199,7 +199,7 @@ class QuestionitemUsedbyComponent {
 }
 
 @Component({
-  selector: 'qddt-revision-detail',
+  selector: 'qddt-element-footer',
   template: `<div></div>`
 })
 

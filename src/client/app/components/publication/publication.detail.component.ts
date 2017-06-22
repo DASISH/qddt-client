@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { PublicationService, ElementTypes, Publication, PublicationStatus, PUBLICATIONNOTPUBLISHED } from './publication.service';
-import * as fileSaver from 'file-saver';
+// import * as fileSaver from 'file-saver';
+let fileSaver = require('../../common/file-saver');
 
 @Component({
   selector: 'qddt-publication-detail',
@@ -94,7 +95,7 @@ export class PublicationDetailComponent implements OnInit {
     let fileName = element.name + '.pdf';
     this.service.getPdf(element.id).subscribe(
       (data: any) => {
-        saveAs(data, fileName);
+        fileSaver(data, fileName);
       },
       error => console.log(error));
   }

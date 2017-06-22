@@ -19,12 +19,6 @@ import { ControlConstructService } from './controlconstruct.service';
       </autocomplete>
     </div>
     <div class="row" *ngIf="selectedQuestionItem">
-      <qddt-preview-questionitem [questionItem]="selectedQuestionItem"></qddt-preview-questionitem>
-      <div class="row">
-        <ul class="collection with-header black-text">
-          <li class="collection-item" *ngFor="let c of selectedQuestionItem.conceptRefs" >Concept: {{c?.name}}</li>
-        </ul>
-      </div>
       <div class="row">
         <div class="input-field col s4" *ngIf="questionItemRevisions.length > 0">
           <label class="active black-text">QuestionItem business version</label>
@@ -44,6 +38,12 @@ import { ControlConstructService } from './controlconstruct.service';
         <a class="waves-effect waves-light btn  green" (click)="onUseQuestionItem()">Use this</a>
         <a class="waves-effect waves-light btn  red" (click)="onDismiss()">Dismiss</a>
         </div>
+      </div>
+      <qddt-preview-questionitem [questionItem]="selectedQuestionItem"></qddt-preview-questionitem>
+      <div class="row">
+        <ul class="collection with-header black-text">
+          <li class="collection-item" *ngFor="let c of selectedQuestionItem.conceptRefs" >Concept: {{c?.name}}</li>
+        </ul>
       </div>
     </div>
   </div>

@@ -14,7 +14,7 @@ import { MaterializeAction } from 'angular2-materialize';
     .left {
       padding-right: 20px;
     }`,
-    ':host /deep/ .hoverable .row { min-height:4rem; margin-bottom:0px;}'
+    ':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'
   ],
   providers: [ PublicationService ],
 })

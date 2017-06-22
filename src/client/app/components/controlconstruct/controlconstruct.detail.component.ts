@@ -1,5 +1,4 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-
 import { ControlConstructService, ControlConstruct } from './controlconstruct.service';
 import { MaterializeAction } from 'angular2-materialize';
 
@@ -8,7 +7,7 @@ import { MaterializeAction } from 'angular2-materialize';
   moduleId: module.id,
   templateUrl: './controlconstruct.detail.component.html',
   styles: [`:host /deep/ .hoverable .row {
-            min-height:4rem;
+            min-height:3rem;
             margin-bottom:0px; 
             }`],
   providers: [ControlConstructService],
@@ -85,9 +84,18 @@ export class ControlConstructDetailComponent implements OnInit {
     this.exceptionEvent.emit(error);
   }
 
-  private popupModal(error: any) {
-    this.exceptionEvent.emit(error);
+  private getPdf(element: ControlConstruct) {
+    let fileName = element.name + '.pdf';
+    this.service.getPdf(element.id).subscribe(
+      (data: any) => {
+        saveAs(data, fileName);
+      },
+      error => console.log(error));
   }
+
+  // private popupModal(error: any) {
+  //   this.exceptionEvent.emit(error);
+  // }
 
   private init() {
     if(this.controlConstruct !== null && this.controlConstruct !== undefined) {
@@ -97,15 +105,6 @@ export class ControlConstructDetailComponent implements OnInit {
     this.savedControlConstructsIndex = this.controlConstructs
       .findIndex(q => q['id'] === this.controlConstruct['id']);
     this.config = this.buildRevisionConfig();
-  }
-
-  getPdf(element: ControlConstruct) {
-    let fileName = element.name + '.pdf';
-    this.service.getPdf(element.id).subscribe(
-      (data: any) => {
-        saveAs(data, fileName);
-      },
-      error => console.log(error));
   }
 
   private buildRevisionConfig(): any[] {

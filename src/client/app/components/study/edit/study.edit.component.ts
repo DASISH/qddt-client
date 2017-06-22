@@ -27,7 +27,7 @@
          <qddt-rational [element]="study" [config]="{hidden: [2,3]}"></qddt-rational>
        </div>
        <div>
-         <qddt-revision-detail [element]="study" [type]="'study'"></qddt-revision-detail>
+         <qddt-element-footer [element]="study" [type]="'study'"></qddt-element-footer>
        </div>
        <button type="submit" class="btn btn-default">Submit</button>
      </form>

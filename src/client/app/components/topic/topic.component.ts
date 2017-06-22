@@ -7,6 +7,8 @@ import { MaterializeAction } from 'angular2-materialize';
 @Component({
   selector: 'qddt-topic',
   moduleId: module.id,
+  styles: ['.collection.with-header .collection-header {border-bottom: none; padding: 0px;}',
+          '.collection {border:none; }'],
   templateUrl: './topic.component.html',
   providers: [TopicService],
 })
@@ -20,7 +22,7 @@ export class TopicComponent implements OnChanges {
   private topics:any;
   private topic: any;
   private showTopicForm: boolean = false;
-  private showQuestionbutton: boolean = false;
+  // private showQuestionbutton: boolean = false;
   private questionItem: any;
 
   constructor(private topicService: TopicService) {
@@ -67,6 +69,15 @@ export class TopicComponent implements OnChanges {
     this.topic  = new Topic();
   }
 
+  onDownloadFile(o: any) {
+    let fileName = o.originalName;
+    this.topicService.getFile(o.id).subscribe(
+      (data: any) => {
+        // this.openFileForDownload(data, fileName);
+        saveAs(data, fileName);
+      },
+      error => console.log(error));
+  }
 
   getPdf(element: Topic) {
     let fileName = element.name + '.pdf';

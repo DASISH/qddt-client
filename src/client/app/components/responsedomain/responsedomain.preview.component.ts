@@ -5,6 +5,7 @@ import { ResponseDomain } from './responsedomain.service';
 @Component({
   selector: 'qddt-preview-responsedomain',
   moduleId: module.id,
+  styles: [' .row { min-height: 1rem; margin-bottom: 5 px; !important;'],
   template: `<div *ngIf="isVisible && domainType" class="card-panel lighten-2 black-text" 
               style="padding-left:3%; padding-right:5%; margin: 1%">
         <label *ngIf="domainType !== domainTypeDef.MIXED"
@@ -27,7 +28,6 @@ import { ResponseDomain } from './responsedomain.service';
           <qddt-preview-rd-mixed *ngSwitchCase="domainTypeDef.MIXED"
 					  [responseDomain]="responseDomain"></qddt-preview-rd-mixed>
 				</div></div>`,
-  styles: [],
   providers: [],
 })
 

@@ -31,7 +31,7 @@
         </div>
       </div>
       <div *ngIf="topics">
-        <div class="row" *ngFor="let topic of topics" style="padding-left:2%">
+        <div class="row card" *ngFor="let topic of topics" style="padding-left:2%">
           <div id="{{topic?.id}}" class="scrollspy">
             <div class="col s1 m1 l1">
               <br/>
@@ -61,32 +61,39 @@
                   </div>
                 </div>
               </h5>
-
+              <qddt-topic-edit [isVisible]="edit.isVisible" [topic]="topic"
+                               (topicSavedEvent)="onTopicSavedEvent($event)"
+                               #edit>
+              </qddt-topic-edit>
               <div class="row">
                 <p>{{topic?.abstractDescription}}</p>
+                <label class="teal-text" *ngIf="topic.authors?.length>0">Authors</label>
                 <qddt-author-chip [authors]="topic.authors" ></qddt-author-chip>
               </div>
-
-              <qddt-topic-edit [isVisible]="edit.isVisible" [topic]="topic"
-                (topicSavedEvent)="onTopicSavedEvent($event)"
-                #edit>
-              </qddt-topic-edit>
-
-              <div *ngIf="topic.topicGroupQuestions?.length > 0" class="section">
-                <ul class="collection with-header">
-                  <li class="collection-header">Question Items</li>
-                  <li class="collection-item" *ngFor="let tqi of topic.topicGroupQuestions">
-                    <div class="row"
-                         (mouseenter)="showQuestionbutton = true"
-                         (mouseleave)="showQuestionbutton = false">
+              <div class="row" *ngIf="topic?.otherMaterials && topic?.otherMaterials?.length > 0">
+                <ul class="collection with-header hoverable">
+                  <li class="collection-header teal-text">External aid</li>
+                  <li *ngFor="let m of topic.otherMaterials;" class="col s10 m5">
+                    <a class="waves-effect waves-light" (click)="onDownloadFile(m)">
+                      <i class="material-icons center smal">description</i> {{m.originalName}}</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="row" *ngIf="topic.topicGroupQuestions?.length > 0" >
+                <ul class="collection with-header hoverable"
+                    (mouseenter)="showQuestionbutton = true"
+                    (mouseleave)="showQuestionbutton = false">
+                  <li class="collection-header teal-text">Question Items</li>
+                  <a class="collection-item grey-text text-darken-1" *ngFor="let tqi of topic.topicGroupQuestions">
+                    <div class="row" style="min-height: 3rem;">
+                      <div class="col s10">♦ {{tqi?.questionItem?.question?.question}}</div>
                       <div class="col s1">
                         <a class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
                            [ngClass]="{hide: !showQuestionbutton}"
                            (click)="onClickQuestionItem(tqi.questionItem)">
-                          <i class="material-icons" title="Search for...">search</i>
+                          <i class="material-icons" title="QuestionItem preview">search</i>
                         </a>
                       </div>
-                      <div class="col s10">{{tqi?.questionItem?.question?.question}}</div>
                       <div class="col s1">
                         <a
                           class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
@@ -96,10 +103,9 @@
                         </a>
                       </div>
                     </div>
-                  </li>
+                  </a>
                 </ul>
               </div>
-
 
               <qddt-revision [isVisible]="revision.isVisible" [current]="topic"
                 [config]="[{'name':'name','label':'Name'},{'name':'description','label':'Description'}]"

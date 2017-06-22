@@ -9,10 +9,10 @@ import { routing } from './app.routes';
 import { HomeModule }   from './components/home/home.module';
 import { LoginModule } from './components/login/login.module';
 import { UserService } from './common/user.service';
-import { RevisionModule } from './components/revision/revision.module';
-import { CommentModule } from './components/comment/comment.module';
+import { RevisionModule } from './common/revision/revision.module';
+import { CommentModule } from './common/comment/comment.module';
 
-import { CompareModule } from './components/compare/compare.module';
+import { CompareModule } from './common/compare/compare.module';
 import { SharedModule } from './shared/shared.module';
 import { CategoryModule } from './components/category/category.module';
 import { QuestionModule } from './components/question/question.module';

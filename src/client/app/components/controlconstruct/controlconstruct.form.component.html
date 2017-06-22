@@ -35,7 +35,7 @@
               <a [ngClass]="{hide: !showPreinstructionButton}"
                  class="btn-flat btn-floating btn-small waves-effect waves-light teal"
                  (click)="createPreInstruction=!createPreInstruction">
-                <i class="material-icons">add</i>
+                <i class="material-icons" title="Add Instruction">add</i>
               </a>
             </div>
           </div>
@@ -53,7 +53,7 @@
               <a [ngClass]="{hide: !showPreinstructionButton}"
                  class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
                  (click)="onDeletePreInstruction(idx)">
-                <i class="material-icons">remove</i>
+                <i class="material-icons" title="Remove Instruction">remove</i>
               </a>
             </div>
           </div>
@@ -74,8 +74,8 @@
           <a [ngClass]="{hide: !showQuestionButton}"
              class="btn-flat btn-floating btn-small waves-effect waves-light teal"
              (click)="editQuestoinItem = !editQuestoinItem;savedquestionitem=controlConstruct.questionItem;">
-            <i *ngIf="controlConstruct.questionItem"class="material-icons">play_for_work</i>
-            <i *ngIf="!controlConstruct.questionItem" class="material-icons">add</i>
+            <i *ngIf="controlConstruct.questionItem"class="material-icons" title="Select QuestionItem Version">play_for_work</i>
+            <i *ngIf="!controlConstruct.questionItem" class="material-icons" title="Add QuestionItem">add</i>
           </a>
         </div>
       </div>
@@ -87,7 +87,7 @@
           <a [ngClass]="{hide: !showQuestionButton}"
              class="btn-flat btn-floating btn-small waves-effect waves-light teal"
              (click)="onRemoveQuestoinItem()">
-            <i class="material-icons">remove</i>
+            <i class="material-icons" title="Remove QuestionItem">remove</i>
           </a>
         </div>
       </div>
@@ -103,13 +103,13 @@
           (mouseenter)="showPostinstructionButton = !readonly"
           (mouseleave)="showPostinstructionButton = false">
         <li>
-          <div class="row" style="min-height:4rem">
+          <div class="row" style="min-height:3rem">
             <div class="col s11"><label class="teal-text">Post Instructions</label></div>
             <div class="col s1">
               <a [ngClass]="{hide: !showPostinstructionButton}"
                  class="btn-flat btn-floating btn-small waves-effect waves-light teal"
                  (click)="createPostInstruction=!createPostInstruction">
-                <i class="material-icons">add</i>
+                <i class="material-icons" title="Add Instruction">add</i>
               </a>
             </div>
           </div>
@@ -119,7 +119,7 @@
           </qddt-instruction-create>
         </li>
         <li class="collection-item" *ngFor="let instruction of controlConstruct.postInstructions; let idx=index">
-          <div class="row" style="min-height:4rem"
+          <div class="row" style="min-height:3rem"
                (mouseenter)="instruction.showbutton = !readonly"
                (mouseleave)="instruction.showbutton = false">
             <div class="col s11">{{instruction?.description}}</div>
@@ -127,7 +127,7 @@
               <a [ngClass]="{hide: !showPostinstructionButton}"
                  class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
                  (click)="onDeletePostInstruction(idx)">
-                <i class="material-icons">remove</i>
+                <i class="material-icons" title="Remove Instruction">remove</i>
               </a>
             </div>
           </div>
@@ -140,75 +140,85 @@
       [isVisible]="true" [responseDomain]="controlConstruct.questionItem.responseDomain">
     </qddt-preview-responsedomain>
 
-    <div class="row card">
-      <div class="row">
-        <div class="col s6">
-          <a class="waves-effect waves-light btn"
-             (click)="showUploadFileForm=!showUploadFileForm">File Upload</a>
+    <ul class="hoverable"
+        (mouseenter)="showbutton = !readonly"
+        (mouseleave)="showbutton = false">
+      <li>
+        <div class="row" style="min-height:3rem">
+          <div class="col s11"><label class="teal-text">External aid</label></div>
+          <div class="col s1">
+            <a [ngClass]="{hide: !showbutton}"
+               class="btn-flat btn-floating btn-small waves-effect waves-light teal"
+               (click)="showUploadFileForm=!showUploadFileForm">
+              <i class="material-icons" title="Attach external aid (File Upload)">add</i>
+            </a>
+          </div>
         </div>
-      </div>
+      </li>
+
+      <!--<div class="row hoverable">-->
+      <!--<div class="row">-->
+        <!--<div class="col s6">-->
+          <!--<a class="waves-effect waves-light btn"-->
+             <!--(click)="showUploadFileForm=!showUploadFileForm">File Upload</a>-->
+        <!--</div>-->
+      <!--</div>-->
       <div class="row" *ngIf="showUploadFileForm && !readonly">
-        <div class="file-field input-field">
-          <div class="btn">
-            <span>File</span>
-            <input type="file" (change)="onSelectFile($event)">
+          <div class="file-field input-field">
+            <div class="btn">
+              <span>File</span>
+              <input type="file" (change)="onSelectFile($event)">
+            </div>
+            <div class="file-path-wrapper">
+              <input class="file-path validate" type="text" placeholder="Upload one file">
+            </div>
           </div>
-          <div class="file-path-wrapper">
-            <input class="file-path validate" type="text" placeholder="Upload one file">
+          <a *ngIf="files" class="btn-flat right btn-floating btn-medium waves-effect waves-light teal"
+             (click)="onUploadFile()">
+            <i class="material-icons left medium">done</i>
+          </a>
+        </div>
+      <li *ngFor="let m of controlConstruct.otherMaterials; let idx=index;">
+        <div class="row" style="min-height:3rem">
+          <div class="col s10">
+            <a class="waves-effect waves-light" (click)="onDownloadFile(m)">
+              <i class="material-icons center smal">description</i>
+              {{m.originalName}}</a>
+          </div>
+          <div class="col s1 right" >
+            <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+               [ngClass]="{hide: !showbutton}"
+               (click)="onDeleteFile(idx)">
+              <i class="material-icons left medium" title="Delete" >delete_forever</i>
+            </a>
           </div>
         </div>
-        <a *ngIf="files" class="btn-flat right btn-floating btn-medium waves-effect waves-light teal"
-           (click)="onUploadFile()">
-          <i class="material-icons left medium">done</i>
-        </a>
-      </div>
-      <div class="row hoverable">
-        <ul>
-          <li *ngFor="let m of controlConstruct.otherMaterials; let idx=index;">
-            <div class="row"
-                 (mouseenter)="m.showbutton = !readonly"
-                 (mouseleave)="m.showbutton = false">
-              <div class="col s10">
-                <a class="waves-effect waves-light" (click)="onDownloadFile(m)">{{m.originalName}}</a>
-              </div>
-              <div class="col s2 right" style="min-height:4rem">
-                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                   [ngClass]="{hide: !m.showbutton}"
-                   (click)="onDeleteFile(idx)">
-                  <i class="material-icons left medium" title="Delete" >delete_forever</i>
-                </a>
-              </div>
-            </div>
-          </li>
-          <li *ngFor="let file of fileStore; let idx=index;">
-            <div class="row"
-                 (mouseenter)="file.showbutton = !readonly"
-                 (mouseleave)="file.showbutton = false">
-              <div class="col s10">
-                <a class="waves-effect waves-light">{{file[0]?.name}}</a>
-              </div>
-              <div class="col s2 right" style="min-height:4rem">
-                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                   [ngClass]="{hide: !file.showbutton}"
-                   (click)="onDeleteFileFromLocal(idx)">
-                  <i class="material-icons left medium" title="Delete" >delete_forever</i>
-                </a>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
+      </li>
+      <li *ngFor="let file of fileStore; let idx=index;">
+        <div class="row">
+          <div class="col s11 m5">
+            <a class="waves-effect waves-light"><i class="material-icons center smal">description</i>{{file[0]?.name}}</a>
+          </div>
+          <div class="col s1 right" style="min-height:3rem">
+            <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+               [ngClass]="{hide: !file.showbutton}"
+               (click)="onDeleteFileFromLocal(idx)">
+              <i class="material-icons left medium" title="Delete" >delete_forever</i>
+            </a>
+          </div>
+        </div>
+      </li>
+    </ul>
 
     <div class="row" *ngIf="!readonly">
       <qddt-rational [element]="controlConstruct"></qddt-rational>
     </div>
 
     <div class="row">
-      <qddt-revision-detail [element]="controlConstruct"
+      <qddt-element-footer [element]="controlConstruct"
                             (BasedonObjectDetail)="onBasedonObjectDetail($event)"
                             [type]="'controlconstruct'">
-      </qddt-revision-detail>
+      </qddt-element-footer>
     </div>
     <div class="row right-align">
       <button *ngIf="!readonly" type="submit" class="btn btn-default">Submit</button>

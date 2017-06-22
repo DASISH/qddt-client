@@ -3,26 +3,21 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
 import { LocalDatePipe } from '../common/date.pipe';
-import { AuthorChipComponent } from '../components/author/author.chip.component';
-import { QddtTableComponent } from '../components/table/table.component';
-import { QddtPaginationComponent } from '../components/pagination/pagination';
-import { AutocompleteComponent } from '../components/autocomplete/autocomplete.component';
-import { RationalComponent } from '../components/rational/rational.component';
-import { StudyUsedbyComponent } from '../components/study/study.usedby.component';
-import { TopicUsedbyComponent } from '../components/topic/topic.usedby.component';
-import { QuestionUsedbyComponent } from '../components/question/question.usedby.component';
-import { ResponsedomainUsedbyComponent } from '../components/responsedomain/responsedomain.usedby.component';
+import { AuthorChipComponent } from '../common/author/author.chip.component';
+import { QddtTableComponent } from '../common/table/table.component';
+import { QddtPaginationComponent } from '../common/pagination/pagination';
+import { AutocompleteComponent } from '../common/autocomplete/autocomplete.component';
+import { RationalComponent } from '../common/rational/rational.component';
+import { ElementFooterComponent } from '../common/elementfooter/elementfooter.component';
 
 
 @NgModule({
   imports: [CommonModule, FormsModule, MaterializeModule],
   declarations: [ LocalDatePipe, QddtTableComponent, QddtPaginationComponent, AutocompleteComponent,
-    StudyUsedbyComponent, TopicUsedbyComponent, QuestionUsedbyComponent,
-    ResponsedomainUsedbyComponent,AuthorChipComponent, RationalComponent ],
+    AuthorChipComponent, RationalComponent ,ElementFooterComponent],
   exports: [LocalDatePipe, CommonModule, FormsModule, MaterializeModule,
-    StudyUsedbyComponent, TopicUsedbyComponent, QuestionUsedbyComponent,
-    ResponsedomainUsedbyComponent, QddtTableComponent, QddtPaginationComponent,
-    AutocompleteComponent, RationalComponent,AuthorChipComponent,]
+     QddtTableComponent, QddtPaginationComponent, ElementFooterComponent,
+    AutocompleteComponent, RationalComponent,AuthorChipComponent]
 })
 
 export class SharedModule { }
