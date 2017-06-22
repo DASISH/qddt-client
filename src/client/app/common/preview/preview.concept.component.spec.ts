@@ -4,9 +4,9 @@ import { TestBed, async } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
-import { PublicationService } from '../publication/publication.service';
-import { UserService } from '../../common/user.service';
-import { BaseService } from '../../common/base.service';
+import { PublicationService } from '../../components/publication/publication.service';
+import { UserService } from '../user.service';
+import { BaseService } from '../base.service';
 import { PreviewConceptComponent } from './preview.concept.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';

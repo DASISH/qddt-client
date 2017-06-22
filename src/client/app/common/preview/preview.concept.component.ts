@@ -3,9 +3,9 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'qddt-preview-concept',
   moduleId: module.id,
-  // styles: [
-  //   '.collapsible { border:1px  }',
-  // ],
+  styles: [
+      'ul .collapsible { margin:20px;}'
+  ],
   template: `
   <div class="row" *ngIf="concept?.description">
     <div class="input-field col s10">
@@ -31,15 +31,13 @@ import { Component, Input } from '@angular/core';
     </div>
   </div>
   <div class="row">
-    <qddt-revision-detail  [element]="concept" [type]="'concept'"></qddt-revision-detail>
+    <qddt-element-footer  [element]="concept" [type]="'concept'"></qddt-element-footer>
   </div>
   <div class="row">
     <qddt-comment-list [ownerId]="concept.id" [comments]="concept.comments"></qddt-comment-list>
   </div>
   <div class="row" *ngIf="concept.children && concept.children.length > 0">
-    <div class="col s10 offset-s1">
-      <qddt-preview-concept-list [conceptList]="concept.children"></qddt-preview-concept-list>
-    </div>
+    <qddt-preview-concept-list [conceptList]="concept.children"></qddt-preview-concept-list>
   </div>
 `,
   providers: [ ],

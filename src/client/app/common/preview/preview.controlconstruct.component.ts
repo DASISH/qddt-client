@@ -1,17 +1,17 @@
 import { Component, Input, EventEmitter } from '@angular/core';
 import { MaterializeAction } from 'angular2-materialize';
-import { ControlConstructService } from '../controlconstruct/controlconstruct.service';
-
-let fileSaver = require('../controlconstruct/filesaver');
+import { ControlConstructService } from '../../components/controlconstruct/controlconstruct.service';
+// import * as fileSaver from 'file-saver';
+let fileSaver = require('../file-saver');
 
 @Component({
   selector: 'qddt-preview-controlconstruct',
   moduleId: module.id,
-  // styles: [
-  //   '.collapsible { border:1px  }',
-  // ],
+  styles: [
+    '.row { padding-left:5pt !important;}',
+  ],
   template: `
-  <div class="nomargin" *ngIf="controlConstruct.preInstructions">
+  <div class="row" *ngIf="controlConstruct.preInstructions">
     <ul>
       <li>
         <div class="row">
@@ -31,7 +31,7 @@ let fileSaver = require('../controlconstruct/filesaver');
       <h5>{{controlConstruct?.questionItem?.question?.question}}</h5>
     </div>
   </div>
-  <div class="nomargin" *ngIf="controlConstruct.postInstructions">
+  <div class="row" *ngIf="controlConstruct.postInstructions">
     <ul>
       <li>
         <div class="row">
@@ -45,30 +45,25 @@ let fileSaver = require('../controlconstruct/filesaver');
       </li>
     </ul>
   </div>
-  <div class="row" style="padding-left: 10pt;padding-right: 10pt;">
+  <div class="row" style="padding-right: 10pt;">
     <qddt-preview-responsedomain
-    *ngIf="controlConstruct.questionItem && controlConstruct.questionItem.responseDomain"
-    [isVisible]="true" [responseDomain]="controlConstruct.questionItem.responseDomain">
-  </qddt-preview-responsedomain>
-  </div>
-  <div class="row"style="padding-bottom: 10pt;">
-    <div class="row">
-      <div class="col s6">
-        <label class="teal-text">External aid</label>
-      </div>
-    </div>
-    <div class="row">
-      <ul>
-        <li *ngFor="let m of controlConstruct.otherMaterials;" class="row">
-          <div class="col s10">
-            <a class="waves-effect waves-light" (click)="onDownloadFile(m)">{{m.originalName}}</a>
-          </div>
-        </li>
-      </ul>
-    </div>
+      *ngIf="controlConstruct.questionItem && controlConstruct.questionItem.responseDomain"
+      [isVisible]="true" [responseDomain]="controlConstruct.questionItem.responseDomain">
+    </qddt-preview-responsedomain>
   </div>
   <div class="row">
-    <qddt-revision-detail [element]="controlConstruct" [type]="'controlconstruct'"></qddt-revision-detail>
+    <label class="teal-text">External aid</label>
+  </div>
+  <div class="row">
+    <ul>
+      <li *ngFor="let m of controlConstruct.otherMaterials;" class="col s12 m6 l3">
+          <a class="waves-effect waves-light" (click)="onDownloadFile(m)">
+          <i class="material-icons center smal">description</i> {{m.originalName}}</a>
+      </li>
+    </ul>
+  </div>
+  <div class="row">
+    <qddt-element-footer [element]="controlConstruct" [type]="'controlconstruct'"></qddt-element-footer>
   </div>  
   <div class="modal modal-fixed-footer" materialize="modal" [materializeActions]="questionItemActions">
     <div class="modal-content">
@@ -99,9 +94,7 @@ export class PreviewControlConstructComponent {
   }
 
 onDownloadFile(o: any) {
-  // let fileType = o.fileType || 'text/plain';
   let fileName = o.originalName;
-  // let len = o.size;
   this.service.getFile(o.id).subscribe(
     (data: any) => {
       fileSaver(data, fileName);

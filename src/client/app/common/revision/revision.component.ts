@@ -1,58 +1,11 @@
-import { Component, Input, OnInit, OnChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, EventEmitter } from '@angular/core';
 import { RevisionService } from './revision.service';
+import { MaterializeAction } from 'angular2-materialize';
 
 @Component({
   selector: 'qddt-revision',
   moduleId: module.id,
-  template: `
-  <div *ngIf="isVisible">
-    <div *ngIf="revisions">
-      <qddt-diff *ngIf="selectRevisionId >= 0"
-        [compared]="revisions[selectRevisionId].entity"
-        [current]="current"
-        [config]="config"
-        (hideCompareEvent)="onSelectRevision(-1);"
-      >
-      </qddt-diff>
-      <table class="highlight hoverable">
-        <thead>
-          <tr>
-              <th data-field="id"> # </th>
-              <th data-field="id">Version</th>
-              <th data-field="id">Compare</th>
-              <th data-field="id">Timestamp</th>
-              <th data-field="id">Reason</th>
-              <th data-field="id">modifiedBy</th>
-              <th data-field="id">Comment</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let content of revisions; let idx=index">
-              <td (click)="onPreviewRevision(content?.entity)" [ngStyle]="{'cursor': 'zoom-in'}">
-                {{content?.metadata?.revisionNumber}}
-              </td>
-              <td>{{content?.entity?.version?.major}}.{{content?.entity?.version?.minor}} {{content?.entity?.version?.versionLabel}}</td>
-              <td (click)="onSelectRevision(idx)" [ngStyle]="{'cursor': 'pointer'}">
-                <i class="material-icons">transform</i>
-              </td>
-              <td>{{content?.metadata?.delegate?.timestamp | date:'dd MM yyyy HH:mm'}}</td>
-              <td>{{content?.entity?.changeKind}}</td>
-              <td>{{content?.entity?.modifiedBy?.username}}</td>
-              <td>{{content?.entity?.changeComment}}</td>
-          </tr>
-        </tbody>
-        <!--<qddt-pagination-->
-      <!--[collectionSize]="page.totalElements"-->
-      <!--[page]="page.number"-->
-      <!--[pageSize]="page.size"-->
-      <!--[maxSize]="5"-->
-      <!--[rotate]="true"-->
-      <!--[boundaryLinks]="true"-->
-      <!--(pageChange)="pageChange($event)"></qddt-pagination>-->
-      </table>
-    </div>
-  </div>
-  `,
+  templateUrl: './revision.component.html',
   providers: [RevisionService]
 })
 export class RevisionComponent implements OnChanges, OnInit {
@@ -67,7 +20,9 @@ export class RevisionComponent implements OnChanges, OnInit {
   private selectRevisionId: number;
   private currentRevisionId: number;
   private includeRevisions: boolean;
-
+  private previewModalActions = new EventEmitter<string|MaterializeAction>();
+  private element: any;
+  private elementType: any;
 
 
   constructor(private service: RevisionService) {
@@ -111,11 +66,13 @@ export class RevisionComponent implements OnChanges, OnInit {
     this.selectRevisionId = id;
   }
 
-  onPreviewRevision(entity: any) {
-
+  onPreviewRevision(id: number) {
+    this.element = this.revisions[id].entity;
+    this.elementType = 'study';
+    this.previewModalActions.emit({action:'modal', params:['open']});
   }
 
-  get diagnostic() { return JSON.stringify(this.revisions);}
+  // get diagnostic() { return JSON.stringify(this.revisions);}
 
   private filterRevisions() {
     if (!this.includeRevisions) {

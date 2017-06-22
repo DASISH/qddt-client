@@ -9,7 +9,7 @@ import { PreviewQuestionitemComponent } from './preview.questionitem.component';
 import { PreviewConceptListComponent } from './preview.conceptlist.component';
 import { PreviewTopicListComponent } from './preview.topiclist.component';
 import { PreviewStudyComponent } from './preview.study.component';
-import { ResponsedomainModule } from '../responsedomain/responsedomain.module';
+import { ResponsedomainModule } from '../../components/responsedomain/responsedomain.module';
 import { PreviewQuestionComponent } from './preview.question.component';
 import { PreviewResponseDomainOneLineComponent } from './preview.responsedomain.oneline.component';
 

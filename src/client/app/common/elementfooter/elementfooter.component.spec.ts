@@ -4,8 +4,8 @@ import { TestBed, async } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
-import { RevisionService } from './revision.service';
-import { RevisionDetailComponent } from './revision.detail.component';
+import { RevisionService } from '../revision/revision.service';
+import { RevisionDetailComponent } from './elementfooter.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';

@@ -1,0 +1,74 @@
+<div *ngIf="isVisible">
+  <div *ngIf="revisions">
+    <qddt-diff *ngIf="selectRevisionId >= 0"
+               [compared]="revisions[selectRevisionId].entity"
+               [current]="current"
+               [config]="config"
+               (hideCompareEvent)="onSelectRevision(-1);"
+    >
+    </qddt-diff>
+    <table class="highlight hoverable">
+      <thead>
+      <tr>
+        <th data-field="id"> # </th>
+        <th data-field="id">Version</th>
+        <th data-field="id">Compare</th>
+        <th data-field="id">Timestamp</th>
+        <th data-field="id">Reason</th>
+        <th data-field="id">modifiedBy</th>
+        <th data-field="id">Comment</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let content of revisions; let idx=index">
+        <td (click)="onPreviewRevision(idx)" [ngStyle]="{'cursor': 'zoom-in'}">
+          {{content?.metadata?.revisionNumber}}
+        </td>
+        <td>{{content?.entity?.version?.major}}.{{content?.entity?.version?.minor}} {{content?.entity?.version?.versionLabel}}</td>
+        <td (click)="onSelectRevision(idx)" [ngStyle]="{'cursor': 'pointer'}">
+          <i class="material-icons">transform</i>
+        </td>
+        <td>{{content?.metadata?.delegate?.timestamp | date:'dd MM yyyy HH:mm'}}</td>
+        <td>{{content?.entity?.changeKind}}</td>
+        <td>{{content?.entity?.modifiedBy?.username}}</td>
+        <td>{{content?.entity?.changeComment}}</td>
+      </tr>
+      </tbody>
+      <!--<qddt-pagination-->
+      <!--[collectionSize]="page.totalElements"-->
+      <!--[page]="page.number"-->
+      <!--[pageSize]="page.size"-->
+      <!--[maxSize]="5"-->
+      <!--[rotate]="true"-->
+      <!--[boundaryLinks]="true"-->
+      <!--(pageChange)="pageChange($event)"></qddt-pagination>-->
+    </table>
+  </div>
+  <div [attr.id]="selectRevisionId + '-detail-readonly-modal'" class="modal modal-fixed-footer"
+       materialize="modal" [materializeActions]="previewModalActions">
+    <div class="modal-content">
+      <div *ngIf="element" [ngSwitch]="elementType">
+        <div *ngSwitchDefault>
+          <div class="row">
+            <div class="col s12">
+              <label [attr.for]="element.id + '-description'" class="active teal-text">Description</label>
+              <textarea class="materialize-textarea" id="{{element?.id}}-description"
+                        name="{{element?.id}}-description"[(ngModel)]="element.description" readonly>
+                  </textarea>
+            </div>
+          </div>
+          <div class="row">
+            <qddt-element-footer  [element]="element" [type]="''"></qddt-element-footer>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        (click)="false"
+        class="btn btn-default red modal-action modal-close waves-effect">
+        <a><i class="close material-icons medium white-text">close</i></a>
+      </button>
+    </div>
+  </div>
+</div>

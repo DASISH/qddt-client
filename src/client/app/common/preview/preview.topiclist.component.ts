@@ -3,9 +3,9 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'qddt-preview-topic-list',
   moduleId: module.id,
-  // styles: [
-  //   '.collapsible { border:1px  }',
-  // ],
+  styles: [
+    '.collapsible { border:1px  }',
+  ],
   template:`
   <ul *ngIf="topicList" materialize="collapsible" class="collapsible" data-collapsible="accordion" style="padding: 5pt;">
     <li *ngFor="let topic of topicList">

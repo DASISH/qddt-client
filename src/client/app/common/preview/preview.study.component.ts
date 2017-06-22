@@ -23,7 +23,7 @@ import { Component, Input } from '@angular/core';
     <qddt-preview-topic-list [topicList]="study.topics"></qddt-preview-topic-list>
   </div>
   <div class="row">
-    <qddt-revision-detail [element]="study" [type]="'study'"></qddt-revision-detail>
+    <qddt-element-footer [element]="study" [type]="'study'"></qddt-element-footer>
   </div>`
   ,
   providers: [ ],

@@ -4,10 +4,10 @@ import { Component, Input } from '@angular/core';
   selector: 'qddt-preview-concept-list',
   moduleId: module.id,
   // styles: [
-  //   '.collapsible { border:1px  }',
+  //   'ul .collapsible { margin:20px; padding:5px;}',
   // ],
   template: `
-    <ul *ngIf="conceptList" materialize="collapsible" class="collapsible" data-collapsible="accordion" style="padding: 5pt;">
+    <ul *ngIf="conceptList" materialize="collapsible" class="collapsible" data-collapsible="accordion" style="margin:25px; padding:10px;">
       <li *ngFor="let concept of conceptList">
         <div class="collapsible-header yellow lighten-5">
           <!--<div class="row">-->

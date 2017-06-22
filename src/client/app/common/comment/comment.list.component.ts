@@ -5,9 +5,9 @@ import { CommentService } from './comment.service';
   selector: 'qddt-comment-list',
   moduleId: module.id,
   template: `
-    <div *ngIf="comments">
+    <div *ngIf="comments" title="View Comment(s)">
       <a class="btn btn-flat btn-medium waves-effect waves-light teal white-text" (click)="toggleComments()">
-      <i class="material-icons left">message</i>{{comments.length}} </a>
+      <i class="material-icons left" >message</i>{{comments.length}} </a>
     </div>
     <div *ngIf="showComments">
       <div *ngIf="comments" class="card">

@@ -12,7 +12,7 @@ import { Component, Input } from '@angular/core';
   ],
   template: `
 <div *ngIf="responseDomain" class="row">
-  <table *ngIf="displayLayout === 0">
+  <table *ngIf="responseDomain?.displayLayout === 0">
     <tbody>
       <tr>
         <td *ngFor="let option of row; let idx=index">

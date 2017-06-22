@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 @Component({
   selector: 'qddt-rational',
   moduleId: module.id,
-  styles:[':host /deep/ .hoverable .row { min-height:4rem; margin-bottom:0px;}'],
+  styles:[':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'],
   template: `
   <div class="row">
     <div class="hoverable"

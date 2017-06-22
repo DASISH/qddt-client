@@ -34,7 +34,7 @@ enum DomainType {
       </qddt-preview-responsedomain>
     </div>
     <div class="row">
-      <qddt-revision-detail  [element]="questionItem" [type]="'questionitem'"></qddt-revision-detail>
+      <qddt-element-footer  [element]="questionItem" [type]="'questionitem'"></qddt-element-footer>
     </div>
     <div class="row">
       <ul class="collection with-header black-text">

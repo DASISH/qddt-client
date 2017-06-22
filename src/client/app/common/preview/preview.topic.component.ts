@@ -3,9 +3,9 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'qddt-preview-topic',
   moduleId: module.id,
-  // styles: [
-  //   '.collapsible { border:1px  }',
-  // ],
+  styles: [
+    'ul .collapsible { margin:20px; padding:5px; important!;}',
+  ],
   template:`
   <div class="row"> 
     <div class="col s12">
@@ -15,8 +15,8 @@ import { Component, Input } from '@angular/core';
       </textarea>
     </div>
   </div>
-  <div *ngIf="topic?.topicGroupQuestions && topic?.topicGroupQuestions?.length>0" class="section">
-    <ul *ngIf="topic?.topicGroupQuestions" materialize="collapsible" class="collapsible popout" 
+  <div class="section" *ngIf="topic?.topicGroupQuestions && topic?.topicGroupQuestions?.length>0" style="margin:20px; padding:5px;">
+    <ul class="collapsible popout"  *ngIf="topic?.topicGroupQuestions" materialize="collapsible" 
       data-collapsible="expandable" style="padding: 5pt;">
       <li *ngFor="let cqi of topic?.topicGroupQuestions; let idx=index">
         <div class="collapsible-header green lighten-5">
@@ -37,11 +37,11 @@ import { Component, Input } from '@angular/core';
   <div class="row">
     <qddt-comment-list [ownerId]="topic.id" [comments]="topic.comments"></qddt-comment-list>
   </div>
-  <div class="row" *ngIf="topic.concepts && topic.concepts.length>0">
+  <div class="row" *ngIf="topic.concepts && topic.concepts.length>0" >
     <qddt-preview-concept-list [conceptList]="topic.concepts"></qddt-preview-concept-list>
   </div>
   <div class="row">
-    <qddt-revision-detail [element]="topic" [type]="'topic'"></qddt-revision-detail>
+    <qddt-element-footer [element]="topic" [type]="'topic'"></qddt-element-footer>
   </div>`
 ,
   providers: [ ],
