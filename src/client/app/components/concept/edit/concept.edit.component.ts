@@ -30,9 +30,9 @@ import { MaterializeAction } from 'angular2-materialize';
 		      <qddt-rational [element]="concept" [config]="{hidden: [2,3]}"></qddt-rational>
         </div>
         <div class="row">
-				  <qddt-revision-detail [element]="concept" [type]="'concept'"
+				  <qddt-element-footer [element]="concept" [type]="'concept'"
             (BasedonObjectDetail)="onBasedonObjectDetail($event)">
-          </qddt-revision-detail>
+          </qddt-element-footer>
 			  </div>
         <button *ngIf="!readonly" type="submit" class="btn btn-default">Submit</button>
       </form>

@@ -13,8 +13,11 @@ import { MaterializeAction } from 'angular2-materialize';
         border-style: solid;
         border-color: green;
     }`,
-    ':host /deep/ .collection-item .row { min-height:4rem; margin-bottom:0px;}'
-  ]
+    ':host /deep/ .collection-item .row { min-height:3rem; margin-bottom:0px;border-bottom: none;}',
+    '.collection .collection-item {border-bottom: none; }',
+    '.collection.with-header .collection-header {border-bottom: none; padding: 0px;}',
+    '.collection {border:none; }'],
+
 })
 
 export class TreeNodeComponent {

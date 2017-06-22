@@ -65,30 +65,30 @@
                      [config]="[{'name':'name','label':'Name'},{'name':'description','label':'Description'}]"
                      #revision ></qddt-revision>
       <div *ngIf="concept.conceptQuestionItems.length > 0" class="section">
-        <ul class="collection with-header">
-          <li class="collection-header">Question Items</li>
-          <li class="collection-item" *ngFor="let questionItem of concept.conceptQuestionItems">
-            <div class="row"
-                 (mouseenter)="questionItem.showbutton = true"
-                 (mouseleave)="questionItem.showbutton = false">
+        <ul class="collection with-header hoverable"
+            (mouseenter)="showbutton = true"
+            (mouseleave)="showbutton = false">
+          <li class="collection-header teal-text">Question Items</li>
+          <a class="collection-item grey-text text-darken-1" *ngFor="let questionItem of concept.conceptQuestionItems">
+            <div class="row" style="min-height: 3rem;">
+              <div class="col s10">♦ {{questionItem?.questionItem?.question?.question}}</div>
               <div class="col s1">
                 <a class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                   [ngClass]="{hide: !questionItem.showbutton}"
+                   [ngClass]="{hide: !showbutton}"
                    (click)="onClickQuestionItem(questionItem.questionItem)">
-                  <i class="material-icons" title="Search for...">search</i>
+                  <i class="material-icons" title="Preview QuestionItem">search</i>
                 </a>
               </div>
-              <div class="col s10">{{questionItem?.questionItem?.question?.question}}</div>
               <div class="col s1">
                 <a
                   class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                  [ngClass]="{hide: !questionItem.showbutton}"
+                  [ngClass]="{hide: !showbutton}"
                   (click)="removeQuestionItem(questionItem?.questionItem?.id)">
                   <i class="material-icons" title="Remove selected">remove</i>
                 </a>
               </div>
             </div>
-          </li>
+          </a>
         </ul>
       </div>
       <div class="row">
