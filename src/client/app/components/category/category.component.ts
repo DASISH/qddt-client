@@ -2,7 +2,7 @@ import { Component, OnInit, AfterContentChecked } from '@angular/core';
 import { CategoryService, Category } from './category.service';
 import { UserService } from '../../common/user.service';
 import { Subject } from 'rxjs/Subject';
-import { Column } from '../table/table.service';
+import { Column } from '../../common/table/table.service';
 
 @Component({
   selector: 'category',

@@ -32,7 +32,7 @@ import { CategoryType } from '../category_kind';
           <qddt-rational [element]="category" [config]="{hidden: [2]}"></qddt-rational>
         </div>
         <div class="row">
-          <qddt-revision-detail [element]="category" [type]="'category'"></qddt-revision-detail>
+          <qddt-element-footer [element]="category" [type]="'category'"></qddt-element-footer>
         </div>
         <div *ngIf="isTemplate" class="row">
           <div class="col s2 input-field">
