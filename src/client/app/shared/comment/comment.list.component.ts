@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CommentService } from './comment.service';
+import { CommentService, Comment } from './comment.service';
 
 @Component({
   selector: 'qddt-comment-list',
@@ -72,7 +72,7 @@ export class CommentListComponent implements OnInit {
   message: string = '';
   showComments: boolean = false;
   @Input() ownerId: string;
-  @Input() comments: any[];
+  @Input() comments: Comment[];
 
   constructor(private commentService: CommentService) {
     this.selectedCommentId = 0;

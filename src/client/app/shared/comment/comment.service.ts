@@ -9,6 +9,7 @@ export class Comment {
   ownerId: string;
   comment: string;
   modifiedBy: any;
+  isHidden: boolean;
 }
 
 @Injectable()

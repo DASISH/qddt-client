@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { PublicationService } from './publication.service';
 
 @Component({
   selector: 'qddt-publication-preview',
@@ -11,12 +10,15 @@ import { PublicationService } from './publication.service';
        margin-bottom: 2px;
     }`
   ],
-  templateUrl: './publication.preview.component.html',
-  providers: [PublicationService],
+  templateUrl: './preview.component.html',
+  providers: [],
 })
 
-export class PublicationPreviewComponent  {
+export class PreviewComponent  {
   @Input() element: any;
-  @Input() elementType: any;
+  @Input() elementType: String;
 
+  constructor() {
+    console.info('elementType ' + this.elementType);
+  }
 }

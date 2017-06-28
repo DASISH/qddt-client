@@ -79,26 +79,20 @@
                   </li>
                 </ul>
               </div>
-              <div class="row" *ngIf="topic.topicGroupQuestions?.length > 0" >
+              <div *ngIf="topic.topicGroupQuestions.length > 0" class="section">
                 <ul class="collection with-header hoverable"
                     (mouseenter)="showQuestionbutton = true"
                     (mouseleave)="showQuestionbutton = false">
                   <li class="collection-header teal-text">Question Items</li>
-                  <a class="collection-item grey-text text-darken-1" *ngFor="let tqi of topic.topicGroupQuestions">
+                  <a class="collection-item grey-text text-darken-1" *ngFor="let cqi of topic.topicGroupQuestions">
                     <div class="row" style="min-height: 3rem;">
-                      <div class="col s10">♦ {{tqi?.questionItem?.question?.question}}</div>
-                      <div class="col s1">
-                        <a class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                           [ngClass]="{hide: !showQuestionbutton}"
-                           (click)="onClickQuestionItem(tqi.questionItem)">
-                          <i class="material-icons" title="QuestionItem preview">search</i>
-                        </a>
-                      </div>
+                      <div class="col s11" (click)="onClickQuestionItem(cqi.questionItem)" style="cursor: pointer;">
+                        ♦ {{cqi?.questionItem?.question?.question}}</div>
                       <div class="col s1">
                         <a
                           class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
                           [ngClass]="{hide: !showQuestionbutton}"
-                          (click)="removeQuestionItem(tqi?.questionItem?.id)">
+                          (click)="removeQuestionItem(cqi?.questionItem?.id)">
                           <i class="material-icons" title="Remove selected">remove</i>
                         </a>
                       </div>
@@ -106,8 +100,7 @@
                   </a>
                 </ul>
               </div>
-
-              <qddt-revision [isVisible]="revision.isVisible" [current]="topic"
+              <qddt-revision [isVisible]="revision.isVisible" [current]="topic" [elementType]="'TopicGroup'"
                 [config]="[{'name':'name','label':'Name'},{'name':'description','label':'Description'}]"
                 [qddtURI]="'audit/topicgroup/' + topic.id + '/all'" #revision ></qddt-revision>
 
@@ -145,8 +138,8 @@
     <div style="top: 55;" class="toc-wrapper pinned">
       <h5>Module Toc</h5>
       <ul class="section table-of-contents">
-        <li><a href="Home#topMenu">To the top </a> </li>
-        <li *ngFor="let topic of topics"><a href="Home#{{topic.id}}">{{topic.name}}</a></li>
+        <li><a href="home#topMenu">To the top </a> </li>
+        <li *ngFor="let topic of topics"><a href="home#{{topic.id}}">{{topic.name}}</a></li>
       </ul>
     </div>
   </div>

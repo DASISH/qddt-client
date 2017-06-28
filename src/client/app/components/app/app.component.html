@@ -2,25 +2,25 @@
   <ul id="nav-mobile" class="side-nav fixed" style="width:240px;">
     <qddt-user-login (logoutEvent)="logoutEvent()"></qddt-user-login>
     <div *ngIf="user">
-        <li><a class="teal-text" [routerLink]="['/Home']" (click)="onHome()">
+        <li><a class="teal-text" [routerLink]="['/home']" (click)="onHome()">
           <i class="material-icons teal-text left medium">store</i>Home</a>
         </li>
-        <li><a class="teal-text" [routerLink]="['/Questions']" (click)="onQuestions()">
+        <li><a class="teal-text" [routerLink]="['/questions']" (click)="onQuestions()">
           <i class="material-icons teal-text left medium">help</i>Questions</a>
         </li>
-        <li><a class="teal-text" [routerLink]="['/Categories']" (click)="onCategories()">
+        <li><a class="teal-text" [routerLink]="['/categories']" (click)="onCategories()">
           <i class="material-icons teal-text left medium">subject</i>Categories</a>
         </li>
-        <li><a class="teal-text" [routerLink]="['/Schemes']" (click)="onSchemes()">
+        <li><a class="teal-text" [routerLink]="['/schemes']" (click)="onSchemes()">
           <i class="material-icons teal-text left medium">subject</i>Missings</a>
         </li>
-        <li><a class="teal-text" [routerLink]="['/Responsedomains']" (click)="onResponsedomains()">
+        <li><a class="teal-text" [routerLink]="['/responsedomains']" (click)="onResponsedomains()">
           <i class="material-icons teal-text left medium">dashboard</i>Domains</a>
         </li>
-        <li><a class="teal-text" [routerLink]="['/Constructs']" (click)="onConstructs()">
+        <li><a class="teal-text" [routerLink]="['/constructs']" (click)="onConstructs()">
           <i class="material-icons teal-text left medium">view_day</i>Constructs</a>
         </li>
-        <li><a class="teal-text" [routerLink]="['/Publications']" (click)="onPublications()">
+        <li><a class="teal-text" [routerLink]="['/publications']" (click)="onPublications()">
           <i class="material-icons teal-text left medium">subtitles</i>Publications</a>
         </li>
     </div>

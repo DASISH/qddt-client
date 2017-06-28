@@ -18,7 +18,7 @@
       </div>
     </div>
 
-    <div class="col s11 m11 l11 grey-text text-darken-2">
+    <div class="col s11 grey-text text-darken-2">
       <h5 class="row">
         <div class="col s10">{{concept?.name}}</div>
         <div class="col s2">
@@ -30,9 +30,9 @@
       </h5>
     </div>
 
-    <div class="col s11 m11 l11 white grey-text text-darken-1">
+    <div class="col s11  white grey-text text-darken-1">
       <div class="row">
-        <p>{{concept?.description}}</p>
+        <div [innerHtml]="concept?.description" style="white-space: pre-wrap; padding-right: 35pt;" ></div>
         <qddt-author-chip [authors]="concept.authors" ></qddt-author-chip>
       </div>
       <div *ngIf="showConceptChildForm">
@@ -63,22 +63,18 @@
                      [current]="concept"
                      [qddtURI]="'audit/concept/' + concept.id + '/all'"
                      [config]="[{'name':'name','label':'Name'},{'name':'description','label':'Description'}]"
+                     [elementType]="'Concept'"
                      #revision ></qddt-revision>
       <div *ngIf="concept.conceptQuestionItems.length > 0" class="section">
         <ul class="collection with-header hoverable"
             (mouseenter)="showbutton = true"
             (mouseleave)="showbutton = false">
           <li class="collection-header teal-text">Question Items</li>
-          <a class="collection-item grey-text text-darken-1" *ngFor="let questionItem of concept.conceptQuestionItems">
+          <a class="collection-item grey-text text-darken-1" *ngFor="let questionItem of concept.conceptQuestionItems"
+            style="padding-bottom: 5pt;">
             <div class="row" style="min-height: 3rem;">
-              <div class="col s10">♦ {{questionItem?.questionItem?.question?.question}}</div>
-              <div class="col s1">
-                <a class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                   [ngClass]="{hide: !showbutton}"
-                   (click)="onClickQuestionItem(questionItem.questionItem)">
-                  <i class="material-icons" title="Preview QuestionItem">search</i>
-                </a>
-              </div>
+              <div class="col s11" (click)="onClickQuestionItem(questionItem.questionItem)" style="cursor: pointer;">
+                ♦ {{questionItem?.questionItem?.question?.question}}</div>
               <div class="col s1">
                 <a
                   class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"

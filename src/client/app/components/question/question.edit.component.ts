@@ -29,6 +29,7 @@ export class QuestionItemEditComponent implements OnInit {
   privewResponseDomain: any;
   basedonObject: any;
   showResponseDomainForm: boolean;
+  private showRefs: boolean = false;
   private mainResponseDomain: any;
   private mainresponseDomainRevision: number;
   private secondCS: any;

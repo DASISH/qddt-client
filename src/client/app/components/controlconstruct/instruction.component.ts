@@ -12,10 +12,10 @@ import { ControlConstructService, Instruction } from './controlconstruct.service
       <div [ngClass]="{ noItemFound: (isInstructionNew && instruction.description.length > 0 && instructions.length === 0) }">
 		<autocomplete [items]="instructions" class="black-text"
           [searchField]="'description'"
-		  [searchFromServer]="true"
+		      [searchFromServer]="true"
           [initialValue]="instruction?.description"
           (autocompleteSelectEvent)="onSelectInstruction($event)"
-		  (enterEvent)="onSearchInstructions($event)">
+		      (enterEvent)="onSearchInstructions($event)">
 		</autocomplete>
 	  </div>
     </div>
@@ -26,7 +26,7 @@ import { ControlConstructService, Instruction } from './controlconstruct.service
   `,
   styles: [
     `.noItemFound {
-        border: thick solid red;
+        border: thick solid orange;
     }`
   ],
   providers: [ControlConstructService],

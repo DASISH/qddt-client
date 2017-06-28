@@ -4,13 +4,13 @@ import { Component, Input } from '@angular/core';
   selector: 'qddt-preview-concept',
   moduleId: module.id,
   styles: [
-      'ul .collapsible { margin:20px;}'
+      'div.collapsible { margin:20px;}'
   ],
   template: `
   <div class="row" *ngIf="concept?.description">
-    <div class="input-field col s10">
+    <div class="input-field col s11">
       <label class="active teal-text">Description</label>
-      <span>{{concept?.description}}</span>
+      <div [innerHtml]="concept?.description"  style="white-space: pre-wrap"></div>
     </div>
   </div>
   <div class="row">

@@ -1,0 +1,66 @@
+<a class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal">
+  <i class="material-icons" title="response domain edit" (click)="openModal2()">add</i>
+</a>
+<div class="modal modal-fixed-footer"
+     materialize="modal" [materializeActions]="materializeActions">
+  <div class="modal-content">
+    <form #hf="ngForm">
+      <div class="row">
+          <div>
+            <h4>Reuse Domain</h4>
+          </div>
+          <div class="response-domain-title">
+            <span name="text">Domain Type:</span>
+          </div>
+        <div class="col left" *ngFor="let domain of domainTypeDescription">
+          <input name="domaintypegroup" type="radio" id="rdomain-type-{{domain.id}}"
+                 (click)="selectDomainType(domain.id)" [checked]="domainType === domain.id">
+          <label [attr.for]="'rdomain-type-' + domain.id">{{domain.label}}</label>
+        </div>
+        <div class="row black-text">
+          <autocomplete [items]="responseDomains" class="black-text"
+                        [searchField]="'name'"
+                        [placeholder] = "'Search in response name'"
+                        [isMutipleFields]="false"
+                        [initialValue]="''"
+                        [searchFromServer]="true"
+                        (autocompleteFocusEvent)="selectedIndex=idx;"
+                        (enterEvent)="searchResponseDomains($event)"
+                        (autocompleteSelectEvent)="selectResponseDomain($event)">
+          </autocomplete>
+        </div>
+      </div>
+    </form>
+    <div class="row" *ngIf="responseDomain">
+      <div class="col s11 grey-text text-darken-2">
+        <div class="row card">
+          <div class="input-field col s5" *ngIf="elementRevisions.length > 0">
+            <label class="active black-text">business version</label>
+            <select [(ngModel)]="elementRevision"
+                    (ngModelChange)="onSelectElementRevisions($event)"
+                    class="black-text"
+                    name="element-revision"
+                    materialize="material_select">
+              <option *ngFor="let revision of elementRevisions"
+                      [selected]="revision.revisionNumber === elementRevision"
+                      [value]="revision.revisionNumber">
+                {{revision?.entity?.version?.major}}.{{revision?.entity?.version?.minor}}
+              </option>
+            </select>
+          </div>
+          <div class="input-field col s6 right">
+            <a class="waves-effect waves-light btn red right" (click)="closeModal()">Dismiss</a>
+            <a class="waves-effect waves-light btn green right" (click)="onUseElement()">Use this</a>
+          </div>
+        </div>
+        <div class="row">
+          <qddt-preview-responsedomain [isVisible]="true" [responseDomain]="selectedElement"></qddt-preview-responsedomain>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      class="btn btn-default red modal-action modal-close waves-effect waves-red">Dismiss</button>
+  </div>
+</div>

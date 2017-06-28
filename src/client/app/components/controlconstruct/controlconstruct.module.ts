@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
-import { RevisionModule } from '../../common/revision/revision.module';
-import { CompareModule } from '../../common/compare/compare.module';
-import { CommentModule } from '../../common/comment/comment.module';
+// import { RevisionModule } from '../../common/revision/revision.module';
+// import { CommentModule } from '../../shared/comment/comment.module';
 import { SharedModule } from '../../shared/shared.module';
 import { ControlConstructComponent } from './controlconstruct.component';
 import { ControlConstructDetailComponent } from './controlconstruct.detail.component';
@@ -13,8 +12,7 @@ import { ControlConstructFormComponent } from './controlconstruct.form.component
 import { PreviewModule } from '../../common/preview/preview.module';
 
 @NgModule({
-  imports: [ SharedModule, RevisionModule, CompareModule, CommentModule,
-    ResponsedomainModule, QuestionModule, PreviewModule],
+  imports: [ SharedModule, ResponsedomainModule, QuestionModule, PreviewModule],
   declarations: [ControlConstructComponent, ControlConstructFormComponent,
     ControlConstructQuestionItemSelectComponent, ControlConstructDetailComponent, InstructionComponent
     ],

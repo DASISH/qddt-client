@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Output, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 import { TopicService, Topic } from './topic.service';
-import { ConceptService } from '../concept/concept.service';
 import { MaterializeAction } from 'angular2-materialize';
 
 @Component({
@@ -22,7 +21,7 @@ export class TopicComponent implements OnChanges {
   private topics:any;
   private topic: any;
   private showTopicForm: boolean = false;
-  // private showQuestionbutton: boolean = false;
+  private showQuestionbutton: boolean = false;
   private questionItem: any;
 
   constructor(private topicService: TopicService) {

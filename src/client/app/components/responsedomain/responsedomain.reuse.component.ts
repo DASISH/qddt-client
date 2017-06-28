@@ -7,43 +7,7 @@ import { Subject } from 'rxjs/Subject';
   selector: 'qddt-responsedomain-reuse',
   moduleId: module.id,
   template: `
-    <div *ngIf="isVisible" class="row">
-      <div class="row">
-        <div>
-          <h4>Reuse Domain</h4>
-        </div>
-        <div class="response-domain-title">
-			    <span name="text">Domain Type:</span>
-			  </div>
-			  <div class="col left" *ngFor="let domain of domainTypeDescription">
-				  <input name="domaintypegroup" type="radio" id="rdomain-type-{{domain.id}}"
-          (click)="selectDomainType(domain.id)" [checked]="domainType === domain.id"
-				  />
-          <label [attr.for]="'rdomain-type-' + domain.id">{{domain.label}}</label>
-			  </div>
-      </div>
-      <div *ngIf="showAutocomplete">
-        <autocomplete [items]="responseDomains" class="black-text"
-          [searchField]="'name'"
-          (autocompleteFocusEvent)="selectedIndex=idx;"
-          [initialValue]="''"
-          [searchFromServer]="true"
-					(enterEvent)="searchResponseDomains($event)"
-          (autocompleteSelectEvent)="select($event)">
-        </autocomplete>
-      </div>
-      <div class="row" *ngIf="selectedResponseDomain">
-        <qddt-responsedomain-select
-          [responseDomain]="selectedResponseDomain"
-          [revision]="selectedRevision"
-          (dismissEvent)="onDismiss()"
-          (useResponseDomainEvent)="onUseResponseDomainEvent($event)">
-        </qddt-responsedomain-select>
-      </div>
-      <qddt-responsedomain-form *ngIf="responseDomain"
-        (formChange)="formChange()" [responsedomain]="responseDomain" [domainType]="domainType">
-      </qddt-responsedomain-form>
-    </div>`,
+ `,
   styles: [],
   providers: [ResponseDomainService],
 })

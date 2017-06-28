@@ -23,8 +23,8 @@ import { CommentService, Comment } from './comment.service';
 export class CommentCreateComponent {
 
   @Output() addedCommentEvent: EventEmitter<Comment>  = new EventEmitter<Comment>();
-  comment: Comment = new Comment();
   @Input() ownerId: string;
+  comment: Comment = new Comment();
 
   constructor(private commentService: CommentService) {
     this.commentService = commentService;

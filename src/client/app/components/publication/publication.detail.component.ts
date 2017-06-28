@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { PublicationService, ElementTypes, Publication, PublicationStatus, PUBLICATIONNOTPUBLISHED } from './publication.service';
+import { PublicationService,  Publication, PublicationStatus, PUBLICATIONNOTPUBLISHED } from './publication.service';
 // import * as fileSaver from 'file-saver';
 let fileSaver = require('../../common/file-saver');
 
@@ -73,13 +73,14 @@ export class PublicationDetailComponent implements OnInit {
       });
   }
 
-  getElementType(e: any) {
-    let type: any = ElementTypes.find(el => el.type === e.elementKind);
-    if(type !== undefined) {
-      return type.id;
-    }
-    return null;
-  }
+  // getElementType(e: any) {
+  //   let type: any = ElementTypes.find(el => el.type === e.elementKind);
+  //   if(type !== undefined) {
+  //     console.info('getElementType ' + type.type);
+  //     return type.type;
+  //   }
+  //   return null;
+  // }
 
   onDeleteElement(index: number) {
     if(index < this.publication.publicationElements.length) {

@@ -3,7 +3,7 @@ import { PublicationService, Publication, ElementTypes, PUBLICATIONNOTPUBLISHED,
 import { Subject }          from 'rxjs/Subject';
 import { UserService } from '../../common/user.service';
 import { MaterializeAction } from 'angular2-materialize';
-import { Column } from '../../common/table/table.service';
+import { Column } from '../../shared/table/table.service';
 
 @Component({
   selector: 'qddt-publication',

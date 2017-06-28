@@ -14,6 +14,7 @@ export class RevisionComponent implements OnChanges, OnInit {
   @Input() isVisible: boolean;
   @Input() config: any[];
   @Input() current: any;
+  @Input() elementType: String;
   private revisions: any[];
   private _revisions: any[];
   private page: any;
@@ -22,7 +23,6 @@ export class RevisionComponent implements OnChanges, OnInit {
   private includeRevisions: boolean;
   private previewModalActions = new EventEmitter<string|MaterializeAction>();
   private element: any;
-  private elementType: any;
 
 
   constructor(private service: RevisionService) {
@@ -66,9 +66,9 @@ export class RevisionComponent implements OnChanges, OnInit {
     this.selectRevisionId = id;
   }
 
-  onPreviewRevision(id: number) {
+  onPreviewRevision(id: number, type: String) {
     this.element = this.revisions[id].entity;
-    this.elementType = 'study';
+    this.elementType = type;
     this.previewModalActions.emit({action:'modal', params:['open']});
   }
 

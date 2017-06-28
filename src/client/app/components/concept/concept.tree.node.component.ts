@@ -26,6 +26,7 @@ export class TreeNodeComponent {
   showConceptChildForm: boolean = false;
   showQuestionForm: boolean = false;
   questionItemActions = new EventEmitter<string|MaterializeAction>();
+  private showbutton: boolean = false;
   private newchild: any;
   private questionItem: any;
 

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
-import { RevisionModule } from '../../common/revision/revision.module';
-import { CompareModule } from '../../common/compare/compare.module';
-import { CommentModule } from '../../common/comment/comment.module';
+// import { CommentModule } from '../../shared/comment/comment.module';
+// import { RevisionModule } from '../../common/revision/revision.module';
 import { SharedModule } from '../../shared/shared.module';
 import { PreviewResponsedomainComponent } from './responsedomain.preview.component';
 import { ResponsedomainComponent } from './responsedomain.component';
@@ -17,9 +16,10 @@ import { ResponsedomainMixedComponent } from './preview/responsedomain.mixed.com
 import { ResponsedomainNumericComponent } from './preview/responsedomain.numeric.component';
 import { ResponsedomainScaleComponent } from './preview/responsedomain.scale.component';
 import { ResponsedomainTextComponent } from './preview/responsedomain.text.component';
+import { DialogBoxComponent } from '../../shared/dialogbox/dialogbox.component';
 
 @NgModule({
-  imports: [ SharedModule, RevisionModule, CompareModule, CommentModule ],
+  imports: [ SharedModule],
   declarations: [ResponsedomainComponent, ResponsedomainFormComponent, ResponsedomainListComponent,
      ResponsedomainReuseComponent,ResponseDomainSearchComponent,ResponseDomainSelectComponent,
     ResponsedomainCodeListComponent,ResponsedomainDatetimeComponent,ResponsedomainMissingComponent,

@@ -85,17 +85,13 @@ export const PublicationStatus: any = [
 ];
 
 export const ElementTypes: any[] = [
-    {'id': 1, 'label': 'Module', 'path': 'topicgroup',
-      'type': 'Module',
+    {'id': 1, 'label': 'Module', 'path': 'topicgroup','type': 'TopicGroup',
       'fields': ['name', 'description']},
-    {'id': 2, 'label': 'Concept', 'path': 'concept',
-      'type': 'Concept',
+    {'id': 2, 'label': 'Concept', 'path': 'concept','type': 'Concept',
       'fields': ['name']},
-    {'id': 3, 'label': 'QuestionItem', 'path': 'questionitem',
-      'type': 'QuestionItem',
+    {'id': 3, 'label': 'QuestionItem', 'path': 'questionitem','type': 'QuestionItem',
       'fields': ['name', 'question']},
-    {'id': 4, 'label': 'QuestionConstruct', 'path': 'controlconstruct',
-      'type': 'QuestionConstruct',
+    {'id': 4, 'label': 'QuestionConstruct', 'path': 'controlconstruct','type': 'QuestionConstruct',
       'fields': ['name', 'questiontext'], 'parameter': '&constructkind=QUESTION_CONSTRUCT'},
   ];
 

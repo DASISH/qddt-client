@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
-import { RevisionModule } from '../../common/revision/revision.module';
-import { CompareModule } from '../../common/compare/compare.module';
-import { CommentModule } from '../../common/comment/comment.module';
+// import { RevisionModule } from '../../common/revision/revision.module';
+// import { CommentModule } from '../../shared/comment/comment.module';
 import { SharedModule } from '../../shared/shared.module';
 import { SequenceComponent } from './sequence.component';
 import { SequenceDetailComponent } from './sequence.detail.component';
@@ -17,7 +16,7 @@ import { StatementEditComponent } from './statement.edit.component';
 import { ResponsedomainModule } from '../responsedomain/responsedomain.module';
 
 @NgModule({
-  imports: [ SharedModule, RevisionModule, CompareModule, CommentModule, ResponsedomainModule ],
+  imports: [ SharedModule, ResponsedomainModule ],
   declarations: [ SequenceComponent, SequenceDetailComponent, SequenceReuseComponent,
     SequenceContentComponent, ConditionPreviewComponent, ConstructPreviewComponent,
     ControlConstructPreviewComponent, SequencePreviewComponent, StatementPreviewComponent,

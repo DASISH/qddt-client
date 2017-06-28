@@ -16,3 +16,6 @@ footer {
     /*margin-bottom:0px;*/
   /*}*/
 }
+p {
+  white-space: pre-wrap;
+}

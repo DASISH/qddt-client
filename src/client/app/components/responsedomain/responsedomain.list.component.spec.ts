@@ -6,7 +6,7 @@ import { MockBackend } from '@angular/http/testing';
 
 import { ResponseDomainService } from './responsedomain.service';
 
-import { LocalDatePipe } from '../../common/date.pipe';
+import { LocalDatePipe } from '../../shared/date.pipe';
 import { ResponsedomainListComponent } from './responsedomain.list.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';

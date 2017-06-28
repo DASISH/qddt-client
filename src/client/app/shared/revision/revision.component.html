@@ -47,21 +47,7 @@
   <div [attr.id]="selectRevisionId + '-detail-readonly-modal'" class="modal modal-fixed-footer"
        materialize="modal" [materializeActions]="previewModalActions">
     <div class="modal-content">
-      <div *ngIf="element" [ngSwitch]="elementType">
-        <div *ngSwitchDefault>
-          <div class="row">
-            <div class="col s12">
-              <label [attr.for]="element.id + '-description'" class="active teal-text">Description</label>
-              <textarea class="materialize-textarea" id="{{element?.id}}-description"
-                        name="{{element?.id}}-description"[(ngModel)]="element.description" readonly>
-                  </textarea>
-            </div>
-          </div>
-          <div class="row">
-            <qddt-element-footer  [element]="element" [type]="''"></qddt-element-footer>
-          </div>
-        </div>
-      </div>
+      <!--<qddt-publication-preview [element]="element" [elementType]="elementType"></qddt-publication-preview>-->
     </div>
     <div class="modal-footer">
       <button

@@ -7,11 +7,11 @@
     <div class="row" *ngIf="questionitem.conceptRefs && questionitem.conceptRefs.length > 0" >
       <div class="hoverable" style="margin: 1%">
         <table class="highlight">
-          <caption  text-align="left">Used by</caption>
-          <thead>
+          <caption class="teal-text"  (click)="showRefs = !showRefs" style="cursor: zoom-in;">Used by ({{questionitem.conceptRefs.length}})</caption>
+          <thead class="teal-text" >
           <tr><th>Study</th><th>Module</th><th>Concept names</th></tr>
           </thead>
-          <tbody>
+          <tbody *ngIf="showRefs">
           <tr *ngFor="let ref of questionitem.conceptRefs" >
             <td>
               <a  style="cursor: pointer;" (click)="onClickStudy(ref.topicRef.studyRef.id)">{{ref?.topicRef?.studyRef?.name}}</a>
@@ -60,11 +60,9 @@
                 (V{{mainResponseDomain?.managedRepresentation?.version?.major}}<!--
                 -->.{{mainResponseDomain?.managedRepresentation?.version?.minor}})</span></span></div>
             <div class="row">
-              <a *ngIf="!mainResponseDomain && !readonly"
-                 [ngClass]="{hide: !showbutton}"
-                 class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal">
-                <i class="material-icons" title="response domain edit" (click)="onClickEdit()">add</i>
-              </a>
+              <qddt-responsedomain-reuse *ngIf="!mainResponseDomain && !readonly" [ngClass]="{hide: !showbutton}"
+                 (ResponseDomainCreatedEvent)="responseDomainReuse($event)">
+              </qddt-responsedomain-reuse>
               <a *ngIf="!readonly" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                  [ngClass]="{hide: !showbutton}"
                  (click)="onRemoveResponsedomain(questionitem)">
@@ -95,23 +93,23 @@
       </form>
     </div>
 
-    <div class="modal modal-fixed-footer"
-         materialize="modal" [materializeActions]="editResponseDomainActions">
-      <div class="modal-content" *ngIf="editResponseDomain">
-        <div *ngIf="showResponseDomainForm" class="row">
-          <qddt-responsedomain-reuse [isVisible]="showResponseDomainForm"
-                                     [responseDomain]="mainResponseDomain"
-                                     (responseDomainReuse)="responseDomainReuse($event)">
-          </qddt-responsedomain-reuse>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button
-          class="btn btn-default red modal-action modal-close waves-effect waves-red">
-          <a><i class="close material-icons medium white-text">close</i></a>
-        </button>
-      </div>
-    </div>
+    <!--<div class="modal modal-fixed-footer"-->
+         <!--materialize="modal" [materializeActions]="editResponseDomainActions">-->
+      <!--<div class="modal-content" *ngIf="editResponseDomain">-->
+        <!--<div *ngIf="showResponseDomainForm" class="row">-->
+          <!--<qddt-responsedomain-reuse [isVisible]="showResponseDomainForm"-->
+                                     <!--[responseDomain]="mainResponseDomain"-->
+                                     <!--(responseDomainReuse)="responseDomainReuse($event)">-->
+          <!--</qddt-responsedomain-reuse>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="modal-footer">-->
+        <!--<button-->
+          <!--class="btn btn-default red modal-action modal-close waves-effect waves-red">-->
+          <!--<a><i class="close material-icons medium white-text">close</i></a>-->
+        <!--</button>-->
+      <!--</div>-->
+    <!--</div>-->
   </div>
 </div>
 

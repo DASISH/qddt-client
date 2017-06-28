@@ -4,7 +4,7 @@ import { ControlConstructService, ControlConstruct, Instruction } from './contro
 import { UserService } from '../../common/user.service';
 import { Subject }          from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize/dist';
-import { Column } from '../../common/table/table.service';
+import { Column } from '../../shared/table/table.service';
 
 @Component({
   selector: 'qddt-controle-construct',

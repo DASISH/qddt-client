@@ -3,7 +3,7 @@ import { QuestionService, QuestionItem, Question } from './question.service';
 import { UserService } from '../../common/user.service';
 import { Subject }          from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
-import { Column } from '../../common/table/table.service';
+import { Column } from '../../shared/table/table.service';
 
 @Component({
   selector: 'qddt-questionitem',

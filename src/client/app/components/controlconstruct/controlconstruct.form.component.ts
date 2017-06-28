@@ -37,6 +37,7 @@ export class ControlConstructFormComponent implements OnInit {
   private showPreinstructionButton: boolean;
   private showPostinstructionButton: boolean;
   private showQuestionButton: boolean;
+  private showbutton: boolean = false;
   private files: FileList;
   private fileStore: any[];
   private toDeleteFiles: any[];

@@ -1,28 +1,32 @@
 <div *ngIf="element" [ngSwitch]="elementType">
-  <div *ngSwitchCase="1">
+  <div *ngSwitchCase="'Module'">
     <qddt-preview-topic [topic]="element"></qddt-preview-topic>
   </div>
-  <div *ngSwitchCase="2">
+  <div *ngSwitchCase="'Concept'">
     <qddt-preview-concept [concept]="element"></qddt-preview-concept>
   </div>
-  <div *ngSwitchCase="3">
+  <div *ngSwitchCase="'QuestionItem'">
     <qddt-preview-questionitem [questionItem]="element"></qddt-preview-questionitem>
   </div>
-  <div *ngSwitchCase="4">
+  <div *ngSwitchCase="'QuestionConstruct'">
     <qddt-preview-controlconstruct [controlConstruct]="element"></qddt-preview-controlconstruct>
   </div>
   <div *ngSwitchDefault>
     <div class="row">
       <div class="col s12">
+        <label [attr.for]="element.id + '-name'" class="active teal-text">Name</label>
+        <textarea class="materialize-textarea" id="{{element?.id}}-name"
+                  name="{{element?.id}}-name" readonly> {{element?.name}}
+        </textarea>
         <label [attr.for]="element.id + '-description'" class="active teal-text">Description</label>
         <textarea class="materialize-textarea" id="{{element?.id}}-description"
-          name="{{element?.id}}-description"
-          [(ngModel)]="element.description" readonly>
+                  name="{{element?.id}}-description"readonly> {{element?.description}}
         </textarea>
+        <span>{{elementType}}</span>
       </div>
     </div>
     <div class="row">
-      <qddt-element-footer  [element]="element" [type]="''"></qddt-element-footer>
+      <qddt-element-footer  [element]="element" [type]="elementType"></qddt-element-footer>
     </div>
   </div>
 </div>

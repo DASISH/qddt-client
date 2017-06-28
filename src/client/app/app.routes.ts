@@ -12,41 +12,41 @@ import { SequenceComponent } from './components/sequence/sequence.component';
 import { PublicationComponent } from './components/publication/publication.component';
 
 const appRoutes: Routes = [
-  { path: '', redirectTo: 'Home', pathMatch: 'full'},
+  { path: '', redirectTo: 'home', pathMatch: 'full'},
   {
-    path: 'Home',
+    path: 'home',
     component: HomeComponent
   },
   {
-    path: 'Questions',
+    path: 'questions',
     component: QuestionComponent
   },
   {
-    path: 'Responsedomains',
+    path: 'responsedomains',
     component: ResponsedomainComponent
   },
   {
-    path: 'Schemes',
+    path: 'schemes',
     component: CategorySchemeComponent
   },
   {
-    path: 'Constructs',
+    path: 'constructs',
     component: ControlConstructComponent
   },
   {
-    path: 'Categories',
+    path: 'categories',
     component: CategoryComponent
   },
   {
-    path: 'Instruments',
+    path: 'instruments',
     component: InstrumentComponent
   },
   {
-    path: 'Sequences',
+    path: 'sequences',
     component: SequenceComponent
   },
   {
-    path: 'Publications',
+    path: 'publications',
     component: PublicationComponent
   },
 ];

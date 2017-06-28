@@ -8,12 +8,12 @@ import { TreeNodeComponent } from './concept.tree.node.component';
 import { SharedModule } from '../../shared/shared.module';
 import { QuestionModule } from '../question/question.module';
 import { ResponsedomainModule } from '../responsedomain/responsedomain.module';
-import { CommentModule } from '../../common/comment/comment.module';
-import { RevisionModule } from '../../common/revision/revision.module';
+// import { CommentModule } from '../../shared/comment/comment.module';
+// import { RevisionModule } from '../../common/revision/revision.module';
 import { PreviewModule } from '../../common/preview/preview.module';
 
 @NgModule({
-    imports: [ SharedModule, QuestionModule, ResponsedomainModule, RevisionModule, CommentModule ,PreviewModule],
+    imports: [ SharedModule, QuestionModule, ResponsedomainModule, PreviewModule],
     declarations: [ConceptComponent, ConceptEditComponent,
        ConceptTocComponent, TreeNodeComponent ],
     exports: [ConceptComponent,  TreeNodeComponent]
