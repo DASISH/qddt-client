@@ -1,5 +1,4 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
-
 import { QuestionService, QuestionItem } from './question.service';
 import { Subject } from 'rxjs/Subject';
 

@@ -1,17 +1,14 @@
-import { Component, Input, PipeTransform, Pipe, EventEmitter, Output } from '@angular/core';
-import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
+import { Component, Input } from '@angular/core';
+import { BaseRequestOptions, Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { PublicationService } from '../../components/publication/publication.service';
-import { UserService } from '../user.service';
-import { BaseService } from '../base.service';
 import { PreviewQuestionitemComponent } from './preview.questionitem.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Observable }     from 'rxjs/Observable';
 import { MaterializeModule } from 'angular2-materialize';
 
 export function main() {
@@ -19,7 +16,7 @@ export function main() {
     //
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [ PreviewQuestionitemComponent, ResponsedomainPreviewComponent],
+        declarations: [ PreviewQuestionitemComponent, PreviewResponsedomainComponent],
         providers: [
           MockBackend,
           BaseRequestOptions,
@@ -92,7 +89,7 @@ class PublicationServiceSpy {
   template: `<div></div>`
 })
 
-class ResponsedomainPreviewComponent {
+class PreviewResponsedomainComponent {
   @Input() isVisible: boolean;
   @Input() responseDomain: any;
 }

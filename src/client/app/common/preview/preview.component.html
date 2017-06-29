@@ -2,6 +2,9 @@
   <div *ngSwitchCase="'Module'">
     <qddt-preview-topic [topic]="element"></qddt-preview-topic>
   </div>
+  <div *ngSwitchCase="'TopicGroup'">
+    <qddt-preview-topic [topic]="element"></qddt-preview-topic>
+  </div>
   <div *ngSwitchCase="'Concept'">
     <qddt-preview-concept [concept]="element"></qddt-preview-concept>
   </div>
@@ -9,7 +12,7 @@
     <qddt-preview-questionitem [questionItem]="element"></qddt-preview-questionitem>
   </div>
   <div *ngSwitchCase="'QuestionConstruct'">
-    <qddt-preview-controlconstruct [controlConstruct]="element"></qddt-preview-controlconstruct>
+    <qddt-preview-questionconstruct [controlConstruct]="element"></qddt-preview-questionconstruct>
   </div>
   <div *ngSwitchDefault>
     <div class="row">

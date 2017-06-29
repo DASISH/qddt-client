@@ -85,7 +85,7 @@ export const PublicationStatus: any = [
 ];
 
 export const ElementTypes: any[] = [
-    {'id': 1, 'label': 'Module', 'path': 'topicgroup','type': 'TopicGroup',
+    {'id': 1, 'label': 'Module', 'path': 'topicgroup','type': 'Module',
       'fields': ['name', 'description']},
     {'id': 2, 'label': 'Concept', 'path': 'concept','type': 'Concept',
       'fields': ['name']},

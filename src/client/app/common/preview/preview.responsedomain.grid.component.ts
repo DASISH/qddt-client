@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'qddt-preview-rd-oneline',
+  selector: 'qddt-preview-rd-grid',
   moduleId: module.id,
   styles: [
     `:host /deep/ .row {
@@ -28,7 +28,7 @@ import { Component, Input } from '@angular/core';
   providers: [ ],
 })
 
-export class PreviewResponseDomainOneLineComponent {
+export class PreviewResponseDomainGridComponent {
   @Input() responseDomain: any;
 
 

@@ -31,22 +31,23 @@
     </button>
   </div>
   <div class="modal-content">
-    <div *ngIf="selectedElement">
-      <div [ngSwitch]="selectedElement.controlConstructKind">
-				<div *ngSwitchCase="'SEQUENCE_CONSTRUCT'"><h2>Sequence:</h2>
-          <qddt-sequence-preview [sequence]="selectedElement"></qddt-sequence-preview>
-        </div>
-        <div *ngSwitchCase="'CONDITION_CONSTRUCT'"><h2>Condition:</h2>
-          <qddt-condition-preview [condition]="selectedElement"></qddt-condition-preview>
-        </div>
-        <div *ngSwitchCase="'STATEMENT_CONSTRUCT'"><h2>Statement:</h2>
-          <qddt-statement-preview [statement]="selectedElement"></qddt-statement-preview>
-        </div>
-        <div *ngSwitchCase="'QUESTION_CONSTRUCT'"><h2>Question Construct:</h2>
-          <qddt-control-construct-preview [controlConstruct]="selectedElement">
-          </qddt-control-construct-preview>
-        </div>
-      </div>
-    </div>
+    <qddt-preview-controlconstruct [construct]="selectedElement"></qddt-preview-controlconstruct>
+    <!--<div *ngIf="selectedElement">-->
+      <!--<div [ngSwitch]="selectedElement.controlConstructKind">-->
+				<!--<div *ngSwitchCase="'SEQUENCE_CONSTRUCT'"><h2>Sequence:</h2>-->
+          <!--<qddt-preview-sequence [sequence]="selectedElement"></qddt-preview-sequence>-->
+        <!--</div>-->
+        <!--<div *ngSwitchCase="'CONDITION_CONSTRUCT'"><h2>Condition:</h2>-->
+          <!--<qddt-preview-condition [condition]="selectedElement"></qddt-preview-condition>-->
+        <!--</div>-->
+        <!--<div *ngSwitchCase="'STATEMENT_CONSTRUCT'"><h2>Statement:</h2>-->
+          <!--<qddt-preview-statement [statement]="selectedElement"></qddt-preview-statement>-->
+        <!--</div>-->
+        <!--<div *ngSwitchCase="'QUESTION_CONSTRUCT'"><h2>Question Construct:</h2>-->
+          <!--<qddt-preview-questionconstruct [controlConstruct]="selectedElement">-->
+          <!--</qddt-preview-questionconstruct>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
   </div>
 </div>

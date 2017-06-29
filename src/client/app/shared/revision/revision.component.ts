@@ -1,6 +1,7 @@
-import { Component, Input, OnInit, OnChanges, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, EventEmitter, Output } from '@angular/core';
 import { RevisionService } from './revision.service';
 import { MaterializeAction } from 'angular2-materialize';
+// import { PreviewComponent } from '../../common/preview/preview.component';
 
 @Component({
   selector: 'qddt-revision',
@@ -15,6 +16,7 @@ export class RevisionComponent implements OnChanges, OnInit {
   @Input() config: any[];
   @Input() current: any;
   @Input() elementType: String;
+  @Output() requestPreview: EventEmitter<any> = new EventEmitter<any>();
   private revisions: any[];
   private _revisions: any[];
   private page: any;
@@ -22,7 +24,7 @@ export class RevisionComponent implements OnChanges, OnInit {
   private currentRevisionId: number;
   private includeRevisions: boolean;
   private previewModalActions = new EventEmitter<string|MaterializeAction>();
-  private element: any;
+  private selectedElement: any;
 
 
   constructor(private service: RevisionService) {
@@ -66,10 +68,8 @@ export class RevisionComponent implements OnChanges, OnInit {
     this.selectRevisionId = id;
   }
 
-  onPreviewRevision(id: number, type: String) {
-    this.element = this.revisions[id].entity;
-    this.elementType = type;
-    this.previewModalActions.emit({action:'modal', params:['open']});
+  onPreviewRevision(id: number) {
+    this.requestPreview.emit(this.revisions[id].entity);
   }
 
   // get diagnostic() { return JSON.stringify(this.revisions);}

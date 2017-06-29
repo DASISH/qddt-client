@@ -1,14 +1,14 @@
 import { Component, Input } from '@angular/core';
 
-enum DomainType {
-  SCALE = 1,
-  LIST,
-  MIXED,
-  DATETIME,
-  NUMERIC,
-  TEXT,
-  MISSING,
-}
+// enum DomainType {
+//   SCALE = 1,
+//   LIST,
+//   MIXED,
+//   DATETIME,
+//   NUMERIC,
+//   TEXT,
+//   MISSING,
+// }
 
 @Component({
   selector: 'qddt-preview-questionitem',

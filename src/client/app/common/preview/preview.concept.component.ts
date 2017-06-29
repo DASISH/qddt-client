@@ -10,7 +10,7 @@ import { Component, Input } from '@angular/core';
   <div class="row" *ngIf="concept?.description">
     <div class="input-field col s11">
       <label class="active teal-text">Description</label>
-      <div [innerHtml]="concept?.description"  style="white-space: pre-wrap"></div>
+      <P [innerHtml]="concept?.description"></P>
     </div>
   </div>
   <div class="row">

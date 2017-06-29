@@ -5,13 +5,10 @@ import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { SequenceService } from './sequence.service';
-import { UserService } from '../../common/user.service';
-import { BaseService } from '../../common/base.service';
 import { SequenceContentComponent } from './sequence.content.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Observable }     from 'rxjs/Observable';
 import { MaterializeModule } from 'angular2-materialize';
 
 export function main() {
@@ -20,9 +17,9 @@ export function main() {
     beforeEach(() => {
       TestBed.configureTestingModule({
         declarations: [SequenceContentComponent,
-          SequencePreviewComponent, CommentListComponent,
-          ConditionPreviewComponent, StatementPreviewComponent,
-          ControlConstructPreviewComponent, ConstructPreviewComponent],
+          PreviewSequenceComponent, CommentListComponent,
+          PreviewConditionComponent, PreviewStatementComponent,
+          PreviewControlConstructComponent, PreviewConstructComponent],
         providers: [
           MockBackend,
           BaseRequestOptions,
@@ -75,7 +72,7 @@ export function main() {
             fixture.whenStable().then(() => {
               let de: any[] = fixture.debugElement.queryAll(By.css('.modal-content'));
               expect(de.length).toBe(1);
-              let preview: any[] = fixture.debugElement.queryAll(By.css('qddt-condition-preview'));
+              let preview: any[] = fixture.debugElement.queryAll(By.css('qddt-preview-condition'));
               expect(preview.length).toBe(1);
             });
           });
@@ -113,46 +110,46 @@ class SequenceDetailComponent {
 }
 
 @Component({
-  selector: 'qddt-sequence-preview',
+  selector: 'qddt-preview-sequence',
   template: `<div></div>`
 })
 
-class SequencePreviewComponent {
+class PreviewSequenceComponent {
   @Input() sequence: any;
 }
 
 @Component({
-  selector: 'qddt-condition-preview',
+  selector: 'qddt-preview-condition',
   template: `<div></div>`
 })
 
-class ConditionPreviewComponent {
+class PreviewConditionComponent {
   @Input() condition: any;
 }
 
 @Component({
-  selector: 'qddt-construct-preview',
+  selector: 'qddt-preview-controlconstruct',
   template: `<div></div>`
 })
 
-class ConstructPreviewComponent {
+class PreviewConstructComponent {
   @Input() construct: any;
 }
 
 @Component({
-  selector: 'qddt-control-construct-preview',
+  selector: 'qddt-preview-questionconstruct-',
   template: `<div></div>`
 })
 
-class ControlConstructPreviewComponent {
+class PreviewControlConstructComponent {
   @Input() controlConstruct: any;
 }
 
 @Component({
-  selector: 'qddt-statement-preview',
+  selector: 'qddt-preview-statement',
   template: `<div></div>`
 })
 
-class StatementPreviewComponent {
+class PreviewStatementComponent {
   @Input() statement: any;
 }

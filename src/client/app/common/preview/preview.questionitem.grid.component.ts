@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'qddt-preview-question',
+  selector: 'qddt-preview-questionitem-grid',
   moduleId: module.id,
   styles: [
     `:host /deep/ .row {
@@ -17,17 +17,18 @@ import { Component, Input } from '@angular/core';
         {{question?.question}}
       </div>
       <div class="col s6" *ngIf="responseDomain">
-        <qddt-preview-rd-oneline [responseDomain]="responseDomain"></qddt-preview-rd-oneline>
+        <qddt-preview-rd-grid [responseDomain]="responseDomain"></qddt-preview-rd-grid>
       </div>
     </div>
     <div *ngIf="question?.children && question?.children?.size > 0">
-      <qddt-preview-question *ngFor="let childQuestion of question.chldren" [question] = "childQuestion"></qddt-preview-question>
+      <qddt-preview-questionitem-grid *ngFor="let childQuestion of question.chldren" [question] = "childQuestion">
+      </qddt-preview-questionitem-grid>
     </div>  
   </div>`,
   providers: [ ],
 })
 
-export class PreviewQuestionComponent {
+export class PreviewQuestionitemGridComponent {
   @Input() question: any;
   @Input() responseDomain: any;
 
