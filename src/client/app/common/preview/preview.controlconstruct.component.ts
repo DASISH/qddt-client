@@ -7,13 +7,13 @@ import { Component, Input } from '@angular/core';
     <div class="row" *ngIf="construct">
       <div [ngSwitch]="construct.controlConstructKind">
 				<div *ngSwitchCase="'SEQUENCE_CONSTRUCT'">
-          <qddt-preview-sequence [sequence]="construct"></qddt-preview-sequence>
+          <qddt-preview-sequenceconstruct [sequence]="construct"></qddt-preview-sequenceconstruct>
         </div>
         <div *ngSwitchCase="'CONDITION_CONSTRUCT'">
-          <qddt-preview-condition [condition]="construct"></qddt-preview-condition>
+          <qddt-preview-conditionconstruct [condition]="construct"></qddt-preview-conditionconstruct>
         </div>
         <div *ngSwitchCase="'STATEMENT_CONSTRUCT'">
-          <qddt-preview-statement [statement]="construct"></qddt-preview-statement>
+          <qddt-preview-statementconstruct [statement]="construct"></qddt-preview-statementconstruct>
         </div>
         <div *ngSwitchCase="'QUESTION_CONSTRUCT'">
           <qddt-preview-questionconstruct [controlConstruct]="construct">

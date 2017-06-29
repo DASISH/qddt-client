@@ -14,7 +14,7 @@ import { CommentCreateComponent } from './comment/comment.create.component';
 import { RevisionComponent } from './revision/revision.component';
 import { CompareModule } from './compare/compare.module';
 import { DialogBoxComponent } from './dialogbox/dialogbox.component';
-// import { PreviewComponent } from './preview/preview.component';
+// import { PreviewPublicationComponent } from './preview/preview.component';
 // import { PreviewStudyComponent } from './preview/preview.study.component';
 // import { PreviewTopicComponent } from './preview/preview.topic.component';
 // import { PreviewConceptComponent } from './preview/preview.concept.component';

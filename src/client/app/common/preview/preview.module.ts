@@ -21,7 +21,7 @@ import { PreviewSequenceConstructComponent } from './controlconstruct/preview.se
 import { PreviewStatementConstructComponent } from './controlconstruct/preview.statement.component';
 import { PreviewQuestionConstructComponent } from './controlconstruct/preview.question.component';
 import { PreviewControlConstructComponent } from './preview.controlconstruct.component';
-import { PreviewComponent } from './preview.component';
+import { PreviewPublicationComponent } from './preview.publication.component';
 
 @NgModule({
   imports: [ SharedModule],
@@ -33,11 +33,11 @@ import { PreviewComponent } from './preview.component';
     PreviewStudyComponent,PreviewTopicComponent,PreviewTopicListComponent,
     ResponsedomainCodeListComponent,ResponsedomainDatetimeComponent,ResponsedomainMissingComponent,
     ResponsedomainMixedComponent,ResponsedomainNumericComponent,ResponsedomainScaleComponent,
-    ResponsedomainTextComponent, PreviewComponent],
+    ResponsedomainTextComponent, PreviewPublicationComponent],
 
   exports: [PreviewConceptComponent,PreviewConceptListComponent,PreviewTopicComponent,
     PreviewTopicListComponent,PreviewStudyComponent,PreviewControlConstructComponent,PreviewQuestionitemComponent,
-    PreviewResponsedomainComponent ,PreviewComponent]
+    PreviewResponsedomainComponent ,PreviewPublicationComponent]
 })
 
 export class PreviewModule { }

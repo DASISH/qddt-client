@@ -7,18 +7,18 @@ import { API_BASE_HREF } from '../../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
-import { PreviewConditionComponent } from './preview.condition.component';
-import { PreviewStatementComponent } from './preview.statement.component';
-import { PreviewControlConstructComponent } from './preview.question.component';
-import { PreviewSequenceComponent } from './preview.sequence.component';
+import { PreviewSequenceConstructComponent } from './preview.sequence.component';
+import { PreviewConditionConstructComponent } from './preview.condition.component';
+import { PreviewStatementConstructComponent } from './preview.statement.component';
+import { PreviewControlConstructComponent } from '../preview.controlconstruct.component';
 
 export function main() {
   describe('Sequence preview component', () => {
     //
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [, PreviewConditionComponent,
-          PreviewStatementComponent, PreviewControlConstructComponent],
+        declarations: [PreviewSequenceConstructComponent, PreviewConditionConstructComponent,
+          PreviewStatementConstructComponent, PreviewControlConstructComponent],
         providers: [
           MockBackend,
           BaseRequestOptions,
@@ -41,7 +41,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(PreviewSequenceComponent);
+            let fixture = TestBed.createComponent(PreviewSequenceConstructComponent);
             fixture.detectChanges();
             expect(fixture.componentInstance.text).toBe('');
           });
@@ -52,7 +52,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(PreviewSequenceComponent);
+            let fixture = TestBed.createComponent(PreviewSequenceConstructComponent);
             fixture.componentInstance.sequence = {'description': 'test'};
             fixture.detectChanges();
             fixture.whenStable().then(() => {
@@ -63,24 +63,24 @@ export function main() {
   });
 }
 
-@Component({
-  selector: 'qddt-preview-condition',
-  template: `<div></div>`
-})
-
-
-@Component({
-  selector: 'qddt-preview-statement',
-  template: `<div></div>`
-})
-
-// class StatementPreviewComponent {
-//   @Input() statement: any;
-// }
-@Component({
-  selector: 'qddt-preview-questionconstruct',
-  template: `<div></div>`
-})
+// @Component({
+//   selector: 'qddt-preview-conditionconstruct',
+//   template: `<div></div>`
+// })
+//
+//
+// @Component({
+//   selector: 'qddt-preview-statementconstruct',
+//   template: `<div></div>`
+// })
+//
+// // class StatementPreviewComponent {
+// //   @Input() statement: any;
+// // }
+// @Component({
+//   selector: 'qddt-preview-questionconstruct',
+//   template: `<div></div>`
+// })
 
 // class ControlConstructPreviewComponent {
 //   @Input() controlConstruct: any;

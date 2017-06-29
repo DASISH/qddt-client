@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnChanges, EventEmitter, Output } from '@angular/core';
 import { RevisionService } from './revision.service';
 import { MaterializeAction } from 'angular2-materialize';
-// import { PreviewComponent } from '../../common/preview/preview.component';
+// import { PreviewPublicationComponent } from '../../common/preview/preview.component';
 
 @Component({
   selector: 'qddt-revision',

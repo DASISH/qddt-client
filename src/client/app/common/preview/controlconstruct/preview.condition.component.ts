@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'qddt-preview-condition',
+  selector: 'qddt-preview-conditionconstruct',
   moduleId: module.id,
   template: `
     <div class="row" *ngIf="condition">

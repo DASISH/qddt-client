@@ -56,7 +56,7 @@ export function main() {
             fixture.componentInstance.construct = {'controlConstructKind': 'SEQUENCE_CONSTRUCT'};
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let de: any = fixture.debugElement.queryAll(By.css('qddt-preview-sequence'));
+              let de: any = fixture.debugElement.queryAll(By.css('qddt-preview-sequenceconstruct'));
               expect(de.length).toBeGreaterThan(0);
             });
           });
@@ -65,7 +65,7 @@ export function main() {
 }
 
 @Component({
-  selector: 'qddt-preview-condition',
+  selector: 'qddt-preview-conditionconstruct',
   template: `<div></div>`
 })
 
@@ -74,7 +74,7 @@ class PreviewConditionComponent {
 }
 
 @Component({
-  selector: 'qddt-preview-statement',
+  selector: 'qddt-preview-statementconstruct',
   template: `<div></div>`
 })
 
@@ -91,7 +91,7 @@ class PreviewQuestionConstructComponent {
 }
 
 @Component({
-  selector: 'qddt-preview-sequence',
+  selector: 'qddt-preview-sequenceconstruct',
   template: `<div></div>`
 })
 

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'qddt-preview-statement',
+  selector: 'qddt-preview-statementconstruct',
   moduleId: module.id,
   template: `
     <div class="row">

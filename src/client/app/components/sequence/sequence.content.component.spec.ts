@@ -72,7 +72,7 @@ export function main() {
             fixture.whenStable().then(() => {
               let de: any[] = fixture.debugElement.queryAll(By.css('.modal-content'));
               expect(de.length).toBe(1);
-              let preview: any[] = fixture.debugElement.queryAll(By.css('qddt-preview-condition'));
+              let preview: any[] = fixture.debugElement.queryAll(By.css('qddt-preview-conditionconstruct'));
               expect(preview.length).toBe(1);
             });
           });
@@ -110,7 +110,7 @@ class SequenceDetailComponent {
 }
 
 @Component({
-  selector: 'qddt-preview-sequence',
+  selector: 'qddt-preview-sequenceconstruct',
   template: `<div></div>`
 })
 
@@ -119,7 +119,7 @@ class PreviewSequenceComponent {
 }
 
 @Component({
-  selector: 'qddt-preview-condition',
+  selector: 'qddt-preview-conditionconstruct',
   template: `<div></div>`
 })
 
@@ -146,7 +146,7 @@ class PreviewControlConstructComponent {
 }
 
 @Component({
-  selector: 'qddt-preview-statement',
+  selector: 'qddt-preview-statementconstruct',
   template: `<div></div>`
 })
 

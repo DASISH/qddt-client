@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'qddt-preview-sequence',
+  selector: 'qddt-preview-sequenceconstruct',
   moduleId: module.id,
   template: `
     <div class="row" *ngIf="sequence">
@@ -10,13 +10,13 @@ import { Component, OnInit, Input } from '@angular/core';
       <div *ngFor="let child of sequence.children">
         <div [ngSwitch]="child.controlConstructionKind">
 					<div *ngSwitchCase="'SequenceConstruct'">
-            <qddt-preview-sequence [sequence]="child"></qddt-preview-sequence>
+            <qddt-preview-sequenceconstruct [sequence]="child"></qddt-preview-sequenceconstruct>
           </div>
           <div *ngSwitchCase="'LogicConstruct'">
-            <qddt-preview-condition [condition]="child"></qddt-preview-condition>
+            <qddt-preview-conditionconstruct [condition]="child"></qddt-preview-conditionconstruct>
           </div>
           <div *ngSwitchCase="'StatementConstruct'">
-            <qddt-preview-statement [statement]="child"></qddt-preview-statement>
+            <qddt-preview-statementconstruct [statement]="child"></qddt-preview-statementconstruct>
           </div>
           <div *ngSwitchCase="'QuestionConstruct'">
             <qddt-preview-questionconstruct [controlConstruct]="child">

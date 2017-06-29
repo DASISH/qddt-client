@@ -10,15 +10,12 @@ import { Component, Input } from '@angular/core';
        margin-bottom: 2px;
     }`
   ],
-  templateUrl: './preview.component.html',
+  templateUrl: './preview.publication.component.html',
   providers: [],
 })
 
-export class PreviewComponent  {
+export class PreviewPublicationComponent  {
   @Input() element: any;
   @Input() elementType: String;
 
-  constructor() {
-    console.info('elementType ' + this.elementType);
-  }
 }
