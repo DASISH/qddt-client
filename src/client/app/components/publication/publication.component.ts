@@ -45,7 +45,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
     this.selectedPublicationStatusOption = PUBLICATIONNOTPUBLISHED.description;
     this.columns = [{ 'label': 'Name', 'name': 'name', 'sortable': true,  'direction': ''  },
     { 'label': 'Purpose', 'name': 'purpose', 'sortable': true,  'direction': ''  },
-    { 'label': 'Purpose Status', 'name': 'status', 'sortable': true,  'direction': ''  },
+    { 'label': 'Publication Status', 'name': 'status', 'sortable': true,  'direction': ''  },
     { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' }];
     this.searchKeysSubect
       .debounceTime(300)
