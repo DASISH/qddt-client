@@ -21,6 +21,15 @@ import { CategoryType } from '../category_kind';
           </div>
         </div>
         <div class="row">
+          <div class="input-field col s12">
+            <textarea id="{{category?.id}}-name" class="materialize-textarea"
+              name="{{category?.id}}-name"
+              [(ngModel)]="category.name" [attr.maxlength]="255">
+            </textarea>
+            <label [attr.for]="category.id + '-name'" class="active teal-text">Name</label>
+          </div>
+        </div>
+        <div class="row">
           <div class="col s12">
             <label [attr.for]="category.id + '-category-description'"
               class="active teal-text">Description</label>
