@@ -8,7 +8,7 @@ import { ResponseDomain } from '../../../components/responsedomain/responsedomai
   template: `<div>
     <label *ngIf="mixedDomains && mixedDomains.length > 0"
       class="active teal-text">{{mixedDomains[0]?.name}}
-      Version: {{mixedDomains[0]?.version?.major}}.{{mixedDomains[0]?.version?.minor}}</label>
+       (V{{mixedDomains[0]?.version?.major}}.{{mixedDomains[0]?.version?.minor}})</label>
       <div *ngFor="let domain of mixedDomains">
         <div [ngSwitch]="domain.domainType">
 					<qddt-preview-rd-scale *ngSwitchCase="domainTypeDef.SCALE"

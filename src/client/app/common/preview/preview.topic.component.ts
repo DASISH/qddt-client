@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { TopicService } from '../../components/topic/topic.service';
+import { Topic, TopicService } from '../../components/topic/topic.service';
 let fileSaver = require('../../common/file-saver');
 
 @Component({
   selector: 'qddt-preview-topic',
   moduleId: module.id,
   styles: [
-    'ul .collapsible { margin:20px; padding:5px; important!;}',
+    'ul .collapsible { margin:20px; padding:5px; !important;}',
   ],
   template:`
 <div class="row" *ngIf="topic?.abstractDescription">
@@ -59,7 +59,7 @@ let fileSaver = require('../../common/file-saver');
 })
 
 export class PreviewTopicComponent {
-  @Input() topic: any;
+  @Input() topic: Topic;
 
   constructor(private service: TopicService) {
   }

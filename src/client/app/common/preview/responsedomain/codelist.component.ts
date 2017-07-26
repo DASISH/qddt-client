@@ -32,12 +32,12 @@ export class ResponsedomainCodeListComponent implements OnChanges {
     if (rep !== undefined
       && rep.inputLimit !== undefined
       && rep.inputLimit.maximum !== undefined) {
-      this.max = parseInt(rep.inputLimit.maximum);
+      this.max = rep.inputLimit.maximum;
     }
     if (rep !== undefined
       && rep.inputLimit !== undefined
       && rep.inputLimit.minimum !== undefined) {
-      this.min = parseInt(rep.inputLimit.minimum);
+      this.min = rep.inputLimit.minimum;
     }
     let categories: any[] = [];
     if (rep !== undefined && rep.children !== undefined) {

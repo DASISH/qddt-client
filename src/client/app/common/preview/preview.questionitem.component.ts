@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { QuestionItem } from '../../components/question/question.service';
 
 // enum DomainType {
 //   SCALE = 1,
@@ -46,7 +47,7 @@ import { Component, Input } from '@angular/core';
 })
 
 export class PreviewQuestionitemComponent {
-  @Input() questionItem: any;
+  @Input() questionItem: QuestionItem;
 
   // basedonActions = new EventEmitter<string|MaterializeAction>();
   //

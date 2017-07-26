@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Study } from '../../components/study/study.service';
 
 @Component({
   selector: 'qddt-preview-study',
@@ -30,5 +31,5 @@ import { Component, Input } from '@angular/core';
 })
 
 export class PreviewStudyComponent {
-  @Input() study: any;
+  @Input() study: Study;
 }

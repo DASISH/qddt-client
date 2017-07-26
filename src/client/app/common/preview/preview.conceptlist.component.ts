@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Concept } from '../../components/concept/concept.service';
 
 @Component({
   selector: 'qddt-preview-concept-list',
@@ -27,6 +28,6 @@ import { Component, Input } from '@angular/core';
 })
 
 export class PreviewConceptListComponent {
-  @Input() conceptList: any[];
+  @Input() conceptList: Concept[];
 
 }

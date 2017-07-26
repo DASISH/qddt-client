@@ -24,11 +24,11 @@ export class ResponsedomainTextComponent implements OnChanges {
     if (rep !== undefined) {
       if (rep.inputLimit !== undefined
         && rep.inputLimit.maximum !== undefined) {
-        this.high = parseInt(rep.inputLimit.maximum);
+        this.high = rep.inputLimit.maximum;
       }
       if (rep.inputLimit !== undefined
         && rep.inputLimit.minimum !== undefined) {
-        this.low = parseInt(rep.inputLimit.minimum);
+        this.low = rep.inputLimit.minimum;
       }
     }
   }
