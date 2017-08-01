@@ -6,9 +6,10 @@ import { Component, Input, OnInit } from '@angular/core';
   styles:[':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'],
   template: `
   <div class="row">
-    <div class="hoverable"
-    (mouseenter)="showbutton = true"
-    (mouseleave)="showbutton = false">
+    <div class="hoverable">
+    <!--(mouseenter)="showbutton = true"-->
+    <!--(mouseleave)="showbutton = false"-->
+    
       <div class="row">
         <div class="col left" *ngFor="let option of rationalDescriptions" [ngClass]="{hide: option.hidden}">
           <input *ngIf="showbutton" name="{{originalId}}-optiontypegroup" type="radio"
@@ -53,7 +54,7 @@ import { Component, Input, OnInit } from '@angular/core';
         <div class="input-field col s12">
           <input id="{{originalId}}-changeComment"
             name="{{originalId}}-changeComment" type="text" [(ngModel)]="element.changeComment" required>
-          <label [attr.for]="originalId + '-changeComment'" class="active teal-text">Save Comment</label>
+          <label [attr.for]="originalId + '-changeComment'" class="teal-text">Reason for change</label>
         </div>
       </div>
     </div>
@@ -140,7 +141,7 @@ export class RationalComponent implements OnInit {
   ];
   @Input() element: any;
   @Input() config: any;
-  private showbutton: boolean = false;
+  private showbutton: boolean = true;
   private _RationalIndex: number;
   private _Rational2Index: number;
   private saveOptionIndex: number;
