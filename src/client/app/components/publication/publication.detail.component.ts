@@ -21,6 +21,7 @@ export class PublicationDetailComponent implements OnInit {
   selectedOptionValue: number;
   selectedPublicationStatusOption: any;
   private revisionIsVisible: boolean;
+  private showProgressBar: boolean = true;
   private predefinedStatus: any[];
 
   constructor(private service: PublicationService) {
@@ -35,6 +36,7 @@ export class PublicationDetailComponent implements OnInit {
     if(this.publicationId !== null && this.publicationId !== undefined) {
       this.service.getPublication(this.publicationId)
         .subscribe((result: any) => {
+          this.showProgressBar = true;
           this.publication = result;
           this.publication['workinprogress'] = this.publication['changeKind'] === 'IN_DEVELOPMENT';
           let status = this.predefinedStatus.find(e => e.label === this.publication.status);
@@ -42,6 +44,7 @@ export class PublicationDetailComponent implements OnInit {
             this.selectedPublicationStatusOption = status.description;
             this.selectedOptionValue = status.id;
           }
+          this.showProgressBar = false;
         }, (error: any) => console.log(error));
     }
   }
