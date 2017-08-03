@@ -54,7 +54,7 @@ import { Component, Input, OnInit } from '@angular/core';
         <div class="input-field col s12">
           <input id="{{originalId}}-changeComment"
             name="{{originalId}}-changeComment" type="text" [(ngModel)]="element.changeComment" required>
-          <label [attr.for]="originalId + '-changeComment'" class="teal-text">Reason for change</label>
+          <label [attr.for]="originalId + '-changeComment'" class="teal-text">Rationale for change</label>
         </div>
       </div>
     </div>
