@@ -153,7 +153,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
 
   onDetail(responsedomain: any) {
     this.selectedResponseDomain = responsedomain;
-    this.selectedResponseDomain['workinprogress'] = this.selectedResponseDomain['changeKind'] === 'IN_DEVELOPMENT';
+    // this.selectedResponseDomain['workinprogress'] = this.selectedResponseDomain['changeKind'] === 'IN_DEVELOPMENT';
     this.savedObject = JSON.stringify(responsedomain);
     this.savedResponseDomainsIndex = this.responseDomains
       .findIndex(q => q['id'] === responsedomain['id']);

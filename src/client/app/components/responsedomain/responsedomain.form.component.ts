@@ -24,7 +24,7 @@ export class ResponsedomainFormComponent implements OnInit {
   @Input() readonly: boolean;
   @Output() formChange: EventEmitter<any>;
 
-  usedbyModalAction = new EventEmitter<string|MaterializeAction>();
+  // usedbyModalAction = new EventEmitter<string|MaterializeAction>();
   basedonActions = new EventEmitter<string|MaterializeAction>();
   previewResponseDomain: any;
   basedonObject: any;
@@ -33,11 +33,11 @@ export class ResponsedomainFormComponent implements OnInit {
   private categories: any;
   private codes: string[];
   private selectedCategoryIndex: number;
-  private selectedElement: any;   //remove later?
+  // private selectedElement: any;   //remove later?
   private suggestions: Category[];
   private numberOfAnchors: number;
-  private usedBy: any[];
-  private selectedType: string;
+  // private usedBy: any[];
+  // private selectedType: string;
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
   constructor(private categoryService: CategoryService, private service: ResponseDomainService) {
@@ -45,7 +45,7 @@ export class ResponsedomainFormComponent implements OnInit {
     this.selectedCategoryIndex = 0;
     this.formChange = new EventEmitter<any>();
     this.numberOfAnchors = 0;
-    this.usedBy = [];
+    // this.usedBy = [];
     this.searchKeysSubect
       .debounceTime(300)
       .distinctUntilChanged()
@@ -57,6 +57,7 @@ export class ResponsedomainFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.debug('ngOnInit....debug');
     if(this.readonly === null || this.readonly === undefined) {
       this.readonly = false;
     }
@@ -111,33 +112,35 @@ export class ResponsedomainFormComponent implements OnInit {
     this.previewResponseDomain = this.responsedomain;
   }
 
-  onClickStudy(id: string) {
-    this.selectedType = 'study';
-    this.usedbyModalAction.emit({action:'modal', params:['open']});
-  }
+  // onClickStudy(id: string) {
+  //   this.selectedType = 'study';
+  //   this.usedbyModalAction.emit({action:'modal', params:['open']});
+  // }
+  //
+  // onClickTopic(id: string) {
+  //   this.selectedType = 'topic';
+  //   this.usedbyModalAction.emit({action:'modal', params:['open']});
+  // }
+  //
+  // onClickQuestion(id: string) {
+  //   this.selectedType = 'question';
+  //   this.usedbyModalAction.emit({action:'modal', params:['open']});
+  // }
 
-  onClickTopic(id: string) {
-    this.selectedType = 'topic';
-    this.usedbyModalAction.emit({action:'modal', params:['open']});
-  }
-
-  onClickQuestion(id: string) {
-    this.selectedType = 'question';
-    this.usedbyModalAction.emit({action:'modal', params:['open']});
-  }
-
-  onClickResponsedomain(id: string) {
-    this.selectedType = 'responsedomain';
-    this.usedbyModalAction.emit({action:'modal', params:['open']});
-  }
+  // onClickResponsedomain(id: string) {
+  //   this.selectedType = 'responsedomain';
+  //   this.usedbyModalAction.emit({action:'modal', params:['open']});
+  // }
 
   select(candidate: any) {
+    console.info('onSelect...')
     candidate.code = this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex].code;
     this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex] = candidate;
     this.buildPreviewResponseDomain();
   }
 
-  save() {
+  onSave() {
+    console.debug('onSave...');
     this.responsedomain.label = this.responsedomain.name;
     let category = this.responsedomain.managedRepresentation;
     let source = Observable.range(0, category.children.length)
@@ -174,9 +177,11 @@ export class ResponsedomainFormComponent implements OnInit {
       },
       function () {
         if (category.id !== undefined && category.id !== '') {
+          console.info('cateogy ok');
           changeEvent.emit(rd);
         } else {
-          category.name = 'category scheme for ' + rd.name;
+          console.info('saving categories....');
+          category.name = rd.name;
           category.description = '';
           category.label = category.name;
           service.save(category)
@@ -189,6 +194,7 @@ export class ResponsedomainFormComponent implements OnInit {
             });
         }
       });
+    console.debug('save finished');
   }
 
   changeNumberOfCategories(num: number) {
@@ -214,7 +220,7 @@ export class ResponsedomainFormComponent implements OnInit {
       rep.children = rep.children.slice(0, this.numberOfAnchors);
       for (let i = rep.children.length; i < this.numberOfAnchors; i++) {
         let c = new Category();
-        c.code = { codeValue: String(i + 1) };
+        c.code = { codeValue: String(i + 1) , alignment:''};
         rep.children.push(c);
       }
     } else if (this.domainType === DomainType.SCALE) {
@@ -223,7 +229,7 @@ export class ResponsedomainFormComponent implements OnInit {
       for (let i = 0; i < this.numberOfAnchors; i++) {
         if(i >= len) {
           let c = new Category();
-          c.code = { codeValue: '' };
+          c.code = { codeValue: '', alignment:'text-left' };
           rep.children.push(c);
         } else {
           rep.children[i].code.codeValue = '';
@@ -315,45 +321,4 @@ export class ResponsedomainFormComponent implements OnInit {
       );
   }
 
-  // private buildUsedBy() {
-  //   let usedBy = [];
-  //   if(this.responsedomain.questionRefs && this.responsedomain.questionRefs.length > 0) {
-  //     this.responsedomain.questionRefs.forEach((qRef: any) => {
-  //       if(qRef.conceptRefs.length > 0) {
-  //         qRef.conceptRefs.forEach((ref: any) => {
-  //           let index = usedBy.findIndex((e:any) => e.topic.id === ref.topicRef.id && e.study.id === ref.topicRef.studyRef.id);
-  //           if(index >= 0) {
-  //             let i = usedBy[index].questions.findIndex((e:any) => e.id === qRef.id);
-  //             if(i < 0) {
-  //               usedBy[index].questions.push({id: qRef.id, name: qRef.name});
-  //             }
-  //           } else {
-  //             let item = {
-  //               topic: {id: ref.topicRef.id, name: ref.topicRef.name},
-  //               study: {id: ref.topicRef.studyRef.id, name: ref.topicRef.studyRef.name},
-  //               questions: [{id: qRef.id, name: qRef.name}]};
-  //             usedBy.push(item);
-  //           }
-  //         });
-  //       } else {
-  //         let item = {
-  //           topic: {id: '', name: ''},
-  //           study: {id: '', name: ''},
-  //           questions: [{id: qRef.id, name: qRef.name}]};
-  //         usedBy.push(item);
-  //       }
-  //     });
-  //     usedBy.forEach((item: any) => {
-  //       if (item.questions.length <= 0) {
-  //         this.usedBy.push({topic: item.topic, study: item.study});
-  //       } else {
-  //         this.usedBy.push({topic: item.topic, study: item.study,
-  //           question: {id: item.questions[0].id, name: item.questions[0].name}});
-  //         for(let i = 1; i < item.questions.length; i++) {
-  //           this.usedBy.push({question: {id: item.questions[i].id, name: item.questions[i].name}});
-  //         }
-  //       }
-  //     });
-  //   }
-  // }
 }

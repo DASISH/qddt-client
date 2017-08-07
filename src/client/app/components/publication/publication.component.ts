@@ -43,10 +43,11 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
     this.searchKeys = '';
     this.page = {};
     this.selectedPublicationStatusOption = PUBLICATIONNOTPUBLISHED.description;
-    this.columns = [{ 'label': 'Name', 'name': 'name', 'sortable': true,  'direction': ''  },
-    { 'label': 'Purpose', 'name': 'purpose', 'sortable': true,  'direction': ''  },
-    { 'label': 'Publication Status', 'name': 'status', 'sortable': true,  'direction': ''  },
-    { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' }];
+    this.columns = [{ 'label': 'Name', 'name': 'name', 'sortable': true,  'direction': '' ,width:'25%' },
+    { 'label': 'Purpose', 'name': 'purpose', 'sortable': true,  'direction': '' ,width:'25%' },
+    { 'label': 'Publication Status', 'name': 'status', 'sortable': true,  'direction': '' ,width:'25%' },
+    { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc', width:'8%' }];
+    console.debug('begyn lsater inn publisering....');
     this.searchKeysSubect
       .debounceTime(300)
       .distinctUntilChanged()
@@ -57,6 +58,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
             this.publications = result.content || [];
             this.page = result.page;
             this.showProgressBar = false;
+            console.log('lasted ned innhold');
           }, (error: any) => {
             this.showProgressBar = false;
             console.log(error);

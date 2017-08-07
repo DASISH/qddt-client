@@ -105,4 +105,8 @@ export class PublicationReuseComponent implements OnInit {
     this.error = error;
   }
 
+  private getElementType(elementId: number): string {
+    return this.elementTypes[elementId].type;
+  }
+
 }

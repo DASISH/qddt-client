@@ -5,11 +5,11 @@ import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { TopicService } from './topic.service';
-import { BaseService } from '../../common/base.service';
 import { TopicComponent } from './topic.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Study } from '../study/study.service';
 
 export function main() {
   describe('Topic component', () => {
@@ -56,7 +56,8 @@ export function main() {
           .then(() => {
             let fixture = TestBed.createComponent(TopicComponent);
             fixture.componentInstance.show = true;
-            fixture.componentInstance.study = {'id': '1'};
+            fixture.componentInstance.study = new Study();
+            fixture.componentInstance.study.id = '1';
             let mockBackend = TestBed.get(MockBackend);
             mockBackend.connections.subscribe((c: any) => {
               c.mockRespond(new Response(new ResponseOptions({

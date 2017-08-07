@@ -2,17 +2,16 @@
 	<div class="row">
 		<div class="card white white-text text-lighten-2">
 			<div class="row teal z-depth-1" style="padding-left: 2%; padding-top: 1%; padding-bottom: 1%;">
-				<i class="material-icons large right">comment</i>
-				<h4>Response Domains</h4>
+				<i class="material-icons large right">blur_linear</i><h4>Response Domains</h4>
 				<a class="btn" (click)="onToggleResponseDomainForm()">
 					<i class="material-icons right" *ngIf="!showResponseDomainForm">keyboard_arrow_down</i>
 					<i class="material-icons right" *ngIf="showResponseDomainForm">keyboard_arrow_up</i> New
 				</a>
 			</div>
 		</div>
-    <div *ngIf="!isDetail" class="row card">
+    <div *ngIf="!isDetail" class="row card-action">
 			<div class="response-domain-title">
-				<span name="text">Domain Type:</span>
+				<span name="text">Domain Type</span>
 			</div>
 			<div class="col left" *ngFor="let domain of domainTypeDescription">
 				<input name="domaintypegroup" type="radio" id="domain-type-{{domain.id}}"
@@ -64,15 +63,14 @@
     </div>
 
     <div class="col s1">
-      <label class="active teal-text text-align: right">Version: {{selectedResponseDomain?.version?.major}}.{{selectedResponseDomain?.version?.minor}}
-        <i *ngIf="selectedResponseDomain.workinprogress"
-           class="material-icons white yellow-text tiny">
-          error
-        </i>
-      </label>
+      <qddt-version-label [element]="selectedResponseDomain"></qddt-version-label>
+      <!--<label class="active teal-text text-align: right">Version {{selectedResponseDomain?.version?.major}}.{{selectedResponseDomain?.version?.minor}}-->
+        <!--<i *ngIf="selectedResponseDomain.workinprogress"-->
+           <!--class="material-icons white yellow-text tiny">-->
+          <!--error-->
+        <!--</i>-->
+      <!--</label>-->
     </div>
-
-
 
     <div class="col s10  white grey-text text-darken-1">
         <qddt-responsedomain-form
@@ -84,9 +82,11 @@
           [qddtURI]="'audit/responsedomain/' + selectedResponseDomain.id + '/all'"
           [config]="selectedResponseDomain.config">
         </qddt-revision>
-        <div class="row">
-          <qddt-comment-list [ownerId]="selectedResponseDomain.id" [comments]="selectedResponseDomain.comments"></qddt-comment-list>
-        </div>
+        <qddt-comment-list
+          [ownerId]="selectedResponseDomain.id"
+          [comments]="selectedResponseDomain.comments">
+        </qddt-comment-list>
+
       </div>
   </div>
 </div>

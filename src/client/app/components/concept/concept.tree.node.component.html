@@ -12,7 +12,7 @@
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
            (click)="onCreateConcept(concept)"><i class="material-icons left medium" title="Add sub concept">add</i></a>
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
-          <i class="material-icons" (click)="getPdf(concept)" title="Get as Pdf">description</i></a>
+          <i class="material-icons" (click)="getPdf(concept)" title="Get as Pdf">picture_as_pdf</i></a>
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
            (click)="onDeleteConcept(concept)"><i class="material-icons left medium" title="Delete" >delete_forever</i></a>
       </div>
@@ -22,10 +22,11 @@
       <h5 class="row">
         <div class="col s10">{{concept?.name}}</div>
         <div class="col s2">
-          <div class="text-align: right">
-            <i *ngIf="concept?.version?.versionLabel === 'In Development'" class="material-icons white yellow-text font-size: 20px" title="In development">error</i>
-            V{{concept?.version?.major}}.{{concept?.version?.minor}}
-          </div>
+          <qddt-version-label [element]="concept"></qddt-version-label>
+          <!--<div class="text-align: right">-->
+            <!--<i *ngIf="concept?.version?.versionLabel === 'In Development'" class="material-icons white yellow-text font-size: 20px" title="In development">error</i>-->
+            <!--V{{concept?.version?.major}}.{{concept?.version?.minor}}-->
+          <!--</div>-->
         </div>
       </h5>
     </div>

@@ -138,11 +138,13 @@ export class QuestionItemEditComponent implements OnInit {
       });
   }
 
-  onBasedonObjectDetail(id: string,rev: string) {
-    this.service.getquestion(id)
+  onBasedonObjectDetail(ref:any) {
+    if (this.isNull(ref.rev))
+      ref.rev=0;
+    this.service.getQuestionItemRevision(ref.id,ref.rev)
       .subscribe(
       (result: any) => {
-        this.basedonObject = result;
+        this.basedonObject = result.entity;
         this.basedonActions.emit({action:'modal', params:['open']});
       },
       (err: any) => null
@@ -153,7 +155,7 @@ export class QuestionItemEditComponent implements OnInit {
     this.mainResponseDomain = item.responseDomain;
     this.mainresponseDomainRevision = item.responseDomainRevision || 0;
     this.showResponseDomainForm = false;
-    document.getElementById('questionItem-modal-close').click();
+    document.getElementById('editResponseDomain-modal-close').click();
     this.buildPrivewResponseDomain();
   }
 

@@ -18,12 +18,12 @@ export class QuestionDetailComponent implements OnInit {
   @Output() hideDetailEvent: EventEmitter<String> = new EventEmitter<String>();
   @Output() editQuestionItem: EventEmitter<any> = new EventEmitter<string|MaterializeAction>();
   deleteAction = new EventEmitter<string|MaterializeAction>();
-  candelete: number; // 0: cannot, 1: can, 2: checking
+  canDelete: number; // 0: cannot, 1: can, 2: checking
 
   private revisionIsVisible: boolean;
   private editIsVisible: boolean;
   private conceptIsVisible: boolean;
-  private config: any[];
+  // private config: any[];
   private savedObject: string;
   private savedQuestionitemsIndex: number;
 
@@ -53,6 +53,7 @@ export class QuestionDetailComponent implements OnInit {
   }
 
   onRemoveResponsedomain(questionitem: QuestionItem) {
+    console.debug('onRemoveResponsedomain');
     if (questionitem.responseDomain === undefined
       || questionitem.responseDomain.id === ''
       || questionitem.responseDomain.name === undefined) {
@@ -66,7 +67,8 @@ export class QuestionDetailComponent implements OnInit {
       .subscribe((result: any) => {
         this.questionitem = result;
         this.editIsVisible = true;
-      });
+      }
+      ,(error: any) => { console.log(error); });
   }
 
   onEditQuestionItem(questionitem: QuestionItem) {
@@ -89,19 +91,19 @@ export class QuestionDetailComponent implements OnInit {
 
   checkDeleteQuestionItem() {
     let usedby: any = this.questionitem['conceptRefs'];
-    this.candelete = 2; //checking
+    this.canDelete = 2; //checking
     if(usedby && usedby.length > 0) {
-      this.candelete = 0;
+      this.canDelete = 0;
     } else {
       this.service.getControlConstructsByQuestionItem(this.questionitem.id)
         .subscribe((result: any) => {
           if (result.length > 0) {
-            this.candelete = 0;
+            this.canDelete = 0;
           } else {
-            this.candelete = 1;
+            this.canDelete = 1;
           }
         },
-        (error: any) => { console.log(error); this.candelete = 0; });
+        (error: any) => { console.log(error); this.canDelete = 0; });
     }
   }
 
@@ -128,22 +130,22 @@ export class QuestionDetailComponent implements OnInit {
       error => console.log(error));
   }
 
-  private buildRevisionConfig(): any[] {
-    let config: any[] = [];
-    config.push({'name':'name','label':'Name'});
-    config.push({'name':['question', 'question'],'label':'Question'});
-    config.push({'name':['question', 'intent'],'label':'Intent'});
-    config.push({'name':['responseDomain', 'name'],'label':'responseDomain'});
-    config.push({'name':['responseDomain', 'version'],'label':'RespD', 'init': function (version: any) {
-      return 'V' + version['major'] +'.' + version['minor'];
-    }});
-
-    return config;
-  }
+  // private buildRevisionConfig(): any[] {
+  //   let config: any[] = [];
+  //   config.push({'name':'name','label':'Name'});
+  //   config.push({'name':['question', 'question'],'label':'Question'});
+  //   config.push({'name':['question', 'intent'],'label':'Intent'});
+  //   config.push({'name':['responseDomain', 'name'],'label':'responseDomain'});
+  //   config.push({'name':['responseDomain', 'version'],'label':'RespD', 'init': function (version: any) {
+  //     return 'V' + version['major'] +'.' + version['minor'];
+  //   }});
+  //
+  //   return config;
+  // }
 
   private init() {
     if (this.questionitem !== null && this.questionitem !== undefined) {
-      this.questionitem['workinprogress'] = this.questionitem.changeKind === 'IN_DEVELOPMENT';
+      // this.questionitem['workinprogress'] = this.questionitem.changeKind === 'IN_DEVELOPMENT';
       if (this.questionitem.question === null) {
         this.questionitem.question = new Question();
       }
@@ -151,6 +153,6 @@ export class QuestionDetailComponent implements OnInit {
       this.savedQuestionitemsIndex = this.questionitems
         .findIndex(q => q['id'] === this.questionitem['id']);
     }
-    this.config = this.buildRevisionConfig();
+    // this.config = this.buildRevisionConfig();
   }
 }

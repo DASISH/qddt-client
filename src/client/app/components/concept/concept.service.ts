@@ -3,6 +3,15 @@ import { Http, RequestOptions, Headers, ResponseContentType } from '@angular/htt
 
 import { API_BASE_HREF } from '../../api';
 import { BaseService } from '../../common/base.service';
+import { QuestionItem } from '../question/question.service';
+
+export class ConceptQuestionItem {
+  id:string;
+  questionItem:QuestionItem;
+  questionItemRevision:number;
+  updated:Date;
+}
+
 
 export class Concept {
   id:string;
@@ -10,7 +19,7 @@ export class Concept {
   label:string;
   description:string;
   authors:any[];
-  conceptQuestionItems:any[];
+  conceptQuestionItems:ConceptQuestionItem[];
 }
 
 @Injectable()

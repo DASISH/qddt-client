@@ -17,6 +17,7 @@ export class PublicationSelectComponent implements OnChanges {
   elementRevisions: any[];
   elementRevision: any;
   selectedElement: any;
+  selectedElementType: string;
 
   constructor(private service: PublicationService) {
     this.elementRevisions = [];
@@ -58,6 +59,7 @@ export class PublicationSelectComponent implements OnChanges {
       element.revisionNumber = this.elementRevision;
       element.elementKind = elementType.type;
       element.element = this.selectedElement;
+      this.selectedElementType = elementType.type;
       this.publicationElement.emit(element);
     }
   }

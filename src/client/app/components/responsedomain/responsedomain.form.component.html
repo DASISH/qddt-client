@@ -1,34 +1,10 @@
 <div>
 	<div *ngIf="responsedomain" class="card" id="{{responsedomain.id}}">
     <qddt-preview-responsedomain [isVisible]="true"
-      [responseDomain]="responsedomain">
+      [responseDomain]="previewResponseDomain">
 		</qddt-preview-responsedomain>
-    <!--<div *ngIf="usedBy && usedBy.length > 0" class="hoverable" style="margin: 1%">-->
-      <!--<table class="highlight">-->
-        <!--<caption>Used by</caption>-->
-        <!--<thead>-->
-        <!--<tr><th>Study</th><th>Module</th><th>Concept names</th></tr>-->
-        <!--</thead>-->
-        <!--<tbody>-->
-        <!--<tr *ngFor="let ref of responsedomain?.questionRefs" >-->
-          <!--<td>-->
-            <!--<a  style="cursor: pointer;" (click)="onClickStudy(ref.topicRef.studyRef.id)">{{ref?.topicRef?.studyRef?.name}}</a>-->
-          <!--</td>-->
-          <!--<td>-->
-            <!--<a  style="cursor: pointer;" (click)="onClickTopic(ref.topicRef.id)">{{ref?.topicRef?.name}}</a>-->
-          <!--</td>-->
-          <!--<td>-->
-            <!--<a  style="cursor: pointer;" (click)="onClickConcept(ref?.concept?.id)">{{ref?.concept?.name}}</a>-->
-          <!--</td>-->
-          <!--<td>-->
-            <!--<a  style="cursor: pointer;" (click)="onClickResponsedomain(ref.id)">{{ref?.name}}</a>-->
-          <!--</td>-->
-        <!--</tr>-->
-        <!--</tbody>-->
-      <!--</table>-->
-    <!--</div>-->
 
-		<form (ngSubmit)="save()" #hf="ngForm">
+		<form (ngSubmit)="onSave()" #hf="ngForm">
 			<div class="row">
 				<div class="col s12">
 					<label for="name" class="active teal-text">Name</label>
@@ -47,19 +23,26 @@
 				<div [ngSwitch]="domainType">
 					<div *ngSwitchCase="domainTypeDef.SCALE">
 						<div class="row">
-              <div class="col s4">
+              <div class="col l3">
                 <label for="scale_start" class="active">Start</label>
                 <input id="scale_start" name="scale_start" type="number"
 								  (ngModelChange)="buildPreviewResponseDomain()"
 					        [(ngModel)]="responsedomain.managedRepresentation.inputLimit.minimum" required>
               </div>
-              <div class="col s4">
+              <div class="col l3">
                 <label for="scale_end" class="active">End</label>
                 <input id="scale_end" name="scale_end" type="number"
 								  (ngModelChange)="buildPreviewResponseDomain()"
 					        [(ngModel)]="responsedomain.managedRepresentation.inputLimit.maximum" required>
               </div>
-							<div class="col s4 input-field">
+              <div class="col l3">
+                <label for="scale_anchor" class="active">Number of Anchor</label>
+                <input id="scale_anchor" name="scale_anchor" type="number" [(ngModel)]="numberOfAnchors"
+                       min="0"
+                       [attr.max]="responsedomain.managedRepresentation.inputLimit.maximum - responsedomain.managedRepresentation.inputLimit.minimum + 1"
+                       (ngModelChange)="changeNumberOfAnchors($event)" required>
+              </div>
+							<div class="col l3 input-field">
 							  <label for="scale_DisplayLayout" class="active">Display Layout</label>
 								<select id="scale_DisplayLayout" name="scale_DisplayLayout"
 								   [ngModel]="responsedomain.displayLayout"
@@ -71,23 +54,24 @@
 						  </div>
             </div>
 
-						<div class="row">
-							<div class="col s4">
-							  <label for="scale_anchor" class="active">Number of Anchor</label>
-							  <input id="scale_anchor" name="scale_anchor" type="number" [(ngModel)]="numberOfAnchors"
-								  min="0"
-								  [attr.max]="responsedomain.managedRepresentation.inputLimit.maximum - responsedomain.managedRepresentation.inputLimit.minimum + 1"
-								  (ngModelChange)="changeNumberOfAnchors($event)" required>
-							</div>
-						</div>
-
 						<table *ngIf="numberOfAnchors > 0">
-						  <thead><tr><td>Code</td><td>Category</td></tr></thead>
+						  <thead><tr><td>Code</td><td>Anchor Alignment</td><td>Category</td></tr></thead>
 							<tbody>
 								<tr *ngFor="let category of responsedomain.managedRepresentation.children; let idx=index">
 									<td><input name="{{idx}}-code-value" type="text"
 									  (ngModelChange)="buildPreviewResponseDomain()"
 									  [(ngModel)]="category.code.codeValue" required></td>
+                  <td>
+                    <div class="input-field">
+                      <select id="{{idx}}placeholderAlignment" name="{{idx}}placeholderAlignment" materialize="material_select"
+                              (ngModelChange)="buildPreviewResponseDomain()"
+                              [(ngModel)]="category.code.alignment" required>
+                        <option value="text-left">Left</option>
+                        <option value="text-center">Center</option>
+                        <option value="text-right">Right</option>
+                      </select>
+                    </div>
+                  </td>
 									<td>
 										<div [ngClass]="{ noItemFound: (category.isNew && category.label.length > 0 && categories.length === 0) }">
 										  <autocomplete [items]="categories" class="black-text"
@@ -235,21 +219,6 @@
 	</div>
 </div>
 
-<div [attr.id]="'usedby-detail-modal'" class="modal modal-fixed-footer"
-     materialize="modal" [materializeActions]="usedbyModalAction">
-  <div class="modal-content" *ngIf="selectedElement">
-    <h5 align="center">Preview of {{selectedElement.name}}</h5>
-    <!--<qddt-preview-concept *ngIf="selectedType === 'concept'" [concept]="selectedElement"></qddt-preview-concept>-->
-    <!--<qddt-preview-topic *ngIf="selectedType === 'topic'" [topic]="selectedElement"></qddt-preview-topic>-->
-    <!--<qddt-preview-study *ngIf="selectedType === 'study'" [study]="selectedElement"></qddt-preview-study>-->
-  </div>
-  <div class="modal-footer">
-    <button id="concept-modal-close"
-            class="btn btn-default red modal-action modal-close waves-effect">
-      <a><i class="close material-icons medium white-text">close</i></a>
-    </button>
-  </div>
-</div>
 
 <div class="modal modal-fixed-footer"
   materialize="modal" [materializeActions]="basedonActions">

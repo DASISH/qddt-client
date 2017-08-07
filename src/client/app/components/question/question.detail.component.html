@@ -9,54 +9,52 @@
           <i class="material-icons" (click)="onDeleteQuestionItemModal()" title="Delete" >delete_forever</i>
         </a></li>
         <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light orange darken-1">
-          <i class="material-icons" (click)="getPdf(questionitem)" title="Get as Pdf">description</i>
+          <i class="material-icons" (click)="getPdf(questionitem)" title="Get as Pdf">picture_as_pdf</i>
         </a></li>
         <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light green darken-1">
           <i class="material-icons" (click)="hideDetail()" title="Return to list view">replay</i>
         </a></li>
       </ul>
     </div>
-
-    <div class="col s1">
-      <a class="btn-flat btn-floating btn-medium waves-effect waves-light  green darken-1">
-        <i class="material-icons" (click)="hideDetail()" title="Return to list view">replay</i>
-      </a>
-    </div>
-
-    <div class="col s9 grey-text text-darken-2">
-      <div class="flow-text">{{questionitem?.question?.question}}</div>
-    </div>
-
-    <div class="col s1">
-      <label class="active teal-text text-align: right">Version: {{questionitem?.version?.major}}.{{questionitem?.version?.minor}}
-        <i *ngIf="questionitem.workinprogress"
-           class="material-icons white yellow-text tiny">
-          error
-        </i>
-      </label>
-    </div>
-
-    <div class="col s10  white grey-text text-darken-1">
-      <div class="row">
-        <p>{{questionitem?.description}}</p>
+    <div class="row">
+      <div class="col s1">
+        <a class="btn-flat btn-floating btn-medium waves-effect waves-light  green darken-1">
+          <i class="material-icons" (click)="hideDetail()" title="Return to list view">replay</i>
+        </a>
       </div>
+      <div class="col s11">
+          <div class="col s10 grey-text text-darken-2">
+            <div class="flow-text">{{questionitem?.question?.question}}</div>
+          </div>
 
-      <qddt-questionitem-edit [isVisible]="true"
-        [editResponseDomain]="true"
-        (editQuestionItem)="onEditQuestionItem($event)"
-        [questionitem]="questionitem"></qddt-questionitem-edit>
+          <div class="col s1">
+            <qddt-version-label [element]="questionitem"></qddt-version-label>
+            <!--<label class="active teal-text text-align: right">Version {{questionitem?.version?.major}}.{{questionitem?.version?.minor}}-->
+              <!--<i *ngIf="questionitem.workinprogress"-->
+                 <!--class="material-icons white yellow-text tiny">-->
+                <!--error-->
+              <!--</i>-->
+            <!--</label>-->
+          </div>
 
-      <qddt-revision [isVisible]="revisionIsVisible"
-        [current]="questionitem"
-        [qddtURI]="'audit/questionitem/' + questionitem.id + '/all'"
-        [elementType]="'QuestionItem'"
-        [config]="config"></qddt-revision>
+          <div class="col s11  white grey-text text-darken-1">
 
-      <div class="row">
-        <qddt-comment-list [ownerId]="questionitem.id" [comments]="questionitem.comments"></qddt-comment-list>
+            <qddt-questionitem-edit [isVisible]="true"
+              [editResponseDomain]="true"
+              (editQuestionItem)="onEditQuestionItem($event)"
+              [questionitem]="questionitem"></qddt-questionitem-edit>
+
+            <qddt-revision [isVisible]="revisionIsVisible"
+              [current]="questionitem"
+              [qddtURI]="'audit/questionitem/' + questionitem.id + '/all'"
+              [elementType]="'QuestionItem'"
+              [config]="config"></qddt-revision>
+
+            <qddt-comment-list [ownerId]="questionitem.id" [comments]="questionitem.comments"></qddt-comment-list>
+
+          </div>
       </div>
     </div>
-
   </div>
 </div>
 
@@ -64,13 +62,13 @@
   <div class="modal-content">
     <div class="row">
       <h4>Warning</h4>
-      <div *ngIf="candelete > 1" class="progress"><div class="indeterminate"></div></div>
-      <span *ngIf="candelete === 1">Are you sure to delete Question item {{questionitem?.question?.question}}?</span>
-      <span *ngIf="candelete === 0">Please detach question item from module/concept and question construct before deleting!</span>
+      <div *ngIf="canDelete > 1" class="progress"><div class="indeterminate"></div></div>
+      <span *ngIf="canDelete === 1">Are you sure to delete Question item {{questionitem?.question?.question}}?</span>
+      <span *ngIf="canDelete === 0">Please detach question item from module/concept and question construct before deleting!</span>
     </div>
   </div>
   <div class="modal-footer">
-    <button *ngIf="candelete === 1"
+    <button *ngIf="canDelete === 1"
       (click)="onConfirmDeleting()"
       class="btn btn-default green modal-action modal-close waves-effect">
       <a><i class="close material-icons medium white-text">done</i></a>

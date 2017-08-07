@@ -12,21 +12,27 @@ import { CategoryType } from '../category_kind';
       <form (ngSubmit)="onSave()" #hf="ngForm">
         <div class="row">
           <div class="input-field col s12">
-            <textarea id="{{category?.id}}-label" class="materialize-textarea"
-              name="{{category?.id}}-label"
-              [(ngModel)]="category.label" [attr.maxlength]="255"
-              required (ngModelChange)="category.name = category.label.toUpperCase()">
-            </textarea>
-            <label [attr.for]="category.id + '-label'" class="active teal-text">Label</label>
+            <!--<textarea id="{{category?.id}}-label" class="materialize-textarea"-->
+              <!--name="{{category?.id}}-label"-->
+              <!--[(ngModel)]="category.label" [attr.maxlength]="255"-->
+              <!--required (ngModelChange)="category.name = category.label.toUpperCase()">-->
+            <!--</textarea>-->
+            <label for="label2" class="active teal-text">Label</label>
+            <input id="label2" name="label" type="text" class="validate required" 
+                   [(ngModel)]="category.label" [attr.maxlength]="255"
+                   (ngModelChange)="category.name = category.label.toUpperCase()">
+            <!--<label [attr.for]="category.id + '-label'" class="active teal-text">Label</label>-->
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <textarea id="{{category?.id}}-name" class="materialize-textarea"
-              name="{{category?.id}}-name"
-              [(ngModel)]="category.name" [attr.maxlength]="255">
-            </textarea>
-            <label [attr.for]="category.id + '-name'" class="active teal-text">Name</label>
+            <label for="name2" class="active teal-text">Name</label>
+            <input id="name2" name="name" type="text" class="validate required" [(ngModel)]="category.name" [attr.maxlength]="255" >
+            <!--<textarea id="{{category?.id}}-name" class="materialize-textarea"-->
+              <!--name="{{category?.id}}-name"-->
+              <!--[(ngModel)]="category.name" [attr.maxlength]="255">-->
+            <!--</textarea>-->
+            <!--<label [attr.for]="category.id + '-name'" class="active teal-text">Name</label>-->
           </div>
         </div>
         <div class="row">

@@ -61,7 +61,7 @@ export function main() {
               'abstractDescription': '',
               'otherMaterials': [],
               'authors': [],
-              'topicQuestions':[]
+              'topicQuestionItems':[]
             };
             fixture.detectChanges();
             fixture.whenStable().then(() => {
@@ -90,7 +90,7 @@ export function main() {
               'abstractDescription': '',
               'otherMaterials': [],
               'authors': [],
-              'topicQuestions':[]
+              'topicQuestionItems':[]
             };
             fixture.componentInstance.onSave();
             fixture.detectChanges();

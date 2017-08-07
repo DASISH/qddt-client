@@ -3,6 +3,7 @@ import { Http, RequestOptions, Headers, ResponseContentType } from '@angular/htt
 import DateTimeFormat = Intl.DateTimeFormat;
 import { API_BASE_HREF } from '../../api';
 import { BaseService } from '../../common/base.service';
+import { ResponseDomain } from '../responsedomain/responsedomain.service';
 
 export class Question {
   id: string;
@@ -13,10 +14,10 @@ export class Question {
 export class QuestionItem {
   id: string;
   question: Question;
-  responseDomain: any;
+  responseDomain: ResponseDomain;
   version: any;
   agency: any;
-  name: any;
+  name: string;
   changeKind: any;
 }
 
@@ -105,6 +106,10 @@ export class QuestionService extends BaseService {
 
   getQuestionItemRevisions(id: string) : any {
     return this.get('audit/questionitem/' + id + '/all');
+  }
+
+  getQuestionItemRevision(id: string, rev: string) : any {
+    return this.get('audit/questionitem/' + id + '/' + rev);
   }
 
   getControlConstructsByQuestionItem(id: string): any {

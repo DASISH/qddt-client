@@ -3,8 +3,7 @@
     <div class="card white white-text text-lighten-2">
       <div class="row teal z-depth-1"
         style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
-        <i class="material-icons large right">comment</i>
-        <h4>Question constructs</h4>
+        <i class="material-icons large right">view_agenda</i><h4>Question constructs</h4>
 
         <a class="btn" (click)="onToggleControlConstructForm()">
           <i class="material-icons right"
@@ -136,12 +135,12 @@
     </div>
   </div>
 
-  <qddt-controle-construct-detail *ngIf="isDetail"
+  <qddt-control-construct-detail *ngIf="isDetail"
     [controlConstructId]="selectedControlConstruct.id"
     [controlConstructs]="controlConstructs"
     (exceptionEvent)="popupModal($event)"
     (hideDetailEvent)="hideDetail()">
-  </qddt-controle-construct-detail>
+  </qddt-control-construct-detail>
 </div>
 
 <div [attr.id]="'create-controlConstructs-modal'" class="modal"

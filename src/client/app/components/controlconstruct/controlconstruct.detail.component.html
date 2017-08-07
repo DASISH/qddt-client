@@ -11,7 +11,7 @@
           <i class="material-icons" (click)="onDeleteControlConstructModal()" title="Delete" >delete_forever</i>
         </a></li>
         <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light orange darken-1">
-          <i class="material-icons" (click)="getPdf(controlConstruct)" title="Get as Pdf">description</i>
+          <i class="material-icons" (click)="getPdf(controlConstruct)" title="Get as Pdf">picture_as_pdf</i>
         </a></li>
         <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light green darken-1">
           <i class="material-icons" (click)="hideDetail()" title="Return to list view">replay</i>
@@ -39,9 +39,11 @@
         [elementType]="'QuestionConstruct'">
       </qddt-revision>
 
-      <div class="row">
-        <qddt-comment-list [ownerId]="controlConstruct.id" [comments]="controlConstruct.comments"></qddt-comment-list>
-      </div>
+      <qddt-comment-list
+        [ownerId]="controlConstruct.id"
+        [comments]="controlConstruct.comments">
+      </qddt-comment-list>
+
     </div>
   </div>
 </div>

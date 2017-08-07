@@ -53,14 +53,14 @@ export function main() {
         imports: [
           CommonModule,
           RouterTestingModule.withRoutes([
-            { path: 'Home', component: DummyComponent },
-            { path: 'Questions', component: DummyComponent },
-            { path: 'Categories', component: DummyComponent },
-            { path: 'Schemes', component: DummyComponent },
-            { path: 'Responsedomains', component: DummyComponent },
-            { path: 'Constructs', component: DummyComponent },
-            { path: 'Instruments', component: DummyComponent },
-            { path: 'Sequences', component: DummyComponent }
+            { path: 'home', component: DummyComponent },
+            { path: 'questions', component: DummyComponent },
+            { path: 'categories', component: DummyComponent },
+            { path: 'schemes', component: DummyComponent },
+            { path: 'responsedomains', component: DummyComponent },
+            { path: 'constructs', component: DummyComponent },
+            { path: 'instruments', component: DummyComponent },
+            { path: 'sequences', component: DummyComponent }
           ])
         ]
       });
@@ -91,7 +91,7 @@ export function main() {
                 de[2].nativeElement.click();
                 fixture.detectChanges();
                 fixture.whenStable().then(() => {
-                  expect(location.path()).toEqual('/Categories');
+                  expect(location.path()).toEqual('/categories');
                 });
               });
           })));

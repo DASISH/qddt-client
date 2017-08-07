@@ -30,11 +30,15 @@
         <qddt-revision [isVisible]="revision.isVisible"
           [current]="responseDomain"
           [qddtURI]="'audit/responsedomain/' + responseDomain.id + '/all'" #revision></qddt-revision>
-        <qddt-preview-responsedomain [isVisible]="preview.isVisible"
-          [responseDomain]="responseDomain" #preview></qddt-preview-responsedomain>
-        <div class="row">
-          <qddt-comment-list [ownerId]="responseDomain.id" [comments]="responseDomain.comments"></qddt-comment-list>
-        </div>
+        <qddt-preview-responsedomain
+          [isVisible]="preview.isVisible"
+          [responseDomain]="responseDomain" #preview>
+        </qddt-preview-responsedomain>
+        <qddt-comment-list
+          [ownerId]="responseDomain.id"
+          [comments]="responseDomain.comments">
+        </qddt-comment-list>
+
       </div>
 
     </div>

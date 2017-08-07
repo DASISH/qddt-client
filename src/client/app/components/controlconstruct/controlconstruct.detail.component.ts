@@ -3,7 +3,7 @@ import { ControlConstructService, ControlConstruct } from './controlconstruct.se
 import { MaterializeAction } from 'angular2-materialize';
 
 @Component({
-  selector: 'qddt-controle-construct-detail',
+  selector: 'qddt-control-construct-detail',
   moduleId: module.id,
   templateUrl: './controlconstruct.detail.component.html',
   styles: [`:host /deep/ .hoverable .row {
@@ -98,9 +98,9 @@ export class ControlConstructDetailComponent implements OnInit {
   // }
 
   private init() {
-    if(this.controlConstruct !== null && this.controlConstruct !== undefined) {
-      this.controlConstruct['workinprogress'] = this.controlConstruct['changeKind'] === 'IN_DEVELOPMENT';
-    }
+    // if(this.controlConstruct !== null && this.controlConstruct !== undefined) {
+    //   this.controlConstruct['workinprogress'] = this.controlConstruct['changeKind'] === 'IN_DEVELOPMENT';
+    // }
     this.savedObject = JSON.stringify(this.controlConstruct);
     this.savedControlConstructsIndex = this.controlConstructs
       .findIndex(q => q['id'] === this.controlConstruct['id']);

@@ -1,8 +1,5 @@
 <div class="row" *ngIf="sequence">
-  <label class="active teal-text">Version: <!--
-    -->{{sequence?.version?.major}}.<!--
-    -->{{sequence?.version?.minor}}
-  </label>
+  <qddt-version-label [element]="sequence"></qddt-version-label>
   <div id="{{sequence?.id}}" class="scrollspy">
     <div class="col s1 m1 l1">
       <br/>
@@ -57,9 +54,10 @@
         [qddtURI]="'audit/controlconstruct/' + sequence.id + '/all'">
       </qddt-revision>
 
-      <div class="row">
-        <qddt-comment-list [ownerId]="sequence.id" [comments]="sequence.comments"></qddt-comment-list>
-      </div>
+      <qddt-comment-list
+        [ownerId]="sequence.id"
+        [comments]="sequence.comments">
+      </qddt-comment-list>
     </div>
 
   </div>

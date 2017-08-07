@@ -38,12 +38,17 @@
               <div class="row">
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                    (click)="edit.isVisible = !edit.isVisible"><i class="material-icons"title="Edit element">mode_edit</i></a>
+                <a
+                  class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                  (click)="onRemoveTopic(topic?.id)">
+                  <i class="material-icons" title="Remove selected">remove</i>
+                </a>
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                    (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium" title="Revision history">history</i></a>
-                <!--<qddt-questionitem-reuse [parentId]="topic?.id"-->
-                                         <!--(questionItemCreatedEvent)="setQuestionItem($event)"></qddt-questionitem-reuse>-->
+                <qddt-questionitem-reuse [parentId]="topic?.id"
+                                         (questionItemCreatedEvent)="onAddQuestionItem(topic?.id,$event)"></qddt-questionitem-reuse>
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
-                  <i class="material-icons" (click)="getPdf(publication)" title="Get as Pdf">description</i>
+                  <i class="material-icons" (click)="onGetPdf(publication)" title="Get as Pdf">picture_as_pdf</i>
                 </a>
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                    (click)="onSelectTopic(topic)"><i class="material-icons left medium"title="Go to child elements">play_arrow</i></a>
@@ -55,10 +60,11 @@
                 <div class="col s10">{{topic?.name}}</div>
 
                 <div class="col s2">
-                  <div class="text-align: right">
-                    <i *ngIf="topic.workinprogress" class="material-icons white yellow-text small font-size: 20px" title="In development">error</i>
-                    V{{topic?.version?.major}}.{{topic?.version?.minor}}
-                  </div>
+                  <!--<div class="text-align: right">-->
+                    <qddt-version-label [element]="topic"></qddt-version-label>
+                    <!--<i *ngIf="topic.workinprogress" class="material-icons white yellow-text small font-size: 20px" title="In development">error</i>-->
+                    <!--V{{topic?.version?.major}}.{{topic?.version?.minor}}-->
+                  <!--</div>-->
                 </div>
               </h5>
               <qddt-topic-edit [isVisible]="edit.isVisible" [topic]="topic"
@@ -67,8 +73,8 @@
               </qddt-topic-edit>
               <div class="row">
                 <p>{{topic?.abstractDescription}}</p>
-                <label class="teal-text" *ngIf="topic.authors?.length>0">Authors</label>
-                <qddt-author-chip [authors]="topic.authors" ></qddt-author-chip>
+                <!--<label class="teal-text" *ngIf="topic.authors?.length>0">Authors</label>-->
+                <!--<qddt-author-chip [authors]="topic.authors" ></qddt-author-chip>-->
               </div>
               <div class="row" *ngIf="topic?.otherMaterials && topic?.otherMaterials?.length > 0">
                 <ul class="collection with-header hoverable">
@@ -79,12 +85,12 @@
                   </li>
                 </ul>
               </div>
-              <div *ngIf="topic.topicGroupQuestions.length > 0" class="section">
+              <div *ngIf="topic?.topicQuestionItems?.length > 0" class="section">
                 <ul class="collection with-header hoverable"
                     (mouseenter)="showQuestionbutton = true"
                     (mouseleave)="showQuestionbutton = false">
                   <li class="collection-header teal-text">Question Items</li>
-                  <a class="collection-item grey-text text-darken-1" *ngFor="let cqi of topic.topicGroupQuestions">
+                  <a class="collection-item grey-text text-darken-1" *ngFor="let cqi of topic.topicQuestionItems">
                     <div class="row" style="min-height: 3rem;">
                       <div class="col s11" (click)="onClickQuestionItem(cqi.questionItem)" style="cursor: pointer;">
                         ♦ {{cqi?.questionItem?.question?.question}}</div>
@@ -92,7 +98,7 @@
                         <a
                           class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
                           [ngClass]="{hide: !showQuestionbutton}"
-                          (click)="removeQuestionItem(cqi?.questionItem?.id)">
+                          (click)="onRemoveQuestionItem(cqi?.questionItem?.id)">
                           <i class="material-icons" title="Remove selected">remove</i>
                         </a>
                       </div>
@@ -102,7 +108,8 @@
               </div>
               <qddt-revision [isVisible]="revision.isVisible" [current]="topic" [elementType]="'TopicGroup'"
                 [config]="[{'name':'name','label':'Name'},{'name':'description','label':'Description'}]"
-                [qddtURI]="'audit/topicgroup/' + topic.id + '/all'" #revision ></qddt-revision>
+                [qddtURI]="'audit/topicgroup/' + topic.id + '/all'" #revision
+               (requestPreview)="showPreview($event)"></qddt-revision>
 
               <div class="row">
                 <qddt-comment-list [ownerId]="topic.id" [comments]="topic.comments"></qddt-comment-list>
@@ -131,7 +138,35 @@
           <qddt-preview-questionitem [questionItem]="questionItem"></qddt-preview-questionitem>
         </div>
       </div>
+
+      <!--<div [attr.id]="topic.id + '-topic-preview-modal'" class="modal modal-fixed-footer"-->
+        <!--materialize="modal" [materializeActions]="previewActions">-->
+        <!--<div class="modal-footer">-->
+          <!--<button  class="btn btn-default red modal-action modal-close waves-effect waves-red">-->
+            <!--<i class="close material-icons">close</i>-->
+          <!--</button>-->
+        <!--</div>-->
+        <!--<div class="modal-content">-->
+          <!--<qddt-preview-topic [topic]="revision"></qddt-preview-topic>-->
+        <!--</div>-->
+      <!--</div>-->
+
     </div>
+    <!--<div>-->
+      <!--<div [attr.id]="topic.id + '-topic-preview-modal'"-->
+           <!--class="modal modal-fixed-footer"-->
+           <!--materialize="modal" [materializeActions]="previewActions">-->
+        <!--<div class="modal-footer">-->
+          <!--<button-->
+            <!--class="btn btn-default red modal-action modal-close waves-effect waves-red">-->
+            <!--<i class="close material-icons">close</i>-->
+          <!--</button>-->
+        <!--</div>-->
+        <!--<div class="modal-content">-->
+          <!--<qddt-preview-topic [topic]="revision"></qddt-preview-topic>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
   </div>
 
   <div class="col hide-on-small-only m1 l1">

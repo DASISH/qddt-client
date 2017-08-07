@@ -28,6 +28,7 @@ export class ResponsedomainReuseComponent implements OnInit, OnChanges {
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
   constructor(private responseDomainService: ResponseDomainService) {
+    console.debug('responsedomain reuse...');
     this.showAutocomplete = false;
     this.domainType = DomainType.SCALE;
     this.responseDomains = [];

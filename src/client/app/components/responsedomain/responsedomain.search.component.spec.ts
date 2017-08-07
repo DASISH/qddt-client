@@ -62,7 +62,7 @@ export function main() {
               'id': '0c3c168e-d1ea-421f-a629-7487c71fbf1a',
               'name': 'Code',
               'changeKind': 'CREATED',
-              'label': 'category scheme for code',
+              'label': 'scheme for code',
               'description': '[SCALE] group - ',
               'inputLimit': {
                 'minimum': '1',

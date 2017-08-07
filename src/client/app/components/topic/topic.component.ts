@@ -2,6 +2,8 @@ import { Component, EventEmitter, Output, Input, OnChanges, SimpleChanges } from
 
 import { TopicService, Topic } from './topic.service';
 import { MaterializeAction } from 'angular2-materialize';
+import { QuestionItem } from '../../../../../dist/tmp/app/components/question/question.service';
+import { Study } from '../study/study.service';
 
 @Component({
   selector: 'qddt-topic',
@@ -14,15 +16,19 @@ import { MaterializeAction } from 'angular2-materialize';
 export class TopicComponent implements OnChanges {
 
   @Output() topicSelectedEvent: EventEmitter<any> = new EventEmitter<any>();
-  @Input() study: any;
+  @Input() study: Study;
   @Input() show: boolean;
 
   questionItemActions = new EventEmitter<string|MaterializeAction>();
-  private topics:any;
-  private topic: any;
+  previewActions = new EventEmitter<string|MaterializeAction>();
+
+  private topics:Topic[];
+  private topic: Topic;
+  private revision:any;
   private showTopicForm: boolean = false;
   private showQuestionbutton: boolean = false;
-  private questionItem: any;
+  private questionItem: QuestionItem;
+  private parentId:string;
 
   constructor(private topicService: TopicService) {
     this.topic = new Topic();
@@ -42,6 +48,11 @@ export class TopicComponent implements OnChanges {
         },
         (error: any) => console.log(error));
     }
+  }
+
+  showPreview(topic: any) {
+    this.revision = topic;
+    this.previewActions.emit({action:'modal', params:['open']});
   }
 
   onToggleTopicForm() {
@@ -78,7 +89,7 @@ export class TopicComponent implements OnChanges {
       error => console.log(error));
   }
 
-  getPdf(element: Topic) {
+  onGetPdf(element: Topic) {
     let fileName = element.name + '.pdf';
     this.topicService.getPdf(element.id).subscribe(
       (data: any) => {
@@ -87,11 +98,11 @@ export class TopicComponent implements OnChanges {
       error => console.log(error));
   }
 
-  setQuestionItem(questionItem: any) {
+  onAddQuestionItem(topicId,questionItem: any) {
 
-    this.topicService.attachQuestion(this.topics.topicQuestions.id,questionItem.id,questionItem['questionItemRevision'])
+    this.topicService.attachQuestion(topicId,questionItem.id,questionItem['questionItemRevision'])
       .subscribe((result: any) => {
-        this.topic.topicQuestions = result;
+        this.topics.push(result);
       }, (error: any) => console.log(error));
   }
 
@@ -100,13 +111,22 @@ export class TopicComponent implements OnChanges {
     this.questionItemActions.emit({action:'modal', params:['open']});
   }
 
-  removeQuestionItem(id: any) {
+  onRemoveQuestionItem(id: any) {
     this.topicService.deattachQuestion(this.topic.id, id)
       .subscribe((result: any) => {
           this.topic = result;
         }
         , (err: any) => console.log('ERROR: ', err));
   }
+
+
+  onRemoveTopic(topicId: string) {
+    this.topicService.deleteTopic(topicId)
+      .subscribe((result :any) => {
+
+        })
+  }
+
 
   private isBlank(str: any): boolean {
     return (!str || /^\s*$/.test(str));

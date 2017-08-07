@@ -29,9 +29,9 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
     this.categories = [];
     this.searchKeys = '';
     this.page = {};
-    this.columns = [{ label: 'Label', name: 'label', sortable: true, direction: '' },
-      { label: 'Description', name: 'description', sortable: true, direction: '' },
-      { label: 'Modified', name: 'modified', sortable: true, direction: 'desc' }];
+    this.columns = [{ label: 'Label', name: 'label', sortable: true, direction: '' ,width:'25%'},
+      { label: 'Description', name: 'description', sortable: true, direction: '', width:'50%' },
+      { label: 'Modified', name: 'modified', sortable: true, direction: 'desc' , width:'8%'}];
     this.searchKeysSubect
       .debounceTime(300)
       .distinctUntilChanged()
@@ -81,25 +81,9 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
     }
   }
 
-  onDetail(category: any) {
-    this.selectedCategory = category;
-    this.isDetail = true;
-    this.userService.setGlobalObject('categories',
-      {'current': 'detail',
-        'page': this.page,
-        'key': this.searchKeys,
-        'item': this.selectedCategory,
-        'collection': this.categories});
-  }
-
-  hideDetail() {
+  onHideDetail() {
     this.isDetail = false;
     this.userService.setGlobalObject('categories', {'current': 'list', 'key': this.searchKeys});
-  }
-
-  onPage(page: string) {
-    this.categoryService.getAllByLevelAndPage('ENTITY', this.searchKeys, page, this.getSort()).subscribe(
-      (result: any) => { this.page = result.page; this.categories = result.content; });
   }
 
   onCreateCategory() {
@@ -111,9 +95,25 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
     this.isDetail = false;
   }
 
-  searchCategories(name: string) {
+  onTableSearchCategories(name: string) {
     this.searchKeys = name;
     this.searchKeysSubect.next(name);
+  }
+
+  onTablePage(page: string) {
+    this.categoryService.getAllByLevelAndPage('ENTITY', this.searchKeys, page, this.getSort()).subscribe(
+      (result: any) => { this.page = result.page; this.categories = result.content; });
+  }
+
+  onTableDetail(category: any) {
+    this.selectedCategory = category;
+    this.isDetail = true;
+    this.userService.setGlobalObject('categories',
+      {'current': 'detail',
+        'page': this.page,
+        'key': this.searchKeys,
+        'item': this.selectedCategory,
+        'collection': this.categories});
   }
 
   private getSort() {

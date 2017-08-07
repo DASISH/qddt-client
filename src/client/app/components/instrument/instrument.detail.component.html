@@ -1,7 +1,8 @@
 <div class="row" *ngIf="instrument">
-  <label class="active teal-text">Version: <!--
-        -->{{instrument?.version?.major}}.<!--
-        -->{{instrument?.version?.minor}}</label>
+  <qddt-version-label [element]="instrument"></qddt-version-label>
+  <!--<label class="active teal-text">Version &lt;!&ndash;-->
+        <!--&ndash;&gt;{{instrument?.version?.major}}.&lt;!&ndash;-->
+        <!--&ndash;&gt;{{instrument?.version?.minor}}</label>-->
   <div id="{{instrument?.id}}" class="scrollspy">
     <div class="col s1 m1 l1">
       <br/>
@@ -89,9 +90,8 @@
         [qddtURI]="'audit/instrument/' + instrument.id + '/all'">
       </qddt-revision>
 
-      <div class="row">
         <qddt-comment-list [ownerId]="instrument.id" [comments]="instrument.comments"></qddt-comment-list>
-      </div>
+
     </div>
 
   </div>

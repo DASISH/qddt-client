@@ -3,15 +3,16 @@ import { Http, Headers, RequestOptions, ResponseContentType } from '@angular/htt
 
 import { API_BASE_HREF } from '../../api';
 import { BaseService } from '../../common/base.service';
+import { QuestionItem } from '../question/question.service';
 
 export class ControlConstruct {
   id: string;
   name: string;
   description: string;
-  questionItem: any;
+  questionItem: QuestionItem;
   otherMaterials: any;
-  preInstructions: any[];
-  postInstructions: any[];
+  preInstructions: Instruction[];
+  postInstructions: Instruction[];
 }
 
 export class Instruction {

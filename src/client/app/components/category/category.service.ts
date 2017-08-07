@@ -5,12 +5,16 @@ import { API_BASE_HREF } from '../../api';
 import { BaseService } from '../../common/base.service';
 
 export class ResponseCardinality {
-   minimum: string;
-   maximum: string;
+   minimum: number;
+   maximum: number;
 }
 
 export class Code {
   codeValue: string;
+  alignment: string;
+  constructor() {
+    this.alignment='text-left';
+  }
 }
 
 export class Category {
@@ -23,6 +27,9 @@ export class Category {
   categoryType: string;
   children: Category[];
   code:Code;
+  constructor() {
+    this.label='';
+  }
 }
 
 @Injectable()
@@ -38,6 +45,10 @@ export class CategoryService extends BaseService {
 
   edit(category: Category): any {
     return this.post(category,'category/');
+  }
+
+  delete(categoryId: string): any {
+    return this.post({id:categoryId},'category/delete/'+categoryId);
   }
 
   getAll(): any {

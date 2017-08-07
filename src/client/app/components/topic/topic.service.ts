@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { Http, RequestOptions, Headers, ResponseContentType } from '@angular/http';
 import { API_BASE_HREF } from '../../api';
 import { BaseService } from '../../common/base.service';
+import { ConceptQuestionItem } from '../concept/concept.service';
 
 export class Topic {
   id: string;
@@ -9,7 +10,7 @@ export class Topic {
   abstractDescription:string;
   authors: any[];
   otherMaterials: any[];
-  topicQuestions: any;
+  topicQuestionItems: ConceptQuestionItem[];
 }
 
 @Injectable()
@@ -25,6 +26,10 @@ export class TopicService extends BaseService {
 
   edit(topic: Topic): any {
     return this.post(topic,'topicgroup/');
+  }
+
+  deleteTopic(topicId: string) : any {
+    return this.post({id: topicId}, 'topicgroup/delete/'+ topicId);
   }
 
   getAll(studyId: string): any {

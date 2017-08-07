@@ -32,12 +32,13 @@
     </div>
 
     <div class="col s1">
-      <label class="active teal-text text-align: right">Version {{publication?.version?.major}}.{{publication?.version?.minor}}
-        <i *ngIf="publication.workinprogress"
-           class="material-icons white yellow-text tiny">
-          error
-        </i>
-      </label>
+      <qddt-version-label [element]="publication"></qddt-version-label>
+      <!--<label class="active teal-text text-align: right">Version {{publication?.version?.major}}.{{publication?.version?.minor}}-->
+        <!--<i *ngIf="publication.workinprogress"-->
+           <!--class="material-icons white yellow-text tiny">-->
+          <!--error-->
+        <!--</i>-->
+      <!--</label>-->
     </div>
 
     <div class="col s10 rey-text text-darken-2">
