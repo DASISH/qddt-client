@@ -133,7 +133,7 @@ export class ResponsedomainFormComponent implements OnInit {
   // }
 
   select(candidate: any) {
-    console.info('onSelect...')
+    console.info('onSelect...');
     candidate.code = this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex].code;
     this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex] = candidate;
     this.buildPreviewResponseDomain();
