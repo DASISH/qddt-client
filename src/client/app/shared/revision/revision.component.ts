@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, OnChanges, EventEmitter, Output } from '@angular/core';
 import { RevisionService } from './revision.service';
-import { MaterializeAction } from 'angular2-materialize';
+// import { MaterializeAction } from 'angular2-materialize';
 // import { PreviewPublicationComponent } from '../../common/preview/preview.component';
 
 @Component({
@@ -23,8 +23,9 @@ export class RevisionComponent implements OnChanges, OnInit {
   private selectRevisionId: number;
   private currentRevisionId: number;
   private includeRevisions: boolean;
-  private previewModalActions = new EventEmitter<string|MaterializeAction>();
-  private selectedElement: any;
+  private showProgressBar: boolean=false;
+  // private previewModalActions = new EventEmitter<string|MaterializeAction>();
+  // private selectedElement: any;
 
 
   constructor(private service: RevisionService) {
@@ -54,11 +55,13 @@ export class RevisionComponent implements OnChanges, OnInit {
   }
 
   getRevisionsById() {
+    this.showProgressBar= true;
     this.service.getAllRevisions(this.qddtURI)
       .subscribe(
       (revisions: any) => {
         this._revisions = revisions.content;
         this.filterRevisions();
+        this.showProgressBar= false;
       },
       (err: any) => console.log('Unable to get all revisions')
       );

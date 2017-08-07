@@ -16,7 +16,7 @@ export class ElementFooterComponent {
 
   @Input() element: any;
   @Input() type: string;
-  @Output() BasedonObjectDetail: any = new EventEmitter<string|MaterializeAction>();
+  @Output() BasedonObjectDetail: any = new EventEmitter<any>();
   elementActions = new EventEmitter<string|MaterializeAction>();
   id: any;
   basedon: any;
@@ -26,21 +26,18 @@ export class ElementFooterComponent {
   }
 
   onClick(id: string, rev:string) {
+    console.info('onClick ' + id + '-' + rev);
     this.id = id;
-    if (this.type === 'responsedomain' || this.type === 'controlconstruct' || this.type === 'concept' || this.type === 'questionitem') {
-      this.BasedonObjectDetail.emit(id, rev);
-    } else if (this.type !== 'study' && this.type !== 'responsedomain' && this.type !== 'topic') {
-      this.service.getelement(this.type, this.id, rev)
-        .subscribe(
-        (result: any) => {
-          this.basedon = result;
-          this.elementActions.emit({action:'modal', params:['open']});
-        },
-        (err: any) => null
-        );
-    } else {
-      this.elementActions.emit({action:'modal', params:['open']});
-    }
+    this.BasedonObjectDetail.emit({id, rev});
+      // this.service.getelement(this.type, this.id, rev)
+      //   .subscribe(
+      //   (result: any) => {
+      //     this.basedon = result;
+      //     this.elementActions.emit({action:'modal', params:['open']});
+      //   },
+      //   (err: any) => {
+      //   }
+      // );
   }
 
 }

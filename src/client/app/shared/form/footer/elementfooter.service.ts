@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { Http } from '@angular/http';
-import { API_BASE_HREF } from '../../api';
-import { BaseService } from '../../common/base.service';
+import { API_BASE_HREF } from '../../../api';
+import { BaseService } from '../../../common/base.service';
 import { Observable }     from 'rxjs/Observable';
 
 @Injectable()
@@ -23,6 +23,8 @@ export class ElementFooterService extends BaseService {
       return this.get('audit/controlconstruct/' + id +'/'+ rev);
     } else if( type === 'concept') {
       return this.get('audit/concept/' + id +'/'+ rev);
+    } else if( type === 'questionitem') {
+      return this.get('audit/questionitem/' + id +'/'+ rev);
     }
     return Observable.of({});
   }

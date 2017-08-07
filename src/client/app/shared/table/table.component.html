@@ -13,7 +13,7 @@
       <thead>
         <tr>
           <!--<th>Detail</th>-->
-          <th *ngFor="let column of columns">{{column.label}}
+          <th *ngFor="let column of columns" width="{{column.width}}">{{column.label}}
             <span *ngIf="column.sortable" (click)="sortRows(column)" [ngStyle]="{'cursor': 'pointer'}">{{directionSign[column.direction]}}
             </span>
           </th>

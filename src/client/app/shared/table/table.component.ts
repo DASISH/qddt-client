@@ -3,7 +3,8 @@ import { Column } from './table.service';
 
 @Component({
   selector: 'qddt-table',
-  styles: [':host /deep/ i.left  { margin-right: 0px; }'],
+  styles: [':host /deep/ i.left  { margin-right: 0px; }',
+    'td, td div {  overflow:hidden; text-overflow: ellipsis; }'],
   moduleId: module.id,
   templateUrl: './table.component.html',
 })
@@ -38,7 +39,7 @@ export class QddtTableComponent implements OnInit, OnChanges {
   private rows: any[] = [];
   private _rows: any[] = [];
   private readonly directionSign: { [dir: string]: String; } = {'':'⇳','asc':'⇩','desc':'⇧' };
-
+  private readonly stdwidth: { [name: string]:string;} =  { 'Modified':'8%', 'Version':'2%', 'Agency':'5%'};
 
   ngOnInit() {
     if(this.placeholder === null || this.placeholder === undefined) {
@@ -129,6 +130,8 @@ export class QddtTableComponent implements OnInit, OnChanges {
       let version = '';
       if (item.version !== null && item.version !== undefined) {
         version = item.version.major + '.' + item.version.minor;
+        // if (item.version.versionLabel ==='In Development')
+        //   version += ' <i class="material-icons white yellow-text tiny" title="Latest changes, not saved as a version">error</i>';
       }
       let name = '';
       if (item.agency !== null && item.agency !== undefined) {
@@ -165,7 +168,7 @@ export class QddtTableComponent implements OnInit, OnChanges {
       ['Modified', 'Version', 'Agency'].forEach((item: any) => {
         let column = this.columns.find((column: any) => column.label === item);
         if (!column) {
-          this.columns.push({ name: item, label: item, sortable: false , direction:''});
+          this.columns.push({ name: item, label: item, sortable: false , direction:'', width:this.stdwidth[item]});
         }
       });
     });

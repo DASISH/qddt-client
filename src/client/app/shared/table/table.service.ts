@@ -3,4 +3,5 @@ export class Column {
   public label: String; //column header
   public sortable: boolean = false; //whether sortable
   public direction: String = '';
+  public width: String = '';
 }

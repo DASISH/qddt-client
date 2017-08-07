@@ -25,7 +25,7 @@ import { Component, Input, OnInit } from '@angular/core';
               <select materialize="material_select" [ngModel]="_RationalIndex"
               name="{{originalId}}-rationals"
               (ngModelChange)="onClickRational1($event)">
-              <option value="-1" disabled selected>Choose your rational</option>
+              <option value="-1" disabled selected>Choose your rationale</option>
               <option *ngFor="let rational of option.children;"
                 value="{{rational.id}}">{{rational.name}}</option>
               </select>

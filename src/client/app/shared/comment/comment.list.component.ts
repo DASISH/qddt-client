@@ -5,6 +5,7 @@ import { CommentService, Comment } from './comment.service';
   selector: 'qddt-comment-list',
   moduleId: module.id,
   template: `
+  <div class="row">
     <div *ngIf="comments" title="View Comment(s)">
       <a class="btn btn-flat btn-medium waves-effect waves-light teal white-text" (click)="toggleComments()">
       <i class="material-icons left" >message</i>{{comments.length}} </a>
@@ -62,6 +63,7 @@ import { CommentService, Comment } from './comment.service';
       </div>
       <qddt-comment-create (addedCommentEvent)="addedComment($event)" [ownerId]="ownerId"></qddt-comment-create>
     </div>
+  </div>
   `,
   providers: [CommentService]
 })
