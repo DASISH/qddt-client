@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output,  EventEmitter } from '@angular/core';
+import { Component, OnInit,  EventEmitter } from '@angular/core';
 // import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({
@@ -22,9 +22,13 @@ export class DialogBoxComponent  implements OnInit {
   // @Output() visibleChange: EventEmitter<string> = new EventEmitter<string>();
   public modalActions = new EventEmitter<any>();
 
-  constructor() { }
+  constructor() {
+    //
+  }
 
-  ngOnInit() { }
+  ngOnInit() {
+    //
+  }
 
   open() {
     console.info('open');
