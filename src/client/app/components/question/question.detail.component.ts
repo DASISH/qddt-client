@@ -23,7 +23,7 @@ export class QuestionDetailComponent implements OnInit {
   private revisionIsVisible: boolean;
   private editIsVisible: boolean;
   private conceptIsVisible: boolean;
-  // private config: any[];
+  private config: any[];
   private savedObject: string;
   private savedQuestionitemsIndex: number;
 
@@ -130,18 +130,18 @@ export class QuestionDetailComponent implements OnInit {
       error => console.log(error));
   }
 
-  // private buildRevisionConfig(): any[] {
-  //   let config: any[] = [];
-  //   config.push({'name':'name','label':'Name'});
-  //   config.push({'name':['question', 'question'],'label':'Question'});
-  //   config.push({'name':['question', 'intent'],'label':'Intent'});
-  //   config.push({'name':['responseDomain', 'name'],'label':'responseDomain'});
-  //   config.push({'name':['responseDomain', 'version'],'label':'RespD', 'init': function (version: any) {
-  //     return 'V' + version['major'] +'.' + version['minor'];
-  //   }});
-  //
-  //   return config;
-  // }
+  private buildRevisionConfig(): any[] {
+    let config: any[] = [];
+    config.push({'name':'name','label':'Name'});
+    config.push({'name':['question', 'question'],'label':'Question'});
+    config.push({'name':['question', 'intent'],'label':'Intent'});
+    config.push({'name':['responseDomain', 'name'],'label':'responseDomain'});
+    config.push({'name':['responseDomain', 'version'],'label':'RespD', 'init': function (version: any) {
+      return 'V' + version['major'] +'.' + version['minor'];
+    }});
+
+    return config;
+  }
 
   private init() {
     if (this.questionitem !== null && this.questionitem !== undefined) {
@@ -153,6 +153,6 @@ export class QuestionDetailComponent implements OnInit {
       this.savedQuestionitemsIndex = this.questionitems
         .findIndex(q => q['id'] === this.questionitem['id']);
     }
-    // this.config = this.buildRevisionConfig();
+     this.config = this.buildRevisionConfig();
   }
 }
