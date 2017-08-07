@@ -123,8 +123,12 @@ export class TopicComponent implements OnChanges {
   onRemoveTopic(topicId: string) {
     this.topicService.deleteTopic(topicId)
       .subscribe((result :any) => {
-
-        })
+          let i = this.topics.findIndex(q => q['id'] === topicId);
+          if (i >= 0) {
+            this.topics.splice(i, 1);
+          }
+        },
+        (error: any) => console.log(error));
   }
 
 
