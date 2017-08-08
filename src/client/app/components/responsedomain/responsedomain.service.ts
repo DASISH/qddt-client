@@ -33,7 +33,7 @@ export class ResponseDomainService extends BaseService {
   }
 
   deleteResponseDomain(id: string): any {
-    return this.post(null, 'responsedomain/delete/' + id);
+    return this.delete('responsedomain/delete/' + id);
   }
 
   getAll(domain: string, name: string = '', page: String = '0', sort: String = ''): any {

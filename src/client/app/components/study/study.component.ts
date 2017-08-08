@@ -1,6 +1,7 @@
 import { Component, Input, EventEmitter, Output, OnChanges } from '@angular/core';
 
 import { StudyService, Study } from './study.service';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'qddt-study',
@@ -58,5 +59,21 @@ export class StudyComponent implements OnChanges {
         saveAs(data, fileName);
       },
       error => console.log(error));
+  }
+
+  onRemoveStudy(studyId: string) {
+    if (!isNullOrUndefined(studyId) && studyId.length === 36) {
+      this.studyService.deleteStudy(studyId)
+        .subscribe((result: any) => {
+            let i = this.studies.findIndex(q => q['id'] === studyId);
+            if (i >= 0) {
+              this.studies.splice(i, 1);
+            }
+          },
+          (error: any) => {
+            console.log(error);
+
+          });
+    }
   }
 }

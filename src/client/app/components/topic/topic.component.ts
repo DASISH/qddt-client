@@ -4,6 +4,7 @@ import { TopicService, Topic } from './topic.service';
 import { MaterializeAction } from 'angular2-materialize';
 import { QuestionItem } from '../../../../../dist/tmp/app/components/question/question.service';
 import { Study } from '../study/study.service';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'qddt-topic',
@@ -121,14 +122,19 @@ export class TopicComponent implements OnChanges {
 
 
   onRemoveTopic(topicId: string) {
-    this.topicService.deleteTopic(topicId)
-      .subscribe((result :any) => {
+    if (!isNullOrUndefined(topicId) && topicId.length === 36) {
+      this.topicService.deleteTopic(topicId)
+        .subscribe((result: any) => {
           let i = this.topics.findIndex(q => q['id'] === topicId);
           if (i >= 0) {
             this.topics.splice(i, 1);
           }
         },
-        (error: any) => console.log(error));
+        (error: any) => {
+        console.log(error);
+
+        });
+    }
   }
 
 

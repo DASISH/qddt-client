@@ -52,4 +52,8 @@ export class StudyService extends BaseService {
       .map(res => res.blob())
       .catch(this.handleError);
   }
+
+  deleteStudy(id: string): any {
+    return this.delete('study/delete/'+ id);
+  }
 }

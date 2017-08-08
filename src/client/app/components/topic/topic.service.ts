@@ -29,7 +29,7 @@ export class TopicService extends BaseService {
   }
 
   deleteTopic(topicId: string) : any {
-    return this.post({id: topicId}, 'topicgroup/delete/'+ topicId);
+    return this.delete('topicgroup/delete/'+ topicId);
   }
 
   getAll(studyId: string): any {
@@ -93,7 +93,7 @@ export class TopicService extends BaseService {
   }
 
   deleteFile(id: string) {
-    return this.post(null, 'othermaterial/delete/' + id);
+    return this.delete('othermaterial/delete/' + id);
   }
 
   getPdf(id: string): any {

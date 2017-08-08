@@ -38,7 +38,7 @@ export class ConceptService extends BaseService {
   }
 
   deleteConcept(conceptId: string) : any {
-    return this.post({id: conceptId}, 'concept/delete/'+ conceptId);
+    return this.delete('concept/delete/'+ conceptId);
   }
 
   updateConcept(concept: Concept) : any {

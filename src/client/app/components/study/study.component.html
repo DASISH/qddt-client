@@ -42,6 +42,7 @@
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
                   <i class="material-icons" (click)="getPdf(study)" title="Get as Pdf">picture_as_pdf</i>
                 </a>
+                <qddt-confirm-delete [element]="study" (confirmAction)="onRemoveStudy($event)"></qddt-confirm-delete>
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                    (click)="onStudySelect(study)"><i class="material-icons left medium" title="Go to child elements">play_arrow</i></a>
               </div>

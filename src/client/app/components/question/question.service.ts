@@ -47,7 +47,7 @@ export class QuestionService extends BaseService {
   }
 
   deleteQuestionItem(id: string): any {
-    return this.post(null, 'questionitem/delete/' + id);
+    return this.delete('questionitem/delete/' + id);
   }
 
   searchQuestionItems(name: string = '', page: String = '0', sort: String = ''): any {

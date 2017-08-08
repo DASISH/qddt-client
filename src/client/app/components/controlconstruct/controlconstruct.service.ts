@@ -60,7 +60,7 @@ export class ControlConstructService extends BaseService {
   }
 
   deleteFile(id: string) {
-    return this.post(null, 'othermaterial/delete/' + id);
+    return this.delete('othermaterial/delete/' + id);
   }
 
   getFile(id: string) {
@@ -92,7 +92,7 @@ export class ControlConstructService extends BaseService {
   }
 
   deleteControlConstruct(id: string): any {
-    return this.post(null, 'controlconstruct/delete/' + id);
+    return this.delete('controlconstruct/delete/' + id);
   }
 
   searchQuestionItemsByNameAndQuestion(name: string = '', page: String = '0', sort: String = ''): any {
