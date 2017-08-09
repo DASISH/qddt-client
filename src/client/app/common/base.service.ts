@@ -3,6 +3,7 @@ import { Http, Headers, Response } from '@angular/http';
 
 import { API_BASE_HREF } from '../api';
 import { Observable } from 'rxjs/Rx';
+import { isNullOrUndefined } from 'util';
 
 @Injectable()
 export class BaseService {
@@ -25,8 +26,19 @@ export class BaseService {
       localStorage.removeItem('user');
       return Observable.throw('Invalid token error');
     }
+    if (error.status === 400)
+      return Observable.throw(error['_body'].JSON()['exceptionMessage'] || 'Server error');
 
-    return Observable.throw(error.json().exceptionMessage || 'Server error');
+    if (!isNullOrUndefined(error.statusText)) {
+      return Observable.throw(error.statusText || 'Server error');
+    }
+
+    if (!isNullOrUndefined(error['message'])) {
+      return Observable.throw(error['message'] || 'Server error');
+    }
+
+    return Observable.throw(error);
+
   }
 
   protected get(url:String):any {
@@ -62,7 +74,7 @@ export class BaseService {
         headers: this.headers
       })
       .map((res:Response) => {
-        return res.json();
+        return res.statusText;
       })
       .catch(this.handleError);
   }

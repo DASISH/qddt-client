@@ -1,7 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ConceptService, Concept } from './concept.service';
 import { MaterializeAction } from 'angular2-materialize';
-let fileSaver = require('../../../common/file-saver');
+import * as fileSaver from 'file-saver';
+// let fileSaver = require('../../../common/file-saver');
 
 @Component({
   selector: 'qddt-concept-treenode',
@@ -96,7 +97,7 @@ export class TreeNodeComponent {
     let fileName = concept.name + '.pdf';
     this.conceptService.getPdf(concept.id).subscribe(
       (data: any) => {
-        fileSaver(data, fileName);
+        fileSaver.saveAs(data, fileName);
       },
       error => console.log(error));
   }

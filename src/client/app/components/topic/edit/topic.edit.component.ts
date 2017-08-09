@@ -3,8 +3,8 @@ import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { TopicService, Topic } from '../topic.service';
 import { Observable }     from 'rxjs/Observable';
 import { MaterializeAction } from 'angular2-materialize';
-// import * as fileSaver from 'file-saver';
-let fileSaver = require('../../../common/file-saver');
+import * as fileSaver from 'file-saver';
+// let fileSaver = require('../../../common/file-saver');
 
 @Component({
   selector: 'qddt-topic-edit',

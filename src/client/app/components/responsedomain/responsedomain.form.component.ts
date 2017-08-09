@@ -24,7 +24,6 @@ export class ResponsedomainFormComponent implements OnInit {
   @Input() readonly: boolean;
   @Output() formChange: EventEmitter<any>;
 
-  // usedbyModalAction = new EventEmitter<string|MaterializeAction>();
   basedonActions = new EventEmitter<string|MaterializeAction>();
   previewResponseDomain: any;
   basedonObject: any;
@@ -36,8 +35,7 @@ export class ResponsedomainFormComponent implements OnInit {
   // private selectedElement: any;   //remove later?
   private suggestions: Category[];
   private numberOfAnchors: number;
-  // private usedBy: any[];
-  // private selectedType: string;
+
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
   constructor(private categoryService: CategoryService, private service: ResponseDomainService) {
@@ -310,15 +308,22 @@ export class ResponsedomainFormComponent implements OnInit {
     this.previewResponseDomain['displayLayout'] = this.responsedomain.displayLayout;
   }
 
-  onBasedonObjectDetail(id: string) {
-    this.service.getResponseDomain(id)
+
+  onBasedonObjectDetail(ref:any) {
+    if (this.isNull(ref.rev))
+      ref.rev=0;
+    this.service.getResponseDomainsRevision(ref.id,ref.rev)
       .subscribe(
-      (result: any) => {
-        this.basedonObject = result;
-        this.basedonActions.emit({action:'modal', params:['open']});
-      },
-      (err: any) => null
+        (result: any) => {
+          this.basedonObject = result.entity;
+          this.basedonActions.emit({action:'modal', params:['open']});
+        },
+        (err: any) => null
       );
+  }
+
+  private isNull(object: any) {
+    return object === undefined || object === null;
   }
 
 }

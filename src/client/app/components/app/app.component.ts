@@ -1,5 +1,4 @@
 import { Component, ViewEncapsulation, AfterContentChecked } from '@angular/core';
-
 import { UserService } from '../../common/user.service';
 
 @Component({

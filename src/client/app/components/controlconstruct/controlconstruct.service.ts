@@ -38,6 +38,10 @@ export class ControlConstructService extends BaseService {
     return this.get('controlconstruct/' + id);
   }
 
+  getControlConstructRevision(id: string, rev: string) : any {
+    return this.get('audit/controlconstruct/' + id + '/' + rev);
+  }
+
   uploadFile(id: string, files: any): any {
     let headers = new Headers();
     let jwt = localStorage.getItem('jwt');

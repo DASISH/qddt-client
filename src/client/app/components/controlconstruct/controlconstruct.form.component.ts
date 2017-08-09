@@ -2,8 +2,8 @@ import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { ControlConstructService, ControlConstruct } from './controlconstruct.service';
 import { Observable }     from 'rxjs/Observable';
 import { MaterializeAction } from 'angular2-materialize/dist';
-
-let fileSaver = require('../../common/file-saver');
+import * as fileSaver from 'file-saver';
+// let fileSaver = require('../../common/file-saver');
 
 @Component({
   selector: 'qddt-control-construct-form',
@@ -69,17 +69,19 @@ export class ControlConstructFormComponent implements OnInit {
     }
   }
 
-  onBasedonObjectDetail(id: string) {
-    this.service.getControlConstruct(id)
+  onBasedonObjectDetail(ref:any) {
+    if (this.isNull(ref.rev))
+      ref.rev=0;
+    this.service.getControlConstructRevision(ref.id,ref.rev)
       .subscribe(
-      (result: any) => {
-        this.basedonObject = result;
-        this.basedonActions.emit({action:'modal', params:['open']});
-        // this.basedonActions.emit({action:'modal', params:['open']});
-      },
-      (err: any) => null
+        (result: any) => {
+          this.basedonObject = result.entity;
+          this.basedonActions.emit({action:'modal', params:['open']});
+        },
+        (err: any) => null
       );
   }
+
 
   onDeletePreInstruction(id: number) {
     this.controlConstruct.preInstructions.splice(id, 1);
@@ -113,15 +115,10 @@ export class ControlConstructFormComponent implements OnInit {
     this.service.getFile(o.id).subscribe(
       (data: any) => {
         // this.openFileForDownload(data, fileName);
-        fileSaver(data, fileName);
+        fileSaver.saveAs(data, fileName);
       },
       error => this.popupModal(error));
   }
-  //
-  // openFileForDownload(data: Response, filename: string) {
-  //   var blob = new Blob([data], { type: data.type});
-  //   saveAs(blob, filename);
-  // }
 
   onSelectFile(filename: any) {
     this.files = filename.target.files;
@@ -193,5 +190,10 @@ export class ControlConstructFormComponent implements OnInit {
   private popupModal(error: any) {
     this.exceptionEvent.emit(error);
   }
+
+  private isNull(object: any) {
+    return object === undefined || object === null;
+  }
+
 
 }

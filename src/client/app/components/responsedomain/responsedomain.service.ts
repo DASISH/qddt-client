@@ -48,4 +48,8 @@ export class ResponseDomainService extends BaseService {
     return this.get('audit/responsedomain/' + id + '/all');
   }
 
+  getResponseDomainsRevision(id: string, rev: string) : any {
+    return this.get('audit/responsedomain/' + id + '/' + rev);
+  }
+
 }

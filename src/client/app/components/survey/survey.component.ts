@@ -1,6 +1,7 @@
 import { Component, Input, EventEmitter, Output, OnChanges } from '@angular/core';
 import { SurveyService, SurveyProgram } from './survey.service';
-let fileSaver = require('../../../common/file-saver');
+import * as fileSaver from 'file-saver';
+//let fileSaver = require('../../../common/file-saver');
 
 @Component({
   selector: 'qddt-survey',
