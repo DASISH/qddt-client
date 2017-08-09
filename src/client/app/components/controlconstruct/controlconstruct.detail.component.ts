@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ControlConstructService, ControlConstruct } from './controlconstruct.service';
 import { MaterializeAction } from 'angular2-materialize';
+let fileSaver = require('../../../common/file-saver');
 
 @Component({
   selector: 'qddt-control-construct-detail',
@@ -88,7 +89,7 @@ export class ControlConstructDetailComponent implements OnInit {
     let fileName = element.name + '.pdf';
     this.service.getPdf(element.id).subscribe(
       (data: any) => {
-        saveAs(data, fileName);
+        fileSaver(data, fileName);
       },
       error => console.log(error));
   }

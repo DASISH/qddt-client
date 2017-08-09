@@ -1,19 +1,19 @@
-import { Component, Input, PipeTransform, Pipe, EventEmitter, Output } from '@angular/core';
-import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
+// import { Component, Input, PipeTransform, Pipe, EventEmitter, Output } from '@angular/core';
+import { BaseRequestOptions,  Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
 import { API_BASE_HREF } from '../../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
-import { PreviewStatementComponent } from './preview.statement.component';
+import { PreviewStatementConstructComponent } from './preview.statement.component';
 
 export function main() {
   describe('Statement preview component', () => {
     //
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [PreviewStatementComponent],
+        declarations: [PreviewStatementConstructComponent],
         providers: [
           MockBackend,
           BaseRequestOptions,
@@ -36,7 +36,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(PreviewStatementComponent);
+            let fixture = TestBed.createComponent(PreviewStatementConstructComponent);
             fixture.detectChanges();
             expect(fixture.componentInstance.text).toBe('');
           });
@@ -47,7 +47,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(PreviewStatementComponent);
+            let fixture = TestBed.createComponent(PreviewStatementConstructComponent);
             fixture.componentInstance.statement = {'description': 'test'};
             fixture.detectChanges();
             fixture.whenStable().then(() => {

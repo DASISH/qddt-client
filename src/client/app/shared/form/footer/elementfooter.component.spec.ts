@@ -5,18 +5,18 @@ import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { RevisionService } from '../../revision/revision.service';
-import { RevisionDetailComponent } from './elementfooter.component';
 import { API_BASE_HREF } from '../../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
+import { RevisionComponent } from '../../revision/revision.component';
 
 export function main() {
 	describe('Revision detail component', () => {
 		//
 		beforeEach(() => {
 			TestBed.configureTestingModule({
-				declarations: [RevisionDetailComponent, LocalDatePipe,
+				declarations: [RevisionComponent, LocalDatePipe,
 					DiffComponent, ResponsedomainUsedbyComponent, QuestionUsedbyComponent,
 					StudyUsedbyComponent, TopicUsedbyComponent, AuthorChipComponent],
 				providers: [
@@ -42,7 +42,7 @@ export function main() {
 				TestBed
 					.compileComponents()
 					.then(() => {
-						let fixture = TestBed.createComponent(RevisionDetailComponent);
+						let fixture = TestBed.createComponent(RevisionComponent);
 						fixture.detectChanges();
 						let de: any = fixture.debugElement.queryAll(By.css('div'));
 						expect(de.length).toBe(0);
@@ -54,8 +54,8 @@ export function main() {
 				TestBed
 					.compileComponents()
 					.then(() => {
-						let fixture = TestBed.createComponent(RevisionDetailComponent);
-						fixture.componentInstance.element = {
+						let fixture = TestBed.createComponent(RevisionComponent);
+						fixture.componentInstance.current = {
 							'id': '7f000101-5582-1585-8155-e89cdeba0001',
 							'modified': [2016, 7, 14, 10, 54, 2, 681000000],
 							'modifiedBy': {
@@ -87,7 +87,7 @@ export function main() {
 							'comments': [],
 							'topicGroupQuestions': []
 						};
-						fixture.componentInstance.type = 'topic';
+						fixture.componentInstance.elementType = 'Topic';
 						fixture.detectChanges();
 						fixture.whenStable().then(() => {
 							let divs: any = fixture.debugElement.queryAll(By.css('.chip'));

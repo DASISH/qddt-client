@@ -5,6 +5,7 @@ import { MaterializeAction } from 'angular2-materialize';
 import { QuestionItem } from '../../../../../dist/tmp/app/components/question/question.service';
 import { Study } from '../study/study.service';
 import { isNullOrUndefined } from 'util';
+let fileSaver = require('../../../common/file-saver');
 
 @Component({
   selector: 'qddt-topic',
@@ -85,7 +86,7 @@ export class TopicComponent implements OnChanges {
     this.topicService.getFile(o.id).subscribe(
       (data: any) => {
         // this.openFileForDownload(data, fileName);
-        saveAs(data, fileName);
+        fileSaver(data, fileName);
       },
       error => console.log(error));
   }
@@ -94,7 +95,7 @@ export class TopicComponent implements OnChanges {
     let fileName = element.name + '.pdf';
     this.topicService.getPdf(element.id).subscribe(
       (data: any) => {
-        saveAs(data, fileName);
+        fileSaver(data, fileName);
       },
       error => console.log(error));
   }

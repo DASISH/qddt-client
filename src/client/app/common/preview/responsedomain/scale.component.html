@@ -1,0 +1,43 @@
+<div *ngIf="responseDomain" class="row" >
+  <table *ngIf="displayLayout === 0">
+    <thead>
+    <tr>
+      <th *ngFor="let item of header" [attr.colspan]=item.colspan scope="colgroup" class="{{item.class}}" width="{{item.width}}%" >
+              <span>
+                <label>{{item.label}}</label>
+              </span>
+      </th>
+    </tr>
+    </thead>
+    <tbody *ngIf="responseDomain?.managedRepresentation?.inputLimit?.maximum <= 15">
+    <tr >
+      <td *ngFor="let option of row; let idx=index" style="text-align: center">
+              <span>
+                <input name="{{responseDomain.id}}-group" type="radio" id="{{responseDomain.id}}option{{option.value}}" />
+                <label [attr.for]="responseDomain.id + 'option' + option.value">{{option?.value}}</label>
+              </span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <div *ngIf="responseDomain?.managedRepresentation?.inputLimit?.maximum > 15" class="range-field">
+    <input type="range" id="test5"
+           min={{responseDomain?.managedRepresentation?.inputLimit?.minimum}}
+           max={{responseDomain?.managedRepresentation?.inputLimit?.maximum}}/>
+  </div>
+  <table *ngIf="displayLayout > 0">
+    <tbody>
+      <tr *ngFor="let option of row; let idx=index">
+        <td>
+                <span>
+                  <input name="{{responseDomain.id}}-group" type="radio" id="{{responseDomain.id}}option{{option.value}}" />
+                  <label [attr.for]="responseDomain.id + 'option' + option.value">{{option?.label}}</label>
+                </span>
+        </td>
+        <td>
+          <span>{{option?.value}}</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

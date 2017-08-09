@@ -11,6 +11,7 @@ export class ControlConstruct {
   description: string;
   questionItem: QuestionItem;
   otherMaterials: any;
+  controlConstructKind: string;
   preInstructions: Instruction[];
   postInstructions: Instruction[];
 }

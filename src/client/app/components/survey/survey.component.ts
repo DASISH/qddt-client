@@ -1,6 +1,6 @@
 import { Component, Input, EventEmitter, Output, OnChanges } from '@angular/core';
-
 import { SurveyService, SurveyProgram } from './survey.service';
+let fileSaver = require('../../../common/file-saver');
 
 @Component({
   selector: 'qddt-survey',
@@ -60,7 +60,7 @@ export class SurveyComponent implements OnChanges {
     let fileName = element.name + '.pdf';
     this.surveyService.getPdf(element.id).subscribe(
       (data: any) => {
-        saveAs(data, fileName);
+        fileSaver(data, fileName);
       },
       error => console.log(error));
   }

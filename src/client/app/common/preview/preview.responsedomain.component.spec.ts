@@ -94,7 +94,7 @@ export function main() {
             };
             fixture.componentInstance.responseDomain = responseDomain;
             fixture.componentInstance.isVisible = true;
-            fixture.componentInstance.ngOnChanges();
+            // fixture.componentInstance.ngOnChanges();
             fixture.detectChanges();
             fixture.whenStable().then(() => {
               let list: any[] = fixture.debugElement.queryAll(By.css('qddt-preview-rd-codelist'));

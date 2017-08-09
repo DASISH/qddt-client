@@ -1,5 +1,5 @@
-import { Component, Input, PipeTransform, Pipe, EventEmitter, Output } from '@angular/core';
-import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
+import { Component, Input } from '@angular/core';
+import { BaseRequestOptions, Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
@@ -53,7 +53,8 @@ export function main() {
           .compileComponents()
           .then(() => {
             let fixture = TestBed.createComponent(PreviewControlConstructComponent);
-            fixture.componentInstance.construct = {'controlConstructKind': 'SEQUENCE_CONSTRUCT'};
+            fixture.componentInstance.construct = { id:'', name:'', description:'',otherMaterials:[],
+              postInstructions:[],preInstructions:[],questionItem:null, controlConstructKind: 'SEQUENCE_CONSTRUCT'};
             fixture.detectChanges();
             fixture.whenStable().then(() => {
               let de: any = fixture.debugElement.queryAll(By.css('qddt-preview-sequenceconstruct'));

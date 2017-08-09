@@ -47,8 +47,8 @@ export class CategoryService extends BaseService {
     return this.post(category,'category/');
   }
 
-  delete(categoryId: string): any {
-    return this.delete('category/delete/'+categoryId);
+  deleteCategory(categoryId: string): any {
+    return this.delete('category/delete/' + categoryId);
   }
 
   getAll(): any {

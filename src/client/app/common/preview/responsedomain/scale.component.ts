@@ -1,48 +1,12 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { ResponseDomain } from '../../../components/responsedomain/responsedomain.service';
-import { Category } from '../../../components/category/category.service';
+import { Category, Code } from '../../../components/category/category.service';
+import { isNullOrUndefined, isUndefined } from 'util';
 
 @Component({
   selector: 'qddt-preview-rd-scale',
   moduleId: module.id,
-  template: `<div *ngIf="responseDomain" class="row">
-        <table *ngIf="displayLayout === 0">
-        <thead>
-          <tr>
-            <th *ngFor="let item of header" [attr.colspan]=item.colspan scope="colgroup" class="{{item.class}}" >
-              <span>
-                <label>{{item.label}}</label>
-              </span>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr >
-            <td *ngFor="let option of row; let idx=index" style="text-align: center">
-              <span>
-                <input name="{{responseDomain.id}}-group" type="radio" id="{{responseDomain.id}}option{{option.value}}" />
-                <label [attr.for]="responseDomain.id + 'option' + option.value">{{option?.value}}</label>
-              </span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <table *ngIf="displayLayout > 0">
-        <tbody>
-          <tr *ngFor="let option of row; let idx=index">
-            <td>
-              <span>
-                <input name="{{responseDomain.id}}-group" type="radio" id="{{responseDomain.id}}option{{option.value}}" />
-                <label [attr.for]="responseDomain.id + 'option' + option.value">{{option?.label}}</label>
-              </span>
-            </td>
-            <td>
-              <span>{{option?.value}}</span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>`,
+  templateUrl: './scale.component.html',
   styles: ['table .text-center {text-align: center;}'
           ,'table .text-left {text-align: left;}',
           'table .text-right {text-align: right;}'],
@@ -118,14 +82,19 @@ export class ResponsedomainScaleComponent implements OnChanges {
       }  //even number of Cats and no unused columns, do nothing...
 
       for (let i = 0; i < categories.length; i++) {
-        if (i === 0)
-          this.header.push({label: categories[i].label, colspan: colspan, class: 'text-left'});
-        else if (i === categories.length - 1)
-          this.header.push({label: categories[i].label, colspan: colspan, class: 'text-right'});
-        else if (i === center)
-          this.header.push({label: categories[i].label, colspan: colspanCenter, class: 'text-center'});
+        if (categories[i].code === undefined ) {
+          categories[i].code = new Code();
+        }
+
+        if (categories[i].code.alignment === '' ) {
+          categories[i].code.alignment = 'text-left';
+        }
+        if (i === center)
+          this.header.push({label: categories[i].label, colspan: colspanCenter,
+            class: categories[i].code.alignment, width:colspanCenter/cols*100});
         else
-          this.header.push({label: categories[i].label, colspan: colspan, class: 'text-center'});
+          this.header.push({label: categories[i].label, colspan: colspan,
+            class: categories[i].code.alignment, width:colspan/cols*100});
       }
     }
     for (let i = this.min; i <= this.max; i++) {

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { DomainType, DomainTypeDescription } from '../../components/responsedomain/responsedomain.constant';
 import { ResponseDomain } from '../../components/responsedomain/responsedomain.service';
 
@@ -36,7 +36,7 @@ export class PreviewResponsedomainComponent implements OnChanges {
   public domainTypeDef = DomainType;
   private domainType: DomainType;
 
-  ngOnChanges() {
+  ngOnChanges(changes: SimpleChanges) {
     if (this.isVisible && this.responseDomain !== undefined) {
       let ret = DomainTypeDescription.find(e=>e.name === this.responseDomain['responseKind']);
       if( ret !== undefined ) {

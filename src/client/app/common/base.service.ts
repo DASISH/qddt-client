@@ -40,9 +40,9 @@ export class BaseService {
       .catch(this.handleError);
   }
 
-  protected post(concept:any, url:String):any {
+  protected post(qddtEntity:any, url:String):any {
     return this.http.post(this.api + url,
-      JSON.stringify(concept),
+      JSON.stringify(qddtEntity),
       {
         headers: this.headers
       })
@@ -52,6 +52,17 @@ export class BaseService {
         } catch (e) {
           return [];
         }
+      })
+      .catch(this.handleError);
+  }
+
+  protected delete(url:String):any {
+    return this.http.delete(this.api + url,
+      {
+        headers: this.headers
+      })
+      .map((res:Response) => {
+        return res.json();
       })
       .catch(this.handleError);
   }

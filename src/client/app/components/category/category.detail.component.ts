@@ -19,15 +19,10 @@ export class CategoryDetailComponent  {
     this.revisionIsVisible = false;
   }
 
-  // ngOnInit() {
-  //   if(this.category !== null && this.category !== undefined) {
-  //     this.category['workinprogress'] = this.category['changeKind'] === 'IN_DEVELOPMENT';
-  //   }
-  // }
-
   onDeleteCategory() {
-    this.categoryService.delete(this.category.id)
+    this.categoryService.deleteCategory(this.category.id)
       .subscribe((result: any) => {
+          console.info('onDeleteCategory ' + this.category.id);
           let i = this.categories.findIndex(q => q['id'] === this.category.id);
           if (i >= 0) {
             this.categories.splice(i, 1);

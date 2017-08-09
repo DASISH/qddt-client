@@ -16,6 +16,7 @@ import { CompareModule } from './compare/compare.module';
 import { DialogBoxComponent } from './dialogbox/dialogbox.component';
 import { VersionComponent } from './form/version/version.component';
 import { VersionLabelComponent } from './form/version/version.label.component';
+import { ConfirmDeleteComponent } from './form/menu/delete.component';
 // import { PreviewPublicationComponent } from './preview/preview.component';
 // import { PreviewStudyComponent } from './preview/preview.study.component';
 // import { PreviewTopicComponent } from './preview/preview.topic.component';
@@ -40,11 +41,13 @@ import { VersionLabelComponent } from './form/version/version.label.component';
 @NgModule({
   imports: [CommonModule, FormsModule, MaterializeModule,CompareModule],
   declarations: [ LocalDatePipe, QddtTableComponent, QddtPaginationComponent, AutocompleteComponent,
-    AuthorChipComponent, ElementFooterComponent, VersionComponent,VersionLabelComponent
-    ,RationalComponent,CommentListComponent,CommentCreateComponent, RevisionComponent,DialogBoxComponent],
+    AuthorChipComponent, ElementFooterComponent, VersionComponent,VersionLabelComponent,
+    ConfirmDeleteComponent,
+    RationalComponent,CommentListComponent,CommentCreateComponent, RevisionComponent,DialogBoxComponent],
   exports: [LocalDatePipe, CommonModule, FormsModule, MaterializeModule,
      QddtTableComponent, QddtPaginationComponent, AutocompleteComponent,
     AuthorChipComponent,ElementFooterComponent,VersionComponent, VersionLabelComponent,
+    ConfirmDeleteComponent,
     RationalComponent,CommentListComponent,RevisionComponent,DialogBoxComponent]
 })
 
