@@ -7,9 +7,10 @@ import { QuestionItemEditMissingComponent } from './question.edit.missing.compon
 import { SharedModule } from '../../shared/shared.module';
 import { ResponsedomainModule } from '../responsedomain/responsedomain.module';
 import { PreviewModule } from '../../common/preview/preview.module';
+import { ConceptrefModule } from '../../common/conceptref/conceptref.module';
 
 @NgModule({
-  imports: [ SharedModule, ResponsedomainModule,PreviewModule],
+  imports: [ SharedModule, ResponsedomainModule,PreviewModule,ConceptrefModule],
   declarations: [QuestionComponent, QuestionDetailComponent,QuestionReuseComponent, QuestionItemEditComponent,
     QuestionItemEditMissingComponent],
   exports: [QuestionComponent, QuestionReuseComponent, QuestionItemEditComponent, QuestionDetailComponent ]

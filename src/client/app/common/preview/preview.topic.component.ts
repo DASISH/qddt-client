@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Topic, TopicService } from '../../components/topic/topic.service';
-import * as fileSaver from 'file-saver';
-// let fileSaver = require('../../common/file-saver');
+//import * as fileSaver from 'file-saver';
+let fileSaver = require('../../common/file-saver');
 
 @Component({
   selector: 'qddt-preview-topic',
@@ -42,10 +42,10 @@ import * as fileSaver from 'file-saver';
     </li>
   </ul>
 </div>
-<div class="row" *ngIf="topic.authors && topic.authors.length>0">
-  <p><label class="active teal-text">Authors</label></p>
-  <qddt-author-chip [authors]="topic.authors"></qddt-author-chip>
-</div>
+<!--<div class="row" *ngIf="topic.authors && topic.authors.length>0">-->
+  <!--<p><label class="active teal-text">Authors</label></p>-->
+  <!--<qddt-author-chip [authors]="topic.authors"></qddt-author-chip>-->
+<!--</div>-->
 <div class="row">
   <qddt-comment-list [ownerId]="topic.id" [comments]="topic.comments"></qddt-comment-list>
 </div>

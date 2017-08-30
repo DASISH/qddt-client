@@ -1,9 +1,10 @@
 import { Component, OnInit, EventEmitter, AfterContentChecked } from '@angular/core';
-import { PublicationService, Publication, ElementTypes, PUBLICATIONNOTPUBLISHED, PublicationStatus } from './publication.service';
+import { PublicationService, Publication,  PUBLICATION_NOT_PUBLISHED, PUBLICATION_STATUS } from './publication.service';
 import { Subject }          from 'rxjs/Subject';
 import { UserService } from '../../common/user.service';
 import { MaterializeAction } from 'angular2-materialize';
 import { Column } from '../../shared/table/table.service';
+import { QddtElementType, QddtElementTypes } from '../../common/preview/preview.service';
 
 @Component({
   selector: 'qddt-publication',
@@ -21,13 +22,13 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
   showPublicationForm: boolean = false;
   modalActions = new EventEmitter<string|MaterializeAction>();
   error: any;
-  selectOptions: any[] = PublicationStatus;
+  selectOptions: any[] = PUBLICATION_STATUS;
   showAddElement: boolean;
 
   publications: any[];
   private page: any;
   private selectedElementDetail: any;
-  private selectedElementType: number;
+  private selectedElementType: QddtElementType;
   private selectedPublicationStatusOption: any;
   private publication: any;
   private searchKeys: string;
@@ -42,7 +43,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
     this.publications = [];
     this.searchKeys = '';
     this.page = {};
-    this.selectedPublicationStatusOption = PUBLICATIONNOTPUBLISHED.description;
+    this.selectedPublicationStatusOption = PUBLICATION_NOT_PUBLISHED.description;
     this.columns = [{ 'label': 'Name', 'name': 'name', 'sortable': true,  'direction': '' ,width:'25%' },
     { 'label': 'Purpose', 'name': 'purpose', 'sortable': true,  'direction': '' ,width:'25%' },
     { 'label': 'Publication Status', 'name': 'status', 'sortable': true,  'direction': '' ,width:'25%' },
@@ -58,10 +59,9 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
             this.publications = result.content || [];
             this.page = result.page;
             this.showProgressBar = false;
-            console.log('lasted ned innhold');
           }, (error: any) => {
-            this.showProgressBar = false;
             console.log(error);
+            this.showProgressBar = false;
           });
       });
   }
@@ -109,7 +109,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
     if (this.showPublicationForm) {
       this.publication = new Publication();
       this.publication.publicationElements = [ ];
-      this.publication.status = PUBLICATIONNOTPUBLISHED.label;
+      this.publication.status = PUBLICATION_NOT_PUBLISHED.label;
     }
   }
 
@@ -126,9 +126,9 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
 
   onElementDetail(e: any) {
     this.selectedElementDetail = e.element;
-    let type = ElementTypes.find(el => el.type === e.elementKind);
-    if(type !== undefined) {
-      this.selectedElementType = type.id;
+    let kind = QddtElementTypes.find(el => el.id === e.elementKind);
+    if(kind !== undefined) {
+      this.selectedElementType = kind;
       this.modalActions.emit({action:'modal', params:['open']});
       // this.actions.emit({action:'modal', params:['open']});
     }
@@ -144,7 +144,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
   }
 
   onSelectChange(value: number) {
-    this.selectedPublicationStatusOption = PUBLICATIONNOTPUBLISHED.description;
+    this.selectedPublicationStatusOption = PUBLICATION_NOT_PUBLISHED.description;
     if(value >= 10 && value < 20) {
       this.publication.status = this.selectOptions[0].children[value - 10].label;
       this.selectedPublicationStatusOption = this.selectOptions[0].children[value - 10].description;

@@ -16,22 +16,22 @@
 		  <span name="col text">Element Type</span>
 	  </div>
     <div class="row" >
-		  <div class="left" *ngFor="let element of elementTypes">
+		  <div class="left" *ngFor="let element of queryFields;">
 			  <input name="elementtypegroup"
         type="radio"
         id="element-type-{{element.id}}"
-        (click)="onSelectElementType(element.id)"
-        [checked]="elementType === element.id"/>
+        (click)="onSelectElementKind(element.id)"
+        [checked]="selectedElementKind === element.id"/>
         <label [attr.for]="'element-type-' + element.id">{{element.label}}</label>
 		  </div>
     </div>
     <div class="row">
       <div class="row">
         <autocomplete [items]="elements" class="black-text"
-          [searchField]="queryFields[elementType - 1].fields"
+          [searchField]="getElementType(selectedElementKind).fields"
 		      [searchFromServer]="true"
-          [placeholder]="queryFields[elementType - 1].placeholder"
-          [isMutipleFields]="queryFields[elementType - 1].isMutipleFields"
+          [placeholder]="getElementType(selectedElementKind).placeholder()"
+          [isMultipleFields]="getElementType(selectedElementKind).isMultipleFields()"
           (autocompleteSelectEvent)="onSelectElement($event)"
 		      (enterEvent)="onSearchElements($event)">
 		    </autocomplete>
@@ -42,9 +42,9 @@
   <div *ngIf="selectedElement" class="row">
     <qddt-publication-select *ngIf="showAddElement"
       [element]="selectedElement"
+      [elementKind]="selectedElementKind"
       (publicationElement)="onUse($event)"
-      (dismissEvent)="onToggleAddElement()"
-      [elementType]="elementType">
+      (dismissEvent)="onToggleAddElement()">
     </qddt-publication-select>
   </div>
 </div>

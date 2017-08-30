@@ -2,8 +2,8 @@ import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { ControlConstructService, ControlConstruct } from './controlconstruct.service';
 import { Observable }     from 'rxjs/Observable';
 import { MaterializeAction } from 'angular2-materialize/dist';
-import * as fileSaver from 'file-saver';
-// let fileSaver = require('../../common/file-saver');
+
+let fileSaver = require('../../common/file-saver');
 
 @Component({
   selector: 'qddt-control-construct-form',
@@ -115,7 +115,7 @@ export class ControlConstructFormComponent implements OnInit {
     this.service.getFile(o.id).subscribe(
       (data: any) => {
         // this.openFileForDownload(data, fileName);
-        fileSaver.saveAs(data, fileName);
+        fileSaver(data, fileName);
       },
       error => this.popupModal(error));
   }
@@ -147,6 +147,7 @@ export class ControlConstructFormComponent implements OnInit {
   }
 
   onSaveControlConstruct() {
+    console.info('onSaveControlConstruct')
     let controlConstruct = this.controlConstruct;
     let files = this.fileStore;
     let len = files.length;

@@ -9,7 +9,7 @@ import { ControlConstructService } from './controlconstruct.service';
     <div class="row">
       <autocomplete [items]="questionItems"  class="black-text"
 				[searchField]="['name', ['question','question']]"
-        [isMutipleFields]="true"
+        [isMultipleFields]="true"
         [placeholder] = "'Search in question name or question text'"
 				(autocompleteFocusEvent)="selectedQuestionItemIndex=idx;"
 				[initialValue]="''"

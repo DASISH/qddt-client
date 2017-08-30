@@ -1,5 +1,6 @@
 <div>
   <div class="row">
+    <div *ngIf="showProgressBar" class="progress"><div class="indeterminate"></div></div>
     <div class="input-field col s4" *ngIf="elementRevisions.length > 0">
       <label class="active black-text">business version</label>
       <select [(ngModel)]="elementRevision"
@@ -19,11 +20,13 @@
       <a class="waves-effect waves-light btn right green" (click)="onUseElement()">Use this</a>
     </div>
   </div>
-  <div class="card" style="padding: 10pt;">
+  <div class="card" *ngIf="!showProgressBar" style="padding: 10pt;">
     <div class="row teal-text">Preview</div>
+    <div class="teal-text" *ngIf="selectedElement.name" style="padding-left: 15pt; padding-bottom: 10pt">Name</div>
+    <div style="padding-left: 15pt;">{{selectedElement.name}}</div>
     <qddt-publication-preview
       [element]="selectedElement"
-      [elementType]="selectedElementType">
+      [elementKind]="elementKind">
     </qddt-publication-preview>
   </div>
 </div>

@@ -11,7 +11,7 @@ export class AutocompleteComponent implements OnInit, OnChanges {
   @Input() items:  any[];
   @Input() searchField: any;
   @Input() placeholder: string;
-  @Input() isMutipleFields: boolean;
+  @Input() isMultipleFields: boolean;
   /**
    * set initial value
    */
@@ -41,13 +41,14 @@ export class AutocompleteComponent implements OnInit, OnChanges {
     if(this.isNull(this.placeholder)) {
       this.placeholder = 'Search';
     }
-    if(this.isNull(this.isMutipleFields)) {
-      this.isMutipleFields = false;
+    if(this.isNull(this.isMultipleFields)) {
+      this.isMultipleFields = false;
     }
   }
 
   ngOnChanges() {
     this.candidates = this.items;
+
   }
 
   enterText(event: any) {
@@ -72,7 +73,7 @@ export class AutocompleteComponent implements OnInit, OnChanges {
   }
 
   getLabel(candiate: any) {
-    if (this.isMutipleFields) {
+    if (this.isMultipleFields) {
       let results: any[] = this.searchField.map(element => {
         return this.getFieldValue(candiate, element);
       });
@@ -113,12 +114,12 @@ export class AutocompleteComponent implements OnInit, OnChanges {
 
   private filterItems(search: string) {
     let field = this.searchField;
-    let isMutipleFields = this.isMutipleFields;
+    let isMultipleFields = this.isMultipleFields;
     let filterItem = this.filterItem;
     let isNull = this.isNull;
     this.candidates = this.items.filter(
       function (item) {
-        if (isMutipleFields) {
+        if (isMultipleFields) {
           return field.findIndex((element: any) => {
             return filterItem(item, element, search, isNull);
           }) >= 0;

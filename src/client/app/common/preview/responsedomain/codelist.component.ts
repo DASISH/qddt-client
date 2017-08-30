@@ -48,7 +48,7 @@ export class ResponsedomainCodeListComponent implements OnChanges {
     }
     this.type = 'radio';
     if (this.responseDomain['responseCardinality'] !== undefined) {
-      this.responseMax = parseInt(this.responseDomain['responseCardinality']['maximum'] || 1);
+      this.responseMax = this.responseDomain['responseCardinality']['maximum'] || 1;
       if (this.responseMax > 1) {
         this.type = 'checkbox';
       }

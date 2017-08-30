@@ -82,14 +82,14 @@
         <qddt-rational [element]="topic" [config]="{hidden: [2,3]}"></qddt-rational>
       </div>
       <div class="row">
-        <qddt-element-footer [element]="topic" [type]="'topic'"></qddt-element-footer>
+        <qddt-element-footer [element]="topic" [type]="'TOPIC_GROUP'"></qddt-element-footer>
       </div>
       <button type="submit" class="btn btn-default">Submit</button>
     </form>
   </div>
 </div>
 <div class="modal"
-     materialize [materializeActions]="actions">
+     materialize [materializeActions]="showErrorActions">
   <div class="modal-content">
     <div class="row">
       <h4>An error occured</h4>

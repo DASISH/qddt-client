@@ -3,7 +3,7 @@
   <i class="material-icons left medium" title="Add QuestionItem to element">playlist_add</i>
 </a>
 <div class="modal modal-fixed-footer"
-     materialize="modal" [materializeActions]="materializeActions">
+     materialize="modal" [materializeActions]="closeReuseActions">
   <div class="modal-content">
     <form #hf="ngForm">
       <div *ngIf="reuseQuestionItem">
@@ -12,7 +12,7 @@
           <autocomplete [items]="questionItems" [searchField]="['name', ['question','question']]"
                         [initialValue]="''"
                         [searchFromServer]="true"
-                        [isMutipleFields]="true"
+                        [isMultipleFields]="true"
                         (autocompleteFocusEvent)="selectedIndex=idx;"
                         (enterEvent)="searchQuestionItems($event)"
                         [placeholder] = "'Search in question name or question text'"
@@ -40,13 +40,13 @@
               </select>
             </div>
             <div class="input-field col s6 right">
-              <a class="waves-effect waves-light btn red right" (click)="closeModal()">Dismiss</a>
+              <a class="waves-effect waves-light btn red right" (click)="closeQuestionReuseModal()">Dismiss</a>
               <a class="waves-effect waves-light btn green right" (click)="onUseElement()">Use this</a>
             </div>
           </div>
           <div class="row">
-            <qddt-publication-preview [element]="selectedElement" elementType="'QuestionItem'"></qddt-publication-preview>
-            <!--<qddt-preview-questionitem [questionItem]="selectedElement"></qddt-preview-questionitem>-->
+            <!--<qddt-publication-preview [element]="selectedElement" elementKind="questionItemKind"></qddt-publication-preview>-->
+            <qddt-preview-questionitem [questionItem]="selectedElement"></qddt-preview-questionitem>
           </div>
         </div>
       </div>
@@ -54,6 +54,6 @@
   </div>
   <div class="modal-footer">
     <button
-      class="btn btn-default red modal-action modal-close waves-effect waves-red">Dismiss</button>
+      class="btn btn-default red modal-action modal-close waves-effect waves-red" (click)="closeQuestionReuseModal()" >Dismiss</button>
   </div>
 </div>

@@ -111,33 +111,6 @@ export class QuestionItemEditComponent implements OnInit {
     this.buildPrivewResponseDomain();
   }
 
-  onClickStudy(id: string) {
-    this.selectedType = 'study';
-    this.service.getStudyById(id)
-      .subscribe((result: any) => {
-        this.selectedElement = result;
-        this.usedbyModalAction.emit({action:'modal', params:['open']});
-      });
-  }
-
-  onClickTopic(id: string) {
-    this.selectedType = 'topic';
-    this.service.getTopicById(id)
-      .subscribe((result: any) => {
-        this.selectedElement = result;
-        this.usedbyModalAction.emit({action:'modal', params:['open']});
-      });
-  }
-
-  onClickConcept(id: string) {
-    this.selectedType = 'concept';
-    this.service.getConceptsById(id)
-      .subscribe((result: any) => {
-        this.selectedElement = result;
-        this.usedbyModalAction.emit({action:'modal', params:['open']});
-      });
-  }
-
   onBasedonObjectDetail(ref:any) {
     if (this.isNull(ref.rev))
       ref.rev=0;

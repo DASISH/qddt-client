@@ -3,8 +3,8 @@ import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { TopicService, Topic } from '../topic.service';
 import { Observable }     from 'rxjs/Observable';
 import { MaterializeAction } from 'angular2-materialize';
-import * as fileSaver from 'file-saver';
-// let fileSaver = require('../../../common/file-saver');
+//import * as fileSaver from 'file-saver';
+let fileSaver = require('../../../common/file-saver');
 
 @Component({
   selector: 'qddt-topic-edit',
@@ -24,7 +24,7 @@ export class TopicEditComponent {
   @Input() isVisible: boolean;
   @Output() topicSavedEvent: EventEmitter<any> = new EventEmitter<any>();
   errors: string[];
-  actions = new EventEmitter<string|MaterializeAction>();
+  showErrorActions = new EventEmitter<MaterializeAction>();
   private showUploadFileForm: boolean;
   private showUploadedFiles: boolean;
   private showDeletebutton: boolean= false;
@@ -43,9 +43,7 @@ export class TopicEditComponent {
   }
 
   onDownloadFile(o: any) {
-    // let fileType = o.fileType || 'text/plain';
     let fileName = o.originalName;
-    // let len = o.size;
     this.service.getFile(o.id).subscribe(
       (data: any) => {
         fileSaver(data, fileName);
@@ -100,7 +98,7 @@ export class TopicEditComponent {
     }
     let index = 0;
     let service = this.service;
-    let actions = this.actions;
+    let actions = this.showErrorActions;
     let errors = this.errors;
     source.subscribe(
       function (x: any) {

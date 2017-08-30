@@ -64,19 +64,19 @@ export class ConceptService extends BaseService {
   attachQuestion(conceptId: string, questionId: string, revision: string):any {
     if (revision===null)
       revision ='0';
-    return this.get('concept/combine?questionitemid='+ questionId+ '&questionitemrevision=' + revision + '&conceptid='+ conceptId);
+    return this.post({},'concept/combine?questionitemid='+ questionId+ '&questionitemrevision=' + revision + '&conceptid='+ conceptId);
   }
 
   deattachQuestion(conceptId: string, questionId: string):any {
-    return this.get('concept/decombine?questionitemid='+ questionId+ '&conceptid='+ conceptId);
+    return this.delete('concept/decombine?questionitemid='+ questionId+ '&conceptid='+ conceptId);
   }
 
   attachAuthor(conceptId: string, authorId: string):any {
-    return this.get('author/combine?authorId='+ authorId + '&conceptId=' +conceptId);
+    return this.post({},'author/combine?authorId='+ authorId + '&conceptId=' +conceptId);
   }
 
   deattachAuthor(conceptId: string, authorId: string):any {
-    return this.get('author/decombine?authorId='+ authorId + '&conceptId=' +conceptId);
+    return this.delete('author/decombine?authorId='+ authorId + '&conceptId=' +conceptId);
   }
 
   createQuestionItem(question: any): any {

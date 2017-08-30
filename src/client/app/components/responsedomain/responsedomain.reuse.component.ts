@@ -1,13 +1,13 @@
 import { Component, Input, Output, EventEmitter, OnChanges, OnInit } from '@angular/core';
 import { DomainType, DomainTypeDescription } from './responsedomain.constant';
-import { ResponseDomainService } from './responsedomain.service';
+import { ResponseDomain, ResponseDomainService } from './responsedomain.service';
 import { Subject } from 'rxjs/Subject';
+import { MaterializeAction } from 'angular2-materialize';
 
 @Component({
   selector: 'qddt-responsedomain-reuse',
   moduleId: module.id,
-  template: `
- `,
+  templateUrl:'./responsedomain.reuse.component.html',
   styles: [],
   providers: [ResponseDomainService],
 })
@@ -19,6 +19,7 @@ export class ResponsedomainReuseComponent implements OnInit, OnChanges {
   @Output() dismissEvent: any = new EventEmitter<any>();
   selectedResponseDomain: any;
   selectedRevision: number;
+  modalActions = new EventEmitter<string|MaterializeAction>();
   public domainTypeDef = DomainType;
   public domainTypeDescription: any[];
   private domainType: DomainType;
@@ -110,10 +111,23 @@ export class ResponsedomainReuseComponent implements OnInit, OnChanges {
 
   onUseResponseDomainEvent(item) {
     this.responseDomainReuse.emit(item);
-    this.isVisible = false;
+    this.onCloseModal();
+    // this.isVisible = false;
   }
 
   searchResponseDomains(key: string) {
     this.searchKeysSubect.next(key);
+  }
+
+  onOpenModal() {
+    this.modalActions.emit({action:'modal', params:['open']});
+    console.log('open modal... RD reuse');
+    // this.responseDomainService.getAll().subscribe(
+    //   result => { this.responseDomains = result.content;
+    //   }, (error: any) => console.log(error));
+  }
+
+  onCloseModal() {
+    this.modalActions.emit({action:'modal', params:['close']});
   }
 }

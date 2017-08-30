@@ -34,11 +34,11 @@ export class StudyService extends BaseService {
   }
 
   attachAuthor(studyId: string, authorId: string):any {
-    return this.get('author/combine?authorId='+ authorId + '&studyId=' +studyId);
+    return this.post({},'author/combine?authorId='+ authorId + '&studyId=' +studyId);
   }
 
   deattachAuthor(studyId: string, authorId: string):any {
-    return this.get('author/decombine?authorId='+ authorId + '&studyId=' +studyId);
+    return this.delete('author/decombine?authorId='+ authorId + '&studyId=' +studyId);
   }
 
   getPdf(id: string): any {

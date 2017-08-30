@@ -7,6 +7,10 @@ import { BaseService } from '../../common/base.service';
 export class ResponseCardinality {
    minimum: number;
    maximum: number;
+  constructor() {
+    this.minimum =1;
+    this.maximum =1;
+  }
 }
 
 export class Code {
@@ -14,6 +18,7 @@ export class Code {
   alignment: string;
   constructor() {
     this.alignment='text-left';
+    this.codeValue='0';
   }
 }
 
@@ -27,6 +32,7 @@ export class Category {
   categoryType: string;
   children: Category[];
   code:Code;
+  format:any;
   constructor() {
     this.label='';
   }

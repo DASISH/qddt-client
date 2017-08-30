@@ -1,5 +1,6 @@
 import { Component, OnChanges, EventEmitter, Input, Output } from '@angular/core';
-import {  PublicationService, ElementTypes, PublicationElement } from './publication.service';
+import { PublicationService, PublicationElement, PUBLICATION_TYPES } from './publication.service';
+import { ElementKind, QddtElementType } from '../../common/preview/preview.service';
 
 @Component({
   selector: 'qddt-publication-select',
@@ -10,14 +11,15 @@ import {  PublicationService, ElementTypes, PublicationElement } from './publica
 
 export class PublicationSelectComponent implements OnChanges {
   @Input() element: any;
-  @Input() elementType: any;
+  @Input() elementKind: ElementKind;
   @Output() publicationElement: any = new EventEmitter<any>();
   @Output() dismissEvent: any = new EventEmitter<any>();
 
   elementRevisions: any[];
   elementRevision: any;
   selectedElement: any;
-  selectedElementType: string;
+  selectedElementLabel: string;
+  showProgressBar:boolean=false;
 
   constructor(private service: PublicationService) {
     this.elementRevisions = [];
@@ -25,18 +27,23 @@ export class PublicationSelectComponent implements OnChanges {
 
   ngOnChanges() {
     this.selectedElement = this.element;
+    this.showProgressBar = true;
     if (this.element !== null && this.element !== undefined
       && this.element.id !== null && this.element.id !== undefined) {
-      this.service.getElementRevisions(this.elementType, this.element.id).subscribe((result: any) => {
+      this.service.getElementRevisions(this.elementKind, this.element.id).subscribe((result: any) => {
         this.elementRevisions = result.content.sort((e1: any, e2: any) => e2.revisionNumber - e1.revisionNumber);
-        this.onSelectElementRevisions();
+        this.onSelectElementRevisions(this.elementRevisions[0].revisionNumber);
+          this.showProgressBar = false;
       },
-        (error: any) => { console.log('error'); });
+        (error: any) => {
+          console.log('error');
+          this.showProgressBar = false;
+        });
     }
   }
 
-  onSelectElementRevisions() {
-    let r = this.elementRevision;
+  onSelectElementRevisions(event :any) {
+    let r = event;
     if(typeof r === 'string') {
       r = parseInt(r);
     }
@@ -52,14 +59,14 @@ export class PublicationSelectComponent implements OnChanges {
   }
 
   onUseElement() {
-    let elementType: any = ElementTypes.find(e => e.id === this.elementType);
+    let elementType: QddtElementType = PUBLICATION_TYPES.find(e => e.label === this.selectedElementLabel);
     if (elementType !== undefined) {
       let element: any = new PublicationElement();
       element.id = this.selectedElement.id;
       element.revisionNumber = this.elementRevision;
-      element.elementKind = elementType.type;
+      element.elementKind =  elementType.label
       element.element = this.selectedElement;
-      this.selectedElementType = elementType.type;
+      this.selectedElementLabel = elementType.label;
       this.publicationElement.emit(element);
     }
   }

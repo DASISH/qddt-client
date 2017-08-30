@@ -1,21 +1,28 @@
-<div *ngIf="element" [ngSwitch]="elementType">
-  <div *ngSwitchCase="'Module'">
-    <qddt-preview-topic [topic]="element"></qddt-preview-topic>
-  </div>
-  <div *ngSwitchCase="'TopicGroup'">
-    <qddt-preview-topic [topic]="element"></qddt-preview-topic>
-  </div>
-  <div *ngSwitchCase="'Concept'">
+<div *ngIf="element" [ngSwitch]="elementKind">
+  <div *ngSwitchCase=ElementKind.CONCEPT>
     <qddt-preview-concept [concept]="element"></qddt-preview-concept>
   </div>
-  <div *ngSwitchCase="'QuestionItem'">
+  <div *ngSwitchCase=ElementKind.QUESTION_CONSTRUCT >
+    <qddt-preview-questionconstruct [controlConstruct]="element"></qddt-preview-questionconstruct>
+  </div>
+  <div *ngSwitchCase=ElementKind.CONDITION_CONSTRUCT >
+    <qddt-preview-conditionconstruct [condition]="element"></qddt-preview-conditionconstruct>
+  </div>
+  <div *ngSwitchCase=ElementKind.SEQUENCE_CONSTRUCT >
+    <qddt-preview-sequenceconstruct [sequence]="element"></qddt-preview-sequenceconstruct>
+  </div>
+  <div *ngSwitchCase=ElementKind.STATEMENT_CONSTRUCT >
+    <qddt-preview-statementconstruct [statement]="element"></qddt-preview-statementconstruct>
+  </div>
+  <div *ngSwitchCase=ElementKind.QUESTIONITEM>
     <qddt-preview-questionitem [questionItem]="element"></qddt-preview-questionitem>
   </div>
-  <div *ngSwitchCase="'QuestionConstruct'">
-    <qddt-preview-questionconstruct [controlConstruct]="element"></qddt-preview-questionconstruct>
+  <div *ngSwitchCase=ElementKind.TOPIC_GROUP>
+    <qddt-preview-topic [topic]="element"></qddt-preview-topic>
   </div>
   <div *ngSwitchDefault>
     <div class="row">
+      <span>TYPE -> {{getElementKind(elementKind)}} <- TEST</span>
       <div class="col s12">
         <label [attr.for]="element.id + '-name'" class="active teal-text">Name</label>
         <textarea class="materialize-textarea" id="{{element?.id}}-name"
@@ -25,11 +32,12 @@
         <textarea class="materialize-textarea" id="{{element?.id}}-description"
                   name="{{element?.id}}-description"readonly> {{element?.description}}
         </textarea>
-        <span>{{elementType}}</span>
       </div>
     </div>
     <div class="row">
-      <qddt-element-footer  [element]="element" [type]="elementType"></qddt-element-footer>
+      <qddt-element-footer  [element]="element" [type]="getElementKind(elementKind)"></qddt-element-footer>
     </div>
   </div>
 </div>
+
+

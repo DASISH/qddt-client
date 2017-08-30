@@ -7,7 +7,7 @@ import { ResponseDomain } from '../../../components/responsedomain/responsedomai
   moduleId: module.id,
   template: `<div class="row" *ngIf="responseDomain">
         <form>
-          <input type="number" min="{{low}}" max="{{high}}"
+          <input type="number" min="{{low}}" max="{{high}}" step="{{stepping}}"
             id="numeric-domain-{{responseDomain.id}}"
             name="numeric-domain-{{responseDomain.id}}"
             [ngModel]="value"
@@ -22,6 +22,7 @@ export class ResponsedomainNumericComponent implements OnChanges {
   @Input() responseDomain: ResponseDomain;
   low: number;
   high: number;
+  stepping:string
   value: number;
 
   ngOnChanges() {
@@ -37,6 +38,17 @@ export class ResponsedomainNumericComponent implements OnChanges {
         && rep.inputLimit.minimum !== undefined) {
         this.low = rep.inputLimit.minimum;
       }
+      if (rep.format === undefined) {
+        rep.format = '0';
+      }
+      let step =parseInt(rep.format);
+      if (step >0)
+        this.stepping ='0.';
+
+      for(var i=1;i< step;i++) {
+        this.stepping += '0';
+      }
+      this.stepping +='1';
     }
   }
 

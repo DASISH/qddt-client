@@ -5,7 +5,7 @@ import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { CategoryService } from '../category.service';
-import { BaseService } from '../../../common/base.service';
+import { BaseService } from '../../common/base.service';
 import { CategoryEditComponent } from './category.edit.component';
 import { API_BASE_HREF } from '../../../api';
 import { CommonModule } from '@angular/common';
@@ -151,7 +151,7 @@ class AutocompleteComponent {
   @Input() items:  any[];
   @Input() searchField: any;
   @Input() placeholder: string;
-  @Input() isMutipleFields: boolean;
+  @Input() isMultipleFields: boolean;
   @Input() initialValue: string;
   @Input() searchFromServer: boolean;
   @Output() autocompleteSelectEvent: EventEmitter<any> = new EventEmitter<any>();

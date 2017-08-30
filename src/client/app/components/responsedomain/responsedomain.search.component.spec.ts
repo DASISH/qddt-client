@@ -143,7 +143,7 @@ class AutocompleteComponent {
   @Input() items:  any[];
   @Input() searchField: any;
   @Input() placeholder: string;
-  @Input() isMutipleFields: boolean;
+  @Input() isMultipleFields: boolean;
   @Input() initialValue: string;
   @Input() searchFromServer: boolean;
   @Output() autocompleteSelectEvent: EventEmitter<any> = new EventEmitter<any>();

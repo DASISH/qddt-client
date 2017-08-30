@@ -4,29 +4,7 @@
                                  [isVisible]="true" [responseDomain]="privewResponseDomain">
     </qddt-preview-responsedomain>
 
-    <div class="row" *ngIf="questionitem.conceptRefs && questionitem.conceptRefs.length > 0" >
-      <div class="hoverable" style="margin: 1%">
-        <table class="highlight">
-          <caption class="teal-text"  (click)="showRefs = !showRefs" style="cursor: zoom-in;">Used by ({{questionitem.conceptRefs.length}})</caption>
-          <thead class="teal-text" >
-          <tr><th>Study</th><th>Module</th><th>Concept names</th></tr>
-          </thead>
-          <tbody *ngIf="showRefs">
-          <tr *ngFor="let ref of questionitem.conceptRefs" >
-            <td>
-              <a  style="cursor: pointer;" (click)="onClickStudy(ref.topicRef.studyRef.id)">{{ref?.topicRef?.studyRef?.name}}</a>
-            </td>
-            <td>
-              <a  style="cursor: pointer;" (click)="onClickTopic(ref.topicRef.id)">{{ref?.topicRef?.name}}</a>
-            </td>
-            <td>
-              <a  style="cursor: pointer;" (click)="onClickConcept(ref.id)">{{ref?.name}}</a>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <qddt-conceptref [element]="questionitem"></qddt-conceptref>
 
     <div class="card-action">
       <form  (ngSubmit)="onEditQuestionItem()" #hf="ngForm">
@@ -56,14 +34,16 @@
           <div class="col s6"
                (mouseenter)="showbutton = true"
                (mouseleave)="showbutton = false">
-            <div class="row teal-text"><span>Response Domain<span *ngIf="mainResponseDomain && mainResponseDomain.managedRepresentation">
-                (V{{mainResponseDomain?.managedRepresentation?.version?.major}}<!--
-                -->.{{mainResponseDomain?.managedRepresentation?.version?.minor}})</span></span></div>
+            <div class="row teal-text">
+              <span>Response Domain (V <qddt-version [element]="mainResponseDomain?.managedRepresentation"></qddt-version>)
+            </span>
+            </div>
             <div class="row">
-              <qddt-responsedomain-reuse *ngIf="!mainResponseDomain && !readonly" [ngClass]="{hide: !showbutton}"
-                 (ResponseDomainCreatedEvent)="responseDomainReuse($event)">
+              <qddt-responsedomain-reuse *ngIf="!readonly && !mainResponseDomain" [ngClass]="{hide: !showbutton}"
+                 [responseDomain]="mainResponseDomain"
+                (responseDomainReuse)="responseDomainReuse($event)">
               </qddt-responsedomain-reuse>
-              <a *ngIf="!readonly" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+              <a *ngIf="!readonly && mainResponseDomain " class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                  [ngClass]="{hide: !showbutton}"
                  (click)="onRemoveResponsedomain(questionitem)">
                 <i class="material-icons left medium" title="remove response domain">remove</i>
@@ -84,7 +64,7 @@
           <qddt-rational [element]="questionitem"></qddt-rational>
         </div>
         <div class="row">
-          <qddt-element-footer [element]="questionitem" [type]="'questionitem'"
+          <qddt-element-footer [element]="questionitem" [type]="'QUESTION_ITEM'"
                                 (BasedonObjectDetail)="onBasedonObjectDetail($event)"></qddt-element-footer>
         </div>
         <div class="row right-align">
@@ -95,21 +75,6 @@
   </div>
 </div>
 
-<div [attr.id]="'usedby-detail-modal'" class="modal modal-fixed-footer"
-     materialize="modal" [materializeActions]="usedbyModalAction">
-  <div class="modal-content" *ngIf="selectedElement">
-    <h5 align="center">Preview of {{selectedElement.name}}</h5>
-    <qddt-preview-concept *ngIf="selectedType === 'concept'" [concept]="selectedElement"></qddt-preview-concept>
-    <qddt-preview-topic *ngIf="selectedType === 'topic'" [topic]="selectedElement"></qddt-preview-topic>
-    <qddt-preview-study *ngIf="selectedType === 'study'" [study]="selectedElement"></qddt-preview-study>
-  </div>
-  <div class="modal-footer">
-    <button id="concept-modal-close"
-            class="btn btn-default red modal-action modal-close waves-effect">
-      <a><i class="close material-icons medium white-text">close</i></a>
-    </button>
-  </div>
-</div>
 
 <div class="modal modal-fixed-footer"
      materialize="modal" [materializeActions]="basedonActions">

@@ -1,7 +1,7 @@
 import { Component, Input, EventEmitter, Output, OnChanges } from '@angular/core';
 import { SurveyService, SurveyProgram } from './survey.service';
-import * as fileSaver from 'file-saver';
-//let fileSaver = require('../../../common/file-saver');
+//import * as fileSaver from 'file-saver';
+let fileSaver = require('../../common/file-saver');
 
 @Component({
   selector: 'qddt-survey',
@@ -39,7 +39,6 @@ export class SurveyComponent implements OnChanges {
   onSurveySaved(surveyProgram:any) {
     this.surveys = this.surveys.filter((q) => q.id !== surveyProgram.id);
     surveyProgram.savedVersion = 'V' + surveyProgram.version.major + '.' + surveyProgram.version.minor;
-    // surveyProgram.workinprogress = (surveyProgram.version.versionLabel === 'In Development');
     this.surveys.push(surveyProgram);
   }
 

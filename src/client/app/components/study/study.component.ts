@@ -2,8 +2,8 @@ import { Component, Input, EventEmitter, Output, OnChanges } from '@angular/core
 
 import { StudyService, Study } from './study.service';
 import { isNullOrUndefined } from 'util';
-import * as fileSaver from 'file-saver';
-// let fileSaver = require('../../../common/file-saver');
+//import * as fileSaver from 'file-saver';
+let fileSaver = require('../../common/file-saver');
 
 @Component({
   selector: 'qddt-study',

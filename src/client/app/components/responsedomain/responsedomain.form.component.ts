@@ -30,16 +30,15 @@ export class ResponsedomainFormComponent implements OnInit {
 
   public domainTypeDef = DomainType;
   private categories: any;
-  private codes: string[];
+  // private codes: string[];
   private selectedCategoryIndex: number;
-  // private selectedElement: any;   //remove later?
   private suggestions: Category[];
   private numberOfAnchors: number;
 
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
   constructor(private categoryService: CategoryService, private service: ResponseDomainService) {
-    this.codes = [];
+    // this.codes = [];
     this.selectedCategoryIndex = 0;
     this.formChange = new EventEmitter<any>();
     this.numberOfAnchors = 0;
@@ -63,29 +62,25 @@ export class ResponsedomainFormComponent implements OnInit {
       return;
     }
     if(this.responsedomain.responseCardinality === undefined) {
-      this.responsedomain.responseCardinality = { 'minimum': 1, 'maximum': 1 };
+      console.debug('responseCardinality === undefined');
+      this.responsedomain.responseCardinality =  new ResponseCardinality();
     }
     if (this.responsedomain.managedRepresentation === undefined) {
+      console.debug('managedRepresentation === undefined');
       this.responsedomain.managedRepresentation = new Category();
     }
     if (this.responsedomain.managedRepresentation.inputLimit === undefined) {
+      console.debug('managedRepresentation.inputLimit === undefined');
       this.responsedomain.managedRepresentation.inputLimit = new ResponseCardinality();
-      this.responsedomain.managedRepresentation.inputLimit = { 'minimum': 1, 'maximum': 1 };
     }
     if (this.responsedomain.managedRepresentation.children === undefined) {
+      console.debug('managedRepresentation.children === undefined');
       this.responsedomain.managedRepresentation.children = [];
     }
-    if (this.domainType === DomainType.SCALE) {
-      this.responsedomain.managedRepresentation.categoryType = 'SCALE';
+    this.responsedomain.managedRepresentation.categoryType =
+      DomainTypeDescription.find(e=>e.id === this.domainType).categoryType;
       this.numberOfAnchors = this.responsedomain.managedRepresentation.children.length;
-    } else if (this.domainType === DomainType.NUMERIC) {
-      this.responsedomain.managedRepresentation.categoryType = 'NUMERIC';
-    } else if (this.domainType === DomainType.TEXT) {
-      this.responsedomain.managedRepresentation.categoryType = 'TEXT';
-    } else {
-      this.responsedomain.managedRepresentation.categoryType = 'LIST';
-      this.numberOfAnchors = this.responsedomain.managedRepresentation.children.length;
-    }
+
     if (this.domainType === DomainType.SCALE) {
       if(typeof this.responsedomain.displayLayout === 'string') {
         this.responsedomain.displayLayout = parseInt(this.responsedomain.displayLayout);
@@ -94,41 +89,12 @@ export class ResponsedomainFormComponent implements OnInit {
         this.responsedomain.displayLayout = 0;
       }
     }
-    if (this.domainType === DomainType.SCALE || this.domainType === DomainType.LIST) {
-      let categoryType = DomainTypeDescription.find((e: any)=>e.id === this.domainType).categoryType;
-      this.categoryService.getAllTemplatesByCategoryKind(categoryType)
-        .subscribe((result: any) => this.suggestions = result.content);
-    } else {
-      let categoryType = DomainTypeDescription.find((e: any)=>e.id === this.domainType).categoryType;
-      this.categoryService.getByCategoryKind(categoryType, '')
-        .subscribe((result: any) => this.suggestions = result.content);
-    }
+
     this.categoryService.getAllByLevel('ENTITY').subscribe((result: any) => {
       this.categories = result.content;
     });
-    // this.buildUsedBy();
     this.previewResponseDomain = this.responsedomain;
   }
-
-  // onClickStudy(id: string) {
-  //   this.selectedType = 'study';
-  //   this.usedbyModalAction.emit({action:'modal', params:['open']});
-  // }
-  //
-  // onClickTopic(id: string) {
-  //   this.selectedType = 'topic';
-  //   this.usedbyModalAction.emit({action:'modal', params:['open']});
-  // }
-  //
-  // onClickQuestion(id: string) {
-  //   this.selectedType = 'question';
-  //   this.usedbyModalAction.emit({action:'modal', params:['open']});
-  // }
-
-  // onClickResponsedomain(id: string) {
-  //   this.selectedType = 'responsedomain';
-  //   this.usedbyModalAction.emit({action:'modal', params:['open']});
-  // }
 
   select(candidate: any) {
     console.info('onSelect...');
@@ -293,6 +259,12 @@ export class ResponsedomainFormComponent implements OnInit {
     } else {
       this.responsedomain.displayLayout = degree;
     }
+    this.buildPreviewResponseDomain();
+  }
+
+  onSelectAligment(value: any, idx:any) {
+    console.log('onSelectAligment ' + value + ' ' + idx);
+    this.responsedomain.managedRepresentation.children[idx].code.alignment = value;
     this.buildPreviewResponseDomain();
   }
 

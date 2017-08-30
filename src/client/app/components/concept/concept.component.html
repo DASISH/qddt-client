@@ -11,7 +11,7 @@
 
         <div *ngIf="showConceptForm">
           <div class="card-action">
-            <form (ngSubmit)="onSave()" #hf="ngForm">
+            <form (ngSubmit)="onNewSave()" #hf="ngForm">
               <div class="row">
                 <div class="input-field col s10">
                   <input id="name" name="name" type="text" [(ngModel)]="concept.name" required>
@@ -33,7 +33,9 @@
         <div class="indeterminate"></div>
       </div>
       <div *ngIf="concepts">
-         <qddt-concept-treenode *ngFor="let child of concepts" (deleteConceptEvent)="onDeleteConcept($event)"
+         <qddt-concept-treenode *ngFor="let child of concepts"
+             (deleteConceptEvent)="onDeleteConcept($event)"
+             (conceptUpdatedAction)="onConceptUpdated($event)"
          [concept]="child"></qddt-concept-treenode>
       </div>
     </div>
@@ -48,8 +50,9 @@
       </ul>
     </div>
   </div>
+
   <div [attr.id]="'delete-concept-modal'" class="modal"
-       materialize="modal" [materializeActions]="actions">
+       materialize="modal" [materializeActions]="confimDeleteActions">
     <div class="modal-content">
       <h4>Warning!</h4>
       <div class="row" *ngIf="toDeletedConcept && toDeletedConcept.conceptQuestionItems && toDeletedConcept.conceptQuestionItems.length === 0">

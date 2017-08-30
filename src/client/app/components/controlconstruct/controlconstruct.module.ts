@@ -8,10 +8,11 @@ import { QuestionModule } from '../question/question.module';
 import { ControlConstructQuestionItemSelectComponent } from './controlconstruct.questionitem.select.component';
 import { ControlConstructFormComponent } from './controlconstruct.form.component';
 import { PreviewModule } from '../../common/preview/preview.module';
+import { ConceptrefModule } from '../../common/conceptref/conceptref.module';
 
 
 @NgModule({
-  imports: [ SharedModule, ResponsedomainModule, QuestionModule,PreviewModule],
+  imports: [ SharedModule, ResponsedomainModule, QuestionModule,PreviewModule,ConceptrefModule],
   declarations: [ControlConstructComponent, ControlConstructFormComponent,
     ControlConstructQuestionItemSelectComponent, ControlConstructDetailComponent, InstructionComponent
     ],

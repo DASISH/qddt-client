@@ -227,3 +227,13 @@ export class LocalDatePipe implements PipeTransform {
     return '';
   }
 }
+  @Pipe({
+    name: 'localDateTime',
+    pure: true
+  })
+  export class LocalDateTimePipe implements PipeTransform {
+
+  transform(input: Array<number>): string {
+    return '';
+  }
+}

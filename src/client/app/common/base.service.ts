@@ -4,13 +4,16 @@ import { Http, Headers, Response } from '@angular/http';
 import { API_BASE_HREF } from '../api';
 import { Observable } from 'rxjs/Rx';
 import { isNullOrUndefined } from 'util';
+// import { AlertService } from '../shared/altert/alter.service';
 
 @Injectable()
 export class BaseService {
 
   private headers: Headers;
+  // private alertService: AlertService;
 
   constructor(protected http:Http, @Inject(API_BASE_HREF) protected api:string) {
+    // this.alertService = new AlertService();
     this.headers = new Headers();
     let jwt = localStorage.getItem('jwt');
     if(jwt !== null) {
@@ -26,14 +29,17 @@ export class BaseService {
       localStorage.removeItem('user');
       return Observable.throw('Invalid token error');
     }
-    if (error.status === 400)
+    if (error.status === 400) {
+      // this.alertService.error(error['_body'].JSON()['exceptionMessage']);
       return Observable.throw(error['_body'].JSON()['exceptionMessage'] || 'Server error');
-
+    }
     if (!isNullOrUndefined(error.statusText)) {
+      // this.alertService.error(error.statusText);
       return Observable.throw(error.statusText || 'Server error');
     }
 
     if (!isNullOrUndefined(error['message'])) {
+      // this.alertService.error(error['message']);
       return Observable.throw(error['message'] || 'Server error');
     }
 

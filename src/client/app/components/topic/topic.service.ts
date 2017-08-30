@@ -41,21 +41,21 @@ export class TopicService extends BaseService {
   }
 
   attachAuthor(topicId: string, authorId: string):any {
-    return this.get('author/combine?authorId='+ authorId + '&topicId=' +topicId);
+    return this.post({},'author/combine?authorId='+ authorId + '&topicId=' +topicId);
   }
 
   deattachAuthor(topicId: string, authorId: string):any {
-    return this.get('author/decombine?authorId='+ authorId + '&topicId=' +topicId);
+    return this.delete('author/decombine?authorId='+ authorId + '&topicId=' +topicId);
   }
 
   attachQuestion(topicId: string, questionId: string, revision: string):any {
     if (revision===null)
       revision ='0';
-    return this.get('topicgroup/combine?questionitemid='+ questionId+ '&questionitemrevision=' + revision + '&topicid='+ topicId);
+    return this.post({},'topicgroup/combine?questionitemid='+ questionId+ '&questionitemrevision=' + revision + '&topicid='+ topicId);
   }
 
   deattachQuestion(topicId: string, questionId: string):any {
-    return this.get('topicgroup/decombine?questionitem='+ questionId+ '&topicid='+ topicId);
+    return this.delete('topicgroup/decombine?questionitemid='+ questionId+ '&topicid='+ topicId);
   }
 
   getFile(id: string) {

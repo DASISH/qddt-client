@@ -27,6 +27,10 @@ import { QuestionItem } from '../../components/question/question.service';
       <div class="flow-text" style="padding-top: 15pt;padding-left: 15pt;">
       {{questionItem.question?.question}}</div>
     </div>
+    <!--<div class="teal-text" *ngIf="questionItem.name" style="padding-left: 15pt; padding-bottom: 10pt">Name</div>-->
+    <!--<div style="padding-left: 15pt;">{{questionItem.name}}</div>-->
+    <!--<div class="teal-text" *ngIf="questionItem." style="padding-left: 15pt; padding-bottom: 10pt">Name</div>-->
+    <!--<div style="padding-left: 15pt;">{{questionItem.name}}</div>-->
     <div class="teal-text" *ngIf="questionItem.question?.intent" style="padding-left: 15pt; padding-bottom: 10pt">Intent</div>
     <div style="padding-left: 15pt;">{{questionItem.question?.intent}}</div>
     <div class="row" style="padding-right: 5pt; padding-left:5pt ">

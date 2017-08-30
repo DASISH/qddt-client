@@ -116,17 +116,6 @@ export class QuestionService extends BaseService {
     return this.get('controlconstruct/list/by-question/' + id);
   }
 
-  getConceptsById(id: string) {
-    return this.get('concept/'+ id);
-  }
-
-  getTopicById(id: string) {
-    return this.get('topicgroup/'+ id);
-  }
-
-  getStudyById(id: string) {
-    return this.get('study/'+ id);
-  }
 
   getPdf(id: string): any {
     let headers = new Headers();

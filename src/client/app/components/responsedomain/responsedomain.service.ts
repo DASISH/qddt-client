@@ -1,8 +1,10 @@
 import { Injectable, Inject } from '@angular/core';
 import { Http } from '@angular/http';
 import { API_BASE_HREF } from '../../api';
-import { Category } from '../category/category.service';
+import { Category, ResponseCardinality } from '../category/category.service';
 import { BaseService } from '../../common/base.service';
+
+
 
 export class ResponseDomain {
   id: string;
@@ -11,6 +13,7 @@ export class ResponseDomain {
   description: string;
   responseKind: string;
   managedRepresentation: Category;
+  responseCardinality: ResponseCardinality;
 }
 
 @Injectable()

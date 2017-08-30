@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { ElementKind , ElementEnumAware } from './preview.service';
 
 @Component({
   selector: 'qddt-publication-preview',
@@ -13,9 +14,14 @@ import { Component, Input } from '@angular/core';
   templateUrl: './preview.publication.component.html',
   providers: [],
 })
-
+@ElementEnumAware
 export class PreviewPublicationComponent  {
   @Input() element: any;
-  @Input() elementType: String;
+  @Input() elementKind: ElementKind;
+
+  getElementKind(kind:ElementKind):string{
+    console.log('Elementkind: ' + ElementKind[kind] + ' ' + kind);
+    return ElementKind[kind];
+  }
 
 }

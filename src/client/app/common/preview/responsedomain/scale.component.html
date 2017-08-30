@@ -9,7 +9,7 @@
       </th>
     </tr>
     </thead>
-    <tbody *ngIf="responseDomain?.managedRepresentation?.inputLimit?.maximum <= 15">
+    <tbody *ngIf="responseDomain?.managedRepresentation?.inputLimit?.maximum - responseDomain?.managedRepresentation?.inputLimit?.minimum <= 15">
     <tr >
       <td *ngFor="let option of row; let idx=index" style="text-align: center">
               <span>
@@ -20,7 +20,7 @@
     </tr>
     </tbody>
   </table>
-  <div *ngIf="responseDomain?.managedRepresentation?.inputLimit?.maximum > 15" class="range-field">
+  <div *ngIf="responseDomain?.managedRepresentation?.inputLimit?.maximum - responseDomain?.managedRepresentation?.inputLimit?.minimum > 15" class="range-field">
     <input type="range" id="test5"
            min={{responseDomain?.managedRepresentation?.inputLimit?.minimum}}
            max={{responseDomain?.managedRepresentation?.inputLimit?.maximum}}/>
@@ -30,7 +30,7 @@
       <tr *ngFor="let option of row; let idx=index">
         <td>
                 <span>
-                  <input name="{{responseDomain.id}}-group" type="radio" id="{{responseDomain.id}}option{{option.value}}" />
+                  <input name="{{responseDomain.id}}-group1" type="radio" id="{{responseDomain.id}}option1{{option.value}}" />
                   <label [attr.for]="responseDomain.id + 'option' + option.value">{{option?.label}}</label>
                 </span>
         </td>

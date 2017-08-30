@@ -14,7 +14,7 @@ export class ConceptComponent implements OnChanges {
   @Output() conceptSelectedEvent: EventEmitter<any> = new EventEmitter();
   @Input() topic: any;
   @Input() show: boolean;
-  actions = new EventEmitter<string|MaterializeAction>();
+  confimDeleteActions = new EventEmitter<string|MaterializeAction>();
 
   private concept: any;
   private concepts: any;
@@ -26,6 +26,7 @@ export class ConceptComponent implements OnChanges {
   }
 
   ngOnChanges() {
+    console.log('ngOnChanges concept');
     this.showProgressBar = true;
     this.conceptService.getByTopic(this.topic.id)
       .subscribe((result: any) => {
@@ -37,6 +38,7 @@ export class ConceptComponent implements OnChanges {
   }
 
   onSelectConcept(concept: any) {
+    console.log('onSelectConcept...');
     this.topic = concept;
     this.concepts = concept.children;
   }
@@ -45,7 +47,7 @@ export class ConceptComponent implements OnChanges {
     this.showConceptForm = !this.showConceptForm;
   }
 
-  onSave() {
+  onNewSave() {
     this.showConceptForm = false;
     this.showProgressBar = true;
       this.conceptService.save(this.concept, this.topic.id)
@@ -57,9 +59,14 @@ export class ConceptComponent implements OnChanges {
         this.concept  = new Concept();
   }
 
+  onConceptUpdated(concept:any) {
+    console.log('onConceptUpdated ' + this.concept.id);
+    this.concepts.push(this.concept);
+  }
+
   onDeleteConcept(concept: any) {
     this.toDeletedConcept = concept;
-    this.actions.emit({action:'modal', params:['open']});
+    this.confimDeleteActions.emit({action:'modal', params:['open']});
     // this.actions.emit({action:'modal', params:['open']});
   }
 
@@ -67,7 +74,7 @@ export class ConceptComponent implements OnChanges {
     let id = this.toDeletedConcept.id;
     this.conceptService.deleteConcept(id)
       .subscribe((result: any) => {
-        this.actions.emit({action:'modal', params:['close']});
+        this.confimDeleteActions.emit({action:'modal', params:['close']});
         this.concepts = [];
         this.conceptService.getByTopic(this.topic.id)
           .subscribe((result: any) => this.concepts = result.content

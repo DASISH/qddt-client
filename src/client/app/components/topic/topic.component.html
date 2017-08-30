@@ -11,7 +11,7 @@
 
         <div *ngIf="showTopicForm">
           <div class="card-action">
-            <form (ngSubmit)="onSave()" #hf="ngForm">
+            <form (ngSubmit)="onNewSave()" #hf="ngForm">
               <div class="row">
                 <div class="input-field col">
                   <input id="name" name="name" type="text" [(ngModel)]="topic.name" required>
@@ -31,8 +31,8 @@
         </div>
       </div>
       <div *ngIf="topics">
-        <div class="row card" *ngFor="let topic of topics" style="padding-left:2%">
-          <div id="{{topic?.id}}" class="scrollspy">
+        <div class="row card" *ngFor="let currentElement of topics" style="padding-left:2%">
+          <div id="{{currentElement?.id}}" class="scrollspy">
             <div class="col s1 m1 l1">
               <br/>
               <div class="row">
@@ -41,50 +41,48 @@
                    (click)="edit.isVisible = !edit.isVisible"><i class="material-icons" title="Edit Concept">mode_edit</i></a>
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                    (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium" title="Revision history">history</i></a>
-                <qddt-questionitem-reuse [parentId]="topic?.id"
-                                         (questionItemCreatedEvent)="onAddQuestionItem($event)"></qddt-questionitem-reuse>
+                <qddt-questionitem-reuse [parentId]="currentElement?.id"
+                                         (questionItemCreatedEvent)="onAddQuestionItem($event,currentElement?.id)"></qddt-questionitem-reuse>
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
-                  <i class="material-icons" (click)="onGetPdf(topic)" title="Get as Pdf">picture_as_pdf</i></a>
-                <qddt-confirm-delete [element]="topic" (confirmAction)="onRemoveTopic($event)"></qddt-confirm-delete>
-                <!--<a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"-->
-                   <!--(click)="onRemoveTopic(topic?.id)"><i class="material-icons left medium" title="Delete" >delete_forever</i></a>-->
+                  <i class="material-icons" (click)="onGetPdf(currentElement)" title="Get as Pdf">picture_as_pdf</i></a>
+                <qddt-confirm-delete [element]="currentElement" (confirmAction)="onRemoveTopic($event)"></qddt-confirm-delete>
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                   (click)="onSelectTopic(topic)"><i class="material-icons left medium"title="Go to child elements">play_arrow</i></a>
+                   (click)="onSelectTopic(currentElement)"><i class="material-icons left medium"title="Go to child elements">play_arrow</i></a>
               </div>
             </div>
 
             <div class="col s10 m10 l10 grey-text text-darken-2">
               <h5 class="row">
-                <div class="col s10">{{topic?.name}}</div>
+                <div class="col s10">{{currentElement?.name}}</div>
 
                 <div class="col s2">
-                    <qddt-version-label [element]="topic"></qddt-version-label>
+                    <qddt-version-label [element]="currentElement"></qddt-version-label>
                 </div>
               </h5>
-              <qddt-topic-edit [isVisible]="edit.isVisible" [topic]="topic"
+              <qddt-topic-edit [isVisible]="edit.isVisible" [topic]="currentElement"
                                (topicSavedEvent)="onTopicSavedEvent($event)"
                                #edit>
               </qddt-topic-edit>
               <div class="row">
-                <p>{{topic?.abstractDescription}}</p>
+                <p>{{currentElement?.abstractDescription}}</p>
                 <!--<label class="teal-text" *ngIf="topic.authors?.length>0">Authors</label>-->
                 <!--<qddt-author-chip [authors]="topic.authors" ></qddt-author-chip>-->
               </div>
-              <div class="row" *ngIf="topic?.otherMaterials && topic?.otherMaterials?.length > 0">
+              <div class="row" *ngIf="currentElement?.otherMaterials && currentElement?.otherMaterials?.length > 0">
                 <ul class="collection with-header hoverable">
                   <li class="collection-header teal-text">External aid</li>
-                  <li *ngFor="let m of topic.otherMaterials;" class="col s10 m5">
+                  <li *ngFor="let m of currentElement.otherMaterials;" class="col s10 m5">
                     <a class="waves-effect waves-light" (click)="onDownloadFile(m)">
                       <i class="material-icons center smal">description</i> {{m.originalName}}</a>
                   </li>
                 </ul>
               </div>
-              <div *ngIf="topic?.topicQuestionItems?.length > 0" class="section">
+              <div *ngIf="currentElement?.topicQuestionItems?.length > 0" class="section">
                 <ul class="collection with-header hoverable"
                     (mouseenter)="showQuestionbutton = true"
                     (mouseleave)="showQuestionbutton = false">
                   <li class="collection-header teal-text">Question Items</li>
-                  <a class="collection-item grey-text text-darken-1" *ngFor="let cqi of topic.topicQuestionItems">
+                  <a class="collection-item grey-text text-darken-1" *ngFor="let cqi of currentElement.topicQuestionItems">
                     <div class="row" style="min-height: 3rem;">
                       <div class="col s11" (click)="onClickQuestionItem(cqi.questionItem)" style="cursor: pointer;">
                         ♦ {{cqi?.questionItem?.question?.question}}</div>
@@ -92,7 +90,7 @@
                         <a
                           class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
                           [ngClass]="{hide: !showQuestionbutton}"
-                          (click)="onRemoveQuestionItem(cqi?.questionItem?.id)">
+                          (click)="onRemoveQuestionItem(cqi?.id)">
                           <i class="material-icons" title="Remove selected">remove</i>
                         </a>
                       </div>
@@ -100,13 +98,13 @@
                   </a>
                 </ul>
               </div>
-              <qddt-revision [isVisible]="revision.isVisible" [current]="topic" [elementType]="'TopicGroup'"
+              <qddt-revision [isVisible]="revision.isVisible" [current]="currentElement" [elementType]="'TopicGroup'"
                 [config]="[{'name':'name','label':'Name'},{'name':'description','label':'Description'}]"
-                [qddtURI]="'audit/topicgroup/' + topic.id + '/all'" #revision
+                [qddtURI]="'audit/topicgroup/' + currentElement.id + '/all'" #revision
                (requestPreview)="showPreview($event)"></qddt-revision>
 
               <div class="row">
-                <qddt-comment-list [ownerId]="topic.id" [comments]="topic.comments"></qddt-comment-list>
+                <qddt-comment-list [ownerId]="currentElement.id" [comments]="currentElement.comments"></qddt-comment-list>
               </div>
             </div>
 
@@ -114,23 +112,24 @@
         </div>
       </div>
     </div>
-    <div>
-      <div [attr.id]="topic.id + '-topic-questionitem-modal'"
-           class="modal modal-fixed-footer"
-           materialize="modal" [materializeActions]="questionItemActions">
-        <div class="modal-footer">
-          <button
-            class="btn btn-default red modal-action modal-close waves-effect waves-red">
-            <i class="close material-icons">close</i>
-          </button>
+  </div>
+
+  <div>
+    <div [attr.id]="'topic-questionitem-modal'"
+         class="modal modal-fixed-footer"
+         materialize="modal" [materializeActions]="questionItemActions">
+      <div class="modal-footer">
+        <button
+          class="btn btn-default red modal-action modal-close waves-effect waves-red">
+          <i class="close material-icons">close</i>
+        </button>
+      </div>
+      <div class="modal-content">
+        <div class="row" *ngIf="questionItem">
+          <label class="active teal-text ">Name</label>
+          <H5 class="grey-text darken-2">{{questionItem.name}}</H5>
         </div>
-        <div class="modal-content">
-          <div class="row" *ngIf="questionItem">
-            <label class="active teal-text ">Name</label>
-            <H5 class="grey-text darken-2">{{questionItem.name}}</H5>
-          </div>
-          <qddt-preview-questionitem [questionItem]="questionItem"></qddt-preview-questionitem>
-        </div>
+        <qddt-preview-questionitem [questionItem]="questionItem"></qddt-preview-questionitem>
       </div>
     </div>
   </div>

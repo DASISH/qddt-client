@@ -38,6 +38,7 @@ import { PreviewPublicationComponent } from './preview.publication.component';
   exports: [PreviewConceptComponent,PreviewConceptListComponent,PreviewTopicComponent,
     PreviewTopicListComponent,PreviewStudyComponent,PreviewControlConstructComponent,PreviewQuestionitemComponent,
     PreviewResponsedomainComponent ,PreviewPublicationComponent]
+
 })
 
 export class PreviewModule { }

@@ -23,10 +23,6 @@
         <div class="col s10">{{concept?.name}}</div>
         <div class="col s2">
           <qddt-version-label [element]="concept"></qddt-version-label>
-          <!--<div class="text-align: right">-->
-            <!--<i *ngIf="concept?.version?.versionLabel === 'In Development'" class="material-icons white yellow-text font-size: 20px" title="In development">error</i>-->
-            <!--V{{concept?.version?.major}}.{{concept?.version?.minor}}-->
-          <!--</div>-->
         </div>
       </h5>
     </div>
@@ -94,7 +90,9 @@
       </div>
       <div class="tree-children">
         <qddt-concept-treenode *ngFor="let child of concept.children" [concept]="child"
-                               (deleteConceptEvent)="onDeleteConcept($event)"></qddt-concept-treenode>
+            (deleteConceptEvent)="onDeleteConcept($event)"
+            (conceptUpdatedAction)="onConceptUpdated($event)">
+        </qddt-concept-treenode>
       </div>
     </div>
   </div>

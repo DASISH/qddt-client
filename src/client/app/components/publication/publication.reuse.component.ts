@@ -1,7 +1,9 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
-import { PublicationStatus, PublicationService, ElementTypes, PublicationElement } from './publication.service';
+import { PublicationService } from './publication.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
+import { isUndefined } from 'util';
+import { ElementKind, QddtElementType, QddtElementTypes } from '../../common/preview/preview.service';
 
 @Component({
   selector: 'qddt-publication-reuse',
@@ -25,42 +27,29 @@ export class PublicationReuseComponent implements OnInit {
   showAddElement: boolean = false;
   showReplayElement: boolean = false;
   error: any;
-  elementTypes: any[] = ElementTypes;
+
   modalActions = new EventEmitter<string|MaterializeAction>();
-  queryFields: any[] = [
-    {id: 1, isMutipleFields: true,
-      placeholder: 'Search in module name or description',
-      fields: ['name', 'description']},
-    {id: 2, isMutipleFields: true,
-      placeholder: 'Search in concept name',
-      fields: ['name']},
-    {id: 3, isMutipleFields: true,
-      placeholder: 'Search in question name or question text',
-      fields: ['name', ['question','question']]},
-    {id: 4, isMutipleFields: false,
-      placeholder: 'Search in construct name, question name or question text',
-      fields: 'name'},
-    {id: 5, isMutipleFields: false,
-      placeholder: 'Search',
-      fields: 'name'},
-    {id: 6, isMutipleFields: false,
-      placeholder: 'Search',
-      fields: 'name'},
+  queryFields: QddtElementType[] = [
+    QddtElementTypes[ElementKind.TOPIC_GROUP],
+    QddtElementTypes[ElementKind.CONCEPT],
+    QddtElementTypes[ElementKind.QUESTIONITEM],
+    QddtElementTypes[ElementKind.QUESTION_CONSTRUCT],
+    QddtElementTypes[ElementKind.SEQUENCE_CONSTRUCT]
   ];
 
   elements: any[];
-  private elementType: number;
+  private selectedElementKind: ElementKind;
   private selectedElement: any;
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
   constructor(private service: PublicationService) {
-    this.elementType = 3;
+    this.selectedElementKind = ElementKind.TOPIC_GROUP;
     this.elements = [];
     this.searchKeysSubect
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
-        this.service.getElements(this.elementType, name)
+        this.service.searchElements(this.selectedElementKind, name)
           .subscribe((result: any) => {
             this.elements = result.content;
           }, (error: any) => {
@@ -73,8 +62,8 @@ export class PublicationReuseComponent implements OnInit {
     //
   }
 
-  onSelectElementType(id: number) {
-    this.elementType = id;
+  onSelectElementKind(kind: ElementKind) {
+    this.selectedElementKind = kind;
     this.selectedElement = null;
     this.elements = [];
   }
@@ -100,13 +89,16 @@ export class PublicationReuseComponent implements OnInit {
     this.selectedElement = null;
     return false;
   }
-
+  ;
   private popupModal(error: any) {
     this.error = error;
   }
 
-  private getElementType(elementId: number): string {
-    return this.elementTypes[elementId].type;
-  }
+   private getElementType(kind: ElementKind): QddtElementType {
+     let element: any = this.queryFields.find(e => e.id === kind);
+     if (element === undefined)
+       console.log('Couldn\'t find kind ' + ElementKind[kind] + ' ' + kind);
+     return element;
+   }
 
 }

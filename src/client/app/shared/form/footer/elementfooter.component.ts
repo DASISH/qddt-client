@@ -1,6 +1,6 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { MaterializeAction } from 'angular2-materialize/dist';
-import { ElementFooterService } from './elementfooter.service';
+// import { MaterializeAction } from 'angular2-materialize/dist';
+// import { ElementFooterService } from './elementfooter.service';
 
 @Component({
   selector: 'qddt-element-footer',
@@ -10,34 +10,35 @@ import { ElementFooterService } from './elementfooter.service';
     '.input-field label.active {padding-top:3px; !important;}'
   ],
   templateUrl: './elementfooter.component.html',
-  providers: [ElementFooterService]
+  providers: []
 })
 export class ElementFooterComponent {
 
   @Input() element: any;
   @Input() type: string;
   @Output() BasedonObjectDetail: any = new EventEmitter<any>();
-  elementActions = new EventEmitter<string|MaterializeAction>();
-  id: any;
   basedon: any;
 
-  constructor(private service: ElementFooterService) {
+  constructor() {
     this.basedon = null;
   }
 
-  onClick(id: string, rev:string) {
-    console.info('onClick ' + id + '-' + rev);
-    this.id = id;
-    this.BasedonObjectDetail.emit({id, rev});
-      // this.service.getelement(this.type, this.id, rev)
-      //   .subscribe(
-      //   (result: any) => {
-      //     this.basedon = result;
-      //     this.elementActions.emit({action:'modal', params:['open']});
-      //   },
-      //   (err: any) => {
-      //   }
-      // );
+  onClick(id: string, rev:string,type:string) {
+    console.info('onClick ' + id + '-' + rev + '-' + type);
+    this.BasedonObjectDetail.emit({id, rev, type});
+  }
+
+  getTime(): string {
+    let m = this.element.modified;
+    let date = new Date(Date.UTC(parseInt(m[0]),parseInt(m[1]),parseInt(m[2]),parseInt(m[3]),parseInt(m[4]),parseInt(m[5])));
+    return date.toISOString();
+  }
+
+  getVersion(): string {
+    let v = this.element.version;
+    let rev =(v.revision!==null)?  '.' + v.revision :'';
+    let label =(v.label!==undefined)?  ' - ' + v.label:'';
+    return v.major + '.' + v.minor + rev + label;
   }
 
 }

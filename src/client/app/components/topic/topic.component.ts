@@ -5,13 +5,15 @@ import { MaterializeAction } from 'angular2-materialize';
 import { QuestionItem } from '../../../../../dist/tmp/app/components/question/question.service';
 import { Study } from '../study/study.service';
 import { isNullOrUndefined } from 'util';
-import * as fileSaver from 'file-saver';
-// let fileSaver = require('../../../common/file-saver');
+//import * as fileSaver from 'file-saver';
+let fileSaver = require('../../common/file-saver');
 
 @Component({
   selector: 'qddt-topic',
   moduleId: module.id,
-  styles: ['.collection.with-header .collection-header {border-bottom: none; padding: 0px;}',
+  styles: [':host /deep/ .collection-item .row { min-height:3rem; margin-bottom:0px;border-bottom: none;}',
+          '.collection .collection-item {border-bottom: none; }',
+          '.collection.with-header .collection-header {border-bottom: none; padding: 0px;}',
           '.collection {border:none; }'],
   templateUrl: './topic.component.html',
   providers: [TopicService],
@@ -26,7 +28,7 @@ export class TopicComponent implements OnChanges {
   previewActions = new EventEmitter<string|MaterializeAction>();
 
   private topics:Topic[];
-  private topic: Topic;
+  private newchild: Topic;
   private revision:any;
   private showTopicForm: boolean = false;
   private showQuestionbutton: boolean = false;
@@ -34,20 +36,17 @@ export class TopicComponent implements OnChanges {
   private parentId:string;
 
   constructor(private topicService: TopicService) {
-    this.topic = new Topic();
+    this.newchild = new Topic();
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['study'] !== null && changes['study'] !== undefined
       && this.study !== null && this.study !== undefined
       && this.study.id !== null && this.study.id !== undefined) {
-      this.topics = [];
+      console.log('ngOnChanges topic');
       this.topicService.getAll(this.study.id)
         .subscribe((result: any) => {
-          this.topics = result;
-          this.topics.forEach((topic: any) => {
-            topic.workinprogress = (topic.version.versionLabel === 'In Development');
-          });
+            this.topics = result;
         },
         (error: any) => console.log(error));
     }
@@ -66,20 +65,21 @@ export class TopicComponent implements OnChanges {
     this.topicSelectedEvent.emit(topic);
   }
 
-  onTopicSavedEvent(topic: any) {
+  onTopicSavedEvent(topic: Topic) {
     this.topics = this.topics.filter((s: any) => s.id !== topic.id);
-    topic.workinprogress = (topic.version.versionLabel === 'In Development');
     this.topics.push(topic);
-
   }
 
-  onSave() {
+
+  onNewSave() {
     this.showTopicForm = false;
-    this.topicService.save(this.topic,this.study.id)
+    // this.showProgressBar = true;
+    this.topicService.save(this.newchild,this.study.id)
       .subscribe((result: any) => {
         this.topics.push(result);
+        // this.showProgressBar = true;
       }, (error: any) => console.log(error));
-    this.topic  = new Topic();
+    this.newchild  = new Topic();
   }
 
   onDownloadFile(o: any) {
@@ -101,23 +101,26 @@ export class TopicComponent implements OnChanges {
       error => console.log(error));
   }
 
-  onAddQuestionItem(topicId,questionItem: any) {
-
-    this.topicService.attachQuestion(topicId,questionItem.id,questionItem['questionItemRevision'])
-      .subscribe((result: any) => {
-        this.topics.push(result);
-      }, (error: any) => console.log(error));
-  }
-
   onClickQuestionItem(questionItem) {
     this.questionItem = questionItem;
     this.questionItemActions.emit({action:'modal', params:['open']});
   }
 
-  onRemoveQuestionItem(id: any) {
-    this.topicService.deattachQuestion(this.topic.id, id)
+  onAddQuestionItem(questionItem: any, topicId:any) {
+    console.log(questionItem);
+    this.topicService.attachQuestion(topicId,questionItem.id,questionItem['questionItemRevision'])
       .subscribe((result: any) => {
-          this.topic = result;
+        this.onTopicSavedEvent(result);
+      }, (error: any) => console.log(error));
+  }
+
+  onRemoveQuestionItem(id:any) {
+    this.topicService.deattachQuestion(id.parentId, id.questionItemId)
+      .subscribe((result: any) => {
+          let topic = this.topics.find((s: any) => s.id === id.parentId);
+          if(!isNullOrUndefined(topic)) {
+            topic.topicQuestionItems = topic.topicQuestionItems.filter(qi => qi.id !== id);
+          }
         }
         , (err: any) => console.log('ERROR: ', err));
   }
@@ -127,14 +130,10 @@ export class TopicComponent implements OnChanges {
     if (!isNullOrUndefined(topicId) && topicId.length === 36) {
       this.topicService.deleteTopic(topicId)
         .subscribe((result: any) => {
-          let i = this.topics.findIndex(q => q['id'] === topicId);
-          if (i >= 0) {
-            this.topics.splice(i, 1);
-          }
-        },
+            this.topics = this.topics.filter((s: any) => s.id !== topicId);
+          },
         (error: any) => {
-        console.log(error);
-
+          console.log(error);
         });
     }
   }

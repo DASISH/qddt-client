@@ -1,6 +1,9 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { QuestionService, QuestionItem } from './question.service';
 import { Subject } from 'rxjs/Subject';
+import { ResponseDomain } from '../responsedomain/responsedomain.service';
+import { ElementKind } from '../../common/preview/preview.service';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'qddt-questionitem-reuse',
@@ -14,7 +17,7 @@ export class QuestionReuseComponent {
   @Output() dismissEvent: any = new EventEmitter<any>();
   reuseQuestionItem: boolean;
   selectedIndex: number;
-  materializeActions = new EventEmitter<any>();
+  closeReuseActions = new EventEmitter<any>();
   questionItem: QuestionItem;
   revisionIsVisible: boolean = false;
   config: any[];
@@ -22,6 +25,7 @@ export class QuestionReuseComponent {
   elementRevisions: any[];
   elementRevision: any;
   selectedElement: any;
+  // private questionItemKind: ElementKind = ElementKind.QUESTION_CONSTRUCT;
   private mainresponseDomainRevision: number;
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
@@ -60,17 +64,23 @@ export class QuestionReuseComponent {
   }
 
   onUseElement() {
-     if(this.reuseQuestionItem) {
+    console.log(this.elementRevision);
+    console.log(this.selectedElement) ;
+    if(this.reuseQuestionItem) {
+      if (isNullOrUndefined(this.questionItem ))
+        this.questionItem = this.selectedElement;
+
       this.questionItem['questionItemRevision'] = this.elementRevision;
+      console.log(this.questionItem);
       this.questionItemCreatedEvent.emit(this.questionItem);
       this.questionItem = null;
-      this.materializeActions.emit({action:'modal', params:['close']});
+      this.closeQuestionReuseModal();
     }
   }
 
-  onDismiss() {
-    this.dismissEvent.emit(true);
-  }
+  // onDismiss() {
+  //   this.dismissEvent.emit(true);
+  // }
 
   searchQuestionItems(name: string) {
     this.searchKeysSubect.next(name);
@@ -91,14 +101,18 @@ export class QuestionReuseComponent {
   }
 
   openModal2() {
-    this.materializeActions.emit({action:'modal', params:['open']});
+    this.closeReuseActions.emit({action:'modal', params:['open']});
     this.questionService.getQuestionItemPage().subscribe(
       result => { this.questionItems = result.content;
       }, (error: any) => console.log(error));
   }
 
-  closeModal() {
-    this.materializeActions.emit({action:'modal', params:['close']});
+  closeQuestionReuseModal() {
+    this.closeReuseActions.emit({action:'modal', params:['close']});
+  }
+
+  responseDomainReuse(rd: ResponseDomain) {
+    this.questionItem.responseDomain = rd;
   }
 
   private buildRevisionConfig(): any[] {

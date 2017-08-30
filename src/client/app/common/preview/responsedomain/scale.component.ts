@@ -1,7 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { ResponseDomain } from '../../../components/responsedomain/responsedomain.service';
 import { Category, Code } from '../../../components/category/category.service';
-import { isNullOrUndefined, isUndefined } from 'util';
 
 @Component({
   selector: 'qddt-preview-rd-scale',
@@ -61,40 +60,40 @@ export class ResponsedomainScaleComponent implements OnChanges {
     this.header = [];
     let categories: Category[] = [];
     let colspan: number=0;
-    let colspanCenter: number=0;
-    let center: number= -1;
+    let usedCols: number=0;
     let rep = this.responseDomain.managedRepresentation;
 
     if (rep !== undefined && rep.children !== undefined) {
-      let cols = rep.inputLimit.maximum - rep.inputLimit.minimum + 1;
-      categories = rep.children.map(x => Object.assign({}, x)); //copy array, no reference
-      colspan = Math.floor(cols / categories.length);
-
-      if (categories.length % 2 > 0) {        // if odd number of Cats, add unused columns to center Cat
-        colspanCenter = cols % categories.length + colspan;
-        center = Math.floor(categories.length / 2);
-
-      } else if (colspan * categories.length !== cols) { // if even number of Cats and we have unused columns, add a Cat with unused columns
-        colspanCenter = cols % rep.children.length;
-        categories.splice(Math.floor(categories.length / 2), 0, new Category());
-        center = Math.floor(categories.length / 2);
-
-      }  //even number of Cats and no unused columns, do nothing...
+      let numberOfcols = rep.inputLimit.maximum - rep.inputLimit.minimum + 1;
+      categories = rep.children.map(x => Object.assign({}, x)).sort(function(a, b) {
+        return  parseInt(a.code.codeValue) - parseInt(b.code.codeValue);} ); //copy array, no reference
+      colspan = Math.floor(numberOfcols / categories.length);
+      colspan = (colspan>3)?3:colspan;
 
       for (let i = 0; i < categories.length; i++) {
         if (categories[i].code === undefined ) {
           categories[i].code = new Code();
+          categories[i].code.codeValue =  (rep.inputLimit.minimum + (i*colspan)).toString();
         }
+        let nextcol = parseInt(categories[i].code.codeValue)-rep.inputLimit.minimum;
 
-        if (categories[i].code.alignment === '' ) {
-          categories[i].code.alignment = 'text-left';
+        if (usedCols+1 <= nextcol) {
+          if (nextcol+usedCols+colspan > numberOfcols)
+            nextcol = numberOfcols - colspan;
+          if ((nextcol-usedCols >0)) {
+            this.header.push({
+              label: '',
+              colspan: (nextcol - usedCols),
+              width: (nextcol - usedCols) / numberOfcols * 100
+            });
+            usedCols += (nextcol - usedCols);
+          }
         }
-        if (i === center)
-          this.header.push({label: categories[i].label, colspan: colspanCenter,
-            class: categories[i].code.alignment, width:colspanCenter/cols*100});
-        else
-          this.header.push({label: categories[i].label, colspan: colspan,
-            class: categories[i].code.alignment, width:colspan/cols*100});
+        this.header.push({label: categories[i].label,
+          colspan: colspan,
+          class: categories[i].code.alignment,
+          width:colspan/numberOfcols*100});
+        usedCols += colspan;
       }
     }
     for (let i = this.min; i <= this.max; i++) {

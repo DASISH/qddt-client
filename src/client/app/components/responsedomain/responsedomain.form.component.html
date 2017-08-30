@@ -4,7 +4,7 @@
       [responseDomain]="previewResponseDomain">
 		</qddt-preview-responsedomain>
 
-		<form (ngSubmit)="onSave()" #hf="ngForm">
+		<form (ngSubmit)="onSave()" #hf="ngForm" >
 			<div class="row">
 				<div class="col s12">
 					<label for="name" class="active teal-text">Name</label>
@@ -26,20 +26,22 @@
               <div class="col l3">
                 <label for="scale_start" class="active">Start</label>
                 <input id="scale_start" name="scale_start" type="number"
+                  [attr.max]="responsedomain.managedRepresentation.inputLimit.maximum -1"
 								  (ngModelChange)="buildPreviewResponseDomain()"
 					        [(ngModel)]="responsedomain.managedRepresentation.inputLimit.minimum" required>
               </div>
               <div class="col l3">
                 <label for="scale_end" class="active">End</label>
                 <input id="scale_end" name="scale_end" type="number"
-								  (ngModelChange)="buildPreviewResponseDomain()"
+                       [attr.min]="responsedomain.managedRepresentation.inputLimit.minimum +1"
+                       (ngModelChange)="buildPreviewResponseDomain()"
 					        [(ngModel)]="responsedomain.managedRepresentation.inputLimit.maximum" required>
               </div>
               <div class="col l3">
                 <label for="scale_anchor" class="active">Number of Anchor</label>
                 <input id="scale_anchor" name="scale_anchor" type="number" [(ngModel)]="numberOfAnchors"
-                       min="0"
-                       [attr.max]="responsedomain.managedRepresentation.inputLimit.maximum - responsedomain.managedRepresentation.inputLimit.minimum + 1"
+                       [attr.min]="0"
+                       [attr.max]="[responsedomain.managedRepresentation.inputLimit.maximum] - [responsedomain.managedRepresentation.inputLimit.minimum] + 1"
                        (ngModelChange)="changeNumberOfAnchors($event)" required>
               </div>
 							<div class="col l3 input-field">
@@ -58,33 +60,39 @@
 						  <thead><tr><td>Code</td><td>Anchor Alignment</td><td>Category</td></tr></thead>
 							<tbody>
 								<tr *ngFor="let category of responsedomain.managedRepresentation.children; let idx=index">
-									<td><input name="{{idx}}-code-value" type="text"
+									<td>
+                    <input id="{{idx}}-code-value" name="{{idx}}-code-value" type="number"
+                           [attr.min]="responsedomain.managedRepresentation.inputLimit.minimum"
+                           [attr.max]="responsedomain.managedRepresentation.inputLimit.maximum"
 									  (ngModelChange)="buildPreviewResponseDomain()"
-									  [(ngModel)]="category.code.codeValue" required></td>
+									  [(ngModel)]="category.code.codeValue" required>
+                  </td>
                   <td>
                     <div class="input-field">
-                      <select id="{{idx}}placeholderAlignment" name="{{idx}}placeholderAlignment" materialize="material_select"
-                              (ngModelChange)="buildPreviewResponseDomain()"
-                              [(ngModel)]="category.code.alignment" required>
-                        <option value="text-left">Left</option>
-                        <option value="text-center">Center</option>
-                        <option value="text-right">Right</option>
+                      <select id="{{idx}}placeholderAlignment" name="{{idx}}placeholderAlignment"
+                              [ngModel]="category.code.alignment"
+                              (ngModelChange)="onSelectAligment($event, idx)"
+                      materialize="material_select">
+                      <option [value]="'text-left'">Left</option>
+                      <option [value]="'text-center'">Center</option>
+                      <option [value]="'text-right'">Right</option>
                       </select>
                     </div>
                   </td>
-									<td>
-										<div [ngClass]="{ noItemFound: (category.isNew && category.label.length > 0 && categories.length === 0) }">
-										  <autocomplete [items]="categories" class="black-text"
-                        [searchField]="'label'"
-												[searchFromServer]="true"
-                        (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
-                        [initialValue]="category?.label"
-                        (autocompleteSelectEvent)="select($event)"
-												(enterEvent)="searchCategories($event)">
-											</autocomplete>
-										</div>
-									</td>
-								</tr>
+                  <td>
+                    <div
+                      [ngClass]="{ noItemFound: (category.isNew && category.label.length > 0 && categories.length === 0) }">
+                      <autocomplete [items]="categories" class="black-text"
+                                    [searchField]="'label'"
+                                    [searchFromServer]="true"
+                                    (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
+                                    [initialValue]="category?.label"
+                                    (autocompleteSelectEvent)="select($event)"
+                                    (enterEvent)="searchCategories($event)">
+                      </autocomplete>
+                    </div>
+                  </td>
+                </tr>
 							</tbody>
 						</table>
 					</div>
@@ -145,23 +153,28 @@
 						</div>
 					</div>
 					<div *ngSwitchCase="domainTypeDef.NUMERIC">
-						<table *ngIf="responsedomain.managedRepresentation">
-						  <thead><tr><td>Numeric Range</td><td>Value</td></tr></thead>
-							<tbody>
-								<tr>
-								  <td><label>Low</label></td>
-								  <td><input id="representation_low" name="representation_low" type="text"
-									  (ngModelChange)="buildPreviewResponseDomain()"
-									  [(ngModel)]="responsedomain.managedRepresentation.inputLimit.minimum" required></td>
-								</tr>
-								<tr>
-								  <td><label>High</label></td>
-								  <td><input id="representation_high" name="representation_high" type="text"
-									  (ngModelChange)="buildPreviewResponseDomain()"
-									  [(ngModel)]="responsedomain.managedRepresentation.inputLimit.maximum" required></td>
-								</tr>
-							</tbody>
-						</table>
+            <div class="row" *ngIf="responsedomain.managedRepresentation">
+              <div class="col l2">
+                <label for="representation_low" class="active">Low</label>
+                <input id="representation_low" name="representation_low" type="number"
+                       (ngModelChange)="buildPreviewResponseDomain()"
+                       [(ngModel)]="responsedomain.managedRepresentation.inputLimit.minimum" required>
+              </div>
+              <div class="col l2">
+                <label for="representation_high" class="active">High</label>
+                <input id="representation_high" name="representation_high" type="number"
+                       (ngModelChange)="buildPreviewResponseDomain()"
+                       [(ngModel)]="responsedomain.managedRepresentation.inputLimit.maximum" required>
+              </div>
+              <div class="col l2">
+                <label for="representation_decimal" class="active">Number of Decimal</label>
+                <input id="representation_decimal" name="representation_decimal" type="number"
+                       [attr.min]="0"
+                       [attr.max]="10"
+                       (ngModelChange)="buildPreviewResponseDomain()"
+                       [(ngModel)]="responsedomain.managedRepresentation.format" required>
+              </div>
+            </div>
 					</div>
 					<div *ngSwitchCase="domainTypeDef.TEXT">
 						<table *ngIf="responsedomain.managedRepresentation">
@@ -210,7 +223,7 @@
 			<div *ngIf="!responsedomain.isNew" class="row">
 				<qddt-element-footer [element]="responsedomain"
 				  (BasedonObjectDetail)="onBasedonObjectDetail($event)"
-				  [type]="'responsedomain'"></qddt-element-footer>
+				  [type]="'RESPONSEDOMAIN'"></qddt-element-footer>
 			</div>
       <div class="row right-align">
 			  <button *ngIf="!readonly" type="submit" class="btn btn-default">Submit</button>
@@ -225,10 +238,21 @@
   <div class="modal-content">
 		<h4>Basedon Object Detail</h4>
     <div class="row" *ngIf="basedonObject">
-			<qddt-responsedomain-form [readonly]="true"
-			  [responsedomain]="basedonObject"
-				[domainType]="domainType">
-			</qddt-responsedomain-form>
+			<qddt-preview-responsedomain
+			  [responseDomain]="basedonObject">
+			</qddt-preview-responsedomain>
+      <div class="row" *ngIf="basedonObject.name">
+        <label class="active teal-text">Name</label>
+        <p [innerHtml]="basedonObject.name"></p>
+      </div>
+      <div class="row" *ngIf="basedonObject.description">
+        <label class="active teal-text">Description</label>
+        <p [innerHtml]="basedonObject.description"></p>
+      </div>
+      <qddt-element-footer
+        [element]="basedonObject"
+        [type]="'RESPONSEDOMAIN'">
+      </qddt-element-footer>
     </div>
   </div>
   <div class="modal-footer">

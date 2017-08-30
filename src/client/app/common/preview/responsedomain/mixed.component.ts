@@ -49,7 +49,7 @@ export class ResponsedomainMixedComponent implements OnChanges {
     for (let i = 0; i < rep.children.length; i++) {
       let rd = new ResponseDomain();
       rd['id'] = new Date().toString();
-      rd['responseCardinality'] = { minimum: '1', maximum: '1' };
+      rd['responseCardinality'] = { minimum: 1, maximum: 1 };
       rd['managedRepresentation'] = rep.children[i];
       rd['version'] = rep.children[i]['version'];
       rd['name'] = rep.children[i]['name'] || '';

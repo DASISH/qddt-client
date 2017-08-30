@@ -1,8 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ConceptService, Concept } from './concept.service';
 import { MaterializeAction } from 'angular2-materialize';
-import * as fileSaver from 'file-saver';
-// let fileSaver = require('../../../common/file-saver');
+//import * as fileSaver from 'file-saver';
+let fileSaver = require('../../common/file-saver');
 
 @Component({
   selector: 'qddt-concept-treenode',
@@ -24,6 +24,7 @@ import * as fileSaver from 'file-saver';
 
 export class TreeNodeComponent {
   @Output() deleteConceptEvent: EventEmitter<any> = new EventEmitter();
+  @Output() conceptUpdatedAction:EventEmitter<any> = new EventEmitter();
   @Input() concept: any;
   showConceptChildForm: boolean = false;
   showQuestionForm: boolean = false;
@@ -42,7 +43,12 @@ export class TreeNodeComponent {
 
   onConceptSavedEvent(concept: any) {
     this.concept.version = concept.version;
+    this.conceptUpdatedAction.emit(concept);
     // this.concept.workinprogress = (concept.version.versionLabel === 'In Development');
+  }
+
+  onConceptUpdated(concept:any) {
+    this.conceptUpdatedAction.emit(concept);
   }
 
   onDeleteConcept(concept: any) {
@@ -69,6 +75,7 @@ export class TreeNodeComponent {
     this.conceptService.updateConcept(this.concept)
       .subscribe((result: any) => {
         this.concept = result;
+        this.onConceptSavedEvent(result);
       }, (error: any) => console.log(error));
   }
 
@@ -76,20 +83,16 @@ export class TreeNodeComponent {
     this.conceptService.deattachQuestion(this.concept.id, questionItem)
       .subscribe((result: any) => {
         this.concept = result;
-      }
+          this.onConceptSavedEvent(result);
+        }
       , (err: any) => console.log('ERROR: ', err));
   }
 
   setQuestionItem(questionItem: any) {
-    // let i = this.concept.conceptQuestionItems.findIndex((q: any) => q['id'] !== undefined
-    //   && q['id'] !== null && q['id']['questionItemId'] === questionItem['id']);
-    // if (i < 0) {
-    //   let questionitem: any = { 'id': { questionItemId: questionItem.id, conceptId: this.concept.id },
-    //     'questionItemRevision': questionItem['questionItemRevision']
-    //   };
       this.conceptService.attachQuestion(this.concept.id,questionItem.id,questionItem['questionItemRevision'])
         .subscribe((result: any) => {
           this.concept = result;
+          this.onConceptSavedEvent(result);
         }, (error: any) => console.log(error));
   }
 
@@ -97,7 +100,7 @@ export class TreeNodeComponent {
     let fileName = concept.name + '.pdf';
     this.conceptService.getPdf(concept.id).subscribe(
       (data: any) => {
-        fileSaver.saveAs(data, fileName);
+        fileSaver(data, fileName);
       },
       error => console.log(error));
   }

@@ -3,13 +3,14 @@ import { Http, RequestOptions, Headers, ResponseContentType } from '@angular/htt
 import { API_BASE_HREF } from '../../api';
 import { BaseService } from '../../common/base.service';
 import { Observable }     from 'rxjs/Observable';
+import { ElementKind, QddtElementType, QddtElementTypes } from '../../common/preview/preview.service';
 
-export const PUBLICATIONNOTPUBLISHED = { 'id': 0, 'name': 'NOTPUBLISHED', 'label':'Not Published', 'children': [],
+export const PUBLICATION_NOT_PUBLISHED = { 'id': 0, 'name': 'NOTPUBLISHED', 'label':'Not Published', 'children': [],
   'description': 'Elements and discussion made available for key '
     + 'members of a questionnaire design sub'
     + ' group, but not designed to be published internally'};
 
-export const PublicationStatus: any = [
+export const PUBLICATION_STATUS: any = [
   {
     'id': 1, 'name': 'INTERNALPUBLICATION', 'label': 'Internal publication',
     'children': [
@@ -84,21 +85,20 @@ export const PublicationStatus: any = [
   }
 ];
 
-export const ElementTypes: any[] = [
-    {'id': 1, 'label': 'Module', 'path': 'topicgroup','type': 'Module',
-      'fields': ['name', 'description']},
-    {'id': 2, 'label': 'Concept', 'path': 'concept','type': 'Concept',
-      'fields': ['name']},
-    {'id': 3, 'label': 'QuestionItem', 'path': 'questionitem','type': 'QuestionItem',
-      'fields': ['name', 'question']},
-    {'id': 4, 'label': 'QuestionConstruct', 'path': 'controlconstruct','type': 'QuestionConstruct',
-      'fields': ['name', 'questiontext'], 'parameter': '&constructkind=QUESTION_CONSTRUCT'},
-  ];
+export const PUBLICATION_TYPES: QddtElementType[] = [
+  QddtElementTypes[ElementKind.TOPIC_GROUP],
+  QddtElementTypes[ElementKind.CONCEPT],
+  QddtElementTypes[ElementKind.QUESTIONITEM],
+  QddtElementTypes[ElementKind.QUESTION_CONSTRUCT],
+  QddtElementTypes[ElementKind.SEQUENCE_CONSTRUCT],
+];
 
 export class PublicationElement {
   id: string;
   revisionNumber: number;
-  elementKind: string;
+  elementKind: ElementKind;
+  name:string;
+  element:any;
 }
 
 export class Publication {
@@ -106,7 +106,7 @@ export class Publication {
   name: string;
   purpose: string;
   status: string;
-  publicationElements: any[];
+  publicationElements: PublicationElement[];
 }
 
 @Injectable()
@@ -155,9 +155,9 @@ export class PublicationService extends BaseService {
     return this.get('publication/page/search' + query);
   }
 
-  getElements(elementTypeId: number, name: string) {
+  searchElements(elementKind: ElementKind, name: string) {
     let query = '?';
-    let e: any = ElementTypes.find(e => e.id === elementTypeId);
+    let e: any = PUBLICATION_TYPES.find(e => e.id === elementKind);
     if (e !== undefined) {
       if (name.length > 0) {
         let fields: any[] = e.fields;
@@ -177,13 +177,14 @@ export class PublicationService extends BaseService {
     return this.get('concept/page/by-topicgroup/'+ topicId + '?page=0&size=50&sort=asc');
   }
 
-  getElementRevisions(elementTypeId: number, id: string) : any {
-    let e: any = ElementTypes.find(e => e.id === elementTypeId);
+  getElementRevisions(elementKind: ElementKind, id: string) : any {
+    let e: any = PUBLICATION_TYPES.find(e => e.id === elementKind);
     if (e !== undefined) {
       return this.get('audit/' + e.path + '/' + id + '/all');
     }
     return Observable.of([]);
   }
+
 
   getFile(id: string) {
     let headers = new Headers();

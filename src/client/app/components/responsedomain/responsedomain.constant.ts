@@ -3,6 +3,7 @@ export enum DomainType {
   LIST,
   MIXED,
   NUMERIC,
+  DATETIME,
   TEXT,
   MISSING,
 }

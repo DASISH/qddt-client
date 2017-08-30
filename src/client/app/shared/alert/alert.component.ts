@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AlertService } from './alter.service';
+import { AlertService } from './alert.service';
 
 @Component({
   moduleId: module.id,
@@ -8,7 +8,7 @@ import { AlertService } from './alter.service';
   templateUrl: 'alert.component.html'
 })
 
-export class AlertComponent implements OnInit{
+export class AlertComponent implements OnInit {
   message: any;
 
   constructor(private alertService: AlertService) { }

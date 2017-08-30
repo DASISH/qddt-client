@@ -3,7 +3,7 @@ import { ResponsedomainComponent } from './responsedomain.component';
 
 export const ResponsedomainRoutes: Route[] = [
   {
-    path: 'Responsedomains',
+    path: 'responsedomains',
     component: ResponsedomainComponent
   }
 ];

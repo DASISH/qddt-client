@@ -3,7 +3,7 @@ import { QuestionComponent } from './question.component';
 
 export const QuestionRoutes: Route[] = [
   {
-    path: 'Questions',
+    path: 'questions',
     component: QuestionComponent
   }
 ];
