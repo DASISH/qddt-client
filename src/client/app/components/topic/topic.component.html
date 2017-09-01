@@ -14,13 +14,13 @@
             <form (ngSubmit)="onNewSave()" #hf="ngForm">
               <div class="row">
                 <div class="input-field col">
-                  <input id="name" name="name" type="text" [(ngModel)]="topic.name" required>
+                  <input id="name" name="name" type="text" [(ngModel)]="newTopic.name" required>
                   <label for="name" class="white-text">Name</label>
                 </div>
               </div>
               <div class="row">
                 <div class="input-field col s10">
-                  <textarea id="description" name="description" class="materialize-textarea" [(ngModel)]="topic.abstractDescription"
+                  <textarea id="description" name="description" class="materialize-textarea" [(ngModel)]="newTopic.abstractDescription"
                             required></textarea>
                   <label for="description" class="white-text">Description</label>
                 </div>
@@ -60,7 +60,7 @@
                 </div>
               </h5>
               <qddt-topic-edit [isVisible]="edit.isVisible" [topic]="currentElement"
-                               (topicSavedEvent)="onTopicSavedEvent($event)"
+                               (topicSavedAction)="onTopicSavedEvent($event)"
                                #edit>
               </qddt-topic-edit>
               <div class="row">

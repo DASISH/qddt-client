@@ -28,7 +28,7 @@ export class TopicComponent implements OnChanges {
   previewActions = new EventEmitter<string|MaterializeAction>();
 
   private topics:Topic[];
-  private newchild: Topic;
+  private newTopic: Topic;
   private revision:any;
   private showTopicForm: boolean = false;
   private showQuestionbutton: boolean = false;
@@ -36,7 +36,7 @@ export class TopicComponent implements OnChanges {
   private parentId:string;
 
   constructor(private topicService: TopicService) {
-    this.newchild = new Topic();
+    this.newTopic = new Topic();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -65,21 +65,27 @@ export class TopicComponent implements OnChanges {
     this.topicSelectedEvent.emit(topic);
   }
 
-  onTopicSavedEvent(topic: Topic) {
-    this.topics = this.topics.filter((s: any) => s.id !== topic.id);
-    this.topics.push(topic);
+  onTopicSavedEvent(topic: any) {
+    console.log('onTopicSavedEvent ' + topic.name);
+    let index = this.topics.findIndex((e:any) => e.id === topic.id);
+    if(index >= 0) {
+      this.topics[index] = topic;
+    } else {
+      this.topics.push(topic);
+    }
+    // this.topics = this.topics.filter((s: any) => s.id !== topic.id);
+    // this.topics.push(topic);
   }
-
 
   onNewSave() {
     this.showTopicForm = false;
     // this.showProgressBar = true;
-    this.topicService.save(this.newchild,this.study.id)
+    this.topicService.save(this.newTopic,this.study.id)
       .subscribe((result: any) => {
         this.topics.push(result);
         // this.showProgressBar = true;
       }, (error: any) => console.log(error));
-    this.newchild  = new Topic();
+    this.newTopic  = new Topic();
   }
 
   onDownloadFile(o: any) {
@@ -124,7 +130,6 @@ export class TopicComponent implements OnChanges {
         }
         , (err: any) => console.log('ERROR: ', err));
   }
-
 
   onRemoveTopic(topicId: string) {
     if (!isNullOrUndefined(topicId) && topicId.length === 36) {

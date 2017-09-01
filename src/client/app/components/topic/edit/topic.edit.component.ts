@@ -22,7 +22,7 @@ export class TopicEditComponent {
 
   @Input() topic: Topic;
   @Input() isVisible: boolean;
-  @Output() topicSavedEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() topicSavedAction = new EventEmitter<any>();
   errors: string[];
   showErrorActions = new EventEmitter<MaterializeAction>();
   private showUploadFileForm: boolean;
@@ -113,7 +113,8 @@ export class TopicEditComponent {
       },
       function () {
         service.edit(topic).subscribe((result: any) => {
-          this.topicSavedEvent.emit(result);
+          this.topic = result;
+          this.topicSavedAction.emit(result);
         }, (error: any) => {
           errors.push(error);
           actions.emit({action:'modal', params:['open']});
