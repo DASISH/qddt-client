@@ -2,9 +2,9 @@ import { Component, EventEmitter, Output, Input, OnChanges, SimpleChanges } from
 
 import { TopicService, Topic } from './topic.service';
 import { MaterializeAction } from 'angular2-materialize';
-import { QuestionItem } from '../../../../../dist/tmp/app/components/question/question.service';
 import { Study } from '../study/study.service';
 import { isNullOrUndefined } from 'util';
+import { QuestionItem } from '../question/question.service';
 //import * as fileSaver from 'file-saver';
 let fileSaver = require('../../common/file-saver');
 
