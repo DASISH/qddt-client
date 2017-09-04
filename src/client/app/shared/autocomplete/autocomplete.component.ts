@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
+import { QddtElementType } from '../../common/preview/preview.service';
 
 @Component({
   selector: 'autocomplete',
@@ -9,9 +10,17 @@ import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angu
 
 export class AutocompleteComponent implements OnInit, OnChanges {
   @Input() items:  any[];
-  @Input() searchField: any;
+  /**
+   * These 3 or...
+   */
+  @Input() searchField: any[];
   @Input() placeholder: string;
   @Input() isMultipleFields: boolean;
+  /**
+   * This input variable
+   */
+  @Input() elementtype:QddtElementType;
+
   /**
    * set initial value
    */
@@ -19,7 +28,9 @@ export class AutocompleteComponent implements OnInit, OnChanges {
   /**
    * searchable results from server
    */
-  @Input() searchFromServer: boolean;
+  @Input() searchFromServer: boolean = true;
+
+
   @Output() autocompleteSelectEvent: EventEmitter<any> = new EventEmitter<any>();
   @Output() autocompleteFocusEvent: EventEmitter<any> = new EventEmitter<any>();
   @Output() enterEvent: EventEmitter<any> = new EventEmitter<any>();
@@ -35,14 +46,17 @@ export class AutocompleteComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.value = this.initialValue;
-    if(this.isNull(this.searchFromServer)) {
-      this.searchFromServer = false;
-    }
-    if(this.isNull(this.placeholder)) {
-      this.placeholder = 'Search';
-    }
-    if(this.isNull(this.isMultipleFields)) {
-      this.isMultipleFields = false;
+    if (!this.isNull(this.elementtype)) {
+      this.placeholder = this.elementtype.placeholder();
+      this.isMultipleFields = this.elementtype.isMultipleFields();
+      this.searchField = this.elementtype.fields;
+    } else {
+      if (this.isNull(this.placeholder)) {
+        this.placeholder = 'Search';
+      }
+      if (this.isNull(this.isMultipleFields)) {
+        this.isMultipleFields = false;
+      }
     }
   }
 
@@ -68,7 +82,7 @@ export class AutocompleteComponent implements OnInit, OnChanges {
 
   select(candidate: any) {
     this.showAutoComplete = false;
-    this.value = candidate[this.searchField];
+    // this.value = candidate[this.searchField];
     this.autocompleteSelectEvent.emit(candidate);
   }
 

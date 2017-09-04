@@ -167,6 +167,10 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
       });
   }
 
+  newPublication():Publication {
+    this.publication = new Publication();
+    return this.publication;
+  }
   onCreatePublication() {
     this.showPublicationForm = false;
     this.publication['changeKind'] = 'CREATED';

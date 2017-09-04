@@ -1,10 +1,12 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, AfterViewInit } from '@angular/core';
 import { CategoryService, Category, ResponseCardinality } from '../category/category.service';
 import { DomainType, DomainTypeDescription } from './responsedomain.constant';
-import { ResponseDomainService } from './responsedomain.service';
+import { ResponseDomain, ResponseDomainService } from './responsedomain.service';
 import { Observable }     from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
+
+declare let Materialize: any;
 
 @Component({
   selector: 'qddt-responsedomain-form',
@@ -18,8 +20,9 @@ import { MaterializeAction } from 'angular2-materialize';
   providers: [CategoryService],
 })
 
-export class ResponsedomainFormComponent implements OnInit {
-  @Input() responsedomain: any;
+
+export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
+  @Input() responsedomain: ResponseDomain;
   @Input() domainType: DomainType;
   @Input() readonly: boolean;
   @Output() formChange: EventEmitter<any>;
@@ -29,20 +32,22 @@ export class ResponsedomainFormComponent implements OnInit {
   basedonObject: any;
 
   public domainTypeDef = DomainType;
-  private categories: any;
-  // private codes: string[];
+  private categories: Category[];
+  private showbuttons:boolean =false;
   private selectedCategoryIndex: number;
   private suggestions: Category[];
   private numberOfAnchors: number;
+  private min: number;
+  private max: number;
 
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
   constructor(private categoryService: CategoryService, private service: ResponseDomainService) {
-    // this.codes = [];
+
     this.selectedCategoryIndex = 0;
     this.formChange = new EventEmitter<any>();
     this.numberOfAnchors = 0;
-    // this.usedBy = [];
+
     this.searchKeysSubect
       .debounceTime(300)
       .distinctUntilChanged()
@@ -51,6 +56,11 @@ export class ResponsedomainFormComponent implements OnInit {
           this.categories = result.content;
         });
       });
+  }
+
+  ngAfterViewInit() {
+    console.log('ngAfterViewChecked');
+    Materialize.updateTextFields();
   }
 
   ngOnInit() {
@@ -94,6 +104,8 @@ export class ResponsedomainFormComponent implements OnInit {
       this.categories = result.content;
     });
     this.previewResponseDomain = this.responsedomain;
+
+    // haven't really looked into how to handle form groups or binds using ngModel
   }
 
   select(candidate: any) {
@@ -110,7 +122,7 @@ export class ResponsedomainFormComponent implements OnInit {
     let source = Observable.range(0, category.children.length)
       .concatMap((x: any) => {
         let c = category.children[x];
-        if (c.isNew === true) {
+        if (c['isNew'] === true) {
           let newCategory = new Category();
           newCategory.label = c.label;
           newCategory.name = c.label;
@@ -129,7 +141,7 @@ export class ResponsedomainFormComponent implements OnInit {
     source.subscribe(
       function (x: any) {
         if (index < category.children.length) {
-          if(category.children[index].isNew === true) {
+          if(category.children[index]['isNew'] === true) {
             x.code = category.children[index].code;
           }
           category.children[index] = x;
@@ -204,7 +216,7 @@ export class ResponsedomainFormComponent implements OnInit {
   }
 
   searchCategories(name: string) {
-    this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex].isNew = true;
+    this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex]['isNew'] = true;
     this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex].label = name;
     this.searchKeysSubect.next(name);
   }
@@ -278,6 +290,8 @@ export class ResponsedomainFormComponent implements OnInit {
     this.previewResponseDomain['managedRepresentation'] = this.responsedomain.managedRepresentation;
     this.previewResponseDomain['responseCardinality'] = this.responsedomain.responseCardinality;
     this.previewResponseDomain['displayLayout'] = this.responsedomain.displayLayout;
+    this.min = this.responsedomain.managedRepresentation.inputLimit.minimum+1;
+    this.max = this.responsedomain.managedRepresentation.inputLimit.maximum-1;
   }
 
 

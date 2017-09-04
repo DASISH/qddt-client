@@ -2,7 +2,6 @@ import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { QuestionService, QuestionItem } from './question.service';
 import { Subject } from 'rxjs/Subject';
 import { ResponseDomain } from '../responsedomain/responsedomain.service';
-import { ElementKind } from '../../common/preview/preview.service';
 import { isNullOrUndefined } from 'util';
 
 @Component({
@@ -96,7 +95,7 @@ export class QuestionReuseComponent {
         this.elementRevisions = result.content.sort((e1: any, e2: any) => e2.revisionNumber - e1.revisionNumber);
         this.onSelectElementRevisions();
       },
-        (error: any) => { console.log('error'); });
+        (error: any) => { console.log('error ' + error); });
     }
   }
 

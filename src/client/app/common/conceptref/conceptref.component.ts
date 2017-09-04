@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input,  EventEmitter } from '@angular/core';
 import { ConceptrefService } from './conceptref.service';
 import { MaterializeAction } from 'angular2-materialize';
 
@@ -14,6 +14,7 @@ export class ConceptrefComponent  {
   usedbyModalAction = new EventEmitter<string|MaterializeAction>();
   private selectedType: string;
   private selectedElement: any;
+  private showRefs: any;
 
   constructor(private service: ConceptrefService) {
   }

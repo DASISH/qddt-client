@@ -10,7 +10,7 @@ let fileSaver = require('../../common/file-saver');
   moduleId: module.id,
   templateUrl:'controlconstruct.form.component.html',
   styles: [
-    '.nomargin: { margin:0; }',
+    '.nomargin { margin:0; }',
     ':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'
   ],
   providers: [ControlConstructService],
@@ -147,7 +147,7 @@ export class ControlConstructFormComponent implements OnInit {
   }
 
   onSaveControlConstruct() {
-    console.info('onSaveControlConstruct')
+    console.info('onSaveControlConstruct');
     let controlConstruct = this.controlConstruct;
     let files = this.fileStore;
     let len = files.length;

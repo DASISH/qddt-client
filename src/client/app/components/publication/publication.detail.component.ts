@@ -48,16 +48,7 @@ export class PublicationDetailComponent implements OnInit {
     }
   }
 
-  onSelectChange(value: number) {
-    if(typeof value === 'string') {
-      value = parseInt(value);
-    }
-    let status:any = this.predefinedStatus.find((e: any) => e.id === value);
-    if(status !== undefined) {
-      this.publication.status = status.label;
-      this.selectedPublicationStatusOption = status.description;
-    }
-  }
+
 
   hideDetail() {
     this.hideDetailEvent.emit('hide');
@@ -68,6 +59,8 @@ export class PublicationDetailComponent implements OnInit {
         let index = this.publications.findIndex((e:any) => e.id === result.id);
         if(index >= 0) {
           this.publications[index] = result;
+        } else {
+          this.publications.push(result);
         }
         this.hideDetail();
       }, (error: any) => {
@@ -82,22 +75,6 @@ export class PublicationDetailComponent implements OnInit {
     return element;
   }
 
-  private getElementbyKind(kind: ElementKind): QddtElementType {
-    let element: QddtElementType = PUBLICATION_TYPES.find(e => e.id === kind);
-    if (element === undefined)
-      console.log('Couldn\'t find kind ' + ElementKind[kind] + ' ' + kind);
-    return element;
-  }
-
-  onDeleteElement(index: number) {
-    if(index < this.publication.publicationElements.length) {
-      this.publication.publicationElements.splice(index, 1);
-    }
-  }
-
-  addElement(e: any) {
-    this.publication.publicationElements.push(e);
-  }
 
   getPdf(element: Publication) {
     let fileName = element.name + '.pdf';
@@ -107,5 +84,4 @@ export class PublicationDetailComponent implements OnInit {
       },
       error => console.log(error));
   }
-
 }

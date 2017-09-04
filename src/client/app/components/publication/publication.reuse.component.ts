@@ -2,7 +2,7 @@ import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { PublicationService } from './publication.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
-import { isUndefined } from 'util';
+// import { isUndefined } from 'util';
 import { ElementKind, QddtElementType, QddtElementTypes } from '../../common/preview/preview.service';
 
 @Component({
@@ -12,9 +12,6 @@ import { ElementKind, QddtElementType, QddtElementTypes } from '../../common/pre
   styles: [
     `label, [type="radio"] + label {
       padding-left: 25px;
-    }
-    .left {
-      padding-right: 20px;
     }`,
     ':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'
   ],
@@ -69,6 +66,7 @@ export class PublicationReuseComponent implements OnInit {
   }
 
   onSelectElement(e: any) {
+    console.info('onSelectElement');
     this.selectedElement = e;
   }
 
@@ -84,6 +82,7 @@ export class PublicationReuseComponent implements OnInit {
   }
 
   onUse(element: any) {
+    console.info('onUse');
     this.publicationElement.emit(element);
     this.showAddElement = false;
     this.selectedElement = null;

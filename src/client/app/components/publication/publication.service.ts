@@ -107,6 +107,9 @@ export class Publication {
   purpose: string;
   status: string;
   publicationElements: PublicationElement[];
+  constructor() {
+    this.publicationElements = [];
+  }
 }
 
 @Injectable()

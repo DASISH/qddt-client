@@ -30,9 +30,9 @@ let fileSaver = require('../../common/file-saver');
 <div class="section" *ngIf="topic?.topicGroupQuestions && topic?.topicGroupQuestions?.length>0" style="margin:20px; padding:5px;">
   <ul class="collapsible popout"  *ngIf="topic?.topicGroupQuestions" materialize="collapsible" 
     data-collapsible="expandable" style="padding: 5pt;">
-    <li *ngFor="let cqi of topic?.topicGroupQuestions; let idx=index">
+    <li *ngFor="let cqi of topic?.topicGroupQuestions;">
       <div class="collapsible-header green lighten-5">
-        <div class="row"  style="margin-bottom: 0px;">
+        <div class="row"  style="margin-bottom: 0;">
           <div class="col s10">QuestionItem [{{cqi?.questionItem?.name}}]</div>
         </div>
       </div>
@@ -42,10 +42,6 @@ let fileSaver = require('../../common/file-saver');
     </li>
   </ul>
 </div>
-<!--<div class="row" *ngIf="topic.authors && topic.authors.length>0">-->
-  <!--<p><label class="active teal-text">Authors</label></p>-->
-  <!--<qddt-author-chip [authors]="topic.authors"></qddt-author-chip>-->
-<!--</div>-->
 <div class="row">
   <qddt-comment-list [ownerId]="topic.id" [comments]="topic.comments"></qddt-comment-list>
 </div>

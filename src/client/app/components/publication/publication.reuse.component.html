@@ -13,7 +13,7 @@
   </div>
   <div class="row" *ngIf="showAddElement">
     <div class="row teal-text">
-		  <span name="col text">Element Type</span>
+		  <span>Element Type</span>
 	  </div>
     <div class="row" >
 		  <div class="left" *ngFor="let element of queryFields;">
@@ -28,10 +28,7 @@
     <div class="row">
       <div class="row">
         <autocomplete [items]="elements" class="black-text"
-          [searchField]="getElementType(selectedElementKind).fields"
-		      [searchFromServer]="true"
-          [placeholder]="getElementType(selectedElementKind).placeholder()"
-          [isMultipleFields]="getElementType(selectedElementKind).isMultipleFields()"
+          [elementtype]="getElementType(selectedElementKind)"
           (autocompleteSelectEvent)="onSelectElement($event)"
 		      (enterEvent)="onSearchElements($event)">
 		    </autocomplete>

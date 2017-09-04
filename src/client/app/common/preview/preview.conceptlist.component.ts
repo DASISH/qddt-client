@@ -12,9 +12,10 @@ import { Concept } from '../../components/concept/concept.service';
       <li *ngFor="let concept of conceptList">
         <div class="collapsible-header yellow lighten-5">
           <!--<div class="row">-->
-            <div class="col s11">Concept: {{concept?.name}}</div>
-            <div class="col s1">
-              <label class="active">V{{concept?.version?.major}}.{{concept?.version?.minor}}</label>
+            <div class="col l10">Concept: {{concept?.name}}</div>
+            <div class="col l2">
+              <qddt-version-label [element]="concept"></qddt-version-label>
+              <!--<label class="active">V{{concept?.version?.major}}.{{concept?.version?.minor}}</label>-->
             </div>
            <!--</div>-->
         </div>

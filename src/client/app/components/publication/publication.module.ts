@@ -7,11 +7,12 @@ import { PublicationSelectComponent } from './publication.select.component';
 import { ResponsedomainModule } from '../responsedomain/responsedomain.module';
 import { ConceptModule } from '../concept/concept.module';
 import { PreviewModule } from '../../common/preview/preview.module';
+import { PublicationFormComponent } from './publication.form.component';
 
 @NgModule({
   imports: [ SharedModule, ResponsedomainModule, ConceptModule,PreviewModule],
   declarations: [ PublicationComponent, PublicationDetailComponent,PublicationReuseComponent,
-    PublicationSelectComponent ],
+    PublicationSelectComponent ,PublicationFormComponent],
   exports: [PublicationComponent]
 })
 

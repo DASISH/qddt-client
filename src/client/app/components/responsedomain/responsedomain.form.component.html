@@ -26,21 +26,21 @@
               <div class="col l3">
                 <label for="scale_start" class="active">Start</label>
                 <input id="scale_start" name="scale_start" type="number"
-                  [attr.max]="responsedomain.managedRepresentation.inputLimit.maximum -1"
+                  [attr.max]="max"
 								  (ngModelChange)="buildPreviewResponseDomain()"
 					        [(ngModel)]="responsedomain.managedRepresentation.inputLimit.minimum" required>
               </div>
               <div class="col l3">
                 <label for="scale_end" class="active">End</label>
                 <input id="scale_end" name="scale_end" type="number"
-                       [attr.min]="responsedomain.managedRepresentation.inputLimit.minimum +1"
-                       (ngModelChange)="buildPreviewResponseDomain()"
+                  [attr.min]="min"
+                  (ngModelChange)="buildPreviewResponseDomain()"
 					        [(ngModel)]="responsedomain.managedRepresentation.inputLimit.maximum" required>
               </div>
               <div class="col l3">
                 <label for="scale_anchor" class="active">Number of Anchor</label>
                 <input id="scale_anchor" name="scale_anchor" type="number" [(ngModel)]="numberOfAnchors"
-                       [attr.min]="0"
+                       [attr.min]=0
                        [attr.max]="[responsedomain.managedRepresentation.inputLimit.maximum] - [responsedomain.managedRepresentation.inputLimit.minimum] + 1"
                        (ngModelChange)="changeNumberOfAnchors($event)" required>
               </div>
@@ -97,22 +97,36 @@
 						</table>
 					</div>
 					<div *ngSwitchCase="domainTypeDef.LIST" class="row">
-						<div class="col s2 input-field">
-							<input id="code_number" name="code_number" type="number"
-							  min="0"
-							  [ngModel]="responsedomain.managedRepresentation.inputLimit.maximum"
-								(ngModelChange)="changeNumberOfCategories($event)" required>
-							<label for="code_number" class="active">Number of Codes</label>
-						</div>
+						<div class="input-field col s3">
 
-						<table *ngIf="responsedomain.managedRepresentation.inputLimit.maximum > 0">
+                <input id="code_number" name="code_number" type="number"
+                  min="0"
+                  [ngModel]="responsedomain.managedRepresentation.inputLimit.maximum"
+                  (ngModelChange)="changeNumberOfCategories($event)" required>
+                <label class="active" for="code_number">Number of Codes</label>
+
+						</div>
+            <div class="input-field col s3 offset-s1">
+                <input id="responseCardinality_minimum" name="responseCardinality_minimum" type="number"
+                       (ngModelChange)="buildPreviewResponseDomain()"
+                       [(ngModel)]="responsedomain.responseCardinality.minimum" required>
+                <label for="responseCardinality_minimum">Min of Response Cardinality</label>
+            </div>
+            <div class="input-field col s3 offset-s1">
+                <input id="responseCardinality_maximum" name="responseCardinality_maximum" type="number"
+                       (ngModelChange)="buildPreviewResponseDomain()"
+                       [(ngModel)]="responsedomain.responseCardinality.maximum" required>
+                <label for="responseCardinality_maximum">Max of Response Cardinality</label>
+            </div>
+
+						<table class="hoverable" *ngIf="responsedomain.managedRepresentation.inputLimit.maximum > 0" (mouseenter)="showbuttons=true" (mouseleave)="showbuttons=false">
 						  <thead><tr><td>Code</td><td>Category</td><td></td></tr></thead>
 							<tbody>
 								<tr *ngFor="let category of responsedomain.managedRepresentation.children; let idx=index">
-									<td><input name="{{idx}}-code-value" type="text"
+									<td width="20%"><input name="{{idx}}-code-value" type="text"
 									  (ngModelChange)="buildPreviewResponseDomain()"
 									  [(ngModel)]="category.code.codeValue" required></td>
-									<td>
+									<td width="50%">
 										<div [ngClass]="{ noItemFound: (category.isNew && category.label.length > 0 && categories.length === 0) }">
 										  <autocomplete [items]="categories" class="black-text"
                         [searchField]="'label'"
@@ -125,32 +139,18 @@
 										</div>
 									</td>
 									<td>
-										<div class="row">
-                      <a class="btn-floating red right" (click)="onClickClear(idx)">
+										<div *ngIf="showbuttons" class="row" >
+                      <a class="btn-floating red " (click)="onClickClear(idx)">
 												<i class="material-icons">clear</i></a>
-                      <a class="btn-floating yellow darken-1 right" (click)="onClickUp(idx)">
+                      <a class="btn-floating yellow darken-1 " (click)="onClickUp(idx)">
 												<i class="material-icons">keyboard_arrow_up</i></a>
-                      <a class="btn-floating yellow darken-1 right" (click)="onClickDown(idx)">
+                      <a class="btn-floating yellow darken-1 " (click)="onClickDown(idx)">
 												<i class="material-icons">keyboard_arrow_down</i></a>
                     </div>
 									</td>
 								</tr>
 							</tbody>
 						</table>
-						<div *ngIf="responsedomain.managedRepresentation.inputLimit.maximum > 0" class="row card">
-							<div class="row input-field col s5">
-							  <input id="responseCardinality_minimum" name="responseCardinality_minimum" type="number"
-								  (ngModelChange)="buildPreviewResponseDomain()"
-							    [(ngModel)]="responsedomain.responseCardinality.minimum" required>
-							  <label for="responseCardinality_minimum">Min of Response Cardinality</label>
-						  </div>
-							<div class="row input-field col s5">
-							  <input id="responseCardinality_maximum" name="responseCardinality_maximum" type="number"
-								  (ngModelChange)="buildPreviewResponseDomain()"
-							    [(ngModel)]="responsedomain.responseCardinality.maximum" required>
-							  <label for="responseCardinality_maximum">Max of Response Cardinality</label>
-						  </div>
-						</div>
 					</div>
 					<div *ngSwitchCase="domainTypeDef.NUMERIC">
             <div class="row" *ngIf="responsedomain.managedRepresentation">

@@ -30,14 +30,17 @@ export class ElementFooterComponent {
 
   getTime(): string {
     let m = this.element.modified;
+    if (m===null) return '?';
     let date = new Date(Date.UTC(parseInt(m[0]),parseInt(m[1]),parseInt(m[2]),parseInt(m[3]),parseInt(m[4]),parseInt(m[5])));
     return date.toISOString();
   }
 
   getVersion(): string {
     let v = this.element.version;
+    if (v=== null)
+      return '?';
     let rev =(v.revision!==null)?  '.' + v.revision :'';
-    let label =(v.label!==undefined)?  ' - ' + v.label:'';
+    let label =(v.versionLabel	!==undefined)?  ' - ' + v.versionLabel:'';
     return v.major + '.' + v.minor + rev + label;
   }
 

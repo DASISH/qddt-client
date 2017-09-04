@@ -34,7 +34,7 @@ export class ResponsedomainScaleComponent implements OnChanges {
       this.min = rep.inputLimit.minimum;
     }
     let layout = this.responseDomain['displayLayout'];
-    this.displayLayout = layout === 0 || layout === '0' ? 0 : 90;
+    this.displayLayout = layout; // === 0 || layout === '0' ? 0 : 90;
 
     if (this.displayLayout > 0) {
       this.buildVerticalRows();

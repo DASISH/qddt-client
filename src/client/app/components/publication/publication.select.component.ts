@@ -36,7 +36,7 @@ export class PublicationSelectComponent implements OnChanges {
           this.showProgressBar = false;
       },
         (error: any) => {
-          console.log('error');
+          console.log('error ' + error);
           this.showProgressBar = false;
         });
     }
@@ -59,12 +59,13 @@ export class PublicationSelectComponent implements OnChanges {
   }
 
   onUseElement() {
-    let elementType: QddtElementType = PUBLICATION_TYPES.find(e => e.label === this.selectedElementLabel);
+    // console.info('onUseElement ' + this.elementKind);
+    let elementType: QddtElementType = PUBLICATION_TYPES.find(e => e.id === this.elementKind);
     if (elementType !== undefined) {
       let element: any = new PublicationElement();
       element.id = this.selectedElement.id;
       element.revisionNumber = this.elementRevision;
-      element.elementKind =  elementType.label
+      element.elementKind =  elementType.label;
       element.element = this.selectedElement;
       this.selectedElementLabel = elementType.label;
       this.publicationElement.emit(element);

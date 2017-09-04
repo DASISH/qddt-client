@@ -1,11 +1,10 @@
-import { Component, Input, PipeTransform, Pipe } from '@angular/core';
-import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
+import { Component, Input,  } from '@angular/core';
+import { BaseRequestOptions, Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { StudyService } from '../study.service';
-import { BaseService } from '../../common/base.service';
 import { StudyEditComponent } from './study.edit.component';
 import { API_BASE_HREF } from '../../../api';
 import { CommonModule } from '@angular/common';

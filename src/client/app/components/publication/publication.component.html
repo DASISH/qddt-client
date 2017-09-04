@@ -12,61 +12,62 @@
 
         <div *ngIf="showPublicationForm">
           <div class="card-action">
-            <form (ngSubmit)="onCreatePublication()" #hf="ngForm">
-              <div class="row">
-                <div class="input-field col s10">
-                  <textarea id="name" name="name" class="materialize-textarea"
-                    [(ngModel)]="publication.name" [attr.maxlength]="255"
-                    required>
-                  </textarea>
-                  <label for="name" class="white-text">Name</label>
-                </div>
-              </div>
-              <div class="row">
-                <div class="input-field col s6">
-                  <textarea id="purpose" name="purpose" class="materialize-textarea"
-                    [(ngModel)]="publication.purpose" [attr.maxlength]="255"
-                    required>
-                  </textarea>
-                  <label for="purpose" class="white-text">Purpose</label>
-                </div>
-              </div>
-              <div class="row">
-                <div class="input-field col s6">
-                  <select materialize="material_select" [materializeSelectOptions]="selectOptions"
-                    (change)="onSelectChange($event.target.value)">
-                    <option
-                      [value]="0">Not Published</option>
-                    <optgroup *ngFor="let option of selectOptions"
-                      [attr.label]="option.label">
-                      <option *ngFor="let child of option.children"
-                        [value]="child.id">{{child.label}}</option>
-                    </optgroup>
-                  </select>
-                  <label class="white-text">Publication status</label>
-                </div>
-                <div class="input-field col s6">
-                  <label class="white-text">{{selectedPublicationStatusOption}}</label>
-                </div>
-              </div>
-              <div class="white grey-text text-darken-2">
-                <qddt-publication-reuse (publicationElement)="addElement($event)"></qddt-publication-reuse>
-              </div>
-              <div class="row white teal-text">
-                <div class="row">Content list 1</div>
-                <table>
-                  <tr><th>Detail</th><th>Element type</th><th>Element name</th><th>Version</th></tr>
-                  <tr *ngFor="let e of publication.publicationElements">
-                    <td (click)="onElementDetail(e)" [ngStyle]="{'cursor': 'pointer'}">
-                      <a><i class="material-icons left smal">search</i></a>
-                    </td>
-                    <td>{{e?.elementKind}}</td><td>{{e?.element?.name}}</td>
-                    <td><qddt-version [element]="e"></qddt-version></td>
-                  </tr>
-                </table>
-              </div>
-              <button type="submit" class="btn btn-default">Submit</button>
-            </form>
+            <qddt-publication-form [element]="newPublication()" (save)="onCreatePublication()"></qddt-publication-form>
+            <!--<form (ngSubmit)="onCreatePublication()" #hf="ngForm">-->
+              <!--<div class="row">-->
+                <!--<div class="input-field col s10">-->
+                  <!--<textarea id="name" name="name" class="materialize-textarea"-->
+                    <!--[(ngModel)]="publication.name" [attr.maxlength]="255"-->
+                    <!--required>-->
+                  <!--</textarea>-->
+                  <!--<label for="name" class="white-text">Name</label>-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<div class="row">-->
+                <!--<div class="input-field col s6">-->
+                  <!--<textarea id="purpose" name="purpose" class="materialize-textarea"-->
+                    <!--[(ngModel)]="publication.purpose" [attr.maxlength]="255"-->
+                    <!--required>-->
+                  <!--</textarea>-->
+                  <!--<label for="purpose" class="white-text">Purpose</label>-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<div class="row">-->
+                <!--<div class="input-field col s6">-->
+                  <!--<select materialize="material_select" [materializeSelectOptions]="selectOptions"-->
+                    <!--(change)="onSelectChange($event.target.value)">-->
+                    <!--<option-->
+                      <!--[value]="0">Not Published</option>-->
+                    <!--<optgroup *ngFor="let option of selectOptions"-->
+                      <!--[attr.label]="option.label">-->
+                      <!--<option *ngFor="let child of option.children"-->
+                        <!--[value]="child.id">{{child.label}}</option>-->
+                    <!--</optgroup>-->
+                  <!--</select>-->
+                  <!--<label class="white-text">Publication status</label>-->
+                <!--</div>-->
+                <!--<div class="input-field col s6">-->
+                  <!--<label class="white-text">{{selectedPublicationStatusOption}}</label>-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<div class="white grey-text text-darken-2">-->
+                <!--<qddt-publication-reuse (publicationElement)="addElement($event)"></qddt-publication-reuse>-->
+              <!--</div>-->
+              <!--<div class="row white teal-text">-->
+                <!--<div class="row">Content list 1</div>-->
+                <!--<table>-->
+                  <!--<tr><th>Detail</th><th>Element type</th><th>Element name</th><th>Version</th></tr>-->
+                  <!--<tr *ngFor="let e of publication.publicationElements">-->
+                    <!--<td (click)="onElementDetail(e)" [ngStyle]="{'cursor': 'pointer'}">-->
+                      <!--<a><i class="material-icons left smal">search</i></a>-->
+                    <!--</td>-->
+                    <!--<td>{{e?.elementKind}}</td><td>{{e?.element?.name}}</td>-->
+                    <!--<td><qddt-version [element]="e"></qddt-version></td>-->
+                  <!--</tr>-->
+                <!--</table>-->
+              <!--</div>-->
+              <!--<button type="submit" class="btn btn-default">Submit</button>-->
+            <!--</form>-->
           </div>
         </div>
       </div>

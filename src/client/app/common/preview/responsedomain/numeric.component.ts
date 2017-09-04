@@ -22,7 +22,7 @@ export class ResponsedomainNumericComponent implements OnChanges {
   @Input() responseDomain: ResponseDomain;
   low: number;
   high: number;
-  stepping:string
+  stepping:string;
   value: number;
 
   ngOnChanges() {
@@ -45,7 +45,7 @@ export class ResponsedomainNumericComponent implements OnChanges {
       if (step >0)
         this.stepping ='0.';
 
-      for(var i=1;i< step;i++) {
+      for(let i=1;i< step;i++) {
         this.stepping += '0';
       }
       this.stepping +='1';

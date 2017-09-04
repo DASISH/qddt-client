@@ -10,6 +10,7 @@ import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
+import { ElementKind } from '../../common/preview/preview.service';
 
 export function main() {
   describe('Publication select component', () => {
@@ -83,7 +84,7 @@ export function main() {
               })));
             });
             fixture.componentInstance.element = element;
-            fixture.componentInstance.elementType = 3;
+            fixture.componentInstance.elementKind = ElementKind.PUBLICATION;
             fixture.componentInstance.ngOnChanges();
             fixture.detectChanges();
             fixture.whenStable().then(() => {
