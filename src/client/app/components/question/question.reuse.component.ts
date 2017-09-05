@@ -2,7 +2,7 @@ import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { QuestionService, QuestionItem } from './question.service';
 import { Subject } from 'rxjs/Subject';
 import { ResponseDomain } from '../responsedomain/responsedomain.service';
-import { isNullOrUndefined } from 'util';
+// import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'qddt-questionitem-reuse',
@@ -63,14 +63,14 @@ export class QuestionReuseComponent {
   }
 
   onUseElement() {
-    console.log(this.elementRevision);
-    console.log(this.selectedElement) ;
+    console.debug(this.elementRevision);
+    console.debug(this.selectedElement) ;
     if(this.reuseQuestionItem) {
-      if (isNullOrUndefined(this.questionItem ))
+      if (this.isNull(this.questionItem ))
         this.questionItem = this.selectedElement;
 
       this.questionItem['questionItemRevision'] = this.elementRevision;
-      console.log(this.questionItem);
+      console.debug(this.questionItem);
       this.questionItemCreatedEvent.emit(this.questionItem);
       this.questionItem = null;
       this.closeQuestionReuseModal();
@@ -126,5 +126,7 @@ export class QuestionReuseComponent {
 
     return config;
   }
-
+  private isNull(object: any) {
+    return object === undefined || object === null;
+  }
 }

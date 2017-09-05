@@ -1,11 +1,10 @@
-import { Component, Input, PipeTransform, Pipe, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { QuestionService } from './question.service';
-import { BaseService } from '../../common/base.service';
 import { QuestionReuseComponent } from './question.reuse.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';

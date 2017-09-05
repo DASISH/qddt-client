@@ -19,9 +19,9 @@ export class ResponsedomainReuseComponent implements OnInit, OnChanges {
   @Output() dismissEvent: any = new EventEmitter<any>();
   selectedResponseDomain: any;
   selectedRevision: number;
-  modalActions = new EventEmitter<string|MaterializeAction>();
   public domainTypeDef = DomainType;
   public domainTypeDescription: any[];
+  private modalRdActions = new EventEmitter<string|MaterializeAction>();
   private domainType: DomainType;
   private showAutocomplete: boolean;
   private responseDomains: any;
@@ -119,15 +119,15 @@ export class ResponsedomainReuseComponent implements OnInit, OnChanges {
     this.searchKeysSubect.next(key);
   }
 
-  onOpenModal() {
-    this.modalActions.emit({action:'modal', params:['open']});
-    console.log('open modal... RD reuse');
+  openSelectRevisionRDModal() {
+    this.modalRdActions.emit({action:'modal', params:['open']});
+    console.log('openSelectRevisionRDModal');
     // this.responseDomainService.getAll().subscribe(
     //   result => { this.responseDomains = result.content;
     //   }, (error: any) => console.log(error));
   }
 
   onCloseModal() {
-    this.modalActions.emit({action:'modal', params:['close']});
+    this.modalRdActions.emit({action:'modal', params:['close']});
   }
 }

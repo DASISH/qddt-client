@@ -43,7 +43,7 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
   constructor(private categoryService: CategoryService, private service: ResponseDomainService) {
-
+    console.debug('responsedomain.form.component constr');
     this.selectedCategoryIndex = 0;
     this.formChange = new EventEmitter<any>();
     this.numberOfAnchors = 0;
@@ -59,7 +59,7 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
   }
 
   ngAfterViewInit() {
-    console.log('ngAfterViewChecked');
+    console.debug('responsedomain.form.component ngAfterViewChecked');
     Materialize.updateTextFields();
   }
 
@@ -109,7 +109,7 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
   }
 
   select(candidate: any) {
-    console.info('onSelect...');
+    console.debug('onSelect...');
     candidate.code = this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex].code;
     this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex] = candidate;
     this.buildPreviewResponseDomain();
