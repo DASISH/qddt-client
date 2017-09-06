@@ -394,40 +394,48 @@ export class SeedConfig {
       '*': 'node_modules/*'
     },
     packages: {
+      '@angular/animations': {
+        main: 'bundles/animations.umd.js',
+        defaultExtension: 'js'
+      },
       '@angular/common': {
-        main: 'index.js',
+        main: 'bundles/common.umd.js',
         defaultExtension: 'js'
       },
       '@angular/compiler': {
-        main: 'index.js',
+        main: 'bundles/compiler.umd.js',
         defaultExtension: 'js'
       },
       '@angular/core/testing': {
-        main: 'index.js',
+        main: 'bundles/core-testing.umd.js',
         defaultExtension: 'js'
       },
       '@angular/core': {
-        main: 'index.js',
+        main: 'bundles/core.umd.js',
         defaultExtension: 'js'
       },
       '@angular/forms': {
-        main: 'index.js',
+        main: 'bundles/forms.umd.js',
         defaultExtension: 'js'
       },
       '@angular/http': {
-        main: 'index.js',
+        main: 'bundles/http.umd.js',
         defaultExtension: 'js'
       },
       '@angular/platform-browser': {
-        main: 'index.js',
+        main: 'bundles/platform-browser.umd.js',
         defaultExtension: 'js'
       },
       '@angular/platform-browser-dynamic': {
-        main: 'index.js',
+        main: 'bundles/platform-browser-dynamic.umd.js',
         defaultExtension: 'js'
       },
       '@angular/router': {
-        main: 'index.js',
+        main: 'bundles/router.umd.js',
+        defaultExtension: 'js'
+      },
+      '@angular/service-worker': {
+        main: 'bundles/service-worker.umd.js',
         defaultExtension: 'js'
       },
       'angular2-materialize': {
