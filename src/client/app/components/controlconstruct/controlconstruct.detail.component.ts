@@ -20,11 +20,10 @@ export class ControlConstructDetailComponent implements OnInit {
   @Input() controlConstructId: string;
   @Input() controlConstructs: ControlConstruct[];
   @Input() isVisible: boolean;
-  @Output() hideDetailEvent: EventEmitter<String> = new EventEmitter<String>();
-  @Output() exceptionEvent: EventEmitter<String> = new EventEmitter<String>();
+  @Output() hideDetailEvent = new EventEmitter<String>();
+  @Output() exceptionEvent = new EventEmitter<String>();
 
-  public deleteAction = new EventEmitter<string|MaterializeAction>();
-
+  public deleteAction = new EventEmitter<MaterializeAction>();
   private revisionIsVisible: boolean;
   private savedObject: string;
   private savedControlConstructsIndex: number;
@@ -35,10 +34,10 @@ export class ControlConstructDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.controlConstructs === null || this.controlConstructs === undefined) {
+    if (!this.controlConstructs) {
       this.controlConstructs = [];
     }
-    if (this.controlConstructId !== null && this.controlConstructId !== undefined) {
+    if (this.controlConstructId) {
       this.service.getControlConstruct(this.controlConstructId)
         .subscribe((result: any) => {
           this.controlConstruct = result;
@@ -56,7 +55,6 @@ export class ControlConstructDetailComponent implements OnInit {
 
   onDeleteControlConstructModal() {
     this.deleteAction.emit({action:'modal', params:['open']});
-    // this.deleteAction.emit({action:'modal', params:['open']});
   }
 
   onConfirmDeleting() {
@@ -71,14 +69,23 @@ export class ControlConstructDetailComponent implements OnInit {
       (error: any) => console.log(error));
   }
 
-  onElementEvent(result: any) {
-    let index = this.controlConstructs.findIndex((e: any) => e.id === result.id);
-    if (index >= 0) {
+  onccSaveAction(result: any) {
+    let index = this.controlConstructs.findIndex((e:any) => e.id === result.id);
+    if(index >= 0) {
+      console.log('onccSaveAction replace ' + result.name);
       this.controlConstructs[index] = result;
-    } else if (this.savedControlConstructsIndex >= 0) {
-      this.controlConstructs[this.savedControlConstructsIndex] = JSON.parse(this.savedObject);
+    } else {
+      console.log('onccSaveAction added ' + result.name);
       this.controlConstructs.push(result);
     }
+    console.log(result.version);
+    // let index = this.controlConstructs.findIndex((e: any) => e.id === result.id);
+    // if (index >= 0) {
+    //   this.controlConstructs[index] = result;
+    // } else if (this.savedControlConstructsIndex >= 0) {
+    //   this.controlConstructs[this.savedControlConstructsIndex] = JSON.parse(this.savedObject);
+    //   this.controlConstructs.push(result);
+    // }
     this.hideDetailEvent.emit('hide');
   }
 
@@ -86,23 +93,18 @@ export class ControlConstructDetailComponent implements OnInit {
     this.exceptionEvent.emit(error);
   }
 
-  private getPdf(element: ControlConstruct) {
-    let fileName = element.name + '.pdf';
-    this.service.getPdf(element.id).subscribe(
+  onDownloadFile(o: any) {
+    let fileName = o.originalName;
+    this.service.getFile(o.id).subscribe(
       (data: any) => {
         fileSaver(data, fileName);
       },
       error => console.log(error));
   }
 
-  // private popupModal(error: any) {
-  //   this.exceptionEvent.emit(error);
-  // }
 
   private init() {
-    // if(this.controlConstruct !== null && this.controlConstruct !== undefined) {
-    //   this.controlConstruct['workinprogress'] = this.controlConstruct['changeKind'] === 'IN_DEVELOPMENT';
-    // }
+
     this.savedObject = JSON.stringify(this.controlConstruct);
     this.savedControlConstructsIndex = this.controlConstructs
       .findIndex(q => q['id'] === this.controlConstruct['id']);

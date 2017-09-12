@@ -29,7 +29,7 @@
       <qddt-control-construct-form
         [controlConstruct]="controlConstruct"
         (exceptionEvent)="onExceptionEvent($event)"
-        (elementEvent)="onElementEvent($event)">
+        (controlConstructSavedAction)="onccSaveAction($event)">
       </qddt-control-construct-form>
 
       <qddt-revision [isVisible]="revisionIsVisible"

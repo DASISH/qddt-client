@@ -20,28 +20,30 @@ export class ControlConstructFormComponent implements OnInit {
   @Input() controlConstruct: ControlConstruct;
   @Input() isNew: boolean;
   @Input() readonly: boolean;
-  @Output() elementEvent: EventEmitter<any> = new EventEmitter<any>();
-  @Output() exceptionEvent: EventEmitter<String> = new EventEmitter<String>();
+  @Output() controlConstructSavedAction = new EventEmitter<any>();
+  @Output() exceptionEvent = new EventEmitter<String>();
 
-  public createPostInstruction: boolean;
-  public createPreInstruction: boolean;
   public basedonActions = new EventEmitter<string|MaterializeAction>();
   public basedonObject: any;
   public savedquestionitem: any;
+  public createPostInstruction: boolean;
+  public createPreInstruction: boolean;
+  public createUniverse: boolean;
 
   private editQuestoinItem: boolean;
   private revisionIsVisible: boolean;
-  // private selectedInstruction: any;
+
   private showUploadFileForm: boolean;
   private showUploadedFiles: boolean;
   private showPreinstructionButton: boolean;
   private showPostinstructionButton: boolean;
+  private showUniverseButton: boolean;
   private showQuestionButton: boolean;
   private showbutton: boolean = false;
   private files: FileList;
   private fileStore: any[];
   private toDeleteFiles: any[];
-  private savedObject: string;
+  // private savedObject: string;
 
   constructor(private service: ControlConstructService) {
     this.revisionIsVisible = false;
@@ -58,9 +60,9 @@ export class ControlConstructFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(this.isNew === null || this.isNew === undefined) {
-      this.isNew = false;
-    }
+    // if(this.isNew === null || this.isNew === undefined) {
+    //   this.isNew = false;
+    // }
     if(this.isNew) {
       this.controlConstruct.id = new Date().toString();
     }
@@ -80,6 +82,15 @@ export class ControlConstructFormComponent implements OnInit {
         },
         (err: any) => null
       );
+  }
+
+  onDeleteUniverse(id: number) {
+    this.controlConstruct.universe.splice(id, 1);
+  }
+
+  onAddUniverse(instruction: any) {
+    this.controlConstruct.universe.push(instruction);
+    this.createUniverse = false;
   }
 
 
@@ -114,7 +125,6 @@ export class ControlConstructFormComponent implements OnInit {
     let fileName = o.originalName;
     this.service.getFile(o.id).subscribe(
       (data: any) => {
-        // this.openFileForDownload(data, fileName);
         fileSaver(data, fileName);
       },
       error => this.popupModal(error));
@@ -167,20 +177,20 @@ export class ControlConstructFormComponent implements OnInit {
     }
     let index = 0;
     let service = this.service;
-    let object = this.savedObject;
-    let elementEvent = this.elementEvent;
+     let elementEvent = this.controlConstructSavedAction;
     source.subscribe(
-      function (x: any) {
-        if (index < len && x.id !== undefined && x.id !== null) {
-          controlConstruct['otherMaterials'].push(x);
-          index = index + 1;
-        }
-      },
+      // function (x: any) {
+      //   // if (index < len && x.id !== undefined && x.id !== null) {
+      //   //   controlConstruct['otherMaterials'].push(x);
+      //   //   index = index + 1;
+      //   // }
+      // },
       function (error: any) {
         console.log('Error: %s', error);
       },
       function () {
         service.update(controlConstruct).subscribe((result: any) => {
+          this.controlConstruct = result;
           elementEvent.emit(result);
         }, (error: any) => {
           console.log('Error: %s', error);
@@ -195,6 +205,4 @@ export class ControlConstructFormComponent implements OnInit {
   private isNull(object: any) {
     return object === undefined || object === null;
   }
-
-
 }

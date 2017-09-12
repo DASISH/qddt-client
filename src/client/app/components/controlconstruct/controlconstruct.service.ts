@@ -1,9 +1,14 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http, Headers, RequestOptions, ResponseContentType } from '@angular/http';
 
 import { API_BASE_HREF } from '../../api';
 import { BaseService } from '../../common/base.service';
 import { QuestionItem } from '../question/question.service';
+import { HttpClient } from '@angular/common/http';
+
+export class Universe {
+  id:string;
+  description:string;
+}
 
 export class ControlConstruct {
   id: string;
@@ -12,6 +17,7 @@ export class ControlConstruct {
   questionItem: QuestionItem;
   otherMaterials: any;
   controlConstructKind: string;
+  universe: Universe[];
   preInstructions: Instruction[];
   postInstructions: Instruction[];
 }
@@ -26,7 +32,7 @@ export class ControlConstructService extends BaseService {
 
   readonly pageSize = '&size=10';
 
-  constructor(protected http:Http, @Inject(API_BASE_HREF) protected api:string) {
+  constructor(protected http:HttpClient, @Inject(API_BASE_HREF) protected api:string) {
     super(http ,api);
   }
 
@@ -42,42 +48,20 @@ export class ControlConstructService extends BaseService {
     return this.get('audit/controlconstruct/' + id + '/' + rev);
   }
 
+  getFile(id: string) {
+    return this.getBlob('othermaterial/files/'+id);
+  }
+
   uploadFile(id: string, files: any): any {
-    let headers = new Headers();
-    let jwt = localStorage.getItem('jwt');
-    if(jwt !== null) {
-      headers.append('Authorization', 'Bearer  ' + JSON.parse(jwt).access_token);
-    }
-    let options = new RequestOptions({ headers: headers });
-    const formData = new FormData();
-    if(files !== null) {
-      formData.append('file', files[0]);
-    }
-    return this.http.post(this.api + 'othermaterial/upload/' + id, formData, options)
-      .map((res:any) => {
-        try {
-          return res.json();
-        } catch (e) {
-          return [];
-        }
-      })
-      .catch(this.handleError);
+    return this.uploadBlob(id,files);
   }
 
   deleteFile(id: string) {
     return this.delete('othermaterial/delete/' + id);
   }
 
-  getFile(id: string) {
-    let headers = new Headers();
-    let jwt = localStorage.getItem('jwt');
-    if(jwt !== null) {
-      headers.append('Authorization', 'Bearer  ' + JSON.parse(jwt).access_token);
-    }
-    let options = new RequestOptions({ headers: headers, responseType: ResponseContentType.Blob });
-    return this.http.get(this.api + 'othermaterial/files/' + id, options)
-      .map(res => res.blob())
-      .catch(this.handleError);
+  getPdf(id: string) {
+    return this.getBlob('controlconstruct/pdf/'+id);
   }
 
   update(c: ControlConstruct): any {
@@ -100,19 +84,6 @@ export class ControlConstructService extends BaseService {
     return this.delete('controlconstruct/delete/' + id);
   }
 
-  searchQuestionItemsByNameAndQuestion(name: string = '', page: String = '0', sort: String = ''): any {
-    let query = name.length > 0? '&question=' + '*' + name +'*' + '&name=' + '*' + name +'*': '';
-    if (sort.length > 0) {
-      query += '&sort=' + sort;
-    }
-    return this.get('questionitem/page/search?' + 'page=' + page + this.pageSize + query);
-  }
-
-  searchInstructions(description: string = '', page: String = '0'): any {
-    let query = description.length > 0? '&description=' + '*' + description +'*': '';
-    return this.get('instruction/page/search?' + 'page=' + page + this.pageSize + query);
-  }
-
   getConceptsByQuestionitemId(id: string) {
     return this.get('concept/list/by-QuestionItem/'+ id);
   }
@@ -127,15 +98,21 @@ export class ControlConstructService extends BaseService {
     return this.get('controlconstruct/page/search?constructkind=QUESTION_CONSTRUCT' + '&page=' + page + this.pageSize + query);
   }
 
-  getPdf(id: string): any {
-    let headers = new Headers();
-    let jwt = localStorage.getItem('jwt');
-    if(jwt !== null) {
-      headers.append('Authorization', 'Bearer  ' + JSON.parse(jwt).access_token);
+  searchQuestionItemsByNameAndQuestion(name: string = '', page: String = '0', sort: String = ''): any {
+    let query = name.length > 0? '&question=' + '*' + name +'*' + '&name=' + '*' + name +'*': '';
+    if (sort.length > 0) {
+      query += '&sort=' + sort;
     }
-    let options = new RequestOptions({ headers: headers, responseType: ResponseContentType.Blob });
-    return this.http.get(this.api + 'controlconstruct/pdf/' + id, options)
-      .map(res => res.blob())
-      .catch(this.handleError);
+    return this.get('questionitem/page/search?' + 'page=' + page + this.pageSize + query);
+  }
+
+  searchInstructions(description: string = '', page: String = '0'): any {
+    let query = description.length > 0? '&description=' + '*' + description +'*': '';
+    return this.get('instruction/page/search?' + 'page=' + page + this.pageSize + query);
+  }
+
+  searchUniverses(description: string = '', page: String = '0') {
+    let query = description.length > 0? '&description=' + '*' + description +'*': '';
+    return this.get('universe/page/search?' + 'page=' + page + this.pageSize + query);
   }
 }
