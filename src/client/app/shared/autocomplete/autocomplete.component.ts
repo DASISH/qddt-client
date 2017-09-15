@@ -30,7 +30,6 @@ export class AutocompleteComponent implements OnInit, OnChanges {
    */
   @Input() searchFromServer: boolean = true;
 
-
   @Output() autocompleteSelectEvent: EventEmitter<any> = new EventEmitter<any>();
   @Output() autocompleteFocusEvent: EventEmitter<any> = new EventEmitter<any>();
   @Output() enterEvent: EventEmitter<any> = new EventEmitter<any>();
@@ -82,7 +81,7 @@ export class AutocompleteComponent implements OnInit, OnChanges {
 
   select(candidate: any) {
     this.showAutoComplete = false;
-    // this.value = candidate[this.searchField];
+    this.value = this.getFieldValue(candidate, this.searchField)
     this.autocompleteSelectEvent.emit(candidate);
   }
 
