@@ -13,12 +13,13 @@ import { CommentService, Comment } from './comment.service';
     <div *ngIf="showComments">
       <div *ngIf="comments" class="card">
         <ul class="collection">
-          <li class="collection-item avatar"
-            *ngFor="let comment of comments; let idx=index;">
+          <li class="collection-item avatar" 
+              *ngFor="let comment of comments; let idx=index;">
             <img src="assets/images/avatar-default.png"  alt ="" class="circle">
-            <span class="title">
+            <span class="title" [style.color]="comment.public ? 'blue': 'grey'">
               {{comment?.modifiedBy?.username}}@{{comment?.modifiedBy?.agency?.name}}
               - {{comment?.modified|localDate }}
+              <i *ngIf="comment.public" class="material-icons left tiny" title="This comment is visible for all">public</i>
             </span>
             <div class="row" *ngIf="!isEditComment || selectedCommentId !== idx">
               <br>
@@ -27,7 +28,7 @@ import { CommentService, Comment } from './comment.service';
               </div>
               <div class="col s2 right">
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                  (click)="isEditComment=true;message=comment.comment;selectedCommentId=idx;">
+                  (click)="isEditComment=true;isPublic=comment.public;message=comment.comment;selectedCommentId=idx;">
                   <i class="material-icons left small">edit</i>
                 </a>
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
@@ -38,12 +39,22 @@ import { CommentService, Comment } from './comment.service';
             </div>
             <div class="row" *ngIf="isEditComment && selectedCommentId === idx">
               <br>
-              <div class="col s10">
+              <div class="col s8">
                 <textarea class="materialize-textarea"
                   [(ngModel)]="message">
                 </textarea>
               </div>
-              <div class="col s2 right">
+              <div class="col s3">
+                <div class="switch">
+                  <label>
+                    Private
+                    <input type="checkbox" [(ngModel)]="isPublic">
+                    <span class="lever"></span>
+                    Public
+                  </label>
+                </div>
+              </div>
+              <div class="col s1 right">
                 <a class="btn-flat btn-floating btn-small waves-effect waves-light teal"
                   (click)="onUpdateComment(idx)">
                   <i class="material-icons left small">done_all</i>
@@ -72,6 +83,7 @@ export class CommentListComponent implements OnInit {
   isEditComment: boolean = false;
   selectedCommentId: number;
   message: string = '';
+  isPublic: boolean = true;
   showComments: boolean = false;
   @Input() ownerId: string;
   @Input() comments: Comment[];
@@ -107,8 +119,9 @@ export class CommentListComponent implements OnInit {
     this.isEditComment = false;
     if(this.comments.length > idx) {
       let comment = this.comments[idx];
-      if(this.message !== comment.comment) {
+      if(this.message !== comment.comment || this.isPublic !== comment.public) {
         comment.comment = this.message;
+        comment.public = this.isPublic;
         this.commentService.updateComment(comment).subscribe((result: any) => {
           this.comments[idx] = result;
         }, (error: any) => console.log(error));

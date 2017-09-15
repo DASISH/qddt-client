@@ -9,7 +9,8 @@ export class Comment {
   ownerId: string;
   comment: string;
   modifiedBy: any;
-  isHidden: boolean;
+  isHidden: boolean=false;
+  public:boolean=true;
 }
 
 @Injectable()

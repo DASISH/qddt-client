@@ -7,12 +7,22 @@ import { CommentService, Comment } from './comment.service';
   template: `
     <form (ngSubmit)="save()" #hf="ngForm">
       <div class="row">
-        <div class="input-field col s8 m8 l8">
+        <div class="input-field col l8">
           <label [attr.for]="ownerId + '-comment'">Write a new comment</label>
           <textarea class="materialize-textarea"
             id="{{ownerId}}-comment"
             name="{{ownerId}}-comment"
             [(ngModel)]="comment.comment" required></textarea>
+        </div>
+        <div class="input-field col l4">
+          <div class="switch">
+            <label>
+              Private
+              <input id="{{ownerId}}-checked" type="checkbox" [checked]="comment.public" (change)="comment.public = !comment.public">
+              <span class="lever"></span>
+              Public
+            </label>
+          </div>
         </div>
       </div>
       <button type="submit" class="btn">Submit</button>
@@ -25,6 +35,7 @@ export class CommentCreateComponent {
   @Output() addedCommentEvent: EventEmitter<Comment>  = new EventEmitter<Comment>();
   @Input() ownerId: string;
   comment: Comment = new Comment();
+  isPublic: any;
 
   constructor(private commentService: CommentService) {
     this.commentService = commentService;
