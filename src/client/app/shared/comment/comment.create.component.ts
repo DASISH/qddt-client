@@ -35,7 +35,6 @@ export class CommentCreateComponent {
   @Output() addedCommentEvent: EventEmitter<Comment>  = new EventEmitter<Comment>();
   @Input() ownerId: string;
   comment: Comment = new Comment();
-  isPublic: any;
 
   constructor(private commentService: CommentService) {
     this.commentService = commentService;
