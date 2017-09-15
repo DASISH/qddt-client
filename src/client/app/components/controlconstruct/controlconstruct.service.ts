@@ -1,9 +1,10 @@
 import { Injectable, Inject } from '@angular/core';
+import { Http } from '@angular/http';
 
 import { API_BASE_HREF } from '../../api';
 import { BaseService } from '../../common/base.service';
 import { QuestionItem } from '../question/question.service';
-import { HttpClient } from '@angular/common/http';
+// import { HttpClient } from '@angular/common/http';
 
 export class Universe {
   id:string;
@@ -32,7 +33,7 @@ export class ControlConstructService extends BaseService {
 
   readonly pageSize = '&size=10';
 
-  constructor(protected http:HttpClient, @Inject(API_BASE_HREF) protected api:string) {
+  constructor(protected http:Http, @Inject(API_BASE_HREF) protected api:string) {
     super(http ,api);
   }
 

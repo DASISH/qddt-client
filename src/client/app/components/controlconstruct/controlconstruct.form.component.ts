@@ -175,9 +175,9 @@ export class ControlConstructFormComponent implements OnInit {
           }
         });
     }
-    let index = 0;
+    // let index = 0;
     let service = this.service;
-     let elementEvent = this.controlConstructSavedAction;
+    let elementEvent = this.controlConstructSavedAction;
     source.subscribe(
       // function (x: any) {
       //   // if (index < len && x.id !== undefined && x.id !== null) {
@@ -185,9 +185,6 @@ export class ControlConstructFormComponent implements OnInit {
       //   //   index = index + 1;
       //   // }
       // },
-      function (error: any) {
-        console.log('Error: %s', error);
-      },
       function () {
         service.update(controlConstruct).subscribe((result: any) => {
           this.controlConstruct = result;
@@ -195,7 +192,10 @@ export class ControlConstructFormComponent implements OnInit {
         }, (error: any) => {
           console.log('Error: %s', error);
         });
-      });
+      }),
+      function (error: any) {
+        console.log('Error: %s', error);
+      };
   }
 
   private popupModal(error: any) {
