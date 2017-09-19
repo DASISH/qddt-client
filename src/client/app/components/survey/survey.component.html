@@ -38,7 +38,7 @@
             <div class="col s1 m1 l1">
               <br />
               <div class="row">
-                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="edit.isVisible = !edit.isVisible"><i class="material-icons"title="Edit element">mode_edit</i></a>
+                <a *ngIf="!surveyProgram.archived" class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="edit.isVisible = !edit.isVisible"><i class="material-icons"title="Edit element">mode_edit</i></a>
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium" title="Revision history">history</i></a>
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"><i class="material-icons" (click)="getPdf(surveyProgram)" title="Get as Pdf">picture_as_pdf</i></a>
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="onSurveySelect(surveyProgram)"><i class="material-icons left medium"title="Go to child elements">play_arrow</i></a>

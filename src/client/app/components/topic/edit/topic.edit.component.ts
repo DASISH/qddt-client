@@ -10,7 +10,7 @@ let fileSaver = require('../../../common/file-saver');
   selector: 'qddt-topic-edit',
   moduleId: module.id,
   styles: [
-    '.nomargin: { margin:0; }',
+    '.nomargin { margin:0; }',
     ':host /deep/ .hoverable { margin-bottom:0px;}',
     ':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'
   ],
@@ -99,6 +99,7 @@ export class TopicEditComponent {
     let index = 0;
     let service = this.service;
     let actions = this.showErrorActions;
+    let saveAction = this.topicSavedAction;
     let errors = this.errors;
     source.subscribe(
       function (x: any) {
@@ -114,7 +115,7 @@ export class TopicEditComponent {
       function () {
         service.edit(topic).subscribe((result: any) => {
           this.topic = result;
-          this.topicSavedAction.emit(result);
+          saveAction.emit(result);
         }, (error: any) => {
           errors.push(error);
           actions.emit({action:'modal', params:['open']});

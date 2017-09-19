@@ -3,17 +3,17 @@
     <div class="col s1 m1 l1">
       <br />
       <div class="row">
-        <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+        <a *ngIf="!concept.archived" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
            (click)="edit.isVisible = !edit.isVisible"><i class="material-icons" title="Edit Concept">mode_edit</i></a>
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
            (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium" title="Revision history">history</i></a>
-        <qddt-questionitem-reuse [parentId]="concept.id"
+        <qddt-questionitem-reuse *ngIf="!concept.archived" [parentId]="concept.id"
                                  (questionItemCreatedEvent)="setQuestionItem($event)"></qddt-questionitem-reuse>
-        <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+        <a *ngIf="!concept.archived" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
            (click)="onCreateConcept(concept)"><i class="material-icons left medium" title="Add sub concept">add</i></a>
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
           <i class="material-icons" (click)="getPdf(concept)" title="Get as Pdf">picture_as_pdf</i></a>
-        <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+        <a *ngIf="!concept.archived" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
            (click)="onDeleteConcept(concept)"><i class="material-icons left medium" title="Delete" >delete_forever</i></a>
       </div>
     </div>

@@ -23,7 +23,9 @@ export enum ElementKind {
   RESPONSEDOMAIN,
   STUDY,
   SURVEY,
-  TOPIC_GROUP
+  TOPIC_GROUP,
+  INSTRUCTION,
+  UNIVERSE
 }
 
 export class QddtElementType {
@@ -72,6 +74,8 @@ export const QddtElementTypes: QddtElementType[] = [
   new QddtElementType(ElementKind.STUDY, 'Study', 'study',['name', 'description'],null),
   new QddtElementType(ElementKind.SURVEY, 'Survey', 'surveyprogram',['name', 'description'],null),
   new QddtElementType(ElementKind.TOPIC_GROUP, 'Module', 'topicgroup',['name', 'description'],null),
+  new QddtElementType(ElementKind.INSTRUCTION, 'Instruction', 'instruction',['description'],null),
+  new QddtElementType(ElementKind.UNIVERSE, 'Universe', 'universe',['description'],null),
 ];
 
 @Injectable()

@@ -118,14 +118,6 @@ export class QuestionService extends BaseService {
 
 
   getPdf(id: string): any {
-    let headers = new Headers();
-    let jwt = localStorage.getItem('jwt');
-    if(jwt !== null) {
-      headers.append('Authorization', 'Bearer  ' + JSON.parse(jwt).access_token);
-    }
-    let options = new RequestOptions({ headers: headers, responseType: ResponseContentType.Blob });
-    return this.http.get(this.api + 'questionitem/pdf/' + id, options)
-      .map(res => res.blob())
-      .catch(this.handleError);
+    return this.getBlob('questionitem/pdf/' + id);
   }
 }

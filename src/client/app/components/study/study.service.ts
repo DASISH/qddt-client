@@ -1,13 +1,15 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http, RequestOptions, Headers, ResponseContentType } from '@angular/http';
 
 import { API_BASE_HREF } from '../../api';
 import { BaseService } from '../../common/base.service';
+import { Http } from '@angular/http';
+// import { HttpClient } from '@angular/common/http';
 
 export class Study {
   id: string;
   name: string;
   description: string;
+  archived:boolean;
 }
 
 @Injectable()
@@ -42,15 +44,7 @@ export class StudyService extends BaseService {
   }
 
   getPdf(id: string): any {
-    let headers = new Headers();
-    let jwt = localStorage.getItem('jwt');
-    if(jwt !== null) {
-      headers.append('Authorization', 'Bearer  ' + JSON.parse(jwt).access_token);
-    }
-    let options = new RequestOptions({ headers: headers, responseType: ResponseContentType.Blob });
-    return this.http.get(this.api + 'study/pdf/' + id, options)
-      .map(res => res.blob())
-      .catch(this.handleError);
+    return this.getBlob('study/pdf/' + id);
   }
 
   deleteStudy(id: string): any {

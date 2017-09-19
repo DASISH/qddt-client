@@ -10,7 +10,7 @@ import { ResponseDomain } from '../../components/responsedomain/responsedomain.s
               style="padding-left:3%; padding-right:5%; margin: 1%">
         <label *ngIf="domainType !== domainTypeDef.MIXED"
           class="active teal-text">{{responseDomain?.name}}
-          (V{{responseDomain?.version?.major}}.{{responseDomain?.version?.minor}})</label>
+          (V<qddt-version [element]="responseDomain"></qddt-version>)</label>
         <div [ngSwitch]="domainType">
 					<qddt-preview-rd-scale *ngSwitchCase="domainTypeDef.SCALE"
 					  [responseDomain]="responseDomain"></qddt-preview-rd-scale>

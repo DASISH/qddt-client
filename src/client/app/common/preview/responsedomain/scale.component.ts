@@ -2,6 +2,18 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { ResponseDomain } from '../../../components/responsedomain/responsedomain.service';
 import { Category, Code } from '../../../components/category/category.service';
 
+class ScaleHead {
+  colspan: number;
+  class: string;
+  label: string;
+  width: number;
+}
+
+class Row {
+  value: number;
+  label: string;
+}
+
 @Component({
   selector: 'qddt-preview-rd-scale',
   moduleId: module.id,
@@ -11,30 +23,28 @@ import { Category, Code } from '../../../components/category/category.service';
           'table .text-right {text-align: right;}'],
 })
 
+
+
+
 export class ResponsedomainScaleComponent implements OnChanges {
   @Input() responseDomain: ResponseDomain;
-  private header: any[] = [];
-  private row: any[] = [];
-  private max: number = 8;
+  private headers: ScaleHead[] = [];
+  private rows: Row[] = [];
+  private max: number = 5;
   private min: number = 1;
   private displayLayout: number = 0;
 
   ngOnChanges() {
     let rep = this.responseDomain.managedRepresentation;
-    this.row = [];
-    this.header = [];
-    if (rep !== undefined
-      && rep.inputLimit !== undefined
-      && rep.inputLimit.maximum !== undefined) {
+    this.rows = [];
+    this.headers = [];
+    if (rep.inputLimit.maximum) {
       this.max = rep.inputLimit.maximum;
     }
-    if (rep !== undefined
-      && rep.inputLimit !== undefined
-      && rep.inputLimit.minimum !== undefined) {
+    if (rep.inputLimit.minimum) {
       this.min = rep.inputLimit.minimum;
     }
-    let layout = this.responseDomain['displayLayout'];
-    this.displayLayout = layout; // === 0 || layout === '0' ? 0 : 90;
+    this.displayLayout = parseInt(this.responseDomain.displayLayout);
 
     if (this.displayLayout > 0) {
       this.buildVerticalRows();
@@ -46,66 +56,87 @@ export class ResponsedomainScaleComponent implements OnChanges {
   rotate() {
     if(this.displayLayout === 0) {
       this.displayLayout = 90;
-      this.responseDomain['displayLayout'] = 90;
+      this.responseDomain.displayLayout = '90';
       this.buildVerticalRows();
     } else {
       this.displayLayout = 0;
-      this.responseDomain['displayLayout'] = 0;
+      this.responseDomain.displayLayout = '0';
       this.buildHorizontalRows();
     }
   }
 
   private buildHorizontalRows() {
-    this.row = [];
-    this.header = [];
-    let categories: Category[] = [];
-    let colspan: number=0;
+    this.rows = [];
+    this.headers = [];
     let usedCols: number=0;
     let rep = this.responseDomain.managedRepresentation;
 
-    if (rep !== undefined && rep.children !== undefined) {
-      let numberOfcols = rep.inputLimit.maximum - rep.inputLimit.minimum + 1;
-      categories = rep.children.map(x => Object.assign({}, x)).sort(function(a, b) {
-        return  parseInt(a.code.codeValue) - parseInt(b.code.codeValue);} ); //copy array, no reference
-      colspan = Math.floor(numberOfcols / categories.length);
-      colspan = (colspan>3)?3:colspan;
+    if (rep === undefined || rep.children === undefined) {
+      return;
+    }
 
-      for (let i = 0; i < categories.length; i++) {
-        if (categories[i].code === undefined ) {
-          categories[i].code = new Code();
-          categories[i].code.codeValue =  (rep.inputLimit.minimum + (i*colspan)).toString();
-        }
-        let nextcol = parseInt(categories[i].code.codeValue)-rep.inputLimit.minimum;
-
-        if (usedCols+1 <= nextcol) {
-          if (nextcol+usedCols+colspan > numberOfcols)
-            nextcol = numberOfcols - colspan;
-          if ((nextcol-usedCols >0)) {
-            this.header.push({
-              label: '',
-              colspan: (nextcol - usedCols),
-              width: (nextcol - usedCols) / numberOfcols * 100
-            });
-            usedCols += (nextcol - usedCols);
-          }
-        }
-        this.header.push({label: categories[i].label,
-          colspan: colspan,
-          class: categories[i].code.alignment,
-          width:colspan/numberOfcols*100});
-        usedCols += colspan;
+    function getAlignment(category: Category, islast: boolean) {
+      if (!category.code.alignment) {
+        return (islast)?'text-right':'text-left';
       }
+      return category.code.alignment;
+    }
+    function minDistance(c: Category[]): number {
+      let minDiff = parseInt(c[1].code.codeValue)-parseInt(c[0].code.codeValue);
+      for (let i = 2 ; i !== c.length ; i++) {
+        minDiff = Math.min(minDiff, parseInt(c[i].code.codeValue)-parseInt(c[i-1].code.codeValue));
+      }
+      return (minDiff>3)?3:minDiff;
+    }
+
+    let numberOfcols = this.max - this.min + 1;
+    let categories = rep.children
+      .map(x => Object.assign({}, x))
+      .sort(function(a, b) { return  parseInt(a.code.codeValue) - parseInt(b.code.codeValue);} );
+
+    let colspan = minDistance(categories);
+
+
+    for (let i = 0; i < categories.length; i++) {
+      if (categories[i].code === undefined) {
+        categories[i].code = new Code();
+        categories[i].code.codeValue = (this.min + (i * colspan)).toString();
+      }
+      let nextcol = parseInt(categories[i].code.codeValue) - this.min;
+
+      if (usedCols + 1 <= nextcol) {
+        if (nextcol + usedCols + colspan > numberOfcols)
+          nextcol = numberOfcols - colspan;
+        if ((nextcol - usedCols > 0)) {
+          this.headers.push({
+            label: '',
+            colspan: (nextcol - usedCols),
+            class: 'text-left',
+            width: (nextcol - usedCols) / numberOfcols * 100
+          });
+          usedCols += (nextcol - usedCols);
+        }
+      }
+      let alignment = getAlignment(categories[i],(i+1===categories.length));
+
+      this.headers.push({
+        label: categories[i].label,
+        colspan: colspan,
+        class:  alignment,
+        width: colspan / numberOfcols * 100
+      });
+      usedCols += colspan;
     }
     for (let i = this.min; i <= this.max; i++) {
       let c = categories
         .find(category => category.code && category.code.codeValue === i.toString());
-      this.row.push({ label: c !== undefined ? c.label : '', value: i });
+      this.rows.push({ label: c !== undefined ? c.label : '', value: i });
     }
   }
 
   private buildVerticalRows() {
-    this.row = [];
-    this.header = [];
+    this.rows = [];
+    this.headers = [];
     let categories: any[] = [];
     let rep = this.responseDomain.managedRepresentation;
     if (rep !== undefined && rep.children !== undefined) {
@@ -114,7 +145,9 @@ export class ResponsedomainScaleComponent implements OnChanges {
     for (let i = this.min; i <= this.max; i++) {
       let c = categories
         .find(category => category.code && category.code.codeValue === i.toString());
-      this.row.push({ label: c !== undefined ? c.label : '', value: i ,class:'text-left'});
+      this.rows.push({ label: c !== undefined ? c.label : '', value: i });
     }
   }
+
+
 }

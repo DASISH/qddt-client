@@ -52,16 +52,21 @@ export class ConceptComponent implements OnChanges {
     this.showProgressBar = true;
       this.conceptService.save(this.concept, this.topic.id)
       .subscribe((result: any) => {
-                  this.concepts.push(result);
-                  this.showProgressBar = false;
-                }
-                ,(err: any) => console.log('ERROR: ', err));
-        this.concept  = new Concept();
+            this.onConceptUpdated(result);
+      }
+    ,(err: any) => console.log('ERROR: ', err));
+    this.concept  = new Concept();
   }
 
   onConceptUpdated(concept:any) {
-    console.log('onConceptUpdated ' + this.concept.id);
-    this.concepts.push(this.concept);
+    console.log('onConceptSavedEvent ' + concept.name);
+    let index = this.concepts.findIndex((e:any) => e.id === concept.id);
+    if(index >= 0) {
+      this.concepts[index] = concept;
+    } else {
+      this.concepts.push(concept);
+    }
+    this.showProgressBar = false;
   }
 
   onDeleteConcept(concept: any) {
@@ -75,7 +80,6 @@ export class ConceptComponent implements OnChanges {
     this.conceptService.deleteConcept(id)
       .subscribe((result: any) => {
         this.confimDeleteActions.emit({action:'modal', params:['close']});
-        this.concepts = [];
         this.conceptService.getByTopic(this.topic.id)
           .subscribe((result: any) => this.concepts = result.content
           , (err: any) => console.log('ERROR: ', err));

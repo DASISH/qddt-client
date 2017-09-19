@@ -12,7 +12,7 @@ export class ResponseDomain {
   label: string;
   description: string;
   responseKind: string;
-  displayLayout:number;
+  displayLayout:any;
   managedRepresentation: Category;
   responseCardinality: ResponseCardinality;
 }

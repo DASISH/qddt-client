@@ -2,16 +2,16 @@
   <table *ngIf="displayLayout === 0">
     <thead>
     <tr>
-      <th *ngFor="let item of header" [attr.colspan]=item.colspan scope="colgroup" class="{{item.class}}" width="{{item.width}}%" >
+      <th *ngFor="let item of headers" [attr.colspan]=item.colspan scope="colgroup" class="{{item.class}}" width="{{item.width}}%" >
               <span>
                 <label>{{item.label}}</label>
               </span>
       </th>
     </tr>
     </thead>
-    <tbody *ngIf="responseDomain?.managedRepresentation?.inputLimit?.maximum - responseDomain?.managedRepresentation?.inputLimit?.minimum <= 15">
+    <tbody *ngIf="max - min <= 15">
     <tr >
-      <td *ngFor="let option of row; let idx=index" style="text-align: center">
+      <td *ngFor="let option of rows; let idx=index" style="text-align: center">
               <span>
                 <input name="{{responseDomain.id}}-group" type="radio" id="{{responseDomain.id}}option{{option.value}}" />
                 <label [attr.for]="responseDomain.id + 'option' + option.value">{{option?.value}}</label>
@@ -20,14 +20,15 @@
     </tr>
     </tbody>
   </table>
-  <div *ngIf="responseDomain?.managedRepresentation?.inputLimit?.maximum - responseDomain?.managedRepresentation?.inputLimit?.minimum > 15" class="range-field">
+
+  <div *ngIf="max - min > 15" class="range-field">
     <input type="range" id="test5"
-           min={{responseDomain?.managedRepresentation?.inputLimit?.minimum}}
-           max={{responseDomain?.managedRepresentation?.inputLimit?.maximum}}/>
+           min={{min}}
+           max={{max}}/>
   </div>
   <table *ngIf="displayLayout > 0">
     <tbody>
-      <tr *ngFor="let option of row; let idx=index">
+      <tr *ngFor="let option of rows; let idx=index">
         <td>
                 <span>
                   <input name="{{responseDomain.id}}-group1" type="radio" id="{{responseDomain.id}}option1{{option.value}}" />

@@ -1,7 +1,7 @@
 import { Component, Input, EventEmitter, Output, OnChanges } from '@angular/core';
 
 import { StudyService, Study } from './study.service';
-import { isNullOrUndefined } from 'util';
+// import { isNullOrUndefined } from 'util';
 //import * as fileSaver from 'file-saver';
 let fileSaver = require('../../common/file-saver');
 
@@ -64,7 +64,7 @@ export class StudyComponent implements OnChanges {
   }
 
   onRemoveStudy(studyId: string) {
-    if (!isNullOrUndefined(studyId) && studyId.length === 36) {
+    if (studyId && studyId.length === 36) {
       this.studyService.deleteStudy(studyId)
         .subscribe((result: any) => {
             let i = this.studies.findIndex(q => q['id'] === studyId);

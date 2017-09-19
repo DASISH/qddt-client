@@ -3,8 +3,8 @@ import { Component, EventEmitter, Output, Input, OnChanges, SimpleChanges } from
 import { TopicService, Topic } from './topic.service';
 import { MaterializeAction } from 'angular2-materialize';
 import { Study } from '../study/study.service';
-import { isNullOrUndefined } from 'util';
 import { QuestionItem } from '../question/question.service';
+// import { isNullOrUndefined } from 'util';
 //import * as fileSaver from 'file-saver';
 let fileSaver = require('../../common/file-saver');
 
@@ -19,7 +19,6 @@ let fileSaver = require('../../common/file-saver');
   providers: [TopicService],
 })
 export class TopicComponent implements OnChanges {
-
   @Output() topicSelectedEvent: EventEmitter<any> = new EventEmitter<any>();
   @Input() study: Study;
   @Input() show: boolean;
@@ -27,11 +26,12 @@ export class TopicComponent implements OnChanges {
   questionItemActions = new EventEmitter<string|MaterializeAction>();
   previewActions = new EventEmitter<string|MaterializeAction>();
 
+  // private showProgressBar: boolean;
   private topics:Topic[];
   private newTopic: Topic;
   private revision:any;
   private showTopicForm: boolean = false;
-  private showQuestionbutton: boolean = false;
+  // private showQuestionbutton: boolean = false;
   private questionItem: QuestionItem;
   private parentId:string;
 
@@ -73,17 +73,15 @@ export class TopicComponent implements OnChanges {
     } else {
       this.topics.push(topic);
     }
-    // this.topics = this.topics.filter((s: any) => s.id !== topic.id);
-    // this.topics.push(topic);
+    // this.showProgressBar = false;
   }
 
   onNewSave() {
     this.showTopicForm = false;
-    // this.showProgressBar = true;
+     // this.showProgressBar = true;
     this.topicService.save(this.newTopic,this.study.id)
       .subscribe((result: any) => {
-        this.topics.push(result);
-        // this.showProgressBar = true;
+        this.onTopicSavedEvent(result);
       }, (error: any) => console.log(error));
     this.newTopic  = new Topic();
   }
@@ -92,7 +90,6 @@ export class TopicComponent implements OnChanges {
     let fileName = o.originalName;
     this.topicService.getFile(o.id).subscribe(
       (data: any) => {
-        // this.openFileForDownload(data, fileName);
         fileSaver(data, fileName);
       },
       error => console.log(error));
@@ -123,16 +120,13 @@ export class TopicComponent implements OnChanges {
   onRemoveQuestionItem(id:any) {
     this.topicService.deattachQuestion(id.parentId, id.questionItemId)
       .subscribe((result: any) => {
-          let topic = this.topics.find((s: any) => s.id === id.parentId);
-          if(!isNullOrUndefined(topic)) {
-            topic.topicQuestionItems = topic.topicQuestionItems.filter(qi => qi.id !== id);
-          }
+          this.onTopicSavedEvent(result);
         }
         , (err: any) => console.log('ERROR: ', err));
   }
 
   onRemoveTopic(topicId: string) {
-    if (!isNullOrUndefined(topicId) && topicId.length === 36) {
+    if (topicId && topicId.length === 36) {
       this.topicService.deleteTopic(topicId)
         .subscribe((result: any) => {
             this.topics = this.topics.filter((s: any) => s.id !== topicId);
