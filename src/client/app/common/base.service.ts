@@ -1,9 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http, Headers, Response } from '@angular/http';
+import { Http, Headers, Response, RequestOptions, ResponseContentType } from '@angular/http';
 
 import { API_BASE_HREF } from '../api';
 import { Observable } from 'rxjs/Rx';
-import { isNullOrUndefined } from 'util';
 // import { AlertService } from '../shared/altert/alter.service';
 
 @Injectable()
@@ -31,14 +30,14 @@ export class BaseService {
     }
     if (error.status === 400) {
       // this.alertService.error(error['_body'].JSON()['exceptionMessage']);
-      return Observable.throw(error['_body'].JSON()['exceptionMessage'] || 'Server error');
+      return Observable.throw(error['_body'].JSON || 'Server error');
     }
-    if (!isNullOrUndefined(error.statusText)) {
+    if (!error.statusText) {
       // this.alertService.error(error.statusText);
       return Observable.throw(error.statusText || 'Server error');
     }
 
-    if (!isNullOrUndefined(error['message'])) {
+    if (!error['message']) {
       // this.alertService.error(error['message']);
       return Observable.throw(error['message'] || 'Server error');
     }
@@ -85,4 +84,45 @@ export class BaseService {
       .catch(this.handleError);
   }
 
+  /*
+  This function can retrieve blobs from all sources in backend
+  typical : 'othermaterial/files/' + id
+            'resource/pdf/' + id
+   */
+  protected getBlob(path: string): any {
+    let options = new RequestOptions({headers: this.headers, responseType: ResponseContentType.Blob});
+    return this.http.get(this.api + path,options)
+      .subscribe(
+        data => {
+          return data;
+        },
+        err => {
+          this.handleError(err);
+        });
+      // .map(res => res.blob())
+      // .catch(this.handleError);
+
+  }
+
+  protected uploadBlob(id: string, files: any): any {
+    let headers = new Headers();
+    let jwt = localStorage.getItem('jwt');
+    if (jwt !== null) {
+      headers.append('Authorization', 'Bearer  ' + JSON.parse(jwt).access_token);
+    }
+    let options = new RequestOptions({headers: headers});
+    const formData = new FormData();
+    if (files !== null) {
+      formData.append('file', files[0]);
+    }
+    return this.http.post(this.api + 'othermaterial/upload/' + id, formData, options)
+      .map((res: any) => {
+        try {
+          return res.json();
+        } catch (e) {
+          return [];
+        }
+      })
+      .catch(this.handleError);
+  }
 }
