@@ -57,6 +57,7 @@ export class AutocompleteComponent implements OnInit, OnChanges {
         this.isMultipleFields = false;
       }
     }
+    console.log(this.elementtype);
   }
 
   ngOnChanges() {
@@ -80,8 +81,9 @@ export class AutocompleteComponent implements OnInit, OnChanges {
   }
 
   select(candidate: any) {
+    console.log('select  ' + candidate);
     this.showAutoComplete = false;
-    this.value = this.getFieldValue(candidate, this.searchField)
+    this.value = this.getFieldValue(candidate, this.searchField);
     this.autocompleteSelectEvent.emit(candidate);
   }
 
@@ -106,6 +108,9 @@ export class AutocompleteComponent implements OnInit, OnChanges {
   }
 
   private getFieldValue(object: any, path: any) {
+    console.log('getFieldValue');
+    console.log(object);
+    console.log(path);
     if (path instanceof Array) {
       let result: any = object;
       path.forEach((element: any) => {
@@ -117,7 +122,7 @@ export class AutocompleteComponent implements OnInit, OnChanges {
       });
       return result;
     } else {
-      return object[path] || '';
+      return object[path] || '??';
     }
   }
 

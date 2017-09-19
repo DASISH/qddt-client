@@ -5,16 +5,16 @@ import { CommentService, Comment } from './comment.service';
   selector: 'qddt-comment-create',
   moduleId: module.id,
   template: `
-    <form (ngSubmit)="save()" #hf="ngForm">
+    <form class="card" (ngSubmit)="save()" #hf="ngForm">
       <div class="row">
-        <div class="input-field col l8">
+        <div class="input-field col l9 m7 s12">
           <label [attr.for]="ownerId + '-comment'">Write a new comment</label>
           <textarea class="materialize-textarea"
             id="{{ownerId}}-comment"
             name="{{ownerId}}-comment"
             [(ngModel)]="comment.comment" required></textarea>
         </div>
-        <div class="input-field col l4">
+        <div class="input-field col l3 m5 s7">
           <div class="switch">
             <label>
               Private
@@ -25,7 +25,9 @@ import { CommentService, Comment } from './comment.service';
           </div>
         </div>
       </div>
-      <button type="submit" class="btn">Submit</button>
+      <div class="row">
+        <button type="submit" class="btn col s3 offset-s9 ">Submit</button>
+      </div>
     </form>
   `,
   providers: [CommentService]

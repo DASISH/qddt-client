@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { isUndefined } from 'util';
 
 @Component({
   selector: 'qddt-rational',
@@ -137,7 +138,8 @@ export class RationalComponent implements OnInit {
         'description': 'The element is a translation of a source element'
       }]
     },
-    { 'id': 3, 'name': 'Saved as new', 'showComment': false, 'children': [] }
+    { 'id': 3, 'name': 'Saved as new', 'showComment': false, 'children': [] },
+    { 'id': 4, 'name': 'Archive', 'showComment': true, 'change':'ARCHIVED', 'children': [] }
   ];
   @Input() element: any;
   @Input() config: any;
@@ -159,7 +161,11 @@ export class RationalComponent implements OnInit {
   ngOnInit() {
     if(this.config !== null && this.config !== undefined) {
       let hiddenIds: any[] = this.config.hidden || [];
+      console.log('archived ' +  this.element['archived']);
+      if (this.element.archived === undefined)
+        hiddenIds.push(4);
       for(let id of hiddenIds) {
+        console.log(id);
         if(id < this.rationalDescriptions.length) {
           this.rationalDescriptions[id]['hidden'] = true;
         }

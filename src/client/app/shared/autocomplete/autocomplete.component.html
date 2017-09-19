@@ -5,9 +5,8 @@
 		  (focus)="onFocus()">
 	  <a class="waves-effect waves-light btn" (click)="onClearKeywords()">x</a>
 	</div>
-	<ul
-		*ngIf="showAutoComplete && candidates != undefined && candidates.length > 0">
-		<li *ngFor="let candidate of candidates; let idx=index"
+	<ul *ngIf="showAutoComplete && candidates != undefined && candidates.length > 0">
+		<li class="grey-text.text-darken-1" *ngFor="let candidate of candidates; let idx=index"
 			[ngClass]="{ active: (idx === selectedIndex) }"
 			(mouseover)="selectedIndex=idx;" (mousedown)="select(candidate)">{{getLabel(candidate)}}
 		</li>
