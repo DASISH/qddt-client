@@ -51,10 +51,11 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
       .distinctUntilChanged()
       .subscribe((name: string) => {
         this.showProgressBar = true;
-        this.questionService.searchQuestionItemsByNameAndQuestion(name, '0', this.getSort()).subscribe((result: any) => {
-          this.page = result.page;
-          this.questionitems = result.content;
-          this.showProgressBar = false;
+        this.questionService.searchQuestionItems(name, '0', this.getSort())
+          .subscribe((result: any) => {
+            this.page = result.page;
+            this.questionitems = result.content;
+            this.showProgressBar = false;
         });
       });
   }

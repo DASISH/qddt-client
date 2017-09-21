@@ -8,6 +8,7 @@ import { ResponseDomain } from '../responsedomain/responsedomain.service';
 export class Question {
   id: string;
   name: string;
+  intent: string;
   modified:DateTimeFormat;
 }
 
@@ -34,9 +35,9 @@ export class QuestionService extends BaseService {
     return this.post(question,'question/create');
   }
 
-  getPage(): any {
-    return this.get('question/page');
-  }
+  // getPage(): any {
+  //   return this.get('question/page');
+  // }
 
   getQuestionItemPage(page: String = '0'): any {
     return this.get('questionitem/page' + '?&page=' + page + this.pageSize );
@@ -58,13 +59,13 @@ export class QuestionService extends BaseService {
     return this.get('questionitem/page/search?' + 'page=' + page + this.pageSize + query);
   }
 
-  searchQuestionItemsByNameAndQuestion(name: string = '', page: String = '0', sort: String = ''): any {
-    let query = name.length > 0? '&question=' + '*' + name +'*' + '&name=' + '*' + name +'*': '';
-    if (sort.length > 0) {
-      query += '&sort=' + sort;
-    }
-    return this.get('questionitem/page/search?' + 'page=' + page + this.pageSize+ query);
-  }
+  // searchQuestionItemsByNameAndQuestion(name: string = '', page: String = '0', sort: String = ''): any {
+  //   let query = name.length > 0? '&question=' + '*' + name +'*' + '&name=' + '*' + name +'*': '';
+  //   if (sort.length > 0) {
+  //     query += '&sort=' + sort;
+  //   }
+  //   return this.get('questionitem/page/search?' + 'page=' + page + this.pageSize+ query);
+  // }
 
   createQuestionItem(question: any): any {
     return this.post(question,'questionitem/create');

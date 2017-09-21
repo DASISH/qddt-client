@@ -40,7 +40,7 @@ export class QuestionReuseComponent {
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
-        this.questionService.searchQuestionItemsByNameAndQuestion(name).subscribe((result: any) => {
+        this.questionService.searchQuestionItems(name).subscribe((result: any) => {
           this.questionItems = result.content;
         });
       });

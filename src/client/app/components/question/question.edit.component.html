@@ -30,10 +30,10 @@
             </div>
           </div>
         </div>
-        <div *ngIf="editResponseDomain" class="hoverable row">
-          <div class="col s6"
-               (mouseenter)="showbutton = true"
-               (mouseleave)="showbutton = false">
+        <div *ngIf="editResponseDomain" class="hoverable row"
+             (mouseenter)="showbutton = true"
+             (mouseleave)="showbutton = false">
+          <div class="col s6">
             <div class="row teal-text">
               <span>Response Domain (V <qddt-version [element]="mainResponseDomain?.managedRepresentation"></qddt-version>)
             </span>
