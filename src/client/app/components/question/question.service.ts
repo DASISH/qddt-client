@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http, RequestOptions, Headers, ResponseContentType } from '@angular/http';
+import { Http } from '@angular/http';
 import DateTimeFormat = Intl.DateTimeFormat;
 import { API_BASE_HREF } from '../../api';
 import { BaseService } from '../../common/base.service';
@@ -16,6 +16,7 @@ export class QuestionItem {
   id: string;
   question: Question;
   responseDomain: ResponseDomain;
+  responseDomainRevision: number;
   version: any;
   agency: any;
   name: string;
@@ -34,10 +35,6 @@ export class QuestionService extends BaseService {
   save(question: Question): any {
     return this.post(question,'question/create');
   }
-
-  // getPage(): any {
-  //   return this.get('question/page');
-  // }
 
   getQuestionItemPage(page: String = '0'): any {
     return this.get('questionitem/page' + '?&page=' + page + this.pageSize );
@@ -59,14 +56,6 @@ export class QuestionService extends BaseService {
     return this.get('questionitem/page/search?' + 'page=' + page + this.pageSize + query);
   }
 
-  // searchQuestionItemsByNameAndQuestion(name: string = '', page: String = '0', sort: String = ''): any {
-  //   let query = name.length > 0? '&question=' + '*' + name +'*' + '&name=' + '*' + name +'*': '';
-  //   if (sort.length > 0) {
-  //     query += '&sort=' + sort;
-  //   }
-  //   return this.get('questionitem/page/search?' + 'page=' + page + this.pageSize+ query);
-  // }
-
   createQuestionItem(question: any): any {
     return this.post(question,'questionitem/create');
   }
@@ -82,15 +71,10 @@ export class QuestionService extends BaseService {
   createResponseDomain(responseDomain: any): any {
     return this.post(responseDomain,'responsedomain/create');
   }
-
-  createMixedResponseDomain(responseDomaindId: string, missingId: string): any {
-    return this.get('responsedomain/createmixed?responseDomaindId=' + responseDomaindId + '&missingId=' + missingId);
-  }
-
-  createResponseDomainWithMissing(responseDomainId: any, missingId: string): any {
-    return this.get('responsedomain/createmixed?responseDomaindId='
-      + responseDomainId + '&missingId=' + missingId);
-  }
+  //
+  // createMixedResponseDomain(responseDomaindId: string, missingId: string): any {
+  //   return this.get('responsedomain/createmixed?responseDomaindId=' + responseDomaindId + '&missingId=' + missingId);
+  // }
 
   getAllTemplatesByCategoryKind(categoryKind: String, name: String = '', page: String = '0', sort: String = ''): any {
     let query = name.length > 0? '&name=' + '*' + name + '*': '';

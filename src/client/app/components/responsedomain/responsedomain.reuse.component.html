@@ -1,7 +1,6 @@
 <a class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal">
   <i class="material-icons" title="response domain edit" (click)="openSelectRevisionRDModal()">add</i>
 </a>
-
 <div class="modal modal-fixed-footer"
      materialize="modal" [materializeActions]="modalRdActions">
   <div class="modal-content">
@@ -45,6 +44,6 @@
   </div>
   <div class="modal-footer">
     <button
-      class="btn btn-default red modal-action modal-close waves-effect waves-red">Dismiss</button>
+      class="btn btn-default red modal-action modal-close waves-effect waves-red" (click)="onCloseModal">Dismiss</button>
   </div>
 </div>

@@ -14,6 +14,7 @@ export const DomainTypeDescription = [
   { id: DomainType.MIXED, name: 'MIXED', label: 'Mixed Domain', categoryType: 'MIXED'},
   { id: DomainType.NUMERIC, name: 'NUMERIC', label: 'Numeric Domain', categoryType: 'NUMERIC' },
   { id: DomainType.TEXT, name: 'TEXT', label: 'Text Domain', categoryType: 'TEXT' },
+  { id: DomainType.DATETIME, name: 'DATETIME', label: 'DateTime Domain', categoryType: 'DATETIME' },
 ];
 
 export const PredefinedColumns: any = {
@@ -37,5 +38,10 @@ export const PredefinedColumns: any = {
     { 'label': 'Description', 'name': 'description', 'sortable': true, 'direction': '' },
     { 'label': 'Min Length', 'name': ['managedRepresentation', 'inputLimit', 'minimum'], 'sortable': false },
     { 'label': 'Max Length', 'name': ['managedRepresentation', 'inputLimit', 'maximum'], 'sortable': false },
+    { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' }],
+  'DATETIME': [{ 'label': 'DateTime Domain Name', 'name': 'name', 'sortable': true, 'direction': '' },
+    { 'label': 'Description', 'name': 'description', 'sortable': true, 'direction': '' },
+    { 'label': 'Low', 'name': ['managedRepresentation', 'inputLimit', 'minimum'], 'sortable': false },
+    { 'label': 'High', 'name': ['managedRepresentation', 'inputLimit', 'maximum'], 'sortable': false },
     { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' }],
 };

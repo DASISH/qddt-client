@@ -15,13 +15,14 @@ import { MaterializeAction } from 'angular2-materialize';
 export class ResponsedomainReuseComponent implements OnInit, OnChanges {
   @Input() isVisible: boolean;
   @Input() responseDomain: any;
-  @Output() responseDomainReuse: EventEmitter<any> = new EventEmitter();
-  @Output() dismissEvent: any = new EventEmitter<any>();
+  @Input() name: String;
+  @Output() responseDomainReuse = new EventEmitter<any>();
+  // @Output() dismissEvent = new EventEmitter<any>();
   selectedResponseDomain: any;
   selectedRevision: number;
   public domainTypeDef = DomainType;
   public domainTypeDescription: any[];
-  private modalRdActions = new EventEmitter<string|MaterializeAction>();
+  private modalRdActions = new EventEmitter<MaterializeAction>();
   private domainType: DomainType;
   private showAutocomplete: boolean;
   private responseDomains: any;
@@ -46,6 +47,7 @@ export class ResponsedomainReuseComponent implements OnInit, OnChanges {
           });
       });
     this.reuse();
+    console.debug('responsedomain reuse cnst done...');
   }
 
   ngOnInit() {
@@ -53,6 +55,7 @@ export class ResponsedomainReuseComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
+    console.debug('ngOnChanges');
     if (this.responseDomain !== undefined && this.responseDomain !== null) {
       let description = this.domainTypeDescription.find((e: any) => e.name === this.responseDomain.responseKind);
       if (description !== undefined) {
@@ -62,12 +65,13 @@ export class ResponsedomainReuseComponent implements OnInit, OnChanges {
       this.domainType = DomainType.SCALE;
     }
   }
-
-  onDismiss() {
-    this.dismissEvent.emit(true);
-  }
+  //
+  // onDismiss() {
+  //   this.dismissEvent.emit(true);
+  // }
 
   formChange() {
+    console.debug('formChange');
     if (this.responseDomain.id !== undefined && this.responseDomain.id !== '') {
       this.responseDomainService.update(this.responseDomain).subscribe((result: any) => {
         this.responseDomain = result;
@@ -97,6 +101,7 @@ export class ResponsedomainReuseComponent implements OnInit, OnChanges {
   }
 
   reuse() {
+    console.debug('reuse');
     this.responseDomainService.getAll(DomainTypeDescription.find((e: any) =>
       e.id === this.domainType).name).subscribe((result: any) => {
       this.responseDomains = result.content;
@@ -120,8 +125,8 @@ export class ResponsedomainReuseComponent implements OnInit, OnChanges {
   }
 
   openSelectRevisionRDModal() {
-    this.modalRdActions.emit({action:'modal', params:['open']});
     console.log('openSelectRevisionRDModal');
+    this.modalRdActions.emit({action:'modal', params:['open']});
     // this.responseDomainService.getAll().subscribe(
     //   result => { this.responseDomains = result.content;
     //   }, (error: any) => console.log(error));

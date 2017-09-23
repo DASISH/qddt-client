@@ -19,8 +19,8 @@
 				/> <label [attr.for]="'domain-type-' + domain.id">{{domain.label}}</label>
 			</div>
 		</div>
-		<div *ngIf="showResponseDomainForm" class="row">
-			<qddt-responsedomain-form
+		<div *ngIf="showResponseDomainForm" class="row teal white-text">
+			<qddt-responsedomain-form class="card teal white-text"
         (formChange)="formCreate($event)" [responsedomain]="responseDomain" [domainType]="domainType">
       </qddt-responsedomain-form>
 		</div>

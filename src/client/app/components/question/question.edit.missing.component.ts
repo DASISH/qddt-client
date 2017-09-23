@@ -57,10 +57,8 @@ import { MaterializeAction } from 'angular2-materialize';
 					</table>
         </div>
         <div class="modal-footer">
-          <button type="submit"
-            class="btn btn-default green waves-green">Submit</button>
-          <button id="questionItem-missing-modal-close"
-            (click)="onDismiss()"
+          <button type="submit" class="btn btn-default green waves-green">Submit</button>
+          <button id="questionItem-missing-modal-close" (click)="onDismiss()"
             class="btn btn-default red modal-action modal-close waves-effect waves-red">Dismiss</button>
         </div>
         </form>
@@ -72,9 +70,9 @@ import { MaterializeAction } from 'angular2-materialize';
 
 export class QuestionItemEditMissingComponent implements OnInit {
   @Input() missing: any;
-  @Input() readonly: boolean;
   @Input() mainResponseDomain: any;
-  @Output() editMissing: EventEmitter<any>;
+  @Input() readonly: boolean;
+  @Output() missingSelectedAction: EventEmitter<any>;
   showbutton: any;
   missingCategories: any[];
   selectedCategoryIndex: number;
@@ -82,7 +80,7 @@ export class QuestionItemEditMissingComponent implements OnInit {
   private searchMissingCategoriesSubect: Subject<string> = new Subject<string>();
 
   constructor(private service: CategoryService) {
-    this.editMissing = new EventEmitter<any>();
+    this.missingSelectedAction = new EventEmitter<any>();
     this.selectedCategoryIndex = 0;
     this.missingCategories = [];
     this.searchMissingCategoriesSubect
@@ -102,7 +100,7 @@ export class QuestionItemEditMissingComponent implements OnInit {
   }
 
   onRemoveMissingResponsedomain(questionitem: any) {
-    this.editMissing.emit(null);
+    this.missingSelectedAction.emit(null);
   }
 
   searchMissingCategories(name: string) {
@@ -114,7 +112,7 @@ export class QuestionItemEditMissingComponent implements OnInit {
   }
 
   onAddMissing() {
-    if(this.mainResponseDomain !== null && this.mainResponseDomain !== undefined) {
+    if(this.mainResponseDomain) {
       this.missingAction.emit({action:'modal', params:['open']});
     }
   }
@@ -126,8 +124,8 @@ export class QuestionItemEditMissingComponent implements OnInit {
 
   onSave() {
     this.missingAction.emit({action:'modal', params:['close']});
-    if(this.missing !== null) {
-      this.editMissing.emit(this.missing);
+    if(this.missing) {
+      this.missingSelectedAction.emit(this.missing);
     }
   }
 }

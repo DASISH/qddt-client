@@ -1,16 +1,17 @@
 <div *ngIf="isVisible" class="card white grey-text text-darken-1">
   <div *ngIf="questionitem">
-    <qddt-preview-responsedomain *ngIf="privewResponseDomain"
-                                 [isVisible]="true" [responseDomain]="privewResponseDomain">
+    <qddt-preview-responsedomain *ngIf="questionitem?.responseDomain"
+                                 [isVisible]="true" [responseDomain]="questionitem.responseDomain">
     </qddt-preview-responsedomain>
 
     <qddt-conceptref [element]="questionitem"></qddt-conceptref>
 
     <div class="card-action">
-      <form  (ngSubmit)="onEditQuestionItem()" #hf="ngForm">
+      <form  (ngSubmit)="onSaveQuestionItem()" #hf="ngForm">
         <div class="row">
           <label [attr.for]="questionitem.id + '-question-name'" class="active teal-text">Name</label>
-          <input name="{{questionitem?.id}}-question-name" type="text" [(ngModel)]="questionitem.name">
+          <input name="{{questionitem?.id}}-question-name" type="text" [(ngModel)]="questionitem.name"
+                 materialize="characterCounter" length="255">
         </div>
         <div class="row">
           <div class="row">
@@ -18,7 +19,7 @@
               <label [attr.for]="questionitem.id + '-question-textarea'" class="active teal-text">Question text</label>
               <textarea id="{{questionitem?.id}}-question-textarea"
                         name="{{questionitem?.id}}-question-textarea" [(ngModel)]="questionitem.question.question"
-                        class="materialize-textarea" [attr.maxlength]="1500"></textarea>
+                        class="materialize-textarea" materialize="characterCounter" length="1500"></textarea>
             </div>
           </div>
           <div class="row">
@@ -26,7 +27,7 @@
               <label [attr.for]="questionitem.id + '-question-intent'" class="active teal-text">Question intent</label>
               <textarea id="{{questionitem?.id}}-question-intent"
                         name="{{questionitem?.id}}-question-intent" [(ngModel)]="questionitem.question.intent"
-                        class="materialize-textarea" [attr.maxlength]="1500"></textarea>
+                        class="materialize-textarea" materialize="characterCounter" length="2000"></textarea>
             </div>
           </div>
         </div>
@@ -35,33 +36,34 @@
              (mouseleave)="showbutton = false">
           <div class="col s6">
             <div class="row teal-text">
-              <span>Response Domain (V <qddt-version [element]="mainResponseDomain?.managedRepresentation"></qddt-version>)
+              <span>Response Domain (V <qddt-version [element]="questionitem?.responseDomain?.managedRepresentation"></qddt-version>)
             </span>
             </div>
             <div class="row">
-              <qddt-responsedomain-reuse *ngIf="!readonly && !mainResponseDomain" [ngClass]="{hide: !showbutton}"
-                 [responseDomain]="mainResponseDomain"
-                (responseDomainReuse)="responseDomainReuse($event)">
+              <qddt-responsedomain-reuse *ngIf="!readonly && !questionitem?.responseDomain" [name]="'edit'"
+                                         [ngClass]="{hide: !showbutton}"
+                                         [responseDomain]="questionItem?.responseDomain"
+                                         (responseDomainReuse)="onResponseDomainReuse($event)">
               </qddt-responsedomain-reuse>
-              <a *ngIf="!readonly && mainResponseDomain " class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+              <a *ngIf="!readonly && questionitem.responseDomain " class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                  [ngClass]="{hide: !showbutton}"
                  (click)="onRemoveResponsedomain(questionitem)">
                 <i class="material-icons left medium" title="remove response domain">remove</i>
               </a>
-              <span *ngIf="mainResponseDomain">{{mainResponseDomain?.name}}</span>
+              <span *ngIf="questionitem.responseDomain">{{questionitem.responseDomain.name}}</span>
             </div>
           </div>
           <div class="col s6">
-            <div name="edit-missing-responsedomain" *ngIf="editResponseDomain" class="row">
-              <qddt-questionitem-edit-missing [missing]="secondCS"
+            <div name="edit-missing-responsedomain" *ngIf="editResponseDomain && questionitem?.responseDomain" class="row">
+              <qddt-questionitem-edit-missing [missing]="getMissing()"
                                               [readonly]="readonly"
-                                              [mainResponseDomain]="mainResponseDomain"
-                                              (editMissing)="onEditMissing($event)"></qddt-questionitem-edit-missing>
+                                              [mainResponseDomain]="questionitem.responseDomain"
+                                              (missingSelectedAction)="setMissing($event)"></qddt-questionitem-edit-missing>
             </div>
           </div>
         </div>
         <div class="row" *ngIf="!readonly">
-          <qddt-rational [element]="questionitem"></qddt-rational>
+          <qddt-rational [element]="questionitem" [config]="{hidden: [4]}"></qddt-rational>
         </div>
         <div class="row">
           <qddt-element-footer [element]="questionitem" [type]="'QUESTION_ITEM'"

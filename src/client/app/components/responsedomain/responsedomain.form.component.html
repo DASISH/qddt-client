@@ -1,5 +1,4 @@
-<div>
-	<div *ngIf="responsedomain" class="card" id="{{responsedomain.id}}">
+<div *ngIf="responsedomain"  id="{{responsedomain.id}}">
     <qddt-preview-responsedomain [isVisible]="true"
       [responseDomain]="previewResponseDomain">
 		</qddt-preview-responsedomain>
@@ -7,15 +6,16 @@
 		<form (ngSubmit)="onSave()" #hf="ngForm" >
 			<div class="row">
 				<div class="col s12">
-					<label for="name" class="active teal-text">Name</label>
-					<input id="name" name="name" type="text" [(ngModel)]="responsedomain.name" required>
+					<label for="name" class="active ">Name</label>
+					<input id="name" name="name" type="text" materialize="characterCounter" maxlength="255"
+                 [(ngModel)]="responsedomain.name" required>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col s12">
-					<label for="description" class="active teal-text">Description</label>
-					<textarea class="materialize-textarea"
-					  id="description" name="description"
+					<label for="description" class="active ">Description</label>
+					<textarea class="materialize-textarea" maxlength="2000" materialize="characterCounter"
+                    id="description" name="description"
 						[(ngModel)]="responsedomain.description"></textarea>
 				</div>
 			</div>
@@ -98,7 +98,6 @@
 					</div>
 					<div *ngSwitchCase="domainTypeDef.LIST" class="row">
 						<div class="input-field col s3">
-
                 <input id="code_number" name="code_number" type="number"
                   min="0"
                   [ngModel]="responsedomain.managedRepresentation.inputLimit.maximum"
@@ -154,19 +153,19 @@
 					</div>
 					<div *ngSwitchCase="domainTypeDef.NUMERIC">
             <div class="row" *ngIf="responsedomain.managedRepresentation">
-              <div class="col l2">
+              <div class="input-field col l2">
                 <label for="representation_low" class="active">Low</label>
                 <input id="representation_low" name="representation_low" type="number"
                        (ngModelChange)="buildPreviewResponseDomain()"
                        [(ngModel)]="responsedomain.managedRepresentation.inputLimit.minimum" required>
               </div>
-              <div class="col l2">
+              <div class="input-field col l2">
                 <label for="representation_high" class="active">High</label>
                 <input id="representation_high" name="representation_high" type="number"
                        (ngModelChange)="buildPreviewResponseDomain()"
                        [(ngModel)]="responsedomain.managedRepresentation.inputLimit.maximum" required>
               </div>
-              <div class="col l2">
+              <div class="input-field col l2">
                 <label for="representation_decimal" class="active">Number of Decimal</label>
                 <input id="representation_decimal" name="representation_decimal" type="number"
                        [attr.min]="0"
@@ -177,48 +176,47 @@
             </div>
 					</div>
 					<div *ngSwitchCase="domainTypeDef.TEXT">
-						<table *ngIf="responsedomain.managedRepresentation">
-						  <thead><tr><td>TEXT Range</td><td>Value</td></tr></thead>
-							<tbody>
-								<tr>
-								  <td><label>Minimum length</label></td>
-								  <td><input id="text_representation_min" name="text_representation_min" type="number"
-									  (ngModelChange)="buildPreviewResponseDomain()"
-									  [(ngModel)]="responsedomain.managedRepresentation.inputLimit.minimum" required></td>
-								</tr>
-								<tr>
-								  <td><label>Maximum length</label></td>
-								  <td><input id="text_representation_max" name="text_representation_max" type="number"
-									  (ngModelChange)="buildPreviewResponseDomain()"
-									  [(ngModel)]="responsedomain.managedRepresentation.inputLimit.maximum" required></td>
-								</tr>
-							</tbody>
-						</table>
+            <div class="row" *ngIf="responsedomain.managedRepresentation">
+              <div class="input-field col l2">
+                <label for="representation_lowT" class="active">Low</label>
+                <input id="representation_lowT" name="representation_lowT" type="number"
+                       (ngModelChange)="buildPreviewResponseDomain()"
+                       [(ngModel)]="responsedomain.managedRepresentation.inputLimit.minimum" required>
+              </div>
+              <div class="input-field col l2">
+                <label for="representation_highT" class="active">High</label>
+                <input id="representation_highT" name="representation_highT" type="number"
+                       (ngModelChange)="buildPreviewResponseDomain()"
+                       [(ngModel)]="responsedomain.managedRepresentation.inputLimit.maximum" required>
+              </div>
+            </div>
 					</div>
           <div *ngSwitchCase="domainTypeDef.DATETIME">
-					  <autocomplete [items]="suggestions"
-											[searchField]="'label'"
-											(autocompleteFocusEvent)="selectedCategoryIndex=idx;"
-											[initialValue]="''"
-											(autocompleteSelectEvent)="select($event)"></autocomplete>
-						<table *ngIf="responsedomain.managedRepresentation">
-						  <thead><tr><td>DATETIME Range</td><td>Value</td></tr></thead>
-							<tbody>
-								<tr>
-								  <td><label>Start</label></td>
-								  <td><input id="datetime_representation_start" name="datetime_representation_start" type="text" [(ngModel)]="responsedomain.managedRepresentation.inputLimit.minimum" required></td>
-								</tr>
-								<tr>
-								  <td><label>End</label></td>
-								  <td><input id="datetime_representation_end" name="datetime_representation_end" type="text" [(ngModel)]="responsedomain.managedRepresentation.inputLimit.maximum" required></td>
-								</tr>
-							</tbody>
-						</table>
+            <div class="row" *ngIf="responsedomain.managedRepresentation">
+              <div class="input-field col l2">
+                <label for="representation_lowD" class="active">After</label>
+                <input id="representation_lowD" name="representation_lowD" type="number"
+                       (ngModelChange)="buildPreviewResponseDomain()"
+                       [(ngModel)]="responsedomain.managedRepresentation.inputLimit.minimum" required>
+              </div>
+              <div class="input-field col l2">
+                <label for="representation_highD" class="active">Before</label>
+                <input id="representation_highD" name="representation_highD" type="number"
+                       (ngModelChange)="buildPreviewResponseDomain()"
+                       [(ngModel)]="responsedomain.managedRepresentation.inputLimit.maximum" required>
+              </div>
+              <div class="input-field col l8">
+                <label for="representation_formatD" class="active">Date format</label>
+                <input id="representation_formatD" name="representation_formatD" type="text"
+                       (ngModelChange)="buildPreviewResponseDomain()"
+                       [(ngModel)]="responsedomain.managedRepresentation.format" required>
+              </div>
+            </div>
 					</div>
 				</div>
 			</div>
       <div *ngIf="!responsedomain.isNew && !readonly" class="row">
-        <qddt-rational [element]="responsedomain"></qddt-rational>
+        <qddt-rational [element]="responsedomain" [config]="{hidden: [4]}"></qddt-rational>
       </div>
 			<div *ngIf="!responsedomain.isNew" class="row">
 				<qddt-element-footer [element]="responsedomain"
@@ -230,7 +228,6 @@
       </div>
 		</form>
 	</div>
-</div>
 
 
 <div class="modal modal-fixed-footer"

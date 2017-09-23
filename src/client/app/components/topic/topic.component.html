@@ -110,7 +110,7 @@
                       <div class="col s11" (click)="onClickQuestionItem(cqi.questionItem)" style="cursor: pointer;">
                         ♦ {{cqi?.questionItem?.question?.question}}</div>
                       <div class="col s1">
-                        <a
+                        <a *ngIf="!currentElement.archived"
                           class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
                           [ngClass]="{hide: !showQuestionbutton}"
                           (click)="onRemoveQuestionItem(cqi?.id)">

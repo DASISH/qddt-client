@@ -138,7 +138,7 @@ export class RationalComponent implements OnInit {
         'description': 'The element is a translation of a source element'
       }]
     },
-    { 'id': 3, 'name': 'Saved as new', 'showComment': false, 'children': [] },
+    { 'id': 3, 'name': 'Saved as new', 'showComment': false, 'change':'CREATED', 'children': [] },
     { 'id': 4, 'name': 'Archive', 'showComment': true, 'change':'ARCHIVED', 'children': [] }
   ];
   @Input() element: any;
@@ -159,7 +159,7 @@ export class RationalComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(this.config !== null && this.config !== undefined) {
+    if(this.config) {
       let hiddenIds: any[] = this.config.hidden || [];
       console.log('archived ' +  this.element['archived']);
       if (this.element.archived === undefined)

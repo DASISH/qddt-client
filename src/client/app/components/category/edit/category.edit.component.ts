@@ -11,40 +11,49 @@ import { CategoryType } from '../category_kind';
     <div *ngIf="category" class="card" id="{{category.id}}"  >
       <form (ngSubmit)="onSave()" #hf="ngForm">
         <div class="row">
-          <div class="input-field col s12">
-            <!--<textarea id="{{category?.id}}-label" class="materialize-textarea"-->
-              <!--name="{{category?.id}}-label"-->
-              <!--[(ngModel)]="category.label" [attr.maxlength]="255"-->
-              <!--required (ngModelChange)="category.name = category.label.toUpperCase()">-->
-            <!--</textarea>-->
+          <div class="input-field col s12 l8 ">
             <label for="label2" class="active teal-text">Label</label>
             <input id="label2" name="label" type="text" class="validate required" 
-                   [(ngModel)]="category.label" [attr.maxlength]="255"
+                   [(ngModel)]="category.label" length="100" materialize="characterCounter"
                    (ngModelChange)="category.name = category.label.toUpperCase()">
-            <!--<label [attr.for]="category.id + '-label'" class="active teal-text">Label</label>-->
           </div>
         </div>
         <div class="row">
-          <div class="input-field col s12">
+          <div class="input-field col m12 l8">
             <label for="name2" class="active teal-text">Name</label>
-            <input id="name2" name="name" type="text" class="validate required" [(ngModel)]="category.name" [attr.maxlength]="255" >
-            <!--<textarea id="{{category?.id}}-name" class="materialize-textarea"-->
-              <!--name="{{category?.id}}-name"-->
-              <!--[(ngModel)]="category.name" [attr.maxlength]="255">-->
-            <!--</textarea>-->
-            <!--<label [attr.for]="category.id + '-name'" class="active teal-text">Name</label>-->
+            <input id="name2" name="name" type="text" class="validate required" [(ngModel)]="category.name" 
+                   length="255" materialize="characterCounter">
           </div>
         </div>
         <div class="row">
-          <div class="col s12">
-            <label [attr.for]="category.id + '-category-description'"
-              class="active teal-text">Description</label>
-            <textarea class="materialize-textarea"
-              name="{{category?.id}}-category-description" [(ngModel)]="category.description" ></textarea>
+          <div class="col m12 l8">
+            <label [attr.for]="category.id + '-category-description'" class="active teal-text">Description</label>
+            <textarea class="materialize-textarea validate" name="{{category?.id}}-category-description"
+                      length="1000" materialize="characterCounter" [(ngModel)]="category.description" >
+            </textarea>
           </div>
         </div>
+        <div class="row" *ngIf="category.categoryType!=='CATEGORY'">
+          <div class="input-field col s2 ">
+            <label for="ctype" class="active teal-text">Type</label>
+            <input id="ctype" name="ctype" type="text" [(ngModel)]="category.categoryType" readonly>
+          </div>          
+          <div class="input-field col s2 offset-m1">
+            <label for="min" class="active teal-text">Input limit minimum</label>
+            <input id="min" name="mini" type="number"  readonly min="0" [(ngModel)]="category.inputLimit.minimum" >
+          </div>
+          <div class="input-field col s2 offset-m1">
+            <label for="max" class="active teal-text">Input limit maximum</label>
+            <input id="max" name="maxi" type="number" readonly min="1"  [(ngModel)]="category.inputLimit.maximum" >
+          </div>
+          <div class="input-field col s6 m8">
+            <label for="format" class="teal-text">Format</label>
+            <input id="format" name="format" type="text"  [(ngModel)]="category.format" >
+          </div>
+        </div>
+
         <div class="row">
-          <qddt-rational [element]="category" [config]="{hidden: [2]}"></qddt-rational>
+          <qddt-rational [element]="category" [config]="{hidden: [2,4]}"></qddt-rational>
         </div>
         <div class="row">
           <qddt-element-footer [element]="category" [type]="'category'"></qddt-element-footer>
@@ -147,4 +156,7 @@ export class CategoryEditComponent implements OnInit {
       });
   }
 
+  onChangeType(kind: string) {
+    this.category.categoryType = kind;
+  }
 }
