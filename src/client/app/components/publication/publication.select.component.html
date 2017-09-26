@@ -11,7 +11,7 @@
         <option *ngFor="let revision of elementRevisions"
                 [selected]="revision.revisionNumber === elementRevision"
                 [value]="revision.revisionNumber">
-          {{revision?.entity?.version?.major}}.{{revision?.entity?.version?.minor}}
+           {{revision?.entity?.version?.major}}.{{revision?.entity?.version?.minor}} {{revision?.entity?.version?.versionLabel}}
         </option>
       </select>
     </div>
