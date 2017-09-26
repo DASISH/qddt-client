@@ -90,11 +90,11 @@ export class AutocompleteComponent implements OnInit, OnChanges {
   getLabel(candiate: any) {
     if (this.isMultipleFields) {
       let results: any[] = this.searchField.map(element => {
-        return this.getFieldValue(candiate, element);
+        return this.getFieldValue(candiate, element).substring(0,200).concat('...');
       });
       return results.join(' | ');
     } else {
-      return this.getFieldValue(candiate, this.searchField);
+      return this.getFieldValue(candiate, this.searchField).substring(0,200).concat('...');
     }
   }
 
