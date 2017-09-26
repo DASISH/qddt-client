@@ -93,7 +93,7 @@ export class QuestionReuseComponent {
       && this.questionItem.id !== null && this.questionItem.id !== undefined) {
       this.questionService.getQuestionItemRevisions(this.questionItem.id).subscribe((result: any) => {
         this.elementRevisions = result.content.sort((e1: any, e2: any) => e2.revisionNumber - e1.revisionNumber);
-        this.onSelectElementRevisions();
+         this.onSelectElementRevisions();
       },
         (error: any) => { console.log('error ' + error); });
     }
