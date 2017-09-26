@@ -183,9 +183,9 @@ export class PublicationService extends BaseService {
   getElementRevisions(elementKind: ElementKind, id: string) : any {
     let e: any = PUBLICATION_TYPES.find(e => e.id === elementKind);
     if (e !== undefined) {
-      // if (elementKind === ElementKind.CONCEPT)
-      // return this.get('audit/' + e.path + '/' + id + '/listall');
-      // else
+      if (elementKind === ElementKind.CONCEPT || elementKind === ElementKind.TOPIC_GROUP)
+      return this.get('audit/' + e.path + '/' + id + '/allinclatest');
+      else
       return this.get('audit/' + e.path + '/' + id + '/all');
     }
     return Observable.of([]);
