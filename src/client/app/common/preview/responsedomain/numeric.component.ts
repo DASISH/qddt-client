@@ -12,7 +12,7 @@ import { ResponseDomain } from '../../../components/responsedomain/responsedomai
             name="numeric-domain-{{responseDomain.id}}"
             [ngModel]="value"
             (ngModelChange)="changeNumber($event)">
-          <label>Range from {{low}} to {{high}}</label>
+          <label>Range from {{low}} to {{high}} steps {{stepping}}</label>
         </form>
       </div>`,
   styles: [],
@@ -22,33 +22,24 @@ export class ResponsedomainNumericComponent implements OnChanges {
   @Input() responseDomain: ResponseDomain;
   low: number;
   high: number;
-  stepping:string;
+  stepping:number;
   value: number;
 
   ngOnChanges() {
     this.low = 0;
     this.high = 1;
     let rep = this.responseDomain.managedRepresentation;
-    if (rep !== undefined) {
-      if (rep.inputLimit !== undefined
-        && rep.inputLimit.maximum !== undefined) {
+    if (rep) {
+      if (rep.inputLimit.maximum) {
         this.high = rep.inputLimit.maximum;
       }
-      if (rep.inputLimit !== undefined
-        && rep.inputLimit.minimum !== undefined) {
+      if (rep.inputLimit.minimum) {
         this.low = rep.inputLimit.minimum;
       }
-      if (rep.format === undefined) {
+      if (!rep.format) {
         rep.format = '0';
       }
-      let step =parseInt(rep.format);
-      if (step >0)
-        this.stepping ='0.';
-
-      for(let i=1;i< step;i++) {
-        this.stepping += '0';
-      }
-      this.stepping +='1';
+      this.stepping = this.parts(rep.format);
     }
   }
 
@@ -61,4 +52,9 @@ export class ResponsedomainNumericComponent implements OnChanges {
       this.value = this.high;
     }
   }
+
+  parts(format:number): number {
+    return 1/ Math.pow(10,format);
+  }
+
 }

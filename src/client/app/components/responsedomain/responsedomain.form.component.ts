@@ -294,6 +294,18 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
     this.max = this.responsedomain.managedRepresentation.inputLimit.maximum-1;
   }
 
+  power10(format:number): number {
+    return 1/ Math.pow(10,format);
+  }
+
+  subtract(value1, value2): number {
+    return parseInt(value1)- parseInt(value2);
+  }
+
+  addition(value1, value2): number {
+    return parseInt(value1) + parseInt(value2);
+  }
+
 
   onBasedonObjectDetail(ref:any) {
     if (this.isNull(ref.rev))
