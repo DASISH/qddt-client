@@ -6,7 +6,10 @@ import { ResponseDomain } from '../../../components/responsedomain/responsedomai
   moduleId: module.id,
   template: `<div class="row" *ngIf="responseDomain">
                <textarea id="{{responseDomain?.id}}-textarea"
-                 class="materialize-textarea" [attr.maxlength]="high"></textarea>
+                         [attr.max]=high
+                         [attr.min]=low
+                         [attr.length]=high
+                 class="materialize-textarea"  materialize="characterCounter" validate></textarea>
                <label>Text length from {{low}} to {{high}}</label>
              </div>`,
   styles: [],
@@ -14,21 +17,23 @@ import { ResponseDomain } from '../../../components/responsedomain/responsedomai
 
 export class ResponsedomainTextComponent implements OnChanges {
   @Input() responseDomain: ResponseDomain;
-  low: number;
-  high: number;
+  low: number =0;
+  high: number= 20;
 
   ngOnChanges() {
-    this.low = 0;
-    this.high = 20;
     let rep = this.responseDomain.managedRepresentation;
-    if (rep !== undefined) {
-      if (rep.inputLimit !== undefined
-        && rep.inputLimit.maximum !== undefined) {
-        this.high = rep.inputLimit.maximum;
+    if (rep) {
+      if (rep.inputLimit.maximum) {
+        if (typeof rep.inputLimit.maximum === 'string')
+          this.high = parseInt(rep.inputLimit.maximum);
+        else
+          this.high = rep.inputLimit.maximum;
       }
-      if (rep.inputLimit !== undefined
-        && rep.inputLimit.minimum !== undefined) {
-        this.low = rep.inputLimit.minimum;
+      if (rep.inputLimit.minimum) {
+        if (typeof rep.inputLimit.minimum === 'string')
+          this.low = parseInt(rep.inputLimit.minimum);
+        else
+          this.low = rep.inputLimit.minimum;
       }
     }
   }

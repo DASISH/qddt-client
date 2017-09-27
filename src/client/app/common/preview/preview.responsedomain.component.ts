@@ -6,7 +6,7 @@ import { ResponseDomain } from '../../components/responsedomain/responsedomain.s
   selector: 'qddt-preview-responsedomain',
   moduleId: module.id,
   styles: [' .row { min-height: 1rem; margin-bottom: 5px; !important;}'],
-  template: `<div *ngIf="isVisible && domainType" class="card-panel lighten-2 black-text" 
+  template: `<div *ngIf="isVisible && domainType" class="card-panel grey lighten-5 black-text" 
               style="padding-left:3%; padding-right:5%; margin: 1%">
         <label *ngIf="domainType !== domainTypeDef.MIXED"
           class="active teal-text">{{responseDomain?.name}}

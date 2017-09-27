@@ -5,6 +5,7 @@ import { ResponseDomainService } from './responsedomain.service';
 import { UserService } from '../../common/user.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
+import { NG_VALIDATORS } from '@angular/forms';
 
 @Component({
   selector: 'qddt-responsedomain',
@@ -231,6 +232,11 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
     } else if(this.domainType === DomainType.NUMERIC) {
       config.push({'name':['managedRepresentation', 'inputLimit', 'minimum'],'label':'Low'});
       config.push({'name':['managedRepresentation', 'inputLimit', 'maximum'],'label':'High'});
+      config.push({'name':['managedRepresentation', 'format'],'label':'descimal'});
+    } else if(this.domainType === DomainType.DATETIME) {
+      config.push({'name':['managedRepresentation', 'inputLimit', 'minimum'],'label':'After'});
+      config.push({'name':['managedRepresentation', 'inputLimit', 'maximum'],'label':'Before'});
+      config.push({'name':['managedRepresentation', 'format'],'label':'Date format'});
     } else if(this.domainType === DomainType.TEXT) {
       config.push({'name':['managedRepresentation', 'inputLimit', 'minimum'],'label':'Min Length'});
       config.push({'name':['managedRepresentation', 'inputLimit', 'maximum'],'label':'Max Length'});
