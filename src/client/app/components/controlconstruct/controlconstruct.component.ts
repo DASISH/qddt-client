@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, AfterContentChecked } from '@angular/core';
 
-import { ControlConstructService, ControlConstruct, Instruction } from './controlconstruct.service';
+import { ControlConstructService, ControlConstruct, Instruction, Universe } from './controlconstruct.service';
 import { UserService } from '../../common/user.service';
 import { Subject }          from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize/dist';
@@ -19,10 +19,8 @@ import { Column } from '../../shared/table/table.service';
 })
 
 export class ControlConstructComponent implements OnInit, AfterContentChecked {
-
   public error: any;
   public selectedQuestionItem: any;
-  public savedquestionitem: any;
   public questionItems: any[];
   public modalActions = new EventEmitter<string|MaterializeAction>();
   public questionitemActions = new EventEmitter<string|MaterializeAction>();
@@ -34,14 +32,15 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
   private isInstructionAfter: boolean;
   private isInstructionNew: boolean;
   private showInstructionForm: boolean;
+  private instruction: any;
+  private instructions: any[];
+  private showUniverse: boolean = false;
   private searchKeys: string;
   private page: any;
-  private controlConstruct: any;
-  private instruction: any;
-  private selectedControlConstruct: any;
-  private controlConstructs: any[];
+  private controlConstruct: ControlConstruct;
+  private selectedControlConstruct: ControlConstruct;
+  private controlConstructs: ControlConstruct[];
   private columns: Column[];
-  private instructions: any[];
   private files: FileList;
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
@@ -102,6 +101,7 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
       this.controlConstruct = new ControlConstruct();
       this.controlConstruct.preInstructions = [];
       this.controlConstruct.postInstructions = [];
+      this.controlConstruct.universes = [];
       this.controlConstruct.questionItemRevision = 0;
       this.controlConstruct.questionItem = null;
       this.files = null;
@@ -126,6 +126,14 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
     }
     this.showInstructionForm = false;
   }
+  onSelectInstruction(instruction: any) {
+    this.instruction = instruction;
+  }
+
+  onAddUniverse(universe:Universe) {
+    console.log(universe);
+    this.controlConstruct.universes.push(universe);
+  }
 
   onDeletePreInstruction(id: number) {
     this.controlConstruct.preInstructions.splice(id, 1);
@@ -145,6 +153,8 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
         'item': this.selectedControlConstruct,
         'collection': this.controlConstructs});
   }
+
+
 
   hideDetail() {
     this.isDetail = false;
@@ -217,9 +227,7 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
       (error: any) => { this.popupModal(error); });
   }
 
-  onSelectInstruction(instruction: any) {
-    this.instruction = instruction;
-  }
+
 
   popupModal(error: any) {
     this.error = error;

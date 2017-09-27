@@ -16,9 +16,10 @@ export class ControlConstruct {
   name: string;
   description: string;
   questionItem: QuestionItem;
+  questionItemRevision: number;
   otherMaterials: any;
   controlConstructKind: string;
-  universe: Universe[];
+  universes: Universe[];
   preInstructions: Instruction[];
   postInstructions: Instruction[];
 }
