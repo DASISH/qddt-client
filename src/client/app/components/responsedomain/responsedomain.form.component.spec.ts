@@ -6,7 +6,7 @@ import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend 
 
 import { ResponseDomainService } from './responsedomain.service';
 import { CategoryService } from '../category/category.service';
-import { BaseService } from '../../common/base.service';
+import { BaseService } from '../../shared/base.service';
 import { ResponsedomainFormComponent } from './responsedomain.form.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';

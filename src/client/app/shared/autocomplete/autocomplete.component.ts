@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
-import { QddtElementType } from '../../common/preview/preview.service';
+import { QddtElementType } from '../preview/preview.service';
 
 @Component({
   selector: 'autocomplete',

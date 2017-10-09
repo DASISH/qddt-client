@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { Http } from '@angular/http';
 
 import { API_BASE_HREF } from '../../api';
-import { BaseService } from '../../common/base.service';
+import { BaseService } from '../base.service';
 import { Observable }     from 'rxjs/Observable';
 
 @Injectable()

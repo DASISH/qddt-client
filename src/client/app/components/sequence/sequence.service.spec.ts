@@ -3,7 +3,7 @@ import { TestBed, async } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
 
 import { SequenceService } from './sequence.service';
-import { BaseService } from '../../common/base.service';
+import { BaseService } from '../../shared/base.service';
 import { API_BASE_HREF } from '../../api';
 
 export function main() {

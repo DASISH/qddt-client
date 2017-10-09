@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterContentChecked, EventEmitter } from '@angular/core';
 import { QuestionService, QuestionItem, Question } from './question.service';
-import { UserService } from '../../common/user.service';
+import { UserService } from '../../shared/user/user.service';
 import { Subject }          from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 import { Column } from '../../shared/table/table.service';

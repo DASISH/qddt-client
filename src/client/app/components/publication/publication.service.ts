@@ -1,9 +1,9 @@
 import { Injectable, Inject } from '@angular/core';
 import { Http, RequestOptions, Headers, ResponseContentType } from '@angular/http';
 import { API_BASE_HREF } from '../../api';
-import { BaseService } from '../../common/base.service';
+import { BaseService } from '../../shared/base.service';
 import { Observable }     from 'rxjs/Observable';
-import { ElementKind, QddtElementType, QddtElementTypes } from '../../common/preview/preview.service';
+import { ElementKind, QddtElementType, QddtElementTypes } from '../../shared/preview/preview.service';
 
 export const PUBLICATION_NOT_PUBLISHED = { 'id': 0, 'name': 'NOTPUBLISHED', 'label':'Not Published', 'children': [],
   'description': 'Elements and discussion made available for key '

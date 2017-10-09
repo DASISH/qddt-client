@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { Http } from '@angular/http';
 import DateTimeFormat = Intl.DateTimeFormat;
 import { API_BASE_HREF } from '../../api';
-import { BaseService } from '../../common/base.service';
+import { BaseService } from '../../shared/base.service';
 import { ResponseDomain } from '../responsedomain/responsedomain.service';
 
 export class Question {

@@ -5,8 +5,8 @@ import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend 
 import { MockBackend } from '@angular/http/testing';
 
 import { ResponseDomainService } from './responsedomain.service';
-import { UserService } from '../../common/user.service';
-import { BaseService } from '../../common/base.service';
+import { UserService } from '../../shared/user/user.service';
+import { BaseService } from '../../shared/base.service';
 import { ResponseDomainSearchComponent } from './responsedomain.search.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';

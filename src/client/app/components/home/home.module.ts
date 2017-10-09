@@ -5,8 +5,8 @@ import { SurveyModule } from '../survey/survey.module';
 import { StudyModule } from '../study/study.module';
 import { TopicModule } from '../topic/topic.module';
 import { ConceptModule } from '../concept/concept.module';
-import { AlertComponent } from '../../shared/alert/alert.component';
-import { AlertService } from '../../shared/alert/alert.service';
+import { AlertComponent } from '../alert/alert.component';
+import { AlertService } from '../alert/alert.service';
 
 @NgModule({
   imports: [ SharedModule, SurveyModule, StudyModule, TopicModule, ConceptModule ],

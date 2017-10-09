@@ -1,6 +1,6 @@
 import { Component, OnChanges, EventEmitter, Input, Output } from '@angular/core';
 import { PublicationService, PublicationElement, PUBLICATION_TYPES } from './publication.service';
-import { ElementKind, QddtElementType } from '../../common/preview/preview.service';
+import { ElementKind, QddtElementType } from '../../shared/preview/preview.service';
 
 @Component({
   selector: 'qddt-publication-select',

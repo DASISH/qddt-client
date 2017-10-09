@@ -1,10 +1,10 @@
 import { Component, OnInit, EventEmitter, AfterContentChecked } from '@angular/core';
 import { PublicationService, Publication,  PUBLICATION_NOT_PUBLISHED, PUBLICATION_STATUS } from './publication.service';
 import { Subject }          from 'rxjs/Subject';
-import { UserService } from '../../common/user.service';
+import { UserService } from '../../shared/user/user.service';
 import { MaterializeAction } from 'angular2-materialize';
 import { Column } from '../../shared/table/table.service';
-import { QddtElementType, QddtElementTypes } from '../../common/preview/preview.service';
+import { QddtElementType, QddtElementTypes } from '../../shared/preview/preview.service';
 
 @Component({
   selector: 'qddt-publication',

@@ -5,7 +5,7 @@ import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { ControlConstructService } from './controlconstruct.service';
-import { BaseService } from '../../common/base.service';
+import { BaseService } from '../../shared/base.service';
 import { ControlConstructFormComponent } from './controlconstruct.form.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';

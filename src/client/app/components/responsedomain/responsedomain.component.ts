@@ -2,7 +2,7 @@ import { Component, OnInit, AfterContentChecked, EventEmitter } from '@angular/c
 import { ResponseDomain } from './responsedomain.service';
 import { DomainType, DomainTypeDescription, PredefinedColumns } from './responsedomain.constant';
 import { ResponseDomainService } from './responsedomain.service';
-import { UserService } from '../../common/user.service';
+import { UserService } from '../../shared/user/user.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 import { NG_VALIDATORS } from '@angular/forms';

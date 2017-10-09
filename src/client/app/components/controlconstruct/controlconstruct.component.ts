@@ -1,10 +1,10 @@
 import { Component, EventEmitter, OnInit, AfterContentChecked } from '@angular/core';
 
 import { ControlConstructService, ControlConstruct, Instruction, Universe } from './controlconstruct.service';
-import { UserService } from '../../common/user.service';
+import { UserService } from '../../shared/user/user.service';
 import { Subject }          from 'rxjs/Subject';
-import { MaterializeAction } from 'angular2-materialize/dist';
 import { Column } from '../../shared/table/table.service';
+import { MaterializeAction } from 'angular2-materialize';
 
 @Component({
   selector: 'qddt-controle-construct',

@@ -53,9 +53,9 @@ import { isUndefined } from 'util';
 
       <div *ngIf="saveOptionIndex >= 0 && rationalDescriptions[saveOptionIndex].showComment" class="row">
         <div class="input-field col s12">
-          <input id="{{originalId}}-changeComment"
-            name="{{originalId}}-changeComment" type="text" [(ngModel)]="element.changeComment" required>
-          <label [attr.for]="originalId + '-changeComment'" class="teal-text">Rationale for change</label>
+          <input id="{{originalId}}-changeComment" class="validate" required minlength="4"
+            name="{{originalId}}-changeComment" type="text" [(ngModel)]="element.changeComment" >
+          <label for="{{originalId}}-changeComment"  data-error="Description is mandatory"  class="teal-text">Rationale for change</label>
         </div>
       </div>
     </div>
@@ -161,11 +161,9 @@ export class RationalComponent implements OnInit {
   ngOnInit() {
     if(this.config) {
       let hiddenIds: any[] = this.config.hidden || [];
-      console.log('archived ' +  this.element['archived']);
-      if (this.element.archived === undefined)
+      if (this.element.archived === undefined)            // Hide Archived option if element don't have this field.
         hiddenIds.push(4);
       for(let id of hiddenIds) {
-        console.log(id);
         if(id < this.rationalDescriptions.length) {
           this.rationalDescriptions[id]['hidden'] = true;
         }

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output, OnInit, AfterContentChecked } from '@angular/core';
 import { CategoryService, Category, ResponseCardinality } from './category.service';
 import { CategoryType } from './category_kind';
-import { UserService } from '../../common/user.service';
+import { UserService } from '../../shared/user/user.service';
 import { Subject } from 'rxjs/Subject';
 
 @Component({

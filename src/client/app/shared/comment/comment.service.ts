@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { Http } from '@angular/http';
 
 import { API_BASE_HREF } from '../../api';
-import { BaseService } from '../../common/base.service';
+import { BaseService } from '../base.service';
 
 export class Comment {
   id: string;
@@ -26,6 +26,10 @@ export class CommentService extends BaseService {
 
   updateComment(comment: Comment): any {
     return this.post(comment, 'comment');
+  }
+
+  deleteComment(id:string):  any {
+    return this.delete('comment/delete/'+ id);
   }
 
   getAll(ownerId: string): any {

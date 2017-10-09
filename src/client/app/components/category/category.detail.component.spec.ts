@@ -6,7 +6,7 @@ import { By } from '@angular/platform-browser';
 import { RationalComponent } from '../../shared/rational/rational.component';
 
 import { CategoryService } from './category.service';
-import { UserService } from '../../common/user.service';
+import { UserService } from '../../shared/user/user.service';
 import { CategoryDetailComponent } from './category.detail.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';

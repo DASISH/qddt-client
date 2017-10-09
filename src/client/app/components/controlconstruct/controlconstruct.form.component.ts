@@ -1,9 +1,9 @@
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { ControlConstructService, ControlConstruct } from './controlconstruct.service';
 import { Observable }     from 'rxjs/Observable';
-import { MaterializeAction } from 'angular2-materialize/dist';
+import { MaterializeAction } from 'angular2-materialize';
 
-let fileSaver = require('../../common/file-saver');
+import saveAs = require('file-saver');
 
 @Component({
   selector: 'qddt-control-construct-form',
@@ -85,11 +85,11 @@ export class ControlConstructFormComponent implements OnInit {
   }
 
   onDeleteUniverse(id: number) {
-    this.controlConstruct.universe.splice(id, 1);
+    this.controlConstruct.universes.splice(id, 1);
   }
 
   onAddUniverse(instruction: any) {
-    this.controlConstruct.universe.push(instruction);
+    this.controlConstruct.universes.push(instruction);
     this.createUniverse = false;
   }
 
@@ -125,7 +125,7 @@ export class ControlConstructFormComponent implements OnInit {
     let fileName = o.originalName;
     this.service.getFile(o.id).subscribe(
       (data: any) => {
-        fileSaver(data, fileName);
+        saveAs(data, fileName);
       },
       error => this.popupModal(error));
   }

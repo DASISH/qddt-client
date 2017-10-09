@@ -4,9 +4,10 @@ import { TopicService, Topic } from './topic.service';
 import { MaterializeAction } from 'angular2-materialize';
 import { Study } from '../study/study.service';
 import { QuestionItem } from '../question/question.service';
+import { saveAs } from 'file-saver/FileSaver';
 // import { isNullOrUndefined } from 'util';
 //import * as fileSaver from 'file-saver';
-let fileSaver = require('../../common/file-saver');
+// let fileSaver = require('../../common/file-saver');
 
 @Component({
   selector: 'qddt-topic',
@@ -90,7 +91,7 @@ export class TopicComponent implements OnChanges {
     let fileName = o.originalName;
     this.topicService.getFile(o.id).subscribe(
       (data: any) => {
-        fileSaver(data, fileName);
+        saveAs(data, fileName);
       },
       error => console.log(error));
   }
@@ -99,7 +100,7 @@ export class TopicComponent implements OnChanges {
     let fileName = element.name + '.pdf';
     this.topicService.getPdf(element.id).subscribe(
       (data: any) => {
-        fileSaver(data, fileName);
+        saveAs(data, fileName);
       },
       error => console.log(error));
   }

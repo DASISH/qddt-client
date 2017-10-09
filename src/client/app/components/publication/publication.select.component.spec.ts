@@ -10,7 +10,7 @@ import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
-import { ElementKind } from '../../common/preview/preview.service';
+import { ElementKind } from '../../shared/preview/preview.service';
 
 export function main() {
   describe('Publication select component', () => {

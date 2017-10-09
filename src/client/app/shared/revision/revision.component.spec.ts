@@ -5,7 +5,7 @@ import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { RevisionService } from './revision.service';
-import { BaseService } from '../../common/base.service';
+import { BaseService } from '../base.service';
 import { RevisionComponent } from './revision.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';

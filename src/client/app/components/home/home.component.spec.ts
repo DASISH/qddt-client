@@ -4,7 +4,7 @@ import {
   TestBed
 } from '@angular/core/testing';
 import { HomeComponent } from './home.component';
-import { UserService } from '../../common/user.service';
+import { UserService } from '../../shared/user/user.service';
 import { By } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { API_BASE_HREF } from '../../api';

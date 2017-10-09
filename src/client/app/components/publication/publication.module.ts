@@ -6,7 +6,7 @@ import { PublicationReuseComponent } from './publication.reuse.component';
 import { PublicationSelectComponent } from './publication.select.component';
 import { ResponsedomainModule } from '../responsedomain/responsedomain.module';
 import { ConceptModule } from '../concept/concept.module';
-import { PreviewModule } from '../../common/preview/preview.module';
+import { PreviewModule } from '../../shared/preview/preview.module';
 import { PublicationFormComponent } from './publication.form.component';
 
 @NgModule({

@@ -92,15 +92,15 @@ export class BaseService {
   protected getBlob(path: string): any {
     let options = new RequestOptions({headers: this.headers, responseType: ResponseContentType.Blob});
     return this.http.get(this.api + path,options)
-      .subscribe(
-        data => {
-          return data;
-        },
-        err => {
-          this.handleError(err);
-        });
-      // .map(res => res.blob())
-      // .catch(this.handleError);
+      // .subscribe(
+      //   data => {
+      //     return data;
+      //   },
+      //   err => {
+      //     this.handleError(err);
+      //   });
+      .map(res => res.blob())
+      .catch(this.handleError);
 
   }
 

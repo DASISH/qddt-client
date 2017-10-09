@@ -6,8 +6,8 @@ import { ResponsedomainModule } from '../responsedomain/responsedomain.module';
 import { QuestionModule } from '../question/question.module';
 import { ControlConstructQuestionItemSelectComponent } from './controlconstruct.questionitem.select.component';
 import { ControlConstructFormComponent } from './controlconstruct.form.component';
-import { PreviewModule } from '../../common/preview/preview.module';
-import { ConceptrefModule } from '../../common/conceptref/conceptref.module';
+import { PreviewModule } from '../../shared/preview/preview.module';
+import { ConceptrefModule } from '../../shared/conceptref/conceptref.module';
 import { InstructionComponent } from './instruction.component';
 import { UniverseComponent } from './universe.component';
 

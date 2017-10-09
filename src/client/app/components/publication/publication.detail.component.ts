@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { PublicationService, Publication, PUBLICATION_STATUS, PUBLICATION_NOT_PUBLISHED ,PUBLICATION_TYPES } from './publication.service';
-import { ElementKind, QddtElementType } from '../../common/preview/preview.service';
+import { ElementKind, QddtElementType } from '../../shared/preview/preview.service';
 let fileSaver = require('../../common/file-saver');
 
 @Component({

@@ -5,7 +5,7 @@ import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { QuestionService } from './question.service';
-import { BaseService } from '../../common/base.service';
+import { BaseService } from '../../shared/base.service';
 import { QuestionItemEditComponent } from './question.edit.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';

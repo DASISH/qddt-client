@@ -84,14 +84,14 @@ import { CommentService, Comment } from './comment.service';
 })
 
 export class CommentListComponent implements OnInit {
-  isEditComment: boolean = false;
-  selectedCommentId: number;
-  message: string = '';
-  isPublic: boolean = true;
-  showComments: boolean = false;
   @Input() ownerId: string;
   @Input() comments: Comment[];
   @Input() showPrivate: boolean = true;
+  isEditComment: boolean = false;
+  isPublic: boolean = true;
+  selectedCommentId: number;
+  message: string = '';
+  showComments: boolean = false;
 
   constructor(private commentService: CommentService) {
     this.selectedCommentId = 0;
@@ -115,8 +115,8 @@ export class CommentListComponent implements OnInit {
   onDeleteComment(idx: number) {
     let comment = this.comments[idx];
     comment.isHidden = true;
-    this.commentService.updateComment(comment).subscribe((result: any) => {
-      this.comments.splice(idx, 1);
+    this.commentService.deleteComment(comment.id).subscribe((result: any) => {
+        this.comments.splice(idx, 1);
     }, (error: any) => console.log(error));
   }
 

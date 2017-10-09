@@ -1,4 +1,4 @@
-import { ModuleWithProviders }  from '@angular/core';
+import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { HomeComponent }   from './components/home/home.component';
@@ -12,43 +12,17 @@ import { SequenceComponent } from './components/sequence/sequence.component';
 import { PublicationComponent } from './components/publication/publication.component';
 
 const appRoutes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full'},
-  {
-    path: 'home',
-    component: HomeComponent
-  },
-  {
-    path: 'questions',
-    component: QuestionComponent
-  },
-  {
-    path: 'responsedomains',
-    component: ResponsedomainComponent
-  },
-  {
-    path: 'schemes',
-    component: CategorySchemeComponent
-  },
-  {
-    path: 'constructs',
-    component: ControlConstructComponent
-  },
-  {
-    path: 'categories',
-    component: CategoryComponent
-  },
-  {
-    path: 'instruments',
-    component: InstrumentComponent
-  },
-  {
-    path: 'sequences',
-    component: SequenceComponent
-  },
-  {
-    path: 'publications',
-    component: PublicationComponent
-  },
+  { path: 'home',       component: HomeComponent },
+  { path: 'questions',  component: QuestionComponent },
+  { path: 'responsedomains',component: ResponsedomainComponent },
+  { path: 'schemes',    component: CategorySchemeComponent },
+  { path: 'constructs', component: ControlConstructComponent },
+  { path: 'categories', component: CategoryComponent },
+  { path: 'instruments',component: InstrumentComponent },
+  { path: 'sequences',  component: SequenceComponent},
+  { path: 'publications', component: PublicationComponent},
+  { path: '', redirectTo: '/home', pathMatch: 'full'},
 ];
+
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);

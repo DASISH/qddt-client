@@ -9,8 +9,6 @@ import { QddtPaginationComponent } from './pagination/pagination';
 import { AutocompleteComponent } from './autocomplete/autocomplete.component';
 import { ElementFooterComponent } from './form/footer/elementfooter.component';
 import { RationalComponent } from './rational/rational.component';
-import { CommentListComponent } from './comment/comment.list.component';
-import { CommentCreateComponent } from './comment/comment.create.component';
 import { RevisionComponent } from './revision/revision.component';
 import { CompareModule } from './compare/compare.module';
 import { DialogBoxComponent } from './dialogbox/dialogbox.component';
@@ -19,20 +17,23 @@ import { VersionLabelComponent } from './form/version/version.label.component';
 import { ConfirmDeleteComponent } from './form/menu/delete.component';
 import { TocComponent } from './form/toc/toc.component';
 import { RouterModule } from '@angular/router';
-
+import { CommentListComponent } from './comment/comment.list.component';
+import { CommentCreateComponent } from './comment/comment.create.component';
+import { UserLoginComponent } from './user/user.component';
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
   imports: [CommonModule, RouterModule, FormsModule, MaterializeModule,CompareModule],
   declarations: [ LocalDatePipe, QddtTableComponent, QddtPaginationComponent, AutocompleteComponent,
     AuthorChipComponent, ElementFooterComponent, VersionComponent,VersionLabelComponent,
-    ConfirmDeleteComponent,TocComponent,
-    RationalComponent,CommentListComponent,CommentCreateComponent, RevisionComponent,DialogBoxComponent],
+    ConfirmDeleteComponent,TocComponent,CommentListComponent,CommentCreateComponent,
+    RationalComponent, RevisionComponent,DialogBoxComponent, LoginComponent,UserLoginComponent],
   exports: [LocalDatePipe, CommonModule, FormsModule, MaterializeModule,
      QddtTableComponent, QddtPaginationComponent, AutocompleteComponent,
     AuthorChipComponent,ElementFooterComponent,VersionComponent, VersionLabelComponent,
-    ConfirmDeleteComponent,TocComponent,
-    RationalComponent,CommentListComponent,RevisionComponent,DialogBoxComponent]
+    ConfirmDeleteComponent,TocComponent,CommentListComponent,
+    RationalComponent,RevisionComponent,DialogBoxComponent, UserLoginComponent]
 })
 
 export class SharedModule { }

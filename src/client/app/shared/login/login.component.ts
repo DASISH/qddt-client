@@ -2,7 +2,8 @@ import { Component, Output, EventEmitter, Inject } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { API_BASE_HREF } from '../../api';
-import { UserService } from '../../common/user.service';
+import { UserService } from '../user/user.service';
+
 
 export class LoginForm {
   username: string;

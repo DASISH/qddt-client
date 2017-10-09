@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { Http } from '@angular/http';
 
 import { API_BASE_HREF } from '../../api';
-import { BaseService } from '../../common/base.service';
+import { BaseService } from '../../shared/base.service';
 import { QuestionItem } from '../question/question.service';
 // import { HttpClient } from '@angular/common/http';
 
@@ -50,7 +50,7 @@ export class ControlConstructService extends BaseService {
     return this.get('audit/controlconstruct/' + id + '/' + rev);
   }
 
-  getFile(id: string) {
+  getFile(id: string): any {
     return this.getBlob('othermaterial/files/'+id);
   }
 

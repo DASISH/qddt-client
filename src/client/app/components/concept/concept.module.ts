@@ -6,7 +6,8 @@ import { TreeNodeComponent } from './concept.tree.node.component';
 import { SharedModule } from '../../shared/shared.module';
 import { QuestionModule } from '../question/question.module';
 import { ResponsedomainModule } from '../responsedomain/responsedomain.module';
-import { PreviewModule } from '../../common/preview/preview.module';
+import { PreviewModule } from '../../shared/preview/preview.module';
+
 
 
 @NgModule({

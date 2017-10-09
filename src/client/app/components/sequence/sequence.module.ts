@@ -7,7 +7,7 @@ import { SequenceContentComponent } from './sequence.content.component';
 import { ConditionEditComponent } from './condition.edit.component';
 import { StatementEditComponent } from './statement.edit.component';
 import { ResponsedomainModule } from '../responsedomain/responsedomain.module';
-import { PreviewModule } from '../../common/preview/preview.module';
+import { PreviewModule } from '../../shared/preview/preview.module';
 
 
 @NgModule({

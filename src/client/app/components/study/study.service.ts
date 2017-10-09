@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 
 import { API_BASE_HREF } from '../../api';
-import { BaseService } from '../../common/base.service';
+import { BaseService } from '../../shared/base.service';
 import { Http } from '@angular/http';
 // import { HttpClient } from '@angular/common/http';
 

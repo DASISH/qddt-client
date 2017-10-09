@@ -5,7 +5,7 @@ import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { PublicationService } from './publication.service';
-import { UserService } from '../../common/user.service';
+import { UserService } from '../../shared/user/user.service';
 import { PublicationComponent } from './publication.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';

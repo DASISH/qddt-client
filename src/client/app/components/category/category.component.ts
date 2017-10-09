@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterContentChecked } from '@angular/core';
 import { CategoryService, Category } from './category.service';
-import { UserService } from '../../common/user.service';
+import { UserService } from '../../shared/user/user.service';
 import { Subject } from 'rxjs/Subject';
 import { Column } from '../../shared/table/table.service';
 

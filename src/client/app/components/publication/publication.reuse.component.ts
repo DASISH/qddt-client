@@ -3,7 +3,7 @@ import { PublicationService } from './publication.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 // import { isUndefined } from 'util';
-import { ElementKind, QddtElementType, QddtElementTypes } from '../../common/preview/preview.service';
+import { ElementKind, QddtElementType, QddtElementTypes } from '../../shared/preview/preview.service';
 
 @Component({
   selector: 'qddt-publication-reuse',
