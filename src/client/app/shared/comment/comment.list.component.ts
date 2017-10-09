@@ -48,10 +48,10 @@ import { CommentService, Comment } from './comment.service';
                 <div class="col s3">
                   <div class="switch">
                     <label>
-                      Private
+                      Not
                       <input type="checkbox" [(ngModel)]="isPublic">
                       <span class="lever"></span>
-                      Public
+                      Published
                     </label>
                   </div>
                 </div>
