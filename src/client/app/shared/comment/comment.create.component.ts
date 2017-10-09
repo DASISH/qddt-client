@@ -17,10 +17,10 @@ import { CommentService, Comment } from './comment.service';
         <div class="input-field col l3 m5 s7">
           <div class="switch">
             <label>
-              Private
+              Not Published
               <input id="{{ownerId}}-checked" type="checkbox" [checked]="comment.public" (change)="comment.public = !comment.public">
               <span class="lever"></span>
-              Public
+              Published
             </label>
           </div>
         </div>
