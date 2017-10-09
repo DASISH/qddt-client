@@ -19,7 +19,7 @@ export class ControlConstruct {
   questionItemRevision: number;
   otherMaterials: any;
   controlConstructKind: string;
-  universes: Universe[];
+  universe: Universe[];
   preInstructions: Instruction[];
   postInstructions: Instruction[];
 }

@@ -85,11 +85,11 @@ export class ControlConstructFormComponent implements OnInit {
   }
 
   onDeleteUniverse(id: number) {
-    this.controlConstruct.universes.splice(id, 1);
+    this.controlConstruct.universe.splice(id, 1);
   }
 
   onAddUniverse(instruction: any) {
-    this.controlConstruct.universes.push(instruction);
+    this.controlConstruct.universe.push(instruction);
     this.createUniverse = false;
   }
 
