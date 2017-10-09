@@ -2,6 +2,10 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'qddt-version',
+  styles : [`i{
+            width:0;
+            }`
+  ],
   moduleId: module.id,
   template:
   `{{element?.version?.major}}.{{element?.version?.minor}}

@@ -1,8 +1,7 @@
 import { Component, Input, EventEmitter } from '@angular/core';
 import { MaterializeAction } from 'angular2-materialize';
 import { ControlConstructService } from '../../../components/controlconstruct/controlconstruct.service';
-//import * as fileSaver from 'file-saver';
-let fileSaver = require('../../../common/file-saver');
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'qddt-preview-questionconstruct',
@@ -97,7 +96,7 @@ onDownloadFile(o: any) {
   let fileName = o.originalName;
   this.service.getFile(o.id).subscribe(
     (data: any) => {
-      fileSaver(data, fileName);
+      saveAs(data, fileName);
     },
     error => console.log(error));
 }

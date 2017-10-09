@@ -46,8 +46,8 @@
         <div class="collapsible-header grey lighten-2">
           <div class="row" style="color: black">
             <div class="col s2">Element type</div>
-            <div class="col s8">Element name</div>
-            <div class="col s1">Version</div>
+            <div class="col s7">Element name</div>
+            <div class="col s2 right-align">Version</div>
             <div class="col s1">Delete</div>
           </div>
         </div>
@@ -56,8 +56,8 @@
         <div class="collapsible-header grey lighten-5" style="color: #323232">
           <div class="row">
             <div class="col s2">{{element?.elementKind}}</div>
-            <div class="col s8">{{element?.element?.name}}</div>
-            <div class="col s1"><qddt-version [element]="element?.element"></qddt-version></div>
+            <div class="col s7">{{element?.element?.name}}</div>
+            <div class="col s2 right-align"><qddt-version [element]="element?.element"></qddt-version></div>
             <div class="col s1">
               <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                  (click)="deleteElement(idx)">

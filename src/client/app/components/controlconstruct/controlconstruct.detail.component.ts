@@ -1,8 +1,8 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ControlConstructService, ControlConstruct } from './controlconstruct.service';
 import { MaterializeAction } from 'angular2-materialize';
-//import * as fileSaver from 'file-saver';
-let fileSaver = require('../../common/file-saver');
+import { saveAs } from 'file-saver';
+
 
 @Component({
   selector: 'qddt-control-construct-detail',
@@ -97,7 +97,7 @@ export class ControlConstructDetailComponent implements OnInit {
     let fileName = o.originalName;
     this.service.getFile(o.id).subscribe(
       (data: any) => {
-        fileSaver(data, fileName);
+        saveAs(data, fileName);
       },
       error => console.log(error));
   }

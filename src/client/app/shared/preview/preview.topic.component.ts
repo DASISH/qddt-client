@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Topic, TopicService } from '../../components/topic/topic.service';
-//import * as fileSaver from 'file-saver';
-let fileSaver = require('../../common/file-saver');
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'qddt-preview-topic',
@@ -65,7 +64,7 @@ export class PreviewTopicComponent {
     let fileName = o.originalName;
     this.service.getFile(o.id).subscribe(
       (data: any) => {
-        fileSaver(data, fileName);
+        saveAs(data, fileName);
       },
       error => console.log(error));
   }

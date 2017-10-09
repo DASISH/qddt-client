@@ -2,8 +2,7 @@ import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { ControlConstructService, ControlConstruct } from './controlconstruct.service';
 import { Observable }     from 'rxjs/Observable';
 import { MaterializeAction } from 'angular2-materialize';
-
-import saveAs = require('file-saver');
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'qddt-control-construct-form',

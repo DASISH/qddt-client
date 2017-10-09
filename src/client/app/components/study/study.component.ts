@@ -1,9 +1,6 @@
 import { Component, Input, EventEmitter, Output, OnChanges } from '@angular/core';
-
 import { StudyService, Study } from './study.service';
-// import { isNullOrUndefined } from 'util';
-//import * as fileSaver from 'file-saver';
-let fileSaver = require('../../common/file-saver');
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'qddt-study',
@@ -58,7 +55,7 @@ export class StudyComponent implements OnChanges {
     let fileName = element.name + '.pdf';
     this.studyService.getPdf(element.id).subscribe(
       (data: any) => {
-        fileSaver(data, fileName);
+        saveAs(data, fileName);
       },
       error => console.log(error));
   }
