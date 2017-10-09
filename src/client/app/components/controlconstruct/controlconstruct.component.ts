@@ -101,7 +101,7 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
       this.controlConstruct = new ControlConstruct();
       this.controlConstruct.preInstructions = [];
       this.controlConstruct.postInstructions = [];
-      this.controlConstruct.universes = [];
+      this.controlConstruct.universe = [];
       this.controlConstruct.questionItemRevision = 0;
       this.controlConstruct.questionItem = null;
       this.files = null;
@@ -132,7 +132,7 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
 
   onAddUniverse(universe:Universe) {
     console.log(universe);
-    this.controlConstruct.universes.push(universe);
+    this.controlConstruct.universe.push(universe);
   }
 
   onDeletePreInstruction(id: number) {
