@@ -1,7 +1,7 @@
 import { Component, Input, EventEmitter } from '@angular/core';
 import { MaterializeAction } from 'angular2-materialize';
 import { ControlConstructService } from '../../../components/controlconstruct/controlconstruct.service';
-import { saveAs } from 'file-saver';
+let saveAs = require('file-saver');
 
 @Component({
   selector: 'qddt-preview-questionconstruct',

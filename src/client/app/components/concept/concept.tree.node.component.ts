@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ConceptService, Concept } from './concept.service';
 import { MaterializeAction } from 'angular2-materialize';
-import { saveAs } from 'file-saver';
+let saveAs = require('file-saver');
 
 @Component({
   selector: 'qddt-concept-treenode',

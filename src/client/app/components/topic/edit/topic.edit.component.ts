@@ -3,7 +3,7 @@ import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { TopicService, Topic } from '../topic.service';
 import { Observable }     from 'rxjs/Observable';
 import { MaterializeAction } from 'angular2-materialize';
-import { saveAs } from 'file-saver';
+let saveAs = require('file-saver');
 
 @Component({
   selector: 'qddt-topic-edit',

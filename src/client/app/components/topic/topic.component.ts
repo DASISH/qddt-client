@@ -4,7 +4,7 @@ import { TopicService, Topic } from './topic.service';
 import { MaterializeAction } from 'angular2-materialize';
 import { Study } from '../study/study.service';
 import { QuestionItem } from '../question/question.service';
-import { saveAs } from 'file-saver';
+let saveAs = require('file-saver');
 
 @Component({
   selector: 'qddt-topic',

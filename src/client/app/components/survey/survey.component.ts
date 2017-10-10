@@ -1,6 +1,6 @@
 import { Component, Input, EventEmitter, Output, OnChanges } from '@angular/core';
 import { SurveyService, SurveyProgram } from './survey.service';
-import { saveAs } from 'file-saver';
+let saveAs = require('file-saver');
 
 @Component({
   selector: 'qddt-survey',

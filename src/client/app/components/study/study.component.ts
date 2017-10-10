@@ -1,6 +1,6 @@
 import { Component, Input, EventEmitter, Output, OnChanges } from '@angular/core';
 import { StudyService, Study } from './study.service';
-import { saveAs } from 'file-saver';
+let saveAs = require('file-saver');
 
 @Component({
   selector: 'qddt-study',

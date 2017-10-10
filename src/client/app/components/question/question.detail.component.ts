@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { QuestionService, QuestionItem, Question } from './question.service';
 import { MaterializeAction } from 'angular2-materialize';
-import { saveAs } from 'file-saver';
+let saveAs = require('file-saver');
 
 
 @Component({

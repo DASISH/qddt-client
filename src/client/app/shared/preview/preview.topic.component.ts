@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Topic, TopicService } from '../../components/topic/topic.service';
-import { saveAs } from 'file-saver';
+let saveAs = require('file-saver');
 
 @Component({
   selector: 'qddt-preview-topic',

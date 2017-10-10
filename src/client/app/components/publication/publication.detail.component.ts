@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { PublicationService, Publication, PUBLICATION_STATUS, PUBLICATION_NOT_PUBLISHED ,PUBLICATION_TYPES } from './publication.service';
 import { ElementKind, QddtElementType } from '../../shared/preview/preview.service';
-import { saveAs } from 'file-saver';
+let saveAs = require('file-saver');
 
 @Component({
   selector: 'qddt-publication-detail',

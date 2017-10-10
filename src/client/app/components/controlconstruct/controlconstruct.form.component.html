@@ -23,7 +23,7 @@
           (mouseenter)="showUniverseButton = !readonly"
           (mouseleave)="showUniverseButton = false">
         <li>
-          <div class="row">
+          <div class="row" (click)="createUniverse=!createUniverse">
             <div class="col s11"><label class="teal-text">Universe</label></div>
             <div class="col s1">
               <a [ngClass]="{hide: !showUniverseButton}"
@@ -60,7 +60,7 @@
           (mouseenter)="showPreinstructionButton = !readonly"
           (mouseleave)="showPreinstructionButton = false">
         <li>
-          <div class="row">
+          <div class="row" (click)="createPreInstruction=!createPreInstruction">
             <div class="col s11"><label class="teal-text">Pre Instructions</label></div>
             <div class="col s1">
               <a [ngClass]="{hide: !showPreinstructionButton}"

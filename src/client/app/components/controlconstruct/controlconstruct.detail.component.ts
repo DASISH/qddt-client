@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ControlConstructService, ControlConstruct } from './controlconstruct.service';
 import { MaterializeAction } from 'angular2-materialize';
-import { saveAs } from 'file-saver';
+let saveAs = require('file-saver');
 
 
 @Component({
@@ -102,6 +102,14 @@ export class ControlConstructDetailComponent implements OnInit {
       error => console.log(error));
   }
 
+  onGetPdf( c: ControlConstruct) {
+    this.service.getPdf(c.id).subscribe(
+      (data: any) => {
+        saveAs(data, c.name + '.pdf');
+      },
+      error => console.log(error));
+
+  }
 
   private init() {
 
