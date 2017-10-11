@@ -13,11 +13,12 @@ import { Subject } from 'rxjs/Subject';
 
 export class CategorySchemeComponent implements OnInit, AfterContentChecked {
 
-  showCategoryForm: boolean = false;
   @Output() categorySelectedEvent: EventEmitter<any> = new EventEmitter<any>();
 
-  categories: any[];
-  private missingCategories: any;
+  deleteAction = new EventEmitter<any>();
+  showCategoryForm: boolean = false;
+  private categories: any[];
+  private missingCategories: any[];
   private category: Category;
   private categoryEnums: any;
   private selectedCategoryIndex: number;
@@ -97,6 +98,24 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
 
   onSelectCategory(category: any) {
     this.categorySelectedEvent.emit(category);
+  }
+
+  onDeleteMissingModal() {
+    this.deleteAction.emit({action:'modal', params:['open']});
+  }
+
+  onConfirmDeleting() {
+    this.categoryService.deleteCategory(this.selectedCategory.id)
+      .subscribe((result: Response) => {
+        if(result.status === 200) {
+          let i = this.missingCategories.findIndex(q => q['id'] === this.selectedCategory.id);
+          if (i >= 0) {
+            this.missingCategories.splice(i, 1);
+            this.hideDetail();
+          }
+        }
+      },
+      (error: any) => console.log(error));
   }
 
   setCategoryNumber(event:any) {
