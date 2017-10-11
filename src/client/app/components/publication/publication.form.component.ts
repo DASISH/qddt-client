@@ -12,6 +12,7 @@ import { ElementKind, QddtElementType } from '../../shared/preview/preview.servi
 
 export class PublicationFormComponent implements OnInit {
   @Input() element: Publication;
+  @Input() textColor:any;
   @Output() save: EventEmitter<Publication> = new EventEmitter<Publication>();
   // controlConstructsActions = new EventEmitter<string>();
   selectOptions: any[] = PUBLICATION_STATUS;

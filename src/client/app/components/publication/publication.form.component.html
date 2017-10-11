@@ -6,7 +6,7 @@
                         [(ngModel)]="element.name" [attr.maxlength]="255"
                         required>
               </textarea>
-      <label [attr.for]="element.id + '-element-name'" class="teal-text">Name</label>
+      <label [attr.for]="element.id + '-element-name'" class="{{textColor}}">Name</label>
     </div>
   </div>
   <div class="row">
@@ -16,7 +16,7 @@
                         [(ngModel)]="element.purpose" [attr.maxlength]="255"
                         required>
               </textarea>
-      <label [attr.for]="element.id + '-publication-purpose'" class="teal-text">Purpose</label>
+      <label [attr.for]="element.id + '-publication-purpose'" class="{{textColor}}">Purpose</label>
     </div>
   </div>
   <div class="row">
@@ -32,14 +32,14 @@
                   [value]="child.id">{{child.label}}</option>
         </optgroup>
       </select>
-      <label class="teal-text">Publication status</label>
+      <label class="{{textColor}}">Publication status</label>
     </div>
     <div class="input-field col s6">
-      <label class="teal-text">{{selectedPublicationStatusOption}}</label>
+      <label class="{{textColor}}">{{selectedPublicationStatusOption}}</label>
     </div>
   </div>
   <div class="row">
-    <div class="row teal-text">Content list</div>
+    <div class="row {textColor}">Content list</div>
     <ul *ngIf="element.publicationElements" materialize="collapsible"
         class="collapsible popout" data-collapsible="expandable">
       <li>

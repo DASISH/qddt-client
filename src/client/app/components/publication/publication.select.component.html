@@ -23,7 +23,7 @@
   <div class="card" *ngIf="!showProgressBar" style="padding: 10pt;">
     <div class="row teal-text">Preview</div>
     <div class="teal-text" *ngIf="selectedElement.name" style="padding-left: 15pt; padding-bottom: 10pt">Name</div>
-    <div style="padding-left: 15pt;">{{selectedElement.name}}</div>
+    <div style="padding-left: 15pt; color:dimgrey; ">{{selectedElement.name}}</div>
     <qddt-publication-preview
       [element]="selectedElement"
       [elementKind]="elementKind">
