@@ -25,6 +25,7 @@ export class TreeNodeComponent {
   @Output() deleteConceptEvent: EventEmitter<any> = new EventEmitter();
   @Output() conceptUpdatedAction:EventEmitter<any> = new EventEmitter();
   @Input() concept: any;
+  @Input() readonly :boolean;
   showConceptChildForm: boolean = false;
   showQuestionForm: boolean = false;
   questionItemActions = new EventEmitter<string|MaterializeAction>();
@@ -37,6 +38,8 @@ export class TreeNodeComponent {
   }
 
   onCreateConcept(concept: any) {
+    if (!this.readonly)
+      this.readonly = concept.archived;
     this.showConceptChildForm = !this.showConceptChildForm;
   }
 
