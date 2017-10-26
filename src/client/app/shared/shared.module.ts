@@ -1,7 +1,7 @@
+import { MaterializeModule } from 'angular2-materialize';
 import { NgModule  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MaterializeModule } from 'angular2-materialize';
 import { LocalDatePipe } from './date.pipe';
 import { AuthorChipComponent } from './author/author.chip.component';
 import { QddtTableComponent } from './table/table.component';
@@ -24,7 +24,7 @@ import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
-  imports: [CommonModule, RouterModule, FormsModule, MaterializeModule,CompareModule],
+  imports: [MaterializeModule,CommonModule, RouterModule, FormsModule, CompareModule],
   declarations: [ LocalDatePipe, QddtTableComponent, QddtPaginationComponent, AutocompleteComponent,
     AuthorChipComponent, ElementFooterComponent, VersionComponent,VersionLabelComponent,
     ConfirmDeleteComponent,TocComponent,CommentListComponent,CommentCreateComponent,
