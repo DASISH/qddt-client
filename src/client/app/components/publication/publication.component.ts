@@ -167,16 +167,16 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
       });
   }
 
-  newPublication():Publication {
-    this.publication = new Publication();
+  newPublication():Publication {    this.publication = new Publication();
     return this.publication;
   }
+
   onCreatePublication() {
     this.showPublicationForm = false;
-    this.publication['changeKind'] = 'CREATED';
+    // this.publication['changeKind'] = 'CREATED';
     this.service.create(this.publication)
       .subscribe((result: any) => {
-        this.publications = [result].concat(this.publications);
+        this.publications.push(result);
       }, (error: any) => {
         console.log(error);
       });
