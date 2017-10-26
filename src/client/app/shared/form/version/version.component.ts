@@ -11,9 +11,9 @@ import { Component, Input } from '@angular/core';
   `{{element?.version?.major}}.{{element?.version?.minor}}
   <i *ngIf="element?.archived" class="material-icons blue-text tiny"
      title="Archived, (read only)">lock</i>
-    <i *ngIf="element?.version?.versionLabel=='In Development'" class="material-icons yellow-text tiny"
+    <i *ngIf="element?.version?.versionLabel=='In Development'" class="material-icons yellow-text text-darken-1 tiny right"
     title="Latest changes, not saved as a version">error</i>
-    <i *ngIf="element?.version?.versionLabel=='Changes in hierarchy'" class="material-icons teal-text tiny"
+    <i *ngIf="element?.version?.versionLabel=='Changes in hierarchy'" class="material-icons teal-text tiny right"
     title="Hierarchy changes, not saved as a version">error</i>`  ,
   providers: []
 })
