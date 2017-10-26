@@ -46,7 +46,6 @@ export class TreeNodeComponent {
   onConceptSavedEvent(concept: any) {
     this.concept.version = concept.version;
     this.conceptUpdatedAction.emit(concept);
-    // this.concept.workinprogress = (concept.version.versionLabel === 'In Development');
   }
 
   onConceptUpdated(concept:any) {
@@ -71,29 +70,18 @@ export class TreeNodeComponent {
     this.newchild = new Concept();
   }
 
-  onQuestionItemSave() {
-    this.showQuestionForm = false;
-    this.concept.conceptQuestionItems.push({'id': {questionItemId: this.questionItem.id, conceptId: this.concept.id}});
-    this.conceptService.updateConcept(this.concept)
-      .subscribe((result: any) => {
-        this.concept = result;
-        this.onConceptSavedEvent(result);
-      }, (error: any) => console.log(error));
-  }
 
   removeQuestionItem(questionItem: any) {
     this.conceptService.deattachQuestion(this.concept.id, questionItem)
       .subscribe((result: any) => {
-        this.concept = result;
           this.onConceptSavedEvent(result);
         }
       , (err: any) => console.log('ERROR: ', err));
   }
 
-  setQuestionItem(questionItem: any) {
+  addQuestionItem(questionItem: any) {
       this.conceptService.attachQuestion(this.concept.id,questionItem.id,questionItem['questionItemRevision'])
         .subscribe((result: any) => {
-          this.concept = result;
           this.onConceptSavedEvent(result);
         }, (error: any) => console.log(error));
   }

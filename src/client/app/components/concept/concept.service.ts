@@ -6,10 +6,9 @@ import { BaseService } from '../../shared/base.service';
 import { QuestionItem } from '../question/question.service';
 
 export class ConceptQuestionItem {
-  id:string;
-  questionItem:QuestionItem;
+  id:any;
   questionItemRevision:number;
-  updated:Date;
+  questionItem:QuestionItem;
 }
 
 
@@ -20,6 +19,7 @@ export class Concept {
   description:string;
   authors:any[];
   conceptQuestionItems:ConceptQuestionItem[];
+  children:Concept[];
 }
 
 @Injectable()
@@ -68,7 +68,7 @@ export class ConceptService extends BaseService {
   }
 
   deattachQuestion(conceptId: string, questionId: string):any {
-    return this.delete('concept/decombine?questionitemid='+ questionId+ '&conceptid='+ conceptId);
+    return this.post({},'concept/decombine?questionitemid='+ questionId+ '&conceptid='+ conceptId);
   }
 
   attachAuthor(conceptId: string, authorId: string):any {

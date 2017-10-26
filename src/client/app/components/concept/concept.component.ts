@@ -60,10 +60,7 @@ export class ConceptComponent implements OnChanges {
 
   onConceptUpdated(concept:any) {
     console.log('onConceptSavedEvent ' + concept.name);
-    let index = this.concepts.findIndex((e:any) => e.id === concept.id);
-    if(index >= 0) {
-      this.concepts[index] = concept;
-    } else {
+    if (!this.updateConcept(this.concepts, concept)) {
       this.concepts.push(concept);
     }
     this.showProgressBar = false;
@@ -72,18 +69,44 @@ export class ConceptComponent implements OnChanges {
   onDeleteConcept(concept: any) {
     this.toDeletedConcept = concept;
     this.confimDeleteActions.emit({action:'modal', params:['open']});
-    // this.actions.emit({action:'modal', params:['open']});
   }
 
   onConfirmDeleteConcept() {
     let id = this.toDeletedConcept.id;
     this.conceptService.deleteConcept(id)
-      .subscribe((result: any) => {
+      .subscribe((result:any) => {
         this.confimDeleteActions.emit({action:'modal', params:['close']});
-        this.conceptService.getByTopic(this.topic.id)
-          .subscribe((result: any) => this.concepts = result.content
-          , (err: any) => console.log('ERROR: ', err));
+        if (result.ok)
+          this.removeConcept(this.concepts,id);
       },
       (error: any) => {console.log(error);});
   }
+
+  private updateConcept(concepts:Concept[], concept:Concept) : boolean {
+    let found = false;
+    let i = -1;
+    while(!found && ++i < concepts.length) {
+      console.log(i);
+      found = this.updateConcept(concepts[i].children,concept);
+      if (concepts[i].id === concept.id) {
+        concepts[i] = concept;
+        found = true;
+      }
+    }
+    return found;
+  }
+
+  private removeConcept(concepts:Concept[], conceptId:any) : boolean {
+    let found = false;
+    let i = -1;
+    while(!found && ++i < concepts.length) {
+      found = this.removeConcept(concepts[i].children,conceptId);
+      if (concepts[i].id === conceptId) {
+        concepts.splice(i,1);
+        found = true;
+      }
+    }
+    return found;
+  }
+
 }
