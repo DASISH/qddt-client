@@ -30,14 +30,14 @@ export class BaseService {
     }
     if (error.status === 400) {
       // this.alertService.error(error['_body'].JSON()['exceptionMessage']);
-      return Observable.throw(error['_body'].JSON || 'Server error');
+      return Observable.throw(error['_body'].JSON || error.statusText ||'Server error');
     }
-    if (!error.statusText) {
+    if (error.statusText) {
       // this.alertService.error(error.statusText);
       return Observable.throw(error.statusText || 'Server error');
     }
 
-    if (!error['message']) {
+    if (error['message']) {
       // this.alertService.error(error['message']);
       return Observable.throw(error['message'] || 'Server error');
     }
@@ -79,7 +79,7 @@ export class BaseService {
         headers: this.headers
       })
       .map((res:Response) => {
-        return res.statusText;
+        return res;
       })
       .catch(this.handleError);
   }
