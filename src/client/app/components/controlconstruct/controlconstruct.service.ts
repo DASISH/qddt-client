@@ -90,10 +90,8 @@ export class ControlConstructService extends BaseService {
     return this.get('concept/list/by-QuestionItem/'+ id);
   }
 
-  searchControlConstructs(key: string = '', page: String = '0', sort: string = ''): any {
-    let query = key.length > 0? '&name=' + '*' + key +'*'
-      + '&questionname=' + '*' + key +'*'
-      + '&questiontext=' + '*' + key +'*': '';
+  searchControlConstructs(name: string = '%', questionText: string ='%', page: String = '0', sort: string = ''): any {
+    let query = '&name=' + name + '&questiontext=' + questionText;
     if (sort.length > 0) {
       query += '&sort=' + sort;
     }

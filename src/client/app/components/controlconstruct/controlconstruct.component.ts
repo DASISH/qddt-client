@@ -45,6 +45,7 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
   constructor(private service: ControlConstructService, private userService: UserService) {
+    console.log('constructor ');
     this.isDetail = false;
     this.editQuestoinItem = false;
     this.showInstructionForm = false;
@@ -63,7 +64,9 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
       .distinctUntilChanged()
       .subscribe((name: string) => {
         this.showProgressBar = true;
-        this.service.searchControlConstructs(name, '0', this.getSort()).subscribe((result: any) => {
+        let args = name.split(' ');
+        console.log('searchKeysSubect ' + args.length);
+        this.service.searchControlConstructs(args[0], args[1]?args[1]:'%','0', this.getSort()).subscribe((result: any) => {
           this.page = result.page;
           this.controlConstructs = result.content;
           this.showProgressBar = false;
@@ -79,6 +82,7 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
       this.selectedControlConstruct = config.item;
       this.isDetail = true;
     } else {
+      console.log('ngOnInit');
       this.searchControlConstructs('');
     }
   }
@@ -126,6 +130,7 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
     }
     this.showInstructionForm = false;
   }
+
   onSelectInstruction(instruction: any) {
     this.instruction = instruction;
   }
@@ -163,7 +168,9 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
 
   onPage(page: string) {
     this.showProgressBar = true;
-    this.service.searchControlConstructs(this.searchKeys, page, this.getSort()).subscribe(
+    let args = this.searchKeys.split(', ');
+    console.log('onPage' + args);
+    this.service.searchControlConstructs(args[0], args[1]?args[1]:'%', page, this.getSort()).subscribe(
       (result: any) => {
         this.page = result.page;
         this.controlConstructs = result.content;
@@ -194,6 +201,7 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
   }
 
   searchControlConstructs(key: string) {
+    console.log('searchControlConstructs' + key);
     this.searchKeys = key;
     this.searchKeysSubect.next(key);
   }

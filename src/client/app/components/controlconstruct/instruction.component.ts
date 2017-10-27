@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 
 import { ControlConstructService, Instruction } from './controlconstruct.service';
+import { ElementKind, QddtElementTypes } from '../../shared/preview/preview.service';
 
 @Component({
   selector: 'qddt-instruction-create',
@@ -10,9 +11,9 @@ import { ControlConstructService, Instruction } from './controlconstruct.service
     <div class="col s10 black-text">
       <label>Description</label>
       <div [ngClass]="{ noItemFound: (isInstructionNew && instruction.description.length > 0 && instructions.length === 0) }">
-		<autocomplete [items]="instructions" class="black-text"
-          [searchField]="'description'"
-		      [searchFromServer]="true"
+		    <autocomplete 
+          [items]="instructions" class="black-text"
+          [elementtype]="INSTRUCTION"
           [initialValue]="instruction?.description"
           (autocompleteSelectEvent)="onSelectInstruction($event)"
 		      (enterEvent)="onSearchInstructions($event)">
@@ -38,6 +39,7 @@ export class InstructionComponent {
   instruction: any;
   instructions: any[];
   isInstructionNew: boolean;
+  private readonly INSTRUCTION = QddtElementTypes[ElementKind.INSTRUCTION];
 
   constructor(private service: ControlConstructService) {
     this.instruction = new Instruction();

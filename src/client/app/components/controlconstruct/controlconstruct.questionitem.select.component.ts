@@ -1,5 +1,6 @@
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { ControlConstructService } from './controlconstruct.service';
+import { ElementKind, QddtElementTypes } from '../../shared/preview/preview.service';
 
 @Component({
   selector: 'qddt-control-construct-questionitem-select',
@@ -7,13 +8,10 @@ import { ControlConstructService } from './controlconstruct.service';
   template: `
   <div class="row card">
     <div class="row">
-      <autocomplete [items]="questionItems"  class="black-text"
-				[searchField]="['name', ['question','question']]"
-        [isMultipleFields]="true"
-        [placeholder] = "'Search in question name or question text'"
+      <autocomplete class="black-text"
+        [items]="questionItems"  
+        [elementtype]="QUESTIONITEM"            
 				(autocompleteFocusEvent)="selectedQuestionItemIndex=idx;"
-				[initialValue]="''"
-        [searchFromServer]="true"
 				(enterEvent)="searchQuestionItems($event)"
 				(autocompleteSelectEvent)="onSelectCreateQuestionItem($event)">
       </autocomplete>
@@ -60,6 +58,7 @@ export class ControlConstructQuestionItemSelectComponent implements OnInit {
   private questionItemRevisions: any[];
   private selectedQuestionItem: any;
   private questionItemRevision: number;
+  private readonly QUESTIONITEM = QddtElementTypes[ElementKind.QUESTIONITEM];
 
   constructor(private service: ControlConstructService) {
     this.questionItems = [];
@@ -85,7 +84,9 @@ export class ControlConstructQuestionItemSelectComponent implements OnInit {
   }
 
   searchQuestionItems(key: string) {
-    this.service.searchQuestionItemsByNameAndQuestion(key).subscribe((result: any) => {
+    let args =key.split(', ');
+    console.log('searchQuestionItems' + args);
+    this.service.searchControlConstructs(args[0], args[1]?args[1]:'%','0').subscribe((result: any) => {
       this.questionItems = result.content;
     },
       (error: any) => { this.popupModal(error); });

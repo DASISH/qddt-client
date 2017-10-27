@@ -23,12 +23,11 @@
           (mouseenter)="showUniverseButton = !readonly"
           (mouseleave)="showUniverseButton = false">
         <li>
-          <div class="row" (click)="createUniverse=!createUniverse">
+          <div class="row" (click)="createUniverse=!createUniverse" style="cursor: zoom-in;">
             <div class="col s11"><label class="teal-text">Universe</label></div>
             <div class="col s1">
               <a [ngClass]="{hide: !showUniverseButton}"
-                 class="btn-flat btn-floating btn-small waves-effect waves-light teal"
-                 (click)="createUniverse=!createUniverse">
+                 class="btn-flat btn-floating btn-small waves-effect waves-light teal">
                 <i class="material-icons" title="Add Universe">add</i>
               </a>
             </div>
@@ -54,18 +53,15 @@
         </li>
       </ul>
     </div>
-
-    <!--<div class="nomargin">-->
       <ul class="hoverable"
           (mouseenter)="showPreinstructionButton = !readonly"
           (mouseleave)="showPreinstructionButton = false">
         <li>
-          <div class="row" (click)="createPreInstruction=!createPreInstruction">
+          <div class="row" (click)="createPreInstruction=!createPreInstruction" style="cursor: zoom-in;">
             <div class="col s11"><label class="teal-text">Pre Instructions</label></div>
             <div class="col s1">
               <a [ngClass]="{hide: !showPreinstructionButton}"
-                 class="btn-flat btn-floating btn-small waves-effect waves-light teal"
-                 (click)="createPreInstruction=!createPreInstruction">
+                 class="btn-flat btn-floating btn-small waves-effect waves-light teal">
                 <i class="material-icons" title="Add Instruction">add</i>
               </a>
             </div>
@@ -95,15 +91,15 @@
     <div class="hoverable"
          (mouseenter)="showQuestionButton = !readonly"
          (mouseleave)="showQuestionButton = false">
-      <div class="row">
-
-        <div class="col s11"><label class="teal-text">
-          Question Text  (Version <qddt-version [element]="controlConstruct?.questionItem"></qddt-version>)</label>
+      <div class="row" (click)="editQuestoinItem = !editQuestoinItem;
+          savedquestionitem=controlConstruct.questionItem;" style="cursor: zoom-in;">
+        <div class="col s11">
+          <label class="teal-text">
+            Question Text (Version <qddt-version [element]="controlConstruct?.questionItem"></qddt-version>)
+          </label>
         </div>
-        <div class="col s1">
-          <a [ngClass]="{hide: !showQuestionButton}"
-             class="btn-flat btn-floating btn-small waves-effect waves-light teal"
-             (click)="editQuestoinItem = !editQuestoinItem;savedquestionitem=controlConstruct.questionItem;">
+        <div class="col s1" [ngClass]="{hide: !showQuestionButton}">
+          <a class="btn-flat btn-floating btn-small waves-effect waves-light teal">
             <i *ngIf="controlConstruct.questionItem"class="material-icons" title="Select QuestionItem Version">play_for_work</i>
             <i *ngIf="!controlConstruct.questionItem" class="material-icons" title="Add QuestionItem">add</i>
           </a>

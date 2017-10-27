@@ -6,10 +6,8 @@
         <i class="material-icons large right">view_agenda</i><h4>Question constructs</h4>
 
         <a class="btn" (click)="onToggleControlConstructForm()">
-          <i class="material-icons right"
-            *ngIf="!showControlConstructForm">keyboard_arrow_down</i>
-          <i class="material-icons right"
-            *ngIf="showControlConstructForm">keyboard_arrow_up</i> New
+          <i class="material-icons right" *ngIf="!showControlConstructForm">keyboard_arrow_down</i>
+          <i class="material-icons right" *ngIf="showControlConstructForm">keyboard_arrow_up</i> New
         </a>
 
         <div *ngIf="showControlConstructForm">
@@ -101,9 +99,9 @@
                   <div class="row card" class="black-text">
                     <label>Description</label>
                     <div [ngClass]="{ noItemFound: (isInstructionNew && instruction.description.length > 0 && instructions.length === 0) }">
-										  <autocomplete [items]="instructions" class="black-text"
-                        [searchField]="'description'"
-												[searchFromServer]="true"
+										  <autocomplete
+                        [items]="instructions" class="black-text"
+                        [elementtype]=QddtElementTypes[ElementKind.INSTRUCTION]
                         [initialValue]="instruction?.description"
                         (autocompleteSelectEvent)="onSelectInstruction($event)"
 												(enterEvent)="onSearchInstructions($event)">

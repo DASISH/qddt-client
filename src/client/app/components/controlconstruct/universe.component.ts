@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 
 import { ControlConstructService, Universe } from './controlconstruct.service';
+import { ElementKind, QddtElementTypes } from '../../shared/preview/preview.service';
 
 @Component({
   selector: 'qddt-universe-create',
@@ -10,17 +11,17 @@ import { ControlConstructService, Universe } from './controlconstruct.service';
     <div class="col s10 black-text">
       <label>Description</label>
       <div [ngClass]="{ noItemFound: (isUniverseNew && universe.description.length > 0 && universe.length === 0) }">
-		<autocomplete [items]="universes" class="black-text"
-          [searchField]="'description'"
-		      [searchFromServer]="true"
-          [initialValue]="universe?.description"
-          (autocompleteSelectEvent)="onSelectUniverse($event)"
-		      (enterEvent)="onSearchUniverses($event)">
-		</autocomplete>
+		  <autocomplete 
+        [items]="universes" class="black-text"
+        [elementtype]="UNIVERSE"
+        [initialValue]="universe?.description"
+        (autocompleteSelectEvent)="onSelectUniverse($event)"
+        (enterEvent)="onSearchUniverses($event)">
+		  </autocomplete>
 	  </div>
     </div>
     <div class="col s2 right">
-      <a class="waves-effect waves-light btn" (click)="onAddUniverse()">add</a>
+      <a class="waves-effect waves-light btn" (click)="onAddUniverse($event)">add</a>
     </div>
   </div>
   `,
@@ -38,16 +39,17 @@ export class UniverseComponent {
   universe: any;
   universes: any[];
   isUniverseNew: boolean;
+  private readonly UNIVERSE = QddtElementTypes[ElementKind.UNIVERSE];
 
   constructor(private service: ControlConstructService) {
     this.universe = new Universe();
-    this.universes = [];
     this.universe.description = '';
+    this.universes = [];
   }
 
   onAddUniverse() {
     this.createUniverseEvent.emit(this.universe);
-    this.universe = new Universe();
+    console.log('UniverseComponent onAddUniverse' + this.universe.name);
   }
 
   onSearchUniverses(key: string) {
@@ -61,6 +63,7 @@ export class UniverseComponent {
 
   onSelectUniverse(universe: any) {
     this.universe = universe;
+    console.log('UniverseComponent onSelectUniverse' + this.universe.name);
   }
 
 }
