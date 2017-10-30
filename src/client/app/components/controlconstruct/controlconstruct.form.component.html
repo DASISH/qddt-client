@@ -18,7 +18,7 @@
       </div>
     </div>
 
-    <div class="nomargin">
+    <!--<div class="nomargin">-->
       <ul class="hoverable"
           (mouseenter)="showUniverseButton = !readonly"
           (mouseleave)="showUniverseButton = false">
@@ -52,7 +52,7 @@
           </div>
         </li>
       </ul>
-    </div>
+    <!--</div>-->
       <ul class="hoverable"
           (mouseenter)="showPreinstructionButton = !readonly"
           (mouseleave)="showPreinstructionButton = false">
@@ -86,13 +86,13 @@
           </div>
         </li>
       </ul>
-    <!--</div>-->
+
 
     <div class="hoverable"
          (mouseenter)="showQuestionButton = !readonly"
          (mouseleave)="showQuestionButton = false">
       <div class="row" (click)="editQuestoinItem = !editQuestoinItem;
-          savedquestionitem=controlConstruct.questionItem;" style="cursor: zoom-in;">
+            savedquestionitem=controlConstruct.questionItem;" style="cursor: zoom-in;">
         <div class="col s11">
           <label class="teal-text">
             Question Text (Version <qddt-version [element]="controlConstruct?.questionItem"></qddt-version>)
@@ -124,18 +124,15 @@
         [controlConstruct]="controlConstruct">
       </qddt-control-construct-questionitem-select>
     </div>
-
-    <!--<div class="nomargin">-->
-      <ul class="hoverable"
+    <ul class="hoverable"
           (mouseenter)="showPostinstructionButton = !readonly"
           (mouseleave)="showPostinstructionButton = false">
         <li>
-          <div class="row" style="min-height:3rem">
+          <div class="row" (click)="createPostInstruction=!createPostInstruction" style="cursor: zoom-in;">
             <div class="col s11"><label class="teal-text">Post Instructions</label></div>
             <div class="col s1">
               <a [ngClass]="{hide: !showPostinstructionButton}"
-                 class="btn-flat btn-floating btn-small waves-effect waves-light teal"
-                 (click)="createPostInstruction=!createPostInstruction">
+                 class="btn-flat btn-floating btn-small waves-effect waves-light teal">
                 <i class="material-icons" title="Add Instruction">add</i>
               </a>
             </div>
@@ -160,25 +157,24 @@
           </div>
         </li>
       </ul>
-    <!--</div>-->
 
-    <qddt-conceptref [element]="controlConstruct.questionItem"></qddt-conceptref>
 
     <qddt-preview-responsedomain
       *ngIf="controlConstruct.questionItem && controlConstruct.questionItem.responseDomain"
       [isVisible]="true" [responseDomain]="controlConstruct.questionItem.responseDomain">
     </qddt-preview-responsedomain>
 
+    <qddt-conceptref [element]="controlConstruct.questionItem"></qddt-conceptref>
+
     <ul class="hoverable"
         (mouseenter)="showbutton = !readonly"
         (mouseleave)="showbutton = false">
       <li>
-        <div class="row" style="min-height:3rem">
-          <div class="col s11"><label class="teal-text">External aid</label></div>
+        <div class="row" (click)="showUploadFileForm=!showUploadFileForm" style="cursor: zoom-in;">
+        <div class="col s11"><label class="teal-text">External aid</label></div>
           <div class="col s1">
             <a [ngClass]="{hide: !showbutton}"
-               class="btn-flat btn-floating btn-small waves-effect waves-light teal"
-               (click)="showUploadFileForm=!showUploadFileForm">
+               class="btn-flat btn-floating btn-small waves-effect waves-light teal">
               <i class="material-icons" title="Attach external aid (File Upload)">add</i>
             </a>
           </div>

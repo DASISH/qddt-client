@@ -19,12 +19,11 @@
           (mouseenter)="showbutton = !readonly"
           (mouseleave)="showbutton = false">
         <li>
-          <div class="row" style="min-height:3rem">
+          <div class="row" (click)="showUploadFileForm=!showUploadFileForm"  style="cursor: zoom-in; min-height:3rem">
             <div class="col s11"><label class="teal-text">External aid</label></div>
             <div class="col s1">
               <a [ngClass]="{hide: !showbutton}"
-                 class="btn-flat btn-floating btn-small waves-effect waves-light teal"
-                 (click)="showUploadFileForm=!showUploadFileForm">
+                 class="btn-flat btn-floating btn-small waves-effect waves-light teal">
                 <i class="material-icons" title="Attach external aid (File Upload)">add</i>
               </a>
             </div>

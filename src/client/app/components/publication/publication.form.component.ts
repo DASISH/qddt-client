@@ -30,7 +30,7 @@ export class PublicationFormComponent implements OnInit {
   }
 
   onSavePublication() {
-    console.log(this.publication);
+    console.log('onSavePublication ' + this.publication);
     this.save.emit(this.publication);
   }
 
