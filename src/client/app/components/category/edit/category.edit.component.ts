@@ -53,7 +53,7 @@ import { CategoryType } from '../category_kind';
         </div>
 
         <div class="row">
-          <qddt-rational [element]="category" [config]="{hidden: [2,4]}"></qddt-rational>
+          <qddt-rational [element]="category" [config]="{hidden: [4]}"></qddt-rational>
         </div>
         <div class="row">
           <qddt-element-footer [element]="category" [type]="'category'"></qddt-element-footer>
@@ -70,11 +70,13 @@ import { CategoryType } from '../category_kind';
              <thead><tr><td>Select Responses</td></tr></thead>
              <tbody>
                <tr *ngFor="let cat of category.children; let idx=index">
-                 <td><autocomplete [items]="categories"
-                       [searchField]="'label'"
-                       (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
-                       [initialValue]="cat?.label"
-                       (autocompleteSelectEvent)="select($event)"></autocomplete></td>
+                 <td><autocomplete 
+                   [items]="categories"
+                   [elementtype]="QddtElementTypes[ElementKind.CATEGORY]"
+                   (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
+                   [initialValue]="cat?.label"
+                   (autocompleteSelectEvent)="select($event)">
+                 </autocomplete></td>
                 </tr>
               </tbody>
             </table></div>

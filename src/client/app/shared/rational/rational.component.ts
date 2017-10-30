@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { isUndefined } from 'util';
 
 @Component({
   selector: 'qddt-rational',
@@ -8,9 +7,6 @@ import { isUndefined } from 'util';
   template: `
   <div class="row">
     <div class="hoverable">
-    <!--(mouseenter)="showbutton = true"-->
-    <!--(mouseleave)="showbutton = false"-->
-    
       <div class="row">
         <div class="col left" *ngFor="let option of rationalDescriptions" [ngClass]="{hide: option.hidden}">
           <input *ngIf="showbutton" name="{{originalId}}-optiontypegroup" type="radio"
