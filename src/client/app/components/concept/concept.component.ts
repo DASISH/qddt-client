@@ -10,16 +10,16 @@ import { MaterializeAction } from 'angular2-materialize';
 })
 
 export class ConceptComponent implements OnChanges {
-  showConceptForm: boolean = false;
   @Output() conceptSelectedEvent: EventEmitter<any> = new EventEmitter();
   @Input() topic: any;
   @Input() show: boolean;
   confimDeleteActions = new EventEmitter<string|MaterializeAction>();
 
+  private showConceptForm: boolean = false;
+  private showProgressBar: boolean = false;
   private concept: any;
   private concepts: any;
   private toDeletedConcept: any;
-  private showProgressBar: boolean = false;
 
   constructor(private conceptService: ConceptService) {
     this.concept = new Concept();

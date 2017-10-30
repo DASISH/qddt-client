@@ -1,7 +1,8 @@
 import { Component, Input, Output, EventEmitter, OnInit, AfterViewInit } from '@angular/core';
+// import { DatePipe } from '@angular/common';
 import { CategoryService, Category, ResponseCardinality } from '../category/category.service';
 import { DomainKind, DomainTypeDescription } from './responsedomain.constant';
-import { ResponseDomain, ResponseDomainService } from './responsedomain.service';
+import { DATE_FORMAT, ResponseDomain, ResponseDomainService } from './responsedomain.service';
 import { Observable }     from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
@@ -33,6 +34,8 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
   basedonObject: any;
 
   public domainTypeDef = DomainKind;
+  public dateFormatOption = DATE_FORMAT;
+  private today: number = Date.now();
   private categories: Category[];
   private showbuttons:boolean =false;
   private selectedCategoryIndex: number;
@@ -179,6 +182,10 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
     this.changeNumberOfAnchors(num);
   }
 
+  onSelectDateFormatChange(format:string) {
+    this.responsedomain.managedRepresentation.format = format;
+  }
+
   changeNumberOfAnchors(num: number) {
     let rep = this.responsedomain.managedRepresentation;
     if(rep.children.length === num) {
@@ -309,8 +316,8 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
 
 
   onBasedonObjectDetail(ref:any) {
-    if (this.isNull(ref.rev))
-      ref.rev=0;
+    if (!ref.rev)
+        ref.rev=0;
     this.service.getResponseDomainsRevision(ref.id,ref.rev)
       .subscribe(
         (result: any) => {
@@ -319,10 +326,6 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
         },
         (err: any) => null
       );
-  }
-
-  private isNull(object: any) {
-    return object === undefined || object === null;
   }
 
 }

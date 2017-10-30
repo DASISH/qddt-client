@@ -21,7 +21,7 @@ let saveAs = require('file-saver');
 
 })
 
-export class TreeNodeComponent {
+export class TreeNodeComponent  {
   @Output() deleteConceptEvent: EventEmitter<any> = new EventEmitter();
   @Output() conceptUpdatedAction:EventEmitter<any> = new EventEmitter();
   @Input() concept: any;

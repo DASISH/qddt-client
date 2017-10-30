@@ -213,11 +213,20 @@
                        [attr.min]="[responsedomain.managedRepresentation.inputLimit.minimum] + 1"
                        [(ngModel)]="responsedomain.managedRepresentation.inputLimit.maximum" required>
               </div>
-              <div class="input-field col l8">
+              <div class="input-field col l4">
                 <label for="representation_formatD" class="active">Date format</label>
-                <input id="representation_formatD" name="representation_formatD" type="text"
-                       (ngModelChange)="buildPreviewResponseDomain()"
-                       [(ngModel)]="responsedomain.managedRepresentation.format" required>
+                <select materialize="material_select" [materializeSelectOptions]="dateFormatOption"
+                        id="representation_formatD" name="representation_formatD"
+                        (ngModelChange)="buildPreviewResponseDomain()"
+                        [(ngModel)]="responsedomain.managedRepresentation.format"
+                        (change)="onSelectDateFormatChange($event.target.value)">
+                    <option *ngFor="let option of dateFormatOption" [value]="option.format">{{option.label}}</option>
+                </select>
+              </div>
+              <div class="col l4">
+                <label for="representation_example" class="active">Example</label>
+                <input id="representation_example" name="representation_example" type="text" readonly
+                value="{{responsedomain.managedRepresentation.format}}">
               </div>
             </div>
 					</div>

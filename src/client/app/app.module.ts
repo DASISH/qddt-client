@@ -16,14 +16,15 @@ import { ControlConstructModule } from './components/controlconstruct/controlcon
 import { InstrumentModule } from './components/instrument/instrument.module';
 import { SequenceModule } from './components/sequence/sequence.module';
 import { PublicationModule } from './components/publication/publication.module';
+import { AuthGuard } from './auth-guard.service';
+// import { PageNotFoundComponent } from './components/pagenotfound/page-not-found.component';
 
 @NgModule({
-  imports: [ BrowserModule, HttpModule, SharedModule,  HomeModule,
+  imports: [ routing, BrowserModule, HttpModule, SharedModule,  HomeModule,
     CategoryModule, ResponsedomainModule, QuestionModule, ControlConstructModule,
-    SequenceModule, InstrumentModule, PublicationModule,
-    routing ],
+    SequenceModule, InstrumentModule, PublicationModule],
   declarations: [ AppComponent ],
-  providers: [UserService, {
+  providers: [AuthGuard, UserService, {
     provide: APP_BASE_HREF,
     useValue: '<%= APP_BASE %>'
   }, {

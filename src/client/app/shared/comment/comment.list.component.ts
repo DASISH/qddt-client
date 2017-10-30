@@ -41,17 +41,15 @@ import { CommentService, Comment } from './comment.service';
               <div class="row" *ngIf="isEditComment && selectedCommentId === idx">
                 <br>
                 <div class="col s8">
-                  <textarea class="materialize-textarea"
-                    [(ngModel)]="message">
+                  <textarea class="materialize-textarea"  length="2000"
+                            [(ngModel)]="message"> 
                   </textarea>
                 </div>
                 <div class="col s3">
                   <div class="switch">
                     <label>
-                      Not
                       <input type="checkbox" [(ngModel)]="isPublic">
-                      <span class="lever"></span>
-                      Published
+                      <span class="lever"></span>Published
                     </label>
                   </div>
                 </div>
@@ -105,6 +103,8 @@ export class CommentListComponent implements OnInit {
 
   toggleComments() {
     this.showComments = !this.showComments;
+    if(this.showComments)
+      this.addedComment();
   }
 
   addedComment() {
