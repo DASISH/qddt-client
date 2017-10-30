@@ -1,11 +1,11 @@
 import { Component, OnInit, AfterContentChecked, EventEmitter } from '@angular/core';
 import { ResponseDomain } from './responsedomain.service';
-import { DomainType, DomainTypeDescription, PredefinedColumns } from './responsedomain.constant';
+import { DomainKind, DomainTypeDescription, PredefinedColumns } from './responsedomain.constant';
 import { ResponseDomainService } from './responsedomain.service';
 import { UserService } from '../../shared/user/user.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
-import { NG_VALIDATORS } from '@angular/forms';
+
 
 @Component({
   selector: 'qddt-responsedomain',
@@ -15,11 +15,11 @@ import { NG_VALIDATORS } from '@angular/forms';
 })
 
 export class ResponsedomainComponent implements OnInit, AfterContentChecked {
-  domainType: DomainType;
+  domainType: DomainKind;
   deleteAction = new EventEmitter<any>();
   errorAction = new EventEmitter<string|MaterializeAction>();
   error: string;
-  public domainTypeDef = DomainType;
+  public domainTypeDef = DomainKind;
   responseDomains: any[];
   private selectedResponseDomain: ResponseDomain;
   private responseDomain: ResponseDomain;
@@ -41,8 +41,8 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
     this.searchKeys = '';
     this.isDetail = false;
     this.revisionIsVisible = false;
-    this.domainType = DomainType.SCALE;
-    this.domainTypeDescription = DomainTypeDescription.filter((e:any) => e.id !== DomainType.MIXED);
+    this.domainType = DomainKind.SCALE;
+    this.domainTypeDescription = DomainTypeDescription.filter((e:any) => e.id !== DomainKind.MIXED);
     this.showResponseDomainForm = false;
     this.page = {};
     this.columns = PredefinedColumns['SCALE'];
@@ -100,11 +100,11 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
     }
   }
 
-  selectDomainType(id: DomainType) {
+  selectDomainType(id: DomainKind) {
     this.showProgressBar = true;
     this.domainType = id;
     this.showResponseDomainForm = false;
-    let domainType = DomainTypeDescription.find((e: any)=>e.id === id).name;
+    let domainType = DomainKind[this.domainType];
     this.columns = PredefinedColumns[domainType];
     this.responseDomains = [];
     this.responseDomainService
@@ -125,8 +125,8 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
     if(this.showResponseDomainForm) {
       this.responseDomain = new ResponseDomain();
       this.responseDomain['isNew'] = true;
-      let name = DomainTypeDescription.find((e: any)=>e.id === this.domainType).name;
-      this.responseDomain.responseKind = name;
+      // let name = DomainTypeDescription.find((e: any)=>e.id === this.domainType).name;
+      this.responseDomain.responseKind = DomainKind[this.domainType];
     }
   }
 
@@ -178,9 +178,9 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
 
   onPage(page: string) {
     this.showProgressBar = true;
-    let domainType = DomainTypeDescription.find((e: any) =>e.id === this.domainType).name;
+    // let domainType = DomainTypeDescription.find((e: any) =>e.id === this.domainType).name;
     this.responseDomainService
-      .getAll(domainType, this.searchKeys, page, this.getSort()).subscribe(
+      .getAll(DomainKind[this.domainType], this.searchKeys, page, this.getSort()).subscribe(
       (result: any) => { this.page = result.page;
         this.responseDomains = result.content;
         this.buildAnchorLabel();
@@ -213,7 +213,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
     let config: any[] = [];
     config.push({'name':'name','label':'Name'});
     config.push({'name':'description','label':'Description'});
-    if(this.domainType === DomainType.SCALE) {
+    if(this.domainType === DomainKind.SCALE) {
       config.push({'name':['managedRepresentation', 'inputLimit', 'minimum'],'label':'Start'});
       config.push({'name':['managedRepresentation', 'inputLimit', 'maximum'],'label':'End'});
       config.push({'name':'displayLayout','label':'display Layout'});
@@ -222,22 +222,22 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
         config.push({'name':['managedRepresentation', 'children', i, 'label'],'label':'Category' + i});
         config.push({'name':['managedRepresentation', 'children', i, 'code', 'codeValue'],'label':'Code' + i});
       }
-    } else if(this.domainType === DomainType.LIST) {
+    } else if(this.domainType === DomainKind.LIST) {
       config.push({'name':['managedRepresentation', 'inputLimit', 'maximum'],'label':'Number of Codes'});
       let children: any[] = this.selectedResponseDomain.managedRepresentation.children;
       for (let i = 0; i < children.length; i++) {
         config.push({'name':['managedRepresentation', 'children', i, 'label'],'label':'Category' + i});
         config.push({'name':['managedRepresentation', 'children', i, 'code', 'codeValue'],'label':'Code' + i});
       }
-    } else if(this.domainType === DomainType.NUMERIC) {
+    } else if(this.domainType === DomainKind.NUMERIC) {
       config.push({'name':['managedRepresentation', 'inputLimit', 'minimum'],'label':'Low'});
       config.push({'name':['managedRepresentation', 'inputLimit', 'maximum'],'label':'High'});
       config.push({'name':['managedRepresentation', 'format'],'label':'descimal'});
-    } else if(this.domainType === DomainType.DATETIME) {
+    } else if(this.domainType === DomainKind.DATETIME) {
       config.push({'name':['managedRepresentation', 'inputLimit', 'minimum'],'label':'After'});
       config.push({'name':['managedRepresentation', 'inputLimit', 'maximum'],'label':'Before'});
       config.push({'name':['managedRepresentation', 'format'],'label':'Date format'});
-    } else if(this.domainType === DomainType.TEXT) {
+    } else if(this.domainType === DomainKind.TEXT) {
       config.push({'name':['managedRepresentation', 'inputLimit', 'minimum'],'label':'Min Length'});
       config.push({'name':['managedRepresentation', 'inputLimit', 'maximum'],'label':'Max Length'});
     }
@@ -245,7 +245,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
   }
 
   private buildAnchorLabel() {
-    if(this.domainType === DomainType.SCALE) {
+    if(this.domainType === DomainKind.SCALE) {
       for (let rd of this.responseDomains) {
         let label = '';
         let children = rd.managedRepresentation.children;

@@ -23,11 +23,11 @@
     </div>
     <div class="row">
       <div class="row">
-        <autocomplete [items]="elements" class="black-text"
-        [searchField]="'name'"
-				[searchFromServer]="true"
-        (autocompleteSelectEvent)="onSelectElement($event)"
-				(enterEvent)="onSearchElements($event)">
+        <autocomplete
+          [items]="elements" class="black-text"
+          [elementtype]="getElementType(elementType)"
+          (autocompleteSelectEvent)="onSelectElement($event)"
+	  			(enterEvent)="onSearchElements($event)">
 			  </autocomplete>
       </div>
 

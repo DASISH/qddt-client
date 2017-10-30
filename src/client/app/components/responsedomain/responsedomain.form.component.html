@@ -82,13 +82,13 @@
                   <td>
                     <div
                       [ngClass]="{ noItemFound: (category.isNew && category.label.length > 0 && categories.length === 0) }">
-                      <autocomplete [items]="categories" class="black-text"
-                                    [searchField]="'label'"
-                                    [searchFromServer]="true"
-                                    (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
-                                    [initialValue]="category?.label"
-                                    (autocompleteSelectEvent)="select($event)"
-                                    (enterEvent)="searchCategories($event)">
+                      <autocomplete class="black-text"
+                        [items]="categories"
+                        [initialValue]="category?.label"
+                        [elementtype]="CATEGORY_KIND"
+                        (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
+                        (autocompleteSelectEvent)="select($event)"
+                        (enterEvent)="searchCategories($event)">
                       </autocomplete>
                     </div>
                   </td>
@@ -131,11 +131,11 @@
 									  [(ngModel)]="category.code.codeValue" required></td>
 									<td width="50%">
 										<div [ngClass]="{ noItemFound: (category.isNew && category.label.length > 0 && categories.length === 0) }">
-										  <autocomplete [items]="categories" class="black-text"
-                        [searchField]="'label'"
+										  <autocomplete
+                        [items]="categories" class="black-text"
+                        [elementtype]="CATEGORY_KIND"
                         (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
                         [initialValue]="category?.label"
-												[searchFromServer]="true"
 												(enterEvent)="searchCategories($event)"
                         (autocompleteSelectEvent)="select($event)">
 											</autocomplete>

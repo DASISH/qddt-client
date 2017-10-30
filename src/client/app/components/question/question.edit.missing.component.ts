@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CategoryService } from '../category/category.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
+import { ElementKind, QddtElementType, QddtElementTypes } from '../../shared/preview/preview.service';
 
 @Component({
   selector: 'qddt-questionitem-edit-missing',
@@ -34,11 +35,10 @@ import { MaterializeAction } from 'angular2-materialize';
         <form (ngSubmit)="onSave()" #missingForm="ngForm">
         <div class="modal-content minHeight">
           <div class="row">
-            <autocomplete [items]="missingCategories" class="black-text"
-              [searchField]="'label'"
+            <autocomplete 
+              [items]="missingCategories" class="black-text"
+              [elementtype]="CATEGORY_KIND"
               (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
-              [initialValue]="''"
-              [searchFromServer]="true"
 							(enterEvent)="searchMissingCategories($event)"
               (autocompleteSelectEvent)="select($event)"></autocomplete>
           </div>
@@ -78,6 +78,7 @@ export class QuestionItemEditMissingComponent implements OnInit {
   selectedCategoryIndex: number;
   missingAction = new EventEmitter<string|MaterializeAction>();
   private searchMissingCategoriesSubect: Subject<string> = new Subject<string>();
+  private readonly CATEGORY_KIND:QddtElementType = QddtElementTypes[ElementKind.CATEGORY];
 
   constructor(private service: CategoryService) {
     this.missingSelectedAction = new EventEmitter<any>();

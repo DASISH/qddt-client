@@ -3,6 +3,7 @@ import { CategoryService, Category, ResponseCardinality } from './category.servi
 import { CategoryType } from './category_kind';
 import { UserService } from '../../shared/user/user.service';
 import { Subject } from 'rxjs/Subject';
+import { ElementKind, QddtElementType,QddtElementTypes } from '../../shared/preview/preview.service';
 
 @Component({
   selector: 'category-scheme',
@@ -15,13 +16,13 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
 
   @Output() categorySelectedEvent: EventEmitter<any> = new EventEmitter<any>();
 
-  deleteAction = new EventEmitter<any>();
-  showCategoryForm: boolean = false;
+  public deleteAction = new EventEmitter<any>();
+  public showCategoryForm: boolean = false;
+  public selectedCategoryIndex: number;
   private categories: any[];
   private missingCategories: any[];
   private category: Category;
   private categoryEnums: any;
-  private selectedCategoryIndex: number;
   private isDetail: boolean;
   private page: any;
   private columns: any[];
@@ -31,6 +32,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
   private savedCategoriesIndex: number;
   private searchKeysSubect: Subject<string> = new Subject<string>();
   private revisionIsVisible: boolean = false;
+  private readonly  CATEGORY_KIND :QddtElementType= QddtElementTypes[ElementKind.CATEGORY];
 
   constructor(private categoryService: CategoryService, private userService: UserService) {
     this.category = new Category();

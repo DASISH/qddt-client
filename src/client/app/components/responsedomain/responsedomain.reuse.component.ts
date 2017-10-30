@@ -1,8 +1,9 @@
 import { Component, Input, Output, EventEmitter, OnChanges, OnInit } from '@angular/core';
-import { DomainType, DomainTypeDescription } from './responsedomain.constant';
+import { DomainKind, DomainTypeDescription } from './responsedomain.constant';
 import { ResponseDomain, ResponseDomainService } from './responsedomain.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
+import { ElementKind, QddtElementType, QddtElementTypes } from '../../shared/preview/preview.service';
 
 @Component({
   selector: 'qddt-responsedomain-reuse',
@@ -20,21 +21,22 @@ export class ResponsedomainReuseComponent implements OnInit, OnChanges {
   // @Output() dismissEvent = new EventEmitter<any>();
   selectedResponseDomain: any;
   selectedRevision: number;
-  public domainTypeDef = DomainType;
+  public domainTypeDef = DomainKind;
   public domainTypeDescription: any[];
   private modalRdActions = new EventEmitter<MaterializeAction>();
-  private domainType: DomainType;
+  private domainType: DomainKind;
   private showAutocomplete: boolean;
   private responseDomains: any;
   private selectedIndex: number;
   private searchKeysSubect: Subject<string> = new Subject<string>();
+  private readonly RESPONSEKIND: QddtElementType  = QddtElementTypes[ElementKind.RESPONSEDOMAIN];
 
   constructor(private responseDomainService: ResponseDomainService) {
     console.debug('responsedomain reuse...');
     this.showAutocomplete = false;
-    this.domainType = DomainType.SCALE;
+    this.domainType = DomainKind.SCALE;
     this.responseDomains = [];
-    this.domainTypeDescription = DomainTypeDescription.filter((e:any) => e.id !== DomainType.MIXED);
+    this.domainTypeDescription = DomainTypeDescription.filter((e:any) => e.id !== DomainKind.MIXED);
     this.selectedIndex = 0;
     this.searchKeysSubect
       .debounceTime(300)
@@ -62,7 +64,7 @@ export class ResponsedomainReuseComponent implements OnInit, OnChanges {
         this.domainType = description.id;
       }
     } else {
-      this.domainType = DomainType.SCALE;
+      this.domainType = DomainKind.SCALE;
     }
   }
   //
@@ -93,7 +95,7 @@ export class ResponsedomainReuseComponent implements OnInit, OnChanges {
     this.isVisible = false;
   }
 
-  selectDomainType(id: DomainType) {
+  selectDomainType(id: DomainKind) {
     this.domainType = id;
     this.selectedResponseDomain = null;
     this.reuse();
@@ -102,8 +104,7 @@ export class ResponsedomainReuseComponent implements OnInit, OnChanges {
 
   reuse() {
     console.debug('reuse');
-    this.responseDomainService.getAll(DomainTypeDescription.find((e: any) =>
-      e.id === this.domainType).name).subscribe((result: any) => {
+    this.responseDomainService.getAll(DomainKind[this.domainType]).subscribe((result: any) => {
       this.responseDomains = result.content;
       this.showAutocomplete = true;
     });

@@ -9,13 +9,10 @@
       <div *ngIf="reuseQuestionItem">
         <h3 class="teal-text ">Reuse Question Item</h3>
         <div class="row black-text">
-          <autocomplete [items]="questionItems" [searchField]="['name', ['question','question']]"
-                        [initialValue]="''"
-                        [searchFromServer]="true"
-                        [isMultipleFields]="true"
+          <autocomplete [items]="questionItems"
+                        [elementtype]="QUESTION_KIND"
                         (autocompleteFocusEvent)="selectedIndex=idx;"
                         (enterEvent)="searchQuestionItems($event)"
-                        [placeholder] = "'Search in question name or question text'"
                         (autocompleteSelectEvent)="selectQuestionItem($event)">
           </autocomplete>
         </div>

@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { ResponseDomainService } from './responsedomain.service';
-import { DomainType, DomainTypeDescription } from './responsedomain.constant';
+import {  DomainTypeDescription, DomainKind } from './responsedomain.constant';
 import { Subject } from 'rxjs/Subject';
 
 @Component({
@@ -18,8 +18,10 @@ import { Subject } from 'rxjs/Subject';
                         [attr.for]="'domain-type-' + domain.id">{{domain.label}}</label>
                   </div></div>
                   <div class="row">
-                     <autocomplete [items]="responseDomains" [searchField]="'name'"
-                       [initialValue]="''" (autocompleteSelectEvent)="selectResponseDomain($event)">
+                     <autocomplete 
+                       [items]="responseDomains"
+                       [elementtype]="ResponseKind"
+                       (autocompleteSelectEvent)="selectResponseDomain($event)">
                      </autocomplete>
                   </div>
                </div>
@@ -28,7 +30,7 @@ import { Subject } from 'rxjs/Subject';
 })
 
 export class ResponseDomainSearchComponent {
-  domainType: DomainType;
+  domainType: DomainKind;
   @Output() selectResponseDomainEvent: EventEmitter<any> = new EventEmitter<any>();
   responseDomains: any[];
   domainTypeDescription: any[];
@@ -36,24 +38,22 @@ export class ResponseDomainSearchComponent {
 
   constructor(private responseDomainService: ResponseDomainService) {
     this.responseDomains = [];
-    this.domainTypeDescription = DomainTypeDescription.filter((e:any) => e.id !== DomainType.MIXED);
-    this.selectDomainType(DomainType.SCALE);
+    this.domainTypeDescription = DomainTypeDescription.filter((e:any) => e.id !== DomainKind.MIXED);
+    this.selectDomainType(DomainKind.SCALE);
     this.searchKeysSubect
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
-        let domainType = DomainTypeDescription.find((e: any) => e.id === this.domainType).name;
         this.responseDomainService
-          .getAll(domainType, name).subscribe((result: any) => {
+          .getAll(DomainKind[this.domainType], name).subscribe((result: any) => {
             this.responseDomains = result.content;
           });
       });
   }
 
-  selectDomainType(id: DomainType) {
+  selectDomainType(id: DomainKind) {
     this.domainType = id;
-    let name = DomainTypeDescription.find((e: any) =>e.id === this.domainType).name;
-    this.responseDomainService.getAll(name).subscribe((result: any) => {
+    this.responseDomainService.getAll(DomainKind[id]).subscribe((result: any) => {
     this.responseDomains = result.content;});
   }
 

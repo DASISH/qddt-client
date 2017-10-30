@@ -21,10 +21,8 @@
       </div>
       <div *ngIf="showAutocomplete">
         <autocomplete [items]="responseDomains" class="black-text"
-                      [searchField]="'name'"
+                      [elementtype]="RESPONSEKIND"
                       (autocompleteFocusEvent)="selectedIndex=idx;"
-                      [initialValue]="''"
-                      [searchFromServer]="true"
                       (enterEvent)="searchResponseDomains($event)"
                       (autocompleteSelectEvent)="select($event)">
         </autocomplete>

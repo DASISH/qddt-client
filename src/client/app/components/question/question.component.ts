@@ -4,6 +4,7 @@ import { UserService } from '../../shared/user/user.service';
 import { Subject }          from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 import { Column } from '../../shared/table/table.service';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'qddt-questionitem',
@@ -35,7 +36,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
   private secondCS: any;
   private mainresponseDomainRevision: number;
 
-  constructor(private questionService: QuestionService, private userService: UserService) {
+  constructor(private questionService: QuestionService, private userService: UserService,private route: ActivatedRoute) {
     this.questionitems = [];
     this.page = {number:1, size:10};
     this.searchKeys = '';
@@ -61,6 +62,10 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
   }
 
   ngOnInit() {
+    this.route.paramMap
+      .switchMap((params: ParamMap) =>
+        params.has('id')? this.questionItem = this.questionService.getquestion(params.get('id')):null);
+
     let config = this.userService.getGlobalObject('questions');
     if (config.current === 'detail' ) {
       this.page = config.page;

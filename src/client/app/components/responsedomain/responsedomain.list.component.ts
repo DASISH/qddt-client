@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ResponseDomain,ResponseDomainService } from './responsedomain.service';
-import { DomainType, DomainTypeDescription } from './responsedomain.constant';
+import { DomainKind, DomainTypeDescription } from './responsedomain.constant';
 
 
 @Component({
@@ -12,14 +12,14 @@ import { DomainType, DomainTypeDescription } from './responsedomain.constant';
 })
 
 export class ResponsedomainListComponent {
-  public domainTypeDef = DomainType;
+  public domainTypeDef = DomainKind;
   @Input() responseDomains: ResponseDomain[];
   private editIsVisible: boolean;
-  private domainType: DomainType;
+  private domainType: DomainKind;
   private selectedDomainId: string;
 
   constructor(private responseDomainService: ResponseDomainService) {
-    this.domainType = DomainType.SCALE;
+    this.domainType = DomainKind.SCALE;
     this.editIsVisible = false;
     this.selectedDomainId = '';
   }

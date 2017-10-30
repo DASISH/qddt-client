@@ -56,7 +56,7 @@ export class TopicService extends BaseService {
   }
 
   deattachQuestion(topicId: string, questionId: string): any {
-    return this.delete('topicgroup/decombine?questionitemid=' + questionId + '&topicid=' + topicId);
+    return this.post({},'topicgroup/decombine?questionitemid=' + questionId + '&topicid=' + topicId);
   }
 
   getFile(id: string):any {

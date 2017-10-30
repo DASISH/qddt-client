@@ -1,10 +1,11 @@
 import { Component, Input, Output, EventEmitter, OnInit, AfterViewInit } from '@angular/core';
 import { CategoryService, Category, ResponseCardinality } from '../category/category.service';
-import { DomainType, DomainTypeDescription } from './responsedomain.constant';
+import { DomainKind, DomainTypeDescription } from './responsedomain.constant';
 import { ResponseDomain, ResponseDomainService } from './responsedomain.service';
 import { Observable }     from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
+import { ElementKind, QddtElementType, QddtElementTypes } from '../../shared/preview/preview.service';
 
 declare let Materialize: any;
 
@@ -23,7 +24,7 @@ declare let Materialize: any;
 
 export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
   @Input() responsedomain: ResponseDomain;
-  @Input() domainType: DomainType;
+  @Input() domainType: DomainKind;
   @Input() readonly: boolean;
   @Output() formChange: EventEmitter<any>;
 
@@ -31,7 +32,7 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
   previewResponseDomain: any;
   basedonObject: any;
 
-  public domainTypeDef = DomainType;
+  public domainTypeDef = DomainKind;
   private categories: Category[];
   private showbuttons:boolean =false;
   private selectedCategoryIndex: number;
@@ -39,8 +40,8 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
   private numberOfAnchors: number;
   private min: number;
   private max: number;
-
   private searchKeysSubect: Subject<string> = new Subject<string>();
+  private readonly  CATEGORY_KIND :QddtElementType= QddtElementTypes[ElementKind.CATEGORY];
 
   constructor(private categoryService: CategoryService, private service: ResponseDomainService) {
     console.debug('responsedomain.form.component constr');
@@ -91,7 +92,7 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
       DomainTypeDescription.find(e=>e.id === this.domainType).categoryType;
       this.numberOfAnchors = this.responsedomain.managedRepresentation.children.length;
 
-    if (this.domainType === DomainType.SCALE) {
+    if (this.domainType === DomainKind.SCALE) {
       if(typeof this.responsedomain.displayLayout === 'string') {
         this.responsedomain.displayLayout = parseInt(this.responsedomain.displayLayout);
       }
@@ -192,14 +193,14 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
       this.numberOfAnchors = num;
     }
 
-    if (this.domainType === DomainType.LIST) {
+    if (this.domainType === DomainKind.LIST) {
       rep.children = rep.children.slice(0, this.numberOfAnchors);
       for (let i = rep.children.length; i < this.numberOfAnchors; i++) {
         let c = new Category();
         c.code = { codeValue: String(i + 1) , alignment:''};
         rep.children.push(c);
       }
-    } else if (this.domainType === DomainType.SCALE) {
+    } else if (this.domainType === DomainKind.SCALE) {
       rep.children = rep.children.slice(0, this.numberOfAnchors);
       let len = rep.children.length;
       for (let i = 0; i < this.numberOfAnchors; i++) {
@@ -223,7 +224,7 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
 
   onClickClear(idx: number) {
     let rep = this.responsedomain.managedRepresentation;
-    if (this.domainType === DomainType.LIST) {
+    if (this.domainType === DomainKind.LIST) {
       if ( idx < rep.children.length) {
         let c = new Category();
         c.code = rep.children[idx].code;
@@ -235,7 +236,7 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
 
   onClickUp(idx: number) {
     let rep = this.responsedomain.managedRepresentation;
-    if (this.domainType === DomainType.LIST) {
+    if (this.domainType === DomainKind.LIST) {
       if ( idx < rep.children.length && idx > 0) {
         let prev = rep.children[idx - 1];
         let curr = rep.children[idx];
@@ -251,7 +252,7 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
 
   onClickDown(idx: number) {
     let rep = this.responsedomain.managedRepresentation;
-    if (this.domainType === DomainType.LIST) {
+    if (this.domainType === DomainKind.LIST) {
       if ( idx < (rep.children.length - 1) && idx >= 0) {
         let next = rep.children[idx + 1];
         let curr = rep.children[idx];

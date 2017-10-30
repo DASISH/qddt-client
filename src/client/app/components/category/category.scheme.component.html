@@ -36,13 +36,14 @@
                   <thead><tr><td>Selected Responses</td></tr></thead>
                   <tbody>
                     <tr *ngFor="let cat of category.children; let idx=index">
-                    <td><autocomplete [items]="categories" class="black-text"
-                      [searchField]="'label'"
-                      (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
+                    <td><autocomplete
+                      [items]="categories" class="black-text"
+                      [elementtype]="CATEGORY_KIND"
                       [initialValue]="cat?.label"
-                      [searchFromServer]="true"
+                      (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
                       (enterEvent)="searchCategories($event)"
-                      (autocompleteSelectEvent)="select($event)"></autocomplete></td>
+                      (autocompleteSelectEvent)="select($event)">
+                      </autocomplete></td>
                     </tr>
                   </tbody>
                 </table>
@@ -58,7 +59,8 @@
     <qddt-table *ngIf="!isDetail" [items]="missingCategories" [page]="page" [columns]="columns"
       [searchFromServer]="true"
       (enterEvent)="searchMissingCategories($event)"
-      (detailEvent)="onDetail($event)" (pageChangeEvent)="onPage($event)"></qddt-table>
+      (detailEvent)="onDetail($event)" (pageChangeEvent)="onPage($event)">
+    </qddt-table>
   </div>
   <div class="row" *ngIf="isDetail">
     <div class="fixed-action-btn vertical click-to-toggle">
@@ -114,14 +116,14 @@
             <thead><tr><td>Select Responses</td></tr></thead>
             <tbody>
               <tr *ngFor="let cat of selectedCategory.children; let idx=index">
-                <td><autocomplete [items]="categories"
-                  [searchField]="'label'"
-                  (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
+                <td><autocomplete
+                  [items]="categories"
+                  [elementtype]="CATEGORY_KIND"
                   [initialValue]="cat?.label"
-                  [searchFromServer]="true"
+                  (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
                   (enterEvent)="searchCategories($event)"
-                  (autocompleteSelectEvent)="select($event)"></autocomplete>
-                </td>
+                  (autocompleteSelectEvent)="select($event)">
+                </autocomplete></td>
               </tr>
             </tbody>
           </table>

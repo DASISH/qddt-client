@@ -1,4 +1,4 @@
-export enum DomainType {
+export enum DomainKind {
   SCALE = 1,
   LIST,
   MIXED,
@@ -9,12 +9,12 @@ export enum DomainType {
 }
 
 export const DomainTypeDescription = [
-  { id: DomainType.SCALE, name: 'SCALE', label: 'Scale Domain', categoryType: 'SCALE' },
-  { id: DomainType.LIST, name: 'LIST', label: 'Code Domain', categoryType: 'LIST' },
-  { id: DomainType.MIXED, name: 'MIXED', label: 'Mixed Domain', categoryType: 'MIXED'},
-  { id: DomainType.NUMERIC, name: 'NUMERIC', label: 'Numeric Domain', categoryType: 'NUMERIC' },
-  { id: DomainType.TEXT, name: 'TEXT', label: 'Text Domain', categoryType: 'TEXT' },
-  { id: DomainType.DATETIME, name: 'DATETIME', label: 'DateTime Domain', categoryType: 'DATETIME' },
+  { id: DomainKind.SCALE, name: 'SCALE', label: 'Scale Domain', categoryType: 'SCALE' },
+  { id: DomainKind.LIST, name: 'LIST', label: 'Code Domain', categoryType: 'LIST' },
+  { id: DomainKind.MIXED, name: 'MIXED', label: 'Mixed Domain', categoryType: 'MIXED'},
+  { id: DomainKind.NUMERIC, name: 'NUMERIC', label: 'Numeric Domain', categoryType: 'NUMERIC' },
+  { id: DomainKind.TEXT, name: 'TEXT', label: 'Text Domain', categoryType: 'TEXT' },
+  { id: DomainKind.DATETIME, name: 'DATETIME', label: 'DateTime Domain', categoryType: 'DATETIME' },
 ];
 
 export const PredefinedColumns: any = {
