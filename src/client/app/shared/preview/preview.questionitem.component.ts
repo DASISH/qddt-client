@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { QuestionItem } from '../../components/question/question.service';
 
-// enum DomainType {
+// enum DomainKind {
 //   SCALE = 1,
 //   LIST,
 //   MIXED,

@@ -1,21 +1,21 @@
 <form *ngIf="publication" >
   <div class="row">
     <div class="input-field col s10">
-              <textarea class="materialize-textarea"
-                        name="{{publication?.id}}-publication-name"
-                        [(ngModel)]="publication.name" [attr.maxlength]="255"
-                        required>
-              </textarea>
+      <textarea class="materialize-textarea"
+                name="{{publication?.id}}-publication-name"
+                [(ngModel)]="publication.name" [attr.maxlength]="255"
+                required>
+      </textarea>
       <label [attr.for]="publication.id + '-element-name'" class="{{textColor}}">Name</label>
     </div>
   </div>
   <div class="row">
     <div class="input-field col s10">
-              <textarea class="materialize-textarea"
-                        name="{{publication?.id}}-publication-purpose"
-                        [(ngModel)]="publication.purpose" [attr.maxlength]="255"
-                        required>
-              </textarea>
+      <textarea class="materialize-textarea"
+                name="{{publication?.id}}-publication-purpose"
+                [(ngModel)]="publication.purpose" [attr.maxlength]="255"
+                required>
+      </textarea>
       <label [attr.for]="publication.id + '-publication-purpose'" class="{{textColor}}">Purpose</label>
     </div>
   </div>
@@ -64,7 +64,7 @@
             </div>
           </div>
         </div>
-        <div class="collapsible-body">
+        <div class="collapsible-body white" >
           <qddt-publication-preview
             [element]="element.element"
             [elementKind]="getElementbyLabel(element.elementKind).id">

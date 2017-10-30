@@ -5,14 +5,16 @@ import { ResponseDomain } from '../../../components/responsedomain/responsedomai
   selector: 'qddt-preview-rd-codelist',
   moduleId: module.id,
   template: `<div class="row" *ngIf="responseDomain">
-             <ul><li *ngFor="let row of rows" class="row">
-               <input name="{{responseDomain?.id}}-codegroup" type="{{type}}"
-                 id="{{responseDomain?.id}}code{{row?.code}}"
-                 [disabled]="row.disabled"
-                 (change)="checkOption(row, $event)"/>
-               <label [attr.for]="responseDomain.id + 'code' + row.code">{{row?.label}}</label>
-               <span class="right"> {{row?.code}}</span>
-             </li></ul>
+             <ul>
+               <li *ngFor="let row of rows" class="row">
+                 <input name="{{responseDomain?.id}}-codegroup" type="{{type}}"
+                   id="{{responseDomain?.id}}code{{row?.code}}"
+                   [disabled]="row.disabled"
+                   (change)="checkOption(row, $event)"/>
+                 <label [attr.for]="responseDomain.id + 'code' + row.code">{{row?.label}}</label>
+                 <span class="right"> {{row?.code}}</span>
+               </li>
+             </ul>
              </div>`,
   styles: [],
 })

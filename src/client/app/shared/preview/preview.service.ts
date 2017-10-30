@@ -57,7 +57,7 @@ export class QddtElementType {
 }
 
 export const QddtElementTypes: QddtElementType[] = [
-  new QddtElementType(ElementKind.CATEGORY, 'Category', 'category', ['label','description'],null),
+  new QddtElementType(ElementKind.CATEGORY, 'Category', 'category', ['name'],null),
   new QddtElementType(ElementKind.CONCEPT, 'Concept', 'concept',['name'],null),
   new QddtElementType(ElementKind.CONDITION_CONSTRUCT, 'Condition', 'controlconstruct',['name', 'condition'],
      '&constructkind=CONDITION_CONSTRUCT'),

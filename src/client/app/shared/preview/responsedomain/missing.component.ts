@@ -4,9 +4,8 @@ import { ResponseDomain } from '../../../components/responsedomain/responsedomai
 @Component({
   selector: 'qddt-preview-rd-missing',
   moduleId: module.id,
-  template: `<div class="row grey lighten-4" *ngIf="responseDomain">
-    <div *ngIf="responseDomain.managedRepresentation.children">
-		  <span>Missing</span>
+  template: `<div class="row" *ngIf="responseDomain && responseDomain.managedRepresentation?.children">
+      <span>Missing</span>
 			<ul class="row">
 			  <li *ngFor="let category of responseDomain.managedRepresentation.children; let i = index;" class="row">
           <input name="{{responseDomain.id}}-missing-group" type="radio"
@@ -15,7 +14,6 @@ import { ResponseDomain } from '../../../components/responsedomain/responsedomai
           <span class="s1 right"> {{category?.code?.codeValue}} </span>
         </li>
 			</ul>
-		</div>
     </div>`,
   styles: [],
 })

@@ -1,6 +1,6 @@
 <div class="autocomplete">
 	<div class="row">
-	  <input type="text" placeholder="{{placeholder}}" [ngModel]="value"
+	  <input type="text" placeholder="{{elementtype.placeholder()}}" [ngModel]="value"
 		  (blur)="showAutoComplete=false;" (keyup)="enterText($event)"
 		  (focus)="onFocus()">
 	  <a class="waves-effect waves-light btn" (click)="onClearKeywords()">x</a>

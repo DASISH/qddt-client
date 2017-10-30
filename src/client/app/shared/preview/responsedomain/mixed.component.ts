@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { DomainType } from '../../../components/responsedomain/responsedomain.constant';
+import { DomainKind } from '../../../components/responsedomain/responsedomain.constant';
 import { ResponseDomain } from '../../../components/responsedomain/responsedomain.service';
 
 @Component({
@@ -39,7 +39,7 @@ import { ResponseDomain } from '../../../components/responsedomain/responsedomai
 export class ResponsedomainMixedComponent implements OnChanges {
   @Input() responseDomain: ResponseDomain;
 
-  public domainTypeDef = DomainType;
+  public domainTypeDef = DomainKind;
   public mixedDomains: any[];
 
   ngOnChanges() {

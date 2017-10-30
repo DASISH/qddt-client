@@ -1,12 +1,11 @@
-<div class="row hoverable " style="padding: 10pt;"
+<div class="row hoverable white text-darken-2" style="padding: 10pt;"
      (mouseenter)="showbutton = true"
      (mouseleave)="showbutton = false">
   <div class="row teal-text" (click)="onToggleAddElement()" style="cursor: zoom-in;">
     <div class="col s2">Add element</div>
     <div class="col s1 offset-s9"  style="min-height:3rem">
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal scale-transition" [ngClass]="{hide: !showbutton}">
-          <i class="material-icons" title="add Element" [ngStyle]="{'cursor': 'pointer'}">add
-          </i>
+          <i class="material-icons" title="add Element" [ngStyle]="{'cursor': 'pointer'}">add</i>
         </a>
     </div>
   </div>
@@ -25,15 +24,12 @@
 		  </div>
     </div>
     <div class="row">
-      <div class="row">
         <autocomplete [items]="elements" class="black-text"
           [elementtype]="getElementType(selectedElementKind)"
           (autocompleteSelectEvent)="onSelectElement($event)"
 		      (enterEvent)="onSearchElements($event)">
 		    </autocomplete>
       </div>
-
-    </div>
   </div>
   <div *ngIf="selectedElement" class="row">
     <qddt-publication-select *ngIf="showAddElement"

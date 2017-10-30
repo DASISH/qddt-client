@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { DomainType, DomainTypeDescription } from '../../components/responsedomain/responsedomain.constant';
+import { DomainKind, DomainTypeDescription } from '../../components/responsedomain/responsedomain.constant';
 import { ResponseDomain } from '../../components/responsedomain/responsedomain.service';
 
 @Component({
@@ -22,8 +22,8 @@ import { ResponseDomain } from '../../components/responsedomain/responsedomain.s
             [responseDomain]="responseDomain"></qddt-preview-rd-codelist>
 					<qddt-preview-rd-text *ngSwitchCase="domainTypeDef.TEXT"
 					  [responseDomain]="responseDomain"></qddt-preview-rd-text>
-					<qddt-preview-rd-missing *ngSwitchCase="domainTypeDef.MISSING"
-					  [responseDomain]="responseDomain"></qddt-preview-rd-missing>
+					<!--<qddt-preview-rd-missing *ngSwitchCase="domainTypeDef.MISSING"-->
+					  <!--[responseDomain]="responseDomain"></qddt-preview-rd-missing>-->
           <qddt-preview-rd-mixed *ngSwitchCase="domainTypeDef.MIXED"
 					  [responseDomain]="responseDomain"></qddt-preview-rd-mixed>
 				</div></div>`,
@@ -33,11 +33,11 @@ import { ResponseDomain } from '../../components/responsedomain/responsedomain.s
 export class PreviewResponsedomainComponent implements OnChanges {
   @Input() isVisible: boolean = true;
   @Input() responseDomain: ResponseDomain;
-  public domainTypeDef = DomainType;
-  private domainType: DomainType;
+  public domainTypeDef = DomainKind;
+  private domainType: DomainKind;
 
   ngOnChanges(changes: SimpleChanges) {
-    if (this.isVisible && this.responseDomain !== undefined) {
+    if (this.isVisible && (this.responseDomain)) {
       let ret = DomainTypeDescription.find(e=>e.name === this.responseDomain['responseKind']);
       if( ret !== undefined ) {
         this.domainType = ret.id;
