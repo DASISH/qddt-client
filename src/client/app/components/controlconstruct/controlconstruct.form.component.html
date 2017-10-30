@@ -18,75 +18,73 @@
       </div>
     </div>
 
-    <!--<div class="nomargin">-->
-      <ul class="hoverable"
-          (mouseenter)="showUniverseButton = !readonly"
-          (mouseleave)="showUniverseButton = false">
-        <li>
-          <div class="row" (click)="createUniverse=!createUniverse" style="cursor: zoom-in;">
-            <div class="col s11"><label class="teal-text">Universe</label></div>
-            <div class="col s1">
-              <a [ngClass]="{hide: !showUniverseButton}"
-                 class="btn-flat btn-floating btn-small waves-effect waves-light teal">
-                <i class="material-icons" title="Add Universe">add</i>
-              </a>
-            </div>
+    <ul class="hoverable"
+        (mouseenter)="showUniverseButton = !readonly"
+        (mouseleave)="showUniverseButton = false">
+      <li>
+        <div class="row" (click)="createUniverse=!createUniverse" style="cursor: zoom-in;">
+          <div class="col s11"><label class="teal-text">Universe</label></div>
+          <div class="col s1">
+            <a [ngClass]="{hide: !showUniverseButton}"
+               class="btn-flat btn-floating btn-small waves-effect waves-light teal">
+              <i class="material-icons" title="Add Universe">add</i>
+            </a>
           </div>
-        </li>
-        <li class="collection-item" *ngIf="createUniverse">
-          <qddt-universe-create (createUniverseEvent)="onAddUniverse($event)">
-          </qddt-universe-create>
-        </li>
-        <li class="collection-item" *ngFor="let universe of controlConstruct.universe; let idx=index">
-          <div class="row"
-               (mouseenter)="universe.showbutton = !readonly"
-               (mouseleave)="universe.showbutton = false">
-            <div class="col s11">{{universe?.description}}</div>
-            <div class="col s1">
-              <a [ngClass]="{hide: !showUniverseButton}"
-                 class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                 (click)="onDeleteUniverse(idx)">
-                <i class="material-icons" title="Remove Universe">remove</i>
-              </a>
-            </div>
+        </div>
+      </li>
+      <li class="collection-item" *ngIf="createUniverse">
+        <qddt-universe-create (createUniverseEvent)="onAddUniverse($event)">
+        </qddt-universe-create>
+      </li>
+      <li class="collection-item" *ngFor="let universe of controlConstruct.universe; let idx=index">
+        <div class="row"
+             (mouseenter)="universe.showbutton = !readonly"
+             (mouseleave)="universe.showbutton = false">
+          <div class="col s11">{{universe?.description}}</div>
+          <div class="col s1">
+            <a [ngClass]="{hide: !showUniverseButton}"
+               class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
+               (click)="onDeleteUniverse(idx)">
+              <i class="material-icons" title="Remove Universe">remove</i>
+            </a>
           </div>
-        </li>
-      </ul>
-    <!--</div>-->
-      <ul class="hoverable"
-          (mouseenter)="showPreinstructionButton = !readonly"
-          (mouseleave)="showPreinstructionButton = false">
-        <li>
-          <div class="row" (click)="createPreInstruction=!createPreInstruction" style="cursor: zoom-in;">
-            <div class="col s11"><label class="teal-text">Pre Instructions</label></div>
-            <div class="col s1">
-              <a [ngClass]="{hide: !showPreinstructionButton}"
-                 class="btn-flat btn-floating btn-small waves-effect waves-light teal">
-                <i class="material-icons" title="Add Instruction">add</i>
-              </a>
-            </div>
-          </div>
-        </li>
-        <li class="collection-item" *ngIf="createPreInstruction">
-          <qddt-instruction-create (createInstructionEvent)="onAddPreInstruction($event)">
-          </qddt-instruction-create>
-        </li>
-        <li class="collection-item" *ngFor="let instruction of controlConstruct.preInstructions; let idx=index">
-          <div class="row"
-               (mouseenter)="instruction.showbutton = !readonly"
-               (mouseleave)="instruction.showbutton = false">
-            <div class="col s11">{{instruction?.description}}</div>
-            <div class="col s1">
-              <a [ngClass]="{hide: !showPreinstructionButton}"
-                 class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                 (click)="onDeletePreInstruction(idx)">
-                <i class="material-icons" title="Remove Instruction">remove</i>
-              </a>
-            </div>
-          </div>
-        </li>
-      </ul>
+        </div>
+      </li>
+    </ul>
 
+    <ul class="hoverable"
+        (mouseenter)="showPreinstructionButton = !readonly"
+        (mouseleave)="showPreinstructionButton = false">
+      <li>
+        <div class="row" (click)="createPreInstruction=!createPreInstruction" style="cursor: zoom-in;">
+          <div class="col s11"><label class="teal-text">Pre Instructions</label></div>
+          <div class="col s1">
+            <a [ngClass]="{hide: !showPreinstructionButton}"
+               class="btn-flat btn-floating btn-small waves-effect waves-light teal">
+              <i class="material-icons" title="Add Instruction">add</i>
+            </a>
+          </div>
+        </div>
+      </li>
+      <li class="collection-item" *ngIf="createPreInstruction">
+        <qddt-instruction-create (createInstructionEvent)="onAddPreInstruction($event)">
+        </qddt-instruction-create>
+      </li>
+      <li class="collection-item" *ngFor="let instruction of controlConstruct.preInstructions; let idx=index">
+        <div class="row"
+             (mouseenter)="instruction.showbutton = !readonly"
+             (mouseleave)="instruction.showbutton = false">
+          <div class="col s11">{{instruction?.description}}</div>
+          <div class="col s1">
+            <a [ngClass]="{hide: !showPreinstructionButton}"
+               class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
+               (click)="onDeletePreInstruction(idx)">
+              <i class="material-icons" title="Remove Instruction">remove</i>
+            </a>
+          </div>
+        </div>
+      </li>
+    </ul>
 
     <div class="hoverable"
          (mouseenter)="showQuestionButton = !readonly"
@@ -124,6 +122,7 @@
         [controlConstruct]="controlConstruct">
       </qddt-control-construct-questionitem-select>
     </div>
+
     <ul class="hoverable"
           (mouseenter)="showPostinstructionButton = !readonly"
           (mouseleave)="showPostinstructionButton = false">

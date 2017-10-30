@@ -27,14 +27,11 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
 
   private showControlConstructForm: boolean = false;
   private showProgressBar: boolean = false;
+  private showInstructionForm: boolean;
+  private showUniverse: boolean = false;
   private editQuestoinItem: boolean;
   private isDetail: boolean;
   private isInstructionAfter: boolean;
-  private isInstructionNew: boolean;
-  private showInstructionForm: boolean;
-  private instruction: any;
-  private instructions: any[];
-  private showUniverse: boolean = false;
   private searchKeys: string;
   private page: any;
   private controlConstruct: ControlConstruct;
@@ -52,7 +49,7 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
     this.searchKeys = '';
     this.page = {};
     this.questionItems = [];
-    this.instructions = [];
+    // this.instructions = [];
     this.controlConstructs = [];
     this.columns =
             [{ name:'name', label:'Construct Name', sortable: true,  direction: '' ,width:'15%'},
@@ -115,24 +112,17 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
   onToggleInstructionForm() {
     this.showInstructionForm = !this.showInstructionForm;
     if (this.showInstructionForm) {
-      this.instruction = new Instruction();
       this.isInstructionAfter = false;
-      this.isInstructionNew = false;
-      this.instruction.description = '';
     }
   }
 
-  onAddInstruction() {
+  onAddInstruction(instruction) {
     if (this.isInstructionAfter) {
-      this.controlConstruct.postInstructions.push(this.instruction);
+      this.controlConstruct.postInstructions.push(instruction);
     } else {
-      this.controlConstruct.preInstructions.push(this.instruction);
+      this.controlConstruct.preInstructions.push(instruction);
     }
     this.showInstructionForm = false;
-  }
-
-  onSelectInstruction(instruction: any) {
-    this.instruction = instruction;
   }
 
   onAddUniverse(universe:Universe) {
@@ -158,8 +148,6 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
         'item': this.selectedControlConstruct,
         'collection': this.controlConstructs});
   }
-
-
 
   hideDetail() {
     this.isDetail = false;
@@ -225,17 +213,6 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
   onClickQuestionItem() {
     this.questionitemActions.emit({action:'modal', params:['open']});
   }
-
-  onSearchInstructions(key: string) {
-    this.instruction.description = key;
-    this.service.searchInstructions(key).subscribe((result: any) => {
-      this.instructions = result.content;
-      this.isInstructionNew = this.instructions.length === 0;
-    },
-      (error: any) => { this.popupModal(error); });
-  }
-
-
 
   popupModal(error: any) {
     this.error = error;
