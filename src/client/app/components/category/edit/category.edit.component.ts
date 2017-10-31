@@ -14,8 +14,7 @@ import { CategoryType } from '../category_kind';
           <div class="input-field col s12 l8 ">
             <label for="label2" class="active teal-text">Label</label>
             <input id="label2" name="label" type="text" class="validate required" 
-                   [(ngModel)]="category.label" length="100" materialize="characterCounter"
-                   (ngModelChange)="category.name = category.label.toUpperCase()">
+                   [(ngModel)]="category.label" length="100" materialize="characterCounter">
           </div>
         </div>
         <div class="row">
