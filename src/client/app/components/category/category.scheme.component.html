@@ -12,7 +12,7 @@
         <div class="card-action">
           <form (ngSubmit)="onSave()" #hf="ngForm">
             <div class="row">
-              <div class="input-field col s4">
+              <div class="input-field col s10">
                 <input name="name" id="name" type="text" [(ngModel)]="category.name" required
                   (ngModelChange)="category.label = category.name.toUpperCase()">
                 <label for="name" class="white-text">Name</label>
