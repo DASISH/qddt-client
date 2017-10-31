@@ -130,6 +130,10 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
     this.controlConstruct.universe.push(universe);
   }
 
+  onDeleteUniverse(id: number) {
+    this.controlConstruct.universe.splice(id, 1);
+  }
+
   onDeletePreInstruction(id: number) {
     this.controlConstruct.preInstructions.splice(id, 1);
   }
