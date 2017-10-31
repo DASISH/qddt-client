@@ -20,8 +20,8 @@
 			</div>
 		</div>
 		<div *ngIf="showResponseDomainForm" class="row teal white-text">
-			<qddt-responsedomain-form class="card teal white-text"
-        (formChange)="formCreate($event)" [responsedomain]="responseDomain" [domainType]="domainType">
+			<qddt-responsedomain-form class="card "
+        (formChange)="formCreate($event)" [responsedomain]="responseDomain" [domainType]="domainType" [labelColor]="'white-text'">
       </qddt-responsedomain-form>
 		</div>
     <div *ngIf="showProgressBar && !isDetail" class="progress">
@@ -58,7 +58,7 @@
       </a>
     </div>
 
-    <div class="col s8 grey-text text-darken-2">
+    <div class="col s8 grey-text">
       <div class="flow-text">{{selectedResponseDomain?.name}}</div>
     </div>
 
@@ -66,10 +66,10 @@
       <qddt-version-label [element]="selectedResponseDomain"></qddt-version-label>
     </div>
 
-    <div class="col s10  white grey-text text-darken-1">
+    <div class="col s10  white grey-text">
         <qddt-responsedomain-form
           (formChange)="formChange($event)" [responsedomain]="selectedResponseDomain"
-          [domainType]="domainType">
+          [domainType]="domainType" [labelColor]="'teal-text'" >
         </qddt-responsedomain-form>
         <qddt-revision [isVisible]="revisionIsVisible"
           [current]="selectedResponseDomain"

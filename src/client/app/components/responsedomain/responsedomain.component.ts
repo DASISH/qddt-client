@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterContentChecked, EventEmitter } from '@angular/core';
+import { Component, OnInit, AfterContentChecked, EventEmitter, Input } from '@angular/core';
 import { ResponseDomain } from './responsedomain.service';
 import { DomainKind, DomainTypeDescription, PredefinedColumns } from './responsedomain.constant';
 import { ResponseDomainService } from './responsedomain.service';
@@ -6,6 +6,7 @@ import { UserService } from '../../shared/user/user.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 
+declare var Materialize:any;
 
 @Component({
   selector: 'qddt-responsedomain',
@@ -15,14 +16,14 @@ import { MaterializeAction } from 'angular2-materialize';
 })
 
 export class ResponsedomainComponent implements OnInit, AfterContentChecked {
-  domainType: DomainKind;
-  deleteAction = new EventEmitter<any>();
-  errorAction = new EventEmitter<string|MaterializeAction>();
-  error: string;
+  public domainType: DomainKind;
+  public deleteAction = new EventEmitter<any>();
+  public errorAction = new EventEmitter<string|MaterializeAction>();
+  public error: string;
   public domainTypeDef = DomainKind;
-  responseDomains: any[];
-  private selectedResponseDomain: ResponseDomain;
+  private responseDomains: any[];
   private responseDomain: ResponseDomain;
+  private selectedResponseDomain: ResponseDomain;
   private showResponseDomainForm: boolean;
   private searchKeys: string;
   private domainTypeDescription: any[];
@@ -98,6 +99,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
         this.searchKeysSubect.next('');
       }
     }
+    Materialize.updateTextFields();
   }
 
   selectDomainType(id: DomainKind) {
@@ -125,7 +127,6 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
     if(this.showResponseDomainForm) {
       this.responseDomain = new ResponseDomain();
       this.responseDomain['isNew'] = true;
-      // let name = DomainTypeDescription.find((e: any)=>e.id === this.domainType).name;
       this.responseDomain.responseKind = DomainKind[this.domainType];
     }
   }
