@@ -84,9 +84,7 @@ export class ControlConstructQuestionItemSelectComponent implements OnInit {
   }
 
   searchQuestionItems(key: string) {
-    let args =key.split(', ');
-    console.log('searchQuestionItems' + args);
-    this.service.searchControlConstructs(args[0], args[1]?args[1]:'%','0').subscribe((result: any) => {
+    this.service.searchQuestionItemsByNameAndQuestion(key).subscribe((result: any) => {
       this.questionItems = result.content;
     },
       (error: any) => { this.popupModal(error); });
