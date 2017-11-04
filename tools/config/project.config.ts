@@ -22,6 +22,7 @@ export class ProjectConfig extends SeedConfig {
     this.NPM_DEPENDENCIES = [
       ...this.NPM_DEPENDENCIES,
       { src: 'jquery/dist/jquery.min.js', inject: 'libs' },
+      { src: 'hammerjs/hammer.min.js', inject: 'libs'},
       { src: 'materialize-css/dist/js/materialize.js', inject: 'libs'},
       { src: 'materialize-css/dist/css/materialize.css',inject: true }
       // {src: 'lodash/lodash.min.js', inject: 'libs'},
