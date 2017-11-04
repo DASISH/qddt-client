@@ -26,9 +26,6 @@ export class AutocompleteComponent implements OnInit, OnChanges {
   private searchFromServer: boolean = true;
   private value: string;
 
-  constructor() {
-  }
-
   ngOnInit() {
     this.value = this.initialValue;
   }

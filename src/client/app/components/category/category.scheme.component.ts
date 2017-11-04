@@ -19,7 +19,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
   public deleteAction = new EventEmitter<any>();
   public showCategoryForm: boolean = false;
   public selectedCategoryIndex: number;
-  private categories: any[];
+  public categories: any[];
   private missingCategories: any[];
   private category: Category;
   private categoryEnums: any;

@@ -56,9 +56,10 @@ export function main() {
             let fixture = TestBed.createComponent(StudyEditComponent);
             fixture.componentInstance.isVisible = true;
             fixture.componentInstance.study = {
-              'id': '7f000101-54aa-131e-8154-aa27fc230000',
-              'name': 'one study',
-              'description': ''
+              id: '7f000101-54aa-131e-8154-aa27fc230000',
+              name: 'one study',
+              description: '',
+              archived: false
             };
             fixture.detectChanges();
             fixture.whenStable().then(() => {
@@ -82,9 +83,10 @@ export function main() {
             let fixture = TestBed.createComponent(StudyEditComponent);
             fixture.componentInstance.isVisible = true;
             fixture.componentInstance.study = {
-              'id': '7f000101-54aa-131e-8154-aa27fc230000',
-              'name': 'one study',
-              'description': ''
+              id: '7f000101-54aa-131e-8154-aa27fc230000',
+              name: 'one study',
+              description: '',
+              archived: false
             };
             fixture.componentInstance.onSave();
             fixture.detectChanges();

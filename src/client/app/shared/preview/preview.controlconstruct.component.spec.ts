@@ -54,7 +54,8 @@ export function main() {
           .then(() => {
             let fixture = TestBed.createComponent(PreviewControlConstructComponent);
             fixture.componentInstance.construct = { id:'', name:'', description:'',otherMaterials:[],
-              postInstructions:[],preInstructions:[],questionItem:null, controlConstructKind: 'SEQUENCE_CONSTRUCT'};
+              postInstructions:[],preInstructions:[],questionItem:null, controlConstructKind: 'SEQUENCE_CONSTRUCT',
+            universe:[], questionItemRevision:0};
             fixture.detectChanges();
             fixture.whenStable().then(() => {
               let de: any = fixture.debugElement.queryAll(By.css('qddt-preview-sequenceconstruct'));

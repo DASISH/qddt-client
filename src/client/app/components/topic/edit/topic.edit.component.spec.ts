@@ -56,12 +56,13 @@ export function main() {
             let fixture = TestBed.createComponent(TopicEditComponent);
             fixture.componentInstance.isVisible = true;
             fixture.componentInstance.topic = {
-              'id': '7f000101-54aa-131e-8154-aa27fc230000',
-              'name': 'one topic',
-              'abstractDescription': '',
-              'otherMaterials': [],
-              'authors': [],
-              'topicQuestionItems':[]
+              id: '7f000101-54aa-131e-8154-aa27fc230000',
+              name: 'one topic',
+              abstractDescription: '',
+              otherMaterials: [],
+              authors: [],
+              topicQuestionItems:[],
+              archived:false
             };
             fixture.detectChanges();
             fixture.whenStable().then(() => {
@@ -85,12 +86,13 @@ export function main() {
             let fixture = TestBed.createComponent(TopicEditComponent);
             fixture.componentInstance.isVisible = true;
             fixture.componentInstance.topic = {
-              'id': '7f000101-54aa-131e-8154-aa27fc230000',
-              'name': 'one topic',
-              'abstractDescription': '',
-              'otherMaterials': [],
-              'authors': [],
-              'topicQuestionItems':[]
+              id: '7f000101-54aa-131e-8154-aa27fc230000',
+              name: 'one topic',
+              abstractDescription: '',
+              otherMaterials: [],
+              authors: [],
+              topicQuestionItems:[],
+              archived:false
             };
             fixture.componentInstance.onSave();
             fixture.detectChanges();

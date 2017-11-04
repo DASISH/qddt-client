@@ -21,7 +21,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
   public errorAction = new EventEmitter<string|MaterializeAction>();
   public error: string;
   public domainTypeDef = DomainKind;
-  private responseDomains: any[];
+  public responseDomains: any[];
   private responseDomain: ResponseDomain;
   private selectedResponseDomain: ResponseDomain;
   private showResponseDomainForm: boolean;

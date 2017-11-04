@@ -1,11 +1,10 @@
 import { Component, Input, PipeTransform, Pipe, EventEmitter, Output } from '@angular/core';
-import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
+import { BaseRequestOptions,  Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { ConceptService } from './concept.service';
-import { BaseService } from '../../shared/base.service';
 import { TreeNodeComponent } from './concept.tree.node.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';

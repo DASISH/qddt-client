@@ -12,6 +12,7 @@ import { ElementKind, QddtElementType, QddtElementTypes } from '../../shared/pre
 })
 export class QuestionReuseComponent {
   @Input() parentId: string;
+  @Input() name:string;
   @Output() questionItemCreatedEvent: EventEmitter<any> = new EventEmitter<any>();
   @Output() dismissEvent: any = new EventEmitter<any>();
   reuseQuestionItem: boolean;

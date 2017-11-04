@@ -73,7 +73,7 @@ export function main() {
                 + '}]'
               })));
             });
-            let changes: SimpleChanges = {'study': new SimpleChange('test', 'test1')};
+            let changes: SimpleChanges = {'study': new SimpleChange('test', 'test1',true)};
             fixture.componentInstance.ngOnChanges(changes);
             fixture.detectChanges();
             fixture.whenStable().then(() => {

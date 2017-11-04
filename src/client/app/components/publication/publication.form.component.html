@@ -26,8 +26,10 @@
               [ngModel]="selectedOptionValue"
               (change)="onSelectChange($event.target.value)">
         <option [value]="0">Not Published</option>
-        <optgroup *ngFor="let option of selectOptions" [attr.label]="option.label">
-          <option *ngFor="let child of option.children" [value]="child.id">{{child.label}}</option>
+        <optgroup *ngFor="let option of selectOptions"
+                  [attr.label]="option.label">
+          <option *ngFor="let child of option.children"
+                  [value]="child.id">{{child.label}}</option>
         </optgroup>
       </select>
       <label class="{{textColor}}">Publication status</label>
