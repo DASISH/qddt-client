@@ -126,7 +126,7 @@
     "tslint": "^5.0.0",
     "typescript": "^2.6.1",
     "walk": "^2.3.9",
-    "yargs": "^4.8.0"
+    "yargs": "^8.0.2"
   },
   "dependencies": {
     "@angular/animations": "^4.4.4",
