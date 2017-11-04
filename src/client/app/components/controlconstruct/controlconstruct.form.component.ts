@@ -61,6 +61,9 @@ export class ControlConstructFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    // if(this.isNew === null || this.isNew === undefined) {
+    //   this.isNew = false;
+    // }
     if(this.isNew) {
       this.controlConstruct.id = new Date().toString();
     }
@@ -70,7 +73,7 @@ export class ControlConstructFormComponent implements OnInit {
   }
 
   onBasedonObjectDetail(ref:any) {
-    if (!ref.rev)
+    if (this.isNull(ref.rev))
       ref.rev=0;
     this.service.getControlConstructRevision(ref.id,ref.rev)
       .subscribe(
@@ -173,11 +176,11 @@ export class ControlConstructFormComponent implements OnInit {
           }
         });
     }
-
+    // let index = 0;
     let service = this.service;
     let elementEvent = this.controlConstructSavedAction;
     source.subscribe(
-      function (x: any) {
+      function () {
         service.update(controlConstruct).subscribe((result: any) => {
           this.controlConstruct = result;
           elementEvent.emit(result);
@@ -194,4 +197,7 @@ export class ControlConstructFormComponent implements OnInit {
     this.exceptionEvent.emit(error);
   }
 
+  private isNull(object: any) {
+    return object === undefined || object === null;
+  }
 }
