@@ -35,7 +35,7 @@ import { ElementKind, QddtElementType, QddtElementTypes } from '../../shared/pre
         <form (ngSubmit)="onSave()" #missingForm="ngForm">
         <div class="modal-content minHeight">
           <div class="row">
-            <autocomplete 
+            <autocomplete
               [items]="missingCategories" class="black-text"
               [elementtype]="CATEGORY_KIND"
               (autocompleteFocusEvent)="selectedCategoryIndex=idx;"

@@ -27,7 +27,7 @@ let saveAs = require('file-saver');
   </ul>
 </div>
 <div class="section" *ngIf="topic?.topicGroupQuestions && topic?.topicGroupQuestions?.length>0" style="margin:20px; padding:5px;">
-  <ul class="collapsible popout"  *ngIf="topic?.topicGroupQuestions" materialize="collapsible" 
+  <ul class="collapsible popout"  *ngIf="topic?.topicGroupQuestions" materialize="collapsible"
     data-collapsible="expandable" style="padding: 5pt;">
     <li *ngFor="let cqi of topic?.topicGroupQuestions;">
       <div class="collapsible-header green lighten-5">

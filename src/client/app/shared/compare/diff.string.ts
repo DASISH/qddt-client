@@ -210,8 +210,8 @@ export class DiffString {
 
       // Walk the reverse path one step.
       for (var k2 = -d + k2start; k2 <= d - k2end; k2 += 2) {
-        var k2_offset = v_offset + k2;
-        var x2: number;
+        let k2_offset = v_offset + k2;
+        // let x2: number;
         if (k2 === -d || (k2 !== d && v2[k2_offset - 1] < v2[k2_offset + 1])) {
           x2 = v2[k2_offset + 1];
         } else {
@@ -232,10 +232,10 @@ export class DiffString {
           // Ran off the top of the graph.
           k2start += 2;
         } else if (!front) {
-          var k1_offset = v_offset + delta - k2;
+          let k1_offset = v_offset + delta - k2;
           if (k1_offset >= 0 && k1_offset < v_length && v1[k1_offset] !== -1) {
-            var x1 = v1[k1_offset];
-            var y1 = v_offset + x1 - k1_offset;
+            let x1 = v1[k1_offset];
+            let y1 = v_offset + x1 - k1_offset;
             // Mirror x2 onto top-left coordinate system.
             x2 = text1_length - x2;
             if (x1 >= x2) {

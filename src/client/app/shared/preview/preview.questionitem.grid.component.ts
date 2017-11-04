@@ -23,7 +23,7 @@ import { Component, Input } from '@angular/core';
     <div *ngIf="question?.children && question?.children?.size > 0">
       <qddt-preview-questionitem-grid *ngFor="let childQuestion of question.chldren" [question] = "childQuestion">
       </qddt-preview-questionitem-grid>
-    </div>  
+    </div>
   </div>`,
   providers: [ ],
 })

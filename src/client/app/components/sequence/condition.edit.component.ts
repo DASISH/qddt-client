@@ -31,7 +31,7 @@ import { ElementTypeDescription, SequenceService, Sequence, ConditionCommand } f
         </textarea>
         </div>
         <div class="input-field col s6">
-          <autocomplete 
+          <autocomplete
             [items]="elements"
             [elementtype]="QddtElementTypes[ElementKind.CONDITION_CONSTRUCT]"
             (autocompleteSelectEvent)="onSelectElement($event)"
@@ -49,9 +49,9 @@ import { ElementTypeDescription, SequenceService, Sequence, ConditionCommand } f
         </textarea>
         </div>
         <div class="input-field col s6">
-          <autocomplete 
+          <autocomplete
             [items]="elements"
-            [elementtype]="QddtElementTypes[ElementKind.CONDITION_CONSTRUCT]"            
+            [elementtype]="QddtElementTypes[ElementKind.CONDITION_CONSTRUCT]"
             (autocompleteSelectEvent)="onSelectElseElement($event, idx)"
 				    (enterEvent)="onSearchElements($event)">
 			    </autocomplete>

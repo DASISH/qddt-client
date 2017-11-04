@@ -12,7 +12,7 @@ import { CommentService, Comment } from './comment.service';
           <textarea class="materialize-textarea"
             id="{{ownerId}}-comment"
             name="{{ownerId}}-comment"
-            length="2000"        
+            length="2000"
             [(ngModel)]="comment.comment" required></textarea>
         </div>
         <div class="input-field col l3 m5 s7">

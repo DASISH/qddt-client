@@ -13,7 +13,7 @@ import { CommentService, Comment } from './comment.service';
     <div *ngIf="showComments">
       <div *ngIf="comments" class="card">
         <ul class="collection">
-          <li class="collection-item avatar" 
+          <li class="collection-item avatar"
               *ngFor="let comment of comments; let idx=index;">
             <div *ngIf="showPrivate || comment.public ">
               <img src="assets/images/avatar-default.png"  alt ="" class="circle">
@@ -41,8 +41,7 @@ import { CommentService, Comment } from './comment.service';
               <div class="row" *ngIf="isEditComment && selectedCommentId === idx">
                 <br>
                 <div class="col s8">
-                  <textarea class="materialize-textarea"  length="2000"
-                            [(ngModel)]="message"> 
+                  <textarea class="materialize-textarea"  length="2000" [(ngModel)]="message">
                   </textarea>
                 </div>
                 <div class="col s3">
@@ -73,7 +72,6 @@ import { CommentService, Comment } from './comment.service';
         </ul>
       </div>
       <qddt-comment-create (addedCommentEvent)="addedComment($event)" [ownerId]="ownerId">
-        
       </qddt-comment-create>
     </div>
   </div>

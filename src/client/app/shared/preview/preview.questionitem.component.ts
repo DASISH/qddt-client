@@ -1,16 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { QuestionItem } from '../../components/question/question.service';
 
-// enum DomainKind {
-//   SCALE = 1,
-//   LIST,
-//   MIXED,
-//   DATETIME,
-//   NUMERIC,
-//   TEXT,
-//   MISSING,
-// }
-
 @Component({
   selector: 'qddt-preview-questionitem',
   moduleId: module.id,
@@ -22,31 +12,27 @@ import { QuestionItem } from '../../components/question/question.service';
     }`
   ],
   template: `
-  <div *ngIf="questionItem" style="color: black">
-    <div class="row">
-      <div class="flow-text" style="padding-top: 15pt;padding-left: 15pt;">
-      {{questionItem.question?.question}}</div>
-    </div>
-    <!--<div class="teal-text" *ngIf="questionItem.name" style="padding-left: 15pt; padding-bottom: 10pt">Name</div>-->
-    <!--<div style="padding-left: 15pt;">{{questionItem.name}}</div>-->
-    <!--<div class="teal-text" *ngIf="questionItem." style="padding-left: 15pt; padding-bottom: 10pt">Name</div>-->
-    <!--<div style="padding-left: 15pt;">{{questionItem.name}}</div>-->
-    <div class="teal-text" *ngIf="questionItem.question?.intent" style="padding-left: 15pt; padding-bottom: 10pt">Intent</div>
-    <div style="padding-left: 15pt;">{{questionItem.question?.intent}}</div>
-    <div class="row" style="padding-right: 5pt; padding-left:5pt ">
-      <qddt-preview-responsedomain *ngIf="questionItem.responseDomain" 
-        [isVisible]="true" [responseDomain]="questionItem.responseDomain">
-      </qddt-preview-responsedomain>
-    </div>
-    <div class="row">
-      <qddt-element-footer  [element]="questionItem" [type]="'questionitem'"></qddt-element-footer>
-    </div>
-    <div class="row">
-      <ul class="collection with-header black-text">
-        <li class="collection-item" *ngFor="let c of questionItem.conceptRefs" >Concept: {{c?.name}}</li>
-      </ul>
-    </div>
-  </div>`,
+<div *ngIf="questionItem" style="color: black">
+  <div class="row">
+    <div class="flow-text" style="padding-top: 15pt;padding-left: 15pt;">
+    {{questionItem.question?.question}}</div>
+  </div>
+  <div class="teal-text" *ngIf="questionItem.question?.intent" style="padding-left: 15pt; padding-bottom: 10pt">Intent</div>
+  <div style="padding-left: 15pt;">{{questionItem.question?.intent}}</div>
+  <div class="row" style="padding-right: 5pt; padding-left:5pt ">
+    <qddt-preview-responsedomain *ngIf="questionItem.responseDomain"
+      [isVisible]="true" [responseDomain]="questionItem.responseDomain">
+    </qddt-preview-responsedomain>
+  </div>
+  <div class="row">
+    <qddt-element-footer [element]="questionItem" [type]="'questionitem'"></qddt-element-footer>
+  </div>
+  <div class="row">
+    <ul class="collection with-header black-text">
+      <li class="collection-item" *ngFor="let c of questionItem.conceptRefs" >Concept: {{c?.name}}</li>
+    </ul>
+  </div>
+</div>`,
   providers: [ ],
 })
 

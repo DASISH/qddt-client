@@ -8,24 +8,24 @@ import { Subject } from 'rxjs/Subject';
   providers: [ResponseDomainService],
   styles: [ ],
   template: `
-           <div class="row card">
-              <div class="row">
-                 <div class="row"><span>Select a Response Domain</span></div>
-                 <div class="row"><div class="col left" *ngFor="let domain of domainTypeDescription">
-                        <input name="domaintypegroup" type="radio"
-                        id="domain-type-{{domain.id}}" (click)="selectDomainType(domain.id)"
-                        [checked]="domainType === domain.id" /> <label
-                        [attr.for]="'domain-type-' + domain.id">{{domain.label}}</label>
-                  </div></div>
-                  <div class="row">
-                     <autocomplete 
-                       [items]="responseDomains"
-                       [elementtype]="ResponseKind"
-                       (autocompleteSelectEvent)="selectResponseDomain($event)">
-                     </autocomplete>
-                  </div>
-               </div>
-             </div>
+<div class="row card">
+  <div class="row">
+     <div class="row"><span>Select a Response Domain</span></div>
+     <div class="row"><div class="col left" *ngFor="let domain of domainTypeDescription">
+            <input name="domaintypegroup" type="radio"
+            id="domain-type-{{domain.id}}" (click)="selectDomainType(domain.id)"
+            [checked]="domainType === domain.id" /> <label
+            [attr.for]="'domain-type-' + domain.id">{{domain.label}}</label>
+      </div></div>
+      <div class="row">
+         <autocomplete
+           [items]="responseDomains"
+           [elementtype]="ResponseKind"
+           (autocompleteSelectEvent)="selectResponseDomain($event)">
+         </autocomplete>
+      </div>
+   </div>
+ </div>
   `
 })
 

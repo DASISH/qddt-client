@@ -10,8 +10,7 @@ let saveAs = require('file-saver');
   templateUrl: './controlconstruct.detail.component.html',
   styles: [`:host /deep/ .hoverable .row {
             min-height:3rem;
-            margin-bottom:0px; 
-            }`],
+            margin-bottom:0px; }`],
   providers: [ControlConstructService],
 })
 

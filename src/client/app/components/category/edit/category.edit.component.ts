@@ -13,14 +13,14 @@ import { CategoryType } from '../category_kind';
         <div class="row">
           <div class="input-field col s12 l8 ">
             <label for="label2" class="active teal-text">Label</label>
-            <input id="label2" name="label" type="text" class="validate required" 
+            <input id="label2" name="label" type="text" class="validate required"
                    [(ngModel)]="category.label" length="100" materialize="characterCounter">
           </div>
         </div>
         <div class="row">
           <div class="input-field col m12 l8">
             <label for="name2" class="active teal-text">Name</label>
-            <input id="name2" name="name" type="text" class="validate required" [(ngModel)]="category.name" 
+            <input id="name2" name="name" type="text" class="validate required" [(ngModel)]="category.name"
                    length="255" materialize="characterCounter">
           </div>
         </div>
@@ -36,7 +36,7 @@ import { CategoryType } from '../category_kind';
           <div class="input-field col s2 ">
             <label for="ctype" class="active teal-text">Type</label>
             <input id="ctype" name="ctype" type="text" [(ngModel)]="category.categoryType" readonly>
-          </div>          
+          </div>
           <div class="input-field col s2 offset-m1">
             <label for="min" class="active teal-text">Input limit minimum</label>
             <input id="min" name="mini" type="number"  readonly min="0" [(ngModel)]="category.inputLimit.minimum" >
@@ -50,7 +50,6 @@ import { CategoryType } from '../category_kind';
             <input id="format" name="format" type="text"  [(ngModel)]="category.format" >
           </div>
         </div>
-
         <div class="row">
           <qddt-rational [element]="category" [config]="{hidden: [4]}"></qddt-rational>
         </div>
@@ -69,7 +68,7 @@ import { CategoryType } from '../category_kind';
              <thead><tr><td>Select Responses</td></tr></thead>
              <tbody>
                <tr *ngFor="let cat of category.children; let idx=index">
-                 <td><autocomplete 
+                 <td><autocomplete
                    [items]="categories"
                    [elementtype]="QddtElementTypes[ElementKind.CATEGORY]"
                    (autocompleteFocusEvent)="selectedCategoryIndex=idx;"

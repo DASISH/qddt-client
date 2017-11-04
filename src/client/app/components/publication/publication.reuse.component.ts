@@ -88,7 +88,7 @@ export class PublicationReuseComponent implements OnInit {
     this.selectedElement = null;
     return false;
   }
-  ;
+
   private popupModal(error: any) {
     this.error = error;
   }

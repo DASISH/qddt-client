@@ -176,7 +176,6 @@ export class ControlConstructFormComponent implements OnInit {
           }
         });
     }
-    // let index = 0;
     let service = this.service;
     let elementEvent = this.controlConstructSavedAction;
     source.subscribe(

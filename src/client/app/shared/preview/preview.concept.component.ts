@@ -16,7 +16,7 @@ import { Concept } from '../../components/concept/concept.service';
   </div>
   <div class="row">
     <div *ngIf="concept?.conceptQuestionItems && concept?.conceptQuestionItems?.length > 0" class="section">
-      <ul *ngIf="concept?.conceptQuestionItems" materialize="collapsible" class="collapsible popout" 
+      <ul *ngIf="concept?.conceptQuestionItems" materialize="collapsible" class="collapsible popout"
         data-collapsible="expandable" style="padding: 5pt;">
         <li *ngFor="let cqi of concept.conceptQuestionItems;">
           <div class="collapsible-header green lighten-5">

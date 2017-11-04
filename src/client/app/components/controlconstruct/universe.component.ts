@@ -7,24 +7,24 @@ import { ElementKind, QddtElementTypes } from '../../shared/preview/preview.serv
   selector: 'qddt-universe-create',
   moduleId: module.id,
   template: `
-  <div class="row card">
-    <div class="col s10 black-text">
-      <label>Description</label>
-      <div [ngClass]="{ noItemFound: (isUniverseNew && universe.description.length > 0 && universe.length === 0) }">
-		  <autocomplete 
-        [items]="universes" class="black-text"
-        [elementtype]="UNIVERSE"
-        [initialValue]="universe?.description"
-        (autocompleteSelectEvent)="onSelectUniverse($event)"
-        (enterEvent)="onSearchUniverses($event)">
-		  </autocomplete>
-	  </div>
-    </div>
-    <div class="col s2 right">
-      <a class="waves-effect waves-light btn" (click)="onAddUniverse($event)">add</a>
-    </div>
+<div class="row card">
+  <div class="col s10 black-text">
+    <label>Description</label>
+    <div [ngClass]="{ noItemFound: (isUniverseNew && universe.description.length > 0 && universe.length === 0) }">
+    <autocomplete
+      [items]="universes" class="black-text"
+      [elementtype]="UNIVERSE"
+      [initialValue]="universe?.description"
+      (autocompleteSelectEvent)="onSelectUniverse($event)"
+      (enterEvent)="onSearchUniverses($event)">
+    </autocomplete>
   </div>
-  `,
+  </div>
+  <div class="col s2 right">
+    <a class="waves-effect waves-light btn" (click)="onAddUniverse($event)">add</a>
+  </div>
+</div>
+`,
   styles: [
     `.noItemFound {
         border: thick solid orange;

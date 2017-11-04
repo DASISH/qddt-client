@@ -6,25 +6,7 @@ import { ElementKind, QddtElementTypes } from '../../shared/preview/preview.serv
 @Component({
   selector: 'qddt-instruction-create',
   moduleId: module.id,
-  template: `
-  <div class="row card">
-    <div class="col s10 black-text">
-      <label>Description</label>
-      <div [ngClass]="{ noItemFound: (isInstructionNew && instruction.description.length > 0 && instructions.length === 0) }">
-		    <autocomplete 
-          [items]="instructions" class="black-text"
-          [elementtype]="INSTRUCTION"
-          [initialValue]="instruction?.description"
-          (autocompleteSelectEvent)="onSelectInstruction($event)"
-		      (enterEvent)="onSearchInstructions($event)">
-		</autocomplete>
-	  </div>
-    </div>
-    <div class="col s2 right">
-      <a class="waves-effect waves-light btn" (click)="onAddInstruction()">add</a>
-    </div>
-  </div>
-  `,
+  templateUrl: 'instruction.component.html',
   styles: [
     `.noItemFound {
         border: thick solid orange;
