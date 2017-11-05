@@ -80,10 +80,6 @@ export class QuestionReuseComponent {
     }
   }
 
-  // onDismiss() {
-  //   this.dismissEvent.emit(true);
-  // }
-
   searchQuestionItems(name: string) {
     this.searchKeysSubect.next(name);
   }

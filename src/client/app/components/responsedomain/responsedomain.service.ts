@@ -26,6 +26,10 @@ export class ResponseDomain {
   displayLayout:any;
   managedRepresentation: Category;
   responseCardinality: ResponseCardinality;
+  constructor() {
+    this.managedRepresentation = new Category();
+    this.responseCardinality = new ResponseCardinality();
+  }
 }
 
 @Injectable()

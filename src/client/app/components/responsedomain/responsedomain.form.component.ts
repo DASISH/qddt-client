@@ -1,5 +1,4 @@
 import { Component, Input, Output, EventEmitter, OnInit, AfterViewInit } from '@angular/core';
-// import { DatePipe } from '@angular/common';
 import { CategoryService, Category, ResponseCardinality } from '../category/category.service';
 import { DomainKind, DomainTypeDescription } from './responsedomain.constant';
 import { DATE_FORMAT, ResponseDomain, ResponseDomainService } from './responsedomain.service';
@@ -57,7 +56,7 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
-        this.categoryService.getAllByLevel('ENTITY', name).subscribe((result: any) => {
+        this.categoryService.getByCategoryKind('CATEGORY', name).subscribe((result: any) => {
           this.categories = result.content;
         });
       });
@@ -70,28 +69,20 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
 
   ngOnInit() {
     console.debug('ngOnInit....debug');
-    if(this.readonly === null || this.readonly === undefined) {
+    if(!this.readonly) {
       this.readonly = false;
     }
-    if(this.responsedomain === null || this.responsedomain === undefined) {
+    if(!this.responsedomain) {
       return;
     }
-    if(this.responsedomain.responseCardinality === undefined) {
-      console.debug('responseCardinality === undefined');
-      this.responsedomain.responseCardinality =  new ResponseCardinality();
-    }
-    if (this.responsedomain.managedRepresentation === undefined) {
-      console.debug('managedRepresentation === undefined');
-      this.responsedomain.managedRepresentation = new Category();
-    }
-    if (this.responsedomain.managedRepresentation.inputLimit === undefined) {
-      console.debug('managedRepresentation.inputLimit === undefined');
-      this.responsedomain.managedRepresentation.inputLimit = new ResponseCardinality();
-    }
-    if (this.responsedomain.managedRepresentation.children === undefined) {
-      console.debug('managedRepresentation.children === undefined');
-      this.responsedomain.managedRepresentation.children = [];
-    }
+    // if (!this.responsedomain.managedRepresentation.inputLimit) {
+    //   console.debug('managedRepresentation.inputLimit === undefined');
+    //   this.responsedomain.managedRepresentation.inputLimit = new ResponseCardinality();
+    // }
+    // if (!this.responsedomain.managedRepresentation.children) {
+    //   console.debug('managedRepresentation.children === undefined');
+    //   this.responsedomain.managedRepresentation.children = [];
+    // }
     this.responsedomain.managedRepresentation.categoryType =
       DomainTypeDescription.find(e=>e.id === this.domainType).categoryType;
       this.numberOfAnchors = this.responsedomain.managedRepresentation.children.length;
@@ -105,7 +96,7 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
       }
     }
 
-    this.categoryService.getAllByLevel('ENTITY').subscribe((result: any) => {
+    this.categoryService.getByCategoryKind('CATEGORY').subscribe((result: any) => {
       this.categories = result.content;
     });
     this.previewResponseDomain = this.responsedomain;
@@ -121,61 +112,15 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
   }
 
   onSave() {
-    console.debug('onSave...');
     this.responsedomain.label = this.responsedomain.name;
-    let category = this.responsedomain.managedRepresentation;
-    let source = Observable.range(0, category.children.length)
-      .concatMap((x: any) => {
-        let c = category.children[x];
-        if (c['isNew'] === true) {
-          let newCategory = new Category();
-          newCategory.label = c.label;
-          newCategory.name = c.label;
-          newCategory.description = '';
-          return this.categoryService.save(newCategory);
-        } else {
-          return Observable.of(c);
-        }
-      });
-
-    let index = 0;
+    let managed = this.responsedomain.managedRepresentation;
+    managed.name = this.responsedomain.label;
     let changeEvent = this.formChange;
-    let rd = this.responsedomain;
-    let service = this.categoryService;
-
-    source.subscribe(
-      function (x: any) {
-        if (index < category.children.length) {
-          if(category.children[index]['isNew'] === true) {
-            x.code = category.children[index].code;
-          }
-          category.children[index] = x;
-          index = index + 1;
-        }
-      },
-      function (err: any) {
-        console.log('Error: %s', err);
-      },
-      function () {
-        if (category.id !== undefined && category.id !== '') {
-          console.info('cateogy ok');
-          changeEvent.emit(rd);
-        } else {
-          console.info('saving categories....');
-          category.name = rd.name;
-          category.description = '';
-          category.label = category.name;
-          service.save(category)
-            .subscribe((result: any) => {
-              for (let i = 0; i < category.children.length; i++) {
-                result.children[i].code = category.children[i].code;
-              }
-              rd.managedRepresentation = result;
-              changeEvent.emit(rd);
-            });
-        }
-      });
-    console.debug('save finished');
+    this.categoryService.save(managed)
+      .subscribe((result: Category) => {
+        this.responsedomain.managedRepresentation = result;
+        changeEvent.emit(this.responsedomain);
+    });
   }
 
   changeNumberOfCategories(num: number) {
@@ -303,6 +248,16 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
     this.max = this.responsedomain.managedRepresentation.inputLimit.maximum-1;
   }
 
+  flatMapChildren(cat: Category): Category[] {
+    console.log('flatMapChildren ' + cat.name);
+    let array = [];
+    cat.children.forEach(c=> {
+      array.push(this.flatMapChildren(c));
+    });
+    array.push(cat);
+    return array;
+  }
+
   power10(format:number): number {
     return 1/ Math.pow(10,format);
   }
@@ -314,7 +269,6 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
   addition(value1, value2): number {
     return parseInt(value1) + parseInt(value2);
   }
-
 
   onBasedonObjectDetail(ref:any) {
     if (!ref.rev)

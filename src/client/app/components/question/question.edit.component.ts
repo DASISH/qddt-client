@@ -37,25 +37,24 @@ export class QuestionItemEditComponent implements OnInit {
   }
 
   onSaveQuestionItem() {
-    console.log('onSaveQuestionItem '  +2);
-    if(!this.questionitem.responseDomain.id)
-      this.service.createResponseDomain(this.questionitem.responseDomain)
+    if((this.questionitem.responseDomain) && (!this.questionitem.responseDomain.id))
+      this.service.createCategory(this.questionitem.responseDomain.managedRepresentation)
         .subscribe(result => {
-          console.log('responsedomain saved...');
-          this.questionitem.responseDomain = result;
-          this.questionitem.responseDomainRevision =0;
-          this.service.updateQuestionItem(this.questionitem)
-            .subscribe((result: any) => {
-              console.log('qi saved...');
-              this.questionitem = result;
-              this.editQuestionItem.emit(this.questionitem);
+          this.questionitem.responseDomain.managedRepresentation = result;
+          this.service.createResponseDomain(this.questionitem.responseDomain)
+            .subscribe(result => {
+              this.questionitem.responseDomain = result;
+              this.questionitem.responseDomainRevision =0;
+              this.service.updateQuestionItem(this.questionitem)
+                .subscribe((result: any) => {
+                  this.questionitem = result;
+                  this.editQuestionItem.emit(this.questionitem);
+                });
             });
         });
     else {
-      console.log('onSaveQuestionItem ' + 3);
       this.service.updateQuestionItem(this.questionitem)
         .subscribe((result: any) => {
-          console.log('qi saved...');
           this.questionitem = result;
           this.editQuestionItem.emit(this.questionitem);
         });
