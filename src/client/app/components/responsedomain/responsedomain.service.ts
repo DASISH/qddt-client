@@ -27,7 +27,7 @@ export class ResponseDomain {
   managedRepresentation: Category;
   responseCardinality: ResponseCardinality;
   constructor() {
-    this.managedRepresentation = new Category();
+    this.managedRepresentation = null;
     this.responseCardinality = new ResponseCardinality();
   }
 }

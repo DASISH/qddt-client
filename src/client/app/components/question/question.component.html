@@ -32,38 +32,33 @@
                 </div>
               </div>
               <div class="row card" (mouseenter)="showbutton = true" (mouseleave)="showbutton = false">
-                <div class="col s6" >
-                  <div class="row teal-text"><span>Response Domain<span
-                    *ngIf="questionItem.responseDomain && questionItem.responseDomain.managedRepresentation">
-                    <qddt-version [element]="questionItem?.responseDomain?.managedRepresentation"></qddt-version>
-                      </span></span>
+                <div class="col s8" >
+                  <div class="row teal-text">
+                    <span>Response Domain
+                      <span *ngIf="questionItem?.responseDomain?.managedRepresentation">
+                        <qddt-version [element]="questionItem.responseDomain.managedRepresentation"></qddt-version>
+                      </span>
+                    </span>
                   </div>
-                  <div class="row teal-text white">
-                    <qddt-responsedomain-reuse *ngIf="!questionItem?.responseDomain"
-                                               [name]="'new'"
-                                               (dismissEvent)="onDismiss()"
-                                               ([responseDomain])="questionItem.responseDomain"
-                                               (responseDomainReuse)="responseDomainReuse($event)">
-                    </qddt-responsedomain-reuse>
-                    <a class="btn-flat btn-floating btn-medium waves-effect waves-light"
-                       *ngIf="questionItem?.responseDomain"
-                       (click)="onRemoveResponsedomain(questionitem)">
-                      <i class="material-icons left medium" title="remove response domain">remove</i>
-                    </a>
-                    <span *ngIf="questionItem.responseDomain">{{questionItem.responseDomain?.name}}</span>
-                  </div>
+                  <qddt-responsedomain-reuse
+                    class="teal-text white"
+                    [modalId] = "'reuse-1'"
+                    [responseDomain]="questionItem.responseDomain"
+                    (responseDomainSelected)="responseDomainSelect($event)"
+                    (responseDomainRemove)="onResponsedomainRemove()">
+                  </qddt-responsedomain-reuse>
                 </div>
-                <div class="col s6">
-                     <div class="row teal-text">
-                       <qddt-questionitem-edit-missing [missing]="secondCS"
-                         [mainResponseDomain]="questionItem.responseDomain"
-                         (editMissing)="onEditMissing($event)">
-                        </qddt-questionitem-edit-missing>
-                     </div>
-                  </div>
+                <div class="col s4 teal-text">
+                  <qddt-responsedomain-select-missing
+                    *ngIf="!questionItem?.responseDomain"
+                    [modalId] = "'select-missing-1'"
+                    [responseDomain]="questionItem?.responseDomain"
+                    (responseDomainSelected)="responseDomainReuse($event)">
+                  </qddt-responsedomain-select-missing>
+                </div>
               </div>
-                <qddt-preview-responsedomain *ngIf="questionItem.responseDomain" [isVisible]="true"
-                [responseDomain]="questionItem.responseDomain">
+                <qddt-preview-responsedomain *ngIf="questionItem?.responseDomain"
+                  [responseDomain]="questionItem.responseDomain">
                 </qddt-preview-responsedomain>
               <button type="submit" class="btn btn-default">Submit</button>
             </form>
@@ -90,8 +85,7 @@
 </div>
 
 
-<div [attr.id]="'create-questionItem-error-modal'" class="modal"
-  materialize="modal" [materializeActions]="modalActions">
+<div [attr.id]="'questionItem-error-modal'" class="modal" materialize="modal" [materializeActions]="modalActions">
   <div class="modal-content">
     <div class="row">
       <h4>An error occured</h4>
@@ -99,8 +93,7 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button
-      class="btn btn-default red modal-action modal-close waves-effect">
+    <button class="btn btn-default red modal-action modal-close waves-effect">
       <a><i class="close material-icons medium white-text">close</i></a>
     </button>
   </div>

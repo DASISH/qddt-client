@@ -30,8 +30,7 @@
         <qddt-revision [isVisible]="revision.isVisible"
           [current]="responseDomain"
           [qddtURI]="'audit/responsedomain/' + responseDomain.id + '/all'" #revision></qddt-revision>
-        <qddt-preview-responsedomain
-          [isVisible]="preview.isVisible"
+        <qddt-preview-responsedomain *ngIf="preview.isVisible"
           [responseDomain]="responseDomain" #preview>
         </qddt-preview-responsedomain>
         <qddt-comment-list

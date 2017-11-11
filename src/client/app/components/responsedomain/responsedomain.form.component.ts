@@ -83,6 +83,8 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
     //   console.debug('managedRepresentation.children === undefined');
     //   this.responsedomain.managedRepresentation.children = [];
     // }
+    if(!this.responsedomain.managedRepresentation)
+      this.responsedomain.managedRepresentation = new Category();
     this.responsedomain.managedRepresentation.categoryType =
       DomainTypeDescription.find(e=>e.id === this.domainType).categoryType;
       this.numberOfAnchors = this.responsedomain.managedRepresentation.children.length;
@@ -248,15 +250,15 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
     this.max = this.responsedomain.managedRepresentation.inputLimit.maximum-1;
   }
 
-  flatMapChildren(cat: Category): Category[] {
-    console.log('flatMapChildren ' + cat.name);
-    let array = [];
-    cat.children.forEach(c=> {
-      array.push(this.flatMapChildren(c));
-    });
-    array.push(cat);
-    return array;
-  }
+  // flatMapChildren(cat: Category): Category[] {
+  //   console.log('flatMapChildren ' + cat.name);
+  //   let array = [];
+  //   cat.children.forEach(c=> {
+  //     array.push(this.flatMapChildren(c));
+  //   });
+  //   array.push(cat);
+  //   return array;
+  // }
 
   power10(format:number): number {
     return 1/ Math.pow(10,format);

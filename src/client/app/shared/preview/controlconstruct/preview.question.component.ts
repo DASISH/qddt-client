@@ -47,7 +47,7 @@ let saveAs = require('file-saver');
   <div class="row" style="padding-right: 10pt;">
     <qddt-preview-responsedomain
       *ngIf="controlConstruct.questionItem && controlConstruct.questionItem.responseDomain"
-      [isVisible]="true" [responseDomain]="controlConstruct.questionItem.responseDomain">
+      [responseDomain]="controlConstruct.questionItem.responseDomain">
     </qddt-preview-responsedomain>
   </div>
   <div class="row">

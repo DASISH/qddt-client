@@ -121,7 +121,6 @@ class QuestionItemEditMissingComponent {
 class QuestionItemEditComponent {
   @Input() isVisible: boolean;
   @Input() questionitem: any;
-  @Input() editResponseDomain: boolean;
   @Output() editQuestionItem: EventEmitter<any> = new EventEmitter<any>();
 }
 

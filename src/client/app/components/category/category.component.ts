@@ -52,7 +52,7 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
       this.selectedCategory = config.item;
       this.isDetail = true;
     } else {
-      this.categoryService.getByCategoryKind('CATEGORY', '0', this.getSort()).subscribe(
+      this.categoryService.getByCategoryKind('CATEGORY', '*', '0', this.getSort()).subscribe(
       (result: any) => { this.page = result.page; this.categories = result.content; });
     }
   }

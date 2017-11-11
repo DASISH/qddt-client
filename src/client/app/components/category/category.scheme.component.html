@@ -8,52 +8,50 @@
         <i class="material-icons right" *ngIf="showCategoryForm">keyboard_arrow_up</i>
       </a>
 
-      <div *ngIf="showCategoryForm">
-        <div class="card-action">
-          <form (ngSubmit)="onSave()" #hf="ngForm">
-            <div class="row">
-              <div class="input-field col s10">
-                <input name="name" id="name" type="text" [(ngModel)]="category.name" required
-                  (ngModelChange)="category.label = category.name.toUpperCase()">
-                <label for="name" class="white-text">Name</label>
-              </div>
+      <div *ngIf="showCategoryForm" class="card-action">
+        <form (ngSubmit)="onSave()" #hf="ngForm">
+          <div class="row">
+            <div class="input-field col s10">
+              <input name="name" id="name" type="text" [(ngModel)]="category.name" required
+                (ngModelChange)="category.label = category.name.toUpperCase()">
+              <label for="name" class="white-text">Name</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s10">
+              <textarea name="description" id="description" class="materialize-textarea" [(ngModel)]="category.description"
+                        required></textarea>
+              <label for="description" class="white-text">Description</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s2 input-field">
+              <input name="category_number" id="category_number" type="number"
+                (input)="setCategoryNumber($event)" required>
+              <label class="white-text" for="category_number">Number of categories</label>
             </div>
             <div class="row">
-              <div class="input-field col s10">
-                <textarea name="description" id="description" class="materialize-textarea" [(ngModel)]="category.description"
-                          required></textarea>
-                <label for="description" class="white-text">Description</label>
-              </div>
+              <table *ngIf="category.children">
+                <thead><tr><td>Selected Responses</td></tr></thead>
+                <tbody>
+                  <tr *ngFor="let cat of category.children; let idx=index">
+                  <td><autocomplete
+                    [items]="categories" class="black-text"
+                    [elementtype]="CATEGORY_KIND"
+                    [initialValue]="cat?.label"
+                    (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
+                    (enterEvent)="searchCategories($event)"
+                    (autocompleteSelectEvent)="select($event)">
+                    </autocomplete></td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-            <div class="row">
-              <div class="col s2 input-field">
-                <input name="category_number" id="category_number" type="number"
-                  (input)="setCategoryNumber($event)" required>
-                <label class="white-text" for="category_number">Number of categories</label>
-              </div>
-              <div class="row">
-                <table *ngIf="category.children">
-                  <thead><tr><td>Selected Responses</td></tr></thead>
-                  <tbody>
-                    <tr *ngFor="let cat of category.children; let idx=index">
-                    <td><autocomplete
-                      [items]="categories" class="black-text"
-                      [elementtype]="CATEGORY_KIND"
-                      [initialValue]="cat?.label"
-                      (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
-                      (enterEvent)="searchCategories($event)"
-                      (autocompleteSelectEvent)="select($event)">
-                      </autocomplete></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <div class="row right-align">
-              <button type="submit" class="btn btn-default">Submit</button>
-            </div>
-          </form>
-        </div>
+          </div>
+          <div class="row right-align">
+            <button type="submit" class="btn btn-default">Submit</button>
+          </div>
+        </form>
       </div>
     </div>
     <qddt-table *ngIf="!isDetail" [items]="missingCategories" [page]="page" [columns]="columns"
@@ -77,13 +75,11 @@
         </a></li>
       </ul>
     </div>
-
     <div class="col s1">
       <a class="btn-flat btn-floating btn-medium waves-effect waves-light  green darken-1">
         <i class="material-icons" (click)="hideDetail()" title="Return to list view">replay</i>
       </a>
     </div>
-
     <div class="col s10  white grey-text text-darken-1">
       <form (ngSubmit)="onSave()" #hf="ngForm" class="card">
         <div class="row">
@@ -91,30 +87,34 @@
             <qddt-version-label [element]="selectedCategory"></qddt-version-label>
           </div>
           <div class="input-field col s12">
-            <textarea name="{{selectedCategory?.id}}-name" id="{{selectedCategory?.id}}-name" class="materialize-textarea"
-            [(ngModel)]="selectedCategory.name" [attr.maxlength]="255"
-            required (ngModelChange)="selectedCategory.label = selectedCategory.name.toUpperCase()">
-            </textarea>
-            <label [attr.for]="selectedCategory.id + '-name'" class="active teal-text">Name</label>
+              <textarea
+                name="{{selectedCategory?.id}}-name"
+                id="{{selectedCategory?.id}}-name"
+                class="materialize-textarea"
+                [(ngModel)]="selectedCategory.name"
+                [attr.maxlength]="255" required
+                (ngModelChange)="selectedCategory.label = selectedCategory.name.toUpperCase()">
+              </textarea>
+              <label [attr.for]="selectedCategory.id + '-name'" class="active teal-text">Name</label>
           </div>
         </div>
         <div class="row">
-          <div class="col s12">
-            <label for="description" class="active teal-text">Description</label>
-            <textarea class="materialize-textarea" name="description" [(ngModel)]="selectedCategory.description" ></textarea>
-          </div>
+          <label for="description" class="active teal-text">Description</label>
+          <textarea class="materialize-textarea" name="description" [(ngModel)]="selectedCategory.description" ></textarea>
         </div>
         <div class="row">
           <div class="col s2 input-field">
             <input id="{{selectedCategory?.id}}-category_number" type="number"
-            value="{{selectedCategory.children.length}}"
-            (input)="setCategoryNumber($event)" required>
-            <label class="active teal-text"
-            [attr.for]="selectedCategory.id + '-category_number'">Number of categories</label>
+              value="{{selectedCategory.children.length}}"
+              (input)="setCategoryNumber($event)" required>
+            <label class="active teal-text" [attr.for]="selectedCategory.id + '-category_number'">
+              Number of categories
+            </label>
           </div>
-          <div class="row"><table *ngIf="selectedCategory.children">
-            <thead><tr><td>Select Responses</td></tr></thead>
-            <tbody>
+          <div class="row" *ngIf="selectedCategory.children">
+            <table >
+              <thead><tr><td>Select Responses</td></tr></thead>
+              <tbody>
               <tr *ngFor="let cat of selectedCategory.children; let idx=index">
                 <td><autocomplete
                   [items]="categories"
@@ -126,31 +126,26 @@
                 </autocomplete></td>
               </tr>
             </tbody>
-          </table>
+            </table>
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <qddt-rational [element]="selectedCategory" [config]="{hidden: [4]}"></qddt-rational>
-      </div>
-      <div class="row">
-        <qddt-element-footer [element]="selectedCategory" [type]="'CATEGORY'"></qddt-element-footer>
-      </div>
-      <div class="row right-align">
-        <button type="submit" class="btn btn-default">Submit</button>
-      </div>
-    </form>
-
-    <qddt-revision [isVisible]="revisionIsVisible"
-                   [current]="selectedCategory"
-                   [qddtURI]="'audit/category/' + selectedCategory.id + '/all'">
-    </qddt-revision>
-
-    <qddt-comment-list [ownerId]="selectedCategory.id" [comments]="selectedCategory.comments"></qddt-comment-list>
-
+        <div class="row">
+          <qddt-rational [element]="selectedCategory" [config]="{hidden: [4]}"></qddt-rational>
+        </div>
+        <div class="row">
+          <qddt-element-footer [element]="selectedCategory" [type]="'CATEGORY'"></qddt-element-footer>
+        </div>
+        <div class="row right-align">
+          <button type="submit" class="btn btn-default">Submit</button>
+        </div>
+      </form>
+      <qddt-revision [isVisible]="revisionIsVisible"
+                     [current]="selectedCategory"
+                     [qddtURI]="'audit/category/' + selectedCategory.id + '/all'">
+      </qddt-revision>
+      <qddt-comment-list [ownerId]="selectedCategory.id" [comments]="selectedCategory.comments"></qddt-comment-list>
+    </div>
   </div>
-
-
-</div>
 </div>
 
 <div class="modal" materialize="modal" [materializeActions]="deleteAction">

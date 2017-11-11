@@ -1,10 +1,17 @@
-<a class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal">
-  <i class="material-icons" title="response domain edit" (click)="openSelectRevisionRDModal()">add</i>
-</a>
-<div class="modal modal-fixed-footer"
-     materialize="modal" [materializeActions]="modalRdActions">
+
+  <a *ngIf="showbutton && !responseDomain" class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal" href="#{{modalId}}">
+    <i class="material-icons" title="response domain edit" (click)="openModalRDReuse()">add</i>
+  </a>
+  <a *ngIf="showbutton && responseDomain" class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
+    <i class="material-icons" title="response domain remove" (click)="removeResponseDomain()">remove</i>
+  </a>
+<span>{{responseDomain?.name}}</span>
+<div id="{{modalId}}"
+     class="modal modal-fixed-footer"
+     materialize="modal"
+     [materializeActions]="modalRdActions">
   <div class="modal-content">
-    <div class="row">
+    <!--<div class="row">-->
       <div class="row">
         <div>
           <h4>Reuse Domain</h4>
@@ -14,34 +21,37 @@
         </div>
         <div class="col left" *ngFor="let domain of domainTypeDescription">
           <input name="domaintypegroup" type="radio" id="rdomain-type-{{domain.id}}"
-                 (click)="selectDomainType(domain.id)" [checked]="domainType === domain.id"
-          />
-          <label [attr.for]="'rdomain-type-' + domain.id">{{domain.label}}</label>
+                 (click)="selectDomainType(domain.id)" [checked]="domainType === domain.id"          />
+          <label for="rdomain-type-{{domain.id}}">{{domain.label}}</label>
         </div>
       </div>
       <div *ngIf="showAutocomplete">
-        <autocomplete [items]="responseDomains" class="black-text"
-                      [elementtype]="RESPONSEKIND"
-                      (autocompleteFocusEvent)="selectedIndex=idx;"
-                      (enterEvent)="searchResponseDomains($event)"
-                      (autocompleteSelectEvent)="select($event)">
+        <autocomplete
+          [items]="responseDomains" class="black-text"
+          [elementtype]="RESPONSEKIND"
+          (autocompleteFocusEvent)="selectedIndex=idx;"
+          (enterEvent)="searchResponseDomains($event)"
+          (autocompleteSelectEvent)="onResponseDomainSelected($event)">
         </autocomplete>
       </div>
       <div class="row" *ngIf="selectedResponseDomain">
         <qddt-responsedomain-select
           [responseDomain]="selectedResponseDomain"
           [revision]="selectedRevision"
-          (dismissEvent)="onDismiss()"
+          (dismissResponseSelect)="onDismissRDReuse()"
           (useResponseDomainEvent)="onUseResponseDomainEvent($event)">
         </qddt-responsedomain-select>
       </div>
-      <qddt-responsedomain-form *ngIf="responseDomain"
-                                (formChange)="formChange()" [responsedomain]="responseDomain" [domainType]="domainType">
-      </qddt-responsedomain-form>
-    </div>
+      <!--<qddt-responsedomain-form-->
+        <!--*ngIf="selectedResponseDomain"-->
+        <!--[responsedomain]="selectedResponseDomain"-->
+        <!--[domainType]="domainType"-->
+        <!--(formChange)="formSave()" >-->
+      <!--</qddt-responsedomain-form>-->
+    <!--</div>-->
   </div>
   <div class="modal-footer">
     <button
-      class="btn btn-default red modal-action modal-close waves-effect waves-red" (click)="onCloseModal">Dismiss</button>
+      class="btn btn-default red modal-action modal-close waves-effect waves-red" (click)="closeModalRDReuse()">Dismiss</button>
   </div>
 </div>

@@ -64,7 +64,7 @@
                 </qddt-universe-create>
               </div>
               <ul class="row">
-                  <li class="collection-item" *ngFor="let universe of controlConstruct.universe; let idx=index">
+                <li class="collection-item" *ngFor="let universe of controlConstruct.universe; let idx=index">
                   <div class="row">
                     <div class="col s8 offset-s1">{{universe?.description}}</div>
                     <div class="col s1">
@@ -76,7 +76,7 @@
                     </div>
                   </div>
                 </li>
-                </ul>
+              </ul>
               <div class="row">
                 <div class="row">
                   <div class="col">
@@ -147,7 +147,6 @@
       </div>
     </div>
   </div>
-
   <qddt-control-construct-detail *ngIf="isDetail"
     [controlConstructId]="selectedControlConstruct.id"
     [controlConstructs]="controlConstructs"

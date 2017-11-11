@@ -4,12 +4,13 @@
 			<div class="row teal z-depth-1" style="padding-left: 2%; padding-top: 1%; padding-bottom: 1%;">
 				<i class="material-icons large right">blur_linear</i><h4>Response Domains</h4>
 				<a class="btn" (click)="onToggleResponseDomainForm()">
-					<i class="material-icons right" *ngIf="!showResponseDomainForm">keyboard_arrow_down</i>
-					<i class="material-icons right" *ngIf="showResponseDomainForm">keyboard_arrow_up</i> New
+					<i class="material-icons right" *ngIf="!isNewFormVisible">keyboard_arrow_down</i>
+					<i class="material-icons right" *ngIf="isNewFormVisible">keyboard_arrow_up</i> New
 				</a>
 			</div>
 		</div>
-    <div *ngIf="!isDetail" class="row card-action">
+
+    <div *ngIf="!isEditFormVisible" class="row card-action">
 			<div class="response-domain-title">
 				<span name="text">Domain Type</span>
 			</div>
@@ -19,28 +20,32 @@
 				/> <label [attr.for]="'domain-type-' + domain.id">{{domain.label}}</label>
 			</div>
 		</div>
-		<div *ngIf="showResponseDomainForm" class="row teal white-text">
+
+		<div *ngIf="isNewFormVisible" class="row teal white-text">
 			<qddt-responsedomain-form class="card "
         (formChange)="formCreate($event)" [responsedomain]="responseDomain" [domainType]="domainType" [labelColor]="'white-text'">
       </qddt-responsedomain-form>
 		</div>
-    <div *ngIf="showProgressBar && !isDetail" class="progress">
+
+    <div *ngIf="isProgressBarVisible && !isEditFormVisible" class="progress">
       <div class="indeterminate"></div>
     </div>
-		<qddt-table *ngIf="!isDetail" [items]="responseDomains" [page]="page" [columns]="columns"
+		<qddt-table *ngIf="!isEditFormVisible" [items]="responseDomains" [page]="page" [columns]="columns"
           [searchFromServer]="true"
 					(enterEvent)="searchResponseDomains($event)"
-          (detailEvent)="onDetail($event)" (pageChangeEvent)="onPage($event)"></qddt-table>
+          (detailEvent)="onSelectDetail($event)"
+          (pageChangeEvent)="onPage($event)">
+    </qddt-table>
 	</div>
 
-<div class="row" *ngIf="isDetail">
+  <div class="row" *ngIf="isEditFormVisible">
 
   <div id="{{selectedResponseDomain?.id}}" class="scrollspy">
 
     <div class="fixed-action-btn vertical click-to-toggle">
       <a class="btn-floating btn-large cyan"><i class="large material-icons">menu</i></a>
       <ul>
-        <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light blue" (click)="revisionIsVisible = !revisionIsVisible">
+        <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light blue" (click)="isRevisionVisible = !isRevisionVisible">
           <i class="material-icons left medium" title="Revision history">history</i>
         </a></li>
         <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light red">
@@ -71,7 +76,7 @@
           (formChange)="formChange($event)" [responsedomain]="selectedResponseDomain"
           [domainType]="domainType" [labelColor]="'teal-text'" >
         </qddt-responsedomain-form>
-        <qddt-revision [isVisible]="revisionIsVisible"
+        <qddt-revision [isVisible]="isRevisionVisible"
           [current]="selectedResponseDomain"
           [qddtURI]="'audit/responsedomain/' + selectedResponseDomain.id + '/all'"
           [config]="selectedResponseDomain.config">

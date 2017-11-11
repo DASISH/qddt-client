@@ -21,7 +21,7 @@ import { QuestionItem } from '../../components/question/question.service';
   <div style="padding-left: 15pt;">{{questionItem.question?.intent}}</div>
   <div class="row" style="padding-right: 5pt; padding-left:5pt ">
     <qddt-preview-responsedomain *ngIf="questionItem.responseDomain"
-      [isVisible]="true" [responseDomain]="questionItem.responseDomain">
+      [responseDomain]="questionItem.responseDomain">
     </qddt-preview-responsedomain>
   </div>
   <div class="row">

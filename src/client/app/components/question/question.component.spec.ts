@@ -139,7 +139,6 @@ class QuestionItemEditComponent {
   @Input() isVisible: boolean;
   @Input() questionitem: any;
   @Input() readonly: boolean;
-  @Input() editResponseDomain: boolean;
   @Output() editQuestionItem: EventEmitter<any>;
 }
 

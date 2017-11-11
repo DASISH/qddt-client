@@ -1,9 +1,10 @@
-import { Component, Input, Output, EventEmitter, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, OnInit, AfterViewInit } from '@angular/core';
 import { DomainKind, DomainTypeDescription } from './responsedomain.constant';
 import { ResponseDomain, ResponseDomainService } from './responsedomain.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 import { ElementKind, QddtElementType, QddtElementTypes } from '../../shared/preview/preview.service';
+import { Category } from '../category/category.service';
 
 @Component({
   selector: 'qddt-responsedomain-reuse',
@@ -13,12 +14,15 @@ import { ElementKind, QddtElementType, QddtElementTypes } from '../../shared/pre
   providers: [ResponseDomainService],
 })
 
-export class ResponsedomainReuseComponent implements OnInit, OnChanges {
-  @Input() isVisible: boolean;
+export class ResponsedomainReuseComponent implements OnChanges ,AfterViewInit{
+  @Input() readOnly: boolean;
+  @Input() showbutton: boolean;
   @Input() responseDomain: any;
-  @Input() name: String;
-  @Output() responseDomainReuse = new EventEmitter<any>();
-  // @Output() dismissEvent = new EventEmitter<any>();
+  @Input() modalId: any;
+  @Output() dismissEvent = new EventEmitter<any>();
+  @Output() responseDomainSelected = new EventEmitter<any>();
+  @Output() responseDomainRemove = new EventEmitter<any>();
+
   selectedResponseDomain: any;
   selectedRevision: number;
   public domainTypeDef = DomainKind;
@@ -28,19 +32,19 @@ export class ResponsedomainReuseComponent implements OnInit, OnChanges {
   private showAutocomplete: boolean;
   private responseDomains: any;
   private selectedIndex: number;
-  private searchKeysSubect: Subject<string> = new Subject<string>();
+  private searchKeysSubject: Subject<string> = new Subject<string>();
   private readonly RESPONSEKIND: QddtElementType  = QddtElementTypes[ElementKind.RESPONSEDOMAIN];
 
   constructor(private responseDomainService: ResponseDomainService) {
-    console.debug('responsedomain reuse...');
     this.showAutocomplete = false;
     this.domainType = DomainKind.SCALE;
     this.responseDomains = [];
     this.domainTypeDescription = DomainTypeDescription.filter((e:any) => e.id !== DomainKind.MIXED);
     this.selectedIndex = 0;
-    this.searchKeysSubect
+    this.searchKeysSubject
       .debounceTime(300)
       .distinctUntilChanged()
+      .filter(val => val.length > 0)
       .subscribe((name: string) => {
         let domainType = DomainTypeDescription.find((e: any) => e.id === this.domainType).name;
         this.responseDomainService
@@ -48,17 +52,16 @@ export class ResponsedomainReuseComponent implements OnInit, OnChanges {
             this.responseDomains = result.content;
           });
       });
-    this.reuse();
-    console.debug('responsedomain reuse cnst done...');
+    // this.reuse();/
   }
 
-  ngOnInit() {
-    this.searchKeysSubect.next('');
-  }
 
+  ngAfterViewInit() {
+    this.searchKeysSubject.next('*');
+  }
   ngOnChanges() {
     console.debug('ngOnChanges');
-    if (this.responseDomain !== undefined && this.responseDomain !== null) {
+    if (this.responseDomain) {
       let description = this.domainTypeDescription.find((e: any) => e.name === this.responseDomain.responseKind);
       if (description !== undefined) {
         this.domainType = description.id;
@@ -67,20 +70,34 @@ export class ResponsedomainReuseComponent implements OnInit, OnChanges {
       this.domainType = DomainKind.SCALE;
     }
   }
-  //
-  // onDismiss() {
-  //   this.dismissEvent.emit(true);
-  // }
+  removeResponseDomain() {
+    console.log('responsDomainRemove.emit');
+    this.responseDomain = null;
+    this.responseDomainRemove.emit(true);
+  }
 
-  formChange() {
+  onDismissRDReuse() {
+    this.dismissEvent.emit(true);
+  }
+
+  openModalRDReuse() {
+    this.modalRdActions.emit({action:'modal',params:['open']});
+  }
+
+  closeModalRDReuse() {
+    this.modalRdActions.emit({action:'modal',params:['close']});
+  }
+
+  formSave() {
     console.debug('formChange');
-    if (this.responseDomain.id !== undefined && this.responseDomain.id !== '') {
-      this.responseDomainService.update(this.responseDomain).subscribe((result: any) => {
-        this.responseDomain = result;
-        let object = {
-          responseDomain: this.responseDomain
-        };
-        this.responseDomainReuse.emit(object);
+    if (this.responseDomain.id) {
+      this.responseDomainService.update(this.responseDomain)
+        .subscribe((result: any) => {
+          this.responseDomain = result;
+          let object = {
+            responseDomain: this.responseDomain
+          };
+          this.responseDomainSelected.emit(object);
       });
     } else {
       this.responseDomainService.create(this.responseDomain).subscribe((result: any) => {
@@ -89,51 +106,40 @@ export class ResponsedomainReuseComponent implements OnInit, OnChanges {
         let object = {
           responseDomain: this.responseDomain
         };
-        this.responseDomainReuse.emit(object);
+        this.responseDomainSelected.emit(object);
       });
     }
-    this.isVisible = false;
+    // this.isVisible = false;
   }
 
   selectDomainType(id: DomainKind) {
     this.domainType = id;
     this.selectedResponseDomain = null;
-    this.reuse();
+    // this.reuse();
     this.responseDomain = null;
   }
 
-  reuse() {
-    console.debug('reuse');
-    this.responseDomainService.getAll(DomainKind[this.domainType]).subscribe((result: any) => {
-      this.responseDomains = result.content;
-      this.showAutocomplete = true;
-    });
-  }
+  // reuse() {
+  //   console.debug('reuse');
+  //   this.responseDomainService.getAll(DomainKind[this.domainType]).subscribe((result: any) => {
+  //     this.responseDomains = result.content;
+  //     this.showAutocomplete = true;
+  //   });
+  // }
 
-  select(responseDomain: any) {
+  onResponseDomainSelected(responseDomain: any) {
     this.selectedResponseDomain = responseDomain;
     this.selectedRevision = 0;
   }
 
   onUseResponseDomainEvent(item) {
-    this.responseDomainReuse.emit(item);
-    this.onCloseModal();
+    this.responseDomainSelected.emit(item);
+    this.closeModalRDReuse();
     // this.isVisible = false;
   }
 
   searchResponseDomains(key: string) {
-    this.searchKeysSubect.next(key);
+    this.searchKeysSubject.next(key);
   }
 
-  openSelectRevisionRDModal() {
-    console.log('openSelectRevisionRDModal');
-    this.modalRdActions.emit({action:'modal', params:['open']});
-    // this.responseDomainService.getAll().subscribe(
-    //   result => { this.responseDomains = result.content;
-    //   }, (error: any) => console.log(error));
-  }
-
-  onCloseModal() {
-    this.modalRdActions.emit({action:'modal', params:['close']});
-  }
 }

@@ -4,7 +4,6 @@ import DateTimeFormat = Intl.DateTimeFormat;
 import { API_BASE_HREF } from '../../api';
 import { BaseService } from '../../shared/base.service';
 import { ResponseDomain } from '../responsedomain/responsedomain.service';
-import { Category } from '../category/category.service';
 
 export class Question {
   id: string;
@@ -57,19 +56,19 @@ export class QuestionService extends BaseService {
     return this.get('questionitem/page/search?' + 'page=' + page + this.pageSize + query);
   }
 
-  createQuestionItem(question: QuestionItem): any {
+  createQuestionItem(question: any): any {
     return this.post(question,'questionitem/create');
   }
 
-  updateQuestionItem(questionItem: QuestionItem) : any {
+  updateQuestionItem(questionItem: any) : any {
     return this.post(questionItem, 'questionitem');
   }
 
-  createCategory(category: Category): any {
+  createCategory(category: any): any {
     return this.post(category,'category/create/');
   }
 
-  createResponseDomain(responseDomain: ResponseDomain): any {
+  createResponseDomain(responseDomain: any): any {
     return this.post(responseDomain,'responsedomain/create');
   }
   //

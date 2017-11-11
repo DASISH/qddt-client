@@ -17,48 +17,48 @@ declare var Materialize:any;
 
 export class ResponsedomainComponent implements OnInit, AfterContentChecked {
   public domainType: DomainKind;
+  // public domainTypeDef = DomainKind;
   public deleteAction = new EventEmitter<any>();
   public errorAction = new EventEmitter<string|MaterializeAction>();
   public error: string;
-  public domainTypeDef = DomainKind;
-  public responseDomains: any[];
+  public responseDomains: ResponseDomain[] = [];
   private responseDomain: ResponseDomain;
   private selectedResponseDomain: ResponseDomain;
-  private showResponseDomainForm: boolean;
   private searchKeys: string;
   private domainTypeDescription: any[];
   private page: any;
   private columns: any[];
-  private isDetail: boolean;
-  private showProgressBar: boolean = false;
-  private revisionIsVisible: boolean;
+  private isNewFormVisible: boolean;
+  private isProgressBarVisible: boolean;
+  private isEditFormVisible: boolean;
+  private isRevisionVisible: boolean;
   private savedObject: string;
   private savedResponseDomainsIndex: number;
-  private searchKeysSubect: Subject<string> = new Subject<string>();
+  private searchKeysSubject: Subject<string> = new Subject<string>();
 
   constructor(private responseDomainService: ResponseDomainService, private userService: UserService) {
     this.responseDomain = new ResponseDomain();
-    this.responseDomains = [];
+    this.isNewFormVisible =false;
+    this.isProgressBarVisible = false;
+    this.isEditFormVisible = false;
+    this.isRevisionVisible = false;
     this.searchKeys = '';
-    this.isDetail = false;
-    this.revisionIsVisible = false;
     this.domainType = DomainKind.SCALE;
     this.domainTypeDescription = DomainTypeDescription.filter((e:any) => e.id !== DomainKind.MIXED);
-    this.showResponseDomainForm = false;
     this.page = {};
     this.columns = PredefinedColumns['SCALE'];
-    this.searchKeysSubect
+    this.searchKeysSubject
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
-        this.showProgressBar = true;
+        this.isProgressBarVisible = true;
         let domainType = DomainTypeDescription.find((e: any) => e.id === this.domainType).name;
         this.responseDomainService
           .getAll(domainType, name, '0', this.getSort()).subscribe((result: any) => {
             this.page = result.page;
             this.responseDomains = result.content;
             this.buildAnchorLabel();
-            this.showProgressBar = false;
+            this.isProgressBarVisible = false;
           });
       });
   }
@@ -69,16 +69,16 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
       this.page = config.page;
       this.responseDomains = config.collection;
       this.selectedResponseDomain = config.item;
-      this.isDetail = true;
+      this.isEditFormVisible = true;
     } else {
-      this.showProgressBar = true;
+      this.isProgressBarVisible = true;
       this.searchKeys = config.key;
       let name = DomainTypeDescription.find((e: any) =>e.id === this.domainType).name;
         this.responseDomainService.getAll(name, '', '0', this.getSort()).subscribe((result: any) => {
         this.page = result.page;
         this.responseDomains = result.content;
         this.buildAnchorLabel();
-        this.showProgressBar = false;
+        this.isProgressBarVisible = false;
       });
     }
   }
@@ -90,31 +90,32 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
       this.responseDomains = config.collection;
       this.selectedResponseDomain = config.item;
       this.searchKeys = config.key;
-      this.isDetail = true;
+      this.isEditFormVisible = true;
     } else {
-      this.isDetail = false;
+      this.isEditFormVisible = false;
       if(config.key === null || config.key === undefined) {
         this.userService.setGlobalObject('responsedomains', {'current': 'list', 'key': ''});
         this.searchKeys = '';
-        this.searchKeysSubect.next('');
+        this.searchKeysSubject.next('');
       }
     }
     Materialize.updateTextFields();
   }
 
   selectDomainType(id: DomainKind) {
-    this.showProgressBar = true;
+    this.isProgressBarVisible = true;
+    this.isNewFormVisible = false;
     this.domainType = id;
-    this.showResponseDomainForm = false;
-    let domainType = DomainKind[this.domainType];
-    this.columns = PredefinedColumns[domainType];
+    let domainKind = DomainKind[id];
+
+    this.columns = PredefinedColumns[domainKind];
     this.responseDomains = [];
     this.responseDomainService
-      .getAll(domainType, this.searchKeys).subscribe((result: any) => {
+      .getAll(domainKind, this.searchKeys).subscribe((result: any) => {
       this.page = result.page;
       this.responseDomains = result.content;
       this.buildAnchorLabel();
-      this.showProgressBar = false;
+      this.isProgressBarVisible = false;
     });
   }
 
@@ -123,8 +124,8 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
   }
 
   onToggleResponseDomainForm() {
-    this.showResponseDomainForm = !this.showResponseDomainForm;
-    if(this.showResponseDomainForm) {
+    this.isNewFormVisible = !this.isNewFormVisible;
+    if(this.isNewFormVisible) {
       this.responseDomain = new ResponseDomain();
       this.responseDomain['isNew'] = true;
       this.responseDomain.responseKind = DomainKind[this.domainType];
@@ -133,7 +134,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
 
   formCreate() {
     this.searchKeys = '';
-    this.showResponseDomainForm = false;
+    this.isNewFormVisible = false;
     this.responseDomainService.create(this.responseDomain).subscribe((result: any) => {
       this.responseDomain = result;
       this.responseDomains = [result].concat(this.responseDomains);});
@@ -153,39 +154,43 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
       this.hideDetail();});
   }
 
-  onDetail(responsedomain: any) {
-    this.selectedResponseDomain = responsedomain;
-    // this.selectedResponseDomain['workinprogress'] = this.selectedResponseDomain['changeKind'] === 'IN_DEVELOPMENT';
-    this.savedObject = JSON.stringify(responsedomain);
-    this.savedResponseDomainsIndex = this.responseDomains
-      .findIndex(q => q['id'] === responsedomain['id']);
-    this.selectedResponseDomain['config'] = this.buildRevisionConfig();
-    this.isDetail = true;
-    this.userService.setGlobalObject('responsedomains',
-      {'current': 'detail',
-        'page': this.page,
-        'key': this.searchKeys,
-        'item': this.selectedResponseDomain,
-        'collection': this.responseDomains});
+  onSelectDetail(response: ResponseDomain) {
+    this.responseDomainService.getResponseDomain(response.id)
+      .subscribe((result: any) => {
+        this.selectedResponseDomain = result;
+        this.savedObject = JSON.stringify(result);
+        this.savedResponseDomainsIndex = this.responseDomains
+          .findIndex(q => q['id'] === result['id']);
+        this.selectedResponseDomain['config'] = this.buildRevisionConfig();
+        this.isEditFormVisible = true;
+        this.userService.setGlobalObject('responsedomains',
+          {
+            'current': 'detail',
+            'page': this.page,
+            'key': this.searchKeys,
+            'item': this.selectedResponseDomain,
+            'collection': this.responseDomains
+          });
+      });
   }
 
   hideDetail() {
     this.savedObject = null;
     this.selectedResponseDomain = null;
     this.savedResponseDomainsIndex = -1;
-    this.isDetail = false;
+    this.isEditFormVisible = false;
     this.userService.setGlobalObject('responsedomains', {'current': 'list', 'key': this.searchKeys});
   }
 
   onPage(page: string) {
-    this.showProgressBar = true;
+    this.isProgressBarVisible = true;
     // let domainType = DomainTypeDescription.find((e: any) =>e.id === this.domainType).name;
     this.responseDomainService
       .getAll(DomainKind[this.domainType], this.searchKeys, page, this.getSort()).subscribe(
       (result: any) => { this.page = result.page;
         this.responseDomains = result.content;
         this.buildAnchorLabel();
-        this.showProgressBar = false;
+        this.isProgressBarVisible = false;
       });
   }
 
@@ -207,7 +212,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
 
   searchResponseDomains(name: string) {
     this.searchKeys = name;
-    this.searchKeysSubect.next(name);
+    this.searchKeysSubject.next(name);
   }
 
   buildRevisionConfig(): any[] {

@@ -18,7 +18,7 @@ export class QuestionItemEditComponent implements OnInit {
   @Input() questionitem: QuestionItem;
   @Input() isVisible: boolean;
   @Input() readonly: boolean;
-  @Input() editResponseDomain: boolean;
+  // @Input() editResponseDomain: boolean;
   @Output() editQuestionItem: EventEmitter<any>;
 
   showbutton: any;
@@ -75,12 +75,13 @@ export class QuestionItemEditComponent implements OnInit {
       );
   }
 
-  onResponseDomainReuse(item: any) {
+  onResponseDomainSelected(item: any) {
     this.questionitem.responseDomain = item.responseDomain;
     this.questionitem.responseDomainRevision = item.responseDomainRevision || 0;
    }
 
-  onRemoveResponsedomain() {
+  onResponsedomainRemove(item: any) {
+    console.log('onResponsedomainRemove');
     this.questionitem.responseDomainRevision = 0;
     this.questionitem.responseDomain = null;
   }
@@ -146,21 +147,18 @@ export class QuestionItemEditComponent implements OnInit {
       representation.children.splice(index, 1);
     }
   }
+  //
+  // private populateCodeValues(repWithCodes: Category, newRepresentation: Category) {
+  //   if (repWithCodes.categoryType === 'MIXED') {
+  //     for (let i = 0; i < newRepresentation.children.length; i++) {
+  //       this.populateCodeValues(repWithCodes.children[i], newRepresentation.children[i]);
+  //     }
+  //   } else {
+  //     for (let i = 0; i < newRepresentation.children.length; i++) {
+  //       newRepresentation.children[i].code = repWithCodes.children[i].code;
+  //     }
+  //   }
+  // }
 
-  private populateCodeValues(repWithCodes: Category, newRepresentation: Category) {
-    if (repWithCodes.categoryType === 'MIXED') {
-      for (let i = 0; i < newRepresentation.children.length; i++) {
-        this.populateCodeValues(repWithCodes.children[i], newRepresentation.children[i]);
-      }
-    } else {
-      for (let i = 0; i < newRepresentation.children.length; i++) {
-        newRepresentation.children[i].code = repWithCodes.children[i].code;
-      }
-    }
-  }
-
-  private isNull(object: any) {
-    return object === undefined || object === null;
-  }
 
 }

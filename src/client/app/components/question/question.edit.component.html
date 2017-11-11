@@ -1,7 +1,7 @@
 <div *ngIf="isVisible" class="card white grey-text text-darken-1">
   <div *ngIf="questionitem">
     <qddt-preview-responsedomain *ngIf="questionitem?.responseDomain"
-                                 [isVisible]="true" [responseDomain]="questionitem.responseDomain">
+                                 [responseDomain]="questionitem.responseDomain">
     </qddt-preview-responsedomain>
 
     <qddt-conceptref [element]="questionitem"></qddt-conceptref>
@@ -14,60 +14,55 @@
                  materialize="characterCounter" length="255">
         </div>
         <div class="row">
-          <div class="row">
-            <div class="col s12">
-              <label [attr.for]="questionitem.id + '-question-textarea'" class="active teal-text">Question text</label>
-              <textarea id="{{questionitem?.id}}-question-textarea"
-                        name="{{questionitem?.id}}-question-textarea" [(ngModel)]="questionitem.question.question"
-                        class="materialize-textarea" materialize="characterCounter" length="1500"></textarea>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col s12">
-              <label [attr.for]="questionitem.id + '-question-intent'" class="active teal-text">Question intent</label>
-              <textarea id="{{questionitem?.id}}-question-intent"
-                        name="{{questionitem?.id}}-question-intent" [(ngModel)]="questionitem.question.intent"
-                        class="materialize-textarea" materialize="characterCounter" length="2000"></textarea>
-            </div>
-          </div>
+          <label [attr.for]="questionitem.id + '-question-textarea'" class="active teal-text">Question text</label>
+          <textarea id="{{questionitem?.id}}-question-textarea"
+                    name="{{questionitem?.id}}-question-textarea" [(ngModel)]="questionitem.question.question"
+                    class="materialize-textarea" materialize="characterCounter" length="1500"></textarea>
         </div>
-        <div *ngIf="editResponseDomain" class="hoverable row"
+        <div class="row">
+            <label [attr.for]="questionitem.id + '-question-intent'" class="active teal-text">Question intent</label>
+            <textarea id="{{questionitem?.id}}-question-intent"
+                      name="{{questionitem?.id}}-question-intent" [(ngModel)]="questionitem.question.intent"
+                      class="materialize-textarea" materialize="characterCounter" length="2000"></textarea>
+        </div>
+        <div class="hoverable row"
              (mouseenter)="showbutton = true"
              (mouseleave)="showbutton = false">
-          <div class="col s6">
+          <div class="col s8">
             <div class="row teal-text">
               <span>Response Domain (V <qddt-version [element]="questionitem?.responseDomain?.managedRepresentation"></qddt-version>)
-            </span>
+              </span>
             </div>
             <div class="row">
-              <qddt-responsedomain-reuse *ngIf="!readonly && !questionitem?.responseDomain" [name]="'edit'"
-                                         [ngClass]="{hide: !showbutton}"
-                                         [responseDomain]="questionItem?.responseDomain"
-                                         (responseDomainReuse)="onResponseDomainReuse($event)">
+              <qddt-responsedomain-reuse
+                 [readOnly] = "readonly"
+                 [modalId] = "'reuse-2'"
+                 [showbutton] = "showbutton"
+                 [responseDomain]="questionitem?.responseDomain"
+                 (responseDomainSelected)="onResponseDomainSelected($event)"
+                 (responseDomainRemove)="onResponsedomainRemove($event)">
               </qddt-responsedomain-reuse>
-              <a *ngIf="!readonly && questionitem.responseDomain " class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                 [ngClass]="{hide: !showbutton}"
-                 (click)="onRemoveResponsedomain(questionitem)">
-                <i class="material-icons left medium" title="remove response domain">remove</i>
-              </a>
-              <span *ngIf="questionitem.responseDomain">{{questionitem.responseDomain.name}}</span>
             </div>
           </div>
-          <div class="col s6">
-            <div name="edit-missing-responsedomain" *ngIf="editResponseDomain && questionitem?.responseDomain" class="row">
-              <qddt-questionitem-edit-missing [missing]="getMissing()"
-                                              [readonly]="readonly"
-                                              [mainResponseDomain]="questionitem.responseDomain"
-                                              (missingSelectedAction)="setMissing($event)"></qddt-questionitem-edit-missing>
-            </div>
+          <div class="col s4">
+              <qddt-responsedomain-select-missing
+                *ngIf="!readonly && questionitem?.responseDomain"
+                [modalId] = "'select-missing-2'"
+                [responseDomain]="questionitem.responseDomain"
+                (responseDomainSelected)="onResponseDomainSelected($event)"
+                (responseDomainRemove)="onResponsedomainRemove($event)">
+              </qddt-responsedomain-select-missing>
           </div>
         </div>
         <div class="row" *ngIf="!readonly">
           <qddt-rational [element]="questionitem" [config]="{hidden: [4]}"></qddt-rational>
         </div>
         <div class="row">
-          <qddt-element-footer [element]="questionitem" [type]="'QUESTION_ITEM'"
-                                (BasedonObjectDetail)="onBasedonObjectDetail($event)"></qddt-element-footer>
+          <qddt-element-footer
+            [element]="questionitem"
+            [type]="'QUESTION_ITEM'"
+            (BasedonObjectDetail)="onBasedonObjectDetail($event)">
+          </qddt-element-footer>
         </div>
         <div class="row right-align">
           <button *ngIf="!readonly" type="submit" class="btn btn-default">Submit</button>
@@ -78,7 +73,7 @@
 </div>
 
 
-<div class="modal modal-fixed-footer"
+<div class="modal modal-fixed-footer" id="'based-on-1"
      materialize="modal" [materializeActions]="basedonActions">
   <div class="modal-content">
     <h4>Basedon Object Detail</h4>

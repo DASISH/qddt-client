@@ -5,7 +5,7 @@ import { ResponseDomainService } from './responsedomain.service';
   selector: 'qddt-responsedomain-select',
   moduleId: module.id,
   template: `
-  <div class="row card">
+<div class="row card">
     <div class="row" *ngIf="selectedResponseDomain">
       <div class="row">
         <div class="input-field col s4" *ngIf="responseDomainRevisions.length > 0">
@@ -23,7 +23,7 @@ import { ResponseDomainService } from './responsedomain.service';
           </select>
         </div>
         <div class="input-field col s7 ">
-          <a class="waves-effect waves-light btn right red" (click)="onDismiss()">Dismiss</a>
+          <a class="waves-effect waves-light btn right red" (click)="onDismissResponsedomainSelect()">Dismiss</a>
           <a class="waves-effect waves-light btn right green" (click)="onUseResponseDomain()">Use this</a>
         </div>
       </div>
@@ -33,7 +33,7 @@ import { ResponseDomainService } from './responsedomain.service';
       </div>
       <qddt-preview-responsedomain
         *ngIf="selectedResponseDomain"
-        [isVisible]="true" [responseDomain]="selectedResponseDomain">
+        [responseDomain]="selectedResponseDomain">
       </qddt-preview-responsedomain>
     </div>
   </div>
@@ -45,7 +45,7 @@ export class ResponseDomainSelectComponent implements OnChanges {
   @Input() responseDomain;
   @Input() revision;
   @Output() useResponseDomainEvent = new EventEmitter<any>();
-  @Output() dismissEvent: any = new EventEmitter<any>();
+  @Output() dismissResponseSelect: any = new EventEmitter<any>();
   error: any;
   responseDomains: any[];
   selectedResponseDomainIndex: number;
@@ -98,8 +98,8 @@ export class ResponseDomainSelectComponent implements OnChanges {
     this.useResponseDomainEvent.emit(object);
   }
 
-  onDismiss() {
-    this.dismissEvent.emit(true);
+  onDismissResponsedomainSelect() {
+    this.dismissResponseSelect.emit(true);
   }
 
   private popupModal(error: any) {

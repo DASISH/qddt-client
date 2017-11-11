@@ -73,7 +73,7 @@ export class ControlConstructFormComponent implements OnInit {
   }
 
   onBasedonObjectDetail(ref:any) {
-    if (this.isNull(ref.rev))
+    if (!ref.rev)
       ref.rev=0;
     this.service.getControlConstructRevision(ref.id,ref.rev)
       .subscribe(
@@ -186,17 +186,14 @@ export class ControlConstructFormComponent implements OnInit {
         }, (error: any) => {
           console.log('Error: %s', error);
         });
-      }),
+      },
       function (error: any) {
         console.log('Error: %s', error);
-      };
+      });
   }
 
   private popupModal(error: any) {
     this.exceptionEvent.emit(error);
   }
 
-  private isNull(object: any) {
-    return object === undefined || object === null;
-  }
 }

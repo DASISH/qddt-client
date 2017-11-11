@@ -1,17 +1,16 @@
-import { Component, Input, PipeTransform, Pipe, EventEmitter, Output } from '@angular/core';
-import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
+import { Component, Input,  EventEmitter, Output } from '@angular/core';
+import { BaseRequestOptions, Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
-import { QuestionService } from './question.service';
-import { BaseService } from '../../shared/base.service';
-import { QuestionItemEditMissingComponent } from './question.edit.missing.component';
+import { QuestionService } from '../question/question.service';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Observable }     from 'rxjs/Observable';
 import { MaterializeModule } from 'angular2-materialize';
+import { ResponsedomainSelectMissingComponent } from './responsedomain.select-missing.component';
 
 export function main() {
   describe('Question edit missing component', () => {
@@ -19,7 +18,7 @@ export function main() {
     beforeEach(() => {
       TestBed.configureTestingModule({
         declarations: [
-          QuestionItemEditMissingComponent, AutocompleteComponent,
+          ResponsedomainSelectMissingComponent, AutocompleteComponent,
         ],
         providers: [
           MockBackend,
@@ -46,7 +45,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(QuestionItemEditMissingComponent);
+            let fixture = TestBed.createComponent(ResponsedomainSelectMissingComponent);
             fixture.detectChanges();
             let de: any = fixture.debugElement.queryAll(By.css('a'));
             expect(de.length).toBeGreaterThan(0);
@@ -58,7 +57,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(QuestionItemEditMissingComponent);
+            let fixture = TestBed.createComponent(ResponsedomainSelectMissingComponent);
             let missing: any = {
               'id' : '7f000101-54aa-131e-8154-aa27fc230000',
               'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],

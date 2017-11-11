@@ -5,6 +5,7 @@ import { Subject }          from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 import { Column } from '../../shared/table/table.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ResponseDomain } from '../responsedomain/responsedomain.service';
 
 @Component({
   selector: 'qddt-questionitem',
@@ -16,8 +17,8 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 
 export class QuestionComponent implements AfterContentChecked, OnInit {
 
-  public modalActions = new EventEmitter<string|MaterializeAction>();
-  public responseDomainAction = new EventEmitter<string|MaterializeAction>();
+  public modalActions = new EventEmitter<MaterializeAction>();
+  public responseDomainAction = new EventEmitter<MaterializeAction>();
   public error: string;
   public previewResponseDomain: any;
   public showbutton: any;
@@ -96,19 +97,12 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
     }
   }
 
-  onEditMissing(missing: any) {
-    this.secondCS = missing;
-    this.buildPreviewResponseDomain();
-    return false;
-  }
-
   onToggleQuestionItemForm() {
     this.showQuestionItemForm = !this.showQuestionItemForm;
     if (this.showQuestionItemForm) {
       this.questionItem = new QuestionItem();
       this.questionItem.question = new Question();
-      this.secondCS = null;
-      this.questionItem.responseDomain = null;
+      this.questionItem.responseDomain =null;
     }
   }
 
@@ -149,19 +143,20 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
         .subscribe((result: any) => {
           this.questionitems = [result].concat(this.questionitems);
           this.showProgressBar = false;
-        }, (err: any) => { this.error = err.toString(); this.modalActions.emit({action:'modal', params:['open']}); });
+        }, (err: any) => { this.error = err.toString(); this.modalActions.emit({action:'modal', params:['open', err.toString()]}); });
     } else {
       this.questionItem.responseDomainRevision = 0;
-      this.createMixedCategory().subscribe((result: any) => {
-        this.createMixedResponseDomain(result).subscribe((result: any) => {
+      this.questionService.createCategory(this.questionItem.responseDomain.managedRepresentation).subscribe((result: any) => {
+        this.questionItem.responseDomain.managedRepresentation = result;
+        this.questionService.createResponseDomain(this.questionItem.responseDomain).subscribe((result: any) => {
           this.questionItem.responseDomain = result;
           this.questionService.updateQuestionItem(this.questionItem)
             .subscribe((result: any) => {
               this.questionitems = [result].concat(this.questionitems);
               this.showProgressBar = false;
-            }, (err: any) => { this.error = err.toString(); this.modalActions.emit({action:'modal', params:['open']}); });
-        }, (err: any) => { this.error = err.toString(); this.modalActions.emit({action:'modal', params:['open']}); });
-      }, (err: any) => { this.error = err.toString(); this.modalActions.emit({action:'modal', params:['open']}); });
+            }, (err: any) => { this.error = err.toString(); this.modalActions.emit({action:'modal', params:['open', err.toString()]}); });
+        }, (err: any) => { this.error = err.toString(); this.modalActions.emit({action:'modal', params:['open', err.toString()]}); });
+      }, (err: any) => { this.error = err.toString(); this.modalActions.emit({action:'modal', params:['open', err.toString()]}); });
     }
     this.isDetail = false;
   }
@@ -172,6 +167,11 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
     this.showResponsedomainReuse = false;
     this.buildPreviewResponseDomain();
     this.responseDomainAction.emit({action:'modal', params:['close']});
+  }
+
+
+  onResponsedomainRemove() {
+    this.questionItem.responseDomain = null;
   }
 
   onDismiss() {
@@ -201,45 +201,6 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
     return sort;
   }
 
-  private createMixedCategory() {
-    let rep = {};
-    rep['categoryType'] = 'MIXED';
-    rep['hierarchyLevel'] = 'GROUP_ENTITY';
-    rep['name'] = rep['description'] = 'mixed category';
-    rep['children'] = [];
-    if (this.questionItem.responseDomain !== null
-      && this.questionItem.responseDomain !== undefined) {
-      rep['children'].push(this.questionItem.responseDomain['managedRepresentation']);
-    }
-    if (this.secondCS !== null && this.secondCS !== undefined) {
-      rep['children'].push(this.secondCS);
-    }
-    return this.questionService.createCategory(rep);
-  }
-
-  private createMixedResponseDomain(result: any) {
-    let rd: any = {};
-    rd['responseKind'] = 'MIXED';
-    rd['description'] = '';
-    let mainResponseDomain = this.questionItem.responseDomain;
-    rd['name'] = (mainResponseDomain.name || ' ') + ' + ' + this.secondCS.name;
-    rd['managedRepresentation'] = result;
-    rd['displayLayout'] = mainResponseDomain['displayLayout'];
-    let representation = rd['managedRepresentation'];
-    for (let i = 0; i < representation.children.length; i++) {
-      let category = representation.children[i];
-      if (representation.children[i].categoryType === 'MISSING_GROUP') {
-        for (let i = 0; i < category.children.length; i++) {
-          category.children[i].code = this.secondCS.children[i].code;
-        }
-      } else {
-        for (let i = 0; i < category.children.length; i++) {
-          category.children[i].code = mainResponseDomain['managedRepresentation'].children[i].code;
-        }
-      }
-    }
-    return this.questionService.createResponseDomain(rd);
-  }
 
   private buildPreviewResponseDomain() {
     if (this.secondCS !== null) {
@@ -266,4 +227,5 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
       this.previewResponseDomain = this.questionItem.responseDomain;
     }
   }
+
 }

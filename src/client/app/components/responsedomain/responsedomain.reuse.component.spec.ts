@@ -170,7 +170,7 @@ class ResponsedomainFormComponent {
 }
 
 @Component({
-  selector: 'qddt-responsedomain-select',
+  selector: 'qddt-responsedomain-edit-missing',
   template: `<div></div>`
 })
 

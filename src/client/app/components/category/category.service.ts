@@ -35,6 +35,10 @@ export class Category {
   format:any;
   constructor() {
     this.label='';
+    this.name='';
+    this.children = [];
+    this.inputLimit = new ResponseCardinality();
+    this.code = new Code();
   }
 }
 
@@ -61,8 +65,8 @@ export class CategoryService extends BaseService {
     return this.get('category/page/search/?level=ENTITY');
   }
 
-  getByCategoryKind(categoryKind: String, page: String = '0', sort: String = ''): any {
-    let query = 'level=ENTITY&category=' + categoryKind + '&page=' + page;
+  getByCategoryKind(categoryKind: String, name: String = '*',  page: String = '0', sort: String = ''): any {
+    let query = 'level=ENTITY&category=' + categoryKind + '&name=' + name +  '&page=' + page;
     if (sort.length > 0) {
       query += '&sort=' + sort;
     }
