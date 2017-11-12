@@ -14,7 +14,7 @@ import { Category } from '../category/category.service';
   providers: [ResponseDomainService],
 })
 
-export class ResponsedomainReuseComponent implements OnChanges ,AfterViewInit{
+export class ResponsedomainReuseComponent implements OnChanges  {
   @Input() readOnly: boolean;
   @Input() showbutton: boolean;
   @Input() responseDomain: any;
@@ -52,13 +52,10 @@ export class ResponsedomainReuseComponent implements OnChanges ,AfterViewInit{
             this.responseDomains = result.content;
           });
       });
-    // this.reuse();/
+     this.reuse();
   }
 
 
-  ngAfterViewInit() {
-    this.searchKeysSubject.next('*');
-  }
   ngOnChanges() {
     console.debug('ngOnChanges');
     if (this.responseDomain) {
@@ -81,6 +78,7 @@ export class ResponsedomainReuseComponent implements OnChanges ,AfterViewInit{
   }
 
   openModalRDReuse() {
+    this.searchKeysSubject.next('*');
     this.modalRdActions.emit({action:'modal',params:['open']});
   }
 
@@ -115,17 +113,17 @@ export class ResponsedomainReuseComponent implements OnChanges ,AfterViewInit{
   selectDomainType(id: DomainKind) {
     this.domainType = id;
     this.selectedResponseDomain = null;
-    // this.reuse();
+    this.reuse();
     this.responseDomain = null;
   }
 
-  // reuse() {
-  //   console.debug('reuse');
-  //   this.responseDomainService.getAll(DomainKind[this.domainType]).subscribe((result: any) => {
-  //     this.responseDomains = result.content;
-  //     this.showAutocomplete = true;
-  //   });
-  // }
+  reuse() {
+    console.debug('reuse');
+    this.responseDomainService.getAll(DomainKind[this.domainType]).subscribe((result: any) => {
+      this.responseDomains = result.content;
+      this.showAutocomplete = true;
+    });
+  }
 
   onResponseDomainSelected(responseDomain: any) {
     this.selectedResponseDomain = responseDomain;

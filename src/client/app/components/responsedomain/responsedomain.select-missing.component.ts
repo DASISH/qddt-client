@@ -18,7 +18,7 @@ import { ResponseDomain } from './responsedomain.service';
   templateUrl: 'responsedomain.select-missing.component.html',
 })
 
-export class ResponsedomainSelectMissingComponent implements OnInit, AfterViewInit {
+export class ResponsedomainSelectMissingComponent implements OnInit {
   @Input() responseDomain: ResponseDomain;
   @Input() modalId: any = 'RSMC-1';
   @Input() readonly: boolean = false;
@@ -52,9 +52,9 @@ export class ResponsedomainSelectMissingComponent implements OnInit, AfterViewIn
       this.readonly = false;
     }
   }
-  ngAfterViewInit() {
-    this.searchKeysSubject.next('*');
-  }
+  // ngAfterViewInit() {
+  //   this.searchKeysSubject.next('');
+  // }
   searchMissingCategories(name: string) {
     this.searchKeysSubject.next(name);
   }
@@ -64,6 +64,7 @@ export class ResponsedomainSelectMissingComponent implements OnInit, AfterViewIn
   }
 
   onAddMissing() {
+    this.searchKeysSubject.next('*');
     this.findMissingAction.emit({action:'modal', params:['open']});
   }
 

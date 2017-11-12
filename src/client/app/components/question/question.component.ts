@@ -136,41 +136,44 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
   onCreateQuestionItem() {
     this.showProgressBar = true;
     this.showQuestionItemForm = false;
-    this.questionItem.question.name = this.questionItem.name;
-    if (this.secondCS === null) {
-      this.questionItem.responseDomainRevision = this.mainresponseDomainRevision;
-      this.questionService.createQuestionItem(this.questionItem)
+    if((this.questionItem.responseDomain) && (!this.questionItem.responseDomain.id))
+      this.questionService.createCategory(this.questionItem.responseDomain.managedRepresentation)
+        .subscribe(result => {
+          this.questionItem.responseDomain.managedRepresentation = result;
+          this.questionService.createResponseDomain(this.questionItem.responseDomain)
+            .subscribe(result => {
+              this.questionItem.responseDomain = result;
+              this.questionItem.responseDomainRevision =0;
+              this.questionService.updateQuestionItem(this.questionItem)
+                .subscribe((result: any) => {
+                  this.questionItem = null;
+                  this.questionitems = [result].concat(this.questionitems);
+                  this.showProgressBar = false;
+                  // this.editQuestionItem.emit(this.questionItem);
+                }, (err: any) => { this.error = err.toString();
+                  this.modalActions.emit({action:'modal', params:['open', err.toString()]}); });
+            }, (err: any) => { this.error = err.toString();
+              this.modalActions.emit({action:'modal', params:['open', err.toString()]}); });
+        }, (err: any) => { this.error = err.toString();
+          this.modalActions.emit({action:'modal', params:['open', err.toString()]}); });
+    else {
+      this.questionService.updateQuestionItem(this.questionItem)
         .subscribe((result: any) => {
           this.questionitems = [result].concat(this.questionitems);
           this.showProgressBar = false;
-        }, (err: any) => { this.error = err.toString(); this.modalActions.emit({action:'modal', params:['open', err.toString()]}); });
-    } else {
-      this.questionItem.responseDomainRevision = 0;
-      this.questionService.createCategory(this.questionItem.responseDomain.managedRepresentation).subscribe((result: any) => {
-        this.questionItem.responseDomain.managedRepresentation = result;
-        this.questionService.createResponseDomain(this.questionItem.responseDomain).subscribe((result: any) => {
-          this.questionItem.responseDomain = result;
-          this.questionService.updateQuestionItem(this.questionItem)
-            .subscribe((result: any) => {
-              this.questionitems = [result].concat(this.questionitems);
-              this.showProgressBar = false;
-            }, (err: any) => { this.error = err.toString(); this.modalActions.emit({action:'modal', params:['open', err.toString()]}); });
-        }, (err: any) => { this.error = err.toString(); this.modalActions.emit({action:'modal', params:['open', err.toString()]}); });
-      }, (err: any) => { this.error = err.toString(); this.modalActions.emit({action:'modal', params:['open', err.toString()]}); });
+        }, (err: any) => { this.error = err.toString();
+          this.modalActions.emit({action:'modal', params:['open', err.toString()]}); });
     }
     this.isDetail = false;
   }
 
-  responseDomainReuse(item: any) {
+  onResponseDomainSelected(item: any) {
     this.questionItem.responseDomain = item.responseDomain;
-    this.mainresponseDomainRevision = item.responseDomainRevision || 0;
-    this.showResponsedomainReuse = false;
-    this.buildPreviewResponseDomain();
-    this.responseDomainAction.emit({action:'modal', params:['close']});
+    this.questionItem.responseDomainRevision = item.responseDomainRevision || 0;
   }
 
-
-  onResponsedomainRemove() {
+  onResponsedomainRemove(item: any) {
+    this.questionItem.responseDomainRevision = 0;
     this.questionItem.responseDomain = null;
   }
 
