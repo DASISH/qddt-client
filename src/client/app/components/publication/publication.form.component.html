@@ -23,8 +23,8 @@
     <div class="input-field col s6 m4 l3">
       <select materialize="material_select" [materializeSelectOptions]="selectOptions"
               name="status-value"
-              [ngModel]="selectedOptionValue"
-              (change)="onSelectChange($event.target.value)">
+              [ngModel]="getPublicationStatusId(publication?.status)"
+              (ngModelChange)="onSelectChange($event)">
         <option [value]="0">Not Published</option>
         <optgroup *ngFor="let option of selectOptions"
                   [attr.label]="option.label">

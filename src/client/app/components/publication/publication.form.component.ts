@@ -14,7 +14,6 @@ export class PublicationFormComponent implements OnInit {
   @Input() publication: Publication;
   @Input() textColor:any;
   @Output() save: EventEmitter<Publication> = new EventEmitter<Publication>();
-  // controlConstructsActions = new EventEmitter<string>();
   selectOptions: any[] = PUBLICATION_STATUS;
   selectedOptionValue: number;
   selectedPublicationStatusOption: any;
@@ -24,13 +23,11 @@ export class PublicationFormComponent implements OnInit {
   ngOnInit() {
     this.predefinedStatus = [PUBLICATION_NOT_PUBLISHED].concat(this.selectOptions[0].children,
       this.selectOptions[1].children);
-    this.selectedOptionValue = 0;
+    // this.selectedOptionValue = 7;
     this.selectedPublicationStatusOption = PUBLICATION_NOT_PUBLISHED.description;
-    console.log(this.publication);
   }
 
   onSavePublication() {
-    console.log('onSavePublication ' + this.publication);
     this.save.emit(this.publication);
   }
 
@@ -42,11 +39,10 @@ export class PublicationFormComponent implements OnInit {
   }
 
   private addElement(e: any) {
-    console.info('addElement');
     this.publication.publicationElements.push(e);
   }
 
-  private onSelectChange(value: number) {
+  private onSelectChange(value: any) {
     if(typeof value === 'string') {
       value = parseInt(value);
     }
@@ -55,7 +51,8 @@ export class PublicationFormComponent implements OnInit {
       this.publication.status = status.label;
       this.selectedPublicationStatusOption = status.description;
     }
-    console.log(this.publication);
+    else
+      console.log('status ' + status);
   }
 
   private getElementbyLabel(label:string): QddtElementType {
@@ -65,6 +62,11 @@ export class PublicationFormComponent implements OnInit {
     return element;
   }
 
-
+private getPublicationStatusId(label:string):number {
+    let id:number =  this.predefinedStatus.find((e: any) => e.label === label).id;
+  if (id === undefined)
+    console.log('Couldn\'t find kind id ' + label );
+    return id;
+}
 
 }
