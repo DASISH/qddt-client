@@ -1,7 +1,8 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, AfterContentChecked } from '@angular/core';
 import { Publication, PUBLICATION_STATUS, PUBLICATION_NOT_PUBLISHED, PUBLICATION_TYPES } from './publication.service';
 import { ElementKind, QddtElementType } from '../../shared/preview/preview.service';
-// let fileSaver = require('../../common/file-saver');
+
+declare var Materialize:any;
 
 @Component({
   selector: 'qddt-publication-form',
@@ -10,23 +11,28 @@ import { ElementKind, QddtElementType } from '../../shared/preview/preview.servi
   providers: [],
 })
 
-export class PublicationFormComponent implements OnInit {
+export class PublicationFormComponent implements OnInit ,AfterContentChecked {
   @Input() publication: Publication;
   @Input() textColor:any;
   @Output() save: EventEmitter<Publication> = new EventEmitter<Publication>();
+
   selectOptions: any[] = PUBLICATION_STATUS;
   selectedOptionValue: number;
   selectedPublicationStatusOption: any;
   predefinedStatus: any;
+  private revisionIsVisible: boolean;
 
 
   ngOnInit() {
-    this.predefinedStatus = [PUBLICATION_NOT_PUBLISHED].concat(this.selectOptions[0].children,
-      this.selectOptions[1].children);
-    // this.selectedOptionValue = 7;
+    this.predefinedStatus = [PUBLICATION_NOT_PUBLISHED].concat(this.selectOptions[0].children,this.selectOptions[1].children);
+    this.selectedOptionValue = 0;
     this.selectedPublicationStatusOption = PUBLICATION_NOT_PUBLISHED.description;
   }
 
+  ngAfterContentChecked() {
+    Materialize.updateTextFields();
+    this.selectedOptionValue = this.getPublicationStatusId(this.publication.status);
+  }
   onSavePublication() {
     this.save.emit(this.publication);
   }
@@ -50,9 +56,10 @@ export class PublicationFormComponent implements OnInit {
     if(status !== undefined) {
       this.publication.status = status.label;
       this.selectedPublicationStatusOption = status.description;
-    }
-    else
+      this.selectedOptionValue = status.id;
+    } else {
       console.log('status ' + status);
+    }
   }
 
   private getElementbyLabel(label:string): QddtElementType {

@@ -1,90 +1,93 @@
-<form *ngIf="publication" >
-  <div class="row">
-    <div class="input-field col s10">
-      <textarea class="materialize-textarea"
-                name="{{publication?.id}}-publication-name"
-                [(ngModel)]="publication.name" [attr.maxlength]="255"
-                required>
-      </textarea>
-      <label [attr.for]="publication.id + '-element-name'" class="{{textColor}}">Name</label>
+<div class="row card-action">
+  <form *ngIf="publication"  id="{{publication.id}}" #hf="ngForm" >
+    <div class="row">
+      <div class="col s10 input-field">
+        <input id="{{publication?.id}}-name" name="{{publication?.id}}-name" type="text"
+          class="validate" required
+          materialize="characterCounter" data-length="255"
+          [(ngModel)]="publication.name" >
+        <label [attr.for]="publication.id + '-element-name'" class="{{textColor}}">Name</label>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="input-field col s10">
-      <textarea class="materialize-textarea"
-                name="{{publication?.id}}-publication-purpose"
-                [(ngModel)]="publication.purpose" [attr.maxlength]="255"
-                required>
-      </textarea>
-      <label [attr.for]="publication.id + '-publication-purpose'" class="{{textColor}}">Purpose</label>
+    <div class="row">
+      <div class="col s10  input-field ">
+        <textarea
+          id="{{publication?.id}}-purpose" name="{{publication?.id}}-purpose"
+          class="materialize-textarea validate" required
+          materialize="characterCounter" data-length="255"
+          [(ngModel)]="publication.purpose">
+        </textarea>
+        <label [attr.for]="publication.id + '-publication-purpose'" class="{{textColor}}">Purpose</label>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="input-field col s6 m4 l3">
-      <select materialize="material_select" [materializeSelectOptions]="selectOptions"
-              name="status-value"
-              [ngModel]="getPublicationStatusId(publication?.status)"
-              (ngModelChange)="onSelectChange($event)">
-        <option [value]="0">Not Published</option>
-        <optgroup *ngFor="let option of selectOptions"
-                  [attr.label]="option.label">
-          <option *ngFor="let child of option.children"
-                  [value]="child.id">{{child.label}}</option>
-        </optgroup>
-      </select>
-      <label class="{{textColor}}">Publication status</label>
+    <div class="row">
+      <div class="input-field col s6 m4 l3">
+        <select materialize="material_select"
+                [materializeSelectOptions]="selectOptions"
+                name="status-value"
+                [ngModel]="selectedOptionValue"
+                (ngModelChange)="onSelectChange($event)">
+          <option [value]="0">Not Published</option>
+          <optgroup *ngFor="let option of selectOptions"
+                    [attr.label]="option.label">
+            <option *ngFor="let child of option.children"
+                    [value]="child.id">{{child.label}}</option>
+          </optgroup>
+        </select>
+        <label class="{{textColor}}">Publication status</label>
+      </div>
+      <div class="input-field col s6 m8 l9">
+        <label class="{{textColor}}">{{selectedPublicationStatusOption}}</label>
+      </div>
     </div>
-    <div class="input-field col s6 m8 l9">
-      <label class="{{textColor}}">{{selectedPublicationStatusOption}}</label>
-    </div>
-  </div>
-  <div class="row">
-    <div class="row {textColor}">Content list</div>
-    <ul *ngIf="publication.publicationElements" materialize="collapsible"
-        class="collapsible popout" data-collapsible="expandable">
-      <li>
-        <div class="collapsible-header grey lighten-2">
-          <div class="row" style="color: black">
-            <div class="col s2">Element type</div>
-            <div class="col s7">Element name</div>
-            <div class="col s2 right-align">Version</div>
-            <div class="col s1">Delete</div>
-          </div>
-        </div>
-      </li>
-      <li *ngFor="let element of publication.publicationElements; let idx=index">
-        <div class="collapsible-header grey lighten-5" style="color: #323232">
-          <div class="row">
-            <div class="col s2">{{element?.elementKind}}</div>
-            <div class="col s7">{{element?.name}}</div>
-            <div class="col s2 right-align"><qddt-version [element]="element.element"></qddt-version></div>
-            <div class="col s1">
-              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                 (click)="deleteElement(idx)">
-                <i class="material-icons medium" [ngStyle]="{'width': 'inherit', 'line-height': '37px'}" title="Delete" >delete_forever</i>
-              </a>
+    <div class="row">
+      <div class="row {textColor}">Content list</div>
+      <ul *ngIf="publication.publicationElements" materialize="collapsible"
+          class="collapsible popout" data-collapsible="expandable">
+        <li>
+          <div class="collapsible-header grey lighten-2">
+            <div class="row" style="color: black">
+              <div class="col s2">Element type</div>
+              <div class="col s7">Element name</div>
+              <div class="col s2 right-align">Version</div>
+              <div class="col s1">Delete</div>
             </div>
           </div>
-        </div>
-        <div class="collapsible-body white" >
-          <qddt-publication-preview
-            [element]="element.element"
-            [elementKind]="getElementbyLabel(element.elementKind).id">
-          </qddt-publication-preview>
-        </div>
-      </li>
-      <li>
-        <qddt-publication-reuse (publicationElement)="addElement($event)"></qddt-publication-reuse>
-      </li>
-    </ul>
-  </div>
-  <div class="row" *ngIf="publication?.id">
-    <qddt-rational [element]="publication" [config]="{hidden: [4]}"></qddt-rational>
-  </div>
-  <div class="row" *ngIf="publication?.id">
-    <qddt-element-footer [element]="publication" [type]="'PUBLICATION'"></qddt-element-footer>
-  </div>
-  <div class="row right-align">
-    <button *ngIf="!readonly" type="button" (click)="onSavePublication()" class="btn btn-default">Submit</button>
-  </div>
-</form>
+        </li>
+        <li *ngFor="let element of publication.publicationElements; let idx=index">
+          <div class="collapsible-header grey lighten-5" style="color: #323232">
+            <div class="row">
+              <div class="col s2">{{element?.elementKind}}</div>
+              <div class="col s7">{{element?.name}}</div>
+              <div class="col s2 right-align"><qddt-version [element]="element.element"></qddt-version></div>
+              <div class="col s1">
+                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                   (click)="deleteElement(idx)">
+                  <i class="material-icons medium" [ngStyle]="{'width': 'inherit', 'line-height': '37px'}" title="Delete" >delete_forever</i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="collapsible-body white" >
+            <qddt-publication-preview
+              [element]="element.element"
+              [elementKind]="getElementbyLabel(element.elementKind).id">
+            </qddt-publication-preview>
+          </div>
+        </li>
+        <li>
+          <qddt-publication-reuse (publicationElement)="addElement($event)"></qddt-publication-reuse>
+        </li>
+      </ul>
+    </div>
+    <div class="row" *ngIf="publication?.id">
+      <qddt-rational [element]="publication" [config]="{hidden: [4]}"></qddt-rational>
+    </div>
+    <div class="row" *ngIf="publication?.id">
+      <qddt-element-footer [element]="publication" [type]="'PUBLICATION'"></qddt-element-footer>
+    </div>
+    <div class="row right-align">
+      <button *ngIf="!readonly" type="button" (click)="onSavePublication()" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
+    </div>
+  </form>
+</div>
