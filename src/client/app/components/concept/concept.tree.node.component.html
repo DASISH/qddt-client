@@ -56,12 +56,13 @@
                          (conceptSavedEvent)="onConceptSavedEvent($event)"
                          #edit>
       </qddt-concept-edit>
-      <qddt-revision [isVisible]="revision.isVisible"
-                     [current]="concept"
-                     [qddtURI]="'audit/concept/' + concept.id + '/all'"
-                     [config]="[{'name':'name','label':'Name'},{'name':'description','label':'Description'}]"
-                     [elementType]="'Concept'"
-                     #revision ></qddt-revision>
+      <qddt-revision
+        [isVisible]="revision.isVisible"
+        [current]="concept"
+        [qddtURI]="'audit/concept/' + concept.id + '/all'"
+        [config]="[{'name':'name','label':'Name'},{'name':'description','label':'Description'}]"
+        #revision>
+      </qddt-revision>
       <div *ngIf="concept.conceptQuestionItems.length > 0" class="section">
         <ul class="collection with-header hoverable"
             (mouseenter)="showbutton = true"
@@ -89,13 +90,16 @@
         <qddt-comment-list [ownerId]="concept.id" [comments]="concept.comments"></qddt-comment-list>
       </div>
       <div class="tree-children">
-        <qddt-concept-treenode *ngFor="let child of concept.children" [concept]="child"
-            (deleteConceptEvent)="onDeleteConcept($event)"
-            (conceptUpdatedAction)="onConceptUpdated($event)">
+        <qddt-concept-treenode *ngFor="let child of concept.children"
+           [concept]="child"
+           [readonly]="child.archived"
+           (deleteConceptEvent)="onDeleteConcept($event)"
+           (conceptUpdatedAction)="onConceptUpdated($event)">
         </qddt-concept-treenode>
       </div>
     </div>
   </div>
+
   <div>
     <div [attr.id]="concept.id + '-concept-questionitem-modal'"
          class="modal modal-fixed-footer"
