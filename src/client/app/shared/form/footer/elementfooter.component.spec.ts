@@ -87,7 +87,6 @@ export function main() {
 							'comments': [],
 							'topicGroupQuestions': []
 						};
-						fixture.componentInstance.elementType = 'Topic';
 						fixture.detectChanges();
 						fixture.whenStable().then(() => {
 							let divs: any = fixture.debugElement.queryAll(By.css('.chip'));
