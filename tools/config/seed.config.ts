@@ -449,7 +449,7 @@ export class SeedConfig {
         defaultExtension: 'js'
       },
       'file-saver': {
-        main: 'file-saver/FileSaver.js',
+        main: 'FileSaver.js',
         defaultExtension: 'js'
       }
     }

@@ -16,7 +16,7 @@ declare var Materialize:any;
   providers: [ControlConstructService],
 })
 
-export class ControlConstructFormComponent implements OnInit, AfterContentChecked{
+export class ControlConstructFormComponent implements OnInit, AfterContentChecked {
   @Input() controlConstruct: ControlConstruct;
   @Input() isNew: boolean;
   @Input() readonly: boolean;
