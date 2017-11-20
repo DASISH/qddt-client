@@ -76,11 +76,14 @@
           (formChange)="formChange($event)" [responsedomain]="selectedResponseDomain"
           [domainType]="domainType" [labelColor]="'teal-text'" >
         </qddt-responsedomain-form>
-        <qddt-revision [isVisible]="isRevisionVisible"
+
+        <qddt-revision
+          [isVisible]="isRevisionVisible"
           [current]="selectedResponseDomain"
           [qddtURI]="'audit/responsedomain/' + selectedResponseDomain.id + '/all'"
           [config]="selectedResponseDomain.config">
         </qddt-revision>
+
         <qddt-comment-list
           [ownerId]="selectedResponseDomain.id"
           [comments]="selectedResponseDomain.comments">

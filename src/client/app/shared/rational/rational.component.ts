@@ -5,54 +5,51 @@ import { Component, Input, OnInit } from '@angular/core';
   moduleId: module.id,
   styles:[':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'],
   template: `
-  <div class="row">
-    <div class="hoverable">
-      <div class="row">
-        <div class="col left" *ngFor="let option of rationalDescriptions" [ngClass]="{hide: option.hidden}">
-          <input *ngIf="showbutton" name="{{originalId}}-optiontypegroup" type="radio"
-            id="{{originalId}}-option-type-{{option.id}}" (click)="onSelectOption(option.id)"
-            [checked]="saveOptionIndex === option.id" />
-          <label *ngIf="showbutton" [attr.for]="originalId + '-option-type-' + option.id">{{option.name}}</label>
-        </div>
+  <div class="row hoverable">
+    <div class="row">
+      <div class="col left" *ngFor="let option of rationalDescriptions" [ngClass]="{hide: option.hidden}">
+        <input  name="{{originalId}}-optiontypegroup" type="radio"
+          id="{{originalId}}-option-type-{{option.id}}" (click)="onSelectOption(option.id)"
+          [checked]="saveOptionIndex === option.id" />
+        <label [attr.for]="originalId + '-option-type-' + option.id">{{option.name}}</label>
       </div>
-      <div *ngFor="let option of rationalDescriptions;">
-        <div class="row" *ngIf="option.id === saveOptionIndex && option.children.length > 0 && showbutton">
-          <div class="row">
-            <div class="input-field col s3">
-              <select materialize="material_select" [ngModel]="_RationalIndex"
-              name="{{originalId}}-rationals"
-              (ngModelChange)="onClickRational1($event)">
-              <option value="-1" disabled selected>Choose your rationale</option>
-              <option *ngFor="let rational of option.children;"
-                value="{{rational.id}}">{{rational.name}}</option>
-              </select>
-              <label>Versioning Reason</label>
-            </div>
-            <div class="input-field col s8">
-              <div class="card" >
-                <span>{{option.children[_RationalIndex]?.description}}</span>
-              </div>
+    </div>
+    <div *ngFor="let option of rationalDescriptions;">
+      <div class="row" *ngIf="option.id === saveOptionIndex && option.children.length > 0">
+        <div class="row">
+          <div class="input-field col s3">
+            <select materialize="material_select" [ngModel]="_RationalIndex"
+            name="{{originalId}}-rationals"
+            (ngModelChange)="onClickRational1($event)">
+            <option value="-1" disabled selected>Choose your rationale</option>
+            <option *ngFor="let rational of option.children;"
+              value="{{rational.id}}">{{rational.name}}</option>
+            </select>
+            <label>Versioning Reason</label>
+          </div>
+          <div class="input-field col s8">
+            <div class="card" >
+              <span>{{option.children[_RationalIndex]?.description}}</span>
             </div>
           </div>
-          <div *ngIf="_RationalIndex>=0">
-            <div *ngFor="let child of option.children[_RationalIndex].children; let idx = index">
-              <div class="col left">
-                <input name="{{originalId}}-rationalgroup2" type="radio"
-                  id="{{originalId}}-rational2-type-{{idx}}" [checked]="_Rational2Index === idx"
-                  (click)="onClickRational2(child)"/>
-                <label title="{{child.description}}" [attr.for]="originalId + '-rational2-type-' + idx">{{child.name}}</label>
-              </div>
+        </div>
+        <div *ngIf="_RationalIndex>=0">
+          <div *ngFor="let child of option.children[_RationalIndex].children; let idx = index">
+            <div class="col left">
+              <input name="{{originalId}}-rationalgroup2" type="radio"
+                id="{{originalId}}-rational2-type-{{idx}}" [checked]="_Rational2Index === idx"
+                (click)="onClickRational2(child)"/>
+              <label title="{{child.description}}" [attr.for]="originalId + '-rational2-type-' + idx">{{child.name}}</label>
             </div>
           </div>
         </div>
       </div>
-
-      <div *ngIf="saveOptionIndex >= 0 && rationalDescriptions[saveOptionIndex].showComment" class="row">
-        <div class="input-field col s12">
-          <input id="{{originalId}}-changeComment" class="validate" required minlength="4"
-            name="{{originalId}}-changeComment" type="text" [(ngModel)]="element.changeComment" >
-          <label for="{{originalId}}-changeComment"  data-error="Description is mandatory"  class="teal-text">Rationale for change</label>
-        </div>
+    </div>
+    <div *ngIf="saveOptionIndex >= 0 && rationalDescriptions[saveOptionIndex].showComment" class="row">
+      <div class="input-field col s12">
+        <input id="{{originalId}}-changeComment" class="validate" required minlength="4"
+          name="{{originalId}}-changeComment" type="text" [(ngModel)]="element.changeComment" >
+        <label for="{{originalId}}-changeComment"  data-error="Description is mandatory"  class="teal-text">Rationale for change</label>
       </div>
     </div>
   </div>
@@ -134,12 +131,12 @@ export class RationalComponent implements OnInit {
         'description': 'The element is a translation of a source element'
       }]
     },
-    { 'id': 3, 'name': 'Saved as new', 'showComment': false, 'change':'CREATED', 'children': [] },
+    { 'id': 3, 'name': 'Saved as new', 'showComment': true, 'change':'CREATED', 'children': [] },
     { 'id': 4, 'name': 'Archive', 'showComment': true, 'change':'ARCHIVED', 'children': [] }
   ];
   @Input() element: any;
   @Input() config: any;
-  private showbutton: boolean = true;
+  // private showbutton: boolean = true;
   private _RationalIndex: number;
   private _Rational2Index: number;
   private saveOptionIndex: number;

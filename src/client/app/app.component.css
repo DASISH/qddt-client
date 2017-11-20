@@ -16,6 +16,9 @@ footer {
     /*margin-bottom:0px;*/
   /*}*/
 }
+.ng-invalid:not(form) {
+  border-bottom: 1px solid red; /* red */
+}
 p {
   white-space: pre-wrap;
 }

@@ -23,16 +23,22 @@
         <div class="row">
           <p>{{responseDomain?.description}}</p>
         </div>
+
         <qddt-responsedomain-form *ngIf="editIsVisible && selectedDomainId === responseDomain.id"
           (formChange)="formChange($event)" [responsedomain]="responseDomain"
           [domainType]="domainType">
         </qddt-responsedomain-form>
-        <qddt-revision [isVisible]="revision.isVisible"
+
+        <qddt-revision
+          [isVisible]="revision.isVisible"
           [current]="responseDomain"
-          [qddtURI]="'audit/responsedomain/' + responseDomain.id + '/all'" #revision></qddt-revision>
+          [qddtURI]="'audit/responsedomain/' + responseDomain.id + '/all'" #revision>
+        </qddt-revision>
+
         <qddt-preview-responsedomain *ngIf="preview.isVisible"
           [responseDomain]="responseDomain" #preview>
         </qddt-preview-responsedomain>
+
         <qddt-comment-list
           [ownerId]="responseDomain.id"
           [comments]="responseDomain.comments">

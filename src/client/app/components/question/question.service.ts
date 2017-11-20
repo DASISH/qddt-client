@@ -7,7 +7,7 @@ import { ResponseDomain } from '../responsedomain/responsedomain.service';
 
 export class Question {
   id: string;
-  name: string;
+  question: string;
   intent: string;
   modified:DateTimeFormat;
 }

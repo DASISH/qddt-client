@@ -1,5 +1,4 @@
-<div *ngIf="isVisible">
-  <div *ngIf="revisions">
+  <div *ngIf="isVisible && revisions">
     <qddt-diff *ngIf="selectRevisionId >= 0"
                [compared]="revisions[selectRevisionId].entity"
                [current]="current"
@@ -37,5 +36,3 @@
     </table>
     <div *ngIf="showProgressBar" class="progress"><div class="indeterminate"></div></div>
   </div>
-
-</div>

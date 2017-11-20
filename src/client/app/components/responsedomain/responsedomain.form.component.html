@@ -7,14 +7,14 @@
 			<div class="row">
 				<div class="col s12">
 					<label for="name" class=" {{labelColor}}">Name</label>
-					<input id="name" name="name" type="text" materialize="characterCounter" maxlength="255"
+					<input id="name" name="name" type="text" materialize="characterCounter" data-length ="255"
                  [(ngModel)]="responsedomain.name" required>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col s12">
 					<label for="description" class=" {{labelColor}}">Description</label>
-					<textarea class="materialize-textarea" length="2000" materialize="characterCounter"
+					<textarea class="materialize-textarea" data-length ="2000" materialize="characterCounter"
                     id="description" name="description"
 						[(ngModel)]="responsedomain.description"></textarea>
 				</div>

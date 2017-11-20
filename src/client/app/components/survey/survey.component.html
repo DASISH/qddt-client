@@ -64,13 +64,18 @@
 
             <qddt-survey-edit [survey]="surveyProgram" (surveySavedEvent)="onSurveySaved($event)" #edit></qddt-survey-edit>
 
-            <qddt-revision [isVisible]="revision.isVisible" [current]="surveyProgram"
+            <qddt-revision
+              [isVisible]="revision.isVisible"
+              [current]="surveyProgram"
               [config]="[{'name':'name','label':'Name'},{'name':'description','label':'Description'}]"
-              [qddtURI]="'audit/surveyprogram/'+surveyProgram.id+'/all'" #revision></qddt-revision>
+              [qddtURI]="'audit/surveyprogram/'+surveyProgram.id+'/all'" #revision>
+            </qddt-revision>
 
-            <div class="row">
-              <qddt-comment-list [ownerId]="surveyProgram.id" [comments]="surveyProgram.comments"></qddt-comment-list>
-            </div>
+            <qddt-comment-list
+              [ownerId]="surveyProgram.id"
+              [comments]="surveyProgram.comments">
+            </qddt-comment-list>
+
           </div>
           </div>
         </div>

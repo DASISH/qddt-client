@@ -1,10 +1,9 @@
-import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter, AfterContentChecked } from '@angular/core';
 import { ControlConstructService, ControlConstruct } from './controlconstruct.service';
 import { Observable }     from 'rxjs/Observable';
 import { MaterializeAction } from 'angular2-materialize';
-//let saveAs = require('file-saver');
 let saveAs = require('file-saver');
-
+declare var Materialize:any;
 
 @Component({
   selector: 'qddt-control-construct-form',
@@ -17,7 +16,7 @@ let saveAs = require('file-saver');
   providers: [ControlConstructService],
 })
 
-export class ControlConstructFormComponent implements OnInit {
+export class ControlConstructFormComponent implements OnInit, AfterContentChecked{
   @Input() controlConstruct: ControlConstruct;
   @Input() isNew: boolean;
   @Input() readonly: boolean;
@@ -44,7 +43,6 @@ export class ControlConstructFormComponent implements OnInit {
   private files: FileList;
   private fileStore: any[];
   private toDeleteFiles: any[];
-  // private savedObject: string;
 
   constructor(private service: ControlConstructService) {
     this.revisionIsVisible = false;
@@ -61,15 +59,16 @@ export class ControlConstructFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    // if(this.isNew === null || this.isNew === undefined) {
-    //   this.isNew = false;
-    // }
     if(this.isNew) {
       this.controlConstruct.id = new Date().toString();
     }
     if(this.readonly === null || this.readonly === undefined) {
       this.readonly = false;
     }
+  }
+
+  ngAfterContentChecked() {
+    Materialize.updateTextFields();
   }
 
   onBasedonObjectDetail(ref:any) {

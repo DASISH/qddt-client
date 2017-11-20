@@ -108,7 +108,6 @@ export function main() {
               'changeComment' : 'Information added'
             };
             fixture.componentInstance.responseDomain = responseDomain;
-            fixture.componentInstance.isVisible = true;
             fixture.componentInstance.ngOnChanges();
             fixture.detectChanges();
             fixture.whenStable().then(() => {

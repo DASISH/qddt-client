@@ -4,17 +4,13 @@
       <div class="col s2 offset-s10">
         <qddt-version-label [element]="controlConstruct"></qddt-version-label>
       </div>
-      <div class="col s12">
-        <div class="input-field">
-          <label [attr.for]="controlConstruct.id + '-name'"
-                 class="active teal-text">Name
-          </label>
-          <textarea [attr.id]="controlConstruct.id + '-name'"
-                    name="{{controlConstruct.id}}-name" class="materialize-textarea"
-                    [(ngModel)]="controlConstruct.name" [attr.maxlength]="255"
-                    required>
-          </textarea>
-        </div>
+      <div class="col s12 input-field">
+        <label [attr.for]="controlConstruct.id + '-name'" class="teal-text">Name </label>
+        <input [attr.id]="controlConstruct.id + '-name'"
+               name="name" type="text"
+               materialize="characterCounter" data-length="255"
+               class="validate" required minlength="4"
+               [(ngModel)]="controlConstruct.name" >
       </div>
     </div>
 
@@ -238,7 +234,9 @@
       </qddt-element-footer>
     </div>
     <div class="row right-align">
-      <button *ngIf="!readonly" type="button" (click)="onSaveControlConstruct()" class="btn btn-default">Submit</button>
+      <button *ngIf="!readonly" type="button"
+              class="btn btn-default" [disabled]="!qcform.form.valid"
+              (click)="onSaveControlConstruct()" >Submit</button>
     </div>
   </form>
 

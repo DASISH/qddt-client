@@ -68,13 +68,17 @@
                 #edit>
               </qddt-study-edit>
 
-              <qddt-revision [isVisible]="revision.isVisible" [current]="study"
+              <qddt-revision
+                [isVisible]="revision.isVisible"
+                [current]="study"
                 [config]="[{'name':'name','label':'Name'},{'name':'description','label':'Description'}]"
-                [qddtURI]="'audit/study/' + study.id + '/all'" #revision></qddt-revision>
+                [qddtURI]="'audit/study/' + study.id + '/all'" #revision>
+              </qddt-revision>
 
-              <div class="row">
-                <qddt-comment-list [ownerId]="study.id" [comments]="study.comments"></qddt-comment-list>
-              </div>
+              <qddt-comment-list
+                [ownerId]="study.id"
+                [comments]="study.comments">
+              </qddt-comment-list>
             </div>
 
           </div>

@@ -32,11 +32,12 @@
         (controlConstructSavedAction)="onccSaveAction($event)">
       </qddt-control-construct-form>
 
-      <qddt-revision [isVisible]="revisionIsVisible"
+      <qddt-revision
+        [isVisible]="revisionIsVisible"
         [current]="controlConstruct"
         [config]="config"
-        [qddtURI]="'audit/controlconstruct/' + controlConstruct.id + '/all'"
-        [elementType]="'QuestionConstruct'">
+        [qddtURI]="'audit/controlconstruct/' + controlConstruct.id + '/all'">
+        <!--[elementType]="'QuestionConstruct'"-->
       </qddt-revision>
 
       <qddt-comment-list

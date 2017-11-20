@@ -20,7 +20,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
   public modalActions = new EventEmitter<MaterializeAction>();
   public responseDomainAction = new EventEmitter<MaterializeAction>();
   public error: string;
-  public previewResponseDomain: any;
+  // public previewResponseDomain: any;
   public showbutton: any;
   public questionitems: any;
 
@@ -202,33 +202,6 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
       }
     }
     return sort;
-  }
-
-
-  private buildPreviewResponseDomain() {
-    if (this.secondCS !== null) {
-      this.previewResponseDomain = {};
-      this.previewResponseDomain['responseKind'] = 'MIXED';
-      let rep = {};
-      rep['categoryType'] = 'MIXED';
-      rep['hierarchyLevel'] = 'GROUP_ENTITY';
-      rep['name'] = rep['description'] = 'mixed category';
-      rep['children'] = [];
-      if (this.questionItem.responseDomain !== null
-        && this.questionItem.responseDomain !== undefined) {
-        rep['children'].push(this.questionItem.responseDomain['managedRepresentation']);
-      }
-      if (this.secondCS !== null && this.secondCS !== undefined) {
-        rep['children'].push(this.secondCS);
-      }
-      this.previewResponseDomain['managedRepresentation'] = rep;
-      if (this.questionItem.responseDomain !== null && this.questionItem.responseDomain !== undefined) {
-        this.previewResponseDomain['responseCardinality'] = this.questionItem.responseDomain.responseCardinality;
-        this.previewResponseDomain['displayLayout'] = this.questionItem.responseDomain.displayLayout;
-      }
-    } else {
-      this.previewResponseDomain = this.questionItem.responseDomain;
-    }
   }
 
 }

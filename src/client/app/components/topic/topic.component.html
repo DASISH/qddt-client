@@ -121,14 +121,19 @@
                   </a>
                 </ul>
               </div>
-              <qddt-revision [isVisible]="revision.isVisible" [current]="currentElement" [elementType]="'TopicGroup'"
+              <qddt-revision
+                [isVisible]="revision.isVisible"
+                [current]="currentElement"
                 [config]="[{'name':'name','label':'Name'},{'name':'description','label':'Description'}]"
                 [qddtURI]="'audit/topicgroup/' + currentElement.id + '/all'" #revision
-               (requestPreview)="showPreview($event)"></qddt-revision>
+               (requestPreview)="showPreview($event)">
+              </qddt-revision>
 
-              <div class="row">
-                <qddt-comment-list [ownerId]="currentElement.id" [comments]="currentElement.comments"></qddt-comment-list>
-              </div>
+              <qddt-comment-list
+                [ownerId]="currentElement.id"
+                [comments]="currentElement.comments">
+              </qddt-comment-list>
+
             </div>
 
           </div>
