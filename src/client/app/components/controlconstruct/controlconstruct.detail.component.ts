@@ -121,7 +121,7 @@ export class ControlConstructDetailComponent implements OnInit {
   private buildRevisionConfig(): any[] {
     let config: any[] = [];
     config.push({'name':'name','label':'Name'});
-    config.push({'name':['questionItem'],'label':'Question Text', 'init': function (q: any) {
+    config.push({'name':['questionItem'],'label':'Question', 'init': function (q: any) {
       if(q && q['question'] && q['question']['question']) {
         return q['question']['question'];
       }
@@ -133,13 +133,13 @@ export class ControlConstructDetailComponent implements OnInit {
       }
       return '';
     }});
-    config.push({'name':['preInstructions'],'label':'Pre Instructions', 'init': function (o: any) {
+    config.push({'name':['preInstructions'],'label':'Pre', 'init': function (o: any) {
       if(o !== null && o !== undefined) {
         return o.map(element => {return element['description'] || '';}).sort().join(',');
       }
       return '';
     }});
-    config.push({'name':['postInstructions'],'label':'Post Instructions', 'init': function (o: any) {
+    config.push({'name':['postInstructions'],'label':'Post', 'init': function (o: any) {
       if(o !== null && o !== undefined) {
         return o.map(element => {return element['description'] || '';}).sort().join(',');
       }

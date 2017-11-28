@@ -75,14 +75,6 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
     if(!this.responsedomain) {
       return;
     }
-    // if (!this.responsedomain.managedRepresentation.inputLimit) {
-    //   console.debug('managedRepresentation.inputLimit === undefined');
-    //   this.responsedomain.managedRepresentation.inputLimit = new ResponseCardinality();
-    // }
-    // if (!this.responsedomain.managedRepresentation.children) {
-    //   console.debug('managedRepresentation.children === undefined');
-    //   this.responsedomain.managedRepresentation.children = [];
-    // }
     if(!this.responsedomain.managedRepresentation)
       this.responsedomain.managedRepresentation = new Category();
     this.responsedomain.managedRepresentation.categoryType =
@@ -249,16 +241,6 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
     this.min = this.responsedomain.managedRepresentation.inputLimit.minimum+1;
     this.max = this.responsedomain.managedRepresentation.inputLimit.maximum-1;
   }
-
-  // flatMapChildren(cat: Category): Category[] {
-  //   console.log('flatMapChildren ' + cat.name);
-  //   let array = [];
-  //   cat.children.forEach(c=> {
-  //     array.push(this.flatMapChildren(c));
-  //   });
-  //   array.push(cat);
-  //   return array;
-  // }
 
   power10(format:number): number {
     return 1/ Math.pow(10,format);

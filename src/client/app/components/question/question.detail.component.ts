@@ -20,6 +20,8 @@ export class QuestionDetailComponent implements OnInit {
   @Output() editQuestionItem: EventEmitter<any> = new EventEmitter<string|MaterializeAction>();
   deleteAction = new EventEmitter<string|MaterializeAction>();
   canDelete: number; // 0: cannot, 1: can, 2: checking
+  previewActions = new EventEmitter<MaterializeAction>();
+  previewObject: any;
 
   private revisionIsVisible: boolean;
   private editIsVisible: boolean;
@@ -28,6 +30,7 @@ export class QuestionDetailComponent implements OnInit {
   private savedObject: string;
   private savedQuestionitemsIndex: number;
 
+
   constructor(private service: QuestionService) {
     this.revisionIsVisible = false;
     this.editIsVisible = false;
@@ -35,10 +38,10 @@ export class QuestionDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(this.questionitems === null || this.questionitems === undefined) {
+    if(!this.questionitems) {
       this.questionitems = [];
     }
-    if(this.questionitemId !== null && this.questionitemId !== undefined) {
+    if(this.questionitemId) {
       this.service.getquestion(this.questionitemId)
         .subscribe((result: any) => {
           this.questionitem = result;
@@ -88,6 +91,11 @@ export class QuestionDetailComponent implements OnInit {
   onDeleteQuestionItemModal() {
     this.checkDeleteQuestionItem();
     this.deleteAction.emit({action:'modal', params:['open']});
+  }
+
+  onPreview(questionitem: QuestionItem) {
+    this.previewObject = questionitem;
+    this.previewActions.emit({action:'modal', params:['open']});
   }
 
   checkDeleteQuestionItem() {

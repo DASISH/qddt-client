@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Output, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Output, Input, OnChanges, SimpleChanges, AfterContentChecked } from '@angular/core';
 
 import { TopicService, Topic } from './topic.service';
 import { MaterializeAction } from 'angular2-materialize';
 import { Study } from '../study/study.service';
 import { QuestionItem } from '../question/question.service';
 let saveAs = require('file-saver');
+declare var Materialize:any;
 
 @Component({
   selector: 'qddt-topic',
@@ -16,7 +17,8 @@ let saveAs = require('file-saver');
   templateUrl: './topic.component.html',
   providers: [TopicService],
 })
-export class TopicComponent implements OnChanges {
+
+export class TopicComponent implements OnChanges, AfterContentChecked{
   @Output() topicSelectedEvent: EventEmitter<any> = new EventEmitter<any>();
   @Input() study: Study;
   @Input() show: boolean;
@@ -24,17 +26,17 @@ export class TopicComponent implements OnChanges {
   questionItemActions = new EventEmitter<string|MaterializeAction>();
   previewActions = new EventEmitter<string|MaterializeAction>();
 
-  // private showProgressBar: boolean;
   private topics:Topic[];
   private newTopic: Topic;
   private revision:any;
   private showTopicForm: boolean = false;
-  // private showQuestionbutton: boolean = false;
   private questionItem: QuestionItem;
   private parentId:string;
+  private config:any;
 
   constructor(private topicService: TopicService) {
     this.newTopic = new Topic();
+    this.config = this.buildRevisionConfig();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -48,6 +50,10 @@ export class TopicComponent implements OnChanges {
         },
         (error: any) => console.log(error));
     }
+  }
+
+  ngAfterContentChecked(): void {
+    Materialize.updateTextFields();
   }
 
   showPreview(topic: any) {
@@ -135,6 +141,18 @@ export class TopicComponent implements OnChanges {
     }
   }
 
+  private buildRevisionConfig(): any[] {
+    let config: any[] = [];
+    config.push({'name':'name','label':'Name'});
+    config.push({'name':'description','label':'Description'});
+    config.push({'name':['otherMaterials'],'label':'Files', 'init': function (o: any) {
+      if(o !== null && o !== undefined) {
+        return o.map(element => {return element['originalName'] || '';}).sort().join(',');
+      }
+      return '';
+    }});
+    return config;
+  }
 
   private isBlank(str: any): boolean {
     return (!str || /^\s*$/.test(str));

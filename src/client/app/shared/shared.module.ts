@@ -21,15 +21,16 @@ import { CommentListComponent } from './comment/comment.list.component';
 import { CommentCreateComponent } from './comment/comment.create.component';
 import { UserLoginComponent } from './user/user.component';
 import { LoginComponent } from './login/login.component';
+import { AutosizeDirective } from './autoresize/autosize.directive';
 
 
 @NgModule({
   imports: [MaterializeModule,CommonModule, RouterModule, FormsModule, CompareModule],
   declarations: [ LocalDatePipe, QddtTableComponent, QddtPaginationComponent, AutocompleteComponent,
-    AuthorChipComponent, ElementFooterComponent, VersionComponent,VersionLabelComponent,
+    AuthorChipComponent, ElementFooterComponent, VersionComponent,VersionLabelComponent,AutosizeDirective,
     ConfirmDeleteComponent,TocComponent,CommentListComponent,CommentCreateComponent,
     RationalComponent, RevisionComponent,DialogBoxComponent, LoginComponent,UserLoginComponent],
-  exports: [LocalDatePipe, CommonModule, FormsModule, MaterializeModule,
+  exports: [LocalDatePipe, CommonModule, FormsModule, MaterializeModule,AutosizeDirective,
      QddtTableComponent, QddtPaginationComponent, AutocompleteComponent,
     AuthorChipComponent,ElementFooterComponent,VersionComponent, VersionLabelComponent,
     ConfirmDeleteComponent,TocComponent,CommentListComponent,

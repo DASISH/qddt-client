@@ -1,6 +1,7 @@
 <div *ngIf="questionitem && isVisible"  class="card white grey-text text-darken-1">
-  <qddt-preview-responsedomain *ngIf="questionitem?.responseDomain"
-                               [responseDomain]="questionitem.responseDomain">
+  <qddt-preview-responsedomain
+    *ngIf="questionitem?.responseDomain"
+    [responseDomain]="questionitem.responseDomain">
   </qddt-preview-responsedomain>
 
   <qddt-conceptref [element]="questionitem"></qddt-conceptref>
@@ -16,22 +17,57 @@
           [(ngModel)]="questionitem.name"
           materialize="characterCounter" data-length="255">
       </div>
-      <div class="row input-field">
-        <label [attr.for]="questionitem.id + '-textarea'" class="teal-text validate">Question text</label>
-        <textarea id="{{questionitem?.id}}-textarea"
-                  name="{{questionitem?.id}}-textarea" [(ngModel)]="questionitem.question.question"
-                  class="materialize-textarea validate" required minlength="5"
-                  materialize="characterCounter" data-length="1500">
-        </textarea>
+      <div class="row hoverable"
+           (mouseenter)="showbuttonX = true"
+           (mouseleave)="showbuttonX = false" href="#showbuttonX">
+        <div class="col s12 input-field">
+          <label [attr.for]="questionitem.id + '-textarea'" class="teal-text">Question text</label>
+          <textarea id="{{questionitem?.id}}-textarea"
+                    name="{{questionitem?.id}}-textarea" [(ngModel)]="questionitem.question.question"
+                    class="materialize-textarea validate" required autosize minlength="5"
+                    materialize="characterCounter" data-length="1500">
+          </textarea>
+        </div>
+        <div class="col s11 input-field">
+            <label [attr.for]="questionitem.id + '-intent'" class="teal-text">Question intent</label>
+            <textarea id="{{questionitem?.id}}-intent"
+                      name="{{questionitem?.id}}-intent" [(ngModel)]="questionitem.question.intent"
+                      class="materialize-textarea validate" autosize
+                      materialize="characterCounter" data-length="2000">
+            </textarea>
+        </div>
+        <div class="col s1">
+          <a *ngIf="showbuttonX" class="btn-flat btn-floating btn-small waves-effect waves-light teal">
+            <i class="material-icons" title="Add question below" (click)="onAddQuestion()">add</i>
+          </a>
+        </div>
       </div>
-      <div class="row input-field">
-          <label [attr.for]="questionitem.id + '-intent'" class="teal-text validate">Question intent</label>
-          <textarea id="{{questionitem?.id}}-intent"
-                    name="{{questionitem?.id}}-intent" [(ngModel)]="questionitem.question.intent"
-                    class="materialize-textarea validate" materialize="characterCounter" data-length="2000"></textarea>
+      <div class="row hoverable" *ngFor="let child of questionitem.question.children; let idx=index"
+           (mouseenter)="child.showbutton = true"
+           (mouseleave)="child.showbutton = false">
+        <div class="col s1">
+          <a *ngIf="child.showbutton" class="btn-flat btn-floating btn-small waves-effect waves-light teal">
+            <i class="material-icons" title="Remove this question" (click)="onRemoveQuestion(idx)">remove</i>
+          </a>
+        </div>
+        <div class="col s11 input-field">
+          <label [attr.for]="questionitem.id + '-textarea'+idx" class="teal-text">Question text</label>
+          <textarea id="{{questionitem?.id}}-textarea{{idx}}"
+                    name="{{questionitem?.id}}-textarea{{idx}}" [(ngModel)]="child.question"
+                    class="materialize-textarea validate" required autosize minlength="5"
+                    materialize="characterCounter" data-length="1500">
+          </textarea>
+        </div>
+        <div class="col s11 offset-s1 input-field">
+          <label [attr.for]="questionitem.id + '-intent'+idx" class="teal-text">Question intent</label>
+          <textarea id="{{questionitem?.id}}-intent{{idx}}"
+                    name="{{questionitem?.id}}-intent{{idx}}" [(ngModel)]="child.intent"
+                    class="materialize-textarea validate" autosize
+                    materialize="characterCounter" data-length="2000">
+            </textarea>
+        </div>
       </div>
-
-      <div class="hoverable row"
+      <div class="row hoverable"
            (mouseenter)="showbutton = true"
            (mouseleave)="showbutton = false">
         <div class="col s8">
@@ -43,7 +79,7 @@
             <qddt-responsedomain-reuse
                [readOnly] = "readonly"
                [modalId] = "'reuse-2'"
-               [showbutton] = "true"
+               [showbutton] = "showbutton"
                [responseDomain]="questionitem?.responseDomain"
                (responseDomainSelected)="onResponseDomainSelected($event)"
                (responseDomainRemove)="onResponsedomainRemove($event)">
@@ -60,20 +96,25 @@
             </qddt-responsedomain-select-missing>
         </div>
       </div>
-      <div class="row" *ngIf="!readonly">
-        <qddt-rational [element]="questionitem" [config]="{hidden: [4]}"></qddt-rational>
-      </div>
-      <div class="row">
-        <qddt-element-footer
-          [element]="questionitem"
-          [type]="'QUESTION_ITEM'"
-          (BasedonObjectDetail)="onBasedonObjectDetail($event)">
-        </qddt-element-footer>
-      </div>
+      <!--<div class="row" *ngIf="!readonly">-->
+      <qddt-rational
+        *ngIf="!readonly"
+        [element]="questionitem"
+        [config]="{hidden: [4]}">
+      </qddt-rational>
+      <!--</div>-->
+      <!--<div class="row">-->
+      <qddt-element-footer
+        [element]="questionitem"
+        [type]="'QUESTION_ITEM'"
+        (BasedonObjectDetail)="onBasedonObjectDetail($event)">
+      </qddt-element-footer>
+      <!--</div>-->
       <div class="row right-align">
         <button *ngIf="!readonly"
                 [disabled]="!questionEditForm.form.valid"
-                type="submit" class="btn btn-default">Submit</button>
+                type="submit" class="btn btn-default">Submit
+        </button>
       </div>
     </form>
   </div>

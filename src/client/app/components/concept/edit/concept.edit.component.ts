@@ -23,7 +23,7 @@ import { MaterializeAction } from 'angular2-materialize';
             <label [attr.for]="concept.id + '-description'" class="active teal-text">Description</label>
             <textarea class="materialize-textarea" id="{{concept?.id}}-description"
               name="{{concept?.id}}-description"
-              [(ngModel)]="concept.description" required></textarea>
+              [(ngModel)]="concept.description" required autosize></textarea>
           </div>
         </div>
         <div class="row" *ngIf="!readonly">

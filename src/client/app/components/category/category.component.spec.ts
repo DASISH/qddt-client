@@ -4,7 +4,7 @@ import { TestBed, async } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
-import { CategoryService } from './category.service';
+import { Category, CategoryService } from './category.service';
 import { UserService } from '../../shared/user/user.service';
 import { CategoryComponent } from './category.component';
 import { API_BASE_HREF } from '../../api';

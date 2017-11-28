@@ -1,0 +1,26 @@
+<div [formGroup]="questionForm"
+      class="row hoverable"
+     (mouseenter)="question.showbutton = true"
+     (mouseleave)="question.showbutton = false">
+  <div class="col s1">
+    <a *ngIf="child.showbutton" class="btn-flat btn-floating btn-small waves-effect waves-light teal">
+      <i class="material-icons" title="Remove this question" (click)="onRemoveQuestion(idx)">remove</i>
+    </a>
+  </div>
+  <div class="col s11 input-field">
+    <label [attr.for]="questionitem.id + '-textarea'+idx" class="teal-text">Question text</label>
+    <textarea id="{{questionitem?.id}}-textarea{{idx}}"
+              name="{{questionitem?.id}}-textarea{{idx}}" [(ngModel)]="child.question"
+              class="materialize-textarea validate" required autosize minlength="5"
+              materialize="characterCounter" data-length="1500">
+          </textarea>
+  </div>
+  <div class="col s11 offset-s1 input-field">
+    <label [attr.for]="questionitem.id + '-intent'+idx" class="teal-text">Question intent</label>
+    <textarea id="{{questionitem?.id}}-intent{{idx}}"
+              name="{{questionitem?.id}}-intent{{idx}}" [(ngModel)]="child.intent"
+              class="materialize-textarea validate" autosize
+              materialize="characterCounter" data-length="2000">
+            </textarea>
+  </div>
+</div>

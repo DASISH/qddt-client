@@ -20,13 +20,13 @@
                 <div class="input-field col s10">
                   <textarea id="name" name="name" class="materialize-textarea"
                     [(ngModel)]="sequence.name" [attr.maxlength]="255"
-                    required>
+                    required autosize>
                   </textarea>
                   <label for="name" class="white-text">Name</label>
                 </div>
                 <div class="input-field col s10">
                   <textarea id="description" name="description" class="materialize-textarea"
-                    [(ngModel)]="sequence.description" [attr.maxlength]="255">
+                    [(ngModel)]="sequence.description" [attr.maxlength]="255" autosize>
                   </textarea>
                   <label for="description" class="white-text">Description</label>
                 </div>

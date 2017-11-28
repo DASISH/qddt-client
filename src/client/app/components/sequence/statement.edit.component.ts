@@ -12,13 +12,13 @@ import { ElementTypeDescription, SequenceService, Sequence } from './sequence.se
         <textarea id="{{elementId}}-name" name="{{elementId}}-name"
           class="materialize-textarea"
           [(ngModel)]="statement.name" [attr.maxlength]="255"
-          required>
+          required autosize>
         </textarea>
       </div>
       <div class="input-field row">
         <label [attr.for]="elementId + '-text'">Text</label>
         <textarea id="{{elementId}}-text" name="{{elementId}}-text"
-          class="materialize-textarea"
+          class="materialize-textarea" autosize
           [(ngModel)]="statement.description" [attr.maxlength]="255">
         </textarea>
       </div>

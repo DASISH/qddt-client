@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ConceptService, Concept } from './concept.service';
 import { MaterializeAction } from 'angular2-materialize';
+import { QuestionItem } from '../question/question.service';
 let saveAs = require('file-saver');
 
 @Component({
@@ -56,7 +57,7 @@ export class TreeNodeComponent  {
     this.deleteConceptEvent.emit(concept);
   }
 
-  onClickQuestionItem(questionItem) {
+  onClickQuestionItem(questionItem:QuestionItem) {
     this.questionItem = questionItem;
     this.questionItemActions.emit({action:'modal', params:['open']});
   }

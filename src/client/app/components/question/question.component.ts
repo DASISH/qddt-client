@@ -5,7 +5,6 @@ import { Subject }          from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 import { Column } from '../../shared/table/table.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { ResponseDomain } from '../responsedomain/responsedomain.service';
 
 @Component({
   selector: 'qddt-questionitem',

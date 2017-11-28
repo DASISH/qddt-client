@@ -25,14 +25,14 @@
             <textarea [attr.id]="instrument.id + '-name'"
               name="{{instrument.id}}-name" class="materialize-textarea"
               [(ngModel)]="instrument.name" [attr.maxlength]="255"
-              required>
+              required autosize>
             </textarea>
           </div>
           <div class="input-field col s12">
             <label [attr.for]="instrument.id + '-description'" class="active">Description</label>
             <textarea [attr.id]="instrument.id + '-description'"
               name="{{instrument.id}}-description" class="materialize-textarea"
-              [(ngModel)]="instrument.description" [attr.maxlength]="255">
+              [(ngModel)]="instrument.description" [attr.maxlength]="255" autosize>
             </textarea>
           </div>
           <div class="input-field col s12">

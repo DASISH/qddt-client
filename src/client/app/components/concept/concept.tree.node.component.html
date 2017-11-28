@@ -44,7 +44,9 @@
             <div class="row">
               <div class="input-field col s11">
                      <textarea id="description" name="description"
-                               class="materialize-textarea" [(ngModel)]="newchild.description" required></textarea>
+                               class="materialize-textarea"
+                               [(ngModel)]="newchild.description" required autosize>
+                     </textarea>
                 <label for="description" class="blue-text">Description</label>
               </div>
             </div>

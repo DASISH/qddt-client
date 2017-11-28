@@ -32,6 +32,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
   private savedCategoriesIndex: number;
   private searchKeysSubect: Subject<string> = new Subject<string>();
   private revisionIsVisible: boolean = false;
+  private readonly revisionConfig = this.buildRevisionConfig();
   private readonly  CATEGORY_KIND :QddtElementType= QddtElementTypes[ElementKind.CATEGORY];
 
   constructor(private categoryService: CategoryService, private userService: UserService) {
@@ -208,6 +209,19 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
   searchMissingCategories(name: string) {
     this.searchKeys = name;
     this.searchKeysSubect.next(name);
+  }
+
+  private buildRevisionConfig(): any[] {
+    let config: any[] = [];
+    config.push({'name':'name','label':'Name'});
+    config.push({'name':'description','label':'Desc'});
+    config.push({'name':['children'],'label':'Cat', 'init': function (o: any) {
+      if(o !== null && o !== undefined) {
+        return o.map(element => {return element['label'] || '';}).sort().join(',');
+      }
+      return '';
+    }});
+    return config;
   }
 
   private getSort() {

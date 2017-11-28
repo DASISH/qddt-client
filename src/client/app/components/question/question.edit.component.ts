@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { QuestionItem, QuestionService } from './question.service';
+import { Question, QuestionItem, QuestionService } from './question.service';
 import { MaterializeAction } from 'angular2-materialize';
 import { Category } from '../category/category.service';
 import { ResponseDomain } from '../responsedomain/responsedomain.service';
@@ -18,7 +18,6 @@ export class QuestionItemEditComponent implements OnInit {
   @Input() questionitem: QuestionItem;
   @Input() isVisible: boolean;
   @Input() readonly: boolean;
-  // @Input() editResponseDomain: boolean;
   @Output() editQuestionItem: EventEmitter<any>;
 
   showbutton: any;
@@ -86,6 +85,14 @@ export class QuestionItemEditComponent implements OnInit {
     this.questionitem.responseDomain = null;
   }
 
+  onAddQuestion() {
+    this.questionitem.question.children.push(new Question());
+  }
+
+  onRemoveQuestion(idx:number) {
+    this.questionitem.question.children.splice(idx,1);
+  }
+
   private isMixed(): boolean {
     if (this.questionitem.responseDomain)
       return this.questionitem.responseDomain.responseKind === 'MIXED';
@@ -147,18 +154,7 @@ export class QuestionItemEditComponent implements OnInit {
       representation.children.splice(index, 1);
     }
   }
-  //
-  // private populateCodeValues(repWithCodes: Category, newRepresentation: Category) {
-  //   if (repWithCodes.categoryType === 'MIXED') {
-  //     for (let i = 0; i < newRepresentation.children.length; i++) {
-  //       this.populateCodeValues(repWithCodes.children[i], newRepresentation.children[i]);
-  //     }
-  //   } else {
-  //     for (let i = 0; i < newRepresentation.children.length; i++) {
-  //       newRepresentation.children[i].code = repWithCodes.children[i].code;
-  //     }
-  //   }
-  // }
+
 
 
 }

@@ -16,6 +16,7 @@
         </a></li>
       </ul>
     </div>
+
     <div class="row">
       <div class="col s1">
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light  green darken-1">
@@ -42,7 +43,8 @@
               [isVisible]="revisionIsVisible"
               [current]="questionitem"
               [qddtURI]="'audit/questionitem/' + questionitem.id + '/all'"
-              [config]="config">
+              [config]="config"
+              (requestPreview)="onPreview($event)">
               <!--[elementType]="'QuestionItem'"-->
             </qddt-revision>
 
@@ -71,6 +73,22 @@
     </button>
     <button
       class="btn btn-default red modal-action modal-close waves-effect">
+      <a><i class="close material-icons medium white-text">close</i></a>
+    </button>
+  </div>
+</div>
+
+<div class="modal modal-fixed-footer" id="'based-on-2"
+     materialize="modal" [materializeActions]="previewActions">
+  <div class="modal-content">
+    <h4>Object Detail</h4>
+    <div class="row" *ngIf="previewObject">
+      <qddt-preview-questionitem [questionItem]="previewObject"></qddt-preview-questionitem>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button id="controlConstructs-modal-close"
+            class="btn btn-default red modal-action modal-close waves-effect">
       <a><i class="close material-icons medium white-text">close</i></a>
     </button>
   </div>

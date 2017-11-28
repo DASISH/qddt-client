@@ -13,7 +13,7 @@
       <div class="col s10  input-field ">
         <textarea
           id="{{publication?.id}}-purpose" name="{{publication?.id}}-purpose"
-          class="materialize-textarea validate" required
+          class="materialize-textarea validate" required autosize
           materialize="characterCounter" data-length="255"
           [(ngModel)]="publication.purpose">
         </textarea>

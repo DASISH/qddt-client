@@ -23,7 +23,7 @@
           <div class="row">
             <div class="col s10 input-field ">
               <textarea name="description" id="description"
-                        class="materialize-textarea validate" required
+                        class="materialize-textarea validate" required autosize
                         [(ngModel)]="category.description">
               </textarea>
               <label for="description" class="white-text">Description</label>
@@ -99,7 +99,7 @@
             <textarea
               name="{{selectedCategory?.id}}-name"
               id="{{selectedCategory?.id}}-name"
-              class="materialize-textarea validate" required
+              class="materialize-textarea validate" required autosize
               [(ngModel)]="selectedCategory.name"
               materialize="characterCounter" data-length="255"
               (ngModelChange)="selectedCategory.label = selectedCategory.name.toUpperCase()">
@@ -109,7 +109,7 @@
         <div class="row">
           <div class="input-field col s12">
             <label for="description" class="teal-text">Description</label>
-            <textarea class="materialize-textarea validate" required
+            <textarea class="materialize-textarea validate" required autosize
                       name="description"
                       [(ngModel)]="selectedCategory.description" >
             </textarea>
@@ -156,6 +156,7 @@
       </form>
       <qddt-revision
         [isVisible]="revisionIsVisible"
+        [config]="revisionConfig"
         [current]="selectedCategory"
         [qddtURI]="'audit/category/' + selectedCategory.id + '/all'">
       </qddt-revision>

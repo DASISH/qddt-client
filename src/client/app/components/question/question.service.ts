@@ -10,6 +10,7 @@ export class Question {
   question: string;
   intent: string;
   modified:DateTimeFormat;
+  children:Question[];
 }
 
 export class QuestionItem {
@@ -71,10 +72,7 @@ export class QuestionService extends BaseService {
   createResponseDomain(responseDomain: any): any {
     return this.post(responseDomain,'responsedomain/create');
   }
-  //
-  // createMixedResponseDomain(responseDomaindId: string, missingId: string): any {
-  //   return this.get('responsedomain/createmixed?responseDomaindId=' + responseDomaindId + '&missingId=' + missingId);
-  // }
+
 
   getAllTemplatesByCategoryKind(categoryKind: String, name: String = '', page: String = '0', sort: String = ''): any {
     let query = name.length > 0? '&name=' + '*' + name + '*': '';

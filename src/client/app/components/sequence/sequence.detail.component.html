@@ -22,14 +22,14 @@
             <textarea [attr.id]="sequence.id + '-name'"
               name="{{sequence.id}}-name" class="materialize-textarea"
               [(ngModel)]="sequence.name" [attr.maxlength]="255"
-              required>
+              required autosize>
             </textarea>
           </div>
           <div class="input-field col s12">
             <label [attr.for]="sequence.id + '-description'" class="active teal-text">Description</label>
             <textarea [attr.id]="sequence.id + '-description'"
               name="{{sequence.id}}-description" class="materialize-textarea"
-              [(ngModel)]="sequence.description" [attr.maxlength]="255">
+              [(ngModel)]="sequence.description" [attr.maxlength]="255" autosize>
             </textarea>
           </div>
         </div>
@@ -38,10 +38,12 @@
           <qddt-sequence-reuse (element)="onGetElement($event)"></qddt-sequence-reuse>
 		    </div>
 
-        <div class="row">
-          <h5>Sequence content</h5>
-          <qddt-sequence-content [sequence]="sequence"></qddt-sequence-content>
-        </div>
+        <qddt-preview-controlconstruct [construct]="sequence"></qddt-preview-controlconstruct>
+        <!--<div class="row">-->
+          <!--<h5>Sequence content</h5>-->
+          <!--<qddt-preview-sequenceconstruct [sequence]="sequence"></qddt-preview-sequenceconstruct>-->
+          <!--&lt;!&ndash;<qddt-sequence-content [sequence]="sequence"></qddt-sequence-content>&ndash;&gt;-->
+        <!--</div>-->
 
         <div class="row">
 		      <qddt-rational [element]="sequence"  [config]="{hidden: [4]}"></qddt-rational>

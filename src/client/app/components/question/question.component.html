@@ -18,12 +18,12 @@
                 </div>
                 <div class="input-field ">
                     <textarea id="question-textarea" name="question-textarea" [(ngModel)]="questionItem.question.question"
-                      class="materialize-textarea" [attr.maxlength]="1500"></textarea>
+                      class="materialize-textarea" [attr.maxlength]="1500" required autosize></textarea>
                     <label for="question-textarea" class="teal white-text ">Question text</label>
                   </div>
                 <div class="input-field ">
                   <textarea id="question-intent" name="question-intent" [(ngModel)]="questionItem.question.intent"
-                    class="materialize-textarea" [attr.maxlength]="1500"></textarea>
+                    class="materialize-textarea" [attr.maxlength]="1500" autosize></textarea>
                   <label [attr.for]="'question-intent'" class="teal white-text ">Question intent</label>
                 </div>
               </div>

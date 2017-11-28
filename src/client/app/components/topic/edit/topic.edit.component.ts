@@ -1,5 +1,4 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
-
 import { TopicService, Topic } from '../topic.service';
 import { Observable }     from 'rxjs/Observable';
 import { MaterializeAction } from 'angular2-materialize';
@@ -17,7 +16,7 @@ let saveAs = require('file-saver');
   templateUrl: 'topic.edit.component.html'
 })
 
-export class TopicEditComponent {
+export class TopicEditComponent  {
 
   @Input() topic: Topic;
   @Input() isVisible: boolean;
@@ -40,6 +39,7 @@ export class TopicEditComponent {
     this.toDeleteFiles = [];
     this.errors = [];
   }
+
 
   onDownloadFile(o: any) {
     let fileName = o.originalName;

@@ -11,7 +11,7 @@
 
         <div *ngIf="showStudyForm">
           <div class="card-action">
-            <form (ngSubmit)="onSave()" #hf="ngForm">
+            <form (ngSubmit)="onSave()" #newStudyForm="ngForm">
               <div class="row">
                 <div class="input-field col s10">
                   <input id="name" name="name" type="text" [(ngModel)]="study.name" required>
@@ -20,11 +20,12 @@
               </div>
               <div class="row">
                 <div class="input-field col s10">
-                  <textarea id="description" name="description" class="materialize-textarea" [(ngModel)]="study.description" required></textarea>
+                  <textarea id="description" name="description" class="materialize-textarea"
+                            [(ngModel)]="study.description" required autosize></textarea>
                   <label for="description" class="white-text">Description</label>
                 </div>
               </div>
-              <button type="submit" class="btn btn-default">Submit</button>
+              <button [disabled]="!newStudyForm.form.valid" type="submit" class="btn btn-default">Submit</button>
             </form>
           </div>
         </div>

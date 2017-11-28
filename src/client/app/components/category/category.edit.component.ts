@@ -27,7 +27,7 @@ import { CategoryType } from './category_kind';
         <div class="row">
           <div class="input-field col m12 l8">
             <label [attr.for]="category.id + '-category-description'" class="teal-text">Description</label>
-            <textarea class="materialize-textarea validate" name="{{category?.id}}-category-description"
+            <textarea class="materialize-textarea validate" name="{{category?.id}}-category-description" autosize
                       length="1000" materialize="characterCounter" [(ngModel)]="category.description" >
             </textarea>
           </div>
@@ -91,7 +91,7 @@ import { CategoryType } from './category_kind';
 export class CategoryEditComponent implements OnInit {
 
   @Input() category: Category;
-  @Input() categories: any;
+  @Input() categories: Category[];
   @Input() isVisible: boolean;
   @Output() editDetailEvent: EventEmitter<String> = new EventEmitter<String>();
   private categoryEnums:any;

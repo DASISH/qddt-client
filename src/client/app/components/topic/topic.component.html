@@ -31,7 +31,7 @@
 
         <div *ngIf="showTopicForm">
           <div class="card-action">
-            <form (ngSubmit)="onNewSave()" #hf="ngForm">
+            <form (ngSubmit)="onNewSave()" #newTopicFrom="ngForm">
               <div class="row">
                 <div class="input-field col s10">
                   <input id="name" name="name" type="text" [(ngModel)]="newTopic.name" required>
@@ -41,11 +41,11 @@
               <div class="row">
                 <div class="input-field col s10">
                   <textarea id="description" name="description" class="materialize-textarea" [(ngModel)]="newTopic.abstractDescription"
-                            required></textarea>
+                            required autosize ></textarea>
                   <label for="description" class="white-text">Description</label>
                 </div>
               </div>
-              <button type="submit" class="btn btn-default">Submit</button>
+              <button [disabled]="!newTopicFrom .form.valid" type="submit" class="btn btn-default">Submit</button>
             </form>
           </div>
         </div>
@@ -59,16 +59,22 @@
             <div class="col s1 m1 l1">
               <br/>
               <div class="row">
-
                 <a *ngIf="!currentElement.archived" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                    (click)="edit.isVisible = !edit.isVisible"><i class="material-icons" title="Edit Concept">mode_edit</i></a>
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                    (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium" title="Revision history">history</i></a>
-                <qddt-questionitem-reuse *ngIf="!currentElement.archived" [parentId]="currentElement?.id"
-                                         (questionItemCreatedEvent)="onAddQuestionItem($event,currentElement?.id)"></qddt-questionitem-reuse>
+                <qddt-questionitem-reuse
+                  *ngIf="!currentElement.archived"
+                  [parentId]="currentElement?.id"
+                  (questionItemCreatedEvent)="onAddQuestionItem($event,currentElement?.id)">
+                </qddt-questionitem-reuse>
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
                   <i class="material-icons" (click)="onGetPdf(currentElement)" title="Get as Pdf">picture_as_pdf</i></a>
-                <qddt-confirm-delete *ngIf="!currentElement.archived" [element]="currentElement" (confirmAction)="onRemoveTopic($event)"></qddt-confirm-delete>
+                <qddt-confirm-delete
+                  *ngIf="!currentElement.archived"
+                  [element]="currentElement"
+                  (confirmAction)="onRemoveTopic($event)">
+                </qddt-confirm-delete>
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                    (click)="onSelectTopic(currentElement)"><i class="material-icons left medium"title="Go to child elements">play_arrow</i></a>
               </div>
@@ -124,7 +130,7 @@
               <qddt-revision
                 [isVisible]="revision.isVisible"
                 [current]="currentElement"
-                [config]="[{'name':'name','label':'Name'},{'name':'description','label':'Description'}]"
+                [config]="config"
                 [qddtURI]="'audit/topicgroup/' + currentElement.id + '/all'" #revision
                (requestPreview)="showPreview($event)">
               </qddt-revision>

@@ -6,8 +6,8 @@ import { BaseService } from '../../shared/base.service';
 export class SurveyProgram {
   id: string;
   name: string;
+  description: string;
   modified: any;
-  authors: any[];
 }
 
 @Injectable()

@@ -59,7 +59,7 @@ export function main() {
               'id': '7f000101-54aa-131e-8154-aa27fc230000',
               'modified': [2016, 9, 8, 15, 21, 26, 254000000],
               'name': 'The European Social Survey (ESS)',
-              'authors': []
+              'description': 'test desc'
             };
             fixture.detectChanges();
             fixture.whenStable().then(() => {
@@ -87,7 +87,7 @@ export function main() {
               'id': '7f000101-54aa-131e-8154-aa27fc230000',
               'modified': [2016, 9, 8, 15, 21, 26, 254000000],
               'name': 'The European Social Survey (ESS)',
-              'authors': []
+              'description': 'test desc'
             };
             fixture.componentInstance.onSave();
             fixture.detectChanges();
