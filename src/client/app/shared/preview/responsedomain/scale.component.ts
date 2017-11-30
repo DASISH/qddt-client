@@ -41,10 +41,10 @@ export class ResponsedomainScaleComponent implements OnChanges {
     this.columns = [];
     this.headers = [];
     this.rows = new Array(this.numOfRows).fill(1);
-    if (rep.inputLimit.maximum) {
+    if (rep.inputLimit) {
       this.max = rep.inputLimit.maximum;
     }
-    if (rep.inputLimit.minimum) {
+    if (rep.inputLimit) {
       this.min = rep.inputLimit.minimum;
     }
     this.displayLayout = parseInt(this.responseDomain.displayLayout);
