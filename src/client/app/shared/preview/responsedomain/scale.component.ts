@@ -9,7 +9,7 @@ class ScaleHead {
   width: number;
 }
 
-class Row {
+class Column {
   value: number;
   label: string;
 }
@@ -28,16 +28,19 @@ class Row {
 
 export class ResponsedomainScaleComponent implements OnChanges {
   @Input() responseDomain: ResponseDomain;
-  private headers: ScaleHead[] = [];
-  private rows: Row[] = [];
+  @Input() numOfRows: number = 1;
+  private headers: ScaleHead[];
+  private columns: Column[];
+  private rows: any;
   private max: number = 5;
   private min: number = 1;
   private displayLayout: number = 0;
 
   ngOnChanges() {
     let rep = this.responseDomain.managedRepresentation;
-    this.rows = [];
+    this.columns = [];
     this.headers = [];
+    this.rows = new Array(this.numOfRows).fill(1);
     if (rep.inputLimit.maximum) {
       this.max = rep.inputLimit.maximum;
     }
@@ -47,9 +50,9 @@ export class ResponsedomainScaleComponent implements OnChanges {
     this.displayLayout = parseInt(this.responseDomain.displayLayout);
 
     if (this.displayLayout > 0) {
-      this.buildVerticalRows();
+      this.buildVerticalColumns();
     } else {
-      this.buildHorizontalRows();
+      this.buildHorizontalColumns();
     }
   }
 
@@ -57,17 +60,18 @@ export class ResponsedomainScaleComponent implements OnChanges {
     if(this.displayLayout === 0) {
       this.displayLayout = 90;
       this.responseDomain.displayLayout = '90';
-      this.buildVerticalRows();
+      this.buildVerticalColumns();
     } else {
       this.displayLayout = 0;
       this.responseDomain.displayLayout = '0';
-      this.buildHorizontalRows();
+      this.buildHorizontalColumns();
     }
   }
 
-  private buildHorizontalRows() {
-    this.rows = [];
+  private buildHorizontalColumns() {
+    this.columns = [];
     this.headers = [];
+
     let usedCols: number=0;
     let rep = this.responseDomain.managedRepresentation;
 
@@ -130,12 +134,12 @@ export class ResponsedomainScaleComponent implements OnChanges {
     for (let i = this.min; i <= this.max; i++) {
       let c = categories
         .find(category => category.code && category.code.codeValue === i.toString());
-      this.rows.push({ label: c !== undefined ? c.label : '', value: i });
+      this.columns.push({ label: c !== undefined ? c.label : '', value: i });
     }
   }
 
-  private buildVerticalRows() {
-    this.rows = [];
+  private buildVerticalColumns() {
+    this.columns = [];
     this.headers = [];
     let categories: any[] = [];
     let rep = this.responseDomain.managedRepresentation;
@@ -145,7 +149,7 @@ export class ResponsedomainScaleComponent implements OnChanges {
     for (let i = this.min; i <= this.max; i++) {
       let c = categories
         .find(category => category.code && category.code.codeValue === i.toString());
-      this.rows.push({ label: c !== undefined ? c.label : '', value: i });
+      this.columns.push({ label: c !== undefined ? c.label : '', value: i });
     }
   }
 

@@ -1,6 +1,4 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
-// import { MaterializeAction } from 'angular2-materialize/dist';
-// import { ElementFooterService } from './elementfooter.service';
 
 @Component({
   selector: 'qddt-element-footer',
@@ -30,17 +28,16 @@ export class ElementFooterComponent {
 
   getTime(): string {
     let m = this.element.modified;
-    if (m===null) return '?';
+    if (!m) return '?';
     let date = new Date(Date.UTC(parseInt(m[0]),parseInt(m[1]),parseInt(m[2]),parseInt(m[3]),parseInt(m[4]),parseInt(m[5])));
     return date.toISOString();
   }
 
   getVersion(): string {
     let v = this.element.version;
-    if (v=== null)
-      return '?';
-    let rev =(v.revision!==null)?  '.' + v.revision :'';
-    let label =(v.versionLabel	!==undefined)?  ' - ' + v.versionLabel:'';
+    if (!v) return '?';
+    let rev =(v.revision)?  '.' + v.revision :'';
+    let label =(v.versionLabel)?  ' - ' + v.versionLabel:'';
     return v.major + '.' + v.minor + rev + label;
   }
 

@@ -13,9 +13,9 @@ import { PreviewConceptListComponent } from './preview.conceptlist.component';
 import { PreviewTopicListComponent } from './preview.topiclist.component';
 import { PreviewStudyComponent } from './preview.study.component';
 import { PreviewQuestionitemComponent } from './preview.questionitem.component';
-import { PreviewQuestionitemGridComponent } from './preview.questionitem.grid.component';
 import { PreviewResponsedomainComponent } from './preview.responsedomain.component';
-import { PreviewResponseDomainGridComponent } from './preview.responsedomain.grid.component';
+import { PreviewQuestionitemGridComponent } from './preview.questionitem-grid.component';
+import { PreviewResponseDomainGridComponent } from './preview.responsedomain-grid.component';
 import { PreviewConditionConstructComponent } from './controlconstruct/preview.condition.component';
 import { PreviewSequenceConstructComponent } from './controlconstruct/preview.sequence.component';
 import { PreviewStatementConstructComponent } from './controlconstruct/preview.statement.component';
@@ -36,7 +36,8 @@ import { PreviewPublicationComponent } from './preview.publication.component';
     ResponsedomainTextComponent, PreviewPublicationComponent],
 
   exports: [PreviewConceptComponent,PreviewConceptListComponent,PreviewTopicComponent,
-    PreviewTopicListComponent,PreviewStudyComponent,PreviewControlConstructComponent,PreviewQuestionitemComponent,
+    PreviewTopicListComponent,PreviewStudyComponent,PreviewControlConstructComponent,
+    PreviewQuestionitemComponent,PreviewQuestionitemGridComponent,
     PreviewResponsedomainComponent ,PreviewPublicationComponent]
 
 })

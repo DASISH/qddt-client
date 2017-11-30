@@ -22,6 +22,7 @@ import { CommentCreateComponent } from './comment/comment.create.component';
 import { UserLoginComponent } from './user/user.component';
 import { LoginComponent } from './login/login.component';
 import { AutosizeDirective } from './autoresize/autosize.directive';
+import { ParentFormConnectDirective } from './directive/parent-form-connect.directive';
 
 
 @NgModule({
@@ -29,12 +30,14 @@ import { AutosizeDirective } from './autoresize/autosize.directive';
   declarations: [ LocalDatePipe, QddtTableComponent, QddtPaginationComponent, AutocompleteComponent,
     AuthorChipComponent, ElementFooterComponent, VersionComponent,VersionLabelComponent,AutosizeDirective,
     ConfirmDeleteComponent,TocComponent,CommentListComponent,CommentCreateComponent,
-    RationalComponent, RevisionComponent,DialogBoxComponent, LoginComponent,UserLoginComponent],
+    RationalComponent, RevisionComponent,DialogBoxComponent, LoginComponent,UserLoginComponent,
+    ParentFormConnectDirective],
   exports: [LocalDatePipe, CommonModule, FormsModule, MaterializeModule,AutosizeDirective,
      QddtTableComponent, QddtPaginationComponent, AutocompleteComponent,
     AuthorChipComponent,ElementFooterComponent,VersionComponent, VersionLabelComponent,
     ConfirmDeleteComponent,TocComponent,CommentListComponent,
-    RationalComponent,RevisionComponent,DialogBoxComponent, UserLoginComponent]
+    RationalComponent,RevisionComponent,DialogBoxComponent, UserLoginComponent,
+    ParentFormConnectDirective]
 })
 
 export class SharedModule { }

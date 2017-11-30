@@ -4,8 +4,9 @@ import { Component, Input, OnInit } from '@angular/core';
   selector: 'qddt-rational',
   moduleId: module.id,
   styles:[':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'],
+
   template: `
-  <div class="row hoverable">
+  <form class="row hoverable" [parentFormConnect]="formName">
     <div class="row">
       <div class="col left" *ngFor="let option of rationalDescriptions" [ngClass]="{hide: option.hidden}">
         <input  name="{{originalId}}-optiontypegroup" type="radio"
@@ -52,7 +53,7 @@ import { Component, Input, OnInit } from '@angular/core';
         <label for="{{originalId}}-changeComment"  data-error="Description is mandatory"  class="teal-text">Rationale for change</label>
       </div>
     </div>
-  </div>
+  </form>
   `
 })
 
@@ -135,6 +136,7 @@ export class RationalComponent implements OnInit {
     { 'id': 4, 'name': 'Archive', 'showComment': true, 'change':'ARCHIVED', 'children': [] }
   ];
   @Input() element: any;
+  @Input() formName: string;
   @Input() config: any;
   // private showbutton: boolean = true;
   private _RationalIndex: number;

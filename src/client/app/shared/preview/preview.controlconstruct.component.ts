@@ -17,8 +17,8 @@ import { ControlConstruct } from '../../components/controlconstruct/controlconst
           <qddt-preview-statementconstruct [statement]="construct"></qddt-preview-statementconstruct>
         </div>
         <div *ngSwitchCase="'QUESTION_CONSTRUCT'">
-          <qddt-preview-questionconstruct [controlConstruct]="construct">
-          </qddt-preview-questionconstruct>
+            <qddt-preview-questionconstruct [controlConstruct]="construct" >
+            </qddt-preview-questionconstruct>
         </div>
         <div *ngSwitchDefault>
           <P>UNKNOWN CONSTRUCT</P>

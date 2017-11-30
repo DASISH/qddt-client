@@ -26,7 +26,9 @@ import { Concept } from '../../components/concept/concept.service';
             </div>
           </div>
           <div class="collapsible-body">
-              <qddt-preview-questionitem [questionItem]="cqi.questionItem"></qddt-preview-questionitem>
+            <qddt-preview-questionitem *ngIf="cqi.questionItem"
+              [questionItem]="cqi.questionItem">
+            </qddt-preview-questionitem>
           </div>
         </li>
       </ul>
