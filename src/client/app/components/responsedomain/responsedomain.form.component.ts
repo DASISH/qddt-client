@@ -40,8 +40,8 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
   private selectedCategoryIndex: number;
   private suggestions: Category[];
   private numberOfAnchors: number;
-  private min: number;
-  private max: number;
+  private endMin: number;
+  private startMax: number;
   private searchKeysSubect: Subject<string> = new Subject<string>();
   private readonly  CATEGORY_KIND :QddtElementType= QddtElementTypes[ElementKind.CATEGORY];
 
@@ -237,8 +237,7 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
     this.previewResponseDomain['managedRepresentation'] = this.responsedomain.managedRepresentation;
     this.previewResponseDomain['responseCardinality'] = this.responsedomain.responseCardinality;
     this.previewResponseDomain['displayLayout'] = this.responsedomain.displayLayout;
-    this.min = this.responsedomain.managedRepresentation.inputLimit.minimum+1;
-    this.max = this.responsedomain.managedRepresentation.inputLimit.maximum-1;
+    console.log(this.responsedomain.managedRepresentation.inputLimit);
   }
 
   power10(format:number): number {

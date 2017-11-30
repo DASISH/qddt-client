@@ -26,14 +26,16 @@
               <div class="col l3">
                 <label for="scale_start" class="active {{labelColor}}">Start</label>
                 <input id="scale_start" name="scale_start" type="number"
-                  [attr.max]="max"
+                   [attr.max]="subtract([responsedomain.managedRepresentation.inputLimit.maximum],
+                                        [responsedomain.managedRepresentation.children.length])+1"
 								  (ngModelChange)="buildPreviewResponseDomain()"
 					        [(ngModel)]="responsedomain.managedRepresentation.inputLimit.minimum" required>
               </div>
               <div class="col l3">
                 <label for="scale_end" class="active {{labelColor}}">End</label>
                 <input id="scale_end" name="scale_end" type="number"
-                  [attr.min]="min"
+                  [attr.min]="addition([responsedomain.managedRepresentation.inputLimit.minimum],
+                          [responsedomain.managedRepresentation.children.length])-1"
                   (ngModelChange)="buildPreviewResponseDomain()"
 					        [(ngModel)]="responsedomain.managedRepresentation.inputLimit.maximum" required>
               </div>
@@ -41,7 +43,8 @@
                 <label for="scale_anchor" class="active {{labelColor}}">Number of Anchor</label>
                 <input id="scale_anchor" name="scale_anchor" type="number" [(ngModel)]="numberOfAnchors"
                        [attr.min]=0
-                       [attr.max]="[responsedomain.managedRepresentation.inputLimit.maximum] - [responsedomain.managedRepresentation.inputLimit.minimum] + 1"
+                       [attr.max]="subtract([responsedomain.managedRepresentation.inputLimit.maximum],
+                                [responsedomain.managedRepresentation.inputLimit.minimum]) + 1"
                        (ngModelChange)="changeNumberOfAnchors($event)" required>
               </div>
 							<div class="col l3 input-field">
@@ -99,7 +102,7 @@
 					<div *ngSwitchCase="domainTypeDef.LIST" class="row">
 						<div class="input-field col m3 l2">
                 <input id="code_number" name="code_number" type="number"
-                  min="0"
+                  [attr.min]=0
                   [ngModel]="responsedomain.managedRepresentation.inputLimit.maximum"
                   (ngModelChange)="changeNumberOfCategories($event)" required>
                 <label class="active {{labelColor}}" for="code_number">Number of Codes</label>
