@@ -10,20 +10,24 @@
         </a>
         <div *ngIf="showQuestionItemForm">
           <div class="card-action ">
-            <form (ngSubmit)="onCreateQuestionItem()" #hf="ngForm">
+            <form (ngSubmit)="onCreateQuestionItem()" #newQuestionForm="ngForm">
               <div class="row">
                 <div class="input-field">
                   <label class="white-text">Name</label>
-                  <input name="questionItem-name" type="text" [(ngModel)]="questionItem.name">
+                  <input name="questionItem-name" type="text" [(ngModel)]="questionItem.name" required>
                 </div>
                 <div class="input-field ">
                     <textarea id="question-textarea" name="question-textarea" [(ngModel)]="questionItem.question.question"
-                      class="materialize-textarea" [attr.maxlength]="1500" required autosize></textarea>
+                              class="materialize-textarea validate" required minlength="5" maxlength="1500"
+                              materialize="characterCounter" data-length="1500">
+                    </textarea>
                     <label for="question-textarea" class="teal white-text ">Question text</label>
                   </div>
                 <div class="input-field ">
                   <textarea id="question-intent" name="question-intent" [(ngModel)]="questionItem.question.intent"
-                    class="materialize-textarea" [attr.maxlength]="1500" autosize></textarea>
+                            class="materialize-textarea validate"  maxlength="2000"
+                            materialize="characterCounter" data-length="2000">
+                  </textarea>
                   <label [attr.for]="'question-intent'" class="teal white-text ">Question intent</label>
                 </div>
               </div>
@@ -59,7 +63,9 @@
               <qddt-preview-responsedomain *ngIf="questionItem?.responseDomain"
                 [responseDomain]="questionItem.responseDomain">
               </qddt-preview-responsedomain>
-              <button type="submit" class="btn btn-default">Submit</button>
+              <div class="row right-align">
+                <button  [disabled]="!newQuestionForm.form.valid" type="submit" class="btn btn-default">Submit</button>
+              </div>
             </form>
           </div>
         </div>

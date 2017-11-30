@@ -27,7 +27,7 @@ import { MaterializeAction } from 'angular2-materialize';
           </div>
         </div>
         <div class="row" *ngIf="!readonly">
-		      <qddt-rational [element]="concept" [config]="{hidden: [2,3]}"></qddt-rational>
+		      <qddt-rational [formName]="'RationalComp'" [element]="concept" [config]="{hidden: [2,3]}"></qddt-rational>
         </div>
         <div class="row">
 				  <qddt-element-footer [element]="concept" [type]="'concept'"

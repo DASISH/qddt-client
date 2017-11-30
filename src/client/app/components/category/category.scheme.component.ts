@@ -1,9 +1,11 @@
-import { Component, EventEmitter, Output, OnInit, AfterContentChecked } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit, AfterContentChecked, ViewChild } from '@angular/core';
 import { CategoryService, Category, ResponseCardinality } from './category.service';
 import { CategoryType } from './category_kind';
 import { UserService } from '../../shared/user/user.service';
 import { Subject } from 'rxjs/Subject';
 import { ElementKind, QddtElementType,QddtElementTypes } from '../../shared/preview/preview.service';
+
+declare let Materialize: any;
 
 @Component({
   selector: 'category-scheme',
@@ -13,9 +15,8 @@ import { ElementKind, QddtElementType,QddtElementTypes } from '../../shared/prev
 })
 
 export class CategorySchemeComponent implements OnInit, AfterContentChecked {
-
+  // @ViewChild('editSchemeForm') schemeForm;
   @Output() categorySelectedEvent: EventEmitter<any> = new EventEmitter<any>();
-
   public deleteAction = new EventEmitter<any>();
   public showCategoryForm: boolean = false;
   public selectedCategoryIndex: number;
@@ -56,6 +57,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
           this.missingCategories = result.content;
         });
       });
+
   }
 
   ngOnInit() {
@@ -93,6 +95,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
         this.searchKeysSubect.next('');
       }
     }
+    Materialize.updateTextFields();
   }
 
   onToggleCategoryForm() {

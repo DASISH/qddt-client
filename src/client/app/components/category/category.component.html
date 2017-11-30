@@ -12,7 +12,7 @@
 
         <div *ngIf="showCategoryForm">
           <div class="card-action">
-            <form (ngSubmit)="onCreateCategory()" #hf="ngForm">
+            <form (ngSubmit)="onCreateCategory()" #newCategoryForm="ngForm">
               <div class="row">
                 <div class="input-field col s10">
                   <input id="label1" name="label1"  class="form-control"  type="text"  required maxlength="255"
@@ -23,18 +23,20 @@
               <div class="row">
                 <div class="input-field col s10">
                   <input id="name1" name="name1" class="form-control filled-in"  type="text" maxlength="255"
-                         [(ngModel)]="category.name" >
+                         [(ngModel)]="category.name" required >
                   <label for="name1" class="white-text">Name</label>
                 </div>
               </div>
               <div class="row">
                 <div class="input-field col s10">
                   <textarea id="description1" name="description1" class="materialize-textarea"
-                    [(ngModel)]="category.description" autosize></textarea>
+                    [(ngModel)]="category.description"></textarea>
                   <label for="description1" class="white-text">Description</label>
                 </div>
               </div>
-              <button type="submit" class="btn btn-default">Submit</button>
+              <div class="row right-align">
+                <button  [disabled]="!newCategoryForm.form.valid" type="submit" class="btn btn-default">Submit</button>
+              </div>
             </form>
           </div>
         </div>

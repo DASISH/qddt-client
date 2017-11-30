@@ -27,7 +27,7 @@ import { CategoryType } from './category_kind';
         <div class="row">
           <div class="input-field col m12 l8">
             <label [attr.for]="category.id + '-category-description'" class="teal-text">Description</label>
-            <textarea class="materialize-textarea validate" name="{{category?.id}}-category-description" autosize
+            <textarea class="materialize-textarea validate" name="{{category?.id}}-category-description" 
                       length="1000" materialize="characterCounter" [(ngModel)]="category.description" >
             </textarea>
           </div>
@@ -51,7 +51,7 @@ import { CategoryType } from './category_kind';
           </div>
         </div>
         <div class="row">
-          <qddt-rational [element]="category" [config]="{hidden: [4]}"></qddt-rational>
+          <qddt-rational [formName]="'RationalComp'" [element]="category" [config]="{hidden: [4]}"></qddt-rational>
         </div>
         <div class="row">
           <qddt-element-footer [element]="category" [type]="'category'"></qddt-element-footer>

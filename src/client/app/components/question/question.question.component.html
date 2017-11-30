@@ -11,7 +11,7 @@
     <label [attr.for]="questionitem.id + '-textarea'+idx" class="teal-text">Question text</label>
     <textarea id="{{questionitem?.id}}-textarea{{idx}}"
               name="{{questionitem?.id}}-textarea{{idx}}" [(ngModel)]="child.question"
-              class="materialize-textarea validate" required autosize minlength="5"
+              class="materialize-textarea validate" required minlength="5" maxlength="1500"
               materialize="characterCounter" data-length="1500">
           </textarea>
   </div>
@@ -19,7 +19,7 @@
     <label [attr.for]="questionitem.id + '-intent'+idx" class="teal-text">Question intent</label>
     <textarea id="{{questionitem?.id}}-intent{{idx}}"
               name="{{questionitem?.id}}-intent{{idx}}" [(ngModel)]="child.intent"
-              class="materialize-textarea validate" autosize
+              class="materialize-textarea validate"  maxlength="2000"
               materialize="characterCounter" data-length="2000">
             </textarea>
   </div>

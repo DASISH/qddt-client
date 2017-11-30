@@ -27,7 +27,7 @@ import { ElementTypeDescription, SequenceService, Sequence, ConditionCommand } f
         <label [attr.for]="elementId + '-ifCondition'">if Condition Command</label>
         <textarea id="{{elementId}}-ifCondition" name="{{elementId}}-ifCondition"
           class="materialize-textarea"
-          [(ngModel)]="ifCondition.command" [attr.maxlength]="255" autosize>
+          [(ngModel)]="ifCondition.command" [attr.maxlength]="255" >
         </textarea>
         </div>
         <div class="input-field col s6">
@@ -45,7 +45,7 @@ import { ElementTypeDescription, SequenceService, Sequence, ConditionCommand } f
         <textarea id="{{elementId}}-elseCondition-{{idx}}"
           name="{{elementId}}-elseCondition-{{idx}}"
           class="materialize-textarea"
-          [(ngModel)]="condition.command" [attr.maxlength]="255" autosize>
+          [(ngModel)]="condition.command" [attr.maxlength]="255" >
         </textarea>
         </div>
         <div class="input-field col s6">

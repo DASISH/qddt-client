@@ -3,7 +3,7 @@
       [responseDomain]="previewResponseDomain">
 		</qddt-preview-responsedomain>
 
-		<form (ngSubmit)="onSave()" #hf="ngForm" >
+		<form (ngSubmit)="onSave()" #responseForm="ngForm" >
 			<div class="row">
 				<div class="col s12">
 					<label for="name" class=" {{labelColor}}">Name</label>
@@ -233,7 +233,7 @@
 				</div>
 			</div>
       <div *ngIf="!responsedomain.isNew && !readonly" class="row">
-        <qddt-rational [element]="responsedomain" [config]="{hidden: [4]}"></qddt-rational>
+        <qddt-rational [formName]="'RationalComp'" [element]="responsedomain" [config]="{hidden: [4]}"></qddt-rational>
       </div>
 			<div *ngIf="!responsedomain.isNew" class="row">
 				<qddt-element-footer [element]="responsedomain"
@@ -241,7 +241,7 @@
 				  [type]="'RESPONSEDOMAIN'"></qddt-element-footer>
 			</div>
       <div class="row right-align">
-			  <button *ngIf="!readonly" type="submit" class="btn btn-default">Submit</button>
+			  <button  [disabled]="!responseForm.form.valid" *ngIf="!readonly" type="submit" class="btn btn-default">Submit</button>
       </div>
 		</form>
 	</div>

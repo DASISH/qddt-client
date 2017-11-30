@@ -28,7 +28,7 @@ declare var Materialize:any;
         </div>
 
         <!--<div class="row">-->
-		      <qddt-rational [element]="survey" [config]="{hidden: [2,3]}"></qddt-rational>
+		      <qddt-rational [formName]="'RationalComp'" [element]="survey" [config]="{hidden: [2,3]}"></qddt-rational>
         <!--</div>-->
 
         <!--<div class="row">-->

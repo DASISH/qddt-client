@@ -2,7 +2,6 @@ import { Component, Input, Output, EventEmitter, OnInit, AfterViewInit } from '@
 import { CategoryService, Category, ResponseCardinality } from '../category/category.service';
 import { DomainKind, DomainTypeDescription } from './responsedomain.constant';
 import { DATE_FORMAT, ResponseDomain, ResponseDomainService } from './responsedomain.service';
-import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 import { ElementKind, QddtElementType, QddtElementTypes } from '../../shared/preview/preview.service';

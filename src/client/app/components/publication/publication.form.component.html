@@ -13,7 +13,7 @@
       <div class="col s10  input-field ">
         <textarea
           id="{{publication?.id}}-purpose" name="{{publication?.id}}-purpose"
-          class="materialize-textarea validate" required autosize
+          class="materialize-textarea validate" required
           materialize="characterCounter" data-length="255"
           [(ngModel)]="publication.purpose">
         </textarea>
@@ -81,7 +81,7 @@
       </ul>
     </div>
     <div class="row" *ngIf="publication?.id">
-      <qddt-rational [element]="publication" [config]="{hidden: [4]}"></qddt-rational>
+      <qddt-rational [formName]="'RationalComp'" [element]="publication" [config]="{hidden: [4]}"></qddt-rational>
     </div>
     <div class="row" *ngIf="publication?.id">
       <qddt-element-footer [element]="publication" [type]="'PUBLICATION'"></qddt-element-footer>
