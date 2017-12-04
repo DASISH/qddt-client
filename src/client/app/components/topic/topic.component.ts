@@ -18,7 +18,7 @@ declare var Materialize:any;
   providers: [TopicService],
 })
 
-export class TopicComponent implements OnChanges, AfterContentChecked{
+export class TopicComponent implements OnChanges, AfterContentChecked {
   @Output() topicSelectedEvent: EventEmitter<any> = new EventEmitter<any>();
   @Input() study: Study;
   @Input() show: boolean;

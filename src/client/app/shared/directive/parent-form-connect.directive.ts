@@ -25,10 +25,10 @@ export class ParentFormConnectDirective implements OnInit, OnDestroy {
       }
 
       this.parentForm.form.addControl(this.parentFormConnect, this.form.form);
-      this.removeControlFunction=()=> {
-        console.log('parent unregister ' + this.parentFormConnect);
-        this.parentForm.form.removeControl(this.parentFormConnect);
-      };
+      // this.removeControlFunction=()=> {
+      //   console.log('parent unregister ' + this.parentFormConnect);
+      //   this.parentForm.form.removeControl(this.parentFormConnect);
+      // };
     }
   }
 
@@ -38,6 +38,9 @@ export class ParentFormConnectDirective implements OnInit, OnDestroy {
 
   }
 
-  private removeControlFunction:()=>void = ()=> {};
+   private removeControlFunction=()=> {
+    console.log('parent unregister ' + this.parentFormConnect);
+    this.parentForm.form.removeControl(this.parentFormConnect);
+  }
 
 }

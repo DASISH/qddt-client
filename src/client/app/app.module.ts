@@ -20,7 +20,7 @@ import { AuthGuard } from './auth-guard.service';
 // import { PageNotFoundComponent } from './components/pagenotfound/page-not-found.component';
 
 @NgModule({
-  imports: [ routing, BrowserModule, HttpModule, SharedModule,  HomeModule,
+  imports: [ routing, BrowserModule, HttpModule,  SharedModule,  HomeModule,
     CategoryModule, ResponsedomainModule, QuestionModule, ControlConstructModule,
     SequenceModule, InstrumentModule, PublicationModule],
   declarations: [ AppComponent ],

@@ -1,4 +1,4 @@
-  <div *ngIf="isVisible && revisions">
+  <div *ngIf="revisions && isVisible" #ref>
     <qddt-diff *ngIf="selectRevisionId >= 0"
                [compared]="revisions[selectRevisionId].entity"
                [current]="current"

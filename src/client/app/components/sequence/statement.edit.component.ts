@@ -18,7 +18,7 @@ import { ElementTypeDescription, SequenceService, Sequence } from './sequence.se
       <div class="input-field row">
         <label [attr.for]="elementId + '-text'">Text</label>
         <textarea id="{{elementId}}-text" name="{{elementId}}-text"
-          class="materialize-textarea" 
+          class="materialize-textarea"
           [(ngModel)]="statement.description" [attr.maxlength]="255">
         </textarea>
       </div>

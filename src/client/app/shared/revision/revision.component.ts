@@ -1,7 +1,5 @@
 import { Component, Input, OnInit, OnChanges, EventEmitter, Output } from '@angular/core';
 import { RevisionService } from './revision.service';
-// import { MaterializeAction } from 'angular2-materialize';
-// import { PreviewPublicationComponent } from '../../common/preview/preview.component';
 
 @Component({
   selector: 'qddt-revision',
@@ -12,17 +10,17 @@ import { RevisionService } from './revision.service';
 export class RevisionComponent implements OnChanges, OnInit {
 
   @Input() qddtURI: string;
-  @Input() isVisible: boolean;
   @Input() config: any[];
   @Input() current: any;
   @Output() requestPreview: EventEmitter<any> = new EventEmitter<any>();
+
+  @Input() isVisible:boolean = false;
+
   private revisions: any[];
   private page: any;
   private selectRevisionId: number;
   private currentRevisionId: number;
   private showProgressBar: boolean=false;
-
-
 
   constructor(private service: RevisionService) {
     this.revisions = [];
@@ -40,11 +38,13 @@ export class RevisionComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges() {
+    console.log('revision on changes ' + this.isVisible);
     if (this.isVisible) {
       this.getRevisionsById();
     } else {
       this.selectRevisionId = -1;
     }
+    // this.init();
   }
 
 

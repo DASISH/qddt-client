@@ -17,12 +17,12 @@ import { QuestionItem } from '../../components/question/question.service';
   <!--[questionItem]="questionItem">-->
 <!--</qddt-preview-questionitem-grid>-->
 <!--<div *ngIf="questionItem?.question?.children?.length ===0" style="color: black">-->
-<div class="row">
+<div class="row" >
   <div class="flow-text" style="padding-top: 15pt;padding-left: 15pt;">
-  {{questionItem.question}}</div>
+  {{questionItem?.question}}</div>
 </div>
 <div class="teal-text" *ngIf="questionItem?.intent" style="padding-left: 15pt; padding-bottom: 10pt">Intent</div>
-<div style="padding-left: 15pt;">{{questionItem.intent}}</div>
+<div style="padding-left: 15pt;">{{questionItem?.intent}}</div>
 <div class="row" style="padding-right: 5pt; padding-left:5pt ">
   <qddt-preview-responsedomain *ngIf="questionItem?.responseDomain"
     [responseDomain]="questionItem.responseDomain">
