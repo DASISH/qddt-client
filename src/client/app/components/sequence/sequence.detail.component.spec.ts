@@ -123,10 +123,10 @@ class SequenceReuseComponent {
   @Output() element: any = new EventEmitter<any>();
 }
 
-@Component({
-  selector: 'qddt-revision',
-  template: `<div></div>`
-})
+// @Component({
+//   selector: 'qddt-revision',
+//   template: `<div></div>`
+// })
 
 class RevisionComponent {
   @Input() isVisible: any;

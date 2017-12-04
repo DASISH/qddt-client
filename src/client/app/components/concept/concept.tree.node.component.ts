@@ -26,7 +26,7 @@ export class TreeNodeComponent  {
   @Output() deleteConceptEvent: EventEmitter<any> = new EventEmitter();
   @Output() conceptUpdatedAction:EventEmitter<any> = new EventEmitter();
   @Input() concept: any;
-  @Input() readonly :boolean;
+  @Input() readonly :boolean = false;
   showConceptChildForm: boolean = false;
   showQuestionForm: boolean = false;
   questionItemActions = new EventEmitter<string|MaterializeAction>();

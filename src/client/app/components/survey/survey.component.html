@@ -42,10 +42,14 @@
             <div class="col s1 m1 l1">
               <br />
               <div class="row">
-                <a *ngIf="!surveyProgram.archived" class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="surveyProgram['isVisible'] = !surveyProgram['isVisible']"><i class="material-icons"title="Edit element">mode_edit</i></a>
-                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="revisionisVisible = !revisionisVisible"><i class="material-icons left medium" title="Revision history">history</i></a>
-                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"><i class="material-icons" (click)="getPdf(surveyProgram)" title="Get as Pdf">picture_as_pdf</i></a>
-                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="onShowStudy(surveyProgram)"><i class="material-icons left medium"title="Go to child elements">play_arrow</i></a>
+                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" *ngIf="!surveyProgram.archived" (click)="surveyProgram['isVisible'] = !surveyProgram['isVisible']">
+                  <i class="material-icons"title="Edit element">mode_edit</i></a>
+                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="revision.isVisible = !revision.isVisible">
+                  <i class="material-icons left medium" title="Revision history">history</i></a>
+                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
+                  <i class="material-icons" (click)="getPdf(surveyProgram)" title="Get as Pdf">picture_as_pdf</i></a>
+                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="onShowStudy(surveyProgram)">
+                  <i class="material-icons left medium"title="Go to child elements">play_arrow</i></a>
               </div>
             </div>
             <div class="col s10 m10 grey-text text-darken-2">
@@ -68,7 +72,8 @@
                 (surveySavedEvent)="onSurveySaved($event)">
               </qddt-survey-edit>
 
-              <qddt-revision *ngIf="revisionisVisible"
+              <qddt-revision
+                [isVisible]="revision.isVisible"
                 [current]="surveyProgram"
                 [config]="[{'name':'name','label':'Name'},{'name':'description','label':'Description'}]"
                 [qddtURI]="'audit/surveyprogram/'+surveyProgram.id+'/all'" #revision>

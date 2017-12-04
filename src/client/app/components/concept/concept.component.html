@@ -10,25 +10,23 @@
           New</a>
 
         <div *ngIf="showConceptForm">
-          <div class="card-action">
-            <form #hf="ngForm">
-              <div class="row">
-                <div class="input-field col s10">
+          <div class="row card-action">
+            <div class="col s10 offset-s1">
+              <form #hf="ngForm">
+                <div class="row input-field">
                   <input id="name" name="name" type="text" [(ngModel)]="concept.name" required>
                   <label for="name" class="white-text">Name</label>
                 </div>
-              </div>
-              <div class="row">
-                <div class="input-field col s10">
+                <div class="row input-field">
                   <textarea id="description" name="description" class="materialize-textarea"
                             [(ngModel)]="concept.description" required autosize></textarea>
                   <label for="description" class="white-text">Description</label>
                 </div>
-              </div>
-              <div class="row right-align">
-                <button type="button" (click)="onNewSave()" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
-              </div>
-            </form>
+                <div class="row right-align">
+                  <button type="button" (click)="onNewSave()" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>

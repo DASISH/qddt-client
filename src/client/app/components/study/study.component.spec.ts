@@ -42,7 +42,7 @@ export function main() {
           .compileComponents()
           .then(() => {
             let fixture = TestBed.createComponent(StudyComponent);
-            fixture.componentInstance.show = true;
+            // fixture.componentInstance.show = true;
             fixture.detectChanges();
             let de: any = fixture.debugElement.queryAll(By.css('a'));
             expect(de.length).toBeGreaterThan(1);
@@ -55,7 +55,7 @@ export function main() {
           .compileComponents()
           .then(() => {
             let fixture = TestBed.createComponent(StudyComponent);
-            fixture.componentInstance.show = true;
+            // fixture.componentInstance.show = true;
             fixture.componentInstance.survey = {
                 'id': '1',
                 'studies': [{
@@ -124,10 +124,6 @@ class StudyEditComponent {
   @Input() surveyId: any;
 }
 
-@Component({
-  selector: 'qddt-revision',
-  template: `<div></div>`
-})
 
 class RevisionComponent {
   @Input() isVisible: any;

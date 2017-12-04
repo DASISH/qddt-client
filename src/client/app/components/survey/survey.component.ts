@@ -15,7 +15,6 @@ export class SurveyComponent implements OnChanges {
   @Output() entitySavedEvent: EventEmitter<String> = new EventEmitter<String>();
 
   showSurveyForm: boolean = false;
-  private revisionisVisible: boolean = false;
   private surveys: any[]=[];
   private survey: any;
 

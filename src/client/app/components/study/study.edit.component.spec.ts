@@ -4,9 +4,9 @@ import { TestBed, async } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
-import { StudyService } from '../study.service';
+import { StudyService } from './study.service';
 import { StudyEditComponent } from './study.edit.component';
-import { API_BASE_HREF } from '../../../api';
+import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';

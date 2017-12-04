@@ -4,7 +4,7 @@
       <br />
       <div class="row">
         <a *ngIf="!readonly" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-           (click)="concept.isVisible = !concept.isVisible"><i class="material-icons" title="Edit Concept">mode_edit</i></a>
+           (click)="edit.isVisible = !edit.isVisible"><i class="material-icons" title="Edit Concept">mode_edit</i></a>
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
            (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium" title="Revision history">history</i></a>
         <qddt-questionitem-reuse *ngIf="!readonly" [parentId]="concept.id"
@@ -28,7 +28,7 @@
     </div>
 
     <div class="col s11  white grey-text text-darken-1">
-      <div class="row" *ngIf="!concept.isVisible">
+      <div class="row" *ngIf="!edit.isVisible">
         <div [innerHtml]="concept?.description" style="white-space: pre-wrap; padding-right: 35pt;" ></div>
         <qddt-author-chip [authors]="concept.authors" ></qddt-author-chip>
       </div>
@@ -56,16 +56,18 @@
           </form>
         </div>
       </div>
-      <qddt-concept-edit *ngIf="concept.isVisible" [concept]="concept"
+      <qddt-concept-edit [isVisible]="edit.isVisible" [concept]="concept"
                          (conceptSavedEvent)="onConceptSavedEvent($event)"
                          #edit>
       </qddt-concept-edit>
-      <qddt-revision *ngIf="revision.isVisible"
+
+      <qddt-revision [isVisible]="revision.isVisible"
         [current]="concept"
         [qddtURI]="'audit/concept/' + concept.id + '/all'"
         [config]="[{'name':'name','label':'Name'},{'name':'description','label':'Description'}]"
         #revision>
       </qddt-revision>
+
       <div *ngIf="concept.conceptQuestionItems.length > 0" class="section">
         <ul class="collection with-header hoverable"
             (mouseenter)="showbutton = true"
@@ -75,7 +77,7 @@
             style="padding-bottom: 5pt;">
             <div class="row" style="min-height: 3rem;">
               <div class="col s11" (click)="onClickQuestionItem(cqi.questionItem)" style="cursor: pointer;">
-                ♦ {{cqi?.questionItem?.question?.question}}</div>
+                ♦ {{cqi?.questionItem?.question}}</div>
               <div class="col s1">
                 <a *ngIf="!readonly"
                   class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
@@ -88,9 +90,13 @@
           </a>
         </ul>
       </div>
-      <div class="row">
-        <qddt-comment-list [ownerId]="concept.id" [comments]="concept.comments"></qddt-comment-list>
-      </div>
+
+      <qddt-comment-list
+        *ngIf="!edit.isVisible"
+        [ownerId]="concept.id"
+        [comments]="concept.comments">
+      </qddt-comment-list>
+
       <div class="tree-children">
         <qddt-concept-treenode *ngFor="let child of concept.children"
            [concept]="child"
@@ -99,6 +105,7 @@
            (conceptUpdatedAction)="onConceptUpdated($event)">
         </qddt-concept-treenode>
       </div>
+
     </div>
   </div>
 
@@ -114,10 +121,10 @@
       </div>
       <div class="modal-content">
         <div class="row" *ngIf="questionItem">
-            <label class="active teal-text ">Name</label>
-            <H5 class="grey-text darken-2">{{questionItem.name}}</H5>
+            <label class="teal-text ">Name</label>
+            <H5 class="grey-text">{{questionItem.name}}</H5>
         </div>
-        <qddt-preview-questionitem [questionItem]="questionItem"></qddt-preview-questionitem>
+        <qddt-preview-questionitem class="grey-text darken-5" [questionItem]="questionItem"></qddt-preview-questionitem>
       </div>
     </div>
   </div>

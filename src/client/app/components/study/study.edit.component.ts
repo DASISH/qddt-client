@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, AfterContentChecked } from '@angular/core';
-import { StudyService, Study } from '../study.service';
+import { StudyService, Study } from './study.service';
 
 declare var Materialize:any;
 
@@ -29,18 +29,19 @@ declare var Materialize:any;
 
     <qddt-element-footer [element]="study" [type]="'study'"></qddt-element-footer>
 
-    <button  [disabled]="!studyForm.form.valid" type="submit" class="btn btn-default">Submit</button>
+    <div class="row right-align">
+      <button type="submit" class="btn btn-default" [disabled]="!studyForm.form.valid" >Submit</button>
+    </div>
   </form>
 </div>`
 })
 
 export class StudyEditComponent implements AfterContentChecked {
   @Input() study: Study;
-  // @Input() isVisible: boolean;
   @Input() surveyId: any;
   @Output() studySavedEvent: EventEmitter<any> = new EventEmitter<any>();
 
-  private showlabel: boolean = false;
+  // private showlabel: boolean = false;
 
   constructor(private studyService: StudyService) {
   }
@@ -50,16 +51,15 @@ export class StudyEditComponent implements AfterContentChecked {
   }
 
   onSave() {
-    // this.isVisible = false;
     this.studyService.update(this.study).subscribe((result: any) => {
       this.study = null;
       this.studySavedEvent.emit(result);
     });
   }
 
-  onChangeKind(value:any) {
-   this.showlabel = (value === 'MILESTONE');
-  }
+  // onChangeKind(value:any) {
+  //  this.showlabel = (value === 'MILESTONE');
+  // }
 
   onAuthorSelected(author:any) {
    this.studyService.attachAuthor(this.study.id,author.id);

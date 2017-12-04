@@ -30,23 +30,25 @@
         New</a>
 
         <div *ngIf="showTopicForm">
-          <div class="card-action">
-            <form (ngSubmit)="onNewSave()" #newTopicFrom="ngForm">
-              <div class="row">
-                <div class="input-field col s10">
-                  <input id="name" name="name" type="text" [(ngModel)]="newTopic.name" required>
-                  <label for="name" class="white-text">Name</label>
+          <div class="row card-action">
+            <div class="col s10 offset-s1">
+              <form (ngSubmit)="onNewSave()" #newTopicFrom="ngForm">
+                <div class="row input-field">
+                  <input id="topic-name" name="name" type="text" [(ngModel)]="newTopic.name" required>
+                    <label for="topic-name" class="white-text">Name</label>
                 </div>
-              </div>
-              <div class="row">
-                <div class="input-field col s10">
-                  <textarea id="description" name="description" class="materialize-textarea" [(ngModel)]="newTopic.abstractDescription"
+
+                <div class="row input-field">
+                  <textarea id="topic-desc" name="description" class="materialize-textarea" [(ngModel)]="newTopic.abstractDescription"
                             required autosize ></textarea>
-                  <label for="description" class="white-text">Description</label>
+                  <label for="topic-desc" class="white-text">Description</label>
                 </div>
-              </div>
-              <button [disabled]="!newTopicFrom .form.valid" type="submit" class="btn btn-default">Submit</button>
-            </form>
+
+                <div class="row right-align">
+                  <button type="submit" class="btn btn-default" [disabled]="!newTopicFrom.form.valid" >Submit</button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
@@ -89,12 +91,12 @@
                                (topicSavedAction)="onTopicSavedEvent($event)"
                                #edit>
               </qddt-topic-edit>
-              <div class="row">
+              <div class="row" *ngIf="!edit.isVisible">
                 <p>{{currentElement?.abstractDescription}}</p>
                 <!--<label class="teal-text" *ngIf="topic.authors?.length>0">Authors</label>-->
                 <!--<qddt-author-chip [authors]="topic.authors" ></qddt-author-chip>-->
               </div>
-              <div class="row" *ngIf="currentElement?.otherMaterials && currentElement?.otherMaterials?.length > 0">
+              <div class="row" *ngIf="!edit.isVisible && currentElement?.otherMaterials && currentElement?.otherMaterials?.length > 0">
                 <ul class="collection with-header hoverable">
                   <li class="collection-header teal-text">External aid</li>
                   <li *ngFor="let m of currentElement.otherMaterials;" class="col s10 m5">
@@ -103,7 +105,7 @@
                   </li>
                 </ul>
               </div>
-              <div *ngIf="currentElement?.topicQuestionItems?.length > 0" class="section">
+              <div *ngIf="!edit.isVisible && currentElement?.topicQuestionItems?.length > 0" class="section">
                 <ul class="collection with-header hoverable"
                     (mouseenter)="showQuestionbutton = true"
                     (mouseleave)="showQuestionbutton = false">
@@ -111,7 +113,7 @@
                   <a class="collection-item grey-text text-darken-1" *ngFor="let cqi of currentElement.topicQuestionItems">
                     <div class="row" style="min-height: 3rem;">
                       <div class="col s11" (click)="onClickQuestionItem(cqi.questionItem)" style="cursor: pointer;">
-                        ♦ {{cqi?.questionItem?.question?.question}}</div>
+                        ♦ {{cqi?.questionItem?.question}}</div>
                       <div class="col s1">
                         <a *ngIf="!currentElement.archived"
                           class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
@@ -124,14 +126,15 @@
                   </a>
                 </ul>
               </div>
-              <qddt-revision *ngIf="revision.isVisible"
+              <qddt-revision
+                [isVisible]="revision.isVisible"
                 [current]="currentElement"
                 [config]="config"
                 [qddtURI]="'audit/topicgroup/' + currentElement.id + '/all'" #revision
                (requestPreview)="showPreview($event)">
               </qddt-revision>
 
-              <qddt-comment-list
+              <qddt-comment-list *ngIf="!edit.isVisible"
                 [ownerId]="currentElement.id"
                 [comments]="currentElement.comments">
               </qddt-comment-list>

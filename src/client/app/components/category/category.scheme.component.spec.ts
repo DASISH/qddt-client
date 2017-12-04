@@ -163,10 +163,7 @@ class AutocompleteComponent {
   @Output() enterEvent: EventEmitter<any> = new EventEmitter<any>();
 }
 
-@Component({
-  selector: 'qddt-revision',
-  template: `<div></div>`
-})
+
 
 class RevisionComponent {
   @Input() isVisible: any;

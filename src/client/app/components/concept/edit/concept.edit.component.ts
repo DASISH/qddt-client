@@ -8,28 +8,36 @@ import { MaterializeAction } from 'angular2-materialize';
   moduleId: module.id,
   providers: [ConceptService],
   template: `
-  <div *ngIf="concept" class="row card" id="{{concept.id}}"  >
+<div *ngIf="isVisible">
+
+  <div *ngIf="concept" class="row " id="{{concept.id}}"  >
     <form (ngSubmit)="save()" #hf="ngForm">
+
       <div class="row input-field ">
         <label [attr.for]="concept.id + '-name'" class="teal-text">Name</label>
         <input id="{{concept?.id}}-name"
           name="{{concept?.id}}-name" type="text" [(ngModel)]="concept.name" required>
       </div>
+
       <div class="row input-field ">
         <label [attr.for]="concept.id + '-description'" class="teal-text">Description</label>
         <textarea class="materialize-textarea" id="{{concept?.id}}-description"
           name="{{concept?.id}}-description"
           [(ngModel)]="concept.description" required autosize></textarea>
       </div>
-      <div class="row" *ngIf="!readonly">
-        <qddt-rational [formName]="'RationalComp'" [element]="concept" [config]="{hidden: [2,3]}"></qddt-rational>
-      </div>
-      <div class="row">
-        <qddt-element-footer [element]="concept" [type]="'concept'"
-          (BasedonObjectDetail)="onBasedonObjectDetail($event)">
-        </qddt-element-footer>
-      </div>
-      <div class="row" *ngIf="!readonly">
+
+      <qddt-rational
+        *ngIf="!readonly"
+        [formName]="'RationalComp'"
+        [element]="concept"
+        [config]="{hidden: [2,3]}">
+      </qddt-rational>
+
+      <qddt-element-footer [element]="concept" [type]="'concept'"
+        (BasedonObjectDetail)="onBasedonObjectDetail($event)">
+      </qddt-element-footer>
+
+      <div class="row right-align" *ngIf="!readonly">
         <button type="submit" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
       </div>
     </form>
@@ -49,12 +57,15 @@ import { MaterializeAction } from 'angular2-materialize';
       </button>
     </div>
   </div>
-  `
+
+</div>
+`
 })
 export class ConceptEditComponent implements OnInit {
 
   @Input() concept: Concept;
   @Input() readonly: boolean;
+  @Input() isVisible: boolean = false;
   @Output() conceptSavedEvent: EventEmitter<any> = new EventEmitter<any>();
   basedonObject: any;
   basedonActions = new EventEmitter<string|MaterializeAction>();
@@ -74,6 +85,7 @@ export class ConceptEditComponent implements OnInit {
       .subscribe((result: any) => {
         this.concept = result;
         this.conceptSavedEvent.emit(result);
+        this.isVisible = false;
       }
         ,(err: any) => console.log('ERROR: ', err));
   }

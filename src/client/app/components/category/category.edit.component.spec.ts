@@ -129,10 +129,10 @@ class RationalComponent {
   @Input() config: any;
 }
 
-@Component({
-  selector: 'qddt-revision',
-  template: `<div></div>`
-})
+// @Component({
+//   selector: 'qddt-revision',
+//   template: `<div></div>`
+// })
 
 class RevisionComponent {
   @Input() isVisible: any;

@@ -12,7 +12,7 @@ export class StudyComponent implements OnChanges {
 
   @Output() studySelectedEvent: EventEmitter<any> = new EventEmitter<any>();
   @Input() survey: any;
-  @Input() show: boolean;
+  @Input() show: boolean=false;
 
   showEditForm: boolean = false;
   private study: any;
@@ -24,9 +24,13 @@ export class StudyComponent implements OnChanges {
 
   ngOnChanges() {
     this.studies = this.survey.studies;
+    console.log(this.studies.length);
+    console.log(this.survey.name);
+    console.log(this.studies[0].name);
   }
 
   onStudySelect(study: any) {
+    this.show = false;
     this.studySelectedEvent.emit(study);
   }
 
