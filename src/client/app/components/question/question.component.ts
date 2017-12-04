@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterContentChecked, EventEmitter } from '@angular/core';
-import { QuestionService, QuestionItem, Question } from './question.service';
+import { QuestionService, QuestionItem } from './question.service';
 import { UserService } from '../../shared/user/user.service';
 import { Subject }          from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
@@ -44,7 +44,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
     this.mainresponseDomainRevision = 0;
     this.showbutton = false;
     this.columns = [{'name':'name', 'label':'Question Name', 'sortable':true, 'direction': '' ,'width':'15%'},
-      {'name':['question','question'], 'label':'Question Text', 'sortable':true, 'direction': '' ,'width':'50%'},
+      {'name':'question', 'label':'Question Text', 'sortable':true, 'direction': '' ,'width':'50%'},
       {'name':['responseDomain','name'], 'label':'ResponseDomain Name', 'sortable':true, 'direction': '','width':'20%' },
       { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' ,'width':'8%'}];
     this.searchKeysSubect
@@ -100,7 +100,6 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
     this.showQuestionItemForm = !this.showQuestionItemForm;
     if (this.showQuestionItemForm) {
       this.questionItem = new QuestionItem();
-      this.questionItem.question = new Question();
       this.questionItem.responseDomain =null;
     }
   }

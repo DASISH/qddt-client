@@ -116,8 +116,8 @@ export class QuestionReuseComponent {
   private buildRevisionConfig(): any[] {
     let config: any[] = [];
     config.push({'name':'name','label':'Name'});
-    config.push({'name':['question', 'question'],'label':'Question'});
-    config.push({'name':['question', 'intent'],'label':'Intent'});
+    config.push({'name':'question','label':'Question'});
+    config.push({'name':'intent','label':'Intent'});
     config.push({'name':['responseDomain', 'name'],'label':'responseDomain'});
     config.push({'name':['responseDomain', 'version'],'label':'RespD', 'init': function (version: any) {
       return 'V' + version['major'] +'.' + version['minor'];

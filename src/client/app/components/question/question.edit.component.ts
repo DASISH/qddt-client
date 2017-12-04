@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { Question, QuestionItem, QuestionService } from './question.service';
+import { QuestionItem, QuestionService } from './question.service';
 import { MaterializeAction } from 'angular2-materialize';
 import { Category } from '../category/category.service';
 import { ResponseDomain } from '../responsedomain/responsedomain.service';
@@ -83,14 +83,6 @@ export class QuestionItemEditComponent implements OnInit {
     console.log('onResponsedomainRemove');
     this.questionitem.responseDomainRevision = 0;
     this.questionitem.responseDomain = null;
-  }
-
-  onAddQuestion() {
-    this.questionitem.question.children.push(new Question());
-  }
-
-  onRemoveQuestion(idx:number) {
-    this.questionitem.question.children.splice(idx,1);
   }
 
   private isMixed(): boolean {

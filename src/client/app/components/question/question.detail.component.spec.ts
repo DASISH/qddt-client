@@ -64,7 +64,7 @@ export function main() {
               'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
               'name' : 'questionitem',
               'label' : 'questionitem',
-              'question': {'question': 'questionitem'},
+              'question': 'questionitem',
               'basedOnObject' : null,
               'basedOnRevision' : null,
               'version' : {'major' : 6, 'minor' : 0, 'versionLabel' : '', 'revision' : null },

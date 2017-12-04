@@ -32,8 +32,7 @@
         (controlConstructSavedAction)="onccSaveAction($event)">
       </qddt-control-construct-form>
 
-      <qddt-revision
-        [isVisible]="revisionIsVisible"
+      <qddt-revision *ngIf="revisionIsVisible"
         [current]="controlConstruct"
         [config]="config"
         [qddtURI]="'audit/controlconstruct/' + controlConstruct.id + '/all'">

@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { QuestionService, QuestionItem, Question } from './question.service';
+import { QuestionService, QuestionItem } from './question.service';
 import { MaterializeAction } from 'angular2-materialize';
 let saveAs = require('file-saver');
 
@@ -142,8 +142,8 @@ export class QuestionDetailComponent implements OnInit {
   private buildRevisionConfig(): any[] {
     let config: any[] = [];
     config.push({'name':'name','label':'Name'});
-    config.push({'name':['question', 'question'],'label':'Question'});
-    config.push({'name':['question', 'intent'],'label':'Intent'});
+    config.push({'name':'question','label':'Question'});
+    config.push({'name':'intent','label':'Intent'});
     config.push({'name':['responseDomain', 'name'],'label':'responseDomain'});
     config.push({'name':['responseDomain', 'version'],'label':'RespD', 'init': function (version: any) {
       return 'V' + version['major'] +'.' + version['minor'];
@@ -155,9 +155,6 @@ export class QuestionDetailComponent implements OnInit {
   private init() {
     if (this.questionitem !== null && this.questionitem !== undefined) {
       // this.questionitem['workinprogress'] = this.questionitem.changeKind === 'IN_DEVELOPMENT';
-      if (this.questionitem.question === null) {
-        this.questionitem.question = new Question();
-      }
       this.savedObject = JSON.stringify(this.questionitem);
       this.savedQuestionitemsIndex = this.questionitems
         .findIndex(q => q['id'] === this.questionitem['id']);

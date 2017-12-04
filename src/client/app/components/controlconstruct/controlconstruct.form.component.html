@@ -1,4 +1,4 @@
-<div *ngIf="controlConstruct" class="card">
+<div *ngIf="controlConstruct">
   <form  #qcform="ngForm">
     <div class="row">
       <div class="col s2 offset-s10">
@@ -101,7 +101,7 @@
       </div>
       <div class="row">
         <div class="col s11">
-          <div class="flow-text">{{controlConstruct?.questionItem?.question?.question}}</div>
+          <div class="flow-text">{{controlConstruct?.questionItem?.question}}</div>
         </div>
         <div class="col s1">
           <a [ngClass]="{hide: !showQuestionButton}"
@@ -152,7 +152,6 @@
           </div>
         </li>
       </ul>
-
 
     <qddt-preview-responsedomain
       *ngIf="controlConstruct.questionItem && controlConstruct.questionItem.responseDomain"

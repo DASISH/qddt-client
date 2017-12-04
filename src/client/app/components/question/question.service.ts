@@ -1,21 +1,15 @@
 import { Injectable, Inject } from '@angular/core';
 import { Http } from '@angular/http';
-import DateTimeFormat = Intl.DateTimeFormat;
+// import DateTimeFormat = Intl.DateTimeFormat;
 import { API_BASE_HREF } from '../../api';
 import { BaseService } from '../../shared/base.service';
 import { ResponseDomain } from '../responsedomain/responsedomain.service';
 
-export class Question {
-  id: string;
-  question: string;
-  intent: string;
-  modified:DateTimeFormat;
-  children:Question[];
-}
 
 export class QuestionItem {
   id: string;
-  question: Question;
+  question: string;
+  intent: string;
   responseDomain: ResponseDomain;
   responseDomainRevision: number;
   version: any;
@@ -33,9 +27,6 @@ export class QuestionService extends BaseService {
     super(http ,api);
   }
 
-  save(question: Question): any {
-    return this.post(question,'question/create');
-  }
 
   getQuestionItemPage(page: String = '0'): any {
     return this.get('questionitem/page' + '?&page=' + page + this.pageSize );
