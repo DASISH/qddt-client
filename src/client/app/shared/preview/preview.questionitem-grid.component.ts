@@ -13,9 +13,9 @@ import { QuestionItem } from '../../components/question/question.service';
   ],
   template: `
   <div *ngIf="questionItem" style="color: black">
-    <div class="row" *ngIf="questionItem.question.intent">
-      <div class="teal-text" *ngIf="questionItem.question?.intent" style="padding-left: 15pt; padding-bottom: 10pt">Intent</div>
-      <div style="padding-left: 15pt;">{{questionItem.question?.intent}}</div>
+    <div class="row" *ngIf="questionItem.intent">
+      <div class="teal-text" *ngIf="questionItem.intent" style="padding-left: 15pt; padding-bottom: 10pt">Intent</div>
+      <div style="padding-left: 15pt;">{{questionItem.intent}}</div>
     </div>
     <div class="row">
       <div class="col s6" style="padding: 1 pt;">
@@ -26,12 +26,12 @@ import { QuestionItem } from '../../components/question/question.service';
             </th></tr>
           </thead>
           <tbody >
-            <tr><td >{{questionItem.question.question}}</td></tr>
-            <tr *ngFor="let child of questionItem.question.children">
-              <td>
-                {{child.question}}
-              </td>
-            </tr>
+            <tr><td >{{questionItem.question}}</td></tr>
+            <!--<tr *ngFor="let child of questionItem.question.children">-->
+              <!--<td>-->
+                <!--{{child.question}}-->
+              <!--</td>-->
+            <!--</tr>-->
           </tbody>
         </table>
       </div>

@@ -69,7 +69,7 @@ export const QddtElementTypes: QddtElementType[] = [
      '&constructkind=STATEMENT_CONSTRUCT'),
   new QddtElementType(ElementKind.INSTRUMENT, 'Instrument', 'instrument',['label', 'description'],null),
   new QddtElementType(ElementKind.PUBLICATION, 'Publication', 'publication',['name', 'purpose'],null),
-  new QddtElementType(ElementKind.QUESTIONITEM, 'QuestionItem', 'questionitem',['name', ['question','question']],null),
+  new QddtElementType(ElementKind.QUESTIONITEM, 'QuestionItem', 'questionitem',['name', 'question'],null),
   new QddtElementType(ElementKind.RESPONSEDOMAIN, 'ResponseDomain', 'responsedomain',['name', 'description'],null),
   new QddtElementType(ElementKind.STUDY, 'Study', 'study',['name', 'description'],null),
   new QddtElementType(ElementKind.SURVEY, 'Survey', 'surveyprogram',['name', 'description'],null),

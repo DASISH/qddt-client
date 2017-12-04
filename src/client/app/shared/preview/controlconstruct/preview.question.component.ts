@@ -27,7 +27,7 @@ let saveAs = require('file-saver');
   <div class="row">
     <div (click)="onQuestionitemDetail(controlConstruct.questionItem)" [ngStyle]="{'cursor': 'pointer'}">
       <a><i class="material-icons left small">search</i></a>
-      <h5>{{controlConstruct?.questionItem?.question?.question}}</h5>
+      <h5>{{controlConstruct?.questionItem?.question}}</h5>
     </div>
   </div>
   <div class="row" *ngIf="controlConstruct.postInstructions">
