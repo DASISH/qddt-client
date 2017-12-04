@@ -11,33 +11,29 @@
         </a>
 
         <div *ngIf="showCategoryForm">
-          <div class="card-action">
-            <form (ngSubmit)="onCreateCategory()" #newCategoryForm="ngForm">
-              <div class="row">
-                <div class="input-field col s10">
+          <div class="row card-action">
+            <div class="col s10 offset-s1">
+              <form (ngSubmit)="onCreateCategory()" #newCategoryForm="ngForm">
+                <div class="row input-field">
                   <input id="label1" name="label1"  class="form-control"  type="text"  required maxlength="255"
                          [(ngModel)]="category.label">
                   <label for="label1" class="white-text">Label</label>
                 </div>
-              </div>
-              <div class="row">
-                <div class="input-field col s10">
+                <div class="row input-field">
                   <input id="name1" name="name1" class="form-control filled-in"  type="text" maxlength="255"
                          [(ngModel)]="category.name" required >
                   <label for="name1" class="white-text">Name</label>
                 </div>
-              </div>
-              <div class="row">
-                <div class="input-field col s10">
+                <div class="row input-field">
                   <textarea id="description1" name="description1" class="materialize-textarea"
                     [(ngModel)]="category.description"></textarea>
                   <label for="description1" class="white-text">Description</label>
                 </div>
-              </div>
-              <div class="row right-align">
-                <button  [disabled]="!newCategoryForm.form.valid" type="submit" class="btn btn-default">Submit</button>
-              </div>
-            </form>
+                <div class="row right-align">
+                  <button  [disabled]="!newCategoryForm.form.valid" type="submit" class="btn btn-default">Submit</button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>

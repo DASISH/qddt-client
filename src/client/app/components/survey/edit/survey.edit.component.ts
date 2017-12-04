@@ -8,7 +8,7 @@ declare var Materialize:any;
   moduleId: module.id,
   providers: [SurveyService],
   template: `
-  <div *ngIf="isVisible">
+  <!--<div *ngIf="isVisible">-->
     <div *ngIf="survey" id="{{survey.id}}"  >
       <form materialize (ngSubmit)="onSave()" #surveyForm="ngForm">
         <div class="row">
@@ -26,19 +26,14 @@ declare var Materialize:any;
               class="materialize-textarea"  [(ngModel)]="survey.description" required autosize></textarea>
           </div>
         </div>
-
-        <!--<div class="row">-->
-		      <qddt-rational [formName]="'RationalComp'" [element]="survey" [config]="{hidden: [2,3]}"></qddt-rational>
-        <!--</div>-->
-
-        <!--<div class="row">-->
-          <qddt-element-footer [element]="survey" [type]="'survey'"></qddt-element-footer>
-        <!--</div>-->
-
-        <button [disabled]="!surveyForm.form.valid" type="submit" class="btn btn-default">Submit</button>
+        <qddt-rational [formName]="'RationalComp'" [element]="survey" [config]="{hidden: [2,3]}"></qddt-rational>
+        <qddt-element-footer [element]="survey" [type]="'survey'"></qddt-element-footer>
+        <div class="row right-align">
+          <button type="submit" class="btn btn-default" [disabled]="!surveyForm.form.valid" >Submit</button>
+        </div>
       </form>
     </div>
-  </div>
+  <!--</div>-->
 
   `
 })
@@ -46,7 +41,7 @@ declare var Materialize:any;
 export class SurveyEditComponent implements AfterContentChecked {
 
   @Input() survey: SurveyProgram;
-  @Input() isVisible: boolean;
+  // @Input() isVisible: boolean;
   @Output() surveySavedEvent: EventEmitter<SurveyProgram> = new EventEmitter<SurveyProgram>();
 
 
@@ -59,9 +54,11 @@ export class SurveyEditComponent implements AfterContentChecked {
 
 
   onSave() {
-    this.isVisible = false;
+    // this.isVisible = false;
+    // this.survey['isVisible'] = false;
     this.surveyService.save(this.survey)
       .subscribe((result: any) => {
+        this.survey = null;
         this.surveySavedEvent.emit(result);}
         ,(err: any) => console.log('ERROR: ', err));
   }

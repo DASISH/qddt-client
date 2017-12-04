@@ -10,11 +10,11 @@ let saveAs = require('file-saver');
 })
 export class StudyComponent implements OnChanges {
 
-  showStudyForm: boolean = false;
   @Output() studySelectedEvent: EventEmitter<any> = new EventEmitter<any>();
   @Input() survey: any;
   @Input() show: boolean;
 
+  showEditForm: boolean = false;
   private study: any;
   private studies: any[];
 
@@ -24,9 +24,6 @@ export class StudyComponent implements OnChanges {
 
   ngOnChanges() {
     this.studies = this.survey.studies;
-    // this.studies.forEach((study: any) => {
-    //   study.workinprogress = (study.version.versionLabel === 'In Development');
-    // });
   }
 
   onStudySelect(study: any) {
@@ -34,17 +31,16 @@ export class StudyComponent implements OnChanges {
   }
 
   onToggleStudyForm() {
-    this.showStudyForm = !this.showStudyForm;
+    this.showEditForm = !this.showEditForm;
   }
 
   onStudySavedEvent(study: any) {
     this.studies = this.studies.filter((s: any) => s.id !== study.id);
-    // study.workinprogress = (study.version.versionLabel === 'In Development');
     this.studies.push(study);
   }
 
   onSave() {
-    this.showStudyForm = false;
+    this.showEditForm = false;
     this.studyService.save(this.study,this.survey.id).subscribe((result: any) => {
       this.studies.push(result);
     });

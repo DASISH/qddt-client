@@ -25,7 +25,9 @@
                   <label for="description" class="white-text">Description</label>
                 </div>
               </div>
-              <button type="button"  (click)="onNewSave()" class="btn btn-default">Submit</button>
+              <div class="row right-align">
+                <button type="button" (click)="onNewSave()" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
+              </div>
             </form>
           </div>
         </div>

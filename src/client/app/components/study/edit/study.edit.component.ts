@@ -9,7 +9,7 @@ declare var Materialize:any;
    providers: [StudyService],
    template:
 `
-<div *ngIf="isVisible && study"  id="{{study.id}}"  >
+<div *ngIf="study"  id="{{study.id}}"  >
   <form (ngSubmit)="onSave()" #studyForm="ngForm">
     <div class="row">
       <div class="col s12 input-field">
@@ -36,7 +36,7 @@ declare var Materialize:any;
 
 export class StudyEditComponent implements AfterContentChecked {
   @Input() study: Study;
-  @Input() isVisible: boolean;
+  // @Input() isVisible: boolean;
   @Input() surveyId: any;
   @Output() studySavedEvent: EventEmitter<any> = new EventEmitter<any>();
 
@@ -50,9 +50,9 @@ export class StudyEditComponent implements AfterContentChecked {
   }
 
   onSave() {
-    this.isVisible = false;
+    // this.isVisible = false;
     this.studyService.update(this.study).subscribe((result: any) => {
-      this.study = result;
+      this.study = null;
       this.studySavedEvent.emit(result);
     });
   }

@@ -1,4 +1,4 @@
-<div *ngIf="show">
+<div *ngIf="show" >
 
   <div class="col m10 l9">
     <div class="card white white-text text-lighten-2">
@@ -11,16 +11,14 @@
           New</a>
 
         <div *ngIf="showSurveyForm">
-          <div class="card-action">
-            <form (ngSubmit)="onSave()" #newSurveyFrom="ngForm">
-              <div class="row">
-                <div class="input-field col s10">
-                  <input id="name" name="name" type="text" [(ngModel)]="survey.name" required>
-                  <label for="name" class="white-text">Name</label>
+          <div class="row card-action">
+            <div class="col s10 offset-s1">
+              <form (ngSubmit)="onSave()" #newSurveyFrom="ngForm">
+                <div class="row input-field">
+                    <input id="name" name="name" type="text" [(ngModel)]="survey.name" required>
+                    <label for="name" class="white-text">Name</label>
                 </div>
-              </div>
-              <div class="row">
-                <div class="input-field col s10">
+                <div class="row input-field">
                   <textarea
                     id="description"
                     name="description"
@@ -29,74 +27,64 @@
                   </textarea>
                   <label for="description" class="white-text">Description</label>
                 </div>
-              </div>
-              <button [disabled]="!newSurveyFrom.form.valid" type="submit" class="btn btn-default">Submit</button>
-            </form>
+                <div class="row right-align">
+                  <button type="submit" class="btn btn-default" [disabled]="!newSurveyFrom.form.valid" >Submit</button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
 
       <div *ngIf="surveys">
         <div class="row card" *ngFor="let surveyProgram of surveys" style="padding-left:2%">
-          <div id="{{surveyProgram?.id}}" class="scrollspy">
-
+          <div id="{{surveyProgram?.id}}" class="row scrollspy">
             <div class="col s1 m1 l1">
               <br />
               <div class="row">
-                <a *ngIf="!surveyProgram.archived" class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="edit.isVisible = !edit.isVisible"><i class="material-icons"title="Edit element">mode_edit</i></a>
-                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium" title="Revision history">history</i></a>
+                <a *ngIf="!surveyProgram.archived" class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="surveyProgram['isVisible'] = !surveyProgram['isVisible']"><i class="material-icons"title="Edit element">mode_edit</i></a>
+                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="revisionisVisible = !revisionisVisible"><i class="material-icons left medium" title="Revision history">history</i></a>
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"><i class="material-icons" (click)="getPdf(surveyProgram)" title="Get as Pdf">picture_as_pdf</i></a>
-                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="onSurveySelect(surveyProgram)"><i class="material-icons left medium"title="Go to child elements">play_arrow</i></a>
+                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="onShowStudy(surveyProgram)"><i class="material-icons left medium"title="Go to child elements">play_arrow</i></a>
               </div>
             </div>
-
             <div class="col s10 m10 grey-text text-darken-2">
               <div class="row">
               <h5>
                 <div class="col s10">{{surveyProgram?.name}}</div>
                 <div class="col s2">
-                  <!--<div class="text-align: right">-->
                     <qddt-version-label [element]="surveyProgram"></qddt-version-label>
-                  <!--</div>-->
                 </div>
               </h5>
               </div>
 
-              <div class="row">
+              <div class="row" *ngIf="!surveyProgram['isVisible']" >
                 <p>{{surveyProgram?.description}}</p>
-                <qddt-author-chip [authors]="surveyProgram.authors" ></qddt-author-chip>
+                <qddt-author-chip [authors]="surveyProgram?.authors" ></qddt-author-chip>
               </div>
 
-            <qddt-survey-edit [survey]="surveyProgram" (surveySavedEvent)="onSurveySaved($event)" #edit></qddt-survey-edit>
+              <qddt-survey-edit *ngIf="surveyProgram['isVisible']"
+                [survey]="surveyProgram"
+                (surveySavedEvent)="onSurveySaved($event)">
+              </qddt-survey-edit>
 
-            <qddt-revision
-              [isVisible]="revision.isVisible"
-              [current]="surveyProgram"
-              [config]="[{'name':'name','label':'Name'},{'name':'description','label':'Description'}]"
-              [qddtURI]="'audit/surveyprogram/'+surveyProgram.id+'/all'" #revision>
-            </qddt-revision>
+              <qddt-revision *ngIf="revisionisVisible"
+                [current]="surveyProgram"
+                [config]="[{'name':'name','label':'Name'},{'name':'description','label':'Description'}]"
+                [qddtURI]="'audit/surveyprogram/'+surveyProgram.id+'/all'" #revision>
+              </qddt-revision>
 
-            <qddt-comment-list
-              [ownerId]="surveyProgram.id"
-              [comments]="surveyProgram.comments">
-            </qddt-comment-list>
-
-          </div>
+              <qddt-comment-list *ngIf="!surveyProgram['isVisible']"
+                [ownerId]="surveyProgram.id"
+                [comments]="surveyProgram.comments">
+              </qddt-comment-list>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="col hide-on-small-only m1 l1">
-    <div style="top: 55;" class="toc-wrapper pinned">
-      <h5>Survey Toc</h5>
-        <ul class="section table-of-contents">
-          <li><a href="home#topMenu">to the top </a> </li>
-          <li *ngFor="let surveyProgram of surveys"><a href="home#{{surveyProgram.id}}">{{surveyProgram?.name}}</a></li>
-        </ul>
-      </div>
-  </div>
-
+  <qddt-toc [elements]="surveys" [tocName]="'Survey Toc'"></qddt-toc>
 
 </div>

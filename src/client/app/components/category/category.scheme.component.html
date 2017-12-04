@@ -9,32 +9,30 @@
         <i class="material-icons right" *ngIf="showCategoryForm">keyboard_arrow_up</i>
       </a>
 
-      <div *ngIf="showCategoryForm" class="card-action">
-        <form (ngSubmit)="onSave()" #newSchemeForm="ngForm">
-          <div class="row">
-            <div class="col s10 input-field ">
+      <div *ngIf="showCategoryForm" class="row card-action">
+        <div class="col s10 offset-s1">
+          <form (ngSubmit)="onSave()" #newSchemeForm="ngForm">
+            <div class="row input-field ">
               <input name="name" id="name"
                      type="text" class="validate"
                      [(ngModel)]="category.name" required
                      (ngModelChange)="category.label = category.name.toUpperCase()">
               <label for="name" class="white-text">Name</label>
             </div>
-          </div>
-          <div class="row">
-            <div class="col s10 input-field ">
+            <div class="row input-field ">
               <textarea name="description" id="description"
                         class="materialize-textarea validate" required
                         [(ngModel)]="category.description">
               </textarea>
               <label for="description" class="white-text">Description</label>
             </div>
-          </div>
-          <div class="row">
-            <div class="col s2 input-field">
-              <input name="category_number" id="category_number"
-                     type="number" class="validate" required min="1"
-                     (input)="setCategoryNumber($event)" >
-              <label class="white-text" for="category_number">Number of categories</label>
+            <div class="row">
+              <div class="col s2 input-field">
+                <input name="category_number" id="category_number"
+                       type="number" class="validate" required min="1"
+                       (input)="setCategoryNumber($event)" >
+                <label class="white-text" for="category_number">Number of categories</label>
+              </div>
             </div>
             <div class="row">
               <table *ngIf="category.children">
@@ -53,11 +51,11 @@
                 </tbody>
               </table>
             </div>
-          </div>
-          <div class="row right-align">
-            <button type="submit" class="btn btn-default" [disabled]="!newSchemeForm.form.valid">Submit</button>
-          </div>
-        </form>
+            <div class="row right-align">
+              <button type="submit" class="btn btn-default" [disabled]="!newSchemeForm.form.valid">Submit</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
     <qddt-table *ngIf="!isDetail" [items]="missingCategories" [page]="page" [columns]="columns"
@@ -87,7 +85,7 @@
       </a>
     </div>
     <div class="col s10  white grey-text text-darken-1">
-      <form (ngSubmit)="onSave()" #editSchemeForm="ngForm" class="card">
+      <form (ngSubmit)="onSave()" #editSchemeForm="ngForm">
         <div class="row">
           <div class="col s2 offset-s10">
             <qddt-version-label [element]="selectedCategory"></qddt-version-label>
@@ -160,8 +158,7 @@
           <button type="submit" class="btn btn-default" [disabled]="!editSchemeForm.form.valid">Submit</button>
         </div>
       </form>
-      <qddt-revision
-        [isVisible]="revisionIsVisible"
+      <qddt-revision *ngIf="revisionIsVisible"
         [config]="revisionConfig"
         [current]="selectedCategory"
         [qddtURI]="'audit/category/' + selectedCategory.id + '/all'">

@@ -85,8 +85,7 @@
         <button type="submit" class="btn btn-default">Submit</button>
       </form>
 
-      <qddt-revision
-        [isVisible]="revisionIsVisible"
+      <qddt-revision *ngIf="revisionIsVisible"
         [current]="instrument"
         [qddtURI]="'audit/instrument/' + instrument.id + '/all'">
       </qddt-revision>

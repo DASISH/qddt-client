@@ -50,9 +50,6 @@
           </div>
         </div>
       </div>
-      <!--<div *ngIf="showProgressBar" class="progress">-->
-        <!--<div class="indeterminate"></div>-->
-      <!--</div>-->
       <div *ngIf="topics">
         <div class="row card" *ngFor="let currentElement of topics" style="padding-left:2%">
           <div id="{{currentElement?.id}}" class="scrollspy">
@@ -127,8 +124,7 @@
                   </a>
                 </ul>
               </div>
-              <qddt-revision
-                [isVisible]="revision.isVisible"
+              <qddt-revision *ngIf="revision.isVisible"
                 [current]="currentElement"
                 [config]="config"
                 [qddtURI]="'audit/topicgroup/' + currentElement.id + '/all'" #revision
@@ -148,14 +144,6 @@
     </div>
   </div>
   <qddt-toc [tocName]="'Module Toc'" [elements]="topics"></qddt-toc>
-      <!--<div class="col hide-on-small-only m1 l1">-->
-      <!--<div style="top: 55;" class="toc-wrapper pinned">-->
-        <!--<h5></h5>-->
-        <!--<ul class="section table-of-contents">-->
-          <!--<li><a href="home#topMenu">To the top </a> </li>-->
-          <!--<li *ngFor="let topic of "><a href="home#{{topic.id}}">{{topic.name}}</a></li>-->
-        <!--</ul>-->
-      <!--</div>-->
-    <!--</div>-->
+
 
 </div>

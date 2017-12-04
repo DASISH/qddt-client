@@ -12,7 +12,7 @@
 
   <alert></alert>
 
-  <qddt-survey [show]="showSurveyProgram"
+  <qddt-survey *ngIf="showSurveyProgram" [show]="showSurveyProgram"
     (surveySelectEvent)="onSurveySelect($event)">
   </qddt-survey>
 

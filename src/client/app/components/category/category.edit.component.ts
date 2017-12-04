@@ -7,83 +7,81 @@ import { CategoryType } from './category_kind';
   moduleId: module.id,
   providers: [CategoryService,CategoryType],
   template: `
-  <div *ngIf="isVisible">
-    <div *ngIf="category" class="card" id="{{category.id}}"  >
-      <form (ngSubmit)="onSave()" #hf="ngForm">
-        <div class="row">
-          <div class="input-field col s12 l8 ">
-            <label for="label2" class="teal-text">Label</label>
-            <input id="label2" name="label" type="text" class="validate" required
-                   [(ngModel)]="category.label" length="100" materialize="characterCounter">
-          </div>
+<div *ngIf="isVisible && category" id="{{category.id}}"  >
+    <form (ngSubmit)="onSave()" #hf="ngForm">
+      <div class="row">
+        <div class="input-field col s12 ">
+          <label for="label2" class="teal-text">Label</label>
+          <input id="label2" name="label" type="text" class="validate" required
+                 [(ngModel)]="category.label" length="100" materialize="characterCounter">
         </div>
-        <div class="row">
-          <div class="input-field col m12 l8">
-            <label for="name2" class="teal-text">Name</label>
-            <input id="name2" name="name" type="text" class="validate" required [(ngModel)]="category.name"
-                   length="255" materialize="characterCounter">
-          </div>
+      </div>
+      <div class="row">
+        <div class="input-field col m12 ">
+          <label for="name2" class="teal-text">Name</label>
+          <input id="name2" name="name" type="text" class="validate" required [(ngModel)]="category.name"
+                 length="255" materialize="characterCounter">
         </div>
-        <div class="row">
-          <div class="input-field col m12 l8">
-            <label [attr.for]="category.id + '-category-description'" class="teal-text">Description</label>
-            <textarea class="materialize-textarea validate" name="{{category?.id}}-category-description" 
-                      length="1000" materialize="characterCounter" [(ngModel)]="category.description" >
-            </textarea>
-          </div>
+      </div>
+      <div class="row">
+        <div class="input-field col m12 ">
+          <label [attr.for]="category.id + '-category-description'" class="teal-text">Description</label>
+          <textarea class="materialize-textarea validate" name="{{category?.id}}-category-description"
+                    length="1000" materialize="characterCounter" [(ngModel)]="category.description" >
+          </textarea>
         </div>
-        <div class="row" *ngIf="category.categoryType!=='CATEGORY'">
-          <div class="input-field col s2 ">
-            <label for="ctype" class="teal-text">Type</label>
-            <input id="ctype" name="ctype" type="text" class="validate" [(ngModel)]="category.categoryType" readonly>
-          </div>
-          <div class="input-field col s2 offset-m1">
-            <label for="min" class="teal-text">Input limit minimum</label>
-            <input id="min" name="mini" type="number" class="validate" readonly min="0" [(ngModel)]="category.inputLimit.minimum" >
-          </div>
-          <div class="input-field col s2 offset-m1">
-            <label for="max" class="teal-text">Input limit maximum</label>
-            <input id="max" name="maxi" type="number" class="validate" readonly min="1"  [(ngModel)]="category.inputLimit.maximum" >
-          </div>
-          <div class="input-field col s6 m8">
-            <label for="format" class="teal-text">Format</label>
-            <input id="format" name="format" type="text" class="validate" [(ngModel)]="category.format" >
-          </div>
+      </div>
+      <div class="row" *ngIf="category.categoryType!=='CATEGORY'">
+        <div class="input-field col s2 ">
+          <label for="ctype" class="teal-text">Type</label>
+          <input id="ctype" name="ctype" type="text" class="validate" [(ngModel)]="category.categoryType" readonly>
         </div>
-        <div class="row">
-          <qddt-rational [formName]="'RationalComp'" [element]="category" [config]="{hidden: [4]}"></qddt-rational>
+        <div class="input-field col s2 offset-m1">
+          <label for="min" class="teal-text">Input limit minimum</label>
+          <input id="min" name="mini" type="number" class="validate" readonly min="0" [(ngModel)]="category.inputLimit.minimum" >
         </div>
-        <div class="row">
-          <qddt-element-footer [element]="category" [type]="'category'"></qddt-element-footer>
+        <div class="input-field col s2 offset-m1">
+          <label for="max" class="teal-text">Input limit maximum</label>
+          <input id="max" name="maxi" type="number" class="validate" readonly min="1"  [(ngModel)]="category.inputLimit.maximum" >
         </div>
-        <div *ngIf="isTemplate" class="row">
-          <div class="col s2 input-field">
-						<input id="{{category?.id}}-category_number" type="number"
-              value="{{category.children.length}}"
-							(input)="setCategoryNumber($event)" required>
-						<label class="active teal-text"
-              [attr.for]="category.id + '-category_number'">Number of Categories</label>
-					</div>
-           <div class="row"><table *ngIf="category.children">
-             <thead><tr><td>Select Responses</td></tr></thead>
-             <tbody>
-               <tr *ngFor="let cat of category.children; let idx=index">
-                 <td><autocomplete
-                   [items]="categories"
-                   [elementtype]="QddtElementTypes[ElementKind.CATEGORY]"
-                   (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
-                   [initialValue]="cat?.label"
-                   (autocompleteSelectEvent)="select($event)">
-                 </autocomplete></td>
-                </tr>
-              </tbody>
-            </table></div>
+        <div class="input-field col s6 m8">
+          <label for="format" class="teal-text">Format</label>
+          <input id="format" name="format" type="text" class="validate" [(ngModel)]="category.format" >
         </div>
-        <div class="row right-align">
-          <button type="submit" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
+      </div>
+      <div class="row">
+        <qddt-rational [formName]="'RationalComp'" [element]="category" [config]="{hidden: [4]}"></qddt-rational>
+      </div>
+      <div class="row">
+        <qddt-element-footer [element]="category" [type]="'category'"></qddt-element-footer>
+      </div>
+      <div *ngIf="isTemplate" class="row">
+        <div class="col s2 input-field">
+          <input id="{{category?.id}}-category_number" type="number"
+            value="{{category.children.length}}"
+            (input)="setCategoryNumber($event)" required>
+          <label class="active teal-text"
+            [attr.for]="category.id + '-category_number'">Number of Categories</label>
         </div>
-      </form>
-    </div>
+         <div class="row"><table *ngIf="category.children">
+           <thead><tr><td>Select Responses</td></tr></thead>
+           <tbody>
+             <tr *ngFor="let cat of category.children; let idx=index">
+               <td><autocomplete
+                 [items]="categories"
+                 [elementtype]="QddtElementTypes[ElementKind.CATEGORY]"
+                 (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
+                 [initialValue]="cat?.label"
+                 (autocompleteSelectEvent)="select($event)">
+               </autocomplete></td>
+              </tr>
+            </tbody>
+          </table></div>
+      </div>
+      <div class="row right-align">
+        <button type="submit" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
+      </div>
+    </form>
   </div>
 `
 })

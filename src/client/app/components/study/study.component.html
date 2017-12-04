@@ -5,11 +5,11 @@
         <i class="material-icons large right">comment</i><h4>Studies for {{survey?.name}}</h4>
 
         <a class="btn" (click)="onToggleStudyForm()" *ngIf="!survey.archived">
-        <i class="material-icons right" *ngIf="!showStudyForm">keyboard_arrow_down</i>
-        <i class="material-icons right" *ngIf="showStudyForm">keyboard_arrow_up</i>
+        <i class="material-icons right" *ngIf="!showEditForm">keyboard_arrow_down</i>
+        <i class="material-icons right" *ngIf="showEditForm">keyboard_arrow_up</i>
         New</a>
 
-        <div *ngIf="showStudyForm">
+        <div *ngIf="showEditForm">
           <div class="card-action">
             <form (ngSubmit)="onSave()" #newStudyForm="ngForm">
               <div class="row">
@@ -37,7 +37,7 @@
               <br />
               <div class="row">
                 <a *ngIf="!study.archived" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                   (click)="edit.isVisible = !edit.isVisible"><i class="material-icons"title="Edit element">mode_edit</i></a>
+                   (click)="study['isVisible'] = !study['isVisible']"><i class="material-icons"title="Edit element">mode_edit</i></a>
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                    (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium" title="Revision history">history</i></a>
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
@@ -64,13 +64,11 @@
                 <qddt-author-chip [authors]="study.authors" ></qddt-author-chip>
               </div>
 
-              <qddt-study-edit [study]="study" [surveyId]="survey.id"
-                (studySavedEvent)="onStudySavedEvent($event)"
-                #edit>
+              <qddt-study-edit *ngIf="study['isVisible']" [study]="study" [surveyId]="survey.id"
+                (studySavedEvent)="onStudySavedEvent($event)">
               </qddt-study-edit>
 
-              <qddt-revision
-                [isVisible]="revision.isVisible"
+              <qddt-revision *ngIf="revision.isVisible"
                 [current]="study"
                 [config]="[{'name':'name','label':'Name'},{'name':'description','label':'Description'}]"
                 [qddtURI]="'audit/study/' + study.id + '/all'" #revision>
@@ -88,13 +86,5 @@
     </div>
   </div>
 
-  <div class="col hide-on-small-only m1 l1">
-    <div style="top: 55;" class="toc-wrapper pinned">
-      <h5>Study Toc</h5>
-      <ul class="section table-of-contents">
-        <li><a href="home#topMenu">To the top </a> </li>
-        <li *ngFor="let study of studies"><a href="home#{{study.id}}">{{study.name}}</a></li>
-      </ul>
-    </div>
-  </div>
+  <qddt-toc [elements]="studies" [tocName]="'Study Toc'"></qddt-toc>
 </div>

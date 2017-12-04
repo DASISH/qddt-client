@@ -36,8 +36,7 @@
         (editDetailEvent)="hideDetail()" #edit>
       </qddt-category-edit>
 
-      <qddt-revision
-        [isVisible]="revisionIsVisible"
+      <qddt-revision *ngIf="revisionIsVisible"
         [current]="category"
         [qddtURI]="'audit/category/' + category.id + '/all'">
       </qddt-revision>

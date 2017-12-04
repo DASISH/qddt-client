@@ -29,8 +29,7 @@
           [domainType]="domainType">
         </qddt-responsedomain-form>
 
-        <qddt-revision
-          [isVisible]="revision.isVisible"
+        <qddt-revision *ngIf="revision.isVisible"
           [current]="responseDomain"
           [qddtURI]="'audit/responsedomain/' + responseDomain.id + '/all'" #revision>
         </qddt-revision>

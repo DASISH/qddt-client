@@ -78,8 +78,7 @@
           [domainType]="domainType" [labelColor]="'teal-text'" >
         </qddt-responsedomain-form>
 
-        <qddt-revision
-          [isVisible]="isRevisionVisible"
+        <qddt-revision *ngIf="isRevisionVisible"
           [current]="selectedResponseDomain"
           [qddtURI]="'audit/responsedomain/' + selectedResponseDomain.id + '/all'"
           [config]="selectedResponseDomain.config">

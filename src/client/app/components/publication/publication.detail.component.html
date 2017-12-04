@@ -40,8 +40,7 @@
         (save)=onUpdatePublication()>
       </qddt-publication-form>
 
-      <qddt-revision
-        [isVisible]="revisionIsVisible"
+      <qddt-revision *ngIf="revisionIsVisible"
         [current]="publication"
         [qddtURI]="'audit/publication/' + publication.id + '/all'"
         [config]="[{'name':'name','label':'Name'},{'name':'purpose','label':'Purpose'},{'name':'status','label':'Status'}]">

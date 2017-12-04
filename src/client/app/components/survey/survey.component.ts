@@ -9,13 +9,13 @@ let saveAs = require('file-saver');
   providers: [SurveyService]
 })
 export class SurveyComponent implements OnChanges {
-
-  showSurveyForm: boolean = false;
   @Input() show: boolean;
   @Output() surveySelectEvent: EventEmitter<String> = new EventEmitter<String>();
   @Output() surveyDeleteEvent: EventEmitter<String> = new EventEmitter<String>();
   @Output() entitySavedEvent: EventEmitter<String> = new EventEmitter<String>();
 
+  showSurveyForm: boolean = false;
+  private revisionisVisible: boolean = false;
   private surveys: any[]=[];
   private survey: any;
 
@@ -27,23 +27,19 @@ export class SurveyComponent implements OnChanges {
     this.surveyService.getAll()
       .subscribe((data:Array<SurveyProgram>)  =>  {
         this.surveys = data;
-        this.surveys.forEach(s => {
-          s.savedVersion = 'V' + s.version.major + '.' + s.version.minor;
-          // s.workinprogress = (s.version.versionLabel === 'In Development');
-        });
       }
       ,(err: any) => console.log('ERROR: ', err));
   }
 
   onSurveySaved(surveyProgram:any) {
     this.surveys = this.surveys.filter((q) => q.id !== surveyProgram.id);
-    surveyProgram.savedVersion = 'V' + surveyProgram.version.major + '.' + surveyProgram.version.minor;
     this.surveys.push(surveyProgram);
+    surveyProgram['isVisible']= false;
   }
 
-  onSurveySelect(surveyProgram: any) {
-    this.surveySelectEvent.emit(surveyProgram);
+  onShowStudy(surveyProgram: any) {
     this.show = false;
+    this.surveySelectEvent.emit(surveyProgram);
   }
 
   onSave() {
