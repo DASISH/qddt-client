@@ -1,5 +1,70 @@
 <header>
-  <ul id="nav-mobile" class="side-nav fixed" style="width:240px;">
+
+  <!--<nav class="nav-extended">-->
+    <!--<div class="nav-wrapper">-->
+      <!--<a href="#" class="brand-logo">Logo</a>-->
+      <!--<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>-->
+      <!--<ul id="nav-mobile" class="right hide-on-med-and-down">-->
+        <!--<li><a href="sass.html">Sass</a></li>-->
+        <!--<li><a href="badges.html">Components</a></li>-->
+        <!--<li><a href="collapsible.html">JavaScript</a></li>-->
+      <!--</ul>-->
+      <!--<ul class="side-nav" id="mobile-demo">-->
+        <!--<li><a href="sass.html">Sass</a></li>-->
+        <!--<li><a href="badges.html">Components</a></li>-->
+        <!--<li><a href="collapsible.html">JavaScript</a></li>-->
+      <!--</ul>-->
+    <!--</div>-->
+    <!--<div class="nav-content">-->
+      <!--<ul class="tabs tabs-transparent">-->
+        <!--<li class="tab"><a href="#test1">Test 1</a></li>-->
+        <!--<li class="tab"><a class="active" href="#test2">Test 2</a></li>-->
+        <!--<li class="tab disabled"><a href="#test3">Disabled Tab</a></li>-->
+        <!--<li class="tab"><a href="#test4">Test 4</a></li>-->
+      <!--</ul>-->
+    <!--</div>-->
+  <!--</nav>-->
+  <!--<div id="test1" class="col s12">Test 1</div>-->
+  <!--<div id="test2" class="col s12">Test 2</div>-->
+  <!--<div id="test3" class="col s12">Test 3</div>-->
+  <!--<div id="test4" class="col s12">Test 4</div>-->
+
+
+  <!--<ul id="nav-mobile" class="side-nav hide-on-small-only" style="transform: translateX(0%);">-->
+        <!--<li class="search">-->
+          <!--<div class="search-wrapper card">-->
+            <!--<input id="search"><i class="material-icons">search</i>-->
+            <!--<div class="search-results"></div>-->
+          <!--</div>-->
+        <!--</li>-->
+        <!--<li class="bold"><a href="about.html" class="waves-effect waves-teal">About</a></li>-->
+        <!--<li>-->
+          <!--<ul class="collapsible collapsible-accordion">-->
+            <!--<li class="bold active"><a class="collapsible-header waves-effect waves-teal active">CSS</a>-->
+              <!--<div class="collapsible-body" style="display: block;">-->
+                <!--<ul>-->
+                  <!--<li><a href="color.html">Color</a></li>-->
+                <!--</ul>-->
+              <!--</div>-->
+            <!--</li>-->
+            <!--<li class="bold"><a class="collapsible-header waves-effect waves-teal">Components</a>-->
+              <!--<div class="collapsible-body">-->
+                <!--<ul>-->
+                  <!--<li><a href="badges.html">Badges</a></li>-->
+                  <!--<li><a href="buttons.html">Buttons</a></li>-->
+                <!--</ul>-->
+              <!--</div>-->
+            <!--</li>-->
+            <!--<li class="bold"><a class="collapsible-header waves-effect waves-teal">JavaScript</a>-->
+              <!--<div class="collapsible-body">-->
+                <!--<ul>-->
+                  <!--<li><a href="carousel.html">Carousel</a></li>-->
+				        <!--</ul>-->
+              <!--</div>-->
+            <!--</li>-->
+		      <!--</ul>-->
+        <!--</li>-->
+  <!--</ul>-->
     <qddt-user-login (logoutEvent)="logoutEvent()"></qddt-user-login>
     <div *ngIf="user">
         <li><a class="teal-text" [routerLink]="['/home']" (click)="onHome()">
@@ -30,12 +95,13 @@
         <i class="material-icons teal-text left medium">folder_special</i>Publications</a>
       </li>
     </div>
-  </ul>
-  <!--<a href="#" data-activates="nav-mobilet" class="button-collapse show-on-large"><i class="material-icons">menu</i></a>-->
+  <!--</ul>-->
 </header>
 <main>
   <!--<nav>-->
 
   <!--</nav>-->
-  <router-outlet></router-outlet>
+  <div class="row">
+    <router-outlet></router-outlet>
+  </div>
 </main>

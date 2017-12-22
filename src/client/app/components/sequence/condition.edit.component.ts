@@ -12,7 +12,7 @@ import { ElementTypeDescription, SequenceService, Sequence, ConditionCommand } f
         <textarea id="{{elementId}}-name" name="{{elementId}}-name"
           class="materialize-textarea"
           [(ngModel)]="condition.name" [attr.maxlength]="255"
-          required autosize>
+          required>
         </textarea>
       </div>
       <div class="input-field row">

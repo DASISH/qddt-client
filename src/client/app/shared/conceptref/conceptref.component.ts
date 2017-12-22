@@ -46,7 +46,5 @@ export class ConceptrefComponent  {
       });
   }
 
-  // onCloseModal() {
-  //   this.closeBtn.nativeElement.click();
-  // }
+
 }

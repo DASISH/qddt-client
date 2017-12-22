@@ -61,7 +61,7 @@ export class QuestionService extends BaseService {
   }
 
   createResponseDomain(responseDomain: any): any {
-    return this.post(responseDomain,'responsedomain/create');
+    return this.post(responseDomain,'responsedomain');
   }
 
 

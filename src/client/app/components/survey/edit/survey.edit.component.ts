@@ -8,7 +8,7 @@ declare var Materialize:any;
   moduleId: module.id,
   providers: [SurveyService],
   template: `
-  <!--<div *ngIf="isVisible">-->
+  <div *ngIf="isVisible">
     <div *ngIf="survey" id="{{survey.id}}"  >
       <form materialize (ngSubmit)="onSave()" #surveyForm="ngForm">
         <div class="row">
@@ -33,7 +33,7 @@ declare var Materialize:any;
         </div>
       </form>
     </div>
-  <!--</div>-->
+  </div>
 
   `
 })
@@ -41,7 +41,7 @@ declare var Materialize:any;
 export class SurveyEditComponent implements AfterContentChecked {
 
   @Input() survey: SurveyProgram;
-  // @Input() isVisible: boolean;
+  @Input() isVisible: boolean;
   @Output() surveySavedEvent: EventEmitter<SurveyProgram> = new EventEmitter<SurveyProgram>();
 
 
@@ -54,11 +54,10 @@ export class SurveyEditComponent implements AfterContentChecked {
 
 
   onSave() {
-    // this.isVisible = false;
-    // this.survey['isVisible'] = false;
+    this.isVisible = false;
     this.surveyService.save(this.survey)
       .subscribe((result: any) => {
-        this.survey = null;
+        this.survey = null
         this.surveySavedEvent.emit(result);}
         ,(err: any) => console.log('ERROR: ', err));
   }

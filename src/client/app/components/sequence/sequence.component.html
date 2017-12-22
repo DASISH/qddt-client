@@ -14,28 +14,30 @@
         </a>
 
         <div *ngIf="showSequenceForm">
-          <div class="card-action">
-            <form (ngSubmit)="onCreateSequence()" #hf="ngForm">
-              <div class="row">
-                <div class="input-field col s10">
+          <div class="row card-action">
+            <div class="col s10 offset-s1">
+              <form (ngSubmit)="onCreateSequence()" #hf="ngForm">
+              <div class="row input-field">
                   <textarea id="name" name="name" class="materialize-textarea"
                     [(ngModel)]="sequence.name" [attr.maxlength]="255"
                     required >
                   </textarea>
                   <label for="name" class="white-text">Name</label>
-                </div>
-                <div class="input-field col s10">
+              </div>
+              <div class="row input-field ">
                   <textarea id="description" name="description" class="materialize-textarea"
                     [(ngModel)]="sequence.description" [attr.maxlength]="255" >
                   </textarea>
                   <label for="description" class="white-text">Description</label>
-                </div>
-                <div class="input-field col s10 card">
-                  <qddt-sequence-reuse (element)="onGetElement($event)"></qddt-sequence-reuse>
-		            </div>
               </div>
-              <button type="submit" class="btn btn-default">Submit</button>
+              <div class="input-field row card">
+                  <qddt-sequence-reuse (element)="onGetElement($event)"></qddt-sequence-reuse>
+              </div>
+              <div class="row right-align">
+                <button type="submit" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
+              </div>
             </form>
+            </div>
           </div>
         </div>
       </div>

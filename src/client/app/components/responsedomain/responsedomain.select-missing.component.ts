@@ -76,6 +76,11 @@ export class ResponsedomainSelectMissingComponent implements OnInit {
   onSave() {
     this.findMissingAction.emit({action:'modal', params:['close']});
     if(this.getMissing()) {
+      if (this.responseDomain['changeKind']) {
+        this.responseDomain['changeKind'] = 'TYPO';
+        this.responseDomain['changeComment'] ='Comment by rule';
+        console.log('changeKind set, ready for presisting');
+      }
       let object = {
         responseDomain: this.responseDomain,
         responseDomainRevision: 0
@@ -87,7 +92,6 @@ export class ResponsedomainSelectMissingComponent implements OnInit {
   private setMissing(missing: Category) {
     let rd = this.responseDomain;
     if (this.isMixed()) {                           //remove existing missing
-      console.log('setMissing isMixed');
       this.deleteChild(rd.managedRepresentation, 'MISSING_GROUP');
     } else
       rd = this.newMixedResponseDomain();

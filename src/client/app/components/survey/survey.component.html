@@ -42,7 +42,7 @@
             <div class="col s1 m1 l1">
               <br />
               <div class="row">
-                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" *ngIf="!surveyProgram.archived" (click)="surveyProgram['isVisible'] = !surveyProgram['isVisible']">
+                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" *ngIf="!surveyProgram.archived" (click)="edit.isVisible = !edit.isVisible">
                   <i class="material-icons"title="Edit element">mode_edit</i></a>
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="revision.isVisible = !revision.isVisible">
                   <i class="material-icons left medium" title="Revision history">history</i></a>
@@ -62,14 +62,14 @@
               </h5>
               </div>
 
-              <div class="row" *ngIf="!surveyProgram['isVisible']" >
+              <div class="row" *ngIf="!edit.isVisible" >
                 <p>{{surveyProgram?.description}}</p>
                 <qddt-author-chip [authors]="surveyProgram?.authors" ></qddt-author-chip>
               </div>
 
-              <qddt-survey-edit *ngIf="surveyProgram['isVisible']"
+              <qddt-survey-edit [isVisible]="edit.isVisible"
                 [survey]="surveyProgram"
-                (surveySavedEvent)="onSurveySaved($event)">
+                (surveySavedEvent)="onSurveySaved($event)" #edit>
               </qddt-survey-edit>
 
               <qddt-revision
@@ -79,7 +79,7 @@
                 [qddtURI]="'audit/surveyprogram/'+surveyProgram.id+'/all'" #revision>
               </qddt-revision>
 
-              <qddt-comment-list *ngIf="!surveyProgram['isVisible']"
+              <qddt-comment-list *ngIf="!edit.isVisible"
                 [ownerId]="surveyProgram.id"
                 [comments]="surveyProgram.comments">
               </qddt-comment-list>

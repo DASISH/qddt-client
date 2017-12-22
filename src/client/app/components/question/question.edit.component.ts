@@ -37,18 +37,14 @@ export class QuestionItemEditComponent implements OnInit {
 
   onSaveQuestionItem() {
     if((this.questionitem.responseDomain) && (!this.questionitem.responseDomain.id))
-      this.service.createCategory(this.questionitem.responseDomain.managedRepresentation)
+      this.service.createResponseDomain(this.questionitem.responseDomain)
         .subscribe(result => {
-          this.questionitem.responseDomain.managedRepresentation = result;
-          this.service.createResponseDomain(this.questionitem.responseDomain)
-            .subscribe(result => {
-              this.questionitem.responseDomain = result;
-              this.questionitem.responseDomainRevision =0;
-              this.service.updateQuestionItem(this.questionitem)
-                .subscribe((result: any) => {
-                  this.questionitem = result;
-                  this.editQuestionItem.emit(this.questionitem);
-                });
+          this.questionitem.responseDomain = result;
+          this.questionitem.responseDomainRevision =0;
+          this.service.updateQuestionItem(this.questionitem)
+            .subscribe((result: any) => {
+              this.questionitem = result;
+              this.editQuestionItem.emit(this.questionitem);
             });
         });
     else {
@@ -75,8 +71,16 @@ export class QuestionItemEditComponent implements OnInit {
   }
 
   onResponseDomainSelected(item: any) {
-    this.questionitem.responseDomain = item.responseDomain;
-    this.questionitem.responseDomainRevision = item.responseDomainRevision || 0;
+    if (item.responseDomain.responseKind==='MIXED') {
+      this.service.createResponseDomain(item.responseDomain).subscribe(result => {
+        this.questionitem.responseDomain = result;
+        this.questionitem.responseDomainRevision = 0;
+        console.log('RD saved');
+      });
+    } else {
+        this.questionitem.responseDomain = item.responseDomain;
+        this.questionitem.responseDomainRevision = item.responseDomainRevision || 0;
+      }
    }
 
   onResponsedomainRemove(item: any) {
@@ -99,7 +103,7 @@ export class QuestionItemEditComponent implements OnInit {
       rd = this.newMixedResponseDomain();
     }
     rd.managedRepresentation.children.push(missing);
-    rd.name = rd.managedRepresentation.name = 'Mixed [' + this.getManagedRedresentation().name + '+' + missing.name +']';
+    rd.name = rd.managedRepresentation.name = 'Mixed [' + this.getManagedRepresentation().name + '+' + missing.name +']';
     this.questionitem.responseDomain = rd;
   }
 
@@ -120,12 +124,12 @@ export class QuestionItemEditComponent implements OnInit {
         inputLimit:  {minimum: 0 ,maximum:1},
         hierarchyLevel: 'GROUP_ENTITY',
         categoryType: 'MIXED',
-        children: [this.getManagedRedresentation()]
+        children: [this.getManagedRepresentation()]
       }};
     return rd;
     }
 
-  private getManagedRedresentation(): any {
+  private getManagedRepresentation(): any {
     let rep = this.questionitem.responseDomain.managedRepresentation;
     if (rep) {
       if (rep.categoryType === 'MIXED') {

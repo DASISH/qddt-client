@@ -16,16 +16,17 @@
 			</div>
 			<div class="col left" *ngFor="let domain of domainTypeDescription">
 				<input name="domaintypegroup" type="radio" id="domain-type-{{domain.id}}"
-          (click)="selectDomainType(domain.id)" [checked]="domainType === domain.id"
-				/>
+          (click)="selectDomainType(domain.id)" [checked]="domainType === domain.id"/>
         <label [attr.for]="'domain-type-' + domain.id">{{domain.label}}</label>
 			</div>
 		</div>
 
 		<div *ngIf="isNewFormVisible" class="row teal white-text">
-			<qddt-responsedomain-form class="card "
+      <div class="col s10 offset-s1">
+			<qddt-responsedomain-form
         (formChange)="formCreate($event)" [responsedomain]="responseDomain" [domainType]="domainType" [labelColor]="'white-text'">
       </qddt-responsedomain-form>
+      </div>
 		</div>
 
     <div *ngIf="isProgressBarVisible && !isEditFormVisible" class="progress">
