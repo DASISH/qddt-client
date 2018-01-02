@@ -1,19 +1,19 @@
 <div class="row card">
-  <form (ngSubmit)="login()" #loginForm="ngForm"  class="col s12">
+  <form (ngSubmit)="login()" #loginForm="ngForm" class="col s12">
     <div class="row">
-      <div class="input-field col s4">
+      <div class="input-field">
         <input id="username" name="username" type="text"
           [(ngModel)]="loginData.username" required>
         <label for="username" class="active">Username</label>
       </div>
     </div>
     <div class="row">
-      <div class="input-field col s4">
+      <div class="input-field">
         <input id="password" name="password" type="password"
           [(ngModel)]="loginData.password" required>
         <label for="password" class="active">Password</label>
       </div>
     </div>
-    <button type="submit" class="btn"><i class="material-icons right">lock_open</i>Login</button>
+    <button type="submit" class="btn right"><i class="material-icons right">lock_open</i>Login</button>
   </form>
 </div>

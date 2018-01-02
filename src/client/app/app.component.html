@@ -65,6 +65,7 @@
 		      <!--</ul>-->
         <!--</li>-->
   <!--</ul>-->
+  <ul id="nav-mobile" class="side-nav fixed">
     <qddt-user-login (logoutEvent)="logoutEvent()"></qddt-user-login>
     <div *ngIf="user">
         <li><a class="teal-text" [routerLink]="['/home']" (click)="onHome()">
@@ -95,7 +96,7 @@
         <i class="material-icons teal-text left medium">folder_special</i>Publications</a>
       </li>
     </div>
-  <!--</ul>-->
+  </ul>
 </header>
 <main>
   <!--<nav>-->

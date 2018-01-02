@@ -16,7 +16,7 @@ import { ControlConstructModule } from './components/controlconstruct/controlcon
 import { InstrumentModule } from './components/instrument/instrument.module';
 import { SequenceModule } from './components/sequence/sequence.module';
 import { PublicationModule } from './components/publication/publication.module';
-import { AuthGuard } from './auth-guard.service';
+import { AuthGuard } from './auth/auth.guard';
 // import { PageNotFoundComponent } from './components/pagenotfound/page-not-found.component';
 
 @NgModule({

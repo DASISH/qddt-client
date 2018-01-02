@@ -1,10 +1,10 @@
 import { Component, Output, EventEmitter, Inject } from '@angular/core';
+import { AuthService } from '../auth.service';
 // import { Http, Headers, Response } from '@angular/http';
 // import 'rxjs/add/operator/map';
 // import { API_BASE_HREF } from '../../api';
 // import { UserService } from '../user/user.service';
-import { LoginService } from './login.service';
-import { concat } from 'rxjs/observable/concat';
+// import { concat } from 'rxjs/observable/concat';
 
 
 
@@ -17,7 +17,7 @@ export class LoginForm {
   selector: 'qddt-login',
   moduleId: module.id,
   templateUrl: './login.component.html',
-  providers: [LoginService]
+  providers: [AuthService]
 })
 export class LoginComponent {
 
@@ -25,10 +25,10 @@ export class LoginComponent {
   user: any;
   loginData: LoginForm;
 
-  constructor(private loginService: LoginService) {
+  constructor(private loginService: AuthService) {
     this.loginData = new LoginForm();
-     this.loginData.username = 'review@example.org';
-     this.loginData.password = 'password';
+    this.loginData.username = 'review@example.org';
+    this.loginData.password = 'password';
   }
 
   login() {

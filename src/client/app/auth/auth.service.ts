@@ -3,18 +3,20 @@ import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { API_BASE_HREF } from '../../api';
+import { API_BASE_HREF } from '../api';
 
 /**
  * AuthService uses JSON-Web-Token authorization strategy.
  * Fetched token and user details are stored in sessionStorage.
  */
 @Injectable()
-export class LoginService {
+export class AuthService {
 
   public static readonly SIGNUP_URL = 'api/auth/signup';
   public static readonly SIGNIN_URL = 'api/auth/signin';
   public static readonly REFRESH_TOKEN_URL = 'api/auth/token/refresh';
+  public static readonly CHECK_URL = 'api/check/';
+
 
   @Output() loginEvent: EventEmitter<string>  = new EventEmitter<string>();
 
@@ -51,7 +53,7 @@ export class LoginService {
       password: password
     };
 
-    return this.http.post( this.api + LoginService.SIGNUP_URL, requestParam, this.generateOptions())
+    return this.http.post( this.api + AuthService.SIGNUP_URL, requestParam, this.generateOptions())
       .map((res: Response) => {
         this.saveToken(res);
         this.saveUserDetails(JSON.parse(sessionStorage.getItem('user')));
@@ -72,7 +74,7 @@ export class LoginService {
       password: password
     };
 
-    return this.http.post(this.api + LoginService.SIGNIN_URL, requestParam) //, this.generateOptions())
+    return this.http.post(this.api + AuthService.SIGNIN_URL, requestParam) //, this.generateOptions())
       .map((res: Response) => {
         this.saveToken(res);
         this.saveUserDetails(JSON.parse(sessionStorage.getItem('user')));
@@ -99,9 +101,18 @@ export class LoginService {
   public refreshToken(token: string): Observable<any> {
     const requestParam = { token: this.token };
 
-    return this.http.post(this.api + LoginService.REFRESH_TOKEN_URL, requestParam, this.generateOptions())
+    return this.http.post(this.api + AuthService.REFRESH_TOKEN_URL, requestParam, this.generateOptions())
       .map((res: Response) => {
         this.saveToken(res);
+      }).catch(err => {
+        throw Error(err.json().message);
+      });
+  }
+
+  public checkPath(url: string): Observable<any> {
+    return this.http.get(this.api + AuthService.CHECK_URL + url,  this.generateOptions())
+      .map((res: Response) => {
+        return res;
       }).catch(err => {
         throw Error(err.json().message);
       });
@@ -167,9 +178,41 @@ export class LoginService {
   private generateOptions(): RequestOptions {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
     //headers.append('Access-Control-Allow-Origin', '*');
     headers.append('Access-Control-Allow-Headers', 'Origin, Authorization, Content-Type');
     return new RequestOptions({ headers: headers });
   }
+
+
+// .map((res:Response) => res.json())
+// .subscribe(
+// (data: any) => LoginComponent.saveJwt(data),
+// (err: any)  => LoginComponent.logError('Unable to log in user.'),
+// ()          => this.createUser()
+
+
+// createUser() {
+//   var headers = new Headers();
+//   headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
+//   this.http.get(this.api+'user',
+//     {
+//       headers: headers
+//     })
+//     .map((res:Response) => res.json())
+//     .subscribe(
+//       (user: any)  => this.createSession(user),
+//       (err: any)   => LoginComponent.logError('Unable to create user.')
+//     );
+// }
+//
+// createSession(user: any) {
+//   this.user = user;
+//   this.userService.set(user);
+//   localStorage.setItem('user', JSON.stringify(user));
+//   this.loginEvent.emit('logged_in');
+// }
+
+
 
 }

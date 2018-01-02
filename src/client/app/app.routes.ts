@@ -10,8 +10,9 @@ import { ControlConstructComponent } from './components/controlconstruct/control
 import { InstrumentComponent } from './components/instrument/instrument.component';
 import { SequenceComponent } from './components/sequence/sequence.component';
 import { PublicationComponent } from './components/publication/publication.component';
+import { AuthGuard } from './auth/auth.guard';
 // import { PageNotFoundComponent } from './components/pagenotfound/page-not-found.component';
-import { AuthGuard } from './auth-guard.service';
+// import { AuthGuard } from './auth-guard.service';
 
 const appRoutes: Routes = [
   { path: 'questions',  component: QuestionComponent,canActivate: [AuthGuard] },
