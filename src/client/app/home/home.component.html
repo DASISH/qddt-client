@@ -1,0 +1,53 @@
+<div class="row" *ngIf="!user">
+  <div class="col s12 m6">
+    <div class="card blue-grey darken-1">
+      <div class="card-content white-text">
+        <span class="card-title"><i class="material-icons large right">new_releases</i>Questionnaire Design and Documentation Tool</span>
+        Welcome to the QDDT. This tool is intended to facilitate the life cirle of questions in questionnaires, using DDI 3.2
+        <blockquote>
+          Please report any bugs, tips or ideas to us on <a href="mailto:qddt@nsd.no">qddt@nsd.no</a>
+        </blockquote>
+        More info at <br/>
+        <a href="https://github.com/DASISH/qddt-client/"><img src="assets/images/GitHub_Logo.png" height="20%" width="20%"></a>
+      </div>
+    </div>
+  </div>
+
+<div class="row" *ngIf="user">
+  <div class="nav-content">
+    <div id="topMenu" class="scrollspy">
+      <nav >
+        <a class="btn-floating btn-large halfway-fab waves-effect waves-light teal left">
+          <i class="material-icons">add</i>
+        </a>
+        <!--<div class="nav-wrapper" [ngStyle]="{'cursor': 'pointer'}">-->
+        <a *ngIf="survey" (click)=onShowSurvey() class="breadcrumb">SURVEY [{{survey.name}}]</a>
+        <a *ngIf="study" (click)=onShowStudy() class="breadcrumb"> STUDY [{{study.name}}]</a>
+        <a *ngIf="topic" (click)=onShowTopic() class="breadcrumb">QUESTIONNAIRE MODULE [{{topic.name}}]</a>
+        <a *ngIf="concept" (click)=onShowConcept()  class="breadcrumb">CONCEPT</a>
+        <!--</div>-->
+      </nav>
+    </div>
+  </div>
+
+  <qddt-survey *ngIf="showSurveyProgram" [show]="showSurveyProgram"
+    (surveySelectEvent)="onSurveySelect($event)">
+  </qddt-survey>
+
+  <qddt-study *ngIf="survey" [show]="showStudy"
+    [survey]="survey" (studySelectedEvent)="onStudySelected($event)">
+  </qddt-study>
+
+  <qddt-topic  *ngIf="study" [show]="showTopic"
+    [study]="study" (topicSelectedEvent)="onTopicSelected($event)">
+  </qddt-topic>
+
+  <concept *ngIf="topic"  [show]="showConcept"
+    [topic]="topic"  (conceptSelectedEvent)="onConceptSelected($event)">
+  </concept>
+</div>
+
+
+
+
+</div>

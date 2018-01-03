@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { DomainKind } from '../../../components/responsedomain/responsedomain.constant';
-import { ResponseDomain } from '../../../components/responsedomain/responsedomain.service';
+import { ResponseDomain } from '../../../responsedomain/responsedomain.service';
+import { DomainKind } from '../../../responsedomain/responsedomain.constant';
 
 @Component({
   selector: 'qddt-preview-rd-mixed',

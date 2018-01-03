@@ -13,7 +13,7 @@ export class ProjectConfig extends SeedConfig {
 
   constructor() {
     super();
-    this.APP_TITLE = 'qddt-client';
+    this.APP_TITLE = 'QDDT - Questionnaire Design and Documentation Tool';
 
     /* Enable typeless compiler runs (faster) between typed compiler runs. */
     // this.TYPED_COMPILE_INTERVAL = 5;

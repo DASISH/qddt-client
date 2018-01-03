@@ -110,6 +110,7 @@ export class AuthService {
   }
 
   public checkPath(url: string): Observable<any> {
+
     return this.http.get(this.api + AuthService.CHECK_URL + url,  this.generateOptions())
       .map((res: Response) => {
         return res;

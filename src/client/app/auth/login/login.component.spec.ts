@@ -7,7 +7,7 @@ import {
 } from '@angular/core/testing';
 import { LoginComponent } from './login.component';
 import { By } from '@angular/platform-browser';
-import { UserService } from '../../shared/user/user.service';
+import { UserService } from '../user/user.service';
 import { API_BASE_HREF } from '../../api';
 import { BaseRequestOptions, Http, ConnectionBackend } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';

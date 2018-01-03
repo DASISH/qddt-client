@@ -19,7 +19,7 @@ import { TocComponent } from './form/toc/toc.component';
 import { RouterModule } from '@angular/router';
 import { CommentListComponent } from './comment/comment.list.component';
 import { CommentCreateComponent } from './comment/comment.create.component';
-import { UserLoginComponent } from './user/user.component';
+import { UserLoginComponent } from '../auth/user/user.component';
 import { LoginComponent } from '../auth/login/login.component';
 import { AutosizeDirective } from './autoresize/autosize.directive';
 import { ParentFormConnectDirective } from './directive/parent-form-connect.directive';

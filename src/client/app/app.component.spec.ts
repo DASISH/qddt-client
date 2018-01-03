@@ -8,7 +8,7 @@ import {
   TestBed
 } from '@angular/core/testing';
 
-import { UserService } from './shared/user/user.service';
+import { UserService } from './auth/user/user.service';
 import { AppComponent } from './app.component';
 import { By } from '@angular/platform-browser';
 

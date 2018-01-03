@@ -1,5 +1,8 @@
-import { Component, ViewEncapsulation, AfterContentChecked } from '@angular/core';
-import { UserService } from './shared/user/user.service';
+import { Component, ViewEncapsulation, AfterContentChecked, AfterViewInit  } from '@angular/core';
+import { UserService } from './auth/user/user.service';
+import { AlertComponent} from './alert/alert.component';
+
+declare var $:any;
 
 @Component({
   selector: 'app',
@@ -10,12 +13,24 @@ import { UserService } from './shared/user/user.service';
   providers: [ ]
 })
 
-export class AppComponent implements AfterContentChecked {
+export class AppComponent implements AfterContentChecked ,AfterViewInit{
   public user: any;
 
   constructor(private userService: UserService) {
     this.user = this.userService.get();
   }
+
+  ngAfterViewInit(){
+    $('.button-collapse').sideNav({
+      menuWidth: 100, // Default is 300
+      edge: 'left', // Choose the horizontal origin
+      closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+      draggable: true});
+    $('.dropdown-button').dropdown();
+
+    $('.collapsible').collapsible();
+  }
+
 
   ngAfterContentChecked() {
     this.user = this.userService.get();

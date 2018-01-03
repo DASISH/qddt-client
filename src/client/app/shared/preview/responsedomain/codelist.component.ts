@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { ResponseDomain } from '../../../components/responsedomain/responsedomain.service';
+import { ResponseDomain } from '../../../responsedomain/responsedomain.service';
 
 @Component({
   selector: 'qddt-preview-rd-codelist',
