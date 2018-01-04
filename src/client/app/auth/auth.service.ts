@@ -22,20 +22,51 @@ export class AuthService {
 
   private token: string;
   private username: string;
-  private userId: number;
-
+  private userId: string;
+  private role: any;
+  private email: string;
+  private globalObjects: any;
 
   constructor(private http: Http,  @Inject(API_BASE_HREF) private api: string) {
     this.refreshUserData();
+    this.globalObjects = {};
   }
 
+  get() : any {
+    try {
+      return JSON.parse(localStorage.getItem('user'));
+    } catch(e) {
+      return null;
+    }
+  }
+
+  set(user: string)  {
+    localStorage.setItem('user', user);
+    this.saveUserDetails(JSON.parse(user));
+    localStorage.setItem('jwt',this.token);
+  }
+
+  remove() {
+    localStorage.removeItem('jwt');
+    localStorage.removeItem('user');
+  }
+
+  setGlobalObject(name: string, value: any) {
+    this.globalObjects[name] = value;
+  }
+
+  getGlobalObject(name: string) {
+    return this.globalObjects[name] || '';
+  }
+
+
   /**
-   * Refreshes userId, username and token from sessionStorage
+   * Refreshes userId, username and token from localStorage
    */
   public refreshUserData(): void {
-    const user = sessionStorage.getItem('user');
+    const user = this.get();
     if (user) {
-      this.saveUserDetails(JSON.parse(user));
+      this.saveUserDetails(user);
     }
   }
 
@@ -56,7 +87,7 @@ export class AuthService {
     return this.http.post( this.api + AuthService.SIGNUP_URL, requestParam, this.generateOptions())
       .map((res: Response) => {
         this.saveToken(res);
-        this.saveUserDetails(JSON.parse(sessionStorage.getItem('user')));
+        this.saveUserDetails(JSON.parse(localStorage.getItem('user')));
       }).catch(err => {
         throw Error(err.json().message);
       });
@@ -77,7 +108,7 @@ export class AuthService {
     return this.http.post(this.api + AuthService.SIGNIN_URL, requestParam) //, this.generateOptions())
       .map((res: Response) => {
         this.saveToken(res);
-        this.saveUserDetails(JSON.parse(sessionStorage.getItem('user')));
+        this.saveUserDetails(JSON.parse(localStorage.getItem('user')));
         this.loginEvent.emit('logged_in');
       }).catch(err => {
         throw Error(err.json().message);
@@ -85,13 +116,15 @@ export class AuthService {
   }
 
   /**
-   * Removes token and user details from sessionStorage and service's variables
+   * Removes token and user details from localStorage and service's variables
    */
   public logout(): void {
-    sessionStorage.removeItem('user');
+    localStorage.removeItem('user');
     this.token = null;
     this.username = null;
     this.userId = null;
+    this.email = null;
+    this.role = null;
   }
 
   /**
@@ -109,19 +142,19 @@ export class AuthService {
       });
   }
 
-  public checkPath(url: string): Observable<any> {
-
-    return this.http.get(this.api + AuthService.CHECK_URL + url,  this.generateOptions())
-      .map((res: Response) => {
-        return res;
-      }).catch(err => {
-        throw Error(err.json().message);
-      });
+  public checkPath(url: string) {
+    return this.isAuthorized();
+    // return this.http.get(this.api + AuthService.CHECK_URL + url,  this.generateOptions())
+    //   .map((res: Response) => {
+    //     return res;
+    //   }).catch(err => {
+    //     throw Error(err.json().message);
+    //   });
   }
 
   /**
    * Checks if user is authorized
-   * @return true is user authorized (there is token in sessionStorage) else false
+   * @return true is user authorized (there is token in localStorage) else false
    */
   public isAuthorized(): boolean {
     return Boolean(this.token);
@@ -137,7 +170,7 @@ export class AuthService {
   /**
    * @return userId if exists
    */
-  public getUserId(): number {
+  public getUserId(): string {
     return this.userId;
   }
 
@@ -148,14 +181,22 @@ export class AuthService {
     return this.token;
   }
 
-  // Saves user details with token into sessionStorage as user item
+  public  getEmail(): string {
+    return this.email;
+  }
+
+  public  getRoles(): string[] {
+    return this.role;
+  }
+
+  // Saves user details with token into localStorage as user item
   private saveToken(res: Response): void {
     const response = res.json() && res.json().token;
     if (response) {
       const token = response;
       let claims = this.getTokenClaims(token);
       claims.token = token;
-      sessionStorage.setItem('user', JSON.stringify(claims));
+      localStorage.setItem('user', JSON.stringify(claims));
     } else {
       throw Error(res.json());
     }
@@ -165,7 +206,9 @@ export class AuthService {
   private saveUserDetails(user): void {
     this.token = user.token || '';
     this.username = user.sub || '';
-    this.userId = user.id || 0;
+    this.userId = user.id || '';
+    this.role = user.role || {};
+    this.email = user.email || '';
   }
 
   // Retrieves user details from token

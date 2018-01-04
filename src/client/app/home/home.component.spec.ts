@@ -4,12 +4,12 @@ import {
   TestBed
 } from '@angular/core/testing';
 import { HomeComponent } from './home.component';
-import { UserService } from '../auth/user/user.service';
 import { By } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { API_BASE_HREF } from '../api';
 import { BaseRequestOptions, Http, ConnectionBackend } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
+import { AuthService } from '../auth/auth.service';
 
 class UserServiceSpy {
   getGlobalObject = jasmine.createSpy('getGlobalObject').and.callFake(function (key) {
@@ -30,7 +30,7 @@ export function main() {
         providers: [
           MockBackend,
           BaseRequestOptions,
-          { provide: UserService, useClass: UserServiceSpy },
+          { provide: AuthService, useClass: UserServiceSpy },
           {
             provide: Http,
             useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),

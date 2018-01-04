@@ -4,8 +4,8 @@ import {
   TestBed
 } from '@angular/core/testing';
 import { UserLoginComponent } from './user.component';
-import { UserService } from './user.service';
 import { By } from '@angular/platform-browser';
+import { AuthService } from '../auth.service';
 
 export function main() {
   describe('User component', () => {
@@ -14,7 +14,7 @@ export function main() {
       TestBed.configureTestingModule({
         declarations: [UserLoginComponent, LoginComponent],
         providers: [
-          { provide: UserService, useClass: UserServiceSpy }
+          { provide: AuthService, useClass: UserServiceSpy }
         ],
         imports: []
       });

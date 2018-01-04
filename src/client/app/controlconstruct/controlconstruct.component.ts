@@ -4,7 +4,7 @@ import { ControlConstructService, ControlConstruct, Instruction, Universe } from
 import { Subject }          from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 import { Column } from '../shared/table/table.service';
-import { UserService } from '../auth/user/user.service';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'qddt-controle-construct',
@@ -15,7 +15,7 @@ import { UserService } from '../auth/user/user.service';
         border: thick solid red;
     }`
   ],
-  providers: [ControlConstructService],
+  providers: [ControlConstructService,AuthService],
 })
 
 export class ControlConstructComponent implements OnInit, AfterContentChecked {
@@ -41,7 +41,7 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
   private files: FileList;
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
-  constructor(private service: ControlConstructService, private userService: UserService) {
+  constructor(private service: ControlConstructService, private userService: AuthService) {
     console.log('constructor ');
     this.isDetail = false;
     this.editQuestoinItem = false;

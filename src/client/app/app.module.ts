@@ -16,16 +16,16 @@ import { ResponsedomainModule } from './responsedomain/responsedomain.module';
 import { ControlConstructModule } from './controlconstruct/controlconstruct.module';
 import { SequenceModule } from './sequence/sequence.module';
 import { PageNotFoundComponent } from './pagenotfound/page-not-found.component';
-import { AuthGuard } from './auth/auth-guard.service';
 import { AlertComponent } from './alert/alert.component';
 import { AlertService } from './alert/alert.service';
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
-  imports: [ routing, BrowserModule, HttpModule,  SharedModule, HomeModule,
+  imports: [ routing, BrowserModule, HttpModule,  SharedModule, HomeModule, AuthModule,
     CategoryModule, ResponsedomainModule, QuestionModule, ControlConstructModule,
     SequenceModule, InstrumentModule, PublicationModule],
   declarations: [ AppComponent, PageNotFoundComponent ,AlertComponent],
-  providers: [AuthGuard, AlertService, {
+  providers: [ AlertService, {
     provide: APP_BASE_HREF,
     useValue: '<%= APP_BASE %>'
   }, {

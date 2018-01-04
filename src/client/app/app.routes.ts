@@ -18,7 +18,7 @@ import { PageNotFoundComponent } from './pagenotfound/page-not-found.component';
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full'},
   { path: 'home',         component: HomeComponent ,canActivate: [AuthGuard]},
-  { path: 'login',        component: LoginComponent ,canActivate: [AuthGuard]},
+  { path: 'login',        component: LoginComponent },
   { path: 'questions',    component: QuestionComponent,canActivate: [AuthGuard] },
   { path: 'responsedomains',component: ResponsedomainComponent,canActivate: [AuthGuard] },
   { path: 'schemes',      component: CategorySchemeComponent,canActivate: [AuthGuard] },

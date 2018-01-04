@@ -7,10 +7,10 @@ import {
 } from '@angular/core/testing';
 import { LoginComponent } from './login.component';
 import { By } from '@angular/platform-browser';
-import { UserService } from '../user/user.service';
 import { API_BASE_HREF } from '../../api';
 import { BaseRequestOptions, Http, ConnectionBackend } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
+import { AuthService } from '../auth.service';
 
 class UserServiceSpy {
   get = jasmine.createSpy('get').and.callFake(function (key) {
@@ -34,7 +34,7 @@ export function main() {
           { provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
           },
-          { provide: UserService, useClass: UserServiceSpy }
+          { provide: AuthService, useClass: UserServiceSpy }
         ],
         imports: [ CommonModule, FormsModule ]
       });

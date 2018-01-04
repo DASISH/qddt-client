@@ -1,18 +1,16 @@
-import { Component, Input, PipeTransform, Pipe, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 
 import { ResponseDomainService } from './responsedomain.service';
-import { UserService } from '../../auth/user/user.service';
-import { BaseService } from '../../shared/base.service';
 import { ResponseDomainSearchComponent } from './responsedomain.search.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Observable }     from 'rxjs/Observable';
 import { MaterializeModule } from 'angular2-materialize';
-import { API_BASE_HREF } from '../../api';
+import { API_BASE_HREF } from '../api';
 
 export function main() {
   describe('Responsedomain search component', () => {

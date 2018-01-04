@@ -9,7 +9,6 @@ import { Observable } from 'rxjs/Rx';
 export class BaseService {
 
   private headers: Headers;
-  // private alertService: AlertService;
 
   constructor(protected http:Http, @Inject(API_BASE_HREF) protected api:string) {
     // this.alertService = new AlertService();
@@ -17,7 +16,7 @@ export class BaseService {
     let jwt = localStorage.getItem('jwt');
     if(jwt !== null) {
       this.headers.append('Authorization', 'Bearer  '
-        + JSON.parse(jwt).access_token);
+        + jwt);
     }
     this.headers.append('Content-Type', 'application/json');
   }
@@ -100,7 +99,7 @@ export class BaseService {
     let headers = new Headers();
     let jwt = localStorage.getItem('jwt');
     if (jwt !== null) {
-      headers.append('Authorization', 'Bearer  ' + JSON.parse(jwt).access_token);
+      headers.append('Authorization', 'Bearer  ' + jwt);
     }
     let options = new RequestOptions({headers: headers});
     const formData = new FormData();

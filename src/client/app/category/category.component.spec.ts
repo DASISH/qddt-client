@@ -5,12 +5,12 @@ import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { Category, CategoryService } from './category.service';
-import { UserService } from '../auth/user/user.service';
 import { CategoryComponent } from './category.component';
 import { API_BASE_HREF } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Observable }     from 'rxjs/Observable';
+import { AuthService } from '../auth/auth.service';
 
 export function main() {
   describe('Category component', () => {
@@ -24,7 +24,7 @@ export function main() {
           MockBackend,
           BaseRequestOptions,
           { provide: CategoryService, useClass: CategoryServiceSpy },
-          { provide: UserService, useClass: UserServiceSpy },
+          { provide: AuthService, useClass: UserServiceSpy },
           {
             provide: Http,
             useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),

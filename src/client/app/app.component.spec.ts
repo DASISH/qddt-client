@@ -8,9 +8,9 @@ import {
   TestBed
 } from '@angular/core/testing';
 
-import { UserService } from './auth/user/user.service';
 import { AppComponent } from './app.component';
 import { By } from '@angular/platform-browser';
+import { AuthService } from './auth/auth.service';
 
 class UserServiceSpy {
   get = jasmine.createSpy('get').and.callFake(function(key) {
@@ -48,7 +48,7 @@ export function main() {
       TestBed.configureTestingModule({
         declarations: [TestComponent, DummyComponent, AppComponent, UserLoginComponent],
         providers: [
-          { provide: UserService, useClass: UserServiceSpy }
+          { provide: AuthService, useClass: UserServiceSpy }
         ],
         imports: [
           CommonModule,

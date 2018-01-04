@@ -1,16 +1,16 @@
-import { AuthGuard } from './auth-guard.service';
 import { NgModule } from '@angular/core';
 import { LoginComponent } from './login/login.component';
 import { UserLoginComponent } from './user/user.component';
+import { AuthGuard } from './auth-guard.service';
 import { AuthService } from './auth.service';
-import { UserService } from './user/user.service';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
-  imports: [ ],
-  declarations: [AuthGuard, LoginComponent, UserLoginComponent],
-  providers: [AuthService, UserService],
-  exports: [ AuthGuard, LoginComponent, UserLoginComponent ]
+  imports: [SharedModule ],
+  declarations: [LoginComponent, UserLoginComponent],
+  providers: [AuthGuard,AuthService],
+  exports: [LoginComponent, UserLoginComponent ]
 })
 
 export class AuthModule { }

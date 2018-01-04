@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Output, OnInit, AfterContentChecked, ViewChild } from '@angular/core';
 import { CategoryService, Category, ResponseCardinality } from './category.service';
 import { CategoryType } from './category_kind';
-import { UserService } from '../auth/user/user.service';
 import { Subject } from 'rxjs/Subject';
 import { ElementKind, QddtElementType,QddtElementTypes } from '../shared/preview/preview.service';
+import { AuthService } from '../auth/auth.service';
 
 declare let Materialize: any;
 
@@ -36,7 +36,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
   private readonly revisionConfig = this.buildRevisionConfig();
   private readonly  CATEGORY_KIND :QddtElementType= QddtElementTypes[ElementKind.CATEGORY];
 
-  constructor(private categoryService: CategoryService, private userService: UserService) {
+  constructor(private categoryService: CategoryService, private userService: AuthService) {
     this.category = new Category();
     this.isDetail = false;
     this.page = {};

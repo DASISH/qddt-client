@@ -1,12 +1,6 @@
-import { Component, Output, EventEmitter, Inject } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
+import 'rxjs/Rx';
 import { AuthService } from '../auth.service';
-// import { Http, Headers, Response } from '@angular/http';
-// import 'rxjs/add/operator/map';
-// import { API_BASE_HREF } from '../../api';
-// import { UserService } from '../user/user.service';
-// import { concat } from 'rxjs/observable/concat';
-
-
 
 export class LoginForm {
   username: string;
@@ -22,20 +16,21 @@ export class LoginForm {
 export class LoginComponent {
 
   @Output() loginEvent: EventEmitter<string>  = new EventEmitter<string>();
-  user: any;
+  // user: any;
   loginData: LoginForm;
 
   constructor(private loginService: AuthService) {
     this.loginData = new LoginForm();
-    this.loginData.username = 'review@example.org';
-    this.loginData.password = 'password';
+    this.loginData.username = loginService.getEmail() || 'review@example.org';
+    if ( this.loginData.username === 'review@example.org')
+      this.loginData.password = 'password';
   }
 
   login() {
-    console.log('loggin ...');
     this.loginService.signIn(this.loginData.username,this.loginData.password)
     .subscribe( ()=> {
-      this.user = JSON.parse(sessionStorage.getItem('user'));
+      // this.user = JSON.parse(localStorage.getItem('user'));
+      console.log('login ... ' + this.loginService.getUserId());
       this.loginEvent.emit('logged_in');
     });
   }

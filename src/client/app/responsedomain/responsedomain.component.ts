@@ -2,9 +2,9 @@ import { Component, OnInit, AfterContentChecked, EventEmitter, Input } from '@an
 import { ResponseDomain } from './responsedomain.service';
 import { DomainKind, DomainTypeDescription, PredefinedColumns } from './responsedomain.constant';
 import { ResponseDomainService } from './responsedomain.service';
-import { UserService } from '../auth/user/user.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
+import { AuthService } from '../auth/auth.service';
 
 declare var Materialize:any;
 
@@ -12,7 +12,7 @@ declare var Materialize:any;
   selector: 'qddt-responsedomain',
   moduleId: module.id,
   templateUrl: './responsedomain.component.html',
-  providers: [ResponseDomainService],
+  providers: [ResponseDomainService,AuthService],
 })
 
 export class ResponsedomainComponent implements OnInit, AfterContentChecked {
@@ -36,7 +36,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
   private savedResponseDomainsIndex: number;
   private searchKeysSubject: Subject<string> = new Subject<string>();
 
-  constructor(private responseDomainService: ResponseDomainService, private userService: UserService) {
+  constructor(private responseDomainService: ResponseDomainService, private userService: AuthService) {
     this.responseDomain = new ResponseDomain();
     this.isNewFormVisible =false;
     this.isProgressBarVisible = false;

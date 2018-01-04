@@ -5,13 +5,13 @@ import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { QuestionService } from './question.service';
-import { UserService } from '../auth/user/user.service';
 import { QuestionComponent } from './question.component';
 import { API_BASE_HREF } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Observable }     from 'rxjs/Observable';
 import { MaterializeModule } from 'angular2-materialize';
+import { AuthService } from '../auth/auth.service';
 
 export function main() {
   describe('Question component', () => {
@@ -27,7 +27,7 @@ export function main() {
           MockBackend,
           BaseRequestOptions,
           { provide: QuestionService, useClass: QuestionServiceSpy },
-          { provide: UserService, useClass: UserServiceSpy },
+          { provide: AuthService, useClass: UserServiceSpy },
           {
             provide: Http,
             useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),

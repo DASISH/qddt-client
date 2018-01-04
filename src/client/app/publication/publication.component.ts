@@ -1,10 +1,10 @@
 import { Component, OnInit, EventEmitter, AfterContentChecked } from '@angular/core';
 import { PublicationService, Publication,  PUBLICATION_NOT_PUBLISHED, PUBLICATION_STATUS } from './publication.service';
 import { Subject }          from 'rxjs/Subject';
-import { UserService } from '../auth/user/user.service';
 import { MaterializeAction } from 'angular2-materialize';
 import { Column } from '../shared/table/table.service';
 import { QddtElementType, QddtElementTypes } from '../shared/preview/preview.service';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'qddt-publication',
@@ -15,7 +15,7 @@ import { QddtElementType, QddtElementTypes } from '../shared/preview/preview.ser
         border: thick solid red;
     }`
   ],
-  providers: [PublicationService],
+  providers: [PublicationService,AuthService],
 })
 export class PublicationComponent implements AfterContentChecked, OnInit {
 
@@ -38,7 +38,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
   private columns: Column[];
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
-  constructor(private service: PublicationService, private userService: UserService) {
+  constructor(private service: PublicationService, private userService: AuthService) {
     this.isDetail = false;
     this.publications = [];
     this.searchKeys = '';

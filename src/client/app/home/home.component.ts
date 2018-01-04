@@ -1,9 +1,10 @@
 import { Component, AfterContentChecked, OnInit } from '@angular/core';
-import { UserService } from '../auth/user/user.service';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'qddt-home',
   moduleId: module.id,
+  providers: [AuthService],
   templateUrl: './home.component.html',
 })
 
@@ -15,15 +16,13 @@ export class HomeComponent implements AfterContentChecked, OnInit {
   showConcept: boolean = false;
 
   components: any = [];
-
-  private user: string;
-
+  user:any;
   private survey: any;
   private study: any;
   private topic: any;
   private concept: any;
 
-  constructor(private userService: UserService) {
+  constructor(private userService: AuthService) {
 
   }
 

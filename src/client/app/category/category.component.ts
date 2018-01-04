@@ -1,8 +1,8 @@
 import { Component, OnInit, AfterContentChecked } from '@angular/core';
 import { CategoryService, Category } from './category.service';
-import { UserService } from '../auth/user/user.service';
 import { Subject } from 'rxjs/Subject';
 import { Column } from '../shared/table/table.service';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'category',
@@ -24,7 +24,7 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
   private columns: Column[];
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
-  constructor(private categoryService: CategoryService, private userService: UserService) {
+  constructor(private categoryService: CategoryService, private userService: AuthService) {
     this.isDetail = false;
     this.categories = [];
     this.searchKeys = '';

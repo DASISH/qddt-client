@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation, AfterContentChecked, AfterViewInit  } from '@angular/core';
-import { UserService } from './auth/user/user.service';
 import { AlertComponent} from './alert/alert.component';
+import { AuthService } from './auth/auth.service';
 
 declare var $:any;
 
@@ -10,13 +10,13 @@ declare var $:any;
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   encapsulation: ViewEncapsulation.None,
-  providers: [ ]
+  providers: [AuthService]
 })
 
 export class AppComponent implements AfterContentChecked ,AfterViewInit{
   public user: any;
 
-  constructor(private userService: UserService) {
+  constructor(private userService: AuthService) {
     this.user = this.userService.get();
   }
 
@@ -37,7 +37,7 @@ export class AppComponent implements AfterContentChecked ,AfterViewInit{
   }
 
   logoutEvent() {
-    this.userService.remove();
+    this.userService.logout();
   }
 
   onInstruments() {

@@ -1,10 +1,10 @@
 import { Component, OnInit, AfterContentChecked, EventEmitter } from '@angular/core';
 import { QuestionService, QuestionItem } from './question.service';
-import { UserService } from '../auth/user/user.service';
 import { Subject }          from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 import { Column } from '../shared/table/table.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'qddt-questionitem',
@@ -36,7 +36,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
   private secondCS: any;
   private mainresponseDomainRevision: number;
 
-  constructor(private questionService: QuestionService, private userService: UserService,private route: ActivatedRoute) {
+  constructor(private questionService: QuestionService, private userService: AuthService,private route: ActivatedRoute) {
     this.questionitems = [];
     this.page = {number:1, size:10};
     this.searchKeys = '';
