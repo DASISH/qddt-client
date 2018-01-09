@@ -1,7 +1,7 @@
 import { join } from 'path';
 import { argv } from 'yargs';
 import { SeedConfig } from './seed.config';
-
+import { ExtendPackages } from './seed.config.interfaces';
 /**
  * This class extends the basic seed configuration, allowing for project specific overrides. A few examples can be found
  * below.
@@ -38,6 +38,15 @@ export class ProjectConfig extends SeedConfig {
 
     /* Add to or override NPM module configurations: */
     // this.mergeObject(this.PLUGIN_CONFIGS['browser-sync'], { ghostMode: false });
+    // Add packages (e.g. ng2-translate)
+    const additionalPackages: ExtendPackages[] = [    {
+      name: 'tslib',
+      path: 'node_modules/tslib/tslib.js'
+    }
+    ];
+    //
+    // this.addPackagesBundles(additionalPackages);
+
   }
 
 }

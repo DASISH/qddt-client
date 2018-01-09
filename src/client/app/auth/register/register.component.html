@@ -1,0 +1,20 @@
+
+<mat-card class="example-form">
+	<mat-card-title> Register </mat-card-title>
+  <p>{{message}}</p>
+<form >
+ 
+   <mat-form-field class="example-full-width">
+      <input type="text" matInput placeholder="Username" [(ngModel)]="model.username" name="username" required>
+    </mat-form-field>
+     <mat-form-field class="example-full-width">
+      <input type="email" matInput placeholder="Email Address" [(ngModel)]="model.email" name="email" required>
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input type="password" matInput placeholder="Password" [(ngModel)]="model.password" name="password" required>
+    </mat-form-field>
+</form>
+<button mat-raised-button color="primary" (click)="register()">Register</button>
+<button mat-raised-button color="accent">Cancel</button>
+<p> <a  routerLink="/forgotpass">Forgot password? </a>  &nbsp; &nbsp; <a routerLink="/login">Login</a></p>
+</mat-card>
