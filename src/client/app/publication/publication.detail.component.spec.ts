@@ -44,9 +44,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(PublicationDetailComponent);
+            const fixture = TestBed.createComponent(PublicationDetailComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('form'));
+            const de: any = fixture.debugElement.queryAll(By.css('form'));
             expect(de.length).toBe(0);
           });
       }));
@@ -56,8 +56,8 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(PublicationDetailComponent);
-            let publication: any = {
+            const fixture = TestBed.createComponent(PublicationDetailComponent);
+            const publication: any = {
                 'id' : '7f000101-54aa-131e-8154-aa27fc230000',
                 'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
                 'name' : 'one publication',
@@ -71,7 +71,7 @@ export function main() {
             fixture.componentInstance.ngOnInit();
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let de: any = fixture.debugElement.queryAll(By.css('textarea'));
+              const de: any = fixture.debugElement.queryAll(By.css('textarea'));
               expect(de.length).toBeGreaterThan(0);
               expect(de[0].nativeNode.value).toContain('publication');
             });

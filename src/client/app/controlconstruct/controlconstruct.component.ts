@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, AfterContentChecked } from '@angular/core';
 
 import { ControlConstructService, ControlConstruct, Instruction, Universe } from './controlconstruct.service';
-import { Subject }          from 'rxjs/Subject';
+import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 import { Column } from '../shared/table/table.service';
 import { AuthService } from '../auth/auth.service';
@@ -15,7 +15,7 @@ import { AuthService } from '../auth/auth.service';
         border: thick solid red;
     }`
   ],
-  providers: [ControlConstructService,AuthService],
+  providers: [ControlConstructService, AuthService],
 })
 
 export class ControlConstructComponent implements OnInit, AfterContentChecked {
@@ -25,10 +25,10 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
   public modalActions = new EventEmitter<string|MaterializeAction>();
   public questionitemActions = new EventEmitter<string|MaterializeAction>();
 
-  private showControlConstructForm: boolean = false;
-  private showProgressBar: boolean = false;
+  private showControlConstructForm = false;
+  private showProgressBar = false;
   private showInstructionForm: boolean;
-  private showUniverse: boolean = false;
+  private showUniverse = false;
   private editQuestoinItem: boolean;
   private isDetail: boolean;
   private isInstructionAfter: boolean;
@@ -52,18 +52,18 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
     // this.instructions = [];
     this.controlConstructs = [];
     this.columns =
-            [{ name:'name', label:'Construct Name', sortable: true,  direction: '' ,width:'15%'},
-            { name:['questionItem', 'name'], label:'Question Name', sortable:true, direction: '' ,width:'15%'},
-            { name:['questionItem','question'], label:'Question Text', sortable:true, direction: '' ,width:'50%'},
-            { name: 'modified',  label: 'Modified', sortable: true, direction: 'desc' ,width:'8%'}];
+            [{ name: 'name', label: 'Construct Name', sortable: true,  direction: '' , width: '15%'},
+            { name: ['questionItem', 'name'], label: 'Question Name', sortable: true, direction: '' , width: '15%'},
+            { name: ['questionItem', 'question'], label: 'Question Text', sortable: true, direction: '' , width: '50%'},
+            { name: 'modified',  label: 'Modified', sortable: true, direction: 'desc' , width: '8%'}];
     this.searchKeysSubect
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
         this.showProgressBar = true;
-        let args = name.split(' ');
+        const args = name.split(' ');
         console.log('searchKeysSubect ' + args.length);
-        this.service.searchControlConstructs(args[0], args[1]?args[1]:'%','0', this.getSort()).subscribe((result: any) => {
+        this.service.searchControlConstructs(args[0], args[1] ? args[1] : '%', '0', this.getSort()).subscribe((result: any) => {
           this.page = result.page;
           this.controlConstructs = result.content;
           this.showProgressBar = false;
@@ -72,7 +72,7 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit() {
-    let config = this.userService.getGlobalObject('constructs');
+    const config = this.userService.getGlobalObject('constructs');
     if (config.current === 'detail' ) {
       this.page = config.page;
       this.controlConstructs = config.collection;
@@ -85,7 +85,7 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
   }
 
   ngAfterContentChecked() {
-    let config = this.userService.getGlobalObject('constructs');
+    const config = this.userService.getGlobalObject('constructs');
     if (config.current === 'detail' ) {
       this.page = config.page;
       this.controlConstructs = config.collection;
@@ -125,7 +125,7 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
     this.showInstructionForm = false;
   }
 
-  onAddUniverse(universe:Universe) {
+  onAddUniverse(universe: Universe) {
     console.log(universe);
     this.controlConstruct.universe.push(universe);
   }
@@ -160,15 +160,15 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
 
   onPage(page: string) {
     this.showProgressBar = true;
-    let args = this.searchKeys.split(', ');
+    const args = this.searchKeys.split(', ');
     console.log('onPage' + args);
-    this.service.searchControlConstructs(args[0], args[1]?args[1]:'%', page, this.getSort()).subscribe(
+    this.service.searchControlConstructs(args[0], args[1] ? args[1] : '%', page, this.getSort()).subscribe(
       (result: any) => {
         this.page = result.page;
         this.controlConstructs = result.content;
         this.showProgressBar = false;
       },
-      (error: any) =>this.showProgressBar = false);
+      (error: any) => this.showProgressBar = false);
   }
 
   onCreateControlConstruct() {
@@ -215,16 +215,16 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
   }
 
   onClickQuestionItem() {
-    this.questionitemActions.emit({action:'modal', params:['open']});
+    this.questionitemActions.emit({action: 'modal', params: ['open']});
   }
 
   popupModal(error: any) {
     this.error = error;
-    this.modalActions.emit({action:'modal', params:['open']});
+    this.modalActions.emit({action: 'modal', params: ['open']});
   }
 
   private getSort() {
-    let i = this.columns.findIndex((e: any) => e.sortable && e.direction !== undefined && e.direction !== '');
+    const i = this.columns.findIndex((e: any) => e.sortable && e.direction !== undefined && e.direction !== '');
     let sort = '';
     if (i >= 0) {
       if (typeof this.columns[i].name === 'string') {

@@ -4,7 +4,7 @@ import { Study } from '../../home/study/study.service';
 @Component({
   selector: 'qddt-preview-study',
   moduleId: module.id,
-  template:`
+  template: `
   <div class="row">
     <div class="col s12">
       <label [attr.for]="study.id + '-description'" class="active teal-text">Description</label>

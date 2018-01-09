@@ -6,14 +6,14 @@ import { Component, Input } from '@angular/core';
   styles: [
     '.collapsible { border:1px  }',
   ],
-  template:`
+  template: `
   <ul *ngIf="topicList" materialize="collapsible" class="collapsible" data-collapsible="accordion" style="padding: 5pt;">
     <li *ngFor="let topic of topicList">
       <div class="collapsible-header yellow lighten-5">
         <!--<div class="row">-->
-          <div class="col s11">Concept: {{topic?.name}}</div>
+          <div class="col s11">Concept: {{ topic?.name }}</div>
           <div class="col s1">
-            <label class="active">V{{topic?.version?.major}}.{{topic?.version?.minor}}</label>
+            <label class="active">V{{ topic?.version?.major }}.{{ topic?.version?.minor }}</label>
           </div>
         <!--</div>-->
       </div>

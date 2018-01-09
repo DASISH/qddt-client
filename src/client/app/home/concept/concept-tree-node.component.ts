@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ConceptService, Concept } from './concept.service';
 import { MaterializeAction } from 'angular2-materialize';
 import { QuestionItem } from '../../question/question.service';
-let saveAs = require('file-saver');
+const saveAs = require('file-saver');
 
 @Component({
   selector: 'qddt-concept-treenode',
@@ -24,13 +24,13 @@ let saveAs = require('file-saver');
 
 export class TreeNodeComponent  {
   @Output() deleteConceptEvent: EventEmitter<any> = new EventEmitter();
-  @Output() conceptUpdatedAction:EventEmitter<any> = new EventEmitter();
+  @Output() conceptUpdatedAction: EventEmitter<any> = new EventEmitter();
   @Input() concept: any;
-  @Input() readonly :boolean = false;
-  showConceptChildForm: boolean = false;
-  showQuestionForm: boolean = false;
+  @Input() readonly = false;
+  showConceptChildForm = false;
+  showQuestionForm = false;
   questionItemActions = new EventEmitter<string|MaterializeAction>();
-  private showbutton: boolean = false;
+  private showbutton = false;
   private newchild: any;
   private questionItem: any;
 
@@ -49,7 +49,7 @@ export class TreeNodeComponent  {
     this.conceptUpdatedAction.emit(concept);
   }
 
-  onConceptUpdated(concept:any) {
+  onConceptUpdated(concept: any) {
     this.conceptUpdatedAction.emit(concept);
   }
 
@@ -57,9 +57,9 @@ export class TreeNodeComponent  {
     this.deleteConceptEvent.emit(concept);
   }
 
-  onClickQuestionItem(questionItem:QuestionItem) {
+  onClickQuestionItem(questionItem: QuestionItem) {
     this.questionItem = questionItem;
-    this.questionItemActions.emit({action:'modal', params:['open']});
+    this.questionItemActions.emit({action: 'modal', params: ['open']});
   }
 
   onChildSave() {
@@ -81,14 +81,14 @@ export class TreeNodeComponent  {
   }
 
   addQuestionItem(questionItem: any) {
-      this.conceptService.attachQuestion(this.concept.id,questionItem.id,questionItem['questionItemRevision'])
+      this.conceptService.attachQuestion(this.concept.id, questionItem.id, questionItem['questionItemRevision'])
         .subscribe((result: any) => {
           this.onConceptSavedEvent(result);
         }, (error: any) => console.log(error));
   }
 
   getPdf(concept: Concept) {
-    let fileName = concept.name + '.pdf';
+    const fileName = concept.name + '.pdf';
     this.conceptService.getPdf(concept.id).subscribe(
       (data: any) => {
         saveAs(data, fileName);

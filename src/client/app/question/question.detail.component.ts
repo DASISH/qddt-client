@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { QuestionService, QuestionItem } from './question.service';
 import { MaterializeAction } from 'angular2-materialize';
-let saveAs = require('file-saver');
+const saveAs = require('file-saver');
 
 
 @Component({
@@ -38,10 +38,10 @@ export class QuestionDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(!this.questionitems) {
+    if (!this.questionitems) {
       this.questionitems = [];
     }
-    if(this.questionitemId) {
+    if (this.questionitemId) {
       this.service.getquestion(this.questionitemId)
         .subscribe((result: any) => {
           this.questionitem = result;
@@ -72,15 +72,15 @@ export class QuestionDetailComponent implements OnInit {
         this.questionitem = result;
         this.editIsVisible = true;
       }
-      ,(error: any) => { console.log(error); });
+      , (error: any) => { console.log(error); });
   }
 
   onEditQuestionItem(questionitem: QuestionItem) {
-    let i = this.questionitems.findIndex(q => q['id'] === questionitem['id']);
-    if(i >= 0) {
+    const i = this.questionitems.findIndex(q => q['id'] === questionitem['id']);
+    if (i >= 0) {
       this.questionitems[i] = questionitem;
     } else {
-      if(this.savedQuestionitemsIndex >= 0) {
+      if (this.savedQuestionitemsIndex >= 0) {
         this.questionitems[this.savedQuestionitemsIndex] = JSON.parse(this.savedObject);
       }
       this.questionitems.push(questionitem);
@@ -90,18 +90,18 @@ export class QuestionDetailComponent implements OnInit {
 
   onDeleteQuestionItemModal() {
     this.checkDeleteQuestionItem();
-    this.deleteAction.emit({action:'modal', params:['open']});
+    this.deleteAction.emit({action: 'modal', params: ['open']});
   }
 
   onPreview(questionitem: QuestionItem) {
     this.previewObject = questionitem;
-    this.previewActions.emit({action:'modal', params:['open']});
+    this.previewActions.emit({action: 'modal', params: ['open']});
   }
 
   checkDeleteQuestionItem() {
-    let usedby: any = this.questionitem['conceptRefs'];
+    const usedby: any = this.questionitem['conceptRefs'];
     this.canDelete = 2; //checking
-    if(usedby && usedby.length > 0) {
+    if (usedby && usedby.length > 0) {
       this.canDelete = 0;
     } else {
       this.service.getControlConstructsByQuestionItem(this.questionitem.id)
@@ -119,11 +119,11 @@ export class QuestionDetailComponent implements OnInit {
   onConfirmDeleting() {
     this.service.deleteQuestionItem(this.questionitem.id)
       .subscribe((result: any) => {
-        let i = this.questionitems.findIndex(q => q['id'] === this.questionitem.id);
+        const i = this.questionitems.findIndex(q => q['id'] === this.questionitem.id);
         if (i >= 0) {
           this.questionitems.splice(i, 1);
         }
-        this.deleteAction.emit({action:'modal', params:['close']});
+        this.deleteAction.emit({action: 'modal', params: ['close']});
         this.hideDetailEvent.emit('hide');
       },
       (error: any) => console.log(error));
@@ -131,7 +131,7 @@ export class QuestionDetailComponent implements OnInit {
   }
 
   getPdf(element: QuestionItem) {
-    let fileName = element.name + '.pdf';
+    const fileName = element.name + '.pdf';
     this.service.getPdf(element.id).subscribe(
       (data: any) => {
         saveAs(data, fileName);
@@ -140,13 +140,13 @@ export class QuestionDetailComponent implements OnInit {
   }
 
   private buildRevisionConfig(): any[] {
-    let config: any[] = [];
-    config.push({'name':'name','label':'Name'});
-    config.push({'name':'question','label':'Question'});
-    config.push({'name':'intent','label':'Intent'});
-    config.push({'name':['responseDomain', 'name'],'label':'responseDomain'});
-    config.push({'name':['responseDomain', 'version'],'label':'RespD', 'init': function (version: any) {
-      return 'V' + version['major'] +'.' + version['minor'];
+    const config: any[] = [];
+    config.push({'name': 'name', 'label': 'Name'});
+    config.push({'name': 'question', 'label': 'Question'});
+    config.push({'name': 'intent', 'label': 'Intent'});
+    config.push({'name': ['responseDomain', 'name'], 'label': 'responseDomain'});
+    config.push({'name': ['responseDomain', 'version'], 'label': 'RespD', 'init': function (version: any) {
+      return 'V' + version['major'] + '.' + version['minor'];
     }});
 
     return config;

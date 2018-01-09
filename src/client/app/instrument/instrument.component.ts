@@ -15,7 +15,7 @@ import { MaterializeAction } from 'angular2-materialize';
 })
 export class InstrumentComponent implements OnInit {
 
-  showInstrumentForm: boolean = false;
+  showInstrumentForm = false;
   modalActions = new EventEmitter<string|MaterializeAction>();
   error: any;
 
@@ -78,12 +78,12 @@ export class InstrumentComponent implements OnInit {
 
   private popupModal(error: any) {
     this.error = error;
-    this.modalActions.emit({action:'modal', params:['open']});
+    this.modalActions.emit({action: 'modal', params: ['open']});
     // this.actions.emit({action:'modal', params:['open']});
   }
 
   private getSort() {
-    let i = this.columns.findIndex((e: any) => e.sortable && e.direction !== undefined && e.direction !== '');
+    const i = this.columns.findIndex((e: any) => e.sortable && e.direction !== undefined && e.direction !== '');
     let sort = '';
     if (i >= 0) {
       if (typeof this.columns[i].name === 'string') {

@@ -20,7 +20,7 @@
           <option *ngFor="let revision of questionItemRevisions"
                   [selected]="revision.revisionNumber === questionItemRevision"
                   [value]="revision.revisionNumber">
-            {{revision?.entity?.version?.major}}.{{revision?.entity?.version?.minor}}
+{{ revision?.entity?.version?.major }}i{{ revision?.entity?.version?.minor }}ion?.minor}}
           </option>
         </select>
       </div>
@@ -32,7 +32,7 @@
     <qddt-preview-questionitem [questionItem]="selectedQuestionItem"></qddt-preview-questionitem>
     <div class="row">
       <ul class="collection with-header black-text">
-        <li class="collection-item" *ngFor="let c of selectedQuestionItem.conceptRefs" >Concept: {{c?.name}}</li>
+        <li class="collection-item" *ngFor="let c of selectedQuestionItem.conceptRefs" >Concept: {{ c?.name }}</li>
       </ul>
     </div>
   </div>

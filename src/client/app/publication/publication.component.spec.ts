@@ -45,14 +45,14 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(PublicationComponent);
+            const fixture = TestBed.createComponent(PublicationComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('form'));
+            const de: any = fixture.debugElement.queryAll(By.css('form'));
             expect(de.length).toBe(0);
             fixture.componentInstance.onTogglePublicationForm();
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let de: any = fixture.debugElement.queryAll(By.css('form'));
+              const de: any = fixture.debugElement.queryAll(By.css('form'));
               expect(de.length).toBeGreaterThan(0);
             });
           });
@@ -63,8 +63,8 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(PublicationComponent);
-            let mockBackend = TestBed.get(MockBackend);
+            const fixture = TestBed.createComponent(PublicationComponent);
+            const mockBackend = TestBed.get(MockBackend);
             mockBackend.connections.subscribe((c: any) => {
               c.mockRespond(new Response(new ResponseOptions({
                 body: '{"content":[{'

@@ -5,7 +5,7 @@ import { MaterializeAction } from 'angular2-materialize';
 @Component({
   selector: 'qddt-conceptref',
   moduleId: module.id,
-  templateUrl:'conceptref.component.html',
+  templateUrl: 'conceptref.component.html',
   providers: [ConceptrefService]
 })
 export class ConceptrefComponent  {
@@ -22,27 +22,27 @@ export class ConceptrefComponent  {
   onClickStudy(id: string) {
     this.selectedType = 'study';
     this.service.getStudyById(id)
-      .subscribe((result: any) => {
+      .then((result: any) => {
         this.selectedElement = result;
-        this.usedbyModalAction.emit({action:'modal', params:['open']});
+        this.usedbyModalAction.emit({action: 'modal', params: ['open']});
       });
   }
 
   onClickTopic(id: string) {
     this.selectedType = 'topic';
     this.service.getTopicById(id)
-      .subscribe((result: any) => {
+      .then((result: any) => {
         this.selectedElement = result;
-        this.usedbyModalAction.emit({action:'modal', params:['open']});
+        this.usedbyModalAction.emit({action: 'modal', params: ['open']});
       });
   }
 
   onClickConcept(id: string) {
     this.selectedType = 'concept';
     this.service.getConceptsById(id)
-      .subscribe((result: any) => {
+      .then((result: any) => {
         this.selectedElement = result;
-        this.usedbyModalAction.emit({action:'modal', params:['open']});
+        this.usedbyModalAction.emit({action: 'modal', params: ['open']});
       });
   }
 

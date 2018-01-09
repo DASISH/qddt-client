@@ -1,7 +1,7 @@
-import { Component, Input, Output,EventEmitter, AfterContentChecked } from '@angular/core';
+import { Component, Input, Output, EventEmitter, AfterContentChecked } from '@angular/core';
 import { SurveyService, SurveyProgram } from './survey.service';
 
-declare var Materialize:any;
+declare var Materialize: any;
 
 @Component({
   selector: 'qddt-survey-edit',
@@ -57,9 +57,9 @@ export class SurveyEditComponent implements AfterContentChecked {
     this.isVisible = false;
     this.surveyService.save(this.survey)
       .subscribe((result: any) => {
-        this.survey = null
-        this.surveySavedEvent.emit(result);}
-        ,(err: any) => console.log('ERROR: ', err));
+        this.survey = null;
+        this.surveySavedEvent.emit(result); }
+        , (err: any) => console.log('ERROR: ', err));
   }
 
 }

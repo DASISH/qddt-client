@@ -54,7 +54,7 @@ export class UniverseComponent {
 
   onSearchUniverses(key: string) {
     this.universe.description = key;
-    this.service.searchUniverses(key).subscribe((result: any) => {
+    this.service.searchUniverses(key).then((result: any) => {
         this.universes = result.content;
         this.isUniverseNew = this.universes.length === 0;
       },

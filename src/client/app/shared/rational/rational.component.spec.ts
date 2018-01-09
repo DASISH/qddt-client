@@ -24,9 +24,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(TestComponent);
+            const fixture = TestBed.createComponent(TestComponent);
             fixture.detectChanges();
-            let de = fixture.debugElement.queryAll(By.css('label'))
+            const de = fixture.debugElement.queryAll(By.css('label'))
               .map(e => e.nativeElement);
             expect(de.length > 0).toBeTruthy();
             expect(de[0].textContent).toEqual('Save Comment');

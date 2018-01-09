@@ -31,14 +31,12 @@ export class DialogBoxComponent  implements OnInit {
   }
 
   open() {
-    console.info('open');
-    this.modalActions.emit({action:'modal', params:['open']});
+    this.modalActions.emit({action: 'modal', params: ['open']});
     // this.visibleChange.emit('opened');
   }
 
   close() {
-    console.info('close');
-    this.modalActions.emit({action:'modal', params:['close']});
+    this.modalActions.emit({action: 'modal', params: ['close']});
     // this.visibleChange.emit('closed');
   }
 

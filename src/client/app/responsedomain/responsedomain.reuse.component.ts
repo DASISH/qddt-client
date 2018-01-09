@@ -8,7 +8,7 @@ import { ElementKind, QddtElementType, QddtElementTypes } from '../shared/previe
 @Component({
   selector: 'qddt-responsedomain-reuse',
   moduleId: module.id,
-  templateUrl:'./responsedomain.reuse.component.html',
+  templateUrl: './responsedomain.reuse.component.html',
   styles: [],
   providers: [ResponseDomainService],
 })
@@ -38,14 +38,14 @@ export class ResponsedomainReuseComponent implements OnChanges  {
     this.showAutocomplete = false;
     this.domainType = DomainKind.SCALE;
     this.responseDomains = [];
-    this.domainTypeDescription = DomainTypeDescription.filter((e:any) => e.id !== DomainKind.MIXED);
+    this.domainTypeDescription = DomainTypeDescription.filter((e: any) => e.id !== DomainKind.MIXED);
     this.selectedIndex = 0;
     this.searchKeysSubject
       .debounceTime(300)
       .distinctUntilChanged()
       .filter(val => val.length > 0)
       .subscribe((name: string) => {
-        let domainType = DomainTypeDescription.find((e: any) => e.id === this.domainType).name;
+        const domainType = DomainTypeDescription.find((e: any) => e.id === this.domainType).name;
         this.responseDomainService
           .getAll(domainType, name).subscribe((result: any) => {
             this.responseDomains = result.content;
@@ -56,9 +56,9 @@ export class ResponsedomainReuseComponent implements OnChanges  {
 
 
   ngOnChanges() {
-    console.debug('ngOnChanges');
+    // console.debug('ngOnChanges');
     if (this.responseDomain) {
-      let description = this.domainTypeDescription.find((e: any) => e.name === this.responseDomain.responseKind);
+      const description = this.domainTypeDescription.find((e: any) => e.name === this.responseDomain.responseKind);
       if (description !== undefined) {
         this.domainType = description.id;
       }
@@ -67,7 +67,7 @@ export class ResponsedomainReuseComponent implements OnChanges  {
     }
   }
   removeResponseDomain() {
-    console.log('responsDomainRemove.emit');
+    // console.log('responsDomainRemove.emit');
     this.responseDomain = null;
     this.responseDomainRemove.emit(true);
   }
@@ -78,20 +78,20 @@ export class ResponsedomainReuseComponent implements OnChanges  {
 
   openModalRDReuse() {
     this.searchKeysSubject.next('*');
-    this.modalRdActions.emit({action:'modal',params:['open']});
+    this.modalRdActions.emit({action: 'modal', params: ['open']});
   }
 
   closeModalRDReuse() {
-    this.modalRdActions.emit({action:'modal',params:['close']});
+    this.modalRdActions.emit({action: 'modal', params: ['close']});
   }
 
   formSave() {
-    console.debug('formChange');
+    // console.debug('formChange');
     if (this.responseDomain.id) {
       this.responseDomainService.update(this.responseDomain)
         .subscribe((result: any) => {
           this.responseDomain = result;
-          let object = {
+          const object = {
             responseDomain: this.responseDomain
           };
           this.responseDomainSelected.emit(object);
@@ -100,7 +100,7 @@ export class ResponsedomainReuseComponent implements OnChanges  {
       this.responseDomainService.create(this.responseDomain).subscribe((result: any) => {
         this.responseDomain = result;
         this.responseDomains.push(this.responseDomain);
-        let object = {
+        const object = {
           responseDomain: this.responseDomain
         };
         this.responseDomainSelected.emit(object);
@@ -117,7 +117,7 @@ export class ResponsedomainReuseComponent implements OnChanges  {
   }
 
   reuse() {
-    console.debug('reuse');
+    // console.debug('reuse');
     this.responseDomainService.getAll(DomainKind[this.domainType]).subscribe((result: any) => {
       this.responseDomains = result.content;
       this.showAutocomplete = true;

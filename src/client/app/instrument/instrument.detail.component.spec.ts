@@ -5,7 +5,6 @@ import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { InstrumentService } from './instrument.service';
-import { BaseService } from '../shared/base.service';
 import { InstrumentDetailComponent } from './instrument.detail.component';
 import { API_BASE_HREF } from '../api';
 import { CommonModule } from '@angular/common';
@@ -44,9 +43,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(InstrumentDetailComponent);
+            const fixture = TestBed.createComponent(InstrumentDetailComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('form'));
+            const de: any = fixture.debugElement.queryAll(By.css('form'));
             expect(de.length).toBe(0);
           });
       }));
@@ -56,8 +55,8 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(InstrumentDetailComponent);
-            let mockBackend = TestBed.get(MockBackend);
+            const fixture = TestBed.createComponent(InstrumentDetailComponent);
+            const mockBackend = TestBed.get(MockBackend);
             mockBackend.connections.subscribe((c: any) => {
               c.mockRespond(new Response(new ResponseOptions({
                 body: '{'
@@ -72,7 +71,7 @@ export function main() {
                 + '}'
               })));
             });
-            let instrument: any = {
+            const instrument: any = {
               'id' : '7f000101-54aa-131e-8154-aa27fc230000',
               'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
               'name' : 'one test',

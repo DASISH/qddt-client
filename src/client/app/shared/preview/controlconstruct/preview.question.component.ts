@@ -1,7 +1,7 @@
 import { Component, Input, EventEmitter } from '@angular/core';
 import { MaterializeAction } from 'angular2-materialize';
 import { ControlConstructService } from '../../../controlconstruct/controlconstruct.service';
-let saveAs = require('file-saver');
+const saveAs = require('file-saver');
 
 @Component({
   selector: 'qddt-preview-questionconstruct',
@@ -19,7 +19,7 @@ let saveAs = require('file-saver');
       </li>
       <li class="collection-item" *ngFor="let instruction of controlConstruct.preInstructions">
         <div class="row">
-          <div class="col">{{instruction?.description}}</div>
+          <div class="col">{{ instruction?.description }}</div>
         </div>
       </li>
     </ul>
@@ -27,7 +27,7 @@ let saveAs = require('file-saver');
   <div class="row">
     <div (click)="onQuestionitemDetail(controlConstruct.questionItem)" [ngStyle]="{'cursor': 'pointer'}">
       <a><i class="material-icons left small">search</i></a>
-      <h5>{{controlConstruct?.questionItem?.question}}</h5>
+      <h5>{{ controlConstruct?.questionItem?.question }}</h5>
     </div>
   </div>
   <div class="row" *ngIf="controlConstruct.postInstructions">
@@ -39,7 +39,7 @@ let saveAs = require('file-saver');
       </li>
       <li class="collection-item" *ngFor="let instruction of controlConstruct.postInstructions">
         <div class="row">
-          <div class="col">{{instruction?.description}}</div>
+          <div class="col">{{ instruction?.description }}</div>
         </div>
       </li>
     </ul>
@@ -57,7 +57,7 @@ let saveAs = require('file-saver');
     <ul>
       <li *ngFor="let m of controlConstruct.otherMaterials;" class="col s12 m6 l3">
           <a class="waves-effect waves-light" (click)="onDownloadFile(m)">
-          <i class="material-icons center smal">description</i> {{m.originalName}}</a>
+          <i class="material-icons center smal">description</i> {{ m.originalName }}</a>
       </li>
     </ul>
   </div>
@@ -93,7 +93,7 @@ export class PreviewQuestionConstructComponent {
   }
 
 onDownloadFile(o: any) {
-  let fileName = o.originalName;
+  const fileName = o.originalName;
   this.service.getFile(o.id).subscribe(
     (data: any) => {
       saveAs(data, fileName);
@@ -103,7 +103,7 @@ onDownloadFile(o: any) {
 
 onQuestionitemDetail(questionItem) {
   this.questionItem = questionItem;
-  this.questionItemActions.emit({action:'modal', params:['open']});
+  this.questionItemActions.emit({action: 'modal', params: ['open']});
 }
 
 }

@@ -21,11 +21,11 @@ declare let Materialize: any;
 })
 
 
-export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
+export class ResponsedomainFormComponent implements OnInit , AfterViewInit {
   @Input() responsedomain: ResponseDomain;
   @Input() domainType: DomainKind;
   @Input() readonly: boolean;
-  @Input() labelColor:string;
+  @Input() labelColor: string;
   @Output() formChange: EventEmitter<any>;
 
   basedonActions = new EventEmitter<string|MaterializeAction>();
@@ -36,17 +36,17 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
   public dateFormatOption = DATE_FORMAT;
   private today: number = Date.now();
   private categories: Category[];
-  private showbuttons:boolean =false;
+  private showbuttons = false;
   private selectedCategoryIndex: number;
   private suggestions: Category[];
   private numberOfAnchors: number;
   private endMin: number;
   private startMax: number;
   private searchKeysSubect: Subject<string> = new Subject<string>();
-  private readonly  CATEGORY_KIND :QddtElementType= QddtElementTypes[ElementKind.CATEGORY];
+  private readonly  CATEGORY_KIND: QddtElementType= QddtElementTypes[ElementKind.CATEGORY];
 
   constructor(private categoryService: CategoryService, private service: ResponseDomainService) {
-    console.debug('responsedomain.form.component constr');
+    // console.debug('responsedomain.form.component constr');
     this.selectedCategoryIndex = 0;
     this.formChange = new EventEmitter<any>();
     this.numberOfAnchors = 0;
@@ -62,26 +62,26 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
   }
 
   ngAfterViewInit() {
-    console.debug('responsedomain.form.component ngAfterViewChecked');
+    // console.debug('responsedomain.form.component ngAfterViewChecked');
     Materialize.updateTextFields();
   }
 
   ngOnInit() {
-    console.debug('ngOnInit....debug');
-    if(!this.readonly) {
+    // console.debug('ngOnInit....debug');
+    if (!this.readonly) {
       this.readonly = false;
     }
-    if(!this.responsedomain) {
+    if (!this.responsedomain) {
       return;
     }
-    if(!this.responsedomain.managedRepresentation)
+    if (!this.responsedomain.managedRepresentation)
       this.responsedomain.managedRepresentation = new Category();
     this.responsedomain.managedRepresentation.categoryType =
-      DomainTypeDescription.find(e=>e.id === this.domainType).categoryType;
+      DomainTypeDescription.find(e => e.id === this.domainType).categoryType;
       this.numberOfAnchors = this.responsedomain.managedRepresentation.children.length;
 
     if (this.domainType === DomainKind.SCALE) {
-      if(typeof this.responsedomain.displayLayout === 'string') {
+      if (typeof this.responsedomain.displayLayout === 'string') {
         this.responsedomain.displayLayout = parseInt(this.responsedomain.displayLayout);
       }
       if (this.responsedomain.displayLayout !== 90) {
@@ -98,7 +98,7 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
   }
 
   select(candidate: any) {
-    console.debug('onSelect...');
+    // console.debug('onSelect...');
     candidate.code = this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex].code;
     this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex] = candidate;
     this.buildPreviewResponseDomain();
@@ -106,9 +106,9 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
 
   onSave() {
     this.responsedomain.label = this.responsedomain.name;
-    let managed = this.responsedomain.managedRepresentation;
+    const managed = this.responsedomain.managedRepresentation;
     managed.name = this.responsedomain.label;
-    let changeEvent = this.formChange;
+    const changeEvent = this.formChange;
     this.categoryService.save(managed)
       .subscribe((result: Category) => {
         this.responsedomain.managedRepresentation = result;
@@ -121,16 +121,16 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
     this.changeNumberOfAnchors(num);
   }
 
-  onSelectDateFormatChange(format:string) {
+  onSelectDateFormatChange(format: string) {
     this.responsedomain.managedRepresentation.format = format;
   }
 
   changeNumberOfAnchors(num: number) {
-    let rep = this.responsedomain.managedRepresentation;
-    if(rep.children.length === num) {
+    const rep = this.responsedomain.managedRepresentation;
+    if (rep.children.length === num) {
       return;
     }
-    let count = rep.inputLimit.maximum - rep.inputLimit.minimum + 1;
+    const count = rep.inputLimit.maximum - rep.inputLimit.minimum + 1;
     if (count < num) {
       this.numberOfAnchors = count;
     } else if (num < 0) {
@@ -142,17 +142,17 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
     if (this.domainType === DomainKind.LIST) {
       rep.children = rep.children.slice(0, this.numberOfAnchors);
       for (let i = rep.children.length; i < this.numberOfAnchors; i++) {
-        let c = new Category();
-        c.code = { codeValue: String(i + 1) , alignment:''};
+        const c = new Category();
+        c.code = { codeValue: String(i + 1) , alignment: ''};
         rep.children.push(c);
       }
     } else if (this.domainType === DomainKind.SCALE) {
       rep.children = rep.children.slice(0, this.numberOfAnchors);
-      let len = rep.children.length;
+      const len = rep.children.length;
       for (let i = 0; i < this.numberOfAnchors; i++) {
-        if(i >= len) {
-          let c = new Category();
-          c.code = { codeValue: '', alignment:'text-left' };
+        if (i >= len) {
+          const c = new Category();
+          c.code = { codeValue: '', alignment: 'text-left' };
           rep.children.push(c);
         } else {
           rep.children[i].code.codeValue = '';
@@ -169,10 +169,10 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
   }
 
   onClickClear(idx: number) {
-    let rep = this.responsedomain.managedRepresentation;
+    const rep = this.responsedomain.managedRepresentation;
     if (this.domainType === DomainKind.LIST) {
       if ( idx < rep.children.length) {
-        let c = new Category();
+        const c = new Category();
         c.code = rep.children[idx].code;
         rep.children[idx] = c;
         this.buildPreviewResponseDomain();
@@ -181,12 +181,12 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
   }
 
   onClickUp(idx: number) {
-    let rep = this.responsedomain.managedRepresentation;
+    const rep = this.responsedomain.managedRepresentation;
     if (this.domainType === DomainKind.LIST) {
       if ( idx < rep.children.length && idx > 0) {
-        let prev = rep.children[idx - 1];
-        let curr = rep.children[idx];
-        let code = curr.code;
+        const prev = rep.children[idx - 1];
+        const curr = rep.children[idx];
+        const code = curr.code;
         curr.code = prev.code;
         rep.children[idx - 1] = curr;
         prev.code = code;
@@ -197,12 +197,12 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
   }
 
   onClickDown(idx: number) {
-    let rep = this.responsedomain.managedRepresentation;
+    const rep = this.responsedomain.managedRepresentation;
     if (this.domainType === DomainKind.LIST) {
       if ( idx < (rep.children.length - 1) && idx >= 0) {
-        let next = rep.children[idx + 1];
-        let curr = rep.children[idx];
-        let code = curr.code;
+        const next = rep.children[idx + 1];
+        const curr = rep.children[idx];
+        const code = curr.code;
         curr.code = next.code;
         rep.children[idx + 1] = curr;
         next.code = code;
@@ -213,7 +213,7 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
   }
 
   onChangeDegreeSlope(degree: any) {
-    if(typeof degree === 'string') {
+    if (typeof degree === 'string') {
       this.responsedomain.displayLayout = parseInt(degree);
     } else {
       this.responsedomain.displayLayout = degree;
@@ -221,7 +221,7 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
     this.buildPreviewResponseDomain();
   }
 
-  onSelectAligment(value: any, idx:any) {
+  onSelectAligment(value: any, idx: any) {
     console.log('onSelectAligment ' + value + ' ' + idx);
     this.responsedomain.managedRepresentation.children[idx].code.alignment = value;
     this.buildPreviewResponseDomain();
@@ -240,26 +240,26 @@ export class ResponsedomainFormComponent implements OnInit ,AfterViewInit {
     console.log(this.responsedomain.managedRepresentation.inputLimit);
   }
 
-  power10(format:number): number {
-    return 1/ Math.pow(10,format);
+  power10(format: number): number {
+    return 1 / Math.pow(10, format);
   }
 
   subtract(value1, value2): number {
-    return parseInt(value1)- parseInt(value2);
+    return parseInt(value1) - parseInt(value2);
   }
 
   addition(value1, value2): number {
     return parseInt(value1) + parseInt(value2);
   }
 
-  onBasedonObjectDetail(ref:any) {
+  onBasedonObjectDetail(ref: any) {
     if (!ref.rev)
-        ref.rev=0;
-    this.service.getResponseDomainsRevision(ref.id,ref.rev)
+        ref.rev = 0;
+    this.service.getResponseDomainsRevision(ref.id, ref.rev)
       .subscribe(
         (result: any) => {
           this.basedonObject = result.entity;
-          this.basedonActions.emit({action:'modal', params:['open']});
+          this.basedonActions.emit({action: 'modal', params: ['open']});
         },
         (err: any) => null
       );

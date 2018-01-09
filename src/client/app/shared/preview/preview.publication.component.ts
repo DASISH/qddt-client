@@ -19,7 +19,7 @@ export class PreviewPublicationComponent  {
   @Input() element: any;
   @Input() elementKind: ElementKind;
 
-  getElementKind(kind:ElementKind):string {
+  getElementKind(kind: ElementKind): string {
     console.log('Elementkind: ' + ElementKind[kind] + ' ' + kind);
     return ElementKind[kind];
   }

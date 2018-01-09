@@ -21,7 +21,7 @@ import { ResponseDomain } from './responsedomain.service';
 export class ResponsedomainSelectMissingComponent implements OnInit {
   @Input() responseDomain: ResponseDomain;
   @Input() modalId: any = 'RSMC-1';
-  @Input() readonly: boolean = false;
+  @Input() readonly = false;
   @Output() responseDomainSelected = new EventEmitter<any>();
   @Output() responseDomainRemove = new EventEmitter<any>();
 
@@ -30,7 +30,7 @@ export class ResponsedomainSelectMissingComponent implements OnInit {
   private selectedCategoryIndex: number;
   private findMissingAction = new EventEmitter<MaterializeAction>();
   private searchKeysSubject = new Subject<string>();
-  private readonly CATEGORY_KIND:QddtElementType = QddtElementTypes[ElementKind.CATEGORY];
+  private readonly CATEGORY_KIND: QddtElementType = QddtElementTypes[ElementKind.CATEGORY];
 
   constructor(private service: CategoryService) {
     this.selectedCategoryIndex = 0;
@@ -48,7 +48,7 @@ export class ResponsedomainSelectMissingComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(!this.readonly) {
+    if (!this.readonly) {
       this.readonly = false;
     }
   }
@@ -65,7 +65,7 @@ export class ResponsedomainSelectMissingComponent implements OnInit {
 
   onAddMissing() {
     this.searchKeysSubject.next('*');
-    this.findMissingAction.emit({action:'modal', params:['open']});
+    this.findMissingAction.emit({action: 'modal', params: ['open']});
   }
 
   onDismiss() {
@@ -74,14 +74,14 @@ export class ResponsedomainSelectMissingComponent implements OnInit {
   }
 
   onSave() {
-    this.findMissingAction.emit({action:'modal', params:['close']});
-    if(this.getMissing()) {
+    this.findMissingAction.emit({action: 'modal', params: ['close']});
+    if (this.getMissing()) {
       if (this.responseDomain['changeKind']) {
         this.responseDomain['changeKind'] = 'TYPO';
-        this.responseDomain['changeComment'] ='Comment by rule';
+        this.responseDomain['changeComment'] = 'Comment by rule';
         console.log('changeKind set, ready for presisting');
       }
-      let object = {
+      const object = {
         responseDomain: this.responseDomain,
         responseDomainRevision: 0
       };
@@ -97,7 +97,7 @@ export class ResponsedomainSelectMissingComponent implements OnInit {
       rd = this.newMixedResponseDomain();
 
     rd.managedRepresentation.children.push(missing);
-    rd.name = rd.managedRepresentation.name = 'Mixed [' + this.getGroupEntities(rd.managedRepresentation)[0].name + '+' + missing.name +']';
+    rd.name = rd.managedRepresentation.name = 'Mixed [' + this.getGroupEntities(rd.managedRepresentation)[0].name + '+' + missing.name + ']';
     this.responseDomain = rd;
   }
 
@@ -116,7 +116,7 @@ export class ResponsedomainSelectMissingComponent implements OnInit {
     if (!representation.children) {
       return;
     }
-    let index = representation.children.findIndex((e: any) => e.categoryType === categoryType);
+    const index = representation.children.findIndex((e: any) => e.categoryType === categoryType);
     if (index >= 0) {
       representation.children.splice(index, 1);
     }
@@ -131,7 +131,7 @@ export class ResponsedomainSelectMissingComponent implements OnInit {
 
 
   private newMixedCategory(name: string): any {
-    let rep = new Category();
+    const rep = new Category();
     rep.id = null;
     rep.categoryType = 'MIXED';
     rep.hierarchyLevel = 'GROUP_ENTITY';
@@ -140,15 +140,15 @@ export class ResponsedomainSelectMissingComponent implements OnInit {
   }
 
   private newMixedResponseDomain() {
-    let oldResponseDomain = this.responseDomain;
-    let rd = new ResponseDomain();
+    const oldResponseDomain = this.responseDomain;
+    const rd = new ResponseDomain();
     rd.id = null;
     rd.responseKind = 'MIXED';
     rd.description = 'based on ' + oldResponseDomain.name;
     rd.displayLayout = oldResponseDomain.displayLayout;
     rd.managedRepresentation = this.newMixedCategory('');
-    this.getGroupEntities(oldResponseDomain.managedRepresentation).filter(c=>c.categoryType !=='MISSING_GROUP')
-      .forEach(c=> rd.managedRepresentation.children.push(c));
+    this.getGroupEntities(oldResponseDomain.managedRepresentation).filter(c => c.categoryType !== 'MISSING_GROUP')
+      .forEach(c => rd.managedRepresentation.children.push(c));
     return rd;
   }
 }

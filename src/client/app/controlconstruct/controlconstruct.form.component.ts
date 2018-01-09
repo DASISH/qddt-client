@@ -2,13 +2,13 @@ import { Component, Input, Output, OnInit, EventEmitter, AfterContentChecked } f
 import { ControlConstructService, ControlConstruct } from './controlconstruct.service';
 import { Observable }     from 'rxjs/Observable';
 import { MaterializeAction } from 'angular2-materialize';
-let saveAs = require('file-saver');
-declare var Materialize:any;
+const saveAs = require('file-saver');
+declare var Materialize: any;
 
 @Component({
   selector: 'qddt-control-construct-form',
   moduleId: module.id,
-  templateUrl:'controlconstruct.form.component.html',
+  templateUrl: 'controlconstruct.form.component.html',
   styles: [
     '.nomargin { margin:0; }',
     ':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'
@@ -39,7 +39,7 @@ export class ControlConstructFormComponent implements OnInit, AfterContentChecke
   private showPostinstructionButton: boolean;
   private showUniverseButton: boolean;
   private showQuestionButton: boolean;
-  private showbutton: boolean = false;
+  private showbutton = false;
   private files: FileList;
   private fileStore: any[];
   private toDeleteFiles: any[];
@@ -59,10 +59,10 @@ export class ControlConstructFormComponent implements OnInit, AfterContentChecke
   }
 
   ngOnInit() {
-    if(this.isNew) {
+    if (this.isNew) {
       this.controlConstruct.id = new Date().toString();
     }
-    if(this.readonly === null || this.readonly === undefined) {
+    if (this.readonly === null || this.readonly === undefined) {
       this.readonly = false;
     }
   }
@@ -71,14 +71,14 @@ export class ControlConstructFormComponent implements OnInit, AfterContentChecke
     Materialize.updateTextFields();
   }
 
-  onBasedonObjectDetail(ref:any) {
+  onBasedonObjectDetail(ref: any) {
     if (!ref.rev)
-      ref.rev=0;
-    this.service.getControlConstructRevision(ref.id,ref.rev)
+      ref.rev = 0;
+    this.service.getControlConstructRevision(ref.id, ref.rev)
       .subscribe(
         (result: any) => {
           this.basedonObject = result.entity;
-          this.basedonActions.emit({action:'modal', params:['open']});
+          this.basedonActions.emit({action: 'modal', params: ['open']});
         },
         (err: any) => null
       );
@@ -122,7 +122,7 @@ export class ControlConstructFormComponent implements OnInit, AfterContentChecke
   }
 
   onDownloadFile(o: any) {
-    let fileName = o.originalName;
+    const fileName = o.originalName;
     this.service.getFile(o.id).subscribe(
       (data: any) => {
         saveAs(data, fileName);
@@ -135,17 +135,17 @@ export class ControlConstructFormComponent implements OnInit, AfterContentChecke
   }
 
   onDeleteFile(idx: number) {
-    if(this.controlConstruct.otherMaterials
+    if (this.controlConstruct.otherMaterials
       && this.controlConstruct.otherMaterials.length > idx) {
-      let items = this.controlConstruct.otherMaterials.splice(idx, 1);
-      if(items.length > 0) {
+      const items = this.controlConstruct.otherMaterials.splice(idx, 1);
+      if (items.length > 0) {
         this.toDeleteFiles.push(items[0]);
       }
     }
   }
 
   onDeleteFileFromLocal(idx: number) {
-    if(this.fileStore && this.fileStore.length > idx) {
+    if (this.fileStore && this.fileStore.length > idx) {
       this.fileStore.splice(idx, 1);
     }
   }
@@ -158,25 +158,25 @@ export class ControlConstructFormComponent implements OnInit, AfterContentChecke
 
   onSaveControlConstruct() {
     console.info('onSaveControlConstruct');
-    let controlConstruct = this.controlConstruct;
-    let files = this.fileStore;
-    let len = files.length;
+    const controlConstruct = this.controlConstruct;
+    const files = this.fileStore;
+    const len = files.length;
     let source = Observable.of({});
-    let toDeleteFiles = this.toDeleteFiles;
+    const toDeleteFiles = this.toDeleteFiles;
     if (len > 0 || this.toDeleteFiles.length > 0) {
       source = Observable.range(0, len + this.toDeleteFiles.length)
         .flatMap((x: any) => {
-          if(x < len) {
-            let file = files[x];
+          if (x < len) {
+            const file = files[x];
             return this.service.uploadFile(controlConstruct.id, file);
           } else {
-            let file = toDeleteFiles[x - len];
+            const file = toDeleteFiles[x - len];
             return this.service.deleteFile(file.id);
           }
         });
     }
-    let service = this.service;
-    let elementEvent = this.controlConstructSavedAction;
+    const service = this.service;
+    const elementEvent = this.controlConstructSavedAction;
     source.subscribe(
       function () {
         service.update(controlConstruct).subscribe((result: any) => {

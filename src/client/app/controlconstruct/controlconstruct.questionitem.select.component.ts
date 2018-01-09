@@ -5,7 +5,7 @@ import { ElementKind, QddtElementTypes } from '../shared/preview/preview.service
 @Component({
   selector: 'qddt-control-construct-questionitem-select',
   moduleId: module.id,
-  templateUrl:'controlconstruct.questionitem.select.component.html' ,
+  templateUrl: 'controlconstruct.questionitem.select.component.html' ,
   providers: [ControlConstructService],
 })
 export class ControlConstructQuestionItemSelectComponent implements OnInit {
@@ -28,10 +28,10 @@ export class ControlConstructQuestionItemSelectComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(this.controlConstruct !== null && this.controlConstruct !== undefined) {
+    if (this.controlConstruct !== null && this.controlConstruct !== undefined) {
       this.selectedQuestionItem = this.controlConstruct.questionItem;
     }
-    if(this.selectedQuestionItem !== null && this.selectedQuestionItem !== undefined
+    if (this.selectedQuestionItem !== null && this.selectedQuestionItem !== undefined
       && this.selectedQuestionItem.id !== null && this.selectedQuestionItem.id !== undefined) {
       this.questionItemRevision = this.controlConstruct.questionItemRevision;
       this.service.getQuestionItemsRevisions(this.selectedQuestionItem.id).subscribe((result: any) => {
@@ -52,15 +52,15 @@ export class ControlConstructQuestionItemSelectComponent implements OnInit {
 
   onSelectQuestionItemRevisions() {
     let r = this.questionItemRevision;
-    if(typeof r === 'string') {
+    if (typeof r === 'string') {
       r = parseInt(r);
     }
     this.questionItemRevision = r;
-    let result = this.questionItemRevisions
+    const result = this.questionItemRevisions
       .find((e: any) => e.revisionNumber === r);
-    if(result !== null && result !== undefined) {
+    if (result !== null && result !== undefined) {
       this.selectedQuestionItem = result.entity;
-    } else if(this.questionItemRevisions.length > 0) {
+    } else if (this.questionItemRevisions.length > 0) {
       this.selectedQuestionItem = this.questionItemRevisions[0].entity;
       this.questionItemRevision = this.questionItemRevisions[0].revisionNumber;
     }

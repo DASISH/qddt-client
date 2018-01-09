@@ -12,14 +12,14 @@ import { ElementKind, QddtElementType, QddtElementTypes } from '../shared/previe
 })
 export class QuestionReuseComponent {
   @Input() parentId: string;
-  @Input() name:string;
+  @Input() name: string;
   @Output() questionItemCreatedEvent: EventEmitter<any> = new EventEmitter<any>();
   @Output() dismissEvent: any = new EventEmitter<any>();
   reuseQuestionItem: boolean;
   selectedIndex: number;
   closeReuseActions = new EventEmitter<any>();
   questionItem: QuestionItem;
-  revisionIsVisible: boolean = false;
+  revisionIsVisible = false;
   config: any[];
   questionItems: QuestionItem[];
   elementRevisions: any[];
@@ -28,7 +28,7 @@ export class QuestionReuseComponent {
   // private questionItemKind: ElementKind = ElementKind.QUESTION_CONSTRUCT;
   private mainresponseDomainRevision: number;
   private searchKeysSubect: Subject<string> = new Subject<string>();
-  private readonly QUESTION_KIND:QddtElementType = QddtElementTypes[ElementKind.QUESTIONITEM];
+  private readonly QUESTION_KIND: QddtElementType = QddtElementTypes[ElementKind.QUESTIONITEM];
 
 
   constructor(private questionService: QuestionService) {
@@ -51,15 +51,15 @@ export class QuestionReuseComponent {
 
   onSelectElementRevisions() {
     let r = this.elementRevision;
-    if(typeof r === 'string') {
+    if (typeof r === 'string') {
       r = parseInt(r);
     }
     this.elementRevision = r;
-    let result = this.elementRevisions
+    const result = this.elementRevisions
       .find((e: any) => e.revisionNumber === r);
-    if(result !== null && result !== undefined) {
+    if (result !== null && result !== undefined) {
       this.selectedElement = result.entity;
-    } else if(this.elementRevisions.length > 0) {
+    } else if (this.elementRevisions.length > 0) {
       this.selectedElement = this.elementRevisions[0].entity;
       this.elementRevision = this.elementRevisions[0].revisionNumber;
     }
@@ -68,7 +68,7 @@ export class QuestionReuseComponent {
   onUseElement() {
     console.debug(this.elementRevision);
     console.debug(this.selectedElement) ;
-    if(this.reuseQuestionItem) {
+    if (this.reuseQuestionItem) {
       if (this.isNull(this.questionItem ))
         this.questionItem = this.selectedElement;
 
@@ -99,14 +99,14 @@ export class QuestionReuseComponent {
   }
 
   openModal2() {
-    this.closeReuseActions.emit({action:'modal', params:['open']});
+    this.closeReuseActions.emit({action: 'modal', params: ['open']});
     this.questionService.getQuestionItemPage().subscribe(
       result => { this.questionItems = result.content;
       }, (error: any) => console.log(error));
   }
 
   closeQuestionReuseModal() {
-    this.closeReuseActions.emit({action:'modal', params:['close']});
+    this.closeReuseActions.emit({action: 'modal', params: ['close']});
   }
 
   responseDomainReuse(rd: ResponseDomain) {
@@ -114,13 +114,13 @@ export class QuestionReuseComponent {
   }
 
   private buildRevisionConfig(): any[] {
-    let config: any[] = [];
-    config.push({'name':'name','label':'Name'});
-    config.push({'name':'question','label':'Question'});
-    config.push({'name':'intent','label':'Intent'});
-    config.push({'name':['responseDomain', 'name'],'label':'responseDomain'});
-    config.push({'name':['responseDomain', 'version'],'label':'RespD', 'init': function (version: any) {
-      return 'V' + version['major'] +'.' + version['minor'];
+    const config: any[] = [];
+    config.push({'name': 'name', 'label': 'Name'});
+    config.push({'name': 'question', 'label': 'Question'});
+    config.push({'name': 'intent', 'label': 'Intent'});
+    config.push({'name': ['responseDomain', 'name'], 'label': 'responseDomain'});
+    config.push({'name': ['responseDomain', 'version'], 'label': 'RespD', 'init': function (version: any) {
+      return 'V' + version['major'] + '.' + version['minor'];
     }});
 
     return config;

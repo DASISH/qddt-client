@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, AfterContentChecked } from '@angular/core';
 import { StudyService, Study } from './study.service';
 
-declare var Materialize:any;
+declare var Materialize: any;
 
 @Component({
    selector: 'qddt-study-edit',
@@ -61,14 +61,14 @@ export class StudyEditComponent implements AfterContentChecked {
   //  this.showlabel = (value === 'MILESTONE');
   // }
 
-  onAuthorSelected(author:any) {
-   this.studyService.attachAuthor(this.study.id,author.id);
+  onAuthorSelected(author: any) {
+   this.studyService.attachAuthor(this.study.id, author.id);
    this.study['authors'].push(author);
   }
 
-  onAuthorRemoved(author:any) {
-   this.studyService.deattachAuthor(this.study.id,author.id);
-   var i = this.study['authors'].findIndex((F: any) => F===author);
-   this.study['authors'].splice(i,1);
+  onAuthorRemoved(author: any) {
+   this.studyService.deattachAuthor(this.study.id, author.id);
+   let i = this.study['authors'].findIndex((F: any) => F === author);
+   this.study['authors'].splice(i, 1);
   }
 }

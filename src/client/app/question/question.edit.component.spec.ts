@@ -5,12 +5,11 @@ import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { QuestionService } from './question.service';
-import { BaseService } from '../shared/base.service';
 import { QuestionItemEditComponent } from './question.edit.component';
 import { API_BASE_HREF } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Observable }     from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import { MaterializeModule } from 'angular2-materialize';
 
 export function main() {
@@ -49,9 +48,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(QuestionItemEditComponent);
+            const fixture = TestBed.createComponent(QuestionItemEditComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('a'));
+            const de: any = fixture.debugElement.queryAll(By.css('a'));
             expect(de.length).toBeGreaterThan(0);
           });
       }));
@@ -61,8 +60,8 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(QuestionItemEditComponent);
-            let questionitem: any = {
+            const fixture = TestBed.createComponent(QuestionItemEditComponent);
+            const questionitem: any = {
               'id' : '7f000101-54aa-131e-8154-aa27fc230000',
               'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
               'name' : 'questionitem',
@@ -79,7 +78,7 @@ export function main() {
             fixture.componentInstance.ngOnInit();
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let elements: any = fixture.debugElement.queryAll(By.css('textarea'));
+              const elements: any = fixture.debugElement.queryAll(By.css('textarea'));
               expect(elements.length).toBeGreaterThan(0);
               expect(elements[0].nativeElement.value).toContain('questionitem');
             });

@@ -4,8 +4,8 @@ import { TopicService, Topic } from './topic.service';
 import { MaterializeAction } from 'angular2-materialize';
 import { Study } from '../study/study.service';
 import { QuestionItem } from '../../question/question.service';
-let saveAs = require('file-saver');
-declare var Materialize:any;
+const saveAs = require('file-saver');
+declare var Materialize: any;
 
 @Component({
   selector: 'qddt-topic',
@@ -26,13 +26,13 @@ export class TopicComponent implements OnChanges, AfterContentChecked {
   questionItemActions = new EventEmitter<string|MaterializeAction>();
   previewActions = new EventEmitter<string|MaterializeAction>();
 
-  private topics:Topic[];
+  private topics: Topic[];
   private newTopic: Topic;
-  private revision:any;
-  private showTopicForm: boolean = false;
+  private revision: any;
+  private showTopicForm = false;
   private questionItem: QuestionItem;
-  private parentId:string;
-  private config:any;
+  private parentId: string;
+  private config: any;
 
   constructor(private topicService: TopicService) {
     this.newTopic = new Topic();
@@ -58,7 +58,7 @@ export class TopicComponent implements OnChanges, AfterContentChecked {
 
   showPreview(topic: any) {
     this.revision = topic;
-    this.previewActions.emit({action:'modal', params:['open']});
+    this.previewActions.emit({action: 'modal', params: ['open']});
   }
 
   onToggleTopicForm() {
@@ -71,8 +71,8 @@ export class TopicComponent implements OnChanges, AfterContentChecked {
 
   onTopicSavedEvent(topic: any) {
     console.log('onTopicSavedEvent ' + topic.name);
-    let index = this.topics.findIndex((e:any) => e.id === topic.id);
-    if(index >= 0) {
+    const index = this.topics.findIndex((e: any) => e.id === topic.id);
+    if (index >= 0) {
       this.topics[index] = topic;
     } else {
       this.topics.push(topic);
@@ -83,7 +83,7 @@ export class TopicComponent implements OnChanges, AfterContentChecked {
   onNewSave() {
     this.showTopicForm = false;
      // this.showProgressBar = true;
-    this.topicService.save(this.newTopic,this.study.id)
+    this.topicService.save(this.newTopic, this.study.id)
       .subscribe((result: any) => {
         this.onTopicSavedEvent(result);
       }, (error: any) => console.log(error));
@@ -91,7 +91,7 @@ export class TopicComponent implements OnChanges, AfterContentChecked {
   }
 
   onDownloadFile(o: any) {
-    let fileName = o.originalName;
+    const fileName = o.originalName;
     this.topicService.getFile(o.id).subscribe(
       (data: any) => {
         saveAs(data, fileName);
@@ -100,7 +100,7 @@ export class TopicComponent implements OnChanges, AfterContentChecked {
   }
 
   onGetPdf(element: Topic) {
-    let fileName = element.name + '.pdf';
+    const fileName = element.name + '.pdf';
     this.topicService.getPdf(element.id).subscribe(
       (data: any) => {
         saveAs(data, fileName);
@@ -110,18 +110,18 @@ export class TopicComponent implements OnChanges, AfterContentChecked {
 
   onClickQuestionItem(questionItem) {
     this.questionItem = questionItem;
-    this.questionItemActions.emit({action:'modal', params:['open']});
+    this.questionItemActions.emit({action: 'modal', params: ['open']});
   }
 
-  onAddQuestionItem(questionItem: any, topicId:any) {
+  onAddQuestionItem(questionItem: any, topicId: any) {
     console.log(questionItem);
-    this.topicService.attachQuestion(topicId,questionItem.id,questionItem['questionItemRevision'])
+    this.topicService.attachQuestion(topicId, questionItem.id, questionItem['questionItemRevision'])
       .subscribe((result: any) => {
         this.onTopicSavedEvent(result);
       }, (error: any) => console.log(error));
   }
 
-  onRemoveQuestionItem(id:any) {
+  onRemoveQuestionItem(id: any) {
     this.topicService.deattachQuestion(id.parentId, id.questionItemId)
       .subscribe((result: any) => {
           this.onTopicSavedEvent(result);
@@ -142,12 +142,12 @@ export class TopicComponent implements OnChanges, AfterContentChecked {
   }
 
   private buildRevisionConfig(): any[] {
-    let config: any[] = [];
-    config.push({'name':'name','label':'Name'});
-    config.push({'name':'description','label':'Description'});
-    config.push({'name':['otherMaterials'],'label':'Files', 'init': function (o: any) {
-      if(o !== null && o !== undefined) {
-        return o.map(element => {return element['originalName'] || '';}).sort().join(',');
+    const config: any[] = [];
+    config.push({'name': 'name', 'label': 'Name'});
+    config.push({'name': 'description', 'label': 'Description'});
+    config.push({'name': ['otherMaterials'], 'label': 'Files', 'init': function (o: any) {
+      if (o !== null && o !== undefined) {
+        return o.map(element => {return element['originalName'] || ''; }).sort().join(',');
       }
       return '';
     }});

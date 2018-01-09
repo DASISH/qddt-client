@@ -1,9 +1,11 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
+// import { Http } from '@angular/http';
 // import DateTimeFormat = Intl.DateTimeFormat;
 import { API_BASE_HREF } from '../api';
 import { BaseService } from '../shared/base.service';
 import { ResponseDomain } from '../responsedomain/responsedomain.service';
+import { AuthService } from '../auth/auth.service';
 
 
 export class QuestionItem {
@@ -23,8 +25,8 @@ export class QuestionService extends BaseService {
 
   readonly pageSize = '&size=10';
 
-  constructor(protected http:Http, @Inject(API_BASE_HREF) protected api:string) {
-    super(http ,api);
+  constructor(protected http: HttpClient, protected auth: AuthService, @Inject(API_BASE_HREF) protected api: string) {
+    super(http, auth , api);
   }
 
 
@@ -41,7 +43,7 @@ export class QuestionService extends BaseService {
   }
 
   searchQuestionItems(name: string = '', page: String = '0', sort: String = ''): any {
-    let query = name.length > 0? '&question=' + '*' + name +'*': '';
+    let query = name.length > 0 ? '&question=' + '*' + name + '*' : '';
     if (sort.length > 0) {
       query += '&sort=' + sort;
     }
@@ -49,40 +51,40 @@ export class QuestionService extends BaseService {
   }
 
   createQuestionItem(question: any): any {
-    return this.post(question,'questionitem/create');
+    return this.post(question, 'questionitem/create');
   }
 
-  updateQuestionItem(questionItem: any) : any {
+  updateQuestionItem(questionItem: any): any {
     return this.post(questionItem, 'questionitem');
   }
 
   createCategory(category: any): any {
-    return this.post(category,'category/create/');
+    return this.post(category, 'category/create/');
   }
 
   createResponseDomain(responseDomain: any): any {
-    return this.post(responseDomain,'responsedomain');
+    return this.post(responseDomain, 'responsedomain');
   }
 
 
   getAllTemplatesByCategoryKind(categoryKind: String, name: String = '', page: String = '0', sort: String = ''): any {
-    let query = name.length > 0? '&name=' + '*' + name + '*': '';
+    let query = name.length > 0 ? '&name=' + '*' + name + '*' : '';
     if (sort.length > 0) {
       query += '&sort=' + sort;
     }
     return this.get('category/page/search/?level=GROUP_ENTITY&category=' + categoryKind
-      + query + '&page=' + page+ this.pageSize);
+      + query + '&page=' + page + this.pageSize);
   }
 
-  getResponseDomainsRevisions(id: string) : any {
+  getResponseDomainsRevisions(id: string): any {
     return this.get('audit/responsedomain/' + id + '/all');
   }
 
-  getQuestionItemRevisions(id: string) : any {
+  getQuestionItemRevisions(id: string): any {
     return this.get('audit/questionitem/' + id + '/all');
   }
 
-  getQuestionItemRevision(id: string, rev: string) : any {
+  getQuestionItemRevision(id: string, rev: string): any {
     return this.get('audit/questionitem/' + id + '/' + rev);
   }
 

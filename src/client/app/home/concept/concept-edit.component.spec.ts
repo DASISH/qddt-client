@@ -41,14 +41,14 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(ConceptEditComponent);
+            const fixture = TestBed.createComponent(ConceptEditComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('div'));
+            const de: any = fixture.debugElement.queryAll(By.css('div'));
             expect(de.length).toBe(0);
             fixture.componentInstance.isVisible = true;
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let de: any = fixture.debugElement.queryAll(By.css('div'));
+              const de: any = fixture.debugElement.queryAll(By.css('div'));
               expect(de.length).toBeGreaterThan(0);
             });
           });
@@ -59,8 +59,8 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(ConceptEditComponent);
-            let concept: any = {
+            const fixture = TestBed.createComponent(ConceptEditComponent);
+            const concept: any = {
                 'id' : '7f000101-54aa-131e-8154-aa27fc230000',
                 'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
                 'name' : 'one concept',
@@ -74,7 +74,7 @@ export function main() {
             fixture.componentInstance.isVisible = true;
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let form: any = fixture.debugElement.queryAll(By.css('form'));
+              const form: any = fixture.debugElement.queryAll(By.css('form'));
               expect(form.length).toBeGreaterThan(0);
             });
           });

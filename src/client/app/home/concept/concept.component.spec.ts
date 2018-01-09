@@ -42,14 +42,14 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(ConceptComponent);
+            const fixture = TestBed.createComponent(ConceptComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('a'));
+            const de: any = fixture.debugElement.queryAll(By.css('a'));
             expect(de.length).toBe(0);
             fixture.componentInstance.show = true;
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let de: any = fixture.debugElement.queryAll(By.css('a'));
+              const de: any = fixture.debugElement.queryAll(By.css('a'));
               expect(de.length).toBeGreaterThan(0);
             });
           });
@@ -60,13 +60,13 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(ConceptComponent);
+            const fixture = TestBed.createComponent(ConceptComponent);
             fixture.componentInstance.topic = {
               'id': '1',
               'name': 'topic'
             };
             fixture.componentInstance.show = true;
-            let mockBackend = TestBed.get(MockBackend);
+            const mockBackend = TestBed.get(MockBackend);
             mockBackend.connections.subscribe((c: any) => {
               c.mockRespond(new Response(new ResponseOptions({
                 body: '{"content":[{'
@@ -85,7 +85,7 @@ export function main() {
             fixture.componentInstance.ngOnChanges();
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let treenodes: any = fixture.debugElement.queryAll(By.css('qddt-concept-treenode'));
+              const treenodes: any = fixture.debugElement.queryAll(By.css('qddt-concept-treenode'));
               expect(treenodes.length).toBeGreaterThan(0);
             });
           });

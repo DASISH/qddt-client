@@ -22,7 +22,7 @@ export class CategoryDetailComponent  {
   onDeleteCategory() {
     this.categoryService.deleteCategory(this.category.id)
       .subscribe(() => {
-          let i = this.categories.findIndex(q => q['id'] === this.category.id);
+          const i = this.categories.findIndex(q => q['id'] === this.category.id);
           if (i >= 0) {
             this.categories.splice(i, 1);
             this.hideDetail();

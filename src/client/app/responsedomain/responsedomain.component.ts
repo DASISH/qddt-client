@@ -6,13 +6,13 @@ import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 import { AuthService } from '../auth/auth.service';
 
-declare var Materialize:any;
+declare var Materialize: any;
 
 @Component({
   selector: 'qddt-responsedomain',
   moduleId: module.id,
   templateUrl: './responsedomain.component.html',
-  providers: [ResponseDomainService,AuthService],
+  providers: [ResponseDomainService, AuthService],
 })
 
 export class ResponsedomainComponent implements OnInit, AfterContentChecked {
@@ -38,13 +38,13 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
 
   constructor(private responseDomainService: ResponseDomainService, private userService: AuthService) {
     this.responseDomain = new ResponseDomain();
-    this.isNewFormVisible =false;
+    this.isNewFormVisible = false;
     this.isProgressBarVisible = false;
     this.isEditFormVisible = false;
     this.isRevisionVisible = false;
     this.searchKeys = '';
     this.domainType = DomainKind.SCALE;
-    this.domainTypeDescription = DomainTypeDescription.filter((e:any) => e.id !== DomainKind.MIXED);
+    this.domainTypeDescription = DomainTypeDescription.filter((e: any) => e.id !== DomainKind.MIXED);
     this.page = {};
     this.columns = PredefinedColumns['SCALE'];
     this.searchKeysSubject
@@ -52,7 +52,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
       .distinctUntilChanged()
       .subscribe((name: string) => {
         this.isProgressBarVisible = true;
-        let domainType = DomainTypeDescription.find((e: any) => e.id === this.domainType).name;
+        const domainType = DomainTypeDescription.find((e: any) => e.id === this.domainType).name;
         this.responseDomainService
           .getAll(domainType, name, '0', this.getSort()).subscribe((result: any) => {
             this.page = result.page;
@@ -64,7 +64,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit() {
-    let config = this.userService.getGlobalObject('responsedomains');
+    const config = this.userService.getGlobalObject('responsedomains');
     if (config.current === 'detail' ) {
       this.page = config.page;
       this.responseDomains = config.collection;
@@ -73,7 +73,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
     } else {
       this.isProgressBarVisible = true;
       this.searchKeys = config.key;
-      let name = DomainTypeDescription.find((e: any) =>e.id === this.domainType).name;
+      const name = DomainTypeDescription.find((e: any) => e.id === this.domainType).name;
         this.responseDomainService.getAll(name, '', '0', this.getSort()).subscribe((result: any) => {
         this.page = result.page;
         this.responseDomains = result.content;
@@ -84,7 +84,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
   }
 
   ngAfterContentChecked() {
-    let config = this.userService.getGlobalObject('responsedomains');
+    const config = this.userService.getGlobalObject('responsedomains');
     if (config.current === 'detail' ) {
       this.page = config.page;
       this.responseDomains = config.collection;
@@ -93,7 +93,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
       this.isEditFormVisible = true;
     } else {
       this.isEditFormVisible = false;
-      if(config.key === null || config.key === undefined) {
+      if (config.key === null || config.key === undefined) {
         this.userService.setGlobalObject('responsedomains', {'current': 'list', 'key': ''});
         this.searchKeys = '';
         this.searchKeysSubject.next('');
@@ -106,7 +106,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
     this.isProgressBarVisible = true;
     this.isNewFormVisible = false;
     this.domainType = id;
-    let domainKind = DomainKind[id];
+    const domainKind = DomainKind[id];
 
     this.columns = PredefinedColumns[domainKind];
     this.responseDomains = [];
@@ -125,7 +125,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
 
   onToggleResponseDomainForm() {
     this.isNewFormVisible = !this.isNewFormVisible;
-    if(this.isNewFormVisible) {
+    if (this.isNewFormVisible) {
       this.responseDomain = new ResponseDomain();
       this.responseDomain['isNew'] = true;
       this.responseDomain.responseKind = DomainKind[this.domainType];
@@ -137,21 +137,21 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
     this.isNewFormVisible = false;
     this.responseDomainService.create(this.responseDomain).subscribe((result: any) => {
       this.responseDomain = result;
-      this.responseDomains = [result].concat(this.responseDomains);});
+      this.responseDomains = [result].concat(this.responseDomains); });
   }
 
   formChange() {
     this.searchKeys = '';
     this.responseDomainService.update(this.selectedResponseDomain).subscribe((result: any) => {
-      let index = this.responseDomains.findIndex((e: any) => e.id === result.id);
-      if(index >= 0) {
+      const index = this.responseDomains.findIndex((e: any) => e.id === result.id);
+      if (index >= 0) {
         this.responseDomains[index] = result;
         this.buildAnchorLabel();
-      } else if(this.selectedResponseDomain.id === null && this.savedResponseDomainsIndex >= 0) {
+      } else if (this.selectedResponseDomain.id === null && this.savedResponseDomainsIndex >= 0) {
         this.responseDomains[this.savedResponseDomainsIndex] = JSON.parse(this.savedObject);
         this.responseDomains.push(result);
       }
-      this.hideDetail();});
+      this.hideDetail(); });
   }
 
   onSelectDetail(response: ResponseDomain) {
@@ -195,19 +195,19 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
   }
 
   onDeleteResponseDomainModal() {
-    this.deleteAction.emit({action:'modal', params:['open']});
+    this.deleteAction.emit({action: 'modal', params: ['open']});
   }
 
   onConfirmDeleting() {
     this.responseDomainService.deleteResponseDomain(this.selectedResponseDomain.id)
       .subscribe((result: any) => {
-        let i = this.responseDomains.findIndex(q => q['id'] === this.selectedResponseDomain.id);
+        const i = this.responseDomains.findIndex(q => q['id'] === this.selectedResponseDomain.id);
         if (i >= 0) {
           this.responseDomains.splice(i, 1);
         }
         this.hideDetail();
       },
-      (error: any) => {this.error = error; this.errorAction.emit({action:'modal', params:['open']});});
+      (error: any) => {this.error = error; this.errorAction.emit({action: 'modal', params: ['open']}); });
   }
 
   searchResponseDomains(name: string) {
@@ -216,50 +216,50 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
   }
 
   buildRevisionConfig(): any[] {
-    let config: any[] = [];
-    config.push({'name':'name','label':'Name'});
-    config.push({'name':'description','label':'Description'});
-    if(this.domainType === DomainKind.SCALE) {
-      config.push({'name':['managedRepresentation', 'inputLimit', 'minimum'],'label':'Start'});
-      config.push({'name':['managedRepresentation', 'inputLimit', 'maximum'],'label':'End'});
-      config.push({'name':'displayLayout','label':'display Layout'});
-      let children: any[] = this.selectedResponseDomain.managedRepresentation.children;
+    const config: any[] = [];
+    config.push({'name': 'name', 'label': 'Name'});
+    config.push({'name': 'description', 'label': 'Description'});
+    if (this.domainType === DomainKind.SCALE) {
+      config.push({'name': ['managedRepresentation', 'inputLimit', 'minimum'], 'label': 'Start'});
+      config.push({'name': ['managedRepresentation', 'inputLimit', 'maximum'], 'label': 'End'});
+      config.push({'name': 'displayLayout', 'label': 'display Layout'});
+      const children: any[] = this.selectedResponseDomain.managedRepresentation.children;
       for (let i = 0; i < children.length; i++) {
-        config.push({'name':['managedRepresentation', 'children', i, 'label'],'label':'Category' + i});
-        config.push({'name':['managedRepresentation', 'children', i, 'code', 'codeValue'],'label':'Code' + i});
+        config.push({'name': ['managedRepresentation', 'children', i, 'label'], 'label': 'Category' + i});
+        config.push({'name': ['managedRepresentation', 'children', i, 'code', 'codeValue'], 'label': 'Code' + i});
       }
-    } else if(this.domainType === DomainKind.LIST) {
-      config.push({'name':['managedRepresentation', 'inputLimit', 'maximum'],'label':'Number of Codes'});
-      let children: any[] = this.selectedResponseDomain.managedRepresentation.children;
+    } else if (this.domainType === DomainKind.LIST) {
+      config.push({'name': ['managedRepresentation', 'inputLimit', 'maximum'], 'label': 'Number of Codes'});
+      const children: any[] = this.selectedResponseDomain.managedRepresentation.children;
       for (let i = 0; i < children.length; i++) {
-        config.push({'name':['managedRepresentation', 'children', i, 'label'],'label':'Category' + i});
-        config.push({'name':['managedRepresentation', 'children', i, 'code', 'codeValue'],'label':'Code' + i});
+        config.push({'name': ['managedRepresentation', 'children', i, 'label'], 'label': 'Category' + i});
+        config.push({'name': ['managedRepresentation', 'children', i, 'code', 'codeValue'], 'label': 'Code' + i});
       }
-    } else if(this.domainType === DomainKind.NUMERIC) {
-      config.push({'name':['managedRepresentation', 'inputLimit', 'minimum'],'label':'Low'});
-      config.push({'name':['managedRepresentation', 'inputLimit', 'maximum'],'label':'High'});
-      config.push({'name':['managedRepresentation', 'format'],'label':'descimal'});
-    } else if(this.domainType === DomainKind.DATETIME) {
-      config.push({'name':['managedRepresentation', 'inputLimit', 'minimum'],'label':'After'});
-      config.push({'name':['managedRepresentation', 'inputLimit', 'maximum'],'label':'Before'});
-      config.push({'name':['managedRepresentation', 'format'],'label':'Date format'});
-    } else if(this.domainType === DomainKind.TEXT) {
-      config.push({'name':['managedRepresentation', 'inputLimit', 'minimum'],'label':'Min Length'});
-      config.push({'name':['managedRepresentation', 'inputLimit', 'maximum'],'label':'Max Length'});
+    } else if (this.domainType === DomainKind.NUMERIC) {
+      config.push({'name': ['managedRepresentation', 'inputLimit', 'minimum'], 'label': 'Low'});
+      config.push({'name': ['managedRepresentation', 'inputLimit', 'maximum'], 'label': 'High'});
+      config.push({'name': ['managedRepresentation', 'format'], 'label': 'descimal'});
+    } else if (this.domainType === DomainKind.DATETIME) {
+      config.push({'name': ['managedRepresentation', 'inputLimit', 'minimum'], 'label': 'After'});
+      config.push({'name': ['managedRepresentation', 'inputLimit', 'maximum'], 'label': 'Before'});
+      config.push({'name': ['managedRepresentation', 'format'], 'label': 'Date format'});
+    } else if (this.domainType === DomainKind.TEXT) {
+      config.push({'name': ['managedRepresentation', 'inputLimit', 'minimum'], 'label': 'Min Length'});
+      config.push({'name': ['managedRepresentation', 'inputLimit', 'maximum'], 'label': 'Max Length'});
     }
     return config;
   }
 
   private buildAnchorLabel() {
-    if(this.domainType === DomainKind.SCALE) {
-      for (let rd of this.responseDomains) {
+    if (this.domainType === DomainKind.SCALE) {
+      for (const rd of this.responseDomains) {
         let label = '';
-        let children = rd.managedRepresentation.children;
+        const children = rd.managedRepresentation.children;
         if (children.length > 0) {
           label = (children[0].code.codeValue || '') + ' ' + (children[0].label || '');
         }
         if (children.length > 1) {
-          let last = children.length - 1;
+          const last = children.length - 1;
           label += ' - ' + (children[last].code.codeValue || '') + ' ' + (children[last].label || '');
         }
         rd['anchorLabel'] = label;
@@ -268,7 +268,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
   }
 
   private getSort() {
-    let i = this.columns.findIndex((e: any) => e.sortable && e.direction !== '');
+    const i = this.columns.findIndex((e: any) => e.sortable && e.direction !== '');
     let sort = '';
     if (i >= 0) {
       if (typeof this.columns[i].name === 'string') {

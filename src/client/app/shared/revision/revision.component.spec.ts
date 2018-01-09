@@ -5,7 +5,6 @@ import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { RevisionService } from './revision.service';
-import { BaseService } from '../base.service';
 import { RevisionComponent } from './revision.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
@@ -41,10 +40,10 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(RevisionComponent);
+            const fixture = TestBed.createComponent(RevisionComponent);
             fixture.componentInstance.isVisible = true;
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('div'));
+            const de: any = fixture.debugElement.queryAll(By.css('div'));
             expect(de.length).toBeGreaterThan(1);
           });
       }));
@@ -54,10 +53,10 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(RevisionComponent);
+            const fixture = TestBed.createComponent(RevisionComponent);
             fixture.componentInstance.isVisible = true;
             fixture.componentInstance.qddtURI = '1';
-            let mockBackend = TestBed.get(MockBackend);
+            const mockBackend = TestBed.get(MockBackend);
             mockBackend.connections.subscribe((c: any) => {
               c.mockRespond(new Response(new ResponseOptions({
                 body: '{"content":'
@@ -78,7 +77,7 @@ export function main() {
             fixture.componentInstance.ngOnChanges();
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let td: any = fixture.debugElement.queryAll(By.css('td'));
+              const td: any = fixture.debugElement.queryAll(By.css('td'));
               expect(td.length).toBe(7);
               expect(td[6].nativeNode.textContent).toContain('Information added');
             });

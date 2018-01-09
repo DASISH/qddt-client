@@ -43,9 +43,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(TreeNodeComponent);
+            const fixture = TestBed.createComponent(TreeNodeComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('div'));
+            const de: any = fixture.debugElement.queryAll(By.css('div'));
             expect(de.length).toBe(0);
           });
       }));
@@ -55,8 +55,8 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(TreeNodeComponent);
-            let concept: any = {
+            const fixture = TestBed.createComponent(TreeNodeComponent);
+            const concept: any = {
                 'id' : '7f000101-54aa-131e-8154-aa27fc230000',
                 'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
                 'name' : 'one concept',
@@ -70,7 +70,7 @@ export function main() {
             fixture.componentInstance.concept = concept;
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let h5: any = fixture.debugElement.queryAll(By.css('h5'));
+              const h5: any = fixture.debugElement.queryAll(By.css('h5'));
               expect(h5.length).toBeGreaterThan(0);
               expect(h5[0].nativeNode.textContent).toContain('concept');
             });

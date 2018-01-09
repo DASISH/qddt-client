@@ -36,7 +36,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(PreviewStatementConstructComponent);
+            const fixture = TestBed.createComponent(PreviewStatementConstructComponent);
             fixture.detectChanges();
             expect(fixture.componentInstance.text).toBe('');
           });
@@ -47,7 +47,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(PreviewStatementConstructComponent);
+            const fixture = TestBed.createComponent(PreviewStatementConstructComponent);
             fixture.componentInstance.statement = {'description': 'test'};
             fixture.detectChanges();
             fixture.whenStable().then(() => {

@@ -14,13 +14,13 @@ export class RevisionComponent implements OnChanges, OnInit {
   @Input() current: any;
   @Output() requestPreview: EventEmitter<any> = new EventEmitter<any>();
 
-  @Input() isVisible:boolean = false;
+  @Input() isVisible = false;
 
   private revisions: any[];
   private page: any;
   private selectRevisionId: number;
   private currentRevisionId: number;
-  private showProgressBar: boolean=false;
+  private showProgressBar= false;
 
   constructor(private service: RevisionService) {
     this.revisions = [];
@@ -29,11 +29,11 @@ export class RevisionComponent implements OnChanges, OnInit {
   }
 
   ngOnInit() {
-    if(!this.config) {
-      this.config = [{'name':'label','label':'Label'},{'name':'description','label':'Description'}];
+    if (!this.config) {
+      this.config = [{'name': 'label', 'label': 'Label'}, {'name': 'description', 'label': 'Description'}];
     }
-    if(!this.page) {
-      this.page =  {number:1, size:10};
+    if (!this.page) {
+      this.page =  {number: 1, size: 10};
     }
   }
 
@@ -50,13 +50,13 @@ export class RevisionComponent implements OnChanges, OnInit {
 
 
   getRevisionsById() {
-    this.showProgressBar= true;
+    this.showProgressBar = true;
     // let params = allRevisions.checked?'':'&ignorechangekinds="" ';
     this.service.getAllRevisions(this.qddtURI)
       .subscribe(
       (result: any) => {
         this.revisions = result.content;
-        this.showProgressBar= false;
+        this.showProgressBar = false;
       },
       (err: any) => console.log('Unable to get all revisions')
       );

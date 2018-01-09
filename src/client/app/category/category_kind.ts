@@ -4,14 +4,14 @@
 
 export class CategoryType {
 
-  public static element:any = [
+  public static element: any = [
     ['DATETIME', 'Datetime'],
     ['NUMERIC', 'Numeric'],
-    ['TEXT','Text'],
+    ['TEXT', 'Text'],
     ['CATEGORY', 'Category']
   ];
 
-  public static group:any = [
+  public static group: any = [
     ['LIST', 'List'],
     ['MISSING_GROUP', 'Missing-Group'],
     ['SCALE', 'Scale'],

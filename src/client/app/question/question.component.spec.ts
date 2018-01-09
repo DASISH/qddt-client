@@ -49,9 +49,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(QuestionComponent);
+            const fixture = TestBed.createComponent(QuestionComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('a'));
+            const de: any = fixture.debugElement.queryAll(By.css('a'));
             expect(de.length).toBeGreaterThan(0);
           });
       }));
@@ -61,8 +61,8 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(QuestionComponent);
-            let mockBackend = TestBed.get(MockBackend);
+            const fixture = TestBed.createComponent(QuestionComponent);
+            const mockBackend = TestBed.get(MockBackend);
             mockBackend.connections.subscribe((c: any) => {
               c.mockRespond(new Response(new ResponseOptions({
                 body: '{"content":[{'
@@ -81,7 +81,7 @@ export function main() {
             fixture.componentInstance.ngOnInit();
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let table: any = fixture.debugElement.queryAll(By.css('qddt-table'));
+              const table: any = fixture.debugElement.queryAll(By.css('qddt-table'));
               expect(table.length).toBeGreaterThan(0);
               expect(fixture.componentInstance.questionitems.length).toBeGreaterThan(0);
               expect(fixture.componentInstance.questionitems[0].name).toContain('question');

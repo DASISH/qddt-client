@@ -1,4 +1,3 @@
-import { Component, Input, PipeTransform, Pipe, EventEmitter, Output } from '@angular/core';
 import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
@@ -39,9 +38,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(PreviewQuestionConstructComponent);
+            const fixture = TestBed.createComponent(PreviewQuestionConstructComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('div'));
+            const de: any = fixture.debugElement.queryAll(By.css('div'));
             expect(de.length).toBe(0);
           });
       }));
@@ -51,11 +50,11 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(PreviewQuestionConstructComponent);
+            const fixture = TestBed.createComponent(PreviewQuestionConstructComponent);
             fixture.componentInstance.controlConstruct = {'name': 'test'};
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let de: any = fixture.debugElement.queryAll(By.css('textarea'));
+              const de: any = fixture.debugElement.queryAll(By.css('textarea'));
               expect(de.length).toBeGreaterThan(0);
               expect(de[0].nativeElement.value).toBe('test');
             });

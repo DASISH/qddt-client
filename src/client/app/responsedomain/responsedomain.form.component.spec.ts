@@ -1,18 +1,17 @@
-import { Component, Input, PipeTransform, Pipe, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { MockBackend } from '@angular/http/testing';
-import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
+import { BaseRequestOptions, Http, ConnectionBackend } from '@angular/http';
 
 import { ResponseDomainService } from './responsedomain.service';
-import { CategoryService } from '../../category/category.service';
-import { BaseService } from '../../shared/base.service';
 import { ResponsedomainFormComponent } from './responsedomain.form.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Observable }     from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import { MaterializeModule } from 'angular2-materialize';
-import { API_BASE_HREF } from '../../api';
+import { API_BASE_HREF } from '../api';
+import { CategoryService } from '../category/category.service';
 
 export function main() {
   describe('Responsedomain form component', () => {
@@ -51,9 +50,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(ResponsedomainFormComponent);
+            const fixture = TestBed.createComponent(ResponsedomainFormComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('ul'));
+            const de: any = fixture.debugElement.queryAll(By.css('ul'));
             expect(de.length).toBe(0);
           });
       }));
@@ -63,8 +62,8 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(ResponsedomainFormComponent);
-            let managedRepresentation: any = {
+            const fixture = TestBed.createComponent(ResponsedomainFormComponent);
+            const managedRepresentation: any = {
               'id': '0c3c168e-d1ea-421f-a629-7487c71fbf1a',
               'name': 'Code',
               'changeKind': 'CREATED',
@@ -101,7 +100,7 @@ export function main() {
                 },
               }]
             };
-            let responseDomain: any = {
+            const responseDomain: any = {
               'id' : '7f000101-54aa-131e-8154-aa27fc230000',
               'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
               'name' : 'responseDomain',
@@ -118,7 +117,7 @@ export function main() {
             fixture.componentInstance.ngOnInit();
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let inputs: any[] = fixture.debugElement.queryAll(By.css('input'));
+              const inputs: any[] = fixture.debugElement.queryAll(By.css('input'));
               expect(inputs.length).toBeGreaterThan(0);
               expect(inputs[0].nativeNode.value).toContain('responseDomain');
             });
@@ -210,7 +209,7 @@ class RevisionDetailComponent {
 }
 
 @Component({
-  selector: 'autocomplete',
+  selector: 'auto-complete',
   template: `<div></div>`
 })
 

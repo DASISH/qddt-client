@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { ResponsedomainCodeListComponent } from './codelist.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Observable }     from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import { MaterializeModule } from 'angular2-materialize';
 
 export function main() {
@@ -26,9 +26,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(ResponsedomainCodeListComponent);
+            const fixture = TestBed.createComponent(ResponsedomainCodeListComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('ul'));
+            const de: any = fixture.debugElement.queryAll(By.css('ul'));
             expect(de.length).toBe(0);
           });
       }));
@@ -38,8 +38,8 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(ResponsedomainCodeListComponent);
-            let managedRepresentation: any = {
+            const fixture = TestBed.createComponent(ResponsedomainCodeListComponent);
+            const managedRepresentation: any = {
               'id': '0c3c168e-d1ea-421f-a629-7487c71fbf1a',
               'name': 'Code',
               'changeKind': 'CREATED',
@@ -76,7 +76,7 @@ export function main() {
                 },
               }]
             };
-            let responseDomain: any = {
+            const responseDomain: any = {
               'id' : '7f000101-54aa-131e-8154-aa27fc230000',
               'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
               'name' : 'responseDomain',
@@ -92,7 +92,7 @@ export function main() {
             fixture.componentInstance.ngOnChanges();
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let lis: any[] = fixture.debugElement.queryAll(By.css('li'));
+              const lis: any[] = fixture.debugElement.queryAll(By.css('li'));
               expect(lis.length).toBeGreaterThan(0);
               expect(lis[0].nativeNode.textContent).toContain('start');
             });

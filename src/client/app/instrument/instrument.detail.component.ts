@@ -32,20 +32,20 @@ export class InstrumentDetailComponent {
 
   onAddControlConstruct() {
     //this.instrument.controlConstructs.push(c);
-    this.controlConstructsActions.emit({action:'modal', params:['open']});
+    this.controlConstructsActions.emit({action: 'modal', params: ['open']});
     // this.controlConstructsActions.emit({action:'modal', params:['open']});
   }
 
   onClickControlConstruct(id: number) {
     this.selectedControlConstruct = this.instrument.controlConstructs[id];
-    this.controlConstructsActions.emit({action:'modal', params:['open']});
+    this.controlConstructsActions.emit({action: 'modal', params: ['open']});
     // this.controlConstructsActions.emit({action:'modal', params:['open']});
   }
 
   onUpdateInstrument() {
     this.service.update(this.instrument).subscribe((result: any) => {
-        let index = this.instruments.findIndex((e:any) => e.id === result.id);
-        if(index >= 0) {
+        const index = this.instruments.findIndex((e: any) => e.id === result.id);
+        if (index >= 0) {
           this.instruments[index] = result;
         }
         this.hideDetail();

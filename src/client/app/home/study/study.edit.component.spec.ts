@@ -40,10 +40,10 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(StudyEditComponent);
+            const fixture = TestBed.createComponent(StudyEditComponent);
             fixture.componentInstance.isVisible = true;
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('div'));
+            const de: any = fixture.debugElement.queryAll(By.css('div'));
             expect(de.length).toBeGreaterThan(0);
           });
       }));
@@ -53,7 +53,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(StudyEditComponent);
+            const fixture = TestBed.createComponent(StudyEditComponent);
             fixture.componentInstance.isVisible = true;
             fixture.componentInstance.study = {
               id: '7f000101-54aa-131e-8154-aa27fc230000',
@@ -63,7 +63,7 @@ export function main() {
             };
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let input: any = fixture.debugElement.queryAll(By.css('input'));
+              const input: any = fixture.debugElement.queryAll(By.css('input'));
               expect(input.length).toBeGreaterThan(0);
               expect(input[0].nativeNode.value).toContain('study');
               fixture.componentInstance.onSave();
@@ -80,7 +80,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(StudyEditComponent);
+            const fixture = TestBed.createComponent(StudyEditComponent);
             fixture.componentInstance.isVisible = true;
             fixture.componentInstance.study = {
               id: '7f000101-54aa-131e-8154-aa27fc230000',

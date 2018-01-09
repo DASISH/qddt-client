@@ -1,14 +1,16 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http } from '@angular/http';
+// import { Http } from '@angular/http';
 
 import { API_BASE_HREF } from '../api';
 import { BaseService } from '../shared/base.service';
 import { QuestionItem } from '../question/question.service';
+import { AuthService } from '../auth/auth.service';
+import { HttpClient } from '@angular/common/http';
 // import { HttpClient } from '@angular/common/http';
 
 export class Universe {
-  id:string;
-  description:string;
+  id: string;
+  description: string;
 }
 
 export class ControlConstruct {
@@ -34,8 +36,8 @@ export class ControlConstructService extends BaseService {
 
   readonly pageSize = '&size=10';
 
-  constructor(protected http:Http, @Inject(API_BASE_HREF) protected api:string) {
-    super(http ,api);
+  constructor(protected http: HttpClient, protected auth: AuthService, @Inject(API_BASE_HREF) protected api: string) {
+    super(http, auth , api);
   }
 
   create(c: ControlConstruct): any {
@@ -46,16 +48,16 @@ export class ControlConstructService extends BaseService {
     return this.get('controlconstruct/' + id);
   }
 
-  getControlConstructRevision(id: string, rev: string) : any {
+  getControlConstructRevision(id: string, rev: string): any {
     return this.get('audit/controlconstruct/' + id + '/' + rev);
   }
 
   getFile(id: string): any {
-    return this.getBlob('othermaterial/files/'+id);
+    return this.getBlob('othermaterial/files/' + id);
   }
 
   uploadFile(id: string, files: any): any {
-    return this.uploadBlob(id,files);
+    return this.uploadBlob(id, files);
   }
 
   deleteFile(id: string) {
@@ -63,7 +65,7 @@ export class ControlConstructService extends BaseService {
   }
 
   getPdf(id: string) {
-    return this.getBlob('controlconstruct/pdf/'+id);
+    return this.getBlob('controlconstruct/pdf/' + id);
   }
 
   update(c: ControlConstruct): any {
@@ -78,7 +80,7 @@ export class ControlConstructService extends BaseService {
     return this.get('questionitem/page');
   }
 
-  getQuestionItemsRevisions(id: string) : any {
+  getQuestionItemsRevisions(id: string): any {
     return this.get('audit/questionitem/' + id + '/all');
   }
 
@@ -87,10 +89,10 @@ export class ControlConstructService extends BaseService {
   }
 
   getConceptsByQuestionitemId(id: string) {
-    return this.get('concept/list/by-QuestionItem/'+ id);
+    return this.get('concept/list/by-QuestionItem/' + id);
   }
 
-  searchControlConstructs(name: string = '%', questionText: string ='%', page: String = '0', sort: string = ''): any {
+  searchControlConstructs(name: string = '%', questionText: string = '%', page: String = '0', sort: string = ''): any {
     let query = '&name=' + name + '&questiontext=' + questionText;
     if (sort.length > 0) {
       query += '&sort=' + sort;
@@ -99,7 +101,7 @@ export class ControlConstructService extends BaseService {
   }
 
   searchQuestionItemsByNameAndQuestion(name: string = '', page: String = '0', sort: String = ''): any {
-    let query = name.length > 0? '&question=' + '*' + name +'*' + '&name=' + '*' + name +'*': '';
+    let query = name.length > 0 ? '&question=' + '*' + name + '*' + '&name=' + '*' + name + '*' : '';
     if (sort.length > 0) {
       query += '&sort=' + sort;
     }
@@ -107,12 +109,12 @@ export class ControlConstructService extends BaseService {
   }
 
   searchInstructions(description: string = '', page: String = '0'): any {
-    let query = description.length > 0? '&description=' + '*' + description +'*': '';
+    const query = description.length > 0 ? '&description=' + '*' + description + '*' : '';
     return this.get('instruction/page/search?' + 'page=' + page + this.pageSize + query);
   }
 
   searchUniverses(description: string = '', page: String = '0') {
-    let query = description.length > 0? '&description=' + '*' + description +'*': '';
+    const query = description.length > 0 ? '&description=' + '*' + description + '*' : '';
     return this.get('universe/page/search?' + 'page=' + page + this.pageSize + query);
   }
 }

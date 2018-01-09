@@ -108,7 +108,7 @@ export class ConditionEditComponent implements OnInit {
 
   onSearchElements(key: string) {
     this.service.getElements('QUESTION_CONSTRUCT', key)
-      .subscribe((result: any) => {
+      .then((result: any) => {
         this.elements = result.content;
       }, (error: any) => null);
   }

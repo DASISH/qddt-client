@@ -40,9 +40,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(PreviewControlConstructComponent);
+            const fixture = TestBed.createComponent(PreviewControlConstructComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('div'));
+            const de: any = fixture.debugElement.queryAll(By.css('div'));
             expect(de.length).toBe(0);
           });
       }));
@@ -52,13 +52,13 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(PreviewControlConstructComponent);
-            fixture.componentInstance.construct = { id:'', name:'', description:'',otherMaterials:[],
-              postInstructions:[],preInstructions:[],questionItem:null, controlConstructKind: 'SEQUENCE_CONSTRUCT',
-            universe:[], questionItemRevision:0};
+            const fixture = TestBed.createComponent(PreviewControlConstructComponent);
+            fixture.componentInstance.construct = { id: '', name: '', description: '', otherMaterials: [],
+              postInstructions: [], preInstructions: [], questionItem: null, controlConstructKind: 'SEQUENCE_CONSTRUCT',
+            universe: [], questionItemRevision: 0};
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let de: any = fixture.debugElement.queryAll(By.css('qddt-preview-sequenceconstruct'));
+              const de: any = fixture.debugElement.queryAll(By.css('qddt-preview-sequenceconstruct'));
               expect(de.length).toBeGreaterThan(0);
             });
           });

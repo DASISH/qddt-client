@@ -3,8 +3,8 @@ import { TestBed, async } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
 
 import { SequenceService } from './sequence.service';
-import { BaseService } from '../../shared/base.service';
-import { API_BASE_HREF } from '../../api';
+import { BaseService } from '../shared/base.service';
+import { API_BASE_HREF } from '../api';
 
 export function main() {
   describe('Sequence service', () => {
@@ -30,7 +30,7 @@ export function main() {
     });
 
     it('should update sequence', async(() => {
-      let mockBackend = TestBed.get(MockBackend);
+      const mockBackend = TestBed.get(MockBackend);
       mockBackend.connections.subscribe((c: any) => {
         c.mockRespond(new Response(new ResponseOptions({
           body: '{'
@@ -38,15 +38,15 @@ export function main() {
           + '"name" : "sequence"}'
         })));
       });
-      let service = TestBed.get(SequenceService);
-      let sequence: any = { id: '2', name: 'test' };
+      const service = TestBed.get(SequenceService);
+      const sequence: any = { id: '2', name: 'test' };
       service.update(sequence).subscribe((data: any) => {
         expect(data.name).toBe('sequence');
       });
     }));
 
     it('should get all of sequences', async(() => {
-      let mockBackend = TestBed.get(MockBackend);
+      const mockBackend = TestBed.get(MockBackend);
       mockBackend.connections.subscribe((c: any) => {
         c.mockRespond(new Response(new ResponseOptions({
           body: '[{'
@@ -61,7 +61,7 @@ export function main() {
           + '}]'
         })));
       });
-      let service = TestBed.get(SequenceService);
+      const service = TestBed.get(SequenceService);
       service.getElements('SEQUENCE_CONSTRUCT', '1')
         .subscribe((data: any) => {
         expect(data.length).toBe(1);

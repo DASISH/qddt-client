@@ -1,8 +1,10 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http } from '@angular/http';
+// import { Http } from '@angular/http';
 import { API_BASE_HREF } from '../api';
 import { Category, ResponseCardinality } from '../category/category.service';
 import { BaseService } from '../shared/base.service';
+import { AuthService } from '../auth/auth.service';
+import { HttpClient } from '@angular/common/http';
 
 export const DATE_FORMAT: any = [
   {'id': 1, 'format': 'yyyy-mm-dd',         'label': 'Date' },
@@ -35,8 +37,8 @@ export class ResponseDomain {
 @Injectable()
 export class ResponseDomainService extends BaseService {
 
-  constructor(protected http:Http, @Inject(API_BASE_HREF) protected api:string) {
-    super(http, api);
+  constructor(protected http:HttpClient,protected auth: AuthService, @Inject(API_BASE_HREF) protected api:string) {
+    super(http, auth ,api);
   }
 
   create(responseDomain: ResponseDomain): any {

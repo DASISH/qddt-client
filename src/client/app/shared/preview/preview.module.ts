@@ -26,19 +26,19 @@ import { PreviewPublicationComponent } from './preview.publication.component';
 @NgModule({
   imports: [ SharedModule],
 
-  declarations: [PreviewConceptComponent,PreviewConceptListComponent,PreviewConditionConstructComponent,
+  declarations: [PreviewConceptComponent, PreviewConceptListComponent, PreviewConditionConstructComponent,
     PreviewControlConstructComponent, PreviewQuestionConstructComponent,
-    PreviewQuestionitemComponent,PreviewQuestionitemGridComponent,PreviewResponseDomainGridComponent,
-    PreviewResponsedomainComponent,PreviewSequenceConstructComponent,PreviewStatementConstructComponent,
-    PreviewStudyComponent,PreviewTopicComponent,PreviewTopicListComponent,
-    ResponsedomainCodeListComponent,ResponsedomainDatetimeComponent,ResponsedomainMissingComponent,
-    ResponsedomainMixedComponent,ResponsedomainNumericComponent,ResponsedomainScaleComponent,
+    PreviewQuestionitemComponent, PreviewQuestionitemGridComponent, PreviewResponseDomainGridComponent,
+    PreviewResponsedomainComponent, PreviewSequenceConstructComponent, PreviewStatementConstructComponent,
+    PreviewStudyComponent, PreviewTopicComponent, PreviewTopicListComponent,
+    ResponsedomainCodeListComponent, ResponsedomainDatetimeComponent, ResponsedomainMissingComponent,
+    ResponsedomainMixedComponent, ResponsedomainNumericComponent, ResponsedomainScaleComponent,
     ResponsedomainTextComponent, PreviewPublicationComponent],
 
-  exports: [PreviewConceptComponent,PreviewConceptListComponent,PreviewTopicComponent,
-    PreviewTopicListComponent,PreviewStudyComponent,PreviewControlConstructComponent,
-    PreviewQuestionitemComponent,PreviewQuestionitemGridComponent,
-    PreviewResponsedomainComponent ,PreviewPublicationComponent]
+  exports: [PreviewConceptComponent, PreviewConceptListComponent, PreviewTopicComponent,
+    PreviewTopicListComponent, PreviewStudyComponent, PreviewControlConstructComponent,
+    PreviewQuestionitemComponent, PreviewQuestionitemGridComponent,
+    PreviewResponsedomainComponent , PreviewPublicationComponent]
 
 })
 

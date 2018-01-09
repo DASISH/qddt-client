@@ -40,9 +40,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(PreviewQuestionitemComponent);
+            const fixture = TestBed.createComponent(PreviewQuestionitemComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('div'));
+            const de: any = fixture.debugElement.queryAll(By.css('div'));
             expect(de.length).toBe(0);
           });
       }));
@@ -52,8 +52,8 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(PreviewQuestionitemComponent);
-            let element: any = {
+            const fixture = TestBed.createComponent(PreviewQuestionitemComponent);
+            const element: any = {
                 'id' : '7f000101-54aa-131e-8154-aa27fc230000',
                 'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
                 'name' : 'one questionitem',
@@ -68,7 +68,7 @@ export function main() {
             fixture.componentInstance.questionItem = element;
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let de: any = fixture.debugElement.queryAll(By.css('li'));
+              const de: any = fixture.debugElement.queryAll(By.css('li'));
               expect(de.length).toBeGreaterThan(3);
               expect(de[3].nativeNode.textContent).toContain('test');
             });

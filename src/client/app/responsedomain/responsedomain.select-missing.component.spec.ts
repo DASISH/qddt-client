@@ -4,13 +4,13 @@ import { TestBed, async } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
-import { QuestionService } from '../../question/question.service';
-import { API_BASE_HREF } from '../../api';
+import { API_BASE_HREF } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Observable }     from 'rxjs/Observable';
 import { MaterializeModule } from 'angular2-materialize';
 import { ResponsedomainSelectMissingComponent } from './responsedomain.select-missing.component';
+import { QuestionService } from '../question/question.service';
+import { Observable } from 'rxjs/Observable';
 
 export function main() {
   describe('Question edit missing component', () => {
@@ -45,9 +45,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(ResponsedomainSelectMissingComponent);
+            const fixture = TestBed.createComponent(ResponsedomainSelectMissingComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('a'));
+            const de: any = fixture.debugElement.queryAll(By.css('a'));
             expect(de.length).toBeGreaterThan(0);
           });
       }));
@@ -57,11 +57,11 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(ResponsedomainSelectMissingComponent);
+            const fixture = TestBed.createComponent(ResponsedomainSelectMissingComponent);
             fixture.componentInstance.ngOnInit();
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let elements: any = fixture.debugElement.queryAll(By.css('span'));
+              const elements: any = fixture.debugElement.queryAll(By.css('span'));
               expect(elements.length).toBeGreaterThan(1);
               expect(elements[1].nativeElement.textContent).toContain('missing');
             });
@@ -78,7 +78,7 @@ class QuestionServiceSpy {
 }
 
 @Component({
-  selector: 'autocomplete',
+  selector: 'auto-complete',
   template: `<div></div>`
 })
 

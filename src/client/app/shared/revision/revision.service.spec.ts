@@ -30,7 +30,7 @@ export function main() {
     });
 
     it('should get all of revisions', async(() => {
-      let mockBackend = TestBed.get(MockBackend);
+      const mockBackend = TestBed.get(MockBackend);
       mockBackend.connections.subscribe((c: any) => {
         c.mockRespond(new Response(new ResponseOptions({
           body: '[{"content":'
@@ -47,7 +47,7 @@ export function main() {
             + '}]'
         })));
       });
-      let service = TestBed.get(RevisionService);
+      const service = TestBed.get(RevisionService);
       service.getAllRevisions('1').subscribe((data: any) => {
         expect(data.length).toBe(1);
         expect(data[0].content.entity.name).toContain('topic');

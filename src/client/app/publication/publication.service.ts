@@ -1,11 +1,13 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http, RequestOptions, Headers, ResponseContentType } from '@angular/http';
+// import { Http, RequestOptions, Headers, ResponseContentType } from '@angular/http';
 import { API_BASE_HREF } from '../api';
 import { BaseService } from '../shared/base.service';
-import { Observable }     from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import { ElementKind, QddtElementType, QddtElementTypes } from '../shared/preview/preview.service';
+import { AuthService } from '../auth/auth.service';
+import { HttpClient } from '@angular/common/http';
 
-export const PUBLICATION_NOT_PUBLISHED = { 'id': 0, 'name': 'NOTPUBLISHED', 'label':'Not Published', 'children': [],
+export const PUBLICATION_NOT_PUBLISHED = { 'id': 0, 'name': 'NOTPUBLISHED', 'label': 'Not Published', 'children': [],
   'description': 'Elements and discussion made available for key '
     + 'members of a questionnaire design sub'
     + ' group, but not designed to be published internally'};
@@ -97,8 +99,8 @@ export class PublicationElement {
   id: string;
   revisionNumber: number;
   elementKind: ElementKind;
-  name:string;
-  element:any;
+  name: string;
+  element: any;
 }
 
 export class Publication {
@@ -117,8 +119,8 @@ export class PublicationService extends BaseService {
 
   readonly pageSize = '&size=15';
 
-  constructor(protected http:Http, @Inject(API_BASE_HREF) protected api:string) {
-    super(http ,api);
+  constructor(protected http: HttpClient, protected auth: AuthService, @Inject(API_BASE_HREF) protected api: string) {
+    super(http, auth , api);
   }
 
   create(p: Publication): any {
@@ -137,22 +139,22 @@ export class PublicationService extends BaseService {
     return this.get('publication/' + id);
   }
 
-  getPublicationStatus():any {
+  getPublicationStatus(): any {
     return this.get('publicationstatus/list');
   }
-  searchPublications(name: string = '', page: String = '0', sort: String = ''): any {
-    let queries: any[] = [];
-    if(name.length > 0) {
-      queries.push('name=' + '*' + name +'*' + '&status=' + '*' + name +'*');
+  searchPublications(name: string = '', page: String = '0', sort: String = ''): Promise<any> {
+    const queries: any[] = [];
+    if (name.length > 0) {
+      queries.push('name=' + '*' + name + '*' + '&status=' + '*' + name + '*');
     }
     if (sort.length > 0) {
       queries.push('sort=' + sort);
     }
-    if(page !== '0') {
+    if (page !== '0') {
       queries.push('page=' + page);
     }
-    let query: string = '';
-    if(queries.length > 0) {
+    let query = '';
+    if (queries.length > 0) {
       query = '?' + queries.join('&');
     }
     return this.get('publication/page/search' + query);
@@ -160,28 +162,28 @@ export class PublicationService extends BaseService {
 
   searchElements(elementKind: ElementKind, name: string) {
     let query = '?';
-    let e: any = PUBLICATION_TYPES.find(e => e.id === elementKind);
+    const e: any = PUBLICATION_TYPES.find(e => e.id === elementKind);
     if (e !== undefined) {
       if (name.length > 0) {
-        let fields: any[] = e.fields;
+        const fields: any[] = e.fields;
         for (let i = 0; i < fields.length; i++) {
           query += '&' + fields[i] + '=*' + name + '*';
         }
       }
-      if(e.parameter) {
+      if (e.parameter) {
         query += e.parameter;
       }
       return this.get(e.path + '/page/search' + query);
     }
-    return Observable.of([]);
+    return null;
   }
 
-  getByTopic(topicId: string) : any {
-    return this.get('concept/page/by-topicgroup/'+ topicId + '?page=0&size=50&sort=asc');
+  getByTopic(topicId: string): any {
+    return this.get('concept/page/by-topicgroup/' + topicId + '?page=0&size=50&sort=asc');
   }
 
-  getElementRevisions(elementKind: ElementKind, id: string) : any {
-    let e: any = PUBLICATION_TYPES.find(e => e.id === elementKind);
+  getElementRevisions(elementKind: ElementKind, id: string): any {
+    const e: any = PUBLICATION_TYPES.find(e => e.id === elementKind);
     if (e !== undefined) {
       if (elementKind === ElementKind.CONCEPT || elementKind === ElementKind.TOPIC_GROUP)
       return this.get('audit/' + e.path + '/' + id + '/allinclatest');
@@ -193,15 +195,18 @@ export class PublicationService extends BaseService {
 
 
   getFile(id: string) {
-    let headers = new Headers();
-    let jwt = localStorage.getItem('jwt');
-    if(jwt !== null) {
-      headers.append('Authorization', 'Bearer  ' + JSON.parse(jwt).access_token);
-    }
-    let options = new RequestOptions({ headers: headers, responseType: ResponseContentType.Blob });
-    return this.http.get(this.api + 'othermaterial/files/' + id, options)
-      .map(res => res.blob())
+    return this.getBlob(this.api + 'othermaterial/files/' + id)
+      .map(res => res)
       .catch(this.handleError);
+    // let headers = new Headers();
+    // let jwt = localStorage.getItem('jwt');
+    // if(jwt !== null) {
+    //   headers.append('Authorization', 'Bearer  ' + JSON.parse(jwt).access_token);
+    // }
+    // let options = new RequestOptions({ headers: headers, responseType: ResponseContentType.Blob });
+    // return this.http.get(, options)
+    //   .map(res => res.blob())
+    //   .catch(this.handleError);
   }
 
   getQuestionitem(id: string): any {
@@ -209,15 +214,18 @@ export class PublicationService extends BaseService {
   }
 
   getPdf(id: string): any {
-    let headers = new Headers();
-    let jwt = localStorage.getItem('jwt');
-    if(jwt !== null) {
-      headers.append('Authorization', 'Bearer  ' + JSON.parse(jwt).access_token);
-    }
-    let options = new RequestOptions({ headers: headers, responseType: ResponseContentType.Blob });
-    return this.http.get(this.api + 'publication/pdf/' + id, options)
-      .map(res => res.blob())
-      .catch(this.handleError);
+    return this.getBlob(this.api + 'publication/pdf/' + id);
   }
+
+  //   let headers = new Headers();
+  //   let jwt = localStorage.getItem('jwt');
+  //   if(jwt !== null) {
+  //     headers.append('Authorization', 'Bearer  ' + JSON.parse(jwt).access_token);
+  //   }
+  //   let options = new RequestOptions({ headers: headers, responseType: ResponseContentType.Blob });
+  //   return this.http.get(this.api + 'publication/pdf/' + id, options)
+  //     .map(res => res.blob())
+  //     .catch(this.handleError);
+  // }
 
 }

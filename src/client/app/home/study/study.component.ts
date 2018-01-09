@@ -1,6 +1,6 @@
 import { Component, Input, EventEmitter, Output, OnChanges } from '@angular/core';
 import { StudyService, Study } from './study.service';
-let saveAs = require('file-saver');
+const saveAs = require('file-saver');
 
 @Component({
   selector: 'qddt-study',
@@ -12,9 +12,9 @@ export class StudyComponent implements OnChanges {
 
   @Output() studySelectedEvent: EventEmitter<any> = new EventEmitter<any>();
   @Input() survey: any;
-  @Input() show: boolean=false;
+  @Input() show= false;
 
-  showEditForm: boolean = false;
+  showEditForm = false;
   private study: any;
   private studies: any[];
 
@@ -45,14 +45,14 @@ export class StudyComponent implements OnChanges {
 
   onSave() {
     this.showEditForm = false;
-    this.studyService.save(this.study,this.survey.id).subscribe((result: any) => {
+    this.studyService.save(this.study, this.survey.id).subscribe((result: any) => {
       this.studies.push(result);
     });
     this.study  = new Study();
   }
 
   getPdf(element: Study) {
-    let fileName = element.name + '.pdf';
+    const fileName = element.name + '.pdf';
     this.studyService.getPdf(element.id).subscribe(
       (data: any) => {
         saveAs(data, fileName);
@@ -64,7 +64,7 @@ export class StudyComponent implements OnChanges {
     if (studyId && studyId.length === 36) {
       this.studyService.deleteStudy(studyId)
         .subscribe((result: any) => {
-            let i = this.studies.findIndex(q => q['id'] === studyId);
+            const i = this.studies.findIndex(q => q['id'] === studyId);
             if (i >= 0) {
               this.studies.splice(i, 1);
             }

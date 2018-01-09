@@ -1,20 +1,22 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http } from '@angular/http';
+// import { Http } from '@angular/http';
 
 import { API_BASE_HREF } from '../../api';
 import { BaseService } from '../base.service';
 import { Observable }     from 'rxjs/Observable';
+import { AuthService } from '../../auth/auth.service';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class RevisionService extends BaseService {
 
   readonly pageSize = '&size=10';
 
-  constructor(protected http: Http, @Inject(API_BASE_HREF) protected api: string) {
-    super(http, api);
+  constructor(protected http: HttpClient, protected auth: AuthService, @Inject(API_BASE_HREF) protected api: string) {
+    super(http, auth , api);
   }
 
-  getAllRevisions(qddtURI: string) : any {
+  getAllRevisions(qddtURI: string): any {
     return this.get(qddtURI);
   }
 
@@ -23,14 +25,14 @@ export class RevisionService extends BaseService {
   }
 
   getelement(type: string, id: string, rev: string): any {
-    if( type === 'survey') {
-      return this.get('audit/surveyprogram/' + id +'/'+ rev);
-    } else if( type === 'category') {
-      return this.get('audit/category/' + id +'/'+ rev);
-    } else if( type === 'controlconstruct') {
-      return this.get('audit/controlconstruct/' + id +'/'+ rev);
-    } else if( type === 'concept') {
-      return this.get('audit/concept/' + id +'/'+ rev);
+    if ( type === 'survey') {
+      return this.get('audit/surveyprogram/' + id + '/' + rev);
+    } else if ( type === 'category') {
+      return this.get('audit/category/' + id + '/' + rev);
+    } else if ( type === 'controlconstruct') {
+      return this.get('audit/controlconstruct/' + id + '/' + rev);
+    } else if ( type === 'concept') {
+      return this.get('audit/concept/' + id + '/' + rev);
     }
     return Observable.of({});
   }

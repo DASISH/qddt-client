@@ -45,9 +45,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(QuestionReuseComponent);
+            const fixture = TestBed.createComponent(QuestionReuseComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('a'));
+            const de: any = fixture.debugElement.queryAll(By.css('a'));
             expect(de.length).toBeGreaterThan(0);
           });
       }));
@@ -57,8 +57,8 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(QuestionReuseComponent);
-            let mockBackend = TestBed.get(MockBackend);
+            const fixture = TestBed.createComponent(QuestionReuseComponent);
+            const mockBackend = TestBed.get(MockBackend);
             mockBackend.connections.subscribe((c: any) => {
               c.mockRespond(new Response(new ResponseOptions({
                 body: '{"content":[{'

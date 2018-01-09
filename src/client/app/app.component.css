@@ -3,13 +3,9 @@
   header,
   main,
   footer {
-    padding-left: 0;
+    padding-left: 200px;
   }
 
-  /*:host .hoverable .row::shadow {*/
-    /*min-height:3rem;*/
-    /*margin-bottom:0px;*/
-  /*}*/
 }
 .ng-invalid:not(form) {
   border-bottom: 1px solid red; /* red */

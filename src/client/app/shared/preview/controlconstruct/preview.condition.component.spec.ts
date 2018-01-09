@@ -1,4 +1,3 @@
-import { Component, Input, PipeTransform, Pipe, EventEmitter, Output } from '@angular/core';
 import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
@@ -38,7 +37,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(PreviewConditionConstructComponent);
+            const fixture = TestBed.createComponent(PreviewConditionConstructComponent);
             fixture.detectChanges();
             expect(fixture.componentInstance.conditionjson.elseConditions.length).toBe(0);
           });
@@ -49,11 +48,11 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(PreviewConditionConstructComponent);
+            const fixture = TestBed.createComponent(PreviewConditionConstructComponent);
             fixture.componentInstance.condition = {'name': 'test'};
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let de: any = fixture.debugElement.queryAll(By.css('textarea'));
+              const de: any = fixture.debugElement.queryAll(By.css('textarea'));
               expect(de.length).toBeGreaterThan(0);
               expect(de[0].nativeElement.value).toBe('test');
             });

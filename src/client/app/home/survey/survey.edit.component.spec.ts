@@ -40,10 +40,10 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(SurveyEditComponent);
+            const fixture = TestBed.createComponent(SurveyEditComponent);
             fixture.componentInstance.isVisible = true;
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('div'));
+            const de: any = fixture.debugElement.queryAll(By.css('div'));
             expect(de.length).toBeGreaterThan(0);
           });
       }));
@@ -53,7 +53,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(SurveyEditComponent);
+            const fixture = TestBed.createComponent(SurveyEditComponent);
             fixture.componentInstance.isVisible = true;
             fixture.componentInstance.survey = {
               'id': '7f000101-54aa-131e-8154-aa27fc230000',
@@ -63,13 +63,13 @@ export function main() {
             };
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let input: any = fixture.debugElement.queryAll(By.css('input'));
+              const input: any = fixture.debugElement.queryAll(By.css('input'));
               expect(input.length).toBeGreaterThan(0);
               expect(input[0].nativeNode.value).toContain('ESS');
               fixture.componentInstance.onSave();
               fixture.detectChanges();
               fixture.whenStable().then(() => {
-                let content: string = fixture.debugElement.nativeElement.textContent;
+                const content: string = fixture.debugElement.nativeElement.textContent;
                 expect(content.trim()).toBe('');
               });
             });
@@ -81,7 +81,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(SurveyEditComponent);
+            const fixture = TestBed.createComponent(SurveyEditComponent);
             fixture.componentInstance.isVisible = true;
             fixture.componentInstance.survey = {
               'id': '7f000101-54aa-131e-8154-aa27fc230000',
@@ -92,7 +92,7 @@ export function main() {
             fixture.componentInstance.onSave();
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let content: string = fixture.debugElement.nativeElement.textContent;
+              const content: string = fixture.debugElement.nativeElement.textContent;
               expect(content.trim()).toBe('');
             });
           });

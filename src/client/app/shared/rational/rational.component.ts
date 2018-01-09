@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 @Component({
   selector: 'qddt-rational',
   moduleId: module.id,
-  styles:[':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'],
+  styles: [':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'],
 
   template: `
   <form class="row hoverable" [parentFormConnect]="formName">
@@ -12,7 +12,7 @@ import { Component, Input, OnInit } from '@angular/core';
         <input  name="{{originalId}}-optiontypegroup" type="radio"
           id="{{originalId}}-option-type-{{option.id}}" (click)="onSelectOption(option.id)"
           [checked]="saveOptionIndex === option.id" />
-        <label [attr.for]="originalId + '-option-type-' + option.id">{{option.name}}</label>
+        <label [attr.for]="originalId + '-option-type-' + option.id">{{ option.name }}</label>
       </div>
     </div>
     <div *ngFor="let option of rationalDescriptions;">
@@ -24,13 +24,13 @@ import { Component, Input, OnInit } from '@angular/core';
             (ngModelChange)="onClickRational1($event)">
             <option value="-1" disabled selected>Choose your rationale</option>
             <option *ngFor="let rational of option.children;"
-              value="{{rational.id}}">{{rational.name}}</option>
+              value="{{rational.id}}">{{ rational.name }}</option>
             </select>
             <label>Versioning Reason</label>
           </div>
           <div class="input-field col s8">
             <div class="card" >
-              <span>{{option.children[_RationalIndex]?.description}}</span>
+              <span>{{ option.children[_RationalIndex]?.description }}</span>
             </div>
           </div>
         </div>
@@ -40,7 +40,7 @@ import { Component, Input, OnInit } from '@angular/core';
               <input name="{{originalId}}-rationalgroup2" type="radio"
                 id="{{originalId}}-rational2-type-{{idx}}" [checked]="_Rational2Index === idx"
                 (click)="onClickRational2(child)"/>
-              <label title="{{child.description}}" [attr.for]="originalId + '-rational2-type-' + idx">{{child.name}}</label>
+              <label title="{{child.description}}" [attr.for]="originalId + '-rational2-type-' + idx">{{ child.name }}</label>
             </div>
           </div>
         </div>
@@ -59,13 +59,13 @@ import { Component, Input, OnInit } from '@angular/core';
 
 export class RationalComponent implements OnInit {
   rationalDescriptions: any = [
-    { 'id': 0, 'name': 'Saved as work in progress', 'showComment': true, 'change':'IN_DEVELOPMENT', 'children': []},
+    { 'id': 0, 'name': 'Saved as work in progress', 'showComment': true, 'change': 'IN_DEVELOPMENT', 'children': []},
     { 'id': 1, 'name': 'Saved as version', 'showComment': true,
       'children': [
       {
         'id': 0,
         'name': 'TypoOrNoMeaningChange',
-        'change':'TYPO',
+        'change': 'TYPO',
         'description': 'Minor changes such as changes in punctuation, '
           + 'spacing, capitalization or spelling, and other typographical '
           + 'and orthographical changes that do not change the meaning.',
@@ -81,7 +81,7 @@ export class RationalComponent implements OnInit {
           {
             'id': 0,
             'name': 'Conceptual improvement',
-            'change':'CONCEPTUAL',
+            'change': 'CONCEPTUAL',
             'description': 'The change represents an amendment in wording '
             + 'in order to better cover the intended meaning, for example '
             + 'when a concept description wording is changed with aims of '
@@ -89,20 +89,20 @@ export class RationalComponent implements OnInit {
           {
             'id': 1,
             'name': 'Real life change',
-            'change':'EXTERNAL',
+            'change': 'EXTERNAL',
             'description': `The change corresponds to a real life change`
           },
           {
             'id': 2,
             'name': 'Add content element',
-            'change':'ADDED_CONTENT',
+            'change': 'ADDED_CONTENT',
             'description': 'A content element is added to the element inline or '
               + 'by reference, for example a name added to a question item etc.'
           },
           {
             'id': 3,
             'name': 'Other purpose',
-            'change':'OTHER',
+            'change': 'OTHER',
             'description': 'The change is made for other purposes not '
               + 'found in the list'
           }
@@ -114,13 +114,13 @@ export class RationalComponent implements OnInit {
       {
         'id': 0,
         'name': 'Copy of source',
-        'change':'BASED_ON',
+        'change': 'BASED_ON',
         'description': 'The element is an identical copy  of a source element'
       },
       {
         'id': 1,
         'name': 'Variant of source',
-        'change':'BASED_ON',
+        'change': 'BASED_ON',
         'description': 'The element is different from (different ID), but '
           + 'based on a source element. If the amendment is not considerable,'
           + ' review whether becomes a new version rather than a new element.'
@@ -128,12 +128,12 @@ export class RationalComponent implements OnInit {
       {
         'id': 2,
         'name': 'Translation of source',
-        'change':'TRANSLATED',
+        'change': 'TRANSLATED',
         'description': 'The element is a translation of a source element'
       }]
     },
-    { 'id': 3, 'name': 'Saved as new', 'showComment': true, 'change':'CREATED', 'children': [] },
-    { 'id': 4, 'name': 'Archive', 'showComment': true, 'change':'ARCHIVED', 'children': [] }
+    { 'id': 3, 'name': 'Saved as new', 'showComment': true, 'change': 'CREATED', 'children': [] },
+    { 'id': 4, 'name': 'Archive', 'showComment': true, 'change': 'ARCHIVED', 'children': [] }
   ];
   @Input() element: any;
   @Input() formName: string;
@@ -154,12 +154,12 @@ export class RationalComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(this.config) {
-      let hiddenIds: any[] = this.config.hidden || [];
+    if (this.config) {
+      const hiddenIds: any[] = this.config.hidden || [];
       if (this.element.archived === undefined)            // Hide Archived option if element don't have this field.
         hiddenIds.push(4);
-      for(let id of hiddenIds) {
-        if(id < this.rationalDescriptions.length) {
+      for (const id of hiddenIds) {
+        if (id < this.rationalDescriptions.length) {
           this.rationalDescriptions[id]['hidden'] = true;
         }
       }
@@ -172,15 +172,15 @@ export class RationalComponent implements OnInit {
   onClickRational1(id: number) {
     this._RationalIndex = id;
     this._Rational2Index = -1;
-    let rational = this.rationalDescriptions[this.saveOptionIndex].children[id];
-    if(rational['change'] !== undefined) {
+    const rational = this.rationalDescriptions[this.saveOptionIndex].children[id];
+    if (rational['change'] !== undefined) {
       this.element.changeKind = rational['change'];
     }
   }
 
   onClickRational2(rational: any) {
     this._Rational2Index = rational.id;
-    if(rational['change'] !== undefined) {
+    if (rational['change'] !== undefined) {
       this.element.changeKind = rational['change'];
     }
   }
@@ -189,22 +189,22 @@ export class RationalComponent implements OnInit {
     this.saveOptionIndex = id;
     this._RationalIndex = -1;
     this._Rational2Index = -1;
-    if(this.rationalDescriptions[id]['change'] !== undefined) {
+    if (this.rationalDescriptions[id]['change'] !== undefined) {
       this.element.changeKind = this.rationalDescriptions[id]['change'];
     }
-    if(id === 2) {
+    if (id === 2) {
       this.savedbasedOnObject = this.element.basedOnObject;
       this.element.basedOnObject = null;
-      if(this.element.id === null) {
+      if (this.element.id === null) {
         this.element.id = this.originalId;
       }
-    } else if(id === 3) {
+    } else if (id === 3) {
       this.savedId = this.element.id;
       this.element.basedOnObject = null;
       this.element.id = null;
       this.element.changeKind = null;
     } else {
-      if(this.element.id === null) {
+      if (this.element.id === null) {
         this.element.id = this.savedId;
         this.element.basedOnObject = this.savedbasedOnObject;
       }

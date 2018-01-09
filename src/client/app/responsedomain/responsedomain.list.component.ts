@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ResponseDomain,ResponseDomainService } from './responsedomain.service';
+import { ResponseDomain, ResponseDomainService } from './responsedomain.service';
 import { DomainKind, DomainTypeDescription } from './responsedomain.constant';
 
 

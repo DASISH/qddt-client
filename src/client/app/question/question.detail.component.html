@@ -26,7 +26,7 @@
       <div class="col s10">
         <div class="row">
           <div class="col m7 l10 grey-text text-darken-2">
-            <div class="flow-text">{{questionitem?.question}}</div>
+            <div class="flow-text">{{ questionitem?.question }}</div>
           </div>
 
           <div class="col m3 l2">
@@ -60,7 +60,7 @@
     <div class="row">
       <h4>Warning</h4>
       <div *ngIf="canDelete > 1" class="progress"><div class="indeterminate"></div></div>
-      <span *ngIf="canDelete === 1">Are you sure to delete Question item {{questionitem?.question}}?</span>
+      <span *ngIf="canDelete === 1">Are you sure to delete Question item {{ questionitem?.question }}?</span>
       <span *ngIf="canDelete === 0">Please detach question item from module/concept and question construct before deleting!</span>
     </div>
   </div>

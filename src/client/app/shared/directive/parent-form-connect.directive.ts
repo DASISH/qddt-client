@@ -6,19 +6,19 @@ import { NgForm } from '@angular/forms';
 @Directive({selector: 'form[parentFormConnect]'})
 export class ParentFormConnectDirective implements OnInit, OnDestroy {
 
-  @Input() parentFormConnect:string = 'child';
+  @Input() parentFormConnect = 'child';
 
-  constructor(@Optional() @SkipSelf() private parentForm:NgForm, private form:NgForm) {
+  constructor(@Optional() @SkipSelf() private parentForm: NgForm, private form: NgForm) {
 
     // console.log('parentFormConnect construct');
   }
 
-  ngOnInit():void {
+  ngOnInit(): void {
 
-    if(this.parentForm) {
+    if (this.parentForm) {
       // console.log('parent register as ' + this.parentFormConnect);
 
-      if(this.parentForm.form.contains(this.parentFormConnect) === true) {
+      if (this.parentForm.form.contains(this.parentFormConnect) === true) {
 
         alert('goht it gibts scho');
         return;
@@ -32,13 +32,13 @@ export class ParentFormConnectDirective implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy():void {
+  ngOnDestroy(): void {
 
     this.removeControlFunction();
 
   }
 
-   private removeControlFunction=()=> {
+   private removeControlFunction= () => {
     console.log('parent unregister ' + this.parentFormConnect);
     this.parentForm.form.removeControl(this.parentFormConnect);
   }

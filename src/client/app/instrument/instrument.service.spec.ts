@@ -30,7 +30,7 @@ export function main() {
     });
 
     it('should update instrument', async(() => {
-      let mockBackend = TestBed.get(MockBackend);
+      const mockBackend = TestBed.get(MockBackend);
       mockBackend.connections.subscribe((c: any) => {
         c.mockRespond(new Response(new ResponseOptions({
           body: '{'
@@ -38,15 +38,15 @@ export function main() {
           + '"name" : "instrument"}'
         })));
       });
-      let service = TestBed.get(InstrumentService);
-      let instrument: any = { id: '2', name: 'test' };
+      const service = TestBed.get(InstrumentService);
+      const instrument: any = { id: '2', name: 'test' };
       service.update(instrument).subscribe((data: any) => {
         expect(data.name).toBe('instrument');
       });
     }));
 
     it('should create instrument', async(() => {
-      let mockBackend = TestBed.get(MockBackend);
+      const mockBackend = TestBed.get(MockBackend);
       mockBackend.connections.subscribe((c: any) => {
         c.mockRespond(new Response(new ResponseOptions({
           body: '[{'
@@ -61,7 +61,7 @@ export function main() {
           + '}]'
         })));
       });
-      let service = TestBed.get(InstrumentService);
+      const service = TestBed.get(InstrumentService);
       service.create({name: 'test'}).subscribe((data: any) => {
         expect(data.length).toBe(1);
         expect(data[0].name).toContain('instrument');

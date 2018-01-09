@@ -3,8 +3,8 @@ import { TestBed, async } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
 
 import { ResponseDomainService } from './responsedomain.service';
-import { BaseService } from '../../shared/base.service';
-import { API_BASE_HREF } from '../../api';
+import { BaseService } from '../shared/base.service';
+import { API_BASE_HREF } from '../api';
 
 export function main() {
   describe('Responsedomain service', () => {
@@ -30,7 +30,7 @@ export function main() {
     });
 
     it('should update responsedomain', async(() => {
-      let mockBackend = TestBed.get(MockBackend);
+      const mockBackend = TestBed.get(MockBackend);
       mockBackend.connections.subscribe((c: any) => {
         c.mockRespond(new Response(new ResponseOptions({
           body: '{'
@@ -38,15 +38,15 @@ export function main() {
           + '"name" : "responsedomain"}'
         })));
       });
-      let service = TestBed.get(ResponseDomainService);
-      let question: any = { id: '2', name: 'test' };
+      const service = TestBed.get(ResponseDomainService);
+      const question: any = { id: '2', name: 'test' };
       service.update(question).subscribe((data: any) => {
         expect(data.name).toBe('responsedomain');
       });
     }));
 
     it('should get all of responsedomains', async(() => {
-      let mockBackend = TestBed.get(MockBackend);
+      const mockBackend = TestBed.get(MockBackend);
       mockBackend.connections.subscribe((c: any) => {
         c.mockRespond(new Response(new ResponseOptions({
           body: '[{'
@@ -61,7 +61,7 @@ export function main() {
           + '}]'
         })));
       });
-      let service = TestBed.get(ResponseDomainService);
+      const service = TestBed.get(ResponseDomainService);
       service.getAll('1').subscribe((data: any) => {
         expect(data.length).toBe(1);
         expect(data[0].name).toContain('responsedomain');

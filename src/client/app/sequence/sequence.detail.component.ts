@@ -23,7 +23,7 @@ export class SequenceDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(this.sequences === null || this.sequences === undefined) {
+    if (this.sequences === null || this.sequences === undefined) {
       this.sequences = [];
     }
     this.savedObject = JSON.stringify(this.sequence);
@@ -37,7 +37,7 @@ export class SequenceDetailComponent implements OnInit {
 
   onUpdateSequence() {
     this.service.update(this.sequence).subscribe((result: any) => {
-      let index = this.sequences.findIndex((e: any) => e.id === result.id);
+      const index = this.sequences.findIndex((e: any) => e.id === result.id);
       if (index >= 0) {
         this.sequences[index] = result;
       } else if (this.savedSequencesIndex >= 0) {

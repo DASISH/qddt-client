@@ -5,12 +5,10 @@ import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { ControlConstructService } from './controlconstruct.service';
-import { BaseService } from '../../shared/base.service';
 import { InstructionComponent } from './instruction.component';
-import { API_BASE_HREF } from '../../api';
+import { API_BASE_HREF } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Observable }     from 'rxjs/Observable';
 import { MaterializeModule } from 'angular2-materialize';
 
 export function main() {
@@ -42,9 +40,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(InstructionComponent);
+            const fixture = TestBed.createComponent(InstructionComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('autocomplete'));
+            const de: any = fixture.debugElement.queryAll(By.css('autocomplete'));
             expect(de.length).toBe(1);
           });
       }));
@@ -54,8 +52,8 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(InstructionComponent);
-            let instruction: any = {
+            const fixture = TestBed.createComponent(InstructionComponent);
+            const instruction: any = {
               'id' : '7f000101-54aa-131e-8154-aa27fc230000',
               'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
               'name' : 'one instruction',
@@ -69,7 +67,7 @@ export function main() {
             fixture.componentInstance.instructions = [instruction];
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let de: any = fixture.debugElement.queryAll(By.css('autocomplete'));
+              const de: any = fixture.debugElement.queryAll(By.css('autocomplete'));
               expect(de.length).toBeGreaterThan(0);
             });
           });

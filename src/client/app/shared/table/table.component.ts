@@ -30,7 +30,7 @@ export class QddtTableComponent implements OnInit, OnChanges {
   /**
    * searchable results from server
    */
-  @Input() searchFromServer: boolean = true;
+  @Input() searchFromServer = true;
   @Output() detailEvent: EventEmitter<String> = new EventEmitter<String>();
   @Output() pageChangeEvent: EventEmitter<String> = new EventEmitter<String>();
   @Output() enterEvent: EventEmitter<any> = new EventEmitter<any>();
@@ -38,15 +38,15 @@ export class QddtTableComponent implements OnInit, OnChanges {
 
   private rows: any[] = [];
   private _rows: any[] = [];
-  private readonly directionSign: { [dir: string]: String; } = {'':'⇳','asc':'⇩','desc':'⇧' };
-  private readonly stdwidth: { [name: string]:string;} =  { 'Modified':'8%', 'Version':'2%', 'Agency':'5%'};
+  private readonly directionSign: { [dir: string]: String; } = {'': '⇳', 'asc': '⇩', 'desc': '⇧' };
+  private readonly stdwidth: { [name: string]: string; } =  { 'Modified': '8%', 'Version': '2%', 'Agency': '5%'};
 
   ngOnInit() {
-    if(this.placeholder === null || this.placeholder === undefined) {
+    if (this.placeholder === null || this.placeholder === undefined) {
       this.placeholder = 'Search';
     }
-    if(this.page === null || this.page === undefined) {
-      this.page =  {number:1, size:10};
+    if (this.page === null || this.page === undefined) {
+      this.page =  {number: 1, size: 10};
     }
   }
 
@@ -64,14 +64,14 @@ export class QddtTableComponent implements OnInit, OnChanges {
 
   enterText(event: any) {
     this.value = event.target.value;
-    if(this.searchFromServer) {
+    if (this.searchFromServer) {
       this.enterEvent.emit(this.value);
     }
   }
 
   onClearKeywords() {
     this.value = '';
-    if(this.searchFromServer) {
+    if (this.searchFromServer) {
       this.enterEvent.emit(this.value);
     }
   }
@@ -81,9 +81,9 @@ export class QddtTableComponent implements OnInit, OnChanges {
       return;
     }
     this.columns.forEach((e: any) => { if (e !== column) { e.direction = ''; } });
-    if(column.direction === '') {
+    if (column.direction === '') {
         column.direction = 'asc';
-    } else if(column.direction === 'asc') {
+    } else if (column.direction === 'asc') {
       column.direction = 'desc';
     } else {
       column.direction = '';
@@ -92,7 +92,7 @@ export class QddtTableComponent implements OnInit, OnChanges {
   }
 
   public getSort() {
-    let i = this.columns.findIndex((e: any) => e.sortable && e.direction !== '');
+    const i = this.columns.findIndex((e: any) => e.sortable && e.direction !== '');
     let sort = '';
     if (i >= 0) {
       if (typeof this.columns[i].name === 'string') {
@@ -123,7 +123,7 @@ export class QddtTableComponent implements OnInit, OnChanges {
   private init() {
     this.rows = [];
     this.items.forEach((item: any) => {
-      var date: Date = new Date();
+      const date: Date = new Date();
       if (item.modified !== undefined && item.modified.length > 2) {
         date.setUTCFullYear(item.modified[0], item.modified[1] - 1, item.modified[2]);
       }
@@ -137,14 +137,14 @@ export class QddtTableComponent implements OnInit, OnChanges {
       if (item.agency !== null && item.agency !== undefined) {
         name = item.agency.name;
       }
-      let row: any = {
+      const row: any = {
         'id': item.id,
         'Version': version,
         'Agency': name,
         'Modified': date.toDateString(),
         'Object': item,
       };
-      if(this.columns === null || this.columns === undefined) {
+      if (this.columns === null || this.columns === undefined) {
         this.columns = [];
       }
       this.columns.forEach((column: any) => {
@@ -166,9 +166,9 @@ export class QddtTableComponent implements OnInit, OnChanges {
       });
       this.rows.push(row);
       ['Modified', 'Version', 'Agency'].forEach((item: any) => {
-        let column = this.columns.find((column: any) => column.label === item);
+        const column = this.columns.find((column: any) => column.label === item);
         if (!column) {
-          this.columns.push({ name: item, label: item, sortable: false , direction:'', width:this.stdwidth[item]});
+          this.columns.push({ name: item, label: item, sortable: false , direction: '', width: this.stdwidth[item]});
         }
       });
     });

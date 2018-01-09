@@ -19,10 +19,10 @@ import { ElementKind, QddtElementType, QddtElementTypes } from '../shared/previe
 })
 
 export class PublicationReuseComponent implements OnInit {
-  @Input() showbutton:boolean;
+  @Input() showbutton: boolean;
   @Output() publicationElement: any = new EventEmitter<any>();
-  showAddElement: boolean = false;
-  showReplayElement: boolean = false;
+  showAddElement = false;
+  showReplayElement = false;
   error: any;
 
   modalActions = new EventEmitter<string|MaterializeAction>();
@@ -47,7 +47,7 @@ export class PublicationReuseComponent implements OnInit {
       .distinctUntilChanged()
       .subscribe((name: string) => {
         this.service.searchElements(this.selectedElementKind, name)
-          .subscribe((result: any) => {
+          .then((result: any) => {
             this.elements = result.content;
           }, (error: any) => {
             this.popupModal(error);
@@ -76,7 +76,7 @@ export class PublicationReuseComponent implements OnInit {
 
   onToggleAddElement() {
     this.showAddElement = !this.showAddElement;
-    if(!this.showAddElement) {
+    if (!this.showAddElement) {
       this.selectedElement = null;
     }
   }
@@ -94,7 +94,7 @@ export class PublicationReuseComponent implements OnInit {
   }
 
    private getElementType(kind: ElementKind): QddtElementType {
-     let element: any = this.queryFields.find(e => e.id === kind);
+     const element: any = this.queryFields.find(e => e.id === kind);
      if (element === undefined)
        console.log('Couldn\'t find kind ' + ElementKind[kind] + ' ' + kind);
      return element;

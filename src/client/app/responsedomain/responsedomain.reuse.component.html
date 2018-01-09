@@ -5,7 +5,7 @@
   <a *ngIf="showbutton && responseDomain" class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
     <i class="material-icons" title="response domain remove" (click)="removeResponseDomain()">remove</i>
   </a>
-<span>{{responseDomain?.name}}</span>
+<span>{{ responseDomain?.name }}</span>
 <div id="{{modalId}}"
      class="modal modal-fixed-footer"
      materialize="modal"
@@ -22,7 +22,7 @@
         <div class="col left" *ngFor="let domain of domainTypeDescription">
           <input name="domaintypegroup" type="radio" id="rdomain-type-{{domain.id}}"
                  (click)="selectDomainType(domain.id)" [checked]="domainType === domain.id"          />
-          <label for="rdomain-type-{{domain.id}}">{{domain.label}}</label>
+          <label for="rdomain-type-{{domain.id}}">{{ domain.label }}</label>
         </div>
       </div>
       <div *ngIf="showAutocomplete">

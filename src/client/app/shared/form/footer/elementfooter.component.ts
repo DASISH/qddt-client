@@ -21,23 +21,23 @@ export class ElementFooterComponent {
     this.basedon = null;
   }
 
-  onClick(id: string, rev:string,type:string) {
-    console.info('onClick ' + id + '-' + rev + '-' + type);
+  onClick(id: string, rev: string, type: string) {
+    console.debug('onClick ' + id + '-' + rev + '-' + type);
     this.BasedonObjectDetail.emit({id, rev, type});
   }
 
   getTime(): string {
-    let m = this.element.modified;
+    const m = this.element.modified;
     if (!m) return '?';
-    let date = new Date(Date.UTC(parseInt(m[0]),parseInt(m[1]),parseInt(m[2]),parseInt(m[3]),parseInt(m[4]),parseInt(m[5])));
+    const date = new Date(Date.UTC(parseInt(m[0]), parseInt(m[1]), parseInt(m[2]), parseInt(m[3]), parseInt(m[4]), parseInt(m[5])));
     return date.toISOString();
   }
 
   getVersion(): string {
-    let v = this.element.version;
+    const v = this.element.version;
     if (!v) return '?';
-    let rev =(v.revision)?  '.' + v.revision :'';
-    let label =(v.versionLabel)?  ' - ' + v.versionLabel:'';
+    const rev = (v.revision) ?  '.' + v.revision : '';
+    const label = (v.versionLabel) ?  ' - ' + v.versionLabel : '';
     return v.major + '.' + v.minor + rev + label;
   }
 

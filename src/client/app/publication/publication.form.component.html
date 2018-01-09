@@ -31,13 +31,13 @@
           <optgroup *ngFor="let option of selectOptions"
                     [attr.label]="option.label">
             <option *ngFor="let child of option.children"
-                    [value]="child.id">{{child.label}}</option>
+                    [value]="child.id">{{ child.label }}</option>
           </optgroup>
         </select>
         <label class="{{textColor}}">Publication status</label>
       </div>
       <div class="input-field col s6 m8 l9">
-        <label class="{{textColor}}">{{selectedPublicationStatusOption}}</label>
+        <label class="{{textColor}}">{{ selectedPublicationStatusOption }}</label>
       </div>
     </div>
     <div class="row">
@@ -57,8 +57,8 @@
         <li *ngFor="let element of publication.publicationElements; let idx=index">
           <div class="collapsible-header grey lighten-5" style="color: #323232">
             <div class="row">
-              <div class="col s2">{{element?.elementKind}}</div>
-              <div class="col s7">{{element?.name}}</div>
+              <div class="col s2">{{ element?.elementKind }}</div>
+              <div class="col s7">{{ element?.name }}</div>
               <div class="col s2 right-align"><qddt-version [element]="element.element"></qddt-version></div>
               <div class="col s1">
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"

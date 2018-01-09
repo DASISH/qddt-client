@@ -13,7 +13,7 @@
       <div class="modal-content">
         <div class="row" *ngIf="questionItem">
           <label class="active teal-text ">Name</label>
-          <H5 class="grey-text darken-2">{{questionItem.name}}</H5>
+          <H5 class="grey-text darken-2">{{ questionItem.name }}</H5>
         </div>
         <qddt-preview-questionitem [questionItem]="questionItem"></qddt-preview-questionitem>
       </div>
@@ -22,7 +22,7 @@
   <div class="col s12 m9">
     <div class="card white white-text text-lighten-2">
       <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
-        <i class="material-icons large right">comment</i><h4>Questionnaire modules for {{study?.name}}</h4>
+        <i class="material-icons large right">comment</i><h4>Questionnaire modules for {{ study?.name }}</h4>
 
         <a class="btn" (click)="onToggleTopicForm()" *ngIf="!study.archived" >
         <i class="material-icons right" *ngIf="!showTopicForm">keyboard_arrow_down</i>
@@ -81,7 +81,7 @@
 
             <div class="col s10 m10 l10 grey-text text-darken-2">
               <h5 class="row">
-                <div class="col s10">{{currentElement?.name}}</div>
+                <div class="col s10">{{ currentElement?.name }}</div>
 
                 <div class="col s2">
                     <qddt-version-label [element]="currentElement"></qddt-version-label>
@@ -92,7 +92,7 @@
                                #edit>
               </qddt-topic-edit>
               <div class="row" *ngIf="!edit.isVisible">
-                <p>{{currentElement?.abstractDescription}}</p>
+                <p>{{ currentElement?.abstractDescription }}</p>
                 <!--<label class="teal-text" *ngIf="topic.authors?.length>0">Authors</label>-->
                 <!--<qddt-author-chip [authors]="topic.authors" ></qddt-author-chip>-->
               </div>
@@ -101,7 +101,7 @@
                   <li class="collection-header teal-text">External aid</li>
                   <li *ngFor="let m of currentElement.otherMaterials;" class="col s10 m5">
                     <a class="waves-effect waves-light" (click)="onDownloadFile(m)">
-                      <i class="material-icons center smal">description</i> {{m.originalName}}</a>
+                      <i class="material-icons center smal">description</i> {{ m.originalName }}</a>
                   </li>
                 </ul>
               </div>
@@ -113,7 +113,7 @@
                   <a class="collection-item grey-text text-darken-1" *ngFor="let cqi of currentElement.topicQuestionItems">
                     <div class="row" style="min-height: 3rem;">
                       <div class="col s11" (click)="onClickQuestionItem(cqi.questionItem)" style="cursor: pointer;">
-                        ♦ {{cqi?.questionItem?.question}}</div>
+  {{ cqi?.questionItem?.question }}questionItem?.question}}</div>
                       <div class="col s1">
                         <a *ngIf="!currentElement.archived"
                           class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"

@@ -1,6 +1,8 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import 'rxjs/Rx';
 import { AuthService } from '../auth.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AlertService } from '../../alert/alert.service';
 
 export class LoginForm {
   username: string;
@@ -13,89 +15,37 @@ export class LoginForm {
   templateUrl: './login.component.html',
   providers: [AuthService]
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
+  model: any = {};
+  loading = false;
+  returnUrl: string;
 
-  @Output() loginEvent: EventEmitter<string>  = new EventEmitter<string>();
-  // user: any;
-  loginData: LoginForm;
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private authenticationService: AuthService,
+    private alertService: AlertService) { }
 
-  constructor(private loginService: AuthService) {
-    this.loginData = new LoginForm();
-    this.loginData.username = loginService.getEmail() || 'review@example.org';
-    if ( this.loginData.username === 'review@example.org')
-      this.loginData.password = 'password';
+  ngOnInit() {
+    // reset login status
+    this.authenticationService.logout();
+    this.model.username = this.authenticationService.getEmail() || 'review@example.org';
+    if ( this.model.username === 'review@example.org')
+      this.model.password = 'password';
+    // get return url from route parameters or default to '/'
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   login() {
-    this.loginService.signIn(this.loginData.username,this.loginData.password)
-    .subscribe( ()=> {
-      // this.user = JSON.parse(localStorage.getItem('user'));
-      console.log('login ... ' + this.loginService.getUserId());
-      this.loginEvent.emit('logged_in');
-    });
+    this.loading = true;
+    this.authenticationService.signIn(this.model.username, this.model.password)
+      .subscribe(
+        data => {
+          this.router.navigate([this.returnUrl]);
+        },
+        error => {
+          this.alertService.error(error);
+          this.loading = false;
+        });
   }
-  // static logError(err: any) {
-  //   console.log('LoginComponent: ', err.toString());
-  // }
-
-  // static saveJwt(jwt: string) {
-  //   if(jwt) {
-  //     localStorage.setItem('jwt', JSON.stringify(jwt));
-  //   }
-  // }
-
-  // constructor(@Inject(UserService) private userService: UserService,
-  //             @Inject(Http)private http:Http, @Inject(API_BASE_HREF) private api: string) {
-  //   this.userService = userService;
-  //   this.http = http;
-  //   this.loginData = new LoginForm();
-  //   this.loginData.username = 'admin@example.org';
-  //   this.loginData.password = 'password';
-  // }
-
-  // login() {
-  //   var headers = new Headers();
-  //   headers.append('Authorization', 'Basic ' + btoa('client:password'));
-  //   this.http.post(this.api+'api/auth/signin' +
-  //       '?username='+ this.loginData.username +
-  //       '&password='+ this.loginData.password +
-  //       '&scope=write' +
-  //       '&grant_type=password' +
-  //       '&client_secret=40201ad8-2f46-4bfb-9ad9-800c12671549d50868b8-50ec-4ca9-bf09-aad731c823e0' +
-  //       '&client=client',
-  //     null
-  //     ,
-  //     {
-  //       headers: headers
-  //     })
-  //     .map((res:Response) => res.json())
-  //     .subscribe(
-  //       (data: any) => LoginComponent.saveJwt(data),
-  //       (err: any)  => LoginComponent.logError('Unable to log in user.'),
-  //       ()          => this.createUser()
-  //   );
-  // }
-
-  // createUser() {
-  //   var headers = new Headers();
-  //   headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
-  //   this.http.get(this.api+'user',
-  //     {
-  //       headers: headers
-  //     })
-  //     .map((res:Response) => res.json())
-  //     .subscribe(
-  //       (user: any)  => this.createSession(user),
-  //       (err: any)   => LoginComponent.logError('Unable to create user.')
-  //   );
-  // }
-
-  // createSession(user: any) {
-  //   this.user = user;
-  //   this.userService.set(user);
-  //   localStorage.setItem('user', JSON.stringify(user));
-  //   this.loginEvent.emit('logged_in');
-  // }
-
-  //get diagnostic() { return JSON.stringify(this.loginData); }
 }

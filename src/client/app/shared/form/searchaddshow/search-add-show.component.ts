@@ -10,7 +10,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
         (mouseleave)="showButton = false">
       <li>
         <div class="row" style="min-height:3rem">
-          <div class="col s11"><label class="teal-text">{{labelName}}</label></div>
+          <div class="col s11"><label class="teal-text">{{ labelName }}</label></div>
           <div class="col s1">
             <a [ngClass]="{hide: !showButton}"
                class="btn-flat btn-floating btn-small waves-effect waves-light teal"
@@ -45,7 +45,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
         <div class="row" style="min-height:3rem"
              (mouseenter)="element.showbutton = !readonly"
              (mouseleave)="element.showbutton = false">
-          <div class="col s11">{{element?.description}}</div>
+          <div class="col s11">{{ element?.description }}</div>
           <div class="col s1">
             <a [ngClass]="{hide: !showButton}"
                class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"

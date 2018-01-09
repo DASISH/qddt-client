@@ -223,7 +223,7 @@
                         (ngModelChange)="buildPreviewResponseDomain()"
                         [(ngModel)]="responsedomain.managedRepresentation.format"
                         (change)="onSelectDateFormatChange($event.target.value)">
-                    <option *ngFor="let option of dateFormatOption" [value]="option.format">{{option.label}}</option>
+                    <option *ngFor="let option of dateFormatOption" [value]="option.format">{{ option.label }}</option>
                 </select>
               </div>
               <div class="col l4">

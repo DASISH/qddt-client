@@ -41,10 +41,10 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(SurveyComponent);
+            const fixture = TestBed.createComponent(SurveyComponent);
             fixture.componentInstance.show = true;
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('a'));
+            const de: any = fixture.debugElement.queryAll(By.css('a'));
             expect(de.length).toBeGreaterThan(1);
           });
       }));
@@ -54,9 +54,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(SurveyComponent);
+            const fixture = TestBed.createComponent(SurveyComponent);
             fixture.componentInstance.show = true;
-            let mockBackend = TestBed.get(MockBackend);
+            const mockBackend = TestBed.get(MockBackend);
             mockBackend.connections.subscribe((c: any) => {
               c.mockRespond(new Response(new ResponseOptions({
                 body: '[{'
@@ -74,9 +74,9 @@ export function main() {
             fixture.componentInstance.ngOnChanges();
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let de: any = fixture.debugElement.queryAll(By.css('qddt-revision'));
+              const de: any = fixture.debugElement.queryAll(By.css('qddt-revision'));
               expect(de.length).toBeGreaterThan(0);
-              let h5: any = fixture.debugElement.queryAll(By.css('h5'));
+              const h5: any = fixture.debugElement.queryAll(By.css('h5'));
               expect(h5.length).toBeGreaterThan(0);
               expect(h5[0].nativeNode.textContent).toContain('ESS');
             });

@@ -40,9 +40,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(StatementEditComponent);
+            const fixture = TestBed.createComponent(StatementEditComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('textarea'));
+            const de: any = fixture.debugElement.queryAll(By.css('textarea'));
             expect(de.length).toBeGreaterThan(0);
           });
       }));
@@ -52,8 +52,8 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(TestComponent);
-            let mockBackend = TestBed.get(MockBackend);
+            const fixture = TestBed.createComponent(TestComponent);
+            const mockBackend = TestBed.get(MockBackend);
             mockBackend.connections.subscribe((c: any) => {
               c.mockRespond(new Response(new ResponseOptions({
                 body: '{'
@@ -68,7 +68,7 @@ export function main() {
                 + '}'
               })));
             });
-            let de: any[] = fixture.debugElement.queryAll(By.css('button'));
+            const de: any[] = fixture.debugElement.queryAll(By.css('button'));
             expect(de.length).toBeGreaterThan(0);
             de[0].nativeElement.click();
             fixture.detectChanges();

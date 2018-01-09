@@ -10,9 +10,9 @@ import { PreviewModule } from '../shared/preview/preview.module';
 import { PublicationFormComponent } from './publication.form.component';
 
 @NgModule({
-  imports: [ SharedModule, ResponsedomainModule, ConceptModule,PreviewModule],
-  declarations: [ PublicationComponent, PublicationDetailComponent,PublicationReuseComponent,
-    PublicationSelectComponent ,PublicationFormComponent],
+  imports: [ SharedModule, ResponsedomainModule, ConceptModule, PreviewModule],
+  declarations: [ PublicationComponent, PublicationDetailComponent, PublicationReuseComponent,
+    PublicationSelectComponent , PublicationFormComponent ],
   exports: [PublicationComponent]
 })
 

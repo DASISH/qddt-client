@@ -39,7 +39,7 @@
                     </a>
                   </div>
                 </div>
-                <div class="row flow-text">{{controlConstruct?.questionItem?.question}}</div>
+                <div class="row flow-text">{{ controlConstruct?.questionItem?.question }}</div>
                 <qddt-control-construct-questionitem-select
                   *ngIf="editQuestoinItem"
                   (dismissEvent)="editQuestoinItem = false;controlConstruct.questionItem=savedQuestionItem;"
@@ -63,7 +63,7 @@
                 <ul class="row">
                   <li class="collection-item" *ngFor="let universe of controlConstruct.universe; let idx=index">
                     <div class="row">
-                      <div class="col s8 offset-s1">{{universe?.description}}</div>
+                      <div class="col s8 offset-s1">{{ universe?.description }}</div>
                       <div class="col s1">
                         <a
                            class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light white"
@@ -101,14 +101,14 @@
                   <table>
                     <tbody>
                       <tr *ngFor="let instruction of controlConstruct.preInstructions; let idx=index">
-                        <td>Before Question</td><td>{{instruction.description}}</td>
+                        <td>Before Question</td><td>{{ instruction.description }}</td>
                         <td><a class="waves-effect waves-light btn" (click)="onDeletePreInstruction(idx)">delete</a></td>
                       </tr>
                       <tr *ngIf="controlConstruct.preInstructions.length > 0 || controlConstruct.postInstructions.length > 0">
-                        <td>Question Text</td><td>{{controlConstruct?.questionItem?.question}}</td><td></td>
+                        <td>Question Text</td><td>{{ controlConstruct?.questionItem?.question }}</td><td></td>
                       </tr>
                       <tr *ngFor="let instruction of controlConstruct.postInstructions; let idx=index">
-                        <td>After Question</td><td>{{instruction.description}}</td>
+                        <td>After Question</td><td>{{ instruction.description }}</td>
                         <td><a class="waves-effect waves-light btn" (click)="onDeletePostInstruction(idx)">delete</a></td>
                       </tr>
                     </tbody>
@@ -158,7 +158,7 @@
   <div class="modal-content">
     <div class="row">
       <h4>An error occured</h4>
-      <span>{{error}}</span>
+      <span>{{ error }}</span>
     </div>
   </div>
   <div class="modal-footer">

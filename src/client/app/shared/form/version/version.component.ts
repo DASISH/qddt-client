@@ -8,7 +8,7 @@ import { Component, Input } from '@angular/core';
   ],
   moduleId: module.id,
   template:
-  `{{element?.version?.major}}.{{element?.version?.minor}}
+  `{{ element?.version?.major }}.{{ element?.version?.minor }}
   <i *ngIf="element?.archived" class="material-icons blue-text tiny"
      title="Archived, (read only)">lock</i>
     <i *ngIf="element?.version?.versionLabel=='In Development'" class="material-icons yellow-text text-darken-1 tiny right"

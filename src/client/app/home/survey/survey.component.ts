@@ -1,6 +1,6 @@
 import { Component, Input, EventEmitter, Output, OnChanges } from '@angular/core';
 import { SurveyService, SurveyProgram } from './survey.service';
-let saveAs = require('file-saver');
+const saveAs = require('file-saver');
 
 @Component({
   selector: 'qddt-survey',
@@ -14,8 +14,8 @@ export class SurveyComponent implements OnChanges {
   @Output() surveyDeleteEvent: EventEmitter<String> = new EventEmitter<String>();
   @Output() entitySavedEvent: EventEmitter<String> = new EventEmitter<String>();
 
-  showSurveyForm: boolean = false;
-  private surveys: any[]=[];
+  showSurveyForm = false;
+  private surveys: any[]= [];
   private survey: any;
 
   constructor(private surveyService: SurveyService) {
@@ -24,16 +24,16 @@ export class SurveyComponent implements OnChanges {
 
   ngOnChanges() {
     this.surveyService.getAll()
-      .subscribe((data:Array<SurveyProgram>)  =>  {
+      .subscribe((data: Array<SurveyProgram>)  =>  {
         this.surveys = data;
       }
-      ,(err: any) => console.log('ERROR: ', err));
+      , (err: any) => console.log('ERROR: ', err));
   }
 
-  onSurveySaved(surveyProgram:any) {
+  onSurveySaved(surveyProgram: any) {
     this.surveys = this.surveys.filter((q) => q.id !== surveyProgram.id);
     this.surveys.push(surveyProgram);
-    surveyProgram['isVisible']= false;
+    surveyProgram['isVisible'] = false;
   }
 
   onShowStudy(surveyProgram: any) {
@@ -44,14 +44,14 @@ export class SurveyComponent implements OnChanges {
   onSave() {
     this.surveyService.create(this.survey)
       .subscribe((result: any) => this.onSurveySaved(result)
-        ,(err: any) => console.log('ERROR: ', err));
+        , (err: any) => console.log('ERROR: ', err));
 
     this.survey = new SurveyProgram();
     this.showSurveyForm = false;
   }
 
   getPdf(element: SurveyProgram) {
-    let fileName = element.name + '.pdf';
+    const fileName = element.name + '.pdf';
     this.surveyService.getPdf(element.id).subscribe(
       (data: any) => {
         saveAs(data, fileName);

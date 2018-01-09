@@ -15,7 +15,7 @@ import { Subject } from 'rxjs/Subject';
             <input name="domaintypegroup" type="radio"
             id="domain-type-{{domain.id}}" (click)="selectDomainType(domain.id)"
             [checked]="domainType === domain.id" /> <label
-            [attr.for]="'domain-type-' + domain.id">{{domain.label}}</label>
+            [attr.for]="'domain-type-' + domain.id">{{ domain.label }}</label>
       </div></div>
       <div class="row">
          <autocomplete
@@ -38,7 +38,7 @@ export class ResponseDomainSearchComponent {
 
   constructor(private responseDomainService: ResponseDomainService) {
     this.responseDomains = [];
-    this.domainTypeDescription = DomainTypeDescription.filter((e:any) => e.id !== DomainKind.MIXED);
+    this.domainTypeDescription = DomainTypeDescription.filter((e: any) => e.id !== DomainKind.MIXED);
     this.selectDomainType(DomainKind.SCALE);
     this.searchKeysSubect
       .debounceTime(300)
@@ -54,7 +54,7 @@ export class ResponseDomainSearchComponent {
   selectDomainType(id: DomainKind) {
     this.domainType = id;
     this.responseDomainService.getAll(DomainKind[id]).subscribe((result: any) => {
-    this.responseDomains = result.content;});
+    this.responseDomains = result.content; });
   }
 
   selectResponseDomain(suggestion: any) {

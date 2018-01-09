@@ -43,9 +43,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(SequenceDetailComponent);
+            const fixture = TestBed.createComponent(SequenceDetailComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('form'));
+            const de: any = fixture.debugElement.queryAll(By.css('form'));
             expect(de.length).toBe(0);
           });
       }));
@@ -55,8 +55,8 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(SequenceDetailComponent);
-            let mockBackend = TestBed.get(MockBackend);
+            const fixture = TestBed.createComponent(SequenceDetailComponent);
+            const mockBackend = TestBed.get(MockBackend);
             mockBackend.connections.subscribe((c: any) => {
               c.mockRespond(new Response(new ResponseOptions({
                 body: '{'
@@ -71,7 +71,7 @@ export function main() {
                 + '}'
               })));
             });
-            let sequence:any = {
+            const sequence: any = {
                 'id' : '7f000101-54aa-131e-8154-aa27fc230000',
                 'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
                 'name' : 'one test',

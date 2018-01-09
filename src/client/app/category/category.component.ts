@@ -13,7 +13,7 @@ import { AuthService } from '../auth/auth.service';
 
 export class CategoryComponent implements OnInit, AfterContentChecked {
 
-  showCategoryForm: boolean = false;
+  showCategoryForm = false;
 
   categories: any;
   private page: any;
@@ -29,10 +29,10 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
     this.categories = [];
     this.searchKeys = '';
     this.page = {};
-    this.columns = [{ label: 'Label', name: 'label', sortable: true, direction: '' ,width:'45%'},
-      { label: 'Description', name: 'description', sortable: true, direction: '', width:'25%' },
-      { label: 'Type', name: 'categoryType', sortable: true, direction: '', width:'5%' },
-      { label: 'Modified', name: 'modified', sortable: true, direction: 'desc' , width:'8%'}];
+    this.columns = [{ label: 'Label', name: 'label', sortable: true, direction: '' , width: '45%'},
+      { label: 'Description', name: 'description', sortable: true, direction: '', width: '25%' },
+      { label: 'Type', name: 'categoryType', sortable: true, direction: '', width: '5%' },
+      { label: 'Modified', name: 'modified', sortable: true, direction: 'desc' , width: '8%'}];
     this.searchKeysSubect
       .debounceTime(300)
       .distinctUntilChanged()
@@ -45,7 +45,7 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit() {
-    let config = this.userService.getGlobalObject('categories');
+    const config = this.userService.getGlobalObject('categories');
     if (config.current === 'detail' ) {
       this.page = config.page;
       this.categories = config.collection;
@@ -58,7 +58,7 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
   }
 
   ngAfterContentChecked() {
-    let config = this.userService.getGlobalObject('categories');
+    const config = this.userService.getGlobalObject('categories');
     if (config.current === 'detail' ) {
       this.page = config.page;
       this.categories = config.collection;
@@ -67,7 +67,7 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
       this.isDetail = true;
     } else {
       this.isDetail = false;
-      if(config.key === null || config.key === undefined) {
+      if (config.key === null || config.key === undefined) {
         this.userService.setGlobalObject('categories', {'current': 'list', 'key': ''});
         this.searchKeys = '';
         this.searchKeysSubect.next('');
@@ -118,7 +118,7 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
   }
 
   private getSort() {
-    let i = this.columns.findIndex((e: any) => e.sortable && e.direction !== '');
+    const i = this.columns.findIndex((e: any) => e.sortable && e.direction !== '');
     let sort = '';
     if (i >= 0) {
       if (typeof this.columns[i].name === 'string') {

@@ -29,9 +29,9 @@ export class DiffString {
    * [[DIFF_DELETE, 'Hello'], [DIFF_INSERT, 'Goodbye'], [DIFF_EQUAL, ' world.']]
    * which means: delete 'Hello', add 'Goodbye' and keep ' world.'
    */
-  public static DIFF_DELETE: number = -1;
-  public static DIFF_INSERT: number = 1;
-  public static DIFF_EQUAL: number = 0;
+  public static DIFF_DELETE = -1;
+  public static DIFF_INSERT = 1;
+  public static DIFF_EQUAL = 0;
 
   /**
    * Find the differences between two texts.  Simplifies the problem by stripping
@@ -40,7 +40,7 @@ export class DiffString {
    * @param {string} text2 New string to be diffed.
    * @return {Array} Array of diff tuples.
    */
-  diff_main(text1: any, text2: any) :any {
+  diff_main(text1: any, text2: any): any {
     // Check for equality (speedup).
     if (text1 === text2) {
       if (text1) {
@@ -50,19 +50,19 @@ export class DiffString {
     }
 
     // Trim off common prefix (speedup).
-    var commonlength = this.diff_commonPrefix(text1, text2);
-    var commonprefix = text1.substring(0, commonlength);
+    let commonlength = this.diff_commonPrefix(text1, text2);
+    const commonprefix = text1.substring(0, commonlength);
     text1 = text1.substring(commonlength);
     text2 = text2.substring(commonlength);
 
     // Trim off common suffix (speedup).
     commonlength = this.diff_commonSuffix(text1, text2);
-    var commonsuffix = text1.substring(text1.length - commonlength);
+    const commonsuffix = text1.substring(text1.length - commonlength);
     text1 = text1.substring(0, text1.length - commonlength);
     text2 = text2.substring(0, text2.length - commonlength);
 
     // Compute the diff on the middle block.
-    var diffs = this.diff_compute_(text1, text2);
+    const diffs = this.diff_compute_(text1, text2);
 
     // Restore the prefix and suffix.
     if (commonprefix) {
@@ -84,7 +84,7 @@ export class DiffString {
    * @return {Array} Array of diff tuples.
    */
   private diff_compute_(text1: any, text2: any) {
-    var diffs: any;
+    let diffs: any;
 
     if (!text1) {
       // Just add some text (speedup).
@@ -96,9 +96,9 @@ export class DiffString {
       return [[DiffString.DIFF_DELETE, text1]];
     }
 
-    var longtext = text1.length > text2.length ? text1 : text2;
-    var shorttext = text1.length > text2.length ? text2 : text1;
-    var i = longtext.indexOf(shorttext);
+    const longtext = text1.length > text2.length ? text1 : text2;
+    const shorttext = text1.length > text2.length ? text2 : text1;
+    const i = longtext.indexOf(shorttext);
     if (i !== -1) {
       // Shorter text is inside the longer text (speedup).
       diffs = [[DiffString.DIFF_INSERT, longtext.substring(0, i)],
@@ -118,17 +118,17 @@ export class DiffString {
     }
 
     // Check to see if the problem can be split in two.
-    var hm = this.diff_halfMatch_(text1, text2);
+    const hm = this.diff_halfMatch_(text1, text2);
     if (hm) {
       // A half-match was found, sort out the return data.
-      var text1_a = hm[0];
-      var text1_b = hm[1];
-      var text2_a = hm[2];
-      var text2_b = hm[3];
-      var mid_common = hm[4];
+      const text1_a = hm[0];
+      const text1_b = hm[1];
+      const text2_a = hm[2];
+      const text2_b = hm[3];
+      const mid_common = hm[4];
       // Send both pairs off for separate processing.
-      var diffs_a = this.diff_main(text1_a, text2_a);
-      var diffs_b = this.diff_main(text1_b, text2_b);
+      const diffs_a = this.diff_main(text1_a, text2_a);
+      const diffs_b = this.diff_main(text1_b, text2_b);
       // Merge the results.
       return diffs_a.concat([[DiffString.DIFF_EQUAL, mid_common]], diffs_b);
     }
@@ -147,42 +147,42 @@ export class DiffString {
    */
   private diff_bisect_(text1: any, text2: any) {
     // Cache the text lengths to prevent multiple calls.
-    var text1_length = text1.length;
-    var text2_length = text2.length;
-    var max_d = Math.ceil((text1_length + text2_length) / 2);
-    var v_offset = max_d;
-    var v_length = 2 * max_d;
-    var v1 = new Array(v_length);
-    var v2 = new Array(v_length);
+    const text1_length = text1.length;
+    const text2_length = text2.length;
+    const max_d = Math.ceil((text1_length + text2_length) / 2);
+    const v_offset = max_d;
+    const v_length = 2 * max_d;
+    const v1 = new Array(v_length);
+    const v2 = new Array(v_length);
     // Setting all elements to -1 is faster in Chrome & Firefox than mixing
     // integers and undefined.
-    for (var x = 0; x < v_length; x++) {
+    for (let x = 0; x < v_length; x++) {
       v1[x] = -1;
       v2[x] = -1;
     }
     v1[v_offset + 1] = 0;
     v2[v_offset + 1] = 0;
-    var delta = text1_length - text2_length;
+    const delta = text1_length - text2_length;
     // If the total number of characters is odd, then the front path will collide
     // with the reverse path.
-    var front = (delta % 2 !== 0);
+    const front = (delta % 2 !== 0);
     // Offsets for start and end of k loop.
     // Prevents mapping of space beyond the grid.
-    var k1start = 0;
-    var k1end = 0;
-    var k2start = 0;
-    var k2end = 0;
-    for (var d = 0; d < max_d; d++) {
+    let k1start = 0;
+    let k1end = 0;
+    let k2start = 0;
+    let k2end = 0;
+    for (let d = 0; d < max_d; d++) {
       // Walk the front path one step.
-      for (var k1 = -d + k1start; k1 <= d - k1end; k1 += 2) {
-        var k1_offset = v_offset + k1;
-        var x1: any;
+      for (let k1 = -d + k1start; k1 <= d - k1end; k1 += 2) {
+        const k1_offset = v_offset + k1;
+        let x1: any;
         if (k1 === -d || (k1 !== d && v1[k1_offset - 1] < v1[k1_offset + 1])) {
           x1 = v1[k1_offset + 1];
         } else {
           x1 = v1[k1_offset - 1] + 1;
         }
-        var y1 = x1 - k1;
+        let y1 = x1 - k1;
         while (x1 < text1_length && y1 < text2_length &&
           text1.charAt(x1) === text2.charAt(y1)) {
           x1++;
@@ -196,10 +196,10 @@ export class DiffString {
           // Ran off the bottom of the graph.
           k1start += 2;
         } else if (front) {
-          var k2_offset = v_offset + delta - k1;
+          const k2_offset = v_offset + delta - k1;
           if (k2_offset >= 0 && k2_offset < v_length && v2[k2_offset] !== -1) {
             // Mirror x2 onto top-left coordinate system.
-            var x2 = text1_length - v2[k2_offset];
+            const x2 = text1_length - v2[k2_offset];
             if (x1 >= x2) {
               // Overlap detected.
               return this.diff_bisectSplit_(text1, text2, x1, y1);
@@ -209,15 +209,15 @@ export class DiffString {
       }
 
       // Walk the reverse path one step.
-      for (var k2 = -d + k2start; k2 <= d - k2end; k2 += 2) {
-        let k2_offset = v_offset + k2;
-        // let x2: number;
+      for (let k2 = -d + k2start; k2 <= d - k2end; k2 += 2) {
+        const k2_offset = v_offset + k2;
+        let x2: number;
         if (k2 === -d || (k2 !== d && v2[k2_offset - 1] < v2[k2_offset + 1])) {
           x2 = v2[k2_offset + 1];
         } else {
           x2 = v2[k2_offset - 1] + 1;
         }
-        var y2 = x2 - k2;
+        let y2 = x2 - k2;
         while (x2 < text1_length && y2 < text2_length &&
           text1.charAt(text1_length - x2 - 1) ===
           text2.charAt(text2_length - y2 - 1)) {
@@ -232,10 +232,10 @@ export class DiffString {
           // Ran off the top of the graph.
           k2start += 2;
         } else if (!front) {
-          let k1_offset = v_offset + delta - k2;
+          const k1_offset = v_offset + delta - k2;
           if (k1_offset >= 0 && k1_offset < v_length && v1[k1_offset] !== -1) {
-            let x1 = v1[k1_offset];
-            let y1 = v_offset + x1 - k1_offset;
+            const x1 = v1[k1_offset];
+            const y1 = v_offset + x1 - k1_offset;
             // Mirror x2 onto top-left coordinate system.
             x2 = text1_length - x2;
             if (x1 >= x2) {
@@ -261,15 +261,15 @@ export class DiffString {
    * @param {number} y Index of split point in text2.
    * @return {Array} Array of diff tuples.
    */
-  private diff_bisectSplit_(text1:any, text2: any, x: any, y: any) {
-    var text1a = text1.substring(0, x);
-    var text2a = text2.substring(0, y);
-    var text1b = text1.substring(x);
-    var text2b = text2.substring(y);
+  private diff_bisectSplit_(text1: any, text2: any, x: any, y: any) {
+    const text1a = text1.substring(0, x);
+    const text2a = text2.substring(0, y);
+    const text1b = text1.substring(x);
+    const text2b = text2.substring(y);
 
     // Compute both diffs serially.
-    var diffs = this.diff_main(text1a, text2a);
-    var diffsb = this.diff_main(text1b, text2b);
+    const diffs = this.diff_main(text1a, text2a);
+    const diffsb = this.diff_main(text1b, text2b);
 
     return diffs.concat(diffsb);
   }
@@ -289,10 +289,10 @@ export class DiffString {
     }
     // Binary search.
     // Performance analysis: http://neil.fraser.name/news/2007/10/09/
-    var pointermin = 0;
-    var pointermax = Math.min(text1.length, text2.length);
-    var pointermid = pointermax;
-    var pointerstart = 0;
+    let pointermin = 0;
+    let pointermax = Math.min(text1.length, text2.length);
+    let pointermid = pointermax;
+    let pointerstart = 0;
     while (pointermin < pointermid) {
       if (text1.substring(pointerstart, pointermid) ===
         text2.substring(pointerstart, pointermid)) {
@@ -321,10 +321,10 @@ export class DiffString {
     }
     // Binary search.
     // Performance analysis: http://neil.fraser.name/news/2007/10/09/
-    var pointermin = 0;
-    var pointermax = Math.min(text1.length, text2.length);
-    var pointermid = pointermax;
-    var pointerend = 0;
+    let pointermin = 0;
+    let pointermax = Math.min(text1.length, text2.length);
+    let pointermid = pointermax;
+    let pointerend = 0;
     while (pointermin < pointermid) {
       if (text1.substring(text1.length - pointermid, text1.length - pointerend) ===
         text2.substring(text2.length - pointermid, text2.length - pointerend)) {
@@ -352,14 +352,14 @@ export class DiffString {
        */
   private diff_halfMatchI_(longtext: any, shorttext: any, i: any) {
     // Start with a 1/4 length substring at position i as a seed.
-    var seed = longtext.substring(i, i + Math.floor(longtext.length / 4));
-    var j = -1;
-    var best_common = '';
-    var best_longtext_a: any, best_longtext_b: any, best_shorttext_a: any, best_shorttext_b: any;
+    const seed = longtext.substring(i, i + Math.floor(longtext.length / 4));
+    let j = -1;
+    let best_common = '';
+    let best_longtext_a: any, best_longtext_b: any, best_shorttext_a: any, best_shorttext_b: any;
     while ((j = shorttext.indexOf(seed, j + 1)) !== -1) {
-      var prefixLength = this.diff_commonPrefix(longtext.substring(i),
+      const prefixLength = this.diff_commonPrefix(longtext.substring(i),
         shorttext.substring(j));
-      var suffixLength = this.diff_commonSuffix(longtext.substring(0, i),
+      const suffixLength = this.diff_commonSuffix(longtext.substring(0, i),
         shorttext.substring(0, j));
       if (best_common.length < suffixLength + prefixLength) {
         best_common = shorttext.substring(j - suffixLength, j) +
@@ -389,19 +389,19 @@ export class DiffString {
    *     text2 and the common middle.  Or null if there was no match.
    */
   private diff_halfMatch_(text1: any, text2: any) {
-    var longtext = text1.length > text2.length ? text1 : text2;
-    var shorttext = text1.length > text2.length ? text2 : text1;
+    const longtext = text1.length > text2.length ? text1 : text2;
+    const shorttext = text1.length > text2.length ? text2 : text1;
     if (longtext.length < 4 || shorttext.length * 2 < longtext.length) {
       return null;  // Pointless.
     }
 
     // First check if the second quarter is the seed for a half-match.
-    var hm1 = this.diff_halfMatchI_(longtext, shorttext,
+    const hm1 = this.diff_halfMatchI_(longtext, shorttext,
       Math.ceil(longtext.length / 4));
     // Check again based on the third quarter.
-    var hm2 = this.diff_halfMatchI_(longtext, shorttext,
+    const hm2 = this.diff_halfMatchI_(longtext, shorttext,
       Math.ceil(longtext.length / 2));
-    var hm: any;
+    let hm: any;
     if (!hm1 && !hm2) {
       return null;
     } else if (!hm2) {
@@ -414,7 +414,7 @@ export class DiffString {
     }
 
     // A half-match was found, sort out the return data.
-    var text1_a: any, text1_b: any, text2_a: any, text2_b: any;
+    let text1_a: any, text1_b: any, text2_a: any, text2_b: any;
     if (text1.length > text2.length) {
       text1_a = hm[0];
       text1_b = hm[1];
@@ -426,7 +426,7 @@ export class DiffString {
       text1_a = hm[2];
       text1_b = hm[3];
     }
-    var mid_common = hm[4];
+    const mid_common = hm[4];
     return [text1_a, text1_b, text2_a, text2_b, mid_common];
   }
 
@@ -437,12 +437,12 @@ export class DiffString {
    */
   private diff_cleanupMerge(diffs: any) {
     diffs.push([DiffString.DIFF_EQUAL, '']);  // Add a dummy entry at the end.
-    var pointer = 0;
-    var count_delete = 0;
-    var count_insert = 0;
-    var text_delete = '';
-    var text_insert = '';
-    var commonlength: any;
+    let pointer = 0;
+    let count_delete = 0;
+    let count_insert = 0;
+    let text_delete = '';
+    let text_insert = '';
+    let commonlength: any;
     while (pointer < diffs.length) {
       switch (diffs[pointer][0]) {
         case DiffString.DIFF_INSERT:
@@ -521,7 +521,7 @@ export class DiffString {
     // Second pass: look for single edits surrounded on both sides by equalities
     // which can be shifted sideways to eliminate an equality.
     // e.g: A<ins>BA</ins>C -> <ins>AB</ins>AC
-    var changes = false;
+    let changes = false;
     pointer = 1;
     // Intentionally ignore the first and last element (don't need checking).
     while (pointer < diffs.length - 1) {

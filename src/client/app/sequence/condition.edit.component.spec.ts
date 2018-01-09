@@ -9,7 +9,7 @@ import { ConditionEditComponent } from './condition.edit.component';
 import { API_BASE_HREF } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Observable }     from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import { MaterializeModule } from 'angular2-materialize';
 
 export function main() {
@@ -44,15 +44,15 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(ConditionEditComponent);
+            const fixture = TestBed.createComponent(ConditionEditComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('textarea'));
+            const de: any = fixture.debugElement.queryAll(By.css('textarea'));
             expect(de.length).toBeGreaterThan(0);
             fixture.componentInstance.ngOnInit();
             fixture.componentInstance.condition['name'] = 'test';
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let de: any = fixture.debugElement.queryAll(By.css('textarea'));
+              const de: any = fixture.debugElement.queryAll(By.css('textarea'));
               expect(de.length).toBeGreaterThan(0);
               expect(de[0].nativeElement.value).toBe('test');
             });
@@ -64,8 +64,8 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(ConditionEditComponent);
-            let mockBackend = TestBed.get(MockBackend);
+            const fixture = TestBed.createComponent(ConditionEditComponent);
+            const mockBackend = TestBed.get(MockBackend);
             mockBackend.connections.subscribe((c: any) => {
               c.mockRespond(new Response(new ResponseOptions({
                 body: '{"content":[{'

@@ -9,7 +9,7 @@ import { QuestionDetailComponent } from './question.detail.component';
 import { API_BASE_HREF } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Observable }     from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import { MaterializeModule } from 'angular2-materialize';
 
 export function main() {
@@ -46,9 +46,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(QuestionDetailComponent);
+            const fixture = TestBed.createComponent(QuestionDetailComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('a'));
+            const de: any = fixture.debugElement.queryAll(By.css('a'));
             expect(de.length).toBeGreaterThan(0);
           });
       }));
@@ -58,8 +58,8 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(QuestionDetailComponent);
-            let questionitem: any = {
+            const fixture = TestBed.createComponent(QuestionDetailComponent);
+            const questionitem: any = {
               'id' : '7f000101-54aa-131e-8154-aa27fc230000',
               'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
               'name' : 'questionitem',
@@ -75,7 +75,7 @@ export function main() {
             fixture.componentInstance.questionitems = [questionitem];
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let h5: any = fixture.debugElement.queryAll(By.css('h5'));
+              const h5: any = fixture.debugElement.queryAll(By.css('h5'));
               expect(h5.length).toBeGreaterThan(0);
               expect(h5[0].nativeElement.textContent).toContain('questionitem');
             });

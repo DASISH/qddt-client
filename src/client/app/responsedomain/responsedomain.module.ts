@@ -14,7 +14,7 @@ import { ResponseDomainSelectComponent } from './responsedomain.select.component
 @NgModule({
   imports: [ SharedModule, PreviewModule],
   declarations: [ResponsedomainComponent, ResponsedomainFormComponent, ResponsedomainListComponent,
-     ResponsedomainReuseComponent,ResponseDomainSearchComponent,ResponseDomainSelectComponent,
+     ResponsedomainReuseComponent, ResponseDomainSearchComponent, ResponseDomainSelectComponent,
     ResponsedomainSelectMissingComponent
     ],
   exports: [ResponsedomainComponent,

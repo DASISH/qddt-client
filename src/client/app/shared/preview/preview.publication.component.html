@@ -22,15 +22,15 @@
   </div>
   <div *ngSwitchDefault>
     <div class="row">
-      <span>TYPE -> {{getElementKind(elementKind)}} <- TEST</span>
+      <span>TYPE -> {{ getElementKind(elementKind) }} <- TEST</span>
       <div class="col s12">
         <label [attr.for]="element.id + '-name'" class="active teal-text">Name</label>
         <textarea class="materialize-textarea" id="{{element?.id}}-name"
-                  name="{{element?.id}}-name" readonly> {{element?.name}}
+                  name="{{element?.id}}-name" readonly> {{ element?.name }}
         </textarea>
         <label [attr.for]="element.id + '-description'" class="active teal-text">Description</label>
         <textarea class="materialize-textarea" id="{{element?.id}}-description"
-                  name="{{element?.id}}-description"readonly> {{element?.description}}
+                  name="{{element?.id}}-description"readonly> {{ element?.description }}
         </textarea>
       </div>
     </div>

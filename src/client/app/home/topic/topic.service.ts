@@ -1,14 +1,16 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http } from '@angular/http';
+// import { Http } from '@angular/http';
 import { API_BASE_HREF } from '../../api';
 import { BaseService } from '../../shared/base.service';
 import { ConceptQuestionItem } from '../concept/concept.service';
+import { AuthService } from '../../auth/auth.service';
+import { HttpClient } from '@angular/common/http';
 
 export class Topic {
   id: string;
   name: string;
-  abstractDescription:string;
-  archived:boolean;
+  abstractDescription: string;
+  archived: boolean;
   authors: any[];
   otherMaterials: any[];
   topicQuestionItems: ConceptQuestionItem[];
@@ -17,8 +19,8 @@ export class Topic {
 @Injectable()
 export class TopicService extends BaseService {
 
-  constructor(protected http: Http, @Inject(API_BASE_HREF) protected api: string) {
-    super(http, api);
+  constructor(protected http: HttpClient, protected auth: AuthService, @Inject(API_BASE_HREF) protected api: string) {
+    super(http, auth , api);
   }
 
   save(topic: Topic, studyId: string): any {
@@ -56,15 +58,15 @@ export class TopicService extends BaseService {
   }
 
   deattachQuestion(topicId: string, questionId: string): any {
-    return this.post({},'topicgroup/decombine?questionitemid=' + questionId + '&topicid=' + topicId);
+    return this.post({}, 'topicgroup/decombine?questionitemid=' + questionId + '&topicid=' + topicId);
   }
 
-  getFile(id: string):any {
-    return this.getBlob('othermaterial/files/'+id);
+  getFile(id: string): any {
+    return this.getBlob('othermaterial/files/' + id);
   }
 
   uploadFile(id: string, files: any): any {
-    return this.uploadBlob(id,files);
+    return this.uploadBlob(id, files);
   }
 
   deleteFile(id: string) {
@@ -72,7 +74,7 @@ export class TopicService extends BaseService {
   }
 
   getPdf(id: string) {
-    return this.getBlob('topicgroup/pdf/'+ id);
+    return this.getBlob('topicgroup/pdf/' + id);
   }
 
 }

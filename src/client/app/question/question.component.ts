@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterContentChecked, EventEmitter } from '@angular/core';
 import { QuestionService, QuestionItem } from './question.service';
-import { Subject }          from 'rxjs/Subject';
+import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 import { Column } from '../shared/table/table.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
@@ -10,7 +10,7 @@ import { AuthService } from '../auth/auth.service';
   selector: 'qddt-questionitem',
   moduleId: module.id,
   templateUrl: './question.component.html',
-  styles:[':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'],
+  styles: [':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'],
   providers: [QuestionService]
 })
 
@@ -27,26 +27,26 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
   private questionItem: any;
   private selectedQuestionItem: any;
   private isDetail: boolean;
-  private showProgressBar: boolean = false;
-  private showResponsedomainReuse: boolean = false;
-  private showQuestionItemForm: boolean = false;
+  private showProgressBar = false;
+  private showResponsedomainReuse = false;
+  private showQuestionItemForm = false;
   private columns: Column[];
   private searchKeysSubect: Subject<string> = new Subject<string>();
   private searchKeys: string;
   private secondCS: any;
   private mainresponseDomainRevision: number;
 
-  constructor(private questionService: QuestionService, private userService: AuthService,private route: ActivatedRoute) {
+  constructor(private questionService: QuestionService, private userService: AuthService, private route: ActivatedRoute) {
     this.questionitems = [];
-    this.page = {number:1, size:10};
+    this.page = {number: 1, size: 10};
     this.searchKeys = '';
     this.secondCS = null;
     this.mainresponseDomainRevision = 0;
     this.showbutton = false;
-    this.columns = [{'name':'name', 'label':'Question Name', 'sortable':true, 'direction': '' ,'width':'15%'},
-      {'name':'question', 'label':'Question Text', 'sortable':true, 'direction': '' ,'width':'50%'},
-      {'name':['responseDomain','name'], 'label':'ResponseDomain Name', 'sortable':true, 'direction': '','width':'20%' },
-      { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' ,'width':'8%'}];
+    this.columns = [{'name': 'name', 'label': 'Question Name', 'sortable': true, 'direction': '' , 'width': '15%'},
+      {'name': 'question', 'label': 'Question Text', 'sortable': true, 'direction': '' , 'width': '50%'},
+      {'name': ['responseDomain', 'name'], 'label': 'ResponseDomain Name', 'sortable': true, 'direction': '', 'width': '20%' },
+      { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' , 'width': '8%'}];
     this.searchKeysSubect
       .debounceTime(300)
       .distinctUntilChanged()
@@ -64,9 +64,9 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
   ngOnInit() {
     this.route.paramMap
       .switchMap((params: ParamMap) =>
-        params.has('id')? this.questionItem = this.questionService.getquestion(params.get('id')):null);
+        params.has('id') ? this.questionItem = this.questionService.getquestion(params.get('id')) : null);
 
-    let config = this.userService.getGlobalObject('questions');
+    const config = this.userService.getGlobalObject('questions');
     if (config.current === 'detail' ) {
       this.page = config.page;
       this.questionitems = config.collection;
@@ -79,7 +79,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
   }
 
   ngAfterContentChecked() {
-    let config = this.userService.getGlobalObject('questions');
+    const config = this.userService.getGlobalObject('questions');
     if (config.current === 'detail' ) {
       this.page = config.page;
       this.questionitems = config.collection;
@@ -88,7 +88,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
       this.isDetail = true;
     } else {
       this.isDetail = false;
-      if(config.key === null || config.key === undefined) {
+      if (config.key === null || config.key === undefined) {
         this.userService.setGlobalObject('questions', {'current': 'list', 'key': ''});
         this.searchKeys = '';
         this.searchKeysSubect.next('');
@@ -100,7 +100,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
     this.showQuestionItemForm = !this.showQuestionItemForm;
     if (this.showQuestionItemForm) {
       this.questionItem = new QuestionItem();
-      this.questionItem.responseDomain =null;
+      this.questionItem.responseDomain = null;
     }
   }
 
@@ -134,14 +134,14 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
   onCreateQuestionItem() {
     this.showProgressBar = true;
     this.showQuestionItemForm = false;
-    if((this.questionItem.responseDomain) && (!this.questionItem.responseDomain.id))
+    if ((this.questionItem.responseDomain) && (!this.questionItem.responseDomain.id))
       this.questionService.createCategory(this.questionItem.responseDomain.managedRepresentation)
         .subscribe(result => {
           this.questionItem.responseDomain.managedRepresentation = result;
           this.questionService.createResponseDomain(this.questionItem.responseDomain)
             .subscribe(result => {
               this.questionItem.responseDomain = result;
-              this.questionItem.responseDomainRevision =0;
+              this.questionItem.responseDomainRevision = 0;
               this.questionService.updateQuestionItem(this.questionItem)
                 .subscribe((result: any) => {
                   this.questionItem = null;
@@ -149,18 +149,18 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
                   this.showProgressBar = false;
                   // this.editQuestionItem.emit(this.questionItem);
                 }, (err: any) => { this.error = err.toString();
-                  this.modalActions.emit({action:'modal', params:['open', err.toString()]}); });
+                  this.modalActions.emit({action: 'modal', params: ['open', err.toString()]}); });
             }, (err: any) => { this.error = err.toString();
-              this.modalActions.emit({action:'modal', params:['open', err.toString()]}); });
+              this.modalActions.emit({action: 'modal', params: ['open', err.toString()]}); });
         }, (err: any) => { this.error = err.toString();
-          this.modalActions.emit({action:'modal', params:['open', err.toString()]}); });
+          this.modalActions.emit({action: 'modal', params: ['open', err.toString()]}); });
     else {
       this.questionService.updateQuestionItem(this.questionItem)
         .subscribe((result: any) => {
           this.questionitems = [result].concat(this.questionitems);
           this.showProgressBar = false;
         }, (err: any) => { this.error = err.toString();
-          this.modalActions.emit({action:'modal', params:['open', err.toString()]}); });
+          this.modalActions.emit({action: 'modal', params: ['open', err.toString()]}); });
     }
     this.isDetail = false;
   }
@@ -176,12 +176,12 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
   }
 
   onDismiss() {
-    this.responseDomainAction.emit({action:'modal', params:['close']});
+    this.responseDomainAction.emit({action: 'modal', params: ['close']});
   }
 
   openResponseDomainModal() {
     this.showResponsedomainReuse = true;
-    this.responseDomainAction.emit({action:'modal', params:['open']});
+    this.responseDomainAction.emit({action: 'modal', params: ['open']});
   }
 
   searchResponseDomains(name: string) {
@@ -190,7 +190,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
   }
 
   private getSort() {
-    let i = this.columns.findIndex((e: any) => e.sortable && e.direction !== '');
+    const i = this.columns.findIndex((e: any) => e.sortable && e.direction !== '');
     let sort = '';
     if (i >= 0) {
       if (typeof this.columns[i].name === 'string') {

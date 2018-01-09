@@ -71,7 +71,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then((inject([Router, Location], (router: Router, location: Location) => {
-            let fixture = TestBed.createComponent(TestComponent);
+            const fixture = TestBed.createComponent(TestComponent);
             fixture.detectChanges();
             fixture.whenStable().then(() => {
               expect(location.path()).toEqual('');
@@ -83,10 +83,10 @@ export function main() {
           TestBed
             .compileComponents()
             .then((inject([Router, Location], (router: Router, location: Location) => {
-              let fixture = TestBed.createComponent(TestComponent);
+              const fixture = TestBed.createComponent(TestComponent);
               fixture.detectChanges();
               fixture.whenStable().then(() => {
-                let de = fixture.debugElement.queryAll(By.css('a'));
+                const de = fixture.debugElement.queryAll(By.css('a'));
                 expect(de.length).toBeGreaterThan(2);
                 de[2].nativeElement.click();
                 fixture.detectChanges();

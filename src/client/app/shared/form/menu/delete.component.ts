@@ -11,7 +11,7 @@ import { MaterializeAction } from 'angular2-materialize';
   <div class="modal-content" style="color: black">
     <div class="row">
       <h4>Warning</h4>
-      <span>Are you sure you want to delete [{{element?.name}}] ?</span>
+      <span>Are you sure you want to delete [{{ element?.name }}] ?</span>
     </div>
   </div>
   <div class="modal-footer" style="color: white">
@@ -34,7 +34,7 @@ export class ConfirmDeleteComponent  {
   deleteAction = new EventEmitter<string|MaterializeAction>();
 
   showConfirmDeleting() {
-    this.deleteAction.emit({action:'modal', params:['open']});
+    this.deleteAction.emit({action: 'modal', params: ['open']});
   }
 
   onOk() {

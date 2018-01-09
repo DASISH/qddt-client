@@ -19,7 +19,7 @@ export class PublicationSelectComponent implements OnChanges {
   elementRevision: any;
   selectedElement: any;
   selectedElementLabel: string;
-  showProgressBar:boolean=false;
+  showProgressBar= false;
 
   constructor(private service: PublicationService) {
     this.elementRevisions = [];
@@ -42,17 +42,17 @@ export class PublicationSelectComponent implements OnChanges {
     }
   }
 
-  onSelectElementRevisions(event :any) {
+  onSelectElementRevisions(event: any) {
     let r = event;
-    if(typeof r === 'string') {
+    if (typeof r === 'string') {
       r = parseInt(r);
     }
     this.elementRevision = r;
-    let result = this.elementRevisions
+    const result = this.elementRevisions
       .find((e: any) => e.revisionNumber === r);
-    if(result !== null && result !== undefined) {
+    if (result !== null && result !== undefined) {
       this.selectedElement = result.entity;
-    } else if(this.elementRevisions.length > 0) {
+    } else if (this.elementRevisions.length > 0) {
       this.selectedElement = this.elementRevisions[0].entity;
       this.elementRevision = this.elementRevisions[0].revisionNumber;
     }
@@ -60,9 +60,9 @@ export class PublicationSelectComponent implements OnChanges {
 
   onUseElement() {
     // console.info('onUseElement ' + this.elementKind);
-    let elementType: QddtElementType = PUBLICATION_TYPES.find(e => e.id === this.elementKind);
+    const elementType: QddtElementType = PUBLICATION_TYPES.find(e => e.id === this.elementKind);
     if (elementType !== undefined) {
-      let element: any = new PublicationElement();
+      const element: any = new PublicationElement();
       element.id = this.selectedElement.id;
       element.revisionNumber = this.elementRevision;
       element.elementKind =  elementType.label;

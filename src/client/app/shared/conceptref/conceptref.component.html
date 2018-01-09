@@ -1,20 +1,20 @@
 <div class="row" *ngIf="element && element?.conceptRefs && element?.conceptRefs?.length > 0" >
   <div class="hoverable" style="margin: 1%">
     <table class="highlight">
-      <caption class="teal-text"  (click)="showRefs = !showRefs" style="cursor: zoom-in;">Question referenced by ({{element.conceptRefs.length}})</caption>
+      <caption class="teal-text"  (click)="showRefs = !showRefs" style="cursor: zoom-in;">Question referenced by ({{ element.conceptRefs.length }})</caption>
       <thead class="teal-text" >
       <tr><th>Study</th><th>Module</th><th>Concept names</th></tr>
       </thead>
       <tbody *ngIf="showRefs">
       <tr *ngFor="let ref of element.conceptRefs" >
         <td>
-          <a  style="cursor: pointer;" (click)="onClickStudy(ref.topicRef.studyRef.id)">{{ref?.topicRef?.studyRef?.name}}</a>
+          <a  style="cursor: pointer;" (click)="onClickStudy(ref.topicRef.studyRef.id)">{{ ref?.topicRef?.studyRef?.name }}</a>
         </td>
         <td>
-          <a  style="cursor: pointer;" (click)="onClickTopic(ref.topicRef.id)">{{ref?.topicRef?.name}}</a>
+          <a  style="cursor: pointer;" (click)="onClickTopic(ref.topicRef.id)">{{ ref?.topicRef?.name }}</a>
         </td>
         <td>
-          <a  style="cursor: pointer;" (click)="onClickConcept(ref.id)">{{ref?.name}}</a>
+          <a  style="cursor: pointer;" (click)="onClickConcept(ref.id)">{{ ref?.name }}</a>
         </td>
       </tr>
       </tbody>
@@ -25,7 +25,7 @@
 <div [attr.id]="'usedby-detail-modal'" class="modal modal-fixed-footer fade"
      materialize="modal" [materializeActions]="usedbyModalAction">
   <div class="modal-content" *ngIf="selectedElement">
-    <h5 align="center">Preview of {{selectedElement.name}}</h5>
+    <h5 align="center">Preview of {{ selectedElement.name }}</h5>
     <qddt-preview-concept *ngIf="selectedType === 'concept'" [concept]="selectedElement"></qddt-preview-concept>
     <qddt-preview-topic *ngIf="selectedType === 'topic'" [topic]="selectedElement"></qddt-preview-topic>
     <qddt-preview-study *ngIf="selectedType === 'study'" [study]="selectedElement"></qddt-preview-study>

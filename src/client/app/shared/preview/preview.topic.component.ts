@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Topic, TopicService } from '../../home/topic/topic.service';
-let saveAs = require('file-saver');
+const saveAs = require('file-saver');
 
 @Component({
   selector: 'qddt-preview-topic',
@@ -8,7 +8,7 @@ let saveAs = require('file-saver');
   styles: [
     'ul .collapsible { margin:20px; padding:5px; !important;}',
   ],
-  template:`
+  template: `
 <div class="row" *ngIf="topic?.abstractDescription">
   <div class="input-field col s11">
     <label class="active teal-text">Description</label>
@@ -22,7 +22,7 @@ let saveAs = require('file-saver');
   <ul>
     <li *ngFor="let m of topic.otherMaterials;" class="col s12 m6 l3">
         <a class="waves-effect waves-light" (click)="onDownloadFile(m)">
-        <i class="material-icons center smal">description</i> {{m.originalName}}</a>
+        <i class="material-icons center smal">description</i> {{ m.originalName }}</a>
     </li>
   </ul>
 </div>
@@ -32,7 +32,7 @@ let saveAs = require('file-saver');
     <li *ngFor="let cqi of topic?.topicGroupQuestions;">
       <div class="collapsible-header green lighten-5">
         <div class="row"  style="margin-bottom: 0;">
-          <div class="col s10">QuestionItem [{{cqi?.questionItem?.name}}]</div>
+          <div class="col s10">QuestionItem [{{ cqi?.questionItem?.name }}]</div>
         </div>
       </div>
       <div class="collapsible-body">
@@ -61,7 +61,7 @@ export class PreviewTopicComponent {
   }
 
   onDownloadFile(o: any) {
-    let fileName = o.originalName;
+    const fileName = o.originalName;
     this.service.getFile(o.id).subscribe(
       (data: any) => {
         saveAs(data, fileName);

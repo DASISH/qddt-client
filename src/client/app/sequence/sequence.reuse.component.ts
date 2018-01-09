@@ -18,8 +18,8 @@ import { ElementKind, QddtElementType, QddtElementTypes } from '../shared/previe
 
 export class SequenceReuseComponent implements OnInit {
   @Output() element: any = new EventEmitter<any>();
-  showAddElement: boolean = false;
-  showReplayElement: boolean = false;
+  showAddElement = false;
+  showReplayElement = false;
   error: any;
   elementTypeDescription: any = ElementTypeDescription;
   modalActions = new EventEmitter<string|MaterializeAction>();
@@ -44,7 +44,7 @@ export class SequenceReuseComponent implements OnInit {
       .distinctUntilChanged()
       .subscribe((name: string) => {
         this.service.getElements(this.elementType, name)
-          .subscribe((result: any) => {
+          .then((result: any) => {
             this.elements = result.content;
           }, (error: any) => {
             this.popupModal(error);
@@ -72,7 +72,7 @@ export class SequenceReuseComponent implements OnInit {
 
   searchSequences(key: string) {
     this.service.getElements(this.elementType, key)
-      .subscribe((result: any) => {
+      .then((result: any) => {
         this.elements = result.content;
       }, (error: any) => {
         this.popupModal(error);
@@ -80,12 +80,12 @@ export class SequenceReuseComponent implements OnInit {
   }
 
   onCreateStatement() {
-    this.modalActions.emit({action:'modal', params:['open']});
+    this.modalActions.emit({action: 'modal', params: ['open']});
     return false;
   }
 
   onCreateCondition() {
-    this.modalActions.emit({action:'modal', params:['open']});
+    this.modalActions.emit({action: 'modal', params: ['open']});
     return false;
   }
 
@@ -105,7 +105,7 @@ export class SequenceReuseComponent implements OnInit {
   }
 
   private getElementType(kind: ElementKind): QddtElementType {
-    let element: any = this.queryFields.find(e => e.id === kind);
+    const element: any = this.queryFields.find(e => e.id === kind);
     if (element === undefined)
       console.log('Couldn\'t find kind ' + ElementKind[kind] + ' ' + kind);
     return element;

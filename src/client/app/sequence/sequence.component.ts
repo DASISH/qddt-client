@@ -16,11 +16,11 @@ import { MaterializeAction } from 'angular2-materialize';
 })
 export class SequenceComponent implements OnInit {
 
-  showSequenceForm: boolean = false;
-  showAddElement: boolean = false;
+  showSequenceForm = false;
+  showAddElement = false;
   modalActions = new EventEmitter<string|MaterializeAction>();
   error: any;
-  elementTypeDescription:any = ElementTypeDescription;
+  elementTypeDescription: any = ElementTypeDescription;
 
   sequences: any[];
   private page: any;
@@ -48,7 +48,7 @@ export class SequenceComponent implements OnInit {
       .distinctUntilChanged()
       .subscribe((name: string) => {
         this.service.getElements('SEQUENCE_CONSTRUCT', name, '0', this.getSort())
-          .subscribe((result: any) => {
+          .then((result: any) => {
             this.sequences = result.content;
             this.page = result.page;
           }, (error: any) => {
@@ -85,7 +85,7 @@ export class SequenceComponent implements OnInit {
 
   onPage(page: string) {
     this.service.getElements('SEQUENCE_CONSTRUCT', this.searchKeys, page, this.getSort())
-      .subscribe((result: any) => {
+      .then((result: any) => {
         this.sequences = result.content;
         this.page = result.page;
       }, (error: any) => {
@@ -111,11 +111,11 @@ export class SequenceComponent implements OnInit {
 
   private popupModal(error: any) {
     this.error = error;
-    this.modalActions.emit({action:'modal', params:['open']});
+    this.modalActions.emit({action: 'modal', params: ['open']});
   }
 
   private getSort() {
-    let i = this.columns.findIndex((e: any) => e.sortable && e.direction !== undefined && e.direction !== '');
+    const i = this.columns.findIndex((e: any) => e.sortable && e.direction !== undefined && e.direction !== '');
     let sort = '';
     if (i >= 0) {
       if (typeof this.columns[i].name === 'string') {

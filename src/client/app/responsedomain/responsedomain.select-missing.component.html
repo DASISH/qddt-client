@@ -10,7 +10,7 @@
        class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
       <i class="material-icons" title="response domain add">add</i>
     </a>
-    <span *ngIf="getMissing()">{{getMissing().name}}</span>
+    <span *ngIf="getMissing()">{{ getMissing().name }}</span>
   </div>
 
   <div id="{{modalId}}" class="modal" materialize="modal" [materializeActions]="findMissingAction">
@@ -33,7 +33,7 @@
                        name="{{category?.id}}-code-value"
                        type="text" [(ngModel)]="category.code.codeValue" required></td>
             <td>
-              {{category?.label}}
+{{ category?.label }}egory?.label}}
             </td>
           </tr>
           </tbody>

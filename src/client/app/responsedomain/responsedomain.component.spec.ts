@@ -9,7 +9,7 @@ import { ResponsedomainComponent } from './responsedomain.component';
 import { API_BASE_HREF } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Observable }     from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import { MaterializeModule } from 'angular2-materialize';
 import { AuthService } from '../auth/auth.service';
 
@@ -48,9 +48,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(ResponsedomainComponent);
+            const fixture = TestBed.createComponent(ResponsedomainComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('a'));
+            const de: any = fixture.debugElement.queryAll(By.css('a'));
             expect(de.length).toBeGreaterThan(0);
           });
       }));
@@ -60,8 +60,8 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(ResponsedomainComponent);
-            let mockBackend = TestBed.get(MockBackend);
+            const fixture = TestBed.createComponent(ResponsedomainComponent);
+            const mockBackend = TestBed.get(MockBackend);
             mockBackend.connections.subscribe((c: any) => {
               c.mockRespond(new Response(new ResponseOptions({
                 body: '{"content":[{'
@@ -81,7 +81,7 @@ export function main() {
             fixture.componentInstance.ngOnInit();
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let table: any = fixture.debugElement.queryAll(By.css('qddt-table'));
+              const table: any = fixture.debugElement.queryAll(By.css('qddt-table'));
               expect(table.length).toBeGreaterThan(0);
               expect(fixture.componentInstance.responseDomains.length).toBeGreaterThan(0);
               expect(fixture.componentInstance.responseDomains[0].name).toContain('responseDomain');

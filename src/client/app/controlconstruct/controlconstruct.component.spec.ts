@@ -44,15 +44,15 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(ControlConstructComponent);
+            const fixture = TestBed.createComponent(ControlConstructComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('h4'));
+            const de: any = fixture.debugElement.queryAll(By.css('h4'));
             expect(de.length).toBeGreaterThan(0);
             expect(de[0].nativeNode.textContent).toContain('Question constructs');
             fixture.componentInstance.ngOnInit();
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let de: any = fixture.debugElement.queryAll(By.css('a'));
+              const de: any = fixture.debugElement.queryAll(By.css('a'));
               expect(de.length).toBeGreaterThan(0);
             });
           });
@@ -63,12 +63,12 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(ControlConstructComponent);
-            let questionitem: any = {
+            const fixture = TestBed.createComponent(ControlConstructComponent);
+            const questionitem: any = {
               'id': '1',
               'name': 'questionitem'
             };
-            let mockBackend = TestBed.get(MockBackend);
+            const mockBackend = TestBed.get(MockBackend);
             mockBackend.connections.subscribe((c: any) => {
               c.mockRespond(new Response(new ResponseOptions({
                 body: '{"content": [{'
@@ -86,7 +86,7 @@ export function main() {
             fixture.componentInstance.searchControlConstructs('test');
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let table: any = fixture.debugElement.queryAll(By.css('qddt-table'));
+              const table: any = fixture.debugElement.queryAll(By.css('qddt-table'));
               expect(table.length).toBeGreaterThan(0);
             });
           });

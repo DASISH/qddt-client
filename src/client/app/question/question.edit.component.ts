@@ -8,10 +8,10 @@ import { ResponseDomain } from '../responsedomain/responsedomain.service';
   selector: 'qddt-questionitem-edit',
   moduleId: module.id,
   providers: [QuestionService],
-  styles:[
+  styles: [
     ':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'
   ],
-  templateUrl:'./question.edit.component.html'
+  templateUrl: './question.edit.component.html'
 })
 
 export class QuestionItemEditComponent implements OnInit {
@@ -30,17 +30,17 @@ export class QuestionItemEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(!this.readonly) {
+    if (!this.readonly) {
       this.readonly = false;
     }
   }
 
   onSaveQuestionItem() {
-    if((this.questionitem.responseDomain) && (!this.questionitem.responseDomain.id))
+    if ((this.questionitem.responseDomain) && (!this.questionitem.responseDomain.id))
       this.service.createResponseDomain(this.questionitem.responseDomain)
         .subscribe(result => {
           this.questionitem.responseDomain = result;
-          this.questionitem.responseDomainRevision =0;
+          this.questionitem.responseDomainRevision = 0;
           this.service.updateQuestionItem(this.questionitem)
             .subscribe((result: any) => {
               this.questionitem = result;
@@ -57,21 +57,21 @@ export class QuestionItemEditComponent implements OnInit {
     this.isVisible = false;
   }
 
-  onBasedonObjectDetail(ref:any) {
+  onBasedonObjectDetail(ref: any) {
     if (!ref.rev)
-      ref.rev=0;
-    this.service.getQuestionItemRevision(ref.id,ref.rev)
+      ref.rev = 0;
+    this.service.getQuestionItemRevision(ref.id, ref.rev)
       .subscribe(
       (result: any) => {
         this.basedonObject = result.entity;
-        this.basedonActions.emit({action:'modal', params:['open']});
+        this.basedonActions.emit({action: 'modal', params: ['open']});
       },
       (err: any) => null
       );
   }
 
   onResponseDomainSelected(item: any) {
-    if (item.responseDomain.responseKind==='MIXED') {
+    if (item.responseDomain.responseKind === 'MIXED') {
       this.service.createResponseDomain(item.responseDomain).subscribe(result => {
         this.questionitem.responseDomain = result;
         this.questionitem.responseDomainRevision = 0;
@@ -98,12 +98,12 @@ export class QuestionItemEditComponent implements OnInit {
   private setMissing(missing: Category) {
     let rd = this.questionitem.responseDomain;
     if (this.isMixed()) {                                                   //remove existing missing
-      this.deleteChild(rd.managedRepresentation,'MISSING_GROUP');
+      this.deleteChild(rd.managedRepresentation, 'MISSING_GROUP');
     } else {                                                                // no mixed, create one.
       rd = this.newMixedResponseDomain();
     }
     rd.managedRepresentation.children.push(missing);
-    rd.name = rd.managedRepresentation.name = 'Mixed [' + this.getManagedRepresentation().name + '+' + missing.name +']';
+    rd.name = rd.managedRepresentation.name = 'Mixed [' + this.getManagedRepresentation().name + '+' + missing.name + ']';
     this.questionitem.responseDomain = rd;
   }
 
@@ -112,16 +112,16 @@ export class QuestionItemEditComponent implements OnInit {
   }
 
   private newMixedResponseDomain(): ResponseDomain {
-    let rd: any = {
-      responseKind:'MIXED',
-      description :'',
-      name:'',
-      displayLayout: (this.questionitem.responseDomain.displayLayout)? this.questionitem.responseDomain.displayLayout:0,
+    const rd: any = {
+      responseKind: 'MIXED',
+      description : '',
+      name: '',
+      displayLayout: (this.questionitem.responseDomain.displayLayout) ? this.questionitem.responseDomain.displayLayout : 0,
       managedRepresentation : {
         name: '',
         label: '',
         description: '[Mixed] group - ',
-        inputLimit:  {minimum: 0 ,maximum:1},
+        inputLimit:  {minimum: 0 , maximum: 1},
         hierarchyLevel: 'GROUP_ENTITY',
         categoryType: 'MIXED',
         children: [this.getManagedRepresentation()]
@@ -130,10 +130,10 @@ export class QuestionItemEditComponent implements OnInit {
     }
 
   private getManagedRepresentation(): any {
-    let rep = this.questionitem.responseDomain.managedRepresentation;
+    const rep = this.questionitem.responseDomain.managedRepresentation;
     if (rep) {
       if (rep.categoryType === 'MIXED') {
-        return rep.children.find(c=>c.categoryType !=='MISSING_GROUP');
+        return rep.children.find(c => c.categoryType !== 'MISSING_GROUP');
       } else {
         return rep;
       }
@@ -145,7 +145,7 @@ export class QuestionItemEditComponent implements OnInit {
     if (!representation.children) {
       return;
     }
-    let index = representation.children.findIndex((e: any) => e.categoryType === categoryType);
+    const index = representation.children.findIndex((e: any) => e.categoryType === categoryType);
     if (index >= 0) {
       representation.children.splice(index, 1);
     }

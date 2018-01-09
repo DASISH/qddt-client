@@ -13,7 +13,7 @@ import { UniverseComponent } from './universe.component';
 
 
 @NgModule({
-  imports: [ SharedModule, ResponsedomainModule, QuestionModule,PreviewModule,ConceptrefModule],
+  imports: [ SharedModule, ResponsedomainModule, QuestionModule, PreviewModule, ConceptrefModule],
   declarations: [ControlConstructComponent, ControlConstructFormComponent,
     ControlConstructQuestionItemSelectComponent, ControlConstructDetailComponent,
     InstructionComponent, UniverseComponent

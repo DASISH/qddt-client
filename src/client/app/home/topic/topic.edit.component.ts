@@ -2,7 +2,7 @@ import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { TopicService, Topic } from './topic.service';
 import { Observable }     from 'rxjs/Observable';
 import { MaterializeAction } from 'angular2-materialize';
-let saveAs = require('file-saver');
+const saveAs = require('file-saver');
 
 @Component({
   selector: 'qddt-topic-edit',
@@ -25,9 +25,9 @@ export class TopicEditComponent  {
   showErrorActions = new EventEmitter<MaterializeAction>();
   private showUploadFileForm: boolean;
   private showUploadedFiles: boolean;
-  private showDeletebutton: boolean= false;
-  private showbutton: boolean= false;
-  private readonly: boolean= false;
+  private showDeletebutton= false;
+  private showbutton= false;
+  private readonly= false;
   private files: FileList;
   private fileStore: any[];
   private toDeleteFiles: any[];
@@ -42,7 +42,7 @@ export class TopicEditComponent  {
 
 
   onDownloadFile(o: any) {
-    let fileName = o.originalName;
+    const fileName = o.originalName;
     this.service.getFile(o.id).subscribe(
       (data: any) => {
         saveAs(data, fileName);
@@ -55,17 +55,17 @@ export class TopicEditComponent  {
   }
 
   onDeleteFile(idx: number) {
-    if(this.topic.otherMaterials
+    if (this.topic.otherMaterials
       && this.topic.otherMaterials.length > idx) {
-      let items = this.topic.otherMaterials.splice(idx, 1);
-      if(items.length > 0) {
+      const items = this.topic.otherMaterials.splice(idx, 1);
+      if (items.length > 0) {
         this.toDeleteFiles.push(items[0]);
       }
     }
   }
 
   onDeleteFileFromLocal(idx: number) {
-    if(this.fileStore && this.fileStore.length > idx) {
+    if (this.fileStore && this.fileStore.length > idx) {
       this.fileStore.splice(idx, 1);
     }
   }
@@ -78,28 +78,28 @@ export class TopicEditComponent  {
 
   onSave() {
     this.isVisible = false;
-    let topic = this.topic;
-    let files = this.fileStore;
-    let len = files.length;
+    const topic = this.topic;
+    const files = this.fileStore;
+    const len = files.length;
     let source = Observable.of({});
-    let toDeleteFiles = this.toDeleteFiles;
+    const toDeleteFiles = this.toDeleteFiles;
     if (len > 0 || toDeleteFiles.length > 0) {
       source = Observable.range(0, len + toDeleteFiles.length)
         .flatMap((x: any) => {
-          if(x < len) {
-            let file = files[x];
+          if (x < len) {
+            const file = files[x];
             return this.service.uploadFile(topic.id, file);
           } else {
-            let file = toDeleteFiles[x - len];
+            const file = toDeleteFiles[x - len];
             return this.service.deleteFile(file.id);
           }
         });
     }
     let index = 0;
-    let service = this.service;
-    let actions = this.showErrorActions;
-    let saveAction = this.topicSavedAction;
-    let errors = this.errors;
+    const service = this.service;
+    const actions = this.showErrorActions;
+    const saveAction = this.topicSavedAction;
+    const errors = this.errors;
     source.subscribe(
       function (x: any) {
         if (index < len && x.id !== undefined && x.id !== null) {
@@ -109,7 +109,7 @@ export class TopicEditComponent  {
       },
       function (error: any) {
         errors.push(error);
-        actions.emit({action:'modal', params:['open']});
+        actions.emit({action: 'modal', params: ['open']});
       },
       function () {
         service.edit(topic).subscribe((result: any) => {
@@ -117,7 +117,7 @@ export class TopicEditComponent  {
           saveAction.emit(result);
         }, (error: any) => {
           errors.push(error);
-          actions.emit({action:'modal', params:['open']});
+          actions.emit({action: 'modal', params: ['open']});
         });
       });
   }

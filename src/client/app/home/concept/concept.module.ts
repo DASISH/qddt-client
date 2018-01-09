@@ -11,7 +11,7 @@ import { PreviewModule } from '../../shared/preview/preview.module';
 
 
 @NgModule({
-    imports: [ SharedModule, QuestionModule, ResponsedomainModule,PreviewModule],
+    imports: [ SharedModule, QuestionModule, ResponsedomainModule, PreviewModule ],
     declarations: [ConceptComponent, ConceptEditComponent,
        ConceptTocComponent, TreeNodeComponent ],
     exports: [ConceptComponent,  TreeNodeComponent]

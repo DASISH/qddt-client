@@ -5,12 +5,10 @@ import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { ControlConstructService } from './controlconstruct.service';
-import { BaseService } from '../../shared/base.service';
 import { ControlConstructFormComponent } from './controlconstruct.form.component';
-import { API_BASE_HREF } from '../../api';
+import { API_BASE_HREF } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Observable }     from 'rxjs/Observable';
 import { MaterializeModule } from 'angular2-materialize';
 
 export function main() {
@@ -46,9 +44,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(ControlConstructFormComponent);
+            const fixture = TestBed.createComponent(ControlConstructFormComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('form'));
+            const de: any = fixture.debugElement.queryAll(By.css('form'));
             expect(de.length).toBe(0);
           });
       }));
@@ -58,8 +56,8 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(ControlConstructFormComponent);
-            let controlConstruct: any = {
+            const fixture = TestBed.createComponent(ControlConstructFormComponent);
+            const controlConstruct: any = {
               'id' : '7f000101-54aa-131e-8154-aa27fc230000',
               'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
               'name' : 'one controlConstruct',
@@ -72,7 +70,7 @@ export function main() {
             fixture.componentInstance.controlConstruct = controlConstruct;
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let form: any = fixture.debugElement.queryAll(By.css('form'));
+              const form: any = fixture.debugElement.queryAll(By.css('form'));
               expect(form.length).toBeGreaterThan(0);
             });
           });

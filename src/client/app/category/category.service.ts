@@ -1,15 +1,16 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http } from '@angular/http';
 
 import { API_BASE_HREF } from '../api';
 import { BaseService } from '../shared/base.service';
+import { AuthService } from '../auth/auth.service';
+import { HttpClient } from '@angular/common/http';
 
 export class ResponseCardinality {
    minimum: number;
    maximum: number;
   constructor() {
-    this.minimum =1;
-    this.maximum =1;
+    this.minimum = 1;
+    this.maximum = 1;
   }
 }
 
@@ -17,8 +18,8 @@ export class Code {
   codeValue: string;
   alignment: string;
   constructor() {
-    this.alignment='text-left';
-    this.codeValue='0';
+    this.alignment = 'text-left';
+    this.codeValue = '0';
   }
 }
 
@@ -31,11 +32,11 @@ export class Category {
   hierarchyLevel: string;
   categoryType: string;
   children: Category[];
-  code:Code;
-  format:any;
+  code: Code;
+  format: any;
   constructor() {
-    this.label='';
-    this.name='';
+    this.label = '';
+    this.name = '';
     this.children = [];
     this.inputLimit = new ResponseCardinality();
     this.code = new Code();
@@ -45,16 +46,16 @@ export class Category {
 @Injectable()
 export class CategoryService extends BaseService {
 
-  constructor(protected http:Http, @Inject(API_BASE_HREF) protected api:string) {
-    super(http ,api);
+  constructor(protected http: HttpClient, protected auth: AuthService, @Inject(API_BASE_HREF) protected api: string) {
+    super(http, auth , api);
   }
 
   save(category: Category): any {
-    return this.post(category,'category/create/');
+    return this.post(category, 'category/create/');
   }
 
   edit(category: Category): any {
-    return this.post(category,'category/');
+    return this.post(category, 'category/');
   }
 
   deleteCategory(categoryId: string): any {
@@ -74,7 +75,7 @@ export class CategoryService extends BaseService {
   }
 
   getAllByLevel(level: String, name: String = '', sort: String = ''): any {
-    let query = name.length > 0? '&name=' + '*' + name + '*': name;
+    let query = name.length > 0 ? '&name=' + '*' + name + '*' : name;
     if (sort.length > 0) {
       query += '&sort=' + sort;
     }
@@ -82,7 +83,7 @@ export class CategoryService extends BaseService {
   }
 
   getAllByLevelAndPage(level: String, name: String = '', page: String = '0', sort: String = ''): any {
-    let query = name.length > 0? '&name=' + '*' + name + '*': '';
+    let query = name.length > 0 ? '&name=' + '*' + name + '*' : '';
     if (sort.length > 0) {
       query += '&sort=' + sort;
     }
@@ -91,7 +92,7 @@ export class CategoryService extends BaseService {
   }
 
   getAllTemplatesByCategoryKind(categoryKind: String, name: String = '', page: String = '0', sort: String = ''): any {
-    let query = name.length > 0? '&name=' + '*' + name + '*': '';
+    let query = name.length > 0 ? '&name=' + '*' + name + '*' : '';
     if (sort.length > 0) {
       query += '&sort=' + sort;
     }

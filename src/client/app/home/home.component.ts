@@ -10,33 +10,25 @@ import { AuthService } from '../auth/auth.service';
 
 export class HomeComponent implements AfterContentChecked, OnInit {
 
-  showSurveyProgram: boolean = true;
-  showStudy: boolean = false;
-  showTopic: boolean = false;
-  showConcept: boolean = false;
+  showSurveyProgram = true;
+  showStudy = false;
+  showTopic = false;
+  showConcept = false;
 
   components: any = [];
-  user:any;
   private survey: any;
   private study: any;
   private topic: any;
   private concept: any;
 
-  constructor(private userService: AuthService) {
-
-  }
+  constructor(private userService: AuthService) {}
 
   ngOnInit() {
     this.loadData();
   }
 
   ngAfterContentChecked() {
-    this.user = this.userService.get();
     this.loadData();
-  }
-
-  loginEvent() {
-    this.user = this.userService.get();
   }
 
   onShowSurvey() {
@@ -111,7 +103,7 @@ export class HomeComponent implements AfterContentChecked, OnInit {
   }
 
   private loadData() {
-    let home = this.userService.getGlobalObject('home');
+    const home = this.userService.getGlobalObject('home');
     if (home !== null && home !== '') {
       this.showStudy = home.current === 'study';
       this.showConcept = home.current === 'concept';

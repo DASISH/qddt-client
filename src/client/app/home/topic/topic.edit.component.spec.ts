@@ -40,10 +40,10 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(TopicEditComponent);
+            const fixture = TestBed.createComponent(TopicEditComponent);
             fixture.componentInstance.isVisible = true;
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('div'));
+            const de: any = fixture.debugElement.queryAll(By.css('div'));
             expect(de.length).toBeGreaterThan(0);
           });
       }));
@@ -53,7 +53,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(TopicEditComponent);
+            const fixture = TestBed.createComponent(TopicEditComponent);
             fixture.componentInstance.isVisible = true;
             fixture.componentInstance.topic = {
               id: '7f000101-54aa-131e-8154-aa27fc230000',
@@ -61,12 +61,12 @@ export function main() {
               abstractDescription: '',
               otherMaterials: [],
               authors: [],
-              topicQuestionItems:[],
-              archived:false
+              topicQuestionItems: [],
+              archived: false
             };
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let input: any = fixture.debugElement.queryAll(By.css('input'));
+              const input: any = fixture.debugElement.queryAll(By.css('input'));
               expect(input.length).toBeGreaterThan(0);
               expect(input[0].nativeNode.value).toContain('topic');
               fixture.componentInstance.onSave();
@@ -83,7 +83,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(TopicEditComponent);
+            const fixture = TestBed.createComponent(TopicEditComponent);
             fixture.componentInstance.isVisible = true;
             fixture.componentInstance.topic = {
               id: '7f000101-54aa-131e-8154-aa27fc230000',
@@ -91,8 +91,8 @@ export function main() {
               abstractDescription: '',
               otherMaterials: [],
               authors: [],
-              topicQuestionItems:[],
-              archived:false
+              topicQuestionItems: [],
+              archived: false
             };
             fixture.componentInstance.onSave();
             fixture.detectChanges();

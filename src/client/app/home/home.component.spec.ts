@@ -49,9 +49,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(TestComponent);
+            const fixture = TestBed.createComponent(TestComponent);
             fixture.detectChanges();
-            let de = fixture.debugElement.query(By.css('.card-title'));
+            const de = fixture.debugElement.query(By.css('.card-title'));
             expect(de).not.toBeNull();
             expect(de.nativeElement).not.toBeNull();
             expect(de.nativeElement.textContent).toContain('Welcome QDDT');

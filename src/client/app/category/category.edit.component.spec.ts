@@ -41,10 +41,10 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(CategoryEditComponent);
+            const fixture = TestBed.createComponent(CategoryEditComponent);
             fixture.componentInstance.isVisible = true;
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('div'));
+            const de: any = fixture.debugElement.queryAll(By.css('div'));
             expect(de.length).toBeGreaterThan(0);
           });
       }));
@@ -54,9 +54,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(CategoryEditComponent);
+            const fixture = TestBed.createComponent(CategoryEditComponent);
             fixture.componentInstance.isVisible = true;
-            let category: any = {
+            const category: any = {
               'id' : '7f000101-54aa-131e-8154-aa27fc230000',
               'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
               'name' : 'one category',
@@ -69,7 +69,7 @@ export function main() {
             };
             fixture.componentInstance.category = category;
             fixture.componentInstance.categories = [category];
-            let mockBackend = TestBed.get(MockBackend);
+            const mockBackend = TestBed.get(MockBackend);
             mockBackend.connections.subscribe((c: any) => {
               c.mockRespond(new Response(new ResponseOptions({
                 body: '{'
@@ -87,7 +87,7 @@ export function main() {
             });
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let textarea: any = fixture.debugElement.queryAll(By.css('textarea'));
+              const textarea: any = fixture.debugElement.queryAll(By.css('textarea'));
               expect(textarea.length).toBeGreaterThan(0);
               expect(textarea[0].nativeNode.value).toContain('category');
               fixture.componentInstance.onSave();
@@ -142,7 +142,7 @@ class RevisionComponent {
 }
 
 @Component({
-  selector: 'autocomplete',
+  selector: 'auto-complete',
   template: `<div></div>`
 })
 

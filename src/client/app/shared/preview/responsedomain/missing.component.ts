@@ -10,8 +10,8 @@ import { ResponseDomain } from '../../../responsedomain/responsedomain.service';
 			  <li *ngFor="let category of responseDomain.managedRepresentation.children; let i = index;" class="row">
           <input name="{{responseDomain.id}}-missing-group" type="radio"
             id="{{responseDomain.id}}code{{i}}"/>
-          <label [attr.for]="responseDomain.id + 'code' + i">{{category?.label}}</label>
-          <span class="s1 right"> {{category?.code?.codeValue}} </span>
+          <label [attr.for]="responseDomain.id + 'code' + i">{{ category?.label }}</label>
+          <span class="s1 right"> {{ category?.code?.codeValue }} </span>
         </li>
 			</ul>
     </div>`,

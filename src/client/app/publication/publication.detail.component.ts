@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { PublicationService, Publication, PUBLICATION_STATUS, PUBLICATION_NOT_PUBLISHED ,PUBLICATION_TYPES } from './publication.service';
+import { PublicationService, Publication, PUBLICATION_STATUS, PUBLICATION_NOT_PUBLISHED , PUBLICATION_TYPES } from './publication.service';
 import { QddtElementType } from '../shared/preview/preview.service';
-let saveAs = require('file-saver');
+const saveAs = require('file-saver');
 
 @Component({
   selector: 'qddt-publication-detail',
@@ -21,7 +21,7 @@ export class PublicationDetailComponent implements OnInit {
   selectedOptionValue: number;
   selectedPublicationStatusOption: any;
   private revisionIsVisible: boolean;
-  private showProgressBar: boolean = true;
+  private showProgressBar = true;
   private predefinedStatus: any[];
 
   constructor(private service: PublicationService) {
@@ -33,13 +33,13 @@ export class PublicationDetailComponent implements OnInit {
       this.selectOptions[1].children);
     this.selectedOptionValue = 0;
     this.selectedPublicationStatusOption = PUBLICATION_NOT_PUBLISHED.description;
-    if(this.publicationId !== null && this.publicationId !== undefined) {
+    if (this.publicationId !== null && this.publicationId !== undefined) {
       this.service.getPublication(this.publicationId)
         .subscribe((result: any) => {
           this.showProgressBar = true;
           this.publication = result;
-          let status = this.predefinedStatus.find(e => e.label === this.publication.status);
-          if(status !== undefined) {
+          const status = this.predefinedStatus.find(e => e.label === this.publication.status);
+          if (status !== undefined) {
             this.selectedPublicationStatusOption = status.description;
             this.selectedOptionValue = status.id;
           }
@@ -56,8 +56,8 @@ export class PublicationDetailComponent implements OnInit {
 
   onUpdatePublication() {
     this.service.update(this.publication).subscribe((result: any) => {
-        let index = this.publications.findIndex((e:any) => e.id === result.id);
-        if(index >= 0) {
+        const index = this.publications.findIndex((e: any) => e.id === result.id);
+        if (index >= 0) {
           this.publications[index] = result;
         } else {
           this.publications.push(result);
@@ -68,8 +68,8 @@ export class PublicationDetailComponent implements OnInit {
       });
   }
 
-  getElementbyLabel(label:string): QddtElementType {
-    let element:QddtElementType = PUBLICATION_TYPES.find(e => e.label === label);
+  getElementbyLabel(label: string): QddtElementType {
+    const element: QddtElementType = PUBLICATION_TYPES.find(e => e.label === label);
     if (element === undefined)
       console.log('Couldn\'t find kind label ' + label);
     return element;
@@ -77,7 +77,7 @@ export class PublicationDetailComponent implements OnInit {
 
 
   getPdf(element: Publication) {
-    let fileName = element.name + '.pdf';
+    const fileName = element.name + '.pdf';
     this.service.getPdf(element.id).subscribe(
       (data: any) => {
         saveAs(data, fileName);

@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, AfterContentChecked } from '@angular/core';
 import { PublicationService, Publication,  PUBLICATION_NOT_PUBLISHED, PUBLICATION_STATUS } from './publication.service';
-import { Subject }          from 'rxjs/Subject';
+import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 import { Column } from '../shared/table/table.service';
 import { QddtElementType, QddtElementTypes } from '../shared/preview/preview.service';
@@ -15,11 +15,11 @@ import { AuthService } from '../auth/auth.service';
         border: thick solid red;
     }`
   ],
-  providers: [PublicationService,AuthService],
+  providers: [PublicationService, AuthService],
 })
 export class PublicationComponent implements AfterContentChecked, OnInit {
 
-  showPublicationForm: boolean = false;
+  showPublicationForm = false;
   modalActions = new EventEmitter<string|MaterializeAction>();
   error: any;
   selectOptions: any[] = PUBLICATION_STATUS;
@@ -34,7 +34,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
   private searchKeys: string;
   private selectedPublication: any;
   private isDetail: boolean;
-  private showProgressBar: boolean = true;
+  private showProgressBar = true;
   private columns: Column[];
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
@@ -44,18 +44,18 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
     this.searchKeys = '';
     this.page = {};
     this.selectedPublicationStatusOption = PUBLICATION_NOT_PUBLISHED.description;
-    this.columns = [{ 'label': 'Name', 'name': 'name', 'sortable': true,  'direction': '' ,width:'25%' },
-    { 'label': 'Purpose', 'name': 'purpose', 'sortable': true,  'direction': '' ,width:'25%' },
-    { 'label': 'Publication Status', 'name': 'status', 'sortable': true,  'direction': '' ,width:'25%' },
-    { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc', width:'8%' }];
-    console.debug('begyn lsater inn publisering....');
+    this.columns = [{ 'label': 'Name', 'name': 'name', 'sortable': true,  'direction': '' , width: '25%' },
+    { 'label': 'Purpose', 'name': 'purpose', 'sortable': true,  'direction': '' , width: '25%' },
+    { 'label': 'Publication Status', 'name': 'status', 'sortable': true,  'direction': '' , width: '25%' },
+    { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc', width: '8%' }];
+    // console.debug('begyn lsater inn publisering....');
     this.searchKeysSubect
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
         this.showProgressBar = true;
         this.service.searchPublications(name, '0', this.getSort())
-          .subscribe((result: any) => {
+          .then((result: any) => {
             this.publications = result.content || [];
             this.page = result.page;
             this.showProgressBar = false;
@@ -67,8 +67,8 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
   }
 
   ngOnInit() {
-    let config = this.userService.getGlobalObject('publications');
-    this.showProgressBar=true;
+    const config = this.userService.getGlobalObject('publications');
+    this.showProgressBar = true;
     if (config.current === 'detail' ) {
       this.page = config.page;
       this.publications = config.collection;
@@ -80,14 +80,14 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
     }
     this.service.getPublicationStatus().subscribe((result: any) => {
       this.selectOptions = result;
-      this.showProgressBar=false;
+      this.showProgressBar = false;
     }, (error: any) => {
       console.log(error);
     });
   }
 
   ngAfterContentChecked() {
-    let config = this.userService.getGlobalObject('publications');
+    const config = this.userService.getGlobalObject('publications');
     if (config.current === 'detail' ) {
       this.page = config.page;
       this.publications = config.collection;
@@ -96,7 +96,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
       this.isDetail = true;
     } else {
       this.isDetail = false;
-      if(config.key === null || config.key === undefined) {
+      if (config.key === null || config.key === undefined) {
         this.userService.setGlobalObject('publications', {'current': 'list', 'key': ''});
         this.searchKeys = '';
         this.searchKeysSubect.next('');
@@ -126,10 +126,10 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
 
   onElementDetail(e: any) {
     this.selectedElementDetail = e.element;
-    let kind = QddtElementTypes.find(el => el.id === e.elementKind);
-    if(kind !== undefined) {
+    const kind = QddtElementTypes.find(el => el.id === e.elementKind);
+    if (kind !== undefined) {
       this.selectedElementType = kind;
-      this.modalActions.emit({action:'modal', params:['open']});
+      this.modalActions.emit({action: 'modal', params: ['open']});
       // this.actions.emit({action:'modal', params:['open']});
     }
   }
@@ -145,10 +145,10 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
 
   onSelectChange(value: number) {
     this.selectedPublicationStatusOption = PUBLICATION_NOT_PUBLISHED.description;
-    if(value >= 10 && value < 20) {
+    if (value >= 10 && value < 20) {
       this.publication.status = this.selectOptions[0].children[value - 10].label;
       this.selectedPublicationStatusOption = this.selectOptions[0].children[value - 10].description;
-    } else if(value >= 20 && value < 30) {
+    } else if (value >= 20 && value < 30) {
       this.publication.status = this.selectOptions[1].children[value - 20].label;
       this.selectedPublicationStatusOption = this.selectOptions[1].children[value - 20].description;
     }
@@ -157,7 +157,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
   onPage(page: string) {
     this.showProgressBar = true;
     this.service.searchPublications(this.searchKeys, page, this.getSort())
-      .subscribe((result: any) => {
+      .then((result: any) => {
         this.publications = result.content || [];
         this.page = result.page;
         this.showProgressBar = false;
@@ -167,7 +167,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
       });
   }
 
-  newPublication():Publication {    this.publication = new Publication();
+  newPublication(): Publication {    this.publication = new Publication();
     return this.publication;
   }
 
@@ -189,7 +189,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
   }
 
   private getSort() {
-    let i = this.columns.findIndex((e: any) => e.sortable && e.direction !== undefined && e.direction !== '');
+    const i = this.columns.findIndex((e: any) => e.sortable && e.direction !== undefined && e.direction !== '');
     let sort = '';
     if (i >= 0) {
       if (typeof this.columns[i].name === 'string') {

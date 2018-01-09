@@ -30,7 +30,7 @@ export function main() {
     });
 
     it('should update study', async(() => {
-      let mockBackend = TestBed.get(MockBackend);
+      const mockBackend = TestBed.get(MockBackend);
       mockBackend.connections.subscribe((c: any) => {
         c.mockRespond(new Response(new ResponseOptions({
           body: '{'
@@ -38,15 +38,15 @@ export function main() {
           + '"name" : "study"}'
         })));
       });
-      let service = TestBed.get(StudyService);
-      let survey: any = { id: '2', name: 'test' };
+      const service = TestBed.get(StudyService);
+      const survey: any = { id: '2', name: 'test' };
       service.update(survey).subscribe((data: any) => {
         expect(data.name).toBe('study');
       });
     }));
 
     it('should get all of studies', async(() => {
-      let mockBackend = TestBed.get(MockBackend);
+      const mockBackend = TestBed.get(MockBackend);
       mockBackend.connections.subscribe((c: any) => {
         c.mockRespond(new Response(new ResponseOptions({
           body: '[{'
@@ -61,7 +61,7 @@ export function main() {
           + '}]'
         })));
       });
-      let service = TestBed.get(StudyService);
+      const service = TestBed.get(StudyService);
       service.getAll('1').subscribe((data: any) => {
         expect(data.length).toBe(1);
         expect(data[0].name).toContain('study');

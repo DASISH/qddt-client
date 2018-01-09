@@ -1,32 +1,30 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http, Headers, Response, RequestOptions, ResponseContentType } from '@angular/http';
 
 import { API_BASE_HREF } from '../api';
 import { Observable } from 'rxjs/Rx';
+import { AuthService } from '../auth/auth.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+// import { ResponseContentType } from '@angular/http';
 // import { AlertService } from '../shared/altert/alter.service';
 
 @Injectable()
 export class BaseService {
 
-  private headers: Headers;
+  private headers: HttpHeaders;
 
-  constructor(protected http:Http, @Inject(API_BASE_HREF) protected api:string) {
+  constructor(protected http:HttpClient, protected auth: AuthService, @Inject(API_BASE_HREF) protected api:string) {
     // this.alertService = new AlertService();
-    this.headers = new Headers();
-    let jwt = localStorage.getItem('jwt');
-    if(jwt !== null) {
-      this.headers.append('Authorization', 'Bearer  '
-        + jwt);
-    }
-    this.headers.append('Content-Type', 'application/json');
+    let headers = new HttpHeaders();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Access-Control-Allow-Origin', '*');
+    headers.append('Access-Control-Allow-Headers', 'Origin, Authorization, Content-Type');
   }
 
   protected handleError(error:Response) {
-    if(error.status === 401 && error.text().indexOf('invalid_token') >= 0) {
-      localStorage.removeItem('jwt');
-      localStorage.removeItem('user');
-      return Observable.throw('Invalid token error');
-    }
+    // if(error.status === 401 && error.text().then().indexOf('invalid_token') >= 0) {
+    //   localStorage.removeItem('user');
+    //   return Observable.throw('Invalid token error');
+    // }
     if (error.status === 400) {
       // this.alertService.error(error['_body'].JSON()['exceptionMessage']);
       return Observable.throw(error['_body'].JSON || error.statusText ||'Server error');
@@ -45,14 +43,10 @@ export class BaseService {
 
   }
 
-  protected get(url:String):any {
-    return this.http.get(this.api + url,
-      {
-        headers: this.headers
-      })
-      .map((res:Response) => {
-        return res.json();
-      })
+  protected get(url:String):Promise<any> {
+    return this.http
+      .get<any>(this.api + url)
+      .toPromise()
       .catch(this.handleError);
   }
 
@@ -88,25 +82,20 @@ export class BaseService {
   typical : 'othermaterial/files/' + id
             'resource/pdf/' + id
    */
-  protected getBlob(path: string): any {
-    let options = new RequestOptions({headers: this.headers, responseType: ResponseContentType.Blob});
-    return this.http.get(this.api + path,options)
-      .map(res => res.blob())
+  protected getBlob(path: string):  Observable<Blob> {
+    return this.http.get(this.api + path, {responseType: 'blob'})
       .catch(this.handleError);
   }
 
   protected uploadBlob(id: string, files: any): any {
-    let headers = new Headers();
-    let jwt = localStorage.getItem('jwt');
-    if (jwt !== null) {
-      headers.append('Authorization', 'Bearer  ' + jwt);
-    }
-    let options = new RequestOptions({headers: headers});
+    // let headers = new Headers();
+    // headers.append('Authorization', 'Bearer  ' + this.auth.getToken());
+    // let options = new RequestOptions({headers: headers});
     const formData = new FormData();
     if (files !== null) {
       formData.append('file', files[0]);
     }
-    return this.http.post(this.api + 'othermaterial/upload/' + id, formData, options)
+    return this.http.post(this.api + 'othermaterial/upload/' + id, formData)
       .map((res: any) => {
         try {
           return res.json();

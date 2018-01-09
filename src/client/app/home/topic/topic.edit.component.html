@@ -50,7 +50,7 @@
             <div class="col s10">
               <a class="waves-effect waves-light" (click)="onDownloadFile(m)">
                 <i class="material-icons center smal">description</i>
-                {{m.originalName}}</a>
+{{ m.originalName }}m.originalName}}</a>
             </div>
             <div class="col s1 right" >
               <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
@@ -64,7 +64,7 @@
         <li *ngFor="let file of fileStore; let idx=index;">
           <div class="row">
             <div class="col s11 m5">
-              <a class="waves-effect waves-light"><i class="material-icons center smal">description</i>{{file[0]?.name}}</a>
+              <a class="waves-effect waves-light"><i class="material-icons center smal">description</i>{{ file[0]?.name }}</a>
             </div>
             <div class="col s1 right" style="min-height:3rem">
               <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
@@ -93,7 +93,7 @@
   <div class="modal-content">
     <div class="row">
       <h4>An error occured</h4>
-      <span *ngFor="let error of errors">{{error}}</span>
+      <span *ngFor="let error of errors">{{ error }}</span>
     </div>
   </div>
   <div class="modal-footer">

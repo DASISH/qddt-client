@@ -15,8 +15,8 @@ export class ConceptComponent implements OnChanges {
   @Input() show: boolean;
   confimDeleteActions = new EventEmitter<string|MaterializeAction>();
 
-  private showConceptForm: boolean = false;
-  private showProgressBar: boolean = false;
+  private showConceptForm = false;
+  private showProgressBar = false;
   private concept: any;
   private concepts: any;
   private toDeletedConcept: any;
@@ -33,7 +33,7 @@ export class ConceptComponent implements OnChanges {
         this.concepts = result.content;
         this.showProgressBar = false;
       }
-          ,(err: any) => console.log('ERROR: ', err)
+          , (err: any) => console.log('ERROR: ', err)
       );
   }
 
@@ -54,11 +54,11 @@ export class ConceptComponent implements OnChanges {
       .subscribe((result: any) => {
             this.onConceptUpdated(result);
       }
-    ,(err: any) => console.log('ERROR: ', err));
+    , (err: any) => console.log('ERROR: ', err));
     this.concept  = new Concept();
   }
 
-  onConceptUpdated(concept:any) {
+  onConceptUpdated(concept: any) {
     console.log('onConceptSavedEvent ' + concept.name);
     if (!this.updateConcept(this.concepts, concept)) {
       this.concepts.push(concept);
@@ -68,26 +68,26 @@ export class ConceptComponent implements OnChanges {
 
   onDeleteConcept(concept: any) {
     this.toDeletedConcept = concept;
-    this.confimDeleteActions.emit({action:'modal', params:['open']});
+    this.confimDeleteActions.emit({action: 'modal', params: ['open']});
   }
 
   onConfirmDeleteConcept() {
-    let id = this.toDeletedConcept.id;
+    const id = this.toDeletedConcept.id;
     this.conceptService.deleteConcept(id)
-      .subscribe((result:any) => {
-        this.confimDeleteActions.emit({action:'modal', params:['close']});
+      .subscribe((result: any) => {
+        this.confimDeleteActions.emit({action: 'modal', params: ['close']});
         if (result.ok)
-          this.removeConcept(this.concepts,id);
+          this.removeConcept(this.concepts, id);
       },
-      (error: any) => {console.log(error);});
+      (error: any) => {console.log(error); });
   }
 
-  private updateConcept(concepts:Concept[], concept:Concept) : boolean {
+  private updateConcept(concepts: Concept[], concept: Concept): boolean {
     let found = false;
     let i = -1;
-    while(!found && ++i < concepts.length) {
+    while (!found && ++i < concepts.length) {
       console.log(i);
-      found = this.updateConcept(concepts[i].children,concept);
+      found = this.updateConcept(concepts[i].children, concept);
       if (concepts[i].id === concept.id) {
         concepts[i] = concept;
         found = true;
@@ -96,13 +96,13 @@ export class ConceptComponent implements OnChanges {
     return found;
   }
 
-  private removeConcept(concepts:Concept[], conceptId:any) : boolean {
+  private removeConcept(concepts: Concept[], conceptId: any): boolean {
     let found = false;
     let i = -1;
-    while(!found && ++i < concepts.length) {
-      found = this.removeConcept(concepts[i].children,conceptId);
+    while (!found && ++i < concepts.length) {
+      found = this.removeConcept(concepts[i].children, conceptId);
       if (concepts[i].id === conceptId) {
-        concepts.splice(i,1);
+        concepts.splice(i, 1);
         found = true;
       }
     }

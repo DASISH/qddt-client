@@ -1,4 +1,3 @@
-import { Component, Input, PipeTransform, Pipe, EventEmitter, Output } from '@angular/core';
 import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
@@ -41,7 +40,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(PreviewSequenceConstructComponent);
+            const fixture = TestBed.createComponent(PreviewSequenceConstructComponent);
             fixture.detectChanges();
             expect(fixture.componentInstance.text).toBe('');
           });
@@ -52,7 +51,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(PreviewSequenceConstructComponent);
+            const fixture = TestBed.createComponent(PreviewSequenceConstructComponent);
             fixture.componentInstance.sequence = {'description': 'test'};
             fixture.detectChanges();
             fixture.whenStable().then(() => {

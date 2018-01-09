@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output, OnInit, AfterContentChecked, ViewChild
 import { CategoryService, Category, ResponseCardinality } from './category.service';
 import { CategoryType } from './category_kind';
 import { Subject } from 'rxjs/Subject';
-import { ElementKind, QddtElementType,QddtElementTypes } from '../shared/preview/preview.service';
+import { ElementKind, QddtElementType, QddtElementTypes } from '../shared/preview/preview.service';
 import { AuthService } from '../auth/auth.service';
 
 declare let Materialize: any;
@@ -18,7 +18,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
   // @ViewChild('editSchemeForm') schemeForm;
   @Output() categorySelectedEvent: EventEmitter<any> = new EventEmitter<any>();
   public deleteAction = new EventEmitter<any>();
-  public showCategoryForm: boolean = false;
+  public showCategoryForm = false;
   public selectedCategoryIndex: number;
   public categories: any[];
   private missingCategories: any[];
@@ -32,9 +32,9 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
   private savedObject: string;
   private savedCategoriesIndex: number;
   private searchKeysSubect: Subject<string> = new Subject<string>();
-  private revisionIsVisible: boolean = false;
+  private revisionIsVisible = false;
   private readonly revisionConfig = this.buildRevisionConfig();
-  private readonly  CATEGORY_KIND :QddtElementType= QddtElementTypes[ElementKind.CATEGORY];
+  private readonly  CATEGORY_KIND: QddtElementType= QddtElementTypes[ElementKind.CATEGORY];
 
   constructor(private categoryService: CategoryService, private userService: AuthService) {
     this.category = new Category();
@@ -45,8 +45,8 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
     this.selectedCategoryIndex = 0;
     this.categories = [];
     this.missingCategories = [];
-    this.columns = [{'name':'name', 'label':'Name', 'sortable':true, 'direction': '' },
-      {'name':'description', 'label':'Description', 'sortable':true, 'direction': '' },
+    this.columns = [{'name': 'name', 'label': 'Name', 'sortable': true, 'direction': '' },
+      {'name': 'description', 'label': 'Description', 'sortable': true, 'direction': '' },
       { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' }];
     this.searchKeysSubect
       .debounceTime(300)
@@ -61,7 +61,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit() {
-    let config = this.userService.getGlobalObject('schemes');
+    const config = this.userService.getGlobalObject('schemes');
     if (config.current === 'detail' ) {
       this.page = config.page;
       this.missingCategories = config.collection;
@@ -80,7 +80,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
   }
 
   ngAfterContentChecked() {
-    let config = this.userService.getGlobalObject('schemes');
+    const config = this.userService.getGlobalObject('schemes');
     if (config.current === 'detail' ) {
       this.page = config.page;
       this.missingCategories = config.collection;
@@ -89,7 +89,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
       this.isDetail = true;
     } else {
       this.isDetail = false;
-      if(config.key === null || config.key === undefined) {
+      if (config.key === null || config.key === undefined) {
         this.userService.setGlobalObject('schemes', {'current': 'list', 'key': ''});
         this.searchKeys = '';
         this.searchKeysSubect.next('');
@@ -107,14 +107,14 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
   }
 
   onDeleteMissingModal() {
-    this.deleteAction.emit({action:'modal', params:['open']});
+    this.deleteAction.emit({action: 'modal', params: ['open']});
   }
 
   onConfirmDeleting() {
     this.categoryService.deleteCategory(this.selectedCategory.id)
       .subscribe((result: Response) => {
-        if(result.status === 200) {
-          let i = this.missingCategories.findIndex(q => q['id'] === this.selectedCategory.id);
+        if (result.status === 200) {
+          const i = this.missingCategories.findIndex(q => q['id'] === this.selectedCategory.id);
           if (i >= 0) {
             this.missingCategories.splice(i, 1);
             this.hideDetail();
@@ -124,7 +124,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
       (error: any) => console.log(error));
   }
 
-  setCategoryNumber(event:any) {
+  setCategoryNumber(event: any) {
     let c: any = this.category;
     if (this.isDetail) {
       c = this.selectedCategory;
@@ -136,13 +136,13 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
       c.children = [];
     }
     c.children = c.children.slice(0, parseInt(c.inputLimit.maximum));
-    for(let i = c.children.length; i < parseInt(c.inputLimit.maximum); i++) {
+    for (let i = c.children.length; i < parseInt(c.inputLimit.maximum); i++) {
         c.children.push(new Category());
     }
   }
 
   select(candidate: any) {
-    if(this.isDetail) {
+    if (this.isDetail) {
       this.selectedCategory.children[this.selectedCategoryIndex] = candidate;
     } else {
       this.category.children[this.selectedCategoryIndex] = candidate;
@@ -154,7 +154,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
     if (this.isDetail) {
       this.categoryService.edit(this.selectedCategory)
         .subscribe((result: any) => {
-          let id = this.missingCategories.findIndex((e: any) => e.id === result.id);
+          const id = this.missingCategories.findIndex((e: any) => e.id === result.id);
           if (id >= 0) {
             this.missingCategories[id] = result;
           } else {
@@ -215,12 +215,12 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
   }
 
   private buildRevisionConfig(): any[] {
-    let config: any[] = [];
-    config.push({'name':'name','label':'Name'});
-    config.push({'name':'description','label':'Desc'});
-    config.push({'name':['children'],'label':'Cat', 'init': function (o: any) {
-      if(o !== null && o !== undefined) {
-        return o.map(element => {return element['label'] || '';}).sort().join(',');
+    const config: any[] = [];
+    config.push({'name': 'name', 'label': 'Name'});
+    config.push({'name': 'description', 'label': 'Desc'});
+    config.push({'name': ['children'], 'label': 'Cat', 'init': function (o: any) {
+      if (o !== null && o !== undefined) {
+        return o.map(element => {return element['label'] || ''; }).sort().join(',');
       }
       return '';
     }});
@@ -228,7 +228,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
   }
 
   private getSort() {
-    let i = this.columns.findIndex((e: any) => e.sortable && e.direction !== '');
+    const i = this.columns.findIndex((e: any) => e.sortable && e.direction !== '');
     let sort = '';
     if (i >= 0) {
       if (typeof this.columns[i].name === 'string') {

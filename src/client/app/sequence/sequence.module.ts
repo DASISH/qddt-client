@@ -11,7 +11,7 @@ import { ResponsedomainModule } from '../responsedomain/responsedomain.module';
 
 
 @NgModule({
-  imports: [ SharedModule, ResponsedomainModule ,PreviewModule],
+  imports: [ SharedModule, ResponsedomainModule , PreviewModule],
   declarations: [ SequenceComponent, SequenceDetailComponent, SequenceReuseComponent,
     SequenceContentComponent, ConditionEditComponent, StatementEditComponent ],
   exports: [ SequenceComponent ]

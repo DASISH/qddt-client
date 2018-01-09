@@ -7,7 +7,7 @@
         <span *ngSwitchCase="'STATEMENT_CONSTRUCT'">Statement</span>
         <span *ngSwitchCase="'QUESTION_CONSTRUCT'">Question Construct</span>
       </span>
-      <a (click)="onSelectedElement(sequence)">{{sequence?.name}}</a>
+      <a (click)="onSelectedElement(sequence)">{{ sequence?.name }}</a>
     </li>
   </ul>
   <ul class="control-children" *ngIf="sequence">

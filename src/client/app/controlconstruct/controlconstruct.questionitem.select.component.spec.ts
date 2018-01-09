@@ -43,9 +43,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(ControlConstructQuestionItemSelectComponent);
+            const fixture = TestBed.createComponent(ControlConstructQuestionItemSelectComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('ul'));
+            const de: any = fixture.debugElement.queryAll(By.css('ul'));
             expect(de.length).toBe(0);
           });
       }));
@@ -55,8 +55,8 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(ControlConstructQuestionItemSelectComponent);
-            let controlConstruct: any = {
+            const fixture = TestBed.createComponent(ControlConstructQuestionItemSelectComponent);
+            const controlConstruct: any = {
               'id' : '7f000101-54aa-131e-8154-aa27fc230000',
               'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
               'name' : 'one controlConstruct',
@@ -73,7 +73,7 @@ export function main() {
             fixture.componentInstance.controlConstruct = controlConstruct;
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let ul: any = fixture.debugElement.queryAll(By.css('ul'));
+              const ul: any = fixture.debugElement.queryAll(By.css('ul'));
               expect(ul.length).toBeGreaterThan(0);
             });
           });

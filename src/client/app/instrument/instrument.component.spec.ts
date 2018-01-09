@@ -5,7 +5,6 @@ import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { InstrumentService } from './instrument.service';
-import { BaseService } from '../shared/base.service';
 import { InstrumentComponent } from './instrument.component';
 import { API_BASE_HREF } from '../api';
 import { CommonModule } from '@angular/common';
@@ -44,9 +43,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(InstrumentComponent);
+            const fixture = TestBed.createComponent(InstrumentComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('a'));
+            const de: any = fixture.debugElement.queryAll(By.css('a'));
             expect(de.length).toBeGreaterThan(1);
           });
       }));
@@ -56,8 +55,8 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(InstrumentComponent);
-            let mockBackend = TestBed.get(MockBackend);
+            const fixture = TestBed.createComponent(InstrumentComponent);
+            const mockBackend = TestBed.get(MockBackend);
             mockBackend.connections.subscribe((c: any) => {
               c.mockRespond(new Response(new ResponseOptions({
                 body: '{'
@@ -76,7 +75,7 @@ export function main() {
             fixture.componentInstance.onCreateInstrument();
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let de: any = fixture.debugElement.queryAll(By.css('qddt-table'));
+              const de: any = fixture.debugElement.queryAll(By.css('qddt-table'));
               expect(de.length).toBeGreaterThan(0);
               expect(fixture.componentInstance.showInstrumentForm).toBeFalsy();
             });

@@ -16,9 +16,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture: any = TestBed.createComponent(QddtPaginationComponent);
-            let context: any = fixture.debugElement.componentInstance;
-            let element: any = fixture.nativeElement;
+            const fixture: any = TestBed.createComponent(QddtPaginationComponent);
+            const context: any = fixture.debugElement.componentInstance;
+            const element: any = fixture.nativeElement;
             fixture.detectChanges();
             const listItems = element.querySelectorAll('li');
             const links = element.querySelectorAll('a');
@@ -40,9 +40,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture: any = TestBed.createComponent(TestComponent);
+            const fixture: any = TestBed.createComponent(TestComponent);
             fixture.detectChanges();
-            let element: any = fixture.nativeElement;
+            const element: any = fixture.nativeElement;
             const listItems = element.querySelectorAll('li');
             const links = element.querySelectorAll('a');
 

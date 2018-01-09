@@ -41,10 +41,10 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(TopicComponent);
+            const fixture = TestBed.createComponent(TopicComponent);
             fixture.componentInstance.show = true;
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('a'));
+            const de: any = fixture.debugElement.queryAll(By.css('a'));
             expect(de.length).toBeGreaterThan(1);
           });
       }));
@@ -54,11 +54,11 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(TopicComponent);
+            const fixture = TestBed.createComponent(TopicComponent);
             fixture.componentInstance.show = true;
             fixture.componentInstance.study = new Study();
             fixture.componentInstance.study.id = '1';
-            let mockBackend = TestBed.get(MockBackend);
+            const mockBackend = TestBed.get(MockBackend);
             mockBackend.connections.subscribe((c: any) => {
               c.mockRespond(new Response(new ResponseOptions({
                 body: '[{'
@@ -73,11 +73,11 @@ export function main() {
                 + '}]'
               })));
             });
-            let changes: SimpleChanges = {'study': new SimpleChange('test', 'test1',true)};
+            const changes: SimpleChanges = {'study': new SimpleChange('test', 'test1', true)};
             fixture.componentInstance.ngOnChanges(changes);
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let h5: any = fixture.debugElement.queryAll(By.css('h5'));
+              const h5: any = fixture.debugElement.queryAll(By.css('h5'));
               expect(h5.length).toBeGreaterThan(0);
               expect(h5[0].nativeNode.textContent).toContain('ESS');
             });

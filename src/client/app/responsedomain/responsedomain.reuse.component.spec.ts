@@ -8,9 +8,9 @@ import { ResponseDomainService } from './responsedomain.service';
 import { ResponsedomainReuseComponent } from './responsedomain.reuse.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Observable }     from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import { MaterializeModule } from 'angular2-materialize';
-import { API_BASE_HREF } from '../../api';
+import { API_BASE_HREF } from '../api';
 
 export function main() {
   describe('Responsedomain reuse component', () => {
@@ -45,9 +45,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(ResponsedomainReuseComponent);
+            const fixture = TestBed.createComponent(ResponsedomainReuseComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('ul'));
+            const de: any = fixture.debugElement.queryAll(By.css('ul'));
             expect(de.length).toBe(0);
           });
       }));
@@ -57,8 +57,8 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(ResponsedomainReuseComponent);
-            let managedRepresentation: any = {
+            const fixture = TestBed.createComponent(ResponsedomainReuseComponent);
+            const managedRepresentation: any = {
               'id': '0c3c168e-d1ea-421f-a629-7487c71fbf1a',
               'name': 'Code',
               'changeKind': 'CREATED',
@@ -95,7 +95,7 @@ export function main() {
                 },
               }]
             };
-            let responseDomain: any = {
+            const responseDomain: any = {
               'id' : '7f000101-54aa-131e-8154-aa27fc230000',
               'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
               'name' : 'responseDomain',
@@ -111,7 +111,7 @@ export function main() {
             fixture.componentInstance.ngOnChanges();
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let types: any[] = fixture.debugElement.queryAll(By.css('input'));
+              const types: any[] = fixture.debugElement.queryAll(By.css('input'));
               expect(types.length).toBeGreaterThan(1);
               expect(types[1].nativeNode.value).toBeTruthy();
             });
@@ -140,7 +140,7 @@ class RevisionComponent {
 }
 
 @Component({
-  selector: 'autocomplete',
+  selector: 'auto-complete',
   template: `<div></div>`
 })
 

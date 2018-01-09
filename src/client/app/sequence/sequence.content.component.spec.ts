@@ -43,9 +43,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(SequenceContentComponent);
+            const fixture = TestBed.createComponent(SequenceContentComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('ul'));
+            const de: any = fixture.debugElement.queryAll(By.css('ul'));
             expect(de.length).toBe(1);
           });
       }));
@@ -55,8 +55,8 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(SequenceContentComponent);
-            let element:any = {
+            const fixture = TestBed.createComponent(SequenceContentComponent);
+            const element: any = {
                 'id' : '7f000101-54aa-131e-8154-aa27fc230000',
                 'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
                 'name' : 'one condition',
@@ -70,9 +70,9 @@ export function main() {
             fixture.componentInstance.onSelectedElement(element);
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let de: any[] = fixture.debugElement.queryAll(By.css('.modal-content'));
+              const de: any[] = fixture.debugElement.queryAll(By.css('.modal-content'));
               expect(de.length).toBe(1);
-              let preview: any[] = fixture.debugElement.queryAll(By.css('qddt-preview-conditionconstruct'));
+              const preview: any[] = fixture.debugElement.queryAll(By.css('qddt-preview-conditionconstruct'));
               expect(preview.length).toBe(1);
             });
           });

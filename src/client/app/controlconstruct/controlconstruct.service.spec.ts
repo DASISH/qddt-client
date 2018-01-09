@@ -3,8 +3,8 @@ import { TestBed, async } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
 
 import { ControlConstructService } from './controlconstruct.service';
-import { BaseService } from '../../shared/base.service';
-import { API_BASE_HREF } from '../../api';
+import { BaseService } from '../shared/base.service';
+import { API_BASE_HREF } from '../api';
 
 export function main() {
   describe('Controlconstruct service', () => {
@@ -30,7 +30,7 @@ export function main() {
     });
 
     it('should update controlconstruct', async(() => {
-      let mockBackend = TestBed.get(MockBackend);
+      const mockBackend = TestBed.get(MockBackend);
       mockBackend.connections.subscribe((c: any) => {
         c.mockRespond(new Response(new ResponseOptions({
           body: '{'
@@ -38,15 +38,15 @@ export function main() {
           + '"name" : "controlconstruct"}'
         })));
       });
-      let service = TestBed.get(ControlConstructService);
-      let controlconstruct: any = { id: '2', name: 'test' };
+      const service = TestBed.get(ControlConstructService);
+      const controlconstruct: any = { id: '2', name: 'test' };
       service.update(controlconstruct).subscribe((data: any) => {
         expect(data.name).toBe('controlconstruct');
       });
     }));
 
     it('should get all of controlconstructs', async(() => {
-      let mockBackend = TestBed.get(MockBackend);
+      const mockBackend = TestBed.get(MockBackend);
       mockBackend.connections.subscribe((c: any) => {
         c.mockRespond(new Response(new ResponseOptions({
           body: '[{'
@@ -61,7 +61,7 @@ export function main() {
           + '}]'
         })));
       });
-      let service = TestBed.get(ControlConstructService);
+      const service = TestBed.get(ControlConstructService);
       service.getControlConstructsByQuestionItem('1').subscribe((data: any) => {
         expect(data.length).toBe(1);
         expect(data[0].name).toContain('controlconstruct');

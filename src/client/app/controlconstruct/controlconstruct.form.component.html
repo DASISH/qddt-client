@@ -36,7 +36,7 @@
         <div class="row"
              (mouseenter)="universe.showbutton = !readonly"
              (mouseleave)="universe.showbutton = false">
-          <div class="col s11">{{universe?.description}}</div>
+          <div class="col s11">{{ universe?.description }}</div>
           <div class="col s1">
             <a [ngClass]="{hide: !showUniverseButton}"
                class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
@@ -70,7 +70,7 @@
         <div class="row"
              (mouseenter)="instruction.showbutton = !readonly"
              (mouseleave)="instruction.showbutton = false">
-          <div class="col s11">{{instruction?.description}}</div>
+          <div class="col s11">{{ instruction?.description }}</div>
           <div class="col s1">
             <a [ngClass]="{hide: !showPreinstructionButton}"
                class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
@@ -101,7 +101,7 @@
       </div>
       <div class="row">
         <div class="col s11">
-          <div class="flow-text">{{controlConstruct?.questionItem?.question}}</div>
+          <div class="flow-text">{{ controlConstruct?.questionItem?.question }}</div>
         </div>
         <div class="col s1">
           <a [ngClass]="{hide: !showQuestionButton}"
@@ -141,7 +141,7 @@
           <div class="row" style="min-height:3rem"
                (mouseenter)="instruction.showbutton = !readonly"
                (mouseleave)="instruction.showbutton = false">
-            <div class="col s11">{{instruction?.description}}</div>
+            <div class="col s11">{{ instruction?.description }}</div>
             <div class="col s1">
               <a [ngClass]="{hide: !showPostinstructionButton}"
                  class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
@@ -194,7 +194,7 @@
           <div class="col s10">
             <a class="waves-effect waves-light" (click)="onDownloadFile(m)">
               <i class="material-icons center smal">description</i>
-              {{m.originalName}}</a>
+{{ m.originalName }}originalName}}</a>
           </div>
           <div class="col s1 right" >
             <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
@@ -208,7 +208,7 @@
       <li *ngFor="let file of fileStore; let idx=index;">
         <div class="row">
           <div class="col s11 m5">
-            <a class="waves-effect waves-light"><i class="material-icons center smal">description</i>{{file[0]?.name}}</a>
+            <a class="waves-effect waves-light"><i class="material-icons center smal">description</i>{{ file[0]?.name }}</a>
           </div>
           <div class="col s1 right" style="min-height:3rem">
             <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"

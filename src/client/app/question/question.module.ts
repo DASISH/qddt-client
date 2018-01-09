@@ -9,8 +9,8 @@ import { PreviewModule } from '../shared/preview/preview.module';
 import { ConceptrefModule } from '../shared/conceptref/conceptref.module';
 
 @NgModule({
-  imports: [ SharedModule, ResponsedomainModule,PreviewModule,ConceptrefModule],
-  declarations: [QuestionComponent, QuestionDetailComponent,QuestionReuseComponent, QuestionItemEditComponent],
+  imports: [ SharedModule, ResponsedomainModule, PreviewModule, ConceptrefModule],
+  declarations: [QuestionComponent, QuestionDetailComponent, QuestionReuseComponent, QuestionItemEditComponent],
   exports: [QuestionComponent, QuestionReuseComponent, QuestionItemEditComponent, QuestionDetailComponent ]
 })
 

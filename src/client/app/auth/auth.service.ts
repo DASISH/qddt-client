@@ -1,54 +1,61 @@
-import { Injectable, Inject, Output, EventEmitter } from '@angular/core';
-import { Http, Headers, RequestOptions, Response } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
+import { Injectable, Inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
 import { API_BASE_HREF } from '../api';
 
+export const TOKEN_NAME = 'jwt_token';
 /**
  * AuthService uses JSON-Web-Token authorization strategy.
- * Fetched token and user details are stored in sessionStorage.
+ * Fetched token and user details are stored in localStorage.
  */
 @Injectable()
 export class AuthService {
 
   public static readonly SIGNUP_URL = 'api/auth/signup';
   public static readonly SIGNIN_URL = 'api/auth/signin';
-  public static readonly REFRESH_TOKEN_URL = 'api/auth/token/refresh';
-  public static readonly CHECK_URL = 'api/check/';
 
+  private user: any;
+  private globalObjects = {};
 
-  @Output() loginEvent: EventEmitter<string>  = new EventEmitter<string>();
-
-  private token: string;
-  private username: string;
-  private userId: string;
-  private role: any;
-  private email: string;
-  private globalObjects: any;
-
-  constructor(private http: Http,  @Inject(API_BASE_HREF) private api: string) {
+  constructor(private http: HttpClient,  @Inject(API_BASE_HREF) private api: string) {
     this.refreshUserData();
-    this.globalObjects = {};
   }
 
-  get() : any {
-    try {
-      return JSON.parse(localStorage.getItem('user'));
-    } catch(e) {
-      return null;
-    }
+  public refreshUserData(): void {
+    this.user = JSON.parse(localStorage.getItem(TOKEN_NAME));
   }
 
-  set(user: string)  {
-    localStorage.setItem('user', user);
-    this.saveUserDetails(JSON.parse(user));
-    localStorage.setItem('jwt',this.token);
+
+  public signIn(username: string, password: string): Observable<any> {
+
+    const requestParam = {
+      username: username,
+      password: password
+    };
+
+    return this.http.post<any>(this.api + AuthService.SIGNIN_URL, requestParam)
+      .map(response => {
+        // console.info(response);
+        const user = this.getTokenClaims(response);
+        // console.info(user);
+        if (user && user.token) {
+          this.setToken(JSON.stringify(user));
+          this.refreshUserData();
+        }
+        return user;
+      })
+      .catch(err => {
+        throw Error(err.json().message);
+      });
   }
 
-  remove() {
-    localStorage.removeItem('jwt');
-    localStorage.removeItem('user');
+  /**
+   * Removes token and user details from localStorage and service's variables
+   */
+  public logout(): void {
+    localStorage.removeItem(TOKEN_NAME);
+
   }
 
   setGlobalObject(name: string, value: any) {
@@ -59,156 +66,47 @@ export class AuthService {
     return this.globalObjects[name] || '';
   }
 
+  public isTokenExpired(token?: string): boolean {
+    if (!token) token = this.getToken();
+    if (!token) return true;
 
-  /**
-   * Refreshes userId, username and token from localStorage
-   */
-  public refreshUserData(): void {
-    const user = this.get();
-    if (user) {
-      this.saveUserDetails(user);
-    }
+    const date = this.getTokenExpirationDate(token);
+    if (date === undefined) return false;
+    return !(date.valueOf() > new Date().valueOf());
   }
 
-  /**
-   * Registers new user and saves following token
-   * @param username
-   * @param email
-   * @param password
-   */
-  public signUp(username: string, email: string, password: string): Observable<any> {
-
-    const requestParam = {
-      email: email,
-      username: username,
-      password: password
-    };
-
-    return this.http.post( this.api + AuthService.SIGNUP_URL, requestParam, this.generateOptions())
-      .map((res: Response) => {
-        this.saveToken(res);
-        this.saveUserDetails(JSON.parse(localStorage.getItem('user')));
-      }).catch(err => {
-        throw Error(err.json().message);
-      });
-  }
-
-  /**
-   * Fetches and saves token for given user
-   * @param username
-   * @param password
-   */
-  public signIn(username: string, password: string): Observable<any> {
-
-    const requestParam = {
-      username: username,
-      password: password
-    };
-
-    return this.http.post(this.api + AuthService.SIGNIN_URL, requestParam) //, this.generateOptions())
-      .map((res: Response) => {
-        this.saveToken(res);
-        this.saveUserDetails(JSON.parse(localStorage.getItem('user')));
-        this.loginEvent.emit('logged_in');
-      }).catch(err => {
-        throw Error(err.json().message);
-      });
-  }
-
-  /**
-   * Removes token and user details from localStorage and service's variables
-   */
-  public logout(): void {
-    localStorage.removeItem('user');
-    this.token = null;
-    this.username = null;
-    this.userId = null;
-    this.email = null;
-    this.role = null;
-  }
-
-  /**
-   * Refreshes token for the user with given token
-   * @param token - which should be refreshed
-   */
-  public refreshToken(token: string): Observable<any> {
-    const requestParam = { token: this.token };
-
-    return this.http.post(this.api + AuthService.REFRESH_TOKEN_URL, requestParam, this.generateOptions())
-      .map((res: Response) => {
-        this.saveToken(res);
-      }).catch(err => {
-        throw Error(err.json().message);
-      });
-  }
-
-  public checkPath(url: string) {
-    return this.isAuthorized();
-    // return this.http.get(this.api + AuthService.CHECK_URL + url,  this.generateOptions())
-    //   .map((res: Response) => {
-    //     return res;
-    //   }).catch(err => {
-    //     throw Error(err.json().message);
-    //   });
-  }
-
-  /**
-   * Checks if user is authorized
-   * @return true is user authorized (there is token in localStorage) else false
-   */
-  public isAuthorized(): boolean {
-    return Boolean(this.token);
-  }
-
-  /**
-   * @return username if exists
-   */
   public getUsername(): string {
-    return this.username;
+    return this.user.username;
   }
 
-  /**
-   * @return userId if exists
-   */
   public getUserId(): string {
-    return this.userId;
+    return this.user.userId;
   }
 
-  /**
-   * @return token if exists
-   */
   public getToken(): string {
-    return this.token;
+    return localStorage.getItem(TOKEN_NAME);
   }
 
   public  getEmail(): string {
-    return this.email;
+    return this.user.email;
   }
 
   public  getRoles(): string[] {
-    return this.role;
+    return this.user.role;
   }
 
-  // Saves user details with token into localStorage as user item
-  private saveToken(res: Response): void {
-    const response = res.json() && res.json().token;
-    if (response) {
-      const token = response;
-      let claims = this.getTokenClaims(token);
-      claims.token = token;
-      localStorage.setItem('user', JSON.stringify(claims));
-    } else {
-      throw Error(res.json());
-    }
+  private setToken(token: string): void {
+    localStorage.setItem(TOKEN_NAME, token);
   }
 
-  // Saves user details into service properties
-  private saveUserDetails(user): void {
-    this.token = user.token || '';
-    this.username = user.sub || '';
-    this.userId = user.id || '';
-    this.role = user.role || {};
-    this.email = user.email || '';
+  private getTokenExpirationDate(token: string): Date {
+    const decoded = this.getTokenClaims(token);
+
+    if (decoded.exp === undefined) return null;
+
+    const date = new Date(0);
+    date.setUTCSeconds(decoded.exp);
+    return date;
   }
 
   // Retrieves user details from token
@@ -217,46 +115,5 @@ export class AuthService {
     const base64 = base64Url.replace('-', '+').replace('_', '/');
     return JSON.parse(window.atob(base64));
   }
-
-  // Generates Headers
-  private generateOptions(): RequestOptions {
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
-    //headers.append('Access-Control-Allow-Origin', '*');
-    headers.append('Access-Control-Allow-Headers', 'Origin, Authorization, Content-Type');
-    return new RequestOptions({ headers: headers });
-  }
-
-
-// .map((res:Response) => res.json())
-// .subscribe(
-// (data: any) => LoginComponent.saveJwt(data),
-// (err: any)  => LoginComponent.logError('Unable to log in user.'),
-// ()          => this.createUser()
-
-
-// createUser() {
-//   var headers = new Headers();
-//   headers.append('Authorization', 'Bearer  '+ JSON.parse(localStorage.getItem('jwt')).access_token);
-//   this.http.get(this.api+'user',
-//     {
-//       headers: headers
-//     })
-//     .map((res:Response) => res.json())
-//     .subscribe(
-//       (user: any)  => this.createSession(user),
-//       (err: any)   => LoginComponent.logError('Unable to create user.')
-//     );
-// }
-//
-// createSession(user: any) {
-//   this.user = user;
-//   this.userService.set(user);
-//   localStorage.setItem('user', JSON.stringify(user));
-//   this.loginEvent.emit('logged_in');
-// }
-
-
 
 }

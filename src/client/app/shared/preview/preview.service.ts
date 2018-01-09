@@ -1,9 +1,11 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http } from '@angular/http';
+// import { Http } from '@angular/http';
 
 import { API_BASE_HREF } from '../../api';
 import { BaseService } from '../base.service';
 import { Observable } from 'rxjs/Observable';
+import { AuthService } from '../../auth/auth.service';
+import { HttpClient } from '@angular/common/http';
 
 
 export function ElementEnumAware(constructor: Function) {
@@ -11,7 +13,7 @@ export function ElementEnumAware(constructor: Function) {
 }
 
 export enum ElementKind {
-  CATEGORY =0,
+  CATEGORY = 0,
   CONCEPT,
   CONDITION_CONSTRUCT,
   QUESTION_CONSTRUCT,
@@ -29,13 +31,13 @@ export enum ElementKind {
 }
 
 export class QddtElementType {
-  id:ElementKind;
-  label:string;
-  path:string;
-  fields:any[];
-  parameter:string;
+  id: ElementKind;
+  label: string;
+  path: string;
+  fields: any[];
+  parameter: string;
 
-  constructor(id:ElementKind,label:string, path:string,fields:any[],parameter:string) {
+  constructor(id: ElementKind, label: string, path: string, fields: any[], parameter: string) {
     this.id = id;
     this.label = label;
     this.path = path;
@@ -48,7 +50,7 @@ export class QddtElementType {
   }
 
   placeholder(): string {
-    var message: string = 'Searches in [';
+    let message = 'Searches in [';
     this.fields.forEach(o => {
       message += o + ' and ';
     });
@@ -57,43 +59,42 @@ export class QddtElementType {
 }
 
 export const QddtElementTypes: QddtElementType[] = [
-  new QddtElementType(ElementKind.CATEGORY, 'Category', 'category', ['name'],null),
-  new QddtElementType(ElementKind.CONCEPT, 'Concept', 'concept',['name'],null),
-  new QddtElementType(ElementKind.CONDITION_CONSTRUCT, 'Condition', 'controlconstruct',['name', 'condition'],
+  new QddtElementType(ElementKind.CATEGORY, 'Category', 'category', ['name'], null),
+  new QddtElementType(ElementKind.CONCEPT, 'Concept', 'concept', ['name'], null),
+  new QddtElementType(ElementKind.CONDITION_CONSTRUCT, 'Condition', 'controlconstruct', ['name', 'condition'],
      '&constructkind=CONDITION_CONSTRUCT'),
-  new QddtElementType(ElementKind.QUESTION_CONSTRUCT, 'QuestionConstruct', 'controlconstruct',['name', ['questionItem','name']],
+  new QddtElementType(ElementKind.QUESTION_CONSTRUCT, 'QuestionConstruct', 'controlconstruct', ['name', ['questionItem', 'name']],
      '&constructkind=QUESTION_CONSTRUCT'),
-  new QddtElementType(ElementKind.SEQUENCE_CONSTRUCT, 'Sequence', 'controlconstruct',['name'],
+  new QddtElementType(ElementKind.SEQUENCE_CONSTRUCT, 'Sequence', 'controlconstruct', ['name'],
      '&constructkind=SEQUENCE_CONSTRUCT'),
-  new QddtElementType(ElementKind.STATEMENT_CONSTRUCT, 'Statement', 'controlconstruct',['name', 'preInstructions'],
+  new QddtElementType(ElementKind.STATEMENT_CONSTRUCT, 'Statement', 'controlconstruct', ['name', 'preInstructions'],
      '&constructkind=STATEMENT_CONSTRUCT'),
-  new QddtElementType(ElementKind.INSTRUMENT, 'Instrument', 'instrument',['label', 'description'],null),
-  new QddtElementType(ElementKind.PUBLICATION, 'Publication', 'publication',['name', 'purpose'],null),
-  new QddtElementType(ElementKind.QUESTIONITEM, 'QuestionItem', 'questionitem',['name', 'question'],null),
-  new QddtElementType(ElementKind.RESPONSEDOMAIN, 'ResponseDomain', 'responsedomain',['name', 'description'],null),
-  new QddtElementType(ElementKind.STUDY, 'Study', 'study',['name', 'description'],null),
-  new QddtElementType(ElementKind.SURVEY, 'Survey', 'surveyprogram',['name', 'description'],null),
-  new QddtElementType(ElementKind.TOPIC_GROUP, 'Module', 'topicgroup',['name', 'description'],null),
-  new QddtElementType(ElementKind.INSTRUCTION, 'Instruction', 'instruction',['description'],null),
-  new QddtElementType(ElementKind.UNIVERSE, 'Universe', 'universe',['description'],null),
+  new QddtElementType(ElementKind.INSTRUMENT, 'Instrument', 'instrument', ['label', 'description'], null),
+  new QddtElementType(ElementKind.PUBLICATION, 'Publication', 'publication', ['name', 'purpose'], null),
+  new QddtElementType(ElementKind.QUESTIONITEM, 'QuestionItem', 'questionitem', ['name', 'question'], null),
+  new QddtElementType(ElementKind.RESPONSEDOMAIN, 'ResponseDomain', 'responsedomain', ['name', 'description'], null),
+  new QddtElementType(ElementKind.STUDY, 'Study', 'study', ['name', 'description'], null),
+  new QddtElementType(ElementKind.SURVEY, 'Survey', 'surveyprogram', ['name', 'description'], null),
+  new QddtElementType(ElementKind.TOPIC_GROUP, 'Module', 'topicgroup', ['name', 'description'], null),
+  new QddtElementType(ElementKind.INSTRUCTION, 'Instruction', 'instruction', ['description'], null),
+  new QddtElementType(ElementKind.UNIVERSE, 'Universe', 'universe', ['description'], null),
 ];
 
 @Injectable()
 export class PreviewService extends BaseService {
 
-  constructor(protected http: Http, @Inject(API_BASE_HREF) protected api: string) {
-    super(http, api);
+  constructor(protected http: HttpClient, protected auth: AuthService, @Inject(API_BASE_HREF) protected api: string) {
+    super(http, auth , api);
   }
-
-  getRevisionById(elementTypeId:number, id: string, rev: string): any {
-    let et: any = QddtElementTypes.find(e => e.id === elementTypeId);
+  getRevisionById(elementTypeId: number, id: string, rev: string): any {
+    const et: any = QddtElementTypes.find(e => e.id === elementTypeId);
     if (et !== undefined) {
       return this.get('audit/' + et.path + '/' + id + '/' + rev);
     }
      return Observable.of([]);
   }
-  getRevisionByType(type:string, id: string, rev: string): any {
-    let et: any = QddtElementTypes.find(e => e.label === type);
+  getRevisionByType(type: string, id: string, rev: string): any {
+    const et: any = QddtElementTypes.find(e => e.label === type);
     if (et !== undefined) {
       return this.get('audit/' + et.path + '/' + id + '/' + rev);
     }

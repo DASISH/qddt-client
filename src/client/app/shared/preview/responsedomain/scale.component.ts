@@ -19,7 +19,7 @@ class Column {
   moduleId: module.id,
   templateUrl: './scale.component.html',
   styles: ['table .text-center {text-align: center;}'
-          ,'table .text-left {text-align: left;}',
+          , 'table .text-left {text-align: left;}',
           'table .text-right {text-align: right;}'],
 })
 
@@ -28,16 +28,16 @@ class Column {
 
 export class ResponsedomainScaleComponent implements OnChanges {
   @Input() responseDomain: ResponseDomain;
-  @Input() numOfRows: number = 1;
+  @Input() numOfRows = 1;
   private headers: ScaleHead[];
   private columns: Column[];
   private rows: any;
-  private max: number = 5;
-  private min: number = 1;
-  private displayLayout: number = 0;
+  private max = 5;
+  private min = 1;
+  private displayLayout = 0;
 
   ngOnChanges() {
-    let rep = this.responseDomain.managedRepresentation;
+    const rep = this.responseDomain.managedRepresentation;
     this.columns = [];
     this.headers = [];
     this.rows = new Array(this.numOfRows).fill(1);
@@ -57,7 +57,7 @@ export class ResponsedomainScaleComponent implements OnChanges {
   }
 
   rotate() {
-    if(this.displayLayout === 0) {
+    if (this.displayLayout === 0) {
       this.displayLayout = 90;
       this.responseDomain.displayLayout = '90';
       this.buildVerticalColumns();
@@ -72,8 +72,8 @@ export class ResponsedomainScaleComponent implements OnChanges {
     this.columns = [];
     this.headers = [];
 
-    let usedCols: number=0;
-    let rep = this.responseDomain.managedRepresentation;
+    let usedCols = 0;
+    const rep = this.responseDomain.managedRepresentation;
 
     if (rep === undefined || rep.children === undefined) {
       return;
@@ -81,24 +81,24 @@ export class ResponsedomainScaleComponent implements OnChanges {
 
     function getAlignment(category: Category, islast: boolean) {
       if (!category.code.alignment) {
-        return (islast)?'text-right':'text-left';
+        return (islast) ? 'text-right' : 'text-left';
       }
       return category.code.alignment;
     }
     function minDistance(c: Category[]): number {
-      let minDiff = parseInt(c[1].code.codeValue)-parseInt(c[0].code.codeValue);
+      let minDiff = parseInt(c[1].code.codeValue) - parseInt(c[0].code.codeValue);
       for (let i = 2 ; i !== c.length ; i++) {
-        minDiff = Math.min(minDiff, parseInt(c[i].code.codeValue)-parseInt(c[i-1].code.codeValue));
+        minDiff = Math.min(minDiff, parseInt(c[i].code.codeValue) - parseInt(c[i - 1].code.codeValue));
       }
-      return (minDiff>3)?3:minDiff;
+      return (minDiff > 3) ? 3 : minDiff;
     }
 
-    let numberOfcols = this.max - this.min + 1;
-    let categories = rep.children
+    const numberOfcols = this.max - this.min + 1;
+    const categories = rep.children
       .map(x => Object.assign({}, x))
-      .sort(function(a, b) { return  parseInt(a.code.codeValue) - parseInt(b.code.codeValue);} );
+      .sort(function(a, b) { return  parseInt(a.code.codeValue) - parseInt(b.code.codeValue); } );
 
-    let colspan = minDistance(categories);
+    const colspan = minDistance(categories);
 
 
     for (let i = 0; i < categories.length; i++) {
@@ -121,7 +121,7 @@ export class ResponsedomainScaleComponent implements OnChanges {
           usedCols += (nextcol - usedCols);
         }
       }
-      let alignment = getAlignment(categories[i],(i+1===categories.length));
+      const alignment = getAlignment(categories[i], (i + 1 === categories.length));
 
       this.headers.push({
         label: categories[i].label,
@@ -132,7 +132,7 @@ export class ResponsedomainScaleComponent implements OnChanges {
       usedCols += colspan;
     }
     for (let i = this.min; i <= this.max; i++) {
-      let c = categories
+      const c = categories
         .find(category => category.code && category.code.codeValue === i.toString());
       this.columns.push({ label: c !== undefined ? c.label : '', value: i });
     }
@@ -142,12 +142,12 @@ export class ResponsedomainScaleComponent implements OnChanges {
     this.columns = [];
     this.headers = [];
     let categories: any[] = [];
-    let rep = this.responseDomain.managedRepresentation;
+    const rep = this.responseDomain.managedRepresentation;
     if (rep !== undefined && rep.children !== undefined) {
       categories = rep.children;
     }
     for (let i = this.min; i <= this.max; i++) {
-      let c = categories
+      const c = categories
         .find(category => category.code && category.code.codeValue === i.toString());
       this.columns.push({ label: c !== undefined ? c.label : '', value: i });
     }

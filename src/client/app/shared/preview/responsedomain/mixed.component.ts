@@ -7,8 +7,8 @@ import { DomainKind } from '../../../responsedomain/responsedomain.constant';
   moduleId: module.id,
   template: `<div>
     <label *ngIf="mixedDomains && mixedDomains.length > 0"
-      class="active teal-text">{{mixedDomains[0]?.name}}
-       (V{{mixedDomains[0]?.version?.major}}.{{mixedDomains[0]?.version?.minor}})</label>
+      class="active teal-text">{{ mixedDomains[0]?.name }}
+  {{ mixedDomains[0]?.version?.major }}m{{ mixedDomains[0]?.version?.minor }}minor }})</label>
       <div *ngFor="let domain of mixedDomains">
         <div [ngSwitch]="domain.domainType">
 					<qddt-preview-rd-scale *ngSwitchCase="domainTypeDef.SCALE"
@@ -45,9 +45,9 @@ export class ResponsedomainMixedComponent implements OnChanges {
   ngOnChanges() {
     this.mixedDomains = [];
     let missing = null;
-    let rep = this.responseDomain.managedRepresentation;
+    const rep = this.responseDomain.managedRepresentation;
     for (let i = 0; i < rep.children.length; i++) {
-      let rd = new ResponseDomain();
+      const rd = new ResponseDomain();
       rd['id'] = new Date().toString();
       rd['responseCardinality'] = { minimum: 1, maximum: 1 };
       rd['managedRepresentation'] = rep.children[i];
@@ -75,7 +75,7 @@ export class ResponsedomainMixedComponent implements OnChanges {
       this.mixedDomains.push(rd);
     }
 
-    if(missing !== null) {
+    if (missing !== null) {
       this.mixedDomains.push(missing);
     }
   }

@@ -1,8 +1,8 @@
-import { Component, ViewEncapsulation, AfterContentChecked, AfterViewInit  } from '@angular/core';
-import { AlertComponent} from './alert/alert.component';
+import { Component, ViewEncapsulation,  AfterViewInit  } from '@angular/core';
+// import { AlertComponent} from './alert/alert.component';
 import { AuthService } from './auth/auth.service';
 
-declare var $:any;
+declare var $: any;
 
 @Component({
   selector: 'app',
@@ -13,27 +13,20 @@ declare var $:any;
   providers: [AuthService]
 })
 
-export class AppComponent implements AfterContentChecked ,AfterViewInit{
-  public user: any;
+export class AppComponent implements AfterViewInit {
 
-  constructor(private userService: AuthService) {
-    this.user = this.userService.get();
+  constructor(public  userService: AuthService) {
+    // this.user = this.userService.get();
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     $('.button-collapse').sideNav({
       menuWidth: 100, // Default is 300
       edge: 'left', // Choose the horizontal origin
       closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
       draggable: true});
     $('.dropdown-button').dropdown();
-
     $('.collapsible').collapsible();
-  }
-
-
-  ngAfterContentChecked() {
-    this.user = this.userService.get();
   }
 
   logoutEvent() {
@@ -77,13 +70,13 @@ export class AppComponent implements AfterContentChecked ,AfterViewInit{
   }
 
   private checkRouter(target: string, value: string) {
-    let current = this.userService.getGlobalObject('current');
+    const current = this.userService.getGlobalObject('current');
     if (current === target) {
-      let config = this.userService.getGlobalObject('home');
-      if(config.current !== value) {
+      const config = this.userService.getGlobalObject('home');
+      if (config.current !== value) {
         this.userService.setGlobalObject(target, {'current': value});
       }
-    } else if(this.userService.getGlobalObject(target) === '') {
+    } else if (this.userService.getGlobalObject(target) === '') {
       this.userService.setGlobalObject(target, {'current': value});
     }
     this.userService.setGlobalObject('current', target);

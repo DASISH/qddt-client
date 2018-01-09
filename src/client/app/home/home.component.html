@@ -6,9 +6,9 @@
           <i class="material-icons">add</i>
         </a>
         <!--<div class="nav-wrapper" [ngStyle]="{'cursor': 'pointer'}">-->
-        <a *ngIf="survey" (click)=onShowSurvey() class="breadcrumb">SURVEY [{{survey.name}}]</a>
-        <a *ngIf="study" (click)=onShowStudy() class="breadcrumb"> STUDY [{{study.name}}]</a>
-        <a *ngIf="topic" (click)=onShowTopic() class="breadcrumb">QUESTIONNAIRE MODULE [{{topic.name}}]</a>
+        <a *ngIf="survey" (click)=onShowSurvey() class="breadcrumb">SURVEY [{{ survey.name }}]</a>
+        <a *ngIf="study" (click)=onShowStudy() class="breadcrumb"> STUDY [{{ study.name }}]</a>
+        <a *ngIf="topic" (click)=onShowTopic() class="breadcrumb">QUESTIONNAIRE MODULE [{{ topic.name }}]</a>
         <a *ngIf="concept" (click)=onShowConcept()  class="breadcrumb">CONCEPT</a>
         <!--</div>-->
       </nav>

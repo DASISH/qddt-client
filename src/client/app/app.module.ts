@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { APP_BASE_HREF } from '@angular/common';
 import { API_BASE_HREF } from './api';
-import { HttpModule } from '@angular/http';
 
 import { routing } from './app.routes';
 import { AppComponent } from './app.component';
-import { HomeModule }   from './home/home.module';
+import { HomeModule } from './home/home.module';
 import { SharedModule } from './shared/shared.module';
 import { CategoryModule } from './category/category.module';
 import { QuestionModule } from './question/question.module';
@@ -21,10 +21,10 @@ import { AlertService } from './alert/alert.service';
 import { AuthModule } from './auth/auth.module';
 
 @NgModule({
-  imports: [ routing, BrowserModule, HttpModule,  SharedModule, HomeModule, AuthModule,
+  imports: [ routing, BrowserModule, HttpClientModule,  SharedModule, HomeModule, AuthModule,
     CategoryModule, ResponsedomainModule, QuestionModule, ControlConstructModule,
     SequenceModule, InstrumentModule, PublicationModule],
-  declarations: [ AppComponent, PageNotFoundComponent ,AlertComponent],
+  declarations: [ AppComponent, PageNotFoundComponent , AlertComponent],
   providers: [ AlertService, {
     provide: APP_BASE_HREF,
     useValue: '<%= APP_BASE %>'

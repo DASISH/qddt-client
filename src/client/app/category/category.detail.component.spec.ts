@@ -10,7 +10,7 @@ import { CategoryDetailComponent } from './category.detail.component';
 import { API_BASE_HREF } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Observable }     from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import { AuthService } from '../auth/auth.service';
 
 export function main() {
@@ -47,9 +47,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(CategoryDetailComponent);
+            const fixture = TestBed.createComponent(CategoryDetailComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('label'));
+            const de: any = fixture.debugElement.queryAll(By.css('label'));
             expect(de.length).toBe(0);
           });
       }));
@@ -59,8 +59,8 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(CategoryDetailComponent);
-            let category: any = {
+            const fixture = TestBed.createComponent(CategoryDetailComponent);
+            const category: any = {
               'id' : '7f000101-54aa-131e-8154-aa27fc230000',
               'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
               'name' : 'The European Social Survey (ESS)',
@@ -74,7 +74,7 @@ export function main() {
             fixture.componentInstance.category = category;
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let h5: any = fixture.debugElement.queryAll(By.css('flow-text'));
+              const h5: any = fixture.debugElement.queryAll(By.css('flow-text'));
               expect(h5.length).toBeGreaterThan(0);
               expect(h5[0].nativeElement.textContent).toContain('ESS');
             });

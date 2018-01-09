@@ -65,7 +65,7 @@ export class ConceptEditComponent implements OnInit {
 
   @Input() concept: Concept;
   @Input() readonly: boolean;
-  @Input() isVisible: boolean = false;
+  @Input() isVisible = false;
   @Output() conceptSavedEvent: EventEmitter<any> = new EventEmitter<any>();
   basedonObject: any;
   basedonActions = new EventEmitter<string|MaterializeAction>();
@@ -75,7 +75,7 @@ export class ConceptEditComponent implements OnInit {
 
   ngOnInit() {
     this.basedonObject = null;
-    if(this.readonly === null || this.readonly === undefined) {
+    if (this.readonly === null || this.readonly === undefined) {
       this.readonly = false;
     }
   }
@@ -87,18 +87,18 @@ export class ConceptEditComponent implements OnInit {
         this.conceptSavedEvent.emit(result);
         this.isVisible = false;
       }
-        ,(err: any) => console.log('ERROR: ', err));
+        , (err: any) => console.log('ERROR: ', err));
   }
 
-  onAuthorSelected(author:any) {
-    this.service.attachAuthor(this.concept.id,author.id);
+  onAuthorSelected(author: any) {
+    this.service.attachAuthor(this.concept.id, author.id);
     this.concept.authors.push(author);
   }
 
-  onAuthorRemoved(author:any) {
-    this.service.deattachAuthor(this.concept.id,author.id);
-    var i = this.concept.authors.findIndex(F=>F===author);
-    this.concept.authors.splice(i,1);
+  onAuthorRemoved(author: any) {
+    this.service.deattachAuthor(this.concept.id, author.id);
+    let i = this.concept.authors.findIndex(F => F === author);
+    this.concept.authors.splice(i, 1);
   }
 
   onBasedonObjectDetail(id: string) {
@@ -106,7 +106,7 @@ export class ConceptEditComponent implements OnInit {
       .subscribe(
       (result: any) => {
         this.basedonObject = result;
-        this.basedonActions.emit({action:'modal', params:['open']});
+        this.basedonActions.emit({action: 'modal', params: ['open']});
         // this.basedonActions.emit({action:'modal', params:['open']});
       },
       (err: any) => null

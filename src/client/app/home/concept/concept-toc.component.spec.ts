@@ -37,9 +37,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(ConceptTocComponent);
+            const fixture = TestBed.createComponent(ConceptTocComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('ul'));
+            const de: any = fixture.debugElement.queryAll(By.css('ul'));
             expect(de.length).toBe(0);
           });
       }));
@@ -49,8 +49,8 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(ConceptTocComponent);
-            let concept: any = {
+            const fixture = TestBed.createComponent(ConceptTocComponent);
+            const concept: any = {
                 'id' : '7f000101-54aa-131e-8154-aa27fc230000',
                 'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
                 'name' : 'one concept',
@@ -64,7 +64,7 @@ export function main() {
             fixture.componentInstance.level = 0;
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let li: any = fixture.debugElement.queryAll(By.css('li'));
+              const li: any = fixture.debugElement.queryAll(By.css('li'));
               expect(li.length).toBeGreaterThan(0);
             });
           });

@@ -16,7 +16,7 @@ export function main() {
     //
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [PreviewQustionitemComponent,PreviewResponsedomainComponent, PreviewPublicationComponent, CommentListComponent],
+        declarations: [PreviewQustionitemComponent, PreviewResponsedomainComponent, PreviewPublicationComponent, CommentListComponent],
         providers: [
           MockBackend,
           BaseRequestOptions,
@@ -40,9 +40,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(PreviewPublicationComponent);
+            const fixture = TestBed.createComponent(PreviewPublicationComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('div'));
+            const de: any = fixture.debugElement.queryAll(By.css('div'));
             expect(de.length).toBe(0);
           });
       }));
@@ -52,8 +52,8 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(PreviewPublicationComponent);
-            let element: any = {
+            const fixture = TestBed.createComponent(PreviewPublicationComponent);
+            const element: any = {
                 'id' : '7f000101-54aa-131e-8154-aa27fc230000',
                 'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
                 'name' : 'one element',
@@ -68,7 +68,7 @@ export function main() {
             fixture.componentInstance.elementKind = 2;
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let de: any = fixture.debugElement.queryAll(By.css('textarea'));
+              const de: any = fixture.debugElement.queryAll(By.css('textarea'));
               expect(de.length).toBeGreaterThan(0);
               expect(de[0].nativeNode.value).toContain('element');
             });

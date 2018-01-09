@@ -6,37 +6,36 @@ import { ResponseDomainService } from './responsedomain.service';
   moduleId: module.id,
   template: `
 <div class="row card">
-    <div class="row" *ngIf="selectedResponseDomain">
-      <div class="row">
-        <div class="input-field col s4" *ngIf="responseDomainRevisions.length > 0">
-          <label class="active black-text">responseDomain business version</label>
-          <select [(ngModel)]="responseDomainRevision"
-            (ngModelChange)="onSelectResponseDomainRevisions($event)"
-            class="black-text"
-            name="questionItem-responseDomainRevision"
-            materialize="material_select">
-            <option *ngFor="let revision of responseDomainRevisions"
-              [selected]="revision.revisionNumber === responseDomainRevision"
-              [value]="revision.revisionNumber">
-              {{revision?.entity?.version?.major}}.{{revision?.entity?.version?.minor}}
-            </option>
-          </select>
-        </div>
-        <div class="input-field col s7 ">
-          <a class="waves-effect waves-light btn right red" (click)="onDismissResponsedomainSelect()">Dismiss</a>
-          <a class="waves-effect waves-light btn right green" (click)="onUseResponseDomain()">Use this</a>
-        </div>
+  <div class="row" *ngIf="selectedResponseDomain">
+    <div class="row">
+      <div class="input-field col s4" *ngIf="responseDomainRevisions.length > 0">
+        <label class="active black-text">responseDomain business version</label>
+        <select [(ngModel)]="responseDomainRevision"
+          (ngModelChange)="onSelectResponseDomainRevisions($event)"
+          class="black-text"
+          name="questionItem-responseDomainRevision"
+          materialize="material_select">
+          <option *ngFor="let revision of responseDomainRevisions"
+            [selected]="revision.revisionNumber === responseDomainRevision"
+            [value]="revision.revisionNumber"><qddt-revision [current]="revision?.entity"></qddt-revision>
+          </option>
+        </select>
       </div>
-      <div class="row">
-        <label for="seldesc" class="teal-text">Description</label>
-        <span id="seldesc">{{selectedResponseDomain?.description}}</span>
+      <div class="input-field col s7 ">
+        <a class="waves-effect waves-light btn right red" (click)="onDismissResponsedomainSelect()">Dismiss</a>
+        <a class="waves-effect waves-light btn right green" (click)="onUseResponseDomain()">Use this</a>
       </div>
-      <qddt-preview-responsedomain
-        *ngIf="selectedResponseDomain"
-        [responseDomain]="selectedResponseDomain">
-      </qddt-preview-responsedomain>
     </div>
+    <div class="row">
+      <label for="seldesc" class="teal-text">Description</label>
+      <span id="seldesc">{{ selectedResponseDomain?.description }}</span>
+    </div>
+    <qddt-preview-responsedomain
+      *ngIf="selectedResponseDomain"
+      [responseDomain]="selectedResponseDomain">
+    </qddt-preview-responsedomain>
   </div>
+</div>
   `,
   providers: [ ResponseDomainService ],
 })
@@ -76,22 +75,22 @@ export class ResponseDomainSelectComponent implements OnChanges {
 
   onSelectResponseDomainRevisions() {
     let r = this.responseDomainRevision;
-    if(typeof r === 'string') {
+    if (typeof r === 'string') {
       r = parseInt(r);
     }
     this.responseDomainRevision = r;
-    let result = this.responseDomainRevisions
+    const result = this.responseDomainRevisions
       .find((e: any) => e.revisionNumber === r);
-    if(result !== null && result !== undefined) {
+    if (result !== null && result !== undefined) {
       this.selectedResponseDomain = result.entity;
-    } else if(this.responseDomainRevisions.length > 0) {
+    } else if (this.responseDomainRevisions.length > 0) {
       this.selectedResponseDomain = this.responseDomainRevisions[0].entity;
       this.responseDomainRevision = this.responseDomainRevisions[0].revisionNumber;
     }
   }
 
   onUseResponseDomain() {
-    let object = {
+    const object = {
       responseDomain: this.selectedResponseDomain,
       responseDomainRevision: this.responseDomainRevision
     };

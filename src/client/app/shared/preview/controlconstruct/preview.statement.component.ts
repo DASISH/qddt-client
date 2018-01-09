@@ -6,7 +6,7 @@ import { Component, OnInit, Input } from '@angular/core';
   template: `
     <div class="row">
       <h5>Statement</h5>
-      <span class="row">{{text}}</span>
+      <span class="row">{{ text }}</span>
     </div>`,
   styles: [
   ],
@@ -19,7 +19,7 @@ export class PreviewStatementConstructComponent implements OnInit {
 
   ngOnInit() {
     this.text = '';
-    if(this.statement !== null && this.statement !== undefined) {
+    if (this.statement !== null && this.statement !== undefined) {
       this.text = this.statement.description || '';
     }
   }
