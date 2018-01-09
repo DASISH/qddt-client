@@ -20,13 +20,17 @@ export class AppComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    $('.button-collapse').sideNav({
-      menuWidth: 100, // Default is 300
-      edge: 'left', // Choose the horizontal origin
-      closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
-      draggable: true});
+    // $('.button-collapse').sideNav({
+    //   menuWidth: 100, // Default is 300
+    //   edge: 'left', // Choose the horizontal origin
+    //   closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+    //   draggable: true});
     $('.dropdown-button').dropdown();
     $('.collapsible').collapsible();
+  }
+
+  isLoggedIn() : boolean {
+    return !this.userService.isTokenExpired();
   }
 
   logoutEvent() {

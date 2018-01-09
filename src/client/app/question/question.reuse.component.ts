@@ -43,7 +43,7 @@ export class QuestionReuseComponent {
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
-        this.questionService.searchQuestionItems(name).subscribe((result: any) => {
+        this.questionService.searchQuestionItems(name).then((result: any) => {
           this.questionItems = result.content;
         });
       });
@@ -90,7 +90,7 @@ export class QuestionReuseComponent {
     this.selectedElement = this.questionItem;
     if (this.questionItem !== null && this.questionItem !== undefined
       && this.questionItem.id !== null && this.questionItem.id !== undefined) {
-      this.questionService.getQuestionItemRevisions(this.questionItem.id).subscribe((result: any) => {
+      this.questionService.getQuestionItemRevisions(this.questionItem.id).then((result: any) => {
         this.elementRevisions = result.content.sort((e1: any, e2: any) => e2.revisionNumber - e1.revisionNumber);
          this.onSelectElementRevisions();
       },

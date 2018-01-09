@@ -6,6 +6,7 @@ import { API_BASE_HREF } from '../api';
 import { BaseService } from '../shared/base.service';
 import { ResponseDomain } from '../responsedomain/responsedomain.service';
 import { AuthService } from '../auth/auth.service';
+import { Observable } from 'rxjs/Observable';
 
 
 export class QuestionItem {
@@ -30,11 +31,11 @@ export class QuestionService extends BaseService {
   }
 
 
-  getQuestionItemPage(page: String = '0'): any {
+  getQuestionItemPage(page: String = '0'): Promise<any> {
     return this.get('questionitem/page' + '?&page=' + page + this.pageSize );
   }
 
-  getquestion(id: string): any {
+  getquestion(id: string): Promise<any> {
     return this.get('questionitem/' + id);
   }
 
@@ -42,7 +43,7 @@ export class QuestionService extends BaseService {
     return this.delete('questionitem/delete/' + id);
   }
 
-  searchQuestionItems(name: string = '', page: String = '0', sort: String = ''): any {
+  searchQuestionItems(name: string = '', page: String = '0', sort: String = ''): Promise<any> {
     let query = name.length > 0 ? '&question=' + '*' + name + '*' : '';
     if (sort.length > 0) {
       query += '&sort=' + sort;
@@ -67,7 +68,7 @@ export class QuestionService extends BaseService {
   }
 
 
-  getAllTemplatesByCategoryKind(categoryKind: String, name: String = '', page: String = '0', sort: String = ''): any {
+  getAllTemplatesByCategoryKind(categoryKind: String, name: String = '', page: String = '0', sort: String = ''): Promise<any> {
     let query = name.length > 0 ? '&name=' + '*' + name + '*' : '';
     if (sort.length > 0) {
       query += '&sort=' + sort;
@@ -76,24 +77,24 @@ export class QuestionService extends BaseService {
       + query + '&page=' + page + this.pageSize);
   }
 
-  getResponseDomainsRevisions(id: string): any {
+  getResponseDomainsRevisions(id: string): Promise<any> {
     return this.get('audit/responsedomain/' + id + '/all');
   }
 
-  getQuestionItemRevisions(id: string): any {
+  getQuestionItemRevisions(id: string): Promise<any> {
     return this.get('audit/questionitem/' + id + '/all');
   }
 
-  getQuestionItemRevision(id: string, rev: string): any {
+  getQuestionItemRevision(id: string, rev: string): Promise<any> {
     return this.get('audit/questionitem/' + id + '/' + rev);
   }
 
-  getControlConstructsByQuestionItem(id: string): any {
+  getControlConstructsByQuestionItem(id: string): Promise<any> {
     return this.get('controlconstruct/list/by-question/' + id);
   }
 
 
-  getPdf(id: string): any {
+  getPdf(id: string): Observable<Blob> {
     return this.getBlob('questionitem/pdf/' + id);
   }
 }

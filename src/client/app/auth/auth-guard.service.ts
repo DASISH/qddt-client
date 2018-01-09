@@ -10,7 +10,7 @@ export class AuthGuard implements CanActivate, CanActivateChild  {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    if (this.authService.isTokenExpired())
+    if (!this.authService.isTokenExpired())
       return true;
 
     this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
@@ -23,7 +23,7 @@ export class AuthGuard implements CanActivate, CanActivateChild  {
 
   canLoad(route: Route): boolean {
     const url = `/${route.path}`;
-    return this.authService.isTokenExpired();
+    return !this.authService.isTokenExpired();
   }
 
 }

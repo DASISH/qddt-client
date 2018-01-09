@@ -53,7 +53,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
       .subscribe((name: string) => {
         this.showProgressBar = true;
         this.questionService.searchQuestionItems(name, '0', this.getSort())
-          .subscribe((result: any) => {
+          .then((result: any) => {
             this.page = result.page;
             this.questionitems = result.content;
             this.showProgressBar = false;
@@ -123,7 +123,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
   onPage(page: string) {
     this.showProgressBar = true;
     this.questionService.searchQuestionItems(this.searchKeys, page, this.getSort())
-      .subscribe(
+      .then(
       (result: any) => {
         this.page = result.page;
         this.questionitems = result.content;

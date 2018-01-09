@@ -14,6 +14,7 @@ export class AuthService {
 
   public static readonly SIGNUP_URL = 'api/auth/signup';
   public static readonly SIGNIN_URL = 'api/auth/signin';
+  private static readonly USERINFO = 'user';
 
   private user: any;
   private globalObjects = {};
@@ -23,9 +24,8 @@ export class AuthService {
   }
 
   public refreshUserData(): void {
-    this.user = JSON.parse(localStorage.getItem(TOKEN_NAME));
+    this.user = JSON.parse(localStorage.getItem(AuthService.USERINFO));
   }
-
 
   public signIn(username: string, password: string): Observable<any> {
 
@@ -36,14 +36,11 @@ export class AuthService {
 
     return this.http.post<any>(this.api + AuthService.SIGNIN_URL, requestParam)
       .map(response => {
-        // console.info(response);
-        const user = this.getTokenClaims(response);
-        // console.info(user);
-        if (user && user.token) {
-          this.setToken(JSON.stringify(user));
-          this.refreshUserData();
+        console.info('JSON -> ' + JSON.stringify(response));
+        if (response && response.token) {
+          this.setUserData(response);
         }
-        return user;
+        return response;
       })
       .catch(err => {
         throw Error(err.json().message);
@@ -55,7 +52,7 @@ export class AuthService {
    */
   public logout(): void {
     localStorage.removeItem(TOKEN_NAME);
-
+    // localStorage.removeItem(AuthService.USERINFO); NOPE!
   }
 
   setGlobalObject(name: string, value: any) {
@@ -83,10 +80,6 @@ export class AuthService {
     return this.user.userId;
   }
 
-  public getToken(): string {
-    return localStorage.getItem(TOKEN_NAME);
-  }
-
   public  getEmail(): string {
     return this.user.email;
   }
@@ -95,8 +88,26 @@ export class AuthService {
     return this.user.role;
   }
 
+  public getToken(): string {
+    return localStorage.getItem(TOKEN_NAME);
+  }
+
   private setToken(token: string): void {
     localStorage.setItem(TOKEN_NAME, token);
+  }
+
+  private setUserData(userjson: any ): void {
+    const response = userjson && userjson.token;
+    if (response) {
+      const token = response;
+      let claims = this.getTokenClaims(token);
+      claims.token = token;
+      localStorage.setItem(AuthService.USERINFO, JSON.stringify(claims));
+      this.setToken(token);
+      this.refreshUserData();
+    } else {
+      throw Error(userjson);
+    }
   }
 
   private getTokenExpirationDate(token: string): Date {
@@ -108,6 +119,8 @@ export class AuthService {
     date.setUTCSeconds(decoded.exp);
     return date;
   }
+
+
 
   // Retrieves user details from token
   private getTokenClaims(token: string): any {
