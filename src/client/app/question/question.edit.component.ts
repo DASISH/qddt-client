@@ -61,7 +61,7 @@ export class QuestionItemEditComponent implements OnInit {
     if (!ref.rev)
       ref.rev = 0;
     this.service.getQuestionItemRevision(ref.id, ref.rev)
-      .subscribe(
+      .then(
       (result: any) => {
         this.basedonObject = result.entity;
         this.basedonActions.emit({action: 'modal', params: ['open']});

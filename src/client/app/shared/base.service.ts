@@ -14,10 +14,10 @@ export class BaseService {
 
   constructor(protected http:HttpClient, protected auth: AuthService, @Inject(API_BASE_HREF) protected api:string) {
     // this.alertService = new AlertService();
-    let headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/json');
-    headers.append('Access-Control-Allow-Origin', '*');
-    headers.append('Access-Control-Allow-Headers', 'Origin, Authorization, Content-Type');
+    // let headers = new HttpHeaders();
+    // // headers.append('Content-Type', 'application/json');
+    // headers.append('Access-Control-Allow-Origin', '*');
+    // headers.append('Access-Control-Allow-Headers', 'Origin, Authorization, Content-Type');
   }
 
   protected handleError(error:Response) {
@@ -51,18 +51,19 @@ export class BaseService {
   }
 
   protected post(qddtEntity:any, url:String):any {
-    return this.http.post(this.api + url,
-      JSON.stringify(qddtEntity),
-      {
-        headers: this.headers
-      })
-      .map((res:Response) => {
-        try {
-          return res.json();
-        } catch (e) {
-          return [];
-        }
-      })
+    return this.http
+      .post(this.api + url,JSON.stringify(qddtEntity))
+      .toPromise()
+      // {
+      //   headers: this.headers
+      // })
+      // .map((res:Response) => {
+      //   try {
+      //     return res.json();
+      //   } catch (e) {
+      //     return [];
+      //   }
+      // })
       .catch(this.handleError);
   }
 

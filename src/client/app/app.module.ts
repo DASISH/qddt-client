@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { APP_BASE_HREF } from '@angular/common';
 import { API_BASE_HREF } from './api';
 
@@ -19,6 +19,7 @@ import { PageNotFoundComponent } from './pagenotfound/page-not-found.component';
 import { AlertComponent } from './alert/alert.component';
 import { AlertService } from './alert/alert.service';
 import { AuthModule } from './auth/auth.module';
+import { TokenInterceptor } from './auth/auth.interceptor';
 
 @NgModule({
   imports: [ routing, BrowserModule, HttpClientModule,  SharedModule, HomeModule, AuthModule,
@@ -31,6 +32,10 @@ import { AuthModule } from './auth/auth.module';
   }, {
     provide: API_BASE_HREF,
     useValue: '<%= API_BASE %>'
+  }, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptor,
+    multi: true
   }],
   bootstrap: [ AppComponent ]
 

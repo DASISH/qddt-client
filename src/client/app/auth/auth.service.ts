@@ -1,7 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+// import { map } from 'rxjs/operators';
+// import 'rxjs/add/operator/map';
 import { API_BASE_HREF } from '../api';
 
 export const TOKEN_NAME = 'jwt_token';
@@ -21,16 +22,18 @@ export class AuthService {
 
   constructor(private http: HttpClient,  @Inject(API_BASE_HREF) private api: string) {
     this.refreshUserData();
+    if (this.isTokenExpired())
+      this.logout();
   }
 
   public refreshUserData(): void {
     this.user = JSON.parse(localStorage.getItem(AuthService.USERINFO));
   }
 
-  public signIn(username: string, password: string): Observable<any> {
+  public signIn(email: string, password: string): Observable<any> {
 
     const requestParam = {
-      username: username,
+      username: email,
       password: password
     };
 
@@ -38,6 +41,7 @@ export class AuthService {
       .map(response => {
         console.info('JSON -> ' + JSON.stringify(response));
         if (response && response.token) {
+          this.setToken(response.token.split('.')[0]);
           this.setUserData(response);
         }
         return response;
@@ -52,7 +56,6 @@ export class AuthService {
    */
   public logout(): void {
     localStorage.removeItem(TOKEN_NAME);
-    // localStorage.removeItem(AuthService.USERINFO); NOPE!
   }
 
   setGlobalObject(name: string, value: any) {
@@ -63,11 +66,11 @@ export class AuthService {
     return this.globalObjects[name] || '';
   }
 
-  public isTokenExpired(token?: string): boolean {
-    if (!token) token = this.getToken();
-    if (!token) return true;
+  public isTokenExpired(): boolean {
+    if (!this.getToken()) return true;
 
-    const date = this.getTokenExpirationDate(token);
+    const date = new Date(0);
+    date.setUTCSeconds(this.user.exp);
     if (date === undefined) return false;
     return !(date.valueOf() > new Date().valueOf());
   }
@@ -89,11 +92,15 @@ export class AuthService {
   }
 
   public getToken(): string {
-    return localStorage.getItem(TOKEN_NAME);
+    const token = localStorage.getItem(TOKEN_NAME);
+    if (token === 'undefined')
+      return null;
+    else
+      return token;
   }
 
   private setToken(token: string): void {
-    localStorage.setItem(TOKEN_NAME, token);
+    localStorage.setItem(TOKEN_NAME,token);
   }
 
   private setUserData(userjson: any ): void {
@@ -101,26 +108,13 @@ export class AuthService {
     if (response) {
       const token = response;
       let claims = this.getTokenClaims(token);
-      claims.token = token;
+      claims.token = userjson.token;
       localStorage.setItem(AuthService.USERINFO, JSON.stringify(claims));
-      this.setToken(token);
       this.refreshUserData();
     } else {
       throw Error(userjson);
     }
   }
-
-  private getTokenExpirationDate(token: string): Date {
-    const decoded = this.getTokenClaims(token);
-
-    if (decoded.exp === undefined) return null;
-
-    const date = new Date(0);
-    date.setUTCSeconds(decoded.exp);
-    return date;
-  }
-
-
 
   // Retrieves user details from token
   private getTokenClaims(token: string): any {

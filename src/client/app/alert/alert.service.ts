@@ -3,6 +3,9 @@ import { Router, NavigationStart } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs/Subject';
 
+declare var Materialize: any;
+
+
 @Injectable()
 export class AlertService {
   private subject = new Subject<any>();
@@ -31,6 +34,7 @@ export class AlertService {
   error(message: string, keepAfterNavigationChange = false) {
     this.keepAfterNavigationChange = keepAfterNavigationChange;
     this.subject.next({ type: 'error', text: message });
+    Materialize.toast(message,4000);
   }
 
   getMessage(): Observable<any> {
