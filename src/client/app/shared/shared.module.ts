@@ -21,10 +21,11 @@ import { CommentListComponent } from './comment/comment.list.component';
 import { CommentCreateComponent } from './comment/comment.create.component';
 import { AutosizeDirective } from './autoresize/autosize.directive';
 import { ParentFormConnectDirective } from './directive/parent-form-connect.directive';
+import { GravatarModule } from 'ng2-gravatar-directive/src/gravatar.module';
 
 
 @NgModule({
-  imports: [MaterializeModule,CommonModule, RouterModule, FormsModule, CompareModule],
+  imports: [MaterializeModule,CommonModule, RouterModule, FormsModule, CompareModule,GravatarModule],
   declarations: [ LocalDatePipe, QddtTableComponent, QddtPaginationComponent, AutocompleteComponent,
     AuthorChipComponent, ElementFooterComponent, VersionComponent,VersionLabelComponent,AutosizeDirective,
     ConfirmDeleteComponent,TocComponent,CommentListComponent,CommentCreateComponent,

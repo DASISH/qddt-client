@@ -20,11 +20,12 @@ import { AlertComponent } from './alert/alert.component';
 import { AlertService } from './alert/alert.service';
 import { AuthModule } from './auth/auth.module';
 import { TokenInterceptor } from './auth/auth.interceptor';
+import { GravatarModule } from 'ng2-gravatar-directive/src/gravatar.module';
 
 @NgModule({
   imports: [ routing, BrowserModule, HttpClientModule,  SharedModule, HomeModule, AuthModule,
     CategoryModule, ResponsedomainModule, QuestionModule, ControlConstructModule,
-    SequenceModule, InstrumentModule, PublicationModule],
+    SequenceModule, InstrumentModule, PublicationModule,GravatarModule],
   declarations: [ AppComponent, PageNotFoundComponent , AlertComponent],
   providers: [ AlertService, {
     provide: APP_BASE_HREF,
@@ -32,11 +33,13 @@ import { TokenInterceptor } from './auth/auth.interceptor';
   }, {
     provide: API_BASE_HREF,
     useValue: '<%= API_BASE %>'
-  }, {
+  }
+  , {
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptor,
     multi: true
-  }],
+  }
+  ],
   bootstrap: [ AppComponent ]
 
 })

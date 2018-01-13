@@ -23,6 +23,10 @@ export class HomeComponent implements AfterContentChecked, OnInit {
 
   constructor(private userService: AuthService) {}
 
+  isLoggedIn() : boolean {
+    return !this.userService.isTokenExpired();
+  }
+
   ngOnInit() {
     this.loadData();
   }

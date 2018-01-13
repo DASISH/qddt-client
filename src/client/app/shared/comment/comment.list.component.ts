@@ -16,7 +16,7 @@ import { CommentService, Comment } from './comment.service';
           <li class="collection-item avatar"
               *ngFor="let comment of comments; let idx=index;">
             <div *ngIf="showPrivate || comment.public ">
-              <img src="assets/images/avatar-default.png"  alt ="" class="circle">
+              <img gravatar [email]="comment?.modifiedBy?.email" [size]="48" class="circle">
               <span class="title" [style.color]="comment.public ? 'blue': 'grey'">
                 {{comment?.modifiedBy?.username}}@{{comment?.modifiedBy?.agency?.name}}
                 - {{comment?.modified|localDate }}
@@ -106,16 +106,19 @@ export class CommentListComponent implements OnInit {
   }
 
   addedComment() {
-    this.commentService.getAll(this.ownerId).subscribe((result: any) => this.comments = result.content,
-      (error: any) => console.log(error));
+    this.commentService.getAll(this.ownerId)
+      .then(
+ (result: any) => this.comments = result.content,
+(error: any) => console.log(error));
   }
 
   onDeleteComment(idx: number) {
     let comment = this.comments[idx];
     comment.isHidden = true;
-    this.commentService.deleteComment(comment.id).subscribe((result: any) => {
-        this.comments.splice(idx, 1);
-    }, (error: any) => console.log(error));
+    this.commentService.deleteComment(comment.id).
+    subscribe(()=>
+      this.comments.splice(idx, 1),
+      (error: any) => console.log(error));
   }
 
   onUpdateComment(idx: number) {

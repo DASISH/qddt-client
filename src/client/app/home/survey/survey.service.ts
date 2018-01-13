@@ -4,6 +4,7 @@ import { API_BASE_HREF } from '../../api';
 import { BaseService } from '../../shared/base.service';
 import { AuthService } from '../../auth/auth.service';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
 export class SurveyProgram {
   id: string;
@@ -13,33 +14,29 @@ export class SurveyProgram {
 }
 
 @Injectable()
-export class SurveyService extends BaseService {
+export class SurveyService  {
 
   constructor(protected http: HttpClient, protected auth: AuthService, @Inject(API_BASE_HREF) protected api: string) {
-    super(http, auth , api);
+    //super(http, auth , api);
   }
 
-  create(surveyProgram: SurveyProgram): any {
-    return this.post(surveyProgram, 'surveyprogram/create');
+  create(surveyProgram: SurveyProgram): Observable<any> {
+    return this.http.post(this.api + 'surveyprogram/create',surveyProgram);
   }
 
-  save(surveyProgram: SurveyProgram): any {
-    return this.post(surveyProgram, 'surveyprogram/');
+  save(surveyProgram: SurveyProgram):  Observable<any> {
+    return this.http.post(this.api + 'surveyprogram/',surveyProgram);
   }
 
-  getAll(): any {
-    return this.get('surveyprogram/list/by-user');
+  getAll(): Promise<any> {
+    return this.http.get(this.api + 'surveyprogram/list/by-user')
+    .toPromise()
+    .catch(err => { throw Error(err.message);});
   }
 
-  getPdf(id: string): any {
-    // let headers = new Headers();
-    // let jwt = localStorage.getItem('jwt');
-    // if(jwt !== null) {
-    //   headers.append('Authorization', 'Bearer  ' + JSON.parse(jwt).access_token);
-    // }
-    // let options = new RequestOptions({ headers: headers, responseType: ResponseContentType.Blob });
+  getPdf(id: string): Promise<Blob> {
     return this.http.get(this.api + 'surveyprogram/pdf/' + id, {responseType: 'blob'})
-      .map(res => res)
-      .catch(this.handleError);
+    .toPromise()
+    .catch(err => { throw Error(err.message);});
   }
 }

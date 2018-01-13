@@ -6,6 +6,7 @@ import { AlertService } from '../../alert/alert.service';
 
 export class LoginForm {
   username: string;
+  email: string;
   password: string;
 }
 
@@ -29,8 +30,8 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     // reset login status
     this.authenticationService.logout();
-    this.model.username = this.authenticationService.getEmail() || 'review@example.org';
-    if ( this.model.username === 'review@example.org')
+    this.model.email = this.authenticationService.getEmail();
+    if ( this.model.email === 'review@example.org')
       this.model.password = 'password';
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
@@ -38,7 +39,7 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.loading = true;
-    this.authenticationService.signIn(this.model.username, this.model.password)
+    this.authenticationService.signIn(this.model.email, this.model.password)
       .subscribe(
         data => {
           this.router.navigate([this.returnUrl]);

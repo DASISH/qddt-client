@@ -43,7 +43,7 @@ export class QuestionDetailComponent implements OnInit {
     }
     if (this.questionitemId) {
       this.service.getquestion(this.questionitemId)
-        .subscribe((result: any) => {
+        .then((result: any) => {
           this.questionitem = result;
           this.init();
         }, (error: any) => console.log(error));
@@ -105,7 +105,7 @@ export class QuestionDetailComponent implements OnInit {
       this.canDelete = 0;
     } else {
       this.service.getControlConstructsByQuestionItem(this.questionitem.id)
-        .subscribe((result: any) => {
+        .then((result: any) => {
           if (result.length > 0) {
             this.canDelete = 0;
           } else {

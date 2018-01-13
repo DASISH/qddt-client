@@ -67,7 +67,9 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
         params.has('id') ? this.questionItem = this.questionService.getquestion(params.get('id')) : null);
 
     const config = this.userService.getGlobalObject('questions');
-    if (config.current === 'detail' ) {
+    if(!config)
+      this.userService.setGlobalObject('questions', {'current': 'list', 'key': ''});
+    if (config && config['current'] === 'detail' ) {
       this.page = config.page;
       this.questionitems = config.collection;
       this.selectedQuestionItem = config.item;
@@ -80,7 +82,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
 
   ngAfterContentChecked() {
     const config = this.userService.getGlobalObject('questions');
-    if (config.current === 'detail' ) {
+    if (config && config['current'] === 'detail' ) {
       this.page = config.page;
       this.questionitems = config.collection;
       this.selectedQuestionItem = config.item;

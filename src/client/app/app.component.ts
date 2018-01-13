@@ -15,18 +15,24 @@ declare var $: any;
 
 export class AppComponent implements AfterViewInit {
 
-  constructor(public  userService: AuthService) {
-    // this.user = this.userService.get();
+  constructor(public userService: AuthService) {
+    //
   }
 
   ngAfterViewInit() {
-    // $('.button-collapse').sideNav({
-    //   menuWidth: 100, // Default is 300
-    //   edge: 'left', // Choose the horizontal origin
-    //   closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
-    //   draggable: true});
+    $('.button-collapse').sideNav({
+      menuWidth: 100, // Default is 300
+      edge: 'left', // Choose the horizontal origin
+      closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+      draggable: true});
     $('.dropdown-button').dropdown();
     $('.collapsible').collapsible();
+  }
+
+  getEmail() : string {
+    if (!this.userService.isTokenExpired())
+      return this.userService.getEmail();
+    return '';
   }
 
   isLoggedIn() : boolean {

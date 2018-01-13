@@ -43,7 +43,8 @@ export class CommentCreateComponent {
 
   save() {
     this.comment.ownerId = this.ownerId;
-    this.commentService.createComment(this.comment).subscribe((result: any) => {
+    this.commentService.createComment(this.comment)
+      .subscribe((result: any) => {
       this.comment = new Comment();
       this.addedCommentEvent.emit(result);
     });

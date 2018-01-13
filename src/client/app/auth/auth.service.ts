@@ -13,8 +13,8 @@ export const TOKEN_NAME = 'jwt_token';
 @Injectable()
 export class AuthService {
 
-  public static readonly SIGNUP_URL = 'api/auth/signup';
-  public static readonly SIGNIN_URL = 'api/auth/signin';
+  public static readonly SIGNUP_URL = 'auth/signup';
+  public static readonly SIGNIN_URL = 'auth/signin';
   private static readonly USERINFO = 'user';
 
   private user: any;
@@ -33,7 +33,7 @@ export class AuthService {
   public signIn(email: string, password: string): Observable<any> {
 
     const requestParam = {
-      username: email,
+      email: email,
       password: password
     };
 
@@ -41,7 +41,7 @@ export class AuthService {
       .map(response => {
         console.info('JSON -> ' + JSON.stringify(response));
         if (response && response.token) {
-          this.setToken(response.token.split('.')[0]);
+          this.setToken(response.token);
           this.setUserData(response);
         }
         return response;

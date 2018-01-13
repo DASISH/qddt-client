@@ -1,9 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-// import { Http } from '@angular/http';
-// import DateTimeFormat = Intl.DateTimeFormat;
 import { API_BASE_HREF } from '../api';
-import { BaseService } from '../shared/base.service';
+// import { BaseService } from '../shared/base.service';
 import { ResponseDomain } from '../responsedomain/responsedomain.service';
 import { AuthService } from '../auth/auth.service';
 import { Observable } from 'rxjs/Observable';
@@ -22,25 +20,29 @@ export class QuestionItem {
 }
 
 @Injectable()
-export class QuestionService extends BaseService {
+export class QuestionService  {
 
   readonly pageSize = '&size=10';
 
   constructor(protected http: HttpClient, protected auth: AuthService, @Inject(API_BASE_HREF) protected api: string) {
-    super(http, auth , api);
+    // super(http, auth , api);
   }
 
 
   getQuestionItemPage(page: String = '0'): Promise<any> {
-    return this.get('questionitem/page' + '?&page=' + page + this.pageSize );
+    return this.http.get(this.api +'questionitem/page' + '?&page=' + page + this.pageSize )
+      .toPromise()
+      .catch(err => { throw Error(err.message);});
   }
 
   getquestion(id: string): Promise<any> {
-    return this.get('questionitem/' + id);
+    return this.http.get(this.api +'questionitem/' + id)
+      .toPromise()
+      .catch(err => { throw Error(err.message);});
   }
 
   deleteQuestionItem(id: string): any {
-    return this.delete('questionitem/delete/' + id);
+    return this.http.delete(this.api +'questionitem/delete/' + id);
   }
 
   searchQuestionItems(name: string = '', page: String = '0', sort: String = ''): Promise<any> {
@@ -48,23 +50,26 @@ export class QuestionService extends BaseService {
     if (sort.length > 0) {
       query += '&sort=' + sort;
     }
-    return this.get('questionitem/page/search?' + 'page=' + page + this.pageSize + query);
+    return this.http.get(this.api +'questionitem/page/search?' + 'page=' + page + this.pageSize + query)
+      .toPromise();
+      // .catch(err => { throw Error(err.message);});
+
   }
 
   createQuestionItem(question: any): any {
-    return this.post(question, 'questionitem/create');
+    return this.http.post(question, this.api +'questionitem/create');
   }
 
   updateQuestionItem(questionItem: any): any {
-    return this.post(questionItem, 'questionitem');
+    return this.http.post(questionItem, this.api +'questionitem');
   }
 
   createCategory(category: any): any {
-    return this.post(category, 'category/create/');
+    return this.http.post(category, this.api +'category/create/');
   }
 
   createResponseDomain(responseDomain: any): any {
-    return this.post(responseDomain, 'responsedomain');
+    return this.http.post(responseDomain,this.api + 'responsedomain');
   }
 
 
@@ -73,28 +78,44 @@ export class QuestionService extends BaseService {
     if (sort.length > 0) {
       query += '&sort=' + sort;
     }
-    return this.get('category/page/search/?level=GROUP_ENTITY&category=' + categoryKind
-      + query + '&page=' + page + this.pageSize);
+    return this.http.get(this.api +'category/page/search/?level=GROUP_ENTITY&category=' + categoryKind
+      + query + '&page=' + page + this.pageSize)
+      .toPromise();
+      // .catch(err => { throw Error(err.message);});
+
   }
 
   getResponseDomainsRevisions(id: string): Promise<any> {
-    return this.get('audit/responsedomain/' + id + '/all');
+    return this.http.get(this.api +'audit/responsedomain/' + id + '/all')
+      .toPromise()
+      .catch(err => { throw Error(err.message);});
+
   }
 
   getQuestionItemRevisions(id: string): Promise<any> {
-    return this.get('audit/questionitem/' + id + '/all');
+    return this.http.get(this.api +'audit/questionitem/' + id + '/all')
+      .toPromise()
+      .catch(err => { throw Error(err.message);});
+
   }
 
   getQuestionItemRevision(id: string, rev: string): Promise<any> {
-    return this.get('audit/questionitem/' + id + '/' + rev);
+    return this.http.get(this.api +'audit/questionitem/' + id + '/' + rev)
+      .toPromise()
+      .catch(err => { throw Error(err.message);});
+
   }
 
   getControlConstructsByQuestionItem(id: string): Promise<any> {
-    return this.get('controlconstruct/list/by-question/' + id);
+    return this.http.get(this.api +'controlconstruct/list/by-question/' + id)
+      .toPromise()
+      .catch(err => { throw Error(err.message);});
+
   }
 
 
   getPdf(id: string): Observable<Blob> {
-    return this.getBlob('questionitem/pdf/' + id);
+    return this.http.get(this.api +'questionitem/pdf/' + id, {responseType: 'blob'});
+
   }
 }
