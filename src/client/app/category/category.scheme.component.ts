@@ -52,7 +52,8 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
-        this.categoryService.getAllTemplatesByCategoryKind('MISSING_GROUP', name, '0', this.getSort()).subscribe((result: any) => {
+        this.categoryService.getAllTemplatesByCategoryKind('MISSING_GROUP', name, '0', this.getSort())
+        .then((result: any) => {
           this.page = result.page;
           this.missingCategories = result.content;
         });
@@ -69,12 +70,14 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
       this.searchKeys = config.key;
       this.isDetail = true;
     } else {
-      this.categoryService.getAllTemplatesByCategoryKind('MISSING_GROUP', '', '0', this.getSort()).subscribe((result: any) => {
+      this.categoryService.getAllTemplatesByCategoryKind('MISSING_GROUP', '', '0', this.getSort())
+      .then((result: any) => {
         this.page = result.page;
         this.missingCategories = result.content;
       });
     }
-    this.categoryService.getAllByLevel('ENTITY').subscribe((result: any) => {
+    this.categoryService.getAllByLevel('ENTITY')
+    .then((result: any) => {
       this.categories = result.content;
     });
   }
@@ -168,7 +171,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
         });
     } else {
       this.categoryService.save(this.category)
-        .subscribe((result: any) => {
+        .then((result: any) => {
           this.missingCategories = [result].concat(this.missingCategories);
           this.category = new Category();
           this.category.categoryType = 'MISSING_GROUP';
@@ -198,13 +201,14 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
 
   onPage(page: string) {
     this.categoryService.getAllTemplatesByCategoryKind('MISSING_GROUP', this.searchKeys, page, this.getSort())
-      .subscribe(
+      .then(
         (result: any) => { this.page = result.page; this.missingCategories = result.content; }
       );
   }
 
   searchCategories(name: string) {
-    this.categoryService.getAllByLevel('ENTITY', name).subscribe((result: any) => {
+    this.categoryService.getAllByLevel('ENTITY', name)
+    .then((result: any) => {
       this.categories = result.content;
     });
   }

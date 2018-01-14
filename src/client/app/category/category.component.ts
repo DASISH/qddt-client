@@ -37,7 +37,8 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
-        this.categoryService.getAllByLevel('ENTITY', name, this.getSort()).subscribe((result: any) => {
+        this.categoryService.getAllByLevel('ENTITY', name, this.getSort())
+        .then((result: any) => {
           this.page = result.page;
           this.categories = result.content;
         });
@@ -52,8 +53,11 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
       this.selectedCategory = config.item;
       this.isDetail = true;
     } else {
-      this.categoryService.getByCategoryKind('CATEGORY', '*', '0', this.getSort()).subscribe(
-      (result: any) => { this.page = result.page; this.categories = result.content; });
+      this.categoryService.getByCategoryKind('CATEGORY', '*', '0', this.getSort())
+      .then((result: any) => {
+         this.page = result.page;
+         this.categories = result.content;
+        });
     }
   }
 
@@ -90,7 +94,7 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
   onCreateCategory() {
     this.showCategoryForm = false;
     this.categoryService.save(this.category)
-      .subscribe((result: any) => {
+      .then((result: any) => {
         this.categories = [result].concat(this.categories);
       });
     this.isDetail = false;
@@ -102,8 +106,11 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
   }
 
   onTablePage(page: string) {
-    this.categoryService.getAllByLevelAndPage('ENTITY', this.searchKeys, page, this.getSort()).subscribe(
-      (result: any) => { this.page = result.page; this.categories = result.content; });
+    this.categoryService.getAllByLevelAndPage('ENTITY', this.searchKeys, page, this.getSort())
+    .then((result: any) => {
+      this.page = result.page;
+      this.categories = result.content;
+    });
   }
 
   onTableDetail(category: any) {

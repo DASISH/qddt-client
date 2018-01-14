@@ -4,6 +4,7 @@ import { API_BASE_HREF } from '../api';
 import { BaseService } from '../shared/base.service';
 import { AuthService } from '../auth/auth.service';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
 export class ResponseCardinality {
    minimum: number;
@@ -44,59 +45,69 @@ export class Category {
 }
 
 @Injectable()
-export class CategoryService extends BaseService {
+export class CategoryService  {
 
   constructor(protected http: HttpClient, protected auth: AuthService, @Inject(API_BASE_HREF) protected api: string) {
-    super(http, auth , api);
+    //super(http, auth , api);
   }
 
-  save(category: Category): any {
-    return this.post(category, 'category/create/');
+  save(category: Category): Promise<any> {
+    return this.http.post(this.api + 'category/create/', category)
+    .toPromise()
+    .catch(err => { throw Error(err.message);});
   }
 
-  edit(category: Category): any {
-    return this.post(category, 'category/');
+  edit(category: Category):  Observable<any> {
+    return this.http.post(this.api+ 'category/',category);
   }
 
   deleteCategory(categoryId: string): any {
-    return this.delete('category/delete/' + categoryId);
+    return this.http.delete(this.api + 'category/delete/' + categoryId);
   }
 
   getAll(): any {
-    return this.get('category/page/search/?level=ENTITY');
+    return this.http.get(this.api +'category/page/search/?level=ENTITY')
+    .toPromise()
+    .catch(err => {throw Error(err.message);});
   }
 
-  getByCategoryKind(categoryKind: String, name: String = '*',  page: String = '0', sort: String = ''): any {
+  getByCategoryKind(categoryKind: String, name: String = '*',  page: String = '0', sort: String = ''): Promise<any>  {
     let query = 'level=ENTITY&category=' + categoryKind + '&name=' + name +  '&page=' + page;
     if (sort.length > 0) {
       query += '&sort=' + sort;
     }
-    return this.get('category/page/search/?' + query);
+    return this.http.get(this.api+ 'category/page/search/?' + query)
+    .toPromise()
+    .catch(err => { throw Error(err.message);});
   }
 
-  getAllByLevel(level: String, name: String = '', sort: String = ''): any {
+  getAllByLevel(level: String, name: String = '', sort: String = ''):  Promise<any> {
     let query = name.length > 0 ? '&name=' + '*' + name + '*' : name;
     if (sort.length > 0) {
       query += '&sort=' + sort;
     }
-    return this.get('category/page/search/?level=' + level + query);
+    return this.http.get(this.api + 'category/page/search/?level=' + level + query)
+    .toPromise()
+    .catch(err => { throw Error(err.message);});
   }
 
-  getAllByLevelAndPage(level: String, name: String = '', page: String = '0', sort: String = ''): any {
+  getAllByLevelAndPage(level: String, name: String = '', page: String = '0', sort: String = ''):  Promise<any> {
     let query = name.length > 0 ? '&name=' + '*' + name + '*' : '';
     if (sort.length > 0) {
       query += '&sort=' + sort;
     }
-    return this.get('category/page/search/?level=' + level + query
-      + '&page=' + page);
+    return this.http.get(this.api +'category/page/search/?level=' + level + query + '&page=' + page)
+    .toPromise()
+    .catch(err => { throw Error(err.message);});
   }
 
-  getAllTemplatesByCategoryKind(categoryKind: String, name: String = '', page: String = '0', sort: String = ''): any {
+  getAllTemplatesByCategoryKind(categoryKind: String, name: String = '', page: String = '0', sort: String = ''):  Promise<any> {
     let query = name.length > 0 ? '&name=' + '*' + name + '*' : '';
     if (sort.length > 0) {
       query += '&sort=' + sort;
     }
-    return this.get('category/page/search/?level=GROUP_ENTITY&category=' + categoryKind
-      + query + '&page=' + page);
+    return this.http.get(this.api + 'category/page/search/?level=GROUP_ENTITY&category=' + categoryKind + query + '&page=' + page)
+    .toPromise()
+    .catch(err => { throw Error(err.message);});
   }
 }
