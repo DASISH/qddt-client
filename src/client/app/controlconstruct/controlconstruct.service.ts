@@ -1,12 +1,10 @@
 import { Injectable, Inject } from '@angular/core';
-// import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 
 import { API_BASE_HREF } from '../api';
 import { BaseService } from '../shared/base.service';
 import { QuestionItem } from '../question/question.service';
 import { AuthService } from '../auth/auth.service';
-import { HttpClient } from '@angular/common/http';
-// import { HttpClient } from '@angular/common/http';
 
 export class Universe {
   id: string;
@@ -32,27 +30,27 @@ export class Instruction {
 }
 
 @Injectable()
-export class ControlConstructService extends BaseService {
+export class ControlConstructService  {
 
   readonly pageSize = '&size=10';
 
   constructor(protected http: HttpClient, protected auth: AuthService, @Inject(API_BASE_HREF) protected api: string) {
-    super(http, auth , api);
+    //
   }
 
-  create(c: ControlConstruct): any {
-    return this.post(c, 'controlconstruct/create');
+  create(cc: ControlConstruct): any {
+    return this.http.post(this.api+'controlconstruct/create', cc);
   }
 
-  getControlConstruct(id: string): any {
-    return this.get('controlconstruct/' + id);
+  getControlConstruct(id: string):   Promise<any>  {
+    return this.http.get(this.api +'controlconstruct/' + id);
   }
 
-  getControlConstructRevision(id: string, rev: string): any {
-    return this.get('audit/controlconstruct/' + id + '/' + rev);
+  getControlConstructRevision(id: string, rev: string):   Promise<any>  {
+    return this.http.get(this.api +'audit/controlconstruct/' + id + '/' + rev);
   }
 
-  getFile(id: string): any {
+  getFile(id: string):   Promise<any>  {
     return this.getBlob('othermaterial/files/' + id);
   }
 
@@ -64,7 +62,7 @@ export class ControlConstructService extends BaseService {
     return this.delete('othermaterial/delete/' + id);
   }
 
-  getPdf(id: string) {
+  getPdf(id: string): Promise<any>  {
     return this.getBlob('controlconstruct/pdf/' + id);
   }
 
@@ -72,49 +70,49 @@ export class ControlConstructService extends BaseService {
     return this.post(c, 'controlconstruct/');
   }
 
-  getControlConstructsByQuestionItem(id: string): any {
-    return this.get('controlconstruct/list/by-question/' + id);
+  getControlConstructsByQuestionItem(id: string): Promise<any>  {
+    return this.http.get(this.api +'controlconstruct/list/by-question/' + id);
   }
 
-  getQuestionItems(key: string): any {
-    return this.get('questionitem/page');
+  getQuestionItems(key: string): Promise<any> {
+    return this.http.get(this.api +'questionitem/page');
   }
 
-  getQuestionItemsRevisions(id: string): any {
-    return this.get('audit/questionitem/' + id + '/all');
+  getQuestionItemsRevisions(id: string): Promise<any> {
+    return this.http.get(this.api +'audit/questionitem/' + id + '/all');
   }
 
   deleteControlConstruct(id: string): any {
     return this.delete('controlconstruct/delete/' + id);
   }
 
-  getConceptsByQuestionitemId(id: string) {
-    return this.get('concept/list/by-QuestionItem/' + id);
+  getConceptsByQuestionitemId(id: string): Promise<any> {
+    return this.http.get(this.api +'concept/list/by-QuestionItem/' + id);
   }
 
-  searchControlConstructs(name: string = '%', questionText: string = '%', page: String = '0', sort: string = ''): any {
+  searchControlConstructs(name: string = '%', questionText: string = '%', page: String = '0', sort: string = ''): Promise<any> {
     let query = '&name=' + name + '&questiontext=' + questionText;
     if (sort.length > 0) {
       query += '&sort=' + sort;
     }
-    return this.get('controlconstruct/page/search?constructkind=QUESTION_CONSTRUCT' + '&page=' + page + this.pageSize + query);
+    return this.http.get(this.api +'controlconstruct/page/search?constructkind=QUESTION_CONSTRUCT' + '&page=' + page + this.pageSize + query);
   }
 
-  searchQuestionItemsByNameAndQuestion(name: string = '', page: String = '0', sort: String = ''): any {
+  searchQuestionItemsByNameAndQuestion(name: string = '', page: String = '0', sort: String = ''): Promise<any> {
     let query = name.length > 0 ? '&question=' + '*' + name + '*' + '&name=' + '*' + name + '*' : '';
     if (sort.length > 0) {
       query += '&sort=' + sort;
     }
-    return this.get('questionitem/page/search?' + 'page=' + page + this.pageSize + query);
+    return this.http.get(this.api +'questionitem/page/search?' + 'page=' + page + this.pageSize + query);
   }
 
-  searchInstructions(description: string = '', page: String = '0'): any {
+  searchInstructions(description: string = '', page: String = '0'): Promise<any> {
     const query = description.length > 0 ? '&description=' + '*' + description + '*' : '';
-    return this.get('instruction/page/search?' + 'page=' + page + this.pageSize + query);
+    return this.http.get(this.api +'instruction/page/search?' + 'page=' + page + this.pageSize + query);
   }
 
-  searchUniverses(description: string = '', page: String = '0') {
+  searchUniverses(description: string = '', page: String = '0'): Promise<any> {
     const query = description.length > 0 ? '&description=' + '*' + description + '*' : '';
-    return this.get('universe/page/search?' + 'page=' + page + this.pageSize + query);
+    return this.http.get(this.api + 'universe/page/search?' + 'page=' + page + this.pageSize + query);
   }
 }
