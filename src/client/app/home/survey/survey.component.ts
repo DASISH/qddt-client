@@ -25,15 +25,16 @@ export class SurveyComponent implements OnChanges {
   ngOnChanges() {
     this.surveyService.getAll()
       .then(
-        (data: Array<SurveyProgram> )=>this.surveys = data,
-        (err: any) => Error(err.message)
+        (data: Array<SurveyProgram> )=>this.surveys = data
       );
   }
 
   onSurveySaved(surveyProgram: any) {
-    this.surveys = this.surveys.filter((q) => q.id !== surveyProgram.id);
-    this.surveys.push(surveyProgram);
-    surveyProgram['isVisible'] = false;
+    if (surveyProgram !== null) {
+      this.surveys = this.surveys.filter((q) => q.id !== surveyProgram.id);
+      this.surveys.push(surveyProgram);
+      surveyProgram['isVisible'] = false;
+    }
   }
 
   onShowStudy(surveyProgram: any) {
@@ -44,8 +45,7 @@ export class SurveyComponent implements OnChanges {
   onSave() {
     this.surveyService.create(this.survey)
       .subscribe(
-        (result: any) => this.onSurveySaved(result),
-        (err: any) => Error(err.message)
+        (result: any) => this.onSurveySaved(result)
       );
     this.survey = new SurveyProgram();
     this.showSurveyForm = false;
@@ -55,8 +55,7 @@ export class SurveyComponent implements OnChanges {
     const fileName = element.name + '.pdf';
     this.surveyService.getPdf(element.id)
     .then(
-      (data: any) => saveAs(data, fileName),
-      (err: any) => Error(err.message)
+      (data: any) => saveAs(data, fileName)
     );
   }
 }

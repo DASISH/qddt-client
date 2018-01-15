@@ -65,11 +65,10 @@ export class ResponseDomainSelectComponent implements OnChanges {
     this.selectedResponseDomain = null;
     if (this.responseDomain !== null && this.responseDomain !== undefined
       && this.responseDomain.id !== null && this.responseDomain.id !== undefined) {
-      this.service.getResponseDomainsRevisions(this.responseDomain.id).subscribe((result: any) => {
+      this.service.getResponseDomainsRevisions(this.responseDomain.id).then((result: any) => {
         this.responseDomainRevisions = result.content.sort((e1: any, e2: any) => e2.revisionNumber - e1.revisionNumber);
         this.onSelectResponseDomainRevisions();
-      },
-        (error: any) => { this.popupModal(error); });
+      });
     }
   }
 

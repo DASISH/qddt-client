@@ -86,8 +86,7 @@ export class ConceptEditComponent implements OnInit {
         this.concept = result;
         this.conceptSavedEvent.emit(result);
         this.isVisible = false;
-      }
-        , (err: any) => console.log('ERROR: ', err));
+      });
   }
 
   onAuthorSelected(author: any) {
@@ -103,14 +102,11 @@ export class ConceptEditComponent implements OnInit {
 
   onBasedonObjectDetail(id: string) {
     this.service.getConcept(id)
-      .subscribe(
+      .then(
       (result: any) => {
         this.basedonObject = result;
         this.basedonActions.emit({action: 'modal', params: ['open']});
-        // this.basedonActions.emit({action:'modal', params:['open']});
-      },
-      (err: any) => null
-      );
+      });
   }
 
 }

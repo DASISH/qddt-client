@@ -1,12 +1,13 @@
 <div class="row">
-  <div class="card white white-text text-lighten-2">
-    <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
-      <h4>Missing Values</h4>
-      <i class="material-icons large right">view_module</i>
 
-      <a class="btn" (click)="onToggleCategoryForm()">New
+  <div class="card white white-text text-lighten-2">
+    <div class="row teal z-depth-1"
+         style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
+      <i class="material-icons large right">view_module</i><h4>Missing Values</h4>
+
+      <a class="btn" (click)="onToggleCategoryForm()">
         <i class="material-icons right" *ngIf="!showCategoryForm">keyboard_arrow_down</i>
-        <i class="material-icons right" *ngIf="showCategoryForm">keyboard_arrow_up</i>
+        <i class="material-icons right" *ngIf="showCategoryForm">keyboard_arrow_up</i> New
       </a>
 
       <div *ngIf="showCategoryForm" class="row card-action">
@@ -172,7 +173,7 @@
   <div class="modal-content">
     <div class="row">
       <h4>Warning</h4>
-      <span>Are you sure to delete Mssing Scheme {{ selectedCategory?.name }}?</span>
+      <span>Are you sure to delete Missing Scheme {{ selectedCategory?.name }}?</span>
     </div>
   </div>
   <div class="modal-footer">

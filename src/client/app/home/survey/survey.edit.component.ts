@@ -54,12 +54,15 @@ export class SurveyEditComponent implements AfterContentChecked {
 
 
   onSave() {
-    this.isVisible = false;
     this.surveyService.save(this.survey)
       .subscribe((result: any) => {
+        this.isVisible = false;
         this.survey = null;
         this.surveySavedEvent.emit(result); }
-        , (err: any) => console.log('ERROR: ', err));
+        , (err:any) => {
+          this.surveySavedEvent.emit(null);
+          throw err;
+        });
   }
 
 }

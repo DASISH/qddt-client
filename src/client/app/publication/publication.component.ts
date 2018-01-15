@@ -78,11 +78,9 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
       this.searchKeys = config.key;
       this.searchKeysSubect.next(this.searchKeys);
     }
-    this.service.getPublicationStatus().subscribe((result: any) => {
+    this.service.getPublicationStatus().then((result: any) => {
       this.selectOptions = result;
       this.showProgressBar = false;
-    }, (error: any) => {
-      console.log(error);
     });
   }
 
@@ -177,8 +175,6 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
     this.service.create(this.publication)
       .subscribe((result: any) => {
         this.publications.push(result);
-      }, (error: any) => {
-        console.log(error);
       });
     this.isDetail = false;
   }

@@ -76,7 +76,7 @@ export class AuthService {
   }
 
   public getUsername(): string {
-    return this.user.username;
+    return this.user.sub ||'no name';
   }
 
   public getUserId(): string {

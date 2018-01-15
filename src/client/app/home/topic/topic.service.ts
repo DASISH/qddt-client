@@ -1,10 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
-// import { Http } from '@angular/http';
-import { API_BASE_HREF } from '../../api';
-import { BaseService } from '../../shared/base.service';
-import { ConceptQuestionItem } from '../concept/concept.service';
-import { AuthService } from '../../auth/auth.service';
 import { HttpClient } from '@angular/common/http';
+import { API_BASE_HREF } from '../../api';
+import { ConceptQuestionItem } from '../concept/concept.service';
+import { Observable } from 'rxjs/Observable';
 
 export class Topic {
   id: string;
@@ -17,64 +15,77 @@ export class Topic {
 }
 
 @Injectable()
-export class TopicService extends BaseService {
+export class TopicService  {
 
-  constructor(protected http: HttpClient, protected auth: AuthService, @Inject(API_BASE_HREF) protected api: string) {
-    super(http, auth , api);
+  constructor(protected http: HttpClient, @Inject(API_BASE_HREF) protected api: string) {
+}
+
+  getAll(studyId: string): Promise<any> {
+    return this.http.get(this.api +'topicgroup/list/by-study/' + studyId).toPromise();
   }
 
-  save(topic: Topic, studyId: string): any {
-    return this.post(topic, 'topicgroup/create/' + studyId);
+  getTopic(id: string): Promise<any> {
+    return this.http.get(this.api +'topicgroup/' + id).toPromise();
   }
 
-  edit(topic: Topic): any {
-    return this.post(topic, 'topicgroup/');
+  getFile(id: string): Promise<any> {
+    return this.http.get(this.api +'othermaterial/files/' + id).toPromise();
   }
 
-  deleteTopic(topicId: string): any {
-    return this.delete('topicgroup/delete/' + topicId);
+  getPdf(id: string):Promise<Blob> {
+    return this.http.get(this.api +'topicgroup/pdf/' + id, { responseType:'blob'})
+      .toPromise();
   }
 
-  getAll(studyId: string): any {
-    return this.get('topicgroup/list/by-study/' + studyId);
+  save(topic: Topic, studyId: string): Observable<any> {
+    return this.http.post('topicgroup/create/' + studyId, topic);
   }
 
-  getTopic(id: string): any {
-    return this.get('topicgroup/' + id);
+  edit(topic: Topic): Observable<any> {
+    return this.http.post('topicgroup/',topic);
   }
 
-  attachAuthor(topicId: string, authorId: string): any {
-    return this.post({}, 'author/combine?authorId=' + authorId + '&topicId=' + topicId);
+  deleteTopic(topicId: string): Observable<any> {
+    return this.http.delete('topicgroup/delete/' + topicId);
   }
 
-  deattachAuthor(topicId: string, authorId: string): any {
-    return this.delete('author/decombine?authorId=' + authorId + '&topicId=' + topicId);
+  attachAuthor(topicId: string, authorId: string): Observable<any> {
+    return this.http.post('author/combine?authorId=' + authorId + '&topicId=' + topicId,{});
   }
 
-  attachQuestion(topicId: string, questionId: string, revision: string): any {
+  deattachAuthor(topicId: string, authorId: string): Observable<any> {
+    return this.http.delete('author/decombine?authorId=' + authorId + '&topicId=' + topicId);
+  }
+
+  attachQuestion(topicId: string, questionId: string, revision: string): Observable<any> {
     if (revision === null)
       revision = '0';
-    return this.post({}, 'topicgroup/combine?questionitemid=' + questionId + '&questionitemrevision=' + revision + '&topicid=' + topicId);
+    return this.http.post('topicgroup/combine?questionitemid=' + questionId +
+      '&questionitemrevision=' + revision + '&topicid=' + topicId,{});
   }
 
-  deattachQuestion(topicId: string, questionId: string): any {
-    return this.post({}, 'topicgroup/decombine?questionitemid=' + questionId + '&topicid=' + topicId);
+  deattachQuestion(topicId: string, questionId: string): Observable<any> {
+    return this.http.post('topicgroup/decombine?questionitemid=' + questionId + '&topicid=' + topicId,{});
   }
 
-  getFile(id: string): any {
-    return this.getBlob('othermaterial/files/' + id);
+
+  deleteFile(id: string): Observable<any> {
+    return this.http.delete(this.api+'othermaterial/delete/' + id);
   }
 
-  uploadFile(id: string, files: any): any {
-    return this.uploadBlob(id, files);
-  }
-
-  deleteFile(id: string) {
-    return this.delete('othermaterial/delete/' + id);
-  }
-
-  getPdf(id: string) {
-    return this.getBlob('topicgroup/pdf/' + id);
+  uploadFile(id: string, files: any): Observable<any> {
+    const formData = new FormData();
+    if (files !== null) {
+      formData.append('file', files[0]);
+    }
+    return this.http.post(this.api + 'othermaterial/upload/' + id, formData)
+      .map((res: any) => {
+        try {
+          return res;
+        } catch (e) {
+          return [];
+        }
+      });
   }
 
 }

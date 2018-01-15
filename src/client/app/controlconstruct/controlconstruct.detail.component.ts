@@ -38,11 +38,10 @@ export class ControlConstructDetailComponent implements OnInit {
     }
     if (this.controlConstructId) {
       this.service.getControlConstruct(this.controlConstructId)
-        .subscribe((result: any) => {
+        .then((result: any) => {
           this.controlConstruct = result;
           this.init();
-        },
-        (error: any) => console.log(error));
+        });
     } else {
       this.init();
     }
@@ -58,14 +57,13 @@ export class ControlConstructDetailComponent implements OnInit {
 
   onConfirmDeleting() {
     this.service.deleteControlConstruct(this.controlConstruct.id)
-      .subscribe((result: any) => {
+      .subscribe(() => {
         const i = this.controlConstructs.findIndex(q => q['id'] === this.controlConstruct.id);
         if (i >= 0) {
           this.controlConstructs.splice(i, 1);
         }
         this.hideDetailEvent.emit('hide');
-      },
-      (error: any) => console.log(error));
+      });
   }
 
   onccSaveAction(result: any) {
@@ -78,13 +76,6 @@ export class ControlConstructDetailComponent implements OnInit {
       this.controlConstructs.push(result);
     }
     console.log(result.version);
-    // let index = this.controlConstructs.findIndex((e: any) => e.id === result.id);
-    // if (index >= 0) {
-    //   this.controlConstructs[index] = result;
-    // } else if (this.savedControlConstructsIndex >= 0) {
-    //   this.controlConstructs[this.savedControlConstructsIndex] = JSON.parse(this.savedObject);
-    //   this.controlConstructs.push(result);
-    // }
     this.hideDetailEvent.emit('hide');
   }
 
@@ -94,7 +85,7 @@ export class ControlConstructDetailComponent implements OnInit {
 
   onDownloadFile(o: any) {
     const fileName = o.originalName;
-    this.service.getFile(o.id).subscribe(
+    this.service.getFile(o.id).then(
       (data: any) => {
         saveAs(data, fileName);
       },
@@ -102,7 +93,7 @@ export class ControlConstructDetailComponent implements OnInit {
   }
 
   onGetPdf( c: ControlConstruct) {
-    this.service.getPdf(c.id).subscribe(
+    this.service.getPdf(c.id).then(
       (data: any) => {
         saveAs(data, c.name + '.pdf');
       },

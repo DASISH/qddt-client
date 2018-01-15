@@ -29,12 +29,10 @@ export class ConceptComponent implements OnChanges {
     console.log('ngOnChanges concept');
     this.showProgressBar = true;
     this.conceptService.getByTopic(this.topic.id)
-      .subscribe((result: any) => {
+      .then((result: any) => {
         this.concepts = result.content;
         this.showProgressBar = false;
-      }
-          , (err: any) => console.log('ERROR: ', err)
-      );
+      });
   }
 
   onSelectConcept(concept: any) {
@@ -53,8 +51,7 @@ export class ConceptComponent implements OnChanges {
       this.conceptService.save(this.concept, this.topic.id)
       .subscribe((result: any) => {
             this.onConceptUpdated(result);
-      }
-    , (err: any) => console.log('ERROR: ', err));
+      });
     this.concept  = new Concept();
   }
 
@@ -78,8 +75,7 @@ export class ConceptComponent implements OnChanges {
         this.confimDeleteActions.emit({action: 'modal', params: ['close']});
         if (result.ok)
           this.removeConcept(this.concepts, id);
-      },
-      (error: any) => {console.log(error); });
+      });
   }
 
   private updateConcept(concepts: Concept[], concept: Concept): boolean {

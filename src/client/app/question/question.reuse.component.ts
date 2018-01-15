@@ -93,16 +93,15 @@ export class QuestionReuseComponent {
       this.questionService.getQuestionItemRevisions(this.questionItem.id).then((result: any) => {
         this.elementRevisions = result.content.sort((e1: any, e2: any) => e2.revisionNumber - e1.revisionNumber);
          this.onSelectElementRevisions();
-      },
-        (error: any) => { console.log('error ' + error); });
+      });
     }
   }
 
   openModal2() {
     this.closeReuseActions.emit({action: 'modal', params: ['open']});
-    this.questionService.getQuestionItemPage().subscribe(
+    this.questionService.getQuestionItemPage().then(
       result => { this.questionItems = result.content;
-      }, (error: any) => console.log(error));
+      });
   }
 
   closeQuestionReuseModal() {

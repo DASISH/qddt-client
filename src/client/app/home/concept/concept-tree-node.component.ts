@@ -67,7 +67,7 @@ export class TreeNodeComponent  {
     this.conceptService.saveChildConcept(this.newchild, this.concept.id)
       .subscribe((result: any) => {
         this.concept.children.push(result);
-      }, (error: any) => console.log(error));
+      });
     this.newchild = new Concept();
   }
 
@@ -76,23 +76,21 @@ export class TreeNodeComponent  {
     this.conceptService.deattachQuestion(this.concept.id, questionItem)
       .subscribe((result: any) => {
           this.onConceptSavedEvent(result);
-        }
-      , (err: any) => console.log('ERROR: ', err));
+        });
   }
 
   addQuestionItem(questionItem: any) {
       this.conceptService.attachQuestion(this.concept.id, questionItem.id, questionItem['questionItemRevision'])
         .subscribe((result: any) => {
           this.onConceptSavedEvent(result);
-        }, (error: any) => console.log(error));
+        });
   }
 
   getPdf(concept: Concept) {
     const fileName = concept.name + '.pdf';
-    this.conceptService.getPdf(concept.id).subscribe(
+    this.conceptService.getPdf(concept.id).then(
       (data: any) => {
         saveAs(data, fileName);
-      },
-      error => console.log(error));
+      });
   }
 }

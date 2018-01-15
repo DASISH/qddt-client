@@ -41,7 +41,7 @@ export class ResponsedomainSelectMissingComponent implements OnInit {
       .filter(val => val.length > 0)
       .subscribe((name: string) => {
         this.service.getAllTemplatesByCategoryKind('MISSING_GROUP', name)
-          .subscribe((result: any) => {
+          .then((result: any) => {
           this.missingGroups = result.content;
         });
       });
@@ -97,7 +97,8 @@ export class ResponsedomainSelectMissingComponent implements OnInit {
       rd = this.newMixedResponseDomain();
 
     rd.managedRepresentation.children.push(missing);
-    rd.name = rd.managedRepresentation.name = 'Mixed [' + this.getGroupEntities(rd.managedRepresentation)[0].name + '+' + missing.name + ']';
+    rd.name = rd.managedRepresentation.name =
+      'Mixed [' + this.getGroupEntities(rd.managedRepresentation)[0].name + '+' + missing.name + ']';
     this.responseDomain = rd;
   }
 

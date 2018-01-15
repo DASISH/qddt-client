@@ -45,10 +45,9 @@ export class TopicComponent implements OnChanges, AfterContentChecked {
       && this.study.id !== null && this.study.id !== undefined) {
       console.log('ngOnChanges topic');
       this.topicService.getAll(this.study.id)
-        .subscribe((result: any) => {
+        .then((result: any) => {
             this.topics = result;
-        },
-        (error: any) => console.log(error));
+        });
     }
   }
 
@@ -86,13 +85,13 @@ export class TopicComponent implements OnChanges, AfterContentChecked {
     this.topicService.save(this.newTopic, this.study.id)
       .subscribe((result: any) => {
         this.onTopicSavedEvent(result);
-      }, (error: any) => console.log(error));
+      });
     this.newTopic  = new Topic();
   }
 
   onDownloadFile(o: any) {
     const fileName = o.originalName;
-    this.topicService.getFile(o.id).subscribe(
+    this.topicService.getFile(o.id).then(
       (data: any) => {
         saveAs(data, fileName);
       },
@@ -101,11 +100,10 @@ export class TopicComponent implements OnChanges, AfterContentChecked {
 
   onGetPdf(element: Topic) {
     const fileName = element.name + '.pdf';
-    this.topicService.getPdf(element.id).subscribe(
+    this.topicService.getPdf(element.id).then(
       (data: any) => {
         saveAs(data, fileName);
-      },
-      error => console.log(error));
+      });
   }
 
   onClickQuestionItem(questionItem) {
@@ -118,26 +116,22 @@ export class TopicComponent implements OnChanges, AfterContentChecked {
     this.topicService.attachQuestion(topicId, questionItem.id, questionItem['questionItemRevision'])
       .subscribe((result: any) => {
         this.onTopicSavedEvent(result);
-      }, (error: any) => console.log(error));
+      });
   }
 
   onRemoveQuestionItem(id: any) {
     this.topicService.deattachQuestion(id.parentId, id.questionItemId)
       .subscribe((result: any) => {
           this.onTopicSavedEvent(result);
-        }
-        , (err: any) => console.log('ERROR: ', err));
+        });
   }
 
   onRemoveTopic(topicId: string) {
     if (topicId && topicId.length === 36) {
       this.topicService.deleteTopic(topicId)
-        .subscribe((result: any) => {
+        .subscribe(() => {
             this.topics = this.topics.filter((s: any) => s.id !== topicId);
-          },
-        (error: any) => {
-          console.log(error);
-        });
+          });
     }
   }
 

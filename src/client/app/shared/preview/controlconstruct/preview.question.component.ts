@@ -89,21 +89,21 @@ export class PreviewQuestionConstructComponent {
   @Input() controlConstruct: any;
   questionItemActions = new EventEmitter<string|MaterializeAction>();
   questionItem: any;
+
   constructor(private service: ControlConstructService) {
   }
 
-onDownloadFile(o: any) {
-  const fileName = o.originalName;
-  this.service.getFile(o.id).subscribe(
-    (data: any) => {
-      saveAs(data, fileName);
-    },
-    error => console.log(error));
-}
+  onDownloadFile(o: any) {
+    const fileName = o.originalName;
+    this.service.getFile(o.id).then(
+      (data: any) => {
+        saveAs(data, fileName);
+      });
+  }
 
-onQuestionitemDetail(questionItem) {
-  this.questionItem = questionItem;
-  this.questionItemActions.emit({action: 'modal', params: ['open']});
-}
+  onQuestionitemDetail(questionItem) {
+    this.questionItem = questionItem;
+    this.questionItemActions.emit({action: 'modal', params: ['open']});
+  }
 
 }

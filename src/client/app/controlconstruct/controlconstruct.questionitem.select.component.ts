@@ -34,20 +34,18 @@ export class ControlConstructQuestionItemSelectComponent implements OnInit {
     if (this.selectedQuestionItem !== null && this.selectedQuestionItem !== undefined
       && this.selectedQuestionItem.id !== null && this.selectedQuestionItem.id !== undefined) {
       this.questionItemRevision = this.controlConstruct.questionItemRevision;
-      this.service.getQuestionItemsRevisions(this.selectedQuestionItem.id).subscribe((result: any) => {
+      this.service.getQuestionItemsRevisions(this.selectedQuestionItem.id).then((result: any) => {
       this.questionItemRevisions = result.content.sort((e1: any, e2: any) => e2.revisionNumber - e1.revisionNumber);
       this.onSelectQuestionItemRevisions();
-    },
-      (error: any) => { this.popupModal(error); });
+    });
     }
     this.searchQuestionItems('');
   }
 
   searchQuestionItems(key: string) {
-    this.service.searchQuestionItemsByNameAndQuestion(key).subscribe((result: any) => {
+    this.service.searchQuestionItemsByNameAndQuestion(key).then((result: any) => {
       this.questionItems = result.content;
-    },
-      (error: any) => { this.popupModal(error); });
+    });
   }
 
   onSelectQuestionItemRevisions() {
@@ -70,11 +68,10 @@ export class ControlConstructQuestionItemSelectComponent implements OnInit {
     this.selectedQuestionItem = questionItem;
     this.controlConstruct.questionItem = questionItem;
     this.questionItemRevision = this.controlConstruct.questionItemRevision || 0;
-    this.service.getQuestionItemsRevisions(questionItem.id).subscribe((result: any) => {
+    this.service.getQuestionItemsRevisions(questionItem.id).then((result: any) => {
       this.questionItemRevisions = result.content.sort((e1: any, e2: any) => e2.revisionNumber - e1.revisionNumber);
       this.onSelectQuestionItemRevisions();
-    },
-      (error: any) => { this.popupModal(error); });
+    });
   }
 
   onUseQuestionItem() {
@@ -85,10 +82,6 @@ export class ControlConstructQuestionItemSelectComponent implements OnInit {
 
   onDismiss() {
     this.dismissEvent.emit(true);
-  }
-
-  private popupModal(error: any) {
-    this.error = error;
   }
 
 }

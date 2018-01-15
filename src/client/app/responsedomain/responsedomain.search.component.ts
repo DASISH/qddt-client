@@ -45,7 +45,7 @@ export class ResponseDomainSearchComponent {
       .distinctUntilChanged()
       .subscribe((name: string) => {
         this.responseDomainService
-          .getAll(DomainKind[this.domainType], name).subscribe((result: any) => {
+          .getAll(DomainKind[this.domainType], name).then((result: any) => {
             this.responseDomains = result.content;
           });
       });
@@ -53,7 +53,7 @@ export class ResponseDomainSearchComponent {
 
   selectDomainType(id: DomainKind) {
     this.domainType = id;
-    this.responseDomainService.getAll(DomainKind[id]).subscribe((result: any) => {
+    this.responseDomainService.getAll(DomainKind[id]).then((result: any) => {
     this.responseDomains = result.content; });
   }
 

@@ -54,7 +54,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
         this.isProgressBarVisible = true;
         const domainType = DomainTypeDescription.find((e: any) => e.id === this.domainType).name;
         this.responseDomainService
-          .getAll(domainType, name, '0', this.getSort()).subscribe((result: any) => {
+          .getAll(domainType, name, '0', this.getSort()).then((result: any) => {
             this.page = result.page;
             this.responseDomains = result.content;
             this.buildAnchorLabel();
@@ -74,7 +74,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
       this.isProgressBarVisible = true;
       this.searchKeys = config.key;
       const name = DomainTypeDescription.find((e: any) => e.id === this.domainType).name;
-        this.responseDomainService.getAll(name, '', '0', this.getSort()).subscribe((result: any) => {
+        this.responseDomainService.getAll(name, '', '0', this.getSort()).then((result: any) => {
         this.page = result.page;
         this.responseDomains = result.content;
         this.buildAnchorLabel();
@@ -111,7 +111,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
     this.columns = PredefinedColumns[domainKind];
     this.responseDomains = [];
     this.responseDomainService
-      .getAll(domainKind, this.searchKeys).subscribe((result: any) => {
+      .getAll(domainKind, this.searchKeys).then((result: any) => {
       this.page = result.page;
       this.responseDomains = result.content;
       this.buildAnchorLabel();
@@ -156,7 +156,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
 
   onSelectDetail(response: ResponseDomain) {
     this.responseDomainService.getResponseDomain(response.id)
-      .subscribe((result: any) => {
+      .then((result: any) => {
         this.selectedResponseDomain = result;
         this.savedObject = JSON.stringify(result);
         this.savedResponseDomainsIndex = this.responseDomains
@@ -186,7 +186,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
     this.isProgressBarVisible = true;
     // let domainType = DomainTypeDescription.find((e: any) =>e.id === this.domainType).name;
     this.responseDomainService
-      .getAll(DomainKind[this.domainType], this.searchKeys, page, this.getSort()).subscribe(
+      .getAll(DomainKind[this.domainType], this.searchKeys, page, this.getSort()).then(
       (result: any) => { this.page = result.page;
         this.responseDomains = result.content;
         this.buildAnchorLabel();
@@ -200,14 +200,13 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
 
   onConfirmDeleting() {
     this.responseDomainService.deleteResponseDomain(this.selectedResponseDomain.id)
-      .subscribe((result: any) => {
+      .subscribe(() => {
         const i = this.responseDomains.findIndex(q => q['id'] === this.selectedResponseDomain.id);
         if (i >= 0) {
           this.responseDomains.splice(i, 1);
         }
         this.hideDetail();
-      },
-      (error: any) => {this.error = error; this.errorAction.emit({action: 'modal', params: ['open']}); });
+      });
   }
 
   searchResponseDomains(name: string) {

@@ -47,7 +47,7 @@ export class ResponsedomainReuseComponent implements OnChanges  {
       .subscribe((name: string) => {
         const domainType = DomainTypeDescription.find((e: any) => e.id === this.domainType).name;
         this.responseDomainService
-          .getAll(domainType, name).subscribe((result: any) => {
+          .getAll(domainType, name).then((result: any) => {
             this.responseDomains = result.content;
           });
       });
@@ -118,7 +118,7 @@ export class ResponsedomainReuseComponent implements OnChanges  {
 
   reuse() {
     // console.debug('reuse');
-    this.responseDomainService.getAll(DomainKind[this.domainType]).subscribe((result: any) => {
+    this.responseDomainService.getAll(DomainKind[this.domainType]).then((result: any) => {
       this.responseDomains = result.content;
       this.showAutocomplete = true;
     });

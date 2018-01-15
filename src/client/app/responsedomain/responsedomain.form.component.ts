@@ -55,7 +55,7 @@ export class ResponsedomainFormComponent implements OnInit , AfterViewInit {
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
-        this.categoryService.getByCategoryKind('CATEGORY', name).subscribe((result: any) => {
+        this.categoryService.getByCategoryKind('CATEGORY', name).then((result: any) => {
           this.categories = result.content;
         });
       });
@@ -89,7 +89,7 @@ export class ResponsedomainFormComponent implements OnInit , AfterViewInit {
       }
     }
 
-    this.categoryService.getByCategoryKind('CATEGORY').subscribe((result: any) => {
+    this.categoryService.getByCategoryKind('CATEGORY').then((result: any) => {
       this.categories = result.content;
     });
     this.previewResponseDomain = this.responsedomain;
@@ -256,12 +256,11 @@ export class ResponsedomainFormComponent implements OnInit , AfterViewInit {
     if (!ref.rev)
         ref.rev = 0;
     this.service.getResponseDomainsRevision(ref.id, ref.rev)
-      .subscribe(
+      .then(
         (result: any) => {
           this.basedonObject = result.entity;
           this.basedonActions.emit({action: 'modal', params: ['open']});
-        },
-        (err: any) => null
+        }
       );
   }
 

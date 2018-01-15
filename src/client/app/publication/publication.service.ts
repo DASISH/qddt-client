@@ -1,11 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
-// import { Http, RequestOptions, Headers, ResponseContentType } from '@angular/http';
-import { API_BASE_HREF } from '../api';
-import { BaseService } from '../shared/base.service';
-import { Observable } from 'rxjs/Observable';
-import { ElementKind, QddtElementType, QddtElementTypes } from '../shared/preview/preview.service';
-import { AuthService } from '../auth/auth.service';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import { API_BASE_HREF } from '../api';
+import { ElementKind, QddtElementType, QddtElementTypes } from '../shared/preview/preview.service';
 
 export const PUBLICATION_NOT_PUBLISHED = { 'id': 0, 'name': 'NOTPUBLISHED', 'label': 'Not Published', 'children': [],
   'description': 'Elements and discussion made available for key '
@@ -115,33 +112,45 @@ export class Publication {
 }
 
 @Injectable()
-export class PublicationService extends BaseService {
+export class PublicationService {
 
   readonly pageSize = '&size=15';
 
-  constructor(protected http: HttpClient, protected auth: AuthService, @Inject(API_BASE_HREF) protected api: string) {
-    super(http, auth , api);
+  constructor(protected http: HttpClient, @Inject(API_BASE_HREF) protected api: string) {
   }
 
-  create(p: Publication): any {
-    return this.post(p, 'publication/create');
+  getByTopic(topicId: string): Promise<any> {
+    return this.http.get(this.api +'concept/page/by-topicgroup/' + topicId + '?page=0&size=50&sort=asc')
+      .toPromise();
   }
 
-  update(p: Publication): any {
-    return this.post(p, 'publication/');
+  getElementRevisions(elementKind: ElementKind, id: string): Promise<any> {
+    const e: any = PUBLICATION_TYPES.find(e => e.id === elementKind);
+    if (e !== undefined) {
+      if (elementKind === ElementKind.CONCEPT || elementKind === ElementKind.TOPIC_GROUP)
+        return this.http.get(this.api +'audit/' + e.path + '/' + id + '/allinclatest').toPromise();
+      else
+        return this.http.get(this.api +'audit/' + e.path + '/' + id + '/all').toPromise();
+    }
+    return new Promise(null);
   }
 
-  getAll(page: String = '0'): any {
-    return this.get('publication/page' + this.pageSize);
+  getQuestionitem(id: string): Promise<any> {
+    return this.http.get(this.api +'questionitem/' + id).toPromise();
   }
 
-  getPublication(id: string): any {
-    return this.get('publication/' + id);
+  getAll(page: String = '0'): Promise<any> {
+    return this.http.get(this.api +'publication/page/' + this.pageSize).toPromise();
   }
 
-  getPublicationStatus(): any {
-    return this.get('publicationstatus/list');
+  getPublication(id: string): Promise<any> {
+    return this.http.get(this.api +'publication/' + id).toPromise();
   }
+
+  getPublicationStatus(): Promise<any> {
+    return this.http.get(this.api +'publicationstatus/list').toPromise();
+  }
+
   searchPublications(name: string = '', page: String = '0', sort: String = ''): Promise<any> {
     const queries: any[] = [];
     if (name.length > 0) {
@@ -157,10 +166,10 @@ export class PublicationService extends BaseService {
     if (queries.length > 0) {
       query = '?' + queries.join('&');
     }
-    return this.get('publication/page/search' + query);
+    return this.http.get(this.api +'publication/page/search/' + query).toPromise();
   }
 
-  searchElements(elementKind: ElementKind, name: string) {
+  searchElements(elementKind: ElementKind, name: string): Promise<any> {
     let query = '?';
     const e: any = PUBLICATION_TYPES.find(e => e.id === elementKind);
     if (e !== undefined) {
@@ -173,59 +182,27 @@ export class PublicationService extends BaseService {
       if (e.parameter) {
         query += e.parameter;
       }
-      return this.get(e.path + '/page/search' + query);
+      return this.http.get(this.api +e.path + '/page/search/' + query).toPromise();
     }
     return null;
   }
 
-  getByTopic(topicId: string): any {
-    return this.get('concept/page/by-topicgroup/' + topicId + '?page=0&size=50&sort=asc');
+  getFile(id: string) :Promise<Blob> {
+    return this.http.get(this.api + 'othermaterial/files/' + id,{responseType:'blob'})
+      .toPromise();
   }
 
-  getElementRevisions(elementKind: ElementKind, id: string): any {
-    const e: any = PUBLICATION_TYPES.find(e => e.id === elementKind);
-    if (e !== undefined) {
-      if (elementKind === ElementKind.CONCEPT || elementKind === ElementKind.TOPIC_GROUP)
-      return this.get('audit/' + e.path + '/' + id + '/allinclatest');
-      else
-      return this.get('audit/' + e.path + '/' + id + '/all');
-    }
-    return Observable.of([]);
+  getPdf(id: string): Promise<Blob> {
+    return this.http.get(this.api + 'publication/pdf/' + id, {responseType:'blob'})
+      .toPromise();
   }
 
-
-  getFile(id: string) {
-    return this.getBlob(this.api + 'othermaterial/files/' + id)
-      .map(res => res)
-      .catch(this.handleError);
-    // let headers = new Headers();
-    // let jwt = localStorage.getItem('jwt');
-    // if(jwt !== null) {
-    //   headers.append('Authorization', 'Bearer  ' + JSON.parse(jwt).access_token);
-    // }
-    // let options = new RequestOptions({ headers: headers, responseType: ResponseContentType.Blob });
-    // return this.http.get(, options)
-    //   .map(res => res.blob())
-    //   .catch(this.handleError);
+  create(publication: Publication): Observable<any> {
+    return this.http.post( this.api +'publication/create/',publication);
   }
 
-  getQuestionitem(id: string): any {
-    return this.get('questionitem/' + id);
+  update(publication: Publication): Observable<any> {
+    return this.http.post(this.api +'publication/',publication);
   }
-
-  getPdf(id: string): any {
-    return this.getBlob(this.api + 'publication/pdf/' + id);
-  }
-
-  //   let headers = new Headers();
-  //   let jwt = localStorage.getItem('jwt');
-  //   if(jwt !== null) {
-  //     headers.append('Authorization', 'Bearer  ' + JSON.parse(jwt).access_token);
-  //   }
-  //   let options = new RequestOptions({ headers: headers, responseType: ResponseContentType.Blob });
-  //   return this.http.get(this.api + 'publication/pdf/' + id, options)
-  //     .map(res => res.blob())
-  //     .catch(this.handleError);
-  // }
 
 }

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { APP_BASE_HREF } from '@angular/common';
@@ -21,24 +21,19 @@ import { AlertService } from './alert/alert.service';
 import { AuthModule } from './auth/auth.module';
 import { TokenInterceptor } from './auth/auth.interceptor';
 import { GravatarModule } from 'ng2-gravatar-directive/src/gravatar.module';
+import { GlobalErrorHandler } from './errorhandler/error.service';
+import { ErrorLogService } from './errorhandler/error-log.service';
 
 @NgModule({
   imports: [ routing, BrowserModule, HttpClientModule,  SharedModule, HomeModule, AuthModule,
     CategoryModule, ResponsedomainModule, QuestionModule, ControlConstructModule,
     SequenceModule, InstrumentModule, PublicationModule,GravatarModule],
   declarations: [ AppComponent, PageNotFoundComponent , AlertComponent],
-  providers: [ AlertService, {
-    provide: APP_BASE_HREF,
-    useValue: '<%= APP_BASE %>'
-  }, {
-    provide: API_BASE_HREF,
-    useValue: '<%= API_BASE %>'
-  }
-  , {
-    provide: HTTP_INTERCEPTORS,
-    useClass: TokenInterceptor,
-    multi: true
-  }
+  providers: [ AlertService, ErrorLogService,
+    { provide: APP_BASE_HREF, useValue: '<%= APP_BASE %>' },
+    { provide: API_BASE_HREF, useValue: '<%= API_BASE %>' },
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    { provide: ErrorHandler, useClass: GlobalErrorHandler }
   ],
   bootstrap: [ AppComponent ]
 

@@ -36,11 +36,10 @@ export class InstructionComponent {
 
   onSearchInstructions(key: string) {
     this.instruction.description = key;
-    this.service.searchInstructions(key).subscribe((result: any) => {
+    this.service.searchInstructions(key).then((result: any) => {
       this.instructions = result.content;
       this.isInstructionNew = this.instructions.length === 0;
-    },
-      (error: any) => { console.log(error); });
+    });
   }
 
   onSelectInstruction(instruction: any) {

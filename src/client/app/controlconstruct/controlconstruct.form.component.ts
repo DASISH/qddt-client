@@ -75,13 +75,11 @@ export class ControlConstructFormComponent implements OnInit, AfterContentChecke
     if (!ref.rev)
       ref.rev = 0;
     this.service.getControlConstructRevision(ref.id, ref.rev)
-      .subscribe(
+      .then(
         (result: any) => {
           this.basedonObject = result.entity;
           this.basedonActions.emit({action: 'modal', params: ['open']});
-        },
-        (err: any) => null
-      );
+        });
   }
 
   onDeleteUniverse(id: number) {
@@ -123,11 +121,10 @@ export class ControlConstructFormComponent implements OnInit, AfterContentChecke
 
   onDownloadFile(o: any) {
     const fileName = o.originalName;
-    this.service.getFile(o.id).subscribe(
+    this.service.getFile(o.id).then(
       (data: any) => {
         saveAs(data, fileName);
-      },
-      error => this.popupModal(error));
+      });
   }
 
   onSelectFile(filename: any) {

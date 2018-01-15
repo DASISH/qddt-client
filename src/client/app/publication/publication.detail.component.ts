@@ -35,7 +35,7 @@ export class PublicationDetailComponent implements OnInit {
     this.selectedPublicationStatusOption = PUBLICATION_NOT_PUBLISHED.description;
     if (this.publicationId !== null && this.publicationId !== undefined) {
       this.service.getPublication(this.publicationId)
-        .subscribe((result: any) => {
+        .then((result: any) => {
           this.showProgressBar = true;
           this.publication = result;
           const status = this.predefinedStatus.find(e => e.label === this.publication.status);
@@ -44,7 +44,7 @@ export class PublicationDetailComponent implements OnInit {
             this.selectedOptionValue = status.id;
           }
           this.showProgressBar = false;
-        }, (error: any) => console.log(error));
+        });
     }
   }
 
@@ -63,8 +63,6 @@ export class PublicationDetailComponent implements OnInit {
           this.publications.push(result);
         }
         this.hideDetail();
-      }, (error: any) => {
-        console.log(error);
       });
   }
 
@@ -78,10 +76,9 @@ export class PublicationDetailComponent implements OnInit {
 
   getPdf(element: Publication) {
     const fileName = element.name + '.pdf';
-    this.service.getPdf(element.id).subscribe(
+    this.service.getPdf(element.id).then(
       (data: any) => {
         saveAs(data, fileName);
-      },
-      error => console.log(error));
+      });
   }
 }

@@ -30,15 +30,11 @@ export class PublicationSelectComponent implements OnChanges {
     this.showProgressBar = true;
     if (this.element !== null && this.element !== undefined
       && this.element.id !== null && this.element.id !== undefined) {
-      this.service.getElementRevisions(this.elementKind, this.element.id).subscribe((result: any) => {
+      this.service.getElementRevisions(this.elementKind, this.element.id).then((result: any) => {
         this.elementRevisions = result.content.sort((e1: any, e2: any) => e2.revisionNumber - e1.revisionNumber);
         this.onSelectElementRevisions(this.elementRevisions[0].revisionNumber);
           this.showProgressBar = false;
-      },
-        (error: any) => {
-          console.log('error ' + error);
-          this.showProgressBar = false;
-        });
+      });
     }
   }
 

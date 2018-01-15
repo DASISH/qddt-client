@@ -53,25 +53,20 @@ export class StudyComponent implements OnChanges {
 
   getPdf(element: Study) {
     const fileName = element.name + '.pdf';
-    this.studyService.getPdf(element.id).subscribe(
+    this.studyService.getPdf(element.id).then(
       (data: any) => {
         saveAs(data, fileName);
-      },
-      error => console.log(error));
+      });
   }
 
   onRemoveStudy(studyId: string) {
     if (studyId && studyId.length === 36) {
       this.studyService.deleteStudy(studyId)
-        .subscribe((result: any) => {
+        .subscribe(() => {
             const i = this.studies.findIndex(q => q['id'] === studyId);
             if (i >= 0) {
               this.studies.splice(i, 1);
             }
-          },
-          (error: any) => {
-            console.log(error);
-
           });
     }
   }

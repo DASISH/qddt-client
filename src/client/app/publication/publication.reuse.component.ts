@@ -49,8 +49,6 @@ export class PublicationReuseComponent implements OnInit {
         this.service.searchElements(this.selectedElementKind, name)
           .then((result: any) => {
             this.elements = result.content;
-          }, (error: any) => {
-            this.popupModal(error);
           });
       });
   }
@@ -89,9 +87,6 @@ export class PublicationReuseComponent implements OnInit {
     return false;
   }
 
-  private popupModal(error: any) {
-    this.error = error;
-  }
 
    private getElementType(kind: ElementKind): QddtElementType {
      const element: any = this.queryFields.find(e => e.id === kind);

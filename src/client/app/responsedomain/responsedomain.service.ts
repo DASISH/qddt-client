@@ -5,6 +5,7 @@ import { Category, ResponseCardinality } from '../category/category.service';
 import { BaseService } from '../shared/base.service';
 import { AuthService } from '../auth/auth.service';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
 export const DATE_FORMAT: any = [
   {'id': 1, 'format': 'yyyy-mm-dd',         'label': 'Date' },
@@ -35,42 +36,43 @@ export class ResponseDomain {
 }
 
 @Injectable()
-export class ResponseDomainService extends BaseService {
+export class ResponseDomainService  {
 
-  constructor(protected http:HttpClient,protected auth: AuthService, @Inject(API_BASE_HREF) protected api:string) {
-    super(http, auth ,api);
+  constructor(protected http:HttpClient, @Inject(API_BASE_HREF) protected api:string) {
+   //
   }
 
-  create(responseDomain: ResponseDomain): any {
-    return this.post(responseDomain,'responsedomain/create');
+  create(responseDomain: ResponseDomain): Observable<any> {
+    return this.http.post(this.api +responseDomain,'responsedomain/create');
   }
 
-  update(responseDomain: ResponseDomain): any {
-    return this.post(responseDomain,'responsedomain/');
+  update(responseDomain: ResponseDomain): Observable<any> {
+    return this.http.post(this.api +responseDomain,'responsedomain/');
   }
 
-  getResponseDomain(id: string): any {
-    return this.get('responsedomain/' + id);
+  deleteResponseDomain(id: string): Observable<any> {
+    return this.http.delete(this.api +'responsedomain/delete/' + id);
   }
 
-  deleteResponseDomain(id: string): any {
-    return this.delete('responsedomain/delete/' + id);
+  getResponseDomain(id: string): Promise<any> {
+    return this.http.get(this.api +'responsedomain/' + id).toPromise();
   }
-
-  getAll(domain: string, name: string = '', page: String = '0', sort: String = ''): any {
+  getAll(domain: string, name: string = '', page: String = '0', sort: String = ''): Promise<any> {
     let query = name.length > 0? '&Name=' + name + '*': name;
     if (sort.length > 0) {
       query += '&sort=' + sort;
     }
-    return this.get('responsedomain/page/search?ResponseKind=' + domain + query + '&page=' + page);
+    return this.http.get(this.api +'responsedomain/page/search?ResponseKind=' + domain + query + '&page=' + page)
+      .toPromise();
   }
 
-  getResponseDomainsRevisions(id: string) : any {
-    return this.get('audit/responsedomain/' + id + '/all');
+  getResponseDomainsRevisions(id: string) : Promise<any> {
+    return this.http.get(this.api +'audit/responsedomain/' + id + '/all').toPromise();
   }
 
-  getResponseDomainsRevision(id: string, rev: string) : any {
-    return this.get('audit/responsedomain/' + id + '/' + rev);
+  getResponseDomainsRevision(id: string, rev: string) : Promise<any> {
+    return this.http.get(this.api +'audit/responsedomain/' + id + '/' + rev).toPromise();
   }
+
 
 }

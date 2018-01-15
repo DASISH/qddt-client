@@ -4,7 +4,7 @@
     <div class="nav-wrapper">
       <ul class="right" >
         <li><a class="dropdown-button" href="#" data-activates="adminmenu" data-beloworigin="true" style="width: 200px;">
-            Logout <i class="material-icons left">arrow_drop_down</i>
+            {{getUserName()}} <i class="material-icons left">arrow_drop_down</i>
             <img gravatar [email]="getEmail()" [size]="48">
         </a></li>
           <ul id="adminmenu" class="dropdown-content" >

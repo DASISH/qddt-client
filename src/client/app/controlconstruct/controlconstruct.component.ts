@@ -15,7 +15,7 @@ import { AuthService } from '../auth/auth.service';
         border: thick solid red;
     }`
   ],
-  providers: [ControlConstructService, AuthService],
+  providers: [ControlConstructService],
 })
 
 export class ControlConstructComponent implements OnInit, AfterContentChecked {
@@ -63,10 +63,11 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
         this.showProgressBar = true;
         const args = name.split(' ');
         console.log('searchKeysSubect ' + args.length);
-        this.service.searchControlConstructs(args[0], args[1] ? args[1] : '%', '0', this.getSort()).subscribe((result: any) => {
-          this.page = result.page;
-          this.controlConstructs = result.content;
-          this.showProgressBar = false;
+        this.service.searchControlConstructs(args[0], args[1] ? args[1] : '*', '0', this.getSort())
+          .then((result: any) => {
+            this.page = result.page;
+            this.controlConstructs = result.content;
+            this.showProgressBar = false;
         });
       });
   }
@@ -80,7 +81,7 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
       this.isDetail = true;
     } else {
       console.log('ngOnInit');
-      this.searchControlConstructs('');
+      this.searchControlConstructs('*');
     }
   }
 
@@ -162,13 +163,16 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
     this.showProgressBar = true;
     const args = this.searchKeys.split(', ');
     console.log('onPage' + args);
-    this.service.searchControlConstructs(args[0], args[1] ? args[1] : '%', page, this.getSort()).subscribe(
+    this.service.searchControlConstructs(args[0], args[1] ? args[1] : '%', page, this.getSort()).then(
       (result: any) => {
         this.page = result.page;
         this.controlConstructs = result.content;
         this.showProgressBar = false;
       },
-      (error: any) => this.showProgressBar = false);
+      (error: any) => {
+        this.showProgressBar = false;
+        throw error;
+      });
   }
 
   onCreateControlConstruct() {
@@ -180,14 +184,10 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
             .subscribe((file: any) => {
               result['otherMaterials'].push(file);
               this.controlConstructs = [result].concat(this.controlConstructs);
-            }, (error: any) => {
-              this.popupModal(error);
             });
         } else {
           this.controlConstructs = [result].concat(this.controlConstructs);
         }
-      }, (error: any) => {
-        this.popupModal(error);
       });
     this.isDetail = false;
   }
@@ -199,10 +199,9 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
   }
 
   searchQuestionItems(key: string) {
-    this.service.searchQuestionItemsByNameAndQuestion(key).subscribe((result: any) => {
+    this.service.searchQuestionItemsByNameAndQuestion(key).then((result: any) => {
       this.questionItems = result.content;
-    },
-      (error: any) => { this.popupModal(error); });
+    });
   }
 
   onRemoveQuestoinItem() {
@@ -218,10 +217,6 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
     this.questionitemActions.emit({action: 'modal', params: ['open']});
   }
 
-  popupModal(error: any) {
-    this.error = error;
-    this.modalActions.emit({action: 'modal', params: ['open']});
-  }
 
   private getSort() {
     const i = this.columns.findIndex((e: any) => e.sortable && e.direction !== undefined && e.direction !== '');

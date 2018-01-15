@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output, OnInit, AfterContentChecked, ViewChild } from '@angular/core';
 import { CategoryService, Category, ResponseCardinality } from './category.service';
-import { CategoryType } from './category_kind';
+import { CategoryType } from './category-kind';
 import { Subject } from 'rxjs/Subject';
 import { ElementKind, QddtElementType, QddtElementTypes } from '../shared/preview/preview.service';
 import { AuthService } from '../auth/auth.service';
@@ -123,8 +123,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
             this.hideDetail();
           }
         }
-      },
-      (error: any) => console.log(error));
+      });
   }
 
   setCategoryNumber(event: any) {
@@ -171,7 +170,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
         });
     } else {
       this.categoryService.save(this.category)
-        .then((result: any) => {
+        .subscribe((result: any) => {
           this.missingCategories = [result].concat(this.missingCategories);
           this.category = new Category();
           this.category.categoryType = 'MISSING_GROUP';

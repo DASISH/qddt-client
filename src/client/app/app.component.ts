@@ -35,6 +35,11 @@ export class AppComponent implements AfterViewInit {
     return '';
   }
 
+  getUserName() : string {
+    if (!this.userService.isTokenExpired())
+        return this.userService.getUsername().charAt(0).toUpperCase() + this.userService.getUsername().slice(1);
+    return 'NOT LOGGED IN';
+  }
   isLoggedIn() : boolean {
     return !this.userService.isTokenExpired();
   }
@@ -90,5 +95,6 @@ export class AppComponent implements AfterViewInit {
       this.userService.setGlobalObject(target, {'current': value});
     }
     this.userService.setGlobalObject('current', target);
+
   }
 }

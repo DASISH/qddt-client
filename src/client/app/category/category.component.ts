@@ -94,7 +94,7 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
   onCreateCategory() {
     this.showCategoryForm = false;
     this.categoryService.save(this.category)
-      .then((result: any) => {
+      .subscribe((result: any) => {
         this.categories = [result].concat(this.categories);
       });
     this.isDetail = false;

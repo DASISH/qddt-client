@@ -1,10 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
-// import { Http } from '@angular/http';
-
 import { API_BASE_HREF } from '../../api';
-import { BaseService } from '../base.service';
 import { AuthService } from '../../auth/auth.service';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
 export class Comment {
   id: string;
@@ -22,11 +20,11 @@ export class CommentService  {
     // super(http, auth ,api);
   }
 
-  createComment(comment: Comment): any {
+  createComment(comment: Comment): Observable<any> {
     return this.http.post( this.api +'comment/create/' + comment.ownerId, comment);
   }
 
-  updateComment(comment: Comment): any {
+  updateComment(comment: Comment): Observable<any> {
     return this.http.post(this.api +'comment',comment);
   }
 

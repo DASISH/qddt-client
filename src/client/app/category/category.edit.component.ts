@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { CategoryService, Category } from './category.service';
-import { CategoryType } from './category_kind';
+import { CategoryType } from './category-kind';
 @Component({
   selector: 'qddt-category-edit',
   moduleId: module.id,
@@ -140,17 +140,21 @@ export class CategoryEditComponent implements OnInit {
   onSave() {
     this.categoryService.edit(this.category)
       .subscribe((result: any) => {
-        const i = this.categories.findIndex(q => q['id'] === result['id']);
-        if (i >= 0) {
-          this.categories[i] = result;
-        } else {
-          if (this.savedCategoriesIndex >= 0) {
-            this.categories[this.savedCategoriesIndex] = JSON.parse(this.savedObject);
+          const i = this.categories.findIndex(q => q['id'] === result['id']);
+          if (i >= 0) {
+            this.categories[i] = result;
+          } else {
+            if (this.savedCategoriesIndex >= 0) {
+              this.categories[this.savedCategoriesIndex] = JSON.parse(this.savedObject);
+            }
+            this.categories.push(result);
           }
-          this.categories.push(result);
+          this.editDetailEvent.emit('edit');
         }
-        this.editDetailEvent.emit('edit');
-      });
+        , (err:any) => {
+          this.editDetailEvent.emit('err');
+          throw err;
+        });
   }
 
   onChangeType(kind: string) {

@@ -1,9 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { API_BASE_HREF } from '../api';
-import { BaseService } from '../shared/base.service';
 import { Observable } from 'rxjs/Observable';
+import { API_BASE_HREF } from '../api';
 
 export class ResponseCardinality {
    minimum: number;
@@ -50,10 +49,8 @@ export class CategoryService  {
     //super(http, auth , api);
   }
 
-  save(category: Category): Promise<any> {
-    return this.http.post(this.api + 'category/create/', category)
-    .toPromise()
-    .catch(err => { throw Error(err.message);});
+  save(category: Category): Observable<any> {
+    return this.http.post(this.api + 'category/create/', category);
   }
 
   edit(category: Category):  Observable<any> {
@@ -65,9 +62,7 @@ export class CategoryService  {
   }
 
   getAll(): any {
-    return this.http.get(this.api +'category/page/search/?level=ENTITY')
-    .toPromise()
-    .catch(err => {throw Error(err.message);});
+    return this.http.get(this.api +'category/page/search/?level=ENTITY').toPromise();
   }
 
   getByCategoryKind(categoryKind: String, name: String = '*',  page: String = '0', sort: String = ''): Promise<any>  {
@@ -75,9 +70,7 @@ export class CategoryService  {
     if (sort.length > 0) {
       query += '&sort=' + sort;
     }
-    return this.http.get(this.api+ 'category/page/search/?' + query)
-    .toPromise()
-    .catch(err => { throw Error(err.message);});
+    return this.http.get(this.api+ 'category/page/search/?' + query).toPromise();
   }
 
   getAllByLevel(level: String, name: String = '', sort: String = ''):  Promise<any> {
@@ -86,8 +79,7 @@ export class CategoryService  {
       query += '&sort=' + sort;
     }
     return this.http.get(this.api + 'category/page/search/?level=' + level + query)
-    .toPromise()
-    .catch(err => { throw Error(err.message);});
+    .toPromise();
   }
 
   getAllByLevelAndPage(level: String, name: String = '', page: String = '0', sort: String = ''):  Promise<any> {
@@ -96,8 +88,7 @@ export class CategoryService  {
       query += '&sort=' + sort;
     }
     return this.http.get(this.api +'category/page/search/?level=' + level + query + '&page=' + page)
-    .toPromise()
-    .catch(err => { throw Error(err.message);});
+    .toPromise();
   }
 
   getAllTemplatesByCategoryKind(categoryKind: String, name: String = '', page: String = '0', sort: String = ''):  Promise<any> {
@@ -106,7 +97,6 @@ export class CategoryService  {
       query += '&sort=' + sort;
     }
     return this.http.get(this.api + 'category/page/search/?level=GROUP_ENTITY&category=' + categoryKind + query + '&page=' + page)
-    .toPromise()
-    .catch(err => { throw Error(err.message);});
+    .toPromise();
   }
 }

@@ -1,11 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
-// import { Http } from '@angular/http';
-
-import { API_BASE_HREF } from '../../api';
-import { BaseService } from '../../shared/base.service';
-import { QuestionItem } from '../../question/question.service';
-import { AuthService } from '../../auth/auth.service';
 import { HttpClient } from '@angular/common/http';
+import { API_BASE_HREF } from '../../api';
+import { QuestionItem } from '../../question/question.service';
+import { Observable } from 'rxjs/Observable';
 
 export class ConceptQuestionItem {
   id: any;
@@ -25,67 +22,74 @@ export class Concept {
 }
 
 @Injectable()
-export class ConceptService extends BaseService {
+export class ConceptService  {
 
-  constructor(protected http: HttpClient, protected auth: AuthService, @Inject(API_BASE_HREF) protected api: string) {
-    super(http, auth , api);
+  constructor(protected http: HttpClient, @Inject(API_BASE_HREF) protected api: string) {
   }
 
-  save(concept: Concept, topicId: string): any {
-    return this.post(concept, 'concept/create/by-topicgroup/' + topicId);
+  getConcept(conceptId: string): Promise<any> {
+    return this.http.get(this.api + 'concept/' + conceptId).toPromise();
   }
 
-  getConcept(conceptId: string): any {
-    return this.get('concept/' + conceptId);
+  getAll(): Promise<any> {
+    return this.http.get(this.api +'concept/page/').toPromise();
   }
 
-  deleteConcept(conceptId: string): any {
-    return this.delete('concept/delete/' + conceptId);
+  getByTopic(topicId: string): Promise<any> {
+    return this.http.get(this.api + 'concept/page/by-topicgroup/' + topicId + '?page=0&size=50&sort=asc')
+      .toPromise();
   }
 
-  updateConcept(concept: Concept): any {
-    return this.post(concept, 'concept');
+  getByConcept(conceptId: string): Promise<any> {
+    return this.http.get(this.api + 'concept/page/by-parent/' + conceptId + '?page=0&size=50&sort=asc')
+      .toPromise();
   }
 
-  getAll(): any {
-    return this.get('concept/page');
+  getPdf(id: string): Promise<Blob> {
+    return this.http.get(this.api + 'concept/pdf/' + id, {responseType:'blob'})
+      .toPromise();
   }
 
-  getByTopic(topicId: string): any {
-    return this.get('concept/page/by-topicgroup/' + topicId + '?page=0&size=50&sort=asc');
+  save(concept: Concept, topicId: string): Observable<any> {
+    return this.http.post(this.api + 'concept/create/by-topicgroup/' + topicId, concept);
   }
 
-  getByConcept(conceptId: string): any {
-    return this.get('concept/page/by-parent/' + conceptId + '?page=0&size=50&sort=asc');
+  updateConcept(concept: Concept): Observable<any> {
+    return this.http.post(this.api +'concept',concept);
   }
 
-  saveChildConcept(concept: any, parentId: string): any {
-    return this.post(concept, 'concept/create/by-parent/' + parentId);
+  saveChildConcept(concept: any, parentId: string): Observable<any> {
+    return this.http.post(this.api +'concept/create/by-parent/' + parentId, concept);
   }
 
-  attachQuestion(conceptId: string, questionId: string, revision: string): any {
+  attachQuestion(conceptId: string, questionId: string, revision: string): Observable<any> {
     if (revision === null)
       revision = '0';
-    return this.post({}, 'concept/combine?questionitemid=' + questionId + '&questionitemrevision=' + revision + '&conceptid=' + conceptId);
+    return this.http.post(this.api + 'concept/combine?questionitemid=' + questionId +
+      '&questionitemrevision=' + revision +
+      '&conceptid=' + conceptId, {});
   }
 
-  deattachQuestion(conceptId: string, questionId: string): any {
-    return this.post({}, 'concept/decombine?questionitemid=' + questionId + '&conceptid=' + conceptId);
+  deattachQuestion(conceptId: string, questionId: string): Observable<any> {
+    return this.http.post(this.api + 'concept/decombine?questionitemid=' + questionId +
+      '&conceptid=' + conceptId, {});
   }
 
-  attachAuthor(conceptId: string, authorId: string): any {
-    return this.post({}, 'author/combine?authorId=' + authorId + '&conceptId=' + conceptId);
+  attachAuthor(conceptId: string, authorId: string): Observable<any> {
+    return this.http.post(this.api + 'author/combine?authorId=' + authorId +
+      '&conceptId=' + conceptId, {});
   }
 
-  deattachAuthor(conceptId: string, authorId: string): any {
-    return this.delete('author/decombine?authorId=' + authorId + '&conceptId=' + conceptId);
+  deattachAuthor(conceptId: string, authorId: string): Observable<any> {
+    return this.http.delete(this.api + 'author/decombine?authorId=' + authorId + '&conceptId=' + conceptId);
   }
 
-  createQuestionItem(question: any): any {
-    return this.post(question, 'questionitem/create');
+  createQuestionItem(question: any): Observable<any> {
+    return this.http.post(this.api +question, 'questionitem/create');
   }
 
-  getPdf(id: string): any {
-    return this.getBlob('concept/pdf/' + id);
+  deleteConcept(conceptId: string): Observable<any> {
+    return this.http.delete(this.api +'concept/delete/' + conceptId);
   }
+
 }

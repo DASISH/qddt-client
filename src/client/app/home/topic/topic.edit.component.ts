@@ -43,11 +43,10 @@ export class TopicEditComponent  {
 
   onDownloadFile(o: any) {
     const fileName = o.originalName;
-    this.service.getFile(o.id).subscribe(
+    this.service.getFile(o.id).then(
       (data: any) => {
         saveAs(data, fileName);
-      },
-      error => console.log(error));
+      });
   }
 
   onSelectFile(filename: any) {
@@ -97,9 +96,7 @@ export class TopicEditComponent  {
     }
     let index = 0;
     const service = this.service;
-    const actions = this.showErrorActions;
     const saveAction = this.topicSavedAction;
-    const errors = this.errors;
     source.subscribe(
       function (x: any) {
         if (index < len && x.id !== undefined && x.id !== null) {
@@ -108,16 +105,12 @@ export class TopicEditComponent  {
         }
       },
       function (error: any) {
-        errors.push(error);
-        actions.emit({action: 'modal', params: ['open']});
+        throw error;
       },
       function () {
         service.edit(topic).subscribe((result: any) => {
           this.topic = result;
           saveAction.emit(result);
-        }, (error: any) => {
-          errors.push(error);
-          actions.emit({action: 'modal', params: ['open']});
         });
       });
   }

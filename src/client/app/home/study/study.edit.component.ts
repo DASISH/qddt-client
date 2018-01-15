@@ -57,10 +57,6 @@ export class StudyEditComponent implements AfterContentChecked {
     });
   }
 
-  // onChangeKind(value:any) {
-  //  this.showlabel = (value === 'MILESTONE');
-  // }
-
   onAuthorSelected(author: any) {
    this.studyService.attachAuthor(this.study.id, author.id);
    this.study['authors'].push(author);
