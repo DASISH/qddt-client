@@ -57,8 +57,7 @@ export class UniverseComponent {
     this.service.searchUniverses(key).then((result: any) => {
         this.universes = result.content;
         this.isUniverseNew = this.universes.length === 0;
-      },
-      (error: any) => { console.log(error); });
+      });
   }
 
   onSelectUniverse(universe: any) {

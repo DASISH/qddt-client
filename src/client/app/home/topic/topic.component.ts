@@ -1,9 +1,13 @@
-import { Component, EventEmitter, Output, Input, OnChanges, SimpleChanges, AfterContentChecked } from '@angular/core';
-
+import {
+  Component, EventEmitter, Output,  AfterContentChecked, OnInit,
+} from '@angular/core';
+import { ActivatedRoute,  Router } from '@angular/router';
 import { TopicService, Topic } from './topic.service';
 import { MaterializeAction } from 'angular2-materialize';
-import { Study } from '../study/study.service';
 import { QuestionItem } from '../../question/question.service';
+import { AuthService } from '../../auth/auth.service';
+import 'rxjs/add/operator/switchMap';
+import { Study } from '../study/study.service';
 const saveAs = require('file-saver');
 declare var Materialize: any;
 
@@ -18,13 +22,11 @@ declare var Materialize: any;
   providers: [TopicService],
 })
 
-export class TopicComponent implements OnChanges, AfterContentChecked {
-  @Output() topicSelectedEvent: EventEmitter<any> = new EventEmitter<any>();
-  @Input() study: Study;
-  @Input() show: boolean;
-
+export class TopicComponent implements  OnInit {
   questionItemActions = new EventEmitter<string|MaterializeAction>();
   previewActions = new EventEmitter<string|MaterializeAction>();
+
+  protected study: Study;
 
   private topics: Topic[];
   private newTopic: Topic;
@@ -34,26 +36,21 @@ export class TopicComponent implements OnChanges, AfterContentChecked {
   private parentId: string;
   private config: any;
 
-  constructor(private topicService: TopicService) {
+  constructor(private router: Router, private route: ActivatedRoute,
+              private topicService: TopicService,private auth: AuthService) {
     this.newTopic = new Topic();
     this.config = this.buildRevisionConfig();
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['study'] !== null && changes['study'] !== undefined
-      && this.study !== null && this.study !== undefined
-      && this.study.id !== null && this.study.id !== undefined) {
-      console.log('ngOnChanges topic');
-      this.topicService.getAll(this.study.id)
-        .then((result: any) => {
-            this.topics = result;
-        });
-    }
+  ngOnInit(): void {
+    this.parentId  = this.route.snapshot.paramMap.get('studyId');
+    this.study = this.auth.getGlobalObject('study');
+    this.topicService.getAll(this.parentId).then((result) =>this.topics = result);
   }
 
-  ngAfterContentChecked(): void {
-    Materialize.updateTextFields();
-  }
+  // ngAfterContentChecked(): void {
+  //   Materialize.updateTextFields();
+  // }
 
   showPreview(topic: any) {
     this.revision = topic;
@@ -65,45 +62,31 @@ export class TopicComponent implements OnChanges, AfterContentChecked {
   }
 
   onSelectTopic(topic: any) {
-    this.topicSelectedEvent.emit(topic);
+    this.auth.setGlobalObject('topic',topic);
+    this.router.navigate(['concept/',topic.id]);
   }
 
   onTopicSavedEvent(topic: any) {
-    console.log('onTopicSavedEvent ' + topic.name);
-    const index = this.topics.findIndex((e: any) => e.id === topic.id);
-    if (index >= 0) {
-      this.topics[index] = topic;
-    } else {
-      this.topics.push(topic);
-    }
-    // this.showProgressBar = false;
+    this.topics =this.topics.filter((s: any) => s.id !== topic.id).concat(topic);
   }
 
   onNewSave() {
     this.showTopicForm = false;
-     // this.showProgressBar = true;
-    this.topicService.save(this.newTopic, this.study.id)
-      .subscribe((result: any) => {
-        this.onTopicSavedEvent(result);
-      });
+    this.topicService.save(this.newTopic, this.parentId)
+      .subscribe((result: any) => this.onTopicSavedEvent(result));
     this.newTopic  = new Topic();
   }
 
   onDownloadFile(o: any) {
     const fileName = o.originalName;
     this.topicService.getFile(o.id).then(
-      (data: any) => {
-        saveAs(data, fileName);
-      },
-      error => console.log(error));
+      (data: any) => saveAs(data, fileName));
   }
 
   onGetPdf(element: Topic) {
     const fileName = element.name + '.pdf';
     this.topicService.getPdf(element.id).then(
-      (data: any) => {
-        saveAs(data, fileName);
-      });
+      (data: any) => saveAs(data, fileName));
   }
 
   onClickQuestionItem(questionItem) {
@@ -114,16 +97,12 @@ export class TopicComponent implements OnChanges, AfterContentChecked {
   onAddQuestionItem(questionItem: any, topicId: any) {
     console.log(questionItem);
     this.topicService.attachQuestion(topicId, questionItem.id, questionItem['questionItemRevision'])
-      .subscribe((result: any) => {
-        this.onTopicSavedEvent(result);
-      });
+      .subscribe((result: any) => this.onTopicSavedEvent(result));
   }
 
   onRemoveQuestionItem(id: any) {
     this.topicService.deattachQuestion(id.parentId, id.questionItemId)
-      .subscribe((result: any) => {
-          this.onTopicSavedEvent(result);
-        });
+      .subscribe((result: any) => this.onTopicSavedEvent(result));
   }
 
   onRemoveTopic(topicId: string) {

@@ -1,5 +1,7 @@
-import { Component, Input, EventEmitter, Output, OnChanges } from '@angular/core';
+import { Component,  OnInit } from '@angular/core';
 import { SurveyService, SurveyProgram } from './survey.service';
+import { Router } from '@angular/router';
+import { AuthService } from '../../auth/auth.service';
 const saveAs = require('file-saver');
 
 @Component({
@@ -8,26 +10,22 @@ const saveAs = require('file-saver');
   templateUrl: './survey.component.html',
   providers: [SurveyService]
 })
-export class SurveyComponent implements OnChanges {
-  @Input() show: boolean;
-  @Output() surveySelectEvent: EventEmitter<String> = new EventEmitter<String>();
-  @Output() surveyDeleteEvent: EventEmitter<String> = new EventEmitter<String>();
-  @Output() entitySavedEvent: EventEmitter<String> = new EventEmitter<String>();
-
+export class SurveyComponent implements OnInit {
   showSurveyForm = false;
   private surveys: any[]= [];
   private survey: any;
 
-  constructor(private surveyService: SurveyService) {
+  constructor(private surveyService: SurveyService,private router: Router, private auth: AuthService) {
     this.survey = new SurveyProgram();
   }
 
-  ngOnChanges() {
+  ngOnInit() {
     this.surveyService.getAll()
       .then(
         (data: Array<SurveyProgram> )=>this.surveys = data
       );
   }
+
 
   onSurveySaved(surveyProgram: any) {
     if (surveyProgram !== null) {
@@ -38,8 +36,10 @@ export class SurveyComponent implements OnChanges {
   }
 
   onShowStudy(surveyProgram: any) {
-    this.show = false;
-    this.surveySelectEvent.emit(surveyProgram);
+    this.auth.setGlobalObject('survey',surveyProgram);
+    this.router.navigate(['./study',surveyProgram.id]);
+    // this.show = false;
+    // this.surveySelectEvent.emit(surveyProgram);
   }
 
   onSave() {

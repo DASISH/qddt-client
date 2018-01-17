@@ -1,9 +1,8 @@
-<div *ngIf="show" >
-
+<!--<div *ngIf="show" >-->
   <div class="col m10 l9">
     <div class="card white white-text text-lighten-2">
       <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
-        <i class="material-icons large right">assignment</i><h4>Survey</h4>
+        <i class="material-icons medium right">assignment</i><h4>Survey</h4>
 
         <a class="btn" (click)="showSurveyForm = !showSurveyForm">
           <i class="material-icons right" *ngIf="!showSurveyForm">keyboard_arrow_down</i>
@@ -92,4 +91,4 @@
 
   <qddt-toc [elements]="surveys" [tocName]="'Survey Toc'"></qddt-toc>
 
-</div>
+<!--</div>-->

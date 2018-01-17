@@ -1,5 +1,9 @@
-import { Component, Input, EventEmitter, Output, OnChanges } from '@angular/core';
+import {  Component, OnInit } from '@angular/core';
 import { StudyService, Study } from './study.service';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { AuthService } from '../../auth/auth.service';
+import { SurveyProgram } from '../survey/survey.service';
+
 const saveAs = require('file-saver');
 
 @Component({
@@ -8,30 +12,32 @@ const saveAs = require('file-saver');
   templateUrl: './study.component.html',
   providers: [StudyService],
 })
-export class StudyComponent implements OnChanges {
-
-  @Output() studySelectedEvent: EventEmitter<any> = new EventEmitter<any>();
-  @Input() survey: any;
-  @Input() show= false;
-
+export class StudyComponent implements OnInit {
   showEditForm = false;
   private study: any;
-  private studies: any[];
+  private survey: SurveyProgram;
 
-  constructor(private studyService: StudyService) {
+  constructor(  private router: Router, private route: ActivatedRoute,
+                private studyService: StudyService, private auth: AuthService) {
     this.study = new Study();
   }
 
-  ngOnChanges() {
-    this.studies = this.survey.studies;
-    console.log(this.studies.length);
-    console.log(this.survey.name);
-    console.log(this.studies[0].name);
+  ngOnInit(): void {
+    let survey= this.auth.getGlobalObject('survey');
+    if (survey) {
+      this.survey = survey;
+    } else {
+      this.route.paramMap.switchMap((params: ParamMap) => {
+        this.survey.id = params.get('surveyId');
+        this.studyService.getAll(this.survey.id).then(result=> this.survey.studies = result);
+        return null;
+      });
+    }
   }
 
   onStudySelect(study: any) {
-    this.show = false;
-    this.studySelectedEvent.emit(study);
+    this.auth.setGlobalObject('study',study);
+    this.router.navigate(['topic/',study.id]);
   }
 
   onToggleStudyForm() {
@@ -39,14 +45,15 @@ export class StudyComponent implements OnChanges {
   }
 
   onStudySavedEvent(study: any) {
-    this.studies = this.studies.filter((s: any) => s.id !== study.id);
-    this.studies.push(study);
+    let studies = this.survey.studies;
+    this.survey.studies =studies.filter((s: any) => s.id !== study.id).concat(study);
   }
 
-  onSave() {
+  onSaveNewStudy() {
     this.showEditForm = false;
-    this.studyService.save(this.study, this.survey.id).subscribe((result: any) => {
-      this.studies.push(result);
+    this.studyService.save(this.study, this.survey.id)
+      .subscribe((result: any) => {
+        this.onStudySavedEvent(result);
     });
     this.study  = new Study();
   }
@@ -61,13 +68,10 @@ export class StudyComponent implements OnChanges {
 
   onRemoveStudy(studyId: string) {
     if (studyId && studyId.length === 36) {
+      let studies = this.survey.studies;
       this.studyService.deleteStudy(studyId)
-        .subscribe(() => {
-            const i = this.studies.findIndex(q => q['id'] === studyId);
-            if (i >= 0) {
-              this.studies.splice(i, 1);
-            }
-          });
+        .subscribe(() =>
+          this.survey.studies = studies.filter(q => q['id'] === studyId));
     }
   }
 }

@@ -71,7 +71,7 @@ import { CommentService, Comment } from './comment.service';
           </li>
         </ul>
       </div>
-      <qddt-comment-create ( )="addedComment($event)" [ownerId]="ownerId">
+      <qddt-comment-create (addedCommentEvent)="addedComment($event)" [ownerId]="ownerId">
       </qddt-comment-create>
     </div>
   </div>
@@ -107,16 +107,13 @@ export class CommentListComponent implements OnInit {
 
   addedComment() {
     this.commentService.getAll(this.ownerId)
-      .then(
-      (result: any) => this.comments = result.content);
+      .then((result: any) => this.comments = result.content);
   }
 
   onDeleteComment(idx: number) {
     let comment = this.comments[idx];
-    comment.isHidden = true;
-    this.commentService.deleteComment(comment.id).
-    subscribe(()=>
-      this.comments.splice(idx, 1));
+    this.commentService.deleteComment(comment.id)
+      .subscribe(()=>this.comments.splice(idx, 1));
   }
 
   onUpdateComment(idx: number) {

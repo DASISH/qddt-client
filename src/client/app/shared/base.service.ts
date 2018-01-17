@@ -5,7 +5,6 @@ import { Observable } from 'rxjs/Rx';
 import { AuthService } from '../auth/auth.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 // import { ResponseContentType } from '@angular/http';
-// import { AlertService } from '../shared/altert/alter.service';
 
 @Injectable()
 export class BaseService {

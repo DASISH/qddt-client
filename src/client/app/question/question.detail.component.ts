@@ -46,7 +46,7 @@ export class QuestionDetailComponent implements OnInit {
         .then((result: any) => {
           this.questionitem = result;
           this.init();
-        }, (error: any) => console.log(error));
+        });
     } else {
       this.init();
     }
@@ -71,8 +71,7 @@ export class QuestionDetailComponent implements OnInit {
       .subscribe((result: any) => {
         this.questionitem = result;
         this.editIsVisible = true;
-      }
-      , (error: any) => { console.log(error); });
+      });
   }
 
   onEditQuestionItem(questionitem: QuestionItem) {
@@ -112,21 +111,20 @@ export class QuestionDetailComponent implements OnInit {
             this.canDelete = 1;
           }
         },
-        (error: any) => { console.log(error); this.canDelete = 0; });
+        (error: any) => { this.canDelete = 0; throw error;});
     }
   }
 
   onConfirmDeleting() {
     this.service.deleteQuestionItem(this.questionitem.id)
-      .subscribe((result: any) => {
+      .subscribe(() => {
         const i = this.questionitems.findIndex(q => q['id'] === this.questionitem.id);
         if (i >= 0) {
           this.questionitems.splice(i, 1);
         }
         this.deleteAction.emit({action: 'modal', params: ['close']});
         this.hideDetailEvent.emit('hide');
-      },
-      (error: any) => console.log(error));
+      });
 
   }
 
@@ -135,8 +133,7 @@ export class QuestionDetailComponent implements OnInit {
     this.service.getPdf(element.id).subscribe(
       (data: any) => {
         saveAs(data, fileName);
-      },
-      error => console.log(error));
+      });
   }
 
   private buildRevisionConfig(): any[] {

@@ -1,33 +1,4 @@
-<div class="row" *ngIf="isLoggedIn()">
-  <div class="nav-content">
-    <div id="topMenu" class="scrollspy">
-      <nav >
-        <a class="btn-floating btn-large halfway-fab waves-effect waves-light teal left">
-          <i class="material-icons">add</i>
-        </a>
-        <!--<div class="nav-wrapper" [ngStyle]="{'cursor': 'pointer'}">-->
-        <a *ngIf="survey" (click)=onShowSurvey() class="breadcrumb">SURVEY [{{ survey.name }}]</a>
-        <a *ngIf="study" (click)=onShowStudy() class="breadcrumb"> STUDY [{{ study.name }}]</a>
-        <a *ngIf="topic" (click)=onShowTopic() class="breadcrumb">QUESTIONNAIRE MODULE [{{ topic.name }}]</a>
-        <a *ngIf="concept" (click)=onShowConcept()  class="breadcrumb">CONCEPT</a>
-        <!--</div>-->
-      </nav>
-    </div>
-  </div>
-
-  <qddt-survey *ngIf="showSurveyProgram" [show]="showSurveyProgram"
-    (surveySelectEvent)="onSurveySelect($event)">
-  </qddt-survey>
-
-  <qddt-study *ngIf="survey" [show]="showStudy"
-    [survey]="survey" (studySelectedEvent)="onStudySelected($event)">
-  </qddt-study>
-
-  <qddt-topic  *ngIf="study" [show]="showTopic"
-    [study]="study" (topicSelectedEvent)="onTopicSelected($event)">
-  </qddt-topic>
-
-  <concept *ngIf="topic"  [show]="showConcept"
-    [topic]="topic"  (conceptSelectedEvent)="onConceptSelected($event)">
-  </concept>
+<div class="row">
+  <!--<div id="topMenu" class="scrollspy"></div>-->
+  <router-outlet></router-outlet>
 </div>

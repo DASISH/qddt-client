@@ -49,8 +49,6 @@ export class InstrumentDetailComponent {
           this.instruments[index] = result;
         }
         this.hideDetail();
-      }, (error: any) => {
-        console.log(error);
       });
   }
 }

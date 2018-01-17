@@ -1,4 +1,4 @@
-<div *ngIf="show">
+<!--<div *ngIf="show">-->
   <div class="col s12 m9">
     <div class="card white white-text text-lighten-2">
       <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
@@ -12,7 +12,7 @@
         <div *ngIf="showEditForm">
           <div class="row card-action">
             <div class="col s10 offset-s1">
-              <form (ngSubmit)="onSave()" #newStudyForm="ngForm">
+              <form (ngSubmit)="onSaveNewStudy()" #newStudyForm="ngForm">
               <div class="row input-field ">
                 <input id="study-name" name="name" type="text" [(ngModel)]="study.name" required>
                 <label for="study-name" class="white-text">Name</label>
@@ -30,20 +30,20 @@
           </div>
         </div>
       </div>
-      <div *ngIf="studies">
-        <div class="row card" *ngFor="let study of studies" style="padding-left:2%">
+      <div *ngIf="survey.studies">
+        <div class="row card" *ngFor="let study of survey.studies" style="padding-left:2%">
           <div id="{{study.id}}" class="scrollspy">
             <div class="col s1 m1 l1">
               <br />
               <div class="row">
-                <a *ngIf="!study.archived" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                <a *ngIf="!study?.archived" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                    (click)="study['isVisible'] = !study['isVisible']"><i class="material-icons"title="Edit element">mode_edit</i></a>
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                    (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium" title="Revision history">history</i></a>
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
                   <i class="material-icons" (click)="getPdf(study)" title="Get as Pdf">picture_as_pdf</i>
                 </a>
-                <qddt-confirm-delete *ngIf="!study.archived" [element]="study" (confirmAction)="onRemoveStudy($event)"></qddt-confirm-delete>
+                <qddt-confirm-delete *ngIf="!study?.archived" [element]="study" (confirmAction)="onRemoveStudy($event)"></qddt-confirm-delete>
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                    (click)="onStudySelect(study)"><i class="material-icons left medium" title="Go to child elements">play_arrow</i></a>
               </div>
@@ -87,5 +87,5 @@
     </div>
   </div>
 
-  <qddt-toc [elements]="studies" [tocName]="'Study Toc'"></qddt-toc>
-</div>
+  <qddt-toc [elements]="survey.studies" [tocName]="'Study Toc'"></qddt-toc>
+<!--</div>-->

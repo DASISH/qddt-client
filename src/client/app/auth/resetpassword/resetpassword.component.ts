@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-resetpassword',
@@ -6,10 +7,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./resetpassword.component.css']
 })
 export class ResetpasswordComponent implements OnInit {
-
-  constructor() { }
+  model: any = {};
+  constructor(private authService: AuthService) {
+  }
 
   ngOnInit() {
   }
 
+  register() {
+    this.authService.resetPassword(this.model).subscribe((result:any)=> {
+      throw result;
+    });
+  }
 }

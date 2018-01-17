@@ -1,6 +1,12 @@
-import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { ConceptService, Concept } from './concept.service';
 import { MaterializeAction } from 'angular2-materialize';
+import { AuthService } from '../../auth/auth.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Topic } from '../topic/topic.service';
+
+
+
 
 @Component({
   selector: 'concept',
@@ -9,36 +15,31 @@ import { MaterializeAction } from 'angular2-materialize';
   templateUrl: './concept.component.html'
 })
 
-export class ConceptComponent implements OnChanges {
-  @Output() conceptSelectedEvent: EventEmitter<any> = new EventEmitter();
-  @Input() topic: any;
-  @Input() show: boolean;
+export class ConceptComponent implements OnInit {
+
   confimDeleteActions = new EventEmitter<string|MaterializeAction>();
 
   private showConceptForm = false;
   private showProgressBar = false;
+  private parentId: any;
+  private topic: Topic;
   private concept: any;
   private concepts: any;
   private toDeletedConcept: any;
 
-  constructor(private conceptService: ConceptService) {
+  constructor(private router: Router, private route: ActivatedRoute,
+              private conceptService: ConceptService,private auth: AuthService) {
     this.concept = new Concept();
-  }
+   }
 
-  ngOnChanges() {
-    console.log('ngOnChanges concept');
+  ngOnInit(): void {
+    this.parentId = this.route.snapshot.paramMap.get('topicId');
+    this.topic = this.auth.getGlobalObject('topic');
     this.showProgressBar = true;
-    this.conceptService.getByTopic(this.topic.id)
-      .then((result: any) => {
-        this.concepts = result.content;
-        this.showProgressBar = false;
-      });
-  }
-
-  onSelectConcept(concept: any) {
-    console.log('onSelectConcept...');
-    this.topic = concept;
-    this.concepts = concept.children;
+    this.conceptService.getByTopic(this.parentId).then((result: any) => {
+      this.concepts = result.content;
+      this.showProgressBar = false;
+    });
   }
 
   onToggleConceptForm() {

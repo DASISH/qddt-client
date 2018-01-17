@@ -45,8 +45,6 @@ export class SequenceDetailComponent implements OnInit {
         this.sequences.push(result);
       }
         this.hideDetail();
-      }, (error: any) => {
-        console.log(error);
       });
   }
 

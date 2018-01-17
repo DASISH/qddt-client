@@ -38,34 +38,34 @@ export class TopicService  {
   }
 
   save(topic: Topic, studyId: string): Observable<any> {
-    return this.http.post('topicgroup/create/' + studyId, topic);
+    return this.http.post(this.api +'topicgroup/create/' + studyId, topic);
   }
 
   edit(topic: Topic): Observable<any> {
-    return this.http.post('topicgroup/',topic);
+    return this.http.post(this.api +'topicgroup/',topic);
   }
 
   deleteTopic(topicId: string): Observable<any> {
-    return this.http.delete('topicgroup/delete/' + topicId);
+    return this.http.delete(this.api +'topicgroup/delete/' + topicId);
   }
 
   attachAuthor(topicId: string, authorId: string): Observable<any> {
-    return this.http.post('author/combine?authorId=' + authorId + '&topicId=' + topicId,{});
+    return this.http.post(this.api +'author/combine?authorId=' + authorId + '&topicId=' + topicId,{});
   }
 
   deattachAuthor(topicId: string, authorId: string): Observable<any> {
-    return this.http.delete('author/decombine?authorId=' + authorId + '&topicId=' + topicId);
+    return this.http.delete(this.api +'author/decombine?authorId=' + authorId + '&topicId=' + topicId);
   }
 
   attachQuestion(topicId: string, questionId: string, revision: string): Observable<any> {
     if (revision === null)
       revision = '0';
-    return this.http.post('topicgroup/combine?questionitemid=' + questionId +
+    return this.http.post(this.api +'topicgroup/combine?questionitemid=' + questionId +
       '&questionitemrevision=' + revision + '&topicid=' + topicId,{});
   }
 
   deattachQuestion(topicId: string, questionId: string): Observable<any> {
-    return this.http.post('topicgroup/decombine?questionitemid=' + questionId + '&topicid=' + topicId,{});
+    return this.http.post(this.api +'topicgroup/decombine?questionitemid=' + questionId + '&topicid=' + topicId,{});
   }
 
 

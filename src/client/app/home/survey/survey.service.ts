@@ -9,6 +9,8 @@ export class SurveyProgram {
   name: string;
   description: string;
   modified: any;
+  archived: boolean;
+  studies: any[];
 }
 
 @Injectable()

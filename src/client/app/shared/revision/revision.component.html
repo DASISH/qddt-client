@@ -21,7 +21,7 @@
       <tbody>
       <tr *ngFor="let content of revisions; let idx=index">
         <td (click)="onPreviewRevision(idx)" [ngStyle]="{'cursor': 'zoom-in'}">
-{{ content?.metadata?.revisionNumber }}onNumber}}
+          {{ content?.metadata?.revisionNumber }}
         </td>
         <td>{{ content?.entity?.version?.major }}.{{ content?.entity?.version?.minor }} {{ content?.entity?.version?.versionLabel }}</td>
         <td (click)="onSelectRevision(idx)" [ngStyle]="{'cursor': 'pointer'}">

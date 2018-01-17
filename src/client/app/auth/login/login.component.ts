@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import 'rxjs/Rx';
 import { AuthService } from '../auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AlertService } from '../../alert/alert.service';
 
 export class LoginForm {
   username: string;
@@ -24,8 +23,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private authenticationService: AuthService,
-    private alertService: AlertService) { }
+    private authenticationService: AuthService) { }
 
   ngOnInit() {
     // reset login status
@@ -45,8 +43,8 @@ export class LoginComponent implements OnInit {
           this.router.navigate([this.returnUrl]);
         },
         error => {
-          this.alertService.error(error);
           this.loading = false;
+          throw error;
         });
   }
 }

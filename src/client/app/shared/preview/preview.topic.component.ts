@@ -62,10 +62,9 @@ export class PreviewTopicComponent {
 
   onDownloadFile(o: any) {
     const fileName = o.originalName;
-    this.service.getFile(o.id).subscribe(
+    this.service.getFile(o.id).then(
       (data: any) => {
         saveAs(data, fileName);
-      },
-      error => console.log(error));
+      });
   }
 }

@@ -1,8 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-// import { map } from 'rxjs/operators';
-// import 'rxjs/add/operator/map';
 import { API_BASE_HREF } from '../api';
 
 export const TOKEN_NAME = 'jwt_token';
@@ -15,6 +13,7 @@ export class AuthService {
 
   public static readonly SIGNUP_URL = 'auth/signup';
   public static readonly SIGNIN_URL = 'auth/signin';
+  public static readonly RESET_PWD_URL = 'auth/reset';
   private static readonly USERINFO = 'user';
 
   private user: any;
@@ -39,16 +38,20 @@ export class AuthService {
 
     return this.http.post<any>(this.api + AuthService.SIGNIN_URL, requestParam)
       .map(response => {
-        console.info('JSON -> ' + JSON.stringify(response));
         if (response && response.token) {
           this.setToken(response.token);
           this.setUserData(response);
         }
         return response;
-      })
-      .catch(err => {
-        throw Error(err.json().message);
       });
+  }
+
+  public registerUser(userdata:any) : Observable<any> {
+    return this.http.post(this.api + AuthService.SIGNUP_URL, userdata);
+  }
+
+  public resetPassword(userdata:any) : Observable<any> {
+    return this.http.post(this.api + AuthService.RESET_PWD_URL, userdata);
   }
 
   /**

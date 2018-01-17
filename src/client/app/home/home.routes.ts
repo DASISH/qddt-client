@@ -9,21 +9,16 @@ import { TopicComponent } from './topic/topic.component';
 
 export const homeRoutes: Routes = [
   {
-    path: 'home',
+    path: '',
     component: HomeComponent,
     canActivate: [AuthGuard],
     children: [
-      {
-        path: '',
-        children: [
-          { path: 'concept', component: ConceptComponent},
-          { path: 'study', component: StudyComponent},
-          { path: 'survey', component: SurveyComponent},
-          { path: 'topic', component: TopicComponent}
-        ],
-      }
-    ]
-  }
+      { path: 'home', redirectTo: 'survey', pathMatch: 'full' },
+      { path: 'survey', component: SurveyComponent},
+      { path: 'study/:surveyId', component: StudyComponent},
+      { path: 'topic/:studyId', component: TopicComponent},
+      { path: 'concept/:topicId', component: ConceptComponent}],
+    }
 ];
 
 @NgModule({

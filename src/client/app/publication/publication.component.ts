@@ -60,8 +60,8 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
             this.page = result.page;
             this.showProgressBar = false;
           }, (error: any) => {
-            console.log(error);
             this.showProgressBar = false;
+            throw error;
           });
       });
   }
@@ -161,7 +161,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
         this.showProgressBar = false;
       }, (error: any) => {
         this.showProgressBar = false;
-        console.log(error);
+        throw error;
       });
   }
 

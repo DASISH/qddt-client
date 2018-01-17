@@ -15,4 +15,5 @@ import { AuthService } from '../auth/auth.service';
   exports: [HomeComponent]
 })
 
-export class HomeModule { }
+export class HomeModule {
+}

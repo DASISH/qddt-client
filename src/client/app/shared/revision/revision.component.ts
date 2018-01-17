@@ -53,13 +53,15 @@ export class RevisionComponent implements OnChanges, OnInit {
     this.showProgressBar = true;
     // let params = allRevisions.checked?'':'&ignorechangekinds="" ';
     this.service.getAllRevisions(this.qddtURI)
-      .subscribe(
+      .then(
       (result: any) => {
         this.revisions = result.content;
         this.showProgressBar = false;
       },
-      (err: any) => console.log('Unable to get all revisions')
-      );
+        (error)=> {
+        this.showProgressBar = false;
+        throw error;
+      });
   }
 
   onSelectRevision(id: number) {
