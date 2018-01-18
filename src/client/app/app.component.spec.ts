@@ -10,18 +10,18 @@ import {
 
 import { AppComponent } from './app.component';
 import { By } from '@angular/platform-browser';
-import { AuthService } from './auth/auth.service';
+import { UserService } from './core/user/user.service';
 
 class UserServiceSpy {
   get = jasmine.createSpy('get').and.callFake(function(key) {
     return { username: 'qddt', email: 'test@qddt.no' };
   });
 
-  getGlobalObject = jasmine.createSpy('getGlobalObject').and.callFake(function(key) {
+  get = jasmine.createSpy('get').and.callFake(function(key) {
     return { current: '' };
   });
 
-  setGlobalObject = jasmine.createSpy('setGlobalObject').and.callFake(function(key) {
+  set = jasmine.createSpy('set').and.callFake(function(key) {
     return { current: '' };
   });
 }
@@ -48,7 +48,7 @@ export function main() {
       TestBed.configureTestingModule({
         declarations: [TestComponent, DummyComponent, AppComponent, UserLoginComponent],
         providers: [
-          { provide: AuthService, useClass: UserServiceSpy }
+          { provide: UserService, useClass: UserServiceSpy }
         ],
         imports: [
           CommonModule,

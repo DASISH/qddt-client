@@ -4,7 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 import { Column } from '../shared/table/table.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { AuthService } from '../auth/auth.service';
+import { PropertyStoreService } from '../core/global/property.service';
 
 @Component({
   selector: 'qddt-questionitem',
@@ -36,7 +36,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
   private secondCS: any;
   private mainresponseDomainRevision: number;
 
-  constructor(private questionService: QuestionService, private userService: AuthService, private route: ActivatedRoute) {
+  constructor(private questionService: QuestionService, private property: PropertyStoreService, private route: ActivatedRoute) {
     this.questionitems = [];
     this.page = {number: 1, size: 10};
     this.searchKeys = '';
@@ -66,9 +66,9 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
       .switchMap((params: ParamMap) =>
         params.has('id') ? this.questionItem = this.questionService.getquestion(params.get('id')) : null);
 
-    const config = this.userService.getGlobalObject('questions');
+    const config = this.property.get('questions');
     if(!config)
-      this.userService.setGlobalObject('questions', {'current': 'list', 'key': ''});
+      this.property.set('questions', {'current': 'list', 'key': ''});
     if (config && config['current'] === 'detail' ) {
       this.page = config.page;
       this.questionitems = config.collection;
@@ -81,7 +81,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
   }
 
   ngAfterContentChecked() {
-    const config = this.userService.getGlobalObject('questions');
+    const config = this.property.get('questions');
     if (config && config['current'] === 'detail' ) {
       this.page = config.page;
       this.questionitems = config.collection;
@@ -91,7 +91,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
     } else {
       this.isDetail = false;
       if (config.key === null || config.key === undefined) {
-        this.userService.setGlobalObject('questions', {'current': 'list', 'key': ''});
+        this.property.set('questions', {'current': 'list', 'key': ''});
         this.searchKeys = '';
         this.searchKeysSubect.next('');
       }
@@ -109,7 +109,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
   onDetail(questionItem: any) {
     this.selectedQuestionItem = questionItem;
     this.isDetail = true;
-    this.userService.setGlobalObject('questions',
+    this.property.set('questions',
       {'current': 'detail',
         'page': this.page,
         'key': this.searchKeys,
@@ -119,7 +119,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
 
   hideDetail() {
     this.isDetail = false;
-    this.userService.setGlobalObject('questions', {'current': 'list', 'key': this.searchKeys});
+    this.property.set('questions', {'current': 'list', 'key': this.searchKeys});
   }
 
   onPage(page: string) {
@@ -150,19 +150,15 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
                   this.questionitems = [result].concat(this.questionitems);
                   this.showProgressBar = false;
                   // this.editQuestionItem.emit(this.questionItem);
-                }, (err: any) => { this.error = err.toString();
-                  this.modalActions.emit({action: 'modal', params: ['open', err.toString()]}); });
-            }, (err: any) => { this.error = err.toString();
-              this.modalActions.emit({action: 'modal', params: ['open', err.toString()]}); });
-        }, (err: any) => { this.error = err.toString();
-          this.modalActions.emit({action: 'modal', params: ['open', err.toString()]}); });
+                });
+            });
+        });
     else {
       this.questionService.updateQuestionItem(this.questionItem)
         .subscribe((result: any) => {
           this.questionitems = [result].concat(this.questionitems);
           this.showProgressBar = false;
-        }, (err: any) => { this.error = err.toString();
-          this.modalActions.emit({action: 'modal', params: ['open', err.toString()]}); });
+        });
     }
     this.isDetail = false;
   }

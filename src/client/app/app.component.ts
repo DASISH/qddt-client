@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation  } from '@angular/core';
-// import { AlertComponent} from './alert/alert.component';
-import { AuthService } from './auth/auth.service';
+import { UserService } from './core/user/user.service';
+import { PropertyStoreService } from './core/global/property.service';
 
 declare var $: any;
 
@@ -10,12 +10,12 @@ declare var $: any;
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   encapsulation: ViewEncapsulation.None,
-  providers: [AuthService]
+  providers: [UserService]
 })
 
 export class AppComponent  {
 
-  constructor(public userService: AuthService) {
+  constructor(private userService: UserService, private  properties: PropertyStoreService) {
     //
   }
 
@@ -24,11 +24,11 @@ export class AppComponent  {
   }
 
   onInstruments() {
-    this.userService.setGlobalObject('current', 'instrument');
+    this.properties.set('current', 'instrument');
   }
 
   onSequences() {
-    this.userService.setGlobalObject('current', 'sequence');
+    this.properties.set('current', 'sequence');
   }
 
   onQuestions() {
@@ -60,16 +60,16 @@ export class AppComponent  {
   }
 
   private checkRouter(target: string, value: string) {
-    const current = this.userService.getGlobalObject('current');
+    const current = this.properties.get('current');
     if (current === target) {
-      const config = this.userService.getGlobalObject('home');
+      const config = this.properties.get('home');
       if (config.current !== value) {
-        this.userService.setGlobalObject(target, {'current': value});
+        this.properties.set(target, {'current': value});
       }
-    } else if (this.userService.getGlobalObject(target) === '') {
-      this.userService.setGlobalObject(target, {'current': value});
+    } else if (this.properties.get(target) === '') {
+      this.properties.set(target, {'current': value});
     }
-    this.userService.setGlobalObject('current', target);
+    this.properties.set('current', target);
 
   }
 }

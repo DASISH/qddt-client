@@ -4,7 +4,7 @@ import { DomainKind, DomainTypeDescription, PredefinedColumns } from './response
 import { ResponseDomainService } from './responsedomain.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
-import { AuthService } from '../auth/auth.service';
+import { PropertyStoreService } from '../core/global/property.service';
 
 declare var Materialize: any;
 
@@ -12,7 +12,7 @@ declare var Materialize: any;
   selector: 'qddt-responsedomain',
   moduleId: module.id,
   templateUrl: './responsedomain.component.html',
-  providers: [ResponseDomainService, AuthService],
+  providers: [ResponseDomainService],
 })
 
 export class ResponsedomainComponent implements OnInit, AfterContentChecked {
@@ -36,7 +36,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
   private savedResponseDomainsIndex: number;
   private searchKeysSubject: Subject<string> = new Subject<string>();
 
-  constructor(private responseDomainService: ResponseDomainService, private userService: AuthService) {
+  constructor(private responseDomainService: ResponseDomainService, private property: PropertyStoreService) {
     this.responseDomain = new ResponseDomain();
     this.isNewFormVisible = false;
     this.isProgressBarVisible = false;
@@ -64,7 +64,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit() {
-    const config = this.userService.getGlobalObject('responsedomains');
+    const config = this.property.get('responsedomains');
     if (config.current === 'detail' ) {
       this.page = config.page;
       this.responseDomains = config.collection;
@@ -84,7 +84,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
   }
 
   ngAfterContentChecked() {
-    const config = this.userService.getGlobalObject('responsedomains');
+    const config = this.property.get('responsedomains');
     if (config.current === 'detail' ) {
       this.page = config.page;
       this.responseDomains = config.collection;
@@ -94,7 +94,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
     } else {
       this.isEditFormVisible = false;
       if (config.key === null || config.key === undefined) {
-        this.userService.setGlobalObject('responsedomains', {'current': 'list', 'key': ''});
+        this.property.set('responsedomains', {'current': 'list', 'key': ''});
         this.searchKeys = '';
         this.searchKeysSubject.next('');
       }
@@ -163,7 +163,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
           .findIndex(q => q['id'] === result['id']);
         this.selectedResponseDomain['config'] = this.buildRevisionConfig();
         this.isEditFormVisible = true;
-        this.userService.setGlobalObject('responsedomains',
+        this.property.set('responsedomains',
           {
             'current': 'detail',
             'page': this.page,
@@ -179,7 +179,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
     this.selectedResponseDomain = null;
     this.savedResponseDomainsIndex = -1;
     this.isEditFormVisible = false;
-    this.userService.setGlobalObject('responsedomains', {'current': 'list', 'key': this.searchKeys});
+    this.property.set('responsedomains', {'current': 'list', 'key': this.searchKeys});
   }
 
   onPage(page: string) {

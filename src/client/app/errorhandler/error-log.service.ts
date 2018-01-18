@@ -22,8 +22,8 @@ export class ErrorLogService {
 
     } else if (error instanceof Error) {
 
-      console.error('There was a general error.', error.message);
-      Materialize.toast(error.message,4000);
+      Materialize.toast(error.message ,4000);
+      console.error('There was a general error.', error);
 
     } else {
 

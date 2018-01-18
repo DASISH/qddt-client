@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import 'rxjs/Rx';
-import { AuthService } from '../auth.service';
+import { UserService } from '../user/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 export class LoginForm {
@@ -13,7 +13,7 @@ export class LoginForm {
   selector: 'qddt-login',
   moduleId: module.id,
   templateUrl: './login.component.html',
-  providers: [AuthService]
+  providers: [UserService]
 })
 export class LoginComponent implements OnInit {
   model: any = {};
@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private authenticationService: AuthService) { }
+    private authenticationService: UserService) { }
 
   ngOnInit() {
     // reset login status
@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
     this.authenticationService.signIn(this.model.email, this.model.password)
       .subscribe(
         data => {
-          this.router.navigate([this.returnUrl]);
+          this.router.navigate(['/survey']);
         },
         error => {
           this.loading = false;

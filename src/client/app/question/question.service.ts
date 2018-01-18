@@ -1,9 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_BASE_HREF } from '../api';
-// import { BaseService } from '../shared/base.service';
 import { ResponseDomain } from '../responsedomain/responsedomain.service';
-import { AuthService } from '../auth/auth.service';
 import { Observable } from 'rxjs/Observable';
 
 
@@ -24,21 +22,17 @@ export class QuestionService  {
 
   readonly pageSize = '&size=10';
 
-  constructor(protected http: HttpClient, protected auth: AuthService, @Inject(API_BASE_HREF) protected api: string) {
-    // super(http, auth , api);
-  }
+  constructor(protected http: HttpClient,  @Inject(API_BASE_HREF) protected api: string) { }
 
 
   getQuestionItemPage(page: String = '0'): Promise<any> {
     return this.http.get(this.api +'questionitem/page' + '?&page=' + page + this.pageSize )
-      .toPromise()
-      .catch(err => { throw Error(err.message);});
+      .toPromise();
   }
 
   getquestion(id: string): Promise<any> {
     return this.http.get(this.api +'questionitem/' + id)
-      .toPromise()
-      .catch(err => { throw Error(err.message);});
+      .toPromise();
   }
 
   deleteQuestionItem(id: string): any {
@@ -52,8 +46,6 @@ export class QuestionService  {
     }
     return this.http.get(this.api +'questionitem/page/search?' + 'page=' + page + this.pageSize + query)
       .toPromise();
-      // .catch(err => { throw Error(err.message);});
-
   }
 
   createQuestionItem(question: any): any {
@@ -94,22 +86,20 @@ export class QuestionService  {
 
   getQuestionItemRevisions(id: string): Promise<any> {
     return this.http.get(this.api +'audit/questionitem/' + id + '/all')
-      .toPromise()
-      .catch(err => { throw Error(err.message);});
-
+      .toPromise();
   }
 
   getQuestionItemRevision(id: string, rev: string): Promise<any> {
     return this.http.get(this.api +'audit/questionitem/' + id + '/' + rev)
-      .toPromise()
-      .catch(err => { throw Error(err.message);});
+      .toPromise();
+      // .catch(err => { throw Error(err.message);});
 
   }
 
   getControlConstructsByQuestionItem(id: string): Promise<any> {
     return this.http.get(this.api +'controlconstruct/list/by-question/' + id)
-      .toPromise()
-      .catch(err => { throw Error(err.message);});
+      .toPromise();
+      // .catch(err => { throw Error(err.message);});
 
   }
 

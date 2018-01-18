@@ -1,13 +1,13 @@
 import {
-  Component, EventEmitter, Output,  AfterContentChecked, OnInit,
+  Component, EventEmitter,  OnInit,
 } from '@angular/core';
 import { ActivatedRoute,  Router } from '@angular/router';
 import { TopicService, Topic } from './topic.service';
 import { MaterializeAction } from 'angular2-materialize';
 import { QuestionItem } from '../../question/question.service';
-import { AuthService } from '../../auth/auth.service';
 import 'rxjs/add/operator/switchMap';
 import { Study } from '../study/study.service';
+import { HIERARCHY_POSITION, PropertyStoreService } from '../../core/global/property.service';
 const saveAs = require('file-saver');
 declare var Materialize: any;
 
@@ -37,14 +37,14 @@ export class TopicComponent implements  OnInit {
   private config: any;
 
   constructor(private router: Router, private route: ActivatedRoute,
-              private topicService: TopicService,private auth: AuthService) {
+              private topicService: TopicService,private property: PropertyStoreService) {
     this.newTopic = new Topic();
     this.config = this.buildRevisionConfig();
   }
 
   ngOnInit(): void {
     this.parentId  = this.route.snapshot.paramMap.get('studyId');
-    this.study = this.auth.getGlobalObject('study');
+    this.study = this.property.get('study');
     this.topicService.getAll(this.parentId).then((result) =>this.topics = result);
   }
 
@@ -62,7 +62,9 @@ export class TopicComponent implements  OnInit {
   }
 
   onSelectTopic(topic: any) {
-    this.auth.setGlobalObject('topic',topic);
+    this.property.set('topic',topic);
+    this.property.setCurrent(HIERARCHY_POSITION.Topic,topic.name);
+    this.property.setCurrent(HIERARCHY_POSITION.Concept,'Concept');
     this.router.navigate(['concept/',topic.id]);
   }
 

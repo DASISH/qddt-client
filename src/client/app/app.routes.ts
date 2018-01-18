@@ -1,14 +1,14 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AuthGuard } from './auth/auth-guard.service';
+import { AuthGuard } from './core/guard/auth-guard.service';
 import { HomeComponent } from './home/home.component';
 import { QuestionComponent } from './question/question.component';
 import { CategoryComponent } from './category/category.component';
 import { CategorySchemeComponent } from './category/category.scheme.component';
 import { InstrumentComponent } from './instrument/instrument.component';
 import { PublicationComponent } from './publication/publication.component';
-import { LoginComponent } from './auth/login/login.component';
+import { LoginComponent } from './core/login/login.component';
 import { ResponsedomainComponent } from './responsedomain/responsedomain.component';
 import { ControlConstructComponent } from './controlconstruct/controlconstruct.component';
 import { SequenceComponent } from './sequence/sequence.component';

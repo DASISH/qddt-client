@@ -15,20 +15,17 @@
         </ul>
       </ul>
 
-        <div style="padding-left: 100px">
-          <div class="nav-wrapper" [ngStyle]="{'cursor': 'pointer'}">
-            <a *ngIf="survey" (click)="onSurvey()" class="breadcrumb">SURVEY [{{ survey.name }}]</a>
-            <a *ngIf="study"  (click)="onStudy()" class="breadcrumb">STUDY [{{ study.name }}]</a>
-            <a *ngIf="topic"  (click)="onTopic()" class="breadcrumb">QUESTIONNAIRE MODULE [{{ topic.name }}]</a>
-            <a *ngIf="concept" class="breadcrumb">CONCEPT</a>
-          </div>
-        </div>
-
+      <div class="nav-wrapper" [ngStyle]="{'cursor': 'pointer'}">
+        <a *ngIf="path[0]" (click)="onSurvey()" class="breadcrumb">SURVEY [{{ path[0] }}]</a>
+        <a *ngIf="path[1]" (click)="onStudy()" class="breadcrumb">STUDY [{{ path[1] }}]</a>
+        <a *ngIf="path[2]" (click)="onTopic()" class="breadcrumb">QUESTIONNAIRE MODULE [{{ path[2] }}]</a>
+        <a *ngIf="path[3]" (click)="onConcept()" class="breadcrumb">{{ path[3] }}</a>
+      </div>
 
       <a href="#" data-activates="leftmenu" class="button-collapse"><i class="material-icons">menu</i></a>
 
       <ul  id="nav-mobile" class="side-nav fixed hide-on-small-and-down"
-           style="width: 200px;header,main,footer {padding-left: 200px;}">
+           style="width: 200px;header,main,footer { padding-left: 200px; }">
         <div style="color: #fff; background-color: #ee6e73; width: 100%; height: 64px;line-height: 64px; font-size: 2rem; text-align: center;">QDDT</div>
         <div *ngIf="isLoggedIn()">
           <li><a class="teal-text" [routerLink]="['/home']" >

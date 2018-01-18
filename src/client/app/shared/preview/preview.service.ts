@@ -1,10 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
-// import { Http } from '@angular/http';
-
 import { API_BASE_HREF } from '../../api';
-import { BaseService } from '../base.service';
 import { Observable } from 'rxjs/Observable';
-import { AuthService } from '../../auth/auth.service';
 import { HttpClient } from '@angular/common/http';
 
 
@@ -81,24 +77,23 @@ export const QddtElementTypes: QddtElementType[] = [
 ];
 
 @Injectable()
-export class PreviewService extends BaseService {
+export class PreviewService {
 
-  constructor(protected http: HttpClient, protected auth: AuthService, @Inject(API_BASE_HREF) protected api: string) {
-    super(http, auth , api);
+  constructor(protected http: HttpClient,  @Inject(API_BASE_HREF) protected api: string) {
   }
-  getRevisionById(elementTypeId: number, id: string, rev: string): any {
+  getRevisionById(elementTypeId: number, id: string, rev: string): Promise<any> {
     const et: any = QddtElementTypes.find(e => e.id === elementTypeId);
     if (et !== undefined) {
-      return this.get('audit/' + et.path + '/' + id + '/' + rev);
+      return this.http.get('audit/' + et.path + '/' + id + '/' + rev).toPromise();
     }
-     return Observable.of([]);
+     return Observable.of([]).toPromise();
   }
-  getRevisionByType(type: string, id: string, rev: string): any {
+  getRevisionByType(type: string, id: string, rev: string): Promise<any>  {
     const et: any = QddtElementTypes.find(e => e.label === type);
     if (et !== undefined) {
-      return this.get('audit/' + et.path + '/' + id + '/' + rev);
+      return this.http.get('audit/' + et.path + '/' + id + '/' + rev).toPromise();
     }
-    return Observable.of([]);
+    return Observable.of([]).toPromise();
   }
 
 

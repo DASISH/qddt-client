@@ -1,7 +1,7 @@
 import { Component,  OnInit } from '@angular/core';
 import { SurveyService, SurveyProgram } from './survey.service';
 import { Router } from '@angular/router';
-import { AuthService } from '../../auth/auth.service';
+import { PropertyStoreService ,HIERARCHY_POSITION } from '../../core/global/property.service';
 const saveAs = require('file-saver');
 
 @Component({
@@ -15,15 +15,17 @@ export class SurveyComponent implements OnInit {
   private surveys: any[]= [];
   private survey: any;
 
-  constructor(private surveyService: SurveyService,private router: Router, private auth: AuthService) {
+  constructor(private surveyService: SurveyService,private router: Router, private property: PropertyStoreService) {
     this.survey = new SurveyProgram();
   }
 
   ngOnInit() {
-    this.surveyService.getAll()
-      .then(
-        (data: Array<SurveyProgram> )=>this.surveys = data
-      );
+    this.surveys = this.property.get('surveys');
+    if(!this.surveys)
+      this.surveyService.getAll()
+        .then(
+          (data: Array<SurveyProgram> )=>this.surveys = data
+        );
   }
 
 
@@ -31,15 +33,14 @@ export class SurveyComponent implements OnInit {
     if (surveyProgram !== null) {
       this.surveys = this.surveys.filter((q) => q.id !== surveyProgram.id);
       this.surveys.push(surveyProgram);
-      surveyProgram['isVisible'] = false;
+      // surveyProgram['isVisible'] = false;
     }
   }
 
   onShowStudy(surveyProgram: any) {
-    this.auth.setGlobalObject('survey',surveyProgram);
+    this.property.set('survey',surveyProgram);
+    this.property.setCurrent(HIERARCHY_POSITION.Survey, surveyProgram.name);
     this.router.navigate(['./study',surveyProgram.id]);
-    // this.show = false;
-    // this.surveySelectEvent.emit(surveyProgram);
   }
 
   onSave() {

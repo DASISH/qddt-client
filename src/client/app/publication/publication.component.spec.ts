@@ -10,7 +10,7 @@ import { API_BASE_HREF } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from '../core/user/user.service';
 
 export function main() {
   describe('Publication component', () => {
@@ -99,11 +99,11 @@ class PublicationServiceSpy {
 }
 
 class UserServiceSpy {
-  getGlobalObject = jasmine.createSpy('getGlobalObject').and.callFake(function (key) {
+  get = jasmine.createSpy('get').and.callFake(function (key) {
     return {};
   });
 
-  setGlobalObject = jasmine.createSpy('setGlobalObject').and.callFake(function (key) {
+  set = jasmine.createSpy('set').and.callFake(function (key) {
     return {};
   });
 }

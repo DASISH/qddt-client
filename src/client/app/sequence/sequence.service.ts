@@ -1,10 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
-// import { Http } from '@angular/http';
-
 import { API_BASE_HREF } from '../api';
-import { BaseService } from '../shared/base.service';
-import { AuthService } from '../auth/auth.service';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
 export const ElementTypeDescription = [
   { id: 0, name: 'SEQUENCE_CONSTRUCT', label: 'Sequence' },
@@ -42,21 +39,19 @@ export class Condition {
 }
 
 @Injectable()
-export class SequenceService extends BaseService {
+export class SequenceService {
 
-  constructor(protected http: HttpClient, protected auth: AuthService, @Inject(API_BASE_HREF) protected api: string) {
-    super(http, auth , api);
+  constructor(protected http: HttpClient,  @Inject(API_BASE_HREF) protected api: string) { }
+
+  create(sequence: Sequence): Observable<any> {
+    return this.http.post( this.api +'controlconstruct/create',sequence);
   }
 
-  create(sequence: Sequence): any {
-    return this.post(sequence, 'controlconstruct/create');
+  update(sequence: Sequence): Observable<any> {
+    return this.http.post(this.api + 'controlconstruct/', sequence);
   }
 
-  update(sequence: Sequence): any {
-    return this.post(sequence, 'controlconstruct/');
-  }
-
-  getElements(elementType: string, name: string, page: string = '0', sort: string = '') {
+  getElements(elementType: string, name: string, page: string = '0', sort: string = ''): Promise<any> {
     let query = '';
     if (name.length > 0) {
       query = '&name=*' + name + '*' + '&questiontext=*' + name + '*';
@@ -67,7 +62,8 @@ export class SequenceService extends BaseService {
     if (sort.length > 0) {
       query += '&sort=' + sort;
     }
-    return this.get('controlconstruct/page/search?constructkind=' + elementType + query);
+    return this.http.get(this.api +'controlconstruct/page/search?constructkind=' + elementType + query)
+      .toPromise();
   }
 
 }

@@ -4,7 +4,7 @@ import { ControlConstructService, ControlConstruct, Instruction, Universe } from
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 import { Column } from '../shared/table/table.service';
-import { AuthService } from '../auth/auth.service';
+import { PropertyStoreService } from '../core/global/property.service';
 
 @Component({
   selector: 'qddt-controle-construct',
@@ -41,7 +41,7 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
   private files: FileList;
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
-  constructor(private service: ControlConstructService, private userService: AuthService) {
+  constructor(private service: ControlConstructService, private userService: PropertyStoreService) {
     console.log('constructor ');
     this.isDetail = false;
     this.editQuestoinItem = false;
@@ -73,7 +73,7 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit() {
-    const config = this.userService.getGlobalObject('constructs');
+    const config = this.userService.get('constructs');
     if (config.current === 'detail' ) {
       this.page = config.page;
       this.controlConstructs = config.collection;
@@ -86,7 +86,7 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
   }
 
   ngAfterContentChecked() {
-    const config = this.userService.getGlobalObject('constructs');
+    const config = this.userService.get('constructs');
     if (config.current === 'detail' ) {
       this.page = config.page;
       this.controlConstructs = config.collection;
@@ -146,7 +146,7 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
   onDetail(controlConstruct: any) {
     this.selectedControlConstruct = controlConstruct;
     this.isDetail = true;
-    this.userService.setGlobalObject('constructs',
+    this.userService.set('constructs',
       {'current': 'detail',
         'page': this.page,
         'key': this.searchKeys,
@@ -156,7 +156,7 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
 
   hideDetail() {
     this.isDetail = false;
-    this.userService.setGlobalObject('constructs', {'current': 'list', 'key': this.searchKeys});
+    this.userService.set('constructs', {'current': 'list', 'key': this.searchKeys});
   }
 
   onPage(page: string) {

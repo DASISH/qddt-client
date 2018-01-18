@@ -1,9 +1,9 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { ConceptService, Concept } from './concept.service';
 import { MaterializeAction } from 'angular2-materialize';
-import { AuthService } from '../../auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Topic } from '../topic/topic.service';
+import { PropertyStoreService } from '../../core/global/property.service';
 
 
 
@@ -28,13 +28,13 @@ export class ConceptComponent implements OnInit {
   private toDeletedConcept: any;
 
   constructor(private router: Router, private route: ActivatedRoute,
-              private conceptService: ConceptService,private auth: AuthService) {
+              private conceptService: ConceptService,private property: PropertyStoreService) {
     this.concept = new Concept();
    }
 
   ngOnInit(): void {
     this.parentId = this.route.snapshot.paramMap.get('topicId');
-    this.topic = this.auth.getGlobalObject('topic');
+    this.topic = this.property.get('topic');
     this.showProgressBar = true;
     this.conceptService.getByTopic(this.parentId).then((result: any) => {
       this.concepts = result.content;

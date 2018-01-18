@@ -1,6 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
 import { API_BASE_HREF } from '../../api';
-import { AuthService } from '../../auth/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
@@ -16,9 +15,7 @@ export class Comment {
 @Injectable()
 export class CommentService  {
 
-  constructor(protected http:HttpClient,protected auth: AuthService, @Inject(API_BASE_HREF) protected api:string) {
-    // super(http, auth ,api);
-  }
+  constructor(protected http:HttpClient,@Inject(API_BASE_HREF) protected api:string) { }
 
   createComment(comment: Comment): Observable<any> {
     return this.http.post( this.api +'comment/create/' + comment.ownerId, comment);

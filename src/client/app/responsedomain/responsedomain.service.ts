@@ -1,10 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable, Inject } from '@angular/core';
-// import { Http } from '@angular/http';
 import { API_BASE_HREF } from '../api';
 import { Category, ResponseCardinality } from '../category/category.service';
-import { BaseService } from '../shared/base.service';
-import { AuthService } from '../auth/auth.service';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 export const DATE_FORMAT: any = [

@@ -9,10 +9,10 @@ import { CommonModule } from '@angular/common';
 import { API_BASE_HREF } from '../api';
 import { BaseRequestOptions, Http, ConnectionBackend } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
-import { AuthService } from '../auth/auth.service';
+import { UserService } from '../core/user/user.service';
 
 class UserServiceSpy {
-  getGlobalObject = jasmine.createSpy('getGlobalObject').and.callFake(function (key) {
+  get = jasmine.createSpy('get').and.callFake(function (key) {
     return {current: 'suvery', 'survey': {}};
   });
 
@@ -30,7 +30,7 @@ export function main() {
         providers: [
           MockBackend,
           BaseRequestOptions,
-          { provide: AuthService, useClass: UserServiceSpy },
+          { provide: UserService, useClass: UserServiceSpy },
           {
             provide: Http,
             useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),

@@ -45,7 +45,7 @@
                 </a>
                 <qddt-confirm-delete *ngIf="!study?.archived" [element]="study" (confirmAction)="onRemoveStudy($event)"></qddt-confirm-delete>
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                   (click)="onStudySelect(study)"><i class="material-icons left medium" title="Go to child elements">play_arrow</i></a>
+                   (click)="onShowTopic(study)"><i class="material-icons left medium" title="Go to child elements">play_arrow</i></a>
               </div>
             </div>
 

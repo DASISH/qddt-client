@@ -3,7 +3,7 @@ import { CategoryService, Category, ResponseCardinality } from './category.servi
 import { CategoryType } from './category-kind';
 import { Subject } from 'rxjs/Subject';
 import { ElementKind, QddtElementType, QddtElementTypes } from '../shared/preview/preview.service';
-import { AuthService } from '../auth/auth.service';
+import { PropertyStoreService } from '../core/global/property.service';
 
 declare let Materialize: any;
 
@@ -36,7 +36,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
   private readonly revisionConfig = this.buildRevisionConfig();
   private readonly  CATEGORY_KIND: QddtElementType= QddtElementTypes[ElementKind.CATEGORY];
 
-  constructor(private categoryService: CategoryService, private userService: AuthService) {
+  constructor(private categoryService: CategoryService, private userService: PropertyStoreService) {
     this.category = new Category();
     this.isDetail = false;
     this.page = {};
@@ -62,7 +62,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit() {
-    const config = this.userService.getGlobalObject('schemes');
+    const config = this.userService.get('schemes');
     if (config.current === 'detail' ) {
       this.page = config.page;
       this.missingCategories = config.collection;
@@ -83,7 +83,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
   }
 
   ngAfterContentChecked() {
-    const config = this.userService.getGlobalObject('schemes');
+    const config = this.userService.get('schemes');
     if (config.current === 'detail' ) {
       this.page = config.page;
       this.missingCategories = config.collection;
@@ -93,7 +93,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
     } else {
       this.isDetail = false;
       if (config.key === null || config.key === undefined) {
-        this.userService.setGlobalObject('schemes', {'current': 'list', 'key': ''});
+        this.userService.set('schemes', {'current': 'list', 'key': ''});
         this.searchKeys = '';
         this.searchKeysSubect.next('');
       }
@@ -185,7 +185,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
     this.savedCategoriesIndex = this.missingCategories
       .findIndex(q => q['id'] === category['id']);
     this.isDetail = true;
-    this.userService.setGlobalObject('schemes',
+    this.userService.set('schemes',
       {'current': 'detail',
         'page': this.page,
         'key': this.searchKeys,
@@ -195,7 +195,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
 
   hideDetail() {
     this.isDetail = false;
-    this.userService.setGlobalObject('schemes', {'current': 'list', 'key': this.searchKeys});
+    this.userService.set('schemes', {'current': 'list', 'key': this.searchKeys});
   }
 
   onPage(page: string) {

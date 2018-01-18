@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { CanActivate, CanActivateChild,
          Router, Route,
          ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { AuthService } from './auth.service';
+import {  UserService } from '../user/user.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild  {
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: UserService, private router: Router) {}
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (!this.authService.isTokenExpired()) {

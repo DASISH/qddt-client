@@ -1,0 +1,35 @@
+import {  ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
+import { LoginComponent } from './login/login.component';
+import { AuthGuard } from './guard/auth-guard.service';
+import { UserService } from './user/user.service';
+import { PropertyStoreService } from './global/property.service';
+
+
+@NgModule({
+  imports: [FormsModule, SharedModule ],
+  declarations: [LoginComponent],
+  exports: [LoginComponent ],
+  providers: [PropertyStoreService,AuthGuard,UserService]
+})
+
+export class CoreModule {
+
+  static forRoot(config: PropertyStoreService): ModuleWithProviders {
+    return {
+      ngModule: CoreModule,
+      providers: [
+        { provide: PropertyStoreService, useValue: config }
+      ]
+    };
+  }
+
+  constructor(@Optional() @SkipSelf() parentModule: UserService) {
+    if (parentModule) {
+      throw new Error(
+        'CoreModule is already loaded. Import it in the AppModule only');
+    }
+  }
+
+}

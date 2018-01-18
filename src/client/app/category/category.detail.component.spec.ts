@@ -11,7 +11,7 @@ import { API_BASE_HREF } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
-import { AuthService } from '../auth/auth.service';
+import { PropertyStoreService } from '../core/global/property.service';
 
 export function main() {
   describe('Category Detail component', () => {
@@ -25,7 +25,6 @@ export function main() {
           MockBackend,
           BaseRequestOptions,
           { provide: CategoryService, useClass: CategoryServiceSpy },
-          { provide: AuthService, useClass: UserServiceSpy },
           {
             provide: Http,
             useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),
@@ -85,11 +84,11 @@ export function main() {
 
 //override dependencies
 class UserServiceSpy {
-  getGlobalObject = jasmine.createSpy('getGlobalObject').and.callFake(function (key) {
+  get = jasmine.createSpy('get').and.callFake(function (key) {
     return {};
   });
 
-  setGlobalObject = jasmine.createSpy('setGlobalObject').and.callFake(function (key) {
+  set = jasmine.createSpy('set').and.callFake(function (key) {
     return {};
   });
 }

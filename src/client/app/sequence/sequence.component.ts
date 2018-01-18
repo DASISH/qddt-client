@@ -51,8 +51,6 @@ export class SequenceComponent implements OnInit {
           .then((result: any) => {
             this.sequences = result.content;
             this.page = result.page;
-          }, (error: any) => {
-            this.popupModal(error);
           });
       });
   }
@@ -88,8 +86,6 @@ export class SequenceComponent implements OnInit {
       .then((result: any) => {
         this.sequences = result.content;
         this.page = result.page;
-      }, (error: any) => {
-        this.popupModal(error);
       });
   }
 
@@ -98,8 +94,6 @@ export class SequenceComponent implements OnInit {
     this.service.create(this.sequence)
       .subscribe((result: any) => {
         this.sequences = [result].concat(this.sequences);
-      }, (error: any) => {
-        this.popupModal(error);
       });
     this.isDetail = false;
   }
@@ -109,10 +103,6 @@ export class SequenceComponent implements OnInit {
     this.searchKeysSubect.next(key);
   }
 
-  private popupModal(error: any) {
-    this.error = error;
-    this.modalActions.emit({action: 'modal', params: ['open']});
-  }
 
   private getSort() {
     const i = this.columns.findIndex((e: any) => e.sortable && e.direction !== undefined && e.direction !== '');

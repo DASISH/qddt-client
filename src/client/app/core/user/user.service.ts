@@ -1,32 +1,38 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, Inject, Optional } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { API_BASE_HREF } from '../api';
+import { API_BASE_HREF } from '../../api';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { User } from './user';
+import { PropertyStoreService } from '../global/property.service';
 
 export const TOKEN_NAME = 'jwt_token';
+
+
 /**
- * AuthService uses JSON-Web-Token authorization strategy.
+ * UserService uses JSON-Web-Token authorization strategy.
  * Fetched token and user details are stored in localStorage.
  */
 @Injectable()
-export class AuthService {
+export class UserService {
 
   public static readonly SIGNUP_URL = 'auth/signup';
   public static readonly SIGNIN_URL = 'auth/signin';
   public static readonly RESET_PWD_URL = 'auth/reset';
   private static readonly USERINFO = 'user';
 
-  private user: any;
-  private globalObjects = {};
+  private user: User;
+
 
   constructor(private http: HttpClient,  @Inject(API_BASE_HREF) private api: string) {
+
     this.refreshUserData();
     if (this.isTokenExpired())
       this.logout();
   }
 
   public refreshUserData(): void {
-    this.user = JSON.parse(localStorage.getItem(AuthService.USERINFO));
+    this.user = JSON.parse(localStorage.getItem(UserService.USERINFO));
   }
 
   public signIn(email: string, password: string): Observable<any> {
@@ -36,7 +42,7 @@ export class AuthService {
       password: password
     };
 
-    return this.http.post<any>(this.api + AuthService.SIGNIN_URL, requestParam)
+    return this.http.post<any>(this.api + UserService.SIGNIN_URL, requestParam)
       .map(response => {
         if (response && response.token) {
           this.setToken(response.token);
@@ -47,11 +53,11 @@ export class AuthService {
   }
 
   public registerUser(userdata:any) : Observable<any> {
-    return this.http.post(this.api + AuthService.SIGNUP_URL, userdata);
+    return this.http.post(this.api + UserService.SIGNUP_URL, userdata);
   }
 
-  public resetPassword(userdata:any) : Observable<any> {
-    return this.http.post(this.api + AuthService.RESET_PWD_URL, userdata);
+  public resetPassword(userdata:User) : Observable<any> {
+    return this.http.post(this.api + UserService.RESET_PWD_URL, userdata);
   }
 
   /**
@@ -59,14 +65,6 @@ export class AuthService {
    */
   public logout(): void {
     localStorage.removeItem(TOKEN_NAME);
-  }
-
-  setGlobalObject(name: string, value: any) {
-    this.globalObjects[name] = value;
-  }
-
-  getGlobalObject(name: string) {
-    return this.globalObjects[name] || '';
   }
 
   public isTokenExpired(): boolean {
@@ -91,7 +89,11 @@ export class AuthService {
   }
 
   public  getRoles(): string[] {
-    return this.user.role;
+    return this.user.roles;
+  }
+
+  public  getAgency(): string {
+    return this.user.agency;
   }
 
   public getToken(): string {
@@ -112,7 +114,7 @@ export class AuthService {
       const token = response;
       let claims = this.getTokenClaims(token);
       claims.token = userjson.token;
-      localStorage.setItem(AuthService.USERINFO, JSON.stringify(claims));
+      localStorage.setItem(UserService.USERINFO, JSON.stringify(claims));
       this.refreshUserData();
     } else {
       throw Error(userjson);

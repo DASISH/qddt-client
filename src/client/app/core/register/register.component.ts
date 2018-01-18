@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router,
-         NavigationExtras } from '@angular/router';
-import { AuthService }      from './../auth.service';
+import { Router } from '@angular/router';
+import {  UserService } from '../user/user.service';
 
 @Component({
   selector: 'app-register',
@@ -12,7 +11,7 @@ export class RegisterComponent implements OnInit {
   model: any = {};
   message: string;
 
-  constructor(private authService: AuthService, public router: Router) {
+  constructor(private authService: UserService, public router: Router) {
   	this.message = '';
   }
 

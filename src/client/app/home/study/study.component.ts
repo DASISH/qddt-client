@@ -1,8 +1,8 @@
 import {  Component, OnInit } from '@angular/core';
 import { StudyService, Study } from './study.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { AuthService } from '../../auth/auth.service';
 import { SurveyProgram } from '../survey/survey.service';
+import { HIERARCHY_POSITION, PropertyStoreService } from '../../core/global/property.service';
 
 const saveAs = require('file-saver');
 
@@ -18,12 +18,12 @@ export class StudyComponent implements OnInit {
   private survey: SurveyProgram;
 
   constructor(  private router: Router, private route: ActivatedRoute,
-                private studyService: StudyService, private auth: AuthService) {
+                private studyService: StudyService, private property: PropertyStoreService) {
     this.study = new Study();
   }
 
   ngOnInit(): void {
-    let survey= this.auth.getGlobalObject('survey');
+    let survey= this.property.get('survey');
     if (survey) {
       this.survey = survey;
     } else {
@@ -35,8 +35,9 @@ export class StudyComponent implements OnInit {
     }
   }
 
-  onStudySelect(study: any) {
-    this.auth.setGlobalObject('study',study);
+  onShowTopic(study: any) {
+    this.property.set('study',study);
+    this.property.setCurrent(HIERARCHY_POSITION.Study,study.name);
     this.router.navigate(['topic/',study.id]);
   }
 

@@ -4,7 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 import { Column } from '../shared/table/table.service';
 import { QddtElementType, QddtElementTypes } from '../shared/preview/preview.service';
-import { AuthService } from '../auth/auth.service';
+import { PropertyStoreService } from '../core/global/property.service';
 
 @Component({
   selector: 'qddt-publication',
@@ -15,7 +15,7 @@ import { AuthService } from '../auth/auth.service';
         border: thick solid red;
     }`
   ],
-  providers: [PublicationService, AuthService],
+  providers: [PublicationService],
 })
 export class PublicationComponent implements AfterContentChecked, OnInit {
 
@@ -38,7 +38,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
   private columns: Column[];
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
-  constructor(private service: PublicationService, private userService: AuthService) {
+  constructor(private service: PublicationService, private property: PropertyStoreService) {
     this.isDetail = false;
     this.publications = [];
     this.searchKeys = '';
@@ -67,7 +67,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
   }
 
   ngOnInit() {
-    const config = this.userService.getGlobalObject('publications');
+    const config = this.property.get('publications');
     this.showProgressBar = true;
     if (config.current === 'detail' ) {
       this.page = config.page;
@@ -85,7 +85,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
   }
 
   ngAfterContentChecked() {
-    const config = this.userService.getGlobalObject('publications');
+    const config = this.property.get('publications');
     if (config.current === 'detail' ) {
       this.page = config.page;
       this.publications = config.collection;
@@ -95,7 +95,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
     } else {
       this.isDetail = false;
       if (config.key === null || config.key === undefined) {
-        this.userService.setGlobalObject('publications', {'current': 'list', 'key': ''});
+        this.property.set('publications', {'current': 'list', 'key': ''});
         this.searchKeys = '';
         this.searchKeysSubect.next('');
       }
@@ -114,7 +114,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
   onDetail(i: any) {
     this.selectedPublication = i;
     this.isDetail = true;
-    this.userService.setGlobalObject('publications',
+    this.property.set('publications',
       {'current': 'detail',
         'page': this.page,
         'key': this.searchKeys,
@@ -138,7 +138,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
 
   hideDetail() {
     this.isDetail = false;
-    this.userService.setGlobalObject('publications', {'current': 'list', 'key': this.searchKeys});
+    this.property.set('publications', {'current': 'list', 'key': this.searchKeys});
   }
 
   onSelectChange(value: number) {

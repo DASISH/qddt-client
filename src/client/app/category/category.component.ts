@@ -2,7 +2,7 @@ import { Component, OnInit, AfterContentChecked } from '@angular/core';
 import { CategoryService, Category } from './category.service';
 import { Subject } from 'rxjs/Subject';
 import { Column } from '../shared/table/table.service';
-import { AuthService } from '../auth/auth.service';
+import { PropertyStoreService } from '../core/global/property.service';
 
 @Component({
   selector: 'category',
@@ -24,7 +24,7 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
   private columns: Column[];
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
-  constructor(private categoryService: CategoryService, private userService: AuthService) {
+  constructor(private categoryService: CategoryService, private userService: PropertyStoreService) {
     this.isDetail = false;
     this.categories = [];
     this.searchKeys = '';
@@ -46,7 +46,7 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit() {
-    const config = this.userService.getGlobalObject('categories');
+    const config = this.userService.get('categories');
     if (config.current === 'detail' ) {
       this.page = config.page;
       this.categories = config.collection;
@@ -62,7 +62,7 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
   }
 
   ngAfterContentChecked() {
-    const config = this.userService.getGlobalObject('categories');
+    const config = this.userService.get('categories');
     if (config.current === 'detail' ) {
       this.page = config.page;
       this.categories = config.collection;
@@ -72,7 +72,7 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
     } else {
       this.isDetail = false;
       if (config.key === null || config.key === undefined) {
-        this.userService.setGlobalObject('categories', {'current': 'list', 'key': ''});
+        this.userService.set('categories', {'current': 'list', 'key': ''});
         this.searchKeys = '';
         this.searchKeysSubect.next('');
       }
@@ -88,7 +88,7 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
 
   onHideDetail() {
     this.isDetail = false;
-    this.userService.setGlobalObject('categories', {'current': 'list', 'key': this.searchKeys});
+    this.userService.set('categories', {'current': 'list', 'key': this.searchKeys});
   }
 
   onCreateCategory() {
@@ -116,7 +116,7 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
   onTableDetail(category: any) {
     this.selectedCategory = category;
     this.isDetail = true;
-    this.userService.setGlobalObject('categories',
+    this.userService.set('categories',
       {'current': 'detail',
         'page': this.page,
         'key': this.searchKeys,
