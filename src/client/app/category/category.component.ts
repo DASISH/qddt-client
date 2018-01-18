@@ -24,7 +24,7 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
   private columns: Column[];
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
-  constructor(private categoryService: CategoryService, private userService: PropertyStoreService) {
+  constructor(private categoryService: CategoryService, private property: PropertyStoreService) {
     this.isDetail = false;
     this.categories = [];
     this.searchKeys = '';
@@ -46,7 +46,7 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit() {
-    const config = this.userService.get('categories');
+    const config = this.property.get('categories');
     if (config.current === 'detail' ) {
       this.page = config.page;
       this.categories = config.collection;
@@ -62,7 +62,7 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
   }
 
   ngAfterContentChecked() {
-    const config = this.userService.get('categories');
+    const config = this.property.get('categories');
     if (config.current === 'detail' ) {
       this.page = config.page;
       this.categories = config.collection;
@@ -72,7 +72,7 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
     } else {
       this.isDetail = false;
       if (config.key === null || config.key === undefined) {
-        this.userService.set('categories', {'current': 'list', 'key': ''});
+        this.property.set('categories', {'current': 'list', 'key': ''});
         this.searchKeys = '';
         this.searchKeysSubect.next('');
       }
@@ -88,7 +88,7 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
 
   onHideDetail() {
     this.isDetail = false;
-    this.userService.set('categories', {'current': 'list', 'key': this.searchKeys});
+    this.property.set('categories', {'current': 'list', 'key': this.searchKeys});
   }
 
   onCreateCategory() {
@@ -116,7 +116,7 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
   onTableDetail(category: any) {
     this.selectedCategory = category;
     this.isDetail = true;
-    this.userService.set('categories',
+    this.property.set('categories',
       {'current': 'detail',
         'page': this.page,
         'key': this.searchKeys,

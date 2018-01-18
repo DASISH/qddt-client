@@ -28,7 +28,6 @@ export class PropertyStoreService {
 
   constructor() {
     this.currentChange$ = this._newcurrent.asObservable();
-
   }
 
   set(name: string, value: any) {
@@ -36,7 +35,7 @@ export class PropertyStoreService {
   }
 
   get(name: string):any {
-    return this.globalObjects[name] || null;
+    return this.globalObjects[name] || '';
   }
 
   public setCurrent(pos: HIERARCHY_POSITION, name: string) {
