@@ -1,9 +1,7 @@
 import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
-
 import { SequenceService } from './sequence.service';
-import { BaseService } from '../shared/base.service';
 import { API_BASE_HREF } from '../api';
 
 export function main() {
@@ -14,7 +12,6 @@ export function main() {
       TestBed.configureTestingModule({
         providers: [
           SequenceService,
-          BaseService,
           MockBackend,
           BaseRequestOptions,
           {

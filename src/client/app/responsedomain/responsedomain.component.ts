@@ -6,7 +6,7 @@ import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 import { PropertyStoreService } from '../core/global/property.service';
 
-declare var Materialize: any;
+// declare var Materialize: any;
 
 @Component({
   selector: 'qddt-responsedomain',
@@ -99,7 +99,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
         this.searchKeysSubject.next('');
       }
     }
-    Materialize.updateTextFields();
+    // Materialize.updateTextFields();
   }
 
   selectDomainType(id: DomainKind) {

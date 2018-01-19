@@ -15,10 +15,6 @@ class UserServiceSpy {
   get = jasmine.createSpy('get').and.callFake(function (key) {
     return {current: 'suvery', 'survey': {}};
   });
-
-  get = jasmine.createSpy('get').and.callFake(function (key) {
-    return null;
-  });
 }
 
 export function main() {

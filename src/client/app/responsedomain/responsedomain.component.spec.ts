@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { MaterializeModule } from 'angular2-materialize';
-import { AuthService } from '../core/user/user.service';
+import { UserService } from '../core/user/user.service';
 
 export function main() {
   describe('Responsedomain component', () => {
@@ -26,7 +26,7 @@ export function main() {
           MockBackend,
           BaseRequestOptions,
           { provide: ResponseDomainService, useClass: ResponseDomainServiceSpy },
-          { provide: AuthService, useClass: UserServiceSpy },
+          { provide: UserService, useClass: UserServiceSpy },
           {
             provide: Http,
             useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),

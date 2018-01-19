@@ -17,10 +17,6 @@ class UserServiceSpy {
     return { username: 'qddt', email: 'test@qddt.no' };
   });
 
-  get = jasmine.createSpy('get').and.callFake(function(key) {
-    return { current: '' };
-  });
-
   set = jasmine.createSpy('set').and.callFake(function(key) {
     return { current: '' };
   });

@@ -10,7 +10,7 @@ import { API_BASE_HREF } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
-import { AuthService } from '../core/user/user.service';
+import { UserService } from '../core/user/user.service';
 
 export function main() {
   describe('Controlconstruct component', () => {
@@ -24,7 +24,7 @@ export function main() {
           MockBackend,
           BaseRequestOptions,
           { provide: ControlConstructService, useClass: ControlConstructServiceSpy },
-          { provide: AuthService, useClass: UserServiceSpy },
+          { provide: UserService, useClass: UserServiceSpy },
           {
             provide: Http,
             useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),

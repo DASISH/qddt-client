@@ -49,19 +49,19 @@ export class QuestionService  {
   }
 
   createQuestionItem(question: any): any {
-    return this.http.post(question, this.api +'questionitem/create');
+    return this.http.post(this.api +'questionitem/create',question);
   }
 
   updateQuestionItem(questionItem: any): any {
-    return this.http.post(questionItem, this.api +'questionitem');
+    return this.http.post(this.api +'questionitem',questionItem);
   }
 
   createCategory(category: any): any {
-    return this.http.post(category, this.api +'category/create/');
+    return this.http.post(this.api +'category/create/',category);
   }
 
   createResponseDomain(responseDomain: any): any {
-    return this.http.post(responseDomain,this.api + 'responsedomain');
+    return this.http.post(this.api + 'responsedomain',responseDomain);
   }
 
 

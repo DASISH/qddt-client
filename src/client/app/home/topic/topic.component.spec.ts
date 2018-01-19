@@ -42,7 +42,6 @@ export function main() {
           .compileComponents()
           .then(() => {
             const fixture = TestBed.createComponent(TopicComponent);
-            fixture.componentInstance.show = true;
             fixture.detectChanges();
             const de: any = fixture.debugElement.queryAll(By.css('a'));
             expect(de.length).toBeGreaterThan(1);
@@ -55,9 +54,6 @@ export function main() {
           .compileComponents()
           .then(() => {
             const fixture = TestBed.createComponent(TopicComponent);
-            fixture.componentInstance.show = true;
-            fixture.componentInstance.study = new Study();
-            fixture.componentInstance.study.id = '1';
             const mockBackend = TestBed.get(MockBackend);
             mockBackend.connections.subscribe((c: any) => {
               c.mockRespond(new Response(new ResponseOptions({
@@ -74,7 +70,7 @@ export function main() {
               })));
             });
             const changes: SimpleChanges = {'study': new SimpleChange('test', 'test1', true)};
-            fixture.componentInstance.ngOnChanges(changes);
+            fixture.componentInstance.ngOnInit();
             fixture.detectChanges();
             fixture.whenStable().then(() => {
               const h5: any = fixture.debugElement.queryAll(By.css('h5'));

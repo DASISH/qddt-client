@@ -18,6 +18,7 @@ export class ErrorLogService {
     } else if (error instanceof TypeError) {
 
       console.error('There was a Type error.', error.message);
+      console.error(error.stack);
       Materialize.toast((<TypeError>error).message,4000);
 
     } else if (error instanceof Error) {

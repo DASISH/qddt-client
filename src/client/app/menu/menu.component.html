@@ -15,6 +15,8 @@
         </ul>
       </ul>
 
+      <a href="#" data-activates="leftmenu" class="button-collapse"><i class="material-icons">menu</i></a>
+
       <div class="nav-wrapper" [ngStyle]="{'cursor': 'pointer'}">
         <a *ngIf="path[0]" (click)="onSurvey()" class="breadcrumb">SURVEY [{{ path[0] }}]</a>
         <a *ngIf="path[1]" (click)="onStudy()" class="breadcrumb">STUDY [{{ path[1] }}]</a>
@@ -22,7 +24,6 @@
         <a *ngIf="path[3]" (click)="onConcept()" class="breadcrumb">{{ path[3] }}</a>
       </div>
 
-      <a href="#" data-activates="leftmenu" class="button-collapse"><i class="material-icons">menu</i></a>
 
       <ul  id="nav-mobile" class="side-nav fixed hide-on-small-and-down"
            style="width: 200px;header,main,footer { padding-left: 200px; }">

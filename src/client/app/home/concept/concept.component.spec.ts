@@ -1,4 +1,4 @@
-import { Component, Input, PipeTransform, Pipe, EventEmitter, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
@@ -46,7 +46,6 @@ export function main() {
             fixture.detectChanges();
             const de: any = fixture.debugElement.queryAll(By.css('a'));
             expect(de.length).toBe(0);
-            fixture.componentInstance.show = true;
             fixture.detectChanges();
             fixture.whenStable().then(() => {
               const de: any = fixture.debugElement.queryAll(By.css('a'));
@@ -61,11 +60,15 @@ export function main() {
           .compileComponents()
           .then(() => {
             const fixture = TestBed.createComponent(ConceptComponent);
-            fixture.componentInstance.topic = {
-              'id': '1',
-              'name': 'topic'
-            };
-            fixture.componentInstance.show = true;
+            // fixture.componentInstance.topic = {
+            //   'id': '1',
+            //   'name': 'topic',
+            //   'abstractDescription': 'desc',
+            //   'archived': false,
+            //   'authors': [],
+            //   'otherMaterials': [],
+            //   'topicQuestionItems': []
+            // };
             const mockBackend = TestBed.get(MockBackend);
             mockBackend.connections.subscribe((c: any) => {
               c.mockRespond(new Response(new ResponseOptions({
@@ -82,7 +85,7 @@ export function main() {
                 + '"page" : { "size" : 20, "totalElements" : 1, "totalPages" : 1, "number" : 0}}'
               })));
             });
-            fixture.componentInstance.ngOnChanges();
+            fixture.componentInstance.ngOnInit();
             fixture.detectChanges();
             fixture.whenStable().then(() => {
               const treenodes: any = fixture.debugElement.queryAll(By.css('qddt-concept-treenode'));

@@ -3,7 +3,6 @@ import { TestBed, async } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
 
 import { SurveyService } from './survey.service';
-import { BaseService } from '../../shared/base.service';
 import { API_BASE_HREF } from '../../api';
 
 export function main() {
@@ -14,7 +13,6 @@ export function main() {
       TestBed.configureTestingModule({
         providers: [
           SurveyService,
-          BaseService,
           MockBackend,
           BaseRequestOptions,
           {

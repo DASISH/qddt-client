@@ -76,9 +76,9 @@ export class AutocompleteComponent implements OnInit, OnChanges {
   }
 
   private getFieldValue(object: any, path: any) {
-    console.log('getFieldValue');
-    console.log(object);
-    console.log(path);
+    // console.log('getFieldValue');
+    // console.log(object);
+    // console.log(path);
     if (path instanceof Array) {
       let result: any = object;
       path.forEach((element: any) => {

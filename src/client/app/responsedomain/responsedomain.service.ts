@@ -40,11 +40,11 @@ export class ResponseDomainService  {
   }
 
   create(responseDomain: ResponseDomain): Observable<any> {
-    return this.http.post(this.api +responseDomain,'responsedomain/create');
+    return this.http.post(this.api +'responsedomain/create' , responseDomain);
   }
 
   update(responseDomain: ResponseDomain): Observable<any> {
-    return this.http.post(this.api +responseDomain,'responsedomain/');
+    return this.http.post(this.api + 'responsedomain/' ,responseDomain);
   }
 
   deleteResponseDomain(id: string): Observable<any> {

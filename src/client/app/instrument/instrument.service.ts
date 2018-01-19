@@ -15,12 +15,12 @@ export class InstrumentService  {
 
   constructor(protected http: HttpClient, @Inject(API_BASE_HREF) protected api: string) { }
 
-  create(c: Instrument): any {
-    return this.http.post(this.api + 'instrument/create',c);
+  create(intrument: Instrument): any {
+    return this.http.post(this.api + 'instrument/create',intrument);
   }
 
-  update(c: Instrument): any {
-    return this.http.post(this.api + 'instrument/' ,c);
+  update(intrument: Instrument): any {
+    return this.http.post(this.api + 'instrument/' ,intrument);
   }
 
 }

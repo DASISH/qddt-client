@@ -5,7 +5,6 @@ import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { SurveyService } from './survey.service';
-import { BaseService } from '../../shared/base.service';
 import { SurveyComponent } from './survey.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
@@ -42,7 +41,6 @@ export function main() {
           .compileComponents()
           .then(() => {
             const fixture = TestBed.createComponent(SurveyComponent);
-            fixture.componentInstance.show = true;
             fixture.detectChanges();
             const de: any = fixture.debugElement.queryAll(By.css('a'));
             expect(de.length).toBeGreaterThan(1);
@@ -55,7 +53,6 @@ export function main() {
           .compileComponents()
           .then(() => {
             const fixture = TestBed.createComponent(SurveyComponent);
-            fixture.componentInstance.show = true;
             const mockBackend = TestBed.get(MockBackend);
             mockBackend.connections.subscribe((c: any) => {
               c.mockRespond(new Response(new ResponseOptions({
@@ -71,7 +68,7 @@ export function main() {
                 + '}]'
               })));
             });
-            fixture.componentInstance.ngOnChanges();
+            fixture.componentInstance.ngOnInit();
             fixture.detectChanges();
             fixture.whenStable().then(() => {
               const de: any = fixture.debugElement.queryAll(By.css('qddt-revision'));

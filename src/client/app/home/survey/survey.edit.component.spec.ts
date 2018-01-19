@@ -5,7 +5,6 @@ import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { SurveyService } from './survey.service';
-// import { BaseService } from '../../common/base.service';
 import { SurveyEditComponent } from './survey.edit.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
@@ -59,7 +58,9 @@ export function main() {
               'id': '7f000101-54aa-131e-8154-aa27fc230000',
               'modified': [2016, 9, 8, 15, 21, 26, 254000000],
               'name': 'The European Social Survey (ESS)',
-              'description': 'test desc'
+              'description': 'test desc',
+              'archived': false,
+              'studies': []
             };
             fixture.detectChanges();
             fixture.whenStable().then(() => {
@@ -87,7 +88,9 @@ export function main() {
               'id': '7f000101-54aa-131e-8154-aa27fc230000',
               'modified': [2016, 9, 8, 15, 21, 26, 254000000],
               'name': 'The European Social Survey (ESS)',
-              'description': 'test desc'
+              'description': 'test desc',
+              'archived': false,
+              'studies': []
             };
             fixture.componentInstance.onSave();
             fixture.detectChanges();
