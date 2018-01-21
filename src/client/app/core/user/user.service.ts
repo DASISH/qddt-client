@@ -20,12 +20,15 @@ export class UserService {
   public static readonly SIGNIN_URL = 'auth/signin';
   public static readonly RESET_PWD_URL = 'auth/reset';
   private static readonly USERINFO = 'user';
+  logginChange$: Observable<string>;
+  // Observable navItem source
+  private _newcurrent = new BehaviorSubject<string>(null);
 
   private user: User;
 
 
   constructor(private http: HttpClient,  @Inject(API_BASE_HREF) private api: string) {
-
+    this.logginChange$ = this._newcurrent.asObservable();
     this.refreshUserData();
     if (this.isTokenExpired())
       this.logout();
@@ -33,6 +36,8 @@ export class UserService {
 
   public refreshUserData(): void {
     this.user = JSON.parse(localStorage.getItem(UserService.USERINFO));
+    if(!this.user)
+     this.user = new User();
   }
 
   public signIn(email: string, password: string): Observable<any> {
@@ -116,6 +121,7 @@ export class UserService {
       claims.token = userjson.token;
       localStorage.setItem(UserService.USERINFO, JSON.stringify(claims));
       this.refreshUserData();
+      this._newcurrent.next(this.user.sub);
     } else {
       throw Error(userjson);
     }

@@ -1,0 +1,21 @@
+img {
+  border-radius: 50%;
+  width: 48px;
+  float: right;
+  position: relative;
+  top: 8px;
+  margin-left: 10px
+}
+
+.dropdown-button {
+  min-width: 200px;
+}
+
+.breadcrumb {
+  cursor: 'pointer';
+}
+
+.nav-mobile {
+  width: 200px;
+  padding-left: 200px;
+}

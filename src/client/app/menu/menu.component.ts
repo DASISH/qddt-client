@@ -14,26 +14,39 @@ declare var $: any;
   selector: 'qddt-menu',
   moduleId: module.id,
   providers: [],
+  styleUrls: ['./menu.component.css'],
   templateUrl: './menu.component.html',
 })
 export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
-  subscription:Subscription;
+  propertyChanged:Subscription;
+  loginChanged:Subscription;
+
   private path = [4];
+  private username;
 
   constructor(private auth: UserService, private property: PropertyStoreService,
-              private router: Router,) {}
+              private router: Router,) {
+    this.username = this.getUserName();
+  }
 
   ngOnInit() {
-    this.subscription = this.property.currentChange$.subscribe(
+    this.propertyChanged = this.property.currentChange$.subscribe(
       item => {
         this.path[item]= this.property.getCurrent();
         console.debug('currentChange ' + item);
       }
     ,(error:any) => console.error(error.toString()));
+    this.loginChanged = this.auth.logginChange$.subscribe(
+      item => {
+        this.username = this.getUserName();
+      }
+      ,(error:any) => console.error(error.toString())
+    );
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.propertyChanged.unsubscribe();
+    this.loginChanged.unsubscribe();
   }
 
 

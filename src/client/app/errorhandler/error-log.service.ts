@@ -13,7 +13,10 @@ export class ErrorLogService {
     if (error instanceof HttpErrorResponse) {
 
       console.error('There was an HTTP error.', error.message, 'Status code:', (<HttpErrorResponse>error).status);
-      Materialize.toast(error.error.exceptionMessage,6000);
+      if (error.error.exceptionMessage)
+        Materialize.toast(error.error.exceptionMessage,6000);
+      else
+        Materialize.toast(error.message,6000);
 
     } else if (error instanceof TypeError) {
 
