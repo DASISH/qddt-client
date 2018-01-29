@@ -1,12 +1,12 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
+import { PropertyStoreService, HIERARCHY_POSITION } from '../core/global/property.service';
 import { UserService } from '../core/user/user.service';
 import { SurveyProgram } from '../home/survey/survey.service';
 import { Study } from '../home/study/study.service';
 import { Topic } from '../home/topic/topic.service';
 import { Concept } from '../home/concept/concept.service';
-import { Router } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
-import { PropertyStoreService, HIERARCHY_POSITION } from '../core/global/property.service';
 
 declare var $: any;
 
@@ -23,10 +23,12 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private path = [4];
   private username;
+  private loggedIn:boolean;
 
   constructor(private auth: UserService, private property: PropertyStoreService,
               private router: Router,) {
     this.username = this.getUserName();
+    this.loggedIn = this.isLoggedIn();
   }
 
   ngOnInit() {
@@ -36,9 +38,11 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
         console.debug('currentChange ' + item);
       }
     ,(error:any) => console.error(error.toString()));
-    this.loginChanged = this.auth.logginChange$.subscribe(
+    this.loginChanged = this.auth.loginChanged$.subscribe(
       item => {
+        console.log('changed -> ' + item);
         this.username = this.getUserName();
+        this.loggedIn = this.isLoggedIn();
       }
       ,(error:any) => console.error(error.toString())
     );

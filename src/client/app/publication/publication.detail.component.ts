@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { PublicationService, Publication, PUBLICATION_STATUS, PUBLICATION_NOT_PUBLISHED , PUBLICATION_TYPES } from './publication.service';
-import { QddtElementType } from '../shared/preview/preview.service';
+import { QddtElement } from '../preview/preview.service';
 const saveAs = require('file-saver');
 
 @Component({
@@ -66,8 +66,8 @@ export class PublicationDetailComponent implements OnInit {
       });
   }
 
-  getElementbyLabel(label: string): QddtElementType {
-    const element: QddtElementType = PUBLICATION_TYPES.find(e => e.label === label);
+  getElementbyLabel(label: string): QddtElement {
+    const element: QddtElement = PUBLICATION_TYPES.find(e => e.label === label);
     if (element === undefined)
       console.log('Couldn\'t find kind label ' + label);
     return element;

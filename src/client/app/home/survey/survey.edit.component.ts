@@ -6,7 +6,6 @@ declare var Materialize: any;
 @Component({
   selector: 'qddt-survey-edit',
   moduleId: module.id,
-  providers: [SurveyService],
   template: `
   <div *ngIf="isVisible">
     <div *ngIf="survey" id="{{survey.id}}"  >
@@ -27,7 +26,11 @@ declare var Materialize: any;
           </div>
         </div>
         <qddt-rational [formName]="'RationalComp'" [element]="survey" [config]="{hidden: [2,3]}"></qddt-rational>
-        <qddt-element-footer [element]="survey" [type]="'survey'"></qddt-element-footer>
+
+        <qddt-element-footer [element]="survey" [type]="'SURVEY'" (basedonObjectDetail)="getBasedOn($event)" >
+        </qddt-element-footer>
+        <qddt-preview-dialog  [elementRef]="basedonRef"></qddt-preview-dialog>
+
         <div class="row right-align">
           <button type="submit" class="btn btn-default" [disabled]="!surveyForm.form.valid" >Submit</button>
         </div>
@@ -43,7 +46,8 @@ export class SurveyEditComponent implements AfterContentChecked {
   @Input() survey: SurveyProgram;
   @Input() isVisible: boolean;
   @Output() surveySavedEvent: EventEmitter<SurveyProgram> = new EventEmitter<SurveyProgram>();
-
+  public showRevision = false;
+  basedonRef: any;
 
   constructor(private surveyService: SurveyService) {
   }
@@ -65,4 +69,7 @@ export class SurveyEditComponent implements AfterContentChecked {
         });
   }
 
+  getBasedOn(ref:any) {
+    this.basedonRef = ref;
+  }
 }

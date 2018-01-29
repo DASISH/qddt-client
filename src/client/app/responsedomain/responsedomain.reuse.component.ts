@@ -3,7 +3,7 @@ import { DomainKind, DomainTypeDescription } from './responsedomain.constant';
 import { ResponseDomainService } from './responsedomain.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
-import { ElementKind, QddtElementType, QddtElementTypes } from '../shared/preview/preview.service';
+import { ElementKind, QddtElement, QddtElements } from '../preview/preview.service';
 
 @Component({
   selector: 'qddt-responsedomain-reuse',
@@ -32,7 +32,7 @@ export class ResponsedomainReuseComponent implements OnChanges  {
   private responseDomains: any;
   private selectedIndex: number;
   private searchKeysSubject: Subject<string> = new Subject<string>();
-  private readonly RESPONSEKIND: QddtElementType  = QddtElementTypes[ElementKind.RESPONSEDOMAIN];
+  private readonly RESPONSEKIND: QddtElement  = QddtElements[ElementKind.RESPONSEDOMAIN];
 
   constructor(private responseDomainService: ResponseDomainService) {
     this.showAutocomplete = false;

@@ -1,7 +1,8 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { TopicService, Topic } from './topic.service';
 import { Observable }     from 'rxjs/Observable';
-import { MaterializeAction } from 'angular2-materialize';
+import { ElementKind } from '../../preview/preview.service';
+
 const saveAs = require('file-saver');
 
 @Component({
@@ -12,7 +13,6 @@ const saveAs = require('file-saver');
     ':host /deep/ .hoverable { margin-bottom:0px;}',
     ':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'
   ],
-  providers: [TopicService],
   templateUrl: 'topic.edit.component.html'
 })
 
@@ -21,8 +21,9 @@ export class TopicEditComponent  {
   @Input() topic: Topic;
   @Input() isVisible: boolean;
   @Output() topicSavedAction = new EventEmitter<any>();
-  errors: string[];
-  showErrorActions = new EventEmitter<MaterializeAction>();
+
+  public showRevision = false;
+
   private showUploadFileForm: boolean;
   private showUploadedFiles: boolean;
   private showDeletebutton= false;
@@ -31,13 +32,13 @@ export class TopicEditComponent  {
   private files: FileList;
   private fileStore: any[];
   private toDeleteFiles: any[];
+  private basedonRef: any;
 
   constructor(private service: TopicService) {
     this.showUploadFileForm = false;
     this.showUploadedFiles = false;
     this.fileStore = [];
     this.toDeleteFiles = [];
-    this.errors = [];
   }
 
 
@@ -113,6 +114,10 @@ export class TopicEditComponent  {
           saveAction.emit(result);
         });
       });
+  }
+
+  getBasedOn(ref:any) {
+    this.basedonRef = ref;
   }
 
 }

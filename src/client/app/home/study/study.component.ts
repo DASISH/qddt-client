@@ -3,6 +3,7 @@ import { StudyService, Study } from './study.service';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { SurveyProgram } from '../survey/survey.service';
 import { HIERARCHY_POSITION, PropertyStoreService } from '../../core/global/property.service';
+import { ElementKind } from '../../preview/preview.service';
 
 const saveAs = require('file-saver');
 
@@ -10,12 +11,13 @@ const saveAs = require('file-saver');
   selector: 'qddt-study',
   moduleId: module.id,
   templateUrl: './study.component.html',
-  providers: [StudyService],
 })
 export class StudyComponent implements OnInit {
   showEditForm = false;
   private study: any;
   private survey: SurveyProgram;
+  private revision: any;
+  private revisionKind = ElementKind.STUDY;
 
   constructor(  private router: Router, private route: ActivatedRoute,
                 private studyService: StudyService, private property: PropertyStoreService) {
@@ -41,13 +43,20 @@ export class StudyComponent implements OnInit {
     this.router.navigate(['topic/',study.id]);
   }
 
+  onShowRevision(element: any) {
+    this.revision = element;
+  }
+
   onToggleStudyForm() {
     this.showEditForm = !this.showEditForm;
   }
 
   onStudySavedEvent(study: any) {
-    let studies = this.survey.studies;
-    this.survey.studies =studies.filter((s: any) => s.id !== study.id).concat(study);
+    if (study !== null) {
+      let studies = this.survey.studies.filter((q) => q.id !== study.id);
+      studies.push(study);
+      this.survey.studies = studies;
+    }
   }
 
   onSaveNewStudy() {

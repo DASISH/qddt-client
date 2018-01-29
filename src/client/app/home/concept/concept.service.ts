@@ -89,7 +89,7 @@ export class ConceptService  {
   }
 
   deleteConcept(conceptId: string): Observable<any> {
-    return this.http.delete(this.api +'concept/delete/' + conceptId);
+    return this.http.delete(this.api +'concept/delete/' + conceptId , { responseType:'text'});
   }
 
 }

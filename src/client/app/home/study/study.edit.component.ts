@@ -6,10 +6,10 @@ declare var Materialize: any;
 @Component({
    selector: 'qddt-study-edit',
    moduleId: module.id,
-   providers: [StudyService],
+
    template:
 `
-<div *ngIf="study"  id="{{study.id}}"  >
+<div *ngIf="isVisible && study"  id="{{study.id}}"  >
   <form (ngSubmit)="onSave()" #studyForm="ngForm">
     <div class="row">
       <div class="col s12 input-field">
@@ -27,7 +27,10 @@ declare var Materialize: any;
 
     <qddt-rational [formName]="'RationalComp'" [element]="study" [config]="{hidden: [2,3]}"></qddt-rational>
 
-    <qddt-element-footer [element]="study" [type]="'study'"></qddt-element-footer>
+    <qddt-element-footer [element]="study" [type]="'STUDY'" (basedonObjectDetail)="getBasedOn($event)" >
+    </qddt-element-footer>
+    <qddt-preview-dialog  [elementRef]="basedonRef"></qddt-preview-dialog>
+
 
     <div class="row right-align">
       <button type="submit" class="btn btn-default" [disabled]="!studyForm.form.valid" >Submit</button>
@@ -39,9 +42,11 @@ declare var Materialize: any;
 export class StudyEditComponent implements AfterContentChecked {
   @Input() study: Study;
   @Input() surveyId: any;
+  @Input() isVisible= false;
   @Output() studySavedEvent: EventEmitter<any> = new EventEmitter<any>();
 
-  // private showlabel: boolean = false;
+  public showRevision = false;
+  private basedonRef: any;
 
   constructor(private studyService: StudyService) {
   }
@@ -66,5 +71,9 @@ export class StudyEditComponent implements AfterContentChecked {
    this.studyService.deattachAuthor(this.study.id, author.id);
    let i = this.study['authors'].findIndex((F: any) => F === author);
    this.study['authors'].splice(i, 1);
+  }
+
+  getBasedOn(ref:any) {
+    this.basedonRef = ref;
   }
 }

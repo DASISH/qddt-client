@@ -2,7 +2,7 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { ElementTypeDescription, SequenceService } from './sequence.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
-import { ElementKind, QddtElementType, QddtElementTypes } from '../shared/preview/preview.service';
+import { ElementKind, QddtElement, QddtElements } from '../preview/preview.service';
 
 @Component({
   selector: 'qddt-sequence-reuse',
@@ -29,11 +29,11 @@ export class SequenceReuseComponent implements OnInit {
   private selectedElement: any;
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
-  private queryFields: QddtElementType[] = [
-    QddtElementTypes[ElementKind.SEQUENCE_CONSTRUCT],
-    QddtElementTypes[ElementKind.QUESTION_CONSTRUCT],
-    QddtElementTypes[ElementKind.CONDITION_CONSTRUCT],
-    QddtElementTypes[ElementKind.STATEMENT_CONSTRUCT]
+  private queryFields: QddtElement[] = [
+    QddtElements[ElementKind.SEQUENCE_CONSTRUCT],
+    QddtElements[ElementKind.QUESTION_CONSTRUCT],
+    QddtElements[ElementKind.CONDITION_CONSTRUCT],
+    QddtElements[ElementKind.STATEMENT_CONSTRUCT]
   ];
 
   constructor(private service: SequenceService) {
@@ -104,7 +104,7 @@ export class SequenceReuseComponent implements OnInit {
     this.error = error;
   }
 
-  private getElementType(kind: ElementKind): QddtElementType {
+  private getElementType(kind: ElementKind): QddtElement {
     const element: any = this.queryFields.find(e => e.id === kind);
     if (element === undefined)
       console.log('Couldn\'t find kind ' + ElementKind[kind] + ' ' + kind);

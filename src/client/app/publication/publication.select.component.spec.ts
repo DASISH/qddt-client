@@ -1,7 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { PublicationService } from './publication.service';
@@ -10,7 +8,7 @@ import { API_BASE_HREF } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
-import { ElementKind } from '../shared/preview/preview.service';
+import { ElementKind } from '../preview/preview.service';
 
 export function main() {
   describe('Publication select component', () => {
@@ -20,14 +18,7 @@ export function main() {
         declarations: [ PublicationSelectComponent, ResponsedomainPreviewComponent,
         PublicationPreviewComponent ],
         providers: [
-          MockBackend,
-          BaseRequestOptions,
           { provide: PublicationService, useClass: PublicationServiceSpy },
-          {
-            provide: Http,
-            useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),
-            deps: [MockBackend, BaseRequestOptions]
-          },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
@@ -67,22 +58,6 @@ export function main() {
                 'changeKind' : 'CONCEPTUAL',
                 'changeComment' : 'Information added'
             };
-            const mockBackend = TestBed.get(MockBackend);
-            mockBackend.connections.subscribe((c: any) => {
-              c.mockRespond(new Response(new ResponseOptions({
-                body: '{"content":[{"entity": [{'
-                + '"id" : "7f000101-54aa-131e-8154-aa27fc230000",'
-                + '"modified" : [ 2016, 9, 8, 15, 21, 26, 254000000 ],'
-                + '"name" : "one publication",'
-                + '"basedOnObject" : null,'
-                + '"basedOnRevision" : null,'
-                + '"version" : {"major" : 6, "minor" : 0, "versionLabel" : "", "revision" : null },'
-                + '"changeKind" : "CONCEPTUAL",'
-                + '"changeComment" : "Information added"'
-                + '}] }],'
-                + '"page" : { "size" : 20, "totalElements" : 1, "totalPages" : 1, "number" : 0}}'
-              })));
-            });
             fixture.componentInstance.element = element;
             fixture.componentInstance.elementKind = ElementKind.PUBLICATION;
             fixture.componentInstance.ngOnChanges();
@@ -111,11 +86,11 @@ class ResponsedomainPreviewComponent {
   @Input() isVisible: boolean;
   @Input() responseDomain: any;
 }
-
-@Component({
-  selector: 'qddt-publication-preview',
-  template: `<div></div>`
-})
+//
+// @Component({
+//   selector: 'qddt-preview-element',
+//   template: `<div></div>`
+// })
 
 class PublicationPreviewComponent {
   @Input() element: any;

@@ -20,7 +20,7 @@
           <option *ngFor="let revision of questionItemRevisions"
                   [selected]="revision.revisionNumber === questionItemRevision"
                   [value]="revision.revisionNumber">
-{{ revision?.entity?.version?.major }}i{{ revision?.entity?.version?.minor }}ion?.minor}}
+            {{ revision?.entity?.version?.major }}.{{ revision?.entity?.version?.minor }}
           </option>
         </select>
       </div>

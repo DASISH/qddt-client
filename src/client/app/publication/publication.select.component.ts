@@ -1,6 +1,6 @@
 import { Component, OnChanges, EventEmitter, Input, Output } from '@angular/core';
 import { PublicationService, PublicationElement, PUBLICATION_TYPES } from './publication.service';
-import { ElementKind, QddtElementType } from '../shared/preview/preview.service';
+import { ElementKind, QddtElement } from '../preview/preview.service';
 
 @Component({
   selector: 'qddt-publication-select',
@@ -56,7 +56,7 @@ export class PublicationSelectComponent implements OnChanges {
 
   onUseElement() {
     // console.info('onUseElement ' + this.elementKind);
-    const elementType: QddtElementType = PUBLICATION_TYPES.find(e => e.id === this.elementKind);
+    const elementType: QddtElement = PUBLICATION_TYPES.find(e => e.id === this.elementKind);
     if (elementType !== undefined) {
       const element: any = new PublicationElement();
       element.id = this.selectedElement.id;

@@ -52,10 +52,10 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
     // this.instructions = [];
     this.controlConstructs = [];
     this.columns =
-            [{ name: 'name', label: 'Construct Name', sortable: true,  direction: '' , width: '15%'},
-            { name: ['questionItem', 'name'], label: 'Question Name', sortable: true, direction: '' , width: '15%'},
-            { name: ['questionItem', 'question'], label: 'Question Text', sortable: true, direction: '' , width: '50%'},
-            { name: 'modified',  label: 'Modified', sortable: true, direction: 'desc' , width: '8%'}];
+            [{ name: 'name', label: 'Construct Name', sortable: true,  direction: '' },
+            { name: ['questionItem', 'name'], label: 'Question Name', sortable: true, direction: '' },
+            { name: ['questionItem', 'question'], label: 'Question Text', sortable: true, direction: '' },
+            { name: 'modified',  label: 'Modified', sortable: true, direction: 'desc' }];
     this.searchKeysSubect
       .debounceTime(300)
       .distinctUntilChanged()

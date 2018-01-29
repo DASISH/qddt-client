@@ -1,7 +1,5 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { BaseRequestOptions, Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { PublicationService } from './publication.service';
@@ -22,14 +20,7 @@ export function main() {
           RationalComponent, RevisionDetailComponent,
           AuthorChipComponent, TableComponent],
         providers: [
-          MockBackend,
-          BaseRequestOptions,
           { provide: PublicationService, useClass: PublicationServiceSpy },
-          {
-            provide: Http,
-            useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),
-            deps: [MockBackend, BaseRequestOptions]
-          },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
@@ -98,7 +89,7 @@ class CommentListComponent {
 }
 
 @Component({
-  selector: 'qddt-publication-preview',
+  selector: 'qddt-preview-element',
   template: `<div></div>`
 })
 

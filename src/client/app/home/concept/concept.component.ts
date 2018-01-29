@@ -4,6 +4,7 @@ import { MaterializeAction } from 'angular2-materialize';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Topic } from '../topic/topic.service';
 import { PropertyStoreService } from '../../core/global/property.service';
+import { ElementKind } from '../../preview/preview.service';
 
 
 
@@ -11,13 +12,14 @@ import { PropertyStoreService } from '../../core/global/property.service';
 @Component({
   selector: 'concept',
   moduleId: module.id,
-  providers: [ConceptService],
+  providers: [],
   templateUrl: './concept.component.html'
 })
 
 export class ConceptComponent implements OnInit {
-
+  readonly conceptKind = ElementKind.CONCEPT;
   confimDeleteActions = new EventEmitter<string|MaterializeAction>();
+  public showReuse = false;
 
   private showConceptForm = false;
   private showProgressBar = false;
@@ -72,11 +74,22 @@ export class ConceptComponent implements OnInit {
   onConfirmDeleteConcept() {
     const id = this.toDeletedConcept.id;
     this.conceptService.deleteConcept(id)
-      .subscribe((result: any) => {
+      .subscribe(
+      (val) => {
         this.confimDeleteActions.emit({action: 'modal', params: ['close']});
-        if (result.ok)
-          this.removeConcept(this.concepts, id);
+        this.removeConcept(this.concepts, id);
+      },
+      response => {
+        throw response;
+      },
+        () => {
+          console.log("The DELETE observable is now completed.");
       });
+  }
+
+  onSelectedRevsion(concept:Concept) {
+    this.showReuse = false;
+    this.onConceptUpdated(concept);
   }
 
   private updateConcept(concepts: Concept[], concept: Concept): boolean {

@@ -29,7 +29,8 @@ export class TopicService  {
   }
 
   getFile(id: string): Promise<any> {
-    return this.http.get(this.api +'othermaterial/files/' + id).toPromise();
+    return this.http.get(this.api +'othermaterial/files/' + id,{ responseType:'blob'})
+      .toPromise();
   }
 
   getPdf(id: string):Promise<Blob> {

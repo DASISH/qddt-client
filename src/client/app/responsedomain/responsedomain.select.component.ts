@@ -6,36 +6,36 @@ import { ResponseDomainService } from './responsedomain.service';
   moduleId: module.id,
   template: `
 <div class="row card">
-  <div class="row" *ngIf="selectedResponseDomain">
-    <div class="row">
-      <div class="input-field col s4" *ngIf="responseDomainRevisions.length > 0">
-        <label class="active black-text">responseDomain business version</label>
-        <select [(ngModel)]="responseDomainRevision"
-          (ngModelChange)="onSelectResponseDomainRevisions($event)"
-          class="black-text"
-          name="questionItem-responseDomainRevision"
-          materialize="material_select">
-          <option *ngFor="let revision of responseDomainRevisions"
-            [selected]="revision.revisionNumber === responseDomainRevision"
-            [value]="revision.revisionNumber"><qddt-revision [current]="revision?.entity"></qddt-revision>
-          </option>
-        </select>
+    <div class="row" *ngIf="selectedResponseDomain">
+      <div class="row">
+        <div class="input-field col s4" *ngIf="responseDomainRevisions.length > 0">
+          <label class="active black-text">responseDomain business version</label>
+          <select [(ngModel)]="responseDomainRevision"
+            (ngModelChange)="onSelectResponseDomainRevisions($event)"
+            class="black-text"
+            name="questionItem-responseDomainRevision"
+            materialize="material_select">
+            <option *ngFor="let revision of responseDomainRevisions"
+              [selected]="revision.revisionNumber === responseDomainRevision"
+              [value]="revision.revisionNumber">{{ revision?.entity?.version?.major }}.{{ revision?.entity?.version?.minor }}
+            </option>
+          </select>
+        </div>
+        <div class="input-field col s7 ">
+          <a class="waves-effect waves-light btn right red" (click)="onDismissResponsedomainSelect()">Dismiss</a>
+          <a class="waves-effect waves-light btn right green" (click)="onUseResponseDomain()">Use this</a>
+        </div>
       </div>
-      <div class="input-field col s7 ">
-        <a class="waves-effect waves-light btn right red" (click)="onDismissResponsedomainSelect()">Dismiss</a>
-        <a class="waves-effect waves-light btn right green" (click)="onUseResponseDomain()">Use this</a>
+      <div class="row">
+        <label for="seldesc" class="teal-text">Description</label>
+        <span id="seldesc">{{selectedResponseDomain?.description}}</span>
       </div>
+      <qddt-preview-responsedomain
+        *ngIf="selectedResponseDomain"
+        [responseDomain]="selectedResponseDomain">
+      </qddt-preview-responsedomain>
     </div>
-    <div class="row">
-      <label for="seldesc" class="teal-text">Description</label>
-      <span id="seldesc">{{ selectedResponseDomain?.description }}</span>
-    </div>
-    <qddt-preview-responsedomain
-      *ngIf="selectedResponseDomain"
-      [responseDomain]="selectedResponseDomain">
-    </qddt-preview-responsedomain>
   </div>
-</div>
   `,
   providers: [ ResponseDomainService ],
 })

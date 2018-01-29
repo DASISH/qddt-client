@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
-import { PreviewModule } from '../shared/preview/preview.module';
+import { PreviewModule } from '../preview/preview.module';
 import { ResponsedomainComponent } from './responsedomain.component';
 import { ResponsedomainFormComponent } from './responsedomain.form.component';
 import { ResponsedomainListComponent } from './responsedomain.list.component';

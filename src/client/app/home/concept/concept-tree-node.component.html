@@ -6,7 +6,7 @@
         <a *ngIf="!readonly" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
            (click)="edit.isVisible = !edit.isVisible"><i class="material-icons" title="Edit Concept">mode_edit</i></a>
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-           (click)="revision.isVisible = !revision.isVisible"><i class="material-icons left medium" title="Revision history">history</i></a>
+           (click)="edit.showRevision = !edit.showRevision"><i class="material-icons left medium" title="Revision history">history</i></a>
         <qddt-questionitem-reuse *ngIf="!readonly" [parentId]="concept.id"
                                  (questionItemCreatedEvent)="addQuestionItem($event)"></qddt-questionitem-reuse>
         <a *ngIf="!readonly" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
@@ -61,14 +61,18 @@
                          #edit>
       </qddt-concept-edit>
 
-      <qddt-revision [isVisible]="revision.isVisible"
+      <qddt-revision *ngIf = "edit.showRevision"
         [current]="concept"
         [qddtURI]="'audit/concept/' + concept.id + '/all'"
         [config]="[{'name':'name','label':'Name'},{'name':'description','label':'Description'}]"
-        #revision>
+        (requestPreview)="onShowRevision($event)">
       </qddt-revision>
+      <qddt-preview-dialog *ngIf = "edit.showRevision"
+         [basedonObject]="revision" [elementKind] = "revisionKind">
+      </qddt-preview-dialog>
 
-      <div *ngIf="concept.conceptQuestionItems.length > 0" class="section">
+
+      <div *ngIf="concept.conceptQuestionItems?.length > 0" class="section">
         <ul class="collection with-header hoverable"
             (mouseenter)="showbutton = true"
             (mouseleave)="showbutton = false">
@@ -77,7 +81,7 @@
             style="padding-bottom: 5pt;">
             <div class="row" style="min-height: 3rem;">
               <div class="col s11" (click)="onClickQuestionItem(cqi.questionItem)" style="cursor: pointer;">
-  {{ cqi?.questionItem?.question }}Item?.question}}</div>
+                {{ cqi?.questionItem?.question }}</div>
               <div class="col s1">
                 <a *ngIf="!readonly"
                   class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"

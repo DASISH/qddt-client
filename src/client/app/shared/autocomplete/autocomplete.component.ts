@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
-import { QddtElementType } from '../preview/preview.service';
+import { QddtElement } from '../../preview/preview.service';
 
 @Component({
   selector: 'autocomplete',
@@ -10,7 +10,7 @@ import { QddtElementType } from '../preview/preview.service';
 
 export class AutocompleteComponent implements OnInit, OnChanges {
   @Input() items:  any[];
-  @Input() elementtype:QddtElementType;
+  @Input() elementtype:QddtElement;
   /**
    * set initial value
    */

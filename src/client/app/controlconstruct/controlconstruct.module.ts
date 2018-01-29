@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
-import { PreviewModule } from '../shared/preview/preview.module';
+import { PreviewModule } from '../preview/preview.module';
 import { ControlConstructComponent } from './controlconstruct.component';
 import { ControlConstructDetailComponent } from './controlconstruct.detail.component';
 import { ControlConstructQuestionItemSelectComponent } from './controlconstruct.questionitem.select.component';

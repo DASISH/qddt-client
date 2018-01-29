@@ -1,19 +1,22 @@
 import { Component,  OnInit } from '@angular/core';
 import { SurveyService, SurveyProgram } from './survey.service';
 import { Router } from '@angular/router';
+import { ElementKind } from '../../preview/preview.service';
 import { PropertyStoreService ,HIERARCHY_POSITION } from '../../core/global/property.service';
+
 const saveAs = require('file-saver');
 
 @Component({
   selector: 'qddt-survey',
   moduleId: module.id,
-  templateUrl: './survey.component.html',
-  providers: [SurveyService]
+  templateUrl: './survey.component.html'
 })
 export class SurveyComponent implements OnInit {
   showSurveyForm = false;
   private surveys: any[]= [];
   private survey: any;
+  private revision: any;
+  private revisionKind = ElementKind.SURVEY;
 
   constructor(private surveyService: SurveyService,private router: Router, private property: PropertyStoreService) {
     this.survey = new SurveyProgram();
@@ -41,6 +44,10 @@ export class SurveyComponent implements OnInit {
     this.property.set('survey',surveyProgram);
     this.property.setCurrent(HIERARCHY_POSITION.Survey, surveyProgram.name);
     this.router.navigate(['./study',surveyProgram.id]);
+  }
+
+  onShowRevision(element: any) {
+    this.revision = element;
   }
 
   onSave() {

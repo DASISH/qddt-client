@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, AfterContentChecked } from '@angular/core';
 import { Publication, PUBLICATION_STATUS, PUBLICATION_NOT_PUBLISHED, PUBLICATION_TYPES } from './publication.service';
-import { QddtElementType } from '../shared/preview/preview.service';
+import { QddtElement } from '../preview/preview.service';
 
 declare var Materialize: any;
 
@@ -62,8 +62,8 @@ export class PublicationFormComponent implements OnInit , AfterContentChecked {
     }
   }
 
-  private getElementbyLabel(label: string): QddtElementType {
-    const element: QddtElementType = PUBLICATION_TYPES.find(e => e.label === label);
+  private getElementbyLabel(label: string): QddtElement {
+    const element: QddtElement = PUBLICATION_TYPES.find(e => e.label === label);
     if (element === undefined)
       console.log('Couldn\'t find kind label ' + label);
     return element;

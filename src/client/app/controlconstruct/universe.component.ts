@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 
 import { ControlConstructService, Universe } from './controlconstruct.service';
-import { ElementKind, QddtElementTypes } from '../shared/preview/preview.service';
+import { ElementKind, QddtElements } from '../preview/preview.service';
 
 @Component({
   selector: 'qddt-universe-create',
@@ -39,7 +39,7 @@ export class UniverseComponent {
   universe: any;
   universes: any[];
   isUniverseNew: boolean;
-  private readonly UNIVERSE = QddtElementTypes[ElementKind.UNIVERSE];
+  private readonly UNIVERSE = QddtElements[ElementKind.UNIVERSE];
 
   constructor(private service: ControlConstructService) {
     this.universe = new Universe();

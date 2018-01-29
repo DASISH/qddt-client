@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit, AfterViewInit } from '@
 import { Category, CategoryService } from '../category/category.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
-import { ElementKind, QddtElementType, QddtElementTypes } from '../shared/preview/preview.service';
+import { ElementKind, QddtElement, QddtElements } from '../preview/preview.service';
 import { ResponseDomain } from './responsedomain.service';
 
 @Component({
@@ -30,7 +30,7 @@ export class ResponsedomainSelectMissingComponent implements OnInit {
   private selectedCategoryIndex: number;
   private findMissingAction = new EventEmitter<MaterializeAction>();
   private searchKeysSubject = new Subject<string>();
-  private readonly CATEGORY_KIND: QddtElementType = QddtElementTypes[ElementKind.CATEGORY];
+  private readonly CATEGORY_KIND: QddtElement = QddtElements[ElementKind.CATEGORY];
 
   constructor(private service: CategoryService) {
     this.selectedCategoryIndex = 0;

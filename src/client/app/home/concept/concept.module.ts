@@ -6,15 +6,17 @@ import { TreeNodeComponent } from './concept-tree-node.component';
 import { SharedModule } from '../../shared/shared.module';
 import { QuestionModule } from '../../question/question.module';
 import { ResponsedomainModule } from '../../responsedomain/responsedomain.module';
-import { PreviewModule } from '../../shared/preview/preview.module';
-
+import { PreviewModule } from '../../preview/preview.module';
+import { CopySourceModule } from '../copysource/copy-source.module';
+import { ConceptService } from './concept.service';
 
 
 @NgModule({
-    imports: [ SharedModule, QuestionModule, ResponsedomainModule, PreviewModule ],
+    imports: [ SharedModule, QuestionModule, ResponsedomainModule, PreviewModule, CopySourceModule],
     declarations: [ConceptComponent, ConceptEditComponent,
        ConceptTocComponent, TreeNodeComponent ],
-    exports: [ConceptComponent,  TreeNodeComponent]
+    exports: [ConceptComponent,  TreeNodeComponent],
+    providers: [ConceptService],
 })
 
 export class ConceptModule { }

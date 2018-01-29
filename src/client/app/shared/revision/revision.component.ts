@@ -4,6 +4,7 @@ import { RevisionService } from './revision.service';
 @Component({
   selector: 'qddt-revision',
   moduleId: module.id,
+  styles: ['table { table-layout:auto;}'],
   templateUrl: './revision.component.html',
   providers: [RevisionService]
 })
@@ -13,8 +14,6 @@ export class RevisionComponent implements OnChanges, OnInit {
   @Input() config: any[];
   @Input() current: any;
   @Output() requestPreview: EventEmitter<any> = new EventEmitter<any>();
-
-  @Input() isVisible = false;
 
   private revisions: any[];
   private page: any;
@@ -38,13 +37,7 @@ export class RevisionComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges() {
-    console.log('revision on changes ' + this.isVisible);
-    if (this.isVisible) {
-      this.getRevisionsById();
-    } else {
-      this.selectRevisionId = -1;
-    }
-    // this.init();
+    this.getRevisionsById();
   }
 
 

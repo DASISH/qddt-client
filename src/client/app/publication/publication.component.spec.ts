@@ -119,7 +119,7 @@ class CommentListComponent {
 }
 
 @Component({
-  selector: 'qddt-publication-preview',
+  selector: 'qddt-preview-element',
   template: `<div></div>`
 })
 

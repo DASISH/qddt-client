@@ -8,6 +8,18 @@
           <i class="material-icons right" *ngIf="!showConceptForm">keyboard_arrow_down</i>
           <i class="material-icons right" *ngIf="showConceptForm">keyboard_arrow_up</i>
           New</a>
+        <a class="btn" (click)="showReuse = !showReuse">
+          <i class="material-icons right" *ngIf="!showReuse">keyboard_arrow_down</i>
+          <i class="material-icons right" *ngIf="showReuse">keyboard_arrow_up</i>
+          reuse</a>
+
+        <qddt-copy-select
+          *ngIf="showReuse"
+          [parentId]="topic.id"
+          [elementKind]="conceptKind"
+          (itemSelected)="onSelectedRevsion($event)">
+        </qddt-copy-select>
+
 
         <div *ngIf="showConceptForm">
           <div class="row card-action">

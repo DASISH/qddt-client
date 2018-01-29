@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ElementKind , ElementEnumAware } from './preview.service';
 
 @Component({
-  selector: 'qddt-publication-preview',
+  selector: 'qddt-preview-element',
   moduleId: module.id,
   styles: [
     `:host /deep/ .row {
@@ -11,11 +11,11 @@ import { ElementKind , ElementEnumAware } from './preview.service';
        margin-bottom: 2px;
     }`
   ],
-  templateUrl: './preview.publication.component.html',
+  templateUrl: './preview.component.html',
   providers: [],
 })
 @ElementEnumAware
-export class PreviewPublicationComponent  {
+export class PreviewComponent  {
   @Input() element: any;
   @Input() elementKind: ElementKind;
 

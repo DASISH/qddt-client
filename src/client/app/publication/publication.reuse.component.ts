@@ -3,7 +3,7 @@ import { PublicationService } from './publication.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 // import { isUndefined } from 'util';
-import { ElementKind, QddtElementType, QddtElementTypes } from '../shared/preview/preview.service';
+import { ElementKind, QddtElement, QddtElements } from '../preview/preview.service';
 
 @Component({
   selector: 'qddt-publication-reuse',
@@ -26,12 +26,12 @@ export class PublicationReuseComponent implements OnInit {
   error: any;
 
   modalActions = new EventEmitter<string|MaterializeAction>();
-  queryFields: QddtElementType[] = [
-    QddtElementTypes[ElementKind.TOPIC_GROUP],
-    QddtElementTypes[ElementKind.CONCEPT],
-    QddtElementTypes[ElementKind.QUESTIONITEM],
-    QddtElementTypes[ElementKind.QUESTION_CONSTRUCT],
-    QddtElementTypes[ElementKind.SEQUENCE_CONSTRUCT]
+  queryFields: QddtElement[] = [
+    QddtElements[ElementKind.TOPIC_GROUP],
+    QddtElements[ElementKind.CONCEPT],
+    QddtElements[ElementKind.QUESTIONITEM],
+    QddtElements[ElementKind.QUESTION_CONSTRUCT],
+    QddtElements[ElementKind.SEQUENCE_CONSTRUCT]
   ];
 
   elements: any[];
@@ -88,7 +88,7 @@ export class PublicationReuseComponent implements OnInit {
   }
 
 
-   private getElementType(kind: ElementKind): QddtElementType {
+   private getElementType(kind: ElementKind): QddtElement {
      const element: any = this.queryFields.find(e => e.id === kind);
      if (element === undefined)
        console.log('Couldn\'t find kind ' + ElementKind[kind] + ' ' + kind);

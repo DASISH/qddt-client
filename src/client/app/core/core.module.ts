@@ -16,20 +16,20 @@ import { PropertyStoreService } from './global/property.service';
 
 export class CoreModule {
 
-  static forRoot(config: PropertyStoreService): ModuleWithProviders {
-    return {
-      ngModule: CoreModule,
-      providers: [
-        { provide: PropertyStoreService, useValue: config }
-      ]
-    };
-  }
-
-  constructor(@Optional() @SkipSelf() parentModule: UserService) {
-    if (parentModule) {
-      throw new Error(
-        'CoreModule is already loaded. Import it in the AppModule only');
-    }
-  }
+  // static forRoot(config: PropertyStoreService): ModuleWithProviders {
+  //   return {
+  //     ngModule: CoreModule,
+  //     providers: [
+  //       { provide: PropertyStoreService, useValue: config }
+  //     ]
+  //   };
+  // }
+  //
+  // constructor(@Optional() @SkipSelf() parentModule: UserService) {
+  //   if (parentModule) {
+  //     throw new Error(
+  //       'CoreModule is already loaded. Import it in the AppModule only');
+  //   }
+  // }
 
 }

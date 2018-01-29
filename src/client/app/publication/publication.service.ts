@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { API_BASE_HREF } from '../api';
-import { ElementKind, QddtElementType, QddtElementTypes } from '../shared/preview/preview.service';
+import { ElementKind, QddtElement, QddtElements } from '../preview/preview.service';
 
 export const PUBLICATION_NOT_PUBLISHED = { 'id': 0, 'name': 'NOTPUBLISHED', 'label': 'Not Published', 'children': [],
   'description': 'Elements and discussion made available for key '
@@ -84,12 +84,12 @@ export const PUBLICATION_STATUS: any = [
   }
 ];
 
-export const PUBLICATION_TYPES: QddtElementType[] = [
-  QddtElementTypes[ElementKind.TOPIC_GROUP],
-  QddtElementTypes[ElementKind.CONCEPT],
-  QddtElementTypes[ElementKind.QUESTIONITEM],
-  QddtElementTypes[ElementKind.QUESTION_CONSTRUCT],
-  QddtElementTypes[ElementKind.SEQUENCE_CONSTRUCT],
+export const PUBLICATION_TYPES: QddtElement[] = [
+  QddtElements[ElementKind.TOPIC_GROUP],
+  QddtElements[ElementKind.CONCEPT],
+  QddtElements[ElementKind.QUESTIONITEM],
+  QddtElements[ElementKind.QUESTION_CONSTRUCT],
+  QddtElements[ElementKind.SEQUENCE_CONSTRUCT],
 ];
 
 export class PublicationElement {

@@ -14,16 +14,15 @@ export class ElementFooterComponent {
 
   @Input() element: any;
   @Input() type: string;
-  @Output() BasedonObjectDetail: any = new EventEmitter<any>();
+  @Output() basedonObjectDetail: any = new EventEmitter<any>();
   basedon: any;
 
   constructor() {
     this.basedon = null;
   }
 
-  onClick(id: string, rev: string, type: string) {
-    console.debug('onClick ' + id + '-' + rev + '-' + type);
-    this.BasedonObjectDetail.emit({id, rev, type});
+  onClick() {
+    this.basedonObjectDetail.emit({id: this.element.basedOnObject, rev:this.element.basedOnRevision,type: this.type});
   }
 
   getTime(): string {

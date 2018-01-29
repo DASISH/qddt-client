@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ControlConstruct } from '../../controlconstruct/controlconstruct.service';
+import { ControlConstruct } from '../controlconstruct/controlconstruct.service';
 
 @Component({
   selector: 'qddt-preview-controlconstruct',

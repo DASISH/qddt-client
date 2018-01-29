@@ -31,8 +31,7 @@
                       materialize="material_select">
                 <option *ngFor="let revision of elementRevisions"
                         [selected]="revision.revisionNumber === elementRevision"
-                        [value]="revision.revisionNumber">
-{{ revision?.entity?.version?.major }}?{{ revision?.entity?.version?.minor }}?.version?.minor}}
+                        [value]="revision.revisionNumber">{{ revision?.entity?.version?.major }}.{{ revision?.entity?.version?.minor }}
                 </option>
               </select>
             </div>
@@ -42,7 +41,7 @@
             </div>
           </div>
           <div class="row">
-            <!--<qddt-publication-preview [element]="selectedElement" elementKind="questionItemKind"></qddt-publication-preview>-->
+            <!--<qddt-preview-element [element]="selectedElement" elementKind="questionItemKind"></qddt-preview-element>-->
             <qddt-preview-questionitem [questionItem]="selectedElement"></qddt-preview-questionitem>
           </div>
         </div>

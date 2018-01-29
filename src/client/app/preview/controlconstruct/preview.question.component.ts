@@ -1,6 +1,6 @@
 import { Component, Input, EventEmitter } from '@angular/core';
 import { MaterializeAction } from 'angular2-materialize';
-import { ControlConstructService } from '../../../controlconstruct/controlconstruct.service';
+import { ControlConstructService } from '../../controlconstruct/controlconstruct.service';
 const saveAs = require('file-saver');
 
 @Component({

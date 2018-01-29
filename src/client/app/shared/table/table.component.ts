@@ -4,7 +4,8 @@ import { Column } from './table.service';
 @Component({
   selector: 'qddt-table',
   styles: [':host /deep/ i.left  { margin-right: 0px; }',
-    'td, td div {  overflow:hidden; text-overflow: ellipsis; }'],
+    'td, td div {  overflow:hidden; text-overflow: ellipsis; }',
+    'table { table-layout:auto;}'],
   moduleId: module.id,
   templateUrl: './table.component.html',
 })
@@ -39,7 +40,6 @@ export class QddtTableComponent implements OnInit, OnChanges {
   private rows: any[] = [];
   private _rows: any[] = [];
   private readonly directionSign: { [dir: string]: String; } = {'': '⇳', 'asc': '⇩', 'desc': '⇧' };
-  private readonly stdwidth: { [name: string]: string; } =  { 'Modified': '8%', 'Version': '2%', 'Agency': '5%'};
 
   ngOnInit() {
     if (this.placeholder === null || this.placeholder === undefined) {
@@ -104,21 +104,6 @@ export class QddtTableComponent implements OnInit, OnChanges {
     return sort;
   }
 
-  // private filterItems(search: string) {
-  //   if (search === undefined || search.length === 0) {
-  //     this.rows = this._rows;
-  //     return;
-  //   }
-  //   let columns = this.columns;
-  //   this.rows = this._rows.filter(
-  //     function (row) {
-  //       let items = columns.filter(function (column) {
-  //         return (row[column.label] !== undefined && row[column.label] !== null && column.sortable === true
-  //           && row[column.label].toLowerCase().indexOf(search.toLowerCase()) >= 0);
-  //       });
-  //       return items.length > 0;
-  //     });
-  // }
 
   private init() {
     this.rows = [];
@@ -168,7 +153,7 @@ export class QddtTableComponent implements OnInit, OnChanges {
       ['Modified', 'Version', 'Agency'].forEach((item: any) => {
         const column = this.columns.find((column: any) => column.label === item);
         if (!column) {
-          this.columns.push({ name: item, label: item, sortable: false , direction: '', width: this.stdwidth[item]});
+          this.columns.push({ name: item, label: item, sortable: false , direction: ''});
         }
       });
     });

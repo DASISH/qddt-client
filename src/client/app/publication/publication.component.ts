@@ -3,7 +3,7 @@ import { PublicationService, Publication,  PUBLICATION_NOT_PUBLISHED, PUBLICATIO
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 import { Column } from '../shared/table/table.service';
-import { QddtElementType, QddtElementTypes } from '../shared/preview/preview.service';
+import { QddtElement, QddtElements } from '../preview/preview.service';
 import { PropertyStoreService } from '../core/global/property.service';
 
 @Component({
@@ -28,7 +28,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
   publications: any[];
   private page: any;
   private selectedElementDetail: any;
-  private selectedElementType: QddtElementType;
+  private selectedElementType: QddtElement;
   private selectedPublicationStatusOption: any;
   private publication: any;
   private searchKeys: string;
@@ -44,10 +44,10 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
     this.searchKeys = '';
     this.page = {};
     this.selectedPublicationStatusOption = PUBLICATION_NOT_PUBLISHED.description;
-    this.columns = [{ 'label': 'Name', 'name': 'name', 'sortable': true,  'direction': '' , width: '25%' },
-    { 'label': 'Purpose', 'name': 'purpose', 'sortable': true,  'direction': '' , width: '25%' },
-    { 'label': 'Publication Status', 'name': 'status', 'sortable': true,  'direction': '' , width: '25%' },
-    { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc', width: '8%' }];
+    this.columns = [{ 'label': 'Name', 'name': 'name', 'sortable': true,  'direction': ''  },
+    { 'label': 'Purpose', 'name': 'purpose', 'sortable': true,  'direction': '' },
+    { 'label': 'Publication Status', 'name': 'status', 'sortable': true,  'direction': ''  },
+    { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' }];
     // console.debug('begyn lsater inn publisering....');
     this.searchKeysSubect
       .debounceTime(300)
@@ -124,7 +124,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
 
   onElementDetail(e: any) {
     this.selectedElementDetail = e.element;
-    const kind = QddtElementTypes.find(el => el.id === e.elementKind);
+    const kind = QddtElements.find(el => el.id === e.elementKind);
     if (kind !== undefined) {
       this.selectedElementType = kind;
       this.modalActions.emit({action: 'modal', params: ['open']});

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
-import { PreviewModule } from '../shared/preview/preview.module';
+import { PreviewModule } from '../preview/preview.module';
 import { SequenceComponent } from './sequence.component';
 import { SequenceDetailComponent } from './sequence.detail.component';
 import { SequenceReuseComponent } from './sequence.reuse.component';

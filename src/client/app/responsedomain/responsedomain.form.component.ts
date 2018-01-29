@@ -4,7 +4,7 @@ import { DomainKind, DomainTypeDescription } from './responsedomain.constant';
 import { DATE_FORMAT, ResponseDomain, ResponseDomainService } from './responsedomain.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
-import { ElementKind, QddtElementType, QddtElementTypes } from '../shared/preview/preview.service';
+import { ElementKind, QddtElement, QddtElements } from '../preview/preview.service';
 
 declare let Materialize: any;
 
@@ -43,7 +43,7 @@ export class ResponsedomainFormComponent implements OnInit , AfterViewInit {
   private endMin: number;
   private startMax: number;
   private searchKeysSubect: Subject<string> = new Subject<string>();
-  private readonly  CATEGORY_KIND: QddtElementType= QddtElementTypes[ElementKind.CATEGORY];
+  private readonly  CATEGORY_KIND: QddtElement= QddtElements[ElementKind.CATEGORY];
 
   constructor(private categoryService: CategoryService, private service: ResponseDomainService) {
     // console.debug('responsedomain.form.component constr');

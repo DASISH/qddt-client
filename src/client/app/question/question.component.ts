@@ -43,10 +43,10 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
     this.secondCS = null;
     this.mainresponseDomainRevision = 0;
     this.showbutton = false;
-    this.columns = [{'name': 'name', 'label': 'Question Name', 'sortable': true, 'direction': '' , 'width': '15%'},
-      {'name': 'question', 'label': 'Question Text', 'sortable': true, 'direction': '' , 'width': '50%'},
-      {'name': ['responseDomain', 'name'], 'label': 'ResponseDomain Name', 'sortable': true, 'direction': '', 'width': '20%' },
-      { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' , 'width': '8%'}];
+    this.columns = [{'name': 'name', 'label': 'Question Name', 'sortable': true, 'direction': '' },
+      {'name': 'question', 'label': 'Question Text', 'sortable': true, 'direction': '' },
+      {'name': ['responseDomain', 'name'], 'label': 'ResponseDomain Name', 'sortable': true, 'direction': '' },
+      { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' }];
     this.searchKeysSubect
       .debounceTime(300)
       .distinctUntilChanged()

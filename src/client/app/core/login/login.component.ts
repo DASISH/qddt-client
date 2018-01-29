@@ -12,8 +12,7 @@ export class LoginForm {
 @Component({
   selector: 'qddt-login',
   moduleId: module.id,
-  templateUrl: './login.component.html',
-  providers: [UserService]
+  templateUrl: './login.component.html'
 })
 export class LoginComponent implements OnInit {
   model: any = {};

@@ -6,7 +6,7 @@ import { MaterializeAction } from 'angular2-materialize';
 @Component({
   selector: 'qddt-concept-edit',
   moduleId: module.id,
-  providers: [ConceptService],
+  providers: [],
   template: `
 <div *ngIf="isVisible">
 
@@ -36,26 +36,12 @@ import { MaterializeAction } from 'angular2-materialize';
       <qddt-element-footer [element]="concept" [type]="'concept'"
         (BasedonObjectDetail)="onBasedonObjectDetail($event)">
       </qddt-element-footer>
+      <qddt-preview-dialog  [elementRef]="basedonRef"></qddt-preview-dialog>
 
       <div class="row right-align" *ngIf="!readonly">
         <button type="submit" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
       </div>
     </form>
-  </div>
-
-  <div class="modal modal-fixed-footer"
-    *ngIf="basedonObject"
-    materialize="modal" [materializeActions]="basedonActions">
-    <div class="modal-content">
-      <h4>Basedon Object Detail</h4>
-      <qddt-preview-concept [concept]="basedonObject"></qddt-preview-concept>
-    </div>
-    <div class="modal-footer">
-      <button
-        class="btn btn-default red modal-action modal-close waves-effect">
-        <a><i class="close material-icons medium white-text">close</i></a>
-      </button>
-    </div>
   </div>
 
 </div>
@@ -67,14 +53,14 @@ export class ConceptEditComponent implements OnInit {
   @Input() readonly: boolean;
   @Input() isVisible = false;
   @Output() conceptSavedEvent: EventEmitter<any> = new EventEmitter<any>();
-  basedonObject: any;
-  basedonActions = new EventEmitter<string|MaterializeAction>();
+
+  public showRevision = false;
+  private basedonRef: any;
 
   constructor(private service: ConceptService) {
   }
 
   ngOnInit() {
-    this.basedonObject = null;
     if (this.readonly === null || this.readonly === undefined) {
       this.readonly = false;
     }
@@ -100,13 +86,8 @@ export class ConceptEditComponent implements OnInit {
     this.concept.authors.splice(i, 1);
   }
 
-  onBasedonObjectDetail(id: string) {
-    this.service.getConcept(id)
-      .then(
-      (result: any) => {
-        this.basedonObject = result;
-        this.basedonActions.emit({action: 'modal', params: ['open']});
-      });
+  onBasedonObjectDetail(ref: any) {
+    this.basedonRef = ref;
   }
 
 }

@@ -26,6 +26,9 @@ p {
   white-space: pre-wrap;
 }
 
+.side-nav.fixed {
+  width: 200px;
+}
 
 .dropdown-content {
   background-color: #fff;

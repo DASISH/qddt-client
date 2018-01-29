@@ -11,7 +11,9 @@
         <option *ngFor="let revision of elementRevisions"
                 [selected]="revision.revisionNumber === elementRevision"
                 [value]="revision.revisionNumber">
-{{ revision?.entity?.version?.major }}o{{ revision?.entity?.version?.minor }}o{{ revision?.entity?.version?.versionLabel }}sionLabel}}
+          {{ revision?.entity?.version?.major }}.
+          {{ revision?.entity?.version?.minor }}.
+          {{ revision?.entity?.version?.versionLabel }}
         </option>
       </select>
     </div>
@@ -24,9 +26,9 @@
     <div class="row teal-text">Preview</div>
     <div class="teal-text" *ngIf="selectedElement.name" style="padding-left: 10pt; padding-bottom: 5pt">Name</div>
     <div style="padding-left: 10pt;  padding-bottom: 5pt; color:dimgrey; ">{{ selectedElement.name }}</div>
-    <qddt-publication-preview
+    <qddt-preview-element
       [element]="selectedElement"
       [elementKind]="elementKind">
-    </qddt-publication-preview>
+    </qddt-preview-element>
   </div>
 </div>

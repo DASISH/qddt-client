@@ -29,10 +29,10 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
     this.categories = [];
     this.searchKeys = '';
     this.page = {};
-    this.columns = [{ label: 'Label', name: 'label', sortable: true, direction: '' , width: '45%'},
-      { label: 'Description', name: 'description', sortable: true, direction: '', width: '25%' },
-      { label: 'Type', name: 'categoryType', sortable: true, direction: '', width: '5%' },
-      { label: 'Modified', name: 'modified', sortable: true, direction: 'desc' , width: '8%'}];
+    this.columns = [{ label: 'Label', name: 'label', sortable: true, direction: ''},
+      { label: 'Description', name: 'description', sortable: true, direction: '' },
+      { label: 'Type', name: 'categoryType', sortable: true, direction: '' },
+      { label: 'Modified', name: 'modified', sortable: true, direction: 'desc'} ];
     this.searchKeysSubect
       .debounceTime(300)
       .distinctUntilChanged()

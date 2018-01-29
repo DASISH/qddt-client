@@ -1,22 +1,22 @@
-import { Component, Input } from '@angular/core';
-import { BaseRequestOptions, Http, ConnectionBackend } from '@angular/http';
+import { Component, Input, PipeTransform, Pipe, EventEmitter, Output } from '@angular/core';
+import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { PublicationService } from '../../publication/publication.service';
-import { PreviewQuestionitemComponent } from './preview.questionitem.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
+import { PreviewComponent } from './preview.component';
 
 export function main() {
-  describe('Publication questionitem preview component', () => {
+  describe('Publication preview component', () => {
     //
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [ PreviewQuestionitemComponent, PreviewResponsedomainComponent],
+        declarations: [PreviewQustionitemComponent, PreviewResponsedomainComponent, PreviewComponent, CommentListComponent],
         providers: [
           MockBackend,
           BaseRequestOptions,
@@ -40,37 +40,37 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            const fixture = TestBed.createComponent(PreviewQuestionitemComponent);
+            const fixture = TestBed.createComponent(PreviewComponent);
             fixture.detectChanges();
             const de: any = fixture.debugElement.queryAll(By.css('div'));
             expect(de.length).toBe(0);
           });
       }));
 
-    it('should work with questionitem',
+    it('should work with element',
       async(() => {
         TestBed
           .compileComponents()
           .then(() => {
-            const fixture = TestBed.createComponent(PreviewQuestionitemComponent);
+            const fixture = TestBed.createComponent(PreviewComponent);
             const element: any = {
                 'id' : '7f000101-54aa-131e-8154-aa27fc230000',
                 'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
-                'name' : 'one questionitem',
-                'description' : 'one questionitem',
-                'question': {'question': 'test'},
+                'name' : 'one element',
+                'description' : 'one element',
                 'basedOnObject' : null,
                 'basedOnRevision' : null,
                 'version' : {'major' : 6, 'minor' : 0, 'versionLabel' : '', 'revision' : null },
                 'changeKind' : 'CONCEPTUAL',
                 'changeComment' : 'Information added'
             };
-            fixture.componentInstance.questionItem = element;
+            fixture.componentInstance.element = element;
+            fixture.componentInstance.elementKind = 2;
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              const de: any = fixture.debugElement.queryAll(By.css('li'));
-              expect(de.length).toBeGreaterThan(3);
-              expect(de[3].nativeNode.textContent).toContain('test');
+              const de: any = fixture.debugElement.queryAll(By.css('textarea'));
+              expect(de.length).toBeGreaterThan(0);
+              expect(de[0].nativeNode.value).toContain('element');
             });
           });
       }));
@@ -93,3 +93,42 @@ class PreviewResponsedomainComponent {
   @Input() isVisible: boolean;
   @Input() responseDomain: any;
 }
+
+@Component({
+  selector: 'qddt-preview-questionitem',
+  template: `<div></div>`
+})
+
+class PreviewQustionitemComponent {
+  @Input() element: any;
+}
+
+@Component({
+  selector: 'qddt-preview-publication',
+  template: `<div></div>`
+})
+
+// class PreviewComponent {
+//   @Input() concepts: any[];
+// }
+
+@Component({
+  selector: 'qddt-comment-list',
+  template: `<div></div>`
+})
+
+class CommentListComponent {
+  @Input() ownerId: any;
+  @Input() comments: any;
+}
+
+// @Component({
+//   selector: 'qddt-preview-questionitem',
+//   template: `<div></div>`
+// })
+
+// class PreviewComponent {
+//   @Input() questionItem: any;
+//   @Input() concept: any;
+//   @Input() editResponseDomain: boolean;
+// }

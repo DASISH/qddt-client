@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 
 import { ControlConstructService, Instruction } from './controlconstruct.service';
-import { ElementKind, QddtElementTypes } from '../shared/preview/preview.service';
+import { ElementKind, QddtElements } from '../preview/preview.service';
 
 @Component({
   selector: 'qddt-instruction-create',
@@ -21,7 +21,7 @@ export class InstructionComponent {
   instruction: any;
   instructions: any[];
   isInstructionNew: boolean;
-  private readonly INSTRUCTION = QddtElementTypes[ElementKind.INSTRUCTION];
+  private readonly INSTRUCTION = QddtElements[ElementKind.INSTRUCTION];
 
   constructor(private service: ControlConstructService) {
     this.instruction = new Instruction();

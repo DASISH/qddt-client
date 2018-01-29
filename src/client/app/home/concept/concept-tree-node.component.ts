@@ -2,11 +2,12 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ConceptService, Concept } from './concept.service';
 import { MaterializeAction } from 'angular2-materialize';
 import { QuestionItem } from '../../question/question.service';
+import { ElementKind } from '../../preview/preview.service';
 const saveAs = require('file-saver');
 
 @Component({
   selector: 'qddt-concept-treenode',
-  providers: [ ConceptService ],
+  providers: [  ],
   moduleId: module.id,
   templateUrl: './concept-tree-node.component.html',
   styles: [
@@ -33,6 +34,8 @@ export class TreeNodeComponent  {
   private showbutton = false;
   private newchild: any;
   private questionItem: any;
+  private revision: any;
+  private revisionKind = ElementKind.CONCEPT;
 
   constructor(private conceptService: ConceptService) {
     this.newchild = new Concept();
@@ -71,6 +74,9 @@ export class TreeNodeComponent  {
     this.newchild = new Concept();
   }
 
+  onShowRevision(element: any) {
+    this.revision = element;
+  }
 
   removeQuestionItem(questionItem: any) {
     this.conceptService.deattachQuestion(this.concept.id, questionItem)

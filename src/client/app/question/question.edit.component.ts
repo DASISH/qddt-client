@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { QuestionItem, QuestionService } from './question.service';
-import { MaterializeAction } from 'angular2-materialize';
 import { Category } from '../category/category.service';
 import { ResponseDomain } from '../responsedomain/responsedomain.service';
 
@@ -21,8 +20,7 @@ export class QuestionItemEditComponent implements OnInit {
   @Output() editQuestionItem: EventEmitter<any>;
 
   showbutton: any;
-  basedonActions = new EventEmitter<string|MaterializeAction>();
-  basedonObject: any;
+  private basedonRef: any;
 
   constructor(private service: QuestionService) {
     this.editQuestionItem = new EventEmitter<any>();
@@ -58,16 +56,7 @@ export class QuestionItemEditComponent implements OnInit {
   }
 
   onBasedonObjectDetail(ref: any) {
-    if (!ref.rev)
-      ref.rev = 0;
-    this.service.getQuestionItemRevision(ref.id, ref.rev)
-      .then(
-      (result: any) => {
-        this.basedonObject = result.entity;
-        this.basedonActions.emit({action: 'modal', params: ['open']});
-      },
-      (err: any) => null
-      );
+   this.basedonRef = ref;
   }
 
   onResponseDomainSelected(item: any) {

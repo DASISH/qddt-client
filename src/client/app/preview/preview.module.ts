@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { SharedModule } from '../shared.module';
 import { ResponsedomainCodeListComponent } from './responsedomain/codelist.component';
 import { ResponsedomainDatetimeComponent } from './responsedomain/datetime.component';
 import { ResponsedomainMissingComponent } from './responsedomain/missing.component';
@@ -21,7 +20,12 @@ import { PreviewSequenceConstructComponent } from './controlconstruct/preview.se
 import { PreviewStatementConstructComponent } from './controlconstruct/preview.statement.component';
 import { PreviewQuestionConstructComponent } from './controlconstruct/preview.question.component';
 import { PreviewControlConstructComponent } from './preview.controlconstruct.component';
-import { PreviewPublicationComponent } from './preview.publication.component';
+import { PreviewComponent } from './preview.component';
+import { SharedModule } from '../shared/shared.module';
+import { PreviewStudyListComponent } from './preview.studylist.component';
+import { PreviewSurveyComponent } from './preview.survey.component';
+import { PreviewInstrumentComponent } from './preview.instrument.component';
+import { PreviewDialogComponent } from './preview-dialog.component';
 
 @NgModule({
   imports: [ SharedModule],
@@ -30,15 +34,16 @@ import { PreviewPublicationComponent } from './preview.publication.component';
     PreviewControlConstructComponent, PreviewQuestionConstructComponent,
     PreviewQuestionitemComponent, PreviewQuestionitemGridComponent, PreviewResponseDomainGridComponent,
     PreviewResponsedomainComponent, PreviewSequenceConstructComponent, PreviewStatementConstructComponent,
-    PreviewStudyComponent, PreviewTopicComponent, PreviewTopicListComponent,
+    PreviewStudyComponent, PreviewTopicComponent, PreviewTopicListComponent, PreviewStudyListComponent,
+    PreviewSurveyComponent, PreviewInstrumentComponent,
     ResponsedomainCodeListComponent, ResponsedomainDatetimeComponent, ResponsedomainMissingComponent,
     ResponsedomainMixedComponent, ResponsedomainNumericComponent, ResponsedomainScaleComponent,
-    ResponsedomainTextComponent, PreviewPublicationComponent],
+    ResponsedomainTextComponent, PreviewComponent, PreviewDialogComponent ],
 
   exports: [PreviewConceptComponent, PreviewConceptListComponent, PreviewTopicComponent,
     PreviewTopicListComponent, PreviewStudyComponent, PreviewControlConstructComponent,
     PreviewQuestionitemComponent, PreviewQuestionitemGridComponent,
-    PreviewResponsedomainComponent , PreviewPublicationComponent]
+    PreviewResponsedomainComponent ,PreviewInstrumentComponent, PreviewComponent, PreviewDialogComponent ]
 
 })
 

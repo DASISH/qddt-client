@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Topic, TopicService } from '../../home/topic/topic.service';
+import { Topic, TopicService } from '../home/topic/topic.service';
 const saveAs = require('file-saver');
 
 @Component({

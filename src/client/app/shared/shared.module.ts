@@ -2,6 +2,8 @@ import { MaterializeModule } from 'angular2-materialize';
 import { NgModule  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ParentFormConnectDirective } from './directive/parent-form-connect.directive';
+import { AutosizeDirective } from './directive/autosize.directive';
 import { LocalDatePipe } from './date.pipe';
 import { AuthorChipComponent } from './author/author.chip.component';
 import { QddtTableComponent } from './table/table.component';
@@ -19,24 +21,22 @@ import { TocComponent } from './form/toc/toc.component';
 import { RouterModule } from '@angular/router';
 import { CommentListComponent } from './comment/comment.list.component';
 import { CommentCreateComponent } from './comment/comment.create.component';
-import { AutosizeDirective } from './autoresize/autosize.directive';
-import { ParentFormConnectDirective } from './directive/parent-form-connect.directive';
 import { GravatarModule } from 'ng2-gravatar-directive/src/gravatar.module';
 
 
 @NgModule({
   imports: [MaterializeModule,CommonModule, RouterModule, FormsModule, CompareModule,GravatarModule],
   declarations: [ LocalDatePipe, QddtTableComponent, QddtPaginationComponent, AutocompleteComponent,
-    AuthorChipComponent, ElementFooterComponent, VersionComponent,VersionLabelComponent,AutosizeDirective,
+    AuthorChipComponent, ElementFooterComponent, VersionComponent,VersionLabelComponent,
     ConfirmDeleteComponent,TocComponent,CommentListComponent,CommentCreateComponent,
     RationalComponent, RevisionComponent,DialogBoxComponent,
-    ParentFormConnectDirective],
-  exports: [LocalDatePipe, CommonModule, FormsModule, MaterializeModule,AutosizeDirective,
+    AutosizeDirective, ParentFormConnectDirective],
+  exports: [LocalDatePipe, CommonModule, FormsModule, MaterializeModule,
      QddtTableComponent, QddtPaginationComponent, AutocompleteComponent,
     AuthorChipComponent,ElementFooterComponent,VersionComponent, VersionLabelComponent,
     ConfirmDeleteComponent,TocComponent,CommentListComponent,
     RationalComponent,RevisionComponent,DialogBoxComponent,
-    ParentFormConnectDirective]
+    AutosizeDirective, ParentFormConnectDirective]
 })
 
 export class SharedModule { }

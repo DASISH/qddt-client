@@ -20,15 +20,16 @@ export class UserService {
   public static readonly SIGNIN_URL = 'auth/signin';
   public static readonly RESET_PWD_URL = 'auth/reset';
   private static readonly USERINFO = 'user';
-  logginChange$: Observable<string>;
+
+  loginChanged$: Observable<string>;
   // Observable navItem source
-  private _newcurrent = new BehaviorSubject<string>(null);
+  private _newcurrent = new BehaviorSubject<string>('');
 
   private user: User;
 
 
   constructor(private http: HttpClient,  @Inject(API_BASE_HREF) private api: string) {
-    this.logginChange$ = this._newcurrent.asObservable();
+    this.loginChanged$ = this._newcurrent.asObservable();
     this.refreshUserData();
     if (this.isTokenExpired())
       this.logout();
@@ -70,6 +71,7 @@ export class UserService {
    */
   public logout(): void {
     localStorage.removeItem(TOKEN_NAME);
+    this._newcurrent.next('');
   }
 
   public isTokenExpired(): boolean {

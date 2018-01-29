@@ -13,11 +13,11 @@ export const homeRoutes: Routes = [
     component: HomeComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: 'home', redirectTo: 'survey', pathMatch: 'full' },
-      { path: 'survey', component: SurveyComponent},
-      { path: 'study/:surveyId', component: StudyComponent},
-      { path: 'topic/:studyId', component: TopicComponent},
-      { path: 'concept/:topicId', component: ConceptComponent}],
+      { path: 'home', redirectTo: 'survey', pathMatch: 'full' , canActivate: [AuthGuard]},
+      { path: 'survey', component: SurveyComponent, canActivate: [AuthGuard]},
+      { path: 'study/:surveyId', component: StudyComponent, canActivate: [AuthGuard]},
+      { path: 'topic/:studyId', component: TopicComponent, canActivate: [AuthGuard]},
+      { path: 'concept/:topicId', component: ConceptComponent, canActivate: [AuthGuard]}],
     }
 ];
 

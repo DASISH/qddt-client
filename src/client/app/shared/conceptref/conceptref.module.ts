@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared.module';
-import { PreviewModule } from '../preview/preview.module';
+import { PreviewModule } from '../../preview/preview.module';
 import { ConceptrefComponent } from './conceptref.component';
 
 

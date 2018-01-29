@@ -1,13 +1,13 @@
-import {
-  Component, EventEmitter,  OnInit,
-} from '@angular/core';
+import { Component, EventEmitter,  OnInit } from '@angular/core';
 import { ActivatedRoute,  Router } from '@angular/router';
-import { TopicService, Topic } from './topic.service';
-import { MaterializeAction } from 'angular2-materialize';
-import { QuestionItem } from '../../question/question.service';
 import 'rxjs/add/operator/switchMap';
+import { MaterializeAction } from 'angular2-materialize';
+import { TopicService, Topic } from './topic.service';
+import { QuestionItem } from '../../question/question.service';
 import { Study } from '../study/study.service';
 import { HIERARCHY_POSITION, PropertyStoreService } from '../../core/global/property.service';
+import { ElementKind } from '../../preview/preview.service';
+
 const saveAs = require('file-saver');
 declare var Materialize: any;
 
@@ -19,10 +19,10 @@ declare var Materialize: any;
           '.collection.with-header .collection-header {border-bottom: none; padding: 0px;}',
           '.collection {border:none; }'],
   templateUrl: './topic.component.html',
-  providers: [TopicService],
 })
 
 export class TopicComponent implements  OnInit {
+  readonly topicKind = ElementKind.TOPIC_GROUP;
   questionItemActions = new EventEmitter<string|MaterializeAction>();
   previewActions = new EventEmitter<string|MaterializeAction>();
 
@@ -31,15 +31,17 @@ export class TopicComponent implements  OnInit {
   private topics: Topic[];
   private newTopic: Topic;
   private revision: any;
+  private revisionKind = ElementKind.TOPIC_GROUP;
   private showTopicForm = false;
+  private showReuse = false;
   private questionItem: QuestionItem;
   private parentId: string;
-  private config: any;
+  // private config: any;
 
   constructor(private router: Router, private route: ActivatedRoute,
               private topicService: TopicService,private property: PropertyStoreService) {
     this.newTopic = new Topic();
-    this.config = this.buildRevisionConfig();
+    // this.config = this.buildRevisionConfig();
   }
 
   ngOnInit(): void {
@@ -48,17 +50,22 @@ export class TopicComponent implements  OnInit {
     this.topicService.getAll(this.parentId).then((result) =>this.topics = result);
   }
 
-  // ngAfterContentChecked(): void {
-  //   Materialize.updateTextFields();
-  // }
-
   showPreview(topic: any) {
     this.revision = topic;
-    this.previewActions.emit({action: 'modal', params: ['open']});
   }
 
   onToggleTopicForm() {
     this.showTopicForm = !this.showTopicForm;
+  }
+
+  onToggleReuse() {
+    console.log(this.topicKind + ' ' + ElementKind[this.topicKind]);
+    this.showReuse = !this.showReuse;
+  }
+
+  onSelectedRevsion(topic:Topic) {
+    this.showReuse = false;
+    this.onTopicSavedEvent(topic);
   }
 
   onSelectTopic(topic: any) {
@@ -69,7 +76,12 @@ export class TopicComponent implements  OnInit {
   }
 
   onTopicSavedEvent(topic: any) {
-    this.topics =this.topics.filter((s: any) => s.id !== topic.id).concat(topic);
+    if (topic !== null) {
+      const index = this.topics.findIndex((q) => q.id === topic.id);
+      if (index >= 0)
+        this.topics.splice(index,1);
+      this.topics.push(topic);
+    }
   }
 
   onNewSave() {
@@ -116,20 +128,20 @@ export class TopicComponent implements  OnInit {
     }
   }
 
-  private buildRevisionConfig(): any[] {
-    const config: any[] = [];
-    config.push({'name': 'name', 'label': 'Name'});
-    config.push({'name': 'description', 'label': 'Description'});
-    config.push({'name': ['otherMaterials'], 'label': 'Files', 'init': function (o: any) {
-      if (o !== null && o !== undefined) {
-        return o.map(element => {return element['originalName'] || ''; }).sort().join(',');
-      }
-      return '';
-    }});
-    return config;
-  }
+  // private buildRevisionConfig(): any[] {
+  //   const config: any[] = [];
+  //   config.push({'name': 'name', 'label': 'Name'});
+  //   config.push({'name': 'description', 'label': 'Description'});
+  //   config.push({'name': ['otherMaterials'], 'label': 'Files', 'init': function (o: any) {
+  //     if (o !== null && o !== undefined) {
+  //       return o.map(element => {return element['originalName'] || ''; }).sort().join(',');
+  //     }
+  //     return '';
+  //   }});
+  //   return config;
+  // }
 
-  private isBlank(str: any): boolean {
-    return (!str || /^\s*$/.test(str));
-  }
+  // private isBlank(str: any): boolean {
+  //   return (!str || /^\s*$/.test(str));
+  // }
 }

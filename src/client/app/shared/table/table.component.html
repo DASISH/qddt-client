@@ -1,5 +1,5 @@
 <div *ngIf="rows" class="row">
-  <div class="card white grey-text text-darken-1">
+  <div class="card white grey-text text-darken-1" style="overflow-x:auto;">
     <div class="row">
       <div class="input-field col s11">
         <input id="filterKey" type="text" [ngModel]="value" (keyup)="enterText($event)">
@@ -13,7 +13,7 @@
       <thead>
         <tr>
           <!--<th>Detail</th>-->
-          <th *ngFor="let column of columns" width="{{column.width}}">{{ column.label }}
+          <th *ngFor="let column of columns" >{{ column.label }}
             <span *ngIf="column.sortable" (click)="sortRows(column)" [ngStyle]="{'cursor': 'pointer'}">{{ directionSign[column.direction] }}
             </span>
           </th>

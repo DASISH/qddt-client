@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output, OnInit, AfterContentChecked, ViewChild
 import { CategoryService, Category, ResponseCardinality } from './category.service';
 import { CategoryType } from './category-kind';
 import { Subject } from 'rxjs/Subject';
-import { ElementKind, QddtElementType, QddtElementTypes } from '../shared/preview/preview.service';
+import { ElementKind, QddtElement, QddtElements } from '../preview/preview.service';
 import { PropertyStoreService } from '../core/global/property.service';
 
 declare let Materialize: any;
@@ -34,7 +34,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
   private searchKeysSubect: Subject<string> = new Subject<string>();
   private revisionIsVisible = false;
   private readonly revisionConfig = this.buildRevisionConfig();
-  private readonly  CATEGORY_KIND: QddtElementType= QddtElementTypes[ElementKind.CATEGORY];
+  private readonly  CATEGORY_KIND: QddtElement= QddtElements[ElementKind.CATEGORY];
 
   constructor(private categoryService: CategoryService, private userService: PropertyStoreService) {
     this.category = new Category();

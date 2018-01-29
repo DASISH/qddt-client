@@ -1,6 +1,6 @@
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { ControlConstructService } from './controlconstruct.service';
-import { ElementKind, QddtElementTypes } from '../shared/preview/preview.service';
+import { ElementKind, QddtElements } from '../preview/preview.service';
 
 @Component({
   selector: 'qddt-control-construct-questionitem-select',
@@ -18,7 +18,7 @@ export class ControlConstructQuestionItemSelectComponent implements OnInit {
   private questionItemRevisions: any[];
   private selectedQuestionItem: any;
   private questionItemRevision: number;
-  private readonly QUESTIONITEM = QddtElementTypes[ElementKind.QUESTIONITEM];
+  private readonly QUESTIONITEM = QddtElements[ElementKind.QUESTIONITEM];
 
   constructor(private service: ControlConstructService) {
     this.questionItems = [];
