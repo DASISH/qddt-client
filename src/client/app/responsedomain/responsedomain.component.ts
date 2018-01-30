@@ -5,6 +5,7 @@ import { ResponseDomainService } from './responsedomain.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 import { PropertyStoreService } from '../core/global/property.service';
+import { ElementKind } from '../preview/preview.service';
 
 // declare var Materialize: any;
 
@@ -35,6 +36,8 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
   private savedObject: string;
   private savedResponseDomainsIndex: number;
   private searchKeysSubject: Subject<string> = new Subject<string>();
+  private previewObject: any;
+  private revisionKind = ElementKind.RESPONSEDOMAIN;
 
   constructor(private responseDomainService: ResponseDomainService, private property: PropertyStoreService) {
     this.responseDomain = new ResponseDomain();
@@ -207,6 +210,10 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
         }
         this.hideDetail();
       });
+  }
+
+  onShowRevision(element: any) {
+    this.previewObject = element;
   }
 
   searchResponseDomains(name: string) {

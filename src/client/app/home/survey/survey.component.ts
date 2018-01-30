@@ -16,7 +16,7 @@ export class SurveyComponent implements OnInit {
   private surveys: any[]= [];
   private survey: any;
   private revision: any;
-  private revisionKind = ElementKind.SURVEY;
+  private readonly revisionKind = ElementKind.SURVEY;
 
   constructor(private surveyService: SurveyService,private router: Router, private property: PropertyStoreService) {
     this.survey = new SurveyProgram();
@@ -43,7 +43,7 @@ export class SurveyComponent implements OnInit {
   onShowStudy(surveyProgram: any) {
     this.property.set('survey',surveyProgram);
     this.property.setCurrent(HIERARCHY_POSITION.Survey, surveyProgram.name);
-    this.router.navigate(['./study',surveyProgram.id]);
+    this.router.navigate(['study']);
   }
 
   onShowRevision(element: any) {

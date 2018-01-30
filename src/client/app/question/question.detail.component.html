@@ -44,8 +44,11 @@
               [current]="questionitem"
               [qddtURI]="'audit/questionitem/' + questionitem.id + '/all'"
               [config]="config"
-              (requestPreview)="onPreview($event)">
+              (requestPreview)="onShowRevision($event)">
             </qddt-revision>
+            <qddt-preview-dialog *ngIf="revisionIsVisible"
+                                 [basedonObject]="previewObject" [elementKind] = "revisionKind">
+            </qddt-preview-dialog>
 
             <qddt-comment-list [ownerId]="questionitem.id" [comments]="questionitem.comments"></qddt-comment-list>
           </div>
@@ -77,18 +80,3 @@
   </div>
 </div>
 
-<div class="modal modal-fixed-footer" id="'based-on-2"
-     materialize="modal" [materializeActions]="previewActions">
-  <div class="modal-content">
-    <h4>Object Detail</h4>
-    <div class="row" *ngIf="previewObject">
-      <qddt-preview-questionitem [questionItem]="previewObject"></qddt-preview-questionitem>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button id="controlConstructs-modal-close"
-            class="btn btn-default red modal-action modal-close waves-effect">
-      <a><i class="close material-icons medium white-text">close</i></a>
-    </button>
-  </div>
-</div>

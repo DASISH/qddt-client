@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { QuestionService, QuestionItem } from './question.service';
 import { MaterializeAction } from 'angular2-materialize';
+import { ElementKind } from '../preview/preview.service';
 const saveAs = require('file-saver');
 
 
@@ -23,6 +24,7 @@ export class QuestionDetailComponent implements OnInit {
   previewActions = new EventEmitter<MaterializeAction>();
   previewObject: any;
 
+  private revisionKind = ElementKind.QUESTIONITEM;
   private revisionIsVisible: boolean;
   private editIsVisible: boolean;
   private conceptIsVisible: boolean;
@@ -92,9 +94,8 @@ export class QuestionDetailComponent implements OnInit {
     this.deleteAction.emit({action: 'modal', params: ['open']});
   }
 
-  onPreview(questionitem: QuestionItem) {
-    this.previewObject = questionitem;
-    this.previewActions.emit({action: 'modal', params: ['open']});
+  onShowRevision(element: any) {
+    this.previewObject = element;
   }
 
   checkDeleteQuestionItem() {

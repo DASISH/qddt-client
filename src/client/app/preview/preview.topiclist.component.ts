@@ -11,7 +11,7 @@ import { Component, Input } from '@angular/core';
     <li *ngFor="let topic of topicList">
       <div class="collapsible-header yellow lighten-5">
         <!--<div class="row">-->
-          <div class="col s11">Concept: {{ topic?.name }}</div>
+          <div class="col s11">Module: {{ topic?.name }}</div>
           <div class="col s1">
             <label class="active">V{{ topic?.version?.major }}.{{ topic?.version?.minor }}</label>
           </div>

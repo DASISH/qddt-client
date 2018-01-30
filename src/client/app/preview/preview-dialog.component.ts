@@ -6,24 +6,22 @@ import { MaterializeAction } from 'angular2-materialize';
   selector: 'qddt-preview-dialog',
   moduleId: module.id,
   template: `
-    <div class="modal modal-fixed-footer" id="'based-on-1"
+    <div class="modal modal-fixed-footer" id="preview-{{basedonObject?.id}}"
          materialize="modal" [materializeActions]="basedonActions">
       <div class="modal-content teal-text">
         <h4>Object details</h4>
         <div class="row" *ngIf="basedonObject">
-          <h5 class="row grey-text">{{basedonObject.name}}</h5>
+          <h5 class="row grey-text">{{basedonObject?.name}}</h5>
           <qddt-preview-element class="grey-text" [element]="basedonObject" [elementKind]="elementKind"> </qddt-preview-element>
         </div>
       </div>
       <div class="modal-footer">
-        <button id="controlConstructs-modal-close"
-                class="btn btn-default red modal-action modal-close waves-effect">
-          <a><i class="close material-icons medium white-text">close</i></a>
-        </button>
+        <a class="modal-action modal-close waves-effect waves-purple btn-flat teal white-text">
+          Close
+        </a>
       </div>
     </div>`
     ,
-  providers: [ PreviewService],
 })
 @ElementEnumAware
 export class PreviewDialogComponent implements  OnChanges {

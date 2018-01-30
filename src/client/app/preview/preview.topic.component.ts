@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { Topic, TopicService } from '../home/topic/topic.service';
+import { Topic } from '../home/topic/topic.service';
+import { PreviewService } from './preview.service';
 const saveAs = require('file-saver');
 
 @Component({
@@ -51,13 +52,12 @@ const saveAs = require('file-saver');
   <qddt-element-footer [element]="topic" [type]="'topic'"></qddt-element-footer>
 </div>`
 ,
-  providers: [ TopicService],
 })
 
 export class PreviewTopicComponent {
   @Input() topic: Topic;
 
-  constructor(private service: TopicService) {
+  constructor(private service: PreviewService) {
   }
 
   onDownloadFile(o: any) {

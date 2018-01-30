@@ -5,12 +5,10 @@ import { Study } from '../home/study/study.service';
   selector: 'qddt-preview-study',
   moduleId: module.id,
   template: `
-  <div class="row">
-    <div class="col s12">
-      <label [attr.for]="study.id + '-description'" class="active teal-text">Description</label>
-      <textarea class="materialize-textarea" id="{{study?.id}}-description"
-      name="{{study?.id}}-description" readonly>
-      </textarea>
+  <div class="row" *ngIf="study?.description">
+    <div class="input-field col s11">
+      <label class="active teal-text">Description</label>
+      <P [innerHtml]="study?.description"></P>
     </div>
   </div>
   <div class="row" *ngIf="study.authors && study.authors.length>0">
@@ -20,8 +18,8 @@ import { Study } from '../home/study/study.service';
   <div class="row">
     <qddt-comment-list [ownerId]="study.id" [comments]="study.comments"></qddt-comment-list>
   </div>
-  <div class="row" *ngIf="study.topics && study.topics.length>0">
-    <qddt-preview-topic-list [topicList]="study.topics"></qddt-preview-topic-list>
+  <div class="row" *ngIf="study?.topicGroups && study?.topicGroups?.length>0">
+    <qddt-preview-topic-list [topicList]="study.topicGroups"></qddt-preview-topic-list>
   </div>
   <div class="row">
     <qddt-element-footer [element]="study" [type]="'study'"></qddt-element-footer>

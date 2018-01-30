@@ -86,18 +86,18 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onSurvey() {
     this.clearAll();
-    this.router.navigate(['survey/']);
+    this.router.navigate(['survey']);
   }
   onStudy() {
     this.clearTopic();
-    this.router.navigate(['study/',this.getSurvey().id]);
+    this.router.navigate(['study']);
   }
   onTopic() {
     this.clearConcept();
-    this.router.navigate(['topic/',this.getStudy().id]);
+    this.router.navigate(['topic']);
   }
   onConcept() {
-    this.router.navigate(['concept/',this.getTopic().id]);
+    this.router.navigate(['concept']);
   }
 
   getSurvey(): SurveyProgram {

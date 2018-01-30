@@ -82,8 +82,12 @@
         <qddt-revision *ngIf="isRevisionVisible"
           [current]="selectedResponseDomain"
           [qddtURI]="'audit/responsedomain/' + selectedResponseDomain.id + '/all'"
-          [config]="selectedResponseDomain.config">
+          [config]="selectedResponseDomain.config"
+          (requestPreview)="onShowRevision($event)">
         </qddt-revision>
+        <qddt-preview-dialog *ngIf="isRevisionVisible"
+                             [basedonObject]="previewObject" [elementKind] = "revisionKind">
+        </qddt-preview-dialog>
 
         <qddt-comment-list
           [ownerId]="selectedResponseDomain.id"

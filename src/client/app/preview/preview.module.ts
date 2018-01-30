@@ -26,6 +26,8 @@ import { PreviewStudyListComponent } from './preview.studylist.component';
 import { PreviewSurveyComponent } from './preview.survey.component';
 import { PreviewInstrumentComponent } from './preview.instrument.component';
 import { PreviewDialogComponent } from './preview-dialog.component';
+import { TopicService } from '../home/topic/topic.service';
+import { PreviewService } from './preview.service';
 
 @NgModule({
   imports: [ SharedModule],
@@ -43,7 +45,9 @@ import { PreviewDialogComponent } from './preview-dialog.component';
   exports: [PreviewConceptComponent, PreviewConceptListComponent, PreviewTopicComponent,
     PreviewTopicListComponent, PreviewStudyComponent, PreviewControlConstructComponent,
     PreviewQuestionitemComponent, PreviewQuestionitemGridComponent,
-    PreviewResponsedomainComponent ,PreviewInstrumentComponent, PreviewComponent, PreviewDialogComponent ]
+    PreviewResponsedomainComponent ,PreviewInstrumentComponent, PreviewComponent, PreviewDialogComponent ],
+
+  providers: [ PreviewService ]
 
 })
 

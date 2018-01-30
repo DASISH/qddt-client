@@ -1,6 +1,6 @@
 import {  Component, OnInit } from '@angular/core';
 import { StudyService, Study } from './study.service';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
 import { SurveyProgram } from '../survey/survey.service';
 import { HIERARCHY_POSITION, PropertyStoreService } from '../../core/global/property.service';
 import { ElementKind } from '../../preview/preview.service';
@@ -14,10 +14,12 @@ const saveAs = require('file-saver');
 })
 export class StudyComponent implements OnInit {
   showEditForm = false;
+
+  private readonly revisionKind = ElementKind.STUDY;
+
   private study: any;
   private survey: SurveyProgram;
   private revision: any;
-  private revisionKind = ElementKind.STUDY;
 
   constructor(  private router: Router, private route: ActivatedRoute,
                 private studyService: StudyService, private property: PropertyStoreService) {
@@ -29,18 +31,14 @@ export class StudyComponent implements OnInit {
     if (survey) {
       this.survey = survey;
     } else {
-      this.route.paramMap.switchMap((params: ParamMap) => {
-        this.survey.id = params.get('surveyId');
         this.studyService.getAll(this.survey.id).then(result=> this.survey.studies = result);
-        return null;
-      });
     }
   }
 
   onShowTopic(study: any) {
     this.property.set('study',study);
     this.property.setCurrent(HIERARCHY_POSITION.Study,study.name);
-    this.router.navigate(['topic/',study.id]);
+    this.router.navigate(['topic']);
   }
 
   onShowRevision(element: any) {

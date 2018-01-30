@@ -72,7 +72,7 @@
       </qddt-preview-dialog>
 
 
-      <div *ngIf="concept.conceptQuestionItems?.length > 0" class="section">
+      <div *ngIf="concept.conceptQuestionItems?.length > 0 && !edit.isVisible" class="section">
         <ul class="collection with-header hoverable"
             (mouseenter)="showbutton = true"
             (mouseleave)="showbutton = false">

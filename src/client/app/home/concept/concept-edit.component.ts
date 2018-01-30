@@ -1,7 +1,6 @@
 import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
 import { ConceptService, Concept } from './concept.service';
 import 'rxjs/Rx';
-import { MaterializeAction } from 'angular2-materialize';
 
 @Component({
   selector: 'qddt-concept-edit',
@@ -32,11 +31,10 @@ import { MaterializeAction } from 'angular2-materialize';
         [element]="concept"
         [config]="{hidden: [2,3]}">
       </qddt-rational>
-
-      <qddt-element-footer [element]="concept" [type]="'concept'"
+      <qddt-element-footer [element]="concept" [type]="'CONCEPT'"
         (BasedonObjectDetail)="onBasedonObjectDetail($event)">
       </qddt-element-footer>
-      <qddt-preview-dialog  [elementRef]="basedonRef"></qddt-preview-dialog>
+      <qddt-preview-dialog  id="23423r" [elementRef]="basedonRef"></qddt-preview-dialog>
 
       <div class="row right-align" *ngIf="!readonly">
         <button type="submit" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>

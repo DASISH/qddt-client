@@ -82,7 +82,9 @@ export const QddtElements: QddtElement[] = [
 export class PreviewService {
 
   constructor(protected http: HttpClient,  @Inject(API_BASE_HREF) protected api: string) {
+    console.info('CSTR PreviewService');
   }
+
   getRevisionByKindString(kind: string, id: string, rev: string): Promise<any> {
 
     const et: any = QddtElements.find(e => ElementKind[e.id] === kind);
@@ -102,6 +104,11 @@ export class PreviewService {
     const et: any = QddtElements.find(e => e.id === kind);
     return this.http.get(this.api + 'audit/' + et.path + '/' + id + '/' + rev).toPromise();
 
+  }
+
+  getFile(id: string): Promise<any> {
+    return this.http.get(this.api +'othermaterial/files/' + id,{ responseType:'blob'})
+      .toPromise();
   }
 
 }

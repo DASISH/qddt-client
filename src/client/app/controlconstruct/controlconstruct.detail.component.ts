@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ControlConstructService, ControlConstruct } from './controlconstruct.service';
 import { MaterializeAction } from 'angular2-materialize';
+import { ElementKind } from '../preview/preview.service';
 const saveAs = require('file-saver');
 
 
@@ -23,6 +24,8 @@ export class ControlConstructDetailComponent implements OnInit {
   @Output() exceptionEvent = new EventEmitter<String>();
 
   public deleteAction = new EventEmitter<MaterializeAction>();
+  private previewObject: any;
+  private revisionKind = ElementKind.QUESTION_CONSTRUCT;
   private revisionIsVisible: boolean;
   private savedObject: string;
   private savedControlConstructsIndex: number;
@@ -99,6 +102,10 @@ export class ControlConstructDetailComponent implements OnInit {
       },
       error => console.log(error));
 
+  }
+
+  onShowRevision(element: any) {
+    this.previewObject = element;
   }
 
   private init() {

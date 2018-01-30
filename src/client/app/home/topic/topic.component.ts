@@ -35,32 +35,31 @@ export class TopicComponent implements  OnInit {
   private showTopicForm = false;
   private showReuse = false;
   private questionItem: QuestionItem;
-  private parentId: string;
-  // private config: any;
 
   constructor(private router: Router, private route: ActivatedRoute,
               private topicService: TopicService,private property: PropertyStoreService) {
     this.newTopic = new Topic();
-    // this.config = this.buildRevisionConfig();
   }
 
   ngOnInit(): void {
-    this.parentId  = this.route.snapshot.paramMap.get('studyId');
     this.study = this.property.get('study');
-    this.topicService.getAll(this.parentId).then((result) =>this.topics = result);
+    this.topicService.getAll(this.study.id).then((result) =>this.topics = result);
   }
 
   showPreview(topic: any) {
     this.revision = topic;
   }
 
-  onToggleTopicForm() {
+  onToggleConceptForm() {
     this.showTopicForm = !this.showTopicForm;
+    if (this.showTopicForm)
+      this.showReuse = false;
   }
 
   onToggleReuse() {
-    console.log(this.topicKind + ' ' + ElementKind[this.topicKind]);
     this.showReuse = !this.showReuse;
+    if(this.showReuse)
+      this.showTopicForm = false;
   }
 
   onSelectedRevsion(topic:Topic) {
@@ -72,7 +71,7 @@ export class TopicComponent implements  OnInit {
     this.property.set('topic',topic);
     this.property.setCurrent(HIERARCHY_POSITION.Topic,topic.name);
     this.property.setCurrent(HIERARCHY_POSITION.Concept,'Concept');
-    this.router.navigate(['concept/',topic.id]);
+    this.router.navigate(['concept']);
   }
 
   onTopicSavedEvent(topic: any) {
@@ -86,7 +85,7 @@ export class TopicComponent implements  OnInit {
 
   onNewSave() {
     this.showTopicForm = false;
-    this.topicService.save(this.newTopic, this.parentId)
+    this.topicService.save(this.newTopic, this.study.id)
       .subscribe((result: any) => this.onTopicSavedEvent(result));
     this.newTopic  = new Topic();
   }

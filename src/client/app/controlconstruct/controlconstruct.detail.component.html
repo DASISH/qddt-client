@@ -35,9 +35,12 @@
       <qddt-revision *ngIf="revisionIsVisible"
         [current]="controlConstruct"
         [config]="config"
-        [qddtURI]="'audit/controlconstruct/' + controlConstruct.id + '/all'">
-        <!--[elementType]="'QuestionConstruct'"-->
+        [qddtURI]="'audit/controlconstruct/' + controlConstruct.id + '/all'"
+        (requestPreview)="onShowRevision($event)">
       </qddt-revision>
+      <qddt-preview-dialog *ngIf="revisionIsVisible"
+                           [basedonObject]="previewObject" [elementKind] = "revisionKind">
+      </qddt-preview-dialog>
 
       <qddt-comment-list
         [ownerId]="controlConstruct.id"

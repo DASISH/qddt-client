@@ -46,6 +46,14 @@ export class ConceptComponent implements OnInit {
 
   onToggleConceptForm() {
     this.showConceptForm = !this.showConceptForm;
+    if (this.showConceptForm)
+      this.showReuse = false;
+  }
+
+  onToggleReuse() {
+    this.showReuse = !this.showReuse;
+    if(this.showReuse)
+      this.showConceptForm = false;
   }
 
   onNewSave() {
