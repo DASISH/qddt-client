@@ -50,7 +50,7 @@ export class ResponsedomainMixedComponent implements OnChanges {
       const rd = new ResponseDomain();
       rd.id = new Date().toString();
       rd.managedRepresentation = rep.children[i];
-      rd.version = rep.children[i]['version'];
+      rd['version'] = rep.children[i]['version'];
       rd.name = rep.children[i]['name'] || '';
       if (rep.children[i].categoryType === 'SCALE') {
         rd['domainType'] = this.domainTypeDef.SCALE;

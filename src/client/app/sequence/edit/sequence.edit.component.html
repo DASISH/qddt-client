@@ -1,0 +1,29 @@
+<form (ngSubmit)="onUpdateSequence()" #sequenceform="ngForm" card>
+  <div class="row input-field">
+    <label [attr.for]="sequence.id + '-name'" class="teal-text">Name</label>
+    <input
+      name="{{sequence?.id}}-name"
+      type="text"
+      class="validate" required
+      [(ngModel)]="sequence.name"
+      materialize="characterCounter" data-length="255">
+  </div>
+
+  <div class="row input-field ">
+    <label [attr.for]="sequence.id + '-description'" class="active teal-text">Description</label>
+    <textarea [attr.id]="sequence.id + '-description'"
+              name="{{sequence.id}}-description" class="materialize-textarea"
+              [(ngModel)]="sequence.description"
+              materialize="characterCounter" data-length="255">
+              </textarea>
+  </div>
+
+  <qddt-sequence-reuse (element)="onGetElement($event)"></qddt-sequence-reuse>
+
+  <qddt-preview-controlconstruct [construct]="sequence"></qddt-preview-controlconstruct>
+
+  <qddt-rational [formName]="'RationalComp'" [element]="sequence"  [config]="{hidden: [4]}"></qddt-rational>
+
+  <button type="submit" class="btn btn-default right">Submit</button>
+
+</form>
