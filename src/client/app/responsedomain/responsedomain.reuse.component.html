@@ -26,13 +26,13 @@
         </div>
       </div>
       <div *ngIf="showAutocomplete">
-        <autocomplete
+        <auto-complete
           [items]="responseDomains" class="black-text"
           [elementtype]="RESPONSEKIND"
           (autocompleteFocusEvent)="selectedIndex=idx;"
           (enterEvent)="searchResponseDomains($event)"
           (autocompleteSelectEvent)="onResponseDomainSelected($event)">
-        </autocomplete>
+        </auto-complete>
       </div>
       <div class="row" *ngIf="selectedResponseDomain">
         <qddt-responsedomain-select

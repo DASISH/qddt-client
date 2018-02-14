@@ -17,35 +17,35 @@ export class StudyService  {
   }
 
   getAll(surveyProgramId: String): Promise<any> {
-    return this.http.get(this.api +'surveyprogram/' + surveyProgramId).toPromise();
+    return this.http.get(this.api + 'surveyprogram/' + surveyProgramId).toPromise();
   }
 
   getStudy(id: String): Promise<any> {
-    return this.http.get(this.api +'study/' + id).toPromise();
+    return this.http.get(this.api + 'study/' + id).toPromise();
   }
 
   getPdf(id: string): Promise<any> {
-    return this.http.get(this.api +'study/pdf/' + id)
+    return this.http.get(this.api + 'study/pdf/' + id)
       .toPromise();
   }
 
   attachAuthor(studyId: string, authorId: string): Observable<any> {
-    return this.http.post(this.api +'author/combine?authorId=' + authorId + '&studyId=' + studyId, {});
+    return this.http.post(this.api + 'author/combine?authorId=' + authorId + '&studyId=' + studyId, {});
   }
 
   save(study: Study, surveyProgramId: String): Observable<any>  {
-    return this.http.post(this.api +'study/create/' + surveyProgramId,study);
+    return this.http.post(this.api + 'study/create/' + surveyProgramId, study);
   }
 
   update(study: Study): Observable<any>  {
-    return this.http.post(this.api +'study/',study);
+    return this.http.post(this.api + 'study/', study);
   }
 
   deattachAuthor(studyId: string, authorId: string): Observable<any>  {
-    return this.http.delete(this.api +'author/decombine?authorId=' + authorId + '&studyId=' + studyId);
+    return this.http.delete(this.api + 'author/decombine?authorId=' + authorId + '&studyId=' + studyId);
   }
 
   deleteStudy(id: string): Observable<any>  {
-    return this.http.delete(this.api +'study/delete/' + id);
+    return this.http.delete(this.api + 'study/delete/' + id);
   }
 }

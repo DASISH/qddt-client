@@ -1,69 +1,104 @@
 <div class="row">
-  <div class="row teal-text">
-		<span name="col text">Add element</span>
-    <div class="col right">
-      <i class="material-icons right" title="add Element"
-        (click)="showAddElement = !showAddElement;">add
-      </i>
-    </div>
-  </div>
-  <div class="row" *ngIf="showAddElement">
-    <div class="row teal-text">
-		  <span name="col text">Element Type</span>
-	  </div>
-    <div class="row" >
-		  <div class="left" *ngFor="let element of elementTypeDescription">
-			  <input name="elementtypegroup"
-        type="radio"
-        id="element-type-{{element.id}}"
-        (click)="onSelectElementType(element.name)"
-        [checked]="elementType === element.name"/>
-        <label [attr.for]="'element-type-' + element.id">{{ element.label }}</label>
-		  </div>
-    </div>
-    <div class="row">
-      <div class="row">
-        <autocomplete
-          [items]="elements" class="black-text"
-          [elementtype]="getElementType(elementType)"
-          (autocompleteSelectEvent)="onSelectElement($event)"
-	  			(enterEvent)="onSearchElements($event)">
-			  </autocomplete>
+  <ul class="hoverable"
+      (mouseenter)="showButton = !readonly"
+      (mouseleave)="showButton = false">
+    <li>
+      <div class="row" (click)="createConstruct=!createConstruct" style="cursor: zoom-in;">
+        <div class="col s11"><label class="teal-text">Add element</label></div>
+        <div class="col s1">
+          <a [ngClass]="{hide: !showButton}"
+             class="btn-flat btn-floating btn-small waves-effect waves-light teal">
+            <i class="material-icons" title="Add element">add</i>
+          </a>
+        </div>
       </div>
-
-    </div>
-    <div class="row teal-text">
-      <button class="right" (click)="onUse()">use this</button>
-      <button *ngIf="elementType === 'STATEMENT_CONSTRUCT'"
-        class="right" (click)="onCreateStatement()">Create a new statement</button>
-      <button *ngIf="elementType === 'CONDITION_CONSTRUCT'"
-        class="right" (click)="onCreateCondition()">Create a new condition</button>
-    </div>
-  </div>
-  <div *ngIf="selectedElement" class="row teal-text">
-    <qddt-preview-controlconstruct
-      [construct]="selectedElement">
-    </qddt-preview-controlconstruct>
-  </div>
+    </li>
+    <li class="collection-item" *ngIf="createConstruct">
+      <div class="row">
+        <div class="col left" *ngFor="let element of elementTypes">
+          <input name="elementtypegroup-{{element.id}}"
+            type="radio"
+            id="element-type-{{element.id}}"
+            (click)="onSelectElementType(element.id)"
+            [checked]="selectedType === element.id"/>
+          <label [attr.for]="'element-type-' + element.id">{{ element.label }}</label>
+        </div>
+      </div>
+      <auto-complete
+        [items]="elements" class="black-text"
+        [elementtype]="getQddtElements(selectedType)"
+        (autocompleteSelectEvent)="onSelectElement($event)"
+        (enterEvent)="onSearchElements($event)">
+      </auto-complete>
+      <qddt-preview-controlconstruct [construct]="selectedElementshowAddElement"></qddt-preview-controlconstruct>
+    </li>
+  </ul>
 </div>
+  <!--<div class="row teal-text">-->
+		<!--<span name="col text">Add element</span>-->
+    <!--<div class="col right">-->
+      <!--<i class="material-icons right waves-green " title="add Element"-->
+        <!--(click)="showAddElement = !showAddElement;">add-->
+      <!--</i>-->
+    <!--</div>-->
+  <!--</div>-->
+  <!--<div class="row" *ngIf="showAddElement">-->
+    <!--<div class="row teal-text">-->
+		  <!--<span name="col text">Element Type</span>-->
+	  <!--</div>-->
+    <!--<div class="row" >-->
+		  <!--<div class="left" *ngFor="let element of elementTypeDescription">-->
+			  <!--<input name="elementtypegroup"-->
+        <!--type="radio"-->
+        <!--id="element-type-{{element.id}}"-->
+        <!--(click)="onSelectElementType(element.name)"-->
+        <!--[checked]="ccKindAsString === element.name"/>-->
+        <!--<label [attr.for]="'element-type-' + element.id">{{ element.label }}</label>-->
+		  <!--</div>-->
+    <!--</div>-->
+    <!--<div class="row">-->
+      <!--<div class="row">-->
+        <!--<auto-complete-->
+          <!--[items]="elements" class="black-text"-->
+          <!--[elementtype]="getQddtElementFromStr(ccKindAsString)"-->
+          <!--(autocompleteSelectEvent)="onSelectElement($event)"-->
+	  			<!--(enterEvent)="onSearchElements($event)">-->
+			  <!--</auto-complete>-->
+      <!--</div>-->
 
-<div [attr.id]="'create-construct-modal'" class="modal"
-  materialize="modal" [materializeActions]="modalActions">
-  <div class="modal-content">
-    <div *ngIf="elementType === 'STATEMENT_CONSTRUCT'" class="row">
-      <h4>Statement</h4>
-      <qddt-statement-edit (element)="onGetElement($event)"></qddt-statement-edit>
-    </div>
-    <div *ngIf="elementType === 'CONDITION_CONSTRUCT'" class="row">
-      <h4>Condition</h4>
-      <qddt-condition-edit (element)="onGetElement($event)"></qddt-condition-edit>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button
-      (click)="false"
-      class="btn btn-default red modal-action modal-close waves-effect">
-      <a><i class="close material-icons medium white-text">close</i></a>
-    </button>
-  </div>
-</div>
+    <!--</div>-->
+    <!--<div class="row teal-text">-->
+      <!--<button class="right" (click)="onUse()">use this</button>-->
+      <!--<button *ngIf="ccKindAsString === 'STATEMENT_CONSTRUCT'"-->
+        <!--class="right" (click)="onCreateStatement()">Create a new statement</button>-->
+      <!--<button *ngIf="ccKindAsString === 'CONDITION_CONSTRUCT'"-->
+        <!--class="right" (click)="onCreateCondition()">Create a new condition</button>-->
+    <!--</div>-->
+  <!--</div>-->
+  <!--<div *ngIf="selectedElement" class="row teal-text">-->
+    <!--<qddt-preview-controlconstruct-->
+      <!--[construct]="selectedElement">-->
+    <!--</qddt-preview-controlconstruct>-->
+  <!--</div>-->
+<!--</div>-->
+
+<!--<div [attr.id]="'create-construct-modal'" class="modal"-->
+  <!--materialize="modal" [materializeActions]="modalActions">-->
+  <!--<div class="modal-content">-->
+    <!--<div *ngIf="ccKindAsString === 'STATEMENT_CONSTRUCT'" class="row">-->
+      <!--<h4>Statement</h4>-->
+      <!--<qddt-statement-edit (element)="onSelectElement($event)"></qddt-statement-edit>-->
+    <!--</div>-->
+    <!--<div *ngIf="ccKindAsString === 'CONDITION_CONSTRUCT'" class="row">-->
+      <!--<h4>Condition</h4>-->
+      <!--<qddt-condition-edit (element)="onSelectElement($event)"></qddt-condition-edit>-->
+    <!--</div>-->
+  <!--</div>-->
+  <!--<div class="modal-footer">-->
+    <!--<button-->
+      <!--(click)="false"-->
+      <!--class="btn btn-default red modal-action modal-close waves-effect">-->
+      <!--<a><i class="close material-icons medium white-text">close</i></a>-->
+    <!--</button>-->
+  <!--</div>-->
+<!--</div>-->

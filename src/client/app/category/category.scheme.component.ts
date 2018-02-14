@@ -223,7 +223,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
     config.push({'name': 'description', 'label': 'Desc'});
     config.push({'name': ['children'], 'label': 'Cat', 'init': function (o: any) {
       if (o !== null && o !== undefined) {
-        return o.map(element => {return element['label'] || ''; }).sort().join(',');
+        return o.map((element: any) => {return element['label'] || ''; }).sort().join(',');
       }
       return '';
     }});

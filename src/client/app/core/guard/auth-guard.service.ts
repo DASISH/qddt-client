@@ -3,19 +3,24 @@ import { CanActivate, CanActivateChild,
          Router, Route,
          ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import {  UserService } from '../user/user.service';
+import { PropertyStoreService } from '../global/property.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild  {
 
-  constructor(private authService: UserService, private router: Router) {}
+  private menupath = ['survey','study','topic','concept'];
+
+  constructor(private authService: UserService, private router: Router, private property: PropertyStoreService) {}
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (!this.authService.isTokenExpired()) {
-      // this.authService.getRoles()
 
-      return true;
+      if (this.checkParent(next.url.toString()))
+        return true;
+      this.router.navigate(['home']);
     }
-    this.router.navigate(['/login'], { queryParams: { returnUrl: 'home' }});
+    console.info('isTokenExpired');
+    this.router.navigate(['login'], { queryParams: { returnUrl: 'home' }});
     return false;
   }
 
@@ -28,4 +33,17 @@ export class AuthGuard implements CanActivate, CanActivateChild  {
     return !this.authService.isTokenExpired();
   }
 
+  private checkParent(url:string): boolean {
+    const index = this.menupath.findIndex((e)=>e===url);
+    if (index === -1)
+      this.property.set('currentUrl',null);
+    else
+      this.property.set('currentUrl',url);
+
+    if(index>0) {
+      console.info(this.menupath[index-1] + ' ' + url);
+      return (this.property.get(this.menupath[index-1]));
+    }
+    return true;
+  }
 }

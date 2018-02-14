@@ -26,17 +26,17 @@ export class QuestionService  {
 
 
   getQuestionItemPage(page: String = '0'): Promise<any> {
-    return this.http.get(this.api +'questionitem/page' + '?&page=' + page + this.pageSize )
+    return this.http.get(this.api + 'questionitem/page' + '?&page=' + page + this.pageSize )
       .toPromise();
   }
 
   getquestion(id: string): Promise<any> {
-    return this.http.get(this.api +'questionitem/' + id)
+    return this.http.get(this.api + 'questionitem/' + id)
       .toPromise();
   }
 
   deleteQuestionItem(id: string): any {
-    return this.http.delete(this.api +'questionitem/delete/' + id);
+    return this.http.delete(this.api + 'questionitem/delete/' + id);
   }
 
   searchQuestionItems(name: string = '', page: String = '0', sort: String = ''): Promise<any> {
@@ -44,24 +44,24 @@ export class QuestionService  {
     if (sort.length > 0) {
       query += '&sort=' + sort;
     }
-    return this.http.get(this.api +'questionitem/page/search?' + 'page=' + page + this.pageSize + query)
+    return this.http.get(this.api + 'questionitem/page/search?' + 'page=' + page + this.pageSize + query)
       .toPromise();
   }
 
-  createQuestionItem(question: any): any {
-    return this.http.post(this.api +'questionitem/create',question);
+  createQuestionItem(question: any):  Observable<any> {
+    return this.http.post(this.api + 'questionitem/create', question);
   }
 
-  updateQuestionItem(questionItem: any): any {
-    return this.http.post(this.api +'questionitem',questionItem);
+  updateQuestionItem(questionItem: any):  Observable<any> {
+    return this.http.post(this.api + 'questionitem', questionItem);
   }
 
-  createCategory(category: any): any {
-    return this.http.post(this.api +'category/create/',category);
+  createCategory(category: any):  Observable<any> {
+    return this.http.post(this.api + 'category/create/', category);
   }
 
-  createResponseDomain(responseDomain: any): any {
-    return this.http.post(this.api + 'responsedomain',responseDomain);
+  createResponseDomain(responseDomain: any):  Observable<any> {
+    return this.http.post(this.api + 'responsedomain', responseDomain);
   }
 
 
@@ -70,7 +70,7 @@ export class QuestionService  {
     if (sort.length > 0) {
       query += '&sort=' + sort;
     }
-    return this.http.get(this.api +'category/page/search/?level=GROUP_ENTITY&category=' + categoryKind
+    return this.http.get(this.api + 'category/page/search/?level=GROUP_ENTITY&category=' + categoryKind
       + query + '&page=' + page + this.pageSize)
       .toPromise();
       // .catch(err => { throw Error(err.message);});
@@ -78,26 +78,26 @@ export class QuestionService  {
   }
 
   getResponseDomainsRevisions(id: string): Promise<any> {
-    return this.http.get(this.api +'audit/responsedomain/' + id + '/all')
+    return this.http.get(this.api + 'audit/responsedomain/' + id + '/all')
       .toPromise()
-      .catch(err => { throw Error(err.message);});
+      .catch(err => { throw Error(err.message); });
 
   }
 
   getQuestionItemRevisions(id: string): Promise<any> {
-    return this.http.get(this.api +'audit/questionitem/' + id + '/all')
+    return this.http.get(this.api + 'audit/questionitem/' + id + '/all')
       .toPromise();
   }
 
   getQuestionItemRevision(id: string, rev: string): Promise<any> {
-    return this.http.get(this.api +'audit/questionitem/' + id + '/' + rev)
+    return this.http.get(this.api + 'audit/questionitem/' + id + '/' + rev)
       .toPromise();
       // .catch(err => { throw Error(err.message);});
 
   }
 
   getControlConstructsByQuestionItem(id: string): Promise<any> {
-    return this.http.get(this.api +'controlconstruct/list/by-question/' + id)
+    return this.http.get(this.api + 'controlconstruct/list/by-question/' + id)
       .toPromise();
       // .catch(err => { throw Error(err.message);});
 
@@ -105,7 +105,7 @@ export class QuestionService  {
 
 
   getPdf(id: string): Observable<Blob> {
-    return this.http.get(this.api +'questionitem/pdf/' + id, {responseType: 'blob'});
+    return this.http.get(this.api + 'questionitem/pdf/' + id, {responseType: 'blob'});
 
   }
 }

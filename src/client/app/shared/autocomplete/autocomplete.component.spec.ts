@@ -44,11 +44,11 @@ export function main() {
 @Component({
   selector: 'test-cmp',
   template: `
-  <autocomplete
+  <auto-complete
     [items]="items"
     [searchField]="'label'"
     [initialValue]="''">
-  </autocomplete>
+  </auto-complete>
   `
 })
 class TestComponent {

@@ -18,11 +18,11 @@ import { Subject } from 'rxjs/Subject';
             [attr.for]="'domain-type-' + domain.id">{{ domain.label }}</label>
       </div></div>
       <div class="row">
-         <autocomplete
+         <auto-complete
            [items]="responseDomains"
-           [elementtype]="ResponseKind"
+           [elementtype]="RESPONSEKIND"
            (autocompleteSelectEvent)="selectResponseDomain($event)">
-         </autocomplete>
+         </auto-complete>
       </div>
    </div>
  </div>

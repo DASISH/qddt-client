@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { ElementTypeDescription, SequenceService, Sequence } from './sequence.service';
+import {  SequenceService, Statement } from './sequence.service';
 
 @Component({
   selector: 'qddt-statement-edit',
@@ -29,21 +29,18 @@ import { ElementTypeDescription, SequenceService, Sequence } from './sequence.se
     </button>
   </div>`,
   styles: [
-  ],
-  providers: [ SequenceService ],
+  ]
 })
 export class StatementEditComponent implements OnInit {
   @Output() element: any = new EventEmitter<any>();
   statement: any;
-  elementTypeDescription: any = ElementTypeDescription;
   elementId: string;
 
   constructor(private service: SequenceService) {
   }
 
   ngOnInit() {
-    this.statement = new Sequence();
-    this.statement.controlConstructKind = 'STATEMENT_CONSTRUCT';
+    this.statement = new Statement();
     this.elementId = new Date().toString();
   }
 
@@ -51,7 +48,10 @@ export class StatementEditComponent implements OnInit {
     this.service.create(this.statement)
       .subscribe((result: any) => {
         this.element.emit(result);
-      }, (error: any) => null);
+      }, (error) => {
+        throw error;
+      }
+    );
     return false;
   }
 

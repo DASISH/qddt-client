@@ -6,7 +6,6 @@ declare var Materialize: any;
 @Component({
    selector: 'qddt-study-edit',
    moduleId: module.id,
-
    template:
 `
 <div *ngIf="isVisible && study"  id="{{study.id}}"  >

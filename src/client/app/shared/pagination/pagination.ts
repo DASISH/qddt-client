@@ -30,7 +30,7 @@ import { Component, EventEmitter, Input, Output, OnChanges, ChangeDetectionStrat
           [ngStyle]="{'cursor': 'pointer'}"
           [class.disabled]="_isEllipsis(pageNumber)">
           <a *ngIf="_isEllipsis(pageNumber)" class="page-link">...</a>
-          <a *ngIf="!_isEllipsis(pageNumber)" class="page-link" (click)="selectPage(pageNumber)">{{pageNumber}}</a>
+          <a *ngIf="!_isEllipsis(pageNumber)" class="page-link" (click)="selectPage(pageNumber)">{{ pageNumber }}</a>
         </li>
 
         <li *ngIf="directionLinks" class="page-item" [class.disabled]="!hasNext()" [ngStyle]="{'cursor': 'pointer'}">
@@ -157,7 +157,7 @@ export class QddtPaginationComponent implements OnChanges {
   hasNext(): boolean { return this.page < this._pageCount; }
 
   selectPage(pageNumber: number): void {
-    let prevPageNo = this.page;
+    const prevPageNo = this.page;
     this._page = this._getPageNoInRange(pageNumber);
 
     if (this.page !== prevPageNo) {
@@ -228,8 +228,8 @@ export class QddtPaginationComponent implements OnChanges {
   private _applyRotation(): [number, number] {
     let start = 0;
     let end = this._pageCount;
-    let leftOffset = Math.floor(this._maxSize / 2);
-    let rightOffset = this._maxSize % 2 === 0 ? leftOffset - 1 : leftOffset;
+    const leftOffset = Math.floor(this._maxSize / 2);
+    const rightOffset = this._maxSize % 2 === 0 ? leftOffset - 1 : leftOffset;
 
     if (this._page <= leftOffset) {
       // very beginning, no rotation -> [0..maxSize]
@@ -250,9 +250,9 @@ export class QddtPaginationComponent implements OnChanges {
    * Paginates page numbers based on maxSize items per page
    */
   private _applyPagination(): [number, number] {
-    let page = Math.ceil(this._page / this._maxSize) - 1;
-    let start = page * this._maxSize;
-    let end = start + this._maxSize;
+    const page = Math.ceil(this._page / this._maxSize) - 1;
+    const start = page * this._maxSize;
+    const end = start + this._maxSize;
 
     return [start, end];
   }

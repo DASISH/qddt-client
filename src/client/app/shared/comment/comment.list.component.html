@@ -1,7 +1,7 @@
 <div class="row">
   <div *ngIf="comments" title="View Comment(s)">
     <a class="btn btn-flat btn-medium waves-effect waves-light teal white-text" (click)="toggleComments()">
-    <i class="material-icons left" >message</i>{{comments.length}} </a>
+    <i class="material-icons left" >message</i>{{ comments.length }} </a>
   </div>
   <div *ngIf="showComments">
     <div *ngIf="comments" class="card">
@@ -9,16 +9,17 @@
         <li class="collection-item avatar"
             *ngFor="let comment of comments; let idx=index;">
           <div *ngIf="showPrivate || comment.public ">
-            <img gravatar [email]="comment?.modifiedBy?.email" [size]="48" class="circle">
+            <!--<img gravatar [email]="comment?.modifiedBy?.email" [size]="48" class="circle">-->
+            <img class="circle" src="/assets/images/avatar-default.png" height="48" width="48"/>
             <span class="title" [style.color]="comment.public ? 'blue': 'grey'">
-              {{comment?.modifiedBy?.username}}@{{comment?.modifiedBy?.agency?.name}}
-              - {{comment?.modified|localDate }}
+             {{ comment?.modifiedBy?.username }}@{{ comment?.modifiedBy?.agency?.name }}
+              {{ comment?.modified|localDate }}
               <i *ngIf="comment.public" class="material-icons left tiny" title="This comment is visible for all">public</i>
             </span>
             <div class="row" *ngIf="!isEditComment || selectedCommentId !== idx">
               <br>
               <div class="col s9">
-                {{comment.comment}}
+               {{ comment.comment }}
               </div>
               <div class="col s3 right">
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"

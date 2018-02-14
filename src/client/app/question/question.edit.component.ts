@@ -6,7 +6,6 @@ import { ResponseDomain } from '../responsedomain/responsedomain.service';
 @Component({
   selector: 'qddt-questionitem-edit',
   moduleId: module.id,
-  providers: [QuestionService],
   styles: [
     ':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'
   ],

@@ -3,10 +3,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { PropertyStoreService, HIERARCHY_POSITION } from '../core/global/property.service';
 import { UserService } from '../core/user/user.service';
-import { SurveyProgram } from '../home/survey/survey.service';
-import { Study } from '../home/study/study.service';
-import { Topic } from '../home/topic/topic.service';
-import { Concept } from '../home/concept/concept.service';
+
 
 declare var $: any;
 
@@ -28,7 +25,7 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(private auth: UserService, private property: PropertyStoreService,
               private router: Router,) {
     this.username = this.getUserName();
-    this.loggedIn = this.isLoggedIn();
+    this.loggedIn = !this.auth.isTokenExpired();
   }
 
   ngOnInit() {
@@ -42,7 +39,7 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
       item => {
         console.log('changed -> ' + item);
         this.username = this.getUserName();
-        this.loggedIn = this.isLoggedIn();
+        this.loggedIn = !this.auth.isTokenExpired();
       }
       ,(error:any) => console.error(error.toString())
     );
@@ -76,12 +73,16 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
     return 'NOT LOGGED IN';
   }
 
-  isLoggedIn() : boolean {
-    return !this.auth.isTokenExpired();
-  }
-
   logoutEvent() {
     this.auth.logout();
+  }
+
+  doRegister() {
+    this.router.navigate(['register']);
+  }
+
+  doResetPassword() {
+    //TODO implement ResetPassword
   }
 
   onSurvey() {
@@ -98,19 +99,6 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   }
   onConcept() {
     this.router.navigate(['concept']);
-  }
-
-  getSurvey(): SurveyProgram {
-    return this.property.get('survey') || new SurveyProgram() ;
-  }
-  getStudy(): Study {
-    return this.property.get('study') || new Study();
-  }
-  getTopic(): Topic {
-    return this.property.get('topic') || new Topic();
-  }
-  getConcept(): Concept {
-    return this.property.get('concept') || new Concept();
   }
 
   clearAll() {

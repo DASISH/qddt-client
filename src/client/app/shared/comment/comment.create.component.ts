@@ -47,7 +47,7 @@ export class CommentCreateComponent {
       this.addedCommentEvent.emit(result);
         this.comment = new Comment();
       }
-    , (err:any) => {
+    , (err: any) => {
       this.comment = new Comment();
       this.addedCommentEvent.emit(null);
       throw err;

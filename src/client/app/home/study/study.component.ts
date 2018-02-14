@@ -36,6 +36,9 @@ export class StudyComponent implements OnInit {
   }
 
   onShowTopic(study: any) {
+    const prevStudy = this.property.get('study');
+    if (!prevStudy || prevStudy.id !== study.id)
+      this.property.set('topics',null);
     this.property.set('study',study);
     this.property.setCurrent(HIERARCHY_POSITION.Study,study.name);
     this.router.navigate(['topic']);

@@ -9,7 +9,7 @@ import { Component, Input } from '@angular/core';
   template: `
     <ul [ngClass]="{ 'toc-children': (level > 0) }" *ngFor="let concept of concepts">
       <li>
-        <a *ngIf="concept.name" href="home#{{concept.id}}">
+        <a *ngIf="concept.name" href="concept#{{concept.id}}">
           <span *ngIf="level > 0" class=" blue-grey-text" [ngClass]="'text-lighten-' + level">{{ concept.name }}</span>
           <span *ngIf="level === 0" class=" blue-grey-text" [ngClass]="'text-lighten-' + level"><b>{{ concept.name }}</b></span>
         </a>

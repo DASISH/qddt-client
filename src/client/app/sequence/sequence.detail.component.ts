@@ -1,54 +1,73 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { SequenceService, Sequence } from './sequence.service';
+import { ElementKind } from '../preview/preview.service';
+const saveAs = require('file-saver');
 
 @Component({
   selector: 'qddt-sequence-detail',
   moduleId: module.id,
   templateUrl: './sequence.detail.component.html',
-  providers: [ SequenceService ],
 })
 
 export class SequenceDetailComponent implements OnInit {
-  @Input() sequence: Sequence;
   @Input() sequences: Sequence[];
+  @Input() sequence: Sequence;
   @Input() isVisible: boolean;
   @Output() hideDetailEvent: EventEmitter<String> = new EventEmitter<String>();
-  sequenceActions = new EventEmitter<any>();
+
+  private readonly revisionKind = ElementKind.SEQUENCE_CONSTRUCT;
   private revisionIsVisible: boolean;
-  private savedObject: string;
-  private savedSequencesIndex: number;
+  private previewObject: any;
 
   constructor(private service: SequenceService) {
     this.revisionIsVisible = false;
   }
 
   ngOnInit() {
-    if (this.sequences === null || this.sequences === undefined) {
+    if (!this.sequences) {
       this.sequences = [];
     }
-    this.savedObject = JSON.stringify(this.sequence);
-    this.savedSequencesIndex = this.sequences
-      .findIndex(q => q['id'] === this.sequence['id']);
   }
 
   hideDetail() {
     this.hideDetailEvent.emit('hide');
   }
 
-  onUpdateSequence() {
-    this.service.update(this.sequence).subscribe((result: any) => {
-      const index = this.sequences.findIndex((e: any) => e.id === result.id);
-      if (index >= 0) {
-        this.sequences[index] = result;
-      } else if (this.savedSequencesIndex >= 0) {
-        this.sequences[this.savedSequencesIndex] = JSON.parse(this.savedObject);
-        this.sequences.push(result);
-      }
-        this.hideDetail();
+  sequenceSavedEvent(sequence: Sequence) {
+    if (sequence !== null) {
+      let sequences = this.sequences.filter((q) => q.id !== sequence.id);
+      sequences.push(sequence);
+      this.sequences = sequences;
+    }
+  }
+
+  onShowRevision(element: any) {
+    this.previewObject = element;
+  }
+
+  getPdf(element: Sequence) {
+    const fileName = element.name + '.pdf';
+    this.service.getPdf(element.id).subscribe(
+      (data: any) => {
+        saveAs(data, fileName);
       });
   }
 
-  onGetElement(element: any) {
-    this.sequence.children.push(element);
+  onDeleteSequence() {
+    // TODO implement DeleteSequence
   }
+    // this.service.(this.category.id)
+    //   .subscribe(() => {
+    //       const i = this.categories.findIndex(q => q['id'] === this.category.id);
+    //       if (i >= 0) {
+    //         this.categories.splice(i, 1);
+    //         this.hideDetail();
+    //       }
+    //     },
+    //     (error: any) => console.log(error));
+
+  // hideDetail() {
+  //   this.hideDetailEvent.emit('hide');
+  // }
+
 }

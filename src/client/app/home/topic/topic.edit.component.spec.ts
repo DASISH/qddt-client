@@ -1,7 +1,5 @@
 import { Component, Input, } from '@angular/core';
-import { BaseRequestOptions, Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { TopicService } from './topic.service';
@@ -18,14 +16,7 @@ export function main() {
       TestBed.configureTestingModule({
         declarations: [RevisionDetailComponent, RationalComponent, TopicEditComponent],
         providers: [
-          MockBackend,
-          BaseRequestOptions,
           { provide: TopicService, useClass: TopicServiceSpy },
-          {
-            provide: Http,
-            useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),
-            deps: [MockBackend, BaseRequestOptions]
-          },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'

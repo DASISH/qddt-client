@@ -22,14 +22,14 @@
       <h5 class="row">
         <div class="col s10">{{ concept?.name }}</div>
         <div class="col s2">
-          <qddt-version-label [element]="concept"></qddt-version-label>
+          <qddt-version-label class="right" [element]="concept"></qddt-version-label>
         </div>
       </h5>
     </div>
 
     <div class="col s11  white grey-text text-darken-1">
       <div class="row" *ngIf="!edit.isVisible">
-        <div [innerHtml]="concept?.description" style="white-space: pre-wrap; padding-right: 35pt;" ></div>
+        <p>{{concept?.description}}</p>
         <qddt-author-chip [authors]="concept.authors" ></qddt-author-chip>
       </div>
       <div *ngIf="showConceptChildForm">
@@ -67,7 +67,7 @@
         [config]="[{'name':'name','label':'Name'},{'name':'description','label':'Description'}]"
         (requestPreview)="onShowRevision($event)">
       </qddt-revision>
-      <qddt-preview-dialog *ngIf = "edit.showRevision"
+      <qddt-preview-dialog *ngIf = "edit.showRevision" id="concept-rev-{{edit.id}}"
          [basedonObject]="revision" [elementKind] = "revisionKind">
       </qddt-preview-dialog>
 

@@ -4,9 +4,9 @@ import { TestBed, async } from '@angular/core/testing';
 import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
-import { SequenceService } from './sequence.service';
+import { SequenceService } from '../sequence.service';
 import { ConditionEditComponent } from '../edit/condition.edit.component';
-import { API_BASE_HREF } from '../api';
+import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';

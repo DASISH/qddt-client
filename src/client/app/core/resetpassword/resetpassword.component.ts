@@ -3,6 +3,7 @@ import { UserService } from '../user/user.service';
 
 @Component({
   selector: 'app-resetpassword',
+  moduleId: module.id,
   templateUrl: './resetpassword.component.html',
   styleUrls: ['./resetpassword.component.css']
 })
@@ -12,6 +13,7 @@ export class ResetpasswordComponent implements OnInit {
   }
 
   ngOnInit() {
+    // TODO ?
   }
 
   register() {

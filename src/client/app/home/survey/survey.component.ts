@@ -1,8 +1,8 @@
 import { Component,  OnInit } from '@angular/core';
-import { SurveyService, SurveyProgram } from './survey.service';
 import { Router } from '@angular/router';
+import { SurveyService, SurveyProgram } from './survey.service';
 import { ElementKind } from '../../preview/preview.service';
-import { PropertyStoreService ,HIERARCHY_POSITION } from '../../core/global/property.service';
+import { PropertyStoreService , HIERARCHY_POSITION } from '../../core/global/property.service';
 
 const saveAs = require('file-saver');
 
@@ -18,16 +18,17 @@ export class SurveyComponent implements OnInit {
   private revision: any;
   private readonly revisionKind = ElementKind.SURVEY;
 
-  constructor(private surveyService: SurveyService,private router: Router, private property: PropertyStoreService) {
+  constructor(private surveyService: SurveyService, private router: Router, private property: PropertyStoreService) {
     this.survey = new SurveyProgram();
   }
 
   ngOnInit() {
     this.surveys = this.property.get('surveys');
-    if(!this.surveys)
+    if (!this.surveys)
       this.surveyService.getAll()
         .then(
-          (data: Array<SurveyProgram> )=>this.surveys = data
+          (data: Array<SurveyProgram> ) =>
+            this.property.set('surveys', this.surveys = data)
         );
   }
 
@@ -36,12 +37,12 @@ export class SurveyComponent implements OnInit {
     if (surveyProgram !== null) {
       this.surveys = this.surveys.filter((q) => q.id !== surveyProgram.id);
       this.surveys.push(surveyProgram);
-      // surveyProgram['isVisible'] = false;
+      this.property.set('surveys', this.surveys);
     }
   }
 
   onShowStudy(surveyProgram: any) {
-    this.property.set('survey',surveyProgram);
+    this.property.set('survey', surveyProgram);
     this.property.setCurrent(HIERARCHY_POSITION.Survey, surveyProgram.name);
     this.router.navigate(['study']);
   }

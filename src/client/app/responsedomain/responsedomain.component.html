@@ -41,8 +41,7 @@
 	</div>
 
   <div class="row" *ngIf="isEditFormVisible">
-
-  <div id="{{selectedResponseDomain?.id}}" class="scrollspy">
+    <div id="{{selectedResponseDomain?.id}}" class="scrollspy">
 
     <div class="fixed-action-btn vertical click-to-toggle">
       <a class="btn-floating btn-large cyan"><i class="large material-icons">menu</i></a>
@@ -70,7 +69,7 @@
     </div>
 
     <div class="col s2">
-      <qddt-version-label [element]="selectedResponseDomain"></qddt-version-label>
+      <qddt-version-label class="right" [element]="selectedResponseDomain"></qddt-version-label>
     </div>
 
     <div class="col s10  white grey-text">
@@ -96,7 +95,7 @@
 
       </div>
   </div>
-</div>
+  </div>
 
 </div>
 
@@ -120,17 +119,3 @@
   </div>
 </div>
 
-<div class="modal" materialize="modal" [materializeActions]="errorAction">
-  <div class="modal-content">
-    <div class="row">
-      <h4>Message</h4>
-      <span>{{ error }}</span>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button
-      class="btn btn-default red modal-action modal-close waves-effect">
-      <a><i class="close material-icons medium white-text">close</i></a>
-    </button>
-  </div>
-</div>

@@ -1,27 +1,46 @@
 import { Injectable, Inject } from '@angular/core';
-import { API_BASE_HREF } from '../api';
 import { HttpClient } from '@angular/common/http';
+import { API_BASE_HREF } from '../api';
 import { Observable } from 'rxjs/Observable';
+import { ElementKind, QddtElement, QddtElements } from '../preview/preview.service';
 
-export const ElementTypeDescription = [
-  { id: 0, name: 'SEQUENCE_CONSTRUCT', label: 'Sequence' },
-  { id: 1, name: 'QUESTION_CONSTRUCT', label: 'Question construct' },
-  { id: 2, name: 'STATEMENT_CONSTRUCT', label: 'Statement' },
-  { id: 3, name: 'CONDITION_CONSTRUCT', label: 'Condition' }
+
+export const ElementTypeDescription: QddtElement[] = [
+  QddtElements[ElementKind.QUESTION_CONSTRUCT],
+  QddtElements[ElementKind.STATEMENT_CONSTRUCT],
+  QddtElements[ElementKind.CONDITION_CONSTRUCT],
+  QddtElements[ElementKind.SEQUENCE_CONSTRUCT]
 ];
+
+export enum SequenceKind {
+  NA,
+  QUESTIONNAIRE,
+  SECTION,
+  BATTERY,
+  UNIVERSE
+}
+
+export enum ControlConstructKind {
+  QUESTION_CONSTRUCT,
+  STATEMENT_CONSTRUCT,
+  CONDITION_CONSTRUCT,
+  SEQUENCE_CONSTRUCT
+}
 
 export class Sequence {
   id: string;
   name: string;
   description: string;
   children: any[];
-  sequence: any;
+  sequence: SequenceKind;
+  controlConstructKind= ControlConstructKind.SEQUENCE_CONSTRUCT;
 }
 
 export class Statement {
   id: string;
   name: string;
-  Text: string;
+  description: string;
+  controlConstructKind= ControlConstructKind.STATEMENT_CONSTRUCT;
 }
 
 export class ConditionCommand {
@@ -34,8 +53,10 @@ export class ConditionCommand {
 export class Condition {
   id: string;
   name: string;
-  ifCondition: any;
-  elseConditions: any[];
+  condition: string;
+  ifCondition: ConditionCommand;
+  elseConditions: ConditionCommand[];
+  controlConstructKind= ControlConstructKind.CONDITION_CONSTRUCT;
 }
 
 @Injectable()
@@ -43,15 +64,16 @@ export class SequenceService {
 
   constructor(protected http: HttpClient,  @Inject(API_BASE_HREF) protected api: string) { }
 
-  create(sequence: Sequence): Observable<any> {
-    return this.http.post( this.api +'controlconstruct/create',sequence);
+  public create(sequence: any): Observable<any> {
+    return this.http.post( this.api + 'controlconstruct/create', sequence);
   }
 
-  update(sequence: Sequence): Observable<any> {
+  public update(sequence: any): Observable<any> {
     return this.http.post(this.api + 'controlconstruct/', sequence);
   }
 
-  getElements(elementType: string, name: string, page: string = '0', sort: string = ''): Promise<any> {
+
+  public getElements(ccKind: ControlConstructKind, name: string, page: string = '0', sort: string = ''): Promise<any> {
     let query = '';
     if (name.length > 0) {
       query = '&name=*' + name + '*' + '&questiontext=*' + name + '*';
@@ -62,8 +84,20 @@ export class SequenceService {
     if (sort.length > 0) {
       query += '&sort=' + sort;
     }
-    return this.http.get(this.api +'controlconstruct/page/search?constructkind=' + elementType + query)
+    return this.http.get(this.api + 'controlconstruct/page/search?constructkind=' + ControlConstructKind[ccKind] + query)
       .toPromise();
+  }
+
+  public getPdf(id: string): Observable<Blob> {
+    return this.http.get(this.api + 'controlconstruct/pdf/' + id, {responseType: 'blob'});
+
+  }
+
+  public getQddtElementFromStr(kind: string): QddtElement {
+    const element: any = ElementTypeDescription.find(e => ElementKind[e.id] === kind);
+    if (!element)
+      throw Error('Couldn\'t find kind ' + kind);
+    return element;
   }
 
 }

@@ -25,12 +25,12 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(TestComponent);
+            const fixture = TestBed.createComponent(TestComponent);
             fixture.detectChanges();
-            let ins: any = fixture.debugElement.queryAll(By.css('ins'));
+            const ins: any = fixture.debugElement.queryAll(By.css('ins'));
             expect(ins.length).toBeGreaterThan(0);
             expect(ins[0].nativeElement.textContent).toBe('2');
-            let del: any = fixture.debugElement.queryAll(By.css('del'));
+            const del: any = fixture.debugElement.queryAll(By.css('del'));
             expect(del.length).toBeGreaterThan(0);
             expect(del[0].nativeElement.textContent).toBe('1');
           });
@@ -53,7 +53,7 @@ class TestComponent {
   compared: any = {'name': 'test1', 'label': 'test1', version: {major: 1, minor: 0}};
   current: any = {'name': 'test12', 'label': 'test', version: {major: 2, minor: 0}};
   config: any[] = [
-    {'name':'label','label':'Label'},
-    {'name':'name','label':'Name'}
+    {'name': 'label', 'label': 'Label'},
+    {'name': 'name', 'label': 'Name'}
   ];
 }

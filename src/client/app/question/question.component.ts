@@ -11,7 +11,6 @@ import { PropertyStoreService } from '../core/global/property.service';
   moduleId: module.id,
   templateUrl: './question.component.html',
   styles: [':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'],
-  providers: [QuestionService]
 })
 
 export class QuestionComponent implements AfterContentChecked, OnInit {
@@ -43,9 +42,9 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
     this.secondCS = null;
     this.mainresponseDomainRevision = 0;
     this.showbutton = false;
-    this.columns = [{'name': 'name', 'label': 'Question Name', 'sortable': true, 'direction': '' },
+    this.columns = [{'name': 'name', 'label': 'Name', 'sortable': true, 'direction': '' },
       {'name': 'question', 'label': 'Question Text', 'sortable': true, 'direction': '' },
-      {'name': ['responseDomain', 'name'], 'label': 'ResponseDomain Name', 'sortable': true, 'direction': '' },
+      {'name': ['responseDomain', 'name'], 'label': 'ResponseDomain', 'sortable': true, 'direction': '' },
       { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' }];
     this.searchKeysSubect
       .debounceTime(300)

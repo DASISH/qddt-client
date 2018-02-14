@@ -12,7 +12,7 @@
 			  [ngClass]="{ active: (idx === selectedIndex) }"
 			  (mouseover)="selectedIndex=idx;"
         (mousedown)="select(candidate)">
-      {{getLabel(candidate)}}
+      {{ getLabel(candidate) }}
 		</li>
 	</ul>
 </div>

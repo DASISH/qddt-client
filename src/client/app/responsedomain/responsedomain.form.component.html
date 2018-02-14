@@ -85,14 +85,14 @@
                   <td>
                     <div
                       [ngClass]="{ noItemFound: (category.isNew && category.label.length > 0 && categories.length === 0) }">
-                      <autocomplete class="grey-text"
+                      <auto-complete class="grey-text"
                         [items]="categories"
                         [initialValue]="category?.label"
                         [elementtype]="CATEGORY_KIND"
                         (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
                         (autocompleteSelectEvent)="select($event)"
                         (enterEvent)="searchCategories($event)">
-                      </autocomplete>
+                      </auto-complete>
                     </div>
                   </td>
                 </tr>
@@ -134,14 +134,14 @@
 									  [(ngModel)]="category.code.codeValue" required></td>
 									<td width="50%">
 										<div [ngClass]="{ noItemFound: (category.isNew && category.label.length > 0 && categories.length === 0) }">
-										  <autocomplete class="grey-text"
+										  <auto-complete class="grey-text"
                         [items]="categories"
                         [elementtype]="CATEGORY_KIND"
                         (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
                         [initialValue]="category?.label"
 												(enterEvent)="searchCategories($event)"
                         (autocompleteSelectEvent)="select($event)">
-											</autocomplete>
+											</auto-complete>
 										</div>
 									</td>
 									<td>

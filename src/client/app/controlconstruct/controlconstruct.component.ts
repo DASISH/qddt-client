@@ -117,7 +117,7 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
     }
   }
 
-  onAddInstruction(instruction) {
+  onAddInstruction(instruction: Instruction) {
     if (this.isInstructionAfter) {
       this.controlConstruct.postInstructions.push(instruction);
     } else {

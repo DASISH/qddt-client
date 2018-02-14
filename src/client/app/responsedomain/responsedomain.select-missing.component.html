@@ -17,13 +17,13 @@
     <form (ngSubmit)="onSave()" #missingForm="ngForm">
       <div class="modal-content minHeight">
         <div class="row">
-          <autocomplete
+          <auto-complete
             [items]="missingGroups" class="black-text"
             [elementtype]="CATEGORY_KIND"
             (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
             (enterEvent)="searchMissingCategories($event)"
             (autocompleteSelectEvent)="setMissing($event)">
-          </autocomplete>
+          </auto-complete>
         </div>
         <table *ngIf="getMissing()">
           <thead><tr><td>Code</td><td>Category</td></tr></thead>

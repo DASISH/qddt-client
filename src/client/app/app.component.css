@@ -3,7 +3,7 @@
   header,
   main,
   footer {
-    padding-left: 0px;
+    padding-left: 1px;
   }
 }
 
@@ -23,6 +23,8 @@
 }
 
 p {
+  text-align: justify;
+  text-justify: inter-word;
   white-space: pre-wrap;
 }
 
@@ -42,3 +44,9 @@ p {
   z-index: 999;
   will-change: width, height;
 }
+
+/*.collapsible-header .row {*/
+  /*white-space: nowrap;*/
+  /*overflow: hidden;*/
+  /*text-overflow: ellipsis;*/
+/*}*/

@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angu
 import { QddtElement } from '../../preview/preview.service';
 
 @Component({
-  selector: 'autocomplete',
+  selector: 'auto-complete',
   moduleId: module.id,
   templateUrl: './autocomplete.component.html',
   styleUrls: ['./autocomplete.component.css'],

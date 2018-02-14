@@ -11,13 +11,13 @@ import { ElementKind, QddtElements } from '../preview/preview.service';
   <div class="col s10 black-text">
     <label>Description</label>
     <div [ngClass]="{ noItemFound: (isUniverseNew && universe.description.length > 0 && universe.length === 0) }">
-    <autocomplete
+    <auto-complete
       [items]="universes" class="black-text"
       [elementtype]="UNIVERSE"
       [initialValue]="universe?.description"
       (autocompleteSelectEvent)="onSelectUniverse($event)"
       (enterEvent)="onSearchUniverses($event)">
-    </autocomplete>
+    </auto-complete>
   </div>
   </div>
   <div class="col s2 right">

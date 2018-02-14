@@ -1,11 +1,11 @@
 import { Component, EventEmitter,  OnInit } from '@angular/core';
 import { ActivatedRoute,  Router } from '@angular/router';
-import 'rxjs/add/operator/switchMap';
 import { MaterializeAction } from 'angular2-materialize';
+import 'rxjs/add/operator/switchMap';
+import { HIERARCHY_POSITION, PropertyStoreService } from '../../core/global/property.service';
+import { Study } from '../study/study.service';
 import { TopicService, Topic } from './topic.service';
 import { QuestionItem } from '../../question/question.service';
-import { Study } from '../study/study.service';
-import { HIERARCHY_POSITION, PropertyStoreService } from '../../core/global/property.service';
 import { ElementKind } from '../../preview/preview.service';
 
 const saveAs = require('file-saver');
@@ -37,20 +37,27 @@ export class TopicComponent implements  OnInit {
   private questionItem: QuestionItem;
 
   constructor(private router: Router, private route: ActivatedRoute,
-              private topicService: TopicService,private property: PropertyStoreService) {
+              private topicService: TopicService, private property: PropertyStoreService) {
     this.newTopic = new Topic();
   }
 
   ngOnInit(): void {
     this.study = this.property.get('study');
-    this.topicService.getAll(this.study.id).then((result) =>this.topics = result);
+    this.topics = this.property.get('topics');
+    if (!this.topics) {
+      this.topicService.getAll(this.study.id)
+        .then((result) => {
+          this.topics = result;
+          this.property.set('topics', this.topics);
+        });
+    }
   }
 
   showPreview(topic: any) {
     this.revision = topic;
   }
 
-  onToggleConceptForm() {
+  onToggleTopicForm() {
     this.showTopicForm = !this.showTopicForm;
     if (this.showTopicForm)
       this.showReuse = false;
@@ -58,19 +65,22 @@ export class TopicComponent implements  OnInit {
 
   onToggleReuse() {
     this.showReuse = !this.showReuse;
-    if(this.showReuse)
+    if (this.showReuse)
       this.showTopicForm = false;
   }
 
-  onSelectedRevsion(topic:Topic) {
+  onSelectedRevsion(topic: Topic) {
     this.showReuse = false;
     this.onTopicSavedEvent(topic);
   }
 
   onSelectTopic(topic: any) {
-    this.property.set('topic',topic);
-    this.property.setCurrent(HIERARCHY_POSITION.Topic,topic.name);
-    this.property.setCurrent(HIERARCHY_POSITION.Concept,'Concept');
+    const prevTopic = this.property.get('topic');
+    if (!prevTopic || prevTopic.id !== topic.id)
+      this.property.set('concepts', null);
+    this.property.set('topic', topic);
+    this.property.setCurrent(HIERARCHY_POSITION.Topic, topic.name);
+    this.property.setCurrent(HIERARCHY_POSITION.Concept, 'Concept');
     this.router.navigate(['concept']);
   }
 
@@ -78,8 +88,9 @@ export class TopicComponent implements  OnInit {
     if (topic !== null) {
       const index = this.topics.findIndex((q) => q.id === topic.id);
       if (index >= 0)
-        this.topics.splice(index,1);
+        this.topics.splice(index, 1);
       this.topics.push(topic);
+      this.property.set('topics', this.topics);
     }
   }
 
@@ -123,24 +134,9 @@ export class TopicComponent implements  OnInit {
       this.topicService.deleteTopic(topicId)
         .subscribe(() => {
             this.topics = this.topics.filter((s: any) => s.id !== topicId);
+            this.property.set('topics', this.topics);
           });
     }
   }
 
-  // private buildRevisionConfig(): any[] {
-  //   const config: any[] = [];
-  //   config.push({'name': 'name', 'label': 'Name'});
-  //   config.push({'name': 'description', 'label': 'Description'});
-  //   config.push({'name': ['otherMaterials'], 'label': 'Files', 'init': function (o: any) {
-  //     if (o !== null && o !== undefined) {
-  //       return o.map(element => {return element['originalName'] || ''; }).sort().join(',');
-  //     }
-  //     return '';
-  //   }});
-  //   return config;
-  // }
-
-  // private isBlank(str: any): boolean {
-  //   return (!str || /^\s*$/.test(str));
-  // }
 }

@@ -138,7 +138,6 @@ export class RationalComponent implements OnInit {
   @Input() element: any;
   @Input() formName: string;
   @Input() config: any;
-  // private showbutton: boolean = true;
   private _RationalIndex: number;
   private _Rational2Index: number;
   private saveOptionIndex: number;

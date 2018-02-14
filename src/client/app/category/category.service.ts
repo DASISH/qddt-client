@@ -44,6 +44,7 @@ export class Category {
 
 @Injectable()
 export class CategoryService  {
+  readonly pageSize = '&size=10';
 
   constructor(protected http: HttpClient,  @Inject(API_BASE_HREF) protected api: string) {
     //super(http, auth , api);
@@ -54,7 +55,7 @@ export class CategoryService  {
   }
 
   edit(category: Category):  Observable<any> {
-    return this.http.post(this.api+ 'category/',category);
+    return this.http.post(this.api + 'category/', category);
   }
 
   deleteCategory(categoryId: string): any {
@@ -62,15 +63,15 @@ export class CategoryService  {
   }
 
   getAll(): any {
-    return this.http.get(this.api +'category/page/search/?level=ENTITY').toPromise();
+    return this.http.get(this.api + 'category/page/search/?level=ENTITY'+ this.pageSize).toPromise();
   }
 
   getByCategoryKind(categoryKind: String, name: String = '*',  page: String = '0', sort: String = ''): Promise<any>  {
-    let query = 'level=ENTITY&category=' + categoryKind + '&name=' + name +  '&page=' + page;
+    let query = 'level=ENTITY&category=' + categoryKind + '&name=' + name +  '&page=' + page + this.pageSize;
     if (sort.length > 0) {
       query += '&sort=' + sort;
     }
-    return this.http.get(this.api+ 'category/page/search/?' + query).toPromise();
+    return this.http.get(this.api + 'category/page/search/?' + query).toPromise();
   }
 
   getAllByLevel(level: String, name: String = '', sort: String = ''):  Promise<any> {
@@ -87,7 +88,7 @@ export class CategoryService  {
     if (sort.length > 0) {
       query += '&sort=' + sort;
     }
-    return this.http.get(this.api +'category/page/search/?level=' + level + query + '&page=' + page)
+    return this.http.get(this.api + 'category/page/search/?level=' + level + query + '&page=' + page + this.pageSize)
     .toPromise();
   }
 
@@ -96,7 +97,8 @@ export class CategoryService  {
     if (sort.length > 0) {
       query += '&sort=' + sort;
     }
-    return this.http.get(this.api + 'category/page/search/?level=GROUP_ENTITY&category=' + categoryKind + query + '&page=' + page)
+    return this.http.get(this.api + 'category/page/search/?level=GROUP_ENTITY&category=' + categoryKind + query + '&page=' + page
+      + this.pageSize)
     .toPromise();
   }
 }

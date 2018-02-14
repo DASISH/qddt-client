@@ -25,9 +25,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(QddtTableComponent);
+            const fixture = TestBed.createComponent(QddtTableComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('input'));
+            const de: any = fixture.debugElement.queryAll(By.css('input'));
             expect(de.length).toBeGreaterThan(0);
           });
       }));
@@ -37,9 +37,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(TestComponent);
+            const fixture = TestBed.createComponent(TestComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('input'));
+            const de: any = fixture.debugElement.queryAll(By.css('input'));
             expect(de.length).toBeGreaterThan(0);
           });
       }));

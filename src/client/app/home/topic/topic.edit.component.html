@@ -80,7 +80,7 @@
 
       <qddt-element-footer [element]="topic" [type]="'TOPIC_GROUP'" (basedonObjectDetail)="getBasedOn($event)" >
       </qddt-element-footer>
-      <qddt-preview-dialog id="sdfgsdgdf" [elementRef]="basedonRef" ></qddt-preview-dialog>
+      <qddt-preview-dialog id="topicpreview-{{topic.id}}" [elementRef]="basedonRef" ></qddt-preview-dialog>
 
       <div class="row right-align">
         <button type="submit" class="btn btn-default" [disabled]="!topicForm.form.valid" >Submit</button>

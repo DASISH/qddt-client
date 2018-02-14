@@ -9,12 +9,12 @@
       <div *ngIf="reuseQuestionItem">
         <h3 class="teal-text ">Reuse Question Item</h3>
         <div class="row black-text">
-          <autocomplete [items]="questionItems"
+          <auto-complete [items]="questionItems"
                         [elementtype]="QUESTION_KIND"
                         (autocompleteFocusEvent)="selectedIndex=idx;"
                         (enterEvent)="searchQuestionItems($event)"
                         (autocompleteSelectEvent)="selectQuestionItem($event)">
-          </autocomplete>
+          </auto-complete>
         </div>
       </div>
     </form>

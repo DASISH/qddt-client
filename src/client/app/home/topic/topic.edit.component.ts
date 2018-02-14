@@ -1,7 +1,6 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { TopicService, Topic } from './topic.service';
-import { Observable }     from 'rxjs/Observable';
-import { ElementKind } from '../../preview/preview.service';
+import { Observable } from 'rxjs/Observable';
 
 const saveAs = require('file-saver');
 
@@ -116,7 +115,7 @@ export class TopicEditComponent  {
       });
   }
 
-  getBasedOn(ref:any) {
+  getBasedOn(ref: any) {
     this.basedonRef = ref;
   }
 

@@ -8,7 +8,6 @@ import { ElementKind, QddtElement, QddtElements } from '../preview/preview.servi
   selector: 'qddt-questionitem-reuse',
   moduleId: module.id,
   templateUrl: './question.reuse.component.html',
-  providers: [QuestionService]
 })
 export class QuestionReuseComponent {
   @Input() parentId: string;

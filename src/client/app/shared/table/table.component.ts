@@ -4,7 +4,8 @@ import { Column } from './table.service';
 @Component({
   selector: 'qddt-table',
   styles: [':host /deep/ i.left  { margin-right: 0px; }',
-    'td, td div {  overflow:hidden; text-overflow: ellipsis; }',
+    'th { white-space: nowrap;}',
+    'td, td div { max-width: 400px;  white-space: nowrap;  overflow: hidden; text-overflow: ellipsis;}',
     'table { table-layout:auto;}'],
   moduleId: module.id,
   templateUrl: './table.component.html',

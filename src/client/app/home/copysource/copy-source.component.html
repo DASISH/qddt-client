@@ -1,16 +1,15 @@
 <div class="card row white-text" style=" margin-right: 15px; padding-left: 10px;">
 <form #hf="ngForm">
-    <h3 class="teal-text ">Reuse {{getElementClass(elementKind).label}}</h3>
+    <h3 class="teal-text ">Reuse {{ getElementClass(elementKind).label }}</h3>
     <div class="row black-text">
-      <autocomplete [items]="items"
+      <auto-complete [items]="items"
                     [elementtype]="getElementClass(elementKind)"
                     (autocompleteFocusEvent)="selectedIndex=idx;"
                     (enterEvent)="onSearchItems($event)"
                     (autocompleteSelectEvent)="onSelectItem($event)">
-      </autocomplete>
+      </auto-complete>
     </div>
 </form>
-<div class="row teal-text"> {{selectedElement?.name}}</div>
 <div class="row" *ngIf="selectedElement && parentId">
   <div class="col s11 grey-text text-darken-2">
     <div *ngIf="selectedElement">
@@ -25,6 +24,7 @@
             <option *ngFor="let revision of elementRevisions"
                     [selected]="revision.revisionNumber === elementRevision"
                     [value]="revision.revisionNumber">{{ revision?.entity?.version?.major }}.{{ revision?.entity?.version?.minor }}
+                    {{ revision?.entity?.version?.versionLabel}}
             </option>
           </select>
         </div>
@@ -33,10 +33,9 @@
           <a class="waves-effect waves-light btn green right" (click)="onUseElement()">Use this</a>
         </div>
       </div>
-      <div class="row">
-        <qddt-preview-element [element]="selectedElement" [elementKind]="elementKind"></qddt-preview-element>
-
-      </div>
+      <div class="row teal-text">Name</div>
+      <div class="row"> {{ selectedElement?.name }}</div>
+      <qddt-preview-element [element]="selectedElement" [elementKind]="elementKind"></qddt-preview-element>
     </div>
   </div>
 </div>

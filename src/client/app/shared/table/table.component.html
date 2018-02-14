@@ -13,9 +13,10 @@
       <thead>
         <tr>
           <!--<th>Detail</th>-->
-          <th *ngFor="let column of columns" >{{ column.label }}
-            <span *ngIf="column.sortable" (click)="sortRows(column)" [ngStyle]="{'cursor': 'pointer'}">{{ directionSign[column.direction] }}
+          <th *ngFor="let column of columns" >
+            <span *ngIf="column.sortable" (click)="sortRows(column)" [ngStyle]="{'cursor': 'pointer'}">{{ column.label }} {{ directionSign[column.direction] }}
             </span>
+            <span *ngIf="!column.sortable" >{{ column.label }} </span>
           </th>
         </tr>
       </thead>
@@ -25,13 +26,13 @@
         </tr>
       </tbody>
     </table>
-    <qddt-pagination
-      [collectionSize]="page.totalElements"
-      [page]="page.number"
-      [pageSize]="page.size"
-      [maxSize]="5"
-      [rotate]="true"
-      [boundaryLinks]="true"
-      (pageChange)="pageChange($event)"></qddt-pagination>
+        <qddt-pagination
+          [collectionSize]="page.totalElements"
+          [page]="page.number"
+          [pageSize]="page.size"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="pageChange($event)"></qddt-pagination>
   </div>
 </div>

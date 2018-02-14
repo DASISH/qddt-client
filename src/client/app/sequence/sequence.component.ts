@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
-import { ElementTypeDescription, SequenceService, Sequence } from './sequence.service';
+import { ElementTypeDescription, SequenceService, Sequence, ControlConstructKind } from './sequence.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 
@@ -12,15 +12,13 @@ import { MaterializeAction } from 'angular2-materialize';
         border: thick solid red;
     }`
   ],
-  providers: [ SequenceService ],
+
 })
 export class SequenceComponent implements OnInit {
 
   showSequenceForm = false;
   showAddElement = false;
   modalActions = new EventEmitter<string|MaterializeAction>();
-  error: any;
-  elementTypeDescription: any = ElementTypeDescription;
 
   sequences: any[];
   private page: any;
@@ -47,7 +45,7 @@ export class SequenceComponent implements OnInit {
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
-        this.service.getElements('SEQUENCE_CONSTRUCT', name, '0', this.getSort())
+        this.service.getElements( ControlConstructKind.SEQUENCE_CONSTRUCT, name, '0', this.getSort())
           .then((result: any) => {
             this.sequences = result.content;
             this.page = result.page;
@@ -56,7 +54,7 @@ export class SequenceComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.searchSequences('');
+    this.onSearchSequences('*');
   }
 
   onToggleSequenceForm() {
@@ -64,7 +62,6 @@ export class SequenceComponent implements OnInit {
     if (this.showSequenceForm) {
       this.sequence = new Sequence();
       this.sequence.children = [];
-      this.sequence.controlConstructKind = 'SEQUENCE_CONSTRUCT';
     }
   }
 
@@ -77,28 +74,19 @@ export class SequenceComponent implements OnInit {
     this.isDetail = true;
   }
 
-  hideDetail() {
+  onHideDetail() {
     this.isDetail = false;
   }
 
   onPage(page: string) {
-    this.service.getElements('SEQUENCE_CONSTRUCT', this.searchKeys, page, this.getSort())
+    this.service.getElements(ControlConstructKind.SEQUENCE_CONSTRUCT, this.searchKeys, page, this.getSort())
       .then((result: any) => {
         this.sequences = result.content;
         this.page = result.page;
       });
   }
 
-  onCreateSequence() {
-    this.showSequenceForm = false;
-    this.service.create(this.sequence)
-      .subscribe((result: any) => {
-        this.sequences = [result].concat(this.sequences);
-      });
-    this.isDetail = false;
-  }
-
-  searchSequences(key: string) {
+  onSearchSequences(key: string) {
     this.searchKeys = key;
     this.searchKeysSubect.next(key);
   }

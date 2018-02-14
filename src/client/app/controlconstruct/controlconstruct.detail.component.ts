@@ -24,8 +24,8 @@ export class ControlConstructDetailComponent implements OnInit {
   @Output() exceptionEvent = new EventEmitter<String>();
 
   public deleteAction = new EventEmitter<MaterializeAction>();
+  private readonly revisionKind = ElementKind.QUESTION_CONSTRUCT;
   private previewObject: any;
-  private revisionKind = ElementKind.QUESTION_CONSTRUCT;
   private revisionIsVisible: boolean;
   private savedObject: string;
   private savedControlConstructsIndex: number;
@@ -44,6 +44,9 @@ export class ControlConstructDetailComponent implements OnInit {
         .then((result: any) => {
           this.controlConstruct = result;
           this.init();
+        })
+        .catch((error) =>  {
+          throw error;
         });
     } else {
       this.init();
@@ -92,7 +95,7 @@ export class ControlConstructDetailComponent implements OnInit {
       (data: any) => {
         saveAs(data, fileName);
       },
-      error => console.log(error));
+      error =>{ throw error;});
   }
 
   onGetPdf( c: ControlConstruct) {
@@ -100,8 +103,7 @@ export class ControlConstructDetailComponent implements OnInit {
       (data: any) => {
         saveAs(data, c.name + '.pdf');
       },
-      error => console.log(error));
-
+      error =>{ throw error;});
   }
 
   onShowRevision(element: any) {
@@ -133,19 +135,19 @@ export class ControlConstructDetailComponent implements OnInit {
     }});
     config.push({'name': ['preInstructions'], 'label': 'Pre', 'init': function (o: any) {
       if (o !== null && o !== undefined) {
-        return o.map(element => {return element['description'] || ''; }).sort().join(',');
+        return o.map((element: any) => {return element['description'] || ''; }).sort().join(',');
       }
       return '';
     }});
     config.push({'name': ['postInstructions'], 'label': 'Post', 'init': function (o: any) {
       if (o !== null && o !== undefined) {
-        return o.map(element => {return element['description'] || ''; }).sort().join(',');
+        return o.map((element: any) => {return element['description'] || ''; }).sort().join(',');
       }
       return '';
     }});
     config.push({'name': ['otherMaterials'], 'label': 'Files', 'init': function (o: any) {
       if (o !== null && o !== undefined) {
-        return o.map(element => {return element['originalName'] || ''; }).sort().join(',');
+        return o.map((element: any) => {return element['originalName'] || ''; }).sort().join(',');
       }
       return '';
     }});

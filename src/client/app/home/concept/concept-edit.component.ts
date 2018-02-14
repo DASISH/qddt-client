@@ -31,10 +31,11 @@ import 'rxjs/Rx';
         [element]="concept"
         [config]="{hidden: [2,3]}">
       </qddt-rational>
+
       <qddt-element-footer [element]="concept" [type]="'CONCEPT'"
-        (BasedonObjectDetail)="onBasedonObjectDetail($event)">
+        (BasedonObjectDetail)="onBasedOnObjectDetail($event)">
       </qddt-element-footer>
-      <qddt-preview-dialog  id="23423r" [elementRef]="basedonRef"></qddt-preview-dialog>
+      <qddt-preview-dialog  id="previewConcept-{{concept.id}}" [elementRef]="basedonRef"></qddt-preview-dialog>
 
       <div class="row right-align" *ngIf="!readonly">
         <button type="submit" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
@@ -84,7 +85,7 @@ export class ConceptEditComponent implements OnInit {
     this.concept.authors.splice(i, 1);
   }
 
-  onBasedonObjectDetail(ref: any) {
+  onBasedOnObjectDetail(ref: any) {
     this.basedonRef = ref;
   }
 

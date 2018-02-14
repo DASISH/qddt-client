@@ -1,69 +1,60 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { ElementTypeDescription, SequenceService } from './sequence.service';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import { ControlConstructKind, ElementTypeDescription, Sequence, SequenceService } from './sequence.service';
 import { Subject } from 'rxjs/Subject';
-import { MaterializeAction } from 'angular2-materialize';
-import { ElementKind, QddtElement, QddtElements } from '../preview/preview.service';
+import { ElementKind, QddtElement } from '../preview/preview.service';
 
 @Component({
   selector: 'qddt-sequence-reuse',
   moduleId: module.id,
   templateUrl: './sequence.reuse.component.html',
   styles: [
-    `.noItemFound {
-        border: thick solid red;
-    }`
+    '.noItemFound { border: thick solid red; }',
+    '.nomargin { margin:0; }',
+    ':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'
   ],
-  providers: [SequenceService],
 })
 
 export class SequenceReuseComponent implements OnInit {
+  @Input() sequence: Sequence;
   @Output() element: any = new EventEmitter<any>();
-  showAddElement = false;
-  showReplayElement = false;
-  error: any;
-  elementTypeDescription: any = ElementTypeDescription;
-  modalActions = new EventEmitter<string|MaterializeAction>();
 
-  elements: any[];
-  private elementType: string;
-  private selectedElement: any;
+  private readonly elementTypes = ElementTypeDescription;
+
   private searchKeysSubect: Subject<string> = new Subject<string>();
+  // private ccKindAsString: string;
+  private selectedElement: any;
+  private selectedType: ElementKind;
+  private elements:any;
 
-  private queryFields: QddtElement[] = [
-    QddtElements[ElementKind.SEQUENCE_CONSTRUCT],
-    QddtElements[ElementKind.QUESTION_CONSTRUCT],
-    QddtElements[ElementKind.CONDITION_CONSTRUCT],
-    QddtElements[ElementKind.STATEMENT_CONSTRUCT]
-  ];
 
   constructor(private service: SequenceService) {
-    this.elementType = this.elementTypeDescription[0].name;
-    this.elements = [];
     this.searchKeysSubect
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
-        this.service.getElements(this.elementType, name)
+        this.service.getElements(this.eKind2ccKind(this.selectedType), name)
           .then((result: any) => {
             this.elements = result.content;
           }, (error: any) => {
-            this.popupModal(error);
+            throw error;
           });
       });
   }
 
   ngOnInit() {
-    //
+    this.onSelectElementType(ElementKind.QUESTION_CONSTRUCT);
   }
 
-  onSelectElementType(name: string) {
-    this.elementType = name;
+  onSelectElementType(id: ElementKind) {
+    this.selectedType = id;
     this.selectedElement = null;
     this.elements = [];
+    console.info(ElementKind[id] + ' ' + id + ' ' + this.getQddtElements(id).label);
   }
 
-  onSelectElement(e: any) {
-    this.selectedElement = e;
+  onSelectElement(element: any) {
+    this.selectedElement = element;
+    console.info(element);
   }
 
   onSearchElements(key: string) {
@@ -71,44 +62,22 @@ export class SequenceReuseComponent implements OnInit {
   }
 
   searchSequences(key: string) {
-    this.service.getElements(this.elementType, key)
+    this.service.getElements(this.eKind2ccKind(this.selectedType), key)
       .then((result: any) => {
         this.elements = result.content;
       }, (error: any) => {
-        this.popupModal(error);
+       throw error;
       });
   }
 
-  onCreateStatement() {
-    this.modalActions.emit({action: 'modal', params: ['open']});
-    return false;
+  private getQddtElements(id: ElementKind): QddtElement {
+    return this.elementTypes.find(e => e.id === id);
   }
 
-  onCreateCondition() {
-    this.modalActions.emit({action: 'modal', params: ['open']});
-    return false;
+
+  private  eKind2ccKind(id: ElementKind): ControlConstructKind {
+    return ControlConstructKind[ElementKind[id]];
   }
 
-  onUse() {
-    this.element.emit(this.selectedElement);
-    this.showAddElement = false;
-    this.selectedElement = null;
-    return false;
-  }
-
-  onGetElement(element) {
-    this.selectedElement = element;
-  }
-
-  private popupModal(error: any) {
-    this.error = error;
-  }
-
-  private getElementType(kind: ElementKind): QddtElement {
-    const element: any = this.queryFields.find(e => e.id === kind);
-    if (element === undefined)
-      console.log('Couldn\'t find kind ' + ElementKind[kind] + ' ' + kind);
-    return element;
-  }
 
 }

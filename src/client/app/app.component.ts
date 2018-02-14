@@ -2,11 +2,11 @@ import { Component, ViewEncapsulation  } from '@angular/core';
 import { UserService } from './core/user/user.service';
 import { PropertyStoreService } from './core/global/property.service';
 
-declare var $: any;
+// declare var $: any;
 
 @Component({
-  selector: 'app',
   moduleId: module.id,
+  selector: 'app',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   encapsulation: ViewEncapsulation.None,

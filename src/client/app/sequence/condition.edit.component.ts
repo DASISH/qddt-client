@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { ElementTypeDescription, SequenceService, Sequence, ConditionCommand } from './sequence.service';
+import { SequenceService,  ConditionCommand, Condition, ControlConstructKind } from '../sequence.service';
 
 @Component({
   selector: 'qddt-condition-edit',
@@ -31,12 +31,12 @@ import { ElementTypeDescription, SequenceService, Sequence, ConditionCommand } f
         </textarea>
         </div>
         <div class="input-field col s6">
-          <autocomplete
+          <auto-complete
             [items]="elements"
-            [elementtype]="QddtElementTypes[ElementKind.CONDITION_CONSTRUCT]"
+            [elementtype]="getQddtElementFromStr('CONDITION_CONSTRUCT')"
             (autocompleteSelectEvent)="onSelectElement($event)"
 				    (enterEvent)="onSearchElements($event)">
-			    </autocomplete>
+			    </auto-complete>
         </div>
       </div>
       <div class="row card" *ngFor="let condition of elseConditions; let idx=index;">
@@ -49,12 +49,12 @@ import { ElementTypeDescription, SequenceService, Sequence, ConditionCommand } f
         </textarea>
         </div>
         <div class="input-field col s6">
-          <autocomplete
+          <auto-complete
             [items]="elements"
-            [elementtype]="QddtElementTypes[ElementKind.CONDITION_CONSTRUCT]"
+            [elementtype]="getQddtElementFromStr('CONDITION_CONSTRUCT')"
             (autocompleteSelectEvent)="onSelectElseElement($event, idx)"
 				    (enterEvent)="onSearchElements($event)">
-			    </autocomplete>
+			    </auto-complete>
         </div>
       </div>
       <button
@@ -65,16 +65,14 @@ import { ElementTypeDescription, SequenceService, Sequence, ConditionCommand } f
     </div>`,
   styles: [
   ],
-  providers: [ SequenceService ],
 })
 
 export class ConditionEditComponent implements OnInit {
   @Output() element: any = new EventEmitter<any>();
-  condition: any;
-  elementTypeDescription:any = ElementTypeDescription;
+  condition: Condition;
   elementId: string;
-  ifCondition: any;
-  elseConditions: any[];
+  ifCondition: ConditionCommand;
+  elseConditions: ConditionCommand[];
   elements: any[];
   elseConditionNum: number;
 
@@ -86,8 +84,8 @@ export class ConditionEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.condition = new Sequence();
-    this.condition.controlConstructKind = 'CONDITION_CONSTRUCT';
+    this.condition = new Condition();
+    // this.condition.controlConstructKind = 'CONDITION_CONSTRUCT';
     this.elementId = new Date().toString();
   }
 
@@ -107,10 +105,12 @@ export class ConditionEditComponent implements OnInit {
   }
 
   onSearchElements(key: string) {
-    this.service.getElements('QUESTION_CONSTRUCT', key)
+    this.service.getElements(ControlConstructKind.QUESTION_CONSTRUCT, key)
       .then((result: any) => {
         this.elements = result.content;
-      }, (error: any) => null);
+      }, (error) => {
+        throw error;
+      });
   }
 
   onCreate() {
@@ -119,7 +119,10 @@ export class ConditionEditComponent implements OnInit {
     this.service.create(this.condition)
       .subscribe((result: any) => {
         this.element.emit(result);
-      }, (error: any) => null);
+      }, (error) => {
+        throw error;
+      }
+    );
     return false;
   }
 

@@ -9,7 +9,6 @@ const saveAs = require('file-saver');
   selector: 'qddt-questionitem-detail',
   moduleId: module.id,
   templateUrl: './question.detail.component.html',
-  providers: [QuestionService],
 })
 
 export class QuestionDetailComponent implements OnInit {
@@ -77,16 +76,23 @@ export class QuestionDetailComponent implements OnInit {
   }
 
   onEditQuestionItem(questionitem: QuestionItem) {
-    const i = this.questionitems.findIndex(q => q['id'] === questionitem['id']);
-    if (i >= 0) {
-      this.questionitems[i] = questionitem;
+    const index = this.questionitems.findIndex((e: any) => e.id === questionitem.id);
+    if (index >= 0) {
+      this.questionitems[index] = questionitem;
     } else {
-      if (this.savedQuestionitemsIndex >= 0) {
-        this.questionitems[this.savedQuestionitemsIndex] = JSON.parse(this.savedObject);
-      }
       this.questionitems.push(questionitem);
     }
     this.hideDetail();
+
+    // const i = this.questionitems.findIndex(q => q['id'] === questionitem['id']);
+    // if (i >= 0) {
+    //   this.questionitems[i] = questionitem;
+    // } else {
+    //   if (this.savedQuestionitemsIndex >= 0) {
+    //     this.questionitems[this.savedQuestionitemsIndex] = JSON.parse(this.savedObject);
+    //   }
+    //   this.questionitems.push(questionitem);
+    // }
   }
 
   onDeleteQuestionItemModal() {
@@ -151,7 +157,7 @@ export class QuestionDetailComponent implements OnInit {
   }
 
   private init() {
-    if (this.questionitem !== null && this.questionitem !== undefined) {
+    if (!this.questionitem) {
       // this.questionitem['workinprogress'] = this.questionitem.changeKind === 'IN_DEVELOPMENT';
       this.savedObject = JSON.stringify(this.questionitem);
       this.savedQuestionitemsIndex = this.questionitems

@@ -1,4 +1,3 @@
-import { Component, EventEmitter, Output } from '@angular/core';
 import {
   async,
   TestBed
@@ -23,10 +22,10 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(AuthorChipComponent);
+            const fixture = TestBed.createComponent(AuthorChipComponent);
             fixture.componentInstance.authors = [];
             fixture.detectChanges();
-            let de = fixture.debugElement.queryAll(By.css('.chip'));
+            const de = fixture.debugElement.queryAll(By.css('.chip'));
             expect(de.length).toBe(0);
           });
       }));
@@ -36,10 +35,10 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(AuthorChipComponent);
+            const fixture = TestBed.createComponent(AuthorChipComponent);
             fixture.componentInstance.authors = [{}];
             fixture.detectChanges();
-            let de = fixture.debugElement.queryAll(By.css('.chip'));
+            const de = fixture.debugElement.queryAll(By.css('.chip'));
             expect(de.length).toBe(1);
           });
       }));
@@ -49,14 +48,14 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(AuthorChipComponent);
+            const fixture = TestBed.createComponent(AuthorChipComponent);
             fixture.componentInstance.authors = [{
               'email': 'test@qddt.no',
               'homepage': 'homepage',
               'name': 'test'
             }];
             fixture.detectChanges();
-            let de = fixture.debugElement.queryAll(By.css('.chip'));
+            const de = fixture.debugElement.queryAll(By.css('.chip'));
             expect(de.length).toBe(1);
           });
       }));

@@ -10,17 +10,7 @@ const saveAs = require('file-saver');
   providers: [  ],
   moduleId: module.id,
   templateUrl: './concept-tree-node.component.html',
-  styles: [
-    '.tree-children { padding-left: 5px }',
-    `.tree-node {
-        border-style: solid;
-        border-color: green;
-    }`,
-    ':host /deep/ .collection-item .row { min-height:3rem; margin-bottom:0px;border-bottom: none;}',
-    '.collection .collection-item {border-bottom: none; }',
-    '.collection.with-header .collection-header {border-bottom: none; padding: 0px;}',
-    '.collection {border:none; }'],
-
+  styleUrls: ['./concept-tree-node.component.css']
 })
 
 export class TreeNodeComponent  {

@@ -8,7 +8,7 @@
           <i class="material-icons right" *ngIf="!showConceptForm">keyboard_arrow_down</i>
           <i class="material-icons right" *ngIf="showConceptForm">keyboard_arrow_up</i>
           New</a>
-        <a class="btn" (click)="onToggleReuse()">
+        <a class="btn" (click)="onToggleReuse()" *ngIf="!topic.archived">
           <i class="material-icons right" *ngIf="!showReuse">keyboard_arrow_down</i>
           <i class="material-icons right" *ngIf="showReuse">keyboard_arrow_up</i>
           reuse</a>
@@ -60,7 +60,7 @@
     <div style="height: 800px; overflow-y: auto;" class="row toc-wrapper pinned">
       <h5>Concept Toc</h5>
       <ul class="section table-of-contents">
-        <li><a href="home#topMenu">To the top </a> </li>
+        <li><a href="concept#topMenu">To the top </a> </li>
         <qddt-concept-toc [concepts]="concepts" [level]="0"></qddt-concept-toc>
       </ul>
     </div>

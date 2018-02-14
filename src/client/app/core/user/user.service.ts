@@ -19,6 +19,7 @@ export class UserService {
   public static readonly SIGNUP_URL = 'auth/signup';
   public static readonly SIGNIN_URL = 'auth/signin';
   public static readonly RESET_PWD_URL = 'auth/reset';
+  public static readonly ANGENCY_URL = 'agency/all';
   private static readonly USERINFO = 'user';
 
   loginChanged$: Observable<string>;
@@ -66,6 +67,10 @@ export class UserService {
     return this.http.post(this.api + UserService.RESET_PWD_URL, userdata);
   }
 
+  public getAgencies(): Promise<any> {
+    return this.http.get( this.api + UserService.ANGENCY_URL).toPromise();
+  }
+
   /**
    * Removes token and user details from localStorage and service's variables
    */
@@ -96,7 +101,7 @@ export class UserService {
   }
 
   public  getRoles(): string[] {
-    return this.user.roles;
+    return this.user.role.map( e=> e.authority);
   }
 
   public  getAgency(): string {

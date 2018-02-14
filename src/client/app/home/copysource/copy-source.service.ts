@@ -13,12 +13,12 @@ export class CopySourceService {
   getRevisionById(elementTypeId: ElementKind, id: string): Promise<any> {
     const qe: QddtElement = QddtElements.find(e => e.id === elementTypeId);
     if (qe !== undefined) {
-      return this.http.get(this.api + 'audit/' + qe.path + '/' + id +'/all').toPromise();
+      return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/allinclatest').toPromise();
     }
     return Observable.of([]).toPromise();
   }
 
-  getElementByTypeAndName(elementTypeId: ElementKind, name: string) : Promise<any> {
+  getElementByTypeAndName(elementTypeId: ElementKind, name: string): Promise<any> {
     const qe: QddtElement = QddtElements.find(e => e.id === elementTypeId);
     if (qe !== undefined) {
       return this.http.get(this.api + qe.path + '/page/search/?name=*' + name + '*' ).toPromise();
@@ -27,7 +27,7 @@ export class CopySourceService {
 
   }
 
-  copySource(elementTypeId: ElementKind, fromId: string, fromRev: number, toParentId: string) : Observable<any> {
+  copySource(elementTypeId: ElementKind, fromId: string, fromRev: number, toParentId: string): Observable<any> {
     const qe: QddtElement = QddtElements.find(e => e.id === elementTypeId);
     return this.http.post(this.api + qe.path + '/copy/' + fromId + '/' + fromRev + '/' + toParentId, {});
   }

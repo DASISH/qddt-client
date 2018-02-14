@@ -1,81 +1,81 @@
 <div class="row" *ngIf="sequence">
-  <qddt-version-label [element]="sequence"></qddt-version-label>
   <div id="{{sequence?.id}}" class="scrollspy">
-    <div class="col s1 m1 l1">
-      <br/>
-      <div class="row">
-        <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-          (click)="revisionIsVisible = !revisionIsVisible">
-          <i class="material-icons left medium" title="Revision history">history</i>
-        </a>
-        <a class="btn-flat btn-floating btn-medium waves-effect waves-light green darken-1">
+
+    <div class="fixed-action-btn vertical click-to-toggle">
+      <a class="btn-floating btn-large cyan"><i class="large material-icons">menu</i></a>
+      <ul>
+        <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light blue" (click)="revisionIsVisible = !revisionIsVisible"><i class="material-icons left medium" title="Revision history">history</i></a></li>
+        <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light red">
+          <i class="material-icons" (click)="onDeleteSequence()" title="Delete" >delete_forever</i>
+        </a></li>
+        <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light orange darken-1">
+          <i class="material-icons" (click)="getPdf(sequence)" title="Get as Pdf">picture_as_pdf</i>
+        </a></li>
+        <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light green darken-1">
+          <i class="material-icons" (click)="hideDetail()" title="Return to list view">replay</i>
+        </a></li>
+      </ul>
+    </div>
+
+    <div class="row">
+      <div class="col s1">
+        <a class="btn-flat btn-floating btn-medium waves-effect waves-light  green darken-1">
           <i class="material-icons" (click)="hideDetail()" title="Return to list view">replay</i>
         </a>
       </div>
-    </div>
 
-    <div class="col s10 m10 l10 grey-text text-darken-2">
-      <form (ngSubmit)="onUpdateSequence()" #sequenceform="ngForm" card>
+      <div class="col s10">
         <div class="row">
-          <div class="input-field col s12">
-            <label [attr.for]="sequence.id + '-name'" class="active teal-text">Name</label>
-            <textarea [attr.id]="sequence.id + '-name'"
-              name="{{sequence.id}}-name" class="materialize-textarea"
-              [(ngModel)]="sequence.name" [attr.maxlength]="255"
-              required >
-            </textarea>
+          <div class="col m7 l10 grey-text text-darken-2">
+            <div class="flow-text">{{ sequence?.name }}</div>
           </div>
-          <div class="input-field col s12">
-            <label [attr.for]="sequence.id + '-description'" class="active teal-text">Description</label>
-            <textarea [attr.id]="sequence.id + '-description'"
-              name="{{sequence.id}}-description" class="materialize-textarea"
-              [(ngModel)]="sequence.description" [attr.maxlength]="255" >
-            </textarea>
+
+          <div class="col m3 l2">
+            <qddt-version-label class="right" [element]="sequence"></qddt-version-label>
           </div>
         </div>
 
         <div class="row">
-          <qddt-sequence-reuse (element)="onGetElement($event)"></qddt-sequence-reuse>
-		    </div>
+          <div class="col s11  white grey-text text-darken-1">
 
-        <qddt-preview-controlconstruct [construct]="sequence"></qddt-preview-controlconstruct>
-        <!--<div class="row">-->
-          <!--<h5>Sequence content</h5>-->
-          <!--<qddt-preview-sequenceconstruct [sequence]="sequence"></qddt-preview-sequenceconstruct>-->
-          <!--&lt;!&ndash;<qddt-sequence-content [sequence]="sequence"></qddt-sequence-content>&ndash;&gt;-->
-        <!--</div>-->
+            <qddt-sequence-edit
+              (editSequence)="sequenceSavedEvent($event)"
+              [sequence]="sequence">
+            </qddt-sequence-edit>
 
-        <div class="row">
-		      <qddt-rational [formName]="'RationalComp'" [element]="sequence"  [config]="{hidden: [4]}"></qddt-rational>
+            <qddt-revision *ngIf="revisionIsVisible"
+                       [current]="sequence"
+                       [qddtURI]="'audit/controlconstruct/' + sequence.id + '/all'"
+                       (requestPreview)="onShowRevision($event)">
+            </qddt-revision>
+            <qddt-preview-dialog *ngIf="revisionIsVisible"
+                             [basedonObject]="previewObject" [elementKind] = "revisionKind">
+            </qddt-preview-dialog>
+
+            <qddt-comment-list [ownerId]="sequence.id" [comments]="sequence.comments"></qddt-comment-list>
+          </div>
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-      </form>
-
-      <qddt-revision *ngIf="revisionIsVisible"
-        [current]="sequence"
-        [qddtURI]="'audit/controlconstruct/' + sequence.id + '/all'">
-      </qddt-revision>
-
-      <qddt-comment-list
-        [ownerId]="sequence.id"
-        [comments]="sequence.comments">
-      </qddt-comment-list>
+      </div>
     </div>
-
   </div>
-</div>
-
-<div [attr.id]="'sequence-modal'"
-  class="modal modal-fixed-footer"
-  materialize="modal" [materializeActions]="sequenceActions">
-  <div class="modal-footer">
-    <button
-      class="btn btn-default red modal-action modal-close waves-effect waves-red">
-      <i class="close material-icons">close</i>
-    </button>
-  </div>
-  <div class="modal-content">
-    <h2>Sequence detail</h2>
-    <span>error</span>
-  </div>
+  <!--<div class="modal" materialize="modal" [materializeActions]="deleteAction">-->
+    <!--<div class="modal-content">-->
+      <!--<div class="row">-->
+        <!--<h4>Warning</h4>-->
+        <!--<div *ngIf="canDelete > 1" class="progress"><div class="indeterminate"></div></div>-->
+        <!--<span *ngIf="canDelete === 1">Are you sure to delete  item {{ sequence?.name }}?</span>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div class="modal-footer">-->
+      <!--<button *ngIf="canDelete === 1"-->
+              <!--(click)="onConfirmDeleting()"-->
+              <!--class="btn btn-default green modal-action modal-close waves-effect">-->
+        <!--<a><i class="close material-icons medium white-text">done</i></a>-->
+      <!--</button>-->
+      <!--<button-->
+        <!--class="btn btn-default red modal-action modal-close waves-effect">-->
+        <!--<a><i class="close material-icons medium white-text">close</i></a>-->
+      <!--</button>-->
+    <!--</div>-->
+  <!--</div>-->
 </div>

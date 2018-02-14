@@ -1,4 +1,5 @@
-img {
+
+.gravatar {
   border-radius: 50%;
   width: 48px;
   float: right;
@@ -13,9 +14,21 @@ img {
 
 .breadcrumb {
   cursor: pointer;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;     /** IE6+, Firefox 7+, Opera 11+, Chrome, Safari **/
+  -o-text-overflow: ellipsis;  /** Opera 9 & 10 **/
+  max-width: 250px;
 }
 
 .nav-mobile {
   width: 200px;
   padding-left: 200px;
+}
+
+.description {
+  text-align: justify;
+  text-justify: inter-word;
+  white-space: pre-wrap;
 }

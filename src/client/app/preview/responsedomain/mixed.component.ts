@@ -8,7 +8,7 @@ import { DomainKind } from '../../responsedomain/responsedomain.constant';
   template: `<div>
     <label *ngIf="mixedDomains && mixedDomains.length > 0"
       class="active teal-text">{{ mixedDomains[0]?.name }}
-  {{ mixedDomains[0]?.version?.major }}m{{ mixedDomains[0]?.version?.minor }}minor }})</label>
+      <qddt-version [element]="mixedDomains" ></qddt-version></label>
       <div *ngFor="let domain of mixedDomains">
         <div [ngSwitch]="domain.domainType">
 					<qddt-preview-rd-scale *ngSwitchCase="domainTypeDef.SCALE"
@@ -50,7 +50,7 @@ export class ResponsedomainMixedComponent implements OnChanges {
       const rd = new ResponseDomain();
       rd.id = new Date().toString();
       rd.managedRepresentation = rep.children[i];
-      rd['version'] = rep.children[i]['version'];
+      rd.version = rep.children[i]['version'];
       rd.name = rep.children[i]['name'] || '';
       if (rep.children[i].categoryType === 'SCALE') {
         rd['domainType'] = this.domainTypeDef.SCALE;

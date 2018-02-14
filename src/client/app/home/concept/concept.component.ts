@@ -7,8 +7,6 @@ import { PropertyStoreService } from '../../core/global/property.service';
 import { ElementKind } from '../../preview/preview.service';
 
 
-
-
 @Component({
   selector: 'concept',
   moduleId: module.id,
@@ -30,18 +28,24 @@ export class ConceptComponent implements OnInit {
   private toDeletedConcept: any;
 
   constructor(private router: Router, private route: ActivatedRoute,
-              private conceptService: ConceptService,private property: PropertyStoreService) {
+              private conceptService: ConceptService, private property: PropertyStoreService) {
     this.concept = new Concept();
    }
 
   ngOnInit(): void {
-    this.parentId = this.route.snapshot.paramMap.get('topicId');
     this.topic = this.property.get('topic');
-    this.showProgressBar = true;
-    this.conceptService.getByTopic(this.parentId).then((result: any) => {
-      this.concepts = result.content;
-      this.showProgressBar = false;
-    });
+    if (!this.topic)
+      console.error('TOPIC IS EMPTY!!!');
+    this.parentId = this.topic.id;
+    this.concepts = this.property.get('concepts');
+    if (!this.concepts) {
+      this.showProgressBar = true;
+      this.conceptService.getByTopic(this.parentId).then((result: any) => {
+        this.concepts = result.content;
+        this.property.set('concepts', this.concepts);
+        this.showProgressBar = false;
+      });
+    }
   }
 
   onToggleConceptForm() {
@@ -52,7 +56,7 @@ export class ConceptComponent implements OnInit {
 
   onToggleReuse() {
     this.showReuse = !this.showReuse;
-    if(this.showReuse)
+    if (this.showReuse)
       this.showConceptForm = false;
   }
 
@@ -67,10 +71,10 @@ export class ConceptComponent implements OnInit {
   }
 
   onConceptUpdated(concept: any) {
-    console.log('onConceptSavedEvent ' + concept.name);
     if (!this.updateConcept(this.concepts, concept)) {
       this.concepts.push(concept);
     }
+    this.property.set('concepts', this.concepts);
     this.showProgressBar = false;
   }
 
@@ -86,16 +90,17 @@ export class ConceptComponent implements OnInit {
       (val) => {
         this.confimDeleteActions.emit({action: 'modal', params: ['close']});
         this.removeConcept(this.concepts, id);
+        this.property.set('concepts', this.concepts);
       },
       response => {
         throw response;
       },
         () => {
-          console.log("The DELETE observable is now completed.");
+          console.log('The DELETE observable is now completed.');
       });
   }
 
-  onSelectedRevsion(concept:Concept) {
+  onSelectedRevsion(concept: Concept) {
     this.showReuse = false;
     this.onConceptUpdated(concept);
   }

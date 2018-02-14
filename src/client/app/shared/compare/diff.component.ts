@@ -34,10 +34,10 @@ export class DiffComponent implements OnChanges {
       + ' vs Current working version';
     this.elementChange.changes = [];
     this.config.forEach(e => {
-      let elementFieldChange = new ElementFieldChange();
+      const elementFieldChange = new ElementFieldChange();
       elementFieldChange.name = e['label'];
-      let init = e['init'];
-      let ret = this.diff.diff_main(this.getValue(this.compared, e['name'], init),
+      const init = e['init'];
+      const ret = this.diff.diff_main(this.getValue(this.compared, e['name'], init),
         this.getValue(this.current, e['name'], init));
       elementFieldChange.changes = ret;
       this.elementChange.changes.push(elementFieldChange);
@@ -53,7 +53,7 @@ export class DiffComponent implements OnChanges {
       let result: any = obj;
       names.forEach((e: any) => {
         if (result !== null && result !== undefined) {
-          if(result[e] !== null && result[e] !== undefined) {
+          if (result[e] !== null && result[e] !== undefined) {
             result = result[e];
           } else {
             result = '';
@@ -62,13 +62,13 @@ export class DiffComponent implements OnChanges {
           result = '';
         }
       });
-      if(init !== null && init !== undefined
+      if (init !== null && init !== undefined
         && result !== null && result !== undefined && result !== '') {
         return init(result);
       }
       return result.toString();
     } else {
-      if(obj[names] === null || obj[names] === undefined) {
+      if (obj[names] === null || obj[names] === undefined) {
         return '';
       }
       return obj[names].toString();

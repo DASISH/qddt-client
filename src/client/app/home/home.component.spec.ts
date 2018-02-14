@@ -1,14 +1,9 @@
 import { Component, Input } from '@angular/core';
-import {
-  async,
-  TestBed
-} from '@angular/core/testing';
+import { async, TestBed } from '@angular/core/testing';
 import { HomeComponent } from './home.component';
 import { By } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { API_BASE_HREF } from '../api';
-import { BaseRequestOptions, Http, ConnectionBackend } from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
 import { UserService } from '../core/user/user.service';
 
 class UserServiceSpy {
@@ -24,14 +19,7 @@ export function main() {
         declarations: [TestComponent, HomeComponent, SurveyProgramComponent,
           StudyComponent, TopicComponent, ConceptComponent, GithubComponent],
         providers: [
-          MockBackend,
-          BaseRequestOptions,
           { provide: UserService, useClass: UserServiceSpy },
-          {
-            provide: Http,
-            useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),
-            deps: [MockBackend, BaseRequestOptions]
-          },
           { provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
           }

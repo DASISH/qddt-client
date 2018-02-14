@@ -3,6 +3,6 @@ export class User {
   sub:string; // -> name
   email:string;
   agency:string;
-  roles: string[];
+  role: Array<any>;
   exp:any;  //-> should be number, is expire date
 }

@@ -32,7 +32,7 @@ export class ConceptService  {
   }
 
   getAll(): Promise<any> {
-    return this.http.get(this.api +'concept/page/').toPromise();
+    return this.http.get(this.api + 'concept/page/').toPromise();
   }
 
   getByTopic(topicId: string): Promise<any> {
@@ -46,7 +46,7 @@ export class ConceptService  {
   }
 
   getPdf(id: string): Promise<Blob> {
-    return this.http.get(this.api + 'concept/pdf/' + id, {responseType:'blob'})
+    return this.http.get(this.api + 'concept/pdf/' + id, {responseType: 'blob'})
       .toPromise();
   }
 
@@ -55,11 +55,11 @@ export class ConceptService  {
   }
 
   updateConcept(concept: Concept): Observable<any> {
-    return this.http.post(this.api +'concept',concept);
+    return this.http.post(this.api + 'concept', concept);
   }
 
   saveChildConcept(concept: any, parentId: string): Observable<any> {
-    return this.http.post(this.api +'concept/create/by-parent/' + parentId, concept);
+    return this.http.post(this.api + 'concept/create/by-parent/' + parentId, concept);
   }
 
   attachQuestion(conceptId: string, questionId: string, revision: string): Observable<any> {
@@ -85,11 +85,11 @@ export class ConceptService  {
   }
 
   createQuestionItem(question: any): Observable<any> {
-    return this.http.post(this.api +question, 'questionitem/create');
+    return this.http.post(this.api + question, 'questionitem/create');
   }
 
   deleteConcept(conceptId: string): Observable<any> {
-    return this.http.delete(this.api +'concept/delete/' + conceptId , { responseType:'text'});
+    return this.http.delete(this.api + 'concept/delete/' + conceptId , { responseType: 'text'});
   }
 
 }

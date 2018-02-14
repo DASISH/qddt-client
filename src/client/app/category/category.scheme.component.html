@@ -40,14 +40,14 @@
                 <thead><tr><td>Selected Responses</td></tr></thead>
                 <tbody>
                   <tr *ngFor="let cat of category.children; let idx=index">
-                  <td><autocomplete
+                  <td><auto-complete
                     [items]="categories" class="black-text"
                     [elementtype]="CATEGORY_KIND"
                     [initialValue]="cat?.label"
                     (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
                     (enterEvent)="searchCategories($event)"
                     (autocompleteSelectEvent)="select($event)">
-                    </autocomplete></td>
+                    </auto-complete></td>
                   </tr>
                 </tbody>
               </table>
@@ -88,9 +88,7 @@
     <div class="col s10  white grey-text text-darken-1">
       <form (ngSubmit)="onSave()" #editSchemeForm="ngForm">
         <div class="row">
-          <div class="col s2 offset-s10">
-            <qddt-version-label [element]="selectedCategory"></qddt-version-label>
-          </div>
+            <qddt-version-label class="right" [element]="selectedCategory"></qddt-version-label>
         </div>
         <div class="row">
           <div class="col s12 input-field">
@@ -135,14 +133,14 @@
                 <thead><tr><td>Select Responses</td></tr></thead>
                 <tbody>
                 <tr *ngFor="let cat of selectedCategory.children; let idx=index">
-                  <td><autocomplete
+                  <td><auto-complete
                     [items]="categories"
                     [elementtype]="CATEGORY_KIND"
                     [initialValue]="cat?.label"
                     (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
                     (enterEvent)="searchCategories($event)"
                     (autocompleteSelectEvent)="select($event)">
-                  </autocomplete></td>
+                  </auto-complete></td>
                 </tr>
               </tbody>
               </table>

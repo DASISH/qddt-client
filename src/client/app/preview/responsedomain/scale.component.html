@@ -27,7 +27,7 @@
            min={{min}}
            max={{max}}/>
   </div>
-  <table *ngIf="displayLayout > 0">
+  <table *ngIf="displayLayout !== 0">
     <tbody>
       <tr *ngFor="let option of rows; let idx=index">
         <td>

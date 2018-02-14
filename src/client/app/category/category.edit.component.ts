@@ -12,21 +12,21 @@ import { CategoryType } from './category-kind';
       <div class="input-field col s12 ">
         <label for="label2" class="teal-text">Label</label>
         <input id="label2" name="label" type="text" class="validate" required
-               [(ngModel)]="category.label" length="100" materialize="characterCounter">
+               [(ngModel)]="category.label" data-length="100" materialize="characterCounter">
       </div>
     </div>
     <div class="row">
       <div class="input-field col m12 ">
         <label for="name2" class="teal-text">Name</label>
         <input id="name2" name="name" type="text" class="validate" required [(ngModel)]="category.name"
-               length="255" materialize="characterCounter">
+               data-length="255" materialize="characterCounter">
       </div>
     </div>
     <div class="row">
       <div class="input-field col m12 ">
         <label [attr.for]="category.id + '-category-description'" class="teal-text">Description</label>
         <textarea class="materialize-textarea validate" name="{{category?.id}}-category-description"
-                  length="1000" materialize="characterCounter" [(ngModel)]="category.description" >
+                  data-length="1000" materialize="characterCounter" [(ngModel)]="category.description" >
         </textarea>
       </div>
     </div>
@@ -66,13 +66,13 @@ import { CategoryType } from './category-kind';
          <thead><tr><td>Select Responses</td></tr></thead>
          <tbody>
            <tr *ngFor="let cat of category.children; let idx=index">
-             <td><autocomplete
+             <td><auto-complete
                [items]="categories"
                [elementtype]="QddtElementTypes[ElementKind.CATEGORY]"
                (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
                [initialValue]="cat?.label"
                (autocompleteSelectEvent)="select($event)">
-             </autocomplete></td>
+             </auto-complete></td>
             </tr>
           </tbody>
         </table></div>
@@ -105,11 +105,11 @@ export class CategoryEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.category === null || this.category === undefined) {
+    if (!this.category) {
       this.category = new Category();
     }
     this.savedObject = JSON.stringify(this.category);
-    if (this.categories === null || this.categories === undefined) {
+    if (!this.categories) {
       this.categories = [];
     }
     this.savedCategoriesIndex = this.categories
@@ -140,19 +140,15 @@ export class CategoryEditComponent implements OnInit {
   onSave() {
     this.categoryService.edit(this.category)
       .subscribe((result: any) => {
-          const i = this.categories.findIndex(q => q['id'] === result['id']);
+          const i = this.categories.findIndex(q => q.id === result.id);
           if (i >= 0) {
-            this.categories[i] = result;
-          } else {
-            if (this.savedCategoriesIndex >= 0) {
-              this.categories[this.savedCategoriesIndex] = JSON.parse(this.savedObject);
-            }
-            this.categories.push(result);
+            this.categories.splice(i, 1);
           }
+          this.categories.push(result);
+          // this.isVisible = false;
           this.editDetailEvent.emit('edit');
-        }
-        , (err:any) => {
-          this.editDetailEvent.emit('err');
+        },
+        ( err ) => {
           throw err;
         });
   }

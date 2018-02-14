@@ -34,13 +34,13 @@ export class CopySourceComponent {
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
-        this.service.getElementByTypeAndName(this.elementKind,name).then((result: any) => {
+        this.service.getElementByTypeAndName(this.elementKind, name).then((result: any) => {
           this.items = result.content;
         });
       });
   }
 
-  onSelectElementRevisions(value?:any) {
+  onSelectElementRevisions(value?: any) {
     console.log(value);
     const result = this.elementRevisions.find((e: any) => e.revisionNumber === +this.elementRevision);
     if (result) {
@@ -66,7 +66,7 @@ export class CopySourceComponent {
   onSelectItem(item) {
     this.selectedElement = item;
     if ((item) && (item.id)) {
-      this.service.getRevisionById(this.elementKind,item.id)
+      this.service.getRevisionById(this.elementKind, item.id)
         .then((result: any) => {
           this.elementRevisions = result.content;
           this.onSelectElementRevisions();

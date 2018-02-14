@@ -24,11 +24,11 @@
 		  </div>
     </div>
     <div class="row">
-        <autocomplete [items]="elements" class="black-text"
+        <auto-complete [items]="elements" class="black-text"
           [elementtype]="getElementType(selectedElementKind)"
           (autocompleteSelectEvent)="onSelectElement($event)"
 		      (enterEvent)="onSearchElements($event)">
-		    </autocomplete>
+		    </auto-complete>
       </div>
   </div>
   <div *ngIf="selectedElement" class="row">

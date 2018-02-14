@@ -49,6 +49,67 @@
     </ul>
 
     <ul class="hoverable"
+        (mouseenter)="showbutton = !readonly"
+        (mouseleave)="showbutton = false">
+      <li>
+        <div class="row" (click)="showUploadFileForm=!showUploadFileForm" style="cursor: zoom-in;">
+          <div class="col s11"><label class="teal-text">External aid</label></div>
+          <div class="col s1">
+            <a [ngClass]="{hide: !showbutton}"
+               class="btn-flat btn-floating btn-small waves-effect waves-light teal">
+              <i class="material-icons" title="Attach external aid (File Upload)">add</i>
+            </a>
+          </div>
+        </div>
+      </li>
+      <div class="row" *ngIf="showUploadFileForm && !readonly">
+        <div class="file-field input-field">
+          <div class="btn">
+            <span>File</span>
+            <input type="file" (change)="onSelectFile($event)">
+          </div>
+          <div class="file-path-wrapper">
+            <input class="file-path validate" type="text" placeholder="Upload one file">
+          </div>
+        </div>
+        <a *ngIf="files" class="btn-flat right btn-floating btn-medium waves-effect waves-light teal"
+           (click)="onUploadFile()">
+          <i class="material-icons left medium">done</i>
+        </a>
+      </div>
+      <li *ngFor="let m of controlConstruct.otherMaterials; let idx=index;">
+        <div class="row" style="min-height:3rem">
+          <div class="col s10">
+            <a class="waves-effect waves-light" (click)="onDownloadFile(m)">
+              <i class="material-icons center smal">description</i>
+              {{ m.originalName }}</a>
+          </div>
+          <div class="col s1 right" >
+            <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+               [ngClass]="{hide: !showbutton}"
+               (click)="onDeleteFile(idx)">
+              <i class="material-icons left medium" title="Delete" >delete_forever</i>
+            </a>
+          </div>
+        </div>
+      </li>
+      <li *ngFor="let file of fileStore; let idx=index;">
+        <div class="row">
+          <div class="col s11 m5">
+            <a class="waves-effect waves-light"><i class="material-icons center smal">description</i>{{ file[0]?.name }}</a>
+          </div>
+          <div class="col s1 right" style="min-height:3rem">
+            <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+               [ngClass]="{hide: !file.showbutton}"
+               (click)="onDeleteFileFromLocal(idx)">
+              <i class="material-icons left medium" title="Delete" >delete_forever</i>
+            </a>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <ul class="hoverable"
         (mouseenter)="showPreinstructionButton = !readonly"
         (mouseleave)="showPreinstructionButton = false">
       <li>
@@ -159,67 +220,6 @@
     </qddt-preview-responsedomain>
 
     <qddt-conceptref [element]="controlConstruct.questionItem"></qddt-conceptref>
-
-    <ul class="hoverable"
-        (mouseenter)="showbutton = !readonly"
-        (mouseleave)="showbutton = false">
-      <li>
-        <div class="row" (click)="showUploadFileForm=!showUploadFileForm" style="cursor: zoom-in;">
-        <div class="col s11"><label class="teal-text">External aid</label></div>
-          <div class="col s1">
-            <a [ngClass]="{hide: !showbutton}"
-               class="btn-flat btn-floating btn-small waves-effect waves-light teal">
-              <i class="material-icons" title="Attach external aid (File Upload)">add</i>
-            </a>
-          </div>
-        </div>
-      </li>
-      <div class="row" *ngIf="showUploadFileForm && !readonly">
-          <div class="file-field input-field">
-            <div class="btn">
-              <span>File</span>
-              <input type="file" (change)="onSelectFile($event)">
-            </div>
-            <div class="file-path-wrapper">
-              <input class="file-path validate" type="text" placeholder="Upload one file">
-            </div>
-          </div>
-          <a *ngIf="files" class="btn-flat right btn-floating btn-medium waves-effect waves-light teal"
-             (click)="onUploadFile()">
-            <i class="material-icons left medium">done</i>
-          </a>
-        </div>
-      <li *ngFor="let m of controlConstruct.otherMaterials; let idx=index;">
-        <div class="row" style="min-height:3rem">
-          <div class="col s10">
-            <a class="waves-effect waves-light" (click)="onDownloadFile(m)">
-              <i class="material-icons center smal">description</i>
-              {{ m.originalName }}</a>
-          </div>
-          <div class="col s1 right" >
-            <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-               [ngClass]="{hide: !showbutton}"
-               (click)="onDeleteFile(idx)">
-              <i class="material-icons left medium" title="Delete" >delete_forever</i>
-            </a>
-          </div>
-        </div>
-      </li>
-      <li *ngFor="let file of fileStore; let idx=index;">
-        <div class="row">
-          <div class="col s11 m5">
-            <a class="waves-effect waves-light"><i class="material-icons center smal">description</i>{{ file[0]?.name }}</a>
-          </div>
-          <div class="col s1 right" style="min-height:3rem">
-            <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-               [ngClass]="{hide: !file.showbutton}"
-               (click)="onDeleteFileFromLocal(idx)">
-              <i class="material-icons left medium" title="Delete" >delete_forever</i>
-            </a>
-          </div>
-        </div>
-      </li>
-    </ul>
 
     <div class="row" *ngIf="!readonly">
       <qddt-rational [formName]="'RationalComp'" [element]="controlConstruct" [config]="{hidden: [4]}"></qddt-rational>

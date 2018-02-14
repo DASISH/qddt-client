@@ -1,55 +1,59 @@
 <div class="navbar-fixed">
   <nav>
     <div class="nav-wrapper">
-      <ul class="right" >
-        <li><a class="dropdown-button" href="#" data-activates="adminmenu" data-beloworigin="true">
-          {{username}} <i class="material-icons left">arrow_drop_down</i>
-          <img gravatar [email]="getEmail()" [size]="48">
-        </a></li>
-        <ul id="adminmenu" class="dropdown-content" *ngIf="loggedIn" >
-          <li (click)="logoutEvent()"><a href="#"><i class="material-icons left">exit_to_app</i>Exit</a></li>
-          <li class="divider"></li>
-          <li><a href="#"><i class="material-icons left">edit</i>Register</a></li>
-          <li class="divider"></li>
-          <li><a href="#"><i class="material-icons left">mail_outline</i>Password reset</a></li>
-        </ul>
-      </ul>
-
       <a href="#" data-activates="leftmenu" class="button-collapse"><i class="material-icons">menu</i></a>
 
-      <div class="nav-wrapper" >
-        <a *ngIf="path[0]" (click)="onSurvey()" class="breadcrumb">SURVEY [{{ path[0] }}]</a>
-        <a *ngIf="path[1]" (click)="onStudy()" class="breadcrumb">STUDY [{{ path[1] }}]</a>
-        <a *ngIf="path[2]" (click)="onTopic()" class="breadcrumb">MODULE [{{ path[2] }}]</a>
-        <a *ngIf="path[3]" (click)="onConcept()" class="breadcrumb">{{ path[3] }}</a>
-      </div>
+      <ul class="right">
+        <li><a class="dropdown-button"  data-activates="adminmenu" data-beloworigin="true">
+          {{username}} <i class="material-icons left">arrow_drop_down</i>
+          <img class="gravatar" src="/assets/images/avatar-default.png">
+          <!--<img class="gravatar" gravatar [email]="getEmail()" [size]="48">-->
+        </a></li>
+      </ul>
 
+      <a *ngIf="path[0]" (click)="onSurvey()" class="breadcrumb">SURVEY [{{ path[0] }}]</a>
+      <a *ngIf="path[1]" (click)="onStudy()" class="breadcrumb">STUDY [{{ path[1] }}]</a>
+      <a *ngIf="path[2]" (click)="onTopic()" class="breadcrumb">MODULE [{{ path[2] }}]</a>
+      <a *ngIf="path[3]" (click)="onConcept()" class="breadcrumb">{{ path[3] }}</a>
+
+      <ul id="adminmenu" class="dropdown-content"  >
+        <div *ngIf="loggedIn">
+          <li (click)="logoutEvent()"><a href=""><i class="material-icons left">exit_to_app</i>Exit</a></li>
+          <li class="divider"></li>
+          <li (click)="doRegister()"><a href=""><i class="material-icons left">edit</i>Register</a></li>
+          <li class="divider"></li>
+          <li (click)="doResetPassword()"><a href=""><i class="material-icons left">mail_outline</i>Password reset</a></li>
+        </div>
+      </ul>
 
       <ul  id="nav-mobile" class="side-nav fixed hide-on-small-and-down">
-        <div style="color: #fff; background-color: #ee6e73; width: 100%; height: 64px;line-height: 64px; font-size: 2rem; text-align: center;">QDDT</div>
+        <div class="container" style="color: #fff; background-color: #ee6e73; width: 100%; height: 64px; line-height: 64px;
+        font-size: 2rem; text-align: center; vertical-align: center">
+          <img src="/assets/images/qddt-text.png" style="height:100%; left: 90%; ">
+        </div>
         <div *ngIf="loggedIn">
-          <li><a class="teal-text" [routerLink]="['/home']" >
+          <li><a class="teal-text" [routerLink]="['home']" >
             <i class="medium material-icons teal-text left ">store</i>Home</a>
           </li>
-          <li><a class="teal-text" [routerLink]="['/questions']">
+          <li><a class="teal-text" [routerLink]="['questions']">
             <i class="material-icons teal-text left medium">help</i>Questions</a>
           </li>
-          <li><a class="teal-text" [routerLink]="['/categories']" >
+          <li><a class="teal-text" [routerLink]="['categories']" >
             <i class="material-icons teal-text left medium">view_comfy</i>Categories</a>
           </li>
-          <li><a class="teal-text" [routerLink]="['/schemes']" >
+          <li><a class="teal-text" [routerLink]="['schemes']" >
             <i class="material-icons teal-text left medium">view_module</i>Missings</a>
           </li>
-          <li><a class="teal-text" [routerLink]="['/responsedomains']" >
+          <li><a class="teal-text" [routerLink]="['responsedomains']" >
             <i class="material-icons teal-text left medium">blur_linear</i>Domains</a>
           </li>
-          <li><a class="teal-text" [routerLink]="['/constructs']" >
+          <li><a class="teal-text" [routerLink]="['constructs']" >
             <i class="material-icons teal-text left medium">view_agenda</i>Constructs</a>
           </li>
-          <li><a class="teal-text" [routerLink]="['/sequences']" >
+          <li><a class="teal-text" [routerLink]="['sequences']" >
             <i class="material-icons teal-text left medium">format_line_spacing</i>Sequences</a>
           </li>
-          <li><a class="teal-text" [routerLink]="['/publications']" >
+          <li><a class="teal-text" [routerLink]="['publications']" >
             <i class="material-icons teal-text left medium">folder_special</i>Publications</a>
           </li>
         </div>
@@ -58,30 +62,31 @@
     </div>
   </nav>
 </div>
+
 <ul  id="leftmenu" class="side-nav" style="width: 200px;">
-  <div>
-    <li><a [routerLink]="['/home']"  title="home">
+  <div *ngIf="loggedIn">
+    <li><a [routerLink]="['home']"  title="home">
       <i class="medium material-icons teal-text">store</i></a>
     </li>
-    <li><a [routerLink]="['/questions']"  title="Questions">
+    <li><a [routerLink]="['questions']"  title="Questions">
       <i class="medium material-icons teal-text">help</i></a>
     </li>
-    <li><a [routerLink]="['/categories']"  title="Categories">
+    <li><a [routerLink]="['categories']"  title="Categories">
       <i class="medium material-icons teal-text">view_comfy</i></a>
     </li>
-    <li><a [routerLink]="['/schemes']"  title="Missings">
+    <li><a [routerLink]="['schemes']"  title="Missings">
       <i class="medium material-icons teal-text">view_module</i></a>
     </li>
-    <li><a [routerLink]="['/responsedomains']"  title="Domains">
+    <li><a [routerLink]="['responsedomains']"  title="Domains">
       <i class="medium material-icons teal-text">blur_linear</i></a>
     </li>
-    <li><a [routerLink]="['/constructs']" title="Constructs">
+    <li><a [routerLink]="['constructs']" title="Constructs">
       <i class="medium material-icons teal-text">view_agenda</i></a>
     </li>
-    <li><a [routerLink]="['/sequences']"  title="Sequences">
+    <li><a [routerLink]="['sequences']"  title="Sequences">
       <i class="medium material-icons teal-text" >format_line_spacing</i></a>
     </li>
-    <li><a [routerLink]="['/publications']"  title="Publications">
+    <li><a [routerLink]="['publications']"  title="Publications">
       <i class="medium material-icons teal-text" >folder_special</i></a>
     </li>
   </div>

@@ -120,7 +120,7 @@ export class PublicationService {
   }
 
   getByTopic(topicId: string): Promise<any> {
-    return this.http.get(this.api +'concept/page/by-topicgroup/' + topicId + '?page=0&size=50&sort=asc')
+    return this.http.get(this.api + 'concept/page/by-topicgroup/' + topicId + '?page=0&size=50&sort=asc')
       .toPromise();
   }
 
@@ -128,27 +128,27 @@ export class PublicationService {
     const e: any = PUBLICATION_TYPES.find(e => e.id === elementKind);
     if (e !== undefined) {
       if (elementKind === ElementKind.CONCEPT || elementKind === ElementKind.TOPIC_GROUP)
-        return this.http.get(this.api +'audit/' + e.path + '/' + id + '/allinclatest').toPromise();
+        return this.http.get(this.api + 'audit/' + e.path + '/' + id + '/allinclatest').toPromise();
       else
-        return this.http.get(this.api +'audit/' + e.path + '/' + id + '/all').toPromise();
+        return this.http.get(this.api + 'audit/' + e.path + '/' + id + '/all').toPromise();
     }
     return new Promise(null);
   }
 
   getQuestionitem(id: string): Promise<any> {
-    return this.http.get(this.api +'questionitem/' + id).toPromise();
+    return this.http.get(this.api + 'questionitem/' + id).toPromise();
   }
 
   getAll(page: String = '0'): Promise<any> {
-    return this.http.get(this.api +'publication/page/' + this.pageSize).toPromise();
+    return this.http.get(this.api + 'publication/page/' + this.pageSize).toPromise();
   }
 
   getPublication(id: string): Promise<any> {
-    return this.http.get(this.api +'publication/' + id).toPromise();
+    return this.http.get(this.api + 'publication/' + id).toPromise();
   }
 
   getPublicationStatus(): Promise<any> {
-    return this.http.get(this.api +'publicationstatus/list').toPromise();
+    return this.http.get(this.api + 'publicationstatus/list').toPromise();
   }
 
   searchPublications(name: string = '', page: String = '0', sort: String = ''): Promise<any> {
@@ -166,7 +166,7 @@ export class PublicationService {
     if (queries.length > 0) {
       query = '?' + queries.join('&');
     }
-    return this.http.get(this.api +'publication/page/search/' + query).toPromise();
+    return this.http.get(this.api + 'publication/page/search/' + query).toPromise();
   }
 
   searchElements(elementKind: ElementKind, name: string): Promise<any> {
@@ -182,27 +182,27 @@ export class PublicationService {
       if (e.parameter) {
         query += e.parameter;
       }
-      return this.http.get(this.api +e.path + '/page/search/' + query).toPromise();
+      return this.http.get(this.api + e.path + '/page/search/' + query).toPromise();
     }
     return null;
   }
 
-  getFile(id: string) :Promise<Blob> {
-    return this.http.get(this.api + 'othermaterial/files/' + id,{responseType:'blob'})
+  getFile(id: string): Promise<Blob> {
+    return this.http.get(this.api + 'othermaterial/files/' + id, {responseType: 'blob'})
       .toPromise();
   }
 
   getPdf(id: string): Promise<Blob> {
-    return this.http.get(this.api + 'publication/pdf/' + id, {responseType:'blob'})
+    return this.http.get(this.api + 'publication/pdf/' + id, {responseType: 'blob'})
       .toPromise();
   }
 
   create(publication: Publication): Observable<any> {
-    return this.http.post( this.api +'publication/create/',publication);
+    return this.http.post( this.api + 'publication/create/', publication);
   }
 
   update(publication: Publication): Observable<any> {
-    return this.http.post(this.api +'publication/',publication);
+    return this.http.post(this.api + 'publication/', publication);
   }
 
 }

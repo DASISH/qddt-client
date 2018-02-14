@@ -38,34 +38,34 @@ export class ControlConstructService  {
   }
 
   getControlConstruct(id: string): Promise<any>  {
-    return this.http.get(this.api +'controlconstruct/' + id).toPromise();
+    return this.http.get(this.api + 'controlconstruct/' + id).toPromise();
   }
 
   getControlConstructRevision(id: string, rev: string): Promise<any>  {
-    return this.http.get(this.api +'audit/controlconstruct/' + id + '/' + rev).toPromise();
+    return this.http.get(this.api + 'audit/controlconstruct/' + id + '/' + rev).toPromise();
   }
 
   getControlConstructsByQuestionItem(id: string): Promise<any>  {
-    return this.http.get(this.api +'controlconstruct/list/by-question/' + id).toPromise();
+    return this.http.get(this.api + 'controlconstruct/list/by-question/' + id).toPromise();
   }
 
   getQuestionItems(key: string): Promise<any> {
-    return this.http.get(this.api +'questionitem/page/').toPromise();
+    return this.http.get(this.api + 'questionitem/page/').toPromise();
   }
 
   getQuestionItemsRevisions(id: string): Promise<any> {
-    return this.http.get(this.api +'audit/questionitem/' + id + '/all').toPromise();
+    return this.http.get(this.api + 'audit/questionitem/' + id + '/all').toPromise();
   }
 
   getConceptsByQuestionitemId(id: string): Promise<any> {
-    return this.http.get(this.api +'concept/list/by-QuestionItem/' + id).toPromise();
+    return this.http.get(this.api + 'concept/list/by-QuestionItem/' + id).toPromise();
   }
 
   getFile(id: string): Promise<Blob>  {
-    return this.http.get(this.api+'othermaterial/files/' + id, {responseType:'blob'}).toPromise();
+    return this.http.get(this.api + 'othermaterial/files/' + id, {responseType: 'blob'}).toPromise();
   }
   getPdf(id: string): Promise<Blob>  {
-    return this.http.get(this.api+'controlconstruct/pdf/' + id, { responseType:'blob'}).toPromise();
+    return this.http.get(this.api + 'controlconstruct/pdf/' + id, { responseType: 'blob'}).toPromise();
   }
 
   searchControlConstructs(name: string = '%', questionText: string = '%', page: String = '0', sort: string = ''): Promise<any> {
@@ -97,19 +97,19 @@ export class ControlConstructService  {
   }
 
   create(cc: ControlConstruct): Observable<any> {
-    return this.http.post(this.api+ 'controlconstruct/create', cc);
+    return this.http.post(this.api + 'controlconstruct/create', cc);
   }
 
   update(cc: ControlConstruct): Observable<any> {
-    return this.http.post(this.api+ 'controlconstruct/', cc);
+    return this.http.post(this.api + 'controlconstruct/', cc);
   }
 
   deleteControlConstruct(id: string): Observable<any> {
-    return this.http.delete(this.api+ 'controlconstruct/delete/' + id);
+    return this.http.delete(this.api + 'controlconstruct/delete/' + id);
   }
 
   deleteFile(id: string): Observable<any> {
-    return this.http.delete(this.api+'othermaterial/delete/' + id);
+    return this.http.delete(this.api + 'othermaterial/delete/' + id);
   }
 
   uploadFile(id: string, files: any): Observable<any> {

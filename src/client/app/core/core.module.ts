@@ -5,11 +5,12 @@ import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './guard/auth-guard.service';
 import { UserService } from './user/user.service';
 import { PropertyStoreService } from './global/property.service';
+import { RegisterComponent } from './register/register.component';
 
 
 @NgModule({
   imports: [FormsModule, SharedModule ],
-  declarations: [LoginComponent],
+  declarations: [LoginComponent, RegisterComponent],
   exports: [LoginComponent ],
   providers: [PropertyStoreService,AuthGuard,UserService]
 })

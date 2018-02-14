@@ -9,8 +9,6 @@ import { By } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { API_BASE_HREF } from '../../api';
-import { BaseRequestOptions, Http, ConnectionBackend } from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
 
 export function main() {
   describe('Comment list component', () => {
@@ -18,14 +16,7 @@ export function main() {
       TestBed.configureTestingModule({
         declarations: [LocalDatePipe, TestComponent, CommentListComponent, CommentCreateComponent],
         providers: [
-          MockBackend,
-          BaseRequestOptions,
           { provide: CommentService, useClass: CommentServiceSpy },
-          {
-            provide: Http,
-            useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),
-            deps: [MockBackend, BaseRequestOptions]
-          },
           { provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
           }
@@ -39,8 +30,8 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(TestComponent);
-            let de = fixture.debugElement.queryAll(By.css('qddt-comment-create'));
+            const fixture = TestBed.createComponent(TestComponent);
+            const de = fixture.debugElement.queryAll(By.css('qddt-comment-create'));
             expect(de.length).toBe(0);
           });
       }));
@@ -50,14 +41,14 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(TestComponent);
-            fixture.componentInstance.comments = [{id:2, ownerId:'1', comment: 'test'}];
+            const fixture = TestBed.createComponent(TestComponent);
+            fixture.componentInstance.comments = [{id: 2, ownerId: '1', comment: 'test'}];
             fixture.detectChanges();
-            let buttons = fixture.debugElement.queryAll(By.css('a'));
+            const buttons = fixture.debugElement.queryAll(By.css('a'));
             expect(buttons.length).toBe(1);
             buttons[0].nativeElement.click();
             fixture.detectChanges();
-            let de = fixture.debugElement.queryAll(By.css('li'));
+            const de = fixture.debugElement.queryAll(By.css('li'));
             expect(de.length).toBe(1);
           });
       }));
