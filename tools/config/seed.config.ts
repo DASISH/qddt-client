@@ -2,7 +2,7 @@ import { join } from 'path';
 import * as slash from 'slash';
 import { argv } from 'yargs';
 
-import { Environments, InjectableDependency } from './seed.config.interfaces';
+import { Environments, ExtendPackages, InjectableDependency } from './seed.config.interfaces';
 
 /**
  * The enumeration of available environments.
@@ -337,14 +337,16 @@ export class SeedConfig {
     paths: {
       [this.BOOTSTRAP_MODULE]: `${this.APP_BASE}${this.BOOTSTRAP_MODULE}`,
       '@angular/common': 'node_modules/@angular/common/bundles/common.umd.js',
+      // '@angular/common/http': 'node_modules/@angular/common/bundles/common-http.umd.js',
+      '@angular/common/http': 'npm:@angular/common/bundles/common-http.umd.js',
+      'tslib': 'npm:tslib/tslib.js',
       '@angular/compiler': 'node_modules/@angular/compiler/bundles/compiler.umd.js',
       '@angular/core': 'node_modules/@angular/core/bundles/core.umd.js',
       '@angular/forms': 'node_modules/@angular/forms/bundles/forms.umd.js',
-      '@angular/http': 'node_modules/@angular/http/bundles/http.umd.js',
-      '@angular/common/http': 'node_modules/@angular/common/bundles/common-http.umd.js',
       '@angular/platform-browser': 'node_modules/@angular/platform-browser/bundles/platform-browser.umd.js',
       '@angular/platform-browser-dynamic': 'node_modules/@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js',
       '@angular/router': 'node_modules/@angular/router/bundles/router.umd.js',
+
       '@angular/common/testing': 'node_modules/@angular/common/bundles/common-testing.umd.js',
       '@angular/compiler/testing': 'node_modules/@angular/compiler/bundles/compiler-testing.umd.js',
       '@angular/core/testing': 'node_modules/@angular/core/bundles/core-testing.umd.js',
@@ -362,10 +364,6 @@ export class SeedConfig {
       '*': 'node_modules/*'
     },
     packages: {
-      'angular2-materialize': {
-        'main': 'index',
-        'defaultExtension': 'js'
-      },
       rxjs: { defaultExtension: 'js' }
     }
   };
@@ -418,14 +416,6 @@ export class SeedConfig {
         main: 'bundles/forms.umd.js',
         defaultExtension: 'js'
       },
-      '@angular/common/http': {
-       main: 'bundles/common-http.umd.js',
-       defaultExtension: 'js'
-      },
-      '@angular/http': {
-        main: 'bundles/http.umd.js',
-        defaultExtension: 'js'
-      },
       '@angular/platform-browser': {
         main: 'bundles/platform-browser.umd.js',
         defaultExtension: 'js'
@@ -445,18 +435,10 @@ export class SeedConfig {
       // '@types/zone.js': {
       //   main: 'index.d.js'
       // },
-      'angular2-materialize': {
-        'main': 'index',
-        'defaultExtension': 'js'
-      },
       'rxjs': {
         main: 'Rx.js',
         defaultExtension: 'js'
       },
-      'file-saver': {
-        main: 'FileSaver.js',
-        defaultExtension: 'js'
-      }
     }
   };
 
@@ -564,6 +546,23 @@ export class SeedConfig {
     return this.ENV === ENVIRONMENTS.PRODUCTION && this.ENABLE_SCSS ? 'scss' : 'css';
   }
 
+  addPackageBundles(pack: ExtendPackages) {
+    if (pack.path) {
+      this.SYSTEM_CONFIG_DEV.paths[pack.name] = pack.path;
+      this.SYSTEM_BUILDER_CONFIG.paths[pack.name] = pack.path;
+    }
+
+    if (pack.packageMeta) {
+      this.SYSTEM_CONFIG_DEV.packages[pack.name] = pack.packageMeta;
+      this.SYSTEM_BUILDER_CONFIG.packages[pack.name] = pack.packageMeta;
+    }
+  }
+
+  addPackagesBundles(packs: ExtendPackages[]) {
+    packs.forEach((pack: ExtendPackages) => {
+      this.addPackageBundles(pack);
+    });
+  }
 }
 
 /**

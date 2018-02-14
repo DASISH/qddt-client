@@ -21,6 +21,7 @@ import { TocComponent } from './toc/toc.component';
 import { RouterModule } from '@angular/router';
 import { CommentListComponent } from './comment/comment.list.component';
 import { CommentCreateComponent } from './comment/comment.create.component';
+import { GravatarDirective } from './directive/gravatar.directive';
 
 
 @NgModule({
@@ -29,13 +30,13 @@ import { CommentCreateComponent } from './comment/comment.create.component';
     AuthorChipComponent, ElementFooterComponent, VersionComponent,VersionLabelComponent,
     ConfirmDeleteComponent,TocComponent,CommentListComponent,CommentCreateComponent,
     RationalComponent, RevisionComponent,DialogBoxComponent,
-    AutosizeDirective, ParentFormConnectDirective],
+    AutosizeDirective, ParentFormConnectDirective, GravatarDirective ],
   exports: [LocalDatePipe, CommonModule, FormsModule, MaterializeModule,
      QddtTableComponent, QddtPaginationComponent, AutocompleteComponent,
     AuthorChipComponent,ElementFooterComponent,VersionComponent, VersionLabelComponent,
     ConfirmDeleteComponent,TocComponent,CommentListComponent,
     RationalComponent,RevisionComponent,DialogBoxComponent,
-    AutosizeDirective, ParentFormConnectDirective]
+    AutosizeDirective, ParentFormConnectDirective, GravatarDirective ]
 })
 
 export class SharedModule { }
