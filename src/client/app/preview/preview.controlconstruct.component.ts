@@ -27,7 +27,6 @@ import { ControlConstruct } from '../controlconstruct/controlconstruct.service';
     </div>`,
   styles: [
   ],
-  providers: [ ],
 })
 
 export class PreviewControlConstructComponent {

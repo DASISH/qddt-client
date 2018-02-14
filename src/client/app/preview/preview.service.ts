@@ -64,7 +64,7 @@ export const QddtElements: QddtElement[] = [
      '&constructkind=QUESTION_CONSTRUCT'),
   new QddtElement(ElementKind.SEQUENCE_CONSTRUCT, 'Sequence', 'controlconstruct', ['name'],
      '&constructkind=SEQUENCE_CONSTRUCT'),
-  new QddtElement(ElementKind.STATEMENT_CONSTRUCT, 'Statement', 'controlconstruct', ['name', 'preInstructions'],
+  new QddtElement(ElementKind.STATEMENT_CONSTRUCT, 'Statement', 'controlconstruct', ['name', 'description'],
      '&constructkind=STATEMENT_CONSTRUCT'),
   new QddtElement(ElementKind.INSTRUMENT, 'Instrument', 'instrument', ['label', 'description'], null),
   new QddtElement(ElementKind.PUBLICATION, 'Publication', 'publication', ['name', 'purpose'], null),
@@ -73,7 +73,7 @@ export const QddtElements: QddtElement[] = [
   new QddtElement(ElementKind.RESPONSEDOMAIN, 'ResponseDomain', 'responsedomain', ['name', 'description'], null),
   new QddtElement(ElementKind.STUDY, 'Study', 'study', ['name', 'description'], null),
   new QddtElement(ElementKind.SURVEY, 'Survey', 'surveyprogram', ['name', 'description'], null),
-  new QddtElement(ElementKind.TOPIC_GROUP, 'Module', 'topicgroup', ['name', 'description'], null),
+  new QddtElement(ElementKind.TOPIC_GROUP, 'Module', 'topicgroup', ['name', 'abstractDescription'], null),
   new QddtElement(ElementKind.INSTRUCTION, 'Instruction', 'instruction', ['description'], null),
   new QddtElement(ElementKind.UNIVERSE, 'Universe', 'universe', ['description'], null),
 ];

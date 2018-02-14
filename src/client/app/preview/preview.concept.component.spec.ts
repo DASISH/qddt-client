@@ -1,15 +1,13 @@
 import { Component, Input } from '@angular/core';
-import { BaseRequestOptions, Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
-import { PublicationService } from '../../publication/publication.service';
 import { PreviewConceptComponent } from './preview.concept.component';
-import { API_BASE_HREF } from '../../api';
+import { API_BASE_HREF } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
+import { PublicationService } from '../publication/publication.service';
 
 export function main() {
   describe('Publication concept preview component', () => {
@@ -19,14 +17,7 @@ export function main() {
         declarations: [ PreviewConceptComponent, CommentListComponent,
           ConceptPreviewQuestionitemComponent],
         providers: [
-          MockBackend,
-          BaseRequestOptions,
           { provide: PublicationService, useClass: PublicationServiceSpy },
-          {
-            provide: Http,
-            useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),
-            deps: [MockBackend, BaseRequestOptions]
-          },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
@@ -41,9 +32,9 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(PreviewConceptComponent);
+            const fixture = TestBed.createComponent(PreviewConceptComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('div'));
+            const de: any = fixture.debugElement.queryAll(By.css('div'));
             expect(de.length).toBe(0);
           });
       }));
@@ -53,8 +44,8 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(PreviewConceptComponent);
-            let element: any = {
+            const fixture = TestBed.createComponent(PreviewConceptComponent);
+            const element: any = {
                 'id' : '7f000101-54aa-131e-8154-aa27fc230000',
                 'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
                 'name' : 'one concept',
@@ -71,7 +62,7 @@ export function main() {
             fixture.componentInstance.concept = element;
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let de: any = fixture.debugElement.queryAll(By.css('li'));
+              const de: any = fixture.debugElement.queryAll(By.css('li'));
               expect(de.length).toBeGreaterThan(0);
               expect(de[0].nativeNode.textContent).toContain('concept');
             });

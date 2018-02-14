@@ -17,7 +17,7 @@ import { Instrument } from '../instrument/instrument.service';
       data-collapsible="accordion" style="margin:25px; padding:10px;">
     <li *ngFor="let cc of instrument.controlConstructs">
       <div class="collapsible-header yellow lighten-5">
-        <div class="col l10">{{cc?.name}}</div>
+        <div class="col l10">{{ cc?.name }}</div>
         <div class="col l2">
           <qddt-version-label [element]="cc"></qddt-version-label>
         </div>

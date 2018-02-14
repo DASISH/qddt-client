@@ -25,7 +25,7 @@ import { QuestionItem } from '../question/question.service';
 <div class="row" *ngIf="questionItem">
   <qddt-element-footer [element]="questionItem" [type]="'questionitem'"></qddt-element-footer>
 </div>
-<div class="row" *ngIf="questionItem?.conceptRefs">
+<div class="row" *ngIf="questionItem?.conceptRefs?.length>0">
   <ul class="collection with-header black-text">
     <li class="collection-item" *ngFor="let c of questionItem.conceptRefs" >Concept: {{ c?.name }}</li>
   </ul>

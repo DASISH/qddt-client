@@ -7,9 +7,8 @@ import { ResponseDomain } from '../../responsedomain/responsedomain.service';
   template: `
     <div class="row" *ngIf="responseDomain">
        <textarea id="{{responseDomain?.id}}-textarea"
-                 [attr.max]=high
-                 [attr.min]=low
-                 [attr.length]=high
+                 [attr.data-length]=high
+                 [attr.maxlength]=high
          class="materialize-textarea"  materialize="characterCounter" validate></textarea>
        <label>Text length from {{ low }} to {{ high }}</label>
      </div>`,

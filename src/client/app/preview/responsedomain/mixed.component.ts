@@ -48,26 +48,25 @@ export class ResponsedomainMixedComponent implements OnChanges {
     const rep = this.responseDomain.managedRepresentation;
     for (let i = 0; i < rep.children.length; i++) {
       const rd = new ResponseDomain();
-      rd['id'] = new Date().toString();
-      rd['responseCardinality'] = { minimum: 1, maximum: 1 };
-      rd['managedRepresentation'] = rep.children[i];
-      rd['version'] = rep.children[i]['version'];
-      rd['name'] = rep.children[i]['name'] || '';
+      rd.id = new Date().toString();
+      rd.managedRepresentation = rep.children[i];
+      rd.version = rep.children[i]['version'];
+      rd.name = rep.children[i]['name'] || '';
       if (rep.children[i].categoryType === 'SCALE') {
         rd['domainType'] = this.domainTypeDef.SCALE;
-        rd['responseKind'] = 'SCALE';
+        rd.responseKind = 'SCALE';
       } else if (rep.children[i].categoryType === 'NUMERIC') {
         rd['domainType'] = this.domainTypeDef.NUMERIC;
-        rd['responseKind'] = 'NUMERIC';
+        rd.responseKind = 'NUMERIC';
       } else if (rep.children[i].categoryType === 'TEXT') {
         rd['domainType'] = this.domainTypeDef.TEXT;
-        rd['responseKind'] = 'TEXT';
+        rd.responseKind = 'TEXT';
       } else if (rep.children[i].categoryType === 'LIST') {
         rd['domainType'] = this.domainTypeDef.LIST;
-        rd['responseKind'] = 'LIST';
+        rd.responseKind = 'LIST';
       } else {
         rd['domainType'] = this.domainTypeDef.MISSING;
-        rd['responseKind'] = 'MISSING';
+        rd.responseKind = 'MISSING';
         missing = rd;
         continue;
       }

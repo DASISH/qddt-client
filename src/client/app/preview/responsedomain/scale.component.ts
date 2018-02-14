@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { Category, Code } from '../../category/category.service';
 import { ResponseDomain } from '../../responsedomain/responsedomain.service';
+import { Category, Code } from '../../category/category.service';
 
 class ScaleHead {
   colspan: number;
@@ -18,9 +18,11 @@ class Column {
   selector: 'qddt-preview-rd-scale',
   moduleId: module.id,
   templateUrl: './scale.component.html',
-  styles: ['table .text-center {text-align: center;}'
-          , 'table .text-left {text-align: left;}',
-          'table .text-right {text-align: right;}'],
+  styles: [
+    'table .text-center {text-align: center;}',
+    'table .text-left {text-align: left;}',
+    'table .text-right {text-align: right;}'
+  ],
 })
 
 
@@ -42,10 +44,8 @@ export class ResponsedomainScaleComponent implements OnChanges {
     this.headers = [];
     this.rows = new Array(this.numOfRows).fill(1);
     if (rep.inputLimit) {
-      this.max = rep.inputLimit.maximum;
-    }
-    if (rep.inputLimit) {
-      this.min = rep.inputLimit.minimum;
+      this.max = parseInt(rep.inputLimit.maximum.toString());
+      this.min = parseInt(rep.inputLimit.minimum.toString());
     }
     this.displayLayout = parseInt(this.responseDomain.displayLayout);
 
@@ -90,6 +90,8 @@ export class ResponsedomainScaleComponent implements OnChanges {
       for (let i = 2 ; i !== c.length ; i++) {
         minDiff = Math.min(minDiff, parseInt(c[i].code.codeValue) - parseInt(c[i - 1].code.codeValue));
       }
+      if (rep.inputLimit.maximum < 4 )
+        minDiff = 1;
       return (minDiff > 3) ? 3 : minDiff;
     }
 
@@ -121,7 +123,7 @@ export class ResponsedomainScaleComponent implements OnChanges {
           usedCols += (nextcol - usedCols);
         }
       }
-      const alignment = getAlignment(categories[i], (i + 1 === categories.length));
+      let alignment = getAlignment(categories[i],(i+1===categories.length));
 
       this.headers.push({
         label: categories[i].label,
@@ -132,24 +134,24 @@ export class ResponsedomainScaleComponent implements OnChanges {
       usedCols += colspan;
     }
     for (let i = this.min; i <= this.max; i++) {
-      const c = categories
+      let c = categories
         .find(category => category.code && category.code.codeValue === i.toString());
       this.columns.push({ label: c !== undefined ? c.label : '', value: i });
     }
   }
 
   private buildVerticalColumns() {
-    this.columns = [];
+    this.rows = [];
     this.headers = [];
     let categories: any[] = [];
-    const rep = this.responseDomain.managedRepresentation;
+    let rep = this.responseDomain.managedRepresentation;
     if (rep !== undefined && rep.children !== undefined) {
       categories = rep.children;
     }
     for (let i = this.min; i <= this.max; i++) {
-      const c = categories
+      let c = categories
         .find(category => category.code && category.code.codeValue === i.toString());
-      this.columns.push({ label: c !== undefined ? c.label : '', value: i });
+      this.rows.push({ label: c !== undefined ? c.label : '', value: i });
     }
   }
 
