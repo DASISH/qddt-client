@@ -1,15 +1,13 @@
-import { Component} from '@angular/core';
-import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
+import { Component } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
-import { SequenceService } from './sequence.service';
-import { StatementEditComponent } from './statement.edit.component';
+import { StatementEditComponent } from '../edit/statement.edit.component';
 import { API_BASE_HREF } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
+import { SequenceService } from './sequence.service';
 
 export function main() {
   describe('statement edit component', () => {
@@ -18,14 +16,7 @@ export function main() {
       TestBed.configureTestingModule({
         declarations: [ TestComponent, StatementEditComponent ],
         providers: [
-          MockBackend,
-          BaseRequestOptions,
           { provide: SequenceService, useClass: SequenceServiceSpy },
-          {
-            provide: Http,
-            useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),
-            deps: [MockBackend, BaseRequestOptions]
-          },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
@@ -53,21 +44,6 @@ export function main() {
           .compileComponents()
           .then(() => {
             const fixture = TestBed.createComponent(TestComponent);
-            const mockBackend = TestBed.get(MockBackend);
-            mockBackend.connections.subscribe((c: any) => {
-              c.mockRespond(new Response(new ResponseOptions({
-                body: '{'
-                + '"id" : "7f000101-54aa-131e-8154-aa27fc230000",'
-                + '"modified" : [ 2016, 9, 8, 15, 21, 26, 254000000 ],'
-                + '"name" : "one statement",'
-                + '"basedOnObject" : null,'
-                + '"basedOnRevision" : null,'
-                + '"version" : {"major" : 1, "minor" : 0, "versionLabel" : "", "revision" : null },'
-                + '"changeKind" : "CREATED",'
-                + '"changeComment" : "CREATED"'
-                + '}'
-              })));
-            });
             const de: any[] = fixture.debugElement.queryAll(By.css('button'));
             expect(de.length).toBeGreaterThan(0);
             de[0].nativeElement.click();

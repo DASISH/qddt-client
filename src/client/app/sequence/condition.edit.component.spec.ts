@@ -5,7 +5,7 @@ import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { SequenceService } from './sequence.service';
-import { ConditionEditComponent } from './condition.edit.component';
+import { ConditionEditComponent } from '../edit/condition.edit.component';
 import { API_BASE_HREF } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';

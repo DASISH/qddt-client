@@ -1,11 +1,9 @@
 import { Component, Input,  EventEmitter, Output } from '@angular/core';
-import { BaseRequestOptions,  Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { SequenceService } from './sequence.service';
-import { SequenceContentComponent } from './sequence.content.component';
+import { SequenceContentComponent } from '../to-be-delete/sequence.content.component';
 import { API_BASE_HREF } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -21,14 +19,7 @@ export function main() {
           PreviewConditionComponent, PreviewStatementComponent,
           PreviewControlConstructComponent, PreviewConstructComponent],
         providers: [
-          MockBackend,
-          BaseRequestOptions,
           { provide: SequenceService, useClass: SequenceServiceSpy },
-          {
-            provide: Http,
-            useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),
-            deps: [MockBackend, BaseRequestOptions]
-          },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
