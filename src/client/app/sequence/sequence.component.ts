@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
-import { ElementTypeDescription, SequenceService, Sequence, ControlConstructKind } from './sequence.service';
+import { SequenceService, Sequence, ControlConstructKind } from './sequence.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 

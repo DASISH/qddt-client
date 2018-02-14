@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { SequenceService,  ConditionCommand, Condition, ControlConstructKind } from '../sequence.service';
+import { SequenceService,  ConditionCommand, Condition, ControlConstructKind } from './sequence.service';
 
 @Component({
   selector: 'qddt-condition-edit',

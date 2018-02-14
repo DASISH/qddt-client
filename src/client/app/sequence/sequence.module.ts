@@ -8,12 +8,13 @@ import { ConditionEditComponent } from './condition.edit.component';
 import { StatementEditComponent } from './statement.edit.component';
 import { SequenceEditComponent } from './sequence.edit.component';
 import { SequenceService } from './sequence.service';
+import { SequenceContentComponent } from './sequence.content.component';
 
 
 @NgModule({
   imports: [ SharedModule,  PreviewModule],
 
-  declarations: [ SequenceComponent, SequenceDetailComponent, SequenceReuseComponent,
+  declarations: [ SequenceComponent, SequenceDetailComponent, SequenceContentComponent, SequenceReuseComponent,
                    SequenceEditComponent, ConditionEditComponent, StatementEditComponent ],
 
   exports: [ SequenceComponent ],
