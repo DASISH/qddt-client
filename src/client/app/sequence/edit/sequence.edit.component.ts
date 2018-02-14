@@ -20,4 +20,5 @@ export class SequenceEditComponent implements OnInit {
     this.statement = new Statement();
     this.elementId = new Date().toString();
   }
+}
 

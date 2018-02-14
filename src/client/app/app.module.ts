@@ -18,7 +18,6 @@ import { SequenceModule } from './sequence/sequence.module';
 import { PageNotFoundComponent } from './pagenotfound/page-not-found.component';
 import { CoreModule } from './core/core.module';
 import { TokenInterceptor } from './core/interceptor/token.interceptor';
-import { GravatarModule } from 'ng2-gravatar-directive/src/gravatar.module';
 import { MenuModule } from './menu/menu.module';
 import { ErrorLogService } from './errorhandler/error-log.service';
 import { GlobalErrorHandler } from './errorhandler/error.service';
@@ -27,7 +26,7 @@ import { GlobalErrorHandler } from './errorhandler/error.service';
   declarations: [ AppComponent, PageNotFoundComponent ],
   imports: [ BrowserModule, HttpClientModule,  SharedModule, CoreModule, HomeModule, MenuModule,
     CategoryModule, ResponsedomainModule, QuestionModule, ControlConstructModule,
-    SequenceModule, InstrumentModule, PublicationModule, GravatarModule, routing ],
+    SequenceModule, InstrumentModule, PublicationModule, routing ],
   providers: [ ErrorLogService,
     { provide: APP_BASE_HREF, useValue: '<%= APP_BASE %>' },
     { provide: API_BASE_HREF, useValue: '<%= API_BASE %>' },

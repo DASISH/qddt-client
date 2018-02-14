@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, EventEmitter } from '@angular/core';
-import { Sequence, SequenceService } from './sequence.service';
+import { Sequence, SequenceService } from '../sequence.service';
 
 @Component({
   selector: 'qddt-sequence-content',
