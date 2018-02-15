@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { SequenceService, Sequence } from './sequence.service';
 import { ElementKind } from '../preview/preview.service';
-const saveAs = require('file-saver');
+const filesaver = require('file-saver');
 
 @Component({
   selector: 'qddt-sequence-detail',
@@ -49,7 +49,7 @@ export class SequenceDetailComponent implements OnInit {
     const fileName = element.name + '.pdf';
     this.service.getPdf(element.id).subscribe(
       (data: any) => {
-        saveAs(data, fileName);
+        filesaver.saveAs(data, fileName);
       });
   }
 

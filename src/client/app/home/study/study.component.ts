@@ -5,7 +5,7 @@ import { SurveyProgram } from '../survey/survey.service';
 import { HIERARCHY_POSITION, PropertyStoreService } from '../../core/global/property.service';
 import { ElementKind } from '../../preview/preview.service';
 
-const saveAs = require('file-saver');
+const filesaver = require('file-saver');
 
 @Component({
   selector: 'qddt-study',
@@ -27,20 +27,21 @@ export class StudyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let survey= this.property.get('survey');
+    const survey = this.property.get('survey');
     if (survey) {
       this.survey = survey;
     } else {
-        this.studyService.getAll(this.survey.id).then(result=> this.survey.studies = result);
+        this.studyService.getAll(this.survey.id).then(result => this.survey.studies = result);
     }
   }
 
   onShowTopic(study: any) {
     const prevStudy = this.property.get('study');
-    if (!prevStudy || prevStudy.id !== study.id)
-      this.property.set('topics',null);
-    this.property.set('study',study);
-    this.property.setCurrent(HIERARCHY_POSITION.Study,study.name);
+    if (!prevStudy || prevStudy.id !== study.id) {
+      this.property.set('topics', null);
+    }
+    this.property.set('study', study);
+    this.property.setCurrent(HIERARCHY_POSITION.Study, study.name);
     this.router.navigate(['topic']);
   }
 
@@ -54,7 +55,7 @@ export class StudyComponent implements OnInit {
 
   onStudySavedEvent(study: any) {
     if (study !== null) {
-      let studies = this.survey.studies.filter((q) => q.id !== study.id);
+      const studies = this.survey.studies.filter((q) => q.id !== study.id);
       studies.push(study);
       this.survey.studies = studies;
     }
@@ -73,13 +74,13 @@ export class StudyComponent implements OnInit {
     const fileName = element.name + '.pdf';
     this.studyService.getPdf(element.id).then(
       (data: any) => {
-        saveAs(data, fileName);
+        filesaver.saveAs(data, fileName);
       });
   }
 
   onRemoveStudy(studyId: string) {
     if (studyId && studyId.length === 36) {
-      let studies = this.survey.studies;
+      const studies = this.survey.studies;
       this.studyService.deleteStudy(studyId)
         .subscribe(() =>
           this.survey.studies = studies.filter(q => q['id'] === studyId));

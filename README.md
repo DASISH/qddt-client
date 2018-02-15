@@ -1,79 +1,27 @@
-# QDDT Client
+# QddtCli
 
-[![Build Status](https://travis-ci.org/DASISH/qddt-client.svg?branch=devel)](https://travis-ci.org/DASISH/qddt-client)
-[![Angular Style Guide](https://mgechev.github.io/angular2-style-guide/images/badge.svg)](https://angular.io/styleguide)
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.8.
 
-*This is a prototype for the web client based on the QDDT API being developed at NSD. This prototype uses Angular 2.0.0 releases.*
+## Development server
 
-## Sites
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-[QDDT Prod](https://qddt.nsd.no)
+## Code scaffolding
 
-[QDDT Test/Dev](http://qddt-test.nsd.no)
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Demo
+## Build
 
-[QDDT Client](http://dasish.github.io/qddt-client/)
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
-## Basic features:
+## Running unit tests
 
-- [x] Login and logout
-- [x] A dashboard
-- [x] Support survey programs, study, category, concept, response domains and question constructs
-- [x] See comments
-- [x] See revisions
-- [x] A better workflow
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## How to start
+## Running end-to-end tests
 
-```bash
-# install the project's dependencies
-npm install
-# watches your files and uses livereload by default
-npm start
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
 
-# dev build
-npm run build.dev
-# prod build
-npm run build.prod
-```
-## How to publish github page
-```bash
-#checkout devel branch, say directory path A
-npm run build.prod -- --base=/qddt-client/ --api=https://qddt-test.nsd.no/api/
+## Further help
 
-#checkout gh-pages branch , say directory path B
-cp -a A/dist/prod/* B/
-
-#goto B and commit the webpage to gh-pages
-git add *
-git commit -m "message"
-git push
-```
-
-## Configuration
-
-### Default application server configuration
-
-```javascript
-var PORT             = 5555;
-var APP_BASE         = '/';
-```
-
-### Configure at runtime
-
-```bash
-npm start -- --port 8080 --reload-port 4000 --base /my-app/
-```
-```bash
-npm test
-```
-
-## License
-
-MIT
-
-## Credits
-
-Based on https://github.com/mgechev/angular2-seed/  
-We will follow changes here as well, and implement big changes to our tool chain as they appear.
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).

@@ -8,7 +8,7 @@ import { TopicService, Topic } from './topic.service';
 import { QuestionItem } from '../../question/question.service';
 import { ElementKind } from '../../preview/preview.service';
 
-const saveAs = require('file-saver');
+const filesaver = require('file-saver');
 declare var Materialize: any;
 
 @Component({
@@ -59,14 +59,16 @@ export class TopicComponent implements  OnInit {
 
   onToggleTopicForm() {
     this.showTopicForm = !this.showTopicForm;
-    if (this.showTopicForm)
+    if (this.showTopicForm) {
       this.showReuse = false;
+    }
   }
 
   onToggleReuse() {
     this.showReuse = !this.showReuse;
-    if (this.showReuse)
+    if (this.showReuse) {
       this.showTopicForm = false;
+    }
   }
 
   onSelectedRevsion(topic: Topic) {
@@ -76,8 +78,9 @@ export class TopicComponent implements  OnInit {
 
   onSelectTopic(topic: any) {
     const prevTopic = this.property.get('topic');
-    if (!prevTopic || prevTopic.id !== topic.id)
+    if (!prevTopic || prevTopic.id !== topic.id) {
       this.property.set('concepts', null);
+    }
     this.property.set('topic', topic);
     this.property.setCurrent(HIERARCHY_POSITION.Topic, topic.name);
     this.property.setCurrent(HIERARCHY_POSITION.Concept, 'Concept');
@@ -87,8 +90,9 @@ export class TopicComponent implements  OnInit {
   onTopicSavedEvent(topic: any) {
     if (topic !== null) {
       const index = this.topics.findIndex((q) => q.id === topic.id);
-      if (index >= 0)
+      if (index >= 0) {
         this.topics.splice(index, 1);
+      }
       this.topics.push(topic);
       this.property.set('topics', this.topics);
     }
@@ -104,13 +108,13 @@ export class TopicComponent implements  OnInit {
   onDownloadFile(o: any) {
     const fileName = o.originalName;
     this.topicService.getFile(o.id).then(
-      (data: any) => saveAs(data, fileName));
+      (data: any) => filesaver.saveAs(data, fileName));
   }
 
   onGetPdf(element: Topic) {
     const fileName = element.name + '.pdf';
     this.topicService.getPdf(element.id).then(
-      (data: any) => saveAs(data, fileName));
+      (data: any) => filesaver.saveAs(data, fileName));
   }
 
   onClickQuestionItem(questionItem) {

@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { QuestionService, QuestionItem } from './question.service';
 import { MaterializeAction } from 'angular2-materialize';
 import { ElementKind } from '../preview/preview.service';
-const saveAs = require('file-saver');
+const filesaver = require('file-saver');
 
 
 @Component({
@@ -139,7 +139,7 @@ export class QuestionDetailComponent implements OnInit {
     const fileName = element.name + '.pdf';
     this.service.getPdf(element.id).subscribe(
       (data: any) => {
-        saveAs(data, fileName);
+        filesaver.saveAs(data, fileName);
       });
   }
 

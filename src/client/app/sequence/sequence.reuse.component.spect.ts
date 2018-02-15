@@ -117,7 +117,7 @@ class SequenceContentComponent {
 }
 
 @Component({
-  selector: 'autocomplete',
+  selector: 'auto-complete',
   template: `<div></div>`
 })
 

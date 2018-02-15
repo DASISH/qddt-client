@@ -2,7 +2,7 @@ import { Component, Input, Output, OnInit, EventEmitter, AfterContentChecked } f
 import { ControlConstructService, ControlConstruct } from './controlconstruct.service';
 import { Observable }     from 'rxjs/Observable';
 import { MaterializeAction } from 'angular2-materialize';
-const saveAs = require('file-saver');
+const filesaver = require('file-saver');
 declare var Materialize: any;
 
 @Component({
@@ -123,7 +123,7 @@ export class ControlConstructFormComponent implements OnInit, AfterContentChecke
     const fileName = o.originalName;
     this.service.getFile(o.id).then(
       (data: any) => {
-        saveAs(data, fileName);
+        filesaver.saveAs(data, fileName);
       });
   }
 

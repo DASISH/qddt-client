@@ -2,11 +2,11 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ControlConstructService, ControlConstruct } from './controlconstruct.service';
 import { MaterializeAction } from 'angular2-materialize';
 import { ElementKind } from '../preview/preview.service';
-const saveAs = require('file-saver');
+const filesaver = require('file-saver');
 
 
 @Component({
-  selector: 'qddt-control-construct-detail',
+  selector: 'app-control-construct-detail',
   moduleId: module.id,
   templateUrl: './controlconstruct.detail.component.html',
   styles: [`:host /deep/ .hoverable .row {
@@ -93,17 +93,17 @@ export class ControlConstructDetailComponent implements OnInit {
     const fileName = o.originalName;
     this.service.getFile(o.id).then(
       (data: any) => {
-        saveAs(data, fileName);
+        filesaver.saveAs(data, fileName);
       },
-      error =>{ throw error;});
+      error => { throw error; });
   }
 
   onGetPdf( c: ControlConstruct) {
     this.service.getPdf(c.id).then(
       (data: any) => {
-        saveAs(data, c.name + '.pdf');
+        filesaver.saveAs(data, c.name + '.pdf');
       },
-      error =>{ throw error;});
+      error => { throw error; });
   }
 
   onShowRevision(element: any) {
@@ -135,19 +135,19 @@ export class ControlConstructDetailComponent implements OnInit {
     }});
     config.push({'name': ['preInstructions'], 'label': 'Pre', 'init': function (o: any) {
       if (o !== null && o !== undefined) {
-        return o.map((element: any) => {return element['description'] || ''; }).sort().join(',');
+        return o.map((element: any) => element['description'] || '').sort().join(',');
       }
       return '';
     }});
     config.push({'name': ['postInstructions'], 'label': 'Post', 'init': function (o: any) {
       if (o !== null && o !== undefined) {
-        return o.map((element: any) => {return element['description'] || ''; }).sort().join(',');
+        return o.map((element: any) => element['description'] || '').sort().join(',');
       }
       return '';
     }});
     config.push({'name': ['otherMaterials'], 'label': 'Files', 'init': function (o: any) {
       if (o !== null && o !== undefined) {
-        return o.map((element: any) => {return element['originalName'] || ''; }).sort().join(',');
+        return o.map((element: any) => element['originalName'] || '').sort().join(',');
       }
       return '';
     }});

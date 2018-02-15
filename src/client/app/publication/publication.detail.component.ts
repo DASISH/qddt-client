@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { PublicationService, Publication, PUBLICATION_STATUS, PUBLICATION_NOT_PUBLISHED , PUBLICATION_TYPES } from './publication.service';
 import { QddtElement } from '../preview/preview.service';
-const saveAs = require('file-saver');
+const filesaver = require('file-saver');
 
 @Component({
   selector: 'qddt-publication-detail',
@@ -68,8 +68,9 @@ export class PublicationDetailComponent implements OnInit {
 
   getElementbyLabel(label: string): QddtElement {
     const element: QddtElement = PUBLICATION_TYPES.find(e => e.label === label);
-    if (element === undefined)
+    if (element === undefined) {
       console.log('Couldn\'t find kind label ' + label);
+    }
     return element;
   }
 
@@ -78,7 +79,7 @@ export class PublicationDetailComponent implements OnInit {
     const fileName = element.name + '.pdf';
     this.service.getPdf(element.id).then(
       (data: any) => {
-        saveAs(data, fileName);
+        filesaver.saveAs(data, fileName);
       });
   }
 }

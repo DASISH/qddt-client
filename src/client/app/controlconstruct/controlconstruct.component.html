@@ -145,12 +145,12 @@
       </div>
     </div>
   </div>
-  <qddt-control-construct-detail *ngIf="isDetail"
+  <app-control-construct-detail *ngIf="isDetail"
     [controlConstructId]="selectedControlConstruct.id"
     [controlConstructs]="controlConstructs"
     (exceptionEvent)="popupModal($event)"
     (hideDetailEvent)="hideDetail()">
-  </qddt-control-construct-detail>
+  </app-control-construct-detail>
 </div>
 
 <div [attr.id]="'create-controlConstructs-modal'" class="modal"

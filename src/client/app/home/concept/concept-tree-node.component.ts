@@ -3,7 +3,7 @@ import { ConceptService, Concept } from './concept.service';
 import { MaterializeAction } from 'angular2-materialize';
 import { QuestionItem } from '../../question/question.service';
 import { ElementKind } from '../../preview/preview.service';
-const saveAs = require('file-saver');
+const filesaver = require('file-saver');
 
 @Component({
   selector: 'qddt-concept-treenode',
@@ -86,7 +86,7 @@ export class TreeNodeComponent  {
     const fileName = concept.name + '.pdf';
     this.conceptService.getPdf(concept.id).then(
       (data: any) => {
-        saveAs(data, fileName);
+        filesaver.saveAs(data, fileName);
       });
   }
 }

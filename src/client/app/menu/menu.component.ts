@@ -15,15 +15,15 @@ declare var $: any;
   templateUrl: './menu.component.html',
 })
 export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
-  propertyChanged:Subscription;
-  loginChanged:Subscription;
+  propertyChanged: Subscription;
+  loginChanged: Subscription;
 
   private path = [4];
   private username;
-  private loggedIn:boolean;
+  private loggedIn: boolean;
 
   constructor(private auth: UserService, private property: PropertyStoreService,
-              private router: Router,) {
+              private router: Router, ) {
     this.username = this.getUserName();
     this.loggedIn = !this.auth.isTokenExpired();
   }
@@ -31,17 +31,15 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit() {
     this.propertyChanged = this.property.currentChange$.subscribe(
       item => {
-        this.path[item]= this.property.getCurrent();
-        console.debug('currentChange ' + item);
+        this.path[item] = this.property.getCurrent();
       }
-    ,(error:any) => console.error(error.toString()));
+    , (error: any) => console.error(error.toString()));
     this.loginChanged = this.auth.loginChanged$.subscribe(
       item => {
-        console.log('changed -> ' + item);
         this.username = this.getUserName();
         this.loggedIn = !this.auth.isTokenExpired();
       }
-      ,(error:any) => console.error(error.toString())
+      , (error: any) => console.error(error.toString())
     );
   }
 
@@ -61,15 +59,18 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
     // $('.collapsible').collapsible();
   }
 
-  getEmail() : string {
-    if (!this.auth.isTokenExpired())
+  getEmail(): string {
+    if (!this.auth.isTokenExpired()) {
       return this.auth.getEmail();
+    }
+    console.log('gravitar token expired');
     return '';
   }
 
-  getUserName() : string {
-    if (!this.auth.isTokenExpired())
+  getUserName(): string {
+    if (!this.auth.isTokenExpired()) {
       return this.auth.getUsername().charAt(0).toUpperCase() + this.auth.getUsername().slice(1);
+    }
     return 'NOT LOGGED IN';
   }
 
@@ -82,7 +83,7 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   doResetPassword() {
-    //TODO implement ResetPassword
+    // TODO implement ResetPassword
   }
 
   onSurvey() {
@@ -103,18 +104,18 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
 
   clearAll() {
     this.path[HIERARCHY_POSITION.Survey] = null;
-    this.property.set('study',null);
+    this.property.set('study', null);
     this.path[HIERARCHY_POSITION.Study] = null;
     this.clearTopic();
   }
 
   clearTopic() {
-    this.property.set('topic',null);
+    this.property.set('topic', null);
     this.path[HIERARCHY_POSITION.Topic] = null;
     this.clearConcept();
   }
   clearConcept() {
-    this.property.set('concept',null);
+    this.property.set('concept', null);
     this.path[HIERARCHY_POSITION.Concept] = null;
   }
 

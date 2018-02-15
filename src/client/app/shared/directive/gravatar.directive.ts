@@ -1,6 +1,6 @@
 import { Directive, ElementRef, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 // import * as md5 from 'md5';
-// var md5 = require('md5');
+const  md5 = require('md5');
 @Directive({
   selector: '[gravatar]'
 })
@@ -22,7 +22,7 @@ export class GravatarDirective implements OnChanges , OnInit {
   }
 
   setUrlGravatar(email: string) {
-    this.elementRef.nativeElement.src = `//www.gravatar.com/avatar/&d=${this.fallback}`;
-    // this.elementRef.nativeElement.src = `//www.gravatar.com/avatar/${md5(email)}?s=${this.size}&d=${this.fallback}`;
+    // this.elementRef.nativeElement.src = `//www.gravatar.com/avatar/&d=${this.fallback}`;
+    this.elementRef.nativeElement.src = `//www.gravatar.com/avatar/${md5(email)}?s=${this.size}&d=${this.fallback}`;
   }
 }

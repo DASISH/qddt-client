@@ -21,6 +21,7 @@ import { TokenInterceptor } from './core/interceptor/token.interceptor';
 import { MenuModule } from './menu/menu.module';
 import { ErrorLogService } from './errorhandler/error-log.service';
 import { GlobalErrorHandler } from './errorhandler/error.service';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [ AppComponent, PageNotFoundComponent ],
@@ -28,8 +29,8 @@ import { GlobalErrorHandler } from './errorhandler/error.service';
     CategoryModule, ResponsedomainModule, QuestionModule, ControlConstructModule,
     SequenceModule, InstrumentModule, PublicationModule, routing ],
   providers: [ ErrorLogService,
-    { provide: APP_BASE_HREF, useValue: '<%= APP_BASE %>' },
-    { provide: API_BASE_HREF, useValue: '<%= API_BASE %>' },
+    { provide: APP_BASE_HREF, useValue: environment.APP_BASE },
+    { provide: API_BASE_HREF, useValue: environment.API_BASE },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     { provide: ErrorHandler, useClass: GlobalErrorHandler }
   ],

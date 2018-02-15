@@ -4,7 +4,7 @@ import { SurveyService, SurveyProgram } from './survey.service';
 import { ElementKind } from '../../preview/preview.service';
 import { PropertyStoreService , HIERARCHY_POSITION } from '../../core/global/property.service';
 
-const saveAs = require('file-saver');
+const filesaver = require('file-saver');
 
 @Component({
   selector: 'qddt-survey',
@@ -64,7 +64,7 @@ export class SurveyComponent implements OnInit {
     const fileName = element.name + '.pdf';
     this.surveyService.getPdf(element.id)
     .then(
-      (data: any) => saveAs(data, fileName)
+      (data: any) => filesaver.saveAs(data, fileName)
     );
   }
 }

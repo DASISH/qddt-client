@@ -19,7 +19,7 @@ export class AppComponent  {
     //
   }
 
-  isLoggedIn() : boolean {
+  isLoggedIn(): boolean {
     return !this.userService.isTokenExpired();
   }
 

@@ -28,11 +28,7 @@ class UserServiceSpy {
 class DummyComponent {
 }
 
-@Component({
-  selector: 'qddt-user-login',
-  moduleId: module.id,
-  template: ''
-})
+
 export class UserLoginComponent {
   @Output() logoutEvent: EventEmitter<string> = new EventEmitter<string>();
 }
@@ -95,10 +91,7 @@ export function main() {
     });
 }
 
-@Component({
-    selector: 'test-cmp',
-    template: '<app></app>'
-})
+
 class TestComponent {
 
 }

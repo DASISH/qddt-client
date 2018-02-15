@@ -33,14 +33,14 @@ export class Sequence {
   description: string;
   children: any[];
   sequence: SequenceKind;
-  controlConstructKind= ControlConstructKind.SEQUENCE_CONSTRUCT;
+  controlConstructKind = ControlConstructKind.SEQUENCE_CONSTRUCT;
 }
 
 export class Statement {
   id: string;
   name: string;
   description: string;
-  controlConstructKind= ControlConstructKind.STATEMENT_CONSTRUCT;
+  controlConstructKind = ControlConstructKind.STATEMENT_CONSTRUCT;
 }
 
 export class ConditionCommand {
@@ -56,7 +56,7 @@ export class Condition {
   condition: string;
   ifCondition: ConditionCommand;
   elseConditions: ConditionCommand[];
-  controlConstructKind= ControlConstructKind.CONDITION_CONSTRUCT;
+  controlConstructKind = ControlConstructKind.CONDITION_CONSTRUCT;
 }
 
 @Injectable()
@@ -95,8 +95,9 @@ export class SequenceService {
 
   public getQddtElementFromStr(kind: string): QddtElement {
     const element: any = ElementTypeDescription.find(e => ElementKind[e.id] === kind);
-    if (!element)
+    if (!element) {
       throw Error('Couldn\'t find kind ' + kind);
+    }
     return element;
   }
 

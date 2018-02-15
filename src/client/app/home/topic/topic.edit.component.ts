@@ -2,7 +2,7 @@ import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { TopicService, Topic } from './topic.service';
 import { Observable } from 'rxjs/Observable';
 
-const saveAs = require('file-saver');
+const filesaver = require('file-saver');
 
 @Component({
   selector: 'qddt-topic-edit',
@@ -45,7 +45,7 @@ export class TopicEditComponent  {
     const fileName = o.originalName;
     this.service.getFile(o.id).then(
       (data: any) => {
-        saveAs(data, fileName);
+        filesaver.saveAs(data, fileName);
       });
   }
 

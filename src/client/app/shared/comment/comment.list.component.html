@@ -9,11 +9,11 @@
         <li class="collection-item avatar"
             *ngFor="let comment of comments; let idx=index;">
           <div *ngIf="showPrivate || comment.public ">
-            <!--<img gravatar [email]="comment?.modifiedBy?.email" [size]="48" class="circle">-->
-            <img class="circle" src="/assets/images/avatar-default.png" height="48" width="48"/>
+            <img gravatar [email]="comment?.modifiedBy?.email" [size]="48" class="circle">
+            <!--<img class="circle" src="/assets/images/avatar-default.png" height="48" width="48"/>-->
             <span class="title" [style.color]="comment.public ? 'blue': 'grey'">
              {{ comment?.modifiedBy?.username }}@{{ comment?.modifiedBy?.agency?.name }}
-              {{ comment?.modified|localDate }}
+              {{ comment?.modified | localDate }}
               <i *ngIf="comment.public" class="material-icons left tiny" title="This comment is visible for all">public</i>
             </span>
             <div class="row" *ngIf="!isEditComment || selectedCommentId !== idx">

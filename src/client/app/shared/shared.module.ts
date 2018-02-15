@@ -25,17 +25,17 @@ import { GravatarDirective } from './directive/gravatar.directive';
 
 
 @NgModule({
-  imports: [MaterializeModule,CommonModule, RouterModule, FormsModule, CompareModule ],
+  imports: [MaterializeModule, CommonModule, RouterModule, FormsModule, CompareModule ],
   declarations: [ LocalDatePipe, QddtTableComponent, QddtPaginationComponent, AutocompleteComponent,
-    AuthorChipComponent, ElementFooterComponent, VersionComponent,VersionLabelComponent,
-    ConfirmDeleteComponent,TocComponent,CommentListComponent,CommentCreateComponent,
-    RationalComponent, RevisionComponent,DialogBoxComponent,
+    AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
+    ConfirmDeleteComponent, TocComponent, CommentListComponent, CommentCreateComponent,
+    RationalComponent, RevisionComponent, DialogBoxComponent,
     AutosizeDirective, ParentFormConnectDirective, GravatarDirective ],
   exports: [LocalDatePipe, CommonModule, FormsModule, MaterializeModule,
      QddtTableComponent, QddtPaginationComponent, AutocompleteComponent,
-    AuthorChipComponent,ElementFooterComponent,VersionComponent, VersionLabelComponent,
-    ConfirmDeleteComponent,TocComponent,CommentListComponent,
-    RationalComponent,RevisionComponent,DialogBoxComponent,
+    AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
+    ConfirmDeleteComponent, TocComponent, CommentListComponent,
+    RationalComponent, RevisionComponent, DialogBoxComponent,
     AutosizeDirective, ParentFormConnectDirective, GravatarDirective ]
 })
 

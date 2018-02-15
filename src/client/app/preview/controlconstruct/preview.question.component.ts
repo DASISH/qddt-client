@@ -1,7 +1,7 @@
 import { Component, Input, EventEmitter } from '@angular/core';
 import { MaterializeAction } from 'angular2-materialize';
 import { ControlConstructService } from '../../controlconstruct/controlconstruct.service';
-const saveAs = require('file-saver');
+const filesaver = require('file-saver');
 
 @Component({
   selector: 'qddt-preview-questionconstruct',
@@ -97,7 +97,7 @@ export class PreviewQuestionConstructComponent {
     const fileName = o.originalName;
     this.service.getFile(o.id).then(
       (data: any) => {
-        saveAs(data, fileName);
+        filesaver.saveAs(data, fileName);
       });
   }
 

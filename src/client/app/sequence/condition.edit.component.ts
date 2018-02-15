@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { SequenceService,  ConditionCommand, Condition, ControlConstructKind } from './sequence.service';
 
 @Component({
-  selector: 'qddt-condition-edit',
+  selector: 'app-condition-edit',
   moduleId: module.id,
   template: `
     <div class="row teal-text">
@@ -33,7 +33,7 @@ import { SequenceService,  ConditionCommand, Condition, ControlConstructKind } f
         <div class="input-field col s6">
           <auto-complete
             [items]="elements"
-            [elementtype]="getQddtElementFromStr('CONDITION_CONSTRUCT')"
+            [elementtype]="service.getQddtElementFromStr('CONDITION_CONSTRUCT')"
             (autocompleteSelectEvent)="onSelectElement($event)"
 				    (enterEvent)="onSearchElements($event)">
 			    </auto-complete>
@@ -51,7 +51,7 @@ import { SequenceService,  ConditionCommand, Condition, ControlConstructKind } f
         <div class="input-field col s6">
           <auto-complete
             [items]="elements"
-            [elementtype]="getQddtElementFromStr('CONDITION_CONSTRUCT')"
+            [elementtype]="service.getQddtElementFromStr('CONDITION_CONSTRUCT')"
             (autocompleteSelectEvent)="onSelectElseElement($event, idx)"
 				    (enterEvent)="onSearchElements($event)">
 			    </auto-complete>
@@ -76,7 +76,7 @@ export class ConditionEditComponent implements OnInit {
   elements: any[];
   elseConditionNum: number;
 
-  constructor(private service: SequenceService) {
+  constructor(public service: SequenceService) {
     this.ifCondition = new ConditionCommand();
     this.elseConditions = [];
     this.elements = [];
@@ -96,7 +96,7 @@ export class ConditionEditComponent implements OnInit {
   }
 
   onSelectElseElement(e: any, idx: number) {
-    if(this.elseConditions.length <= idx) {
+    if (this.elseConditions.length <= idx) {
       return;
     }
     this.elseConditions[idx].constructId = e.id;
@@ -114,7 +114,7 @@ export class ConditionEditComponent implements OnInit {
   }
 
   onCreate() {
-    let condition = {'ifCondition': this.ifCondition, 'elseConditions': this.elseConditions};
+    const condition = {'ifCondition': this.ifCondition, 'elseConditions': this.elseConditions};
     this.condition.condition = JSON.stringify(condition);
     this.service.create(this.condition)
       .subscribe((result: any) => {
@@ -129,7 +129,7 @@ export class ConditionEditComponent implements OnInit {
   buildElseConditions() {
     this.elseConditions = this.elseConditions.slice(0, this.elseConditionNum);
     for (let i = this.elseConditions.length; i < this.elseConditionNum; i++) {
-      let c:any = new ConditionCommand();
+      const c: any = new ConditionCommand();
       this.elseConditions.push(c);
     }
   }
