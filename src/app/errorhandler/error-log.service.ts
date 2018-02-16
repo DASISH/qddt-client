@@ -13,10 +13,11 @@ export class ErrorLogService {
     console.error('ERROR LOG -> ', error);
 
     if (error instanceof HttpErrorResponse) {
-      if (error.error.exceptionMessage)
+      if (error.error.exceptionMessage) {
         Materialize.toast(error.error.exceptionMessage, 6000);
-      else
+      } else {
         Materialize.toast(error.message, 6000);
+      }
 
     } else if (error instanceof TypeError) {
 

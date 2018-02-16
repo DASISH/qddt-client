@@ -28,10 +28,10 @@ const filesaver = require('file-saver');
     </li>
   </ul>
 </div>
-<div class="section" *ngIf="topic?.topicGroupQuestions && topic?.topicGroupQuestions?.length>0" style="margin:20px; padding:5px;">
-  <ul class="collapsible popout"  *ngIf="topic?.topicGroupQuestions" materialize="collapsible"
+<div class="section" *ngIf="topic?.topicQuestionItems	 && topic?.topicQuestionItems	?.length>0" style="margin:20px; padding:5px;">
+  <ul class="collapsible popout"  *ngIf="topic?.topicQuestionItems" materialize="collapsible"
     data-collapsible="expandable" style="padding: 5pt;">
-    <li *ngFor="let cqi of topic?.topicGroupQuestions;">
+    <li *ngFor="let cqi of topic?.topicQuestionItems;">
       <div class="collapsible-header green lighten-5">
         <div class="row"  style="margin-bottom: 0;">
           <div class="col s10">QuestionItem [{{ cqi?.questionItem?.name }}]</div>

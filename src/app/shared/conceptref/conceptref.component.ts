@@ -11,9 +11,11 @@ import { MaterializeAction } from 'angular2-materialize';
 export class ConceptrefComponent  {
   // @ViewChild('closeBtn') closeBtn: ElementRef;
   @Input() element: any;
-  usedbyModalAction = new EventEmitter<string|MaterializeAction>();
+
+  public usedbyModalAction = new EventEmitter<string|MaterializeAction>();
+  public selectedElement: any;
+
   private selectedType: string;
-  private selectedElement: any;
   private showRefs: any;
 
   constructor(private service: ConceptrefService) {

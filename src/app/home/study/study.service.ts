@@ -2,12 +2,16 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_BASE_HREF } from '../../api';
 import { Observable } from 'rxjs/Observable';
+import { Topic } from '../topic/topic.service';
 
 export class Study {
   id: string;
   name: string;
   description: string;
   archived: boolean;
+  authors: any[];
+  comments: any[];
+  topicGroups: Topic[];
 }
 
 @Injectable()

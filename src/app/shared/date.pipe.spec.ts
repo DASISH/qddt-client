@@ -2,7 +2,7 @@ import { LocalDatePipe } from './date.pipe';
 
 export function main() {
   describe('LocalDatePipe', () => {
-    let pipe = new LocalDatePipe();
+    const pipe = new LocalDatePipe();
     it('transforms date to string', () => {
       expect(pipe.transform([2017, 1, 23, 9, 51, 3, 13000000]))
         .toBe('Mon Jan 23 2017');
@@ -10,7 +10,7 @@ export function main() {
   });
 
   describe('empty LocalDatePipe', () => {
-    let pipe = new LocalDatePipe();
+    const pipe = new LocalDatePipe();
     it('transforms date to string', () => {
       expect(pipe.transform([]))
         .toBe('');

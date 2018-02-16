@@ -24,19 +24,19 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
   public questionItems: any[];
   public modalActions = new EventEmitter<string|MaterializeAction>();
   public questionitemActions = new EventEmitter<string|MaterializeAction>();
+  public isDetail: boolean;
+  public showControlConstructForm = false;
+  public showProgressBar = false;
+  public controlConstructs: ControlConstruct[];
+  public controlConstruct: ControlConstruct;
 
-  private showControlConstructForm = false;
-  private showProgressBar = false;
   private showInstructionForm: boolean;
   private showUniverse = false;
   private editQuestoinItem: boolean;
-  private isDetail: boolean;
   private isInstructionAfter: boolean;
   private searchKeys: string;
   private page: any;
-  private controlConstruct: ControlConstruct;
   private selectedControlConstruct: ControlConstruct;
-  private controlConstructs: ControlConstruct[];
   private columns: Column[];
   private files: FileList;
   private searchKeysSubect: Subject<string> = new Subject<string>();

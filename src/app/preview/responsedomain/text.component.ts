@@ -18,22 +18,24 @@ import { ResponseDomain } from '../../responsedomain/responsedomain.service';
 export class ResponsedomainTextComponent implements OnChanges {
   @Input() responseDomain: ResponseDomain;
   low = 0;
-  high= 20;
+  high = 20;
 
   ngOnChanges() {
     const rep = this.responseDomain.managedRepresentation;
     if (rep) {
       if (rep.inputLimit.maximum) {
-        if (typeof rep.inputLimit.maximum === 'string')
+        if (typeof rep.inputLimit.maximum === 'string') {
           this.high = parseInt(rep.inputLimit.maximum);
-        else
+        } else {
           this.high = rep.inputLimit.maximum;
+        }
       }
       if (rep.inputLimit.minimum) {
-        if (typeof rep.inputLimit.minimum === 'string')
+        if (typeof rep.inputLimit.minimum === 'string') {
           this.low = parseInt(rep.inputLimit.minimum);
-        else
+        } else {
           this.low = rep.inputLimit.minimum;
+        }
       }
     }
   }

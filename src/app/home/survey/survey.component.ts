@@ -13,7 +13,7 @@ const filesaver = require('file-saver');
 })
 export class SurveyComponent implements OnInit {
   showSurveyForm = false;
-  private surveys: any[]= [];
+  public surveys: any[] = [];
   private survey: any;
   private revision: any;
   private readonly revisionKind = ElementKind.SURVEY;
@@ -24,12 +24,13 @@ export class SurveyComponent implements OnInit {
 
   ngOnInit() {
     this.surveys = this.property.get('surveys');
-    if (!this.surveys)
+    if (!this.surveys) {
       this.surveyService.getAll()
         .then(
           (data: Array<SurveyProgram> ) =>
             this.property.set('surveys', this.surveys = data)
         );
+    }
   }
 
 

@@ -12,8 +12,9 @@ export class AdminGuard implements CanActivate, CanActivateChild  {
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (!this.authService.isTokenExpired()) {
 
-      if (this.checkParent(next.url.toString()))
+      if (this.checkParent(next.url.toString())) {
         return true;
+      }
       this.router.navigate(['home']);
     }
     console.info('isTokenExpired');
@@ -30,7 +31,7 @@ export class AdminGuard implements CanActivate, CanActivateChild  {
     return !this.authService.isTokenExpired();
   }
 
-  private checkParent(url:string): boolean {
+  private checkParent(url: string): boolean {
     if (url === 'register') {
       const roles = this.authService.getRoles();
       return (roles.find(e => e === 'ROLE_ADMIN' || e === 'ROLE_SUPER') !== undefined);

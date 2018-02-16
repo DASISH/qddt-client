@@ -21,7 +21,7 @@ import { ElementKind, QddtElements } from '../preview/preview.service';
   </div>
   </div>
   <div class="col s2 right">
-    <a class="waves-effect waves-light btn" (click)="onAddUniverse($event)">add</a>
+    <a class="waves-effect waves-light btn" (click)="onAddUniverse()">add</a>
   </div>
 </div>
 `,
@@ -36,10 +36,11 @@ import { ElementKind, QddtElements } from '../preview/preview.service';
 export class UniverseComponent {
   @Output() createUniverseEvent = new EventEmitter<any>();
 
-  universe: any;
-  universes: any[];
-  isUniverseNew: boolean;
-  private readonly UNIVERSE = QddtElements[ElementKind.UNIVERSE];
+  public readonly UNIVERSE = QddtElements[ElementKind.UNIVERSE];
+
+  public universe: any;
+  public universes: any[];
+  public isUniverseNew: boolean;
 
   constructor(private service: ControlConstructService) {
     this.universe = new Universe();

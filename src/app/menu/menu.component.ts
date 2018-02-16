@@ -15,12 +15,11 @@ declare var $: any;
   templateUrl: './menu.component.html',
 })
 export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
-  propertyChanged: Subscription;
-  loginChanged: Subscription;
-
-  private path = [4];
-  private username;
-  private loggedIn: boolean;
+  public propertyChanged: Subscription;
+  public loginChanged: Subscription;
+  public path = [4];
+  public username;
+  public loggedIn: boolean;
 
   constructor(private auth: UserService, private property: PropertyStoreService,
               private router: Router, ) {

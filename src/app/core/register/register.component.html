@@ -3,26 +3,21 @@
     <div class="input-field row" [ngClass]="{ 'has-error': f.submitted && !email.valid }">
       <label for="email">Email</label>
       <input id="email" type="email" name="email" [(ngModel)]="model.email" #email="ngModel" required />
-      <!--<div *ngIf="f.submitted && !email.valid" class="help-block">email is required</div>-->
     </div>
     <div class="input-field row" [ngClass]="{ 'has-error': f.submitted && !name.valid }">
       <label for="name">Name</label>
-      <input id="name" type="text" name="name" [(ngModel)]="model.name" #email="ngModel" required />
-      <!--<div *ngIf="f.submitted && !email.valid" class="help-block">email is required</div>-->
+      <input id="name" type="text" name="name" [(ngModel)]="model.name" #name="ngModel" required />
     </div>
     <div class="input-field row" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
       <label for="pwd1">Password</label>
       <input id="pwd1" type="password"  name="password" [(ngModel)]="model.password" #password="ngModel" required />
-      <!--<input id="pwd2" type="password"  name="password2" required />-->
-      <!--<div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>-->
     </div>
     <div class="input-field row">
       <label for="agency">Agency</label>
-      <select materialize="material_select" [ngModel]="_RationalIndex"
+      <select materialize="material_select" [ngModel]="model.agency"
               name="agency" id="agency"
-              (ngModelChange)="onClickRational1($event)">
-        <!--<option *ngFor="let agent of agencies$;"-->
-                <!--value="{{agent.id}}">{{ agent.name }}</option>-->
+              (ngModelChange)="onClickAgency($event)">
+        <option *ngFor="let agent of agencies"; value="{{agent}}"> {{ agent.name }}</option>
       </select>
     </div>
 

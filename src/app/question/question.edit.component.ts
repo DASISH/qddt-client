@@ -33,7 +33,7 @@ export class QuestionItemEditComponent implements OnInit {
   }
 
   onSaveQuestionItem() {
-    if ((this.questionitem.responseDomain) && (!this.questionitem.responseDomain.id))
+    if ((this.questionitem.responseDomain) && (!this.questionitem.responseDomain.id)) {
       this.service.createResponseDomain(this.questionitem.responseDomain)
         .subscribe(result => {
           this.questionitem.responseDomain = result;
@@ -44,7 +44,7 @@ export class QuestionItemEditComponent implements OnInit {
               this.editQuestionItem.emit(this.questionitem);
             });
         });
-    else {
+    } else {
       this.service.updateQuestionItem(this.questionitem)
         .subscribe((result: any) => {
           this.questionitem = result;
@@ -78,8 +78,9 @@ export class QuestionItemEditComponent implements OnInit {
   }
 
   private isMixed(): boolean {
-    if (this.questionitem.responseDomain)
+    if (this.questionitem.responseDomain) {
       return this.questionitem.responseDomain.responseKind === 'MIXED';
+    }
     return false;
   }
 

@@ -25,15 +25,15 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            let fixture = TestBed.createComponent(TestComponent);
+            const fixture = TestBed.createComponent(TestComponent);
             fixture.detectChanges();
-            let de: any = fixture.debugElement.queryAll(By.css('input'));
+            const de: any = fixture.debugElement.queryAll(By.css('input'));
             expect(de.length).toBeGreaterThan(0);
             de[0].triggerEventHandler('focus', {});
             de[0].triggerEventHandler('keyup', {target: {value: 't'}});
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              let autocomplete: any = fixture.debugElement.queryAll(By.css('li'));
+              const autocomplete: any = fixture.debugElement.queryAll(By.css('li'));
               expect(autocomplete.length).toBe(2);
             });
           });

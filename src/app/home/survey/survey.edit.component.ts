@@ -63,13 +63,13 @@ export class SurveyEditComponent implements AfterContentChecked {
         this.isVisible = false;
         this.survey = null;
         this.surveySavedEvent.emit(result); }
-        , (err:any) => {
+        , (err: any) => {
           this.surveySavedEvent.emit(null);
           throw err;
         });
   }
 
-  getBasedOn(ref:any) {
+  getBasedOn(ref: any) {
     this.basedonRef = ref;
   }
 }

@@ -12,13 +12,14 @@ export class ControlConstructQuestionItemSelectComponent implements OnInit {
   @Input() controlConstruct;
   @Output() useQuestionItemEvent = new EventEmitter<any>();
   @Output() dismissEvent: any = new EventEmitter<any>();
-  error: any;
-  questionItems: any[];
-  selectedQuestionItemIndex: number;
+
+  public readonly QUESTIONITEM = QddtElements[ElementKind.QUESTIONITEM];
+  public questionItems: any[];
+  public selectedQuestionItemIndex: number;
+  public selectedQuestionItem: any;
+
   private questionItemRevisions: any[];
-  private selectedQuestionItem: any;
   private questionItemRevision: number;
-  private readonly QUESTIONITEM = QddtElements[ElementKind.QUESTIONITEM];
 
   constructor(private service: ControlConstructService) {
     this.questionItems = [];
@@ -28,11 +29,10 @@ export class ControlConstructQuestionItemSelectComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.controlConstruct !== null && this.controlConstruct !== undefined) {
+    if (this.controlConstruct) {
       this.selectedQuestionItem = this.controlConstruct.questionItem;
     }
-    if (this.selectedQuestionItem !== null && this.selectedQuestionItem !== undefined
-      && this.selectedQuestionItem.id !== null && this.selectedQuestionItem.id !== undefined) {
+    if (this.selectedQuestionItem && this.selectedQuestionItem.id) {
       this.questionItemRevision = this.controlConstruct.questionItemRevision;
       this.service.getQuestionItemsRevisions(this.selectedQuestionItem.id).then((result: any) => {
       this.questionItemRevisions = result.content.sort((e1: any, e2: any) => e2.revisionNumber - e1.revisionNumber);

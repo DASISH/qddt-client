@@ -127,10 +127,11 @@ export class PublicationService {
   getElementRevisions(elementKind: ElementKind, id: string): Promise<any> {
     const e: any = PUBLICATION_TYPES.find(e => e.id === elementKind);
     if (e !== undefined) {
-      if (elementKind === ElementKind.CONCEPT || elementKind === ElementKind.TOPIC_GROUP)
+      if (elementKind === ElementKind.CONCEPT || elementKind === ElementKind.TOPIC_GROUP) {
         return this.http.get(this.api + 'audit/' + e.path + '/' + id + '/allinclatest').toPromise();
-      else
+      } else {
         return this.http.get(this.api + 'audit/' + e.path + '/' + id + '/all').toPromise();
+      }
     }
     return new Promise(null);
   }

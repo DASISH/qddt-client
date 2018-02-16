@@ -15,16 +15,14 @@ import { MaterializeAction } from 'angular2-materialize';
 })
 export class InstrumentComponent implements OnInit {
 
-  showInstrumentForm = false;
-  modalActions = new EventEmitter<string|MaterializeAction>();
-  error: any;
+  public showInstrumentForm = false;
+  public isDetail: boolean;
+  public instruments: any[];
 
-  private instruments: any[];
   private page: any;
   private instrument: any;
   private searchKeys: string;
   private selectedInstrument: any;
-  private isDetail: boolean;
   private columns: any[];
 
   constructor(private service: InstrumentService) {
@@ -64,22 +62,15 @@ export class InstrumentComponent implements OnInit {
   onCreateInstrument() {
     this.showInstrumentForm = false;
     this.service.create(this.instrument)
-      .subscribe((result: any) => {
-        this.instruments = [result].concat(this.instruments);
-      }, (error: any) => {
-        this.popupModal(error);
-      });
+      .subscribe(
+        result => { this.instruments = [result].concat(this.instruments); },
+        error => { throw error; }
+      );
     this.isDetail = false;
   }
 
   searchInstruments(key: string) {
     //console.log(key);
-  }
-
-  private popupModal(error: any) {
-    this.error = error;
-    this.modalActions.emit({action: 'modal', params: ['open']});
-    // this.actions.emit({action:'modal', params:['open']});
   }
 
   private getSort() {

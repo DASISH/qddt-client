@@ -6,7 +6,7 @@ import { PropertyStoreService } from './core/global/property.service';
 
 @Component({
   moduleId: module.id,
-  selector: 'app',
+  selector: 'qddt-app',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   encapsulation: ViewEncapsulation.None,

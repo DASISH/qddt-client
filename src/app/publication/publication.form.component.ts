@@ -64,15 +64,17 @@ export class PublicationFormComponent implements OnInit , AfterContentChecked {
 
   private getElementbyLabel(label: string): QddtElement {
     const element: QddtElement = PUBLICATION_TYPES.find(e => e.label === label);
-    if (element === undefined)
+    if (element === undefined) {
       console.log('Couldn\'t find kind label ' + label);
+    }
     return element;
   }
 
 private getPublicationStatusId(label: string): number {
     const id: number =  this.predefinedStatus.find((e: any) => e.label === label).id;
-  if (id === undefined)
+  if (id === undefined) {
     console.log('Couldn\'t find kind id ' + label );
+  }
     return id;
 }
 

@@ -25,7 +25,7 @@ export class ResponsedomainListComponent {
   }
 
   onEdit(responseDomain: any) {
-    this.domainType = DomainTypeDescription.find((e: any) =>e.name === responseDomain['responseKind']).id;
+    this.domainType = DomainTypeDescription.find((e: any) => e.name === responseDomain['responseKind']).id;
     this.editIsVisible = !this.editIsVisible;
     this.selectedDomainId = responseDomain.id;
   }
@@ -33,6 +33,6 @@ export class ResponsedomainListComponent {
   formChange(responseDomain: any) {
     this.editIsVisible = false;
     this.selectedDomainId = '';
-    this.responseDomainService.update(responseDomain).subscribe((result: any) => {responseDomain = result;});
+    this.responseDomainService.update(responseDomain).subscribe((result: any) => {responseDomain = result; });
   }
 }

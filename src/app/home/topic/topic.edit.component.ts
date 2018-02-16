@@ -25,9 +25,9 @@ export class TopicEditComponent  {
 
   private showUploadFileForm: boolean;
   private showUploadedFiles: boolean;
-  private showDeletebutton= false;
-  private showbutton= false;
-  private readonly= false;
+  private showDeletebutton = false;
+  private showbutton = false;
+  private readonly = false;
   private files: FileList;
   private fileStore: any[];
   private toDeleteFiles: any[];

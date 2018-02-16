@@ -43,7 +43,7 @@ export class ResponsedomainFormComponent implements OnInit , AfterViewInit {
   private endMin: number;
   private startMax: number;
   private searchKeysSubect: Subject<string> = new Subject<string>();
-  private readonly  CATEGORY_KIND: QddtElement= QddtElements[ElementKind.CATEGORY];
+  private readonly  CATEGORY_KIND: QddtElement = QddtElements[ElementKind.CATEGORY];
 
   constructor(private categoryService: CategoryService, private service: ResponseDomainService) {
     // console.debug('responsedomain.form.component constr');
@@ -74,8 +74,9 @@ export class ResponsedomainFormComponent implements OnInit , AfterViewInit {
     if (!this.responsedomain) {
       return;
     }
-    if (!this.responsedomain.managedRepresentation)
+    if (!this.responsedomain.managedRepresentation) {
       this.responsedomain.managedRepresentation = new Category();
+    }
     this.responsedomain.managedRepresentation.categoryType =
       DomainTypeDescription.find(e => e.id === this.domainType).categoryType;
       this.numberOfAnchors = this.responsedomain.managedRepresentation.children.length;
@@ -253,8 +254,9 @@ export class ResponsedomainFormComponent implements OnInit , AfterViewInit {
   }
 
   onBasedonObjectDetail(ref: any) {
-    if (!ref.rev)
+    if (!ref.rev) {
         ref.rev = 0;
+    }
     this.service.getResponseDomainsRevision(ref.id, ref.rev)
       .then(
         (result: any) => {

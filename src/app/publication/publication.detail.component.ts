@@ -16,12 +16,14 @@ export class PublicationDetailComponent implements OnInit {
   @Input() publications: Publication[];
   @Input() isVisible: boolean;
   @Output() hideDetailEvent: EventEmitter<String> = new EventEmitter<String>();
-  controlConstructsActions = new EventEmitter<string>();
-  selectOptions: any[] = PUBLICATION_STATUS;
-  selectedOptionValue: number;
-  selectedPublicationStatusOption: any;
+
+  public controlConstructsActions = new EventEmitter<string>();
+  public selectOptions: any[] = PUBLICATION_STATUS;
+  public selectedOptionValue: number;
+  public selectedPublicationStatusOption: any;
+  public showProgressBar = true;
+
   private revisionIsVisible: boolean;
-  private showProgressBar = true;
   private predefinedStatus: any[];
 
   constructor(private service: PublicationService) {

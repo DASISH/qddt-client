@@ -22,9 +22,9 @@ export class PropertyStoreService {
   // Observable navItem source
   private _newcurrent = new BehaviorSubject<HIERARCHY_POSITION>(HIERARCHY_POSITION.Survey);
 
-  private current:string = null;
+  private current: string = null;
 
-  private globalObjects: Map<string,any> = new Map();
+  private globalObjects: Map<string, any> = new Map();
 
   constructor() {
     this.currentChange$ = this._newcurrent.asObservable();
@@ -34,8 +34,8 @@ export class PropertyStoreService {
     this.globalObjects[name] = value;
   }
 
-  get(name: string):any {
-    return this.globalObjects[name] ||'';
+  get(name: string): any {
+    return this.globalObjects[name] || '';
   }
 
   public setCurrent(pos: HIERARCHY_POSITION, name: string) {

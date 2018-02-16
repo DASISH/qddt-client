@@ -90,8 +90,9 @@ export class ResponsedomainScaleComponent implements OnChanges {
       for (let i = 2 ; i !== c.length ; i++) {
         minDiff = Math.min(minDiff, parseInt(c[i].code.codeValue) - parseInt(c[i - 1].code.codeValue));
       }
-      if (rep.inputLimit.maximum < 4 )
+      if (rep.inputLimit.maximum < 4 ) {
         minDiff = 1;
+      }
       return (minDiff > 3) ? 3 : minDiff;
     }
 
@@ -111,8 +112,9 @@ export class ResponsedomainScaleComponent implements OnChanges {
       let nextcol = parseInt(categories[i].code.codeValue) - this.min;
 
       if (usedCols + 1 <= nextcol) {
-        if (nextcol + usedCols + colspan > numberOfcols)
+        if (nextcol + usedCols + colspan > numberOfcols) {
           nextcol = numberOfcols - colspan;
+        }
         if ((nextcol - usedCols > 0)) {
           this.headers.push({
             label: '',
@@ -123,7 +125,7 @@ export class ResponsedomainScaleComponent implements OnChanges {
           usedCols += (nextcol - usedCols);
         }
       }
-      let alignment = getAlignment(categories[i],(i+1===categories.length));
+      const alignment = getAlignment(categories[i], (i + 1 === categories.length));
 
       this.headers.push({
         label: categories[i].label,
@@ -134,7 +136,7 @@ export class ResponsedomainScaleComponent implements OnChanges {
       usedCols += colspan;
     }
     for (let i = this.min; i <= this.max; i++) {
-      let c = categories
+      const c = categories
         .find(category => category.code && category.code.codeValue === i.toString());
       this.columns.push({ label: c !== undefined ? c.label : '', value: i });
     }
@@ -144,12 +146,12 @@ export class ResponsedomainScaleComponent implements OnChanges {
     this.rows = [];
     this.headers = [];
     let categories: any[] = [];
-    let rep = this.responseDomain.managedRepresentation;
+    const rep = this.responseDomain.managedRepresentation;
     if (rep !== undefined && rep.children !== undefined) {
       categories = rep.children;
     }
     for (let i = this.min; i <= this.max; i++) {
-      let c = categories
+      const c = categories
         .find(category => category.code && category.code.codeValue === i.toString());
       this.rows.push({ label: c !== undefined ? c.label : '', value: i });
     }

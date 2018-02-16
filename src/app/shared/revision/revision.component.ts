@@ -15,11 +15,11 @@ export class RevisionComponent implements OnChanges, OnInit {
   @Input() current: any;
   @Output() requestPreview: EventEmitter<any> = new EventEmitter<any>();
 
-  private revisions: any[];
+  public revisions: any[];
   private page: any;
   private selectRevisionId: number;
   private currentRevisionId: number;
-  private showProgressBar= false;
+  private showProgressBar = false;
 
   constructor(private service: RevisionService) {
     this.revisions = [];
@@ -51,7 +51,7 @@ export class RevisionComponent implements OnChanges, OnInit {
         this.revisions = result.content;
         this.showProgressBar = false;
       },
-        (error)=> {
+        (error) => {
         this.showProgressBar = false;
         throw error;
       });

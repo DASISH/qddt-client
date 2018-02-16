@@ -44,7 +44,7 @@ import { PreviewService } from './preview.service';
   exports: [PreviewConceptComponent, PreviewConceptListComponent, PreviewTopicComponent,
     PreviewTopicListComponent, PreviewStudyComponent, PreviewControlConstructComponent,
     PreviewQuestionitemComponent, PreviewQuestionitemGridComponent,
-    PreviewResponsedomainComponent ,PreviewInstrumentComponent, PreviewComponent, PreviewDialogComponent ],
+    PreviewResponsedomainComponent , PreviewInstrumentComponent, PreviewComponent, PreviewDialogComponent ],
 
   providers: [ PreviewService ]
 

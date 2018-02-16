@@ -6,13 +6,14 @@ import { AuthGuard } from './guard/auth-guard.service';
 import { UserService } from './user/user.service';
 import { PropertyStoreService } from './global/property.service';
 import { RegisterComponent } from './register/register.component';
+import { ResetpasswordComponent } from './resetpassword/resetpassword.component';
 
 
 @NgModule({
   imports: [FormsModule, SharedModule ],
-  declarations: [LoginComponent, RegisterComponent],
-  exports: [LoginComponent ],
-  providers: [PropertyStoreService,AuthGuard,UserService]
+  declarations: [LoginComponent, RegisterComponent, ResetpasswordComponent],
+  exports: [LoginComponent,  ],
+  providers: [PropertyStoreService, AuthGuard, UserService]
 })
 
 export class CoreModule {

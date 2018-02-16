@@ -45,11 +45,11 @@ export class ResponseDomainSelectComponent implements OnChanges {
   @Input() revision;
   @Output() useResponseDomainEvent = new EventEmitter<any>();
   @Output() dismissResponseSelect: any = new EventEmitter<any>();
-  error: any;
-  responseDomains: any[];
-  selectedResponseDomainIndex: number;
+  public responseDomains: any[];
+  public selectedResponseDomainIndex: number;
+  public selectedResponseDomain: any;
+
   private responseDomainRevisions: any[];
-  private selectedResponseDomain: any;
   private responseDomainRevision: number;
 
   constructor(private service: ResponseDomainService) {
@@ -98,11 +98,6 @@ export class ResponseDomainSelectComponent implements OnChanges {
 
   onDismissResponsedomainSelect() {
     this.dismissResponseSelect.emit(true);
-  }
-
-  private popupModal(error: any) {
-    this.error = error;
-    this.selectedResponseDomain = this.responseDomain;
   }
 
 }

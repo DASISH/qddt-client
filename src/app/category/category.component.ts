@@ -13,14 +13,14 @@ import { PropertyStoreService } from '../core/global/property.service';
 
 export class CategoryComponent implements OnInit, AfterContentChecked {
 
-  showCategoryForm = false;
+  public isDetail: boolean;
+  public showCategoryForm = false;
+  public categories: any;
 
-  categories: any;
   private page: any;
   private category: any;
   private searchKeys: string;
   private selectedCategory: any;
-  private isDetail: boolean;
   private columns: Column[];
   private searchKeysSubect: Subject<string> = new Subject<string>();
 

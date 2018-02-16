@@ -57,19 +57,3 @@
     (hideDetailEvent)="hideDetail()">
   </qddt-instrument-detail>
 </div>
-
-<div [attr.id]="'create-instrument-modal'" class="modal"
-  materialize="modal" [materializeActions]="modalActions">
-  <div class="modal-content">
-    <div class="row">
-      <h4>An error occured</h4>
-      <span>{{ error }}</span>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button id="controlConstructs-modal-close"
-      class="btn btn-default red modal-action modal-close waves-effect">
-      <a><i class="close material-icons medium white-text">close</i></a>
-    </button>
-  </div>
-</div>

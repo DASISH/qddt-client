@@ -18,10 +18,10 @@ import { ElementKind, QddtElements } from '../preview/preview.service';
 export class InstructionComponent {
   @Output() createInstructionEvent = new EventEmitter<any>();
 
-  instruction: any;
-  instructions: any[];
-  isInstructionNew: boolean;
-  private readonly INSTRUCTION = QddtElements[ElementKind.INSTRUCTION];
+  public readonly INSTRUCTION = QddtElements[ElementKind.INSTRUCTION];
+  public instruction: any;
+  public instructions: any[];
+  public isInstructionNew: boolean;
 
   constructor(private service: ControlConstructService) {
     this.instruction = new Instruction();

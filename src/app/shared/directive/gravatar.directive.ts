@@ -6,8 +6,8 @@ const  md5 = require('md5');
 })
 export class GravatarDirective implements OnChanges , OnInit {
   @Input('email') email: string;
-  @Input('size') size: number = 16;
-  @Input('fallback') fallback: string = 'mm';
+  @Input('size') size = 16;
+  @Input('fallback') fallback = 'mm';
 
   constructor(private elementRef: ElementRef) {}
 

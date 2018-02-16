@@ -72,8 +72,9 @@ export class ControlConstructFormComponent implements OnInit, AfterContentChecke
   }
 
   onBasedonObjectDetail(ref: any) {
-    if (!ref.rev)
+    if (!ref.rev) {
       ref.rev = 0;
+    }
     this.service.getControlConstructRevision(ref.id, ref.rev)
       .then(
         (result: any) => {

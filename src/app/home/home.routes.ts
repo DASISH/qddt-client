@@ -15,7 +15,7 @@ export const homeRoutes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: 'home', redirectTo: 'survey', canActivate: [AuthGuard]},
-      { path: 'survey', component: SurveyComponent, canActivate: [AuthGuard],},
+      { path: 'survey', component: SurveyComponent, canActivate: [AuthGuard], },
       { path: 'study', component: StudyComponent, canActivate: [AuthGuard]},
       { path: 'topic', component: TopicComponent, canActivate: [AuthGuard]},
       { path: 'concept', component: ConceptComponent, canActivate: [AuthGuard]}],

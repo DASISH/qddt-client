@@ -8,8 +8,8 @@ export class Comment {
   ownerId: string;
   comment: string;
   modifiedBy: any;
-  isHidden= false;
-  public= true;
+  isHidden = false;
+  public = true;
 }
 
 @Injectable()

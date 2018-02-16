@@ -25,12 +25,13 @@ export class ResponsedomainSelectMissingComponent implements OnInit {
   @Output() responseDomainSelected = new EventEmitter<any>();
   @Output() responseDomainRemove = new EventEmitter<any>();
 
-  private showbutton: any;
-  private missingGroups: Category[];
-  private selectedCategoryIndex: number;
-  private findMissingAction = new EventEmitter<MaterializeAction>();
+  public readonly CATEGORY_KIND: QddtElement = QddtElements[ElementKind.CATEGORY];
+  public findMissingAction = new EventEmitter<MaterializeAction>();
+  public showbutton: any;
+  public missingGroups: Category[];
+  public selectedCategoryIndex: number;
+
   private searchKeysSubject = new Subject<string>();
-  private readonly CATEGORY_KIND: QddtElement = QddtElements[ElementKind.CATEGORY];
 
   constructor(private service: CategoryService) {
     this.selectedCategoryIndex = 0;
@@ -89,12 +90,13 @@ export class ResponsedomainSelectMissingComponent implements OnInit {
     }
   }
 
-  private setMissing(missing: Category) {
+  public setMissing(missing: Category) {
     let rd = this.responseDomain;
     if (this.isMixed()) {                           //remove existing missing
       this.deleteChild(rd.managedRepresentation, 'MISSING_GROUP');
-    } else
+    } else {
       rd = this.newMixedResponseDomain();
+    }
 
     rd.managedRepresentation.children.push(missing);
     rd.name = rd.managedRepresentation.name =
@@ -102,14 +104,15 @@ export class ResponsedomainSelectMissingComponent implements OnInit {
     this.responseDomain = rd;
   }
 
-  private getMissing(): Category {
+  public getMissing(): Category {
     return this.getGroupEntities(this.responseDomain.managedRepresentation)
       .find(e => e.categoryType === 'MISSING_GROUP');
   }
 
   private isMixed(): boolean {
-    if (this.responseDomain)
+    if (this.responseDomain) {
       return this.responseDomain.responseKind === 'MIXED';
+    }
     return false;
   }
 
@@ -124,10 +127,11 @@ export class ResponsedomainSelectMissingComponent implements OnInit {
   }
 
   private getGroupEntities(representation: Category): Category[] {
-    if (representation.categoryType !== 'MIXED')
+    if (representation.categoryType !== 'MIXED') {
       return [representation];
-    else
+    } else {
       return representation.children;
+    }
   }
 
 

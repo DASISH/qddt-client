@@ -3,7 +3,6 @@
     <auto-complete class="black-text"
                   [items]="questionItems"
                   [elementtype]="QUESTIONITEM"
-                  (autocompleteFocusEvent)="selectedQuestionItemIndex=idx;"
                   (enterEvent)="searchQuestionItems($event)"
                   (autocompleteSelectEvent)="onSelectCreateQuestionItem($event)">
     </auto-complete>

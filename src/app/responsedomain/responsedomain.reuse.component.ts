@@ -22,13 +22,14 @@ export class ResponsedomainReuseComponent implements OnChanges  {
   @Output() responseDomainSelected = new EventEmitter<any>();
   @Output() responseDomainRemove = new EventEmitter<any>();
 
-  selectedResponseDomain: any;
-  selectedRevision: number;
+  public selectedResponseDomain: any;
+  public selectedRevision: number;
   public domainTypeDef = DomainKind;
   public domainTypeDescription: any[];
-  private modalRdActions = new EventEmitter<MaterializeAction>();
+  public modalRdActions = new EventEmitter<MaterializeAction>();
+  public showAutocomplete: boolean;
+
   private domainType: DomainKind;
-  private showAutocomplete: boolean;
   private responseDomains: any;
   private selectedIndex: number;
   private searchKeysSubject: Subject<string> = new Subject<string>();

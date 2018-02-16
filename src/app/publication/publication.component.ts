@@ -19,27 +19,25 @@ import { PropertyStoreService } from '../core/global/property.service';
 })
 export class PublicationComponent implements AfterContentChecked, OnInit {
 
-  showPublicationForm = false;
-  modalActions = new EventEmitter<string|MaterializeAction>();
-  error: any;
-  selectOptions: any[] = PUBLICATION_STATUS;
-  showAddElement: boolean;
+  public modalActions = new EventEmitter<string|MaterializeAction>();
+  public selectOptions: any[] = PUBLICATION_STATUS;
+  public showAddElement: boolean;
+  public showProgressBar: boolean;
+  public showPublicationForm = false;
+  public isDetail = false;
+  public selectedElementDetail: any;
 
   publications: any[];
   private page: any;
-  private selectedElementDetail: any;
   private selectedElementType: QddtElement;
   private selectedPublicationStatusOption: any;
   private publication: any;
   private searchKeys: string;
   private selectedPublication: any;
-  private isDetail: boolean;
-  private showProgressBar = true;
   private columns: Column[];
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
   constructor(private service: PublicationService, private property: PropertyStoreService) {
-    this.isDetail = false;
     this.publications = [];
     this.searchKeys = '';
     this.page = {};

@@ -15,6 +15,7 @@ export class QuestionItem {
   agency: any;
   name: string;
   changeKind: any;
+  conceptRefs: any;
 }
 
 @Injectable()

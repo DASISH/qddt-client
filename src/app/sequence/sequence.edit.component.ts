@@ -21,5 +21,17 @@ export class SequenceEditComponent implements OnInit {
     this.statement = new Statement();
     this.elementId = new Date().toString();
   }
+
+  onSaveSequence() {
+    this.service.update(this.sequence)
+    .subscribe(
+      result => { this.sequence = result; },
+      error => { throw error; }
+    );
+  }
+
+  onGetElement(value: any) {
+    this.sequence = value;
+  }
 }
 

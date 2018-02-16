@@ -17,7 +17,7 @@ export class ResetpasswordComponent implements OnInit {
   }
 
   register() {
-    this.authService.resetPassword(this.model).subscribe((result:any)=> {
+    this.authService.resetPassword(this.model).subscribe((result: any) => {
       throw result;
     });
   }

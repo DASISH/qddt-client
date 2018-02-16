@@ -19,6 +19,7 @@ export class Concept {
   authors: any[];
   conceptQuestionItems: ConceptQuestionItem[];
   children: Concept[];
+  comments: any[];
 }
 
 @Injectable()
@@ -63,8 +64,9 @@ export class ConceptService  {
   }
 
   attachQuestion(conceptId: string, questionId: string, revision: string): Observable<any> {
-    if (revision === null)
+    if (revision === null) {
       revision = '0';
+    }
     return this.http.post(this.api + 'concept/combine?questionitemid=' + questionId +
       '&questionitemrevision=' + revision +
       '&conceptid=' + conceptId, {});

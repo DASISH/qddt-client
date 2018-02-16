@@ -118,7 +118,7 @@ export class QuestionDetailComponent implements OnInit {
             this.canDelete = 1;
           }
         },
-        (error: any) => { this.canDelete = 0; throw error;});
+        (error: any) => { this.canDelete = 0; throw error; });
     }
   }
 

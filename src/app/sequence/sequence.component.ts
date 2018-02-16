@@ -16,16 +16,16 @@ import { MaterializeAction } from 'angular2-materialize';
 })
 export class SequenceComponent implements OnInit {
 
-  showSequenceForm = false;
-  showAddElement = false;
-  modalActions = new EventEmitter<string|MaterializeAction>();
+  public modalActions = new EventEmitter<string|MaterializeAction>();
+  public isDetail: boolean;
+  public showSequenceForm = false;
+  public showAddElement = false;
+  public sequences: any[];
 
-  sequences: any[];
   private page: any;
   private sequence: any;
   private searchKeys: string;
   private selectedSequence: any;
-  private isDetail: boolean;
   private columns: any[];
   private elementType: number;
   private elements: any[];

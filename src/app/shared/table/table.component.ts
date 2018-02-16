@@ -36,9 +36,10 @@ export class QddtTableComponent implements OnInit, OnChanges {
   @Output() detailEvent: EventEmitter<String> = new EventEmitter<String>();
   @Output() pageChangeEvent: EventEmitter<String> = new EventEmitter<String>();
   @Output() enterEvent: EventEmitter<any> = new EventEmitter<any>();
-  value: string;
 
-  private rows: any[] = [];
+  public value: string;
+  public rows: any[] = [];
+
   private _rows: any[] = [];
   private readonly directionSign: { [dir: string]: String; } = {'': '⇳', 'asc': '⇩', 'desc': '⇧' };
 

@@ -2,11 +2,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location, CommonModule } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  async,
-  inject,
-  TestBed
-} from '@angular/core/testing';
+import { async, inject, TestBed } from '@angular/core/testing';
 
 import { AppComponent } from './app.component';
 import { By } from '@angular/platform-browser';
@@ -22,10 +18,15 @@ class UserServiceSpy {
   });
 }
 
+
 @Component({
   template: ''
 })
+
 class DummyComponent {
+}
+
+class TestComponent {
 }
 
 
@@ -89,9 +90,4 @@ export function main() {
           })));
         }));
     });
-}
-
-
-class TestComponent {
-
 }

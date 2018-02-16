@@ -32,8 +32,9 @@ export class TreeNodeComponent  {
   }
 
   onCreateConcept(concept: any) {
-    if (!this.readonly)
+    if (!this.readonly) {
       this.readonly = concept.archived;
+    }
     this.showConceptChildForm = !this.showConceptChildForm;
   }
 

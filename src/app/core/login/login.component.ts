@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit, AfterContentChecked {
 
   ngAfterContentChecked(): void {
     console.info('AfterContentChecked');
-    if (this.once<10) {
+    if (this.once < 10) {
       this.once ++;
       Materialize.updateTextFields();
     }
@@ -42,8 +42,9 @@ export class LoginComponent implements OnInit, AfterContentChecked {
     // reset login status
     this.authenticationService.logout();
     this.model.email = this.authenticationService.getEmail();
-    if ( this.model.email === 'review@example.org')
+    if ( this.model.email === 'review@example.org') {
       this.model.password = 'password';
+    }
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     Materialize.updateTextFields();

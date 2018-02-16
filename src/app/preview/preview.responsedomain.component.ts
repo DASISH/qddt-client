@@ -36,7 +36,7 @@ export class PreviewResponsedomainComponent implements OnChanges {
   // @Input() isVisible: boolean = true;
   @Input() responseDomain: ResponseDomain;
   public domainTypeDef = DomainKind;
-  private domainType: DomainKind;
+  public domainType: DomainKind;
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.responseDomain) {

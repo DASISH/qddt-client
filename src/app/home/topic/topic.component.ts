@@ -23,20 +23,19 @@ declare var Materialize: any;
 
 export class TopicComponent implements  OnInit, AfterContentChecked {
 
-  readonly topicKind = ElementKind.TOPIC_GROUP;
-  readonly revisionKind = ElementKind.TOPIC_GROUP;
+  public readonly topicKind = ElementKind.TOPIC_GROUP;
+  public readonly revisionKind = ElementKind.TOPIC_GROUP;
 
-  questionItemActions = new EventEmitter<string|MaterializeAction>();
-  previewActions = new EventEmitter<string|MaterializeAction>();
+  public questionItemActions = new EventEmitter<string|MaterializeAction>();
+  public previewActions = new EventEmitter<string|MaterializeAction>();
+  public study: Study;
+  public topics: Topic[];
+  public showReuse = false;
+  public showTopicForm = false;
+  public questionItem: QuestionItem;
 
-  protected study: Study;
-
-  private topics: Topic[];
   private newTopic: Topic;
   private revision: any;
-  private showTopicForm = false;
-  private showReuse = false;
-  private questionItem: QuestionItem;
 
   constructor(private router: Router, private route: ActivatedRoute,
               private topicService: TopicService, private property: PropertyStoreService) {

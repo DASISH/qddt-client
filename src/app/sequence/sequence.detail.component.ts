@@ -35,7 +35,7 @@ export class SequenceDetailComponent implements OnInit {
 
   sequenceSavedEvent(sequence: Sequence) {
     if (sequence !== null) {
-      let sequences = this.sequences.filter((q) => q.id !== sequence.id);
+      const sequences = this.sequences.filter((q) => q.id !== sequence.id);
       sequences.push(sequence);
       this.sequences = sequences;
     }

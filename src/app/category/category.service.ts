@@ -63,7 +63,7 @@ export class CategoryService  {
   }
 
   getAll(): any {
-    return this.http.get(this.api + 'category/page/search/?level=ENTITY'+ this.pageSize).toPromise();
+    return this.http.get(this.api + 'category/page/search/?level=ENTITY' + this.pageSize).toPromise();
   }
 
   getByCategoryKind(categoryKind: String, name: String = '*',  page: String = '0', sort: String = ''): Promise<any>  {

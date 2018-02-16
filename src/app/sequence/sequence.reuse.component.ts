@@ -16,16 +16,17 @@ import { ElementKind, QddtElement } from '../preview/preview.service';
 
 export class SequenceReuseComponent implements OnInit {
   @Input() sequence: Sequence;
+  @Input() readonly = false;
   @Output() element: any = new EventEmitter<any>();
 
-  private readonly elementTypes = ElementTypeDescription;
+  public readonly elementTypes = ElementTypeDescription;
+  public showButton = false;
+  public createConstruct = false;
 
   private searchKeysSubect: Subject<string> = new Subject<string>();
-  // private ccKindAsString: string;
   private selectedElement: any;
   private selectedType: ElementKind;
-  private elements:any;
-
+  private elements: any;
 
   constructor(private service: SequenceService) {
     this.searchKeysSubect
@@ -49,12 +50,12 @@ export class SequenceReuseComponent implements OnInit {
     this.selectedType = id;
     this.selectedElement = null;
     this.elements = [];
-    console.info(ElementKind[id] + ' ' + id + ' ' + this.getQddtElements(id).label);
+    // console.info(ElementKind[id] + ' ' + id + ' ' + this.getQddtElements(id).label);
   }
 
   onSelectElement(element: any) {
     this.selectedElement = element;
-    console.info(element);
+    // console.info(element);
   }
 
   onSearchElements(key: string) {

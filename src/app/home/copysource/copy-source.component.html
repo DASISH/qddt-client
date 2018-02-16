@@ -4,7 +4,6 @@
     <div class="row black-text">
       <auto-complete [items]="items"
                     [elementtype]="getElementClass(elementKind)"
-                    (autocompleteFocusEvent)="selectedIndex=idx;"
                     (enterEvent)="onSearchItems($event)"
                     (autocompleteSelectEvent)="onSelectItem($event)">
       </auto-complete>

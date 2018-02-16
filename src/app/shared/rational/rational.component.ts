@@ -138,9 +138,10 @@ export class RationalComponent implements OnInit {
   @Input() element: any;
   @Input() formName: string;
   @Input() config: any;
+  public saveOptionIndex: number;
+
   private _RationalIndex: number;
   private _Rational2Index: number;
-  private saveOptionIndex: number;
   private savedId: any;
   private savedbasedOnObject: any;
   private originalId: any;
@@ -155,8 +156,9 @@ export class RationalComponent implements OnInit {
   ngOnInit() {
     if (this.config) {
       const hiddenIds: any[] = this.config.hidden || [];
-      if (this.element.archived === undefined)            // Hide Archived option if element don't have this field.
+      if (this.element.archived === undefined) {            // Hide Archived option if element don't have this field.
         hiddenIds.push(4);
+      }
       for (const id of hiddenIds) {
         if (id < this.rationalDescriptions.length) {
           this.rationalDescriptions[id]['hidden'] = true;

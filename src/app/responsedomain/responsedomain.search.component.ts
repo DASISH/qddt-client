@@ -2,6 +2,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { ResponseDomainService } from './responsedomain.service';
 import {  DomainTypeDescription, DomainKind } from './responsedomain.constant';
 import { Subject } from 'rxjs/Subject';
+import { QddtElement, QddtElements, ElementKind } from '../preview/preview.service';
 
 @Component({
   selector: 'qddt-responsedomain-search',
@@ -30,10 +31,14 @@ import { Subject } from 'rxjs/Subject';
 })
 
 export class ResponseDomainSearchComponent {
-  domainType: DomainKind;
   @Output() selectResponseDomainEvent: EventEmitter<any> = new EventEmitter<any>();
-  responseDomains: any[];
-  domainTypeDescription: any[];
+
+  public readonly RESPONSEKIND: QddtElement  = QddtElements[ElementKind.RESPONSEDOMAIN];
+
+  public domainType: DomainKind;
+  public responseDomains: any[];
+  public domainTypeDescription: any[];
+
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
   constructor(private responseDomainService: ResponseDomainService) {

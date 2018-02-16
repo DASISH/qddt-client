@@ -30,8 +30,9 @@ export class ResponsedomainDatetimeComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: any): void {
-    if (changes)
+    if (changes) {
       console.log(changes.toString());
+    }
     if (this.responseDomain) {
       const rep = this.responseDomain.managedRepresentation;
       if (rep) {

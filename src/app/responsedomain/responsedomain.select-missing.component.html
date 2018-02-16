@@ -3,7 +3,7 @@
      (mouseleave)="showbutton = false">
   <div class="row teal-text"><span>Missing</span></div>
   <div class="row">
-    <a *ngIf="!missing && !readonly"
+    <a *ngIf="!getMissing() && !readonly"
        [ngClass]="{hide: !showbutton}"
        [ngClass]="{disabled:responseDomain === null || responseDomain === undefined}"
        (click)="onAddMissing()" href="#{{modalId}}"
@@ -20,7 +20,6 @@
           <auto-complete
             [items]="missingGroups" class="black-text"
             [elementtype]="CATEGORY_KIND"
-            (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
             (enterEvent)="searchMissingCategories($event)"
             (autocompleteSelectEvent)="setMissing($event)">
           </auto-complete>
@@ -32,9 +31,7 @@
             <td><input id="{{category?.id}}-code-value"
                        name="{{category?.id}}-code-value"
                        type="text" [(ngModel)]="category.code.codeValue" required></td>
-            <td>
-{{ category?.label }}egory?.label}}
-            </td>
+            <td>{{ category?.label }}</td>
           </tr>
           </tbody>
         </table>

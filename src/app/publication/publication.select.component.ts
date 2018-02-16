@@ -19,7 +19,7 @@ export class PublicationSelectComponent implements OnChanges {
   elementRevision: any;
   selectedElement: any;
   selectedElementLabel: string;
-  showProgressBar= false;
+  showProgressBar = false;
 
   constructor(private service: PublicationService) {
     this.elementRevisions = [];

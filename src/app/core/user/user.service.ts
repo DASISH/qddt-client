@@ -7,6 +7,10 @@ import { User } from './user';
 
 export const TOKEN_NAME = 'jwt_token';
 
+export class Agency  {
+  id: String;
+  name: String;
+}
 
 /**
  * UserService uses JSON-Web-Token authorization strategy.
@@ -68,8 +72,8 @@ export class UserService {
     return this.http.post(this.api + UserService.RESET_PWD_URL, userdata);
   }
 
-  public getAgencies(): Promise<any> {
-    return this.http.get( this.api + UserService.ANGENCY_URL).toPromise();
+  public getAgencies(): Promise<Agency[]> {
+    return this.http.get<Agency[]>( this.api + UserService.ANGENCY_URL).toPromise();
   }
 
   /**

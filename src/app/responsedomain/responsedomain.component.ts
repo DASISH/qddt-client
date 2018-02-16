@@ -23,16 +23,17 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
   public errorAction = new EventEmitter<string|MaterializeAction>();
   public error: string;
   public responseDomains: ResponseDomain[] = [];
+  public isNewFormVisible: boolean;
+  public isProgressBarVisible: boolean;
+  public isEditFormVisible: boolean;
+  public isRevisionVisible: boolean;
+  public selectedResponseDomain: ResponseDomain;
+
   private responseDomain: ResponseDomain;
-  private selectedResponseDomain: ResponseDomain;
   private searchKeys: string;
   private domainTypeDescription: any[];
   private page: any;
   private columns: any[];
-  private isNewFormVisible: boolean;
-  private isProgressBarVisible: boolean;
-  private isEditFormVisible: boolean;
-  private isRevisionVisible: boolean;
   private savedObject: string;
   private savedResponseDomainsIndex: number;
   private searchKeysSubject: Subject<string> = new Subject<string>();

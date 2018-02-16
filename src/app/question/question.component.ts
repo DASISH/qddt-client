@@ -18,17 +18,16 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
   public modalActions = new EventEmitter<MaterializeAction>();
   public responseDomainAction = new EventEmitter<MaterializeAction>();
   public error: string;
-  // public previewResponseDomain: any;
   public showbutton: any;
   public questionitems: any;
+  public showQuestionItemForm = false;
+  public showProgressBar = false;
+  public isDetail: boolean;
 
   private page: any;
   private questionItem: any;
   private selectedQuestionItem: any;
-  private isDetail: boolean;
-  private showProgressBar = false;
   private showResponsedomainReuse = false;
-  private showQuestionItemForm = false;
   private columns: Column[];
   private searchKeysSubect: Subject<string> = new Subject<string>();
   private searchKeys: string;
@@ -66,8 +65,9 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
         params.has('id') ? this.questionItem = this.questionService.getquestion(params.get('id')) : null);
 
     const config = this.property.get('questions');
-    if(!config)
+    if (!config) {
       this.property.set('questions', {'current': 'list', 'key': ''});
+    }
     if (config && config['current'] === 'detail' ) {
       this.page = config.page;
       this.questionitems = config.collection;
@@ -135,7 +135,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
   onCreateQuestionItem() {
     this.showProgressBar = true;
     this.showQuestionItemForm = false;
-    if ((this.questionItem.responseDomain) && (!this.questionItem.responseDomain.id))
+    if ((this.questionItem.responseDomain) && (!this.questionItem.responseDomain.id)) {
       this.questionService.createCategory(this.questionItem.responseDomain.managedRepresentation)
         .subscribe(result => {
           this.questionItem.responseDomain.managedRepresentation = result;
@@ -152,7 +152,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
                 });
             });
         });
-    else {
+    } else {
       this.questionService.updateQuestionItem(this.questionItem)
         .subscribe((result: any) => {
           this.questionitems = [result].concat(this.questionitems);

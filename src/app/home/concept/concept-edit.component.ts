@@ -81,7 +81,7 @@ export class ConceptEditComponent implements OnInit {
 
   onAuthorRemoved(author: any) {
     this.service.deattachAuthor(this.concept.id, author.id);
-    let i = this.concept.authors.findIndex(F => F === author);
+    const i = this.concept.authors.findIndex(F => F === author);
     this.concept.authors.splice(i, 1);
   }
 

@@ -21,11 +21,12 @@ import { ElementKind, QddtElement, QddtElements } from '../preview/preview.servi
 export class PublicationReuseComponent implements OnInit {
   @Input() showbutton: boolean;
   @Output() publicationElement: any = new EventEmitter<any>();
-  showAddElement = false;
-  showReplayElement = false;
-  error: any;
 
-  modalActions = new EventEmitter<string|MaterializeAction>();
+  public showAddElement = false;
+  public showReplayElement = false;
+  public selectedElement: any;
+  public elements: any[];
+
   queryFields: QddtElement[] = [
     QddtElements[ElementKind.TOPIC_GROUP],
     QddtElements[ElementKind.CONCEPT],
@@ -34,9 +35,7 @@ export class PublicationReuseComponent implements OnInit {
     QddtElements[ElementKind.SEQUENCE_CONSTRUCT]
   ];
 
-  elements: any[];
   private selectedElementKind: ElementKind;
-  private selectedElement: any;
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
   constructor(private service: PublicationService) {
@@ -64,7 +63,7 @@ export class PublicationReuseComponent implements OnInit {
   }
 
   onSelectElement(e: any) {
-    console.info('onSelectElement');
+    // console.info('onSelectElement');
     this.selectedElement = e;
   }
 
@@ -80,7 +79,7 @@ export class PublicationReuseComponent implements OnInit {
   }
 
   onUse(element: any) {
-    console.info('onUse');
+    // console.info('onUse');
     this.publicationElement.emit(element);
     this.showAddElement = false;
     this.selectedElement = null;
@@ -90,8 +89,9 @@ export class PublicationReuseComponent implements OnInit {
 
    private getElementType(kind: ElementKind): QddtElement {
      const element: any = this.queryFields.find(e => e.id === kind);
-     if (element === undefined)
-       console.log('Couldn\'t find kind ' + ElementKind[kind] + ' ' + kind);
+     if (element === undefined) {
+       throw new Error('Couldn\'t find kind ' + ElementKind[kind] + ' ' + kind);
+     }
      return element;
    }
 

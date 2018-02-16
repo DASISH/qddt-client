@@ -68,8 +68,9 @@ export class QuestionReuseComponent {
     console.debug(this.elementRevision);
     console.debug(this.selectedElement) ;
     if (this.reuseQuestionItem) {
-      if (this.isNull(this.questionItem ))
+      if (this.isNull(this.questionItem )) {
         this.questionItem = this.selectedElement;
+      }
 
       this.questionItem['questionItemRevision'] = this.elementRevision;
       console.debug(this.questionItem);

@@ -10,7 +10,7 @@ export class LocalDatePipe implements PipeTransform {
     if (input === null || input === undefined || input.length < 3) {
       return '';
     }
-    var date: Date = new Date();
+    const date: Date = new Date();
     date.setUTCFullYear(input[0], input[1] - 1, input[2]);
     return date.toDateString();
   }

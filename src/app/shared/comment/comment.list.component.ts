@@ -37,8 +37,9 @@ export class CommentListComponent implements OnInit {
 
   toggleComments() {
     this.showComments = !this.showComments;
-    if (this.showComments)
+    if (this.showComments) {
       this.addedComment();
+    }
   }
 
   addedComment() {

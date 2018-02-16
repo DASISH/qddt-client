@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_BASE_HREF } from '../../api';
-import { ConceptQuestionItem } from '../concept/concept.service';
+import { ConceptQuestionItem, Concept } from '../concept/concept.service';
 import { Observable } from 'rxjs/Observable';
 
 export class Topic {
@@ -10,8 +10,10 @@ export class Topic {
   abstractDescription: string;
   archived: boolean;
   authors: any[];
+  comments: any[];
   otherMaterials: any[];
   topicQuestionItems: ConceptQuestionItem[];
+  concepts: Concept[];
 }
 
 @Injectable()
@@ -59,8 +61,9 @@ export class TopicService  {
   }
 
   attachQuestion(topicId: string, questionId: string, revision: string): Observable<any> {
-    if (revision === null)
+    if (revision === null) {
       revision = '0';
+    }
     return this.http.post(this.api + 'topicgroup/combine?questionitemid=' + questionId +
       '&questionitemrevision=' + revision + '&topicid=' + topicId, {});
   }

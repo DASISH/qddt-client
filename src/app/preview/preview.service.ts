@@ -107,7 +107,7 @@ export class PreviewService {
   }
 
   getFile(id: string): Promise<any> {
-    return this.http.get(this.api +'othermaterial/files/' + id,{ responseType:'blob'})
+    return this.http.get(this.api + 'othermaterial/files/' + id, { responseType: 'blob'})
       .toPromise();
   }
 

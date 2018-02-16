@@ -22,19 +22,19 @@ export class ElementFooterComponent {
   }
 
   onClick() {
-    this.basedonObjectDetail.emit({id: this.element.basedOnObject, rev:this.element.basedOnRevision,type: this.type});
+    this.basedonObjectDetail.emit({id: this.element.basedOnObject, rev: this.element.basedOnRevision, type: this.type});
   }
 
   getTime(): string {
     const m = this.element.modified;
-    if (!m) return '?';
+    if (!m) { return '?'; }
     const date = new Date(Date.UTC(parseInt(m[0]), parseInt(m[1]), parseInt(m[2]), parseInt(m[3]), parseInt(m[4]), parseInt(m[5])));
     return date.toISOString();
   }
 
   getVersion(): string {
     const v = this.element.version;
-    if (!v) return '?';
+    if (!v) { return '?'; }
     const rev = (v.revision) ?  '.' + v.revision : '';
     const label = (v.versionLabel) ?  ' - ' + v.versionLabel : '';
     return v.major + '.' + v.minor + rev + label;

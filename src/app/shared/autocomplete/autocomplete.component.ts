@@ -10,7 +10,7 @@ import { QddtElement } from '../../preview/preview.service';
 
 export class AutocompleteComponent implements OnInit, OnChanges {
   @Input() items:  any[];
-  @Input() elementtype:QddtElement;
+  @Input() elementtype: QddtElement;
   /**
    * set initial value
    */
@@ -20,11 +20,12 @@ export class AutocompleteComponent implements OnInit, OnChanges {
   @Output() autocompleteFocusEvent: EventEmitter<any> = new EventEmitter<any>();
   @Output() enterEvent: EventEmitter<any> = new EventEmitter<any>();
 
-  private candidates: any[];
-  private selectedIndex: number =0;
-  private showAutoComplete: boolean = false;
-  private searchFromServer: boolean = true;
-  private value: string;
+  public candidates: any[];
+  public showAutoComplete = false;
+  public value: string;
+
+  private selectedIndex = 0;
+  private searchFromServer = true;
 
   ngOnInit() {
     this.value = this.initialValue;
@@ -57,18 +58,18 @@ export class AutocompleteComponent implements OnInit, OnChanges {
 
   getLabel(candiate: any) {
     if (this.elementtype.isMultipleFields()) {
-      let results: any[] = this.elementtype.fields.map(element => {
-        return this.getFieldValue(candiate, element).substring(0,200).concat('...');
+      const results: any[] = this.elementtype.fields.map(element => {
+        return this.getFieldValue(candiate, element).substring(0, 200).concat('...');
       });
       return results.join(' | ');
     } else {
-      return this.getFieldValue(candiate, this.elementtype.fields).substring(0,200).concat('...');
+      return this.getFieldValue(candiate, this.elementtype.fields).substring(0, 200).concat('...');
     }
   }
 
   onClearKeywords() {
     this.value = '';
-    if(this.searchFromServer) {
+    if (this.searchFromServer) {
       this.enterEvent.emit(this.value);
     } else {
       this.filterItems(this.value);
@@ -95,9 +96,9 @@ export class AutocompleteComponent implements OnInit, OnChanges {
   }
 
   private filterItems(search: string) {
-    let field = this.elementtype.fields;
-    let isMultipleFields = this.elementtype.isMultipleFields();
-    let filterItem = this.filterItem;
+    const field = this.elementtype.fields;
+    const isMultipleFields = this.elementtype.isMultipleFields();
+    const filterItem = this.filterItem;
     this.candidates = this.items.filter(
       function (item) {
         if (isMultipleFields) {
@@ -111,7 +112,7 @@ export class AutocompleteComponent implements OnInit, OnChanges {
   }
 
   private filterItem(item: any, path: any, search: string) {
-    if(!(search) || search.length === 0) {
+    if (!(search) || search.length === 0) {
       return true;
     }
     let result: any;

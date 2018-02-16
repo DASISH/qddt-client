@@ -8,6 +8,8 @@ export class SurveyProgram {
   id: string;
   name: string;
   description: string;
+  authors: any[];
+  comments: any[];
   modified: any;
   archived: boolean;
   studies: any[];
@@ -20,11 +22,11 @@ export class SurveyService  {
   }
 
   create(surveyProgram: SurveyProgram): Observable<any> {
-    return this.http.post(this.api + 'surveyprogram/create',surveyProgram);
+    return this.http.post(this.api + 'surveyprogram/create', surveyProgram);
   }
 
   save(surveyProgram: SurveyProgram):  Observable<any> {
-    return this.http.post(this.api + 'surveyprogram/',surveyProgram);
+    return this.http.post(this.api + 'surveyprogram/', surveyProgram);
   }
 
   getAll(): Promise<any> {

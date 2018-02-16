@@ -16,17 +16,17 @@ declare var Materialize: any;
 })
 
 export class ConceptComponent implements OnInit, AfterContentChecked {
-  readonly conceptKind = ElementKind.CONCEPT;
-  confimDeleteActions = new EventEmitter<string|MaterializeAction>();
+  public readonly conceptKind = ElementKind.CONCEPT;
+  public confimDeleteActions = new EventEmitter<string|MaterializeAction>();
   public showReuse = false;
+  public showConceptForm = false;
+  public showProgressBar = false;
+  public toDeletedConcept: any;
+  public topic: Topic;
+  public concepts: any;
 
-  private showConceptForm = false;
-  private showProgressBar = false;
   private parentId: any;
-  private topic: Topic;
   private concept: any;
-  private concepts: any;
-  private toDeletedConcept: any;
 
   constructor(private router: Router, private route: ActivatedRoute,
               private conceptService: ConceptService, private property: PropertyStoreService) {
