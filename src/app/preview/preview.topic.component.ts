@@ -8,6 +8,7 @@ const filesaver = require('file-saver');
   moduleId: module.id,
   styles: [
     'ul .collapsible { margin:20px; padding:5px; !important;}',
+    'collapsible-header { display: flow-root; margin-bottom: 0px;}'
   ],
   template: `
 <div class="row" *ngIf="topic?.abstractDescription">

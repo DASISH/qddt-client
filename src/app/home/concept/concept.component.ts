@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import {AfterContentChecked, Component, EventEmitter, OnInit} from '@angular/core';
 import { ConceptService, Concept } from './concept.service';
 import { MaterializeAction } from 'angular2-materialize';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -6,6 +6,7 @@ import { Topic } from '../topic/topic.service';
 import { PropertyStoreService } from '../../core/global/property.service';
 import { ElementKind } from '../../preview/preview.service';
 
+declare var Materialize: any;
 
 @Component({
   selector: 'concept',
@@ -14,7 +15,7 @@ import { ElementKind } from '../../preview/preview.service';
   templateUrl: './concept.component.html'
 })
 
-export class ConceptComponent implements OnInit {
+export class ConceptComponent implements OnInit, AfterContentChecked {
   readonly conceptKind = ElementKind.CONCEPT;
   confimDeleteActions = new EventEmitter<string|MaterializeAction>();
   public showReuse = false;
@@ -32,10 +33,16 @@ export class ConceptComponent implements OnInit {
     this.concept = new Concept();
    }
 
+
+  ngAfterContentChecked(): void {
+    Materialize.updateTextFields();
+  }
+
   ngOnInit(): void {
     this.topic = this.property.get('topic');
-    if (!this.topic)
+    if (!this.topic) {
       console.error('TOPIC IS EMPTY!!!');
+    }
     this.parentId = this.topic.id;
     this.concepts = this.property.get('concepts');
     if (!this.concepts) {
@@ -50,14 +57,16 @@ export class ConceptComponent implements OnInit {
 
   onToggleConceptForm() {
     this.showConceptForm = !this.showConceptForm;
-    if (this.showConceptForm)
+    if (this.showConceptForm) {
       this.showReuse = false;
+    }
   }
 
   onToggleReuse() {
     this.showReuse = !this.showReuse;
-    if (this.showReuse)
+    if (this.showReuse) {
       this.showConceptForm = false;
+    }
   }
 
   onNewSave() {

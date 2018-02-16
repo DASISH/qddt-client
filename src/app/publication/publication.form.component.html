@@ -40,23 +40,18 @@
         <label class="{{textColor}}">{{ selectedPublicationStatusOption }}</label>
       </div>
     </div>
-    <div class="row" style="display: block;">
+    <div class="row">
       <div class="row {textColor}">Content list</div>
       <ul *ngIf="publication.publicationElements" materialize="collapsible"
           class="collapsible popout" data-collapsible="expandable">
-        <li>
-          <div class="collapsible-header grey lighten-2">
-            <div class="row" style="color: black">
-              <div class="col s2">Element type</div>
-              <div class="col s7">Element name</div>
-              <div class="col s2 right-align">Version</div>
-              <div class="col s1">Delete</div>
-            </div>
-          </div>
+        <li class="row collapsible-header grey lighten-2" style="color: black">
+          <div class="col s2">Element type</div>
+          <div class="col s7">Element name</div>
+          <div class="col s2 right-align">Version</div>
+          <div class="col s1">Delete</div>
         </li>
         <li *ngFor="let element of publication.publicationElements; let idx=index">
           <div class="collapsible-header grey lighten-5" style="color: #323232">
-            <div class="row">
               <div class="col s2">{{ element?.elementKind }}</div>
               <div class="col s7">{{ element?.name }}</div>
               <div class="col s2 right-align"><qddt-version [element]="element.element"></qddt-version></div>
@@ -66,7 +61,6 @@
                   <i class="material-icons medium" [ngStyle]="{'width': 'inherit', 'line-height': '37px'}" title="Delete" >delete_forever</i>
                 </a>
               </div>
-            </div>
           </div>
           <div class="collapsible-body white" >
             <qddt-preview-element

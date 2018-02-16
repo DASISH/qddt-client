@@ -1,6 +1,6 @@
 import { AfterContentChecked, Component } from '@angular/core';
 
-declare var Materialize: any;
+// declare var Materialize: any;
 
 @Component({
   selector: 'qddt-home',
@@ -13,6 +13,6 @@ export class HomeComponent implements AfterContentChecked {
 
 
   ngAfterContentChecked(): void {
-    Materialize.updateTextFields();
+    // Materialize.updateTextFields();
   }
 }

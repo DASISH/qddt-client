@@ -41,11 +41,11 @@ declare var Materialize: any;
 export class StudyEditComponent implements AfterContentChecked {
   @Input() study: Study;
   @Input() surveyId: any;
-  @Input() isVisible= false;
+  @Input() isVisible = false;
   @Output() studySavedEvent: EventEmitter<any> = new EventEmitter<any>();
 
   public showRevision = false;
-  private basedonRef: any;
+  public basedonRef: any;
 
   constructor(private studyService: StudyService) {
   }
@@ -68,11 +68,11 @@ export class StudyEditComponent implements AfterContentChecked {
 
   onAuthorRemoved(author: any) {
    this.studyService.deattachAuthor(this.study.id, author.id);
-   let i = this.study['authors'].findIndex((F: any) => F === author);
+   const i = this.study['authors'].findIndex((F: any) => F === author);
    this.study['authors'].splice(i, 1);
   }
 
-  getBasedOn(ref:any) {
+  getBasedOn(ref: any) {
     this.basedonRef = ref;
   }
 }

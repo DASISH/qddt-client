@@ -1,4 +1,4 @@
-import { Component, EventEmitter,  OnInit } from '@angular/core';
+import {AfterContentChecked, Component, EventEmitter, OnInit} from '@angular/core';
 import { ActivatedRoute,  Router } from '@angular/router';
 import { MaterializeAction } from 'angular2-materialize';
 import 'rxjs/add/operator/switchMap';
@@ -21,8 +21,11 @@ declare var Materialize: any;
   templateUrl: './topic.component.html',
 })
 
-export class TopicComponent implements  OnInit {
+export class TopicComponent implements  OnInit, AfterContentChecked {
+
   readonly topicKind = ElementKind.TOPIC_GROUP;
+  readonly revisionKind = ElementKind.TOPIC_GROUP;
+
   questionItemActions = new EventEmitter<string|MaterializeAction>();
   previewActions = new EventEmitter<string|MaterializeAction>();
 
@@ -31,7 +34,6 @@ export class TopicComponent implements  OnInit {
   private topics: Topic[];
   private newTopic: Topic;
   private revision: any;
-  private revisionKind = ElementKind.TOPIC_GROUP;
   private showTopicForm = false;
   private showReuse = false;
   private questionItem: QuestionItem;
@@ -39,6 +41,10 @@ export class TopicComponent implements  OnInit {
   constructor(private router: Router, private route: ActivatedRoute,
               private topicService: TopicService, private property: PropertyStoreService) {
     this.newTopic = new Topic();
+  }
+
+  ngAfterContentChecked(): void {
+    Materialize.updateTextFields();
   }
 
   ngOnInit(): void {

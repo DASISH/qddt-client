@@ -22,11 +22,17 @@
   border-bottom: 1px solid red; /* red */
 }
 
+
 p {
   text-align: justify;
   text-justify: inter-word;
   white-space: pre-wrap;
 }
+
+form p {
+  text-align: justify;
+}
+
 
 .side-nav.fixed {
   width: 200px;

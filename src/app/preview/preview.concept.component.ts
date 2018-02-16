@@ -5,7 +5,8 @@ import { Concept } from '../home/concept/concept.service';
   selector: 'qddt-preview-concept',
   moduleId: module.id,
   styles: [
-      'div.collapsible { margin:20px;}'
+      'div.collapsible { margin:20px;}',
+      'collapsible-header { display: flow-root; margin-bottom: 0px; margin-left: unset; }'
   ],
   template: `
   <div class="row" *ngIf="concept?.description">
@@ -20,10 +21,10 @@ import { Concept } from '../home/concept/concept.service';
         data-collapsible="expandable" style="padding: 5pt;">
         <li *ngFor="let cqi of concept.conceptQuestionItems;">
           <div class="collapsible-header green lighten-5">
-            <div class="row"  style="margin-bottom: 0px;">
+            <!--<div class="row"  style="margin-bottom: 0px;">-->
               <div class="col s10">QuestionItem [{{ cqi?.questionItem?.name }}]</div>
               <div class="col s2"><qddt-version-label [element]="cqi?.questionItem"></qddt-version-label></div>
-            </div>
+            <!--</div>-->
           </div>
           <div class="collapsible-body">
             <qddt-preview-questionitem *ngIf="cqi.questionItem"
