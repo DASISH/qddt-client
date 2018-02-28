@@ -16,11 +16,11 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
   public isDetail: boolean;
   public showCategoryForm = false;
   public categories: any;
+  public selectedCategory: any;
 
   private page: any;
   private category: any;
   private searchKeys: string;
-  private selectedCategory: any;
   private columns: Column[];
   private searchKeysSubect: Subject<string> = new Subject<string>();
 

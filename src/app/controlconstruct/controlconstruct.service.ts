@@ -117,7 +117,7 @@ export class ControlConstructService  {
     if (files !== null) {
       formData.append('file', files[0]);
     }
-    return this.http.post(this.api + 'othermaterial/upload/' + id, formData)
+    return this.http.post(this.api + 'othermaterial/upload/' + id + '/CC', formData)
       .map((res: any) => {
         try {
           return res;

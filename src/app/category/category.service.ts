@@ -47,7 +47,7 @@ export class CategoryService  {
   readonly pageSize = '&size=10';
 
   constructor(protected http: HttpClient,  @Inject(API_BASE_HREF) protected api: string) {
-    //super(http, auth , api);
+    // super(http, auth , api);
   }
 
   save(category: Category): Observable<any> {
@@ -79,7 +79,7 @@ export class CategoryService  {
     if (sort.length > 0) {
       query += '&sort=' + sort;
     }
-    return this.http.get(this.api + 'category/page/search/?level=' + level + query)
+    return this.http.get(this.api + 'category/page/search/?level=' + level + query + this.pageSize)
     .toPromise();
   }
 

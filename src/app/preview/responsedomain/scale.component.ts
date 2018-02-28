@@ -75,9 +75,7 @@ export class ResponsedomainScaleComponent implements OnChanges {
     let usedCols = 0;
     const rep = this.responseDomain.managedRepresentation;
 
-    if (rep === undefined || rep.children === undefined) {
-      return;
-    }
+    if (!rep) { return; }
 
     function getAlignment(category: Category, islast: boolean) {
       if (!category.code.alignment) {

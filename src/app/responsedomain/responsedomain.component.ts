@@ -6,6 +6,7 @@ import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 import { PropertyStoreService } from '../core/global/property.service';
 import { ElementKind } from '../preview/preview.service';
+import { Category } from '../category/category.service';
 
 // declare var Materialize: any;
 
@@ -136,9 +137,10 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
     }
   }
 
-  formCreate() {
+  formCreate(managedRepresentation: Category ) {
     this.searchKeys = '';
     this.isNewFormVisible = false;
+    this.responseDomain.managedRepresentation = managedRepresentation;
     this.responseDomainService.create(this.responseDomain).subscribe((result: any) => {
       this.responseDomain = result;
       this.responseDomains = [result].concat(this.responseDomains); });

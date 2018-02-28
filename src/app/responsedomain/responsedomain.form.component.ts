@@ -26,7 +26,7 @@ export class ResponsedomainFormComponent implements OnInit , AfterViewInit {
   @Input() domainType: DomainKind;
   @Input() readonly: boolean;
   @Input() labelColor: string;
-  @Output() formChange: EventEmitter<any>;
+  @Output() formChange: EventEmitter<Category>;
 
   basedonActions = new EventEmitter<string|MaterializeAction>();
   previewResponseDomain: any;
@@ -109,11 +109,10 @@ export class ResponsedomainFormComponent implements OnInit , AfterViewInit {
     this.responsedomain.label = this.responsedomain.name;
     const managed = this.responsedomain.managedRepresentation;
     managed.name = this.responsedomain.label;
-    const changeEvent = this.formChange;
     this.categoryService.save(managed)
       .subscribe((result: Category) => {
         this.responsedomain.managedRepresentation = result;
-        changeEvent.emit(this.responsedomain);
+        this.formChange.emit(result);
     });
   }
 

@@ -37,11 +37,11 @@ export class QddtTableComponent implements OnInit, OnChanges {
   @Output() pageChangeEvent: EventEmitter<String> = new EventEmitter<String>();
   @Output() enterEvent: EventEmitter<any> = new EventEmitter<any>();
 
+  public readonly directionSign: { [dir: string]: String; } = {'': '⇳', 'asc': '⇩', 'desc': '⇧' };
   public value: string;
   public rows: any[] = [];
 
   private _rows: any[] = [];
-  private readonly directionSign: { [dir: string]: String; } = {'': '⇳', 'asc': '⇩', 'desc': '⇧' };
 
   ngOnInit() {
     if (this.placeholder === null || this.placeholder === undefined) {
