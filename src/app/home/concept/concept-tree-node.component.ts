@@ -69,8 +69,8 @@ export class TreeNodeComponent  {
     this.revision = element;
   }
 
-  removeQuestionItem(questionItem: any) {
-    this.conceptService.deattachQuestion(this.concept.id, questionItem)
+  removeQuestionItem(entityRef: any) {
+    this.conceptService.deattachQuestion(this.concept.id, entityRef.id, entityRef.revisionNumber)
       .subscribe((result: any) => {
           this.onConceptSavedEvent(result);
         });

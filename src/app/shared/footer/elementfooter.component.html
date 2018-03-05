@@ -6,7 +6,7 @@
   </div>
   <div class="input-field col s5 l3">
     <p><label class="active teal-text">Last Saved</label></p>
-    <div class="chip" title={{getTime()}}>{{element?.modified | localDate}}</div>
+    <div class="chip" title={{getTime()}}>{{element?.modified |  date:'fullDate'}}</div>
   </div>
   <div class="input-field col s4 l3">
     <p><label class="active teal-text">Last Saved By</label></p>

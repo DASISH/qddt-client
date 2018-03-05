@@ -72,8 +72,9 @@ export class ConceptService  {
       '&conceptid=' + conceptId, {});
   }
 
-  deattachQuestion(conceptId: string, questionId: string): Observable<any> {
+  deattachQuestion(conceptId: string, questionId: string, revision: string): Observable<any> {
     return this.http.post(this.api + 'concept/decombine?questionitemid=' + questionId +
+      '&questionitemrevision=' + revision +
       '&conceptid=' + conceptId, {});
   }
 

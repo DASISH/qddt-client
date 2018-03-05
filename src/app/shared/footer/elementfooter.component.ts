@@ -28,7 +28,7 @@ export class ElementFooterComponent {
   getTime(): string {
     const m = this.element.modified;
     if (!m) { return '?'; }
-    const date = new Date(Date.UTC(parseInt(m[0]), parseInt(m[1]), parseInt(m[2]), parseInt(m[3]), parseInt(m[4]), parseInt(m[5])));
+    const date = new Date(parseInt(m));
     return date.toISOString();
   }
 
