@@ -80,13 +80,13 @@
           <a class="collection-item grey-text text-darken-1" *ngFor="let cqi of concept.conceptQuestionItems"
             style="padding-bottom: 5pt;">
             <div class="row" style="min-height: 3rem;">
-              <div class="col s11" (click)="onClickQuestionItem(cqi.questionItem)" style="cursor: pointer;">
-                {{ cqi?.questionItem?.question }}</div>
+              <div class="col s11" (click)="onClickQuestionItem(cqi.element)" style="cursor: pointer;">
+                {{ cqi?.element?.question }}</div>
               <div class="col s1">
                 <a *ngIf="!readonly"
                   class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
                   [ngClass]="{hide: !showbutton}"
-                  (click)="removeQuestionItem(cqi?.questionItem?.id)">
+                  (click)="removeQuestionItem(cqi)">
                   <i class="material-icons" title="Remove selected">remove</i>
                 </a>
               </div>
