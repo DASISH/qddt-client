@@ -10,11 +10,7 @@ import { PropertyStoreService } from '../core/global/property.service';
   selector: 'qddt-controle-construct',
   moduleId: module.id,
   templateUrl: './controlconstruct.component.html',
-  styles: [
-    `.noItemFound {
-        border: thick solid red;
-    }`
-  ],
+  styles: [],
   providers: [ControlConstructService],
 })
 

@@ -72,7 +72,6 @@ export class QuestionItemEditComponent implements OnInit {
    }
 
   onResponsedomainRemove(item: any) {
-    console.log('onResponsedomainRemove');
     this.questionitem.responseDomainRevision = 0;
     this.questionitem.responseDomain = null;
   }

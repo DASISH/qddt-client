@@ -8,7 +8,6 @@ import { ElementKind, QddtElement } from '../preview/preview.service';
   moduleId: module.id,
   templateUrl: './sequence.reuse.component.html',
   styles: [
-    '.noItemFound { border: thick solid red; }',
     '.nomargin { margin:0; }',
     ':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'
   ],

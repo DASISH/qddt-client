@@ -1,4 +1,4 @@
-<div *ngIf="element" [ngSwitch]="elementKind" style="color: dimgrey">
+<div *ngIf="element" [ngSwitch]="getElementKind(elementKind)" style="color: dimgrey">
   <div *ngSwitchCase=ElementKind.CONCEPT>
     <qddt-preview-concept [concept]="element"></qddt-preview-concept>
   </div>
@@ -20,7 +20,7 @@
   <div *ngSwitchCase=ElementKind.QUESTIONGRID>
     <qddt-preview-questionitem-grid [questionItem]="element"></qddt-preview-questionitem-grid>
   </div>
-  <div *ngSwitchCase=ElementKind.QUESTIONITEM>
+  <div *ngSwitchCase="ElementKind.QUESTION_ITEM">
     <qddt-preview-questionitem [questionItem]="element"></qddt-preview-questionitem>
   </div>
   <div *ngSwitchCase=ElementKind.RESPONSEDOMAIN>
@@ -43,7 +43,7 @@
     <!--INSTRUCTION,-->
     <!--UNIVERSE-->
     <div class="row">
-      <span>TYPE -> {{ getElementKind(elementKind) }} <- TEST</span>
+      <span> getElementString:{{ getElementString(elementKind) }} getElementKind:{{getElementKind(elementKind)}} elementKind:{{elementKind}} <- TEST</span>
       <div class="col s12">
         <label [attr.for]="element.id + '-name'" class="active teal-text">Name</label>
         <textarea class="materialize-textarea" id="{{element?.id}}-name"
@@ -56,7 +56,7 @@
       </div>
     </div>
     <div class="row">
-      <qddt-element-footer  [element]="element" [type]="getElementKind(elementKind)"></qddt-element-footer>
+      <qddt-element-footer  [element]="element" [type]="getElementString(elementKind)"></qddt-element-footer>
     </div>
   </div>
 </div>

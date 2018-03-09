@@ -23,7 +23,7 @@
 				<div [ngSwitch]="domainType">
 					<div *ngSwitchCase="domainTypeDef.SCALE">
 						<div class="row">
-              <div class="col l3">
+              <div class="col l3 input-field">
                 <label for="scale_start" class="active {{labelColor}}">Start</label>
                 <input id="scale_start" name="scale_start" type="number"
                    [attr.max]="subtract([responsedomain.managedRepresentation.inputLimit.maximum],
@@ -31,7 +31,7 @@
 								  (ngModelChange)="buildPreviewResponseDomain()"
 					        [(ngModel)]="responsedomain.managedRepresentation.inputLimit.minimum" required>
               </div>
-              <div class="col l3">
+              <div class="col l3 input-field">
                 <label for="scale_end" class="active {{labelColor}}">End</label>
                 <input id="scale_end" name="scale_end" type="number"
                   [attr.min]="addition([responsedomain.managedRepresentation.inputLimit.minimum],
@@ -39,7 +39,7 @@
                   (ngModelChange)="buildPreviewResponseDomain()"
 					        [(ngModel)]="responsedomain.managedRepresentation.inputLimit.maximum" required>
               </div>
-              <div class="col l3">
+              <div class="col l3 input-field">
                 <label for="scale_anchor" class="active {{labelColor}}">Number of Anchor</label>
                 <input id="scale_anchor" name="scale_anchor" type="number" [(ngModel)]="numberOfAnchors"
                        [attr.min]=0
@@ -100,7 +100,7 @@
 						</table>
 					</div>
 					<div *ngSwitchCase="domainTypeDef.LIST" class="row">
-						<div class="input-field col m3 l2">
+						<div class="input-field col m3 l3">
                 <input id="code_number" name="code_number" type="number"
                   [attr.min]=0
                   [ngModel]="responsedomain.managedRepresentation.inputLimit.maximum"
@@ -108,7 +108,7 @@
                 <label class="active {{labelColor}}" for="code_number">Number of Codes</label>
 
 						</div>
-            <div class="input-field col m3 l2 offset-m1 offset-l1">
+            <div class="input-field col m3 l3 offset-m1 offset-l1">
                 <input id="responseCardinality_minimum" name="responseCardinality_minimum" type="number"
                        (ngModelChange)="buildPreviewResponseDomain()"
                        [attr.min]=0
@@ -116,7 +116,7 @@
                        [(ngModel)]="responsedomain.responseCardinality.minimum" required>
                 <label class="active  {{labelColor}}" for="responseCardinality_minimum">Min of Response Cardinality</label>
             </div>
-            <div class="input-field col m3 l2 offset-m1 offset-l1 ">
+            <div class="input-field col m3 l3 offset-m1 offset-l1 ">
                 <input id="responseCardinality_maximum" name="responseCardinality_maximum" type="number"
                        (ngModelChange)="buildPreviewResponseDomain()"
                        [attr.min]="addition([responsedomain.responseCardinality.minimum],1)"

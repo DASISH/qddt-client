@@ -3,12 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { API_BASE_HREF } from '../../api';
 import { QuestionItem } from '../../question/question.service';
 import { Observable } from 'rxjs/Observable';
-
-export class ConceptQuestionItem {
-  id: any;
-  questionItemRevision: number;
-  questionItem: QuestionItem;
-}
+import {VersionComponent} from '../../shared/version/version.component';
+import {ElementKind, ElementRef} from '../../preview/preview.service';
 
 
 export class Concept {
@@ -17,7 +13,7 @@ export class Concept {
   label: string;
   description: string;
   authors: any[];
-  conceptQuestionItems: ConceptQuestionItem[];
+  conceptQuestionItems: ElementRef[];
   children: Concept[];
   comments: any[];
 }

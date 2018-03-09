@@ -6,11 +6,7 @@ import { MaterializeAction } from 'angular2-materialize';
   selector: 'qddt-instrument',
   moduleId: module.id,
   templateUrl: './instrument.component.html',
-  styles: [
-    `.noItemFound {
-        border: thick solid red;
-    }`
-  ],
+  styles: [],
   providers: [InstrumentService],
 })
 export class InstrumentComponent implements OnInit {

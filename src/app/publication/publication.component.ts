@@ -10,11 +10,7 @@ import { PropertyStoreService } from '../core/global/property.service';
   selector: 'qddt-publication',
   moduleId: module.id,
   templateUrl: './publication.component.html',
-  styles: [
-    `.noItemFound {
-        border: thick solid red;
-    }`
-  ],
+  styles: [],
   providers: [PublicationService],
 })
 export class PublicationComponent implements AfterContentChecked, OnInit {

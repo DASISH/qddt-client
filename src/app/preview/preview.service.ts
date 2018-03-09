@@ -8,6 +8,15 @@ export function ElementEnumAware(constructor: Function) {
   constructor.prototype.ElementKind = ElementKind;
 }
 
+export class ElementRef {
+  element: any;
+  elementKind: ElementKind;
+  id: any;
+  revisionNumber: number;
+  name: string;
+  version: any;
+}
+
 export enum ElementKind {
   CATEGORY = 0,
   CONCEPT,
@@ -18,7 +27,7 @@ export enum ElementKind {
   INSTRUMENT,
   PUBLICATION,
   QUESTIONGRID,
-  QUESTIONITEM,
+  QUESTION_ITEM,
   RESPONSEDOMAIN,
   STUDY,
   SURVEY,
@@ -69,7 +78,7 @@ export const QddtElements: QddtElement[] = [
   new QddtElement(ElementKind.INSTRUMENT, 'Instrument', 'instrument', ['label', 'description'], null),
   new QddtElement(ElementKind.PUBLICATION, 'Publication', 'publication', ['name', 'purpose'], null),
   new QddtElement(ElementKind.QUESTIONGRID, 'QuestionGrid', 'questiongrid', ['name', 'question'], null),
-  new QddtElement(ElementKind.QUESTIONITEM, 'QuestionItem', 'questionitem', ['name', 'question'], null),
+  new QddtElement(ElementKind.QUESTION_ITEM, 'QuestionItem', 'questionitem', ['name', 'question'], null),
   new QddtElement(ElementKind.RESPONSEDOMAIN, 'ResponseDomain', 'responsedomain', ['name', 'description'], null),
   new QddtElement(ElementKind.STUDY, 'Study', 'study', ['name', 'description'], null),
   new QddtElement(ElementKind.SURVEY, 'Survey', 'surveyprogram', ['name', 'description'], null),

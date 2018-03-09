@@ -1,8 +1,9 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_BASE_HREF } from '../../api';
-import { ConceptQuestionItem, Concept } from '../concept/concept.service';
+import { Concept } from '../concept/concept.service';
 import { Observable } from 'rxjs/Observable';
+import { ElementRef } from '../../preview/preview.service';
 
 export class Topic {
   id: string;
@@ -12,7 +13,7 @@ export class Topic {
   authors: any[];
   comments: any[];
   otherMaterials: any[];
-  topicQuestionItems: ConceptQuestionItem[];
+  topicQuestionItems: ElementRef[];
   concepts: Concept[];
 }
 

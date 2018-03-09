@@ -12,11 +12,7 @@ declare let Materialize: any;
   selector: 'qddt-responsedomain-form',
   moduleId: module.id,
   templateUrl: './responsedomain.form.component.html',
-  styles: [
-    `.noItemFound {
-        border: thick solid red;
-    }`
-  ],
+  styles: [ ],
   providers: [CategoryService],
 })
 
@@ -28,22 +24,22 @@ export class ResponsedomainFormComponent implements OnInit , AfterViewInit {
   @Input() labelColor: string;
   @Output() formChange: EventEmitter<Category>;
 
-  basedonActions = new EventEmitter<string|MaterializeAction>();
-  previewResponseDomain: any;
-  basedonObject: any;
+  public basedonActions = new EventEmitter<string|MaterializeAction>();
+  public previewResponseDomain: any;
+  public basedonObject: any;
 
+  public readonly CATEGORY_KIND: QddtElement = QddtElements[ElementKind.CATEGORY];
   public domainTypeDef = DomainKind;
   public dateFormatOption = DATE_FORMAT;
-  private today: number = Date.now();
-  private categories: Category[];
-  private showbuttons = false;
-  private selectedCategoryIndex: number;
-  private suggestions: Category[];
-  private numberOfAnchors: number;
-  private endMin: number;
-  private startMax: number;
+  public numberOfAnchors: number;
+  public categories: Category[];
+  public selectedCategoryIndex: number;
+//  private today: number = Date.now();
+//  private showbuttons = false;
+//  private suggestions: Category[];
+//  private endMin: number;
+//  private startMax: number;
   private searchKeysSubect: Subject<string> = new Subject<string>();
-  private readonly  CATEGORY_KIND: QddtElement = QddtElements[ElementKind.CATEGORY];
 
   constructor(private categoryService: CategoryService, private service: ResponseDomainService) {
     // console.debug('responsedomain.form.component constr');

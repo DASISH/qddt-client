@@ -7,11 +7,7 @@ import { MaterializeAction } from 'angular2-materialize';
   selector: 'qddt-sequence',
   moduleId: module.id,
   templateUrl: './sequence.component.html',
-  styles: [
-    `.noItemFound {
-        border: thick solid red;
-    }`
-  ],
+  styles: [],
 
 })
 export class SequenceComponent implements OnInit {

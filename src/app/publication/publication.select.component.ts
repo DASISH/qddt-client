@@ -61,7 +61,7 @@ export class PublicationSelectComponent implements OnChanges {
       const element: any = new PublicationElement();
       element.id = this.selectedElement.id;
       element.revisionNumber = this.elementRevision;
-      element.elementKind =  elementType.label;
+      element.elementKind =  ElementKind[this.elementKind];
       element.element = this.selectedElement;
       this.selectedElementLabel = elementType.label;
       this.publicationElement.emit(element);

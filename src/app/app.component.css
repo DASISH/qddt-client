@@ -51,6 +51,7 @@ form p {
   will-change: width, height;
 }
 
+.noItemFound { border: thick solid darkorange; }
 /*.collapsible-header {*/
   /*display: block;*/
 /*}*/

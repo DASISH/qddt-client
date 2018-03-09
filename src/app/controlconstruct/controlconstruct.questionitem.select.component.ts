@@ -13,7 +13,7 @@ export class ControlConstructQuestionItemSelectComponent implements OnInit {
   @Output() useQuestionItemEvent = new EventEmitter<any>();
   @Output() dismissEvent: any = new EventEmitter<any>();
 
-  public readonly QUESTIONITEM = QddtElements[ElementKind.QUESTIONITEM];
+  public readonly QUESTION_ITEM = QddtElements[ElementKind.QUESTION_ITEM];
   public questionItems: any[];
   public selectedQuestionItemIndex: number;
   public selectedQuestionItem: any;

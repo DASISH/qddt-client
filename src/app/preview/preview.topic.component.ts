@@ -28,21 +28,23 @@ const filesaver = require('file-saver');
     </li>
   </ul>
 </div>
-<div class="section" *ngIf="topic?.topicQuestionItems	 && topic?.topicQuestionItems	?.length>0" style="margin:20px; padding:5px;">
-  <ul class="collapsible popout"  *ngIf="topic?.topicQuestionItems" materialize="collapsible"
-    data-collapsible="expandable" style="padding: 5pt;">
-    <li *ngFor="let cqi of topic?.topicQuestionItems;">
-      <div class="collapsible-header green lighten-5">
-        <div class="row"  style="margin-bottom: 0;">
-          <div class="col s10">QuestionItem [{{ cqi?.questionItem?.name }}]</div>
+  <div *ngIf="topic?.topicQuestionItems && topic?.topicQuestionItems?.length > 0" class="section">
+    <ul *ngIf="topic?.topicQuestionItems" materialize="collapsible" class="collapsible popout"
+        data-collapsible="expandable" style="padding: 5pt;">
+      <li *ngFor="let cqi of topic?.topicQuestionItems;">
+        <div class="collapsible-header green lighten-5">
+          <!--<div class="row"  style="margin-bottom: 0px;">-->
+          <div class="col s10">QuestionItem [{{ cqi?.element?.name }}]</div>
+          <div class="col s2"><qddt-version-label [element]="cqi"></qddt-version-label></div>
+          <!--</div>-->
         </div>
-      </div>
-      <div class="collapsible-body">
-          <qddt-preview-questionitem [questionItem]="cqi.questionItem"></qddt-preview-questionitem>
-      </div>
-    </li>
-  </ul>
-</div>
+        <div class="collapsible-body">
+          <qddt-preview-questionitem *ngIf="cqi.element" [questionItem]="cqi.element">
+          </qddt-preview-questionitem>
+        </div>
+      </li>
+    </ul>
+  </div>
 <div class="row">
   <qddt-comment-list [ownerId]="topic.id" [comments]="topic.comments"></qddt-comment-list>
 </div>

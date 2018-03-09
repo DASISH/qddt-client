@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { QuestionService, QuestionItem } from './question.service';
 import { MaterializeAction } from 'angular2-materialize';
 import { ElementKind } from '../preview/preview.service';
+
 const filesaver = require('file-saver');
 
 
@@ -18,18 +19,16 @@ export class QuestionDetailComponent implements OnInit {
   @Input() isVisible: boolean;
   @Output() hideDetailEvent: EventEmitter<String> = new EventEmitter<String>();
   @Output() editQuestionItem: EventEmitter<any> = new EventEmitter<string|MaterializeAction>();
-  deleteAction = new EventEmitter<string|MaterializeAction>();
-  canDelete: number; // 0: cannot, 1: can, 2: checking
-  previewActions = new EventEmitter<MaterializeAction>();
-  previewObject: any;
 
-  private revisionKind = ElementKind.QUESTIONITEM;
-  private revisionIsVisible: boolean;
-  private editIsVisible: boolean;
-  private conceptIsVisible: boolean;
-  private config: any[];
-  private savedObject: string;
-  private savedQuestionitemsIndex: number;
+  public readonly QUESTIONITEM = ElementKind.QUESTION_ITEM;
+
+  public deleteAction = new EventEmitter<string|MaterializeAction>();
+  public canDelete: number; // 0: cannot, 1: can, 2: checking
+  public previewObject: any;
+
+  public revisionIsVisible: boolean;
+  public editIsVisible: boolean;
+  public conceptIsVisible: boolean;
 
 
   constructor(private service: QuestionService) {
@@ -44,35 +43,12 @@ export class QuestionDetailComponent implements OnInit {
     }
     if (this.questionitemId) {
       this.service.getquestion(this.questionitemId)
-        .then((result: any) => {
-          this.questionitem = result;
-          this.init();
-        });
-    } else {
-      this.init();
+        .then((result: any) => this.questionitem = result);
     }
   }
 
   hideDetail() {
     this.hideDetailEvent.emit('hide');
-  }
-
-  onRemoveResponsedomain(questionitem: QuestionItem) {
-    console.debug('onRemoveResponsedomain');
-    if (questionitem.responseDomain === undefined
-      || questionitem.responseDomain.id === ''
-      || questionitem.responseDomain.name === undefined) {
-      return;
-    }
-    this.editIsVisible = false;
-    questionitem.changeKind = 'IN_DEVELOPMENT';
-    questionitem['changeComment'] = 'remove response domain ' + questionitem.responseDomain.name;
-    questionitem.responseDomain = null;
-    this.service.updateQuestionItem(questionitem)
-      .subscribe((result: any) => {
-        this.questionitem = result;
-        this.editIsVisible = true;
-      });
   }
 
   onEditQuestionItem(questionitem: QuestionItem) {
@@ -83,16 +59,6 @@ export class QuestionDetailComponent implements OnInit {
       this.questionitems.push(questionitem);
     }
     this.hideDetail();
-
-    // const i = this.questionitems.findIndex(q => q['id'] === questionitem['id']);
-    // if (i >= 0) {
-    //   this.questionitems[i] = questionitem;
-    // } else {
-    //   if (this.savedQuestionitemsIndex >= 0) {
-    //     this.questionitems[this.savedQuestionitemsIndex] = JSON.parse(this.savedObject);
-    //   }
-    //   this.questionitems.push(questionitem);
-    // }
   }
 
   onDeleteQuestionItemModal() {
@@ -106,7 +72,7 @@ export class QuestionDetailComponent implements OnInit {
 
   checkDeleteQuestionItem() {
     const usedby: any = this.questionitem['conceptRefs'];
-    this.canDelete = 2; //checking
+    this.canDelete = 2; // checking
     if (usedby && usedby.length > 0) {
       this.canDelete = 0;
     } else {
@@ -143,26 +109,15 @@ export class QuestionDetailComponent implements OnInit {
       });
   }
 
-  private buildRevisionConfig(): any[] {
-    const config: any[] = [];
-    config.push({'name': 'name', 'label': 'Name'});
-    config.push({'name': 'question', 'label': 'Question'});
-    config.push({'name': 'intent', 'label': 'Intent'});
-    config.push({'name': ['responseDomain', 'name'], 'label': 'responseDomain'});
-    config.push({'name': ['responseDomain', 'version'], 'label': 'RespD', 'init': function (version: any) {
-      return 'V' + version['major'] + '.' + version['minor'];
-    }});
-
-    return config;
+   getConfig(): any[] {
+     return [
+        {'name': 'name', 'label': 'Name'},
+        {'name': 'question', 'label': 'Question'},
+        {'name': 'intent', 'label': 'Intent'},
+        {'name': ['responseDomain', 'name'], 'label': 'responseDomain'},
+        {'name': ['responseDomain', 'version'], 'label': 'RespD', 'init': function (version: any) {
+           return 'V' + version['major'] + '.' + version['minor']; } }
+     ];
   }
 
-  private init() {
-    if (!this.questionitem) {
-      // this.questionitem['workinprogress'] = this.questionitem.changeKind === 'IN_DEVELOPMENT';
-      this.savedObject = JSON.stringify(this.questionitem);
-      this.savedQuestionitemsIndex = this.questionitems
-        .findIndex(q => q['id'] === this.questionitem['id']);
-    }
-     this.config = this.buildRevisionConfig();
-  }
 }

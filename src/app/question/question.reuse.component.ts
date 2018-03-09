@@ -27,7 +27,7 @@ export class QuestionReuseComponent {
   // private questionItemKind: ElementKind = ElementKind.QUESTION_CONSTRUCT;
   private mainresponseDomainRevision: number;
   private searchKeysSubect: Subject<string> = new Subject<string>();
-  private readonly QUESTION_KIND: QddtElement = QddtElements[ElementKind.QUESTIONITEM];
+  private readonly QUESTION_KIND: QddtElement = QddtElements[ElementKind.QUESTION_ITEM];
 
 
   constructor(private questionService: QuestionService) {

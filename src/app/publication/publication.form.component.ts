@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, AfterContentChecked } from '@angular/core';
 import { Publication, PUBLICATION_STATUS, PUBLICATION_NOT_PUBLISHED, PUBLICATION_TYPES } from './publication.service';
-import { QddtElement } from '../preview/preview.service';
+import {ElementKind, QddtElement} from '../preview/preview.service';
 
 declare var Materialize: any;
 
@@ -70,12 +70,24 @@ export class PublicationFormComponent implements OnInit , AfterContentChecked {
     return element;
   }
 
-private getPublicationStatusId(label: string): number {
-    const id: number =  this.predefinedStatus.find((e: any) => e.label === label).id;
-  if (id === undefined) {
-    console.log('Couldn\'t find kind id ' + label );
+  private getLabelByElement(kind: ElementKind): String {
+    let element: QddtElement;
+    if (typeof kind === 'string') {
+      element =  PUBLICATION_TYPES.find(e => {
+        return ElementKind[e.id] === kind;
+      });
+    }  else {
+      element = PUBLICATION_TYPES.find(e => e.id === kind);
+    }
+    return element.label;
   }
+
+  private getPublicationStatusId(label: string): number {
+    const id: number =  this.predefinedStatus.find((e: any) => e.label === label).id;
+    if (id === undefined) {
+      console.log('Couldn\'t find kind id ' + label );
+    }
     return id;
-}
+  }
 
 }

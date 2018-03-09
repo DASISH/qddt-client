@@ -87,7 +87,7 @@ export const PUBLICATION_STATUS: any = [
 export const PUBLICATION_TYPES: QddtElement[] = [
   QddtElements[ElementKind.TOPIC_GROUP],
   QddtElements[ElementKind.CONCEPT],
-  QddtElements[ElementKind.QUESTIONITEM],
+  QddtElements[ElementKind.QUESTION_ITEM],
   QddtElements[ElementKind.QUESTION_CONSTRUCT],
   QddtElements[ElementKind.SEQUENCE_CONSTRUCT],
 ];

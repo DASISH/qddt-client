@@ -23,19 +23,18 @@ export class PublicationReuseComponent implements OnInit {
   @Output() publicationElement: any = new EventEmitter<any>();
 
   public showAddElement = false;
-  public showReplayElement = false;
+  public selectedElementKind: ElementKind;
   public selectedElement: any;
   public elements: any[];
 
   queryFields: QddtElement[] = [
     QddtElements[ElementKind.TOPIC_GROUP],
     QddtElements[ElementKind.CONCEPT],
-    QddtElements[ElementKind.QUESTIONITEM],
+    QddtElements[ElementKind.QUESTION_ITEM],
     QddtElements[ElementKind.QUESTION_CONSTRUCT],
     QddtElements[ElementKind.SEQUENCE_CONSTRUCT]
   ];
 
-  private selectedElementKind: ElementKind;
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
   constructor(private service: PublicationService) {

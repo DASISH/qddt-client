@@ -22,13 +22,13 @@ import { Concept } from '../home/concept/concept.service';
         <li *ngFor="let cqi of concept.conceptQuestionItems;">
           <div class="collapsible-header green lighten-5">
             <!--<div class="row"  style="margin-bottom: 0px;">-->
-              <div class="col s10">QuestionItem [{{ cqi?.questionItem?.name }}]</div>
-              <div class="col s2"><qddt-version-label [element]="cqi?.questionItem"></qddt-version-label></div>
+              <div class="col s10">QuestionItem [{{ cqi?.element?.name }}]</div>
+              <div class="col s2"><qddt-version-label [element]="cqi"></qddt-version-label></div>
             <!--</div>-->
           </div>
           <div class="collapsible-body">
-            <qddt-preview-questionitem *ngIf="cqi.questionItem"
-              [questionItem]="cqi.questionItem">
+            <qddt-preview-questionitem *ngIf="cqi.element"
+              [questionItem]="cqi.element">
             </qddt-preview-questionitem>
           </div>
         </li>

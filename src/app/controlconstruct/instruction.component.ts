@@ -7,11 +7,7 @@ import { ElementKind, QddtElements } from '../preview/preview.service';
   selector: 'qddt-instruction-create',
   moduleId: module.id,
   templateUrl: 'instruction.component.html',
-  styles: [
-    `.noItemFound {
-        border: thick solid orange;
-    }`
-  ],
+  styles: [ ],
   providers: [ControlConstructService],
 })
 

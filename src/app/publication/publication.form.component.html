@@ -52,7 +52,7 @@
         </li>
         <li *ngFor="let element of publication.publicationElements; let idx=index">
           <div class="collapsible-header grey lighten-5" style="color: #323232">
-              <div class="col s2">{{ element?.elementKind }}</div>
+              <div class="col s2">{{ getLabelByElement(element?.elementKind) }}</div>
               <div class="col s7">{{ element?.name }}</div>
               <div class="col s2 right-align"><qddt-version [element]="element.element"></qddt-version></div>
               <div class="col s1">
@@ -65,7 +65,7 @@
           <div class="collapsible-body white" >
             <qddt-preview-element
               [element]="element.element"
-              [elementKind]="getElementbyLabel(element.elementKind).id">
+              [elementKind]="element.elementKind">
             </qddt-preview-element>
           </div>
         </li>

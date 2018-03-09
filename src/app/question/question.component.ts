@@ -140,13 +140,13 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
         .subscribe(result => {
           this.questionItem.responseDomain.managedRepresentation = result;
           this.questionService.createResponseDomain(this.questionItem.responseDomain)
-            .subscribe(result => {
-              this.questionItem.responseDomain = result;
+            .subscribe(result2 => {
+              this.questionItem.responseDomain = result2;
               this.questionItem.responseDomainRevision = 0;
               this.questionService.updateQuestionItem(this.questionItem)
-                .subscribe((result: any) => {
+                .subscribe((result3: any) => {
                   this.questionItem = null;
-                  this.questionitems = [result].concat(this.questionitems);
+                  this.questionitems = [result3].concat(this.questionitems);
                   this.showProgressBar = false;
                   // this.editQuestionItem.emit(this.questionItem);
                 });
