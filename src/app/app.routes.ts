@@ -2,7 +2,6 @@ import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AuthGuard } from './core/guard/auth-guard.service';
-import { HomeComponent } from './home/home.component';
 import { QuestionComponent } from './question/question.component';
 import { CategoryComponent } from './category/category.component';
 import { CategorySchemeComponent } from './category/category.scheme.component';
@@ -16,8 +15,7 @@ import { PageNotFoundComponent } from './pagenotfound/page-not-found.component';
 
 
 const appRoutes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full'},
-  { path: 'home',         component: HomeComponent , canActivate: [AuthGuard]},
+  { path: 'home', redirectTo: '/survey', pathMatch: 'full'},
   { path: 'login',        component: LoginComponent },
   { path: 'questions',    component: QuestionComponent, canActivate: [AuthGuard] },
   { path: 'responsedomains', component: ResponsedomainComponent, canActivate: [AuthGuard] },
