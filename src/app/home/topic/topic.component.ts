@@ -23,6 +23,7 @@ declare var Materialize: any;
 
 export class TopicComponent implements  OnInit, AfterContentChecked {
 
+  basedonRef: any;
   public readonly topicKind = ElementKind.TOPIC_GROUP;
   public readonly revisionKind = ElementKind.TOPIC_GROUP;
 
@@ -74,6 +75,10 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
     if (this.showReuse) {
       this.showTopicForm = false;
     }
+  }
+
+  getBasedOn(ref: any) {
+    this.basedonRef = ref;
   }
 
   onSelectedRevsion(topic: Topic) {

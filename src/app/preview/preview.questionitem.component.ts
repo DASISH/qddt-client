@@ -23,7 +23,7 @@ import { QuestionItem } from '../question/question.service';
   </qddt-preview-responsedomain>
 </div>
 <div class="row" *ngIf="questionItem">
-  <qddt-element-footer [element]="questionItem" [type]="'questionitem'"></qddt-element-footer>
+  <qddt-element-footer [element]="questionItem" ></qddt-element-footer>
 </div>
 <div class="row" *ngIf="questionItem?.conceptRefs?.length>0">
   <ul class="collection with-header black-text">

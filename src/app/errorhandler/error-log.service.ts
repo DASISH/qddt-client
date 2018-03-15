@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
+import {ErrorObservable} from 'rxjs/observable/ErrorObservable';
 
 declare var Materialize: any;
-
-
 
 @Injectable()
 export class ErrorLogService {
@@ -13,11 +12,8 @@ export class ErrorLogService {
     console.error('ERROR LOG -> ', error);
 
     if (error instanceof HttpErrorResponse) {
-      if (error.error.exceptionMessage) {
-        Materialize.toast(error.error.exceptionMessage, 6000);
-      } else {
-        Materialize.toast(error.message, 6000);
-      }
+
+      this.handleError(error);
 
     } else if (error instanceof TypeError) {
 
@@ -37,5 +33,18 @@ export class ErrorLogService {
       Materialize.toast(error.message, 4000);
 
     }
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      Materialize.toast(error.error.message, 6000);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong,
+      Materialize.toast(`Error code ${error.status}, <br> ${error.error.exceptionMessage}`, 6000);
+    }
+    // return an ErrorObservable with a user-facing error message
+    return new ErrorObservable('Something bad happened; please try again later.');
   }
 }

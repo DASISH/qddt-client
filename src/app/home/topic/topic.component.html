@@ -91,7 +91,6 @@
             <div class="col s10 m10 l10 grey-text text-darken-2">
               <h5 class="row">
                 <div class="col s9">{{ currentElement?.name }}</div>
-
                 <div class="col s3">
                     <qddt-version-label class="right" [element]="currentElement"></qddt-version-label>
                 </div>
@@ -139,18 +138,13 @@
                 *ngIf = "edit.showRevision"
                 [current]="currentElement"
                 [config]="config"
-                [qddtURI]="'audit/topicgroup/' + currentElement.id + '/all'"
-               (requestPreview)="showPreview($event)">
+                [qddtURI]="'audit/topicgroup/' + currentElement.id + '/all'">
               </qddt-revision>
-              <qddt-preview-dialog *ngIf = "edit.showRevision"
-                 id="34wtkemr" [basedonObject]="revision" [elementKind] = "revisionKind">
-              </qddt-preview-dialog>
 
               <qddt-comment-list *ngIf="!edit.isVisible"
                 [ownerId]="currentElement.id"
                 [comments]="currentElement.comments">
               </qddt-comment-list>
-
             </div>
 
           </div>

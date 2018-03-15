@@ -24,7 +24,7 @@ import { SurveyProgram } from '../home/survey/survey.service';
     <qddt-preview-study-list [studyList]="survey.studies"></qddt-preview-study-list>
   </div>
   <div class="row">
-    <qddt-element-footer [element]="survey" [type]="'survey'"></qddt-element-footer>
+    <qddt-element-footer [element]="survey"></qddt-element-footer>
   </div>`
   ,
   providers: [ ],

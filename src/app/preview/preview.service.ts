@@ -1,20 +1,30 @@
 import { Injectable, Inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { API_BASE_HREF } from '../api';
 import { Observable } from 'rxjs/Observable';
-import { HttpClient } from '@angular/common/http';
-
 
 export function ElementEnumAware(constructor: Function) {
   constructor.prototype.ElementKind = ElementKind;
 }
 
-export class ElementRef {
-  element: any;
-  elementKind: ElementKind;
+export interface IRevisionRef {
   id: any;
   revisionNumber: number;
-  name: string;
-  version: any;
+  elementKind: ElementKind|String;
+}
+
+export interface IElementRef {
+  element: any;
+  elementKind: ElementKind|String;
+}
+
+export class ElementRevisionRef implements IRevisionRef, IElementRef {
+  element: any;
+  elementKind: ElementKind|String;
+  id: any;
+  revisionNumber: number;
+  name?: string;
+  version?: any;
 }
 
 export enum ElementKind {
@@ -26,11 +36,11 @@ export enum ElementKind {
   STATEMENT_CONSTRUCT,
   INSTRUMENT,
   PUBLICATION,
-  QUESTIONGRID,
+  QUESTION_GRID,
   QUESTION_ITEM,
   RESPONSEDOMAIN,
   STUDY,
-  SURVEY,
+  SURVEY_PROGRAM,
   TOPIC_GROUP,
   INSTRUCTION,
   UNIVERSE
@@ -77,11 +87,11 @@ export const QddtElements: QddtElement[] = [
      '&constructkind=STATEMENT_CONSTRUCT'),
   new QddtElement(ElementKind.INSTRUMENT, 'Instrument', 'instrument', ['label', 'description'], null),
   new QddtElement(ElementKind.PUBLICATION, 'Publication', 'publication', ['name', 'purpose'], null),
-  new QddtElement(ElementKind.QUESTIONGRID, 'QuestionGrid', 'questiongrid', ['name', 'question'], null),
+  new QddtElement(ElementKind.QUESTION_GRID, 'QuestionGrid', 'questiongrid', ['name', 'question'], null),
   new QddtElement(ElementKind.QUESTION_ITEM, 'QuestionItem', 'questionitem', ['name', 'question'], null),
   new QddtElement(ElementKind.RESPONSEDOMAIN, 'ResponseDomain', 'responsedomain', ['name', 'description'], null),
   new QddtElement(ElementKind.STUDY, 'Study', 'study', ['name', 'description'], null),
-  new QddtElement(ElementKind.SURVEY, 'Survey', 'surveyprogram', ['name', 'description'], null),
+  new QddtElement(ElementKind.SURVEY_PROGRAM, 'Survey', 'surveyprogram', ['name', 'description'], null),
   new QddtElement(ElementKind.TOPIC_GROUP, 'Module', 'topicgroup', ['name', 'abstractDescription'], null),
   new QddtElement(ElementKind.INSTRUCTION, 'Instruction', 'instruction', ['description'], null),
   new QddtElement(ElementKind.UNIVERSE, 'Universe', 'universe', ['description'], null),
@@ -90,9 +100,7 @@ export const QddtElements: QddtElement[] = [
 @Injectable()
 export class PreviewService {
 
-  constructor(protected http: HttpClient,  @Inject(API_BASE_HREF) protected api: string) {
-    console.info('CSTR PreviewService');
-  }
+  constructor(protected http: HttpClient,  @Inject(API_BASE_HREF) protected api: string) {  }
 
   getRevisionByKindString(kind: string, id: string, rev: string): Promise<any> {
 
@@ -108,7 +116,7 @@ export class PreviewService {
 
   }
 
-  getRevisionByKind(kind: ElementKind, id: string, rev: string): Promise<any>  {
+  getRevisionByKind(kind: ElementKind, id: string, rev: number): Promise<any>  {
 
     const et: any = QddtElements.find(e => e.id === kind);
     return this.http.get(this.api + 'audit/' + et.path + '/' + id + '/' + rev).toPromise();

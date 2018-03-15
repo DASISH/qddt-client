@@ -6,7 +6,7 @@ import { ControlConstruct } from '../controlconstruct/controlconstruct.service';
   moduleId: module.id,
   template: `
     <div class="row" *ngIf="construct">
-      <div [ngSwitch]="construct.controlConstructKind">
+      <div [ngSwitch]="construct.classKind">
 				<div *ngSwitchCase="'SEQUENCE_CONSTRUCT'">
           <qddt-preview-sequenceconstruct [sequence]="construct"></qddt-preview-sequenceconstruct>
         </div>

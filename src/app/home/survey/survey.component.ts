@@ -16,7 +16,7 @@ export class SurveyComponent implements OnInit {
   public surveys: any[] = [];
   private survey: any;
   private revision: any;
-  private readonly revisionKind = ElementKind.SURVEY;
+  private readonly revisionKind = ElementKind.SURVEY_PROGRAM;
 
   constructor(private surveyService: SurveyService, private router: Router, private property: PropertyStoreService) {
     this.survey = new SurveyProgram();

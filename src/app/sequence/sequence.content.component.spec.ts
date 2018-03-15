@@ -3,11 +3,11 @@ import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { SequenceService } from './sequence.service';
-import { SequenceContentComponent } from '../to-be-delete/sequence.content.component';
 import { API_BASE_HREF } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
+import { SequenceContentComponent } from './sequence.content.component';
 
 export function main() {
   describe('Sequence content component', () => {
@@ -51,7 +51,7 @@ export function main() {
                 'id' : '7f000101-54aa-131e-8154-aa27fc230000',
                 'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
                 'name' : 'one condition',
-                'controlConstructKind': 'CONDITION_CONSTRUCT',
+                'classKind': 'CONDITION_CONSTRUCT',
                 'basedOnObject' : null,
                 'basedOnRevision' : null,
                 'version' : {'major' : 6, 'minor' : 0, 'versionLabel' : '', 'revision' : null },
@@ -71,7 +71,7 @@ export function main() {
   });
 }
 
-//override dependencies
+// override dependencies
 class SequenceServiceSpy {
   getElements = jasmine.createSpy('getElements').and.callFake(function (key) {
     return [];

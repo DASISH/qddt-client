@@ -32,11 +32,7 @@ import 'rxjs/Rx';
         [config]="{hidden: [2,3]}">
       </qddt-rational>
 
-      <qddt-element-footer [element]="concept" [type]="'CONCEPT'"
-        (BasedonObjectDetail)="onBasedOnObjectDetail($event)">
-      </qddt-element-footer>
-      <qddt-preview-dialog  id="previewConcept-{{concept.id}}" [elementRef]="basedonRef"></qddt-preview-dialog>
-
+      <qddt-element-footer [element]="concept"></qddt-element-footer>
       <div class="row right-align" *ngIf="!readonly">
         <button type="submit" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
       </div>

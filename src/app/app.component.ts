@@ -1,6 +1,9 @@
-import { Component, ViewEncapsulation  } from '@angular/core';
+import { Component, ViewEncapsulation, OnDestroy  } from '@angular/core';
 import { UserService } from './core/user/user.service';
 import { PropertyStoreService } from './core/global/property.service';
+import { QddtMessageService } from './core/global/message.service';
+import { Subscription } from 'rxjs/Subscription';
+import { ElementRevisionRef, IRevisionRef, IElementRef, ElementKind } from './preview/preview.service';
 
 // declare var $: any;
 
@@ -13,10 +16,22 @@ import { PropertyStoreService } from './core/global/property.service';
   providers: [UserService]
 })
 
-export class AppComponent  {
+export class AppComponent  implements OnDestroy {
 
-  constructor(private userService: UserService, private  properties: PropertyStoreService) {
-    //
+  ref: IRevisionRef|IElementRef;
+
+  subscription: Subscription;
+
+  constructor(private userService: UserService, private  properties: PropertyStoreService, private messageService: QddtMessageService ) {
+
+    this.subscription = this.messageService.getMessage()
+      .subscribe(message => this.showMessage(message));
+
+  }
+
+  ngOnDestroy() {
+    // unsubscribe to ensure no memory leaks
+    this.subscription.unsubscribe();
   }
 
   isLoggedIn(): boolean {
@@ -59,6 +74,11 @@ export class AppComponent  {
     this.checkRouter('publications', 'list');
   }
 
+
+  private showMessage<T extends IRevisionRef|IElementRef>(element: T) {
+    this.ref = element;
+  }
+
   private checkRouter(target: string, value: string) {
     const current = this.properties.get('current');
     if (current === target) {
@@ -72,4 +92,6 @@ export class AppComponent  {
     this.properties.set('current', target);
 
   }
+
+
 }

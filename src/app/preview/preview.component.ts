@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import {ElementKind, ElementEnumAware, QddtElement} from './preview.service';
-import {PUBLICATION_TYPES} from '../publication/publication.service';
+import { ElementKind, ElementEnumAware, QddtElement } from './preview.service';
+import { PUBLICATION_TYPES } from '../publication/publication.service';
 
 @Component({
   selector: 'qddt-preview-element',
@@ -29,7 +29,7 @@ export class PreviewComponent  {
   //   return typeof kind === 'string' ? ElementKind[kind] : kind;
   // }
 
-  public getElementKind(kind: ElementKind): any {
+  public getElementKind(kind: ElementKind|String): any {
     return typeof kind === 'string' ? ElementKind[kind] : kind;
   }
 

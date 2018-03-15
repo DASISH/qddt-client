@@ -66,12 +66,8 @@
       [element]="questionitem"
       [config]="{hidden: [4]}">
     </qddt-rational>
-    <qddt-element-footer
-      [element]="questionitem"
-      [type]="'QUESTION_ITEM'"
-      (BasedonObjectDetail)="onBasedonObjectDetail($event)">
-    </qddt-element-footer>
-    <qddt-preview-dialog  [elementRef]="basedonRef"></qddt-preview-dialog>
+    <qddt-element-footer [element]="questionitem"></qddt-element-footer>
+
     <div class="row right-align">
       <button *ngIf="!readonly"
               [disabled]="!questionEditForm.form.valid"

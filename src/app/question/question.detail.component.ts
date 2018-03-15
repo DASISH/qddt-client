@@ -25,7 +25,7 @@ export class QuestionDetailComponent implements OnInit {
   public deleteAction = new EventEmitter<string|MaterializeAction>();
   public canDelete: number; // 0: cannot, 1: can, 2: checking
   public previewObject: any;
-
+  public config: any[];
   public revisionIsVisible: boolean;
   public editIsVisible: boolean;
   public conceptIsVisible: boolean;
@@ -35,6 +35,7 @@ export class QuestionDetailComponent implements OnInit {
     this.revisionIsVisible = false;
     this.editIsVisible = false;
     this.conceptIsVisible = false;
+    this.config = this.getConfig();
   }
 
   ngOnInit() {
@@ -109,10 +110,10 @@ export class QuestionDetailComponent implements OnInit {
       });
   }
 
-   getConfig(): any[] {
+  private getConfig(): any[] {
      return [
         {'name': 'name', 'label': 'Name'},
-        {'name': 'question', 'label': 'Question'},
+        {'name': 'question', 'label': 'question'},
         {'name': 'intent', 'label': 'Intent'},
         {'name': ['responseDomain', 'name'], 'label': 'responseDomain'},
         {'name': ['responseDomain', 'version'], 'label': 'RespD', 'init': function (version: any) {

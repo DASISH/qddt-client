@@ -35,12 +35,9 @@
       <qddt-revision *ngIf="revisionIsVisible"
         [current]="controlConstruct"
         [config]="config"
-        [qddtURI]="'audit/controlconstruct/' + controlConstruct.id + '/all'"
-        (requestPreview)="onShowRevision($event)">
+        [qddtURI]="'audit/controlconstruct/' + controlConstruct.id + '/all'">
       </qddt-revision>
-      <qddt-preview-dialog *ngIf="revisionIsVisible"
-                           [basedonObject]="previewObject" [elementKind] = "revisionKind">
-      </qddt-preview-dialog>
+     
 
       <qddt-comment-list
         [ownerId]="controlConstruct.id"
@@ -55,7 +52,7 @@
   <div class="modal-content">
     <div class="row">
       <h4>Warning</h4>
-      <span>Are you sure to Control Construct {{ controlConstruct?.name }}?</span>
+      <span>Are you sure you want to delete Control Construct {{ controlConstruct?.name }}?</span>
     </div>
   </div>
   <div class="modal-footer">

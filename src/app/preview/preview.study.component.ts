@@ -22,7 +22,7 @@ import { Study } from '../home/study/study.service';
     <qddt-preview-topic-list [topicList]="study.topicGroups"></qddt-preview-topic-list>
   </div>
   <div class="row">
-    <qddt-element-footer [element]="study" [type]="'study'"></qddt-element-footer>
+    <qddt-element-footer [element]="study" ></qddt-element-footer>
   </div>`
   ,
   providers: [ ],

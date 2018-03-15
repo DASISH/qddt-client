@@ -78,7 +78,7 @@
       <qddt-rational [formName]="'RationalComp'" [element]="publication" [config]="{hidden: [4]}"></qddt-rational>
     </div>
     <div class="row" *ngIf="publication?.id">
-      <qddt-element-footer [element]="publication" [type]="'PUBLICATION'"></qddt-element-footer>
+      <qddt-element-footer [element]="publication"></qddt-element-footer>
     </div>
     <div class="row right-align">
       <button *ngIf="!readonly" type="button" (click)="onSavePublication()" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>

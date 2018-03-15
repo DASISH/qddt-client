@@ -31,7 +31,7 @@ import { Instrument } from '../instrument/instrument.service';
     <qddt-comment-list [ownerId]="instrument.id" [comments]="instrument.comments"></qddt-comment-list>
   </div>
   <div class="row">
-    <qddt-element-footer [element]="instrument" [type]="'instrument'"></qddt-element-footer>
+    <qddt-element-footer [element]="instrument"></qddt-element-footer>
   </div>`
   ,
   providers: [ ],

@@ -1,17 +1,17 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { MaterializeAction } from 'angular2-materialize';
 
 @Component({
   selector: 'qddt-header',
   moduleId: module.id,
   template: `
   <div class="row teal z-depth-1" style="padding-left: 2%; padding-top: 1%; padding-bottom: 1%;">
-  <i class="material-icons large right">{{headericon}}</i>
-  <h4>{{headername}</h4>
+  <i class="material-icons large right">{{ headericon }}</i>
+  <h4>{{ headername }}</h4>
   <a class="btn" (click)="onToggleNewForm()">
     <i class="material-icons right" *ngIf="!isNewFormVisible">keyboard_arrow_down</i>
     <i class="material-icons right" *ngIf="isNewFormVisible">keyboard_arrow_up</i> New
-  </a>`,
+  </a>
+  </div>`,
   providers: []
 })
 export class HeaderComponent  {

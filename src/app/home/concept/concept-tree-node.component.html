@@ -65,11 +65,9 @@
         [current]="concept"
         [qddtURI]="'audit/concept/' + concept.id + '/all'"
         [config]="[{'name':'name','label':'Name'},{'name':'description','label':'Description'}]"
-        (requestPreview)="onShowRevision($event)">
+       >
       </qddt-revision>
-      <qddt-preview-dialog *ngIf = "edit.showRevision" id="concept-rev-{{edit.id}}"
-         [basedonObject]="revision" [elementKind] = "revisionKind">
-      </qddt-preview-dialog>
+
 
 
       <div *ngIf="concept.conceptQuestionItems?.length > 0 && !edit.isVisible" class="section">

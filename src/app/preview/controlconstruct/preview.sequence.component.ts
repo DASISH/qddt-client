@@ -21,7 +21,7 @@ import { Component, OnInit, Input } from '@angular/core';
               </div>
             </div>
             <div class="collapsible-body">
-              <div [ngSwitch]="child.controlConstructKind">
+              <div [ngSwitch]="child.classKind">
                 <div *ngSwitchCase="'SEQUENCE_CONSTRUCT'">
                   <qddt-preview-sequenceconstruct [sequence]="child"></qddt-preview-sequenceconstruct>
                 </div>

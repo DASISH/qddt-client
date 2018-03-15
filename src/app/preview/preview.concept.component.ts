@@ -36,7 +36,7 @@ import { Concept } from '../home/concept/concept.service';
     </div>
   </div>
   <div class="row">
-    <qddt-element-footer  [element]="concept" [type]="'concept'"></qddt-element-footer>
+    <qddt-element-footer  [element]="concept"></qddt-element-footer>
   </div>
   <div class="row">
     <qddt-comment-list [ownerId]="concept.id" [comments]="concept.comments"></qddt-comment-list>

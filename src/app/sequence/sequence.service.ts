@@ -20,12 +20,7 @@ export enum SequenceKind {
   UNIVERSE
 }
 
-export enum ControlConstructKind {
-  QUESTION_CONSTRUCT,
-  STATEMENT_CONSTRUCT,
-  CONDITION_CONSTRUCT,
-  SEQUENCE_CONSTRUCT
-}
+
 
 export class Sequence {
   id: string;
@@ -33,14 +28,14 @@ export class Sequence {
   description: string;
   children: any[];
   sequence: SequenceKind;
-  controlConstructKind = ControlConstructKind.SEQUENCE_CONSTRUCT;
+  classKind = ElementKind.SEQUENCE_CONSTRUCT;
 }
 
 export class Statement {
   id: string;
   name: string;
   description: string;
-  controlConstructKind = ControlConstructKind.STATEMENT_CONSTRUCT;
+  classKind = ElementKind.STATEMENT_CONSTRUCT;
 }
 
 export class ConditionCommand {
@@ -56,7 +51,7 @@ export class Condition {
   condition: string;
   ifCondition: ConditionCommand;
   elseConditions: ConditionCommand[];
-  controlConstructKind = ControlConstructKind.CONDITION_CONSTRUCT;
+  classKind = ElementKind.CONDITION_CONSTRUCT;
 }
 
 @Injectable()
@@ -73,7 +68,7 @@ export class SequenceService {
   }
 
 
-  public getElements(ccKind: ControlConstructKind, name: string, page: string = '0', sort: string = ''): Promise<any> {
+  public getElements(ccKind: ElementKind, name: string, page: string = '0', sort: string = ''): Promise<any> {
     let query = '';
     if (name.length > 0) {
       query = '&name=*' + name + '*' + '&questiontext=*' + name + '*';
@@ -84,7 +79,7 @@ export class SequenceService {
     if (sort.length > 0) {
       query += '&sort=' + sort;
     }
-    return this.http.get(this.api + 'controlconstruct/page/search?constructkind=' + ControlConstructKind[ccKind] + query)
+    return this.http.get(this.api + 'controlconstruct/page/search?constructkind=' + ccKind.toString + query)
       .toPromise();
   }
 

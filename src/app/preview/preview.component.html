@@ -17,7 +17,7 @@
   <div *ngSwitchCase=ElementKind.INSTRUMENT >
     <qddt-preview-instrument [instrument]="element"></qddt-preview-instrument>
   </div>
-  <div *ngSwitchCase=ElementKind.QUESTIONGRID>
+  <div *ngSwitchCase=ElementKind.QUESTION_GRID>
     <qddt-preview-questionitem-grid [questionItem]="element"></qddt-preview-questionitem-grid>
   </div>
   <div *ngSwitchCase="ElementKind.QUESTION_ITEM">
@@ -29,7 +29,7 @@
   <div *ngSwitchCase=ElementKind.STUDY>
     <qddt-preview-study [study]="element"></qddt-preview-study>
   </div>
-  <div *ngSwitchCase=ElementKind.SURVEY>
+  <div *ngSwitchCase=ElementKind.SURVEY_PROGRAM>
     <qddt-preview-survey [survey]="element"></qddt-preview-survey>
   </div>
   <div *ngSwitchCase=ElementKind.TOPIC_GROUP>
@@ -56,7 +56,7 @@
       </div>
     </div>
     <div class="row">
-      <qddt-element-footer  [element]="element" [type]="getElementString(elementKind)"></qddt-element-footer>
+      <qddt-element-footer  [element]="element" ></qddt-element-footer>
     </div>
   </div>
 </div>

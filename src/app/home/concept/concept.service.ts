@@ -4,7 +4,7 @@ import { API_BASE_HREF } from '../../api';
 import { QuestionItem } from '../../question/question.service';
 import { Observable } from 'rxjs/Observable';
 import {VersionComponent} from '../../shared/version/version.component';
-import {ElementKind, ElementRef} from '../../preview/preview.service';
+import {ElementKind, ElementRevisionRef} from '../../preview/preview.service';
 
 
 export class Concept {
@@ -13,7 +13,7 @@ export class Concept {
   label: string;
   description: string;
   authors: any[];
-  conceptQuestionItems: ElementRef[];
+  conceptQuestionItems: ElementRevisionRef[];
   children: Concept[];
   comments: any[];
 }

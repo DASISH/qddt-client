@@ -6,7 +6,7 @@ const filesaver = require('file-saver');
 
 
 @Component({
-  selector: 'app-control-construct-detail',
+  selector: 'qddt-control-construct-detail',
   moduleId: module.id,
   templateUrl: './controlconstruct.detail.component.html',
   styles: [`:host /deep/ .hoverable .row {
@@ -122,8 +122,8 @@ export class ControlConstructDetailComponent implements OnInit {
     const config: any[] = [];
     config.push({'name': 'name', 'label': 'Name'});
     config.push({'name': ['questionItem'], 'label': 'Question', 'init': function (q: any) {
-      if (q && q['question'] && q['question']['question']) {
-        return q['question']['question'];
+      if (q && q['question'] && q['question']) {
+        return q['question'];
       }
       return '';
     }});

@@ -1,7 +1,8 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
-import { SequenceService, Sequence, ControlConstructKind } from './sequence.service';
+import { SequenceService, Sequence } from './sequence.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
+import { ElementKind } from '../preview/preview.service';
 
 @Component({
   selector: 'qddt-sequence',
@@ -41,7 +42,7 @@ export class SequenceComponent implements OnInit {
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
-        this.service.getElements( ControlConstructKind.SEQUENCE_CONSTRUCT, name, '0', this.getSort())
+        this.service.getElements( ElementKind.SEQUENCE_CONSTRUCT, name, '0', this.getSort())
           .then((result: any) => {
             this.sequences = result.content;
             this.page = result.page;
@@ -75,7 +76,7 @@ export class SequenceComponent implements OnInit {
   }
 
   onPage(page: string) {
-    this.service.getElements(ControlConstructKind.SEQUENCE_CONSTRUCT, this.searchKeys, page, this.getSort())
+    this.service.getElements(ElementKind.SEQUENCE_CONSTRUCT, this.searchKeys, page, this.getSort())
       .then((result: any) => {
         this.sequences = result.content;
         this.page = result.page;

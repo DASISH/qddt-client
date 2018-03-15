@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
-import { ControlConstructKind, ElementTypeDescription, Sequence, SequenceService } from './sequence.service';
+import { ElementTypeDescription, Sequence, SequenceService } from './sequence.service';
 import { Subject } from 'rxjs/Subject';
 import { ElementKind, QddtElement } from '../preview/preview.service';
 
@@ -32,7 +32,7 @@ export class SequenceReuseComponent implements OnInit {
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
-        this.service.getElements(this.eKind2ccKind(this.selectedType), name)
+        this.service.getElements(this.selectedType, name)
           .then((result: any) => {
             this.elements = result.content;
           }, (error: any) => {
@@ -62,7 +62,7 @@ export class SequenceReuseComponent implements OnInit {
   }
 
   searchSequences(key: string) {
-    this.service.getElements(this.eKind2ccKind(this.selectedType), key)
+    this.service.getElements(this.selectedType, key)
       .then((result: any) => {
         this.elements = result.content;
       }, (error: any) => {
@@ -72,11 +72,6 @@ export class SequenceReuseComponent implements OnInit {
 
   private getQddtElements(id: ElementKind): QddtElement {
     return this.elementTypes.find(e => e.id === id);
-  }
-
-
-  private  eKind2ccKind(id: ElementKind): ControlConstructKind {
-    return ControlConstructKind[ElementKind[id]];
   }
 
 

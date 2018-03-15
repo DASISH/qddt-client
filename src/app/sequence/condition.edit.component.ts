@@ -1,8 +1,9 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { SequenceService,  ConditionCommand, Condition, ControlConstructKind } from './sequence.service';
+import { SequenceService,  ConditionCommand, Condition } from './sequence.service';
+import { ElementKind } from '../preview/preview.service';
 
 @Component({
-  selector: 'app-condition-edit',
+  selector: 'qddt-condition-edit',
   moduleId: module.id,
   template: `
     <div class="row teal-text">
@@ -85,7 +86,7 @@ export class ConditionEditComponent implements OnInit {
 
   ngOnInit() {
     this.condition = new Condition();
-    // this.condition.controlConstructKind = 'CONDITION_CONSTRUCT';
+    // this.condition.classKind = 'CONDITION_CONSTRUCT';
     this.elementId = new Date().toString();
   }
 
@@ -105,7 +106,7 @@ export class ConditionEditComponent implements OnInit {
   }
 
   onSearchElements(key: string) {
-    this.service.getElements(ControlConstructKind.QUESTION_CONSTRUCT, key)
+    this.service.getElements(ElementKind.QUESTION_CONSTRUCT, key)
       .then((result: any) => {
         this.elements = result.content;
       }, (error) => {

@@ -62,6 +62,10 @@ export class CategoryService  {
     return this.http.delete(this.api + 'category/delete/' + categoryId);
   }
 
+  get(uuid: string): Promise<any> {
+    return this.http.get(this.api + 'category/' + uuid).toPromise();
+  }
+
   getAll(): any {
     return this.http.get(this.api + 'category/page/search/?level=ENTITY' + this.pageSize).toPromise();
   }

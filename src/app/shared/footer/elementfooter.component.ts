@@ -1,4 +1,6 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { IRevisionRef } from '../../preview/preview.service';
+import { QddtMessageService } from '../../core/global/message.service';
 
 @Component({
   selector: 'qddt-element-footer',
@@ -13,16 +15,16 @@ import { Component, Input, EventEmitter, Output } from '@angular/core';
 export class ElementFooterComponent {
 
   @Input() element: any;
-  @Input() type: string;
-  @Output() basedonObjectDetail: any = new EventEmitter<any>();
-  basedon: any;
 
-  constructor() {
-    this.basedon = null;
-  }
+  constructor( private message: QddtMessageService) { }
 
   onClick() {
-    this.basedonObjectDetail.emit({id: this.element.basedOnObject, rev: this.element.basedOnRevision, type: this.type});
+      const  ref: IRevisionRef = {
+         id: this.element.basedOnObject,
+         revisionNumber: this.element.basedOnRevision,
+         elementKind:  this.element.className
+        };
+      this.message.sendMessage( ref );
   }
 
   getTime(): string {

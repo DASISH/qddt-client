@@ -62,7 +62,7 @@ const filesaver = require('file-saver');
     </ul>
   </div>
   <div class="row">
-    <qddt-element-footer [element]="controlConstruct" [type]="'controlconstruct'"></qddt-element-footer>
+    <qddt-element-footer [element]="controlConstruct"></qddt-element-footer>
   </div>
   <div class="modal modal-fixed-footer" materialize="modal" [materializeActions]="questionItemActions">
     <div class="modal-content">

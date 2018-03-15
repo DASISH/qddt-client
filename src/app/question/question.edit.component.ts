@@ -39,8 +39,8 @@ export class QuestionItemEditComponent implements OnInit {
           this.questionitem.responseDomain = result;
           this.questionitem.responseDomainRevision = 0;
           this.service.updateQuestionItem(this.questionitem)
-            .subscribe((result: any) => {
-              this.questionitem = result;
+            .subscribe((result1: any) => {
+              this.questionitem = result1;
               this.editQuestionItem.emit(this.questionitem);
             });
         });

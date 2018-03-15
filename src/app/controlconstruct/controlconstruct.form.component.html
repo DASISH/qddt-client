@@ -226,11 +226,7 @@
     </div>
 
     <div class="row">
-      <qddt-element-footer
-        [element]="controlConstruct"
-        [type]="controlConstruct.controlConstructKind"
-        (BasedonObjectDetail)="onBasedonObjectDetail($event)">
-      </qddt-element-footer>
+      <qddt-element-footer [element]="controlConstruct"></qddt-element-footer>
     </div>
     <div class="row right-align">
       <button *ngIf="!readonly" type="button"

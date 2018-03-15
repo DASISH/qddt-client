@@ -26,10 +26,7 @@ declare var Materialize: any;
 
     <qddt-rational [formName]="'RationalComp'" [element]="study" [config]="{hidden: [2,3]}"></qddt-rational>
 
-    <qddt-element-footer [element]="study" [type]="'STUDY'" (basedonObjectDetail)="getBasedOn($event)" >
-    </qddt-element-footer>
-    <qddt-preview-dialog  [elementRef]="basedonRef"></qddt-preview-dialog>
-
+    <qddt-element-footer [element]="study" ></qddt-element-footer>
 
     <div class="row right-align">
       <button type="submit" class="btn btn-default" [disabled]="!studyForm.form.valid" >Submit</button>

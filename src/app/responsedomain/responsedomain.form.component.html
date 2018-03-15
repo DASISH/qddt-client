@@ -239,43 +239,11 @@
         <qddt-rational [formName]="'RationalComp'" [element]="responsedomain" [config]="{hidden: [4]}"></qddt-rational>
       </div>
 			<div *ngIf="!responsedomain.isNew" class="row">
-				<qddt-element-footer [element]="responsedomain"
-				  (BasedonObjectDetail)="onBasedonObjectDetail($event)"
-				  [type]="'RESPONSEDOMAIN'"></qddt-element-footer>
+				<qddt-element-footer [element]="responsedomain"></qddt-element-footer>
 			</div>
       <div class="row right-align">
 			  <button  [disabled]="!responseForm.form.valid" *ngIf="!readonly" type="submit" class="btn btn-default">Submit</button>
       </div>
 		</form>
-	</div>
-
-
-<div class="modal modal-fixed-footer"
-  materialize="modal" [materializeActions]="basedonActions">
-  <div class="modal-content">
-		<h4>Basedon Object Detail</h4>
-    <div class="row" *ngIf="basedonObject">
-			<qddt-preview-responsedomain
-			  [responseDomain]="basedonObject">
-			</qddt-preview-responsedomain>
-      <div class="row" *ngIf="basedonObject.name">
-        <label class="active teal-text">Name</label>
-        <p [innerHtml]="basedonObject.name"></p>
-      </div>
-      <div class="row" *ngIf="basedonObject.description">
-        <label class="active teal-text">Description</label>
-        <p [innerHtml]="basedonObject.description"></p>
-      </div>
-      <qddt-element-footer
-        [element]="basedonObject"
-        [type]="'RESPONSEDOMAIN'">
-      </qddt-element-footer>
-    </div>
   </div>
-  <div class="modal-footer">
-    <button id="controlConstructs-modal-close"
-      class="btn btn-default red modal-action modal-close waves-effect">
-      <a><i class="close material-icons medium white-text">close</i></a>
-    </button>
-  </div>
-</div>
+  

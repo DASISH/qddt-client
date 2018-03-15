@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { CategoryService, Category } from './category.service';
 import { CategoryType } from './category-kind';
+import {ElementKind, QddtElement, QddtElements} from '../preview/preview.service';
 @Component({
   selector: 'qddt-category-edit',
   moduleId: module.id,
@@ -52,7 +53,7 @@ import { CategoryType } from './category-kind';
       <qddt-rational [formName]="'RationalComp'" [element]="category" [config]="{hidden: [4]}"></qddt-rational>
     </div>
     <div class="row">
-      <qddt-element-footer [element]="category" [type]="'category'"></qddt-element-footer>
+      <qddt-element-footer [element]="category"></qddt-element-footer>
     </div>
     <div *ngIf="isTemplate" class="row">
       <div class="col s2 input-field">
@@ -68,7 +69,7 @@ import { CategoryType } from './category-kind';
            <tr *ngFor="let cat of category.children; let idx=index">
              <td><auto-complete
                [items]="categories"
-               [elementtype]="QddtElementTypes[ElementKind.CATEGORY]"
+               [elementtype]="CATEGORY_KIND"
                (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
                [initialValue]="cat?.label"
                (autocompleteSelectEvent)="select($event)">
@@ -91,8 +92,10 @@ export class CategoryEditComponent implements OnInit {
   @Input() categories: Category[];
   @Input() isVisible: boolean;
   @Output() editDetailEvent: EventEmitter<String> = new EventEmitter<String>();
+  public isTemplate: boolean;
+  public readonly CATEGORY_KIND: QddtElement = QddtElements[ElementKind.CATEGORY];
+
   private categoryEnums: any;
-  private isTemplate: boolean;
   private selectedCategoryIndex: number;
   private numberOfCategories: number;
   private savedObject: string;
@@ -139,18 +142,27 @@ export class CategoryEditComponent implements OnInit {
 
   onSave() {
     this.categoryService.edit(this.category)
-      .subscribe((result: any) => {
-          const i = this.categories.findIndex(q => q.id === result.id);
-          if (i >= 0) {
-            this.categories.splice(i, 1);
-          }
-          this.categories.push(result);
-          // this.isVisible = false;
-          this.editDetailEvent.emit('edit');
+      .subscribe((result: Category) => {
+        this.update(result);
         },
         ( err ) => {
-          throw err;
-        });
+        if (err.status === 409) {
+          this.categoryService.get(err.error.id).then((updated: any) => {
+            this.update(updated);
+          });
+        }
+        throw err;
+      });
+  }
+
+
+  update(category: Category) {
+    const i = this.categories.findIndex(q => q.id === category.id);
+    if (i >= 0) {
+      this.categories.splice(i, 1);
+    }
+    this.categories.push(category);
+    this.editDetailEvent.emit('edit');
   }
 
   onChangeType(kind: string) {

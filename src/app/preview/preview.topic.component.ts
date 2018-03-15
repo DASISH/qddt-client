@@ -52,7 +52,7 @@ const filesaver = require('file-saver');
   <qddt-preview-concept-list [conceptList]="topic.concepts"></qddt-preview-concept-list>
 </div>
 <div class="row">
-  <qddt-element-footer [element]="topic" [type]="'topic'"></qddt-element-footer>
+  <qddt-element-footer [element]="topic"></qddt-element-footer>
 </div>`
 ,
 })

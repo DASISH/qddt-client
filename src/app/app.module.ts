@@ -22,11 +22,12 @@ import { MenuModule } from './menu/menu.module';
 import { ErrorLogService } from './errorhandler/error-log.service';
 import { GlobalErrorHandler } from './errorhandler/error.service';
 import { environment } from '../environments/environment';
+import { PreviewModule } from './preview/preview.module';
 
 @NgModule({
   declarations: [ AppComponent, PageNotFoundComponent ],
   imports: [ BrowserModule, HttpClientModule,  SharedModule, CoreModule, HomeModule, MenuModule,
-    CategoryModule, ResponsedomainModule, QuestionModule, ControlConstructModule,
+    CategoryModule, ResponsedomainModule, QuestionModule, ControlConstructModule, PreviewModule,
     SequenceModule, InstrumentModule, PublicationModule, routing ],
   providers: [ ErrorLogService,
     { provide: APP_BASE_HREF, useValue: environment.APP_BASE },

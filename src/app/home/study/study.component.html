@@ -72,11 +72,9 @@
                 [current]="study"
                 [config]="[{'name':'name','label':'Name'},{'name':'description','label':'Description'}]"
                 [qddtURI]="'audit/study/' + study.id + '/all'"
-                (requestPreview)="onShowRevision($event)">
+                >
               </qddt-revision>
-              <qddt-preview-dialog *ngIf = "edit.showRevision"
-                 [basedonObject]="revision" [elementKind] = "revisionKind">
-              </qddt-preview-dialog>
+
 
               <qddt-comment-list *ngIf="!edit.isVisible"
                 [ownerId]="study.id"

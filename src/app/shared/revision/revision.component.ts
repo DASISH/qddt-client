@@ -1,5 +1,7 @@
 import { Component, Input, OnInit, OnChanges, EventEmitter, Output } from '@angular/core';
 import { RevisionService } from './revision.service';
+import { QddtMessageService } from '../../core/global/message.service';
+import { IElementRef } from '../../preview/preview.service';
 
 @Component({
   selector: 'qddt-revision',
@@ -13,7 +15,6 @@ export class RevisionComponent implements OnChanges, OnInit {
   @Input() qddtURI: string;
   @Input() config: any[];
   @Input() current: any;
-  @Output() requestPreview: EventEmitter<any> = new EventEmitter<any>();
 
   public revisions: any[];
   private page: any;
@@ -21,7 +22,7 @@ export class RevisionComponent implements OnChanges, OnInit {
   private currentRevisionId: number;
   private showProgressBar = false;
 
-  constructor(private service: RevisionService) {
+  constructor(private service: RevisionService, private message: QddtMessageService) {
     this.revisions = [];
     this.currentRevisionId = -1;
     this.selectRevisionId = -1;
@@ -62,7 +63,8 @@ export class RevisionComponent implements OnChanges, OnInit {
   }
 
   onPreviewRevision(id: number) {
-    this.requestPreview.emit(this.revisions[id].entity);
+    const  ref: IElementRef =  { element: this.revisions[id].entity, elementKind: this.revisions[id].entity.classKind };
+    this.message.sendMessage( ref );
   }
 
 }
