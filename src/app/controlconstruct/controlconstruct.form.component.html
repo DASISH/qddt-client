@@ -235,22 +235,4 @@
     </div>
   </form>
 
-  <div class="modal modal-fixed-footer"
-       materialize="modal" [materializeActions]="basedonActions">
-    <div class="modal-content">
-      <h4>Basedon Object Detail </h4>
-      <div class="row" *ngIf="basedonObject">
-        <qddt-control-construct-form
-          [readonly]="true"
-          [controlConstruct]="basedonObject">
-        </qddt-control-construct-form>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button id="controlConstructs-modal-close"
-              class="btn btn-default red modal-action modal-close waves-effect">
-        <a><i class="close material-icons medium white-text">close</i></a>
-      </button>
-    </div>
-  </div>
 </div>
