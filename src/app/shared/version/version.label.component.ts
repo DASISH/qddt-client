@@ -1,6 +1,6 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { QddtMessageService } from '../../core/global/message.service';
-import { IElementRef, IRevisionRef } from '../../preview/preview.service';
+import {  IRevisionRef } from '../../preview/preview.service';
 
 @Component({
   selector: 'qddt-version-label',
@@ -22,9 +22,10 @@ export class VersionLabelComponent  {
 
 
   onClick() {
-    const  ref: IRevisionRef =  { id: this.element.basedOnObject,
-       revisionNumber: this.element.basedOnRevision,
-       elementKind: this.element.classKind };
+    const  ref: IRevisionRef =  {
+      id: this.element.basedOnObject,
+      revisionNumber: this.element.basedOnRevision,
+      elementKind: this.element.classKind };
     this.message.sendMessage( ref );
   }
 

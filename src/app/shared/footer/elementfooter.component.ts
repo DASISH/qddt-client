@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { IRevisionRef } from '../../preview/preview.service';
 import { QddtMessageService } from '../../core/global/message.service';
 
@@ -19,13 +19,13 @@ export class ElementFooterComponent {
   constructor( private message: QddtMessageService) { }
 
   onClick() {
-      const  ref: IRevisionRef = {
-         id: this.element.basedOnObject,
-         revisionNumber: this.element.basedOnRevision,
-         elementKind:  this.element.className
-        };
-      this.message.sendMessage( ref );
+    const  ref: IRevisionRef =  {
+      id: this.element.basedOnObject,
+      revisionNumber: this.element.basedOnRevision,
+      elementKind: this.element.classKind };
+    this.message.sendMessage( ref );
   }
+
 
   getTime(): string {
     const m = this.element.modified;
