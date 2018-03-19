@@ -21,6 +21,10 @@ export class ControlConstruct {
   universe: Universe[];
   preInstructions: Instruction[];
   postInstructions: Instruction[];
+
+  constructor() {
+    this.classKind = 'QUESTION_CONSTRUCT';
+  }
 }
 
 export class Instruction {
