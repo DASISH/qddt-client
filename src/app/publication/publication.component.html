@@ -39,21 +39,3 @@
   </qddt-publication-detail>
 </div>
 
-<div [attr.id]="'publication-created-element-detail-modal'" class="modal"
-  materialize="modal" [materializeActions]="modalActions">
-  <div class="modal-content">
-    <div class="row">
-      <h4>Detail</h4>
-      <qddt-preview-element *ngIf="selectedElementDetail"
-        [element]="selectedElementDetail"
-        [elementKind]="selectedElementType">
-      </qddt-preview-element>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button
-      class="btn btn-default red modal-action modal-close waves-effect">
-      <a><i class="close material-icons medium white-text">close</i></a>
-    </button>
-  </div>
-</div>

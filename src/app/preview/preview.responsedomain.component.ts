@@ -5,7 +5,9 @@ import { DomainKind, DomainTypeDescription } from '../responsedomain/responsedom
 @Component({
   selector: 'qddt-preview-responsedomain',
   moduleId: module.id,
-  styles: [' .row { min-height: 1rem; margin-bottom: 5px; !important;}'],
+  styles: [' .row { min-height: 1rem; margin-bottom: 5px; !important;}',
+           ' .td { padding: 0px;}'
+  ],
   template: `
     <div *ngIf="domainType" class="card-panel grey lighten-5 black-text"
          style="padding-left:3%; padding-right:5%; margin: 1%">

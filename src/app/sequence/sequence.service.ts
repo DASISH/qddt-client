@@ -79,7 +79,7 @@ export class SequenceService {
     if (sort.length > 0) {
       query += '&sort=' + sort;
     }
-    return this.http.get(this.api + 'controlconstruct/page/search?constructkind=' + ccKind.toString + query)
+    return this.http.get(this.api + 'controlconstruct/page/search?constructkind=' + ElementKind[ccKind] + query)
       .toPromise();
   }
 
@@ -94,6 +94,13 @@ export class SequenceService {
       throw Error('Couldn\'t find kind ' + kind);
     }
     return element;
+  }
+
+  getRevisions(id: string): Promise<any> {
+    return this.http.get(this.api + 'audit/controlconstruct/' + id + '/all')
+      .toPromise()
+      .catch(err => { throw Error(err.message); });
+
   }
 
 }

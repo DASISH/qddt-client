@@ -2,7 +2,7 @@ import { Component, OnInit, EventEmitter } from '@angular/core';
 import { SequenceService, Sequence } from './sequence.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
-import { ElementKind } from '../preview/preview.service';
+import { ElementKind, ElementEnumAware } from '../preview/preview.service';
 
 @Component({
   selector: 'qddt-sequence',
@@ -11,6 +11,7 @@ import { ElementKind } from '../preview/preview.service';
   styles: [],
 
 })
+@ElementEnumAware
 export class SequenceComponent implements OnInit {
 
   public modalActions = new EventEmitter<string|MaterializeAction>();
@@ -27,6 +28,7 @@ export class SequenceComponent implements OnInit {
   private elementType: number;
   private elements: any[];
   private searchKeysSubect: Subject<string> = new Subject<string>();
+  private readonly SEQUENCECONSTRUCT = ElementKind.SEQUENCE_CONSTRUCT;
 
   constructor(private service: SequenceService) {
     this.isDetail = false;
@@ -42,7 +44,7 @@ export class SequenceComponent implements OnInit {
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
-        this.service.getElements( ElementKind.SEQUENCE_CONSTRUCT, name, '0', this.getSort())
+        this.service.getElements( this.SEQUENCECONSTRUCT, name, '0', this.getSort())
           .then((result: any) => {
             this.sequences = result.content;
             this.page = result.page;

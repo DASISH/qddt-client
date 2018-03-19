@@ -45,8 +45,7 @@
 
             <qddt-revision *ngIf="revisionIsVisible"
                        [current]="sequence"
-                       [qddtURI]="'audit/controlconstruct/' + sequence.id + '/all'"
-                       >
+                       [qddtURI]="'audit/controlconstruct/' + sequence.id + '/all'">
             </qddt-revision>
 
 
@@ -56,24 +55,4 @@
       </div>
     </div>
   </div>
-  <!--<div class="modal" materialize="modal" [materializeActions]="deleteAction">-->
-    <!--<div class="modal-content">-->
-      <!--<div class="row">-->
-        <!--<h4>Warning</h4>-->
-        <!--<div *ngIf="canDelete > 1" class="progress"><div class="indeterminate"></div></div>-->
-        <!--<span *ngIf="canDelete === 1">Are you sure to delete  item {{ sequence?.name }}?</span>-->
-      <!--</div>-->
-    <!--</div>-->
-    <!--<div class="modal-footer">-->
-      <!--<button *ngIf="canDelete === 1"-->
-              <!--(click)="onConfirmDeleting()"-->
-              <!--class="btn btn-default green modal-action modal-close waves-effect">-->
-        <!--<a><i class="close material-icons medium white-text">done</i></a>-->
-      <!--</button>-->
-      <!--<button-->
-        <!--class="btn btn-default red modal-action modal-close waves-effect">-->
-        <!--<a><i class="close material-icons medium white-text">close</i></a>-->
-      <!--</button>-->
-    <!--</div>-->
-  <!--</div>-->
 </div>

@@ -1,6 +1,7 @@
 import { TestBed, async } from '@angular/core/testing';
-import { ControlConstructKind, SequenceService } from './sequence.service';
+import { SequenceService } from './sequence.service';
 import { API_BASE_HREF } from '../api';
+import { ElementKind } from '../preview/preview.service';
 
 export function main() {
   describe('Sequence service', () => {
@@ -28,7 +29,7 @@ export function main() {
 
     it('should get all of sequences', async(() => {
       const service = TestBed.get(SequenceService);
-      service.getElements(ControlConstructKind.SEQUENCE_CONSTRUCT, '1')
+      service.getElements(ElementKind.SEQUENCE_CONSTRUCT, '1')
         .subscribe((data: any) => {
         expect(data.length).toBe(1);
         expect(data[0].name).toContain('sequence');

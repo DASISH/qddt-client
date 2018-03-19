@@ -7,6 +7,7 @@ import { ElementRevisionRef, IRevisionRef, IElementRef, ElementKind } from './pr
 
 // declare var $: any;
 
+
 @Component({
   moduleId: module.id,
   selector: 'qddt-app',
@@ -23,7 +24,6 @@ export class AppComponent  implements OnDestroy {
   subscription: Subscription;
 
   constructor(private userService: UserService, private  properties: PropertyStoreService, private messageService: QddtMessageService ) {
-
     this.subscription = this.messageService.getMessage()
       .subscribe(message => this.showMessage(message));
 

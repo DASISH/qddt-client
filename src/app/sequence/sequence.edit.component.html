@@ -1,4 +1,5 @@
 <form (ngSubmit)="onSaveSequence()" #sequenceform="ngForm" card>
+
   <div class="row input-field">
     <label [attr.for]="sequence.id + '-name'" class="teal-text">Name</label>
     <input
@@ -19,7 +20,7 @@
   </div>
 
   <qddt-sequence-reuse (element)="onGetElement($event)"></qddt-sequence-reuse>
-
+  
   <qddt-preview-controlconstruct [construct]="sequence"></qddt-preview-controlconstruct>
 
   <qddt-rational [formName]="'RationalComp'" [element]="sequence"  [config]="{hidden: [4]}"></qddt-rational>

@@ -24,8 +24,10 @@ export class SequenceReuseComponent implements OnInit {
 
   private searchKeysSubect: Subject<string> = new Subject<string>();
   private selectedElement: any;
+  private selectedRevision: number;
   private selectedType: ElementKind;
   private elements: any;
+  private elementRevisions: any[];
 
   constructor(private service: SequenceService) {
     this.searchKeysSubect
@@ -54,8 +56,17 @@ export class SequenceReuseComponent implements OnInit {
 
   onSelectElement(element: any) {
     this.selectedElement = element;
-    // console.info(element);
+    this.service.getRevisions(element.id)
+    .then(
+      ( result) => this.elementRevisions = result.content,
+      ( error: any) => { throw error; });
   }
+
+  onSelectElementRevisions(value: any ) {
+    this.selectedElement = value;
+  }
+
+  onUseItem() { }
 
   onSearchElements(key: string) {
     this.searchKeysSubect.next(key);
@@ -65,14 +76,12 @@ export class SequenceReuseComponent implements OnInit {
     this.service.getElements(this.selectedType, key)
       .then((result: any) => {
         this.elements = result.content;
-      }, (error: any) => {
-       throw error;
-      });
+      },
+      (error: any) => { throw error; });
   }
 
   private getQddtElements(id: ElementKind): QddtElement {
     return this.elementTypes.find(e => e.id === id);
   }
-
 
 }

@@ -15,7 +15,6 @@ import { PropertyStoreService } from '../core/global/property.service';
 })
 export class PublicationComponent implements AfterContentChecked, OnInit {
 
-  public modalActions = new EventEmitter<string|MaterializeAction>();
   public selectOptions: any[] = PUBLICATION_STATUS;
   public showAddElement: boolean;
   public showProgressBar: boolean;
@@ -116,15 +115,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
         'collection': this.publications});
   }
 
-  onElementDetail(e: any) {
-    this.selectedElementDetail = e.element;
-    const kind = QddtElements.find(el => el.id === e.elementKind);
-    if (kind !== undefined) {
-      this.selectedElementType = kind;
-      this.modalActions.emit({action: 'modal', params: ['open']});
-      // this.actions.emit({action:'modal', params:['open']});
-    }
-  }
+
 
   addElement(e: any) {
     this.publication.publicationElements.push(e);
@@ -155,6 +146,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
         this.showProgressBar = false;
       }, (error: any) => {
         this.showProgressBar = false;
+        this.hideDetail();
         throw error;
       });
   }
