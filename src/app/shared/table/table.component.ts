@@ -111,9 +111,8 @@ export class QddtTableComponent implements OnInit, OnChanges {
     this.rows = [];
     this.items.forEach((item: any) => {
       const date: Date = new Date();
-      if (item.modified !== undefined && item.modified.length > 2) {
-        date.setUTCFullYear(item.modified[0], item.modified[1] - 1, item.modified[2]);
-      }
+      date.setTime(parseInt(item.modified));
+
       let version = '';
       if (item.version !== null && item.version !== undefined) {
         version = item.version.major + '.' + item.version.minor;

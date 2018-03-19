@@ -13,8 +13,8 @@ const filesaver = require('file-saver');
 })
 export class SurveyComponent implements OnInit {
   showSurveyForm = false;
-  public surveys: any[] = [];
-  private survey: any;
+  public surveys: SurveyProgram[] = [];
+  private survey: SurveyProgram;
   private revision: any;
   private readonly revisionKind = ElementKind.SURVEY_PROGRAM;
 
@@ -33,6 +33,15 @@ export class SurveyComponent implements OnInit {
     }
   }
 
+  onRemoveSurvey(surveyId: any) {
+    if (surveyId) {
+      this.surveyService.deleteSurvey(surveyId)
+        .subscribe(() => {
+          this.surveys = this.surveys.filter((s: any) => s.id !== surveyId);
+          this.property.set('surveys', this.surveys);
+        });
+    }
+  }
 
   onSurveySaved(surveyProgram: any) {
     if (surveyProgram !== null) {
@@ -48,10 +57,6 @@ export class SurveyComponent implements OnInit {
     this.router.navigate(['study']);
   }
 
-  onShowRevision(element: any) {
-    this.revision = element;
-  }
-
   onSave() {
     this.surveyService.create(this.survey)
       .subscribe(
@@ -60,6 +65,7 @@ export class SurveyComponent implements OnInit {
     this.survey = new SurveyProgram();
     this.showSurveyForm = false;
   }
+
 
   getPdf(element: SurveyProgram) {
     const fileName = element.name + '.pdf';

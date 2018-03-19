@@ -43,7 +43,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
     this.showbutton = false;
     this.columns = [{'name': 'name', 'label': 'Name', 'sortable': true, 'direction': '' },
       {'name': 'question', 'label': 'Question Text', 'sortable': true, 'direction': '' },
-      {'name': ['responseDomain', 'name'], 'label': 'ResponseDomain', 'sortable': true, 'direction': '' },
+      {'name': 'responseDomainName', 'label': 'ResponseDomain', 'sortable': true, 'direction': '' },
       { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' }];
     this.searchKeysSubect
       .debounceTime(300)

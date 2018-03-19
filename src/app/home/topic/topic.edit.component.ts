@@ -115,8 +115,5 @@ export class TopicEditComponent  {
       });
   }
 
-  getBasedOn(ref: any) {
-    this.basedonRef = ref;
-  }
 
 }

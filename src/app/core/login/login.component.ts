@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit, AfterContentChecked {
       .subscribe(
         () => {
           this.loading = false;
-          this.router.navigate([this.returnUrl]);
+          this.router.navigate(['/home']);
         },
         error => {
           this.loading = false;

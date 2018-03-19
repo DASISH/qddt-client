@@ -5,7 +5,10 @@ import {  IRevisionRef } from '../../preview/preview.service';
 @Component({
   selector: 'qddt-version-label',
   moduleId: module.id,
-  styles: [ 'label  { white-space: nowrap; vertical-align: middle; text-align: right; width: 90px;}'],
+  styles: [
+    'label  { white-space: nowrap; vertical-align: middle; text-align: right; width: 90px;}',
+    'i { margin:0px; vertical-align: middle;float: unset; display: unset; position: relative; }'
+  ],
   template:
     `<label class="active teal-text">Version <qddt-version [element]="element"></qddt-version>
     <i *ngIf="element?.basedOnObject" (click)="onClick()" class="qddtIcon material-icons teal-text tiny"

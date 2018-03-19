@@ -53,7 +53,7 @@ form p {
 
 .noItemFound { border: thick solid darkorange; }
 
-.qddtIcon { margin:0px; vertical-align: middle;float: unset; display: unset; position: relative; }
-/*.collapsible-header {*/
+/*.qddtIcon { margin:0px; vertical-align: middle;float: unset; display: unset; position: relative; }
+.collapsible-header {*/
   /*display: block;*/
 /*}*/

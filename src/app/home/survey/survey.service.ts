@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { API_BASE_HREF } from '../../api';
+import { Study } from '../study/study.service';
 
 
 export class SurveyProgram {
@@ -12,7 +13,7 @@ export class SurveyProgram {
   comments: any[];
   modified: any;
   archived: boolean;
-  studies: any[];
+  studies: Study[];
 }
 
 @Injectable()
@@ -27,6 +28,10 @@ export class SurveyService  {
 
   save(surveyProgram: SurveyProgram):  Observable<any> {
     return this.http.post(this.api + 'surveyprogram/', surveyProgram);
+  }
+
+  deleteSurvey(surveyId: string): Observable<any> {
+    return this.http.delete(this.api + 'surveyprogram/delete/' + surveyId);
   }
 
   getAll(): Promise<any> {

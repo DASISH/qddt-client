@@ -59,10 +59,6 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
     }
   }
 
-  showPreview(topic: any) {
-    this.revision = topic;
-  }
-
   onToggleTopicForm() {
     this.showTopicForm = !this.showTopicForm;
     if (this.showTopicForm) {
@@ -77,9 +73,6 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
     }
   }
 
-  getBasedOn(ref: any) {
-    this.basedonRef = ref;
-  }
 
   onSelectedRevsion(topic: Topic) {
     this.showReuse = false;

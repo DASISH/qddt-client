@@ -13,7 +13,7 @@
             <!--<img class="circle" src="/assets/images/avatar-default.png" height="48" width="48"/>-->
             <span class="title" [style.color]="comment.public ? 'blue': 'grey'">
              {{ comment?.modifiedBy?.username }}@{{ comment?.modifiedBy?.agency?.name }}
-              {{ comment?.modified | localDate }}
+              {{ comment?.modified | date:'short' }}
               <i *ngIf="comment.public" class="material-icons left tiny" title="This comment is visible for all">public</i>
             </span>
             <div class="row" *ngIf="!isEditComment || selectedCommentId !== idx">
