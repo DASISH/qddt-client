@@ -10,7 +10,6 @@ import { ElementKind, QddtElements } from '../../preview/preview.service';
   styles: [
     `.noItemFound { border: thick solid orange; }`
   ],
-  providers: [ControlConstructService],
 })
 
 export class UniverseComponent {

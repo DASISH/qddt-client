@@ -6,8 +6,7 @@ import { ControlConstructService, StatementConstruct } from '../controlconstruct
   selector: 'qddt-statement-edit',
   moduleId: module.id,
   templateUrl: 'statementconstruct.edit.component.html',
-  styles: [
-  ]
+  styles: [ ]
 })
 export class StatementEditComponent implements OnInit {
   @Output() element: any = new EventEmitter<any>();
