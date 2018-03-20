@@ -1,20 +1,19 @@
 import { Component, EventEmitter, OnInit, AfterContentChecked } from '@angular/core';
 
-import { ControlConstructService, ControlConstruct, Instruction, Universe } from './controlconstruct.service';
+import { ControlConstructService, QuestionConstruct, Instruction, Universe } from '../controlconstruct.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
-import { Column } from '../shared/table/table.service';
-import { PropertyStoreService } from '../core/global/property.service';
+import { Column } from '../../shared/table/table.service';
+import { PropertyStoreService } from '../../core/global/property.service';
 
 @Component({
   selector: 'qddt-controle-construct',
   moduleId: module.id,
-  templateUrl: './controlconstruct.component.html',
+  templateUrl: './questionconstruct.component.html',
   styles: [],
-  providers: [ControlConstructService],
 })
 
-export class ControlConstructComponent implements OnInit, AfterContentChecked {
+export class QuestionConstructComponent implements OnInit, AfterContentChecked {
   public error: any;
   public selectedQuestionItem: any;
   public questionItems: any[];
@@ -23,8 +22,8 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
   public isDetail: boolean;
   public showControlConstructForm = false;
   public showProgressBar = false;
-  public controlConstructs: ControlConstruct[];
-  public controlConstruct: ControlConstruct;
+  public controlConstructs: QuestionConstruct[];
+  public controlConstruct: QuestionConstruct;
 
   private showInstructionForm: boolean;
   private showUniverse = false;
@@ -32,7 +31,7 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
   private isInstructionAfter: boolean;
   private searchKeys: string;
   private page: any;
-  private selectedControlConstruct: ControlConstruct;
+  private selectedControlConstruct: QuestionConstruct;
   private columns: Column[];
   private files: FileList;
   private searchKeysSubect: Subject<string> = new Subject<string>();
@@ -96,7 +95,7 @@ export class ControlConstructComponent implements OnInit, AfterContentChecked {
   onToggleControlConstructForm() {
     this.showControlConstructForm = !this.showControlConstructForm;
     if (this.showControlConstructForm) {
-      this.controlConstruct = new ControlConstruct();
+      this.controlConstruct = new QuestionConstruct();
       this.controlConstruct.preInstructions = [];
       this.controlConstruct.postInstructions = [];
       this.controlConstruct.universe = [];

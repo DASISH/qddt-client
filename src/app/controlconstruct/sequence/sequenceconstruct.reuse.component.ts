@@ -1,12 +1,12 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
-import { ElementTypeDescription, Sequence, SequenceService } from './sequence.service';
 import { Subject } from 'rxjs/Subject';
-import { ElementKind, QddtElement } from '../preview/preview.service';
+import { ElementKind, QddtElement } from '../../preview/preview.service';
+import { SequenceConstruct, ElementTypeDescription, ControlConstructService } from '../controlconstruct.service';
 
 @Component({
   selector: 'qddt-sequence-reuse',
   moduleId: module.id,
-  templateUrl: './sequence.reuse.component.html',
+  templateUrl: './sequenceconstruct.reuse.component.html',
   styles: [
     '.nomargin { margin:0; }',
     ':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'
@@ -14,7 +14,7 @@ import { ElementKind, QddtElement } from '../preview/preview.service';
 })
 
 export class SequenceReuseComponent implements OnInit {
-  @Input() sequence: Sequence;
+  @Input() sequence: SequenceConstruct;
   @Input() readonly = false;
   @Output() element: any = new EventEmitter<any>();
 
@@ -29,7 +29,7 @@ export class SequenceReuseComponent implements OnInit {
   private elements: any;
   private elementRevisions: any[];
 
-  constructor(private service: SequenceService) {
+  constructor(private service: ControlConstructService) {
     this.searchKeysSubect
       .debounceTime(300)
       .distinctUntilChanged()

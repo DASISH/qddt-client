@@ -1,15 +1,14 @@
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
-import { ControlConstructService } from './controlconstruct.service';
-import { ElementKind, QddtElements } from '../preview/preview.service';
+import { ControlConstructService, QuestionConstruct } from '../controlconstruct.service';
+import { ElementKind, QddtElements } from '../../preview/preview.service';
 
 @Component({
   selector: 'qddt-control-construct-questionitem-select',
   moduleId: module.id,
-  templateUrl: 'controlconstruct.questionitem.select.component.html' ,
-  providers: [ControlConstructService],
+  templateUrl: 'questionconstruct.questionitem.select.component.html' ,
 })
-export class ControlConstructQuestionItemSelectComponent implements OnInit {
-  @Input() controlConstruct;
+export class QuestionConstructQuestionSelectComponent implements OnInit {
+  @Input() controlConstruct: QuestionConstruct;
   @Output() useQuestionItemEvent = new EventEmitter<any>();
   @Output() dismissEvent: any = new EventEmitter<any>();
 

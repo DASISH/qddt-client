@@ -9,9 +9,7 @@ import { PropertyStoreService } from '../core/global/property.service';
 @Component({
   selector: 'qddt-publication',
   moduleId: module.id,
-  templateUrl: './publication.component.html',
-  styles: [],
-  providers: [PublicationService],
+  templateUrl: './publication.component.html'
 })
 export class PublicationComponent implements AfterContentChecked, OnInit {
 

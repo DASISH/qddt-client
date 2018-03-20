@@ -6,7 +6,6 @@ import { ElementKind, QddtElement } from '../preview/preview.service';
   selector: 'qddt-publication-select',
   moduleId: module.id,
   templateUrl: './publication.select.component.html',
-  providers: [PublicationService],
 })
 
 export class PublicationSelectComponent implements OnChanges {

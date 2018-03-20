@@ -1,0 +1,58 @@
+<div class="row teal-text">
+    <h5>Condition</h5>
+    <div class="input-field row">
+      <label [attr.for]="elementId + '-name'">Name</label>
+      <textarea id="{{elementId}}-name" name="{{elementId}}-name"
+        class="materialize-textarea"
+        [(ngModel)]="condition.name" [attr.maxlength]="255"
+        required>
+      </textarea>
+    </div>
+    <div class="input-field row">
+      <label for="elseCondition_num" class="active">Number of elseConditions</label>
+      <input id="elseCondition_num" name="elseCondition_num"
+        type="number"
+                  (ngModelChange)="buildElseConditions()"
+                [(ngModel)]="elseConditionNum" required>
+    </div>
+    <div class="row card">
+      <div class="input-field col s6">
+      <label [attr.for]="elementId + '-ifCondition'">if Condition Command</label>
+      <textarea id="{{elementId}}-ifCondition" name="{{elementId}}-ifCondition"
+        class="materialize-textarea"
+        [(ngModel)]="ifCondition.command" [attr.maxlength]="255" >
+      </textarea>
+      </div>
+      <div class="input-field col s6">
+        <auto-complete
+          [items]="elements"
+          [elementtype]="service.getQddtElementFromStr('CONDITION_CONSTRUCT')"
+          (autocompleteSelectEvent)="onSelectElement($event)"
+                  (enterEvent)="onSearchElements($event)">
+              </auto-complete>
+      </div>
+    </div>
+    <div class="row card" *ngFor="let condition of elseConditions; let idx=index;">
+      <div class="input-field col s6">
+      <label [attr.for]="elementId + '-elseCondition-' + idx">else Condition Command</label>
+      <textarea id="{{elementId}}-elseCondition-{{idx}}"
+        name="{{elementId}}-elseCondition-{{idx}}"
+        class="materialize-textarea"
+        [(ngModel)]="condition.command" [attr.maxlength]="255" >
+      </textarea>
+      </div>
+      <div class="input-field col s6">
+        <auto-complete
+          [items]="elements"
+          [elementtype]="service.getQddtElementFromStr('CONDITION_CONSTRUCT')"
+          (autocompleteSelectEvent)="onSelectElseElement($event, idx)"
+                  (enterEvent)="onSearchElements($event)">
+              </auto-complete>
+      </div>
+    </div>
+    <button
+      (click)="onCreate()"
+      class="btn btn-default green modal-action modal-close waves-effect">
+      <a><i class="close material-icons medium white-text">create</i></a>
+    </button>
+  </div>

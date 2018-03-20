@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ControlConstruct } from '../controlconstruct/controlconstruct.service';
+import { QuestionConstruct } from '../controlconstruct/controlconstruct.service';
 
 @Component({
   selector: 'qddt-preview-controlconstruct',
@@ -30,6 +30,6 @@ import { ControlConstruct } from '../controlconstruct/controlconstruct.service';
 })
 
 export class PreviewControlConstructComponent {
-  @Input() construct: ControlConstruct;
+  @Input() construct: QuestionConstruct;
 
 }

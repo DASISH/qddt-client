@@ -54,8 +54,7 @@ export class CopySourceComponent {
   onUseElement() {
     this.service.copySource(this.elementKind, this.selectedElement.id, this.elementRevision, this.parentId)
       .subscribe(result => {
-        // console.log(result);
-		  this.itemSelected.emit( result) ; // { id: this.selectedElement.id, rev: this.elementRevision});
+        this.itemSelected.emit( result) ; // { id: this.selectedElement.id, rev: this.elementRevision});
       });
   }
 

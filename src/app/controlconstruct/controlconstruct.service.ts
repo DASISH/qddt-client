@@ -4,33 +4,86 @@ import { HttpClient } from '@angular/common/http';
 import { API_BASE_HREF } from '../api';
 import { Observable } from 'rxjs/Observable';
 import { QuestionItem } from '../question/question.service';
+import { ElementKind, QddtElement, QddtElements } from '../preview/preview.service';
+
+export const ElementTypeDescription: QddtElement[] = [
+  QddtElements[ElementKind.QUESTION_CONSTRUCT],
+  QddtElements[ElementKind.STATEMENT_CONSTRUCT],
+  QddtElements[ElementKind.CONDITION_CONSTRUCT],
+  QddtElements[ElementKind.SEQUENCE_CONSTRUCT]
+];
+
+export enum SequenceKind {
+  NA,
+  QUESTIONNAIRE,
+  SECTION,
+  BATTERY,
+  UNIVERSE
+}
 
 export class Universe {
   id: string;
   description: string;
 }
 
-export class ControlConstruct {
-  id: string;
-  name: string;
-  description: string;
-  questionItem: QuestionItem;
-  questionItemRevision: number;
-  otherMaterials: any;
-  classKind: string;
-  universe: Universe[];
-  preInstructions: Instruction[];
-  postInstructions: Instruction[];
-
-  constructor() {
-    this.classKind = 'QUESTION_CONSTRUCT';
-  }
-}
-
 export class Instruction {
   id: string;
   description: string;
 }
+
+export class ConditionCommand {
+  type: string;
+  constructId: string;
+  constructName: string;
+  command: string;
+}
+
+export interface ControlConstruct {
+  id: string;
+  name: string;
+  description: string;
+  classKind: ElementKind;
+}
+
+export class QuestionConstruct implements ControlConstruct {
+  id: string;
+  name: string;
+  description: string;
+  classKind: ElementKind.QUESTION_CONSTRUCT;
+  questionItem: QuestionItem;
+  questionItemRevision: number;
+  otherMaterials: any;
+  universe: Universe[];
+  preInstructions: Instruction[];
+  postInstructions: Instruction[];
+}
+
+export class SequenceConstruct implements ControlConstruct {
+  id: string;
+  name: string;
+  description: string;
+  classKind = ElementKind.SEQUENCE_CONSTRUCT;
+  sequence: SequenceKind;
+  children: any[];
+}
+
+export class StatementConstruct implements ControlConstruct {
+  id: string;
+  name: string;
+  description: string;
+  classKind = ElementKind.STATEMENT_CONSTRUCT;
+}
+
+export class ConditionConstruct implements ControlConstruct {
+  id: string;
+  name: string;
+  description: string;
+  classKind = ElementKind.CONDITION_CONSTRUCT;
+  ifCondition: ConditionCommand;
+  elseConditions: ConditionCommand[];
+}
+
+
 
 @Injectable()
 export class ControlConstructService  {
@@ -129,6 +182,37 @@ export class ControlConstructService  {
           return [];
         }
       });
+  }
+
+
+  public getElements(ccKind: ElementKind, name: string, page: string = '0', sort: string = ''): Promise<any> {
+    let query = '';
+    if (name.length > 0) {
+      query = '&name=*' + name + '*' + '&questiontext=*' + name + '*';
+    }
+    if (page.length > 0 && page !== '0') {
+      query += '&page=' + page;
+    }
+    if (sort.length > 0) {
+      query += '&sort=' + sort;
+    }
+    return this.http.get(this.api + 'controlconstruct/page/search?constructkind=' + ElementKind[ccKind] + query)
+      .toPromise();
+  }
+
+  public getQddtElementFromStr(kind: string): QddtElement {
+    const element: any = ElementTypeDescription.find(e => ElementKind[e.id] === kind);
+    if (!element) {
+      throw Error('Couldn\'t find kind ' + kind);
+    }
+    return element;
+  }
+
+  getRevisions(id: string): Promise<any> {
+    return this.http.get(this.api + 'audit/controlconstruct/' + id + '/all')
+      .toPromise()
+      .catch(err => { throw Error(err.message); });
+
   }
 
 }

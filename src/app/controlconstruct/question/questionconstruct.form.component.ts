@@ -1,6 +1,6 @@
 import { Component, Input, Output, OnInit, EventEmitter, AfterContentChecked } from '@angular/core';
-import { ControlConstructService, ControlConstruct } from './controlconstruct.service';
-import { Observable }     from 'rxjs/Observable';
+import { ControlConstructService, QuestionConstruct } from '../controlconstruct.service';
+import { Observable } from 'rxjs/Observable';
 import { MaterializeAction } from 'angular2-materialize';
 const filesaver = require('file-saver');
 declare var Materialize: any;
@@ -8,16 +8,15 @@ declare var Materialize: any;
 @Component({
   selector: 'qddt-control-construct-form',
   moduleId: module.id,
-  templateUrl: 'controlconstruct.form.component.html',
+  templateUrl: 'questionconstruct.form.component.html',
   styles: [
     '.nomargin { margin:0; }',
     ':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'
   ],
-  providers: [ControlConstructService],
 })
 
-export class ControlConstructFormComponent implements OnInit, AfterContentChecked {
-  @Input() controlConstruct: ControlConstruct;
+export class QuestionConstructFormComponent implements OnInit, AfterContentChecked {
+  @Input() controlConstruct: QuestionConstruct;
   @Input() isNew: boolean;
   @Input() readonly: boolean;
   @Output() controlConstructSavedAction = new EventEmitter<any>();
@@ -155,7 +154,6 @@ export class ControlConstructFormComponent implements OnInit, AfterContentChecke
   }
 
   onSaveControlConstruct() {
-    console.info('onSaveControlConstruct');
     const controlConstruct = this.controlConstruct;
     const files = this.fileStore;
     const len = files.length;

@@ -9,9 +9,9 @@ import { InstrumentComponent } from './instrument/instrument.component';
 import { PublicationComponent } from './publication/publication.component';
 import { LoginComponent } from './core/login/login.component';
 import { ResponsedomainComponent } from './responsedomain/responsedomain.component';
-import { ControlConstructComponent } from './controlconstruct/controlconstruct.component';
-import { SequenceComponent } from './sequence/sequence.component';
 import { PageNotFoundComponent } from './pagenotfound/page-not-found.component';
+import { QuestionConstructComponent } from './controlconstruct/question/questionconstruct.component';
+import { SequenceConstructComponent } from './controlconstruct/sequence/sequenceconstruct.component';
 
 
 const appRoutes: Routes = [
@@ -20,10 +20,10 @@ const appRoutes: Routes = [
   { path: 'questions',    component: QuestionComponent, canActivate: [AuthGuard] },
   { path: 'responsedomains', component: ResponsedomainComponent, canActivate: [AuthGuard] },
   { path: 'schemes',      component: CategorySchemeComponent, canActivate: [AuthGuard] },
-  { path: 'constructs',   component: ControlConstructComponent , canActivate: [AuthGuard]},
+  { path: 'constructs',   component: QuestionConstructComponent , canActivate: [AuthGuard]},
   { path: 'categories',   component: CategoryComponent , canActivate: [AuthGuard]},
   { path: 'instruments',  component: InstrumentComponent , canActivate: [AuthGuard]},
-  { path: 'sequences',    component: SequenceComponent, canActivate: [AuthGuard]},
+  { path: 'sequences',    component: SequenceConstructComponent, canActivate: [AuthGuard]},
   { path: 'publications', component: PublicationComponent, canActivate: [AuthGuard]},
   { path: '**', component: PageNotFoundComponent }
 ];

@@ -19,12 +19,12 @@ export interface IElementRef {
 }
 
 export class ElementRevisionRef implements IRevisionRef, IElementRef {
-  element: any;
-  elementKind: ElementKind|String;
   id: any;
-  revisionNumber: number;
   name?: string;
   version?: any;
+  element: any;
+  revisionNumber: number;
+  elementKind: ElementKind|String;
 }
 
 export enum ElementKind {

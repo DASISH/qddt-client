@@ -1,34 +1,14 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 
-import { ControlConstructService, Universe } from './controlconstruct.service';
-import { ElementKind, QddtElements } from '../preview/preview.service';
+import { ControlConstructService, Universe } from '../controlconstruct.service';
+import { ElementKind, QddtElements } from '../../preview/preview.service';
 
 @Component({
   selector: 'qddt-universe-create',
   moduleId: module.id,
-  template: `
-<div class="row card">
-  <div class="col s10 black-text">
-    <label>Description</label>
-    <div [ngClass]="{ noItemFound: (isUniverseNew && universe.description.length > 0 && universe.length === 0) }">
-    <auto-complete
-      [items]="universes" class="black-text"
-      [elementtype]="UNIVERSE"
-      [initialValue]="universe?.description"
-      (autocompleteSelectEvent)="onSelectUniverse($event)"
-      (enterEvent)="onSearchUniverses($event)">
-    </auto-complete>
-  </div>
-  </div>
-  <div class="col s2 right">
-    <a class="waves-effect waves-light btn" (click)="onAddUniverse()">add</a>
-  </div>
-</div>
-`,
+  templateUrl: 'universe.component.html',
   styles: [
-    `.noItemFound {
-        border: thick solid orange;
-    }`
+    `.noItemFound { border: thick solid orange; }`
   ],
   providers: [ControlConstructService],
 })

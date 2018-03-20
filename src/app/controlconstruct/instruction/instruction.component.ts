@@ -1,14 +1,13 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 
-import { ControlConstructService, Instruction } from './controlconstruct.service';
-import { ElementKind, QddtElements } from '../preview/preview.service';
+import { ControlConstructService, Instruction } from '../controlconstruct.service';
+import { ElementKind, QddtElements } from '../../preview/preview.service';
 
 @Component({
   selector: 'qddt-instruction-create',
   moduleId: module.id,
   templateUrl: 'instruction.component.html',
   styles: [ ],
-  providers: [ControlConstructService],
 })
 
 export class InstructionComponent {

@@ -1,24 +1,23 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { ControlConstructService, ControlConstruct } from './controlconstruct.service';
+import { ControlConstructService, QuestionConstruct } from '../controlconstruct.service';
 import { MaterializeAction } from 'angular2-materialize';
-import { ElementKind } from '../preview/preview.service';
+import { ElementKind } from '../../preview/preview.service';
 const filesaver = require('file-saver');
 
 
 @Component({
   selector: 'qddt-control-construct-detail',
   moduleId: module.id,
-  templateUrl: './controlconstruct.detail.component.html',
+  templateUrl: './questionconstruct.detail.component.html',
   styles: [`:host /deep/ .hoverable .row {
             min-height:3rem;
             margin-bottom:0px; }`],
-  providers: [ControlConstructService],
 })
 
-export class ControlConstructDetailComponent implements OnInit {
-  @Input() controlConstruct: ControlConstruct;
+export class QuestionConstructDetailComponent implements OnInit {
+  @Input() controlConstruct: QuestionConstruct;
   @Input() controlConstructId: string;
-  @Input() controlConstructs: ControlConstruct[];
+  @Input() controlConstructs: QuestionConstruct[];
   @Input() isVisible: boolean;
   @Output() hideDetailEvent = new EventEmitter<String>();
   @Output() exceptionEvent = new EventEmitter<String>();
@@ -98,7 +97,7 @@ export class ControlConstructDetailComponent implements OnInit {
       error => { throw error; });
   }
 
-  onGetPdf( c: ControlConstruct) {
+  onGetPdf( c: QuestionConstruct) {
     this.service.getPdf(c.id).then(
       (data: any) => {
         filesaver.saveAs(data, c.name + '.pdf');

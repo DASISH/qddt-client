@@ -7,7 +7,6 @@ const filesaver = require('file-saver');
   selector: 'qddt-publication-detail',
   moduleId: module.id,
   templateUrl: './publication.detail.component.html',
-  providers: [PublicationService],
 })
 
 export class PublicationDetailComponent implements OnInit {

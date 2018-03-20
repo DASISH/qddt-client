@@ -1,35 +1,27 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
-import { SequenceService } from './sequence.service';
-import { SequenceComponent } from './sequence.component';
-import { API_BASE_HREF } from '../api';
+import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { MaterializeModule } from 'angular2-materialize';
+import { SequenceConstructComponent } from './sequenceconstruct.component';
+import { ControlConstructService } from '../controlconstruct.service';
+import { HttpClient } from '@angular/common/http';
 
 export function main() {
   describe('Sequence component', () => {
     //
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [SequenceComponent, RevisionComponent,
+        declarations: [SequenceConstructComponent, RevisionComponent,
           SequenceReuseComponent, CommentListComponent,
           SequenceDetailComponent,
           AuthorChipComponent, TableComponent],
         providers: [
-          MockBackend,
-          BaseRequestOptions,
-          { provide: SequenceService, useClass: SequenceServiceSpy },
-          {
-            provide: Http,
-            useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),
-            deps: [MockBackend, BaseRequestOptions]
-          },
+          { provide: ControlConstructService, useClass: SequenceServiceSpy },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
@@ -37,7 +29,7 @@ export function main() {
         ],
         imports: [CommonModule, FormsModule, MaterializeModule]
       });
-      //Mock debounceTime
+      // Mock debounceTime
       Observable.prototype.debounceTime = function () { return this; };
     });
 
@@ -46,7 +38,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            const fixture = TestBed.createComponent(SequenceComponent);
+            const fixture = TestBed.createComponent(SequenceConstructComponent);
             fixture.detectChanges();
             const de: any = fixture.debugElement.queryAll(By.css('form'));
             expect(de.length).toBe(0);
@@ -64,23 +56,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            const fixture = TestBed.createComponent(SequenceComponent);
-            const mockBackend = TestBed.get(MockBackend);
-            mockBackend.connections.subscribe((c: any) => {
-              c.mockRespond(new Response(new ResponseOptions({
-                body: '{"content":[{'
-                + '"id" : "7f000101-54aa-131e-8154-aa27fc230000",'
-                + '"modified" : [ 2016, 9, 8, 15, 21, 26, 254000000 ],'
-                + '"name" : "one sequence",'
-                + '"basedOnObject" : null,'
-                + '"basedOnRevision" : null,'
-                + '"version" : {"major" : 6, "minor" : 0, "versionLabel" : "", "revision" : null },'
-                + '"changeKind" : "CONCEPTUAL",'
-                + '"changeComment" : "Information added"'
-                + '}],'
-                + '"page" : { "size" : 20, "totalElements" : 1, "totalPages" : 1, "number" : 0}}'
-              })));
-            });
+            const fixture = TestBed.createComponent(SequenceConstructComponent);
             fixture.componentInstance.ngOnInit();
             fixture.detectChanges();
             fixture.whenStable().then(() => {
@@ -92,7 +68,7 @@ export function main() {
   });
 }
 
-//override dependencies
+// override dependencies
 class SequenceServiceSpy {
   getElements = jasmine.createSpy('getElements').and.callFake(function (key) {
     return [];

@@ -1,15 +1,15 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { BaseRequestOptions, Http, ConnectionBackend } from '@angular/http';
-import { TestBed, async } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
-import { By } from '@angular/platform-browser';
-
-import { ControlConstructService } from './controlconstruct.service';
-import { ControlConstructQuestionItemSelectComponent } from './controlconstruct.questionitem.select.component';
-import { API_BASE_HREF } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TestBed, async, inject } from '@angular/core/testing';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { By } from '@angular/platform-browser';
+
+import { ControlConstructService } from '../controlconstruct.service';
+import { API_BASE_HREF } from '../../api';
 import { MaterializeModule } from 'angular2-materialize';
+import { QuestionConstructQuestionSelectComponent } from './questionconstruct.questionitem.select.component';
 
 export function main() {
   describe('Controlconstruct questionitem select component', () => {
@@ -17,23 +17,9 @@ export function main() {
     beforeEach(() => {
       TestBed.configureTestingModule({
         declarations: [RevisionComponent,
-          ControlConstructQuestionItemSelectComponent,
+          QuestionConstructQuestionSelectComponent,
           AutocompleteComponent, QuestionitemDetailComponent,
           ResponsedomainPreviewComponent ],
-        providers: [
-          MockBackend,
-          BaseRequestOptions,
-          { provide: ControlConstructService, useClass: ControlConstructServiceSpy },
-          {
-            provide: Http,
-            useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),
-            deps: [MockBackend, BaseRequestOptions]
-          },
-          {
-            provide: API_BASE_HREF,
-            useValue: '<%= API_BASE %>'
-          }
-        ],
         imports: [CommonModule, FormsModule, MaterializeModule]
       });
     });
@@ -43,7 +29,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            const fixture = TestBed.createComponent(ControlConstructQuestionItemSelectComponent);
+            const fixture = TestBed.createComponent(QuestionConstructQuestionSelectComponent);
             fixture.detectChanges();
             const de: any = fixture.debugElement.queryAll(By.css('ul'));
             expect(de.length).toBe(0);
@@ -55,7 +41,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            const fixture = TestBed.createComponent(ControlConstructQuestionItemSelectComponent);
+            const fixture = TestBed.createComponent(QuestionConstructQuestionSelectComponent);
             const controlConstruct: any = {
               'id' : '7f000101-54aa-131e-8154-aa27fc230000',
               'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
@@ -81,7 +67,7 @@ export function main() {
   });
 }
 
-//override dependencies
+// override dependencies
 class ControlConstructServiceSpy {
   searchQuestionItemsByNameAndQuestion = jasmine.createSpy('searchQuestionItemsByNameAndQuestion').and.callFake(function (key) {
     return [];
@@ -102,7 +88,7 @@ class CommentListComponent {
 }
 
 @Component({
-  selector: 'autocomplete',
+  selector: 'qddt-auto-complete',
   template: `<div></div>`
 })
 

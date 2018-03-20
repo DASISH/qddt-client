@@ -1,23 +1,22 @@
 import { Component, Input, OnInit, EventEmitter } from '@angular/core';
-import { Sequence, SequenceService } from './sequence.service';
+import { SequenceConstruct, ControlConstructService } from '../controlconstruct.service';
 
 @Component({
   selector: 'qddt-sequence-content',
   moduleId: module.id,
-  templateUrl: './sequence.content.component.html',
+  templateUrl: './sequenceconstruct.content.component.html',
   styles: [
     '.control-children { padding-left: 20px }',
   ],
-  providers: [ SequenceService ],
 })
 
 export class SequenceContentComponent implements OnInit {
-  @Input() sequence: Sequence;
+  @Input() sequence: SequenceConstruct;
   error: any;
   selectedElement: any;
   sequenceContentActions = new EventEmitter<any>();
 
-  constructor(private service: SequenceService) {
+  constructor(private service: ControlConstructService) {
   }
 
   ngOnInit() {

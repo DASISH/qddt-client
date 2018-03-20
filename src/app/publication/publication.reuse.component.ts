@@ -15,7 +15,6 @@ import { ElementKind, QddtElement, QddtElements } from '../preview/preview.servi
     }`,
     ':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'
   ],
-  providers: [ PublicationService ],
 })
 
 export class PublicationReuseComponent implements OnInit {

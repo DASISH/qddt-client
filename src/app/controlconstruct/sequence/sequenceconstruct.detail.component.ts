@@ -1,17 +1,17 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { SequenceService, Sequence } from './sequence.service';
-import { ElementKind } from '../preview/preview.service';
+import { ElementKind } from '../../preview/preview.service';
+import { SequenceConstruct, ControlConstructService } from '../controlconstruct.service';
 const filesaver = require('file-saver');
 
 @Component({
   selector: 'qddt-sequence-detail',
   moduleId: module.id,
-  templateUrl: './sequence.detail.component.html',
+  templateUrl: './sequenceconstruct.detail.component.html',
 })
 
 export class SequenceDetailComponent implements OnInit {
-  @Input() sequences: Sequence[];
-  @Input() sequence: Sequence;
+  @Input() sequences: SequenceConstruct[];
+  @Input() sequence: SequenceConstruct;
   @Input() isVisible: boolean;
   @Output() hideDetailEvent: EventEmitter<String> = new EventEmitter<String>();
 
@@ -19,7 +19,7 @@ export class SequenceDetailComponent implements OnInit {
   private revisionIsVisible: boolean;
   private previewObject: any;
 
-  constructor(private service: SequenceService) {
+  constructor(private service: ControlConstructService) {
     this.revisionIsVisible = false;
   }
 
@@ -33,7 +33,7 @@ export class SequenceDetailComponent implements OnInit {
     this.hideDetailEvent.emit('hide');
   }
 
-  sequenceSavedEvent(sequence: Sequence) {
+  sequenceSavedEvent(sequence: SequenceConstruct) {
     if (sequence !== null) {
       const sequences = this.sequences.filter((q) => q.id !== sequence.id);
       sequences.push(sequence);
@@ -45,9 +45,9 @@ export class SequenceDetailComponent implements OnInit {
     this.previewObject = element;
   }
 
-  getPdf(element: Sequence) {
+  getPdf(element: SequenceConstruct) {
     const fileName = element.name + '.pdf';
-    this.service.getPdf(element.id).subscribe(
+    this.service.getPdf(element.id).then(
       (data: any) => {
         filesaver.saveAs(data, fileName);
       });

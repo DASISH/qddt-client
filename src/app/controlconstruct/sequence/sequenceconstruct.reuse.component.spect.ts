@@ -2,12 +2,12 @@ import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { SequenceService } from './sequence.service';
-import { SequenceReuseComponent } from './sequence.reuse.component';
-import { API_BASE_HREF } from '../api';
+import { SequenceReuseComponent } from './sequenceconstruct.reuse.component';
+import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
+import { ControlConstructService } from '../controlconstruct.service';
 
 export function main() {
   describe('Sequence reuse component', () => {
@@ -19,7 +19,7 @@ export function main() {
           RationalComponent, AutocompleteComponent,
           AuthorChipComponent, SequenceContentComponent],
         providers: [
-          { provide: SequenceService, useClass: SequenceServiceSpy },
+          { provide: ControlConstructService, useClass: SequenceServiceSpy },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
@@ -59,7 +59,7 @@ export function main() {
   });
 }
 
-//override dependencies
+// override dependencies
 class SequenceServiceSpy {
   getElements = jasmine.createSpy('getElements').and.callFake(function (key) {
     return [];
@@ -117,7 +117,7 @@ class SequenceContentComponent {
 }
 
 @Component({
-  selector: 'auto-complete',
+  selector: 'qddt-auto-complete',
   template: `<div></div>`
 })
 

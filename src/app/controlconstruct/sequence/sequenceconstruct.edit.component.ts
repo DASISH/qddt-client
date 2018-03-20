@@ -1,12 +1,11 @@
 import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
-import { SequenceService, Statement } from './sequence.service';
+import { ControlConstructService, StatementConstruct } from '../controlconstruct.service';
 
 @Component({
   selector: 'qddt-sequence-edit',
   moduleId: module.id,
-  templateUrl: './sequence.edit.component.html',
-  styles: [
-  ]
+  templateUrl: './sequenceconstruct.edit.component.html',
+  styles: [ ]
 })
 export class SequenceEditComponent implements OnInit {
   @Input() sequence: any;
@@ -14,11 +13,11 @@ export class SequenceEditComponent implements OnInit {
   statement: any;
   elementId: string;
 
-  constructor(private service: SequenceService) {
+  constructor(private service: ControlConstructService) {
   }
 
   ngOnInit() {
-    this.statement = new Statement();
+    this.statement = new StatementConstruct();
     this.elementId = new Date().toString();
   }
 

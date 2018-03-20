@@ -1,11 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import {  SequenceService, Statement } from './sequence.service';
-
-@Component({
-  selector: 'qddt-statement-edit',
-  moduleId: module.id,
-  template: `
-  <div class="row teal-text">
+<div class="row teal-text">
     <h5>Statement</h5>
     <div class="input-field row">
       <label [attr.for]="elementId + '-name'">Name</label>
@@ -27,32 +20,4 @@ import {  SequenceService, Statement } from './sequence.service';
       class="btn btn-default green modal-action modal-close waves-effect">
       <a><i class="close material-icons medium white-text">create</i></a>
     </button>
-  </div>`,
-  styles: [
-  ]
-})
-export class StatementEditComponent implements OnInit {
-  @Output() element: any = new EventEmitter<any>();
-  statement: any;
-  elementId: string;
-
-  constructor(private service: SequenceService) {
-  }
-
-  ngOnInit() {
-    this.statement = new Statement();
-    this.elementId = new Date().toString();
-  }
-
-  onCreate() {
-    this.service.create(this.statement)
-      .subscribe((result: any) => {
-        this.element.emit(result);
-      }, (error) => {
-        throw error;
-      }
-    );
-    return false;
-  }
-
-}
+  </div>

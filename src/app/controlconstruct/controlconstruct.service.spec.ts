@@ -1,7 +1,5 @@
-import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
-import { TestBed, async } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
-
+import {BaseRequestOptions, ConnectionBackend, Http, RequestOptions} from '@angular/http';
+import {MockBackend, MockConnection} from '@angular/http/testing';
 import { ControlConstructService } from './controlconstruct.service';
 import { API_BASE_HREF } from '../api';
 

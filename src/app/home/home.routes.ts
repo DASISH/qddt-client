@@ -15,10 +15,10 @@ export const homeRoutes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: 'survey', component: SurveyComponent, canActivate: [AuthGuard], },
-      { path: 'study', component: StudyComponent, canActivate: [AuthGuard]},
+      { path: 'study', component: StudyComponent, canActivate: [AuthGuard] },
       { path: 'topic', redirectTo: 'module' },
-      { path: 'module', component: TopicComponent, canActivate: [AuthGuard]},
-      { path: 'concept', component: ConceptComponent, canActivate: [AuthGuard]}],
+      { path: 'module', component: TopicComponent, canActivate: [AuthGuard] },
+      { path: 'concept', component: ConceptComponent, canActivate: [AuthGuard] }],
     }
 ];
 

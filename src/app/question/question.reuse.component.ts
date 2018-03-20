@@ -72,7 +72,6 @@ export class QuestionReuseComponent {
       }
 
       this.questionItem['questionItemRevision'] = this.elementRevision;
-      console.debug(this.questionItem);
       this.questionItemCreatedEvent.emit(this.questionItem);
       this.questionItem = null;
       this.closeQuestionReuseModal();

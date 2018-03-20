@@ -7,14 +7,15 @@ import { Observable } from 'rxjs/Observable';
 
 export class QuestionItem {
   id: string;
+  name: string;
+  version: any;
+  changeKind: any;
+  agency: any;
   question: string;
   intent: string;
   responseDomain: ResponseDomain;
+  responseDomainName: String;
   responseDomainRevision: number;
-  version: any;
-  agency: any;
-  name: string;
-  changeKind: any;
   conceptRefs: any;
 }
 

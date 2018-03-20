@@ -8,7 +8,6 @@ declare var Materialize: any;
   selector: 'qddt-publication-form',
   moduleId: module.id,
   templateUrl: './publication.form.component.html',
-  providers: [],
 })
 
 export class PublicationFormComponent implements OnInit , AfterContentChecked {

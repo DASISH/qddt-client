@@ -1,18 +1,16 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
-import { SequenceService, Sequence } from './sequence.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
-import { ElementKind, ElementEnumAware } from '../preview/preview.service';
+import { ElementKind, ElementEnumAware } from '../../preview/preview.service';
+import { ControlConstructService, SequenceConstruct } from '../controlconstruct.service';
 
 @Component({
   selector: 'qddt-sequence',
   moduleId: module.id,
-  templateUrl: './sequence.component.html',
-  styles: [],
-
+  templateUrl: './sequenceconstruct.component.html',
 })
 @ElementEnumAware
-export class SequenceComponent implements OnInit {
+export class SequenceConstructComponent implements OnInit {
 
   public modalActions = new EventEmitter<string|MaterializeAction>();
   public isDetail: boolean;
@@ -30,7 +28,7 @@ export class SequenceComponent implements OnInit {
   private searchKeysSubect: Subject<string> = new Subject<string>();
   private readonly SEQUENCECONSTRUCT = ElementKind.SEQUENCE_CONSTRUCT;
 
-  constructor(private service: SequenceService) {
+  constructor(private service: ControlConstructService) {
     this.isDetail = false;
     this.sequences = [];
     this.searchKeys = '';
@@ -59,7 +57,7 @@ export class SequenceComponent implements OnInit {
   onToggleSequenceForm() {
     this.showSequenceForm = !this.showSequenceForm;
     if (this.showSequenceForm) {
-      this.sequence = new Sequence();
+      this.sequence = new SequenceConstruct();
       this.sequence.children = [];
     }
   }
