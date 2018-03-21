@@ -22,8 +22,6 @@ export class QuestionConstructFormComponent implements OnInit, AfterContentCheck
   @Output() controlConstructSavedAction = new EventEmitter<any>();
   @Output() exceptionEvent = new EventEmitter<String>();
 
-  public basedonActions = new EventEmitter<string|MaterializeAction>();
-  public basedonObject: any;
   public savedquestionitem: any;
   public createPostInstruction: boolean;
   public createPreInstruction: boolean;
@@ -61,7 +59,7 @@ export class QuestionConstructFormComponent implements OnInit, AfterContentCheck
     if (this.isNew) {
       this.controlConstruct.id = new Date().toString();
     }
-    if (this.readonly === null || this.readonly === undefined) {
+    if (!this.readonly) {
       this.readonly = false;
     }
   }
@@ -70,17 +68,6 @@ export class QuestionConstructFormComponent implements OnInit, AfterContentCheck
     Materialize.updateTextFields();
   }
 
-  onBasedonObjectDetail(ref: any) {
-    if (!ref.rev) {
-      ref.rev = 0;
-    }
-    this.service.getControlConstructRevision(ref.id, ref.rev)
-      .then(
-        (result: any) => {
-          this.basedonObject = result.entity;
-          this.basedonActions.emit({action: 'modal', params: ['open']});
-        });
-  }
 
   onDeleteUniverse(id: number) {
     this.controlConstruct.universe.splice(id, 1);
@@ -179,16 +166,12 @@ export class QuestionConstructFormComponent implements OnInit, AfterContentCheck
           this.controlConstruct = result;
           elementEvent.emit(result);
         }, (error: any) => {
-          console.log('Error: %s', error);
+          throw error;
         });
       },
       function (error: any) {
-        console.log('Error: %s', error);
+        throw error;
       });
-  }
-
-  private popupModal(error: any) {
-    this.exceptionEvent.emit(error);
   }
 
 }
