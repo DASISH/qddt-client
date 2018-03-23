@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit, AfterContentChecked } from '@angular/core';
-import { Publication, PUBLICATION_STATUS, PUBLICATION_NOT_PUBLISHED, PUBLICATION_TYPES } from './publication.service';
+import { Publication, PUBLICATION_TYPES, PublicationService, PublicationStatus } from './publication.service';
 import {ElementKind, QddtElement} from '../preview/preview.service';
 
 declare var Materialize: any;
@@ -15,23 +15,23 @@ export class PublicationFormComponent implements OnInit , AfterContentChecked {
   @Input() textColor: any;
   @Output() save: EventEmitter<Publication> = new EventEmitter<Publication>();
 
-  selectOptions: any[] = PUBLICATION_STATUS;
   selectedOptionValue: number;
   selectedPublicationStatusOption: any;
-  predefinedStatus: any;
-  private revisionIsVisible: boolean;
+  selectOptions: PublicationStatus[];
 
+  constructor(private service: PublicationService) {
+    this.selectOptions = service.PUBLICATION_STATUSES;
+  }
 
   ngOnInit() {
-    this.predefinedStatus = [PUBLICATION_NOT_PUBLISHED].concat(this.selectOptions[0].children, this.selectOptions[1].children);
     this.selectedOptionValue = 0;
-    this.selectedPublicationStatusOption = PUBLICATION_NOT_PUBLISHED.description;
+    this.selectedPublicationStatusOption =  this.service.getStatusByName('NOTPUBLISHED').description;
   }
 
   ngAfterContentChecked() {
     Materialize.updateTextFields();
-    this.selectedOptionValue = this.getPublicationStatusId(this.publication.status);
   }
+
   onSavePublication() {
     this.save.emit(this.publication);
   }
@@ -51,8 +51,9 @@ export class PublicationFormComponent implements OnInit , AfterContentChecked {
     if (typeof value === 'string') {
       value = parseInt(value);
     }
-    const status: any = this.predefinedStatus.find((e: any) => e.id === value);
-    if (status !== undefined) {
+
+    const status: any = this.service.getStatusById(value);
+    if (status) {
       this.publication.status = status.label;
       this.selectedPublicationStatusOption = status.description;
       this.selectedOptionValue = status.id;
@@ -63,7 +64,7 @@ export class PublicationFormComponent implements OnInit , AfterContentChecked {
 
   private getElementbyLabel(label: string): QddtElement {
     const element: QddtElement = PUBLICATION_TYPES.find(e => e.label === label);
-    if (element === undefined) {
+    if (!element) {
       console.log('Couldn\'t find kind label ' + label);
     }
     return element;
@@ -72,21 +73,12 @@ export class PublicationFormComponent implements OnInit , AfterContentChecked {
   private getLabelByElement(kind: ElementKind): String {
     let element: QddtElement;
     if (typeof kind === 'string') {
-      element =  PUBLICATION_TYPES.find(e => {
-        return ElementKind[e.id] === kind;
-      });
+      element =  PUBLICATION_TYPES.find(e => ElementKind[e.id] === kind);
     }  else {
       element = PUBLICATION_TYPES.find(e => e.id === kind);
     }
     return element.label;
   }
 
-  private getPublicationStatusId(label: string): number {
-    const id: number =  this.predefinedStatus.find((e: any) => e.label === label).id;
-    if (id === undefined) {
-      console.log('Couldn\'t find kind id ' + label );
-    }
-    return id;
-  }
 
 }

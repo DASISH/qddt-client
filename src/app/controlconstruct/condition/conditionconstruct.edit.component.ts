@@ -27,13 +27,12 @@ export class ConditionEditComponent implements OnInit {
 
   ngOnInit() {
     this.condition = new ConditionConstruct();
-    // this.condition.classKind = 'CONDITION_CONSTRUCT';
     this.elementId = new Date().toString();
   }
 
   onSelectElement(e: any) {
     this.ifCondition.constructId = e.id;
-    this.ifCondition.type = 'QUESTION_CONSTRUCT';
+    this.ifCondition.type = ElementKind.QUESTION_CONSTRUCT;
     this.ifCondition.constructName = e.name;
   }
 
@@ -42,28 +41,24 @@ export class ConditionEditComponent implements OnInit {
       return;
     }
     this.elseConditions[idx].constructId = e.id;
-    this.elseConditions[idx].type = 'QUESTION_CONSTRUCT';
+    this.elseConditions[idx].type = ElementKind.QUESTION_CONSTRUCT;
     this.elseConditions[idx].constructName = e.name;
   }
 
   onSearchElements(key: string) {
     this.service.getElements(ElementKind.QUESTION_CONSTRUCT, key)
-      .then((result: any) => {
-        this.elements = result.content;
-      }, (error) => {
-        throw error;
-      });
+      .then(
+        (result) => { this.elements = result.content; },
+        (error) => { throw error; });
   }
 
   onCreate() {
     const condition = {'ifCondition': this.ifCondition, 'elseConditions': this.elseConditions};
-    this.condition.description = JSON.stringify(condition);
-    this.service.create(this.condition)
-      .subscribe((result: any) => {
-        this.element.emit(result);
-      }, (error) => {
-        throw error;
-      }
+    this.condition.condition = JSON.stringify(condition);
+    this.service.createCondition(this.condition)
+      .subscribe(
+        (result) => { this.element.emit(result); },
+        (error) => { throw error; }
     );
     return false;
   }

@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, AfterContentChecked } from '@angular/core';
-import { PublicationService, Publication,  PUBLICATION_NOT_PUBLISHED, PUBLICATION_STATUS } from './publication.service';
+import { PublicationService, Publication, PublicationStatus, PublicationElement } from './publication.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 import { Column } from '../shared/table/table.service';
@@ -13,47 +13,44 @@ import { PropertyStoreService } from '../core/global/property.service';
 })
 export class PublicationComponent implements AfterContentChecked, OnInit {
 
-  public selectOptions: any[] = PUBLICATION_STATUS;
-  public showAddElement: boolean;
-  public showProgressBar: boolean;
+  public showAddElement = false;
+  public showProgressBar = false;
   public showPublicationForm = false;
   public isDetail = false;
-  public selectedElementDetail: any;
 
-  publications: any[];
-  private page: any;
-  private selectedElementType: QddtElement;
-  private selectedPublicationStatusOption: any;
-  private publication: any;
+  public selectedElementDetail: PublicationElement;
+  public selectedElementType: QddtElement;
+  public selectedPublicationStatusOption: String;
+  public selectedPublication: Publication;
+
+  public publications: Publication[];
+  private publication: Publication;
+  private page = {};
   private searchKeys: string;
-  private selectedPublication: any;
-  private columns: Column[];
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
+  private readonly columns: Column[] = [{ 'label': 'Name', 'name': 'name', 'sortable': true,  'direction': ''  },
+  { 'label': 'Purpose', 'name': 'purpose', 'sortable': true,  'direction': '' },
+  { 'label': 'Publication Status', 'name': 'status', 'sortable': true,  'direction': ''  },
+  { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' }];
+
+
   constructor(private service: PublicationService, private property: PropertyStoreService) {
-    this.publications = [];
     this.searchKeys = '';
-    this.page = {};
-    this.selectedPublicationStatusOption = PUBLICATION_NOT_PUBLISHED.description;
-    this.columns = [{ 'label': 'Name', 'name': 'name', 'sortable': true,  'direction': ''  },
-    { 'label': 'Purpose', 'name': 'purpose', 'sortable': true,  'direction': '' },
-    { 'label': 'Publication Status', 'name': 'status', 'sortable': true,  'direction': ''  },
-    { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' }];
-    // console.debug('begyn lsater inn publisering....');
+
     this.searchKeysSubect
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
         this.showProgressBar = true;
-        this.service.searchPublications(name, '0', this.getSort())
-          .then((result: any) => {
+        this.service.searchPublications(name, '0', this.getSort()).then(
+          (result: any) => {
             this.publications = result.content || [];
             this.page = result.page;
+            this.showProgressBar = false; },
+          (error: any) => {
             this.showProgressBar = false;
-          }, (error: any) => {
-            this.showProgressBar = false;
-            throw error;
-          });
+            throw error; });
       });
   }
 
@@ -69,10 +66,6 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
       this.searchKeys = config.key;
       this.searchKeysSubect.next(this.searchKeys);
     }
-    this.service.getPublicationStatus().then((result: any) => {
-      this.selectOptions = result;
-      this.showProgressBar = false;
-    });
   }
 
   ngAfterContentChecked() {
@@ -97,8 +90,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
     this.showPublicationForm = !this.showPublicationForm;
     if (this.showPublicationForm) {
       this.publication = new Publication();
-      this.publication.publicationElements = [ ];
-      this.publication.status = PUBLICATION_NOT_PUBLISHED.label;
+      this.publication.status = this.service.getStatusByName('NOTPUBLISHED').label;
     }
   }
 
@@ -113,9 +105,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
         'collection': this.publications});
   }
 
-
-
-  addElement(e: any) {
+  addElement(e: PublicationElement) {
     this.publication.publicationElements.push(e);
   }
 
@@ -125,48 +115,38 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
   }
 
   onSelectChange(value: number) {
-    this.selectedPublicationStatusOption = PUBLICATION_NOT_PUBLISHED.description;
-    if (value >= 10 && value < 20) {
-      this.publication.status = this.selectOptions[0].children[value - 10].label;
-      this.selectedPublicationStatusOption = this.selectOptions[0].children[value - 10].description;
-    } else if (value >= 20 && value < 30) {
-      this.publication.status = this.selectOptions[1].children[value - 20].label;
-      this.selectedPublicationStatusOption = this.selectOptions[1].children[value - 20].description;
-    }
+    const ps =  this.service.getStatusById(value);
+    this.publication.status = ps.label;
+    this.selectedPublicationStatusOption = ps.description;
   }
 
   onPage(page: string) {
     this.showProgressBar = true;
-    this.service.searchPublications(this.searchKeys, page, this.getSort())
-      .then((result: any) => {
+    this.service.searchPublications(this.searchKeys, page, this.getSort()).then(
+      (result: any) => {
         this.publications = result.content || [];
         this.page = result.page;
-        this.showProgressBar = false;
-      }, (error: any) => {
+        this.showProgressBar = false; },
+      (error: any) => {
         this.showProgressBar = false;
         this.hideDetail();
-        throw error;
-      });
+        throw error; });
   }
 
-  newPublication(): Publication {    this.publication = new Publication();
-    return this.publication;
-  }
 
   onCreatePublication() {
     this.showPublicationForm = false;
-    // this.publication['changeKind'] = 'CREATED';
-    this.service.create(this.publication)
-      .subscribe((result: any) => {
-        this.publications.push(result);
-      });
-    this.isDetail = false;
-  }
+    this.service.create(this.publication).subscribe(
+      (result) => { this.publications.push(result); },
+      (error) => { throw error; } );
+      this.hideDetail();
+    }
 
   searchPublications(key: string) {
     this.searchKeys = key;
     this.searchKeysSubect.next(key);
   }
+
 
   private getSort() {
     const i = this.columns.findIndex((e: any) => e.sortable && e.direction !== undefined && e.direction !== '');

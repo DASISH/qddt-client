@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { PublicationService, Publication, PUBLICATION_STATUS, PUBLICATION_NOT_PUBLISHED , PUBLICATION_TYPES } from './publication.service';
+import { PublicationService, Publication, PublicationStatus, PUBLICATION_TYPES } from './publication.service';
 import { QddtElement } from '../preview/preview.service';
+import { PropertyStoreService } from '../core/global/property.service';
 const filesaver = require('file-saver');
 
 @Component({
@@ -17,30 +18,26 @@ export class PublicationDetailComponent implements OnInit {
   @Output() hideDetailEvent: EventEmitter<String> = new EventEmitter<String>();
 
   public controlConstructsActions = new EventEmitter<string>();
-  public selectOptions: any[] = PUBLICATION_STATUS;
+  public selectOptions: PublicationStatus[];
   public selectedOptionValue: number;
   public selectedPublicationStatusOption: any;
   public showProgressBar = true;
 
   private revisionIsVisible: boolean;
-  private predefinedStatus: any[];
 
-  constructor(private service: PublicationService) {
+  constructor(private service: PublicationService, private property: PropertyStoreService) {
     this.revisionIsVisible = false;
   }
 
   ngOnInit() {
-    this.predefinedStatus = [PUBLICATION_NOT_PUBLISHED].concat(this.selectOptions[0].children,
-      this.selectOptions[1].children);
     this.selectedOptionValue = 0;
-    this.selectedPublicationStatusOption = PUBLICATION_NOT_PUBLISHED.description;
-    if (this.publicationId !== null && this.publicationId !== undefined) {
-      this.service.getPublication(this.publicationId)
-        .then((result: any) => {
-          this.showProgressBar = true;
+    if (this.publicationId) {
+      this.showProgressBar = true;
+      this.service.getPublication(this.publicationId).then(
+        (result: any) => {
           this.publication = result;
-          const status = this.predefinedStatus.find(e => e.label === this.publication.status);
-          if (status !== undefined) {
+          const status = this.service.getPublicationStatusAsList().find(ps => ps.label === this.publication.status);
+          if (status) {
             this.selectedPublicationStatusOption = status.description;
             this.selectedOptionValue = status.id;
           }

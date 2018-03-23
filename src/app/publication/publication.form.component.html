@@ -26,13 +26,15 @@
                 [materializeSelectOptions]="selectOptions"
                 name="status-value"
                 [ngModel]="selectedOptionValue"
-                (ngModelChange)="onSelectChange($event)">
-          <option [value]="0">Not Published</option>
-          <optgroup *ngFor="let option of selectOptions"
-                    [attr.label]="option.label">
-            <option *ngFor="let child of option.children"
-                    [value]="child.id">{{ child.label }}</option>
-          </optgroup>
+              >
+              <ng-template ngFor let-item [ngForOf]="selectOptions">
+                  <optgroup *ngIf="item.children" label="{{item.label}}">
+                    <option *ngFor="let child of item.children" (click)="onSelectChange(child.id)">
+                      {{child.label}}
+                    </option>
+                  </optgroup>
+                  <option *ngIf="!item.children" (click)="onSelectChange(item.id)">{{item.text}}</option>
+               </ng-template>
         </select>
         <label class="{{textColor}}">Publication status</label>
       </div>

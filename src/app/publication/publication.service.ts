@@ -4,85 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { API_BASE_HREF } from '../api';
 import { ElementKind, QddtElement, QddtElements } from '../preview/preview.service';
 
-export const PUBLICATION_NOT_PUBLISHED = { 'id': 0, 'name': 'NOTPUBLISHED', 'label': 'Not Published', 'children': [],
-  'description': 'Elements and discussion made available for key '
-    + 'members of a questionnaire design sub'
-    + ' group, but not designed to be published internally'};
 
-export const PUBLICATION_STATUS: any = [
-  {
-    'id': 1, 'name': 'INTERNALPUBLICATION', 'label': 'Internal publication',
-    'children': [
-      {
-        'id': 10,
-        'name': 'Designmeeting1', 'label': 'Designmeeting 1',
-        'description': 'Elements shared after first meeting to discuss questionnaire.',
-      },
-      {
-        'id': 11,
-        'name': 'Designmeeting2', 'label': 'Designmeeting 2',
-        'description': 'Elements shared after second meeting to discuss questionnaire.',
-      },
-      {
-        'id': 12,
-        'name': 'Designmeeting3', 'label': 'Designmeeting 3',
-        'description': 'Elements shared  after third meeting to discuss questionnaire.',
-      },
-      {
-        'id': 13,
-        'name': 'EarlytestingSQPTMT', 'label': 'Earlytesting - SQP/TMT',
-        'description': 'Elements agreed for early pre-testing, export to SQP and translation.',
-      },
-      {
-        'id': 14,
-        'name': 'PostEarlyTesting', 'label': 'PostEarlyTesting',
-        'description': 'Elements reviewed on basis of the results from the early testing.',
-      },
-      {
-        'id': 15,
-        'name': 'PilotSQPTMT', 'label': 'Pilot – SQP/TMT',
-        'description': 'Elements agreed for pilot, export to SQP and translation.',
-      },
-      {
-        'id': 16,
-        'name': 'PostPilot', 'label': 'PostPilot',
-        'description': 'Elements reviewed on basis of the results from the pilot.',
-      },
-      {
-        'id': 17,
-        'name': 'FinalSourceSQPTMT', 'label': 'FinalSource – SQP/TMT',
-        'description': 'Elements agreed as going into the final source questionnaire.',
-      },
-      {
-        'id': 18,
-        'name': 'NoMilestone', 'label': 'No Milestone',
-        'description': 'Use for publication of elements between key milestones.',
-      },
-    ]
-  },
-  {
-    'id': 2, 'name': 'EXTERNALPUBLICATION', 'label': 'External publication',
-    'children': [
-      {
-        'id': 20,
-        'name': 'ExportToPublic_History', 'label': 'Export to Public History',
-        'description': 'In addition to the final elements, '
-        + 'the development history will be made available to the public. '
-        + 'The published development history might however be an edited '
-        + 'version of the development process that is stored in the database.'
-      },
-      {
-        'id': 21,
-        'name': 'ExportToPublic', 'label': 'Export to Public',
-        'description': 'Elements agreed as going into the final source questionnaire.'
-      },
-      {
-        'id': 22,
-        'name': 'ExportToQVDB', 'label': 'Export to QVDB',
-        'description': 'Once finalized, elements will be exported to the QVDB to be made publically available'
-      }]
-  }
-];
 
 export const PUBLICATION_TYPES: QddtElement[] = [
   QddtElements[ElementKind.TOPIC_GROUP],
@@ -93,10 +15,11 @@ export const PUBLICATION_TYPES: QddtElement[] = [
 ];
 
 export class PublicationElement {
-  id: string;
-  revisionNumber: number;
+  elementId: string;
   elementKind: ElementKind;
+  elementRevision: number;
   name: string;
+  version: any;
   element: any;
 }
 
@@ -111,12 +34,44 @@ export class Publication {
   }
 }
 
+export class PublicationStatus {
+  id: number;
+  name: string;
+  label: string;
+  description: string;
+  children?: PublicationStatus[];
+
+  public constructor(init?: Partial<PublicationStatus>) {
+    Object.assign(this, init);
+  }
+}
+
+
+
+
 @Injectable()
 export class PublicationService {
+
+  public readonly PUBLICATION_STATUSES: PublicationStatus[] = [];
+  private readonly statusList: PublicationStatus[] = [];
 
   readonly pageSize = '&size=15';
 
   constructor(protected http: HttpClient, @Inject(API_BASE_HREF) protected api: string) {
+    if (this.PUBLICATION_STATUSES.length === 0) {
+      this.getPublicationStatus().then(
+        result => {
+          this.PUBLICATION_STATUSES.push(result);
+          this.PUBLICATION_STATUSES.forEach( s => {
+            this.statusList.push( new PublicationStatus( {id: s.id, label: s.label, name: s.name, description: s.description } ) );
+            if (s.children && s.children.length > 0) {
+              s.children.forEach(s1 =>
+                this.statusList.push( new PublicationStatus( {id: s1.id, label: s1.label, name: s1.name, description: s1.description }) ) );
+            }
+          });
+        },
+        error => {  throw error; });
+    }
   }
 
   getByTopic(topicId: string): Promise<any> {
@@ -125,7 +80,7 @@ export class PublicationService {
   }
 
   getElementRevisions(elementKind: ElementKind, id: string): Promise<any> {
-    const e: any = PUBLICATION_TYPES.find(e => e.id === elementKind);
+    const e: any = PUBLICATION_TYPES.find(qe => qe.id === elementKind);
     if (e !== undefined) {
       if (elementKind === ElementKind.CONCEPT || elementKind === ElementKind.TOPIC_GROUP) {
         return this.http.get(this.api + 'audit/' + e.path + '/' + id + '/allinclatest').toPromise();
@@ -148,9 +103,18 @@ export class PublicationService {
     return this.http.get(this.api + 'publication/' + id).toPromise();
   }
 
-  getPublicationStatus(): Promise<any> {
-    return this.http.get(this.api + 'publicationstatus/list').toPromise();
+  public getPublicationStatusAsList(): PublicationStatus[] {
+    return this.statusList;
   }
+
+  getStatusByName(name: String): PublicationStatus {
+    return this.getPublicationStatusAsList().find(e => e.name === name );
+  }
+
+  getStatusById(id: number): PublicationStatus {
+    return this.getPublicationStatusAsList().find(e => e.id === id );
+  }
+
 
   searchPublications(name: string = '', page: String = '0', sort: String = ''): Promise<any> {
     const queries: any[] = [];
@@ -172,7 +136,7 @@ export class PublicationService {
 
   searchElements(elementKind: ElementKind, name: string): Promise<any> {
     let query = '?';
-    const e: any = PUBLICATION_TYPES.find(e => e.id === elementKind);
+    const e: any = PUBLICATION_TYPES.find(qe => qe.id === elementKind);
     if (e !== undefined) {
       if (name.length > 0) {
         const fields: any[] = e.fields;
@@ -198,12 +162,17 @@ export class PublicationService {
       .toPromise();
   }
 
-  create(publication: Publication): Observable<any> {
-    return this.http.post( this.api + 'publication/create/', publication);
+  create(publication: Publication): Observable<Publication> {
+    return this.http.post<Publication>( this.api + 'publication/create/', publication);
   }
 
-  update(publication: Publication): Observable<any> {
-    return this.http.post(this.api + 'publication/', publication);
+  update(publication: Publication): Observable<Publication> {
+    return this.http.post<Publication>(this.api + 'publication/', publication);
+  }
+
+
+  private getPublicationStatus(): Promise<PublicationStatus> {
+    return this.http.get<PublicationStatus>(this.api + 'publicationstatus/list').toPromise();
   }
 
 }

@@ -32,7 +32,7 @@ export class Instruction {
 }
 
 export class ConditionCommand {
-  type: string;
+  type: ElementKind;
   constructId: string;
   constructName: string;
   command: string;
@@ -152,36 +152,36 @@ export class ControlConstructService  {
   }
 
   createCondition(cc: ConditionConstruct): Observable<ConditionConstruct> {
-    return this.http.post<ConditionConstruct>(this.api + 'controlconstruct/createcondition', cc);
+    return this.http.post<ConditionConstruct>(this.api + 'controlconstruct/condition/create/', cc);
   }
 
   createQuestion(cc: QuestionConstruct): Observable<QuestionConstruct> {
-    return this.http.post<QuestionConstruct>(this.api + 'controlconstruct/createquestion', cc);
+    return this.http.post<QuestionConstruct>(this.api + 'controlconstruct/question/create/', cc);
   }
 
   createSequence(cc: SequenceConstruct): Observable<SequenceConstruct> {
-    return this.http.post<SequenceConstruct>(this.api + 'controlconstruct/createsequence', cc);
+    return this.http.post<SequenceConstruct>(this.api + 'controlconstruct/sequence/create/', cc);
   }
 
   createStatement(cc: StatementConstruct): Observable<StatementConstruct> {
-    return this.http.post<StatementConstruct>(this.api + 'controlconstruct/createstatement', cc);
+    return this.http.post<StatementConstruct>(this.api + 'controlconstruct/statement/create/', cc);
   }
 
   updateCondition(cc: ConditionConstruct): Observable<ConditionConstruct> {
-    const path = 'controlconstruct/updatecondition';
+    const path = 'controlconstruct/condition/';
     return this.http.post<ConditionConstruct>(this.api + path , cc);
   }
 
   updateQuestion(cc: QuestionConstruct): Observable<QuestionConstruct> {
-    const path = 'controlconstruct/updatequestion';
+    const path = 'controlconstruct/question/';
     return this.http.post<QuestionConstruct>(this.api + path , cc);
   }
   updateSequence(cc: SequenceConstruct): Observable<SequenceConstruct> {
-    const path = 'controlconstruct/updatesequence';
+    const path = 'controlconstruct/sequence/';
     return this.http.post<SequenceConstruct>(this.api + path , cc);
   }
   updateStatement(cc: StatementConstruct): Observable<StatementConstruct> {
-    const path = 'controlconstruct/updatestatement';
+    const path = 'controlconstruct/statement/';
     return this.http.post<StatementConstruct>(this.api + path , cc);
   }
 

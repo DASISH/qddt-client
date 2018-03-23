@@ -17,34 +17,34 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
 
   public modalActions = new EventEmitter<MaterializeAction>();
   public responseDomainAction = new EventEmitter<MaterializeAction>();
-  public error: string;
-  public showbutton: any;
-  public questionitems: any;
+  public questionitems:  QuestionItem[];
+
+  public showbuttoN = false;
   public showQuestionItemForm = false;
   public showProgressBar = false;
-  public isDetail: boolean;
+  public isDetail = false;
+  public showResponsedomainReuse = false;
 
   private page: any;
-  private questionItem: any;
-  private selectedQuestionItem: any;
-  private showResponsedomainReuse = false;
-  private columns: Column[];
+  private questionItem: QuestionItem;
+  private selectedQuestionItem: QuestionItem;
+
   private searchKeysSubect: Subject<string> = new Subject<string>();
   private searchKeys: string;
   private secondCS: any;
   private mainresponseDomainRevision: number;
 
+  private readonly columns: Column[]  =[{'name': 'name', 'label': 'Name', 'sortable': true, 'direction': '' },
+  {'name': 'question', 'label': 'Question Text', 'sortable': true, 'direction': '' },
+  {'name': 'responseDomainName', 'label': 'ResponseDomain', 'sortable': true, 'direction': '' },
+  { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' }];
+
+
   constructor(private questionService: QuestionService, private property: PropertyStoreService, private route: ActivatedRoute) {
-    this.questionitems = [];
     this.page = {number: 1, size: 10};
     this.searchKeys = '';
     this.secondCS = null;
     this.mainresponseDomainRevision = 0;
-    this.showbutton = false;
-    this.columns = [{'name': 'name', 'label': 'Name', 'sortable': true, 'direction': '' },
-      {'name': 'question', 'label': 'Question Text', 'sortable': true, 'direction': '' },
-      {'name': 'responseDomainName', 'label': 'ResponseDomain', 'sortable': true, 'direction': '' },
-      { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' }];
     this.searchKeysSubect
       .debounceTime(300)
       .distinctUntilChanged()
@@ -60,9 +60,9 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
   }
 
   ngOnInit() {
-    this.route.paramMap
-      .switchMap((params: ParamMap) =>
-        params.has('id') ? this.questionItem = this.questionService.getquestion(params.get('id')) : null);
+//    this.route.paramMap
+//      .switchMap((params: ParamMap) =>
+//        params.has('id') ? this.questionItem = this.questionService.getquestion(params.get('id')) : null);
 
     const config = this.property.get('questions');
     if (!config) {
