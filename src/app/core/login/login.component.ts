@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit, AfterContentChecked {
       this.model.password = 'password';
     }
     // get return url from route parameters or default to '/'
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    // this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     // Materialize.updateTextFields();
   }
 

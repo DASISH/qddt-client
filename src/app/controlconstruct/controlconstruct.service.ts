@@ -41,15 +41,13 @@ export class ConditionCommand {
 export interface ControlConstruct {
   id: string;
   name: string;
-  description: string;
-  classKind: ElementKind;
+  classKind: string;
 }
 
 export class QuestionConstruct implements ControlConstruct {
   id: string;
   name: string;
-  description: string;
-  classKind: ElementKind.QUESTION_CONSTRUCT;
+  classKind = ElementKind[ElementKind.QUESTION_CONSTRUCT];
   questionItem: QuestionItem;
   questionItemRevision: number;
   otherMaterials: any;
@@ -62,7 +60,7 @@ export class SequenceConstruct implements ControlConstruct {
   id: string;
   name: string;
   description: string;
-  classKind = ElementKind.SEQUENCE_CONSTRUCT;
+  classKind = ElementKind[ElementKind.SEQUENCE_CONSTRUCT];
   sequence: SequenceKind;
   children: any[];
 }
@@ -70,15 +68,15 @@ export class SequenceConstruct implements ControlConstruct {
 export class StatementConstruct implements ControlConstruct {
   id: string;
   name: string;
-  description: string;
-  classKind = ElementKind.STATEMENT_CONSTRUCT;
+  statement: string;
+  classKind = ElementKind[ElementKind.STATEMENT_CONSTRUCT];
 }
 
 export class ConditionConstruct implements ControlConstruct {
   id: string;
   name: string;
-  description: string;
-  classKind = ElementKind.CONDITION_CONSTRUCT;
+  condition: string;
+  classKind = ElementKind[ElementKind.CONDITION_CONSTRUCT];
   ifCondition: ConditionCommand;
   elseConditions: ConditionCommand[];
 }
@@ -153,13 +151,40 @@ export class ControlConstructService  {
     return this.http.get(this.api + 'universe/page/search?' + 'page=' + page + this.pageSize + query).toPromise();
   }
 
-  create(cc: ControlConstruct): Observable<any> {
-    return this.http.post(this.api + 'controlconstruct/create', cc);
+  createCondition(cc: ConditionConstruct): Observable<ConditionConstruct> {
+    return this.http.post<ConditionConstruct>(this.api + 'controlconstruct/createcondition', cc);
   }
 
-  update(cc: ControlConstruct): Observable<any> {
-    return this.http.post(this.api + 'controlconstruct/', cc);
+  createQuestion(cc: QuestionConstruct): Observable<QuestionConstruct> {
+    return this.http.post<QuestionConstruct>(this.api + 'controlconstruct/createquestion', cc);
   }
+
+  createSequence(cc: SequenceConstruct): Observable<SequenceConstruct> {
+    return this.http.post<SequenceConstruct>(this.api + 'controlconstruct/createsequence', cc);
+  }
+
+  createStatement(cc: StatementConstruct): Observable<StatementConstruct> {
+    return this.http.post<StatementConstruct>(this.api + 'controlconstruct/createstatement', cc);
+  }
+
+  updateCondition(cc: ConditionConstruct): Observable<ConditionConstruct> {
+    const path = 'controlconstruct/updatecondition';
+    return this.http.post<ConditionConstruct>(this.api + path , cc);
+  }
+
+  updateQuestion(cc: QuestionConstruct): Observable<QuestionConstruct> {
+    const path = 'controlconstruct/updatequestion';
+    return this.http.post<QuestionConstruct>(this.api + path , cc);
+  }
+  updateSequence(cc: SequenceConstruct): Observable<SequenceConstruct> {
+    const path = 'controlconstruct/updatesequence';
+    return this.http.post<SequenceConstruct>(this.api + path , cc);
+  }
+  updateStatement(cc: StatementConstruct): Observable<StatementConstruct> {
+    const path = 'controlconstruct/updatestatement';
+    return this.http.post<StatementConstruct>(this.api + path , cc);
+  }
+
 
   deleteControlConstruct(id: string): Observable<any> {
     return this.http.delete(this.api + 'controlconstruct/delete/' + id);

@@ -10,7 +10,7 @@ import { ControlConstructService, StatementConstruct } from '../controlconstruct
 })
 export class StatementEditComponent implements OnInit {
   @Output() element: any = new EventEmitter<any>();
-  statement: any;
+  statement: StatementConstruct;
   elementId: string;
 
   constructor(private service: ControlConstructService) {
@@ -22,13 +22,11 @@ export class StatementEditComponent implements OnInit {
   }
 
   onCreate() {
-    this.service.create(this.statement)
-      .subscribe((result: any) => {
-        this.element.emit(result);
-      }, (error) => {
-        throw error;
-      }
-    );
+    this.service.createStatement(this.statement)
+      .subscribe(
+        (result) => { this.element.emit(result); },
+        (error) => { throw error; }
+      );
     return false;
   }
 

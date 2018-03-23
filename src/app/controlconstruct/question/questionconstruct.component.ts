@@ -172,12 +172,12 @@ export class QuestionConstructComponent implements OnInit, AfterContentChecked {
 
   onCreateControlConstruct() {
     this.showControlConstructForm = false;
-    this.service.create(this.controlConstruct)
-      .subscribe((result: any) => {
+    this.service.createQuestion(this.controlConstruct)
+      .subscribe((result) => {
         if (this.files !== null) {
           this.service.uploadFile(result.id, this.files)
             .subscribe((file: any) => {
-              result['otherMaterials'].push(file);
+              result.otherMaterials.push(file);
               this.controlConstructs = [result].concat(this.controlConstructs);
             });
         } else {

@@ -162,7 +162,7 @@ export class QuestionConstructFormComponent implements OnInit, AfterContentCheck
     const elementEvent = this.controlConstructSavedAction;
     source.subscribe(
       function () {
-        service.update(controlConstruct).subscribe((result: any) => {
+        service.updateQuestion(controlConstruct).subscribe((result) => {
           this.controlConstruct = result;
           elementEvent.emit(result);
         }, (error: any) => {

@@ -1,5 +1,5 @@
 import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
-import { ControlConstructService, StatementConstruct } from '../controlconstruct.service';
+import { ControlConstructService, StatementConstruct, SequenceConstruct } from '../controlconstruct.service';
 
 @Component({
   selector: 'qddt-sequence-edit',
@@ -8,7 +8,7 @@ import { ControlConstructService, StatementConstruct } from '../controlconstruct
   styles: [ ]
 })
 export class SequenceEditComponent implements OnInit {
-  @Input() sequence: any;
+  @Input() sequence: SequenceConstruct;
   @Output() element: any = new EventEmitter<any>();
   statement: any;
   elementId: string;
@@ -22,7 +22,7 @@ export class SequenceEditComponent implements OnInit {
   }
 
   onSaveSequence() {
-    this.service.update(this.sequence)
+    this.service.updateSequence(this.sequence)
     .subscribe(
       result => { this.sequence = result; },
       error => { throw error; }

@@ -18,7 +18,7 @@ export class AdminGuard implements CanActivate, CanActivateChild  {
       this.router.navigate(['home']);
     }
     console.info('isTokenExpired');
-    this.router.navigate(['login'], { queryParams: { returnUrl: 'home' }});
+    this.router.navigate(['login']) ; //, { queryParams: { returnUrl: 'home' }});
     return false;
   }
 

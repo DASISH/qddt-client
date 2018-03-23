@@ -16,10 +16,10 @@ export class SequenceConstructComponent implements OnInit {
   public isDetail: boolean;
   public showSequenceForm = false;
   public showAddElement = false;
-  public sequences: any[];
+  public sequences: SequenceConstruct[];
+  public sequence: SequenceConstruct;
 
   private page: any;
-  private sequence: any;
   private searchKeys: string;
   private selectedSequence: any;
   private columns: any[];
@@ -88,6 +88,12 @@ export class SequenceConstructComponent implements OnInit {
     this.searchKeysSubect.next(key);
   }
 
+  onCreateSequence() {
+      this.service.createSequence(this.sequence)
+      .subscribe(
+        result => this.sequences.push(result)
+       , error => { throw error; });
+  }
 
   private getSort() {
     const i = this.columns.findIndex((e: any) => e.sortable && e.direction !== undefined && e.direction !== '');
