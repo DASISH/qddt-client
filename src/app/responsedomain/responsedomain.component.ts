@@ -29,10 +29,10 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
   public isEditFormVisible: boolean;
   public isRevisionVisible: boolean;
   public selectedResponseDomain: ResponseDomain;
+  public domainTypeDescription: any[];
 
   private responseDomain: ResponseDomain;
   private searchKeys: string;
-  private domainTypeDescription: any[];
   private page: any;
   private columns: any[];
   private savedObject: string;
