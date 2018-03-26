@@ -5,6 +5,7 @@ import { API_BASE_HREF } from '../api';
 import { Observable } from 'rxjs/Observable';
 import { QuestionItem } from '../question/question.service';
 import { ElementKind, QddtElement, QddtElements } from '../preview/preview.service';
+import { IEntityAudit } from '../shared/ientityAudit';
 
 export const ElementTypeDescription: QddtElement[] = [
   QddtElements[ElementKind.QUESTION_CONSTRUCT],
@@ -38,13 +39,8 @@ export class ConditionCommand {
   command: string;
 }
 
-export interface ControlConstruct {
-  id: string;
-  name: string;
-  classKind: string;
-}
 
-export class QuestionConstruct implements ControlConstruct {
+export class QuestionConstruct implements IEntityAudit {
   id: string;
   name: string;
   classKind = ElementKind[ElementKind.QUESTION_CONSTRUCT];
@@ -56,7 +52,7 @@ export class QuestionConstruct implements ControlConstruct {
   postInstructions: Instruction[];
 }
 
-export class SequenceConstruct implements ControlConstruct {
+export class SequenceConstruct implements IEntityAudit {
   id: string;
   name: string;
   description: string;
@@ -65,14 +61,14 @@ export class SequenceConstruct implements ControlConstruct {
   children: any[];
 }
 
-export class StatementConstruct implements ControlConstruct {
+export class StatementConstruct implements IEntityAudit {
   id: string;
   name: string;
   statement: string;
   classKind = ElementKind[ElementKind.STATEMENT_CONSTRUCT];
 }
 
-export class ConditionConstruct implements ControlConstruct {
+export class ConditionConstruct implements IEntityAudit {
   id: string;
   name: string;
   condition: string;
@@ -119,6 +115,7 @@ export class ControlConstructService  {
   getFile(id: string): Promise<Blob>  {
     return this.http.get(this.api + 'othermaterial/files/' + id, {responseType: 'blob'}).toPromise();
   }
+
   getPdf(id: string): Promise<Blob>  {
     return this.http.get(this.api + 'controlconstruct/pdf/' + id, { responseType: 'blob'}).toPromise();
   }
@@ -176,10 +173,12 @@ export class ControlConstructService  {
     const path = 'controlconstruct/question/';
     return this.http.post<QuestionConstruct>(this.api + path , cc);
   }
+
   updateSequence(cc: SequenceConstruct): Observable<SequenceConstruct> {
     const path = 'controlconstruct/sequence/';
     return this.http.post<SequenceConstruct>(this.api + path , cc);
   }
+
   updateStatement(cc: StatementConstruct): Observable<StatementConstruct> {
     const path = 'controlconstruct/statement/';
     return this.http.post<StatementConstruct>(this.api + path , cc);
@@ -208,7 +207,6 @@ export class ControlConstructService  {
         }
       });
   }
-
 
   public getElements(ccKind: ElementKind, name: string, page: string = '0', sort: string = ''): Promise<any> {
     let query = '';

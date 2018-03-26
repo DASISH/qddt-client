@@ -2,28 +2,26 @@ import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { PublicationService } from './publication.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
-// import { isUndefined } from 'util';
-import { ElementKind, QddtElement, QddtElements } from '../preview/preview.service';
+import { ElementKind, QddtElement, QddtElements, ElementRevisionRef } from '../preview/preview.service';
+import { IEntityAudit } from '../shared/ientityAudit';
 
 @Component({
   selector: 'qddt-publication-reuse',
   moduleId: module.id,
   templateUrl: './publication.reuse.component.html',
   styles: [
-    `label, [type="radio"] + label {
-      padding-left: 25px;
-    }`,
+    `label, [type="radio"] + label { padding-left: 25px; }`,
     ':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'
   ],
 })
 
 export class PublicationReuseComponent implements OnInit {
   @Input() showbutton: boolean;
-  @Output() publicationElement: any = new EventEmitter<any>();
+  @Output() publicationElement = new EventEmitter<ElementRevisionRef>();
 
   public showAddElement = false;
   public selectedElementKind: ElementKind;
-  public selectedElement: any;
+  public selectedElement: IEntityAudit;
   public elements: any[];
 
   queryFields: QddtElement[] = [
@@ -76,7 +74,7 @@ export class PublicationReuseComponent implements OnInit {
     }
   }
 
-  onUse(element: any) {
+  onPreviewSelected(element: ElementRevisionRef) {
     // console.info('onUse');
     this.publicationElement.emit(element);
     this.showAddElement = false;
@@ -85,12 +83,12 @@ export class PublicationReuseComponent implements OnInit {
   }
 
 
-   private getElementType(kind: ElementKind): QddtElement {
+  private getElementType(kind: ElementKind): QddtElement {
      const element: any = this.queryFields.find(e => e.id === kind);
      if (element === undefined) {
        throw new Error('Couldn\'t find kind ' + ElementKind[kind] + ' ' + kind);
      }
      return element;
-   }
+  }
 
 }

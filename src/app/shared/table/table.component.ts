@@ -44,11 +44,11 @@ export class QddtTableComponent implements OnInit, OnChanges {
   private _rows: any[] = [];
 
   ngOnInit() {
-    if (this.placeholder === null || this.placeholder === undefined) {
+    if (!this.placeholder) {
       this.placeholder = 'Search';
     }
-    if (this.page === null || this.page === undefined) {
-      this.page =  {number: 1, size: 10};
+    if (!this.page) {
+      this.page =  { number: 1, size: 10 };
     }
   }
 
@@ -66,23 +66,23 @@ export class QddtTableComponent implements OnInit, OnChanges {
 
   enterText(event: any) {
     this.value = event.target.value;
-    if (this.searchFromServer) {
+//    if (this.searchFromServer) {
       this.enterEvent.emit(this.value);
-    }
+//    }
   }
 
   onClearKeywords() {
     this.value = '';
-    if (this.searchFromServer) {
+//    if (this.searchFromServer) {
       this.enterEvent.emit(this.value);
-    }
+//    }
   }
 
-  sortRows(column: any) {
+  sortRows(column: Column) {
     if (column.sortable === undefined || !column.sortable) {
       return;
     }
-    this.columns.forEach((e: any) => { if (e !== column) { e.direction = ''; } });
+    this.columns.forEach((e) => { if (e !== column) { e.direction = ''; } });
     if (column.direction === '') {
         column.direction = 'asc';
     } else if (column.direction === 'asc') {
@@ -94,7 +94,7 @@ export class QddtTableComponent implements OnInit, OnChanges {
   }
 
   public getSort() {
-    const i = this.columns.findIndex((e: any) => e.sortable && e.direction !== '');
+    const i = this.columns.findIndex((e) => e.sortable && e.direction !== '');
     let sort = '';
     if (i >= 0) {
       if (typeof this.columns[i].name === 'string') {
@@ -113,24 +113,14 @@ export class QddtTableComponent implements OnInit, OnChanges {
       const date: Date = new Date();
       date.setTime(parseInt(item.modified));
 
-      let version = '';
-      if (item.version !== null && item.version !== undefined) {
-        version = item.version.major + '.' + item.version.minor;
-        // if (item.version.versionLabel ==='In Development')
-        //   version += ' <i class="material-icons white yellow-text tiny" title="Latest changes, not saved as a version">error</i>';
-      }
-      let name = '';
-      if (item.agency !== null && item.agency !== undefined) {
-        name = item.agency.name;
-      }
       const row: any = {
         'id': item.id,
-        'Version': version,
-        'Agency': name,
+        'Version': (item.version) ? item.version.major + '.' + item.version.minor : '',
+        'Agency': (item.agency) ? item.agency.name : '',
         'Modified': date.toDateString(),
         'Object': item,
       };
-      if (this.columns === null || this.columns === undefined) {
+      if (!this.columns) {
         this.columns = [];
       }
       this.columns.forEach((column: any) => {
@@ -151,10 +141,10 @@ export class QddtTableComponent implements OnInit, OnChanges {
         }
       });
       this.rows.push(row);
-      ['Modified', 'Version', 'Agency'].forEach((item: any) => {
-        const column = this.columns.find((column: any) => column.label === item);
-        if (!column) {
-          this.columns.push({ name: item, label: item, sortable: false , direction: ''});
+      ['Modified', 'Version', 'Agency'].forEach((colName) => {
+        const index = this.columns.findIndex((col) => col.label === colName);
+        if (index < 0) {
+          this.columns.push( new Column({ name: colName, label: colName, sortable: false , direction: '' }));
         }
       });
     });

@@ -38,7 +38,7 @@ export class PreviewDialogComponent implements  OnChanges {
 
     this.elementKind = this.getElementKind(this.reference.elementKind);
     if (this.isRevisionRef(this.reference)) {
-      this.service.getRevisionByKind(this.elementKind, this.reference.id, this.reference.revisionNumber)
+      this.service.getRevisionByKind(this.elementKind, this.reference.elementId, this.reference.elementRevision)
         .then(result => {
           this.element = result.entity;
           this.basedonActions.emit({action: 'modal', params: ['open']});
@@ -55,7 +55,7 @@ export class PreviewDialogComponent implements  OnChanges {
   }
 
   private isRevisionRef(element: IRevisionRef|IElementRef): element is IRevisionRef { // magic happens here
-    return (<IRevisionRef>element).id !== undefined;
+    return (<IRevisionRef>element).elementId !== undefined;
   }
 
 }

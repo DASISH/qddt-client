@@ -22,19 +22,13 @@
     </div>
     <div class="row">
       <div class="input-field col s6 m4 l3">
-        <select materialize="material_select"
-                [materializeSelectOptions]="selectOptions"
-                name="status-value"
+        <select materialize="material_select" name="status-value"
+                materializeSelectOptions="selectOptions"
                 [ngModel]="selectedOptionValue"
-              >
-              <ng-template ngFor let-item [ngForOf]="selectOptions">
-                  <optgroup *ngIf="item.children" label="{{item.label}}">
-                    <option *ngFor="let child of item.children" (click)="onSelectChange(child.id)">
-                      {{child.label}}
-                    </option>
-                  </optgroup>
-                  <option *ngIf="!item.children" (click)="onSelectChange(item.id)">{{item.text}}</option>
-               </ng-template>
+                (ngModelChange)="onSelectChange($event)">
+                <optgroup *ngFor="let parent of selectOptions" label="{{parent.label}}">
+                  <option *ngFor="let child of parent.children" [value]="child.id" >{{child.label}}</option>
+              </optgroup>
         </select>
         <label class="{{textColor}}">Publication status</label>
       </div>

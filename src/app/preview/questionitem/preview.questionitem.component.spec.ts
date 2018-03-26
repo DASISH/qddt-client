@@ -1,23 +1,23 @@
 import { Component, Input } from '@angular/core';
+import { BaseRequestOptions, Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { PublicationService } from './publication.service';
-import { PublicationSelectComponent } from './publication.select.component';
-import { API_BASE_HREF } from '../api';
+import { PreviewQuestionitemComponent } from './preview.questionitem.component';
+import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
-import { ElementKind } from '../preview/preview.service';
+import { PublicationService } from '../../publication/publication.service';
 
 export function main() {
-  describe('Publication select component', () => {
+  describe('Publication questionitem preview component', () => {
     //
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [ PublicationSelectComponent, ResponsedomainPreviewComponent,
-        PublicationPreviewComponent ],
+        declarations: [ PreviewQuestionitemComponent, PreviewResponsedomainComponent],
         providers: [
+          BaseRequestOptions,
           { provide: PublicationService, useClass: PublicationServiceSpy },
           {
             provide: API_BASE_HREF,
@@ -33,19 +33,19 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            const fixture = TestBed.createComponent(PublicationSelectComponent);
+            const fixture = TestBed.createComponent(PreviewQuestionitemComponent);
             fixture.detectChanges();
             const de: any = fixture.debugElement.queryAll(By.css('div'));
-            expect(de.length).toBeGreaterThan(1);
+            expect(de.length).toBe(0);
           });
       }));
 
-    it('should work with element',
+    it('should work with questionitem',
       async(() => {
         TestBed
           .compileComponents()
           .then(() => {
-            const fixture = TestBed.createComponent(PublicationSelectComponent);
+            const fixture = TestBed.createComponent(PreviewQuestionitemComponent);
             const element: any = {
                 'id' : '7f000101-54aa-131e-8154-aa27fc230000',
                 'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
@@ -58,12 +58,12 @@ export function main() {
                 'changeKind' : 'CONCEPTUAL',
                 'changeComment' : 'Information added'
             };
-            fixture.componentInstance.element = element;
-            fixture.componentInstance.elementKind = ElementKind.PUBLICATION;
-            fixture.componentInstance.ngOnChanges();
+            fixture.componentInstance.questionItem = element;
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              expect(fixture.componentInstance.elementRevisions.length).toBe(1);
+              const de: any = fixture.debugElement.queryAll(By.css('li'));
+              expect(de.length).toBeGreaterThan(3);
+              expect(de[3].nativeNode.textContent).toContain('test');
             });
           });
       }));
@@ -72,7 +72,7 @@ export function main() {
 
 //override dependencies
 class PublicationServiceSpy {
-  getElementRevisions = jasmine.createSpy('getElementRevisions').and.callFake(function (key) {
+  searchPublications = jasmine.createSpy('searchPublications').and.callFake(function (key) {
     return [];
   });
 }
@@ -82,17 +82,7 @@ class PublicationServiceSpy {
   template: `<div></div>`
 })
 
-class ResponsedomainPreviewComponent {
+class PreviewResponsedomainComponent {
   @Input() isVisible: boolean;
   @Input() responseDomain: any;
-}
-//
-// @Component({
-//   selector: 'qddt-preview-element',
-//   template: `<div></div>`
-// })
-
-class PublicationPreviewComponent {
-  @Input() element: any;
-  @Input() elementType: any;
 }

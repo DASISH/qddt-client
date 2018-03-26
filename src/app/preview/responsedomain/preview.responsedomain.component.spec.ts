@@ -21,7 +21,7 @@ export function main() {
         ],
         imports: [CommonModule, FormsModule, MaterializeModule]
       });
-      //Mock debounceTime
+      // Mock debounceTime
       Observable.prototype.debounceTime = function () { return this; };
     });
 

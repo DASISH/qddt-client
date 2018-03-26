@@ -26,8 +26,8 @@ export class VersionLabelComponent  {
 
   onClick() {
     const  ref: IRevisionRef =  {
-      id: this.element.basedOnObject,
-      revisionNumber: this.element.basedOnRevision,
+      elementId: this.element.basedOnObject,
+      elementRevision: this.element.basedOnRevision,
       elementKind: this.element.classKind };
     this.message.sendMessage( ref );
   }

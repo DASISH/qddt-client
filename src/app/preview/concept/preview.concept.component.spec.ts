@@ -3,11 +3,11 @@ import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { PreviewConceptComponent } from './preview.concept.component';
-import { API_BASE_HREF } from '../api';
+import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
-import { PublicationService } from '../publication/publication.service';
+import { PublicationService } from '../../publication/publication.service';
 
 export function main() {
   describe('Publication concept preview component', () => {

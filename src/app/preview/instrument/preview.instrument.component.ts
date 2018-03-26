@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Instrument } from '../instrument/instrument.service';
+import { Instrument } from '../../instrument/instrument.service';
 
 @Component({
   selector: 'qddt-preview-instrument',

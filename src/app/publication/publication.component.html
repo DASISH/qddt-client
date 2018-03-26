@@ -23,11 +23,12 @@
       <div *ngIf="showProgressBar" class="progress">
         <div class="indeterminate"></div>
       </div>
-      <div *ngIf="!isDetail">
+      <div *ngIf="!isDetail && publications">
         <qddt-table [items]="publications" [page]="page" [columns]="columns"
-          [searchFromServer]="true"
 		      (enterEvent)="searchPublications($event)"
-          (detailEvent)="onDetail($event)" (pageChangeEvent)="onPage($event)"></qddt-table>
+          (detailEvent)="onDetail($event)" 
+          (pageChangeEvent)="onPage($event)">
+        </qddt-table>
       </div>
     </div>
   </div>

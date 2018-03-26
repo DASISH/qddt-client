@@ -1,9 +1,9 @@
 import { Component, OnInit, EventEmitter, AfterContentChecked } from '@angular/core';
-import { PublicationService, Publication, PublicationStatus, PublicationElement } from './publication.service';
+import { PublicationService, Publication, PublicationStatus } from './publication.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 import { Column } from '../shared/table/table.service';
-import { QddtElement, QddtElements } from '../preview/preview.service';
+import { QddtElement, QddtElements, ElementRevisionRef } from '../preview/preview.service';
 import { PropertyStoreService } from '../core/global/property.service';
 
 @Component({
@@ -18,7 +18,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
   public showPublicationForm = false;
   public isDetail = false;
 
-  public selectedElementDetail: PublicationElement;
+  public selectedElementDetail: ElementRevisionRef;
   public selectedElementType: QddtElement;
   public selectedPublicationStatusOption: String;
   public selectedPublication: Publication;
@@ -54,7 +54,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
       });
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     const config = this.property.get('publications');
     this.showProgressBar = true;
     if (config.current === 'detail' ) {
@@ -68,7 +68,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
     }
   }
 
-  ngAfterContentChecked() {
+  public ngAfterContentChecked() {
     const config = this.property.get('publications');
     if (config.current === 'detail' ) {
       this.page = config.page;
@@ -86,7 +86,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
     }
   }
 
-  onTogglePublicationForm() {
+  public onTogglePublicationForm() {
     this.showPublicationForm = !this.showPublicationForm;
     if (this.showPublicationForm) {
       this.publication = new Publication();
@@ -94,7 +94,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
     }
   }
 
-  onDetail(i: any) {
+  public onDetail(i: any) {
     this.selectedPublication = i;
     this.isDetail = true;
     this.property.set('publications',
@@ -105,22 +105,22 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
         'collection': this.publications});
   }
 
-  addElement(e: PublicationElement) {
+  public addElement(e: ElementRevisionRef) {
     this.publication.publicationElements.push(e);
   }
 
-  hideDetail() {
+  public hideDetail() {
     this.isDetail = false;
     this.property.set('publications', {'current': 'list', 'key': this.searchKeys});
   }
 
-  onSelectChange(value: number) {
+  public onSelectChange(value: number) {
     const ps =  this.service.getStatusById(value);
     this.publication.status = ps.label;
     this.selectedPublicationStatusOption = ps.description;
   }
 
-  onPage(page: string) {
+  public onPage(page: string) {
     this.showProgressBar = true;
     this.service.searchPublications(this.searchKeys, page, this.getSort()).then(
       (result: any) => {
@@ -134,7 +134,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
   }
 
 
-  onCreatePublication() {
+  public onCreatePublication() {
     this.showPublicationForm = false;
     this.service.create(this.publication).subscribe(
       (result) => { this.publications.push(result); },
@@ -142,7 +142,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
       this.hideDetail();
     }
 
-  searchPublications(key: string) {
+    public searchPublications(key: string) {
     this.searchKeys = key;
     this.searchKeysSubect.next(key);
   }

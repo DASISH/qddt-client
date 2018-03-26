@@ -8,23 +8,23 @@ export function ElementEnumAware(constructor: Function) {
 }
 
 export interface IRevisionRef {
-  id: any;
-  revisionNumber: number;
+  elementId: any;
+  elementRevision: number;
   elementKind: ElementKind|String;
 }
 
 export interface IElementRef {
-  element: any;
   elementKind: ElementKind|String;
+  element: any;
 }
 
 export class ElementRevisionRef implements IRevisionRef, IElementRef {
-  id: any;
+  elementId: any;
+  elementRevision: number;
+  elementKind: ElementKind | String;
+  element: any;
   name?: string;
   version?: any;
-  element: any;
-  revisionNumber: number;
-  elementKind: ElementKind|String;
 }
 
 export enum ElementKind {
@@ -102,30 +102,42 @@ export class PreviewService {
 
   constructor(protected http: HttpClient,  @Inject(API_BASE_HREF) protected api: string) {  }
 
+  getRevisionByKind(kind: ElementKind, id: string, rev: number): Promise<any>  {
+
+    const qe  = QddtElements.find(e => e.id === kind);
+    return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/' + rev).toPromise();
+
+  }
+
   getRevisionByKindString(kind: string, id: string, rev: string): Promise<any> {
 
-    const et: any = QddtElements.find(e => ElementKind[e.id] === kind);
-    return this.http.get(this.api + 'audit/' + et.path + '/' + id + '/' + rev).toPromise();
+    const qe = QddtElements.find(e => ElementKind[e.id] === kind);
+    return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/' + rev).toPromise();
 
   }
 
   getRevisionByLabel(label: string, id: string, rev: string): Promise<any>  {
 
-    const et: any = QddtElements.find(e => e.label === label);
-    return this.http.get(this.api + 'audit/' + et.path + '/' + id + '/' + rev).toPromise();
-
-  }
-
-  getRevisionByKind(kind: ElementKind, id: string, rev: number): Promise<any>  {
-
-    const et: any = QddtElements.find(e => e.id === kind);
-    return this.http.get(this.api + 'audit/' + et.path + '/' + id + '/' + rev).toPromise();
+    const qe  = QddtElements.find(e => e.label === label);
+    return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/' + rev).toPromise();
 
   }
 
   getFile(id: string): Promise<any> {
     return this.http.get(this.api + 'othermaterial/files/' + id, { responseType: 'blob'})
       .toPromise();
+  }
+
+  getElementRevisions(elementKind: ElementKind, id: string): Promise<any> {
+    const qe = QddtElements.find(e => e.id === elementKind);
+    if (qe) {
+      if (elementKind === ElementKind.CONCEPT || elementKind === ElementKind.TOPIC_GROUP) {
+        return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/allinclatest').toPromise();
+      } else {
+        return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/all').toPromise();
+      }
+    }
+    return new Promise(null);
   }
 
 }

@@ -1,19 +1,22 @@
 import { Component, Input, Output, EventEmitter, OnInit, AfterContentChecked } from '@angular/core';
 import { Publication, PUBLICATION_TYPES, PublicationService, PublicationStatus } from './publication.service';
-import {ElementKind, QddtElement} from '../preview/preview.service';
+import { ElementKind, QddtElement, ElementRevisionRef } from '../preview/preview.service';
 
 declare var Materialize: any;
 
 @Component({
   selector: 'qddt-publication-form',
   moduleId: module.id,
+  styles: [
+    '.collapsible-header {white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }'
+  ],
   templateUrl: './publication.form.component.html',
 })
 
 export class PublicationFormComponent implements OnInit , AfterContentChecked {
   @Input() publication: Publication;
   @Input() textColor: any;
-  @Output() save: EventEmitter<Publication> = new EventEmitter<Publication>();
+  @Output() save = new EventEmitter<Publication>();
 
   selectedOptionValue: number;
   selectedPublicationStatusOption: any;
@@ -43,22 +46,21 @@ export class PublicationFormComponent implements OnInit , AfterContentChecked {
     }
   }
 
-  private addElement(e: any) {
-    this.publication.publicationElements.push(e);
+  private addElement(pe: ElementRevisionRef) {
+    this.publication.publicationElements.push(pe);
   }
 
   private onSelectChange(value: any) {
+
     if (typeof value === 'string') {
       value = parseInt(value);
     }
 
-    const status: any = this.service.getStatusById(value);
+    const status = this.service.getStatusById(value);
     if (status) {
       this.publication.status = status.label;
       this.selectedPublicationStatusOption = status.description;
       this.selectedOptionValue = status.id;
-    } else {
-      console.log('status ' + status);
     }
   }
 
@@ -79,6 +81,5 @@ export class PublicationFormComponent implements OnInit , AfterContentChecked {
     }
     return element.label;
   }
-
 
 }

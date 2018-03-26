@@ -138,10 +138,10 @@
       </div>
       <div *ngIf="!isDetail && controlConstructs">
         <qddt-table [items]="controlConstructs" [page]="page" [columns]="columns"
-          [searchFromServer]="true"
           [placeholder] = "'Search in construct name, question name or question text'"
 		      (enterEvent)="searchControlConstructs($event)"
-          (detailEvent)="onDetail($event)" (pageChangeEvent)="onPage($event)"></qddt-table>
+          (detailEvent)="onDetail($event)" 
+          (pageChangeEvent)="onPage($event)"></qddt-table>
       </div>
     </div>
   </div>
