@@ -59,6 +59,8 @@ export class UserService {
         if (response && response.token) {
           this.setToken(response.token);
           this.setUserData(response);
+        } else {
+          console.log('login incomplete....');
         }
         return response;
       });

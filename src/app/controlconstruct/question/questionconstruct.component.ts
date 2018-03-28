@@ -158,7 +158,7 @@ export class QuestionConstructComponent implements OnInit, AfterContentChecked {
     this.showProgressBar = true;
     const args = this.searchKeys.split(', ');
     console.log('onPage' + args);
-    this.service.searchControlConstructs(args[0], args[1] ? args[1] : '%', page, this.getSort()).then(
+    this.service.searchControlConstructs(args[0], args[1] ? args[1] : '*', page, this.getSort()).then(
       (result: any) => {
         this.page = result.page;
         this.controlConstructs = result.content;

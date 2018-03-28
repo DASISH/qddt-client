@@ -15,10 +15,10 @@ export class AdminGuard implements CanActivate, CanActivateChild  {
       if (this.checkParent(next.url.toString())) {
         return true;
       }
-      this.router.navigate(['home']);
+      this.router.navigate(['/home']);
     }
     console.info('isTokenExpired');
-    this.router.navigate(['login']) ; //, { queryParams: { returnUrl: 'home' }});
+    this.router.navigate(['/login']) ; //, { queryParams: { returnUrl: 'home' }});
     return false;
   }
 

@@ -120,7 +120,7 @@ export class ControlConstructService  {
     return this.http.get(this.api + 'controlconstruct/pdf/' + id, { responseType: 'blob'}).toPromise();
   }
 
-  searchControlConstructs(name: string = '%', questionText: string = '%', page: String = '0', sort: string = ''): Promise<any> {
+  searchControlConstructs(name: string = '*', questionText: string = '*', page: String = '0', sort: string = ''): Promise<any> {
     let query = '&name=' + name + '&questiontext=' + questionText;
     if (sort.length > 0) {
       query += '&sort=' + sort;
