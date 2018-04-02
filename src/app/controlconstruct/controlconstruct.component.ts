@@ -2,6 +2,7 @@ import { AfterContentChecked, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IHeaderDetail } from '../interfaces/headerdetail';
 import { QuestionConstruct } from './controlconstruct.service';
+import { IEntityAudit } from '../interfaces/entityaudit';
 
 // declare var Materialize: any;
 
@@ -16,6 +17,7 @@ export class ControlConstructComponent  implements AfterContentChecked {
 
   public icon: any;
   public headerName: string;
+  public newItem: IEntityAudit;
   public showForm = false;
 
   private readonly childs: Map<string, IHeaderDetail>  = new Map([
@@ -31,8 +33,7 @@ export class ControlConstructComponent  implements AfterContentChecked {
     });
   }
 
-  newQuestionConstruct(): QuestionConstruct {
-    return new QuestionConstruct();
+  newQuestionConstruct() {
   }
 
   ngAfterContentChecked(): void {
@@ -41,5 +42,6 @@ export class ControlConstructComponent  implements AfterContentChecked {
 
   onToggleForm() {
     this.showForm = !this.showForm;
+    this.newItem =  new QuestionConstruct();
   }
 }

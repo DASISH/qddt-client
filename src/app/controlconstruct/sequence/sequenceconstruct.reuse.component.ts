@@ -1,7 +1,7 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { SequenceConstruct, ElementTypeDescription, ControlConstructService } from '../controlconstruct.service';
-import { ElementKind, QddtElement } from '../../interfaces/elements';
+import { SequenceConstruct, ControlConstructService } from '../controlconstruct.service';
+import { ElementKind, QddtElement, QDDT_ELEMENTS } from '../../interfaces/elements';
 
 @Component({
   selector: 'qddt-sequence-reuse',
@@ -18,7 +18,6 @@ export class SequenceReuseComponent implements OnInit {
   @Input() readonly = false;
   @Output() element: any = new EventEmitter<any>();
 
-  public readonly elementTypes = ElementTypeDescription;
   public showButton = false;
   public createConstruct = false;
 
@@ -78,7 +77,7 @@ export class SequenceReuseComponent implements OnInit {
   }
 
   private getQddtElements(id: ElementKind): QddtElement {
-    return this.elementTypes.find(e => e.id === id);
+    return QDDT_ELEMENTS.find(e => e.id === id);
   }
 
 }

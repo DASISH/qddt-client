@@ -75,7 +75,7 @@ export class TopicEditComponent  {
     this.files = null;
   }
 
-  onsave() {
+  onSave() {
     this.isVisible = false;
     const topic = this.topic;
     const files = this.fileStore;

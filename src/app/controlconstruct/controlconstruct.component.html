@@ -13,8 +13,8 @@
           <div class="row card-action">
             <div class="col s10 offset-s1 white black-text">
               <qddt-control-construct-form
-                [controlConstruct] = "newQuestionConstruct()"
-                [isNew] = "true" [readonly] = "false"
+                [controlConstruct] = "newItem"
+                [readonly] = "false"
                 (savedAction) = onFormSaved($event)>
               </qddt-control-construct-form>
             </div>
