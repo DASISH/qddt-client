@@ -17,12 +17,12 @@
     <form (ngSubmit)="onSave()" #missingForm="ngForm">
       <div class="modal-content minHeight">
         <div class="row">
-          <auto-complete
+          <qddt-auto-complete
             [items]="missingGroups" class="black-text"
             [elementtype]="CATEGORY_KIND"
             (enterEvent)="searchMissingCategories($event)"
-            (autocompleteSelectEvent)="setMissing($event)">
-          </auto-complete>
+            (selectEvent)="setMissing($event)">
+          </qddt-auto-complete>
         </div>
         <table *ngIf="getMissing()">
           <thead><tr><td>Code</td><td>Category</td></tr></thead>

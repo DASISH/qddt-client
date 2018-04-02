@@ -1,6 +1,6 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { TopicService, Topic } from './topic.service';
 import { Observable } from 'rxjs/Observable';
+import { HomeService, Topic } from '../home.service';
 
 const filesaver = require('file-saver');
 
@@ -33,7 +33,7 @@ export class TopicEditComponent  {
   private toDeleteFiles: any[];
   private basedonRef: any;
 
-  constructor(private service: TopicService) {
+  constructor(private service: HomeService) {
     this.showUploadFileForm = false;
     this.showUploadedFiles = false;
     this.fileStore = [];
@@ -75,7 +75,7 @@ export class TopicEditComponent  {
     this.files = null;
   }
 
-  onSave() {
+  onsave() {
     this.isVisible = false;
     const topic = this.topic;
     const files = this.fileStore;
@@ -108,7 +108,7 @@ export class TopicEditComponent  {
         throw error;
       },
       function () {
-        service.edit(topic).subscribe((result: any) => {
+        service.updateTopic(topic).subscribe((result: any) => {
           this.topic = result;
           saveAction.emit(result);
         });

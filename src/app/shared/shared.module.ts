@@ -7,7 +7,7 @@ import { AutosizeDirective } from './directive/autosize.directive';
 import { LocalDatePipe } from './date.pipe';
 import { AuthorChipComponent } from './author/author.chip.component';
 import { QddtTableComponent } from './table/table.component';
-import { QddtPaginationComponent } from './pagination/pagination';
+import { QddtPaginationComponent } from './pagination/pagination.component';
 import { AutocompleteComponent } from './autocomplete/autocomplete.component';
 import { ElementFooterComponent } from './footer/elementfooter.component';
 import { RationalComponent } from './rational/rational.component';
@@ -23,20 +23,21 @@ import { CommentListComponent } from './comment/comment.list.component';
 import { CommentCreateComponent } from './comment/comment.create.component';
 import { GravatarDirective } from './directive/gravatar.directive';
 import { HeaderComponent } from './header/header.component';
+import { ItemSearchSelectComponent } from './selector/item-search-select.component';
 
 
 @NgModule({
-  imports: [MaterializeModule, CommonModule, RouterModule, FormsModule, CompareModule ],
+  imports: [ MaterializeModule, CommonModule, RouterModule, FormsModule, CompareModule ],
   declarations: [ LocalDatePipe, QddtTableComponent, QddtPaginationComponent, AutocompleteComponent,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent, CommentCreateComponent,
-    RationalComponent, RevisionComponent, DialogBoxComponent, HeaderComponent,
+    RationalComponent, RevisionComponent, DialogBoxComponent, HeaderComponent, ItemSearchSelectComponent,
     AutosizeDirective, ParentFormConnectDirective, GravatarDirective ],
   exports: [LocalDatePipe, CommonModule, FormsModule, MaterializeModule,
      QddtTableComponent, QddtPaginationComponent, AutocompleteComponent,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent,
-    RationalComponent, RevisionComponent, DialogBoxComponent,
+    RationalComponent, RevisionComponent, DialogBoxComponent, ItemSearchSelectComponent,
     AutosizeDirective, ParentFormConnectDirective, GravatarDirective ]
 })
 

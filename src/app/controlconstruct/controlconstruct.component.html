@@ -1,0 +1,27 @@
+<div class="row">
+    <div class="card white white-text text-lighten-2">
+      <div class="row teal z-depth-1"
+        style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
+        <i class="material-icons large right">{{icon}}</i><h4>{{headerName}}</h4>
+
+        <a class="btn" (click)="onToggleForm()">
+          <i class="material-icons right" *ngIf="!showForm">keyboard_arrow_down</i>
+          <i class="material-icons right" *ngIf="showForm">keyboard_arrow_up</i> New
+        </a>
+
+        <div *ngIf="showForm">
+          <div class="row card-action">
+            <div class="col s10 offset-s1 white black-text">
+              <qddt-control-construct-form
+                [controlConstruct] = "newQuestionConstruct()"
+                [isNew] = "true" [readonly] = "false"
+                (savedAction) = onFormSaved($event)>
+              </qddt-control-construct-form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, OnChanges, EventEmitter, Output } from '@angular/core';
 import { RevisionService } from './revision.service';
 import { QddtMessageService } from '../../core/global/message.service';
-import { IElementRef } from '../../preview/preview.service';
+import { IElementRef } from '../../interfaces/elements';
 
 @Component({
   selector: 'qddt-revision',

@@ -4,15 +4,26 @@ import { Routes, RouterModule } from '@angular/router';
 import { RegisterComponent } from './register/register.component';
 import { ResetpasswordComponent } from './resetpassword/resetpassword.component';
 import { AuthGuard } from './guard/auth-guard.service';
+import { CoreComponent } from './core.component';
+import { LoginComponent } from './login/login.component';
 
 
-const routes: Routes = [
-   { path: 'register', canActivate: [AuthGuard], component: RegisterComponent },
-   { path: 'resetpass', canActivate: [AuthGuard], component: ResetpasswordComponent }
-  ];
+export const CORE_ROUTES: Routes = [
+  {
+    path: '',
+    component: CoreComponent,
+    children: [
+      { path: '', redirectTo: '/login', pathMatch: 'full'},
+      { path: 'login', component: LoginComponent },
+      { path: 'register', canActivate: [AuthGuard], component: RegisterComponent },
+      { path: 'resetpassword', canActivate: [AuthGuard], component: ResetpasswordComponent } ],
+  }
+];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild(CORE_ROUTES) ],
   exports: [RouterModule]
 })
-export class CoreRouting { }
+export class CoreRoutingModule { }
+
+

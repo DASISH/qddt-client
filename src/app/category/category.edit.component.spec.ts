@@ -1,7 +1,5 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { CategoryService } from './category.service';
@@ -19,14 +17,7 @@ export function main() {
         declarations: [RevisionDetailComponent, RationalComponent,
           CategoryEditComponent, AutocompleteComponent],
         providers: [
-          MockBackend,
-          BaseRequestOptions,
           { provide: CategoryService, useClass: CategoryServiceSpy },
-          {
-            provide: Http,
-            useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),
-            deps: [MockBackend, BaseRequestOptions]
-          },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
@@ -69,22 +60,6 @@ export function main() {
             };
             fixture.componentInstance.category = category;
             fixture.componentInstance.categories = [category];
-            const mockBackend = TestBed.get(MockBackend);
-            mockBackend.connections.subscribe((c: any) => {
-              c.mockRespond(new Response(new ResponseOptions({
-                body: '{'
-                + '"id" : "7f000101-54aa-131e-8154-aa27fc230000",'
-                + '"modified" : [ 2016, 9, 8, 15, 21, 26, 254000000 ],'
-                + '"name" : "one category",'
-                + '"label" : "test",'
-                + '"basedOnObject" : null,'
-                + '"basedOnRevision" : null,'
-                + '"version" : {"major" : 6, "minor" : 0, "versionLabel" : "", "revision" : null },'
-                + '"changeKind" : "CONCEPTUAL",'
-                + '"changeComment" : "Information added"'
-                + '}'
-              })));
-            });
             fixture.detectChanges();
             fixture.whenStable().then(() => {
               const textarea: any = fixture.debugElement.queryAll(By.css('textarea'));
@@ -102,7 +77,7 @@ export function main() {
   });
 }
 
-//override dependencies
+// override dependencies
 class CategoryServiceSpy {
   edit = jasmine.createSpy('edit').and.callFake(function (key) {
     return [];
@@ -142,7 +117,7 @@ class RevisionComponent {
 }
 
 @Component({
-  selector: 'auto-complete',
+  selector: 'qddt-auto-complete',
   template: `<div></div>`
 })
 
@@ -153,7 +128,7 @@ class AutocompleteComponent {
   @Input() isMultipleFields: boolean;
   @Input() initialValue: string;
   @Input() searchFromServer: boolean;
-  @Output() autocompleteSelectEvent: EventEmitter<any> = new EventEmitter<any>();
-  @Output() autocompleteFocusEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() selectEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() focusEvent: EventEmitter<any> = new EventEmitter<any>();
   @Output() enterEvent: EventEmitter<any> = new EventEmitter<any>();
 }

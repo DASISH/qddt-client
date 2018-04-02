@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { QddtMessageService } from '../../core/global/message.service';
-import {  IRevisionRef } from '../../preview/preview.service';
+import { IRevisionRef } from '../../interfaces/elements';
+import { IEntityEditAudit } from '../../interfaces/entityaudit';
 
 @Component({
   selector: 'qddt-version-label',
@@ -18,7 +19,7 @@ import {  IRevisionRef } from '../../preview/preview.service';
   providers: []
 })
 export class VersionLabelComponent  {
-  @Input() element: any;
+  @Input() element: IEntityEditAudit;
 
 
   constructor( private message: QddtMessageService) { }

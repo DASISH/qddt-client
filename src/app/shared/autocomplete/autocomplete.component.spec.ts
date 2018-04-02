@@ -42,13 +42,13 @@ export function main() {
 }
 
 @Component({
-  selector: 'test-cmp',
+  selector: 'qddt-test-cmp',
   template: `
-  <auto-complete
+  <qddt-auto-complete
     [items]="items"
     [searchField]="'label'"
     [initialValue]="''">
-  </auto-complete>
+  </qddt-auto-complete>
   `
 })
 class TestComponent {

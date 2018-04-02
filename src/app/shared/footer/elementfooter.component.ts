@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { IRevisionRef } from '../../preview/preview.service';
 import { QddtMessageService } from '../../core/global/message.service';
+import { IRevisionRef } from '../../interfaces/elements';
+import { IEntityEditAudit } from '../../interfaces/entityaudit';
 
 @Component({
   selector: 'qddt-element-footer',
@@ -14,7 +15,7 @@ import { QddtMessageService } from '../../core/global/message.service';
 })
 export class ElementFooterComponent {
 
-  @Input() element: any;
+  @Input() element: IEntityEditAudit;
 
   constructor( private message: QddtMessageService) { }
 
@@ -31,7 +32,7 @@ export class ElementFooterComponent {
     const m = this.element.modified;
     if (!m) { return '?'; }
     const date = new Date();
-    date.setTime(parseInt(m));
+    date.setTime(m);
     return date.toISOString();
   }
 

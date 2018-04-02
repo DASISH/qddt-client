@@ -1,11 +1,13 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { CategoryService, Category } from './category.service';
 import { CategoryType } from './category-kind';
-import {ElementKind, QddtElement, QddtElements} from '../preview/preview.service';
+import { QDDT_ELEMENTS, ElementKind } from '../interfaces/elements';
+
+
 @Component({
   selector: 'qddt-category-edit',
   moduleId: module.id,
-  providers: [CategoryService, CategoryType],
+  providers: [CategoryType],
   template: `
 <div *ngIf="isVisible && category" id="{{category.id}}"  >
   <form (ngSubmit)="onSave()" #hf="ngForm">
@@ -67,13 +69,13 @@ import {ElementKind, QddtElement, QddtElements} from '../preview/preview.service
          <thead><tr><td>Select Responses</td></tr></thead>
          <tbody>
            <tr *ngFor="let cat of category.children; let idx=index">
-             <td><auto-complete
+             <td><qddt-auto-complete
                [items]="categories"
                [elementtype]="CATEGORY_KIND"
-               (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
+               (focusEvent)="selectedCategoryIndex=idx;"
                [initialValue]="cat?.label"
-               (autocompleteSelectEvent)="select($event)">
-             </auto-complete></td>
+               (selectEvent)="select($event)">
+             </qddt-auto-complete></td>
             </tr>
           </tbody>
         </table></div>
@@ -93,7 +95,7 @@ export class CategoryEditComponent implements OnInit {
   @Input() isVisible: boolean;
   @Output() editDetailEvent: EventEmitter<String> = new EventEmitter<String>();
   public isTemplate: boolean;
-  public readonly CATEGORY_KIND: QddtElement = QddtElements[ElementKind.CATEGORY];
+  public readonly CATEGORY_KIND = QDDT_ELEMENTS[ElementKind.CATEGORY];
 
   private categoryEnums: any;
   private selectedCategoryIndex: number;

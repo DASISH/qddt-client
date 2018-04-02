@@ -1,0 +1,48 @@
+<ul class="hoverable"
+  (mouseenter)="showButton = !readonly"
+  (mouseleave)="showButton = false">
+  <li>
+    <div class="row" (click)=onShowItems() style="cursor: zoom-in;">
+      <div class="col s11"><label class="teal-text">{{qddtType.label}}</label></div>
+      <div class="col s1">
+        <a [ngClass]="{hide: !showButton}"
+          class="btn-flat btn-floating btn-small waves-effect waves-light teal">
+          <i class="material-icons" title="Add {{qddtType.label}}">add</i>
+        </a>
+      </div>
+    </div>
+  </li>
+  <li class="collection-item" *ngIf="showAddItem">
+    <div class="row card">
+      <div class="col s10 black-text">
+        <label>Description</label>
+        <div [ngClass]="{ noItemFound: (hasContent()  && searchItems.length === 0) }">
+          <qddt-auto-complete class="black-text"
+            [items]="searchItems"
+            [elementtype]="qddtType"
+            [initialValue]="''"
+            (selectEvent)="onSelectItem($event)"
+            (enterEvent)="onSearchItem($event)">
+          </qddt-auto-complete>
+        </div>
+      </div>
+      <div class="col s2 right">
+        <a class="waves-effect waves-light btn" (click)="onAddItem()">add</a>
+      </div>
+    </div>
+  </li>
+  <li class="collection-item" *ngFor="let element of items; let idx=index">
+    <div class="row"
+        (mouseenter)="element.showbutton = !readonly"
+        (mouseleave)="element.showbutton = false">
+      <div class="col s11">{{ element[searchField] }}</div>
+      <div class="col s1">
+        <a [ngClass]="{hide: !showButton}"
+          class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
+          (click)="onDeleteItem(idx)">
+          <i class="material-icons" title="Remove {{qddtType.label}}">remove</i>
+        </a>
+      </div>
+    </div>
+  </li>
+</ul>

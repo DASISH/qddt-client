@@ -2,8 +2,8 @@ import { Component, Input, Output, EventEmitter, OnInit, AfterViewInit } from '@
 import { Category, CategoryService } from '../category/category.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
-import { ElementKind, QddtElement, QddtElements } from '../preview/preview.service';
 import { ResponseDomain } from './responsedomain.service';
+import { QddtElement, QDDT_ELEMENTS, ElementKind } from '../interfaces/elements';
 
 @Component({
   selector: 'qddt-responsedomain-select-missing',
@@ -25,7 +25,7 @@ export class ResponsedomainSelectMissingComponent implements OnInit {
   @Output() responseDomainSelected = new EventEmitter<any>();
   @Output() responseDomainRemove = new EventEmitter<any>();
 
-  public readonly CATEGORY_KIND: QddtElement = QddtElements[ElementKind.CATEGORY];
+  public readonly CATEGORY_KIND = QDDT_ELEMENTS[ElementKind.CATEGORY];
   public findMissingAction = new EventEmitter<MaterializeAction>();
   public showbutton: any;
   public missingGroups: Category[];
@@ -92,7 +92,7 @@ export class ResponsedomainSelectMissingComponent implements OnInit {
 
   public setMissing(missing: Category) {
     let rd = this.responseDomain;
-    if (this.isMixed()) {                           //remove existing missing
+    if (this.isMixed()) {                           // remove existing missing
       this.deleteChild(rd.managedRepresentation, 'MISSING_GROUP');
     } else {
       rd = this.newMixedResponseDomain();

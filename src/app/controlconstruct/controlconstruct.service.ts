@@ -4,15 +4,15 @@ import { HttpClient } from '@angular/common/http';
 import { API_BASE_HREF } from '../api';
 import { Observable } from 'rxjs/Observable';
 import { QuestionItem } from '../question/question.service';
-import { ElementKind, QddtElement, QddtElements } from '../preview/preview.service';
-import { IEntityAudit } from '../shared/ientityAudit';
+import { QddtElement, QDDT_ELEMENTS, ElementKind } from '../interfaces/elements';
+import { IEntityAudit } from '../interfaces/entityaudit';
 
-export const ElementTypeDescription: QddtElement[] = [
-  QddtElements[ElementKind.QUESTION_CONSTRUCT],
-  QddtElements[ElementKind.STATEMENT_CONSTRUCT],
-  QddtElements[ElementKind.CONDITION_CONSTRUCT],
-  QddtElements[ElementKind.SEQUENCE_CONSTRUCT]
-];
+/* export const ElementTypeDescription: QddtElement[] = [
+  QDDT_ELEMENTS[ElementKind.QUESTION_CONSTRUCT],
+  QDDT_ELEMENTS[ElementKind.STATEMENT_CONSTRUCT],
+  QDDT_ELEMENTS[ElementKind.CONDITION_CONSTRUCT],
+  QDDT_ELEMENTS[ElementKind.SEQUENCE_CONSTRUCT]
+]; */
 
 export enum SequenceKind {
   NA,
@@ -88,8 +88,9 @@ export class ControlConstructService  {
     //
   }
 
-  getControlConstruct(id: string): Promise<any>  {
-    return this.http.get(this.api + 'controlconstruct/' + id).toPromise();
+  getControlConstruct<T>(id: string): Promise<T>  {
+    console.log('getControlConstruct');
+    return this.http.get<T>(this.api + 'controlconstruct/' + id).toPromise();
   }
 
   getControlConstructRevision(id: string, rev: string): Promise<any>  {
@@ -150,6 +151,14 @@ export class ControlConstructService  {
 
   createCondition(cc: ConditionConstruct): Observable<ConditionConstruct> {
     return this.http.post<ConditionConstruct>(this.api + 'controlconstruct/condition/create/', cc);
+  }
+
+  createWithfiles(form: FormData ): Observable<QuestionConstruct> {
+    return this.http.post<QuestionConstruct>(this.api + 'controlconstruct/createfile/', form);
+
+//    return this.http.post("createfile",form)
+//    .map((response: Response) => response.json() as ArticleModel);
+
   }
 
   createQuestion(cc: QuestionConstruct): Observable<QuestionConstruct> {
@@ -224,7 +233,7 @@ export class ControlConstructService  {
   }
 
   public getQddtElementFromStr(kind: string): QddtElement {
-    const element: any = ElementTypeDescription.find(e => ElementKind[e.id] === kind);
+    const element: any = QDDT_ELEMENTS.find(e => ElementKind[e.id] === kind);
     if (!element) {
       throw Error('Couldn\'t find kind ' + kind);
     }

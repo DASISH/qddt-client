@@ -1,7 +1,5 @@
 import { Component, Input,  EventEmitter, Output } from '@angular/core';
-import { BaseRequestOptions, Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { API_BASE_HREF } from '../api';
@@ -21,14 +19,7 @@ export function main() {
           ResponsedomainSelectMissingComponent, AutocompleteComponent,
         ],
         providers: [
-          MockBackend,
-          BaseRequestOptions,
           { provide: QuestionService, useClass: QuestionServiceSpy },
-          {
-            provide: Http,
-            useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),
-            deps: [MockBackend, BaseRequestOptions]
-          },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
@@ -36,7 +27,7 @@ export function main() {
         ],
         imports: [CommonModule, FormsModule, MaterializeModule]
       });
-      //Mock debounceTime
+      // Mock debounceTime
       Observable.prototype.debounceTime = function () { return this; };
     });
 
@@ -70,7 +61,7 @@ export function main() {
   });
 }
 
-//override dependencies
+// override dependencies
 class QuestionServiceSpy {
   getAllTemplatesByCategoryKind = jasmine.createSpy('getAllTemplatesByCategoryKind').and.callFake(function (key) {
     return [];
@@ -78,7 +69,7 @@ class QuestionServiceSpy {
 }
 
 @Component({
-  selector: 'auto-complete',
+  selector: 'qddt-auto-complete',
   template: `<div></div>`
 })
 
@@ -89,7 +80,7 @@ class AutocompleteComponent {
   @Input() isMultipleFields: boolean;
   @Input() initialValue: string;
   @Input() searchFromServer: boolean;
-  @Output() autocompleteSelectEvent: EventEmitter<any> = new EventEmitter<any>();
-  @Output() autocompleteFocusEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() selectEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() focusEvent: EventEmitter<any> = new EventEmitter<any>();
   @Output() enterEvent: EventEmitter<any> = new EventEmitter<any>();
 }

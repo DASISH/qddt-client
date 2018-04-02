@@ -7,7 +7,7 @@ import { TOKEN_NAME } from '../user/user.service';
 export class TokenInterceptor implements HttpInterceptor {
 
   constructor() {
-    console.info('TokenInterceptor');
+    console.log('TokenInterceptor');
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {

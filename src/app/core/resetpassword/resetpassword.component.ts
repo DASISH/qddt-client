@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user/user.service';
 
 @Component({
-  selector: 'app-resetpassword',
+  selector: 'qddt-resetpassword',
   moduleId: module.id,
-  templateUrl: './resetpassword.component.html',
-  styleUrls: ['./resetpassword.component.css']
+  templateUrl: './resetpassword.component.html'
 })
 export class ResetpasswordComponent implements OnInit {
   model: any = {};

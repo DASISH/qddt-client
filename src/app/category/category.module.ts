@@ -4,6 +4,7 @@ import { CategoryComponent } from './category.component';
 import { CategoryDetailComponent } from './category.detail.component';
 import { CategoryEditComponent } from './category.edit.component';
 import { CategorySchemeComponent } from './category.scheme.component';
+import { CategoryService } from './category.service';
 
 
 // import { RevisionModule } from '../../common/revision/revision.module';
@@ -11,10 +12,11 @@ import { CategorySchemeComponent } from './category.scheme.component';
 // import { MenuComponent } from '../menu/menu.component';
 
 @NgModule({
-    imports: [ SharedModule],
+    imports: [ SharedModule ],
     declarations: [ CategoryComponent, CategoryDetailComponent,
-    CategoryEditComponent, CategorySchemeComponent],
-    exports: [ CategoryComponent, CategorySchemeComponent ]
+      CategoryEditComponent, CategorySchemeComponent ],
+    exports: [ CategoryComponent, CategorySchemeComponent ],
+    providers: [ CategoryService ]
 })
 
 export class CategoryModule { }

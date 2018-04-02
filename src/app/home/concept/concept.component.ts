@@ -1,15 +1,14 @@
 import {AfterContentChecked, Component, EventEmitter, OnInit} from '@angular/core';
-import { ConceptService, Concept } from './concept.service';
 import { MaterializeAction } from 'angular2-materialize';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Topic } from '../topic/topic.service';
 import { PropertyStoreService } from '../../core/global/property.service';
-import { ElementKind } from '../../preview/preview.service';
+import { ElementKind } from '../../interfaces/elements';
+import { HomeService, Concept, Topic } from '../home.service';
 
 declare var Materialize: any;
 
 @Component({
-  selector: 'concept',
+  selector: 'qddt-concept',
   moduleId: module.id,
   providers: [],
   templateUrl: './concept.component.html'
@@ -29,7 +28,7 @@ export class ConceptComponent implements OnInit, AfterContentChecked {
   private concept: any;
 
   constructor(private router: Router, private route: ActivatedRoute,
-              private conceptService: ConceptService, private property: PropertyStoreService) {
+              private conceptService: HomeService, private property: PropertyStoreService) {
     this.concept = new Concept();
    }
 
@@ -72,7 +71,7 @@ export class ConceptComponent implements OnInit, AfterContentChecked {
   onNewSave() {
     this.showConceptForm = false;
     this.showProgressBar = true;
-      this.conceptService.save(this.concept, this.topic.id)
+      this.conceptService.createConcept(this.concept, this.topic.id)
       .subscribe((result: any) => {
             this.onConceptUpdated(result);
       });

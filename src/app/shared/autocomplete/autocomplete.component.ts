@@ -1,24 +1,25 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
-import { QddtElement } from '../../preview/preview.service';
+import { QddtElement } from '../../interfaces/elements';
+import { IEntityAudit } from '../../interfaces/entityaudit';
 
 @Component({
-  selector: 'auto-complete',
+  selector: 'qddt-auto-complete',
   moduleId: module.id,
   templateUrl: './autocomplete.component.html',
   styleUrls: ['./autocomplete.component.css'],
 })
 
 export class AutocompleteComponent implements OnInit, OnChanges {
-  @Input() items:  any[];
+  @Input() items:  IEntityAudit[];
   @Input() elementtype: QddtElement;
   /**
    * set initial value
    */
   @Input() initialValue: string;
 
-  @Output() autocompleteSelectEvent: EventEmitter<any> = new EventEmitter<any>();
-  @Output() autocompleteFocusEvent: EventEmitter<any> = new EventEmitter<any>();
-  @Output() enterEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() selectEvent = new EventEmitter<any>();
+  @Output() focusEvent = new EventEmitter<any>();
+  @Output() enterEvent = new EventEmitter<any>();
 
   public candidates: any[];
   public showAutoComplete = false;
@@ -37,26 +38,22 @@ export class AutocompleteComponent implements OnInit, OnChanges {
 
   enterText(event: any) {
     this.value = event.target.value;
-    // if(this.searchFromServer) {
-      this.enterEvent.emit(this.value);
-    // } else {
-    //   this.filterItems(this.value);
-    // }
+    this.enterEvent.emit(this.value);
   }
 
   onFocus() {
     this.showAutoComplete = true;
-    this.autocompleteFocusEvent.emit('focus');
+    this.focusEvent.emit('focus');
     this.filterItems(this.value);
   }
 
-  select(candidate: any) {
+  select(candidate: IEntityAudit) {
     this.showAutoComplete = false;
     this.value = this.getFieldValue(candidate, this.elementtype.fields);
-    this.autocompleteSelectEvent.emit(candidate);
+    this.selectEvent.emit(candidate);
   }
 
-  getLabel(candiate: any) {
+  getLabel(candiate: IEntityAudit) {
     if (this.elementtype.isMultipleFields()) {
       const results: any[] = this.elementtype.fields.map(element => {
         return this.getFieldValue(candiate, element).substring(0, 200).concat('...');
@@ -76,10 +73,7 @@ export class AutocompleteComponent implements OnInit, OnChanges {
     }
   }
 
-  private getFieldValue(object: any, path: any) {
-    // console.log('getFieldValue');
-    // console.log(object);
-    // console.log(path);
+  private getFieldValue(object: IEntityAudit, path: any) {
     if (path instanceof Array) {
       let result: any = object;
       path.forEach((element: any) => {

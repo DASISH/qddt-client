@@ -11,42 +11,7 @@ import { Component, EventEmitter, Input, Output, OnChanges, ChangeDetectionStrat
 @Component({
   selector: 'qddt-pagination',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <div class="center-align">
-      <ul [class]="'pagination' + (size ? ' pagination-' + size : '')">
-        <li *ngIf="boundaryLinks" class="page-item" [class.disabled]="!hasPrevious()" [ngStyle]="{'cursor': 'pointer'}">
-          <a aria-label="First" class="page-link" (click)="selectPage(1)">
-            <span aria-hidden="true">&laquo;&laquo;</span>
-          </a>
-        </li>
-
-        <li *ngIf="directionLinks"class="page-item" [class.disabled]="!hasPrevious()" [ngStyle]="{'cursor': 'pointer'}">
-          <a aria-label="Previous" class="page-link" (click)="selectPage(page-1)">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-
-        <li *ngFor="let pageNumber of pages" class="page-item" [class.active]="pageNumber === page"
-          [ngStyle]="{'cursor': 'pointer'}"
-          [class.disabled]="_isEllipsis(pageNumber)">
-          <a *ngIf="_isEllipsis(pageNumber)" class="page-link">...</a>
-          <a *ngIf="!_isEllipsis(pageNumber)" class="page-link" (click)="selectPage(pageNumber)">{{ pageNumber }}</a>
-        </li>
-
-        <li *ngIf="directionLinks" class="page-item" [class.disabled]="!hasNext()" [ngStyle]="{'cursor': 'pointer'}">
-          <a aria-label="Next" class="page-link" (click)="selectPage(page+1)">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-
-        <li *ngIf="boundaryLinks" class="page-item" [class.disabled]="!hasNext()" [ngStyle]="{'cursor': 'pointer'}">
-          <a aria-label="Last" class="page-link" (click)="selectPage(_pageCount)">
-            <span aria-hidden="true">&raquo;&raquo;</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-`
+  templateUrl: 'pagination.component.html'
 })
 export class QddtPaginationComponent implements OnChanges {
   pages: number[] = [];

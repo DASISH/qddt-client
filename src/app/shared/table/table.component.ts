@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
-import { Column } from './table.service';
+import { Column } from './table.column';
+import { IEntityEditAudit } from '../../interfaces/entityaudit';
 
 @Component({
   selector: 'qddt-table',
@@ -29,19 +30,13 @@ export class QddtTableComponent implements OnInit, OnChanges {
   @Input() items: any[];
   @Input() placeholder: string;
 
-  /**
-   * searchable results from server
-   */
-  @Input() searchFromServer = true;
   @Output() detailEvent: EventEmitter<String> = new EventEmitter<String>();
   @Output() pageChangeEvent: EventEmitter<String> = new EventEmitter<String>();
   @Output() enterEvent: EventEmitter<any> = new EventEmitter<any>();
 
-  public readonly directionSign: { [dir: string]: String; } = {'': '⇳', 'asc': '⇩', 'desc': '⇧' };
-  public value: string;
+  public readonly directionSign: { [dir: string]: String; } = {'': '⇳', 'asc': '▼', 'desc': '▲' };
+  public value: string;   // TODO remove this....
   public rows: any[] = [];
-
-  private _rows: any[] = [];
 
   ngOnInit() {
     if (!this.placeholder) {
@@ -58,6 +53,7 @@ export class QddtTableComponent implements OnInit, OnChanges {
 
   onDetail(item: any) {
     this.detailEvent.emit(item);
+
   }
 
   pageChange(p: number) {
@@ -66,31 +62,12 @@ export class QddtTableComponent implements OnInit, OnChanges {
 
   enterText(event: any) {
     this.value = event.target.value;
-//    if (this.searchFromServer) {
-      this.enterEvent.emit(this.value);
-//    }
+    this.enterEvent.emit(this.value);
   }
 
   onClearKeywords() {
     this.value = '';
-//    if (this.searchFromServer) {
-      this.enterEvent.emit(this.value);
-//    }
-  }
-
-  sortRows(column: Column) {
-    if (column.sortable === undefined || !column.sortable) {
-      return;
-    }
-    this.columns.forEach((e) => { if (e !== column) { e.direction = ''; } });
-    if (column.direction === '') {
-        column.direction = 'asc';
-    } else if (column.direction === 'asc') {
-      column.direction = 'desc';
-    } else {
-      column.direction = '';
-    }
-    this.pageChangeEvent.emit('0');
+    this.enterEvent.emit(this.value);
   }
 
   public getSort() {
@@ -107,11 +84,39 @@ export class QddtTableComponent implements OnInit, OnChanges {
   }
 
 
+  sortRows(column: Column) {
+    if ( !column.sortable ) { return; }
+
+    this.columns.forEach((col) => {
+      col.direction = (col !== column) ? '' : this.nextSort(column.direction);
+    });
+
+    this.pageChangeEvent.emit('0');
+  }
+
+
+  private nextSort(current: string ): string {
+    switch (current ) {
+      case '': return 'asc';
+      case 'asc': return 'desc';
+      default: return '';
+    }
+  }
+
+
   private init() {
     this.rows = [];
-    this.items.forEach((item: any) => {
+    if (!this.columns) { this.columns = []; }
+    ['Modified', 'Version', 'Agency'].forEach((colName) => {
+      const index = this.columns.findIndex((col) => col.label === colName);
+      if (index < 0) {
+        this.columns.push( new Column({ name: colName, label: colName, sortable: false }));
+      }
+    });
+
+    this.items.forEach((item: IEntityEditAudit) => {
       const date: Date = new Date();
-      date.setTime(parseInt(item.modified));
+      date.setTime(item.modified);
 
       const row: any = {
         'id': item.id,
@@ -120,34 +125,19 @@ export class QddtTableComponent implements OnInit, OnChanges {
         'Modified': date.toDateString(),
         'Object': item,
       };
-      if (!this.columns) {
-        this.columns = [];
-      }
-      this.columns.forEach((column: any) => {
+
+      this.columns.forEach((column) => {
         if (row[column.label] === undefined) {
+          let colref = item;
           if (column.name instanceof Array) {
-            let result: any = item;
-            column.name.forEach((element: any) => {
-              if (result !== null && result[element] !== undefined) {
-                result = result[element];
-              } else {
-                result = '';
-              }
-            });
-            row[column.label] = result;
+            column.name.forEach(name => colref = colref[name]);
           } else {
-            row[column.label] = item[column.name];
+            colref = colref[column.name];
           }
+          row[column.label] = colref;
         }
       });
       this.rows.push(row);
-      ['Modified', 'Version', 'Agency'].forEach((colName) => {
-        const index = this.columns.findIndex((col) => col.label === colName);
-        if (index < 0) {
-          this.columns.push( new Column({ name: colName, label: colName, sortable: false , direction: '' }));
-        }
-      });
     });
-    this._rows = this.rows;
   }
 }

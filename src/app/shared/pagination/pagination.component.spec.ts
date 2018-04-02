@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
-import { QddtPaginationComponent } from './pagination';
+import { QddtPaginationComponent } from './pagination.component';
 
 export function main() {
   describe('Pagination Component', () => {

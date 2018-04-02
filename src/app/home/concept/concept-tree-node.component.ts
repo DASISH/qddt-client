@@ -1,8 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { ConceptService, Concept } from './concept.service';
 import { MaterializeAction } from 'angular2-materialize';
 import { QuestionItem } from '../../question/question.service';
-import { ElementKind } from '../../preview/preview.service';
+import { ElementKind } from '../../interfaces/elements';
+import { HomeService, Concept } from '../home.service';
 const filesaver = require('file-saver');
 
 @Component({
@@ -27,7 +27,7 @@ export class TreeNodeComponent  {
   private revision: any;
   private revisionKind = ElementKind.CONCEPT;
 
-  constructor(private conceptService: ConceptService) {
+  constructor(private conceptService: HomeService) {
     this.newchild = new Concept();
   }
 
@@ -58,7 +58,7 @@ export class TreeNodeComponent  {
 
   onChildSave() {
     this.showConceptChildForm = false;
-    this.conceptService.saveChildConcept(this.newchild, this.concept.id)
+    this.conceptService.createChildConcept(this.newchild, this.concept.id)
       .subscribe((result: any) => {
         this.concept.children.push(result);
       });
@@ -70,14 +70,14 @@ export class TreeNodeComponent  {
   }
 
   removeQuestionItem(entityRef: any) {
-    this.conceptService.deattachQuestion(this.concept.id, entityRef.id, entityRef.revisionNumber)
+    this.conceptService.deattachConceptQuestion(this.concept.id, entityRef.id, entityRef.revisionNumber)
       .subscribe((result: any) => {
           this.onConceptSavedEvent(result);
         });
   }
 
   addQuestionItem(questionItem: any) {
-      this.conceptService.attachQuestion(this.concept.id, questionItem.id, questionItem['questionItemRevision'])
+      this.conceptService.attachConceptQuestion(this.concept.id, questionItem.id, questionItem['questionItemRevision'])
         .subscribe((result: any) => {
           this.onConceptSavedEvent(result);
         });
@@ -85,7 +85,7 @@ export class TreeNodeComponent  {
 
   getPdf(concept: Concept) {
     const fileName = concept.name + '.pdf';
-    this.conceptService.getPdf(concept.id).then(
+    this.conceptService.getConceptPdf(concept.id).then(
       (data: any) => {
         filesaver.saveAs(data, fileName);
       });

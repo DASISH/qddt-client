@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
-import { ConceptService, Concept } from './concept.service';
-import 'rxjs/Rx';
+import { Concept, HomeService } from '../home.service';
 
 @Component({
   selector: 'qddt-concept-edit',
@@ -52,7 +51,7 @@ export class ConceptEditComponent implements OnInit {
   public showRevision = false;
   private basedonRef: any;
 
-  constructor(private service: ConceptService) {
+  constructor(private service: HomeService) {
   }
 
   ngOnInit() {

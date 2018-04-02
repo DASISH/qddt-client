@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { API_BASE_HREF } from '../api';
+import { IEntityAudit } from '../interfaces/entityaudit';
 
 export class ResponseCardinality {
    minimum: number;
@@ -22,9 +23,10 @@ export class Code {
   }
 }
 
-export class Category {
+export class Category implements IEntityAudit {
   id: string;
   name: string;
+  classKind: string;
   label: string;
   description: string;
   inputLimit: ResponseCardinality;
@@ -50,20 +52,20 @@ export class CategoryService  {
     // super(http, auth , api);
   }
 
-  save(category: Category): Observable<any> {
-    return this.http.post(this.api + 'category/create/', category);
+  save(category: Category): Observable<Category> {
+    return this.http.post<Category>(this.api + 'category/create/', category);
   }
 
-  edit(category: Category):  Observable<any> {
-    return this.http.post(this.api + 'category/', category);
+  edit(category: Category):  Observable<Category> {
+    return this.http.post<Category>(this.api + 'category/', category);
   }
 
   deleteCategory(categoryId: string): any {
     return this.http.delete(this.api + 'category/delete/' + categoryId);
   }
 
-  get(uuid: string): Promise<any> {
-    return this.http.get(this.api + 'category/' + uuid).toPromise();
+  get(uuid: string): Promise<Category> {
+    return this.http.get<Category>(this.api + 'category/' + uuid).toPromise();
   }
 
   getAll(): any {

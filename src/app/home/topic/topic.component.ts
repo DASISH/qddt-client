@@ -3,10 +3,9 @@ import { ActivatedRoute,  Router } from '@angular/router';
 import { MaterializeAction } from 'angular2-materialize';
 import 'rxjs/add/operator/switchMap';
 import { HIERARCHY_POSITION, PropertyStoreService } from '../../core/global/property.service';
-import { Study } from '../study/study.service';
-import { TopicService, Topic } from './topic.service';
 import { QuestionItem } from '../../question/question.service';
-import { ElementKind } from '../../preview/preview.service';
+import { ElementKind } from '../../interfaces/elements';
+import { HomeService, Topic, Study } from '../home.service';
 
 const filesaver = require('file-saver');
 declare var Materialize: any;
@@ -39,7 +38,7 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
   private revision: any;
 
   constructor(private router: Router, private route: ActivatedRoute,
-              private topicService: TopicService, private property: PropertyStoreService) {
+              private topicService: HomeService, private property: PropertyStoreService) {
     this.newTopic = new Topic();
   }
 
@@ -51,7 +50,7 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
     this.study = this.property.get('study');
     this.topics = this.property.get('topics');
     if (!this.topics) {
-      this.topicService.getAll(this.study.id)
+      this.topicService.getAllTopic(this.study.id)
         .then((result) => {
           this.topics = result;
           this.property.set('topics', this.topics);
@@ -103,7 +102,7 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
 
   onNewSave() {
     this.showTopicForm = false;
-    this.topicService.save(this.newTopic, this.study.id)
+    this.topicService.createTopic(this.newTopic, this.study.id)
       .subscribe((result: any) => this.onTopicSavedEvent(result));
     this.newTopic  = new Topic();
   }
@@ -116,7 +115,7 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
 
   onGetPdf(element: Topic) {
     const fileName = element.name + '.pdf';
-    this.topicService.getPdf(element.id).then(
+    this.topicService.getTopicPdf(element.id).then(
       (data: any) => filesaver.saveAs(data, fileName));
   }
 
@@ -127,12 +126,12 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
 
   onAddQuestionItem(questionItem: any, topicId: any) {
     console.log(questionItem);
-    this.topicService.attachQuestion(topicId, questionItem.id, questionItem['questionItemRevision'])
+    this.topicService.attachTopicQuestion(topicId, questionItem.id, questionItem['questionItemRevision'])
       .subscribe((result: any) => this.onTopicSavedEvent(result));
   }
 
   onRemoveQuestionItem(id: any) {
-    this.topicService.deattachQuestion(id.parentId, id.questionItemId)
+    this.topicService.deattachTopicQuestion(id.parentId, id.questionItemId)
       .subscribe((result: any) => this.onTopicSavedEvent(result));
   }
 

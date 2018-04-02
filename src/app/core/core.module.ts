@@ -8,13 +8,18 @@ import { PropertyStoreService } from './global/property.service';
 import { RegisterComponent } from './register/register.component';
 import { ResetpasswordComponent } from './resetpassword/resetpassword.component';
 import { QddtMessageService } from './global/message.service';
+import { CoreRoutingModule } from './core.routing';
+import { CoreComponent } from './core.component';
 
 
 @NgModule({
-  imports: [FormsModule, SharedModule ],
-  declarations: [LoginComponent, RegisterComponent, ResetpasswordComponent],
-  exports: [LoginComponent ],
-  providers: [PropertyStoreService, AuthGuard, UserService, QddtMessageService]
+  imports: [ FormsModule, SharedModule, CoreRoutingModule ],
+
+  declarations: [ LoginComponent, RegisterComponent, ResetpasswordComponent, CoreComponent ],
+
+  exports: [ CoreComponent ],
+
+  providers: [ PropertyStoreService, AuthGuard, UserService, QddtMessageService ]
 })
 
 export class CoreModule {

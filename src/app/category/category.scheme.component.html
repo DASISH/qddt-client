@@ -40,14 +40,14 @@
                 <thead><tr><td>Selected Responses</td></tr></thead>
                 <tbody>
                   <tr *ngFor="let cat of category.children; let idx=index">
-                  <td><auto-complete
+                  <td><qddt-auto-complete
                     [items]="categories" class="black-text"
                     [elementtype]="CATEGORY_KIND"
                     [initialValue]="cat?.label"
-                    (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
+                    (focusEvent)="selectedCategoryIndex=idx;"
                     (enterEvent)="searchCategories($event)"
-                    (autocompleteSelectEvent)="select($event)">
-                    </auto-complete></td>
+                    (selectEvent)="select($event)">
+                    </qddt-auto-complete></td>
                   </tr>
                 </tbody>
               </table>
@@ -60,7 +60,7 @@
       </div>
     </div>
     <qddt-table *ngIf="!isDetail" [items]="missingCategories" [page]="page" [columns]="columns"
-      [searchFromServer]="true"
+      
       (enterEvent)="searchMissingCategories($event)"
       (detailEvent)="onDetail($event)" (pageChangeEvent)="onPage($event)">
     </qddt-table>
@@ -133,14 +133,14 @@
                 <thead><tr><td>Select Responses</td></tr></thead>
                 <tbody>
                 <tr *ngFor="let cat of selectedCategory.children; let idx=index">
-                  <td><auto-complete
+                  <td><qddt-auto-complete
                     [items]="categories"
                     [elementtype]="CATEGORY_KIND"
                     [initialValue]="cat?.label"
-                    (autocompleteFocusEvent)="selectedCategoryIndex=idx;"
+                    (focusEvent)="selectedCategoryIndex=idx;"
                     (enterEvent)="searchCategories($event)"
-                    (autocompleteSelectEvent)="select($event)">
-                  </auto-complete></td>
+                    (selectEvent)="select($event)">
+                  </qddt-auto-complete></td>
                 </tr>
               </tbody>
               </table>

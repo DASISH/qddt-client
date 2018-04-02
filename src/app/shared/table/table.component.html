@@ -26,13 +26,14 @@
         </tr>
       </tbody>
     </table>
-        <qddt-pagination
-          [collectionSize]="page.totalElements"
-          [page]="page.number"
-          [pageSize]="page.size"
-          [maxSize]="5"
-          [rotate]="true"
-          [boundaryLinks]="true"
-          (pageChange)="pageChange($event)"></qddt-pagination>
+    <qddt-pagination
+      [collectionSize]="page.totalElements"
+      [page]="page.number"
+      [pageSize]="page.size"
+      [maxSize]="5"
+      [rotate]="true"
+      [boundaryLinks]="true"
+      (pageChange)="pageChange($event)">
+    </qddt-pagination>
   </div>
 </div>

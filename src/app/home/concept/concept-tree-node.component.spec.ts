@@ -1,7 +1,5 @@
 import { Component, Input, PipeTransform, Pipe, EventEmitter, Output } from '@angular/core';
-import { BaseRequestOptions,  Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { ConceptService } from './concept.service';
@@ -21,14 +19,7 @@ export function main() {
           AuthorChipComponent, LocalDatePipe,
           ConceptQuestionComponent, CommentListComponent ],
         providers: [
-          MockBackend,
-          BaseRequestOptions,
           { provide: ConceptService, useClass: ConceptServiceSpy },
-          {
-            provide: Http,
-            useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),
-            deps: [MockBackend, BaseRequestOptions]
-          },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
@@ -79,7 +70,7 @@ export function main() {
   });
 }
 
-//override dependencies
+// override dependencies
 class ConceptServiceSpy {
 }
 

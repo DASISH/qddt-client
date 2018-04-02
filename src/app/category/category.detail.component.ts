@@ -5,7 +5,6 @@ import { CategoryService, Category } from './category.service';
   selector: 'qddt-category-detail',
   moduleId: module.id,
   templateUrl: './category.detail.component.html',
-  providers: [CategoryService],
 })
 
 export class CategoryDetailComponent  {

@@ -36,7 +36,7 @@
     </div>
   </div>
   <div *ngIf="!isDetail && categories">
-    <qddt-table [items]="categories" [page]="page" [columns]="columns" [searchFromServer]="true"
+    <qddt-table [items]="categories" [page]="page" [columns]="columns" 
                 (enterEvent)="onTableSearchCategories($event)"
                 (detailEvent)="onTableDetail($event)"
                 (pageChangeEvent)="onTablePage($event)">
