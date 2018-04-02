@@ -34,12 +34,9 @@ export class SequenceReuseComponent implements OnInit {
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
-        this.service.getElements(this.selectedType, name)
-          .then((result: any) => {
-            this.elements = result.content;
-          }, (error: any) => {
-            throw error;
-          });
+        this.service.getElements(this.selectedType, name).then(
+          (result) => { this.elements = result.content; },
+          (error) => { throw error; });
       });
   }
 
@@ -59,7 +56,7 @@ export class SequenceReuseComponent implements OnInit {
     this.service.getRevisions(element.id)
     .then(
       ( result) => this.elementRevisions = result.content,
-      ( error: any) => { throw error; });
+      ( error ) => { throw error; });
   }
 
   onSelectElementRevisions(value: any ) {
@@ -74,10 +71,10 @@ export class SequenceReuseComponent implements OnInit {
 
   searchSequences(key: string) {
     this.service.getElements(this.selectedType, key)
-      .then((result: any) => {
+      .then((result ) => {
         this.elements = result.content;
       },
-      (error: any) => { throw error; });
+      (error ) => { throw error; });
   }
 
   private getQddtElements(id: ElementKind): QddtElement {

@@ -154,12 +154,12 @@ export class QuestionConstructComponent implements OnInit, AfterContentChecked {
     const args = this.searchKeys.split(', ');
     console.log('onPage' + args);
     this.service.searchControlConstructs(args[0], args[1] ? args[1] : '*', page, this.getSort()).then(
-      (result: any) => {
+      (result ) => {
         this.page = result.page;
         this.controlConstructs = result.content;
         this.showProgressBar = false;
       },
-      (error: any) => {
+      (error ) => {
         this.showProgressBar = false;
         throw error;
       });
