@@ -4,17 +4,18 @@ import { API_BASE_HREF } from '../api';
 import { ResponseDomain } from '../responsedomain/responsedomain.service';
 import { Observable } from 'rxjs/Observable';
 import { Category } from '../category/category.service';
-import { IEntityEditAudit, IVersion } from '../interfaces/entityaudit';
+import { IEntityEditAudit, IVersion, IEntityAudit } from '../interfaces/entityaudit';
 
 export class QuestionItem implements IEntityEditAudit {
 
-  basedOnObject: string;
-  basedOnRevision: number;
+  id: string;
+  agency: IEntityAudit;
+  name: string;
   modified: number;
   version: IVersion;
-  id: string;
-  name: string;
   classKind: string;
+  basedOnObject: string;
+  basedOnRevision: number;
   question: string;
   intent: string;
   responseDomain: ResponseDomain;
