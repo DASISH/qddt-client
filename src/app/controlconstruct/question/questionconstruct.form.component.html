@@ -14,39 +14,13 @@
       </div>
     </div>
 
-    <ul class="hoverable"
-        (mouseenter)="showUniverseButton = !readonly"
-        (mouseleave)="showUniverseButton = false">
-      <li>
-        <div class="row" (click)="createUniverse=!createUniverse" style="cursor: zoom-in;">
-          <div class="col s11"><label class="teal-text">Universe</label></div>
-          <div class="col s1">
-            <a [ngClass]="{hide: !showUniverseButton}"
-               class="btn-flat btn-floating btn-small waves-effect waves-light teal">
-              <i class="material-icons" title="Add Universe">add</i>
-            </a>
-          </div>
-        </div>
-      </li>
-      <li class="collection-item" *ngIf="createUniverse">
-        <qddt-universe-create (createUniverseEvent)="onAddUniverse($event)">
-        </qddt-universe-create>
-      </li>
-      <li class="collection-item" *ngFor="let universe of controlConstruct.universe; let idx=index">
-        <div class="row"
-             (mouseenter)="universe.showbutton = !readonly"
-             (mouseleave)="universe.showbutton = false">
-          <div class="col s11">{{ universe?.description }}</div>
-          <div class="col s1">
-            <a [ngClass]="{hide: !showUniverseButton}"
-               class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
-               (click)="onDeleteUniverse(idx)">
-              <i class="material-icons" title="Remove Universe">remove</i>
-            </a>
-          </div>
-        </div>
-      </li>
-    </ul>
+    <qddt-item-search-select
+        [items] = "controlConstruct.universe"
+        [searchItems] = "searchUniverses"
+        [qddtType] = "service.getQddtElementFromStr('UNIVERSE')"
+        (searchEvent) = "onSearchUniverse($event)"
+        (itemCreatedEvent) ="onAddUniverse($event)">
+    </qddt-item-search-select>
 
     <ul class="hoverable"
         (mouseenter)="showbutton = !readonly"
@@ -154,10 +128,12 @@
           </label>
         </div>
         <div class="col s1" [ngClass]="{hide: !showQuestionButton}">
-          <a class="btn-flat btn-floating btn-small waves-effect waves-light teal">
-            <i *ngIf="controlConstruct.questionItem"class="material-icons" title="Select QuestionItem Version">play_for_work</i>
-            <i *ngIf="!controlConstruct.questionItem" class="material-icons" title="Add QuestionItem">add</i>
-          </a>
+
+          <qddt-questionitem-reuse
+            [parentId]="controlConstruct?.id"
+            (questionItemCreatedEvent)="onSelectQuestionItem($event)">
+          </qddt-questionitem-reuse>
+
         </div>
       </div>
       <div class="row">
@@ -172,12 +148,7 @@
           </a>
         </div>
       </div>
-      <qddt-control-construct-questionitem-select
-        *ngIf="editQuestoinItem"
-        (dismissEvent)="editQuestoinItem = false;controlConstruct.questionItem=savedquestionitem;"
-        (useQuestionItemEvent) = "onUseQuestionItem($event)"
-        [controlConstruct]="controlConstruct">
-      </qddt-control-construct-questionitem-select>
+
     </div>
 
     <ul class="hoverable"
@@ -221,11 +192,11 @@
 
     <qddt-conceptref [element]="controlConstruct.questionItem"></qddt-conceptref>
 
-    <div class="row" *ngIf="!readonly">
+    <div class="row" *ngIf="!readonly && controlConstruct.id">
       <qddt-rational [formName]="'RationalComp'" [element]="controlConstruct" [config]="{hidden: [4]}"></qddt-rational>
     </div>
 
-    <div class="row">
+    <div class="row" *ngIf="controlConstruct.id">
       <qddt-element-footer [element]="controlConstruct"></qddt-element-footer>
     </div>
     <div class="row right-align">

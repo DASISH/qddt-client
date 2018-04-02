@@ -1,8 +1,10 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
-import { ElementKind, ElementEnumAware } from '../../preview/preview.service';
+import { ElementEnumAware } from '../../preview/preview.service';
 import { ControlConstructService, SequenceConstruct } from '../controlconstruct.service';
+import { ElementKind } from '../../interfaces/elements';
+import { Column } from '../../shared/table/table.column';
 
 @Component({
   selector: 'qddt-sequence',
@@ -12,32 +14,24 @@ import { ControlConstructService, SequenceConstruct } from '../controlconstruct.
 @ElementEnumAware
 export class SequenceConstructComponent implements OnInit {
 
-  public modalActions = new EventEmitter<string|MaterializeAction>();
-  public isDetail: boolean;
+  public isDetail = false;
   public showSequenceForm = false;
   public showAddElement = false;
   public sequences: SequenceConstruct[];
   public sequence: SequenceConstruct;
 
-  private page: any;
-  private searchKeys: string;
-  private selectedSequence: any;
-  private columns: any[];
-  private elementType: number;
-  private elements: any[];
+  private page = {};
+  private searchKeys = '';
+  private selectedSequence: SequenceConstruct;
   private searchKeysSubect: Subject<string> = new Subject<string>();
   private readonly SEQUENCECONSTRUCT = ElementKind.SEQUENCE_CONSTRUCT;
+  private readonly columns = [
+    new Column({ label: 'Name', name: 'name', sortable: true }),
+    new Column({ label: 'Description', name: 'description', sortable: true }),
+    new Column({ label: 'Modified', name: 'modified', sortable: true, direction: 'desc' })
+  ];
 
   constructor(private service: ControlConstructService) {
-    this.isDetail = false;
-    this.sequences = [];
-    this.searchKeys = '';
-    this.page = {};
-    this.elementType = 0;
-    this.elements = [];
-    this.columns = [{ 'label': 'Name', 'name': 'name', 'sortable': true },
-    { 'label': 'Description', 'name': 'description', 'sortable': true },
-    { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' }];
     this.searchKeysSubect
       .debounceTime(300)
       .distinctUntilChanged()
@@ -91,8 +85,8 @@ export class SequenceConstructComponent implements OnInit {
   onCreateSequence() {
       this.service.createSequence(this.sequence)
       .subscribe(
-        result => this.sequences.push(result)
-       , error => { throw error; });
+        (result) => this.sequences.push(result),
+        (error) => { throw error; });
   }
 
   private getSort() {

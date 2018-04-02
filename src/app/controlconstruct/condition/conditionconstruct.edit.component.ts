@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { ElementKind } from '../../preview/preview.service';
+import { ElementKind } from '../../interfaces/elements';
 import { ConditionConstruct, ConditionCommand, ControlConstructService } from '../controlconstruct.service';
 
 @Component({

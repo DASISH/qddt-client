@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { PublicationService, Publication, PublicationStatus, PUBLICATION_TYPES } from './publication.service';
-import { QddtElement } from '../preview/preview.service';
 import { PropertyStoreService } from '../core/global/property.service';
+import { QddtElement } from '../interfaces/elements';
 const filesaver = require('file-saver');
 
 @Component({

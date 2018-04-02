@@ -2,7 +2,7 @@ import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { QuestionService, QuestionItem } from './question.service';
 import { Subject } from 'rxjs/Subject';
 import { ResponseDomain } from '../responsedomain/responsedomain.service';
-import { ElementKind, QddtElement, QddtElements } from '../preview/preview.service';
+import { QddtElement, QDDT_ELEMENTS, ElementKind } from '../interfaces/elements';
 
 @Component({
   selector: 'qddt-questionitem-reuse',
@@ -27,7 +27,7 @@ export class QuestionReuseComponent {
   // private questionItemKind: ElementKind = ElementKind.QUESTION_CONSTRUCT;
   private mainresponseDomainRevision: number;
   private searchKeysSubect: Subject<string> = new Subject<string>();
-  private readonly QUESTION_KIND: QddtElement = QddtElements[ElementKind.QUESTION_ITEM];
+  private readonly QUESTION_KIND: QddtElement = QDDT_ELEMENTS[ElementKind.QUESTION_ITEM];
 
 
   constructor(private questionService: QuestionService) {
@@ -66,8 +66,8 @@ export class QuestionReuseComponent {
 
   onUseElement() {
 
-    if (this.reuseQuestionItem) {
-      if (this.isNull(this.questionItem )) {
+    if (this.reuseQuestionItem ) {
+      if (!this.questionItem ) {
         this.questionItem = this.selectedElement;
       }
 
@@ -122,7 +122,5 @@ export class QuestionReuseComponent {
 
     return config;
   }
-  private isNull(object: any) {
-    return object === undefined || object === null;
-  }
+
 }

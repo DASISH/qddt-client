@@ -2,6 +2,8 @@ import { Component, Input, Output, OnInit, EventEmitter, AfterContentChecked } f
 import { ControlConstructService, QuestionConstruct } from '../controlconstruct.service';
 import { Observable } from 'rxjs/Observable';
 import { MaterializeAction } from 'angular2-materialize';
+import { QuestionItem } from '../../question/question.service';
+import { IEntityAudit } from '../../interfaces/entityaudit';
 const filesaver = require('file-saver');
 declare var Materialize: any;
 
@@ -19,14 +21,15 @@ export class QuestionConstructFormComponent implements OnInit, AfterContentCheck
   @Input() controlConstruct: QuestionConstruct;
   @Input() isNew: boolean;
   @Input() readonly: boolean;
-  @Output() controlConstructSavedAction = new EventEmitter<any>();
-  @Output() exceptionEvent = new EventEmitter<String>();
+  @Output() savedAction = new EventEmitter<QuestionConstruct>();
 
   public savedquestionitem: any;
+  public questionItems: QuestionItem[];
+
   public createPostInstruction: boolean;
   public createPreInstruction: boolean;
-  public createUniverse: boolean;
 
+  public createUniverse: boolean;
   private editQuestoinItem: boolean;
   private revisionIsVisible: boolean;
 
@@ -40,6 +43,7 @@ export class QuestionConstructFormComponent implements OnInit, AfterContentCheck
   private files: FileList;
   private fileStore: any[];
   private toDeleteFiles: any[];
+  private searchUniverses: IEntityAudit[];
 
   constructor(private service: ControlConstructService) {
     this.revisionIsVisible = false;
@@ -48,36 +52,44 @@ export class QuestionConstructFormComponent implements OnInit, AfterContentCheck
     this.editQuestoinItem = false;
     this.showUploadFileForm = false;
     this.showUploadedFiles = false;
-    this.fileStore = [];
-    this.toDeleteFiles = [];
     this.showPreinstructionButton = false;
     this.showPostinstructionButton = false;
     this.showQuestionButton = false;
+
+    this.fileStore = [];
+    this.toDeleteFiles = [];
   }
 
   ngOnInit() {
     if (this.isNew) {
-      this.controlConstruct.id = new Date().toString();
+      this.controlConstruct.id = new Date().valueOf.toString();
     }
     if (!this.readonly) {
       this.readonly = false;
     }
+    this.service.getQuestionItems('').then(
+      (results) => this.questionItems = results
+    );
   }
 
   ngAfterContentChecked() {
     Materialize.updateTextFields();
   }
 
-
   onDeleteUniverse(id: number) {
     this.controlConstruct.universe.splice(id, 1);
   }
 
-  onAddUniverse(instruction: any) {
-    this.controlConstruct.universe.push(instruction);
-    this.createUniverse = false;
+  onAddUniverse(item: any) {
+    this.controlConstruct.universe.push(item);
+    // this.createUniverse = false;
   }
 
+  onSearchUniverse(key: string) {
+    this.service.searchUniverses(key).then((result: any) => {
+        this.searchUniverses = result.content;
+      });
+  }
 
   onDeletePreInstruction(id: number) {
     this.controlConstruct.preInstructions.splice(id, 1);
@@ -97,7 +109,16 @@ export class QuestionConstructFormComponent implements OnInit, AfterContentCheck
     this.createPostInstruction = false;
   }
 
-  onUseQuestionItem() {
+
+  onSearchQuestionItems(key: string) {
+    this.service.searchQuestionItemsByNameAndQuestion(key).then((result: any) => {
+      this.questionItems = result.content;
+    });
+  }
+
+  onSelectQuestionItem(element: QuestionItem) {
+    this.controlConstruct.questionItem = element;
+    this.controlConstruct.questionItemRevision = element['questionItemRevision'];
     this.editQuestoinItem = false;
   }
 
@@ -140,6 +161,20 @@ export class QuestionConstructFormComponent implements OnInit, AfterContentCheck
     this.files = null;
   }
 
+  OnSave() {
+/*     this.fileStore.forEach(
+      (file) => formData.append(file)
+    )
+
+    const formData: FormData = new FormData();
+    if (picture !== null || picture !== undefined) {
+      formData.append('files', picture, picture.name);
+    }
+    formData.append('article', JSON.stringify(article)); */
+
+  }
+
+
   onSaveControlConstruct() {
     const controlConstruct = this.controlConstruct;
     const files = this.fileStore;
@@ -159,13 +194,14 @@ export class QuestionConstructFormComponent implements OnInit, AfterContentCheck
         });
     }
     const service = this.service;
-    const elementEvent = this.controlConstructSavedAction;
+    const elementEvent = this.savedAction;
     source.subscribe(
       function () {
-        service.updateQuestion(controlConstruct).subscribe((result) => {
-          this.controlConstruct = result;
-          elementEvent.emit(result);
-        }, (error: any) => {
+        service.updateQuestion(controlConstruct).subscribe(
+          (result) => {
+            this.controlConstruct = result;
+            elementEvent.emit(result); },
+          (error: any) => {
           throw error;
         });
       },

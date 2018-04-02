@@ -44,7 +44,6 @@
       </div>
       <div *ngIf="!isDetail && instruments.length > 0">
         <qddt-table [items]="instruments" [page]="page" [columns]="columns"
-          [searchFromServer]="false"
 		      (enterEvent)="searchInstruments($event)"
           (detailEvent)="onDetail($event)" (pageChangeEvent)="onPage($event)"></qddt-table>
       </div>

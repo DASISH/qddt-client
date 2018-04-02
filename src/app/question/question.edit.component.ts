@@ -14,17 +14,13 @@ import { ResponseDomain } from '../responsedomain/responsedomain.service';
 
 export class QuestionItemEditComponent implements OnInit {
   @Input() questionitem: QuestionItem;
-  @Input() isVisible: boolean;
   @Input() readonly: boolean;
-  @Output() editQuestionItem: EventEmitter<any>;
+  @Output() editQuestionItem = new EventEmitter<QuestionItem>();
 
-  showbutton: any;
-  private basedonRef: any;
+  private showbutton = false;
+//  private basedonRef: any;
 
-  constructor(private service: QuestionService) {
-    this.editQuestionItem = new EventEmitter<any>();
-    this.showbutton = false;
-  }
+  constructor(private service: QuestionService) { }
 
   ngOnInit() {
     if (!this.readonly) {
@@ -46,19 +42,18 @@ export class QuestionItemEditComponent implements OnInit {
         });
     } else {
       this.service.updateQuestionItem(this.questionitem)
-        .subscribe((result: any) => {
+        .subscribe((result) => {
           this.questionitem = result;
           this.editQuestionItem.emit(this.questionitem);
         });
     }
-    this.isVisible = false;
   }
 
-  onBasedonObjectDetail(ref: any) {
+/*   onBasedonObjectDetail(ref: any) {
    this.basedonRef = ref;
-  }
+  } */
 
-  onResponseDomainSelected(item: any) {
+  onResponseDomainSelected(item: QuestionItem) {
     if (item.responseDomain.responseKind === 'MIXED') {
       this.service.createResponseDomain(item.responseDomain).subscribe(result => {
         this.questionitem.responseDomain = result;

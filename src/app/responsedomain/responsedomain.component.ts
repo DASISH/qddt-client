@@ -5,8 +5,8 @@ import { ResponseDomainService } from './responsedomain.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 import { PropertyStoreService } from '../core/global/property.service';
-import { ElementKind } from '../preview/preview.service';
 import { Category } from '../category/category.service';
+import { ElementKind } from '../interfaces/elements';
 
 // declare var Materialize: any;
 

@@ -1,4 +1,4 @@
-<div *ngIf="questionitem && isVisible"  class="white grey-text text-darken-1">
+<div *ngIf="questionitem"  class="white grey-text text-darken-1">
   <qddt-preview-responsedomain
     *ngIf="questionitem?.responseDomain"
     [responseDomain]="questionitem.responseDomain">
@@ -75,7 +75,6 @@
       </button>
     </div>
   </form>
-
 </div>
 
 

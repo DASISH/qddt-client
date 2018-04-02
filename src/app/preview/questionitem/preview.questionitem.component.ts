@@ -5,11 +5,7 @@ import { QuestionItem } from '../../question/question.service';
   selector: 'qddt-preview-questionitem',
   moduleId: module.id,
   styles: [
-    `:host /deep/ .row {
-       margin-left: auto;
-       margin-right: auto;
-       margin-bottom: 2px;
-    }`
+    `:host /deep/ .row { margin-left: auto; margin-right: auto; margin-bottom: 2px; }`
   ],
   template: `
 <div class="row" >

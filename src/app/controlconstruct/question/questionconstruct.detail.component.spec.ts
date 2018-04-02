@@ -1,15 +1,13 @@
 import { Component, Input, PipeTransform, Pipe, EventEmitter, Output } from '@angular/core';
-import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
-import { ControlConstructService } from './controlconstruct.service';
-import { ControlConstructDetailComponent } from './controlconstruct.detail.component';
-import { API_BASE_HREF } from '../api';
+import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
+import { QuestionConstructDetailComponent } from './questionconstruct.detail.component';
+import { ControlConstructService } from '../controlconstruct.service';
 
 export function main() {
   describe('Controlconstruct detail component', () => {
@@ -17,20 +15,13 @@ export function main() {
     beforeEach(() => {
       TestBed.configureTestingModule({
         declarations: [RevisionComponent,
-          ControlConstructDetailComponent, ControlConstructQuestionItemSelectComponent,
+          QuestionConstructDetailComponent, ControlConstructQuestionItemSelectComponent,
           CommentListComponent, AuthorChipComponent, InstructionComponent,
           AutocompleteComponent, TableComponent, QuestionitemDetailComponent,
           ResponsedomainPreviewComponent, RevisionDetailComponent, RationalComponent,
           ControlConstructFormComponent],
         providers: [
-          MockBackend,
-          BaseRequestOptions,
           { provide: ControlConstructService, useClass: ControlConstructServiceSpy },
-          {
-            provide: Http,
-            useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),
-            deps: [MockBackend, BaseRequestOptions]
-          },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
@@ -45,7 +36,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            const fixture = TestBed.createComponent(ControlConstructDetailComponent);
+            const fixture = TestBed.createComponent(QuestionConstructDetailComponent);
             fixture.detectChanges();
             const de: any = fixture.debugElement.queryAll(By.css('form'));
             expect(de.length).toBe(0);
@@ -57,7 +48,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            const fixture = TestBed.createComponent(ControlConstructDetailComponent);
+            const fixture = TestBed.createComponent(QuestionConstructDetailComponent);
             const controlConstruct: any = {
               'id' : '7f000101-54aa-131e-8154-aa27fc230000',
               'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
@@ -79,7 +70,7 @@ export function main() {
   });
 }
 
-//override dependencies
+// override dependencies
 class ControlConstructServiceSpy {
   getControlConstruct = jasmine.createSpy('getControlConstruct').and.callFake(function (key) {
     return [];
@@ -110,7 +101,7 @@ class CommentListComponent {
 }
 
 @Component({
-  selector: 'autocomplete',
+  selector: 'qddt-auto-complete',
   template: `<div></div>`
 })
 
@@ -121,8 +112,8 @@ export class AutocompleteComponent {
   @Input() isMultipleFields: boolean;
   @Input() initialValue: string;
   @Input() searchFromServer: boolean;
-  @Output() autocompleteSelectEvent: EventEmitter<any> = new EventEmitter<any>();
-  @Output() autocompleteFocusEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() selectEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() focusEvent: EventEmitter<any> = new EventEmitter<any>();
   @Output() enterEvent: EventEmitter<any> = new EventEmitter<any>();
 }
 

@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, AfterContentChecked } from '@angular/core';
 import { Publication, PUBLICATION_TYPES, PublicationService, PublicationStatus } from './publication.service';
-import { ElementKind, QddtElement, ElementRevisionRef } from '../preview/preview.service';
+import { ElementRevisionRef, QddtElement, ElementKind } from '../interfaces/elements';
 
 declare var Materialize: any;
 

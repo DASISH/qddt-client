@@ -10,20 +10,18 @@
 	  </div>
     <div class="row" >
 		  <div class="left" *ngFor="let element of queryFields;">
-			  <input name="elementtypegroup"
-        type="radio"
-        id="element-type-{{element.id}}"
+			  <input name="elementtypegroup" type="radio" id="element-type-{{element.id}}"
         (click)="onSelectElementKind(element.id)"
         [checked]="selectedElementKind === element.id"/>
         <label [attr.for]="'element-type-' + element.id">{{ element.label }}</label>
 		  </div>
     </div>
     <div class="row">
-        <auto-complete [items]="elements" class="black-text"
+        <qddt-auto-complete [items]="elements" class="black-text"
           [elementtype]="getElementType(selectedElementKind)"
-          (autocompleteSelectEvent)="onSelectElement($event)"
+          (selectEvent)="onSelectElement($event)"
 		      (enterEvent)="onSearchElements($event)">
-		    </auto-complete>
+		    </qddt-auto-complete>
       </div>
   </div>
   <div *ngIf="selectedElement" class="row">

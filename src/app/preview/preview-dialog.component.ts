@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges } from '@angular/core';
-import { ElementKind, PreviewService, QddtElement, QddtElements, IRevisionRef, IElementRef } from './preview.service';
+import {  PreviewService } from './preview.service';
 import { MaterializeAction } from 'angular2-materialize';
+import { IRevisionRef, IElementRef, ElementKind } from '../interfaces/elements';
 
 @Component({
   selector: 'qddt-preview-dialog',
@@ -12,7 +13,7 @@ import { MaterializeAction } from 'angular2-materialize';
         <h4>Object details</h4>
         <div class="row" *ngIf="element">
           <h5 class="row grey-text">{{element?.name}}</h5>
-          <qddt-preview-element class="grey-text" [element]="element" [elementKind]="elementKind"> </qddt-preview-element>
+          <qddt-preview-element class="grey-text" [element]="element"> </qddt-preview-element>
         </div>
       </div>
       <div class="modal-footer">

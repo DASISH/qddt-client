@@ -24,12 +24,12 @@
       </textarea>
       </div>
       <div class="input-field col s6">
-        <auto-complete
+        <qddt-auto-complete
           [items]="elements"
           [elementtype]="service.getQddtElementFromStr('CONDITION_CONSTRUCT')"
-          (autocompleteSelectEvent)="onSelectElement($event)"
+          (selectEvent)="onSelectElement($event)"
                   (enterEvent)="onSearchElements($event)">
-              </auto-complete>
+              </qddt-auto-complete>
       </div>
     </div>
     <div class="row card" *ngFor="let condition of elseConditions; let idx=index;">
@@ -42,12 +42,12 @@
       </textarea>
       </div>
       <div class="input-field col s6">
-        <auto-complete
+        <qddt-auto-complete
           [items]="elements"
           [elementtype]="service.getQddtElementFromStr('CONDITION_CONSTRUCT')"
-          (autocompleteSelectEvent)="onSelectElseElement($event, idx)"
+          (selectEvent)="onSelectElseElement($event, idx)"
                   (enterEvent)="onSearchElements($event)">
-              </auto-complete>
+              </qddt-auto-complete>
       </div>
     </div>
     <button

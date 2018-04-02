@@ -32,28 +32,28 @@
           <img src="/assets/images/qddt-text.png" style="height:100%; left: 90%; ">
         </div>
         <div *ngIf="loggedIn">
-          <li><a class="teal-text" [routerLink]="['home']" >
+          <li><a class="teal-text" [routerLink]="['/home']" >
             <i class="medium material-icons teal-text left ">store</i>Home</a>
           </li>
-          <li><a class="teal-text" [routerLink]="['questions']">
+          <li><a class="teal-text" [routerLink]="['/questions']">
             <i class="material-icons teal-text left medium">help</i>Questions</a>
           </li>
-          <li><a class="teal-text" [routerLink]="['categories']" >
+          <li><a class="teal-text" [routerLink]="['/categories']" >
             <i class="material-icons teal-text left medium">view_comfy</i>Categories</a>
           </li>
-          <li><a class="teal-text" [routerLink]="['schemes']" >
+          <li><a class="teal-text" [routerLink]="['/schemes']" >
             <i class="material-icons teal-text left medium">view_module</i>Missings</a>
           </li>
-          <li><a class="teal-text" [routerLink]="['responsedomains']" >
+          <li><a class="teal-text" [routerLink]="['/responsedomains']" >
             <i class="material-icons teal-text left medium">blur_linear</i>Domains</a>
           </li>
-          <li><a class="teal-text" [routerLink]="['constructs']" >
+          <li><a class="teal-text" [routerLink]="['/constructs/questions']" >
             <i class="material-icons teal-text left medium">view_agenda</i>Constructs</a>
           </li>
-          <li><a class="teal-text" [routerLink]="['sequences']" >
+          <li><a class="teal-text" [routerLink]="['/constructs/sequences']" >
             <i class="material-icons teal-text left medium">format_line_spacing</i>Sequences</a>
           </li>
-          <li><a class="teal-text" [routerLink]="['publications']" >
+          <li><a class="teal-text" [routerLink]="['/publications']" >
             <i class="material-icons teal-text left medium">folder_special</i>Publications</a>
           </li>
         </div>
@@ -80,10 +80,10 @@
     <li><a [routerLink]="['responsedomains']"  title="Domains">
       <i class="medium material-icons teal-text">blur_linear</i></a>
     </li>
-    <li><a [routerLink]="['constructs']" title="Constructs">
+    <li><a [routerLink]="['/constructs/questions']" title="Constructs">
       <i class="medium material-icons teal-text">view_agenda</i></a>
     </li>
-    <li><a [routerLink]="['sequences']"  title="Sequences">
+    <li><a [routerLink]="['/constructs/sequences']"  title="Sequences">
       <i class="medium material-icons teal-text" >format_line_spacing</i></a>
     </li>
     <li><a [routerLink]="['publications']"  title="Publications">

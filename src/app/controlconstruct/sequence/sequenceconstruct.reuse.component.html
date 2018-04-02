@@ -24,12 +24,12 @@
           <label [attr.for]="'element-type-' + element.id">{{ element.label }}</label>
         </div>
       </div>
-      <auto-complete
+      <qddt-auto-complete
         [items]="elements" class="black-text"
         [elementtype]="getQddtElements(selectedType)"
         (enterEvent)="onSearchElements($event)"
-        (autocompleteSelectEvent)="onSelectElement($event)">
-      </auto-complete>
+        (selectEvent)="onSelectElement($event)">
+      </qddt-auto-complete>
       <div class="row" *ngIf="selectedElement">
         <div class="input-field col s4" *ngIf="elementRevisions.length > 0">
           <label class="active black-text">Business version</label>

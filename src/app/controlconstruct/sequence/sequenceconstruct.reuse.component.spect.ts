@@ -117,7 +117,7 @@ class SequenceContentComponent {
 }
 
 @Component({
-  selector: 'qddt-auto-complete',
+  selector: 'qddt-qddt-auto-complete',
   template: `<div></div>`
 })
 
@@ -128,7 +128,7 @@ class AutocompleteComponent {
   @Input() isMultipleFields: boolean;
   @Input() initialValue: string;
   @Input() searchFromServer: boolean;
-  @Output() autocompleteSelectEvent: EventEmitter<any> = new EventEmitter<any>();
-  @Output() autocompleteFocusEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() selectEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() focusEvent: EventEmitter<any> = new EventEmitter<any>();
   @Output() enterEvent: EventEmitter<any> = new EventEmitter<any>();
 }

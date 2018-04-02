@@ -2,9 +2,9 @@ import { Component, OnInit, EventEmitter, AfterContentChecked } from '@angular/c
 import { PublicationService, Publication, PublicationStatus } from './publication.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
-import { Column } from '../shared/table/table.service';
-import { QddtElement, QddtElements, ElementRevisionRef } from '../preview/preview.service';
 import { PropertyStoreService } from '../core/global/property.service';
+import { ElementRevisionRef, QddtElement } from '../interfaces/elements';
+import { Column } from '../shared/table/table.column';
 
 @Component({
   selector: 'qddt-publication',
@@ -56,7 +56,7 @@ export class PublicationComponent implements AfterContentChecked, OnInit {
 
   public ngOnInit() {
     const config = this.property.get('publications');
-    this.showProgressBar = true;
+//    this.showProgressBar = true;
     if (config.current === 'detail' ) {
       this.page = config.page;
       this.publications = config.collection;

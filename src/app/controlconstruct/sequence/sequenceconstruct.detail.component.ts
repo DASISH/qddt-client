@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { ElementKind } from '../../preview/preview.service';
+import { ElementKind } from '../../interfaces/elements';
 import { SequenceConstruct, ControlConstructService } from '../controlconstruct.service';
 const filesaver = require('file-saver');
 
@@ -10,9 +10,7 @@ const filesaver = require('file-saver');
 })
 
 export class SequenceDetailComponent implements OnInit {
-  @Input() sequences: SequenceConstruct[];
   @Input() sequence: SequenceConstruct;
-  @Input() isVisible: boolean;
   @Output() hideDetailEvent: EventEmitter<String> = new EventEmitter<String>();
 
   private readonly revisionKind = ElementKind.SEQUENCE_CONSTRUCT;
@@ -24,9 +22,6 @@ export class SequenceDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (!this.sequences) {
-      this.sequences = [];
-    }
   }
 
   hideDetail() {
@@ -34,11 +29,7 @@ export class SequenceDetailComponent implements OnInit {
   }
 
   sequenceSavedEvent(sequence: SequenceConstruct) {
-    if (sequence !== null) {
-      const sequences = this.sequences.filter((q) => q.id !== sequence.id);
-      sequences.push(sequence);
-      this.sequences = sequences;
-    }
+    this.hideDetail();
   }
 
   onShowRevision(element: any) {
@@ -54,7 +45,10 @@ export class SequenceDetailComponent implements OnInit {
   }
 
   onDeleteSequence() {
-    // TODO implement DeleteSequence
+    this.service.deleteControlConstruct(this.sequence.id).subscribe(
+      () => { }
+    );
+    this.hideDetail();
   }
     // this.service.(this.category.id)
     //   .subscribe(() => {

@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { ElementKind, ElementEnumAware, QddtElement } from './preview.service';
-import { PUBLICATION_TYPES } from '../publication/publication.service';
+import { ElementEnumAware } from './preview.service';
+import { IEntityAudit } from '../interfaces/entityAudit';
+import { ElementKind, QddtElement, QDDT_ELEMENTS } from '../interfaces/elements';
 
 @Component({
   selector: 'qddt-preview-element',
@@ -17,32 +18,18 @@ import { PUBLICATION_TYPES } from '../publication/publication.service';
 })
 @ElementEnumAware
 export class PreviewComponent  {
-  @Input() element: any;
-  @Input() elementKind: ElementKind;
+  @Input() element: IEntityAudit;
 
-
-  public getElementString(kind: ElementKind): string {
-    return typeof kind === 'string' ? kind : ElementKind[kind];
-  }
-
-  // public getElementKind(kind: ElementKind): ElementKind {
-  //   return typeof kind === 'string' ? ElementKind[kind] : kind;
-  // }
-
-  public getElementKind(kind: ElementKind|String): any {
-    return typeof kind === 'string' ? ElementKind[kind] : kind;
+  public getElementKind(element: IEntityAudit): ElementKind {
+    return ElementKind[element.classKind];
   }
 
   public getElementByKind(kind: ElementKind): QddtElement {
     if (typeof kind === 'string') {
-        return PUBLICATION_TYPES.find(e =>  ElementKind[e.id] === kind);
+        return QDDT_ELEMENTS.find(e =>  ElementKind[e.id] === kind);
     }  else {
         return null;
     }
-  }
-
-  public getElementByLabel(label: String): QddtElement {
-      return PUBLICATION_TYPES.find(e => e.label === label);
   }
 
 }

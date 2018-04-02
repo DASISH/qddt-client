@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { PreviewService } from '../preview.service';
-import { Topic } from '../../home/topic/topic.service';
+import { Topic } from '../../home/home.service';
+
 const filesaver = require('file-saver');
 
 @Component({

@@ -2,8 +2,8 @@ import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { PublicationService } from './publication.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
-import { ElementKind, QddtElement, QddtElements, ElementRevisionRef } from '../preview/preview.service';
-import { IEntityAudit } from '../shared/ientityAudit';
+import { ElementRevisionRef, ElementKind, QddtElement, QDDT_ELEMENTS } from '../interfaces/elements';
+import { IEntityAudit } from '../interfaces/entityaudit';
 
 @Component({
   selector: 'qddt-publication-reuse',
@@ -25,11 +25,11 @@ export class PublicationReuseComponent implements OnInit {
   public elements: any[];
 
   queryFields: QddtElement[] = [
-    QddtElements[ElementKind.TOPIC_GROUP],
-    QddtElements[ElementKind.CONCEPT],
-    QddtElements[ElementKind.QUESTION_ITEM],
-    QddtElements[ElementKind.QUESTION_CONSTRUCT],
-    QddtElements[ElementKind.SEQUENCE_CONSTRUCT]
+    QDDT_ELEMENTS[ElementKind.TOPIC_GROUP],
+    QDDT_ELEMENTS[ElementKind.CONCEPT],
+    QDDT_ELEMENTS[ElementKind.QUESTION_ITEM],
+    QDDT_ELEMENTS[ElementKind.QUESTION_CONSTRUCT],
+    QDDT_ELEMENTS[ElementKind.SEQUENCE_CONSTRUCT]
   ];
 
   private searchKeysSubect: Subject<string> = new Subject<string>();

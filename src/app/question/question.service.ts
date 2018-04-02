@@ -3,20 +3,28 @@ import { HttpClient } from '@angular/common/http';
 import { API_BASE_HREF } from '../api';
 import { ResponseDomain } from '../responsedomain/responsedomain.service';
 import { Observable } from 'rxjs/Observable';
+import { Category } from '../category/category.service';
+import { IEntityEditAudit, IVersion } from '../interfaces/entityaudit';
 
+export class QuestionItem implements IEntityEditAudit {
 
-export class QuestionItem {
+  basedOnObject: string;
+  basedOnRevision: number;
+  modified: number;
+  version: IVersion;
   id: string;
   name: string;
-  version: any;
-  changeKind: any;
-  agency: any;
+  classKind: string;
   question: string;
   intent: string;
   responseDomain: ResponseDomain;
   responseDomainName: String;
   responseDomainRevision: number;
   conceptRefs: any;
+
+  constructor() {
+    this.classKind = 'QUESTION_ITEM';
+  }
 }
 
 
@@ -51,20 +59,20 @@ export class QuestionService  {
       .toPromise();
   }
 
-  createQuestionItem(question: any):  Observable<any> {
-    return this.http.post(this.api + 'questionitem/create', question);
+  createQuestionItem(question: QuestionItem):  Observable<QuestionItem> {
+    return this.http.post<QuestionItem>(this.api + 'questionitem/create', question);
   }
 
-  updateQuestionItem(questionItem: any):  Observable<any> {
-    return this.http.post(this.api + 'questionitem', questionItem);
+  updateQuestionItem(questionItem: QuestionItem):  Observable<QuestionItem> {
+    return this.http.post<QuestionItem>(this.api + 'questionitem', questionItem);
   }
 
-  createCategory(category: any):  Observable<any> {
-    return this.http.post(this.api + 'category/create/', category);
+  createCategory(category: Category):  Observable<Category> {
+    return this.http.post<Category>(this.api + 'category/create/', category);
   }
 
-  createResponseDomain(responseDomain: any):  Observable<any> {
-    return this.http.post(this.api + 'responsedomain', responseDomain);
+  createResponseDomain(responseDomain: ResponseDomain):  Observable<ResponseDomain> {
+    return this.http.post<ResponseDomain>(this.api + 'responsedomain', responseDomain);
   }
 
 
@@ -99,16 +107,15 @@ export class QuestionService  {
 
   }
 
-  getControlConstructsByQuestionItem(id: string): Promise<any> {
+/*   getControlConstructsByQuestionItem(id: string): Promise<any> {
     return this.http.get(this.api + 'controlconstruct/list/by-question/' + id)
       .toPromise();
       // .catch(err => { throw Error(err.message);});
 
-  }
+  } */
 
 
   getPdf(id: string): Observable<Blob> {
-    return this.http.get(this.api + 'questionitem/pdf/' + id, {responseType: 'blob'});
-
+    return this.http.get(this.api + 'questionitem/pdf/' + id, { responseType: 'blob' });
   }
 }

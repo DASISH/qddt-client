@@ -1,7 +1,13 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ControlConstructService, QuestionConstruct } from '../controlconstruct.service';
 import { MaterializeAction } from 'angular2-materialize';
-import { ElementKind } from '../../preview/preview.service';
+import { ElementKind } from '../../interfaces/elements';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import { QuestionItem } from '../../question/question.service';
+import { IDetailAction, ActionDetail } from '../../interfaces/detailaction';
+import { IOtherMaterial } from '../../interfaces/othermaterial';
+
 const filesaver = require('file-saver');
 
 
@@ -9,51 +15,36 @@ const filesaver = require('file-saver');
   selector: 'qddt-control-construct-detail',
   moduleId: module.id,
   templateUrl: './questionconstruct.detail.component.html',
-  styles: [`:host /deep/ .hoverable .row {
-            min-height:3rem;
-            margin-bottom:0px; }`],
+  styles: [
+    ':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px; }'
+  ],
 })
 
 export class QuestionConstructDetailComponent implements OnInit {
-  @Input() controlConstruct: QuestionConstruct;
-  @Input() controlConstructId: string;
-  @Input() controlConstructs: QuestionConstruct[];
-  @Input() isVisible: boolean;
-  @Output() hideDetailEvent = new EventEmitter<String>();
-  @Output() exceptionEvent = new EventEmitter<String>();
 
   public deleteAction = new EventEmitter<MaterializeAction>();
-  private readonly revisionKind = ElementKind.QUESTION_CONSTRUCT;
+  controlConstruct: QuestionConstruct;
   private previewObject: any;
-  private revisionIsVisible: boolean;
-  private savedObject: string;
-  private savedControlConstructsIndex: number;
+  private revisionIsVisible = false;
   private config: any[];
+  private action: IDetailAction;
 
-  constructor(private service: ControlConstructService) {
-    this.revisionIsVisible = false;
+  constructor(private service: ControlConstructService, private router: Router, private route: ActivatedRoute ) {
+    this.config = this.buildRevisionConfig();
   }
 
   ngOnInit() {
-    if (!this.controlConstructs) {
-      this.controlConstructs = [];
+    this.action = { id: '', action: ActionDetail.None, object: null };
+    this.service.getControlConstruct<QuestionConstruct>(
+      this.route.snapshot.paramMap.get('id'))
+      .then(ctrl => {
+        this.action.id = ctrl.id;
+        this.controlConstruct = ctrl; })
+      .catch( error => { throw error; } );
     }
-    if (this.controlConstructId) {
-      this.service.getControlConstruct(this.controlConstructId)
-        .then((result: any) => {
-          this.controlConstruct = result;
-          this.init();
-        })
-        .catch((error) =>  {
-          throw error;
-        });
-    } else {
-      this.init();
-    }
-  }
 
   hideDetail() {
-    this.hideDetailEvent.emit('hide');
+      this.router.navigate(['../' ], { relativeTo: this.route });
   }
 
   onDeleteControlConstructModal() {
@@ -63,44 +54,29 @@ export class QuestionConstructDetailComponent implements OnInit {
   onConfirmDeleting() {
     this.service.deleteControlConstruct(this.controlConstruct.id)
       .subscribe(() => {
-        const i = this.controlConstructs.findIndex(q => q['id'] === this.controlConstruct.id);
-        if (i >= 0) {
-          this.controlConstructs.splice(i, 1);
-        }
-        this.hideDetailEvent.emit('hide');
+        this.action.action = ActionDetail.Deleted;
+        this.hideDetail();
       });
   }
 
-  onccSaveAction(result: any) {
-    const index = this.controlConstructs.findIndex((e: any) => e.id === result.id);
-    if (index >= 0) {
-      console.log('onccSaveAction replace ' + result.name);
-      this.controlConstructs[index] = result;
-    } else {
-      console.log('onccSaveAction added ' + result.name);
-      this.controlConstructs.push(result);
-    }
-    console.log(result.version);
-    this.hideDetailEvent.emit('hide');
+  onControlConstructSaved(result: QuestionConstruct) {
+    this.action.action = ActionDetail.Updated;
+    this.action.object = result;
+    this.hideDetail();
   }
 
-  onExceptionEvent(error: any) {
-    this.exceptionEvent.emit(error);
-  }
 
-  onDownloadFile(o: any) {
+  onDownloadFile(o: IOtherMaterial) {
     const fileName = o.originalName;
     this.service.getFile(o.id).then(
-      (data: any) => {
-        filesaver.saveAs(data, fileName);
-      },
-      error => { throw error; });
+      (data) => { filesaver.saveAs(data, fileName); },
+      (error) => { throw error; });
   }
 
-  onGetPdf( c: QuestionConstruct) {
-    this.service.getPdf(c.id).then(
+  onGetPdf( ctrl: QuestionConstruct) {
+    this.service.getPdf(ctrl.id).then(
       (data: any) => {
-        filesaver.saveAs(data, c.name + '.pdf');
+        filesaver.saveAs(data, ctrl.name + '.pdf');
       },
       error => { throw error; });
   }
@@ -109,13 +85,6 @@ export class QuestionConstructDetailComponent implements OnInit {
     this.previewObject = element;
   }
 
-  private init() {
-
-    this.savedObject = JSON.stringify(this.controlConstruct);
-    this.savedControlConstructsIndex = this.controlConstructs
-      .findIndex(q => q['id'] === this.controlConstruct['id']);
-    this.config = this.buildRevisionConfig();
-  }
 
   private buildRevisionConfig(): any[] {
     const config: any[] = [];

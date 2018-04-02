@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { QuestionService, QuestionItem } from './question.service';
 import { MaterializeAction } from 'angular2-materialize';
-import { ElementKind } from '../preview/preview.service';
+import { ElementKind } from '../interfaces/elements';
 
 const filesaver = require('file-saver');
 
@@ -72,11 +72,12 @@ export class QuestionDetailComponent implements OnInit {
   }
 
   checkDeleteQuestionItem() {
-    const usedby: any = this.questionitem['conceptRefs'];
+    const usedby: any = this.questionitem.conceptRefs;
     this.canDelete = 2; // checking
     if (usedby && usedby.length > 0) {
       this.canDelete = 0;
-    } else {
+    }
+/*     else {
       this.service.getControlConstructsByQuestionItem(this.questionitem.id)
         .then((result: any) => {
           if (result.length > 0) {
@@ -86,7 +87,7 @@ export class QuestionDetailComponent implements OnInit {
           }
         },
         (error: any) => { this.canDelete = 0; throw error; });
-    }
+    } */
   }
 
   onConfirmDeleting() {

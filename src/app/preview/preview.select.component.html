@@ -24,9 +24,6 @@
     <div class="row teal-text">Preview</div>
     <div class="teal-text" *ngIf="selectedElement.name" style="padding-left: 10pt; padding-bottom: 5pt">Name</div>
     <div style="padding-left: 10pt;  padding-bottom: 5pt; color:dimgrey; ">{{ selectedElement.name }}</div>
-    <qddt-preview-element
-      [element]="selectedElement"
-      [elementKind]="elementKind">
-    </qddt-preview-element>
+    <qddt-preview-element [element]="selectedElement"></qddt-preview-element>
   </div>
 </div>

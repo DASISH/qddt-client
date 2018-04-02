@@ -2,13 +2,13 @@
   <div class="col s10 black-text">
     <label>Description</label>
     <div [ngClass]="{ noItemFound: (isInstructionNew && instruction.description.length > 0 && instructions.length === 0) }">
-      <auto-complete
+      <qddt-auto-complete
         [items]="instructions" class="black-text"
         [elementtype]="INSTRUCTION"
         [initialValue]="instruction?.description"
-        (autocompleteSelectEvent)="onSelectInstruction($event)"
+        (selectEvent)="onSelectInstruction($event)"
         (enterEvent)="onSearchInstructions($event)">
-      </auto-complete>
+      </qddt-auto-complete>
     </div>
   </div>
   <div class="col s2 right">

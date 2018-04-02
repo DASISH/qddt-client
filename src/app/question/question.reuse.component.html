@@ -9,12 +9,12 @@
       <div *ngIf="reuseQuestionItem">
         <h3 class="teal-text ">Reuse Question Item</h3>
         <div class="row black-text">
-          <auto-complete [items]="questionItems"
+          <qddt-auto-complete [items]="questionItems"
                         [elementtype]="QUESTION_KIND"
-                        (autocompleteFocusEvent)="selectedIndex=idx;"
+                        (focusEvent)="selectedIndex=idx;"
                         (enterEvent)="searchQuestionItems($event)"
-                        (autocompleteSelectEvent)="selectQuestionItem($event)">
-          </auto-complete>
+                        (selectEvent)="selectQuestionItem($event)">
+          </qddt-auto-complete>
         </div>
       </div>
     </form>
@@ -41,7 +41,6 @@
             </div>
           </div>
           <div class="row">
-            <!--<qddt-preview-element [element]="selectedElement" elementKind="questionItemKind"></qddt-preview-element>-->
             <qddt-preview-questionitem [questionItem]="selectedElement"></qddt-preview-questionitem>
           </div>
         </div>

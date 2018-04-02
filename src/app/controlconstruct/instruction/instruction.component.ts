@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 
 import { ControlConstructService, Instruction } from '../controlconstruct.service';
-import { ElementKind, QddtElements } from '../../preview/preview.service';
+import { QDDT_ELEMENTS, ElementKind } from '../../interfaces/elements';
 
 @Component({
   selector: 'qddt-instruction-create',
@@ -13,7 +13,7 @@ import { ElementKind, QddtElements } from '../../preview/preview.service';
 export class InstructionComponent {
   @Output() createInstructionEvent = new EventEmitter<any>();
 
-  public readonly INSTRUCTION = QddtElements[ElementKind.INSTRUCTION];
+  public readonly INSTRUCTION = QDDT_ELEMENTS[ElementKind.INSTRUCTION];
   public instruction: any;
   public instructions: any[];
   public isInstructionNew: boolean;

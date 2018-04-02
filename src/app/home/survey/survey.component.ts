@@ -1,8 +1,8 @@
 import { Component,  OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { SurveyService, SurveyProgram } from './survey.service';
-import { ElementKind } from '../../preview/preview.service';
+import { ElementKind } from '../../interfaces/elements';
 import { PropertyStoreService , HIERARCHY_POSITION } from '../../core/global/property.service';
+import { SurveyProgram, HomeService } from '../home.service';
 
 const filesaver = require('file-saver');
 
@@ -18,14 +18,14 @@ export class SurveyComponent implements OnInit {
   private revision: any;
   private readonly revisionKind = ElementKind.SURVEY_PROGRAM;
 
-  constructor(private surveyService: SurveyService, private router: Router, private property: PropertyStoreService) {
+  constructor(private surveyService: HomeService, private router: Router, private property: PropertyStoreService) {
     this.survey = new SurveyProgram();
   }
 
   ngOnInit() {
     this.surveys = this.property.get('surveys');
     if (!this.surveys) {
-      this.surveyService.getAll()
+      this.surveyService.getAllSurvey()
         .then(
           (data: Array<SurveyProgram> ) =>
             this.property.set('surveys', this.surveys = data)
@@ -58,7 +58,7 @@ export class SurveyComponent implements OnInit {
   }
 
   onSave() {
-    this.surveyService.create(this.survey)
+    this.surveyService.createSurvey(this.survey)
       .subscribe(
         (result: any) => this.onSurveySaved(result)
       );
@@ -69,7 +69,7 @@ export class SurveyComponent implements OnInit {
 
   getPdf(element: SurveyProgram) {
     const fileName = element.name + '.pdf';
-    this.surveyService.getPdf(element.id)
+    this.surveyService.getSurveyPdf(element.id)
     .then(
       (data: any) => filesaver.saveAs(data, fileName)
     );

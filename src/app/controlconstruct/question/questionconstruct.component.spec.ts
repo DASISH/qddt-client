@@ -1,16 +1,15 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
-import { ControlConstructService } from './controlconstruct.service';
-import { ControlConstructComponent } from './controlconstruct.component';
-import { API_BASE_HREF } from '../api';
+import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
-import { UserService } from '../core/user/user.service';
+import { ControlConstructComponent } from '../controlconstruct.component';
+import { ControlConstructService } from '../controlconstruct.service';
+import { UserService } from '../../core/user/user.service';
+import { QuestionConstructComponent } from './questionconstruct.component';
 
 export function main() {
   describe('Controlconstruct component', () => {
@@ -21,15 +20,8 @@ export function main() {
           ControlConstructDetailComponent, ControlConstructQuestionItemSelectComponent,
           AutocompleteComponent, TableComponent, QuestionitemDetailComponent],
         providers: [
-          MockBackend,
-          BaseRequestOptions,
           { provide: ControlConstructService, useClass: ControlConstructServiceSpy },
           { provide: UserService, useClass: UserServiceSpy },
-          {
-            provide: Http,
-            useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),
-            deps: [MockBackend, BaseRequestOptions]
-          },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
@@ -44,7 +36,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            const fixture = TestBed.createComponent(ControlConstructComponent);
+            const fixture = TestBed.createComponent(QuestionConstructComponent);
             fixture.detectChanges();
             const de: any = fixture.debugElement.queryAll(By.css('h4'));
             expect(de.length).toBeGreaterThan(0);
@@ -52,8 +44,8 @@ export function main() {
             fixture.componentInstance.ngOnInit();
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              const de: any = fixture.debugElement.queryAll(By.css('a'));
-              expect(de.length).toBeGreaterThan(0);
+              const de1: any = fixture.debugElement.queryAll(By.css('a'));
+              expect(de1.length).toBeGreaterThan(0);
             });
           });
       }));
@@ -63,12 +55,12 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            const fixture = TestBed.createComponent(ControlConstructComponent);
+            const fixture = TestBed.createComponent(QuestionConstructComponent);
             const questionitem: any = {
               'id': '1',
               'name': 'questionitem'
             };
-            const mockBackend = TestBed.get(MockBackend);
+/*             const mockBackend = TestBed.get(MockBackend);
             mockBackend.connections.subscribe((c: any) => {
               c.mockRespond(new Response(new ResponseOptions({
                 body: '{"content": [{'
@@ -83,7 +75,7 @@ export function main() {
                 + '}]}'
               })));
             });
-            fixture.componentInstance.searchControlConstructs('test');
+ */            fixture.componentInstance.searchControlConstructs('test');
             fixture.detectChanges();
             fixture.whenStable().then(() => {
               const table: any = fixture.debugElement.queryAll(By.css('qddt-table'));
@@ -94,7 +86,7 @@ export function main() {
   });
 }
 
-//override dependencies
+// override dependencies
 class UserServiceSpy {
   get = jasmine.createSpy('get').and.callFake(function (key) {
     return {};
@@ -126,7 +118,7 @@ class CommentListComponent {
 }
 
 @Component({
-  selector: 'autocomplete',
+  selector: 'qddt-auto-complete',
   template: `<div></div>`
 })
 
@@ -137,8 +129,8 @@ export class AutocompleteComponent {
   @Input() isMultipleFields: boolean;
   @Input() initialValue: string;
   @Input() searchFromServer: boolean;
-  @Output() autocompleteSelectEvent: EventEmitter<any> = new EventEmitter<any>();
-  @Output() autocompleteFocusEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() selectEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() focusEvent: EventEmitter<any> = new EventEmitter<any>();
   @Output() enterEvent: EventEmitter<any> = new EventEmitter<any>();
 }
 

@@ -6,8 +6,9 @@ import { API_BASE_HREF } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
-import { ElementKind, PreviewService } from '../preview/preview.service';
+import { PreviewService } from '../preview/preview.service';
 import { PreviewSelectComponent } from './preview.select.component';
+import { ElementKind } from '../interfaces/elements';
 
 export function main() {
   describe('Publication select component', () => {
@@ -55,10 +56,10 @@ export function main() {
                 'basedOnRevision' : null,
                 'version' : {'major' : 6, 'minor' : 0, 'versionLabel' : '', 'revision' : null },
                 'changeKind' : 'CONCEPTUAL',
-                'changeComment' : 'Information added'
+                'changeComment' : 'Information added',
+                'classKind' : 'PUBLICATION'
             };
             fixture.componentInstance.element = element;
-            fixture.componentInstance.elementKind = ElementKind.PUBLICATION;
             fixture.componentInstance.ngOnChanges();
             fixture.detectChanges();
             fixture.whenStable().then(() => {

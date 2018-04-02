@@ -1,10 +1,10 @@
 import { Component, EventEmitter, OnInit, AfterContentChecked } from '@angular/core';
-
-import { ControlConstructService, QuestionConstruct, Instruction, Universe } from '../controlconstruct.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
-import { Column } from '../../shared/table/table.service';
+
+import { ControlConstructService, QuestionConstruct, Instruction, Universe } from '../controlconstruct.service';
 import { PropertyStoreService } from '../../core/global/property.service';
+import { Column } from '../../shared/table/table.column';
 
 @Component({
   selector: 'qddt-controle-construct',
@@ -14,43 +14,37 @@ import { PropertyStoreService } from '../../core/global/property.service';
 })
 
 export class QuestionConstructComponent implements OnInit, AfterContentChecked {
-  public error: any;
-  public selectedQuestionItem: any;
-  public questionItems: any[];
-  public modalActions = new EventEmitter<string|MaterializeAction>();
   public questionitemActions = new EventEmitter<string|MaterializeAction>();
-  public isDetail: boolean;
-  public showControlConstructForm = false;
-  public showProgressBar = false;
   public controlConstructs: QuestionConstruct[];
   public controlConstruct: QuestionConstruct;
+  public selectedQuestionItem: any;
+  public selectedControlConstruct: QuestionConstruct;
+  public questionItems: any[];
+  public isDetail = false;
+  public showControlConstructForm = false;
+  public showProgressBar = false;
+  public showInstructionForm = false;
+  public showUniverse = false;
+  public editQuestoinItem = false;
+  public isInstructionAfter = false;
 
-  private showInstructionForm: boolean;
-  private showUniverse = false;
-  private editQuestoinItem: boolean;
-  private isInstructionAfter: boolean;
   private searchKeys: string;
-  private page: any;
-  private selectedControlConstruct: QuestionConstruct;
-  private columns: Column[];
+  private page = {};
   private files: FileList;
   private searchKeysSubect: Subject<string> = new Subject<string>();
+  private readonly columns = [
+    new Column({ name: 'name', label: 'Construct Name', sortable: true }),
+    new Column({ name: ['questionItem', 'name'], label: 'Question Name', sortable: true }),
+    new Column({ name: ['questionItem', 'question'], label: 'Question Text', sortable: true }),
+    new Column({ name: 'modified',  label: 'Modified', sortable: true, direction: 'desc' })
+ ];
 
   constructor(private service: ControlConstructService, private userService: PropertyStoreService) {
     console.log('constructor ');
-    this.isDetail = false;
-    this.editQuestoinItem = false;
-    this.showInstructionForm = false;
     this.searchKeys = '';
-    this.page = {};
     this.questionItems = [];
-    // this.instructions = [];
     this.controlConstructs = [];
-    this.columns =
-            [{ name: 'name', label: 'Construct Name', sortable: true,  direction: '' },
-            { name: ['questionItem', 'name'], label: 'Question Name', sortable: true, direction: '' },
-            { name: ['questionItem', 'question'], label: 'Question Text', sortable: true, direction: '' },
-            { name: 'modified',  label: 'Modified', sortable: true, direction: 'desc' }];
+
     this.searchKeysSubect
       .debounceTime(300)
       .distinctUntilChanged()
@@ -58,12 +52,13 @@ export class QuestionConstructComponent implements OnInit, AfterContentChecked {
         this.showProgressBar = true;
         const args = name.split(' ');
         console.log('searchKeysSubect ' + args.length);
-        this.service.searchControlConstructs(args[0], args[1] ? args[1] : '*', '0', this.getSort())
-          .then((result: any) => {
+        this.service.searchControlConstructs(args[0], args[1] ? args[1] : '*', '0', this.getSort()).then(
+          (result) => {
             this.page = result.page;
             this.controlConstructs = result.content;
-            this.showProgressBar = false;
-        });
+            this.showProgressBar = false; },
+          (error) => { throw error; }
+        );
       });
   }
 

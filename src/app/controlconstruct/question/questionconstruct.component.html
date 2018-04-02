@@ -140,34 +140,18 @@
         <qddt-table [items]="controlConstructs" [page]="page" [columns]="columns"
           [placeholder] = "'Search in construct name, question name or question text'"
 		      (enterEvent)="searchControlConstructs($event)"
-          (detailEvent)="onDetail($event)" 
+          (detailEvent)="onDetail($event)"
           (pageChangeEvent)="onPage($event)"></qddt-table>
       </div>
     </div>
   </div>
-  <qddt-control-construct-detail *ngIf="isDetail"
+<!--   <qddt-control-construct-detail *ngIf="isDetail"
     [controlConstructId]="selectedControlConstruct.id"
     [controlConstructs]="controlConstructs"
-    (exceptionEvent)="popupModal($event)"
     (hideDetailEvent)="hideDetail()">
   </qddt-control-construct-detail>
-</div>
+ --></div>
 
-<div [attr.id]="'create-controlConstructs-modal'" class="modal"
-  materialize="modal" [materializeActions]="modalActions">
-  <div class="modal-content">
-    <div class="row">
-      <h4>An error occured</h4>
-      <span>{{ error }}</span>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button id="controlConstructs-modal-close"
-      class="btn btn-default red modal-action modal-close waves-effect">
-      <a><i class="close material-icons medium white-text">close</i></a>
-    </button>
-  </div>
-</div>
 
 <div [attr.id]="'questionitem-detail-modal'" class="modal modal-fixed-footer"
   materialize="modal" [materializeActions]="questionitemActions">

@@ -78,27 +78,27 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   doRegister() {
-    this.router.navigate(['register']);
+    this.router.navigate(['/register']);
   }
 
   doResetPassword() {
-    // TODO implement ResetPassword
+    this.router.navigate(['/resetpassword']);
   }
 
   onSurvey() {
     this.clearAll();
-    this.router.navigate(['survey']);
+    this.router.navigate(['/survey']);
   }
   onStudy() {
     this.clearTopic();
-    this.router.navigate(['study']);
+    this.router.navigate(['/study']);
   }
   onTopic() {
     this.clearConcept();
-    this.router.navigate(['topic']);
+    this.router.navigate(['/topic']);
   }
   onConcept() {
-    this.router.navigate(['concept']);
+    this.router.navigate(['/concept']);
   }
 
   clearAll() {

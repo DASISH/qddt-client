@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, AfterContentChecked } from '@angular/core';
-import { SurveyService, SurveyProgram } from './survey.service';
+import { HomeService, SurveyProgram } from '../home.service';
 
 declare var Materialize: any;
 
@@ -48,7 +48,7 @@ export class SurveyEditComponent implements AfterContentChecked {
   public showRevision = false;
   basedonRef: any;
 
-  constructor(private surveyService: SurveyService) {
+  constructor(private surveyService: HomeService) {
   }
 
   ngAfterContentChecked(): void {
@@ -57,7 +57,7 @@ export class SurveyEditComponent implements AfterContentChecked {
 
 
   onSave() {
-    this.surveyService.save(this.survey)
+    this.surveyService.updateSurvey(this.survey)
       .subscribe((result: any) => {
         this.isVisible = false;
         this.survey = null;

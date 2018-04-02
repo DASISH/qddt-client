@@ -4,7 +4,7 @@ import { DomainKind, DomainTypeDescription } from './responsedomain.constant';
 import { DATE_FORMAT, ResponseDomain, ResponseDomainService } from './responsedomain.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
-import { ElementKind, QddtElement, QddtElements } from '../preview/preview.service';
+import { QDDT_ELEMENTS, ElementKind } from '../interfaces/elements';
 
 declare let Materialize: any;
 
@@ -28,17 +28,13 @@ export class ResponsedomainFormComponent implements OnInit , AfterViewInit {
   public previewResponseDomain: any;
   public basedonObject: any;
 
-  public readonly CATEGORY_KIND: QddtElement = QddtElements[ElementKind.CATEGORY];
+  public readonly CATEGORY_KIND = QDDT_ELEMENTS[ElementKind.CATEGORY];
   public domainTypeDef = DomainKind;
   public dateFormatOption = DATE_FORMAT;
   public numberOfAnchors: number;
   public categories: Category[];
   public selectedCategoryIndex: number;
-//  private today: number = Date.now();
-//  private showbuttons = false;
-//  private suggestions: Category[];
-//  private endMin: number;
-//  private startMax: number;
+
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
   constructor(private categoryService: CategoryService, private service: ResponseDomainService) {

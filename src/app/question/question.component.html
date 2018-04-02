@@ -73,10 +73,10 @@
   </div>
   <div *ngIf="!isDetail && questionitems">
     <qddt-table [items]="questionitems" [page]="page" [columns]="columns"
-      [searchFromServer]="true"
-      (enterEvent)="searchResponseDomains($event)"
-      [placeholder] = "'Search in question name or question text'"
-      (detailEvent)="onDetail($event)" (pageChangeEvent)="onPage($event)">
+        [placeholder] = "'Search in question name or question text'"
+        (enterEvent)="onSearchTable($event)"
+        (detailEvent)="onDetail($event)"
+        (pageChangeEvent)="onPage($event)">
     </qddt-table>
   </div>
   <qddt-questionitem-detail *ngIf="isDetail" [questionitemId]="selectedQuestionItem.id"

@@ -1,4 +1,4 @@
-<div *ngIf="element" [ngSwitch]="getElementKind(elementKind)" style="color: dimgrey">
+<div *ngIf="element" [ngSwitch]="getElementKind(element)" style="color: dimgrey">
   <div *ngSwitchCase=ElementKind.CONCEPT>
     <qddt-preview-concept [concept]="element"></qddt-preview-concept>
   </div>
@@ -43,7 +43,7 @@
     <!--INSTRUCTION,-->
     <!--UNIVERSE-->
     <div class="row">
-      <span> getElementString:{{ getElementString(elementKind) }} getElementKind:{{getElementKind(elementKind)}} elementKind:{{elementKind}} <- TEST</span>
+      <span> getElementString:{{ element.classKind }} getElementKind:{{ getElementKind(element) }}<- TEST</span>
       <div class="col s12">
         <label [attr.for]="element.id + '-name'" class="active teal-text">Name</label>
         <textarea class="materialize-textarea" id="{{element?.id}}-name"

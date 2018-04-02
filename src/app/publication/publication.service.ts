@@ -2,16 +2,16 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { API_BASE_HREF } from '../api';
-import { ElementKind, QddtElement, QddtElements, ElementRevisionRef } from '../preview/preview.service';
+import { ElementKind, QDDT_ELEMENTS, ElementRevisionRef, QddtElement } from '../interfaces/elements';
 
 
 
 export const PUBLICATION_TYPES: QddtElement[] = [
-  QddtElements[ElementKind.TOPIC_GROUP],
-  QddtElements[ElementKind.CONCEPT],
-  QddtElements[ElementKind.QUESTION_ITEM],
-  QddtElements[ElementKind.QUESTION_CONSTRUCT],
-  QddtElements[ElementKind.SEQUENCE_CONSTRUCT],
+  QDDT_ELEMENTS[ElementKind.TOPIC_GROUP],
+  QDDT_ELEMENTS[ElementKind.CONCEPT],
+  QDDT_ELEMENTS[ElementKind.QUESTION_ITEM],
+  QDDT_ELEMENTS[ElementKind.QUESTION_CONSTRUCT],
+  QDDT_ELEMENTS[ElementKind.SEQUENCE_CONSTRUCT],
 ];
 
 

@@ -1,7 +1,6 @@
 import { Component, Input,  EventEmitter, Output } from '@angular/core';
 import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { PublicationService } from './publication.service';
@@ -19,14 +18,8 @@ export function main() {
         declarations: [ PublicationReuseComponent, ResponsedomainPreviewComponent,
         AutocompleteComponent, PublicationSelectComponent ],
         providers: [
-          MockBackend,
           BaseRequestOptions,
           { provide: PublicationService, useClass: PublicationServiceSpy },
-          {
-            provide: Http,
-            useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),
-            deps: [MockBackend, BaseRequestOptions]
-          },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
@@ -54,7 +47,7 @@ export function main() {
           .compileComponents()
           .then(() => {
             const fixture = TestBed.createComponent(PublicationReuseComponent);
-            const mockBackend = TestBed.get(MockBackend);
+/*             const mockBackend = TestBed.get(MockBackend);
             mockBackend.connections.subscribe((c: any) => {
               c.mockRespond(new Response(new ResponseOptions({
                 body: '{"content":[{'
@@ -70,7 +63,7 @@ export function main() {
                 + '"page" : { "size" : 20, "totalElements" : 1, "totalPages" : 1, "number" : 0}}'
               })));
             });
-            fixture.componentInstance.onSearchElements('test');
+ */            fixture.componentInstance.onSearchElements('test');
             fixture.detectChanges();
             fixture.whenStable().then(() => {
               expect(fixture.componentInstance.elements.length).toBe(1);
@@ -80,7 +73,7 @@ export function main() {
   });
 }
 
-//override dependencies
+// override dependencies
 class PublicationServiceSpy {
   getElements = jasmine.createSpy('getElements').and.callFake(function (key) {
     return [];
@@ -109,7 +102,7 @@ class PublicationSelectComponent {
 }
 
 @Component({
-  selector: 'autocomplete',
+  selector: 'qddt-auto-complete',
   template: `<div></div>`
 })
 
@@ -120,7 +113,7 @@ class AutocompleteComponent {
   @Input() isMultipleFields: boolean;
   @Input() initialValue: string;
   @Input() searchFromServer: boolean;
-  @Output() autocompleteSelectEvent: EventEmitter<any> = new EventEmitter<any>();
-  @Output() autocompleteFocusEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() selectEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() focusEvent: EventEmitter<any> = new EventEmitter<any>();
   @Output() enterEvent: EventEmitter<any> = new EventEmitter<any>();
 }

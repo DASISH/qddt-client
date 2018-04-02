@@ -2,9 +2,9 @@ import { Component, OnInit, AfterContentChecked, EventEmitter } from '@angular/c
 import { QuestionService, QuestionItem } from './question.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
-import { Column } from '../shared/table/table.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { PropertyStoreService } from '../core/global/property.service';
+import { Column } from '../shared/table/table.column';
 
 @Component({
   selector: 'qddt-questionitem',
@@ -15,7 +15,6 @@ import { PropertyStoreService } from '../core/global/property.service';
 
 export class QuestionComponent implements AfterContentChecked, OnInit {
 
-  public modalActions = new EventEmitter<MaterializeAction>();
   public responseDomainAction = new EventEmitter<MaterializeAction>();
   public questionitems:  QuestionItem[];
 
@@ -34,10 +33,11 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
   private secondCS: any;
   private mainresponseDomainRevision: number;
 
-  private readonly columns: Column[]  =[{'name': 'name', 'label': 'Name', 'sortable': true, 'direction': '' },
-  {'name': 'question', 'label': 'Question Text', 'sortable': true, 'direction': '' },
-  {'name': 'responseDomainName', 'label': 'ResponseDomain', 'sortable': true, 'direction': '' },
-  { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' }];
+  private readonly columns = [
+    new Column( { name: 'name', label: 'Name', sortable: true }),
+    new Column( { name: 'question', label: 'Question Text', sortable: true }),
+    new Column( { name: 'responseDomainName', label: 'ResponseDomain', sortable: true }),
+    new Column( { name: 'modified', label: 'Modified', sortable: true, direction: 'desc' })];
 
 
   constructor(private questionService: QuestionService, private property: PropertyStoreService, private route: ActivatedRoute) {
@@ -49,20 +49,24 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
+        console.log('QuestionComponent ' + name);
         this.showProgressBar = true;
-        this.questionService.searchQuestionItems(name, '0', this.getSort())
-          .then((result: any) => {
+        this.questionService.searchQuestionItems(name, '0', this.getSort()).then(
+          (result) => {
             this.page = result.page;
             this.questionitems = result.content;
+            this.showProgressBar = false; },
+          (reason) => {
             this.showProgressBar = false;
-        });
+            throw reason; }
+        );
       });
   }
 
   ngOnInit() {
-//    this.route.paramMap
-//      .switchMap((params: ParamMap) =>
-//        params.has('id') ? this.questionItem = this.questionService.getquestion(params.get('id')) : null);
+  //    this.route.paramMap
+  //      .switchMap((params: ParamMap) =>
+  //        params.has('id') ? this.questionItem = this.questionService.getquestion(params.get('id')) : null);
 
     const config = this.property.get('questions');
     if (!config) {
@@ -74,28 +78,33 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
       this.selectedQuestionItem = config.item;
       this.isDetail = true;
     } else {
-      this.searchKeys = config.key;
+      this.searchKeys = (config.key) ? config.key : '';
       this.searchKeysSubect.next(this.searchKeys);
     }
   }
 
   ngAfterContentChecked() {
     const config = this.property.get('questions');
-    if (config && config['current'] === 'detail' ) {
-      this.page = config.page;
-      this.questionitems = config.collection;
-      this.selectedQuestionItem = config.item;
-      this.searchKeys = config.key;
-      this.isDetail = true;
-    } else {
-      this.isDetail = false;
-      if (config.key === null || config.key === undefined) {
-        this.property.set('questions', {'current': 'list', 'key': ''});
-        this.searchKeys = '';
-        this.searchKeysSubect.next('');
+    if (config.current === 'detail' ) {
+      if (config && config['current'] === 'detail' ) {
+        this.page = config.page;
+        this.questionitems = config.collection;
+        this.selectedQuestionItem = config.item;
+        this.searchKeys = config.key;
+        this.isDetail = true;
+      } else {
+        this.isDetail = false;
+        if (config.key === null || config.key === undefined) {
+          this.property.set('questions', {'current': 'list', 'key': ''});
+          this.searchKeys = '';
+          this.searchKeysSubect.next('');
+        }
       }
+    // Materialize.updateTextFields();
+    console.log('ngAfterContentChecked');
     }
   }
+
 
   onToggleQuestionItemForm() {
     this.showQuestionItemForm = !this.showQuestionItemForm;
@@ -107,7 +116,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
 
   onDetail(questionItem: any) {
     this.selectedQuestionItem = questionItem;
-    this.isDetail = true;
+//    this.isDetail = true;
     this.property.set('questions',
       {'current': 'detail',
         'page': this.page,
@@ -116,10 +125,13 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
         'collection': this.questionitems});
   }
 
-  hideDetail() {
-    this.isDetail = false;
-    this.property.set('questions', {'current': 'list', 'key': this.searchKeys});
+  onSearchTable(name: string) {
+    console.log('onSearchTable ' + name);
+    this.searchKeys = name;
+    this.searchKeysSubect.next(name);
   }
+
+
 
   onPage(page: string) {
     this.showProgressBar = true;
@@ -181,9 +193,9 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
     this.responseDomainAction.emit({action: 'modal', params: ['open']});
   }
 
-  searchResponseDomains(name: string) {
-    this.searchKeys = name;
-    this.searchKeysSubect.next(name);
+  hideDetail() {
+    this.isDetail = false;
+    this.property.set('questions', {'current': 'list', 'key': this.searchKeys});
   }
 
   private getSort() {

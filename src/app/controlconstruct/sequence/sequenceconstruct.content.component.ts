@@ -10,25 +10,18 @@ import { SequenceConstruct, ControlConstructService } from '../controlconstruct.
   ],
 })
 
-export class SequenceContentComponent implements OnInit {
+export class SequenceContentComponent {
   @Input() sequence: SequenceConstruct;
-  error: any;
   selectedElement: any;
   sequenceContentActions = new EventEmitter<any>();
 
   constructor(private service: ControlConstructService) {
   }
 
-  ngOnInit() {
-    //
-  }
 
   onSelectedElement(element: any) {
     this.selectedElement = element;
     this.sequenceContentActions.emit({action: 'modal', params: ['open']});
   }
 
-  popupModal(error: any) {
-    this.error = error;
-  }
 }

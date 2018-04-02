@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, AfterContentChecked } from '@angular/core';
-import { StudyService, Study } from './study.service';
+import { HomeService, Study } from '../home.service';
 
 declare var Materialize: any;
 
@@ -44,7 +44,7 @@ export class StudyEditComponent implements AfterContentChecked {
   public showRevision = false;
   public basedonRef: any;
 
-  constructor(private studyService: StudyService) {
+  constructor(private studyService: HomeService) {
   }
 
   ngAfterContentChecked(): void {
@@ -52,19 +52,19 @@ export class StudyEditComponent implements AfterContentChecked {
   }
 
   onSave() {
-    this.studyService.update(this.study).subscribe((result: any) => {
+    this.studyService.updateStudy(this.study).subscribe((result: any) => {
       this.study = null;
       this.studySavedEvent.emit(result);
     });
   }
 
   onAuthorSelected(author: any) {
-   this.studyService.attachAuthor(this.study.id, author.id);
+   this.studyService.attachStudyAuthor(this.study.id, author.id);
    this.study['authors'].push(author);
   }
 
   onAuthorRemoved(author: any) {
-   this.studyService.deattachAuthor(this.study.id, author.id);
+   this.studyService.deattachStudyAuthor(this.study.id, author.id);
    const i = this.study['authors'].findIndex((F: any) => F === author);
    this.study['authors'].splice(i, 1);
   }

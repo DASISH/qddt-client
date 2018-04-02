@@ -1,8 +1,6 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { MockBackend } from '@angular/http/testing';
-import { BaseRequestOptions, Http, ConnectionBackend } from '@angular/http';
 
 import { ResponseDomainService } from './responsedomain.service';
 import { ResponsedomainFormComponent } from './responsedomain.form.component';
@@ -25,15 +23,8 @@ export function main() {
         RationalComponent, AutocompleteComponent,
         PreviewComponent],
         providers: [
-          MockBackend,
-          BaseRequestOptions,
           { provide: ResponseDomainService, useClass: ResponseDomainServiceSpy },
           { provide: CategoryService, useClass: CategoryServiceSpy },
-          {
-            provide: Http,
-            useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),
-            deps: [MockBackend, BaseRequestOptions]
-          },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
@@ -41,7 +32,7 @@ export function main() {
         ],
         imports: [CommonModule, FormsModule, MaterializeModule]
       });
-      //Mock debounceTime
+      // Mock debounceTime
       Observable.prototype.debounceTime = function () { return this; };
     });
 
@@ -126,7 +117,7 @@ export function main() {
   });
 }
 
-//override dependencies
+// override dependencies
 class ResponseDomainServiceSpy {
   getAll = jasmine.createSpy('getAll').and.callFake(function (key) {
     return [];
@@ -209,7 +200,7 @@ class RevisionDetailComponent {
 }
 
 @Component({
-  selector: 'auto-complete',
+  selector: 'qddt-auto-complete',
   template: `<div></div>`
 })
 
@@ -220,8 +211,8 @@ class AutocompleteComponent {
   @Input() isMultipleFields: boolean;
   @Input() initialValue: string;
   @Input() searchFromServer: boolean;
-  @Output() autocompleteSelectEvent: EventEmitter<any> = new EventEmitter<any>();
-  @Output() autocompleteFocusEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() selectEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() focusEvent: EventEmitter<any> = new EventEmitter<any>();
   @Output() enterEvent: EventEmitter<any> = new EventEmitter<any>();
 }
 

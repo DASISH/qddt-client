@@ -1,6 +1,8 @@
 import { Component, OnChanges, EventEmitter, Input, Output } from '@angular/core';
-import { ElementKind, QddtElement, PreviewService, QddtElements, ElementRevisionRef } from '../preview/preview.service';
-import { IEntityAudit } from '../shared/ientityAudit';
+import {  PreviewService } from '../preview/preview.service';
+import { IEntityAudit } from '../interfaces/entityaudit';
+import { ElementRevisionRef, QDDT_ELEMENTS, ElementKind } from '../interfaces/elements';
+
 
 @Component({
   selector: 'qddt-preview-select',
@@ -13,13 +15,12 @@ export class PreviewSelectComponent implements OnChanges {
   @Output() selectedEvent = new EventEmitter<ElementRevisionRef>();
   @Output() dismissEvent = new EventEmitter<any>();
 
-  elementRevisions: any[];
+  elementRevisions = [];
   selectedRevision: number;
   selectedElement: IEntityAudit;
   showProgressBar = false;
 
   constructor(private service: PreviewService) {
-    this.elementRevisions = [];
   }
 
   ngOnChanges() {
@@ -57,7 +58,7 @@ export class PreviewSelectComponent implements OnChanges {
 
   onUseElement() {
     // console.info('onUseElement ' + this.elementKind);
-    const elementType  = QddtElements.find(e => e.id === this.getElementKind());
+    const elementType  = QDDT_ELEMENTS.find(e => e.id === this.getElementKind());
     if (elementType) {
       const element = new ElementRevisionRef();
       element.elementId = this.selectedElement.id;

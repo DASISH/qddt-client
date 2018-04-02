@@ -57,6 +57,9 @@ export function main() {
               id: '7f000101-54aa-131e-8154-aa27fc230000',
               name: 'one study',
               description: '',
+              authors: [],
+              comments: [],
+              topicGroups: [],
               archived: false
             };
             fixture.detectChanges();

@@ -1,9 +1,8 @@
 import {  Component, OnInit } from '@angular/core';
-import { StudyService, Study } from './study.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SurveyProgram } from '../survey/survey.service';
 import { HIERARCHY_POSITION, PropertyStoreService } from '../../core/global/property.service';
-import { ElementKind } from '../../preview/preview.service';
+import { ElementKind } from '../../interfaces/elements';
+import { HomeService, Study, SurveyProgram } from '../home.service';
 
 const filesaver = require('file-saver');
 
@@ -22,7 +21,7 @@ export class StudyComponent implements OnInit {
   public revision: any;
 
   constructor(  private router: Router, private route: ActivatedRoute,
-                private studyService: StudyService, private property: PropertyStoreService) {
+                private studyService: HomeService, private property: PropertyStoreService) {
     this.study = new Study();
   }
 
@@ -31,7 +30,7 @@ export class StudyComponent implements OnInit {
     if (survey) {
       this.survey = survey;
     } else {
-        this.studyService.getAll(this.survey.id).then(result => this.survey.studies = result);
+        this.studyService.getAllStudy(this.survey.id).then(result => this.survey.studies = result);
     }
   }
 
@@ -63,7 +62,7 @@ export class StudyComponent implements OnInit {
 
   onSaveNewStudy() {
     this.showEditForm = false;
-    this.studyService.save(this.study, this.survey.id)
+    this.studyService.createStudy(this.study, this.survey.id)
       .subscribe((result: any) => {
         this.onStudySavedEvent(result);
     });
@@ -72,7 +71,7 @@ export class StudyComponent implements OnInit {
 
   getPdf(element: Study) {
     const fileName = element.name + '.pdf';
-    this.studyService.getPdf(element.id).then(
+    this.studyService.getStudyPdf(element.id).then(
       (data: any) => {
         filesaver.saveAs(data, fileName);
       });

@@ -28,7 +28,7 @@
       <div class="indeterminate"></div>
   </div>
   <qddt-table *ngIf="!isEditFormVisible" [items]="responseDomains" [page]="page" [columns]="columns"
-        [searchFromServer]="true"
+
         (enterEvent)="searchResponseDomains($event)"
         (detailEvent)="onSelectDetail($event)"
         (pageChangeEvent)="onPage($event)">
@@ -78,7 +78,7 @@
         [config]="selectedResponseDomain.config"
         >
       </qddt-revision>
-  
+
 
       <qddt-comment-list
         [ownerId]="selectedResponseDomain.id"

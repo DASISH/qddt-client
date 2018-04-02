@@ -29,8 +29,7 @@
     <div class="col s10 grey-text text-darken-2">
       <qddt-control-construct-form
         [controlConstruct]="controlConstruct"
-        (exceptionEvent)="onExceptionEvent($event)"
-        (controlConstructSavedAction)="onccSaveAction($event)">
+        (savedAction)="onControlConstructSaved($event)">
       </qddt-control-construct-form>
 
       <qddt-revision *ngIf="revisionIsVisible"
@@ -38,7 +37,7 @@
         [config]="config"
         [qddtURI]="'audit/controlconstruct/' + controlConstruct.id + '/all'">
       </qddt-revision>
-     
+
 
       <qddt-comment-list
         [ownerId]="controlConstruct.id"

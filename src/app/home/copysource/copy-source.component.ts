@@ -1,32 +1,33 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { CopySourceService } from './copy-source.service';
-import { ElementEnumAware, ElementKind, QddtElement, QddtElements } from '../../preview/preview.service';
+import { ElementEnumAware } from '../../preview/preview.service';
+import { ElementKind, QDDT_ELEMENTS, QddtElement } from '../../interfaces/elements';
+import { IEntityAudit } from '../../interfaces/entityaudit';
+import { HomeService } from '../home.service';
+
 
 @Component({
   selector: 'qddt-copy-select',
   moduleId: module.id,
   styles:  [ ],
   templateUrl: './copy-source.component.html',
-  providers: [CopySourceService]
 })
 @ElementEnumAware
 export class CopySourceComponent {
   @Input() parentId: any;
   @Input() elementKind: ElementKind;
-
   @Output() itemSelected = new EventEmitter<any>();
 
   items: any[];
   elementRevisions: any[];
   elementRevision: any;
-  selectedElement: any;
+  selectedElement: IEntityAudit;
   selectedIndex: number;
 
   private searchKeysSubect: Subject<string> = new Subject<string>();
 
 
-  constructor(private service: CopySourceService) {
+  constructor(private service: HomeService) {
     this.selectedIndex = 0;
     this.items = [];
     this.elementRevisions = [];
@@ -62,11 +63,11 @@ export class CopySourceComponent {
     this.searchKeysSubect.next(name);
   }
 
-  onSelectItem(item) {
+  onSelectItem(item: IEntityAudit) {
     this.selectedElement = item;
     if ((item) && (item.id)) {
-      this.service.getRevisionById(this.elementKind, item.id)
-        .then((result: any) => {
+      this.service.getRevisionById(this.elementKind, item.id).then(
+        (result: any) => {
           this.elementRevisions = result.content;
           this.onSelectElementRevisions();
       });
@@ -74,7 +75,7 @@ export class CopySourceComponent {
   }
 
   getElementClass(kind: ElementKind): QddtElement {
-    return QddtElements[kind];
+    return QDDT_ELEMENTS[kind];
   }
 
 }
