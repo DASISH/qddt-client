@@ -1,6 +1,9 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { ElementKind } from '../../interfaces/elements';
+import { ElementKind } from '../../shared/elementinterfaces/elements';
 import { SequenceConstruct, ControlConstructService } from '../controlconstruct.service';
+import { Action, IDetailAction } from '../../shared/elementinterfaces/detailaction';
+import { ActivatedRoute, Router } from '@angular/router';
+
 const filesaver = require('file-saver');
 
 @Component({
@@ -11,30 +14,34 @@ const filesaver = require('file-saver');
 
 export class SequenceDetailComponent implements OnInit {
   @Input() sequence: SequenceConstruct;
-  @Output() hideDetailEvent: EventEmitter<String> = new EventEmitter<String>();
+  // @Output() hideDetailEvent: EventEmitter<String> = new EventEmitter<String>();
 
   private readonly revisionKind = ElementKind.SEQUENCE_CONSTRUCT;
   private revisionIsVisible: boolean;
-  private previewObject: any;
+  private action: IDetailAction;
 
-  constructor(private service: ControlConstructService) {
+  constructor(private service: ControlConstructService, private router: Router, private route: ActivatedRoute) {
     this.revisionIsVisible = false;
   }
 
   ngOnInit() {
+    this.action = { id: '', action: Action.None, object: null };
+    this.service.getControlConstruct<SequenceConstruct>(
+      this.route.snapshot.paramMap.get('id'))
+      .then(ctrl => {
+        this.action.id = ctrl.id;
+        this.sequence = ctrl; })
+      .catch( error => { throw error; } );
   }
 
   hideDetail() {
-    this.hideDetailEvent.emit('hide');
+    this.router.navigate(['../' ], { relativeTo: this.route });
   }
 
   sequenceSavedEvent(sequence: SequenceConstruct) {
     this.hideDetail();
   }
 
-  onShowRevision(element: any) {
-    this.previewObject = element;
-  }
 
   getPdf(element: SequenceConstruct) {
     const fileName = element.name + '.pdf';
@@ -46,22 +53,9 @@ export class SequenceDetailComponent implements OnInit {
 
   onDeleteSequence() {
     this.service.deleteControlConstruct(this.sequence.id).subscribe(
-      () => { }
+      () => {  }
     );
     this.hideDetail();
   }
-    // this.service.(this.category.id)
-    //   .subscribe(() => {
-    //       const i = this.categories.findIndex(q => q['id'] === this.category.id);
-    //       if (i >= 0) {
-    //         this.categories.splice(i, 1);
-    //         this.hideDetail();
-    //       }
-    //     },
-    //     (error: any) => console.log(error));
-
-  // hideDetail() {
-  //   this.hideDetailEvent.emit('hide');
-  // }
 
 }

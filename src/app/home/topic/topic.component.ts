@@ -4,7 +4,7 @@ import { MaterializeAction } from 'angular2-materialize';
 import 'rxjs/add/operator/switchMap';
 import { HIERARCHY_POSITION, PropertyStoreService } from '../../core/global/property.service';
 import { QuestionItem } from '../../question/question.service';
-import { ElementKind } from '../../interfaces/elements';
+import { ElementKind } from '../../shared/elementinterfaces/elements';
 import { HomeService, Topic, Study } from '../home.service';
 
 const filesaver = require('file-saver');

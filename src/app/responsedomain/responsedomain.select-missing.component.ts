@@ -3,7 +3,7 @@ import { Category, CategoryService } from '../category/category.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 import { ResponseDomain } from './responsedomain.service';
-import { QddtElement, QDDT_ELEMENTS, ElementKind } from '../interfaces/elements';
+import { QddtElement, QDDT_ELEMENTS, ElementKind } from '../shared/elementinterfaces/elements';
 
 @Component({
   selector: 'qddt-responsedomain-select-missing',

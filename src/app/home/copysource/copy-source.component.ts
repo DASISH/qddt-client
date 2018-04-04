@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { ElementEnumAware } from '../../preview/preview.service';
-import { ElementKind, QDDT_ELEMENTS, QddtElement } from '../../interfaces/elements';
-import { IEntityAudit } from '../../interfaces/entityaudit';
+import { ElementKind, QDDT_ELEMENTS, QddtElement } from '../../shared/elementinterfaces/elements';
+import { IEntityAudit } from '../../shared/elementinterfaces/entityaudit';
 import { HomeService } from '../home.service';
 
 

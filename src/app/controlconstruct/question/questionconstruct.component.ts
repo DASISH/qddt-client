@@ -7,7 +7,7 @@ import { PropertyStoreService } from '../../core/global/property.service';
 import { Column } from '../../shared/table/table.column';
 
 @Component({
-  selector: 'qddt-controle-construct',
+  selector: 'qddt-question-construct',
   moduleId: module.id,
   templateUrl: './questionconstruct.component.html',
   styles: [],

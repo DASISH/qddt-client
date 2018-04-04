@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
-import { QddtElement } from '../../interfaces/elements';
-import { IEntityAudit } from '../../interfaces/entityaudit';
+import { QddtElement } from '../elementinterfaces/elements';
+import { IEntityAudit } from '../elementinterfaces/entityaudit';
 
 @Component({
   selector: 'qddt-auto-complete',
@@ -17,15 +17,15 @@ export class AutocompleteComponent implements OnInit, OnChanges {
    */
   @Input() initialValue: string;
 
-  @Output() selectEvent = new EventEmitter<any>();
-  @Output() focusEvent = new EventEmitter<any>();
-  @Output() enterEvent = new EventEmitter<any>();
+  @Output() selectEvent = new EventEmitter<IEntityAudit>();
+  @Output() focusEvent = new EventEmitter<string>();
+  @Output() enterEvent = new EventEmitter<string>();
 
   public candidates: any[];
   public showAutoComplete = false;
   public value: string;
 
-  private selectedIndex = 0;
+  public selectedIndex = 0;
   private searchFromServer = true;
 
   ngOnInit() {

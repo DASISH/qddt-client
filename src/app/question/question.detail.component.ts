@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { QuestionService, QuestionItem } from './question.service';
 import { MaterializeAction } from 'angular2-materialize';
-import { ElementKind } from '../interfaces/elements';
+import { ElementKind } from '../shared/elementinterfaces/elements';
 
 const filesaver = require('file-saver');
 

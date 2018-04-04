@@ -4,15 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { API_BASE_HREF } from '../api';
 import { Observable } from 'rxjs/Observable';
 import { QuestionItem } from '../question/question.service';
-import { QddtElement, QDDT_ELEMENTS, ElementKind } from '../interfaces/elements';
-import { IEntityAudit } from '../interfaces/entityaudit';
-
-/* export const ElementTypeDescription: QddtElement[] = [
-  QDDT_ELEMENTS[ElementKind.QUESTION_CONSTRUCT],
-  QDDT_ELEMENTS[ElementKind.STATEMENT_CONSTRUCT],
-  QDDT_ELEMENTS[ElementKind.CONDITION_CONSTRUCT],
-  QDDT_ELEMENTS[ElementKind.SEQUENCE_CONSTRUCT]
-]; */
+import { QddtElement, QDDT_ELEMENTS, ElementKind } from '../shared/elementinterfaces/elements';
+import { IEntityAudit } from '../shared/elementinterfaces/entityaudit';
 
 export enum SequenceKind {
   NA,
@@ -22,14 +15,18 @@ export enum SequenceKind {
   UNIVERSE
 }
 
-export class Universe {
+export class Universe implements IEntityAudit{
   id: string;
+  name: string;
   description: string;
+  classKind = ElementKind[ElementKind.UNIVERSE];
 }
 
-export class Instruction {
+export class Instruction implements IEntityAudit {
   id: string;
+  name: string;
   description: string;
+  classKind = ElementKind[ElementKind.INSTRUCTION];
 }
 
 export class ConditionCommand {
@@ -55,9 +52,10 @@ export class QuestionConstruct implements IEntityAudit {
 export class SequenceConstruct implements IEntityAudit {
   id: string;
   name: string;
+  label: string;
   description: string;
   classKind = ElementKind[ElementKind.SEQUENCE_CONSTRUCT];
-  sequence: SequenceKind;
+  sequence = SequenceKind[SequenceKind.SECTION];
   children: any[];
 }
 
@@ -84,54 +82,61 @@ export class ControlConstructService  {
 
   readonly pageSize = '&size=10';
 
-  constructor(protected http: HttpClient, @Inject(API_BASE_HREF) protected api: string) {
-    //
-  }
+  constructor(protected http: HttpClient, @Inject(API_BASE_HREF) protected api: string) { }
 
-  getControlConstruct<T>(id: string): Promise<T>  {
+  public getControlConstruct<T>(id: string): Promise<T>  {
     console.log('getControlConstruct');
     return this.http.get<T>(this.api + 'controlconstruct/' + id).toPromise();
   }
 
-  getControlConstructRevision(id: string, rev: string): Promise<any>  {
+  public getControlConstructRevision(id: string, rev: string): Promise<any>  {
     return this.http.get(this.api + 'audit/controlconstruct/' + id + '/' + rev).toPromise();
   }
 
-  getControlConstructsByQuestionItem(id: string): Promise<any>  {
+  public getControlConstructsByQuestionItem(id: string): Promise<any>  {
     return this.http.get(this.api + 'controlconstruct/list/by-question/' + id).toPromise();
   }
 
-  getQuestionItems(key: string): Promise<any> {
+  public getQuestionItems(key: string): Promise<any> {
     return this.http.get(this.api + 'questionitem/page/').toPromise();
   }
 
-  getQuestionItemsRevisions(id: string): Promise<any> {
+  public getQuestionItemsRevisions(id: string): Promise<any> {
     return this.http.get(this.api + 'audit/questionitem/' + id + '/all').toPromise();
   }
 
-  getConceptsByQuestionitemId(id: string): Promise<any> {
+  public getConceptsByQuestionitemId(id: string): Promise<any> {
     return this.http.get(this.api + 'concept/list/by-QuestionItem/' + id).toPromise();
   }
 
-  getFile(id: string): Promise<Blob>  {
+  public getFile(id: string): Promise<Blob>  {
     return this.http.get(this.api + 'othermaterial/files/' + id, {responseType: 'blob'}).toPromise();
   }
 
-  getPdf(id: string): Promise<Blob>  {
+  public getPdf(id: string): Promise<Blob>  {
     return this.http.get(this.api + 'controlconstruct/pdf/' + id, { responseType: 'blob'}).toPromise();
   }
 
-  searchControlConstructs(name: string = '*', questionText: string = '*', page: String = '0', sort: string = ''): Promise<any> {
+  public searchControlConstructs(name: string = '*', questionText: string = '*', page: String = '0', sort: string = ''): Promise<any> {
+    console.log('searchControlConstructs');
     let query = '&name=' + name + '&questiontext=' + questionText;
     if (sort.length > 0) {
       query += '&sort=' + sort;
     }
     return this.http.get(this.api + 'controlconstruct/page/search/?constructkind=QUESTION_CONSTRUCT'
-      + '&page=' + page + this.pageSize + query)
-      .toPromise();
+      + '&page=' + page + this.pageSize + query).toPromise();
   }
 
-  searchQuestionItemsByNameAndQuestion(name: string = '', page: String = '0', sort: String = ''): Promise<any> {
+  public searchSequenceConstructs(name: string = '*',  page: String = '0', sort: string = ''): Promise<any> {
+    console.log('searchSequenceConstructs');
+    let query = '&name=' + name ;
+    if (sort.length > 0) { query += '&sort=' + sort; }
+
+    return this.http.get(this.api + 'controlconstruct/page/search/?constructkind=SEQUENCE_CONSTRUCT'
+      + '&page=' + page + this.pageSize + query).toPromise();
+  }
+
+  public searchQuestionItemsByNameAndQuestion(name: string = '', page: String = '0', sort: String = ''): Promise<any> {
     let query = name.length > 0 ? '&question=' + '*' + name + '*' + '&name=' + '*' + name + '*' : '';
     if (sort.length > 0) {
       query += '&sort=' + sort;
@@ -139,21 +144,21 @@ export class ControlConstructService  {
     return this.http.get(this.api + 'questionitem/page/search?' + 'page=' + page + this.pageSize + query).toPromise();
   }
 
-  searchInstructions(description: string = '', page: String = '0'): Promise<any> {
+  public searchInstructions(description: string = '', page: String = '0'): Promise<any> {
     const query = description.length > 0 ? '&description=' + '*' + description + '*' : '';
     return this.http.get(this.api + 'instruction/page/search?' + 'page=' + page + this.pageSize + query).toPromise();
   }
 
-  searchUniverses(description: string = '', page: String = '0'): Promise<any> {
+  public searchUniverses(description: string = '', page: String = '0'): Promise<any> {
     const query = description.length > 0 ? '&description=' + '*' + description + '*' : '';
     return this.http.get(this.api + 'universe/page/search?' + 'page=' + page + this.pageSize + query).toPromise();
   }
 
-  createCondition(cc: ConditionConstruct): Observable<ConditionConstruct> {
+  public createCondition(cc: ConditionConstruct): Observable<ConditionConstruct> {
     return this.http.post<ConditionConstruct>(this.api + 'controlconstruct/condition/create/', cc);
   }
 
-  createWithfiles(form: FormData ): Observable<QuestionConstruct> {
+  public createWithfiles(form: FormData ): Observable<QuestionConstruct> {
     return this.http.post<QuestionConstruct>(this.api + 'controlconstruct/createfile/', form);
 
 //    return this.http.post("createfile",form)
@@ -161,48 +166,48 @@ export class ControlConstructService  {
 
   }
 
-  createQuestion(cc: QuestionConstruct): Observable<QuestionConstruct> {
+  public createQuestion(cc: QuestionConstruct): Observable<QuestionConstruct> {
     return this.http.post<QuestionConstruct>(this.api + 'controlconstruct/question/create/', cc);
   }
 
-  createSequence(cc: SequenceConstruct): Observable<SequenceConstruct> {
+  public createSequence(cc: SequenceConstruct): Observable<SequenceConstruct> {
     return this.http.post<SequenceConstruct>(this.api + 'controlconstruct/sequence/create/', cc);
   }
 
-  createStatement(cc: StatementConstruct): Observable<StatementConstruct> {
+  public createStatement(cc: StatementConstruct): Observable<StatementConstruct> {
     return this.http.post<StatementConstruct>(this.api + 'controlconstruct/statement/create/', cc);
   }
 
-  updateCondition(cc: ConditionConstruct): Observable<ConditionConstruct> {
+  public updateCondition(cc: ConditionConstruct): Observable<ConditionConstruct> {
     const path = 'controlconstruct/condition/';
     return this.http.post<ConditionConstruct>(this.api + path , cc);
   }
 
-  updateQuestion(cc: QuestionConstruct): Observable<QuestionConstruct> {
+  public updateQuestion(cc: QuestionConstruct): Observable<QuestionConstruct> {
     const path = 'controlconstruct/question/';
     return this.http.post<QuestionConstruct>(this.api + path , cc);
   }
 
-  updateSequence(cc: SequenceConstruct): Observable<SequenceConstruct> {
+  public updateSequence(cc: SequenceConstruct): Observable<SequenceConstruct> {
     const path = 'controlconstruct/sequence/';
     return this.http.post<SequenceConstruct>(this.api + path , cc);
   }
 
-  updateStatement(cc: StatementConstruct): Observable<StatementConstruct> {
+  public updateStatement(cc: StatementConstruct): Observable<StatementConstruct> {
     const path = 'controlconstruct/statement/';
     return this.http.post<StatementConstruct>(this.api + path , cc);
   }
 
 
-  deleteControlConstruct(id: string): Observable<any> {
+  public deleteControlConstruct(id: string): Observable<any> {
     return this.http.delete(this.api + 'controlconstruct/delete/' + id);
   }
 
-  deleteFile(id: string): Observable<any> {
+  public deleteFile(id: string): Observable<any> {
     return this.http.delete(this.api + 'othermaterial/delete/' + id);
   }
 
-  uploadFile(id: string, files: any): Observable<any> {
+  public uploadFile(id: string, files: any): Observable<any> {
     const formData = new FormData();
     if (files !== null) {
       formData.append('file', files[0]);

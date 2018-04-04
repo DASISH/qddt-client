@@ -5,10 +5,8 @@ import { ControlConstructComponent } from './controlconstruct.component';
 
 import { QuestionConstructListComponent } from './question/questionconstruct-list.component';
 import { QuestionConstructDetailComponent } from './question/questionconstruct.detail.component';
-import { SequenceConstructComponent } from './sequence/sequenceconstruct.component';
+import { SequenceConstructListComponent } from './sequence/sequenceconstruct-list.component';
 import { SequenceDetailComponent } from './sequence/sequenceconstruct.detail.component';
-
-
 
 
 export const controlConstructRoutes: Routes = [
@@ -19,7 +17,7 @@ export const controlConstructRoutes: Routes = [
     children: [
       { path: 'questions', component: QuestionConstructListComponent, canActivate: [AuthGuard], },
       { path: 'questions/:id', component: QuestionConstructDetailComponent, canActivate: [AuthGuard], },
-      { path: 'sequences', component: SequenceConstructComponent, canActivate: [AuthGuard], },
+      { path: 'sequences', component: SequenceConstructListComponent, canActivate: [AuthGuard], },
       { path: 'sequences/:id', component: SequenceDetailComponent, canActivate: [AuthGuard], },
     ],
   }

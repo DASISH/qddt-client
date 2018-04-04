@@ -3,7 +3,7 @@ import { UserService } from './core/user/user.service';
 import { PropertyStoreService } from './core/global/property.service';
 import { QddtMessageService } from './core/global/message.service';
 import { Subscription } from 'rxjs/Subscription';
-import { IElementRef, IRevisionRef } from './interfaces/elements';
+import { IElementRef, IRevisionRef } from './shared/elementinterfaces/elements';
 
 // declare var $: any;
 
@@ -47,7 +47,7 @@ export class AppComponent  implements OnDestroy {
   }
 
   onQuestions() {
-    this.checkRouter('questions', 'list');
+    this.checkRouter('questionitems', 'list');
   }
 
   onHome() {

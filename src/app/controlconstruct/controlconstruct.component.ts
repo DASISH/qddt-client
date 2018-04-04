@@ -1,8 +1,8 @@
-import { AfterContentChecked, Component, OnInit } from '@angular/core';
+import { AfterContentChecked, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IHeaderDetail } from '../interfaces/headerdetail';
+import { HEADER_DETAILS } from '../shared/elementinterfaces/headerdetail';
 import { QuestionConstruct } from './controlconstruct.service';
-import { IEntityAudit } from '../interfaces/entityaudit';
+import { IEntityAudit } from '../shared/elementinterfaces/entityaudit';
 
 // declare var Materialize: any;
 
@@ -20,21 +20,16 @@ export class ControlConstructComponent  implements AfterContentChecked {
   public newItem: IEntityAudit;
   public showForm = false;
 
-  private readonly childs: Map<string, IHeaderDetail>  = new Map([
-    ['questions', { icon: 'view_agenda', headerName: 'Question constructs' }],
-    ['sequences', { icon: 'format_line_spacing', headerName: 'Sequence construct' }]
-  ]);
 
   constructor( private route: ActivatedRoute ) {
     this.route.url.subscribe((event) => {
       const path = this.route.firstChild.routeConfig.path;
-      this.icon = this.childs.get(path).icon;
-      this.headerName =  this.childs.get(path).headerName;
+      this.icon = HEADER_DETAILS.get(path).icon;
+      this.headerName =  HEADER_DETAILS.get(path).headerName;
     });
   }
 
-  newQuestionConstruct() {
-  }
+
 
   ngAfterContentChecked(): void {
     // Materialize.updateTextFields();

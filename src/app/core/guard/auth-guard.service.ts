@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, CanActivateChild,
          Router, Route,
          ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import {  UserService } from '../user/user.service';
+import { UserService } from '../user/user.service';
 import { PropertyStoreService } from '../global/property.service';
 
 @Injectable()

@@ -6,7 +6,7 @@ import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 import { PropertyStoreService } from '../core/global/property.service';
 import { Category } from '../category/category.service';
-import { ElementKind } from '../interfaces/elements';
+import { ElementKind } from '../shared/elementinterfaces/elements';
 
 // declare var Materialize: any;
 

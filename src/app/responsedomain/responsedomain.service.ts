@@ -3,6 +3,8 @@ import { Injectable, Inject } from '@angular/core';
 import { API_BASE_HREF } from '../api';
 import { Category, ResponseCardinality } from '../category/category.service';
 import { Observable } from 'rxjs/Observable';
+import {IEntityAudit, IEntityEditAudit, IVersion} from '../shared/elementinterfaces/entityaudit';
+import {ElementKind} from '../shared/elementinterfaces/elements';
 
 export const DATE_FORMAT: any = [
   {'id': 1, 'format': 'yyyy-mm-dd',         'label': 'Date' },
@@ -17,7 +19,7 @@ export const DATE_FORMAT: any = [
   {'id': 10, 'format': 'dddd d mmmm yyyy',  'label': 'Full-date-text' },
   ];
 
-export class ResponseDomain {
+export class ResponseDomain implements IEntityEditAudit {
   id: string;
   name: string;
   label: string;
@@ -26,11 +28,18 @@ export class ResponseDomain {
   displayLayout: any;
   managedRepresentation: Category;
   responseCardinality: ResponseCardinality;
-  version: any;
+  classKind = ElementKind[ElementKind.RESPONSEDOMAIN];
+  comments: any[];
   constructor() {
     this.managedRepresentation = null;
     this.responseCardinality = new ResponseCardinality();
   }
+
+  agency: IEntityAudit;
+  basedOnObject: string;
+  basedOnRevision: number;
+  modified: number;
+  version: IVersion;
 }
 
 @Injectable()

@@ -27,7 +27,7 @@ import { PreviewInstrumentComponent } from './instrument/preview.instrument.comp
 import { PreviewComponent } from './preview.component';
 import { PreviewDialogComponent } from './preview-dialog.component';
 import { PreviewService } from './preview.service';
-import { PreviewSelectComponent } from './preview.select.component';
+import { PreviewPublicationComponent } from './publication/preview.publication.component';
 
 @NgModule({
   imports: [ SharedModule],
@@ -37,16 +37,16 @@ import { PreviewSelectComponent } from './preview.select.component';
     PreviewQuestionitemComponent, PreviewQuestionitemGridComponent, PreviewResponseDomainGridComponent,
     PreviewResponsedomainComponent, PreviewSequenceConstructComponent, PreviewStatementConstructComponent,
     PreviewStudyComponent, PreviewTopicComponent, PreviewTopicListComponent, PreviewStudyListComponent,
-    PreviewSurveyComponent, PreviewInstrumentComponent,
+    PreviewSurveyComponent, PreviewInstrumentComponent, PreviewPublicationComponent,
     ResponsedomainCodeListComponent, ResponsedomainDatetimeComponent, ResponsedomainMissingComponent,
     ResponsedomainMixedComponent, ResponsedomainNumericComponent, ResponsedomainScaleComponent,
-    ResponsedomainTextComponent, PreviewComponent, PreviewDialogComponent, PreviewSelectComponent ],
+    ResponsedomainTextComponent, PreviewComponent, PreviewDialogComponent ],
 
   exports: [PreviewConceptComponent, PreviewConceptListComponent, PreviewTopicComponent,
     PreviewTopicListComponent, PreviewStudyComponent, PreviewControlConstructComponent,
     PreviewQuestionitemComponent, PreviewQuestionitemGridComponent,
-    PreviewResponsedomainComponent , PreviewInstrumentComponent,
-    PreviewComponent, PreviewDialogComponent, PreviewSelectComponent ],
+    PreviewResponsedomainComponent , PreviewInstrumentComponent, PreviewPublicationComponent,
+    PreviewComponent, PreviewDialogComponent ],
 
   providers: [ PreviewService ]
 

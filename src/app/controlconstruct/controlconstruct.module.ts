@@ -21,13 +21,15 @@ import { UniverseComponent } from './universe/universe.component';
 import { ControlConstructService } from './controlconstruct.service';
 import { ControlConstructComponent } from './controlconstruct.component';
 import { ControlConstructRoutingModule } from './controlconstruct.routes';
+import { SequenceConstructListComponent } from './sequence/sequenceconstruct-list.component';
+import {QuestionConstructComponent} from './question/questionconstruct.component';
 
 
 
 @NgModule({
   imports: [ SharedModule, ResponsedomainModule, QuestionModule, PreviewModule, ConceptrefModule, ControlConstructRoutingModule],
-  declarations: [ ControlConstructComponent,
-    QuestionConstructFormComponent, QuestionConstructDetailComponent, QuestionConstructListComponent,
+  declarations: [ ControlConstructComponent, SequenceConstructListComponent,
+    QuestionConstructFormComponent, QuestionConstructDetailComponent, QuestionConstructListComponent, QuestionConstructComponent,
     SequenceConstructComponent, SequenceContentComponent, SequenceDetailComponent, SequenceEditComponent,
     SequenceReuseComponent,
     ConditionEditComponent,  StatementEditComponent, InstructionComponent, UniverseComponent ],

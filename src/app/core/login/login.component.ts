@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit, AfterContentChecked {
       try {
         Materialize.updateTextFields();
       } catch  {
-        console.debug('not initilized...');
+        console.debug('not initialized...');
       }
     }
   }

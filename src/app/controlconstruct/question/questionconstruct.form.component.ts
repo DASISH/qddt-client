@@ -3,7 +3,8 @@ import { ControlConstructService, QuestionConstruct } from '../controlconstruct.
 import { Observable } from 'rxjs/Observable';
 import { MaterializeAction } from 'angular2-materialize';
 import { QuestionItem } from '../../question/question.service';
-import { IEntityAudit } from '../../interfaces/entityaudit';
+import { IEntityAudit } from '../../shared/elementinterfaces/entityaudit';
+import {IOtherMaterial} from '../../shared/elementinterfaces/othermaterial';
 const filesaver = require('file-saver');
 declare var Materialize: any;
 
@@ -127,13 +128,13 @@ export class QuestionConstructFormComponent implements OnInit, AfterContentCheck
     this.editQuestoinItem = false;
   }
 
-  onDownloadFile(o: any) {
+  onDownloadFile(o: IOtherMaterial) {
     const fileName = o.originalName;
     this.service.getFile(o.id).then(
-      (data: any) => {
-        filesaver.saveAs(data, fileName);
-      });
+      (data) => { filesaver.saveAs(data, fileName); },
+      (error) => { throw error; });
   }
+
 
   onSelectFile(filename: any) {
     this.files = filename.target.files;

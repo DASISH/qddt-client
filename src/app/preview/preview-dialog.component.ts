@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges } from '@angular/core';
 import {  PreviewService } from './preview.service';
 import { MaterializeAction } from 'angular2-materialize';
-import { IRevisionRef, IElementRef, ElementKind } from '../interfaces/elements';
+import { IRevisionRef, IElementRef, ElementKind } from '../shared/elementinterfaces/elements';
 
 @Component({
   selector: 'qddt-preview-dialog',

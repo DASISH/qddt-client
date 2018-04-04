@@ -5,16 +5,14 @@
     <div class="col s2">Add element</div>
   </div>
   <div class="row" *ngIf="showAddElement">
-    <div class="row teal-text">
-		  <span>Element Type</span>
-	  </div>
+    <div class="row teal-text"><span>Element Type</span></div>
     <div class="row" >
 		  <div class="left" *ngFor="let element of queryFields;">
 			  <input name="elementtypegroup" type="radio" id="element-type-{{element.id}}"
-        (click)="onSelectElementKind(element.id)"
-        [checked]="selectedElementKind === element.id"/>
+          (click)="onSelectElementKind(element.id)"
+          [checked]="selectedElementKind === element.id"/>
         <label [attr.for]="'element-type-' + element.id">{{ element.label }}</label>
-		  </div>
+      </div>
     </div>
     <div class="row">
         <qddt-auto-complete [items]="elements" class="black-text"
@@ -22,14 +20,14 @@
           (selectEvent)="onSelectElement($event)"
 		      (enterEvent)="onSearchElements($event)">
 		    </qddt-auto-complete>
-      </div>
+    </div>
   </div>
   <div *ngIf="selectedElement" class="row">
-    <qddt-preview-select *ngIf="showAddElement"
+    <qddt-revision-select *ngIf="showAddElement"
       [element]="selectedElement"
       (selectedEvent)="onPreviewSelected($event)"
       (dismissEvent)="onToggleAddElement()">
-    </qddt-preview-select>
+    </qddt-revision-select>
   </div>
 </div>
 

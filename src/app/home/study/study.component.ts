@@ -1,7 +1,7 @@
 import {  Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HIERARCHY_POSITION, PropertyStoreService } from '../../core/global/property.service';
-import { ElementKind } from '../../interfaces/elements';
+import { ElementKind } from '../../shared/elementinterfaces/elements';
 import { HomeService, Study, SurveyProgram } from '../home.service';
 
 const filesaver = require('file-saver');

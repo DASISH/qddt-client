@@ -2,7 +2,7 @@ import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { QuestionService, QuestionItem } from './question.service';
 import { Subject } from 'rxjs/Subject';
 import { ResponseDomain } from '../responsedomain/responsedomain.service';
-import { QddtElement, QDDT_ELEMENTS, ElementKind } from '../interfaces/elements';
+import { QddtElement, QDDT_ELEMENTS, ElementKind } from '../shared/elementinterfaces/elements';
 
 @Component({
   selector: 'qddt-questionitem-reuse',

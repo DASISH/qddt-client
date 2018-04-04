@@ -1,16 +1,16 @@
 import { Component, OnChanges, EventEmitter, Input, Output } from '@angular/core';
-import {  PreviewService } from '../preview/preview.service';
-import { IEntityAudit } from '../interfaces/entityaudit';
-import { ElementRevisionRef, QDDT_ELEMENTS, ElementKind } from '../interfaces/elements';
+import { SelectorsService } from '../selectors.service';
+import { IEntityAudit } from '../../shared/elementinterfaces/entityaudit';
+import { ElementKind, ElementRevisionRef, QDDT_ELEMENTS } from '../../shared/elementinterfaces/elements';
 
 
 @Component({
-  selector: 'qddt-preview-select',
+  selector: 'qddt-revision-select',
   moduleId: module.id,
-  templateUrl: './preview.select.component.html',
+  templateUrl: './revision-select.component.html',
 })
 
-export class PreviewSelectComponent implements OnChanges {
+export class RevisionSelectComponent implements OnChanges {
   @Input() element: IEntityAudit;
   @Output() selectedEvent = new EventEmitter<ElementRevisionRef>();
   @Output() dismissEvent = new EventEmitter<any>();
@@ -20,7 +20,7 @@ export class PreviewSelectComponent implements OnChanges {
   selectedElement: IEntityAudit;
   showProgressBar = false;
 
-  constructor(private service: PreviewService) {
+  constructor(private service: SelectorsService) {
   }
 
   ngOnChanges() {

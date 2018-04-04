@@ -2,12 +2,16 @@
 
   <div class="row input-field">
     <label [attr.for]="sequence.id + '-name'" class="teal-text">Name</label>
-    <input
-      name="{{sequence?.id}}-name"
-      type="text"
-      class="validate" required
+    <input name="{{sequence?.id}}-name" type="text" class="validate" required
       [(ngModel)]="sequence.name"
       materialize="characterCounter" data-length="255">
+  </div>
+
+  <div class="row input-field">
+    <label [attr.for]="sequence.id + '-label'" class="teal-text">Name</label>
+    <input name="{{sequence?.id}}-label" type="text" class="validate" required
+           [(ngModel)]="sequence.label"
+           materialize="characterCounter" data-length="255">
   </div>
 
   <div class="row input-field ">
@@ -20,11 +24,23 @@
   </div>
 
   <qddt-sequence-reuse (element)="onGetElement($event)"></qddt-sequence-reuse>
-  
+
   <qddt-preview-controlconstruct [construct]="sequence"></qddt-preview-controlconstruct>
 
-  <qddt-rational [formName]="'RationalComp'" [element]="sequence"  [config]="{hidden: [4]}"></qddt-rational>
+  <div class="row" *ngIf="!readonly && sequence.id">
+    <qddt-rational [formName]="'RationalComp'" [element]="sequence" [config]="{hidden: [4]}"></qddt-rational>
+  </div>
 
-  <button type="submit" class="btn btn-default right">Submit</button>
+  <div class="row" *ngIf="sequence.id">
+    <qddt-element-footer [element]="sequence"></qddt-element-footer>
+  </div>
+
+  <div class="row right-align">
+    <button *ngIf="!readonly" type="button"
+            class="btn btn-default" [disabled]="!sequenceform.form.valid">Submit</button>
+  </div>
+
+
+  <!--<button type="submit" class="btn btn-default right">Submit</button>-->
 
 </form>

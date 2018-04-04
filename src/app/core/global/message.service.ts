@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { IRevisionRef, IElementRef } from '../../interfaces/elements';
+import { IRevisionRef, IElementRef } from '../../shared/elementinterfaces/elements';
 
 
 @Injectable()

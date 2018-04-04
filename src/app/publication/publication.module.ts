@@ -7,9 +7,12 @@ import { PublicationReuseComponent } from './publication.reuse.component';
 import { PublicationFormComponent } from './publication.form.component';
 import { ResponsedomainModule } from '../responsedomain/responsedomain.module';
 import { PublicationService } from './publication.service';
+import { PublicationRoutingModule } from './publication.routes';
+import { TemplateModule } from '../template/template.module';
+import { SelectorsModule } from '../selectors/selectors.module';
 
 @NgModule({
-  imports: [ SharedModule, PreviewModule, ResponsedomainModule ],
+  imports: [ SharedModule, PreviewModule, ResponsedomainModule, PublicationRoutingModule, TemplateModule, SelectorsModule],
   declarations: [ PublicationComponent, PublicationDetailComponent, PublicationReuseComponent,
     PublicationFormComponent ],
   exports: [ PublicationComponent ],

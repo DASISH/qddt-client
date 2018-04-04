@@ -1,10 +1,10 @@
-import { Component, EventEmitter, OnInit, AfterContentChecked } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { ControlConstructService, QuestionConstruct, Instruction, Universe } from '../controlconstruct.service';
+import { ControlConstructService, QuestionConstruct } from '../controlconstruct.service';
 import { Subject } from 'rxjs/Subject';
-import { MaterializeAction } from 'angular2-materialize';
 import { Column } from '../../shared/table/table.column';
+import { IEntityAudit } from '../../shared/elementinterfaces/entityaudit';
 
 @Component({
   selector: 'qddt-control-construct-list',
@@ -16,10 +16,10 @@ export class QuestionConstructListComponent implements OnInit {
   public controlConstructs: QuestionConstruct[];
   public showProgressBar = false;
 
-  private showControlConstructForm = false;
+  private page = '0';
   private searchKeys: string;
-  private page = {};
-  private searchKeysSubect: Subject<string> = new Subject<string>();
+  private searchKeysSubject = new Subject<string>();
+
   private readonly columns = [
      new Column({ name: 'name', label: 'Construct Name', sortable: true }),
      new Column({ name: 'questionName', label: 'Question Name', sortable: true }),
@@ -28,49 +28,41 @@ export class QuestionConstructListComponent implements OnInit {
   ];
 
   constructor(private service: ControlConstructService, private router: Router, private route: ActivatedRoute ) {
-    this.searchKeysSubect
+    this.searchKeysSubject
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
         this.showProgressBar = true;
-        const args = name.split(' ');
-        service.searchControlConstructs(args[0], args[1] ? args[1] : '*', '0', this.getSort()).then(
+        const args = name.split(', ');
+        service.searchControlConstructs(args[0], args[1] ? args[1] : '*', this.page, this.getSort()).then(
           (result) => {
             this.page = result.page;
             this.controlConstructs = result.content;
             this.showProgressBar = false; },
           (error) => {
-              this.showProgressBar = false;
-              throw error;
+            this.showProgressBar = false;
+            throw error;
           });
       });
   }
+
 
   ngOnInit(): void {
     this.onSearchKey('');
   }
 
   onPage(page: string) {
-    this.showProgressBar = true;
-    const args = this.searchKeys.split(', ');
-    this.service.searchControlConstructs(args[0], args[1] ? args[1] : '*', page, this.getSort()).then(
-      (result: any) => {
-        this.page = result.page;
-        this.controlConstructs = result.content;
-        this.showProgressBar = false; },
-      (error: any) => {
-        this.showProgressBar = false;
-        throw error;
-      });
+    this.page = page;
+    this.searchKeysSubject.next(this.searchKeys);
   }
 
   onSearchKey(search: string ) {
-      this.searchKeys = search;
-      this.searchKeysSubect.next(search);
+    this.searchKeys = search;
+    this.searchKeysSubject.next(search);
   }
 
-  onDetail(item: QuestionConstruct ) {
-      this.router.navigate(['./', item.id ], { relativeTo: this.route });
+  onDetail(item: IEntityAudit ) {
+    this.router.navigate(['./', item.id ], { relativeTo: this.route });
   }
 
   private getSort() {

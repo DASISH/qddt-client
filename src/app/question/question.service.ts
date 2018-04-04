@@ -4,7 +4,7 @@ import { API_BASE_HREF } from '../api';
 import { ResponseDomain } from '../responsedomain/responsedomain.service';
 import { Observable } from 'rxjs/Observable';
 import { Category } from '../category/category.service';
-import { IEntityEditAudit, IVersion, IEntityAudit } from '../interfaces/entityaudit';
+import { IEntityEditAudit, IVersion, IEntityAudit } from '../shared/elementinterfaces/entityaudit';
 
 export class QuestionItem implements IEntityEditAudit {
 

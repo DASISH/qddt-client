@@ -4,7 +4,7 @@ import { DomainKind, DomainTypeDescription } from './responsedomain.constant';
 import { DATE_FORMAT, ResponseDomain, ResponseDomainService } from './responsedomain.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
-import { QDDT_ELEMENTS, ElementKind } from '../interfaces/elements';
+import { QDDT_ELEMENTS, ElementKind } from '../shared/elementinterfaces/elements';
 
 declare let Materialize: any;
 

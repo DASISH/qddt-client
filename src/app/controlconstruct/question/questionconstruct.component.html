@@ -40,6 +40,8 @@
                   </div>
                 </div>
                 <div class="row flow-text">{{ controlConstruct?.questionItem?.question }}</div>
+                <qddt-item-search-select >
+                </qddt-item-search-select>
                 <qddt-control-construct-questionitem-select
                   *ngIf="editQuestoinItem"
                   (dismissEvent)="editQuestoinItem = false;controlConstruct.questionItem=savedQuestionItem;"

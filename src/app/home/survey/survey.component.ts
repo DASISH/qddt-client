@@ -1,6 +1,6 @@
 import { Component,  OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ElementKind } from '../../interfaces/elements';
+import { ElementKind } from '../../shared/elementinterfaces/elements';
 import { PropertyStoreService , HIERARCHY_POSITION } from '../../core/global/property.service';
 import { SurveyProgram, HomeService } from '../home.service';
 

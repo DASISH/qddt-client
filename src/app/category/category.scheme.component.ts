@@ -3,7 +3,7 @@ import { CategoryService, Category, ResponseCardinality } from './category.servi
 import { CategoryType } from './category-kind';
 import { Subject } from 'rxjs/Subject';
 import { PropertyStoreService } from '../core/global/property.service';
-import { QDDT_ELEMENTS, ElementKind } from '../interfaces/elements';
+import { QDDT_ELEMENTS, ElementKind } from '../shared/elementinterfaces/elements';
 
 declare let Materialize: any;
 

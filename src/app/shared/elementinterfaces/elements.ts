@@ -3,18 +3,18 @@ import { IVersion } from './entityaudit';
 export interface IRevisionRef {
   elementId: any;
   elementRevision: number;
-  elementKind: ElementKind|String;
+  elementKind: ElementKind|string;
 }
 
 export interface IElementRef {
-  elementKind: ElementKind|String;
+  elementKind: ElementKind|string;
   element: any;
 }
 
 export class ElementRevisionRef implements IRevisionRef, IElementRef {
   elementId: any;
   elementRevision: number;
-  elementKind: ElementKind | String;
+  elementKind: ElementKind | string;
   element: any;
   name?: string;
   version?: IVersion;

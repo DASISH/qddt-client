@@ -22,8 +22,6 @@ import { RouterModule } from '@angular/router';
 import { CommentListComponent } from './comment/comment.list.component';
 import { CommentCreateComponent } from './comment/comment.create.component';
 import { GravatarDirective } from './directive/gravatar.directive';
-import { HeaderComponent } from './header/header.component';
-import { ItemSearchSelectComponent } from './selector/item-search-select.component';
 
 
 @NgModule({
@@ -31,13 +29,13 @@ import { ItemSearchSelectComponent } from './selector/item-search-select.compone
   declarations: [ LocalDatePipe, QddtTableComponent, QddtPaginationComponent, AutocompleteComponent,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent, CommentCreateComponent,
-    RationalComponent, RevisionComponent, DialogBoxComponent, HeaderComponent, ItemSearchSelectComponent,
+    RationalComponent, RevisionComponent, DialogBoxComponent,
     AutosizeDirective, ParentFormConnectDirective, GravatarDirective ],
-  exports: [LocalDatePipe, CommonModule, FormsModule, MaterializeModule,
+  exports: [ LocalDatePipe, CommonModule, FormsModule, MaterializeModule,
      QddtTableComponent, QddtPaginationComponent, AutocompleteComponent,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent,
-    RationalComponent, RevisionComponent, DialogBoxComponent, ItemSearchSelectComponent,
+    RationalComponent, RevisionComponent, DialogBoxComponent,
     AutosizeDirective, ParentFormConnectDirective, GravatarDirective ]
 })
 

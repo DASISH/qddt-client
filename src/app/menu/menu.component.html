@@ -6,7 +6,6 @@
       <ul class="right">
         <li><a class="dropdown-button"  data-activates="adminmenu" data-beloworigin="true">
           {{username}} <i class="material-icons left">arrow_drop_down</i>
-          <!--<img class="gravatar" src="/assets/images/avatar-default.png">-->
           <img class="gravatar" gravatar [email]="getEmail()" [size]="48">
         </a></li>
       </ul>
@@ -35,7 +34,7 @@
           <li><a class="teal-text" [routerLink]="['/home']" >
             <i class="medium material-icons teal-text left ">store</i>Home</a>
           </li>
-          <li><a class="teal-text" [routerLink]="['/questions']">
+          <li><a class="teal-text" [routerLink]="['/questionitems']">
             <i class="material-icons teal-text left medium">help</i>Questions</a>
           </li>
           <li><a class="teal-text" [routerLink]="['/categories']" >

@@ -1,14 +1,17 @@
 import { Injectable, Inject } from '@angular/core';
 import { API_BASE_HREF } from '../api';
 import { HttpClient } from '@angular/common/http';
+import {IEntityAudit} from '../shared/elementinterfaces/entityaudit';
+import {ElementKind} from '../shared/elementinterfaces/elements';
 
-export class Instrument {
+export class Instrument implements IEntityAudit {
   id: string;
   name: string;
   description: string;
   instrumentType: string;
   controlConstructs: any[];
   comments: any[];
+  classKind = ElementKind[ElementKind.INSTRUMENT];
 }
 
 @Injectable()

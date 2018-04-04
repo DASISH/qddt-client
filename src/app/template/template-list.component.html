@@ -1,0 +1,10 @@
+<div *ngIf="showProgressBar" class="progress">
+  <div class="indeterminate"></div>
+</div>
+<div *ngIf="items">
+  <qddt-table [items]="items" [page]="page" [columns]="columns"
+              [placeholder] = "placeholder"
+              (enterEvent)="onSearchKey($event)"
+              (detailEvent)="onDetail($event)"
+              (pageChangeEvent)="onPage($event)"></qddt-table>
+</div>

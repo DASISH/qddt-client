@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 
 import { ControlConstructService, Universe } from '../controlconstruct.service';
-import { QDDT_ELEMENTS, ElementKind } from '../../interfaces/elements';
+import { QDDT_ELEMENTS, ElementKind } from '../../shared/elementinterfaces/elements';
 
 @Component({
   selector: 'qddt-universe-create',

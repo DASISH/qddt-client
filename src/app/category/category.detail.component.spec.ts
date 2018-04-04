@@ -1,7 +1,5 @@
 import { Component, Input, PipeTransform, Pipe, EventEmitter, Output } from '@angular/core';
-import { BaseRequestOptions,   Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 import { RationalComponent } from '../shared/rational/rational.component';
 
@@ -11,7 +9,6 @@ import { API_BASE_HREF } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
-import { PropertyStoreService } from '../core/global/property.service';
 
 export function main() {
   describe('Category Detail component', () => {
@@ -22,14 +19,7 @@ export function main() {
           TableComponent, CategoryEditComponent, CommentListComponent,
           CategoryDetailComponent, AuthorChipComponent],
         providers: [
-          MockBackend,
-          BaseRequestOptions,
           { provide: CategoryService, useClass: CategoryServiceSpy },
-          {
-            provide: Http,
-            useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),
-            deps: [MockBackend, BaseRequestOptions]
-          },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
@@ -37,7 +27,7 @@ export function main() {
         ],
         imports: [CommonModule, FormsModule]
       });
-      //Mock debounceTime
+      // Mock debounceTime
       Observable.prototype.debounceTime = function () { return this; };
     });
 
@@ -82,7 +72,7 @@ export function main() {
   });
 }
 
-//override dependencies
+// override dependencies
 class UserServiceSpy {
   get = jasmine.createSpy('get').and.callFake(function (key) {
     return {};

@@ -2,10 +2,10 @@ import { Observable } from 'rxjs/Observable';
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_BASE_HREF } from '../api';
-import { ElementKind, QddtElement, QDDT_ELEMENTS, ElementRevisionRef } from '../interfaces/elements';
-import { IEntityAudit } from '../interfaces/entityaudit';
+import { ElementKind, QddtElement, QDDT_ELEMENTS, ElementRevisionRef } from '../shared/elementinterfaces/elements';
+import {IEntityAudit, IEntityEditAudit, IVersion} from '../shared/elementinterfaces/entityaudit';
 
-export class SurveyProgram {
+export class SurveyProgram implements IEntityEditAudit {
   id: string;
   name: string;
   description: string;
@@ -14,9 +14,14 @@ export class SurveyProgram {
   modified: any;
   archived: boolean;
   studies: Study[];
+  classKind = ElementKind[ElementKind.SURVEY_PROGRAM];
+  agency: IEntityAudit;
+  basedOnObject: string;
+  basedOnRevision: number;
+  version: IVersion;
 }
 
-export class Study {
+export class Study implements IEntityEditAudit {
   id: string;
   name: string;
   description: string;
@@ -24,9 +29,15 @@ export class Study {
   authors: any[];
   comments: any[];
   topicGroups: Topic[];
+  classKind = ElementKind[ElementKind.STUDY];
+  agency: IEntityAudit;
+  basedOnObject: string;
+  basedOnRevision: number;
+  modified: number;
+  version: IVersion;
 }
 
-export class Topic {
+export class Topic implements IEntityEditAudit {
   id: string;
   name: string;
   abstractDescription: string;
@@ -36,9 +47,16 @@ export class Topic {
   otherMaterials: any[];
   topicQuestionItems: ElementRevisionRef[];
   concepts: Concept[];
+  classKind = ElementKind[ElementKind.TOPIC_GROUP];
+  agency: IEntityAudit;
+  basedOnObject: string;
+  basedOnRevision: number;
+  modified: number;
+  version: IVersion;
+
 }
 
-export class Concept implements IEntityAudit {
+export class Concept implements IEntityEditAudit {
   id: string;
   name: string;
   label: string;
@@ -47,7 +65,12 @@ export class Concept implements IEntityAudit {
   conceptQuestionItems: ElementRevisionRef[];
   children: Concept[];
   comments: any[];
-  classKind: string;
+  classKind = ElementKind[ElementKind.CONCEPT];
+  agency: IEntityAudit;
+  basedOnObject: string;
+  basedOnRevision: number;
+  modified: number;
+  version: IVersion;
 }
 
 

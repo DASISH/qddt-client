@@ -1,0 +1,10 @@
+<div *ngIf="showProgressBar" class="progress">
+  <div class="indeterminate"></div>
+</div>
+<div *ngIf="controlConstructs">
+  <qddt-table [items]="controlConstructs" [page]="page" [columns]="columns"
+              [placeholder] = "'Search in sequence name'"
+              (enterEvent)="onSearchKey($event)"
+              (detailEvent)="onDetail($event)"
+              (pageChangeEvent)="onPage($event)"></qddt-table>
+</div>

@@ -1,9 +1,8 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { PublicationService } from './publication.service';
 import { Subject } from 'rxjs/Subject';
-import { MaterializeAction } from 'angular2-materialize';
-import { ElementRevisionRef, ElementKind, QddtElement, QDDT_ELEMENTS } from '../interfaces/elements';
-import { IEntityAudit } from '../interfaces/entityaudit';
+import { ElementRevisionRef, ElementKind, QddtElement, QDDT_ELEMENTS } from '../shared/elementinterfaces/elements';
+import { IEntityAudit } from '../shared/elementinterfaces/entityaudit';
 
 @Component({
   selector: 'qddt-publication-reuse',

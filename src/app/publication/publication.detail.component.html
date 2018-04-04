@@ -1,56 +1,10 @@
-<div *ngIf="showProgressBar" class="progress">
-  <div class="indeterminate"></div>
-</div>
+<qddt-template-detail (selectedItem)="onItemSelect($event)" (closeState)="onClose($event)" >
 
-<div class="row" *ngIf="publication">
-  <div id="{{publication?.id}}" class="scrollspy">
+  <qddt-publication-form
+    [publication]="item"
+    [textColor]="'white-text'"
+    (save)=onPublicationSaved($event)>
+  </qddt-publication-form>
 
-    <div class="fixed-action-btn vertical click-to-toggle">
-      <a class="btn-floating btn-large cyan"><i class="large material-icons">menu</i></a>
-      <ul>
-        <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light blue" (click)="revisionIsVisible = !revisionIsVisible">
-          <i class="material-icons left medium" title="Revision history">history</i>
-        </a></li>
-        <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light orange darken-1">
-          <i class="material-icons" (click)="getPdf(publication)" title="Get as Pdf">picture_as_pdf</i>
-        </a></li>
-        <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light green darken-1">
-          <i class="material-icons" (click)="hideDetail()" title="Return to list view">replay</i>
-        </a></li>
-      </ul>
-    </div>
+</qddt-template-detail>
 
-    <div class="col s1">
-      <a class="btn-flat btn-floating btn-medium waves-effect waves-light  green darken-1">
-        <i class="material-icons" (click)="hideDetail()" title="Return to list view">replay</i>
-      </a>
-    </div>
-
-    <div class="col s10 ">
-      <div class="row grey-text text-darken-2">
-        <div class="col s9 m10 flow-text">{{ publication?.name }}</div>
-        <div class="col s3 m2">
-          <qddt-version-label class="right" [element]="publication"></qddt-version-label>
-        </div>
-      </div>
-    <!--<div class="col s10 rey-text text-darken-2">-->
-      <qddt-publication-form
-        [publication]="publication"
-        [textColor]="'teal-text'"
-        (save)=onUpdatePublication()>
-      </qddt-publication-form>
-
-      <qddt-revision *ngIf="revisionIsVisible"
-        [current]="publication"
-        [qddtURI]="'audit/publication/' + publication.id + '/all'"
-        [config]="[{'name':'name','label':'Name'},{'name':'purpose','label':'Purpose'},{'name':'status','label':'Status'}]">
-      </qddt-revision>
-
-      <qddt-comment-list
-        [ownerId]="publication.id"
-        [comments]="publication.comments">
-      </qddt-comment-list>
-    </div>
-
-  </div>
-</div>

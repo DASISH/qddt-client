@@ -1,9 +1,8 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { MaterializeAction } from 'angular2-materialize';
 import { ElementEnumAware } from '../../preview/preview.service';
 import { ControlConstructService, SequenceConstruct } from '../controlconstruct.service';
-import { ElementKind } from '../../interfaces/elements';
+import { ElementKind } from '../../shared/elementinterfaces/elements';
 import { Column } from '../../shared/table/table.column';
 
 @Component({

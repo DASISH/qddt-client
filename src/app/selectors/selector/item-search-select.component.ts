@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, Output, OnChanges, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import { QDDT_ELEMENTS, QddtElement } from '../../interfaces/elements';
-import { IEntityAudit } from '../../interfaces/entityaudit';
+import { Component, EventEmitter, Input, Output,  ChangeDetectionStrategy } from '@angular/core';
+import { QddtElement } from '../../shared/elementinterfaces/elements';
+import { IEntityAudit } from '../../shared/elementinterfaces/entityaudit';
+import { Factory } from '../../shared/elementfactory/factory';
 
 @Component({
   selector: 'qddt-item-search-select',
@@ -22,7 +23,7 @@ export class ItemSearchSelectComponent {
   showAddItem = false;
 
   constructor() {
-    this.item = new Object;
+    this.item = Factory.createInstance(this.qddtType.id)
     this.searchField = 'description';
   }
 

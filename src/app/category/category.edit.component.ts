@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { CategoryService, Category } from './category.service';
 import { CategoryType } from './category-kind';
-import { QDDT_ELEMENTS, ElementKind } from '../interfaces/elements';
+import { QDDT_ELEMENTS, ElementKind } from '../shared/elementinterfaces/elements';
 
 
 @Component({

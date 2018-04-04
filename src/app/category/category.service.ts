@@ -3,7 +3,8 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { API_BASE_HREF } from '../api';
-import { IEntityAudit } from '../interfaces/entityaudit';
+import { IEntityAudit } from '../shared/elementinterfaces/entityaudit';
+import {ElementKind} from '../shared/elementinterfaces/elements';
 
 export class ResponseCardinality {
    minimum: number;
@@ -26,7 +27,7 @@ export class Code {
 export class Category implements IEntityAudit {
   id: string;
   name: string;
-  classKind: string;
+  classKind = ElementKind[ElementKind.CATEGORY];
   label: string;
   description: string;
   inputLimit: ResponseCardinality;

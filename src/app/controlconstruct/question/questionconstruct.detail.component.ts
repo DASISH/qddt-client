@@ -1,12 +1,8 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { ControlConstructService, QuestionConstruct } from '../controlconstruct.service';
 import { MaterializeAction } from 'angular2-materialize';
-import { ElementKind } from '../../interfaces/elements';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import { QuestionItem } from '../../question/question.service';
-import { IDetailAction, ActionDetail } from '../../interfaces/detailaction';
-import { IOtherMaterial } from '../../interfaces/othermaterial';
+import { Router, ActivatedRoute } from '@angular/router';
+import { IDetailAction, Action} from '../../shared/elementinterfaces/detailaction';
 
 const filesaver = require('file-saver');
 
@@ -23,10 +19,9 @@ const filesaver = require('file-saver');
 export class QuestionConstructDetailComponent implements OnInit {
 
   public deleteAction = new EventEmitter<MaterializeAction>();
-  controlConstruct: QuestionConstruct;
-  private previewObject: any;
-  private revisionIsVisible = false;
-  private config: any[];
+  public revisionIsVisible = false;
+  public config: any[];
+  public controlConstruct: QuestionConstruct;
   private action: IDetailAction;
 
   constructor(private service: ControlConstructService, private router: Router, private route: ActivatedRoute ) {
@@ -34,56 +29,42 @@ export class QuestionConstructDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.action = { id: '', action: ActionDetail.None, object: null };
-    this.service.getControlConstruct<QuestionConstruct>(
-      this.route.snapshot.paramMap.get('id'))
-      .then(ctrl => {
+    this.action = { id: '', action: Action.None, object: null };
+    this.service.getControlConstruct<QuestionConstruct>(this.route.snapshot.paramMap.get('id')).then(
+      (ctrl) => {
         this.action.id = ctrl.id;
-        this.controlConstruct = ctrl; })
-      .catch( error => { throw error; } );
+        this.controlConstruct = ctrl; },
+      (error) => { throw error; } );
     }
 
-  hideDetail() {
+  onHideDetail() {
       this.router.navigate(['../' ], { relativeTo: this.route });
   }
 
-  onDeleteControlConstructModal() {
+  onDeleteConfirmModal() {
     this.deleteAction.emit({action: 'modal', params: ['open']});
   }
 
   onConfirmDeleting() {
     this.service.deleteControlConstruct(this.controlConstruct.id)
       .subscribe(() => {
-        this.action.action = ActionDetail.Deleted;
-        this.hideDetail();
+        this.action.action = Action.Delete;
+        this.onHideDetail();
       });
   }
 
   onControlConstructSaved(result: QuestionConstruct) {
-    this.action.action = ActionDetail.Updated;
+    this.action.action = Action.Update;
     this.action.object = result;
-    this.hideDetail();
-  }
-
-
-  onDownloadFile(o: IOtherMaterial) {
-    const fileName = o.originalName;
-    this.service.getFile(o.id).then(
-      (data) => { filesaver.saveAs(data, fileName); },
-      (error) => { throw error; });
+    this.onHideDetail();
   }
 
   onGetPdf( ctrl: QuestionConstruct) {
     this.service.getPdf(ctrl.id).then(
-      (data: any) => {
-        filesaver.saveAs(data, ctrl.name + '.pdf');
-      },
-      error => { throw error; });
+      (data) => { filesaver.saveAs(data, ctrl.name + '.pdf'); },
+      (error) => { throw error; });
   }
 
-  onShowRevision(element: any) {
-    this.previewObject = element;
-  }
 
 
   private buildRevisionConfig(): any[] {

@@ -22,15 +22,15 @@
     </div>
     <div class="row">
       <div class="input-field col s6 m4 l3">
-        <select materialize="material_select" name="status-value"
-                materializeSelectOptions="selectOptions"
-                [ngModel]="selectedOptionValue"
+        <select materialize="material_select" name="status-value" id="{{publication?.id}}status-value"
+                [materializeSelectOptions]="selectOptions"
+                [(ngModel)]="selectedOptionValue"
                 (ngModelChange)="onSelectChange($event)">
                 <optgroup *ngFor="let parent of selectOptions" label="{{parent.label}}">
                   <option *ngFor="let child of parent.children" [value]="child.id" >{{child.label}}</option>
-              </optgroup>
+                </optgroup>
         </select>
-        <label class="{{textColor}}">Publication status</label>
+        <label for="{{publication?.id}}status-value" class="{{textColor}}">Publication status</label>
       </div>
       <div class="input-field col s6 m8 l9">
         <label class="{{textColor}}">{{ selectedPublicationStatusOption }}</label>
@@ -53,7 +53,7 @@
               <div class="col s2 right-align"><qddt-version [element]="element.element"></qddt-version></div>
               <div class="col s1">
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                   (click)="deleteElement(idx)">
+                   (click)="onElementDelete(idx)">
                   <i class="material-icons medium" [ngStyle]="{'width': 'inherit', 'line-height': '37px'}" title="Delete" >delete_forever</i>
                 </a>
               </div>
@@ -63,7 +63,7 @@
           </div>
         </li>
         <li>
-          <qddt-publication-reuse (publicationElement)="addElement($event)"></qddt-publication-reuse>
+          <qddt-publication-reuse (publicationElement)="onElementAdd($event)"></qddt-publication-reuse>
         </li>
       </ul>
     </div>

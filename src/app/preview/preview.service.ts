@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_BASE_HREF } from '../api';
 import { Observable } from 'rxjs/Observable';
-import { ElementKind, QDDT_ELEMENTS } from '../interfaces/elements';
+import { ElementKind, QDDT_ELEMENTS } from '../shared/elementinterfaces/elements';
 
 export function ElementEnumAware(constructor: Function) {
   constructor.prototype.ElementKind = ElementKind;

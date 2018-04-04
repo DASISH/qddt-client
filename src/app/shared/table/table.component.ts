@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
 import { Column } from './table.column';
-import { IEntityEditAudit } from '../../interfaces/entityaudit';
+import { IEntityEditAudit } from '../elementinterfaces/entityaudit';
 
 @Component({
   selector: 'qddt-table',

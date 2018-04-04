@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, AfterContentChecked } from '@angular/core';
 import { Publication, PUBLICATION_TYPES, PublicationService, PublicationStatus } from './publication.service';
-import { ElementRevisionRef, QddtElement, ElementKind } from '../interfaces/elements';
+import { ElementRevisionRef, QddtElement, ElementKind } from '../shared/elementinterfaces/elements';
 
 declare var Materialize: any;
 
@@ -24,55 +24,27 @@ export class PublicationFormComponent implements OnInit , AfterContentChecked {
 
   constructor(private service: PublicationService) {
     this.selectOptions = service.PUBLICATION_STATUSES;
-  }
-
-  ngOnInit() {
     this.selectedOptionValue = 0;
-    this.selectedPublicationStatusOption =  this.service.getStatusByName('NOTPUBLISHED').description;
+    this.selectedPublicationStatusOption =  this.service.getStatusById(this.selectedOptionValue).description;
   }
 
-  ngAfterContentChecked() {
+  public ngOnInit() {
+    if (this.publication) {
+      const status = this.service.getPublicationStatusAsList().find( s => s.label === this.publication.status);
+      this.onSelectChange(status.id);
+    }
+  }
+
+  public ngAfterContentChecked() {
     Materialize.updateTextFields();
   }
 
-  onSavePublication() {
+  public onSavePublication() {
     this.save.emit(this.publication);
   }
 
 
-  private deleteElement(index: number) {
-    if (index < this.publication.publicationElements.length) {
-      this.publication.publicationElements.splice(index, 1);
-    }
-  }
-
-  private addElement(pe: ElementRevisionRef) {
-    this.publication.publicationElements.push(pe);
-  }
-
-  private onSelectChange(value: any) {
-
-    if (typeof value === 'string') {
-      value = parseInt(value);
-    }
-
-    const status = this.service.getStatusById(value);
-    if (status) {
-      this.publication.status = status.label;
-      this.selectedPublicationStatusOption = status.description;
-      this.selectedOptionValue = status.id;
-    }
-  }
-
-  private getElementbyLabel(label: string): QddtElement {
-    const element: QddtElement = PUBLICATION_TYPES.find(e => e.label === label);
-    if (!element) {
-      console.log('Couldn\'t find kind label ' + label);
-    }
-    return element;
-  }
-
-  private getLabelByElement(kind: ElementKind): String {
+  public getLabelByElement(kind: ElementKind): String {
     let element: QddtElement;
     if (typeof kind === 'string') {
       element =  PUBLICATION_TYPES.find(e => ElementKind[e.id] === kind);
@@ -81,5 +53,27 @@ export class PublicationFormComponent implements OnInit , AfterContentChecked {
     }
     return element.label;
   }
+
+
+  public onElementDelete(index: number) {
+    if (index < this.publication.publicationElements.length) {
+      this.publication.publicationElements.splice(index, 1);
+    }
+  }
+
+  public onElementAdd(pe: ElementRevisionRef) {
+    this.publication.publicationElements.push(pe);
+  }
+
+  public onSelectChange(id: any) {
+    const status = this.service.getStatusById(+id);
+    if (status) {
+      this.publication.status = status.label;
+      this.selectedPublicationStatusOption = status.description;
+      this.selectedOptionValue = status.id;
+    }
+  }
+
+
 
 }

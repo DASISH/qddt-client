@@ -2,14 +2,15 @@ export interface IEntityAudit {
   id: string;
   name: string;
   classKind: string;
+  comments?: any[];
 }
 
 export interface IEntityEditAudit extends IEntityAudit {
-  basedOnObject: string;
-  basedOnRevision: number;
-  modified: number;
-  version: IVersion;
-  agency: IEntityAudit;
+  basedOnObject?: string;
+  basedOnRevision?: number;
+  modified?: number;
+  version?: IVersion;
+  agency?: IEntityAudit;
 }
 
 export interface IVersion {

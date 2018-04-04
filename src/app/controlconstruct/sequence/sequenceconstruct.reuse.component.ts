@@ -1,7 +1,7 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { SequenceConstruct, ControlConstructService } from '../controlconstruct.service';
-import { ElementKind, QddtElement, QDDT_ELEMENTS } from '../../interfaces/elements';
+import { ElementKind, QddtElement, QDDT_ELEMENTS } from '../../shared/elementinterfaces/elements';
 
 @Component({
   selector: 'qddt-sequence-reuse',
