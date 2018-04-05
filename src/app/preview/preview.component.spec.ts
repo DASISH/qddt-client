@@ -1,15 +1,13 @@
-import { Component, Input, PipeTransform, Pipe, EventEmitter, Output } from '@angular/core';
-import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
+import { Component, Input } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
-import { PublicationService } from '../../publication/publication.service';
-import { API_BASE_HREF } from '../../api';
+import { API_BASE_HREF } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
 import { PreviewComponent } from './preview.component';
+import {PublicationService} from '../publication/publication.service';
 
 export function main() {
   describe('Publication preview component', () => {
@@ -18,14 +16,7 @@ export function main() {
       TestBed.configureTestingModule({
         declarations: [PreviewQustionitemComponent, PreviewResponsedomainComponent, PreviewComponent, CommentListComponent],
         providers: [
-          MockBackend,
-          BaseRequestOptions,
           { provide: PublicationService, useClass: PublicationServiceSpy },
-          {
-            provide: Http,
-            useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),
-            deps: [MockBackend, BaseRequestOptions]
-          },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
@@ -60,12 +51,12 @@ export function main() {
                 'description' : 'one element',
                 'basedOnObject' : null,
                 'basedOnRevision' : null,
-                'version' : {'major' : 6, 'minor' : 0, 'versionLabel' : '', 'revision' : null },
+                'version' : {'major' : 6, 'minor' : 0 },
                 'changeKind' : 'CONCEPTUAL',
-                'changeComment' : 'Information added'
+                'changeComment' : 'Information added',
+                'classKind': 'CONCEPT'
             };
             fixture.componentInstance.element = element;
-            fixture.componentInstance.elementKind = 2;
             fixture.detectChanges();
             fixture.whenStable().then(() => {
               const de: any = fixture.debugElement.queryAll(By.css('textarea'));
@@ -77,7 +68,7 @@ export function main() {
   });
 }
 
-//override dependencies
+// override dependencies
 class PublicationServiceSpy {
   searchPublications = jasmine.createSpy('searchPublications').and.callFake(function (key) {
     return [];

@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { BaseRequestOptions, Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -17,7 +16,6 @@ export function main() {
       TestBed.configureTestingModule({
         declarations: [ PreviewQuestionitemComponent, PreviewResponsedomainComponent],
         providers: [
-          BaseRequestOptions,
           { provide: PublicationService, useClass: PublicationServiceSpy },
           {
             provide: API_BASE_HREF,
@@ -70,7 +68,7 @@ export function main() {
   });
 }
 
-//override dependencies
+// override dependencies
 class PublicationServiceSpy {
   searchPublications = jasmine.createSpy('searchPublications').and.callFake(function (key) {
     return [];

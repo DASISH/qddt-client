@@ -29,8 +29,8 @@ export class TemplateDetailComponent implements OnInit {
   private kind: ElementKind;
 
   constructor(private service: TemplateService, private router: Router, private route: ActivatedRoute ) {
-    this.route.url.subscribe(() => {
-      const path = this.route.firstChild.routeConfig.path;
+    this.route.url.subscribe((event) => {
+      const path = event[0].path;
       this.kind = HEADER_DETAILS.get(path).kind;
       this.canDelete = service.can(Action.Delete, this.kind );
     });
@@ -42,15 +42,10 @@ export class TemplateDetailComponent implements OnInit {
     if (this.kind) {
       this.service.getItem(this.kind, this.route.snapshot.paramMap.get('id')).then(
         (item) => {
-          this.action.id = item.id;
-          this.item = item;
-          if (this.selectedItem) {
-            this.selectedItem.emit(item);
-          }
-        },
-        (error) => {
-          throw error;
-        });
+            this.action.id = item.id;
+            this.item = item;
+            if (this.selectedItem) { this.selectedItem.emit(item); } },
+        (error) => { throw error; });
     }
   }
 
@@ -73,11 +68,11 @@ export class TemplateDetailComponent implements OnInit {
       });
   }
 
-  // onItemSaved(item: IEntityEditAudit) {
-  //   this.action.action = Action.Update;
-  //   this.action.object = item;
-  //   this.onHideDetail();
-  // }
+  onItemSaved(item: IEntityEditAudit) {
+    this.action.action = Action.Update;
+    this.action.object = item;
+    this.onHideDetail();
+  }
 
   onGetPdf( item: IEntityEditAudit) {
     this.service.getPdf(item).then(

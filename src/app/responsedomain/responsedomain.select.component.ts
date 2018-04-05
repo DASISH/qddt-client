@@ -49,8 +49,8 @@ export class ResponseDomainSelectComponent implements OnChanges {
   public selectedResponseDomainIndex: number;
   public selectedResponseDomain: any;
 
-  private responseDomainRevisions: any[];
-  private responseDomainRevision: number;
+  public responseDomainRevisions: any[];
+  public responseDomainRevision: number;
 
   constructor(private service: ResponseDomainService) {
     this.responseDomains = [];

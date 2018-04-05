@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { API_BASE_HREF } from '../api';
 import { ElementKind, QDDT_ELEMENTS, ElementRevisionRef, QddtElement } from '../shared/elementinterfaces/elements';
-import {IEntityAudit} from '../shared/elementinterfaces/entityaudit';
+import { IEntityAudit } from '../shared/elementinterfaces/entityaudit';
 
 
 
@@ -67,41 +67,41 @@ export class PublicationService {
     }
   }
 
-  public getPublication(id: string): Promise<Publication> {
-    return this.http.get<Publication>(this.api + 'publication/' + id).toPromise();
-  }
+  // public getPublication(id: string): Promise<Publication> {
+  //   return this.http.get<Publication>(this.api + 'publication/' + id).toPromise();
+  // }
 
   public getPublicationStatusAsList(): PublicationStatus[] {
     return this.statusList;
   }
 
-  public getStatusByName(name: String): PublicationStatus {
-    return this.getPublicationStatusAsList().find(e => e.name === name );
-  }
+  // public getStatusByName(name: String): PublicationStatus {
+  //   return this.getPublicationStatusAsList().find(e => e.name === name );
+  // }
 
   public getStatusById(id: number): PublicationStatus {
     return this.getPublicationStatusAsList().find(e => e.id === id );
   }
 
-  public getPdf(id: string): Promise<Blob> {
-    return this.http.get(this.api + 'publication/pdf/' + id, {responseType: 'blob'})
-      .toPromise();
-  }
-
-  public searchPublications(name: string = '*', status: string = '*' , page: String = '0', sort: String = ''): Promise<any> {
-    const queries = [];
-
-    queries.push('name=' + name + '&status=' +  status );
-
-    if (sort.length > 0) { queries.push('sort=' + sort); }
-
-    if (page !== '0') { queries.push('page=' + page); }
-
-    let query = '';
-    if (queries.length > 0) { query = '?' + queries.join('&'); }
-
-    return this.http.get(this.api + 'publication/page/search/' + query).toPromise();
-  }
+  // public getPdf(id: string): Promise<Blob> {
+  //   return this.http.get(this.api + 'publication/pdf/' + id, {responseType: 'blob'})
+  //     .toPromise();
+  // }
+  //
+  // public searchPublications(name: string = '*', status: string = '*' , page: String = '0', sort: String = ''): Promise<any> {
+  //   const queries = [];
+  //
+  //   queries.push('name=' + name + '&status=' +  status );
+  //
+  //   if (sort.length > 0) { queries.push('sort=' + sort); }
+  //
+  //   if (page !== '0') { queries.push('page=' + page); }
+  //
+  //   let query = '';
+  //   if (queries.length > 0) { query = '?' + queries.join('&'); }
+  //
+  //   return this.http.get(this.api + 'publication/page/search/' + query).toPromise();
+  // }
 
   public searchElements(elementKind: ElementKind, name: string): Promise<any> {
     let query = '?';

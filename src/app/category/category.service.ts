@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { API_BASE_HREF } from '../api';
-import { IEntityAudit } from '../shared/elementinterfaces/entityaudit';
+import {IEntityAudit, IEntityEditAudit} from '../shared/elementinterfaces/entityaudit';
 import {ElementKind} from '../shared/elementinterfaces/elements';
 
 export class ResponseCardinality {
@@ -24,7 +24,7 @@ export class Code {
   }
 }
 
-export class Category implements IEntityAudit {
+export class Category implements IEntityEditAudit {
   id: string;
   name: string;
   classKind = ElementKind[ElementKind.CATEGORY];
@@ -34,6 +34,7 @@ export class Category implements IEntityAudit {
   hierarchyLevel: string;
   categoryType: string;
   children: Category[];
+  comments: any[];
   code: Code;
   format: any;
   constructor() {

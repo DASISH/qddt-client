@@ -40,14 +40,16 @@
                 <thead><tr><td>Selected Responses</td></tr></thead>
                 <tbody>
                   <tr *ngFor="let cat of category.children; let idx=index">
-                  <td><qddt-auto-complete
-                    [items]="categories" class="black-text"
-                    [elementtype]="CATEGORY_KIND"
-                    [initialValue]="cat?.label"
-                    (focusEvent)="selectedCategoryIndex=idx;"
-                    (enterEvent)="searchCategories($event)"
-                    (selectEvent)="select($event)">
-                    </qddt-auto-complete></td>
+                  <td>
+                    <qddt-auto-complete
+                      [items]="categories" class="black-text"
+                      [elementtype]="CATEGORY_KIND"
+                      [initialValue]="cat?.label"
+                      (focusEvent)="selectedCategoryIndex=idx;"
+                      (enterEvent)="searchCategories($event)"
+                      (selectEvent)="select($event)">
+                    </qddt-auto-complete>
+                  </td>
                   </tr>
                 </tbody>
               </table>
@@ -60,7 +62,7 @@
       </div>
     </div>
     <qddt-table *ngIf="!isDetail" [items]="missingCategories" [page]="page" [columns]="columns"
-      
+
       (enterEvent)="searchMissingCategories($event)"
       (detailEvent)="onDetail($event)" (pageChangeEvent)="onPage($event)">
     </qddt-table>

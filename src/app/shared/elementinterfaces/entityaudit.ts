@@ -16,7 +16,7 @@ export interface IEntityEditAudit extends IEntityAudit {
 export interface IVersion {
   major: string|number;
   minor: string|number;
-  versionLabel: string;
-  revision: string|number;
+  versionLabel?: string;
+  revision?: string|number;
 }
 

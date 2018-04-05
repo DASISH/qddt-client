@@ -31,12 +31,12 @@ export class PublicationReuseComponent implements OnInit {
     QDDT_ELEMENTS[ElementKind.SEQUENCE_CONSTRUCT]
   ];
 
-  private searchKeysSubect: Subject<string> = new Subject<string>();
+  private searchKeysSubject: Subject<string> = new Subject<string>();
 
   constructor(private service: PublicationService) {
     this.selectedElementKind = ElementKind.TOPIC_GROUP;
     this.elements = [];
-    this.searchKeysSubect
+    this.searchKeysSubject
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
@@ -63,7 +63,7 @@ export class PublicationReuseComponent implements OnInit {
   }
 
   onSearchElements(key: string) {
-    this.searchKeysSubect.next(key);
+    this.searchKeysSubject.next(key);
   }
 
   onToggleAddElement() {

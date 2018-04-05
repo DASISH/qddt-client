@@ -2,11 +2,11 @@ import { Component, Input, PipeTransform, Pipe } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { SurveyService } from './survey.service';
 import { SurveyComponent } from './survey.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import {HomeService} from '../home.service';
 
 export function main() {
   describe('Survey component', () => {
@@ -16,7 +16,7 @@ export function main() {
         declarations: [SurveyComponent, RevisionComponent, LocalDatePipe,
           CommentListComponent, SurveyEditComponent, AuthorChipComponent],
         providers: [
-          { provide: SurveyService, useClass: SurveyServiceSpy },
+          { provide: HomeService, useClass: SurveyServiceSpy },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
@@ -58,7 +58,7 @@ export function main() {
   });
 }
 
-//override dependencies
+// override dependencies
 class SurveyServiceSpy {
   getAll = jasmine.createSpy('getAll').and.callFake(function (key) {
     return [];

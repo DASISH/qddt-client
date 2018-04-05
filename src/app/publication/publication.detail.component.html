@@ -1,10 +1,11 @@
 <qddt-template-detail (selectedItem)="onItemSelect($event)" (closeState)="onClose($event)" >
 
-  <qddt-publication-form
-    [publication]="item"
-    [textColor]="'white-text'"
-    (save)=onPublicationSaved($event)>
-  </qddt-publication-form>
+  <P>{{item.name}}</P>
+
+  <!--<qddt-publication-form *ngIf="item"-->
+    <!--[publication]="item"-->
+    <!--(save)=onPublicationSaved($event)>-->
+  <!--</qddt-publication-form>-->
 
 </qddt-template-detail>
 

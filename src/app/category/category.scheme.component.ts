@@ -14,27 +14,27 @@ declare let Materialize: any;
 })
 
 export class CategorySchemeComponent implements OnInit, AfterContentChecked {
-  // @ViewChild('editSchemeForm') schemeForm;
   @Output() categorySelectedEvent: EventEmitter<any> = new EventEmitter<any>();
+  public readonly CATEGORY_KIND = QDDT_ELEMENTS[ElementKind.CATEGORY];
+  public readonly revisionConfig = this.buildRevisionConfig();
+
   public deleteAction = new EventEmitter<any>();
   public showCategoryForm = false;
   public selectedCategoryIndex: number;
   public categories: any[];
   public isDetail: boolean;
   public selectedCategory: Category;
+  public category: Category;
+  public page: any;
+  public columns: any[];
+  public missingCategories: any[];
+  public revisionIsVisible = false;
 
-  private missingCategories: any[];
-  private category: Category;
   private categoryEnums: any;
-  private page: any;
-  private columns: any[];
   private searchKeys: string;
   private savedObject: string;
   private savedCategoriesIndex: number;
-  private searchKeysSubect: Subject<string> = new Subject<string>();
-  private revisionIsVisible = false;
-  private readonly revisionConfig = this.buildRevisionConfig();
-  private readonly CATEGORY_KIND = QDDT_ELEMENTS[ElementKind.CATEGORY];
+  private searchKeysSubject: Subject<string> = new Subject<string>();
 
   constructor(private categoryService: CategoryService, private userService: PropertyStoreService) {
     this.category = new Category();
@@ -48,7 +48,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
     this.columns = [{'name': 'name', 'label': 'Name', 'sortable': true, 'direction': '' },
       {'name': 'description', 'label': 'Description', 'sortable': true, 'direction': '' },
       { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' }];
-    this.searchKeysSubect
+    this.searchKeysSubject
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
@@ -95,7 +95,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
       if (config.key === null || config.key === undefined) {
         this.userService.set('schemes', {'current': 'list', 'key': ''});
         this.searchKeys = '';
-        this.searchKeysSubect.next('');
+        this.searchKeysSubject.next('');
       }
     }
     Materialize.updateTextFields();
@@ -215,7 +215,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
 
   searchMissingCategories(name: string) {
     this.searchKeys = name;
-    this.searchKeysSubect.next(name);
+    this.searchKeysSubject.next(name);
   }
 
   private buildRevisionConfig(): any[] {

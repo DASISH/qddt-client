@@ -41,11 +41,7 @@ export class RevisionSelectComponent implements OnChanges {
   }
 
   onSelectElementRevisions(event: any) {
-    if (typeof event === 'string') {
-      this.selectedRevision = parseInt(event);
-    } else {
-      this.selectedRevision = event;
-    }
+    this.selectedRevision = +event;
 
     const result = this.elementRevisions.find((e: any) => e.revisionNumber === this.selectedRevision);
     if (result) {
@@ -57,7 +53,7 @@ export class RevisionSelectComponent implements OnChanges {
   }
 
   onUseElement() {
-    // console.info('onUseElement ' + this.elementKind);
+
     const elementType  = QDDT_ELEMENTS.find(e => e.id === this.getElementKind());
     if (elementType) {
       const element = new ElementRevisionRef();

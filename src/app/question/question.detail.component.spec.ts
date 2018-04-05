@@ -1,7 +1,5 @@
-import { Component, Input, PipeTransform, Pipe, EventEmitter, Output } from '@angular/core';
-import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { QuestionService } from './question.service';
@@ -22,14 +20,7 @@ export function main() {
           QuestionDetailComponent, AuthorChipComponent,
           QuestionItemEditMissingComponent],
         providers: [
-          MockBackend,
-          BaseRequestOptions,
           { provide: QuestionService, useClass: QuestionServiceSpy },
-          {
-            provide: Http,
-            useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),
-            deps: [MockBackend, BaseRequestOptions]
-          },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
@@ -37,7 +28,7 @@ export function main() {
         ],
         imports: [CommonModule, FormsModule, MaterializeModule]
       });
-      //Mock debounceTime
+      // Mock debounceTime
       Observable.prototype.debounceTime = function () { return this; };
     });
 
@@ -84,7 +75,7 @@ export function main() {
   });
 }
 
-//override dependencies
+// override dependencies
 class QuestionServiceSpy {
   getquestion = jasmine.createSpy('getquestion').and.callFake(function (key) {
     return [];

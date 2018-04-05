@@ -2,12 +2,12 @@ import { Component, Input, } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { TopicService } from './topic.service';
 import { TopicEditComponent } from './topic.edit.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
+import {HomeService} from '../home.service';
 
 export function main() {
   describe('Topic edit component', () => {
@@ -16,7 +16,7 @@ export function main() {
       TestBed.configureTestingModule({
         declarations: [RevisionDetailComponent, RationalComponent, TopicEditComponent],
         providers: [
-          { provide: TopicService, useClass: TopicServiceSpy },
+          { provide: HomeService, useClass: TopicServiceSpy },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
@@ -53,7 +53,11 @@ export function main() {
               otherMaterials: [],
               authors: [],
               topicQuestionItems: [],
-              archived: false
+              archived: false,
+              concepts: [],
+              classKind: 'TOPIC_GROUP',
+              modified: 32543255,
+              version: { major: 0, minor: 0 }
             };
             fixture.detectChanges();
             fixture.whenStable().then(() => {
@@ -83,7 +87,11 @@ export function main() {
               otherMaterials: [],
               authors: [],
               topicQuestionItems: [],
-              archived: false
+              archived: false,
+              concepts: [],
+              modified: 4352354345,
+              classKind: 'TOPIC_GROUP',
+              version: { major: 0, minor: 0 }
             };
             fixture.componentInstance.onSave();
             fixture.detectChanges();
@@ -95,7 +103,7 @@ export function main() {
   });
 }
 
-//override dependencies
+// override dependencies
 class TopicServiceSpy {
   edit = jasmine.createSpy('edit').and.callFake(function (key) {
     return [];

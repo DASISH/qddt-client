@@ -5,6 +5,7 @@ import { MaterializeAction } from 'angular2-materialize';
 import { ControlConstructService, QuestionConstruct, Instruction, Universe } from '../controlconstruct.service';
 import { PropertyStoreService } from '../../core/global/property.service';
 import { Column } from '../../shared/table/table.column';
+import {IElementRef} from '../../shared/elementinterfaces/elements';
 
 @Component({
   selector: 'qddt-question-construct',
@@ -31,7 +32,7 @@ export class QuestionConstructComponent implements OnInit, AfterContentChecked {
   private searchKeys: string;
   private page = {};
   private files: FileList;
-  private searchKeysSubect: Subject<string> = new Subject<string>();
+  private searchKeysSubject: Subject<string> = new Subject<string>();
   private readonly columns = [
     new Column({ name: 'name', label: 'Construct Name', sortable: true }),
     new Column({ name: ['questionItem', 'name'], label: 'Question Name', sortable: true }),
@@ -45,13 +46,13 @@ export class QuestionConstructComponent implements OnInit, AfterContentChecked {
     this.questionItems = [];
     this.controlConstructs = [];
 
-    this.searchKeysSubect
+    this.searchKeysSubject
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
         this.showProgressBar = true;
         const args = name.split(' ');
-        console.log('searchKeysSubect ' + args.length);
+        console.log('searchKeysSubject ' + args.length);
         this.service.searchControlConstructs(args[0], args[1] ? args[1] : '*', '0', this.getSort()).then(
           (result) => {
             this.page = result.page;
@@ -185,14 +186,9 @@ export class QuestionConstructComponent implements OnInit, AfterContentChecked {
   searchControlConstructs(key: string) {
     console.log('searchControlConstructs' + key);
     this.searchKeys = key;
-    this.searchKeysSubect.next(key);
+    this.searchKeysSubject.next(key);
   }
 
-  searchQuestionItems(key: string) {
-    this.service.searchQuestionItemsByNameAndQuestion(key).then((result: any) => {
-      this.questionItems = result.content;
-    });
-  }
 
   onRemoveQuestoinItem() {
     this.controlConstruct.questionItem = null;
@@ -203,9 +199,6 @@ export class QuestionConstructComponent implements OnInit, AfterContentChecked {
     this.files = filename.target.files;
   }
 
-  onClickQuestionItem() {
-    this.questionitemActions.emit({action: 'modal', params: ['open']});
-  }
 
 
   private getSort() {
@@ -219,5 +212,9 @@ export class QuestionConstructComponent implements OnInit, AfterContentChecked {
       }
     }
     return sort;
+  }
+
+  onQuestionSelected(element: IElementRef) {
+
   }
 }

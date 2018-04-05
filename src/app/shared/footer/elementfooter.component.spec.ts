@@ -1,7 +1,5 @@
 import { Component, Input, PipeTransform, Pipe } from '@angular/core';
-import { BaseRequestOptions,  Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { RevisionService } from '../revision/revision.service';
@@ -19,14 +17,7 @@ export function main() {
           DiffComponent, ResponsedomainUsedbyComponent, QuestionUsedbyComponent,
           StudyUsedbyComponent, TopicUsedbyComponent, AuthorChipComponent],
         providers: [
-          MockBackend,
-          BaseRequestOptions,
           { provide: RevisionService, useClass: RevisionServiceSpy },
-          {
-            provide: Http,
-            useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),
-            deps: [MockBackend, BaseRequestOptions]
-          },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
@@ -98,7 +89,7 @@ export function main() {
   });
 }
 
-//override dependencies
+// override dependencies
 class RevisionServiceSpy {
   getAllRevisions = jasmine.createSpy('getAllRevisions').and.callFake(function (key) {
     return [];

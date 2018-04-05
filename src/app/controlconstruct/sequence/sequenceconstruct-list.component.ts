@@ -17,7 +17,7 @@ export class SequenceConstructListComponent implements OnInit {
 
   private searchKeys: string;
   private page = {};
-  private searchKeysSubect: Subject<string> = new Subject<string>();
+  private searchKeysSubject: Subject<string> = new Subject<string>();
 
   private readonly columns = [
     new Column({ name: 'name', label: 'Sequence Name', sortable: true }),
@@ -26,7 +26,7 @@ export class SequenceConstructListComponent implements OnInit {
   ];
 
   constructor(private service: ControlConstructService, private router: Router, private route: ActivatedRoute ) {
-    this.searchKeysSubect
+    this.searchKeysSubject
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
@@ -62,7 +62,7 @@ export class SequenceConstructListComponent implements OnInit {
 
   onSearchKey(search: string ) {
     this.searchKeys = search;
-    this.searchKeysSubect.next(search);
+    this.searchKeysSubject.next(search);
   }
 
   onDetail(item: SequenceConstruct ) {

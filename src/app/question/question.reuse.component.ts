@@ -26,7 +26,7 @@ export class QuestionReuseComponent {
   selectedElement: any;
   // private questionItemKind: ElementKind = ElementKind.QUESTION_CONSTRUCT;
   private mainresponseDomainRevision: number;
-  private searchKeysSubect: Subject<string> = new Subject<string>();
+  private searchKeysSubject: Subject<string> = new Subject<string>();
   private readonly QUESTION_KIND: QddtElement = QDDT_ELEMENTS[ElementKind.QUESTION_ITEM];
 
 
@@ -38,7 +38,7 @@ export class QuestionReuseComponent {
     this.elementRevisions = [];
     this.config = this.buildRevisionConfig();
     this.mainresponseDomainRevision = 0;
-    this.searchKeysSubect
+    this.searchKeysSubject
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
@@ -79,7 +79,7 @@ export class QuestionReuseComponent {
   }
 
   searchQuestionItems(name: string) {
-    this.searchKeysSubect.next(name);
+    this.searchKeysSubject.next(name);
   }
 
   selectQuestionItem(questionItem) {

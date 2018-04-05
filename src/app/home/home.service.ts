@@ -9,15 +9,15 @@ export class SurveyProgram implements IEntityEditAudit {
   id: string;
   name: string;
   description: string;
-  authors: any[];
-  comments: any[];
+  authors?: any[];
+  comments?: any[];
   modified: any;
   archived: boolean;
   studies: Study[];
   classKind = ElementKind[ElementKind.SURVEY_PROGRAM];
-  agency: IEntityAudit;
-  basedOnObject: string;
-  basedOnRevision: number;
+  agency?: IEntityAudit;
+  basedOnObject?: string;
+  basedOnRevision?: number;
   version: IVersion;
 }
 
@@ -26,13 +26,13 @@ export class Study implements IEntityEditAudit {
   name: string;
   description: string;
   archived: boolean;
-  authors: any[];
-  comments: any[];
+  authors?: any[];
+  comments?: any[];
   topicGroups: Topic[];
   classKind = ElementKind[ElementKind.STUDY];
-  agency: IEntityAudit;
-  basedOnObject: string;
-  basedOnRevision: number;
+  agency?: IEntityAudit;
+  basedOnObject?: string;
+  basedOnRevision?: number;
   modified: number;
   version: IVersion;
 }
@@ -42,15 +42,15 @@ export class Topic implements IEntityEditAudit {
   name: string;
   abstractDescription: string;
   archived: boolean;
-  authors: any[];
-  comments: any[];
+  authors?: any[];
+  comments?: any[];
   otherMaterials: any[];
   topicQuestionItems: ElementRevisionRef[];
   concepts: Concept[];
   classKind = ElementKind[ElementKind.TOPIC_GROUP];
-  agency: IEntityAudit;
-  basedOnObject: string;
-  basedOnRevision: number;
+  agency?: IEntityAudit;
+  basedOnObject?: string;
+  basedOnRevision?: number;
   modified: number;
   version: IVersion;
 

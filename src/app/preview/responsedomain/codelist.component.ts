@@ -23,10 +23,10 @@ import { ResponseDomain } from '../../responsedomain/responsedomain.service';
 export class ResponsedomainCodeListComponent implements OnChanges {
   @Input() responseDomain: ResponseDomain;
 
-  private rows: any[] = [];
+  public rows: any[] = [];
+  public type: string;
   private max = 4;
   private min = 1;
-  private type: string;
   private responseMax: number;
 
   ngOnChanges() {

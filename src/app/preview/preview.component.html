@@ -1,41 +1,41 @@
 <div *ngIf="element" [ngSwitch]="getElementKind(element)" style="color: dimgrey">
-  <div *ngSwitchCase=ElementKind.CONCEPT>
+  <div *ngSwitchCase=instanceRefEnum.CONCEPT>
     <qddt-preview-concept [concept]="element"></qddt-preview-concept>
   </div>
-  <div *ngSwitchCase=ElementKind.CONDITION_CONSTRUCT >
+  <div *ngSwitchCase=instanceRefEnum.CONDITION_CONSTRUCT >
     <qddt-preview-conditionconstruct [condition]="element"></qddt-preview-conditionconstruct>
   </div>
-  <div *ngSwitchCase=ElementKind.QUESTION_CONSTRUCT >
+  <div *ngSwitchCase=instanceRefEnum.QUESTION_CONSTRUCT >
     <qddt-preview-questionconstruct [controlConstruct]="element"></qddt-preview-questionconstruct>
   </div>
-  <div *ngSwitchCase=ElementKind.SEQUENCE_CONSTRUCT >
+  <div *ngSwitchCase=instanceRefEnum.SEQUENCE_CONSTRUCT >
     <qddt-preview-sequenceconstruct [sequence]="element"></qddt-preview-sequenceconstruct>
   </div>
-  <div *ngSwitchCase=ElementKind.STATEMENT_CONSTRUCT >
+  <div *ngSwitchCase=instanceRefEnum.STATEMENT_CONSTRUCT >
     <qddt-preview-statementconstruct [statement]="element"></qddt-preview-statementconstruct>
   </div>
-  <div *ngSwitchCase=ElementKind.INSTRUMENT >
+  <div *ngSwitchCase=instanceRefEnum.INSTRUMENT >
     <qddt-preview-instrument [instrument]="element"></qddt-preview-instrument>
   </div>
-  <div *ngSwitchCase=ElementKind.PUBLICATION>
+  <div *ngSwitchCase=instanceRefEnum.PUBLICATION>
     <qddt-preview-publication [publication]="element"></qddt-preview-publication>
   </div>
-  <div *ngSwitchCase=ElementKind.QUESTION_GRID>
+  <div *ngSwitchCase=instanceRefEnum.QUESTION_GRID>
     <qddt-preview-questionitem-grid [questionItem]="element"></qddt-preview-questionitem-grid>
   </div>
-  <div *ngSwitchCase="ElementKind.QUESTION_ITEM">
+  <div *ngSwitchCase="instanceRefEnum.QUESTION_ITEM">
     <qddt-preview-questionitem [questionItem]="element"></qddt-preview-questionitem>
   </div>
-  <div *ngSwitchCase=ElementKind.RESPONSEDOMAIN>
+  <div *ngSwitchCase=instanceRefEnum.RESPONSEDOMAIN>
     <qddt-preview-responsedomain [responseDomain]="element"></qddt-preview-responsedomain>
   </div>
-  <div *ngSwitchCase=ElementKind.STUDY>
+  <div *ngSwitchCase=instanceRefEnum.STUDY>
     <qddt-preview-study [study]="element"></qddt-preview-study>
   </div>
-  <div *ngSwitchCase=ElementKind.SURVEY_PROGRAM>
+  <div *ngSwitchCase=instanceRefEnum.SURVEY_PROGRAM>
     <qddt-preview-survey [survey]="element"></qddt-preview-survey>
   </div>
-  <div *ngSwitchCase=ElementKind.TOPIC_GROUP>
+  <div *ngSwitchCase=instanceRefEnum.TOPIC_GROUP>
     <qddt-preview-topic [topic]="element"></qddt-preview-topic>
   </div>
   <div *ngSwitchDefault>

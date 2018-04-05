@@ -21,7 +21,7 @@ export class SequenceReuseComponent implements OnInit {
   public showButton = false;
   public createConstruct = false;
 
-  private searchKeysSubect: Subject<string> = new Subject<string>();
+  private searchKeysSubject: Subject<string> = new Subject<string>();
   private selectedElement: any;
   private selectedRevision: number;
   private selectedType: ElementKind;
@@ -29,7 +29,7 @@ export class SequenceReuseComponent implements OnInit {
   private elementRevisions: any[];
 
   constructor(private service: ControlConstructService) {
-    this.searchKeysSubect
+    this.searchKeysSubject
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
@@ -65,7 +65,7 @@ export class SequenceReuseComponent implements OnInit {
   onUseItem() { }
 
   onSearchElements(key: string) {
-    this.searchKeysSubect.next(key);
+    this.searchKeysSubject.next(key);
   }
 
   searchSequences(key: string) {

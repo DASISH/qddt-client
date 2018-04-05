@@ -4,11 +4,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 import { Column } from '../shared/table/table.column';
 import { IEntityAudit } from '../shared/elementinterfaces/entityaudit';
-import {TemplateService} from './template.service';
+import { TemplateService } from './template.service';
 
 import { LIST_COLUMNS } from '../shared/elementinterfaces/columns';
 import { HEADER_DETAILS } from '../shared/elementinterfaces/headerdetail';
-import {ElementKind, QDDT_ELEMENTS} from '../shared/elementinterfaces/elements';
+import { ElementKind, QDDT_ELEMENTS } from '../shared/elementinterfaces/elements';
 
 @Component({
   selector: 'qddt-template-list',
@@ -28,12 +28,14 @@ export class TemplateListComponent implements OnInit {
   private kind: ElementKind;
 
   constructor(private service: TemplateService, private router: Router, private route: ActivatedRoute ) {
-    this.route.url.subscribe(() => {
-      const path = this.route.firstChild.routeConfig.path;
+
+    this.route.url.subscribe((event) => {
+      const path = event[0].path;
       this.columns = LIST_COLUMNS.get(path);
       this.kind = HEADER_DETAILS.get(path).kind;
       this.placeholder = QDDT_ELEMENTS.find( qe => qe.id === this.kind).placeholder();
     });
+
     this.searchKeysSubject
       .debounceTime(300)
       .distinctUntilChanged()

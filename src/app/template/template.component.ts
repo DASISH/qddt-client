@@ -39,6 +39,8 @@ export class TemplateComponent implements AfterContentChecked {
 
   onToggleForm() {
     this.showForm = !this.showForm;
-    this.newItem =  Factory.createInstance(this.kind);
+    if (this.showForm ) {
+      this.newItem = Factory.createInstance(this.kind);
+    }
   }
 }

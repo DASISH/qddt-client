@@ -1,8 +1,6 @@
-import { Component, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
 
 import { ResponseDomainService } from './responsedomain.service';
 import { ResponseDomainSelectComponent } from './responsedomain.select.component';
@@ -19,14 +17,7 @@ export function main() {
       TestBed.configureTestingModule({
         declarations: [ResponseDomainSelectComponent, ResponsedomainPreviewComponent],
         providers: [
-          MockBackend,
-          BaseRequestOptions,
           { provide: ResponseDomainService, useClass: ResponseDomainServiceSpy },
-          {
-            provide: Http,
-            useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),
-            deps: [MockBackend, BaseRequestOptions]
-          },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
@@ -34,7 +25,7 @@ export function main() {
         ],
         imports: [CommonModule, FormsModule, MaterializeModule]
       });
-      //Mock debounceTime
+      // Mock debounceTime
       Observable.prototype.debounceTime = function () { return this; };
     });
 
@@ -106,17 +97,6 @@ export function main() {
               'changeComment' : 'Information added'
             };
             fixture.componentInstance.responseDomain = responseDomain;
-            const mockBackend = TestBed.get(MockBackend);
-            mockBackend.connections.subscribe((c: any) => {
-              c.mockRespond(new Response(new ResponseOptions({
-                body: '{"content":['
-                + '{"entity": '
-                + JSON.stringify(responseDomain)
-                + ', "revisionNumber": 11}'
-                + '],'
-                + '"page" : { "size" : 20, "totalElements" : 1, "totalPages" : 1, "number" : 0}}'
-              })));
-            });
             fixture.componentInstance.ngOnChanges();
             fixture.detectChanges();
             fixture.whenStable().then(() => {
@@ -129,7 +109,7 @@ export function main() {
   });
 }
 
-//override dependencies
+// override dependencies
 class ResponseDomainServiceSpy {
   getResponseDomainsRevisions = jasmine.createSpy('getResponseDomainsRevisions').and.callFake(function (key) {
     return [];

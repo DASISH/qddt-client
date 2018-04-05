@@ -18,8 +18,8 @@ import { ResponseDomain } from '../../responsedomain/responsedomain.service';
 export class ResponsedomainDatetimeComponent implements OnInit, OnChanges {
   @Input() responseDomain: ResponseDomain;
 
-  private low: number;
-  private high: number;
+  public low: number;
+  public high: number;
   private dFormat: any;
   private dateOptions: any;
 

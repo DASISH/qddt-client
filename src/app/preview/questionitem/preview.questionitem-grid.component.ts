@@ -38,7 +38,7 @@ import { QuestionItem } from '../../question/question.service';
       <div class="col s6" *ngIf="questionItem.responseDomain">
         <qddt-preview-rd-scale
           [responseDomain]="questionItem.responseDomain"
-          [numOfRows]="questionItem.question.children.length+1">
+          [numOfRows]="1"> <!-- trenger ny klasse QuestionGrid questionItem.question.children.length+ -->
         </qddt-preview-rd-scale>
       </div>
     </div>

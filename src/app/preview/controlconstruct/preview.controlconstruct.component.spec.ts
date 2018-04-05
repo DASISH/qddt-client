@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { API_BASE_HREF } from '../api';
+import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
@@ -44,7 +44,7 @@ export function main() {
           .compileComponents()
           .then(() => {
             const fixture = TestBed.createComponent(PreviewControlConstructComponent);
-            fixture.componentInstance.construct = { id: '', name: '', description: '', otherMaterials: [],
+            fixture.componentInstance.construct = { id: '', name: '',  otherMaterials: [],
               postInstructions: [], preInstructions: [], questionItem: null, classKind: 'SEQUENCE_CONSTRUCT',
             universe: [], questionItemRevision: 0};
             fixture.detectChanges();

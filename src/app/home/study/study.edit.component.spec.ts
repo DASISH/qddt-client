@@ -1,15 +1,13 @@
 import { Component, Input,  } from '@angular/core';
-import { BaseRequestOptions, Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
-import { StudyService } from './study.service';
 import { StudyEditComponent } from './study.edit.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
+import {HomeService} from '../home.service';
 
 export function main() {
   describe('Study edit component', () => {
@@ -18,14 +16,7 @@ export function main() {
       TestBed.configureTestingModule({
         declarations: [RevisionDetailComponent, RationalComponent, StudyEditComponent],
         providers: [
-          MockBackend,
-          BaseRequestOptions,
-          { provide: StudyService, useClass: StudyServiceSpy },
-          {
-            provide: Http,
-            useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),
-            deps: [MockBackend, BaseRequestOptions]
-          },
+          { provide: HomeService, useClass: StudyServiceSpy },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
@@ -60,7 +51,10 @@ export function main() {
               authors: [],
               comments: [],
               topicGroups: [],
-              archived: false
+              classKind: 'STUDY',
+              archived: false,
+              modified: 43253234,
+              version: { major: 0, minor: 0 }
             };
             fixture.detectChanges();
             fixture.whenStable().then(() => {
@@ -86,7 +80,12 @@ export function main() {
               id: '7f000101-54aa-131e-8154-aa27fc230000',
               name: 'one study',
               description: '',
-              archived: false
+              authors: [],
+              archived: false,
+              topicGroups: [],
+              classKind: 'STUDY',
+              modified: 0,
+              version: { major: 0, minor: 0 }
             };
             fixture.componentInstance.onSave();
             fixture.detectChanges();
@@ -98,7 +97,7 @@ export function main() {
   });
 }
 
-//override dependencies
+// override dependencies
 class StudyServiceSpy {
   edit = jasmine.createSpy('edit').and.callFake(function (key) {
     return [];

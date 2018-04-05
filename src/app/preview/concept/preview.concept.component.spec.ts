@@ -71,7 +71,7 @@ export function main() {
   });
 }
 
-//override dependencies
+// override dependencies
 class PublicationServiceSpy {
   searchPublications = jasmine.createSpy('searchPublications').and.callFake(function (key) {
     return [];

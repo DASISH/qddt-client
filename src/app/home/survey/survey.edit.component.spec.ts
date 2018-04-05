@@ -2,11 +2,11 @@ import { Component, Input } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { SurveyService } from './survey.service';
 import { SurveyEditComponent } from './survey.edit.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HomeService } from '../home.service';
 
 export function main() {
   describe('Survey edit component', () => {
@@ -15,7 +15,7 @@ export function main() {
       TestBed.configureTestingModule({
         declarations: [RevisionDetailComponent, RationalComponent, SurveyEditComponent],
         providers: [
-          { provide: SurveyService, useClass: SurveyServiceSpy },
+          { provide: HomeService, useClass: SurveyServiceSpy },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
@@ -46,12 +46,15 @@ export function main() {
             const fixture = TestBed.createComponent(SurveyEditComponent);
             fixture.componentInstance.isVisible = true;
             fixture.componentInstance.survey = {
-              'id': '7f000101-54aa-131e-8154-aa27fc230000',
-              'modified': [2016, 9, 8, 15, 21, 26, 254000000],
-              'name': 'The European Social Survey (ESS)',
-              'description': 'test desc',
-              'archived': false,
-              'studies': []
+              id: '7f000101-54aa-131e-8154-aa27fc230000',
+              modified: 123412431324,
+              name: 'The European Social Survey (ESS)',
+              description: 'test desc',
+              archived: false,
+              studies: [],
+              classKind: 'SURVEY',
+              authors: [],
+              version: { major: 0, minor: 0 }
             };
             fixture.detectChanges();
             fixture.whenStable().then(() => {
@@ -76,12 +79,14 @@ export function main() {
             const fixture = TestBed.createComponent(SurveyEditComponent);
             fixture.componentInstance.isVisible = true;
             fixture.componentInstance.survey = {
-              'id': '7f000101-54aa-131e-8154-aa27fc230000',
-              'modified': [2016, 9, 8, 15, 21, 26, 254000000],
-              'name': 'The European Social Survey (ESS)',
-              'description': 'test desc',
-              'archived': false,
-              'studies': []
+              id: '7f000101-54aa-131e-8154-aa27fc230000',
+              modified: 43265432524,
+              name: 'The European Social Survey (ESS)',
+              description: 'test desc',
+              archived: false,
+              studies: [],
+              classKind: 'SURVEY',
+              version: { major: 0, minor: 0 }
             };
             fixture.componentInstance.onSave();
             fixture.detectChanges();
@@ -94,7 +99,7 @@ export function main() {
   });
 }
 
-//override dependencies
+// override dependencies
 class SurveyServiceSpy {
   save = jasmine.createSpy('save').and.callFake(function (key) {
     return [];

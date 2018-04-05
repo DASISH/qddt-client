@@ -1,14 +1,12 @@
 import { Component, Input, PipeTransform, Pipe } from '@angular/core';
-import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
-import { StudyService } from './study.service';
 import { StudyComponent } from './study.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import {HomeService} from '../home.service';
 
 export function main() {
   describe('Study component', () => {
@@ -18,14 +16,7 @@ export function main() {
         declarations: [StudyComponent, RevisionComponent, LocalDatePipe,
           StudyEditComponent, CommentListComponent, AuthorChipComponent],
         providers: [
-          MockBackend,
-          BaseRequestOptions,
-          { provide: StudyService, useClass: StudyServiceSpy },
-          {
-            provide: Http,
-            useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),
-            deps: [MockBackend, BaseRequestOptions]
-          },
+          { provide: HomeService, useClass: StudyServiceSpy },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
@@ -54,39 +45,6 @@ export function main() {
           .compileComponents()
           .then(() => {
             const fixture = TestBed.createComponent(StudyComponent);
-            // fixture.componentInstance.show = true;
-            // fixture.componentInstance.survey = {
-            //     'id': '1',
-            //     'name': 'NAme',
-            //     'description': 'desc',
-            //     'modified': [2016, 9, 8, 15, 21, 26, 254000000],
-            //     'archived': false,
-            //     'studies': [{
-            //         'id': '7f000101-54aa-131e-8154-aa27fc230000',
-            //         'modified': [2016, 9, 8, 15, 21, 26, 254000000],
-            //         'name': 'The European Social Survey (ESS)',
-            //         'basedOnObject': null,
-            //         'basedOnRevision': null,
-            //         'version': { 'major': 6, 'minor': 0, 'versionLabel': '', 'revision': null },
-            //         'changeKind': 'CONCEPTUAL',
-            //         'changeComment': 'Information added'
-            //     }]
-            // };
-            const mockBackend = TestBed.get(MockBackend);
-            mockBackend.connections.subscribe((c: any) => {
-              c.mockRespond(new Response(new ResponseOptions({
-                body: '[{'
-                + '"id" : "7f000101-54aa-131e-8154-aa27fc230000",'
-                + '"modified" : [ 2016, 9, 8, 15, 21, 26, 254000000 ],'
-                + '"name" : "The European Social Survey (ESS)",'
-                + '"basedOnObject" : null,'
-                + '"basedOnRevision" : null,'
-                + '"version" : {"major" : 6, "minor" : 0, "versionLabel" : "", "revision" : null },'
-                + '"changeKind" : "CONCEPTUAL",'
-                + '"changeComment" : "Information added"'
-                + '}]'
-              })));
-            });
             fixture.componentInstance.ngOnInit();
             fixture.detectChanges();
             fixture.whenStable().then(() => {
@@ -99,7 +57,7 @@ export function main() {
   });
 }
 
-//override dependencies
+// override dependencies
 class StudyServiceSpy {
   getAll = jasmine.createSpy('getAll').and.callFake(function (key) {
     return [];

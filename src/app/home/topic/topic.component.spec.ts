@@ -2,11 +2,11 @@ import { Component, Input, PipeTransform, Pipe, SimpleChanges, SimpleChange } fr
 import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { TopicService } from './topic.service';
 import { TopicComponent } from './topic.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import {HomeService} from '../home.service';
 
 export function main() {
   describe('Topic component', () => {
@@ -16,7 +16,7 @@ export function main() {
         declarations: [TopicComponent, RevisionComponent, LocalDatePipe,
           CommentListComponent, TopicEditComponent, AuthorChipComponent],
         providers: [
-          { provide: TopicService, useClass: TopicServiceSpy },
+          { provide: HomeService, useClass: TopicServiceSpy },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
@@ -57,7 +57,7 @@ export function main() {
   });
 }
 
-//override dependencies
+// override dependencies
 class TopicServiceSpy {
   getAll = jasmine.createSpy('getAll').and.callFake(function (key) {
     return [];

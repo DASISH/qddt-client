@@ -1,18 +1,17 @@
 import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import {ElementKind, QddtElement, IElementRef, QDDT_ELEMENTS} from '../../shared/elementinterfaces/elements';
-
+import { ElementKind, QddtElement, IElementRef, QDDT_ELEMENTS} from '../../shared/elementinterfaces/elements';
 import { IEntityAudit } from '../../shared/elementinterfaces/entityaudit';
-import {SelectorsService} from '../selectors.service';
+import { SelectorsService } from '../selectors.service';
 
 @Component({
   selector: 'qddt-item-search',
   moduleId: module.id,
-  templateUrl: './item.search.component.html',
+  templateUrl: './item-search.component.html',
 })
 
 export class ItemSearchComponent {
-  @Input() classKind: string;
+  @Input() elementKind: ElementKind|string;
   @Output() selectedElement: EventEmitter<IElementRef>;
 
   public elements: any[];
@@ -26,7 +25,7 @@ export class ItemSearchComponent {
       .distinctUntilChanged()
       .subscribe((searchString: string) => {
         this.service.searchItems(this.getElementKind(), searchString).then(
-          (result: any) => { this.elements = result.content;},
+          (result: any) => { this.elements = result.content; },
           (error) => { throw error; });
       });
   }
@@ -41,14 +40,13 @@ export class ItemSearchComponent {
     this.searchKeysSubject.next(key);
   }
 
-  public getElementType(kind?: ElementKind): QddtElement {
-    kind = (!kind) ? this.getElementKind() : kind;
+  public getElementType(): QddtElement {
+    const kind = this.getElementKind();
     return QDDT_ELEMENTS.find(e => e.id === kind);
   }
 
   public getElementKind(): ElementKind {
-    return ElementKind[this.classKind];
+    return (typeof this.elementKind === 'string') ?  ElementKind[this.elementKind] : this.elementKind ;
   }
-
 
 }

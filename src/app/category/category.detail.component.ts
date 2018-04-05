@@ -12,7 +12,7 @@ export class CategoryDetailComponent  {
   @Input() categories: Category[];
   @Input() isVisible: boolean;
   @Output() hideDetailEvent: EventEmitter<String> = new EventEmitter<String>();
-  private revisionIsVisible: boolean;
+  public  revisionIsVisible: boolean;
 
   constructor(private categoryService: CategoryService) {
     this.revisionIsVisible = false;

@@ -20,8 +20,11 @@ export class TemplateService {
 
   public searchItems(kind: ElementKind, searchString: string = '',  page: string = '0', sort: string = ''): Promise<any> {
     const qe = QDDT_ELEMENTS.find(e => e.id === kind);
-    const args = searchString.split(' ,');
+    const args = searchString.trim().split(' ');
     const queries = [];
+
+    console.log(args);
+    console.log(args.length === qe.fields.length);
 
     if (args.length === qe.fields.length) {
       for (let i = 0; i < qe.fields.length; i++) {
@@ -65,24 +68,24 @@ export class TemplateService {
 
   public can(action: Action, kind: ElementKind): boolean {
 
-    function canRead(kind: ElementKind) {
+    function canRead() {
       return true;
     }
 
-    function canUpdate(kind: ElementKind) {
-      if (this.roles >= +Authority.ROLE_EDITOR) {
+    function canUpdate(roles: number) {
+      if (roles >= +Authority.ROLE_EDITOR) {
         return true;
-      } else if (this.roles >= +Authority.ROLE_CONCEPT) {
+      } else if (roles >= +Authority.ROLE_CONCEPT) {
           return (kind === ElementKind.TOPIC_GROUP || kind ===  ElementKind.CONCEPT);
       } else {
         return false;
       }
     }
 
-    function canDelete(kind: ElementKind) {
-      if (this.roles >= +Authority.ROLE_ADMIN) {
+    function canDelete(roles: number) {
+      if (roles >= +Authority.ROLE_ADMIN) {
         return true;
-      } else if (this.roles >= +Authority.ROLE_EDITOR ) {
+      } else if (roles >= +Authority.ROLE_EDITOR ) {
         return ( kind !== ElementKind.SURVEY_PROGRAM && kind !== ElementKind.STUDY );
       } else {
         return false;
@@ -91,12 +94,12 @@ export class TemplateService {
 
     switch (action) {
       case Action.Read:
-        return canRead(kind);
+        return canRead();
       case Action.Create:
       case Action.Update:
-        return canUpdate(kind);
+        return canUpdate(this.roles);
       case Action.Delete:
-        return canDelete(kind);
+        return canDelete(this.roles);
       default:
         return false;
     }

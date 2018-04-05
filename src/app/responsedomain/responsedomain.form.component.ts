@@ -35,7 +35,7 @@ export class ResponsedomainFormComponent implements OnInit , AfterViewInit {
   public categories: Category[];
   public selectedCategoryIndex: number;
 
-  private searchKeysSubect: Subject<string> = new Subject<string>();
+  private searchKeysSubject: Subject<string> = new Subject<string>();
 
   constructor(private categoryService: CategoryService, private service: ResponseDomainService) {
     // console.debug('responsedomain.form.component constr');
@@ -43,7 +43,7 @@ export class ResponsedomainFormComponent implements OnInit , AfterViewInit {
     this.formChange = new EventEmitter<any>();
     this.numberOfAnchors = 0;
 
-    this.searchKeysSubect
+    this.searchKeysSubject
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
@@ -157,7 +157,7 @@ export class ResponsedomainFormComponent implements OnInit , AfterViewInit {
   searchCategories(name: string) {
     this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex]['isNew'] = true;
     this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex].label = name;
-    this.searchKeysSubect.next(name);
+    this.searchKeysSubject.next(name);
   }
 
   onClickClear(idx: number) {

@@ -8,8 +8,6 @@ import {
 import { LoginComponent } from './login.component';
 import { By } from '@angular/platform-browser';
 import { API_BASE_HREF } from '../../api';
-import { BaseRequestOptions, Http, ConnectionBackend } from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
 import { UserService } from '../user/user.service';
 
 class UserServiceSpy {
@@ -24,13 +22,6 @@ export function main() {
       TestBed.configureTestingModule({
         declarations: [ TestComponent, LoginComponent ],
         providers: [
-          MockBackend,
-          BaseRequestOptions,
-          {
-            provide: Http,
-            useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),
-            deps: [MockBackend, BaseRequestOptions]
-          },
           { provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
           },
@@ -69,7 +60,7 @@ export function main() {
 }
 
 @Component({
-  selector: 'test-cmp',
+  selector: 'qddt-test-cmp',
   template: `
   <qddt-login>
   </qddt-login>

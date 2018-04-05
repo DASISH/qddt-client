@@ -24,14 +24,14 @@ export class CopySourceComponent {
   selectedElement: IEntityAudit;
   selectedIndex: number;
 
-  private searchKeysSubect: Subject<string> = new Subject<string>();
+  private searchKeysSubject: Subject<string> = new Subject<string>();
 
 
   constructor(private service: HomeService) {
     this.selectedIndex = 0;
     this.items = [];
     this.elementRevisions = [];
-    this.searchKeysSubect
+    this.searchKeysSubject
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
@@ -60,7 +60,7 @@ export class CopySourceComponent {
   }
 
   onSearchItems(name: string) {
-    this.searchKeysSubect.next(name);
+    this.searchKeysSubject.next(name);
   }
 
   onSelectItem(item: IEntityAudit) {

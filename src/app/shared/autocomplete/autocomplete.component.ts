@@ -24,8 +24,8 @@ export class AutocompleteComponent implements OnInit, OnChanges {
   public candidates: any[];
   public showAutoComplete = false;
   public value: string;
-
   public selectedIndex = 0;
+
   private searchFromServer = true;
 
   ngOnInit() {

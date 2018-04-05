@@ -1,5 +1,4 @@
 import { Component, Input,  EventEmitter, Output } from '@angular/core';
-import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -18,7 +17,6 @@ export function main() {
         declarations: [ PublicationReuseComponent, ResponsedomainPreviewComponent,
         AutocompleteComponent, PublicationSelectComponent ],
         providers: [
-          BaseRequestOptions,
           { provide: PublicationService, useClass: PublicationServiceSpy },
           {
             provide: API_BASE_HREF,

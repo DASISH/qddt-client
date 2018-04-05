@@ -1,7 +1,5 @@
 import { Component, Input, PipeTransform, Pipe, EventEmitter, Output } from '@angular/core';
-import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
 import { QuestionService } from './question.service';
@@ -9,7 +7,7 @@ import { QuestionComponent } from './question.component';
 import { API_BASE_HREF } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Observable }     from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import { MaterializeModule } from 'angular2-materialize';
 import { UserService } from '../core/user/user.service';
 
@@ -24,15 +22,8 @@ export function main() {
           QuestionItemEditMissingComponent, ResponsedomainPreviewComponent,
           ResponsedomainReuseComponent],
         providers: [
-          MockBackend,
-          BaseRequestOptions,
           { provide: QuestionService, useClass: QuestionServiceSpy },
           { provide: UserService, useClass: UserServiceSpy },
-          {
-            provide: Http,
-            useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),
-            deps: [MockBackend, BaseRequestOptions]
-          },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
@@ -40,7 +31,7 @@ export function main() {
         ],
         imports: [CommonModule, FormsModule, MaterializeModule]
       });
-      //Mock debounceTime
+      // Mock debounceTime
       Observable.prototype.debounceTime = function () { return this; };
     });
 
@@ -62,22 +53,6 @@ export function main() {
           .compileComponents()
           .then(() => {
             const fixture = TestBed.createComponent(QuestionComponent);
-            const mockBackend = TestBed.get(MockBackend);
-            mockBackend.connections.subscribe((c: any) => {
-              c.mockRespond(new Response(new ResponseOptions({
-                body: '{"content":[{'
-                + '"id" : "7f000101-54aa-131e-8154-aa27fc230000",'
-                + '"modified" : [ 2016, 9, 8, 15, 21, 26, 254000000 ],'
-                + '"name" : "question",'
-                + '"basedOnObject" : null,'
-                + '"basedOnRevision" : null,'
-                + '"version" : {"major" : 6, "minor" : 0, "versionLabel" : "", "revision" : null },'
-                + '"changeKind" : "CONCEPTUAL",'
-                + '"changeComment" : "Information added"'
-                + '}],'
-                + '"page" : { "size" : 20, "totalElements" : 1, "totalPages" : 1, "number" : 0}}'
-              })));
-            });
             fixture.componentInstance.ngOnInit();
             fixture.detectChanges();
             fixture.whenStable().then(() => {
@@ -91,7 +66,7 @@ export function main() {
   });
 }
 
-//override dependencies
+// override dependencies
 class UserServiceSpy {
   get = jasmine.createSpy('get').and.callFake(function (key) {
     return {};

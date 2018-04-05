@@ -2,12 +2,12 @@ import { Component, Input } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { ConceptService } from './concept.service';
 import { ConceptComponent } from './concept.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
+import {HomeService} from '../home.service';
 
 export function main() {
   describe('Concept component', () => {
@@ -18,7 +18,7 @@ export function main() {
           ConceptTocComponent, TreeNodeComponent,
           ConceptEditComponent, CommentListComponent, AuthorChipComponent],
         providers: [
-          { provide: ConceptService, useClass: ConceptServiceSpy },
+          { provide: HomeService, useClass: ConceptServiceSpy },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
@@ -39,8 +39,8 @@ export function main() {
             expect(de.length).toBe(0);
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              const de: any = fixture.debugElement.queryAll(By.css('a'));
-              expect(de.length).toBeGreaterThan(0);
+              const de1: any = fixture.debugElement.queryAll(By.css('a'));
+              expect(de1.length).toBeGreaterThan(0);
             });
           });
       }));
@@ -62,7 +62,7 @@ export function main() {
   });
 }
 
-//override dependencies
+// override dependencies
 class ConceptServiceSpy {
   getByTopic = jasmine.createSpy('getByTopic').and.callFake(function (key) {
     return [];
@@ -80,7 +80,7 @@ class CommentListComponent {
 }
 
 @Component({
-  selector: 'concept-edit',
+  selector: 'qddt-concept-edit',
   template: `<div></div>`
 })
 

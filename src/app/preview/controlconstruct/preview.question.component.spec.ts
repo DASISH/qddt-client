@@ -1,14 +1,12 @@
-import { BaseRequestOptions, Response, ResponseOptions, Http, ConnectionBackend } from '@angular/http';
 import { TestBed, async } from '@angular/core/testing';
-import { MockBackend } from '@angular/http/testing';
 import { By } from '@angular/platform-browser';
 
-import { API_BASE_HREF } from '../../../api';
+import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
 import { PreviewQuestionConstructComponent } from './preview.question.component';
-import { PreviewResponsedomainComponent } from '../preview.responsedomain.component';
+import {PreviewResponsedomainComponent} from '../responsedomain/preview.responsedomain.component';
 
 export function main() {
   describe('Control Construct preview component', () => {
@@ -17,13 +15,6 @@ export function main() {
       TestBed.configureTestingModule({
         declarations: [PreviewQuestionConstructComponent, PreviewResponsedomainComponent],
         providers: [
-          MockBackend,
-          BaseRequestOptions,
-          {
-            provide: Http,
-            useFactory: (backend: ConnectionBackend, options: BaseRequestOptions) => new Http(backend, options),
-            deps: [MockBackend, BaseRequestOptions]
-          },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'

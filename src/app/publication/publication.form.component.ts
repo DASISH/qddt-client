@@ -15,8 +15,8 @@ declare var Materialize: any;
 
 export class PublicationFormComponent implements OnInit , AfterContentChecked {
   @Input() publication: Publication;
-  @Input() textColor: any;
-  @Output() save = new EventEmitter<Publication>();
+  @Input() textColor ='grey-text text-darken-1';
+  @Output() saveEvent = new EventEmitter<Publication>();
 
   selectedOptionValue: number;
   selectedPublicationStatusOption: any;
@@ -24,7 +24,7 @@ export class PublicationFormComponent implements OnInit , AfterContentChecked {
 
   constructor(private service: PublicationService) {
     this.selectOptions = service.PUBLICATION_STATUSES;
-    this.selectedOptionValue = 0;
+    this.selectedOptionValue = 15;
     this.selectedPublicationStatusOption =  this.service.getStatusById(this.selectedOptionValue).description;
   }
 
@@ -40,7 +40,18 @@ export class PublicationFormComponent implements OnInit , AfterContentChecked {
   }
 
   public onSavePublication() {
-    this.save.emit(this.publication);
+    if (this.publication.id) {
+      this.service.create(this.publication).subscribe(
+        (result) => { this.publication = result;
+          this.saveEvent.emit(this.publication); },
+        (error) => { throw error; });
+    } else {
+      this.service.update(this.publication).subscribe(
+        (result) => { this.publication = result;
+              this.saveEvent.emit(this.publication); },
+        (error) => { throw error; });
+
+    }
   }
 
 

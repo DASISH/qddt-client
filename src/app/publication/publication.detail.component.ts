@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import {Publication, PublicationService} from './publication.service';
-import {IEntityEditAudit} from '../shared/elementinterfaces/entityaudit';
-import {Action, IDetailAction} from '../shared/elementinterfaces/detailaction';
+import { IEntityEditAudit } from '../shared/elementinterfaces/entityaudit';
+import { Action, IDetailAction } from '../shared/elementinterfaces/detailaction';
 
 
 @Component({
@@ -14,10 +13,11 @@ export class PublicationDetailComponent {
 
   public item: IEntityEditAudit;
 
-  constructor(private service: PublicationService) {
+  constructor() {
   }
 
   onItemSelect(event: IEntityEditAudit) {
+    console.log('item selected ' + event );
     this.item = event;
   }
 
@@ -28,16 +28,8 @@ export class PublicationDetailComponent {
   }
 
 
-  onPublicationSaved(item: Publication) {
-    this.service.update(item).subscribe((result) => {
-      // const index = this.publications.findIndex((e: any) => e.id === result.id);
-      // if (index >= 0) {
-      //   this.publications[index] = result;
-      // } else {
-      //   this.publications.push(result);
-      // }
-      // this.hideDetail();
-    });
+  onPublicationSaved(item: IEntityEditAudit) {
+    console.log('onPublicationSaved ' + item);
   }
 }
 

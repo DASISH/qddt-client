@@ -117,10 +117,10 @@ class CommentListComponent {
   @Input() comments: any[];
 }
 
-@Component({
-  selector: 'qddt-auto-complete',
-  template: `<div></div>`
-})
+// @Component({
+//   selector: 'qddt-auto-complete',
+//   template: `<div></div>`
+// })
 
 export class AutocompleteComponent {
   @Input() items:  any[];

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ElementEnumAware } from './preview.service';
 import { IEntityAudit } from '../shared/elementinterfaces/entityAudit';
-import { ElementKind, QddtElement, QDDT_ELEMENTS } from '../shared/elementinterfaces/elements';
+import { ElementKind } from '../shared/elementinterfaces/elements';
 
 @Component({
   selector: 'qddt-preview-element',
@@ -20,16 +20,18 @@ import { ElementKind, QddtElement, QDDT_ELEMENTS } from '../shared/elementinterf
 export class PreviewComponent  {
   @Input() element: IEntityAudit;
 
+  public  instanceRefEnum = ElementKind;
+
   public getElementKind(element: IEntityAudit): ElementKind {
     return ElementKind[element.classKind];
   }
 
-  public getElementByKind(kind: ElementKind): QddtElement {
-    if (typeof kind === 'string') {
-        return QDDT_ELEMENTS.find(e =>  ElementKind[e.id] === kind);
-    }  else {
-        return null;
-    }
-  }
+  // public getElementByKind(kind: ElementKind): QddtElement {
+  //   if (typeof kind === 'string') {
+  //       return QDDT_ELEMENTS.find(e =>  ElementKind[e.id] === kind);
+  //   }  else {
+  //       return null;
+  //   }
+  // }
 
 }

@@ -3,11 +3,11 @@
   (mouseleave)="showButton = false">
   <li>
     <div class="row" (click)=onShowItems() style="cursor: zoom-in;">
-      <div class="col s11"><label class="teal-text">{{qddtType.label}}</label></div>
+      <div class="col s11"><label class="teal-text">{{labelName}}</label></div>
       <div class="col s1">
         <a [ngClass]="{hide: !showButton}"
           class="btn-flat btn-floating btn-small waves-effect waves-light teal">
-          <i class="material-icons" title="Add {{qddtType.label}}">add</i>
+          <i class="material-icons" title="Add {{labelName}}">add</i>
         </a>
       </div>
     </div>
@@ -17,13 +17,16 @@
       <div class="col s10 black-text">
         <label>Description</label>
         <div [ngClass]="{ noItemFound: (hasContent()  && searchItems.length === 0) }">
-          <qddt-auto-complete class="black-text"
-            [items]="searchItems"
-            [elementtype]="qddtType"
-            [initialValue]="''"
-            (selectEvent)="onSelectItem($event)"
-            (enterEvent)="onSearchItem($event)">
-          </qddt-auto-complete>
+          <qddt-item-search class="black-text" [elementKind]="elementKind"
+                            (selectedElement)="onSelectItem($event)">
+          </qddt-item-search>
+          <!--<qddt-auto-complete class="black-text"-->
+            <!--[items]="searchItems"-->
+            <!--[elementtype]="qddtType"-->
+            <!--[initialValue]="''"-->
+            <!--(selectEvent)="onSelectItem($event)"-->
+            <!--(enterEvent)="onSearchItem($event)">-->
+          <!--</qddt-auto-complete>-->
         </div>
       </div>
       <div class="col s2 right">
@@ -40,7 +43,7 @@
         <a [ngClass]="{hide: !showButton}"
           class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
           (click)="onDeleteItem(idx)">
-          <i class="material-icons" title="Remove {{qddtType.label}}">remove</i>
+          <i class="material-icons" title="Remove {{labelName}}">remove</i>
         </a>
       </div>
     </div>

@@ -1,10 +1,9 @@
 import { Component, Input, Output, OnInit, EventEmitter, AfterContentChecked } from '@angular/core';
 import { ControlConstructService, QuestionConstruct } from '../controlconstruct.service';
 import { Observable } from 'rxjs/Observable';
-import { MaterializeAction } from 'angular2-materialize';
 import { QuestionItem } from '../../question/question.service';
-import { IEntityAudit } from '../../shared/elementinterfaces/entityaudit';
-import {IOtherMaterial} from '../../shared/elementinterfaces/othermaterial';
+import { IOtherMaterial } from '../../shared/elementinterfaces/othermaterial';
+
 const filesaver = require('file-saver');
 declare var Materialize: any;
 
@@ -20,41 +19,25 @@ declare var Materialize: any;
 
 export class QuestionConstructFormComponent implements OnInit, AfterContentChecked {
   @Input() controlConstruct: QuestionConstruct;
-  @Input() isNew: boolean;
   @Input() readonly: boolean;
   @Output() savedAction = new EventEmitter<QuestionConstruct>();
 
   public savedquestionitem: any;
-  public questionItems: QuestionItem[];
 
-  public createPostInstruction: boolean;
-  public createPreInstruction: boolean;
-
-  public createUniverse: boolean;
   private editQuestoinItem: boolean;
-  private revisionIsVisible: boolean;
-
   private showUploadFileForm: boolean;
   private showUploadedFiles: boolean;
-  private showPreinstructionButton: boolean;
-  private showPostinstructionButton: boolean;
-  private showUniverseButton: boolean;
   private showQuestionButton: boolean;
   private showbutton = false;
+
   private files: FileList;
   private fileStore: any[];
   private toDeleteFiles: any[];
-  private searchUniverses: IEntityAudit[];
 
   constructor(private service: ControlConstructService) {
-    this.revisionIsVisible = false;
-    this.createPostInstruction = false;
-    this.createPreInstruction = false;
     this.editQuestoinItem = false;
     this.showUploadFileForm = false;
     this.showUploadedFiles = false;
-    this.showPreinstructionButton = false;
-    this.showPostinstructionButton = false;
     this.showQuestionButton = false;
 
     this.fileStore = [];
@@ -62,35 +45,24 @@ export class QuestionConstructFormComponent implements OnInit, AfterContentCheck
   }
 
   ngOnInit() {
-    if (this.isNew) {
-      this.controlConstruct.id = new Date().valueOf.toString();
-    }
     if (!this.readonly) {
       this.readonly = false;
     }
-    this.service.getQuestionItems('').then(
-      (results) => this.questionItems = results
-    );
   }
 
   ngAfterContentChecked() {
     Materialize.updateTextFields();
   }
 
-  onDeleteUniverse(id: number) {
-    this.controlConstruct.universe.splice(id, 1);
-  }
+  // onDeleteUniverse(id: number) {
+  //   this.controlConstruct.universe.splice(id, 1);
+  // }
 
   onAddUniverse(item: any) {
     this.controlConstruct.universe.push(item);
     // this.createUniverse = false;
   }
 
-  onSearchUniverse(key: string) {
-    this.service.searchUniverses(key).then((result: any) => {
-        this.searchUniverses = result.content;
-      });
-  }
 
   onDeletePreInstruction(id: number) {
     this.controlConstruct.preInstructions.splice(id, 1);
@@ -98,24 +70,16 @@ export class QuestionConstructFormComponent implements OnInit, AfterContentCheck
 
   onAddPreInstruction(instruction: any) {
     this.controlConstruct.preInstructions.push(instruction);
-    this.createPreInstruction = false;
   }
 
-  onDeletePostInstruction(id: number) {
-    this.controlConstruct.postInstructions.splice(id, 1);
-  }
+  // onDeletePostInstruction(id: number) {
+  //   this.controlConstruct.postInstructions.splice(id, 1);
+  // }
 
   onAddPostInstruction(instruction: any) {
     this.controlConstruct.postInstructions.push(instruction);
-    this.createPostInstruction = false;
   }
 
-
-  onSearchQuestionItems(key: string) {
-    this.service.searchQuestionItemsByNameAndQuestion(key).then((result: any) => {
-      this.questionItems = result.content;
-    });
-  }
 
   onSelectQuestionItem(element: QuestionItem) {
     this.controlConstruct.questionItem = element;
