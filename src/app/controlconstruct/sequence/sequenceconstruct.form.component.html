@@ -23,7 +23,11 @@
               </textarea>
   </div>
 
-  <qddt-sequence-reuse (element)="onGetElement($event)"></qddt-sequence-reuse>
+  <qddt-item-search [elementKind]="'CONTROL_CONSTRUCT'" (selectedElement)="onElementSelected($event)"></qddt-item-search>
+
+  <qddt-revision-select *ngIf="selectedElement" [element]="selectedElement" (selectedEvent)="onRevisionSelected($event)" (dismissEvent)="selectCanceled($event)"></qddt-revision-select>
+
+  <!--<qddt-sequence-reuse (element)="onGetElement($event)"></qddt-sequence-reuse>-->
 
   <qddt-preview-controlconstruct [construct]="sequence"></qddt-preview-controlconstruct>
 
@@ -40,7 +44,5 @@
             class="btn btn-default" [disabled]="!sequenceform.form.valid">Submit</button>
   </div>
 
-
-  <!--<button type="submit" class="btn btn-default right">Submit</button>-->
 
 </form>

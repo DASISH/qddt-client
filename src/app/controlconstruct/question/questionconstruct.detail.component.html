@@ -4,8 +4,8 @@
     <div class="fixed-action-btn vertical click-to-toggle">
       <a class="btn-floating btn-large cyan"><i class="large material-icons">menu</i></a>
       <ul>
-        <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light blue" (click)="revisionIsVisible = !revisionIsVisible"
-          href="constructs#scrollRevision">
+        <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light blue" (click)="revisionIsVisible = !revisionIsVisible">
+          <!--href="./#scrollRevision">-->
             <i class="material-icons left medium" title="Revision history">history</i>
         </a></li>
         <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light red">
@@ -32,12 +32,7 @@
         (savedAction)="onControlConstructSaved($event)">
       </qddt-control-construct-form>
 
-      <qddt-revision *ngIf="revisionIsVisible"
-        [current]="controlConstruct"
-        [config]="config"
-        [qddtURI]="'audit/controlconstruct/' + controlConstruct.id + '/all'">
-      </qddt-revision>
-
+      <qddt-revision *ngIf="revisionIsVisible" [current]="controlConstruct"></qddt-revision>
 
       <qddt-comment-list
         [ownerId]="controlConstruct.id"

@@ -20,12 +20,11 @@ export class QuestionConstructDetailComponent implements OnInit {
 
   public deleteAction = new EventEmitter<MaterializeAction>();
   public revisionIsVisible = false;
-  public config: any[];
   public controlConstruct: QuestionConstruct;
+
   private action: IDetailAction;
 
   constructor(private service: ControlConstructService, private router: Router, private route: ActivatedRoute ) {
-    this.config = this.buildRevisionConfig();
   }
 
   ngOnInit() {
@@ -33,7 +32,8 @@ export class QuestionConstructDetailComponent implements OnInit {
     this.service.getControlConstruct<QuestionConstruct>(this.route.snapshot.paramMap.get('id')).then(
       (ctrl) => {
         this.action.id = ctrl.id;
-        this.controlConstruct = ctrl; },
+        this.controlConstruct = ctrl;
+        console.log ( ctrl ); },
       (error) => { throw error; } );
     }
 
@@ -65,41 +65,4 @@ export class QuestionConstructDetailComponent implements OnInit {
       (error) => { throw error; });
   }
 
-
-
-  private buildRevisionConfig(): any[] {
-    const config: any[] = [];
-    config.push({'name': 'name', 'label': 'Name'});
-    config.push({'name': ['questionItem'], 'label': 'Question', 'init': function (q: any) {
-      if (q && q['question'] && q['question']) {
-        return q['question'];
-      }
-      return '';
-    }});
-    config.push({'name': ['questionItem', 'version'], 'label': 'QI_Version', 'init': function (version: any) {
-      if (version !== null && version !== undefined) {
-        return 'V' + version['major'] + '.' + version['minor'];
-      }
-      return '';
-    }});
-    config.push({'name': ['preInstructions'], 'label': 'Pre', 'init': function (o: any) {
-      if (o !== null && o !== undefined) {
-        return o.map((element: any) => element['description'] || '').sort().join(',');
-      }
-      return '';
-    }});
-    config.push({'name': ['postInstructions'], 'label': 'Post', 'init': function (o: any) {
-      if (o !== null && o !== undefined) {
-        return o.map((element: any) => element['description'] || '').sort().join(',');
-      }
-      return '';
-    }});
-    config.push({'name': ['otherMaterials'], 'label': 'Files', 'init': function (o: any) {
-      if (o !== null && o !== undefined) {
-        return o.map((element: any) => element['originalName'] || '').sort().join(',');
-      }
-      return '';
-    }});
-    return config;
-  }
 }

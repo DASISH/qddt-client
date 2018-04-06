@@ -4,56 +4,61 @@
     <div class="fixed-action-btn vertical click-to-toggle">
       <a class="btn-floating btn-large cyan"><i class="large material-icons">menu</i></a>
       <ul>
-        <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light blue" (click)="revisionIsVisible = !revisionIsVisible"><i class="material-icons left medium" title="Revision history">history</i></a></li>
+        <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light blue" (click)="revisionIsVisible = !revisionIsVisible">
+               <!--href=".#scrollRevision">-->
+          <i class="material-icons left medium" title="Revision history">history</i>
+        </a></li>
         <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light red">
-          <i class="material-icons" (click)="onDeleteSequence()" title="Delete" >delete_forever</i>
+          <i class="material-icons" (click)="onDeleteConfirmModal()" title="Delete" >delete_forever</i>
         </a></li>
         <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light orange darken-1">
-          <i class="material-icons" (click)="getPdf(sequence)" title="Get as Pdf">picture_as_pdf</i>
+          <i class="material-icons" (click)="onGetPdf(sequence)" title="Get as Pdf">picture_as_pdf</i>
         </a></li>
         <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light green darken-1">
-          <i class="material-icons" (click)="hideDetail()" title="Return to list view">replay</i>
+          <i class="material-icons" (click)="onHideDetail()" title="Return to list view">replay</i>
         </a></li>
       </ul>
     </div>
 
-    <div class="row">
-
-      <div class="col s1">
-        <a class="btn-flat btn-floating btn-medium waves-effect waves-light  green darken-1">
-          <i class="material-icons" (click)="hideDetail()" title="Return to list view">replay</i>
-        </a>
-      </div>
-
-      <div class="col s10">
-        <div class="row">
-          <div class="col m7 l10 grey-text text-darken-2">
-            <div class="flow-text">{{ sequence?.name }}</div>
-          </div>
-
-          <div class="col m3 l2">
-            <qddt-version-label class="right" [element]="sequence"></qddt-version-label>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col s11  white grey-text text-darken-1">
-
-            <qddt-sequence-edit
-              (editSequence)="sequenceSavedEvent($event)"
-              [sequence]="sequence">
-            </qddt-sequence-edit>
-
-            <qddt-revision *ngIf="revisionIsVisible"
-                       [current]="sequence"
-                       [qddtURI]="'audit/controlconstruct/' + sequence.id + '/all'">
-            </qddt-revision>
-
-
-            <qddt-comment-list [ownerId]="sequence.id" [comments]="sequence.comments"></qddt-comment-list>
-          </div>
-        </div>
-      </div>
+    <div class="col s1">
+      <a class="btn-flat btn-floating btn-medium waves-effect waves-light  green darken-1">
+        <i class="material-icons" (click)="onHideDetail()" title="Return to list view">replay</i>
+      </a>
     </div>
+
+    <div class="col s10 grey-text text-darken-2">
+
+      <qddt-sequence-form [sequence]="sequence" (savedAction)="sequenceSaved($event)">
+      </qddt-sequence-form>
+
+      <qddt-revision *ngIf="revisionIsVisible" [current]="sequence"></qddt-revision>
+
+      <qddt-comment-list
+        [ownerId]="sequence.id"
+        [comments]="sequence.comments">
+      </qddt-comment-list>
+
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" materialize="modal" [materializeActions]="deleteAction">
+  <div class="modal-content">
+    <div class="row">
+      <h4>Warning</h4>
+      <span>Are you sure you want to delete Control Construct {{ sequence?.name }}?</span>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      (click)="onConfirmDeleting()"
+      class="btn btn-default green modal-action modal-close waves-effect">
+      <a><i class="close material-icons medium white-text">done</i></a>
+    </button>
+    <button
+      class="btn btn-default red modal-action modal-close waves-effect">
+      <a><i class="close material-icons medium white-text">close</i></a>
+    </button>
   </div>
 </div>

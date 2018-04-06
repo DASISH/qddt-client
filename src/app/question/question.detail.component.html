@@ -43,12 +43,7 @@
               [questionitem]="questionitem">
             </qddt-questionitem-edit>
 
-            <qddt-revision *ngIf="revisionIsVisible"
-              [config]="config"
-              [current]="questionitem"
-              [qddtURI]="'audit/questionitem/' + questionitem.id + '/all'">
-            </qddt-revision>
-
+            <qddt-revision *ngIf="revisionIsVisible" [current]="questionitem" ></qddt-revision>
 
             <qddt-comment-list [ownerId]="questionitem.id" [comments]="questionitem.comments"></qddt-comment-list>
           </div>

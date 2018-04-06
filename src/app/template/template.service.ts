@@ -11,7 +11,6 @@ import { Authority } from '../core/user/authority';
 @Injectable()
 export class TemplateService {
 
-  readonly pageSize = '&size=10';
   private roles = 0;
 
   constructor(protected http: HttpClient, private userService: UserService, @Inject(API_BASE_HREF) protected api: string) {
@@ -22,6 +21,10 @@ export class TemplateService {
     const qe = QDDT_ELEMENTS.find(e => e.id === kind);
     const args = searchString.trim().split(' ');
     const queries = [];
+
+    function queryPage (pageNumber: number, size: number = 10 , sorting: String = null): string {
+      return '&page=' + pageNumber + '&size=' + size + (sorting) ? '&sort=' + sorting : '';
+    }
 
     console.log(args);
     console.log(args.length === qe.fields.length);
@@ -36,8 +39,7 @@ export class TemplateService {
       }
     }
 
-    if (sort.length > 0) { queries.push('sort=' + sort); }
-    if (page !== '0') { queries.push('page=' + page); }
+    queries.push(queryPage(+page, 10 , sort) );
 
     let query = '';
     if (queries.length > 0) { query = '?' + queries.join('&'); }

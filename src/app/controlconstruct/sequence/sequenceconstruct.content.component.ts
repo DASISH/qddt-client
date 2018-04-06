@@ -1,5 +1,7 @@
-import { Component, Input, OnInit, EventEmitter } from '@angular/core';
-import { SequenceConstruct, ControlConstructService } from '../controlconstruct.service';
+import { Component, Input } from '@angular/core';
+import { IEntityAudit } from '../../shared/elementinterfaces/entityaudit';
+import { IElementRef } from '../../shared/elementinterfaces/elements';
+import { QddtMessageService} from '../../core/global/message.service';
 
 @Component({
   selector: 'qddt-sequence-content',
@@ -11,17 +13,16 @@ import { SequenceConstruct, ControlConstructService } from '../controlconstruct.
 })
 
 export class SequenceContentComponent {
-  @Input() sequence: SequenceConstruct;
-  selectedElement: any;
-  sequenceContentActions = new EventEmitter<any>();
-
-  constructor(private service: ControlConstructService) {
-  }
+  @Input() sequence: IEntityAudit;
 
 
-  onSelectedElement(element: any) {
-    this.selectedElement = element;
-    this.sequenceContentActions.emit({action: 'modal', params: ['open']});
+  constructor( private message: QddtMessageService) { }
+
+  onSelectedElement(element: IEntityAudit) {
+    const  ref: IElementRef =  {
+      element: element,
+      elementKind: element.classKind };
+    this.message.sendMessage( ref );
   }
 
 }

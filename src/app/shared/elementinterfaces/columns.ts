@@ -1,4 +1,4 @@
-import {Column} from '../table/table.column';
+import { Column } from '../table/table.column';
 
 
 export const  QUESTION_CONSTRUCT_COLUMNS = [
@@ -17,7 +17,7 @@ export const  SEQUENCE_CONSTRUCT_COLUMNS = [
 export const  PUBLICATION_COLUMNS =  [
   new Column({ name: 'name', label: 'Name', sortable: true }),
   new Column({ name: 'purpose', label: 'Purpose', sortable: true }),
-  new Column({ name: 'status', label: 'Publication Status', sortable: true }),
+  new Column({ name: ['status', 'label'], label: 'Publication Status', sortable: true }),
   new Column({ name: 'modified',  label: 'Modified', sortable: true, direction: 'desc' })
 ];
 

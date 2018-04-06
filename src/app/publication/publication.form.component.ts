@@ -15,7 +15,7 @@ declare var Materialize: any;
 
 export class PublicationFormComponent implements OnInit , AfterContentChecked {
   @Input() publication: Publication;
-  @Input() textColor ='grey-text text-darken-1';
+  @Input() textColor = 'grey-text text-darken-1';
   @Output() saveEvent = new EventEmitter<Publication>();
 
   selectedOptionValue: number;
@@ -30,8 +30,7 @@ export class PublicationFormComponent implements OnInit , AfterContentChecked {
 
   public ngOnInit() {
     if (this.publication) {
-      const status = this.service.getPublicationStatusAsList().find( s => s.label === this.publication.status);
-      this.onSelectChange(status.id);
+      this.onSelectChange(this.publication.status.id);
     }
   }
 
@@ -79,7 +78,7 @@ export class PublicationFormComponent implements OnInit , AfterContentChecked {
   public onSelectChange(id: any) {
     const status = this.service.getStatusById(+id);
     if (status) {
-      this.publication.status = status.label;
+      this.publication.status = status;
       this.selectedPublicationStatusOption = status.description;
       this.selectedOptionValue = status.id;
     }

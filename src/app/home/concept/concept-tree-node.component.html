@@ -57,18 +57,10 @@
         </div>
       </div>
       <qddt-concept-edit [isVisible]="edit.isVisible" [concept]="concept"
-                         (conceptSavedEvent)="onConceptSavedEvent($event)"
-                         #edit>
+                         (conceptSavedEvent)="onConceptSavedEvent($event)" #edit>
       </qddt-concept-edit>
 
-      <qddt-revision *ngIf = "edit.showRevision"
-        [current]="concept"
-        [qddtURI]="'audit/concept/' + concept.id + '/all'"
-        [config]="[{'name':'name','label':'Name'},{'name':'description','label':'Description'}]"
-       >
-      </qddt-revision>
-
-
+      <qddt-revision *ngIf = "edit.showRevision" [current]="concept"></qddt-revision>
 
       <div *ngIf="concept.conceptQuestionItems?.length > 0 && !edit.isVisible" class="section">
         <ul class="collection with-header hoverable"

@@ -1,7 +1,9 @@
-import { Component, Input, OnInit, OnChanges, EventEmitter, Output } from '@angular/core';
+import { Component, Input,  OnChanges } from '@angular/core';
 import { RevisionService } from './revision.service';
 import { QddtMessageService } from '../../core/global/message.service';
-import { IElementRef } from '../elementinterfaces/elements';
+import { ElementKind, IElementRef } from '../elementinterfaces/elements';
+import { DEFAULT_CONFIG, LIST_CONFIG } from './revision-config';
+import { IEntityAudit } from '../elementinterfaces/entityaudit';
 
 @Component({
   selector: 'qddt-revision',
@@ -10,49 +12,40 @@ import { IElementRef } from '../elementinterfaces/elements';
   templateUrl: './revision.component.html',
   providers: [RevisionService]
 })
-export class RevisionComponent implements OnChanges, OnInit {
+export class RevisionComponent implements OnChanges {
+  @Input() current: IEntityAudit;
 
-  @Input() qddtURI: string;
-  @Input() config: any[];
-  @Input() current: any;
-
-  public revisions: any[];
-  private page: any;
-  private selectRevisionId: number;
-  private currentRevisionId: number;
+  public config: any;
+  public revisions = [];
+  public selectRevisionId: number;
   private showProgressBar = false;
 
   constructor(private service: RevisionService, private message: QddtMessageService) {
-    this.revisions = [];
-    this.currentRevisionId = -1;
     this.selectRevisionId = -1;
   }
 
-  ngOnInit() {
+   ngOnChanges() {
     if (!this.config) {
-      this.config = [{'name': 'label', 'label': 'Label'}, {'name': 'description', 'label': 'Description'}];
+      if (this.current['config']) {
+        this.config = this.current['config'];
+      } else {
+        if (LIST_CONFIG.has(this.getElementKind())) {
+          this.config = LIST_CONFIG.get(this.getElementKind());
+        } else {
+          this.config = DEFAULT_CONFIG;
+        }
+      }
     }
-    if (!this.page) {
-      this.page =  {number: 1, size: 10};
-    }
-  }
-
-  ngOnChanges() {
     this.getRevisionsById();
   }
 
-
-
   getRevisionsById() {
     this.showProgressBar = true;
-    // let params = allRevisions.checked?'':'&ignorechangekinds="" ';
-    this.service.getAllRevisions(this.qddtURI)
-      .then(
+    this.service.getRevisions(this.getElementKind(), this.current.id).then(
       (result: any) => {
         this.revisions = result.content;
-        this.showProgressBar = false;
-      },
-        (error) => {
+        this.showProgressBar = false; },
+      (error) => {
         this.showProgressBar = false;
         throw error;
       });
@@ -67,4 +60,7 @@ export class RevisionComponent implements OnChanges, OnInit {
     this.message.sendMessage( ref );
   }
 
+  private getElementKind(): ElementKind {
+    return ElementKind[this.current.classKind];
+  }
 }

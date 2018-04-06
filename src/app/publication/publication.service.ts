@@ -19,9 +19,9 @@ export const PUBLICATION_TYPES: QddtElement[] = [
 export class Publication  implements  IEntityAudit {
   id: string;
   name: string;
-  classKind: string;
   purpose: string;
-  status: string;
+  status: PublicationStatus = { id: 0, published: 'NOT_PUBLISHED', label: 'No publication' };  // magic number NOT_PUBLISHED
+  classKind = ElementKind[ElementKind.PUBLICATION];
   publicationElements: ElementRevisionRef[];
   constructor() {
     this.publicationElements = [];
@@ -31,9 +31,9 @@ export class Publication  implements  IEntityAudit {
 
 export class PublicationStatus {
   id: number;
-  name: string;
   label: string;
-  description: string;
+  published: string;
+  description?: string;
   children?: PublicationStatus[];
 
   public constructor(init?: Partial<PublicationStatus>) {
@@ -56,10 +56,12 @@ export class PublicationService {
         result => {
           this.PUBLICATION_STATUSES = result;
           this.PUBLICATION_STATUSES.forEach( s => {
-            this.statusList.push( new PublicationStatus( {id: s.id, label: s.label, name: s.name, description: s.description } ) );
+            this.statusList.push(
+              new PublicationStatus({id: s.id, label: s.label, published: s.published, description: s.description } ) );
             if (s.children) {
               s.children.forEach(s1 =>
-                this.statusList.push( new PublicationStatus( {id: s1.id, label: s1.label, name: s1.name, description: s1.description }) ));
+                this.statusList.push(
+                  new PublicationStatus({id: s1.id, label: s1.label, published: s.published, description: s1.description }) ));
             }
           });
         },
@@ -67,17 +69,10 @@ export class PublicationService {
     }
   }
 
-  // public getPublication(id: string): Promise<Publication> {
-  //   return this.http.get<Publication>(this.api + 'publication/' + id).toPromise();
-  // }
 
   public getPublicationStatusAsList(): PublicationStatus[] {
     return this.statusList;
   }
-
-  // public getStatusByName(name: String): PublicationStatus {
-  //   return this.getPublicationStatusAsList().find(e => e.name === name );
-  // }
 
   public getStatusById(id: number): PublicationStatus {
     return this.getPublicationStatusAsList().find(e => e.id === id );
@@ -86,21 +81,6 @@ export class PublicationService {
   // public getPdf(id: string): Promise<Blob> {
   //   return this.http.get(this.api + 'publication/pdf/' + id, {responseType: 'blob'})
   //     .toPromise();
-  // }
-  //
-  // public searchPublications(name: string = '*', status: string = '*' , page: String = '0', sort: String = ''): Promise<any> {
-  //   const queries = [];
-  //
-  //   queries.push('name=' + name + '&status=' +  status );
-  //
-  //   if (sort.length > 0) { queries.push('sort=' + sort); }
-  //
-  //   if (page !== '0') { queries.push('page=' + page); }
-  //
-  //   let query = '';
-  //   if (queries.length > 0) { query = '?' + queries.join('&'); }
-  //
-  //   return this.http.get(this.api + 'publication/page/search/' + query).toPromise();
   // }
 
   public searchElements(elementKind: ElementKind, name: string): Promise<any> {

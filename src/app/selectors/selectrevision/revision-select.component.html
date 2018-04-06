@@ -3,13 +3,13 @@
     <div *ngIf="showProgressBar" class="progress"><div class="indeterminate"></div></div>
     <div class="input-field col s4" *ngIf="elementRevisions.length > 0">
       <label class="active black-text">business version</label>
-      <select [(ngModel)]="elementRevision"
+      <select [(ngModel)]="selectedRevision"
               (ngModelChange)="onSelectElementRevisions($event)"
               class="black-text"
               name="element-revision"
               materialize="material_select">
         <option *ngFor="let revision of elementRevisions"
-                [selected]="revision.revisionNumber === elementRevision"
+                [selected]="revision.revisionNumber === selectedRevision"
                 [value]="revision.revisionNumber">
           {{ revision?.entity?.version?.major }}.{{ revision?.entity?.version?.minor }}.{{ revision?.entity?.version?.versionLabel }}
         </option>

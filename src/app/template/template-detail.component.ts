@@ -24,7 +24,6 @@ export class TemplateDetailComponent implements OnInit {
   public canDelete: boolean;
   public deleteAction = new EventEmitter<MaterializeAction>();
 
-  public config: any[];
   private action: IDetailAction = { id: '', action: Action.None, object: null };
   private kind: ElementKind;
 

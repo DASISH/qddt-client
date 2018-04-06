@@ -134,12 +134,7 @@
                   </a>
                 </ul>
               </div>
-              <qddt-revision
-                *ngIf = "edit.showRevision"
-                [current]="currentElement"
-                [config]="config"
-                [qddtURI]="'audit/topicgroup/' + currentElement.id + '/all'">
-              </qddt-revision>
+              <qddt-revision *ngIf = "edit.showRevision" [current]="currentElement" ></qddt-revision>
 
               <qddt-comment-list *ngIf="!edit.isVisible"
                 [ownerId]="currentElement.id"

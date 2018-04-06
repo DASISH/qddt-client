@@ -1,8 +1,8 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { ElementKind } from '../../shared/elementinterfaces/elements';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { SequenceConstruct, ControlConstructService } from '../controlconstruct.service';
-import { Action, IDetailAction } from '../../shared/elementinterfaces/detailaction';
-import { ActivatedRoute, Router } from '@angular/router';
+import { MaterializeAction } from 'angular2-materialize';
+import { Router, ActivatedRoute } from '@angular/router';
+import { IDetailAction, Action} from '../../shared/elementinterfaces/detailaction';
 
 const filesaver = require('file-saver');
 
@@ -13,49 +13,53 @@ const filesaver = require('file-saver');
 })
 
 export class SequenceDetailComponent implements OnInit {
-  @Input() sequence: SequenceConstruct;
-  // @Output() hideDetailEvent: EventEmitter<String> = new EventEmitter<String>();
 
-  private readonly revisionKind = ElementKind.SEQUENCE_CONSTRUCT;
-  private revisionIsVisible: boolean;
+  public deleteAction = new EventEmitter<MaterializeAction>();
+  public revisionIsVisible = false;
+  public sequence: SequenceConstruct;
+
   private action: IDetailAction;
 
-  constructor(private service: ControlConstructService, private router: Router, private route: ActivatedRoute) {
-    this.revisionIsVisible = false;
+  constructor(private service: ControlConstructService, private router: Router, private route: ActivatedRoute ) {
   }
 
   ngOnInit() {
     this.action = { id: '', action: Action.None, object: null };
-    this.service.getControlConstruct<SequenceConstruct>(
-      this.route.snapshot.paramMap.get('id'))
-      .then(ctrl => {
+    this.service.getControlConstruct<SequenceConstruct>(this.route.snapshot.paramMap.get('id')).then(
+      (ctrl) => {
         this.action.id = ctrl.id;
-        this.sequence = ctrl; })
-      .catch( error => { throw error; } );
+        this.sequence = ctrl;
+        console.log ( ctrl ); },
+      (error) => { throw error; } );
   }
 
-  hideDetail() {
+  onHideDetail() {
     this.router.navigate(['../' ], { relativeTo: this.route });
   }
 
-  sequenceSavedEvent(sequence: SequenceConstruct) {
-    this.hideDetail();
+  onDeleteConfirmModal() {
+    this.deleteAction.emit({action: 'modal', params: ['open']});
   }
 
-
-  getPdf(element: SequenceConstruct) {
-    const fileName = element.name + '.pdf';
-    this.service.getPdf(element.id).then(
-      (data: any) => {
-        filesaver.saveAs(data, fileName);
+  onConfirmDeleting() {
+    this.service.deleteControlConstruct(this.sequence.id)
+      .subscribe(() => {
+        this.action.action = Action.Delete;
+        this.onHideDetail();
       });
   }
 
-  onDeleteSequence() {
-    this.service.deleteControlConstruct(this.sequence.id).subscribe(
-      () => {  }
-    );
-    this.hideDetail();
+  sequenceSaved(result: SequenceConstruct) {
+    this.action.action = Action.Update;
+    this.action.object = result;
+    this.onHideDetail();
   }
+
+  onGetPdf( ctrl: SequenceConstruct) {
+    this.service.getPdf(ctrl.id).then(
+      (data) => { filesaver.saveAs(data, ctrl.name + '.pdf'); },
+      (error) => { throw error; });
+  }
+
 
 }

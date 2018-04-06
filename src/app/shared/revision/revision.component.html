@@ -1,7 +1,7 @@
   <div id="scrollRevision" class="scrollspy" *ngIf="revisions" #ref style="overflow-x:auto;">
     <qddt-diff *ngIf="selectRevisionId >= 0"
-               [compared]="revisions[selectRevisionId].entity"
                [current]="current"
+               [compared]="revisions[selectRevisionId].entity"
                [config]="config"
                (hideCompareEvent)="onSelectRevision(-1);"
     >

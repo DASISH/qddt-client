@@ -24,18 +24,14 @@ export class QuestionDetailComponent implements OnInit {
 
   public deleteAction = new EventEmitter<string|MaterializeAction>();
   public canDelete: number; // 0: cannot, 1: can, 2: checking
-  public previewObject: any;
-  public config: any[];
   public revisionIsVisible: boolean;
   public editIsVisible: boolean;
   public conceptIsVisible: boolean;
-
 
   constructor(private service: QuestionService) {
     this.revisionIsVisible = false;
     this.editIsVisible = false;
     this.conceptIsVisible = false;
-    this.config = this.getConfig();
   }
 
   ngOnInit() {
@@ -67,32 +63,17 @@ export class QuestionDetailComponent implements OnInit {
     this.deleteAction.emit({action: 'modal', params: ['open']});
   }
 
-  onShowRevision(element: any) {
-    this.previewObject = element;
-  }
-
   checkDeleteQuestionItem() {
     const usedby: any = this.questionitem.conceptRefs;
     this.canDelete = 2; // checking
     if (usedby && usedby.length > 0) {
       this.canDelete = 0;
     }
-/*     else {
-      this.service.getControlConstructsByQuestionItem(this.questionitem.id)
-        .then((result: any) => {
-          if (result.length > 0) {
-            this.canDelete = 0;
-          } else {
-            this.canDelete = 1;
-          }
-        },
-        (error: any) => { this.canDelete = 0; throw error; });
-    } */
+
   }
 
   onConfirmDeleting() {
-    this.service.deleteQuestionItem(this.questionitem.id)
-      .subscribe(() => {
+    this.service.deleteQuestionItem(this.questionitem.id).subscribe(() => {
         const i = this.questionitems.findIndex(q => q['id'] === this.questionitem.id);
         if (i >= 0) {
           this.questionitems.splice(i, 1);
@@ -100,7 +81,6 @@ export class QuestionDetailComponent implements OnInit {
         this.deleteAction.emit({action: 'modal', params: ['close']});
         this.hideDetailEvent.emit('hide');
       });
-
   }
 
   getPdf(element: QuestionItem) {
@@ -109,17 +89,6 @@ export class QuestionDetailComponent implements OnInit {
       (data: any) => {
         filesaver.saveAs(data, fileName);
       });
-  }
-
-  private getConfig(): any[] {
-     return [
-        {'name': 'name', 'label': 'Name'},
-        {'name': 'question', 'label': 'question'},
-        {'name': 'intent', 'label': 'Intent'},
-        {'name': ['responseDomain', 'name'], 'label': 'responseDomain'},
-        {'name': ['responseDomain', 'version'], 'label': 'RespD', 'init': function (version: any) {
-           return 'V' + version['major'] + '.' + version['minor']; } }
-     ];
   }
 
 }

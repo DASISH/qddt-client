@@ -11,7 +11,7 @@
     </li>
   </ul>
   <ul class="control-children" *ngIf="sequence">
-    <li *ngFor="let item of sequence.children">
+    <li *ngFor="let item of sequence['sequence']">
     <qddt-sequence-content *ngIf="item" [sequence]="item"></qddt-sequence-content>
     </li>
   </ul>

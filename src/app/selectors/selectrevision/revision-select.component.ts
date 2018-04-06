@@ -13,7 +13,7 @@ import { ElementKind, ElementRevisionRef, QDDT_ELEMENTS } from '../../shared/ele
 export class RevisionSelectComponent implements OnChanges {
   @Input() element: IEntityAudit;
   @Output() selectedEvent = new EventEmitter<ElementRevisionRef>();
-  @Output() dismissEvent = new EventEmitter<any>();
+  @Output() dismissEvent = new EventEmitter<Boolean>();
 
   elementRevisions = [];
   selectedRevision: number;
@@ -24,7 +24,6 @@ export class RevisionSelectComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    this.selectedElement = this.element;
 
     if (this.element && this.element.id) {
       this.showProgressBar = true;
@@ -70,7 +69,7 @@ export class RevisionSelectComponent implements OnChanges {
   }
 
   private getElementKind(): ElementKind {
-    return ElementKind[this.selectedElement.classKind];
+    return ElementKind[this.element.classKind];
   }
 
 

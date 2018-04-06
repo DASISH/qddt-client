@@ -23,6 +23,7 @@ export class ElementRevisionRef implements IRevisionRef, IElementRef {
 export enum ElementKind {
   CATEGORY = 0,
   CONCEPT,
+  CONTROL_CONSTRUCT,
   CONDITION_CONSTRUCT,
   QUESTION_CONSTRUCT,
   SEQUENCE_CONSTRUCT,
@@ -70,6 +71,8 @@ export class QddtElement {
 export const QDDT_ELEMENTS: QddtElement[] = [
   new QddtElement(ElementKind.CATEGORY, 'Category', 'category', ['name'], null),
   new QddtElement(ElementKind.CONCEPT, 'Concept', 'concept', ['name'], null),
+  new QddtElement(ElementKind.CONTROL_CONSTRUCT, 'Construct', 'controlconstruct', ['name'],
+    '&constructkind=CONTROL_CONSTRUCT'),
   new QddtElement(ElementKind.CONDITION_CONSTRUCT, 'Condition', 'controlconstruct', ['condition', 'name'],
      '&constructkind=CONDITION_CONSTRUCT'),
   new QddtElement(ElementKind.QUESTION_CONSTRUCT, 'QuestionConstruct', 'controlconstruct', ['name', ['questionItem', 'name']],

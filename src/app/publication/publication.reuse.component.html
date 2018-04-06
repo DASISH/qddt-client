@@ -23,8 +23,7 @@
     </div>
   </div>
   <div *ngIf="selectedElement" class="row">
-    <qddt-revision-select *ngIf="showAddElement"
-      [element]="selectedElement"
+    <qddt-revision-select *ngIf="showAddElement" [element]="selectedElement"
       (selectedEvent)="onPreviewSelected($event)"
       (dismissEvent)="onToggleAddElement()">
     </qddt-revision-select>

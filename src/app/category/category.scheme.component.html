@@ -149,22 +149,21 @@
             </div>
           </div>
         </div>
-        <!--<div class="row">-->
-          <qddt-rational [formName]="'RationalComp'" [element]="selectedCategory" [config]="{hidden: [4]}"></qddt-rational>
-        <!--</div>-->
-        <!--<div class="row">-->
-          <qddt-element-footer [element]="selectedCategory"></qddt-element-footer>
-        <!--</div>-->
+
+        <qddt-rational [formName]="'RationalComp'" [element]="selectedCategory" [config]="{hidden: [4]}"></qddt-rational>
+
+        <qddt-element-footer [element]="selectedCategory"></qddt-element-footer>
+
         <div class="row right-align">
           <button type="submit" class="btn btn-default" [disabled]="!editSchemeForm.form.valid">Submit</button>
         </div>
+
       </form>
-      <qddt-revision *ngIf="revisionIsVisible"
-        [config]="revisionConfig"
-        [current]="selectedCategory"
-        [qddtURI]="'audit/category/' + selectedCategory.id + '/all'">
-      </qddt-revision>
+
+      <qddt-revision *ngIf="revisionIsVisible" [current]="selectedCategory"></qddt-revision>
+
       <qddt-comment-list [ownerId]="selectedCategory.id" [comments]="selectedCategory.comments"></qddt-comment-list>
+
     </div>
   </div>
 </div>

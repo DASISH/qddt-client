@@ -36,10 +36,7 @@
 
       <ng-content></ng-content>
 
-      <qddt-revision *ngIf="revisionIsVisible"
-                     [current]="item"
-                     [config]="[{'name':'name','label':'Name'},{'name':'purpose','label':'Purpose'},{'name':'status','label':'Status'}]">
-      </qddt-revision>
+      <qddt-revision *ngIf="revisionIsVisible" [current]="item"> </qddt-revision>
 
       <qddt-comment-list
         [ownerId]="item.id"

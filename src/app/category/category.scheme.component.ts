@@ -16,7 +16,6 @@ declare let Materialize: any;
 export class CategorySchemeComponent implements OnInit, AfterContentChecked {
   @Output() categorySelectedEvent: EventEmitter<any> = new EventEmitter<any>();
   public readonly CATEGORY_KIND = QDDT_ELEMENTS[ElementKind.CATEGORY];
-  public readonly revisionConfig = this.buildRevisionConfig();
 
   public deleteAction = new EventEmitter<any>();
   public showCategoryForm = false;
@@ -218,18 +217,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
     this.searchKeysSubject.next(name);
   }
 
-  private buildRevisionConfig(): any[] {
-    const config: any[] = [];
-    config.push({'name': 'name', 'label': 'Name'});
-    config.push({'name': 'description', 'label': 'Desc'});
-    config.push({'name': ['children'], 'label': 'Cat', 'init': function (o: any) {
-      if (o !== null && o !== undefined) {
-        return o.map((element: any) => element['label'] || '').sort().join(',');
-      }
-      return '';
-    }});
-    return config;
-  }
+
 
   private getSort() {
     const i = this.columns.findIndex((e: any) => e.sortable && e.direction !== '');

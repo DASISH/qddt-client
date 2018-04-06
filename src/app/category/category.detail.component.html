@@ -37,8 +37,7 @@
       </qddt-category-edit>
 
       <qddt-revision *ngIf="revisionIsVisible"
-        [current]="category"
-        [qddtURI]="'audit/category/' + category.id + '/all'">
+        [current]="category">
       </qddt-revision>
 
       <qddt-comment-list [ownerId]="category.id" [comments]="category.comments"></qddt-comment-list>

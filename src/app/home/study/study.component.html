@@ -68,13 +68,7 @@
                 (studySavedEvent)="onStudySavedEvent($event)">
               </qddt-study-edit>
 
-              <qddt-revision *ngIf = "edit.showRevision"
-                [current]="study"
-                [config]="[{'name':'name','label':'Name'},{'name':'description','label':'Description'}]"
-                [qddtURI]="'audit/study/' + study.id + '/all'"
-                >
-              </qddt-revision>
-
+              <qddt-revision *ngIf = "edit.showRevision" [current]="study" ></qddt-revision>
 
               <qddt-comment-list *ngIf="!edit.isVisible"
                 [ownerId]="study.id"

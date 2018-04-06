@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { API_BASE_HREF } from '../api';
 import { Observable } from 'rxjs/Observable';
 import { QuestionItem } from '../question/question.service';
-import { QddtElement, QDDT_ELEMENTS, ElementKind } from '../shared/elementinterfaces/elements';
+import { QddtElement, QDDT_ELEMENTS, ElementKind, ElementRevisionRef } from '../shared/elementinterfaces/elements';
 import { IEntityAudit } from '../shared/elementinterfaces/entityaudit';
 
 export enum SequenceKind {
@@ -15,7 +15,7 @@ export enum SequenceKind {
   UNIVERSE
 }
 
-export class Universe implements IEntityAudit{
+export class Universe implements IEntityAudit {
   id: string;
   name: string;
   description: string;
@@ -55,8 +55,8 @@ export class SequenceConstruct implements IEntityAudit {
   label: string;
   description: string;
   classKind = ElementKind[ElementKind.SEQUENCE_CONSTRUCT];
-  sequence = SequenceKind[SequenceKind.SECTION];
-  children: any[];
+  sequenceKind = SequenceKind[SequenceKind.SECTION];
+  sequence: ElementRevisionRef[];
 }
 
 export class StatementConstruct implements IEntityAudit {
@@ -74,7 +74,6 @@ export class ConditionConstruct implements IEntityAudit {
   ifCondition: ConditionCommand;
   elseConditions: ConditionCommand[];
 }
-
 
 
 @Injectable()

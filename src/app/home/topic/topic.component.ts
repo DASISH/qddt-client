@@ -22,12 +22,10 @@ declare var Materialize: any;
 
 export class TopicComponent implements  OnInit, AfterContentChecked {
 
-  basedonRef: any;
   public readonly topicKind = ElementKind.TOPIC_GROUP;
-  public readonly revisionKind = ElementKind.TOPIC_GROUP;
 
   public questionItemActions = new EventEmitter<string|MaterializeAction>();
-  public previewActions = new EventEmitter<string|MaterializeAction>();
+
   public study: Study;
   public topics: Topic[];
   public showReuse = false;
@@ -35,7 +33,6 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
   public questionItem: QuestionItem;
 
   private newTopic: Topic;
-  private revision: any;
 
   constructor(private router: Router, private route: ActivatedRoute,
               private topicService: HomeService, private property: PropertyStoreService) {
