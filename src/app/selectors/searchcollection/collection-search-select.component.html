@@ -14,10 +14,10 @@
   </li>
   <li class="collection-item" *ngIf="showAddItem">
     <div class="row card">
-      <div class="col s10 black-text">
+      <div class="col s10 text-darken-2">
         <label>Description</label>
         <div [ngClass]="{ noItemFound: (hasContent()  && searchItems.length === 0) }">
-          <qddt-item-search class="black-text" [elementKind]="elementKind"
+          <qddt-item-search class="text-darken-2" [elementKind]="getElementKind()"
                             (selectedElement)="onSelectItem($event)">
           </qddt-item-search>
           <!--<qddt-auto-complete class="black-text"-->
@@ -35,10 +35,8 @@
     </div>
   </li>
   <li class="collection-item" *ngFor="let element of items; let idx=index">
-    <div class="row"
-        (mouseenter)="element.showbutton = !readonly"
-        (mouseleave)="element.showbutton = false">
-      <div class="col s11">{{ element[searchField] }}</div>
+    <div class="row">
+      <div class="col s11 text-darken-2">{{ element[searchField] }}</div>
       <div class="col s1">
         <a [ngClass]="{hide: !showButton}"
           class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"

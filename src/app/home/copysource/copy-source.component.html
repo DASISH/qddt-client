@@ -20,7 +20,8 @@
                 (ngModelChange)="onSelectElementRevisions($event)">
             <option *ngFor="let revision of elementRevisions"
                     [selected]="revision.revisionNumber === elementRevision"
-                    [value]="revision.revisionNumber"><qddt-version [element]= revision?.entity></qddt-version>
+                    [value]="revision.revisionNumber">{{ revision?.entity?.version?.major }}.{{ revision?.entity?.version?.minor }}
+                    {{ revision?.entity?.version?.versionLabel}}
             </option>
           </select>
         </div>

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output, ChangeDetectionStrategy, AfterViewInit} from '@angular/core';
+import {Component, EventEmitter, Input, Output, ChangeDetectionStrategy, AfterViewInit, OnInit} from '@angular/core';
 import { ElementKind, IElementRef, QDDT_ELEMENTS, QddtElement } from '../../shared/elementinterfaces/elements';
 import { IEntityAudit } from '../../shared/elementinterfaces/entityaudit';
 import { Factory } from '../../shared/elementfactory/factory';
@@ -9,22 +9,31 @@ import { Factory } from '../../shared/elementfactory/factory';
   templateUrl: 'collection-search-select.component.html'
 })
 
-export class CollectionSearchSelectComponent implements AfterViewInit {
+export class CollectionSearchSelectComponent implements AfterViewInit , OnInit {
   @Input() items:  IEntityAudit[];
   @Input() labelName?: string;
   @Input() elementKind: ElementKind|string;
   @Output() itemCreatedEvent = new EventEmitter<IEntityAudit>();
 
   item: IEntityAudit;
-  searchField: any;
+  searchField: string;
   showButton = false;
   showAddItem = false;
 
+
+  ngOnInit(): void {
+    if (!this.labelName) {
+      this.labelName = this.getElementType().label;
+    }
+    this.searchField  = this.getElementType().fields[0];
+  }
 
   ngAfterViewInit() {
     if (!this.labelName) {
       this.labelName = this.getElementType().label;
     }
+    this.searchField  = this.getElementType().fields[0];
+    console.log(this.labelName);
   }
 
   hasContent(): boolean {
@@ -32,9 +41,9 @@ export class CollectionSearchSelectComponent implements AfterViewInit {
   }
 
   onShowItems() {
-    this.item = Factory.createInstance(this.getElementKind())
-    this.searchField  = this.getElementType().fields[0];
+    this.item = Factory.createInstance(this.getElementKind());
     this.showAddItem = !this.showAddItem;
+    console.log(this.searchField + ' - ' + this.item.classKind);
   }
 
   onAddItem() {
@@ -44,6 +53,7 @@ export class CollectionSearchSelectComponent implements AfterViewInit {
 
   onSelectItem(selected: IElementRef) {
     this.item = selected.element;
+    console.log('onSelectItem ' + this.item);
   }
 
   onDeleteItem(idx: number) {
@@ -52,10 +62,11 @@ export class CollectionSearchSelectComponent implements AfterViewInit {
 
   public getElementType(): QddtElement {
     const kind = this.getElementKind();
-    return QDDT_ELEMENTS.find(e => e.id === kind);
+    return QDDT_ELEMENTS[kind];
   }
 
   public getElementKind(): ElementKind {
     return (typeof this.elementKind === 'string') ?  ElementKind[this.elementKind] : this.elementKind ;
   }
+
 }

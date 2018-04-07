@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { PreviewModule } from '../preview/preview.module';
-import { ConceptrefModule } from '../shared/conceptref/conceptref.module';
 import { ResponsedomainModule } from '../responsedomain/responsedomain.module';
 import { QuestionModule } from '../question/question.module';
 
@@ -26,7 +25,7 @@ import { TemplateModule } from '../template/template.module';
 
 
 @NgModule({
-  imports: [ SharedModule, ResponsedomainModule, QuestionModule, PreviewModule, ConceptrefModule, ControlConstructRoutingModule,
+  imports: [ SharedModule, ResponsedomainModule, QuestionModule, PreviewModule, ControlConstructRoutingModule,
   SelectorsModule, TemplateModule ],
   declarations: [ ControlConstructComponent,
     QuestionConstructDetailComponent, QuestionConstructFormComponent,

@@ -5,8 +5,6 @@ import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class ConceptrefService {
 
-  readonly pageSize = '&size=10';
-
   constructor(protected http: HttpClient,  @Inject(API_BASE_HREF) protected api: string) { }
 
   getConceptsById(id: string): Promise<any> {

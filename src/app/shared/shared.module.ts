@@ -22,6 +22,7 @@ import { RouterModule } from '@angular/router';
 import { CommentListComponent } from './comment/comment.list.component';
 import { CommentCreateComponent } from './comment/comment.create.component';
 import { GravatarDirective } from './directive/gravatar.directive';
+import { ConceptrefComponent } from './conceptref/conceptref.component';
 
 
 @NgModule({
@@ -29,13 +30,13 @@ import { GravatarDirective } from './directive/gravatar.directive';
   declarations: [ LocalDatePipe, QddtTableComponent, QddtPaginationComponent, AutocompleteComponent,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent, CommentCreateComponent,
-    RationalComponent, RevisionComponent, DialogBoxComponent,
+    RationalComponent, RevisionComponent, DialogBoxComponent, ConceptrefComponent,
     AutosizeDirective, ParentFormConnectDirective, GravatarDirective ],
   exports: [ LocalDatePipe, CommonModule, FormsModule, MaterializeModule,
      QddtTableComponent, QddtPaginationComponent, AutocompleteComponent,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent,
-    RationalComponent, RevisionComponent, DialogBoxComponent,
+    RationalComponent, RevisionComponent, DialogBoxComponent, ConceptrefComponent,
     AutosizeDirective, ParentFormConnectDirective, GravatarDirective ]
 })
 
