@@ -5,6 +5,7 @@ import { MaterializeAction } from 'angular2-materialize';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { PropertyStoreService } from '../core/global/property.service';
 import { Column } from '../shared/table/table.column';
+import { ElementKind } from '../shared/elementinterfaces/elements';
 
 @Component({
   selector: 'qddt-questionitem',
@@ -24,6 +25,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
   public isDetail = false;
   public showResponsedomainReuse = false;
 
+  public readonly QUESTION_ITEM = ElementKind.QUESTION_ITEM;
   private page: any;
   private questionItem: QuestionItem;
   private selectedQuestionItem: QuestionItem;
@@ -33,11 +35,6 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
   private secondCS: any;
   private mainresponseDomainRevision: number;
 
-  private readonly columns = [
-    new Column( { name: 'name', label: 'Name', sortable: true }),
-    new Column( { name: 'question', label: 'Question Text', sortable: true }),
-    new Column( { name: 'responseDomainName', label: 'ResponseDomain', sortable: true }),
-    new Column( { name: 'modified', label: 'Modified', sortable: true, direction: 'desc' })];
 
 
   constructor(private questionService: QuestionService, private property: PropertyStoreService, private route: ActivatedRoute) {
@@ -133,7 +130,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
 
 
 
-  onPage(page: string) {
+  onPage(page: Page) {
     this.showProgressBar = true;
     this.questionService.searchQuestionItems(this.searchKeys, page, this.getSort())
       .then(
@@ -196,19 +193,6 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
   hideDetail() {
     this.isDetail = false;
     this.property.set('questions', {'current': 'list', 'key': this.searchKeys});
-  }
-
-  private getSort() {
-    const i = this.columns.findIndex((e: any) => e.sortable && e.direction !== '');
-    let sort = '';
-    if (i >= 0) {
-      if (typeof this.columns[i].name === 'string') {
-        sort = this.columns[i].name + ',' + this.columns[i].direction;
-      } else {
-        sort = this.columns[i].name.join('.') + ',' + this.columns[i].direction;
-      }
-    }
-    return sort;
   }
 
 }

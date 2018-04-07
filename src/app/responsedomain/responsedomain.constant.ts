@@ -1,5 +1,6 @@
 export enum DomainKind {
-  SCALE = 1,
+  NONE = 0,
+  SCALE,
   LIST,
   MIXED,
   NUMERIC,
@@ -17,7 +18,7 @@ export const DomainTypeDescription = [
   { id: DomainKind.DATETIME, name: 'DATETIME', label: 'DateTime Domain', categoryType: 'DATETIME' },
 ];
 
-export const PredefinedColumns: any = {
+ /* export const PredefinedColumns: any = {
   'SCALE': [{ 'label': 'Scale Domain Name', 'name': 'name', 'sortable': true, 'direction': '' },
     { 'label': 'Description', 'name': 'description', 'sortable': true, 'direction': '' },
     { 'label': 'N', 'name': ['managedRepresentation', 'children', 'length'], 'sortable': false },
@@ -44,4 +45,4 @@ export const PredefinedColumns: any = {
     { 'label': 'Low', 'name': ['managedRepresentation', 'inputLimit', 'minimum'], 'sortable': false },
     { 'label': 'High', 'name': ['managedRepresentation', 'inputLimit', 'maximum'], 'sortable': false },
     { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' }],
-};
+}; */

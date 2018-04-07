@@ -6,9 +6,11 @@ import { Column } from '../shared/table/table.column';
 import { IEntityAudit } from '../shared/elementinterfaces/entityaudit';
 import { TemplateService } from './template.service';
 
-import { LIST_COLUMNS } from '../shared/elementinterfaces/columns';
 import { HEADER_DETAILS } from '../shared/elementinterfaces/headerdetail';
 import { ElementKind, QDDT_ELEMENTS } from '../shared/elementinterfaces/elements';
+import { LIST_COLUMNS } from '../shared/table/table.column-map';
+import { PATH_KIND_MAP } from './template.path-mapping';
+import { Page } from '../shared/table/table.page';
 
 @Component({
   selector: 'qddt-template-list',
@@ -19,9 +21,7 @@ import { ElementKind, QDDT_ELEMENTS } from '../shared/elementinterfaces/elements
 export class TemplateListComponent implements OnInit {
   public items: IEntityAudit[];
   public showProgressBar = false;
-  public columns: Column[];
-  public page = '0';
-  public placeholder: string;
+  public page = new Page;
 
   private searchKeys: string;
   private searchKeysSubject = new Subject<string>();
@@ -31,9 +31,7 @@ export class TemplateListComponent implements OnInit {
 
     this.route.url.subscribe((event) => {
       const path = event[0].path;
-      this.columns = LIST_COLUMNS.get(path);
       this.kind = HEADER_DETAILS.get(path).kind;
-      this.placeholder = QDDT_ELEMENTS.find( qe => qe.id === this.kind).placeholder();
     });
 
     this.searchKeysSubject
@@ -41,7 +39,7 @@ export class TemplateListComponent implements OnInit {
       .distinctUntilChanged()
       .subscribe((searchString: string) => {
         this.showProgressBar = true;
-        service.searchItems(this.kind, searchString, this.page, this.getSort()).then(
+        service.searchItems(this.kind, searchString, this.page).then(
           (result) => {
             this.page = result.page;
             this.items = result.content;
@@ -59,7 +57,7 @@ export class TemplateListComponent implements OnInit {
     }
   }
 
-  public onPage(page: string) {
+  public onPage(page: Page) {
     this.page = page;
     this.searchKeysSubject.next(this.searchKeys);
   }
@@ -71,19 +69,6 @@ export class TemplateListComponent implements OnInit {
 
   public onDetail(item: IEntityAudit ) {
     this.router.navigate(['./', item.id ], { relativeTo: this.route });
-  }
-
-  private getSort() {
-    const i = this.columns.findIndex((e: any) => e.sortable && e.direction && e.direction !== '');
-    let sort = '';
-    if (i >= 0) {
-      if (typeof this.columns[i].name === 'string') {
-        sort = this.columns[i].name + ',' + this.columns[i].direction;
-      } else {
-        sort = this.columns[i].name.join('.') + ',' + this.columns[i].direction;
-      }
-    }
-    return sort;
   }
 
 }

@@ -4,13 +4,12 @@ import { ResponseDomainService } from './responsedomain.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 import { QDDT_ELEMENTS, ElementKind } from '../shared/elementinterfaces/elements';
+import { Page } from '../shared/table/table.page';
 
 @Component({
   selector: 'qddt-responsedomain-reuse',
   moduleId: module.id,
   templateUrl: './responsedomain.reuse.component.html',
-  styles: [],
-  providers: [ResponseDomainService],
 })
 
 export class ResponsedomainReuseComponent implements OnChanges  {
@@ -19,8 +18,8 @@ export class ResponsedomainReuseComponent implements OnChanges  {
   @Input() responseDomain: any;
   @Input() modalId: any;
   @Output() dismissEvent = new EventEmitter<any>();
-  @Output() responseDomainSelected = new EventEmitter<any>();
-  @Output() responseDomainRemove = new EventEmitter<any>();
+  @Output() selectedEvent = new EventEmitter<any>();
+  @Output() removeEvent = new EventEmitter<any>();
 
   public selectedResponseDomain: any;
   public selectedRevision: number;
@@ -47,7 +46,7 @@ export class ResponsedomainReuseComponent implements OnChanges  {
       .filter(val => val.length > 0)
       .subscribe((name: string) => {
         const domainType = DomainTypeDescription.find((e: any) => e.id === this.domainType).name;
-        this.responseDomainService.getAll(domainType, name).then(
+        this.responseDomainService.getAll(domainType, name, new Page( {size: 15} )).then(
           (result) => {
             this.responseDomains = result.content;
           });
@@ -70,7 +69,7 @@ export class ResponsedomainReuseComponent implements OnChanges  {
   removeResponseDomain() {
     // console.log('responsDomainRemove.emit');
     this.responseDomain = null;
-    this.responseDomainRemove.emit(true);
+    this.removeEvent.emit(true);
   }
 
   onDismissRDReuse() {
@@ -95,7 +94,7 @@ export class ResponsedomainReuseComponent implements OnChanges  {
           const object = {
             responseDomain: this.responseDomain
           };
-          this.responseDomainSelected.emit(object);
+          this.selectedEvent.emit(object);
       });
     } else {
       this.responseDomainService.create(this.responseDomain).subscribe((result: any) => {
@@ -104,7 +103,7 @@ export class ResponsedomainReuseComponent implements OnChanges  {
         const object = {
           responseDomain: this.responseDomain
         };
-        this.responseDomainSelected.emit(object);
+        this.selectedEvent.emit(object);
       });
     }
     // this.isVisible = false;
@@ -119,10 +118,11 @@ export class ResponsedomainReuseComponent implements OnChanges  {
 
   reuse() {
     // console.debug('reuse');
-    this.responseDomainService.getAll(DomainKind[this.domainType]).then((result: any) => {
-      this.responseDomains = result.content;
-      this.showAutocomplete = true;
-    });
+    this.responseDomainService.getAll(DomainKind[this.domainType], '', new Page({size: 20})).then(
+      (result: any) => {
+        this.responseDomains = result.content;
+        this.showAutocomplete = true; }
+      );
   }
 
   onResponseDomainSelected(responseDomain: any) {
@@ -131,7 +131,7 @@ export class ResponsedomainReuseComponent implements OnChanges  {
   }
 
   onUseResponseDomainEvent(item) {
-    this.responseDomainSelected.emit(item);
+    this.selectedEvent.emit(item);
     this.closeModalRDReuse();
     // this.isVisible = false;
   }

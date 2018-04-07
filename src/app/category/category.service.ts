@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { API_BASE_HREF } from '../api';
 import {IEntityAudit, IEntityEditAudit} from '../shared/elementinterfaces/entityaudit';
 import {ElementKind} from '../shared/elementinterfaces/elements';
+import { Page } from '../shared/table/table.page';
 
 export class ResponseCardinality {
    minimum: number;
@@ -48,7 +49,6 @@ export class Category implements IEntityEditAudit {
 
 @Injectable()
 export class CategoryService  {
-  readonly pageSize = '&size=10';
 
   constructor(protected http: HttpClient,  @Inject(API_BASE_HREF) protected api: string) {
     // super(http, auth , api);
@@ -71,42 +71,30 @@ export class CategoryService  {
   }
 
   getAll(): any {
-    return this.http.get(this.api + 'category/page/search/?level=ENTITY' + this.pageSize).toPromise();
+    return this.http.get(this.api + 'category/page/search/?level=ENTITY' + new Page().queryPage() ).toPromise();
   }
 
-  getByCategoryKind(categoryKind: String, name: String = '*',  page: String = '0', sort: String = ''): Promise<any>  {
-    let query = 'level=ENTITY&category=' + categoryKind + '&name=' + name +  '&page=' + page + this.pageSize;
-    if (sort.length > 0) {
-      query += '&sort=' + sort;
-    }
+  getByCategoryKind(categoryKind: String, name: String = '*',  page: Page): Promise<any>  {
+    const query = 'level=ENTITY&category=' + categoryKind + '&name=' + name +  page.queryPage();
     return this.http.get(this.api + 'category/page/search/?' + query).toPromise();
   }
 
-  getAllByLevel(level: String, name: String = '', sort: String = ''):  Promise<any> {
+  getAllByLevel(level: String, name: String = '', page: Page):  Promise<any> {
     let query = name.length > 0 ? '&name=' + '*' + name + '*' : name;
-    if (sort.length > 0) {
-      query += '&sort=' + sort;
-    }
-    return this.http.get(this.api + 'category/page/search/?level=' + level + query + this.pageSize)
-    .toPromise();
+    query += page.queryPage();
+    return this.http.get(this.api + 'category/page/search/?level=' + level + query).toPromise();
   }
 
-  getAllByLevelAndPage(level: String, name: String = '', page: String = '0', sort: String = ''):  Promise<any> {
+  getAllByLevelAndPage(level: String, name: String = '', page: Page):  Promise<any> {
     let query = name.length > 0 ? '&name=' + '*' + name + '*' : '';
-    if (sort.length > 0) {
-      query += '&sort=' + sort;
-    }
-    return this.http.get(this.api + 'category/page/search/?level=' + level + query + '&page=' + page + this.pageSize)
-    .toPromise();
+    query += page.queryPage();
+    return this.http.get(this.api + 'category/page/search/?level=' + level + query).toPromise();
   }
 
-  getAllTemplatesByCategoryKind(categoryKind: String, name: String = '', page: String = '0', sort: String = ''):  Promise<any> {
+  getAllTemplatesByCategoryKind(categoryKind: String, name: String = '', page: Page):  Promise<any> {
     let query = name.length > 0 ? '&name=' + '*' + name + '*' : '';
-    if (sort.length > 0) {
-      query += '&sort=' + sort;
-    }
-    return this.http.get(this.api + 'category/page/search/?level=GROUP_ENTITY&category=' + categoryKind + query + '&page=' + page
-      + this.pageSize)
+    query += page.queryPage();
+    return this.http.get(this.api + 'category/page/search/?level=GROUP_ENTITY&category=' + categoryKind + query )
     .toPromise();
   }
 }

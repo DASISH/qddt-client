@@ -2,8 +2,10 @@ import { Component, Input,  OnChanges } from '@angular/core';
 import { RevisionService } from './revision.service';
 import { QddtMessageService } from '../../core/global/message.service';
 import { ElementKind, IElementRef } from '../elementinterfaces/elements';
-import { DEFAULT_CONFIG, LIST_CONFIG } from './revision-config';
+import { DEFAULT_CONFIG, LIST_CONFIG, RevisionConfig } from './revision-config';
 import { IEntityAudit } from '../elementinterfaces/entityaudit';
+import { ResponseDomain } from '../../responsedomain/responsedomain.service';
+import { DomainKind } from '../../responsedomain/responsedomain.constant';
 
 @Component({
   selector: 'qddt-revision',
@@ -15,7 +17,7 @@ import { IEntityAudit } from '../elementinterfaces/entityaudit';
 export class RevisionComponent implements OnChanges {
   @Input() current: IEntityAudit;
 
-  public config: any;
+  public config: RevisionConfig[];
   public revisions = [];
   public selectRevisionId: number;
   private showProgressBar = false;
@@ -26,14 +28,17 @@ export class RevisionComponent implements OnChanges {
 
    ngOnChanges() {
     if (!this.config) {
-      if (this.current['config']) {
-        this.config = this.current['config'];
+      if (LIST_CONFIG.has(this.getElementKind())) {
+
+        this.config = LIST_CONFIG.get(this.getElementKind());
+
+      } else if (this.getElementKind() === ElementKind.RESPONSEDOMAIN) {
+
+        this.config = this.getResponseDomainConfig();
+
       } else {
-        if (LIST_CONFIG.has(this.getElementKind())) {
-          this.config = LIST_CONFIG.get(this.getElementKind());
-        } else {
-          this.config = DEFAULT_CONFIG;
-        }
+
+        this.config = DEFAULT_CONFIG;
       }
     }
     this.getRevisionsById();
@@ -63,4 +68,52 @@ export class RevisionComponent implements OnChanges {
   private getElementKind(): ElementKind {
     return ElementKind[this.current.classKind];
   }
+
+  private getResponseKind(): DomainKind {
+    if (this.current instanceof ResponseDomain) {
+      return DomainKind[this.current.responseKind];
+    }
+    return DomainKind.NONE;
+  }
+
+  private getChildrenSize(): number {
+    if (this.current instanceof ResponseDomain) {
+      return this.current.managedRepresentation.children.length;
+    }
+    return 0;
+  }
+
+  private getResponseDomainConfig(): RevisionConfig[] {
+    const config: RevisionConfig[] = [];
+    if (this.getResponseKind() === DomainKind.SCALE) {
+      config.push({ name: ['managedRepresentation', 'inputLimit', 'minimum'], label: 'Start' } );
+      config.push({ name: ['managedRepresentation', 'inputLimit', 'maximum'], label: 'End' } );
+      config.push({ name: 'displayLayout', label: 'display Layout' } );
+        const size = this.getChildrenSize();
+        for (let i = 0; i < size; i++) {
+          config.push({ name: ['managedRepresentation', 'children', i, 'label'], label: 'Category' + i});
+          config.push({ name: ['managedRepresentation', 'children', i, 'code', 'codeValue'], label: 'Code' + i});
+        }
+    } else if (this.getResponseKind()  === DomainKind.LIST) {
+        config.push({ name: ['managedRepresentation', 'inputLimit', 'maximum'], label: 'Number of Codes' } );
+        const size = this.getChildrenSize();
+        for (let i = 0; i < size; i++) {
+          config.push(  { name: ['managedRepresentation', 'children', i, 'label'], label: 'Category' + i});
+          config.push({ name: ['managedRepresentation', 'children', i, 'code', 'codeValue'], label: 'Code' + i});
+        }
+    } else if (this.getResponseKind()  === DomainKind.NUMERIC) {
+        config.push({ name: ['managedRepresentation', 'inputLimit', 'minimum'], label: 'Low' } );
+        config.push({ name: ['managedRepresentation', 'inputLimit', 'maximum'], label: 'High' } );
+        config.push({ name: ['managedRepresentation', 'format'], label: 'descimal' } );
+    } else if (this.getResponseKind()  === DomainKind.DATETIME) {
+        config.push({ name: ['managedRepresentation', 'inputLimit', 'minimum'], label: 'After' } );
+        config.push({ name: ['managedRepresentation', 'inputLimit', 'maximum'], label: 'Before' } );
+        config.push({ name: ['managedRepresentation', 'format'], label: 'Date format' } );
+    } else if (this.getResponseKind()  === DomainKind.TEXT) {
+        config.push({ name: ['managedRepresentation', 'inputLimit', 'minimum'], label: 'Min Length' } );
+        config.push({ name: ['managedRepresentation', 'inputLimit', 'maximum'], label: 'Max Length' } );
+    }
+    return DEFAULT_CONFIG.concat(config);
+  }
+
 }

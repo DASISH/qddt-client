@@ -2,6 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_BASE_HREF } from '../../api';
 import { ElementKind, QDDT_ELEMENTS } from '../elementinterfaces/elements';
+import { Page } from '../table/table.page';
 
 
 @Injectable()
@@ -24,14 +25,10 @@ export class RevisionService  {
 
   }
 
-  public  getRevisionPage(elementKind: ElementKind, id: string, page: number = 1): Promise<any> {
-
-    function queryPage (pageNumber: number, size: number = 10 , sorting: String = null): string {
-      return '&page=' + pageNumber + '&size=' + size + (sorting) ? '&sort=' + sorting : '';
-    }
+  public  getRevisionPage(elementKind: ElementKind, id: string, page: Page): Promise<any> {
 
     const qe = QDDT_ELEMENTS.find(e => e.id === elementKind);
-    return this.http.get(this.api + + 'audit/' + qe.path + '/' + id  + '?' +  queryPage(+page, 15, 'desc')  ).toPromise();
+    return this.http.get(this.api + + 'audit/' + qe.path + '/' + id  + '?' +  page.queryPage  ).toPromise();
 
   }
 }

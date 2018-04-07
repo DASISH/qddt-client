@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import { UserService } from '../core/user/user.service';
 import { Action } from '../shared/elementinterfaces/detailaction';
 import { Authority } from '../core/user/authority';
+import { Page } from '../shared/table/table.page';
 
 @Injectable()
 export class TemplateService {
@@ -17,14 +18,10 @@ export class TemplateService {
     userService.getRoles().forEach((role) => this.roles += +Authority[role]);
   }
 
-  public searchItems(kind: ElementKind, searchString: string = '',  page: string = '0', sort: string = ''): Promise<any> {
+  public searchItems(kind: ElementKind, searchString: string = '',  page: Page): Promise<any> {
     const qe = QDDT_ELEMENTS.find(e => e.id === kind);
     const args = searchString.trim().split(' ');
     const queries = [];
-
-    function queryPage (pageNumber: number, size: number = 10 , sorting: String = null): string {
-      return '&page=' + pageNumber + '&size=' + size + (sorting) ? '&sort=' + sorting : '';
-    }
 
     console.log(args);
     console.log(args.length === qe.fields.length);
@@ -39,7 +36,7 @@ export class TemplateService {
       }
     }
 
-    queries.push(queryPage(+page, 10 , sort) );
+    queries.push(page.queryPage());
 
     let query = '';
     if (queries.length > 0) { query = '?' + queries.join('&'); }

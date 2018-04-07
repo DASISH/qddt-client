@@ -12,6 +12,9 @@ const filesaver = require('file-saver');
   templateUrl: './sequenceconstruct.detail.component.html',
 })
 
+
+
+
 export class SequenceDetailComponent implements OnInit {
 
   public deleteAction = new EventEmitter<MaterializeAction>();
@@ -49,7 +52,7 @@ export class SequenceDetailComponent implements OnInit {
       });
   }
 
-  sequenceSaved(result: SequenceConstruct) {
+  onSequenceSaved(result: SequenceConstruct) {
     this.action.action = Action.Update;
     this.action.object = result;
     this.onHideDetail();
@@ -60,6 +63,5 @@ export class SequenceDetailComponent implements OnInit {
       (data) => { filesaver.saveAs(data, ctrl.name + '.pdf'); },
       (error) => { throw error; });
   }
-
 
 }

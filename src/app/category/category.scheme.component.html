@@ -61,8 +61,7 @@
         </div>
       </div>
     </div>
-    <qddt-table *ngIf="!isDetail" [items]="missingCategories" [page]="page" [columns]="columns"
-
+    <qddt-table *ngIf="!isDetail" [items]="missingCategories" [page]="page" [elementKind]="CATEGORY"
       (enterEvent)="searchMissingCategories($event)"
       (detailEvent)="onDetail($event)" (pageChangeEvent)="onPage($event)">
     </qddt-table>

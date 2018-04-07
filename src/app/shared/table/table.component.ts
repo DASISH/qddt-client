@@ -1,10 +1,16 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
 import { Column } from './table.column';
+import { Page } from './table.page';
 import { IEntityEditAudit } from '../elementinterfaces/entityaudit';
+import { LIST_COLUMNS, RESPONSEDOMAIN_COLUMNS, DEFAULT_COLUMNS } from './table.column-map';
+import { ElementKind, QDDT_ELEMENTS } from '../elementinterfaces/elements';
+import { DomainKind } from '../../responsedomain/responsedomain.constant';
+import { ElementEnumAware } from '../../preview/preview.service';
 
 @Component({
   selector: 'qddt-table',
-  styles: [':host /deep/ i.left  { margin-right: 0px; }',
+  styles: [
+    ':host /deep/ i.left  { margin-right: 0px; }',
     'th { white-space: nowrap;}',
     'td, td div { max-width: 400px;  white-space: nowrap;  overflow: hidden; text-overflow: ellipsis;}',
     'table { table-layout:auto;}'],
@@ -12,52 +18,40 @@ import { IEntityEditAudit } from '../elementinterfaces/entityaudit';
   templateUrl: './table.component.html',
 })
 
-
-export class QddtTableComponent implements OnInit, OnChanges {
+@ElementEnumAware
+export class QddtTableComponent implements OnChanges {
   /**
    * number: the current page beginning with zero
    * size: the size of each page
    * totalElements: the total number of elements
    * totalPages: the total pages
   */
-  @Input() page: any;
-  /** each column includes:
-   * name: string or string array
-   * label: column header
-   * sortable: whether sortable
-   */
-  @Input() columns: Column[];
-  @Input() items: any[];
-  @Input() placeholder: string;
+  @Input() elementKind: ElementKind;
+  @Input() responseKind: String = null;
+  @Input() placeholder: String = null;
+  @Input() page: Page;
+  @Input() items: IEntityEditAudit[];
 
-  @Output() detailEvent: EventEmitter<String> = new EventEmitter<String>();
-  @Output() pageChangeEvent: EventEmitter<String> = new EventEmitter<String>();
-  @Output() enterEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() detailEvent = new EventEmitter<IEntityEditAudit>();
+  @Output() pageChangeEvent = new EventEmitter<Page>();
+  @Output() enterEvent = new EventEmitter<string>();
 
-  public readonly directionSign: { [dir: string]: String; } = {'': '⇳', 'asc': '▼', 'desc': '▲' };
+  public readonly directionSign: { [dir: string]: string; } = {'': '⇳', 'asc': '▼', 'desc': '▲' };
   public value: string;   // TODO remove this....
-  public rows: any[] = [];
+  public rows = [];
+  public columns: Column[];
 
-  ngOnInit() {
-    if (!this.placeholder) {
-      this.placeholder = 'Search';
-    }
-    if (!this.page) {
-      this.page =  { number: 1, size: 10 };
-    }
-  }
-
-  ngOnChanges() {
+   ngOnChanges() {
     this.init();
   }
 
-  onDetail(item: any) {
+  onDetail(item: IEntityEditAudit) {
     this.detailEvent.emit(item);
-
   }
 
   pageChange(p: number) {
-    this.pageChangeEvent.emit(p.toString());
+    this.page.number = p;
+    this.pageChangeEvent.emit(this.page);
   }
 
   enterText(event: any) {
@@ -83,36 +77,23 @@ export class QddtTableComponent implements OnInit, OnChanges {
     return sort;
   }
 
-
   sortRows(column: Column) {
-    if ( !column.sortable ) { return; }
-
-    this.columns.forEach((col) => {
-      col.direction = (col !== column) ? '' : this.nextSort(column.direction);
-    });
-
-    this.pageChangeEvent.emit('0');
-  }
-
-
-  private nextSort(current: string ): string {
-    switch (current ) {
-      case '': return 'asc';
-      case 'asc': return 'desc';
-      default: return '';
+    if (column.sortable) {
+      column.nextSort();
+      this.page.sort = this.getSort();
+      this.pageChangeEvent.emit(this.page);
     }
   }
 
 
   private init() {
+    if (!this.columns) {
+      this.columns = this.getColumns();
+    }
+    if (!this.placeholder) { this.placeholder =  QDDT_ELEMENTS[this.elementKind].placeholder(); }
+    if (!this.page) { this.page = new Page; }
+
     this.rows = [];
-    if (!this.columns) { this.columns = []; }
-    ['Modified', 'Version', 'Agency'].forEach((colName) => {
-      const index = this.columns.findIndex((col) => col.label === colName);
-      if (index < 0) {
-        this.columns.push( new Column({ name: colName, label: colName, sortable: false }));
-      }
-    });
 
     this.items.forEach((item: IEntityEditAudit) => {
       const date: Date = new Date();
@@ -140,4 +121,17 @@ export class QddtTableComponent implements OnInit, OnChanges {
       this.rows.push(row);
     });
   }
+
+  private getColumns(): Column[] {
+    if (this.elementKind === ElementKind.RESPONSEDOMAIN) {
+      return RESPONSEDOMAIN_COLUMNS(this.responseKind);
+    }
+
+    if (LIST_COLUMNS.has(this.elementKind)) {
+      return LIST_COLUMNS.get(this.elementKind);
+    }
+
+    return DEFAULT_COLUMNS;
+  }
+
 }

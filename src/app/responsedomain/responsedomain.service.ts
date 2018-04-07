@@ -3,8 +3,9 @@ import { Injectable, Inject } from '@angular/core';
 import { API_BASE_HREF } from '../api';
 import { Category, ResponseCardinality } from '../category/category.service';
 import { Observable } from 'rxjs/Observable';
-import {IEntityAudit, IEntityEditAudit, IVersion} from '../shared/elementinterfaces/entityaudit';
-import {ElementKind} from '../shared/elementinterfaces/elements';
+import { IEntityAudit, IEntityEditAudit, IVersion } from '../shared/elementinterfaces/entityaudit';
+import { ElementKind } from '../shared/elementinterfaces/elements';
+import { Page } from '../shared/table/table.page';
 
 export const DATE_FORMAT: any = [
   {'id': 1, 'format': 'yyyy-mm-dd',         'label': 'Date' },
@@ -64,12 +65,11 @@ export class ResponseDomainService  {
   getResponseDomain(id: string): Promise<any> {
     return this.http.get(this.api + 'responsedomain/' + id).toPromise();
   }
-  getAll(domain: string, name: string = '', page: String = '0', sort: String = ''): Promise<any> {
-    let query = name.length > 0 ? '&Name=' + name + '*' : name;
-    if (sort.length > 0) {
-      query += '&sort=' + sort;
-    }
-    return this.http.get(this.api + 'responsedomain/page/search?ResponseKind=' + domain + query + '&page=' + page)
+
+  getAll(domain: string, name: string = '', page: Page ): Promise<any> {
+    let query = name.length > 0 ? '&Name=' + name : name;
+    query += page.queryPage();
+    return this.http.get(this.api + 'responsedomain/page/search?ResponseKind=' + domain + query)
       .toPromise();
   }
 

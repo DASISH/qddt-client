@@ -4,6 +4,7 @@ import { CategoryType } from './category-kind';
 import { Subject } from 'rxjs/Subject';
 import { PropertyStoreService } from '../core/global/property.service';
 import { QDDT_ELEMENTS, ElementKind } from '../shared/elementinterfaces/elements';
+import { Page } from '../shared/table/table.page';
 
 declare let Materialize: any;
 
@@ -24,8 +25,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
   public isDetail: boolean;
   public selectedCategory: Category;
   public category: Category;
-  public page: any;
-  public columns: any[];
+  public page = new Page();
   public missingCategories: any[];
   public revisionIsVisible = false;
 
@@ -38,20 +38,16 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
   constructor(private categoryService: CategoryService, private userService: PropertyStoreService) {
     this.category = new Category();
     this.isDetail = false;
-    this.page = {};
     this.category.categoryType = 'MISSING_GROUP';
     this.categoryEnums =  CategoryType.group;
     this.selectedCategoryIndex = 0;
     this.categories = [];
     this.missingCategories = [];
-    this.columns = [{'name': 'name', 'label': 'Name', 'sortable': true, 'direction': '' },
-      {'name': 'description', 'label': 'Description', 'sortable': true, 'direction': '' },
-      { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' }];
     this.searchKeysSubject
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
-        this.categoryService.getAllTemplatesByCategoryKind('MISSING_GROUP', name, '0', this.getSort())
+        this.categoryService.getAllTemplatesByCategoryKind('MISSING_GROUP', name, this.page)
         .then((result: any) => {
           this.page = result.page;
           this.missingCategories = result.content;
@@ -69,13 +65,13 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
       this.searchKeys = config.key;
       this.isDetail = true;
     } else {
-      this.categoryService.getAllTemplatesByCategoryKind('MISSING_GROUP', '', '0', this.getSort())
+      this.categoryService.getAllTemplatesByCategoryKind('MISSING_GROUP', '',  this.page)
       .then((result: any) => {
         this.page = result.page;
         this.missingCategories = result.content;
       });
     }
-    this.categoryService.getAllByLevel('ENTITY')
+    this.categoryService.getAllByLevel('ENTITY', '', this.page)
     .then((result: any) => {
       this.categories = result.content;
     });
@@ -198,15 +194,16 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
     this.userService.set('schemes', {'current': 'list', 'key': this.searchKeys});
   }
 
-  onPage(page: string) {
-    this.categoryService.getAllTemplatesByCategoryKind('MISSING_GROUP', this.searchKeys, page, this.getSort())
+  onPage(page: Page) {
+    this.page = page;
+    this.categoryService.getAllTemplatesByCategoryKind('MISSING_GROUP', this.searchKeys, page, )
       .then(
         (result: any) => { this.page = result.page; this.missingCategories = result.content; }
       );
   }
 
   searchCategories(name: string) {
-    this.categoryService.getAllByLevel('ENTITY', name)
+    this.categoryService.getAllByLevel('ENTITY', name, this.page)
     .then((result: any) => {
       this.categories = result.content;
     });
@@ -215,21 +212,6 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
   searchMissingCategories(name: string) {
     this.searchKeys = name;
     this.searchKeysSubject.next(name);
-  }
-
-
-
-  private getSort() {
-    const i = this.columns.findIndex((e: any) => e.sortable && e.direction !== '');
-    let sort = '';
-    if (i >= 0) {
-      if (typeof this.columns[i].name === 'string') {
-        sort = this.columns[i].name + ',' + this.columns[i].direction;
-      } else {
-        sort = this.columns[i].name.join('.') + ',' + this.columns[i].direction;
-      }
-    }
-    return sort;
   }
 
 }

@@ -3,6 +3,7 @@ import { CategoryService, Category } from './category.service';
 import { Subject } from 'rxjs/Subject';
 import { PropertyStoreService } from '../core/global/property.service';
 import { Column } from '../shared/table/table.column';
+import { Page } from '../shared/table/table.page';
 
 @Component({
   selector: 'qddt-category',
@@ -17,8 +18,7 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
   public categories: any;
   public category: any;
   public selectedCategory: any;
-  public page: any;
-  public columns: Column[];
+  public page: Page;
 
   private searchKeys: string;
   private searchKeysSubject: Subject<string> = new Subject<string>();
@@ -27,17 +27,11 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
     this.isDetail = false;
     this.categories = [];
     this.searchKeys = '';
-    this.page = {};
-    this.columns = [
-      { label: 'Label', name: 'label', sortable: true, direction: ''},
-      { label: 'Description', name: 'description', sortable: true, direction: '' },
-      { label: 'Type', name: 'categoryType', sortable: true, direction: '' },
-      { label: 'Modified', name: 'modified', sortable: true, direction: 'desc'} ];
     this.searchKeysSubject
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
-        this.categoryService.getAllByLevel('ENTITY', name, this.getSort())
+        this.categoryService.getAllByLevel('ENTITY', name, this.page)
         .then((result: any) => {
           this.page = result.page;
           this.categories = result.content;
@@ -53,7 +47,7 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
       this.selectedCategory = config.item;
       this.isDetail = true;
     } else {
-      this.categoryService.getByCategoryKind('CATEGORY', '*', '0', this.getSort())
+      this.categoryService.getByCategoryKind('CATEGORY', '*', this.page)
       .then((result: any) => {
          this.page = result.page;
          this.categories = result.content;
@@ -105,8 +99,8 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
     this.searchKeysSubject.next(name);
   }
 
-  onTablePage(page: string) {
-    this.categoryService.getAllByLevelAndPage('ENTITY', this.searchKeys, page, this.getSort())
+  onTablePage(page: Page) {
+    this.categoryService.getAllByLevelAndPage('ENTITY', this.searchKeys, page)
     .then((result: any) => {
       this.page = result.page;
       this.categories = result.content;
@@ -122,18 +116,5 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
         'key': this.searchKeys,
         'item': this.selectedCategory,
         'collection': this.categories});
-  }
-
-  private getSort() {
-    const i = this.columns.findIndex((e: any) => e.sortable && e.direction !== '');
-    let sort = '';
-    if (i >= 0) {
-      if (typeof this.columns[i].name === 'string') {
-        sort = this.columns[i].name + ',' + this.columns[i].direction;
-      } else {
-        sort = this.columns[i].name.join('.') + ',' + this.columns[i].direction;
-      }
-    }
-    return sort;
   }
 }

@@ -5,6 +5,7 @@ import { DATE_FORMAT, ResponseDomain, ResponseDomainService } from './responsedo
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 import { QDDT_ELEMENTS, ElementKind } from '../shared/elementinterfaces/elements';
+import { Page } from '../shared/table/table.page';
 
 declare let Materialize: any;
 
@@ -12,7 +13,6 @@ declare let Materialize: any;
   selector: 'qddt-responsedomain-form',
   moduleId: module.id,
   templateUrl: './responsedomain.form.component.html',
-  styles: [ ],
   providers: [CategoryService],
 })
 
@@ -47,7 +47,7 @@ export class ResponsedomainFormComponent implements OnInit , AfterViewInit {
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
-        this.categoryService.getByCategoryKind('CATEGORY', name).then((result: any) => {
+        this.categoryService.getByCategoryKind('CATEGORY', name, new Page() ).then((result: any) => {
           this.categories = result.content;
         });
       });
@@ -82,7 +82,7 @@ export class ResponsedomainFormComponent implements OnInit , AfterViewInit {
       }
     }
 
-    this.categoryService.getByCategoryKind('CATEGORY').then((result: any) => {
+    this.categoryService.getByCategoryKind('CATEGORY', '', new Page()).then((result: any) => {
       this.categories = result.content;
     });
     this.previewResponseDomain = this.responsedomain;
@@ -242,19 +242,6 @@ export class ResponsedomainFormComponent implements OnInit , AfterViewInit {
 
   addition(value1, value2): number {
     return parseInt(value1) + parseInt(value2);
-  }
-
-  onBasedonObjectDetail(ref: any) {
-    if (!ref.rev) {
-        ref.rev = 0;
-    }
-    this.service.getResponseDomainsRevision(ref.id, ref.rev)
-      .then(
-        (result: any) => {
-          this.basedonObject = result.entity;
-          this.basedonActions.emit({action: 'modal', params: ['open']});
-        }
-      );
   }
 
 }

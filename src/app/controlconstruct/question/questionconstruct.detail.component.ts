@@ -6,7 +6,6 @@ import { IDetailAction, Action} from '../../shared/elementinterfaces/detailactio
 
 const filesaver = require('file-saver');
 
-
 @Component({
   selector: 'qddt-control-construct-detail',
   moduleId: module.id,
@@ -35,10 +34,10 @@ export class QuestionConstructDetailComponent implements OnInit {
         this.controlConstruct = ctrl;
         console.log ( ctrl ); },
       (error) => { throw error; } );
-    }
+  }
 
   onHideDetail() {
-      this.router.navigate(['../' ], { relativeTo: this.route });
+    this.router.navigate(['../' ], { relativeTo: this.route });
   }
 
   onDeleteConfirmModal() {

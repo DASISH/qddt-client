@@ -4,6 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 import { ResponseDomain } from './responsedomain.service';
 import { QddtElement, QDDT_ELEMENTS, ElementKind } from '../shared/elementinterfaces/elements';
+import { Page } from '../shared/table/table.page';
 
 @Component({
   selector: 'qddt-responsedomain-select-missing',
@@ -22,8 +23,8 @@ export class ResponsedomainSelectMissingComponent implements OnInit {
   @Input() responseDomain: ResponseDomain;
   @Input() modalId: any = 'RSMC-1';
   @Input() readonly = false;
-  @Output() responseDomainSelected = new EventEmitter<any>();
-  @Output() responseDomainRemove = new EventEmitter<any>();
+  @Output() selectedEvent = new EventEmitter<any>();
+  @Output() removeEvent = new EventEmitter<any>();
 
   public readonly CATEGORY_KIND = QDDT_ELEMENTS[ElementKind.CATEGORY];
   public findMissingAction = new EventEmitter<MaterializeAction>();
@@ -41,7 +42,7 @@ export class ResponsedomainSelectMissingComponent implements OnInit {
       .distinctUntilChanged()
       .filter(val => val.length > 0)
       .subscribe((name: string) => {
-        this.service.getAllTemplatesByCategoryKind('MISSING_GROUP', name)
+        this.service.getAllTemplatesByCategoryKind('MISSING_GROUP', name, new Page())
           .then((result: any) => {
           this.missingGroups = result.content;
         });
@@ -61,7 +62,7 @@ export class ResponsedomainSelectMissingComponent implements OnInit {
   }
 
   onRemoveMissingResponsedomain() {
-    this.responseDomainRemove.emit(true);
+    this.removeEvent.emit(true);
   }
 
   onAddMissing() {
@@ -86,7 +87,7 @@ export class ResponsedomainSelectMissingComponent implements OnInit {
         responseDomain: this.responseDomain,
         responseDomainRevision: 0
       };
-      this.responseDomainSelected.emit(object);
+      this.selectedEvent.emit(object);
     }
   }
 

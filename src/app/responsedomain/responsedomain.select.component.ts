@@ -37,7 +37,6 @@ import { ResponseDomainService } from './responsedomain.service';
     </div>
   </div>
   `,
-  providers: [ ResponseDomainService ],
 })
 
 export class ResponseDomainSelectComponent implements OnChanges {

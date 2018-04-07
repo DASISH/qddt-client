@@ -42,8 +42,8 @@
                     [modalId] = "'reuse-1'"
                     [showbutton] = "true"
                     [responseDomain]="questionItem?.responseDomain"
-                    (responseDomainSelected)="onResponseDomainSelected($event)"
-                    (responseDomainRemove)="onResponsedomainRemove($event)">
+                    (selectedEvent)="onResponseDomainSelected($event)"
+                    (removeEvent)="onResponsedomainRemove($event)">
                   </qddt-responsedomain-reuse>
                 </div>
               </div>
@@ -52,8 +52,8 @@
                   *ngIf="!readonly && questionItem?.responseDomain"
                   [modalId] = "'select-missing-2'"
                   [responseDomain]="questionItem?.responseDomain"
-                  (responseDomainSelected)="onResponseDomainSelected($event)"
-                  (responseDomainRemove)="onResponsedomainRemove($event)">
+                  (selectedEvent)="onResponseDomainSelected($event)"
+                  (removeEvent)="onResponsedomainRemove($event)">
                 </qddt-responsedomain-select-missing>
               </div>
             </div>
@@ -72,8 +72,8 @@
     <div class="indeterminate"></div>
   </div>
   <div *ngIf="!isDetail && questionitems">
-    <qddt-table [items]="questionitems" [page]="page" [columns]="columns"
-        [placeholder] = "'Search in question name or question text'"
+    <qddt-table [items]="questionitems" [page]="page"
+        [elementKind]="QUESTION_ITEM"
         (enterEvent)="onSearchTable($event)"
         (detailEvent)="onDetail($event)"
         (pageChangeEvent)="onPage($event)">
