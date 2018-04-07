@@ -24,7 +24,7 @@ export class TemplateListComponent implements OnInit {
   public placeholder: string;
 
   private searchKeys: string;
-  private searchKeysSubject = new Subject<string>();
+  private searchKeysListener = new Subject<string>();
   private kind: ElementKind;
 
   constructor(private service: TemplateService, private router: Router, private route: ActivatedRoute ) {
@@ -36,7 +36,7 @@ export class TemplateListComponent implements OnInit {
       this.placeholder = QDDT_ELEMENTS.find( qe => qe.id === this.kind).placeholder();
     });
 
-    this.searchKeysSubject
+    this.searchKeysListener
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((searchString: string) => {
@@ -61,12 +61,12 @@ export class TemplateListComponent implements OnInit {
 
   public onPage(page: string) {
     this.page = page;
-    this.searchKeysSubject.next(this.searchKeys);
+    this.searchKeysListener.next(this.searchKeys);
   }
 
   public onSearchKey(search: string ) {
     this.searchKeys = search;
-    this.searchKeysSubject.next(search);
+    this.searchKeysListener.next(search);
   }
 
   public onDetail(item: IEntityAudit ) {

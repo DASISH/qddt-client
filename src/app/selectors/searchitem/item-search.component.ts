@@ -16,18 +16,21 @@ export class ItemSearchComponent {
 
   public elements: any[];
 
-  private searchKeysSubject = new Subject<string>();
+  private searchKeysListener: Subject<string> = new Subject<string>();
 
   constructor(private service: SelectorsService ) {
     this.elements = [];
-    this.searchKeysSubject
+    console.log(this.searchKeysListener);
+    this.searchKeysListener
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((searchString: string) => {
+        console.log('search ' + searchString);
         this.service.searchItems(this.getElementKind(), searchString).then(
           (result: any) => { this.elements = result.content; },
           (error) => { throw error; });
-      });
+      },
+        (error1) => console.log('WTF??? ' + error1) );
   }
 
   public onSelectElement(item: IEntityAudit) {
@@ -37,12 +40,12 @@ export class ItemSearchComponent {
   }
 
   public onSearchElements(key: string) {
-    this.searchKeysSubject.next(key);
+    this.searchKeysListener.next(key);
   }
 
   public getElementType(): QddtElement {
     const kind = this.getElementKind();
-    return QDDT_ELEMENTS.find(e => e.id === kind);
+    return QDDT_ELEMENTS[kind];
   }
 
   public getElementKind(): ElementKind {

@@ -31,12 +31,12 @@ export class ResponsedomainSelectMissingComponent implements OnInit {
   public missingGroups: Category[];
   public selectedCategoryIndex: number;
 
-  private searchKeysSubject = new Subject<string>();
+  private searchKeysListener = new Subject<string>();
 
   constructor(private service: CategoryService) {
     this.selectedCategoryIndex = 0;
     this.missingGroups = [];
-    this.searchKeysSubject
+    this.searchKeysListener
       .debounceTime(300)
       .distinctUntilChanged()
       .filter(val => val.length > 0)
@@ -54,10 +54,10 @@ export class ResponsedomainSelectMissingComponent implements OnInit {
     }
   }
   // ngAfterViewInit() {
-  //   this.searchKeysSubject.next('');
+  //   this.searchKeysListener.next('');
   // }
   searchMissingCategories(name: string) {
-    this.searchKeysSubject.next(name);
+    this.searchKeysListener.next(name);
   }
 
   onRemoveMissingResponsedomain() {
@@ -65,7 +65,7 @@ export class ResponsedomainSelectMissingComponent implements OnInit {
   }
 
   onAddMissing() {
-    this.searchKeysSubject.next('*');
+    this.searchKeysListener.next('*');
     this.findMissingAction.emit({action: 'modal', params: ['open']});
   }
 

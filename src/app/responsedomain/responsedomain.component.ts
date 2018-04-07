@@ -37,7 +37,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
   private columns: any[];
   private savedObject: string;
   private savedResponseDomainsIndex: number;
-  private searchKeysSubject: Subject<string> = new Subject<string>();
+  private searchKeysListener: Subject<string> = new Subject<string>();
   private previewObject: any;
   private revisionKind = ElementKind.RESPONSEDOMAIN;
 
@@ -52,7 +52,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
     this.domainTypeDescription = DomainTypeDescription.filter((e: any) => e.id !== DomainKind.MIXED);
     this.page = {};
     this.columns = PredefinedColumns['SCALE'];
-    this.searchKeysSubject
+    this.searchKeysListener
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
@@ -101,7 +101,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
       if (config.key === null || config.key === undefined) {
         this.property.set('responsedomains', {'current': 'list', 'key': ''});
         this.searchKeys = '';
-        this.searchKeysSubject.next('');
+        this.searchKeysListener.next('');
       }
     }
     // Materialize.updateTextFields();
@@ -221,7 +221,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
 
   searchResponseDomains(name: string) {
     this.searchKeys = name;
-    this.searchKeysSubject.next(name);
+    this.searchKeysListener.next(name);
   }
 
   buildRevisionConfig(): any[] {

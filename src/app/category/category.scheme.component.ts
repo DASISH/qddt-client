@@ -33,7 +33,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
   private searchKeys: string;
   private savedObject: string;
   private savedCategoriesIndex: number;
-  private searchKeysSubject: Subject<string> = new Subject<string>();
+  private searchKeysListener: Subject<string> = new Subject<string>();
 
   constructor(private categoryService: CategoryService, private userService: PropertyStoreService) {
     this.category = new Category();
@@ -47,7 +47,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
     this.columns = [{'name': 'name', 'label': 'Name', 'sortable': true, 'direction': '' },
       {'name': 'description', 'label': 'Description', 'sortable': true, 'direction': '' },
       { 'label': 'Modified', 'name': 'modified', 'sortable': true, 'direction': 'desc' }];
-    this.searchKeysSubject
+    this.searchKeysListener
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
@@ -94,7 +94,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
       if (config.key === null || config.key === undefined) {
         this.userService.set('schemes', {'current': 'list', 'key': ''});
         this.searchKeys = '';
-        this.searchKeysSubject.next('');
+        this.searchKeysListener.next('');
       }
     }
     Materialize.updateTextFields();
@@ -214,7 +214,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
 
   searchMissingCategories(name: string) {
     this.searchKeys = name;
-    this.searchKeysSubject.next(name);
+    this.searchKeysListener.next(name);
   }
 
 

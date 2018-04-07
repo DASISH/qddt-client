@@ -28,7 +28,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
   private questionItem: QuestionItem;
   private selectedQuestionItem: QuestionItem;
 
-  private searchKeysSubject: Subject<string> = new Subject<string>();
+  private searchKeysListener: Subject<string> = new Subject<string>();
   private searchKeys: string;
   private secondCS: any;
   private mainresponseDomainRevision: number;
@@ -45,7 +45,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
     this.searchKeys = '';
     this.secondCS = null;
     this.mainresponseDomainRevision = 0;
-    this.searchKeysSubject
+    this.searchKeysListener
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
@@ -79,7 +79,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
       this.isDetail = true;
     } else {
       this.searchKeys = (config.key) ? config.key : '';
-      this.searchKeysSubject.next(this.searchKeys);
+      this.searchKeysListener.next(this.searchKeys);
     }
   }
 
@@ -97,7 +97,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
         if (config.key === null || config.key === undefined) {
           this.property.set('questions', {'current': 'list', 'key': ''});
           this.searchKeys = '';
-          this.searchKeysSubject.next('');
+          this.searchKeysListener.next('');
         }
       }
     // Materialize.updateTextFields();
@@ -128,7 +128,7 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
   onSearchTable(name: string) {
     console.log('onSearchTable ' + name);
     this.searchKeys = name;
-    this.searchKeysSubject.next(name);
+    this.searchKeysListener.next(name);
   }
 
 

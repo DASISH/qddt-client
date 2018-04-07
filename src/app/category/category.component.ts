@@ -21,7 +21,7 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
   public columns: Column[];
 
   private searchKeys: string;
-  private searchKeysSubject: Subject<string> = new Subject<string>();
+  private searchKeysListener: Subject<string> = new Subject<string>();
 
   constructor(private categoryService: CategoryService, private property: PropertyStoreService) {
     this.isDetail = false;
@@ -33,7 +33,7 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
       { label: 'Description', name: 'description', sortable: true, direction: '' },
       { label: 'Type', name: 'categoryType', sortable: true, direction: '' },
       { label: 'Modified', name: 'modified', sortable: true, direction: 'desc'} ];
-    this.searchKeysSubject
+    this.searchKeysListener
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
@@ -74,7 +74,7 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
       if (config.key === null || config.key === undefined) {
         this.property.set('categories', {'current': 'list', 'key': ''});
         this.searchKeys = '';
-        this.searchKeysSubject.next('');
+        this.searchKeysListener.next('');
       }
     }
   }
@@ -102,7 +102,7 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
 
   onTableSearchCategories(name: string) {
     this.searchKeys = name;
-    this.searchKeysSubject.next(name);
+    this.searchKeysListener.next(name);
   }
 
   onTablePage(page: string) {
