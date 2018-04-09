@@ -6,35 +6,18 @@
       <tr><th>Study</th><th>Module</th><th>Concept names</th></tr>
       </thead>
       <tbody *ngIf="showRefs">
-      <tr *ngFor="let ref of element.conceptRefs" >
+      <tr *ngFor="let ref of getRefRoot()" >
         <td>
           <a  style="cursor: pointer;" (click)="onClickStudy(ref.topicRef.studyRef.id)">{{ ref?.topicRef?.studyRef?.name }}</a>
         </td>
         <td>
           <a  style="cursor: pointer;" (click)="onClickTopic(ref.topicRef.id)">{{ ref?.topicRef?.name }}</a>
         </td>
-        <td>
+        <td *ngIf="ref.id">
           <a  style="cursor: pointer;" (click)="onClickConcept(ref.id)">{{ ref?.name }}</a>
         </td>
       </tr>
       </tbody>
     </table>
-  </div>
-</div>
-
-<div [attr.id]="'usedby-detail-modal'" class="modal modal-fixed-footer fade"
-     materialize="modal" [materializeActions]="usedbyModalAction">
-  <div class="modal-content" *ngIf="selectedElement">
-    <h5 align="center">Preview of {{ selectedElement.name }}</h5>
-    <qddt-preview-concept *ngIf="selectedType === 'concept'" [concept]="selectedElement"></qddt-preview-concept>
-    <qddt-preview-topic *ngIf="selectedType === 'topic'" [topic]="selectedElement"></qddt-preview-topic>
-    <qddt-preview-study *ngIf="selectedType === 'study'" [study]="selectedElement"></qddt-preview-study>
-  </div>
-  <div class="modal-footer">
-    <!--(click)="onCloseModal()"  #closeBtn-->
-    <button id="concept-modal-close" type="button"
-    class="btn btn-default red modal-action modal-close waves-effect">
-      <a><i class="close material-icons medium white-text">close</i></a>
-    </button>
   </div>
 </div>

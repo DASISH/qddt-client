@@ -31,7 +31,7 @@ export class ResponsedomainReuseComponent implements OnChanges  {
   private domainType: DomainKind;
   private responseDomains: any;
   private selectedIndex: number;
-  private searchKeysSubject: Subject<string> = new Subject<string>();
+  private searchKeysListener: Subject<string> = new Subject<string>();
   private readonly RESPONSEKIND = QDDT_ELEMENTS[ElementKind.RESPONSEDOMAIN];
 
   constructor(private responseDomainService: ResponseDomainService) {
@@ -40,7 +40,7 @@ export class ResponsedomainReuseComponent implements OnChanges  {
     this.responseDomains = [];
     this.domainTypeDescription = DomainTypeDescription.filter((e: any) => e.id !== DomainKind.MIXED);
     this.selectedIndex = 0;
-    this.searchKeysSubject
+    this.searchKeysListener
       .debounceTime(300)
       .distinctUntilChanged()
       .filter(val => val.length > 0)
@@ -77,7 +77,7 @@ export class ResponsedomainReuseComponent implements OnChanges  {
   }
 
   openModalRDReuse() {
-    this.searchKeysSubject.next('*');
+    this.searchKeysListener.next('*');
     this.modalRdActions.emit({action: 'modal', params: ['open']});
   }
 
@@ -137,7 +137,7 @@ export class ResponsedomainReuseComponent implements OnChanges  {
   }
 
   searchResponseDomains(key: string) {
-    this.searchKeysSubject.next(key);
+    this.searchKeysListener.next(key);
   }
 
 }

@@ -6,6 +6,7 @@ import { LIST_COLUMNS, RESPONSEDOMAIN_COLUMNS, DEFAULT_COLUMNS } from './table.c
 import { ElementKind, QDDT_ELEMENTS } from '../elementinterfaces/elements';
 import { DomainKind } from '../../responsedomain/responsedomain.constant';
 import { ElementEnumAware } from '../../preview/preview.service';
+import { Domain } from 'domain';
 
 @Component({
   selector: 'qddt-table',
@@ -27,7 +28,7 @@ export class QddtTableComponent implements OnChanges {
    * totalPages: the total pages
   */
   @Input() elementKind: ElementKind;
-  @Input() responseKind: String = null;
+  @Input() domainkind: DomainKind;
   @Input() placeholder: String = null;
   @Input() page: Page;
   @Input() items: IEntityEditAudit[];
@@ -80,6 +81,9 @@ export class QddtTableComponent implements OnChanges {
   sortRows(column: Column) {
     if (column.sortable) {
       column.nextSort();
+      this.columns
+      .filter((c) => c.name !== column.name)
+      .forEach((col) => col.direction = '');
       this.page.sort = this.getSort();
       this.pageChangeEvent.emit(this.page);
     }
@@ -87,12 +91,10 @@ export class QddtTableComponent implements OnChanges {
 
 
   private init() {
-    if (!this.columns) {
-      this.columns = this.getColumns();
-    }
-    if (!this.placeholder) { this.placeholder =  QDDT_ELEMENTS[this.elementKind].placeholder(); }
+    this.columns = this.getColumns();
+    this.placeholder =  QDDT_ELEMENTS[this.elementKind].placeholder();
     if (!this.page) { this.page = new Page; }
-
+    if (!this.items) { this.items = []; }
     this.rows = [];
 
     this.items.forEach((item: IEntityEditAudit) => {
@@ -124,7 +126,7 @@ export class QddtTableComponent implements OnChanges {
 
   private getColumns(): Column[] {
     if (this.elementKind === ElementKind.RESPONSEDOMAIN) {
-      return RESPONSEDOMAIN_COLUMNS(this.responseKind);
+      return RESPONSEDOMAIN_COLUMNS.get(this.domainkind);
     }
 
     if (LIST_COLUMNS.has(this.elementKind)) {

@@ -4,7 +4,7 @@ import { API_BASE_HREF } from '../api';
 import { Category, ResponseCardinality } from '../category/category.service';
 import { Observable } from 'rxjs/Observable';
 import { IEntityAudit, IEntityEditAudit, IVersion } from '../shared/elementinterfaces/entityaudit';
-import { ElementKind } from '../shared/elementinterfaces/elements';
+import { ElementKind, QDDT_ELEMENTS } from '../shared/elementinterfaces/elements';
 import { Page } from '../shared/table/table.page';
 
 export const DATE_FORMAT: any = [
@@ -32,7 +32,7 @@ export class ResponseDomain implements IEntityEditAudit {
   classKind = ElementKind[ElementKind.RESPONSEDOMAIN];
   comments: any[];
   constructor() {
-    this.managedRepresentation = null;
+    this.managedRepresentation = new Category();
     this.responseCardinality = new ResponseCardinality();
   }
 
@@ -66,10 +66,27 @@ export class ResponseDomainService  {
     return this.http.get(this.api + 'responsedomain/' + id).toPromise();
   }
 
-  getAll(domain: string, name: string = '', page: Page ): Promise<any> {
-    let query = name.length > 0 ? '&Name=' + name : name;
+  getAll(domain: string, searchString: string = '', page: Page ): Promise<any> {
+    const qe = QDDT_ELEMENTS[ElementKind.RESPONSEDOMAIN];
+    const args = searchString.trim().split(' ');
+    const queries = [];
+
+    if (args.length === qe.fields.length) {
+      for (let i = 0; i < qe.fields.length; i++) {
+        queries.push(qe.fields[i] + '=*' + args[i] + '*' );
+      }
+    } else {
+      for (let i = 0; i < qe.fields.length; i++) {
+        queries.push(qe.fields[i] + '=*' + searchString + '*' );
+      }
+    }
+
+    let query = '';
+    if (queries.length > 0) { query = '?' + queries.join('&'); }
+    query += '&ResponseKind=' + domain;
     query += page.queryPage();
-    return this.http.get(this.api + 'responsedomain/page/search?ResponseKind=' + domain + query)
+
+    return this.http.get(this.api + 'responsedomain/page/search' + query)
       .toPromise();
   }
 

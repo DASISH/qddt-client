@@ -30,7 +30,7 @@ import { PreviewService } from './preview.service';
 import { PreviewPublicationComponent } from './publication/preview.publication.component';
 
 @NgModule({
-  imports: [ SharedModule],
+  imports: [ SharedModule ],
 
   declarations: [PreviewConceptComponent, PreviewConceptListComponent, PreviewConditionConstructComponent,
     PreviewControlConstructComponent, PreviewQuestionConstructComponent,

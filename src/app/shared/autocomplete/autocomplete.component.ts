@@ -30,10 +30,12 @@ export class AutocompleteComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.value = this.initialValue;
+    console.log('ngOnInit -> auto-complete');
   }
 
   ngOnChanges() {
     this.candidates = this.items;
+    console.log('ngOnChanges -> auto-complete');
   }
 
   enterText(event: any) {

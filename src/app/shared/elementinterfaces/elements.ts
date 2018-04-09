@@ -1,18 +1,25 @@
 import { IVersion } from './entityaudit';
 
-export interface IRevisionRef {
-  elementId: any;
+export interface IIdRef {
+  elementId: string;
+  elementKind: ElementKind|string;
+}
+
+export interface IRevisionRef extends IIdRef {
+  elementId: string;
   elementRevision: number;
   elementKind: ElementKind|string;
 }
 
 export interface IElementRef {
-  elementKind: ElementKind|string;
   element: any;
+  elementKind: ElementKind|string;
 }
 
-export class ElementRevisionRef implements IRevisionRef, IElementRef {
-  elementId: any;
+
+
+export class ElementRevisionRef implements IIdRef, IRevisionRef, IElementRef {
+  elementId: string;
   elementRevision: number;
   elementKind: ElementKind | string;
   element: any;

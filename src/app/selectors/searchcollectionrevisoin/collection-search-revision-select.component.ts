@@ -4,12 +4,12 @@ import { IEntityAudit } from '../../shared/elementinterfaces/entityaudit';
 import { Factory } from '../../shared/elementfactory/factory';
 
 @Component({
-  selector: 'qddt-collection-search-select',
+  selector: 'qddt-collection-revision-search-select',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: 'collection-search-select.component.html'
+  templateUrl: './collection-search-revision-select.component.html'
 })
 
-export class CollectionSearchSelectComponent implements AfterViewInit {
+export class CollectionSearchRevisionSelectComponent implements AfterViewInit {
   @Input() items:  IEntityAudit[];
   @Input() labelName?: string;
   @Input() elementKind: ElementKind|string;
@@ -32,7 +32,7 @@ export class CollectionSearchSelectComponent implements AfterViewInit {
   }
 
   onShowItems() {
-    this.item = Factory.createInstance(this.getElementKind())
+    this.item = Factory.createInstance(this.getElementKind());
     this.searchField  = this.getElementType().fields[0];
     this.showAddItem = !this.showAddItem;
   }

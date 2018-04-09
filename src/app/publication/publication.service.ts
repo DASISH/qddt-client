@@ -20,7 +20,7 @@ export class Publication  implements  IEntityAudit {
   id: string;
   name: string;
   purpose: string;
-  status: PublicationStatus = { id: 0, published: 'NOT_PUBLISHED', label: 'No publication' };  // magic number NOT_PUBLISHED
+  status: PublicationStatus;  // = { id: 0, published: 'NOT_PUBLISHED', label: 'No publication' };  // magic number NOT_PUBLISHED
   classKind = ElementKind[ElementKind.PUBLICATION];
   publicationElements: ElementRevisionRef[];
   constructor() {
@@ -45,43 +45,32 @@ export class PublicationStatus {
 @Injectable()
 export class PublicationService {
 
-  public PUBLICATION_STATUSES: PublicationStatus[];
-  private statusList: PublicationStatus[] = [];
-
-  readonly pageSize = '&size=10';
+  public PUBLICATION_STATUSES:  Promise<PublicationStatus[]>;
 
   constructor(protected http: HttpClient, @Inject(API_BASE_HREF) protected api: string) {
     if (!this.PUBLICATION_STATUSES) {
-      this.getPublicationStatus().then(
-        result => {
-          this.PUBLICATION_STATUSES = result;
-          this.PUBLICATION_STATUSES.forEach( s => {
-            this.statusList.push(
-              new PublicationStatus({id: s.id, label: s.label, published: s.published, description: s.description } ) );
-            if (s.children) {
-              s.children.forEach(s1 =>
-                this.statusList.push(
-                  new PublicationStatus({id: s1.id, label: s1.label, published: s.published, description: s1.description }) ));
-            }
-          });
-        },
-        error => { throw error; });
+      this.PUBLICATION_STATUSES = this.getPublicationStatus();
     }
   }
 
-
-  public getPublicationStatusAsList(): PublicationStatus[] {
-    return this.statusList;
+  public getPublicationStatusAsList(): Promise<PublicationStatus[]> {
+    return new Promise((resolve, reject) => {
+      this.PUBLICATION_STATUSES.then((result) => {
+        const statusList: PublicationStatus[] = [];
+        result.forEach( s => {
+          if (s.children) {
+            s.children.forEach(s1 =>
+              statusList.push(
+                new PublicationStatus({id: s1.id, label: s1.label, published: s.published, description: s1.description }) ));
+        }
+        resolve( statusList); });
+      });
+  });
   }
 
-  public getStatusById(id: number): PublicationStatus {
-    return this.getPublicationStatusAsList().find(e => e.id === id );
+  public getPdf(id: string): Promise<Blob> {
+    return this.http.get(this.api + 'publication/pdf/' + id, {responseType: 'blob'}).toPromise();
   }
-
-  // public getPdf(id: string): Promise<Blob> {
-  //   return this.http.get(this.api + 'publication/pdf/' + id, {responseType: 'blob'})
-  //     .toPromise();
-  // }
 
   public searchElements(elementKind: ElementKind, name: string): Promise<any> {
     let query = '?';

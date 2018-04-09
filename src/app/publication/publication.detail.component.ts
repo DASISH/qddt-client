@@ -11,14 +11,12 @@ import { Action, IDetailAction } from '../shared/elementinterfaces/detailaction'
 
 export class PublicationDetailComponent {
 
-  public item: IEntityEditAudit;
-
   constructor() {
   }
 
   onItemSelect(event: IEntityEditAudit) {
     console.log('item selected ' + event );
-    this.item = event;
+//    this.item = event;
   }
 
   onClose(action: IDetailAction) {

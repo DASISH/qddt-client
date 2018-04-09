@@ -126,8 +126,7 @@
     <div class="hoverable"
          (mouseenter)="showQuestionButton = !readonly"
          (mouseleave)="showQuestionButton = false">
-      <div class="row" (click)="editQuestoinItem = !editQuestoinItem;
-            savedquestionitem=controlConstruct.questionItem;" style="cursor: zoom-in;">
+      <div class="row" (click)="editQuestoinItem = !editQuestoinItem; savedquestionitem=controlConstruct.questionItem;" style="cursor: zoom-in;">
         <div class="col s11">
           <label class="teal-text">
             Question Text (Version <qddt-version [element]="controlConstruct?.questionItem"></qddt-version>)

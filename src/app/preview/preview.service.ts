@@ -14,19 +14,25 @@ export class PreviewService {
 
   constructor(protected http: HttpClient,  @Inject(API_BASE_HREF) protected api: string) {  }
 
+  getElementByKind(kind: ElementKind, id: string): Promise<any> {
+
+    const qe  = QDDT_ELEMENTS.find(e => e.id === kind);
+    return this.http.get(this.api  + qe.path + '/' + id ).toPromise();
+  }
+
   getRevisionByKind(kind: ElementKind, id: string, rev: number): Promise<any>  {
 
     const qe  = QDDT_ELEMENTS.find(e => e.id === kind);
     return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/' + rev).toPromise();
-
   }
 
-  getFile(id: string): Promise<any> {
+  getFile(id: string): Promise<Blob> {
     return this.http.get(this.api + 'othermaterial/files/' + id, { responseType: 'blob'})
       .toPromise();
   }
 
   getElementRevisions(elementKind: ElementKind, id: string): Promise<any> {
+
     const qe = QDDT_ELEMENTS.find(e => e.id === elementKind);
     if (qe) {
       if (elementKind === ElementKind.CONCEPT || elementKind === ElementKind.TOPIC_GROUP) {

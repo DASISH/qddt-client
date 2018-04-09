@@ -1,5 +1,5 @@
 import { Component, Input, Output, OnInit, EventEmitter, AfterContentChecked } from '@angular/core';
-import { ControlConstructService, QuestionConstruct } from '../controlconstruct.service';
+import { ControlConstructService, QuestionConstruct, Universe, Instruction } from '../controlconstruct.service';
 import { Observable } from 'rxjs/Observable';
 import { QuestionItem } from '../../question/question.service';
 import { IOtherMaterial } from '../../shared/elementinterfaces/othermaterial';
@@ -45,22 +45,16 @@ export class QuestionConstructFormComponent implements OnInit, AfterContentCheck
   }
 
   ngOnInit() {
-    if (!this.readonly) {
-      this.readonly = false;
-    }
+    if (!this.readonly) { this.readonly = false; }
   }
 
   ngAfterContentChecked() {
     Materialize.updateTextFields();
   }
 
-  // onDeleteUniverse(id: number) {
-  //   this.controlConstruct.universe.splice(id, 1);
-  // }
 
-  onAddUniverse(item: any) {
+  onAddUniverse(item: Universe) {
     this.controlConstruct.universe.push(item);
-    // this.createUniverse = false;
   }
 
 
@@ -68,15 +62,11 @@ export class QuestionConstructFormComponent implements OnInit, AfterContentCheck
     this.controlConstruct.preInstructions.splice(id, 1);
   }
 
-  onAddPreInstruction(instruction: any) {
+  onAddPreInstruction(instruction: Instruction) {
     this.controlConstruct.preInstructions.push(instruction);
   }
 
-  // onDeletePostInstruction(id: number) {
-  //   this.controlConstruct.postInstructions.splice(id, 1);
-  // }
-
-  onAddPostInstruction(instruction: any) {
+  onAddPostInstruction(instruction: Instruction) {
     this.controlConstruct.postInstructions.push(instruction);
   }
 

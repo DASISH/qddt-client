@@ -3,6 +3,7 @@ import { QuestionService, QuestionItem } from './question.service';
 import { Subject } from 'rxjs/Subject';
 import { ResponseDomain } from '../responsedomain/responsedomain.service';
 import { QddtElement, QDDT_ELEMENTS, ElementKind } from '../shared/elementinterfaces/elements';
+import { Page } from '../shared/table/table.page';
 
 @Component({
   selector: 'qddt-questionitem-reuse',
@@ -14,35 +15,34 @@ export class QuestionReuseComponent {
   @Input() name: string;
   @Output() questionItemCreatedEvent: EventEmitter<any> = new EventEmitter<any>();
   @Output() dismissEvent: any = new EventEmitter<any>();
+  closeReuseActions = new EventEmitter<any>();
+
+  revisionIsVisible = false;
   reuseQuestionItem: boolean;
   selectedIndex: number;
-  closeReuseActions = new EventEmitter<any>();
   questionItem: QuestionItem;
-  revisionIsVisible = false;
-  config: any[];
   questionItems: QuestionItem[];
   elementRevisions: any[];
   elementRevision: any;
   selectedElement: any;
   // private questionItemKind: ElementKind = ElementKind.QUESTION_CONSTRUCT;
   private mainresponseDomainRevision: number;
-  private searchKeysSubject: Subject<string> = new Subject<string>();
+  private searchKeysListener: Subject<string> = new Subject<string>();
   private readonly QUESTION_KIND: QddtElement = QDDT_ELEMENTS[ElementKind.QUESTION_ITEM];
+  private page = new Page();
 
 
   constructor(private questionService: QuestionService) {
-    this.questionItem = null;
     this.reuseQuestionItem = true;
     this.selectedIndex = 0;
     this.questionItems = [];
     this.elementRevisions = [];
-    this.config = this.buildRevisionConfig();
     this.mainresponseDomainRevision = 0;
-    this.searchKeysSubject
+    this.searchKeysListener
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
-        this.questionService.searchQuestionItems(name).then((result: any) => {
+        this.questionService.searchQuestionItems(name, this.page).then((result: any) => {
           this.questionItems = result.content;
         });
       });
@@ -79,7 +79,7 @@ export class QuestionReuseComponent {
   }
 
   searchQuestionItems(name: string) {
-    this.searchKeysSubject.next(name);
+    this.searchKeysListener.next(name);
   }
 
   selectQuestionItem(questionItem) {
@@ -97,7 +97,7 @@ export class QuestionReuseComponent {
 
   openModal2() {
     this.closeReuseActions.emit({action: 'modal', params: ['open']});
-    this.questionService.getQuestionItemPage().then(
+    this.questionService.getQuestionItemPage(this.page).then(
       result => { this.questionItems = result.content;
       });
   }

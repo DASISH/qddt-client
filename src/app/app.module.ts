@@ -22,13 +22,12 @@ import { QuestionModule } from './question/question.module';
 import { ControlConstructModule } from './controlconstruct/controlconstruct.module';
 import { InstrumentModule } from './instrument/instrument.module';
 import { PublicationModule } from './publication/publication.module';
-import { SelectorsModule } from './selectors/selectors.module';
 import { TemplateModule } from './template/template.module';
 
 @NgModule({
   imports: [ BrowserModule, HttpClientModule,  SharedModule, CoreModule, HomeModule, MenuModule,
     CategoryModule, ResponsedomainModule, QuestionModule, ControlConstructModule, PreviewModule,
-    InstrumentModule, PublicationModule,  SelectorsModule, TemplateModule, routing ],
+    InstrumentModule, PublicationModule, TemplateModule, routing ],
 
     declarations: [ AppComponent, PageNotFoundComponent ],
 

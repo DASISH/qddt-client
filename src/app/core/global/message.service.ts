@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { IRevisionRef, IElementRef } from '../../shared/elementinterfaces/elements';
+import { IRevisionRef, IElementRef, IIdRef } from '../../shared/elementinterfaces/elements';
 
 
 @Injectable()
 export class QddtMessageService {
-    private subject = new Subject<IRevisionRef|IElementRef>();
+    private subject = new Subject<IIdRef|IRevisionRef|IElementRef>();
 
-    sendMessage(ref: IRevisionRef|IElementRef) {
+    sendMessage(ref: IIdRef|IRevisionRef|IElementRef) {
         this.subject.next(ref);
     }
 
@@ -16,7 +16,7 @@ export class QddtMessageService {
         this.subject.next();
     }
 
-    getMessage(): Observable<IRevisionRef|IElementRef> {
+    getMessage(): Observable<IIdRef|IRevisionRef|IElementRef> {
         return this.subject.asObservable();
     }
 }

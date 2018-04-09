@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { PreviewService } from '../preview.service';
 import { Topic } from '../../home/home.service';
+import { ElementKind } from '../../shared/elementinterfaces/elements';
+import { QddtMessageService } from '../../core/global/message.service';
 
 const filesaver = require('file-saver');
 
@@ -17,7 +19,11 @@ const filesaver = require('file-saver');
 export class PreviewTopicComponent {
   @Input() topic: Topic;
 
-  constructor(private service: PreviewService) {
+  constructor(private service: PreviewService, private  message: QddtMessageService) {
+  }
+
+  onClickStudy(id: string) {
+    this.message.sendMessage( { elementId: id, elementKind: ElementKind[ElementKind.STUDY]} );
   }
 
   onDownloadFile(o: any) {

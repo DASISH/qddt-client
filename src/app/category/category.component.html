@@ -36,15 +36,16 @@
     </div>
   </div>
   <div *ngIf="!isDetail && categories">
-    <qddt-table [items]="categories" [page]="page" [elementKind]="CATEGORY"
-                (enterEvent)="onTableSearchCategories($event)"
-                (detailEvent)="onTableDetail($event)"
-                (pageChangeEvent)="onTablePage($event)">
+    <qddt-table [items]="categories" [page]="page"  [elementKind]="kind"
+      (enterEvent)="onSearchKey($event)"
+      (detailEvent)="onDetail($event)"
+      (pageChangeEvent)="onPage($event)">
     </qddt-table>
   </div>
-  <qddt-category-detail *ngIf="isDetail"
-                        [category]="selectedCategory"
-                        [categories]="categories"
-                        (hideDetailEvent)="onHideDetail()">
+  <qddt-category-detail
+    *ngIf="isDetail"
+    [category]="selectedCategory"
+    [categories]="categories"
+    (hideDetailEvent)="onHideDetail()">
   </qddt-category-detail>
 </div>

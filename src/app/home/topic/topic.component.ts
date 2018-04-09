@@ -6,6 +6,7 @@ import { HIERARCHY_POSITION, PropertyStoreService } from '../../core/global/prop
 import { QuestionItem } from '../../question/question.service';
 import { ElementKind } from '../../shared/elementinterfaces/elements';
 import { HomeService, Topic, Study } from '../home.service';
+import { QddtMessageService } from '../../core/global/message.service';
 
 const filesaver = require('file-saver');
 declare var Materialize: any;
@@ -30,12 +31,12 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
   public topics: Topic[];
   public showReuse = false;
   public showTopicForm = false;
-  public questionItem: QuestionItem;
 
   private newTopic: Topic;
 
   constructor(private router: Router, private route: ActivatedRoute,
-              private topicService: HomeService, private property: PropertyStoreService) {
+              private topicService: HomeService, private property: PropertyStoreService,
+              private message: QddtMessageService ) {
     this.newTopic = new Topic();
   }
 
@@ -117,8 +118,7 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
   }
 
   onClickQuestionItem(questionItem) {
-    this.questionItem = questionItem;
-    this.questionItemActions.emit({action: 'modal', params: ['open']});
+    this.message.sendMessage( { element: questionItem, elementKind: ElementKind.QUESTION_ITEM } );
   }
 
   onAddQuestionItem(questionItem: any, topicId: any) {

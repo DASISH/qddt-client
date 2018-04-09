@@ -13,18 +13,17 @@ import { QuestionItem } from '../../question/question.service';
 </div>
 <div class="teal-text" *ngIf="questionItem?.intent" style="padding-left: 15pt; padding-bottom: 10pt">Intent</div>
 <div style="padding-left: 15pt;">{{ questionItem?.intent }}</div>
+
 <div class="row" style="padding-right: 5pt; padding-left:5pt ">
   <qddt-preview-responsedomain *ngIf="questionItem?.responseDomain"
     [responseDomain]="questionItem.responseDomain">
   </qddt-preview-responsedomain>
 </div>
+
+<qddt-conceptref [element]="questionItem"></qddt-conceptref>
+
 <div class="row" *ngIf="questionItem">
   <qddt-element-footer [element]="questionItem" ></qddt-element-footer>
-</div>
-<div class="row" *ngIf="questionItem?.conceptRefs?.length>0">
-  <ul class="collection with-header black-text">
-    <li class="collection-item" *ngFor="let c of questionItem.conceptRefs" >Concept: {{ c?.name }}</li>
-  </ul>
 </div>
 `,
   providers: [ ],

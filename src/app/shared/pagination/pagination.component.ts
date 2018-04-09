@@ -24,7 +24,7 @@ export class QddtPaginationComponent implements OnChanges {
    *  An event fired when the page is changed.
    *  Event's payload equals the current page.
    */
-  @Output() pageChange = new EventEmitter();
+  @Output() pageChange = new EventEmitter<number>();
 
   private _boundaryLinks = false;
   private _collectionSize: any;

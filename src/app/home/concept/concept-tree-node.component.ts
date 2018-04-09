@@ -3,6 +3,7 @@ import { MaterializeAction } from 'angular2-materialize';
 import { QuestionItem } from '../../question/question.service';
 import { ElementKind } from '../../shared/elementinterfaces/elements';
 import { HomeService, Concept } from '../home.service';
+import { QddtMessageService } from '../../core/global/message.service';
 const filesaver = require('file-saver');
 
 @Component({
@@ -14,20 +15,20 @@ const filesaver = require('file-saver');
 })
 
 export class TreeNodeComponent  {
-  @Output() deleteConceptEvent: EventEmitter<any> = new EventEmitter();
-  @Output() conceptUpdatedAction: EventEmitter<any> = new EventEmitter();
+  @Output() deleteEvent: EventEmitter<any> = new EventEmitter();
+  @Output() updatedEvent: EventEmitter<any> = new EventEmitter();
   @Input() concept: any;
   @Input() readonly = false;
+
   showConceptChildForm = false;
-  showQuestionForm = false;
-  questionItemActions = new EventEmitter<string|MaterializeAction>();
+  //showQuestionForm = false;
   private showbutton = false;
   private newchild: any;
   private questionItem: any;
-  private revision: any;
+  //private revision: any;
   private revisionKind = ElementKind.CONCEPT;
 
-  constructor(private conceptService: HomeService) {
+  constructor(private conceptService: HomeService, private message: QddtMessageService) {
     this.newchild = new Concept();
   }
 
@@ -40,20 +41,19 @@ export class TreeNodeComponent  {
 
   onConceptSavedEvent(concept: any) {
     this.concept.version = concept.version;
-    this.conceptUpdatedAction.emit(concept);
+    this.updatedEvent.emit(concept);
   }
 
   onConceptUpdated(concept: any) {
-    this.conceptUpdatedAction.emit(concept);
+    this.updatedEvent.emit(concept);
   }
 
   onDeleteConcept(concept: any) {
-    this.deleteConceptEvent.emit(concept);
+    this.deleteEvent.emit(concept);
   }
 
   onClickQuestionItem(questionItem: QuestionItem) {
-    this.questionItem = questionItem;
-    this.questionItemActions.emit({action: 'modal', params: ['open']});
+    this.message.sendMessage( { element: questionItem, elementKind: ElementKind.QUESTION_ITEM } );
   }
 
   onChildSave() {
@@ -63,10 +63,6 @@ export class TreeNodeComponent  {
         this.concept.children.push(result);
       });
     this.newchild = new Concept();
-  }
-
-  onShowRevision(element: any) {
-    this.revision = element;
   }
 
   removeQuestionItem(entityRef: any) {

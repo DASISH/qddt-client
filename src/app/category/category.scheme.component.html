@@ -28,10 +28,10 @@
               <label for="description" class="white-text">Description</label>
             </div>
             <div class="row">
-              <div class="col s2 input-field">
+              <div class="col s4 input-field">
                 <input name="category_number" id="category_number"
                        type="number" class="validate" required min="1"
-                       (input)="setCategoryNumber($event)" >
+                       (input)="onSetCategoryNumber($event)" >
                 <label class="white-text" for="category_number">Number of categories</label>
               </div>
             </div>
@@ -40,16 +40,14 @@
                 <thead><tr><td>Selected Responses</td></tr></thead>
                 <tbody>
                   <tr *ngFor="let cat of category.children; let idx=index">
-                  <td>
-                    <qddt-auto-complete
-                      [items]="categories" class="black-text"
-                      [elementtype]="CATEGORY_KIND"
-                      [initialValue]="cat?.label"
-                      (focusEvent)="selectedCategoryIndex=idx;"
-                      (enterEvent)="searchCategories($event)"
-                      (selectEvent)="select($event)">
-                    </qddt-auto-complete>
-                  </td>
+                    <td><qddt-auto-complete
+                        [items]="categories" class="black-text"
+                        [elementtype]="CATEGORY_KIND"
+                        [initialValue]="cat?.label"
+                        (focusEvent)="selectedCategoryIndex=idx;"
+                        (enterEvent)="onSearchCategories($event)"
+                        (selectEvent)="onSelect($event)">
+                    </qddt-auto-complete></td>
                   </tr>
                 </tbody>
               </table>
@@ -61,11 +59,15 @@
         </div>
       </div>
     </div>
+
     <qddt-table *ngIf="!isDetail" [items]="missingCategories" [page]="page" [elementKind]="CATEGORY"
-      (enterEvent)="searchMissingCategories($event)"
-      (detailEvent)="onDetail($event)" (pageChangeEvent)="onPage($event)">
+      (enterEvent)="onSearchKey($event)"
+      (detailEvent)="onDetail($event)"
+      (pageChangeEvent)="onPage($event)">
     </qddt-table>
+
   </div>
+
   <div class="row" *ngIf="isDetail">
     <div class="fixed-action-btn vertical click-to-toggle">
       <a class="btn-floating btn-large cyan"><i class="large material-icons">menu</i></a>
@@ -77,15 +79,16 @@
           <i class="material-icons" (click)="onDeleteMissingModal()" title="Delete" >delete_forever</i>
         </a></li>
         <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light green darken-1">
-          <i class="material-icons" (click)="hideDetail()" title="Return to list view">replay</i>
+          <i class="material-icons" (click)="onHideDetail()" title="Return to list view">replay</i>
         </a></li>
       </ul>
     </div>
     <div class="col s1">
       <a class="btn-flat btn-floating btn-medium waves-effect waves-light  green darken-1">
-        <i class="material-icons" (click)="hideDetail()" title="Return to list view">replay</i>
+        <i class="material-icons" (click)="onHideDetail()" title="Return to list view">replay</i>
       </a>
     </div>
+
     <div class="col s10  white grey-text text-darken-1">
       <form (ngSubmit)="onSave()" #editSchemeForm="ngForm">
         <div class="row">
@@ -124,10 +127,7 @@
               Number of categories
             </label>
           </div>
-          <!--<div class="col s2">-->
-            <!--<p>form.valid -> {{editSchemeForm.form.valid}}</p>-->
-            <!--<p>valid -> {{editSchemeForm.valid}}</p>-->
-          <!--</div>-->
+
           <div class="row" *ngIf="selectedCategory.children">
             <div class="col s12">
               <table >
@@ -139,8 +139,8 @@
                     [elementtype]="CATEGORY_KIND"
                     [initialValue]="cat?.label"
                     (focusEvent)="selectedCategoryIndex=idx;"
-                    (enterEvent)="searchCategories($event)"
-                    (selectEvent)="select($event)">
+                    (enterEvent)="onSearchCategories($event)"
+                    (selectEvent)="onSelect($event)">
                   </qddt-auto-complete></td>
                 </tr>
               </tbody>

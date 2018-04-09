@@ -160,7 +160,7 @@ class QuestionitemUsedbyComponent {
 })
 
 class TreeNodeComponent {
-  @Output() deleteConceptEvent: EventEmitter<any> = new EventEmitter();
+  @Output() deleteEvent: EventEmitter<any> = new EventEmitter();
   @Input() concept: any;
 }
 

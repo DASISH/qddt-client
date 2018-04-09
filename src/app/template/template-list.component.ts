@@ -24,7 +24,7 @@ export class TemplateListComponent implements OnInit {
   public page = new Page;
 
   private searchKeys: string;
-  private searchKeysSubject = new Subject<string>();
+  private searchKeysListener = new Subject<string>();
   private kind: ElementKind;
 
   constructor(private service: TemplateService, private router: Router, private route: ActivatedRoute ) {
@@ -34,20 +34,10 @@ export class TemplateListComponent implements OnInit {
       this.kind = HEADER_DETAILS.get(path).kind;
     });
 
-    this.searchKeysSubject
+    this.searchKeysListener
       .debounceTime(300)
       .distinctUntilChanged()
-      .subscribe((searchString: string) => {
-        this.showProgressBar = true;
-        service.searchItems(this.kind, searchString, this.page).then(
-          (result) => {
-            this.page = result.page;
-            this.items = result.content;
-            this.showProgressBar = false; },
-          (error) => {
-            this.showProgressBar = false;
-            throw error; });
-      });
+      .subscribe((searchString: string) => this.loadPage(searchString));
   }
 
 
@@ -59,18 +49,29 @@ export class TemplateListComponent implements OnInit {
 
   public onPage(page: Page) {
     this.page = page;
-    this.searchKeysSubject.next(this.searchKeys);
+    this.loadPage(this.searchKeys);
   }
 
   public onSearchKey(search: string ) {
     this.searchKeys = search;
-    this.searchKeysSubject.next(search);
+    this.searchKeysListener.next(search);
   }
 
   public onDetail(item: IEntityAudit ) {
     this.router.navigate(['./', item.id ], { relativeTo: this.route });
   }
 
+  private loadPage(search: string ) {
+    this.showProgressBar = true;
+    this.service.searchItems(this.kind, search, this.page).then(
+      (result) => {
+        this.page = new Page(result.page);
+        this.items = result.content;
+        this.showProgressBar = false; },
+      (error) => {
+        this.showProgressBar = false;
+        throw error; });
+  }
 }
 
 

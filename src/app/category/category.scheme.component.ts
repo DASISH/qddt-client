@@ -14,114 +14,71 @@ declare let Materialize: any;
   templateUrl: './category.scheme.component.html',
 })
 
-export class CategorySchemeComponent implements OnInit, AfterContentChecked {
-  @Output() categorySelectedEvent: EventEmitter<any> = new EventEmitter<any>();
+export class CategorySchemeComponent implements OnInit {
+  @Output() selectedEvent: EventEmitter<any> = new EventEmitter<any>();
+
   public readonly CATEGORY_KIND = QDDT_ELEMENTS[ElementKind.CATEGORY];
+  public readonly CATEGORY = ElementKind.CATEGORY;
 
   public deleteAction = new EventEmitter<any>();
   public showCategoryForm = false;
-  public selectedCategoryIndex: number;
-  public categories: any[];
-  public isDetail: boolean;
-  public selectedCategory: Category;
-  public category: Category;
-  public page = new Page();
-  public missingCategories: any[];
+  public isDetail = false;
   public revisionIsVisible = false;
 
-  private categoryEnums: any;
-  private searchKeys: string;
-  private savedObject: string;
-  private savedCategoriesIndex: number;
-  private searchKeysSubject: Subject<string> = new Subject<string>();
+  public selectedCategoryIndex: number;
+  public selectedCategory: Category;
+  public category: Category;
 
-  constructor(private categoryService: CategoryService, private userService: PropertyStoreService) {
-    this.category = new Category();
-    this.isDetail = false;
-    this.category.categoryType = 'MISSING_GROUP';
-    this.categoryEnums =  CategoryType.group;
-    this.selectedCategoryIndex = 0;
+  public page = new Page();
+  public missingCategories: any[];
+  public categories: any[];
+
+  private searchKeys: string;
+  private searchKeysListener: Subject<string> = new Subject<string>();
+
+  constructor(private categoryService: CategoryService, private property: PropertyStoreService) {
     this.categories = [];
     this.missingCategories = [];
-    this.searchKeysSubject
+    this.searchKeysListener
       .debounceTime(300)
       .distinctUntilChanged()
-      .subscribe((name: string) => {
-        this.categoryService.getAllTemplatesByCategoryKind('MISSING_GROUP', name, this.page)
-        .then((result: any) => {
-          this.page = result.page;
-          this.missingCategories = result.content;
-        });
-      });
-
+      .subscribe((name: string) => this.loadPage(name));
   }
 
-  ngOnInit() {
-    const config = this.userService.get('schemes');
-    if (config.current === 'detail' ) {
-      this.page = config.page;
-      this.missingCategories = config.collection;
-      this.selectedCategory = config.item;
-      this.searchKeys = config.key;
-      this.isDetail = true;
-    } else {
-      this.categoryService.getAllTemplatesByCategoryKind('MISSING_GROUP', '',  this.page)
-      .then((result: any) => {
-        this.page = result.page;
-        this.missingCategories = result.content;
-      });
-    }
-    this.categoryService.getAllByLevel('ENTITY', '', this.page)
-    .then((result: any) => {
-      this.categories = result.content;
-    });
-  }
-
-  ngAfterContentChecked() {
-    const config = this.userService.get('schemes');
-    if (config.current === 'detail' ) {
-      this.page = config.page;
-      this.missingCategories = config.collection;
-      this.selectedCategory = config.item;
-      this.searchKeys = config.key;
-      this.isDetail = true;
-    } else {
-      this.isDetail = false;
-      if (config.key === null || config.key === undefined) {
-        this.userService.set('schemes', {'current': 'list', 'key': ''});
-        this.searchKeys = '';
-        this.searchKeysSubject.next('');
-      }
-    }
-    Materialize.updateTextFields();
-  }
-
-  onToggleCategoryForm() {
+  public onToggleCategoryForm() {
     this.showCategoryForm = !this.showCategoryForm;
+    if (this.showCategoryForm) {
+      this.category = new Category();
+      this.category.categoryType = 'MISSING_GROUP';
+      Materialize.updateTextFields();
+    }
   }
 
-  onSelectCategory(category: any) {
-    this.categorySelectedEvent.emit(category);
+  public onHideDetail() {
+    const config = this.property.get('schemes');
+    this.property.set('schemes', {'current': 'list'});
+    this.searchKeys = config.key;
+    this.isDetail = false;
+    this.onPage(config.page);
   }
 
-  onDeleteMissingModal() {
+  public onDeleteMissingModal() {
     this.deleteAction.emit({action: 'modal', params: ['open']});
   }
 
-  onConfirmDeleting() {
-    this.categoryService.deleteCategory(this.selectedCategory.id)
-      .subscribe((result: Response) => {
-        if (result.status === 200) {
-          const i = this.missingCategories.findIndex(q => q['id'] === this.selectedCategory.id);
-          if (i >= 0) {
-            this.missingCategories.splice(i, 1);
-            this.hideDetail();
-          }
-        }
-      });
+  public onConfirmDeleting() {
+    this.categoryService.deleteCategory(this.selectedCategory.id).subscribe(
+      (result) => {
+        const i = this.missingCategories.findIndex(q => q['id'] === this.selectedCategory.id);
+        if (i >= 0) { this.missingCategories.splice(i, 1); } },
+
+      (error) => { throw error; },
+
+      () => { this.onHideDetail(); }
+    );
   }
 
-  setCategoryNumber(event: any) {
+  public onSetCategoryNumber(event: any) {
     let c: any = this.category;
     if (this.isDetail) {
       c = this.selectedCategory;
@@ -139,7 +96,7 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
     }
   }
 
-  select(candidate: any) {
+  public onSelect(candidate: any) {
     if (this.isDetail) {
       this.selectedCategory.children[this.selectedCategoryIndex] = candidate;
     } else {
@@ -147,26 +104,22 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
     }
   }
 
-  onSave() {
+  public onSave() {
     this.showCategoryForm = false;
     if (this.isDetail) {
       this.categoryService.edit(this.selectedCategory)
-        .subscribe((result: any) => {
+        .subscribe((result) => {
           const id = this.missingCategories.findIndex((e: any) => e.id === result.id);
           if (id >= 0) {
             this.missingCategories[id] = result;
           } else {
-            if (this.savedCategoriesIndex >= 0) {
-              this.missingCategories[this.savedCategoriesIndex] = JSON.parse(this.savedObject);
-            }
             this.missingCategories.push(result);
           }
-          this.hideDetail();
-          this.selectedCategory = null;
+          this.onHideDetail();
         });
     } else {
       this.categoryService.save(this.category)
-        .subscribe((result: any) => {
+        .subscribe((result) => {
           this.missingCategories = [result].concat(this.missingCategories);
           this.category = new Category();
           this.category.categoryType = 'MISSING_GROUP';
@@ -174,44 +127,53 @@ export class CategorySchemeComponent implements OnInit, AfterContentChecked {
     }
   }
 
-  onDetail(category: any) {
-    this.selectedCategory = category;
-    // this.selectedCategory['workinprogress'] = this.selectedCategory['changeKind'] === 'IN_DEVELOPMENT';
-    this.savedObject = JSON.stringify(category);
-    this.savedCategoriesIndex = this.missingCategories
-      .findIndex(q => q['id'] === category['id']);
-    this.isDetail = true;
-    this.userService.set('schemes',
-      {'current': 'detail',
-        'page': this.page,
-        'key': this.searchKeys,
-        'item': this.selectedCategory,
-        'collection': this.missingCategories});
-  }
-
-  hideDetail() {
-    this.isDetail = false;
-    this.userService.set('schemes', {'current': 'list', 'key': this.searchKeys});
-  }
-
-  onPage(page: Page) {
-    this.page = page;
-    this.categoryService.getAllTemplatesByCategoryKind('MISSING_GROUP', this.searchKeys, page, )
-      .then(
-        (result: any) => { this.page = result.page; this.missingCategories = result.content; }
-      );
-  }
-
-  searchCategories(name: string) {
-    this.categoryService.getAllByLevel('ENTITY', name, this.page)
+  public onSearchCategories(name: string) {
+    this.categoryService.getAllByLevelAndPage('ENTITY', name, this.page)
     .then((result: any) => {
       this.categories = result.content;
     });
   }
 
-  searchMissingCategories(name: string) {
-    this.searchKeys = name;
-    this.searchKeysSubject.next(name);
+  public ngOnInit(): void {
+    const config = this.property.get('schemes');
+    if (config.current === 'detail' ) {
+      this.selectedCategory = config.item;
+      this.isDetail = true;
+    } else {
+      this.page = (config.page) ? config.page : new Page();
+      this.onSearchKey(config.key);
+    }
+    this.onSearchCategories('');
   }
 
+  public onPage(page: Page) {
+    this.page = page;
+    this.loadPage(this.searchKeys);
+  }
+
+  public onSearchKey(search: string ) {
+    this.searchKeys = (search) ? search : '*';
+    this.searchKeysListener.next(search);
+  }
+
+  public onDetail(item: Category ) {
+    // this.router.navigate(['./', item.id ], { relativeTo: this.route });
+    this.selectedCategory = item;
+    this.isDetail = true;
+    this.property.set('schemes',
+      {'current': 'detail',
+        'page': this.page,
+        'key': this.searchKeys,
+        'item': item});
+
+    Materialize.updateTextFields();
+  }
+
+  private loadPage(name: string) {
+    this.categoryService.getAllTemplatesByCategoryKind('MISSING_GROUP', name, this.page)
+    .then((result: any) => {
+      this.page = new Page(result.page);
+      this.missingCategories = result.content;
+    });
+  }
 }

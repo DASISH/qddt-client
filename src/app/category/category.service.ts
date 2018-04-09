@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { API_BASE_HREF } from '../api';
-import {IEntityAudit, IEntityEditAudit} from '../shared/elementinterfaces/entityaudit';
-import {ElementKind} from '../shared/elementinterfaces/elements';
+import { IEntityAudit, IEntityEditAudit} from '../shared/elementinterfaces/entityaudit';
+import { ElementKind } from '../shared/elementinterfaces/elements';
 import { Page } from '../shared/table/table.page';
 
 export class ResponseCardinality {
@@ -77,12 +77,6 @@ export class CategoryService  {
   getByCategoryKind(categoryKind: String, name: String = '*',  page: Page): Promise<any>  {
     const query = 'level=ENTITY&category=' + categoryKind + '&name=' + name +  page.queryPage();
     return this.http.get(this.api + 'category/page/search/?' + query).toPromise();
-  }
-
-  getAllByLevel(level: String, name: String = '', page: Page):  Promise<any> {
-    let query = name.length > 0 ? '&name=' + '*' + name + '*' : name;
-    query += page.queryPage();
-    return this.http.get(this.api + 'category/page/search/?level=' + level + query).toPromise();
   }
 
   getAllByLevelAndPage(level: String, name: String = '', page: Page):  Promise<any> {

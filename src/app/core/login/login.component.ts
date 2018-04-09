@@ -57,11 +57,8 @@ export class LoginComponent implements OnInit, AfterContentChecked {
     this.loading = true;
     this.authenticationService.signIn(this.model.email, this.model.password)
       .subscribe(
-        (value) => {
-          console.log(value);
-          this.router.navigate(['/home']);
-        },
-        error => { throw error; },
+        (value) => { this.router.navigate(['/home']); },
+        (error) => { throw error; },
         () => { this.loading = false; }
       );
   }

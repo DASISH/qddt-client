@@ -6,11 +6,10 @@ import { QuestionReuseComponent } from './question.reuse.component';
 import { ResponsedomainModule } from '../responsedomain/responsedomain.module';
 import { SharedModule } from '../shared/shared.module';
 import { PreviewModule } from '../preview/preview.module';
-import { ConceptrefModule } from '../shared/conceptref/conceptref.module';
 import { QuestionService } from './question.service';
 
 @NgModule({
-  imports: [ SharedModule, ResponsedomainModule, PreviewModule, ConceptrefModule],
+  imports: [ SharedModule, ResponsedomainModule, PreviewModule ],
   declarations: [QuestionComponent, QuestionDetailComponent, QuestionReuseComponent, QuestionItemEditComponent],
   exports: [QuestionComponent, QuestionReuseComponent, QuestionItemEditComponent, QuestionDetailComponent ],
   providers: [QuestionService]

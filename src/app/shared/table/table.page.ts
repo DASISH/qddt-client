@@ -16,7 +16,15 @@ export class Page {
     Object.assign(this, init);
   }
 
+
   public queryPage(): string {
-    return '&page=' + this.number + '&size=' + this.size + (this.sort) ? '&sort=' + this.sort : '';
+    let query = '&page=' + this.number.toString();
+    query += '&size=' + this.getSize();
+    query += (this.sort) ? '&sort=' + this.sort : '';
+    return query;
+  }
+
+  private getSize(): string {
+    return (this.size) ? this.size.toString() : '10';
   }
 }

@@ -28,16 +28,16 @@ export class TemplateDetailComponent implements OnInit {
   private kind: ElementKind;
 
   constructor(private service: TemplateService, private router: Router, private route: ActivatedRoute ) {
+    console.log('TemplateDetailComponent::CTR');
     this.route.url.subscribe((event) => {
       const path = event[0].path;
       this.kind = HEADER_DETAILS.get(path).kind;
       this.canDelete = service.can(Action.Delete, this.kind );
     });
-
-    // this.config = this.buildRevisionConfig();
   }
 
   ngOnInit() {
+    console.log('TemplateDetailComponent::init');
     if (this.kind) {
       this.service.getItem(this.kind, this.route.snapshot.paramMap.get('id')).then(
         (item) => {

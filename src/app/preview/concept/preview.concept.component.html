@@ -1,3 +1,11 @@
+<div class="row" *ngIf="concept.topicRef">
+    <div class="input-field col s11">
+        <label class="active teal-text">Path</label>
+          <a  style="cursor: pointer;" (click)="onClickStudy(concept.topicRef.studyRef.id)">{{ concept?.topicRef?.studyRef?.name }}</a>\
+          <a  style="cursor: pointer;" (click)="onClickTopic(concept.topicRef.id)">{{ concept?.topicRef?.name }}</a>\
+          <a> {{ concept.name }} </a>
+    </div>
+</div>
 <div class="row" *ngIf="concept?.description">
     <div class="input-field col s11">
         <label class="active teal-text">Description</label>
@@ -27,7 +35,8 @@
 <div class="row">
     <qddt-comment-list [ownerId]="concept.id" [comments]="concept.comments"></qddt-comment-list>
 </div>
-<div class="row" *ngIf="concept.children && concept.children.length > 0">
+
+  <div class="row" *ngIf="concept.children && concept.children.length > 0">
     <ul  materialize="collapsible" class="collapsible" data-collapsible="accordion" style="margin:25px; padding:10px;">
         <li *ngFor="let concept of concept.children">
             <div class="collapsible-header yellow lighten-5">

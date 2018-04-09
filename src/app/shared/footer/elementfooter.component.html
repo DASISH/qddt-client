@@ -4,11 +4,11 @@
     <div class="chip" title={{getVersion()}}>
       {{element?.version?.major}}.{{element?.version?.minor}}</div>
   </div>
-  <div class="input-field col s5 l3">
+  <div class="input-field col s5 l4">
     <p><label class="active teal-text">Last Saved</label></p>
-    <div class="chip" title={{getTime()}}>{{element?.modified | date:'fullDate' }}</div>
+    <div class="chip" title={{getTime()}}>{{element?.modified | date:'E, MMMM d, y' }}</div>
   </div>
-  <div class="input-field col s4 l3">
+  <div class="input-field col s5 l2">
     <p><label class="active teal-text">Last Saved By</label></p>
     <div class="chip">{{element?.modifiedBy?.username}}</div>
   </div>

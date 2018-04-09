@@ -95,31 +95,12 @@
         <qddt-concept-treenode *ngFor="let child of concept.children"
            [concept]="child"
            [readonly]="child.archived"
-           (deleteConceptEvent)="onDeleteConcept($event)"
-           (conceptUpdatedAction)="onConceptUpdated($event)">
+           (deleteEvent)="onDeleteConcept($event)"
+           (updatedEvent)="onConceptUpdated($event)">
         </qddt-concept-treenode>
       </div>
 
     </div>
   </div>
 
-  <div>
-    <div [attr.id]="concept.id + '-concept-questionitem-modal'"
-         class="modal modal-fixed-footer"
-         materialize="modal" [materializeActions]="questionItemActions">
-      <div class="modal-footer">
-        <button
-          class="btn btn-default red modal-action modal-close waves-effect waves-red">
-          <i class="close material-icons">close</i>
-        </button>
-      </div>
-      <div class="modal-content">
-        <div class="row" *ngIf="questionItem">
-            <label class="teal-text ">Name</label>
-            <H5 class="grey-text">{{ questionItem.name }}</H5>
-        </div>
-        <qddt-preview-questionitem class="grey-text darken-5" [questionItem]="questionItem"></qddt-preview-questionitem>
-      </div>
-    </div>
-  </div>
 </div>

@@ -1,52 +1,35 @@
 import { Component, Input,  EventEmitter } from '@angular/core';
-import { ConceptrefService } from './conceptref.service';
 import { MaterializeAction } from 'angular2-materialize';
+import { QddtMessageService } from '../../core/global/message.service';
+import { IRevisionRef, IElementRef, ElementKind } from '../../shared/elementinterfaces/elements';
 
 @Component({
   selector: 'qddt-conceptref',
   moduleId: module.id,
   templateUrl: 'conceptref.component.html',
-  providers: [ConceptrefService]
 })
 export class ConceptrefComponent  {
-  // @ViewChild('closeBtn') closeBtn: ElementRef;
   @Input() element: any;
 
-  public usedbyModalAction = new EventEmitter<string|MaterializeAction>();
-  public selectedElement: any;
+  private showRefs = false;
 
-  private selectedType: string;
-  private showRefs: any;
-
-  constructor(private service: ConceptrefService) {
+  constructor(private  message: QddtMessageService) {
   }
 
   onClickStudy(id: string) {
-    this.selectedType = 'study';
-    this.service.getStudyById(id)
-      .then((result: any) => {
-        this.selectedElement = result;
-        this.usedbyModalAction.emit({action: 'modal', params: ['open']});
-      });
+    this.message.sendMessage( { elementId: id, elementKind: ElementKind[ElementKind.STUDY]} );
   }
 
   onClickTopic(id: string) {
-    this.selectedType = 'topic';
-    this.service.getTopicById(id)
-      .then((result: any) => {
-        this.selectedElement = result;
-        this.usedbyModalAction.emit({action: 'modal', params: ['open']});
-      });
+    this.message.sendMessage( { elementId: id, elementKind: ElementKind[ElementKind.TOPIC_GROUP]} );
   }
 
   onClickConcept(id: string) {
-    this.selectedType = 'concept';
-    this.service.getConceptsById(id)
-      .then((result: any) => {
-        this.selectedElement = result;
-        this.usedbyModalAction.emit({action: 'modal', params: ['open']});
-      });
+    this.message.sendMessage( { elementId: id, elementKind: ElementKind[ElementKind.CONCEPT]} );
   }
 
+  getRefRoot(): any {
+    return this.element.conceptRefs;
+  }
 
 }

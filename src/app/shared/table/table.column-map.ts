@@ -26,7 +26,7 @@ const  PUBLICATION_COLUMNS =  [
   new Column({ name: ['status', 'label'], label: 'Publication Status', sortable: true }),
 ];
 
-const  CATEGORY_COLUMNS =  [
+const CATEGORY_COLUMNS =  [
   new Column( { label: 'Label', name: 'label', sortable: true }),
   new Column( { label: 'Description', name: 'description', sortable: true }),
   new Column( { label: 'Type', name: 'categoryType', sortable: true } ),
@@ -79,13 +79,13 @@ const DATETIME = [
   ];
 
 
-export const RESPONSEDOMAIN_COLUMNS: any = {
-  'SCALE': SCALE.concat(DEFAULT_COLUMNS),
-  'LIST': LIST.concat(DEFAULT_COLUMNS),
-  'NUMERIC': NUMERIC.concat(DEFAULT_COLUMNS),
-  'TEXT': TEXT.concat(DEFAULT_COLUMNS),
-  'DATETIME': DATETIME.concat(DEFAULT_COLUMNS),
-};
+export const RESPONSEDOMAIN_COLUMNS:  Map<DomainKind, Column[]>  = new Map([
+  [DomainKind.SCALE, SCALE.concat(DEFAULT_COLUMNS) ],
+  [DomainKind.LIST, LIST.concat(DEFAULT_COLUMNS) ],
+  [DomainKind.NUMERIC, NUMERIC.concat(DEFAULT_COLUMNS) ],
+  [DomainKind.TEXT, TEXT.concat(DEFAULT_COLUMNS) ],
+  [DomainKind.DATETIME, DATETIME.concat(DEFAULT_COLUMNS) ],
+]);
 
 
 export const LIST_COLUMNS: Map<ElementKind, Column[]>  = new Map([

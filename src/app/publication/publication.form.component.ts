@@ -23,14 +23,14 @@ export class PublicationFormComponent implements OnInit , AfterContentChecked {
   selectOptions: PublicationStatus[];
 
   constructor(private service: PublicationService) {
-    this.selectOptions = service.PUBLICATION_STATUSES;
-    this.selectedOptionValue = 15;
-    this.selectedPublicationStatusOption =  this.service.getStatusById(this.selectedOptionValue).description;
-  }
+    this.service.PUBLICATION_STATUSES.then( (result) => {
+      this.selectOptions = result;
+      });
+}
 
   public ngOnInit() {
-    if (this.publication) {
-      this.onSelectChange(this.publication.status.id);
+    if (this.selectOptions) {
+      this.onSelectChange();
     }
   }
 
@@ -41,13 +41,11 @@ export class PublicationFormComponent implements OnInit , AfterContentChecked {
   public onSavePublication() {
     if (this.publication.id) {
       this.service.create(this.publication).subscribe(
-        (result) => { this.publication = result;
-          this.saveEvent.emit(this.publication); },
+        (result) => { this.publication = result; this.saveEvent.emit(this.publication); },
         (error) => { throw error; });
     } else {
       this.service.update(this.publication).subscribe(
-        (result) => { this.publication = result;
-              this.saveEvent.emit(this.publication); },
+        (result) => { this.publication = result; this.saveEvent.emit(this.publication); },
         (error) => { throw error; });
 
     }
@@ -75,12 +73,26 @@ export class PublicationFormComponent implements OnInit , AfterContentChecked {
     this.publication.publicationElements.push(pe);
   }
 
-  public onSelectChange(id: any) {
-    const status = this.service.getStatusById(+id);
-    if (status) {
-      this.publication.status = status;
-      this.selectedPublicationStatusOption = status.description;
-      this.selectedOptionValue = status.id;
+  public onSelectChange(id?: number) {
+    const statusList: PublicationStatus[] = [];
+    this.selectOptions.forEach( s => {
+      if (s.children) {
+        s.children.forEach(s1 =>
+          statusList.push(
+            new PublicationStatus({id: s1.id, label: s1.label, published: s.published, description: s1.description }) ));
+    } } );
+
+    if (id) {
+      this.selectedOptionValue = id;
+      this.publication.status = statusList.find(e => e.id === id );
+      this.selectedPublicationStatusOption = this.publication.status.description;
+    } else if (this.publication.status) {
+      this.selectedOptionValue = this.publication.status.id;
+      this.selectedPublicationStatusOption = this.publication.status.description;
+    } else {
+      this.publication.status = statusList.find(e => e.published === 'NOT_PUBLISHED');
+      this.selectedOptionValue = this.publication.status.id;
+      this.selectedPublicationStatusOption = this.publication.status.description;
     }
   }
 

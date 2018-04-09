@@ -36,10 +36,11 @@ export class TemplateService {
       }
     }
 
-    queries.push(page.queryPage());
-
     let query = '';
+
     if (queries.length > 0) { query = '?' + queries.join('&'); }
+
+    query += page.queryPage();
 
     if (qe.parameter) {
       query += qe.parameter;

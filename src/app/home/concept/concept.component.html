@@ -49,8 +49,8 @@
          <qddt-concept-treenode *ngFor="let child of concepts"
             [concept]="child"
             [readonly]="child.archived"
-            (deleteConceptEvent)="onDeleteConcept($event)"
-            (conceptUpdatedAction)="onConceptUpdated($event)">
+            (deleteEvent)="onDeleteConcept($event)"
+            (updatedEvent)="onConceptUpdated($event)">
          </qddt-concept-treenode>
       </div>
     </div>

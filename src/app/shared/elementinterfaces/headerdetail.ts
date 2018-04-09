@@ -14,5 +14,6 @@ export  const HEADER_DETAILS: Map<string, IHeaderDetail>  = new Map([
   ['sequences', { icon: 'format_line_spacing', headerName: 'Sequence construct', kind: ElementKind.SEQUENCE_CONSTRUCT }],
   ['schemes', { icon: 'view_module', headerName: 'Missing values', kind: ElementKind.CATEGORY }],
   ['responsedomains', { icon: 'blur_linear', headerName: 'Response domains', kind: ElementKind.RESPONSEDOMAIN }],
+  ['instruments', { icon: 'tablet_mac', headerName: 'Instruments', kind: ElementKind.INSTRUMENT }],
   ['publications', { icon: 'folder_special', headerName: 'Publication packages', kind: ElementKind.PUBLICATION }],
 ]);

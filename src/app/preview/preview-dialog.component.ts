@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges } from '@angular/core';
 import {  PreviewService } from './preview.service';
 import { MaterializeAction } from 'angular2-materialize';
-import { IRevisionRef, IElementRef, ElementKind } from '../shared/elementinterfaces/elements';
+import { IRevisionRef, IElementRef, ElementKind, IIdRef, QDDT_ELEMENTS } from '../shared/elementinterfaces/elements';
 
 @Component({
   selector: 'qddt-preview-dialog',
@@ -10,9 +10,9 @@ import { IRevisionRef, IElementRef, ElementKind } from '../shared/elementinterfa
     <div class="modal modal-fixed-footer" id="preview-{{element?.id}}"
          materialize="modal" [materializeActions]="basedonActions">
       <div class="modal-content teal-text">
-        <h4>Object details</h4>
+        <h4>Preview {{getClassName()}}</h4>
         <div class="row" *ngIf="element">
-          <h5 class="row grey-text">{{element?.name}}</h5>
+          <h5 class="grey-text">{{element?.name}}</h5>
           <qddt-preview-element class="grey-text" [element]="element"> </qddt-preview-element>
         </div>
       </div>
@@ -26,37 +26,57 @@ import { IRevisionRef, IElementRef, ElementKind } from '../shared/elementinterfa
 })
 
 export class PreviewDialogComponent implements  OnChanges {
-  @Input() reference: IRevisionRef|IElementRef;
+  @Input() reference: IIdRef|IRevisionRef|IElementRef;
 
   basedonActions = new EventEmitter<string|MaterializeAction>();
   element: any;
-  elementKind: ElementKind;
 
   constructor(private service: PreviewService) { }
 
   ngOnChanges(): void {
     if (!this.reference) { return; }
 
-    this.elementKind = this.getElementKind(this.reference.elementKind);
     if (this.isRevisionRef(this.reference)) {
-      this.service.getRevisionByKind(this.elementKind, this.reference.elementId, this.reference.elementRevision)
+      this.service.getRevisionByKind(this.getElementKind(), this.reference.elementId, this.reference.elementRevision)
         .then(result => {
           this.element = result.entity;
           this.basedonActions.emit({action: 'modal', params: ['open']});
         });
 
+    } else if (this.isIdRef(this.reference)) {
+      this.service.getElementByKind(this.getElementKind(), this.reference.elementId)
+        .then(result => {
+          this.element = result;
+          this.basedonActions.emit({action: 'modal', params: ['open']});
+        });
     } else {
       this.element = this.reference.element;
       this.basedonActions.emit({action: 'modal', params: ['open']});
     }
   }
 
-  private getElementKind(kind: ElementKind|String): any {
+  getClassName(): string {
+    const kind = this.getElementKind();
+    if (kind) {
+      return QDDT_ELEMENTS[this.getElementKind()].label;
+    }
+    return '?';
+  }
+
+  private getElementKind(): any {
+    if (!this.reference) { return null; }
+
+    const kind = this.reference.elementKind;
     return typeof kind === 'string' ? ElementKind[kind] : kind;
   }
 
-  private isRevisionRef(element: IRevisionRef|IElementRef): element is IRevisionRef { // magic happens here
-    return (<IRevisionRef>element).elementId !== undefined;
+  private isRevisionRef(element: IIdRef|IRevisionRef|IElementRef): element is IRevisionRef { // magic happens here
+    return (<IRevisionRef>element).elementRevision !== undefined;
   }
+
+  private isIdRef(element: IIdRef|IRevisionRef|IElementRef): element is IIdRef { // magic happens here
+    return (<IIdRef>element).elementId !== undefined;
+  }
+
 
 }

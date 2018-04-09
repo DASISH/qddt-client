@@ -17,94 +17,62 @@ import { Page } from '../shared/table/table.page';
   templateUrl: './responsedomain.component.html',
 })
 
-export class ResponsedomainComponent implements OnInit, AfterContentChecked {
+export class ResponsedomainComponent implements OnInit {
+  public readonly  RESPONSEDOMAIN = ElementKind.RESPONSEDOMAIN;
   public domainType: DomainKind;
   public deleteAction = new EventEmitter<any>();
-  public responseDomains: ResponseDomain[] = [];
-  public isNewFormVisible: boolean;
-  public isProgressBarVisible: boolean;
-  public isEditFormVisible: boolean;
-  public isRevisionVisible: boolean;
-  public selectedResponseDomain: ResponseDomain;
-  public domainTypeDescription: any[];
+  public responseDomains: ResponseDomain[];
 
+  public isNewFormVisible = false;
+  public isProgressBarVisible = false;
+  public isEditFormVisible = false;
+  public isRevisionVisible = false;
+
+  public domainTypeDescription: any[];
+  public selectedResponseDomain: ResponseDomain;
   private responseDomain: ResponseDomain;
+
   private searchKeys: string;
   private page: Page;
-  private savedObject: string;
+
   private savedResponseDomainsIndex: number;
-  private searchKeysSubject: Subject<string> = new Subject<string>();
-  private previewObject: any;
-  private revisionKind = ElementKind.RESPONSEDOMAIN;
+  private searchKeysListener: Subject<string> = new Subject<string>();
 
   constructor(private responseDomainService: ResponseDomainService, private property: PropertyStoreService) {
-    this.responseDomain = new ResponseDomain();
-    this.isNewFormVisible = false;
-    this.isProgressBarVisible = false;
-    this.isEditFormVisible = false;
-    this.isRevisionVisible = false;
     this.searchKeys = '';
     this.domainType = DomainKind.SCALE;
     this.domainTypeDescription = DomainTypeDescription.filter((e: any) => e.id !== DomainKind.MIXED);
-    this.searchKeysSubject
+    this.searchKeysListener
       .debounceTime(300)
       .distinctUntilChanged()
-      .subscribe((name: string) => {
-        this.isProgressBarVisible = true;
-        const domainType = DomainTypeDescription.find((e: any) => e.id === this.domainType).name;
-        this.responseDomainService
-          .getAll(domainType, name, this.page).then((result: any) => {
-            this.page = result.page;
-            this.responseDomains = result.content;
-            this.buildAnchorLabel();
-            this.isProgressBarVisible = false;
-          });
-      });
+      .subscribe((name: string) => this.loadPage(name) );
   }
 
   ngOnInit() {
     const config = this.property.get('responsedomains');
+    this.page = (config.page) ? config.page : new Page();
     if (config.current === 'detail' ) {
-      this.page = config.page;
-      this.responseDomains = config.collection;
       this.selectedResponseDomain = config.item;
       this.isEditFormVisible = true;
     } else {
+      this.domainType = (config.domainType) ? config.domainType :  DomainKind.SCALE;
       this.searchKeys = config.key;
-      this.searchKeysSubject.next('');
+      this.searchKeysListener.next(this.searchKeys);
     }
   }
 
-  ngAfterContentChecked() {
-    const config = this.property.get('responsedomains');
-    if (config.current === 'detail' ) {
-      this.page = config.page;
-      this.responseDomains = config.collection;
-      this.selectedResponseDomain = config.item;
-      this.searchKeys = config.key;
-      this.isEditFormVisible = true;
-    } else {
-      this.isEditFormVisible = false;
-      if (config.key === null || config.key === undefined) {
-        this.property.set('responsedomains', {'current': 'list', 'key': ''});
-        this.searchKeys = '';
-        this.searchKeysSubject.next('');
-      }
-    }
-  }
-
-  selectDomainType(id: DomainKind) {
+  public onSelectDomainType(id: DomainKind) {
     this.isNewFormVisible = false;
     this.domainType = id;
     this.searchKeys = '';
-    this.searchKeysSubject.next(this.searchKeys);
+    this.loadPage(this.searchKeys);
   }
 
-  select(suggestion: any) {
+  public onSelect(suggestion: any) {
     this.responseDomain = suggestion;
   }
 
-  onToggleResponseDomainForm() {
+  public onToggleResponseDomainForm() {
     this.isNewFormVisible = !this.isNewFormVisible;
     if (this.isNewFormVisible) {
       this.responseDomain = new ResponseDomain();
@@ -113,7 +81,7 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
     }
   }
 
-  formCreate(managedRepresentation: Category ) {
+  public onFormCreate(managedRepresentation: Category ) {
     this.searchKeys = '';
     this.isNewFormVisible = false;
     this.responseDomain.managedRepresentation = managedRepresentation;
@@ -122,74 +90,66 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
       this.responseDomains = [result].concat(this.responseDomains); });
   }
 
-  formChange() {
+  public onFormChange() {
     this.searchKeys = '';
-    this.responseDomainService.update(this.selectedResponseDomain).subscribe((result: any) => {
-      const index = this.responseDomains.findIndex((e: any) => e.id === result.id);
-      if (index >= 0) {
-        this.responseDomains[index] = result;
-        this.buildAnchorLabel();
-      } else if (this.selectedResponseDomain.id === null && this.savedResponseDomainsIndex >= 0) {
-        this.responseDomains[this.savedResponseDomainsIndex] = JSON.parse(this.savedObject);
-        this.responseDomains.push(result);
-      }
-      this.hideDetail(); });
+    this.responseDomainService.update(this.selectedResponseDomain).subscribe(
+      (result: any) => {
+        const index = this.responseDomains.findIndex((e: any) => e.id === result.id);
+        if (index >= 0) {
+          this.responseDomains[index] = result;
+          this.buildAnchorLabel();
+        } else {
+          this.responseDomains.push(result);
+        }
+        this.onHideDetail(); });
   }
 
-  onSelectDetail(response: ResponseDomain) {
+  public onSelectDetail(response: ResponseDomain) {
     this.responseDomainService.getResponseDomain(response.id)
       .then((result: any) => {
         this.selectedResponseDomain = result;
-        this.savedObject = JSON.stringify(result);
-        this.savedResponseDomainsIndex = this.responseDomains
-          .findIndex(q => q['id'] === result['id']);
         this.isEditFormVisible = true;
         this.property.set('responsedomains',
           {
             'current': 'detail',
             'page': this.page,
             'key': this.searchKeys,
+            'domainType': this.domainType,
             'item': this.selectedResponseDomain,
-            'collection': this.responseDomains
           });
       });
   }
 
-  hideDetail() {
-    this.savedObject = null;
+  onHideDetail() {
     this.selectedResponseDomain = null;
     this.savedResponseDomainsIndex = -1;
     this.isEditFormVisible = false;
     this.property.set('responsedomains', {'current': 'list', 'key': this.searchKeys});
   }
 
-  onPage(page: Page) {
+  public onPage(page: Page) {
     this.page = page;
-    this.searchKeysSubject.next(this.searchKeys);
+    this.loadPage(this.searchKeys);
   }
 
-  onDeleteResponseDomainModal() {
+  public onDeleteResponseDomainModal() {
     this.deleteAction.emit({action: 'modal', params: ['open']});
   }
 
-  onConfirmDeleting() {
+  public onConfirmDeleting() {
     this.responseDomainService.deleteResponseDomain(this.selectedResponseDomain.id)
       .subscribe(() => {
         const i = this.responseDomains.findIndex(q => q['id'] === this.selectedResponseDomain.id);
         if (i >= 0) {
           this.responseDomains.splice(i, 1);
         }
-        this.hideDetail();
+        this.onHideDetail();
       });
   }
 
-  onShowRevision(element: any) {
-    this.previewObject = element;
-  }
-
-  searchResponseDomains(name: string) {
+  public onSearchResponseDomains(name: string) {
     this.searchKeys = name;
-    this.searchKeysSubject.next(name);
+    this.searchKeysListener.next(name);
   }
 
   private buildAnchorLabel() {
@@ -209,4 +169,16 @@ export class ResponsedomainComponent implements OnInit, AfterContentChecked {
     }
   }
 
+  private loadPage(search: string ) {
+    const domainTypeName = DomainTypeDescription.find( (e) => e.id === this.domainType).name;
+    this.isProgressBarVisible = true;
+    this.responseDomainService.getAll(domainTypeName, search, this.page).then(
+        (result: any) => {
+          this.page = new Page(result.page);
+          this.responseDomains = result.content;
+          this.isProgressBarVisible = false;
+          this.buildAnchorLabel(); },
+        (error) => { this.isProgressBarVisible = false; throw error; }
+      );
+  }
 }

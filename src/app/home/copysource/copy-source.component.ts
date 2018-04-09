@@ -24,20 +24,20 @@ export class CopySourceComponent {
   selectedElement: IEntityAudit;
   selectedIndex: number;
 
-  private searchKeysSubject: Subject<string> = new Subject<string>();
+  private searchKeysListener: Subject<string> = new Subject<string>();
 
 
   constructor(private service: HomeService) {
     this.selectedIndex = 0;
     this.items = [];
     this.elementRevisions = [];
-    this.searchKeysSubject
+    this.searchKeysListener
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
-        this.service.getElementByTypeAndName(this.elementKind, name).then((result: any) => {
-          this.items = result.content;
-        });
+        this.service.getElementByTypeAndName(this.elementKind, name).then(
+          (result: any) => { this.items = result.content; }
+          );
       });
   }
 
@@ -60,7 +60,7 @@ export class CopySourceComponent {
   }
 
   onSearchItems(name: string) {
-    this.searchKeysSubject.next(name);
+    this.searchKeysListener.next(name);
   }
 
   onSelectItem(item: IEntityAudit) {

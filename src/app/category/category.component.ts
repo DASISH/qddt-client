@@ -4,6 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import { PropertyStoreService } from '../core/global/property.service';
 import { Column } from '../shared/table/table.column';
 import { Page } from '../shared/table/table.page';
+import { ElementKind } from '../shared/elementinterfaces/elements';
 
 @Component({
   selector: 'qddt-category',
@@ -11,67 +12,26 @@ import { Page } from '../shared/table/table.page';
   templateUrl: './category.component.html',
 })
 
-export class CategoryComponent implements OnInit, AfterContentChecked {
+export class CategoryComponent implements OnInit {
 
-  public isDetail: boolean;
+  public isDetail = false;
   public showCategoryForm = false;
-  public categories: any;
+  public categories = [];
   public category: any;
   public selectedCategory: any;
   public page: Page;
 
-  private searchKeys: string;
-  private searchKeysSubject: Subject<string> = new Subject<string>();
+  private kind = ElementKind.CATEGORY;
+  private searchKeys = '*';
+  private searchKeysListener: Subject<string> = new Subject<string>();
 
   constructor(private categoryService: CategoryService, private property: PropertyStoreService) {
-    this.isDetail = false;
-    this.categories = [];
-    this.searchKeys = '';
-    this.searchKeysSubject
+    this.searchKeysListener
       .debounceTime(300)
       .distinctUntilChanged()
-      .subscribe((name: string) => {
-        this.categoryService.getAllByLevel('ENTITY', name, this.page)
-        .then((result: any) => {
-          this.page = result.page;
-          this.categories = result.content;
-        });
-      });
+      .subscribe((name: string) => this.loadPage(name));
   }
 
-  ngOnInit() {
-    const config = this.property.get('categories');
-    if (config.current === 'detail' ) {
-      this.page = config.page;
-      this.categories = config.collection;
-      this.selectedCategory = config.item;
-      this.isDetail = true;
-    } else {
-      this.categoryService.getByCategoryKind('CATEGORY', '*', this.page)
-      .then((result: any) => {
-         this.page = result.page;
-         this.categories = result.content;
-        });
-    }
-  }
-
-  ngAfterContentChecked() {
-    const config = this.property.get('categories');
-    if (config.current === 'detail' ) {
-      this.page = config.page;
-      this.categories = config.collection;
-      this.selectedCategory = config.item;
-      this.searchKeys = config.key;
-      this.isDetail = true;
-    } else {
-      this.isDetail = false;
-      if (config.key === null || config.key === undefined) {
-        this.property.set('categories', {'current': 'list', 'key': ''});
-        this.searchKeys = '';
-        this.searchKeysSubject.next('');
-      }
-    }
-  }
 
   onToggleCategoryForm() {
     this.showCategoryForm = !this.showCategoryForm;
@@ -82,39 +42,55 @@ export class CategoryComponent implements OnInit, AfterContentChecked {
 
   onHideDetail() {
     this.isDetail = false;
-    this.property.set('categories', {'current': 'list', 'key': this.searchKeys});
+    const config = this.property.get('categories');
+    this.property.set('categories', {'current': 'list'});
+    this.searchKeys = config.key;
+    this.onPage(config.page);
+  }
+
+  public onDetail(item: Category ) {
+    // this.router.navigate(['./', item.id ], { relativeTo: this.route });
+    this.selectedCategory = item;
+    this.isDetail = true;
+    this.property.set('categories',
+      {'current': 'detail', 'page': this.page, 'key': this.searchKeys, 'item': item});
   }
 
   onCreateCategory() {
     this.showCategoryForm = false;
-    this.categoryService.save(this.category)
-      .subscribe((result: any) => {
-        this.categories = [result].concat(this.categories);
-      });
+    this.categoryService.save(this.category).subscribe(
+      (result) => { this.categories = [result].concat(this.categories); },
+      (error) => { throw error; });
     this.isDetail = false;
   }
 
-  onTableSearchCategories(name: string) {
-    this.searchKeys = name;
-    this.searchKeysSubject.next(name);
+  public ngOnInit(): void {
+    const config = this.property.get('categories');
+    if (config.current === 'detail' ) {
+      this.selectedCategory = config.item;
+      this.isDetail = true;
+    } else {
+      this.page = (config.page) ? config.page : new Page();
+      this.onSearchKey(config.key);
+    }
   }
 
-  onTablePage(page: Page) {
-    this.categoryService.getAllByLevelAndPage('ENTITY', this.searchKeys, page)
+  public onPage(page: Page) {
+    this.page = page;
+    this.loadPage(this.searchKeys);
+  }
+
+  public onSearchKey(search: string ) {
+    this.searchKeys = (search) ? search : '*';
+    this.searchKeysListener.next(search);
+  }
+
+
+  private loadPage(name: string) {
+    this.categoryService.getByCategoryKind('CATEGORY', name, this.page)
     .then((result: any) => {
-      this.page = result.page;
+      this.page = new Page(result.page);
       this.categories = result.content;
     });
-  }
-
-  onTableDetail(category: any) {
-    this.selectedCategory = category;
-    this.isDetail = true;
-    this.property.set('categories',
-      {'current': 'detail',
-        'page': this.page,
-        'key': this.searchKeys,
-        'item': this.selectedCategory,
-        'collection': this.categories});
   }
 }

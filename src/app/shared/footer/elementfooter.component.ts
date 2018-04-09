@@ -10,8 +10,7 @@ import { IEntityEditAudit } from '../elementinterfaces/entityaudit';
     'p {padding: 3px ;margin: inherit;!important;}',
     '.input-field label.active {padding-top:3px; !important;}'
   ],
-  templateUrl: './elementfooter.component.html',
-  providers: []
+  templateUrl: './elementfooter.component.html'
 })
 export class ElementFooterComponent {
 

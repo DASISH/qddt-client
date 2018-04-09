@@ -5,6 +5,7 @@ import { ResponseDomain } from '../responsedomain/responsedomain.service';
 import { Observable } from 'rxjs/Observable';
 import { Category } from '../category/category.service';
 import { IEntityEditAudit, IVersion, IEntityAudit } from '../shared/elementinterfaces/entityaudit';
+import { Page } from '../shared/table/table.page';
 
 export class QuestionItem implements IEntityEditAudit {
 
@@ -32,13 +33,11 @@ export class QuestionItem implements IEntityEditAudit {
 @Injectable()
 export class QuestionService  {
 
-  readonly pageSize = '&size=10';
-
   constructor(protected http: HttpClient,  @Inject(API_BASE_HREF) protected api: string) { }
 
 
-  getQuestionItemPage(page: String = '0'): Promise<any> {
-    return this.http.get(this.api + 'questionitem/page' + '?&page=' + page + this.pageSize )
+  getQuestionItemPage(page: Page ): Promise<any> {
+    return this.http.get(this.api + 'questionitem/page?' + page.queryPage() )
       .toPromise();
   }
 
@@ -51,12 +50,10 @@ export class QuestionService  {
     return this.http.delete(this.api + 'questionitem/delete/' + id);
   }
 
-  searchQuestionItems(name: string = '', page: String = '0', sort: String = ''): Promise<any> {
-    let query = name.length > 0 ? '&question=' + '*' + name + '*' : '';
-    if (sort.length > 0) {
-      query += '&sort=' + sort;
-    }
-    return this.http.get(this.api + 'questionitem/page/search?' + 'page=' + page + this.pageSize + query)
+  searchQuestionItems(name: string = '', page: Page): Promise<any> {
+    let query = name.length > 0 ? '&question=' + name + '*' : '';
+    query += page.queryPage();
+    return this.http.get(this.api + 'questionitem/page/search?' + query)
       .toPromise();
   }
 
@@ -77,16 +74,11 @@ export class QuestionService  {
   }
 
 
-  getAllTemplatesByCategoryKind(categoryKind: String, name: String = '', page: String = '0', sort: String = ''): Promise<any> {
+  getAllTemplatesByCategoryKind(categoryKind: String, name: String = '', page: Page): Promise<any> {
     let query = name.length > 0 ? '&name=' + '*' + name + '*' : '';
-    if (sort.length > 0) {
-      query += '&sort=' + sort;
-    }
-    return this.http.get(this.api + 'category/page/search/?level=GROUP_ENTITY&category=' + categoryKind
-      + query + '&page=' + page + this.pageSize)
+    query += page.queryPage();
+    return this.http.get(this.api + 'category/page/search/?level=GROUP_ENTITY&category=' + categoryKind + query )
       .toPromise();
-      // .catch(err => { throw Error(err.message);});
-
   }
 
   getResponseDomainsRevisions(id: string): Promise<any> {
@@ -104,17 +96,7 @@ export class QuestionService  {
   getQuestionItemRevision(id: string, rev: string): Promise<any> {
     return this.http.get(this.api + 'audit/questionitem/' + id + '/' + rev)
       .toPromise();
-      // .catch(err => { throw Error(err.message);});
-
   }
-
-/*   getControlConstructsByQuestionItem(id: string): Promise<any> {
-    return this.http.get(this.api + 'controlconstruct/list/by-question/' + id)
-      .toPromise();
-      // .catch(err => { throw Error(err.message);});
-
-  } */
-
 
   getPdf(id: string): Observable<Blob> {
     return this.http.get(this.api + 'questionitem/pdf/' + id, { responseType: 'blob' });
