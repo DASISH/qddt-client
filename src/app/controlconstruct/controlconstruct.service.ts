@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { QuestionItem } from '../question/question.service';
 import { QddtElement, QDDT_ELEMENTS, ElementKind, ElementRevisionRef } from '../shared/elementinterfaces/elements';
 import { IEntityAudit } from '../shared/elementinterfaces/entityaudit';
+import { Page } from '../shared/table/table.page';
 
 export enum SequenceKind {
   NA,
@@ -116,32 +117,32 @@ export class ControlConstructService  {
     return this.http.get(this.api + 'controlconstruct/pdf/' + id, { responseType: 'blob'}).toPromise();
   }
 
-  public searchControlConstructs(name: string = '*', questionText: string = '*', page: String = '0', sort: string = ''): Promise<any> {
-    console.log('searchControlConstructs');
-    let query = '&name=' + name + '&questiontext=' + questionText;
-    if (sort.length > 0) {
-      query += '&sort=' + sort;
-    }
-    return this.http.get(this.api + 'controlconstruct/page/search/?constructkind=QUESTION_CONSTRUCT'
-      + '&page=' + page + this.pageSize + query).toPromise();
-  }
-
-  public searchSequenceConstructs(name: string = '*',  page: String = '0', sort: string = ''): Promise<any> {
-    console.log('searchSequenceConstructs');
-    let query = '&name=' + name ;
-    if (sort.length > 0) { query += '&sort=' + sort; }
-
-    return this.http.get(this.api + 'controlconstruct/page/search/?constructkind=SEQUENCE_CONSTRUCT'
-      + '&page=' + page + this.pageSize + query).toPromise();
-  }
-
-  public searchQuestionItemsByNameAndQuestion(name: string = '', page: String = '0', sort: String = ''): Promise<any> {
-    let query = name.length > 0 ? '&question=' + '*' + name + '*' + '&name=' + '*' + name + '*' : '';
-    if (sort.length > 0) {
-      query += '&sort=' + sort;
-    }
-    return this.http.get(this.api + 'questionitem/page/search?' + 'page=' + page + this.pageSize + query).toPromise();
-  }
+  // public searchControlConstructs(searchString: string = '*',  page: Page): Promise<any> {
+  //   console.log('searchControlConstructs');
+  //   let query = '&name=' + name + '&questiontext=' + questionText;
+  //   if (sort.length > 0) {
+  //     query += '&sort=' + sort;
+  //   }
+  //   return this.http.get(this.api + 'controlconstruct/page/search/?constructkind=QUESTION_CONSTRUCT'
+  //     + '&page=' + page + this.pageSize + query).toPromise();
+  // }
+  //
+  // public searchSequenceConstructs(name: string = '*',  page: String = '0', sort: string = ''): Promise<any> {
+  //   console.log('searchSequenceConstructs');
+  //   let query = '&name=' + name ;
+  //   if (sort.length > 0) { query += '&sort=' + sort; }
+  //
+  //   return this.http.get(this.api + 'controlconstruct/page/search/?constructkind=SEQUENCE_CONSTRUCT'
+  //     + '&page=' + page + this.pageSize + query).toPromise();
+  // }
+  //
+  // public searchQuestionItemsByNameAndQuestion(name: string = '', page: String = '0', sort: String = ''): Promise<any> {
+  //   let query = name.length > 0 ? '&question=' + '*' + name + '*' + '&name=' + '*' + name + '*' : '';
+  //   if (sort.length > 0) {
+  //     query += '&sort=' + sort;
+  //   }
+  //   return this.http.get(this.api + 'questionitem/page/search?' + 'page=' + page + this.pageSize + query).toPromise();
+  // }
 
   public searchInstructions(description: string = '', page: String = '0'): Promise<any> {
     const query = description.length > 0 ? '&description=' + '*' + description + '*' : '';

@@ -20,19 +20,17 @@ export class TemplateService {
 
   public searchItems(kind: ElementKind, searchString: string = '',  page: Page): Promise<any> {
     const qe = QDDT_ELEMENTS.find(e => e.id === kind);
-    const args = searchString.trim().split(' ');
+    const args = searchString.split(' ');
     const queries = [];
 
-    console.log(args);
-    console.log(args.length === qe.fields.length);
 
-    if (args.length === qe.fields.length) {
-      for (let i = 0; i < qe.fields.length; i++) {
-        queries.push(qe.fields[i] + '=*' + args[i] + '*' );
+    if (args.length <= qe.fields.length) {
+      for (let i = 0; i < args.length; i++) {
+        queries.push(qe.fields[i] + '=' + args[i].trim() );
       }
     } else {
       for (let i = 0; i < qe.fields.length; i++) {
-        queries.push(qe.fields[i] + '=*' + searchString + '*' );
+        queries.push(qe.fields[i] + '=' + searchString.trim() );
       }
     }
 

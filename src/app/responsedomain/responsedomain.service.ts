@@ -68,16 +68,16 @@ export class ResponseDomainService  {
 
   getAll(domain: string, searchString: string = '', page: Page ): Promise<any> {
     const qe = QDDT_ELEMENTS[ElementKind.RESPONSEDOMAIN];
-    const args = searchString.trim().split(' ');
+    const args = searchString.split(' ');
     const queries = [];
 
-    if (args.length === qe.fields.length) {
-      for (let i = 0; i < qe.fields.length; i++) {
-        queries.push(qe.fields[i] + '=*' + args[i] + '*' );
+    if (args.length <= qe.fields.length) {
+      for (let i = 0; i < args.length; i++) {
+        queries.push(qe.fields[i] + '=' + args[i].trim() );
       }
     } else {
       for (let i = 0; i < qe.fields.length; i++) {
-        queries.push(qe.fields[i] + '=*' + searchString + '*' );
+        queries.push(qe.fields[i] + '=' + searchString.trim() );
       }
     }
 

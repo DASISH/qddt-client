@@ -3,7 +3,6 @@ import { ResponseDomain } from './responsedomain.service';
 import { DomainKind, DomainTypeDescription } from './responsedomain.constant';
 import { ResponseDomainService } from './responsedomain.service';
 import { Subject } from 'rxjs/Subject';
-import { MaterializeAction } from 'angular2-materialize';
 import { PropertyStoreService } from '../core/global/property.service';
 import { Category } from '../category/category.service';
 import { ElementKind } from '../shared/elementinterfaces/elements';
@@ -28,18 +27,18 @@ export class ResponsedomainComponent implements OnInit {
   public isEditFormVisible = false;
   public isRevisionVisible = false;
 
+  public page: Page;
   public domainTypeDescription: any[];
   public selectedResponseDomain: ResponseDomain;
-  private responseDomain: ResponseDomain;
+  public responseDomain: ResponseDomain;
 
   private searchKeys: string;
-  private page: Page;
 
   private savedResponseDomainsIndex: number;
   private searchKeysListener: Subject<string> = new Subject<string>();
 
   constructor(private responseDomainService: ResponseDomainService, private property: PropertyStoreService) {
-    this.searchKeys = '';
+    this.searchKeys = '*';
     this.domainType = DomainKind.SCALE;
     this.domainTypeDescription = DomainTypeDescription.filter((e: any) => e.id !== DomainKind.MIXED);
     this.searchKeysListener
@@ -56,7 +55,7 @@ export class ResponsedomainComponent implements OnInit {
       this.isEditFormVisible = true;
     } else {
       this.domainType = (config.domainType) ? config.domainType :  DomainKind.SCALE;
-      this.searchKeys = config.key;
+      this.searchKeys = (config.key) ? config.key : '*';
       this.searchKeysListener.next(this.searchKeys);
     }
   }
@@ -64,12 +63,7 @@ export class ResponsedomainComponent implements OnInit {
   public onSelectDomainType(id: DomainKind) {
     this.isNewFormVisible = false;
     this.domainType = id;
-    this.searchKeys = '';
     this.loadPage(this.searchKeys);
-  }
-
-  public onSelect(suggestion: any) {
-    this.responseDomain = suggestion;
   }
 
   public onToggleResponseDomainForm() {
@@ -176,6 +170,7 @@ export class ResponsedomainComponent implements OnInit {
         (result: any) => {
           this.page = new Page(result.page);
           this.responseDomains = result.content;
+          console.log('loadpage ' + this.responseDomains.length );
           this.isProgressBarVisible = false;
           this.buildAnchorLabel(); },
         (error) => { this.isProgressBarVisible = false; throw error; }

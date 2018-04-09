@@ -2,9 +2,8 @@ import { Component, OnInit, AfterContentChecked, EventEmitter } from '@angular/c
 import { QuestionService, QuestionItem } from './question.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { PropertyStoreService } from '../core/global/property.service';
-import { Column } from '../shared/table/table.column';
 import { ElementKind } from '../shared/elementinterfaces/elements';
 import { Page } from '../shared/table/table.page';
 
@@ -17,47 +16,24 @@ import { Page } from '../shared/table/table.page';
 
 export class QuestionComponent implements AfterContentChecked, OnInit {
 
-  public responseDomainAction = new EventEmitter<MaterializeAction>();
+  public readonly QUESTION_ITEM = ElementKind.QUESTION_ITEM;
+  public page = new Page();
+  public questionItem: QuestionItem;
+  public selectedQuestionItem: QuestionItem;
   public questionitems:  QuestionItem[];
 
-  public showbuttoN = false;
   public showQuestionItemForm = false;
   public showProgressBar = false;
   public isDetail = false;
-  public showResponsedomainReuse = false;
-
-  public readonly QUESTION_ITEM = ElementKind.QUESTION_ITEM;
-  private page = new Page();
-  private questionItem: QuestionItem;
-  private selectedQuestionItem: QuestionItem;
 
   private searchKeysListener: Subject<string> = new Subject<string>();
   private searchKeys: string;
-  private secondCS: any;
-  private mainresponseDomainRevision: number;
 
-
-
-  constructor(private questionService: QuestionService, private property: PropertyStoreService, private route: ActivatedRoute) {
-    this.searchKeys = '';
-    this.secondCS = null;
-    this.mainresponseDomainRevision = 0;
+  constructor(private questionService: QuestionService, private property: PropertyStoreService) {
     this.searchKeysListener
       .debounceTime(300)
       .distinctUntilChanged()
-      .subscribe((name: string) => {
-        console.log('QuestionComponent ' + name);
-        this.showProgressBar = true;
-        this.questionService.searchQuestionItems(name, this.page).then(
-          (result) => {
-            this.page = result.page;
-            this.questionitems = result.content;
-            this.showProgressBar = false; },
-          (reason) => {
-            this.showProgressBar = false;
-            throw reason; }
-        );
-      });
+      .subscribe((searchString: string) => this.loadPage(searchString));
   }
 
   ngOnInit() {
@@ -67,39 +43,38 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
 
     const config = this.property.get('questions');
     if (!config) {
-      this.property.set('questions', {'current': 'list', 'key': ''});
+      this.property.set('questions', {'current': 'list', 'key': '*'});
     }
+
     if (config && config['current'] === 'detail' ) {
-      this.page = config.page;
-      this.questionitems = config.collection;
+      this.page = (config.page) ? config.page : new Page();
       this.selectedQuestionItem = config.item;
       this.isDetail = true;
     } else {
-      this.searchKeys = (config.key) ? config.key : '';
+      this.searchKeys = (config.key) ? config.key : '*';
       this.searchKeysListener.next(this.searchKeys);
     }
   }
 
   ngAfterContentChecked() {
-    const config = this.property.get('questions');
-    if (config.current === 'detail' ) {
-      if (config && config['current'] === 'detail' ) {
-        this.page = config.page;
-        this.questionitems = config.collection;
-        this.selectedQuestionItem = config.item;
-        this.searchKeys = config.key;
-        this.isDetail = true;
-      } else {
-        this.isDetail = false;
-        if (config.key === null || config.key === undefined) {
-          this.property.set('questions', {'current': 'list', 'key': ''});
-          this.searchKeys = '';
-          this.searchKeysListener.next('');
-        }
-      }
+    // const config = this.property.get('questions');
+    // if (config.current === 'detail' ) {
+    //   if (config && config['current'] === 'detail' ) {
+    //     this.page = (config.page) ? config.page : new Page();
+    //     this.questionitems = config.collection;
+    //     this.selectedQuestionItem = config.item;
+    //     this.searchKeys = config.key;
+    //     this.isDetail = true;
+    //   } else {
+    //     this.isDetail = false;
+    //     if (config.key === null || config.key === undefined) {
+    //       this.property.set('questions', {'current': 'list', 'key': ''});
+    //       this.searchKeys = '';
+    //       this.searchKeysListener.next('');
+    //     }
+    //   }
     // Materialize.updateTextFields();
-    console.log('ngAfterContentChecked');
-    }
+    // console.log('ngAfterContentChecked');
   }
 
 
@@ -113,13 +88,8 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
 
   onDetail(questionItem: any) {
     this.selectedQuestionItem = questionItem;
-//    this.isDetail = true;
-    this.property.set('questions',
-      {'current': 'detail',
-        'page': this.page,
-        'key': this.searchKeys,
-        'item': this.selectedQuestionItem,
-        'collection': this.questionitems});
+    this.isDetail = true;
+    this.property.set('questions', {'current': 'detail', 'page': this.page, 'key': this.searchKeys, 'item': this.selectedQuestionItem });
   }
 
   onSearchTable(name: string) {
@@ -128,17 +98,9 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
     this.searchKeysListener.next(name);
   }
 
-
-
   onPage(page: Page) {
-    this.showProgressBar = true;
-    this.questionService.searchQuestionItems(this.searchKeys, page)
-      .then(
-      (result: any) => {
-        this.page = result.page;
-        this.questionitems = result.content;
-        this.showProgressBar = false;
-      });
+    this.page = page;
+    this.loadPage(this.searchKeys);
   }
 
   onCreateQuestionItem() {
@@ -160,7 +122,10 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
                   // this.editQuestionItem.emit(this.questionItem);
                 });
             });
-        });
+        },
+          (error) => { throw  error; },
+          () => this.showProgressBar = false
+        );
     } else {
       this.questionService.updateQuestionItem(this.questionItem)
         .subscribe((result: any) => {
@@ -181,18 +146,24 @@ export class QuestionComponent implements AfterContentChecked, OnInit {
     this.questionItem.responseDomain = null;
   }
 
-  onDismiss() {
-    this.responseDomainAction.emit({action: 'modal', params: ['close']});
-  }
-
-  openResponseDomainModal() {
-    this.showResponsedomainReuse = true;
-    this.responseDomainAction.emit({action: 'modal', params: ['open']});
-  }
 
   hideDetail() {
     this.isDetail = false;
     this.property.set('questions', {'current': 'list', 'key': this.searchKeys});
   }
 
+  private loadPage(search: string) {
+    if (!search) { search = '*'; }
+    this.showProgressBar = true;
+    this.questionService.searchQuestionItems(search, this.page).then(
+      (result) => {
+        this.showProgressBar = false;
+        this.page = new Page(result.page);
+        this.questionitems = result.content; },
+      (reason) => {
+        this.showProgressBar = false;
+        throw reason; }
+    );
+
+  }
 }

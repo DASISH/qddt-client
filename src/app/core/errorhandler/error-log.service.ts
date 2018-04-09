@@ -42,7 +42,11 @@ export class ErrorLogService {
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
-      Materialize.toast(`Error code ${error.status}, <br> ${error.error.exceptionMessage}`, 6000);
+      if (error.error.userfriendlyMessage) {
+        Materialize.toast(`${error.error.userfriendlyMessage}`, 6000);
+      } else {
+        Materialize.toast(`Error code ${error.status}, <br> ${error.error.exceptionMessage}`, 6000);
+      }
     }
     // return an ErrorObservable with a user-facing error message
     return new ErrorObservable('Something bad happened; please try again later.');

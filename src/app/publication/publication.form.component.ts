@@ -35,7 +35,11 @@ export class PublicationFormComponent implements OnInit , AfterContentChecked {
   }
 
   public ngAfterContentChecked() {
-    Materialize.updateTextFields();
+    try {
+      Materialize.updateTextFields();
+    } catch ( Exception ) {
+       // ignore
+    }
   }
 
   public onSavePublication() {

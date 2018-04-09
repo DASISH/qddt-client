@@ -1,6 +1,5 @@
 import { Column } from '../table/table.column';
 import { ElementKind } from '../elementinterfaces/elements';
-import { ResponseCardinality } from '../../category/category.service';
 import { DomainKind } from '../../responsedomain/responsedomain.constant';
 
 export const DEFAULT_COLUMNS = [

@@ -48,7 +48,7 @@ export class TemplateListComponent implements OnInit {
   }
 
   public onPage(page: Page) {
-    this.page = page;
+    this.page = new Page(page);
     this.loadPage(this.searchKeys);
   }
 
@@ -63,6 +63,7 @@ export class TemplateListComponent implements OnInit {
 
   private loadPage(search: string ) {
     this.showProgressBar = true;
+    if (!search) { search = '*'; }
     this.service.searchItems(this.kind, search, this.page).then(
       (result) => {
         this.page = new Page(result.page);
