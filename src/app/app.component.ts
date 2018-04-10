@@ -25,7 +25,7 @@ export class AppComponent  implements OnDestroy {
 
   constructor(private userService: UserService, private  properties: PropertyStoreService, private messageService: QddtMessageService ) {
     this.subscription = this.messageService.getMessage()
-      .subscribe(message => this.showMessage(message));
+      .subscribe((message) => this.showMessage(message));
 
   }
 

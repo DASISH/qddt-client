@@ -1,9 +1,7 @@
-import {AfterContentChecked, Component, EventEmitter, OnInit} from '@angular/core';
+import { AfterContentChecked, Component, OnInit } from '@angular/core';
 import { ActivatedRoute,  Router } from '@angular/router';
-import { MaterializeAction } from 'angular2-materialize';
 import 'rxjs/add/operator/switchMap';
 import { HIERARCHY_POSITION, PropertyStoreService } from '../../core/global/property.service';
-import { QuestionItem } from '../../question/question.service';
 import { ElementKind } from '../../shared/elementinterfaces/elements';
 import { HomeService, Topic, Study } from '../home.service';
 import { QddtMessageService } from '../../core/global/message.service';
@@ -25,14 +23,14 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
 
   public readonly topicKind = ElementKind.TOPIC_GROUP;
 
-  public questionItemActions = new EventEmitter<string|MaterializeAction>();
+  // public questionItemActions = new EventEmitter<string|MaterializeAction>();
 
   public study: Study;
   public topics: Topic[];
   public showReuse = false;
   public showTopicForm = false;
 
-  private newTopic: Topic;
+  public newTopic: Topic;
 
   constructor(private router: Router, private route: ActivatedRoute,
               private topicService: HomeService, private property: PropertyStoreService,
@@ -127,8 +125,8 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
       .subscribe((result: any) => this.onTopicSavedEvent(result));
   }
 
-  onRemoveQuestionItem(id: any) {
-    this.topicService.deattachTopicQuestion(id.parentId, id.questionItemId)
+  onRemoveQuestionItem(ref) {
+    this.topicService.deattachTopicQuestion(ref.topicId, ref.qId)
       .subscribe((result: any) => this.onTopicSavedEvent(result));
   }
 

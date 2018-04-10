@@ -1,9 +1,13 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { QuestionService, QuestionItem } from './question.service';
+import { Component,  Output, EventEmitter, OnInit } from '@angular/core';
 import { MaterializeAction } from 'angular2-materialize';
 import { ElementKind } from '../shared/elementinterfaces/elements';
+import { IDetailAction, Action } from '../shared/elementinterfaces/detailaction';
+import { Router, ActivatedRoute } from '@angular/router';
+import { IEntityEditAudit } from '../shared/elementinterfaces/entityaudit';
+import { TemplateService } from '../template/template.service';
+import { HEADER_DETAILS } from '../shared/elementinterfaces/headerdetail';
 
-const filesaver = require('file-saver');
+const fileSaver = require('file-saver');
 
 
 @Component({
@@ -11,84 +15,68 @@ const filesaver = require('file-saver');
   moduleId: module.id,
   templateUrl: './question.detail.component.html',
 })
-
 export class QuestionDetailComponent implements OnInit {
-  @Input() questionitem: QuestionItem;
-  @Input() questionitemId: string;
-  @Input() questionitems: QuestionItem[];
-  @Input() isVisible: boolean;
-  @Output() hideDetailEvent: EventEmitter<String> = new EventEmitter<String>();
-  @Output() editQuestionItem: EventEmitter<any> = new EventEmitter<string|MaterializeAction>();
+  @Output() closeState: EventEmitter<IDetailAction>;
+  @Output() selectedItem: EventEmitter<IEntityEditAudit>;
 
-  public readonly QUESTIONITEM = ElementKind.QUESTION_ITEM;
+  public item: IEntityEditAudit;
+  public revisionIsVisible = false;
+  public canDelete: boolean;
+  public deleteAction = new EventEmitter<MaterializeAction>();
 
-  public deleteAction = new EventEmitter<string|MaterializeAction>();
-  public canDelete: number; // 0: cannot, 1: can, 2: checking
-  public revisionIsVisible: boolean;
-  public editIsVisible: boolean;
-  public conceptIsVisible: boolean;
+  private action: IDetailAction = { id: '', action: Action.None, object: null };
+  private kind: ElementKind;
 
-  constructor(private service: QuestionService) {
-    this.revisionIsVisible = false;
-    this.editIsVisible = false;
-    this.conceptIsVisible = false;
+  constructor(private service: TemplateService, private router: Router, private route: ActivatedRoute ) {
+    console.log('TemplateDetailComponent::CTR');
+    this.route.url.subscribe((event) => {
+      const path = event[0].path;
+      this.kind = HEADER_DETAILS.get(path).kind;
+      this.canDelete = service.can(Action.Delete, this.kind );
+    });
   }
 
   ngOnInit() {
-    if (!this.questionitems) {
-      this.questionitems = [];
-    }
-    if (this.questionitemId) {
-      this.service.getquestion(this.questionitemId)
-        .then((result: any) => this.questionitem = result);
+    console.log('TemplateDetailComponent::init');
+    if (this.kind) {
+      this.service.getItem(this.kind, this.route.snapshot.paramMap.get('id')).then(
+        (item) => {
+            this.action.id = item.id;
+            this.item = item;
+            if (this.selectedItem) { this.selectedItem.emit(item); } },
+        (error) => { throw error; });
     }
   }
 
-  hideDetail() {
-    this.hideDetailEvent.emit('hide');
-  }
-
-  onEditQuestionItem(questionitem: QuestionItem) {
-    const index = this.questionitems.findIndex((e: any) => e.id === questionitem.id);
-    if (index >= 0) {
-      this.questionitems[index] = questionitem;
-    } else {
-      this.questionitems.push(questionitem);
+  onHideDetail() {
+    this.router.navigate(['../' ], { relativeTo: this.route });
+    if (this.closeState) {
+      this.closeState.emit(this.action);
     }
-    this.hideDetail();
   }
 
-  onDeleteQuestionItemModal() {
-    this.checkDeleteQuestionItem();
+  onDeleteConfirmModal() {
     this.deleteAction.emit({action: 'modal', params: ['open']});
   }
 
-  checkDeleteQuestionItem() {
-    const usedby: any = this.questionitem.conceptRefs;
-    this.canDelete = 2; // checking
-    if (usedby && usedby.length > 0) {
-      this.canDelete = 0;
-    }
-
-  }
-
   onConfirmDeleting() {
-    this.service.deleteQuestionItem(this.questionitem.id).subscribe(() => {
-        const i = this.questionitems.findIndex(q => q['id'] === this.questionitem.id);
-        if (i >= 0) {
-          this.questionitems.splice(i, 1);
-        }
-        this.deleteAction.emit({action: 'modal', params: ['close']});
-        this.hideDetailEvent.emit('hide');
+    this.service.delete(this.item)
+      .subscribe(() => {
+        this.action.action = Action.Delete;
+        this.onHideDetail();
       });
   }
 
-  getPdf(element: QuestionItem) {
-    const fileName = element.name + '.pdf';
-    this.service.getPdf(element.id).subscribe(
-      (data: any) => {
-        filesaver.saveAs(data, fileName);
-      });
+  onItemSaved(item: IEntityEditAudit) {
+    this.action.action = Action.Update;
+    this.action.object = item;
+    this.onHideDetail();
+  }
+
+  onGetPdf( item: IEntityEditAudit) {
+    this.service.getPdf(item).then(
+      (data) => { fileSaver.saveAs(data, item.name + '.pdf'); },
+      (error) => { throw error; });
   }
 
 }

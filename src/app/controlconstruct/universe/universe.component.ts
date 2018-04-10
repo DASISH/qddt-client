@@ -7,9 +7,6 @@ import { QDDT_ELEMENTS, ElementKind } from '../../shared/elementinterfaces/eleme
   selector: 'qddt-universe-create',
   moduleId: module.id,
   templateUrl: 'universe.component.html',
-  styles: [
-    `.noItemFound { border: thick solid orange; }`
-  ],
 })
 
 export class UniverseComponent {

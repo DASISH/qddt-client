@@ -1,11 +1,8 @@
-import { Component, OnInit, AfterContentChecked, EventEmitter } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { QuestionService, QuestionItem } from './question.service';
-import { Subject } from 'rxjs/Subject';
-import { MaterializeAction } from 'angular2-materialize';
-import { ActivatedRoute } from '@angular/router';
-import { PropertyStoreService } from '../core/global/property.service';
-import { ElementKind } from '../shared/elementinterfaces/elements';
-import { Page } from '../shared/table/table.page';
+import { Category } from '../category/category.service';
+import { ResponseDomain } from '../responsedomain/responsedomain.service';
+import { TemplateComponent } from '../template/template.component';
 
 @Component({
   selector: 'qddt-questionitem',
@@ -14,156 +11,116 @@ import { Page } from '../shared/table/table.page';
   styles: [':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'],
 })
 
-export class QuestionComponent implements AfterContentChecked, OnInit {
+export class QuestionComponent {
+  @ViewChild(TemplateComponent) rootCmp: TemplateComponent;
 
-  public readonly QUESTION_ITEM = ElementKind.QUESTION_ITEM;
-  public page = new Page();
-  public questionItem: QuestionItem;
-  public selectedQuestionItem: QuestionItem;
-  public questionitems:  QuestionItem[];
+  public questionItem =  new QuestionItem();
+  private showbutton = false;
 
-  public showQuestionItemForm = false;
-  public showProgressBar = false;
-  public isDetail = false;
-
-  private searchKeysListener: Subject<string> = new Subject<string>();
-  private searchKeys: string;
-
-  constructor(private questionService: QuestionService, private property: PropertyStoreService) {
-    this.searchKeysListener
-      .debounceTime(300)
-      .distinctUntilChanged()
-      .subscribe((searchString: string) => this.loadPage(searchString));
-  }
-
-  ngOnInit() {
-  //    this.route.paramMap
-  //      .switchMap((params: ParamMap) =>
-  //        params.has('id') ? this.questionItem = this.questionService.getquestion(params.get('id')) : null);
-
-    const config = this.property.get('questions');
-    if (!config) {
-      this.property.set('questions', {'current': 'list', 'key': '*'});
-    }
-
-    if (config && config['current'] === 'detail' ) {
-      this.page = (config.page) ? config.page : new Page();
-      this.selectedQuestionItem = config.item;
-      this.isDetail = true;
-    } else {
-      this.searchKeys = (config.key) ? config.key : '*';
-      this.searchKeysListener.next(this.searchKeys);
-    }
-  }
-
-  ngAfterContentChecked() {
-    // const config = this.property.get('questions');
-    // if (config.current === 'detail' ) {
-    //   if (config && config['current'] === 'detail' ) {
-    //     this.page = (config.page) ? config.page : new Page();
-    //     this.questionitems = config.collection;
-    //     this.selectedQuestionItem = config.item;
-    //     this.searchKeys = config.key;
-    //     this.isDetail = true;
-    //   } else {
-    //     this.isDetail = false;
-    //     if (config.key === null || config.key === undefined) {
-    //       this.property.set('questions', {'current': 'list', 'key': ''});
-    //       this.searchKeys = '';
-    //       this.searchKeysListener.next('');
-    //     }
-    //   }
-    // Materialize.updateTextFields();
-    // console.log('ngAfterContentChecked');
-  }
+  constructor(private service: QuestionService) {
+    console.log('QuestionItemEditComponent:: CSTOR');
+   }
 
 
-  onToggleQuestionItemForm() {
-    this.showQuestionItemForm = !this.showQuestionItemForm;
-    if (this.showQuestionItemForm) {
-      this.questionItem = new QuestionItem();
-      this.questionItem.responseDomain = null;
-    }
-  }
-
-  onDetail(questionItem: any) {
-    this.selectedQuestionItem = questionItem;
-    this.isDetail = true;
-    this.property.set('questions', {'current': 'detail', 'page': this.page, 'key': this.searchKeys, 'item': this.selectedQuestionItem });
-  }
-
-  onSearchTable(name: string) {
-    console.log('onSearchTable ' + name);
-    this.searchKeys = name;
-    this.searchKeysListener.next(name);
-  }
-
-  onPage(page: Page) {
-    this.page = page;
-    this.loadPage(this.searchKeys);
-  }
-
-  onCreateQuestionItem() {
-    this.showProgressBar = true;
-    this.showQuestionItemForm = false;
+  onSaveQuestionItem() {
     if ((this.questionItem.responseDomain) && (!this.questionItem.responseDomain.id)) {
-      this.questionService.createCategory(this.questionItem.responseDomain.managedRepresentation)
+      this.service.createResponseDomain(this.questionItem.responseDomain)
         .subscribe(result => {
-          this.questionItem.responseDomain.managedRepresentation = result;
-          this.questionService.createResponseDomain(this.questionItem.responseDomain)
-            .subscribe(result2 => {
-              this.questionItem.responseDomain = result2;
-              this.questionItem.responseDomainRevision = 0;
-              this.questionService.updateQuestionItem(this.questionItem)
-                .subscribe((result3: any) => {
-                  this.questionItem = null;
-                  this.questionitems = [result3].concat(this.questionitems);
-                  this.showProgressBar = false;
-                  // this.editQuestionItem.emit(this.questionItem);
-                });
+          this.questionItem.responseDomain = result;
+          this.questionItem.responseDomainRevision = 0;
+          this.service.updateQuestionItem(this.questionItem)
+            .subscribe((result1: any) => {
+              this.rootCmp.onToggleForm();
+              this.questionItem = new QuestionItem();
             });
-        },
-          (error) => { throw  error; },
-          () => this.showProgressBar = false
-        );
+        });
     } else {
-      this.questionService.updateQuestionItem(this.questionItem)
-        .subscribe((result: any) => {
-          this.questionitems = [result].concat(this.questionitems);
-          this.showProgressBar = false;
+      this.service.updateQuestionItem(this.questionItem)
+        .subscribe((result) => {
+          this.questionItem = new QuestionItem();
+          this.rootCmp.onToggleForm();
         });
     }
-    this.isDetail = false;
   }
 
-  onResponseDomainSelected(item: any) {
-    this.questionItem.responseDomain = item.responseDomain;
-    this.questionItem.responseDomainRevision = item.responseDomainRevision || 0;
-  }
+  onResponseDomainSelected(item: QuestionItem) {
+    if (item.responseDomain.responseKind === 'MIXED') {
+      this.service.createResponseDomain(item.responseDomain).subscribe(result => {
+        this.questionItem.responseDomain = result;
+        this.questionItem.responseDomainRevision = 0;
+        console.log('RD saved');
+      });
+    } else {
+        this.questionItem.responseDomain = item.responseDomain;
+        this.questionItem.responseDomainRevision = item.responseDomainRevision || 0;
+      }
+   }
 
   onResponsedomainRemove(item: any) {
     this.questionItem.responseDomainRevision = 0;
     this.questionItem.responseDomain = null;
   }
 
-
-  hideDetail() {
-    this.isDetail = false;
-    this.property.set('questions', {'current': 'list', 'key': this.searchKeys});
+  private isMixed(): boolean {
+    if (this.questionItem.responseDomain) {
+      return this.questionItem.responseDomain.responseKind === 'MIXED';
+    }
+    return false;
   }
 
-  private loadPage(search: string) {
-    if (!search) { search = '*'; }
-    this.showProgressBar = true;
-    this.questionService.searchQuestionItems(search, this.page).then(
-      (result) => {
-        this.showProgressBar = false;
-        this.page = new Page(result.page);
-        this.questionitems = result.content; },
-      (reason) => {
-        this.showProgressBar = false;
-        throw reason; }
-    );
+  private setMissing(missing: Category) {
+    let rd = this.questionItem.responseDomain;
+    if (this.isMixed()) {                                                   // remove existing missing
+      this.deleteChild(rd.managedRepresentation, 'MISSING_GROUP');
+    } else {                                                                // no mixed, create one.
+      rd = this.newMixedResponseDomain();
+    }
+    rd.managedRepresentation.children.push(missing);
+    rd.name = rd.managedRepresentation.name = 'Mixed [' + this.getManagedRepresentation().name + '+' + missing.name + ']';
+    this.questionItem.responseDomain = rd;
+  }
 
+  private getMissing(): Category {
+    return  this.questionItem.responseDomain.managedRepresentation.children.find(e => e.categoryType === 'MISSING_GROUP');
+  }
+
+  private newMixedResponseDomain(): ResponseDomain {
+    const rd: any = {
+      responseKind: 'MIXED',
+      description : '',
+      name: '',
+      displayLayout: (this.questionItem.responseDomain.displayLayout) ? this.questionItem.responseDomain.displayLayout : 0,
+      managedRepresentation : {
+        name: '',
+        label: '',
+        description: '[Mixed] group - ',
+        inputLimit:  {minimum: 0 , maximum: 1},
+        hierarchyLevel: 'GROUP_ENTITY',
+        categoryType: 'MIXED',
+        children: [this.getManagedRepresentation()]
+      }};
+    return rd;
+    }
+
+  private getManagedRepresentation(): any {
+    const rep = this.questionItem.responseDomain.managedRepresentation;
+    if (rep) {
+      if (rep.categoryType === 'MIXED') {
+        return rep.children.find(c => c.categoryType !== 'MISSING_GROUP');
+      } else {
+        return rep;
+      }
+    }
+    return null;
+  }
+
+  private deleteChild(representation: Category, categoryType: string) {
+    if (!representation.children) {
+      return;
+    }
+    const index = representation.children.findIndex((e: any) => e.categoryType === categoryType);
+    if (index >= 0) {
+      representation.children.splice(index, 1);
+    }
   }
 }

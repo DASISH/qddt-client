@@ -1,85 +1,76 @@
-<div class="row card white white-text text-lighten-2">
-  <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
-    <i class="material-icons large right">help</i>
-    <h4>Question Items</h4>
-    <a class="btn" (click)="onToggleQuestionItemForm()">
-      <i class="material-icons right" *ngIf="!showQuestionItemForm">keyboard_arrow_down</i>
-      <i class="material-icons right" *ngIf="showQuestionItemForm">keyboard_arrow_up</i> New
-    </a>
-    <div *ngIf="showQuestionItemForm">
-      <div class="row card-action ">
-        <div class="col s10 offset-s1">
-          <form (ngSubmit)="onCreateQuestionItem()" #newQuestionForm="ngForm">
-            <div class="row input-field">
-              <input  id="213412" name="questionItem-name" type="text" [(ngModel)]="questionItem.name" required>
-              <label for="213412" class="white-text">Name</label>
-            </div>
-            <div class="row input-field ">
-                <textarea id="question-textarea" name="question-textarea" [(ngModel)]="questionItem.question"
-                          class="materialize-textarea validate" required minlength="5" maxlength="1500"
-                          materialize="characterCounter" data-length="1500">
-                </textarea>
-                <label for="question-textarea" class="white-text ">Question text</label>
-            </div>
-            <div class="row input-field ">
-                <textarea id="question-intent" name="question-intent" [(ngModel)]="questionItem.intent"
-                          class="materialize-textarea validate"  maxlength="2000"
-                          materialize="characterCounter" data-length="2000">
-                </textarea>
-                <label [attr.for]="'question-intent'" class="white-text ">Question intent</label>
-            </div>
-            <div class="row card"
-                 (mouseenter)="showbutton = true"
-                 (mouseleave)="showbutton = false">
-              <div class="col s8">
-                <div class="row teal-text">
-                  <span>Response Domain (V <qddt-version [element]="questionItem?.responseDomain?.managedRepresentation"></qddt-version>)
-                  </span>
-                </div>
-                <div class="row teal-text">
-                  <qddt-responsedomain-reuse
-                    [readOnly] = "readonly"
-                    [modalId] = "'reuse-1'"
-                    [showbutton] = "true"
-                    [responseDomain]="questionItem?.responseDomain"
-                    (selectedEvent)="onResponseDomainSelected($event)"
-                    (removeEvent)="onResponsedomainRemove($event)">
-                  </qddt-responsedomain-reuse>
-                </div>
+<qddt-template-component>
+
+  <div *ngIf="questionItem"  class="qddt-edit">
+        <qddt-preview-responsedomain
+          *ngIf="questionItem?.responseDomain"
+          [responseDomain]="questionItem.responseDomain">
+        </qddt-preview-responsedomain>
+
+        <qddt-conceptref [element]="questionItem"></qddt-conceptref>
+
+        <form  (ngSubmit)="onSaveQuestionItem()" #questionEditForm="ngForm">
+          <div class="row input-field">
+            <label for="-name" >Name</label>
+            <input id="-name" name="-name" type="text" class="validate" required
+              [(ngModel)]="questionItem.name"
+              materialize="characterCounter" data-length="255">
+          </div>
+          <div class="row input-field">
+            <label [attr.for]="questionItem.id + '-textarea'" >Question text</label>
+            <textarea id="-textarea"
+                      name="-textarea" [(ngModel)]="questionItem.question"
+                      class="materialize-textarea validate" required minlength="5"
+                      materialize="characterCounter" data-length="1500">
+            </textarea>
+          </div>
+          <div class="row input-field">
+              <label [attr.for]="questionItem.id + '-intent'" >Question intent</label>
+              <textarea id="-intent"
+                        name="-intent" [(ngModel)]="questionItem.intent"
+                        class="materialize-textarea validate"
+                        materialize="characterCounter" data-length="2000">
+              </textarea>
+          </div>
+          <div class="row hoverable"
+               (mouseenter)="showbutton = true"
+               (mouseleave)="showbutton = false">
+            <div class="col s8">
+              <div class="row teal-text">
+                <span>Response Domain (V <qddt-version [element]="questionItem?.responseDomain?.managedRepresentation"></qddt-version>)
+                </span>
               </div>
-              <div class="col s4 teal-text">
+              <div class="row">
+                <qddt-responsedomain-reuse class="formWhite"
+                   [readOnly] = "readonly"
+                   [modalId] = "'reuse-2'"
+                   [showbutton] = "showbutton"
+                   [responseDomain]="questionItem?.responseDomain"
+                   (selectedEvent)="onResponseDomainSelected($event)"
+                   (dismissEvent)= "onCloseModal()"
+                   (removeEvent)="onResponsedomainRemove($event)">
+                </qddt-responsedomain-reuse>
+              </div>
+            </div>
+            <div class="col s4">
                 <qddt-responsedomain-select-missing
                   *ngIf="!readonly && questionItem?.responseDomain"
                   [modalId] = "'select-missing-2'"
-                  [responseDomain]="questionItem?.responseDomain"
+                  [responseDomain]="questionItem.responseDomain"
                   (selectedEvent)="onResponseDomainSelected($event)"
                   (removeEvent)="onResponsedomainRemove($event)">
                 </qddt-responsedomain-select-missing>
-              </div>
             </div>
-            <qddt-preview-responsedomain *ngIf="questionItem?.responseDomain"
-              [responseDomain]="questionItem.responseDomain">
-            </qddt-preview-responsedomain>
-            <div class="row right-align">
-              <button  [disabled]="!newQuestionForm.form.valid" type="submit" class="btn btn-default">Submit</button>
-            </div>
-          </form>
-        </div>
+          </div>
+
+          <div class="row right-align">
+            <button *ngIf="!readonly" [disabled]="!questionEditForm.form.valid"
+                    type="submit" class="btn btn-default">Submit
+            </button>
+          </div>
+        </form>
       </div>
-    </div>
-  </div>
-  <div *ngIf="showProgressBar && !isDetail" class="progress">
-    <div class="indeterminate"></div>
-  </div>
-  <div *ngIf="!isDetail && questionitems">
-    <qddt-table [items]="questionitems" [page]="page"
-        [elementKind]="QUESTION_ITEM"
-        (enterEvent)="onSearchTable($event)"
-        (detailEvent)="onDetail($event)"
-        (pageChangeEvent)="onPage($event)">
-    </qddt-table>
-  </div>
-  <qddt-questionitem-detail *ngIf="isDetail" [questionitemId]="selectedQuestionItem.id"
-                            [questionitems]="questionitems" (hideDetailEvent)="hideDetail()">
-  </qddt-questionitem-detail>
-</div>
+
+  <router-outlet></router-outlet>
+
+</qddt-template-component>
+

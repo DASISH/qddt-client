@@ -50,20 +50,20 @@ export class ResponseDomainService  {
    //
   }
 
-  create(responseDomain: ResponseDomain): Observable<any> {
-    return this.http.post(this.api + 'responsedomain/create' , responseDomain);
+  create(responseDomain: ResponseDomain): Observable<ResponseDomain> {
+    return this.http.post<ResponseDomain>(this.api + 'responsedomain/create' , responseDomain);
   }
 
-  update(responseDomain: ResponseDomain): Observable<any> {
-    return this.http.post(this.api + 'responsedomain/' , responseDomain);
+  update(responseDomain: ResponseDomain): Observable<ResponseDomain> {
+    return this.http.post<ResponseDomain>(this.api + 'responsedomain/' , responseDomain);
   }
 
   deleteResponseDomain(id: string): Observable<any> {
     return this.http.delete(this.api + 'responsedomain/delete/' + id);
   }
 
-  getResponseDomain(id: string): Promise<any> {
-    return this.http.get(this.api + 'responsedomain/' + id).toPromise();
+  getResponseDomain(id: string): Promise<ResponseDomain> {
+    return this.http.get<ResponseDomain>(this.api + 'responsedomain/' + id).toPromise();
   }
 
   getAll(domain: string, searchString: string = '', page: Page ): Promise<any> {

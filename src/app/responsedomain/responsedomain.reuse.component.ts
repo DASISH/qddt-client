@@ -73,7 +73,8 @@ export class ResponsedomainReuseComponent implements OnChanges  {
   }
 
   onDismissRDReuse() {
-    this.dismissEvent.emit(true);
+    this.closeModalRDReuse();
+      // this.dismissEvent.emit(true);
   }
 
   openModalRDReuse() {

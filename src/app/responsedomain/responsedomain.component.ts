@@ -84,23 +84,24 @@ export class ResponsedomainComponent implements OnInit {
       this.responseDomains = [result].concat(this.responseDomains); });
   }
 
-  public onFormChange() {
+  public onFormSave() {
     this.searchKeys = '';
     this.responseDomainService.update(this.selectedResponseDomain).subscribe(
-      (result: any) => {
-        const index = this.responseDomains.findIndex((e: any) => e.id === result.id);
+      (result) => {
+        const index = this.responseDomains.findIndex((e) => e.id === result.id);
         if (index >= 0) {
           this.responseDomains[index] = result;
           this.buildAnchorLabel();
         } else {
           this.responseDomains.push(result);
         }
-        this.onHideDetail(); });
+        this.onHideDetail(); },
+      (error) => { throw error; });
   }
 
   public onSelectDetail(response: ResponseDomain) {
-    this.responseDomainService.getResponseDomain(response.id)
-      .then((result: any) => {
+    this.responseDomainService.getResponseDomain(response.id).then(
+      (result: any) => {
         this.selectedResponseDomain = result;
         this.isEditFormVisible = true;
         this.property.set('responsedomains',
@@ -170,7 +171,6 @@ export class ResponsedomainComponent implements OnInit {
         (result: any) => {
           this.page = new Page(result.page);
           this.responseDomains = result.content;
-          console.log('loadpage ' + this.responseDomains.length );
           this.isProgressBarVisible = false;
           this.buildAnchorLabel(); },
         (error) => { this.isProgressBarVisible = false; throw error; }

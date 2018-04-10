@@ -53,7 +53,28 @@ form p {
 
 .noItemFound { border: thick solid darkorange; }
 
+
+.formWhite * :not() {
+  background-color: whitesmoke;
+  color: black;
+}
+
+.formWhite label :not() {
+  color: teal;
+}
+
+.formDark * :not() {
+  background-color: #009687;
+  color: whitesmoke;
+}
+
+.formDark label :not() {
+  color: white;
+}
+
+
 /*.qddtIcon { margin:0px; vertical-align: middle;float: unset; display: unset; position: relative; }
 .collapsible-header {*/
   /*display: block;*/
 /*}*/
+

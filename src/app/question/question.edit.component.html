@@ -1,4 +1,4 @@
-<div *ngIf="questionitem"  class="white grey-text text-darken-1">
+<div *ngIf="questionitem">
   <qddt-preview-responsedomain
     *ngIf="questionitem?.responseDomain"
     [responseDomain]="questionitem.responseDomain">
@@ -8,7 +8,7 @@
 
   <form  (ngSubmit)="onSaveQuestionItem()" #questionEditForm="ngForm">
     <div class="row input-field">
-      <label [attr.for]="questionitem.id + '-name'" class="teal-text">Name</label>
+      <label [attr.for]="questionitem.id + '-name'" >Name</label>
       <input
         name="{{questionitem?.id}}-name"
         type="text"
@@ -17,7 +17,7 @@
         materialize="characterCounter" data-length="255">
     </div>
     <div class="row input-field">
-      <label [attr.for]="questionitem.id + '-textarea'" class="teal-text">Question text</label>
+      <label [attr.for]="questionitem.id + '-textarea'" >Question text</label>
       <textarea id="{{questionitem?.id}}-textarea"
                 name="{{questionitem?.id}}-textarea" [(ngModel)]="questionitem.question"
                 class="materialize-textarea validate" required minlength="5"
@@ -25,7 +25,7 @@
       </textarea>
     </div>
     <div class="row input-field">
-        <label [attr.for]="questionitem.id + '-intent'" class="teal-text">Question intent</label>
+        <label [attr.for]="questionitem.id + '-intent'" >Question intent</label>
         <textarea id="{{questionitem?.id}}-intent"
                   name="{{questionitem?.id}}-intent" [(ngModel)]="questionitem.intent"
                   class="materialize-textarea validate"
@@ -41,12 +41,13 @@
           </span>
         </div>
         <div class="row">
-          <qddt-responsedomain-reuse
+          <qddt-responsedomain-reuse class="formWhite"
              [readOnly] = "readonly"
              [modalId] = "'reuse-2'"
              [showbutton] = "showbutton"
              [responseDomain]="questionitem?.responseDomain"
              (selectedEvent)="onResponseDomainSelected($event)"
+             <!--(dismissEvent)= "onCloseModal()"-->
              (removeEvent)="onResponsedomainRemove($event)">
           </qddt-responsedomain-reuse>
         </div>
@@ -62,15 +63,14 @@
       </div>
     </div>
     <qddt-rational
-      *ngIf="!readonly"
+      *ngIf="!readonly && questionitem.id"
       [element]="questionitem"
       [config]="{hidden: [4]}">
     </qddt-rational>
-    <qddt-element-footer [element]="questionitem"></qddt-element-footer>
+    <qddt-element-footer *ngIf="questionitem.id" [element]="questionitem"></qddt-element-footer>
 
     <div class="row right-align">
-      <button *ngIf="!readonly"
-              [disabled]="!questionEditForm.form.valid"
+      <button *ngIf="!readonly" [disabled]="!questionEditForm.form.valid"
               type="submit" class="btn btn-default">Submit
       </button>
     </div>

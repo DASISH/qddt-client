@@ -2,15 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { Subject } from 'rxjs/Subject';
-import { Column } from '../shared/table/table.column';
 import { IEntityAudit } from '../shared/elementinterfaces/entityaudit';
 import { TemplateService } from './template.service';
 
 import { HEADER_DETAILS } from '../shared/elementinterfaces/headerdetail';
-import { ElementKind, QDDT_ELEMENTS } from '../shared/elementinterfaces/elements';
-import { LIST_COLUMNS } from '../shared/table/table.column-map';
-import { PATH_KIND_MAP } from './template.path-mapping';
+import { ElementKind } from '../shared/elementinterfaces/elements';
 import { Page } from '../shared/table/table.page';
+import {QddtMessageService} from '../core/global/message.service';
+import {Action} from '../shared/elementinterfaces/detailaction';
 
 @Component({
   selector: 'qddt-template-list',
@@ -22,12 +21,13 @@ export class TemplateListComponent implements OnInit {
   public items: IEntityAudit[];
   public showProgressBar = false;
   public page = new Page;
+  public kind: ElementKind;
 
   private searchKeys: string;
   private searchKeysListener = new Subject<string>();
-  private kind: ElementKind;
 
-  constructor(private service: TemplateService, private router: Router, private route: ActivatedRoute ) {
+  constructor(private service: TemplateService, private router: Router, private route: ActivatedRoute,
+              private  messages: QddtMessageService ) {
 
     this.route.url.subscribe((event) => {
       const path = event[0].path;
@@ -38,6 +38,12 @@ export class TemplateListComponent implements OnInit {
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((searchString: string) => this.loadPage(searchString));
+
+    this.messages.getAction().subscribe(event => {
+      if (event.action === Action.Update || event.action === Action.Create) {
+        this.loadPage();
+      }
+    });
   }
 
 
@@ -61,7 +67,7 @@ export class TemplateListComponent implements OnInit {
     this.router.navigate(['./', item.id ], { relativeTo: this.route });
   }
 
-  private loadPage(search: string ) {
+  private loadPage(search?: string ) {
     this.showProgressBar = true;
     if (!search) { search = '*'; }
     this.service.searchItems(this.kind, search, this.page).then(

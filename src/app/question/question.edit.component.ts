@@ -17,15 +17,12 @@ export class QuestionItemEditComponent implements OnInit {
   @Input() readonly: boolean;
   @Output() editQuestionItem = new EventEmitter<QuestionItem>();
 
-  private showbutton = false;
-//  private basedonRef: any;
+  public showbutton = false;
 
   constructor(private service: QuestionService) { }
 
   ngOnInit() {
-    if (!this.readonly) {
-      this.readonly = false;
-    }
+    if (!this.readonly) { this.readonly = false; }
   }
 
   onSaveQuestionItem() {
@@ -48,10 +45,6 @@ export class QuestionItemEditComponent implements OnInit {
         });
     }
   }
-
-/*   onBasedonObjectDetail(ref: any) {
-   this.basedonRef = ref;
-  } */
 
   onResponseDomainSelected(item: QuestionItem) {
     if (item.responseDomain.responseKind === 'MIXED') {
@@ -80,7 +73,7 @@ export class QuestionItemEditComponent implements OnInit {
 
   private setMissing(missing: Category) {
     let rd = this.questionitem.responseDomain;
-    if (this.isMixed()) {                                                   //remove existing missing
+    if (this.isMixed()) {                                                   // remove existing missing
       this.deleteChild(rd.managedRepresentation, 'MISSING_GROUP');
     } else {                                                                // no mixed, create one.
       rd = this.newMixedResponseDomain();

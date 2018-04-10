@@ -22,7 +22,7 @@ export class ResponsedomainFormComponent implements OnInit , AfterViewInit {
   @Input() domainType: DomainKind;
   @Input() readonly: boolean;
   @Input() labelColor: string;
-  @Output() formChange: EventEmitter<Category>;
+  @Output() formChange = new EventEmitter<Category>();
 
   public basedonActions = new EventEmitter<string|MaterializeAction>();
   public previewResponseDomain: any;
@@ -40,14 +40,14 @@ export class ResponsedomainFormComponent implements OnInit , AfterViewInit {
   constructor(private categoryService: CategoryService, private service: ResponseDomainService) {
     // console.debug('responsedomain.form.component constr');
     this.selectedCategoryIndex = 0;
-    this.formChange = new EventEmitter<any>();
     this.numberOfAnchors = 0;
 
     this.searchKeysListener
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
-        this.categoryService.getByCategoryKind('CATEGORY', name, new Page() ).then((result: any) => {
+        this.categoryService.getByCategoryKind('CATEGORY', name, new Page() ).then(
+          (result: any) => {
           this.categories = result.content;
         });
       });

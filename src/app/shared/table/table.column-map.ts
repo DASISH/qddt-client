@@ -5,7 +5,7 @@ import { DomainKind } from '../../responsedomain/responsedomain.constant';
 export const DEFAULT_COLUMNS = [
   new Column({ name: 'modified',  label: 'Modified', sortable: true, direction: 'desc' }),
   new Column({ name: 'version',  label: 'Version' }),
-  new Column({ name: 'agency',  label: 'Agency' })
+  new Column({ name: ['agency', 'name'],  label: 'Agency' })
 ];
 
 const  QUESTION_CONSTRUCT_COLUMNS = [

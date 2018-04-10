@@ -27,7 +27,7 @@ export class TemplateDetailComponent implements OnInit {
   private action: IDetailAction = { id: '', action: Action.None, object: null };
   private kind: ElementKind;
 
-  constructor(private service: TemplateService, private router: Router, private route: ActivatedRoute ) {
+  constructor(private service: TemplateService, private router: Router, private route: ActivatedRoute) {
     console.log('TemplateDetailComponent::CTR');
     this.route.url.subscribe((event) => {
       const path = event[0].path;

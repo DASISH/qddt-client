@@ -46,10 +46,15 @@ export class QddtTableComponent implements OnInit, OnChanges {
     this.columns = this.getColumns();
     if (!this.page) { this.page = new Page; }
     if (!this.items) { this.items = []; }
-    }
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!this.columns) { this.columns = this.getColumns(); }
+    console.log(changes);
+    if (changes['domainkind']) {
+      this.columns = this.getColumns();
+    } else if (!this.columns) {
+      this.columns = this.getColumns();
+    }
     if (!this.items) { this.items = []; }
     if (!this.page) { this.page = new Page; }
 
@@ -64,7 +69,7 @@ export class QddtTableComponent implements OnInit, OnChanges {
       const row: any = {
         'id': item.id,
         'Version': (item.version) ? item.version.major + '.' + item.version.minor : '',
-        'Agency': (item.agency) ? item.agency.name : '',
+//        'Agency': (item.agency) ? item.agency.name : '',
         'Modified': date.toDateString(),
         'Object': item,
       };
