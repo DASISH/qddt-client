@@ -17,9 +17,6 @@
       <div class="col s10 black-text">
         <label>Description</label>
         <div [ngClass]="{ noItemFound: (hasContent()  && searchItems.length === 0) }">
-          <qddt-item-search class="black-text" [elementKind]="elementKind"
-                            (selectedElement)="onSelectItem($event)">
-          </qddt-item-search>
           <!--<qddt-auto-complete class="black-text"-->
             <!--[items]="searchItems"-->
             <!--[elementtype]="qddtType"-->
