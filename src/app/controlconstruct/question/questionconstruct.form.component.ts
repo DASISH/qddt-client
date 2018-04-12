@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnInit, EventEmitter, AfterContentChecked, OnChanges } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter, AfterContentChecked, OnChanges, SimpleChanges } from '@angular/core';
 import { ControlConstructService, QuestionConstruct, Universe, Instruction } from '../controlconstruct.service';
 import { Observable } from 'rxjs/Observable';
 import { QuestionItem } from '../../question/question.service';
@@ -21,6 +21,8 @@ export class QuestionConstructFormComponent implements OnChanges {
   @Input() controlConstruct: QuestionConstruct;
   @Input() readonly = false;
   @Output() modifiedEvent = new EventEmitter<QuestionConstruct>();
+
+  public formId = Math.round( Math.random() * 10000);
 
   public savedquestionitem: any;
 
@@ -45,7 +47,7 @@ export class QuestionConstructFormComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    Materialize.updateTextFields();
+    try { Materialize.updateTextFields(); } catch (Exception) { }
   }
 
   onAddUniverse(item: Universe) {

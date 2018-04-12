@@ -1,12 +1,9 @@
 <div *ngIf="controlConstruct">
   <form  #qcform="ngForm">
     <div class="row input-field">
-        <label [attr.for]="controlConstruct.id + '-name'" class="teal-text">Name </label>
-        <input [attr.id]="controlConstruct.id + '-name'"
-               name="name" type="text"
-               materialize="characterCounter" data-length="255"
-               class="validate" required minlength="4"
-               [(ngModel)]="controlConstruct.name" >
+        <label [attr.for]="formId + '-name'" >Name</label>
+        <input id= "{{formId}}-name" name="name" type="text" class="validate" required
+          [(ngModel)]="controlConstruct.name" materialize="characterCounter" data-length="255">
     </div>
 
     <qddt-collection-search-select
