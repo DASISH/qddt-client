@@ -1,7 +1,4 @@
-import { Component } from '@angular/core';
-import { IEntityEditAudit } from '../shared/elementinterfaces/entityaudit';
-import { Action, IDetailAction } from '../shared/elementinterfaces/detailaction';
-
+import { Component, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'qddt-publication-detail',
@@ -10,24 +7,10 @@ import { Action, IDetailAction } from '../shared/elementinterfaces/detailaction'
 })
 
 export class PublicationDetailComponent {
+  @ViewChild('detail') templateDetail;
 
-  constructor() {
-  }
-
-  onItemSelect(event: IEntityEditAudit) {
-    console.log('item selected ' + event );
-//    this.item = event;
-  }
-
-  onClose(action: IDetailAction) {
-    if (action.action === Action.Delete) {
-    }
-    console.log(action);
-  }
-
-
-  onPublicationSaved(item: IEntityEditAudit) {
-    console.log('onPublicationSaved ' + item);
+  public onFormModified(event) {
+    this.templateDetail.onHideDetail();
   }
 }
 

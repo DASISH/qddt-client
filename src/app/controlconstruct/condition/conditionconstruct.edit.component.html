@@ -26,10 +26,10 @@
       <div class="input-field col s6">
         <qddt-auto-complete
           [items]="elements"
-          [elementtype]="service.getQddtElementFromStr('CONDITION_CONSTRUCT')"
+          [elementtype]="CONDITION"
           (selectEvent)="onSelectElement($event)"
-                  (enterEvent)="onSearchElements($event)">
-              </qddt-auto-complete>
+          (enterEvent)="onSearchElements($event)">
+        </qddt-auto-complete>
       </div>
     </div>
     <div class="row card" *ngFor="let condition of elseConditions; let idx=index;">
@@ -44,7 +44,7 @@
       <div class="input-field col s6">
         <qddt-auto-complete
           [items]="elements"
-          [elementtype]="service.getQddtElementFromStr('CONDITION_CONSTRUCT')"
+          [elementtype]="CONDITION"
           (selectEvent)="onSelectElseElement($event, idx)"
                   (enterEvent)="onSearchElements($event)">
               </qddt-auto-complete>

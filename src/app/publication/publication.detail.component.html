@@ -1,11 +1,6 @@
-<qddt-template-detail (selectedItem)="onItemSelect($event)" (closeState)="onClose($event)" >
-
-  <P class="qddt-form">TOMT</P>
-
-  <!--<qddt-publication-form *ngIf="item"-->
-    <!--[publication]="item"-->
-    <!--(save)=onPublicationSaved($event)>-->
-  <!--</qddt-publication-form>-->
-
+<qddt-template-detail #detail>
+    <qddt-publication-form
+      [publication]= "templateDetail.item"
+      (modifiedEvent) = "onFormModified($event)">
+    </qddt-publication-form>
 </qddt-template-detail>
-

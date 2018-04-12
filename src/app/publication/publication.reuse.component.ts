@@ -14,14 +14,15 @@ import { IEntityAudit } from '../shared/elementinterfaces/entityaudit';
   ],
 })
 
-export class PublicationReuseComponent implements OnInit {
+export class PublicationReuseComponent  {
   @Input() showbutton: boolean;
-  @Output() publicationElement = new EventEmitter<ElementRevisionRef>();
+  @Output() selectedEvent = new EventEmitter<ElementRevisionRef>();
 
   public showAddElement = false;
   public selectedElementKind: ElementKind;
-  public selectedElement: IEntityAudit;
+  public revisions: any[];
   public elements: any[];
+  public showProgressBar = false;
 
   queryFields: QddtElement[] = [
     QDDT_ELEMENTS[ElementKind.TOPIC_GROUP],
@@ -47,19 +48,33 @@ export class PublicationReuseComponent implements OnInit {
       });
   }
 
-  ngOnInit() {
-    //
+  public onSelectElement(item ) {
+    this.revisions = null;
+    this.showProgressBar = true;
+    this.service.getRevisionsByKind( this.selectedElementKind, item.id).then(
+      (result) => {
+        this.revisions = result.content;
+        this.showProgressBar = false;
+      },
+      (error) => { this.showProgressBar = false; throw error; }
+    );
+  }
+
+  public onRevisionSelected( element: ElementRevisionRef) {
+    console.log(element);
+    this.selectedEvent.emit(element);
+    this.onToggleAddElement();
+  }
+
+  public onRevisionDismiss(value) {
+    this.revisions = null;
+    this.elements = null;
   }
 
   onSelectElementKind(kind: ElementKind) {
     this.selectedElementKind = kind;
-    this.selectedElement = null;
-    this.elements = [];
-  }
-
-  onSelectElement(e: any) {
-    // console.info('onSelectElement');
-    this.selectedElement = e;
+    this.elements = null;
+    this.revisions = null;
   }
 
   onSearchElements(key: string) {
@@ -69,25 +84,14 @@ export class PublicationReuseComponent implements OnInit {
   onToggleAddElement() {
     this.showAddElement = !this.showAddElement;
     if (!this.showAddElement) {
-      this.selectedElement = null;
+      this.elements = null;
+      this.revisions = null;
     }
-  }
-
-  onPreviewSelected(element: ElementRevisionRef) {
-    // console.info('onUse');
-    this.publicationElement.emit(element);
-    this.showAddElement = false;
-    this.selectedElement = null;
-    return false;
   }
 
 
   private getElementType(kind: ElementKind): QddtElement {
-     const element: any = this.queryFields.find(e => e.id === kind);
-     if (element === undefined) {
-       throw new Error('Couldn\'t find kind ' + ElementKind[kind] + ' ' + kind);
-     }
-     return element;
+     return this.queryFields.find(e => e.id === kind);
   }
 
 }

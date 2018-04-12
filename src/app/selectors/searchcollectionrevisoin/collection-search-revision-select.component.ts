@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, Output, ChangeDetectionStrategy, AfterVi
 import { ElementKind, IElementRef, QDDT_ELEMENTS, QddtElement } from '../../shared/elementinterfaces/elements';
 import { IEntityAudit } from '../../shared/elementinterfaces/entityaudit';
 import { Factory } from '../../shared/elementfactory/factory';
+import { ElementEnumAware } from '../../preview/preview.service';
 
 @Component({
   selector: 'qddt-collection-revision-search-select',
@@ -9,6 +10,7 @@ import { Factory } from '../../shared/elementfactory/factory';
   templateUrl: './collection-search-revision-select.component.html'
 })
 
+@ElementEnumAware
 export class CollectionSearchRevisionSelectComponent implements AfterViewInit {
   @Input() items:  IEntityAudit[];
   @Input() labelName?: string;

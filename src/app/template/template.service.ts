@@ -18,11 +18,10 @@ export class TemplateService {
     userService.getRoles().forEach((role) => this.roles += +Authority[role]);
   }
 
-  public searchItems(kind: ElementKind, searchString: string = '',  page: Page): Promise<any> {
-    const qe = QDDT_ELEMENTS.find(e => e.id === kind);
+  public searchByKind(kind: ElementKind, searchString: string = '',  page: Page = new Page()): Promise<any> {
+    const qe = QDDT_ELEMENTS[kind];
     const args = searchString.split(' ');
     const queries = [];
-
 
     if (args.length <= qe.fields.length) {
       for (let i = 0; i < args.length; i++) {
@@ -34,34 +33,92 @@ export class TemplateService {
       }
     }
 
-    let query = '';
+    let query = '?' ;
 
     if (queries.length > 0) { query = '?' + queries.join('&'); }
 
     query += page.queryPage();
-
-    if (qe.parameter) {
-      query += qe.parameter;
-    }
+    query += qe.parameter;
 
     return this.http.get(this.api + qe.path + '/page/search/' + query).toPromise();
   }
 
-  public getItem(kind: ElementKind, id: string ): Promise<IEntityEditAudit> {
-    const qe = QDDT_ELEMENTS.find(e => e.id === kind);
+  public getItemByKind(kind: ElementKind, id: string ): Promise<IEntityEditAudit> {
+    const qe = QDDT_ELEMENTS[kind];
     return this.http.get<IEntityEditAudit>(this.api + qe.path + '/' + id).toPromise();
   }
 
-  public getPdf(item: IEntityEditAudit): Promise<Blob>  {
-    const kind = ElementKind[item.classKind];
-    const qe = QDDT_ELEMENTS.find(e => e.id === kind);
-    return this.http.get(this.api + qe.path + '/pdf/' + item.id, { responseType: 'blob'}).toPromise();
+  public getRevisionsByKind(kind: ElementKind, id: string): Promise<any> {
+    const qe = QDDT_ELEMENTS[kind];
+    if (qe) {
+      if (kind === ElementKind.CONCEPT || kind === ElementKind.TOPIC_GROUP) {
+        return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/allinclatest').toPromise();
+      } else {
+        return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/all').toPromise();
+      }
+    }
+    return new Promise(null);
+  }
+
+  public getRevisionByKind(kind: ElementKind, id: string, rev: number): Promise<any> {
+    const qe = QDDT_ELEMENTS[kind];
+    return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/' + rev).toPromise();
+  }
+
+  public copySource(kind: ElementKind, fromId: string, fromRev: number, toParentId: string): Observable<any> {
+    const qe = QDDT_ELEMENTS[kind];
+    return this.http.post(this.api + qe.path + '/copy/' + fromId + '/' + fromRev + '/' + toParentId, {});
+  }
+
+  public update(item: IEntityEditAudit): Observable<any> {
+    const qe = QDDT_ELEMENTS[this.getElementKind(item.classKind)];
+    return this.http.post(this.api + qe.path , item);
+  }
+
+  public updateWithfiles(kind: ElementKind, form: FormData ): Observable<any> {
+    const qe = QDDT_ELEMENTS[kind];
+    return this.http.post<any>(this.api +  qe.path + '/createfile/', form);
   }
 
   public delete(item: IEntityEditAudit): Observable<any> {
     const kind = ElementKind[item.classKind];
-    const qe = QDDT_ELEMENTS.find(e => e.id === kind);
+    const qe = QDDT_ELEMENTS[kind];
     return this.http.delete(this.api + qe.path + '/delete/' + item.id);
+  }
+
+  public deleteByKind(kind: ElementKind, id: string): Observable<any> {
+    const qe = QDDT_ELEMENTS[kind];
+    return this.http.delete(this.api + qe.path + '/delete/' + id);
+  }
+
+  public getPdf(item: IEntityEditAudit): Promise<Blob>  {
+    const kind = ElementKind[item.classKind];
+    const qe = QDDT_ELEMENTS[kind];
+    return this.http.get(this.api + qe.path + '/pdf/' + item.id, { responseType: 'blob'}).toPromise();
+  }
+
+  public getFile(id: string): Promise<any> {
+    return this.http.get(this.api + 'othermaterial/files/' + id, { responseType: 'blob'})
+      .toPromise();
+  }
+
+  public deleteFile(id: string): Observable<any> {
+    return this.http.delete(this.api + 'othermaterial/delete/' + id);
+  }
+
+  public uploadFile(id: string, files: any): Observable<any> {
+    const formData = new FormData();
+    if (files !== null) {
+      formData.append('file', files[0]);
+    }
+    return this.http.post(this.api + 'othermaterial/upload/' + id + '/T', formData)
+      .map((res: any) => {
+        try {
+          return res;
+        } catch (e) {
+          return [];
+        }
+      });
   }
 
   public can(action: Action, kind: ElementKind): boolean {
@@ -103,5 +160,8 @@ export class TemplateService {
     }
   }
 
-}
+  public getElementKind(kind: string|ElementKind): ElementKind {
+    return (typeof kind === 'string') ?  ElementKind[kind] : kind ;
+  }
 
+}

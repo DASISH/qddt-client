@@ -12,10 +12,7 @@ import { IEntityAudit } from '../elementinterfaces/entityaudit';
 export class AutocompleteComponent implements OnInit, OnChanges {
   @Input() items:  IEntityAudit[];
   @Input() elementtype: QddtElement;
-  /**
-   * set initial value
-   */
-  @Input() initialValue: string;
+  @Input() initialValue = '*';
 
   @Output() selectEvent = new EventEmitter<IEntityAudit>();
   @Output() focusEvent = new EventEmitter<string>();
@@ -30,12 +27,11 @@ export class AutocompleteComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.value = this.initialValue;
-    console.log('ngOnInit -> auto-complete');
+
   }
 
   ngOnChanges() {
     this.candidates = this.items;
-    console.log('ngOnChanges -> auto-complete');
   }
 
   enterText(event: any) {

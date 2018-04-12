@@ -13,42 +13,32 @@ export class AuthGuard implements CanActivate, CanActivateChild  {
   constructor(private authService: UserService, private router: Router, private property: PropertyStoreService) {}
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-//    console.log('can active?');
-    if (!this.authService.isTokenExpired()) {
-//      console.log('YES');
-      if (this.checkParent(next.url.toString())) {
-        return true;
-      }
-      this.router.navigate(['/home']);
+    if (this.authService.isTokenExpired()) {
+      this.router.navigate(['/login']);
+      return false;
     }
-//    console.log('NO');
-    this.router.navigate(['/login']); // , { queryParams: { returnUrl: 'home' }});
-    return false;
+//    console.log(state);
+//    console.log(next);
+    if (this.checkParent(next.url.toString())) {
+        return true;
+    }
+    this.router.navigate(['/home']);
   }
 
   canActivateChild(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-//    console.log('can Activate Child?');
     return this.canActivate(next, state);
   }
 
   canLoad(route: Route): boolean {
-//    console.log('can load?');
     const url = `/${route.path}`;
     return !this.authService.isTokenExpired();
   }
 
   private checkParent(url: string): boolean {
-    console.log('check Parent?');
-    const index = this.menupath.findIndex((e) => e === url);
-    if (index === -1) {
-      this.property.set('currentUrl', null);
-    } else {
-      this.property.set('currentUrl', url);
-    }
-
-    if (index > 0) {
-      return (this.property.get(this.menupath[index - 1]));
-    }
+//    console.log('check ' + url);
+    const current =  this.menupath.find((e) => e === url);
+    this.property.set('currentUrl', current);
     return true;
+    // return (current !== undefined);
   }
 }

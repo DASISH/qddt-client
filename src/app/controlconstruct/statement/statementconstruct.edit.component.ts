@@ -18,11 +18,10 @@ export class StatementEditComponent implements OnInit {
 
   ngOnInit() {
     this.statement = new StatementConstruct();
-    this.elementId = new Date().toString();
   }
 
   onCreate() {
-    this.service.createStatement(this.statement)
+    this.service.updateStatement(this.statement)
       .subscribe(
         (result) => { this.element.emit(result); },
         (error) => { throw error; }

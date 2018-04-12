@@ -21,24 +21,22 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   public username;
   public loggedIn: boolean;
 
-  constructor(private auth: UserService, private property: PropertyStoreService,
-              private router: Router, ) {
+  constructor(private auth: UserService, private property: PropertyStoreService, private router: Router ) {
     this.username = this.getUserName();
     this.loggedIn = !this.auth.isTokenExpired();
   }
 
   ngOnInit() {
     this.propertyChanged = this.property.currentChange$.subscribe(
-      item => {
-        this.path[item] = this.property.getCurrent();
-      }
-    , (error: any) => console.error(error.toString()));
+      (item) => { this.path[item] = this.property.getCurrent();
+                  console.log(this.path);
+       },
+      (error) => console.error(error.toString()));
     this.loginChanged = this.auth.loginChanged$.subscribe(
-      item => {
+      (item) => {
         this.username = this.getUserName();
-        this.loggedIn = !this.auth.isTokenExpired();
-      }
-      , (error: any) => console.error(error.toString())
+        this.loggedIn = !this.auth.isTokenExpired(); },
+      (error) => console.error(error.toString())
     );
   }
 

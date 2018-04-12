@@ -8,8 +8,8 @@ import { TemplateService } from './template.service';
 import { HEADER_DETAILS } from '../shared/elementinterfaces/headerdetail';
 import { ElementKind } from '../shared/elementinterfaces/elements';
 import { Page } from '../shared/table/table.page';
-import {QddtMessageService} from '../core/global/message.service';
-import {Action} from '../shared/elementinterfaces/detailaction';
+import { QddtMessageService } from '../core/global/message.service';
+import { Action } from '../shared/elementinterfaces/detailaction';
 
 @Component({
   selector: 'qddt-template-list',
@@ -70,7 +70,7 @@ export class TemplateListComponent implements OnInit {
   private loadPage(search?: string ) {
     this.showProgressBar = true;
     if (!search) { search = '*'; }
-    this.service.searchItems(this.kind, search, this.page).then(
+    this.service.searchByKind(this.kind, search, this.page).then(
       (result) => {
         this.page = new Page(result.page);
         this.items = result.content;

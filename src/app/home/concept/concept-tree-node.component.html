@@ -8,7 +8,7 @@
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
            (click)="edit.showRevision = !edit.showRevision"><i class="material-icons left medium" title="Revision history">history</i></a>
         <qddt-questionitem-reuse *ngIf="!readonly" [parentId]="concept.id"
-                                 (questionItemCreatedEvent)="addQuestionItem($event)"></qddt-questionitem-reuse>
+                                 (createdEvent)="addQuestionItem($event)"></qddt-questionitem-reuse>
         <a *ngIf="!readonly" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
            (click)="onCreateConcept(concept)"><i class="material-icons left medium" title="Add sub concept">add</i></a>
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal">

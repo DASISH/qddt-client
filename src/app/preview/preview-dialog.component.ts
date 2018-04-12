@@ -49,6 +49,7 @@ export class PreviewDialogComponent implements  OnChanges {
           this.element = result;
           this.basedonActions.emit({action: 'modal', params: ['open']});
         });
+
     } else {
       this.element = this.reference.element;
       this.basedonActions.emit({action: 'modal', params: ['open']});
@@ -58,7 +59,7 @@ export class PreviewDialogComponent implements  OnChanges {
   getClassName(): string {
     const kind = this.getElementKind();
     if (kind) {
-      return QDDT_ELEMENTS[this.getElementKind()].label;
+      return QDDT_ELEMENTS[kind].label;
     }
     return '?';
   }

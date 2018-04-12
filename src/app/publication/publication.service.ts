@@ -68,6 +68,18 @@ export class PublicationService {
   });
   }
 
+  public getRevisionsByKind(kind: ElementKind, id: string): Promise<any> {
+    const qe = QDDT_ELEMENTS[kind];
+    if (qe) {
+      if (kind === ElementKind.CONCEPT || kind === ElementKind.TOPIC_GROUP) {
+        return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/allinclatest').toPromise();
+      } else {
+        return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/all').toPromise();
+      }
+    }
+    return new Promise(null);
+  }
+
   public getPdf(id: string): Promise<Blob> {
     return this.http.get(this.api + 'publication/pdf/' + id, {responseType: 'blob'}).toPromise();
   }

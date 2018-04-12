@@ -1,7 +1,7 @@
 <div class="row hoverable"
      (mouseenter)="showbutton = true"
      (mouseleave)="showbutton = false">
-  <div class="row teal-text"><span>Missing</span></div>
+  <div class="row"><label>Missing</label></div>
   <div class="row">
     <a *ngIf="!getMissing() && !readonly"
        [ngClass]="{hide: !showbutton}"

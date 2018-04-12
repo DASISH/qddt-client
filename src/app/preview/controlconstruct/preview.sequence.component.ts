@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { SequenceConstruct } from '../../controlconstruct/controlconstruct.service';
 
 @Component({
   selector: 'qddt-preview-sequenceconstruct',
@@ -8,11 +9,10 @@ import { Component, OnInit, Input } from '@angular/core';
   ],
   template: `
     <div class="row" *ngIf="sequence">
-      <h5>Sequence: {{ sequence?.name }}</h5>
-      <span class="row">{{ text }}</span>
-      <ul *ngIf="sequence.children" materialize="collapsible" class="collapsible popout"
+      <span class="row">{{ sequence?.description }}</span>
+      <ul *ngIf="sequence.sequence" materialize="collapsible" class="collapsible popout"
           data-collapsible="expandable" style="padding: 5pt;">
-        <div *ngFor="let child of sequence.children">
+        <div *ngFor="let child of sequence.sequence">
           <li >
             <div class="collapsible-header green lighten-5">
               <div class="row"  style="margin-bottom: 0px;">
@@ -44,15 +44,7 @@ import { Component, OnInit, Input } from '@angular/core';
   providers: [ ],
 })
 
-export class PreviewSequenceConstructComponent implements OnInit {
-  @Input() sequence: any;
-  text: string;
-
-  ngOnInit() {
-    this.text = '';
-    if (this.sequence !== null && this.sequence !== undefined) {
-      this.text = this.sequence.description || '';
-    }
-  }
+export class PreviewSequenceConstructComponent {
+  @Input() sequence: SequenceConstruct;
 
 }

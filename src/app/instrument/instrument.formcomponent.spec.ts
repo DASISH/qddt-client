@@ -3,7 +3,7 @@ import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { InstrumentService } from './instrument.service';
-import { InstrumentDetailComponent } from './instrument.detail.component';
+import { InstrumentFormComponent } from './instrument.form.component';
 import { API_BASE_HREF } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -15,7 +15,7 @@ export function main() {
     beforeEach(() => {
       TestBed.configureTestingModule({
         declarations: [ RationalComponent, RevisionComponent,
-          LocalDatePipe, InstrumentDetailComponent,
+          LocalDatePipe, InstrumentFormComponent,
           CommentListComponent, AuthorChipComponent,
           TableComponent],
         providers: [
@@ -34,7 +34,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            const fixture = TestBed.createComponent(InstrumentDetailComponent);
+            const fixture = TestBed.createComponent(InstrumentFormComponent);
             fixture.detectChanges();
             const de: any = fixture.debugElement.queryAll(By.css('form'));
             expect(de.length).toBe(0);
@@ -46,7 +46,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            const fixture = TestBed.createComponent(InstrumentDetailComponent);
+            const fixture = TestBed.createComponent(InstrumentFormComponent);
             const instrument: any = {
               'id' : '7f000101-54aa-131e-8154-aa27fc230000',
               'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
@@ -58,13 +58,7 @@ export function main() {
               'changeComment' : 'Information added'
             };
             fixture.componentInstance.instrument = instrument;
-            fixture.componentInstance.instruments = [instrument];
             fixture.componentInstance.onUpdateInstrument();
-            fixture.detectChanges();
-            fixture.whenStable().then(() => {
-              expect(fixture.componentInstance.instruments.length).toBe(1);
-              expect(fixture.componentInstance.instruments[0].name).toContain('instrument');
-            });
           });
       }));
   });

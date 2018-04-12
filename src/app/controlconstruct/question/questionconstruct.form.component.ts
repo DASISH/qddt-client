@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnInit, EventEmitter, AfterContentChecked } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter, AfterContentChecked, OnChanges } from '@angular/core';
 import { ControlConstructService, QuestionConstruct, Universe, Instruction } from '../controlconstruct.service';
 import { Observable } from 'rxjs/Observable';
 import { QuestionItem } from '../../question/question.service';
@@ -8,7 +8,7 @@ const filesaver = require('file-saver');
 declare var Materialize: any;
 
 @Component({
-  selector: 'qddt-control-construct-form',
+  selector: 'qddt-question-construct-form',
   moduleId: module.id,
   templateUrl: 'questionconstruct.form.component.html',
   styles: [
@@ -17,10 +17,10 @@ declare var Materialize: any;
   ],
 })
 
-export class QuestionConstructFormComponent implements OnInit, AfterContentChecked {
+export class QuestionConstructFormComponent implements OnChanges {
   @Input() controlConstruct: QuestionConstruct;
-  @Input() readonly: boolean;
-  @Output() savedAction = new EventEmitter<QuestionConstruct>();
+  @Input() readonly = false;
+  @Output() modifiedEvent = new EventEmitter<QuestionConstruct>();
 
   public savedquestionitem: any;
 
@@ -44,14 +44,9 @@ export class QuestionConstructFormComponent implements OnInit, AfterContentCheck
     this.toDeleteFiles = [];
   }
 
-  ngOnInit() {
-    if (!this.readonly) { this.readonly = false; }
-  }
-
-  ngAfterContentChecked() {
+  ngOnChanges(changes: SimpleChanges): void {
     Materialize.updateTextFields();
   }
-
 
   onAddUniverse(item: Universe) {
     this.controlConstruct.universe.push(item);
@@ -149,7 +144,7 @@ export class QuestionConstructFormComponent implements OnInit, AfterContentCheck
         });
     }
     const service = this.service;
-    const elementEvent = this.savedAction;
+    const elementEvent = this.modifiedEvent;
     source.subscribe(
       function () {
         service.updateQuestion(controlConstruct).subscribe(

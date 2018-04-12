@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
 import { IEntityEditAudit } from '../shared/elementinterfaces/entityaudit';
 import { TemplateService } from './template.service';
 import { Action, IDetailAction } from '../shared/elementinterfaces/detailaction';
@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MaterializeAction } from 'angular2-materialize';
 import { HEADER_DETAILS } from '../shared/elementinterfaces/headerdetail';
 import { ElementKind } from '../shared/elementinterfaces/elements';
+import { Factory } from '../shared/elementfactory/factory';
 
 const fileSaver = require('file-saver');
 
@@ -15,7 +16,7 @@ const fileSaver = require('file-saver');
   templateUrl: './template-detail.component.html',
 })
 
-export class TemplateDetailComponent implements OnInit {
+export class TemplateDetailComponent implements OnInit, OnChanges {
   @Output() closeState: EventEmitter<IDetailAction>;
   @Output() selectedItem: EventEmitter<IEntityEditAudit>;
 
@@ -28,24 +29,26 @@ export class TemplateDetailComponent implements OnInit {
   private kind: ElementKind;
 
   constructor(private service: TemplateService, private router: Router, private route: ActivatedRoute) {
-    console.log('TemplateDetailComponent::CTR');
     this.route.url.subscribe((event) => {
       const path = event[0].path;
       this.kind = HEADER_DETAILS.get(path).kind;
       this.canDelete = service.can(Action.Delete, this.kind );
+      this.item = Factory.createInstance(this.kind);
     });
   }
 
   ngOnInit() {
-    console.log('TemplateDetailComponent::init');
     if (this.kind) {
-      this.service.getItem(this.kind, this.route.snapshot.paramMap.get('id')).then(
+      this.service.getItemByKind(this.kind, this.route.snapshot.paramMap.get('id')).then(
         (item) => {
             this.action.id = item.id;
             this.item = item;
             if (this.selectedItem) { this.selectedItem.emit(item); } },
         (error) => { throw error; });
     }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
   }
 
   onHideDetail() {

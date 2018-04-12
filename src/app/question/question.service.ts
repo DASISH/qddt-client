@@ -1,12 +1,8 @@
-import { Injectable, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { API_BASE_HREF } from '../api';
+import { IEntityEditAudit, IEntityAudit, IVersion } from '../shared/elementinterfaces/entityaudit';
 import { ResponseDomain } from '../responsedomain/responsedomain.service';
-import { Observable } from 'rxjs/Observable';
-import { Category } from '../category/category.service';
-import { IEntityEditAudit, IVersion, IEntityAudit } from '../shared/elementinterfaces/entityaudit';
-import { Page } from '../shared/table/table.page';
-import {ElementKind, QDDT_ELEMENTS} from '../shared/elementinterfaces/elements';
+import { ElementKind } from '../shared/elementinterfaces/elements';
+
+
 
 export class QuestionItem implements IEntityEditAudit {
 
@@ -26,99 +22,7 @@ export class QuestionItem implements IEntityEditAudit {
   conceptRefs: any;
 
   constructor() {
-    this.classKind = 'QUESTION_ITEM';
+    this.classKind = ElementKind[ElementKind.QUESTION_ITEM];
   }
 }
 
-
-@Injectable()
-export class QuestionService  {
-
-  constructor(protected http: HttpClient,  @Inject(API_BASE_HREF) protected api: string) { }
-
-
-  getQuestionItemPage(page: Page ): Promise<any> {
-    return this.http.get(this.api + 'questionitem/page?' + page.queryPage() )
-      .toPromise();
-  }
-
-  getquestion(id: string): Promise<any> {
-    return this.http.get(this.api + 'questionitem/' + id)
-      .toPromise();
-  }
-
-  deleteQuestionItem(id: string): any {
-    return this.http.delete(this.api + 'questionitem/delete/' + id);
-  }
-
-  searchQuestionItems(searchString: string = '', page: Page): Promise<any> {
-    const qe = QDDT_ELEMENTS[ElementKind.QUESTION_ITEM];
-    const args = searchString.split(' ');
-    const queries = [];
-
-    console.log(args);
-    console.log(qe.fields);
-
-    if (args.length <= qe.fields.length) {
-      for (let i = 0; i < args.length; i++) {
-        queries.push(qe.fields[i] + '=' + args[i].trim() );
-      }
-    } else {
-      for (let i = 0; i < qe.fields.length; i++) {
-        queries.push(qe.fields[i] + '=' + searchString.trim() );
-      }
-    }
-
-    let query = '';
-    if (queries.length > 0) { query = '?' + queries.join('&'); }
-    console.log(query);
-    query += page.queryPage();
-
-    return this.http.get(this.api + 'questionitem/page/search' + query).toPromise();
-  }
-
-  // createQuestionItem(question: QuestionItem):  Observable<QuestionItem> {
-  //   return this.http.post<QuestionItem>(this.api + 'questionitem/create', question);
-  // }
-
-  updateQuestionItem(questionItem: QuestionItem):  Observable<QuestionItem> {
-    return this.http.post<QuestionItem>(this.api + 'questionitem', questionItem);
-  }
-
-  createCategory(category: Category):  Observable<Category> {
-    return this.http.post<Category>(this.api + 'category/create/', category);
-  }
-
-  createResponseDomain(responseDomain: ResponseDomain):  Observable<ResponseDomain> {
-    return this.http.post<ResponseDomain>(this.api + 'responsedomain', responseDomain);
-  }
-
-
-  // getAllTemplatesByCategoryKind(categoryKind: String, name: String = '', page: Page): Promise<any> {
-  //   let query = name.length > 0 ? '&name=' + '*' + name + '*' : '';
-  //   query += page.queryPage();
-  //   return this.http.get(this.api + 'category/page/search/?level=GROUP_ENTITY&category=' + categoryKind + query )
-  //     .toPromise();
-  // }
-
-  // getResponseDomainsRevisions(id: string): Promise<any> {
-  //   return this.http.get(this.api + 'audit/responsedomain/' + id + '/all')
-  //     .toPromise()
-  //     .catch(err => { throw Error(err.message); });
-  //
-  // }
-
-  getQuestionItemRevisions(id: string): Promise<any> {
-    return this.http.get(this.api + 'audit/questionitem/' + id + '/all')
-      .toPromise();
-  }
-
-  // getQuestionItemRevision(id: string, rev: string): Promise<any> {
-  //   return this.http.get(this.api + 'audit/questionitem/' + id + '/' + rev)
-  //     .toPromise();
-  // }
-
-  getPdf(id: string): Observable<Blob> {
-    return this.http.get(this.api + 'questionitem/pdf/' + id, { responseType: 'blob' });
-  }
-}

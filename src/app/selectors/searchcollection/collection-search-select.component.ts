@@ -3,7 +3,7 @@ import { ElementKind, IElementRef, QDDT_ELEMENTS, QddtElement } from '../../shar
 import { IEntityAudit } from '../../shared/elementinterfaces/entityaudit';
 import { Factory } from '../../shared/elementfactory/factory';
 import { Subject } from 'rxjs/Subject';
-import { SelectorsService } from '../selectors.service';
+import { ElementEnumAware } from '../../preview/preview.service';
 
 @Component({
   selector: 'qddt-collection-search-select',
@@ -11,6 +11,7 @@ import { SelectorsService } from '../selectors.service';
   templateUrl: 'collection-search-select.component.html'
 })
 
+@ElementEnumAware
 export class CollectionSearchSelectComponent implements AfterViewInit , OnInit {
   @Input() items:  IEntityAudit[];
   @Input() labelName?: string;
@@ -26,19 +27,15 @@ export class CollectionSearchSelectComponent implements AfterViewInit , OnInit {
 
   private searchKeysListener: Subject<string> = new Subject<string>();
 
-  constructor(private service: SelectorsService ) {
+  constructor() {
     this.elements = [];
     console.log(this.searchKeysListener);
     this.searchKeysListener
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((searchString: string) => {
-        console.log('search ' + searchString);
-        this.service.searchItems(this.getElementKind(), searchString).then(
-          (result: any) => { this.elements = result.content; },
-          (error) => { throw error; });
-      },
-        (error1) => console.log('WTF??? ' + error1) );
+        // WUT???
+      });
   }
 
   public onSelectElement(item: IEntityAudit) {

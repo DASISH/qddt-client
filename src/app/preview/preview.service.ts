@@ -16,32 +16,32 @@ export class PreviewService {
 
   getElementByKind(kind: ElementKind, id: string): Promise<any> {
 
-    const qe  = QDDT_ELEMENTS.find(e => e.id === kind);
+    const qe = QDDT_ELEMENTS[kind];
     return this.http.get(this.api  + qe.path + '/' + id ).toPromise();
   }
 
   getRevisionByKind(kind: ElementKind, id: string, rev: number): Promise<any>  {
 
-    const qe  = QDDT_ELEMENTS.find(e => e.id === kind);
+    const qe = QDDT_ELEMENTS[kind];
     return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/' + rev).toPromise();
   }
 
-  getFile(id: string): Promise<Blob> {
-    return this.http.get(this.api + 'othermaterial/files/' + id, { responseType: 'blob'})
-      .toPromise();
-  }
+  getRevisionsByKind(kind: ElementKind, id: string): Promise<any> {
 
-  getElementRevisions(elementKind: ElementKind, id: string): Promise<any> {
-
-    const qe = QDDT_ELEMENTS.find(e => e.id === elementKind);
+    const qe = QDDT_ELEMENTS[kind];
     if (qe) {
-      if (elementKind === ElementKind.CONCEPT || elementKind === ElementKind.TOPIC_GROUP) {
+      if (kind === ElementKind.CONCEPT || kind === ElementKind.TOPIC_GROUP) {
         return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/allinclatest').toPromise();
       } else {
         return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/all').toPromise();
       }
     }
     return new Promise(null);
+  }
+
+  getFile(id: string): Promise<Blob> {
+
+    return this.http.get(this.api + 'othermaterial/files/' + id, { responseType: 'blob'}).toPromise();
   }
 
 }

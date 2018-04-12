@@ -22,11 +22,11 @@
 		    </qddt-auto-complete>
     </div>
   </div>
-  <div *ngIf="selectedElement" class="row">
-    <qddt-revision-select *ngIf="showAddElement" [element]="selectedElement"
-      (selectedEvent)="onPreviewSelected($event)"
-      (dismissEvent)="onToggleAddElement()">
-    </qddt-revision-select>
-  </div>
+  <qddt-revision-select
+    [elementRevisions]="revisions"
+    [showProgressBar]="showProgressBar"
+    (selectEvent)="onRevisionSelected($event)"
+    (dismissEvent)="onRevisionDismiss($event)">>
+  </qddt-revision-select>
 </div>
 

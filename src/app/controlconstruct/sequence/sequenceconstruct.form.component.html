@@ -23,11 +23,19 @@
               </textarea>
   </div>
 
-  <qddt-item-search [elementKind]="'CONTROL_CONSTRUCT'" (selectedElement)="onElementSelected($event)"></qddt-item-search>
+  <qddt-auto-complete
+    [items]="questionConstrucs"
+    [elementtype]="QUESTION"
+    (selectEvent)="onSelectElement($event)"
+    (enterEvent)="onSearchElements($event)">
+  </qddt-auto-complete>
 
-  <qddt-revision-select *ngIf="selectedElement" [element]="selectedElement" (selectedEvent)="onRevisionSelected($event)" (dismissEvent)="selectCanceled($event)"></qddt-revision-select>
+  <qddt-revision-select *ngIf="revisions"
+    [elementRevisions]="revisions"
+    (selectedEvent)="onRevisionSelected($event)"
+    (dismissEvent)="onSelectCanceled($event)">
+  </qddt-revision-select>
 
-  <!--<qddt-sequence-reuse (element)="onGetElement($event)"></qddt-sequence-reuse>-->
 
   <qddt-preview-controlconstruct [construct]="sequence"></qddt-preview-controlconstruct>
 

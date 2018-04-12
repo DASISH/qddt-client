@@ -38,7 +38,9 @@ const QUESTIONITEM_COLUMNS = [
 ];
 
 const INSTRUMENT_COLUMNS = [
-  new Column( { name: 'name', label: 'Name', sortable: true }),
+  new Column( { name: 'label', label: 'Name', sortable: true }),
+  new Column( { name: 'description', label: 'Description', sortable: true }),
+  new Column( { name: 'instrumentKind', label: 'Kind', sortable: true }),
 ];
 
 const SCALE =  [

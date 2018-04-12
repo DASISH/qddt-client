@@ -55,7 +55,7 @@
               <qddt-questionitem-reuse
                 *ngIf="!currentElement.archived"
                 [parentId]="currentElement?.id"
-                (questionItemCreatedEvent)="onAddQuestionItem($event,currentElement?.id)">
+                (createdEvent)="onAddQuestionItem($event,currentElement?.id)">
               </qddt-questionitem-reuse>
               <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
                 <i class="material-icons" (click)="onGetPdf(currentElement)" title="Get as Pdf">picture_as_pdf</i></a>

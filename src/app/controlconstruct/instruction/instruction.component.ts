@@ -31,7 +31,7 @@ export class InstructionComponent {
 
   onSearchInstructions(key: string) {
     this.instruction.description = key;
-    this.service.searchInstructions(key).then((result: any) => {
+    this.service.searchByKind(ElementKind.INSTRUCTION, key).then((result: any) => {
       this.instructions = result.content;
       this.isInstructionNew = this.instructions.length === 0;
     });

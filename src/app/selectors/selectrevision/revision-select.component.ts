@@ -1,8 +1,6 @@
-import { Component, OnChanges, EventEmitter, Input, Output } from '@angular/core';
-import { SelectorsService } from '../selectors.service';
+import { Component, OnChanges, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { IEntityAudit } from '../../shared/elementinterfaces/entityaudit';
 import { ElementKind, ElementRevisionRef, QDDT_ELEMENTS } from '../../shared/elementinterfaces/elements';
-
 
 @Component({
   selector: 'qddt-revision-select',
@@ -10,32 +8,20 @@ import { ElementKind, ElementRevisionRef, QDDT_ELEMENTS } from '../../shared/ele
   templateUrl: './revision-select.component.html',
 })
 
-export class RevisionSelectComponent implements OnChanges {
-  @Input() element: IEntityAudit;
-  @Output() selectedEvent = new EventEmitter<ElementRevisionRef>();
+export class RevisionSelectComponent implements OnChanges{
+  @Input() elementRevisions = [];
+  @Input() showProgressBar = false;
+  @Output() selectEvent = new EventEmitter<ElementRevisionRef>();
   @Output() dismissEvent = new EventEmitter<Boolean>();
 
-  elementRevisions = [];
   selectedRevision: number;
   selectedElement: IEntityAudit;
-  showProgressBar = false;
 
-  constructor(private service: SelectorsService) {
-  }
-
-  ngOnChanges() {
-
-    if (this.element && this.element.id) {
-      this.showProgressBar = true;
-      this.service.getElementRevisions(this.getElementKind(), this.element.id).then(
-        (result: any) => {
-          this.elementRevisions = result.content.sort((e1: any, e2: any) => e2.revisionNumber - e1.revisionNumber);
-          this.onSelectElementRevisions(this.elementRevisions[0].revisionNumber);
-          this.showProgressBar = false; },
-        (error) => {
-          this.showProgressBar = false;
-          throw error; }
-      );
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['elementRevisions']) {
+      if (this.elementRevisions) {
+        this.onSelectElementRevisions(this.elementRevisions[0].revisionNumber);
+      }
     }
   }
 
@@ -52,15 +38,14 @@ export class RevisionSelectComponent implements OnChanges {
   }
 
   onUseElement() {
-
-    const elementType  = QDDT_ELEMENTS.find(e => e.id === this.getElementKind());
+    const elementType  = QDDT_ELEMENTS[this.getElementKind()];
     if (elementType) {
       const element = new ElementRevisionRef();
       element.elementId = this.selectedElement.id;
       element.elementRevision = this.selectedRevision;
       element.elementKind =  this.selectedElement.classKind;
       element.element = this.selectedElement;
-      this.selectedEvent.emit(element);
+      this.selectEvent.emit(element);
     }
   }
 
@@ -69,8 +54,7 @@ export class RevisionSelectComponent implements OnChanges {
   }
 
   private getElementKind(): ElementKind {
-    return ElementKind[this.element.classKind];
+    return ElementKind[this.selectedElement.classKind];
   }
-
 
 }

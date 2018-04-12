@@ -1,8 +1,8 @@
-<qddt-template-component>
+<qddt-template-component #detail>
 
   <qddt-publication-form class="qddt-edit"
-    [publication]="newItem"
-    [textColor]="'teal-text'">
+    [publication] = "templateDetail.newItem"
+    (modifiedEvent) = "onFormModified($event)">
   </qddt-publication-form>
 
   <router-outlet></router-outlet>

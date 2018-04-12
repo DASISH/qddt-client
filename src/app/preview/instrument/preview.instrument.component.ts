@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Instrument } from '../../instrument/instrument.service';
+import { Instrument } from '../../instrument/instrument.classes';
 
 @Component({
   selector: 'qddt-preview-instrument',
@@ -13,9 +13,9 @@ import { Instrument } from '../../instrument/instrument.service';
       </textarea>
     </div>
   </div>
-  <ul *ngIf="instrument.controlConstructs" materialize="collapsible" class="collapsible"
+  <ul *ngIf="instrument.sequence" materialize="collapsible" class="collapsible"
       data-collapsible="accordion" style="margin:25px; padding:10px;">
-    <li *ngFor="let cc of instrument.controlConstructs">
+    <li *ngFor="let cc of instrument.sequence">
       <div class="collapsible-header yellow lighten-5">
         <div class="col l10">{{ cc?.name }}</div>
         <div class="col l2">

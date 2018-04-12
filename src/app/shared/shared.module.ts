@@ -13,7 +13,6 @@ import { ElementFooterComponent } from './footer/elementfooter.component';
 import { RationalComponent } from './rational/rational.component';
 import { RevisionComponent } from './revision/revision.component';
 import { CompareModule } from './compare/compare.module';
-import { DialogBoxComponent } from './dialogbox/dialogbox.component';
 import { VersionComponent } from './version/version.component';
 import { VersionLabelComponent } from './version/version.label.component';
 import { ConfirmDeleteComponent } from './confim-delete/delete.component';
@@ -23,6 +22,9 @@ import { CommentListComponent } from './comment/comment.list.component';
 import { CommentCreateComponent } from './comment/comment.create.component';
 import { GravatarDirective } from './directive/gravatar.directive';
 import { ConceptrefComponent } from './conceptref/conceptref.component';
+import { QddtModalOpenDirective } from './dialogbox/dialogbox.directive';
+import { QddtModalComponent } from './dialogbox/dialogbox.component';
+import { QddtModalService } from './dialogbox/dialogbox.service';
 
 
 @NgModule({
@@ -30,14 +32,15 @@ import { ConceptrefComponent } from './conceptref/conceptref.component';
   declarations: [ LocalDatePipe, QddtTableComponent, QddtPaginationComponent, AutocompleteComponent,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent, CommentCreateComponent,
-    RationalComponent, RevisionComponent, DialogBoxComponent, ConceptrefComponent,
-    AutosizeDirective, ParentFormConnectDirective, GravatarDirective ],
+    RationalComponent, RevisionComponent,  ConceptrefComponent, QddtModalComponent,
+    AutosizeDirective, ParentFormConnectDirective, GravatarDirective, QddtModalOpenDirective ],
   exports: [ LocalDatePipe, CommonModule, FormsModule, MaterializeModule,
      QddtTableComponent, QddtPaginationComponent, AutocompleteComponent,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent,
-    RationalComponent, RevisionComponent, DialogBoxComponent, ConceptrefComponent,
-    AutosizeDirective, ParentFormConnectDirective, GravatarDirective ]
+    RationalComponent, RevisionComponent, ConceptrefComponent, QddtModalComponent,
+    AutosizeDirective, ParentFormConnectDirective, GravatarDirective, QddtModalOpenDirective ],
+  providers: [QddtModalService]
 })
 
 export class SharedModule { }

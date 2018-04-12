@@ -80,33 +80,36 @@ export class ConditionConstruct implements IEntityAudit {
 @Injectable()
 export class ControlConstructService  {
 
-  readonly pageSize = '&size=10';
 
   constructor(protected http: HttpClient, @Inject(API_BASE_HREF) protected api: string) { }
 
   public getControlConstruct<T>(id: string): Promise<T>  {
-    console.log('getControlConstruct');
     return this.http.get<T>(this.api + 'controlconstruct/' + id).toPromise();
   }
 
-  public getControlConstructRevision(id: string, rev: string): Promise<any>  {
-    return this.http.get(this.api + 'audit/controlconstruct/' + id + '/' + rev).toPromise();
-  }
+  public searchByKind(kind: ElementKind, searchString: string = '',  page: Page = new Page() ): Promise<any> {
+    const qe = QDDT_ELEMENTS[kind];
+    const args = searchString.split(' ');
+    const queries = [];
 
-  public getControlConstructsByQuestionItem(id: string): Promise<any>  {
-    return this.http.get(this.api + 'controlconstruct/list/by-question/' + id).toPromise();
-  }
+    if (args.length <= qe.fields.length) {
+      for (let i = 0; i < args.length; i++) {
+        queries.push(qe.fields[i] + '=' + args[i].trim() );
+      }
+    } else {
+      for (let i = 0; i < qe.fields.length; i++) {
+        queries.push(qe.fields[i] + '=' + searchString.trim() );
+      }
+    }
 
-  public getQuestionItems(key: string): Promise<any> {
-    return this.http.get(this.api + 'questionitem/page/').toPromise();
-  }
+    let query = '?' ;
 
-  public getQuestionItemsRevisions(id: string): Promise<any> {
-    return this.http.get(this.api + 'audit/questionitem/' + id + '/all').toPromise();
-  }
+    if (queries.length > 0) { query = queries.join('&'); }
 
-  public getConceptsByQuestionitemId(id: string): Promise<any> {
-    return this.http.get(this.api + 'concept/list/by-QuestionItem/' + id).toPromise();
+    query += page.queryPage();
+    query += qe.parameter;
+
+    return this.http.get(this.api + qe.path + '/page/search/' + query).toPromise();
   }
 
   public getFile(id: string): Promise<Blob>  {
@@ -117,65 +120,8 @@ export class ControlConstructService  {
     return this.http.get(this.api + 'controlconstruct/pdf/' + id, { responseType: 'blob'}).toPromise();
   }
 
-  // public searchControlConstructs(searchString: string = '*',  page: Page): Promise<any> {
-  //   console.log('searchControlConstructs');
-  //   let query = '&name=' + name + '&questiontext=' + questionText;
-  //   if (sort.length > 0) {
-  //     query += '&sort=' + sort;
-  //   }
-  //   return this.http.get(this.api + 'controlconstruct/page/search/?constructkind=QUESTION_CONSTRUCT'
-  //     + '&page=' + page + this.pageSize + query).toPromise();
-  // }
-  //
-  // public searchSequenceConstructs(name: string = '*',  page: String = '0', sort: string = ''): Promise<any> {
-  //   console.log('searchSequenceConstructs');
-  //   let query = '&name=' + name ;
-  //   if (sort.length > 0) { query += '&sort=' + sort; }
-  //
-  //   return this.http.get(this.api + 'controlconstruct/page/search/?constructkind=SEQUENCE_CONSTRUCT'
-  //     + '&page=' + page + this.pageSize + query).toPromise();
-  // }
-  //
-  // public searchQuestionItemsByNameAndQuestion(name: string = '', page: String = '0', sort: String = ''): Promise<any> {
-  //   let query = name.length > 0 ? '&question=' + '*' + name + '*' + '&name=' + '*' + name + '*' : '';
-  //   if (sort.length > 0) {
-  //     query += '&sort=' + sort;
-  //   }
-  //   return this.http.get(this.api + 'questionitem/page/search?' + 'page=' + page + this.pageSize + query).toPromise();
-  // }
-
-  public searchInstructions(description: string = '', page: String = '0'): Promise<any> {
-    const query = description.length > 0 ? '&description=' + '*' + description + '*' : '';
-    return this.http.get(this.api + 'instruction/page/search?' + 'page=' + page + this.pageSize + query).toPromise();
-  }
-
-  public searchUniverses(description: string = '', page: String = '0'): Promise<any> {
-    const query = description.length > 0 ? '&description=' + '*' + description + '*' : '';
-    return this.http.get(this.api + 'universe/page/search?' + 'page=' + page + this.pageSize + query).toPromise();
-  }
-
-  public createCondition(cc: ConditionConstruct): Observable<ConditionConstruct> {
-    return this.http.post<ConditionConstruct>(this.api + 'controlconstruct/condition/create/', cc);
-  }
-
   public createWithfiles(form: FormData ): Observable<QuestionConstruct> {
     return this.http.post<QuestionConstruct>(this.api + 'controlconstruct/createfile/', form);
-
-//    return this.http.post("createfile",form)
-//    .map((response: Response) => response.json() as ArticleModel);
-
-  }
-
-  public createQuestion(cc: QuestionConstruct): Observable<QuestionConstruct> {
-    return this.http.post<QuestionConstruct>(this.api + 'controlconstruct/question/create/', cc);
-  }
-
-  public createSequence(cc: SequenceConstruct): Observable<SequenceConstruct> {
-    return this.http.post<SequenceConstruct>(this.api + 'controlconstruct/sequence/create/', cc);
-  }
-
-  public createStatement(cc: StatementConstruct): Observable<StatementConstruct> {
-    return this.http.post<StatementConstruct>(this.api + 'controlconstruct/statement/create/', cc);
   }
 
   public updateCondition(cc: ConditionConstruct): Observable<ConditionConstruct> {
@@ -198,8 +144,7 @@ export class ControlConstructService  {
     return this.http.post<StatementConstruct>(this.api + path , cc);
   }
 
-
-  public deleteControlConstruct(id: string): Observable<any> {
+  public delete(id: string): Observable<any> {
     return this.http.delete(this.api + 'controlconstruct/delete/' + id);
   }
 
@@ -220,36 +165,6 @@ export class ControlConstructService  {
           return [];
         }
       });
-  }
-
-  public getElements(ccKind: ElementKind, name: string, page: string = '0', sort: string = ''): Promise<any> {
-    let query = '';
-    if (name.length > 0) {
-      query = '&name=*' + name + '*' + '&questiontext=*' + name + '*';
-    }
-    if (page.length > 0 && page !== '0') {
-      query += '&page=' + page;
-    }
-    if (sort.length > 0) {
-      query += '&sort=' + sort;
-    }
-    return this.http.get(this.api + 'controlconstruct/page/search?constructkind=' + ElementKind[ccKind] + query)
-      .toPromise();
-  }
-
-  public getQddtElementFromStr(kind: string): QddtElement {
-    const element: any = QDDT_ELEMENTS.find(e => ElementKind[e.id] === kind);
-    if (!element) {
-      throw Error('Couldn\'t find kind ' + kind);
-    }
-    return element;
-  }
-
-  getRevisions(id: string): Promise<any> {
-    return this.http.get(this.api + 'audit/controlconstruct/' + id + '/all')
-      .toPromise()
-      .catch(err => { throw Error(err.message); });
-
   }
 
 }

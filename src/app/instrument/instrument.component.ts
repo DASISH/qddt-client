@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { Factory } from '../shared/elementfactory/factory';
 import { ElementKind } from '../shared/elementinterfaces/elements';
 
@@ -8,7 +8,12 @@ import { ElementKind } from '../shared/elementinterfaces/elements';
   templateUrl: './instrument.component.html'
 })
 export class InstrumentComponent  {
+  @ViewChild('detail') templateDetail;
 
-  public newItem =  Factory.createInstance(ElementKind.INSTRUMENT);
+
+  public onFormModified(event) {
+    console.log(event);
+    this.templateDetail.onToggleForm();
+  }
 
 }

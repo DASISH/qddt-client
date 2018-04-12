@@ -1,0 +1,34 @@
+
+<ul *ngIf="sequence" materialize="collapsible" class="collapsible popout"
+  data-collapsible="expandable" style="padding: 1pt;" (click)="onOpenBody(sequence)">
+<li *ngFor="let cqi of sequence;">
+    <div class="collapsible-header grey lighten-5">
+        <div class="col s3">{{ cqi?.elementRef?.element?.classKind }}</div>
+        <div class="col s7"> [{{ cqi?.elementRef?.name }}]</div>
+        <div class="col s2"><qddt-version-label [element]="cqi?.elementRef"></qddt-version-label></div>
+    </div>
+    <div class="collapsible-body"  style="padding:1rem">
+        <P>Parameters</P>
+        <div *ngFor="let paramter of cqi.Parameter">
+          {{parameter.name}}
+        </div>
+        <label>Description</label>
+        <qddt-preview-element *ngIf="cqi.elementRef.element" [element]= "cqi.elementRef.element" ></qddt-preview-element>
+        <qddt-auto-complete
+          [items]="suggestions"
+          [elementtype]="SEQUENCE"
+          (selectEvent)="onSelectElement($event)"
+          (enterEvent)="onSearchElements($event)">
+        </qddt-auto-complete>
+
+        <qddt-revision-select *ngIf="revisions"
+          [elementRevisions]="revisions"
+          (selectedEvent)="onRevisionSelected($event)"
+          (dismissEvent)="onRevisionDismiss($event)">
+        </qddt-revision-select>
+        <qddt-instrument-sequence *ngIf="cqi.sequence"
+          [sequence] = "cqi.sequence">
+        </qddt-instrument-sequence>
+    </div>
+</li>
+</ul>

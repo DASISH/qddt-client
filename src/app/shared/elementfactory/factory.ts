@@ -7,12 +7,12 @@ import {
   SequenceConstruct,
   StatementConstruct, Universe
 } from '../../controlconstruct/controlconstruct.service';
-import {Category} from '../../category/category.service';
-import {Concept, Study, SurveyProgram, Topic} from '../../home/home.service';
-import {Instrument} from '../../instrument/instrument.service';
-import {Publication} from '../../publication/publication.service';
-import {QuestionItem} from '../../question/question.service';
-import {ResponseDomain} from '../../responsedomain/responsedomain.service';
+import { Category } from '../../category/category.service';
+import { Concept, Study, SurveyProgram, Topic} from '../../home/home.service';
+import { Publication } from '../../publication/publication.service';
+import { QuestionItem } from '../../question/question.service';
+import { ResponseDomain } from '../../responsedomain/responsedomain.service';
+import { Instrument } from '../../instrument/instrument.classes';
 
 // declare var Materialize: any;
 

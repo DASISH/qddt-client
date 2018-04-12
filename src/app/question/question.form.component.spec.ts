@@ -3,22 +3,24 @@ import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { QuestionService } from './question.service';
-import { QuestionDetailComponent } from './question.detail.component';
 import { API_BASE_HREF } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { MaterializeModule } from 'angular2-materialize';
+import { QuestionFormComponent } from './question.form.component';
 
 export function main() {
-  describe('Question detail component', () => {
+  describe('Question edit component', () => {
     //
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [ RevisionComponent,
-          QuestionItemEditComponent, CommentListComponent,
-          QuestionDetailComponent, AuthorChipComponent,
-          QuestionItemEditMissingComponent],
+        declarations: [ RevisionDetailComponent, StudyUsedbyComponent,
+          TopicUsedbyComponent, QuestionitemUsedbyComponent,
+          QuestionFormComponent, CommentListComponent,
+          QuestionItemEditMissingComponent, TreeNodeComponent,
+          ResponsedomainReuseComponent, RationalComponent,
+          ResponsedomainPreviewComponent],
         providers: [
           { provide: QuestionService, useClass: QuestionServiceSpy },
           {
@@ -37,7 +39,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            const fixture = TestBed.createComponent(QuestionDetailComponent);
+            const fixture = TestBed.createComponent(QuestionFormComponent);
             fixture.detectChanges();
             const de: any = fixture.debugElement.queryAll(By.css('a'));
             expect(de.length).toBeGreaterThan(0);
@@ -49,7 +51,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            const fixture = TestBed.createComponent(QuestionDetailComponent);
+            const fixture = TestBed.createComponent(QuestionFormComponent);
             const questionitem: any = {
               'id' : '7f000101-54aa-131e-8154-aa27fc230000',
               'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
@@ -63,12 +65,12 @@ export function main() {
               'changeComment' : 'Information added'
             };
             fixture.componentInstance.questionitem = questionitem;
-            fixture.componentInstance.questionitems = [questionitem];
+            fixture.componentInstance.ngOnInit();
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              const h5: any = fixture.debugElement.queryAll(By.css('h5'));
-              expect(h5.length).toBeGreaterThan(0);
-              expect(h5[0].nativeElement.textContent).toContain('questionitem');
+              const elements: any = fixture.debugElement.queryAll(By.css('textarea'));
+              expect(elements.length).toBeGreaterThan(0);
+              expect(elements[0].nativeElement.value).toContain('questionitem');
             });
           });
       }));
@@ -77,7 +79,7 @@ export function main() {
 
 // override dependencies
 class QuestionServiceSpy {
-  getquestion = jasmine.createSpy('getquestion').and.callFake(function (key) {
+  updateQuestionItem = jasmine.createSpy('updateQuestionItem').and.callFake(function (key) {
     return [];
   });
 }
@@ -105,33 +107,80 @@ class QuestionItemEditMissingComponent {
 }
 
 @Component({
-  selector: 'qddt-questionitem-edit',
+  selector: 'qddt-element-footer',
   template: `<div></div>`
 })
 
-class QuestionItemEditComponent {
-  @Input() isVisible: boolean;
-  @Input() questionitem: any;
-  @Output() editQuestionItem: EventEmitter<any> = new EventEmitter<any>();
+class RevisionDetailComponent {
+  @Input() element: any;
+  @Input() type: string;
+  @Output() BasedonObjectDetail: any = new EventEmitter<string>();
 }
 
 @Component({
-  selector: 'qddt-revision',
+  selector: 'qddt-rational',
   template: `<div></div>`
 })
 
-class RevisionComponent {
-  @Input() isVisible: any;
+class RationalComponent {
+  @Input() element: any;
   @Input() config: any;
-  @Input() qddtURI: any;
-  @Input() current: any;
 }
 
 @Component({
-  selector: 'qddt-author-chip',
+  selector: 'qddt-study-preview',
   template: `<div></div>`
 })
 
-class AuthorChipComponent {
-  @Input() authors: any;
+class StudyUsedbyComponent {
+  @Input() id: string;
+}
+
+@Component({
+  selector: 'qddt-topic-preview',
+  template: `<div></div>`
+})
+
+class TopicUsedbyComponent {
+  @Input() id: string;
+}
+
+@Component({
+  selector: 'qddt-questionitem-preview',
+  template: `<div></div>`
+})
+
+class QuestionitemUsedbyComponent {
+  @Input() id: string;
+}
+
+@Component({
+  selector: 'qddt-questionitem-treenode',
+  template: `<div></div>`
+})
+
+class TreeNodeComponent {
+  @Output() deleteEvent: EventEmitter<any> = new EventEmitter();
+  @Input() concept: any;
+}
+
+@Component({
+  selector: 'qddt-responsedomain-reuse',
+  template: `<div></div>`
+})
+
+class ResponsedomainReuseComponent {
+  @Input() isVisible: boolean;
+  @Input() responseDomain: any;
+  @Output() responseDomainReuse: EventEmitter<any> = new EventEmitter();
+}
+
+@Component({
+  selector: 'qddt-preview-responsedomain',
+  template: `<div></div>`
+})
+
+class ResponsedomainPreviewComponent {
+  @Input() isVisible: boolean;
+  @Input() responseDomain: any;
 }

@@ -34,7 +34,9 @@
         </div>
       </div>
 
-      <ng-content selector='.qddt-form' ></ng-content>
+      <div #childForm>
+          <ng-content selector='.qddt-form'></ng-content>
+      </div>
 
       <qddt-revision *ngIf="revisionIsVisible" [current]="item"> </qddt-revision>
 

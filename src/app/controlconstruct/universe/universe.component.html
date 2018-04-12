@@ -1,11 +1,9 @@
 <div class="row card">
   <div class="col s10 black-text">
     <label>Description</label>
-    <div [ngClass]="{ noItemFound: (isUniverseNew && universe.description.length > 0 && universe.length === 0) }">
+    <div [ngClass]="{ noItemFound: (isNew && universe.description.length > 0 ) }">
     <qddt-auto-complete
-      [items]="universes" class="black-text"
-      [elementtype]="UNIVERSE"
-      [initialValue]="universe?.description"
+      [items]="universes" class="black-text" [elementtype]="UNIVERSE" [initialValue]="universe?.description"
       (selectEvent)="onSelectUniverse($event)"
       (enterEvent)="onSearchUniverses($event)">
     </qddt-auto-complete>

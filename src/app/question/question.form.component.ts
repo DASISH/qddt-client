@@ -1,54 +1,61 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, SimpleChanges, OnChanges } from '@angular/core';
 import { QuestionItem, QuestionService } from './question.service';
 import { Category } from '../category/category.service';
 import { ResponseDomain } from '../responsedomain/responsedomain.service';
+import { TemplateService } from '../template/template.service';
+import { ElementKind } from '../shared/elementinterfaces/elements';
+
+declare var Materialize: any;
 
 @Component({
-  selector: 'qddt-questionitem-edit',
+  selector: 'qddt-questionitem-form',
   moduleId: module.id,
   styles: [
     ':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'
   ],
-  templateUrl: './question.edit.component.html'
+  templateUrl: './question.form.component.html'
 })
 
-export class QuestionItemEditComponent implements OnInit {
+export class QuestionFormComponent  implements OnChanges {
   @Input() questionitem: QuestionItem;
-  @Input() readonly: boolean;
-  @Output() editQuestionItem = new EventEmitter<QuestionItem>();
+  @Input() readonly = false;
+  @Output() modifiedEvent = new EventEmitter<QuestionItem>();
 
   public showbutton = false;
+  public formId = Math.round( Math.random() * 10000);
+  constructor(private service: TemplateService) { }
 
-  constructor(private service: QuestionService) { }
-
-  ngOnInit() {
-    if (!this.readonly) { this.readonly = false; }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['questionitem'].currentValue) {
+      console.log('new questionitem');
+    }
+    try { Materialize.updateTextFields(); } catch (Exception) { }
   }
 
   onSaveQuestionItem() {
     if ((this.questionitem.responseDomain) && (!this.questionitem.responseDomain.id)) {
-      this.service.createResponseDomain(this.questionitem.responseDomain)
+      this.service.update(this.questionitem.responseDomain)
         .subscribe(result => {
           this.questionitem.responseDomain = result;
           this.questionitem.responseDomainRevision = 0;
-          this.service.updateQuestionItem(this.questionitem)
+          this.service.update(this.questionitem)
             .subscribe((result1: any) => {
               this.questionitem = result1;
-              this.editQuestionItem.emit(this.questionitem);
+              this.modifiedEvent.emit(this.questionitem);
             });
         });
     } else {
-      this.service.updateQuestionItem(this.questionitem)
+      this.service.update(this.questionitem)
         .subscribe((result) => {
           this.questionitem = result;
-          this.editQuestionItem.emit(this.questionitem);
+          this.modifiedEvent.emit(this.questionitem);
         });
     }
   }
 
   onResponseDomainSelected(item: QuestionItem) {
     if (item.responseDomain.responseKind === 'MIXED') {
-      this.service.createResponseDomain(item.responseDomain).subscribe(result => {
+      this.service.update(item.responseDomain).subscribe(result => {
         this.questionitem.responseDomain = result;
         this.questionitem.responseDomainRevision = 0;
         console.log('RD saved');

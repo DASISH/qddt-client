@@ -1,6 +1,8 @@
-import { Component, Input, Output, EventEmitter, OnInit, AfterContentChecked } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, AfterContentChecked, SimpleChanges, OnChanges } from '@angular/core';
 import { Publication, PUBLICATION_TYPES, PublicationService, PublicationStatus } from './publication.service';
 import { ElementRevisionRef, QddtElement, ElementKind } from '../shared/elementinterfaces/elements';
+import { IEntityEditAudit } from '../shared/elementinterfaces/entityaudit';
+import { TemplateService } from '../template/template.service';
 
 declare var Materialize: any;
 
@@ -13,48 +15,40 @@ declare var Materialize: any;
   templateUrl: './publication.form.component.html',
 })
 
-export class PublicationFormComponent implements OnInit , AfterContentChecked {
+export class PublicationFormComponent implements OnChanges {
   @Input() publication: Publication;
-  @Input() textColor = 'grey-text text-darken-1';
-  @Output() saveEvent = new EventEmitter<Publication>();
+  @Output() modifiedEvent = new EventEmitter<IEntityEditAudit>();
 
-  selectedOptionValue: number;
-  selectedPublicationStatusOption: any;
-  selectOptions: PublicationStatus[];
+  public formId = Math.round( Math.random() * 10000);
+  public selectedPublicationStatusOption: string;
+  public selectedOptionValue: number;
+  public selectOptions: any;
 
   constructor(private service: PublicationService) {
     this.service.PUBLICATION_STATUSES.then( (result) => {
       this.selectOptions = result;
       });
-}
-
-  public ngOnInit() {
-    if (this.selectOptions) {
-      this.onSelectChange();
-    }
   }
 
-  public ngAfterContentChecked() {
-    try {
-      Materialize.updateTextFields();
-    } catch ( Exception ) {
-       // ignore
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['publication'].currentValue) {
+      console.log('new value');
     }
+    try { Materialize.updateTextFields(); } catch (Exception) { }
   }
 
-  public onSavePublication() {
-    if (this.publication.id) {
+  public onUpdatePublication() {
+/*     if (this.publication.id) {
       this.service.create(this.publication).subscribe(
-        (result) => { this.publication = result; this.saveEvent.emit(this.publication); },
+        (result) => { this.publication = result; this.modifiedEvent.emit(this.publication); },
         (error) => { throw error; });
-    } else {
+    } else { */
       this.service.update(this.publication).subscribe(
-        (result) => { this.publication = result; this.saveEvent.emit(this.publication); },
+        (result) => { this.publication = result; this.modifiedEvent.emit(this.publication); },
         (error) => { throw error; });
 
-    }
+    /* } */
   }
-
 
   public getLabelByElement(kind: ElementKind): String {
     let element: QddtElement;
@@ -86,9 +80,10 @@ export class PublicationFormComponent implements OnInit , AfterContentChecked {
             new PublicationStatus({id: s1.id, label: s1.label, published: s.published, description: s1.description }) ));
     } } );
 
+    console.log(id);
     if (id) {
-      this.selectedOptionValue = id;
-      this.publication.status = statusList.find(e => e.id === id );
+      this.selectedOptionValue = +id;
+      this.publication.status = statusList.find(e => e.id === +id );
       this.selectedPublicationStatusOption = this.publication.status.description;
     } else if (this.publication.status) {
       this.selectedOptionValue = this.publication.status.id;

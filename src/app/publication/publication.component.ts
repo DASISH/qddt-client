@@ -1,6 +1,4 @@
-import { Component } from '@angular/core';
-import { Factory } from '../shared/elementfactory/factory';
-import { ElementKind } from '../shared/elementinterfaces/elements';
+import { Component, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'qddt-publication',
@@ -8,7 +6,10 @@ import { ElementKind } from '../shared/elementinterfaces/elements';
   templateUrl: './publication.component.html'
 })
 export class PublicationComponent  {
+  @ViewChild('detail') templateDetail;
 
-  public newItem =  Factory.createInstance(ElementKind.PUBLICATION);
 
+  public onFormModified(event) {
+    this.templateDetail.onToggleForm();
+  }
 }
