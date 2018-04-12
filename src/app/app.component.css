@@ -54,13 +54,13 @@ form p {
 .noItemFound { border: thick solid darkorange; }
 
 
-.formWhite * :not() {
+.formWhite * :not()  {
   background-color: white;
   color: rgb(31, 31, 31);
 }
 
-.formWhite label  {
-  color: teal;
+.formWhite label * {
+  color: teal ;
 }
 /* .formDark * :not() {
   background-color: #009687;

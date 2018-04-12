@@ -2,17 +2,19 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { API_BASE_HREF } from '../api';
-import { ElementKind, QDDT_ELEMENTS, ElementRevisionRef, QddtElement } from '../shared/elementinterfaces/elements';
-import { IEntityAudit } from '../shared/elementinterfaces/entityaudit';
+import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
+import { ElementKind} from '../shared/classes/enums';
+import { IEntityAudit} from '../shared/classes/interfaces';
+import { ElementRevisionRef, QueryInfo} from '../shared/classes/classes';
 
 
 
-export const PUBLICATION_TYPES: QddtElement[] = [
-  QDDT_ELEMENTS[ElementKind.TOPIC_GROUP],
-  QDDT_ELEMENTS[ElementKind.CONCEPT],
-  QDDT_ELEMENTS[ElementKind.QUESTION_ITEM],
-  QDDT_ELEMENTS[ElementKind.QUESTION_CONSTRUCT],
-  QDDT_ELEMENTS[ElementKind.SEQUENCE_CONSTRUCT],
+export const PUBLICATION_TYPES: QueryInfo[] = [
+  QDDT_QUERY_INFOES[ElementKind.TOPIC_GROUP],
+  QDDT_QUERY_INFOES[ElementKind.CONCEPT],
+  QDDT_QUERY_INFOES[ElementKind.QUESTION_ITEM],
+  QDDT_QUERY_INFOES[ElementKind.QUESTION_CONSTRUCT],
+  QDDT_QUERY_INFOES[ElementKind.SEQUENCE_CONSTRUCT],
 ];
 
 
@@ -69,7 +71,7 @@ export class PublicationService {
   }
 
   public getRevisionsByKind(kind: ElementKind, id: string): Promise<any> {
-    const qe = QDDT_ELEMENTS[kind];
+    const qe = QDDT_QUERY_INFOES[kind];
     if (qe) {
       if (kind === ElementKind.CONCEPT || kind === ElementKind.TOPIC_GROUP) {
         return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/allinclatest').toPromise();

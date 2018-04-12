@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { PreviewService } from '../preview.service';
-import { Topic } from '../../home/home.service';
-import { ElementKind } from '../../shared/elementinterfaces/elements';
 import { QddtMessageService } from '../../core/global/message.service';
+import { Topic } from '../../home/home.classes';
+import { ElementKind } from '../../shared/classes/enums';
 
 const filesaver = require('file-saver');
 

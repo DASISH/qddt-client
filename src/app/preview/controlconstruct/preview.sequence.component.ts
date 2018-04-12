@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { SequenceConstruct } from '../../controlconstruct/controlconstruct.service';
+import { Component, Input } from '@angular/core';
+import { SequenceConstruct } from '../../controlconstruct/controlconstruct.classes';
 
 @Component({
   selector: 'qddt-preview-sequenceconstruct',

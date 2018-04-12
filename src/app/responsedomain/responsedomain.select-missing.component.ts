@@ -1,10 +1,12 @@
 import { Component, Input, Output, EventEmitter, OnInit, AfterViewInit } from '@angular/core';
-import { Category, CategoryService } from '../category/category.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 import { ResponseDomain } from './responsedomain.service';
-import { QddtElement, QDDT_ELEMENTS, ElementKind } from '../shared/elementinterfaces/elements';
-import { Page } from '../shared/table/table.page';
+import { Page } from '../shared/classes/classes';
+import { CategoryService } from '../category/category.service';
+import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
+import { ElementKind } from '../shared/classes/enums';
+import { Category } from '../category/category.classes';
 
 @Component({
   selector: 'qddt-responsedomain-select-missing',
@@ -26,7 +28,7 @@ export class ResponsedomainSelectMissingComponent implements OnInit {
   @Output() selectedEvent = new EventEmitter<any>();
   @Output() removeEvent = new EventEmitter<any>();
 
-  public readonly CATEGORY_KIND = QDDT_ELEMENTS[ElementKind.CATEGORY];
+  public readonly CATEGORY_KIND = QDDT_QUERY_INFOES[ElementKind.CATEGORY];
   public findMissingAction = new EventEmitter<MaterializeAction>();
   public showbutton: any;
   public missingGroups: Category[];

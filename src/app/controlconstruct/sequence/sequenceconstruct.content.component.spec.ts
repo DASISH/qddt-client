@@ -97,7 +97,7 @@ class SequenceDetailComponent {
   @Input() sequence: any;
   @Input() sequences: any[];
   @Input() isVisible: boolean;
-  @Output() hideDetailEvent: EventEmitter<String> = new EventEmitter<String>();
+  @Output() hideDetailEvent =  new EventEmitter<String>();
 }
 
 @Component({

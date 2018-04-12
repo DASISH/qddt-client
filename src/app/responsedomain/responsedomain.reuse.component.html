@@ -26,7 +26,7 @@
     <div *ngIf="showAutocomplete">
       <qddt-auto-complete
         [items]="responseDomains" class="black-text"
-        [elementtype]="RESPONSEKIND"
+        [elementtype]="RESPONSE_KIND"
         (focusEvent)="selectedIndex=idx;"
         (enterEvent)="searchResponseDomains($event)"
         (selectEvent)="onResponseDomainSelected($event)">

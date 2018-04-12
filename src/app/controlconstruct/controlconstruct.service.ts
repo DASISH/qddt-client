@@ -3,78 +3,12 @@ import { HttpClient } from '@angular/common/http';
 
 import { API_BASE_HREF } from '../api';
 import { Observable } from 'rxjs/Observable';
-import { QuestionItem } from '../question/question.service';
-import { QddtElement, QDDT_ELEMENTS, ElementKind, ElementRevisionRef } from '../shared/elementinterfaces/elements';
-import { IEntityAudit } from '../shared/elementinterfaces/entityaudit';
-import { Page } from '../shared/table/table.page';
-
-export enum SequenceKind {
-  NA,
-  QUESTIONNAIRE,
-  SECTION,
-  BATTERY,
-  UNIVERSE
-}
-
-export class Universe implements IEntityAudit {
-  id: string;
-  name: string;
-  description: string;
-  classKind = ElementKind[ElementKind.UNIVERSE];
-}
-
-export class Instruction implements IEntityAudit {
-  id: string;
-  name: string;
-  description: string;
-  classKind = ElementKind[ElementKind.INSTRUCTION];
-}
-
-export class ConditionCommand {
-  type: ElementKind;
-  constructId: string;
-  constructName: string;
-  command: string;
-}
+import { Page } from '../shared/classes/classes';
+import { ConditionConstruct, QuestionConstruct, SequenceConstruct, StatementConstruct} from './controlconstruct.classes';
+import { ElementKind } from '../shared/classes/enums';
+import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
 
 
-export class QuestionConstruct implements IEntityAudit {
-  id: string;
-  name: string;
-  classKind = ElementKind[ElementKind.QUESTION_CONSTRUCT];
-  questionItem: QuestionItem;
-  questionItemRevision: number;
-  otherMaterials: any;
-  universe: Universe[];
-  preInstructions: Instruction[];
-  postInstructions: Instruction[];
-}
-
-export class SequenceConstruct implements IEntityAudit {
-  id: string;
-  name: string;
-  label: string;
-  description: string;
-  classKind = ElementKind[ElementKind.SEQUENCE_CONSTRUCT];
-  sequenceKind = SequenceKind[SequenceKind.SECTION];
-  sequence: ElementRevisionRef[];
-}
-
-export class StatementConstruct implements IEntityAudit {
-  id: string;
-  name: string;
-  statement: string;
-  classKind = ElementKind[ElementKind.STATEMENT_CONSTRUCT];
-}
-
-export class ConditionConstruct implements IEntityAudit {
-  id: string;
-  name: string;
-  condition: string;
-  classKind = ElementKind[ElementKind.CONDITION_CONSTRUCT];
-  ifCondition: ConditionCommand;
-  elseConditions: ConditionCommand[];
-}
 
 
 @Injectable()
@@ -88,7 +22,7 @@ export class ControlConstructService  {
   }
 
   public searchByKind(kind: ElementKind, searchString: string = '',  page: Page = new Page() ): Promise<any> {
-    const qe = QDDT_ELEMENTS[kind];
+    const qe = QDDT_QUERY_INFOES[kind];
     const args = searchString.split(' ');
     const queries = [];
 
@@ -116,9 +50,6 @@ export class ControlConstructService  {
     return this.http.get(this.api + 'othermaterial/files/' + id, {responseType: 'blob'}).toPromise();
   }
 
-  public getPdf(id: string): Promise<Blob>  {
-    return this.http.get(this.api + 'controlconstruct/pdf/' + id, { responseType: 'blob'}).toPromise();
-  }
 
   public createWithfiles(form: FormData ): Observable<QuestionConstruct> {
     return this.http.post<QuestionConstruct>(this.api + 'controlconstruct/createfile/', form);

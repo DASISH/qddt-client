@@ -1,7 +1,8 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { CategoryService, Category } from './category.service';
-import { CategoryType } from './category-kind';
-import { QDDT_ELEMENTS, ElementKind } from '../shared/elementinterfaces/elements';
+import { CategoryService } from './category.service';
+import {Category, CategoryType} from './category.classes';
+import {QDDT_QUERY_INFOES} from '../shared/classes/constants';
+import {ElementKind} from '../shared/classes/enums';
 
 
 @Component({
@@ -13,16 +14,16 @@ import { QDDT_ELEMENTS, ElementKind } from '../shared/elementinterfaces/elements
   <form (ngSubmit)="onSave()" #hf="ngForm">
     <div class="row">
       <div class="input-field col s12 ">
-        <label for="label2" class="teal-text">Label</label>
-        <input id="label2" name="label" type="text" class="validate" required
+        <input id="label2" name="label2" type="text" class="validate" required
                [(ngModel)]="category.label" data-length="100" materialize="characterCounter">
+        <label for="label2">Label</label>
       </div>
     </div>
     <div class="row">
       <div class="input-field col m12 ">
-        <label for="name2" class="teal-text">Name</label>
         <input id="name2" name="name" type="text" class="validate" required [(ngModel)]="category.name"
                data-length="255" materialize="characterCounter">
+        <label for="name2">Name</label>
       </div>
     </div>
     <div class="row">
@@ -93,9 +94,9 @@ export class CategoryEditComponent implements OnInit {
   @Input() category: Category;
   @Input() categories: Category[];
   @Input() isVisible: boolean;
-  @Output() editDetailEvent: EventEmitter<String> = new EventEmitter<String>();
+  @Output() editDetailEvent =  new EventEmitter<String>();
   public isTemplate: boolean;
-  public readonly CATEGORY_KIND = QDDT_ELEMENTS[ElementKind.CATEGORY];
+  public readonly CATEGORY_KIND = QDDT_QUERY_INFOES[ElementKind.CATEGORY];
 
   private categoryEnums: any;
   private selectedCategoryIndex: number;

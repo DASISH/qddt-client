@@ -1,8 +1,9 @@
-import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { PublicationService } from './publication.service';
 import { Subject } from 'rxjs/Subject';
-import { ElementRevisionRef, ElementKind, QddtElement, QDDT_ELEMENTS } from '../shared/elementinterfaces/elements';
-import { IEntityAudit } from '../shared/elementinterfaces/entityaudit';
+import { ElementRevisionRef, QueryInfo } from '../shared/classes/classes';
+import { ElementKind } from '../shared/classes/enums';
+import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
 
 @Component({
   selector: 'qddt-publication-reuse',
@@ -24,12 +25,12 @@ export class PublicationReuseComponent  {
   public elements: any[];
   public showProgressBar = false;
 
-  queryFields: QddtElement[] = [
-    QDDT_ELEMENTS[ElementKind.TOPIC_GROUP],
-    QDDT_ELEMENTS[ElementKind.CONCEPT],
-    QDDT_ELEMENTS[ElementKind.QUESTION_ITEM],
-    QDDT_ELEMENTS[ElementKind.QUESTION_CONSTRUCT],
-    QDDT_ELEMENTS[ElementKind.SEQUENCE_CONSTRUCT]
+  queryFields: QueryInfo[] = [
+    QDDT_QUERY_INFOES[ElementKind.TOPIC_GROUP],
+    QDDT_QUERY_INFOES[ElementKind.CONCEPT],
+    QDDT_QUERY_INFOES[ElementKind.QUESTION_ITEM],
+    QDDT_QUERY_INFOES[ElementKind.QUESTION_CONSTRUCT],
+    QDDT_QUERY_INFOES[ElementKind.SEQUENCE_CONSTRUCT]
   ];
 
   private searchKeysListener: Subject<string> = new Subject<string>();
@@ -90,7 +91,7 @@ export class PublicationReuseComponent  {
   }
 
 
-  private getElementType(kind: ElementKind): QddtElement {
+  private getElementType(kind: ElementKind): QueryInfo {
      return this.queryFields.find(e => e.id === kind);
   }
 

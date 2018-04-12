@@ -2,9 +2,10 @@ import { AfterContentChecked, Component, OnInit } from '@angular/core';
 import { ActivatedRoute,  Router } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 import { HIERARCHY_POSITION, PropertyStoreService } from '../../core/global/property.service';
-import { ElementKind } from '../../shared/elementinterfaces/elements';
-import { HomeService, Topic, Study } from '../home.service';
+import { HomeService } from '../home.service';
 import { QddtMessageService } from '../../core/global/message.service';
+import { ElementKind } from '../../shared/classes/enums';
+import { Study, Topic } from '../home.classes';
 
 const filesaver = require('file-saver');
 declare var Materialize: any;
@@ -21,9 +22,7 @@ declare var Materialize: any;
 
 export class TopicComponent implements  OnInit, AfterContentChecked {
 
-  public readonly topicKind = ElementKind.TOPIC_GROUP;
-
-  // public questionItemActions = new EventEmitter<string|MaterializeAction>();
+  public readonly TOPIC_KIND = ElementKind.TOPIC_GROUP;
 
   public study: Study;
   public topics: Topic[];

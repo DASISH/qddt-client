@@ -1,10 +1,10 @@
-import { Component, OnInit, AfterContentChecked } from '@angular/core';
-import { CategoryService, Category } from './category.service';
+import { Component, OnInit } from '@angular/core';
+import { CategoryService } from './category.service';
 import { Subject } from 'rxjs/Subject';
 import { PropertyStoreService } from '../core/global/property.service';
-import { Column } from '../shared/table/table.column';
-import { Page } from '../shared/table/table.page';
-import { ElementKind } from '../shared/elementinterfaces/elements';
+import { Page } from '../shared/classes/classes';
+import { ElementKind } from '../shared/classes/enums';
+import { Category } from './category.classes';
 
 @Component({
   selector: 'qddt-category',

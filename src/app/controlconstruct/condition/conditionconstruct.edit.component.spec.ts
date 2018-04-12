@@ -117,7 +117,7 @@ class AutocompleteComponent {
   @Input() isMultipleFields: boolean;
   @Input() initialValue: string;
   @Input() searchFromServer: boolean;
-  @Output() selectEvent: EventEmitter<any> = new EventEmitter<any>();
-  @Output() focusEvent: EventEmitter<any> = new EventEmitter<any>();
-  @Output() enterEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() selectEvent =  new EventEmitter<any>();
+  @Output() focusEvent =  new EventEmitter<any>();
+  @Output() enterEvent =  new EventEmitter<any>();
 }

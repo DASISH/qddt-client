@@ -1,6 +1,7 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { HomeService, Topic } from '../home.service';
+import { HomeService } from '../home.service';
+import {Topic} from '../home.classes';
 
 const filesaver = require('file-saver');
 
@@ -16,29 +17,19 @@ const filesaver = require('file-saver');
 })
 
 export class TopicEditComponent  {
-
   @Input() topic: Topic;
   @Input() isVisible: boolean;
-  @Output() topicSavedAction = new EventEmitter<any>();
+  @Output() savedEvent = new EventEmitter<any>();
 
   public showRevision = false;
 
-  private showUploadFileForm: boolean;
-  private showUploadedFiles: boolean;
-  private showDeletebutton = false;
-  private showbutton = false;
+  private showUploadFileForm = false;
   private readonly = false;
   private files: FileList;
-  private fileStore: any[];
-  private toDeleteFiles: any[];
-  private basedonRef: any;
+  private fileStore = []
+  private toDeleteFiles = [];
 
-  constructor(private service: HomeService) {
-    this.showUploadFileForm = false;
-    this.showUploadedFiles = false;
-    this.fileStore = [];
-    this.toDeleteFiles = [];
-  }
+  constructor(private service: HomeService) { }
 
 
   onDownloadFile(o: any) {
@@ -96,7 +87,7 @@ export class TopicEditComponent  {
     }
     let index = 0;
     const service = this.service;
-    const saveAction = this.topicSavedAction;
+    const saveAction = this.savedEvent;
     source.subscribe(
       function (x: any) {
         if (index < len && x.id !== undefined && x.id !== null) {

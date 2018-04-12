@@ -1,9 +1,10 @@
-import {Component, EventEmitter, Input, Output, ChangeDetectionStrategy, AfterViewInit, OnInit} from '@angular/core';
-import { ElementKind, IElementRef, QDDT_ELEMENTS, QddtElement } from '../../shared/elementinterfaces/elements';
-import { IEntityAudit } from '../../shared/elementinterfaces/entityaudit';
-import { Factory } from '../../shared/elementfactory/factory';
-import { Subject } from 'rxjs/Subject';
+import {Component, EventEmitter, Input, Output, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
 import { ElementEnumAware } from '../../preview/preview.service';
+import { Factory } from '../../shared/classes/factory';
+import { IElementRef, IEntityAudit } from '../../shared/classes/interfaces';
+import { ElementKind } from '../../shared/classes/enums';
+import { QueryInfo } from '../../shared/classes/classes';
+import { QDDT_QUERY_INFOES } from '../../shared/classes/constants';
 
 @Component({
   selector: 'qddt-collection-search-select',
@@ -12,79 +13,69 @@ import { ElementEnumAware } from '../../preview/preview.service';
 })
 
 @ElementEnumAware
-export class CollectionSearchSelectComponent implements AfterViewInit , OnInit {
-  @Input() items:  IEntityAudit[];
-  @Input() labelName?: string;
+export class CollectionSearchSelectComponent implements AfterViewInit  {
+  @Input() listItems:  IEntityAudit[];
+  @Input() searchItems: IEntityAudit[];
   @Input() elementKind: ElementKind|string;
-  @Output() selectedElement: EventEmitter<IElementRef>;
+  @Input() labelName?: string;
 
-  item: IEntityAudit;
+  @Output() selectEvent = new EventEmitter<IElementRef>();
+  @Output() searchEvent = new EventEmitter<string>();
+
   searchField: string;
   showButton = false;
   showAddItem = false;
+  selectedItem: IEntityAudit;
 
-  public elements: any[];
-
-  private searchKeysListener: Subject<string> = new Subject<string>();
-
-  constructor() {
-    this.elements = [];
-    console.log(this.searchKeysListener);
-    this.searchKeysListener
-      .debounceTime(300)
-      .distinctUntilChanged()
-      .subscribe((searchString: string) => {
-        // WUT???
-      });
-  }
-
-  public onSelectElement(item: IEntityAudit) {
-    if ( this.selectedElement) {
-      this.selectedElement.emit( { element: item, elementKind: this.getElementKind()} );
-    }
-  }
-
-  public onSearchElements(key: string) {
-    this.searchKeysListener.next(key);
-  }
-
-  ngOnInit(): void {
-    if (!this.labelName) {
-      this.labelName = this.getElementType().label;
-    }
-    this.searchField  = this.getElementType().fields[0];
-  }
 
   ngAfterViewInit() {
     if (!this.labelName) {
       this.labelName = this.getElementType().label;
     }
     this.searchField  = this.getElementType().fields[0];
-    console.log(this.labelName);
   }
 
+
+  public onSelectItem(item: IEntityAudit) {
+    this.selectedItem = item;
+    if ( this.selectEvent) {
+      this.selectEvent.emit( { element: item, elementKind: this.getElementKind()} );
+    }
+  }
+
+  onAddItem() {
+    if (! this.hasContent) {
+      const item = Factory.createInstance(this.getElementKind());
+      item[this.searchField] = this.selectedItem[this.searchField];
+      this.listItems.push(item);
+    } else {
+      this.listItems.push(this.selectedItem);
+    }
+  }
+
+  public onSearchElements(key: string) {
+    if (this.searchEvent) {
+      this.searchEvent.emit(key);
+    }
+  }
+
+
   hasContent(): boolean {
-    return (this.item && this.searchField && this.item[this.searchField]);
+    return (this.selectedItem && this.searchField && this.selectedItem[this.searchField]);
   }
 
   onShowItems() {
-    this.item = Factory.createInstance(this.getElementKind());
+//    this.item = Factory.createInstance(this.getElementKind());
     this.showAddItem = !this.showAddItem;
-    console.log(this.searchField + ' - ' + this.item.classKind);
-  }
-
-  onSelectItem(selected: IElementRef) {
-    this.item = selected.element;
-    console.log('onSelectItem ' + this.item);
   }
 
   onDeleteItem(idx: number) {
-    this.items.splice(idx, 1);
+    this.listItems.splice(idx, 1);
   }
 
-  public getElementType(): QddtElement {
+  public getElementType(): QueryInfo {
     const kind = this.getElementKind();
-    return QDDT_ELEMENTS[kind];
+    return QDDT_QUERY_INFOES[kind];
   }
 
   public getElementKind(): ElementKind {

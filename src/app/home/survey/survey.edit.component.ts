@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, AfterContentChecked } from '@angular/core';
-import { HomeService, SurveyProgram } from '../home.service';
+import { HomeService } from '../home.service';
+import {SurveyProgram} from '../home.classes';
 
 declare var Materialize: any;
 
@@ -44,9 +45,8 @@ export class SurveyEditComponent implements AfterContentChecked {
 
   @Input() survey: SurveyProgram;
   @Input() isVisible: boolean;
-  @Output() surveySavedEvent: EventEmitter<SurveyProgram> = new EventEmitter<SurveyProgram>();
+  @Output() savedEvent = new EventEmitter<SurveyProgram>();
   public showRevision = false;
-  basedonRef: any;
 
   constructor(private surveyService: HomeService) {
   }
@@ -61,14 +61,11 @@ export class SurveyEditComponent implements AfterContentChecked {
       .subscribe((result: any) => {
         this.isVisible = false;
         this.survey = null;
-        this.surveySavedEvent.emit(result); }
+        this.savedEvent.emit(result); }
         , (err: any) => {
-          this.surveySavedEvent.emit(null);
+          this.savedEvent.emit(null);
           throw err;
         });
   }
 
-  getBasedOn(ref: any) {
-    this.basedonRef = ref;
-  }
 }

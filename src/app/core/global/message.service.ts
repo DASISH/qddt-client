@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { IRevisionRef, IElementRef, IIdRef } from '../../shared/elementinterfaces/elements';
-import { IDetailAction} from '../../shared/elementinterfaces/detailaction';
+import { IDetailAction, IElementRef, IIdRef, IRevisionRef } from '../../shared/classes/interfaces';
 
 
 @Injectable()

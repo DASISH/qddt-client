@@ -124,7 +124,7 @@ class QuestionitemReuseComponent {
 class ConceptEditReuseComponent {
   @Input() concept: any;
   @Input() isVisible: boolean;
-  @Output() createdEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() createdEvent =  new EventEmitter<any>();
 }
 
 @Component({

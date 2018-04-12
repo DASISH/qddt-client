@@ -1,18 +1,18 @@
-import { IEntityAudit } from '../elementinterfaces/entityaudit';
-import {ElementKind} from '../elementinterfaces/elements';
 import {
   ConditionConstruct,
   Instruction,
   QuestionConstruct,
   SequenceConstruct,
   StatementConstruct, Universe
-} from '../../controlconstruct/controlconstruct.service';
-import { Category } from '../../category/category.service';
-import { Concept, Study, SurveyProgram, Topic} from '../../home/home.service';
+} from '../../controlconstruct/controlconstruct.classes';
 import { Publication } from '../../publication/publication.service';
-import { QuestionItem } from '../../question/question.service';
+import { QuestionItem } from '../../question/question.classes';
 import { ResponseDomain } from '../../responsedomain/responsedomain.service';
 import { Instrument } from '../../instrument/instrument.classes';
+import { ElementKind } from './enums';
+import { IEntityAudit } from './interfaces';
+import { Category } from '../../category/category.classes';
+import { Concept, Study, SurveyProgram, Topic } from '../../home/home.classes';
 
 // declare var Materialize: any;
 

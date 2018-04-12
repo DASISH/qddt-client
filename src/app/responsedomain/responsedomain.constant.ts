@@ -9,7 +9,7 @@ export enum DomainKind {
   MISSING,
 }
 
-export const DomainTypeDescription = [
+export const DOMAIN_TYPE_DESCRIPTION = [
   { id: DomainKind.SCALE, name: 'SCALE', label: 'Scale Domain', categoryType: 'SCALE' },
   { id: DomainKind.LIST, name: 'LIST', label: 'Code Domain', categoryType: 'LIST' },
   { id: DomainKind.MIXED, name: 'MIXED', label: 'Mixed Domain', categoryType: 'MIXED'},

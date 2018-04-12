@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { ResponseDomain } from '../../responsedomain/responsedomain.service';
-import { Category, Code } from '../../category/category.service';
+import { Category, Code } from '../../category/category.classes';
 
 class ScaleHead {
   colspan: number;

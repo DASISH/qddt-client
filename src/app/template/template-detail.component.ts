@@ -1,12 +1,11 @@
-import {Component, EventEmitter, OnInit, Output, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
-import { IEntityEditAudit } from '../shared/elementinterfaces/entityaudit';
+import {Component, EventEmitter, OnInit, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { TemplateService } from './template.service';
-import { Action, IDetailAction } from '../shared/elementinterfaces/detailaction';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MaterializeAction } from 'angular2-materialize';
-import { HEADER_DETAILS } from '../shared/elementinterfaces/headerdetail';
-import { ElementKind } from '../shared/elementinterfaces/elements';
-import { Factory } from '../shared/elementfactory/factory';
+import { Factory } from '../shared/classes/factory';
+import { IDetailAction, IEntityEditAudit } from '../shared/classes/interfaces';
+import { ActionKind, ElementKind } from '../shared/classes/enums';
+import { HEADER_DETAILS } from '../shared/classes/constants';
 
 const fileSaver = require('file-saver');
 
@@ -17,22 +16,22 @@ const fileSaver = require('file-saver');
 })
 
 export class TemplateDetailComponent implements OnInit, OnChanges {
-  @Output() closeState: EventEmitter<IDetailAction>;
-  @Output() selectedItem: EventEmitter<IEntityEditAudit>;
+  @Output() closeState = new EventEmitter<IDetailAction>();
+  @Output() selectedItem = new EventEmitter<IEntityEditAudit>();
 
   public item: IEntityEditAudit;
   public revisionIsVisible = false;
   public canDelete: boolean;
   public deleteAction = new EventEmitter<MaterializeAction>();
 
-  private action: IDetailAction = { id: '', action: Action.None, object: null };
+  private action: IDetailAction = { id: '', action: ActionKind.None, object: null };
   private kind: ElementKind;
 
   constructor(private service: TemplateService, private router: Router, private route: ActivatedRoute) {
     this.route.url.subscribe((event) => {
       const path = event[0].path;
       this.kind = HEADER_DETAILS.get(path).kind;
-      this.canDelete = service.can(Action.Delete, this.kind );
+      this.canDelete = service.can(ActionKind.Delete, this.kind );
       this.item = Factory.createInstance(this.kind);
     });
   }
@@ -65,13 +64,13 @@ export class TemplateDetailComponent implements OnInit, OnChanges {
   onConfirmDeleting() {
     this.service.delete(this.item)
       .subscribe(() => {
-        this.action.action = Action.Delete;
+        this.action.action = ActionKind.Delete;
         this.onHideDetail();
       });
   }
 
   onItemSaved(item: IEntityEditAudit) {
-    this.action.action = Action.Update;
+    this.action.action = ActionKind.Update;
     this.action.object = item;
     this.onHideDetail();
   }

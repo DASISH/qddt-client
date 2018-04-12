@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
-import { QddtElement } from '../elementinterfaces/elements';
-import { IEntityAudit } from '../elementinterfaces/entityaudit';
+import { IEntityAudit } from '../classes/interfaces';
+import { QueryInfo } from '../classes/classes';
 
 @Component({
   selector: 'qddt-auto-complete',
@@ -11,8 +11,8 @@ import { IEntityAudit } from '../elementinterfaces/entityaudit';
 
 export class AutocompleteComponent implements OnInit, OnChanges {
   @Input() items:  IEntityAudit[];
-  @Input() elementtype: QddtElement;
-  @Input() initialValue = '*';
+  @Input() elementtype: QueryInfo;
+  @Input() initialValue = '';
 
   @Output() selectEvent = new EventEmitter<IEntityAudit>();
   @Output() focusEvent = new EventEmitter<string>();
@@ -20,7 +20,7 @@ export class AutocompleteComponent implements OnInit, OnChanges {
 
   public candidates: any[];
   public showAutoComplete = false;
-  public value: string;
+  public value = '';
   public selectedIndex = 0;
 
   private searchFromServer = true;
@@ -88,6 +88,7 @@ export class AutocompleteComponent implements OnInit, OnChanges {
   }
 
   private filterItems(search: string) {
+    if (!this.items || !this.elementtype) { return; }
     const field = this.elementtype.fields;
     const isMultipleFields = this.elementtype.isMultipleFields();
     const filterItem = this.filterItem;

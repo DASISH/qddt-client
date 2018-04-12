@@ -1,8 +1,8 @@
 import {  Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HIERARCHY_POSITION, PropertyStoreService } from '../../core/global/property.service';
-import { ElementKind } from '../../shared/elementinterfaces/elements';
-import { HomeService, Study, SurveyProgram } from '../home.service';
+import { Study, SurveyProgram } from '../home.classes';
+import { HomeService} from '../home.service';
 
 const filesaver = require('file-saver');
 
@@ -12,10 +12,7 @@ const filesaver = require('file-saver');
   templateUrl: './study.component.html',
 })
 export class StudyComponent implements OnInit {
-  showEditForm = false;
-
-  public readonly revisionKind = ElementKind.STUDY;
-
+  public showEditForm = false;
   public study: any;
   public survey: SurveyProgram;
   public revision: any;

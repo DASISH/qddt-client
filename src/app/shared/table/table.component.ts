@@ -1,12 +1,12 @@
 import {Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges} from '@angular/core';
 import { Column } from './table.column';
-import { Page } from './table.page';
-import { IEntityEditAudit } from '../elementinterfaces/entityaudit';
 import { LIST_COLUMNS, RESPONSEDOMAIN_COLUMNS, DEFAULT_COLUMNS } from './table.column-map';
-import { ElementKind, QDDT_ELEMENTS } from '../elementinterfaces/elements';
 import { DomainKind } from '../../responsedomain/responsedomain.constant';
 import { ElementEnumAware } from '../../preview/preview.service';
-import { Domain } from 'domain';
+import { ElementKind } from '../classes/enums';
+import { Page } from '../classes/classes';
+import { IEntityEditAudit } from '../classes/interfaces';
+import { QDDT_QUERY_INFOES } from '../classes/constants';
 
 @Component({
   selector: 'qddt-table',
@@ -69,7 +69,6 @@ export class QddtTableComponent implements OnInit, OnChanges {
       const row: any = {
         'id': item.id,
         'Version': (item.version) ? item.version.major + '.' + item.version.minor : '',
-//        'Agency': (item.agency) ? item.agency.name : '',
         'Modified': date.toDateString(),
         'Object': item,
       };
@@ -135,7 +134,7 @@ export class QddtTableComponent implements OnInit, OnChanges {
   }
 
   private makePlaceholder(searchString: string): string  {
-    const qe = QDDT_ELEMENTS[this.elementKind];
+    const qe = QDDT_QUERY_INFOES[this.elementKind];
 
     if (!searchString || searchString.length === 0) { return qe.placeholder(); }
 

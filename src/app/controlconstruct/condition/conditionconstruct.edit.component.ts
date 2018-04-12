@@ -1,7 +1,9 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { ElementKind, QDDT_ELEMENTS } from '../../shared/elementinterfaces/elements';
-import { ConditionConstruct, ConditionCommand, ControlConstructService } from '../controlconstruct.service';
-import { Page } from '../../shared/table/table.page';
+import { Page } from '../../shared/classes/classes';
+import { ConditionCommand, ConditionConstruct} from '../controlconstruct.classes';
+import { QDDT_QUERY_INFOES} from '../../shared/classes/constants';
+import { ElementKind} from '../../shared/classes/enums';
+import { ControlConstructService} from '../controlconstruct.service';
 
 @Component({
   selector: 'qddt-condition-edit',
@@ -11,7 +13,7 @@ import { Page } from '../../shared/table/table.page';
 })
 
 export class ConditionEditComponent implements OnInit {
-  @Output() element: any = new EventEmitter<any>();
+  @Output() element = new EventEmitter<any>();
   condition: ConditionConstruct;
   elementId: string;
   ifCondition: ConditionCommand;
@@ -19,7 +21,7 @@ export class ConditionEditComponent implements OnInit {
   elements: any[];
   elseConditionNum: number;
 
-  public readonly CONDITION = QDDT_ELEMENTS[ElementKind.CONDITION_CONSTRUCT];
+  public readonly CONDITION = QDDT_QUERY_INFOES[ElementKind.CONDITION_CONSTRUCT];
 
   constructor(public service: ControlConstructService) {
     this.ifCondition = new ConditionCommand();

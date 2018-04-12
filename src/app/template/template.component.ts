@@ -1,11 +1,10 @@
 import {OnChanges, Component, SimpleChanges} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HEADER_DETAILS } from '../shared/elementinterfaces/headerdetail';
-import { ElementKind } from '../shared/elementinterfaces/elements';
 import { QddtMessageService } from '../core/global/message.service';
-import { Action } from '../shared/elementinterfaces/detailaction';
-import { IEntityEditAudit } from '../shared/elementinterfaces/entityaudit';
-import { Factory } from '../shared/elementfactory/factory';
+import { Factory } from '../shared/classes/factory';
+import {IEntityEditAudit} from '../shared/classes/interfaces';
+import {ActionKind, ElementKind} from '../shared/classes/enums';
+import {HEADER_DETAILS} from '../shared/classes/constants';
 
 declare var Materialize: any;
 
@@ -39,7 +38,7 @@ export class TemplateComponent implements OnChanges {
   onToggleForm() {
     this.showForm = !this.showForm;
     if (!this.showForm) {
-      this.messages.sendAction(  { id: '', action: Action.Update, object: null });
+      this.messages.sendAction(  { id: '', action: ActionKind.Update, object: null });
     }
     if (this.showForm ) {
        this.newItem = Factory.createInstance(this.kind);

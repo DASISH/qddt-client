@@ -1,13 +1,13 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_BASE_HREF } from '../api';
-import { ElementKind, QDDT_ELEMENTS } from '../shared/elementinterfaces/elements';
-import { IEntityEditAudit } from '../shared/elementinterfaces/entityaudit';
 import { Observable } from 'rxjs/Observable';
 import { UserService } from '../core/user/user.service';
-import { Action } from '../shared/elementinterfaces/detailaction';
 import { Authority } from '../core/user/authority';
-import { Page } from '../shared/table/table.page';
+import { Page } from '../shared/classes/classes';
+import { ActionKind, ElementKind} from '../shared/classes/enums';
+import { QDDT_QUERY_INFOES} from '../shared/classes/constants';
+import { IEntityEditAudit, IPageResult } from '../shared/classes/interfaces';
 
 @Injectable()
 export class TemplateService {
@@ -18,8 +18,8 @@ export class TemplateService {
     userService.getRoles().forEach((role) => this.roles += +Authority[role]);
   }
 
-  public searchByKind(kind: ElementKind, searchString: string = '',  page: Page = new Page()): Promise<any> {
-    const qe = QDDT_ELEMENTS[kind];
+  public searchByKind(kind: ElementKind, searchString: string = '',  page: Page = new Page()): Promise<IPageResult> {
+    const qe = QDDT_QUERY_INFOES[kind];
     const args = searchString.split(' ');
     const queries = [];
 
@@ -38,18 +38,19 @@ export class TemplateService {
     if (queries.length > 0) { query = '?' + queries.join('&'); }
 
     query += page.queryPage();
-    query += qe.parameter;
 
-    return this.http.get(this.api + qe.path + '/page/search/' + query).toPromise();
+    if (qe.parameter) { query += qe.parameter; }
+
+    return this.http.get<IPageResult>(this.api + qe.path + '/page/search/' + query).toPromise();
   }
 
   public getItemByKind(kind: ElementKind, id: string ): Promise<IEntityEditAudit> {
-    const qe = QDDT_ELEMENTS[kind];
+    const qe = QDDT_QUERY_INFOES[kind];
     return this.http.get<IEntityEditAudit>(this.api + qe.path + '/' + id).toPromise();
   }
 
   public getRevisionsByKind(kind: ElementKind, id: string): Promise<any> {
-    const qe = QDDT_ELEMENTS[kind];
+    const qe = QDDT_QUERY_INFOES[kind];
     if (qe) {
       if (kind === ElementKind.CONCEPT || kind === ElementKind.TOPIC_GROUP) {
         return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/allinclatest').toPromise();
@@ -61,39 +62,39 @@ export class TemplateService {
   }
 
   public getRevisionByKind(kind: ElementKind, id: string, rev: number): Promise<any> {
-    const qe = QDDT_ELEMENTS[kind];
+    const qe = QDDT_QUERY_INFOES[kind];
     return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/' + rev).toPromise();
   }
 
   public copySource(kind: ElementKind, fromId: string, fromRev: number, toParentId: string): Observable<any> {
-    const qe = QDDT_ELEMENTS[kind];
+    const qe = QDDT_QUERY_INFOES[kind];
     return this.http.post(this.api + qe.path + '/copy/' + fromId + '/' + fromRev + '/' + toParentId, {});
   }
 
   public update(item: IEntityEditAudit): Observable<any> {
-    const qe = QDDT_ELEMENTS[this.getElementKind(item.classKind)];
+    const qe = QDDT_QUERY_INFOES[this.getElementKind(item.classKind)];
     return this.http.post(this.api + qe.path , item);
   }
 
   public updateWithfiles(kind: ElementKind, form: FormData ): Observable<any> {
-    const qe = QDDT_ELEMENTS[kind];
+    const qe = QDDT_QUERY_INFOES[kind];
     return this.http.post<any>(this.api +  qe.path + '/createfile/', form);
   }
 
   public delete(item: IEntityEditAudit): Observable<any> {
     const kind = ElementKind[item.classKind];
-    const qe = QDDT_ELEMENTS[kind];
+    const qe = QDDT_QUERY_INFOES[kind];
     return this.http.delete(this.api + qe.path + '/delete/' + item.id);
   }
 
   public deleteByKind(kind: ElementKind, id: string): Observable<any> {
-    const qe = QDDT_ELEMENTS[kind];
+    const qe = QDDT_QUERY_INFOES[kind];
     return this.http.delete(this.api + qe.path + '/delete/' + id);
   }
 
   public getPdf(item: IEntityEditAudit): Promise<Blob>  {
     const kind = ElementKind[item.classKind];
-    const qe = QDDT_ELEMENTS[kind];
+    const qe = QDDT_QUERY_INFOES[kind];
     return this.http.get(this.api + qe.path + '/pdf/' + item.id, { responseType: 'blob'}).toPromise();
   }
 
@@ -121,7 +122,7 @@ export class TemplateService {
       });
   }
 
-  public can(action: Action, kind: ElementKind): boolean {
+  public can(action: ActionKind, kind: ElementKind): boolean {
 
     function canRead() {
       return true;
@@ -148,12 +149,12 @@ export class TemplateService {
     }
 
     switch (action) {
-      case Action.Read:
+      case ActionKind.Read:
         return canRead();
-      case Action.Create:
-      case Action.Update:
+      case ActionKind.Create:
+      case ActionKind.Update:
         return canUpdate(this.roles);
-      case Action.Delete:
+      case ActionKind.Delete:
         return canDelete(this.roles);
       default:
         return false;

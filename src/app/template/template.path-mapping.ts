@@ -1,4 +1,4 @@
-import { ElementKind } from '../shared/elementinterfaces/elements';
+import { ElementKind } from '../shared/classes/enums';
 
 export const PATH_KIND_MAP: Map<string, ElementKind>  = new Map([
   ['questionitems', ElementKind.QUESTION_ITEM ],

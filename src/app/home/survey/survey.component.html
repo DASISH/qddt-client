@@ -34,8 +34,8 @@
       </div>
     </div>
 
-    <div *ngIf="surveys">
-      <div class="row card" *ngFor="let surveyProgram of surveys" style="padding-left:2%">
+    <div *ngIf="surveyList">
+      <div class="row card" *ngFor="let surveyProgram of surveyList" style="padding-left:2%">
         <div id="{{surveyProgram?.id}}" class="row scrollspy">
           <div class="col s1 m1 l1">
             <br />
@@ -67,7 +67,7 @@
 
             <qddt-survey-edit [isVisible]="edit.isVisible"
               [survey]="surveyProgram"
-              (surveySavedEvent)="onSurveySaved($event)" #edit>
+              (savedEvent)="onSurveySaved($event)" #edit>
             </qddt-survey-edit>
 
             <qddt-revision *ngIf="edit.showRevision" [current]="surveyProgram" ></qddt-revision>
@@ -84,5 +84,5 @@
   </div>
 </div>
 
-<qddt-toc [elements]="surveys" [path]="'survey'"></qddt-toc>
+<qddt-toc [elements]="surveyList" [path]="'survey'"></qddt-toc>
 

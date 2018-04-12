@@ -1,9 +1,8 @@
-import { Component, Input, Output, EventEmitter, OnInit, SimpleChanges, OnChanges } from '@angular/core';
-import { QuestionItem, QuestionService } from './question.service';
-import { Category } from '../category/category.service';
+import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
 import { ResponseDomain } from '../responsedomain/responsedomain.service';
 import { TemplateService } from '../template/template.service';
-import { ElementKind } from '../shared/elementinterfaces/elements';
+import { QuestionItem } from './question.classes';
+import { Category } from '../category/category.classes';
 
 declare var Materialize: any;
 

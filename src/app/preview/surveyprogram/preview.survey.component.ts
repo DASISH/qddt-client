@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { SurveyProgram } from '../../home/home.service';
+import { SurveyProgram } from '../../home/home.classes';
 
 @Component({
   selector: 'qddt-preview-survey',

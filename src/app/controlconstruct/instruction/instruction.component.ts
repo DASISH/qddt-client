@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 
-import { ControlConstructService, Instruction } from '../controlconstruct.service';
-import { QDDT_ELEMENTS, ElementKind } from '../../shared/elementinterfaces/elements';
+import { ControlConstructService } from '../controlconstruct.service';
+import { QDDT_QUERY_INFOES } from '../../shared/classes/constants';
+import { ElementKind } from '../../shared/classes/enums';
+import { Instruction } from '../controlconstruct.classes';
 
 @Component({
   selector: 'qddt-instruction-create',
@@ -13,7 +15,7 @@ import { QDDT_ELEMENTS, ElementKind } from '../../shared/elementinterfaces/eleme
 export class InstructionComponent {
   @Output() createInstructionEvent = new EventEmitter<any>();
 
-  public readonly INSTRUCTION = QDDT_ELEMENTS[ElementKind.INSTRUCTION];
+  public readonly INSTRUCTION = QDDT_QUERY_INFOES[ElementKind.INSTRUCTION];
   public instruction: any;
   public instructions: any[];
   public isInstructionNew: boolean;

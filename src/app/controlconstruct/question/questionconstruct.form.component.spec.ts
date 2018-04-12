@@ -98,9 +98,9 @@ export class AutocompleteComponent {
   @Input() isMultipleFields: boolean;
   @Input() initialValue: string;
   @Input() searchFromServer: boolean;
-  @Output() selectEvent: EventEmitter<any> = new EventEmitter<any>();
-  @Output() focusEvent: EventEmitter<any> = new EventEmitter<any>();
-  @Output() enterEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() selectEvent =  new EventEmitter<any>();
+  @Output() focusEvent =  new EventEmitter<any>();
+  @Output() enterEvent =  new EventEmitter<any>();
 }
 
 @Component({
@@ -115,9 +115,9 @@ class TableComponent {
   @Input() placeholder: string;
 
   @Input() searchFromServer: boolean;
-  @Output() detailEvent: EventEmitter<String> = new EventEmitter<String>();
-  @Output() pageChangeEvent: EventEmitter<String> = new EventEmitter<String>();
-  @Output() enterEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() detailEvent =  new EventEmitter<String>();
+  @Output() pageChangeEvent =  new EventEmitter<String>();
+  @Output() enterEvent =  new EventEmitter<any>();
 }
 
 @Component({
@@ -140,8 +140,8 @@ class QuestionitemDetailComponent {
   @Input() questionitemId: string;
   @Input() questionitems: any[];
   @Input() isVisible: boolean;
-  @Output() hideDetailEvent: EventEmitter<String> = new EventEmitter<String>();
-  @Output() editQuestionItem: EventEmitter<any> = new EventEmitter<any>();
+  @Output() hideDetailEvent =  new EventEmitter<String>();
+  @Output() editQuestionItem =  new EventEmitter<any>();
 }
 
 @Component({

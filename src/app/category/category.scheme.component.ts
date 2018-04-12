@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Output, OnInit, AfterContentChecked, ViewChild } from '@angular/core';
-import { CategoryService, Category, ResponseCardinality } from './category.service';
-import { CategoryType } from './category-kind';
+import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { PropertyStoreService } from '../core/global/property.service';
-import { QDDT_ELEMENTS, ElementKind } from '../shared/elementinterfaces/elements';
-import { Page } from '../shared/table/table.page';
+import { Page } from '../shared/classes/classes';
+import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
+import { ElementKind } from '../shared/classes/enums';
+import { Category, ResponseCardinality } from './category.classes';
+import { CategoryService } from './category.service';
 
 declare let Materialize: any;
 
@@ -15,9 +16,9 @@ declare let Materialize: any;
 })
 
 export class CategorySchemeComponent implements OnInit {
-  @Output() selectedEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() selectedEvent =  new EventEmitter<any>();
 
-  public readonly CATEGORY_KIND = QDDT_ELEMENTS[ElementKind.CATEGORY];
+  public readonly CATEGORY_KIND = QDDT_QUERY_INFOES[ElementKind.CATEGORY];
   public readonly CATEGORY = ElementKind.CATEGORY;
 
   public deleteAction = new EventEmitter<any>();

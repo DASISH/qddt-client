@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, OnChanges } from '@angular/core';
 import {  PreviewService } from './preview.service';
 import { MaterializeAction } from 'angular2-materialize';
-import { IRevisionRef, IElementRef, ElementKind, IIdRef, QDDT_ELEMENTS } from '../shared/elementinterfaces/elements';
+import { IElementRef, IIdRef, IRevisionRef } from '../shared/classes/interfaces';
+import { ElementKind } from '../shared/classes/enums';
+import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
 
 @Component({
   selector: 'qddt-preview-dialog',
@@ -59,7 +61,7 @@ export class PreviewDialogComponent implements  OnChanges {
   getClassName(): string {
     const kind = this.getElementKind();
     if (kind) {
-      return QDDT_ELEMENTS[kind].label;
+      return QDDT_QUERY_INFOES[kind].label;
     }
     return '?';
   }

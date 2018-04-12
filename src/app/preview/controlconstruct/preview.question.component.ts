@@ -1,6 +1,7 @@
 import { Component, Input, EventEmitter } from '@angular/core';
 import { MaterializeAction } from 'angular2-materialize';
-import { ControlConstructService } from '../../controlconstruct/controlconstruct.service';
+import {PreviewService} from '../preview.service';
+
 const filesaver = require('file-saver');
 
 @Component({
@@ -82,7 +83,7 @@ const filesaver = require('file-saver');
     </div>
   </div>
 `,
-  providers: [ControlConstructService ],
+  providers: [PreviewService ],
 })
 
 export class PreviewQuestionConstructComponent {
@@ -90,7 +91,7 @@ export class PreviewQuestionConstructComponent {
   questionItemActions = new EventEmitter<string|MaterializeAction>();
   questionItem: any;
 
-  constructor(private service: ControlConstructService) {
+  constructor(private service: PreviewService) {
   }
 
   onDownloadFile(o: any) {

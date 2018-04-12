@@ -2,7 +2,7 @@ import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { QuestionService } from './question.service';
+import { QuestionService } from './question.classes';
 import { API_BASE_HREF } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -103,7 +103,7 @@ class QuestionItemEditMissingComponent {
   @Input() missing: any;
   @Input() readonly: boolean;
   @Input() mainResponseDomain: any;
-  @Output() editMissing: EventEmitter<any> = new EventEmitter<any>();
+  @Output() editMissing =  new EventEmitter<any>();
 }
 
 @Component({
@@ -114,7 +114,7 @@ class QuestionItemEditMissingComponent {
 class RevisionDetailComponent {
   @Input() element: any;
   @Input() type: string;
-  @Output() BasedonObjectDetail: any = new EventEmitter<string>();
+  @Output() BasedonObjectDetail = new EventEmitter<string>();
 }
 
 @Component({
@@ -160,7 +160,7 @@ class QuestionitemUsedbyComponent {
 })
 
 class TreeNodeComponent {
-  @Output() deleteEvent: EventEmitter<any> = new EventEmitter();
+  @Output() deleteEvent =  new EventEmitter();
   @Input() concept: any;
 }
 
@@ -172,7 +172,7 @@ class TreeNodeComponent {
 class ResponsedomainReuseComponent {
   @Input() isVisible: boolean;
   @Input() responseDomain: any;
-  @Output() responseDomainReuse: EventEmitter<any> = new EventEmitter();
+  @Output() responseDomainReuse =  new EventEmitter();
 }
 
 @Component({

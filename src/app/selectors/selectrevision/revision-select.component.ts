@@ -1,6 +1,8 @@
 import { Component, OnChanges, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
-import { IEntityAudit } from '../../shared/elementinterfaces/entityaudit';
-import { ElementKind, ElementRevisionRef, QDDT_ELEMENTS } from '../../shared/elementinterfaces/elements';
+import { ElementRevisionRef} from '../../shared/classes/classes';
+import { IEntityAudit} from '../../shared/classes/interfaces';
+import { QDDT_QUERY_INFOES} from '../../shared/classes/constants';
+import { ElementKind} from '../../shared/classes/enums';
 
 @Component({
   selector: 'qddt-revision-select',
@@ -8,7 +10,7 @@ import { ElementKind, ElementRevisionRef, QDDT_ELEMENTS } from '../../shared/ele
   templateUrl: './revision-select.component.html',
 })
 
-export class RevisionSelectComponent implements OnChanges{
+export class RevisionSelectComponent implements OnChanges {
   @Input() elementRevisions = [];
   @Input() showProgressBar = false;
   @Output() selectEvent = new EventEmitter<ElementRevisionRef>();
@@ -38,7 +40,7 @@ export class RevisionSelectComponent implements OnChanges{
   }
 
   onUseElement() {
-    const elementType  = QDDT_ELEMENTS[this.getElementKind()];
+    const elementType  = QDDT_QUERY_INFOES[this.getElementKind()];
     if (elementType) {
       const element = new ElementRevisionRef();
       element.elementId = this.selectedElement.id;

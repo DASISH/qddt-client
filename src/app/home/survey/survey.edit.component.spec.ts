@@ -38,7 +38,7 @@ export function main() {
           });
       }));
 
-    it('should work with surveys',
+    it('should work with surveyList',
       async(() => {
         TestBed
           .compileComponents()

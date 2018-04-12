@@ -1,8 +1,10 @@
 import {Component, EventEmitter, Input, Output, ChangeDetectionStrategy, AfterViewInit} from '@angular/core';
-import { ElementKind, IElementRef, QDDT_ELEMENTS, QddtElement } from '../../shared/elementinterfaces/elements';
-import { IEntityAudit } from '../../shared/elementinterfaces/entityaudit';
-import { Factory } from '../../shared/elementfactory/factory';
+import { Factory } from '../../shared/classes/factory';
 import { ElementEnumAware } from '../../preview/preview.service';
+import { IElementRef, IEntityAudit} from '../../shared/classes/interfaces';
+import { ElementKind} from '../../shared/classes/enums';
+import { QueryInfo} from '../../shared/classes/classes';
+import { QDDT_QUERY_INFOES} from '../../shared/classes/constants';
 
 @Component({
   selector: 'qddt-collection-revision-search-select',
@@ -52,9 +54,9 @@ export class CollectionSearchRevisionSelectComponent implements AfterViewInit {
     this.items.splice(idx, 1);
   }
 
-  public getElementType(): QddtElement {
+  public getElementType(): QueryInfo {
     const kind = this.getElementKind();
-    return QDDT_ELEMENTS.find(e => e.id === kind);
+    return QDDT_QUERY_INFOES.find(e => e.id === kind);
   }
 
   public getElementKind(): ElementKind {

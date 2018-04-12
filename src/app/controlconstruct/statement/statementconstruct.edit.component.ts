@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { ControlConstructService, StatementConstruct } from '../controlconstruct.service';
+import { ControlConstructService } from '../controlconstruct.service';
+import { StatementConstruct } from '../controlconstruct.classes';
 
 
 @Component({
@@ -9,7 +10,7 @@ import { ControlConstructService, StatementConstruct } from '../controlconstruct
   styles: [ ]
 })
 export class StatementEditComponent implements OnInit {
-  @Output() element: any = new EventEmitter<any>();
+  @Output() element = new EventEmitter<any>();
   statement: StatementConstruct;
   elementId: string;
 

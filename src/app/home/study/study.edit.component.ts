@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, AfterContentChecked } from '@angular/core';
-import { HomeService, Study } from '../home.service';
+import { HomeService } from '../home.service';
+import {Study} from '../home.classes';
 
 declare var Materialize: any;
 
@@ -39,7 +40,7 @@ export class StudyEditComponent implements AfterContentChecked {
   @Input() study: Study;
   @Input() surveyId: any;
   @Input() isVisible = false;
-  @Output() studySavedEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() savedEvent =  new EventEmitter<any>();
 
   public showRevision = false;
   public basedonRef: any;
@@ -54,7 +55,7 @@ export class StudyEditComponent implements AfterContentChecked {
   onSave() {
     this.studyService.updateStudy(this.study).subscribe((result: any) => {
       this.study = null;
-      this.studySavedEvent.emit(result);
+      this.savedEvent.emit(result);
     });
   }
 

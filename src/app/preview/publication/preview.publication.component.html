@@ -23,7 +23,7 @@
         data-collapsible="expandable" style="padding: 5pt;">
       <li *ngFor="let cqi of publication.publicationElements;" (click)="onViewDetail(cqi)">
         <div class="collapsible-header green lighten-5" >
-          <div class="col s2">[{{ getQddtElement(cqi?.elementKind).label }}]</div>
+          <div class="col s2">[{{ getQueryInfo(cqi?.elementKind).label }}]</div>
           <div class="col s8">{{ cqi?.name }}</div>
           <div class="col s2"><qddt-version-label [element]="cqi"></qddt-version-label></div>
         </div>

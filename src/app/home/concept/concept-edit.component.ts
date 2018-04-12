@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
-import { Concept, HomeService } from '../home.service';
+import { HomeService } from '../home.service';
+import { Concept} from '../home.classes';
 
 @Component({
   selector: 'qddt-concept-edit',
@@ -46,7 +47,7 @@ export class ConceptEditComponent implements OnInit {
   @Input() concept: Concept;
   @Input() readonly: boolean;
   @Input() isVisible = false;
-  @Output() conceptSavedEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() conceptSavedEvent =  new EventEmitter<any>();
 
   public showRevision = false;
   private basedonRef: any;

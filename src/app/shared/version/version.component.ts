@@ -1,5 +1,5 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { IEntityEditAudit } from '../elementinterfaces/entityAudit';
+import { Component, Input } from '@angular/core';
+import { IEntityEditAudit } from '../classes/interfaces';
 
 @Component({
   selector: 'qddt-version',

@@ -1,7 +1,6 @@
-import { Component, Input,  EventEmitter } from '@angular/core';
-import { MaterializeAction } from 'angular2-materialize';
+import { Component, Input } from '@angular/core';
 import { QddtMessageService } from '../../core/global/message.service';
-import { IRevisionRef, IElementRef, ElementKind } from '../../shared/elementinterfaces/elements';
+import { ElementKind } from '../classes/enums';
 
 @Component({
   selector: 'qddt-conceptref',

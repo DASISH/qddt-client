@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ResponseDomain } from '../../responsedomain/responsedomain.service';
-import { DomainKind, DomainTypeDescription } from '../../responsedomain/responsedomain.constant';
+import { DomainKind, DOMAIN_TYPE_DESCRIPTION } from '../../responsedomain/responsedomain.constant';
 
 @Component({
   selector: 'qddt-preview-responsedomain',
@@ -43,7 +43,7 @@ export class PreviewResponsedomainComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (this.responseDomain) {
       // if (this.isVisible && (this.responseDomain)) {
-      const ret = DomainTypeDescription.find(e => e.name === this.responseDomain['responseKind']);
+      const ret = DOMAIN_TYPE_DESCRIPTION.find(e => e.name === this.responseDomain['responseKind']);
       if ( ret !== undefined ) {
         this.domainType = ret.id;
       }

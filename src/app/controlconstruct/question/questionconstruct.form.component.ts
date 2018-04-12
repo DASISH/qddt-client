@@ -1,8 +1,10 @@
-import { Component, Input, Output, OnInit, EventEmitter, AfterContentChecked, OnChanges, SimpleChanges } from '@angular/core';
-import { ControlConstructService, QuestionConstruct, Universe, Instruction } from '../controlconstruct.service';
+import { Component, Input, Output, EventEmitter, AfterContentChecked, OnChanges, SimpleChanges } from '@angular/core';
+import { ControlConstructService } from '../controlconstruct.service';
 import { Observable } from 'rxjs/Observable';
-import { QuestionItem } from '../../question/question.service';
-import { IOtherMaterial } from '../../shared/elementinterfaces/othermaterial';
+import { QuestionItem } from '../../question/question.classes';
+import { Instruction, QuestionConstruct, Universe } from '../controlconstruct.classes';
+import { ElementKind } from '../../shared/classes/enums';
+import { IOtherMaterial } from '../../shared/classes/interfaces';
 
 const filesaver = require('file-saver');
 declare var Materialize: any;
@@ -17,19 +19,19 @@ declare var Materialize: any;
   ],
 })
 
-export class QuestionConstructFormComponent implements OnChanges {
+export class QuestionConstructFormComponent implements OnChanges , AfterContentChecked {
   @Input() controlConstruct: QuestionConstruct;
   @Input() readonly = false;
   @Output() modifiedEvent = new EventEmitter<QuestionConstruct>();
 
   public formId = Math.round( Math.random() * 10000);
+  public savedQuestionItem: any;
+  public instructions: any[];
+  public universes: any[];
 
-  public savedquestionitem: any;
-
-  private editQuestoinItem: boolean;
+  private editQuestionItem: boolean;
   private showUploadFileForm: boolean;
   private showUploadedFiles: boolean;
-  private showQuestionButton: boolean;
   private showbutton = false;
 
   private files: FileList;
@@ -37,16 +39,20 @@ export class QuestionConstructFormComponent implements OnChanges {
   private toDeleteFiles: any[];
 
   constructor(private service: ControlConstructService) {
-    this.editQuestoinItem = false;
+    this.editQuestionItem = false;
     this.showUploadFileForm = false;
     this.showUploadedFiles = false;
-    this.showQuestionButton = false;
 
     this.fileStore = [];
     this.toDeleteFiles = [];
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+   // try { Materialize.updateTextFields(); } catch (Exception) { }
+  }
+
+
+  ngAfterContentChecked(): void {
     try { Materialize.updateTextFields(); } catch (Exception) { }
   }
 
@@ -54,7 +60,19 @@ export class QuestionConstructFormComponent implements OnChanges {
     this.controlConstruct.universe.push(item);
   }
 
+  onInstructionSearch(key: string) {
+    this.service.searchByKind(ElementKind.INSTRUCTION, key).then(
+      (result) => {
+        this.instructions = result.content;
+      });
+  }
 
+  onUniverseSearch(key: string) {
+    this.service.searchByKind(ElementKind.UNIVERSE, key).then(
+      (result) => {
+        this.universes = result.content;
+      });
+  }
   onDeletePreInstruction(id: number) {
     this.controlConstruct.preInstructions.splice(id, 1);
   }
@@ -71,12 +89,12 @@ export class QuestionConstructFormComponent implements OnChanges {
   onSelectQuestionItem(element: QuestionItem) {
     this.controlConstruct.questionItem = element;
     this.controlConstruct.questionItemRevision = element['questionItemRevision'];
-    this.editQuestoinItem = false;
+    this.editQuestionItem = false;
   }
 
   onRemoveQuestoinItem() {
     this.controlConstruct.questionItem = null;
-    this.editQuestoinItem = false;
+    this.editQuestionItem = false;
   }
 
   onDownloadFile(o: IOtherMaterial) {
@@ -161,5 +179,6 @@ export class QuestionConstructFormComponent implements OnChanges {
         throw error;
       });
   }
+
 
 }

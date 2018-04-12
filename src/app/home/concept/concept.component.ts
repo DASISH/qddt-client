@@ -2,8 +2,9 @@ import {AfterContentChecked, Component, EventEmitter, OnInit} from '@angular/cor
 import { MaterializeAction } from 'angular2-materialize';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PropertyStoreService } from '../../core/global/property.service';
-import { ElementKind } from '../../shared/elementinterfaces/elements';
-import { HomeService, Concept, Topic } from '../home.service';
+import {ElementKind} from '../../shared/classes/enums';
+import {Concept, Topic} from '../home.classes';
+import {HomeService} from '../home.service';
 
 declare var Materialize: any;
 

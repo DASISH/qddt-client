@@ -1,11 +1,7 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, Inject } from '@angular/core';
-import { MaterializeAction } from 'angular2-materialize';
-import { IEntityEditAudit } from '../shared/elementinterfaces/entityaudit';
-import { Factory } from '../shared/elementfactory/factory';
-import { ElementKind } from '../shared/elementinterfaces/elements';
-import { InstrumentDetailComponent } from './instrument.detail.component';
-import { InstrumentKind, INSTRUMENT_KIND, Instrument } from './instrument.classes';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { TemplateService } from '../template/template.service';
+import { IEntityEditAudit } from '../shared/classes/interfaces';
+import { Instrument, INSTRUMENT_KIND, InstrumentKind } from './instrument.classes';
 
 declare var Materialize: any;
 

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Study } from '../../home/home.service';
+import { Study } from '../../home/home.classes';
 
 @Component({
   selector: 'qddt-preview-study',

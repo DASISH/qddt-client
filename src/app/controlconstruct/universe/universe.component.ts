@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-
-import { ControlConstructService, Universe } from '../controlconstruct.service';
-import { QDDT_ELEMENTS, ElementKind } from '../../shared/elementinterfaces/elements';
 import { TemplateService } from '../../template/template.service';
-import { Page } from '../../shared/table/table.page';
+import { Page } from '../../shared/classes/classes';
+import { QDDT_QUERY_INFOES } from '../../shared/classes/constants';
+import { ElementKind } from '../../shared/classes/enums';
+import { Universe } from '../controlconstruct.classes';
 
 @Component({
   selector: 'qddt-universe-create',
@@ -14,7 +14,7 @@ import { Page } from '../../shared/table/table.page';
 export class UniverseComponent {
   @Output() createUniverseEvent = new EventEmitter<any>();
 
-  public readonly UNIVERSE = QDDT_ELEMENTS[ElementKind.UNIVERSE];
+  public readonly UNIVERSE = QDDT_QUERY_INFOES[ElementKind.UNIVERSE];
   public universe: any;
   public universes: any[];
   public isNew: boolean;

@@ -1,10 +1,11 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { TemplateService } from '../template/template.service';
-import { QuestionItem } from './question.service';
+import { QuestionItem } from './question.classes';
 import { ResponseDomain } from '../responsedomain/responsedomain.service';
-import { QddtElement, QDDT_ELEMENTS, ElementKind } from '../shared/elementinterfaces/elements';
-import { Page } from '../shared/table/table.page';
+import { Page, QueryInfo } from '../shared/classes/classes';
+import { ElementKind } from '../shared/classes/enums';
+import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
 
 @Component({
   selector: 'qddt-questionitem-reuse',
@@ -30,7 +31,7 @@ export class QuestionReuseComponent {
   selectedElement: any;
   private mainresponseDomainRevision: number;
   private searchKeysListener: Subject<string> = new Subject<string>();
-  private readonly QUESTION_KIND: QddtElement = QDDT_ELEMENTS[ElementKind.QUESTION_ITEM];
+  private readonly QUESTION_KIND: QueryInfo = QDDT_QUERY_INFOES[ElementKind.QUESTION_ITEM];
   private page = new Page();
 
 

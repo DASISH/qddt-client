@@ -33,7 +33,7 @@ import { CommentService, Comment } from './comment.service';
 })
 export class CommentCreateComponent {
 
-  @Output() addedCommentEvent: EventEmitter<Comment>  = new EventEmitter<Comment>();
+  @Output() addedCommentEvent  = new EventEmitter<Comment>();
   @Input() ownerId: string;
   comment: Comment = new Comment();
 

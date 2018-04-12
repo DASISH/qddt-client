@@ -1,8 +1,8 @@
-import { Component, Input, Output, EventEmitter, OnInit, AfterContentChecked, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
 import { Publication, PUBLICATION_TYPES, PublicationService, PublicationStatus } from './publication.service';
-import { ElementRevisionRef, QddtElement, ElementKind } from '../shared/elementinterfaces/elements';
-import { IEntityEditAudit } from '../shared/elementinterfaces/entityaudit';
-import { TemplateService } from '../template/template.service';
+import {IEntityEditAudit} from '../shared/classes/interfaces';
+import {ElementKind} from '../shared/classes/enums';
+import {ElementRevisionRef, QueryInfo} from '../shared/classes/classes';
 
 declare var Materialize: any;
 
@@ -51,7 +51,7 @@ export class PublicationFormComponent implements OnChanges {
   }
 
   public getLabelByElement(kind: ElementKind): String {
-    let element: QddtElement;
+    let element: QueryInfo;
     if (typeof kind === 'string') {
       element =  PUBLICATION_TYPES.find(e => ElementKind[e.id] === kind);
     }  else {

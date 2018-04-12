@@ -1,6 +1,6 @@
 import { Column } from '../table/table.column';
-import { ElementKind } from '../elementinterfaces/elements';
 import { DomainKind } from '../../responsedomain/responsedomain.constant';
+import { ElementKind } from '../classes/enums';
 
 export const DEFAULT_COLUMNS = [
   new Column({ name: 'modified',  label: 'Modified', sortable: true, direction: 'desc' }),

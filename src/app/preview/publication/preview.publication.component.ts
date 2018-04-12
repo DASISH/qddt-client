@@ -1,7 +1,9 @@
 import {Component, Input } from '@angular/core';
 import { Publication } from '../../publication/publication.service';
 import { PreviewService } from '../preview.service';
-import {ElementKind, ElementRevisionRef, QDDT_ELEMENTS, QddtElement} from '../../shared/elementinterfaces/elements';
+import { ElementRevisionRef, QueryInfo } from '../../shared/classes/classes';
+import { ElementKind } from '../../shared/classes/enums';
+import { QDDT_QUERY_INFOES } from '../../shared/classes/constants';
 
 @Component({
   selector: 'qddt-preview-publication',
@@ -23,9 +25,9 @@ export class PreviewPublicationComponent  {
     }
   }
 
-  public getQddtElement(element: ElementKind| string): QddtElement {
+  public getQueryInfo(element: ElementKind| string): QueryInfo {
     const  kind =  this.getElementKind(element);
-    return QDDT_ELEMENTS.find( qe => qe.id === kind);
+    return QDDT_QUERY_INFOES.find( qe => qe.id === kind);
   }
 
   public getElementKind(element: ElementKind| string): ElementKind {

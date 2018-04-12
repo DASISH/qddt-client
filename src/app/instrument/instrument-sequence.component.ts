@@ -1,9 +1,11 @@
-import { Component, ViewChild, OnInit, OnChanges, SimpleChanges, Input } from '@angular/core';
-import { ElementKind, ElementRevisionRef, QDDT_ELEMENTS } from '../shared/elementinterfaces/elements';
+import { Component,  OnChanges, SimpleChanges, Input } from '@angular/core';
 import { TemplateService } from '../template/template.service';
 import { InstrumentSequence } from './instrument.classes';
-import { SequenceConstruct } from '../controlconstruct/controlconstruct.service';
-import { Page } from '../shared/table/table.page';
+import { SequenceConstruct } from '../controlconstruct/controlconstruct.classes';
+import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
+import { ElementKind } from '../shared/classes/enums';
+import { ElementRevisionRef } from '../shared/classes/classes';
+
 
 @Component({
   selector: 'qddt-instrument-sequence',
@@ -17,7 +19,7 @@ export class InstrumentSequenceComponent implements OnChanges {
   public selectedElement: InstrumentSequence;
   public suggestions: SequenceConstruct[];
   public revisions: any[];
-  public readonly SEQUENCE = QDDT_ELEMENTS[ElementKind.SEQUENCE_CONSTRUCT];
+  public readonly SEQUENCE = QDDT_QUERY_INFOES[ElementKind.SEQUENCE_CONSTRUCT];
 
   constructor(private service: TemplateService) {
 

@@ -1,9 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { ElementEnumAware } from '../../preview/preview.service';
-import { ElementKind, QDDT_ELEMENTS, QddtElement } from '../../shared/elementinterfaces/elements';
-import { IEntityAudit } from '../../shared/elementinterfaces/entityaudit';
 import { HomeService } from '../home.service';
+import { ElementKind } from '../../shared/classes/enums';
+import { IEntityAudit } from '../../shared/classes/interfaces';
+import { QueryInfo } from '../../shared/classes/classes';
+import { QDDT_QUERY_INFOES } from '../../shared/classes/constants';
 
 
 @Component({
@@ -74,8 +76,8 @@ export class CopySourceComponent {
     }
   }
 
-  getElementClass(kind: ElementKind): QddtElement {
-    return QDDT_ELEMENTS[kind];
+  getElementClass(kind: ElementKind): QueryInfo {
+    return QDDT_QUERY_INFOES[kind];
   }
 
 }

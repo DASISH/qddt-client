@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Inject } from '@angular/core';
 import { API_BASE_HREF } from '../api';
-import { Category, ResponseCardinality } from '../category/category.service';
 import { Observable } from 'rxjs/Observable';
-import { IEntityAudit, IEntityEditAudit, IVersion } from '../shared/elementinterfaces/entityaudit';
-import { ElementKind, QDDT_ELEMENTS } from '../shared/elementinterfaces/elements';
-import { Page } from '../shared/table/table.page';
+import { Page } from '../shared/classes/classes';
+import { IEntityAudit, IEntityEditAudit, IVersion } from '../shared/classes/interfaces';
+import { Category, ResponseCardinality } from '../category/category.classes';
+import { ElementKind } from '../shared/classes/enums';
+import {QDDT_QUERY_INFOES} from '../shared/classes/constants';
 
 export const DATE_FORMAT: any = [
   {'id': 1, 'format': 'yyyy-mm-dd',         'label': 'Date' },
@@ -67,7 +68,7 @@ export class ResponseDomainService  {
   }
 
   getAll(domain: string, searchString: string = '', page: Page ): Promise<any> {
-    const qe = QDDT_ELEMENTS[ElementKind.RESPONSEDOMAIN];
+    const qe = QDDT_QUERY_INFOES[ElementKind.RESPONSEDOMAIN];
     const args = searchString.split(' ');
     const queries = [];
 

@@ -1,6 +1,6 @@
-import { IEntityEditAudit, IEntityAudit, IVersion } from '../shared/elementinterfaces/entityaudit';
 import { ResponseDomain } from '../responsedomain/responsedomain.service';
-import { ElementKind } from '../shared/elementinterfaces/elements';
+import { IEntityAudit, IEntityEditAudit, IVersion } from '../shared/classes/interfaces';
+import { ElementKind } from '../shared/classes/enums';
 
 
 

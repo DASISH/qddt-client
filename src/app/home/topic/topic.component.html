@@ -15,7 +15,7 @@
       <qddt-copy-select
         *ngIf="showReuse"
         [parentId]="study.id"
-        [elementKind]="topicKind"
+        [elementKind]="TOPIC_KIND"
         (itemSelected)="onSelectedRevsion($event)">
       </qddt-copy-select>
 
@@ -77,7 +77,7 @@
               </div>
             </h5>
             <qddt-topic-edit [isVisible]="edit.isVisible" [topic]="currentElement"
-                              (topicSavedAction)="onTopicSavedEvent($event)"
+                              (savedEvent)="onTopicSavedEvent($event)"
                               #edit>
             </qddt-topic-edit>
             <div class="row" *ngIf="!edit.isVisible">

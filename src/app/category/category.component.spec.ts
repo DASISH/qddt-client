@@ -56,7 +56,7 @@ class CategoryDetailComponent {
   @Input() category: any;
   @Input() categories: any[];
   @Input() isVisible: boolean;
-  @Output() hideDetailEvent: EventEmitter<String> = new EventEmitter<String>();
+  @Output() hideDetailEvent =  new EventEmitter<String>();
 }
 
 @Component({
@@ -71,9 +71,9 @@ class TableComponent {
   @Input() placeholder: string;
 
   @Input() searchFromServer: boolean;
-  @Output() detailEvent: EventEmitter<String> = new EventEmitter<String>();
-  @Output() pageChangeEvent: EventEmitter<String> = new EventEmitter<String>();
-  @Output() enterEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() detailEvent =  new EventEmitter<String>();
+  @Output() pageChangeEvent =  new EventEmitter<String>();
+  @Output() enterEvent =  new EventEmitter<any>();
 }
 
 

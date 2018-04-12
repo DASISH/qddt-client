@@ -1,11 +1,12 @@
 import { Component, Input, Output, EventEmitter, OnInit, AfterViewInit } from '@angular/core';
-import { CategoryService, Category } from '../category/category.service';
-import { DomainKind, DomainTypeDescription } from './responsedomain.constant';
+import { CategoryService } from '../category/category.service';
+import { DomainKind, DOMAIN_TYPE_DESCRIPTION } from './responsedomain.constant';
 import { DATE_FORMAT, ResponseDomain, ResponseDomainService } from './responsedomain.service';
 import { Subject } from 'rxjs/Subject';
-import { MaterializeAction } from 'angular2-materialize';
-import { QDDT_ELEMENTS, ElementKind } from '../shared/elementinterfaces/elements';
-import { Page } from '../shared/table/table.page';
+import { Page } from '../shared/classes/classes';
+import { Category } from '../category/category.classes';
+import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
+import { ElementKind } from '../shared/classes/enums';
 
 declare let Materialize: any;
 
@@ -24,11 +25,9 @@ export class ResponsedomainFormComponent implements OnInit , AfterViewInit {
   @Input() labelColor: string;
   @Output() formChange = new EventEmitter<Category>();
 
-  public basedonActions = new EventEmitter<string|MaterializeAction>();
   public previewResponseDomain: any;
-  public basedonObject: any;
 
-  public readonly CATEGORY_KIND = QDDT_ELEMENTS[ElementKind.CATEGORY];
+  public readonly CATEGORY_KIND = QDDT_QUERY_INFOES[ElementKind.CATEGORY];
   public domainTypeDef = DomainKind;
   public dateFormatOption = DATE_FORMAT;
   public numberOfAnchors: number;
@@ -70,7 +69,7 @@ export class ResponsedomainFormComponent implements OnInit , AfterViewInit {
       this.responsedomain.managedRepresentation = new Category();
     }
     this.responsedomain.managedRepresentation.categoryType =
-      DomainTypeDescription.find(e => e.id === this.domainType).categoryType;
+      DOMAIN_TYPE_DESCRIPTION.find(e => e.id === this.domainType).categoryType;
       this.numberOfAnchors = this.responsedomain.managedRepresentation.children.length;
 
     if (this.domainType === DomainKind.SCALE) {

@@ -1,6 +1,4 @@
-import { Component, ViewChild, OnInit, OnChanges, SimpleChanges } from '@angular/core';
-import { Factory } from '../shared/elementfactory/factory';
-import { ElementKind } from '../shared/elementinterfaces/elements';
+import { Component, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'qddt-instrument',

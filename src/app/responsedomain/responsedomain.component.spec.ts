@@ -101,7 +101,7 @@ class ResponsedomainFormComponent {
   @Input() responsedomain: any;
   @Input() domainType: any;
   @Input() readonly: boolean;
-  @Output() formChange: EventEmitter<any>;
+  @Output() formChange = new EventEmitter<any>();
 }
 
 @Component({
@@ -116,9 +116,9 @@ class TableComponent {
   @Input() placeholder: string;
 
   @Input() searchFromServer: boolean;
-  @Output() detailEvent: EventEmitter<String> = new EventEmitter<String>();
-  @Output() pageChangeEvent: EventEmitter<String> = new EventEmitter<String>();
-  @Output() enterEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() detailEvent =  new EventEmitter<String>();
+  @Output() pageChangeEvent =  new EventEmitter<String>();
+  @Output() enterEvent =  new EventEmitter<any>();
 }
 
 
@@ -161,7 +161,7 @@ class ResponsedomainPreviewComponent {
 class ResponsedomainReuseComponent {
   @Input() isVisible: boolean;
   @Input() responseDomain: any;
-  @Output() responseDomainReuse: EventEmitter<any> = new EventEmitter();
+  @Output() responseDomainReuse =  new EventEmitter();
 }
 
 @Pipe({

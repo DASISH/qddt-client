@@ -1,10 +1,11 @@
-import { Component, Input, Output, EventEmitter, OnChanges, OnInit, AfterViewInit } from '@angular/core';
-import { DomainKind, DomainTypeDescription } from './responsedomain.constant';
+import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { DomainKind, DOMAIN_TYPE_DESCRIPTION } from './responsedomain.constant';
 import { ResponseDomainService } from './responsedomain.service';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
-import { QDDT_ELEMENTS, ElementKind } from '../shared/elementinterfaces/elements';
-import { Page } from '../shared/table/table.page';
+import { Page } from '../shared/classes/classes';
+import {QDDT_QUERY_INFOES} from '../shared/classes/constants';
+import {ElementKind} from '../shared/classes/enums';
 
 @Component({
   selector: 'qddt-responsedomain-reuse',
@@ -21,34 +22,33 @@ export class ResponsedomainReuseComponent implements OnChanges  {
   @Output() selectedEvent = new EventEmitter<any>();
   @Output() removeEvent = new EventEmitter<any>();
 
+  public readonly RESPONSE_KIND = QDDT_QUERY_INFOES[ElementKind.RESPONSEDOMAIN];
   public selectedResponseDomain: any;
   public selectedRevision: number;
-  public domainTypeDef = DomainKind;
+  public domainKindInstance = DomainKind;
   public domainTypeDescription: any[];
   public modalRdActions = new EventEmitter<MaterializeAction>();
   public showAutocomplete: boolean;
 
-  private domainType: DomainKind;
-  private responseDomains: any;
+  private selectedDomainKind: DomainKind;
   private selectedIndex: number;
-  private searchKeysListener: Subject<string> = new Subject<string>();
-  private readonly RESPONSEKIND = QDDT_ELEMENTS[ElementKind.RESPONSEDOMAIN];
+  private responseDomainList = [];
+  private searchKeysListener = new Subject<string>();
 
   constructor(private responseDomainService: ResponseDomainService) {
     this.showAutocomplete = false;
-    this.domainType = DomainKind.SCALE;
-    this.responseDomains = [];
-    this.domainTypeDescription = DomainTypeDescription.filter((e: any) => e.id !== DomainKind.MIXED);
+    this.selectedDomainKind = DomainKind.SCALE;
+    this.domainTypeDescription = DOMAIN_TYPE_DESCRIPTION.filter((e: any) => e.id !== DomainKind.MIXED);
     this.selectedIndex = 0;
     this.searchKeysListener
       .debounceTime(300)
       .distinctUntilChanged()
       .filter(val => val.length > 0)
       .subscribe((name: string) => {
-        const domainType = DomainTypeDescription.find((e: any) => e.id === this.domainType).name;
+        const domainType = DOMAIN_TYPE_DESCRIPTION.find((e: any) => e.id === this.selectedDomainKind).name;
         this.responseDomainService.getAll(domainType, name, new Page( {size: 15} )).then(
           (result) => {
-            this.responseDomains = result.content;
+            this.responseDomainList = result.content;
           });
       });
      this.reuse();
@@ -60,10 +60,10 @@ export class ResponsedomainReuseComponent implements OnChanges  {
     if (this.responseDomain) {
       const description = this.domainTypeDescription.find((e: any) => e.name === this.responseDomain.responseKind);
       if (description !== undefined) {
-        this.domainType = description.id;
+        this.selectedDomainKind = description.id;
       }
     } else {
-      this.domainType = DomainKind.SCALE;
+      this.selectedDomainKind = DomainKind.SCALE;
     }
   }
   removeResponseDomain() {
@@ -100,7 +100,7 @@ export class ResponsedomainReuseComponent implements OnChanges  {
     } else {
       this.responseDomainService.create(this.responseDomain).subscribe((result: any) => {
         this.responseDomain = result;
-        this.responseDomains.push(this.responseDomain);
+        this.responseDomainList.push(this.responseDomain);
         const object = {
           responseDomain: this.responseDomain
         };
@@ -111,7 +111,7 @@ export class ResponsedomainReuseComponent implements OnChanges  {
   }
 
   selectDomainType(id: DomainKind) {
-    this.domainType = id;
+    this.selectedDomainKind = id;
     this.selectedResponseDomain = null;
     this.reuse();
     this.responseDomain = null;
@@ -119,9 +119,9 @@ export class ResponsedomainReuseComponent implements OnChanges  {
 
   reuse() {
     // console.debug('reuse');
-    this.responseDomainService.getAll(DomainKind[this.domainType], '', new Page({size: 20})).then(
+    this.responseDomainService.getAll(DomainKind[this.selectedDomainKind], '', new Page({size: 20})).then(
       (result: any) => {
-        this.responseDomains = result.content;
+        this.responseDomainList = result.content;
         this.showAutocomplete = true; }
       );
   }

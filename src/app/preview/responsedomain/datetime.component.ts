@@ -29,7 +29,7 @@ export class ResponsedomainDatetimeComponent implements OnInit, OnChanges {
     this.ngOnChanges(null);
   }
 
-  ngOnChanges(changes: any): void {
+  ngOnChanges(changes: SimpleChanges): void {
     if (changes) {
       console.log(changes.toString());
     }

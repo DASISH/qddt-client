@@ -24,7 +24,7 @@ export class DiffComponent implements OnChanges {
   @Input() compared: any;
   @Input() current: any;
   @Input() config: any[];
-  @Output() hideCompareEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() hideCompareEvent =  new EventEmitter<any>();
   private diff: DiffString = new DiffString();
   private elementChange: ElementChange = new ElementChange();
 

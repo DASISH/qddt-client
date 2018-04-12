@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import {ConditionConstruct} from '../../controlconstruct/controlconstruct.classes';
 
 @Component({
   selector: 'qddt-preview-conditionconstruct',
@@ -48,8 +49,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 
 export class PreviewConditionConstructComponent implements OnInit {
-  @Input() condition: any;
-  logic: any;
+  @Input() condition: ConditionConstruct;
   elementId: string = new Date().toString();
   conditionstring: string;
   conditionjson: any;
@@ -61,8 +61,7 @@ export class PreviewConditionConstructComponent implements OnInit {
       this.conditionstring = this.condition.condition || '{}';
       this.conditionjson = JSON.parse(this.conditionstring);
     }
-    if (this.conditionjson['ifCondition'] === null
-      || this.conditionjson['ifCondition'] === undefined) {
+    if (this.conditionjson['ifCondition']) {
       this.conditionjson['ifCondition'] = {};
     }
     if (this.conditionjson['elseConditions'] === null

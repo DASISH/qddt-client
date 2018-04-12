@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { QddtMessageService } from '../../core/global/message.service';
-import { IRevisionRef } from '../elementinterfaces/elements';
-import { IEntityEditAudit } from '../elementinterfaces/entityaudit';
+import { IEntityEditAudit, IRevisionRef } from '../classes/interfaces';
 
 @Component({
   selector: 'qddt-element-footer',

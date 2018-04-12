@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ElementEnumAware } from './preview.service';
-import { IEntityAudit } from '../shared/elementinterfaces/entityAudit';
-import { ElementKind } from '../shared/elementinterfaces/elements';
+import { IEntityAudit } from '../shared/classes/interfaces';
+import { ElementKind } from '../shared/classes/enums';
 
 @Component({
   selector: 'qddt-preview-element',

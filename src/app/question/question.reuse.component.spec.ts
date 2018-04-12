@@ -1,14 +1,13 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
-import { QuestionService } from './question.service';
 import { QuestionReuseComponent } from './question.reuse.component';
 import { API_BASE_HREF } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { MaterializeModule } from 'angular2-materialize';
+import { TemplateService } from '../template/template.service';
 
 export function main() {
   describe('Question reuse component', () => {
@@ -19,7 +18,7 @@ export function main() {
           ResponsedomainPreviewComponent,
           AutocompleteComponent, QuestionItemEditComponent],
         providers: [
-          { provide: QuestionService, useClass: QuestionServiceSpy },
+          { provide: TemplateService, useClass: QuestionServiceSpy },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
@@ -93,7 +92,7 @@ class QuestionItemEditComponent {
   @Input() isVisible: boolean;
   @Input() readonly: boolean;
   @Input() questionitem: any;
-  @Output() editQuestionItem: EventEmitter<any> = new EventEmitter<any>();
+  @Output() editQuestionItem =  new EventEmitter<any>();
 }
 
 @Component({
@@ -120,9 +119,9 @@ class AutocompleteComponent {
   @Input() isMultipleFields: boolean;
   @Input() initialValue: string;
   @Input() searchFromServer: boolean;
-  @Output() selectEvent: EventEmitter<any> = new EventEmitter<any>();
-  @Output() focusEvent: EventEmitter<any> = new EventEmitter<any>();
-  @Output() enterEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() selectEvent =  new EventEmitter<any>();
+  @Output() focusEvent =  new EventEmitter<any>();
+  @Output() enterEvent =  new EventEmitter<any>();
 }
 
 @Component({

@@ -1,12 +1,12 @@
-import { Component, OnInit, AfterContentChecked, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit,  EventEmitter } from '@angular/core';
 import { ResponseDomain } from './responsedomain.service';
-import { DomainKind, DomainTypeDescription } from './responsedomain.constant';
+import { DomainKind, DOMAIN_TYPE_DESCRIPTION } from './responsedomain.constant';
 import { ResponseDomainService } from './responsedomain.service';
 import { Subject } from 'rxjs/Subject';
 import { PropertyStoreService } from '../core/global/property.service';
-import { Category } from '../category/category.service';
-import { ElementKind } from '../shared/elementinterfaces/elements';
-import { Page } from '../shared/table/table.page';
+import { Page } from '../shared/classes/classes';
+import { ElementKind } from '../shared/classes/enums';
+import { Category } from '../category/category.classes';
 
 // declare var Materialize: any;
 
@@ -40,7 +40,7 @@ export class ResponsedomainComponent implements OnInit {
   constructor(private responseDomainService: ResponseDomainService, private property: PropertyStoreService) {
     this.searchKeys = '*';
     this.domainType = DomainKind.SCALE;
-    this.domainTypeDescription = DomainTypeDescription.filter((e: any) => e.id !== DomainKind.MIXED);
+    this.domainTypeDescription = DOMAIN_TYPE_DESCRIPTION.filter((e: any) => e.id !== DomainKind.MIXED);
     this.searchKeysListener
       .debounceTime(300)
       .distinctUntilChanged()
@@ -165,7 +165,7 @@ export class ResponsedomainComponent implements OnInit {
   }
 
   private loadPage(search: string ) {
-    const domainTypeName = DomainTypeDescription.find( (e) => e.id === this.domainType).name;
+    const domainTypeName = DOMAIN_TYPE_DESCRIPTION.find( (e) => e.id === this.domainType).name;
     this.isProgressBarVisible = true;
     this.responseDomainService.getAll(domainTypeName, search, this.page).then(
         (result: any) => {

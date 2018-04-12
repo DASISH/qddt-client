@@ -1,5 +1,7 @@
-import { IEntityAudit } from '../shared/elementinterfaces/entityaudit';
-import { ElementKind, ElementRevisionRef } from '../shared/elementinterfaces/elements';
+import { IEntityAudit } from '../shared/classes/interfaces';
+import { ElementKind } from '../shared/classes/enums';
+import { ElementRevisionRef } from '../shared/classes/classes';
+
 
 export enum InstrumentKind {
   QUESTIONNAIRE = 0,

@@ -1,25 +1,28 @@
 <div *ngIf="controlConstruct">
-  <form  #qcform="ngForm">
+  <form #qcform="ngForm" materialize="">
     <div class="row input-field">
-        <label [attr.for]="formId + '-name'" >Name</label>
-        <input id= "{{formId}}-name" name="name" type="text" class="validate" required
-          [(ngModel)]="controlConstruct.name" materialize="characterCounter" data-length="255">
+      <input id="{{formId}}-name" name="{{formId}}-name" type="text" class="validate" required
+             [(ngModel)]="controlConstruct.name"
+             materialize="characterCounter" data-length="255">
+      <label for="{{formId}}-name" class="active" >Name</label>
     </div>
 
     <qddt-collection-search-select
-        [items] = "controlConstruct.universe"
+        [listItems] = "controlConstruct.universe"
+        [searchItems]="universes"
         [elementKind]="'UNIVERSE'"
-        (itemCreatedEvent) ="onAddUniverse($event)">
+        (selectEvent)="onAddUniverse($event)"
+        (searchEvent)="onUniverseSearch($event)">
     </qddt-collection-search-select>
 
     <ul class="hoverable"
-        (mouseenter)="showbutton = !readonly"
-        (mouseleave)="showbutton = false">
+        (mouseenter)="showFilebutton = !readonly"
+        (mouseleave)="showFilebutton = false">
       <li>
         <div class="row" (click)="showUploadFileForm=!showUploadFileForm" style="cursor: zoom-in;">
           <div class="col s11"><label class="teal-text">External aid</label></div>
           <div class="col s1">
-            <a [ngClass]="{hide: !showbutton}"
+            <a [ngClass]="{hide: !showFilebutton}"
                class="btn-flat btn-floating btn-small waves-effect waves-light teal">
               <i class="material-icons" title="Attach external aid (File Upload)">add</i>
             </a>
@@ -50,7 +53,7 @@
           </div>
           <div class="col s1 right" >
             <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-               [ngClass]="{hide: !showbutton}"
+               [ngClass]="{hide: !showFilebutton}"
                (click)="onDeleteFile(idx)">
               <i class="material-icons left medium" title="Delete" >delete_forever</i>
             </a>
@@ -74,17 +77,19 @@
     </ul>
 
     <qddt-collection-search-select
-      [items] = "controlConstruct.preInstructions"
+      [listItems] = "controlConstruct.preInstructions"
+      [searchItems]="instructions"
       [labelName]="'Pre Instructions'"
       [elementKind]="'INSTRUCTION'"
-      (itemCreatedEvent) ="onAddPreInstruction($event)">
+      (selectEvent)="onAddPreInstruction($event)"
+      (searchEvent)="onInstructionSearch($event)">
     </qddt-collection-search-select>
 
 
     <div class="hoverable"
          (mouseenter)="showQuestionButton = !readonly"
          (mouseleave)="showQuestionButton = false">
-      <div class="row" (click)="editQuestoinItem = !editQuestoinItem; savedquestionitem=controlConstruct.questionItem;" style="cursor: zoom-in;">
+      <div class="row" (click)="editQuestoinItem = !editQuestoinItem; savedQuestionItem=controlConstruct.questionItem;" style="cursor: zoom-in;">
         <div class="col s11">
           <label class="teal-text">
             Question Text (Version <qddt-version [element]="controlConstruct?.questionItem"></qddt-version>)
@@ -115,10 +120,12 @@
     </div>
 
     <qddt-collection-search-select
-      [items] = "controlConstruct.postInstructions"
+      [listItems] = "controlConstruct.postInstructions"
+      [searchItems]="instructions"
       [labelName]="'Post Instructions'"
       [elementKind]="'INSTRUCTION'"
-      (itemCreatedEvent) ="onAddPostInstruction($event)">
+      (selectEvent)="onAddPostInstruction($event)"
+      (searchEvent)="onInstructionSearch($event)">
     </qddt-collection-search-select>
 
     <qddt-preview-responsedomain
@@ -128,13 +135,11 @@
 
     <qddt-conceptref [element]="controlConstruct.questionItem"></qddt-conceptref>
 
-    <div class="row" *ngIf="!readonly && controlConstruct.id">
-      <qddt-rational [formName]="'RationalComp'" [element]="controlConstruct" [config]="{hidden: [4]}"></qddt-rational>
-    </div>
+    <qddt-rational *ngIf="!readonly && controlConstruct.id" [element]="controlConstruct" [config]="{hidden: [3,4]}">
+    </qddt-rational>
 
-    <div class="row" *ngIf="controlConstruct.id">
-      <qddt-element-footer [element]="controlConstruct"></qddt-element-footer>
-    </div>
+    <qddt-element-footer *ngIf="controlConstruct.id" [element]="controlConstruct"></qddt-element-footer>
+
     <div class="row right-align">
       <button *ngIf="!readonly" type="button" class="btn btn-default" [disabled]="!qcform.form.valid"
               (click)="onSaveControlConstruct()">Submit</button>

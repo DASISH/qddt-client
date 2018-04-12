@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { CategoryService, Category } from './category.service';
+import { CategoryService } from './category.service';
+import { Category } from './category.classes';
 
 @Component({
   selector: 'qddt-category-detail',
@@ -11,7 +12,7 @@ export class CategoryDetailComponent  {
   @Input() category: Category;
   @Input() categories: Category[];
   @Input() isVisible: boolean;
-  @Output() hideDetailEvent: EventEmitter<String> = new EventEmitter<String>();
+  @Output() hideDetailEvent =  new EventEmitter<String>();
   public  revisionIsVisible: boolean;
 
   constructor(private categoryService: CategoryService) {

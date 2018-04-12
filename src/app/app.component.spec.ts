@@ -31,7 +31,7 @@ class TestComponent {
 
 
 export class UserLoginComponent {
-  @Output() logoutEvent: EventEmitter<string> = new EventEmitter<string>();
+  @Output() logoutEvent = new EventEmitter<string>();
 }
 
 export function main() {

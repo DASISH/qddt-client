@@ -1,9 +1,10 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { MaterializeAction } from 'angular2-materialize';
-import { QuestionItem } from '../../question/question.service';
-import { ElementKind } from '../../shared/elementinterfaces/elements';
-import { HomeService, Concept } from '../home.service';
+import { QuestionItem } from '../../question/question.classes';
 import { QddtMessageService } from '../../core/global/message.service';
+import {ElementKind} from '../../shared/classes/enums';
+import {HomeService} from '../home.service';
+import {Concept} from '../home.classes';
+
 const filesaver = require('file-saver');
 
 @Component({
@@ -15,18 +16,14 @@ const filesaver = require('file-saver');
 })
 
 export class TreeNodeComponent  {
-  @Output() deleteEvent: EventEmitter<any> = new EventEmitter();
-  @Output() updatedEvent: EventEmitter<any> = new EventEmitter();
   @Input() concept: any;
   @Input() readonly = false;
+  @Output() deleteEvent =  new EventEmitter();
+  @Output() updatedEvent =  new EventEmitter();
 
-  showConceptChildForm = false;
-  //showQuestionForm = false;
-  private showbutton = false;
+  public showConceptChildForm = false;
+  public showbutton = false;
   private newchild: any;
-  private questionItem: any;
-  //private revision: any;
-  private revisionKind = ElementKind.CONCEPT;
 
   constructor(private conceptService: HomeService, private message: QddtMessageService) {
     this.newchild = new Concept();

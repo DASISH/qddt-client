@@ -2,76 +2,11 @@ import { Observable } from 'rxjs/Observable';
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_BASE_HREF } from '../api';
-import { ElementKind, QddtElement, QDDT_ELEMENTS, ElementRevisionRef } from '../shared/elementinterfaces/elements';
-import {IEntityAudit, IEntityEditAudit, IVersion} from '../shared/elementinterfaces/entityaudit';
+import { ElementKind } from '../shared/classes/enums';
+import { QueryInfo } from '../shared/classes/classes';
+import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
+import { Concept, Study, SurveyProgram, Topic } from './home.classes';
 
-export class SurveyProgram implements IEntityEditAudit {
-  id: string;
-  name: string;
-  description: string;
-  authors?: any[];
-  comments?: any[];
-  modified: any;
-  archived: boolean;
-  studies: Study[];
-  classKind = ElementKind[ElementKind.SURVEY_PROGRAM];
-  agency?: IEntityAudit;
-  basedOnObject?: string;
-  basedOnRevision?: number;
-  version: IVersion;
-}
-
-export class Study implements IEntityEditAudit {
-  id: string;
-  name: string;
-  description: string;
-  archived: boolean;
-  authors?: any[];
-  comments?: any[];
-  topicGroups: Topic[];
-  classKind = ElementKind[ElementKind.STUDY];
-  agency?: IEntityAudit;
-  basedOnObject?: string;
-  basedOnRevision?: number;
-  modified: number;
-  version: IVersion;
-}
-
-export class Topic implements IEntityEditAudit {
-  id: string;
-  name: string;
-  abstractDescription: string;
-  archived: boolean;
-  authors?: any[];
-  comments?: any[];
-  otherMaterials: any[];
-  topicQuestionItems: ElementRevisionRef[];
-  concepts: Concept[];
-  classKind = ElementKind[ElementKind.TOPIC_GROUP];
-  agency?: IEntityAudit;
-  basedOnObject?: string;
-  basedOnRevision?: number;
-  modified: number;
-  version: IVersion;
-
-}
-
-export class Concept implements IEntityEditAudit {
-  id: string;
-  name: string;
-  label: string;
-  description: string;
-  authors: any[];
-  conceptQuestionItems: ElementRevisionRef[];
-  children: Concept[];
-  comments: any[];
-  classKind = ElementKind[ElementKind.CONCEPT];
-  agency: IEntityAudit;
-  basedOnObject: string;
-  basedOnRevision: number;
-  modified: number;
-  version: IVersion;
-}
 
 
 @Injectable()
@@ -81,7 +16,7 @@ export class HomeService {
   }
 
   getRevisionById(elementTypeId: ElementKind, id: string): Promise<any> {
-    const qe: QddtElement = QDDT_ELEMENTS.find(e => e.id === elementTypeId);
+    const qe: QueryInfo = QDDT_QUERY_INFOES.find(e => e.id === elementTypeId);
     if (qe !== undefined) {
       return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/allinclatest').toPromise();
     }
@@ -89,7 +24,7 @@ export class HomeService {
   }
 
   getElementByTypeAndName(elementTypeId: ElementKind, name: string): Promise<any> {
-    const qe: QddtElement = QDDT_ELEMENTS.find(e => e.id === elementTypeId);
+    const qe: QueryInfo = QDDT_QUERY_INFOES.find(e => e.id === elementTypeId);
     if (qe !== undefined) {
       return this.http.get(this.api + qe.path + '/page/search/?name=*' + name + '*' ).toPromise();
     }
@@ -98,7 +33,7 @@ export class HomeService {
   }
 
   copySource(elementTypeId: ElementKind, fromId: string, fromRev: number, toParentId: string): Observable<any> {
-    const qe: QddtElement = QDDT_ELEMENTS.find(e => e.id === elementTypeId);
+    const qe: QueryInfo = QDDT_QUERY_INFOES.find(e => e.id === elementTypeId);
     return this.http.post(this.api + qe.path + '/copy/' + fromId + '/' + fromRev + '/' + toParentId, {});
   }
 

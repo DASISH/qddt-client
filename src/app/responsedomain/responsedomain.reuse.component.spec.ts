@@ -142,9 +142,9 @@ class AutocompleteComponent {
   @Input() isMultipleFields: boolean;
   @Input() initialValue: string;
   @Input() searchFromServer: boolean;
-  @Output() selectEvent: EventEmitter<any> = new EventEmitter<any>();
-  @Output() focusEvent: EventEmitter<any> = new EventEmitter<any>();
-  @Output() enterEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() selectEvent =  new EventEmitter<any>();
+  @Output() focusEvent =  new EventEmitter<any>();
+  @Output() enterEvent =  new EventEmitter<any>();
 }
 
 @Component({
@@ -156,7 +156,7 @@ class ResponsedomainFormComponent {
   @Input() responsedomain: any;
   @Input() domainType: any;
   @Input() readonly: boolean;
-  @Output() formChange: EventEmitter<any> = new EventEmitter<any>();
+  @Output() formChange =  new EventEmitter<any>();
 }
 
 @Component({

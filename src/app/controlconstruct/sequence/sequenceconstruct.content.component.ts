@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { IEntityAudit } from '../../shared/elementinterfaces/entityaudit';
-import { IElementRef } from '../../shared/elementinterfaces/elements';
 import { QddtMessageService} from '../../core/global/message.service';
+import { IElementRef, IEntityAudit } from '../../shared/classes/interfaces';
 
 @Component({
   selector: 'qddt-sequence-content',

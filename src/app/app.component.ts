@@ -3,7 +3,7 @@ import { UserService } from './core/user/user.service';
 import { PropertyStoreService } from './core/global/property.service';
 import { QddtMessageService } from './core/global/message.service';
 import { Subscription } from 'rxjs/Subscription';
-import { IElementRef, IRevisionRef, IIdRef } from './shared/elementinterfaces/elements';
+import { IElementRef, IIdRef, IRevisionRef } from './shared/classes/interfaces';
 
 // declare var $: any;
 

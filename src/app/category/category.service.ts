@@ -3,49 +3,9 @@ import { HttpClient } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { API_BASE_HREF } from '../api';
-import { IEntityAudit, IEntityEditAudit} from '../shared/elementinterfaces/entityaudit';
-import { ElementKind } from '../shared/elementinterfaces/elements';
-import { Page } from '../shared/table/table.page';
+import { Page } from '../shared/classes/classes';
+import { Category } from './category.classes';
 
-export class ResponseCardinality {
-   minimum: number;
-   maximum: number;
-  constructor() {
-    this.minimum = 1;
-    this.maximum = 1;
-  }
-}
-
-export class Code {
-  codeValue: string;
-  alignment: string;
-  constructor() {
-    this.alignment = 'text-left';
-    this.codeValue = '0';
-  }
-}
-
-export class Category implements IEntityEditAudit {
-  id: string;
-  name: string;
-  classKind = ElementKind[ElementKind.CATEGORY];
-  label: string;
-  description: string;
-  inputLimit: ResponseCardinality;
-  hierarchyLevel: string;
-  categoryType: string;
-  children: Category[];
-  comments: any[];
-  code: Code;
-  format: any;
-  constructor() {
-    this.label = '';
-    this.name = '';
-    this.children = [];
-    this.inputLimit = new ResponseCardinality();
-    this.code = new Code();
-  }
-}
 
 @Injectable()
 export class CategoryService  {

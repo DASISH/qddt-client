@@ -1,11 +1,11 @@
 import { Component, Input,  OnChanges } from '@angular/core';
 import { RevisionService } from './revision.service';
 import { QddtMessageService } from '../../core/global/message.service';
-import { ElementKind, IElementRef } from '../elementinterfaces/elements';
 import { DEFAULT_CONFIG, LIST_CONFIG, RevisionConfig } from './revision-config';
-import { IEntityAudit } from '../elementinterfaces/entityaudit';
 import { ResponseDomain } from '../../responsedomain/responsedomain.service';
 import { DomainKind } from '../../responsedomain/responsedomain.constant';
+import { IElementRef, IEntityAudit } from '../classes/interfaces';
+import { ElementKind } from '../classes/enums';
 
 @Component({
   selector: 'qddt-revision',
@@ -69,15 +69,18 @@ export class RevisionComponent implements OnChanges {
     return ElementKind[this.current.classKind];
   }
 
+  private isResponseDomain(element: IEntityAudit): element is ResponseDomain { // magic happens here
+    return (<ResponseDomain>element).responseKind !== undefined;
+  }
   private getResponseKind(): DomainKind {
-    if (this.current instanceof ResponseDomain) {
+    if (this.isResponseDomain(this.current)) {
       return DomainKind[this.current.responseKind];
     }
     return DomainKind.NONE;
   }
 
   private getChildrenSize(): number {
-    if (this.current instanceof ResponseDomain) {
+    if (this.isResponseDomain(this.current)) {
       return this.current.managedRepresentation.children.length;
     }
     return 0;

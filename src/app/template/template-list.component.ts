@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-
 import { Subject } from 'rxjs/Subject';
-import { IEntityAudit } from '../shared/elementinterfaces/entityaudit';
 import { TemplateService } from './template.service';
 
-import { HEADER_DETAILS } from '../shared/elementinterfaces/headerdetail';
-import { ElementKind } from '../shared/elementinterfaces/elements';
-import { Page } from '../shared/table/table.page';
+import { Page } from '../shared/classes/classes';
 import { QddtMessageService } from '../core/global/message.service';
-import { Action } from '../shared/elementinterfaces/detailaction';
+import { IEntityAudit } from '../shared/classes/interfaces';
+import { ActionKind, ElementKind} from '../shared/classes/enums';
+import { HEADER_DETAILS } from '../shared/classes/constants';
 
 @Component({
   selector: 'qddt-template-list',
@@ -40,7 +38,7 @@ export class TemplateListComponent implements OnInit {
       .subscribe((searchString: string) => this.loadPage(searchString));
 
     this.messages.getAction().subscribe(event => {
-      if (event.action === Action.Update || event.action === Action.Create) {
+      if (event.action === ActionKind.Update || event.action === ActionKind.Create) {
         this.loadPage();
       }
     });

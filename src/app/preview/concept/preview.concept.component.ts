@@ -1,7 +1,7 @@
-import { Component, Input, OnChanges } from '@angular/core';
-import { Concept } from '../../home/home.service';
+import { Component, Input } from '@angular/core';
 import { QddtMessageService } from '../../core/global/message.service';
-import { ElementKind } from '../../shared/elementinterfaces/elements';
+import { Concept } from '../../home/home.classes';
+import { ElementKind } from '../../shared/classes/enums';
 
 @Component({
   selector: 'qddt-preview-concept',

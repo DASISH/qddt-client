@@ -1,5 +1,5 @@
-import { IVersion } from '../elementinterfaces/entityaudit';
-import { ElementKind } from '../elementinterfaces/elements';
+import {IVersion} from '../classes/interfaces';
+import {ElementKind} from '../classes/enums';
 
 
 export class RevisionConfig {
