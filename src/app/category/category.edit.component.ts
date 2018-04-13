@@ -72,7 +72,7 @@ import {ElementKind} from '../shared/classes/enums';
            <tr *ngFor="let cat of category.children; let idx=index">
              <td><qddt-auto-complete
                [items]="categories"
-               [elementtype]="CATEGORY_KIND"
+               [elementKind]="CATEGORY_KIND"
                (focusEvent)="selectedCategoryIndex=idx;"
                [initialValue]="cat?.label"
                (selectEvent)="select($event)">
@@ -96,7 +96,7 @@ export class CategoryEditComponent implements OnInit {
   @Input() isVisible: boolean;
   @Output() editDetailEvent =  new EventEmitter<String>();
   public isTemplate: boolean;
-  public readonly CATEGORY_KIND = QDDT_QUERY_INFOES[ElementKind.CATEGORY];
+  public readonly CATEGORY_KIND = ElementKind.CATEGORY;
 
   private categoryEnums: any;
   private selectedCategoryIndex: number;

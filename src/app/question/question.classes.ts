@@ -1,17 +1,16 @@
-import { ResponseDomain } from '../responsedomain/responsedomain.service';
 import { IEntityAudit, IEntityEditAudit, IVersion } from '../shared/classes/interfaces';
 import { ElementKind } from '../shared/classes/enums';
+import { ResponseDomain } from '../responsedomain/responsedomain.classes';
 
 
 
 export class QuestionItem implements IEntityEditAudit {
-
   id: string;
   agency: IEntityAudit;
   name: string;
   modified: number;
   version: IVersion;
-  classKind: string;
+  classKind = ElementKind[ElementKind.QUESTION_ITEM];
   basedOnObject: string;
   basedOnRevision: number;
   question: string;
@@ -20,9 +19,8 @@ export class QuestionItem implements IEntityEditAudit {
   responseDomainName: String;
   responseDomainRevision: number;
   conceptRefs: any;
-
-  constructor() {
-    this.classKind = ElementKind[ElementKind.QUESTION_ITEM];
+  public constructor(init?: Partial<QuestionItem>) {
+    Object.assign(this, init);
   }
 }
 

@@ -52,7 +52,7 @@ export function main() {
 @Component({
   selector: 'test-component',
   template: `<qddt-comment-create [ownerId]="1"
-    (addedCommentEvent)="onAddedCommentEvent($event)">
+    (updatedEvent)="onAddedCommentEvent($event)">
     </qddt-comment-create>`
 })
 class TestComponent {

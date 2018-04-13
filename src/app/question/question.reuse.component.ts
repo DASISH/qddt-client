@@ -21,32 +21,33 @@ export class QuestionReuseComponent {
 
   closeReuseActions = new EventEmitter<any>();
 
+  public readonly QUESTION_KIND = ElementKind.QUESTION_ITEM;
+
   revisionIsVisible = false;
   reuseQuestionItem = true;
   selectedIndex: number;
   questionItem: QuestionItem;
-  questionItems: QuestionItem[];
+  questionItemList: QuestionItem[];
   elementRevisions: any[];
   elementRevision: any;
   selectedElement: any;
+
   private mainresponseDomainRevision: number;
   private searchKeysListener: Subject<string> = new Subject<string>();
-  private readonly QUESTION_KIND: QueryInfo = QDDT_QUERY_INFOES[ElementKind.QUESTION_ITEM];
   private page = new Page();
-
 
   constructor(private service: TemplateService) {
     this.reuseQuestionItem = true;
     this.selectedIndex = 0;
-    this.questionItems = [];
+    this.questionItemList = [];
     this.elementRevisions = [];
     this.mainresponseDomainRevision = 0;
     this.searchKeysListener
       .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((name: string) => {
-        this.service.searchByKind(ElementKind.QUESTION_ITEM, name, this.page).then((result: any) => {
-          this.questionItems = result.content;
+        this.service.searchByKind<QuestionItem>(ElementKind.QUESTION_ITEM, name, this.page).then(
+          (result) => { this.questionItemList = result.content;
         });
       });
   }
@@ -101,9 +102,9 @@ export class QuestionReuseComponent {
 
   openModal2() {
     this.closeReuseActions.emit({action: 'modal', params: ['open']});
-    this.service.searchByKind(ElementKind.QUESTION_ITEM, '*', this.page).then(
+    this.service.searchByKind<QuestionItem>(ElementKind.QUESTION_ITEM, '*', this.page).then(
       result => {
-        this.questionItems = result.content;
+        this.questionItemList = result.content;
         this.page = new Page( result.page );
       });
   }

@@ -14,15 +14,15 @@ import { Universe } from '../controlconstruct.classes';
 export class UniverseComponent {
   @Output() createUniverseEvent = new EventEmitter<any>();
 
-  public readonly UNIVERSE = QDDT_QUERY_INFOES[ElementKind.UNIVERSE];
+  public readonly UNIVERSE = ElementKind.UNIVERSE;
   public universe: any;
-  public universes: any[];
+  public universeList: any[];
   public isNew: boolean;
 
   constructor(private service: TemplateService) {
     this.universe = new Universe();
     this.universe.description = '';
-    this.universes = [];
+    this.universeList = [];
   }
 
   onAddUniverse() {
@@ -33,8 +33,8 @@ export class UniverseComponent {
     this.universe.description = key;
     this.service.searchByKind(ElementKind.UNIVERSE, key, new Page()).then(
       (result: any) => {
-        this.universes = result.content;
-        this.isNew = this.universes.length === 0;
+        this.universeList = result.content;
+        this.isNew = this.universeList.length === 0;
       });
   }
 

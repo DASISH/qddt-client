@@ -3,8 +3,8 @@ import { RevisionService } from './revision.service';
 import { QddtMessageService } from '../../core/global/message.service';
 import { DEFAULT_CONFIG, LIST_CONFIG, RevisionConfig } from './revision-config';
 import { ResponseDomain } from '../../responsedomain/responsedomain.service';
-import { DomainKind } from '../../responsedomain/responsedomain.constant';
-import { IElementRef, IEntityAudit } from '../classes/interfaces';
+import { DomainKind } from '../../responsedomain/responsedomain.classes';
+import { IElement, IEntityAudit } from '../classes/interfaces';
 import { ElementKind } from '../classes/enums';
 
 @Component({
@@ -61,7 +61,7 @@ export class RevisionComponent implements OnChanges {
   }
 
   onPreviewRevision(id: number) {
-    const  ref: IElementRef =  { element: this.revisions[id].entity, elementKind: this.revisions[id].entity.classKind };
+    const  ref: IElement =  { element: this.revisions[id].entity, elementKind: this.revisions[id].entity.classKind };
     this.message.sendMessage( ref );
   }
 

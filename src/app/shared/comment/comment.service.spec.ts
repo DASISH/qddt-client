@@ -22,7 +22,7 @@ export function main() {
     it('should create comment', async(() => {
       const service = TestBed.get(CommentService);
       const comment: any = { 'ownerId': '1', 'comment': 'test' };
-      service.createComment(comment).subscribe((data: any) => {
+      service.create(comment).subscribe((data: any) => {
         expect(data.id).toBe('2');
       });
     }));
@@ -30,7 +30,7 @@ export function main() {
     it('should update comment', async(() => {
       const service = TestBed.get(CommentService);
       const comment: any = { id: '2', ownerId: '1', comment: 'test' };
-      service.updateComment(comment).subscribe((data: any) => {
+      service.update(comment).subscribe((data: any) => {
         expect(data.comment).toBe('testa');
       });
     }));

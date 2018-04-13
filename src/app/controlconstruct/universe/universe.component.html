@@ -3,7 +3,7 @@
     <label>Description</label>
     <div [ngClass]="{ noItemFound: (isNew && universe.description.length > 0 ) }">
     <qddt-auto-complete
-      [items]="universes" class="black-text" [elementtype]="UNIVERSE" [initialValue]="universe?.description"
+      [items]="universeList" class="black-text" [elementKind]="UNIVERSE" [initialValue]="universe?.description"
       (selectEvent)="onSelectUniverse($event)"
       (enterEvent)="onSearchUniverses($event)">
     </qddt-auto-complete>

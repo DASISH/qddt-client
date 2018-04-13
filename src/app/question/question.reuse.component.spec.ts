@@ -16,7 +16,7 @@ export function main() {
       TestBed.configureTestingModule({
         declarations: [ RevisionComponent, QuestionReuseComponent,
           ResponsedomainPreviewComponent,
-          AutocompleteComponent, QuestionItemEditComponent],
+          QddtAutoCompleteComponent, QuestionItemEditComponent],
         providers: [
           { provide: TemplateService, useClass: QuestionServiceSpy },
           {
@@ -68,8 +68,8 @@ export function main() {
             fixture.componentInstance.searchQuestionItems('test');
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              expect(fixture.componentInstance.questionItems.length).toBeGreaterThan(0);
-              expect(fixture.componentInstance.questionItems[0].name).toContain('test');
+              expect(fixture.componentInstance.questionItemList.length).toBeGreaterThan(0);
+              expect(fixture.componentInstance.questionItemList[0].name).toContain('test');
             });
           });
       }));
@@ -112,7 +112,7 @@ class RevisionComponent {
   template: `<div></div>`
 })
 
-class AutocompleteComponent {
+class QddtAutoCompleteComponent {
   @Input() items:  any[];
   @Input() searchField: any;
   @Input() placeholder: string;

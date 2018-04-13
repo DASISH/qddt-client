@@ -51,25 +51,28 @@ form p {
   will-change: width, height;
 }
 
-.noItemFound { border: thick solid darkorange; }
+.noItemFound { border: thick solid dodgerblue; }
 
 
-.formWhite * :not()  {
-  background-color: white;
-  color: rgb(31, 31, 31);
+/*.formWhite *  {*/
+  /*background-color: white;*/
+  /*color: black;*/
+/*}*/
+
+/*.formWhite label * {*/
+  /*color: teal ;*/
+/*}*/
+
+.formTeal label * {
+  color: white;
 }
 
-.formWhite label * {
-  color: teal ;
-}
+
 /* .formDark * :not() {
   background-color: #009687;
   color: whitesmoke;
 }
 
-.formDark label :not() {
-  color: white;
-}
  */
 
 /*.qddtIcon { margin:0px; vertical-align: middle;float: unset; display: unset; position: relative; }

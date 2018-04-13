@@ -5,18 +5,17 @@ import { ResponsedomainComponent } from './responsedomain.component';
 import { ResponsedomainFormComponent } from './responsedomain.form.component';
 import { ResponsedomainReuseComponent } from './responsedomain.reuse.component';
 import { ResponsedomainSelectMissingComponent } from './responsedomain.select-missing.component';
-import { ResponseDomainSelectComponent } from './responsedomain.select.component';
 import { ResponseDomainService } from './responsedomain.service';
-
+import { SelectorsModule } from '../selectors/selectors.module';
 
 
 @NgModule({
-  imports: [ SharedModule, PreviewModule],
+  imports: [ SharedModule, PreviewModule, SelectorsModule],
 
   declarations: [ResponsedomainComponent, ResponsedomainFormComponent, ResponsedomainReuseComponent,
-    ResponseDomainSelectComponent, ResponsedomainSelectMissingComponent ],
+     ResponsedomainSelectMissingComponent ],
 
-  exports: [ResponsedomainComponent, ResponsedomainReuseComponent, ResponseDomainSelectComponent, ResponsedomainSelectMissingComponent ],
+  exports: [ResponsedomainComponent, ResponsedomainReuseComponent, ResponsedomainSelectMissingComponent ],
 
   providers: [ ResponseDomainService ]
 })

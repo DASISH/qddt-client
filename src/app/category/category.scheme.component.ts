@@ -18,7 +18,6 @@ declare let Materialize: any;
 export class CategorySchemeComponent implements OnInit {
   @Output() selectedEvent =  new EventEmitter<any>();
 
-  public readonly CATEGORY_KIND = QDDT_QUERY_INFOES[ElementKind.CATEGORY];
   public readonly CATEGORY = ElementKind.CATEGORY;
 
   public deleteAction = new EventEmitter<any>();

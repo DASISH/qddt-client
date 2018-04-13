@@ -1,10 +1,10 @@
-import {Component, EventEmitter, Input, Output, ChangeDetectionStrategy, AfterViewInit} from '@angular/core';
+import {Component, EventEmitter, Input, Output, ChangeDetectionStrategy, AfterViewInit, OnChanges, SimpleChanges} from '@angular/core';
 import { Factory } from '../../shared/classes/factory';
 import { ElementEnumAware } from '../../preview/preview.service';
-import { IElementRef, IEntityAudit} from '../../shared/classes/interfaces';
+import { IElement, IEntityAudit} from '../../shared/classes/interfaces';
 import { ElementKind} from '../../shared/classes/enums';
 import { QueryInfo} from '../../shared/classes/classes';
-import { QDDT_QUERY_INFOES} from '../../shared/classes/constants';
+import { getElementKind, QDDT_QUERY_INFOES} from '../../shared/classes/constants';
 
 @Component({
   selector: 'qddt-collection-revision-search-select',
@@ -13,7 +13,7 @@ import { QDDT_QUERY_INFOES} from '../../shared/classes/constants';
 })
 
 @ElementEnumAware
-export class CollectionSearchRevisionSelectComponent implements AfterViewInit {
+export class CollectionSearchRevisionSelectComponent implements AfterViewInit, OnChanges {
   @Input() items:  IEntityAudit[];
   @Input() labelName?: string;
   @Input() elementKind: ElementKind|string;
@@ -24,10 +24,12 @@ export class CollectionSearchRevisionSelectComponent implements AfterViewInit {
   showButton = false;
   showAddItem = false;
 
+  private queryInfo: QueryInfo;
+
 
   ngAfterViewInit() {
     if (!this.labelName) {
-      this.labelName = this.getElementType().label;
+      this.labelName = this.queryInfo.label;
     }
   }
 
@@ -36,8 +38,8 @@ export class CollectionSearchRevisionSelectComponent implements AfterViewInit {
   }
 
   onShowItems() {
-    this.item = Factory.createInstance(this.getElementKind());
-    this.searchField  = this.getElementType().fields[0];
+    this.item = Factory.createInstance(getElementKind(this.elementKind));
+    this.searchField  = this.queryInfo.fields[0];
     this.showAddItem = !this.showAddItem;
   }
 
@@ -46,7 +48,7 @@ export class CollectionSearchRevisionSelectComponent implements AfterViewInit {
     this.itemCreatedEvent.emit(this.item);
   }
 
-  onSelectItem(selected: IElementRef) {
+  onSelectItem(selected: IElement) {
     this.item = selected.element;
   }
 
@@ -54,12 +56,16 @@ export class CollectionSearchRevisionSelectComponent implements AfterViewInit {
     this.items.splice(idx, 1);
   }
 
-  public getElementType(): QueryInfo {
-    const kind = this.getElementKind();
+  public getQueryInfo(): QueryInfo {
+    const kind = getElementKind(this.elementKind);
     return QDDT_QUERY_INFOES.find(e => e.id === kind);
   }
 
-  public getElementKind(): ElementKind {
-    return (typeof this.elementKind === 'string') ?  ElementKind[this.elementKind] : this.elementKind ;
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['elementKind']) {
+      this.queryInfo = this.getQueryInfo();
+      this.labelName = this.queryInfo.label;
+    }
   }
+
 }

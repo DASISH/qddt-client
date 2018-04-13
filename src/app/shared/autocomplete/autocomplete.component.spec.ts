@@ -5,7 +5,7 @@ import {
   async,
   TestBed
 } from '@angular/core/testing';
-import { AutocompleteComponent } from './autocomplete.component';
+import { QddtAutoCompleteComponent } from './autocomplete.component';
 import { By } from '@angular/platform-browser';
 
 export function main() {
@@ -13,7 +13,7 @@ export function main() {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [ TestComponent, AutocompleteComponent ],
+        declarations: [ TestComponent, QddtAutoCompleteComponent ],
         providers: [
         ],
         imports: [ CommonModule, FormsModule ]

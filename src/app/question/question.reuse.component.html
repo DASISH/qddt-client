@@ -4,13 +4,13 @@
 </a>
 <div class="modal modal-fixed-footer"
      materialize="modal" [materializeActions]="closeReuseActions">
-  <div class="modal-content">
+  <div class="modal-content white black-text" >
     <form #hf="ngForm">
       <div *ngIf="reuseQuestionItem">
         <h3>Reuse Question Item</h3>
         <div class="row black-text">
-          <qddt-auto-complete [items]="questionItems"
-                        [elementtype]="QUESTION_KIND"
+          <qddt-auto-complete [items]="questionItemList"
+                        [elementKind]="QUESTION_KIND"
                         (focusEvent)="selectedIndex=idx;"
                         (enterEvent)="searchQuestionItems($event)"
                         (selectEvent)="selectQuestionItem($event)">

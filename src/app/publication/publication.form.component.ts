@@ -2,7 +2,8 @@ import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges } from
 import { Publication, PUBLICATION_TYPES, PublicationService, PublicationStatus } from './publication.service';
 import {IEntityEditAudit} from '../shared/classes/interfaces';
 import {ElementKind} from '../shared/classes/enums';
-import {ElementRevisionRef, QueryInfo} from '../shared/classes/classes';
+import {ElementRevisionRef} from '../shared/classes/classes';
+import {getElementKind} from '../shared/classes/constants';
 
 declare var Materialize: any;
 
@@ -51,13 +52,8 @@ export class PublicationFormComponent implements OnChanges {
   }
 
   public getLabelByElement(kind: ElementKind): String {
-    let element: QueryInfo;
-    if (typeof kind === 'string') {
-      element =  PUBLICATION_TYPES.find(e => ElementKind[e.id] === kind);
-    }  else {
-      element = PUBLICATION_TYPES.find(e => e.id === kind);
-    }
-    return element.label;
+    kind = getElementKind(kind);
+    return PUBLICATION_TYPES.find(e => e.id === kind).label;
   }
 
 

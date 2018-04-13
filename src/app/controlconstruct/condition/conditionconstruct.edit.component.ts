@@ -21,7 +21,7 @@ export class ConditionEditComponent implements OnInit {
   elements: any[];
   elseConditionNum: number;
 
-  public readonly CONDITION = QDDT_QUERY_INFOES[ElementKind.CONDITION_CONSTRUCT];
+  public readonly CONDITION = ElementKind.CONDITION_CONSTRUCT;
 
   constructor(public service: ControlConstructService) {
     this.ifCondition = new ConditionCommand();

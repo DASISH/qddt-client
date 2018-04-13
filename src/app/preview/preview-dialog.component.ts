@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges } from '@angular/core';
 import {  PreviewService } from './preview.service';
 import { MaterializeAction } from 'angular2-materialize';
-import { IElementRef, IIdRef, IRevisionRef } from '../shared/classes/interfaces';
+import { IElement, IIdRef, IRevisionRef } from '../shared/classes/interfaces';
 import { ElementKind } from '../shared/classes/enums';
 import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
 
@@ -28,7 +28,7 @@ import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
 })
 
 export class PreviewDialogComponent implements  OnChanges {
-  @Input() reference: IIdRef|IRevisionRef|IElementRef;
+  @Input() reference: IIdRef|IRevisionRef|IElement;
 
   basedonActions = new EventEmitter<string|MaterializeAction>();
   element: any;
@@ -73,11 +73,11 @@ export class PreviewDialogComponent implements  OnChanges {
     return typeof kind === 'string' ? ElementKind[kind] : kind;
   }
 
-  private isRevisionRef(element: IIdRef|IRevisionRef|IElementRef): element is IRevisionRef { // magic happens here
+  private isRevisionRef(element: IIdRef|IRevisionRef|IElement): element is IRevisionRef { // magic happens here
     return (<IRevisionRef>element).elementRevision !== undefined;
   }
 
-  private isIdRef(element: IIdRef|IRevisionRef|IElementRef): element is IIdRef { // magic happens here
+  private isIdRef(element: IIdRef|IRevisionRef|IElement): element is IIdRef { // magic happens here
     return (<IIdRef>element).elementId !== undefined;
   }
 

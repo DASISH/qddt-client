@@ -19,7 +19,7 @@ export class InstrumentSequenceComponent implements OnChanges {
   public selectedElement: InstrumentSequence;
   public suggestions: SequenceConstruct[];
   public revisions: any[];
-  public readonly SEQUENCE = QDDT_QUERY_INFOES[ElementKind.SEQUENCE_CONSTRUCT];
+  public readonly SEQUENCE = ElementKind.SEQUENCE_CONSTRUCT;
 
   constructor(private service: TemplateService) {
 
@@ -47,9 +47,8 @@ export class InstrumentSequenceComponent implements OnChanges {
   }
 
   public onSearchElements(search: string) {
-    this.service.searchByKind(ElementKind.SEQUENCE_CONSTRUCT, search).then(
+    this.service.searchByKind<SequenceConstruct>(ElementKind.SEQUENCE_CONSTRUCT, search).then(
       (result) => {
-        console.log(result);
         this.suggestions = result.content; },
       (error) => { throw error; } );
   }
@@ -62,7 +61,7 @@ export class InstrumentSequenceComponent implements OnChanges {
         console.log('revisions');
         this.revisions = result.content;
       },
-      ( error ) => {} );
+      ( error ) => { throw error; } );
   }
   public onRevisionDismiss(value: Boolean) {
     this.revisions = null;

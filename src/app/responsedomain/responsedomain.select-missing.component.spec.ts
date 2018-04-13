@@ -16,7 +16,7 @@ export function main() {
     beforeEach(() => {
       TestBed.configureTestingModule({
         declarations: [
-          ResponsedomainSelectMissingComponent, AutocompleteComponent,
+          ResponsedomainSelectMissingComponent, QddtAutoCompleteComponent,
         ],
         providers: [
           { provide: QuestionService, useClass: QuestionServiceSpy },
@@ -73,7 +73,7 @@ class QuestionServiceSpy {
   template: `<div></div>`
 })
 
-class AutocompleteComponent {
+class QddtAutoCompleteComponent {
   @Input() items:  any[];
   @Input() searchField: any;
   @Input() placeholder: string;

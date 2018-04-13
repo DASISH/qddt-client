@@ -18,7 +18,7 @@ export interface IRevisionRef extends IIdRef {
   elementKind: ElementKind|string;
 }
 
-export interface IElementRef {
+export interface IElement {
   element: any;
   elementKind: ElementKind|string;
 }
@@ -27,7 +27,24 @@ export interface IEntityAudit {
   id: string;
   name: string;
   classKind: string;
-  comments?: any[];
+  comments?: IComment[];
+}
+
+export interface IUser {
+  id: string;
+  username: string;
+  email: string;
+  agency?: IEntityAudit;
+}
+
+export interface IComment {
+  comment: string;
+  public: boolean;
+  comments?: IComment[];
+  modifiedBy?: IUser;
+  modified?: number;
+  ownerId?: string;
+  id?: string;
 }
 
 export interface IEntityEditAudit extends IEntityAudit {
@@ -52,7 +69,6 @@ export interface IOtherMaterial {
   originalName: string;
 }
 
-
 export interface IHeaderDetail {
   icon: any;
   headerName: string;
@@ -60,9 +76,15 @@ export interface IHeaderDetail {
   action ?: string;
 }
 
-
-export interface IPageResult {
-  content: any[];
+export interface IPageResult<T> {
+  content: T[];
   links: [ { href: string , rel: string } ];
   page: Page;
+}
+
+export interface IRevisionResult<T extends IEntityAudit> {
+  entity: T;
+  metadata: { delegate: { id: number, timestamp: number }, revisionDate: any, revisionNumber: number };
+  revisionDate: any;
+  revisionNumber: number;
 }

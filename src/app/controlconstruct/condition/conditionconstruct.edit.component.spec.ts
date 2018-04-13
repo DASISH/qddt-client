@@ -16,7 +16,7 @@ export function main() {
     beforeEach(() => {
       TestBed.configureTestingModule({
         declarations: [ ConditionEditComponent, RevisionComponent,
-          AutocompleteComponent ],
+          QddtAutoCompleteComponent ],
         providers: [
           { provide: ControlConstructService, useClass: SequenceServiceSpy },
           {
@@ -110,7 +110,7 @@ class RevisionComponent {
   template: `<div></div>`
 })
 
-class AutocompleteComponent {
+class QddtAutoCompleteComponent {
   @Input() items:  any[];
   @Input() searchField: any;
   @Input() placeholder: string;

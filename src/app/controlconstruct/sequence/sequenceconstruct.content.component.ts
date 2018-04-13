@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { QddtMessageService} from '../../core/global/message.service';
-import { IElementRef, IEntityAudit } from '../../shared/classes/interfaces';
+import { IElement, IEntityAudit } from '../../shared/classes/interfaces';
 
 @Component({
   selector: 'qddt-sequence-content',
@@ -18,7 +18,7 @@ export class SequenceContentComponent {
   constructor( private message: QddtMessageService) { }
 
   onSelectedElement(element: IEntityAudit) {
-    const  ref: IElementRef =  {
+    const  ref: IElement =  {
       element: element,
       elementKind: element.classKind };
     this.message.sendMessage( ref );

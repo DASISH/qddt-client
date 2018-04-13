@@ -8,7 +8,7 @@ import { LocalDatePipe } from './date.pipe';
 import { AuthorChipComponent } from './author/author.chip.component';
 import { QddtTableComponent } from './table/table.component';
 import { QddtPaginationComponent } from './pagination/pagination.component';
-import { AutocompleteComponent } from './autocomplete/autocomplete.component';
+import { QddtAutoCompleteComponent } from './autocomplete/autocomplete.component';
 import { ElementFooterComponent } from './footer/elementfooter.component';
 import { RationalComponent } from './rational/rational.component';
 import { RevisionComponent } from './revision/revision.component';
@@ -29,13 +29,13 @@ import { QddtModalService } from './dialogbox/dialogbox.service';
 
 @NgModule({
   imports: [ MaterializeModule, CommonModule, RouterModule, FormsModule, CompareModule ],
-  declarations: [ LocalDatePipe, QddtTableComponent, QddtPaginationComponent, AutocompleteComponent,
+  declarations: [ LocalDatePipe, QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent, CommentCreateComponent,
     RationalComponent, RevisionComponent,  ConceptrefComponent, QddtModalComponent,
     AutosizeDirective, ParentFormConnectDirective, GravatarDirective, QddtModalOpenDirective ],
   exports: [ LocalDatePipe, CommonModule, FormsModule, MaterializeModule,
-     QddtTableComponent, QddtPaginationComponent, AutocompleteComponent,
+     QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent,
     RationalComponent, RevisionComponent, ConceptrefComponent, QddtModalComponent,

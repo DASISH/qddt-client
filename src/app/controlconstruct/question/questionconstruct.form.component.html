@@ -9,8 +9,8 @@
 
     <qddt-collection-search-select
         [listItems] = "controlConstruct.universe"
-        [searchItems]="universes"
-        [elementKind]="'UNIVERSE'"
+        [searchItems]="universeList"
+        [elementKind]="UNIVERSE"
         (selectEvent)="onAddUniverse($event)"
         (searchEvent)="onUniverseSearch($event)">
     </qddt-collection-search-select>
@@ -20,7 +20,7 @@
         (mouseleave)="showFilebutton = false">
       <li>
         <div class="row" (click)="showUploadFileForm=!showUploadFileForm" style="cursor: zoom-in;">
-          <div class="col s11"><label class="teal-text">External aid</label></div>
+          <div class="col s11"><label >External aid</label></div>
           <div class="col s1">
             <a [ngClass]="{hide: !showFilebutton}"
                class="btn-flat btn-floating btn-small waves-effect waves-light teal">
@@ -78,9 +78,9 @@
 
     <qddt-collection-search-select
       [listItems] = "controlConstruct.preInstructions"
-      [searchItems]="instructions"
+      [searchItems]="instructionList"
       [labelName]="'Pre Instructions'"
-      [elementKind]="'INSTRUCTION'"
+      [elementKind]="INSTRUCTION"
       (selectEvent)="onAddPreInstruction($event)"
       (searchEvent)="onInstructionSearch($event)">
     </qddt-collection-search-select>
@@ -91,7 +91,7 @@
          (mouseleave)="showQuestionButton = false">
       <div class="row" (click)="editQuestoinItem = !editQuestoinItem; savedQuestionItem=controlConstruct.questionItem;" style="cursor: zoom-in;">
         <div class="col s11">
-          <label class="teal-text">
+          <label >
             Question Text (Version <qddt-version [element]="controlConstruct?.questionItem"></qddt-version>)
           </label>
         </div>
@@ -121,9 +121,9 @@
 
     <qddt-collection-search-select
       [listItems] = "controlConstruct.postInstructions"
-      [searchItems]="instructions"
+      [searchItems]="instructionList"
       [labelName]="'Post Instructions'"
-      [elementKind]="'INSTRUCTION'"
+      [elementKind]="INSTRUCTION"
       (selectEvent)="onAddPostInstruction($event)"
       (searchEvent)="onInstructionSearch($event)">
     </qddt-collection-search-select>
@@ -135,7 +135,7 @@
 
     <qddt-conceptref [element]="controlConstruct.questionItem"></qddt-conceptref>
 
-    <qddt-rational *ngIf="!readonly && controlConstruct.id" [element]="controlConstruct" [config]="{hidden: [3,4]}">
+    <qddt-rational [formName]="'RationalComp'" *ngIf="!readonly && controlConstruct.id" [element]="controlConstruct" [config]="{hidden: [3,4]}">
     </qddt-rational>
 
     <qddt-element-footer *ngIf="controlConstruct.id" [element]="controlConstruct"></qddt-element-footer>

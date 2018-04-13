@@ -1,11 +1,11 @@
-<div class="autocomplete">
+<div class="autocomplete" [ngClass]="{ noItemFound: notFound() }">
 	<div class="row">
-	  <input type="text" placeholder="{{elementtype.placeholder()}}"
+	  <input type="text" placeholder="{{queryInfo.placeholder()}}"
         [ngModel]="value"
 		    (blur)="showAutoComplete=false;"
         (keyup)="enterText($event)"
 		    (focus)="onFocus()" >
-	  <a class="waves-effect waves-light btn" (click)="onClearKeywords()">x</a>
+    <a class="close-icon" (click)="onClearKeywords()" title="clear search" ></a>
 	</div>
 	<ul *ngIf="showAutoComplete && candidates">
 		<li class="grey-text.text-darken-1" *ngFor="let candidate of candidates; let idx=index"

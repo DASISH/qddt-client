@@ -1,8 +1,9 @@
 import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
-import { ResponseDomain } from '../responsedomain/responsedomain.service';
 import { TemplateService } from '../template/template.service';
 import { QuestionItem } from './question.classes';
 import { Category } from '../category/category.classes';
+import { ElementRevisionRef } from '../shared/classes/classes';
+import {makeMixed, ResponseDomain} from '../responsedomain/responsedomain.classes';
 
 declare var Materialize: any;
 
@@ -52,87 +53,43 @@ export class QuestionFormComponent  implements OnChanges {
     }
   }
 
-  onResponseDomainSelected(item: QuestionItem) {
-    if (item.responseDomain.responseKind === 'MIXED') {
-      this.service.update(item.responseDomain).subscribe(result => {
+  onResponseDomainSelected(item: ElementRevisionRef) {
+    if (item.element.responseKind === 'MIXED') {
+      this.service.update(item.element).subscribe(result => {
         this.questionitem.responseDomain = result;
         this.questionitem.responseDomainRevision = 0;
-        console.log('RD saved');
       });
     } else {
-        this.questionitem.responseDomain = item.responseDomain;
-        this.questionitem.responseDomainRevision = item.responseDomainRevision || 0;
+        this.questionitem.responseDomain = item.element;
+        this.questionitem.responseDomainRevision = item.elementRevision || 0;
+
       }
    }
 
-  onResponsedomainRemove(item: any) {
+  onResponsedomainRemove() {
     this.questionitem.responseDomainRevision = 0;
     this.questionitem.responseDomain = null;
   }
 
-  private isMixed(): boolean {
-    if (this.questionitem.responseDomain) {
-      return this.questionitem.responseDomain.responseKind === 'MIXED';
-    }
-    return false;
-  }
 
   private setMissing(missing: Category) {
-    let rd = this.questionitem.responseDomain;
-    if (this.isMixed()) {                                                   // remove existing missing
-      this.deleteChild(rd.managedRepresentation, 'MISSING_GROUP');
-    } else {                                                                // no mixed, create one.
-      rd = this.newMixedResponseDomain();
+    let rd = new ResponseDomain(this.questionitem.responseDomain);
+    if (!rd.isMixed()) {
+      rd = makeMixed(rd);
     }
-    rd.managedRepresentation.children.push(missing);
-    rd.name = rd.managedRepresentation.name = 'Mixed [' + this.getManagedRepresentation().name + '+' + missing.name + ']';
+    rd.addManagedRep(missing);
+    rd.name = rd.managedRepresentation.name = 'Mixed [' + rd.name + '+' + missing.name + ']';
     this.questionitem.responseDomain = rd;
   }
 
-  private getMissing(): Category {
-    return  this.questionitem.responseDomain.managedRepresentation.children.find(e => e.categoryType === 'MISSING_GROUP');
-  }
-
-  private newMixedResponseDomain(): ResponseDomain {
-    const rd: any = {
-      responseKind: 'MIXED',
-      description : '',
-      name: '',
-      displayLayout: (this.questionitem.responseDomain.displayLayout) ? this.questionitem.responseDomain.displayLayout : 0,
-      managedRepresentation : {
-        name: '',
-        label: '',
-        description: '[Mixed] group - ',
-        inputLimit:  {minimum: 0 , maximum: 1},
-        hierarchyLevel: 'GROUP_ENTITY',
-        categoryType: 'MIXED',
-        children: [this.getManagedRepresentation()]
-      }};
-    return rd;
-    }
-
-  private getManagedRepresentation(): any {
-    const rep = this.questionitem.responseDomain.managedRepresentation;
-    if (rep) {
-      if (rep.categoryType === 'MIXED') {
-        return rep.children.find(c => c.categoryType !== 'MISSING_GROUP');
-      } else {
-        return rep;
-      }
-    }
-    return null;
-  }
-
-  private deleteChild(representation: Category, categoryType: string) {
-    if (!representation.children) {
-      return;
-    }
-    const index = representation.children.findIndex((e: any) => e.categoryType === categoryType);
-    if (index >= 0) {
-      representation.children.splice(index, 1);
-    }
-  }
-
-
+  // private deleteChild(representation: Category, categoryType: string) {
+  //   if (!representation.children) {
+  //     return;
+  //   }
+  //   const index = representation.children.findIndex((e: any) => e.categoryType === categoryType);
+  //   if (index >= 0) {
+  //     representation.children.splice(index, 1);
+  //   }
+  // }
 
 }

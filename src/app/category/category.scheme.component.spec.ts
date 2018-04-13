@@ -17,7 +17,7 @@ export function main() {
       TestBed.configureTestingModule({
         declarations: [CategorySchemeComponent, RevisionComponent,
           TableComponent, CommentListComponent, RationalComponent,
-          AutocompleteComponent, RevisionDetailComponent,
+          QddtAutoCompleteComponent, RevisionDetailComponent,
           CategoryDetailComponent, AuthorChipComponent],
         providers: [
           { provide: CategoryService, useClass: CategoryServiceSpy },
@@ -126,7 +126,7 @@ class TableComponent {
   template: `<div></div>`
 })
 
-class AutocompleteComponent {
+class QddtAutoCompleteComponent {
   @Input() items:  any[];
   @Input() searchField: any;
   @Input() placeholder: string;

@@ -13,19 +13,18 @@
     </div>
   </li>
   <li class="collection-item" *ngIf="showAddItem">
-    <div class="row card">
-      <div class="col s10 text-darken-2">
-        <label>Description</label>
-        <div [ngClass]="{ noItemFound: (hasContent()  && items.length === 0) }">
+    <div class="row">
+      <div class="col s8 text-darken-2">
+        <!--<div [ngClass]="{ noItemFound: notFound()  }">-->
           <qddt-auto-complete
             [items]="searchItems" class="text-darken-2"
-            [elementtype]="getElementKind()"
+            [elementKind]="elementKind"
             (selectEvent)="onSelectItem($event)"
             (enterEvent)="onSearchElements($event)">
           </qddt-auto-complete>
-        </div>
+        <!--</div>-->
       </div>
-      <div class="col s2 right">
+      <div class="col s2">
         <a class="waves-effect waves-light btn" (click)="onAddItem()">add</a>
       </div>
     </div>

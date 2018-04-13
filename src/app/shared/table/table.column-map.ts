@@ -1,5 +1,5 @@
 import { Column } from '../table/table.column';
-import { DomainKind } from '../../responsedomain/responsedomain.constant';
+import { DomainKind } from '../../responsedomain/responsedomain.classes';
 import { ElementKind } from '../classes/enums';
 
 export const DEFAULT_COLUMNS = [

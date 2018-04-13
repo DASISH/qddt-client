@@ -7,7 +7,7 @@ import { Authority } from '../core/user/authority';
 import { Page } from '../shared/classes/classes';
 import { ActionKind, ElementKind} from '../shared/classes/enums';
 import { QDDT_QUERY_INFOES} from '../shared/classes/constants';
-import { IEntityEditAudit, IPageResult } from '../shared/classes/interfaces';
+import {IEntityAudit, IEntityEditAudit, IPageResult, IRevisionResult} from '../shared/classes/interfaces';
 
 @Injectable()
 export class TemplateService {
@@ -18,9 +18,9 @@ export class TemplateService {
     userService.getRoles().forEach((role) => this.roles += +Authority[role]);
   }
 
-  public searchByKind(kind: ElementKind, searchString: string = '',  page: Page = new Page()): Promise<IPageResult> {
+  public searchByKind<T extends IEntityAudit>(kind: ElementKind, search: string = '',  page: Page = new Page()): Promise<IPageResult<T>> {
     const qe = QDDT_QUERY_INFOES[kind];
-    const args = searchString.split(' ');
+    const args = search.split(' ');
     const queries = [];
 
     if (args.length <= qe.fields.length) {
@@ -29,7 +29,7 @@ export class TemplateService {
       }
     } else {
       for (let i = 0; i < qe.fields.length; i++) {
-        queries.push(qe.fields[i] + '=' + searchString.trim() );
+        queries.push(qe.fields[i] + '=' + search.trim() );
       }
     }
 
@@ -41,7 +41,7 @@ export class TemplateService {
 
     if (qe.parameter) { query += qe.parameter; }
 
-    return this.http.get<IPageResult>(this.api + qe.path + '/page/search/' + query).toPromise();
+    return this.http.get<IPageResult<T>>(this.api + qe.path + '/page/search/' + query).toPromise();
   }
 
   public getItemByKind(kind: ElementKind, id: string ): Promise<IEntityEditAudit> {
@@ -49,21 +49,23 @@ export class TemplateService {
     return this.http.get<IEntityEditAudit>(this.api + qe.path + '/' + id).toPromise();
   }
 
-  public getRevisionsByKind(kind: ElementKind, id: string): Promise<any> {
+    public getRevisionsByKind<T extends IEntityAudit>(kind: ElementKind, id: string): Promise<IPageResult<IRevisionResult<T>>> {
     const qe = QDDT_QUERY_INFOES[kind];
     if (qe) {
       if (kind === ElementKind.CONCEPT || kind === ElementKind.TOPIC_GROUP) {
-        return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/allinclatest').toPromise();
+        return this.http.get<IPageResult<IRevisionResult<T>>>
+              (this.api + 'audit/' + qe.path + '/' + id + '/allinclatest').toPromise();
       } else {
-        return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/all').toPromise();
+        return this.http.get<IPageResult<IRevisionResult<T>>>
+              (this.api + 'audit/' + qe.path + '/' + id + '/all').toPromise();
       }
     }
     return new Promise(null);
   }
 
-  public getRevisionByKind(kind: ElementKind, id: string, rev: number): Promise<any> {
+  public getRevisionByKind(kind: ElementKind, id: string, rev: number): Promise<IRevisionResult<IEntityEditAudit>> {
     const qe = QDDT_QUERY_INFOES[kind];
-    return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/' + rev).toPromise();
+    return this.http.get<IRevisionResult<IEntityEditAudit>>(this.api + 'audit/' + qe.path + '/' + id + '/' + rev).toPromise();
   }
 
   public copySource(kind: ElementKind, fromId: string, fromRev: number, toParentId: string): Observable<any> {
@@ -98,7 +100,7 @@ export class TemplateService {
     return this.http.get(this.api + qe.path + '/pdf/' + item.id, { responseType: 'blob'}).toPromise();
   }
 
-  public getFile(id: string): Promise<any> {
+  public getFile(id: string): Promise<Blob> {
     return this.http.get(this.api + 'othermaterial/files/' + id, { responseType: 'blob'})
       .toPromise();
   }

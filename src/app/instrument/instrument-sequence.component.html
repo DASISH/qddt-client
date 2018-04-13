@@ -16,7 +16,7 @@
         <qddt-preview-element *ngIf="cqi.elementRef.element" [element]= "cqi.elementRef.element" ></qddt-preview-element>
         <qddt-auto-complete
           [items]="suggestions"
-          [elementtype]="SEQUENCE"
+          [elementKind]="SEQUENCE"
           (selectEvent)="onSelectElement($event)"
           (enterEvent)="onSearchElements($event)">
         </qddt-auto-complete>

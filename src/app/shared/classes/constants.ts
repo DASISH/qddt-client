@@ -2,6 +2,10 @@ import { ElementKind } from './enums';
 import { QueryInfo } from './classes';
 import { IHeaderDetail } from './interfaces';
 
+export  function getElementKind(kind: string|ElementKind): ElementKind {
+  return (typeof kind === 'string') ?  ElementKind[kind] : kind ;
+}
+
 export const QDDT_QUERY_INFOES: QueryInfo[] = [
   new QueryInfo(ElementKind.CATEGORY, 'Category', 'category', ['name'], null),
   new QueryInfo(ElementKind.CONCEPT, 'Concept', 'concept', ['name'], null),

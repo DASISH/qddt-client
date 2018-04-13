@@ -1,23 +1,18 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { CommentService, Comment } from './comment.service';
+import { CommentService } from './comment.service';
+import { IComment } from '../classes/interfaces';
 
 @Component({
   selector: 'qddt-comment-list',
   moduleId: module.id,
-  styles: [`img {
-    border-radius: 50%;
-    width: 48px;
-    float: right;
-    position: relative;
-    top: 8px;
-  }`],
+  styles: [`img { border-radius: 50%; width: 48px; float: right; position: relative; top: 8px; }`],
   templateUrl: `./comment.list.component.html`,
   providers: [CommentService]
 })
 
 export class CommentListComponent implements OnInit {
   @Input() ownerId: string;
-  @Input() comments: Comment[];
+  @Input() comments: IComment[];
   @Input() showPrivate = true;
   isEditComment = false;
   isPublic = true;
@@ -49,7 +44,7 @@ export class CommentListComponent implements OnInit {
 
   onDeleteComment(idx: number) {
     const comment = this.comments[idx];
-    this.commentService.deleteComment(comment.id)
+    this.commentService.delete(comment.id)
       .subscribe(() => this.comments.splice(idx, 1));
   }
 
@@ -60,7 +55,7 @@ export class CommentListComponent implements OnInit {
       if (this.message !== comment.comment || this.isPublic !== comment.public) {
         comment.comment = this.message;
         comment.public = this.isPublic;
-        this.commentService.updateComment(comment).subscribe((result: any) => {
+        this.commentService.update(comment).subscribe((result: any) => {
           this.comments[idx] = result;
         });
       }

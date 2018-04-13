@@ -1,6 +1,7 @@
 import { IEntityAudit } from '../shared/classes/interfaces';
 import { ElementKind } from '../shared/classes/enums';
 import { ElementRevisionRef } from '../shared/classes/classes';
+import {ConditionConstruct} from '../controlconstruct/controlconstruct.classes';
 
 
 export enum InstrumentKind {
@@ -47,6 +48,9 @@ export const INSTRUMENT_KIND = [
     sequence: InstrumentSequence[];
     comments: any[];
     classKind = ElementKind[ElementKind.INSTRUMENT];
+    public constructor(init?: Partial<Instrument>) {
+      Object.assign(this, init);
+    }
   }
 
   export class InstrumentSequence {

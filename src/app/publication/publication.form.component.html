@@ -59,7 +59,7 @@
         </li>
       </ul>
     </div>
-    <qddt-rational *ngIf="!readonly && publication.id" [element]="publication" [config]="{hidden: [3,4]}">
+    <qddt-rational [formName]="'RationalComp'" *ngIf="!readonly && publication.id" [element]="publication" [config]="{hidden: [3,4]}">
       </qddt-rational>
 
       <qddt-element-footer *ngIf="publication.id" [element]="publication"></qddt-element-footer>

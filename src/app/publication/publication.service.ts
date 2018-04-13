@@ -6,6 +6,7 @@ import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
 import { ElementKind} from '../shared/classes/enums';
 import { IEntityAudit} from '../shared/classes/interfaces';
 import { ElementRevisionRef, QueryInfo} from '../shared/classes/classes';
+import {Instrument} from '../instrument/instrument.classes';
 
 
 
@@ -24,9 +25,9 @@ export class Publication  implements  IEntityAudit {
   purpose: string;
   status: PublicationStatus;  // = { id: 0, published: 'NOT_PUBLISHED', label: 'No publication' };  // magic number NOT_PUBLISHED
   classKind = ElementKind[ElementKind.PUBLICATION];
-  publicationElements: ElementRevisionRef[];
-  constructor() {
-    this.publicationElements = [];
+  publicationElements: ElementRevisionRef[] = [];
+  public constructor(init?: Partial<Publication>) {
+    Object.assign(this, init);
   }
 
 }

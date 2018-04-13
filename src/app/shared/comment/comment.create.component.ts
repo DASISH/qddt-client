@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CommentService, Comment } from './comment.service';
+import { CommentService } from './comment.service';
+import { IComment } from '../classes/interfaces';
 
 @Component({
   selector: 'qddt-comment-create',
@@ -33,9 +34,9 @@ import { CommentService, Comment } from './comment.service';
 })
 export class CommentCreateComponent {
 
-  @Output() addedCommentEvent  = new EventEmitter<Comment>();
+  @Output() updatedEvent  = new EventEmitter<Comment>();
   @Input() ownerId: string;
-  comment: Comment = new Comment();
+  comment = this.newComment();
 
   constructor(private commentService: CommentService) {
     this.commentService = commentService;
@@ -43,15 +44,19 @@ export class CommentCreateComponent {
 
   save() {
     this.comment.ownerId = this.ownerId;
-    this.commentService.createComment(this.comment).subscribe((result: any) => {
-      this.addedCommentEvent.emit(result);
-        this.comment = new Comment();
+    this.commentService.create(this.comment).subscribe((result: any) => {
+      this.updatedEvent.emit(result);
+        this.comment = this.newComment();
       }
-    , (err: any) => {
-      this.comment = new Comment();
-      this.addedCommentEvent.emit(null);
-      throw err;
+    , (error) => {
+      this.comment = this.newComment();
+      this.updatedEvent.emit(null);
+      throw error;
     });
+  }
+
+  private newComment(): IComment {
+    return { comment: '', public: true };
   }
 
 }

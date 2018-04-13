@@ -1,4 +1,7 @@
-<div class="formWhite" *ngIf="questionitem">
+<div *ngIf="questionitem">
+
+  <div class="row flow-text">{{questionitem.question}}</div>
+
   <qddt-preview-responsedomain
     *ngIf="questionitem?.responseDomain"
     [responseDomain]="questionitem.responseDomain">
@@ -8,28 +11,27 @@
 
   <form  (ngSubmit)="onSaveQuestionItem()" #questionEditForm="ngForm">
     <div class="row input-field">
-      <label [attr.for]="formId + '-name'" >Name</label>
       <input
-        id= "{{formId}}-name"
-        name="name" type="text" class="validate" required
+        id= "{{formId}}-name" name="name" type="text" class="validate" required
         [(ngModel)]="questionitem.name"
         materialize="characterCounter" data-length="255">
+      <label for="{{formId}}-name" >Name</label>
     </div>
     <div class="row input-field">
-      <label [attr.for]="formId + '-textarea'" >Question text</label>
       <textarea id="{{formId}}-textarea"
                 name="{{formId}}-textarea" [(ngModel)]="questionitem.question"
                 class="materialize-textarea validate" required minlength="5"
                 materialize="characterCounter" data-length="1500">
       </textarea>
+      <label for="{{formId}}-textarea" >Question text</label>
     </div>
     <div class="row input-field">
-        <label [attr.for]="formId + '-intent'" >Question intent</label>
-        <textarea id="{{formId}}-intent"
-                  name="{{formId}}-intent" [(ngModel)]="questionitem.intent"
-                  class="materialize-textarea validate"
-                  materialize="characterCounter" data-length="2000">
-        </textarea>
+      <textarea id="{{formId}}-intent"
+                name="{{formId}}-intent" [(ngModel)]="questionitem.intent"
+                class="materialize-textarea validate"
+                materialize="characterCounter" data-length="2000">
+      </textarea>
+      <label for="{{formId}}-intent">Question intent</label>
     </div>
     <div class="row hoverable"
          (mouseenter)="showbutton = true"
@@ -39,28 +41,25 @@
           <label>Response Domain (V <qddt-version [element]="questionitem?.responseDomain?.managedRepresentation"></qddt-version>)
           </label>
         </div>
-        <div class="row">
-          <qddt-responsedomain-reuse class="formWhite"
-             [readOnly] = "readonly"
-             [modalId] = "formId"
-             [showbutton] = "showbutton"
-             [responseDomain]="questionitem?.responseDomain"
-             (selectedEvent)="onResponseDomainSelected($event)"
-             (removeEvent)="onResponsedomainRemove($event)">
-          </qddt-responsedomain-reuse>
-        </div>
+        <qddt-responsedomain-reuse
+           [readOnly] = "readonly"
+           [showbutton] = "showbutton"
+           [responseDomain]="questionitem?.responseDomain"
+           (selectedEvent)="onResponseDomainSelected($event)"
+           (removeEvent)="onResponsedomainRemove($event)">
+        </qddt-responsedomain-reuse>
       </div>
       <div class="col s4">
-          <qddt-responsedomain-select-missing
-            *ngIf="!readonly && questionitem?.responseDomain"
-            [modalId] = "formId"
-            [responseDomain]="questionitem.responseDomain"
-            (selectedEvent)="onResponseDomainSelected($event)"
-            (removeEvent)="onResponsedomainRemove($event)">
-          </qddt-responsedomain-select-missing>
+        <qddt-responsedomain-select-missing
+          *ngIf="!readonly && questionitem?.responseDomain"
+          [modalId] = "formId"
+          [responseDomain]="questionitem.responseDomain"
+          (selectedEvent)="onResponseDomainSelected($event)"
+          (removeEvent)="onResponsedomainRemove($event)">
+        </qddt-responsedomain-select-missing>
       </div>
     </div>
-    <qddt-rational
+    <qddt-rational [formName]="'RationalComp'"
       *ngIf="!readonly && questionitem.id"
       [element]="questionitem"
       [config]="{hidden: [4]}">

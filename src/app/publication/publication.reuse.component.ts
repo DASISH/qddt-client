@@ -90,9 +90,4 @@ export class PublicationReuseComponent  {
     }
   }
 
-
-  private getElementType(kind: ElementKind): QueryInfo {
-     return this.queryFields.find(e => e.id === kind);
-  }
-
 }

@@ -3,7 +3,7 @@ import { UserService } from './core/user/user.service';
 import { PropertyStoreService } from './core/global/property.service';
 import { QddtMessageService } from './core/global/message.service';
 import { Subscription } from 'rxjs/Subscription';
-import { IElementRef, IIdRef, IRevisionRef } from './shared/classes/interfaces';
+import { IElement, IIdRef, IRevisionRef } from './shared/classes/interfaces';
 
 // declare var $: any;
 
@@ -19,7 +19,7 @@ import { IElementRef, IIdRef, IRevisionRef } from './shared/classes/interfaces';
 
 export class AppComponent  implements OnDestroy {
 
-  ref: IIdRef|IRevisionRef|IElementRef;
+  ref: IIdRef|IRevisionRef|IElement;
 
   subscription: Subscription;
 
@@ -75,7 +75,7 @@ export class AppComponent  implements OnDestroy {
   }
 
 
-  private showMessage<T extends IIdRef|IRevisionRef|IElementRef>(element: T) {
+  private showMessage<T extends IIdRef|IRevisionRef|IElement>(element: T) {
     this.ref = element;
   }
 

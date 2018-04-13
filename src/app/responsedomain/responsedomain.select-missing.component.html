@@ -19,8 +19,8 @@
         <div class="row">
           <qddt-auto-complete
             [items]="missingGroups" class="black-text"
-            [elementtype]="CATEGORY_KIND"
-            (enterEvent)="searchMissingCategories($event)"
+            [elementKind]="CATEGORY_KIND"
+            (enterEvent)="onSearchCategories($event)"
             (selectEvent)="setMissing($event)">
           </qddt-auto-complete>
         </div>

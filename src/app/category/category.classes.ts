@@ -1,5 +1,6 @@
 import { IEntityEditAudit } from '../shared/classes/interfaces';
 import { ElementKind } from '../shared/classes/enums';
+import {Page} from '../shared/classes/classes';
 
 
 export class CategoryType {
@@ -39,22 +40,18 @@ export class Code {
 
 export class Category implements IEntityEditAudit {
   id: string;
-  name: string;
+  name = '';
+  label = '';
+  description = '';
+  hierarchyLevel = '';
+  categoryType = '';
   classKind = ElementKind[ElementKind.CATEGORY];
-  label: string;
-  description: string;
-  inputLimit: ResponseCardinality;
-  hierarchyLevel: string;
-  categoryType: string;
-  children: Category[];
+  inputLimit = new ResponseCardinality();
+  children: Category[] = [];
   comments: any[];
-  code: Code;
+  code = new Code();
   format: any;
-  constructor() {
-    this.label = '';
-    this.name = '';
-    this.children = [];
-    this.inputLimit = new ResponseCardinality();
-    this.code = new Code();
+  public constructor(init?: Partial<Category>) {
+    Object.assign(this, init);
   }
 }

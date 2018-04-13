@@ -1,10 +1,10 @@
-import {Component, EventEmitter, Input, Output, ChangeDetectionStrategy, AfterViewInit } from '@angular/core';
+import {Component, EventEmitter, Input, Output, ChangeDetectionStrategy, AfterViewInit, SimpleChanges, OnChanges} from '@angular/core';
 import { ElementEnumAware } from '../../preview/preview.service';
 import { Factory } from '../../shared/classes/factory';
-import { IElementRef, IEntityAudit } from '../../shared/classes/interfaces';
+import { IElement, IEntityAudit } from '../../shared/classes/interfaces';
 import { ElementKind } from '../../shared/classes/enums';
 import { QueryInfo } from '../../shared/classes/classes';
-import { QDDT_QUERY_INFOES } from '../../shared/classes/constants';
+import {getElementKind, QDDT_QUERY_INFOES} from '../../shared/classes/constants';
 
 @Component({
   selector: 'qddt-collection-search-select',
@@ -13,59 +13,58 @@ import { QDDT_QUERY_INFOES } from '../../shared/classes/constants';
 })
 
 @ElementEnumAware
-export class CollectionSearchSelectComponent implements AfterViewInit  {
+export class CollectionSearchSelectComponent implements AfterViewInit, OnChanges {
   @Input() listItems:  IEntityAudit[];
   @Input() searchItems: IEntityAudit[];
   @Input() elementKind: ElementKind|string;
   @Input() labelName?: string;
 
-  @Output() selectEvent = new EventEmitter<IElementRef>();
+  @Output() selectEvent = new EventEmitter<IElement>();
   @Output() searchEvent = new EventEmitter<string>();
 
   searchField: string;
   showButton = false;
   showAddItem = false;
-  selectedItem: IEntityAudit;
+  selectedItem: IElement;
 
+  private searchString: string;
+
+  private queryInfo: QueryInfo;
 
   ngAfterViewInit() {
     if (!this.labelName) {
-      this.labelName = this.getElementType().label;
+      this.labelName = this.queryInfo.label;
     }
-    this.searchField  = this.getElementType().fields[0];
+    this.searchField  = this.queryInfo.fields[0];
   }
 
 
-  public onSelectItem(item: IEntityAudit) {
+  public onSelectItem(item: IElement) {
     this.selectedItem = item;
-    if ( this.selectEvent) {
-      this.selectEvent.emit( { element: item, elementKind: this.getElementKind()} );
-    }
-  }
-
-  onAddItem() {
-    if (! this.hasContent) {
-      const item = Factory.createInstance(this.getElementKind());
-      item[this.searchField] = this.selectedItem[this.searchField];
-      this.listItems.push(item);
-    } else {
-      this.listItems.push(this.selectedItem);
-    }
+    this.onAddItem();
   }
 
   public onSearchElements(key: string) {
-    if (this.searchEvent) {
-      this.searchEvent.emit(key);
+    this.searchString = key;
+    this.searchEvent.emit(key);
+  }
+
+  onAddItem() {
+    if (this.isNewItem()) {
+      const item = Factory.createInstance(getElementKind(this.elementKind));
+      item[this.searchField] = this.searchString;
+      this.selectedItem = { element: item, elementKind: this.elementKind };
     }
+    this.onShowItems();
+    this.selectEvent.emit(this.selectedItem);
   }
 
 
-  hasContent(): boolean {
-    return (this.selectedItem && this.searchField && this.selectedItem[this.searchField]);
+  isNewItem(): boolean {
+    return (  (!this.selectedItem)  || (!this.selectedItem.element));
   }
 
   onShowItems() {
-//    this.item = Factory.createInstance(this.getElementKind());
     this.showAddItem = !this.showAddItem;
   }
 
@@ -73,13 +72,18 @@ export class CollectionSearchSelectComponent implements AfterViewInit  {
     this.listItems.splice(idx, 1);
   }
 
-  public getElementType(): QueryInfo {
-    const kind = this.getElementKind();
-    return QDDT_QUERY_INFOES[kind];
+  public getQueryInfo(): QueryInfo {
+    const kind = getElementKind(this.elementKind);
+    return QDDT_QUERY_INFOES.find(e => e.id === kind);
   }
 
-  public getElementKind(): ElementKind {
-    return (typeof this.elementKind === 'string') ?  ElementKind[this.elementKind] : this.elementKind ;
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['elementKind']) {
+      this.queryInfo = this.getQueryInfo();
+      this.labelName = this.queryInfo.label;
+    } else if (changes['searchItems']) {
+      if (!this.searchItems) { this.searchItems = []; }
+    }
   }
 
 

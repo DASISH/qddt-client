@@ -15,7 +15,7 @@ export function main() {
     beforeEach(() => {
       TestBed.configureTestingModule({
         declarations: [ PublicationReuseComponent, ResponsedomainPreviewComponent,
-        AutocompleteComponent, PublicationSelectComponent ],
+        QddtAutoCompleteComponent, PublicationSelectComponent ],
         providers: [
           { provide: PublicationService, useClass: PublicationServiceSpy },
           {
@@ -104,7 +104,7 @@ class PublicationSelectComponent {
   template: `<div></div>`
 })
 
-class AutocompleteComponent {
+class QddtAutoCompleteComponent {
   @Input() items:  any[];
   @Input() searchField: any;
   @Input() placeholder: string;

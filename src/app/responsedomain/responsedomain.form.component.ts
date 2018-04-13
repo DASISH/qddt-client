@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, AfterViewInit } from '@angular/core';
 import { CategoryService } from '../category/category.service';
-import { DomainKind, DOMAIN_TYPE_DESCRIPTION } from './responsedomain.constant';
+import { DomainKind, DOMAIN_TYPE_DESCRIPTION } from './responsedomain.classes';
 import { DATE_FORMAT, ResponseDomain, ResponseDomainService } from './responsedomain.service';
 import { Subject } from 'rxjs/Subject';
 import { Page } from '../shared/classes/classes';
@@ -27,7 +27,7 @@ export class ResponsedomainFormComponent implements OnInit , AfterViewInit {
 
   public previewResponseDomain: any;
 
-  public readonly CATEGORY_KIND = QDDT_QUERY_INFOES[ElementKind.CATEGORY];
+  public readonly CATEGORY_KIND = ElementKind.CATEGORY;
   public domainTypeDef = DomainKind;
   public dateFormatOption = DATE_FORMAT;
   public numberOfAnchors: number;

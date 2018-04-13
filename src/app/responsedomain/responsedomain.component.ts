@@ -1,6 +1,5 @@
 import { Component, OnInit,  EventEmitter } from '@angular/core';
-import { ResponseDomain } from './responsedomain.service';
-import { DomainKind, DOMAIN_TYPE_DESCRIPTION } from './responsedomain.constant';
+import { DomainKind, DOMAIN_TYPE_DESCRIPTION, ResponseDomain} from './responsedomain.classes';
 import { ResponseDomainService } from './responsedomain.service';
 import { Subject } from 'rxjs/Subject';
 import { PropertyStoreService } from '../core/global/property.service';

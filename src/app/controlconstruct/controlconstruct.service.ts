@@ -7,9 +7,7 @@ import { Page } from '../shared/classes/classes';
 import { ConditionConstruct, QuestionConstruct, SequenceConstruct, StatementConstruct} from './controlconstruct.classes';
 import { ElementKind } from '../shared/classes/enums';
 import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
-
-
-
+import {IEntityAudit, IPageResult} from '../shared/classes/interfaces';
 
 @Injectable()
 export class ControlConstructService  {
@@ -17,13 +15,13 @@ export class ControlConstructService  {
 
   constructor(protected http: HttpClient, @Inject(API_BASE_HREF) protected api: string) { }
 
-  public getControlConstruct<T>(id: string): Promise<T>  {
+  public getControlConstruct<T extends IEntityAudit>(id: string): Promise<T>  {
     return this.http.get<T>(this.api + 'controlconstruct/' + id).toPromise();
   }
 
-  public searchByKind(kind: ElementKind, searchString: string = '',  page: Page = new Page() ): Promise<any> {
+  public searchByKind<T extends IEntityAudit>(kind: ElementKind, search: string = '',  page: Page = new Page() ): Promise<IPageResult<T>> {
     const qe = QDDT_QUERY_INFOES[kind];
-    const args = searchString.split(' ');
+    const args = search.split(' ');
     const queries = [];
 
     if (args.length <= qe.fields.length) {
@@ -32,18 +30,18 @@ export class ControlConstructService  {
       }
     } else {
       for (let i = 0; i < qe.fields.length; i++) {
-        queries.push(qe.fields[i] + '=' + searchString.trim() );
+        queries.push(qe.fields[i] + '=' + search.trim() );
       }
     }
 
     let query = '?' ;
 
-    if (queries.length > 0) { query = queries.join('&'); }
+    if (queries.length > 0) { query += queries.join('&'); }
 
     query += page.queryPage();
-    query += qe.parameter;
+    query += (qe.parameter) ? qe.parameter : '';
 
-    return this.http.get(this.api + qe.path + '/page/search/' + query).toPromise();
+    return this.http.get<IPageResult<T>>(this.api + qe.path + '/page/search/' + query).toPromise();
   }
 
   public getFile(id: string): Promise<Blob>  {

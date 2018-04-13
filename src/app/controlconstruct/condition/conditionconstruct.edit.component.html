@@ -26,7 +26,7 @@
       <div class="input-field col s6">
         <qddt-auto-complete
           [items]="elements"
-          [elementtype]="CONDITION"
+          [elementKind]="CONDITION"
           (selectEvent)="onSelectElement($event)"
           (enterEvent)="onSearchElements($event)">
         </qddt-auto-complete>
@@ -44,7 +44,7 @@
       <div class="input-field col s6">
         <qddt-auto-complete
           [items]="elements"
-          [elementtype]="CONDITION"
+          [elementKind]="CONDITION"
           (selectEvent)="onSelectElseElement($event, idx)"
                   (enterEvent)="onSearchElements($event)">
               </qddt-auto-complete>

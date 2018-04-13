@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { RationalDescription, RATIONAL_DESCRIPTIONS } from './rationaldescription';
+import { RATIONAL_DESCRIPTIONS } from './rationaldescription';
 
 @Component({
   selector: 'qddt-rational',
@@ -13,13 +13,14 @@ export class RationalComponent implements OnInit {
   @Input() formName: string;
   @Input() config: any;
   public saveOptionIndex: number;
+  public readonly rationalDescriptions = RATIONAL_DESCRIPTIONS;
 
-  private _RationalIndex: number;
-  private _Rational2Index: number;
+  public _RationalIndex: number;
+  public _Rational2Index: number;
+  public originalId: any;
+
   private savedId: any;
   private savedbasedOnObject: any;
-  private originalId: any;
-  private readonly rationalDescriptions = RATIONAL_DESCRIPTIONS;
 
   constructor() {
     this._RationalIndex = -1;
@@ -30,7 +31,7 @@ export class RationalComponent implements OnInit {
 
   ngOnInit() {
     if (this.config) {
-      const hiddenIds: any[] = this.config.hidden || [];
+      const hiddenIds = this.config.hidden || [];
       if (this.element.archived === undefined) {            // Hide Archived option if element don't have this field.
         hiddenIds.push(4);
       }

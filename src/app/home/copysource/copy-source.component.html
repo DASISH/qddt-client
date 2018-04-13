@@ -3,7 +3,7 @@
     <h3 class="teal-text ">Reuse {{ getElementClass(elementKind).label }}</h3>
     <div class="row black-text">
       <qddt-auto-complete [items]="items"
-                    [elementtype]="getElementClass(elementKind)"
+                    [elementKind]="elementKind"
                     (enterEvent)="onSearchItems($event)"
                     (selectEvent)="onSelectItem($event)">
       </qddt-auto-complete>

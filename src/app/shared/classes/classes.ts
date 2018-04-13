@@ -1,7 +1,7 @@
 import { ElementKind } from './enums';
-import { IElementRef, IIdRef, IRevisionRef, IVersion } from './interfaces';
+import { IElement, IIdRef, IRevisionRef, IVersion } from './interfaces';
 
-export class ElementRevisionRef implements IIdRef, IRevisionRef, IElementRef {
+export class ElementRevisionRef implements IIdRef, IRevisionRef, IElement {
   elementId: string;
   elementRevision: number;
   elementKind: ElementKind | string;

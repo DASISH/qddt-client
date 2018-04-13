@@ -4,7 +4,7 @@ import { QDDT_QUERY_INFOES } from '../../shared/classes/constants';
 import { ElementKind } from '../../shared/classes/enums';
 import { IEntityEditAudit } from '../../shared/classes/interfaces';
 import { ElementRevisionRef, Page } from '../../shared/classes/classes';
-import {TemplateService} from '../../template/template.service';
+import { TemplateService } from '../../template/template.service';
 
 declare var Materialize: any;
 
@@ -20,7 +20,7 @@ export class SequenceFormComponent implements OnChanges {
   @Input() readonly = false;
   @Output() modifiedEvent = new EventEmitter<SequenceConstruct>();
 
-  public readonly QUESTION = QDDT_QUERY_INFOES[ElementKind.QUESTION_CONSTRUCT];
+  public readonly QUESTION = ElementKind.QUESTION_CONSTRUCT;
   public selectedElement: IEntityEditAudit;
   public questionConstrucs: IEntityEditAudit[];
 
@@ -45,7 +45,7 @@ export class SequenceFormComponent implements OnChanges {
     const kind =  this.service.getElementKind(ref.classKind);
     this.service.getRevisionsByKind(kind, ref.id).then(
       (result) => {
-        this.questionConstrucs = result.content;
+        this.questionConstrucs = result.content.map( e => e.entity);
       },
       ( error ) => { throw error; } );
   }

@@ -42,7 +42,7 @@
                   <tr *ngFor="let cat of category.children; let idx=index">
                     <td><qddt-auto-complete
                         [items]="categories" class="black-text"
-                        [elementtype]="CATEGORY_KIND"
+                        [elementKind]="CATEGORY"
                         [initialValue]="cat?.label"
                         (focusEvent)="selectedCategoryIndex=idx;"
                         (enterEvent)="onSearchCategories($event)"
@@ -136,7 +136,7 @@
                 <tr *ngFor="let cat of selectedCategory.children; let idx=index">
                   <td><qddt-auto-complete
                     [items]="categories"
-                    [elementtype]="CATEGORY_KIND"
+                    [elementKind]="CATEGORY"
                     [initialValue]="cat?.label"
                     (focusEvent)="selectedCategoryIndex=idx;"
                     (enterEvent)="onSearchCategories($event)"

@@ -3,7 +3,6 @@ import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_BASE_HREF } from '../api';
 import { ElementKind } from '../shared/classes/enums';
-import { QueryInfo } from '../shared/classes/classes';
 import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
 import { Concept, Study, SurveyProgram, Topic } from './home.classes';
 
@@ -15,25 +14,25 @@ export class HomeService {
   constructor(protected http: HttpClient,  @Inject(API_BASE_HREF) protected api: string) {
   }
 
-  getRevisionById(elementTypeId: ElementKind, id: string): Promise<any> {
-    const qe: QueryInfo = QDDT_QUERY_INFOES.find(e => e.id === elementTypeId);
-    if (qe !== undefined) {
+  getRevisionById(kind: ElementKind, id: string): Promise<any> {
+    const qe = QDDT_QUERY_INFOES[kind];
+    if (qe) {
       return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/allinclatest').toPromise();
     }
     return Observable.of([]).toPromise();
   }
 
-  getElementByTypeAndName(elementTypeId: ElementKind, name: string): Promise<any> {
-    const qe: QueryInfo = QDDT_QUERY_INFOES.find(e => e.id === elementTypeId);
-    if (qe !== undefined) {
+  getElementByTypeAndName(kind: ElementKind, name: string): Promise<any> {
+    const qe = QDDT_QUERY_INFOES[kind];
+    if (qe) {
       return this.http.get(this.api + qe.path + '/page/search/?name=*' + name + '*' ).toPromise();
     }
     return Observable.of([]).toPromise();
 
   }
 
-  copySource(elementTypeId: ElementKind, fromId: string, fromRev: number, toParentId: string): Observable<any> {
-    const qe: QueryInfo = QDDT_QUERY_INFOES.find(e => e.id === elementTypeId);
+  copySource(kind: ElementKind, fromId: string, fromRev: number, toParentId: string): Observable<any> {
+    const qe = QDDT_QUERY_INFOES[kind];
     return this.http.post(this.api + qe.path + '/copy/' + fromId + '/' + fromRev + '/' + toParentId, {});
   }
 

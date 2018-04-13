@@ -1,6 +1,7 @@
 import { IEntityAudit, IEntityEditAudit, IVersion} from '../shared/classes/interfaces';
 import { ElementKind } from '../shared/classes/enums';
 import { ElementRevisionRef } from '../shared/classes/classes';
+import {Category} from '../category/category.classes';
 
 export class SurveyProgram implements IEntityEditAudit {
   id: string;
@@ -16,6 +17,9 @@ export class SurveyProgram implements IEntityEditAudit {
   basedOnObject?: string;
   basedOnRevision?: number;
   version: IVersion;
+  public constructor(init?: Partial<SurveyProgram>) {
+    Object.assign(this, init);
+  }
 }
 
 export class Study implements IEntityEditAudit {
@@ -32,6 +36,9 @@ export class Study implements IEntityEditAudit {
   basedOnRevision?: number;
   modified: number;
   version: IVersion;
+  public constructor(init?: Partial<Study>) {
+    Object.assign(this, init);
+  }
 }
 
 export class Topic implements IEntityEditAudit {
@@ -50,7 +57,9 @@ export class Topic implements IEntityEditAudit {
   basedOnRevision?: number;
   modified: number;
   version: IVersion;
-
+  public constructor(init?: Partial<Topic>) {
+    Object.assign(this, init);
+  }
 }
 
 export class Concept implements IEntityEditAudit {
@@ -68,4 +77,7 @@ export class Concept implements IEntityEditAudit {
   basedOnRevision: number;
   modified: number;
   version: IVersion;
+  public constructor(init?: Partial<Concept>) {
+    Object.assign(this, init);
+  }
 }

@@ -1,7 +1,7 @@
 import {Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges} from '@angular/core';
 import { Column } from './table.column';
 import { LIST_COLUMNS, RESPONSEDOMAIN_COLUMNS, DEFAULT_COLUMNS } from './table.column-map';
-import { DomainKind } from '../../responsedomain/responsedomain.constant';
+import { DomainKind } from '../../responsedomain/responsedomain.classes';
 import { ElementEnumAware } from '../../preview/preview.service';
 import { ElementKind } from '../classes/enums';
 import { Page } from '../classes/classes';

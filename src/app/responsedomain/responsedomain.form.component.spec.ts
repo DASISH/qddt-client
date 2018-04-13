@@ -20,7 +20,7 @@ export function main() {
         RevisionComponent, StudyUsedbyComponent,
         TopicUsedbyComponent, QuestionitemUsedbyComponent,
         ResponsedomainUsedbyComponent, RevisionDetailComponent,
-        RationalComponent, AutocompleteComponent,
+        RationalComponent, QddtAutoCompleteComponent,
         PreviewComponent],
         providers: [
           { provide: ResponseDomainService, useClass: ResponseDomainServiceSpy },
@@ -204,7 +204,7 @@ class RevisionDetailComponent {
   template: `<div></div>`
 })
 
-class AutocompleteComponent {
+class QddtAutoCompleteComponent {
   @Input() items:  any[];
   @Input() searchField: any;
   @Input() placeholder: string;

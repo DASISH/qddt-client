@@ -88,7 +88,7 @@
                       <qddt-auto-complete class="grey-text"
                         [items]="categories"
                         [initialValue]="category?.label"
-                        [elementtype]="CATEGORY_KIND"
+                        [elementKind]="CATEGORY_KIND"
                         (focusEvent)="selectedCategoryIndex=idx;"
                         (selectEvent)="select($event)"
                         (enterEvent)="searchCategories($event)">
@@ -106,7 +106,6 @@
                   [ngModel]="responsedomain.managedRepresentation.inputLimit.maximum"
                   (ngModelChange)="changeNumberOfCategories($event)" required>
                 <label class="active {{labelColor}}" for="code_number">Number of Codes</label>
-
 						</div>
             <div class="input-field col m3 l3 offset-m1 offset-l1">
                 <input id="responseCardinality_minimum" name="responseCardinality_minimum" type="number"
@@ -136,7 +135,7 @@
 										<div [ngClass]="{ noItemFound: (category.isNew && category.label.length > 0 && categories.length === 0) }">
 										  <qddt-auto-complete class="grey-text"
                         [items]="categories"
-                        [elementtype]="CATEGORY_KIND"
+                        [elementKind]="CATEGORY_KIND"
                         (focusEvent)="selectedCategoryIndex=idx;"
                         [initialValue]="category?.label"
 												(enterEvent)="searchCategories($event)"
@@ -246,4 +245,3 @@
       </div>
 		</form>
   </div>
-  

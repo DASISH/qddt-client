@@ -16,7 +16,7 @@ export function main() {
       TestBed.configureTestingModule({
         declarations: [RevisionComponent, ControlConstructQuestionItemSelectComponent,
           CommentListComponent, AuthorChipComponent, InstructionComponent,
-          AutocompleteComponent, TableComponent, QuestionitemDetailComponent,
+          QddtAutoCompleteComponent, TableComponent, QuestionitemDetailComponent,
           ResponsedomainPreviewComponent, RevisionDetailComponent, RationalComponent,
           QuestionConstructFormComponent],
         providers: [
@@ -91,7 +91,7 @@ class CommentListComponent {
 //   template: `<div></div>`
 // })
 
-export class AutocompleteComponent {
+export class QddtAutoCompleteComponent {
   @Input() items:  any[];
   @Input() searchField: any;
   @Input() placeholder: string;

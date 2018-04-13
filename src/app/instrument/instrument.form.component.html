@@ -30,7 +30,7 @@
     </div>
     <qddt-instrument-sequence [sequence] = "element.sequence" ></qddt-instrument-sequence>
 
-    <qddt-rational *ngIf="!readonly && element.id" [element]="element" [config]="{hidden: [3,4]}">
+    <qddt-rational [formName]="'RationalComp'" *ngIf="!readonly && element.id" [element]="element" [config]="{hidden: [3,4]}">
     </qddt-rational>
 
     <qddt-element-footer *ngIf="element.id" [element]="element"></qddt-element-footer>

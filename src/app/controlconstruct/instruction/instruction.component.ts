@@ -15,14 +15,14 @@ import { Instruction } from '../controlconstruct.classes';
 export class InstructionComponent {
   @Output() createInstructionEvent = new EventEmitter<any>();
 
-  public readonly INSTRUCTION = QDDT_QUERY_INFOES[ElementKind.INSTRUCTION];
+  public readonly INSTRUCTION = ElementKind.INSTRUCTION;
   public instruction: any;
-  public instructions: any[];
+  public instructionList: any[];
   public isInstructionNew: boolean;
 
   constructor(private service: ControlConstructService) {
     this.instruction = new Instruction();
-    this.instructions = [];
+    this.instructionList = [];
     this.instruction.description = '';
   }
 
@@ -34,8 +34,8 @@ export class InstructionComponent {
   onSearchInstructions(key: string) {
     this.instruction.description = key;
     this.service.searchByKind(ElementKind.INSTRUCTION, key).then((result: any) => {
-      this.instructions = result.content;
-      this.isInstructionNew = this.instructions.length === 0;
+      this.instructionList = result.content;
+      this.isInstructionNew = this.instructionList.length === 0;
     });
   }
 

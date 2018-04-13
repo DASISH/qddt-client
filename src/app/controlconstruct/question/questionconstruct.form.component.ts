@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { QuestionItem } from '../../question/question.classes';
 import { Instruction, QuestionConstruct, Universe } from '../controlconstruct.classes';
 import { ElementKind } from '../../shared/classes/enums';
-import { IOtherMaterial } from '../../shared/classes/interfaces';
+import {IElement, IOtherMaterial} from '../../shared/classes/interfaces';
 
 const filesaver = require('file-saver');
 declare var Materialize: any;
@@ -24,10 +24,13 @@ export class QuestionConstructFormComponent implements OnChanges , AfterContentC
   @Input() readonly = false;
   @Output() modifiedEvent = new EventEmitter<QuestionConstruct>();
 
-  public formId = Math.round( Math.random() * 10000);
+  public readonly UNIVERSE = ElementKind.UNIVERSE;
+  public readonly INSTRUCTION = ElementKind.INSTRUCTION;
+  public readonly formId = Math.round( Math.random() * 10000);
+
   public savedQuestionItem: any;
-  public instructions: any[];
-  public universes: any[];
+  public instructionList: Instruction[];
+  public universeList: Universe[];
 
   private editQuestionItem: boolean;
   private showUploadFileForm: boolean;
@@ -56,35 +59,31 @@ export class QuestionConstructFormComponent implements OnChanges , AfterContentC
     try { Materialize.updateTextFields(); } catch (Exception) { }
   }
 
-  onAddUniverse(item: Universe) {
-    this.controlConstruct.universe.push(item);
+  onAddUniverse(item: IElement) {
+    this.controlConstruct.universe.push(item.element);
+  }
+
+  onAddPreInstruction(item: IElement) {
+    this.controlConstruct.preInstructions.push(item.element);
+  }
+
+  onAddPostInstruction(item: IElement) {
+    this.controlConstruct.postInstructions.push(item.element);
   }
 
   onInstructionSearch(key: string) {
-    this.service.searchByKind(ElementKind.INSTRUCTION, key).then(
+    this.service.searchByKind<Instruction>(this.INSTRUCTION, key).then(
       (result) => {
-        this.instructions = result.content;
+        this.instructionList = result.content;
       });
   }
 
   onUniverseSearch(key: string) {
-    this.service.searchByKind(ElementKind.UNIVERSE, key).then(
+    this.service.searchByKind<Universe>(this.UNIVERSE, key).then(
       (result) => {
-        this.universes = result.content;
+        this.universeList = result.content;
       });
   }
-  onDeletePreInstruction(id: number) {
-    this.controlConstruct.preInstructions.splice(id, 1);
-  }
-
-  onAddPreInstruction(instruction: Instruction) {
-    this.controlConstruct.preInstructions.push(instruction);
-  }
-
-  onAddPostInstruction(instruction: Instruction) {
-    this.controlConstruct.postInstructions.push(instruction);
-  }
-
 
   onSelectQuestionItem(element: QuestionItem) {
     this.controlConstruct.questionItem = element;

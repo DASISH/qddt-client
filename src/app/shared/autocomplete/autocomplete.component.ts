@@ -1,6 +1,9 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
-import { IEntityAudit } from '../classes/interfaces';
+import {Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges} from '@angular/core';
+import {IElement, IEntityAudit} from '../classes/interfaces';
 import { QueryInfo } from '../classes/classes';
+import { ElementKind } from '../classes/enums';
+import { ElementEnumAware } from '../../preview/preview.service';
+import { getElementKind, QDDT_QUERY_INFOES} from '../classes/constants';
 
 @Component({
   selector: 'qddt-auto-complete',
@@ -9,34 +12,47 @@ import { QueryInfo } from '../classes/classes';
   styleUrls: ['./autocomplete.component.css'],
 })
 
-export class AutocompleteComponent implements OnInit, OnChanges {
-  @Input() items:  IEntityAudit[];
-  @Input() elementtype: QueryInfo;
+@ElementEnumAware
+export class QddtAutoCompleteComponent implements OnInit, OnChanges {
+  @Input() items: IEntityAudit[];
+  @Input() elementKind: ElementKind;
   @Input() initialValue = '';
 
-  @Output() selectEvent = new EventEmitter<IEntityAudit>();
+  @Output() selectEvent = new EventEmitter<IElement>();
   @Output() focusEvent = new EventEmitter<string>();
   @Output() enterEvent = new EventEmitter<string>();
 
-  public candidates: any[];
+  public candidates = [];
   public showAutoComplete = false;
   public value = '';
   public selectedIndex = 0;
+  public queryInfo: QueryInfo;
 
   private searchFromServer = true;
 
   ngOnInit() {
     this.value = this.initialValue;
-
   }
 
-  ngOnChanges() {
-    this.candidates = this.items;
+  ngOnChanges(change: SimpleChanges) {
+    if (change['elementKind']) {
+      this.queryInfo = QDDT_QUERY_INFOES[getElementKind(this.elementKind)];
+    } else if ( (change['items'])) {
+      this.candidates = this.items;
+    }
   }
 
   enterText(event: any) {
     this.value = event.target.value;
+    if (event.key === 'Enter') {
+      this.showAutoComplete = false;
+      this.selectEvent.emit({element: null , elementKind: this.elementKind });
+    }
     this.enterEvent.emit(this.value);
+  }
+
+  notFound(): boolean {
+    return (  this.showAutoComplete && (this.value) &&  this.candidates.length === 0 );
   }
 
   onFocus() {
@@ -47,18 +63,18 @@ export class AutocompleteComponent implements OnInit, OnChanges {
 
   select(candidate: IEntityAudit) {
     this.showAutoComplete = false;
-    this.value = this.getFieldValue(candidate, this.elementtype.fields);
-    this.selectEvent.emit(candidate);
+    this.value = this.getFieldValue(candidate, this.queryInfo.fields);
+    this.selectEvent.emit({element: candidate, elementKind: this.elementKind });
   }
 
   getLabel(candiate: IEntityAudit) {
-    if (this.elementtype.isMultipleFields()) {
-      const results: any[] = this.elementtype.fields.map(element => {
+    if (this.queryInfo.isMultipleFields()) {
+      const results: any[] = this.queryInfo.fields.map(element => {
         return this.getFieldValue(candiate, element).substring(0, 200).concat('...');
       });
       return results.join(' | ');
     } else {
-      return this.getFieldValue(candiate, this.elementtype.fields).substring(0, 200).concat('...');
+      return this.getFieldValue(candiate, this.queryInfo.fields).substring(0, 200).concat('...');
     }
   }
 
@@ -88,9 +104,9 @@ export class AutocompleteComponent implements OnInit, OnChanges {
   }
 
   private filterItems(search: string) {
-    if (!this.items || !this.elementtype) { return; }
-    const field = this.elementtype.fields;
-    const isMultipleFields = this.elementtype.isMultipleFields();
+    if (!this.items || !this.queryInfo) { return; }
+    const field = this.queryInfo.fields;
+    const isMultipleFields = this.queryInfo.isMultipleFields();
     const filterItem = this.filterItem;
     this.candidates = this.items.filter(
       function (item) {

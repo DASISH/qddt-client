@@ -7,6 +7,7 @@ import { IEntityAudit, IEntityEditAudit, IVersion } from '../shared/classes/inte
 import { Category, ResponseCardinality } from '../category/category.classes';
 import { ElementKind } from '../shared/classes/enums';
 import {QDDT_QUERY_INFOES} from '../shared/classes/constants';
+import {DomainKind} from './responsedomain.classes';
 
 export const DATE_FORMAT: any = [
   {'id': 1, 'format': 'yyyy-mm-dd',         'label': 'Date' },
@@ -21,28 +22,7 @@ export const DATE_FORMAT: any = [
   {'id': 10, 'format': 'dddd d mmmm yyyy',  'label': 'Full-date-text' },
   ];
 
-export class ResponseDomain implements IEntityEditAudit {
-  id: string;
-  name: string;
-  label: string;
-  description: string;
-  responseKind: string;
-  displayLayout: any;
-  managedRepresentation: Category;
-  responseCardinality: ResponseCardinality;
-  classKind = ElementKind[ElementKind.RESPONSEDOMAIN];
-  comments: any[];
-  constructor() {
-    this.managedRepresentation = new Category();
-    this.responseCardinality = new ResponseCardinality();
-  }
 
-  agency: IEntityAudit;
-  basedOnObject: string;
-  basedOnRevision: number;
-  modified: number;
-  version: IVersion;
-}
 
 @Injectable()
 export class ResponseDomainService  {
@@ -87,8 +67,7 @@ export class ResponseDomainService  {
     query += '&ResponseKind=' + domain;
     query += page.queryPage();
 
-    return this.http.get(this.api + 'responsedomain/page/search' + query)
-      .toPromise();
+    return this.http.get(this.api + 'responsedomain/page/search' + query).toPromise();
   }
 
   getResponseDomainsRevisions(id: string): Promise<any> {
