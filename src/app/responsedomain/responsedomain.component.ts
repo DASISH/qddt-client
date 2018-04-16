@@ -1,11 +1,12 @@
 import { Component, OnInit,  EventEmitter } from '@angular/core';
 import { DomainKind, DOMAIN_TYPE_DESCRIPTION, ResponseDomain} from './responsedomain.classes';
-import { ResponseDomainService } from './responsedomain.service';
 import { Subject } from 'rxjs/Subject';
-import { PropertyStoreService } from '../core/global/property.service';
-import { Page } from '../shared/classes/classes';
+import { QddtPropertyStoreService } from '../core/global/property.service';
+import { TemplateService } from '../template/template.service';
 import { ElementKind } from '../shared/classes/enums';
 import { Category } from '../category/category.classes';
+import { IPageSearch } from '../shared/classes/interfaces';
+import { Page } from '../shared/classes/classes';
 
 // declare var Materialize: any;
 
@@ -18,6 +19,7 @@ import { Category } from '../category/category.classes';
 export class ResponsedomainComponent implements OnInit {
   public readonly  RESPONSEDOMAIN = ElementKind.RESPONSEDOMAIN;
   public domainType: DomainKind;
+
   public deleteAction = new EventEmitter<any>();
   public responseDomains: ResponseDomain[];
 
@@ -26,20 +28,18 @@ export class ResponsedomainComponent implements OnInit {
   public isEditFormVisible = false;
   public isRevisionVisible = false;
 
-  public page: Page;
   public domainTypeDescription: any[];
   public selectedResponseDomain: ResponseDomain;
   public responseDomain: ResponseDomain;
 
-  private searchKeys: string;
-
   private savedResponseDomainsIndex: number;
   private searchKeysListener: Subject<string> = new Subject<string>();
+  private pageSearch: IPageSearch;
 
-  constructor(private responseDomainService: ResponseDomainService, private property: PropertyStoreService) {
-    this.searchKeys = '*';
+  constructor(private service: TemplateService, private property: QddtPropertyStoreService) {
+    this.pageSearch = { kind: this.RESPONSEDOMAIN, key: '*', page : new Page(), sort: 'modified,desc' };
     this.domainType = DomainKind.SCALE;
-    this.domainTypeDescription = DOMAIN_TYPE_DESCRIPTION.filter((e: any) => e.id !== DomainKind.MIXED);
+    this.domainTypeDescription = DOMAIN_TYPE_DESCRIPTION.filter((e) => e.id !== DomainKind.MIXED);
     this.searchKeysListener
       .debounceTime(300)
       .distinctUntilChanged()
@@ -48,21 +48,19 @@ export class ResponsedomainComponent implements OnInit {
 
   ngOnInit() {
     const config = this.property.get('responsedomains');
-    this.page = (config.page) ? config.page : new Page();
     if (config.current === 'detail' ) {
       this.selectedResponseDomain = config.item;
       this.isEditFormVisible = true;
     } else {
       this.domainType = (config.domainType) ? config.domainType :  DomainKind.SCALE;
-      this.searchKeys = (config.key) ? config.key : '*';
-      this.searchKeysListener.next(this.searchKeys);
+      this.loadPage();
     }
   }
 
   public onSelectDomainType(id: DomainKind) {
     this.isNewFormVisible = false;
     this.domainType = id;
-    this.loadPage(this.searchKeys);
+    this.loadPage();
   }
 
   public onToggleResponseDomainForm() {
@@ -75,17 +73,16 @@ export class ResponsedomainComponent implements OnInit {
   }
 
   public onFormCreate(managedRepresentation: Category ) {
-    this.searchKeys = '';
     this.isNewFormVisible = false;
     this.responseDomain.managedRepresentation = managedRepresentation;
-    this.responseDomainService.create(this.responseDomain).subscribe((result: any) => {
-      this.responseDomain = result;
-      this.responseDomains = [result].concat(this.responseDomains); });
+    this.service.update(this.responseDomain).subscribe(
+      (result) => {
+        this.responseDomain = result;
+        this.responseDomains = [result].concat(this.responseDomains); });
   }
 
   public onFormSave() {
-    this.searchKeys = '';
-    this.responseDomainService.update(this.selectedResponseDomain).subscribe(
+    this.service.update(this.selectedResponseDomain).subscribe(
       (result) => {
         const index = this.responseDomains.findIndex((e) => e.id === result.id);
         if (index >= 0) {
@@ -99,15 +96,14 @@ export class ResponsedomainComponent implements OnInit {
   }
 
   public onSelectDetail(response: ResponseDomain) {
-    this.responseDomainService.getResponseDomain(response.id).then(
-      (result: any) => {
+    this.service.getItemByKind<ResponseDomain>(this.RESPONSEDOMAIN, response.id).then(
+      (result) => {
         this.selectedResponseDomain = result;
         this.isEditFormVisible = true;
         this.property.set('responsedomains',
           {
             'current': 'detail',
-            'page': this.page,
-            'key': this.searchKeys,
+            'pageSearch': this.pageSearch,
             'domainType': this.domainType,
             'item': this.selectedResponseDomain,
           });
@@ -118,20 +114,22 @@ export class ResponsedomainComponent implements OnInit {
     this.selectedResponseDomain = null;
     this.savedResponseDomainsIndex = -1;
     this.isEditFormVisible = false;
-    this.property.set('responsedomains', {'current': 'list', 'key': this.searchKeys});
+    this.property.set('responsedomains', {'current': 'list', 'pageSearch': this.pageSearch });
   }
 
-  public onPage(page: Page) {
-    this.page = page;
-    this.loadPage(this.searchKeys);
+  public onFetchItems(search: IPageSearch ) {
+    this.pageSearch = search;
+    this.loadPage();
   }
+
+
 
   public onDeleteResponseDomainModal() {
     this.deleteAction.emit({action: 'modal', params: ['open']});
   }
 
   public onConfirmDeleting() {
-    this.responseDomainService.deleteResponseDomain(this.selectedResponseDomain.id)
+    this.service.delete(this.selectedResponseDomain)
       .subscribe(() => {
         const i = this.responseDomains.findIndex(q => q['id'] === this.selectedResponseDomain.id);
         if (i >= 0) {
@@ -139,11 +137,6 @@ export class ResponsedomainComponent implements OnInit {
         }
         this.onHideDetail();
       });
-  }
-
-  public onSearchResponseDomains(name: string) {
-    this.searchKeys = name;
-    this.searchKeysListener.next(name);
   }
 
   private buildAnchorLabel() {
@@ -163,12 +156,16 @@ export class ResponsedomainComponent implements OnInit {
     }
   }
 
-  private loadPage(search: string ) {
+  private loadPage(search?: string ) {
     const domainTypeName = DOMAIN_TYPE_DESCRIPTION.find( (e) => e.id === this.domainType).name;
     this.isProgressBarVisible = true;
-    this.responseDomainService.getAll(domainTypeName, search, this.page).then(
+    if (search) {
+      this.pageSearch.key = search;
+    }
+    this.pageSearch.keys = new Map([['ResponseKind',  DomainKind[this.domainType]]);
+    this.service.searchByKind(this.pageSearch).then(
         (result: any) => {
-          this.page = new Page(result.page);
+          this.pageSearch.page = new Page(result.page);
           this.responseDomains = result.content;
           this.isProgressBarVisible = false;
           this.buildAnchorLabel(); },

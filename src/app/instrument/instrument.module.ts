@@ -16,7 +16,7 @@ import { TemplateService } from '../template/template.service';
   declarations: [InstrumentComponent, InstrumentFormComponent, InstrumentDetailComponent,
     InstrumentSequenceComponent],
   exports: [ InstrumentComponent ],
-  providers: [ TemplateService ]
+  providers: [  ]
 })
 
 export class InstrumentModule { }

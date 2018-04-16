@@ -6,8 +6,8 @@ import { Page } from '../shared/classes/classes';
 import { IEntityAudit, IEntityEditAudit, IVersion } from '../shared/classes/interfaces';
 import { Category, ResponseCardinality } from '../category/category.classes';
 import { ElementKind } from '../shared/classes/enums';
-import {QDDT_QUERY_INFOES} from '../shared/classes/constants';
-import {DomainKind} from './responsedomain.classes';
+import { QDDT_QUERY_INFOES} from '../shared/classes/constants';
+import { DomainKind, ResponseDomain} from './responsedomain.classes';
 
 export const DATE_FORMAT: any = [
   {'id': 1, 'format': 'yyyy-mm-dd',         'label': 'Date' },

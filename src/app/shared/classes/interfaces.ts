@@ -1,5 +1,5 @@
 import {ActionKind, ElementKind} from './enums';
-import {Page} from './classes';
+import { Page } from './classes';
 
 export interface IDetailAction {
   id: string;
@@ -82,9 +82,23 @@ export interface IPageResult<T> {
   page: Page;
 }
 
+export interface IRevisionResultEntity {
+  entity: IEntityEditAudit;
+  metadata: { delegate: { id: number, timestamp: number }, revisionDate: any, revisionNumber: number };
+  revisionDate: any;
+  revisionNumber: number;
+}
 export interface IRevisionResult<T extends IEntityAudit> {
   entity: T;
   metadata: { delegate: { id: number, timestamp: number }, revisionDate: any, revisionNumber: number };
   revisionDate: any;
   revisionNumber: number;
+}
+
+export interface IPageSearch {
+  kind: ElementKind;
+  key: string;
+  keys?: Map<string, string>;
+  page?: Page;
+  sort?: string;
 }

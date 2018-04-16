@@ -1,0 +1,13 @@
+
+<qddt-auto-complete [items]="itemList" class="black-text"
+  [elementKind]="kind"
+  (selectEvent)="onSelectElement($event)"
+  (enterEvent)="onSearchElements($event)">
+</qddt-auto-complete>
+
+<qddt-revision-select *ngIf="showRevision"
+  [elementRevisions]="revisionList"
+  [showProgressBar]="showProgressBar"
+  (selectEvent)="onSelectedRevision($event)"
+  (dismissEvent)="onDismiss($event)">>
+</qddt-revision-select>

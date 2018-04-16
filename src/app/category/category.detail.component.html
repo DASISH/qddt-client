@@ -1,47 +1,6 @@
-<div class="row" *ngIf="category">
-  <div id="{{category?.id}}" class="scrollspy">
-
-    <div class="fixed-action-btn vertical click-to-toggle">
-      <a class="btn-floating btn-large cyan"><i class="large material-icons">menu</i></a>
-      <ul>
-        <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light blue" >
-          <i class="material-icons left medium" (click)="revisionIsVisible = !revisionIsVisible" title="Revision history">history</i>
-        </a></li>
-        <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light red">
-          <i class="material-icons" (click)="onDeleteCategory()" title="Delete" >delete_forever</i>
-        </a></li>
-        <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light  green darken-1">
-          <i class="material-icons" (click)="hideDetail()" title="Return to list view">replay</i>
-        </a></li>
-      </ul>
-    </div>
-
-    <div class="col s1">
-      <a class="btn-flat btn-floating btn-medium waves-effect waves-light  green darken-1">
-        <i class="material-icons" (click)="hideDetail()" title="Return to list view">replay</i>
-      </a>
-    </div>
-
-    <div class="col s9 grey-text text-darken-2">
-      <div class="flow-text">{{ category.label }}</div>
-    </div>
-
-    <div class="col s1">
-      <qddt-version-label [element]="category"></qddt-version-label>
-    </div>
-
-    <div class="col s10 white grey-text text-darken-1">
-
-      <qddt-category-edit [isVisible]="true" [category]="category" [categories]="categories"
-        (editDetailEvent)="hideDetail()" #edit>
-      </qddt-category-edit>
-
-      <qddt-revision *ngIf="revisionIsVisible"
-        [current]="category">
-      </qddt-revision>
-
-      <qddt-comment-list [ownerId]="category.id" [comments]="category.comments"></qddt-comment-list>
-
-    </div>
-  </div>
-</div>
+<qddt-template-detail #detail>
+    <qddt-category-form
+      [category]= "templateDetail.item"
+      (modifiedEvent) = "onFormModified($event)">
+    </qddt-category-form>
+</qddt-template-detail>

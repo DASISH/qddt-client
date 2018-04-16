@@ -47,9 +47,8 @@ export class InstrumentSequenceComponent implements OnChanges {
   }
 
   public onSearchElements(search: string) {
-    this.service.searchByKind<SequenceConstruct>(ElementKind.SEQUENCE_CONSTRUCT, search).then(
-      (result) => {
-        this.suggestions = result.content; },
+    this.service.searchByKind<SequenceConstruct>({ kind: this.SEQUENCE , key: search }).then(
+      (result) => { this.suggestions = result.content; },
       (error) => { throw error; } );
   }
 

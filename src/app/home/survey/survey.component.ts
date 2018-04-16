@@ -1,6 +1,6 @@
 import { Component,  OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { PropertyStoreService , HIERARCHY_POSITION } from '../../core/global/property.service';
+import { QddtPropertyStoreService , HIERARCHY_POSITION } from '../../core/global/property.service';
 import { HomeService } from '../home.service';
 import { SurveyProgram } from '../home.classes';
 
@@ -16,7 +16,7 @@ export class SurveyComponent implements OnInit {
   public surveyList: SurveyProgram[] = [];
   public survey: SurveyProgram;
 
-  constructor(private surveyService: HomeService, private router: Router, private property: PropertyStoreService) {
+  constructor(private surveyService: HomeService, private router: Router, private property: QddtPropertyStoreService) {
     this.survey = new SurveyProgram();
   }
 

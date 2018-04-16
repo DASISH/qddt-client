@@ -9,12 +9,13 @@ import { PreviewModule } from '../preview/preview.module';
 import { QuestionRoutingModule } from './question.route';
 import { TemplateModule } from '../template/template.module';
 import { TemplateService } from '../template/template.service';
+import { SelectorsModule } from '../selectors/selectors.module';
 
 @NgModule({
-  imports: [ SharedModule, ResponsedomainModule, PreviewModule, TemplateModule, QuestionRoutingModule ],
+  imports: [ SharedModule, ResponsedomainModule, PreviewModule, TemplateModule, SelectorsModule, QuestionRoutingModule ],
   declarations: [QuestionComponent, QuestionDetailComponent, QuestionReuseComponent, QuestionFormComponent],
   exports: [QuestionComponent, QuestionReuseComponent, QuestionFormComponent, QuestionDetailComponent ],
-  providers: [TemplateService]
+  providers: []
 })
 
 export class QuestionModule { }

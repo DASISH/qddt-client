@@ -1,10 +1,12 @@
 import { Component, Input, Output, EventEmitter, AfterContentChecked, OnChanges, SimpleChanges } from '@angular/core';
-import { ControlConstructService } from '../controlconstruct.service';
 import { Observable } from 'rxjs/Observable';
-import { QuestionItem } from '../../question/question.classes';
-import { Instruction, QuestionConstruct, Universe } from '../controlconstruct.classes';
-import { ElementKind } from '../../shared/classes/enums';
-import {IElement, IOtherMaterial} from '../../shared/classes/interfaces';
+import { QuestionItem } from '../question/question.classes';
+import { ElementKind } from '../shared/classes/enums';
+import { ElementRevisionRef } from '../shared/classes/classes';
+import { QuestionConstruct } from './question-construct.classes';
+import { Instruction, Universe } from '../controlconstruct/controlconstruct.classes';
+import { TemplateService } from '../template/template.service';
+import { IRevisionResult, IElement, IRevisionRef, IOtherMaterial, IPageSearch } from '../shared/classes/interfaces';
 
 const filesaver = require('file-saver');
 declare var Materialize: any;
@@ -12,7 +14,7 @@ declare var Materialize: any;
 @Component({
   selector: 'qddt-question-construct-form',
   moduleId: module.id,
-  templateUrl: 'questionconstruct.form.component.html',
+  templateUrl: 'question-construct.form.component.html',
   styles: [
     '.nomargin { margin:0; }',
     ':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'
@@ -26,23 +28,26 @@ export class QuestionConstructFormComponent implements OnChanges , AfterContentC
 
   public readonly UNIVERSE = ElementKind.UNIVERSE;
   public readonly INSTRUCTION = ElementKind.INSTRUCTION;
+  public readonly QUESTION = ElementKind.QUESTION_ITEM;
+
   public readonly formId = Math.round( Math.random() * 10000);
 
-  public savedQuestionItem: any;
+  /* public savedQuestionItem: any; */
   public instructionList: Instruction[];
   public universeList: Universe[];
+  public questionList: QuestionItem[];
+  public revisionResults: IRevisionResult<QuestionItem>[];
 
-  private editQuestionItem: boolean;
   private showUploadFileForm: boolean;
   private showUploadedFiles: boolean;
   private showbutton = false;
+  private showProgressBar = false;
 
   private files: FileList;
   private fileStore: any[];
   private toDeleteFiles: any[];
 
-  constructor(private service: ControlConstructService) {
-    this.editQuestionItem = false;
+  constructor(private service: TemplateService) {
     this.showUploadFileForm = false;
     this.showUploadedFiles = false;
 
@@ -51,13 +56,11 @@ export class QuestionConstructFormComponent implements OnChanges , AfterContentC
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-   // try { Materialize.updateTextFields(); } catch (Exception) { }
-  }
-
-
-  ngAfterContentChecked(): void {
     try { Materialize.updateTextFields(); } catch (Exception) { }
   }
+
+
+  ngAfterContentChecked(): void { }
 
   onAddUniverse(item: IElement) {
     this.controlConstruct.universe.push(item.element);
@@ -72,28 +75,47 @@ export class QuestionConstructFormComponent implements OnChanges , AfterContentC
   }
 
   onInstructionSearch(key: string) {
-    this.service.searchByKind<Instruction>(this.INSTRUCTION, key).then(
+    this.service.searchByKind<Instruction>( {kind: this.INSTRUCTION, key: key}).then(
       (result) => {
         this.instructionList = result.content;
       });
   }
 
   onUniverseSearch(key: string) {
-    this.service.searchByKind<Universe>(this.UNIVERSE, key).then(
+    this.service.searchByKind<Universe>( {kind: this.UNIVERSE, key: key}).then(
       (result) => {
         this.universeList = result.content;
       });
   }
 
-  onSelectQuestionItem(element: QuestionItem) {
-    this.controlConstruct.questionItem = element;
-    this.controlConstruct.questionItemRevision = element['questionItemRevision'];
-    this.editQuestionItem = false;
+  onQuestionSearch(key: IElement) {
+    this.service.searchByKind<QuestionItem>( {kind: this.QUESTION, key: key.element} ).then(
+      (result) => {
+        this.questionList = result.content;
+      });
   }
+
+  onRevisonSearch(item: IRevisionRef) {
+    this.service.getRevisionsByKind<QuestionItem>(this.QUESTION, item.elementId ).then(
+      (result) => {
+        this.revisionResults = result.content;
+      });
+
+  }
+
+  onRevisionSelect(ref: ElementRevisionRef ) {
+    this.controlConstruct.questionItem = ref.element;
+    this.controlConstruct.questionItemRevision = ref.elementRevision;
+    this.questionList = [];
+    this.revisionResults = [];
+//    this.editQuestionItem = false;
+
+  }
+
 
   onRemoveQuestoinItem() {
     this.controlConstruct.questionItem = null;
-    this.editQuestionItem = false;
+//    this.editQuestionItem = false;
   }
 
   onDownloadFile(o: IOtherMaterial) {
@@ -144,7 +166,7 @@ export class QuestionConstructFormComponent implements OnChanges , AfterContentC
   }
 
 
-  onSaveControlConstruct() {
+  onSaveQuestionConstruct() {
     const controlConstruct = this.controlConstruct;
     const files = this.fileStore;
     const len = files.length;
@@ -166,7 +188,7 @@ export class QuestionConstructFormComponent implements OnChanges , AfterContentC
     const elementEvent = this.modifiedEvent;
     source.subscribe(
       function () {
-        service.updateQuestion(controlConstruct).subscribe(
+        service.update(controlConstruct).subscribe(
           (result) => {
             this.controlConstruct = result;
             elementEvent.emit(result); },

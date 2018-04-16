@@ -2,18 +2,16 @@ import {Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
 import { ElementRevisionRef, Page} from '../shared/classes/classes';
-import { CategoryService } from '../category/category.service';
 import { ElementKind } from '../shared/classes/enums';
 import { Category } from '../category/category.classes';
-import { IElement } from '../shared/classes/interfaces';
+import { IElement, IPageSearch } from '../shared/classes/interfaces';
 import { makeMixed, ResponseDomain} from './responsedomain.classes';
+import { TemplateService } from '../template/template.service';
 
 @Component({
   selector: 'qddt-responsedomain-select-missing',
   moduleId: module.id,
-  providers: [CategoryService],
-  styles: [
-      `.minHeight { min-height: 400px; height: auto; }`
+  styles: [ '.minHeight { min-height: 400px; height: auto; }',
   ],
   templateUrl: 'responsedomain.select-missing.component.html',
 })
@@ -33,8 +31,12 @@ export class ResponsedomainSelectMissingComponent implements OnInit, OnChanges {
 
   private searchKeysListener = new Subject<string>();
   private _rd: ResponseDomain;
+  private pageSearch: IPageSearch;
 
-  constructor(private service: CategoryService) {
+  constructor(private service: TemplateService) {
+    this.pageSearch = { kind: this.CATEGORY_KIND, key: '*',
+                        keys: new Map([['categoryKind', 'MISSING_GROUP']]),
+                        page: new Page(), sort: 'name.asc' };
     this.selectedCategoryIndex = 0;
     this.missingGroups = [];
     this.searchKeysListener
@@ -42,10 +44,9 @@ export class ResponsedomainSelectMissingComponent implements OnInit, OnChanges {
       .distinctUntilChanged()
       .filter(val => val.length > 0)
       .subscribe((name: string) => {
-        this.service.getAllTemplatesByCategoryKind('MISSING_GROUP', name, new Page())
-          .then((result: any) => {
-          this.missingGroups = result.content;
-        });
+        this.pageSearch.key = name;
+        this.service.searchByKind<Category>(this.pageSearch).then(
+          (result) => { this.missingGroups = result.content; });
       });
   }
 
@@ -100,16 +101,6 @@ export class ResponsedomainSelectMissingComponent implements OnInit, OnChanges {
   }
 
 
-  // private deleteChild(representation: Category, categoryType: string) {
-  //   if (!representation.children) {
-  //     return;
-  //   }
-  //   const index = representation.children.findIndex((e: any) => e.categoryType === categoryType);
-  //   if (index >= 0) {
-  //     representation.children.splice(index, 1);
-  //   }
-  // }
-
   private getGroupEntities(representation: Category): Category[] {
     if (representation.categoryType !== 'MIXED') {
       return [representation];
@@ -124,26 +115,4 @@ export class ResponsedomainSelectMissingComponent implements OnInit, OnChanges {
     }
   }
 
-
-  // private newMixedCategory(name: string): any {
-  //   const rep = new Category();
-  //   rep.id = null;
-  //   rep.categoryType = 'MIXED';
-  //   rep.hierarchyLevel = 'GROUP_ENTITY';
-  //   rep.name = rep.description = name;
-  //   return rep;
-  // }
-
-  // private newMixedResponseDomain() {
-  //   const oldResponseDomain = this.responseDomain;
-  //   const rd = new ResponseDomain();
-  //   rd.id = null;
-  //   rd.responseKind = 'MIXED';
-  //   rd.description = 'based on ' + oldResponseDomain.name;
-  //   rd.displayLayout = oldResponseDomain.displayLayout;
-  //   rd.managedRepresentation = this.newMixedCategory('');
-  //   this.getGroupEntities(oldResponseDomain.managedRepresentation).filter(c => c.categoryType !== 'MISSING_GROUP')
-  //     .forEach(c => rd.managedRepresentation.children.push(c));
-  //   return rd;
-  // }
 }

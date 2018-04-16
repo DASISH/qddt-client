@@ -1,17 +1,17 @@
 import { Component, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { SequenceConstruct } from '../controlconstruct.classes';
-import { QDDT_QUERY_INFOES } from '../../shared/classes/constants';
-import { ElementKind } from '../../shared/classes/enums';
-import { IEntityEditAudit } from '../../shared/classes/interfaces';
-import { ElementRevisionRef, Page } from '../../shared/classes/classes';
-import { TemplateService } from '../../template/template.service';
+import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
+import { ElementKind } from '../shared/classes/enums';
+import { IEntityEditAudit } from '../shared/classes/interfaces';
+import { ElementRevisionRef, Page } from '../shared/classes/classes';
+import { TemplateService } from '../template/template.service';
+import { SequenceConstruct } from './sequence-construct.classes';
 
 declare var Materialize: any;
 
 @Component({
   selector: 'qddt-sequence-form',
   moduleId: module.id,
-  templateUrl: './sequenceconstruct.form.component.html',
+  templateUrl: './sequence-construct.form.component.html',
   styles: [ ]
 })
 
@@ -27,9 +27,8 @@ export class SequenceFormComponent implements OnChanges {
   constructor(private service: TemplateService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    Materialize.updateTextFields();
+    try { Materialize.updateTextFields(); } catch (e) {}
   }
-
 
   onSaveSequence() {
     this.service.update(this.sequence)
@@ -49,8 +48,9 @@ export class SequenceFormComponent implements OnChanges {
       },
       ( error ) => { throw error; } );
   }
+
   public onSearchElements(search: string) {
-    this.service.searchByKind(ElementKind.QUESTION_CONSTRUCT, search, new Page( { size: 15 } ) ).then(
+    this.service.searchByKind( { kind: this.QUESTION, key: search, page: new Page( { size: 15 } ) } ).then(
       (result) => { this.questionConstrucs = result.content; },
       (error) => { throw error; } );
   }

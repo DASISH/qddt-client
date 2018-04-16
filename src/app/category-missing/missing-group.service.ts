@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { API_BASE_HREF } from '../api';
 import { Page } from '../shared/classes/classes';
-import { Category } from './category.classes';
+import { Category } from '../category/category.classes';
 
 
 @Injectable()

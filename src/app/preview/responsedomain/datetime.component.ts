@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { ResponseDomain } from '../../responsedomain/responsedomain.service';
+import { ResponseDomain } from '../../responsedomain/responsedomain.classes';
 
 @Component({
   selector: 'qddt-preview-rd-datetime',

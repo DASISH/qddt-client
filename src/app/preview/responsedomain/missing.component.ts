@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ResponseDomain } from '../../responsedomain/responsedomain.service';
+import { ResponseDomain } from '../../responsedomain/responsedomain.classes';
 
 @Component({
   selector: 'qddt-preview-rd-missing',

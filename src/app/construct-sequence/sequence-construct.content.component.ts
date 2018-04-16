@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
-import { QddtMessageService} from '../../core/global/message.service';
-import { IElement, IEntityAudit } from '../../shared/classes/interfaces';
+import { QddtMessageService} from '../core/global/message.service';
+import { IElement, IEntityAudit } from '../shared/classes/interfaces';
 
 @Component({
   selector: 'qddt-sequence-content',
   moduleId: module.id,
-  templateUrl: './sequenceconstruct.content.component.html',
+  templateUrl: './sequence-construct.content.component.html',
   styles: [
     '.control-children { padding-left: 20px }',
   ],

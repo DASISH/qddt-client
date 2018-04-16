@@ -23,15 +23,19 @@ import { ControlConstructModule } from './controlconstruct/controlconstruct.modu
 import { InstrumentModule } from './instrument/instrument.module';
 import { PublicationModule } from './publication/publication.module';
 import { TemplateModule } from './template/template.module';
+import { TemplateService } from './template/template.service';
+import { QuestionConstructModule } from './construct-question/question-construct.module';
+import { SequenceModule } from './construct-sequence/sequence-construct.module';
+import { MissingGroupModule } from './category-missing/missing-group.module';
 
 @NgModule({
   imports: [ BrowserModule, HttpClientModule,  SharedModule, CoreModule, HomeModule, MenuModule,
-    CategoryModule, ResponsedomainModule, QuestionModule, ControlConstructModule, PreviewModule,
-    InstrumentModule, PublicationModule, TemplateModule, routing ],
+    CategoryModule, MissingGroupModule, ResponsedomainModule, QuestionModule, ControlConstructModule, PreviewModule,
+    InstrumentModule, PublicationModule, TemplateModule, QuestionConstructModule, SequenceModule, routing ],
 
     declarations: [ AppComponent, PageNotFoundComponent ],
 
-    providers: [ ErrorLogService,
+    providers: [ ErrorLogService, TemplateService,
     { provide: APP_BASE_HREF, useValue: environment.APP_BASE },
     { provide: API_BASE_HREF, useValue: environment.API_BASE },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { API_BASE_HREF } from '../api';
 import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
 import { ElementKind} from '../shared/classes/enums';
-import { IEntityAudit} from '../shared/classes/interfaces';
+import { IEntityAudit, IRevisionResultEntity, IPageResult} from '../shared/classes/interfaces';
 import { ElementRevisionRef, QueryInfo} from '../shared/classes/classes';
 import {Instrument} from '../instrument/instrument.classes';
 
@@ -71,13 +71,13 @@ export class PublicationService {
   });
   }
 
-  public getRevisionsByKind(kind: ElementKind, id: string): Promise<any> {
+  public getRevisionsByKind(kind: ElementKind, id: string): Promise<IPageResult<IRevisionResultEntity>> {
     const qe = QDDT_QUERY_INFOES[kind];
     if (qe) {
       if (kind === ElementKind.CONCEPT || kind === ElementKind.TOPIC_GROUP) {
-        return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/allinclatest').toPromise();
+        return this.http.get<IPageResult<IRevisionResultEntity>>(this.api + 'audit/' + qe.path + '/' + id + '/allinclatest').toPromise();
       } else {
-        return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/all').toPromise();
+        return this.http.get<IPageResult<IRevisionResultEntity>>(this.api + 'audit/' + qe.path + '/' + id + '/all').toPromise();
       }
     }
     return new Promise(null);

@@ -7,7 +7,9 @@ export  function getElementKind(kind: string|ElementKind): ElementKind {
 }
 
 export const QDDT_QUERY_INFOES: QueryInfo[] = [
-  new QueryInfo(ElementKind.CATEGORY, 'Category', 'category', ['name'], null),
+  new QueryInfo(ElementKind.NONE, '', '', [], null),
+  new QueryInfo(ElementKind.CATEGORY, 'Category', 'category', ['name'], '&category=CATEGORY'),
+  new QueryInfo(ElementKind.MISSING_GROUP, 'Missing Values', 'category', ['name'], '&category=MISSING_GROUP'),
   new QueryInfo(ElementKind.CONCEPT, 'Concept', 'concept', ['name'], null),
   new QueryInfo(ElementKind.CONTROL_CONSTRUCT, 'Construct', 'controlconstruct', ['name'],
     '&constructkind=CONTROL_CONSTRUCT'),
@@ -35,10 +37,10 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
 
 export  const HEADER_DETAILS: Map<string, IHeaderDetail>  = new Map([
   ['categories', { icon: 'view_comfy', headerName: 'Categories', kind: ElementKind.CATEGORY }],
+  ['schemes', { icon: 'view_module', headerName: 'Missing Values', kind: ElementKind.MISSING_GROUP }],
   ['questionitems', { icon: 'view_agenda', headerName: 'QuestionItems' , kind: ElementKind.QUESTION_ITEM}],
   ['questions', { icon: 'view_agenda', headerName: 'Question constructs' , kind: ElementKind.QUESTION_CONSTRUCT}],
   ['sequences', { icon: 'format_line_spacing', headerName: 'Sequence construct', kind: ElementKind.SEQUENCE_CONSTRUCT }],
-  ['schemes', { icon: 'view_module', headerName: 'Missing values', kind: ElementKind.CATEGORY }],
   ['responsedomains', { icon: 'blur_linear', headerName: 'Response domains', kind: ElementKind.RESPONSEDOMAIN }],
   ['instruments', { icon: 'tablet_mac', headerName: 'Instruments', kind: ElementKind.INSTRUMENT }],
   ['publications', { icon: 'folder_special', headerName: 'Publication packages', kind: ElementKind.PUBLICATION }],

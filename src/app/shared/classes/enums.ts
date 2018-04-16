@@ -8,7 +8,9 @@ export enum ActionKind {
 }
 
 export enum ElementKind {
-  CATEGORY = 0,
+  NONE = 0,
+  CATEGORY,
+  MISSING_GROUP,
   CONCEPT,
   CONTROL_CONSTRUCT,
   CONDITION_CONSTRUCT,

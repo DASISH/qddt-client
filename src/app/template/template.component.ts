@@ -1,10 +1,11 @@
-import {OnChanges, Component, SimpleChanges} from '@angular/core';
+import { OnChanges, Component, SimpleChanges, OnDestroy} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { QddtMessageService } from '../core/global/message.service';
 import { Factory } from '../shared/classes/factory';
-import {IEntityEditAudit} from '../shared/classes/interfaces';
-import {ActionKind, ElementKind} from '../shared/classes/enums';
-import {HEADER_DETAILS} from '../shared/classes/constants';
+import { IEntityEditAudit } from '../shared/classes/interfaces';
+import { ActionKind, ElementKind } from '../shared/classes/enums';
+import { HEADER_DETAILS } from '../shared/classes/constants';
+import { TemplateService } from './template.service';
 
 declare var Materialize: any;
 
@@ -15,17 +16,21 @@ declare var Materialize: any;
   templateUrl: './template.component.html',
 })
 
-export class TemplateComponent implements OnChanges {
+export class TemplateComponent implements OnChanges, OnDestroy {
 
+  public formId = Math.round( Math.random() * 10000);
   public icon: any;
   public headerName: string;
   public newItem: IEntityEditAudit;
   public showForm = false;
   private kind: ElementKind;
+  private alive = true;
 
 
-  constructor( private route: ActivatedRoute,  private  messages: QddtMessageService ) {
-    this.route.url.subscribe((event) => {
+  constructor( private route: ActivatedRoute,  private  messages: QddtMessageService, private service: TemplateService ) {
+    this.route.url
+    .takeWhile(() => this.alive)
+    .subscribe((event) => {
       const path = this.route.firstChild.routeConfig.path;
       if (HEADER_DETAILS.has(path)) {
         this.kind = HEADER_DETAILS.get(path).kind;
@@ -35,17 +40,28 @@ export class TemplateComponent implements OnChanges {
     });
   }
 
+  public canWrite(): boolean {
+    return this.service.can(ActionKind.Create, this.kind);
+  }
+
+
   onToggleForm() {
-    this.showForm = !this.showForm;
-    if (!this.showForm) {
-      this.messages.sendAction(  { id: '', action: ActionKind.Update, object: null });
-    }
-    if (this.showForm ) {
-       this.newItem = Factory.createInstance(this.kind);
+    if (this.canWrite ) {
+      this.showForm = !this.showForm;
+      if (!this.showForm) {
+        this.messages.sendAction(  { id: '', action: ActionKind.Update, object: null });
+      }
+      if (this.showForm ) {
+        this.newItem = Factory.createInstance(this.kind);
+      }
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     try { Materialize.updateTextFields(); } catch (Exception) { }
+  }
+
+  ngOnDestroy(): void {
+    this.alive = false;
   }
 }

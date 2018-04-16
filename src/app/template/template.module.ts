@@ -4,7 +4,6 @@ import { TemplateComponent } from './template.component';
 import { TemplateListComponent } from './template-list.component';
 import { TemplateDetailComponent } from './template-detail.component';
 import { TemplateService } from './template.service';
-// import { TemplateRoutingModule } from './template.routes';
 
 @NgModule({
   imports: [ SharedModule ],

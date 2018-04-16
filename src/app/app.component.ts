@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation, OnDestroy  } from '@angular/core';
 import { UserService } from './core/user/user.service';
-import { PropertyStoreService } from './core/global/property.service';
+import { QddtPropertyStoreService } from './core/global/property.service';
 import { QddtMessageService } from './core/global/message.service';
 import { Subscription } from 'rxjs/Subscription';
 import { IElement, IIdRef, IRevisionRef } from './shared/classes/interfaces';
@@ -23,8 +23,9 @@ export class AppComponent  implements OnDestroy {
 
   subscription: Subscription;
 
-  constructor(private userService: UserService, private  properties: PropertyStoreService, private messageService: QddtMessageService ) {
-    this.subscription = this.messageService.getMessage()
+  constructor(private users: UserService, private  properties: QddtPropertyStoreService, private messages: QddtMessageService ) {
+
+    this.subscription = this.messages.getMessage()
       .subscribe((message) => this.showMessage(message));
 
   }
@@ -35,7 +36,7 @@ export class AppComponent  implements OnDestroy {
   }
 
   isLoggedIn(): boolean {
-    return !this.userService.isTokenExpired();
+    return !this.users.isTokenExpired();
   }
 
   onInstruments() {

@@ -15,8 +15,8 @@ export const CORE_ROUTES: Routes = [
     children: [
       { path: '', redirectTo: '/login', pathMatch: 'full'},
       { path: 'login', component: LoginComponent },
-      { path: 'register', canActivate: [AuthGuard], component: RegisterComponent },
-      { path: 'resetpassword', canActivate: [AuthGuard], component: ResetpasswordComponent } ],
+      { path: 'register', component: RegisterComponent, canActivate: [AuthGuard] },
+      { path: 'resetpassword', component: ResetpasswordComponent, canActivate: [AuthGuard] } ],
   }
 ];
 

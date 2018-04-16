@@ -15,7 +15,7 @@ export enum HIERARCHY_POSITION {
  * In memmory store...
  */
 @Injectable()
-export class PropertyStoreService {
+export class QddtPropertyStoreService {
 
   currentChange$: Observable<HIERARCHY_POSITION>;
   // Observable navItem source

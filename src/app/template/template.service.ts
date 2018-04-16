@@ -7,7 +7,7 @@ import { Authority } from '../core/user/authority';
 import { Page } from '../shared/classes/classes';
 import { ActionKind, ElementKind} from '../shared/classes/enums';
 import { QDDT_QUERY_INFOES} from '../shared/classes/constants';
-import {IEntityAudit, IEntityEditAudit, IPageResult, IRevisionResult} from '../shared/classes/interfaces';
+import { IEntityAudit, IEntityEditAudit, IPageResult, IRevisionResult, IPageSearch } from '../shared/classes/interfaces';
 
 @Injectable()
 export class TemplateService {
@@ -18,9 +18,9 @@ export class TemplateService {
     userService.getRoles().forEach((role) => this.roles += +Authority[role]);
   }
 
-  public searchByKind<T extends IEntityAudit>(kind: ElementKind, search: string = '',  page: Page = new Page()): Promise<IPageResult<T>> {
-    const qe = QDDT_QUERY_INFOES[kind];
-    const args = search.split(' ');
+  public searchByKind<T extends IEntityAudit>(pageSearch: IPageSearch): Promise<IPageResult<T>> {
+    const qe = QDDT_QUERY_INFOES[pageSearch.kind];
+    const args = pageSearch.key.split(' ');
     const queries = [];
 
     if (args.length <= qe.fields.length) {
@@ -29,27 +29,34 @@ export class TemplateService {
       }
     } else {
       for (let i = 0; i < qe.fields.length; i++) {
-        queries.push(qe.fields[i] + '=' + search.trim() );
+        queries.push(qe.fields[i] + '=' + pageSearch.key.trim() );
       }
+    }
+
+    if (pageSearch.keys) {
+      pageSearch.keys.forEach( (value, key) => queries.push(key + '=' + value ) );
     }
 
     let query = '?' ;
 
     if (queries.length > 0) { query = '?' + queries.join('&'); }
 
-    query += page.queryPage();
+    query += pageSearch.page.queryPage();
 
     if (qe.parameter) { query += qe.parameter; }
+
+    if ( pageSearch.sort ) { query += '&sort=' + pageSearch.sort; }
+
 
     return this.http.get<IPageResult<T>>(this.api + qe.path + '/page/search/' + query).toPromise();
   }
 
-  public getItemByKind(kind: ElementKind, id: string ): Promise<IEntityEditAudit> {
+  public getItemByKind<T extends IEntityEditAudit>(kind: ElementKind, id: string ): Promise<T> {
     const qe = QDDT_QUERY_INFOES[kind];
-    return this.http.get<IEntityEditAudit>(this.api + qe.path + '/' + id).toPromise();
+    return this.http.get<T>(this.api + qe.path + '/' + id).toPromise();
   }
 
-    public getRevisionsByKind<T extends IEntityAudit>(kind: ElementKind, id: string): Promise<IPageResult<IRevisionResult<T>>> {
+  public getRevisionsByKind<T extends IEntityAudit>(kind: ElementKind, id: string): Promise<IPageResult<IRevisionResult<T>>> {
     const qe = QDDT_QUERY_INFOES[kind];
     if (qe) {
       if (kind === ElementKind.CONCEPT || kind === ElementKind.TOPIC_GROUP) {

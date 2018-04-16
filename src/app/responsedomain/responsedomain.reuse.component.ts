@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { MaterializeAction } from 'angular2-materialize';
-import { DomainKind, DOMAIN_TYPE_DESCRIPTION } from './responsedomain.classes';
-import { ResponseDomain, ResponseDomainService } from './responsedomain.service';
+import { DomainKind, DOMAIN_TYPE_DESCRIPTION, ResponseDomain } from './responsedomain.classes';
+import { ResponseDomainService } from './responsedomain.service';
 import { Subject } from 'rxjs/Subject';
 import { ElementRevisionRef, Page } from '../shared/classes/classes';
 import { ElementKind } from '../shared/classes/enums';

@@ -1,9 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-
-import { ControlConstructService } from '../controlconstruct.service';
 import { QDDT_QUERY_INFOES } from '../../shared/classes/constants';
 import { ElementKind } from '../../shared/classes/enums';
 import { Instruction } from '../controlconstruct.classes';
+import { TemplateService } from '../../template/template.service';
 
 @Component({
   selector: 'qddt-instruction-create',
@@ -20,7 +19,7 @@ export class InstructionComponent {
   public instructionList: any[];
   public isInstructionNew: boolean;
 
-  constructor(private service: ControlConstructService) {
+  constructor(private service: TemplateService) {
     this.instruction = new Instruction();
     this.instructionList = [];
     this.instruction.description = '';
@@ -33,10 +32,11 @@ export class InstructionComponent {
 
   onSearchInstructions(key: string) {
     this.instruction.description = key;
-    this.service.searchByKind(ElementKind.INSTRUCTION, key).then((result: any) => {
-      this.instructionList = result.content;
-      this.isInstructionNew = this.instructionList.length === 0;
-    });
+    this.service.searchByKind( {kind: this.INSTRUCTION, key: key }).then(
+      (result: any) => {
+        this.instructionList = result.content;
+        this.isInstructionNew = this.instructionList.length === 0;
+      });
   }
 
   onSelectInstruction(instruction: any) {

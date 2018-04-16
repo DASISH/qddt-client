@@ -2,9 +2,9 @@ import { Component, ViewChild } from '@angular/core';
 
 
 @Component({
-  selector: 'qddt-control-construct-detail',
+  selector: 'qddt-question-construct-detail',
   moduleId: module.id,
-  templateUrl: './questionconstruct.detail.component.html',
+  templateUrl: './question-construct.detail.component.html',
 })
 
 export class QuestionConstructDetailComponent {

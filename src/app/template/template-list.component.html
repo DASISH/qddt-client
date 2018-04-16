@@ -2,9 +2,8 @@
   <div class="indeterminate"></div>
 </div>
 <div *ngIf="items">
-  <qddt-table [items]="items" [page]="page"  [elementKind]="kind"
-              (enterEvent)="onSearchKey($event)"
-              (detailEvent)="onDetail($event)"
-              (pageChangeEvent)="onPage($event)">
+  <qddt-table [items]="items" [pageSearch]="pageSearch"
+              (fetchEvent)="onFetchItems($event)"
+              (detailEvent)="onDetail($event)">
   </qddt-table>
 </div>

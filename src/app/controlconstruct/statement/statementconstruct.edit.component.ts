@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { ControlConstructService } from '../controlconstruct.service';
 import { StatementConstruct } from '../controlconstruct.classes';
+import { TemplateService } from '../../template/template.service';
 
 
 @Component({
@@ -14,7 +14,7 @@ export class StatementEditComponent implements OnInit {
   statement: StatementConstruct;
   elementId: string;
 
-  constructor(private service: ControlConstructService) {
+  constructor(private service: TemplateService) {
   }
 
   ngOnInit() {
@@ -22,7 +22,7 @@ export class StatementEditComponent implements OnInit {
   }
 
   onCreate() {
-    this.service.updateStatement(this.statement)
+    this.service.update(this.statement)
       .subscribe(
         (result) => { this.element.emit(result); },
         (error) => { throw error; }

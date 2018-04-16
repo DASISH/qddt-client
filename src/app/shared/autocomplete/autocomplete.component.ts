@@ -1,5 +1,5 @@
 import {Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges} from '@angular/core';
-import {IElement, IEntityAudit} from '../classes/interfaces';
+import { IElement, IEntityAudit} from '../classes/interfaces';
 import { QueryInfo } from '../classes/classes';
 import { ElementKind } from '../classes/enums';
 import { ElementEnumAware } from '../../preview/preview.service';

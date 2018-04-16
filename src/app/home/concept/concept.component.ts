@@ -1,7 +1,7 @@
 import {AfterContentChecked, Component, EventEmitter, OnInit} from '@angular/core';
 import { MaterializeAction } from 'angular2-materialize';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PropertyStoreService } from '../../core/global/property.service';
+import { QddtPropertyStoreService } from '../../core/global/property.service';
 import {ElementKind} from '../../shared/classes/enums';
 import {Concept, Topic} from '../home.classes';
 import {HomeService} from '../home.service';
@@ -29,7 +29,7 @@ export class ConceptComponent implements OnInit, AfterContentChecked {
   private concept: any;
 
   constructor(private router: Router, private route: ActivatedRoute,
-              private conceptService: HomeService, private property: PropertyStoreService) {
+              private conceptService: HomeService, private property: QddtPropertyStoreService) {
     this.concept = new Concept();
    }
 

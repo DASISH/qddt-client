@@ -2,25 +2,25 @@ import { Component, Input, PipeTransform, Pipe, EventEmitter, Output } from '@an
 import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { API_BASE_HREF } from '../../api';
+import { API_BASE_HREF } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
-import { QuestionConstructFormComponent } from './questionconstruct.form.component';
-import { ControlConstructService } from '../controlconstruct.service';
+import { QuestionConstructFormComponent } from './question-construct.form.component';
+import { TemplateService } from '../template/template.service';
 
 export function main() {
   describe('Controlconstruct form component', () => {
     //
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [RevisionComponent, ControlConstructQuestionItemSelectComponent,
+        declarations: [RevisionComponent, QuestionConstructQuestionItemSelectComponent,
           CommentListComponent, AuthorChipComponent, InstructionComponent,
           QddtAutoCompleteComponent, TableComponent, QuestionitemDetailComponent,
           ResponsedomainPreviewComponent, RevisionDetailComponent, RationalComponent,
           QuestionConstructFormComponent],
         providers: [
-          { provide: ControlConstructService, useClass: ControlConstructServiceSpy },
+          { provide: TemplateService, useClass: QuestionConstructServiceSpy },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
@@ -70,8 +70,8 @@ export function main() {
 }
 
 // override dependencies
-class ControlConstructServiceSpy {
-  getControlConstruct = jasmine.createSpy('getControlConstruct').and.callFake(function (key) {
+class QuestionConstructServiceSpy {
+  getQuestionConstruct = jasmine.createSpy('getQuestionConstruct').and.callFake(function (key) {
     return [];
   });
 }
@@ -125,7 +125,7 @@ class TableComponent {
   template: `<div></div>`
 })
 
-class ControlConstructQuestionItemSelectComponent {
+class QuestionConstructQuestionItemSelectComponent {
   @Input() controlConstruct;
   @Output() useQuestionItemEvent = new EventEmitter<any>();
 }

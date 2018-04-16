@@ -1,6 +1,6 @@
 import {  Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HIERARCHY_POSITION, PropertyStoreService } from '../../core/global/property.service';
+import { HIERARCHY_POSITION, QddtPropertyStoreService } from '../../core/global/property.service';
 import { Study, SurveyProgram } from '../home.classes';
 import { HomeService} from '../home.service';
 
@@ -18,7 +18,7 @@ export class StudyComponent implements OnInit {
   public revision: any;
 
   constructor(  private router: Router, private route: ActivatedRoute,
-                private studyService: HomeService, private property: PropertyStoreService) {
+                private studyService: HomeService, private property: QddtPropertyStoreService) {
     this.study = new Study();
   }
 

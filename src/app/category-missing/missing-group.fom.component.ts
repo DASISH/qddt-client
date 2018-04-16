@@ -1,21 +1,23 @@
-import { Component, EventEmitter, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit, Input } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { PropertyStoreService } from '../core/global/property.service';
+import { QddtPropertyStoreService } from '../core/global/property.service';
 import { Page } from '../shared/classes/classes';
 import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
 import { ElementKind } from '../shared/classes/enums';
-import { Category, ResponseCardinality } from './category.classes';
-import { CategoryService } from './category.service';
+import { IElement } from '../shared/classes/interfaces';
+import { Category, ResponseCardinality } from '../category/category.classes';
+import { CategoryService } from './missing-group.service';
 
 declare let Materialize: any;
 
 @Component({
-  selector: 'qddt-category-scheme',
+  selector: 'qddt-missing-group-form',
   moduleId: module.id,
-  templateUrl: './category.scheme.component.html',
+  templateUrl: './missing-group.component.html',
 })
 
-export class CategorySchemeComponent implements OnInit {
+export class MissingGroupFormComponent implements OnInit {
+  @Input() category: Category;
   @Output() selectedEvent =  new EventEmitter<any>();
 
   public readonly CATEGORY = ElementKind.CATEGORY;
@@ -27,7 +29,6 @@ export class CategorySchemeComponent implements OnInit {
 
   public selectedCategoryIndex: number;
   public selectedCategory: Category;
-  public category: Category;
 
   public page = new Page();
   public missingCategories: any[];
@@ -36,7 +37,7 @@ export class CategorySchemeComponent implements OnInit {
   private searchKeys: string;
   private searchKeysListener: Subject<string> = new Subject<string>();
 
-  constructor(private categoryService: CategoryService, private property: PropertyStoreService) {
+  constructor(private categoryService: CategoryService, private property: QddtPropertyStoreService) {
     this.categories = [];
     this.missingCategories = [];
     this.searchKeysListener
@@ -96,11 +97,11 @@ export class CategorySchemeComponent implements OnInit {
     }
   }
 
-  public onSelect(candidate: any) {
+  public onSelect(candidate: IElement) {
     if (this.isDetail) {
-      this.selectedCategory.children[this.selectedCategoryIndex] = candidate;
+      this.selectedCategory.children[this.selectedCategoryIndex] = candidate.element;
     } else {
-      this.category.children[this.selectedCategoryIndex] = candidate;
+      this.category.children[this.selectedCategoryIndex] = candidate.element;
     }
   }
 

@@ -4,7 +4,7 @@ import { Component,  ViewChild } from '@angular/core';
 @Component({
   selector: 'qddt-sequence-detail',
   moduleId: module.id,
-  templateUrl: './sequenceconstruct.detail.component.html',
+  templateUrl: './sequence-construct.detail.component.html',
 })
 
 

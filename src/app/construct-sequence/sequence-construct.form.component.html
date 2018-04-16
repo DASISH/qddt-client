@@ -1,43 +1,40 @@
 <form (ngSubmit)="onSaveSequence()" #sequenceform="ngForm" card>
 
   <div class="row input-field">
-    <label [attr.for]="sequence.id + '-name'" class="teal-text">Name</label>
     <input name="{{sequence?.id}}-name" type="text" class="validate" required
-      [(ngModel)]="sequence.name"
-      materialize="characterCounter" data-length="255">
+      [(ngModel)]="sequence.name" materialize="characterCounter" data-length="255">
+    <label [attr.for]="sequence.id + '-name'" class="teal-text">Name</label>
   </div>
 
   <div class="row input-field">
-    <label [attr.for]="sequence.id + '-label'" class="teal-text">Name</label>
     <input name="{{sequence?.id}}-label" type="text" class="validate" required
-           [(ngModel)]="sequence.label"
-           materialize="characterCounter" data-length="255">
+           [(ngModel)]="sequence.label" materialize="characterCounter" data-length="255">
+    <label [attr.for]="sequence.id + '-label'" class="teal-text">Label</label>
   </div>
 
   <div class="row input-field ">
-    <label [attr.for]="sequence.id + '-description'" class="active teal-text">Description</label>
     <textarea [attr.id]="sequence.id + '-description'"
               name="{{sequence.id}}-description" class="materialize-textarea"
               [(ngModel)]="sequence.description"
               materialize="characterCounter" data-length="255">
-              </textarea>
+    </textarea>
+    <label [attr.for]="sequence.id + '-description'" class="active teal-text">Description</label>
   </div>
 
-  <qddt-auto-complete
-    [items]="questionConstrucs"
-    [elementKind]="QUESTION"
-    (selectEvent)="onSelectElement($event)"
-    (enterEvent)="onSearchElements($event)">
-  </qddt-auto-complete>
+  <qddt-item-revision-select
+    [showProgressBar] = "showProgressBar"
+    [kind] = "QUESTION"
+    [itemList] = "questionConstrucs"
+    [revisionList] = "revisions"
+    (enterEvent) = "onSearchElements($event)"
+    (revisionEvent) = "onRevisonSearch($event)"
+    (selectEvent) = "onRevisionSelected($event)"
+    (dismissEvent) ="onSelectCanceled()">
+  </qddt-item-revision-select>
 
-  <qddt-revision-select *ngIf="revisions"
-    [elementRevisions]="revisions"
-    (selectedEvent)="onRevisionSelected($event)"
-    (dismissEvent)="onSelectCanceled($event)">
-  </qddt-revision-select>
+  <P> -----> </P>
 
-
-  <qddt-preview-controlconstruct [construct]="sequence"></qddt-preview-controlconstruct>
+  <qddt-sequence-content [sequence]="sequence.sequence"></qddt-sequence-content>
 
   <div class="row" *ngIf="!readonly && sequence.id">
     <qddt-rational [formName]="'RationalComp'" [element]="sequence" [config]="{hidden: [4]}"></qddt-rational>

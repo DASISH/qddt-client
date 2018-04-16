@@ -1,7 +1,7 @@
 import { AfterContentChecked, Component, OnInit } from '@angular/core';
 import { ActivatedRoute,  Router } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
-import { HIERARCHY_POSITION, PropertyStoreService } from '../../core/global/property.service';
+import { HIERARCHY_POSITION, QddtPropertyStoreService } from '../../core/global/property.service';
 import { HomeService } from '../home.service';
 import { QddtMessageService } from '../../core/global/message.service';
 import { ElementKind } from '../../shared/classes/enums';
@@ -32,7 +32,7 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
   public newTopic: Topic;
 
   constructor(private router: Router, private route: ActivatedRoute,
-              private topicService: HomeService, private property: PropertyStoreService,
+              private topicService: HomeService, private property: QddtPropertyStoreService,
               private message: QddtMessageService ) {
     this.newTopic = new Topic();
   }

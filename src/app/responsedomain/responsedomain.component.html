@@ -27,12 +27,10 @@
   <div *ngIf="isProgressBarVisible && !isEditFormVisible" class="progress">
       <div class="indeterminate"></div>
   </div>
-  <qddt-table *ngIf="!isEditFormVisible" [items]="responseDomains" [page]="page"
+  <qddt-table *ngIf="!isEditFormVisible" [items]="responseDomains" [pageSearch]="pageSearch"
       [domainkind]="domainType"
-      [elementKind]="RESPONSEDOMAIN"
-      (enterEvent)="onSearchResponseDomains($event)"
-      (detailEvent)="onSelectDetail($event)"
-      (pageChangeEvent)="onPage($event)">
+      (fetchEvent)="onFetchItems($event)"
+      (detailEvent)="onSelectDetail($event)">
   </qddt-table>
 
 <div class="row" *ngIf="isEditFormVisible">

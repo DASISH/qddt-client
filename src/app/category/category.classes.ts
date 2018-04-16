@@ -1,26 +1,44 @@
 import { IEntityEditAudit } from '../shared/classes/interfaces';
 import { ElementKind } from '../shared/classes/enums';
-import {Page} from '../shared/classes/classes';
+import { Page } from '../shared/classes/classes';
+import { ParseErrorLevel } from '@angular/compiler';
 
 
-export class CategoryType {
-
-  public static element: any = [
-    ['DATETIME', 'Datetime'],
-    ['NUMERIC', 'Numeric'],
-    ['TEXT', 'Text'],
-    ['CATEGORY', 'Category']
-  ];
-
-  public static group: any = [
-    ['LIST', 'List'],
-    ['MISSING_GROUP', 'Missing-Group'],
-    ['SCALE', 'Scale'],
-    ['MIXED', 'Mixed']
-  ];
+export enum CategoryKind {
+  DATETIME,
+  TEXT,
+  NUMERIC,
+  BOOLEAN,
+  URI,
+  CATEGORY,
+  MISSING_GROUP,
+  LIST,
+  SCALE,
+  MIXED
 }
 
-  export class ResponseCardinality {
+export enum HierachyLevel { ENTITY, GROUP_ENTITY }
+
+export interface ICategoryInfo {
+  kind: CategoryKind;
+  level: HierachyLevel;
+  description: string;
+}
+
+export const CATEGORY_INFO: ICategoryInfo[] = [
+  {kind: CategoryKind.DATETIME, level: HierachyLevel.ENTITY , description: 'Datetime'},
+  {kind: CategoryKind.TEXT, level: HierachyLevel.ENTITY , description: 'Text'},
+  {kind: CategoryKind.NUMERIC, level: HierachyLevel.ENTITY , description: 'Numeric'},
+  {kind: CategoryKind.DATETIME, level: HierachyLevel.ENTITY , description: 'Boolean'},
+  {kind: CategoryKind.URI, level: HierachyLevel.ENTITY , description: 'Uniform Resource Identifier'},
+  {kind: CategoryKind.CATEGORY, level: HierachyLevel.ENTITY , description: 'Code'},
+  {kind: CategoryKind.MISSING_GROUP, level: HierachyLevel.GROUP_ENTITY , description: 'CodeList Missing value'},
+  {kind: CategoryKind.LIST, level: HierachyLevel.GROUP_ENTITY , description: 'CodeList'},
+  {kind: CategoryKind.SCALE, level: HierachyLevel.GROUP_ENTITY , description: 'ScaleDomain'},
+  {kind: CategoryKind.MIXED, level: HierachyLevel.GROUP_ENTITY , description: 'Mixed Mananged representation'},
+];
+
+export class ResponseCardinality {
   minimum: number;
   maximum: number;
   constructor() {
@@ -42,15 +60,15 @@ export class Category implements IEntityEditAudit {
   id: string;
   name = '';
   label = '';
-  description = '';
-  hierarchyLevel = '';
-  categoryType = '';
+  description =  CATEGORY_INFO[CategoryKind.CATEGORY].description;
+  hierarchyLevel = CATEGORY_INFO[CategoryKind.CATEGORY].level.toString();
+  categoryType = CategoryKind[CategoryKind.CATEGORY];
   classKind = ElementKind[ElementKind.CATEGORY];
   inputLimit = new ResponseCardinality();
   children: Category[] = [];
-  comments: any[];
-  code = new Code();
-  format: any;
+  comments?: any[];
+  code?: Code;
+  format?: any;
   public constructor(init?: Partial<Category>) {
     Object.assign(this, init);
   }

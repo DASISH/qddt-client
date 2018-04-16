@@ -4,6 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import { ElementRevisionRef, QueryInfo } from '../shared/classes/classes';
 import { ElementKind } from '../shared/classes/enums';
 import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
+import { IElement } from '../shared/classes/interfaces';
 
 @Component({
   selector: 'qddt-publication-reuse',
@@ -49,10 +50,10 @@ export class PublicationReuseComponent  {
       });
   }
 
-  public onSelectElement(item ) {
+  public onSelectElement(item: IElement ) {
     this.revisions = null;
     this.showProgressBar = true;
-    this.service.getRevisionsByKind( this.selectedElementKind, item.id).then(
+    this.service.getRevisionsByKind( this.selectedElementKind, item.element.id).then(
       (result) => {
         this.revisions = result.content;
         this.showProgressBar = false;

@@ -50,7 +50,6 @@ export class Page {
   size = 10;
   totalElements?: number;
   totalPages?: number;
-  sort = '';  // default to no sort
 
   public constructor(init?: Partial<Page>) {
     Object.assign(this, init);
@@ -60,7 +59,6 @@ export class Page {
   public queryPage(): string {
     let query = '&page=' + this.number.toString();
     query += '&size=' + this.getSize();
-    query += (this.sort) ? '&sort=' + this.sort : '';
     return query;
   }
 

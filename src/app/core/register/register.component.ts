@@ -11,6 +11,7 @@ export class RegisterComponent implements OnInit {
   model = {name: '', password: '', email: '', agency: {} };
   agencies: Array<Agency> = [];
   loading = false;
+
   constructor(private authService: UserService, public router: Router ) {
   }
 

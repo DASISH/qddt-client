@@ -3,7 +3,7 @@ import { Page } from '../../shared/classes/classes';
 import { ConditionCommand, ConditionConstruct} from '../controlconstruct.classes';
 import { QDDT_QUERY_INFOES} from '../../shared/classes/constants';
 import { ElementKind} from '../../shared/classes/enums';
-import { ControlConstructService} from '../controlconstruct.service';
+import { TemplateService } from '../../template/template.service';
 
 @Component({
   selector: 'qddt-condition-edit',
@@ -23,7 +23,7 @@ export class ConditionEditComponent implements OnInit {
 
   public readonly CONDITION = ElementKind.CONDITION_CONSTRUCT;
 
-  constructor(public service: ControlConstructService) {
+  constructor(public service: TemplateService) {
     this.ifCondition = new ConditionCommand();
     this.elseConditions = [];
     this.elements = [];
@@ -37,7 +37,7 @@ export class ConditionEditComponent implements OnInit {
 
   onSelectElement(e: any) {
     this.ifCondition.constructId = e.id;
-    this.ifCondition.type = ElementKind.CONDITION_CONSTRUCT;
+    this.ifCondition.type = this.CONDITION;
     this.ifCondition.constructName = e.name;
   }
 
@@ -46,12 +46,12 @@ export class ConditionEditComponent implements OnInit {
       return;
     }
     this.elseConditions[idx].constructId = e.id;
-    this.elseConditions[idx].type = ElementKind.CONDITION_CONSTRUCT;
+    this.elseConditions[idx].type = this.CONDITION;
     this.elseConditions[idx].constructName = e.name;
   }
 
   onSearchElements(key: string) {
-    this.service.searchByKind(ElementKind.CONDITION_CONSTRUCT, key, new Page())
+    this.service.searchByKind( { kind: this.CONDITION, key: key, page: new Page()})
       .then(
         (result) => { this.elements = result.content; },
         (error) => { throw error; });
@@ -60,7 +60,7 @@ export class ConditionEditComponent implements OnInit {
   onCreate() {
     const condition = {'ifCondition': this.ifCondition, 'elseConditions': this.elseConditions};
     this.condition.condition = JSON.stringify(condition);
-    this.service.updateCondition(this.condition)
+    this.service.update(this.condition)
       .subscribe(
         (result) => { this.element.emit(result); },
         (error) => { throw error; }

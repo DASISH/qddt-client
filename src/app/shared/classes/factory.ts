@@ -22,6 +22,7 @@ export class Factory {
   static createInstance(kind: ElementKind): IEntityAudit {
     switch (kind) {
       case ElementKind.CATEGORY:
+      case ElementKind.MISSING_GROUP:
         return new Category();
       case ElementKind.CONCEPT:
         return new Concept();
@@ -60,6 +61,7 @@ export class Factory {
   static createFromSeed(kind: ElementKind, seed: any): IEntityAudit {
     switch (kind) {
       case ElementKind.CATEGORY:
+      case ElementKind.MISSING_GROUP:
         return new Category(seed);
       case ElementKind.CONCEPT:
         return new Concept(seed);

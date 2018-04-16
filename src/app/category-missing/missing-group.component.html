@@ -1,0 +1,10 @@
+<qddt-template-component #detail>
+
+  <qddt-missing-group-form class="qddt-edit"
+    [category] = "templateDetail.newItem"
+    (modifiedEvent) = "onFormModified($event)">
+  </qddt-missing-group-form>
+
+  <router-outlet></router-outlet>
+
+</qddt-template-component>

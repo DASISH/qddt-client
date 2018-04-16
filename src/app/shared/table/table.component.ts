@@ -5,7 +5,7 @@ import { DomainKind } from '../../responsedomain/responsedomain.classes';
 import { ElementEnumAware } from '../../preview/preview.service';
 import { ElementKind } from '../classes/enums';
 import { Page } from '../classes/classes';
-import { IEntityEditAudit } from '../classes/interfaces';
+import { IEntityEditAudit, IPageSearch } from '../classes/interfaces';
 import { QDDT_QUERY_INFOES } from '../classes/constants';
 
 @Component({
@@ -27,15 +27,13 @@ export class QddtTableComponent implements OnInit, OnChanges {
    * totalElements: the total number of elements
    * totalPages: the total pages
    */
-  @Input() elementKind: ElementKind;
   @Input() domainkind: DomainKind;
   @Input() placeholder: String = null;
-  @Input() page: Page;
+  @Input() pageSearch: IPageSearch;
   @Input() items: IEntityEditAudit[];
 
   @Output() detailEvent = new EventEmitter<IEntityEditAudit>();
-  @Output() pageChangeEvent = new EventEmitter<Page>();
-  @Output() enterEvent = new EventEmitter<string>();
+  @Output() fetchEvent = new EventEmitter<IPageSearch>();
 
   public readonly directionSign: { [dir: string]: string; } = {'': '⇳', 'asc':  '▲', 'desc': '▼'};
   public value: string;   // TODO remove this....
@@ -44,7 +42,6 @@ export class QddtTableComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.columns = this.getColumns();
-    if (!this.page) { this.page = new Page; }
     if (!this.items) { this.items = []; }
   }
 
@@ -56,7 +53,6 @@ export class QddtTableComponent implements OnInit, OnChanges {
       this.columns = this.getColumns();
     }
     if (!this.items) { this.items = []; }
-    if (!this.page) { this.page = new Page; }
 
     this.placeholder = this.makePlaceholder(this.value);
 
@@ -94,19 +90,21 @@ export class QddtTableComponent implements OnInit, OnChanges {
 
 
   pageChange(p: number) {
-    this.page.number = p;
-    this.pageChangeEvent.emit(this.page);
+    this.pageSearch.page.number = p;
+    this.pageSearch.sort = this.getSort();
+    this.fetchEvent.emit(this.pageSearch);
   }
 
   enterText(event: any) {
-    this.value = event.target.value;
-    this.placeholder = this.makePlaceholder(this.value);
-    this.enterEvent.emit(this.value);
+    this.pageSearch.key = event.target.value;
+    this.pageSearch.sort = this.getSort();
+    this.fetchEvent.emit(this.pageSearch);
   }
 
   onClearKeywords() {
-    this.value = '';
-    this.enterEvent.emit(this.value);
+    this.pageSearch.key = this.value = '';
+    this.pageSearch.sort = this.getSort();
+    this.fetchEvent.emit(this.pageSearch);
   }
 
   public getSort() {
@@ -128,13 +126,13 @@ export class QddtTableComponent implements OnInit, OnChanges {
       this.columns
         .filter((c) => c.name !== column.name)
         .forEach((col) => col.direction = '');
-      this.page.sort = this.getSort();
-      this.pageChangeEvent.emit(this.page);
+        this.pageSearch.sort = this.getSort();
+        this.fetchEvent.emit(this.pageSearch);
     }
   }
 
   private makePlaceholder(searchString: string): string  {
-    const qe = QDDT_QUERY_INFOES[this.elementKind];
+    const qe = QDDT_QUERY_INFOES[this.pageSearch.kind];
 
     if (!searchString || searchString.length === 0) { return qe.placeholder(); }
 
@@ -154,12 +152,13 @@ export class QddtTableComponent implements OnInit, OnChanges {
   }
 
   private getColumns(): Column[] {
-    if (this.elementKind === ElementKind.RESPONSEDOMAIN) {
+    const kind = this.pageSearch.kind;
+    if (kind === ElementKind.RESPONSEDOMAIN) {
       return RESPONSEDOMAIN_COLUMNS.get(this.domainkind);
     }
 
-    if (LIST_COLUMNS.has(this.elementKind)) {
-      return LIST_COLUMNS.get(this.elementKind);
+    if (LIST_COLUMNS.has(kind)) {
+      return LIST_COLUMNS.get(kind);
     }
 
     return DEFAULT_COLUMNS;

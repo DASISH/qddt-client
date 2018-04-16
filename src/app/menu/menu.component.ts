@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-import { PropertyStoreService, HIERARCHY_POSITION } from '../core/global/property.service';
+import { QddtPropertyStoreService, HIERARCHY_POSITION } from '../core/global/property.service';
 import { UserService } from '../core/user/user.service';
 
 
@@ -21,7 +21,7 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   public username;
   public loggedIn: boolean;
 
-  constructor(private auth: UserService, private property: PropertyStoreService, private router: Router ) {
+  constructor(private auth: UserService, private property: QddtPropertyStoreService, private router: Router ) {
     this.username = this.getUserName();
     this.loggedIn = !this.auth.isTokenExpired();
   }

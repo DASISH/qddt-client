@@ -31,7 +31,7 @@ export class UniverseComponent {
 
   onSearchUniverses(key: string) {
     this.universe.description = key;
-    this.service.searchByKind(ElementKind.UNIVERSE, key, new Page()).then(
+    this.service.searchByKind( { kind: this.UNIVERSE, key: key, page: new Page() } ).then(
       (result: any) => {
         this.universeList = result.content;
         this.isNew = this.universeList.length === 0;
