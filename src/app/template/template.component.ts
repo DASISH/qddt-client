@@ -18,10 +18,11 @@ declare var Materialize: any;
 
 export class TemplateComponent implements OnChanges, OnDestroy {
 
-  public formId = Math.round( Math.random() * 10000);
+  public readonly formId = Math.round( Math.random() * 10000);
+  public newItem: IEntityEditAudit;
+
   public icon: any;
   public headerName: string;
-  public newItem: IEntityEditAudit;
   public showForm = false;
   private kind: ElementKind;
   private alive = true;

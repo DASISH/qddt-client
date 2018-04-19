@@ -54,6 +54,7 @@ export class QuestionFormComponent  implements OnChanges {
   }
 
   onResponseDomainSelected(item: ElementRevisionRef) {
+    console.log(item);
     if (item.element.responseKind === 'MIXED') {
       this.service.update(item.element).subscribe(result => {
         this.questionitem.responseDomain = result;

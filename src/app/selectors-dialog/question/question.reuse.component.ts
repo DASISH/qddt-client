@@ -1,12 +1,10 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { TemplateService } from '../template/template.service';
-import { QuestionItem } from './question.classes';
-import { Page, QueryInfo, ElementRevisionRef } from '../shared/classes/classes';
-import { ElementKind } from '../shared/classes/enums';
-import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
-import { ResponseDomain } from '../responsedomain/responsedomain.classes';
-import { IElement, IRevisionRef } from '../shared/classes/interfaces';
+import { ElementRevisionRef, Page } from '../../shared/classes/classes';
+import { IRevisionRef, IElement } from '../../shared/classes/interfaces';
+import { ElementKind } from '../../shared/classes/enums';
+import { TemplateService } from '../../template/template.service';
+import { QuestionItem } from '../../question/question.classes';
 
 @Component({
   selector: 'qddt-questionitem-reuse',

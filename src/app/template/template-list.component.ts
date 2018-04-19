@@ -39,10 +39,14 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
     this.messages.getAction()
       .takeWhile(() => this.alive)
       .subscribe(event => {
-        if (event.action === ActionKind.Update || event.action === ActionKind.Create) {
+        if (event.action === ActionKind.Update || event.action === ActionKind.Create || event.action === ActionKind.Filter) {
+          if ( event.id === 'ResponseKind') {
+            this.pageSearch.keys = event.object;
+          this.setPageSearch(this.pageSearch);
+          }
           this.loadPage();
         }
-    });
+      });
   }
 
   public ngOnInit(): void {
@@ -88,6 +92,7 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
     this.alive = false;
   }
   getKeys(search: IPageSearch): IPageSearch {
+    console.log('get keys');
     if (search.kind === ElementKind.RESPONSEDOMAIN) {
       search.keys =  new Map([['ResponseKind', 'SCALE']]);
     }

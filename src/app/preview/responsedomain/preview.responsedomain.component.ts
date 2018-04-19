@@ -34,7 +34,6 @@ import { ResponseDomain, DomainKind, DOMAIN_TYPE_DESCRIPTION } from '../../respo
 })
 
 export class PreviewResponsedomainComponent implements OnChanges {
-  // @Input() isVisible: boolean = true;
   @Input() responseDomain: ResponseDomain;
   public domainTypeDef = DomainKind;
   public domainType: DomainKind;
@@ -42,7 +41,7 @@ export class PreviewResponsedomainComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (this.responseDomain) {
       // if (this.isVisible && (this.responseDomain)) {
-      const ret = DOMAIN_TYPE_DESCRIPTION.find(e => e.name === this.responseDomain['responseKind']);
+      const ret = DOMAIN_TYPE_DESCRIPTION.find(e => e.name === this.responseDomain.responseKind);
       if ( ret !== undefined ) {
         this.domainType = ret.id;
       }

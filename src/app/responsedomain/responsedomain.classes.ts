@@ -13,6 +13,21 @@ export enum DomainKind {
   MISSING,
 }
 
+export const DATE_FORMAT: any = [
+  {'id': 1, 'format': 'yyyy-mm-dd',         'label': 'Date' },
+  {'id': 2, 'format': 'yyyy-mm-dd HH:mm:SS', 'label': 'DateTime' },
+  {'id': 3, 'format': 'dd',                 'label': 'gDay' },
+  {'id': 4, 'format': 'mm',                 'label': 'gMonth' },
+  {'id': 5, 'format': 'mm-dd',              'label': 'gMonthDay' },
+  {'id': 6, 'format': 'yyyy',               'label': 'gYear' },
+  {'id': 7, 'format': 'yyyy-mm',            'label': 'gYearMonth' },
+  {'id': 8, 'format': 'HH:mm:SS',           'label': 'Time' },
+  {'id': 9, 'format': 'd mmm yyyy',         'label': 'Date-text-short' },
+  {'id': 10, 'format': 'dddd d mmmm yyyy',  'label': 'Full-date-text' },
+  ];
+
+
+
 export const DOMAIN_TYPE_DESCRIPTION = [
   { id: DomainKind.SCALE, name: 'SCALE', label: 'Scale Domain', categoryType: 'SCALE' },
   { id: DomainKind.LIST, name: 'LIST', label: 'Code Domain', categoryType: 'LIST' },
@@ -46,12 +61,15 @@ export class ResponseDomain implements IEntityEditAudit {
   }
 
   public addManagedRep(rep: Category) {
+/*     if (rep.categoryType !== 'MISSING_GROUP') */
     if (this.responseKind === 'MIXED') {
       if (rep.categoryType === 'MISSING_GROUP') {
         const index = this.managedRepresentation.children.findIndex(e => e.categoryType === 'MISSING_GROUP');
         if (index >= 0) {
           this.managedRepresentation.children = this.managedRepresentation.children.slice(index, 1);
         }
+      } else {
+
       }
       this.managedRepresentation.children.push(rep);
       this.name += ' ' + rep.name;
@@ -63,6 +81,7 @@ export class ResponseDomain implements IEntityEditAudit {
   }
 
   public getMissing(): Category {
+    console.log(this.managedRepresentation.children);
     return this.managedRepresentation.children.find(e => e.categoryType === 'MISSING_GROUP');
   }
 

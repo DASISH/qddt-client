@@ -27,7 +27,6 @@ export class QddtTableComponent implements OnInit, OnChanges {
    * totalElements: the total number of elements
    * totalPages: the total pages
    */
-  @Input() domainkind: DomainKind;
   @Input() placeholder: String = null;
   @Input() pageSearch: IPageSearch;
   @Input() items: IEntityEditAudit[];
@@ -46,12 +45,9 @@ export class QddtTableComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
-    if (changes['domainkind']) {
-      this.columns = this.getColumns();
-    } else if (!this.columns) {
-      this.columns = this.getColumns();
-    }
+
+    this.columns = this.getColumns();
+
     if (!this.items) { this.items = []; }
 
     this.placeholder = this.makePlaceholder(this.value);
@@ -154,7 +150,7 @@ export class QddtTableComponent implements OnInit, OnChanges {
   private getColumns(): Column[] {
     const kind = this.pageSearch.kind;
     if (kind === ElementKind.RESPONSEDOMAIN) {
-      return RESPONSEDOMAIN_COLUMNS.get(this.domainkind);
+      return RESPONSEDOMAIN_COLUMNS.get(DomainKind[this.pageSearch.keys.get('ResponseKind')]);
     }
 
     if (LIST_COLUMNS.has(kind)) {

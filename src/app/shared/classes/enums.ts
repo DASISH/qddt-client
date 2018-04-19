@@ -1,10 +1,11 @@
 
 export enum ActionKind {
   None,
+  Filter,
   Read,
   Create,
   Update,
-  Delete
+  Delete,
 }
 
 export enum ElementKind {

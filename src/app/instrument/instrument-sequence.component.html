@@ -1,3 +1,9 @@
+<qddt-auto-complete
+  [items]="suggestions"
+  [elementKind]="SEQUENCE"
+  (selectEvent)="onSelectElement($event)"
+  (enterEvent)="onSearchElements($event)">
+</qddt-auto-complete>
 
 <ul *ngIf="sequence" materialize="collapsible" class="collapsible popout"
   data-collapsible="expandable" style="padding: 1pt;" (click)="onOpenBody(sequence)">
