@@ -159,10 +159,9 @@ export class ResponsedomainComponent implements OnInit {
   private loadPage(search?: string ) {
     const domainTypeName = DOMAIN_TYPE_DESCRIPTION.find( (e) => e.id === this.domainType).name;
     this.isProgressBarVisible = true;
-    if (search) {
-      this.pageSearch.key = search;
-    }
-    this.pageSearch.keys = new Map([['ResponseKind',  DomainKind[this.domainType]]);
+    if (search) { this.pageSearch.key = search; }
+    this.pageSearch.keys = new Map( [ ['ResponseKind',  DomainKind[this.domainType] ], ] );
+
     this.service.searchByKind(this.pageSearch).then(
         (result: any) => {
           this.pageSearch.page = new Page(result.page);

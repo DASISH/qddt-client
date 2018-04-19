@@ -23,20 +23,22 @@ export class ResponsedomainSelectMissingComponent implements OnInit, OnChanges {
   @Output() selectedEvent = new EventEmitter<ElementRevisionRef>();
   @Output() removeEvent = new EventEmitter<any>();
 
-  public readonly CATEGORY_KIND = ElementKind.CATEGORY;
+  public readonly CATEGORY_KIND = ElementKind.MISSING_GROUP;
   public findMissingAction = new EventEmitter<MaterializeAction>();
   public showbutton: any;
   public missingGroups: Category[];
   public selectedCategoryIndex: number;
+  public missingRd: ResponseDomain;
 
   private searchKeysListener = new Subject<string>();
   private _rd: ResponseDomain;
   private pageSearch: IPageSearch;
 
+  /* keys: new Map([['categoryKind', 'MISSING_GROUP']]), */
+
   constructor(private service: TemplateService) {
     this.pageSearch = { kind: this.CATEGORY_KIND, key: '*',
-                        keys: new Map([['categoryKind', 'MISSING_GROUP']]),
-                        page: new Page(), sort: 'name.asc' };
+                        page: new Page(), sort: 'name,asc' };
     this.selectedCategoryIndex = 0;
     this.missingGroups = [];
     this.searchKeysListener
@@ -88,16 +90,18 @@ export class ResponsedomainSelectMissingComponent implements OnInit, OnChanges {
   }
 
   public setMissing(missing: IElement) {
+    console.log(missing);
     let rd = this._rd;
 
     if (!rd.isMixed()) {
       rd = makeMixed(rd);
     }
-    rd.addManagedRep(missing.element)
+    console.log(missing.element);
+    rd.addManagedRep(missing.element);
 
     rd.name = rd.managedRepresentation.name =
       'Mixed [' + this.getGroupEntities(rd.managedRepresentation)[0].name + '+' + missing.element.name + ']';
-    this._rd = rd;
+    this.missingRd = this._rd = rd;
   }
 
 
@@ -111,7 +115,7 @@ export class ResponsedomainSelectMissingComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['responseDomain']) {
-    this._rd = new ResponseDomain(this.responseDomain);
+      this._rd = new ResponseDomain(this.responseDomain);
     }
   }
 

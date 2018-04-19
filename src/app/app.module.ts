@@ -26,11 +26,11 @@ import { TemplateModule } from './template/template.module';
 import { TemplateService } from './template/template.service';
 import { QuestionConstructModule } from './construct-question/question-construct.module';
 import { SequenceModule } from './construct-sequence/sequence-construct.module';
-import { MissingGroupModule } from './category-missing/missing-group.module';
+import { MissingModule } from './category-missing/missing.module';
 
 @NgModule({
   imports: [ BrowserModule, HttpClientModule,  SharedModule, CoreModule, HomeModule, MenuModule,
-    CategoryModule, MissingGroupModule, ResponsedomainModule, QuestionModule, ControlConstructModule, PreviewModule,
+    CategoryModule,  ResponsedomainModule, QuestionModule, ControlConstructModule, PreviewModule, MissingModule,
     InstrumentModule, PublicationModule, TemplateModule, QuestionConstructModule, SequenceModule, routing ],
 
     declarations: [ AppComponent, PageNotFoundComponent ],

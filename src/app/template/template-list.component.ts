@@ -91,7 +91,10 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
     if (search.kind === ElementKind.RESPONSEDOMAIN) {
       search.keys =  new Map([['ResponseKind', 'SCALE']]);
     }
-    return search;
+/*     if (search.kind === ElementKind.CATEGORY) {
+      search.keys =  new Map([['categoryKind', 'CATEGORY']]);
+    }
+ */    return search;
   }
 
 }

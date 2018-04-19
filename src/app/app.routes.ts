@@ -2,9 +2,6 @@ import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AuthGuard } from './core/guard/auth-guard.service';
-import { QuestionComponent } from './question/question.component';
-import { CategoryComponent } from './category/category.component';
-import { InstrumentComponent } from './instrument/instrument.component';
 import { ResponsedomainComponent } from './responsedomain/responsedomain.component';
 import { PageNotFoundComponent } from './core/pagenotfound/page-not-found.component';
 

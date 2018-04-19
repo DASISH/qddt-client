@@ -24,7 +24,7 @@
             (selectEvent)="setMissing($event)">
           </qddt-auto-complete>
         </div>
-        <table *ngIf="getMissing()">
+        <table *ngIf="missingRd">
           <thead><tr><td>Code</td><td>Category</td></tr></thead>
           <tbody>
           <tr *ngFor="let category of getMissing().children; let idx=index">

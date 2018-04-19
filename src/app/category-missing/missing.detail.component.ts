@@ -1,12 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
 
 @Component({
-  selector: 'qddt-category-detail',
+  selector: 'qddt-missing-detail',
   moduleId: module.id,
-  templateUrl: './missing-group.detail.component.html',
+  templateUrl: './missing.detail.component.html',
 })
 
-export class MissingGroupDetailComponent {
+export class MissingDetailComponent {
   @ViewChild('detail') templateDetail;
 
   public onFormModified(event) {
