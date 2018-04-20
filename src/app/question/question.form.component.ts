@@ -33,23 +33,25 @@ export class QuestionFormComponent  implements OnChanges {
   }
 
   onSaveQuestionItem() {
-    if ((this.questionitem.responseDomain) && (!this.questionitem.responseDomain.id)) {
-      this.service.update(this.questionitem.responseDomain)
-        .subscribe(result => {
-          this.questionitem.responseDomain = result;
-          this.questionitem.responseDomainRevision = 0;
-          this.service.update(this.questionitem)
-            .subscribe((result1: any) => {
-              this.questionitem = result1;
-              this.modifiedEvent.emit(this.questionitem);
-            });
-        });
+    console.log('QI no managed rep saving...');
+    this.service.update(this.questionitem)
+      .subscribe((result) => {
+        this.questionitem = result;
+        this.modifiedEvent.emit(this.questionitem);
+      });
+  }
+
+  onSaveResponseDomain(item) {
+    if (item.responseDomain.responseKind === 'MIXED') {
+      this.service.update(item.responseDomain).subscribe(result => {
+        item.responseDomain = result;
+        this.questionitem.responseDomain = item.responseDomain;
+        this.questionitem.responseDomainRevision = 0;
+      });
     } else {
-      this.service.update(this.questionitem)
-        .subscribe((result) => {
-          this.questionitem = result;
-          this.modifiedEvent.emit(this.questionitem);
-        });
+      this.questionitem.responseDomain = item.responseDomain;
+      this.questionitem.responseDomainRevision = item.responseDomainRevision || 0;
+
     }
   }
 

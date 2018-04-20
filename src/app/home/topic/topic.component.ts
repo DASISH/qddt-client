@@ -6,6 +6,7 @@ import { HomeService } from '../home.service';
 import { QddtMessageService } from '../../core/global/message.service';
 import { ElementKind } from '../../shared/classes/enums';
 import { Study, Topic } from '../home.classes';
+import {IRevisionRef} from '../../shared/classes/interfaces';
 
 const filesaver = require('file-saver');
 declare var Materialize: any;
@@ -118,14 +119,13 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
     this.message.sendMessage( { element: questionItem, elementKind: ElementKind.QUESTION_ITEM } );
   }
 
-  onAddQuestionItem(questionItem: any, topicId: any) {
-    console.log(questionItem);
-    this.topicService.attachTopicQuestion(topicId, questionItem.id, questionItem['questionItemRevision'])
+  onAddQuestionItem(ref: IRevisionRef, topicId: any) {
+    this.topicService.attachTopicQuestion(topicId, ref.elementId, ref.elementRevision)
       .subscribe((result: any) => this.onTopicSavedEvent(result));
   }
 
-  onRemoveQuestionItem(ref) {
-    this.topicService.deattachTopicQuestion(ref.topicId, ref.qId)
+    onRemoveQuestionItem(ref: IRevisionRef, topicId: any) {
+      this.topicService.deattachTopicQuestion(topicId , ref.elementId, ref.elementRevision)
       .subscribe((result: any) => this.onTopicSavedEvent(result));
   }
 

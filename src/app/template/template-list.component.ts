@@ -19,11 +19,11 @@ import { QddtPropertyStoreService } from '../core/global/property.service';
 export class TemplateListComponent implements OnInit, OnDestroy  {
   public items: IEntityAudit[];
   public showProgressBar = false;
-  public kind: ElementKind;
+  public pageSearch: IPageSearch;
 
   private alive = true;
   private path: string;
-  private pageSearch: IPageSearch;
+  private kind: ElementKind;
 
   constructor(private service: TemplateService, private router: Router, private route: ActivatedRoute,
               private  messages: QddtMessageService, private properties: QddtPropertyStoreService ) {
@@ -50,9 +50,8 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
     if (this.kind) { this.loadPage(); }
   }
 
-  public onFetchItems(search: IPageSearch ) {
-    console.log('onFetchItems' + search);
-    this.pageSearch = search;
+  public onFetchItems(page: IPageSearch ) {
+    this.pageSearch = page;
     this.loadPage();
   }
 
@@ -87,6 +86,7 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
     this.setPageSearch( this.pageSearch );
     this.alive = false;
   }
+
   getKeys(search: IPageSearch): IPageSearch {
     if (search.kind === ElementKind.RESPONSEDOMAIN) {
       search.keys =  new Map([['ResponseKind', 'SCALE']]);

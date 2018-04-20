@@ -1,8 +1,8 @@
 import { Component, OnChanges, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
-import { ElementRevisionRef} from '../../shared/classes/classes';
-import { IEntityAudit} from '../../shared/classes/interfaces';
-import { QDDT_QUERY_INFOES} from '../../shared/classes/constants';
-import { ElementKind} from '../../shared/classes/enums';
+import { ElementRevisionRef } from '../../shared/classes/classes';
+import { IEntityEditAudit } from '../../shared/classes/interfaces';
+import { QDDT_QUERY_INFOES } from '../../shared/classes/constants';
+import { ElementKind } from '../../shared/classes/enums';
 
 @Component({
   selector: 'qddt-revision-select',
@@ -16,19 +16,23 @@ export class RevisionSelectComponent implements OnChanges {
   @Output() selectEvent = new EventEmitter<ElementRevisionRef>();
   @Output() dismissEvent = new EventEmitter<Boolean>();
 
+  public show = false;
   selectedRevision: number;
-  selectedElement: IEntityAudit;
+  selectedElement: IEntityEditAudit;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['elementRevisions']) {
-      if (this.elementRevisions) {
+      if ( (this.elementRevisions)  && (this.elementRevisions.length > 0 )) {
         this.onSelectElementRevisions(this.elementRevisions[0].revisionNumber);
+      } else {
+        this.show = false;
       }
     }
   }
 
   onSelectElementRevisions(event: any) {
     this.selectedRevision = +event;
+    this.show = true;
 
     const result = this.elementRevisions.find((e: any) => e.revisionNumber === this.selectedRevision);
     if (result) {
@@ -47,11 +51,15 @@ export class RevisionSelectComponent implements OnChanges {
       element.elementRevision = this.selectedRevision;
       element.elementKind =  this.selectedElement.classKind;
       element.element = this.selectedElement;
+      element.name = this.selectedElement.name;
+      element.version = this.selectedElement.version;
       this.selectEvent.emit(element);
+      this.show = false;
     }
   }
 
   onDismiss() {
+    this.show = false;
     this.dismissEvent.emit(true);
   }
 

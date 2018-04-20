@@ -4,7 +4,7 @@ import { Factory } from '../../shared/classes/factory';
 import { IElement, IEntityAudit } from '../../shared/classes/interfaces';
 import { ElementKind } from '../../shared/classes/enums';
 import { QueryInfo } from '../../shared/classes/classes';
-import {getElementKind, QDDT_QUERY_INFOES} from '../../shared/classes/constants';
+import { getElementKind, QDDT_QUERY_INFOES} from '../../shared/classes/constants';
 
 @Component({
   selector: 'qddt-collection-search-select',

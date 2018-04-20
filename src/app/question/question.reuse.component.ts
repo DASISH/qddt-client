@@ -1,11 +1,8 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
 import { TemplateService } from '../template/template.service';
 import { QuestionItem } from './question.classes';
-import { Page, QueryInfo, ElementRevisionRef } from '../shared/classes/classes';
+import { Page, ElementRevisionRef } from '../shared/classes/classes';
 import { ElementKind } from '../shared/classes/enums';
-import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
-import { ResponseDomain } from '../responsedomain/responsedomain.classes';
 import { IElement, IRevisionRef } from '../shared/classes/interfaces';
 
 @Component({
@@ -17,8 +14,8 @@ import { IElement, IRevisionRef } from '../shared/classes/interfaces';
 export class QuestionReuseComponent {
   @Input() parentId: string;
   @Input() name: string;
-  @Output() createdEvent = new EventEmitter<any>();
-  @Output() dismissEvent = new EventEmitter<any>();
+  @Output() createdEvent = new EventEmitter<ElementRevisionRef>();
+  @Output() dismissEvent = new EventEmitter<boolean>();
 
   closeReuseActions = new EventEmitter<any>();
 
@@ -30,7 +27,7 @@ export class QuestionReuseComponent {
 
   constructor(private service: TemplateService) {  }
 
-  onUseElement(ref: ElementRevisionRef) {
+  onRevisionSelect(ref: ElementRevisionRef) {
     this.createdEvent.emit(ref);
     this.closeReuseActions.emit({action: 'modal', params: ['close']});
   }

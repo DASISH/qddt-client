@@ -1,18 +1,10 @@
-<div class="row card">
-  <ul>
-    <li *ngIf="sequence">
-      <span [ngSwitch]="sequence.classKind">
-				<span *ngSwitchCase="'SEQUENCE_CONSTRUCT'">Sequence</span>
-        <span *ngSwitchCase="'CONDITION_CONSTRUCT'">Condition</span>
-        <span *ngSwitchCase="'STATEMENT_CONSTRUCT'">Statement</span>
-        <span *ngSwitchCase="'QUESTION_CONSTRUCT'">Question Construct</span>
-      </span>
-      <a (click)="onSelectedElement(sequence)">{{ sequence?.name }}</a>
-    </li>
-  </ul>
-  <ul class="control-children" *ngIf="sequence">
-    <li *ngFor="let item of sequence['sequence']">
-    <qddt-sequence-content *ngIf="item" [sequence]="item"></qddt-sequence-content>
+<div class="row hoverable" *ngIf="sequence">
+  <ul class="control-children">
+    <li *ngFor="let item of sequence">
+
+      <a (click)="onSelectedElement(item.element)" [ngStyle]="{'cursor': 'pointer'}">{{ item?.name }}</a>
+      <qddt-version-label class="right" [element]="item"></qddt-version-label>
+      <qddt-sequence-content *ngIf="item.sequence" [sequence]="item.sequence"></qddt-sequence-content>
     </li>
   </ul>
 </div>

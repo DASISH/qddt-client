@@ -44,14 +44,14 @@ export class ConditionCommand {
 
 export class QuestionConstruct implements IEntityAudit {
   id: string;
-  name: string;
+  name = '';
   classKind = ElementKind[ElementKind.QUESTION_CONSTRUCT];
   questionItem: QuestionItem;
   questionItemRevision: number;
-  otherMaterials: any;
-  universe: Universe[];
-  preInstructions: Instruction[];
-  postInstructions: Instruction[];
+  otherMaterials = []
+  universe: Universe[] = [];
+  preInstructions: Instruction[] = [];
+  postInstructions: Instruction[] = [];
   public constructor(init?: Partial<QuestionConstruct>) {
     Object.assign(this, init);
   }
@@ -65,7 +65,7 @@ export class SequenceConstruct implements IEntityAudit {
   description?: string;
   classKind = ElementKind[ElementKind.SEQUENCE_CONSTRUCT];
   sequenceKind = SequenceKind[SequenceKind.SECTION];
-  sequence: ElementRevisionRef[];
+  sequence: ElementRevisionRef[] = [];
   public constructor(init?: Partial<SequenceConstruct>) {
     Object.assign(this, init);
   }
@@ -88,7 +88,7 @@ export class ConditionConstruct implements IEntityAudit {
   condition: string;
   classKind = ElementKind[ElementKind.CONDITION_CONSTRUCT];
   ifCondition: ConditionCommand;
-  elseConditions: ConditionCommand[];
+  elseConditions: ConditionCommand[] = [];
   public constructor(init?: Partial<ConditionConstruct>) {
     Object.assign(this, init);
   }

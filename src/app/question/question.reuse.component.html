@@ -1,5 +1,5 @@
 <a class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
-   (click)="openModal2()">
+   (click)="openModal()">
   <i class="material-icons left medium" title="Add QuestionItem to element">playlist_add</i>
 </a>
 <div class="modal modal-fixed-footer"
@@ -18,6 +18,6 @@
   </div>
   <div class="modal-footer">
     <button
-      class="btn btn-default red modal-action modal-close waves-effect waves-red" (click)="closeQuestionReuseModal()" >Dismiss</button>
+      class="btn btn-default red modal-action modal-close waves-effect waves-red" (click)="onDismiss()" >Dismiss</button>
   </div>
 </div>

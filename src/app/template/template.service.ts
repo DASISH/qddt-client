@@ -81,8 +81,22 @@ export class TemplateService {
   }
 
   public update(item: IEntityEditAudit): Observable<any> {
-    const qe = QDDT_QUERY_INFOES[this.getElementKind(item.classKind)];
-    return this.http.post(this.api + qe.path , item);
+    console.log('Template update... ');
+    const kind = this.getElementKind(item.classKind);
+    const qe = QDDT_QUERY_INFOES[kind];
+    let path2 = '';
+    if (qe.path === 'controlconstruct' ) { // silly exception to the simple rule
+      if (kind === ElementKind.QUESTION_CONSTRUCT ) {
+        path2 = '/question';
+      } else if (kind === ElementKind.SEQUENCE_CONSTRUCT ) {
+        path2 = '/sequence';
+      } else if (kind === ElementKind.CONDITION_CONSTRUCT ) {
+        path2 = '/condition';
+      } else if (kind === ElementKind.STATEMENT_CONSTRUCT ) {
+        path2 = '/statement';
+      }
+    }
+    return this.http.post(this.api + qe.path + path2, item);
   }
 
   public updateWithfiles(kind: ElementKind, form: FormData ): Observable<any> {

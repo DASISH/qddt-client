@@ -11,10 +11,10 @@ export class QuestionConstruct implements IEntityAudit {
   classKind = ElementKind[ElementKind.QUESTION_CONSTRUCT];
   questionItem: QuestionItem;
   questionItemRevision: number;
-  otherMaterials: any;
-  universe: Universe[];
-  preInstructions: Instruction[];
-  postInstructions: Instruction[];
+  otherMaterials = [];
+  universe: Universe[] = [];
+  preInstructions: Instruction[] = [];
+  postInstructions: Instruction[] = [];
   public constructor(init?: Partial<QuestionConstruct>) {
     Object.assign(this, init);
   }

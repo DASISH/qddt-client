@@ -1,9 +1,10 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {Component, Input, Output, EventEmitter } from '@angular/core';
 import { QuestionItem } from '../../question/question.classes';
 import { QddtMessageService } from '../../core/global/message.service';
 import {ElementKind} from '../../shared/classes/enums';
 import {HomeService} from '../home.service';
 import {Concept} from '../home.classes';
+import {IRevisionRef} from '../../shared/classes/interfaces';
 
 const filesaver = require('file-saver');
 
@@ -62,15 +63,15 @@ export class TreeNodeComponent  {
     this.newchild = new Concept();
   }
 
-  removeQuestionItem(entityRef: any) {
-    this.conceptService.deattachConceptQuestion(this.concept.id, entityRef.id, entityRef.revisionNumber)
+  removeQuestionItem(ref: IRevisionRef) {
+    this.conceptService.deattachConceptQuestion(this.concept.id, ref.elementId , ref.elementRevision)
       .subscribe((result: any) => {
           this.onConceptSavedEvent(result);
         });
   }
 
-  addQuestionItem(questionItem: any) {
-      this.conceptService.attachConceptQuestion(this.concept.id, questionItem.id, questionItem['questionItemRevision'])
+  addQuestionItem(ref: IRevisionRef) {
+      this.conceptService.attachConceptQuestion(this.concept.id, ref.elementId, ref.elementRevision)
         .subscribe((result: any) => {
           this.onConceptSavedEvent(result);
         });

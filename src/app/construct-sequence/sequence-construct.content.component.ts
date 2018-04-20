@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
-import { QddtMessageService} from '../core/global/message.service';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import { QddtMessageService } from '../core/global/message.service';
 import { IElement, IEntityAudit } from '../shared/classes/interfaces';
+import { ElementRevisionRef } from '../shared/classes/classes';
 
 @Component({
   selector: 'qddt-sequence-content',
@@ -11,11 +12,18 @@ import { IElement, IEntityAudit } from '../shared/classes/interfaces';
   ],
 })
 
-export class SequenceContentComponent {
-  @Input() sequence: IEntityAudit;
+export class SequenceContentComponent implements OnChanges{
+  @Input() sequence: ElementRevisionRef[];
 
 
   constructor( private message: QddtMessageService) { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['sequence']) {
+      console.log('repaint???');
+    }
+  }
+
 
   onSelectedElement(element: IEntityAudit) {
     const  ref: IElement =  {
@@ -23,5 +31,6 @@ export class SequenceContentComponent {
       elementKind: element.classKind };
     this.message.sendMessage( ref );
   }
+
 
 }

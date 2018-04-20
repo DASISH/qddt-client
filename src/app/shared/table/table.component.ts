@@ -1,12 +1,11 @@
-import {Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges} from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges} from '@angular/core';
 import { Column } from './table.column';
 import { LIST_COLUMNS, RESPONSEDOMAIN_COLUMNS, DEFAULT_COLUMNS } from './table.column-map';
-import { DomainKind } from '../../responsedomain/responsedomain.classes';
-import { ElementEnumAware } from '../../preview/preview.service';
-import { ElementKind } from '../classes/enums';
-import { Page } from '../classes/classes';
-import { IEntityEditAudit, IPageSearch } from '../classes/interfaces';
 import { QDDT_QUERY_INFOES } from '../classes/constants';
+import { IEntityEditAudit, IPageSearch } from '../classes/interfaces';
+import { ElementKind } from '../classes/enums';
+import { ElementEnumAware } from '../../preview/preview.service';
+import { DomainKind } from '../../responsedomain/responsedomain.classes';
 
 @Component({
   selector: 'qddt-table',
@@ -28,7 +27,6 @@ export class QddtTableComponent implements OnInit, OnChanges {
    * totalPages: the total pages
    */
   @Input() domainkind: DomainKind;
-  @Input() placeholder: String = null;
   @Input() pageSearch: IPageSearch;
   @Input() items: IEntityEditAudit[];
 
@@ -36,7 +34,9 @@ export class QddtTableComponent implements OnInit, OnChanges {
   @Output() fetchEvent = new EventEmitter<IPageSearch>();
 
   public readonly directionSign: { [dir: string]: string; } = {'': '⇳', 'asc':  '▲', 'desc': '▼'};
-  public value: string;   // TODO remove this....
+  public value: string;
+
+  public placeholder: string;
   public rows = [];
   public columns: Column[];
 
@@ -46,12 +46,12 @@ export class QddtTableComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
     if (changes['domainkind']) {
       this.columns = this.getColumns();
     } else if (!this.columns) {
       this.columns = this.getColumns();
     }
+
     if (!this.items) { this.items = []; }
 
     this.placeholder = this.makePlaceholder(this.value);
@@ -96,7 +96,8 @@ export class QddtTableComponent implements OnInit, OnChanges {
   }
 
   enterText(event: any) {
-    this.pageSearch.key = event.target.value;
+    this.pageSearch.key = this.value = event.target.value;
+    // this.placeholder = this.makePlaceholder(this.value);
     this.pageSearch.sort = this.getSort();
     this.fetchEvent.emit(this.pageSearch);
   }
@@ -140,8 +141,12 @@ export class QddtTableComponent implements OnInit, OnChanges {
     const queries = [];
 
     if (args.length <= qe.fields.length) {
-      for (let i = 0; i < args.length; i++) {
-        queries.push(qe.fields[i] + '=\'' + args[i].trim() + '\'');
+      for (let i = 0; i <  qe.fields.length; i++) {
+        if (i < args.length ) {
+          queries.push(qe.fields[i] + '=\'' + args[i].trim() + '\'');
+        } else {
+          queries.push(qe.fields[i] + '=?');
+        }
       }
     } else {
       for (let i = 0; i < qe.fields.length; i++) {

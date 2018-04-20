@@ -9,11 +9,11 @@ import { ItemRevisionSelectComponent } from './selectitemrevision/item-revision-
 
 @NgModule({
   imports: [ SharedModule, PreviewModule],
-  declarations: [ ItemRevisionSelectComponent,
-     CollectionSearchSelectComponent, RevisionSelectComponent, CollectionSearchRevisionSelectComponent,
+  declarations: [ ItemRevisionSelectComponent, CollectionSearchSelectComponent,
+    RevisionSelectComponent, CollectionSearchRevisionSelectComponent,
   ],
   exports: [
-    CollectionSearchSelectComponent, RevisionSelectComponent, ItemRevisionSelectComponent
+    CollectionSearchSelectComponent, RevisionSelectComponent, ItemRevisionSelectComponent, CollectionSearchRevisionSelectComponent
   ],
   providers: [  ]
 })

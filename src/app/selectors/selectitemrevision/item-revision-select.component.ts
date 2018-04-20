@@ -1,8 +1,7 @@
 import { Component, OnChanges, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { ElementRevisionRef} from '../../shared/classes/classes';
 import { IEntityAudit, IRevisionResultEntity, IRevisionRef, IElement} from '../../shared/classes/interfaces';
-import { QDDT_QUERY_INFOES} from '../../shared/classes/constants';
-import { ElementKind} from '../../shared/classes/enums';
+import { ElementKind } from '../../shared/classes/enums';
 import { ElementEnumAware } from '../../preview/preview.service';
 
 @Component({
@@ -13,7 +12,6 @@ import { ElementEnumAware } from '../../preview/preview.service';
 
 @ElementEnumAware
 export class ItemRevisionSelectComponent implements OnChanges {
-  showRevision: boolean;
   @Input() kind: ElementKind;
   @Input() itemList: IEntityAudit[];
   @Input() revisionList: IRevisionResultEntity[];
@@ -24,12 +22,10 @@ export class ItemRevisionSelectComponent implements OnChanges {
   @Output() selectEvent = new EventEmitter<ElementRevisionRef>();
   @Output() dismissEvent = new EventEmitter<Boolean>();
 
-
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['itemList']) {
     }
     if (changes['revisionList']) {
-      this.showRevision  = true;
     }
   }
 
@@ -38,17 +34,16 @@ export class ItemRevisionSelectComponent implements OnChanges {
   }
 
   public onSelectElement(item: IElement) {
-    this.showRevision  = true;
     this.revisionEvent.emit( { elementId: item.element.id, elementKind: this.kind, elementRevision: null } );
   }
 
   public onSelectedRevision(revision) {
-    this.showRevision  = false;
+    this.revisionList = null;
     this.selectEvent.emit(revision);
   }
 
   public onDismiss(ok) {
-    this.showRevision  = false;
+    this.revisionList = null;
     this.dismissEvent.emit(ok);
   }
 }

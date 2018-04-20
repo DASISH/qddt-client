@@ -14,7 +14,7 @@ export class GlobalErrorHandler extends ErrorHandler {
   handleError(error: any) {
     if (this.lastError === error.message) {
       if ((new Date().valueOf() - this.lastHandled.valueOf()) < 5000) {
-        console.log(('skipping recurring error...'));
+        console.log(error.message);
         this.lastHandled =  new Date();
         return;
       }

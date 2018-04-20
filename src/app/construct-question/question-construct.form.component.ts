@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, AfterContentChecked, OnChanges,
 import { Observable } from 'rxjs/Observable';
 import { QuestionItem } from '../question/question.classes';
 import { ElementKind } from '../shared/classes/enums';
-import { ElementRevisionRef } from '../shared/classes/classes';
+import {ElementRevisionRef, Page} from '../shared/classes/classes';
 import { QuestionConstruct } from './question-construct.classes';
 import { Instruction, Universe } from '../controlconstruct/controlconstruct.classes';
 import { TemplateService } from '../template/template.service';
@@ -75,21 +75,21 @@ export class QuestionConstructFormComponent implements OnChanges , AfterContentC
   }
 
   onInstructionSearch(key: string) {
-    this.service.searchByKind<Instruction>( {kind: this.INSTRUCTION, key: key}).then(
+    this.service.searchByKind<Instruction>( {kind: this.INSTRUCTION, key: key , page: new Page() }).then(
       (result) => {
         this.instructionList = result.content;
       });
   }
 
   onUniverseSearch(key: string) {
-    this.service.searchByKind<Universe>( {kind: this.UNIVERSE, key: key}).then(
+    this.service.searchByKind<Universe>(  {kind: this.UNIVERSE, key: key, page: new Page() }).then(
       (result) => {
         this.universeList = result.content;
       });
   }
 
   onQuestionSearch(key: IElement) {
-    this.service.searchByKind<QuestionItem>( {kind: this.QUESTION, key: key.element} ).then(
+    this.service.searchByKind<QuestionItem>( {kind: this.QUESTION, key: key.element, page: new Page() } ).then(
       (result) => {
         this.questionList = result.content;
       });

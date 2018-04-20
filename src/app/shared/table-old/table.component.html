@@ -1,0 +1,39 @@
+<div *ngIf="rows" class="row">
+  <div class="white grey-text text-darken-1" style="overflow-x:auto; margin:0.5rem">
+    <div class="row">
+      <div class="input-field col s11">
+        <input id="filterKey" type="text" [ngModel]="value" (keyup)="enterText($event)">
+        <label for="filterKey">{{ placeholder }}</label>
+      </div>
+      <div class="input-field col s1">
+      	<a class="waves-effect waves-light btn" (click)="onClearKeywords()">x</a>
+      </div>
+    </div>
+    <table class="highlight">
+      <thead>
+        <tr>
+          <!--<th>Detail</th>-->
+          <th *ngFor="let column of columns" >
+            <span *ngIf="column.sortable" (click)="sortRows(column)" [ngStyle]="{'cursor': 'pointer'}">{{ column.label }} {{ directionSign[column.direction] }}
+            </span>
+            <span *ngIf="!column.sortable" >{{ column.label }} </span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr id="{{row.id}}" *ngFor="let row of rows" (click)="onDetail(row.Object)" [ngStyle]="{'cursor': 'pointer'}">
+          <td  *ngFor="let column of columns">{{ row[column.label] }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <qddt-pagination
+      [collectionSize]="page.totalElements"
+      [page]="page.number"
+      [pageSize]="page.size"
+      [maxSize]="5"
+      [rotate]="true"
+      [boundaryLinks]="true"
+      (pageChange)="pageChange($event)">
+    </qddt-pagination>
+  </div>
+</div>

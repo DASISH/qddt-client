@@ -128,32 +128,34 @@ export class HomeService {
     return this.http.delete(this.api + 'study/delete/' + id);
   }
 
-  attachConceptQuestion(conceptId: string, questionId: string, revision: string): Observable<any> {
+  attachConceptQuestion(conceptId: string, questionId: string, revision: number): Observable<any> {
     if (revision === null) {
-      revision = '0';
+      revision = 0;
     }
     return this.http.post(this.api + 'concept/combine?questionitemid=' + questionId +
       '&questionitemrevision=' + revision +
       '&conceptid=' + conceptId, {});
   }
 
-  attachTopicQuestion(topicId: string, questionId: string, revision: string): Observable<any> {
+  attachTopicQuestion(topicId: string, questionId: string, revision: number): Observable<any> {
     if (revision === null) {
-      revision = '0';
+      revision = 0;
     }
     return this.http.post(this.api + 'topicgroup/combine?questionitemid=' + questionId +
       '&questionitemrevision=' + revision + '&topicid=' + topicId, {});
   }
 
 
-  deattachConceptQuestion(conceptId: string, questionId: string, revision: string): Observable<any> {
+  deattachConceptQuestion(conceptId: string, questionId: string, revision: number): Observable<any> {
     return this.http.post(this.api + 'concept/decombine?questionitemid=' + questionId +
       '&questionitemrevision=' + revision +
       '&conceptid=' + conceptId, {});
   }
 
-  deattachTopicQuestion(topicId: string, questionId: string): Observable<any> {
-    return this.http.post(this.api + 'topicgroup/decombine?questionitemid=' + questionId + '&topicid=' + topicId, {});
+  deattachTopicQuestion(topicId: string,  questionId: string, revision: number): Observable<any> {
+    return this.http.post(this.api + 'topicgroup/decombine?questionitemid=' + questionId +
+      '&questionitemrevision=' + revision +
+      '&topicid=' + topicId, {});
   }
 
   attachAuthor(conceptId: string, authorId: string): Observable<any> {

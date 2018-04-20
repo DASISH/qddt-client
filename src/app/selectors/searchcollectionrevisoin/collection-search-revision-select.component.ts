@@ -1,10 +1,10 @@
-import {Component, EventEmitter, Input, Output, ChangeDetectionStrategy, AfterViewInit, OnChanges, SimpleChanges} from '@angular/core';
-import { Factory } from '../../shared/classes/factory';
+import {Component, EventEmitter, Input, Output, ChangeDetectionStrategy, OnChanges, SimpleChanges, AfterViewInit} from '@angular/core';
 import { ElementEnumAware } from '../../preview/preview.service';
-import { IElement, IEntityAudit} from '../../shared/classes/interfaces';
-import { ElementKind} from '../../shared/classes/enums';
-import { QueryInfo} from '../../shared/classes/classes';
-import { getElementKind, QDDT_QUERY_INFOES} from '../../shared/classes/constants';
+import {IElement, IEntityAudit, IEntityEditAudit, IRevisionRef, IRevisionResultEntity} from '../../shared/classes/interfaces';
+import { ElementKind } from '../../shared/classes/enums';
+import { ElementRevisionRef, QueryInfo } from '../../shared/classes/classes';
+import { QDDT_QUERY_INFOES } from '../../shared/classes/constants';
+import { QddtMessageService } from '../../core/global/message.service';
 
 @Component({
   selector: 'qddt-collection-revision-search-select',
@@ -13,59 +13,67 @@ import { getElementKind, QDDT_QUERY_INFOES} from '../../shared/classes/constants
 })
 
 @ElementEnumAware
-export class CollectionSearchRevisionSelectComponent implements AfterViewInit, OnChanges {
-  @Input() items:  IEntityAudit[];
-  @Input() labelName?: string;
-  @Input() elementKind: ElementKind|string;
-  @Output() itemCreatedEvent = new EventEmitter<IEntityAudit>();
+export class CollectionSearchRevisionSelectComponent implements OnChanges, AfterViewInit {
+  @Input() kind: ElementKind;
+  @Input() showProgressBar = false;
+  @Input() readonly = false;
+  @Input() showList: ElementRevisionRef[];
+  @Input() searchList: IEntityEditAudit[];
+  @Input() revisionList: IRevisionResultEntity[];
 
-  item: IEntityAudit;
-  searchField: any;
-  showButton = false;
-  showAddItem = false;
+  @Output() searchEvent = new EventEmitter<IElement>();
+  @Output() getRevisionEvent = new EventEmitter<IRevisionRef>();
+
+  public showButton = false;
+  public showAddItem = false;
+  public searchField: string;
+  public labelName: string;
 
   private queryInfo: QueryInfo;
 
+  constructor( private message: QddtMessageService) { }
 
   ngAfterViewInit() {
-    if (!this.labelName) {
-      this.labelName = this.queryInfo.label;
-    }
-  }
-
-  hasContent(): boolean {
-    return (this.item && this.searchField && this.item[this.searchField]);
-  }
-
-  onShowItems() {
-    this.item = Factory.createInstance(getElementKind(this.elementKind));
+    this.queryInfo = this.getQueryInfo();
+    this.labelName = this.queryInfo.label;
     this.searchField  = this.queryInfo.fields[0];
-    this.showAddItem = !this.showAddItem;
-  }
-
-  onAddItem() {
-    this.showAddItem = false;
-    this.itemCreatedEvent.emit(this.item);
-  }
-
-  onSelectItem(selected: IElement) {
-    this.item = selected.element;
-  }
-
-  onDeleteItem(idx: number) {
-    this.items.splice(idx, 1);
-  }
-
-  public getQueryInfo(): QueryInfo {
-    const kind = getElementKind(this.elementKind);
-    return QDDT_QUERY_INFOES.find(e => e.id === kind);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['elementKind']) {
-      this.queryInfo = this.getQueryInfo();
-      this.labelName = this.queryInfo.label;
+    if (changes['searchList']) {
     }
+    if (changes['revisionList']) {
+    }
+  }
+  public getQueryInfo(): QueryInfo {
+    return QDDT_QUERY_INFOES[this.kind];
+  }
+
+  public onSearchElements(key) {
+    this.searchEvent.emit({ element: key, elementKind: this.kind });
+  }
+
+  public onSelectElement(item: IElement) {
+    this.getRevisionEvent.emit( { elementId: item.element.id, elementKind: this.kind, elementRevision: null } );
+  }
+
+  public onSelectedRevision(revision ) {
+    this.showList.push(revision);
+  }
+
+  public onShowElement(element: IEntityAudit) {
+    const  ref: IElement =  {
+      element: element,
+      elementKind: element.classKind };
+    this.message.sendMessage( ref );
+  }
+
+  public onDeleteItem(index: number) {
+    this.showList.splice(index, 1);
+  }
+
+  public onShowItems() {
+    this.showAddItem = !this.showAddItem;
   }
 
 }

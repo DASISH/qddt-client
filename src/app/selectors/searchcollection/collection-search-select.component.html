@@ -3,7 +3,7 @@
   (mouseleave)="showButton = false">
   <li>
     <div class="row" (click)=onShowItems() style="cursor: zoom-in;">
-      <div class="col s11"><label class="teal-text">{{labelName}}</label></div>
+      <div class="col s11"><label>{{labelName}}</label></div>
       <div class="col s1">
         <a [ngClass]="{hide: !showButton}"
           class="btn-flat btn-floating btn-small waves-effect waves-light teal">

@@ -9,7 +9,7 @@
 
   <qddt-conceptref [element]="questionitem"></qddt-conceptref>
 
-  <form  (ngSubmit)="onSaveQuestionItem()" #questionEditForm="ngForm">
+  <form  #questionEditForm="ngForm">
     <div class="row input-field">
       <input
         id= "{{formId}}-name" name="name" type="text" class="validate" required
@@ -41,11 +41,12 @@
           <label>Response Domain (V <qddt-version [element]="questionitem?.responseDomain?.managedRepresentation"></qddt-version>)
           </label>
         </div>
+        <!--(selectedEvent)="onRdSelectedOld($event)"-->
         <qddt-responsedomain-reuse
            [readOnly] = "readonly"
            [showbutton] = "showbutton"
            [responseDomain]="questionitem?.responseDomain"
-           (selectedEvent)="onResponseDomainSelected($event)"
+           (responseDomainSelected)="onSaveResponseDomain($event)"
            (removeEvent)="onResponsedomainRemove($event)">
         </qddt-responsedomain-reuse>
       </div>
@@ -54,11 +55,12 @@
           *ngIf="!readonly && questionitem?.responseDomain"
           [modalId] = "formId"
           [responseDomain]="questionitem.responseDomain"
-          (selectedEvent)="onResponseDomainSelected($event)"
+          (responseDomainSelected)="onSaveResponseDomain($event)"
           (removeEvent)="onResponsedomainRemove($event)">
         </qddt-responsedomain-select-missing>
       </div>
     </div>
+
     <qddt-rational [formName]="'RationalComp'"
       *ngIf="!readonly && questionitem.id"
       [element]="questionitem"
@@ -67,7 +69,7 @@
     <qddt-element-footer *ngIf="questionitem.id" [element]="questionitem"></qddt-element-footer>
 
     <div class="row right-align">
-      <button *ngIf="!readonly" [disabled]="!questionEditForm.form.valid"
+      <button *ngIf="!readonly" [disabled]="!questionEditForm.form.valid" (click)="onSaveQuestionItem()"
               type="submit" class="btn btn-default">Submit
       </button>
     </div>

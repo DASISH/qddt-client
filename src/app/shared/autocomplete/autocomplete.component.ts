@@ -22,12 +22,13 @@ export class QddtAutoCompleteComponent implements OnInit, OnChanges {
   @Output() focusEvent = new EventEmitter<string>();
   @Output() enterEvent = new EventEmitter<string>();
 
-  public candidates = [];
+  public candidates: IEntityAudit[] = [];
   public showAutoComplete = false;
   public value = '';
   public selectedIndex = 0;
   public queryInfo: QueryInfo;
 
+  private waitingForChange = true;
   private searchFromServer = true;
 
   ngOnInit() {
@@ -38,7 +39,10 @@ export class QddtAutoCompleteComponent implements OnInit, OnChanges {
     if (change['elementKind']) {
       this.queryInfo = QDDT_QUERY_INFOES[getElementKind(this.elementKind)];
     } else if ( (change['items'])) {
-      this.candidates = this.items;
+      if (this.waitingForChange) {
+        this.waitingForChange = false;
+        this.candidates = this.items;
+      }
     }
   }
 
@@ -46,8 +50,11 @@ export class QddtAutoCompleteComponent implements OnInit, OnChanges {
     this.value = event.target.value;
     if (event.key === 'Enter') {
       this.showAutoComplete = false;
-      this.selectEvent.emit({element: null , elementKind: this.elementKind });
+      const item = ((this.candidates) && this.candidates.length > 0 ) ? this.candidates[0] : event.target.value;
+      this.value =  (item.id) ? item.name : this.value;
+      this.selectEvent.emit({element: item , elementKind: this.elementKind });
     }
+    this.waitingForChange = true;
     this.enterEvent.emit(this.value);
   }
 

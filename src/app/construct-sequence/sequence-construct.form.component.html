@@ -1,53 +1,58 @@
-<form (ngSubmit)="onSaveSequence()" #sequenceform="ngForm" card>
+<div *ngIf="sequence">
+  <form  #qcform="ngForm" >
 
-  <div class="row input-field">
-    <input name="{{sequence?.id}}-name" type="text" class="validate" required
-      [(ngModel)]="sequence.name" materialize="characterCounter" data-length="255">
-    <label [attr.for]="sequence.id + '-name'" class="teal-text">Name</label>
-  </div>
+    <div class="row input-field">
+      <input id ="{{formId}}-name" name="{{formId}}-name" type="text" class="validate" required
+        [(ngModel)]="sequence.name" materialize="characterCounter" data-length="255">
+      <label for="{{formId}}-name">Name</label>
+    </div>
 
-  <div class="row input-field">
-    <input name="{{sequence?.id}}-label" type="text" class="validate" required
-           [(ngModel)]="sequence.label" materialize="characterCounter" data-length="255">
-    <label [attr.for]="sequence.id + '-label'" class="teal-text">Label</label>
-  </div>
+    <div class="row input-field">
+      <input id="{{formId}}-label"  name="{{formId}}-label" type="text" class="validate" required
+             [(ngModel)]="sequence.label" materialize="characterCounter" data-length="255">
+      <label for="{{formId}}-label">Label</label>
+    </div>
 
-  <div class="row input-field ">
-    <textarea [attr.id]="sequence.id + '-description'"
-              name="{{sequence.id}}-description" class="materialize-textarea"
-              [(ngModel)]="sequence.description"
-              materialize="characterCounter" data-length="255">
-    </textarea>
-    <label [attr.for]="sequence.id + '-description'" class="active teal-text">Description</label>
-  </div>
+    <div class="row input-field ">
+      <textarea id="{{formId}}-desc"
+                name="{{formId}}-desc" class="materialize-textarea"
+                [(ngModel)]="sequence.description"
+                materialize="characterCounter" data-length="255">
+      </textarea>
+      <label for="{{formId}}-desc" class="active">Description</label>
+    </div>
 
-  <qddt-item-revision-select
-    [showProgressBar] = "showProgressBar"
-    [kind] = "QUESTION"
-    [itemList] = "questionConstrucs"
-    [revisionList] = "revisions"
-    (enterEvent) = "onSearchElements($event)"
-    (revisionEvent) = "onRevisonSearch($event)"
-    (selectEvent) = "onRevisionSelected($event)"
-    (dismissEvent) ="onSelectCanceled()">
-  </qddt-item-revision-select>
-
-  <P> -----> </P>
-
-  <qddt-sequence-content [sequence]="sequence.sequence"></qddt-sequence-content>
-
-  <div class="row" *ngIf="!readonly && sequence.id">
-    <qddt-rational [formName]="'RationalComp'" [element]="sequence" [config]="{hidden: [4]}"></qddt-rational>
-  </div>
-
-  <div class="row" *ngIf="sequence.id">
-    <qddt-element-footer [element]="sequence"></qddt-element-footer>
-  </div>
-
-  <div class="row right-align">
-    <button *ngIf="!readonly" type="button"
-            class="btn btn-default" [disabled]="!sequenceform.form.valid">Submit</button>
-  </div>
+    <!--<qddt-item-revision-select-->
+      <!--[showProgressBar] = "showProgressBar"-->
+      <!--[kind] = "QUESTION"-->
+      <!--[itemList] = "questionConstrucs"-->
+      <!--[revisionList] = "revisionList"-->
+      <!--(enterEvent) = "onSearchElements($event)"-->
+      <!--(revisionEvent) = "onRevisonSearch($event)"-->
+      <!--(selectEvent) = "onRevisionSelected($event)"-->
+      <!--(dismissEvent) ="onSelectCanceled($event)">-->
+    <!--</qddt-item-revision-select>-->
+    <!--<qddt-sequence-content [sequence]="sequence.sequence"></qddt-sequence-content>-->
 
 
-</form>
+    <qddt-collection-revision-search-select
+      [showProgressBar] = "showProgressBar"
+      [kind] = "QUESTION"
+      [showList]="sequence.sequence"
+      [searchList] = "questionConstrucs"
+      [revisionList] = "revisionList"
+      (searchEvent) = "onSearchElements($event)"
+      (getRevisionEvent) = "onRevisonSearch($event)">
+    </qddt-collection-revision-search-select>
+
+    <qddt-rational *ngIf="!readonly && sequence.id" [formName]="'RationalComp'" [element]="sequence" [config]="{hidden: [4]}"></qddt-rational>
+
+    <qddt-element-footer  *ngIf="sequence.id" [element]="sequence"></qddt-element-footer>
+
+    <div class="row right-align">
+      <button *ngIf="!readonly" type="button" class="btn btn-default" [disabled]="!qcform.form.valid"
+              (click)="onSaveConstruct()">Submit</button>
+    </div>
+
+  </form>
+</div>

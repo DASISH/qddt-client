@@ -18,7 +18,7 @@ export class ErrorLogService {
     } else if (error instanceof TypeError) {
 
       console.error(error.stack);
-      Materialize.toast((<TypeError>error).message, 4000);
+      Materialize.toast((<TypeError>error).message, 6000);
 
     } else if (error instanceof Error) {
 
@@ -26,11 +26,11 @@ export class ErrorLogService {
         this.logError(error['rejection']);
         return;
       }
-        Materialize.toast(error, 4000);
+        Materialize.toast(error, 6000);
       } else {
 
       console.error('Nobody threw an error but something happened!', error);
-      Materialize.toast(error.message, 4000);
+      Materialize.toast(error.message, 5000);
 
     }
   }
@@ -43,9 +43,9 @@ export class ErrorLogService {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
       if (error.error.userfriendlyMessage) {
-        Materialize.toast(`${error.error.userfriendlyMessage}`, 6000);
+        Materialize.toast(`${error.error.userfriendlyMessage}`, 10000);
       } else {
-        Materialize.toast(`Error code ${error.status}, <br> ${error.error.exceptionMessage}`, 6000);
+        Materialize.toast(`Error code ${error.status}, <br> ${error.error.exceptionMessage}`, 7000);
       }
     }
     // return an ErrorObservable with a user-facing error message

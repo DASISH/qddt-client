@@ -73,10 +73,8 @@
               <div class="col s11" (click)="onClickQuestionItem(cqi.element)" style="cursor: pointer;">
                 {{ cqi?.element?.question }}</div>
               <div class="col s1">
-                <a *ngIf="!readonly"
-                  class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                  [ngClass]="{hide: !showbutton}"
-                  (click)="removeQuestionItem(cqi)">
+                <a *ngIf="!readonly" class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                  [ngClass]="{hide: !showbutton}" (click)="removeQuestionItem(cqi)">
                   <i class="material-icons" title="Remove selected">remove</i>
                 </a>
               </div>

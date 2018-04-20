@@ -14,12 +14,12 @@ export enum SequenceKind {
 
 export class SequenceConstruct implements IEntityAudit {
   id: string;
-  name: string;
+  name = '';
   label?: string;
   description?: string;
   classKind = ElementKind[ElementKind.SEQUENCE_CONSTRUCT];
   sequenceKind = SequenceKind[SequenceKind.SECTION];
-  sequence: ElementRevisionRef[];
+  sequence: ElementRevisionRef[] = [];
   public constructor(init?: Partial<SequenceConstruct>) {
     Object.assign(this, init);
   }

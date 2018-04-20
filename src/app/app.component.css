@@ -53,7 +53,16 @@ form p {
 
 .noItemFound { border: thick solid dodgerblue; }
 
-
+.btn-small {
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 50%;
+  position: relative;
+  vertical-align: middle;
+  font-weight: normal;
+  -webkit-tap-highlight-color: transparent;
+}
 /*.formWhite *  {*/
   /*background-color: white;*/
   /*color: black;*/
@@ -63,9 +72,12 @@ form p {
   /*color: teal ;*/
 /*}*/
 
-.formTeal label * {
-  color: white;
-}
+/*.formTeal * {}*/
+
+/*.formTeal .input-field label * {*/
+  /*color: white;*/
+/*}*/
+
 
 
 /* .formDark * :not() {
