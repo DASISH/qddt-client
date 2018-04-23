@@ -1,9 +1,9 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
-import { TemplateService } from '../template/template.service';
-import { QuestionItem } from './question.classes';
-import { Page, ElementRevisionRef } from '../shared/classes/classes';
-import { ElementKind } from '../shared/classes/enums';
-import { IElement, IRevisionRef } from '../shared/classes/interfaces';
+import { TemplateService } from '../../template/template.service';
+import { ElementRevisionRef, Page } from '../../shared/classes/classes';
+import { QuestionItem } from '../../question/question.classes';
+import { ElementKind } from '../../shared/classes/enums';
+import { IElement, IRevisionRef } from '../../shared/classes/interfaces';
 
 @Component({
   selector: 'qddt-questionitem-reuse',

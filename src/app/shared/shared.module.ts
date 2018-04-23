@@ -25,21 +25,17 @@ import { ConceptrefComponent } from './conceptref/conceptref.component';
 import { QddtModalOpenDirective } from './dialogbox/dialogbox.directive';
 import { QddtModalComponent } from './dialogbox/dialogbox.component';
 import { QddtModalService } from './dialogbox/dialogbox.service';
-import {AutoCompleteComponentOld} from './autocomplete-old/autocomplete.component';
-import {QddtTableComponentOld} from './table-old/table.component';
 
 
 @NgModule({
   imports: [ MaterializeModule, CommonModule, RouterModule, FormsModule, CompareModule ],
   declarations: [ LocalDatePipe, QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent,
-    AutoCompleteComponentOld, QddtTableComponentOld,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent, CommentCreateComponent,
     RationalComponent, RevisionComponent,  ConceptrefComponent, QddtModalComponent,
     AutosizeDirective, ParentFormConnectDirective, GravatarDirective, QddtModalOpenDirective ],
   exports: [ LocalDatePipe, CommonModule, FormsModule, MaterializeModule,
      QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent,
-    AutoCompleteComponentOld, QddtTableComponentOld,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent,
     RationalComponent, RevisionComponent, ConceptrefComponent, QddtModalComponent,

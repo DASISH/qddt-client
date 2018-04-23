@@ -1,16 +1,17 @@
 import { Component, ViewChild } from '@angular/core';
+// import { MaterializeAction } from 'angular2-materialize';
+
 
 @Component({
-  selector: 'qddt-category-detail',
+  selector: 'qddt-responsedomain-detail',
   moduleId: module.id,
-  templateUrl: './missing-group.detail.component.html',
+  templateUrl: './responsedomain.detail.component.html',
 })
-
-export class MissingGroupDetailComponent {
+export class ResponseDetailComponent {
   @ViewChild('detail') templateDetail;
 
   public onFormModified(event) {
     this.templateDetail.onHideDetail();
   }
-}
 
+}

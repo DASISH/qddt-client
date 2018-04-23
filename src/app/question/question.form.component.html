@@ -46,7 +46,7 @@
            [readOnly] = "readonly"
            [showbutton] = "showbutton"
            [responseDomain]="questionitem?.responseDomain"
-           (responseDomainSelected)="onSaveResponseDomain($event)"
+           (selectedEvent)="onSaveResponseDomain($event)"
            (removeEvent)="onResponsedomainRemove($event)">
         </qddt-responsedomain-reuse>
       </div>
@@ -55,7 +55,7 @@
           *ngIf="!readonly && questionitem?.responseDomain"
           [modalId] = "formId"
           [responseDomain]="questionitem.responseDomain"
-          (responseDomainSelected)="onSaveResponseDomain($event)"
+          (selectedEvent)="onSaveResponseDomain($event)"
           (removeEvent)="onResponsedomainRemove($event)">
         </qddt-responsedomain-select-missing>
       </div>

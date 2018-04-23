@@ -1,11 +1,11 @@
 import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { MaterializeAction } from 'angular2-materialize';
-import { DomainKind, DOMAIN_TYPE_DESCRIPTION, ResponseDomain } from './responsedomain.classes';
-import { ResponseDomainService } from './responsedomain.service';
 import { Subject } from 'rxjs/Subject';
-import { ElementRevisionRef, Page } from '../shared/classes/classes';
-import { ElementKind } from '../shared/classes/enums';
-import { IElement } from '../shared/classes/interfaces';
+import { TemplateService } from '../../template/template.service';
+import { IPageResult, IPageSearch, IElement } from '../../shared/classes/interfaces';
+import { ResponseDomain, DomainKind, DOMAIN_TYPE_DESCRIPTION } from '../../responsedomain/responsedomain.classes';
+import { ElementRevisionRef, Page } from '../../shared/classes/classes';
+import { ElementKind } from '../../shared/classes/enums';
 
 @Component({
   selector: 'qddt-responsedomain-reuse',
@@ -31,16 +31,19 @@ export class ResponsedomainReuseComponent implements OnChanges  {
   public formId = Math.round( Math.random() * 10000);
 
   private searchKeysListener = new Subject<string>();
+  private pageSearch: IPageSearch;
 
-  constructor(private responseDomainService: ResponseDomainService) {
+  constructor(private responseDomainService: TemplateService) {
     this.domainTypeDescription = DOMAIN_TYPE_DESCRIPTION.filter((e: any) => e.id !== DomainKind.MIXED);
-
+    this.pageSearch = { kind: this.RESPONSE_KIND, page: new Page(), key: '*' };
     this.searchKeysListener
       .debounceTime(300)
       .distinctUntilChanged()
       .filter(val => val.length > 0)
       .subscribe((search: string) => {
-        this.responseDomainService.getAll(DomainKind[this.selectedDomainKind], search, new Page( {size: 15} )).then(
+        this.pageSearch.key = search;
+        this.pageSearch.keys = new Map( [ ['ResponseKind',  DomainKind[this.selectedDomainKind] ] ] );
+        this.responseDomainService.searchByKind(this.pageSearch).then(
           (result) => { this.responseDomainList = result.content; });
       });
   }
@@ -63,7 +66,7 @@ export class ResponsedomainReuseComponent implements OnChanges  {
   }
 
   onResponseDomainSelected(element: IElement) {
-    this.responseDomainService.getResponseDomainsRevisions(element.element.id).then(
+    this.responseDomainService.getRevisionsByKind(this.RESPONSE_KIND , element.element.id).then(
       (result) => { this.revisionList = result.content; },
       (error) => { throw error; });
   }

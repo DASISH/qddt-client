@@ -1,12 +1,13 @@
 import {Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges} from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { MaterializeAction } from 'angular2-materialize';
-import { ElementRevisionRef, Page} from '../shared/classes/classes';
-import { ElementKind } from '../shared/classes/enums';
-import { Category } from '../category/category.classes';
-import { IElement, IPageSearch } from '../shared/classes/interfaces';
-import { makeMixed, ResponseDomain} from './responsedomain.classes';
-import { TemplateService } from '../template/template.service';
+import { ElementRevisionRef, Page } from '../../shared/classes/classes';
+import { ElementKind } from '../../shared/classes/enums';
+import { IPageSearch, IElement } from '../../shared/classes/interfaces';
+import { TemplateService } from '../../template/template.service';
+import { ResponseDomain, makeMixed } from '../../responsedomain/responsedomain.classes';
+import { Category } from '../../category/category.classes';
+
 
 @Component({
   selector: 'qddt-responsedomain-select-missing',
@@ -18,25 +19,27 @@ import { TemplateService } from '../template/template.service';
 
 export class ResponsedomainSelectMissingComponent implements OnInit, OnChanges {
   @Input() responseDomain: ResponseDomain;
-  @Input() modalId: any = 'RSMC-1';
+  @Input() modalId =  Math.round( Math.random() * 10000);
   @Input() readonly = false;
   @Output() selectedEvent = new EventEmitter<ElementRevisionRef>();
   @Output() removeEvent = new EventEmitter<any>();
 
-  public readonly CATEGORY_KIND = ElementKind.CATEGORY;
+  public readonly CATEGORY_KIND = ElementKind.MISSING_GROUP;
   public findMissingAction = new EventEmitter<MaterializeAction>();
   public showbutton: any;
   public missingGroups: Category[];
   public selectedCategoryIndex: number;
+  public missingRd: ResponseDomain;
 
-  private searchKeysListener = new Subject<string>();
   private _rd: ResponseDomain;
+  private searchKeysListener = new Subject<string>();
   private pageSearch: IPageSearch;
+
+  /* keys: new Map([['categoryKind', 'MISSING_GROUP']]), */
 
   constructor(private service: TemplateService) {
     this.pageSearch = { kind: this.CATEGORY_KIND, key: '*',
-                        keys: new Map([['categoryKind', 'MISSING_GROUP']]),
-                        page: new Page(), sort: 'name.asc' };
+                        page: new Page(), sort: 'name,asc' };
     this.selectedCategoryIndex = 0;
     this.missingGroups = [];
     this.searchKeysListener
@@ -64,6 +67,8 @@ export class ResponsedomainSelectMissingComponent implements OnInit, OnChanges {
   }
 
   onDismiss() {
+    this._rd = new ResponseDomain(this.responseDomain);
+    this.missingRd = null;
     return false; // funker  dette da?
   }
 
@@ -88,16 +93,18 @@ export class ResponsedomainSelectMissingComponent implements OnInit, OnChanges {
   }
 
   public setMissing(missing: IElement) {
+    console.log(missing);
     let rd = this._rd;
 
     if (!rd.isMixed()) {
       rd = makeMixed(rd);
     }
-    rd.addManagedRep(missing.element)
+    console.log(missing.element);
+    rd.addManagedRep(missing.element);
 
     rd.name = rd.managedRepresentation.name =
       'Mixed [' + this.getGroupEntities(rd.managedRepresentation)[0].name + '+' + missing.element.name + ']';
-    this._rd = rd;
+    this.missingRd = this._rd = rd;
   }
 
 
@@ -111,7 +118,7 @@ export class ResponsedomainSelectMissingComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['responseDomain']) {
-    this._rd = new ResponseDomain(this.responseDomain);
+      this._rd = new ResponseDomain(this.responseDomain);
     }
   }
 

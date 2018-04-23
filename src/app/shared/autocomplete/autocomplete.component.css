@@ -72,7 +72,9 @@
 .close-icon {
   border:1px solid transparent;
   background-color: transparent;
-  display: flow;
+  position: absolute;
+  right: 1.5rem;
+  top: 1rem;
   vertical-align: middle;
   outline: 0;
   cursor: pointer;
@@ -80,19 +82,13 @@
 .close-icon:after {
   content: "X";
   vertical-align: middle;
-  float: unset;
-  display: unset;
-  position: relative;
   margin: auto;
   padding: 5px;
-  box-shadow: 0 0 2px #43857b;
   border-radius: 50%;
-  right: 20px;
   color: white;
   background-color: teal;
   text-align: center;
   font-weight: normal;
-  font-size: 12px;
   cursor: pointer;
 }
 .search-box:not(:valid) ~ .close-icon {

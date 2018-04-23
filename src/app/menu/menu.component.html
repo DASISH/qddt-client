@@ -40,7 +40,7 @@
           <li><a class="teal-text" [routerLink]="['/categories']" >
             <i class="material-icons teal-text left medium">view_comfy</i>Categories</a>
           </li>
-          <li><a class="teal-text" [routerLink]="['/schemes']" >
+          <li><a class="teal-text" [routerLink]="['/missing']" >
             <i class="material-icons teal-text left medium">view_module</i>Missings</a>
           </li>
           <li><a class="teal-text" [routerLink]="['/responsedomains']" >
@@ -67,19 +67,19 @@
 
 <ul  id="leftmenu" class="side-nav" style="width: 200px;">
   <div *ngIf="loggedIn">
-    <li><a [routerLink]="['home']"  title="home">
+    <li><a [routerLink]="['/home']"  title="home">
       <i class="medium material-icons teal-text">store</i></a>
     </li>
-    <li><a [routerLink]="['questionitems']"  title="Questions">
+    <li><a [routerLink]="['/questionitems']"  title="Questions">
       <i class="medium material-icons teal-text">help</i></a>
     </li>
-    <li><a [routerLink]="['categories']"  title="Categories">
+    <li><a [routerLink]="['/categories']"  title="Categories">
       <i class="medium material-icons teal-text">view_comfy</i></a>
     </li>
-    <li><a [routerLink]="['schemes']"  title="Missings">
+    <li><a [routerLink]="['/missing']"  title="Missings">
       <i class="medium material-icons teal-text">view_module</i></a>
     </li>
-    <li><a [routerLink]="['responsedomains']"  title="Domains">
+    <li><a [routerLink]="['/responsedomains']"  title="Domains">
       <i class="medium material-icons teal-text">blur_linear</i></a>
     </li>
     <li><a [routerLink]="['/questions']" title="Constructs">

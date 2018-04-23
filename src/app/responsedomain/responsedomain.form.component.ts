@@ -1,13 +1,23 @@
-import { Component, Input, Output, EventEmitter, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
-import { DomainKind, DOMAIN_TYPE_DESCRIPTION, ResponseDomain } from './responsedomain.classes';
-import { DATE_FORMAT, ResponseDomainService } from './responsedomain.service';
-import { Subject } from 'rxjs/Subject';
-import { Page } from '../shared/classes/classes';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnInit,
+  AfterViewInit,
+  OnDestroy,
+  OnChanges,
+  SimpleChanges,
+  AfterContentChecked
+} from '@angular/core';
+import { TemplateService } from '../template/template.service';
+import { DomainKind, DOMAIN_TYPE_DESCRIPTION, ResponseDomain, DATE_FORMAT } from './responsedomain.classes';
 import { Category } from '../category/category.classes';
+import { Page } from '../shared/classes/classes';
 import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
 import { ElementKind } from '../shared/classes/enums';
-import { TemplateService } from '../template/template.service';
-import { IPageSearch } from '../shared/classes/interfaces';
+import {IElement, IPageSearch} from '../shared/classes/interfaces';
+import { QddtPropertyStoreService } from '../core/global/property.service';
 
 declare let Materialize: any;
 
@@ -18,12 +28,10 @@ declare let Materialize: any;
 })
 
 
-export class ResponsedomainFormComponent implements OnInit , OnDestroy {
+export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, AfterContentChecked {
   @Input() responsedomain: ResponseDomain;
-  @Input() domainType: DomainKind;
   @Input() readonly: boolean;
-  @Input() labelColor: string;
-  @Output() formChange = new EventEmitter<Category>();
+  @Output() modifiedEvent = new EventEmitter<ResponseDomain>();
 
   public previewResponseDomain: any;
 
@@ -31,30 +39,21 @@ export class ResponsedomainFormComponent implements OnInit , OnDestroy {
   public domainTypeDef = DomainKind;
   public dateFormatOption = DATE_FORMAT;
   public numberOfAnchors: number;
-  public categories: Category[];
   public selectedCategoryIndex: number;
+  public domainType: DomainKind;
+  public categories: Category[];
 
-  private searchKeysListener: Subject<string> = new Subject<string>();
   private pageSearch: IPageSearch;
   private ok = true;
+  private refresh = true;
 
-  constructor(private categoryService: TemplateService, private service: ResponseDomainService) {
+  constructor(private service: TemplateService, private properties: QddtPropertyStoreService) {
 
     this.selectedCategoryIndex = 0;
     this.numberOfAnchors = 0;
-    this.pageSearch = { kind: this.CATEGORY, key: '*', page: new Page(), sort: 'name,sc' };
-    this.searchKeysListener
-      .debounceTime(300)
-      .distinctUntilChanged()
-      .subscribe((name: string) => {
-        this.pageSearch.key = name;
-        this.categoryService.searchByKind<Category>(this.pageSearch).then(
-          (result ) => {
-            this.categories = result.content;
-            this.pageSearch.page = new Page( result.page );
-            Materialize.updateTextFields();
-          });
-      });
+    this.pageSearch = { kind: this.CATEGORY, key: '*', page: new Page(), sort: 'name,asc' };
+    const page = this.getPageSearch();
+    this.domainType = (page) ? DomainKind[page.keys.get('ResponseKind')] : DomainKind.SCALE;
   }
 
   ngOnInit() {
@@ -63,11 +62,14 @@ export class ResponsedomainFormComponent implements OnInit , OnDestroy {
 
     if (!this.responsedomain) { return; }
 
+
     if (!this.responsedomain.managedRepresentation) { this.responsedomain.managedRepresentation = new Category(); }
+
+    this.numberOfAnchors = this.responsedomain.managedRepresentation.children.length;
 
     this.responsedomain.managedRepresentation.categoryType =
       DOMAIN_TYPE_DESCRIPTION.find(e => e.id === this.domainType).categoryType;
-      this.numberOfAnchors = this.responsedomain.managedRepresentation.children.length;
+
 
     if (this.domainType === DomainKind.SCALE) {
       if (typeof this.responsedomain.displayLayout === 'string') {
@@ -80,26 +82,60 @@ export class ResponsedomainFormComponent implements OnInit , OnDestroy {
 
 
     this.previewResponseDomain = this.responsedomain;
+    try { Materialize.updateTextFields(); } catch (Exception) { }
 
     // haven't really looked into how to handle form groups or binds using ngModel
   }
 
-  select(candidate: any) {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.responsedomain) {
+      this.refresh = true;
+      this.numberOfAnchors = this.responsedomain.managedRepresentation.children.length;
+      this.buildPreviewResponseDomain();
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.ok = false;
+  }
+
+  ngAfterContentChecked(): void {
+    if (this.refresh) {
+      try { Materialize.updateTextFields(); } catch (Exception) { }
+      this.refresh = false;
+    }
+  }
+
+  onSelectCategory(item: IElement) {
     // console.debug('onSelect...');
-    candidate.code = this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex].code;
-    this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex] = candidate;
+    item.element.code = this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex].code;
+    this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex] = item.element;
     this.buildPreviewResponseDomain();
+  }
+
+  onSearchCategories(name: string) {
+    this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex]['isNew'] = true;
+    this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex].label = name;
+    this.pageSearch.key = name;
+    this.service.searchByKind<Category>(this.pageSearch).then(
+      (result) => this.categories = result.content
+    );
   }
 
   onSave() {
     this.responsedomain.label = this.responsedomain.name;
     const managed = this.responsedomain.managedRepresentation;
     managed.name = this.responsedomain.label;
-    this.categoryService.update(managed)
+    this.service.update(managed)
       .takeWhile(() => this.ok )
       .subscribe((result: Category) => {
         this.responsedomain.managedRepresentation = result;
-        this.formChange.emit(result);
+        this.service.update(this.responsedomain).subscribe(
+          (rdResult) => {
+            this.responsedomain = rdResult;
+            this.modifiedEvent.emit(rdResult);
+          }
+        );
     });
   }
 
@@ -149,11 +185,6 @@ export class ResponsedomainFormComponent implements OnInit , OnDestroy {
     this.buildPreviewResponseDomain();
   }
 
-  searchCategories(name: string) {
-    this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex]['isNew'] = true;
-    this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex].label = name;
-    this.searchKeysListener.next(name);
-  }
 
   onClickClear(idx: number) {
     const rep = this.responsedomain.managedRepresentation;
@@ -239,7 +270,8 @@ export class ResponsedomainFormComponent implements OnInit , OnDestroy {
     return parseInt(value1) + parseInt(value2);
   }
 
-  ngOnDestroy(): void {
-    this.ok = false;
+  private getPageSearch(): IPageSearch {
+    return this.properties.get('responsedomains');
   }
+
 }

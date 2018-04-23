@@ -2,12 +2,11 @@ import { Component, Input,  EventEmitter, Output } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { API_BASE_HREF } from '../api';
+import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
 import { ResponsedomainSelectMissingComponent } from './responsedomain.select-missing.component';
-import { QuestionService } from '../question/question.classes';
 import { Observable } from 'rxjs/Observable';
 
 export function main() {
@@ -19,7 +18,6 @@ export function main() {
           ResponsedomainSelectMissingComponent, QddtAutoCompleteComponent,
         ],
         providers: [
-          { provide: QuestionService, useClass: QuestionServiceSpy },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'

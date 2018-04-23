@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { Category, CATEGORY_INFO, ICategoryInfo, CategoryKind, HierachyLevel } from './category.classes';
-import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
+import { Category, CATEGORY_INFO, ICategoryInfo, HierachyLevel } from './category.classes';
 import { ElementKind } from '../shared/classes/enums';
 import { TemplateService } from '../template/template.service';
 
@@ -39,16 +38,6 @@ export class CategoryFormComponent implements OnInit {
     this.categoryEnums = CATEGORY_INFO.filter( (e) => e.level ===  HierachyLevel[this.category.hierarchyLevel]);
   }
 
-  setCategoryNumber(event: any) {
-    this.numberOfCategories = event.target.value;
-    if (this.category.children === undefined) {
-      this.category.children = [];
-    }
-    this.category.children = this.category.children.slice(0, this.numberOfCategories);
-    for (let i = this.category.children.length; i < this.numberOfCategories; i++) {
-        this.category.children.push(new Category());
-    }
-  }
 
   select(candidate: any) {
     this.category.children[this.selectedCategoryIndex] = candidate;
@@ -56,14 +45,11 @@ export class CategoryFormComponent implements OnInit {
 
   onSave() {
     this.categoryService.update(this.category).subscribe(
-      (result) => { this.category = result; },
-      (error) => {
-        if (error.status === 409) {
-          this.categoryService.getItemByKind<Category>(this.CATEGORY, error.error.id).then(
-            (updated) => {  this.category = updated; });
-        }
-        throw error;
-      });
+      (result) => {
+        this.category = result;
+        this.modifiedEvent.emit(result);
+      },
+      (error) => { throw error; });
   }
 
 }

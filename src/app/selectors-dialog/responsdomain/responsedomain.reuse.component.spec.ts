@@ -1,30 +1,25 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, Input,  EventEmitter, Output } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { ResponseDomainService } from './responsedomain.service';
-import { ResponsedomainFormComponent } from './responsedomain.form.component';
+import { ResponsedomainReuseComponent } from './responsedomain.reuse.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { MaterializeModule } from 'angular2-materialize';
-import { API_BASE_HREF } from '../api';
-import { CategoryService } from '../category/category.service';
+import { API_BASE_HREF } from '../../api';
+import { TemplateService } from '../../template/template.service';
 
 export function main() {
-  describe('Responsedomain form component', () => {
+  describe('Responsedomain reuse component', () => {
     //
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [ResponsedomainFormComponent, ResponsedomainUsedbyComponent,
-        RevisionComponent, StudyUsedbyComponent,
-        TopicUsedbyComponent, QuestionitemUsedbyComponent,
-        ResponsedomainUsedbyComponent, RevisionDetailComponent,
-        RationalComponent, QddtAutoCompleteComponent,
-        PreviewComponent],
+        declarations: [ResponsedomainReuseComponent, QddtAutoCompleteComponent,
+        RevisionComponent, ResponsedomainFormComponent,
+        ResponseDomainSelectComponent],
         providers: [
-          { provide: ResponseDomainService, useClass: ResponseDomainServiceSpy },
-          { provide: CategoryService, useClass: CategoryServiceSpy },
+          { provide: TemplateService, useClass: ResponseDomainServiceSpy },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
@@ -41,7 +36,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            const fixture = TestBed.createComponent(ResponsedomainFormComponent);
+            const fixture = TestBed.createComponent(ResponsedomainReuseComponent);
             fixture.detectChanges();
             const de: any = fixture.debugElement.queryAll(By.css('ul'));
             expect(de.length).toBe(0);
@@ -53,7 +48,7 @@ export function main() {
         TestBed
           .compileComponents()
           .then(() => {
-            const fixture = TestBed.createComponent(ResponsedomainFormComponent);
+            const fixture = TestBed.createComponent(ResponsedomainReuseComponent);
             const managedRepresentation: any = {
               'id': '0c3c168e-d1ea-421f-a629-7487c71fbf1a',
               'name': 'Code',
@@ -103,14 +98,13 @@ export function main() {
               'changeKind' : 'CONCEPTUAL',
               'changeComment' : 'Information added'
             };
-            fixture.componentInstance.responsedomain = responseDomain;
-            fixture.componentInstance.domainType = 1;
-            fixture.componentInstance.ngOnInit();
+            fixture.componentInstance.responseDomain = responseDomain;
+            fixture.componentInstance.ngOnChanges();
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              const inputs: any[] = fixture.debugElement.queryAll(By.css('input'));
-              expect(inputs.length).toBeGreaterThan(0);
-              expect(inputs[0].nativeNode.value).toContain('responseDomain');
+              const types: any[] = fixture.debugElement.queryAll(By.css('input'));
+              expect(types.length).toBeGreaterThan(1);
+              expect(types[1].nativeNode.value).toBeTruthy();
             });
           });
       }));
@@ -120,11 +114,6 @@ export function main() {
 // override dependencies
 class ResponseDomainServiceSpy {
   getAll = jasmine.createSpy('getAll').and.callFake(function (key) {
-    return [];
-  });
-}
-class CategoryServiceSpy {
-  getAllByLevel = jasmine.createSpy('getAllByLevel').and.callFake(function (key) {
     return [];
   });
 }
@@ -139,64 +128,6 @@ class RevisionComponent {
   @Input() config: any;
   @Input() qddtURI: any;
   @Input() current: any;
-}
-
-@Component({
-  selector: 'qddt-preview-responsedomain',
-  template: `<div></div>`
-})
-
-class ResponsedomainUsedbyComponent {
-  @Input() id: string;
-  @Input() domainType: any;
-}
-
-@Component({
-  selector: 'qddt-preview-study',
-  template: `<div></div>`
-})
-
-class StudyUsedbyComponent {
-  @Input() id: string;
-}
-
-@Component({
-  selector: 'qddt-preview-topic',
-  template: `<div></div>`
-})
-
-class TopicUsedbyComponent {
-  @Input() id: string;
-}
-
-@Component({
-  selector: 'qddt-rational',
-  template: `<div></div>`
-})
-
-class RationalComponent {
-  @Input() element: any;
-  @Input() config: any;
-}
-
-@Component({
-  selector: 'qddt-preview-questionitem',
-  template: `<div></div>`
-})
-
-class QuestionitemUsedbyComponent {
-  @Input() id: string;
-}
-
-@Component({
-  selector: 'qddt-element-footer',
-  template: `<div></div>`
-})
-
-class RevisionDetailComponent {
-  @Input() element: any;
-  @Input() type: string;
-  @Output() BasedonObjectDetail = new EventEmitter<string>();
 }
 
 @Component({
@@ -217,11 +148,24 @@ class QddtAutoCompleteComponent {
 }
 
 @Component({
-  selector: 'qddt-preview-responsedomain',
+  selector: 'qddt-responsedomain-form',
   template: `<div></div>`
 })
 
-class PreviewComponent {
-  @Input() isVisible: boolean;
-  @Input() responseDomain: any;
+class ResponsedomainFormComponent {
+  @Input() responsedomain: any;
+  @Input() domainType: any;
+  @Input() readonly: boolean;
+  @Output() formChange =  new EventEmitter<any>();
+}
+
+@Component({
+  selector: 'qddt-responsedomain-edit-missing',
+  template: `<div></div>`
+})
+
+class ResponseDomainSelectComponent {
+  @Input() responseDomain;
+  @Input() revision;
+  @Output() useResponseDomainEvent = new EventEmitter<any>();
 }

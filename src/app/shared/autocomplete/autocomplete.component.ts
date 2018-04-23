@@ -1,9 +1,10 @@
-import {Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges} from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnDestroy} from '@angular/core';
 import { IElement, IEntityAudit} from '../classes/interfaces';
 import { QueryInfo } from '../classes/classes';
 import { ElementKind } from '../classes/enums';
 import { ElementEnumAware } from '../../preview/preview.service';
 import { getElementKind, QDDT_QUERY_INFOES} from '../classes/constants';
+import {Factory} from '../classes/factory';
 
 @Component({
   selector: 'qddt-auto-complete',
@@ -13,10 +14,12 @@ import { getElementKind, QDDT_QUERY_INFOES} from '../classes/constants';
 })
 
 @ElementEnumAware
-export class QddtAutoCompleteComponent implements OnInit, OnChanges {
+export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
   @Input() items: IEntityAudit[];
   @Input() elementKind: ElementKind;
+  @Input() formName: string;
   @Input() initialValue = '';
+  @Input() autoCreate = true;
 
   @Output() selectEvent = new EventEmitter<IElement>();
   @Output() focusEvent = new EventEmitter<string>();
@@ -28,38 +31,49 @@ export class QddtAutoCompleteComponent implements OnInit, OnChanges {
   public selectedIndex = 0;
   public queryInfo: QueryInfo;
 
-  private waitingForChange = true;
-  private searchFromServer = true;
-
-  ngOnInit() {
-    this.value = this.initialValue;
-  }
+  private waitingForChange = false;
+  private found = true;
 
   ngOnChanges(change: SimpleChanges) {
-    if (change['elementKind']) {
+    if (change['elementKind'] && change['elementKind'].isFirstChange()) {
       this.queryInfo = QDDT_QUERY_INFOES[getElementKind(this.elementKind)];
-    } else if ( (change['items'])) {
-      if (this.waitingForChange) {
-        this.waitingForChange = false;
-        this.candidates = this.items;
-      }
     }
+
+    if ( (change['items'] && this.waitingForChange)) {
+      this.waitingForChange = false;
+      this.candidates = this.items;
+      this.found = ((this.candidates) && (this.candidates.length > 0));
+    }
+
+    if (change['initialValue'] && change['initialValue'].isFirstChange() ) {
+      this.value = this.initialValue;
+    }
+
   }
 
   enterText(event: any) {
     this.value = event.target.value;
     if (event.key === 'Enter') {
       this.showAutoComplete = false;
-      const item = ((this.candidates) && this.candidates.length > 0 ) ? this.candidates[0] : event.target.value;
-      this.value =  (item.id) ? item.name : this.value;
-      this.selectEvent.emit({element: item , elementKind: this.elementKind });
+      const fieldName = this.queryInfo.fields[0];
+      const item = (this.found) ? this.candidates[0] :
+        (this.autoCreate) ? Factory.createFromSeed(this.elementKind, { [fieldName] : this.value }) : null;
+      if (item) {
+        this.value = item[fieldName];
+        this.selectEvent.emit({element: item , elementKind: this.elementKind });
+      }
+    } else {
+      this.waitingForChange = true;
+      this.enterEvent.emit(this.value);
     }
-    this.waitingForChange = true;
-    this.enterEvent.emit(this.value);
   }
 
   notFound(): boolean {
-    return (  this.showAutoComplete && (this.value) &&  this.candidates.length === 0 );
+    return ( !this.found );
+  }
+
+  invalid(): boolean {
+    return ( !this.found && !this.autoCreate );
   }
 
   onFocus() {
@@ -87,11 +101,9 @@ export class QddtAutoCompleteComponent implements OnInit, OnChanges {
 
   onClearKeywords() {
     this.value = '';
-    if (this.searchFromServer) {
-      this.enterEvent.emit(this.value);
-    } else {
-      this.filterItems(this.value);
-    }
+    this.filterItems('');
+    this.waitingForChange = true;
+    this.enterEvent.emit('*');
   }
 
   private getFieldValue(object: IEntityAudit, path: any) {
@@ -145,6 +157,10 @@ export class QddtAutoCompleteComponent implements OnInit, OnChanges {
       result = item[path] || '';
     }
     return result.toLowerCase().indexOf(search.toLowerCase()) >= 0;
+  }
+
+  ngOnDestroy(): void {
+    console.log('destroying autocomplete...');
   }
 
 }

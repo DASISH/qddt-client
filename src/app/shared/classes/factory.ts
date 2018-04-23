@@ -10,7 +10,7 @@ import { QuestionItem } from '../../question/question.classes';
 import { Instrument } from '../../instrument/instrument.classes';
 import { ElementKind } from './enums';
 import { IEntityAudit } from './interfaces';
-import { Category } from '../../category/category.classes';
+import {Category, CategoryKind} from '../../category/category.classes';
 import { Concept, Study, SurveyProgram, Topic } from '../../home/home.classes';
 import { ResponseDomain } from '../../responsedomain/responsedomain.classes';
 
@@ -22,8 +22,9 @@ export class Factory {
   static createInstance(kind: ElementKind): IEntityAudit {
     switch (kind) {
       case ElementKind.CATEGORY:
-      case ElementKind.MISSING_GROUP:
         return new Category();
+      case ElementKind.MISSING_GROUP:
+        return new Category().setKind(CategoryKind.MISSING_GROUP);
       case ElementKind.CONCEPT:
         return new Concept();
       case ElementKind.CONDITION_CONSTRUCT:
@@ -61,8 +62,9 @@ export class Factory {
   static createFromSeed(kind: ElementKind, seed: any): IEntityAudit {
     switch (kind) {
       case ElementKind.CATEGORY:
-      case ElementKind.MISSING_GROUP:
         return new Category(seed);
+      case ElementKind.MISSING_GROUP:
+        return new Category(seed).setKind(CategoryKind.MISSING_GROUP);
       case ElementKind.CONCEPT:
         return new Concept(seed);
       case ElementKind.CONDITION_CONSTRUCT:

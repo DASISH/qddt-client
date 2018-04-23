@@ -46,11 +46,8 @@ export class QddtTableComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['domainkind']) {
-      this.columns = this.getColumns();
-    } else if (!this.columns) {
-      this.columns = this.getColumns();
-    }
+
+    this.columns = this.getColumns();
 
     if (!this.items) { this.items = []; }
 
@@ -159,7 +156,7 @@ export class QddtTableComponent implements OnInit, OnChanges {
   private getColumns(): Column[] {
     const kind = this.pageSearch.kind;
     if (kind === ElementKind.RESPONSEDOMAIN) {
-      return RESPONSEDOMAIN_COLUMNS.get(this.domainkind);
+      return RESPONSEDOMAIN_COLUMNS.get(DomainKind[this.pageSearch.keys.get('ResponseKind')]);
     }
 
     if (LIST_COLUMNS.has(kind)) {

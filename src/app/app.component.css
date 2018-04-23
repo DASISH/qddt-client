@@ -52,6 +52,7 @@ form p {
 }
 
 .noItemFound { border: thick solid dodgerblue; }
+.itemInvalid { border: thick solid red; }
 
 .btn-small {
   width: 24px;

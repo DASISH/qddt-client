@@ -71,5 +71,17 @@ export class Category implements IEntityEditAudit {
   format?: any;
   public constructor(init?: Partial<Category>) {
     Object.assign(this, init);
+    if (this.name && !this.label) {
+      this.label = this.name;
+    } else if (this.label && !this.name) {
+      this.name = this.label;
+    }
+  }
+
+  public setKind(kind: CategoryKind): Category {
+    this.description =  CATEGORY_INFO[kind].description;
+    this.hierarchyLevel = CATEGORY_INFO[kind].level.toString();
+    this.categoryType = CategoryKind[kind];
+    return this;
   }
 }

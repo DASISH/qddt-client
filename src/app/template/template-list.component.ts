@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs/Subject';
 import { TemplateService } from './template.service';
 
 import { Page } from '../shared/classes/classes';
@@ -39,10 +38,14 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
     this.messages.getAction()
       .takeWhile(() => this.alive)
       .subscribe(event => {
-        if (event.action === ActionKind.Update || event.action === ActionKind.Create) {
+        if (event.action === ActionKind.Update || event.action === ActionKind.Create || event.action === ActionKind.Filter) {
+          if ( event.id === 'ResponseKind') {
+            this.pageSearch.keys = event.object;
+          this.setPageSearch(this.pageSearch);
+          }
           this.loadPage();
         }
-    });
+      });
   }
 
   public ngOnInit(): void {
@@ -88,10 +91,14 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
   }
 
   getKeys(search: IPageSearch): IPageSearch {
+    console.log('get keys');
     if (search.kind === ElementKind.RESPONSEDOMAIN) {
       search.keys =  new Map([['ResponseKind', 'SCALE']]);
     }
-    return search;
+/*     if (search.kind === ElementKind.CATEGORY) {
+      search.keys =  new Map([['categoryKind', 'CATEGORY']]);
+    }
+ */    return search;
   }
 
 }

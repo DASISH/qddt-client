@@ -1,11 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
 
 @Component({
-  selector: 'qddt-category',
+  selector: 'qddt-missing',
   moduleId: module.id,
-  templateUrl: './missing-group.component.html'
+  templateUrl: './missing.component.html'
 })
-export class MissingGroupComponent  {
+export class MissingComponent  {
   @ViewChild('detail') templateDetail;
 
 

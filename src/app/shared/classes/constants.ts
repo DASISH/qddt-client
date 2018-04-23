@@ -8,8 +8,8 @@ export  function getElementKind(kind: string|ElementKind): ElementKind {
 
 export const QDDT_QUERY_INFOES: QueryInfo[] = [
   new QueryInfo(ElementKind.NONE, '', '', [], null),
-  new QueryInfo(ElementKind.CATEGORY, 'Category', 'category', ['name'], '&category=CATEGORY'),
-  new QueryInfo(ElementKind.MISSING_GROUP, 'Missing Values', 'category', ['name'], '&category=MISSING_GROUP'),
+  new QueryInfo(ElementKind.CATEGORY, 'Category', 'category', ['name'], '&categoryKind=CATEGORY'),
+  new QueryInfo(ElementKind.MISSING_GROUP, 'Missing Values', 'category', ['name'], '&categoryKind=MISSING_GROUP'),
   new QueryInfo(ElementKind.CONCEPT, 'Concept', 'concept', ['name'], null),
   new QueryInfo(ElementKind.CONTROL_CONSTRUCT, 'Construct', 'controlconstruct', ['name'],
     '&constructkind=CONTROL_CONSTRUCT'),
@@ -25,8 +25,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
   new QueryInfo(ElementKind.PUBLICATION, 'Publication', 'publication', ['name', 'purpose'], null),
   new QueryInfo(ElementKind.QUESTION_GRID, 'QuestionGrid', 'questiongrid', ['name', 'question'], null),
   new QueryInfo(ElementKind.QUESTION_ITEM, 'QuestionItem', 'questionitem', ['name', 'question', 'responsename'], null),
-  new QueryInfo(ElementKind.RESPONSEDOMAIN, 'ResponseDomain', 'responsedomain',
-    ['name', 'description', 'question'], null),
+  new QueryInfo(ElementKind.RESPONSEDOMAIN, 'ResponseDomain', 'responsedomain', ['name', 'description', 'question'], null),
   new QueryInfo(ElementKind.STUDY, 'Study', 'study', ['name', 'description'], null),
   new QueryInfo(ElementKind.SURVEY_PROGRAM, 'Survey', 'surveyprogram', ['name', 'description'], null),
   new QueryInfo(ElementKind.TOPIC_GROUP, 'Module', 'topicgroup', ['name', 'abstractDescription'], null),
@@ -37,7 +36,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
 
 export  const HEADER_DETAILS: Map<string, IHeaderDetail>  = new Map([
   ['categories', { icon: 'view_comfy', headerName: 'Categories', kind: ElementKind.CATEGORY }],
-  ['schemes', { icon: 'view_module', headerName: 'Missing Values', kind: ElementKind.MISSING_GROUP }],
+  ['missing', { icon: 'view_module', headerName: 'Missing Values', kind: ElementKind.MISSING_GROUP }],
   ['questionitems', { icon: 'view_agenda', headerName: 'QuestionItems' , kind: ElementKind.QUESTION_ITEM}],
   ['questions', { icon: 'view_agenda', headerName: 'Question constructs' , kind: ElementKind.QUESTION_CONSTRUCT}],
   ['sequences', { icon: 'format_line_spacing', headerName: 'Sequence construct', kind: ElementKind.SEQUENCE_CONSTRUCT }],

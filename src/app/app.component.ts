@@ -60,7 +60,7 @@ export class AppComponent  implements OnDestroy {
   }
 
   onSchemes() {
-    this.checkRouter('schemes', 'list');
+    this.checkRouter('missing', 'list');
   }
 
   onResponsedomains() {

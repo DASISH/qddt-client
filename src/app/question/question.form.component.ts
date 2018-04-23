@@ -41,32 +41,19 @@ export class QuestionFormComponent  implements OnChanges {
       });
   }
 
-  onSaveResponseDomain(item) {
-    if (item.responseDomain.responseKind === 'MIXED') {
-      this.service.update(item.responseDomain).subscribe(result => {
-        item.responseDomain = result;
-        this.questionitem.responseDomain = item.responseDomain;
+  onSaveResponseDomain(item: ElementRevisionRef) {
+    if (item.element.responseKind === 'MIXED') {
+      this.service.update(item.element).subscribe(result => {
+        item.element = result;
+        this.questionitem.responseDomain = item.element;
         this.questionitem.responseDomainRevision = 0;
       });
     } else {
-      this.questionitem.responseDomain = item.responseDomain;
-      this.questionitem.responseDomainRevision = item.responseDomainRevision || 0;
+      this.questionitem.responseDomain = item.element;
+      this.questionitem.responseDomainRevision = item.elementRevision || 0;
 
     }
   }
-
-  onResponseDomainSelected(item: ElementRevisionRef) {
-    if (item.element.responseKind === 'MIXED') {
-      this.service.update(item.element).subscribe(result => {
-        this.questionitem.responseDomain = result;
-        this.questionitem.responseDomainRevision = 0;
-      });
-    } else {
-        this.questionitem.responseDomain = item.element;
-        this.questionitem.responseDomainRevision = item.elementRevision || 0;
-
-      }
-   }
 
   onResponsedomainRemove() {
     this.questionitem.responseDomainRevision = 0;
