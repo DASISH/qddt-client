@@ -73,7 +73,6 @@ export interface IHeaderDetail {
   icon: any;
   headerName: string;
   kind: ElementKind;
-  action ?: string;
 }
 
 export interface IPageResult<T> {
