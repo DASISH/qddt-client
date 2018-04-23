@@ -27,7 +27,7 @@ export const DATE_FORMAT: any = [
 ];
 
 export const DOMAIN_TYPE_DESCRIPTION = [
-  { id: DomainKind.NONE },
+  { id: DomainKind.NONE, label: '', categoryType: null },
   { id: DomainKind.SCALE, label: 'Scale Domain', categoryType: CategoryKind.SCALE },
   { id: DomainKind.LIST, label: 'Code Domain', categoryType: CategoryKind.LIST },
   { id: DomainKind.NUMERIC, label: 'Numeric Domain', categoryType: CategoryKind.NUMERIC },
