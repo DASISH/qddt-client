@@ -54,7 +54,8 @@ form p {
 .noItemFound { border: thick solid dodgerblue; }
 .itemInvalid { border: thick solid red; }
 
-.btn-small {
+
+/* .btn-small {
   width: 24px;
   height: 24px;
   border: none;
@@ -64,29 +65,7 @@ form p {
   font-weight: normal;
   -webkit-tap-highlight-color: transparent;
 }
-/*.formWhite *  {*/
-  /*background-color: white;*/
-  /*color: black;*/
-/*}*/
 
-/*.formWhite label * {*/
-  /*color: teal ;*/
-/*}*/
-
-/*.formTeal * {}*/
-
-/*.formTeal .input-field label * {*/
-  /*color: white;*/
-/*}*/
-
-
-
-/* .formDark * :not() {
-  background-color: #009687;
-  color: whitesmoke;
-}
-
- */
 
 /*.qddtIcon { margin:0px; vertical-align: middle;float: unset; display: unset; position: relative; }
 .collapsible-header {*/

@@ -9,7 +9,7 @@
     <a class="close-icon" (click)="onClearKeywords()" title="clear search" ></a>
 	</div>
 	<ul *ngIf="showAutoComplete && candidates">
-		<li class="grey-text" *ngFor="let candidate of candidates; let idx=index"
+		<li  *ngFor="let candidate of candidates; let idx=index"
 			  [ngClass]="{ active: (idx === selectedIndex) }"
 			  (mouseover)="selectedIndex=idx;"
         (mousedown)="select(candidate)">
