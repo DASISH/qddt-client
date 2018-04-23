@@ -177,7 +177,7 @@ export class QuestionConstructFormComponent implements OnChanges , AfterContentC
         .flatMap((x: any) => {
           if (x < len) {
             const file = files[x];
-            return this.service.uploadFile(controlConstruct.id, file);
+            return this.service.uploadFile(controlConstruct.id, '/CC', file);
           } else {
             const file = toDeleteFiles[x - len];
             return this.service.deleteFile(file.id);

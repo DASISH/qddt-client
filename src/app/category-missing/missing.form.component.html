@@ -25,23 +25,17 @@
            [(ngModel)]="missing.children.length" >
         <label for="{{formId}}-name_number">Number of Missing Codes</label>
       </div>
-
-      <div class="row" *ngIf="missing.children">
-        <table >
-          <thead><tr><td>Select Responses</td></tr></thead>
-          <tbody>
-            <tr *ngFor="let cat of missing.children; let idx=index">
-              <td><qddt-auto-complete
-              [items]="missingList"
-              [elementKind]="MISSING"
-              [initialValue]="cat?.label"
-              (focusEvent)="missingIndex=idx;"
-              (enterEvent)="onSearchMissing($event)"
-              (selectEvent)="onSelect($event)">
-              </qddt-auto-complete></td>
-            </tr>
-          </tbody>
-        </table>
+    </div>
+    <div class="row"  *ngFor="let cat of missing.children; let idx=index">
+      <div class="col s6">
+        <qddt-auto-complete  [formName]="'autocomplete'"
+          [items]="missingList"
+          [elementKind]="CATEGORY"
+          [initialValue]="cat?.name"
+          (focusEvent)="missingIndex=idx;"
+          (enterEvent)="onSearchMissing($event)"
+          (selectEvent)="onSelect($event)">
+        </qddt-auto-complete>
       </div>
     </div>
 

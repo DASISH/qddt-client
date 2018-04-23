@@ -130,12 +130,12 @@ export class TemplateService {
     return this.http.delete(this.api + 'othermaterial/delete/' + id);
   }
 
-  public uploadFile(id: string, files: any): Observable<any> {
+  public uploadFile(id: string, type: string = '/T', files: any): Observable<any> {
     const formData = new FormData();
     if (files !== null) {
       formData.append('file', files[0]);
     }
-    return this.http.post(this.api + 'othermaterial/upload/' + id + '/T', formData)
+    return this.http.post(this.api + 'othermaterial/upload/' + id + type, formData)
       .map((res: any) => {
         try {
           return res;

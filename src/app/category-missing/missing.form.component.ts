@@ -1,10 +1,9 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
 import { ElementKind } from '../shared/classes/enums';
 import { TemplateService } from '../template/template.service';
-import { Category, ICategoryInfo, CATEGORY_INFO, HierachyLevel } from '../category/category.classes';
+import { Category } from '../category/category.classes';
 import { IPageSearch, IElement } from '../shared/classes/interfaces';
-import { ElementRevisionRef, Page } from '../shared/classes/classes';
+import { Page } from '../shared/classes/classes';
 
 
 @Component({
@@ -17,10 +16,12 @@ export class MissingFormComponent implements OnInit {
 
   @Input() missing: Category;
   @Input() readonly = false;
-  @Output() modifiedEvent =  new EventEmitter<String>();
+  @Output() modifiedEvent =  new EventEmitter<Category>();
 
   public readonly formId = Math.round( Math.random() * 10000);
-  public readonly MISSING = ElementKind.CATEGORY;
+  public readonly MISSING = ElementKind.MISSING_GROUP;
+  public readonly CATEGORY = ElementKind.CATEGORY;
+
   public missingList: Category[];
   public missingIndex: number;
   private pageSearch: IPageSearch;
@@ -28,7 +29,8 @@ export class MissingFormComponent implements OnInit {
   constructor(private missingService: TemplateService) { }
 
   ngOnInit() {
-    this.pageSearch = { kind: this.MISSING, page: new Page(), key: '*' };
+    // this is for searching categories  , keys: new Map<string, string>([['categoryKind', 'CATEGORY']]) */
+    this.pageSearch = { kind: this.CATEGORY, page: new Page(), key: '*'};
    }
 
 
@@ -50,14 +52,11 @@ export class MissingFormComponent implements OnInit {
 
   onSave() {
     this.missingService.update(this.missing).subscribe(
-      (result) => { this.missing = result; },
-      (error) => {
-        if (error.status === 409) {
-          this.missingService.getItemByKind<Category>(this.MISSING, error.error.id).then(
-            (updated) => {  this.missing = updated; });
-        }
-        throw error;
-      });
+      (result) => {
+        this.missing = result;
+        this.modifiedEvent.emit(result);
+      },
+      (error) => { throw error; });
   }
 
 }
