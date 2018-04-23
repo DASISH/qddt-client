@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, OnChanges, SimpleChanges, OnDestroy, AfterContentChecked} from '@angular/core';
 import { TemplateService } from './template.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MaterializeAction } from 'angular2-materialize';
@@ -6,6 +6,8 @@ import { Factory } from '../shared/classes/factory';
 import { IDetailAction, IEntityEditAudit } from '../shared/classes/interfaces';
 import { ActionKind, ElementKind } from '../shared/classes/enums';
 import { HEADER_DETAILS } from '../shared/classes/constants';
+
+declare var Materialize: any;
 
 const fileSaver = require('file-saver');
 
@@ -15,7 +17,7 @@ const fileSaver = require('file-saver');
   templateUrl: './template-detail.component.html',
 })
 
-export class TemplateDetailComponent implements OnInit, OnChanges, OnDestroy {
+export class TemplateDetailComponent implements OnInit, OnChanges, OnDestroy, AfterContentChecked {
   @Output() closeState = new EventEmitter<IDetailAction>();
   @Output() selectedItem = new EventEmitter<IEntityEditAudit>();
 
@@ -27,6 +29,7 @@ export class TemplateDetailComponent implements OnInit, OnChanges, OnDestroy {
   private action: IDetailAction = { id: '', action: ActionKind.None, object: null };
   private kind: ElementKind;
   private alive = true;
+  private refreshCount = 0;
 
   constructor(private service: TemplateService, private router: Router, private route: ActivatedRoute) {
     this.route.url
@@ -40,6 +43,7 @@ export class TemplateDetailComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
+    this.refreshCount = 0;
     if (this.kind) {
       this.service.getItemByKind(this.kind, this.route.snapshot.paramMap.get('id')).then(
         (item) => {
@@ -51,6 +55,16 @@ export class TemplateDetailComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+  }
+
+  ngAfterContentChecked(): void {
+    if (this.refreshCount < 10) {
+      try {
+        this.refreshCount++;
+        Materialize.updateTextFields();
+      } catch (Exception) {
+      }
+    }
   }
 
   onHideDetail() {
