@@ -17,9 +17,10 @@ import { PreviewModule } from '../preview/preview.module';
 import { QuestionModule } from '../question/question.module';
 import { ConceptTocComponent } from './concept/concept-toc.component';
 import { SelectorDialogsModule } from '../selectors-dialog/selectors-dialog.module';
+import {SelectorsModule} from '../selectors/selectors.module';
 
 @NgModule({
-  imports: [ SharedModule, HomeRoutingModule, PreviewModule, QuestionModule, SelectorDialogsModule ],
+  imports: [ SharedModule, HomeRoutingModule, PreviewModule, QuestionModule, SelectorDialogsModule, SelectorsModule ],
 
   declarations: [ HomeComponent, SurveyComponent, SurveyEditComponent,
     StudyComponent, StudyEditComponent, TopicComponent, TopicEditComponent,

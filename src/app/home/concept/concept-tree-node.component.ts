@@ -30,6 +30,20 @@ export class TreeNodeComponent  {
     this.newchild = new Concept();
   }
 
+  onToggleEdit(edit) {
+    edit.isVisible = !edit.isVisible;
+    if (edit.isVisible) {
+      this.conceptService.getConcept(this.concept.id).then(
+        (result) => {
+          this.concept = result;
+        },
+        (error) => {
+          throw error;
+        }
+      );
+    }
+  }
+
   onCreateConcept(concept: any) {
     if (!this.readonly) {
       this.readonly = concept.archived;

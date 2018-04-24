@@ -1,11 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import {Component, EventEmitter, Input, Output } from '@angular/core';
 import { ElementEnumAware } from '../../preview/preview.service';
 import { HomeService } from '../home.service';
 import { ElementKind } from '../../shared/classes/enums';
-import { IEntityAudit } from '../../shared/classes/interfaces';
-import { QueryInfo } from '../../shared/classes/classes';
-import { QDDT_QUERY_INFOES } from '../../shared/classes/constants';
+import {IElement, IRevisionRef} from '../../shared/classes/interfaces';
+import {ElementRevisionRef, QueryInfo} from '../../shared/classes/classes';
+import {QDDT_QUERY_INFOES} from '../../shared/classes/constants';
 
 
 @Component({
@@ -19,65 +18,41 @@ export class CopySourceComponent {
   @Input() parentId: any;
   @Input() elementKind: ElementKind;
   @Output() itemSelected = new EventEmitter<any>();
+  @Output() dismissEvent = new EventEmitter<any>();
 
   items: any[];
-  elementRevisions: any[];
-  elementRevision: any;
-  selectedElement: IEntityAudit;
-  selectedIndex: number;
-
-  private searchKeysListener: Subject<string> = new Subject<string>();
-
+  revisionResults: any[];
 
   constructor(private service: HomeService) {
-    this.selectedIndex = 0;
     this.items = [];
-    this.elementRevisions = [];
-    this.searchKeysListener
-      .debounceTime(300)
-      .distinctUntilChanged()
-      .subscribe((name: string) => {
-        this.service.getElementByTypeAndName(this.elementKind, name).then(
-          (result: any) => { this.items = result.content; }
-          );
-      });
+    this.revisionResults = [];
   }
 
-  onSelectElementRevisions(value?: any) {
-    console.log(value);
-    const result = this.elementRevisions.find((e: any) => e.revisionNumber === +this.elementRevision);
-    if (result) {
-      this.selectedElement = result.entity;
-    } else if (this.elementRevisions.length > 0) {
-      this.selectedElement = this.elementRevisions[0].entity;
-      this.elementRevision = this.elementRevisions[0].revisionNumber;
-    }
+  onItemSearch(item: IElement) {
+    this.service.getElementByTypeAndName(this.elementKind, item.element).then(
+      (result: any) => { this.items = result.content; }
+    );
   }
 
-  onUseElement() {
-    this.service.copySource(this.elementKind, this.selectedElement.id, this.elementRevision, this.parentId)
+  onRevisonSearch(item: IRevisionRef) {
+    this.service.getRevisionById(this.elementKind, item.elementId).then(
+      (result: any) => {
+        this.revisionResults = result.content;
+    });
+  }
+
+  onRevisionSelect(rev: ElementRevisionRef) {
+    this.service.copySource(this.elementKind, rev.elementId, rev.elementRevision, this.parentId)
       .subscribe(result => {
         this.itemSelected.emit( result) ; // { id: this.selectedElement.id, rev: this.elementRevision});
       });
   }
 
-  onSearchItems(name: string) {
-    this.searchKeysListener.next(name);
-  }
-
-  onSelectItem(item: IEntityAudit) {
-    this.selectedElement = item;
-    if ((item) && (item.id)) {
-      this.service.getRevisionById(this.elementKind, item.id).then(
-        (result: any) => {
-          this.elementRevisions = result.content;
-          this.onSelectElementRevisions();
-      });
-    }
+  onDismiss() {
+    this.dismissEvent.emit(true);
   }
 
   getElementClass(kind: ElementKind): QueryInfo {
     return QDDT_QUERY_INFOES[kind];
   }
-
 }

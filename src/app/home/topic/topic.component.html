@@ -16,6 +16,7 @@
         *ngIf="showReuse"
         [parentId]="study.id"
         [elementKind]="TOPIC_KIND"
+        (dismissEvent)="showReuse=false;"
         (itemSelected)="onSelectedRevsion($event)">
       </qddt-copy-select>
 

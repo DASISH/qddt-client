@@ -50,6 +50,7 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
         .then((result) => {
           this.topics = result;
           this.property.set('topics', this.topics);
+          this.showReuse = false;
         });
     }
   }

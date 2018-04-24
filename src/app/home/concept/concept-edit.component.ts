@@ -50,7 +50,6 @@ export class ConceptEditComponent implements OnInit {
   @Output() conceptSavedEvent =  new EventEmitter<any>();
 
   public showRevision = false;
-  private basedonRef: any;
 
   constructor(private service: HomeService) {
   }
@@ -69,20 +68,17 @@ export class ConceptEditComponent implements OnInit {
         this.isVisible = false;
       });
   }
+  //
+  // onAuthorSelected(author: any) {
+  //   this.service.attachAuthor(this.concept.id, author.id);
+  //   this.concept.authors.push(author);
+  // }
+  //
+  // onAuthorRemoved(author: any) {
+  //   this.service.deattachAuthor(this.concept.id, author.id);
+  //   const i = this.concept.authors.findIndex(F => F === author);
+  //   this.concept.authors.splice(i, 1);
+  // }
 
-  onAuthorSelected(author: any) {
-    this.service.attachAuthor(this.concept.id, author.id);
-    this.concept.authors.push(author);
-  }
-
-  onAuthorRemoved(author: any) {
-    this.service.deattachAuthor(this.concept.id, author.id);
-    const i = this.concept.authors.findIndex(F => F === author);
-    this.concept.authors.splice(i, 1);
-  }
-
-  onBasedOnObjectDetail(ref: any) {
-    this.basedonRef = ref;
-  }
 
 }

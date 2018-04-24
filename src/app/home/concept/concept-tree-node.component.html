@@ -4,7 +4,7 @@
       <br />
       <div class="row">
         <a *ngIf="!readonly" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-           (click)="edit.isVisible = !edit.isVisible"><i class="material-icons" title="Edit Concept">mode_edit</i></a>
+           (click)="onToggleEdit(edit)"><i class="material-icons" title="Edit Concept">mode_edit</i></a>
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
            (click)="edit.showRevision = !edit.showRevision"><i class="material-icons left medium" title="Revision history">history</i></a>
         <qddt-questionitem-reuse *ngIf="!readonly" [parentId]="concept.id"
