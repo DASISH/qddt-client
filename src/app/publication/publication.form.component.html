@@ -12,11 +12,11 @@
         [(ngModel)]="publication.purpose" materialize="characterCounter" data-length="255">
       </textarea>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="selectOptions">
         <div class="input-field col s6 m5 l4">
           <select materialize="material_select" name="{{formId}}-status" id="{{formId}}-status"
             [materializeSelectOptions]="selectOptions"
-            [(ngModel)]="selectedOptionValue" (ngModelChange)="onSelectChange($event)">
+            [(ngModel)]="selectedOptionId" (ngModelChange)="onSelectChange($event)">
             <optgroup *ngFor="let parent of selectOptions" label="{{parent.label}}">
               <option *ngFor="let child of parent.children" [value]="child.id" >{{child.label}}</option>
             </optgroup>
@@ -25,7 +25,7 @@
         </div>
         <div class="s6 m7 l8">
             <p> </p>
-            <span>{{ selectedPublicationStatusOption }}</span>
+            <span>{{ publication?.status?.description }}</span>
         </div>
     </div>
     <div class="row">

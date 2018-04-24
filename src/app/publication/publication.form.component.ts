@@ -3,9 +3,7 @@ import { Publication, PUBLICATION_TYPES, PublicationService, PublicationStatus }
 import {IEntityEditAudit} from '../shared/classes/interfaces';
 import {ElementKind} from '../shared/classes/enums';
 import {ElementRevisionRef} from '../shared/classes/classes';
-import {getElementKind} from '../shared/classes/constants';
-
-declare var Materialize: any;
+import { getElementKind } from '../shared/classes/constants';
 
 @Component({
   selector: 'qddt-publication-form',
@@ -21,8 +19,7 @@ export class PublicationFormComponent implements OnChanges {
   @Output() modifiedEvent = new EventEmitter<IEntityEditAudit>();
 
   public formId = Math.round( Math.random() * 10000);
-  public selectedPublicationStatusOption: string;
-  public selectedOptionValue: number;
+  public selectedOptionId: number;
   public selectOptions: any;
 
   constructor(private service: PublicationService) {
@@ -33,17 +30,13 @@ export class PublicationFormComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['publication'].currentValue) {
-      console.log('new value');
+      if (this.publication.status) {
+        this.onSelectChange(this.publication.status.id);
+      }
     }
-    try { Materialize.updateTextFields(); } catch (Exception) { }
   }
 
   public onUpdatePublication() {
-/*     if (this.publication.id) {
-      this.service.create(this.publication).subscribe(
-        (result) => { this.publication = result; this.modifiedEvent.emit(this.publication); },
-        (error) => { throw error; });
-    } else { */
       this.service.update(this.publication).subscribe(
         (result) => { this.publication = result; this.modifiedEvent.emit(this.publication); },
         (error) => { throw error; });
@@ -78,17 +71,11 @@ export class PublicationFormComponent implements OnChanges {
 
     console.log(id);
     if (id) {
-      this.selectedOptionValue = +id;
       this.publication.status = statusList.find(e => e.id === +id );
-      this.selectedPublicationStatusOption = this.publication.status.description;
-    } else if (this.publication.status) {
-      this.selectedOptionValue = this.publication.status.id;
-      this.selectedPublicationStatusOption = this.publication.status.description;
     } else {
       this.publication.status = statusList.find(e => e.published === 'NOT_PUBLISHED');
-      this.selectedOptionValue = this.publication.status.id;
-      this.selectedPublicationStatusOption = this.publication.status.description;
     }
+    this.selectedOptionId = this.publication.status.id;
   }
 
 
