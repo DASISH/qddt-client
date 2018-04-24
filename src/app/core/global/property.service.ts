@@ -29,12 +29,12 @@ export class QddtPropertyStoreService {
     this.currentChange$ = this._newcurrent.asObservable();
   }
 
-  set(name: string, value: any) {
-    this.globalObjects[name] = value;
+  set(key: string, value: any) {
+    this.globalObjects.set(key, value);
   }
 
-  get(name: string): any {
-    return this.globalObjects[name] || '';
+  get(key: string): any {
+    return this.globalObjects.get(key) || '';
   }
 
   public setCurrent(pos: HIERARCHY_POSITION, name: string) {

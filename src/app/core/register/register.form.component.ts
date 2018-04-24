@@ -12,7 +12,7 @@ import { RegisterUser } from './register.classes';
 
 export class RegisterFormComponent implements OnInit {
 
-  @Input() register: RegisterUser;
+  @Input() user: RegisterUser;
   @Input() readonly = false;
   @Output() modifiedEvent =  new EventEmitter<String>();
 

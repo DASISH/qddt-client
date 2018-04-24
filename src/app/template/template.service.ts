@@ -80,7 +80,7 @@ export class TemplateService {
     return this.http.post(this.api + qe.path + '/copy/' + fromId + '/' + fromRev + '/' + toParentId, {});
   }
 
-  public update(item: IEntityEditAudit): Observable<any> {
+  public update(item: IEntityAudit): Observable<any> {
     console.log('Template update... ');
     const kind = this.getElementKind(item.classKind);
     const qe = QDDT_QUERY_INFOES[kind];

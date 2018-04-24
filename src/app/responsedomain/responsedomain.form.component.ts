@@ -73,6 +73,8 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.responsedomain) {
+      const page = this.getPageSearch();
+      this.domainType = (page) ? DomainKind[page.keys.get('ResponseKind')] : DomainKind.SCALE;
       this.numberOfAnchors = this.responsedomain.managedRepresentation.children.length;
       this.buildPreviewResponseDomain();
     }
@@ -222,15 +224,15 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy {
     this.previewResponseDomain = new ResponseDomain(this.responsedomain);
   }
 
-  static power10(format: number): number {
+  power10(format: number): number {
     return 1 / Math.pow(10, format);
   }
 
-  static subtract(value1, value2): number {
+  subtract(value1, value2): number {
     return parseInt(value1) - parseInt(value2);
   }
 
-  static addition(value1, value2): number {
+  addition(value1, value2): number {
     return parseInt(value1) + parseInt(value2);
   }
 

@@ -8,6 +8,7 @@ import { IEntityAudit, IPageSearch } from '../shared/classes/interfaces';
 import { ActionKind, ElementKind} from '../shared/classes/enums';
 import { HEADER_DETAILS } from '../shared/classes/constants';
 import { QddtPropertyStoreService } from '../core/global/property.service';
+import {DomainKind} from '../responsedomain/responsedomain.classes';
 
 @Component({
   selector: 'qddt-template-list',
@@ -25,7 +26,7 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
   private kind: ElementKind;
 
   constructor(private service: TemplateService, private router: Router, private route: ActivatedRoute,
-              private  messages: QddtMessageService, private properties: QddtPropertyStoreService ) {
+              private messages: QddtMessageService, private properties: QddtPropertyStoreService ) {
 
     this.route.url
       .takeWhile(() => this.alive)
@@ -34,27 +35,21 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
         this.kind = HEADER_DETAILS.get(this.path).kind;
     });
 
-
     this.messages.getAction()
       .takeWhile(() => this.alive)
       .subscribe(event => {
         if (event.action === ActionKind.Update || event.action === ActionKind.Create || event.action === ActionKind.Filter) {
-          if ( event.id === 'ResponseKind') {
-            this.pageSearch.keys = event.object;
-          this.setPageSearch(this.pageSearch);
-          }
           this.loadPage();
         }
       });
   }
 
   public ngOnInit(): void {
-    this.pageSearch = this.getPageSearch();
     if (this.kind) { this.loadPage(); }
   }
 
   public onFetchItems(page: IPageSearch ) {
-    this.pageSearch = page;
+    this.setPageSearch(page);
     this.loadPage();
   }
 
@@ -64,6 +59,8 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
 
   private loadPage(search?: string ) {
     this.showProgressBar = true;
+    this.pageSearch = this.getPageSearch();
+
     if (search) { this.pageSearch.key = search; }
 
     this.service.searchByKind(this.pageSearch).then(
@@ -74,6 +71,7 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
       (error) => {
         this.showProgressBar = false;
         throw error; });
+    this.setPageSearch(this.pageSearch);
   }
 
   private setPageSearch(pageSearch: IPageSearch ) {
@@ -81,24 +79,20 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
   }
 
   private getPageSearch(): IPageSearch {
-    const pageSearch = this.properties.get(this.path);
-    return this.getKeys((pageSearch) ? pageSearch : { kind: this.kind,  key: '*', page : new Page(), sort : 'modified,desc' });
+    const KEY = 'ResponseKind';
+    let pageSearch = this.properties.get(this.path);
+    if (!pageSearch) {
+      pageSearch = { kind: this.kind,  key: '*', page : new Page(), sort : 'modified,desc' };
+      this.properties.set(this.path, pageSearch);
+    }
+    if (pageSearch.kind === ElementKind.RESPONSEDOMAIN && !pageSearch.keys ) {
+        pageSearch.keys = new Map( [ [KEY, DomainKind[DomainKind.SCALE] ] ] );
+    }
+    return pageSearch;
   }
 
   ngOnDestroy(): void {
-    this.setPageSearch( this.pageSearch );
     this.alive = false;
-  }
-
-  getKeys(search: IPageSearch): IPageSearch {
-    console.log('get keys');
-    if (search.kind === ElementKind.RESPONSEDOMAIN) {
-      search.keys =  new Map([['ResponseKind', 'SCALE']]);
-    }
-/*     if (search.kind === ElementKind.CATEGORY) {
-      search.keys =  new Map([['categoryKind', 'CATEGORY']]);
-    }
- */    return search;
   }
 
 }

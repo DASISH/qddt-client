@@ -84,6 +84,7 @@ export class ResponsedomainScaleComponent implements OnChanges {
       return category.code.alignment;
     }
     function minDistance(c: Category[]): number {
+      if (!c || c.length < 2) { return 0; }
       let minDiff = parseInt(c[1].code.codeValue) - parseInt(c[0].code.codeValue);
       for (let i = 2 ; i !== c.length ; i++) {
         minDiff = Math.min(minDiff, parseInt(c[i].code.codeValue) - parseInt(c[i - 1].code.codeValue));

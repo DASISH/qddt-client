@@ -62,7 +62,7 @@ export class ResponseDomain implements IEntityEditAudit {
 
   public setResponseKind(kind: DomainKind): ResponseDomain {
     this.responseKind = DomainKind[kind];
-    this.managedRepresentation.setKind(DOMAIN_TYPE_DESCRIPTION[kind].categoryType);
+    this.managedRepresentation.setManagedRep(DOMAIN_TYPE_DESCRIPTION[kind].categoryType);
     return this;
   }
 

@@ -47,6 +47,14 @@ export class TemplateComponent implements OnChanges, OnDestroy, AfterContentChec
         this.headerName =  HEADER_DETAILS.get(this.path).headerName;
       }
     });
+
+    this.messages.getAction()
+      .takeWhile(() => this.alive)
+      .subscribe(event => {
+        if (event.action === ActionKind.Filter && event.id === 'ResponseKind' && this.showForm ) {
+          this.onToggleForm();
+        }
+      });
   }
 
   ngAfterContentChecked(): void {
@@ -75,7 +83,9 @@ export class TemplateComponent implements OnChanges, OnDestroy, AfterContentChec
         const page: IPageSearch =  this.properties.get(this.path);
         this.newItem = Factory.createInstance(this.kind);
         if (page.kind === ElementKind.RESPONSEDOMAIN) {
-          (this.newItem as ResponseDomain).setResponseKind(DomainKind[page.keys.get('ResponseKind')]);
+          console.log(page.keys.get('ResponseKind'));
+          console.log((this.newItem as ResponseDomain).setResponseKind(DomainKind[page.keys.get('ResponseKind')]));
+
         }
       }
     }

@@ -61,7 +61,7 @@ export class Category implements IEntityEditAudit {
   name = '';
   label = '';
   description =  CATEGORY_INFO[CategoryKind.CATEGORY].description;
-  hierarchyLevel = CATEGORY_INFO[CategoryKind.CATEGORY].level.toString();
+  hierarchyLevel = HierachyLevel[CATEGORY_INFO[CategoryKind.CATEGORY].level];
   categoryType = CategoryKind[CategoryKind.CATEGORY];
   classKind = ElementKind[ElementKind.CATEGORY];
   inputLimit = new ResponseCardinality();
@@ -80,8 +80,15 @@ export class Category implements IEntityEditAudit {
 
   public setKind(kind: CategoryKind): Category {
     this.description =  CATEGORY_INFO[kind].description;
-    this.hierarchyLevel = CATEGORY_INFO[kind].level.toString();
+    this.hierarchyLevel = HierachyLevel[CATEGORY_INFO[kind].level];
     this.categoryType = CategoryKind[kind];
+    return this;
+  }
+
+  public setManagedRep(kind: CategoryKind): Category {
+    this.description =  CATEGORY_INFO[kind].description;
+    this.categoryType = CategoryKind[kind];
+    this.hierarchyLevel = HierachyLevel[HierachyLevel.GROUP_ENTITY];
     return this;
   }
 }

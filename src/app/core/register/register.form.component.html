@@ -1,17 +1,17 @@
-<div *ngIf="register" >
+<div *ngIf="user" >
   <form (ngSubmit)="onSave()" #hf="ngForm">
     <div class="row input-field">
-      <input id="name2" name="name" type="text" class="validate" required [(ngModel)]="register.userName"
+      <input id="name2" name="name" type="text" class="validate" required [(ngModel)]="user.userName"
              data-length="255" materialize="characterCounter">
       <label for="name2">UserName</label>
     </div>
     <div class="row input-field">
-      <input id="name2" name="name" type="text" class="validate" required [(ngModel)]="register.name"
+      <input id="name2" name="name" type="text" class="validate" required [(ngModel)]="user.name"
              data-length="255" materialize="characterCounter">
       <label for="name2">Name</label>
     </div>
     <div class="row input-field">
-      <input id="name2" name="name" type="text" class="validate" required [(ngModel)]="register.name"
+      <input id="name2" name="name" type="text" class="validate" required [(ngModel)]="user.name"
              data-length="255" materialize="characterCounter">
       <label for="name2">Name</label>
     </div>
