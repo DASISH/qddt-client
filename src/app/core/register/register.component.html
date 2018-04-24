@@ -1,29 +1,10 @@
-<div class="row">
-  <form class="col s6 offset-s3" name="formRegister" (ngSubmit)="f.form.valid && register()" #f="ngForm" novalidate>
-    <div class="input-field row" [ngClass]="{ 'has-error': f.submitted && !email.valid }">
-      <label for="email">Email</label>
-      <input id="email" type="email" name="email" [(ngModel)]="model.email" #email="ngModel" required />
-    </div>
-    <div class="input-field row" [ngClass]="{ 'has-error': f.submitted && !name.valid }">
-      <label for="name">Name</label>
-      <input id="name" type="text" name="name" [(ngModel)]="model.name" #name="ngModel" required />
-    </div>
-    <div class="input-field row" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
-      <label for="pwd1">Password</label>
-      <input id="pwd1" type="password"  name="password" [(ngModel)]="model.password" #password="ngModel" required />
-    </div>
-<!--     <div class="input-field row">
-      <label for="agency">Agency</label>
-      <select materialize="material_select" [ngModel]="model.agency"
-              name="agency" id="agency"
-              (ngModelChange)="onClickAgency($event)">
-        <option *ngFor="let agent of agencies"; value="{{agent}}"> {{ agent.name }}</option>
-      </select>
-    </div> -->
+<qddt-template-component #detail>
 
-    <div class="row">
-      <button [disabled]="loading" class="btn btn-primary">register</button>
-      <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-    </div>
-  </form>
-</div>
+  <qddt-register-form class="qddt-edit"
+    [register] = "templateDetail.newItem"
+    (modifiedEvent) = "onFormModified($event)">
+  </qddt-register-form>
+
+  <router-outlet></router-outlet>
+
+</qddt-template-component>

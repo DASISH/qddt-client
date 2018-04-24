@@ -4,5 +4,6 @@ export class User {
   email: string;
   agency: string;
   role: Array<any>;
-  exp: any;  //-> should be number, is expire date
+  exp: any;  // -> should be number, is expire date
+  password?: string;
 }

@@ -1,0 +1,26 @@
+<div *ngIf="register" >
+  <form (ngSubmit)="onSave()" #hf="ngForm">
+    <div class="row input-field">
+      <input id="name2" name="name" type="text" class="validate" required [(ngModel)]="register.userName"
+             data-length="255" materialize="characterCounter">
+      <label for="name2">UserName</label>
+    </div>
+    <div class="row input-field">
+      <input id="name2" name="name" type="text" class="validate" required [(ngModel)]="register.name"
+             data-length="255" materialize="characterCounter">
+      <label for="name2">Name</label>
+    </div>
+    <div class="row input-field">
+      <input id="name2" name="name" type="text" class="validate" required [(ngModel)]="register.name"
+             data-length="255" materialize="characterCounter">
+      <label for="name2">Name</label>
+    </div>
+
+
+
+
+    <div class="row right-align">
+      <button type="submit" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
+    </div>
+  </form>
+</div>

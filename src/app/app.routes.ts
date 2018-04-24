@@ -10,7 +10,7 @@ const appRoutes: Routes = [
   /* { path: 'questionitems',    component: QuestionComponent, canActivate: [AuthGuard] }, */
 /*   { path: 'responsedomains', component: ResponsedomainComponent, canActivate: [AuthGuard] }, */
 /*   { path: 'schemes',      component: CategorySchemeComponent, canActivate: [AuthGuard] },
-     { path: 'categories',   component: CategoryComponent , canActivate: [AuthGuard]},
+     { path: 'categories',   component: RegisterComponent , canActivate: [AuthGuard]},
      { path: 'instruments',  component: InstrumentComponent , canActivate: [AuthGuard]},
   */
   { path: '**', component: PageNotFoundComponent }

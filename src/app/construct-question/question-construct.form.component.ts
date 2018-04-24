@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, AfterContentChecked, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter,  OnChanges, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { QuestionItem } from '../question/question.classes';
 import { ElementKind } from '../shared/classes/enums';
@@ -6,7 +6,7 @@ import {ElementRevisionRef, Page} from '../shared/classes/classes';
 import { QuestionConstruct } from './question-construct.classes';
 import { Instruction, Universe } from '../controlconstruct/controlconstruct.classes';
 import { TemplateService } from '../template/template.service';
-import { IRevisionResult, IElement, IRevisionRef, IOtherMaterial, IPageSearch } from '../shared/classes/interfaces';
+import { IRevisionResult, IElement, IRevisionRef, IOtherMaterial } from '../shared/classes/interfaces';
 
 const filesaver = require('file-saver');
 declare var Materialize: any;
@@ -21,7 +21,7 @@ declare var Materialize: any;
   ],
 })
 
-export class QuestionConstructFormComponent implements OnChanges , AfterContentChecked {
+export class QuestionConstructFormComponent implements OnChanges  {
   @Input() controlConstruct: QuestionConstruct;
   @Input() readonly = false;
   @Output() modifiedEvent = new EventEmitter<QuestionConstruct>();
@@ -60,7 +60,6 @@ export class QuestionConstructFormComponent implements OnChanges , AfterContentC
   }
 
 
-  ngAfterContentChecked(): void { }
 
   onAddUniverse(item: IElement) {
     this.controlConstruct.universe.push(item.element);

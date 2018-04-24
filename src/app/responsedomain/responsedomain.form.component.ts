@@ -4,17 +4,14 @@ import {
   Output,
   EventEmitter,
   OnInit,
-  AfterViewInit,
   OnDestroy,
   OnChanges,
-  SimpleChanges,
-  AfterContentChecked
+  SimpleChanges
 } from '@angular/core';
 import { TemplateService } from '../template/template.service';
 import { DomainKind, DOMAIN_TYPE_DESCRIPTION, ResponseDomain, DATE_FORMAT } from './responsedomain.classes';
 import { Category } from '../category/category.classes';
 import { Page } from '../shared/classes/classes';
-import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
 import { ElementKind } from '../shared/classes/enums';
 import {IElement, IPageSearch} from '../shared/classes/interfaces';
 import { QddtPropertyStoreService } from '../core/global/property.service';
@@ -28,7 +25,7 @@ declare let Materialize: any;
 })
 
 
-export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, AfterContentChecked {
+export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy {
   @Input() responsedomain: ResponseDomain;
   @Input() readonly: boolean;
   @Output() modifiedEvent = new EventEmitter<ResponseDomain>();
@@ -45,7 +42,6 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, Af
 
   private pageSearch: IPageSearch;
   private ok = true;
-  private refresh = true;
 
   constructor(private service: TemplateService, private properties: QddtPropertyStoreService) {
 
@@ -89,7 +85,6 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, Af
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.responsedomain) {
-      this.refresh = true;
       this.numberOfAnchors = this.responsedomain.managedRepresentation.children.length;
       this.buildPreviewResponseDomain();
     }
@@ -99,12 +94,6 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, Af
     this.ok = false;
   }
 
-  ngAfterContentChecked(): void {
-    if (this.refresh) {
-      try { Materialize.updateTextFields(); } catch (Exception) { }
-      this.refresh = false;
-    }
-  }
 
   onSelectCategory(item: IElement) {
     // console.debug('onSelect...');
@@ -258,15 +247,15 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, Af
     console.log(this.responsedomain.managedRepresentation.inputLimit);
   }
 
-  power10(format: number): number {
+  static power10(format: number): number {
     return 1 / Math.pow(10, format);
   }
 
-  subtract(value1, value2): number {
+  static subtract(value1, value2): number {
     return parseInt(value1) - parseInt(value2);
   }
 
-  addition(value1, value2): number {
+  static addition(value1, value2): number {
     return parseInt(value1) + parseInt(value2);
   }
 
