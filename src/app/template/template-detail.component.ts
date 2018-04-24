@@ -17,7 +17,7 @@ const fileSaver = require('file-saver');
   templateUrl: './template-detail.component.html',
 })
 
-export class TemplateDetailComponent implements OnInit, OnChanges, OnDestroy, AfterContentChecked {
+export class TemplateDetailComponent implements OnInit, OnDestroy, AfterContentChecked {
   @Output() closeState = new EventEmitter<IDetailAction>();
   @Output() selectedItem = new EventEmitter<IEntityEditAudit>();
 
@@ -52,9 +52,6 @@ export class TemplateDetailComponent implements OnInit, OnChanges, OnDestroy, Af
             if (this.selectedItem) { this.selectedItem.emit(item); } },
         (error) => { throw error; });
     }
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
   }
 
   ngAfterContentChecked(): void {

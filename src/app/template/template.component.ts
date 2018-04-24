@@ -1,4 +1,4 @@
-import { OnChanges, Component, SimpleChanges, OnDestroy} from '@angular/core';
+import { OnChanges, Component, SimpleChanges, OnDestroy, AfterContentChecked} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { QddtMessageService } from '../core/global/message.service';
 import { Factory } from '../shared/classes/factory';
@@ -7,7 +7,7 @@ import { ActionKind, ElementKind } from '../shared/classes/enums';
 import { HEADER_DETAILS } from '../shared/classes/constants';
 import { TemplateService } from './template.service';
 import { QddtPropertyStoreService } from '../core/global/property.service';
-import { ResponseDomain } from '../responsedomain/responsedomain.classes';
+import { ResponseDomain, DomainKind } from '../responsedomain/responsedomain.classes';
 
 declare var Materialize: any;
 
@@ -21,7 +21,7 @@ declare var Materialize: any;
   templateUrl: './template.component.html',
 })
 
-export class TemplateComponent implements OnChanges, OnDestroy {
+export class TemplateComponent implements OnChanges, OnDestroy, AfterContentChecked {
 
   public readonly formId = Math.round( Math.random() * 10000);
   public newItem: IEntityEditAudit;
@@ -32,6 +32,7 @@ export class TemplateComponent implements OnChanges, OnDestroy {
   private kind: ElementKind;
   private alive = true;
   private path: string;
+  private refreshCount = 0;
 
 
   constructor( private route: ActivatedRoute,  private  messages: QddtMessageService, private service: TemplateService,
@@ -48,6 +49,16 @@ export class TemplateComponent implements OnChanges, OnDestroy {
     });
   }
 
+  ngAfterContentChecked(): void {
+    if (this.refreshCount < 10) {
+      try {
+        this.refreshCount++;
+        Materialize.updateTextFields();
+      } catch (Exception) {
+      }
+    }
+  }
+
   public canWrite(): boolean {
     return this.service.can(ActionKind.Create, this.kind);
   }
@@ -60,10 +71,11 @@ export class TemplateComponent implements OnChanges, OnDestroy {
         this.messages.sendAction(  { id: '', action: ActionKind.Update, object: null });
       }
       if (this.showForm ) {
+        this.refreshCount = 0;
         const page: IPageSearch =  this.properties.get(this.path);
         this.newItem = Factory.createInstance(this.kind);
         if (page.kind === ElementKind.RESPONSEDOMAIN) {
-          (this.newItem as ResponseDomain).responseKind = page.keys['ResponseKind'];
+          (this.newItem as ResponseDomain).setResponseKind(DomainKind[page.keys.get('ResponseKind')]);
         }
       }
     }

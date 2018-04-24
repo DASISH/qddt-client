@@ -16,10 +16,10 @@
     </div>
     <div class="row">
       <div class="input-field col m12 ">
-        <label [attr.for]="category.id + '-category-description'" class="teal-text">Description</label>
-        <textarea class="materialize-textarea validate" name="{{category?.id}}-category-description"
+        <textarea class="materialize-textarea validate" name="{{category?.id}}-cat-desc"
                   data-length="1000" materialize="characterCounter" [(ngModel)]="category.description" >
         </textarea>
+        <label for="{{category?.id}}-cat-desc" >Description</label>
       </div>
     </div>
     <div class="row" *ngIf="category.categoryType!=='CATEGORY'">

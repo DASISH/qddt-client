@@ -25,7 +25,7 @@ providers: []
 export class ResponsePreSelector implements OnChanges {
 
   public domainType = DomainKind.SCALE;
-  public domainTypeDescription = DOMAIN_TYPE_DESCRIPTION.filter((e) => e.id !== DomainKind.MIXED);
+  public domainTypeDescription = DOMAIN_TYPE_DESCRIPTION.filter((e) => e.id > DomainKind.NONE && e.id < DomainKind.MISSING);
 
   private readonly KEY = 'ResponseKind';
   private readonly path = 'responsedomains';
@@ -36,7 +36,7 @@ export class ResponsePreSelector implements OnChanges {
       page.keys = new Map( [ [this.KEY, DomainKind[DomainKind.SCALE] ] ] );
       this.setPageSearch(page);
     }
-    const kind: string = page.keys[this.KEY];
+    const kind: string = page.keys.get(this.KEY);
     this.domainType = DomainKind[kind];
   }
 

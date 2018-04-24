@@ -26,13 +26,14 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
   @Output() enterEvent = new EventEmitter<string>();
 
   public candidates: IEntityAudit[] = [];
-  public showAutoComplete = false;
   public value = '';
   public selectedIndex = 0;
   public queryInfo: QueryInfo;
+  public showAutoComplete = false;
 
   private waitingForChange = false;
   private found = true;
+  private selected = false;
 
   ngOnChanges(change: SimpleChanges) {
     if (change['elementKind'] && change['elementKind'].isFirstChange()) {
@@ -45,7 +46,7 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
       this.found = ((this.candidates) && (this.candidates.length > 0));
     }
 
-    if (change['initialValue'] && change['initialValue'].isFirstChange() ) {
+    if (change['initialValue'] && change['initialValue'].isFirstChange() && !this.selected ) {
       this.value = this.initialValue;
     }
 
@@ -60,6 +61,7 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
         (this.autoCreate) ? Factory.createFromSeed(this.elementKind, { [fieldName] : this.value }) : null;
       if (item) {
         this.value = item[fieldName];
+        this.selected = true;
         this.selectEvent.emit({element: item , elementKind: this.elementKind });
       }
     } else {
@@ -84,7 +86,9 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
 
   select(candidate: IEntityAudit) {
     this.showAutoComplete = false;
-    this.value = this.getFieldValue(candidate, this.queryInfo.fields);
+    this.selected = true;
+    const fieldName = this.queryInfo.fields[0];
+    this.value = candidate[fieldName];
     this.selectEvent.emit({element: candidate, elementKind: this.elementKind });
   }
 
@@ -101,6 +105,7 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
 
   onClearKeywords() {
     this.value = '';
+    this.selected = false;
     this.filterItems('');
     this.waitingForChange = true;
     this.enterEvent.emit('*');

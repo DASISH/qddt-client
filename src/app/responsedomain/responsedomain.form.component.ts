@@ -9,7 +9,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { TemplateService } from '../template/template.service';
-import { DomainKind, DOMAIN_TYPE_DESCRIPTION, ResponseDomain, DATE_FORMAT } from './responsedomain.classes';
+import { DomainKind, ResponseDomain, DATE_FORMAT } from './responsedomain.classes';
 import { Category } from '../category/category.classes';
 import { Page } from '../shared/classes/classes';
 import { ElementKind } from '../shared/classes/enums';
@@ -58,27 +58,15 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy {
 
     if (!this.responsedomain) { return; }
 
-
-    if (!this.responsedomain.managedRepresentation) { this.responsedomain.managedRepresentation = new Category(); }
-
     this.numberOfAnchors = this.responsedomain.managedRepresentation.children.length;
 
-    this.responsedomain.managedRepresentation.categoryType =
-      DOMAIN_TYPE_DESCRIPTION.find(e => e.id === this.domainType).categoryType;
-
-
     if (this.domainType === DomainKind.SCALE) {
-      if (typeof this.responsedomain.displayLayout === 'string') {
-        this.responsedomain.displayLayout = parseInt(this.responsedomain.displayLayout);
-      }
-      if (this.responsedomain.displayLayout !== 90) {
-        this.responsedomain.displayLayout = 0;
+      if (this.responsedomain.displayLayout !== '90') {
+        this.responsedomain.displayLayout = '0';
       }
     }
 
-
     this.previewResponseDomain = this.responsedomain;
-    try { Materialize.updateTextFields(); } catch (Exception) { }
 
     // haven't really looked into how to handle form groups or binds using ngModel
   }
@@ -219,12 +207,8 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy {
     }
   }
 
-  onChangeDegreeSlope(degree: any) {
-    if (typeof degree === 'string') {
-      this.responsedomain.displayLayout = parseInt(degree);
-    } else {
-      this.responsedomain.displayLayout = degree;
-    }
+  onChangeDegreeSlope(degree: string) {
+    this.responsedomain.displayLayout = degree;
     this.buildPreviewResponseDomain();
   }
 
@@ -235,16 +219,7 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy {
   }
 
   buildPreviewResponseDomain() {
-    this.previewResponseDomain = {};
-    this.previewResponseDomain['id'] = this.responsedomain.id;
-    this.previewResponseDomain['description'] = this.responsedomain.description;
-    this.previewResponseDomain['name'] = this.responsedomain.name;
-    this.previewResponseDomain['label'] = this.responsedomain.label;
-    this.previewResponseDomain['responseKind'] = this.responsedomain.responseKind;
-    this.previewResponseDomain['managedRepresentation'] = this.responsedomain.managedRepresentation;
-    this.previewResponseDomain['responseCardinality'] = this.responsedomain.responseCardinality;
-    this.previewResponseDomain['displayLayout'] = this.responsedomain.displayLayout;
-    console.log(this.responsedomain.managedRepresentation.inputLimit);
+    this.previewResponseDomain = new ResponseDomain(this.responsedomain);
   }
 
   static power10(format: number): number {
