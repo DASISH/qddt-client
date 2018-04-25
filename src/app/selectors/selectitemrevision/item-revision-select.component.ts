@@ -17,9 +17,9 @@ export class ItemRevisionSelectComponent implements OnChanges {
   @Input() revisionList: IRevisionResultEntity[];
   @Input() showProgressBar = false;
 
-  @Output() enterEvent = new EventEmitter<IElement>();
-  @Output() revisionEvent = new EventEmitter<IRevisionRef>();
-  @Output() selectEvent = new EventEmitter<ElementRevisionRef>();
+  @Output() searchItems = new EventEmitter<IElement>();
+  @Output() searchRevision = new EventEmitter<IRevisionRef>();
+  @Output() revisionSelected = new EventEmitter<ElementRevisionRef>();
   @Output() dismissEvent = new EventEmitter<Boolean>();
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -30,16 +30,16 @@ export class ItemRevisionSelectComponent implements OnChanges {
   }
 
   public onSearchElements(key) {
-    this.enterEvent.emit({ element: key, elementKind: this.kind });
+    this.searchItems.emit({ element: key, elementKind: this.kind });
   }
 
   public onSelectElement(item: IElement) {
-    this.revisionEvent.emit( { elementId: item.element.id, elementKind: this.kind, elementRevision: null } );
+    this.searchRevision.emit( { elementId: item.element.id, elementKind: this.kind, elementRevision: null } );
   }
 
   public onSelectedRevision(revision) {
     this.revisionList = null;
-    this.selectEvent.emit(revision);
+    this.revisionSelected.emit(revision);
   }
 
   public onDismiss(ok) {

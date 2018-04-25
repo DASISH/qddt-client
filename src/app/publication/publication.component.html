@@ -1,5 +1,7 @@
 <qddt-template-component #detail>
 
+  <qddt-publication-preselector class="qddt-preselector"></qddt-publication-preselector>
+
   <qddt-publication-form class="qddt-edit"
     [publication] = "templateDetail.newItem"
     (modifiedEvent) = "onFormModified($event)">

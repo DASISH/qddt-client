@@ -4,9 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import { API_BASE_HREF } from '../api';
 import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
 import { ElementKind} from '../shared/classes/enums';
-import { IEntityAudit, IRevisionResultEntity, IPageResult} from '../shared/classes/interfaces';
+import {IEntityAudit, IRevisionResultEntity, IPageResult, IComment} from '../shared/classes/interfaces';
 import { ElementRevisionRef, QueryInfo} from '../shared/classes/classes';
-import {Instrument} from '../instrument/instrument.classes';
 
 
 
@@ -26,6 +25,7 @@ export class Publication  implements  IEntityAudit {
   status: PublicationStatus;  // = { id: 0, published: 'NOT_PUBLISHED', label: 'No publication' };  // magic number NOT_PUBLISHED
   classKind = ElementKind[ElementKind.PUBLICATION];
   publicationElements: ElementRevisionRef[] = [];
+  comments?: IComment[];
   public constructor(init?: Partial<Publication>) {
     Object.assign(this, init);
   }

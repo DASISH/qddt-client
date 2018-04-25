@@ -3,6 +3,13 @@ import { ElementKind } from '../shared/classes/enums';
 import { ElementRevisionRef } from '../shared/classes/classes';
 import {Category} from '../category/category.classes';
 
+interface IRef {
+  id: string;
+  name: string;
+  parent?: IRef;
+}
+
+
 export class SurveyProgram implements IEntityEditAudit {
   id: string;
   name: string;
@@ -57,10 +64,12 @@ export class Topic implements IEntityEditAudit {
   basedOnRevision?: number;
   modified: number;
   version: IVersion;
+  studyRef?: IRef;
   public constructor(init?: Partial<Topic>) {
     Object.assign(this, init);
   }
 }
+
 
 export class Concept implements IEntityEditAudit {
   id: string;
@@ -77,6 +86,7 @@ export class Concept implements IEntityEditAudit {
   basedOnRevision: number;
   modified: number;
   version: IVersion;
+  topicRef?: IRef;
   public constructor(init?: Partial<Concept>) {
     Object.assign(this, init);
   }

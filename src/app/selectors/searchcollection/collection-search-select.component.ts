@@ -18,6 +18,7 @@ export class CollectionSearchSelectComponent implements AfterViewInit, OnChanges
   @Input() searchItems: IEntityAudit[];
   @Input() elementKind: ElementKind|string;
   @Input() labelName?: string;
+  @Input() readonly = false;
 
   @Output() selectEvent = new EventEmitter<IElement>();
   @Output() searchEvent = new EventEmitter<string>();

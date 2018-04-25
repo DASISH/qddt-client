@@ -1,5 +1,5 @@
   <qddt-auto-complete [items]="itemList" class="black-text"
-    [elementKind]="kind"
+    [elementKind]="kind" [autoCreate] = "false"
     (selectEvent)="onSelectElement($event)"
     (enterEvent)="onSearchElements($event)">
   </qddt-auto-complete>

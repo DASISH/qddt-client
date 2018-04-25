@@ -101,9 +101,9 @@
         [kind] = "QUESTION"
         [itemList] = "questionList"
         [revisionList] = "revisionResults"
-        (enterEvent) = "onQuestionSearch($event)"
-        (revisionEvent) = "onRevisonSearch($event)"
-        (selectEvent) = "onRevisionSelect($event)"
+                                  (searchItems)="onQuestionSearch($event)"
+                                  (searchRevision)="onRevisonSearch($event)"
+                                  (revisionSelected)="onRevisionSelect($event)"
         (dismissEvent) ="onDismiss()">
       </qddt-item-revision-select>
       <div class="row">

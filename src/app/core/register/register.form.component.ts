@@ -19,12 +19,9 @@ export class RegisterFormComponent implements OnInit {
   public readonly CATEGORY = ElementKind.CATEGORY;
 
 
-  constructor(private service: TemplateService) {
-  }
+  constructor(private service: TemplateService) { }
 
-  ngOnInit() {
-
-  }
+  ngOnInit() { }
 
   onSave() {
     this.service.update(this.user).subscribe(

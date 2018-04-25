@@ -22,9 +22,6 @@ import { CommentListComponent } from './comment/comment.list.component';
 import { CommentCreateComponent } from './comment/comment.create.component';
 import { GravatarDirective } from './directive/gravatar.directive';
 import { ConceptrefComponent } from './conceptref/conceptref.component';
-import { QddtModalOpenDirective } from './dialogbox/dialogbox.directive';
-import { QddtModalComponent } from './dialogbox/dialogbox.component';
-import { QddtModalService } from './dialogbox/dialogbox.service';
 
 
 @NgModule({
@@ -32,15 +29,15 @@ import { QddtModalService } from './dialogbox/dialogbox.service';
   declarations: [ LocalDatePipe, QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent, CommentCreateComponent,
-    RationalComponent, RevisionComponent,  ConceptrefComponent, QddtModalComponent,
-    AutosizeDirective, ParentFormConnectDirective, GravatarDirective, QddtModalOpenDirective ],
+    RationalComponent, RevisionComponent,  ConceptrefComponent,
+    AutosizeDirective, ParentFormConnectDirective, GravatarDirective ],
   exports: [ LocalDatePipe, CommonModule, FormsModule, MaterializeModule,
      QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent,
-    RationalComponent, RevisionComponent, ConceptrefComponent, QddtModalComponent,
-    AutosizeDirective, ParentFormConnectDirective, GravatarDirective, QddtModalOpenDirective ],
-  providers: [QddtModalService]
+    RationalComponent, RevisionComponent, ConceptrefComponent,
+    AutosizeDirective, ParentFormConnectDirective, GravatarDirective ],
+  providers: []
 })
 
 export class SharedModule { }
