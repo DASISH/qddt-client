@@ -49,6 +49,7 @@ export class PublicationPreselectorComponent implements OnChanges, OnInit {
 
   onSelectOption(id: number) {
     this.selectId = id;
+    console.log(id);
     this.setKey(new Map( [ [this.KEY, this.selectOptions[id].published ] ] ));
     this.messages.sendAction( { id: this.KEY,  action: ActionKind.Filter, object: this.getKey() } );
   }

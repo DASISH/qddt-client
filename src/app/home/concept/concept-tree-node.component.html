@@ -67,7 +67,7 @@
             (mouseenter)="showbutton = true"
             (mouseleave)="showbutton = false">
           <li class="collection-header teal-text">Question Items</li>
-          <a class="collection-item grey-text text-darken-1" *ngFor="let cqi of concept.conceptQuestionItems"
+          <a class="collection-item grey-text text-darken-1" *ngFor="let cqi of concept.conceptQuestionItems.sort()"
             style="padding-bottom: 5pt;">
             <div class="row" style="min-height: 3rem;">
               <div class="col s11" (click)="onClickQuestionItem(cqi.element)" style="cursor: pointer;">

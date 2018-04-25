@@ -25,6 +25,7 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterContentC
   public revisionIsVisible = false;
   public canDelete: boolean;
   public deleteAction = new EventEmitter<MaterializeAction>();
+  public showProgressBar = true;
 
   private action: IDetailAction = { id: '', action: ActionKind.None, object: null };
   private kind: ElementKind;
@@ -45,12 +46,14 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterContentC
   ngOnInit() {
     this.refreshCount = 0;
     if (this.kind) {
+      this.showProgressBar = true;
       this.service.getItemByKind(this.kind, this.route.snapshot.paramMap.get('id')).then(
         (item) => {
             this.action.id = item.id;
             this.item = item;
+            this.showProgressBar = false;
             if (this.selectedItem) { this.selectedItem.emit(item); } },
-        (error) => { throw error; });
+        (error) => { this.showProgressBar = false; throw error; });
     }
   }
 
