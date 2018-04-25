@@ -1,9 +1,10 @@
-import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import { QddtMessageService } from '../core/global/message.service';
-import { ActionKind, ElementKind } from '../shared/classes/enums';
 import { QddtPropertyStoreService } from '../core/global/property.service';
+import { PublicationService } from './publication.service';
+import { ActionKind, ElementKind } from '../shared/classes/enums';
 import { Page } from '../shared/classes/classes';
-import {PublicationService, PublicationStatus} from './publication.service';
+import { PublicationStatus } from './publication.classes';
 
 @Component({
   selector: 'qddt-publication-preselector',
@@ -18,8 +19,8 @@ import {PublicationService, PublicationStatus} from './publication.service';
     </div>
   </div>
 </div>` ,
-providers: []
 })
+
 export class PublicationPreselectorComponent implements OnChanges, OnInit {
 
   public selectOptions: PublicationStatus[];

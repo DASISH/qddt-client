@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, Output, ChangeDetectionStrategy, OnChanges, SimpleChanges, AfterViewInit} from '@angular/core';
 import { ElementEnumAware } from '../../preview/preview.service';
-import {IElement, IEntityAudit, IEntityEditAudit, IRevisionRef, IRevisionResultEntity} from '../../shared/classes/interfaces';
+import {IElement, IEntityEditAudit, IRevisionRef, IRevisionResultEntity} from '../../shared/classes/interfaces';
 import { ElementKind } from '../../shared/classes/enums';
 import { ElementRevisionRef, QueryInfo } from '../../shared/classes/classes';
 import { QDDT_QUERY_INFOES } from '../../shared/classes/constants';
@@ -21,8 +21,9 @@ export class CollectionSearchRevisionSelectComponent implements OnChanges, After
   @Input() searchList: IEntityEditAudit[];
   @Input() revisionList: IRevisionResultEntity[];
 
-  @Output() searchEvent = new EventEmitter<IElement>();
-  @Output() getRevisionEvent = new EventEmitter<IRevisionRef>();
+  @Output() searchItems = new EventEmitter<IElement>();
+  @Output() searchRevision = new EventEmitter<IRevisionRef>();
+  @Output() loadElement =  new EventEmitter<ElementRevisionRef>();
 
   public showButton = false;
   public showAddItem = false;
@@ -50,21 +51,21 @@ export class CollectionSearchRevisionSelectComponent implements OnChanges, After
   }
 
   public onSearchElements(key) {
-    this.searchEvent.emit({ element: key, elementKind: this.kind });
+    this.searchItems.emit({ element: key, elementKind: this.kind });
   }
 
   public onSelectElement(item: IElement) {
-    this.getRevisionEvent.emit( { elementId: item.element.id, elementKind: this.kind, elementRevision: null } );
+    this.searchRevision.emit( { elementId: item.element.id, elementKind: this.kind, elementRevision: null } );
   }
 
   public onSelectedRevision(revision ) {
     this.showList.push(revision);
   }
 
-  public onShowElement(element: IEntityAudit) {
+  public onShowElement(element: ElementRevisionRef) {
     const  ref: IElement =  {
-      element: element,
-      elementKind: element.classKind };
+      element: element.elementId,
+      elementKind: element.elementKind };
     this.message.sendMessage( ref );
   }
 

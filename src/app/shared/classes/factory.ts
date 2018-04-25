@@ -1,3 +1,6 @@
+import { ElementKind } from './enums';
+import { IEntityAudit } from './interfaces';
+import { Concept, Study, SurveyProgram, Topic } from '../../home/home.classes';
 import {
   ConditionConstruct,
   Instruction,
@@ -5,16 +8,11 @@ import {
   SequenceConstruct,
   StatementConstruct, Universe
 } from '../../controlconstruct/controlconstruct.classes';
-import { Publication } from '../../publication/publication.service';
+import { Category, CategoryKind} from '../../category/category.classes';
+import { ResponseDomain } from '../../responsedomain/responsedomain.classes';
 import { QuestionItem } from '../../question/question.classes';
 import { Instrument } from '../../instrument/instrument.classes';
-import { ElementKind } from './enums';
-import { IEntityAudit } from './interfaces';
-import {Category, CategoryKind} from '../../category/category.classes';
-import { Concept, Study, SurveyProgram, Topic } from '../../home/home.classes';
-import { ResponseDomain } from '../../responsedomain/responsedomain.classes';
-
-// declare var Materialize: any;
+import { Publication} from '../../publication/publication.classes';
 
 
 export class Factory {

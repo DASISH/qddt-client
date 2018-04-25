@@ -22,27 +22,14 @@
       <label for="{{formId}}-desc" class="active">Description</label>
     </div>
 
-    <!--<qddt-item-revision-select-->
-      <!--[showProgressBar] = "showProgressBar"-->
-      <!--[kind] = "QUESTION"-->
-      <!--[itemList] = "questionConstrucs"-->
-      <!--[revisionList] = "revisionList"-->
-      <!--(searchItems) = "onSearchElements($event)"-->
-      <!--(searchRevision) = "onRevisonSearch($event)"-->
-      <!--(revisionSelected) = "onRevisionSelected($event)"-->
-      <!--(dismissEvent) ="onSelectCanceled($event)">-->
-    <!--</qddt-item-revision-select>-->
-    <!--<qddt-sequence-content [sequence]="sequence.sequence"></qddt-sequence-content>-->
-
-
     <qddt-collection-revision-search-select
       [showProgressBar] = "showProgressBar"
       [kind] = "QUESTION"
       [showList]="sequence.sequence"
       [searchList] = "questionConstrucs"
       [revisionList] = "revisionList"
-      (searchEvent) = "onSearchElements($event)"
-      (getRevisionEvent) = "onRevisonSearch($event)">
+      (searchItems)="onSearchElements($event)"
+      (searchRevision)="onRevisonSearch($event)">
     </qddt-collection-revision-search-select>
 
     <qddt-rational *ngIf="!readonly && sequence.id" [formName]="'RationalComp'" [element]="sequence" [config]="{hidden: [4]}"></qddt-rational>

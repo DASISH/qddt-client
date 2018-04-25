@@ -1,8 +1,9 @@
-import {Component, Input } from '@angular/core';
-import { Publication } from '../../publication/publication.service';
+import { Component, Input } from '@angular/core';
 import { PreviewService } from '../preview.service';
-import { ElementRevisionRef } from '../../shared/classes/classes';
-import { getElementKind } from '../../shared/classes/constants';
+import { ElementRevisionRef, QueryInfo} from '../../shared/classes/classes';
+import { getElementKind, QDDT_QUERY_INFOES} from '../../shared/classes/constants';
+import { ElementKind } from '../../shared/classes/enums';
+import { Publication } from '../../publication/publication.classes';
 
 @Component({
   selector: 'qddt-preview-publication',
@@ -24,9 +25,9 @@ export class PreviewPublicationComponent  {
     }
   }
 
-  // public getQueryInfo(element: ElementKind| string): QueryInfo {
-  //   return QDDT_QUERY_INFOES[getElementKind(element)];
-  // }
+  public getQueryInfo(element: ElementKind): QueryInfo {
+    return QDDT_QUERY_INFOES[getElementKind(element)];
+  }
 
 
 }

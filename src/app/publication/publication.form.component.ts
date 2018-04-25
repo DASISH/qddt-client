@@ -1,9 +1,10 @@
 import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
-import { Publication, PUBLICATION_TYPES, PublicationService, PublicationStatus } from './publication.service';
-import {IEntityEditAudit} from '../shared/classes/interfaces';
-import {ElementKind} from '../shared/classes/enums';
-import {ElementRevisionRef} from '../shared/classes/classes';
+import { PublicationService } from './publication.service';
+import { IEntityEditAudit } from '../shared/classes/interfaces';
+import { ElementKind } from '../shared/classes/enums';
+import { ElementRevisionRef } from '../shared/classes/classes';
 import { getElementKind } from '../shared/classes/constants';
+import { Publication, PUBLICATION_TYPES, PublicationStatus } from './publication.classes';
 
 @Component({
   selector: 'qddt-publication-form',
@@ -23,16 +24,12 @@ export class PublicationFormComponent implements OnChanges {
   public selectOptions: any;
 
   constructor(private service: PublicationService) {
-    this.service.PUBLICATION_STATUSES.then( (result) => {
-      this.selectOptions = result;
-      });
+    this.service.PUBLICATION_STATUSES.then( (result) => this.selectOptions = result );
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['publication'].currentValue) {
-      if (this.publication.status) {
-        this.onSelectChange(this.publication.status.id);
-      }
+    if (changes['publication'].currentValue && (this.publication.status)) {
+      this.onSelectChange(this.publication.status.id);
     }
   }
 
@@ -40,8 +37,6 @@ export class PublicationFormComponent implements OnChanges {
       this.service.update(this.publication).subscribe(
         (result) => { this.publication = result; this.modifiedEvent.emit(this.publication); },
         (error) => { throw error; });
-
-    /* } */
   }
 
   public getLabelByElement(kind: ElementKind): String {
@@ -69,7 +64,6 @@ export class PublicationFormComponent implements OnChanges {
             new PublicationStatus({id: s1.id, label: s1.label, published: s.published, description: s1.description }) ));
     } } );
 
-    console.log(id);
     if (id) {
       this.publication.status = statusList.find(e => e.id === +id );
     } else {

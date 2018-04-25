@@ -24,7 +24,7 @@
         (mouseenter)="item.showbutton = !readonly"
         (mouseleave)="item.showbutton = false">
       <div class="col s2">[{{labelName}}]</div>
-      <div class="col s7"><a (click)="onShowElement(item.element)" [ngStyle]="{'cursor': 'pointer'}">{{ item.name }}</a></div>
+      <div class="col s7"><a (click)="onShowElement(item)" [ngStyle]="{'cursor': 'pointer'}">{{ item.name }}</a></div>
       <div class="col s2"><qddt-version-label [element]="item"></qddt-version-label> </div>
       <div class="col s1">
         <a [ngClass]="{hide: !showButton}"

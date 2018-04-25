@@ -56,8 +56,8 @@ export const INSTRUMENT_KIND = [
   export class InstrumentSequence {
     id: string;
     elementRef: ElementRevisionRef;
-    parameter: Parameter[];
-    sequence: InstrumentSequence[];
+    parameters: Parameter[] = [];
+    sequences: InstrumentSequence[] = [];
   }
 
   export class Parameter {

@@ -1,6 +1,7 @@
 import { Component, Input, EventEmitter } from '@angular/core';
 import { MaterializeAction } from 'angular2-materialize';
 import {PreviewService} from '../preview.service';
+import {Router} from '@angular/router';
 
 const filesaver = require('file-saver');
 
@@ -27,7 +28,7 @@ const filesaver = require('file-saver');
   </div>
   <div class="row">
     <div (click)="onQuestionitemDetail(controlConstruct.questionItem)" [ngStyle]="{'cursor': 'pointer'}">
-      <a><i class="material-icons left small">search</i></a>
+      <a><i class="material-icons left small blue-text" title="go to QuestionItem">help</i></a>
       <h5>{{ controlConstruct?.questionItem?.question }}</h5>
     </div>
   </div>
@@ -83,7 +84,6 @@ const filesaver = require('file-saver');
     </div>
   </div>
 `,
-  providers: [PreviewService ],
 })
 
 export class PreviewQuestionConstructComponent {
@@ -91,7 +91,7 @@ export class PreviewQuestionConstructComponent {
   questionItemActions = new EventEmitter<string|MaterializeAction>();
   questionItem: any;
 
-  constructor(private service: PreviewService) {
+  constructor(private service: PreviewService,  private router: Router) {
   }
 
   onDownloadFile(o: any) {
@@ -103,8 +103,8 @@ export class PreviewQuestionConstructComponent {
   }
 
   onQuestionitemDetail(questionItem) {
-    this.questionItem = questionItem;
-    this.questionItemActions.emit({action: 'modal', params: ['open']});
+    this.router.navigate(['/questionitems/', questionItem.id ]);
+
   }
 
 }

@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { PublicationService } from './publication.service';
 import { Subject } from 'rxjs/Subject';
-import { ElementRevisionRef, QueryInfo } from '../shared/classes/classes';
+import {ElementRevisionRef, Page, QueryInfo} from '../shared/classes/classes';
 import { ElementKind } from '../shared/classes/enums';
 import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
-import { IElement } from '../shared/classes/interfaces';
+import {IElement, IPageSearch, IRevisionRef} from '../shared/classes/interfaces';
+import {TemplateService} from '../template/template.service';
 
 @Component({
   selector: 'qddt-publication-reuse',
@@ -22,8 +23,8 @@ export class PublicationReuseComponent  {
 
   public showAddElement = false;
   public selectedElementKind: ElementKind;
-  public revisions: any[];
-  public elements: any[];
+  public revisionList: any[];
+  public itemList: any[];
   public showProgressBar = false;
 
   queryFields: QueryInfo[] = [
@@ -35,60 +36,64 @@ export class PublicationReuseComponent  {
   ];
 
   private searchKeysListener: Subject<string> = new Subject<string>();
+  private pageSearch: IPageSearch = { kind: ElementKind.TOPIC_GROUP, key: '*', page: new Page(), sort: 'name,asc' };
 
-  constructor(private service: PublicationService) {
+  constructor(private templateService: TemplateService) {
     this.selectedElementKind = ElementKind.TOPIC_GROUP;
-    this.elements = [];
     this.searchKeysListener
       .debounceTime(300)
       .distinctUntilChanged()
-      .subscribe((name: string) => {
-        this.service.searchElements(this.selectedElementKind, name)
-          .then((result: any) => {
-            this.elements = result.content;
-          });
-      });
+      .subscribe((name: string) => this.loadPage(name));
   }
 
-  public onSelectElement(item: IElement ) {
-    this.revisions = null;
+  public onSelectElementKind(kind: ElementKind) {
+    this.pageSearch.kind = kind;
+    this.selectedElementKind = kind;
+    this.loadPage('*');
+  }
+
+  public onItemSearch(key: IElement) {
+    this.searchKeysListener.next(key.element);
+  }
+
+  public onRevisionSearch(item: IRevisionRef ) {
+    this.revisionList = null;
     this.showProgressBar = true;
-    this.service.getRevisionsByKind( this.selectedElementKind, item.element.id).then(
+    this.templateService.getRevisionsByKind( this.selectedElementKind, item.elementId).then(
       (result) => {
-        this.revisions = result.content;
+        this.revisionList = result.content;
         this.showProgressBar = false;
       },
       (error) => { this.showProgressBar = false; throw error; }
     );
   }
 
-  public onRevisionSelected( element: ElementRevisionRef) {
-    console.log(element);
+  public onRevisionSelect( element: ElementRevisionRef) {
     this.selectedEvent.emit(element);
     this.onToggleAddElement();
   }
 
-  public onRevisionDismiss(value) {
-    this.revisions = null;
-    this.elements = null;
+  public onDismiss(value) {
+    this.revisionList = null;
+    this.itemList = null;
   }
 
-  onSelectElementKind(kind: ElementKind) {
-    this.selectedElementKind = kind;
-    this.elements = null;
-    this.revisions = null;
-  }
-
-  onSearchElements(key: string) {
-    this.searchKeysListener.next(key);
-  }
-
-  onToggleAddElement() {
+  public onToggleAddElement() {
     this.showAddElement = !this.showAddElement;
     if (!this.showAddElement) {
-      this.elements = null;
-      this.revisions = null;
+      this.loadPage('*');
     }
   }
 
+  private loadPage(search: string) {
+    this.pageSearch.key = search;
+    this.templateService.searchByKind(this.pageSearch)
+      .then((result ) => {
+        this.itemList = result.content;
+        this.revisionList = null;
+      });
+
+  }
 }
+
+

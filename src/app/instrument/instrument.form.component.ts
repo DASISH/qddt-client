@@ -34,9 +34,12 @@ export class InstrumentFormComponent implements OnChanges {
   }
 
   public onUpdateInstrument() {
+    console.log(this.element);
     this.service.update(this.element).subscribe(
       (result) => {
-        if (this.modifiedEvent) {this.modifiedEvent.emit(result); } },
+          console.log(result);
+          this.element = result;
+          this.modifiedEvent.emit(result); },
       (error) => { throw error; });
   }
 }

@@ -14,19 +14,15 @@
         <label [attr.for]="'element-type-' + element.id">{{ element.label }}</label>
       </div>
     </div>
-    <div class="row">
-        <qddt-auto-complete [items]="elements" class="black-text"
-          [elementKind]="selectedElementKind"
-          (selectEvent)="onSelectElement($event)"
-		      (enterEvent)="onSearchElements($event)">
-		    </qddt-auto-complete>
-    </div>
+    <qddt-item-revision-select
+      [kind] = "selectedElementKind"
+      [itemList] = "itemList"
+      [revisionList] = "revisionList"
+      (searchItems)="onItemSearch($event)"
+      (searchRevision)="onRevisionSearch($event)"
+      (revisionSelected)="onRevisionSelect($event)"
+      (dismissEvent) ="onDismiss()">
+    </qddt-item-revision-select>
   </div>
-  <qddt-revision-select
-    [elementRevisions]="revisions"
-    [showProgressBar]="showProgressBar"
-    (selectEvent)="onRevisionSelected($event)"
-    (dismissEvent)="onRevisionDismiss($event)">>
-  </qddt-revision-select>
 </div>
 

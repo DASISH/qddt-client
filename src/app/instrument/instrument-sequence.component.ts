@@ -2,9 +2,9 @@ import { Component,  OnChanges, SimpleChanges, Input } from '@angular/core';
 import { TemplateService } from '../template/template.service';
 import { InstrumentSequence } from './instrument.classes';
 import { SequenceConstruct } from '../controlconstruct/controlconstruct.classes';
-import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
 import { ElementKind } from '../shared/classes/enums';
-import { ElementRevisionRef } from '../shared/classes/classes';
+import {ElementRevisionRef, Page} from '../shared/classes/classes';
+import {IElement, IPageSearch, IRevisionRef} from '../shared/classes/interfaces';
 
 
 @Component({
@@ -13,27 +13,56 @@ import { ElementRevisionRef } from '../shared/classes/classes';
   templateUrl: './instrument-sequence.component.html'
 })
 
-export class InstrumentSequenceComponent implements OnChanges {
+export class InstrumentSequenceComponent  {
   @Input() sequence: InstrumentSequence[];
 
-  public selectedElement: InstrumentSequence;
-  public suggestions: SequenceConstruct[];
-  public revisions: any[];
+  public revisionResults: any[];
+  public sequenceList: any[];
+  public showProgressBar = false;
   public readonly SEQUENCE = ElementKind.SEQUENCE_CONSTRUCT;
+  private pageSearch: IPageSearch = { kind: ElementKind.SEQUENCE_CONSTRUCT, key: '*', page: new Page(), sort: 'name,asc' };
 
-  constructor(private service: TemplateService) {
+  constructor(private service: TemplateService) { }
 
+  public onItemSearch(ref: IElement) {
+    this.showProgressBar = true;
+    this.pageSearch.key = ref.element;
+    this.service.searchByKind<SequenceConstruct>(this.pageSearch).then(
+      (result) => { this.sequenceList = result.content; },
+      (error) => { throw error; } );
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.sequence);
+  public onRevisonSearch(ref: IRevisionRef) {
+    this.showProgressBar = true;
+    const kind =  this.service.getElementKind(ref.elementKind);
+    this.service.getRevisionsByKind( kind, ref.elementId).then(
+      (result) => { this.revisionResults =
+        result.content.sort((e1, e2) => e2.revisionNumber - e1.revisionNumber);
+        this.showProgressBar = false;
+      } );
+  }
+
+  public onRevisionSelect(ref: ElementRevisionRef) {
+    const insSeq = new InstrumentSequence();
+    insSeq.elementRef = ref;
+    ref.element.sequence.forEach( (seq: ElementRevisionRef) => {
+      const newSeq = new InstrumentSequence();
+      newSeq.elementRef = seq;
+      insSeq.sequences.push(newSeq);
+    })
+    this.sequence.push(insSeq);
+  }
+
+  public onDismiss() {
+    this.revisionResults = null;
+    this.sequenceList = null;
   }
 
   public onOpenBody(sequence: InstrumentSequence[]) {
     sequence.forEach((item) => {
       if (!item.elementRef.element) {
         this.service.getRevisionByKind(
-          this.getElementKind(item.elementRef.elementKind),
+          this.service.getElementKind(item.elementRef.elementKind),
           item.elementRef.elementId,
           item.elementRef.elementRevision )
         .then((result) => {
@@ -43,39 +72,11 @@ export class InstrumentSequenceComponent implements OnChanges {
         });
       }
     });
-    this.onSearchElements('*');
+    this.onItemSearch({ element: '*', elementKind: this.SEQUENCE });
   }
 
-  public onSearchElements(search: string) {
-    this.service.searchByKind<SequenceConstruct>({ kind: this.SEQUENCE , key: search }).then(
-      (result) => { this.suggestions = result.content; },
-      (error) => { throw error; } );
+  public isSequence(kind: ElementKind|string): boolean {
+    return this.service.getElementKind(kind) === this.SEQUENCE;
   }
-
-
-  public onSelectElement(ref ) {
-    const kind =  this.service.getElementKind(ref.classKind);
-    this.service.getRevisionsByKind(kind, ref.id).then(
-      (result) => {
-        console.log('revisions');
-        this.revisions = result.content;
-      },
-      ( error ) => { throw error; } );
-  }
-  public onRevisionDismiss(value: Boolean) {
-    this.revisions = null;
-    this.suggestions = null;
-  }
-
-  public onRevisionSelected(ref: ElementRevisionRef) {
-    const insSeq = new InstrumentSequence();
-    insSeq.elementRef = ref;
-    this.sequence.push(insSeq);
-  }
-
-  public getElementKind(kind: string|ElementKind): ElementKind {
-    return (typeof kind === 'string') ?  ElementKind[kind] : kind ;
-  }
-
 
 }
