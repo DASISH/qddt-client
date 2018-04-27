@@ -32,14 +32,16 @@ export class PublicationPreselectorComponent implements OnChanges, OnInit {
               private service: PublicationService) {
     this.service.PUBLICATION_STATUSES.then( (result) => {
       this.selectOptions = result;
-      this.selectId = this.selectOptions[0].id;
+      const published: string = this.getKey().get(this.KEY);
+      this.selectId  = this.selectOptions.find( (s) => s.published === published).id;
     });
   }
 
 
   ngOnInit(): void {
     if (this.selectOptions) {
-      this.selectId = this.selectOptions[0].id;
+      const published: string = this.getKey().get(this.KEY);
+      this.selectId  = this.selectOptions.find( (s) => s.published === published).id;
     }
   }
 
@@ -49,7 +51,6 @@ export class PublicationPreselectorComponent implements OnChanges, OnInit {
 
   onSelectOption(id: number) {
     this.selectId = id;
-    console.log(id);
     this.setKey(new Map( [ [this.KEY, this.selectOptions[id].published ] ] ));
     this.messages.sendAction( { id: this.KEY,  action: ActionKind.Filter, object: this.getKey() } );
   }
@@ -70,6 +71,8 @@ export class PublicationPreselectorComponent implements OnChanges, OnInit {
     }
     return new Map( [ [this.KEY, 'NOT_PUBLISHED' ] ] );
   }
+
+
 
 }
 
