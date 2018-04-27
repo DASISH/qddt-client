@@ -5,6 +5,7 @@ import { PublicationService } from './publication.service';
 import { ActionKind, ElementKind } from '../shared/classes/enums';
 import { Page } from '../shared/classes/classes';
 import { PublicationStatus } from './publication.classes';
+import { IPageSearch } from '../shared/classes/interfaces';
 
 
 @Component({
@@ -57,24 +58,14 @@ export class PublicationPreselectorComponent implements OnChanges, OnInit {
   }
 
   private setKey(map: Map<string, string> ) {
-    let pageSearch = this.properties.get(this.path);
-    if (!pageSearch) {
-      pageSearch = {kind: ElementKind.PUBLICATION, key: '*', page: new Page(), sort: 'modified,desc'};
-    }
+    const pageSearch = this.properties.get(this.path);
     pageSearch.keys = map;
     this.properties.set(this.path, pageSearch);
   }
 
   private getKey(): Map<string, string> {
-    const pageSearch = this.properties.get(this.path);
-    if (pageSearch.keys ) {
+    const pageSearch: IPageSearch =  this.properties.get(this.path);
       return pageSearch.keys;
-    }
-    return new Map( [ [this.KEY, 'NOT_PUBLISHED' ] ] );
   }
 
-
-
 }
-
-

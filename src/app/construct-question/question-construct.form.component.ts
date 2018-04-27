@@ -1,5 +1,4 @@
 import { Component, Input, Output, EventEmitter,  OnChanges, SimpleChanges } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { QuestionItem } from '../question/question.classes';
 import { ElementKind } from '../shared/classes/enums';
 import {ElementRevisionRef, Page} from '../shared/classes/classes';
@@ -7,9 +6,11 @@ import { QuestionConstruct } from './question-construct.classes';
 import { Instruction, Universe } from '../controlconstruct/controlconstruct.classes';
 import { TemplateService } from '../template/template.service';
 import { IRevisionResult, IElement, IRevisionRef, IOtherMaterial } from '../shared/classes/interfaces';
+import {forEach} from '@angular/router/src/utils/collection';
+import { HttpResponse, HttpEventType, HttpEvent } from '@angular/common/http';
+import { map, tap } from 'rxjs/operators';
 
 const filesaver = require('file-saver');
-declare var Materialize: any;
 
 @Component({
   selector: 'qddt-question-construct-form',
@@ -21,7 +22,7 @@ declare var Materialize: any;
   ],
 })
 
-export class QuestionConstructFormComponent implements OnChanges  {
+export class QuestionConstructFormComponent   {
   @Input() controlConstruct: QuestionConstruct;
   @Input() readonly = false;
   @Output() modifiedEvent = new EventEmitter<QuestionConstruct>();
@@ -37,29 +38,19 @@ export class QuestionConstructFormComponent implements OnChanges  {
   public universeList: Universe[];
   public questionList: QuestionItem[];
   public revisionResults: IRevisionResult<QuestionItem>[];
+  public fileProgress: number;
 
-  private showUploadFileForm: boolean;
-  private showUploadedFiles: boolean;
-  private showbutton = false;
-  private showProgressBar = false;
+  public showUploadFileForm: boolean;
+  public showProgressBar = false;
 
-  private files: FileList;
-  private fileStore: any[];
-  private toDeleteFiles: any[];
+  private fileStore: File[] = [];
+  private toDeleteFiles: IOtherMaterial[] = [];
+
+
 
   constructor(private service: TemplateService) {
     this.showUploadFileForm = false;
-    this.showUploadedFiles = false;
-
-    this.fileStore = [];
-    this.toDeleteFiles = [];
   }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    try { Materialize.updateTextFields(); } catch (Exception) { }
-  }
-
-
 
   onAddUniverse(item: IElement) {
     this.controlConstruct.universe.push(item.element);
@@ -107,14 +98,10 @@ export class QuestionConstructFormComponent implements OnChanges  {
     this.controlConstruct.questionItemRevision = ref.elementRevision;
     this.questionList = [];
     this.revisionResults = [];
-//    this.editQuestionItem = false;
-
   }
-
 
   onRemoveQuestoinItem() {
     this.controlConstruct.questionItem = null;
-//    this.editQuestionItem = false;
   }
 
   onDownloadFile(o: IOtherMaterial) {
@@ -126,10 +113,14 @@ export class QuestionConstructFormComponent implements OnChanges  {
 
 
   onSelectFile(filename: any) {
-    this.files = filename.target.files;
+    const list = filename.target.files as FileList;
+    for (let i = 0; i < list.length; i++) {
+      this.fileStore.push(list.item(i));
+    }
+    this.showUploadFileForm = false;
   }
 
-  onDeleteFile(idx: number) {
+  onMarkForDeletetion(idx: number) {
     if (this.controlConstruct.otherMaterials
       && this.controlConstruct.otherMaterials.length > idx) {
       const items = this.controlConstruct.otherMaterials.splice(idx, 1);
@@ -145,60 +136,96 @@ export class QuestionConstructFormComponent implements OnChanges  {
     }
   }
 
-  onUploadFile() {
-    this.fileStore.push(this.files);
-    this.showUploadFileForm = false;
-    this.files = null;
-  }
 
-  OnSave() {
-/*     this.fileStore.forEach(
-      (file) => formData.append(file)
-    )
+
+  onSaveForm() {
 
     const formData: FormData = new FormData();
-    if (picture !== null || picture !== undefined) {
-      formData.append('files', picture, picture.name);
-    }
-    formData.append('article', JSON.stringify(article)); */
+    const qc = this.controlConstruct;
+    formData.append('controlconstruct', JSON.stringify(qc));
+    this.fileStore.forEach( (file) => { formData.append('files', file); });
 
-  }
-
-
-  onSaveQuestionConstruct() {
-    const controlConstruct = this.controlConstruct;
-    const files = this.fileStore;
-    const len = files.length;
-    let source = Observable.of({});
-    const toDeleteFiles = this.toDeleteFiles;
-    if (len > 0 || this.toDeleteFiles.length > 0) {
-      source = Observable.range(0, len + this.toDeleteFiles.length)
-        .flatMap((x: any) => {
-          if (x < len) {
-            const file = files[x];
-            return this.service.uploadFile(controlConstruct.id, '/CC', file);
-          } else {
-            const file = toDeleteFiles[x - len];
-            return this.service.deleteFile(file.id);
-          }
-        });
-    }
-    const service = this.service;
-    const elementEvent = this.modifiedEvent;
-    source.subscribe(
-      function () {
-        service.update(controlConstruct).subscribe(
-          (result) => {
+    this.service.updateWithfiles(ElementKind.QUESTION_CONSTRUCT, formData).subscribe(
+      (result) => {
+        // if (result.type === HttpEventType.UploadProgress) {
+        //   // This is an upload progress event. Compute and show the % done:
+        //   const percentDone = Math.round(100 * result.loaded / result.total);
+        //   console.log(`File is ${percentDone}% uploaded.`);
+        // } else {
             this.controlConstruct = result;
-            elementEvent.emit(result); },
-          (error: any) => {
-          throw error;
-        });
-      },
-      function (error: any) {
-        throw error;
-      });
+            this.deleteFiles();
+            this.modifiedEvent.emit(result);
+        // }
+      }, (error) => { throw error; });
+
+
+    // .pipe(
+    //   map(event => this.getEventMessage(event, file)),
+    //   tap(message => this.showProgress(message)),
+    //   last(), // return last (completed) message to caller
+    //   catchError(this.handleError(file))
+    // );
   }
+
+  // private getEventMessage(event: HttpEvent<any>, file: File) {
+  //   switch (event.type) {
+  //     case HttpEventType.Sent:
+  //       return `Uploading file "${file.name}" of size ${file.size}.`;
+
+  //     case HttpEventType.UploadProgress:
+  //       // Compute and show the % done:
+  //       const percentDone = Math.round(100 * event.loaded / event.total);
+  //       return `File "${file.name}" is ${percentDone}% uploaded.`;
+
+  //     case HttpEventType.Response:
+  //       return `File "${file.name}" was completely uploaded!`;
+
+  //       default:
+  //       return `File "${file.name}" surprising upload event: ${event.type}.`;
+  //   }
+  // }
+
+private async deleteFiles() {
+  this.toDeleteFiles.forEach(async (o) => {
+     const response = await this.service.deleteFile(o.id).toPromise();
+  });
+  return true;
+}
+
+  // onSaveQuestionConstruct() {
+  //   const controlConstruct = this.controlConstruct;
+  //   const files = this.fileStore;
+  //   const len = files.length;
+  //   let source = Observable.of({});
+  //   const toDeleteFiles = this.toDeleteFiles;
+  //   if (len > 0 || this.toDeleteFiles.length > 0) {
+  //     source = Observable.range(0, len + this.toDeleteFiles.length)
+  //       .flatMap((x: any) => {
+  //         if (x < len) {
+  //           const file = files[x];
+  //           return this.service.uploadFile(controlConstruct.id, '/CC', file);
+  //         } else {
+  //           const file = toDeleteFiles[x - len];
+  //           return this.service.deleteFile(file.id);
+  //         }
+  //       });
+  //   }
+  //   const service = this.service;
+  //   const elementEvent = this.modifiedEvent;
+  //   source.subscribe(
+  //     function () {
+  //       service.update(controlConstruct).subscribe(
+  //         (result) => {
+  //           this.controlConstruct = result;
+  //           elementEvent.emit(result); },
+  //         (error: any) => {
+  //         throw error;
+  //       });
+  //     },
+  //     function (error: any) {
+  //       throw error;
+  //     });
+  // }
 
 
 }

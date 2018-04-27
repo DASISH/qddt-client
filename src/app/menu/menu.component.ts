@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { QddtPropertyStoreService, HIERARCHY_POSITION } from '../core/global/property.service';
 import { UserService } from '../core/user/user.service';
+import {TemplateService} from '../template/template.service';
 
 
 declare var $: any;
@@ -21,16 +22,15 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   public username;
   public loggedIn: boolean;
 
-  constructor(private auth: UserService, private property: QddtPropertyStoreService, private router: Router ) {
+  constructor(private auth: UserService, private property: QddtPropertyStoreService, private router: Router,
+              private service: TemplateService) {
     this.username = this.getUserName();
     this.loggedIn = !this.auth.isTokenExpired();
   }
 
   ngOnInit() {
     this.propertyChanged = this.property.currentChange$.subscribe(
-      (item) => { this.path[item] = this.property.getCurrent();
-                  console.log(this.path);
-       },
+      (item) => { this.path[item] = this.property.getCurrent(); },
       (error) => console.error(error.toString()));
     this.loginChanged = this.auth.loginChanged$.subscribe(
       (item) => {
@@ -60,7 +60,7 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
     if (!this.auth.isTokenExpired()) {
       return this.auth.getEmail();
     }
-    console.log('gravitar token expired');
+    console.log('token expired (no gravitar for you)');
     return '';
   }
 
@@ -83,6 +83,24 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
     this.router.navigate(['/resetpassword']);
   }
 
+  onCheckUrl(event) {
+    const parts = event.srcElement.value.toString().split('/');
+    if (parts[parts.length - 1].length !== 36) { return; } // must be a valid UUID....
+    let url;
+    if (parts.length === 1) {
+      url =  parts[0];
+    } else if (parts.length >= 2) {
+      url = parts[parts.length - 2] + '/' + parts[parts.length - 1];
+    }
+
+    if (event.inputType === 'insertFromPaste' && (parts.length >= 2)) {
+        this.router.navigate([url]);
+        event.srcElement.value = '';
+    } else {
+      event.srcElement.value = '';
+      this.gotoUUID(url);
+    }
+  }
   onSurvey() {
     this.clearAll();
     this.router.navigate(['/survey']);
@@ -116,5 +134,10 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
     this.path[HIERARCHY_POSITION.Concept] = null;
   }
 
+  private gotoUUID(uuid: string) {
+    this.service.searchByUuid(uuid).then( (result) => {
+      this.router.navigate([result.url]); },
+      (error) => { throw  error; });
+  }
 }
 

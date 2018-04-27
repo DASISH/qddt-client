@@ -56,7 +56,9 @@ export class TemplateComponent implements OnChanges, OnDestroy, AfterContentChec
     this.messages.getAction()
       .takeWhile(() => this.alive)
       .subscribe(event => {
-        if (event.action === ActionKind.Filter && event.id === 'ResponseKind' && this.showForm ) {
+        if (event.action === ActionKind.Filter
+          && (event.id === 'ResponseKind' || event.id === 'publishedstatus' )
+          && this.showForm ) {
           this.onToggleForm();
         }
       });

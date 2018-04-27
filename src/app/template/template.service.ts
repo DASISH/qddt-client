@@ -105,7 +105,9 @@ export class TemplateService {
 
   public updateWithfiles(kind: ElementKind, form: FormData ): Observable<any> {
     const qe = QDDT_QUERY_INFOES[kind];
-    return this.http.post<any>(this.api +  qe.path + '/createfile/', form);
+    // const req = new HttpRequest('POST', this.api +  qe.path + '/createfile/', form, { reportProgress: true });
+    // return this.http.request(req);
+    return this.http.post( this.api +  qe.path + '/createfile/', form, { reportProgress: true} );
   }
 
   public delete(item: IEntityEditAudit): Observable<any> {

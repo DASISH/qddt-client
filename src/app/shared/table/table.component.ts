@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges, ViewChild, ElementRef} from '@angular/core';
 import { Column } from './table.column';
 import { LIST_COLUMNS, RESPONSEDOMAIN_COLUMNS, DEFAULT_COLUMNS } from './table.column-map';
 import { QDDT_QUERY_INFOES } from '../classes/constants';
@@ -40,9 +40,12 @@ export class QddtTableComponent implements OnInit, OnChanges {
   public rows = [];
   public columns: Column[];
 
+  @ViewChild('fkRef') _fkRef: ElementRef;
+
   ngOnInit(): void {
     this.columns = this.getColumns();
     if (!this.items) { this.items = []; }
+    this.fetchEvent.emit(this.pageSearch);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -100,9 +103,10 @@ export class QddtTableComponent implements OnInit, OnChanges {
   }
 
   onClearKeywords() {
-    this.pageSearch.key = this.value = '';
+    this.pageSearch.key = this.value = '*';
     this.pageSearch.sort = this.getSort();
     this.fetchEvent.emit(this.pageSearch);
+    this._fkRef.nativeElement.focus();
   }
 
   public getSort() {

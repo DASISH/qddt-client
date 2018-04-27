@@ -39,22 +39,16 @@
             <input class="file-path validate" type="text" placeholder="Upload one file">
           </div>
         </div>
-        <a *ngIf="files" class="btn-flat right btn-floating btn-medium waves-effect waves-light teal"
-           (click)="onUploadFile()">
-          <i class="material-icons left medium">done</i>
-        </a>
       </div>
       <li *ngFor="let m of controlConstruct.otherMaterials; let idx=index;">
-        <div class="row" style="min-height:3rem">
+        <div class="row">
           <div class="col s10">
             <a class="waves-effect waves-light" (click)="onDownloadFile(m)">
-              <i class="material-icons center smal">description</i>
-              {{ m.originalName }}</a>
+              <i class="material-icons center smal">description</i>{{ m.originalName }}</a>
           </div>
           <div class="col s1 right" >
             <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-               [ngClass]="{hide: !showFilebutton}"
-               (click)="onDeleteFile(idx)">
+               [ngClass]="{hide: !showFilebutton}" (click)="onMarkForDeletetion(idx)">
               <i class="material-icons left medium" title="Delete" >delete_forever</i>
             </a>
           </div>
@@ -63,12 +57,11 @@
       <li *ngFor="let file of fileStore; let idx=index;">
         <div class="row">
           <div class="col s11 m5">
-            <a class="waves-effect waves-light"><i class="material-icons center smal">description</i>{{ file[0]?.name }}</a>
+            <a class="waves-effect waves-light"><i class="material-icons center smal">description</i>{{ file?.name }}</a>
           </div>
           <div class="col s1 right" style="min-height:3rem">
             <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-               [ngClass]="{hide: !file.showbutton}"
-               (click)="onDeleteFileFromLocal(idx)">
+               [ngClass]="{hide: !showFilebutton}" (click)="onDeleteFileFromLocal(idx)">
               <i class="material-icons left medium" title="Delete" >delete_forever</i>
             </a>
           </div>
@@ -144,7 +137,7 @@
 
     <div class="row right-align">
       <button *ngIf="!readonly" type="button" class="btn btn-default" [disabled]="!qcform.form.valid"
-              (click)="onSaveQuestionConstruct()">Submit</button>
+              (click)="onSaveForm()">Submit</button>
     </div>
   </form>
 

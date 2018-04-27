@@ -2,7 +2,7 @@
   <div class="white grey-text text-darken-1" style="overflow-x:auto; margin:0.5rem">
     <div class="row">
       <div class="input-field col s11">
-        <input id="filterKey" type="text" [ngModel]="value" (keyup)="enterText($event)">
+        <input id="filterKey" type="text" [ngModel]="value" (keyup)="enterText($event)" #fkRef>
         <label for="filterKey">{{ placeholder }}</label>
       </div>
       <div class="input-field col s1">

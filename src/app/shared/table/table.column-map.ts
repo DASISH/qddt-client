@@ -22,7 +22,7 @@ const  SEQUENCE_CONSTRUCT_COLUMNS = [
 const  PUBLICATION_COLUMNS =  [
   new Column({ name: 'name', label: 'Name', sortable: true }),
   new Column({ name: 'purpose', label: 'Purpose', sortable: true }),
-  new Column({ name: ['status', 'label'], label: 'Publication Status', sortable: true }),
+  new Column({ name: ['status', 'label'], label: 'Publication Status', sortable: false }),
 ];
 
 const CATEGORY_COLUMNS =  [

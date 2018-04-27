@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+import { UserService } from '../user/user.service';
 
 declare var Materialize: any;
 
 @Injectable()
 export class ErrorLogService {
-  // private name: String = 'ErrorLogService';
+
+  constructor(private authService: UserService) {}
 
   logError(error: any) {
     console.error('ERROR LOG -> ', error);
@@ -40,6 +42,9 @@ export class ErrorLogService {
       // A client-side or network error occurred. Handle it accordingly.
       Materialize.toast(error.error.message, 6000);
     } else {
+      if (error.status === 401) {
+          this.authService.logout();
+      }
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
       if (error.error.userfriendlyMessage) {

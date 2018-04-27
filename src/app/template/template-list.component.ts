@@ -59,6 +59,7 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
   }
 
   private loadPage(search?: string ) {
+
     this.showProgressBar = true;
     this.pageSearch = this.getPageSearch();
 
@@ -80,14 +81,19 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
   }
 
   private getPageSearch(): IPageSearch {
-    const KEY = 'ResponseKind';
+
     let pageSearch = this.properties.get(this.path);
     if (!pageSearch) {
       pageSearch = { kind: this.kind,  key: '*', page : new Page(), sort : 'modified,desc' };
       this.properties.set(this.path, pageSearch);
     }
     if (pageSearch.kind === ElementKind.RESPONSEDOMAIN && !pageSearch.keys ) {
-        pageSearch.keys = new Map( [ [KEY, DomainKind[DomainKind.SCALE] ] ] );
+      const KEY = 'ResponseKind';
+      pageSearch.keys = new Map( [ [KEY, DomainKind[DomainKind.SCALE] ] ] );
+    }
+    if (pageSearch.kind === ElementKind.PUBLICATION && !pageSearch.keys ) {
+      const KEY = 'publishedstatus';
+      pageSearch.keys = new Map( [ [KEY, 'NOT_PUBLISHED' ] ] );
     }
     return pageSearch;
   }
