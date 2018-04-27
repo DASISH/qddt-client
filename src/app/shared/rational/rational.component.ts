@@ -23,8 +23,8 @@ export class RationalComponent implements OnInit {
   private savedbasedOnObject: any;
 
   constructor() {
-    this._RationalIndex = -1;
-    this._Rational2Index = -1;
+    this._RationalIndex = 1;
+    this._Rational2Index = 0;
     this.saveOptionIndex = 0;
     this.savedId = null;
   }
@@ -48,7 +48,7 @@ export class RationalComponent implements OnInit {
 
   onClickRational1(id: number) {
     this._RationalIndex = id;
-    this._Rational2Index = -1;
+    this._Rational2Index = 0;
     const rational = this.rationalDescriptions[this.saveOptionIndex].children[id];
     if (rational.change) {
       this.element.changeKind = rational.change;
@@ -65,7 +65,7 @@ export class RationalComponent implements OnInit {
   onSelectOption(id: number) {
     this.saveOptionIndex = id;
     this._RationalIndex = -1;
-    this._Rational2Index = -1;
+    this._Rational2Index = 0;
     if (this.rationalDescriptions[id].change) {
       this.element.changeKind = this.rationalDescriptions[id].change;
     }
