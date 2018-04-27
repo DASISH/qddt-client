@@ -18,6 +18,10 @@ export class TemplateService {
     userService.getRoles().forEach((role) => this.roles += +Authority[role]);
   }
 
+  public searchByUuid(id: string): Promise<any> {
+    return this.http.get(this.api + 'search/' + id).toPromise();
+  }
+
   public searchByKind<T extends IEntityAudit>(pageSearch: IPageSearch): Promise<IPageResult<T>> {
     const qe = QDDT_QUERY_INFOES[pageSearch.kind];
     const args = pageSearch.key.split(' ');

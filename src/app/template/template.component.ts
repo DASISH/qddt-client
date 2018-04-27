@@ -40,11 +40,16 @@ export class TemplateComponent implements OnChanges, OnDestroy, AfterContentChec
     this.route.url
     .takeWhile(() => this.alive)
     .subscribe((event) => {
-      this.path = this.route.firstChild.routeConfig.path;
+      this.path = this.route.firstChild.routeConfig.path; // '/:id'
+      const detailIndex = this.path.lastIndexOf('/:id');
+      if (detailIndex >= 0) {
+        this.path = this.path.substr(0, detailIndex);
+      }
       if (HEADER_DETAILS.has(this.path)) {
         this.kind = HEADER_DETAILS.get(this.path).kind;
         this.icon = HEADER_DETAILS.get(this.path).icon;
         this.headerName =  HEADER_DETAILS.get(this.path).headerName;
+
       }
     });
 

@@ -30,6 +30,7 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
 
     this.route.url
       .takeWhile(() => this.alive)
+      .filter( (f) => f.length > 0)
       .subscribe((event) => {
         this.path = event[0].path;
         this.kind = HEADER_DETAILS.get(this.path).kind;
