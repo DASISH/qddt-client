@@ -6,6 +6,7 @@ import { ActionKind, ElementKind } from '../shared/classes/enums';
 import { Page } from '../shared/classes/classes';
 import { PublicationStatus } from './publication.classes';
 
+
 @Component({
   selector: 'qddt-publication-preselector',
   moduleId: module.id,
