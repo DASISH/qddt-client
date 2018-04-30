@@ -64,9 +64,9 @@ export interface IVersion {
 }
 
 export interface IOtherMaterial {
-  orgRef: string;
   fileName: string;
   originalName: string;
+  originalOwner: string;
 }
 
 export interface IHeaderDetail {

@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges, ViewChild, ElementRef} from '@angular/core';
+import {Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges, ViewChild, ElementRef, OnDestroy} from '@angular/core';
 import { Column } from './table.column';
 import { LIST_COLUMNS, RESPONSEDOMAIN_COLUMNS, DEFAULT_COLUMNS } from './table.column-map';
 import { QDDT_QUERY_INFOES } from '../classes/constants';
@@ -6,6 +6,7 @@ import { IEntityEditAudit, IPageSearch } from '../classes/interfaces';
 import { ElementKind } from '../classes/enums';
 import { ElementEnumAware } from '../../preview/preview.service';
 import { DomainKind } from '../../responsedomain/responsedomain.classes';
+import {Subject} from 'rxjs/Subject';
 
 @Component({
   selector: 'qddt-table',
@@ -19,7 +20,7 @@ import { DomainKind } from '../../responsedomain/responsedomain.classes';
 })
 
 @ElementEnumAware
-export class QddtTableComponent implements OnInit, OnChanges {
+export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
   /**
    * number: the current page beginning with zero
    * size: the size of each page
@@ -42,10 +43,22 @@ export class QddtTableComponent implements OnInit, OnChanges {
 
   @ViewChild('fkRef') _fkRef: ElementRef;
 
+  private searchKeysChange: Subject<string> = new Subject<string>();
+
+  constructor() {
+    this.searchKeysChange
+      .debounceTime(300)
+      .distinctUntilChanged()
+      .subscribe((name: string) => {
+        this.pageSearch.key = this.value = name;
+        this.pageSearch.sort = this.getSort();
+        this.fetchEvent.emit(this.pageSearch);
+      });
+  }
   ngOnInit(): void {
     this.columns = this.getColumns();
     if (!this.items) { this.items = []; }
-    this.fetchEvent.emit(this.pageSearch);
+    // this.fetchEvent.emit(this.pageSearch); created double loading on init ( better to initialize from parent...)
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -96,10 +109,7 @@ export class QddtTableComponent implements OnInit, OnChanges {
   }
 
   enterText(event: any) {
-    this.pageSearch.key = this.value = event.target.value;
-    // this.placeholder = this.makePlaceholder(this.value);
-    this.pageSearch.sort = this.getSort();
-    this.fetchEvent.emit(this.pageSearch);
+    this.searchKeysChange.next(event.target.value);
   }
 
   onClearKeywords() {
@@ -168,6 +178,10 @@ export class QddtTableComponent implements OnInit, OnChanges {
     }
 
     return DEFAULT_COLUMNS;
+  }
+
+  ngOnDestroy(): void {
+    this.searchKeysChange.unsubscribe();
   }
 
 

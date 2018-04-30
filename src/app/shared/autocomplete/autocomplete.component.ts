@@ -5,6 +5,7 @@ import { ElementKind } from '../classes/enums';
 import { ElementEnumAware } from '../../preview/preview.service';
 import { getElementKind, QDDT_QUERY_INFOES} from '../classes/constants';
 import {Factory} from '../classes/factory';
+import {Subject} from 'rxjs/Subject';
 
 @Component({
   selector: 'qddt-auto-complete',
@@ -35,6 +36,19 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
   private found = true;
   private selected = false;
 
+
+  private searchKeysChange: Subject<string> = new Subject<string>();
+
+  constructor() {
+    this.searchKeysChange
+      .debounceTime(300)
+      .distinctUntilChanged()
+      .subscribe((name: string) => {
+        this.waitingForChange = true;
+        this.enterEvent.emit(name);
+      });
+  }
+
   ngOnChanges(change: SimpleChanges) {
     if (change['elementKind'] && change['elementKind'].isFirstChange()) {
       this.queryInfo = QDDT_QUERY_INFOES[getElementKind(this.elementKind)];
@@ -49,7 +63,6 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
     if (change['initialValue'] && change['initialValue'].isFirstChange() && !this.selected ) {
       this.value = this.initialValue;
     }
-
   }
 
   enterText(event: any) {
@@ -65,8 +78,7 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
         this.selectEvent.emit({element: item , elementKind: this.elementKind });
       }
     } else {
-      this.waitingForChange = true;
-      this.enterEvent.emit(this.value);
+      this.searchKeysChange.next(this.value);
     }
   }
 
@@ -165,7 +177,7 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    console.log('destroying autocomplete...');
+    this.searchKeysChange.unsubscribe();
   }
 
 }
