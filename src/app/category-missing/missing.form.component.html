@@ -39,12 +39,12 @@
       </div>
     </div>
 
-    <qddt-rational *ngIf="missing.id" [formName]="'RationalComp'" [element]="missing" [config]="{hidden: [4]}"></qddt-rational>
+    <qddt-rational *ngIf="!readonly && missing.id"  [formName]="'RationalComp'" [element]="missing" [config]="{hidden: [4]}"></qddt-rational>
 
     <qddt-element-footer *ngIf="missing.id" [element]="missing"></qddt-element-footer>
 
     <div class="row right-align">
-      <button type="submit" class="btn btn-default" [disabled]="!hf.form.valid" (click)="onSave()">Submit</button>
+      <button  *ngIf="!readonly" type="submit" class="btn btn-default" [disabled]="!hf.form.valid" (click)="onSave()">Submit</button>
     </div>
 
   </form>

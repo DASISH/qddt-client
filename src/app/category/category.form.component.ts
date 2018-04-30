@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Category, CATEGORY_INFO, ICategoryInfo, HierachyLevel } from './category.classes';
-import { ElementKind } from '../shared/classes/enums';
+import {ActionKind, ElementKind} from '../shared/classes/enums';
 import { TemplateService } from '../template/template.service';
 
 
@@ -33,7 +33,7 @@ export class CategoryFormComponent implements OnInit {
     if (!this.category) {
       this.category = new Category();
     }
-
+    this.readonly = !this.categoryService.can(ActionKind.Create, ElementKind.CATEGORY);
     this.isTemplate = this.category.hierarchyLevel === 'GROUP_ENTITY';
     this.categoryEnums = CATEGORY_INFO.filter( (e) => e.level ===  HierachyLevel[this.category.hierarchyLevel]);
   }

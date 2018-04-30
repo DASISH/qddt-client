@@ -1,12 +1,12 @@
 
 <div>
-  <a *ngIf="showbutton && !responseDomain" class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal" href="#{{formId}}">
+  <a *ngIf="showbutton && !readOnly && !responseDomain" class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal" href="#{{formId}}">
       <i class="material-icons" title="response domain edit" (click)="openModal()">add</i>
   </a>
-  <a *ngIf="showbutton && responseDomain" class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
+  <a *ngIf="showbutton && !readOnly && responseDomain" class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
     <i class="material-icons" title="response domain remove" (click)="removeResponseDomain()">remove</i>
   </a>
-  <a *ngIf="!showbutton" class="btn-flat btn-floating btn-medium" style="background-color: transparent; color: transparent;" ></a>
+  <a *ngIf="!showbutton || readOnly " class="btn-flat btn-floating btn-medium" style="background-color: transparent; color: transparent;" ></a>
   <span style="min-height:max-content; "> {{ responseDomain?.name }}</span>
 
   <div id="{{formId}}" class="modal modal-fixed-footer" materialize="modal"

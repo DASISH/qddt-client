@@ -80,7 +80,8 @@ export class TemplateComponent implements OnChanges, OnDestroy, AfterContentChec
 
 
   onToggleForm() {
-    if (this.canWrite ) {
+    if (!this.canWrite()) { throw Error('Access denied'); }
+
       this.showForm = !this.showForm;
       if (!this.showForm) {
         this.messages.sendAction(  { id: '', action: ActionKind.Update, object: null });
@@ -95,7 +96,6 @@ export class TemplateComponent implements OnChanges, OnDestroy, AfterContentChec
 
         }
       }
-    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {

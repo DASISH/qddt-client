@@ -14,7 +14,7 @@
     </div>
     <div class="row" *ngIf="selectOptions">
         <div class="input-field col s6 m5 l4">
-          <select materialize="material_select" name="{{formId}}-status" id="{{formId}}-status"
+          <select materialize="material_select" name="{{formId}}-status" id="{{formId}}-status" class="validate" required
             [materializeSelectOptions]="selectOptions"
             [(ngModel)]="selectedOptionId" (ngModelChange)="onSelectChange($event)">
             <optgroup *ngFor="let parent of selectOptions" label="{{parent.label}}">
@@ -43,7 +43,7 @@
               <div class="col s2">{{ getLabelByElement(element?.elementKind) }}</div>
               <div class="col s7">{{ element?.name }}</div>
               <div class="col s2 right-align"><qddt-version [element]="element.element"></qddt-version></div>
-              <div class="col s1">
+              <div class="col s1" *ngIf="!readonly">
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                    (click)="onElementDelete(idx)">
                   <i class="material-icons medium" [ngStyle]="{'width': 'inherit', 'line-height': '37px'}" title="Delete" >delete_forever</i>
@@ -59,14 +59,13 @@
         </li>
       </ul>
     </div>
-    <qddt-rational [formName]="'RationalComp'" *ngIf="!readonly && publication.id" [element]="publication" [config]="{hidden: [3,4]}">
-      </qddt-rational>
+    <qddt-rational [formName]="'RationalComp'" *ngIf="!readonly && publication.id" [element]="publication" [config]="{hidden: [3,4]}"></qddt-rational>
 
-      <qddt-element-footer *ngIf="publication.id" [element]="publication"></qddt-element-footer>
+    <qddt-element-footer *ngIf="publication.id" [element]="publication"></qddt-element-footer>
 
-      <div class="row right-align">
-        <button *ngIf="!readonly" [disabled]="!hf.form.valid" type="submit" class="btn btn-default">Submit
-        </button>
-      </div>
+    <div class="row right-align">
+      <button *ngIf="!readonly" [disabled]="!hf.form.valid" type="submit" class="btn btn-default">Submit</button>
+    </div>
+
   </form>
 </div>

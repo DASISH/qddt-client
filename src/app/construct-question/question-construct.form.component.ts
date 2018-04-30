@@ -1,14 +1,11 @@
-import { Component, Input, Output, EventEmitter,  OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { QuestionItem } from '../question/question.classes';
-import { ElementKind } from '../shared/classes/enums';
-import {ElementRevisionRef, Page} from '../shared/classes/classes';
+import {ActionKind, ElementKind} from '../shared/classes/enums';
+import { ElementRevisionRef, Page } from '../shared/classes/classes';
 import { QuestionConstruct } from './question-construct.classes';
 import { Instruction, Universe } from '../controlconstruct/controlconstruct.classes';
 import { TemplateService } from '../template/template.service';
 import { IRevisionResult, IElement, IRevisionRef, IOtherMaterial } from '../shared/classes/interfaces';
-import {forEach} from '@angular/router/src/utils/collection';
-import { HttpResponse, HttpEventType, HttpEvent } from '@angular/common/http';
-import { map, tap } from 'rxjs/operators';
 
 const filesaver = require('file-saver');
 
@@ -38,18 +35,18 @@ export class QuestionConstructFormComponent   {
   public universeList: Universe[];
   public questionList: QuestionItem[];
   public revisionResults: IRevisionResult<QuestionItem>[];
-  public fileProgress: number;
 
   public showUploadFileForm: boolean;
   public showProgressBar = false;
 
-  private fileStore: File[] = [];
+  public fileStore: File[] = [];
   private toDeleteFiles: IOtherMaterial[] = [];
-
 
 
   constructor(private service: TemplateService) {
     this.showUploadFileForm = false;
+    this.readonly = !this.service.can(ActionKind.Create, ElementKind.CONTROL_CONSTRUCT);
+
   }
 
   onAddUniverse(item: IElement) {
@@ -85,7 +82,7 @@ export class QuestionConstructFormComponent   {
       });
   }
 
-  onRevisonSearch(item: IRevisionRef) {
+  onRevisionSearch(item: IRevisionRef) {
     this.service.getRevisionsByKind<QuestionItem>(this.QUESTION, item.elementId ).then(
       (result) => {
         this.revisionResults = result.content;
@@ -100,7 +97,7 @@ export class QuestionConstructFormComponent   {
     this.revisionResults = [];
   }
 
-  onRemoveQuestoinItem() {
+  onRemoveQuestionItem() {
     this.controlConstruct.questionItem = null;
   }
 
@@ -111,7 +108,6 @@ export class QuestionConstructFormComponent   {
       (error) => { throw error; });
   }
 
-
   onSelectFile(filename: any) {
     const list = filename.target.files as FileList;
     for (let i = 0; i < list.length; i++) {
@@ -120,7 +116,7 @@ export class QuestionConstructFormComponent   {
     this.showUploadFileForm = false;
   }
 
-  onMarkForDeletetion(idx: number) {
+  onMarkForDeletion(idx: number) {
     if (this.controlConstruct.otherMaterials
       && this.controlConstruct.otherMaterials.length > idx) {
       const items = this.controlConstruct.otherMaterials.splice(idx, 1);

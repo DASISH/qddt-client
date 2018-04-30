@@ -15,9 +15,11 @@ export class SurveyComponent implements OnInit {
   showSurveyForm = false;
   public surveyList: SurveyProgram[] = [];
   public survey: SurveyProgram;
+  public readonly = false;
 
   constructor(private surveyService: HomeService, private router: Router, private property: QddtPropertyStoreService) {
     this.survey = new SurveyProgram();
+    // this.readonly =
   }
 
   ngOnInit() {

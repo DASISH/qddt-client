@@ -2,11 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { API_BASE_HREF } from '../api';
-import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
-import { ElementKind} from '../shared/classes/enums';
-import {IEntityAudit, IRevisionResultEntity, IPageResult, IComment} from '../shared/classes/interfaces';
-import { ElementRevisionRef, QueryInfo} from '../shared/classes/classes';
-import {Publication, PUBLICATION_TYPES, PublicationStatus} from './publication.classes';
+import { Publication, PUBLICATION_TYPES, PublicationStatus} from './publication.classes';
 
 
 @Injectable()

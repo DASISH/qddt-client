@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { QddtPropertyStoreService, HIERARCHY_POSITION } from '../core/global/property.service';
 import { UserService } from '../core/user/user.service';
 import {TemplateService} from '../template/template.service';
+import {ActionKind, ElementKind} from '../shared/classes/enums';
 
 
 declare var $: any;
@@ -21,6 +22,8 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   public path = [4];
   public username;
   public loggedIn: boolean;
+
+  public elementInstanceType: ElementKind;
 
   constructor(private auth: UserService, private property: QddtPropertyStoreService, private router: Router,
               private service: TemplateService) {
@@ -73,6 +76,10 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
 
   logoutEvent() {
     this.auth.logout();
+  }
+
+  public canSee(kind: string): boolean {
+    return this.service.can(ActionKind.Read, this.service.getElementKind(kind));
   }
 
   doRegister() {

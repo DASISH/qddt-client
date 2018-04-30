@@ -4,6 +4,7 @@ import { QuestionItem } from './question.classes';
 import { Category } from '../category/category.classes';
 import { ElementRevisionRef } from '../shared/classes/classes';
 import { makeMixed, ResponseDomain} from '../responsedomain/responsedomain.classes';
+import {ActionKind, ElementKind} from '../shared/classes/enums';
 
 declare var Materialize: any;
 
@@ -23,7 +24,9 @@ export class QuestionFormComponent  implements OnChanges {
 
   public showbutton = false;
   public formId = Math.round( Math.random() * 10000);
-  constructor(private service: TemplateService) { }
+  constructor(private service: TemplateService) {
+    this.readonly = !this.service.can(ActionKind.Create, ElementKind.QUESTION_ITEM);
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['questionitem'].currentValue) {

@@ -41,7 +41,6 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
       .subscribe(event => {
         console.log('Action ' + ActionKind[event.action]);
         if (event.action === ActionKind.Update || event.action === ActionKind.Create || event.action === ActionKind.Filter) {
-          // console.log('loading page on action');
           this.loadPage();
         }
       });
@@ -49,12 +48,10 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
 
   public ngOnInit(): void {
     if (this.kind) {
-      // console.log('loading page on init');
       this.loadPage(); }
   }
 
   public onFetchItems(page: IPageSearch ) {
-    // console.log('loading page on onFetchItems');
     this.setPageSearch(page);
     this.loadPage();
   }

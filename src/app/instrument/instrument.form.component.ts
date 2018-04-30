@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from
 import { TemplateService } from '../template/template.service';
 import { IEntityEditAudit } from '../shared/classes/interfaces';
 import { Instrument, INSTRUMENT_KIND, InstrumentKind } from './instrument.classes';
+import {ActionKind, ElementKind} from '../shared/classes/enums';
 
 declare var Materialize: any;
 
@@ -13,6 +14,7 @@ declare var Materialize: any;
 
 export class InstrumentFormComponent implements OnChanges {
   @Output() modifiedEvent = new EventEmitter<IEntityEditAudit>();
+  @Input() readonly = false;
   @Input() element: Instrument;
 
   public formId = Math.round( Math.random() * 10000);
@@ -20,6 +22,7 @@ export class InstrumentFormComponent implements OnChanges {
   public instrumentKinds = INSTRUMENT_KIND;
 
   constructor(private service: TemplateService) {
+    this.readonly = !this.service.can(ActionKind.Create, ElementKind.INSTRUMENT);
   }
 
   ngOnChanges(changes: SimpleChanges): void {

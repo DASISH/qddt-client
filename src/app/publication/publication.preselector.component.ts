@@ -2,8 +2,7 @@ import { Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import { QddtMessageService } from '../core/global/message.service';
 import { QddtPropertyStoreService } from '../core/global/property.service';
 import { PublicationService } from './publication.service';
-import { ActionKind, ElementKind } from '../shared/classes/enums';
-import { Page } from '../shared/classes/classes';
+import { ActionKind } from '../shared/classes/enums';
 import { PublicationStatus } from './publication.classes';
 import { IPageSearch } from '../shared/classes/interfaces';
 
@@ -35,7 +34,13 @@ export class PublicationPreselectorComponent implements OnChanges, OnInit {
     this.service.PUBLICATION_STATUSES.then( (result) => {
       this.selectOptions = result;
       const published: string = this.getKey().get(this.KEY);
-      this.selectId  = this.selectOptions.find( (s) => s.published === published).id;
+      const option = this.selectOptions.find( (s) => s.published === published);
+      if (option) {
+        this.selectId  = option.id;
+      } else if (this.selectOptions.length > 0) {
+        this.selectId  =  this.selectOptions[0].id;
+        this.setKeyPair(this.KEY, this.selectOptions[0].published);
+      }
     });
   }
 
@@ -53,8 +58,12 @@ export class PublicationPreselectorComponent implements OnChanges, OnInit {
 
   onSelectOption(id: number) {
     this.selectId = id;
-    this.setKey(new Map( [ [this.KEY, this.selectOptions[id].published ] ] ));
+    this.setKeyPair(this.KEY, this.selectOptions.find( o => o.id === id).published );
     this.messages.sendAction( { id: this.KEY,  action: ActionKind.Filter, object: this.getKey() } );
+  }
+
+  private setKeyPair(key: string, value: string) {
+    this.setKey(new Map([[key, value]]));
   }
 
   private setKey(map: Map<string, string> ) {

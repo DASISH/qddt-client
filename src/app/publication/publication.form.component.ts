@@ -1,10 +1,11 @@
 import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
 import { PublicationService } from './publication.service';
 import { IEntityEditAudit } from '../shared/classes/interfaces';
-import { ElementKind } from '../shared/classes/enums';
+import {ActionKind, ElementKind} from '../shared/classes/enums';
 import { ElementRevisionRef } from '../shared/classes/classes';
 import { getElementKind } from '../shared/classes/constants';
 import { Publication, PUBLICATION_TYPES, PublicationStatus } from './publication.classes';
+import {TemplateService} from '../template/template.service';
 
 @Component({
   selector: 'qddt-publication-form',
@@ -23,8 +24,11 @@ export class PublicationFormComponent implements OnChanges {
   public selectedOptionId: number;
   public selectOptions: any;
 
-  constructor(private service: PublicationService) {
+  public readonly = true;
+
+  constructor(private service: PublicationService, private templateService: TemplateService) {
     this.service.PUBLICATION_STATUSES.then( (result) => this.selectOptions = result );
+    this.readonly = !templateService.can(ActionKind.Create, ElementKind.PUBLICATION);
   }
 
   ngOnChanges(changes: SimpleChanges): void {

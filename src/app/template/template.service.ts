@@ -104,9 +104,11 @@ export class TemplateService {
 
   public updateWithfiles(kind: ElementKind, form: FormData ): Observable<any> {
     const qe = QDDT_QUERY_INFOES[kind];
+    return this.http.post( this.api +  qe.path + '/createfile/', form, { reportProgress: true} );
+
     // const req = new HttpRequest('POST', this.api +  qe.path + '/createfile/', form, { reportProgress: true });
     // return this.http.request(req);
-    return this.http.post( this.api +  qe.path + '/createfile/', form, { reportProgress: true} );
+
   }
 
   public delete(item: IEntityEditAudit): Observable<any> {
@@ -127,16 +129,18 @@ export class TemplateService {
   }
 
   public getFile(om: IOtherMaterial): Promise<Blob> {
-    // /files/{root}/{filename}
-    return this.http.get(this.api + 'othermaterial/files/' + om.originalOwner + '/' + om.fileName, { responseType: 'blob'})
-      .toPromise();
+    return this.http.get(this.api + 'othermaterial/files/' + om.originalOwner + '/' + om.fileName, { responseType: 'blob'}).toPromise();
   }
 
 
   public can(action: ActionKind, kind: ElementKind): boolean {
 
-    function canRead() {
-      return true;
+    function canRead(roles: number) {
+      if (roles >= +Authority.ROLE_VIEW) {
+        return true;
+      } else {
+        return (kind === ElementKind.PUBLICATION);
+      }
     }
 
     function canUpdate(roles: number) {
@@ -161,7 +165,7 @@ export class TemplateService {
 
     switch (action) {
       case ActionKind.Read:
-        return canRead();
+        return canRead(this.roles);
       case ActionKind.Create:
       case ActionKind.Update:
         return canUpdate(this.roles);

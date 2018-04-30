@@ -12,7 +12,7 @@ import { TemplateService } from '../template/template.service';
 import { DomainKind, ResponseDomain, DATE_FORMAT } from './responsedomain.classes';
 import { Category } from '../category/category.classes';
 import { Page } from '../shared/classes/classes';
-import { ElementKind } from '../shared/classes/enums';
+import {ActionKind, ElementKind} from '../shared/classes/enums';
 import {IElement, IPageSearch} from '../shared/classes/interfaces';
 import { QddtPropertyStoreService } from '../core/global/property.service';
 
@@ -50,6 +50,8 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy {
     this.pageSearch = { kind: this.CATEGORY, key: '*', page: new Page(), sort: 'name,asc' };
     const page = this.getPageSearch();
     this.domainType = (page) ? DomainKind[page.keys.get('ResponseKind')] : DomainKind.SCALE;
+    this.readonly = !this.service.can(ActionKind.Create, ElementKind.RESPONSEDOMAIN);
+
   }
 
   ngOnInit() {

@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { ElementKind } from '../shared/classes/enums';
+import {ActionKind, ElementKind} from '../shared/classes/enums';
 import { IElement, IEntityEditAudit, IRevisionRef } from '../shared/classes/interfaces';
 import { ElementRevisionRef, Page } from '../shared/classes/classes';
 import { TemplateService } from '../template/template.service';
@@ -24,7 +24,10 @@ export class SequenceFormComponent {
   public showProgressBar = false;
   public readonly formId = Math.round( Math.random() * 10000);
 
-  constructor(private service: TemplateService) { }
+  constructor(private service: TemplateService) {
+    this.readonly = !this.service.can(ActionKind.Create, ElementKind.SEQUENCE_CONSTRUCT);
+
+  }
 
 
   public onSaveConstruct() {

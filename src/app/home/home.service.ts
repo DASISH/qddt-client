@@ -186,7 +186,7 @@ export class HomeService {
 
   getFile(om: IOtherMaterial): Promise<any> {
         // /files/{root}/{filename}
-        return this.http.get(this.api + 'othermaterial/files/' + om.orgRef + '/' + om.fileName, { responseType: 'blob'})
+        return this.http.get(this.api + 'othermaterial/files/' + om.originalOwner + '/' + om.fileName, { responseType: 'blob'})
         .toPromise();
   }
 

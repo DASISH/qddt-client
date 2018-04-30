@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { ElementKind } from '../shared/classes/enums';
+import {ActionKind, ElementKind} from '../shared/classes/enums';
 import { TemplateService } from '../template/template.service';
 import { Category } from '../category/category.classes';
 import { IPageSearch, IElement } from '../shared/classes/interfaces';
@@ -31,7 +31,9 @@ export class MissingFormComponent implements OnInit {
   ngOnInit() {
     // this is for searching categories  , keys: new Map<string, string>([['categoryKind', 'CATEGORY']]) */
     this.pageSearch = { kind: this.CATEGORY, page: new Page(), key: '*'};
-   }
+    this.readonly = !this.missingService.can(ActionKind.Create, ElementKind.MISSING_GROUP);
+
+  }
 
 
   onSelect(item: IElement) {
