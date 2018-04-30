@@ -128,7 +128,7 @@ export class TemplateService {
 
   public getFile(om: IOtherMaterial): Promise<Blob> {
     // /files/{root}/{filename}
-    return this.http.get(this.api + 'othermaterial/files/' + om.orgRef + '/' + om.fileName, { responseType: 'blob'})
+    return this.http.get(this.api + 'othermaterial/files/' + om.originalOwner + '/' + om.fileName, { responseType: 'blob'})
       .toPromise();
   }
 
