@@ -64,8 +64,8 @@ export interface IVersion {
 }
 
 export interface IOtherMaterial {
-  id: string;
-  name: string;
+  orgRef: string;
+  fileName: string;
   originalName: string;
 }
 

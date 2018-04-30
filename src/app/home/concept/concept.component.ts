@@ -93,17 +93,14 @@ export class ConceptComponent implements OnInit, AfterContentChecked {
   }
 
   onConfirmDeleteConcept() {
-    const id = this.toDeletedConcept.id;
-    this.conceptService.deleteConcept(id)
+    this.conceptService.delete(this.toDeletedConcept)
       .subscribe(
       (val) => {
         this.confimDeleteActions.emit({action: 'modal', params: ['close']});
-        this.removeConcept(this.concepts, id);
+        this.removeConcept(this.concepts, this.toDeletedConcept.id);
         this.property.set('concepts', this.concepts);
       },
-      response => {
-        throw response;
-      },
+      response => { throw response; },
         () => {
           console.log('The DELETE observable is now completed.');
       });

@@ -6,7 +6,7 @@ import { HomeService } from '../home.service';
 import { QddtMessageService } from '../../core/global/message.service';
 import { ElementKind } from '../../shared/classes/enums';
 import { Study, Topic } from '../home.classes';
-import {IRevisionRef} from '../../shared/classes/interfaces';
+import {IRevisionRef, IOtherMaterial} from '../../shared/classes/interfaces';
 
 const filesaver = require('file-saver');
 declare var Materialize: any;
@@ -104,9 +104,9 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
     this.newTopic  = new Topic();
   }
 
-  onDownloadFile(o: any) {
+  onDownloadFile(o: IOtherMaterial) {
     const fileName = o.originalName;
-    this.topicService.getFile(o.id).then(
+    this.topicService.getFile(o).then(
       (data: any) => filesaver.saveAs(data, fileName));
   }
 
@@ -125,7 +125,7 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
       .subscribe((result: any) => this.onTopicSavedEvent(result));
   }
 
-    onRemoveQuestionItem(ref: IRevisionRef, topicId: any) {
+  onRemoveQuestionItem(ref: IRevisionRef, topicId: any) {
       this.topicService.deattachTopicQuestion(topicId , ref.elementId, ref.elementRevision)
       .subscribe((result: any) => this.onTopicSavedEvent(result));
   }

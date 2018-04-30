@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { API_BASE_HREF } from '../api';
 import { ElementKind } from '../shared/classes/enums';
 import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
+import { IOtherMaterial } from '../shared/classes/interfaces';
 
 export function ElementEnumAware(constructor: Function) {
   constructor.prototype.ElementKind = ElementKind;
@@ -39,9 +40,10 @@ export class PreviewService {
     return new Promise(null);
   }
 
-  getFile(id: string): Promise<Blob> {
-
-    return this.http.get(this.api + 'othermaterial/files/' + id, { responseType: 'blob'}).toPromise();
+  getFile(om: IOtherMaterial): Promise<Blob> {
+    // /files/{root}/{filename}
+    return this.http.get(this.api + 'othermaterial/files/' + om.orgRef + '/' + om.fileName, { responseType: 'blob'})
+      .toPromise();
   }
 
 }

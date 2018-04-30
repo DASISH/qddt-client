@@ -53,7 +53,7 @@ export class StudyEditComponent implements AfterContentChecked {
   }
 
   onSave() {
-    this.studyService.updateStudy(this.study).subscribe((result: any) => {
+    this.studyService.update(this.study).subscribe((result: any) => {
       this.study = null;
       this.savedEvent.emit(result);
     });

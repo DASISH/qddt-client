@@ -61,7 +61,7 @@ export class ConceptEditComponent implements OnInit {
   }
 
   save() {
-    this.service.updateConcept(this.concept)
+    this.service.update(this.concept)
       .subscribe((result: any) => {
         this.concept = result;
         this.conceptSavedEvent.emit(result);

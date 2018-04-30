@@ -2,6 +2,8 @@ import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HomeService } from '../home.service';
 import {Topic} from '../home.classes';
+import { IOtherMaterial } from '../../shared/classes/interfaces';
+import { ElementKind } from '../../shared/classes/enums';
 
 const filesaver = require('file-saver');
 
@@ -32,19 +34,23 @@ export class TopicEditComponent  {
   constructor(private service: HomeService) { }
 
 
-  onDownloadFile(o: any) {
+  onDownloadFile(o: IOtherMaterial) {
     const fileName = o.originalName;
-    this.service.getFile(o.id).then(
-      (data: any) => {
-        filesaver.saveAs(data, fileName);
-      });
+    this.service.getFile(o).then(
+      (data) => { filesaver.saveAs(data, fileName); },
+      (error) => { throw error; });
   }
+
 
   onSelectFile(filename: any) {
-    this.files = filename.target.files;
+    const list = filename.target.files as FileList;
+    for (let i = 0; i < list.length; i++) {
+      this.fileStore.push(list.item(i));
+    }
+    this.showUploadFileForm = false;
   }
 
-  onDeleteFile(idx: number) {
+  onMarkForDeletetion(idx: number) {
     if (this.topic.otherMaterials
       && this.topic.otherMaterials.length > idx) {
       const items = this.topic.otherMaterials.splice(idx, 1);
@@ -60,51 +66,17 @@ export class TopicEditComponent  {
     }
   }
 
-  onUploadFile() {
-    this.fileStore.push(this.files);
-    this.showUploadFileForm = false;
-    this.files = null;
-  }
 
-  onSave() {
-    this.isVisible = false;
-    const topic = this.topic;
-    const files = this.fileStore;
-    const len = files.length;
-    let source = Observable.of({});
-    const toDeleteFiles = this.toDeleteFiles;
-    if (len > 0 || toDeleteFiles.length > 0) {
-      source = Observable.range(0, len + toDeleteFiles.length)
-        .flatMap((x: any) => {
-          if (x < len) {
-            const file = files[x];
-            return this.service.uploadFile(topic.id, file);
-          } else {
-            const file = toDeleteFiles[x - len];
-            return this.service.deleteFile(file.id);
-          }
-        });
-    }
-    let index = 0;
-    const service = this.service;
-    const saveAction = this.savedEvent;
-    source.subscribe(
-      function (x: any) {
-        if (index < len && x.id !== undefined && x.id !== null) {
-          topic['otherMaterials'].push(x);
-          index = index + 1;
-        }
-      },
-      function (error: any) {
-        throw error;
-      },
-      function () {
-        service.updateTopic(topic).subscribe((result: any) => {
-          this.topic = result;
-          saveAction.emit(result);
-        });
-      });
-  }
+  public async onSave() {
+    const formData: FormData = new FormData();
+    const tg = this.topic;
+    formData.append('topicgroup', JSON.stringify(tg));
+    this.fileStore.forEach( (file) => { formData.append('files', file); });
 
+    const result = await this.service.updateWithfiles(ElementKind.TOPIC_GROUP, formData).toPromise();
+    this.topic = result;
+    this.savedEvent.emit(result);
+
+  }
 
 }

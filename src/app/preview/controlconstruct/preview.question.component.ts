@@ -2,6 +2,7 @@ import { Component, Input, EventEmitter } from '@angular/core';
 import { MaterializeAction } from 'angular2-materialize';
 import {PreviewService} from '../preview.service';
 import {Router} from '@angular/router';
+import { IOtherMaterial } from '../../shared/classes/interfaces';
 
 const filesaver = require('file-saver');
 
@@ -94,9 +95,9 @@ export class PreviewQuestionConstructComponent {
   constructor(private service: PreviewService,  private router: Router) {
   }
 
-  onDownloadFile(o: any) {
+  onDownloadFile(o: IOtherMaterial) {
     const fileName = o.originalName;
-    this.service.getFile(o.id).then(
+    this.service.getFile(o).then(
       (data: any) => {
         filesaver.saveAs(data, fileName);
       });

@@ -3,6 +3,7 @@ import { PreviewService } from '../preview.service';
 import { QddtMessageService } from '../../core/global/message.service';
 import { Topic } from '../../home/home.classes';
 import { ElementKind } from '../../shared/classes/enums';
+import { IOtherMaterial } from '../../shared/classes/interfaces';
 
 const filesaver = require('file-saver');
 
@@ -26,9 +27,9 @@ export class PreviewTopicComponent {
     this.message.sendMessage( { elementId: id, elementKind: ElementKind[ElementKind.STUDY]} );
   }
 
-  onDownloadFile(o: any) {
+  onDownloadFile(o: IOtherMaterial) {
     const fileName = o.originalName;
-    this.service.getFile(o.id).then(
+    this.service.getFile(o).then(
       (data: any) => {
         filesaver.saveAs(data, fileName);
       });

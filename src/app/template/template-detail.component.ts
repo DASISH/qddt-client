@@ -52,7 +52,7 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterContentC
             this.action.id = item.id;
             this.item = item;
             this.showProgressBar = false;
-            if (this.selectedItem) { this.selectedItem.emit(item); } },
+            this.selectedItem.emit(item); },
         (error) => { this.showProgressBar = false; throw error; });
     }
   }
@@ -69,9 +69,7 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterContentC
 
   onHideDetail() {
     this.router.navigate(['../' ], { relativeTo: this.route });
-    if (this.closeState) {
-      this.closeState.emit(this.action);
-    }
+    this.closeState.emit(this.action);
   }
 
   onDeleteConfirmModal() {

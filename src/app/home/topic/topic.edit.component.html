@@ -10,21 +10,18 @@
         </div>
       </div>
 
-      <ul class="hoverable"
-          (mouseenter)="showbutton = !readonly"
-          (mouseleave)="showbutton = false">
+      <ul class="hoverable" (mouseenter)="showbutton = !readonly" (mouseleave)="showbutton = false">
         <li>
-          <div class="row" (click)="showUploadFileForm=!showUploadFileForm"  style="cursor: zoom-in; min-height:3rem">
-            <div class="col s11"><label class="teal-text">External aid</label></div>
+          <div class="row" (click)="showUploadFileForm=!showUploadFileForm" style="cursor: zoom-in;">
+            <div class="col s11"><label >External aid</label></div>
             <div class="col s1">
               <a [ngClass]="{hide: !showbutton}"
-                 class="btn-flat btn-floating btn-small waves-effect waves-light teal">
+                class="btn-flat btn-floating btn-small waves-effect waves-light teal">
                 <i class="material-icons" title="Attach external aid (File Upload)">add</i>
               </a>
             </div>
           </div>
         </li>
-
         <div class="row" *ngIf="showUploadFileForm && !readonly">
           <div class="file-field input-field">
             <div class="btn">
@@ -35,21 +32,16 @@
               <input class="file-path validate" type="text" placeholder="Upload one file">
             </div>
           </div>
-          <a *ngIf="files" class="btn-flat right btn-floating btn-medium waves-effect waves-light teal"
-             (click)="onUploadFile()">
-            <i class="material-icons left medium">done</i>
-          </a>
         </div>
-        <li class="row" *ngFor="let m of topic.otherMaterials; let idx=index;">
-          <div class="row" style="min-height:3rem">
+        <li *ngFor="let m of topic.otherMaterials; let idx=index;">
+          <div class="row">
             <div class="col s10">
               <a class="waves-effect waves-light" (click)="onDownloadFile(m)">
                 <i class="material-icons center smal">description</i>{{ m.originalName }}</a>
             </div>
             <div class="col s1 right" >
               <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                 [ngClass]="{hide: !showbutton}"
-                 (click)="onDeleteFile(idx)">
+                [ngClass]="{hide: !showbutton}" (click)="onMarkForDeletetion(idx)">
                 <i class="material-icons left medium" title="Delete" >delete_forever</i>
               </a>
             </div>
@@ -58,18 +50,18 @@
         <li *ngFor="let file of fileStore; let idx=index;">
           <div class="row">
             <div class="col s11 m5">
-              <a class="waves-effect waves-light"><i class="material-icons center smal">description</i>{{ file[0]?.name }}</a>
+              <a class="waves-effect waves-light"><i class="material-icons center smal">description</i>{{ file?.name }}</a>
             </div>
             <div class="col s1 right" style="min-height:3rem">
               <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                 [ngClass]="{hide: !file.showbutton}"
-                 (click)="onDeleteFileFromLocal(idx)">
+                [ngClass]="{hide: !showbutton}" (click)="onDeleteFileFromLocal(idx)">
                 <i class="material-icons left medium" title="Delete" >delete_forever</i>
               </a>
             </div>
           </div>
         </li>
       </ul>
+
 
       <div class="row">
         <div class="col s12 input-field">

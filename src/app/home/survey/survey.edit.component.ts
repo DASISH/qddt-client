@@ -57,7 +57,7 @@ export class SurveyEditComponent implements AfterContentChecked {
 
 
   onSave() {
-    this.surveyService.updateSurvey(this.survey)
+    this.surveyService.update(this.survey)
       .subscribe((result: any) => {
         this.isVisible = false;
         this.survey = null;

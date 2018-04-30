@@ -39,19 +39,24 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
     this.messages.getAction()
       .takeWhile(() => this.alive)
       .subscribe(event => {
+        console.log('Action ' + ActionKind[event.action]);
         if (event.action === ActionKind.Update || event.action === ActionKind.Create || event.action === ActionKind.Filter) {
+          console.log('loading page');
           this.loadPage();
         }
       });
   }
 
   public ngOnInit(): void {
-    if (this.kind) { this.loadPage(); }
+    if (this.kind) {
+      this.loadPage(); }
   }
 
   public onFetchItems(page: IPageSearch ) {
-    this.setPageSearch(page);
-    this.loadPage();
+    console.log('onFetchItems ' + page.key );
+    // ignoring this for now...
+    // this.setPageSearch(page);
+    // this.loadPage();
   }
 
   public onDetail(item: IEntityAudit ) {
@@ -69,11 +74,11 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
       (result) => {
         this.pageSearch.page = new Page(result.page);
         this.items = result.content;
+        this.setPageSearch(this.pageSearch);
         this.showProgressBar = false; },
       (error) => {
         this.showProgressBar = false;
         throw error; });
-    this.setPageSearch(this.pageSearch);
   }
 
   private setPageSearch(pageSearch: IPageSearch ) {

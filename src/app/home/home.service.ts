@@ -5,6 +5,7 @@ import { API_BASE_HREF } from '../api';
 import { ElementKind } from '../shared/classes/enums';
 import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
 import { Concept, Study, SurveyProgram, Topic } from './home.classes';
+import { IOtherMaterial, IEntityEditAudit, IEntityAudit } from '../shared/classes/interfaces';
 
 
 
@@ -66,13 +67,6 @@ export class HomeService {
     return this.http.post(this.api + 'surveyprogram/create', surveyProgram);
   }
 
-  updateSurvey(surveyProgram: SurveyProgram):  Observable<any> {
-    return this.http.post(this.api + 'surveyprogram/', surveyProgram);
-  }
-
-  deleteSurvey(surveyId: string): Observable<any> {
-    return this.http.delete(this.api + 'surveyprogram/delete/' + surveyId);
-  }
 
   getAllSurvey(): Promise<any> {
     return this.http.get(this.api + 'surveyprogram/list/by-user')
@@ -92,29 +86,12 @@ export class HomeService {
     return this.http.post(this.api + 'concept/create/by-parent/' + parentId, concept);
   }
 
-
-  createTopic(topic: Topic, studyId: string): Observable<any> {
-    return this.http.post(this.api + 'topicgroup/create/' + studyId, topic);
+  public updateWithfiles(kind: ElementKind, form: FormData ): Observable<any> {
+    const qe = QDDT_QUERY_INFOES[kind];
+    // const req = new HttpRequest('POST', this.api +  qe.path + '/createfile/', form, { reportProgress: true });
+    // return this.http.request(req);
+    return this.http.post( this.api +  qe.path + '/createfile/', form, { reportProgress: true} );
   }
-
-  createStudy(study: Study, surveyProgramId: String): Observable<any>  {
-    return this.http.post(this.api + 'study/create/' + surveyProgramId, study);
-  }
-
-
-  updateConcept(concept: Concept): Observable<any> {
-    return this.http.post(this.api + 'concept', concept);
-  }
-
-
-  updateTopic(topic: Topic): Observable<any> {
-    return this.http.post(this.api + 'topicgroup/', topic);
-  }
-
-  updateStudy(study: Study): Observable<any>  {
-    return this.http.post(this.api + 'study/', study);
-  }
-
 
   deleteConcept(conceptId: string): Observable<any> {
     return this.http.delete(this.api + 'concept/delete/' + conceptId , { responseType: 'text'});
@@ -126,6 +103,28 @@ export class HomeService {
 
   deleteStudy(id: string): Observable<any>  {
     return this.http.delete(this.api + 'study/delete/' + id);
+  }
+
+  deleteSurvey(id: string): Observable<any>  {
+    return this.http.delete(this.api + 'surveyprogram/delete/' + id);
+  }
+
+  public update(item: IEntityAudit): Observable<any> {
+    const kind = this.getElementKind(item.classKind);
+    const qe = QDDT_QUERY_INFOES[kind];
+    return this.http.post(this.api + qe.path, item);
+  }
+
+  public getElementKind(kind: string|ElementKind): ElementKind {
+    return (typeof kind === 'string') ?  ElementKind[kind] : kind ;
+  }
+
+  createTopic(topic: Topic, studyId: string): Observable<any> {
+    return this.http.post(this.api + 'topicgroup/create/' + studyId, topic);
+  }
+
+  createStudy(study: Study, surveyProgramId: String): Observable<any>  {
+    return this.http.post(this.api + 'study/create/' + surveyProgramId, study);
   }
 
   attachConceptQuestion(conceptId: string, questionId: string, revision: number): Observable<any> {
@@ -158,14 +157,6 @@ export class HomeService {
       '&topicid=' + topicId, {});
   }
 
-  attachAuthor(conceptId: string, authorId: string): Observable<any> {
-    return this.http.post(this.api + 'author/combine?authorId=' + authorId +
-      '&conceptId=' + conceptId, {});
-  }
-
-  deattachAuthor(conceptId: string, authorId: string): Observable<any> {
-    return this.http.delete(this.api + 'author/decombine?authorId=' + authorId + '&conceptId=' + conceptId);
-  }
 
   attachStudyAuthor(studyId: string, authorId: string): Observable<any> {
     return this.http.post(this.api + 'author/combine?authorId=' + authorId + '&studyId=' + studyId, {});
@@ -193,29 +184,12 @@ export class HomeService {
   }
 
 
-  getFile(id: string): Promise<any> {
-    return this.http.get(this.api + 'othermaterial/files/' + id, { responseType: 'blob'})
-      .toPromise();
+  getFile(om: IOtherMaterial): Promise<any> {
+        // /files/{root}/{filename}
+        return this.http.get(this.api + 'othermaterial/files/' + om.orgRef + '/' + om.fileName, { responseType: 'blob'})
+        .toPromise();
   }
 
-  deleteFile(id: string): Observable<any> {
-    return this.http.delete(this.api + 'othermaterial/delete/' + id);
-  }
-
-  uploadFile(id: string, files: any): Observable<any> {
-    const formData = new FormData();
-    if (files !== null) {
-      formData.append('file', files[0]);
-    }
-    return this.http.post(this.api + 'othermaterial/upload/' + id + '/T', formData)
-      .map((res: any) => {
-        try {
-          return res;
-        } catch (e) {
-          return [];
-        }
-      });
-  }
 
 
 }

@@ -106,7 +106,7 @@ export class QuestionConstructFormComponent   {
 
   onDownloadFile(o: IOtherMaterial) {
     const fileName = o.originalName;
-    this.service.getFile(o.id).then(
+    this.service.getFile(o).then(
       (data) => { filesaver.saveAs(data, fileName); },
       (error) => { throw error; });
   }
@@ -136,96 +136,17 @@ export class QuestionConstructFormComponent   {
     }
   }
 
-
-
-  onSaveForm() {
+  async onSaveForm() {
 
     const formData: FormData = new FormData();
     const qc = this.controlConstruct;
     formData.append('controlconstruct', JSON.stringify(qc));
     this.fileStore.forEach( (file) => { formData.append('files', file); });
 
-    this.service.updateWithfiles(ElementKind.QUESTION_CONSTRUCT, formData).subscribe(
-      (result) => {
-        // if (result.type === HttpEventType.UploadProgress) {
-        //   // This is an upload progress event. Compute and show the % done:
-        //   const percentDone = Math.round(100 * result.loaded / result.total);
-        //   console.log(`File is ${percentDone}% uploaded.`);
-        // } else {
-            this.controlConstruct = result;
-            this.deleteFiles();
-            this.modifiedEvent.emit(result);
-        // }
-      }, (error) => { throw error; });
+    const result = await this.service.updateWithfiles(ElementKind.QUESTION_CONSTRUCT, formData).toPromise();
+    this.controlConstruct = result;
+      this.modifiedEvent.emit(this.controlConstruct);
 
-
-    // .pipe(
-    //   map(event => this.getEventMessage(event, file)),
-    //   tap(message => this.showProgress(message)),
-    //   last(), // return last (completed) message to caller
-    //   catchError(this.handleError(file))
-    // );
   }
-
-  // private getEventMessage(event: HttpEvent<any>, file: File) {
-  //   switch (event.type) {
-  //     case HttpEventType.Sent:
-  //       return `Uploading file "${file.name}" of size ${file.size}.`;
-
-  //     case HttpEventType.UploadProgress:
-  //       // Compute and show the % done:
-  //       const percentDone = Math.round(100 * event.loaded / event.total);
-  //       return `File "${file.name}" is ${percentDone}% uploaded.`;
-
-  //     case HttpEventType.Response:
-  //       return `File "${file.name}" was completely uploaded!`;
-
-  //       default:
-  //       return `File "${file.name}" surprising upload event: ${event.type}.`;
-  //   }
-  // }
-
-private async deleteFiles() {
-  this.toDeleteFiles.forEach(async (o) => {
-     const response = await this.service.deleteFile(o.id).toPromise();
-  });
-  return true;
-}
-
-  // onSaveQuestionConstruct() {
-  //   const controlConstruct = this.controlConstruct;
-  //   const files = this.fileStore;
-  //   const len = files.length;
-  //   let source = Observable.of({});
-  //   const toDeleteFiles = this.toDeleteFiles;
-  //   if (len > 0 || this.toDeleteFiles.length > 0) {
-  //     source = Observable.range(0, len + this.toDeleteFiles.length)
-  //       .flatMap((x: any) => {
-  //         if (x < len) {
-  //           const file = files[x];
-  //           return this.service.uploadFile(controlConstruct.id, '/CC', file);
-  //         } else {
-  //           const file = toDeleteFiles[x - len];
-  //           return this.service.deleteFile(file.id);
-  //         }
-  //       });
-  //   }
-  //   const service = this.service;
-  //   const elementEvent = this.modifiedEvent;
-  //   source.subscribe(
-  //     function () {
-  //       service.update(controlConstruct).subscribe(
-  //         (result) => {
-  //           this.controlConstruct = result;
-  //           elementEvent.emit(result); },
-  //         (error: any) => {
-  //         throw error;
-  //       });
-  //     },
-  //     function (error: any) {
-  //       throw error;
-  //     });
-  // }
-
 
 }

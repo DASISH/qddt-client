@@ -7,7 +7,7 @@ import { Authority } from '../core/user/authority';
 import { Page } from '../shared/classes/classes';
 import { ActionKind, ElementKind} from '../shared/classes/enums';
 import { QDDT_QUERY_INFOES} from '../shared/classes/constants';
-import { IEntityAudit, IEntityEditAudit, IPageResult, IRevisionResult, IPageSearch } from '../shared/classes/interfaces';
+import { IEntityAudit, IEntityEditAudit, IPageResult, IRevisionResult, IPageSearch, IOtherMaterial } from '../shared/classes/interfaces';
 
 @Injectable()
 export class TemplateService {
@@ -85,7 +85,6 @@ export class TemplateService {
   }
 
   public update(item: IEntityAudit): Observable<any> {
-    console.log('Template update... ');
     const kind = this.getElementKind(item.classKind);
     const qe = QDDT_QUERY_INFOES[kind];
     let path2 = '';
@@ -127,29 +126,12 @@ export class TemplateService {
     return this.http.get(this.api + qe.path + '/pdf/' + item.id, { responseType: 'blob'}).toPromise();
   }
 
-  public getFile(id: string): Promise<Blob> {
-    return this.http.get(this.api + 'othermaterial/files/' + id, { responseType: 'blob'})
+  public getFile(om: IOtherMaterial): Promise<Blob> {
+    // /files/{root}/{filename}
+    return this.http.get(this.api + 'othermaterial/files/' + om.orgRef + '/' + om.fileName, { responseType: 'blob'})
       .toPromise();
   }
 
-  public deleteFile(id: string): Observable<any> {
-    return this.http.delete(this.api + 'othermaterial/delete/' + id);
-  }
-
-  public uploadFile(id: string, type: string = '/T', files: any): Observable<any> {
-    const formData = new FormData();
-    if (files !== null) {
-      formData.append('file', files[0]);
-    }
-    return this.http.post(this.api + 'othermaterial/upload/' + id + type, formData)
-      .map((res: any) => {
-        try {
-          return res;
-        } catch (e) {
-          return [];
-        }
-      });
-  }
 
   public can(action: ActionKind, kind: ElementKind): boolean {
 
