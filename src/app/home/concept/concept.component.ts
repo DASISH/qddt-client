@@ -93,7 +93,7 @@ export class ConceptComponent implements OnInit, AfterContentChecked {
   }
 
   onConfirmDeleteConcept() {
-    this.conceptService.delete(this.toDeletedConcept)
+    this.conceptService.deleteConcept(this.toDeletedConcept.id)
       .subscribe(
       (val) => {
         this.confimDeleteActions.emit({action: 'modal', params: ['close']});
