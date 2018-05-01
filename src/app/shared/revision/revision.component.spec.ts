@@ -44,9 +44,8 @@ export function main() {
           .compileComponents()
           .then(() => {
             const fixture = TestBed.createComponent(RevisionComponent);
-            fixture.componentInstance.qddtURI = '1';
-            fixture.componentInstance.ngOnInit();
-            fixture.componentInstance.ngOnChanges();
+            fixture.componentInstance.current = {id: '1', name: 'name', classKind: 'TEST'};
+            fixture.componentInstance.selectRevisionId = 1;
             fixture.detectChanges();
             fixture.whenStable().then(() => {
               const td: any = fixture.debugElement.queryAll(By.css('td'));

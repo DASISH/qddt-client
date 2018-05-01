@@ -1,4 +1,4 @@
-import { IEntityAudit, IEntityEditAudit, IVersion} from '../shared/classes/interfaces';
+import { IEntityAudit, IEntityEditAudit, IVersion, IUser} from '../shared/classes/interfaces';
 import { ElementKind } from '../shared/classes/enums';
 import { ElementRevisionRef } from '../shared/classes/classes';
 import {Category} from '../category/category.classes';
@@ -63,6 +63,7 @@ export class Topic implements IEntityEditAudit {
   basedOnObject?: string;
   basedOnRevision?: number;
   modified: number;
+  modifiedBy?: IUser;
   version: IVersion;
   studyRef?: IRef;
   public constructor(init?: Partial<Topic>) {

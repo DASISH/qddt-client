@@ -2,12 +2,12 @@ import { Component, Input, PipeTransform, Pipe, EventEmitter, Output } from '@an
 import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { InstrumentService } from './instrument.service';
 import { InstrumentFormComponent } from './instrument.form.component';
 import { API_BASE_HREF } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
+import { TemplateService } from '../template/template.service';
 
 export function main() {
   describe('Instrument detail component', () => {
@@ -19,7 +19,7 @@ export function main() {
           CommentListComponent, AuthorChipComponent,
           TableComponent],
         providers: [
-          { provide: InstrumentService, useClass: InstrumentServiceSpy },
+          { provide: TemplateService, useClass: InstrumentServiceSpy },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
@@ -57,7 +57,7 @@ export function main() {
               'changeKind' : 'CONCEPTUAL',
               'changeComment' : 'Information added'
             };
-            fixture.componentInstance.instrument = instrument;
+            fixture.componentInstance.element = instrument;
             fixture.componentInstance.onUpdateInstrument();
           });
       }));

@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
 import { PreviewConditionConstructComponent } from './preview.condition.component';
+import { ConditionConstruct } from '../../controlconstruct/controlconstruct.classes';
 
 export function main() {
   describe('Condition preview component', () => {
@@ -40,7 +41,7 @@ export function main() {
           .compileComponents()
           .then(() => {
             const fixture = TestBed.createComponent(PreviewConditionConstructComponent);
-            fixture.componentInstance.condition = {'name': 'test'};
+            fixture.componentInstance.condition = new ConditionConstruct( { 'name': 'test'});
             fixture.detectChanges();
             fixture.whenStable().then(() => {
               const de: any = fixture.debugElement.queryAll(By.css('textarea'));

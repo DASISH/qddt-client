@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { MaterializeModule } from 'angular2-materialize';
 import { ConditionEditComponent } from './conditionconstruct.edit.component';
-import { ControlConstructService } from '../controlconstruct.service';
+import { TemplateService } from '../../template/template.service';
 
 export function main() {
   describe('Condition edit component', () => {
@@ -18,7 +18,7 @@ export function main() {
         declarations: [ ConditionEditComponent, RevisionComponent,
           QddtAutoCompleteComponent ],
         providers: [
-          { provide: ControlConstructService, useClass: SequenceServiceSpy },
+          { provide: TemplateService, useClass: SequenceServiceSpy },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
@@ -43,9 +43,9 @@ export function main() {
             fixture.componentInstance.condition['name'] = 'test';
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              const de: any = fixture.debugElement.queryAll(By.css('textarea'));
-              expect(de.length).toBeGreaterThan(0);
-              expect(de[0].nativeElement.value).toBe('test');
+              const de1: any = fixture.debugElement.queryAll(By.css('textarea'));
+              expect(de1.length).toBeGreaterThan(0);
+              expect(de1[0].nativeElement.value).toBe('test');
             });
           });
       }));

@@ -61,10 +61,10 @@ export function main() {
                 + '"page" : { "size" : 20, "totalElements" : 1, "totalPages" : 1, "number" : 0}}'
               })));
             });
- */            fixture.componentInstance.onSearchElements('test');
+ */            fixture.componentInstance.onItemSearch( { element: 'test', elementKind: ''});
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              expect(fixture.componentInstance.elements.length).toBe(1);
+              expect(fixture.componentInstance.itemList.length).toBe(1);
             });
           });
       }));

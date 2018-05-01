@@ -10,7 +10,9 @@ export class AuthGuard implements CanActivate, CanActivateChild  {
 
   private menupath = ['survey', 'study', 'topic', 'concept'];
 
-  constructor(private authService: UserService, private router: Router, private property: QddtPropertyStoreService) {}
+  constructor(private authService: UserService, private router: Router, private property: QddtPropertyStoreService) {
+    console.log('AuthGuard created');
+  }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (this.authService.isTokenExpired()) {

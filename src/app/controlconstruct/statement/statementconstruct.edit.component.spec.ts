@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
 import {StatementEditComponent} from './statementconstruct.edit.component';
-import {ControlConstructService} from '../controlconstruct.service';
+import { TemplateService } from '../../template/template.service';
 
 export function main() {
   describe('statement edit component', () => {
@@ -16,7 +16,7 @@ export function main() {
       TestBed.configureTestingModule({
         declarations: [ TestComponent, StatementEditComponent ],
         providers: [
-          { provide: ControlConstructService, useClass: SequenceServiceSpy },
+          { provide: TemplateService, useClass: SequenceServiceSpy },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'

@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
 import { RevisionComponent } from '../revision/revision.component';
+import { Topic } from '../../home/home.classes';
 
 export function main() {
   describe('Revision detail component', () => {
@@ -38,27 +39,24 @@ export function main() {
             expect(de.length).toBe(0);
           });
       }));
-
     it('should work with revisions',
       async(() => {
         TestBed
           .compileComponents()
           .then(() => {
             const fixture = TestBed.createComponent(RevisionComponent);
-            fixture.componentInstance.current = {
+            fixture.componentInstance.current = new Topic( {
               'id': '7f000101-5582-1585-8155-e89cdeba0001',
-              'modified': [2016, 7, 14, 10, 54, 2, 681000000],
+              'modified': 23948719853794585,
               'modifiedBy': {
                 'id': '83d4c30a-4ff9-11e5-885d-feff819cdc9f',
                 'username': 'test',
-                'email': 'test@nsd.no',
-                'agency': null
+                'email': 'test@nsd.no'
               },
               'agency': {
                 'id': '1359dede-9f18-11e5-8994-feff819cdc9f',
-                'modified': null,
-                'modifiedBy': null,
-                'name': 'NSD-qddt'
+                'name': 'NSD-qddt',
+                'classKind': ''
               },
               'name': 'test',
               'basedOnObject': null,
@@ -69,14 +67,12 @@ export function main() {
                 'versionLabel': '',
                 'revision': null
               },
-              'changeKind': 'CREATED',
-              'changeComment': null,
               'authors': [],
               'otherMaterials': [],
               'abstractDescription': 'test',
               'comments': [],
-              'topicGroupQuestions': []
-            };
+              'topicQuestionItems': []
+            });
             fixture.detectChanges();
             fixture.whenStable().then(() => {
               const divs: any = fixture.debugElement.queryAll(By.css('.chip'));

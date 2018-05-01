@@ -2,13 +2,13 @@ import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { QuestionService } from './question.classes';
 import { API_BASE_HREF } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { MaterializeModule } from 'angular2-materialize';
 import { QuestionFormComponent } from './question.form.component';
+import { TemplateService } from '../template/template.service';
 
 export function main() {
   describe('Question edit component', () => {
@@ -22,7 +22,7 @@ export function main() {
           ResponsedomainReuseComponent, RationalComponent,
           ResponsedomainPreviewComponent],
         providers: [
-          { provide: QuestionService, useClass: QuestionServiceSpy },
+          { provide: TemplateService, useClass: QuestionServiceSpy },
           {
             provide: API_BASE_HREF,
             useValue: '<%= API_BASE %>'
@@ -65,7 +65,7 @@ export function main() {
               'changeComment' : 'Information added'
             };
             fixture.componentInstance.questionitem = questionitem;
-            fixture.componentInstance.ngOnInit();
+            // fixture.componentInstance.ngOnChanges({'noe'});
             fixture.detectChanges();
             fixture.whenStable().then(() => {
               const elements: any = fixture.debugElement.queryAll(By.css('textarea'));

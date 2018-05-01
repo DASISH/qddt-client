@@ -1,4 +1,4 @@
-//our root app component
+// our root app component
 import { Directive, Optional, SkipSelf, OnInit, OnDestroy, Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
