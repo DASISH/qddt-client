@@ -108,7 +108,11 @@ export class UserService {
   }
 
   public  getRoles(): string[] {
-    return this.user.role.map( e => e.authority);
+    if ((this.user.role) && this.user.role instanceof Array ) {
+      return this.user.role.map( e => e.authority);
+    } else {
+      return [];
+    }
   }
 
   public  getAgency(): string {

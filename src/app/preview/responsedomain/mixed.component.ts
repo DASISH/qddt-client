@@ -44,6 +44,9 @@ export class ResponsedomainMixedComponent implements OnChanges {
       } else if (rep.children[i].categoryType === 'NUMERIC') {
         rd['domainType'] = this.domainTypeDef.NUMERIC;
         rd.responseKind = 'NUMERIC';
+      } else if (rep.children[i].categoryType === 'DATETIME') {
+        rd['domainType'] = this.domainTypeDef.DATETIME;
+        rd.responseKind = 'DATETIME';
       } else if (rep.children[i].categoryType === 'TEXT') {
         rd['domainType'] = this.domainTypeDef.TEXT;
         rd.responseKind = 'TEXT';
