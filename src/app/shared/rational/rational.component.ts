@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { RATIONAL_DESCRIPTIONS } from './rationaldescription';
+import { IEntityEditAudit } from '../classes/interfaces';
 
 @Component({
   selector: 'qddt-rational',
@@ -9,7 +10,7 @@ import { RATIONAL_DESCRIPTIONS } from './rationaldescription';
 })
 
 export class RationalComponent implements OnInit {
-  @Input() element: any;
+  @Input() element: IEntityEditAudit;
   @Input() formName: string;
   @Input() config: any;
   public saveOptionIndex: number;
@@ -23,7 +24,7 @@ export class RationalComponent implements OnInit {
   private savedbasedOnObject: any;
 
   constructor() {
-    this._RationalIndex = 1;
+    this._RationalIndex = 0;
     this._Rational2Index = 0;
     this.saveOptionIndex = 0;
     this.savedId = null;
@@ -47,11 +48,14 @@ export class RationalComponent implements OnInit {
   }
 
   onClickRational1(id: number) {
-    this._RationalIndex = id;
+    this._RationalIndex = +id;
     this._Rational2Index = 0;
-    const rational = this.rationalDescriptions[this.saveOptionIndex].children[id];
+    const rational = this.rationalDescriptions[this.saveOptionIndex].children[+id];
     if (rational.change) {
       this.element.changeKind = rational.change;
+    } else {
+      // set default value, in case user decides to go on without selecting an item...
+      this.onClickRational2(rational.children[this._Rational2Index]);
     }
   }
 

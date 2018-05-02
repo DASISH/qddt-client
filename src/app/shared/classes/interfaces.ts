@@ -50,6 +50,8 @@ export interface IComment {
 export interface IEntityEditAudit extends IEntityAudit {
   basedOnObject?: string;
   basedOnRevision?: number;
+  changeComment?: string;
+  changeKind?: string;
   modified?: number;
   modifiedBy?: IUser;
   version?: IVersion;
