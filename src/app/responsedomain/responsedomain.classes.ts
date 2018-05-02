@@ -51,6 +51,8 @@ export class ResponseDomain implements IEntityEditAudit {
   comments?: any[];
 
   agency?: IEntityAudit;
+  changeComment?: string;
+  changeKind?: string;
   basedOnObject?: string;
   basedOnRevision?: number;
   modified?: number;
@@ -62,20 +64,23 @@ export class ResponseDomain implements IEntityEditAudit {
 
   public setResponseKind(kind: DomainKind): ResponseDomain {
     this.responseKind = DomainKind[kind];
-    this.managedRepresentation.setManagedRep(DOMAIN_TYPE_DESCRIPTION[kind].categoryType);
+    this.managedRepresentation.setKind(DOMAIN_TYPE_DESCRIPTION[kind].categoryType);
     return this;
   }
 
   public addManagedRep(rep: Category) {
-    if (this.responseKind === 'MIXED') {
-      if (rep.categoryType === 'MISSING_GROUP') {
-        const index = this.managedRepresentation.children.findIndex(e => e.categoryType === 'MISSING_GROUP');
-        if (index >= 0) {
-          this.managedRepresentation.children = this.managedRepresentation.children.slice(index, 1);
-        }
-      } else {
+    // if (this.responseKind === 'MIXED') {
 
-      }
+    // replace if exsist from before.
+    const index = this.managedRepresentation.children.findIndex(e => e.categoryType === rep.categoryType );
+    if (index >= 0) {
+      this.managedRepresentation.children = this.managedRepresentation.children.slice(index, 1);
+    }
+    if (this.managedRepresentation.children.length > 0 && !this.isMixed) {
+      // adding an extra rep, to a none mixed, convert to mixed.... or fail?
+      // we have to fail....
+    } else {
+      // there is no other children or this is a mixed responseDomain....
       this.managedRepresentation.children.push(rep);
       this.name += ' ' + rep.name;
     }

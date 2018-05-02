@@ -29,7 +29,7 @@ export const CATEGORY_INFO: ICategoryInfo[] = [
   {kind: CategoryKind.DATETIME, level: HierachyLevel.ENTITY , description: 'Datetime'},
   {kind: CategoryKind.TEXT, level: HierachyLevel.ENTITY , description: 'Text'},
   {kind: CategoryKind.NUMERIC, level: HierachyLevel.ENTITY , description: 'Numeric'},
-  {kind: CategoryKind.DATETIME, level: HierachyLevel.ENTITY , description: 'Boolean'},
+  {kind: CategoryKind.BOOLEAN, level: HierachyLevel.ENTITY , description: 'Boolean'},
   {kind: CategoryKind.URI, level: HierachyLevel.ENTITY , description: 'Uniform Resource Identifier'},
   {kind: CategoryKind.CATEGORY, level: HierachyLevel.ENTITY , description: 'Code'},
   {kind: CategoryKind.MISSING_GROUP, level: HierachyLevel.GROUP_ENTITY , description: 'CodeList Missing value'},
@@ -48,11 +48,10 @@ export class ResponseCardinality {
 }
 
 export class Code {
-  codeValue: string;
-  alignment: string;
-  constructor() {
-    this.alignment = 'text-left';
-    this.codeValue = '0';
+  codeValue = 'text-left';
+  alignment = '0';
+  public constructor(init?: Partial<Code>) {
+    Object.assign(this, init);
   }
 }
 
@@ -82,13 +81,11 @@ export class Category implements IEntityEditAudit {
     this.description =  CATEGORY_INFO[kind].description;
     this.hierarchyLevel = HierachyLevel[CATEGORY_INFO[kind].level];
     this.categoryType = CategoryKind[kind];
+    if (kind.valueOf() < CategoryKind.CATEGORY.valueOf()) {
+      this.code = new Code( { alignment: 'select', codeValue: '1' });
+    }
     return this;
   }
 
-  public setManagedRep(kind: CategoryKind): Category {
-    this.description =  CATEGORY_INFO[kind].description;
-    this.categoryType = CategoryKind[kind];
-    this.hierarchyLevel = HierachyLevel[HierachyLevel.GROUP_ENTITY];
-    return this;
-  }
+
 }

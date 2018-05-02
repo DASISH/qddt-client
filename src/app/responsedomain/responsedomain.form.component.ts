@@ -127,6 +127,7 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy {
 
   onSelectDateFormatChange(format: string) {
     this.responsedomain.managedRepresentation.format = format;
+    this.buildPreviewResponseDomain();
   }
 
   changeNumberOfAnchors(num: number) {

@@ -75,16 +75,14 @@ export class ResponsedomainSelectMissingComponent implements OnInit, OnChanges {
   onSave() {
     this.findMissingAction.emit({action: 'modal', params: ['close']});
     if (this._rd.getMissing()) {
-      if (this._rd['changeKind']) {
-        this._rd['changeKind'] = 'TYPO';
-        this._rd['changeComment'] = 'Comment by rule';
+      if (this._rd.changeKind) {
+        this._rd.changeKind = 'TYPO';
+        this._rd.changeComment = 'Comment by rule';    // but why this rule?
         console.log('changeKind set, ready for persisting');
       }
+      console.log(this._rd.getMissing());
       this.selectedEvent.emit(
-        { elementRevision: 0,
-        element: this._rd,
-        elementKind: ElementKind.RESPONSEDOMAIN,
-        elementId: this._rd.id  } );
+        { elementRevision: 0, element: this._rd, elementKind: ElementKind.RESPONSEDOMAIN, elementId: this._rd.id  } );
     }
   }
 
@@ -93,13 +91,12 @@ export class ResponsedomainSelectMissingComponent implements OnInit, OnChanges {
   }
 
   public setMissing(missing: IElement) {
-    console.log(missing);
+    console.log('add missing ' + missing.element);
     let rd = this._rd;
 
     if (!rd.isMixed()) {
       rd = makeMixed(rd);
     }
-    console.log(missing.element);
     rd.addManagedRep(missing.element);
 
     rd.name = rd.managedRepresentation.name =
@@ -109,10 +106,10 @@ export class ResponsedomainSelectMissingComponent implements OnInit, OnChanges {
 
 
   private getGroupEntities(representation: Category): Category[] {
-    if (representation.categoryType !== 'MIXED') {
-      return [representation];
-    } else {
+    if (representation.categoryType === 'MIXED') {
       return representation.children;
+    } else {
+      return [representation];
     }
   }
 
