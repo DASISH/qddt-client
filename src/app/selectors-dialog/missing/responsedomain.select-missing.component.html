@@ -14,11 +14,11 @@
   </div>
 
   <div id="{{modalId}}" class="modal" materialize="modal" [materializeActions]="findMissingAction">
-    <form  #missingForm="ngForm">
+    <form  #missingForm="ngForm" class="black-text">
       <div class="modal-content minHeight">
         <div class="row">
           <qddt-auto-complete
-            [items]="missingGroups" class="black-text"
+            [items]="missingGroups" 
             [elementKind]="CATEGORY_KIND"
             [autoCreate]="false"
             (enterEvent)="onSearchCategories($event)"
