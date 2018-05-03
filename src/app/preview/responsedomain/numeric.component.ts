@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { ResponseDomain } from '../../responsedomain/responsedomain.classes';
+import { Category } from '../../category/category.classes';
 
 
 @Component({
@@ -20,7 +21,7 @@ import { ResponseDomain } from '../../responsedomain/responsedomain.classes';
 })
 
 export class ResponsedomainNumericComponent implements OnChanges {
-  @Input() responseDomain: ResponseDomain;
+  @Input() managedRepresentation: Category;
   low: number;
   high: number;
   stepping: number;
@@ -29,7 +30,7 @@ export class ResponsedomainNumericComponent implements OnChanges {
   ngOnChanges() {
     this.low = 0;
     this.high = 1;
-    const rep = this.responseDomain.managedRepresentation;
+    const rep = this.managedRepresentation;
     if (rep) {
       if (rep.inputLimit.maximum) {
         this.high = rep.inputLimit.maximum;

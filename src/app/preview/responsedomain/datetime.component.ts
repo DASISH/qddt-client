@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ResponseDomain } from '../../responsedomain/responsedomain.classes';
+import { Category } from '../../category/category.classes';
 
 @Component({
   selector: 'qddt-preview-rd-datetime',
@@ -16,7 +17,7 @@ import { ResponseDomain } from '../../responsedomain/responsedomain.classes';
 })
 
 export class ResponsedomainDatetimeComponent implements OnInit, OnChanges {
-  @Input() responseDomain: ResponseDomain;
+  @Input() managedRepresentation: Category;
 
   public low: number;
   public high: number;
@@ -30,11 +31,7 @@ export class ResponsedomainDatetimeComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes) {
-      console.log(changes.toString());
-    }
-    if (this.responseDomain) {
-      const rep = this.responseDomain.managedRepresentation;
+      const rep = this.managedRepresentation;
       if (rep) {
         if (rep.inputLimit.maximum) {
           this.high = rep.inputLimit.maximum;
@@ -49,7 +46,6 @@ export class ResponsedomainDatetimeComponent implements OnInit, OnChanges {
         }
       }
       this.dateOptions = this.getDefaultPickaOption();
-    }
   }
 
   private getDefaultPickaOption(): any {

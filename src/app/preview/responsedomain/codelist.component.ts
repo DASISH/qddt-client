@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { ResponseDomain } from '../../responsedomain/responsedomain.classes';
+import { Category } from '../../category/category.classes';
 
 @Component({
   selector: 'qddt-preview-rd-codelist',
@@ -21,8 +22,8 @@ import { ResponseDomain } from '../../responsedomain/responsedomain.classes';
 })
 
 export class ResponsedomainCodeListComponent implements OnChanges {
-  @Input() responseDomain: ResponseDomain;
-
+  @Input() managedRepresentation: Category;
+  @Input() responseCardinality = 1;
   public rows: any[] = [];
   public type: string;
   private max = 4;
@@ -31,30 +32,19 @@ export class ResponsedomainCodeListComponent implements OnChanges {
 
   ngOnChanges() {
     this.rows = [];
-    const rep = this.responseDomain.managedRepresentation;
-    if (rep !== undefined
-      && rep.inputLimit !== undefined
-      && rep.inputLimit.maximum !== undefined) {
-      this.max = rep.inputLimit.maximum;
-    }
-    if (rep !== undefined
-      && rep.inputLimit !== undefined
-      && rep.inputLimit.minimum !== undefined) {
-      this.min = rep.inputLimit.minimum;
-    }
-    let categories: any[] = [];
-    if (rep !== undefined && rep.children !== undefined) {
+    const rep = this.managedRepresentation;
+    this.max = rep.inputLimit.maximum;
+    this.min = rep.inputLimit.minimum;
+    let categories: Category[] = [];
+    if (rep.children ) {
       categories = rep.children;
     }
     for (const c of categories) {
       this.rows.push({ 'label': c.label, 'code': c.code.codeValue, 'checked': false });
     }
     this.type = 'radio';
-    if (this.responseDomain['responseCardinality'] !== undefined) {
-      this.responseMax = this.responseDomain['responseCardinality']['maximum'] || 1;
-      if (this.responseMax > 1) {
-        this.type = 'checkbox';
-      }
+    if (this.responseCardinality > 1) {
+      this.type = 'checkbox';
     }
   }
 

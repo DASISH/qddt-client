@@ -8,12 +8,12 @@ import { ResponseDomain, DomainKind } from '../../responsedomain/responsedomain.
            ' .td { padding: 0px;}'
   ],
   template: `
-    <div *ngIf="domainType" class="card-panel grey lighten-5 black-text"
+    <div *ngIf="responseKind" class="card-panel grey lighten-5 black-text"
          style="padding-left:3%; padding-right:5%; margin: 1%">
-    <label *ngIf="domainType !== domainTypeDef.MIXED"
+    <label *ngIf="responseKind !== domainTypeDef.MIXED"
       class="active teal-text">{{ responseDomain?.name }}
       (V<qddt-version [element]="responseDomain"></qddt-version>)</label>
-    <div [ngSwitch]="domainType">
+    <div [ngSwitch]="responseKind">
       <qddt-preview-rd-scale *ngSwitchCase="domainTypeDef.SCALE"
         [responseDomain]="responseDomain"></qddt-preview-rd-scale>
       <qddt-preview-rd-datetime *ngSwitchCase="domainTypeDef.DATETIME"
@@ -36,11 +36,11 @@ import { ResponseDomain, DomainKind } from '../../responsedomain/responsedomain.
 export class PreviewResponsedomainComponent implements OnChanges {
   @Input() responseDomain: ResponseDomain;
   public domainTypeDef = DomainKind;
-  public domainType: DomainKind;
+  public responseKind: DomainKind;
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.responseDomain) {
-      this.domainType = DomainKind[this.responseDomain.responseKind];
+      this.responseKind = DomainKind[this.responseDomain.responseKind];
     }
   }
 }

@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { RATIONAL_DESCRIPTIONS } from './rationaldescription';
-import { IEntityEditAudit } from '../classes/interfaces';
+import {RATIONAL_DESCRIPTIONS, RationalDescription} from './rationaldescription';
 
 @Component({
   selector: 'qddt-rational',
@@ -10,11 +9,11 @@ import { IEntityEditAudit } from '../classes/interfaces';
 })
 
 export class RationalComponent implements OnInit {
-  @Input() element: IEntityEditAudit;
+  @Input() element: any;
   @Input() formName: string;
   @Input() config: any;
   public saveOptionIndex: number;
-  public readonly rationalDescriptions = RATIONAL_DESCRIPTIONS;
+  public rationalDescriptions: RationalDescription[];
 
   public _RationalIndex: number;
   public _Rational2Index: number;
@@ -24,23 +23,20 @@ export class RationalComponent implements OnInit {
   private savedbasedOnObject: any;
 
   constructor() {
-    this._RationalIndex = 0;
+    this._RationalIndex = 1;
     this._Rational2Index = 0;
     this.saveOptionIndex = 0;
     this.savedId = null;
   }
 
   ngOnInit() {
+
     if (this.config) {
       const hiddenIds = this.config.hidden || [];
-      if (this.element.archived === undefined) {            // Hide Archived option if element don't have this field.
+      if (!this.element.archived) {            // Hide Archived option if element don't have this field.
         hiddenIds.push(4);
       }
-      for (const id of hiddenIds) {
-        if (id < this.rationalDescriptions.length) {
-          this.rationalDescriptions[id]['hidden'] = true;
-        }
-      }
+      this.rationalDescriptions = RATIONAL_DESCRIPTIONS.filter(f => !hiddenIds.find(id => id === f.id));
     }
     this.originalId = this.element.id;
     this.element.changeComment = '';
@@ -48,9 +44,9 @@ export class RationalComponent implements OnInit {
   }
 
   onClickRational1(id: number) {
-    this._RationalIndex = +id;
+    this._RationalIndex = id;
     this._Rational2Index = 0;
-    const rational = this.rationalDescriptions[this.saveOptionIndex].children[+id];
+    const rational = this.rationalDescriptions[this.saveOptionIndex].children[id];
     if (rational.change) {
       this.element.changeKind = rational.change;
     } else {
