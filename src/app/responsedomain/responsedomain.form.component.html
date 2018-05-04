@@ -113,7 +113,7 @@
             <div class="input-field col m3 l3 offset-m1 offset-l1 ">
                 <input id="responseCardinality_maximum" name="responseCardinality_maximum" type="number"
                        (ngModelChange)="buildPreviewResponseDomain()"
-                       [attr.min]="addition([responsedomain.responseCardinality.minimum],1)"
+                       [attr.min]=1
                        [attr.max]="responsedomain.managedRepresentation.inputLimit.maximum"
                        [(ngModel)]="responsedomain.responseCardinality.maximum" required>
                 <label for="responseCardinality_maximum">Max of Response Cardinality</label>

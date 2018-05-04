@@ -6,7 +6,7 @@ import { Category } from '../../category/category.classes';
   selector: 'qddt-preview-rd-datetime',
   moduleId: module.id,
   template: `
-  <div class="row" *ngIf="responseDomain.managedRepresentation">
+  <div class="row" *ngIf="managedRepresentation">
     <span>
       <label>{{ low }} - {{ high }}</label>
       <input  type="text" class="datepicker" materialize="pickadate" [materializeParams]=

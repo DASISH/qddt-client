@@ -1,3 +1,5 @@
+
+import {takeWhile} from 'rxjs/operators';
 import { OnChanges, Component, SimpleChanges, OnDestroy, AfterContentChecked} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { QddtMessageService } from '../core/global/message.service';
@@ -37,8 +39,8 @@ export class TemplateComponent implements OnChanges, OnDestroy, AfterContentChec
 
   constructor( private route: ActivatedRoute,  private  messages: QddtMessageService, private service: TemplateService,
     private properties: QddtPropertyStoreService ) {
-    this.route.url
-    .takeWhile(() => this.alive)
+    this.route.url.pipe(
+    takeWhile(() => this.alive))
     .subscribe((event) => {
       this.path = this.route.firstChild.routeConfig.path; // '/:id'
       const detailIndex = this.path.lastIndexOf('/:id');
@@ -53,8 +55,8 @@ export class TemplateComponent implements OnChanges, OnDestroy, AfterContentChec
       }
     });
 
-    this.messages.getAction()
-      .takeWhile(() => this.alive)
+    this.messages.getAction().pipe(
+      takeWhile(() => this.alive))
       .subscribe(event => {
         if (event.action === ActionKind.Filter
           && (event.id === 'ResponseKind' || event.id === 'publishedstatus' )

@@ -41,9 +41,9 @@ export const CATEGORY_INFO: ICategoryInfo[] = [
 export class ResponseCardinality {
   minimum: number;
   maximum: number;
-  constructor() {
-    this.minimum = 1;
-    this.maximum = 1;
+  public constructor(init?: Partial<ResponseCardinality>) {
+    this.minimum = this.maximum = 1;
+    Object.assign(this, init);
   }
 }
 

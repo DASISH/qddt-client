@@ -1,0 +1,8 @@
+{
+    "environmentSource": "environments/environment.ts",
+    "environments": {
+    "dev": "environments/environment.ts",
+    "prod": "environments/environment.prod.ts",
+    "stage": "environments/environment.stage.ts"
+    }
+}

@@ -49,11 +49,11 @@ export class StudyComponent implements OnInit {
     this.showEditForm = !this.showEditForm;
   }
 
-  onStudySavedEvent(study: any) {
+  onStudySaved(study: any) {
     if (study !== null) {
       const studies = this.survey.studies.filter((q) => q.id !== study.id);
       studies.push(study);
-      this.survey.studies = studies;
+      this.survey.studies = studies.sort( (a, b) => a.name > b.name ? -1 : 1);
     }
   }
 
@@ -61,7 +61,7 @@ export class StudyComponent implements OnInit {
     this.showEditForm = false;
     this.studyService.createStudy(this.study, this.survey.id)
       .subscribe((result: any) => {
-        this.onStudySavedEvent(result);
+        this.onStudySaved(result);
     });
     this.study  = new Study();
   }

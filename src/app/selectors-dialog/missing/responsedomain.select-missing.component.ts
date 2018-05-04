@@ -1,5 +1,7 @@
+
+import {filter, distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import {Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges} from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { MaterializeAction } from 'angular2-materialize';
 import { ElementRevisionRef, Page } from '../../shared/classes/classes';
 import { ElementKind } from '../../shared/classes/enums';
@@ -42,10 +44,10 @@ export class ResponsedomainSelectMissingComponent implements OnInit, OnChanges {
                         page: new Page(), sort: 'name,asc' };
     this.selectedCategoryIndex = 0;
     this.missingGroups = [];
-    this.searchKeysListener
-      .debounceTime(300)
-      .distinctUntilChanged()
-      .filter(val => val.length > 0)
+    this.searchKeysListener.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      filter(val => val.length > 0),)
       .subscribe((name: string) => {
         this.pageSearch.key = name;
         this.service.searchByKind<Category>(this.pageSearch).then(

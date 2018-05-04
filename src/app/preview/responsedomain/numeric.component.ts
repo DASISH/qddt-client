@@ -7,11 +7,11 @@ import { Category } from '../../category/category.classes';
   selector: 'qddt-preview-rd-numeric',
   moduleId: module.id,
   template: `
-    <div class="row" *ngIf="responseDomain">
+    <div class="row" *ngIf="managedRepresentation">
       <form>
         <input type="number" min="{{low}}" max="{{high}}" step="{{stepping}}"
-          id="numeric-domain-{{responseDomain.id}}"
-          name="numeric-domain-{{responseDomain.id}}"
+          id="numeric-domain-{{managedRepresentation.id}}"
+          name="numeric-domain-{{managedRepresentation.id}}"
           [ngModel]="value"
           (ngModelChange)="changeNumber($event)">
         <label>Range from {{ low }} to {{ high }} steps {{ stepping }}</label>
@@ -32,10 +32,8 @@ export class ResponsedomainNumericComponent implements OnChanges {
     this.high = 1;
     const rep = this.managedRepresentation;
     if (rep) {
-      if (rep.inputLimit.maximum) {
+      if (rep.inputLimit) {
         this.high = rep.inputLimit.maximum;
-      }
-      if (rep.inputLimit.minimum) {
         this.low = rep.inputLimit.minimum;
       }
       if (!rep.format) {

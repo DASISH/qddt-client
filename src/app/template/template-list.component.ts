@@ -1,3 +1,5 @@
+
+import {filter, takeWhile} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TemplateService } from './template.service';
@@ -28,16 +30,16 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
   constructor(private service: TemplateService, private router: Router, private route: ActivatedRoute,
               private messages: QddtMessageService, private properties: QddtPropertyStoreService ) {
 
-    this.route.url
-      .takeWhile(() => this.alive)
-      .filter( (f) => f.length > 0)
+    this.route.url.pipe(
+      takeWhile(() => this.alive),
+      filter( (f) => f.length > 0))
       .subscribe((event) => {
         this.path = event[0].path;
         this.kind = HEADER_DETAILS.get(this.path).kind;
     });
 
-    this.messages.getAction()
-      .takeWhile(() => this.alive)
+    this.messages.getAction().pipe(
+      takeWhile(() => this.alive))
       .subscribe(event => {
         console.log('Action ' + ActionKind[event.action]);
         if (event.action === ActionKind.Update || event.action === ActionKind.Create || event.action === ActionKind.Filter) {

@@ -1,5 +1,4 @@
 import { AfterContentChecked,  Component, OnInit } from '@angular/core';
-import 'rxjs/Rx';
 import { UserService } from '../user/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -35,7 +34,7 @@ export class LoginComponent implements OnInit, AfterContentChecked {
       try {
         Materialize.updateTextFields();
       } catch  {
-        console.debug('not initialized...');
+        // console.debug('Materialize not initialized...');
       }
     }
   }

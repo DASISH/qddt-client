@@ -1,5 +1,5 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { HomeService } from '../home.service';
 import {Topic} from '../home.classes';
 import { IOtherMaterial } from '../../shared/classes/interfaces';

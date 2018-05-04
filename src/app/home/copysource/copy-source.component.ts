@@ -1,10 +1,10 @@
-import {Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ElementEnumAware } from '../../preview/preview.service';
 import { HomeService } from '../home.service';
 import { ElementKind } from '../../shared/classes/enums';
-import {IElement, IRevisionRef} from '../../shared/classes/interfaces';
-import {ElementRevisionRef, QueryInfo} from '../../shared/classes/classes';
-import {QDDT_QUERY_INFOES} from '../../shared/classes/constants';
+import { IElement, IRevisionRef } from '../../shared/classes/interfaces';
+import { ElementRevisionRef, QueryInfo } from '../../shared/classes/classes';
+import { QDDT_QUERY_INFOES } from '../../shared/classes/constants';
 
 
 @Component({

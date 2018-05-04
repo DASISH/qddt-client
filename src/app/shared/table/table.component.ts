@@ -1,3 +1,5 @@
+
+import {distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import {Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges, ViewChild, ElementRef, OnDestroy} from '@angular/core';
 import { Column } from './table.column';
 import { LIST_COLUMNS, RESPONSEDOMAIN_COLUMNS, DEFAULT_COLUMNS } from './table.column-map';
@@ -6,7 +8,7 @@ import { IEntityEditAudit, IPageSearch } from '../classes/interfaces';
 import { ElementKind } from '../classes/enums';
 import { ElementEnumAware } from '../../preview/preview.service';
 import { DomainKind } from '../../responsedomain/responsedomain.classes';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'qddt-table',
@@ -46,9 +48,9 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
   private searchKeysChange: Subject<string> = new Subject<string>();
 
   constructor() {
-    this.searchKeysChange
-      .debounceTime(300)
-      .distinctUntilChanged()
+    this.searchKeysChange.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),)
       .subscribe((name: string) => {
         this.pageSearch.key = this.value = name;
         this.pageSearch.sort = this.getSort();

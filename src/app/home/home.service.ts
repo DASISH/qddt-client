@@ -1,11 +1,12 @@
-import { Observable } from 'rxjs/Observable';
+
+import {of as observableOf,  Observable } from 'rxjs';
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_BASE_HREF } from '../api';
 import { ElementKind } from '../shared/classes/enums';
 import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
 import { Concept, Study, SurveyProgram, Topic } from './home.classes';
-import { IOtherMaterial, IEntityEditAudit, IEntityAudit } from '../shared/classes/interfaces';
+import { IOtherMaterial, IEntityEditAudit, IEntityAudit, IPageResult } from '../shared/classes/interfaces';
 
 
 
@@ -20,7 +21,7 @@ export class HomeService {
     if (qe) {
       return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/allinclatest').toPromise();
     }
-    return Observable.of([]).toPromise();
+    return observableOf([]).toPromise();
   }
 
   getElementByTypeAndName(kind: ElementKind, name: string): Promise<any> {
@@ -28,7 +29,7 @@ export class HomeService {
     if (qe) {
       return this.http.get(this.api + qe.path + '/page/search/?name=*' + name + '*' ).toPromise();
     }
-    return Observable.of([]).toPromise();
+    return observableOf([]).toPromise();
 
   }
 
@@ -42,8 +43,8 @@ export class HomeService {
   }
 
 
-  getByTopic(topicId: string): Promise<any> {
-    return this.http.get(this.api + 'concept/page/by-topicgroup/' + topicId + '?page=0&size=50&sort=asc')
+  getByTopic(topicId: string): Promise<IPageResult<Concept>> {
+    return this.http.get<IPageResult<Concept>>(this.api + 'concept/page/by-topicgroup/' + topicId + '?page=0&size=50&sort=asc')
       .toPromise();
   }
 
@@ -51,8 +52,8 @@ export class HomeService {
     return this.http.get(this.api + 'topicgroup/' + id).toPromise();
   }
 
-  getAllTopic(studyId: string): Promise<any> {
-    return this.http.get(this.api + 'topicgroup/list/by-study/' + studyId).toPromise();
+  getAllTopic(studyId: string): Promise<Topic[]> {
+    return this.http.get<Topic[]>(this.api + 'topicgroup/list/by-study/' + studyId).toPromise();
   }
 
   getAllStudy(surveyProgramId: String): Promise<any> {
