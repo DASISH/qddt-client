@@ -1,0 +1,71 @@
+<div class="row" *ngIf="item">
+  <div id="{{item.id}}" class="scrollspy">
+
+    <div class="fixed-action-btn vertical click-to-toggle">
+      <a class="btn-floating btn-large cyan"><i class="large material-icons">menu</i></a>
+      <ul>
+        <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light blue" (click)="revisionIsVisible = !revisionIsVisible">
+               <!--href=".#scrollRevision">-->
+          <i class="material-icons left medium" title="Revision history">history</i>
+        </a></li>
+        <li *ngIf="canDelete"><a class="btn-flat btn-floating btn-medium waves-effect waves-light red">
+          <i class="material-icons" (click)="onDeleteConfirmModal()" title="Delete" >delete_forever</i>
+        </a></li>
+        <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light orange darken-1">
+          <i class="material-icons" (click)="onGetPdf(item)" title="Get as Pdf">picture_as_pdf</i>
+        </a></li>
+        <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light green darken-1">
+          <i class="material-icons" (click)="onHideDetail()" title="Return to list view">replay</i>
+        </a></li>
+      </ul>
+    </div>
+
+    <div class="col s1">
+      <a class="btn-flat btn-floating btn-medium waves-effect waves-light  green darken-1">
+        <i class="material-icons" (click)="onHideDetail()" title="Return to list view">replay</i>
+      </a>
+    </div>
+    <div class="row" *ngIf="showProgressBar" class="progress">
+      <div class="indeterminate"></div>
+    </div>
+    <div class="col s10 ">
+      <div class="row grey-text text-darken-2">
+        <div class="col s9 m10 flow-text">{{ item?.name }}</div>
+        <div class="col s3 m2">
+          <qddt-version-label class="right" [element]="item"></qddt-version-label>
+        </div>
+      </div>
+
+      <div #childForm>
+          <ng-content selector='.qddt-form'></ng-content>
+      </div>
+
+      <qddt-revision *ngIf="revisionIsVisible" [current]="item"> </qddt-revision>
+
+      <qddt-comment-list
+        [ownerId]="item.id"
+        [comments]="item.comments">
+      </qddt-comment-list>
+    </div>
+  </div>
+</div>
+
+<div class="modal" materialize="modal" [materializeActions]="deleteAction">
+  <div class="modal-content">
+    <div class="row">
+      <h4>Warning</h4>
+      <span>Are you sure you want to delete [{{ item?.name }}]?</span>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      (click)="onConfirmDeleting()"
+      class="btn btn-default green modal-action modal-close waves-effect">
+      <a><i class="close material-icons medium white-text">done</i></a>
+    </button>
+    <button
+      class="btn btn-default red modal-action modal-close waves-effect">
+      <a><i class="close material-icons medium white-text">close</i></a>
+    </button>
+  </div>
+</div>

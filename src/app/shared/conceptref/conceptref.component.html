@@ -1,0 +1,23 @@
+<div class="row" *ngIf="element && element?.conceptRefs && element?.conceptRefs?.length > 0" >
+  <div class="hoverable" style="margin: 1%">
+    <table class="highlight">
+      <caption class="teal-text"  (click)="showRefs = !showRefs" style="cursor: zoom-in;">Question referenced by ({{ element.conceptRefs.length }})</caption>
+      <thead class="teal-text" >
+      <tr><th>Study</th><th>Module</th><th>Concept names</th></tr>
+      </thead>
+      <tbody *ngIf="showRefs">
+      <tr *ngFor="let ref of getRefRoot()" >
+        <td>
+          <a  style="cursor: pointer;" (click)="onClickStudy(ref.topicRef.studyRef.id)">{{ ref?.topicRef?.studyRef?.name }}</a>
+        </td>
+        <td>
+          <a  style="cursor: pointer;" (click)="onClickTopic(ref.topicRef.id)">{{ ref?.topicRef?.name }}</a>
+        </td>
+        <td *ngIf="ref.id">
+          <a  style="cursor: pointer;" (click)="onClickConcept(ref.id)">{{ ref?.name }}</a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

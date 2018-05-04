@@ -1,0 +1,45 @@
+<div *ngIf="responseDomain" class="row" >
+<!--{{ min }}{{ max }}-->
+  <table *ngIf="displayLayout === 0">
+    <thead>
+    <tr>
+      <th *ngFor="let item of headers" [attr.colspan]=item.colspan scope="colgroup" class="{{item.class}}" width="{{item.width}}%" >
+              <span>
+                <label>{{ item.label }}</label>
+              </span>
+      </th>
+    </tr>
+    </thead>
+    <tbody *ngIf="max - min <= 15">
+    <tr *ngFor="let row of rows; let idx=index">
+      <td *ngFor="let option of columns" style="text-align: center">
+              <span>
+                <input name="{{responseDomain.id}}-group-{{idx}}" type="radio" id="{{responseDomain.id}}-option-{{option.value}}-{{idx}}" />
+                <label [attr.for]="responseDomain.id + '-option-' + option.value +'-'+ idx">{{ option?.value }}</label>
+              </span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="max - min > 15" class="range-field">
+    <input type="range" id="test5"
+           min={{min}}
+           max={{max}}/>
+  </div>
+  <table *ngIf="displayLayout !== 0">
+    <tbody>
+      <tr *ngFor="let option of rows; let idx=index">
+        <td>
+                <span>
+                  <input name="{{responseDomain.id}}-group1" type="radio" id="{{responseDomain.id}}option1{{option.value}}" />
+                  <label [attr.for]="responseDomain.id + 'option' + option.value">{{ option?.label }}</label>
+                </span>
+        </td>
+        <td>
+          <span>{{ option?.value }}</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

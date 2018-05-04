@@ -1,0 +1,67 @@
+<div *ngIf="element" [ngSwitch]="getElementKind(element)" style="color: dimgrey">
+  <div *ngSwitchCase=instanceRefEnum.CONCEPT>
+    <qddt-preview-concept [concept]="element"></qddt-preview-concept>
+  </div>
+  <div *ngSwitchCase=instanceRefEnum.CONDITION_CONSTRUCT >
+    <qddt-preview-conditionconstruct [condition]="element"></qddt-preview-conditionconstruct>
+  </div>
+  <div *ngSwitchCase=instanceRefEnum.QUESTION_CONSTRUCT >
+    <qddt-preview-questionconstruct [controlConstruct]="element"></qddt-preview-questionconstruct>
+  </div>
+  <div *ngSwitchCase=instanceRefEnum.SEQUENCE_CONSTRUCT >
+    <qddt-preview-sequenceconstruct [sequence]="element"></qddt-preview-sequenceconstruct>
+  </div>
+  <div *ngSwitchCase=instanceRefEnum.STATEMENT_CONSTRUCT >
+    <qddt-preview-statementconstruct [statement]="element"></qddt-preview-statementconstruct>
+  </div>
+  <div *ngSwitchCase=instanceRefEnum.INSTRUMENT >
+    <qddt-preview-instrument [instrument]="element"></qddt-preview-instrument>
+  </div>
+  <div *ngSwitchCase=instanceRefEnum.PUBLICATION>
+    <qddt-preview-publication [publication]="element"></qddt-preview-publication>
+  </div>
+  <div *ngSwitchCase=instanceRefEnum.QUESTION_GRID>
+    <qddt-preview-questionitem-grid [questionItem]="element"></qddt-preview-questionitem-grid>
+  </div>
+  <div *ngSwitchCase="instanceRefEnum.QUESTION_ITEM">
+    <qddt-preview-questionitem [questionItem]="element"></qddt-preview-questionitem>
+  </div>
+  <div *ngSwitchCase=instanceRefEnum.RESPONSEDOMAIN>
+    <qddt-preview-responsedomain [responseDomain]="element"></qddt-preview-responsedomain>
+  </div>
+  <div *ngSwitchCase=instanceRefEnum.STUDY>
+    <qddt-preview-study [study]="element"></qddt-preview-study>
+  </div>
+  <div *ngSwitchCase=instanceRefEnum.SURVEY_PROGRAM>
+    <qddt-preview-survey [survey]="element"></qddt-preview-survey>
+  </div>
+  <div *ngSwitchCase=instanceRefEnum.TOPIC_GROUP>
+    <qddt-preview-topic [topic]="element"></qddt-preview-topic>
+  </div>
+  <div *ngSwitchDefault>
+    <!--CATEGORY = 0,-->
+    <!--...-->
+    <!--PUBLICATION,-->
+    <!--...-->
+    <!--INSTRUCTION,-->
+    <!--UNIVERSE-->
+    <div class="row">
+      <span> getElementString:{{ element.classKind }} getElementKind:{{ getElementKind(element) }}<- TEST</span>
+      <div class="col s12">
+        <label [attr.for]="element.id + '-name'" class="active teal-text">Name</label>
+        <textarea class="materialize-textarea" id="{{element?.id}}-name"
+                  name="{{element?.id}}-name" readonly> {{ element?.name }}
+        </textarea>
+        <label [attr.for]="element.id + '-description'" class="active teal-text">Description</label>
+        <textarea class="materialize-textarea" id="{{element?.id}}-description"
+                  name="{{element?.id}}-description"readonly> {{ element?.description }}
+        </textarea>
+      </div>
+    </div>
+    <div class="row">
+      <qddt-element-footer  [element]="element" ></qddt-element-footer>
+    </div>
+  </div>
+</div>
+
+

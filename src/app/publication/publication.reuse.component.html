@@ -1,0 +1,28 @@
+<div class="row hoverable white text-darken-2" style="padding: 10pt;"
+     (mouseenter)="showbutton = true"
+     (mouseleave)="showbutton = false">
+  <div class="row teal-text" (click)="onToggleAddElement()" style="cursor: zoom-in;">
+    <div class="col s2">Add element</div>
+  </div>
+  <div class="row" *ngIf="showAddElement">
+    <div class="row teal-text"><span>Element Type</span></div>
+    <div class="row" >
+		  <div class="left" *ngFor="let element of queryFields;">
+			  <input name="elementtypegroup" type="radio" id="element-type-{{element.id}}"
+          (click)="onSelectElementKind(element.id)"
+          [checked]="selectedElementKind === element.id"/>
+        <label [attr.for]="'element-type-' + element.id">{{ element.label }}</label>
+      </div>
+    </div>
+    <qddt-item-revision-select
+      [kind] = "selectedElementKind"
+      [itemList] = "itemList"
+      [revisionList] = "revisionList"
+      (searchItems)="onItemSearch($event)"
+      (searchRevision)="onRevisionSearch($event)"
+      (revisionSelected)="onRevisionSelect($event)"
+      (dismissEvent) ="onDismiss()">
+    </qddt-item-revision-select>
+  </div>
+</div>
+

@@ -1,0 +1,52 @@
+<div class="row" *ngIf="concept.topicRef">
+    <div class="input-field col s11">
+        <label class="active teal-text">Path</label>
+          <a  style="cursor: pointer;" (click)="onClickStudy(concept.topicRef.studyRef.id)">{{ concept?.topicRef?.studyRef?.name }}</a>\
+          <a  style="cursor: pointer;" (click)="onClickTopic(concept.topicRef.id)">{{ concept?.topicRef?.name }}</a>\
+          <a> {{ concept.name }} </a>
+    </div>
+</div>
+<div class="row" *ngIf="concept?.description">
+    <div class="input-field col s11">
+        <label class="active teal-text">Description</label>
+        <P [innerHtml]="concept?.description"></P>
+    </div>
+</div>
+<div class="row">
+    <div *ngIf="concept?.conceptQuestionItems && concept?.conceptQuestionItems?.length > 0" class="section">
+        <ul *ngIf="concept?.conceptQuestionItems" materialize="collapsible" class="collapsible popout"
+            data-collapsible="expandable" style="padding: 5pt;">
+            <li *ngFor="let cqi of concept.conceptQuestionItems;">
+                <div class="collapsible-header green lighten-5">
+                    <div class="col s10">QuestionItem [{{ cqi?.element?.name }}]</div>
+                    <div class="col s2"><qddt-version-label [element]="cqi"></qddt-version-label></div>
+                </div>
+                <div class="collapsible-body">
+                    <qddt-preview-questionitem *ngIf="cqi.element" [questionItem]="cqi.element">
+                    </qddt-preview-questionitem>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="row">
+    <qddt-element-footer  [element]="concept"></qddt-element-footer>
+</div>
+<div class="row">
+    <qddt-comment-list [ownerId]="concept.id" [comments]="concept.comments"></qddt-comment-list>
+</div>
+
+  <div class="row" *ngIf="concept.children && concept.children.length > 0">
+    <ul  materialize="collapsible" class="collapsible" data-collapsible="accordion" style="margin:25px; padding:10px;">
+        <li *ngFor="let concept of concept.children">
+            <div class="collapsible-header yellow lighten-5">
+            <div class="col s2">Concept</div>
+            <div class="col s7">{{ concept?.name }}</div>
+            <div class="col s2 right-align"><qddt-version [element]="concept"></qddt-version></div>
+            </div>
+            <div class="collapsible-body">
+                <qddt-preview-concept [concept]="concept"></qddt-preview-concept>
+            </div>
+        </li>
+    </ul>
+</div>

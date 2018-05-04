@@ -1,0 +1,29 @@
+<div  class="white grey-text" *ngIf="show">
+  <div class="row">
+    <div *ngIf="showProgressBar" class="progress"><div class="indeterminate"></div></div>
+    <div class="input-field col s4" *ngIf="elementRevisions.length > 0">
+      <label class="active black-text">business version</label>
+      <select [(ngModel)]="selectedRevision"
+              (ngModelChange)="onSelectElementRevisions($event)"
+              class="black-text"
+              name="element-revision"
+              materialize="material_select">
+        <option *ngFor="let revision of elementRevisions"
+                [selected]="revision.revisionNumber === selectedRevision"
+                [value]="revision.revisionNumber">
+          {{ revision?.entity?.version?.major }}.{{ revision?.entity?.version?.minor }} {{ revision?.entity?.version?.versionLabel }}
+        </option>
+      </select>
+    </div>
+    <div class="input-field col s8 l6 right">
+      <a class="waves-effect waves-light btn right red" (click)="onDismiss()">Dismiss</a>
+      <a class="waves-effect waves-light btn right green" (click)="onUseElement()">Use this</a>
+    </div>
+  </div>
+  <div class="card" *ngIf="!showProgressBar && selectedElement" style="padding: 10pt;">
+    <div class="row teal-text">Preview</div>
+    <div class="teal-text" *ngIf="selectedElement.name" style="padding-left: 10pt; padding-bottom: 5pt">Name</div>
+    <div style="padding-left: 10pt;  padding-bottom: 5pt; color:dimgrey; ">{{ selectedElement.name }}</div>
+    <qddt-preview-element  [element]="selectedElement"></qddt-preview-element>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+<header>
+  <qddt-menu></qddt-menu>
+</header>
+<main>
+  <div class=" row" *ngIf="!isLoggedIn()">
+    <div class="col m8  offset-m2">
+      <div class="card blue-grey darken-1">
+        <div class="card-content white-text">
+          <span class="card-title"><i class="material-icons large right">new_releases</i>Questionnaire Design and Documentation Tool</span>
+        <br>
+          <p>Welcome to the QDDT. This tool is intended to facilitate the life circle of questions in questionnaires, using DDI 3.2</p>
+          <blockquote>
+            Please report any bugs, tips or ideas to us on <a target="_blank" href="https://github.com/DASISH/qddt-client/">Github QDDT</a>
+          </blockquote>
+        </div>
+      </div>
+    </div>
+  </div>
+  <router-outlet></router-outlet>
+  <qddt-preview-dialog  [reference] =ref></qddt-preview-dialog>
+</main>

@@ -1,0 +1,71 @@
+<div class="row" *ngIf="publication" class="qddt-form" >
+  <form (ngSubmit)="onUpdatePublication()" #hf="ngForm">
+    <div class="row input-field">
+      <label [attr.for]="formId + '-name'" >Name</label>
+      <input id= "{{formId}}-name" name="name" type="text" class="validate" required
+        [(ngModel)]="publication.name" materialize="characterCounter" data-length="255">
+    </div>
+    <div class="row input-field">
+      <label [attr.for]="formId + '-purpose'" >Purpose</label>
+      <textarea id= "{{formId}}-purpose" name="purpose" type="text"
+        class="materialize-textarea validate" required
+        [(ngModel)]="publication.purpose" materialize="characterCounter" data-length="255">
+      </textarea>
+    </div>
+    <div class="row" *ngIf="selectOptions">
+        <div class="input-field col s6 m5 l4">
+          <select materialize="material_select" name="{{formId}}-status" id="{{formId}}-status" class="validate" required
+            [materializeSelectOptions]="selectOptions"
+            [(ngModel)]="selectedOptionId" (ngModelChange)="onSelectChange($event)">
+            <optgroup *ngFor="let parent of selectOptions" label="{{parent.label}}">
+              <option *ngFor="let child of parent.children" [value]="child.id" >{{child.label}}</option>
+            </optgroup>
+          </select>
+          <label for="{{formId}}-status" >Publication status</label>
+        </div>
+        <div class="s6 m7 l8">
+            <p> </p>
+            <span>{{ publication?.status?.description }}</span>
+        </div>
+    </div>
+    <div class="row">
+      <div class="row {textColor}">Content list</div>
+      <ul *ngIf="publication.publicationElements" materialize="collapsible"
+          class="collapsible popout" data-collapsible="expandable">
+        <li class="row collapsible-header grey lighten-2" style="color: black">
+          <div class="col s2">Element type</div>
+          <div class="col s7">Element name</div>
+          <div class="col s2 right-align">Version</div>
+          <div class="col s1">Delete</div>
+        </li>
+        <li *ngFor="let element of publication.publicationElements; let idx=index">
+          <div class="collapsible-header grey lighten-5" style="color: #323232">
+              <div class="col s2">{{ getLabelByElement(element?.elementKind) }}</div>
+              <div class="col s7">{{ element?.name }}</div>
+              <div class="col s2 right-align"><qddt-version [element]="element.element"></qddt-version></div>
+              <div class="col s1" *ngIf="!readonly">
+                <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                   (click)="onElementDelete(idx)">
+                  <i class="material-icons medium" [ngStyle]="{'width': 'inherit', 'line-height': '37px'}" title="Delete" >delete_forever</i>
+                </a>
+              </div>
+          </div>
+          <div class="collapsible-body white" >
+            <qddt-preview-element [element]="element.element"></qddt-preview-element>
+          </div>
+        </li>
+        <li>
+          <qddt-publication-reuse (selectedEvent)="onElementAdd($event)"></qddt-publication-reuse>
+        </li>
+      </ul>
+    </div>
+    <qddt-rational [formName]="'RationalComp'" *ngIf="!readonly && publication.id" [element]="publication" [config]="{hidden: [3,4]}"></qddt-rational>
+
+    <qddt-element-footer *ngIf="publication.id" [element]="publication"></qddt-element-footer>
+
+    <div class="row right-align">
+      <button *ngIf="!readonly" [disabled]="!hf.form.valid" type="submit" class="btn btn-default">Submit</button>
+    </div>
+
+  </form>
+</div>

@@ -1,0 +1,19 @@
+<div class="autocomplete"
+     [ngClass]="{ noItemFound: notFound(), itemInvalid: invalid() }">
+	<div class="row">
+	  <input type="text" placeholder="{{queryInfo.placeholder()}}"
+        [ngModel]="value"
+		    (blur)="showAutoComplete=false;"
+        (keyup)="enterText($event)"
+		    (focus)="onFocus()" required>
+    <a class="close-icon" (click)="onClearKeywords()" title="clear search" ></a>
+	</div>
+	<ul *ngIf="showAutoComplete && candidates">
+		<li  *ngFor="let candidate of candidates; let idx=index"
+			  [ngClass]="{ active: (idx === selectedIndex) }"
+			  (mouseover)="selectedIndex=idx;"
+        (mousedown)="select(candidate)">
+      {{ getLabel(candidate) }}
+		</li>
+	</ul>
+</div>

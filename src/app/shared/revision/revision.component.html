@@ -1,0 +1,38 @@
+  <div id="scrollRevision" class="scrollspy" *ngIf="revisions" #ref style="overflow-x:auto;">
+    <qddt-diff *ngIf="selectRevisionId >= 0"
+               [current]="current"
+               [compared]="revisions[selectRevisionId].entity"
+               [config]="config"
+               (hideCompareEvent)="onSelectRevision(-1);"
+    >
+    </qddt-diff>
+    <table class="highlight hoverable">
+      <thead>
+      <tr>
+        <th data-field="id" > # </th>
+        <th data-field="id" >Version</th>
+        <th data-field="id" >Compare</th>
+        <th data-field="id" >Timestamp</th>
+        <th data-field="id" >Reason</th>
+        <th data-field="id" >modifiedBy</th>
+        <th data-field="id" >Comment</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let content of revisions; let idx=index">
+        <td (click)="onPreviewRevision(idx)" [ngStyle]="{'cursor': 'zoom-in'}">
+          {{ content?.metadata?.revisionNumber }}
+        </td>
+        <td>{{ content?.entity?.version?.major }}.{{ content?.entity?.version?.minor }} {{ content?.entity?.version?.versionLabel }}</td>
+        <td (click)="onSelectRevision(idx)" [ngStyle]="{'cursor': 'pointer'}">
+          <i class="material-icons">transform</i>
+        </td>
+        <td>{{ content?.metadata?.delegate?.timestamp | date:'dd MM yyyy HH:mm' }}</td>
+        <td>{{ content?.entity?.changeKind }}</td>
+        <td>{{ content?.entity?.modifiedBy?.username }}</td>
+        <td>{{ content?.entity?.changeComment }}</td>
+      </tr>
+      </tbody>
+    </table>
+    <div *ngIf="showProgressBar" class="progress"><div class="indeterminate"></div></div>
+  </div>

@@ -1,0 +1,11 @@
+<div class="row hoverable" *ngIf="sequence">
+  <ul class="control-children">
+    <li *ngFor="let item of sequence">
+
+      <a (click)="onSelectedElement(item.element)" [ngStyle]="{'cursor': 'pointer'}">{{ item?.name }}</a>
+      <qddt-version-label class="right" [element]="item"></qddt-version-label>
+      <qddt-sequence-content *ngIf="item.sequence" [sequence]="item.sequence"></qddt-sequence-content>
+    </li>
+  </ul>
+</div>
+

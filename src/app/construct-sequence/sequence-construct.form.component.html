@@ -1,0 +1,45 @@
+<div *ngIf="sequence">
+  <form  #qcform="ngForm" >
+
+    <div class="row input-field">
+      <input id ="{{formId}}-name" name="{{formId}}-name" type="text" class="validate" required
+        [(ngModel)]="sequence.name" materialize="characterCounter" data-length="255">
+      <label for="{{formId}}-name">Name</label>
+    </div>
+
+    <div class="row input-field">
+      <input id="{{formId}}-label"  name="{{formId}}-label" type="text" class="validate" required
+             [(ngModel)]="sequence.label" materialize="characterCounter" data-length="255">
+      <label for="{{formId}}-label">Label</label>
+    </div>
+
+    <div class="row input-field ">
+      <textarea id="{{formId}}-desc"
+                name="{{formId}}-desc" class="materialize-textarea"
+                [(ngModel)]="sequence.description"
+                materialize="characterCounter" data-length="255">
+      </textarea>
+      <label for="{{formId}}-desc" class="active">Description</label>
+    </div>
+
+    <qddt-collection-revision-search-select
+      [showProgressBar] = "showProgressBar"
+      [kind] = "QUESTION"
+      [showList]="sequence.sequence"
+      [searchList] = "questionConstrucs"
+      [revisionList] = "revisionList"
+      (searchItems)="onSearchElements($event)"
+      (searchRevision)="onRevisonSearch($event)">
+    </qddt-collection-revision-search-select>
+
+    <qddt-rational *ngIf="!readonly && sequence.id" [formName]="'RationalComp'" [element]="sequence" [config]="{hidden: [4]}"></qddt-rational>
+
+    <qddt-element-footer  *ngIf="sequence.id" [element]="sequence"></qddt-element-footer>
+
+    <div class="row right-align">
+      <button *ngIf="!readonly" type="button" class="btn btn-default" [disabled]="!qcform.form.valid"
+              (click)="onSaveConstruct()">Submit</button>
+    </div>
+
+  </form>
+</div>

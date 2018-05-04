@@ -1,0 +1,24 @@
+<div class="row">
+  <div class="card white ">
+    <div class="row teal white-text text-lighten-2 z-depth-1"
+         style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
+      <i class="material-icons large right">{{icon}}</i><h4>{{headerName}}</h4>
+
+      <a class="btn" (click)="onToggleForm()" >
+        <i class="material-icons right" *ngIf="!showForm">keyboard_arrow_down</i>
+        <i class="material-icons right" *ngIf="showForm">keyboard_arrow_up</i> New
+      </a>
+      <ng-content select=".qddt-preselector"></ng-content>
+
+      <div *ngIf="showForm">
+        <div class="row card-action">
+          <div class="col s10 offset-s1 formTeal">
+            <ng-content select=".qddt-edit"></ng-content>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-content select="router-outlet"></ng-content>
+  </div>
+</div>
+

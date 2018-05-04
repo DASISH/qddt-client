@@ -1,0 +1,74 @@
+
+@media only screen and (max-width: 992px) {
+  header,
+  main,
+  footer {
+    padding-left: 1px;
+  }
+}
+
+@media only screen and (min-width: 993px) {
+  header,
+  main,
+  footer {
+    padding-left: 200px;
+  }
+  nav .nav-wrapper {
+    width: calc(100% - 200px);
+  }
+}
+
+.ng-invalid:not(form) {
+  border-bottom: 1px solid red; /* red */
+}
+
+
+p {
+  text-align: justify;
+  text-justify: inter-word;
+  white-space: pre-wrap;
+}
+
+form p {
+  text-align: justify;
+}
+
+
+.side-nav.fixed {
+  width: 200px;
+}
+
+.dropdown-content {
+  background-color: #fff;
+  margin: 0;
+  display: none;
+  min-width: 100px;
+  max-height: 650px;
+  overflow-y: auto;
+  opacity: 0;
+  position: absolute;
+  z-index: 999;
+  will-change: width, height;
+}
+
+.noItemFound { border: thick solid dodgerblue; }
+.itemInvalid { border: thick solid red; }
+
+
+/* .btn-small {
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 50%;
+  position: relative;
+  vertical-align: middle;
+  font-weight: normal;
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+/*.qddtIcon { margin:0px; vertical-align: middle;float: unset; display: unset; position: relative; }
+.collapsible-header {*/
+  /*display: block;*/
+/*}*/
+

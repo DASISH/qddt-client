@@ -1,0 +1,39 @@
+
+
+<ul *ngIf="sequence" materialize="collapsible" class="collapsible popout"
+  data-collapsible="expandable" style="padding: 1pt;" (click)="onOpenBody(sequence)">
+  <li *ngFor="let cqi of sequence;">
+    <div class="collapsible-header grey lighten-5">
+        <div class="col s3">{{ cqi?.elementRef?.elementKind }}</div>
+        <div class="col s7"> [{{ cqi?.elementRef?.name }}]</div>
+        <div class="col s2"><qddt-version-label [element]="cqi?.elementRef"></qddt-version-label></div>
+    </div>
+    <div class="collapsible-body"  style="padding:1rem">
+        <P>Parameters</P>
+        <div *ngFor="let parameter of cqi.parameters">
+          {{parameter.name}}
+        </div>
+        <label>Description</label>
+        <qddt-preview-element *ngIf="!isSequence(cqi.elementRef.elementKind)" [element]= "cqi.elementRef.element" ></qddt-preview-element>
+        <qddt-instrument-sequence *ngIf="isSequence(cqi.elementRef.elementKind)"
+          [sequence] = "cqi.sequences">
+        </qddt-instrument-sequence>
+    </div>
+  </li>
+  <li>
+    <div class="collapsible-header grey lighten-5">
+      <div>Add element </div>
+    </div>
+    <div class="collapsible-body"  style="padding:1rem">
+      <qddt-item-revision-select
+        [kind] = "SEQUENCE"
+        [itemList] = "sequenceList"
+        [revisionList] = "revisionResults"
+        (searchItems)="onItemSearch($event)"
+        (searchRevision)="onRevisonSearch($event)"
+        (revisionSelected)="onRevisionSelect($event)"
+        (dismissEvent) ="onDismiss()">
+      </qddt-item-revision-select>
+    </div>
+  </li>
+</ul>
