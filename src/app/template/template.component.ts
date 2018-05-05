@@ -57,9 +57,9 @@ export class TemplateComponent implements OnChanges, OnDestroy, AfterContentChec
       .takeWhile(() => this.alive)
       .subscribe(event => {
         if (event.action === ActionKind.Filter
-          && (event.id === 'ResponseKind' || event.id === 'publishedstatus' )
-          && this.showForm ) {
-          this.onToggleForm();
+          && (event.id === 'ResponseKind' || event.id === 'publishedstatus' ) ) {
+          if (this.showForm) { this.onToggleForm(); }
+
         }
       });
   }
@@ -69,8 +69,7 @@ export class TemplateComponent implements OnChanges, OnDestroy, AfterContentChec
       try {
         this.refreshCount++;
         Materialize.updateTextFields();
-      } catch (Exception) {
-      }
+      } catch (Exception) { }
     }
   }
 
@@ -91,7 +90,6 @@ export class TemplateComponent implements OnChanges, OnDestroy, AfterContentChec
         const page: IPageSearch =  this.properties.get(this.path);
         this.newItem = Factory.createInstance(this.kind);
         if (page.kind === ElementKind.RESPONSEDOMAIN) {
-          console.log(page.keys.get('ResponseKind'));
           console.log((this.newItem as ResponseDomain).setResponseKind(DomainKind[page.keys.get('ResponseKind')]));
 
         }
