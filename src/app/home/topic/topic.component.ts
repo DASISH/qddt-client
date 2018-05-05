@@ -1,6 +1,6 @@
 import { AfterContentChecked, Component, OnInit } from '@angular/core';
 import { ActivatedRoute,  Router } from '@angular/router';
-import 'rxjs/add/operator/switchMap';
+
 import { HIERARCHY_POSITION, QddtPropertyStoreService } from '../../core/global/property.service';
 import { HomeService } from '../home.service';
 import { QddtMessageService } from '../../core/global/message.service';
@@ -32,6 +32,8 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
 
   public newTopic: Topic;
 
+  private refreshCount = 0;
+
   constructor(private router: Router, private route: ActivatedRoute,
               private topicService: HomeService, private property: QddtPropertyStoreService,
               private message: QddtMessageService ) {
@@ -39,7 +41,12 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
   }
 
   ngAfterContentChecked(): void {
-    Materialize.updateTextFields();
+    if (this.refreshCount < 10) {
+      try {
+        this.refreshCount++;
+        Materialize.updateTextFields();
+      } catch (Exception) {}
+    }
   }
 
   ngOnInit(): void {
@@ -48,7 +55,7 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
     if (!this.topics) {
       this.topicService.getAllTopic(this.study.id)
         .then((result) => {
-          this.topics = result;
+          this.topics = result.sort((a, b) => a.name < b.name ? -1 : 1);
           this.property.set('topics', this.topics);
           this.showReuse = false;
         });
@@ -72,7 +79,7 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
 
   onSelectedRevsion(topic: Topic) {
     this.showReuse = false;
-    this.onTopicSavedEvent(topic);
+    this.onTopicSaved(topic);
   }
 
   onSelectTopic(topic: any) {
@@ -86,13 +93,11 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
     this.router.navigate(['concept']);
   }
 
-  onTopicSavedEvent(topic: any) {
+  onTopicSaved(topic: any) {
     if (topic !== null) {
-      const index = this.topics.findIndex((q) => q.id === topic.id);
-      if (index >= 0) {
-        this.topics.splice(index, 1);
-      }
-      this.topics.push(topic);
+      const topics = this.topics.filter((q) => q.id !== topic.id);
+      topics.push(topic);
+      this.topics = topics.sort( (a, b) => a.name > b.name ? -1 : 1);
       this.property.set('topics', this.topics);
     }
   }
@@ -100,7 +105,7 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
   onNewSave() {
     this.showTopicForm = false;
     this.topicService.createTopic(this.newTopic, this.study.id)
-      .subscribe((result: any) => this.onTopicSavedEvent(result));
+      .subscribe((result: any) => this.onTopicSaved(result));
     this.newTopic  = new Topic();
   }
 
@@ -122,12 +127,12 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
 
   onAddQuestionItem(ref: IRevisionRef, topicId: any) {
     this.topicService.attachTopicQuestion(topicId, ref.elementId, ref.elementRevision)
-      .subscribe((result: any) => this.onTopicSavedEvent(result));
+      .subscribe((result: any) => this.onTopicSaved(result));
   }
 
   onRemoveQuestionItem(ref: IRevisionRef, topicId: any) {
       this.topicService.deattachTopicQuestion(topicId , ref.elementId, ref.elementRevision)
-      .subscribe((result: any) => this.onTopicSavedEvent(result));
+      .subscribe((result: any) => this.onTopicSaved(result));
   }
 
   onRemoveTopic(topicId: string) {

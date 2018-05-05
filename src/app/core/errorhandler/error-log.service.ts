@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { UserService } from '../user/user.service';
+import { throwError } from 'rxjs';
 
 declare var Materialize: any;
 
@@ -53,7 +53,6 @@ export class ErrorLogService {
         Materialize.toast(`Error code ${error.status}, <br> ${error.error.exceptionMessage}`, 7000);
       }
     }
-    // return an ErrorObservable with a user-facing error message
-    return new ErrorObservable('Something bad happened; please try again later.');
+    throwError('Something bad happened; please try again later.');
   }
 }

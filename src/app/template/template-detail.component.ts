@@ -1,4 +1,6 @@
-import {Component, EventEmitter, OnInit, Output, OnChanges, SimpleChanges, OnDestroy, AfterContentChecked} from '@angular/core';
+
+import { Component, EventEmitter, OnInit, Output, OnChanges, SimpleChanges, OnDestroy, AfterContentChecked} from '@angular/core';
+import { takeWhile } from 'rxjs/operators';
 import { TemplateService } from './template.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MaterializeAction } from 'angular2-materialize';
@@ -33,8 +35,8 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterContentC
   private refreshCount = 0;
 
   constructor(private service: TemplateService, private router: Router, private route: ActivatedRoute) {
-    this.route.url
-      .takeWhile(() => this.alive)
+    this.route.url.pipe(
+      takeWhile(() => this.alive))
       .subscribe((event) => {
         const path = event[0].path;
         this.kind = HEADER_DETAILS.get(path).kind;

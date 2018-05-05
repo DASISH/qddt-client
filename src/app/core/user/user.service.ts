@@ -1,8 +1,9 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable ,  BehaviorSubject } from 'rxjs';
 import { API_BASE_HREF } from '../../api';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { User } from './user';
 
 export const TOKEN_NAME = 'jwt_token';
@@ -54,8 +55,8 @@ export class UserService {
       password: password
     };
 
-    return this.http.post<any>(this.api + UserService.SIGNIN_URL, requestParam)
-      .map(response => {
+    return this.http.post<any>(this.api + UserService.SIGNIN_URL, requestParam).pipe(
+      map(response => {
         if (response && response.token) {
           this.setToken(response.token);
           this.setUserData(response);
@@ -63,7 +64,7 @@ export class UserService {
           console.log('login incomplete....');
         }
         return response;
-      });
+      }));
   }
 
   public registerUser(userdata: any): Observable<any> {

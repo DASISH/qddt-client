@@ -47,8 +47,8 @@ export class ConceptComponent implements OnInit, AfterContentChecked {
     this.concepts = this.property.get('concepts');
     if (!this.concepts) {
       this.showProgressBar = true;
-      this.conceptService.getByTopic(this.parentId).then((result: any) => {
-        this.concepts = result.content;
+      this.conceptService.getByTopic(this.parentId).then((result) => {
+        this.concepts = result.content.sort((a, b) => a.name > b.name ? 1 : -1);
         this.property.set('concepts', this.concepts);
         this.showProgressBar = false;
       });
@@ -82,6 +82,7 @@ export class ConceptComponent implements OnInit, AfterContentChecked {
   onConceptUpdated(concept: any) {
     if (!this.updateConcept(this.concepts, concept)) {
       this.concepts.push(concept);
+      this.concepts = this.concepts.sort((a, b) => a.name > b.name ? 1 : -1);
     }
     this.property.set('concepts', this.concepts);
     this.showProgressBar = false;

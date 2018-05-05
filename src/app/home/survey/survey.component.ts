@@ -45,8 +45,9 @@ export class SurveyComponent implements OnInit {
 
   onSurveySaved(surveyProgram: any) {
     if (surveyProgram !== null) {
-      this.surveyList = this.surveyList.filter((q) => q.id !== surveyProgram.id);
-      this.surveyList.push(surveyProgram);
+      const list = this.surveyList.filter((q) => q.id !== surveyProgram.id);
+      list.push(surveyProgram);
+      this.surveyList = list.sort( (a, b) => a.name > b.name ? -1 : 1);
       this.property.set('surveyList', this.surveyList);
     }
   }

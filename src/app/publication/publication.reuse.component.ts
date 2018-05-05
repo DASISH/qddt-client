@@ -1,6 +1,8 @@
+
+import {distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { PublicationService } from './publication.service';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import {ElementRevisionRef, Page, QueryInfo} from '../shared/classes/classes';
 import { ElementKind } from '../shared/classes/enums';
 import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
@@ -40,9 +42,9 @@ export class PublicationReuseComponent  {
 
   constructor(private templateService: TemplateService) {
     this.selectedElementKind = ElementKind.TOPIC_GROUP;
-    this.searchKeysListener
-      .debounceTime(300)
-      .distinctUntilChanged()
+    this.searchKeysListener.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),)
       .subscribe((name: string) => this.loadPage(name));
   }
 

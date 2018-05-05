@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 import { PreviewResponsedomainComponent } from './preview.responsedomain.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { MaterializeModule } from 'angular2-materialize';
 
 export function main() {

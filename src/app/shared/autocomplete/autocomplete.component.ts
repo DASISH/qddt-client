@@ -1,3 +1,5 @@
+
+import {distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnDestroy} from '@angular/core';
 import { IElement, IEntityAudit} from '../classes/interfaces';
 import { QueryInfo } from '../classes/classes';
@@ -5,7 +7,7 @@ import { ElementKind } from '../classes/enums';
 import { ElementEnumAware } from '../../preview/preview.service';
 import { getElementKind, QDDT_QUERY_INFOES} from '../classes/constants';
 import {Factory} from '../classes/factory';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'qddt-auto-complete',
@@ -40,9 +42,9 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
   private searchKeysChange: Subject<string> = new Subject<string>();
 
   constructor() {
-    this.searchKeysChange
-      .debounceTime(300)
-      .distinctUntilChanged()
+    this.searchKeysChange.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),)
       .subscribe((name: string) => {
         this.waitingForChange = true;
         this.enterEvent.emit(name);

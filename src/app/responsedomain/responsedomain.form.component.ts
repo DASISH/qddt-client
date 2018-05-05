@@ -1,3 +1,5 @@
+
+import {takeWhile} from 'rxjs/operators';
 import {
   Component,
   Input,
@@ -107,8 +109,8 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy {
     this.responsedomain.label = this.responsedomain.name;
     const managed = this.responsedomain.managedRepresentation;
     managed.name = this.responsedomain.label;
-    this.service.update(managed)
-      .takeWhile(() => this.ok )
+    this.service.update(managed).pipe(
+      takeWhile(() => this.ok ))
       .subscribe((result: Category) => {
         this.responsedomain.managedRepresentation = result;
         this.service.update(this.responsedomain).subscribe(

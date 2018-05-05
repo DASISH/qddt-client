@@ -65,7 +65,7 @@
               </div>
 
               <qddt-study-edit [isVisible]="edit.isVisible" [study]="study" [surveyId]="survey.id" #edit
-                (savedEvent)="onStudySavedEvent($event)">
+                (savedEvent)="onStudySaved($event)">
               </qddt-study-edit>
 
               <qddt-revision *ngIf = "edit.showRevision" [current]="study" ></qddt-revision>

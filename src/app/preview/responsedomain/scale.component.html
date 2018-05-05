@@ -1,4 +1,4 @@
-<div *ngIf="responseDomain" class="row" >
+<div *ngIf="managedRepresentation" class="row" >
 <!--{{ min }}{{ max }}-->
   <table *ngIf="displayLayout === 0">
     <thead>
@@ -14,15 +14,15 @@
     <tr *ngFor="let row of rows; let idx=index">
       <td *ngFor="let option of columns" style="text-align: center">
               <span>
-                <input name="{{responseDomain.id}}-group-{{idx}}" type="radio" id="{{responseDomain.id}}-option-{{option.value}}-{{idx}}" />
-                <label [attr.for]="responseDomain.id + '-option-' + option.value +'-'+ idx">{{ option?.value }}</label>
+                <input name="{{managedRepresentation.id}}-group-{{idx}}" type="radio" id="{{managedRepresentation.id}}-option-{{option.value}}-{{idx}}" />
+                <label [attr.for]="managedRepresentation.id + '-option-' + option.value +'-'+ idx">{{ option?.value }}</label>
               </span>
       </td>
     </tr>
     </tbody>
   </table>
 
-  <div *ngIf="max - min > 15" class="range-field">
+  <div *ngIf="displayLayout === 0 && max - min > 15" class="range-field">
     <input type="range" id="test5"
            min={{min}}
            max={{max}}/>
@@ -32,8 +32,8 @@
       <tr *ngFor="let option of rows; let idx=index">
         <td>
                 <span>
-                  <input name="{{responseDomain.id}}-group1" type="radio" id="{{responseDomain.id}}option1{{option.value}}" />
-                  <label [attr.for]="responseDomain.id + 'option' + option.value">{{ option?.label }}</label>
+                  <input name="{{managedRepresentation.id}}-group1" type="radio" id="{{managedRepresentation.id}}option1{{option.value}}" />
+                  <label [attr.for]="managedRepresentation.id + 'option' + option.value">{{ option?.label }}</label>
                 </span>
         </td>
         <td>

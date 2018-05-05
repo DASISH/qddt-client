@@ -1,12 +1,13 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { ResponseDomain } from '../../responsedomain/responsedomain.classes';
+import { Category } from '../../category/category.classes';
 
 @Component({
   selector: 'qddt-preview-rd-text',
   moduleId: module.id,
   template: `
-    <div class="row" *ngIf="responseDomain">
-       <textarea id="{{responseDomain?.id}}-textarea"
+    <div class="row" *ngIf="managedRepresentation">
+       <textarea id="{{managedRepresentation?.id}}-textarea"
                  [attr.data-length]=high
                  [attr.maxlength]=high
          class="materialize-textarea"  materialize="characterCounter" validate></textarea>
@@ -16,26 +17,18 @@ import { ResponseDomain } from '../../responsedomain/responsedomain.classes';
 })
 
 export class ResponsedomainTextComponent implements OnChanges {
-  @Input() responseDomain: ResponseDomain;
+  @Input() managedRepresentation: Category;
   low = 0;
   high = 20;
 
   ngOnChanges() {
-    const rep = this.responseDomain.managedRepresentation;
+    const rep = this.managedRepresentation;
     if (rep) {
       if (rep.inputLimit.maximum) {
-        if (typeof rep.inputLimit.maximum === 'string') {
-          this.high = parseInt(rep.inputLimit.maximum);
-        } else {
-          this.high = rep.inputLimit.maximum;
-        }
+          this.high = +rep.inputLimit.maximum;
       }
       if (rep.inputLimit.minimum) {
-        if (typeof rep.inputLimit.minimum === 'string') {
-          this.low = parseInt(rep.inputLimit.minimum);
-        } else {
-          this.low = rep.inputLimit.minimum;
-        }
+          this.low = +rep.inputLimit.minimum;
       }
     }
   }

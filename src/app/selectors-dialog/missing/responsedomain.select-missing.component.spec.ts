@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
 import { ResponsedomainSelectMissingComponent } from './responsedomain.select-missing.component';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 export function main() {
   describe('Question edit missing component', () => {

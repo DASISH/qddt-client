@@ -29,51 +29,44 @@ class Column {
 
 
 export class ResponsedomainScaleComponent implements OnChanges {
-  @Input() responseDomain: ResponseDomain;
+  @Input() managedRepresentation: Category;
+  @Input() displayLayout = 0;
   @Input() numOfRows = 1;
   private headers: ScaleHead[];
   private columns: Column[];
   private rows: any;
   private max = 5;
   private min = 1;
-  private displayLayout = 0;
 
   ngOnChanges() {
-    const rep = this.responseDomain.managedRepresentation;
-    this.columns = [];
-    this.headers = [];
-    this.rows = new Array(this.numOfRows).fill(1);
-    if (rep.inputLimit) {
-      this.max = parseInt(rep.inputLimit.maximum.toString());
-      this.min = parseInt(rep.inputLimit.minimum.toString());
-    }
-    this.displayLayout = parseInt(this.responseDomain.displayLayout);
+    if (this.managedRepresentation) {
+      console.log('ResponsedomainScaleComponent ngOnChanges doing');
+      const rep = this.managedRepresentation;
+      this.columns = [];
+      this.headers = [];
+      this.rows = new Array(this.numOfRows).fill(1);
 
-    if (this.displayLayout > 0) {
-      this.buildVerticalColumns();
-    } else {
-      this.buildHorizontalColumns();
+      if (rep.inputLimit) {
+        this.max = +rep.inputLimit.maximum;
+        this.min = +rep.inputLimit.minimum;
+      }
+
+      if (this.displayLayout > 0) {
+        this.buildVerticalColumns();
+      } else {
+        this.buildHorizontalColumns();
+      }
     }
+    console.log('ResponsedomainScaleComponent ngOnChanges done');
   }
 
-  rotate() {
-    if (this.displayLayout === 0) {
-      this.displayLayout = 90;
-      this.responseDomain.displayLayout = '90';
-      this.buildVerticalColumns();
-    } else {
-      this.displayLayout = 0;
-      this.responseDomain.displayLayout = '0';
-      this.buildHorizontalColumns();
-    }
-  }
 
   private buildHorizontalColumns() {
     this.columns = [];
     this.headers = [];
 
     let usedCols = 0;
-    const rep = this.responseDomain.managedRepresentation;
+    const rep = this.managedRepresentation;
 
     if (!rep) { return; }
 
@@ -83,6 +76,7 @@ export class ResponsedomainScaleComponent implements OnChanges {
       }
       return category.code.alignment;
     }
+
     function minDistance(c: Category[]): number {
       if (!c || c.length < 2) { return 0; }
       let minDiff = parseInt(c[1].code.codeValue) - parseInt(c[0].code.codeValue);
@@ -145,7 +139,7 @@ export class ResponsedomainScaleComponent implements OnChanges {
     this.rows = [];
     this.headers = [];
     let categories: any[] = [];
-    const rep = this.responseDomain.managedRepresentation;
+    const rep = this.managedRepresentation;
     if (rep !== undefined && rep.children !== undefined) {
       categories = rep.children;
     }

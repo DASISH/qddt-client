@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ResponseDomain, DomainKind } from '../../responsedomain/responsedomain.classes';
+import { Category, ResponseCardinality } from '../../category/category.classes';
 
 @Component({
   selector: 'qddt-preview-responsedomain',
@@ -8,26 +9,27 @@ import { ResponseDomain, DomainKind } from '../../responsedomain/responsedomain.
            ' .td { padding: 0px;}'
   ],
   template: `
-    <div *ngIf="domainType" class="card-panel grey lighten-5 black-text"
-         style="padding-left:3%; padding-right:5%; margin: 1%">
-    <label *ngIf="domainType !== domainTypeDef.MIXED"
-      class="active teal-text">{{ responseDomain?.name }}
-      (V<qddt-version [element]="responseDomain"></qddt-version>)</label>
-    <div [ngSwitch]="domainType">
-      <qddt-preview-rd-scale *ngSwitchCase="domainTypeDef.SCALE"
-        [responseDomain]="responseDomain"></qddt-preview-rd-scale>
-      <qddt-preview-rd-datetime *ngSwitchCase="domainTypeDef.DATETIME"
-        [responseDomain]="responseDomain"></qddt-preview-rd-datetime>
-      <qddt-preview-rd-numeric *ngSwitchCase="domainTypeDef.NUMERIC"
-        [responseDomain]="responseDomain"></qddt-preview-rd-numeric>
-      <qddt-preview-rd-codelist *ngSwitchCase="domainTypeDef.LIST"
-        [responseDomain]="responseDomain"></qddt-preview-rd-codelist>
-      <qddt-preview-rd-text *ngSwitchCase="domainTypeDef.TEXT"
-        [responseDomain]="responseDomain"></qddt-preview-rd-text>
-      <!--<qddt-preview-rd-missing *ngSwitchCase="domainTypeDef.MISSING"-->
-        <!--[responseDomain]="responseDomain"></qddt-preview-rd-missing>-->
-      <qddt-preview-rd-mixed *ngSwitchCase="domainTypeDef.MIXED"
-        [responseDomain]="responseDomain"></qddt-preview-rd-mixed>
+    <div *ngIf="responseType" class="card-panel grey lighten-5 black-text" style="padding-left:3%; padding-right:5%; margin: 1%">
+    <label *ngIf="responseType !== refKind.MIXED" class="active teal-text">
+      {{ responseDomain?.name }}(V<qddt-version [element]="rep"></qddt-version>)
+    </label>
+    <div [ngSwitch]="responseType">
+    <qddt-preview-rd-mixed *ngSwitchCase="refKind.MIXED"
+        [managedRepresentation]="rep"
+        [displayLayout]="displayLayout"
+        [responseCardinality]="cardinality">
+    </qddt-preview-rd-mixed>
+    <qddt-preview-rd-scale *ngSwitchCase="refKind.SCALE"
+          [managedRepresentation]="rep"
+          [displayLayout]="displayLayout">
+      </qddt-preview-rd-scale>
+      <qddt-preview-rd-codelist *ngSwitchCase="refKind.LIST"
+          [managedRepresentation]="rep"
+          [responseCardinality]="cardinality">
+      </qddt-preview-rd-codelist>
+      <qddt-preview-rd-datetime *ngSwitchCase="refKind.DATETIME" [managedRepresentation]="rep"></qddt-preview-rd-datetime>
+      <qddt-preview-rd-numeric *ngSwitchCase="refKind.NUMERIC" [managedRepresentation]="rep"></qddt-preview-rd-numeric>
+      <qddt-preview-rd-text *ngSwitchCase="refKind.TEXT" [managedRepresentation]="rep"></qddt-preview-rd-text>
     </div>
   </div>`,
   providers: [],
@@ -35,12 +37,19 @@ import { ResponseDomain, DomainKind } from '../../responsedomain/responsedomain.
 
 export class PreviewResponsedomainComponent implements OnChanges {
   @Input() responseDomain: ResponseDomain;
-  public domainTypeDef = DomainKind;
-  public domainType: DomainKind;
+
+  public refKind = DomainKind;
+  public responseType: DomainKind;
+  public cardinality: ResponseCardinality;
+  public displayLayout: number;
+  public rep: Category;
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.responseDomain) {
-      this.domainType = DomainKind[this.responseDomain.responseKind];
+      this.responseType = DomainKind[this.responseDomain.responseKind];
+      this.rep = new Category( this.responseDomain.managedRepresentation);
+      this.cardinality = new ResponseCardinality(this.responseDomain.responseCardinality);
+      this.displayLayout = +this.responseDomain.displayLayout;
     }
   }
 }
