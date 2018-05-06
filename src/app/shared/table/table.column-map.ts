@@ -5,7 +5,7 @@ import { ElementKind } from '../classes/enums';
 export const DEFAULT_COLUMNS = [
   new Column({ name: 'modified',  label: 'Modified', sortable: true, direction: 'desc' }),
   new Column({ name: 'version',  label: 'Version' }),
-  new Column({ name: ['agency', 'name'],  label: 'Agency' })
+  new Column({ name: ['modifiedBy', 'agencyUserName'],  label: 'User@Agency' })
 ];
 
 const  QUESTION_CONSTRUCT_COLUMNS = [
