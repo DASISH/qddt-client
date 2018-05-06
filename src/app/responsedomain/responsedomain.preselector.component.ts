@@ -19,7 +19,7 @@ import { Page } from '../shared/classes/classes';
     </div>
   </div>
 </div>` ,
-providers: []
+styles: ['.row { margin-bottom: auto; }']
 })
 export class ResponsePreSelector implements OnChanges, OnInit {
 

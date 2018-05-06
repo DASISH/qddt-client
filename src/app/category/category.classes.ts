@@ -1,4 +1,4 @@
-import { IEntityEditAudit } from '../shared/classes/interfaces';
+import { IEntityEditAudit, IVersion } from '../shared/classes/interfaces';
 import { ElementKind } from '../shared/classes/enums';
 import { Page } from '../shared/classes/classes';
 import { ParseErrorLevel } from '@angular/compiler';
@@ -68,6 +68,8 @@ export class Category implements IEntityEditAudit {
   comments?: any[];
   code?: Code;
   format?: any;
+  changeKind?: string;
+  version?: IVersion;
   public constructor(init?: Partial<Category>) {
     Object.assign(this, init);
     if (this.name && !this.label) {

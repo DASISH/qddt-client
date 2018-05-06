@@ -109,6 +109,8 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy {
     this.responsedomain.label = this.responsedomain.name;
     const managed = this.responsedomain.managedRepresentation;
     managed.name = this.responsedomain.label;
+    managed.changeKind = this.responsedomain.changeKind;
+    managed.version = this.responsedomain.version;
     this.service.update(managed).pipe(
       takeWhile(() => this.ok ))
       .subscribe((result: Category) => {
