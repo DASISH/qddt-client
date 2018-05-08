@@ -1,15 +1,15 @@
 import { Component, ViewChild } from '@angular/core';
 
 @Component({
-  selector: 'qddt-register',
+  selector: 'qddt-user',
   moduleId: module.id,
-  templateUrl: './register.component.html'
+  templateUrl: './user.component.html'
 })
-export class RegisterComponent  {
+export class UserComponent  {
   @ViewChild('detail') templateDetail;
 
 
-  public onFormModified() {
+  public onFormModified(event) {
     this.templateDetail.onToggleForm();
   }
 }

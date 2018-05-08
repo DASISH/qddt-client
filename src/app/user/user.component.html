@@ -1,9 +1,9 @@
 <qddt-template-component #detail>
 
-  <qddt-register-form class="qddt-edit"
+  <qddt-user-form class="qddt-edit"
     [user] = "templateDetail.newItem"
-    (modifiedEvent) = "onFormModified()">
-  </qddt-register-form>
+    (modifiedEvent) = "onFormModified($event)">
+  </qddt-user-form>
 
   <router-outlet></router-outlet>
 

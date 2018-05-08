@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { API_BASE_HREF } from '../api';
 import { Observable } from 'rxjs';
 import { UserService } from '../core/user/user.service';
-import { Authority } from '../core/user/authority';
+import { AuthorityKind } from '../core/user/authority';
 import { Page } from '../shared/classes/classes';
 import { ActionKind, ElementKind} from '../shared/classes/enums';
 import { QDDT_QUERY_INFOES} from '../shared/classes/constants';
@@ -15,7 +15,7 @@ export class TemplateService {
   private roles = 0;
 
   constructor(protected http: HttpClient, private userService: UserService, @Inject(API_BASE_HREF) protected api: string) {
-    userService.getRoles().forEach((role) => this.roles += +Authority[role]);
+    userService.getRoles().forEach((role) => this.roles += +AuthorityKind[role]);
   }
 
   public searchByUuid(id: string): Promise<any> {
@@ -136,7 +136,7 @@ export class TemplateService {
   public can(action: ActionKind, kind: ElementKind): boolean {
 
     function canRead(roles: number) {
-      if (roles >= +Authority.ROLE_VIEW) {
+      if (roles >= +AuthorityKind.ROLE_VIEW) {
         return true;
       } else {
         return (kind === ElementKind.PUBLICATION);
@@ -144,9 +144,11 @@ export class TemplateService {
     }
 
     function canUpdate(roles: number) {
-      if (roles >= +Authority.ROLE_EDITOR) {
+      if (kind === ElementKind.USER && roles < AuthorityKind.ROLE_ADMIN ) {
+        return false;
+      } else if (roles >= +AuthorityKind.ROLE_EDITOR) {
         return true;
-      } else if (roles >= +Authority.ROLE_CONCEPT) {
+      } else if (roles >= +AuthorityKind.ROLE_CONCEPT) {
           return (kind === ElementKind.TOPIC_GROUP || kind ===  ElementKind.CONCEPT);
       } else {
         return false;
@@ -154,9 +156,9 @@ export class TemplateService {
     }
 
     function canDelete(roles: number) {
-      if (roles >= +Authority.ROLE_ADMIN) {
+      if (roles >= +AuthorityKind.ROLE_ADMIN) {
         return true;
-      } else if (roles >= +Authority.ROLE_EDITOR ) {
+      } else if (roles >= +AuthorityKind.ROLE_EDITOR ) {
         return ( kind !== ElementKind.SURVEY_PROGRAM && kind !== ElementKind.STUDY );
       } else {
         return false;

@@ -59,7 +59,7 @@ export class Category implements IEntityEditAudit {
   id: string;
   name = '';
   label = '';
-  description =  CATEGORY_INFO[CategoryKind.CATEGORY].description;
+  description = '';
   hierarchyLevel = HierachyLevel[CATEGORY_INFO[CategoryKind.CATEGORY].level];
   categoryType = CategoryKind[CategoryKind.CATEGORY];
   classKind = ElementKind[ElementKind.CATEGORY];

@@ -1,15 +1,15 @@
 import { Component, ViewChild } from '@angular/core';
 
 @Component({
-  selector: 'qddt-register-detail',
+  selector: 'qddt-user-detail',
   moduleId: module.id,
-  templateUrl: './register.detail.component.html',
+  templateUrl: './user.detail.component.html',
 })
 
-export class RegisterDetailComponent {
+export class UserDetailComponent {
   @ViewChild('detail') templateDetail;
 
-  public onFormModified() {
+  public onFormModified(event) {
     this.templateDetail.onHideDetail();
   }
 }

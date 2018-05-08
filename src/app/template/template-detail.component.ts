@@ -61,7 +61,7 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterContentC
   }
 
   ngAfterContentChecked(): void {
-    if (this.refreshCount < 10) {
+    if (this.refreshCount < 15) {
       try {
         this.refreshCount++;
         Materialize.updateTextFields();
