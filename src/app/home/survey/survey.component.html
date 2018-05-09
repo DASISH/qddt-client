@@ -4,7 +4,7 @@
     <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
       <i class="material-icons medium right">assignment</i><h4>Survey</h4>
 
-      <a class="btn" (click)="showSurveyForm = !showSurveyForm">
+      <a *ngIf="!readonly" class="btn" (click)="showSurveyForm = !showSurveyForm">
         <i class="material-icons right" *ngIf="!showSurveyForm">keyboard_arrow_down</i>
         <i class="material-icons right" *ngIf="showSurveyForm">keyboard_arrow_up</i>
         New</a>
@@ -40,7 +40,7 @@
           <div class="col s1 m1 l1">
             <br />
             <div class="row">
-              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" *ngIf="!surveyProgram.archived" (click)="edit.isVisible = !edit.isVisible">
+              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" *ngIf="!surveyProgram.archived && !readonly" (click)="edit.isVisible = !edit.isVisible; refreshCount=0">
                 <i class="material-icons"title="Edit element">mode_edit</i></a>
               <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="edit.showRevision = !edit.showRevision">
                 <i class="material-icons left medium" title="Revision history">history</i></a>

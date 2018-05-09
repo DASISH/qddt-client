@@ -40,7 +40,7 @@ export class ResponsedomainScaleComponent implements OnChanges {
 
   ngOnChanges() {
     if (this.managedRepresentation) {
-      console.log('ResponsedomainScaleComponent ngOnChanges doing');
+      // console.log('ResponsedomainScaleComponent ngOnChanges doing');
       const rep = this.managedRepresentation;
       this.columns = [];
       this.headers = [];
@@ -57,7 +57,7 @@ export class ResponsedomainScaleComponent implements OnChanges {
         this.buildHorizontalColumns();
       }
     }
-    console.log('ResponsedomainScaleComponent ngOnChanges done');
+    // console.log('ResponsedomainScaleComponent ngOnChanges done');
   }
 
 

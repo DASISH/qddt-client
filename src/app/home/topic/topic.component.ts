@@ -4,9 +4,10 @@ import { ActivatedRoute,  Router } from '@angular/router';
 import { HIERARCHY_POSITION, QddtPropertyStoreService } from '../../core/global/property.service';
 import { HomeService } from '../home.service';
 import { QddtMessageService } from '../../core/global/message.service';
-import { ElementKind } from '../../shared/classes/enums';
+import { ElementKind, ActionKind } from '../../shared/classes/enums';
 import { Study, Topic } from '../home.classes';
 import {IRevisionRef, IOtherMaterial} from '../../shared/classes/interfaces';
+import { TemplateService } from '../../template/template.service';
 
 const filesaver = require('file-saver');
 declare var Materialize: any;
@@ -22,21 +23,24 @@ declare var Materialize: any;
 })
 
 export class TopicComponent implements  OnInit, AfterContentChecked {
-
   public readonly TOPIC_KIND = ElementKind.TOPIC_GROUP;
 
   public study: Study;
   public topics: Topic[];
+  public newTopic: Topic;
+
   public showReuse = false;
   public showTopicForm = false;
-
-  public newTopic: Topic;
+  public readonly: boolean;
+  public canDelete: boolean;
 
   private refreshCount = 0;
 
   constructor(private router: Router, private route: ActivatedRoute,
-              private topicService: HomeService, private property: QddtPropertyStoreService,
-              private message: QddtMessageService ) {
+              private property: QddtPropertyStoreService, private message: QddtMessageService,
+              private topicService: HomeService, private service: TemplateService ) {
+    this.readonly = !service.can(ActionKind.Create, ElementKind.TOPIC_GROUP );
+    this.canDelete = service.can(ActionKind.Delete, ElementKind.TOPIC_GROUP );
     this.newTopic = new Topic();
   }
 

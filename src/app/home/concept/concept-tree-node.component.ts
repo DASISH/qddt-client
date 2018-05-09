@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter } from '@angular/core';
+import {Component, Input, Output, EventEmitter, AfterContentChecked } from '@angular/core';
 import { QuestionItem } from '../../question/question.classes';
 import { QddtMessageService } from '../../core/global/message.service';
 import {ElementKind} from '../../shared/classes/enums';
@@ -7,6 +7,7 @@ import {Concept} from '../home.classes';
 import {IRevisionRef} from '../../shared/classes/interfaces';
 
 const filesaver = require('file-saver');
+declare var Materialize: any;
 
 @Component({
   selector: 'qddt-concept-treenode',
@@ -16,7 +17,7 @@ const filesaver = require('file-saver');
   styleUrls: ['./concept-tree-node.component.css']
 })
 
-export class TreeNodeComponent  {
+export class TreeNodeComponent implements AfterContentChecked {
   @Input() concept: any;
   @Input() readonly = false;
   @Output() deleteEvent =  new EventEmitter();
@@ -24,15 +25,26 @@ export class TreeNodeComponent  {
 
   public showConceptChildForm = false;
   public showbutton = false;
+  refreshCount = 0;
   private newchild: any;
 
   constructor(private conceptService: HomeService, private message: QddtMessageService) {
     this.newchild = new Concept();
   }
 
+  ngAfterContentChecked(): void {
+    if (this.refreshCount < 10) {
+      try {
+        this.refreshCount++;
+        Materialize.updateTextFields();
+      } catch (Exception) {}
+    }
+  }
+
   onToggleEdit(edit) {
     edit.isVisible = !edit.isVisible;
     if (edit.isVisible) {
+      this.refreshCount = 0;
       this.conceptService.getConcept(this.concept.id).then(
         (result) => {
           this.concept = result;

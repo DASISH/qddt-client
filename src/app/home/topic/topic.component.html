@@ -3,11 +3,11 @@
     <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
       <i class="material-icons large right">comment</i><h4>Questionnaire modules for {{ study?.name }}</h4>
 
-      <a class="btn" (click)="onToggleTopicForm()" *ngIf="!study.archived" >
+      <a class="btn" (click)="onToggleTopicForm()" *ngIf="!study.archived && !readonly" >
       <i class="material-icons right" *ngIf="!showTopicForm">keyboard_arrow_down</i>
       <i class="material-icons right" *ngIf="showTopicForm">keyboard_arrow_up</i>
       New</a>
-      <a class="btn" (click)="onToggleReuse()" *ngIf="!study.archived">
+      <a class="btn" (click)="onToggleReuse()" *ngIf="!study.archived && !readonly">
         <i class="material-icons right" *ngIf="!showReuse">keyboard_arrow_down</i>
         <i class="material-icons right" *ngIf="showReuse">keyboard_arrow_up</i>
         reuse</a>
@@ -49,19 +49,19 @@
           <div class="col s1 m1 l1">
             <br/>
             <div class="row">
-              <a *ngIf="!currentElement.archived" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+              <a *ngIf="!currentElement.archived && !readonly" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                   (click)="edit.isVisible = !edit.isVisible; refreshCount = 0"><i class="material-icons" title="Edit Concept">mode_edit</i></a>
               <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                   (click)="edit.showRevision = !edit.showRevision"><i class="material-icons left medium" title="Revision history">history</i></a>
               <qddt-questionitem-reuse
-                *ngIf="!currentElement.archived"
+                *ngIf="!currentElement.archived && !readonly"
                 [parentId]="currentElement?.id"
                 (createdEvent)="onAddQuestionItem($event,currentElement?.id)">
               </qddt-questionitem-reuse>
               <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
                 <i class="material-icons" (click)="onGetPdf(currentElement)" title="Get as Pdf">picture_as_pdf</i></a>
               <qddt-confirm-delete
-                *ngIf="!currentElement.archived"
+                *ngIf="!currentElement.archived  && canDelete"
                 [element]="currentElement"
                 (confirmAction)="onRemoveTopic($event)">
               </qddt-confirm-delete>
