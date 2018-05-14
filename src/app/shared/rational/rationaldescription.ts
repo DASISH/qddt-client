@@ -16,7 +16,7 @@ export class RationalDescription {
 export const RATIONAL_DESCRIPTIONS = [
   new RationalDescription({ id: 0, name: 'Saved as work in progress', change: 'IN_DEVELOPMENT', showComment: true}),
   new RationalDescription({ id: 1, name: 'Saved as version', showComment: true, children: [
-    new RationalDescription(  { id: 0, name: 'TypoOrNoMeaningChange', change: 'TYPO',
+    new RationalDescription({ id: 0, name: 'TypoOrNoMeaningChange', change: 'TYPO',
       description: 'Minor changes such as changes in punctuation, '
       + 'spacing, capitalization or spelling, and other typographical '
       + 'and orthographical changes that do not change the meaning.'}),

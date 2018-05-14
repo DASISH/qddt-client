@@ -4,7 +4,7 @@
          style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
       <i class="material-icons large right">{{icon}}</i><h4>{{headerName}}</h4>
 
-      <a class="btn" (click)="onToggleForm()" >
+      <a *ngIf="canWrite()" class="btn" (click)="onToggleForm()" >
         <i class="material-icons right" *ngIf="!showForm">keyboard_arrow_down</i>
         <i class="material-icons right" *ngIf="showForm">keyboard_arrow_up</i> New
       </a>

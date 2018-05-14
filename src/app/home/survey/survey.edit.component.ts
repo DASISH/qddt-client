@@ -2,7 +2,6 @@ import { Component, Input, Output, EventEmitter, AfterContentChecked } from '@an
 import { HomeService } from '../home.service';
 import {SurveyProgram} from '../home.classes';
 
-declare var Materialize: any;
 
 @Component({
   selector: 'qddt-survey-edit',
@@ -11,25 +10,19 @@ declare var Materialize: any;
   <div *ngIf="isVisible">
     <div *ngIf="survey" id="{{survey.id}}"  >
       <form materialize (ngSubmit)="onSave()" #surveyForm="ngForm">
-        <div class="row">
-          <div class="col s12 input-field">
-            <label [attr.for]="survey.id + '-name'" class="teal-text">Name</label>
-            <input id="{{survey?.id}}-name"
-              name="{{survey?.id}}-name"
-              type="text" [(ngModel)]="survey.name" required>
-          </div>
+        <div class="row input-field">
+            <input id="{{survey?.id}}-name" name="{{survey?.id}}-name" type="text" [(ngModel)]="survey.name" required>
+              <label for="{{survey?.id}}-name" >Name</label>
         </div>
-        <div class="row">
-          <div class="col s12" input-field>
-            <label [attr.for]="survey.id + '-description'" class=" teal-text">Description</label>
+        <div class="row input-field">
             <textarea id="{{survey?.id}}-description" name="{{survey?.id}}-description"
               class="materialize-textarea"  [(ngModel)]="survey.description" required autosize></textarea>
-          </div>
+            <label for="{{survey?.id}}-description">Description</label>
         </div>
+
         <qddt-rational [formName]="'RationalComp'" [element]="survey" [config]="{hidden: [2,3]}"></qddt-rational>
 
         <qddt-element-footer [element]="survey"> </qddt-element-footer>
-
 
         <div class="row right-align">
           <button type="submit" class="btn btn-default" [disabled]="!surveyForm.form.valid" >Submit</button>
@@ -41,19 +34,18 @@ declare var Materialize: any;
   `
 })
 
-export class SurveyEditComponent implements AfterContentChecked {
+export class SurveyEditComponent  {
 
   @Input() survey: SurveyProgram;
   @Input() isVisible: boolean;
   @Output() savedEvent = new EventEmitter<SurveyProgram>();
   public showRevision = false;
 
+  private refreshCount = 0;
+
   constructor(private surveyService: HomeService) {
   }
 
-  ngAfterContentChecked(): void {
-    Materialize.updateTextFields();
-  }
 
 
   onSave() {

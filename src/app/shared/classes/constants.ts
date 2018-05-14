@@ -31,6 +31,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
   new QueryInfo(ElementKind.TOPIC_GROUP, 'Module', 'topicgroup', ['name', 'abstractDescription'], null),
   new QueryInfo(ElementKind.INSTRUCTION, 'Instruction', 'instruction', ['description'], null),
   new QueryInfo(ElementKind.UNIVERSE, 'Universe', 'universe', ['description'], null),
+  new QueryInfo(ElementKind.USER, 'User', 'user', ['name'], null),
 ];
 
 
@@ -43,4 +44,5 @@ export  const HEADER_DETAILS: Map<string, IHeaderDetail>  = new Map([
   ['responsedomains', { icon: 'blur_linear', headerName: 'Response domains', kind: ElementKind.RESPONSEDOMAIN }],
   ['instruments', { icon: 'tablet_mac', headerName: 'Instruments', kind: ElementKind.INSTRUMENT }],
   ['publications', { icon: 'folder_special', headerName: 'Publication packages', kind: ElementKind.PUBLICATION }],
+  ['user', { icon: 'user', headerName: 'User Administration', kind: ElementKind.USER }],
 ]);

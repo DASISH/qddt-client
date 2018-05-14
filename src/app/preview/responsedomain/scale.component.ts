@@ -39,20 +39,25 @@ export class ResponsedomainScaleComponent implements OnChanges {
   private min = 1;
 
   ngOnChanges() {
-    const rep = this.managedRepresentation;
-    this.columns = [];
-    this.headers = [];
-    this.rows = new Array(this.numOfRows).fill(1);
-    if (rep.inputLimit) {
-      this.max = parseInt(rep.inputLimit.maximum.toString());
-      this.min = parseInt(rep.inputLimit.minimum.toString());
-    }
+    if (this.managedRepresentation) {
+      // console.log('ResponsedomainScaleComponent ngOnChanges doing');
+      const rep = this.managedRepresentation;
+      this.columns = [];
+      this.headers = [];
+      this.rows = new Array(this.numOfRows).fill(1);
 
-    if (this.displayLayout > 0) {
-      this.buildVerticalColumns();
-    } else {
-      this.buildHorizontalColumns();
+      if (rep.inputLimit) {
+        this.max = +rep.inputLimit.maximum;
+        this.min = +rep.inputLimit.minimum;
+      }
+
+      if (this.displayLayout > 0) {
+        this.buildVerticalColumns();
+      } else {
+        this.buildHorizontalColumns();
+      }
     }
+    // console.log('ResponsedomainScaleComponent ngOnChanges done');
   }
 
 
@@ -71,6 +76,7 @@ export class ResponsedomainScaleComponent implements OnChanges {
       }
       return category.code.alignment;
     }
+
     function minDistance(c: Category[]): number {
       if (!c || c.length < 2) { return 0; }
       let minDiff = parseInt(c[1].code.codeValue) - parseInt(c[0].code.codeValue);

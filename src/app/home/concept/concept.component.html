@@ -4,11 +4,11 @@
       <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
         <i class="material-icons large right">comment</i><h4>Concepts for {{ topic?.name }}</h4>
 
-        <a class="btn" (click)="onToggleConceptForm()" *ngIf="!topic.archived">
+        <a class="btn" (click)="onToggleConceptForm()" *ngIf="!topic.archived && !readonly">
           <i class="material-icons right" *ngIf="!showConceptForm">keyboard_arrow_down</i>
           <i class="material-icons right" *ngIf="showConceptForm">keyboard_arrow_up</i>
           New</a>
-        <a class="btn" (click)="onToggleReuse()" *ngIf="!topic.archived">
+        <a class="btn" (click)="onToggleReuse()" *ngIf="!topic.archived && !readonly">
           <i class="material-icons right" *ngIf="!showReuse">keyboard_arrow_down</i>
           <i class="material-icons right" *ngIf="showReuse">keyboard_arrow_up</i>
           reuse</a>
@@ -49,7 +49,7 @@
       <div *ngIf="concepts">
          <qddt-concept-treenode *ngFor="let child of concepts"
             [concept]="child"
-            [readonly]="child.archived"
+            [readonly]="child.archived || readonly"
             (deleteEvent)="onDeleteConcept($event)"
             (updatedEvent)="onConceptUpdated($event)">
          </qddt-concept-treenode>

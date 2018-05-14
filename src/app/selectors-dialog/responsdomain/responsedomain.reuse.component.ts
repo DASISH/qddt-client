@@ -1,6 +1,8 @@
+
+import {filter, distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { MaterializeAction } from 'angular2-materialize';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { TemplateService } from '../../template/template.service';
 import { IPageResult, IPageSearch, IElement } from '../../shared/classes/interfaces';
 import { ResponseDomain, DomainKind, DOMAIN_TYPE_DESCRIPTION } from '../../responsedomain/responsedomain.classes';
@@ -36,10 +38,10 @@ export class ResponsedomainReuseComponent implements OnChanges  {
   constructor(private responseDomainService: TemplateService) {
     this.domainTypeDescription = DOMAIN_TYPE_DESCRIPTION.filter((e) => e.id > DomainKind.NONE && e.id < DomainKind.MISSING);
     this.pageSearch = { kind: this.RESPONSE_KIND, page: new Page(), key: '*' };
-    this.searchKeysListener
-      .debounceTime(300)
-      .distinctUntilChanged()
-      .filter(val => val.length > 0)
+    this.searchKeysListener.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      filter(val => val.length > 0),)
       .subscribe((search: string) => {
         this.loadPage(search);
       });

@@ -1,4 +1,4 @@
-export enum Authority {
+export enum AuthorityKind {
   ROLE_GUEST = 0,
   ROLE_VIEW  = 1,
   ROLE_CONCEPT = 3,

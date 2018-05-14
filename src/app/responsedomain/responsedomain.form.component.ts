@@ -1,3 +1,5 @@
+
+import {takeWhile} from 'rxjs/operators';
 import {
   Component,
   Input,
@@ -12,8 +14,8 @@ import { TemplateService } from '../template/template.service';
 import { DomainKind, ResponseDomain, DATE_FORMAT } from './responsedomain.classes';
 import { Category } from '../category/category.classes';
 import { Page } from '../shared/classes/classes';
-import {ActionKind, ElementKind} from '../shared/classes/enums';
-import {IElement, IPageSearch} from '../shared/classes/interfaces';
+import { ActionKind, ElementKind} from '../shared/classes/enums';
+import { IElement, IPageSearch} from '../shared/classes/interfaces';
 import { QddtPropertyStoreService } from '../core/global/property.service';
 
 declare let Materialize: any;
@@ -107,8 +109,10 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy {
     this.responsedomain.label = this.responsedomain.name;
     const managed = this.responsedomain.managedRepresentation;
     managed.name = this.responsedomain.label;
-    this.service.update(managed)
-      .takeWhile(() => this.ok )
+    managed.changeKind = this.responsedomain.changeKind;
+    managed.version = this.responsedomain.version;
+    this.service.update(managed).pipe(
+      takeWhile(() => this.ok ))
       .subscribe((result: Category) => {
         this.responsedomain.managedRepresentation = result;
         this.service.update(this.responsedomain).subscribe(

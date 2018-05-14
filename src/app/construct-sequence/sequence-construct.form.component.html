@@ -23,10 +23,8 @@
     </div>
 
     <qddt-collection-revision-search-select
-      [showProgressBar] = "showProgressBar"
-      [kind] = "QUESTION"
-      [showList]="sequence.sequence"
-      [searchList] = "questionConstrucs"
+      [showProgressBar] = "showProgressBar" [kind] = "QUESTION"
+      [showList]="sequence.sequence" [searchList] = "questionConstrucs"
       [revisionList] = "revisionList"
       (searchItems)="onSearchElements($event)"
       (searchRevision)="onRevisonSearch($event)">

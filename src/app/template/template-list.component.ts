@@ -1,3 +1,5 @@
+
+import {filter, takeWhile} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TemplateService } from './template.service';
@@ -8,7 +10,7 @@ import { IEntityAudit, IPageSearch } from '../shared/classes/interfaces';
 import { ActionKind, ElementKind} from '../shared/classes/enums';
 import { HEADER_DETAILS } from '../shared/classes/constants';
 import { QddtPropertyStoreService } from '../core/global/property.service';
-import {DomainKind} from '../responsedomain/responsedomain.classes';
+import { DomainKind } from '../responsedomain/responsedomain.classes';
 
 @Component({
   selector: 'qddt-template-list',
@@ -28,16 +30,16 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
   constructor(private service: TemplateService, private router: Router, private route: ActivatedRoute,
               private messages: QddtMessageService, private properties: QddtPropertyStoreService ) {
 
-    this.route.url
-      .takeWhile(() => this.alive)
-      .filter( (f) => f.length > 0)
+    this.route.url.pipe(
+      takeWhile(() => this.alive),
+      filter( (f) => f.length > 0))
       .subscribe((event) => {
         this.path = event[0].path;
         this.kind = HEADER_DETAILS.get(this.path).kind;
     });
 
-    this.messages.getAction()
-      .takeWhile(() => this.alive)
+    this.messages.getAction().pipe(
+      takeWhile(() => this.alive))
       .subscribe(event => {
         console.log('Action ' + ActionKind[event.action]);
         if (event.action === ActionKind.Update || event.action === ActionKind.Create || event.action === ActionKind.Filter) {
@@ -88,6 +90,9 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
     if (!pageSearch) {
       pageSearch = { kind: this.kind,  key: '*', page : new Page(), sort : 'modified,desc' };
       this.properties.set(this.path, pageSearch);
+    }
+    if (pageSearch.kind === ElementKind.USER && pageSearch.sort === 'modified,desc') {
+      pageSearch.sort = 'name,asc';
     }
     if (pageSearch.kind === ElementKind.RESPONSEDOMAIN && !pageSearch.keys ) {
       const KEY = 'ResponseKind';

@@ -5,7 +5,7 @@ import { ElementKind } from '../classes/enums';
 export const DEFAULT_COLUMNS = [
   new Column({ name: 'modified',  label: 'Modified', sortable: true, direction: 'desc' }),
   new Column({ name: 'version',  label: 'Version' }),
-  new Column({ name: ['agency', 'name'],  label: 'Agency' })
+  new Column({ name: ['modifiedBy', 'agencyUserName'],  label: 'User@Agency' })
 ];
 
 const  QUESTION_CONSTRUCT_COLUMNS = [
@@ -41,6 +41,14 @@ const INSTRUMENT_COLUMNS = [
   new Column( { name: 'label', label: 'Name', sortable: true }),
   new Column( { name: 'description', label: 'Description', sortable: true }),
   new Column( { name: 'instrumentKind', label: 'Kind', sortable: true }),
+];
+
+export const USER_COLUMNS = [
+  new Column( { name: 'name', label: 'Name', sortable: true }),
+  new Column( { name: 'email', label: 'Email', sortable: true }),
+  new Column( { name: 'enabled', label: 'Active', sortable: false }),
+  new Column( { name: ['authority', 'name'], label: 'Authority', sortable: false }),
+  new Column( { name: ['agency', 'name'], label: 'Agency', sortable: true })
 ];
 
 const SCALE =  [
@@ -97,6 +105,7 @@ export const LIST_COLUMNS: Map<ElementKind, Column[]>  = new Map([
   [ElementKind.QUESTION_CONSTRUCT, QUESTION_CONSTRUCT_COLUMNS.concat(DEFAULT_COLUMNS) ],
   [ElementKind.SEQUENCE_CONSTRUCT, SEQUENCE_CONSTRUCT_COLUMNS.concat(DEFAULT_COLUMNS) ],
   [ElementKind.INSTRUMENT, INSTRUMENT_COLUMNS.concat(DEFAULT_COLUMNS) ],
-  [ElementKind.PUBLICATION, PUBLICATION_COLUMNS.concat(DEFAULT_COLUMNS) ]
+  [ElementKind.PUBLICATION, PUBLICATION_COLUMNS.concat(DEFAULT_COLUMNS) ],
+  [ElementKind.USER, USER_COLUMNS ]
 ]);
 

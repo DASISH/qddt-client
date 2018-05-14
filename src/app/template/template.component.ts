@@ -1,3 +1,5 @@
+
+import {takeWhile} from 'rxjs/operators';
 import { OnChanges, Component, SimpleChanges, OnDestroy, AfterContentChecked} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { QddtMessageService } from '../core/global/message.service';
@@ -21,7 +23,7 @@ declare var Materialize: any;
   templateUrl: './template.component.html',
 })
 
-export class TemplateComponent implements OnChanges, OnDestroy, AfterContentChecked {
+export class TemplateComponent implements OnDestroy, AfterContentChecked {
 
   public readonly formId = Math.round( Math.random() * 10000);
   public newItem: IEntityEditAudit;
@@ -37,29 +39,34 @@ export class TemplateComponent implements OnChanges, OnDestroy, AfterContentChec
 
   constructor( private route: ActivatedRoute,  private  messages: QddtMessageService, private service: TemplateService,
     private properties: QddtPropertyStoreService ) {
-    this.route.url
-    .takeWhile(() => this.alive)
+    this.route.url.pipe(
+    takeWhile(() => this.alive))
     .subscribe((event) => {
       this.path = this.route.firstChild.routeConfig.path; // '/:id'
+      console.log('path1-> ' + this.path);
       const detailIndex = this.path.lastIndexOf('/:id');
       if (detailIndex >= 0) {
         this.path = this.path.substr(0, detailIndex);
       }
+      console.log('path2-> ' + this.path);
       if (HEADER_DETAILS.has(this.path)) {
         this.kind = HEADER_DETAILS.get(this.path).kind;
         this.icon = HEADER_DETAILS.get(this.path).icon;
         this.headerName =  HEADER_DETAILS.get(this.path).headerName;
-
       }
     });
 
-    this.messages.getAction()
-      .takeWhile(() => this.alive)
+    this.messages.getAction().pipe(
+      takeWhile(() => this.alive))
       .subscribe(event => {
         if (event.action === ActionKind.Filter
-          && (event.id === 'ResponseKind' || event.id === 'publishedstatus' )
-          && this.showForm ) {
-          this.onToggleForm();
+          && (event.id === 'ResponseKind' || event.id === 'publishedstatus' ) ) {
+          if (this.showForm) { this.onToggleForm(); }
+          if (event.id === 'ResponseKind') {
+            // TODO go to response List
+          } else {
+            // TODO go to publised List
+          }
         }
       });
   }
@@ -69,8 +76,7 @@ export class TemplateComponent implements OnChanges, OnDestroy, AfterContentChec
       try {
         this.refreshCount++;
         Materialize.updateTextFields();
-      } catch (Exception) {
-      }
+      } catch (Exception) { }
     }
   }
 
@@ -91,16 +97,11 @@ export class TemplateComponent implements OnChanges, OnDestroy, AfterContentChec
         const page: IPageSearch =  this.properties.get(this.path);
         this.newItem = Factory.createInstance(this.kind);
         if (page.kind === ElementKind.RESPONSEDOMAIN) {
-          console.log(page.keys.get('ResponseKind'));
-          console.log((this.newItem as ResponseDomain).setResponseKind(DomainKind[page.keys.get('ResponseKind')]));
-
+          (this.newItem as ResponseDomain).setResponseKind(DomainKind[page.keys.get('ResponseKind')]);
         }
       }
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    try { Materialize.updateTextFields(); } catch (Exception) { }
-  }
 
   ngOnDestroy(): void {
     this.alive = false;

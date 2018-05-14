@@ -1,25 +1,31 @@
-import { Component,  OnInit } from '@angular/core';
+import { Component,  OnInit, AfterContentChecked } from '@angular/core';
 import { Router } from '@angular/router';
 import { QddtPropertyStoreService , HIERARCHY_POSITION } from '../../core/global/property.service';
 import { HomeService } from '../home.service';
 import { SurveyProgram } from '../home.classes';
+import { TemplateService } from '../../template/template.service';
+import { ActionKind, ElementKind } from '../../shared/classes/enums';
 
 const filesaver = require('file-saver');
+declare var Materialize: any;
 
 @Component({
   selector: 'qddt-survey',
   moduleId: module.id,
   templateUrl: './survey.component.html'
 })
-export class SurveyComponent implements OnInit {
+
+export class SurveyComponent implements OnInit, AfterContentChecked {
   showSurveyForm = false;
   public surveyList: SurveyProgram[] = [];
   public survey: SurveyProgram;
   public readonly = false;
+  refreshCount = 0;
 
-  constructor(private surveyService: HomeService, private router: Router, private property: QddtPropertyStoreService) {
+  constructor(private surveyService: HomeService, private service: TemplateService,
+                private router: Router, private property: QddtPropertyStoreService) {
     this.survey = new SurveyProgram();
-    // this.readonly =
+    this.readonly = !service.can(ActionKind.Create, ElementKind.SURVEY_PROGRAM);
   }
 
   ngOnInit() {
@@ -30,6 +36,14 @@ export class SurveyComponent implements OnInit {
           (data: Array<SurveyProgram> ) =>
             this.property.set('surveyList', this.surveyList = data)
         );
+    }
+  }
+  ngAfterContentChecked(): void {
+    if (this.refreshCount < 10) {
+      try {
+        this.refreshCount++;
+        Materialize.updateTextFields();
+      } catch (Exception) {}
     }
   }
 
@@ -45,8 +59,9 @@ export class SurveyComponent implements OnInit {
 
   onSurveySaved(surveyProgram: any) {
     if (surveyProgram !== null) {
-      this.surveyList = this.surveyList.filter((q) => q.id !== surveyProgram.id);
-      this.surveyList.push(surveyProgram);
+      const list = this.surveyList.filter((q) => q.id !== surveyProgram.id);
+      list.push(surveyProgram);
+      this.surveyList = list.sort( (a, b) => a.name > b.name ? -1 : 1);
       this.property.set('surveyList', this.surveyList);
     }
   }

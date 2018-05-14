@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 import { ResponsedomainReuseComponent } from './responsedomain.reuse.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { MaterializeModule } from 'angular2-materialize';
 import { API_BASE_HREF } from '../../api';
 import { TemplateService } from '../../template/template.service';

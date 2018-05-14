@@ -28,11 +28,12 @@ import { QuestionConstructModule } from './construct-question/question-construct
 import { SequenceModule } from './construct-sequence/sequence-construct.module';
 import { MissingModule } from './category-missing/missing.module';
 import { SelectorDialogsModule } from './selectors-dialog/selectors-dialog.module';
+import { UserModule } from './user/user.module';
 
 @NgModule({
   imports: [ BrowserModule, HttpClientModule,  SharedModule, CoreModule, HomeModule, MenuModule, SelectorDialogsModule,
     CategoryModule,  ResponsedomainModule, QuestionModule, ControlConstructModule, PreviewModule, MissingModule,
-    InstrumentModule, PublicationModule, TemplateModule, QuestionConstructModule, SequenceModule, routing ],
+    InstrumentModule, PublicationModule, TemplateModule, QuestionConstructModule, SequenceModule, UserModule, routing ],
 
     declarations: [ AppComponent, PageNotFoundComponent ],
 

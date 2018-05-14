@@ -1,15 +1,23 @@
+
+import {map} from 'rxjs/operators';
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable ,  BehaviorSubject } from 'rxjs';
 import { API_BASE_HREF } from '../../api';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { User } from './user';
+import { IAuthority, UserJson } from '../../user/user.classes';
 
 export const TOKEN_NAME = 'jwt_token';
 
 export class Agency  {
-  id: String;
-  name: String;
+  id: string;
+  name: string;
+}
+
+export interface IPassword {
+  Id: string;
+  oldPassword: string;
+  newPassword: string;
 }
 
 /**
@@ -18,11 +26,11 @@ export class Agency  {
  */
 @Injectable()
 export class UserService {
-
-  public static readonly SIGNUP_URL = 'auth/signup';
   public static readonly SIGNIN_URL = 'auth/signin';
-  public static readonly RESET_PWD_URL = 'auth/reset';
   public static readonly ANGENCY_URL = 'agency/all';
+  public static readonly RESET_PWD_URL = 'user/resetpassword';
+  public static readonly UPDATE_URL = 'user';
+  public static readonly AUTHORITY_URL = 'authority/all';
   private static readonly USERINFO = 'user';
 
   loginChanged$: Observable<string>;
@@ -54,8 +62,8 @@ export class UserService {
       password: password
     };
 
-    return this.http.post<any>(this.api + UserService.SIGNIN_URL, requestParam)
-      .map(response => {
+    return this.http.post<any>(this.api + UserService.SIGNIN_URL, requestParam).pipe(
+      map(response => {
         if (response && response.token) {
           this.setToken(response.token);
           this.setUserData(response);
@@ -63,19 +71,24 @@ export class UserService {
           console.log('login incomplete....');
         }
         return response;
-      });
+      }));
   }
 
-  public registerUser(userdata: any): Observable<any> {
-    return this.http.post(this.api + UserService.SIGNUP_URL, userdata);
+
+  public save(userdata: UserJson): Observable<any> {
+    return this.http.post(this.api + UserService.UPDATE_URL, userdata);
   }
 
-  public resetPassword(userdata: User): Observable<any> {
-    return this.http.post(this.api + UserService.RESET_PWD_URL, userdata);
+  public resetPassword(password: IPassword): Observable<any> {
+    return this.http.post(this.api + UserService.RESET_PWD_URL, password);
   }
 
   public getAgencies(): Promise<Agency[]> {
     return this.http.get<Agency[]>( this.api + UserService.ANGENCY_URL).toPromise();
+  }
+
+  public getAuthories(): Promise<IAuthority[]> {
+    return this.http.get<IAuthority[]>( this.api + UserService.AUTHORITY_URL).toPromise();
   }
 
   /**

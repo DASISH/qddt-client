@@ -1,4 +1,4 @@
-import { IEntityEditAudit } from '../shared/classes/interfaces';
+import { IEntityEditAudit, IVersion } from '../shared/classes/interfaces';
 import { ElementKind } from '../shared/classes/enums';
 import { Page } from '../shared/classes/classes';
 import { ParseErrorLevel } from '@angular/compiler';
@@ -41,9 +41,9 @@ export const CATEGORY_INFO: ICategoryInfo[] = [
 export class ResponseCardinality {
   minimum: number;
   maximum: number;
-  constructor() {
-    this.minimum = 1;
-    this.maximum = 1;
+  public constructor(init?: Partial<ResponseCardinality>) {
+    this.minimum = this.maximum = 1;
+    Object.assign(this, init);
   }
 }
 
@@ -59,7 +59,7 @@ export class Category implements IEntityEditAudit {
   id: string;
   name = '';
   label = '';
-  description =  CATEGORY_INFO[CategoryKind.CATEGORY].description;
+  description = '';
   hierarchyLevel = HierachyLevel[CATEGORY_INFO[CategoryKind.CATEGORY].level];
   categoryType = CategoryKind[CategoryKind.CATEGORY];
   classKind = ElementKind[ElementKind.CATEGORY];
@@ -68,6 +68,8 @@ export class Category implements IEntityEditAudit {
   comments?: any[];
   code?: Code;
   format?: any;
+  changeKind?: string;
+  version?: IVersion;
   public constructor(init?: Partial<Category>) {
     Object.assign(this, init);
     if (this.name && !this.label) {

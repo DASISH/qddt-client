@@ -1,4 +1,6 @@
-import {Component, EventEmitter, OnInit, Output, OnChanges, SimpleChanges, OnDestroy, AfterContentChecked} from '@angular/core';
+
+import { Component, EventEmitter, OnInit, Output, OnChanges, SimpleChanges, OnDestroy, AfterContentChecked} from '@angular/core';
+import { takeWhile } from 'rxjs/operators';
 import { TemplateService } from './template.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MaterializeAction } from 'angular2-materialize';
@@ -33,13 +35,13 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterContentC
   private refreshCount = 0;
 
   constructor(private service: TemplateService, private router: Router, private route: ActivatedRoute) {
-    this.route.url
-      .takeWhile(() => this.alive)
+    this.route.url.pipe(
+      takeWhile(() => this.alive))
       .subscribe((event) => {
         const path = event[0].path;
         this.kind = HEADER_DETAILS.get(path).kind;
         this.canDelete = service.can(ActionKind.Delete, this.kind );
-        console.log('can delete ' + this.canDelete);
+        // console.log('can delete ' + this.canDelete);
         this.item = Factory.createInstance(this.kind);
       });
   }
@@ -59,7 +61,7 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterContentC
   }
 
   ngAfterContentChecked(): void {
-    if (this.refreshCount < 10) {
+    if (this.refreshCount < 15) {
       try {
         this.refreshCount++;
         Materialize.updateTextFields();

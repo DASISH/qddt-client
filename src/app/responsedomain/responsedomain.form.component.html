@@ -113,7 +113,7 @@
             <div class="input-field col m3 l3 offset-m1 offset-l1 ">
                 <input id="responseCardinality_maximum" name="responseCardinality_maximum" type="number"
                        (ngModelChange)="buildPreviewResponseDomain()"
-                       [attr.min]="addition([responsedomain.responseCardinality.minimum],1)"
+                       [attr.min]=1
                        [attr.max]="responsedomain.managedRepresentation.inputLimit.maximum"
                        [(ngModel)]="responsedomain.responseCardinality.maximum" required>
                 <label for="responseCardinality_maximum">Max of Response Cardinality</label>
@@ -228,13 +228,13 @@
 				</div>
 			</div>
 
-      <qddt-rational *ngIf="responsedomain.id && !readonly"
+      <qddt-rational *ngIf="responsedomain.modified && !readonly"
         [formName]="'RationalComp'"
         [element]="responsedomain"
         [config]="{hidden: [4]}">
       </qddt-rational>
 
-      <qddt-element-footer *ngIf="responsedomain.id" [element]="responsedomain"></qddt-element-footer>
+      <qddt-element-footer *ngIf="responsedomain.modified" [element]="responsedomain"></qddt-element-footer>
 
       <div class="row right-align">
         <button  [disabled]="!responseForm.form.valid" *ngIf="!readonly" type="submit" class="btn btn-default" (click)="onSave()">Submit</button>

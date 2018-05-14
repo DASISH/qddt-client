@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { QuestionItem } from '../../question/question.classes';
+import { Category } from '../../category/category.classes';
 
 @Component({
   selector: 'qddt-preview-questionitem-grid',
@@ -36,8 +37,7 @@ import { QuestionItem } from '../../question/question.classes';
         </table>
       </div>
       <div class="col s6" *ngIf="questionItem.responseDomain">
-        <qddt-preview-rd-scale
-          [responseDomain]="questionItem.responseDomain"
+        <qddt-preview-rd-scale [managedRepresentation]="rep"
           [numOfRows]="1"> <!-- trenger ny klasse QuestionGrid questionItem.question.children.length+ -->
         </qddt-preview-rd-scale>
       </div>
@@ -46,8 +46,15 @@ import { QuestionItem } from '../../question/question.classes';
   providers: [ ],
 })
 
-export class PreviewQuestionitemGridComponent {
+export class PreviewQuestionitemGridComponent implements OnChanges {
   @Input() questionItem: QuestionItem;
 
+  public rep: Category;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.questionItem.responseDomain) {
+      this.rep = this.questionItem.responseDomain.managedRepresentation;
+    }
+  }
 
 }
