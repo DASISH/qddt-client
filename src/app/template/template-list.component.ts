@@ -10,7 +10,7 @@ import { IEntityAudit, IPageSearch } from '../shared/classes/interfaces';
 import { ActionKind, ElementKind} from '../shared/classes/enums';
 import { HEADER_DETAILS } from '../shared/classes/constants';
 import { QddtPropertyStoreService } from '../core/global/property.service';
-import {DomainKind} from '../responsedomain/responsedomain.classes';
+import { DomainKind } from '../responsedomain/responsedomain.classes';
 
 @Component({
   selector: 'qddt-template-list',
@@ -90,6 +90,9 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
     if (!pageSearch) {
       pageSearch = { kind: this.kind,  key: '*', page : new Page(), sort : 'modified,desc' };
       this.properties.set(this.path, pageSearch);
+    }
+    if (pageSearch.kind === ElementKind.USER && pageSearch.sort === 'modified,desc') {
+      pageSearch.sort = 'name,asc';
     }
     if (pageSearch.kind === ElementKind.RESPONSEDOMAIN && !pageSearch.keys ) {
       const KEY = 'ResponseKind';

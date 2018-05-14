@@ -19,7 +19,7 @@
         <div *ngIf="loggedIn">
           <li (click)="logoutEvent()"><a href=""><i class="material-icons left">exit_to_app</i>Exit</a></li>
           <li class="divider"></li>
-          <li (click)="doRegister()"><a href=""><i class="material-icons left">edit</i>Register</a></li>
+          <li><a [routerLink]="['/user']"><i class="material-icons left">edit</i>UserAdmin</a></li>
           <li class="divider"></li>
           <li (click)="doResetPassword()"><a href=""><i class="material-icons left">mail_outline</i>Password reset</a></li>
         </div>

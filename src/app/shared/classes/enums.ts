@@ -27,5 +27,6 @@ export enum ElementKind {
   SURVEY_PROGRAM,
   TOPIC_GROUP,
   INSTRUCTION,
-  UNIVERSE
+  UNIVERSE,
+  USER
 }

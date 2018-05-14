@@ -2,18 +2,16 @@
   <div *ngIf="topic"  id="{{topic.id}}"  >
     <form (ngSubmit)="onSave()" #topicForm="ngForm">
 
-      <div class="row">
-        <div class="col s12 input-field">
-          <label [attr.for]="topic.id + '-name'" class="teal-text">Name</label>
-          <input id="{{topic?.id}}-name"
+      <div class="row input-field">
+        <input id="{{topic?.id}}-name"
                  name="{{topic?.id}}-name"type="text" [(ngModel)]="topic.name" required>
-        </div>
+        <label for="{{topic?.id}}-name" >Name</label>
       </div>
 
       <ul class="hoverable" (mouseenter)="showbutton = !readonly" (mouseleave)="showbutton = false">
         <li>
           <div class="row" (click)="showUploadFileForm=!showUploadFileForm" style="cursor: zoom-in;">
-            <div class="col s11"><label >External aid</label></div>
+            <div class="col s11"><label>External aid</label></div>
             <div class="col s1">
               <a [ngClass]="{hide: !showbutton}"
                 class="btn-flat btn-floating btn-small waves-effect waves-light teal">
@@ -63,12 +61,10 @@
       </ul>
 
 
-      <div class="row">
-        <div class="col s12 input-field">
-          <label [attr.for]="topic.id + '-description'" class="teal-text">Description</label>
-          <textarea id="{{topic?.id}}-description" name="{{topic?.id}}-description"
-                    class="materialize-textarea"  [(ngModel)]="topic.abstractDescription" required autosize></textarea>
-        </div>
+      <div class="row input-field">
+        <textarea id="{{topic?.id}}-description" name="{{topic?.id}}-description"
+              class="materialize-textarea"  [(ngModel)]="topic.abstractDescription" required autosize></textarea>
+        <label for="{{topic?.id}}-description">Description</label>
       </div>
 
       <qddt-rational [formName]="'RationalComp'" [element]="topic" [config]="{hidden: [2,3]}"></qddt-rational>

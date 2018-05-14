@@ -2,11 +2,12 @@ import {AfterContentChecked, Component, EventEmitter, OnInit} from '@angular/cor
 import { MaterializeAction } from 'angular2-materialize';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QddtPropertyStoreService } from '../../core/global/property.service';
-import {ElementKind} from '../../shared/classes/enums';
-import {Concept, Topic} from '../home.classes';
-import {HomeService} from '../home.service';
+import { ElementKind, ActionKind } from '../../shared/classes/enums';
+import { Concept, Topic } from '../home.classes';
+import { HomeService } from '../home.service';
+import { TemplateService } from '../../template/template.service';
 
-declare var Materialize: any;
+
 
 @Component({
   selector: 'qddt-concept',
@@ -15,28 +16,28 @@ declare var Materialize: any;
   templateUrl: './concept.component.html'
 })
 
-export class ConceptComponent implements OnInit, AfterContentChecked {
+export class ConceptComponent implements OnInit {
   public readonly conceptKind = ElementKind.CONCEPT;
   public confimDeleteActions = new EventEmitter<string|MaterializeAction>();
   public showReuse = false;
   public showConceptForm = false;
   public showProgressBar = false;
+  public readonly: boolean;
   public toDeletedConcept: any;
   public topic: Topic;
   public concepts: any;
+  refreshCount = 0;
 
   private parentId: any;
   private concept: any;
 
-  constructor(private router: Router, private route: ActivatedRoute,
-              private conceptService: HomeService, private property: QddtPropertyStoreService) {
+  constructor(private router: Router, private route: ActivatedRoute, private property: QddtPropertyStoreService,
+              private conceptService: HomeService, private service: TemplateService ) {
+    this.readonly = !service.can(ActionKind.Create, ElementKind.CONCEPT );
     this.concept = new Concept();
    }
 
 
-  ngAfterContentChecked(): void {
-    Materialize.updateTextFields();
-  }
 
   ngOnInit(): void {
     this.topic = this.property.get('topic');

@@ -13,6 +13,7 @@ import { ResponseDomain } from '../../responsedomain/responsedomain.classes';
 import { QuestionItem } from '../../question/question.classes';
 import { Instrument } from '../../instrument/instrument.classes';
 import { Publication} from '../../publication/publication.classes';
+import { UserJson } from '../../user/user.classes';
 
 
 export class Factory {
@@ -53,6 +54,8 @@ export class Factory {
         return new Instruction();
       case ElementKind.UNIVERSE:
         return new Universe();
+      case ElementKind.USER:
+        return new UserJson();
       default: return null;
     }
   }

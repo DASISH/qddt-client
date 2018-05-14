@@ -83,7 +83,7 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   doRegister() {
-    this.router.navigate(['/register']);
+    this.router.navigate(['/user']);
   }
 
   doResetPassword() {
