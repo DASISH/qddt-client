@@ -19,10 +19,13 @@
       (selectEvent)="onSelectedRevision($event)">
     </qddt-revision-select>
   </li>
-  <li class="collection-item" *ngFor="let item of showList; let idx=index">
+  <div  *ngFor="let item of showList; let idx=index">
+  <li class="collection-item" style="border: 1px; border-color: black"
+  draggable="true" (dragstart)="onDragStart($event, item)" >
     <div class="row" *ngIf="item.elementId"
         (mouseenter)="item.showbutton = !readonly"
-        (mouseleave)="item.showbutton = false">
+        (mouseleave)="item.showbutton = false"
+       >
       <div class="col s2">[{{labelName}}]</div>
       <div class="col s7"><a (click)="onShowElement(item)" [ngStyle]="{'cursor': 'pointer'}">{{ item.name }}</a></div>
       <div class="col s2"><qddt-version-label [element]="item"></qddt-version-label> </div>
@@ -35,4 +38,8 @@
       </div>
     </div>
   </li>
+  <li (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
+      <div class="card">drop here</div>
+  </li>
+</div>
 </ul>

@@ -52,7 +52,8 @@ export class LoginComponent implements OnInit, AfterContentChecked {
     // Materialize.updateTextFields();
   }
 
-  login() {
+  login(e) {
+    e.preventDefault();
     this.loading = true;
     this.authenticationService.signIn(this.model.email, this.model.password)
       .subscribe(

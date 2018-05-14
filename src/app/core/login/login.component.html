@@ -1,5 +1,5 @@
 <div class="row">
-  <form class="col s6 offset-s3" name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
+  <form class="col s6 offset-s3" name="form" (ngSubmit)="f.form.valid && login($event)" #f="ngForm" novalidate>
     <div class="row input-field" [ngClass]="{ 'has-error': f.submitted && !email.valid }">
       <label for="name">Email</label>
       <input id="name" type="email" class="form-control" name="email" [(ngModel)]="model.email" #email="ngModel" required />
