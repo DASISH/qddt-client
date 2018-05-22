@@ -30,7 +30,7 @@
       (searchRevision)="onRevisonSearch($event)">
     </qddt-collection-revision-search-select>
 
-    <qddt-rational *ngIf="!readonly && sequence.id" [formName]="'RationalComp'" [element]="sequence" [config]="{hidden: [4]}"></qddt-rational>
+    <qddt-rational *ngIf="!readonly && sequence.modified" [formName]="'RationalComp'" [element]="sequence" [config]="{hidden: [4]}"></qddt-rational>
 
     <qddt-element-footer  *ngIf="sequence.id" [element]="sequence"></qddt-element-footer>
 
