@@ -1,0 +1,353 @@
+<DDIInstance 
+    xmlns:g="ddi:group:3_2" 
+    xmlns:d="ddi:datacollection:3_2"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:r="ddi:reusable:3_2"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:l="ddi:logicalproduct:3_2"
+    xmlns:pr="ddi:ddiprofile:3_2"
+    xmlns="ddi:instance:3_2"
+    xmlns:s="ddi:studyunit:3_2"
+    xsi:schemaLocation="ddi:instance:3_2 http://www.ddialliance.org/Specification/DDI-Lifecycle/3.2/XMLSchema/instance.xsd">
+    <r:Agency>int.esseric</r:Agency>
+    <r:ID>QDDT_master_profile_SQ</r:ID>
+    <r:Version>1.0</r:Version>
+    <r:URN>urn:ddi:int.esseric:QDDT_master_profile_SQ:1.0</r:URN>
+    <r:Citation>
+        <r:Title>
+            <r:String xml:lang="en-GB">Definition for a DDI (3.2) master profile for a Sequence</r:String>
+        </r:Title>
+    </r:Citation>
+    <g:ResourcePackage isMaintainable="true" versionDate="2018-05-24">
+        <r:Agency>int.esseric</r:Agency>
+        <r:ID>QDDT_SQ_master_profile_RP</r:ID>
+        <r:Version>1.0</r:Version>
+        <r:Purpose>
+            <r:Content xml:lang="en-GB">Resource package containing a master DDI profile for Sequence</r:Content>
+        </r:Purpose>
+        <pr:DDIProfile>
+            <r:Agency>int.esseric</r:Agency>
+            <r:ID>QDDT_SQ_master_profile</r:ID>
+            <r:Version>1.0</r:Version>
+            <r:Description>
+                <r:Content xml:lang="en-GB">This is a master DDI profile for the DASISH Questionnaire Design and Documentation Tool(QDDT) v2.0 for the element Sequence.
+                    The profile includes specified elements for Sequence and their referenced elements. It also contains a reference to a DDI profile for QuestionConstruct.
+                </r:Content>
+            </r:Description>
+            <r:Purpose>
+                <r:Content xml:lang="en-GB">The purpose of the master profile is for developers to look at, and could also be used to check the tool’s compliance with the profile</r:Content>
+            </r:Purpose>
+            <pr:XPathVersion>0.1</pr:XPathVersion>
+            <pr:DDINamespace>3.2</pr:DDINamespace>
+            <pr:XMLPrefixMap>
+                <pr:XMLPrefix>c</pr:XMLPrefix>
+                <pr:XMLNamespace>ddi:conceptualcomponent:3_2</pr:XMLNamespace>
+            </pr:XMLPrefixMap>
+            <pr:XMLPrefixMap>
+                <pr:XMLPrefix>xml</pr:XMLPrefix>
+                <pr:XMLNamespace>http://www.w3.org/XML/1998/namespace</pr:XMLNamespace>
+            </pr:XMLPrefixMap>
+            <pr:XMLPrefixMap>
+                <pr:XMLPrefix>ds</pr:XMLPrefix>
+                <pr:XMLNamespace>ddi:dataset:3_2</pr:XMLNamespace>
+            </pr:XMLPrefixMap>
+            <pr:XMLPrefixMap>
+                <pr:XMLPrefix>g</pr:XMLPrefix>
+                <pr:XMLNamespace>ddi:group:3_2</pr:XMLNamespace>
+            </pr:XMLPrefixMap>
+            <pr:XMLPrefixMap>
+                <pr:XMLPrefix>dc</pr:XMLPrefix>
+                <pr:XMLNamespace>http://purl.org/dc/terms/</pr:XMLNamespace>
+            </pr:XMLPrefixMap>
+            <pr:XMLPrefixMap>
+                <pr:XMLPrefix>d</pr:XMLPrefix>
+                <pr:XMLNamespace>ddi:datacollection:3_2</pr:XMLNamespace>
+            </pr:XMLPrefixMap>
+            <pr:XMLPrefixMap>
+                <pr:XMLPrefix>m3</pr:XMLPrefix>
+                <pr:XMLNamespace>ddi:physicaldataproduct_ncube_inline:3_2</pr:XMLNamespace>
+            </pr:XMLPrefixMap>
+            <pr:XMLPrefixMap>
+                <pr:XMLPrefix>r</pr:XMLPrefix>
+                <pr:XMLNamespace>ddi:reusable:3_2</pr:XMLNamespace>
+            </pr:XMLPrefixMap>
+            <pr:XMLPrefixMap>
+                <pr:XMLPrefix>xs</pr:XMLPrefix>
+                <pr:XMLNamespace>http://www.w3.org/2001/XMLSchema</pr:XMLNamespace>
+            </pr:XMLPrefixMap>
+            <pr:XMLPrefixMap>
+                <pr:XMLPrefix>m1</pr:XMLPrefix>
+                <pr:XMLNamespace>ddi:physicaldataproduct_ncube_normal:3_2</pr:XMLNamespace>
+            </pr:XMLPrefixMap>
+            <pr:XMLPrefixMap>
+                <pr:XMLPrefix>p</pr:XMLPrefix>
+                <pr:XMLNamespace>ddi:physicaldataproduct:3_2</pr:XMLNamespace>
+            </pr:XMLPrefixMap>
+            <pr:XMLPrefixMap>
+                <pr:XMLPrefix>l</pr:XMLPrefix>
+                <pr:XMLNamespace>ddi:logicalproduct:3_2</pr:XMLNamespace>
+            </pr:XMLPrefixMap>
+            <pr:XMLPrefixMap>
+                <pr:XMLPrefix>pi</pr:XMLPrefix>
+                <pr:XMLNamespace>ddi:physicalinstance:3_2</pr:XMLNamespace>
+            </pr:XMLPrefixMap>
+            <pr:XMLPrefixMap>
+                <pr:XMLPrefix>pr</pr:XMLPrefix>
+                <pr:XMLNamespace>ddi:ddiprofile:3_2</pr:XMLNamespace>
+            </pr:XMLPrefixMap>
+            <pr:XMLPrefixMap>
+                <pr:XMLPrefix>m2</pr:XMLPrefix>
+                <pr:XMLNamespace>ddi:physicaldataproduct_ncube_tabular:3_2</pr:XMLNamespace>
+            </pr:XMLPrefixMap>
+            <pr:XMLPrefixMap>
+                <pr:XMLPrefix/>
+                <pr:XMLNamespace>ddi:instance:3_2</pr:XMLNamespace>
+            </pr:XMLPrefixMap>
+            <pr:XMLPrefixMap>
+                <pr:XMLPrefix>s</pr:XMLPrefix>
+                <pr:XMLNamespace>ddi:studyunit:3_2</pr:XMLNamespace>
+            </pr:XMLPrefixMap>
+            <pr:XMLPrefixMap>
+                <pr:XMLPrefix>m4</pr:XMLPrefix>
+                <pr:XMLNamespace>ddi:physicaldataproduct_proprietary:3_2</pr:XMLNamespace>
+            </pr:XMLPrefixMap>
+            <pr:XMLPrefixMap>
+                <pr:XMLPrefix>a</pr:XMLPrefix>
+                <pr:XMLNamespace>ddi:archive:3_2</pr:XMLNamespace>
+            </pr:XMLPrefixMap>
+            <pr:XMLPrefixMap>
+                <pr:XMLPrefix>cm</pr:XMLPrefix>
+                <pr:XMLNamespace>ddi:comparative:3_2</pr:XMLNamespace>
+            </pr:XMLPrefixMap>
+            <pr:XMLPrefixMap>
+                <pr:XMLPrefix>xhtml</pr:XMLPrefix>
+                <pr:XMLNamespace>http://www.w3.org/1999/xhtml</pr:XMLNamespace>
+            </pr:XMLPrefixMap>
+            <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+            <!--         Roots and common objects (DDIInstance and Resource Package levels)    -->
+            <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+            
+            <!-- ========================== DDIInstance and its attributes ========================== -->
+            <pr:Used xpath="/DDIInstance"/>
+            <pr:Used xpath="/DDIInstance/@isMaintainable"/>
+            <pr:Used xpath="/DDIInstance/@xsi:schemaLocation"/>
+            
+            <!-- ========================== DDIInstance and its identification ========================== -->
+            <pr:Used xpath="/DDIInstance/r:Agency"/>
+            <pr:Used xpath="/DDIInstance/r:ID"/>
+            <pr:Used xpath="/DDIInstance/r:Version"/>
+            <pr:Used xpath="/DDIInstance/r:URN"/>
+            
+            <!-- ========================== ResourcePackage ========================== -->
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage">
+                <pr:Instructions>  
+                    <r:Content xml:lang="gb-EN">
+                        Constraints of the DDI 3.2 specification apply, including which elements are required. Requirements by the profile remains to be added.
+                    </r:Content>
+                </pr:Instructions>
+            </pr:Used>
+            
+            <!-- @*@*@*@*@*@ ResourcePackage and its attributes @*@*@*@*@*@  -->
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/@isMaintainable"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/@versionDate"/>
+            
+            <!-- @*@*@*@*@*@ ResourcePackage and identification @*@*@*@*@*@  -->
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/r:Agency"/>  
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/r:ID"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/r:Version"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/r:URN"/>
+          
+            <!-- @*@*@*@*@*@ ResourcePackage and generic elements @*@*@*@*@*@  -->
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/r:Purpose"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/r:Purpose/r:Content"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/r:Purpose/r:Content/@xml:lang">
+                <pr:Instructions>
+                    <r:Content xml:lang="gb-EN">
+                        Indicates the language of the content. Use IETF locale language codes.
+                    </r:Content>
+                </pr:Instructions>
+            </pr:Used>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/r:TypeOfResourcePackage">
+                <pr:Instructions>  
+                    <r:Content xml:lang="gb-EN">
+                        This will not be implemented in the preliminary version of the tool.
+                    </r:Content>
+                </pr:Instructions>
+            </pr:Used>
+            <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+            <!--         Resource Package "Sequence"       -->
+            <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+            
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme"/>
+            
+            <!-- @*@*@*@*@*@ ConstructScheme and identification @*@*@*@*@*@  -->
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/r:Agency"/>  
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/r:ID"/>     
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/r:Version"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/r:URN"/>
+         
+            <!-- @*@*@*@*@*@ ConstructScheme and generic elements @*@*@*@*@*@  -->
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:ControlConstructSchemeName"/>
+            
+            <!-- @*@*@*@*@*@ Sequence @*@*@*@*@*@  -->
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:Sequence">
+                <pr:Instructions>
+                    <r:Content xml:lang="gb-EN">
+                        The Sequence control construct provides a sequence order for questionnaire control constructs. The first control constructs to be implemented are QuestionConstruct, Statement, ifThenElse and Sequence. 
+                        InParameters, Outparameters, Binding and Loop will not been implemented in version 1.0 of the QDDT
+                    </r:Content>
+                </pr:Instructions>
+            </pr:Used>   
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:Sequence/r:Agency"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:Sequence/r:ID"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:Sequence/r:Version"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:Sequence/r:URN"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:Sequence/r:VersionRationale"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:Sequence/r:UserAttributePair">
+                <pr:Instructions>  
+                    <r:Content xml:lang="gb-EN">
+                        For publication status keys. Tis will not be implemented in the preliminary version of the tool.
+                    </r:Content>
+                </pr:Instructions>
+            </pr:Used>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:Sequence/r:TypeOfSequence">
+                <pr:Instructions>  
+                    <r:Content xml:lang="gb-EN">
+                        Controlled vocabulary to distinguish between different types of sequences.
+                    </r:Content>
+                </pr:Instructions>   
+            </pr:Used>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:Sequence/r:BasedOnObject"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:Sequence/r:BasedOnObject/r:BasedOnReference"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:Sequence/r:BasedOnObject/r:BasedOnReference/r:Agency"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:Sequence/r:BasedOnObject/r:BasedOnReference/r:ID"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:Sequence/r:BasedOnObject/r:BasedOnReference/r:Version"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:Sequence/r:BasedOnObject/r:BasedOnReference/r:URN"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:Sequence/r:BasedOnObject/r:BasedOnReference/r:TypeOfObject"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:Sequence/r:BasedOnObject/r:BasedOnReference/r:TypeOfObject" defaultValue="Sequence" fixedValue="true"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:Sequence/r:BasedOnObject/r:BasedOnRationaleDescription"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:Sequence/r:BasedOnObject/r:BasedOnRationaleCode"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:Sequence/d:ConstructName"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:Sequence/d:ControlConstructReference"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:Sequence/d:ControlConstructReference/r:Agency"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:Sequence/d:ControlConstructReference/r:ID"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:Sequence/d:ControlConstructReference/r:Version"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:Sequence/d:ControlConstructReferenceReference/r:URN"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:Sequence/d:ControlConstructReference/r:TypeOfObject" defaultValue="Sequence" fixedValue="false">
+                <pr:Instructions>  
+                    <r:Content xml:lang="gb-EN">
+                        In the preliminary version of the tool TypeOfObject can be set to 'Sequence', 'QuestionConstruct' 'IfThenElse' or 'StatementItem'. Default value is currently set to Sequence.
+                    </r:Content>
+                </pr:Instructions>
+            </pr:Used>
+            
+            <!-- @*@*@*@*@*@ IfThenElse @*@*@*@*@*@  --> 
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/r:Agency"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/r:ID"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/r:Version"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/r:URN"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/r:VersionRationale"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/r:BasedOnObject"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/r:BasedOnObject/r:BasedOnReference/r:Agency"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/r:BasedOnObject/r:BasedOnReference/r:ID"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/r:BasedOnObject/r:BasedOnReference/r:Version"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/r:BasedOnObject/r:BasedOnReference/r:URN"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/r:BasedOnObject/r:BasedOnReference/r:TypeOfObject"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/r:BasedOnObject/r:BasedOnReference/r:TypeOfObject" defaultValue="IfThenElse" fixedValue="true"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/r:BasedOnObject/r:BasedOnRationaleDescription"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/r:BasedOnObject/r:BasedOnRationaleCode"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/d:ConstructName"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/d:IfCondition"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/d:IfCondition/r:Command">
+                <pr:Instructions>  
+                    <r:Content xml:lang="gb-EN">
+                     In the preliminary version of the tool the Command elements CommandContent and ProgramLanguage are currently included while CommandFile and StructuredCommand will not be included.
+                    </r:Content>
+                 </pr:Instructions>
+            </pr:Used>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/d:IfCondition/r:Command/r:CommandContent"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/d:IfCondition/r:Command/r:ProgramLanguage"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/d:ThenConstructReference"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/d:ThenConstructReference/r:Agency"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/d:ThenConstructReference/r:ID"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/d:ThenConstructReference/r:Version"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/d:ThenConstructReference/r:URN"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/d:ThenConstructReference/r:TypeOfObject" defaultValue="QuestionConstruct" fixedValue="false">
+                <pr:Instructions>  
+                    <r:Content xml:lang="gb-EN">
+                        In the preliminary version of the tool TypeOfObject can be set to 'QuestionConstruct', 'Sequence', 'IfThenElse' or 'StatementItem'. Default value is currently set to QuestionConstruct.
+                    </r:Content>
+                </pr:Instructions>
+            </pr:Used>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/d:ElseIf"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/d:ElseIf/d:IfCondition"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/d:ElseIf/d:IfCondition/r:Command"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/d:ElseIf/d:IfCondition/r:Command/r:CommandContent"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/d:ElseIf/d:IfCondition/r:Command/r:ProgramLanguage"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/d:ElseIf/d:ThenConstructReference"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/d:ElseIf/d:ThenConstructReference/r:Agency"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/d:ElseIf/d:ThenConstructReference/r:ID"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/d:ElseIf/d:ThenConstructReference/r:Version"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/d:ElseIf/d:ThenConstructReference/r:URN"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/d:ElseIf/d:ThenConstructReference/r:TypeOfObject" defaultValue="QuestionConstruct" fixedValue="false">
+                <pr:Instructions>  
+                    <r:Content xml:lang="gb-EN">
+                        In the preliminary version of the tool TypeOfObject can be set to 'QuestionConstruct', 'Sequence', 'IfThenElse' or 'StatementItem'. Default value is currently set to QuestionConstruct.
+                    </r:Content>
+                </pr:Instructions>
+            </pr:Used>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/d:ElseConstructReference"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/d:ElseConstructReference/r:Agency"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/d:ElseConstructReference/r:ID"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/d:ElseConstructReference/r:Version"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/d:ElseConstructReference/r:URN"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:IfThenElse/d:ElseConstructReference/r:TypeOfObject" defaultValue="QuestionConstruct" fixedValue="false">
+                <pr:Instructions>  
+                    <r:Content xml:lang="gb-EN">
+                        In the preliminary version of the tool TypeOfObject can be set to 'QuestionConstruct', 'Sequence', 'IfThenElse' or 'StatementItem'. Default value is currently set to QuestionConstruct.
+                    </r:Content>
+                </pr:Instructions>
+            </pr:Used>
+            <!-- @*@*@*@*@*@ StatementItem @*@*@*@*@*@  -->
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:StatementItem"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:StatementItem/r:Agency"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:StatementItem/r:ID"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:StatementItem/r:Version"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:StatementItem/r:URN"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:StatementItem/r:VersionRationale"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:StatementItem/r:BasedOnObject"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:StatementItem/r:BasedOnObject/r:BasedOnReference/r:Agency"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:StatementItem/r:BasedOnObject/r:BasedOnReference/r:ID"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:StatementItem/r:BasedOnObject/r:BasedOnReference/r:Version"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:StatementItem/r:BasedOnObject/r:BasedOnReference/r:URN"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:StatementItem/r:BasedOnObject/r:BasedOnReference/r:TypeOfObject"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:StatementItem/r:BasedOnObject/r:BasedOnReference/r:TypeOfObject" defaultValue="StatementItem" fixedValue="true"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:StatementItem/r:BasedOnObject/r:BasedOnRationaleDescription"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:StatementItem/r:BasedOnObject/r:BasedOnRationaleCode"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:StatementItem/d:ConstructName"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:StatementItem/d:DisplayText"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:StatementItem/d:InterviewerInstructionReference"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:StatementItem/d:InterviewerInstructionReference/r:Agency"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:StatementItem/d:InterviewerInstructionReference/r:ID"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:StatementItem/d:InterviewerInstructionReference/r:Version"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:StatementItem/d:InterviewerInstructionReference/r:URN"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:StatementItem/d:InterviewerInstructionReference/r:TypeOfObject" defaultValue="Instruction" fixedValue="true"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/d:ControlConstructScheme/d:QuestionConstruct/d:ExternalAid">
+                <pr:Instructions>  
+                    <r:Content xml:lang="gb-EN">
+                        For the first version of the tool ExternalAid will be used exclusively for showcards.
+                    </r:Content>
+                </pr:Instructions>
+            </pr:Used>
+            <!-- @*@*@*@*@*@ DDIProfileReference @*@*@*@*@*@  --> 
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/pr:DDIProfileReference"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/pr:DDIProfileReference/r:Agency" defaultValue="int.esseric"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/pr:DDIProfileReference/r:ID" defaultValue="QDDT_QC_master_profile" fixedValue="true"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/pr:DDIProfileReferencer:Version" defaultValue="1.0" fixedValue="true"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/pr:DDIProfileReference/r:URN" defaultValue="int.esseric:QDDT_QC_master_profile:1.0"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/pr:DDIProfileReference/r:TypeOfObject" defaultValue="DDIProfile" fixedValue="true"/>
+        </pr:DDIProfile>
+    </g:ResourcePackage>
+</DDIInstance>
+            
