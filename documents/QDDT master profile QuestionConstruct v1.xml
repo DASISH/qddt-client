@@ -9,28 +9,28 @@
     xmlns="ddi:instance:3_2"
     xmlns:s="ddi:studyunit:3_2"
     xsi:schemaLocation="ddi:instance:3_2 http://www.ddialliance.org/Specification/DDI-Lifecycle/3.2/XMLSchema/instance.xsd">
-    <r:Agency>xx.yy</r:Agency>
-    <r:ID>QDDT_master_profile_QC_working_draft</r:ID>
-    <r:Version>0.3</r:Version>
-    <r:URN>urn:ddi:xx.yy:QDDT_master_profile_QC_working_draft:0.3</r:URN>
+    <r:Agency>int.esseric</r:Agency>
+    <r:ID>QDDT_master_profile_QC</r:ID>
+    <r:Version>1.0</r:Version>
+    <r:URN>urn:ddi:int.esseric:QDDT_master_profile_QC:1.0</r:URN>
     <r:Citation>
         <r:Title>
-            <r:String xml:lang="en-GB">Definition for a DDI(3.2) master profile for a QuestionConstruct - working draft</r:String>
+            <r:String xml:lang="en-GB">Definition for a DDI(3.2) master profile for a QuestionConstruct</r:String>
         </r:Title>
     </r:Citation>
-    <g:ResourcePackage isMaintainable="true" versionDate="2017-06-27">
-        <r:Agency>xx.yy</r:Agency>
+    <g:ResourcePackage isMaintainable="true" versionDate="2018-05-24">
+        <r:Agency>int.esseric</r:Agency>
         <r:ID>QDDT_QC_master_profile_RP_working_draft</r:ID>
-        <r:Version>0.3</r:Version>
-        <r:URN>urn:ddi:xx.yy:QDDT_QC_master_profile_RP_working_draft:0.3</r:URN>
+        <r:Version>1.0</r:Version>
+        <r:URN>urn:ddi:int.esseric:QDDT_QC_master_profile_RP:1.0</r:URN>
         <r:Purpose>
-            <r:Content xml:lang="en-GB">Resource package containing a master DDI profile for QuestionConstruct - working draft</r:Content>
+            <r:Content xml:lang="en-GB">Resource package containing a master DDI profile for QuestionConstruct</r:Content>
         </r:Purpose>
         <pr:DDIProfile>
-            <r:Agency>xx.yy</r:Agency>
-            <r:ID>QDDT_QC_master_profile_working_draft</r:ID>
-            <r:Version>0.3</r:Version>
-            <r:URN>urn:ddi:xx.yy:QDDT_QC_master_profile_working_draft:0.3</r:URN>
+            <r:Agency>int.esseric</r:Agency>
+            <r:ID>QDDT_QC_master_profile</r:ID>
+            <r:Version>1.0</r:Version>
+            <r:URN>urn:ddi:int.esseric:QDDT_QC_master_profile:1.0</r:URN>
             <r:Description>
                 <r:Content xml:lang="en-GB">This is a master DDI profile for the DASISH Questionnaire Design and Documentation Tool(QDDT) v1.0 for the element QuestionConstruct.
                     The profile includes specified elements for QuestionConstruct and its referenced elements. It also contains a reference to a DDI profile for QuestionItem.
@@ -275,10 +275,10 @@
             
             <!-- @*@*@*@*@*@ DDIProfileReference @*@*@*@*@*@  --> 
             <pr:Used xpath="/DDIInstance/g:ResourcePackage/pr:DDIProfileReference"/>
-            <pr:Used xpath="/DDIInstance/g:ResourcePackage/pr:DDIProfileReference/r:Agency" defaultValue="xx.yy"/>
-            <pr:Used xpath="/DDIInstance/g:ResourcePackage/pr:DDIProfileReference/r:ID" defaultValue="QDDT_QI_master_profile_working_draft" fixedValue="true"/>
-            <pr:Used xpath="/DDIInstance/g:ResourcePackage/pr:DDIProfileReferencer:Version" defaultValue="0.3" fixedValue="true"/>
-            <pr:Used xpath="/DDIInstance/g:ResourcePackage/pr:DDIProfileReference/r:URN" defaultValue="xx.yy:QDDT_QI_master_profile_working_draft:0.3"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/pr:DDIProfileReference/r:Agency" defaultValue="int.esseric"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/pr:DDIProfileReference/r:ID" defaultValue="QDDT_QI_master_profile" fixedValue="true"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/pr:DDIProfileReferencer:Version" defaultValue="1.0" fixedValue="true"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/pr:DDIProfileReference/r:URN" defaultValue="int.esseric:QDDT_QI_master_profile_working_draft:1.0"/>
             <pr:Used xpath="/DDIInstance/g:ResourcePackage/pr:DDIProfileReference/r:TypeOfObject" defaultValue="DDIProfile" fixedValue="true"/>
         </pr:DDIProfile>
     </g:ResourcePackage>

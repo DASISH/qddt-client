@@ -9,13 +9,13 @@
     xmlns ="ddi:instance:3_2"
     xmlns:s="ddi:studyunit:3_2"
     xsi:schemaLocation="ddi:instance:3_2 http://www.ddialliance.org/Specification/DDI-Lifecycle/3.2/XMLSchema/instance.xsd">
-    <r:Agency>xx.yy</r:Agency>
-    <r:ID>QDDT_master_profile_QI_working_draft</r:ID>
-    <r:Version>0.4</r:Version>
-    <r:URN>urn:ddi:xx.yy:QDDT_master_profile_QI_working_draft:0.4</r:URN>
+    <r:Agency>int.esseric</r:Agency>
+    <r:ID>QDDT_master_profile_QI</r:ID>
+    <r:Version>1.0</r:Version>
+    <r:URN>urn:ddi:int.esseric:QDDT_master_profile_QI:1.0</r:URN>
     <r:Citation>
         <r:Title>
-            <r:String xml:lang="en-GB">Definition for a DDI (3.2) master profile for a QuestionItem - working draft</r:String>
+            <r:String xml:lang="en-GB">Definition for a DDI (3.2) master profile for a QuestionItem</r:String>
         </r:Title>
         <r:Contributor>
             <r:ContributorName affiliation="NSD - Norsk senter for forskningsdata">
@@ -28,21 +28,21 @@
             </r:ContributorName>
         </r:Contributor>
     </r:Citation> 
-    <g:ResourcePackage isMaintainable="true" versionDate="2017-06-27">
-        <r:Agency>xx.yy</r:Agency>
-        <r:ID>QDDT_QI_master_profile_RP_working_draft</r:ID>
-        <r:Version>0.4</r:Version>
-        <r:URN>urn:ddi:xx.yy:QDDT_QI_master_profile_RP_working_draft:0.4</r:URN>
+    <g:ResourcePackage isMaintainable="true" versionDate="2018-05-24">
+        <r:Agency>int.esseric</r:Agency>
+        <r:ID>QDDT_QI_master_profile_RP</r:ID>
+        <r:Version>1.0</r:Version>
+        <r:URN>urn:ddi:int.esseric:QDDT_QI_master_profile_RP:1.0</r:URN>
         <r:Purpose>
-            <r:Content xml:lang="en-GB">Resource package containing a master DDI profile for QuestionItem - working draft</r:Content>
+            <r:Content xml:lang="en-GB">Resource package containing a master DDI profile for QuestionItem</r:Content>
         </r:Purpose>
         <pr:DDIProfile>
-            <r:Agency>xx.yy</r:Agency>
-            <r:ID>QDDT_QI_master_profile_working_draft</r:ID>
-            <r:Version>0.4</r:Version>
-            <r:URN>urn:ddi:xx.yy:QDDT_QI_master_profile_working_draft:0.4</r:URN>
+            <r:Agency>int.esseric</r:Agency>
+            <r:ID>QDDT_QI_master_profile</r:ID>
+            <r:Version>1.0</r:Version>
+            <r:URN>urn:ddi:int.esseric:QDDT_QI_master_profile:1.0</r:URN>
             <r:Description>
-                <r:Content xml:lang="en-GB">This is a master DDI profile for the DASISH Questionnaire Design and Documentation Tool(QDDT) v1.0 for the element QuestionItem - working draft.
+                <r:Content xml:lang="en-GB">This is a master DDI profile for the DASISH Questionnaire Design and Documentation Tool(QDDT) v1.0 for the element QuestionItem.
                     The profile includes specified elements for QuestionItem and its referenced elements
                 </r:Content>
             </r:Description>
@@ -446,8 +446,8 @@
             <pr:Used xpath="/DDIInstance/g:ResourcePackage/r:ManagedRepresentationScheme/r:ManagedScaleRepresentation/r:Description"/>
             <pr:Used xpath="/DDIInstance/g:ResourcePackage/r:ManagedRepresentationScheme/r:ManagedScaleRepresentation/r:ScaleDimension"/>
             <pr:Used xpath="/DDIInstance/g:ResourcePackage/r:ManagedRepresentationScheme/r:ManagedScaleRepresentation/r:ScaleDimension/r:NumberRange"/>
-            <pr:Used xpath="/DDIInstance/g:ResourcePackage/r:ManagedRepresentationScheme/r:ManagedScaleRepresentation/r:ScaleDimension/r:NumberRanger:High"/>
-            <pr:Used xpath="/DDIInstance/g:ResourcePackage/r:ManagedRepresentationScheme/r:ManagedScaleRepresentation/r:ScaleDimension/r:NumberRanger:Low"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/r:ManagedRepresentationScheme/r:ManagedScaleRepresentation/r:ScaleDimension/r:NumberRange:High"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/r:ManagedRepresentationScheme/r:ManagedScaleRepresentation/r:ScaleDimension/r:NumberRange:Low"/>
             <pr:Used xpath="/DDIInstance/g:ResourcePackage/r:ManagedRepresentationScheme/r:ManagedScaleRepresentation/r:ScaleDimension/r:Anchor"/>
             <pr:Used xpath="/DDIInstance/g:ResourcePackage/r:ManagedRepresentationScheme/r:ManagedScaleRepresentation/r:DisplayLayout"/>
             

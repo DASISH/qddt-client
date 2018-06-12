@@ -9,6 +9,8 @@ import { QddtMessageService } from '../../core/global/message.service';
 @Component({
   selector: 'qddt-collection-revision-search-select',
   changeDetection: ChangeDetectionStrategy.OnPush,
+
+  styles: ['.li.over { border: 2px dashed green;}'],
   templateUrl: './collection-search-revision-select.component.html'
 })
 
@@ -46,6 +48,35 @@ export class CollectionSearchRevisionSelectComponent implements OnChanges, After
     if (changes['revisionList']) {
     }
   }
+
+  onDrop(evt: any) {
+    evt.preventDefault();
+    evt.stopPropagation();
+    evt.currentTarget.style.border = 'none';
+    const item = evt.dataTransfer.getData('application/json');
+    console.log(item);
+    // your code goes here after droping files or any
+  }
+
+  onDragOver(evt) {
+     evt.preventDefault();
+     evt.stopPropagation();
+     evt.currentTarget.style.border = 'dashed';
+    }
+
+  onDragLeave(evt) {
+     evt.preventDefault();
+     evt.stopPropagation();
+
+    }
+
+  onDragStart(event, item) {
+    event.currentTarget.style.border = 'dashed';
+    // Set the drag's format and data. Use the event target's id for the data
+    event.dataTransfer.setData('application/json', item);
+    event.dataTransfer.dropEffect = 'move';
+  }
+
   public getQueryInfo(): QueryInfo {
     return QDDT_QUERY_INFOES[this.kind];
   }

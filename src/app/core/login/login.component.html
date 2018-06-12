@@ -1,13 +1,13 @@
 <div class="row">
-  <form class="col s6 offset-s3" name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
+  <form class="col s6 offset-s3" name="form" (ngSubmit)="f.form.valid && login($event)" #f="ngForm" novalidate>
     <div class="row input-field" [ngClass]="{ 'has-error': f.submitted && !email.valid }">
       <label for="name">Email</label>
-      <input id="name" type="email" class="form-control" name="email" [(ngModel)]="model.email" #email="ngModel" required />
+      <input id="name" type="email"  name="email" [(ngModel)]="model.email"  required />
       <div *ngIf="f.submitted && !email.valid" class="help-block">email is required</div>
     </div>
     <div class="row input-field" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
       <label for="pwd">Password</label>
-      <input id="pwd" type="password" class="form-control" name="password" [(ngModel)]="model.password" #password="ngModel" required />
+      <input id="pwd" type="password" name="password" [(ngModel)]="model.password" required />
       <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
     </div>
     <div class="row">

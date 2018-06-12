@@ -78,7 +78,7 @@
               </div>
             </h5>
             <qddt-topic-edit [isVisible]="edit.isVisible" [topic]="currentElement"
-                              (savedEvent)="onTopicSavedEvent($event)"
+                              (savedEvent)="onTopicSaved($event)"
                               #edit>
             </qddt-topic-edit>
             <div class="row" *ngIf="!edit.isVisible">
