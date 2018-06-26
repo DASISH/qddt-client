@@ -70,10 +70,9 @@
                   </td>
                   <td>
                     <div class="input-field">
-                      <select id="{{idx}}placeholderAlignment" name="{{idx}}placeholderAlignment"
+                      <select id="{{idx}}placeholderAlignment" name="{{idx}}placeholderAlignment" materialize="material_select"
                               [ngModel]="category.code.alignment"
-                              (ngModelChange)="onSelectAligment($event, idx)"
-                      materialize="material_select">
+                              (ngModelChange)="onSelectAligment($event, idx)">
                       <option [value]="'text-left'">Left</option>
                       <option [value]="'text-center'">Center</option>
                       <option [value]="'text-right'">Right</option>

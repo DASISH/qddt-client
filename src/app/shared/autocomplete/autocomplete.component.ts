@@ -1,13 +1,13 @@
 
-import {distinctUntilChanged, debounceTime} from 'rxjs/operators';
+import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnDestroy} from '@angular/core';
 import { IElement, IEntityAudit} from '../classes/interfaces';
 import { QueryInfo } from '../classes/classes';
 import { ElementKind } from '../classes/enums';
 import { ElementEnumAware } from '../../preview/preview.service';
-import { getElementKind, QDDT_QUERY_INFOES} from '../classes/constants';
-import {Factory} from '../classes/factory';
-import {Subject} from 'rxjs';
+import { getElementKind, QDDT_QUERY_INFOES } from '../classes/constants';
+import { Factory } from '../classes/factory';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'qddt-auto-complete',
@@ -44,7 +44,7 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
   constructor() {
     this.searchKeysChange.pipe(
       debounceTime(300),
-      distinctUntilChanged(),)
+      distinctUntilChanged())
       .subscribe((name: string) => {
         this.waitingForChange = true;
         this.enterEvent.emit(name);
@@ -96,6 +96,10 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
     this.showAutoComplete = true;
     this.focusEvent.emit('focus');
     this.filterItems(this.value);
+  }
+
+  onBlur() {
+    this.showAutoComplete = false;
   }
 
   select(candidate: IEntityAudit) {
