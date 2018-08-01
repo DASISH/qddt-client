@@ -579,6 +579,7 @@
             <pr:Used xpath="/DDIInstance/g:ResourcePackage/c:ConceptScheme/c:Concept/r:BasedOnObject/r:BasedOnRationaleDescription"/>
             <pr:Used xpath="/DDIInstance/g:ResourcePackage/c:ConceptScheme/c:Concept/r:BasedOnObject/r:BasedOnRationaleCode"/>
             <pr:Used xpath="/DDIInstance/g:ResourcePackage/c:ConceptScheme/c:Concept/c:ConceptName"/>
+            <pr:Used xpath="/DDIInstance/g:ResourcePackage/c:ConceptScheme/c:Concept/c:Description"/>
             <pr:Used xpath="/DDIInstance/g:ResourcePackage/c:ConceptScheme/c:Concept/c:SubclassOfReference"/>   
             <pr:Used xpath="/DDIInstance/g:ResourcePackage/c:ConceptScheme/c:Concept/c:SubclassOfReference/r:Agency"/>	
             <pr:Used xpath="/DDIInstance/g:ResourcePackage/c:ConceptScheme/c:Concept/c:SubclassOfReference/r:ID"/>	
