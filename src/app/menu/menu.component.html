@@ -44,9 +44,6 @@
           <li *ngIf="canSee('QUESTION_ITEM')"><a class="teal-text" [routerLink]="['/questionitems']">
             <i class="material-icons teal-text left medium">help</i>Questions</a>
           </li>
-          <li *ngIf="canSee('CATEGORY')"><a class="teal-text" [routerLink]="['/categories']" >
-            <i class="material-icons teal-text left medium">view_comfy</i>Categories</a>
-          </li>
           <li *ngIf="canSee('MISSING_GROUP')"><a class="teal-text" [routerLink]="['/missing']" >
             <i class="material-icons teal-text left medium">view_module</i>Missings</a>
           </li>
@@ -64,6 +61,25 @@
           </li>
           <li><a class="teal-text" [routerLink]="['/publications']" >
             <i class="material-icons teal-text left medium">folder_special</i>Publications</a>
+          </li>
+          <li>
+            <ul class="collapsible collapsible-accordion">
+              <li><a class="collapsible-header waves-effect teal-text"><i class="material-icons teal-text left medium">folder_special</i>Lockups</a>
+                <div class="collapsible-body">
+                  <ul>
+                    <li *ngIf="canSee('UNIVERSE')" ><a class="teal-text" [routerLink]="['/universes']" >
+                        <i class="material-icons teal-text left medium">speaker_group</i>Universe</a>
+                    </li>
+                    <li *ngIf="canSee('INSTRUCTION')"><a class="teal-text" [routerLink]="['/instructions']" >
+                      <i class="material-icons teal-text left medium">speaker_notes</i>Instruction</a>
+                    </li>
+                    <li *ngIf="canSee('CATEGORY')"><a class="teal-text" [routerLink]="['/categories']" >
+                      <i class="material-icons teal-text left medium">view_comfy</i>Categories</a>
+                    </li>          
+                  </ul>
+                </div>
+              </li>
+            </ul>
           </li>
         </div>
       </ul>

@@ -1,0 +1,10 @@
+<qddt-template-component #detail>
+
+  <qddt-instruction-form class="qddt-edit"
+    [instruction] = "templateDetail.newItem"
+    (modifiedEvent) = "onFormModified($event)">
+  </qddt-instruction-form>
+
+  <router-outlet></router-outlet>
+
+</qddt-template-component>

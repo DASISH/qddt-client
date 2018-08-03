@@ -1,0 +1,29 @@
+<div *ngIf="universe" >
+  <form (ngSubmit)="onSave()" #hf="ngForm">
+
+    <div class="row">
+      <div class="input-field col m12 ">
+        <input id="name2" name="name" type="text" class="validate" required [(ngModel)]="universe.name"
+               data-length="255" materialize="characterCounter">
+        <label for="name2">Name</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-field col m12 ">
+        <textarea class="materialize-textarea validate" name="{{universe?.id}}-cat-desc"
+                  data-length="1000" materialize="characterCounter" [(ngModel)]="universe.description" >
+        </textarea>
+        <label for="{{universe?.id}}-cat-desc" >Description</label>
+      </div>
+    </div>
+
+    <qddt-rational  *ngIf="!readonly && universe.id" [formName]="'RationalComp'" [element]="universe" [config]="{hidden: [4]}"></qddt-rational>
+
+    <qddt-element-footer  *ngIf="universe.id" [element]="universe"></qddt-element-footer>
+
+    <div class="row right-align">
+      <button  *ngIf="!readonly" type="submit" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
+    </div>
+  </form>
+</div>

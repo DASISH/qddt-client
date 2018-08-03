@@ -41,7 +41,7 @@ export class ResponsedomainReuseComponent implements OnChanges  {
     this.searchKeysListener.pipe(
       debounceTime(300),
       distinctUntilChanged(),
-      filter(val => val.length > 0),)
+      filter(val => val.length > 0), )
       .subscribe((search: string) => {
         this.loadPage(search);
       });

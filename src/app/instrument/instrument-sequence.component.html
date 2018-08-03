@@ -6,7 +6,10 @@
     <div class="collapsible-header grey lighten-5">
         <div class="col s3">{{ cqi?.elementRef?.elementKind }}</div>
         <div class="col s7"> [{{ cqi?.elementRef?.name }}]</div>
-        <div class="col s2"><qddt-version-label [element]="cqi?.elementRef"></qddt-version-label></div>
+        <div class="col s2"><qddt-version-label [element]="cqi?.elementRef"></qddt-version-label>
+          <a class="waves-effect waves-light small teal-text" (click)="onDeleteItem(idx)">
+          <i class="material-icons" title="Remove">remove_circle</i></a>
+        </div>
     </div>
     <div class="collapsible-body"  style="padding:1rem">
         <P>Parameters</P>
@@ -15,8 +18,7 @@
         </div>
         <label>Description</label>
         <qddt-preview-element *ngIf="!isSequence(cqi.elementRef.elementKind)" [element]= "cqi.elementRef.element" ></qddt-preview-element>
-        <qddt-instrument-sequence *ngIf="isSequence(cqi.elementRef.elementKind)"
-          [sequence] = "cqi.sequences">
+        <qddt-instrument-sequence *ngIf="isSequence(cqi.elementRef.elementKind)" [sequence] = "cqi.sequences">
         </qddt-instrument-sequence>
     </div>
   </li>

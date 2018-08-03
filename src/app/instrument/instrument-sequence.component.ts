@@ -49,7 +49,7 @@ export class InstrumentSequenceComponent  {
       const newSeq = new InstrumentSequence();
       newSeq.elementRef = seq;
       insSeq.sequences.push(newSeq);
-    })
+    });
     this.sequence.push(insSeq);
   }
 

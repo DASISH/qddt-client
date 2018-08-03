@@ -8,6 +8,11 @@ export const DEFAULT_COLUMNS = [
   new Column({ name: ['modifiedBy', 'agencyUserName'],  label: 'User@Agency' })
 ];
 
+const LOCKUP_COLUMNS =  [
+  new Column( { label: 'Name', name: 'name', sortable: true }),
+  new Column( { label: 'Description', name: 'description', sortable: true }),
+];
+
 const  QUESTION_CONSTRUCT_COLUMNS = [
   new Column({ name: 'name', label: 'Construct Name', sortable: true }),
   new Column({ name: 'questionName', label: 'Question Name', sortable: true }),
@@ -106,6 +111,8 @@ export const LIST_COLUMNS: Map<ElementKind, Column[]>  = new Map([
   [ElementKind.SEQUENCE_CONSTRUCT, SEQUENCE_CONSTRUCT_COLUMNS.concat(DEFAULT_COLUMNS) ],
   [ElementKind.INSTRUMENT, INSTRUMENT_COLUMNS.concat(DEFAULT_COLUMNS) ],
   [ElementKind.PUBLICATION, PUBLICATION_COLUMNS.concat(DEFAULT_COLUMNS) ],
+  [ElementKind.UNIVERSE, LOCKUP_COLUMNS.concat(DEFAULT_COLUMNS) ],
+  [ElementKind.INSTRUCTION, LOCKUP_COLUMNS.concat(DEFAULT_COLUMNS) ],
   [ElementKind.USER, USER_COLUMNS ]
 ]);
 

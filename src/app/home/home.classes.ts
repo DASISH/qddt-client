@@ -1,7 +1,6 @@
 import { IEntityAudit, IEntityEditAudit, IVersion, IUser} from '../shared/classes/interfaces';
 import { ElementKind } from '../shared/classes/enums';
 import { ElementRevisionRef } from '../shared/classes/classes';
-import {Category} from '../category/category.classes';
 
 interface IRef {
   id: string;
@@ -51,7 +50,7 @@ export class Study implements IEntityEditAudit {
 export class Topic implements IEntityEditAudit {
   id: string;
   name: string;
-  abstractDescription: string;
+  description: string;
   archived: boolean;
   authors?: any[];
   comments?: any[];

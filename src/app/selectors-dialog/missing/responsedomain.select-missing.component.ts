@@ -47,7 +47,7 @@ export class ResponsedomainSelectMissingComponent implements OnInit, OnChanges {
     this.searchKeysListener.pipe(
       debounceTime(300),
       distinctUntilChanged(),
-      filter(val => val.length > 0),)
+      filter(val => val.length > 0), )
       .subscribe((name: string) => {
         this.pageSearch.key = name;
         this.service.searchByKind<Category>(this.pageSearch).then(

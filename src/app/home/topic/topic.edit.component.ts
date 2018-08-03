@@ -1,7 +1,6 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { Observable } from 'rxjs';
 import { HomeService } from '../home.service';
-import {Topic} from '../home.classes';
+import { Topic } from '../home.classes';
 import { IOtherMaterial } from '../../shared/classes/interfaces';
 import { ElementKind } from '../../shared/classes/enums';
 
@@ -28,7 +27,7 @@ export class TopicEditComponent  {
   private showUploadFileForm = false;
   private readonly = false;
   private files: FileList;
-  private fileStore = []
+  private fileStore = [];
   private toDeleteFiles = [];
 
   constructor(private service: HomeService) { }

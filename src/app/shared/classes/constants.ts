@@ -44,5 +44,7 @@ export  const HEADER_DETAILS: Map<string, IHeaderDetail>  = new Map([
   ['responsedomains', { icon: 'blur_linear', headerName: 'Response domains', kind: ElementKind.RESPONSEDOMAIN }],
   ['instruments', { icon: 'tablet_mac', headerName: 'Instruments', kind: ElementKind.INSTRUMENT }],
   ['publications', { icon: 'folder_special', headerName: 'Publication packages', kind: ElementKind.PUBLICATION }],
+  ['instructions', { icon: 'speaker_notes', headerName: 'Instructions', kind: ElementKind.INSTRUCTION }],
+  ['universes', { icon: 'speaker_group', headerName: 'Universes', kind: ElementKind.UNIVERSE }],
   ['user', { icon: 'user', headerName: 'User Administration', kind: ElementKind.USER }],
 ]);
