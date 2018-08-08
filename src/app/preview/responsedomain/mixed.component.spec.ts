@@ -22,7 +22,7 @@ export function main() {
         imports: [CommonModule, FormsModule, MaterializeModule]
       });
       //Mock debounceTime
-      Observable.prototype.debounceTime = function () { return this; };
+      // Observable.prototype.debounceTime = function () { return this; };
     });
 
     it('should work with null',
@@ -81,24 +81,13 @@ export function main() {
                 },
               }]
             };
-            const responseDomain: any = {
-              'id' : '7f000101-54aa-131e-8154-aa27fc230000',
-              'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
-              'name' : 'MIXED',
-              'basedOnObject' : null,
-              'categoryType' : 'MIXED',
-              'managedRepresentation' : managedRepresentation,
-              'basedOnRevision' : null,
-              'version' : {'major' : 6, 'minor' : 0, 'versionLabel' : '', 'revision' : null },
-              'changeKind' : 'CONCEPTUAL',
-              'changeComment' : 'Information added'
-            };
-            fixture.componentInstance.responseDomain = responseDomain;
+
+            fixture.componentInstance.managedRepresentation = managedRepresentation;
             fixture.componentInstance.ngOnChanges();
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              expect(fixture.componentInstance.mixedDomains.length).toBe(2);
-              expect(fixture.componentInstance.mixedDomains[0].responseKind).toContain('LIST');
+              expect(fixture.componentInstance.managedRepresentation.children.length).toBe(2);
+              expect(fixture.componentInstance.managedRepresentation.categoryType).toContain('LIST');
             });
           });
       }));

@@ -25,8 +25,9 @@ export class TreeNodeComponent implements AfterContentChecked {
 
   public showConceptChildForm = false;
   public showbutton = false;
-  refreshCount = 0;
-  private newchild: any;
+  public newchild: any;
+
+  private refreshCount = 0;
 
   constructor(private conceptService: HomeService, private message: QddtMessageService) {
     this.newchild = new Concept();

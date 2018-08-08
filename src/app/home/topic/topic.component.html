@@ -30,7 +30,7 @@
               </div>
 
               <div class="row input-field">
-                <textarea id="topic-desc" name="description" class="materialize-textarea" [(ngModel)]="newTopic.abstractDescription"
+                <textarea id="topic-desc" name="description" class="materialize-textarea" [(ngModel)]="newTopic.description"
                           required autosize ></textarea>
                 <label for="topic-desc" class="white-text">Description</label>
               </div>
@@ -82,7 +82,7 @@
                               #edit>
             </qddt-topic-edit>
             <div class="row" *ngIf="!edit.isVisible">
-              <p>{{ currentElement?.abstractDescription }}</p>
+              <p  [innerHtml]="currentElement?.description" ></p>
               <!--<label class="teal-text" *ngIf="topic.authors?.length>0">Authors</label>-->
               <!--<qddt-author-chip [authors]="topic.authors" ></qddt-author-chip>-->
             </div>

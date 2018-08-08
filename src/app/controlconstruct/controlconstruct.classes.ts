@@ -18,7 +18,7 @@ export class Universe implements IEntityAudit {
   classKind = ElementKind[ElementKind.UNIVERSE];
   public constructor(init?: Partial<Universe>) {
     Object.assign(this, init);
-    if (!this.name || this.name.length === 0) {
+    if (this.description && ( !this.name || this.name.length === 0)) {
       this.name = this.description.substr(0, 20).toUpperCase();
     }
   }
@@ -32,7 +32,7 @@ export class Instruction implements IEntityAudit {
   classKind = ElementKind[ElementKind.INSTRUCTION];
   public constructor(init?: Partial<Instruction>) {
     Object.assign(this, init);
-    if (!this.name || this.name.length === 0) {
+    if (this.description && ( !this.name || this.name.length === 0)) {
       this.name = this.description.substr(0, 20).toUpperCase();
     }
   }

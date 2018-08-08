@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
 import { HomeService } from '../home.service';
-import { Concept} from '../home.classes';
+import { Concept } from '../home.classes';
 
 @Component({
   selector: 'qddt-concept-edit',
@@ -13,13 +13,13 @@ import { Concept} from '../home.classes';
     <form (ngSubmit)="save()" #hf="ngForm">
 
       <div class="row input-field ">
-        <label [attr.for]="concept.id + '-name'" class="teal-text">Name</label>
+        <label [attr.for]="concept.id + '-name'" >Name</label>
         <input id="{{concept?.id}}-name"
           name="{{concept?.id}}-name" type="text" [(ngModel)]="concept.name" required>
       </div>
 
       <div class="row input-field ">
-        <label [attr.for]="concept.id + '-description'" class="teal-text">Description</label>
+        <label [attr.for]="concept.id + '-description'">Description</label>
         <textarea class="materialize-textarea" id="{{concept?.id}}-description"
           name="{{concept?.id}}-description"
           [(ngModel)]="concept.description" required autosize></textarea>

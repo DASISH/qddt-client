@@ -53,6 +53,10 @@ export class InstrumentSequenceComponent  {
     this.sequence.push(insSeq);
   }
 
+  public onDeleteItem(idx) {
+    this.sequence = this.sequence.splice(idx, 1);
+  }
+
   public onDismiss() {
     this.revisionResults = null;
     this.sequenceList = null;

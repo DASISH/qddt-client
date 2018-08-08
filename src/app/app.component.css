@@ -54,6 +54,17 @@ form p {
 .noItemFound { border: thick solid dodgerblue; }
 .itemInvalid { border: thick solid red; }
 
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+input[type="number"]:hover,
+input[type="number"]:focus {
+  -moz-appearance: number-input;
+}
+
+.collapsible.popout > li  {
+  margin: 0px !important;
+}
 
 /* .btn-small {
   width: 24px;

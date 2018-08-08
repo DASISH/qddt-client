@@ -82,6 +82,11 @@ export class QuestionConstructFormComponent   {
       });
   }
 
+  public onDismiss() {
+    this.revisionResults = null;
+    this.questionList = null;
+  }
+
   onRevisionSearch(item: IRevisionRef) {
     this.service.getRevisionsByKind<QuestionItem>(this.QUESTION, item.elementId ).then(
       (result) => {

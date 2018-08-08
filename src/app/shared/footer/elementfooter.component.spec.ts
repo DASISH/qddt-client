@@ -69,7 +69,7 @@ export function main() {
               },
               'authors': [],
               'otherMaterials': [],
-              'abstractDescription': 'test',
+              'description': 'test',
               'comments': [],
               'topicQuestionItems': []
             });

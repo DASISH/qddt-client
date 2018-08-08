@@ -21,18 +21,18 @@ import { SequenceConstruct } from '../../controlconstruct/controlconstruct.class
               </div>
             </div>
             <div class="collapsible-body">
-              <div [ngSwitch]="child.classKind">
+              <div [ngSwitch]="child.element.classKind">
                 <div *ngSwitchCase="'SEQUENCE_CONSTRUCT'">
-                  <qddt-preview-sequenceconstruct [sequence]="child"></qddt-preview-sequenceconstruct>
+                  <qddt-preview-sequenceconstruct [sequence]="child.element"></qddt-preview-sequenceconstruct>
                 </div>
                 <div *ngSwitchCase="'CONDITION_CONSTRUCT'">
-                  <qddt-preview-conditionconstruct [condition]="child"></qddt-preview-conditionconstruct>
+                  <qddt-preview-conditionconstruct [condition]="child.element"></qddt-preview-conditionconstruct>
                 </div>
                 <div *ngSwitchCase="'STATEMENT_CONSTRUCT'">
-                  <qddt-preview-statementconstruct [statement]="child"></qddt-preview-statementconstruct>
+                  <qddt-preview-statementconstruct [statement]="child.element"></qddt-preview-statementconstruct>
                 </div>
                 <div *ngSwitchCase="'QUESTION_CONSTRUCT'">
-                        <qddt-preview-questionitem [questionItem]="child.questionItem"></qddt-preview-questionitem>
+                        <qddt-preview-questionitem [questionItem]="child.element.questionItem"></qddt-preview-questionitem>
                   <!--<qddt-preview-questionconstruct [controlConstruct]="child"></qddt-preview-questionconstruct>-->
                 </div>
               </div>

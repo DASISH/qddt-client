@@ -12,8 +12,8 @@
         [(ngModel)]="publication.purpose" materialize="characterCounter" data-length="255">
       </textarea>
     </div>
-    <div class="row" *ngIf="selectOptions">
-        <div class="input-field col s6 m5 l4">
+    <div class="row input-field" *ngIf="selectOptions">
+        <div class=" col s6 m5 l4">
           <select materialize="material_select" name="{{formId}}-status" id="{{formId}}-status" class="validate" required
             [materializeSelectOptions]="selectOptions"
             [(ngModel)]="selectedOptionId" (ngModelChange)="onSelectChange($event)">
@@ -29,8 +29,8 @@
         </div>
     </div>
     <div class="row">
-      <div class="row {textColor}">Content list</div>
-      <ul *ngIf="publication.publicationElements" materialize="collapsible"
+      <label for="{{formId}}-ppe">Content list</label>
+      <ul id="{{formId}}-ppe" *ngIf="publication.publicationElements" materialize="collapsible"
           class="collapsible popout" data-collapsible="expandable">
         <li class="row collapsible-header grey lighten-2" style="color: black">
           <div class="col s2">Element type</div>
@@ -46,7 +46,7 @@
               <div class="col s1" *ngIf="!readonly">
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                    (click)="onElementDelete(idx)">
-                  <i class="material-icons medium" [ngStyle]="{'width': 'inherit', 'line-height': '37px'}" title="Delete" >delete_forever</i>
+                  <i class="material-icons medium"  [ngStyle]="{'width': 'inherit'}" title="Delete" >delete_forever</i>
                 </a>
               </div>
           </div>

@@ -41,6 +41,7 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy {
   public selectedCategoryIndex: number;
   public domainType: DomainKind;
   public categories: Category[];
+  public readonly formId = Math.round( Math.random() * 10000);
 
   private pageSearch: IPageSearch;
   private ok = true;
@@ -62,6 +63,7 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy {
 
     if (!this.responsedomain) { return; }
 
+    console.log(this.responsedomain.managedRepresentation.inputLimit);
     this.numberOfAnchors = this.responsedomain.managedRepresentation.children.length;
 
     if (this.domainType === DomainKind.SCALE) {

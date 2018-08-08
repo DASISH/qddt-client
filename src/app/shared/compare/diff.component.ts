@@ -25,8 +25,8 @@ export class DiffComponent implements OnChanges {
   @Input() current: any;
   @Input() config: any[];
   @Output() hideCompareEvent =  new EventEmitter<any>();
+  public elementChange: ElementChange = new ElementChange();
   private diff: DiffString = new DiffString();
-  private elementChange: ElementChange = new ElementChange();
 
   ngOnChanges() {
     this.elementChange.name = this.current['name'] || '';

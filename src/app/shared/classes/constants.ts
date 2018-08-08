@@ -28,7 +28,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
   new QueryInfo(ElementKind.RESPONSEDOMAIN, 'ResponseDomain', 'responsedomain', ['name', 'description', 'question'], null),
   new QueryInfo(ElementKind.STUDY, 'Study', 'study', ['name', 'description'], null),
   new QueryInfo(ElementKind.SURVEY_PROGRAM, 'Survey', 'surveyprogram', ['name', 'description'], null),
-  new QueryInfo(ElementKind.TOPIC_GROUP, 'Module', 'topicgroup', ['name', 'abstractDescription'], null),
+  new QueryInfo(ElementKind.TOPIC_GROUP, 'Module', 'topicgroup', ['name', 'description'], null),
   new QueryInfo(ElementKind.INSTRUCTION, 'Instruction', 'instruction', ['description'], null),
   new QueryInfo(ElementKind.UNIVERSE, 'Universe', 'universe', ['description'], null),
   new QueryInfo(ElementKind.USER, 'User', 'user', ['name'], null),
@@ -45,6 +45,6 @@ export  const HEADER_DETAILS: Map<string, IHeaderDetail>  = new Map([
   ['instruments', { icon: 'tablet_mac', headerName: 'Instruments', kind: ElementKind.INSTRUMENT }],
   ['publications', { icon: 'folder_special', headerName: 'Publication packages', kind: ElementKind.PUBLICATION }],
   ['instructions', { icon: 'speaker_notes', headerName: 'Instructions', kind: ElementKind.INSTRUCTION }],
-  ['universes', { icon: 'speaker_group', headerName: 'Universes', kind: ElementKind.UNIVERSE }],
+  ['universes', { icon: 'add_location', headerName: 'Universes', kind: ElementKind.UNIVERSE }],
   ['user', { icon: 'user', headerName: 'User Administration', kind: ElementKind.USER }],
 ]);

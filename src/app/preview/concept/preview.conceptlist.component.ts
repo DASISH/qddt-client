@@ -9,7 +9,7 @@ import { Concept } from '../../home/home.classes';
     'collapsible-header { display: flow-root;  margin-left: unset;}'
   ],
   template: `
-    <ul *ngIf="conceptList" materialize="collapsible" class="collapsible" data-collapsible="accordion" style="margin:25px; padding:10px;">
+    <ul *ngIf="conceptList" materialize="collapsible" class="collapsible" data-collapsible="accordion" style="margin:10px; padding:5px;">
       <li *ngFor="let concept of conceptList">
         <div class="collapsible-header yellow lighten-5">
           <div class="col s2">Concept</div>

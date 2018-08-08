@@ -1,4 +1,4 @@
-import {AfterContentChecked, Component, EventEmitter, OnInit} from '@angular/core';
+import { Component, EventEmitter, OnInit} from '@angular/core';
 import { MaterializeAction } from 'angular2-materialize';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QddtPropertyStoreService } from '../../core/global/property.service';
@@ -18,7 +18,7 @@ import { TemplateService } from '../../template/template.service';
 
 export class ConceptComponent implements OnInit {
   public readonly conceptKind = ElementKind.CONCEPT;
-  public confimDeleteActions = new EventEmitter<string|MaterializeAction>();
+  public confirmDeleteActions = new EventEmitter<string|MaterializeAction>();
   public showReuse = false;
   public showConceptForm = false;
   public showProgressBar = false;
@@ -26,10 +26,11 @@ export class ConceptComponent implements OnInit {
   public toDeletedConcept: any;
   public topic: Topic;
   public concepts: any;
+  public concept: Concept;
+
   refreshCount = 0;
 
   private parentId: any;
-  private concept: any;
 
   constructor(private router: Router, private route: ActivatedRoute, private property: QddtPropertyStoreService,
               private conceptService: HomeService, private service: TemplateService ) {
@@ -91,14 +92,14 @@ export class ConceptComponent implements OnInit {
 
   onDeleteConcept(concept: any) {
     this.toDeletedConcept = concept;
-    this.confimDeleteActions.emit({action: 'modal', params: ['open']});
+    this.confirmDeleteActions.emit({action: 'modal', params: ['open']});
   }
 
   onConfirmDeleteConcept() {
     this.conceptService.deleteConcept(this.toDeletedConcept.id)
       .subscribe(
       (val) => {
-        this.confimDeleteActions.emit({action: 'modal', params: ['close']});
+        this.confirmDeleteActions.emit({action: 'modal', params: ['close']});
         this.removeConcept(this.concepts, this.toDeletedConcept.id);
         this.property.set('concepts', this.concepts);
       },

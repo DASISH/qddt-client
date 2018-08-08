@@ -22,38 +22,35 @@
 					<div *ngSwitchCase="domainTypeDef.SCALE">
 						<div class="row">
               <div class="col l3 input-field">
-                <input id="scale_start" name="scale_start" type="number"
-                   [attr.max]="subtract([responsedomain.managedRepresentation.inputLimit.maximum],
-                                        [responsedomain.managedRepresentation.children.length])+1"
+                <input class="validate" id="{{formId}}scale_start" name="{{formId}}scale_start" 
+                  type="number"  max="{{responsedomain.managedRepresentation.inputLimit.maximum}}"
 								  (ngModelChange)="buildPreviewResponseDomain()"
 					        [(ngModel)]="responsedomain.managedRepresentation.inputLimit.minimum" required>
-                  <label for="scale_start" >Start</label>
+                  <label for="{{formId}}scale_start" >Start</label>
                 </div>
               <div class="col l3 input-field">
-                <input id="scale_end" name="scale_end" type="number"
-                  [attr.min]="addition([responsedomain.managedRepresentation.inputLimit.minimum],
-                          [responsedomain.managedRepresentation.children.length])-1"
+                <input class="validate" id="{{formId}}scale_end" name="{{formId}}scale_end" 
+                  type="number" min="{{responsedomain.managedRepresentation.inputLimit.minimum}}"
                   (ngModelChange)="buildPreviewResponseDomain()"
 					        [(ngModel)]="responsedomain.managedRepresentation.inputLimit.maximum" required>
-                  <label for="scale_end" >End</label>
+                  <label for="{{formId}}scale_end" >End</label>
                 </div>
               <div class="col l3 input-field">
-                <input id="scale_anchor" name="scale_anchor" type="number" [(ngModel)]="numberOfAnchors"
-                       [attr.min]=0
-                       [attr.max]="subtract([responsedomain.managedRepresentation.inputLimit.maximum],
-                                [responsedomain.managedRepresentation.inputLimit.minimum]) + 1"
-                       (ngModelChange)="changeNumberOfAnchors($event)" required>
-                <label for="scale_anchor" >Number of Anchor</label>
+                <input id="{{formId}}scale_anchor" name="{{formId}}scale_anchor"
+                  type="number" min="0" max="{{responsedomain.managedRepresentation.inputLimit.maximum}}"
+                  [(ngModel)]="numberOfAnchors"
+                  (ngModelChange)="changeNumberOfAnchors($event)" required>
+                <label for="{{formId}}scale_anchor" >Number of Anchor</label>
               </div>
 							<div class="col l3 input-field">
-								<select id="scale_DisplayLayout" name="scale_DisplayLayout"
+								<select id="{{formId}}scale_DisplayLayout" name="{{formId}}scale_DisplayLayout"
 								   [ngModel]="responsedomain.displayLayout"
 									 (ngModelChange)="onChangeDegreeSlope($event)"
 						       materialize="material_select" required>
 						       <option [value]="0">horizontal</option>
 						       <option [value]="90">vertical</option>
    					    </select>
-                <label for="scale_DisplayLayout" >Display Layout</label>
+                <label for="{{formId}}scale_DisplayLayout" >Display Layout</label>
               </div>
             </div>
 
@@ -63,8 +60,8 @@
 								<tr *ngFor="let category of responsedomain.managedRepresentation.children; let idx=index">
 									<td>
                     <input id="{{idx}}-code-value" name="{{idx}}-code-value" type="number"
-                           [attr.min]="responsedomain.managedRepresentation.inputLimit.minimum"
-                           [attr.max]="responsedomain.managedRepresentation.inputLimit.maximum"
+                           min="{{responsedomain.managedRepresentation.inputLimit.minimum}}"
+                           max="{{responsedomain.managedRepresentation.inputLimit.maximum}}"
 									  (ngModelChange)="buildPreviewResponseDomain()"
 									  [(ngModel)]="category.code.codeValue" required>
                   </td>

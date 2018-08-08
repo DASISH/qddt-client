@@ -8,6 +8,7 @@ import { IOtherMaterial } from '../shared/classes/interfaces';
 export class QuestionConstruct implements IEntityAudit {
   id: string;
   name: string;
+  description: string;
   classKind = ElementKind[ElementKind.QUESTION_CONSTRUCT];
   questionItem: QuestionItem;
   questionItemRevision: number;

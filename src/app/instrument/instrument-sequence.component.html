@@ -2,7 +2,7 @@
 
 <ul *ngIf="sequence" materialize="collapsible" class="collapsible popout"
   data-collapsible="expandable" style="padding: 1pt;" (click)="onOpenBody(sequence)">
-  <li *ngFor="let cqi of sequence;">
+  <li *ngFor="let cqi of sequence;let idx = index">
     <div class="collapsible-header grey lighten-5">
         <div class="col s3">{{ cqi?.elementRef?.elementKind }}</div>
         <div class="col s7"> [{{ cqi?.elementRef?.name }}]</div>

@@ -4,7 +4,7 @@
 
       <a (click)="onSelectedElement(item.element)" [ngStyle]="{'cursor': 'pointer'}">{{ item?.name }}</a>
       <qddt-version-label class="right" [element]="item"></qddt-version-label>
-      <qddt-sequence-content *ngIf="item.sequence" [sequence]="item.sequence"></qddt-sequence-content>
+      <qddt-sequence-content *ngIf="item.element.sequence" [sequence]="item.element.sequence"></qddt-sequence-content>
     </li>
   </ul>
 </div>

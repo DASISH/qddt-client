@@ -38,60 +38,23 @@ export class AppComponent  implements OnDestroy {
     return !this.users.isTokenExpired();
   }
 
-  onInstruments() {
-    this.properties.set('current', 'instrument');
-  }
-
-  onSequences() {
-    this.properties.set('current', 'sequence');
-  }
-
-  onQuestions() {
-    this.checkRouter('questionitems', 'list');
-  }
-
-  onHome() {
-    this.checkRouter('home', 'survey');
-  }
-
-  onCategories() {
-    this.checkRouter('categories', 'list');
-  }
-
-  onSchemes() {
-    this.checkRouter('missing', 'list');
-  }
-
-  onResponsedomains() {
-    this.checkRouter('responsedomains', 'list');
-  }
-
-  onConstructs() {
-    this.checkRouter('constructs', 'list');
-  }
-
-  onPublications() {
-    this.checkRouter('publications', 'list');
-  }
-
-
   private showMessage<T extends IIdRef|IRevisionRef|IElement>(element: T) {
     this.ref = element;
   }
 
-  private checkRouter(target: string, value: string) {
-    const current = this.properties.get('current');
-    if (current === target) {
-      const config = this.properties.get('home');
-      if (config.current !== value) {
-        this.properties.set(target, {'current': value});
-      }
-    } else if (this.properties.get(target) === '') {
-      this.properties.set(target, {'current': value});
-    }
-    this.properties.set('current', target);
-
-  }
+  // private checkRouter(target: string, value: string) {
+  //   const current = this.properties.get('current');
+  //   if (current === target) {
+  //     const config = this.properties.get('home');
+  //     if (config.current !== value) {
+  //       this.properties.set(target, {'current': value});
+  //     }
+  //   } else if (this.properties.get(target) === '') {
+  //     this.properties.set(target, {'current': value});
+  //   }
+  //   this.properties.set('current', target);
+  //
+  // }
 
 
 }

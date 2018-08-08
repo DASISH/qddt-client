@@ -19,7 +19,7 @@ export class RevisionComponent implements OnChanges {
   public config: RevisionConfig[];
   public revisions = [];
   public selectRevisionId: number;
-  private showProgressBar = false;
+  public showProgressBar = false;
 
   constructor(private service: RevisionService, private message: QddtMessageService) {
     this.selectRevisionId = -1;

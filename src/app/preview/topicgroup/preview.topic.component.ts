@@ -11,7 +11,7 @@ const filesaver = require('file-saver');
   selector: 'qddt-preview-topic',
   moduleId: module.id,
   styles: [
-    'ul .collapsible { margin:20px; padding:5px; !important;}',
+    'ul .collapsible { margin:none; padding:5px; !important;}',
     'collapsible-header { display: flow-root; margin-bottom: 0px;}'
   ],
   templateUrl: 'preview.topic.component.html'

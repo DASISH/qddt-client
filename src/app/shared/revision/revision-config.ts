@@ -25,6 +25,8 @@ const  QUESTION_CONSTRUCT_CONFIG = DEFAULT_CONFIG.concat( [
   {name: 'questionText', label: 'Question' },
   {name: ['questionItem', 'version'], label: 'QI-Ver',
     init: function (version: IVersion) { return (version) ?  'V' + version.major + '.' + version.minor : ''; } },
+  {name: ['universe'], label: 'Uni',
+    init: function (o: any) { return  (o) ? o.map((element ) => element['description'] || '').sort().join(',') : '' ; } },
   {name: ['preInstructions'], label: 'Pre',
     init: function (o: any) { return  (o) ? o.map((element ) => element['description'] || '').sort().join(',') : '' ; } },
   {name: ['postInstructions'], label: 'Post',

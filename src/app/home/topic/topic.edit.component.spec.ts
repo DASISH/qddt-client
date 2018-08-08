@@ -49,7 +49,7 @@ export function main() {
             fixture.componentInstance.topic = {
               id: '7f000101-54aa-131e-8154-aa27fc230000',
               name: 'one topic',
-              abstractDescription: '',
+              description: '',
               otherMaterials: [],
               authors: [],
               topicQuestionItems: [],
@@ -83,7 +83,7 @@ export function main() {
             fixture.componentInstance.topic = {
               id: '7f000101-54aa-131e-8154-aa27fc230000',
               name: 'one topic',
-              abstractDescription: '',
+              description: '',
               otherMaterials: [],
               authors: [],
               topicQuestionItems: [],

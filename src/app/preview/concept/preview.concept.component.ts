@@ -7,7 +7,7 @@ import { ElementKind } from '../../shared/classes/enums';
   selector: 'qddt-preview-concept',
   moduleId: module.id,
   styles: [
-      'div.collapsible { margin:10px;}',
+      'div.collapsible { margin:none;}',
       'collapsible-header { display: flow-root; margin-bottom: 0px; margin-left: unset; }'
   ],
   templateUrl: 'preview.concept.component.html',

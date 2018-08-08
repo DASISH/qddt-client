@@ -18,7 +18,7 @@ export function main() {
         imports: [CommonModule, FormsModule, MaterializeModule]
       });
       //Mock debounceTime
-      Observable.prototype.debounceTime = function () { return this; };
+      // Observable.prototype.debounceTime = function () { return this; };
     });
 
     it('should work with null',
@@ -57,19 +57,8 @@ export function main() {
               },
               'children': []
             };
-            const responseDomain: any = {
-              'id' : '7f000101-54aa-131e-8154-aa27fc230000',
-              'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
-              'name' : 'responseDomain',
-              'basedOnObject' : null,
-              'categoryType' : 'NUMERIC',
-              'managedRepresentation' : managedRepresentation,
-              'basedOnRevision' : null,
-              'version' : {'major' : 6, 'minor' : 0, 'versionLabel' : '', 'revision' : null },
-              'changeKind' : 'CONCEPTUAL',
-              'changeComment' : 'Information added'
-            };
-            fixture.componentInstance.responseDomain = responseDomain;
+
+            fixture.componentInstance.managedRepresentation = managedRepresentation;
             fixture.componentInstance.ngOnChanges();
             fixture.detectChanges();
             fixture.whenStable().then(() => {

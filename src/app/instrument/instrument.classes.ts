@@ -42,6 +42,7 @@ export const INSTRUMENT_KIND = [
 
   export class Instrument implements IEntityAudit {
     id: string;
+    label: string;
     name: string;
     description: string;
     instrumentKind = InstrumentKind[InstrumentKind.QUESTIONNAIRE];
