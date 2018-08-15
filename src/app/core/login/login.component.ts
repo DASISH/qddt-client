@@ -16,8 +16,7 @@ export class LoginForm {
   templateUrl: './login.component.html'
 })
 export class LoginComponent implements OnInit, AfterContentChecked {
-  // AfterViewChecked, AfterContentChecked {
-  model: any = {};
+  model = new LoginForm();
   loading = false;
   returnUrl: string;
   once = 0;

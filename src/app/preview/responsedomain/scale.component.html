@@ -27,19 +27,15 @@
            min={{min}}
            max={{max}}/>
   </div>
-  <table *ngIf="displayLayout !== 0">
-    <tbody>
-      <tr *ngFor="let option of rows; let idx=index">
-        <td>
-                <span>
-                  <input name="{{managedRepresentation.id}}-group1" type="radio" id="{{managedRepresentation.id}}option1{{option.value}}" />
-                  <label [attr.for]="managedRepresentation.id + 'option' + option.value">{{ option?.label }}</label>
-                </span>
-        </td>
-        <td>
-          <span>{{ option?.value }}</span>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+
+  <div *ngIf="displayLayout !== 0">
+    <ul class="row">
+      <li *ngFor="let option of rows; let i=index" class="row">
+        <input name="{{managedRepresentation.id}}-list" type="radio" id="{{managedRepresentation.id}}code{{i}}"/>
+        <label [attr.for]="managedRepresentation.id + 'code' + i">{{ option?.label }}</label>
+        <span class="s1 right"> {{ option?.value }} </span>
+      </li>
+    </ul>
+  </div>
+
 </div>

@@ -5,6 +5,7 @@ import { IOtherMaterial } from '../../shared/classes/interfaces';
 import { ElementKind } from '../../shared/classes/enums';
 
 const filesaver = require('file-saver');
+declare const tinymce: any;
 
 @Component({
   selector: 'qddt-topic-edit',

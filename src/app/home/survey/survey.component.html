@@ -61,7 +61,7 @@
             </div>
 
             <div class="row" *ngIf="!edit.isVisible" >
-              <p>{{ surveyProgram?.description }}</p>
+                <p  [innerHtml]="surveyProgram?.description" ></p>
               <qddt-author-chip [authors]="surveyProgram?.authors" ></qddt-author-chip>
             </div>
 

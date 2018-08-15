@@ -13,8 +13,8 @@ export const CORE_ROUTES: Routes = [
     component: CoreComponent,
     children: [
       { path: '', redirectTo: '/login', pathMatch: 'full'},
-      { path: 'login', component: LoginComponent }
-      // { path: 'resetpassword', component: ResetpasswordComponent, canActivate: [AuthGuard] } ],
+      { path: 'login', component: LoginComponent },
+      { path: 'resetpassword', component: ResetpasswordComponent , canActivate: [AuthGuard] }
     ],
   }
 ];

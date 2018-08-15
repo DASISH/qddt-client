@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../user/user.service';
+import { UserService, IPassword } from '../user/user.service';
 
 @Component({
   selector: 'qddt-resetpassword',
@@ -7,9 +7,11 @@ import { UserService } from '../user/user.service';
   templateUrl: './resetpassword.component.html'
 })
 export class ResetpasswordComponent implements OnInit {
-  model: any = {};
-  constructor(private authService: UserService) {
-  }
+
+  public formId = Math.round( Math.random() * 10000);
+  model: IPassword;
+
+  constructor(private authService: UserService) { }
 
   ngOnInit() {
     // TODO ?

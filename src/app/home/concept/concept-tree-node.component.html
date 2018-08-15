@@ -29,7 +29,7 @@
 
     <div class="col s11  white grey-text text-darken-1">
       <div class="row" *ngIf="!edit.isVisible">
-        <p>{{concept?.description}}</p>
+        <p [innerHtml]="concept?.description" ></p>
         <qddt-author-chip [authors]="concept.authors" ></qddt-author-chip>
       </div>
       <div *ngIf="showConceptChildForm">

@@ -7,10 +7,8 @@ import { SurveyProgram } from '../../home/home.classes';
   template: `
   <div class="row">
     <div class="col s12">
-      <label [attr.for]="survey.id + '-description'" class="active teal-text">Description</label>
-      <textarea class="materialize-textarea" id="{{survey?.id}}-description"
-      name="{{survey?.id}}-description" readonly>
-      </textarea>
+      <label class="active teal-text">Description</label>
+      <P [innerHtml]="survey?.description"></P>
     </div>
   </div>
   <div class="row" *ngIf="survey?.authors && survey?.authors?.length>0">

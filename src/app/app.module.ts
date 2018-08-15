@@ -33,7 +33,7 @@ import { UniverseModule } from './universe/universe.module';
 import { InstructionModule } from './instruction/instruction.module';
 
 @NgModule({
-  imports: [ BrowserModule, HttpClientModule,  SharedModule, CoreModule, HomeModule, MenuModule, SelectorDialogsModule,
+  imports: [ BrowserModule, HttpClientModule, SharedModule, CoreModule, HomeModule, MenuModule, SelectorDialogsModule,
     CategoryModule,  ResponsedomainModule, QuestionModule, ControlConstructModule, PreviewModule, MissingModule, UniverseModule,
     InstructionModule, InstrumentModule, PublicationModule, TemplateModule, QuestionConstructModule, SequenceModule, UserModule, routing ],
 

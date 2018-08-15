@@ -9,7 +9,7 @@ import { QuestionItem } from '../../question/question.classes';
   ],
   template: `
 <div class="row" >
-  <div class="flow-text" style="padding-top: 15pt;padding-left: 10pt;">{{ questionItem?.question }}</div>
+  <div class="flow-text" style="padding-top: 15pt;padding-left: 10pt;"[innerHtml]="questionItem?.question" ></div>
 </div>
 <div class="teal-text" *ngIf="questionItem?.intent" style="padding-left: 10pt; padding-bottom: 10pt">Intent</div>
 <div style="padding-left: 10pt;">{{ questionItem?.intent }}</div>

@@ -11,13 +11,9 @@ import { Category, ResponseCardinality } from '../../category/category.classes';
     </label>
       <div *ngFor="let rep of managedRepresentation.children">
         <div [ngSwitch]="rep.categoryType">
-          <qddt-preview-rd-scale *ngSwitchCase="'SCALE'"
-              [managedRepresentation]="rep"
-              [displayLayout]="displayLayout">
+          <qddt-preview-rd-scale *ngSwitchCase="'SCALE'" [managedRepresentation]="rep" [displayLayout]="displayLayout">
           </qddt-preview-rd-scale>
-          <qddt-preview-rd-codelist *ngSwitchCase="'LIST'"
-              [managedRepresentation]="rep"
-              [responseCardinality]="responseCardinality">
+          <qddt-preview-rd-codelist *ngSwitchCase="'LIST'" [managedRepresentation]="rep" [responseCardinality]="responseCardinality">
           </qddt-preview-rd-codelist>
           <qddt-preview-rd-datetime *ngSwitchCase="'DATETIME'" [managedRepresentation]="rep"></qddt-preview-rd-datetime>
           <qddt-preview-rd-numeric *ngSwitchCase="'NUMERIC'" [managedRepresentation]="rep"></qddt-preview-rd-numeric>

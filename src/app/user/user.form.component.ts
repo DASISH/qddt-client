@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { IAuthority, UserJson } from './user.classes';
-import { ActionKind, ElementKind} from '../shared/classes/enums';
 import { TemplateService } from '../template/template.service';
 import { UserService, Agency } from '../core/user/user.service';
 
@@ -20,7 +19,7 @@ export class UserFormComponent implements OnInit, OnChanges {
   public agencies: Agency[];
   public authorities: IAuthority[];
   public selectedAgencyId: string;
-
+  public formId = Math.round( Math.random() * 10000);
   constructor(private userService: UserService, private service: TemplateService) {
   }
 
@@ -49,6 +48,10 @@ export class UserFormComponent implements OnInit, OnChanges {
     this.user.authority = this.authorities.find( q => q.id === authorityId);
   }
 
+  onClickEnable() {
+    console.log('enabled ' + this.user.enabled );
+    this.user.enabled = !this.user.enabled;
+  }
 
   onSave() {
     this.userService.save(this.user).subscribe(
