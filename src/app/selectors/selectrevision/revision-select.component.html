@@ -20,10 +20,10 @@
       <a class="waves-effect waves-light btn right green" (click)="onUseElement()">Use this</a>
     </div>
   </div>
-  <div class="card" *ngIf="!showProgressBar && selectedElement" style="padding: 10pt;">
+  <div class="card" *ngIf="!showProgressBar && selectedElement" style="padding: 3rem; ">
     <div class="row teal-text">Preview</div>
-    <div class="teal-text" *ngIf="selectedElement.name" style="padding-left: 10pt; padding-bottom: 5pt">Name</div>
-    <div style="padding-left: 10pt;  padding-bottom: 5pt; color:dimgrey; ">{{ selectedElement.name }}</div>
+    <div class="teal-text" *ngIf="selectedElement.name" style="padding-bottom: 5pt">Name</div>
+    <div style="padding-bottom: 5pt; color:dimgrey; ">{{ selectedElement.name }}</div>
     <qddt-preview-element  [element]="selectedElement"></qddt-preview-element>
   </div>
 </div>

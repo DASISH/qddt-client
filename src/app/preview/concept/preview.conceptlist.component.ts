@@ -5,13 +5,15 @@ import { Concept } from '../../home/home.classes';
   selector: 'qddt-preview-concept-list',
   moduleId: module.id,
   styles: [
-    '.col {white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}',
-    'collapsible-header { display: flow-root;  margin-left: unset;}'
+    'ul { margin-right:10px; padding:1px; border-color:lightyellow; }',
+    '.row .col { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }',
+    'collapsible-header { display: flow-root; margin-bottom: 0px; margin-left: unset; }',
   ],
   template: `
-    <ul *ngIf="conceptList" materialize="collapsible" class="collapsible" data-collapsible="accordion" style="margin:10px; padding:5px;">
-      <li *ngFor="let concept of conceptList">
-        <div class="collapsible-header yellow lighten-5">
+    <ul class="col s11" *ngIf="conceptList" materialize="collapsible" class="collapsible" data-collapsible="accordion" >
+      <li class="row" *ngFor="let concept of conceptList">
+        <div class="collapsible-header yellow lighten-5"
+          style="display: flow-root;  margin-left: unset; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; ">
           <div class="col s2">Concept</div>
           <div class="col s7">{{ concept?.name }}</div>
           <div class="col s2 right-align"><qddt-version [element]="concept"></qddt-version></div>

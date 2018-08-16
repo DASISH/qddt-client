@@ -1,16 +1,16 @@
 <div class="row" *ngIf="topic?.studyRef">
-    <div class="input-field col s11">
+    
         <label class="active teal-text">Path</label>
           <a  style="cursor: pointer;" (click)="onClickStudy(topic.studyRef.id)">{{ topic.studyRef?.name }}</a>\
           <a> {{ topic.name }} </a>
-    </div>
+
 </div>
 
 <div class="row" *ngIf="topic?.description">
-  <div class="input-field col s11">
+
     <label class="active teal-text">Description</label>
     <p [innerHtml]="topic?.description"></p>
-  </div>
+
 </div>
 
 <div class="row" *ngIf="topic?.otherMaterials && topic.otherMaterials.length >0">
