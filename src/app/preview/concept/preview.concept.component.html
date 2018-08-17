@@ -12,10 +12,11 @@
 </div>
 <div class="row">
     <div *ngIf="concept?.conceptQuestionItems && concept?.conceptQuestionItems?.length > 0" class="section">
+        <label class="teal-text">QuestionItem(s)</label>
         <ul materialize="collapsible" class="collapsible  question" data-collapsible="expandable">
             <li *ngFor="let cqi of concept.conceptQuestionItems;">
                 <div class="collapsible-header green lighten-5">
-                    <div class="col s10">QuestionItem [{{ cqi?.element?.name }}]</div>
+                    <div class="col s10">{{ cqi?.element?.name }}</div>
                     <div class="col s2 right-align"><qddt-version [element]="cqi"></qddt-version></div>
                 </div>
                 <div class="collapsible-body">

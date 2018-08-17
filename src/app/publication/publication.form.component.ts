@@ -10,9 +10,7 @@ import {TemplateService} from '../template/template.service';
 @Component({
   selector: 'qddt-publication-form',
   moduleId: module.id,
-  styles: [
-    '.collapsible-header {white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }'
-  ],
+  styles: [  ],
   templateUrl: './publication.form.component.html',
 })
 
@@ -31,10 +29,14 @@ export class PublicationFormComponent implements OnChanges {
     this.readonly = !templateService.can(ActionKind.Create, ElementKind.PUBLICATION);
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     if (changes['publication'].currentValue && (this.publication.status)) {
       this.onSelectChange(this.publication.status.id);
     }
+  }
+
+  public onShowDetail(index) {
+    this.service.    
   }
 
   public onUpdatePublication() {

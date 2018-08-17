@@ -4,11 +4,7 @@ import { Concept } from '../../home/home.classes';
 @Component({
   selector: 'qddt-preview-concept-list',
   moduleId: module.id,
-  styles: [
-    'ul { margin-right:10px; padding:1px; border-color:lightyellow; }',
-    '.row .col { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }',
-    'collapsible-header { display: flow-root; margin-bottom: 0px; margin-left: unset; }',
-  ],
+  styles: [  ],
   template: `
     <ul class="col s11" *ngIf="conceptList" materialize="collapsible" class="collapsible" data-collapsible="accordion" >
       <li class="row" *ngFor="let concept of conceptList">

@@ -39,7 +39,7 @@
           <div class="col s1">Delete</div>
         </li>
         <li *ngFor="let element of publication.publicationElements; let idx=index">
-          <div class="collapsible-header grey lighten-5" style="color: #323232">
+          <div class="collapsible-header grey lighten-5" style="color: #323232" (click)="onShowDetail(idx)" >
               <div class="col s2">{{ getLabelByElement(element?.elementKind) }}</div>
               <div class="col s7">{{ element?.name }}</div>
               <div class="col s2 right-align"><qddt-version [element]="element.element"></qddt-version></div>

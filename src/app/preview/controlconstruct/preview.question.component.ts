@@ -9,9 +9,7 @@ const filesaver = require('file-saver');
 @Component({
   selector: 'qddt-preview-questionconstruct',
   moduleId: module.id,
-  styles: [
-    '.row { padding-left:5pt !important;}',
-  ],
+  styles: [ ],
   template: `
   <div class="row" *ngIf="controlConstruct.preInstructions">
     <ul>

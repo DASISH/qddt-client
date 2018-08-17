@@ -19,6 +19,7 @@ class Column {
   moduleId: module.id,
   templateUrl: './scale.component.html',
   styles: [
+    'table { table-layout: fixed; }',
     'table .text-center {text-align: center;}',
     'table .text-left {text-align: left;}',
     'table .text-right {text-align: right;}'

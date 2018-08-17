@@ -4,9 +4,7 @@ import { QuestionItem } from '../../question/question.classes';
 @Component({
   selector: 'qddt-preview-questionitem',
   moduleId: module.id,
-  styles: [
-    `:host /deep/ .row { margin-left: auto; margin-right: auto; margin-bottom: 2px; }`
-  ],
+  styles: [],
   template: `
 <div class="row" >
   <div class="flow-text" style="padding-top: 15pt;padding-left: 10pt;"[innerHtml]="questionItem?.question" ></div>
