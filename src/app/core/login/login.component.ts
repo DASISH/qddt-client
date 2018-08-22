@@ -1,13 +1,15 @@
-import { AfterContentChecked,  Component, OnInit } from '@angular/core';
+import { AfterContentChecked,  Component, OnInit,  AfterViewChecked, AfterContentInit, ViewChild, AfterViewInit } from '@angular/core';
 import { UserService } from '../user/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { NgForm } from '@angular/forms';
 
 declare var Materialize: any;
 
 export class LoginForm {
-  username: string;
+  username?: string;
   email: string;
-  password: string;
+  password = '';
+  // isValid() { return this.username.length > 7 && this.password.length > 6; }
 }
 
 @Component({
@@ -15,17 +17,29 @@ export class LoginForm {
   moduleId: module.id,
   templateUrl: './login.component.html'
 })
-export class LoginComponent implements OnInit, AfterContentChecked {
-  model = new LoginForm();
+export class LoginComponent implements  AfterContentChecked, AfterContentInit, AfterViewChecked {
+
+  public loginForm = new LoginForm();
   loading = false;
   returnUrl: string;
   once = 0;
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private authenticationService: UserService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private authenticationService: UserService) {
+  }
 
+  ngAfterViewChecked(): void {
+    console.log('ngAfterViewChecked');
+    if (!this.authenticationService.isTokenExpired()) {
+      this.router.navigate(['/home']);
+    }
+  }
+
+  ngAfterContentInit(): void {
+    this.loginForm.email = this.authenticationService.getEmail();
+    if ( this.loginForm.email === 'review@example.org') {
+      this.loginForm.password = 'password';
+    }
+  }
 
   ngAfterContentChecked(): void {
     if (this.once < 10) {
@@ -39,22 +53,18 @@ export class LoginComponent implements OnInit, AfterContentChecked {
   }
 
 
-  ngOnInit() {
-    // reset login status
-    this.authenticationService.logout();
-    this.model.email = this.authenticationService.getEmail();
-    if ( this.model.email === 'review@example.org') {
-      this.model.password = 'password';
-    }
-    // get return url from route parameters or default to '/'
-    // this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-    // Materialize.updateTextFields();
-  }
+  // ngOnInit() {
+  //   // reset login status
+  //   // get return url from route parameters or default to '/'
+  //   // this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+  //   // Materialize.updateTextFields();
+  // }
 
-  login(e) {
-    e.preventDefault();
+  login() {
+    // e.preventDefault();
+    console.log(this.loginForm);
     this.loading = true;
-    this.authenticationService.signIn(this.model.email, this.model.password)
+    this.authenticationService.signIn(this.loginForm.email, this.loginForm.password)
       .subscribe(
         (value) => { this.router.navigate(['/home']); },
         (error) => { throw error; },

@@ -63,7 +63,7 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
     if (!this.auth.isTokenExpired()) {
       return this.auth.getEmail();
     }
-    console.log('token expired (no gravitar for you)');
+    // console.log('token expired (no gravitar for you)');
     return '';
   }
 

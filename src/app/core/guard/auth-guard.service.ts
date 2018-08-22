@@ -16,12 +16,13 @@ export class AuthGuard implements CanActivate, CanActivateChild  {
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (this.authService.isTokenExpired()) {
+      console.log('isTokenExpired');
       this.router.navigate(['/login']);
       return false;
     }
-//    console.log(state);
-//    console.log(next);
+
     if (this.checkParent(next.url.toString())) {
+        // console.log(next.url.toString());
         return true;
     }
     this.router.navigate(['/home']);

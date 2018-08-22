@@ -14,10 +14,21 @@ export class Agency  {
   name: string;
 }
 
-export interface IPassword {
-  Id: string;
+export class ResetPassword {
+  id: string;
   oldPassword: string;
-  newPassword: string;
+  password: string;
+
+  public constructor(init?: Partial<ResetPassword>) {
+    Object.assign(this, init);
+  }
+}
+
+export interface IPassword {
+  id: string;
+  oldPassword: string;
+  password: string;
+  confirm?: string;
 }
 
 /**
@@ -80,6 +91,10 @@ export class UserService {
   }
 
   public resetPassword(password: IPassword): Observable<any> {
+    console.log((password.id));
+    if (!password.id) {
+        password.id = this.getUserId();
+    }
     return this.http.post(this.api + UserService.RESET_PWD_URL, password);
   }
 
@@ -113,7 +128,8 @@ export class UserService {
   }
 
   public getUserId(): string {
-    return this.user.userId;
+    console.log('getUserId->' + this.user.id);
+    return this.user.id;
   }
 
   public  getEmail(): string {
