@@ -33,7 +33,7 @@ export class RationalComponent implements OnInit {
 
     if (this.config) {
       const hiddenIds = this.config.hidden || [];
-      if (!this.element.archived) {            // Hide Archived option if element don't have this field.
+      if (!('archived' in this.element)) {            // Hide Archived option if element don't have this field.
         hiddenIds.push(4);
       }
       this.rationalDescriptions = RATIONAL_DESCRIPTIONS.filter(f => !hiddenIds.find(id => id === f.id));

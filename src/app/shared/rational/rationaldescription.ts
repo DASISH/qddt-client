@@ -39,16 +39,16 @@ export const RATIONAL_DESCRIPTIONS = [
           description: 'The change is made for other purposes not found in the list'})
       ]}),
     ]}),
-    new RationalDescription({ id: 2, name: 'Saved as new based-on', showComment: true,
-      children: [
-        new RationalDescription({ id: 0, name: 'Copy of source', change: 'BASED_ON',
-          description: 'The element is an identical copy  of a source element'}),
-        new RationalDescription({id: 1, name: 'Variant of source', change: 'BASED_ON',
-          description: 'The element is different from (different ID), but '
-          + 'based on a source element. If the amendment is not considerable,'
-          + ' review whether becomes a new version rather than a new element.'}),
-        new RationalDescription({id: 2, name: 'Translation of source', change: 'TRANSLATED',
-          description: 'The element is a translation of a source element'})
-      ]}),
+  new RationalDescription({ id: 2, name: 'Saved as new based-on', showComment: true,
+    children: [
+      new RationalDescription({ id: 0, name: 'Copy of source', change: 'BASED_ON',
+        description: 'The element is an identical copy  of a source element'}),
+      new RationalDescription({id: 1, name: 'Variant of source', change: 'BASED_ON',
+        description: 'The element is different from (different ID), but '
+        + 'based on a source element. If the amendment is not considerable,'
+        + ' review whether becomes a new version rather than a new element.'}),
+      new RationalDescription({id: 2, name: 'Translation of source', change: 'TRANSLATED',
+        description: 'The element is a translation of a source element'})
+    ]}),
   new RationalDescription({ id: 3, name: 'Saved as new', showComment: true, change: 'CREATED' }),
   new RationalDescription({ id: 4, name: 'Archive', showComment: true, change: 'ARCHIVED' })];
