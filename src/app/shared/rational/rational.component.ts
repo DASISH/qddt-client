@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import {RATIONAL_DESCRIPTIONS, RationalDescription} from './rationaldescription';
+import { RATIONAL_DESCRIPTIONS , RationalDescription} from './rationaldescription';
 
 @Component({
   selector: 'qddt-rational',
@@ -13,7 +13,8 @@ export class RationalComponent implements OnInit {
   @Input() formName: string;
   @Input() config: any;
   public saveOptionIndex: number;
-  public rationalDescriptions: RationalDescription[];
+  public rationalDescriptionsFiltered: RationalDescription[];
+  public rationalDescriptions = RATIONAL_DESCRIPTIONS;
 
   public _RationalIndex: number;
   public _Rational2Index: number;
@@ -36,7 +37,7 @@ export class RationalComponent implements OnInit {
       if (!('archived' in this.element)) {            // Hide Archived option if element don't have this field.
         hiddenIds.push(4);
       }
-      this.rationalDescriptions = RATIONAL_DESCRIPTIONS.filter(f => !hiddenIds.find(id => id === f.id));
+      this.rationalDescriptionsFiltered = RATIONAL_DESCRIPTIONS.filter(f => !hiddenIds.find(id => id === f.id));
     }
     this.originalId = this.element.id;
     this.element.changeComment = '';
@@ -46,7 +47,7 @@ export class RationalComponent implements OnInit {
   onClickRational1(id: number) {
     this._RationalIndex = id;
     this._Rational2Index = 0;
-    const rational = this.rationalDescriptions[this.saveOptionIndex].children[id];
+    const rational = RATIONAL_DESCRIPTIONS[this.saveOptionIndex].children[id];
     if (rational.change) {
       this.element.changeKind = rational.change;
     } else {
@@ -66,8 +67,8 @@ export class RationalComponent implements OnInit {
     this.saveOptionIndex = id;
     this._RationalIndex = -1;
     this._Rational2Index = 0;
-    if (this.rationalDescriptions[id].change) {
-      this.element.changeKind = this.rationalDescriptions[id].change;
+    if (RATIONAL_DESCRIPTIONS[id].change) {
+      this.element.changeKind = RATIONAL_DESCRIPTIONS[id].change;
     }
     if (id === 2) {
       this.savedbasedOnObject = this.element.basedOnObject;

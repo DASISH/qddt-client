@@ -44,7 +44,7 @@ export class PublicationReuseComponent  {
     this.selectedElementKind = ElementKind.TOPIC_GROUP;
     this.searchKeysListener.pipe(
       debounceTime(300),
-      distinctUntilChanged(),)
+      distinctUntilChanged())
       .subscribe((name: string) => this.loadPage(name));
   }
 

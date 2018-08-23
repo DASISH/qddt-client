@@ -1,13 +1,13 @@
 <form class="row hoverable" [parentFormConnect]="formName">
   <div class="row">
-    <div class="col left" *ngFor="let option of rationalDescriptions" [ngClass]="{hide: option.hidden}">
+    <div class="col left" *ngFor="let option of rationalDescriptionsFiltered" [ngClass]="{hide: option.hidden}">
       <input  name="{{originalId}}-optiontypegroup" type="radio"
         id="{{originalId}}-option-type-{{option.id}}" (click)="onSelectOption(option.id)"
         [checked]="saveOptionIndex === option.id" />
       <label [attr.for]="originalId + '-option-type-' + option.id">{{ option.name }}</label>
     </div>
   </div>
-  <div *ngFor="let option of rationalDescriptions;">
+  <div *ngFor="let option of rationalDescriptionsFiltered;">
     <div class="row" *ngIf="option.id === saveOptionIndex && option.children.length > 0">
       <div class="row">
         <div class="input-field col s3">

@@ -1,4 +1,4 @@
-<div id="topMenu" class="scrollspy"></div>
+<!-- <div id="topMenu" class="scrollspy"></div> -->
 <div class="col m10 l9">
   <div class="card white white-text text-lighten-2">
     <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
@@ -35,51 +35,48 @@
     </div>
 
     <div *ngIf="surveyList">
-      <div class="row card" *ngFor="let surveyProgram of surveyList" style="padding-left:2%">
-        <div id="{{surveyProgram?.id}}" class="row scrollspy">
-          <div class="col s1 m1 l1">
-            <br />
-            <div class="row">
-              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" *ngIf="!surveyProgram.archived && !readonly" (click)="edit.isVisible = !edit.isVisible; refreshCount=0">
-                <i class="material-icons"title="Edit element">mode_edit</i></a>
-              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="edit.showRevision = !edit.showRevision">
-                <i class="material-icons left medium" title="Revision history">history</i></a>
-              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
-                <i class="material-icons" (click)="getPdf(surveyProgram)" title="Get as Pdf">picture_as_pdf</i></a>
-              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="onShowStudy(surveyProgram)">
-                <i class="material-icons left medium"title="Go to child elements">play_arrow</i></a>
-            </div>
-          </div>
-          <div class="col s10 m10 grey-text text-darken-2">
-            <div class="row">
-            <h5>
-              <div class="col s9">{{ surveyProgram?.name }}</div>
-              <div class="col s3">
-                  <qddt-version-label class="right" [element]="surveyProgram"></qddt-version-label>
-              </div>
-            </h5>
-            </div>
-
-            <div class="row" *ngIf="!edit.isVisible" >
-                <p  [innerHtml]="surveyProgram?.description" ></p>
-              <qddt-author-chip [authors]="surveyProgram?.authors" ></qddt-author-chip>
-            </div>
-
-            <qddt-survey-edit [isVisible]="edit.isVisible"
-              [survey]="surveyProgram"
-              (savedEvent)="onSurveySaved($event)" #edit>
-            </qddt-survey-edit>
-
-            <qddt-revision *ngIf="edit.showRevision" [current]="surveyProgram" ></qddt-revision>
-
-            <qddt-comment-list *ngIf="!edit.isVisible"
-              [ownerId]="surveyProgram.id"
-              [comments]="surveyProgram.comments">
-            </qddt-comment-list>
+      <div id="{{surveyProgram?.id}}" class="row card scrollspy" *ngFor="let surveyProgram of surveyList" style="padding-left:2%">
+        <div class="col s1 m1 l1">
+          <br />
+          <div class="row">
+            <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" *ngIf="!surveyProgram.archived && !readonly" (click)="edit.isVisible = !edit.isVisible; refreshCount=0">
+              <i class="material-icons"title="Edit element">mode_edit</i></a>
+            <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="edit.showRevision = !edit.showRevision">
+              <i class="material-icons left medium" title="Revision history">history</i></a>
+            <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
+              <i class="material-icons" (click)="getPdf(surveyProgram)" title="Get as Pdf">picture_as_pdf</i></a>
+            <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="onShowStudy(surveyProgram)">
+              <i class="material-icons left medium"title="Go to child elements">play_arrow</i></a>
           </div>
         </div>
-      </div>
+        <div class="col s10 m10 grey-text text-darken-2">
+          <div class="row">
+          <h5>
+            <div class="col s9">{{ surveyProgram?.name }}</div>
+            <div class="col s3">
+                <qddt-version-label class="right" [element]="surveyProgram"></qddt-version-label>
+            </div>
+          </h5>
+          </div>
 
+          <div class="row" *ngIf="!edit.isVisible" >
+              <p  [innerHtml]="surveyProgram?.description" ></p>
+            <qddt-author-chip [authors]="surveyProgram?.authors" ></qddt-author-chip>
+          </div>
+
+          <qddt-survey-edit [isVisible]="edit.isVisible"
+            [survey]="surveyProgram"
+            (savedEvent)="onSurveySaved($event)" #edit>
+          </qddt-survey-edit>
+
+          <qddt-revision *ngIf="edit.showRevision" [current]="surveyProgram" ></qddt-revision>
+
+          <qddt-comment-list *ngIf="!edit.isVisible"
+            [ownerId]="surveyProgram.id"
+            [comments]="surveyProgram.comments">
+          </qddt-comment-list>
+        </div>
+      </div>
     </div>
   </div>
 </div>

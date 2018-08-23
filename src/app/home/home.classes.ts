@@ -70,7 +70,6 @@ export class Topic implements IEntityEditAudit {
   }
 }
 
-
 export class Concept implements IEntityEditAudit {
   id: string;
   name: string;

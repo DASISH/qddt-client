@@ -21,7 +21,8 @@ import { ElementKind } from '../shared/classes/enums';
 export class PreviewComponent  {
   @Input() element: IEntityAudit;
 
-  public  instanceRefEnum = ElementKind;
+  public instanceRefEnum = ElementKind;
+  public revisionIsVisible = false;
 
   public getElementKind(element: IEntityAudit): ElementKind {
     return ElementKind[element.classKind];

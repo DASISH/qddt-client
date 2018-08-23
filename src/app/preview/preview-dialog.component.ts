@@ -11,7 +11,7 @@ import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
   template: `
     <div class="modal modal-fixed-footer" id="preview-{{element?.id}}"
          materialize="modal" [materializeActions]="basedonActions">
-      <div class="modal-content teal-text">
+      <div class="modal-content teal-text" style="padding:36px;">
         <h4>Preview {{getClassName()}}</h4>
         <div class="row" *ngIf="element">
           <h5 class="grey-text">{{element?.name}}</h5>

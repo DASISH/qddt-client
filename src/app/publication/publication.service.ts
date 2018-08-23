@@ -22,10 +22,6 @@ export class PublicationService {
     return this.http.post<Publication>(this.api + 'publication/', publication);
   }
 
-  public getDetail(ref: ElementRevisionRef): ElementRevisionRef {
-    return this.http.post<ElementRevisionRef>( this.api + 'publication/detail', ref )
-        .subscribe()
-  }
 
   private getPublicationStatus(): Promise<PublicationStatus[]> {
     return this.http.get<PublicationStatus[]>(this.api + 'publicationstatus/list').toPromise();

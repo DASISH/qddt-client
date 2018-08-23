@@ -1,10 +1,10 @@
-import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
-import { PublicationService } from './publication.service';
-import { IEntityEditAudit } from '../shared/classes/interfaces';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {PublicationService} from './publication.service';
+import {IEntityEditAudit} from '../shared/classes/interfaces';
 import {ActionKind, ElementKind} from '../shared/classes/enums';
-import { ElementRevisionRef } from '../shared/classes/classes';
-import { getElementKind } from '../shared/classes/constants';
-import { Publication, PUBLICATION_TYPES, PublicationStatus } from './publication.classes';
+import {ElementRevisionRef} from '../shared/classes/classes';
+import {getElementKind} from '../shared/classes/constants';
+import {Publication, PUBLICATION_TYPES, PublicationStatus} from './publication.classes';
 import {TemplateService} from '../template/template.service';
 
 @Component({
@@ -36,7 +36,12 @@ export class PublicationFormComponent implements OnChanges {
   }
 
   public onShowDetail(index) {
-    this.service.    
+    console.log('onShowDetail');
+    const item = this.publication.publicationElements[index];
+    this.templateService.getRevisionByKind(ElementKind[item.elementKind], item.elementId, item.elementRevision)
+      .then( rev => {
+        item.element = rev.entity;
+      });
   }
 
   public onUpdatePublication() {

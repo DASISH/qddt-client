@@ -63,10 +63,12 @@ export class UserFormComponent implements OnInit, OnChanges {
   }
 
   private getAgencies() {
+    if (!this.agencies || this.agencies.length === 0) {
     this.userService.getAgencies().then(
         (result) => {
            this.agencies = result;
         });
+      }
   }
 
   private async getAuthorites() {

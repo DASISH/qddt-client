@@ -47,12 +47,8 @@ export class TreeNodeComponent implements AfterContentChecked {
     if (edit.isVisible) {
       this.refreshCount = 0;
       this.conceptService.getConcept(this.concept.id).then(
-        (result) => {
-          this.concept = result;
-        },
-        (error) => {
-          throw error;
-        }
+        (result) => { this.concept = result; },
+        (error) => { throw error; }
       );
     }
   }

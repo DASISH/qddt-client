@@ -17,7 +17,7 @@ export class LoginForm {
   moduleId: module.id,
   templateUrl: './login.component.html'
 })
-export class LoginComponent implements  AfterContentChecked, AfterContentInit, AfterViewChecked {
+export class LoginComponent implements  AfterContentChecked, AfterContentInit {
 
   public loginForm = new LoginForm();
   loading = false;
@@ -27,14 +27,10 @@ export class LoginComponent implements  AfterContentChecked, AfterContentInit, A
   constructor(private route: ActivatedRoute, private router: Router, private authenticationService: UserService) {
   }
 
-  ngAfterViewChecked(): void {
-    console.log('ngAfterViewChecked');
+  ngAfterContentInit(): void {
     if (!this.authenticationService.isTokenExpired()) {
       this.router.navigate(['/home']);
     }
-  }
-
-  ngAfterContentInit(): void {
     this.loginForm.email = this.authenticationService.getEmail();
     if ( this.loginForm.email === 'review@example.org') {
       this.loginForm.password = 'password';

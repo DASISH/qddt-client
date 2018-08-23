@@ -29,15 +29,14 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit() {
-    this.surveyList = this.property.get('surveyList');
-    if (!this.surveyList) {
+    // this.surveyList = this.property.get('surveyList');
+    // if (!this.surveyList) {
       this.surveyService.getAllSurvey()
         .then(
-          (data: Array<SurveyProgram> ) =>
-            this.property.set('surveyList', this.surveyList = data)
+          (data: Array<SurveyProgram> ) => this.surveyList = data
         );
-    }
   }
+
   ngAfterContentChecked(): void {
     if (this.refreshCount < 10) {
       try {
