@@ -3,13 +3,13 @@
      (mouseleave)="showbutton = false">
   <div class="row"><label>Missing</label></div>
   <div class="row">
-    <a *ngIf="!getMissing() && !readonly"
+    <button *ngIf="!getMissing() && !readonly"
        [ngClass]="{hide: !showbutton}"
        [ngClass]="{disabled:responseDomain === null || responseDomain === undefined}"
-       (click)="onAddMissing()" href="#{{modalId}}"
+       (click)="onAddMissing()" data-target=modalId
        class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
       <i class="material-icons" title="response domain add">add</i>
-    </a>
+    </button>
     <span *ngIf="getMissing()">{{ getMissing().name }}</span>
   </div>
 
