@@ -1,4 +1,4 @@
-![alt text](/DASISH/qddt-client/WIKI/images/img.png)
+![alt text](../../WIKI/images/img.png)
 
 # QddtCli
 
