@@ -21,20 +21,13 @@ export class LoginComponent implements  AfterContentChecked, AfterContentInit {
 
   public loginForm = new LoginForm();
   loading = false;
-  returnUrl: string;
   once = 0;
 
   constructor(private route: ActivatedRoute, private router: Router, private authenticationService: UserService) {
   }
 
   ngAfterContentInit(): void {
-    if (!this.authenticationService.isTokenExpired()) {
-      this.router.navigate(['/home']);
-    }
     this.loginForm.email = this.authenticationService.getEmail();
-    if ( this.loginForm.email === 'review@example.org') {
-      this.loginForm.password = 'password';
-    }
   }
 
   ngAfterContentChecked(): void {
@@ -48,21 +41,11 @@ export class LoginComponent implements  AfterContentChecked, AfterContentInit {
     }
   }
 
-
-  // ngOnInit() {
-  //   // reset login status
-  //   // get return url from route parameters or default to '/'
-  //   // this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-  //   // Materialize.updateTextFields();
-  // }
-
   login() {
-    // e.preventDefault();
-    console.log(this.loginForm);
     this.loading = true;
     this.authenticationService.signIn(this.loginForm.email, this.loginForm.password)
       .subscribe(
-        (value) => { this.router.navigate(['/home']); },
+        () => { console.log('login successful'); },
         (error) => { throw error; },
         () => { this.loading = false; }
       );

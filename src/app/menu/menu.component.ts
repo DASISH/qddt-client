@@ -23,7 +23,8 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   public username;
   public loggedIn: boolean;
 
-  public elementInstanceType: ElementKind;
+
+  // public elementInstanceType: ElementKind;
 
   constructor(private auth: UserService, private property: QddtPropertyStoreService, private router: Router,
               private service: TemplateService) {
@@ -36,9 +37,13 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
       (item) => { this.path[item] = this.property.getCurrent(); },
       (error) => console.error(error.toString()));
     this.loginChanged = this.auth.loginChanged$.subscribe(
-      (item) => {
+      () => {
+        this.loggedIn = !this.auth.isTokenExpired();
         this.username = this.getUserName();
-        this.loggedIn = !this.auth.isTokenExpired(); },
+
+        console.log('logged in [' + this.loggedIn  + '] (redirecting home)...' );
+        this.router.navigate(['/home']);
+      },
       (error) => console.error(error.toString())
     );
   }
@@ -82,13 +87,13 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
     return this.service.can(ActionKind.Read, this.service.getElementKind(kind));
   }
 
-  doRegister() {
-    this.router.navigate(['/user']);
-  }
-
-  doResetPassword() {
-    this.router.navigate(['/resetpassword']);
-  }
+  // doRegister() {
+  //   this.router.navigate(['/user']);
+  // }
+  //
+  // doResetPassword() {
+  //   this.router.navigate(['/resetpassword']);
+  // }
 
   onCheckUrl(event) {
     const parts = event.srcElement.value.toString().split('/');

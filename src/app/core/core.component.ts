@@ -9,10 +9,6 @@ import { AfterContentChecked, Component } from '@angular/core';
   templateUrl: './core.component.html',
 })
 
-export class CoreComponent implements AfterContentChecked {
+export class CoreComponent  {
 
-
-  ngAfterContentChecked(): void {
-    // Materialize.updateTextFields();
-  }
 }

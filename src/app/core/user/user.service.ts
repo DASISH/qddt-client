@@ -48,22 +48,22 @@ export class UserService {
   // Observable navItem source
   private _newcurrent = new BehaviorSubject<string>('');
 
-  private user: User;
+  private _user: User;
 
 
   constructor(private http: HttpClient,  @Inject(API_BASE_HREF) private api: string) {
     this.loginChanged$ = this._newcurrent.asObservable();
-    this.refreshUserData();
     if (this.isTokenExpired()) {
       this.logout();
     }
   }
 
-  public refreshUserData(): void {
-    this.user = JSON.parse(localStorage.getItem(UserService.USERINFO));
-    if (!this.user) {
-     this.user = new User();
+  public getUser(): User {
+    if (!(this._user )) {
+      console.log('setting user...');
+      this._user = JSON.parse(localStorage.getItem(UserService.USERINFO));
     }
+    return this._user || new User();
   }
 
   public signIn(email: string, password: string): Observable<any> {
@@ -117,35 +117,45 @@ export class UserService {
   public isTokenExpired(): boolean {
     if (!this.getToken()) { return true; }
 
-    const date = new Date(0);
-    date.setUTCSeconds(this.user.exp);
-    if (date === undefined) { return false; }
-    return !(date.valueOf() > new Date().valueOf());
+    const expire = new Date(0);
+    expire.setUTCSeconds(this.getUser().exp);
+    if (expire === undefined) {
+      console.log('usr exp undefined ' + this.getUsername());
+      return true;
+    }
+    const diff = expire.getTime() - (new Date()).getTime();
+    if (diff > 0 ) {
+      return false;
+    }
+    console.log(localStorage.getItem(UserService.USERINFO));
+    console.log(JSON.stringify(this.getUser()));
+    console.log(diff + ': ' + expire.getTime() + ' - ' + new Date().getTime() );
+    return true;
   }
 
   public getUsername(): string {
-    return this.user.sub || 'no name';
+    return this.getUser().sub || 'no name';
   }
 
   public getUserId(): string {
-    console.log('getUserId->' + this.user.id);
-    return this.user.id;
+    console.log('getUserId->' + this.getUser().id);
+    return this.getUser().id;
   }
 
   public  getEmail(): string {
-    return this.user.email;
+    return this.getUser().email;
   }
 
   public  getRoles(): string[] {
-    if ((this.user.role) && this.user.role instanceof Array ) {
-      return this.user.role.map( e => e.authority);
+    if ((this.getUser().role) && this.getUser().role instanceof Array ) {
+      return this.getUser().role.map( e => e.authority);
     } else {
       return [];
     }
   }
 
   public  getAgency(): string {
-    return this.user.agency;
+    return this.getUser().agency;
   }
 
   public getToken(): string {
@@ -168,8 +178,8 @@ export class UserService {
       const claims = this.getTokenClaims(token);
       claims.token = userjson.token;
       localStorage.setItem(UserService.USERINFO, JSON.stringify(claims));
-      this.refreshUserData();
-      this._newcurrent.next(this.user.sub);
+      this._user = null;
+      this._newcurrent.next(this.getUser().sub);
     } else {
       throw Error(userjson);
     }
