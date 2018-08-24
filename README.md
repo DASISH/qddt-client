@@ -1,4 +1,4 @@
-![alt text](../../WIKI/images/img.png)
+![alt text](../../WIKI/images/seriss-logo.jpg)
 
 # QddtCli
 
