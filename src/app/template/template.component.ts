@@ -1,15 +1,15 @@
 
 import {takeWhile} from 'rxjs/operators';
-import { OnChanges, Component, SimpleChanges, OnDestroy, AfterContentChecked} from '@angular/core';
+import { Component, OnDestroy, AfterContentChecked} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { QddtMessageService } from '../core/global/message.service';
 import { Factory } from '../shared/classes/factory';
 import { IEntityEditAudit, IPageSearch } from '../shared/classes/interfaces';
 import { ActionKind, ElementKind } from '../shared/classes/enums';
 import { HEADER_DETAILS } from '../shared/classes/constants';
-import { TemplateService } from './template.service';
 import { QddtPropertyStoreService } from '../core/global/property.service';
 import { ResponseDomain, DomainKind } from '../responsedomain/responsedomain.classes';
+import {UserService} from '../core/user/user.service';
 
 declare var Materialize: any;
 
@@ -37,7 +37,7 @@ export class TemplateComponent implements OnDestroy, AfterContentChecked {
   private refreshCount = 0;
 
 
-  constructor( private route: ActivatedRoute,  private  messages: QddtMessageService, private service: TemplateService,
+  constructor( private route: ActivatedRoute,  private  messages: QddtMessageService, private service: UserService,
     private properties: QddtPropertyStoreService ) {
     this.route.url.pipe(
     takeWhile(() => this.alive))
@@ -81,7 +81,7 @@ export class TemplateComponent implements OnDestroy, AfterContentChecked {
   }
 
   public canWrite(): boolean {
-    return this.service.can(ActionKind.Create, this.kind);
+    return this.service.canDo(ActionKind.Create, this.kind);
   }
 
 

@@ -23,7 +23,7 @@ import { CommentCreateComponent } from './comment/comment.create.component';
 import { GravatarDirective } from './directive/gravatar.directive';
 import { ConceptrefComponent } from './conceptref/conceptref.component';
 import { FormErrorsComponent } from './form-errors/form-errors.component';
-import { PasswordValidator } from './directive/validate-password.directive';
+import { EqualValidator } from './directive/validate-password.directive';
 
 
 @NgModule({
@@ -32,13 +32,13 @@ import { PasswordValidator } from './directive/validate-password.directive';
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent, CommentCreateComponent,
     RationalComponent, RevisionComponent,  ConceptrefComponent, FormErrorsComponent,
-    AutosizeDirective, ParentFormConnectDirective, GravatarDirective, PasswordValidator ],
+    AutosizeDirective, ParentFormConnectDirective, GravatarDirective, EqualValidator ],
   exports: [ LocalDatePipe, CommonModule, FormsModule, MaterializeModule,
      QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent,
     RationalComponent, RevisionComponent, ConceptrefComponent, FormErrorsComponent,
-    AutosizeDirective, ParentFormConnectDirective, GravatarDirective, PasswordValidator ],
+    AutosizeDirective, ParentFormConnectDirective, GravatarDirective, EqualValidator ],
   providers: []
 })
 

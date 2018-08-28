@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, CanActivateChild,
-         Router, Route,
-         ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+         Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { UserService } from '../user/user.service';
 import { QddtPropertyStoreService } from '../global/property.service';
 

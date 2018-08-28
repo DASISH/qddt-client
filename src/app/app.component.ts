@@ -13,7 +13,6 @@ import { IElement, IIdRef, IRevisionRef } from './shared/classes/interfaces';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   encapsulation: ViewEncapsulation.None,
-  providers: [UserService]
 })
 
 export class AppComponent  implements OnDestroy {

@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { IAuthority, UserJson } from './user.classes';
-import { TemplateService } from '../template/template.service';
 import { UserService, Agency } from '../core/user/user.service';
 
 declare var Materialize: any;
@@ -20,7 +19,7 @@ export class UserFormComponent implements OnInit, OnChanges {
   public authorities: IAuthority[];
   public selectedAgencyId: string;
   public formId = Math.round( Math.random() * 10000);
-  constructor(private userService: UserService, private service: TemplateService) {
+  constructor(private userService: UserService) {
   }
 
   ngOnInit() {
@@ -48,12 +47,9 @@ export class UserFormComponent implements OnInit, OnChanges {
     this.user.authority = this.authorities.find( q => q.id === authorityId);
   }
 
-  onClickEnable() {
-    console.log('enabled ' + this.user.enabled );
-    this.user.enabled = !this.user.enabled;
-  }
 
   onSave() {
+    this.user.modified = new Date().getTime();
     this.userService.save(this.user).subscribe(
       (result) => {
         this.user = result;
@@ -72,7 +68,7 @@ export class UserFormComponent implements OnInit, OnChanges {
   }
 
   private async getAuthorites() {
-    return this.userService.getAuthories().then(
+    return await this.userService.getAuthories().then(
       (result) => this.authorities = result);
   }
 }

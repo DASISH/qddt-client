@@ -2,11 +2,11 @@
   <div class="col s6 offset-s3" >
     <form (ngSubmit)="login()" #f="ngForm">
       <div class="row input-field">
-          <input class="validate" id="email" type="email" [(ngModel)]="loginForm.email" email required>
+          <input class="validate" name="email" type="email" [(ngModel)]="loginForm.email" email required>
           <label for="email">Email</label>
       </div>
       <div class="row input-field">
-        <input class="validate" id="password" type="password" [(ngModel)]="loginForm.password" required minlength="6">
+        <input class="validate" name="password" type="password" [(ngModel)]="loginForm.password" required minlength="6">
         <label for="password">Password</label>
       </div>
       <div class="row">

@@ -7,4 +7,9 @@ export class User {
   role: Array<any>;
   exp: any;  // -> should be number, is expire date
   password?: string;
+
+  constructor(values: Object = {}) {
+    Object.assign(this, values);
+  }
 }
+

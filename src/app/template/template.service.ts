@@ -1,21 +1,31 @@
-import { Inject, Injectable } from '@angular/core';
+import {Inject, Injectable, OnDestroy, OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_BASE_HREF } from '../api';
-import { Observable } from 'rxjs';
+import { Observable, Subscription} from 'rxjs';
 import { UserService } from '../core/user/user.service';
-import { AuthorityKind } from '../core/user/authority';
-import { Page } from '../shared/classes/classes';
 import { ActionKind, ElementKind} from '../shared/classes/enums';
 import { QDDT_QUERY_INFOES} from '../shared/classes/constants';
 import { IEntityAudit, IEntityEditAudit, IPageResult, IRevisionResult, IPageSearch, IOtherMaterial } from '../shared/classes/interfaces';
 
 @Injectable()
-export class TemplateService {
+export class TemplateService implements OnInit, OnDestroy {
 
-  private roles = 0;
+  public loginChanged: Subscription;
 
-  constructor(protected http: HttpClient, private userService: UserService, @Inject(API_BASE_HREF) protected api: string) {
-    userService.getRoles().forEach((role) => this.roles += +AuthorityKind[role]);
+  constructor(protected http: HttpClient, private userService: UserService, @Inject(API_BASE_HREF) protected api: string) { }
+
+  ngOnInit() {
+    console.log('TemplateService inti');
+    this.loginChanged = this.userService.loginChanged$.subscribe(
+      (value) => {
+        console.log('template.service login changed' + value );
+      },
+      (error) => console.error(error.toString())
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.loginChanged.unsubscribe();
   }
 
   public searchByUuid(id: string): Promise<any> {
@@ -117,10 +127,10 @@ export class TemplateService {
     return this.http.delete(this.api + qe.path + '/delete/' + item.id);
   }
 
-  public deleteByKind(kind: ElementKind, id: string): Observable<any> {
-    const qe = QDDT_QUERY_INFOES[kind];
-    return this.http.delete(this.api + qe.path + '/delete/' + id);
-  }
+  // public deleteByKind(kind: ElementKind, id: string): Observable<any> {
+  //   const qe = QDDT_QUERY_INFOES[kind];
+  //   return this.http.delete(this.api + qe.path + '/delete/' + id);
+  // }
 
   public getPdf(item: IEntityEditAudit): Promise<Blob>  {
     const kind = ElementKind[item.classKind];
@@ -132,50 +142,8 @@ export class TemplateService {
     return this.http.get(this.api + 'othermaterial/files/' + om.originalOwner + '/' + om.fileName, { responseType: 'blob'}).toPromise();
   }
 
-
   public can(action: ActionKind, kind: ElementKind): boolean {
-
-    function canRead(roles: number) {
-      if (roles >= +AuthorityKind.ROLE_VIEW) {
-        return true;
-      } else {
-        return (kind === ElementKind.PUBLICATION);
-      }
-    }
-
-    function canUpdate(roles: number) {
-      if (kind === ElementKind.USER && roles < AuthorityKind.ROLE_ADMIN ) {
-        return false;
-      } else if (roles >= +AuthorityKind.ROLE_EDITOR) {
-        return true;
-      } else if (roles >= +AuthorityKind.ROLE_CONCEPT) {
-          return (kind === ElementKind.TOPIC_GROUP || kind ===  ElementKind.CONCEPT);
-      } else {
-        return false;
-      }
-    }
-
-    function canDelete(roles: number) {
-      if (roles >= +AuthorityKind.ROLE_ADMIN) {
-        return true;
-      } else if (roles >= +AuthorityKind.ROLE_EDITOR ) {
-        return ( kind !== ElementKind.SURVEY_PROGRAM && kind !== ElementKind.STUDY );
-      } else {
-        return false;
-      }
-    }
-
-    switch (action) {
-      case ActionKind.Read:
-        return canRead(this.roles);
-      case ActionKind.Create:
-      case ActionKind.Update:
-        return canUpdate(this.roles);
-      case ActionKind.Delete:
-        return canDelete(this.roles);
-      default:
-        return false;
-    }
+    return this.userService.canDo(action, kind);
   }
 
   public getElementKind(kind: string|ElementKind): ElementKind {

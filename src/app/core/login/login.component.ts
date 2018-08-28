@@ -43,11 +43,9 @@ export class LoginComponent implements  AfterContentChecked, AfterContentInit {
 
   login() {
     this.loading = true;
-    this.authenticationService.signIn(this.loginForm.email, this.loginForm.password)
-      .subscribe(
-        () => { console.log('login successful'); },
-        (error) => { throw error; },
-        () => { this.loading = false; }
-      );
+    this.authenticationService.signIn(this.loginForm.email, this.loginForm.password).then(
+        () => { console.log('login successful');  this.loading = false; },
+        (error) => { this.loading = false; throw error; }
+        );
   }
 }

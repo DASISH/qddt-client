@@ -13,6 +13,7 @@ export class ResetpasswordComponent implements OnInit {
 
   public formId = Math.round( Math.random() * 10000);
   public loading = false;
+  public errorlabel = 'TESTES';
   model: IPassword = { id: null, oldPassword: null, password: null };
 
   constructor(private authService: UserService) { }
@@ -21,8 +22,8 @@ export class ResetpasswordComponent implements OnInit {
     // TODO ?
   }
 
-  register() {
-    const pwd = new ResetPassword(this.model);
+  register(f) {
+    const pwd = new ResetPassword(f);
     this.loading = true;
     this.authService.resetPassword(pwd).subscribe((result: any) => {
       this.loading = false;

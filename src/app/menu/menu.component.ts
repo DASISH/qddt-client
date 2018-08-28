@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { QddtPropertyStoreService, HIERARCHY_POSITION } from '../core/global/property.service';
 import { UserService } from '../core/user/user.service';
-import {TemplateService} from '../template/template.service';
-import {ActionKind, ElementKind} from '../shared/classes/enums';
+import { TemplateService } from '../template/template.service';
+import { ActionKind, ElementKind } from '../shared/classes/enums';
 
 
 declare var $: any;
@@ -22,26 +22,27 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   public path = [4];
   public username;
   public loggedIn: boolean;
+  public canSee = [false, false, false, false, false, false, false, false, false, false, false,
+                    false, false, false, false, false, false, false, false ];
 
+  public elementKindRef = ElementKind;
 
-  // public elementInstanceType: ElementKind;
-
-  constructor(private auth: UserService, private property: QddtPropertyStoreService, private router: Router,
+  constructor(private userService: UserService, private property: QddtPropertyStoreService, private router: Router,
               private service: TemplateService) {
     this.username = this.getUserName();
-    this.loggedIn = !this.auth.isTokenExpired();
+    this.loggedIn = !this.userService.isTokenExpired();
   }
 
   ngOnInit() {
     this.propertyChanged = this.property.currentChange$.subscribe(
       (item) => { this.path[item] = this.property.getCurrent(); },
       (error) => console.error(error.toString()));
-    this.loginChanged = this.auth.loginChanged$.subscribe(
+    this.loginChanged = this.userService.loginChanged$.subscribe(
       () => {
-        this.loggedIn = !this.auth.isTokenExpired();
         this.username = this.getUserName();
-
-        console.log('logged in [' + this.loggedIn  + '] (redirecting home)...' );
+        this.loggedIn = !this.userService.isTokenExpired();
+        this.setVisibility();
+        // console.log('loginChanged [' + this.loggedIn  + '] (redirecting home)...' );
         this.router.navigate(['/home']);
       },
       (error) => console.error(error.toString())
@@ -61,39 +62,31 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
       closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
       draggable: true});
     $('.dropdown-button').dropdown();
-    // $('.collapsible').collapsible();
+    $('.collapsible').collapsible();
   }
 
   getEmail(): string {
-    if (!this.auth.isTokenExpired()) {
-      return this.auth.getEmail();
+    if (!this.userService.isTokenExpired()) {
+      return this.userService.getEmail();
     }
     // console.log('token expired (no gravitar for you)');
     return '';
   }
 
   getUserName(): string {
-    if (!this.auth.isTokenExpired()) {
-      return this.auth.getUsername().charAt(0).toUpperCase() + this.auth.getUsername().slice(1);
+    if (!this.userService.isTokenExpired()) {
+      return this.userService.getUsername().charAt(0).toUpperCase() + this.userService.getUsername().slice(1);
     }
     return 'NOT LOGGED IN';
   }
 
   logoutEvent() {
-    this.auth.logout();
+    this.userService.logout();
   }
 
-  public canSee(kind: string): boolean {
-    return this.service.can(ActionKind.Read, this.service.getElementKind(kind));
+  private hasAccess(kind: string): boolean {
+    return this.userService.canDo(ActionKind.Read, this.service.getElementKind(kind));
   }
-
-  // doRegister() {
-  //   this.router.navigate(['/user']);
-  // }
-  //
-  // doResetPassword() {
-  //   this.router.navigate(['/resetpassword']);
-  // }
 
   onCheckUrl(event) {
     const parts = event.srcElement.value.toString().split('/');
@@ -113,18 +106,22 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
       this.gotoUUID(url);
     }
   }
+
   onSurvey() {
     this.clearAll();
     this.router.navigate(['/survey']);
   }
+
   onStudy() {
     this.clearTopic();
     this.router.navigate(['/study']);
   }
+
   onTopic() {
     this.clearConcept();
     this.router.navigate(['/topic']);
   }
+
   onConcept() {
     this.router.navigate(['/concept']);
   }
@@ -141,6 +138,7 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
     this.path[HIERARCHY_POSITION.Topic] = null;
     this.clearConcept();
   }
+
   clearConcept() {
     this.property.set('concept', null);
     this.path[HIERARCHY_POSITION.Concept] = null;
@@ -150,6 +148,15 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
     this.service.searchByUuid(uuid).then( (result) => {
       this.router.navigate([result.url]); },
       (error) => { throw  error; });
+  }
+
+  private setVisibility() {
+    const newArr = new Array<boolean>(19);
+    for (const item in ElementKind ) {
+      newArr[item] = this.hasAccess(item);
+    }
+    this.canSee = newArr;
+    // console.log(this.canSee);
   }
 }
 
