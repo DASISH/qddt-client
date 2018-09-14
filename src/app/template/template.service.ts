@@ -1,39 +1,23 @@
 import {Inject, Injectable, OnDestroy, OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_BASE_HREF } from '../api';
-import { Observable, Subscription} from 'rxjs';
+import { Observable, Subscription, BehaviorSubject} from 'rxjs';
 import { UserService } from '../core/user/user.service';
 import { ActionKind, ElementKind} from '../shared/classes/enums';
-import { QDDT_QUERY_INFOES} from '../shared/classes/constants';
+import { getQueryInfo } from '../shared/classes/constants';
 import { IEntityAudit, IEntityEditAudit, IPageResult, IRevisionResult, IPageSearch, IOtherMaterial } from '../shared/classes/interfaces';
 
 @Injectable()
-export class TemplateService implements OnInit, OnDestroy {
-
-  public loginChanged: Subscription;
+export class TemplateService {
 
   constructor(protected http: HttpClient, private userService: UserService, @Inject(API_BASE_HREF) protected api: string) { }
-
-  ngOnInit() {
-    console.log('TemplateService inti');
-    this.loginChanged = this.userService.loginChanged$.subscribe(
-      (value) => {
-        console.log('template.service login changed' + value );
-      },
-      (error) => console.error(error.toString())
-    );
-  }
-
-  ngOnDestroy(): void {
-    this.loginChanged.unsubscribe();
-  }
 
   public searchByUuid(id: string): Promise<any> {
     return this.http.get(this.api + 'search/' + id).toPromise();
   }
 
   public searchByKind<T extends IEntityAudit>(pageSearch: IPageSearch): Promise<IPageResult<T>> {
-    const qe = QDDT_QUERY_INFOES[pageSearch.kind];
+    const qe = getQueryInfo(pageSearch.kind);
     const args = pageSearch.key.split(' ');
     const queries = [];
 
@@ -66,12 +50,12 @@ export class TemplateService implements OnInit, OnDestroy {
   }
 
   public getItemByKind<T extends IEntityEditAudit>(kind: ElementKind, id: string ): Promise<T> {
-    const qe = QDDT_QUERY_INFOES[kind];
+    const qe = getQueryInfo(kind);
     return this.http.get<T>(this.api + qe.path + '/' + id).toPromise();
   }
 
   public getRevisionsByKind<T extends IEntityAudit>(kind: ElementKind, id: string): Promise<IPageResult<IRevisionResult<T>>> {
-    const qe = QDDT_QUERY_INFOES[kind];
+    const qe = getQueryInfo(kind);
     if (qe) {
       if (kind === ElementKind.CONCEPT || kind === ElementKind.TOPIC_GROUP) {
         return this.http.get<IPageResult<IRevisionResult<T>>>
@@ -85,18 +69,18 @@ export class TemplateService implements OnInit, OnDestroy {
   }
 
   public getRevisionByKind(kind: ElementKind, id: string, rev: number): Promise<IRevisionResult<IEntityEditAudit>> {
-    const qe = QDDT_QUERY_INFOES[kind];
+    const qe = getQueryInfo(kind);
     return this.http.get<IRevisionResult<IEntityEditAudit>>(this.api + 'audit/' + qe.path + '/' + id + '/' + rev).toPromise();
   }
 
   public copySource(kind: ElementKind, fromId: string, fromRev: number, toParentId: string): Observable<any> {
-    const qe = QDDT_QUERY_INFOES[kind];
+    const qe = getQueryInfo(kind);
     return this.http.post(this.api + qe.path + '/copy/' + fromId + '/' + fromRev + '/' + toParentId, {});
   }
 
   public update(item: IEntityAudit): Observable<any> {
     const kind = this.getElementKind(item.classKind);
-    const qe = QDDT_QUERY_INFOES[kind];
+    const qe = getQueryInfo(kind);
     let path2 = '';
     if (qe.path === 'controlconstruct' ) { // silly exception to the simple rule
       if (kind === ElementKind.QUESTION_CONSTRUCT ) {
@@ -113,29 +97,23 @@ export class TemplateService implements OnInit, OnDestroy {
   }
 
   public updateWithfiles(kind: ElementKind, form: FormData ): Observable<any> {
-    const qe = QDDT_QUERY_INFOES[kind];
+    const qe = getQueryInfo(kind);
     return this.http.post( this.api +  qe.path + '/createfile/', form, { reportProgress: true} );
-
-    // const req = new HttpRequest('POST', this.api +  qe.path + '/createfile/', form, { reportProgress: true });
-    // return this.http.request(req);
-
   }
 
   public delete(item: IEntityEditAudit): Observable<any> {
-    const kind = ElementKind[item.classKind];
-    const qe = QDDT_QUERY_INFOES[kind];
+    const qe = getQueryInfo[item.classKind];
     return this.http.delete(this.api + qe.path + '/delete/' + item.id);
   }
 
-  // public deleteByKind(kind: ElementKind, id: string): Observable<any> {
-  //   const qe = QDDT_QUERY_INFOES[kind];
-  //   return this.http.delete(this.api + qe.path + '/delete/' + id);
-  // }
-
   public getPdf(item: IEntityEditAudit): Promise<Blob>  {
-    const kind = ElementKind[item.classKind];
-    const qe = QDDT_QUERY_INFOES[kind];
+    const qe = getQueryInfo[item.classKind];
     return this.http.get(this.api + qe.path + '/pdf/' + item.id, { responseType: 'blob'}).toPromise();
+  }
+
+  public getXML(item: IEntityEditAudit): Promise<Blob>  {
+    const qe = getQueryInfo[item.classKind];
+    return this.http.get(this.api + qe.path + '/xml/' + item.id, { responseType: 'blob'}).toPromise();
   }
 
   public getFile(om: IOtherMaterial): Promise<Blob> {

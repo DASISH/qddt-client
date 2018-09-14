@@ -1,63 +1,57 @@
-import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { HomeService } from '../home.service';
 import { Concept } from '../home.classes';
+
+declare var $: any;
 
 @Component({
   selector: 'qddt-concept-edit',
   moduleId: module.id,
   providers: [],
   template: `
-<div *ngIf="isVisible">
+<div *ngIf="concept && isVisible" class="row " id="{{formId}}"  >
+  <form (ngSubmit)="save()" #hf="ngForm">
 
-  <div *ngIf="concept" class="row " id="{{concept.id}}"  >
-    <form (ngSubmit)="save()" #hf="ngForm">
+    <div class="row input-field">
+      <input name="{{formId}}-name" type="text" [(ngModel)]="concept.name" required>
+      <label for="{{formId}}-name">Name</label>
+    </div>
 
-      <div class="row input-field ">
-        <label [attr.for]="concept.id + '-name'" >Name</label>
-        <input id="{{concept?.id}}-name"
-          name="{{concept?.id}}-name" type="text" [(ngModel)]="concept.name" required>
-      </div>
+    <div class="row input-field">
+      <textarea id="{{formId}}-desc" name="{{formId}}-description" class="materialize-textarea"
+        [(ngModel)]="concept.description" required >
+      </textarea>
+      <label for="{{formId}}-desc">Description</label>
+    </div>
 
-      <div class="row input-field ">
-        <label [attr.for]="concept.id + '-description'">Description</label>
-        <textarea class="materialize-textarea" id="{{concept?.id}}-description"
-          name="{{concept?.id}}-description"
-          [(ngModel)]="concept.description" required autosize></textarea>
-      </div>
+    <qddt-rational
+      *ngIf="!readonly"
+      [formName]="'RationalComp'"
+      [element]="concept"
+      [config]="{hidden: [2,3]}">
+    </qddt-rational>
 
-      <qddt-rational
-        *ngIf="!readonly"
-        [formName]="'RationalComp'"
-        [element]="concept"
-        [config]="{hidden: [2,3]}">
-      </qddt-rational>
+    <qddt-element-footer [element]="concept"></qddt-element-footer>
 
-      <qddt-element-footer [element]="concept"></qddt-element-footer>
-      <div class="row right-align" *ngIf="!readonly">
-        <button type="submit" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
-      </div>
-    </form>
-  </div>
-
+    <div class="row right-align" *ngIf="!readonly">
+      <button type="submit" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
+    </div>
+  </form>
 </div>
 `
 })
-export class ConceptEditComponent implements OnInit {
-
+export class ConceptEditComponent implements OnChanges {
   @Input() concept: Concept;
-  @Input() readonly: boolean;
+  @Input() readonly = false;
   @Input() isVisible = false;
   @Output() conceptSavedEvent =  new EventEmitter<any>();
 
-  public showRevision = false;
+  public readonly formId = Math.round( Math.random() * 10000);
 
-  constructor(private service: HomeService) {
-  }
+  constructor(private service: HomeService) { }
 
-  ngOnInit() {
-    if (this.readonly === null || this.readonly === undefined) {
-      this.readonly = false;
-    }
+  ngOnChanges(changes: SimpleChanges): void {
+    $('#' + this.formId + '-desc').trigger('autoresize');
   }
 
   save() {
@@ -68,17 +62,4 @@ export class ConceptEditComponent implements OnInit {
         this.isVisible = false;
       });
   }
-  //
-  // onAuthorSelected(author: any) {
-  //   this.service.attachAuthor(this.concept.id, author.id);
-  //   this.concept.authors.push(author);
-  // }
-  //
-  // onAuthorRemoved(author: any) {
-  //   this.service.deattachAuthor(this.concept.id, author.id);
-  //   const i = this.concept.authors.findIndex(F => F === author);
-  //   this.concept.authors.splice(i, 1);
-  // }
-
-
 }

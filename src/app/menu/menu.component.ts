@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { QddtPropertyStoreService, HIERARCHY_POSITION } from '../core/global/property.service';
 import { UserService } from '../core/user/user.service';
 import { TemplateService } from '../template/template.service';
@@ -8,6 +8,7 @@ import { ActionKind, ElementKind } from '../shared/classes/enums';
 
 
 declare var $: any;
+
 
 @Component({
   selector: 'qddt-menu',
@@ -18,10 +19,9 @@ declare var $: any;
 })
 export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   public propertyChanged: Subscription;
-  public loginChanged: Subscription;
+  public isLoggedIn$: Observable<boolean>;
   public path = [4];
   public username;
-  public loggedIn: boolean;
   public canSee = [false, false, false, false, false, false, false, false, false, false, false,
                     false, false, false, false, false, false, false, false ];
 
@@ -30,20 +30,20 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(private userService: UserService, private property: QddtPropertyStoreService, private router: Router,
               private service: TemplateService) {
     this.username = this.getUserName();
-    this.loggedIn = !this.userService.isTokenExpired();
+    this.isLoggedIn$ = this.userService.loggedIn;
   }
 
   ngOnInit() {
     this.propertyChanged = this.property.currentChange$.subscribe(
       (item) => { this.path[item] = this.property.getCurrent(); },
       (error) => console.error(error.toString()));
-    this.loginChanged = this.userService.loginChanged$.subscribe(
-      () => {
+
+      this.isLoggedIn$.subscribe((connected) => {
         this.username = this.getUserName();
-        this.loggedIn = !this.userService.isTokenExpired();
         this.setVisibility();
-        // console.log('loginChanged [' + this.loggedIn  + '] (redirecting home)...' );
-        this.router.navigate(['/home']);
+        if ( connected ) {
+          this.router.navigate(['home']);
+        }
       },
       (error) => console.error(error.toString())
     );
@@ -51,7 +51,7 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy(): void {
     this.propertyChanged.unsubscribe();
-    this.loginChanged.unsubscribe();
+    // this.isLoggedIn$..unsubscribe();
   }
 
 
@@ -62,14 +62,13 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
       closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
       draggable: true});
     $('.dropdown-button').dropdown();
-    $('.collapsible').collapsible();
+    $(document).ready(function() { $('.collapsible').collapsible(); });
   }
 
   getEmail(): string {
     if (!this.userService.isTokenExpired()) {
       return this.userService.getEmail();
     }
-    // console.log('token expired (no gravitar for you)');
     return '';
   }
 
@@ -151,12 +150,12 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private setVisibility() {
-    const newArr = new Array<boolean>(19);
-    for (const item in ElementKind ) {
+    const newArr = new Array<boolean>(20);
+    for (let item in ElementKind ) {
       newArr[item] = this.hasAccess(item);
     }
     this.canSee = newArr;
-    // console.log(this.canSee);
+    console.log(this.canSee);
   }
 }
 

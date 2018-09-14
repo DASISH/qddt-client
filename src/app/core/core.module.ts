@@ -9,7 +9,7 @@ import { QddtMessageService } from './global/message.service';
 import { CoreRoutingModule } from './core.routing';
 import { CoreComponent } from './core.component';
 import { TemplateModule } from '../template/template.module';
-import {UserService} from './user/user.service';
+import { UserService } from './user/user.service';
 
 
 @NgModule({

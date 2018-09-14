@@ -1,6 +1,6 @@
 <div class="autocomplete" [ngClass]="{ noItemFound: notFound(), itemInvalid: invalid() }">
 	<div class="row">
-	  	<input required type="text" placeholder="{{queryInfo.placeholder()}}"
+	  	<input class="validate" required type="text" placeholder="{{queryInfo.placeholder()}}"
         	[ngModel]="value"
 			(blur)="onBlur()"(keyup)="enterText($event)"(focus)="onFocus()">
     	<a class="close-icon" (click)="onClearKeywords()" title="clear search" ></a>

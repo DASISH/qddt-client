@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, OnInit } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { HomeRoutingModule } from './home.routes';
 import { HomeComponent } from './home.component';
@@ -18,6 +18,7 @@ import { QuestionModule } from '../question/question.module';
 import { ConceptTocComponent } from './concept/concept-toc.component';
 import { SelectorDialogsModule } from '../selectors-dialog/selectors-dialog.module';
 import { SelectorsModule} from '../selectors/selectors.module';
+import { NavigationStart, NavigationEnd, Scroll, ActivatedRoute } from '@angular/router';
 
 @NgModule({
   imports: [ SharedModule, HomeRoutingModule, PreviewModule, QuestionModule, SelectorDialogsModule, SelectorsModule ],
@@ -33,4 +34,15 @@ import { SelectorsModule} from '../selectors/selectors.module';
 })
 
 export class HomeModule {
+
+// } implements OnInit {
+
+  // constructor(private route: ActivatedRoute) { }
+
+  // ngOnInit() {
+  //   this.route.fragment.subscribe(fragment => {
+  //     document.querySelector('#' + fragment).scrollIntoView();
+  //   });
+  // }
 }
+

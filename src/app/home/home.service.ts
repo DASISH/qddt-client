@@ -74,10 +74,10 @@ export class HomeService {
     .toPromise();
   }
 
-  getSurveyPdf(id: string): Promise<Blob> {
-    return this.http.get(this.api + 'surveyprogram/pdf/' + id, {responseType: 'blob'})
-    .toPromise();
-  }
+  // getSurveyPdf(id: string): Promise<Blob> {
+  //   return this.http.get(this.api + 'surveyprogram/pdf/' + id, {responseType: 'blob'})
+  //   .toPromise();
+  // }
 
   createConcept(concept: Concept, topicId: string): Observable<any> {
     return this.http.post(this.api + 'concept/create/by-topicgroup/' + topicId, concept);
@@ -169,28 +169,23 @@ export class HomeService {
   }
 
 
-  getConceptPdf(id: string): Promise<Blob> {
-    return this.http.get(this.api + 'concept/pdf/' + id, {responseType: 'blob'})
-      .toPromise();
+  getPdf(element: IEntityEditAudit): Promise<Blob> {
+    const qe = QDDT_QUERY_INFOES[this.getElementKind(element.classKind)];
+    return this.http.get(this.api +  qe.path + '/pdf/' + element.id, { responseType: 'blob'})
+    .toPromise();
   }
 
-  getTopicPdf(id: string): Promise<Blob> {
-    return this.http.get(this.api + 'topicgroup/pdf/' + id, { responseType: 'blob'})
-      .toPromise();
-  }
 
-  getStudyPdf(id: string): Promise<any> {
-    return this.http.get(this.api + 'study/pdf/' + id, { responseType: 'blob'})
-      .toPromise();
+  getXml(element: IEntityEditAudit): Promise<Blob> {
+    const qe = QDDT_QUERY_INFOES[this.getElementKind(element.classKind)];
+    return this.http.get(this.api +  qe.path + '/xml/' + element.id, { responseType: 'blob'})
+    .toPromise();
   }
-
 
   getFile(om: IOtherMaterial): Promise<any> {
         // /files/{root}/{filename}
         return this.http.get(this.api + 'othermaterial/files/' + om.originalOwner + '/' + om.fileName, { responseType: 'blob'})
         .toPromise();
   }
-
-
 
 }

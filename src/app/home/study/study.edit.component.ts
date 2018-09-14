@@ -1,23 +1,27 @@
-import { Component, Input, Output, EventEmitter, AfterContentChecked } from '@angular/core';
+import { Component, Input, EventEmitter, Output, OnChanges, SimpleChanges, AfterContentChecked } from '@angular/core';
 import { HomeService } from '../home.service';
 import {Study} from '../home.classes';
 
+declare var $: any;
 
 @Component({
    selector: 'qddt-study-edit',
    moduleId: module.id,
-   template:
-`
-<div *ngIf="isVisible && study"  id="{{study.id}}"  >
+   providers: [],
+   template: `
+<div *ngIf="isVisible && study"  id="{{formId}}"  >
   <form (ngSubmit)="onSave()" #studyForm="ngForm">
+
     <div class="row input-field">
-      <input id="name" name="name" type="text" [(ngModel)]="study.name" required>
-      <label for="name" >Name</label>
+      <input id="{{formId}}-name" name="name" type="text" [(ngModel)]="study.name" required>
+      <label for="{{formId}}-name" >Name</label>
     </div>
+
     <div class="row input-field">
-      <textarea id="description" name="description" class="materialize-textarea"
-          [(ngModel)]="study.description" required autosize></textarea>
-      <label for="description" >Description</label>
+      <textarea id="{{formId}}-desc" name="{{formId}}-description" class="materialize-textarea"
+        [(ngModel)]="study.description" required >
+      </textarea>
+      <label for="{{formId}}-desc">Description</label>
     </div>
 
     <qddt-rational [formName]="'RationalComp'" [element]="study" [config]="{hidden: [2,3]}"></qddt-rational>
@@ -25,33 +29,26 @@ import {Study} from '../home.classes';
     <qddt-element-footer [element]="study" ></qddt-element-footer>
 
     <div class="row right-align">
-      <button type="submit" class="btn btn-default" [disabled]="!studyForm.form.valid" >Submit</button>
+      <button type="submit" class="btn btn-default" [disabled]="studyForm.form.invalid" >Submit</button>
     </div>
   </form>
-</div>`
+</div>
+`
 })
 
-export class StudyEditComponent  {
+export class StudyEditComponent implements  AfterContentChecked {
   @Input() study: Study;
-  @Input() surveyId: any;
+  @Input() readonly = false;
   @Input() isVisible = false;
   @Output() savedEvent =  new EventEmitter<any>();
 
-  public showRevision = false;
-  public basedonRef: any;
-  // private refreshCount = 0;
+  public readonly formId = Math.round( Math.random() * 10000);
 
-  constructor(private studyService: HomeService) {
+  constructor(private studyService: HomeService) { }
+
+  ngAfterContentChecked() {
+    $('#' + this.formId + '-desc').trigger('autoresize');
   }
-
-  // ngAfterContentChecked(): void {
-  //   if (this.refreshCount < 10) {
-  //     try {
-  //       this.refreshCount++;
-  //       Materialize.updateTextFields();
-  //     } catch (Exception) {}
-  //   }
-  // }
 
   onSave() {
     this.studyService.update(this.study).subscribe((result: any) => {
@@ -71,7 +68,4 @@ export class StudyEditComponent  {
    this.study['authors'].splice(i, 1);
   }
 
-  getBasedOn(ref: any) {
-    this.basedonRef = ref;
-  }
 }

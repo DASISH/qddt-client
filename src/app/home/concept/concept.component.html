@@ -2,7 +2,7 @@
   <div class="col s12 m9">
     <div class="card white white-text text-lighten-2">
       <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
-        <i class="material-icons large right">comment</i><h4>Concepts for {{ topic?.name }}</h4>
+        <i class="material-icons large right">store</i><h4>Concepts for {{ topic?.name }}</h4>
 
         <a class="btn" (click)="onToggleConceptForm()" *ngIf="!topic.archived && !readonly">
           <i class="material-icons right" *ngIf="!showConceptForm">keyboard_arrow_down</i>
@@ -32,7 +32,7 @@
                 </div>
                 <div class="row input-field">
                   <textarea id="description" name="description" class="materialize-textarea"
-                            [(ngModel)]="concept.description" required autosize></textarea>
+                            [(ngModel)]="concept.description" required ></textarea>
                   <label for="description" class="white-text">Description</label>
                 </div>
                 <div class="row right-align">

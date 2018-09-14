@@ -24,10 +24,10 @@
       </div>
       <div class="col m3 offset-m1">
         <label>Authority </label>
-        <div  *ngIf="user?.authority?.id"  class="card-action">
+        <div  *ngIf="user?.authorities[0]?.id"  class="card-action">
           <div  *ngFor="let authority of authorities">
             <input name="authoritiesGroup" type="radio" id="authorities{{authority.id}}" 
-              (click)="onSelectRadio(authority.id)" [checked]="user.authority.id === authority.id"/> 
+              (click)="onSelectRadio(authority.id)" [checked]="user.authorities[0].id === authority.id"/> 
             <label for="authorities{{authority.id}}">{{ authority?.name }}</label>
           </div>
         </div>

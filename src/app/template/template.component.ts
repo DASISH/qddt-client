@@ -9,7 +9,7 @@ import { ActionKind, ElementKind } from '../shared/classes/enums';
 import { HEADER_DETAILS } from '../shared/classes/constants';
 import { QddtPropertyStoreService } from '../core/global/property.service';
 import { ResponseDomain, DomainKind } from '../responsedomain/responsedomain.classes';
-import {UserService} from '../core/user/user.service';
+import { UserService } from '../core/user/user.service';
 
 declare var Materialize: any;
 

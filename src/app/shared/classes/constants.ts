@@ -6,6 +6,10 @@ export  function getElementKind(kind: string|ElementKind): ElementKind {
   return (typeof kind === 'string') ?  ElementKind[kind] : kind ;
 }
 
+export  function getQueryInfo(kind: string|ElementKind): QueryInfo {
+  return QDDT_QUERY_INFOES[getElementKind(kind)];
+}
+
 export const QDDT_QUERY_INFOES: QueryInfo[] = [
   new QueryInfo(ElementKind.NONE, '', '', [], null),
   new QueryInfo(ElementKind.CATEGORY, 'Category', 'category', ['name'], '&categoryKind=CATEGORY'),
@@ -38,13 +42,13 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
 export  const HEADER_DETAILS: Map<string, IHeaderDetail>  = new Map([
   ['categories', { icon: 'view_comfy', headerName: 'Categories', kind: ElementKind.CATEGORY }],
   ['missing', { icon: 'view_module', headerName: 'Missing Values', kind: ElementKind.MISSING_GROUP }],
-  ['questionitems', { icon: 'view_agenda', headerName: 'QuestionItems' , kind: ElementKind.QUESTION_ITEM}],
+  ['questionitems', { icon: 'help', headerName: 'QuestionItems' , kind: ElementKind.QUESTION_ITEM}],
   ['questions', { icon: 'view_agenda', headerName: 'Question constructs' , kind: ElementKind.QUESTION_CONSTRUCT}],
-  ['sequences', { icon: 'format_line_spacing', headerName: 'Sequence construct', kind: ElementKind.SEQUENCE_CONSTRUCT }],
+  ['sequences', { icon: 'format_line_spacing', headerName: 'Sequence constructs', kind: ElementKind.SEQUENCE_CONSTRUCT }],
   ['responsedomains', { icon: 'blur_linear', headerName: 'Response domains', kind: ElementKind.RESPONSEDOMAIN }],
   ['instruments', { icon: 'tablet_mac', headerName: 'Instruments', kind: ElementKind.INSTRUMENT }],
   ['publications', { icon: 'folder_special', headerName: 'Publication packages', kind: ElementKind.PUBLICATION }],
   ['instructions', { icon: 'speaker_notes', headerName: 'Instructions', kind: ElementKind.INSTRUCTION }],
-  ['universes', { icon: 'add_location', headerName: 'Universes', kind: ElementKind.UNIVERSE }],
+  ['universes', { icon: 'public', headerName: 'Universes', kind: ElementKind.UNIVERSE }],
   ['user', { icon: 'user', headerName: 'User Administration', kind: ElementKind.USER }],
 ]);

@@ -6,6 +6,10 @@
  *
  */
 
+ td, th {
+  padding: 5px 5px;
+ }
+
 .d2h-wrapper {
   text-align: left;
 }

@@ -119,10 +119,20 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
       (data: any) => filesaver.saveAs(data, fileName));
   }
 
-  onGetPdf(element: Topic) {
+  getPdf(element: Topic) {
     const fileName = element.name + '.pdf';
-    this.topicService.getTopicPdf(element.id).then(
-      (data: any) => filesaver.saveAs(data, fileName));
+    this.topicService.getPdf(element).then(
+      (data: any) => {
+        filesaver.saveAs(data, fileName);
+      });
+  }
+
+  getXml(element: Topic) {
+    const fileName = element.name + '.xml';
+    this.topicService.getXml(element).then(
+      (data: any) => {
+        filesaver.saveAs(data, fileName);
+      });
   }
 
   onClickQuestionItem(questionItem) {

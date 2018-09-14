@@ -100,6 +100,9 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
 
   onBlur() {
     this.showAutoComplete = false;
+    if (!this.selected) {
+      this.value = null;
+    }
   }
 
   select(candidate: IEntityAudit) {

@@ -16,7 +16,6 @@ export class AuthGuard implements CanActivate, CanActivateChild  {
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (this.authService.isTokenExpired()) {
       console.log('isTokenExpired -> redirecting to login');
-      console.log(this.authService.getToken());
       this.router.navigate(['/login']);
       return false;
     }
@@ -27,13 +26,13 @@ export class AuthGuard implements CanActivate, CanActivateChild  {
     return this.canActivate(next, state);
   }
 
-  private checkParent(url: string): boolean {
-    const current =  this.menupath.find((e) => e === url);
-    this.property.set('currentUrl', current);
-    if (current) {
-      console.log( (current) );
-      return true;
-    }
-  return false;
-  }
+  // private checkParent(url: string): boolean {
+  //   const current =  this.menupath.find((e) => e === url);
+  //   this.property.set('currentUrl', current);
+  //   if (current) {
+  //     console.log( (current) );
+  //     return true;
+  //   }
+  //   return false;
+  // }
 }

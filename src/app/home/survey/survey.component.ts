@@ -83,9 +83,17 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
 
   getPdf(element: SurveyProgram) {
     const fileName = element.name + '.pdf';
-    this.surveyService.getSurveyPdf(element.id)
-    .then(
-      (data: any) => filesaver.saveAs(data, fileName)
-    );
+    this.surveyService.getPdf(element).then(
+      (data: any) => {
+        filesaver.saveAs(data, fileName);
+      });
+  }
+
+  getXml(element: SurveyProgram) {
+    const fileName = element.name + '.xml';
+    this.surveyService.getXml(element).then(
+      (data: any) => {
+        filesaver.saveAs(data, fileName);
+      });
   }
 }

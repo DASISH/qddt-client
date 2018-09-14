@@ -19,8 +19,8 @@ export class UserFormComponent implements OnInit, OnChanges {
   public authorities: IAuthority[];
   public selectedAgencyId: string;
   public formId = Math.round( Math.random() * 10000);
-  constructor(private userService: UserService) {
-  }
+
+  constructor(private userService: UserService) {}
 
   ngOnInit() {
     this.getAgencies();
@@ -44,12 +44,11 @@ export class UserFormComponent implements OnInit, OnChanges {
   }
 
   onSelectRadio(authorityId: string) {
-    this.user.authority = this.authorities.find( q => q.id === authorityId);
+    this.user.authorities = [this.authorities.find( q => q.id === authorityId)];
   }
 
 
   onSave() {
-    this.user.modified = new Date().getTime();
     this.userService.save(this.user).subscribe(
       (result) => {
         this.user = result;
@@ -58,17 +57,11 @@ export class UserFormComponent implements OnInit, OnChanges {
       (error) => { throw error; });
   }
 
-  private getAgencies() {
-    if (!this.agencies || this.agencies.length === 0) {
-    this.userService.getAgencies().then(
-        (result) => {
-           this.agencies = result;
-        });
-      }
+  private async getAgencies() {
+    return await this.userService.getAgencies().then((result) => this.agencies = result);
   }
 
   private async getAuthorites() {
-    return await this.userService.getAuthories().then(
-      (result) => this.authorities = result);
+    return await this.userService.getAuthorites().then((result) => this.authorities = result);
   }
 }

@@ -1,80 +1,78 @@
-<div *ngIf="isVisible">
-  <div *ngIf="topic"  id="{{topic.id}}"  >
-    <form (ngSubmit)="onSave()" #topicForm="ngForm">
+<div *ngIf="topic && isVisible" class="row " id="{{formId}}"  >
+  <form (ngSubmit)="onSave()" #topicForm="ngForm">
 
-      <div class="row input-field">
-        <input id="{{topic?.id}}-name"
-                 name="{{topic?.id}}-name"type="text" [(ngModel)]="topic.name" required>
-        <label for="{{topic?.id}}-name" >Name</label>
-      </div>
+    <div class="row input-field">
+      <input id="{{formId}}-name"
+                name="{{formId}}-name"type="text" [(ngModel)]="topic.name" required>
+      <label for="{{formId}}-name" >Name</label>
+    </div>
 
-      <ul class="hoverable" (mouseenter)="showbutton = !readonly" (mouseleave)="showbutton = false">
-        <li>
-          <div class="row" (click)="showUploadFileForm=!showUploadFileForm" style="cursor: zoom-in;">
-            <label>External aid</label>
-              <a [ngClass]="{hide: !showbutton}"
-                class="btn-flat btn-floating btn-small waves-effect waves-light teal right">
-                <i class="material-icons" title="Attach external aid (File Upload)">add</i>
-              </a>
+    <div class="row input-field">
+      <textarea id="{{formId}}-desc" name="{{formId}}-description" class="materialize-textarea"
+        [(ngModel)]="topic.description" required >
+      </textarea>
+      <label for="{{formId}}-desc">Description</label>
+    </div>
+
+    <ul class="hoverable" (mouseenter)="showbutton = !readonly" (mouseleave)="showbutton = false">
+      <li>
+        <div class="row" (click)="showUploadFileForm=!showUploadFileForm" style="cursor: zoom-in;">
+          <label>External aid</label>
+            <a [ngClass]="{hide: !showbutton}"
+              class="btn-flat btn-floating btn-small waves-effect waves-light teal right">
+              <i class="material-icons" title="Attach external aid (File Upload)">add</i>
+            </a>
+        </div>
+      </li>
+      <div class="row" *ngIf="showUploadFileForm && !readonly">
+        <div class="file-field input-field">
+          <div class="btn">
+            <span>File</span>
+            <input type="file" (change)="onSelectFile($event)">
           </div>
-        </li>
-        <div class="row" *ngIf="showUploadFileForm && !readonly">
-          <div class="file-field input-field">
-            <div class="btn">
-              <span>File</span>
-              <input type="file" (change)="onSelectFile($event)">
-            </div>
-            <div class="file-path-wrapper">
-              <input class="file-path validate" type="text" placeholder="Upload one file">
-            </div>
+          <div class="file-path-wrapper">
+            <input class="file-path validate" type="text" placeholder="Upload one file">
           </div>
         </div>
-        <li *ngFor="let m of topic.otherMaterials; let idx=index;">
-          <div class="row">
-            <div class="col s10">
-              <a class="waves-effect waves-light" (click)="onDownloadFile(m)">
-                <i class="material-icons center smal">description</i>{{ m.originalName }}</a>
-            </div>
-            <div class="col s1 right" >
-              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                [ngClass]="{hide: !showbutton}" (click)="onMarkForDeletetion(idx)">
-                <i class="material-icons left medium" title="Delete" >delete_forever</i>
-              </a>
-            </div>
-          </div>
-        </li>
-        <li *ngFor="let file of fileStore; let idx=index;">
-          <div class="row">
-            <div class="col s11 m5">
-              <a class="waves-effect waves-light"><i class="material-icons center smal">description</i>{{ file?.name }}</a>
-            </div>
-            <div class="col s1 right" style="min-height:3rem">
-              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                [ngClass]="{hide: !showbutton}" (click)="onDeleteFileFromLocal(idx)">
-                <i class="material-icons left medium" title="Delete" >delete_forever</i>
-              </a>
-            </div>
-          </div>
-        </li>
-      </ul>
-
-
-      <div class="row input-field">
-        <textarea id="{{topic?.id}}-description" name="{{topic?.id}}-description" materialize="characterCounter" data-length="10000"
-              class="materialize-textarea"  [(ngModel)]="topic.description" required autosize></textarea>
-        <label for="{{topic?.id}}-description">Description</label>
       </div>
+      <li *ngFor="let m of topic.otherMaterials; let idx=index;">
+        <div class="row">
+          <div class="col s10">
+            <a class="waves-effect waves-light" (click)="onDownloadFile(m)">
+              <i class="material-icons center smal">description</i>{{ m.originalName }}</a>
+          </div>
+          <div class="col s1 right" >
+            <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+              [ngClass]="{hide: !showbutton}" (click)="onMarkForDeletetion(idx)">
+              <i class="material-icons left medium" title="Delete" >delete_forever</i>
+            </a>
+          </div>
+        </div>
+      </li>
+      <li *ngFor="let file of fileStore; let idx=index;">
+        <div class="row">
+          <div class="col s11 m5">
+            <a class="waves-effect waves-light"><i class="material-icons center smal">description</i>{{ file?.name }}</a>
+          </div>
+          <div class="col s1 right" style="min-height:3rem">
+            <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+              [ngClass]="{hide: !showbutton}" (click)="onDeleteFileFromLocal(idx)">
+              <i class="material-icons left medium" title="Delete" >delete_forever</i>
+            </a>
+          </div>
+        </div>
+      </li>
+    </ul>
 
-      <qddt-rational [formName]="'RationalComp'" [element]="topic" [config]="{hidden: [2,3]}"></qddt-rational>
 
-      <qddt-element-footer [element]="topic"  > </qddt-element-footer>
+    <qddt-rational [formName]="'RationalComp'" [element]="topic" [config]="{hidden: [2,3]}"></qddt-rational>
 
+    <qddt-element-footer [element]="topic"  > </qddt-element-footer>
 
-      <div class="row right-align">
-        <button type="submit" class="btn btn-default" [disabled]="!topicForm.form.valid" >Submit</button>
-      </div>
+    <div class="row right-align">
+      <button type="submit" class="btn btn-default" [disabled]="topicForm.form.invalid" >Submit</button>
+    </div>
 
-    </form>
-  </div>
+  </form>
 </div>
 

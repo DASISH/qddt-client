@@ -102,9 +102,18 @@ export class TreeNodeComponent implements AfterContentChecked {
 
   getPdf(concept: Concept) {
     const fileName = concept.name + '.pdf';
-    this.conceptService.getConceptPdf(concept.id).then(
+    this.conceptService.getPdf(concept).then(
       (data: any) => {
         filesaver.saveAs(data, fileName);
       });
   }
+
+  getXml(concept: Concept) {
+    const fileName = concept.name + '.xml';
+    this.conceptService.getXml(concept).then(
+      (data: any) => {
+        filesaver.saveAs(data, fileName);
+      });
+  }
+
 }

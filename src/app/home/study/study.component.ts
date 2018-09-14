@@ -86,7 +86,15 @@ export class StudyComponent implements OnInit, AfterContentChecked {
 
   getPdf(element: Study) {
     const fileName = element.name + '.pdf';
-    this.studyService.getStudyPdf(element.id).then(
+    this.studyService.getPdf(element).then(
+      (data: any) => {
+        filesaver.saveAs(data, fileName);
+      });
+  }
+
+  getXml(element: Study) {
+    const fileName = element.name + '.xml';
+    this.studyService.getXml(element).then(
       (data: any) => {
         filesaver.saveAs(data, fileName);
       });

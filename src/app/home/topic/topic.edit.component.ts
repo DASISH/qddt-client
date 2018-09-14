@@ -1,11 +1,11 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output, AfterContentChecked } from '@angular/core';
 import { HomeService } from '../home.service';
 import { Topic } from '../home.classes';
 import { IOtherMaterial } from '../../shared/classes/interfaces';
 import { ElementKind } from '../../shared/classes/enums';
 
+declare var $: any;
 const filesaver = require('file-saver');
-declare const tinymce: any;
 
 @Component({
   selector: 'qddt-topic-edit',
@@ -18,21 +18,24 @@ declare const tinymce: any;
   templateUrl: 'topic.edit.component.html'
 })
 
-export class TopicEditComponent  {
+export class TopicEditComponent  implements AfterContentChecked {
   @Input() topic: Topic;
-  @Input() isVisible: boolean;
+  @Input() readonly = false;
+  @Input() isVisible = false;
   @Output() savedEvent = new EventEmitter<any>();
 
-  public showRevision = false;
+  public readonly formId = Math.round( Math.random() * 10000);
 
   private showUploadFileForm = false;
-  private readonly = false;
   private files: FileList;
   private fileStore = [];
   private toDeleteFiles = [];
 
   constructor(private service: HomeService) { }
 
+  ngAfterContentChecked() {
+    $('#' + this.formId + '-desc').trigger('autoresize');
+  }
 
   onDownloadFile(o: IOtherMaterial) {
     const fileName = o.originalName;

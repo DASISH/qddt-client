@@ -16,80 +16,81 @@
       <a *ngIf="path[3]" (click)="onConcept()" class="breadcrumb">{{ path[3] }}</a>
 
       <ul id="adminmenu" class="dropdown-content"  >
-        <div *ngIf="loggedIn">
+        <div *ngIf="isLoggedIn$ | async as isLoggedIn">
           <li (click)="logoutEvent()"><a href=""><i class="material-icons left">exit_to_app</i>Exit</a></li>
           <li class="divider"></li>
           <li><a [routerLink]="['/user']"><i class="material-icons left">edit</i>UserAdmin</a></li>
           <li class="divider"></li>
           <li><a [routerLink]="['/resetpassword']"><i class="material-icons left">mail_outline</i>Password reset</a></li>
+          <li class="divider"></li>
+          <li><a href="https://github.com/DASISH/qddt-client/wiki" target="_blank"><i class="material-icons left">help</i>Help</a></li>
         </div>
       </ul>
 
-      <ul  id="nav-mobile" class="side-nav fixed hide-on-small-and-down teal-text">
+      <ul  id="nav-mobile" class="side-nav fixed hide-on-small-and-down teal-text" style="transform: translateX(0px);">
         <div class="container" style="color: #fff; background-color: #ee6e73; width: 100%; height: 64px; line-height: 64px;
         font-size: 2rem; text-align: center; vertical-align: center">
           <img src="/assets/images/qddt-text.png" style="height:100%; left: 90%; ">
         </div>
-        <div *ngIf="loggedIn">
+        <div *ngIf="isLoggedIn$ | async as isLoggedIn">
           <li>
             <div class="row card">
               <div class="col s2"><i class="material-icons">search</i></div>
               <div class="col s10"><input id="search" placeholder="goto url/id"(input)="onCheckUrl($event)"></div>
             </div>
           </li>
-          <li><a class="teal-text" [routerLink]="['/home']" >
+          <li><a class="teal-text waves-effect waves-teal" [routerLink]="['/home']" tabindex="0">
             <i class="medium material-icons teal-text left ">store</i>Home</a>
           </li>
-          <li *ngIf="canSee[elementKindRef.QUESTION_ITEM]"><a class="teal-text" [routerLink]="['/questionitems']">
+          <li *ngIf="canSee[elementKindRef.QUESTION_ITEM]"><a class="teal-text waves-effect waves-teal" [routerLink]="['/questionitems']" tabindex="0">
             <i class="material-icons teal-text left medium">help</i>Questions</a>
           </li>
-          <li *ngIf="canSee[elementKindRef.MISSING_GROUP]"><a class="teal-text" [routerLink]="['/missing']" >
+          <li *ngIf="canSee[elementKindRef.MISSING_GROUP]"><a class="teal-text waves-effect waves-teal" [routerLink]="['/missing']" tabindex="0">
             <i class="material-icons teal-text left medium">view_module</i>Missings</a>
           </li>
-          <li *ngIf="canSee[elementKindRef.RESPONSEDOMAIN]"><a class="teal-text" [routerLink]="['/responsedomains']" >
+          <li *ngIf="canSee[elementKindRef.RESPONSEDOMAIN]"><a class="teal-text waves-effect waves-teal" [routerLink]="['/responsedomains']" tabindex="0">
             <i class="material-icons teal-text left medium">blur_linear</i>Domains</a>
           </li>
-          <li *ngIf="canSee[elementKindRef.QUESTION_CONSTRUCT]"><a class="teal-text" [routerLink]="['/questions']" >
+          <li *ngIf="canSee[elementKindRef.QUESTION_CONSTRUCT]"><a class="teal-text waves-effect waves-teal" [routerLink]="['/questions']" tabindex="0">
             <i class="material-icons teal-text left medium">view_agenda</i>Constructs</a>
           </li>
-          <!--<li *ngIf="canSee[elementKindRef.SEQUENCE_CONSTRUCT]"><a class="teal-text" [routerLink]="['/sequences']" >-->
-            <!--<i class="material-icons teal-text left medium">format_line_spacing</i>Sequences</a>-->
-          <!--</li>-->
-          <!--<li *ngIf="canSee[elementKindRef.INSTRUMENT]"><a class="teal-text" [routerLink]="['/instruments']" >-->
-            <!--<i class="material-icons teal-text left medium">tablet_mac</i>Instruments</a>-->
-          <!--</li>-->
-          <li><a class="teal-text" [routerLink]="['/publications']" >
+          <li *ngIf="canSee[elementKindRef.SEQUENCE_CONSTRUCT]"><a class="teal-text waves-effect waves-teal" [routerLink]="['/sequences']" tabindex="0">
+            <i class="material-icons teal-text left medium">format_line_spacing</i>Sequences</a>
+          </li>
+          <li *ngIf="canSee[elementKindRef.INSTRUMENT]"><a class="teal-text waves-effect waves-teal" [routerLink]="['/instruments']" tabindex="0">
+            <i class="material-icons teal-text left medium">tablet_mac</i>Instruments</a>
+          </li>
+          <li><a class="teal-text waves-effect waves-teal" [routerLink]="['/publications']"tabindex="0" >
             <i class="material-icons teal-text left medium">folder_special</i>Publications</a>
           </li>
           <li>
-            <ul class="collapsible">
+            <ul class="collapsible collapsible-accordion">
               <li>
-              <a class="collapsible-header teal-text"><i class="material-icons teal-text medium">more_horiz</i>Lockups</a>
-              <div class="collapsible-body">
-                <ul>
-                  <li ><a class="teal-text" [routerLink]="['/universes']" >
-                      <i class="material-icons teal-text left medium">add_location</i>Universe</a>
-                  </li>
-                  <li *ngIf="canSee[elementKindRef.INSTRUCTION]"><a class="teal-text" [routerLink]="['/instructions']" >
-                    <i class="material-icons teal-text left medium">speaker_notes</i>Instruction</a>
-                  </li>
-                  <li *ngIf="canSee[elementKindRef.CATEGORY]"><a class="teal-text" [routerLink]="['/categories']" >
-                    <i class="material-icons teal-text left medium">view_comfy</i>Categories</a>
-                  </li>
-                </ul>
-              </div>
-            </li>
+                <a class="collapsible-header waves-effect waves-teal teal-text" >Lookups<i class="material-icons">more_horiz</i></a>
+                <div class="collapsible-body">
+                  <ul>
+                    <li *ngIf="canSee[elementKindRef.UNIVERSE]"><a class="teal-text waves-effect waves-teal" [routerLink]="['/universes']" tabindex="0">
+                      <i class="material-icons teal-text left medium">publics</i>Universe</a>
+                    </li>
+                    <li *ngIf="canSee[elementKindRef.INSTRUCTION]"><a class="teal-text waves-effect waves-teal" [routerLink]="['/instructions']" tabindex="0">
+                      <i class="material-icons teal-text left medium">speaker_notes</i>Instructions</a>
+                    </li>
+                    <li *ngIf="canSee[elementKindRef.CATEGORY]"><a class="teal-text waves-effect waves-teal" [routerLink]="['/categories']" tabindex="0">
+                      <i class="material-icons teal-text left medium">view_comfy</i>Categories</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
             </ul>
-          </li>
+          </li>   
         </div>
       </ul>
-
     </div>
   </nav>
 </div>
 
 <ul  id="leftmenu" class="side-nav" style="width: 200px;">
-  <div *ngIf="loggedIn">
+  <div *ngIf="isLoggedIn$ | async as isLoggedIn">
     <li><a [routerLink]="['/home']"  title="home">
       <i class="medium material-icons teal-text">store</i></a>
     </li>

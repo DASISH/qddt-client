@@ -7,7 +7,7 @@ import { Component, Input } from '@angular/core';
     '.collapsible { border:1px  }',
   ],
   template: `
-  <ul *ngIf="topicList" materialize="collapsible" class="collapsible" data-collapsible="accordion" style="padding: 5pt;">
+  <ul *ngIf="topicList" materialize="collapsible" class="collapsible" data-collapsible="accordion">
     <li *ngFor="let topic of topicList">
       <div class="collapsible-header yellow lighten-5">
         <!--<div class="row">-->

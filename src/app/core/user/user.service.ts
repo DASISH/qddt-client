@@ -46,30 +46,32 @@ export class UserService {
   public static readonly AUTHORITY_URL = 'authority/all';
   private static readonly USERINFO = 'user';
 
-  loginChanged$: Observable<string>;
-  // Observable navItem source
-  private _newcurrent = new BehaviorSubject<string>('');
+  public loggedIn = new BehaviorSubject<boolean>(false);
 
   private _user: User;
   private _roles: number;
-
+  private _agencies;
+  private _authorites;
 
   constructor(private http: HttpClient,  @Inject(API_BASE_HREF) private api: string) {
-    this.loginChanged$ = this._newcurrent.asObservable();
     if (this.isTokenExpired()) {
       this.logout();
     } else {
       this.loadUserFromToken();
     }
+
   }
 
   public canDo(action: ActionKind, kind: ElementKind): boolean {
 
     function canRead(roles: number) {
-      if (roles >= +AuthorityKind.ROLE_VIEW) {
+      if (kind.valueOf() === ElementKind.UNIVERSE.valueOf()) {
+        console.log('canRead false');
+        return false;
+      } else if (roles >= +AuthorityKind.ROLE_VIEW) {
         return true;
       } else {
-        return (kind === ElementKind.PUBLICATION);
+        return (kind.valueOf() === ElementKind.PUBLICATION.valueOf());
       }
     }
 
@@ -114,10 +116,7 @@ export class UserService {
 
   public async signIn(email: string, password: string) {
 
-    const requestParam = {
-      email: email,
-      password: password
-    };
+    const requestParam = { email: email, password: password };
 
     const response = await this.http.post<any>(this.api + UserService.SIGNIN_URL, requestParam).toPromise();
     if (response && response.token) {
@@ -141,11 +140,17 @@ export class UserService {
   }
 
   public getAgencies(): Promise<Agency[]> {
-    return this.http.get<Agency[]>( this.api + UserService.ANGENCY_URL).toPromise();
+    if (!this._agencies) {
+      this._agencies = this.http.get<Agency[]>( this.api + UserService.ANGENCY_URL).toPromise();
+    }
+    return this._agencies; // http.get<Agency[]>( this.api + UserService.ANGENCY_URL).toPromise();
   }
 
-  public getAuthories(): Promise<IAuthority[]> {
-    return this.http.get<IAuthority[]>( this.api + UserService.AUTHORITY_URL).toPromise();
+  public getAuthorites(): Promise<IAuthority[]> {
+    if (!this._authorites) {
+      this._authorites = this.http.get<IAuthority[]>( this.api + UserService.AUTHORITY_URL).toPromise();
+    }
+    return this._authorites; // http.get<IAuthority[]>( this.api + UserService.AUTHORITY_URL).toPromise();
   }
 
   /**
@@ -153,7 +158,7 @@ export class UserService {
    */
   public logout(): void {
     localStorage.removeItem(TOKEN_NAME);
-    this._newcurrent.next('');
+    this.loggedIn.next(false);
   }
 
   public isTokenExpired(): boolean {
@@ -211,7 +216,7 @@ export class UserService {
     localStorage.setItem(LAST_LOGIN, this._user.email);
     this._roles = 0;
     this.getRoles().forEach((role) => this._roles += +AuthorityKind[role]);
-    this._newcurrent.next(this.getUser().sub);
+    this.loggedIn.next(true);
   }
 
   // Retrieves user details from token
