@@ -50,7 +50,7 @@
   <!-- </div> -->
 </div>
 
-<div class="modal" materialize="modal" [materializeActions]="deleteAction">
+<div id="confirmModal{{item.id}}" class="modal modal-fixed-footer" >
   <div class="modal-content">
     <div class="row">
       <h4>Warning</h4>
@@ -60,12 +60,25 @@
   <div class="modal-footer">
     <button
       (click)="onConfirmDeleting()"
-      class="btn btn-default green modal-action modal-close waves-effect">
-      <a><i class="close material-icons medium white-text">done</i></a>
+      class="btn green waves-effect">
+      <a><i class="close material-icons medium white-text">done</i>Yes</a>
     </button>
-    <button
+    <button 
       class="btn btn-default red modal-action modal-close waves-effect">
-      <a><i class="close material-icons medium white-text">close</i></a>
+      <a><i class="close material-icons medium white-text">close</i>No</a>
     </button>
   </div>
 </div>
+
+<!-- <qddt-modal>
+  <div modal-header>Warning</div>
+  <div modal-body>Are you sure you want to delete [{{ item?.name }}]?</div>
+  <div modal-footer>
+    <button class="btn green waves-effect" (click)="onConfirmDeleting()">
+      <a><i class="material-icons medium white-text">done</i>Yes</a>
+    </button>
+    <button class="btn btn-default red modal-action modal-close waves-effect">
+      <a><i class="close material-icons medium white-text">close</i>No</a>
+    </button>
+  </div>
+</aqddtp-modal> -->

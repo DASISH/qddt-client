@@ -10,6 +10,7 @@ import { ActionKind, ElementKind } from '../shared/classes/enums';
 import { HEADER_DETAILS } from '../shared/classes/constants';
 
 declare var Materialize: any;
+declare var $: any;
 
 const fileSaver = require('file-saver');
 
@@ -76,7 +77,8 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterContentC
   }
 
   onDeleteConfirmModal() {
-    this.deleteAction.emit({action: 'modal', params: ['open']});
+    $('#confirmModal' + this.item.id ).modal('open');
+    // this.deleteAction.emit({action: 'modal', params: ['open']});
   }
 
   onConfirmDeleting() {

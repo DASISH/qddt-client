@@ -29,8 +29,12 @@ export class UserFormComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['user'].currentValue) {
-      if (this.user && this.user.agency) {
-        this.onSelectChange(this.user.agency.id);
+      if (this.user) {
+        if (this.user.agency) {
+          this.onSelectChange(this.user.agency.id);
+        } else {
+          this.onSelectChange(this.agencies[0].id);
+        }
         Materialize.updateTextFields();
       }
     }
@@ -44,7 +48,7 @@ export class UserFormComponent implements OnInit, OnChanges {
   }
 
   onSelectRadio(authorityId: string) {
-    this.user.authorities = [this.authorities.find( q => q.id === authorityId)];
+    this.user.authority = this.authorities.find( q => q.id === authorityId);
   }
 
 

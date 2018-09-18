@@ -1,50 +1,46 @@
-import { AfterContentChecked,  Component, OnInit,  AfterViewChecked, AfterContentInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, AfterContentChecked, AfterContentInit } from '@angular/core';
 import { UserService } from '../user/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 
 declare var Materialize: any;
-
-export class LoginForm {
-  username?: string;
-  email: string;
-  password = '';
-  // isValid() { return this.username.length > 7 && this.password.length > 6; }
-}
+declare var $;
 
 @Component({
   selector: 'qddt-login',
   moduleId: module.id,
   templateUrl: './login.component.html'
 })
-export class LoginComponent implements  AfterContentChecked, AfterContentInit {
+export class LoginComponent implements  AfterContentInit {
 
-  public loginForm = new LoginForm();
+  public formData = { email: null, password: null };
+
   loading = false;
   once = 0;
 
   constructor(private route: ActivatedRoute, private router: Router, private authenticationService: UserService) {
+    $(document).ready(function() {
+      $('.modal').modal({
+        ready: function(modal) {
+          Materialize.updateTextFields();
+        },
+        complete: function(modal) {
+          console.log(modal);
+        }
+      });
+      $('#modalLogin').modal('open');
+    });
   }
 
   ngAfterContentInit(): void {
-    this.loginForm.email = this.authenticationService.getEmail();
+    this.formData.email = this.authenticationService.getEmail();
   }
 
-  ngAfterContentChecked(): void {
-    if (this.once < 10) {
-      this.once ++;
-      try {
-        Materialize.updateTextFields();
-      } catch  {
-        // console.debug('Materialize not initialized...');
-      }
-    }
-  }
 
-  login() {
+  login(f) {
     this.loading = true;
-    this.authenticationService.signIn(this.loginForm.email, this.loginForm.password).then(
-        () => { console.log('login successful');  this.loading = false; },
+    this.authenticationService.signIn(this.formData.email, this.formData.password).then(
+        () => { console.log('login successful');  this.loading = false;  $('.modal').modal(); $('#modalLogin').modal('close'); },
         (error) => { this.loading = false; throw error; }
         );
   }

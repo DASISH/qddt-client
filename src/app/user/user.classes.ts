@@ -20,8 +20,8 @@ export class UserJson {
   email: String;
   agency: Agency;
   modified: number;
-  authorities: IAuthority[] = [ {id: 'null', name: 'none', authority: 'NONE' } ];
-  enabled: boolean;
+  authority: IAuthority = {id: 'null', name: 'none', authority: 'NONE' } ;
+  enabled = true;
   classKind: 'USER';
 
   public constructor(init?: Partial<UserJson>) {

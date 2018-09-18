@@ -17,6 +17,8 @@ export class AuthGuard implements CanActivate, CanActivateChild  {
     if (this.authService.isTokenExpired()) {
       console.log('isTokenExpired -> redirecting to login');
       this.router.navigate(['/login']);
+      // this.router.navigate([{ outlets:  { modal:  ['loginpopup'] }}]);
+
       return false;
     }
     return true;

@@ -31,7 +31,8 @@ import { MaterializeAction } from 'angular2-materialize';
 export class ConfirmDeleteComponent  {
   @Input() element: any;
   @Output() confirmAction = new EventEmitter<string>();
-  deleteAction = new EventEmitter<string|MaterializeAction>();
+
+  public deleteAction = new EventEmitter<string|MaterializeAction>();
 
   showConfirmDeleting() {
     this.deleteAction.emit({action: 'modal', params: ['open']});

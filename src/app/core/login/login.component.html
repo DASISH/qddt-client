@@ -1,22 +1,19 @@
-<div class="row">
-  <div class="col s6 offset-s3" >
+
+<div id="modalLogin" class="modal" style="width:25%;">
+  <div class="modal-content">
+    <h4>Login</h4>
     <form (ngSubmit)="login()" #f="ngForm">
       <div class="row input-field">
-          <input class="validate" name="email" type="email" [(ngModel)]="loginForm.email" email required>
-          <label for="email">Email</label>
+        <input class="validate" name="email" type="email" [(ngModel)]="formData.email" required email>
+        <label for="email">Email</label>
       </div>
       <div class="row input-field">
-        <input class="validate" name="password" type="password" [(ngModel)]="loginForm.password" required minlength="6">
+        <input class="validate" name="password" type="password" [(ngModel)]="formData.password" required minlength="6">
         <label for="password">Password</label>
       </div>
-      <div class="row">
-        <button [disabled]="!f.valid" class="btn btn-primary">Login</button>
-        <div *ngIf="loading" class="spinner-layer spinner-green">
-          <div class="circle-clipper left"><div class="circle"></div></div>
-          <div class="gap-patch"><div class="circle"></div></div>
-          <div class="circle-clipper right"><div class="circle"></div></div>
-        </div>
-      </div>
+      <button [disabled]="f.invalid || loading" data-target="modalLogin" class="btn btn-primary modal-action modal-close waves-effect right">Login</button>
     </form>
-  </div>
+    <qddt-spinner *ngIf="loading" ></qddt-spinner>
+  </div>  
+  <div class="modal-footer"></div>
 </div>

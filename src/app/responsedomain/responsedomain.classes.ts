@@ -98,9 +98,10 @@ export class ResponseDomain implements IEntityEditAudit {
 
 export function makeMixed(old: ResponseDomain): ResponseDomain {
   const managedRepresentation = new Category({
-    description: '[Mixed] group - ' + old.managedRepresentation.name + '...]',
+    description: '[Mixed] group - ' + old.name + '...]',
     hierarchyLevel: 'GROUP_ENTITY',
     categoryType: 'MIXED',
+    name: old.id,
     children: [old.managedRepresentation] });
 
   return new ResponseDomain({

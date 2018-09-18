@@ -6,18 +6,16 @@ import { AuthGuard } from './guard/auth-guard.service';
 import { QddtPropertyStoreService } from './global/property.service';
 import { ResetpasswordComponent } from './resetpassword/resetpassword.component';
 import { QddtMessageService } from './global/message.service';
-import { CoreRoutingModule } from './core.routing';
-import { CoreComponent } from './core.component';
 import { TemplateModule } from '../template/template.module';
 import { UserService } from './user/user.service';
 
 
 @NgModule({
-  imports: [ FormsModule, SharedModule, CoreRoutingModule, TemplateModule ],
+  imports: [ FormsModule, SharedModule, TemplateModule ],
 
-  declarations: [ LoginComponent, ResetpasswordComponent, CoreComponent ],
+  declarations: [ LoginComponent, ResetpasswordComponent ],
 
-  exports: [ CoreComponent ],
+  exports: [ LoginComponent, ResetpasswordComponent ],
 
   providers: [ QddtPropertyStoreService, AuthGuard, QddtMessageService, UserService]
 })
