@@ -46,7 +46,7 @@
     <!--INSTRUCTION,-->
     <!--UNIVERSE-->
   <div class="row">
-    <span> getElementString:{{ element.classKind }} getElementKind:{{ getElementKind(element) }}<- TEST</span>
+    <!-- <span> getElementString:{{ element.classKind }} getElementKind:{{ getElementKind(element) }}<- TEST</span> -->
     <div class="col s12">
       <label [attr.for]="element.id + '-name'" class="active teal-text">Name</label>
       <textarea class="materialize-textarea" id="{{element?.id}}-name"
@@ -64,7 +64,18 @@
 </div>
 
 <ul class="hoverable">
-  <li (click)="revisionIsVisible=!revisionIsVisible" style="cursor: zoom-in;  !important">
+  <li>
+    <label class="teal-text">Exports</label>
+  </li>
+  <li class="collection-item">
+    <div class="row">
+      <a style="cursor: pointer;" (click)="onGetPdf(element)"><i class="material-icons smal" >picture_as_pdf</i>{{element.name}}.pdf</a>
+    </div>
+  </li>
+</ul>
+
+<ul class="hoverable">
+  <li (click)="revisionIsVisible=!revisionIsVisible" style="cursor: zoom-in !important;">
     <label class="teal-text">Revisions</label>
   </li>
   <li class="collection-item" *ngIf="revisionIsVisible">

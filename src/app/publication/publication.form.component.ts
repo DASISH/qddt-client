@@ -38,10 +38,12 @@ export class PublicationFormComponent implements OnChanges {
   public onShowDetail(index) {
     console.log('onShowDetail');
     const item = this.publication.publicationElements[index];
+    if (!item.element) {
     this.templateService.getRevisionByKind(ElementKind[item.elementKind], item.elementId, item.elementRevision)
       .then( rev => {
         item.element = rev.entity;
       });
+    }
   }
 
   public onUpdatePublication() {

@@ -1,7 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { ElementEnumAware } from './preview.service';
+import { ElementEnumAware, PreviewService } from './preview.service';
 import { IEntityAudit } from '../shared/classes/interfaces';
 import { ElementKind } from '../shared/classes/enums';
+
+const filesaver = require('file-saver');
 
 @Component({
   selector: 'qddt-preview-element',
@@ -24,9 +26,14 @@ export class PreviewComponent  {
   public instanceRefEnum = ElementKind;
   public revisionIsVisible = false;
 
+  constructor(private service: PreviewService) { }
+
   public getElementKind(element: IEntityAudit): ElementKind {
     return ElementKind[element.classKind];
   }
 
-
+  onGetPdf(element: IEntityAudit) {
+    const fileName = element.name + '.pdf';
+    this.service.getPdf(element).then((data: any) => { filesaver.saveAs(data, fileName); });
+  }
 }

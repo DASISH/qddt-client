@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { API_BASE_HREF } from '../api';
 import { ElementKind } from '../shared/classes/enums';
 import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
-import { IOtherMaterial } from '../shared/classes/interfaces';
+import { IOtherMaterial, IEntityEditAudit } from '../shared/classes/interfaces';
 
 export function ElementEnumAware(constructor: Function) {
   constructor.prototype.ElementKind = ElementKind;
@@ -46,4 +46,17 @@ export class PreviewService {
       .toPromise();
   }
 
+  getPdf(element: IEntityEditAudit): Promise<Blob> {
+    const qe = QDDT_QUERY_INFOES[this.getElementKind(element.classKind)];
+    if (element.version.revision) {
+    return this.http.get(this.api +  'audit/' + qe.path + '/pdf/' + element.id + '/' + element.version.revision
+    , { responseType: 'blob'}).toPromise();
+    } else {
+      return this.http.get(this.api +  qe.path + '/pdf/' + element.id  , { responseType: 'blob'}).toPromise();
+    }
+  }
+
+  private getElementKind(kind: string|ElementKind): ElementKind {
+    return (typeof kind === 'string') ?  ElementKind[kind] : kind ;
+  }
 }
