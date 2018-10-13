@@ -2,8 +2,9 @@
 import {distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { Subject } from 'rxjs';
-import {TemplateService} from '../template/template.service';
+import { TemplateService} from '../template/template.service';
 import { ElementKind, ElementRevisionRef, IElement, IPageSearch, IRevisionRef, Page } from '../shared/classes';
+import { PUBLICATION_TYPES} from './publication.classes';
 
 @Component({
   selector: 'qddt-publication-reuse',
@@ -11,7 +12,7 @@ import { ElementKind, ElementRevisionRef, IElement, IPageSearch, IRevisionRef, P
   templateUrl: './publication.reuse.component.html',
   styles: [
     `label, [type="radio"] + label { padding-left: 25px; }`,
-    ':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'
+    ':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0;}'
   ],
 })
 
@@ -24,7 +25,7 @@ export class PublicationReuseComponent  {
   public revisionList: any[];
   public itemList: any[];
   public showProgressBar = false;
-
+  public publicationTypes = PUBLICATION_TYPES;
 
 
   private searchKeysListener: Subject<string> = new Subject<string>();
@@ -65,7 +66,7 @@ export class PublicationReuseComponent  {
     this.onToggleAddElement();
   }
 
-  public onDismiss(value) {
+  public onDismiss() {
     this.revisionList = null;
     this.itemList = null;
   }
