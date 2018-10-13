@@ -8,7 +8,7 @@ import { QuestionConstruct } from '../../controlconstruct/controlconstruct.class
     <div class="row" *ngIf="construct">
       <div [ngSwitch]="construct.classKind">
 				<div *ngSwitchCase="'SEQUENCE_CONSTRUCT'">
-          <qddt-preview-sequenceconstruct [sequence]="construct"></qddt-preview-sequenceconstruct>
+          <qddt-preview-sequenceconstruct [sequenceConstruct]="construct"></qddt-preview-sequenceconstruct>
         </div>
         <div *ngSwitchCase="'CONDITION_CONSTRUCT'">
           <qddt-preview-conditionconstruct [condition]="construct"></qddt-preview-conditionconstruct>
@@ -30,5 +30,6 @@ import { QuestionConstruct } from '../../controlconstruct/controlconstruct.class
 
 export class PreviewControlConstructComponent {
   @Input() construct: QuestionConstruct;
+  @Input() showDetail = true;
 
 }

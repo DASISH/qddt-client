@@ -1,8 +1,8 @@
-import { Component, Input, EventEmitter } from '@angular/core';
-import { MaterializeAction } from 'angular2-materialize';
-import {PreviewService} from '../preview.service';
-import {Router} from '@angular/router';
+import { Component, Input } from '@angular/core';
+import { PreviewService } from '../preview.service';
+import { Router } from '@angular/router';
 import { IOtherMaterial } from '../../shared/classes/interfaces';
+import { QuestionConstruct } from '../../controlconstruct/controlconstruct.classes';
 
 const filesaver = require('file-saver');
 
@@ -11,11 +11,11 @@ const filesaver = require('file-saver');
   moduleId: module.id,
   styles: [ ],
   template: `
-  <div class="row" *ngIf="controlConstruct.preInstructions">
+  <div class="row" *ngIf="controlConstruct.preInstructions?.length>0">
     <ul>
       <li>
         <div class="row">
-          <label class="teal-text">Pre Instructions</label>
+          <label>Pre Instructions</label>
         </div>
       </li>
       <li class="collection-item" *ngFor="let instruction of controlConstruct.preInstructions">
@@ -26,16 +26,13 @@ const filesaver = require('file-saver');
     </ul>
   </div>
   <div class="row">
-    <div (click)="onQuestionitemDetail(controlConstruct.questionItem)" [ngStyle]="{'cursor': 'pointer'}">
-      <a><i class="material-icons left small blue-text" title="go to QuestionItem">help</i></a>
-      <h5>{{ controlConstruct?.questionItem?.question }}</h5>
-    </div>
+    <h5 [innerHtml]="controlConstruct?.questionItem?.question" ></h5>
   </div>
-  <div class="row" *ngIf="controlConstruct.postInstructions">
+  <div class="row" *ngIf="controlConstruct.postInstructions?.length>0">
     <ul>
       <li>
         <div class="row">
-          <label class="teal-text">Post Instructions</label>
+          <label>Post Instructions</label>
         </div>
       </li>
       <li class="collection-item" *ngFor="let instruction of controlConstruct.postInstructions">
@@ -62,32 +59,15 @@ const filesaver = require('file-saver');
       </li>
     </ul>
   </div>
-  <div class="row">
+  <div class="row" *ngIf="showDetail">
     <qddt-element-footer [element]="controlConstruct"></qddt-element-footer>
-  </div>
-  <div class="modal modal-fixed-footer" materialize="modal" [materializeActions]="questionItemActions">
-    <div class="modal-content">
-      <div class="row">
-        <h4>Detail</h4>
-        <qddt-preview-questionitem
-          *ngIf="questionItem" [questionItem]=questionItem>
-        </qddt-preview-questionitem>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button
-        (click)="false"
-        class="btn btn-default red modal-action modal-close waves-effect">
-        <a><i class="close material-icons medium white-text">close</i></a>
-      </button>
-    </div>
   </div>
 `,
 })
 
 export class PreviewQuestionConstructComponent {
-  @Input() controlConstruct: any;
-  questionItemActions = new EventEmitter<string|MaterializeAction>();
+  @Input() controlConstruct: QuestionConstruct;
+  @Input() showDetail = true;
   questionItem: any;
 
   constructor(private service: PreviewService,  private router: Router) {

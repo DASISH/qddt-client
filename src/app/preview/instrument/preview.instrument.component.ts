@@ -7,13 +7,12 @@ import { Instrument } from '../../instrument/instrument.classes';
   template: `
   <div class="row">
     <div class="col s12">
-      <label [attr.for]="instrument.id + '-description'" class="active teal-text">Description</label>
-      <textarea class="materialize-textarea" id="{{instrument?.id}}-description"
-      name="{{instrument?.id}}-description" readonly>
+      <textarea class="materialize-textarea" id="{{instrument?.id}}-desc" name="{{instrument?.id}}-desc" readonly>
       </textarea>
+      <label for ="{{instrument?.id}}-desc" class="teal-text">Description</label>
     </div>
   </div>
-  <ul *ngIf="instrument.sequence" materialize="collapsible" class="collapsible"
+  <ul *ngIf="instrument.sequence"s class="collapsible"
       data-collapsible="accordion" style="margin:25px; padding:10px;">
     <li *ngFor="let cc of instrument.sequence">
       <div class="collapsible-header yellow lighten-5">

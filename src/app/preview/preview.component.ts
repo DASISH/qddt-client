@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ElementEnumAware, PreviewService } from './preview.service';
-import { IEntityAudit } from '../shared/classes/interfaces';
-import { ElementKind } from '../shared/classes/enums';
+import { ElementKind, IEntityAudit} from '../shared/classes';
 
 const filesaver = require('file-saver');
 
@@ -22,6 +21,7 @@ const filesaver = require('file-saver');
 @ElementEnumAware
 export class PreviewComponent  {
   @Input() element: IEntityAudit;
+  @Input() showDetail = true;
 
   public instanceRefEnum = ElementKind;
   public revisionIsVisible = false;

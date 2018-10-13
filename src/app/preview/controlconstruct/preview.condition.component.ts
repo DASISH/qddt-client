@@ -50,6 +50,7 @@ import {ConditionConstruct} from '../../controlconstruct/controlconstruct.classe
 
 export class PreviewConditionConstructComponent implements OnInit {
   @Input() condition: ConditionConstruct;
+  @Input() showDetail = true;
   elementId: string = new Date().toString();
   conditionstring: string;
   conditionjson: any;

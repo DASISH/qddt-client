@@ -7,12 +7,12 @@
     </li>
 
     <li *ngIf="directionLinks"class="page-item" [class.disabled]="!hasPrevious()" [ngStyle]="{'cursor': 'pointer'}">
-      <a aria-label="Previous" class="page-link" (click)="selectPage(page-1)">
+      <a aria-label="Previous" class="page-link" (click)="selectPage(+page-1)">
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
 
-    <li *ngFor="let pageNumber of pages" class="page-item" [class.active]="pageNumber === page"
+    <li *ngFor="let pageNumber of pages" class="page-item" [class.active]="pageNumber === +page"
       [ngStyle]="{'cursor': 'pointer'}"
       [class.disabled]="_isEllipsis(pageNumber)">
       <a *ngIf="_isEllipsis(pageNumber)" class="page-link">...</a>
@@ -20,7 +20,7 @@
     </li>
 
     <li *ngIf="directionLinks" class="page-item" [class.disabled]="!hasNext()" [ngStyle]="{'cursor': 'pointer'}">
-      <a aria-label="Next" class="page-link" (click)="selectPage(page+1)">
+      <a aria-label="Next" class="page-link" (click)="selectPage(+page+1)">
         <span aria-hidden="true">&raquo;</span>
       </a>
     </li>

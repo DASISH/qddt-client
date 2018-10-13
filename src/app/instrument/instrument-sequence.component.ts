@@ -1,10 +1,11 @@
-import { Component,  OnChanges, SimpleChanges, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { TemplateService } from '../template/template.service';
 import { InstrumentSequence } from './instrument.classes';
 import { SequenceConstruct } from '../controlconstruct/controlconstruct.classes';
 import { ElementKind } from '../shared/classes/enums';
-import {ElementRevisionRef, Page} from '../shared/classes/classes';
-import {IElement, IPageSearch, IRevisionRef} from '../shared/classes/interfaces';
+import { ElementRevisionRef, Page } from '../shared/classes/classes';
+import { IElement, IPageSearch, IRevisionRef } from '../shared/classes/interfaces';
+import { HEADER_DETAILS } from '../shared/classes/constants';
 
 
 @Component({
@@ -22,7 +23,10 @@ export class InstrumentSequenceComponent  {
   public readonly SEQUENCE = ElementKind.SEQUENCE_CONSTRUCT;
   private pageSearch: IPageSearch = { kind: ElementKind.SEQUENCE_CONSTRUCT, key: '*', page: new Page(), sort: 'name,asc' };
 
-  constructor(private service: TemplateService) { }
+  private refMap:  Map<string, string> = new Map();
+
+  constructor(private service: TemplateService) {
+  }
 
   public onItemSearch(ref: IElement) {
     this.showProgressBar = true;
@@ -54,7 +58,7 @@ export class InstrumentSequenceComponent  {
   }
 
   public onDeleteItem(idx) {
-    this.sequence = this.sequence.splice(idx, 1);
+    this.sequence.splice(idx, 1);
   }
 
   public onDismiss() {
@@ -62,7 +66,7 @@ export class InstrumentSequenceComponent  {
     this.sequenceList = null;
   }
 
-  public onOpenBody(sequence: InstrumentSequence[]) {
+  public onOpenBody( sequence: InstrumentSequence[]) {
     sequence.forEach((item) => {
       if (!item.elementRef.element) {
         this.service.getRevisionByKind(
@@ -71,16 +75,20 @@ export class InstrumentSequenceComponent  {
           item.elementRef.elementRevision )
         .then((result) => {
           item.elementRef.element = result.entity;
-          item.elementRef.name = result.entity.name;
+          // item.elementRef.name = result.entity['questionItem'] ? result.entity['questionItem']['question'] : result.entity.name ;
           item.elementRef.version = result.entity.version;
         });
       }
     });
-    this.onItemSearch({ element: '*', elementKind: this.SEQUENCE });
+    // this.onItemSearch({ element: '*', elementKind: this.SEQUENCE });
   }
 
   public isSequence(kind: ElementKind|string): boolean {
     return this.service.getElementKind(kind) === this.SEQUENCE;
   }
 
+  public getIcon(kind: ElementKind|string) {
+    const item = Array.from(HEADER_DETAILS.values()).find(e => e.kind === this.service.getElementKind(kind));
+    return item ? item.icon : 'help';
+  }
 }

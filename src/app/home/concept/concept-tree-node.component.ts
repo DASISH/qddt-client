@@ -1,10 +1,9 @@
 import {Component, Input, Output, EventEmitter, AfterContentChecked } from '@angular/core';
 import { QuestionItem } from '../../question/question.classes';
+import { Concept} from '../home.classes';
 import { QddtMessageService } from '../../core/global/message.service';
-import {ElementKind} from '../../shared/classes/enums';
-import {HomeService} from '../home.service';
-import {Concept} from '../home.classes';
-import {IRevisionRef} from '../../shared/classes/interfaces';
+import { HomeService} from '../home.service';
+import { ElementKind, IRevisionRef } from '../../shared/classes';
 
 const filesaver = require('file-saver');
 declare var Materialize: any;

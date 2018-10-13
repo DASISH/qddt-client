@@ -1,13 +1,10 @@
 
 import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnDestroy} from '@angular/core';
-import { IElement, IEntityAudit} from '../classes/interfaces';
-import { QueryInfo } from '../classes/classes';
-import { ElementKind } from '../classes/enums';
 import { ElementEnumAware } from '../../preview/preview.service';
-import { getElementKind, QDDT_QUERY_INFOES } from '../classes/constants';
-import { Factory } from '../classes/factory';
 import { Subject } from 'rxjs';
+import { IEntityAudit, ElementKind, IElement, QueryInfo, getQueryInfo} from '../classes';
+import { Factory } from '../classes/factory';
 
 @Component({
   selector: 'qddt-auto-complete',
@@ -53,7 +50,7 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
 
   ngOnChanges(change: SimpleChanges) {
     if (change['elementKind'] && change['elementKind'].isFirstChange()) {
-      this.queryInfo = QDDT_QUERY_INFOES[getElementKind(this.elementKind)];
+      this.queryInfo = getQueryInfo(this.elementKind);
     }
 
     if ( (change['items'] && this.waitingForChange)) {

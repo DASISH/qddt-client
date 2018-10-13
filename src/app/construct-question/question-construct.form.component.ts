@@ -2,8 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { QuestionItem } from '../question/question.classes';
 import {ActionKind, ElementKind} from '../shared/classes/enums';
 import { ElementRevisionRef, Page } from '../shared/classes/classes';
-import { QuestionConstruct } from './question-construct.classes';
-import { Instruction, Universe } from '../controlconstruct/controlconstruct.classes';
+import { Instruction, Universe, QuestionConstruct } from '../controlconstruct/controlconstruct.classes';
 import { TemplateService } from '../template/template.service';
 import { IRevisionResult, IElement, IRevisionRef, IOtherMaterial } from '../shared/classes/interfaces';
 

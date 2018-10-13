@@ -1,7 +1,6 @@
-import { Component, AfterContentChecked, AfterContentInit } from '@angular/core';
+import { Component, AfterContentInit } from '@angular/core';
 import { UserService } from '../user/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NgForm } from '@angular/forms';
 
 declare var Materialize: any;
 declare var $;
@@ -21,11 +20,11 @@ export class LoginComponent implements  AfterContentInit {
   constructor(private route: ActivatedRoute, private router: Router, private authenticationService: UserService) {
     $(document).ready(function() {
       $('.modal').modal({
-        ready: function(modal) {
+        ready: modal => {
           Materialize.updateTextFields();
         },
-        complete: function(modal) {
-          console.log(modal);
+        complete: modal => {
+          console.log('login -> event complete');
         }
       });
       $('#modalLogin').modal('open');
@@ -40,7 +39,11 @@ export class LoginComponent implements  AfterContentInit {
   login(f) {
     this.loading = true;
     this.authenticationService.signIn(this.formData.email, this.formData.password).then(
-        () => { console.log('login successful');  this.loading = false;  $('.modal').modal(); $('#modalLogin').modal('close'); },
+        () => {
+          console.log('login successful');
+          this.loading = false;
+          $('.modal').modal();
+          $('#modalLogin').modal('close'); },
         (error) => { this.loading = false; throw error; }
         );
   }

@@ -1,7 +1,5 @@
-import {QDDT_QUERY_INFOES} from '../shared/classes/constants';
-import {IComment, IEntityAudit} from '../shared/classes/interfaces';
-import {ElementRevisionRef, QueryInfo} from '../shared/classes/classes';
-import {ElementKind} from '../shared/classes/enums';
+import { ElementKind, ElementRevisionRef, IComment, IEntityAudit, QDDT_QUERY_INFOES, QueryInfo } from '../shared/classes';
+
 
 export const PUBLICATION_TYPES: QueryInfo[] = [
   QDDT_QUERY_INFOES[ElementKind.TOPIC_GROUP],

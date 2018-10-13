@@ -11,9 +11,9 @@ export class CommentService  {
 
   constructor(protected http: HttpClient, @Inject(API_BASE_HREF) protected api: string) { }
 
-  create(comment: IComment): Observable<IComment> {
-    return this.http.post<IComment>( this.api + 'comment/create/' + comment.ownerId, comment);
-  }
+  // create(comment: IComment): Observable<IComment> {
+  //   return this.http.post<IComment>( this.api + 'comment/create/' + comment.ownerId, comment);
+  // }
 
   update(comment: IComment): Observable<IComment> {
     return this.http.post<IComment>(this.api + 'comment', comment);

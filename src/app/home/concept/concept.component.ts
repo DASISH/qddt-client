@@ -50,7 +50,7 @@ export class ConceptComponent implements OnInit {
     if (!this.concepts) {
       this.showProgressBar = true;
       this.conceptService.getByTopic(this.parentId).then((result) => {
-        this.concepts = result.content.sort((a, b) => a.name > b.name ? 1 : -1);
+        this.concepts = result.content.sort( (a, b) => a.name.localeCompare(b.name));
         this.property.set('concepts', this.concepts);
         this.showProgressBar = false;
       });
@@ -84,7 +84,7 @@ export class ConceptComponent implements OnInit {
   onConceptUpdated(concept: any) {
     if (!this.updateConcept(this.concepts, concept)) {
       this.concepts.push(concept);
-      this.concepts = this.concepts.sort((a, b) => a.name > b.name ? 1 : -1);
+      this.concepts = this.concepts.sort( (a, b) => a.name.localeCompare(b.name));
     }
     this.property.set('concepts', this.concepts);
     this.showProgressBar = false;

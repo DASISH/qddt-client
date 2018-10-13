@@ -44,6 +44,7 @@ export interface IComment {
   modifiedBy?: IUser;
   modified?: number;
   ownerId?: string;
+  ownerIdx?: number;
   id?: string;
 }
 

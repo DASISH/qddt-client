@@ -47,6 +47,7 @@ export class ConceptEditComponent implements OnChanges {
   @Output() conceptSavedEvent =  new EventEmitter<any>();
 
   public readonly formId = Math.round( Math.random() * 10000);
+  public showRevision = false;
 
   constructor(private service: HomeService) { }
 

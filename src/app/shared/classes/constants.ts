@@ -7,7 +7,8 @@ export  function getElementKind(kind: string|ElementKind): ElementKind {
 }
 
 export  function getQueryInfo(kind: string|ElementKind): QueryInfo {
-  return QDDT_QUERY_INFOES[getElementKind(kind)];
+  const key = getElementKind(kind);
+  return QDDT_QUERY_INFOES[key];
 }
 
 export const QDDT_QUERY_INFOES: QueryInfo[] = [

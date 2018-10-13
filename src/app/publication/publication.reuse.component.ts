@@ -1,13 +1,9 @@
 
 import {distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import { Component, EventEmitter, Output, Input } from '@angular/core';
-import { PublicationService } from './publication.service';
 import { Subject } from 'rxjs';
-import {ElementRevisionRef, Page, QueryInfo} from '../shared/classes/classes';
-import { ElementKind } from '../shared/classes/enums';
-import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
-import {IElement, IPageSearch, IRevisionRef} from '../shared/classes/interfaces';
 import {TemplateService} from '../template/template.service';
+import { ElementKind, ElementRevisionRef, IElement, IPageSearch, IRevisionRef, Page } from '../shared/classes';
 
 @Component({
   selector: 'qddt-publication-reuse',
@@ -29,13 +25,7 @@ export class PublicationReuseComponent  {
   public itemList: any[];
   public showProgressBar = false;
 
-  queryFields: QueryInfo[] = [
-    QDDT_QUERY_INFOES[ElementKind.TOPIC_GROUP],
-    QDDT_QUERY_INFOES[ElementKind.CONCEPT],
-    QDDT_QUERY_INFOES[ElementKind.QUESTION_ITEM],
-    QDDT_QUERY_INFOES[ElementKind.QUESTION_CONSTRUCT],
-    QDDT_QUERY_INFOES[ElementKind.SEQUENCE_CONSTRUCT]
-  ];
+
 
   private searchKeysListener: Subject<string> = new Subject<string>();
   private pageSearch: IPageSearch = { kind: ElementKind.TOPIC_GROUP, key: '*', page: new Page(), sort: 'name,asc' };

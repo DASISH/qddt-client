@@ -17,11 +17,12 @@
     <ul class="hoverable" (mouseenter)="showbutton = !readonly" (mouseleave)="showbutton = false">
       <li>
         <div class="row" (click)="showUploadFileForm=!showUploadFileForm" style="cursor: zoom-in;">
-          <label>External aid</label>
-            <a [ngClass]="{hide: !showbutton}"
-              class="btn-flat btn-floating btn-small waves-effect waves-light teal right">
-              <i class="material-icons" title="Attach external aid (File Upload)">add</i>
-            </a>
+          <label><i class="material-icons small">attach_file</i>External aid </label>
+          
+          <a [ngClass]="{hide: !showbutton}"
+            class="btn-flat btn-floating btn-small waves-effect waves-light teal right">
+            <i class="material-icons" title="Attach external aid (File Upload)">add</i>
+          </a>
         </div>
       </li>
       <div class="row" *ngIf="showUploadFileForm && !readonly">

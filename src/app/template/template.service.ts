@@ -1,11 +1,19 @@
-import {Inject, Injectable, OnDestroy, OnInit} from '@angular/core';
+import { Inject, Injectable} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_BASE_HREF } from '../api';
-import { Observable, Subscription, BehaviorSubject} from 'rxjs';
+import { Observable} from 'rxjs';
 import { UserService } from '../core/user/user.service';
-import { ActionKind, ElementKind} from '../shared/classes/enums';
-import { getQueryInfo } from '../shared/classes/constants';
-import { IEntityAudit, IEntityEditAudit, IPageResult, IRevisionResult, IPageSearch, IOtherMaterial } from '../shared/classes/interfaces';
+import {
+  ActionKind,
+  ElementKind,
+  getQueryInfo,
+  IEntityAudit,
+  IEntityEditAudit,
+  IOtherMaterial,
+  IPageResult,
+  IPageSearch,
+  IRevisionResult
+} from '../shared/classes';
 
 @Injectable()
 export class TemplateService {
@@ -102,17 +110,17 @@ export class TemplateService {
   }
 
   public delete(item: IEntityEditAudit): Observable<any> {
-    const qe = getQueryInfo[item.classKind];
+    const qe = getQueryInfo(item.classKind);
     return this.http.delete(this.api + qe.path + '/delete/' + item.id);
   }
 
   public getPdf(item: IEntityEditAudit): Promise<Blob>  {
-    const qe = getQueryInfo[item.classKind];
+    const qe = getQueryInfo(item.classKind);
     return this.http.get(this.api + qe.path + '/pdf/' + item.id, { responseType: 'blob'}).toPromise();
   }
 
   public getXML(item: IEntityEditAudit): Promise<Blob>  {
-    const qe = getQueryInfo[item.classKind];
+    const qe = getQueryInfo(item.classKind);
     return this.http.get(this.api + qe.path + '/xml/' + item.id, { responseType: 'blob'}).toPromise();
   }
 

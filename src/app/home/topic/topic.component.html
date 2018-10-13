@@ -88,7 +88,7 @@
             </div>
             <div class="row" *ngIf="!edit.isVisible && currentElement?.otherMaterials && currentElement?.otherMaterials?.length > 0">
               <ul class="collection with-header hoverable">
-                <li class="collection-header teal-text">External aid</li>
+                <li class="collection-header teal-text"><i class="material-icons small">attach_file</i>External aid</li>
                 <li *ngFor="let m of currentElement.otherMaterials;" class="col s10 m5">
                   <a class="waves-effect waves-light" (click)="onDownloadFile(m)">
                     <i class="material-icons center smal">description</i> {{ m.originalName }}</a>

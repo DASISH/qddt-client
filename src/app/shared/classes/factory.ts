@@ -14,12 +14,14 @@ import { QuestionItem } from '../../question/question.classes';
 import { Instrument } from '../../instrument/instrument.classes';
 import { Publication} from '../../publication/publication.classes';
 import { UserJson } from '../../user/user.classes';
+import {getElementKind} from './constants';
 
 
 export class Factory {
 
-  static createInstance(kind: ElementKind): IEntityAudit {
-    switch (kind) {
+  static createInstance(kind: ElementKind|string): IEntityAudit {
+    const elementKind = getElementKind(kind);
+    switch (elementKind) {
       case ElementKind.CATEGORY:
         return new Category();
       case ElementKind.MISSING_GROUP:
@@ -60,8 +62,9 @@ export class Factory {
     }
   }
 
-  static createFromSeed(kind: ElementKind, seed: any): IEntityAudit {
-    switch (kind) {
+  static createFromSeed(kind: ElementKind|string, seed: any): IEntityAudit {
+  const elementKind = getElementKind(kind);
+  switch (elementKind) {
       case ElementKind.CATEGORY:
         return new Category(seed);
       case ElementKind.MISSING_GROUP:

@@ -68,10 +68,10 @@ export class StudyComponent implements OnInit, AfterContentChecked {
   }
 
   onStudySaved(study: any) {
-    if (study !== null) {
+    if (study) {
       const studies = this.survey.studies.filter((q) => q.id !== study.id);
       studies.push(study);
-      this.survey.studies = studies.sort( (a, b) => a.name > b.name ? -1 : 1);
+      this.survey.studies = studies.sort( (a, b) => a.name.localeCompare(b.name));
     }
   }
 

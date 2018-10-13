@@ -3,16 +3,16 @@
     <qddt-preview-concept [concept]="element"></qddt-preview-concept>
   </div>
   <div *ngSwitchCase=instanceRefEnum.CONDITION_CONSTRUCT >
-    <qddt-preview-conditionconstruct [condition]="element"></qddt-preview-conditionconstruct>
+    <qddt-preview-conditionconstruct [condition]="element" [showDetail]="showDetail"></qddt-preview-conditionconstruct>
   </div>
   <div *ngSwitchCase=instanceRefEnum.QUESTION_CONSTRUCT >
-    <qddt-preview-questionconstruct [controlConstruct]="element"></qddt-preview-questionconstruct>
+    <qddt-preview-questionconstruct [controlConstruct]="element" [showDetail]="showDetail" ></qddt-preview-questionconstruct>
   </div>
   <div *ngSwitchCase=instanceRefEnum.SEQUENCE_CONSTRUCT >
-    <qddt-preview-sequenceconstruct [sequence]="element"></qddt-preview-sequenceconstruct>
+    <qddt-preview-sequenceconstruct [sequenceConstruct]="element" [showDetail]="showDetail"></qddt-preview-sequenceconstruct>
   </div>
   <div *ngSwitchCase=instanceRefEnum.STATEMENT_CONSTRUCT >
-    <qddt-preview-statementconstruct [statement]="element"></qddt-preview-statementconstruct>
+    <qddt-preview-statementconstruct [statement]="element" [showDetail]="showDetail"></qddt-preview-statementconstruct>
   </div>
   <div *ngSwitchCase=instanceRefEnum.INSTRUMENT >
     <qddt-preview-instrument [instrument]="element"></qddt-preview-instrument>
@@ -63,7 +63,7 @@
   </div>
 </div>
 
-<ul class="hoverable">
+<ul class="hoverable" *ngIf="showDetail">
   <li>
     <label class="teal-text">Exports</label>
   </li>
@@ -74,7 +74,7 @@
   </li>
 </ul>
 
-<ul class="hoverable">
+<ul class="hoverable" *ngIf="showDetail">
   <li (click)="revisionIsVisible=!revisionIsVisible" style="cursor: zoom-in !important;">
     <label class="teal-text">Revisions</label>
   </li>

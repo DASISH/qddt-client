@@ -1,6 +1,6 @@
-import { Column } from '../table/table.column';
+import { Column } from './table.column';
 import { DomainKind } from '../../responsedomain/responsedomain.classes';
-import { ElementKind } from '../classes/enums';
+import { ElementKind } from '../classes';
 
 export const DEFAULT_COLUMNS = [
   new Column({ name: 'modified',  label: 'Modified', sortable: true, direction: 'desc' }),
@@ -8,7 +8,7 @@ export const DEFAULT_COLUMNS = [
   new Column({ name: ['modifiedBy', 'agencyUserName'],  label: 'User@Agency' })
 ];
 
-const LOCKUP_COLUMNS =  [
+const LOOKUP_COLUMNS =  [
   new Column( { label: 'Name', name: 'name', sortable: true }),
   new Column( { label: 'Description', name: 'description', sortable: true }),
 ];
@@ -112,8 +112,8 @@ export const LIST_COLUMNS: Map<ElementKind, Column[]>  = new Map([
   [ElementKind.SEQUENCE_CONSTRUCT, SEQUENCE_CONSTRUCT_COLUMNS.concat(DEFAULT_COLUMNS) ],
   [ElementKind.INSTRUMENT, INSTRUMENT_COLUMNS.concat(DEFAULT_COLUMNS) ],
   [ElementKind.PUBLICATION, PUBLICATION_COLUMNS.concat(DEFAULT_COLUMNS) ],
-  [ElementKind.UNIVERSE, LOCKUP_COLUMNS.concat(DEFAULT_COLUMNS) ],
-  [ElementKind.INSTRUCTION, LOCKUP_COLUMNS.concat(DEFAULT_COLUMNS) ],
+  [ElementKind.UNIVERSE, LOOKUP_COLUMNS.concat(DEFAULT_COLUMNS) ],
+  [ElementKind.INSTRUCTION, LOOKUP_COLUMNS.concat(DEFAULT_COLUMNS) ],
   [ElementKind.USER, USER_COLUMNS ]
 ]);
 

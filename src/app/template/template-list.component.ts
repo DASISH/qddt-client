@@ -4,13 +4,10 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TemplateService } from './template.service';
 
-import { Page } from '../shared/classes/classes';
 import { QddtMessageService } from '../core/global/message.service';
-import { IEntityAudit, IPageSearch } from '../shared/classes/interfaces';
-import { ActionKind, ElementKind} from '../shared/classes/enums';
-import { HEADER_DETAILS } from '../shared/classes/constants';
 import { QddtPropertyStoreService } from '../core/global/property.service';
 import { DomainKind } from '../responsedomain/responsedomain.classes';
+import { IEntityAudit, IPageSearch, ElementKind, HEADER_DETAILS, ActionKind, Page } from '../shared/classes';
 
 @Component({
   selector: 'qddt-template-list',

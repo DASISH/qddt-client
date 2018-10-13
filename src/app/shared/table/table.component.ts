@@ -1,14 +1,14 @@
 
-import {distinctUntilChanged, debounceTime} from 'rxjs/operators';
-import {Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges, ViewChild, ElementRef, OnDestroy} from '@angular/core';
+import { distinctUntilChanged, debounceTime} from 'rxjs/operators';
+import { Subject} from 'rxjs';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges, ViewChild, ElementRef, OnDestroy} from '@angular/core';
 import { Column } from './table.column';
 import { LIST_COLUMNS, RESPONSEDOMAIN_COLUMNS, DEFAULT_COLUMNS } from './table.column-map';
-import { QDDT_QUERY_INFOES } from '../classes/constants';
-import { IEntityEditAudit, IPageSearch } from '../classes/interfaces';
-import { ElementKind } from '../classes/enums';
-import { ElementEnumAware } from '../../preview/preview.service';
+import { ElementEnumAware, PreviewService } from '../../preview/preview.service';
 import { DomainKind } from '../../responsedomain/responsedomain.classes';
-import {Subject} from 'rxjs';
+import { ElementKind, getQueryInfo, IEntityEditAudit, IPageSearch } from '../classes';
+
+const filesaver = require('file-saver');
 
 @Component({
   selector: 'qddt-table',
@@ -42,28 +42,34 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
   public placeholder: string;
   public rows = [];
   public columns: Column[];
+  public revisionIsVisible = false;
 
   @ViewChild('fkRef') _fkRef: ElementRef;
 
   private searchKeysChange: Subject<string> = new Subject<string>();
 
-  constructor() {
+  constructor(private service: PreviewService) {
     this.searchKeysChange.pipe(
       debounceTime(300),
-      distinctUntilChanged(),)
+      distinctUntilChanged())
       .subscribe((name: string) => {
         this.pageSearch.key = this.value = name;
         this.pageSearch.sort = this.getSort();
         this.fetchEvent.emit(this.pageSearch);
       });
   }
-  ngOnInit(): void {
+
+  public ngOnInit(): void {
     this.columns = this.getColumns();
     if (!this.items) { this.items = []; }
     // this.fetchEvent.emit(this.pageSearch); created double loading on init ( better to initialize from parent...)
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  public ngOnDestroy(): void {
+    this.searchKeysChange.unsubscribe();
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
 
     this.columns = this.getColumns();
 
@@ -99,22 +105,33 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
     });
   }
 
-  onDetail(item: IEntityEditAudit) {
+  public onDetail(item: IEntityEditAudit) {
     this.detailEvent.emit(item);
   }
 
+  public onRemoveItem(item) {
 
-  pageChange(p: number) {
+    const confirmation = window.confirm('Delete ' + item.name + '?');
+    console.log(confirmation);
+    // return of(confirmation);
+  }
+
+  public onGetPdf(item: IEntityEditAudit) {
+      const fileName = item.name + '.pdf';
+      this.service.getPdf(item).then((data: any) => { filesaver.saveAs(data, fileName); });
+  }
+
+  public pageChange(p: number) {
     this.pageSearch.page.number = p;
     this.pageSearch.sort = this.getSort();
     this.fetchEvent.emit(this.pageSearch);
   }
 
-  enterText(event: any) {
+  public enterText(event: any) {
     this.searchKeysChange.next(event.target.value);
   }
 
-  onClearKeywords() {
+  public onClearKeywords() {
     this.pageSearch.key = this.value = '*';
     this.pageSearch.sort = this.getSort();
     this.fetchEvent.emit(this.pageSearch);
@@ -134,7 +151,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
     return sort;
   }
 
-  sortRows(column: Column) {
+  public sortRows(column: Column) {
     if (column.sortable) {
       column.nextSort();
       this.columns
@@ -146,7 +163,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private makePlaceholder(searchString: string): string  {
-    const qe = QDDT_QUERY_INFOES[this.pageSearch.kind];
+    const qe = getQueryInfo(this.pageSearch.kind);
 
     if (!searchString || searchString.length === 0) { return qe.placeholder(); }
 
@@ -182,9 +199,6 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
     return DEFAULT_COLUMNS;
   }
 
-  ngOnDestroy(): void {
-    this.searchKeysChange.unsubscribe();
-  }
 
 
 }

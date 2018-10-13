@@ -1,11 +1,8 @@
-import { IEntityAudit } from '../shared/classes/interfaces';
-import { ElementKind } from '../shared/classes/enums';
-import { ElementRevisionRef } from '../shared/classes/classes';
-import {ConditionConstruct} from '../controlconstruct/controlconstruct.classes';
+import {ElementKind, ElementRevisionRef, IEntityAudit} from '../shared/classes';
 
 
 export enum InstrumentKind {
-  QUESTIONNAIRE = 0,
+  QUESTIONNAIRE = 1,
   QUESTIONNAIRE_STRUCTURED,
   QUESTIONNAIRE_SEMISTRUCTURED,
   QUESTIONNAIRE_UNSTRUCTURED,
@@ -40,28 +37,28 @@ export const INSTRUMENT_KIND = [
   {id: InstrumentKind.OTHER, label: 'Other' },
   ];
 
-  export class Instrument implements IEntityAudit {
-    id: string;
-    label: string;
-    name: string;
-    description: string;
-    instrumentKind = InstrumentKind[InstrumentKind.QUESTIONNAIRE];
-    sequence: InstrumentSequence[];
-    comments: any[];
-    classKind = ElementKind[ElementKind.INSTRUMENT];
-    public constructor(init?: Partial<Instrument>) {
-      Object.assign(this, init);
-    }
+export class Instrument implements IEntityAudit {
+  id: string;
+  label: string;
+  name: string;
+  description: string;
+  instrumentKind = InstrumentKind[InstrumentKind.QUESTIONNAIRE];
+  sequence: InstrumentSequence[];
+  comments: any[];
+  classKind = ElementKind[ElementKind.INSTRUMENT];
+  public constructor(init?: Partial<Instrument>) {
+    Object.assign(this, init);
   }
+}
 
-  export class InstrumentSequence {
-    id: string;
-    elementRef: ElementRevisionRef;
-    parameters: Parameter[] = [];
-    sequences: InstrumentSequence[] = [];
-  }
+export class InstrumentSequence {
+  id: string;
+  elementRef: ElementRevisionRef;
+  parameters: Parameter[] = [];
+  sequences: InstrumentSequence[] = [];
+}
 
-  export class Parameter {
-    referenceId: string;
-    name: string;
-  }
+export class Parameter {
+  referenceId: string;
+  name: string;
+}

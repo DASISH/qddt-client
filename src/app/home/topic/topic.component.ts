@@ -59,7 +59,7 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
     if (!this.topics) {
       this.topicService.getAllTopic(this.study.id)
         .then((result) => {
-          this.topics = result.sort((a, b) => a.name < b.name ? -1 : 1);
+          this.topics = result.sort( (a, b) => a.name.localeCompare(b.name));
           this.property.set('topics', this.topics);
           this.showReuse = false;
         });
@@ -101,7 +101,7 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
     if (topic !== null) {
       const topics = this.topics.filter((q) => q.id !== topic.id);
       topics.push(topic);
-      this.topics = topics.sort( (a, b) => a.name > b.name ? -1 : 1);
+      this.topics = topics.sort( (a, b) => a.name.localeCompare(b.name));
       this.property.set('topics', this.topics);
     }
   }

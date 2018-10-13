@@ -1,12 +1,10 @@
 
-import {of as observableOf,  Observable } from 'rxjs';
+import { of as observableOf,  Observable } from 'rxjs';
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_BASE_HREF } from '../api';
-import { ElementKind } from '../shared/classes/enums';
-import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
 import { Concept, Study, SurveyProgram, Topic } from './home.classes';
-import { IOtherMaterial, IEntityEditAudit, IEntityAudit, IPageResult } from '../shared/classes/interfaces';
+import { IOtherMaterial, IEntityEditAudit, IEntityAudit, IPageResult, ElementKind, getQueryInfo} from '../shared/classes';
 
 
 
@@ -17,7 +15,7 @@ export class HomeService {
   }
 
   getRevisionById(kind: ElementKind, id: string): Promise<any> {
-    const qe = QDDT_QUERY_INFOES[kind];
+    const qe = getQueryInfo(kind);
     if (qe) {
       return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/allinclatest').toPromise();
     }
@@ -25,7 +23,7 @@ export class HomeService {
   }
 
   getElementByTypeAndName(kind: ElementKind, name: string): Promise<any> {
-    const qe = QDDT_QUERY_INFOES[kind];
+    const qe = getQueryInfo(kind);
     if (qe) {
       return this.http.get(this.api + qe.path + '/page/search/?name=*' + name + '*' ).toPromise();
     }
@@ -34,7 +32,7 @@ export class HomeService {
   }
 
   copySource(kind: ElementKind, fromId: string, fromRev: number, toParentId: string): Observable<any> {
-    const qe = QDDT_QUERY_INFOES[kind];
+    const qe = getQueryInfo(kind);
     return this.http.post(this.api + qe.path + '/copy/' + fromId + '/' + fromRev + '/' + toParentId, {});
   }
 
@@ -88,7 +86,7 @@ export class HomeService {
   }
 
   public updateWithfiles(kind: ElementKind, form: FormData ): Observable<any> {
-    const qe = QDDT_QUERY_INFOES[kind];
+    const qe = getQueryInfo(kind);
     // const req = new HttpRequest('POST', this.api +  qe.path + '/createfile/', form, { reportProgress: true });
     // return this.http.request(req);
     return this.http.post( this.api +  qe.path + '/createfile/', form, { reportProgress: true} );
@@ -111,8 +109,7 @@ export class HomeService {
   }
 
   public update(item: IEntityAudit): Observable<any> {
-    const kind = this.getElementKind(item.classKind);
-    const qe = QDDT_QUERY_INFOES[kind];
+    const qe = getQueryInfo(item.classKind);
     return this.http.post(this.api + qe.path, item);
   }
 
@@ -170,14 +167,14 @@ export class HomeService {
 
 
   getPdf(element: IEntityEditAudit): Promise<Blob> {
-    const qe = QDDT_QUERY_INFOES[this.getElementKind(element.classKind)];
+    const qe = getQueryInfo(element.classKind);
     return this.http.get(this.api +  qe.path + '/pdf/' + element.id, { responseType: 'blob'})
     .toPromise();
   }
 
 
   getXml(element: IEntityEditAudit): Promise<Blob> {
-    const qe = QDDT_QUERY_INFOES[this.getElementKind(element.classKind)];
+    const qe = getQueryInfo(element.classKind);
     return this.http.get(this.api +  qe.path + '/xml/' + element.id, { responseType: 'blob'})
     .toPromise();
   }

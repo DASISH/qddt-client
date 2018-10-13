@@ -44,7 +44,7 @@ export function main() {
           .compileComponents()
           .then(() => {
             const fixture = TestBed.createComponent(PreviewControlConstructComponent);
-            fixture.componentInstance.construct = { id: '', name: '',  otherMaterials: [],
+            fixture.componentInstance.construct = {  id: '', name: '', description: '', otherMaterials: [],
               postInstructions: [], preInstructions: [], questionItem: null, classKind: 'SEQUENCE_CONSTRUCT',
             universe: [], questionItemRevision: 0};
             fixture.detectChanges();

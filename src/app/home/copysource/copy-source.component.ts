@@ -1,10 +1,8 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import { ElementEnumAware } from '../../preview/preview.service';
 import { HomeService } from '../home.service';
-import { ElementKind } from '../../shared/classes/enums';
-import { IElement, IRevisionRef } from '../../shared/classes/interfaces';
-import { ElementRevisionRef, QueryInfo } from '../../shared/classes/classes';
-import { QDDT_QUERY_INFOES } from '../../shared/classes/constants';
+import { ElementKind, ElementRevisionRef, IElement, IRevisionRef, getQueryInfo } from '../../shared/classes';
+
 
 
 @Component({
@@ -14,19 +12,17 @@ import { QDDT_QUERY_INFOES } from '../../shared/classes/constants';
   templateUrl: './copy-source.component.html',
 })
 @ElementEnumAware
-export class CopySourceComponent {
+export class CopySourceComponent implements OnChanges {
   @Input() parentId: any;
   @Input() elementKind: ElementKind;
   @Output() itemSelected = new EventEmitter<any>();
   @Output() dismissEvent = new EventEmitter<any>();
 
-  items: any[];
-  revisionResults: any[];
+  items = [];
+  revisionResults = [];
+  className: string;
 
-  constructor(private service: HomeService) {
-    this.items = [];
-    this.revisionResults = [];
-  }
+  constructor(private service: HomeService) { }
 
   onItemSearch(item: IElement) {
     this.service.getElementByTypeAndName(this.elementKind, item.element).then(
@@ -52,7 +48,11 @@ export class CopySourceComponent {
     this.dismissEvent.emit(true);
   }
 
-  getElementClass(kind: ElementKind): QueryInfo {
-    return QDDT_QUERY_INFOES[kind];
+  ngOnChanges(changes: SimpleChanges): void {
+    this.className = getQueryInfo(this.elementKind).label;
   }
+
+  // getElementClass(kind: ElementKind) {
+  //   return getQueryInfo(kind);
+  // }
 }

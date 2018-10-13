@@ -31,10 +31,9 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
   ngOnInit() {
     // this.surveyList = this.property.get('surveyList');
     // if (!this.surveyList) {
-      this.surveyService.getAllSurvey()
-        .then(
-          (data: Array<SurveyProgram> ) => this.surveyList = data
-        );
+      this.surveyService.getAllSurvey().then(
+        (data: Array<SurveyProgram> ) => this.surveyList = data
+      );
   }
 
   ngAfterContentChecked(): void {
@@ -57,10 +56,24 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
   }
 
   onSurveySaved(surveyProgram: any) {
-    if (surveyProgram !== null) {
+    if (surveyProgram) {
+
       const list = this.surveyList.filter((q) => q.id !== surveyProgram.id);
       list.push(surveyProgram);
-      this.surveyList = list.sort( (a, b) => a.name > b.name ? -1 : 1);
+      this.surveyList = list.sort( (a, b) => a.name.localeCompare(b.name));
+
+
+
+      // let idx = this.surveyList.findIndex( s => s.id === surveyProgram.id );
+      // idx = (idx) ? idx : this.surveyList.length;
+      // let list = this.surveyList.slice(idx);
+      // list.)
+      // this.surveyList.splice(idx, 1, surveyProgram);
+
+      // const list = this.surveyList.filter((q) => q.id !== surveyProgram.id);
+      // list.push(surveyProgram);
+      // this.surveyList = list.sort( (a, b) => a.name > b.name ? -1 : 1);
+
       this.property.set('surveyList', this.surveyList);
     }
   }
@@ -73,9 +86,7 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
 
   onSave() {
     this.surveyService.createSurvey(this.survey)
-      .subscribe(
-        (result: any) => this.onSurveySaved(result)
-      );
+      .subscribe( result => this.onSurveySaved(result) );
     this.survey = new SurveyProgram();
     this.showSurveyForm = false;
   }
@@ -84,16 +95,14 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
   getPdf(element: SurveyProgram) {
     const fileName = element.name + '.pdf';
     this.surveyService.getPdf(element).then(
-      (data: any) => {
-        filesaver.saveAs(data, fileName);
+      data => { filesaver.saveAs(data, fileName);
       });
   }
 
   getXml(element: SurveyProgram) {
     const fileName = element.name + '.xml';
     this.surveyService.getXml(element).then(
-      (data: any) => {
-        filesaver.saveAs(data, fileName);
-      });
+      data => { filesaver.saveAs(data, fileName); }
+    );
   }
 }

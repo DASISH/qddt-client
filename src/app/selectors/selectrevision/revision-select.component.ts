@@ -1,8 +1,6 @@
 import { Component, OnChanges, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
-import { ElementRevisionRef } from '../../shared/classes/classes';
-import { IEntityEditAudit } from '../../shared/classes/interfaces';
-import { QDDT_QUERY_INFOES } from '../../shared/classes/constants';
-import { ElementKind } from '../../shared/classes/enums';
+import {ElementKind, ElementRevisionRef, getQueryInfo, IEntityEditAudit } from '../../shared/classes';
+
 
 @Component({
   selector: 'qddt-revision-select',
@@ -44,14 +42,18 @@ export class RevisionSelectComponent implements OnChanges {
   }
 
   onUseElement() {
-    const elementType  = QDDT_QUERY_INFOES[this.getElementKind()];
-    if (elementType) {
+    const qi =  getQueryInfo(this.selectedElement.classKind)
+    if (qi) {
       const element = new ElementRevisionRef();
       element.elementId = this.selectedElement.id;
       element.elementRevision = this.selectedRevision;
       element.elementKind =  this.selectedElement.classKind;
       element.element = this.selectedElement;
-      element.name = this.selectedElement.name;
+      if (qi.id === ElementKind.QUESTION_CONSTRUCT) {
+        element.name = this.selectedElement.name + ' - ' + this.selectedElement['questionItem']['question'];
+      } else {
+        element.name = this.selectedElement.name;
+      }
       element.version = this.selectedElement.version;
       this.selectEvent.emit(element);
       this.show = false;
@@ -61,10 +63,6 @@ export class RevisionSelectComponent implements OnChanges {
   onDismiss() {
     this.show = false;
     this.dismissEvent.emit(true);
-  }
-
-  private getElementKind(): ElementKind {
-    return ElementKind[this.selectedElement.classKind];
   }
 
 }
