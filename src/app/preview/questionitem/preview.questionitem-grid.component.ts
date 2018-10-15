@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { QuestionItem } from '../../question/question.classes';
-import { Category } from '../../category/category.classes';
+import { Category } from '../../lookups/category/category.classes';
 
 @Component({
   selector: 'qddt-preview-questionitem-grid',
@@ -19,7 +19,7 @@ import { Category } from '../../category/category.classes';
       <div style="padding-left: 15pt;">{{ questionItem.intent }}</div>
     </div>
     <div class="row">
-      <div class="col s6" style="padding: 1 pt;">
+      <div class="col s6" style="padding:unset;">
         <table>
           <thead>
             <tr><th>

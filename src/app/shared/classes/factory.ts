@@ -8,7 +8,7 @@ import {
   SequenceConstruct,
   StatementConstruct, Universe
 } from '../../controlconstruct/controlconstruct.classes';
-import { Category, CategoryKind} from '../../category/category.classes';
+import { Category, CategoryKind} from '../../lookups/category/category.classes';
 import { ResponseDomain } from '../../responsedomain/responsedomain.classes';
 import { QuestionItem } from '../../question/question.classes';
 import { Instrument } from '../../instrument/instrument.classes';
@@ -99,6 +99,8 @@ export class Factory {
         return new Instruction(seed);
       case ElementKind.UNIVERSE:
         return new Universe(seed);
+      case ElementKind.USER:
+        return new UserJson(seed);
       default: return null;
     }
   }

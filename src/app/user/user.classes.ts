@@ -1,7 +1,3 @@
-import { IEntityEditAudit, IVersion } from '../shared/classes/interfaces';
-import { ElementKind } from '../shared/classes/enums';
-import { Page } from '../shared/classes/classes';
-import { ParseErrorLevel } from '@angular/compiler';
 import { Agency } from '../core/user/user.service';
 
 
@@ -10,8 +6,6 @@ export interface IAuthority {
   name: string;
   authority: string;
 }
-
-
 
 export class UserJson {
 

@@ -60,8 +60,7 @@
               </qddt-questionitem-reuse>
               <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
                 <i class="material-icons" (click)="onGetPdf(currentElement)" title="Get as Pdf">picture_as_pdf</i></a>
-              <qddt-confirm-delete
-                *ngIf="!currentElement.archived  && canDelete"
+              <qddt-confirm-delete *ngIf="!currentElement.archived  && canDelete"
                 [element]="currentElement"
                 (confirmAction)="onRemoveTopic($event)">
               </qddt-confirm-delete>

@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { Category, Code } from '../../category/category.classes';
+import { Category, Code } from '../../lookups/category/category.classes';
 
 class ScaleHead {
   colspan: number;

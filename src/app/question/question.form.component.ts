@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
 import { TemplateService } from '../template/template.service';
 import { QuestionItem } from './question.classes';
-import { Category } from '../category/category.classes';
+import { Category } from '../lookups/category/category.classes';
 import { ElementRevisionRef } from '../shared/classes/classes';
 import { makeMixed, ResponseDomain} from '../responsedomain/responsedomain.classes';
 import {ActionKind, ElementKind} from '../shared/classes/enums';

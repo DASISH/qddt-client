@@ -1,17 +1,28 @@
-import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import { DOMAIN_TYPE_DESCRIPTION, DomainKind } from './responsedomain.classes';
+import { Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import { QddtMessageService } from '../core/global/message.service';
-import { ActionKind, ElementKind } from '../shared/classes/enums';
-import { IPageSearch } from '../shared/classes/interfaces';
 import { QddtPropertyStoreService } from '../core/global/property.service';
-import { Page } from '../shared/classes/classes';
+import { DOMAIN_TYPE_DESCRIPTION, DomainKind } from './responsedomain.classes';
+import { ActionKind, ElementKind, Page} from '../shared/classes';
 
 @Component({
   selector: 'qddt-responsedomain-preselector',
   moduleId: module.id,
   template: `
-  <div class="card-action">
-    <div class="row">
+<div class="card-action">
+  <div class="row">
+    <!--<div class="col s1 input-field" style="padding-right: 0;padding-left: 0;margin-top: 0">-->
+      <!--<select id="globalfilter1" name="globalfilter1t"-->
+              <!--[ngModel]="3"-->
+              <!--(ngModelChange)="onChangeDegreeSlope($event)"-->
+              <!--materialize="material_select" required>-->
+        <!--<option [value]="0">No filter</option>-->
+        <!--<option [value]="1">Survey</option>-->
+        <!--<option [value]="2">Study</option>-->
+        <!--<option [value]="3">Module</option>-->
+        <!--<option [value]="4">Concept</option>-->
+      <!--</select>-->
+    <!--</div>-->
+
     <div class="col left" *ngFor="let domain of domainTypeDescription" >
       <input name="domaintypegroup" type="radio" id="domain{{domain.id}}"
         (click)="onSelectDomainType(domain.id)" [checked]="domainType === domain.id"/>

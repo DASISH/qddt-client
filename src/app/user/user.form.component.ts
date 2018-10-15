@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { IAuthority, UserJson } from './user.classes';
+import { IAuthority } from './user.classes';
 import { UserService, Agency } from '../core/user/user.service';
 
 declare var Materialize: any;
@@ -11,7 +11,7 @@ declare var Materialize: any;
 })
 
 export class UserFormComponent implements OnInit, OnChanges {
-  @Input() user: UserJson;
+  @Input() user: any;
   @Input() readonly = false;
   @Output() modifiedEvent =  new EventEmitter<String>();
 

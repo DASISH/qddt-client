@@ -1,4 +1,4 @@
-import { Category, ResponseCardinality, CategoryKind } from '../category/category.classes';
+import { Category, ResponseCardinality, CategoryKind } from '../lookups/category/category.classes';
 import { IEntityAudit, IEntityEditAudit, IVersion } from '../shared/classes/interfaces';
 import { ElementKind } from '../shared/classes/enums';
 

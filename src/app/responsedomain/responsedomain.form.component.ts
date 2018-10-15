@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { TemplateService } from '../template/template.service';
 import { DomainKind, ResponseDomain, DATE_FORMAT } from './responsedomain.classes';
-import { Category } from '../category/category.classes';
+import { Category } from '../lookups/category/category.classes';
 import { Page } from '../shared/classes/classes';
 import { ActionKind, ElementKind} from '../shared/classes/enums';
 import { IElement, IPageSearch} from '../shared/classes/interfaces';

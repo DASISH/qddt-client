@@ -119,7 +119,7 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
       (data: any) => filesaver.saveAs(data, fileName));
   }
 
-  getPdf(element: Topic) {
+  onGetPdf(element: Topic) {
     const fileName = element.name + '.pdf';
     this.topicService.getPdf(element).then(
       (data: any) => {
@@ -127,7 +127,7 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
       });
   }
 
-  getXml(element: Topic) {
+  onGetXml(element: Topic) {
     const fileName = element.name + '.xml';
     this.topicService.getXml(element).then(
       (data: any) => {

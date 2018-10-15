@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Category, CATEGORY_INFO, ICategoryInfo, HierachyLevel } from './category.classes';
-import { ActionKind, ElementKind} from '../shared/classes/enums';
-import { TemplateService } from '../template/template.service';
+import { ActionKind, ElementKind} from '../../shared/classes/enums';
+import { TemplateService } from '../../template/template.service';
 
 
 @Component({

@@ -35,7 +35,9 @@ export class ConfirmDeleteComponent  {
   public deleteAction = new EventEmitter<string|MaterializeAction>();
 
   public showConfirmDeleting(element) {
-    this.element = element;
+    if (element) {
+      this.element = element;
+    }
     this.deleteAction.emit({action: 'modal', params: ['open']});
   }
 

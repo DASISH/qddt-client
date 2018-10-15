@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from '../../shared/shared.module';
 import { CategoryComponent } from './category.component';
 import { CategoryDetailComponent } from './category.detail.component';
 import { CategoryFormComponent } from './category.form.component';
 import { CategoryRoutingModule } from './category.routes';
-import { TemplateModule } from '../template/template.module';
+import { TemplateModule } from '../../template/template.module';
 
 
 @NgModule({

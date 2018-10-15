@@ -1,5 +1,4 @@
 import { Component, ViewChild } from '@angular/core';
-import { TemplateComponent } from '../template/template.component';
 
 @Component({
   selector: 'qddt-questionitem',
