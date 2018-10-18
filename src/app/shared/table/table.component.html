@@ -2,7 +2,9 @@
   <div class="white grey-text text-darken-1" style="overflow-x:auto; margin:0.5rem">
     <div class="row">
       <div class="input-field col s11">
-        <input id="filterKey" type="text" [ngModel]="value" (keyup)="enterText($event)" #fkRef>
+        <!-- <div class="chips" materialize="material_chip" (chip.add)="add($event.detail)"></div> -->
+        <div class="chips" materialize="material_chip" (chip.add)="add($event.detail)" (chip.delete)="delete($event.detail)" (chip.select)="select($event.detail)"></div>
+        <!-- <a class="waves-effect waves-light btn" (click)="updateChips()">Update Chips</a> -->
         <label for="filterKey">{{ placeholder }}</label>
       </div>
       <div class="input-field col s1">
@@ -46,7 +48,7 @@
         <td  *ngFor="let column of columns">{{ row[column.label] }}</td>
 
         <td *ngIf="row.revisionIsVisible" colspan="columns.length"><qddt-revision  [current]="item"> </qddt-revision></td>
-        
+
       </tr>
       </tbody>
     </table>
@@ -59,8 +61,7 @@
       [boundaryLinks]="true"
       (pageChange)="pageChange($event)">
     </qddt-pagination>
-  </div>     
+  </div>
 
 </div>
 
-  

@@ -105,6 +105,19 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
     });
   }
 
+  add(chip) {
+    console.log('Chip added: ' + chip.tag);
+  }
+
+  delete(chip) {
+    console.log('Chip delete: ' + chip.tag);
+
+  }
+
+  select(chip) {
+    console.log('Chip select: ' + chip.tag);
+  }
+
   public onDetail(item: IEntityEditAudit) {
     this.detailEvent.emit(item);
   }
@@ -164,7 +177,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
 
   private makePlaceholder(searchString: string): string  {
     const qe = getQueryInfo(this.pageSearch.kind);
-
+    console.log(qe.fields);
     if (!searchString || searchString.length === 0) { return qe.placeholder(); }
 
     const args = searchString.split(' ');
