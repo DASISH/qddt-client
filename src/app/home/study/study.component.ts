@@ -1,10 +1,11 @@
 import {  Component, OnInit, AfterContentChecked } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HIERARCHY_POSITION, QddtPropertyStoreService } from '../../core/global/property.service';
+import { QddtPropertyStoreService } from '../../core/services/property.service';
 import { Study, SurveyProgram } from '../home.classes';
 import { HomeService } from '../home.service';
 import { TemplateService } from '../../template/template.service';
 import { ActionKind, ElementKind } from '../../shared/classes';
+import { HIERARCHY_POSITION } from '../../core/classes/UserSettings';
 
 const filesaver = require('file-saver');
 declare var Materialize: any;
@@ -54,7 +55,7 @@ export class StudyComponent implements OnInit, AfterContentChecked {
     if (!prevStudy || prevStudy.id !== study.id) {
       this.property.set('topics', null);
     }
-    this.property.setCurrent(HIERARCHY_POSITION.Study, { id: this.survey.id, name:  study.name });
+    this.property.setCurrentMenu(HIERARCHY_POSITION.Study, { id: this.survey.id, name:  study.name });
 
     this.property.set('study', study);
     this.router.navigate(['topic']);

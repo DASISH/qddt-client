@@ -1,5 +1,5 @@
 import { Component, AfterContentInit, AfterContentChecked } from '@angular/core';
-import { UserService, IPassword, ResetPassword } from '../user/user.service';
+import { UserService, IPassword, ResetPassword } from '../services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 

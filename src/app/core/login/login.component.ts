@@ -1,5 +1,5 @@
 import {Component, AfterContentInit, OnInit} from '@angular/core';
-import { UserService } from '../user/user.service';
+import { UserService } from '../services/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 declare var Materialize: any;

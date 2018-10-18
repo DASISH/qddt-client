@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { QddtMessageService } from '../../core/global/message.service';
+import { QddtMessageService } from '../../core/services/message.service';
 import { ElementKind } from '../classes/enums';
 
 @Component({

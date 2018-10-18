@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, Output, ChangeDetectionStrategy, OnChanges, SimpleChanges, AfterViewInit} from '@angular/core';
 import { ElementEnumAware } from '../../preview/preview.service';
-import { QddtMessageService } from '../../core/global/message.service';
+import { QddtMessageService } from '../../core/services/message.service';
 import {
   ElementKind,
   ElementRevisionRef, getQueryInfo,

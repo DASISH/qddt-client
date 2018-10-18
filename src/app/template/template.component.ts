@@ -2,10 +2,10 @@
 import { takeWhile} from 'rxjs/operators';
 import { Component, OnDestroy, AfterContentChecked} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { QddtMessageService } from '../core/global/message.service';
-import { QddtPropertyStoreService } from '../core/global/property.service';
+import { QddtMessageService } from '../core/services/message.service';
+import { QddtPropertyStoreService } from '../core/services/property.service';
 import { ResponseDomain, DomainKind } from '../responsedomain/responsedomain.classes';
-import { UserService } from '../core/user/user.service';
+import { UserService } from '../core/services/user.service';
 import { IEntityEditAudit, ElementKind, HEADER_DETAILS, ActionKind, IPageSearch } from '../shared/classes';
 import { Factory } from '../shared/classes/factory';
 

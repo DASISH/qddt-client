@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { API_BASE_HREF } from '../api';
 import { Concept, Study, SurveyProgram, Topic } from './home.classes';
 import { IOtherMaterial, IEntityEditAudit, IEntityAudit, IPageResult, ElementKind, getQueryInfo} from '../shared/classes';
-import {QddtPropertyStoreService} from '../core/global/property.service';
+import {QddtPropertyStoreService} from '../core/services/property.service';
 
 
 
@@ -56,8 +56,6 @@ export class HomeService {
   }
 
   getAllStudy(surveyProgramId: String): Promise<any> {
-    const survey = this.property.get('survey');
-    if (survey) {
     return this.http.get(this.api + 'surveyprogram/' + surveyProgramId).toPromise();
   }
 

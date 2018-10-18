@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { UserService } from '../user/user.service';
+import { UserService } from './user.service';
 import { throwError } from 'rxjs';
 
 declare var Materialize: any;

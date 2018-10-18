@@ -3,13 +3,13 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable ,  BehaviorSubject } from 'rxjs';
 import { API_BASE_HREF } from '../../api';
-import { User } from './user';
 import { IAuthority, UserJson } from '../../user/user.classes';
 import { ActionKind, ElementKind } from '../../shared/classes/enums';
-import { AuthorityKind } from './authority';
+import { User } from '../classes/user';
+import { AuthorityKind } from '../classes/authority';
+import { QddtPropertyStoreService } from './property.service';
 
 export const TOKEN_NAME = 'jwt_token';
-const LAST_LOGIN = 'EMAIL_LAST_LOGIN';
 
 export class Agency  {
   id: string;
@@ -44,7 +44,6 @@ export class UserService {
   public static readonly RESET_PWD_URL = 'user/resetpassword';
   public static readonly UPDATE_URL = 'user';
   public static readonly AUTHORITY_URL = 'authority/all';
-  private static readonly USERINFO = 'user';
 
   public loggedIn = new BehaviorSubject<boolean>(false);
 
@@ -53,7 +52,7 @@ export class UserService {
   private _agencies;
   private _authorities;
 
-  constructor(private http: HttpClient,  @Inject(API_BASE_HREF) private api: string) {
+  constructor(private http: HttpClient,  @Inject(API_BASE_HREF) private api: string, private property: QddtPropertyStoreService) {
     if (this.isTokenExpired()) {
       this.logout();
     } else {
@@ -185,7 +184,7 @@ export class UserService {
   }
 
   public  getEmail(): string {
-    return this.getUser().email || localStorage.getItem(LAST_LOGIN) || '';
+    return this.getUser().email || this.property.userSetting.email || '';
   }
 
   public  getRoles(): string[] {
@@ -213,7 +212,7 @@ export class UserService {
 
   private loadUserFromToken(): void {
     this._user = this.getTokenClaims(this.getToken());
-    localStorage.setItem(LAST_LOGIN, this._user.email);
+    this.property.userSetting.email = this._user.email;
     this._roles = 0;
     this.getRoles().forEach((role) => this._roles += +AuthorityKind[role]);
     this.loggedIn.next(true);

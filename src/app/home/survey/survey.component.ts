@@ -1,10 +1,11 @@
 import { Component,  OnInit, AfterContentChecked } from '@angular/core';
 import { Router } from '@angular/router';
-import { QddtPropertyStoreService , HIERARCHY_POSITION } from '../../core/global/property.service';
+import { QddtPropertyStoreService } from '../../core/services/property.service';
 import { HomeService } from '../home.service';
 import { SurveyProgram } from '../home.classes';
 import { TemplateService } from '../../template/template.service';
 import { ActionKind, ElementKind } from '../../shared/classes';
+import { HIERARCHY_POSITION } from '../../core/classes/UserSettings';
 
 const filesaver = require('file-saver');
 declare var Materialize: any;
@@ -66,7 +67,7 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
   onShowStudy(surveyProgram: any) {
     this.property.set('survey', surveyProgram);
 
-    this.property.setCurrent(HIERARCHY_POSITION.Survey, { id: null, name: surveyProgram.name });
+    this.property.setCurrentMenu(HIERARCHY_POSITION.Survey, { id: null, name: surveyProgram.name });
     this.router.navigate(['study']);
   }
 

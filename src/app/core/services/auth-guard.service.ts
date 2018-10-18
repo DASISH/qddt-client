@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, CanActivateChild,
          Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import {TOKEN_NAME, UserService} from '../user/user.service';
-import {QddtPropertyStoreService} from '../global/property.service';
+import {TOKEN_NAME, UserService} from './user.service';
+import {QddtPropertyStoreService} from './property.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild  {
@@ -17,7 +17,8 @@ export class AuthGuard implements CanActivate, CanActivateChild  {
 
     const redirectUrl = next['_routerState']['url'];
     if (state.url !== '/') {
-      localStorage.setItem('currentURL', state.url);
+      this.property.userSetting.url = state.url;
+      this.property.userSetting.save();
     }
     if (!this.authService.isTokenExpired()) {
       return true;
@@ -25,11 +26,7 @@ export class AuthGuard implements CanActivate, CanActivateChild  {
 
     console.log('isTokenExpired -> redirecting to login ' + redirectUrl );
     this.router.navigateByUrl(
-      this.router.createUrlTree(
-        ['/login'], {
-          queryParams: { redirectUrl }
-        }
-      )
+      this.router.createUrlTree( ['/login'], { queryParams: { redirectUrl } } )
     );
     return false;
   }
@@ -38,13 +35,4 @@ export class AuthGuard implements CanActivate, CanActivateChild  {
     return this.canActivate(next, state);
   }
 
-  // private checkParent(url: string): boolean {
-  //   const current =  this.menupath.find((e) => e === url);
-  //   this.property.set('currentUrl', current);
-  //   if (current) {
-  //     console.log( (current) );
-  //     return true;
-  //   }
-  //   return false;
-  // }
 }

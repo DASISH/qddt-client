@@ -1,6 +1,6 @@
 import { Component, Input,  OnChanges } from '@angular/core';
 import { RevisionService } from './revision.service';
-import { QddtMessageService } from '../../core/global/message.service';
+import { QddtMessageService } from '../../core/services/message.service';
 import { DEFAULT_CONFIG, LIST_CONFIG, RevisionConfig } from './revision-config';
 import { DomainKind, ResponseDomain } from '../../responsedomain/responsedomain.classes';
 import { IElement, IEntityAudit } from '../classes/interfaces';

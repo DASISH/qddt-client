@@ -1,7 +1,7 @@
 import {Component, Input, Output, EventEmitter, AfterContentChecked } from '@angular/core';
 import { QuestionItem } from '../../question/question.classes';
 import { Concept} from '../home.classes';
-import { QddtMessageService } from '../../core/global/message.service';
+import { QddtMessageService } from '../../core/services/message.service';
 import { HomeService} from '../home.service';
 import { ElementKind, IRevisionRef } from '../../shared/classes';
 

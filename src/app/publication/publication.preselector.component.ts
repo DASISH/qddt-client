@@ -1,6 +1,6 @@
 import { Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import { QddtMessageService } from '../core/global/message.service';
-import { QddtPropertyStoreService } from '../core/global/property.service';
+import { QddtMessageService } from '../core/services/message.service';
+import { QddtPropertyStoreService } from '../core/services/property.service';
 import { PublicationService } from './publication.service';
 import { ActionKind } from '../shared/classes/enums';
 import { PublicationStatus } from './publication.classes';

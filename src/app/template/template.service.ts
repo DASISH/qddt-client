@@ -2,7 +2,7 @@ import { Inject, Injectable} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_BASE_HREF } from '../api';
 import { Observable} from 'rxjs';
-import { UserService } from '../core/user/user.service';
+import { UserService } from '../core/services/user.service';
 import {
   ActionKind,
   ElementKind,

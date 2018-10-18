@@ -1,13 +1,14 @@
 import { AfterContentChecked, Component, OnInit } from '@angular/core';
 import { ActivatedRoute,  Router } from '@angular/router';
 
-import { HIERARCHY_POSITION, QddtPropertyStoreService } from '../../core/global/property.service';
+import { QddtPropertyStoreService } from '../../core/services/property.service';
 import { HomeService } from '../home.service';
-import { QddtMessageService } from '../../core/global/message.service';
+import { QddtMessageService } from '../../core/services/message.service';
 import { ElementKind, ActionKind } from '../../shared/classes/enums';
 import { Study, Topic } from '../home.classes';
-import {IRevisionRef, IOtherMaterial} from '../../shared/classes/interfaces';
+import { IRevisionRef, IOtherMaterial} from '../../shared/classes/interfaces';
 import { TemplateService } from '../../template/template.service';
+import { HIERARCHY_POSITION } from '../../core/classes/UserSettings';
 
 const filesaver = require('file-saver');
 declare var Materialize: any;
@@ -92,8 +93,8 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
       this.property.set('concepts', null);
     }
     this.property.set('topic', topic);
-    this.property.setCurrent(HIERARCHY_POSITION.Topic, { id: this.study.id, name: topic.name });
-    this.property.setCurrent(HIERARCHY_POSITION.Concept, { id: topic.id, name: 'Concept' });
+    this.property.setCurrentMenu(HIERARCHY_POSITION.Topic, { id: this.study.id, name: topic.name });
+    this.property.setCurrentMenu(HIERARCHY_POSITION.Concept, { id: topic.id, name: 'Concept' });
     this.router.navigate(['concept']);
   }
 

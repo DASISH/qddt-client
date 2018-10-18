@@ -1,10 +1,12 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription, Observable } from 'rxjs';
-import { QddtPropertyStoreService, HIERARCHY_POSITION } from '../core/global/property.service';
-import { UserService } from '../core/user/user.service';
+import { QddtPropertyStoreService  } from '../core/services/property.service';
+import { UserService } from '../core/services/user.service';
 import { TemplateService } from '../template/template.service';
 import { ActionKind, ElementKind } from '../shared/classes/enums';
+import { HIERARCHY_POSITION } from '../core/classes/UserSettings';
+import { element } from 'protractor';
 
 
 declare var $: any;
@@ -27,27 +29,19 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   public username;
   public elementKindRef = ElementKind;
 
-  constructor(private userService: UserService, private property: QddtPropertyStoreService, private router: Router,
-              private service: TemplateService) {
+  constructor(private userService: UserService, private property: QddtPropertyStoreService,
+      private router: Router, private service: TemplateService) {
     this.username = this.getUserName();
     this.isLoggedIn$ = this.userService.loggedIn;
   }
 
   ngOnInit() {
-    // this.propertyChanged = this.property.currentChange$.subscribe(
-    //   (item) => {
-    //     // this.path[item] = this.property.getCurrent();
-    //     },
-    //   (error) => console.error(error.toString()));
-
-
     this.isLoggedIn$.subscribe(
       (connected) => {
         this.username = this.getUserName();
         this.setVisibility();
         if ( connected ) {
-          const url = this.property.current ||
-          this.router.navigate(['home']);
+          this.router.navigate([this.property.userSetting.url]);
         }
       },
     (error) => console.error(error.toString())
@@ -87,7 +81,7 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
     this.userService.logout();
   }
 
-  private hasAccess(kind: string): boolean {
+  private hasAccess(kind: string|ElementKind): boolean {
     return this.userService.canDo(ActionKind.Read, this.service.getElementKind(kind));
   }
 
@@ -130,21 +124,20 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   clearAll() {
-    this.property.menuPath[HIERARCHY_POSITION.Survey] = null;
-    this.property.set('study', null);
-    this.property.menuPath[HIERARCHY_POSITION.Study] = null;
     this.clearTopic();
+    this.property.pathClear(HIERARCHY_POSITION.Survey);
+    this.property.set('study', null);
   }
 
   clearTopic() {
-    this.property.set('topic', null);
-    this.property.menuPath[HIERARCHY_POSITION.Topic] = null;
     this.clearConcept();
+    this.property.pathClear(HIERARCHY_POSITION.Study);
+    this.property.set('topic', null);
   }
 
   clearConcept() {
+    this.property.pathClear(HIERARCHY_POSITION.Topic);
     this.property.set('concept', null);
-    this.property.menuPath[HIERARCHY_POSITION.Concept] = null;
   }
 
   get path(): Array<MenuItem> {
@@ -158,6 +151,7 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private setVisibility() {
+
     const newArr = new Array<boolean>(20);
     for (let item in ElementKind ) {
       newArr[item] = this.hasAccess(item);

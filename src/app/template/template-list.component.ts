@@ -4,8 +4,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TemplateService } from './template.service';
 
-import { QddtMessageService } from '../core/global/message.service';
-import { QddtPropertyStoreService } from '../core/global/property.service';
+import { QddtMessageService } from '../core/services/message.service';
+import { QddtPropertyStoreService } from '../core/services/property.service';
 import { DomainKind } from '../responsedomain/responsedomain.classes';
 import { IEntityAudit, IPageSearch, ElementKind, HEADER_DETAILS, ActionKind, Page } from '../shared/classes';
 

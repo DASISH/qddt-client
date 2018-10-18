@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
-import { QddtMessageService } from '../core/global/message.service';
+import { QddtMessageService } from '../core/services/message.service';
 import { IElement, IEntityAudit } from '../shared/classes/interfaces';
 import { ElementRevisionRef } from '../shared/classes/classes';
 

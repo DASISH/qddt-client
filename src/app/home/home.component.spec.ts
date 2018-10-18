@@ -4,7 +4,7 @@ import { HomeComponent } from './home.component';
 import { By } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { API_BASE_HREF } from '../api';
-import { UserService } from '../core/user/user.service';
+import { UserService } from '../core/services/user.service';
 
 class UserServiceSpy {
   get = jasmine.createSpy('get').and.callFake(function (key) {

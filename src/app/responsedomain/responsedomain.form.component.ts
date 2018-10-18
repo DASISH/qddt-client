@@ -16,7 +16,7 @@ import { Category } from '../lookups/category/category.classes';
 import { Page } from '../shared/classes/classes';
 import { ActionKind, ElementKind} from '../shared/classes/enums';
 import { IElement, IPageSearch} from '../shared/classes/interfaces';
-import { QddtPropertyStoreService } from '../core/global/property.service';
+import { QddtPropertyStoreService } from '../core/services/property.service';
 
 declare let Materialize: any;
 

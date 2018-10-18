@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit} from '@angular/core';
 import { MaterializeAction } from 'angular2-materialize';
 import { ActivatedRoute, Router } from '@angular/router';
-import { QddtPropertyStoreService } from '../../core/global/property.service';
+import { QddtPropertyStoreService } from '../../core/services/property.service';
 import { ElementKind, ActionKind } from '../../shared/classes/enums';
 import { Concept, Topic } from '../home.classes';
 import { HomeService } from '../home.service';
