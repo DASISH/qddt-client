@@ -32,9 +32,10 @@ import { UserModule } from './user/user.module';
 import { UniverseModule } from './lookups/universe/universe.module';
 import { InstructionModule } from './lookups/instruction/instruction.module';
 import { CategoryModule } from './lookups/category/category.module';
+import { DialogModule } from './dialog/dialog.module';
 
 @NgModule({
-  imports: [ BrowserModule, HttpClientModule, SharedModule, CoreModule, HomeModule, MenuModule, SelectorDialogsModule,
+  imports: [ BrowserModule, HttpClientModule, SharedModule, CoreModule, HomeModule, MenuModule, SelectorDialogsModule, DialogModule,
     CategoryModule,  ResponsedomainModule, QuestionModule, ControlConstructModule, PreviewModule, MissingModule, UniverseModule,
     InstructionModule, InstrumentModule, PublicationModule, TemplateModule, QuestionConstructModule, SequenceModule, UserModule, routing ],
 

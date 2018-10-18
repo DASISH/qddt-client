@@ -4,7 +4,7 @@ import { QddtPropertyStoreService , HIERARCHY_POSITION } from '../../core/global
 import { HomeService } from '../home.service';
 import { SurveyProgram } from '../home.classes';
 import { TemplateService } from '../../template/template.service';
-import { ActionKind, ElementKind } from '../../shared/classes/enums';
+import { ActionKind, ElementKind } from '../../shared/classes';
 
 const filesaver = require('file-saver');
 declare var Materialize: any;
@@ -29,8 +29,6 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit() {
-    // this.surveyList = this.property.get('surveyList');
-    // if (!this.surveyList) {
       this.surveyService.getAllSurvey().then(
         (data: Array<SurveyProgram> ) => this.surveyList = data
       );
@@ -61,26 +59,14 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
       const list = this.surveyList.filter((q) => q.id !== surveyProgram.id);
       list.push(surveyProgram);
       this.surveyList = list.sort( (a, b) => a.name.localeCompare(b.name));
-
-
-
-      // let idx = this.surveyList.findIndex( s => s.id === surveyProgram.id );
-      // idx = (idx) ? idx : this.surveyList.length;
-      // let list = this.surveyList.slice(idx);
-      // list.)
-      // this.surveyList.splice(idx, 1, surveyProgram);
-
-      // const list = this.surveyList.filter((q) => q.id !== surveyProgram.id);
-      // list.push(surveyProgram);
-      // this.surveyList = list.sort( (a, b) => a.name > b.name ? -1 : 1);
-
       this.property.set('surveyList', this.surveyList);
     }
   }
 
   onShowStudy(surveyProgram: any) {
     this.property.set('survey', surveyProgram);
-    this.property.setCurrent(HIERARCHY_POSITION.Survey, surveyProgram.name);
+
+    this.property.setCurrent(HIERARCHY_POSITION.Survey, { id: null, name: surveyProgram.name });
     this.router.navigate(['study']);
   }
 

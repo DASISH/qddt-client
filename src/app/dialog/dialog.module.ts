@@ -8,6 +8,7 @@ import { NotifyComponent } from './notify/notify.component';
 @NgModule({
   imports: [CommonModule],
   declarations: [DialogComponent, InsertionDirective, ConfirmComponent, NotifyComponent],
+  exports: [ConfirmComponent, NotifyComponent ],
   entryComponents: [DialogComponent]
 })
 export class DialogModule {}

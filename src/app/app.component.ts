@@ -21,7 +21,8 @@ export class AppComponent  implements OnDestroy {
 
   private subscription;
 
-  constructor(private users: UserService, private  properties: QddtPropertyStoreService, private messages: QddtMessageService ) {
+  constructor(private users: UserService, private  properties: QddtPropertyStoreService,
+              private messages: QddtMessageService ) {
 
     this.subscription = this.messages.getMessage()
       .subscribe((message) => this.showMessage(message));
@@ -34,11 +35,16 @@ export class AppComponent  implements OnDestroy {
   }
 
   isLoggedIn(): boolean {
+    const ok = !this.users.isTokenExpired();
+    if (!ok) {
+      this.users.loggedIn.next(false);
+    }
     return !this.users.isTokenExpired();
   }
 
+
   private showMessage<T extends IIdRef|IRevisionRef|IElement>(element: T) {
-    this.ref = element;
+      this.ref = element;
   }
 
   // private checkRouter(target: string, value: string) {

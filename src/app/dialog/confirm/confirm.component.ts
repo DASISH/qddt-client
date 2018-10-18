@@ -7,18 +7,18 @@ import {DialogRef} from '../dialog-ref';
   template: `
 <div class="modal-content" style="color: black">
   <div class="row">
-    <h4>Warning</h4>
-    <span>Are you sure you want to delete [{{ element?.name }}] ?</span>
+    <h4>Confirm</h4>
+    <span>{{config.data.message}}</span>
   </div>
 </div>
 <div class="modal-footer" style="color: white">
   <button (click)="onClose('ok')"
           class="btn btn-default green waves-effect">
-    <a><i class="close material-icons medium white-text">done</i></a>
+    <a><i class="close material-icons medium white-text">Yes</i></a>
   </button>
   <button (click)="onClose('cancel')"
     class="btn btn-default red waves-effect">
-    <a><i class="close material-icons medium white-text">close</i></a>
+    <a><i class="close material-icons medium white-text">No</i></a>
   </button>
 </div>
 `
