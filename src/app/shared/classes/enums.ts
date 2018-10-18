@@ -6,6 +6,8 @@ export enum ActionKind {
   Create,
   Update,
   Delete,
+  Ask,
+  Tell
 }
 
 export enum ElementKind {

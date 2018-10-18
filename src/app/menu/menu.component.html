@@ -10,10 +10,10 @@
         </a></li>
       </ul>
 
-      <a *ngIf="path[0]" (click)="onSurvey()" class="breadcrumb">SURVEY [{{ path[0] }}]</a>
-      <a *ngIf="path[1]" (click)="onStudy()" class="breadcrumb">STUDY [{{ path[1] }}]</a>
-      <a *ngIf="path[2]" (click)="onTopic()" class="breadcrumb">MODULE [{{ path[2] }}]</a>
-      <a *ngIf="path[3]" (click)="onConcept()" class="breadcrumb">{{ path[3] }}</a>
+      <a *ngIf="path[0]" (click)="onSurvey()" class="breadcrumb">SURVEY [{{ path[0].name }}]</a>
+      <a *ngIf="path[1]" (click)="onStudy()" class="breadcrumb">STUDY [{{ path[1].name }}]</a>
+      <a *ngIf="path[2]" (click)="onTopic()" class="breadcrumb">MODULE [{{ path[2].name }}]</a>
+      <a *ngIf="path[3]" (click)="onConcept()" class="breadcrumb">{{ path[3].name }}</a>
 
       <ul id="adminmenu" class="dropdown-content"  >
         <div *ngIf="isLoggedIn$ | async as isLoggedIn">

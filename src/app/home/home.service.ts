@@ -5,13 +5,14 @@ import { HttpClient } from '@angular/common/http';
 import { API_BASE_HREF } from '../api';
 import { Concept, Study, SurveyProgram, Topic } from './home.classes';
 import { IOtherMaterial, IEntityEditAudit, IEntityAudit, IPageResult, ElementKind, getQueryInfo} from '../shared/classes';
+import {QddtPropertyStoreService} from '../core/global/property.service';
 
 
 
 @Injectable()
 export class HomeService {
 
-  constructor(protected http: HttpClient,  @Inject(API_BASE_HREF) protected api: string) {
+  constructor(protected http: HttpClient,  @Inject(API_BASE_HREF) protected api: string, private property: QddtPropertyStoreService) {
   }
 
   getRevisionById(kind: ElementKind, id: string): Promise<any> {
@@ -55,6 +56,8 @@ export class HomeService {
   }
 
   getAllStudy(surveyProgramId: String): Promise<any> {
+    const survey = this.property.get('survey');
+    if (survey) {
     return this.http.get(this.api + 'surveyprogram/' + surveyProgramId).toPromise();
   }
 

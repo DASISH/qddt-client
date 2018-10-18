@@ -1,8 +1,10 @@
-import { Injectable } from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import { Observable ,  BehaviorSubject } from 'rxjs';
+import {MenuItem} from '../../menu/menu.component';
 
 
 export enum HIERARCHY_POSITION {
+  None,
   Survey,
   Study,
   Topic,
@@ -18,15 +20,19 @@ export class QddtPropertyStoreService {
 
   currentChange$: Observable<HIERARCHY_POSITION>;
   // Observable navItem source
-  private _newcurrent = new BehaviorSubject<HIERARCHY_POSITION>(HIERARCHY_POSITION.Survey);
-
-  private current: string = null;
-
+  private _newcurrent: BehaviorSubject<HIERARCHY_POSITION>;
   private globalObjects: Map<string, any> = new Map();
+  private _path = new Array<MenuItem>(4);
 
   constructor() {
+
+    this._path = JSON.parse(localStorage.getItem('PATH')) || this._path;
+    const pos = +localStorage.getItem('HIERARCHY_POSITION') || HIERARCHY_POSITION.Survey;
+
+    this._newcurrent = new BehaviorSubject<HIERARCHY_POSITION>(pos);
     this.currentChange$ = this._newcurrent.asObservable();
   }
+
 
   set(key: string, value: any) {
     this.globalObjects.set(key, value);
@@ -36,15 +42,21 @@ export class QddtPropertyStoreService {
     return this.globalObjects.get(key) || '';
   }
 
-  public setCurrent(pos: HIERARCHY_POSITION, name: string) {
-    console.log('setCurrent ' + pos + ' - ' + name);
-    this.current = name;
+  get current(): MenuItem {
+    return this.menuPath[this._newcurrent.getValue()];
+  }
+
+  public setCurrent(pos: HIERARCHY_POSITION, item: MenuItem) {
+    this._path[pos - 1] = item;
+    localStorage.setItem('PATH', JSON.stringify(this.menuPath));
+    localStorage.setItem('HIERARCHY_POSITION', pos.toString());
     this._newcurrent.next(pos);
   }
 
-  public getCurrent(): any {
-    return this.current;
+  get menuPath(): Array<MenuItem> {
+    return this._path;
   }
+
 
 
 }

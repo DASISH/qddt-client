@@ -51,7 +51,7 @@ export class UserService {
   private _user: User;
   private _roles: number;
   private _agencies;
-  private _authorites;
+  private _authorities;
 
   constructor(private http: HttpClient,  @Inject(API_BASE_HREF) private api: string) {
     if (this.isTokenExpired()) {
@@ -146,11 +146,11 @@ export class UserService {
     return this._agencies; // http.get<Agency[]>( this.api + UserService.ANGENCY_URL).toPromise();
   }
 
-  public getAuthorites(): Promise<IAuthority[]> {
-    if (!this._authorites) {
-      this._authorites = this.http.get<IAuthority[]>( this.api + UserService.AUTHORITY_URL).toPromise();
+  public getAuthorities(): Promise<IAuthority[]> {
+    if (!this._authorities) {
+      this._authorities = this.http.get<IAuthority[]>( this.api + UserService.AUTHORITY_URL).toPromise();
     }
-    return this._authorites; // http.get<IAuthority[]>( this.api + UserService.AUTHORITY_URL).toPromise();
+    return this._authorities; // http.get<IAuthority[]>( this.api + UserService.AUTHORITY_URL).toPromise();
   }
 
   /**

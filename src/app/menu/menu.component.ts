@@ -9,6 +9,7 @@ import { ActionKind, ElementKind } from '../shared/classes/enums';
 
 declare var $: any;
 
+export interface MenuItem { id: string; name: string; }
 
 @Component({
   selector: 'qddt-menu',
@@ -18,13 +19,12 @@ declare var $: any;
   templateUrl: './menu.component.html',
 })
 export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
-  public propertyChanged: Subscription;
+  // public propertyChanged: Subscription;
   public isLoggedIn$: Observable<boolean>;
-  public path = [4];
-  public username;
-  public canSee = [false, false, false, false, false, false, false, false, false, false, false,
-                    false, false, false, false, false, false, false, false ];
 
+  public canSee = new Array<boolean>(20);
+
+  public username;
   public elementKindRef = ElementKind;
 
   constructor(private userService: UserService, private property: QddtPropertyStoreService, private router: Router,
@@ -34,24 +34,28 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit() {
-    this.propertyChanged = this.property.currentChange$.subscribe(
-      (item) => { this.path[item] = this.property.getCurrent(); },
-      (error) => console.error(error.toString()));
+    // this.propertyChanged = this.property.currentChange$.subscribe(
+    //   (item) => {
+    //     // this.path[item] = this.property.getCurrent();
+    //     },
+    //   (error) => console.error(error.toString()));
 
-      this.isLoggedIn$.subscribe((connected) => {
+
+    this.isLoggedIn$.subscribe(
+      (connected) => {
         this.username = this.getUserName();
         this.setVisibility();
         if ( connected ) {
+          const url = this.property.current ||
           this.router.navigate(['home']);
         }
       },
-      (error) => console.error(error.toString())
+    (error) => console.error(error.toString())
     );
   }
 
   ngOnDestroy(): void {
-    this.propertyChanged.unsubscribe();
-    // this.isLoggedIn$..unsubscribe();
+    // this.propertyChanged.unsubscribe();
   }
 
 
@@ -126,21 +130,25 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   clearAll() {
-    this.path[HIERARCHY_POSITION.Survey] = null;
+    this.property.menuPath[HIERARCHY_POSITION.Survey] = null;
     this.property.set('study', null);
-    this.path[HIERARCHY_POSITION.Study] = null;
+    this.property.menuPath[HIERARCHY_POSITION.Study] = null;
     this.clearTopic();
   }
 
   clearTopic() {
     this.property.set('topic', null);
-    this.path[HIERARCHY_POSITION.Topic] = null;
+    this.property.menuPath[HIERARCHY_POSITION.Topic] = null;
     this.clearConcept();
   }
 
   clearConcept() {
     this.property.set('concept', null);
-    this.path[HIERARCHY_POSITION.Concept] = null;
+    this.property.menuPath[HIERARCHY_POSITION.Concept] = null;
+  }
+
+  get path(): Array<MenuItem> {
+    return this.property.menuPath;
   }
 
   private gotoUUID(uuid: string) {

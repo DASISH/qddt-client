@@ -24,7 +24,7 @@ export class UserFormComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.getAgencies();
-    this.getAuthorites();
+    this.getAuthorities();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -65,7 +65,7 @@ export class UserFormComponent implements OnInit, OnChanges {
     return await this.userService.getAgencies().then((result) => this.agencies = result);
   }
 
-  private async getAuthorites() {
-    return await this.userService.getAuthorites().then((result) => this.authorities = result);
+  private async getAuthorities() {
+    return await this.userService.getAuthorities().then((result) => this.authorities = result);
   }
 }

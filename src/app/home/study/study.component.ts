@@ -4,7 +4,7 @@ import { HIERARCHY_POSITION, QddtPropertyStoreService } from '../../core/global/
 import { Study, SurveyProgram } from '../home.classes';
 import { HomeService } from '../home.service';
 import { TemplateService } from '../../template/template.service';
-import { ActionKind, ElementKind } from '../../shared/classes/enums';
+import { ActionKind, ElementKind } from '../../shared/classes';
 
 const filesaver = require('file-saver');
 declare var Materialize: any;
@@ -54,8 +54,9 @@ export class StudyComponent implements OnInit, AfterContentChecked {
     if (!prevStudy || prevStudy.id !== study.id) {
       this.property.set('topics', null);
     }
+    this.property.setCurrent(HIERARCHY_POSITION.Study, { id: this.survey.id, name:  study.name });
+
     this.property.set('study', study);
-    this.property.setCurrent(HIERARCHY_POSITION.Study, study.name);
     this.router.navigate(['topic']);
   }
 

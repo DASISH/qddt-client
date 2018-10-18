@@ -17,9 +17,7 @@ import { getQueryInfo, IElement, IIdRef, IRevisionRef} from '../shared/classes';
         </div>
       </div>
       <div class="modal-footer">
-        <a class="modal-action modal-close waves-effect waves-purple btn-flat teal white-text">
-          Close
-        </a>
+        <a class="modal-action modal-close waves-effect waves-purple btn-flat teal white-text">Close</a>
       </div>
     </div>`
     ,

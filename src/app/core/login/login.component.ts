@@ -1,4 +1,4 @@
-import { Component, AfterContentInit } from '@angular/core';
+import {Component, AfterContentInit, OnInit} from '@angular/core';
 import { UserService } from '../user/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -10,7 +10,7 @@ declare var $;
   moduleId: module.id,
   templateUrl: './login.component.html'
 })
-export class LoginComponent implements  AfterContentInit {
+export class LoginComponent implements  AfterContentInit, OnInit {
 
   public formData = { email: null, password: null };
 
@@ -18,6 +18,10 @@ export class LoginComponent implements  AfterContentInit {
   once = 0;
 
   constructor(private route: ActivatedRoute, private router: Router, private authenticationService: UserService) {
+  }
+
+
+  ngOnInit(): void {
     $(document).ready(function() {
       $('.modal').modal({
         ready: modal => {

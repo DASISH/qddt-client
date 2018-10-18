@@ -86,14 +86,14 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
     this.onTopicSaved(topic);
   }
 
-  onSelectTopic(topic: any) {
+  onSelectTopic(topic: Topic) {
     const prevTopic = this.property.get('topic');
     if (!prevTopic || prevTopic.id !== topic.id) {
       this.property.set('concepts', null);
     }
     this.property.set('topic', topic);
-    this.property.setCurrent(HIERARCHY_POSITION.Topic, topic.name);
-    this.property.setCurrent(HIERARCHY_POSITION.Concept, 'Concept');
+    this.property.setCurrent(HIERARCHY_POSITION.Topic, { id: this.study.id, name: topic.name });
+    this.property.setCurrent(HIERARCHY_POSITION.Concept, { id: topic.id, name: 'Concept' });
     this.router.navigate(['concept']);
   }
 
