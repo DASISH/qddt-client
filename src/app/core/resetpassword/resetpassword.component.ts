@@ -1,7 +1,6 @@
-import { Component, AfterContentInit, AfterContentChecked } from '@angular/core';
+import { Component, AfterContentChecked } from '@angular/core';
 import { UserService, IPassword, ResetPassword } from '../services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
 
 declare var Materialize: any;
 declare var $;

@@ -1,12 +1,11 @@
 import { AfterContentChecked, Component, OnInit } from '@angular/core';
-import { ActivatedRoute,  Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { QddtPropertyStoreService } from '../../core/services/property.service';
 import { HomeService } from '../home.service';
 import { QddtMessageService } from '../../core/services/message.service';
-import { ElementKind, ActionKind } from '../../shared/classes/enums';
+import { ElementKind, ActionKind, IOtherMaterial, IRevisionRef} from '../../shared/classes';
 import { Study, Topic } from '../home.classes';
-import { IRevisionRef, IOtherMaterial} from '../../shared/classes/interfaces';
 import { TemplateService } from '../../template/template.service';
 import { HIERARCHY_POSITION } from '../../core/classes/UserSettings';
 
@@ -37,8 +36,7 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
 
   private refreshCount = 0;
 
-  constructor(private router: Router, private route: ActivatedRoute,
-              private property: QddtPropertyStoreService, private message: QddtMessageService,
+  constructor(private router: Router, private property: QddtPropertyStoreService, private message: QddtMessageService,
               private topicService: HomeService, private service: TemplateService ) {
     this.readonly = !service.can(ActionKind.Create, ElementKind.TOPIC_GROUP );
     this.canDelete = service.can(ActionKind.Delete, ElementKind.TOPIC_GROUP );
@@ -56,9 +54,11 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
 
   ngOnInit(): void {
     this.study = this.property.get('study');
+    const parentId = this.study.id || this.property.menuPath[HIERARCHY_POSITION.Study].id;
+    console.log(parentId);
     this.topics = this.property.get('topics');
     if (!this.topics) {
-      this.topicService.getAllTopic(this.study.id)
+      this.topicService.getTopicByStudy(parentId)
         .then((result) => {
           this.topics = result.sort( (a, b) => a.name.localeCompare(b.name));
           this.property.set('topics', this.topics);
@@ -93,8 +93,8 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
       this.property.set('concepts', null);
     }
     this.property.set('topic', topic);
-    this.property.setCurrentMenu(HIERARCHY_POSITION.Topic, { id: this.study.id, name: topic.name });
-    this.property.setCurrentMenu(HIERARCHY_POSITION.Concept, { id: topic.id, name: 'Concept' });
+    this.property.setCurrentMenu(HIERARCHY_POSITION.Topic, { id: topic.id, name: topic.name });
+    this.property.setCurrentMenu(HIERARCHY_POSITION.Concept, { id: null, name: 'Concept' });
     this.router.navigate(['concept']);
   }
 

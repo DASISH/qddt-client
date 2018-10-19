@@ -3,7 +3,7 @@
     <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
       <i class="material-icons large right">store</i><h4>Studies for {{ survey?.name }}</h4>
 
-      <a class="btn" (click)="onToggleStudyForm()" *ngIf="!survey.archived && !readonly">
+      <a class="btn" (click)="onToggleStudyForm()" *ngIf="!survey?.archived && !readonly">
       <i class="material-icons right" *ngIf="!showEditForm">keyboard_arrow_down</i>
       <i class="material-icons right" *ngIf="showEditForm">keyboard_arrow_up</i>
       New</a>
@@ -12,12 +12,12 @@
           <div class="col s10 offset-s1">
             <form (ngSubmit)="onSaveNewStudy()" #newStudyForm="ngForm">
             <div class="row input-field ">
-              <input id="study-name" name="name" type="text" [(ngModel)]="study.name" required>
+              <input id="study-name" name="name" type="text" [(ngModel)]="newStudy.name" required>
               <label for="study-name" class="white-text">Name</label>
             </div>
             <div class="row input-field">
               <textarea id="study-desc" name="description" class="materialize-textarea"
-                        [(ngModel)]="study.description" required ></textarea>
+                        [(ngModel)]="newStudy.description" required ></textarea>
               <label for="study-desc" class="white-text">Description</label>
             </div>
             <div class="row right-align">
@@ -28,7 +28,7 @@
         </div>
       </div>
     </div>
-    <div *ngIf="survey.studies">
+    <div *ngIf="survey?.studies">
       <div id="{{study.id}}" class="row card scrollspy" *ngFor="let study of survey.studies" style="padding-left:2%">
           <div class="col s1 m1 l1">
             <br />
@@ -77,4 +77,4 @@
   </div>
 </div>
 
-<qddt-toc [elements]="survey.studies" [path]="'study'"></qddt-toc>
+<!--<qddt-toc [elements]="survey?.studies" [path]="'study'"></qddt-toc>-->

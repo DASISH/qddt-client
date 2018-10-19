@@ -45,23 +45,22 @@
     <!--...-->
     <!--INSTRUCTION,-->
     <!--UNIVERSE-->
-  <div class="row">
-    <!-- <span> getElementString:{{ element.classKind }} getElementKind:{{ getElementKind(element) }}<- TEST</span> -->
-    <div class="col s12">
-      <label [attr.for]="element.id + '-name'" class="active teal-text">Name</label>
-      <textarea class="materialize-textarea" id="{{element?.id}}-name"
-                name="{{element?.id}}-name" readonly> {{ element?.name }}
-      </textarea>
-      <label [attr.for]="element.id + '-description'" class="active teal-text">Description</label>
-      <textarea class="materialize-textarea" id="{{element?.id}}-description"
-                name="{{element?.id}}-description"readonly> {{ element?.classKind }}
-      </textarea>
+    <div class="row">
+      <div class="col s12">
+        <label [attr.for]="element.id + '-name'" class="active teal-text">Name</label>
+        <textarea class="materialize-textarea" id="{{element?.id}}-name"
+                  name="{{element?.id}}-name" readonly> {{ element?.name }}
+        </textarea>
+        <label [attr.for]="element.id + '-description'" class="active teal-text">Description</label>
+        <textarea class="materialize-textarea" id="{{element?.id}}-description"
+                  name="{{element?.id}}-description"readonly> {{ element?.classKind }}
+        </textarea>
+      </div>
+    </div>
+    <div class="row">
+      <qddt-element-footer  [element]="element" ></qddt-element-footer>
     </div>
   </div>
-  <div class="row">
-    <qddt-element-footer  [element]="element" ></qddt-element-footer>
-  </div>
-</div>
 
 <ul class="hoverable" *ngIf="showDetail">
   <li>
@@ -84,3 +83,4 @@
     </div>
   </li>
 </ul>
+</div>

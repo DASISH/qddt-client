@@ -3,8 +3,6 @@ import { Observable ,  BehaviorSubject } from 'rxjs';
 import { MenuItem } from '../../menu/menu.component';
 import { UserSettings, HIERARCHY_POSITION } from '../classes/UserSettings';
 
-
-
 /**
  *
  * In memmory store...
@@ -14,22 +12,22 @@ export class QddtPropertyStoreService {
   private static readonly USER_SETTINGS = 'USER_SETTINGS';
   private static readonly PATH = 'PATH';
 
-  currentChange$: Observable<HIERARCHY_POSITION>;
-  // Observable navItem source
-  private _newcurrent: BehaviorSubject<HIERARCHY_POSITION>;
+  currentChange$: BehaviorSubject<HIERARCHY_POSITION>;
+
   private globalObjects: Map<string, any> = new Map();
-  private _path = new Array<MenuItem>(4);
-  private _userSettings: UserSettings;
+  private path = new Array<MenuItem>(4);
+  private readonly userSettings: UserSettings;
 
 
   constructor() {
-
-    this._path = JSON.parse(localStorage.getItem(QddtPropertyStoreService.PATH)) || this._path;
-    this._userSettings = new UserSettings(JSON.parse(localStorage.getItem(QddtPropertyStoreService.USER_SETTINGS))) ;
-    const pos = this._userSettings.hierarchyPosition || HIERARCHY_POSITION.Survey;
-
-    this._newcurrent = new BehaviorSubject<HIERARCHY_POSITION>(pos);
-    this.currentChange$ = this._newcurrent.asObservable();
+    try {
+      this.path = JSON.parse(localStorage.getItem(QddtPropertyStoreService.PATH)) || this.path;
+      this.userSettings = new UserSettings(JSON.parse(localStorage.getItem(QddtPropertyStoreService.USER_SETTINGS)));
+      const pos = this.userSettings.hierarchyPosition || HIERARCHY_POSITION.Survey;
+      this.currentChange$ = new BehaviorSubject<HIERARCHY_POSITION>(pos);
+    } catch (e) {
+      console.log(e);
+    }
   }
 
 
@@ -42,30 +40,31 @@ export class QddtPropertyStoreService {
   }
 
   get userSetting(): UserSettings {
-    return this._userSettings;
+    return this.userSettings;
   }
 
-  get currentMenu(): MenuItem {
-    return this.menuPath[this._newcurrent.getValue()];
+  get parentMenu(): MenuItem {
+    return this.menuPath[this.currentChange$.getValue() - 1];
   }
+
 
   get menuPath(): Array<MenuItem> {
-    return this._path;
+    return this.path;
   }
 
   public pathClear(pos: HIERARCHY_POSITION) {
-     this._path = this._path.filter( (f, i) => i < pos);
+     this.path = this.path.filter( (f, i) => i < pos);
      localStorage.setItem(QddtPropertyStoreService.PATH, JSON.stringify(this.menuPath));
      this.userSetting.hierarchyPosition = pos;
-     this._newcurrent.next(pos);
+     this.currentChange$.next(pos);
     }
 
   public setCurrentMenu(pos: HIERARCHY_POSITION, item: MenuItem) {
-    this.menuPath[pos - 1] = item;
+    this.menuPath[pos] = item;
     localStorage.setItem(QddtPropertyStoreService.PATH, JSON.stringify(this.menuPath));
     this.userSetting.hierarchyPosition = pos;
     this.userSetting.save();
-    this._newcurrent.next(pos);
+    this.currentChange$.next(pos);
   }
 
 

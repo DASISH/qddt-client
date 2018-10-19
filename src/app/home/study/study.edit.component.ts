@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output, OnChanges, SimpleChanges, AfterContentChecked } from '@angular/core';
+import { Component, Input, EventEmitter, Output, AfterContentChecked } from '@angular/core';
 import { HomeService } from '../home.service';
 import {Study} from '../home.classes';
 
@@ -43,7 +43,7 @@ export class StudyEditComponent implements  AfterContentChecked {
   @Output() savedEvent =  new EventEmitter<any>();
 
   public readonly formId = Math.round( Math.random() * 10000);
-
+  public showRevision;
   constructor(private studyService: HomeService) { }
 
   ngAfterContentChecked() {
@@ -56,16 +56,16 @@ export class StudyEditComponent implements  AfterContentChecked {
       this.savedEvent.emit(result);
     });
   }
-
-  onAuthorSelected(author: any) {
-   this.studyService.attachStudyAuthor(this.study.id, author.id);
-   this.study['authors'].push(author);
-  }
-
-  onAuthorRemoved(author: any) {
-   this.studyService.deattachStudyAuthor(this.study.id, author.id);
-   const i = this.study['authors'].findIndex((F: any) => F === author);
-   this.study['authors'].splice(i, 1);
-  }
+  //
+  // onAuthorSelected(author: any) {
+  //  this.studyService.attachStudyAuthor(this.study.id, author.id);
+  //  this.study['authors'].push(author);
+  // }
+  //
+  // onAuthorRemoved(author: any) {
+  //  this.studyService.deattachStudyAuthor(this.study.id, author.id);
+  //  const i = this.study['authors'].findIndex((F: any) => F === author);
+  //  this.study['authors'].splice(i, 1);
+  // }
 
 }

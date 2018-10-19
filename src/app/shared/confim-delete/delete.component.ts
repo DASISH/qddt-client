@@ -34,7 +34,7 @@ export class ConfirmDeleteComponent  {
 
   public deleteAction = new EventEmitter<string|MaterializeAction>();
 
-  public showConfirmDeleting(element) {
+  public showConfirmDeleting(element?) {
     if (element) {
       this.element = element;
     }

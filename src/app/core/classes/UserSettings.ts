@@ -1,6 +1,5 @@
 
 export enum HIERARCHY_POSITION {
-  None,
   Survey,
   Study,
   Topic,

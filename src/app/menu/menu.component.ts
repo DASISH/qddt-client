@@ -1,12 +1,12 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription, Observable } from 'rxjs';
+import { BehaviorSubject} from 'rxjs/internal/BehaviorSubject';
+
 import { QddtPropertyStoreService  } from '../core/services/property.service';
 import { UserService } from '../core/services/user.service';
 import { TemplateService } from '../template/template.service';
-import { ActionKind, ElementKind } from '../shared/classes/enums';
+import { ActionKind, ElementKind } from '../shared/classes';
 import { HIERARCHY_POSITION } from '../core/classes/UserSettings';
-import { element } from 'protractor';
 
 
 declare var $: any;
@@ -21,27 +21,33 @@ export interface MenuItem { id: string; name: string; }
   templateUrl: './menu.component.html',
 })
 export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
-  // public propertyChanged: Subscription;
-  public isLoggedIn$: Observable<boolean>;
 
   public canSee = new Array<boolean>(20);
-
+  public isLoggedIn$: BehaviorSubject<boolean>;
   public username;
   public elementKindRef = ElementKind;
 
   constructor(private userService: UserService, private property: QddtPropertyStoreService,
       private router: Router, private service: TemplateService) {
     this.username = this.getUserName();
-    this.isLoggedIn$ = this.userService.loggedIn;
+    this.isLoggedIn$ = userService.loggedIn;
   }
 
   ngOnInit() {
     this.isLoggedIn$.subscribe(
       (connected) => {
+        console.log('loggedIn ' + connected);
         this.username = this.getUserName();
         this.setVisibility();
         if ( connected ) {
           this.router.navigate([this.property.userSetting.url]);
+        } else {
+          console.log('should have rerouted...');
+          // this.router.navigate(['/login']);
+          // const redirectUrl = this.property.userSetting.url;
+          // this.router.navigateByUrl(
+          //   this.router.createUrlTree( ['/login'], { queryParams: { redirectUrl } } )
+          // );
         }
       },
     (error) => console.error(error.toString())

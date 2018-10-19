@@ -18,20 +18,20 @@ declare var Materialize: any;
 
 export class SurveyComponent implements OnInit, AfterContentChecked {
   showSurveyForm = false;
-  public surveyList: SurveyProgram[] = [];
-  public survey: SurveyProgram;
+  public surveys: SurveyProgram[];
+  public newSurvey: SurveyProgram;
   public readonly = false;
   refreshCount = 0;
 
   constructor(private surveyService: HomeService, private service: TemplateService,
                 private router: Router, private property: QddtPropertyStoreService) {
-    this.survey = new SurveyProgram();
+    this.newSurvey = new SurveyProgram();
     this.readonly = !service.can(ActionKind.Create, ElementKind.SURVEY_PROGRAM);
   }
 
   ngOnInit() {
-      this.surveyService.getAllSurvey().then(
-        (data: Array<SurveyProgram> ) => this.surveyList = data
+      this.surveyService.getSurveyByUser().then(
+        (data: Array<SurveyProgram> ) => this.surveys = data
       );
   }
 
@@ -48,8 +48,8 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
     if (surveyId) {
       this.surveyService.deleteSurvey(surveyId)
         .subscribe(() => {
-          this.surveyList = this.surveyList.filter((s: any) => s.id !== surveyId);
-          this.property.set('surveyList', this.surveyList);
+          this.surveys = this.surveys.filter((s: any) => s.id !== surveyId);
+          this.property.set('surveys', this.surveys);
         });
     }
   }
@@ -57,24 +57,23 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
   onSurveySaved(surveyProgram: any) {
     if (surveyProgram) {
 
-      const list = this.surveyList.filter((q) => q.id !== surveyProgram.id);
+      const list = this.surveys.filter((q) => q.id !== surveyProgram.id);
       list.push(surveyProgram);
-      this.surveyList = list.sort( (a, b) => a.name.localeCompare(b.name));
-      this.property.set('surveyList', this.surveyList);
+      this.surveys = list.sort( (a, b) => a.name.localeCompare(b.name));
+      this.property.set('surveys', this.surveys);
     }
   }
 
   onShowStudy(surveyProgram: any) {
     this.property.set('survey', surveyProgram);
-
-    this.property.setCurrentMenu(HIERARCHY_POSITION.Survey, { id: null, name: surveyProgram.name });
+    this.property.setCurrentMenu(HIERARCHY_POSITION.Survey, { id: surveyProgram.id , name: surveyProgram.name });
     this.router.navigate(['study']);
   }
 
   onSave() {
-    this.surveyService.createSurvey(this.survey)
+    this.surveyService.createSurvey(this.newSurvey)
       .subscribe( result => this.onSurveySaved(result) );
-    this.survey = new SurveyProgram();
+    this.newSurvey = new SurveyProgram();
     this.showSurveyForm = false;
   }
 

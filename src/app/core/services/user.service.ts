@@ -47,10 +47,10 @@ export class UserService {
 
   public loggedIn = new BehaviorSubject<boolean>(false);
 
-  private _user: User;
-  private _roles: number;
-  private _agencies;
-  private _authorities;
+  private user: User;
+  private roles: number;
+  private agencies;
+  private authorities;
 
   constructor(private http: HttpClient,  @Inject(API_BASE_HREF) private api: string, private property: QddtPropertyStoreService) {
     if (this.isTokenExpired()) {
@@ -65,7 +65,7 @@ export class UserService {
 
     function canRead(roles: number) {
       if (kind.valueOf() === ElementKind.UNIVERSE.valueOf()) {
-        console.log('canRead false');
+        console.log('canRead false ' + kind );
         return false;
       } else if (roles >= +AuthorityKind.ROLE_VIEW) {
         return true;
@@ -98,19 +98,19 @@ export class UserService {
 
     switch (action) {
       case ActionKind.Read:
-        return canRead(this._roles);
+        return canRead(this.roles);
       case ActionKind.Create:
       case ActionKind.Update:
-        return canUpdate(this._roles);
+        return canUpdate(this.roles);
       case ActionKind.Delete:
-        return canDelete(this._roles);
+        return canDelete(this.roles);
       default:
         return false;
     }
   }
 
   public getUser(): User {
-    return this._user || new User();
+    return this.user || new User();
   }
 
   public async signIn(email: string, password: string) {
@@ -134,22 +134,21 @@ export class UserService {
     if (!password.id) {
         password.id = this.getUserId();
     }
-    console.log((password.id));
     return this.http.post(this.api + UserService.RESET_PWD_URL, password);
   }
 
   public getAgencies(): Promise<Agency[]> {
-    if (!this._agencies) {
-      this._agencies = this.http.get<Agency[]>( this.api + UserService.ANGENCY_URL).toPromise();
+    if (!this.agencies) {
+      this.agencies = this.http.get<Agency[]>( this.api + UserService.ANGENCY_URL).toPromise();
     }
-    return this._agencies; // http.get<Agency[]>( this.api + UserService.ANGENCY_URL).toPromise();
+    return this.agencies;
   }
 
   public getAuthorities(): Promise<IAuthority[]> {
-    if (!this._authorities) {
-      this._authorities = this.http.get<IAuthority[]>( this.api + UserService.AUTHORITY_URL).toPromise();
+    if (!this.authorities) {
+      this.authorities = this.http.get<IAuthority[]>( this.api + UserService.AUTHORITY_URL).toPromise();
     }
-    return this._authorities; // http.get<IAuthority[]>( this.api + UserService.AUTHORITY_URL).toPromise();
+    return this.authorities;
   }
 
   /**
@@ -157,6 +156,7 @@ export class UserService {
    */
   public logout(): void {
     localStorage.removeItem(TOKEN_NAME);
+    console.log('loggin out fires');
     this.loggedIn.next(false);
   }
 
@@ -166,7 +166,7 @@ export class UserService {
     const expire = new Date(0);
     expire.setUTCSeconds(this.getUser().exp);
     if (expire === undefined) {
-      console.log('usr exp undefined ->' + this.getUsername());
+      console.log('usr exp undefined ->') ; // + this.getUsername());
       return true;
     }
     const clientTime = new Date();
@@ -206,15 +206,21 @@ export class UserService {
   }
 
   private setToken(token: string): void {
-    localStorage.setItem(TOKEN_NAME, token);
-    this.loadUserFromToken();
+    try {
+      localStorage.setItem(TOKEN_NAME, token);
+      this.loadUserFromToken();
+    } catch (e) {
+      console.log(e);
+      localStorage.clear();
+    }
   }
 
   private loadUserFromToken(): void {
-    this._user = this.getTokenClaims(this.getToken());
-    this.property.userSetting.email = this._user.email;
-    this._roles = 0;
-    this.getRoles().forEach((role) => this._roles += +AuthorityKind[role]);
+    this.user = this.getTokenClaims(this.getToken());
+    this.property.userSetting.email = this.user.email;
+    this.roles = 0;
+    this.getRoles().forEach((role) => this.roles += +AuthorityKind[role]);
+    console.log('logged in fires');
     this.loggedIn.next(true);
   }
 

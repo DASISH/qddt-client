@@ -42,8 +42,8 @@ export class SurveyEditComponent implements  AfterContentChecked {
 
   @Output() savedEvent = new EventEmitter<SurveyProgram>();
 
+  public showRevision;
   public readonly formId = Math.round( Math.random() * 10000);
-
   constructor(private surveyService: HomeService) { }
 
   ngAfterContentChecked() {
