@@ -49,8 +49,7 @@ export class UserService {
 
   private user: User;
   private roles: number;
-  private agencies;
-  private authorities;
+
 
   constructor(private http: HttpClient,  @Inject(API_BASE_HREF) private api: string, private property: QddtPropertyStoreService) {
     if (this.isTokenExpired()) {
@@ -138,17 +137,11 @@ export class UserService {
   }
 
   public getAgencies(): Promise<Agency[]> {
-    if (!this.agencies) {
-      this.agencies = this.http.get<Agency[]>( this.api + UserService.ANGENCY_URL).toPromise();
-    }
-    return this.agencies;
+    return this.http.get<Agency[]>( this.api + UserService.ANGENCY_URL).toPromise();
   }
 
-  public getAuthorities(): Promise<IAuthority[]> {
-    if (!this.authorities) {
-      this.authorities = this.http.get<IAuthority[]>( this.api + UserService.AUTHORITY_URL).toPromise();
-    }
-    return this.authorities;
+  public async getAuthorities(): Promise<IAuthority[]> {
+      return await this.http.get<IAuthority[]>( this.api + UserService.AUTHORITY_URL).toPromise();
   }
 
   /**

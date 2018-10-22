@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { IAuthority } from './user.classes';
-import { UserService, Agency } from '../core/services/user.service';
+import {IAuthority, UserJson} from './user.classes';
+import { UserService } from '../core/services/user.service';
 
-declare var Materialize: any;
+// declare var Materialize: any;
 
 @Component({
   selector: 'qddt-user-form',
@@ -11,20 +11,20 @@ declare var Materialize: any;
 })
 
 export class UserFormComponent implements OnInit, OnChanges {
-  @Input() user: any;
+  @Input() user: UserJson;
   @Input() readonly = false;
   @Output() modifiedEvent =  new EventEmitter<String>();
 
-  public agencies: Agency[];
-  public authorities: IAuthority[];
+  public agencies$: any;
+  public authorities$: any;
   public selectedAgencyId: string;
   public formId = Math.round( Math.random() * 10000);
 
   constructor(private userService: UserService) {}
 
   ngOnInit() {
-    this.getAgencies();
-    this.getAuthorities();
+    this.agencies$ = this.fetchAgencies();
+    this.authorities$ = this.fetchAuthorities();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -35,20 +35,18 @@ export class UserFormComponent implements OnInit, OnChanges {
         } else {
           this.onSelectChange(this.agencies[0].id);
         }
-        Materialize.updateTextFields();
+        // Materialize.updateTextFields();
       }
     }
   }
 
   onSelectChange(id: string) {
     this.selectedAgencyId = id;
-    if (this.agencies) {
-      this.user.agency = this.agencies.find( (f) => f.id === id );
-    }
+    this.user.agency = this.fetchAgencies().then( value => value.find( (f) => f.id === id );
   }
 
   onSelectRadio(authorityId: string) {
-    this.user.authority = this.authorities.find( q => q.id === authorityId);
+    this.user.authority = this.authorities.find( f.id === authorityId);
   }
 
 
@@ -61,11 +59,18 @@ export class UserFormComponent implements OnInit, OnChanges {
       (error) => { throw error; });
   }
 
-  private async getAgencies() {
-    return await this.userService.getAgencies().then((result) => this.agencies = result);
+  public fetchAuthorities() {
+    console.log('fetchAuthorities');
+    return this.userService.getAuthorities().then(data => {
+      // console.log(JSON.stringify(data));
+      return data; });
   }
 
-  private async getAuthorities() {
-    return await this.userService.getAuthorities().then((result) => this.authorities = result);
+  private async fetchAgencies() {
+    console.log('fetchAgencies');
+    return await this.userService.getAgencies().then(data => {
+      return data; });
   }
+
+
 }

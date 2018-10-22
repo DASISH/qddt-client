@@ -15,7 +15,7 @@ import { HEADER_DETAILS } from '../shared/classes/constants';
 })
 
 export class InstrumentSequenceComponent  {
-  @Input() sequence: InstrumentSequence[];
+  @Input() sequences: InstrumentSequence[];
 
   public revisionResults: any[];
   public sequenceList: any[];
@@ -54,11 +54,11 @@ export class InstrumentSequenceComponent  {
       newSeq.elementRef = seq;
       insSeq.sequences.push(newSeq);
     });
-    this.sequence.push(insSeq);
+    this.sequences.push(insSeq);
   }
 
   public onDeleteItem(idx) {
-    this.sequence.splice(idx, 1);
+    this.sequences.splice(idx, 1);
   }
 
   public onDismiss() {
@@ -66,9 +66,9 @@ export class InstrumentSequenceComponent  {
     this.sequenceList = null;
   }
 
-  public onOpenBody( sequence: InstrumentSequence[]) {
-    sequence.forEach((item) => {
-      if (!item.elementRef.element) {
+  public onOpenBody( sequences: InstrumentSequence[]) {
+    sequences.forEach((item) => {
+      if (!item.elementRef.element && !this.isSequence(item.elementRef.elementKind)) {
         this.service.getRevisionByKind(
           this.service.getElementKind(item.elementRef.elementKind),
           item.elementRef.elementId,

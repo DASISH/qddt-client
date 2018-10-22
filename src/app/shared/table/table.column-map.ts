@@ -52,7 +52,7 @@ export const USER_COLUMNS = [
   new Column( { name: 'name', label: 'Name', sortable: true }),
   new Column( { name: 'email', label: 'Email', sortable: true }),
   new Column( { name: 'enabled', label: 'Active', sortable: false }),
-  new Column( { name: ['authority', 'name'], label: 'Authority', sortable: false }),
+  new Column( { name: ['authorities', 'name'], label: 'Authority', sortable: false }),
   new Column( { name: 'modified',  label: 'Modified', sortable: true, direction: 'desc' }),
   new Column( { name: ['agency', 'name'], label: 'Agency', sortable: true })
 ];

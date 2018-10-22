@@ -16,22 +16,22 @@
         </div>
           <div class=" input-field row">
           <select materialize="material_select" name="agency" id="{{formId}}-agency" class="validate" required
-            [materializeSelectOptions]="agencies" [(ngModel)]="selectedAgencyId" (ngModelChange)="onSelectChange($event)">
-              <option *ngFor="let agency of agencies" [value]="agency.id" >{{agency.name}}</option>
+            [materializeSelectOptions]="agencies$" [(ngModel)]="selectedAgencyId" (ngModelChange)="onSelectChange($event)">
+              <option *ngFor="let agency of  (agencies$ | async)" [value]="agency.id" >{{agency.name}}</option>
           </select>
           <label for="{{formId}}-agency">Agency</label>
         </div>
       </div>
       <div class="col m3 offset-m1">
         <label>Authority </label>
-        <div  *ngIf="user.authority?.id"  class="card-action">
-          <div  *ngFor="let authority of authorities">
-            <input name="authoritiesGroup" type="radio" id="authorities{{authority.id}}" 
-              (click)="onSelectRadio(authority.id)" [checked]="user.authority.id === authority.id"/> 
-            <label for="authorities{{authority.id}}">{{ authority?.name }}</label>
+        <div  class="card-action">
+          <div  *ngFor="let authority of (authorities$ | async)">
+            <input name="authoritiesGroup" type="radio" id="auth{{authority.id}}"
+              (click)="onSelectRadio(authority.id)" [checked]="user.authorities[0].id === authority.id"/>
+            <label for="auth{{authority.id}}">{{ authority?.name }}</label>
           </div>
         </div>
-        <!-- <P></P> -->
+        <!--<P>{{authorities|json}}</P>-->
         <div class="row ">
           <div class="switch">
             <label>

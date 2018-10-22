@@ -14,7 +14,7 @@ export class UserJson {
   email: String;
   agency: Agency;
   modified: number;
-  authority: IAuthority = {id: 'null', name: 'none', authority: 'NONE' } ;
+  authorities: IAuthority[] = [ {id: 'null', name: 'none', authority: 'NONE' } ];
   enabled = true;
   classKind: 'USER';
 
