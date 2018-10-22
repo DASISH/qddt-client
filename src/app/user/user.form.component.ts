@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import {IAuthority, UserJson} from './user.classes';
+import { UserJson} from './user.classes';
 import { UserService } from '../core/services/user.service';
 
 // declare var Materialize: any;
@@ -42,11 +42,11 @@ export class UserFormComponent implements OnInit, OnChanges {
 
   onSelectChange(id: string) {
     this.selectedAgencyId = id;
-    this.user.agency = this.fetchAgencies().then( value => value.find( (f) => f.id === id );
+    this.user.agency = this.agencies$.then( value => value.find( (f) => f.id === id ));
   }
 
   onSelectRadio(authorityId: string) {
-    this.user.authority = this.authorities.find( f.id === authorityId);
+    this.user.authorities = [this.authorities$.then( value => value.find( f => f.id === authorityId))];
   }
 
 
