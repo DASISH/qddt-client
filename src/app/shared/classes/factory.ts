@@ -104,4 +104,13 @@ export class Factory {
       default: return null;
     }
   }
+
+/*   const StringIsNumber = value => isNaN(Number(value)) === false;
+
+// Turn enum into array
+static ToArray(enumme) {
+    return Object.keys(enumme)
+        .filter(this.StringIsNumber)
+        .map(key => enumme[key]);
+} */
 }

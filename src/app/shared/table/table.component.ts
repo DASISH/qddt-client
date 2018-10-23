@@ -7,6 +7,8 @@ import { LIST_COLUMNS, RESPONSEDOMAIN_COLUMNS, DEFAULT_COLUMNS } from './table.c
 import { ElementEnumAware, PreviewService } from '../../preview/preview.service';
 import { DomainKind } from '../../responsedomain/responsedomain.classes';
 import { ElementKind, getQueryInfo, IEntityEditAudit, IPageSearch } from '../classes';
+import { DialogService } from '../../dialog/dialog.service';
+import { ConfirmComponent } from '../../dialog/content/confirm.component';
 
 const filesaver = require('file-saver');
 
@@ -48,7 +50,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
 
   private searchKeysChange: Subject<string> = new Subject<string>();
 
-  constructor(private service: PreviewService) {
+  constructor(private service: PreviewService, private modal: DialogService) {
     this.searchKeysChange.pipe(
       debounceTime(300),
       distinctUntilChanged())
@@ -120,10 +122,10 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public onRemoveItem(item) {
-
-    const confirmation = window.confirm('Delete ' + item.name + '?');
-    console.log(confirmation);
-    // return of(confirmation);
+    const ref = this.modal.open(ConfirmComponent, { data: { message: 'Delete ' + item.name } );
+    ref.afterClosed.subscribe(result => {
+      console.log('Dialog closed', result);
+    });
   }
 
   public onGetPdf(item: IEntityEditAudit) {

@@ -12,24 +12,17 @@ declare var $;
 })
 export class ResetpasswordComponent implements AfterContentChecked {
 
-  public formData: IPassword = { id: null, oldPassword: null, password: null, confirm: null };
   public loading = false;
-  public errorlabel = 'TESTES';
-
   private once = 0;
 
   constructor(private route: ActivatedRoute, private router: Router, private authenticationService: UserService) {
-    console.log('not ready');
 
     $(document).ready(function() {
-      console.log('ready');
       $('.modal').modal({
         ready: function(modal) {
-          console.log(modal);
           Materialize.updateTextFields();
         },
         complete: function(modal) {
-          console.log(modal);
         }
       });
       $('#modalReset').modal('open');
@@ -51,9 +44,12 @@ export class ResetpasswordComponent implements AfterContentChecked {
   register(f) {
     const pwd = new ResetPassword(f);
     this.loading = true;
-    this.authenticationService.resetPassword(pwd).subscribe((result: any) => {
-      this.loading = false;  $('.modal').modal(); $('#modalReset').modal('close');
-      throw result;
-    });
+    this.authenticationService.resetPassword(pwd).subscribe(
+      result => {
+        this.loading = false;
+        $('.modal').modal();
+        $('#modalReset').modal('close');
+        alert.call(result); },
+      err => console.error(err));
   }
 }

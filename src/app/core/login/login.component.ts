@@ -18,18 +18,18 @@ export class LoginComponent implements  AfterContentInit, OnInit {
   once = 0;
 
   constructor(private route: ActivatedRoute, private router: Router, private authenticationService: UserService) {
-    console.log ('login cnstr');
+    // console.log ('login cnstr');
   }
 
   ngOnInit(): void {
-    console.log ('login init');
+    // console.log ('login init');
     $(document).ready(function() {
       $('.modal').modal({
         ready: () => {
           Materialize.updateTextFields();
         },
         complete: () => {
-          console.log('login -> event complete');
+          // console.log('login -> event complete');
         }
       });
       $('#modalLogin').modal('open');

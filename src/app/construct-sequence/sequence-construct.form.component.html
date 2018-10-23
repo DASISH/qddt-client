@@ -1,33 +1,41 @@
 <div *ngIf="sequence">
   <form  #qcform="ngForm" >
 
-    <div class="row input-field">
+    <div class="row">
+      <div class="col s4 input-field">
+        <select [ngModel]="currentSequenceKind" (ngModelChange)="onSelectChange($event)" id="{{formId}}-sequenceKind" name="sequenceKind"
+            materialize="material_select" class="validate" [materializeSelectOptions]="sequenceKinds" disabled>
+          <option *ngFor="let item of sequenceKinds" [value]="item.id" >{{[item.name]}}</option>
+        </select>
+        <label for="{{formId}}-sequenceKind">SequenceKind</label>
+      </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12 input-field">
       <input id ="{{formId}}-name" name="{{formId}}-name" type="text" class="validate" required
         [(ngModel)]="sequence.name" materialize="characterCounter" data-length="255">
       <label for="{{formId}}-name">Name</label>
     </div>
-
-    <div class="row input-field">
-      <input id="{{formId}}-label"  name="{{formId}}-label" type="text" class="validate" required
-             [(ngModel)]="sequence.label" materialize="characterCounter" data-length="255">
-      <label for="{{formId}}-label">Label</label>
     </div>
 
-    <div class="row input-field ">
-      <textarea id="{{formId}}-desc"
-                name="{{formId}}-desc" class="materialize-textarea"
-                [(ngModel)]="sequence.description"
-                materialize="characterCounter" data-length="255">
-      </textarea>
-      <label for="{{formId}}-desc" class="active">Description</label>
+    <div class="row">
+        <div class="col s12 input-field">
+          <input id="{{formId}}-label"  name="{{formId}}-label" type="text" class="validate" required
+            [(ngModel)]="sequence.label" materialize="characterCounter" data-length="255">
+          <label for="{{formId}}-label">Label</label>
+       </div>
     </div>
 
-    <div class="row input-field ">
-      <select [ngModel]="sequence.sequenceKind" (ngModelChange)="onSelectChange($event)" id="{{formId}}-sequenceKind" name="sequenceKind"
-              materialize="material_select" class="validate" [materializeSelectOptions]="SequenceKind" required>
-        <option *ngFor="let item of SequenceKind" [value]="item" >{{SequenceKind[item]}}</option>
-      </select>
-      <label for="{{formId}}-sequenceKind">SequenceKind</label>
+    <div class="row">
+      <div class="col s12 input-field">
+        <textarea id="{{formId}}-desc"
+                  name="{{formId}}-desc" class="materialize-textarea"
+                  [(ngModel)]="sequence.description"
+                  materialize="characterCounter" data-length="255">
+        </textarea>
+        <label for="{{formId}}-desc" class="active">Description</label>
+      </div>
     </div>
 
     <qddt-collection-revision-search-select

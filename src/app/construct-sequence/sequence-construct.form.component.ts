@@ -1,10 +1,9 @@
-import { Component, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Output, EventEmitter, Input, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import {ActionKind, ElementKind} from '../shared/classes/enums';
 import { IElement, IEntityEditAudit, IRevisionRef } from '../shared/classes/interfaces';
 import { ElementRevisionRef, Page } from '../shared/classes/classes';
 import { TemplateService } from '../template/template.service';
-import { SequenceConstruct } from './sequence-construct.classes';
-import {SequenceKind} from '../controlconstruct/controlconstruct.classes';
+import { SequenceKind, SequenceConstruct} from '../controlconstruct/controlconstruct.classes';
 
 @Component({
   selector: 'qddt-sequence-form',
@@ -13,7 +12,7 @@ import {SequenceKind} from '../controlconstruct/controlconstruct.classes';
   styles: [ ]
 })
 
-export class SequenceFormComponent {
+export class SequenceFormComponent implements OnChanges {
   @Input() sequence: SequenceConstruct;
   @Input() readonly = false;
   @Output() modifiedEvent = new EventEmitter<SequenceConstruct>();
@@ -25,11 +24,20 @@ export class SequenceFormComponent {
   public showProgressBar = false;
   public readonly formId = Math.round( Math.random() * 10000);
 
+  public currentSequenceKind: SequenceKind = SequenceKind.SECTION;
+  public sequenceKinds: { id: any; name: string; }[];
+  private StringIsNumber = value => isNaN(Number(value)) === false;
+
   constructor(private service: TemplateService) {
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.SEQUENCE_CONSTRUCT);
-    this.sequenceKinds = SequenceKind
+    this.sequenceKinds = Object.keys(SequenceKind)
+    .filter(this.StringIsNumber)
+    .map(key => ({ id: key , name: SequenceKind[key] }));
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.currentSequenceKind = SequenceKind[this.sequence.sequenceKind];
+  }
 
   public onSaveConstruct() {
     this.service.update(this.sequence).subscribe(
@@ -56,6 +64,7 @@ export class SequenceFormComponent {
   }
 
   public onSelectChange(event) {
+    this.currentSequenceKind = event;
 
   }
 
