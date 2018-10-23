@@ -8,6 +8,7 @@ import { ActionKind, ElementKind } from '../../shared/classes/enums';
 import { User } from '../classes/user';
 import { AuthorityKind } from '../classes/authority';
 import { QddtPropertyStoreService } from './property.service';
+import {Resolve} from '@angular/router';
 
 export const TOKEN_NAME = 'jwt_token';
 
@@ -40,10 +41,12 @@ export interface IPassword {
 @Injectable()
 export class UserService {
   public static readonly SIGNIN_URL = 'auth/signin';
-  public static readonly ANGENCY_URL = 'agency/all';
+  public static readonly AGENCY_URL = 'agency/all';
   public static readonly RESET_PWD_URL = 'user/resetpassword';
   public static readonly UPDATE_URL = 'user';
   public static readonly AUTHORITY_URL = 'authority/all';
+  private static readonly AGENCIES = 'AGENCIES';
+  private static readonly AUTHORITIES = 'AUTHORITIES';
 
   public loggedIn = new BehaviorSubject<boolean>(false);
 
@@ -57,7 +60,6 @@ export class UserService {
     } else {
       this.loadUserFromToken();
     }
-
   }
 
   public canDo(action: ActionKind, kind: ElementKind): boolean {
@@ -137,11 +139,27 @@ export class UserService {
   }
 
   public getAgencies(): Promise<Agency[]> {
-    return this.http.get<Agency[]>( this.api + UserService.ANGENCY_URL).toPromise();
+    if (this.property.has(UserService.AGENCIES)) {
+      const list = this.property.get(UserService.AGENCIES);
+      return Promise.resolve(list);
+    }
+    return this.http.get<Agency[]>( this.api + UserService.AGENCY_URL).toPromise()
+      .then(result => {
+        this.property.set(UserService.AGENCIES, result );
+        return result;
+      });
   }
 
-  public async getAuthorities(): Promise<IAuthority[]> {
-      return await this.http.get<IAuthority[]>( this.api + UserService.AUTHORITY_URL).toPromise();
+  public getAuthorities(): Promise<IAuthority[]> {
+    if (this.property.has(UserService.AUTHORITIES)) {
+      const list = this.property.get(UserService.AUTHORITIES);
+      return Promise.resolve(list);
+    }
+    return this.http.get<IAuthority[]>( this.api + UserService.AUTHORITY_URL).toPromise()
+      .then(result => {
+        this.property.set(UserService.AUTHORITIES, result );
+        return result;
+      });
   }
 
   /**

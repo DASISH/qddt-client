@@ -15,9 +15,9 @@
           <label for="{{formId}}-email">Email </label>
         </div>
           <div class=" input-field row">
-          <select materialize="material_select" name="agency" id="{{formId}}-agency" class="validate" required
-            [materializeSelectOptions]="agencies$" [(ngModel)]="selectedAgencyId" (ngModelChange)="onSelectChange($event)">
-              <option *ngFor="let agency of  (agencies$ | async)" [value]="agency.id" >{{agency.name}}</option>
+          <select [ngModel]="selectedAgencyId" (ngModelChange)="onSelectChange($event)" id="{{formId}}-agency" name="agency"
+                  materialize="material_select" class="validate" [materializeSelectOptions]="agencies$" required>
+              <option *ngFor="let agency of (agencies$ | async)" [value]="agency.id" >{{agency.name}}</option>
           </select>
           <label for="{{formId}}-agency">Agency</label>
         </div>
@@ -27,7 +27,7 @@
         <div  class="card-action">
           <div  *ngFor="let authority of (authorities$ | async)">
             <input name="authoritiesGroup" type="radio" id="auth{{authority.id}}"
-              (click)="onSelectRadio(authority.id)" [checked]="user.authorities[0].id === authority.id"/>
+              (click)="onSelectRadio(authority)" [checked]="user.authorities[0].id === authority.id"/>
             <label for="auth{{authority.id}}">{{ authority?.name }}</label>
           </div>
         </div>

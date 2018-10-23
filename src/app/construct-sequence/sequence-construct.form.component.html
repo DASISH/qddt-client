@@ -22,6 +22,14 @@
       <label for="{{formId}}-desc" class="active">Description</label>
     </div>
 
+    <div class="row input-field ">
+      <select [ngModel]="sequence.sequenceKind" (ngModelChange)="onSelectChange($event)" id="{{formId}}-sequenceKind" name="sequenceKind"
+              materialize="material_select" class="validate" [materializeSelectOptions]="SequenceKind" required>
+        <option *ngFor="let item of SequenceKind" [value]="item" >{{SequenceKind[item]}}</option>
+      </select>
+      <label for="{{formId}}-sequenceKind">SequenceKind</label>
+    </div>
+
     <qddt-collection-revision-search-select
       [showProgressBar] = "showProgressBar" [kind] = "QUESTION"
       [showList]="sequence.sequence" [searchList] = "questionConstrucs"

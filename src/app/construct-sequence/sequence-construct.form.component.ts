@@ -4,6 +4,7 @@ import { IElement, IEntityEditAudit, IRevisionRef } from '../shared/classes/inte
 import { ElementRevisionRef, Page } from '../shared/classes/classes';
 import { TemplateService } from '../template/template.service';
 import { SequenceConstruct } from './sequence-construct.classes';
+import {SequenceKind} from '../controlconstruct/controlconstruct.classes';
 
 @Component({
   selector: 'qddt-sequence-form',
@@ -26,7 +27,7 @@ export class SequenceFormComponent {
 
   constructor(private service: TemplateService) {
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.SEQUENCE_CONSTRUCT);
-
+    this.sequenceKinds = SequenceKind
   }
 
 
@@ -52,6 +53,10 @@ export class SequenceFormComponent {
         this.revisionList = result.content;
       }
     );
+  }
+
+  public onSelectChange(event) {
+
   }
 
   public onRevisionSelected(ref: ElementRevisionRef) {

@@ -39,6 +39,10 @@ export class QddtPropertyStoreService {
     return this.globalObjects.get(key) || '';
   }
 
+  has(key: string): boolean {
+    return this.globalObjects.has(key);
+  }
+
   get userSetting(): UserSettings {
     return this.userSettings;
   }

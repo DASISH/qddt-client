@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { UserJson} from './user.classes';
-import { UserService } from '../core/services/user.service';
+import {IAuthority, UserJson} from './user.classes';
+import { UserService, Agency } from '../core/services/user.service';
+import index from '@angular/cli/lib/cli';
 
 // declare var Materialize: any;
 
@@ -15,16 +16,19 @@ export class UserFormComponent implements OnInit, OnChanges {
   @Input() readonly = false;
   @Output() modifiedEvent =  new EventEmitter<String>();
 
-  public agencies$: any;
-  public authorities$: any;
+  // public agencies: Agency[];
+  // public authorities: IAuthority[];
   public selectedAgencyId: string;
   public formId = Math.round( Math.random() * 10000);
 
-  constructor(private userService: UserService) {}
+  public agencies$: Promise<Agency[]>;
+  public authorities$: Promise<IAuthority[]>;
+
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.agencies$ = this.fetchAgencies();
-    this.authorities$ = this.fetchAuthorities();
+    this.agencies$ = this.getAgencies();
+    this.authorities$ = this.getAuthorities();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -33,7 +37,7 @@ export class UserFormComponent implements OnInit, OnChanges {
         if (this.user.agency) {
           this.onSelectChange(this.user.agency.id);
         } else {
-          this.onSelectChange(this.agencies[0].id);
+          this.onSelectChange(this.getFirstAgency().id);
         }
         // Materialize.updateTextFields();
       }
@@ -42,11 +46,18 @@ export class UserFormComponent implements OnInit, OnChanges {
 
   onSelectChange(id: string) {
     this.selectedAgencyId = id;
-    this.user.agency = this.agencies$.then( value => value.find( (f) => f.id === id ));
+    this.getAgencies().then( result => {
+      this.user.agency = result.find( f => f.id === id);
+    });
   }
 
-  onSelectRadio(authorityId: string) {
-    this.user.authorities = [this.authorities$.then( value => value.find( f => f.id === authorityId))];
+  onSelectRadio(authority: IAuthority) {
+    this.user.authorities  = [authority];
+  }
+
+
+  private async getFirstAgency(): any {
+    return await this.getAgencies().then( result => result.find((value, _index) => _index === 0  ));
   }
 
 
@@ -59,18 +70,14 @@ export class UserFormComponent implements OnInit, OnChanges {
       (error) => { throw error; });
   }
 
-  public fetchAuthorities() {
-    console.log('fetchAuthorities');
-    return this.userService.getAuthorities().then(data => {
-      // console.log(JSON.stringify(data));
-      return data; });
+  private async getAgencies() {
+    return await this.userService.getAgencies();
   }
 
-  private async fetchAgencies() {
-    console.log('fetchAgencies');
-    return await this.userService.getAgencies().then(data => {
-      return data; });
+  private async getAuthorities() {
+    return await this.userService.getAuthorities().then((result) => {
+      // console.log(JSON.stringify(result));
+      return result;
+    });
   }
-
-
 }
