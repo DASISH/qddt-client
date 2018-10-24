@@ -2,9 +2,7 @@
   <div class="white grey-text text-darken-1" style="overflow-x:auto; margin:0.5rem">
     <div class="row">
       <div class="input-field col s11">
-        <!-- <div class="chips" materialize="material_chip" (chip.add)="add($event.detail)"></div> -->
-        <div class="chips" materialize="material_chip" (chip.add)="add($event.detail)" (chip.delete)="delete($event.detail)" (chip.select)="select($event.detail)"></div>
-        <!-- <a class="waves-effect waves-light btn" (click)="updateChips()">Update Chips</a> -->
+        <div class="chips"  id="filterKey" materialize="material_chip" (chip.add)="add($event)" (chip.delete)="delete($event.detail)"></div>
         <label for="filterKey">{{ placeholder }}</label>
       </div>
       <div class="input-field col s1">
@@ -23,8 +21,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr id="{{row.id}}" *ngFor="let row of rows; let idx=index;"  [ngStyle]="{'cursor': 'pointer'}"
-        (mouseenter)="row.showbutton = true" (mouseleave)="row.showbutton = false">
+        <tr id="{{row.id}}" *ngFor="let row of rows;"  [ngStyle]="{'cursor': 'pointer'}" (mouseenter)="row.showbutton = true" (mouseleave)="row.showbutton = false">
         <td style="padding:0">
           <div >
             <i class="material-icons small teal-text" >keyboard_arrow_right</i>

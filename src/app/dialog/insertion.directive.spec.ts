@@ -1,5 +1,4 @@
 import { InsertionDirective } from './insertion.directive';
-import { ViewContainerRef } from '@angular/core';
 
 describe('InsertionDirective', () => {
   it('should create an instance', () => {

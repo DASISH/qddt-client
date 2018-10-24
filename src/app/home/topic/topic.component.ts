@@ -4,12 +4,11 @@ import { Router } from '@angular/router';
 import { QddtPropertyStoreService } from '../../core/services/property.service';
 import { HomeService } from '../home.service';
 import { QddtMessageService } from '../../core/services/message.service';
-import { ElementKind, ActionKind, IOtherMaterial, IRevisionRef} from '../../shared/classes';
+import { ElementKind, ActionKind,  IRevisionRef} from '../../shared/classes';
 import { Study, Topic } from '../home.classes';
 import { TemplateService } from '../../template/template.service';
 import { HIERARCHY_POSITION } from '../../core/classes/UserSettings';
 
-const filesaver = require('file-saver');
 declare var Materialize: any;
 
 @Component({

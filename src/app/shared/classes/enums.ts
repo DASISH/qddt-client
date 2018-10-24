@@ -1,4 +1,3 @@
-
 export enum ActionKind {
   None,
   Filter,
@@ -37,7 +36,7 @@ export interface EnumItem<E> { id: E; name: keyof E; }
 
 const StringIsNumber = value => isNaN(Number(value)) === false;
 
-export function enumToArray<E>(Enum: {keyof E: E}): EnumItem<E> {
+export function enumToArray(Enum: { keyof E: E}) {
   return Object.keys(Enum)
     .filter(StringIsNumber)
     .map(key =>

@@ -108,7 +108,13 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   add(chip) {
-    console.log('Chip added: ' + chip.tag);
+    const qe = getQueryInfo(this.pageSearch.kind);
+    const chipsCount =  chip.currentTarget.children.length;
+    const chips = chip.currentTarget.children;
+    for (let i = 0; i < chipsCount; i++) {
+      this.pageSearch.keys.set(qe.fields[i], chips[i].innerHTML);
+      console.log('Chip added: ' +  chips[i].innerHTML);
+    }
   }
 
   delete(chip) {
@@ -122,7 +128,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public onRemoveItem(item) {
-    const ref = this.modal.open(ConfirmComponent, { data: { message: 'Delete ' + item.name } );
+    const ref = this.modal.open(ConfirmComponent, { data: { message: 'Delete ' + item.name }} );
     ref.afterClosed.subscribe(result => {
       console.log('Dialog closed', result);
     });
@@ -139,9 +145,9 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
     this.fetchEvent.emit(this.pageSearch);
   }
 
-  public enterText(event: any) {
-    this.searchKeysChange.next(event.target.value);
-  }
+  // public enterText(event: any) {
+  //   this.searchKeysChange.next(event.target.value);
+  // }
 
   public onClearKeywords() {
     this.pageSearch.key = this.value = '*';

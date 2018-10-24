@@ -22,6 +22,7 @@ declare var $: any;
       <label for="{{formId}}-desc">Description</label>
     </div>
 
+
     <qddt-rational [formName]="'RationalComp'" [element]="survey" [config]="{hidden: [2,3]}"></qddt-rational>
 
     <qddt-element-footer [element]="survey"> </qddt-element-footer>

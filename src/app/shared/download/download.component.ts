@@ -2,7 +2,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ActionKind, IEntityEditAudit, IOtherMaterial } from '../classes';
 import { TemplateService } from '../../template/template.service';
-import {Topic} from '../../home/home.classes';
 
 const filesaver = require('file-saver');
 
@@ -11,9 +10,11 @@ const filesaver = require('file-saver');
   moduleId: module.id,
   templateUrl: './download.component.html',
   styles: [
-    '.nomargin { margin:0; }',
-    ':host /deep/ .hoverable { margin-bottom:0px;}',
-    ':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'
+    '.collection {border:none; }',
+    ':host /deep/ .col { padding-top: 0.5rem;}',
+    '.collection.with-header .collection-item { margin-bottom:0px ;border-bottom: none; padding: 0 10px 0 15px; }',
+    '.collection.with-header .collection-header { border-bottom: none; padding: 0px; background-color: unset; }',
+    '.collection .collection-item { background-color: unset; }',
   ],
 })
 export class QddtDownload implements OnChanges {
@@ -47,7 +48,7 @@ export class QddtDownload implements OnChanges {
 
 
   getPdf(element: IEntityEditAudit) {
-    const fileName = element.name + '.pdf';
+    const fileName = element.name + '-' + element.version.major + element.version.minor + '.pdf';
     this.service.getPdf(element).then(
       (data: any) => {
         filesaver.saveAs(data, fileName);
@@ -55,8 +56,8 @@ export class QddtDownload implements OnChanges {
   }
 
   getXml(element: IEntityEditAudit) {
-    const fileName = element.name + '.xml';
-    this.service.getXml(element).then(
+    const fileName = element.name + '-ddi32-' + element.version.major + element.version.minor + '.xml';
+    this.service.getXML(element).then(
       (data: any) => {
         filesaver.saveAs(data, fileName);
       });

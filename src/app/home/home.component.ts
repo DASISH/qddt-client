@@ -1,4 +1,4 @@
-import { AfterContentChecked, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 // declare var Materialize: any;
 

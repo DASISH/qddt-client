@@ -71,7 +71,7 @@
         <ul class="collection with-header hoverable"
             (mouseenter)="showbutton = true"
             (mouseleave)="showbutton = false">
-          <li class="collection-header teal-text">Question Items</li>
+          <li class="collection-header"><label>Question Items</label></li>
           <a class="collection-item grey-text text-darken-1" *ngFor="let cqi of concept.conceptQuestionItems.sort()"
             style="padding-bottom: 5pt;">
             <div class="row" style="min-height: 3rem;">
@@ -88,19 +88,8 @@
         </ul>
       </div>
 
-      <ul class="hoverable">
-        <li>
-          <label class="teal-text">Exports</label>
-        </li>
-        <li class="collection-item">
-          <div class="row">
-            <a style="cursor: pointer;"  title="Get as pdf" (click)="getPdf(concept)"><i class="material-icons small" >cloud_download</i>{{concept.name}}.pdf </a>
-          </div>
-          <div class="row" >
-              <a style="cursor: pointer;" title="Get as XML (DDI 3.2)" (click)="getXml(concept)"><i class="material-icons small" >cloud_download</i>{{concept.name}}-ddi32.xml </a>
-          </div>
-        </li>
-      </ul>
+      <qddt-download *ngIf="!edit.isVisible" [entity]="concept" [readonly]="true"></qddt-download>
+
 
       <qddt-comment-list
         *ngIf="!edit.isVisible"

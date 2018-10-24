@@ -32,7 +32,7 @@ export class TopicEditComponent  implements AfterContentChecked {
   }
 
   public async onSave() {
-    const formData: FormData = FormData();
+    const formData = new FormData();
 
     formData.append('topicgroup', JSON.stringify(this.topic));
     this.fileStore.forEach( (file) => { formData.append('files', file); });

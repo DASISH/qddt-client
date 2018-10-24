@@ -62,25 +62,16 @@
     </div>
   </div>
 
-<ul class="hoverable" *ngIf="showDetail">
-  <li>
-    <label class="teal-text">Exports</label>
-  </li>
-  <li class="collection-item">
-    <div class="row">
-      <a style="cursor: pointer;" (click)="onGetPdf(element)"><i class="material-icons smal" >picture_as_pdf</i>{{element.name}}.pdf</a>
-    </div>
-  </li>
-</ul>
+  <qddt-download [entity]="element" [readonly]="true"></qddt-download>
 
-<ul class="hoverable" *ngIf="showDetail">
-  <li (click)="revisionIsVisible=!revisionIsVisible" style="cursor: zoom-in !important;">
-    <label class="teal-text">Revisions</label>
-  </li>
-  <li class="collection-item" *ngIf="revisionIsVisible">
-    <div class="row">
-      <qddt-revision  [current]="element"> </qddt-revision>
-    </div>
-  </li>
-</ul>
+  <ul class="hoverable" *ngIf="showDetail">
+    <li (click)="revisionIsVisible=!revisionIsVisible" style="cursor: zoom-in !important;">
+      <label class="teal-text">Revisions</label>
+    </li>
+    <li class="collection-item" *ngIf="revisionIsVisible">
+      <div class="row">
+        <qddt-revision  [current]="element"> </qddt-revision>
+      </div>
+    </li>
+  </ul>
 </div>
