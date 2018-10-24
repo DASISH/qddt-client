@@ -114,27 +114,6 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
     this.newTopic  = new Topic();
   }
 
-  onDownloadFile(o: IOtherMaterial) {
-    const fileName = o.originalName;
-    this.topicService.getFile(o).then(
-      (data: any) => filesaver.saveAs(data, fileName));
-  }
-
-  onGetPdf(element: Topic) {
-    const fileName = element.name + '.pdf';
-    this.topicService.getPdf(element).then(
-      (data: any) => {
-        filesaver.saveAs(data, fileName);
-      });
-  }
-
-  onGetXml(element: Topic) {
-    const fileName = element.name + '.xml';
-    this.topicService.getXml(element).then(
-      (data: any) => {
-        filesaver.saveAs(data, fileName);
-      });
-  }
 
   onClickQuestionItem(questionItem) {
     this.message.sendMessage( { element: questionItem, elementKind: ElementKind.QUESTION_ITEM } );

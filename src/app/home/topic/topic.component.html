@@ -82,20 +82,11 @@
             </qddt-topic-edit>
             <div class="row" *ngIf="!edit.isVisible">
               <p  [innerHtml]="currentElement?.description" ></p>
-              <!--<label class="teal-text" *ngIf="topic.authors?.length>0">Authors</label>-->
-              <!--<qddt-author-chip [authors]="topic.authors" ></qddt-author-chip>-->
             </div>
-            <div class="row" *ngIf="!edit.isVisible && currentElement?.otherMaterials && currentElement?.otherMaterials?.length > 0">
-              <ul class="collection with-header hoverable">
-                <li class="collection-header teal-text"><i class="material-icons small">attach_file</i>External aid</li>
-                <li *ngFor="let m of currentElement.otherMaterials;" class="col s10 m5">
-                  <a class="waves-effect waves-light" (click)="onDownloadFile(m)">
-                    <i class="material-icons center smal">description</i> {{ m.originalName }}</a>
-                </li>
-              </ul>
-            </div>
-            <div *ngIf="!edit.isVisible && currentElement?.topicQuestionItems?.length > 0" class="section">
 
+            <qddt-download [entity]="currentElement" [readonly]="true"></qddt-download>
+
+            <div *ngIf="!edit.isVisible && currentElement?.topicQuestionItems?.length > 0" class="section">
               <ul class="collection with-header hoverable">
                 <li class="collection-header teal-text">Question Items</li>
                 <a class="collection-item grey-text text-darken-1" *ngFor="let cqi of currentElement.topicQuestionItems">

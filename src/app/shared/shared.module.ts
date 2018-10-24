@@ -27,17 +27,19 @@ import { ConceptrefComponent } from './conceptref/conceptref.component';
 import { FormErrorsComponent } from './form-errors/form-errors.component';
 import { ConfirmDeleteComponent } from './confim-delete/delete.component';
 import { SpinnerComponent } from './spinner/spinner.component';
+import {QddtDownload} from './download/download.component';
 
 
 @NgModule({
   imports: [ MaterializeModule, CommonModule, RouterModule, FormsModule, CompareModule ],
-  declarations: [ LocalDatePipe, QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent,
+  declarations: [ LocalDatePipe,
+    QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, QddtDownload,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent, CommentCreateComponent,
     RationalComponent, RevisionComponent,  ConceptrefComponent, FormErrorsComponent, SpinnerComponent,
     AutosizeDirective, ParentFormConnectDirective, GravatarDirective, EqualValidator ],
   exports: [ LocalDatePipe, CommonModule, FormsModule, MaterializeModule, SpinnerComponent,
-     QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent,
+     QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, QddtDownload,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent,
     RationalComponent, RevisionComponent, ConceptrefComponent, FormErrorsComponent,

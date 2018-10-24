@@ -1,7 +1,4 @@
-import { IEntityEditAudit, IVersion } from '../../shared/classes/interfaces';
-import { ElementKind } from '../../shared/classes/enums';
-import { Page } from '../../shared/classes/classes';
-import { ParseErrorLevel } from '@angular/compiler';
+import { ElementKind, IEntityEditAudit, IVersion } from '../../shared/classes';
 
 
 export enum CategoryKind {

@@ -1,9 +1,16 @@
-import { Component, Output, EventEmitter, Input, OnChanges, SimpleChanges, OnInit } from '@angular/core';
-import {ActionKind, ElementKind} from '../shared/classes/enums';
-import { IElement, IEntityEditAudit, IRevisionRef } from '../shared/classes/interfaces';
-import { ElementRevisionRef, Page } from '../shared/classes/classes';
+import { Component, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { TemplateService } from '../template/template.service';
 import { SequenceKind, SequenceConstruct} from '../controlconstruct/controlconstruct.classes';
+import {
+  ActionKind,
+  ElementKind,
+  ElementRevisionRef,
+  EnumItem,
+  enumToArray,
+  IElement,
+  IEntityEditAudit,
+  IRevisionRef, Page
+} from '../shared/classes';
 
 @Component({
   selector: 'qddt-sequence-form',
@@ -25,18 +32,17 @@ export class SequenceFormComponent implements OnChanges {
   public readonly formId = Math.round( Math.random() * 10000);
 
   public currentSequenceKind: SequenceKind = SequenceKind.SECTION;
-  public sequenceKinds: { id: any; name: string; }[];
-  private StringIsNumber = value => isNaN(Number(value)) === false;
+  public sequenceKinds: EnumItem<SequenceKind>[];
 
   constructor(private service: TemplateService) {
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.SEQUENCE_CONSTRUCT);
-    this.sequenceKinds = Object.keys(SequenceKind)
-    .filter(this.StringIsNumber)
-    .map(key => ({ id: key , name: SequenceKind[key] }));
+    this.sequenceKinds = enumToArray(SequenceKind).filter(f => f.id !== 0);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.currentSequenceKind = SequenceKind[this.sequence.sequenceKind];
+    if (this.sequence) {
+      this.currentSequenceKind = SequenceKind[this.sequence.sequenceKind];
+    }
   }
 
   public onSaveConstruct() {
