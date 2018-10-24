@@ -109,12 +109,15 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
 
   add(chip) {
     const qe = getQueryInfo(this.pageSearch.kind);
-    const chipsCount =  chip.currentTarget.children.length;
+    const chipsCount =  chip.currentTarget.children.length - 1;
     const chips = chip.currentTarget.children;
+    let search = '';
     for (let i = 0; i < chipsCount; i++) {
-      this.pageSearch.keys.set(qe.fields[i], chips[i].innerHTML);
-      console.log('Chip added: ' +  chips[i].innerHTML);
+      search +=  '\'' + chips[i].childNodes[0].data + '\' ';
     }
+    this.pageSearch.key = search;
+    this.value = search;
+    this.fetchEvent.emit(this.pageSearch);
   }
 
   delete(chip) {
@@ -182,10 +185,9 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
 
   private makePlaceholder(searchString: string): string  {
     const qe = getQueryInfo(this.pageSearch.kind);
-    // console.log(qe.fields);
     if (!searchString || searchString.length === 0) { return qe.placeholder(); }
 
-    const args = searchString.split(' ');
+    const args = searchString.split('m/(\'.*?\'|".*?"|\\S+)/g');
     const queries = [];
 
     if (args.length <= qe.fields.length) {

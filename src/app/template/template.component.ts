@@ -41,12 +41,10 @@ export class TemplateComponent implements OnDestroy, AfterContentChecked {
     takeWhile(() => this.alive))
     .subscribe((event) => {
       this.path = this.route.firstChild.routeConfig.path; // '/:id'
-      // console.log('path1-> ' + this.path);
       const detailIndex = this.path.lastIndexOf('/:id');
       if (detailIndex >= 0) {
         this.path = this.path.substr(0, detailIndex);
       }
-      // console.log('path2-> ' + this.path);
       if (HEADER_DETAILS.has(this.path)) {
         this.kind = HEADER_DETAILS.get(this.path).kind;
         this.icon = HEADER_DETAILS.get(this.path).icon;
