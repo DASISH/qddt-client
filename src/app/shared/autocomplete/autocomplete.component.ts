@@ -1,11 +1,10 @@
-
-import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnDestroy} from '@angular/core';
+import { Subject } from 'rxjs/internal/Subject';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { ElementEnumAware } from '../../preview/preview.service';
-import { Subject } from 'rxjs';
-import { IEntityAudit, ElementKind, IElement, QueryInfo, getQueryInfo} from '../classes';
-import { Factory } from '../classes/factory';
+import { ElementKind, getQueryInfo, IElement, IEntityAudit, QueryInfo } from '../classes';
 
+declare var $;
 @Component({
   selector: 'qddt-auto-complete',
   moduleId: module.id,
@@ -46,6 +45,18 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
         this.waitingForChange = true;
         this.enterEvent.emit(name);
       });
+    // $('autocomplete-id').autocomplete({
+    //   data: {
+    //     "Apple": null,
+    //     "Microsoft": null,
+    //     "Google": 'https://placehold.it/250x250'
+    //   },
+    //   limit: 20, // The max amount of results that can be shown at once. Default: Infinity.
+    //   onAutocomplete: function(val) {
+    //     console.log(val);
+    //   },
+    //   minLength: 1, // The minimum length of the input for the autocomplete to start. Default: 1.
+    // });
   }
 
   ngOnChanges(change: SimpleChanges) {

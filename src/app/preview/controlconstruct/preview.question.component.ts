@@ -1,10 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { PreviewService } from '../preview.service';
-import { Router } from '@angular/router';
-import { IOtherMaterial } from '../../shared/classes/interfaces';
 import { QuestionConstruct } from '../../controlconstruct/controlconstruct.classes';
-
-const filesaver = require('file-saver');
 
 @Component({
   selector: 'qddt-preview-questionconstruct',
@@ -48,17 +43,6 @@ const filesaver = require('file-saver');
       [responseDomain]="controlConstruct.questionItem.responseDomain">
     </qddt-preview-responsedomain>
   </div>
-  <div class="row">
-    <label class="teal-text">External aid</label>
-  </div>
-  <div class="row">
-    <ul>
-      <li *ngFor="let m of controlConstruct.otherMaterials;" class="col s12 m6 l3">
-          <a class="waves-effect waves-light" (click)="onDownloadFile(m)">
-          <i class="material-icons center smal">description</i> {{ m.originalName }}</a>
-      </li>
-    </ul>
-  </div>
   <div class="row" *ngIf="showDetail">
     <qddt-element-footer [element]="controlConstruct"></qddt-element-footer>
   </div>
@@ -70,20 +54,6 @@ export class PreviewQuestionConstructComponent {
   @Input() showDetail = true;
   questionItem: any;
 
-  constructor(private service: PreviewService,  private router: Router) {
-  }
-
-  onDownloadFile(o: IOtherMaterial) {
-    const fileName = o.originalName;
-    this.service.getFile(o).then(
-      (data: any) => {
-        filesaver.saveAs(data, fileName);
-      });
-  }
-
-  onQuestionitemDetail(questionItem) {
-    this.router.navigate(['/questionitems/', questionItem.id ]);
-
-  }
+  constructor() { }
 
 }

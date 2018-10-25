@@ -1,8 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { SequenceConstruct } from '../../controlconstruct/controlconstruct.classes';
 import { PreviewService } from '../preview.service';
-import { ElementRevisionRef } from '../../shared/classes/classes';
-import { getElementKind } from '../../shared/classes/constants';
+import { ElementRevisionRef, getElementKind } from '../../shared/classes';
 
 @Component({
   selector: 'qddt-preview-sequenceconstruct',
@@ -29,9 +28,7 @@ import { getElementKind } from '../../shared/classes/constants';
                 <qddt-preview-statementconstruct [statement]="child.element"></qddt-preview-statementconstruct>
               </div>
               <div *ngSwitchCase="'QUESTION_CONSTRUCT'">
-                <!--<qddt-preview-questionitem [questionItem]="child.element.questionItem"></qddt-preview-questionitem> -->
-                <qddt-preview-questionconstruct [controlConstruct]="child" [showDetail]="showDetail" >
-                </qddt-preview-questionconstruct>
+                <qddt-preview-questionconstruct [controlConstruct]="child" [showDetail]="showDetail" ></qddt-preview-questionconstruct>
               </div>
             </div>
           </div>
