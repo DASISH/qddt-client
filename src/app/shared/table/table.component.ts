@@ -11,6 +11,7 @@ import { DialogService } from '../../dialog/dialog.service';
 import { ConfirmComponent } from '../../dialog/content/confirm.component';
 
 const filesaver = require('file-saver');
+declare var $;
 
 @Component({
   selector: 'qddt-table',
@@ -49,6 +50,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild('fkRef') _fkRef: ElementRef;
 
   private searchKeysChange: Subject<string> = new Subject<string>();
+  private fields = [];
 
   constructor(private service: PreviewService, private modal: DialogService) {
     this.searchKeysChange.pipe(
@@ -57,6 +59,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
       .subscribe((name: string) => {
         this.pageSearch.key = this.value = name;
         this.pageSearch.sort = this.getSort();
+        $('.collapsible').collapsible('close', 0);
         this.fetchEvent.emit(this.pageSearch);
       });
   }
@@ -65,6 +68,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
     this.columns = this.getColumns();
     if (!this.items) { this.items = []; }
     // this.fetchEvent.emit(this.pageSearch); created double loading on init ( better to initialize from parent...)
+    this.fields = getQueryInfo(this.pageSearch.kind).fields;
   }
 
   public ngOnDestroy(): void {
@@ -107,25 +111,6 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
     });
   }
 
-  add(chip) {
-    const qe = getQueryInfo(this.pageSearch.kind);
-    const chipsCount =  chip.currentTarget.children.length - 1;
-    const chips = chip.currentTarget.children;
-    let search = '';
-    for (let i = 0; i < chipsCount; i++) {
-      search +=  '\'' + chips[i].childNodes[0].data + '\' ';
-    }
-    this.pageSearch.key = search;
-    this.value = search;
-    this.fetchEvent.emit(this.pageSearch);
-  }
-
-  delete(chip) {
-    console.log('Chip delete: ' + chip.tag);
-
-  }
-
-
   public onDetail(item: IEntityEditAudit) {
     this.detailEvent.emit(item);
   }
@@ -152,11 +137,20 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
   //   this.searchKeysChange.next(event.target.value);
   // }
 
-  public onClearKeywords() {
-    this.pageSearch.key = this.value = '*';
+  public onClearKeywords(idx) {
+    if (idx === 0) {
+      this.pageSearch.key = this.value = '*';
+
+    } else {
+      this.pageSearch.keys[idx] = '';
+    }
     this.pageSearch.sort = this.getSort();
     this.fetchEvent.emit(this.pageSearch);
-    this._fkRef.nativeElement.focus();
+    // this._fkRef.nativeElement.focus();
+  }
+
+  onSearch(f) {
+    console.log( JSON.stringify(f));
   }
 
   public getSort() {
@@ -187,7 +181,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
     const qe = getQueryInfo(this.pageSearch.kind);
     if (!searchString || searchString.length === 0) { return qe.placeholder(); }
 
-    const args = searchString.split('m/(\'.*?\'|".*?"|\\S+)/g');
+    const args = searchString.split('');
     const queries = [];
 
     if (args.length <= qe.fields.length) {

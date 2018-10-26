@@ -1,14 +1,26 @@
 <div *ngIf="rows" class="row">
   <div class="white grey-text text-darken-1" style="overflow-x:auto; margin:0.5rem">
-    <div class="row">
-      <div class="input-field col s11">
-        <div class="chips"  id="filterKey" materialize="material_chip" (chip.add)="add($event)" (chip.delete)="delete($event.detail)"></div>
-        <label for="filterKey">{{ placeholder }}</label>
-      </div>
-      <div class="input-field col s1">
-      	<a class="waves-effect waves-light btn" (click)="onClearKeywords()">x</a>
-      </div>
-    </div>
+    <form (ngSubmit)="onSearch(f.form.value)"  #f="ngForm">
+        <div class="row" *ngIf="!advanced" >
+          <div class="input-field col s11 m10 l9">
+            <i class="material-icons prefix" >search</i>
+            <input id="search1" name="simplesearch" type="search" required ngModel >
+            <!--[ngModelOptions]="{updateOn: 'blur'}"-->
+            <label for="search1" >{{placeholder}}</label>
+            <i class="material-icons" (click)="onClearKeywords(0)">close</i>
+          </div>
+          <a class="waves-effect waves-light btn" (click)="advanced=!advanced" ><i class="material-icons left">arrow_drop_down</i>Advanced search</a>
+        </div>
+        <div class="row" *ngIf="advanced">
+          <div class="col s{{ (10-10%fields.length)/fields.length}} input-field" *ngFor="let field of fields; let idx=index;">
+            <i class="material-icons prefix" >search</i>
+            <input id="field-{{idx}}" type="search" name="{{field}}" ngModel  >
+            <label for="field-{{idx}}" >{{field}}</label>
+            <i class="material-icons" (click)="onClearKeywords(idx)">close</i>
+          </div>
+          <a class="waves-effect waves-light btn" (click)="advanced=!advanced" ><i class="material-icons left">arrow_drop_up</i>Simple search</a>
+        </div>
+    </form>
     <table class="highlight">
       <thead>
         <tr>

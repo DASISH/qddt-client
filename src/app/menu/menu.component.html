@@ -19,6 +19,7 @@
       <a *ngIf="path[2]" (click)="onTopic()" class="breadcrumb">MODULE [{{ path[2].name }}]</a>
       <a *ngIf="path[3]" (click)="onConcept()" class="breadcrumb">{{ path[3].name }}</a>
 
+
       <ul id="adminmenu" class="dropdown-content"  >
         <div *ngIf="isLoggedIn$ | async as isLoggedIn">
           <li (click)="logoutEvent()"><a href=""><i class="material-icons left">exit_to_app</i>Exit</a></li>
