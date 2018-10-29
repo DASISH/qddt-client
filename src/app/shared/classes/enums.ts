@@ -34,9 +34,9 @@ export enum ElementKind {
 
 export interface EnumItem<E> { id: E; name: keyof E; }
 
-const StringIsNumber = value => isNaN(Number(value)) === false;
+export const StringIsNumber = value => isNaN(Number(value)) === false;
 
-export function enumToArray(Enum: { keyof E: E}) {
+export function enumToArray<E>(Enum: { keyof E: E}): EnumItem<E> {
   return Object.keys(Enum)
     .filter(StringIsNumber)
     .map(key =>

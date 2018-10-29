@@ -100,7 +100,7 @@ export interface IRevisionResult<T extends IEntityAudit> {
 
 export interface IPageSearch {
   kind: ElementKind;
-  key: string|Array;
+  key: string;
   keys?: Map<string, string>;
   page?: Page;
   sort?: string;

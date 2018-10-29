@@ -35,11 +35,11 @@ export class AppComponent  implements OnDestroy {
   }
 
   isLoggedIn(): boolean {
-    const ok = !this.users.isTokenExpired();
-    if (!ok) {
+    const isExpired = this.users.isTokenExpired();
+    if (isExpired && this.users.loggedIn.getValue()) {
       this.users.loggedIn.next(false);
     }
-    return !this.users.isTokenExpired();
+    return !isExpired;
   }
 
 

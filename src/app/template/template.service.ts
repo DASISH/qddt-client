@@ -26,16 +26,11 @@ export class TemplateService {
 
   public searchByKind<T extends IEntityAudit>(pageSearch: IPageSearch): Promise<IPageResult<T>> {
     const qe = getQueryInfo(pageSearch.kind);
-    const args = pageSearch.key.split(' ');
     const queries = [];
 
-    if (args.length <= qe.fields.length) {
-      for (let i = 0; i < args.length; i++) {
-        queries.push(qe.fields[i] + '=' + args[i].trim() );
-      }
-    } else {
+    if (pageSearch.key) {
       for (let i = 0; i < qe.fields.length; i++) {
-        queries.push(qe.fields[i] + '=' + pageSearch.key.trim() );
+        queries.push(qe.fields[i] + '=' +  pageSearch.key.trim() );
       }
     }
 

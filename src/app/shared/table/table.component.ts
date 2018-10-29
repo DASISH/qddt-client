@@ -1,7 +1,7 @@
 
 import { distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import { Subject} from 'rxjs';
-import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges, ViewChild, ElementRef, OnDestroy} from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges, OnDestroy} from '@angular/core';
 import { Column } from './table.column';
 import { LIST_COLUMNS, RESPONSEDOMAIN_COLUMNS, DEFAULT_COLUMNS } from './table.column-map';
 import { ElementEnumAware, PreviewService } from '../../preview/preview.service';
@@ -9,9 +9,10 @@ import { DomainKind } from '../../responsedomain/responsedomain.classes';
 import { ElementKind, getQueryInfo, IEntityEditAudit, IPageSearch } from '../classes';
 import { DialogService } from '../../dialog/dialog.service';
 import { ConfirmComponent } from '../../dialog/content/confirm.component';
+import {AbstractControl} from '@angular/forms';
 
 const filesaver = require('file-saver');
-declare var $;
+declare var Materialize: any;
 
 @Component({
   selector: 'qddt-table',
@@ -40,35 +41,41 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
   @Output() fetchEvent = new EventEmitter<IPageSearch>();
 
   public readonly directionSign: { [dir: string]: string; } = {'': '⇳', 'asc':  '▲', 'desc': '▼'};
-  public value: string;
+  // public value: string;
 
   public placeholder: string;
   public rows = [];
   public columns: Column[];
   public revisionIsVisible = false;
 
-  @ViewChild('fkRef') _fkRef: ElementRef;
+  // @ViewChild('fkRef') _fkRef: ElementRef;
 
   private searchKeysChange: Subject<string> = new Subject<string>();
-  private fields = [];
+
+  private fieldValues = {};
+  private fieldNames = [];
 
   constructor(private service: PreviewService, private modal: DialogService) {
     this.searchKeysChange.pipe(
       debounceTime(300),
       distinctUntilChanged())
-      .subscribe((name: string) => {
-        this.pageSearch.key = this.value = name;
+      .subscribe((value) => {
+        this.fieldNames.filter(f => (value[f]) && f !== 'simplesearch').forEach(n => this.pageSearch.keys.set(n, value[n]));
+        this.pageSearch.key = value['simplesearch'] || null;
         this.pageSearch.sort = this.getSort();
-        $('.collapsible').collapsible('close', 0);
         this.fetchEvent.emit(this.pageSearch);
       });
   }
 
+
   public ngOnInit(): void {
+    const qe = getQueryInfo(this.pageSearch.kind);
     this.columns = this.getColumns();
     if (!this.items) { this.items = []; }
-    // this.fetchEvent.emit(this.pageSearch); created double loading on init ( better to initialize from parent...)
-    this.fields = getQueryInfo(this.pageSearch.kind).fields;
+    this.fieldValues = qe.fields.map((name) =>  name  );
+    this.fieldNames = qe.fields;
+    this.placeholder = qe.placeholder();
+    Materialize.updateTextFields();
   }
 
   public ngOnDestroy(): void {
@@ -81,7 +88,10 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
 
     if (!this.items) { this.items = []; }
 
-    this.placeholder = this.makePlaceholder(this.value);
+    if (!this.pageSearch.keys) { this.pageSearch.keys = new Map<string, string>(); }
+    const qe = getQueryInfo(this.pageSearch.kind);
+    this.placeholder = qe.placeholder();
+    // this.placeholder = this.makePlaceholder(this.pageSearch.key);
 
     this.rows = [];
 
@@ -109,6 +119,8 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
       });
       this.rows.push(row);
     });
+
+    Materialize.updateTextFields();
   }
 
   public onDetail(item: IEntityEditAudit) {
@@ -134,23 +146,13 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   // public enterText(event: any) {
-  //   this.searchKeysChange.next(event.target.value);
+  //   this.searchKeysChange.next(event);
   // }
 
-  public onClearKeywords(idx) {
-    if (idx === 0) {
-      this.pageSearch.key = this.value = '*';
-
-    } else {
-      this.pageSearch.keys[idx] = '';
-    }
+  onClear(control: any | AbstractControl) {
+    control.reset('');
     this.pageSearch.sort = this.getSort();
     this.fetchEvent.emit(this.pageSearch);
-    // this._fkRef.nativeElement.focus();
-  }
-
-  onSearch(f) {
-    console.log( JSON.stringify(f));
   }
 
   public getSort() {
@@ -177,28 +179,28 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  private makePlaceholder(searchString: string): string  {
-    const qe = getQueryInfo(this.pageSearch.kind);
-    if (!searchString || searchString.length === 0) { return qe.placeholder(); }
-
-    const args = searchString.split('');
-    const queries = [];
-
-    if (args.length <= qe.fields.length) {
-      for (let i = 0; i <  qe.fields.length; i++) {
-        if (i < args.length ) {
-          queries.push(qe.fields[i] + '=\'' + args[i].trim() + '\'');
-        } else {
-          queries.push(qe.fields[i] + '=?');
-        }
-      }
-    } else {
-      for (let i = 0; i < qe.fields.length; i++) {
-        queries.push(qe.fields[i] + '=\'' + searchString.trim() + '\'');
-      }
-    }
-    return   'Search in [' + queries.join(' & ') + ']';
-  }
+  // private makePlaceholder(searchString: string): string  {
+  //   const qe = getQueryInfo(this.pageSearch.kind);
+  //   if (!searchString || searchString.length === 0) { return qe.placeholder(); }
+  //
+  //   // const args = searchString.split(',');
+  //   // const queries = [];
+  //   //
+  //   // if (args.length <= qe.fields.length) {
+  //   //   for (let i = 0; i <  qe.fields.length; i++) {
+  //   //     if (i < args.length ) {
+  //   //       queries.push(qe.fields[i] + '=\'' + args[i].trim() + '\'');
+  //   //     } else {
+  //   //       queries.push(qe.fields[i] + '=?');
+  //   //     }
+  //   //   }
+  //   // } else {
+  //   //   for (let i = 0; i < qe.fields.length; i++) {
+  //   //     queries.push(qe.fields[i] + '=\'' + searchString.trim() + '\'');
+  //   //   }
+  //   // }
+  //   return   'Search in [' + queries.join(' or ') + ']';
+  // }
 
   private getColumns(): Column[] {
     const kind = this.pageSearch.kind;
@@ -212,7 +214,6 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
 
     return DEFAULT_COLUMNS;
   }
-
 
 
 }

@@ -5,7 +5,7 @@ import { BehaviorSubject} from 'rxjs/internal/BehaviorSubject';
 import { QddtPropertyStoreService  } from '../core/services/property.service';
 import { UserService } from '../core/services/user.service';
 import { TemplateService } from '../template/template.service';
-import { ActionKind, ElementKind } from '../shared/classes';
+import {ActionKind, ElementKind, EnumItem, enumToArray, StringIsNumber} from '../shared/classes';
 import { HIERARCHY_POSITION } from '../core/classes/UserSettings';
 
 
@@ -43,7 +43,7 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
           this.router.navigate([this.property.userSetting.url]);
         } else {
           console.log('should have rerouted...');
-          // this.router.navigate(['/login']);
+          this.router.navigate(['/login']);
           // const redirectUrl = this.property.userSetting.url;
           // this.router.navigateByUrl(
           //   this.router.createUrlTree( ['/login'], { queryParams: { redirectUrl } } )
@@ -111,7 +111,7 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onSurvey() {
-    this.clearAll();
+    this.clearStudy();
     this.router.navigate(['/survey']);
   }
 
@@ -129,26 +129,27 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
     this.router.navigate(['/concept']);
   }
 
-  clearAll() {
-    this.clearTopic();
-    this.property.pathClear(HIERARCHY_POSITION.Survey);
-    this.property.set('study', null);
-  }
-
-  clearTopic() {
-    this.clearConcept();
-    this.property.pathClear(HIERARCHY_POSITION.Study);
-    this.property.set('topic', null);
-  }
-
-  clearConcept() {
-    this.property.pathClear(HIERARCHY_POSITION.Topic);
-    this.property.set('concept', null);
-  }
-
   get path(): Array<MenuItem> {
     return this.property.menuPath;
   }
+
+  private clearStudy() {
+    this.clearTopic();
+    this.property.pathClear(HIERARCHY_POSITION.Study);
+    this.property.set('study', null);
+  }
+
+  private clearTopic() {
+    this.clearConcept();
+    this.property.pathClear(HIERARCHY_POSITION.Topic);
+    this.property.set('topic', null);
+  }
+
+  private clearConcept() {
+    this.property.pathClear(HIERARCHY_POSITION.Concept);
+    this.property.set('concept', null);
+  }
+
 
   private gotoUUID(uuid: string) {
     this.service.searchByUuid(uuid).then( (result) => {
@@ -157,13 +158,10 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private setVisibility() {
-
-    const newArr = new Array<boolean>(20);
-    for (let item in ElementKind ) {
-      newArr[item] = this.hasAccess(item);
-    }
-    this.canSee = newArr;
-    console.log(this.canSee);
+    this.canSee =  Object.keys(ElementKind)
+      .filter(StringIsNumber)
+      .map(key => this.hasAccess(key));
+    // console.log(this.canSee);
   }
 }
 

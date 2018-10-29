@@ -1,24 +1,27 @@
 <div *ngIf="rows" class="row">
   <div class="white grey-text text-darken-1" style="overflow-x:auto; margin:0.5rem">
-    <form (ngSubmit)="onSearch(f.form.value)"  #f="ngForm">
-        <div class="row" *ngIf="!advanced" >
-          <div class="input-field col s11 m10 l9">
-            <i class="material-icons prefix" >search</i>
-            <input id="search1" name="simplesearch" type="search" required ngModel >
-            <!--[ngModelOptions]="{updateOn: 'blur'}"-->
-            <label for="search1" >{{placeholder}}</label>
-            <i class="material-icons" (click)="onClearKeywords(0)">close</i>
+    <form  #searchForm="ngForm">
+        <div class="row" >
+          <div *ngIf="!advanced" >
+            <div class="input-field col s11 m10 l9">
+              <i class="material-icons prefix" >search</i>
+              <input id="simplesearch" name="simplesearch" type="search" required ngModel (ngModelChange)="searchKeysChange.next(searchForm.value)">
+              <!--[ngModelOptions]="{updateOn: 'blur'}"-->
+              <label for="simplesearch" >{{placeholder}}</label>
+              <i class="material-icons" (click)="onClear(searchForm.controls['simplesearch'])">close</i>
+            </div>
           </div>
-          <a class="waves-effect waves-light btn" (click)="advanced=!advanced" ><i class="material-icons left">arrow_drop_down</i>Advanced search</a>
-        </div>
-        <div class="row" *ngIf="advanced">
-          <div class="col s{{ (10-10%fields.length)/fields.length}} input-field" *ngFor="let field of fields; let idx=index;">
+          <div *ngIf="advanced" >
+          <div class="col s{{ (10-10%fieldNames.length)/fieldNames.length}} input-field" *ngFor="let fieldname of fieldNames; let idx=index;">
             <i class="material-icons prefix" >search</i>
-            <input id="field-{{idx}}" type="search" name="{{field}}" ngModel  >
-            <label for="field-{{idx}}" >{{field}}</label>
-            <i class="material-icons" (click)="onClearKeywords(idx)">close</i>
+            <input id="field-{{idx}}" name="{{fieldname}}" type="search" required ngModel (ngModelChange)="searchKeysChange.next(searchForm.value)">
+            <label for="field-{{idx}}">{{fieldname}}</label>
+            <i class="material-icons" (click)="onClear(searchForm.controls[fieldname])">close</i>
           </div>
-          <a class="waves-effect waves-light btn" (click)="advanced=!advanced" ><i class="material-icons left">arrow_drop_up</i>Simple search</a>
+          </div>
+          <div class="switch"><label><input type = "checkbox"  (change)="advanced = !advanced">
+            <span class = "lever"></span>Advanced search</label>
+          </div>
         </div>
     </form>
     <table class="highlight">
