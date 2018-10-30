@@ -3,7 +3,7 @@ import { QuestionConstruct } from '../../controlconstruct/controlconstruct.class
 
 @Component({
   selector: 'qddt-preview-controlconstruct',
-  moduleId: module.id,
+
   template: `
     <div class="row" *ngIf="construct">
       <div [ngSwitch]="construct.classKind">

@@ -4,7 +4,7 @@ import { IEntityEditAudit, IRevisionRef } from '../classes/interfaces';
 
 @Component({
   selector: 'qddt-element-footer',
-  moduleId: module.id,
+
   styles:  [
     'p {padding: 3px ;margin: inherit;!important;}',
     '.input-field label.active {padding-top:3px; !important;}'

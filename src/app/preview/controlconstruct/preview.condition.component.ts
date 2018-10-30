@@ -3,7 +3,7 @@ import {ConditionConstruct} from '../../controlconstruct/controlconstruct.classe
 
 @Component({
   selector: 'qddt-preview-conditionconstruct',
-  moduleId: module.id,
+
   template: `
     <div class="row" *ngIf="condition">
       <h5>Condition</h5>

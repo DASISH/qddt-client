@@ -9,7 +9,7 @@ import { IPageSearch } from '../shared/classes/interfaces';
 
 @Component({
   selector: 'qddt-publication-preselector',
-  moduleId: module.id,
+
   styles: ['.row { margin-bottom: auto; }'],
   template: `
   <div class="card-action">

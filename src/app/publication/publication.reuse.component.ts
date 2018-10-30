@@ -8,7 +8,7 @@ import { PUBLICATION_TYPES} from './publication.classes';
 
 @Component({
   selector: 'qddt-publication-reuse',
-  moduleId: module.id,
+
   templateUrl: './publication.reuse.component.html',
   styles: [
     `label, [type="radio"] + label { padding-left: 25px; }`,

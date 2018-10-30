@@ -59,7 +59,7 @@
         </td>
         <td  *ngFor="let column of columns">{{ row[column.label] }}</td>
 
-        <td *ngIf="row.revisionIsVisible" colspan="columns.length"><qddt-revision  [current]="item"> </qddt-revision></td>
+        <td *ngIf="row.revisionIsVisible" colspan="columns.length"><qddt-revision  [current]="row.Object"> </qddt-revision></td>
 
       </tr>
       </tbody>
@@ -77,3 +77,22 @@
 
 </div>
 
+<div id="confirmModal{{moduleId}}" class="modal modal-fixed-footer" >
+  <div class="modal-content">
+    <div class="row">
+      <h4>Warning</h4>
+      <span>Are you sure you want to delete [{{ currentItem?.name }}]?</span>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      (click)="onConfirmDeleting(currentItem)"
+      class="btn green waves-effect">
+      <a><i class="close material-icons medium white-text">done</i>Yes</a>
+    </button>
+    <button
+      class="btn btn-default red modal-action modal-close waves-effect">
+      <a><i class="close material-icons medium white-text">close</i>No</a>
+    </button>
+  </div>
+</div>

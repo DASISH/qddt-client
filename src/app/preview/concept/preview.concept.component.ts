@@ -5,7 +5,7 @@ import { ElementKind } from '../../shared/classes/enums';
 
 @Component({
   selector: 'qddt-preview-concept',
-  moduleId: module.id,
+
   styles: [
   ],
   templateUrl: 'preview.concept.component.html',

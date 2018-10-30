@@ -4,7 +4,7 @@ import { Category } from '../../lookups/category/category.classes';
 
 @Component({
   selector: 'qddt-preview-questionitem-grid',
-  moduleId: module.id,
+
   styles: [
     `:host /deep/ .row {
        margin-left: auto;

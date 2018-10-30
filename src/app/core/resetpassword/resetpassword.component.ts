@@ -7,7 +7,7 @@ declare var $;
 
 @Component({
   selector: 'qddt-resetpassword',
-  moduleId: module.id,
+
   templateUrl: './resetpassword.component.html'
 })
 export class ResetpasswordComponent implements AfterContentChecked {

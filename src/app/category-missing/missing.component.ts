@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'qddt-missing',
-  moduleId: module.id,
+
   templateUrl: './missing.component.html'
 })
 export class MissingComponent  {

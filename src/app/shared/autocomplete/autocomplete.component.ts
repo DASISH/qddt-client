@@ -7,7 +7,7 @@ import { ElementKind, getQueryInfo, IElement, IEntityAudit, QueryInfo } from '..
 declare var $;
 @Component({
   selector: 'qddt-auto-complete',
-  moduleId: module.id,
+
   templateUrl: './autocomplete.component.html',
   styleUrls: ['./autocomplete.component.css'],
 })

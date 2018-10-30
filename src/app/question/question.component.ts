@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'qddt-questionitem',
-  moduleId: module.id,
+
   templateUrl: './question.component.html',
 })
 

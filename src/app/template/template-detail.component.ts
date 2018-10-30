@@ -14,7 +14,7 @@ const fileSaver = require('file-saver');
 
 @Component({
   selector: 'qddt-template-detail',
-  moduleId: module.id,
+
   templateUrl: './template-detail.component.html',
 })
 

@@ -4,7 +4,7 @@ import { Category, ResponseCardinality } from '../../lookups/category/category.c
 
 @Component({
   selector: 'qddt-preview-responsedomain',
-  moduleId: module.id,
+
   styles: [  ],
   template: `
     <div *ngIf="responseType" class="card-panel grey lighten-5 black-text" style="padding-left:3%; padding-right:5%; margin: 1%">

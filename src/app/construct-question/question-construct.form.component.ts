@@ -8,7 +8,7 @@ import { IRevisionResult, IElement, IRevisionRef, IOtherMaterial } from '../shar
 
 @Component({
   selector: 'qddt-question-construct-form',
-  moduleId: module.id,
+
   templateUrl: 'question-construct.form.component.html',
   styles: [
     '.nomargin { margin:0; }',

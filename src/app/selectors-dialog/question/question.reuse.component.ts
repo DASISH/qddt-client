@@ -7,7 +7,7 @@ import { IElement, IRevisionRef } from '../../shared/classes/interfaces';
 
 @Component({
   selector: 'qddt-questionitem-reuse',
-  moduleId: module.id,
+
   templateUrl: './question.reuse.component.html',
 })
 

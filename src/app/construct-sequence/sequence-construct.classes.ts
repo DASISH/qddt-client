@@ -18,6 +18,6 @@
 //   public constructor(init?: Partial<SequenceConstruct>) {
 //     Object.assign(this, init);
 //   }
-}
+// }
 
 

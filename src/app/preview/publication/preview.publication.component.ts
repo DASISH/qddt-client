@@ -5,7 +5,7 @@ import { ElementKind, ElementRevisionRef, getElementKind, QDDT_QUERY_INFOES, Que
 
 @Component({
   selector: 'qddt-preview-publication',
-  moduleId: module.id,
+
   templateUrl: './preview.publication.component.html',
 })
 

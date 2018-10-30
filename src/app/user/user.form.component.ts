@@ -7,7 +7,7 @@ import index from '@angular/cli/lib/cli';
 
 @Component({
   selector: 'qddt-user-form',
-  moduleId: module.id,
+
   templateUrl: './user.form.component.html'
 })
 

@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'qddt-preview-rd-grid',
-  moduleId: module.id,
+
   styles: [
     `:host /deep/ .row {
        margin-left: auto;

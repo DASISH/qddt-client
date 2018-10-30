@@ -4,7 +4,7 @@ import { ElementKind } from '../classes/enums';
 
 @Component({
   selector: 'qddt-conceptref',
-  moduleId: module.id,
+
   templateUrl: 'conceptref.component.html',
 })
 export class ConceptrefComponent  {

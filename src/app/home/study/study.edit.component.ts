@@ -6,7 +6,7 @@ declare var $: any;
 
 @Component({
    selector: 'qddt-study-edit',
-   moduleId: module.id,
+ 
    providers: [],
    template: `
 <div *ngIf="isVisible && study"  id="{{formId}}"  >

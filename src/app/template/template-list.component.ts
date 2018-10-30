@@ -11,7 +11,7 @@ import { IEntityAudit, IPageSearch, ElementKind, HEADER_DETAILS, ActionKind, Pag
 
 @Component({
   selector: 'qddt-template-list',
-  moduleId: module.id,
+
   templateUrl: './template-list.component.html',
   styles: [],
 })
@@ -83,9 +83,9 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
 
   private getPageSearch(): IPageSearch {
 
-    let pageSearch = this.properties.get(this.path);
+    let pageSearch = this.properties.get(this.path) as IPageSearch;
     if (!pageSearch) {
-      pageSearch = { kind: this.kind,  key: '*', page : new Page(), sort : 'modified,desc' };
+      pageSearch = { kind: this.kind,  key: '*', page : new Page(), sort : 'modified,desc' } as IPageSearch;
       this.properties.set(this.path, pageSearch);
     }
     if (pageSearch.kind === ElementKind.USER && pageSearch.sort === 'modified,desc') {

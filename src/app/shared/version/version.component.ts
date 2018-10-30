@@ -3,7 +3,7 @@ import { IEntityEditAudit } from '../classes/interfaces';
 
 @Component({
   selector: 'qddt-version',
-  moduleId: module.id,
+
   styles: [
      'i { margin:0px; vertical-align: middle;float: unset; display: unset; position: relative;  }'
   ],

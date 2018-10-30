@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'qddt-user-detail',
-  moduleId: module.id,
+
   templateUrl: './user.detail.component.html',
 })
 

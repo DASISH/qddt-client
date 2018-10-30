@@ -5,7 +5,7 @@ import { ElementKind, Page} from '../../shared/classes';
 
 @Component({
   selector: 'qddt-universe-create',
-  moduleId: module.id,
+
   templateUrl: 'universe.component.html',
 })
 

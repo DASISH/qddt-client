@@ -13,7 +13,7 @@ declare var Materialize: any;
 
 @Component({
   selector: 'qddt-template-component',
-  moduleId: module.id,
+
   providers: [],
   styles: [
     ' .input-field *  { color: white; } '

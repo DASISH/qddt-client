@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'qddt-home',
-  moduleId: module.id,
+
   providers: [],
   templateUrl: './home.component.html',
 })

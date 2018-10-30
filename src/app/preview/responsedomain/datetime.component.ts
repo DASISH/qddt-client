@@ -4,7 +4,7 @@ import { Category } from '../../lookups/category/category.classes';
 
 @Component({
   selector: 'qddt-preview-rd-datetime',
-  moduleId: module.id,
+
   template: `
   <div class="row" *ngIf="managedRepresentation">
     <span>

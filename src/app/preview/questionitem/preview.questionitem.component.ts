@@ -3,7 +3,7 @@ import { QuestionItem } from '../../question/question.classes';
 
 @Component({
   selector: 'qddt-preview-questionitem',
-  moduleId: module.id,
+
   styles: [],
   template: `
 <div class="row" >

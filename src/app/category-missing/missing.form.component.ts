@@ -8,7 +8,7 @@ import { Page } from '../shared/classes/classes';
 
 @Component({
   selector: 'qddt-missing-form',
-  moduleId: module.id,
+
   templateUrl: './missing.form.component.html'
 })
 

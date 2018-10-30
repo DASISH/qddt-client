@@ -4,7 +4,7 @@ import { IEntityEditAudit, IRevisionRef } from '../classes/interfaces';
 
 @Component({
   selector: 'qddt-version-label',
-  moduleId: module.id,
+
   styles: [
     'label  { white-space: nowrap; vertical-align: middle; text-align: right; width: 90px;}',
     'i { margin:0px; vertical-align: middle;float: unset; display: unset; position: relative; }'

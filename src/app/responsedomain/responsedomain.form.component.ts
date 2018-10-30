@@ -22,7 +22,7 @@ declare let Materialize: any;
 
 @Component({
   selector: 'qddt-responsedomain-form',
-  moduleId: module.id,
+
   templateUrl: './responsedomain.form.component.html',
 })
 

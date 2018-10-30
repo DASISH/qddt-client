@@ -4,7 +4,7 @@ import { Component, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'qddt-responsedomain-detail',
-  moduleId: module.id,
+
   templateUrl: './responsedomain.detail.component.html',
 })
 export class ResponseDetailComponent {

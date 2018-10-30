@@ -9,7 +9,7 @@ const filesaver = require('file-saver');
 
 @Component({
   selector: 'qddt-preview-topic',
-  moduleId: module.id,
+
   styles: [
   ],
   templateUrl: 'preview.topic.component.html'

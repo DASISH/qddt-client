@@ -12,7 +12,7 @@ declare var Materialize: any;
 
 @Component({
   selector: 'qddt-study',
-  moduleId: module.id,
+
   templateUrl: './study.component.html',
 })
 

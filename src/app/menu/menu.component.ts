@@ -15,7 +15,7 @@ export interface MenuItem { id: string; name: string; }
 
 @Component({
   selector: 'qddt-menu',
-  moduleId: module.id,
+
   providers: [],
   styleUrls: ['./menu.component.css'],
   templateUrl: './menu.component.html',

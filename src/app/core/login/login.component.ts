@@ -7,7 +7,7 @@ declare var $;
 
 @Component({
   selector: 'qddt-login',
-  moduleId: module.id,
+
   templateUrl: './login.component.html'
 })
 export class LoginComponent implements  AfterContentInit, OnInit {

@@ -5,7 +5,7 @@ import { getQueryInfo, IElement, IIdRef, IRevisionRef} from '../shared/classes';
 
 @Component({
   selector: 'qddt-preview-dialog',
-  moduleId: module.id,
+
   template: `
     <div class="modal modal-fixed-footer" id="preview-{{element?.id}}"
          materialize="modal" [materializeActions]="basedonActions">

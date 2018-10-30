@@ -7,7 +7,7 @@ declare var $: any;
 
 @Component({
   selector: 'qddt-topic-edit',
-  moduleId: module.id,
+
   styles: [
     '.nomargin { margin:0; }',
     ':host /deep/ .hoverable { margin-bottom:0px;}',

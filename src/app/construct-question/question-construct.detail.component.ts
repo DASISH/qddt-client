@@ -3,7 +3,7 @@ import { Component, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'qddt-question-construct-detail',
-  moduleId: module.id,
+
   templateUrl: './question-construct.detail.component.html',
 })
 

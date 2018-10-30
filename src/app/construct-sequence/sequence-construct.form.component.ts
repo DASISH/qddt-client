@@ -6,15 +6,14 @@ import {
   ElementKind,
   ElementRevisionRef,
   EnumItem,
-  enumToArray,
   IElement,
   IEntityEditAudit,
-  IRevisionRef, Page
+  IRevisionRef, Page, StringIsNumber
 } from '../shared/classes';
 
 @Component({
   selector: 'qddt-sequence-form',
-  moduleId: module.id,
+
   templateUrl: './sequence-construct.form.component.html',
   styles: [ ]
 })
@@ -36,7 +35,10 @@ export class SequenceFormComponent implements OnChanges {
 
   constructor(private service: TemplateService) {
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.SEQUENCE_CONSTRUCT);
-    this.sequenceKinds = enumToArray(SequenceKind).filter(f => f.id !== 0);
+    this.sequenceKinds = Object.keys( { keyof: typeof SequenceKind } )
+                      .filter(StringIsNumber)
+                      .filter(f => f !== '0')
+                      .map(key => ({ id: +key, name: SequenceKind[key] } as EnumItem<SequenceKind>));
   }
 
   ngOnChanges(changes: SimpleChanges): void {

@@ -5,7 +5,7 @@ import { ElementRevisionRef, getElementKind } from '../../shared/classes';
 
 @Component({
   selector: 'qddt-preview-sequenceconstruct',
-  moduleId: module.id,
+
   styles: [
   ],
   template: `

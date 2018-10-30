@@ -7,7 +7,7 @@ import { ElementKind, ElementRevisionRef, IElement, IRevisionRef, getQueryInfo }
 
 @Component({
   selector: 'qddt-copy-select',
-  moduleId: module.id,
+
   styles:  [ ],
   templateUrl: './copy-source.component.html',
 })

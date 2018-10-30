@@ -6,7 +6,7 @@ import { Instruction } from '../../controlconstruct/controlconstruct.classes';
 
 @Component({
   selector: 'qddt-instruction-form',
-  moduleId: module.id,
+
   templateUrl: './instruction.form.component.html'
 })
 

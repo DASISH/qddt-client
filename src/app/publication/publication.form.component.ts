@@ -9,7 +9,7 @@ import {TemplateService} from '../template/template.service';
 
 @Component({
   selector: 'qddt-publication-form',
-  moduleId: module.id,
+
   styles: [  ],
   templateUrl: './publication.form.component.html',
 })

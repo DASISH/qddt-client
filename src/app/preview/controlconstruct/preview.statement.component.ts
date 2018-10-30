@@ -3,7 +3,7 @@ import { StatementConstruct } from '../../controlconstruct/controlconstruct.clas
 
 @Component({
   selector: 'qddt-preview-statementconstruct',
-  moduleId: module.id,
+
   template: `
     <div class="row">
       <h5>Statement</h5>

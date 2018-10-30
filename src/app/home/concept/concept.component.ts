@@ -10,7 +10,7 @@ import { TemplateService } from '../../template/template.service';
 
 @Component({
   selector: 'qddt-concept',
-  moduleId: module.id,
+
   providers: [],
   templateUrl: './concept.component.html'
 })

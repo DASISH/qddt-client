@@ -6,7 +6,7 @@ import { Universe } from '../../controlconstruct/controlconstruct.classes';
 
 @Component({
   selector: 'qddt-universe-form',
-  moduleId: module.id,
+
   templateUrl: './universe.form.component.html'
 })
 

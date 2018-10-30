@@ -2,11 +2,11 @@ import { Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import { QddtMessageService } from '../core/services/message.service';
 import { QddtPropertyStoreService } from '../core/services/property.service';
 import { DOMAIN_TYPE_DESCRIPTION, DomainKind } from './responsedomain.classes';
-import { ActionKind, ElementKind, Page} from '../shared/classes';
+import { ActionKind, ElementKind, Page, IPageSearch} from '../shared/classes';
 
 @Component({
   selector: 'qddt-responsedomain-preselector',
-  moduleId: module.id,
+
   template: `
 <div class="card-action">
   <div class="row">
@@ -62,20 +62,15 @@ export class ResponsePreSelector implements OnChanges, OnInit {
   }
 
   private setKey(map: Map<string, string> ) {
-    let pageSearch = this.properties.get(this.path);
-    if (!pageSearch) {
-      pageSearch = {kind: ElementKind.RESPONSEDOMAIN, key: '*', page: new Page(), sort: 'modified,desc'};
-    }
+    const pageSearch = this.properties.get(this.path) as IPageSearch ||
+        { kind: ElementKind.RESPONSEDOMAIN, key: '*', page: new Page(), sort: 'modified,desc' } as IPageSearch;
     pageSearch.keys = map;
     this.properties.set(this.path, pageSearch);
   }
 
   private getKey(): Map<string, string> {
-    const pageSearch = this.properties.get(this.path);
-    if (pageSearch.keys ) {
-      return pageSearch.keys;
-    }
-    return new Map( [ [this.KEY, DomainKind[DomainKind.SCALE] ] ] );
+    return  (this.properties.get(this.path) as IPageSearch).keys ||
+            new Map( [ [this.KEY, DomainKind[DomainKind.SCALE] ] ] );
   }
 
 }

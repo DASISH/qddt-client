@@ -5,7 +5,7 @@ import { ElementKind, Page} from '../../shared/classes';
 
 @Component({
   selector: 'qddt-condition-edit',
-  moduleId: module.id,
+
   templateUrl: 'conditionconstruct.edit.component.html',
   styles: [],
 })

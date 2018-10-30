@@ -5,7 +5,7 @@ import { Category } from '../../lookups/category/category.classes';
 
 @Component({
   selector: 'qddt-preview-rd-numeric',
-  moduleId: module.id,
+
   template: `
     <div class="row" *ngIf="managedRepresentation">
       <form>

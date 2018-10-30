@@ -3,7 +3,7 @@ import { RATIONAL_DESCRIPTIONS , RationalDescription} from './rationaldescriptio
 
 @Component({
   selector: 'qddt-rational',
-  moduleId: module.id,
+
   styles: [':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'],
   templateUrl: './rational.component.html'
 })

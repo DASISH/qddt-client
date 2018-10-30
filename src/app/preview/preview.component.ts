@@ -6,7 +6,7 @@ const filesaver = require('file-saver');
 
 @Component({
   selector: 'qddt-preview-element',
-  moduleId: module.id,
+
   styles: [
     'table { table-layout: fixed;}',
     ':host /deep/ .row { min-height: 1rem; margin-left: auto; margin-right: auto; margin-bottom: 2px; }',

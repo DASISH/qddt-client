@@ -4,7 +4,7 @@ import { Category, ResponseCardinality } from '../../lookups/category/category.c
 
 @Component({
   selector: 'qddt-preview-rd-codelist',
-  moduleId: module.id,
+
   template: `
     <div class="row" *ngIf="managedRepresentation">
      <ul>

@@ -10,7 +10,7 @@ import { HEADER_DETAILS } from '../shared/classes/constants';
 
 @Component({
   selector: 'qddt-instrument-sequence',
-  moduleId: module.id,
+
   templateUrl: './instrument-sequence.component.html'
 })
 

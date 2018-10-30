@@ -4,7 +4,7 @@ import { Category, ResponseCardinality } from '../../lookups/category/category.c
 
 @Component({
   selector: 'qddt-preview-rd-mixed',
-  moduleId: module.id,
+
   template: `<div>
     <label *ngIf="managedRepresentation && managedRepresentation.children.length > 0" class="active teal-text">
         {{ managedRepresentation.name }} v.<qddt-version [element]="managedRepresentation" ></qddt-version>

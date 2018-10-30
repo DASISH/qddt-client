@@ -3,7 +3,7 @@ import { IComment } from '../classes';
 
 @Component({
   selector: 'qddt-comment-create',
-  moduleId: module.id,
+
   template: `
     <form class="card" (ngSubmit)="save()" #hf="ngForm">
       <div class="row">

@@ -4,7 +4,7 @@ import {ElementKind, ElementRevisionRef, getQueryInfo, IEntityEditAudit } from '
 
 @Component({
   selector: 'qddt-revision-select',
-  moduleId: module.id,
+
   templateUrl: './revision-select.component.html',
 })
 

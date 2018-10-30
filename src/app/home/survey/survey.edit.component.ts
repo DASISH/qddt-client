@@ -6,7 +6,7 @@ declare var $: any;
 
 @Component({
   selector: 'qddt-survey-edit',
-  moduleId: module.id,
+
   template: `
 <div *ngIf="isVisible && survey"  id="{{formId}}"  >
   <form materialize (ngSubmit)="onSave()" #surveyForm="ngForm">

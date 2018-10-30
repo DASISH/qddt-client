@@ -13,7 +13,7 @@ import { Category } from '../../lookups/category/category.classes';
 
 @Component({
   selector: 'qddt-responsedomain-select-missing',
-  moduleId: module.id,
+
   styles: [ '.minHeight { min-height: 400px; height: auto; }',
   ],
   templateUrl: 'responsedomain.select-missing.component.html',

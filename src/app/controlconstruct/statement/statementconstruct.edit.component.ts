@@ -5,7 +5,7 @@ import { TemplateService } from '../../template/template.service';
 
 @Component({
   selector: 'qddt-statement-edit',
-  moduleId: module.id,
+
   templateUrl: 'statementconstruct.edit.component.html',
   styles: [ ]
 })

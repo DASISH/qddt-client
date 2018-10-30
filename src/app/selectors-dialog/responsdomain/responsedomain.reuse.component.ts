@@ -11,7 +11,7 @@ import { ElementKind } from '../../shared/classes/enums';
 
 @Component({
   selector: 'qddt-responsedomain-reuse',
-  moduleId: module.id,
+
   templateUrl: './responsedomain.reuse.component.html',
 })
 

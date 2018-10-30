@@ -8,7 +8,7 @@ import { ElementKind } from '../classes/enums';
 
 @Component({
   selector: 'qddt-revision',
-  moduleId: module.id,
+
   styles: ['table { table-layout:auto;}'],
   templateUrl: './revision.component.html',
   providers: [RevisionService]

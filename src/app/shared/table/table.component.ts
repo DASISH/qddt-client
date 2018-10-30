@@ -6,12 +6,14 @@ import { Column } from './table.column';
 import { LIST_COLUMNS, RESPONSEDOMAIN_COLUMNS, DEFAULT_COLUMNS } from './table.column-map';
 import { ElementEnumAware, PreviewService } from '../../preview/preview.service';
 import { DomainKind } from '../../responsedomain/responsedomain.classes';
-import { ElementKind, getQueryInfo, IEntityEditAudit, IPageSearch } from '../classes';
+import { ElementKind, getQueryInfo, IEntityEditAudit, IPageSearch, QueryInfo } from '../classes';
 import { DialogService } from '../../dialog/dialog.service';
 import { ConfirmComponent } from '../../dialog/content/confirm.component';
 import {AbstractControl} from '@angular/forms';
+import { QddtPropertyStoreService } from '../../core/services/property.service';
 
 const filesaver = require('file-saver');
+declare var $;
 declare var Materialize: any;
 
 @Component({
@@ -21,7 +23,7 @@ declare var Materialize: any;
     'th { white-space: nowrap;}',
     'td, td div { max-width: 400px;  white-space: nowrap;  overflow: hidden; text-overflow: ellipsis;}',
     'table { table-layout:auto;}'],
-  moduleId: module.id,
+
   templateUrl: './table.component.html',
 })
 
@@ -38,29 +40,30 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
   @Input() items: IEntityEditAudit[];
 
   @Output() detailEvent = new EventEmitter<IEntityEditAudit>();
+  @Output() deleteEvent = new EventEmitter<IEntityEditAudit>();
   @Output() fetchEvent = new EventEmitter<IPageSearch>();
 
   public readonly directionSign: { [dir: string]: string; } = {'': '⇳', 'asc':  '▲', 'desc': '▼'};
-  // public value: string;
 
   public placeholder: string;
   public rows = [];
   public columns: Column[];
   public revisionIsVisible = false;
+  public advanced = false;
 
-  // @ViewChild('fkRef') _fkRef: ElementRef;
+  public searchKeysChange: Subject<string> = new Subject<string>();
 
-  private searchKeysChange: Subject<string> = new Subject<string>();
+  public fieldValues = {};
+  public fieldNames = [];
+  public currentItem: IEntityEditAudit;
 
-  private fieldValues = {};
-  private fieldNames = [];
-
-  constructor(private service: PreviewService, private modal: DialogService) {
+  constructor(private service: PreviewService, private modal: DialogService, private property: QddtPropertyStoreService) {
     this.searchKeysChange.pipe(
       debounceTime(300),
       distinctUntilChanged())
       .subscribe((value) => {
         this.fieldNames.filter(f => (value[f]) && f !== 'simplesearch').forEach(n => this.pageSearch.keys.set(n, value[n]));
+        this.pageSearch.advanced = this.advanced;
         this.pageSearch.key = value['simplesearch'] || null;
         this.pageSearch.sort = this.getSort();
         this.fetchEvent.emit(this.pageSearch);
@@ -69,13 +72,13 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
 
 
   public ngOnInit(): void {
-    const qe = getQueryInfo(this.pageSearch.kind);
     this.columns = this.getColumns();
     if (!this.items) { this.items = []; }
+    const qe = getQueryInfo(this.pageSearch.kind) as QueryInfo;
+
     this.fieldValues = qe.fields.map((name) =>  name  );
     this.fieldNames = qe.fields;
     this.placeholder = qe.placeholder();
-    Materialize.updateTextFields();
   }
 
   public ngOnDestroy(): void {
@@ -83,6 +86,10 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
+
+    if (changes['pageSearch'] && changes['pageSearch'].currentValue) {
+      this.advanced = this.pageSearch['advanced'] || false;
+    }
 
     this.columns = this.getColumns();
 
@@ -127,11 +134,18 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
     this.detailEvent.emit(item);
   }
 
-  public onRemoveItem(item) {
-    const ref = this.modal.open(ConfirmComponent, { data: { message: 'Delete ' + item.name }} );
-    ref.afterClosed.subscribe(result => {
-      console.log('Dialog closed', result);
-    });
+  public onRemoveItem(item: IEntityEditAudit) {
+     this.currentItem = item;
+      $('#confirmModal11').modal('open');
+
+    // const ref = this.modal.open(ConfirmComponent, { data: { message: 'Delete ' + item.name }} );
+    // ref.afterClosed.subscribe(result => {
+    //   console.log('Dialog closed', result);
+    // });
+  }
+
+  onConfirmDeleting(item: IEntityEditAudit) {
+    this.deleteEvent.emit(item);
   }
 
   public onGetPdf(item: IEntityEditAudit) {
@@ -142,6 +156,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
   public pageChange(p: number) {
     this.pageSearch.page.number = p;
     this.pageSearch.sort = this.getSort();
+    this.pageSearch.advanced = this.advanced;
     this.fetchEvent.emit(this.pageSearch);
   }
 
@@ -178,29 +193,6 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
         this.fetchEvent.emit(this.pageSearch);
     }
   }
-
-  // private makePlaceholder(searchString: string): string  {
-  //   const qe = getQueryInfo(this.pageSearch.kind);
-  //   if (!searchString || searchString.length === 0) { return qe.placeholder(); }
-  //
-  //   // const args = searchString.split(',');
-  //   // const queries = [];
-  //   //
-  //   // if (args.length <= qe.fields.length) {
-  //   //   for (let i = 0; i <  qe.fields.length; i++) {
-  //   //     if (i < args.length ) {
-  //   //       queries.push(qe.fields[i] + '=\'' + args[i].trim() + '\'');
-  //   //     } else {
-  //   //       queries.push(qe.fields[i] + '=?');
-  //   //     }
-  //   //   }
-  //   // } else {
-  //   //   for (let i = 0; i < qe.fields.length; i++) {
-  //   //     queries.push(qe.fields[i] + '=\'' + searchString.trim() + '\'');
-  //   //   }
-  //   // }
-  //   return   'Search in [' + queries.join(' or ') + ']';
-  // }
 
   private getColumns(): Column[] {
     const kind = this.pageSearch.kind;

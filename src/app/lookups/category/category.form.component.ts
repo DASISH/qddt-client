@@ -6,7 +6,7 @@ import { TemplateService } from '../../template/template.service';
 
 @Component({
   selector: 'qddt-category-form',
-  moduleId: module.id,
+
   templateUrl: './category.form.component.html'
 })
 

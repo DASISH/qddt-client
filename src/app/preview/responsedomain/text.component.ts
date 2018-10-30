@@ -4,7 +4,7 @@ import { Category } from '../../lookups/category/category.classes';
 
 @Component({
   selector: 'qddt-preview-rd-text',
-  moduleId: module.id,
+
   template: `
     <div class="row" *ngIf="managedRepresentation">
        <textarea id="{{managedRepresentation?.id}}-textarea"

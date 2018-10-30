@@ -15,7 +15,7 @@ class Column {
 
 @Component({
   selector: 'qddt-preview-rd-scale',
-  moduleId: module.id,
+
   templateUrl: './scale.component.html',
   styles: [
     'table { table-layout: fixed; }',

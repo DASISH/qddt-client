@@ -7,7 +7,7 @@ const filesaver = require('file-saver');
 
 @Component({
   selector: 'qddt-download',
-  moduleId: module.id,
+
   templateUrl: './download.component.html',
   styles: [
     '.collection {border:none; }',

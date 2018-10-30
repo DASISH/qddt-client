@@ -8,7 +8,7 @@ import { IElement, IIdRef, IRevisionRef } from './shared/classes/interfaces';
 
 
 @Component({
-  moduleId: module.id,
+
   selector: 'qddt-app',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],

@@ -10,7 +10,7 @@ declare var Materialize: any;
 
 @Component({
   selector: 'qddt-questionitem-form',
-  moduleId: module.id,
+
   styles: [
     ':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'
   ],
