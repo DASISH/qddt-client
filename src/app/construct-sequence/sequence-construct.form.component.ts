@@ -35,7 +35,7 @@ export class SequenceFormComponent implements OnChanges {
 
   constructor(private service: TemplateService) {
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.SEQUENCE_CONSTRUCT);
-    this.sequenceKinds = Object.keys( { keyof: typeof SequenceKind } )
+    this.sequenceKinds = Object.keys( SequenceKind )
                       .filter(StringIsNumber)
                       .filter(f => f !== '0')
                       .map(key => ({ id: +key, name: SequenceKind[key] } as EnumItem<SequenceKind>));

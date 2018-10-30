@@ -70,28 +70,7 @@
   box-shadow: 0 0 15px 5px #b0e0ee;
   border: 2px solid #bebede;
 }
-.close-icon {
-  border:1px solid transparent;
-  background-color: transparent;
-  position: absolute;
-  right: 1.5rem;
-  top: 1rem;
-  vertical-align: middle;
-  outline: 0;
-  cursor: pointer;
-}
-.close-icon:after {
-  content: "X";
-  vertical-align: middle;
-  margin: auto;
-  padding: 5px;
-  border-radius: 50%;
-  color: white;
-  background-color: teal;
-  text-align: center;
-  font-weight: normal;
-  cursor: pointer;
-}
+
 .search-box:not(:valid) ~ .close-icon {
   display: none;
 }

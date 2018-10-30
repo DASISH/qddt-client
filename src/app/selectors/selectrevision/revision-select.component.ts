@@ -4,7 +4,6 @@ import {ElementKind, ElementRevisionRef, getQueryInfo, IEntityEditAudit } from '
 
 @Component({
   selector: 'qddt-revision-select',
-
   templateUrl: './revision-select.component.html',
 })
 
@@ -42,7 +41,7 @@ export class RevisionSelectComponent implements OnChanges {
   }
 
   onUseElement() {
-    const qi =  getQueryInfo(this.selectedElement.classKind)
+    const qi =  getQueryInfo(this.selectedElement.classKind);
     if (qi) {
       const element = new ElementRevisionRef();
       element.elementId = this.selectedElement.id;

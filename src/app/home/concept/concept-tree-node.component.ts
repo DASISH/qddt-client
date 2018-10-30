@@ -11,7 +11,6 @@ declare var Materialize: any;
 @Component({
   selector: 'qddt-concept-treenode',
   providers: [  ],
-
   templateUrl: './concept-tree-node.component.html',
   styleUrls: ['./concept-tree-node.component.css']
 })

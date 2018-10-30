@@ -9,9 +9,10 @@ import { QddtPropertyStoreService } from '../core/services/property.service';
 import { DomainKind } from '../responsedomain/responsedomain.classes';
 import { IEntityAudit, IPageSearch, ElementKind, HEADER_DETAILS, ActionKind, Page } from '../shared/classes';
 
+declare var $;
+
 @Component({
   selector: 'qddt-template-list',
-
   templateUrl: './template-list.component.html',
   styles: [],
 })
@@ -19,6 +20,9 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
   public items: IEntityAudit[];
   public showProgressBar = false;
   public pageSearch: IPageSearch;
+  public toBeDeleted: IEntityAudit;
+
+  public readonly formId = Math.round( Math.random() * 10000);
 
   private alive = true;
   private path: string;
@@ -48,7 +52,19 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
   public ngOnInit(): void {
     if (this.kind) {
       this.loadPage(); }
+    $(document).ready(function() {
+      $('.modal').modal({
+        ready: () => {
+          // Materialize.updateTextFields();
+        }
+      });
+    });
   }
+
+  public ngOnDestroy(): void {
+    this.alive = false;
+  }
+
 
   public onFetchItems(page: IPageSearch ) {
     this.setPageSearch(page);
@@ -57,6 +73,21 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
 
   public onDetail(item: IEntityAudit ) {
     this.router.navigate(['./', item.id ], { relativeTo: this.route });
+  }
+
+  public onDelete(item: IEntityAudit) {
+    console.log(JSON.stringify(item));
+    this.service.delete(item)
+    .subscribe(() => {
+      this.loadPage();
+      $('#confirmModal' + this.formId).modal('close');
+    },
+    (error) => { throw error; });
+  }
+
+  public onConfirmDelete(item: IEntityAudit) {
+    this.toBeDeleted = item;
+    $('#confirmModal' + this.formId).modal('open');
   }
 
   private loadPage(search?: string ) {
@@ -100,10 +131,6 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
       pageSearch.keys = new Map( [ [KEY, 'NOT_PUBLISHED' ] ] );
     }
     return pageSearch;
-  }
-
-  ngOnDestroy(): void {
-    this.alive = false;
   }
 
 }

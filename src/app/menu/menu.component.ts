@@ -5,7 +5,7 @@ import { BehaviorSubject} from 'rxjs/internal/BehaviorSubject';
 import { QddtPropertyStoreService  } from '../core/services/property.service';
 import { UserService } from '../core/services/user.service';
 import { TemplateService } from '../template/template.service';
-import {ActionKind, ElementKind, EnumItem, enumToArray, StringIsNumber} from '../shared/classes';
+import {ActionKind, ElementKind, StringIsNumber} from '../shared/classes';
 import { HIERARCHY_POSITION } from '../core/classes/UserSettings';
 
 
@@ -15,7 +15,6 @@ export interface MenuItem { id: string; name: string; }
 
 @Component({
   selector: 'qddt-menu',
-
   providers: [],
   styleUrls: ['./menu.component.css'],
   templateUrl: './menu.component.html',

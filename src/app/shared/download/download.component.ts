@@ -7,7 +7,6 @@ const filesaver = require('file-saver');
 
 @Component({
   selector: 'qddt-download',
-
   templateUrl: './download.component.html',
   styles: [
     '.collection {border:none; }',
@@ -72,9 +71,9 @@ export class QddtDownload implements OnChanges {
   }
 
   onMarkForDeletetion(idx: number) {
-    if (this.entity.otherMaterials
-      && this.entity.otherMaterials.length > idx) {
-      const items = this.entity.otherMaterials.splice(idx, 1);
+    if (this.entity['otherMaterials']
+      && this.entity['otherMaterials'].length > idx) {
+      const items = this.entity['otherMaterials'].splice(idx, 1);
       if (items.length > 0) {
         this.toDeleteFiles.push(items[0]);
       }

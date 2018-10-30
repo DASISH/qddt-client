@@ -4,7 +4,6 @@ import { IComment } from '../classes/interfaces';
 
 @Component({
   selector: 'qddt-comment-list',
-
   styles: [`img { border-radius: 50%; width: 48px; float: right; position: relative; top: 8px; }`],
   templateUrl: `./comment.list.component.html`,
   providers: [CommentService]

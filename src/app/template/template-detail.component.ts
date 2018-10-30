@@ -57,6 +57,13 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterContentC
             this.selectedItem.emit(item); },
         (error) => { this.showProgressBar = false; throw error; });
     }
+    $(document).ready(function() {
+      $('.modal').modal({
+        ready: () => {
+          // Materialize.updateTextFields();
+        }
+      });
+    });
   }
 
   ngAfterContentChecked(): void {

@@ -50,7 +50,7 @@
   <!-- </div> -->
 </div>
 
-<div id="confirmModal{{item.id}}" class="modal modal-fixed-footer" >
+<div id="confirmModal{{item.id}}" class="modal"  materialize="modal">
   <div class="modal-content">
     <div class="row">
       <h4>Warning</h4>
@@ -58,14 +58,11 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button
-      (click)="onConfirmDeleting()"
-      class="btn green waves-effect">
-      <a><i class="close material-icons medium white-text">done</i>Yes</a>
+    <button class="btn green waves-effect" (click)="onConfirmDeleting()">
+      <a><i class="close material-icons medium white-text">done</i></a>
     </button>
-    <button 
-      class="btn btn-default red modal-action modal-close waves-effect">
-      <a><i class="close material-icons medium white-text">close</i>No</a>
+    <button class="btn btn-default red modal-action modal-close waves-effect">
+      <a><i class="close material-icons medium white-text">close</i></a>
     </button>
   </div>
 </div>

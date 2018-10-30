@@ -45,11 +45,12 @@ export class ResetpasswordComponent implements AfterContentChecked {
     const pwd = new ResetPassword(f);
     this.loading = true;
     this.authenticationService.resetPassword(pwd).subscribe(
-      result => {
+      (result) => {
         this.loading = false;
-        $('.modal').modal();
         $('#modalReset').modal('close');
-        alert.call(result); },
-      err => console.error(err));
+        alert(result.message);
+       },
+       (error) => { this.loading = false; throw error; }
+    );
   }
 }

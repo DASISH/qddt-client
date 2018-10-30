@@ -35,7 +35,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
    * totalElements: the total number of elements
    * totalPages: the total pages
    */
-  @Input() domainkind: DomainKind;
+  // @Input() domainkind: DomainKind;
   @Input() pageSearch: IPageSearch;
   @Input() items: IEntityEditAudit[];
 
@@ -44,26 +44,24 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
   @Output() fetchEvent = new EventEmitter<IPageSearch>();
 
   public readonly directionSign: { [dir: string]: string; } = {'': '⇳', 'asc':  '▲', 'desc': '▼'};
-
-  public placeholder: string;
-  public rows = [];
-  public columns: Column[];
-  public revisionIsVisible = false;
-  public advanced = false;
-
   public searchKeysChange: Subject<string> = new Subject<string>();
 
+  public rows = [];
+  public columns: Column[];
+  public placeholder: string;
+  // public revisionIsVisible = false;
+  public hasDetailSearch = false;
   public fieldValues = {};
   public fieldNames = [];
   public currentItem: IEntityEditAudit;
 
-  constructor(private service: PreviewService, private modal: DialogService, private property: QddtPropertyStoreService) {
+  constructor(private service: PreviewService, private modal: DialogService) {
     this.searchKeysChange.pipe(
       debounceTime(300),
       distinctUntilChanged())
       .subscribe((value) => {
         this.fieldNames.filter(f => (value[f]) && f !== 'simplesearch').forEach(n => this.pageSearch.keys.set(n, value[n]));
-        this.pageSearch.advanced = this.advanced;
+        this.pageSearch.hasDetailSearch = this.hasDetailSearch;
         this.pageSearch.key = value['simplesearch'] || null;
         this.pageSearch.sort = this.getSort();
         this.fetchEvent.emit(this.pageSearch);
@@ -88,7 +86,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
   public ngOnChanges(changes: SimpleChanges): void {
 
     if (changes['pageSearch'] && changes['pageSearch'].currentValue) {
-      this.advanced = this.pageSearch['advanced'] || false;
+      this.hasDetailSearch = this.pageSearch['hasDetailSearch'] || false;
     }
 
     this.columns = this.getColumns();
@@ -98,7 +96,6 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
     if (!this.pageSearch.keys) { this.pageSearch.keys = new Map<string, string>(); }
     const qe = getQueryInfo(this.pageSearch.kind);
     this.placeholder = qe.placeholder();
-    // this.placeholder = this.makePlaceholder(this.pageSearch.key);
 
     this.rows = [];
 
@@ -134,17 +131,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
     this.detailEvent.emit(item);
   }
 
-  public onRemoveItem(item: IEntityEditAudit) {
-     this.currentItem = item;
-      $('#confirmModal11').modal('open');
-
-    // const ref = this.modal.open(ConfirmComponent, { data: { message: 'Delete ' + item.name }} );
-    // ref.afterClosed.subscribe(result => {
-    //   console.log('Dialog closed', result);
-    // });
-  }
-
-  onConfirmDeleting(item: IEntityEditAudit) {
+  public onConfirmDeleting(item: IEntityEditAudit) {
     this.deleteEvent.emit(item);
   }
 
@@ -156,7 +143,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
   public pageChange(p: number) {
     this.pageSearch.page.number = p;
     this.pageSearch.sort = this.getSort();
-    this.pageSearch.advanced = this.advanced;
+    this.pageSearch.hasDetailSearch = this.hasDetailSearch;
     this.fetchEvent.emit(this.pageSearch);
   }
 

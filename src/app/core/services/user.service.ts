@@ -22,7 +22,7 @@ export class ResetPassword {
   oldPassword: string;
   password: string;
 
-  public constructor(init?: Partial<ResetPassword>) {
+  public constructor(init?: Partial<IPassword>) {
     Object.assign(this, init);
   }
 }

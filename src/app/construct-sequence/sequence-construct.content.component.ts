@@ -5,7 +5,6 @@ import { ElementRevisionRef } from '../shared/classes/classes';
 
 @Component({
   selector: 'qddt-sequence-content',
-
   templateUrl: './sequence-construct.content.component.html',
   styles: [
     '.control-children { padding-left: 20px }',

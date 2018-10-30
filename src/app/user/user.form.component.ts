@@ -1,13 +1,11 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import {IAuthority, UserJson} from './user.classes';
 import { UserService, Agency } from '../core/services/user.service';
-import index from '@angular/cli/lib/cli';
 
 // declare var Materialize: any;
 
 @Component({
   selector: 'qddt-user-form',
-
   templateUrl: './user.form.component.html'
 })
 
@@ -37,7 +35,7 @@ export class UserFormComponent implements OnInit, OnChanges {
         if (this.user.agency) {
           this.onSelectChange(this.user.agency.id);
         } else {
-          this.onSelectChange(this.getFirstAgency().id);
+          this.getFirstAgency().then( agent => this.onSelectChange(agent.id) );
         }
         // Materialize.updateTextFields();
       }
@@ -55,19 +53,17 @@ export class UserFormComponent implements OnInit, OnChanges {
     this.user.authorities  = [authority];
   }
 
-
-  private async getFirstAgency(): any {
-    return await this.getAgencies().then( result => result.find((value, _index) => _index === 0  ));
-  }
-
-
   onSave() {
     this.userService.save(this.user).subscribe(
       (result) => {
-        this.user = result;
-        this.modifiedEvent.emit(result);
+        this.modifiedEvent.emit(this.user = result);
       },
       (error) => { throw error; });
+  }
+
+
+  private async getFirstAgency() {
+    return await this.getAgencies().then( result => result.find((value, _index) => _index === 0  ));
   }
 
   private async getAgencies() {
@@ -75,9 +71,9 @@ export class UserFormComponent implements OnInit, OnChanges {
   }
 
   private async getAuthorities() {
-    return await this.userService.getAuthorities().then((result) => {
-      // console.log(JSON.stringify(result));
-      return result;
-    });
+    return await this.userService.getAuthorities();
+    // .then((result) => {
+    //   return result;
+    // });
   }
 }

@@ -3,6 +3,7 @@ import { Subject } from 'rxjs/internal/Subject';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { ElementEnumAware } from '../../preview/preview.service';
 import { ElementKind, getQueryInfo, IElement, IEntityAudit, QueryInfo } from '../classes';
+import { Factory } from '../classes/factory';
 
 declare var $;
 @Component({
@@ -29,6 +30,7 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
   public selectedIndex = 0;
   public queryInfo: QueryInfo;
   public showAutoComplete = false;
+  public readonly formId = Math.round( Math.random() * 10000);
 
   private waitingForChange = false;
   private found = true;
