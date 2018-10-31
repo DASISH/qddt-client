@@ -1,14 +1,14 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnDestroy} from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnDestroy, OnInit} from '@angular/core';
 import { Subject } from 'rxjs/internal/Subject';
+import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { ElementEnumAware } from '../../preview/preview.service';
 import { ElementKind, getQueryInfo, IElement, IEntityAudit, QueryInfo } from '../classes';
 import { Factory } from '../classes/factory';
+import { Observable } from 'rxjs';
 
-declare var $;
 @Component({
   selector: 'qddt-auto-complete',
-
   templateUrl: './autocomplete.component.html',
   styleUrls: ['./autocomplete.component.css'],
 })
@@ -47,22 +47,10 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
         this.waitingForChange = true;
         this.enterEvent.emit(name);
       });
-    // $('autocomplete-id').autocomplete({
-    //   data: {
-    //     "Apple": null,
-    //     "Microsoft": null,
-    //     "Google": 'https://placehold.it/250x250'
-    //   },
-    //   limit: 20, // The max amount of results that can be shown at once. Default: Infinity.
-    //   onAutocomplete: function(val) {
-    //     console.log(val);
-    //   },
-    //   minLength: 1, // The minimum length of the input for the autocomplete to start. Default: 1.
-    // });
   }
 
   ngOnChanges(change: SimpleChanges) {
-    if (change['elementKind'] && change['elementKind'].isFirstChange()) {
+    if (change['elementKind'] && change['elementKind'].currentValue) {
       this.queryInfo = getQueryInfo(this.elementKind);
     }
 
@@ -111,7 +99,7 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
   onBlur() {
     this.showAutoComplete = false;
     if (!this.selected) {
-      this.value = null;
+      this.value = this.initialValue || null;
     }
   }
 
@@ -120,18 +108,19 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
     this.selected = true;
     const fieldName = this.queryInfo.fields[0];
     this.value = candidate[fieldName];
+    console.log('select');
     this.selectEvent.emit({element: candidate, elementKind: this.elementKind });
   }
 
   getLabel(candiate: IEntityAudit) {
-    if (this.queryInfo.isMultipleFields()) {
-      const results: any[] = this.queryInfo.fields.map(element => {
-        return this.getFieldValue(candiate, element).substring(0, 200).concat('...');
-      });
-      return results.join(' | ');
-    } else {
-      return this.getFieldValue(candiate, this.queryInfo.fields).substring(0, 200).concat('...');
-    }
+    // if (this.queryInfo.isMultipleFields()) {
+    //   const results: any[] = this.queryInfo.fields.map(element => {
+    //     return this.getFieldValue(candiate, element);
+    //   });
+    //   return results.join(' | ');
+    // } else {
+      return this.getFieldValue(candiate, this.queryInfo.fields);
+    // }
   }
 
   onClearKeywords() {
@@ -144,15 +133,7 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
 
   private getFieldValue(object: IEntityAudit, path: any) {
     if (path instanceof Array) {
-      let result: any = object;
-      path.forEach((element: any) => {
-        if ((result) && (result[element])) {
-          result = result[element];
-        } else {
-          result = '';
-        }
-      });
-      return result;
+      return path.map((element: any) => (object[element]) ?  object[element] : '' ).join(' | ');
     } else {
       return object[path] || '??';
     }

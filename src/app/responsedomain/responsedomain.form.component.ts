@@ -99,8 +99,8 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy {
   }
 
   onSearchCategories(name: string) {
-    this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex]['isNew'] = true;
-    this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex].label = name;
+    // this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex]['isNew'] = true;
+    // this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex].label = name;
     this.pageSearch.key = name;
     this.service.searchByKind<Category>(this.pageSearch).then(
       (result) => this.categories = result.content

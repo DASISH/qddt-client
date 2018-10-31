@@ -10,6 +10,7 @@ import { DomainKind } from '../responsedomain/responsedomain.classes';
 import { IEntityAudit, IPageSearch, ElementKind, HEADER_DETAILS, ActionKind, Page } from '../shared/classes';
 
 declare var $;
+declare var Materialize;
 
 @Component({
   selector: 'qddt-template-list',
@@ -55,7 +56,7 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
     $(document).ready(function() {
       $('.modal').modal({
         ready: () => {
-          // Materialize.updateTextFields();
+          Materialize.updateTextFields();
         }
       });
     });
@@ -127,7 +128,7 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
       pageSearch.keys = new Map( [ [KEY, DomainKind[DomainKind.SCALE] ] ] );
     }
     if (pageSearch.kind === ElementKind.PUBLICATION && !pageSearch.keys ) {
-      const KEY = 'publishedstatus';
+      const KEY = 'publishedStatus';
       pageSearch.keys = new Map( [ [KEY, 'NOT_PUBLISHED' ] ] );
     }
     return pageSearch;

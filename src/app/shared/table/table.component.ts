@@ -6,11 +6,13 @@ import { Column } from './table.column';
 import { LIST_COLUMNS, RESPONSEDOMAIN_COLUMNS, DEFAULT_COLUMNS } from './table.column-map';
 import { ElementEnumAware, PreviewService } from '../../preview/preview.service';
 import { DomainKind } from '../../responsedomain/responsedomain.classes';
-import { ElementKind, getQueryInfo, IEntityEditAudit, IPageSearch, QueryInfo } from '../classes';
+import { ElementKind, getQueryInfo, IEntityEditAudit, IPageSearch, QueryInfo, StringIsNumber, ActionKind } from '../classes';
 import { DialogService } from '../../dialog/dialog.service';
 import { ConfirmComponent } from '../../dialog/content/confirm.component';
 import {AbstractControl} from '@angular/forms';
 import { QddtPropertyStoreService } from '../../core/services/property.service';
+import { TemplateService } from '../../template/template.service';
+import { UserService } from '../../core/services/user.service';
 
 const filesaver = require('file-saver');
 declare var $;
@@ -44,39 +46,40 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
   @Output() fetchEvent = new EventEmitter<IPageSearch>();
 
   public readonly directionSign: { [dir: string]: string; } = {'': '⇳', 'asc':  '▲', 'desc': '▼'};
-  public searchKeysChange: Subject<string> = new Subject<string>();
+  public searchKeysChange: Subject< { name: string, value: string }> = new Subject<{ name: string, value: string }>();
 
+  public canDelete = false;
   public rows = [];
   public columns: Column[];
+  public fields = {};
+  public fieldNames;
   public placeholder: string;
-  // public revisionIsVisible = false;
-  public hasDetailSearch = false;
-  public fieldValues = {};
-  public fieldNames = [];
-  public currentItem: IEntityEditAudit;
 
-  constructor(private service: PreviewService, private modal: DialogService) {
+  constructor(private service: PreviewService, public access: UserService ) {
     this.searchKeysChange.pipe(
       debounceTime(300),
       distinctUntilChanged())
-      .subscribe((value) => {
-        this.fieldNames.filter(f => (value[f]) && f !== 'simplesearch').forEach(n => this.pageSearch.keys.set(n, value[n]));
-        this.pageSearch.hasDetailSearch = this.hasDetailSearch;
-        this.pageSearch.key = value['simplesearch'] || null;
+      .subscribe((field) => {
+        if (field.name === 'simplesearch') {
+          this.pageSearch.key = field.value;
+        } else {
+          this.pageSearch.keys.set(field.name, field.value);
+        }
         this.pageSearch.sort = this.getSort();
         this.fetchEvent.emit(this.pageSearch);
       });
   }
-
 
   public ngOnInit(): void {
     this.columns = this.getColumns();
     if (!this.items) { this.items = []; }
     const qe = getQueryInfo(this.pageSearch.kind) as QueryInfo;
 
-    this.fieldValues = qe.fields.map((name) =>  name  );
-    this.fieldNames = qe.fields;
+    this.fields['simplesearch'] = this.pageSearch.key;
+    qe.fields.forEach( value => this.fields[value] = (this.pageSearch.keys.get(value) || '' ));
+    this.fieldNames =  qe.fields;
     this.placeholder = qe.placeholder();
+    this.canDelete =  this.access.canDo(ActionKind.Delete, qe.id);
   }
 
   public ngOnDestroy(): void {
@@ -84,10 +87,6 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-
-    if (changes['pageSearch'] && changes['pageSearch'].currentValue) {
-      this.hasDetailSearch = this.pageSearch['hasDetailSearch'] || false;
-    }
 
     this.columns = this.getColumns();
 
@@ -143,7 +142,6 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
   public pageChange(p: number) {
     this.pageSearch.page.number = p;
     this.pageSearch.sort = this.getSort();
-    this.pageSearch.hasDetailSearch = this.hasDetailSearch;
     this.fetchEvent.emit(this.pageSearch);
   }
 
@@ -151,10 +149,11 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
   //   this.searchKeysChange.next(event);
   // }
 
-  onClear(control: any | AbstractControl) {
-    control.reset('');
-    this.pageSearch.sort = this.getSort();
-    this.fetchEvent.emit(this.pageSearch);
+  onClear(name: string) {
+    this.fields[name] = '';
+    this.searchKeysChange.next( { name: name, value: ''});
+    // this.pageSearch.sort = this.getSort();
+    // this.fetchEvent.emit(this.pageSearch);
   }
 
   public getSort() {
@@ -183,7 +182,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
 
   private getColumns(): Column[] {
     const kind = this.pageSearch.kind;
-    if (kind === ElementKind.RESPONSEDOMAIN) {
+    if (kind === ElementKind.RESPONSEDOMAIN) {    // special rule, Responsdomains different kinds need different columns
       return RESPONSEDOMAIN_COLUMNS.get(DomainKind[this.pageSearch.keys.get('ResponseKind')]);
     }
 

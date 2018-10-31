@@ -59,11 +59,13 @@
 							<tbody>
 								<tr *ngFor="let category of responsedomain.managedRepresentation.children; let idx=index">
 									<td>
-                    <input id="{{idx}}-code-value" name="{{idx}}-code-value" type="number"
-                           min="{{responsedomain.managedRepresentation.inputLimit.minimum}}"
-                           max="{{responsedomain.managedRepresentation.inputLimit.maximum}}"
-									  (ngModelChange)="buildPreviewResponseDomain()"
-									  [(ngModel)]="category.code.codeValue" required>
+                    <div class="input-field">
+                      <input id="{{idx}}-code-value" name="{{idx}}-code-value" type="number"
+                             min="{{responsedomain.managedRepresentation.inputLimit.minimum}}"
+                             max="{{responsedomain.managedRepresentation.inputLimit.maximum}}"
+                      (ngModelChange)="buildPreviewResponseDomain()"
+                      [(ngModel)]="category.code.codeValue" required>
+                    </div>
                   </td>
                   <td>
                     <div class="input-field">

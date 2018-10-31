@@ -1,23 +1,15 @@
-.searchcard i.material-icons {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-}
+/*.searchcard i.material-icons {*/
+  /*position: absolute;*/
+  /*top: 10px;*/
+  /*right: 10px;*/
+  /*cursor: pointer;*/
+/*}*/
 
 .autocomplete {
   width: 100%;
   position: relative;
 }
 
-.autocomplete input {
-  width: 95%;
-  margin: 0 0 5px;
-}
-
-.autocomplete .row {
-  margin: 0;
-}
 
 .autocomplete ul {
   position: absolute;
@@ -36,7 +28,10 @@
   width: 100%;
   padding: 0.4em;
   background-color: #fff;
-  color: black
+  color: black;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;     /** IE6+, Firefox 7+, Opera 11+, Chrome, Safari **/
 }
 
 .autocomplete li.active {
@@ -61,16 +56,14 @@
   width: 500px;
   margin: 50px auto auto;
 }
-.search-box {
-  border: 1px solid #ccc;
-  outline: 0;
-  border-radius: 15px;
-}
-.search-box:focus {
-  box-shadow: 0 0 15px 5px #b0e0ee;
-  border: 2px solid #bebede;
-}
+/*.search-box {*/
+  /*border: 1px solid #ccc;*/
+  /*outline: 0;*/
+  /*border-radius: 15px;*/
+/*}*/
+/*.search-box:focus {*/
+  /*box-shadow: 0 0 15px 5px #b0e0ee;*/
+  /*border: 2px solid #bebede;*/
+/*}*/
 
-.search-box:not(:valid) ~ .close-icon {
-  display: none;
-}
+

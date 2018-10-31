@@ -2,9 +2,8 @@ import { Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import { QddtMessageService } from '../core/services/message.service';
 import { QddtPropertyStoreService } from '../core/services/property.service';
 import { PublicationService } from './publication.service';
-import { ActionKind } from '../shared/classes/enums';
 import { PublicationStatus } from './publication.classes';
-import { IPageSearch } from '../shared/classes/interfaces';
+import { ActionKind, IPageSearch } from '../shared/classes';
 
 
 @Component({
@@ -28,7 +27,7 @@ export class PublicationPreselectorComponent implements OnChanges, OnInit {
   public selectOptions: PublicationStatus[];
   public selectId = 0;
   private readonly path = 'publications';
-  private readonly KEY = 'publishedstatus';
+  private readonly KEY = 'publishedStatus';
 
   constructor(private  messages: QddtMessageService, private properties: QddtPropertyStoreService,
               private service: PublicationService) {

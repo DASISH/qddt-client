@@ -28,14 +28,14 @@ export class TemplateService {
     const qe = getQueryInfo(pageSearch.kind);
     const queries = [];
 
-    if (pageSearch.key) {
+    if (!pageSearch.hasDetailSearch) {
       for (let i = 0; i < qe.fields.length; i++) {
         queries.push(qe.fields[i] + '=' +  pageSearch.key.trim() );
       }
     }
 
     if (pageSearch.keys) {
-      pageSearch.keys.forEach( (value, key) => queries.push(key + '=' + value ) );
+      pageSearch.keys.forEach( (value, key) => (value) ? queries.push(key + '=' + value ) : '' );
     }
 
     let query = '?' ;
