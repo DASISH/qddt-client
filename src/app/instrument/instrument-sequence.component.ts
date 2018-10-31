@@ -2,10 +2,7 @@ import { Component, Input } from '@angular/core';
 import { TemplateService } from '../template/template.service';
 import { InstrumentSequence } from './instrument.classes';
 import { SequenceConstruct } from '../controlconstruct/controlconstruct.classes';
-import { ElementKind } from '../shared/classes/enums';
-import { ElementRevisionRef, Page } from '../shared/classes/classes';
-import { IElement, IPageSearch, IRevisionRef } from '../shared/classes/interfaces';
-import { HEADER_DETAILS } from '../shared/classes/constants';
+import { ElementKind, IPageSearch, Page, IElement, IRevisionRef, ElementRevisionRef, HEADER_DETAILS } from '../shared/classes';
 
 
 @Component({
@@ -21,7 +18,7 @@ export class InstrumentSequenceComponent  {
   public sequenceList: any[];
   public showProgressBar = false;
   public readonly SEQUENCE = ElementKind.SEQUENCE_CONSTRUCT;
-  private pageSearch: IPageSearch = { kind: ElementKind.SEQUENCE_CONSTRUCT, key: '*', page: new Page(), sort: 'name,asc' };
+  private pageSearch: IPageSearch = { kind: ElementKind.SEQUENCE_CONSTRUCT, key: '', page: new Page(), sort: 'name,asc' };
 
   private refMap:  Map<string, string> = new Map();
 

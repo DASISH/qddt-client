@@ -50,7 +50,7 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy {
 
     this.selectedCategoryIndex = 0;
     this.numberOfAnchors = 0;
-    this.pageSearch = { kind: this.CATEGORY, key: '*', page: new Page(), sort: 'name,asc' };
+    this.pageSearch = { kind: this.CATEGORY, key: '', page: new Page(), sort: 'name,asc' };
     const page = this.getPageSearch();
     this.domainType = (page) ? DomainKind[page.keys.get('ResponseKind')] : DomainKind.SCALE;
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.RESPONSEDOMAIN);

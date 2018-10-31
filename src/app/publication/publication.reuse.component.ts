@@ -29,7 +29,7 @@ export class PublicationReuseComponent  {
 
 
   private searchKeysListener: Subject<string> = new Subject<string>();
-  private pageSearch: IPageSearch = { kind: ElementKind.TOPIC_GROUP, key: '*', page: new Page(), sort: 'name,asc' };
+  private pageSearch: IPageSearch = { kind: ElementKind.TOPIC_GROUP, key: '', page: new Page(), sort: 'name,asc' };
 
   constructor(private templateService: TemplateService) {
     this.selectedElementKind = ElementKind.TOPIC_GROUP;

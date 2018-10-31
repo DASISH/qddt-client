@@ -27,7 +27,7 @@
       </div>
     </div>
     <div class="row"  *ngFor="let cat of missing.children; let idx=index">
-      <div class="col s6">
+      <div class="col s6 input-field">
         <qddt-auto-complete  [formName]="'autocomplete'"
           [items]="missingList"
           [elementKind]="CATEGORY"

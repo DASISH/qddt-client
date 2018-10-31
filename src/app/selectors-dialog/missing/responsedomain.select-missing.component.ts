@@ -40,7 +40,7 @@ export class ResponsedomainSelectMissingComponent implements OnInit, OnChanges {
   /* keys: new Map([['categoryKind', 'MISSING_GROUP']]), */
 
   constructor(private service: TemplateService) {
-    this.pageSearch = { kind: this.CATEGORY_KIND, key: '*',
+    this.pageSearch = { kind: this.CATEGORY_KIND, key: '',
                         page: new Page(), sort: 'name,asc' };
     this.selectedCategoryIndex = 0;
     this.missingGroups = [];

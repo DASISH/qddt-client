@@ -30,7 +30,7 @@ export class MissingFormComponent implements OnInit {
 
   ngOnInit() {
     // this is for searching categories  , keys: new Map<string, string>([['categoryKind', 'CATEGORY']]) */
-    this.pageSearch = { kind: this.CATEGORY, page: new Page(), key: '*'};
+    this.pageSearch = { kind: this.CATEGORY, page: new Page(), key: ''};
     this.readonly = !this.missingService.can(ActionKind.Create, ElementKind.MISSING_GROUP);
 
   }

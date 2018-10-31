@@ -63,7 +63,7 @@ export class ResponsePreSelector implements OnChanges, OnInit {
 
   private setKey(map: Map<string, string> ) {
     const pageSearch = this.properties.get(this.path) as IPageSearch ||
-        { kind: ElementKind.RESPONSEDOMAIN, key: '*', page: new Page(), sort: 'modified,desc' } as IPageSearch;
+        { kind: ElementKind.RESPONSEDOMAIN, key: '', page: new Page(), sort: 'modified,desc' } as IPageSearch;
     pageSearch.keys = map;
     this.properties.set(this.path, pageSearch);
   }

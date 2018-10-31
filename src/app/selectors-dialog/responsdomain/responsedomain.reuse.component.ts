@@ -37,7 +37,7 @@ export class ResponsedomainReuseComponent implements OnChanges  {
 
   constructor(private responseDomainService: TemplateService) {
     this.domainTypeDescription = DOMAIN_TYPE_DESCRIPTION.filter((e) => e.id > DomainKind.NONE && e.id < DomainKind.MISSING);
-    this.pageSearch = { kind: this.RESPONSE_KIND, page: new Page(), key: '*' };
+    this.pageSearch = { kind: this.RESPONSE_KIND, page: new Page(), key: '' };
     this.searchKeysListener.pipe(
       debounceTime(300),
       distinctUntilChanged(),

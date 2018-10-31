@@ -6,7 +6,6 @@ import { Instruction } from '../../controlconstruct/controlconstruct.classes';
 
 @Component({
   selector: 'qddt-instruction-form',
-
   templateUrl: './instruction.form.component.html'
 })
 
@@ -18,12 +17,12 @@ export class InstructionFormComponent implements OnInit {
 
   public readonly INSTRUCTION = ElementKind.INSTRUCTION;
 
-  public isTemplate: boolean;
-  private selectedInstructionIndex: number;
+  // public isTemplate: boolean;
+  // private selectedInstructionIndex: number;
 
 
   constructor(private instructionService: TemplateService) {
-    this.selectedInstructionIndex = 0;
+    // this.selectedInstructionIndex = 0;
 
   }
 

@@ -51,7 +51,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
   public canDelete = false;
   public rows = [];
   public columns: Column[];
-  public fields = {};
+  public fields = { simplesearch: '' };
   public fieldNames;
   public placeholder: string;
 
@@ -73,13 +73,8 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
   public ngOnInit(): void {
     this.columns = this.getColumns();
     if (!this.items) { this.items = []; }
-    const qe = getQueryInfo(this.pageSearch.kind) as QueryInfo;
 
-    this.fields['simplesearch'] = this.pageSearch.key;
-    qe.fields.forEach( value => this.fields[value] = (this.pageSearch.keys.get(value) || '' ));
-    this.fieldNames =  qe.fields;
-    this.placeholder = qe.placeholder();
-    this.canDelete =  this.access.canDo(ActionKind.Delete, qe.id);
+    this.initQueryInfo();
   }
 
   public ngOnDestroy(): void {
@@ -139,17 +134,24 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
       this.service.getPdf(item).then((data: any) => { filesaver.saveAs(data, fileName); });
   }
 
+  public onDetailChecked() {
+    this.pageSearch.hasDetailSearch = !this.pageSearch.hasDetailSearch;
+    if (this.pageSearch.hasDetailSearch) {
+      this.pageSearch.key = '';
+    } else {
+        this.pageSearch.keys.clear();
+    }
+    this.initQueryInfo();
+    this.searchKeysChange.next( { name: 'name', value: ''});
+  }
+
   public pageChange(p: number) {
     this.pageSearch.page.number = p;
     this.pageSearch.sort = this.getSort();
     this.fetchEvent.emit(this.pageSearch);
   }
 
-  // public enterText(event: any) {
-  //   this.searchKeysChange.next(event);
-  // }
-
-  onClear(name: string) {
+  public onClear(name: string) {
     this.fields[name] = '';
     this.searchKeysChange.next( { name: name, value: ''});
     // this.pageSearch.sort = this.getSort();
@@ -193,5 +195,13 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
     return DEFAULT_COLUMNS;
   }
 
+  private initQueryInfo() {
+    const qe = getQueryInfo(this.pageSearch.kind) as QueryInfo;
+    this.fields.simplesearch = this.pageSearch.key;
+    qe.fields.forEach(value => this.fields[value] = (this.pageSearch.keys.get(value) || ''));
+    this.fieldNames = qe.fields;
+    this.placeholder = qe.placeholder();
+    this.canDelete = this.access.canDo(ActionKind.Delete, qe.id);
+  }
 
 }

@@ -5,7 +5,7 @@
           <div *ngIf="!pageSearch.hasDetailSearch" >
             <div class="input-field col s11 m10 l9">
               <i class="material-icons prefix" >search</i>
-              <input id="simplesearch" name="simplesearch" type="search" required  
+              <input id="simplesearch" name="simplesearch" type="search" required
               [(ngModel)]="fields.simplesearch" (ngModelChange)="searchKeysChange.next({ name: 'simplesearch', value: $event })">
               <label for="simplesearch" >{{placeholder}}</label>
               <i class="material-icons" (click)="onClear('simplesearch')">close</i>
@@ -14,13 +14,13 @@
           <div *ngIf="pageSearch.hasDetailSearch" >
           <div class="col s{{ (10-10%fieldNames.length)/fieldNames.length}} input-field" *ngFor="let field of fieldNames; let idx=index;">
             <i class="material-icons prefix" >search</i>
-            <input id="field-{{idx}}" name="{{field}}" type="search" required 
+            <input id="field-{{idx}}" name="{{field}}" type="search" required
               [(ngModel)]="fields[field]" (ngModelChange)="searchKeysChange.next( { name: field, value: $event })">
             <label for="field-{{idx}}">{{field}}</label>
             <i class="material-icons" (click)="onClear(field)">close</i>
           </div>
           </div>
-          <div class="switch"><label><input type = "checkbox"  (change)="pageSearch.hasDetailSearch = !pageSearch.hasDetailSearch">
+          <div class="switch"><label><input type = "checkbox"  [checked]="pageSearch.hasDetailSearch" (change)="onDetailChecked()">
             <span class = "lever"></span>Advanced search</label>
           </div>
         </div>

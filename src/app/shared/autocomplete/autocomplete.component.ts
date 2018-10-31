@@ -128,7 +128,7 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
     this.selected = false;
     this.filterItems('');
     this.waitingForChange = true;
-    this.enterEvent.emit('*');
+    this.enterEvent.emit('');
   }
 
   private getFieldValue(object: IEntityAudit, path: any) {
