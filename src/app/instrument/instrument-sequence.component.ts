@@ -7,7 +7,6 @@ import { ElementKind, IPageSearch, Page, IElement, IRevisionRef, ElementRevision
 
 @Component({
   selector: 'qddt-instrument-sequence',
-
   templateUrl: './instrument-sequence.component.html'
 })
 
