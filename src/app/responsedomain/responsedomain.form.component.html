@@ -79,14 +79,14 @@
                     </div>
                   </td>
                   <td>
-                      <qddt-auto-complete
-                        [items]="categories"
-                        [initialValue]="category?.label"
-                        [elementKind]="CATEGORY"
-                        (focusEvent)="selectedCategoryIndex=idx;"
-                        (selectEvent)="onSelectCategory($event)"
-                        (enterEvent)="onSearchCategories($event)">
-                      </qddt-auto-complete>
+                    <qddt-auto-complete
+                      [items]="categories"
+                      [initialValue]="category?.label"
+                      [elementKind]="CATEGORY"
+                      (focusEvent)="selectedCategoryIndex=idx;"
+                      (selectEvent)="onSelectCategory($event)"
+                      (enterEvent)="onSearchCategories($event)">
+                    </qddt-auto-complete>
                   </td>
                 </tr>
 							</tbody>
@@ -121,11 +121,13 @@
 						  <thead class="teal-text" ><tr><td>Code</td><td>Category</td><td></td></tr></thead>
 							<tbody>
 								<tr *ngFor="let category of responsedomain.managedRepresentation.children; let idx=index">
-									<td width="10%"><input name="{{idx}}-code-value" type="text"
-									  (ngModelChange)="buildPreviewResponseDomain()"
-									  [(ngModel)]="category.code.codeValue" required></td>
+									<td width="10%">
+                    <div class="input-field">
+                      <input name="{{idx}}-code-value" type="text" (ngModelChange)="buildPreviewResponseDomain()" [(ngModel)]="category.code.codeValue" required>
+                    </div>
+                  </td>
 									<td width="50%">
-                      <qddt-auto-complete
+                    <qddt-auto-complete
                       [items]="categories"
                       [initialValue]="category?.label"
                       [elementKind]="CATEGORY"

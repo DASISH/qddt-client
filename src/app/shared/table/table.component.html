@@ -37,11 +37,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr id="{{row.id}}" *ngFor="let row of rows;"  [ngStyle]="{'cursor': 'pointer'}" (mouseenter)="row.showbutton = true" (mouseleave)="row.showbutton = false">
-        <td style="padding:0">
+        <tr id="{{row.id}}" *ngFor="let row of rows;"  [ngStyle]="{'cursor': 'pointer'}" (mouseleave)="row.showbutton = false" >
+        <td style="padding:0" (mouseenter)="row.showbutton = true">
           <div >
-            <i class="material-icons small teal-text" >keyboard_arrow_right</i>
-            <ul *ngIf="row.showbutton" style="position: fixed; display: inline-flex; margin-top: 0px; margin-bottom: 0px; z-index: 1; opacity: 0.9;">
+            <i class="material-icons small teal-text"   >keyboard_arrow_right</i>
+            <ul *ngIf="row.showbutton"  style="position: fixed; display: inline-flex; margin-top: 0px; margin-bottom: 0px; z-index: 1; opacity: 0.9;">
             <!-- <ul  style="position: fixed; display: inline-flex; margin-top: 0px; margin-bottom: 0px; z-index: 1;"> -->
                     <!-- <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light blue" (click)="row.revisionIsVisible=!row.revisionIsVisible">
                 <i class="material-icons left medium" title="Revision history">history</i></a>
@@ -58,7 +58,7 @@
             </ul>
           </div>
         </td>
-        <td  *ngFor="let column of columns">{{ row[column.label] }}</td>
+        <td  *ngFor="let column of columns" (click)="onDetail(row)" >{{ row[column.label] }}</td>
 
         <!-- <td *ngIf="row.revisionIsVisible" colspan="columns.length"><qddt-revision  [current]="row.Object"> </qddt-revision></td> -->
 

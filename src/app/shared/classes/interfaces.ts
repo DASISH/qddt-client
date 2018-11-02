@@ -58,6 +58,7 @@ export interface IEntityEditAudit extends IEntityAudit {
   version?: IVersion;
   agency?: IEntityAudit;
   archived?: boolean;
+  otherMaterials?: IOtherMaterial[];
 }
 
 export interface IVersion {

@@ -7,11 +7,6 @@ import { LIST_COLUMNS, RESPONSEDOMAIN_COLUMNS, DEFAULT_COLUMNS } from './table.c
 import { ElementEnumAware, PreviewService } from '../../preview/preview.service';
 import { DomainKind } from '../../responsedomain/responsedomain.classes';
 import { ElementKind, getQueryInfo, IEntityEditAudit, IPageSearch, QueryInfo, StringIsNumber, ActionKind } from '../classes';
-import { DialogService } from '../../dialog/dialog.service';
-import { ConfirmComponent } from '../../dialog/content/confirm.component';
-import {AbstractControl} from '@angular/forms';
-import { QddtPropertyStoreService } from '../../core/services/property.service';
-import { TemplateService } from '../../template/template.service';
 import { UserService } from '../../core/services/user.service';
 
 const filesaver = require('file-saver');
@@ -66,6 +61,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
           this.pageSearch.keys.set(field.name, field.value);
         }
         this.pageSearch.sort = this.getSort();
+        this.pageSearch.page.number = 0;
         this.fetchEvent.emit(this.pageSearch);
       });
   }

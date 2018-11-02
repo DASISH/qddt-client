@@ -14,7 +14,7 @@ export class QueryInfo {
   id: ElementKind;
   label: string;
   path: string;
-  fields: any[];
+  fields: string[];
   parameter: string;
 
   constructor(id: ElementKind, label: string, path: string, fields: any[], parameter: string) {
@@ -32,7 +32,7 @@ export class QueryInfo {
   placeholder(): string {
     let message = 'Searches in [';
     this.fields.forEach(o => {
-      message += o + ' and ';
+      message += o.toLowerCase() + ' and ';
     });
     return message.slice(0, message.length - 5) + ']';
   }

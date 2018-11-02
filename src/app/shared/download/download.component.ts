@@ -21,6 +21,7 @@ export class QddtDownload implements OnChanges {
   @Input() entity: IEntityEditAudit;
   @Input() readonly = true;
 
+  public showbutton = false;
   public showUploadFileForm = false;
   public toDeleteFiles: File[] = [];
   public label = '';
@@ -74,9 +75,9 @@ export class QddtDownload implements OnChanges {
     if (this.entity['otherMaterials']
       && this.entity['otherMaterials'].length > idx) {
       const items = this.entity['otherMaterials'].splice(idx, 1);
-      if (items.length > 0) {
-        this.toDeleteFiles.push(items[0]);
-      }
+      // if (items.length > 0) {
+      //   this.toDeleteFiles.push(items[0]);
+      // }
     }
   }
 
