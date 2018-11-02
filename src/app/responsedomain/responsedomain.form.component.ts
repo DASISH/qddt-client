@@ -150,24 +150,16 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy {
       this.numberOfAnchors = num;
     }
 
+    rep.children = rep.children.slice(0, this.numberOfAnchors);
+
     if (this.domainType === DomainKind.LIST) {
-      rep.children = rep.children.slice(0, this.numberOfAnchors);
       for (let i = rep.children.length; i < this.numberOfAnchors; i++) {
-        const c = new Category();
-        c.code = { codeValue: String(i + 1) , alignment: ''};
-        rep.children.push(c);
+        rep.children.push(new Category({ code:  { codeValue: String(i + 1) , alignment: '' }}));
       }
     } else if (this.domainType === DomainKind.SCALE) {
-      rep.children = rep.children.slice(0, this.numberOfAnchors);
       const len = rep.children.length;
-      for (let i = 0; i < this.numberOfAnchors; i++) {
-        if (i >= len) {
-          const c = new Category();
-          c.code = { codeValue: '', alignment: 'text-left' };
-          rep.children.push(c);
-        } else {
-          rep.children[i].code.codeValue = '';
-        }
+      for (let i = len; i < this.numberOfAnchors; i++) {
+          rep.children.push(new Category({code : { codeValue: '', alignment: 'text-left' }}));
       }
     }
     this.buildPreviewResponseDomain();

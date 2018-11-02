@@ -34,8 +34,8 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
   new QueryInfo(ElementKind.STUDY, 'Study', 'study', ['name', 'description'], null),
   new QueryInfo(ElementKind.SURVEY_PROGRAM, 'Survey', 'surveyprogram', ['name', 'description'], null),
   new QueryInfo(ElementKind.TOPIC_GROUP, 'Module', 'topicgroup', ['name', 'description'], null),
-  new QueryInfo(ElementKind.INSTRUCTION, 'Instruction', 'instruction', ['name', 'description'], null),
-  new QueryInfo(ElementKind.UNIVERSE, 'Universe', 'universe', ['name', 'description'], null),
+  new QueryInfo(ElementKind.INSTRUCTION, 'Instruction', 'instruction', ['description'], null),
+  new QueryInfo(ElementKind.UNIVERSE, 'Universe', 'universe', ['description'], null),
   new QueryInfo(ElementKind.USER, 'User', 'user', ['name'], null),
 ];
 
