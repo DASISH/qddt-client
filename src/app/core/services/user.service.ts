@@ -75,6 +75,12 @@ export class UserService {
       }
     }
 
+    function canExport() {
+      return !(kind === ElementKind.CATEGORY || kind === ElementKind.MISSING_GROUP ||
+        kind === ElementKind.RESPONSEDOMAIN || kind === ElementKind.UNIVERSE ||
+        kind === ElementKind.INSTRUCTION );
+    }
+
     function canUpdate(roles: number) {
       if (kind === ElementKind.USER && roles < AuthorityKind.ROLE_ADMIN ) {
         return false;
@@ -100,6 +106,8 @@ export class UserService {
     switch (action) {
       case ActionKind.Read:
         return canRead(this.roles);
+      case ActionKind.Export:
+        return canExport();
       case ActionKind.Create:
       case ActionKind.Update:
         return canUpdate(this.roles);

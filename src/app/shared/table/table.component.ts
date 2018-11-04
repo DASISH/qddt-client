@@ -5,9 +5,10 @@ import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChange
 import { Column } from './table.column';
 import { LIST_COLUMNS, RESPONSEDOMAIN_COLUMNS, DEFAULT_COLUMNS } from './table.column-map';
 import { ElementEnumAware, PreviewService } from '../../preview/preview.service';
-import { DomainKind } from '../../responsedomain/responsedomain.classes';
-import { ElementKind, getQueryInfo, IEntityEditAudit, IPageSearch, QueryInfo, StringIsNumber, ActionKind } from '../classes';
 import { UserService } from '../../core/services/user.service';
+import { DomainKind } from '../../responsedomain/responsedomain.classes';
+import { ElementKind, getQueryInfo, IEntityEditAudit, IPageSearch, QueryInfo, ActionKind } from '../classes';
+import { QddtMessageService } from '../../core/services/message.service';
 
 const filesaver = require('file-saver');
 declare var $;
@@ -44,13 +45,14 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
   public searchKeysChange: Subject< { name: string, value: string }> = new Subject<{ name: string, value: string }>();
 
   public canDelete = false;
+  public canExport = false;
   public rows = [];
   public columns: Column[];
   public fields = { simplesearch: '' };
   public fieldNames;
   public placeholder: string;
 
-  constructor(private service: PreviewService, public access: UserService ) {
+  constructor(private previewService: PreviewService, public access: UserService, public message: QddtMessageService ) {
     this.searchKeysChange.pipe(
       debounceTime(300),
       distinctUntilChanged())
@@ -121,13 +123,17 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
     this.detailEvent.emit(item);
   }
 
+  public onViewRevision(item: IEntityEditAudit) {
+    this.message.sendMessage( { elementId: item.id, elementRevision: null, elementKind: item.classKind});
+  }
+
   public onConfirmDeleting(item: IEntityEditAudit) {
     this.deleteEvent.emit(item);
   }
 
   public onGetPdf(item: IEntityEditAudit) {
       const fileName = item.name + '.pdf';
-      this.service.getPdf(item).then((data: any) => { filesaver.saveAs(data, fileName); });
+      this.previewService.getPdf(item).then((data: any) => { filesaver.saveAs(data, fileName); });
   }
 
   public onDetailChecked() {
@@ -198,6 +204,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
     this.fieldNames = qe.fields;
     this.placeholder = qe.placeholder();
     this.canDelete = this.access.canDo(ActionKind.Delete, qe.id);
+    this.canExport = this.access.canDo(ActionKind.Export, qe.id);
   }
 
 }
