@@ -1,0 +1,16 @@
+
+<div id="userOption" class="modal" style="width:35%;">
+  <div class="modal-content">
+    <h4>User Option</h4>
+    <form #f="ngForm" >
+
+      <div class="row input-field" *ngFor="let item of items">
+        <input class="validate" id="{{item}}{{formId}}" name="{{item}}" type="text"  [(ngModel)]="qddtProperty.userSetting[item]" required>
+        <label >{{item}}</label>
+      </div>
+      <div class="row">
+        <button [disabled]="f.invalid || loading" class="btn btn-primary waves-effect right" (click)="onClose()">Apply</button>
+      </div>
+    </form>
+  </div>
+</div>

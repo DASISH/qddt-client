@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable ,  BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { MenuItem } from '../../menu/menu.component';
 import { UserSettings, HIERARCHY_POSITION } from '../classes/UserSettings';
 

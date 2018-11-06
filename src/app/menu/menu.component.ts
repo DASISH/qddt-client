@@ -5,7 +5,7 @@ import { BehaviorSubject} from 'rxjs/internal/BehaviorSubject';
 import { QddtPropertyStoreService  } from '../core/services/property.service';
 import { UserService } from '../core/services/user.service';
 import { TemplateService } from '../template/template.service';
-import {ActionKind, ElementKind, StringIsNumber} from '../shared/classes';
+import { ActionKind, ElementKind, StringIsNumber} from '../shared/classes';
 import { HIERARCHY_POSITION } from '../core/classes/UserSettings';
 
 
@@ -26,7 +26,7 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   public username;
   public elementKindRef = ElementKind;
 
-  constructor(private userService: UserService, private property: QddtPropertyStoreService,
+  constructor(private userService: UserService, public property: QddtPropertyStoreService,
       private router: Router, private service: TemplateService) {
     this.username = this.getUserName();
     this.isLoggedIn$ = userService.loggedIn;
@@ -42,6 +42,7 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
           this.router.navigate([this.property.userSetting.url]);
         } else {
           console.log('should have rerouted...');
+          // this.router.navigate([{ outlets: { popup: ['login'] } }]);
           this.router.navigate(['/login']);
           // const redirectUrl = this.property.userSetting.url;
           // this.router.navigateByUrl(
@@ -84,10 +85,6 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
 
   logoutEvent() {
     this.userService.logout();
-  }
-
-  private hasAccess(kind: string|ElementKind): boolean {
-    return this.userService.canDo(ActionKind.Read, this.service.getElementKind(kind));
   }
 
   onCheckUrl(event) {
@@ -149,6 +146,9 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
     this.property.set('concept', null);
   }
 
+  private hasAccess(kind: string|ElementKind): boolean {
+    return this.userService.canDo(ActionKind.Read, this.service.getElementKind(kind));
+  }
 
   private gotoUUID(uuid: string) {
     this.service.searchByUuid(uuid).then( (result) => {

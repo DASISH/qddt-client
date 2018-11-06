@@ -46,6 +46,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
 
   public canDelete = false;
   public canExport = false;
+  public showProgressBar = false;
   public rows = [];
   public columns: Column[];
   public fields = { simplesearch: '' };
@@ -64,6 +65,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
         }
         this.pageSearch.sort = this.getSort();
         this.pageSearch.page.number = 0;
+        this.showProgressBar = true;
         this.fetchEvent.emit(this.pageSearch);
       });
   }
@@ -81,11 +83,15 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
 
   public ngOnChanges(changes: SimpleChanges): void {
 
+    this.showProgressBar = false;
+
     this.columns = this.getColumns();
 
     if (!this.items) { this.items = []; }
 
-    if (!this.pageSearch.keys) { this.pageSearch.keys = new Map<string, string>(); }
+    if (!this.pageSearch.keys) {
+      console.log('new keys');
+      this.pageSearch.keys = new Map<string, string>(); }
     const qe = getQueryInfo(this.pageSearch.kind);
     this.placeholder = qe.placeholder();
 
@@ -150,6 +156,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
   public pageChange(p: number) {
     this.pageSearch.page.number = p;
     this.pageSearch.sort = this.getSort();
+    this.showProgressBar = true;
     this.fetchEvent.emit(this.pageSearch);
   }
 
@@ -180,7 +187,8 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
         .filter((c) => c.name !== column.name)
         .forEach((col) => col.direction = '');
         this.pageSearch.sort = this.getSort();
-        this.fetchEvent.emit(this.pageSearch);
+      this.showProgressBar = true;
+      this.fetchEvent.emit(this.pageSearch);
     }
   }
 

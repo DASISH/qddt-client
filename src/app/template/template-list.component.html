@@ -1,6 +1,3 @@
-<div *ngIf="showProgressBar" class="progress">
-  <div class="indeterminate"></div>
-</div>
 <div *ngIf="items">
   <qddt-table [items]="items" [pageSearch]="pageSearch"
               (fetchEvent)="onFetchItems($event)"

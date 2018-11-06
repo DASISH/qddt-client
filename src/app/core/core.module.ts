@@ -10,14 +10,15 @@ import { TemplateModule } from '../template/template.module';
 import { UserService } from './services/user.service';
 import { LoginComponent } from './login/login.component';
 import { ResetpasswordComponent } from './resetpassword/resetpassword.component';
+import {QddtUserOptionComponent} from './useroption/useroption.component';
 
 
 @NgModule({
   imports: [ FormsModule, SharedModule, TemplateModule ],
 
-  declarations: [ LoginComponent, ResetpasswordComponent ],
+  declarations: [ LoginComponent, ResetpasswordComponent, QddtUserOptionComponent],
 
-  exports: [ LoginComponent, ResetpasswordComponent ],
+  exports: [ LoginComponent, ResetpasswordComponent, QddtUserOptionComponent ],
 
   providers: [ QddtPropertyStoreService, AuthGuard, QddtMessageService, UserService]
 })

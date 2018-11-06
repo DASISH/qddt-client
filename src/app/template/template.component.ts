@@ -16,7 +16,7 @@ declare var Materialize: any;
 
   providers: [],
   styles: [
-    ' .input-field *  { color: white; } '
+    // ' div.input-field *  { color: white; } ',
   ],
   templateUrl: './template.component.html',
 })

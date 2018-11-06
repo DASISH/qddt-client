@@ -23,7 +23,8 @@ export class ResetpasswordComponent implements AfterContentChecked {
           Materialize.updateTextFields();
         },
         complete: function(modal) {
-        }
+          router.navigate([{ outlets: { popup : null }}]);
+        },
       });
       $('#modalReset').modal('open');
     });
@@ -47,10 +48,13 @@ export class ResetpasswordComponent implements AfterContentChecked {
     this.authenticationService.resetPassword(pwd).subscribe(
       (result) => {
         this.loading = false;
-        $('#modalReset').modal('close');
-        alert(result.message);
-       },
+        Materialize.toast(result.message, 5000);
+        },
        (error) => { this.loading = false; throw error; }
     );
+  }
+
+  onClose() {
+    $('#modalReset').modal('close');
   }
 }

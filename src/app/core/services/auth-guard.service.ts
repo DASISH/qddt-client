@@ -21,7 +21,9 @@ export class AuthGuard implements CanActivate, CanActivateChild  {
       return true;
     }
 
-    this.router.navigate(['/login']);
+    // this.router.navigate([{ outlets: { popup: ['login'] } }]);
+
+    this.router.navigate([ '/login']);
 
     // const redirectUrl = next['_routerState']['url'];
     // console.log('isTokenExpired -> redirecting to login ' + redirectUrl );

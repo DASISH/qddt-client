@@ -18,14 +18,14 @@
         <h4>Reuse Domain</h4>
         <div class="response-domain-title"><span name="text">Domain Type</span></div>
         <div class="col left" *ngFor="let domain of domainTypeDescription">
-          <input name="domaintypegroup" type="radio" id="rdomain-type-{{domain.id}}" (click)="selectDomainType(domain.id)" [checked]="selectedDomainKind === domain.id" >
+          <input name="domaintypegroup" type="radio" id="rdomain-type-{{domain.id}}" (click)="selectDomainType(domain.id)" [checked]="currentdomainKind === domain.id" >
           <label for="rdomain-type-{{domain.id}}">{{ domain.label }}</label>
         </div>
       </div>
 
       <qddt-auto-complete
         [items]="responseDomainList"
-        [elementKind]="RESPONSE_KIND"
+        [elementKind]="ELEMENT_KIND"
         (enterEvent)="searchResponseDomains($event)"
         (selectEvent)="onResponseDomainSelected($event)">
       </qddt-auto-complete>

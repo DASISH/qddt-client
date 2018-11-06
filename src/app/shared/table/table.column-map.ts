@@ -31,9 +31,9 @@ const  PUBLICATION_COLUMNS =  [
 ];
 
 const CATEGORY_COLUMNS =  [
-  new Column( { label: 'Label', name: 'label', sortable: true }),
-  new Column( { label: 'Description', name: 'description', sortable: true }),
-  new Column( { label: 'Type', name: 'categoryType', sortable: true } ),
+  new Column( { name: 'label', label: 'Label', sortable: true }),
+  new Column( { name: 'description', label: 'Description', sortable: true }),
+  new Column( { name: 'categoryType', label: 'Type',  sortable: true } ),
 ];
 
 const QUESTIONITEM_COLUMNS = [

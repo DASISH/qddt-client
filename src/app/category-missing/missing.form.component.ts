@@ -1,9 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import {ActionKind, ElementKind} from '../shared/classes/enums';
 import { TemplateService } from '../template/template.service';
 import { Category } from '../lookups/category/category.classes';
-import { IPageSearch, IElement } from '../shared/classes/interfaces';
-import { Page } from '../shared/classes/classes';
+import { ActionKind, ElementKind, IElement, IPageSearch, Page } from '../shared/classes';
 
 
 @Component({

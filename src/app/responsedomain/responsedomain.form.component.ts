@@ -108,22 +108,30 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy {
   }
 
   onSave() {
-    this.responsedomain.label = this.responsedomain.name;
-    const managed = this.responsedomain.managedRepresentation;
-    managed.name = this.responsedomain.label;
-    managed.changeKind = this.responsedomain.changeKind;
-    managed.version = this.responsedomain.version;
-    this.service.update(managed).pipe(
-      takeWhile(() => this.ok ))
-      .subscribe((result: Category) => {
-        this.responsedomain.managedRepresentation = result;
-        this.service.update(this.responsedomain).subscribe(
-          (rdResult) => {
-            this.responsedomain = rdResult;
-            this.modifiedEvent.emit(rdResult);
-          }
-        );
-    });
+    this.service.update(this.responsedomain).subscribe(
+      (rdResult) => {
+        this.responsedomain = rdResult;
+        this.modifiedEvent.emit(rdResult);
+      }
+    );
+
+    // this.responsedomain.label = this.responsedomain.name;
+    // const managed = this.responsedomain.managedRepresentation;
+    // managed.name = this.responsedomain.label + this.formId;
+    // managed.label = this.responsedomain.label;
+    // managed.changeKind = this.responsedomain.changeKind;
+    // managed.version = this.responsedomain.version;
+    // this.service.update(managed).pipe(
+    //   takeWhile(() => this.ok ))
+    //   .subscribe((result: Category) => {
+    //     this.responsedomain.managedRepresentation = result;
+    //     this.service.update(this.responsedomain).subscribe(
+    //       (rdResult) => {
+    //         this.responsedomain = rdResult;
+    //         this.modifiedEvent.emit(rdResult);
+    //       }
+    //     );
+    // });
   }
 
   changeNumberOfCategories(num: number) {

@@ -117,7 +117,8 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
 
     let pageSearch = this.properties.get(this.path) as IPageSearch;
     if (!pageSearch) {
-      pageSearch = { kind: this.kind,  key: '', page : new Page(), sort : 'modified,desc' } as IPageSearch;
+      pageSearch = { kind: this.kind,  key: '', page :
+          new Page( { size: this.properties.userSetting.pageSize }), sort : 'modified,desc' } as IPageSearch;
       this.properties.set(this.path, pageSearch);
     }
     if (pageSearch.kind === ElementKind.USER && pageSearch.sort === 'modified,desc') {
