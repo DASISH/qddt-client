@@ -8,7 +8,7 @@
         <label >{{item.name}}</label>
       </div>
       <div class="row">
-        <button [disabled]="f.invalid || loading" class="btn btn-primary waves-effect right" (click)="onClose()">Apply</button>
+        <button [disabled]="f.invalid" class="btn btn-primary waves-effect right" (click)="onClose()">Apply</button>
       </div>
     </form>
   </div>

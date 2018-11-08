@@ -34,12 +34,14 @@ import { PageNotFoundComponent } from './core/pagenotfound/page-not-found.compon
 import { TokenInterceptor } from './core/interceptor/token.interceptor';
 import { ErrorLogService } from './core/services/error-log.service';
 import { GlobalErrorHandler } from './core/services/error-handler.service';
+import {ChangeLogModule} from './changelog/changelog.module';
 
 
 @NgModule({
   imports: [ BrowserModule, HttpClientModule, SharedModule, CoreModule, HomeModule, MenuModule, SelectorDialogsModule, DialogModule,
     CategoryModule,  ResponsedomainModule, QuestionModule, ControlConstructModule, PreviewModule, MissingModule, UniverseModule,
-    InstructionModule, InstrumentModule, PublicationModule, TemplateModule, QuestionConstructModule, SequenceModule, UserModule, routing ],
+    ChangeLogModule, InstructionModule, InstrumentModule,
+    PublicationModule, TemplateModule, QuestionConstructModule, SequenceModule, UserModule, routing ],
 
     declarations: [ AppComponent, PageNotFoundComponent ],
 

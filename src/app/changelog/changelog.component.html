@@ -1,0 +1,10 @@
+<qddt-template-component #detail>
+
+  <qddt-changelog-form class="qddt-edit"
+    [changelog] = "templateDetail.newItem"
+    (modifiedEvent) = "onFormModified($event)">
+  </qddt-changelog-form>
+
+  <router-outlet></router-outlet>
+
+</qddt-template-component>

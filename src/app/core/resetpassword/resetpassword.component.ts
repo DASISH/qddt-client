@@ -13,13 +13,9 @@ export class ResetpasswordComponent  implements AfterViewInit {
 
   public loading = false;
 
-  constructor(private route: ActivatedRoute, private router: Router, private authenticationService: UserService) {
-    // $(document).ready(function() {
-    // });
-  }
+  constructor(private route: ActivatedRoute, private router: Router, private authenticationService: UserService) {  }
 
   register(f) {
-    // const pwd = new ResetPassword(f);
     this.loading = true;
     this.authenticationService.resetPassword(new ResetPassword(f)).subscribe(
       (result) => { Materialize.toast(result.message, 5000); },

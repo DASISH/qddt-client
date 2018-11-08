@@ -30,7 +30,8 @@ export enum ElementKind {
   TOPIC_GROUP,
   INSTRUCTION,
   UNIVERSE,
-  USER
+  USER,
+  CHANGE_LOG
 }
 
 export interface EnumItem<E> { id: Number; name: keyof E; }
