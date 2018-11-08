@@ -8,10 +8,12 @@
         <label for="email">Email</label>
       </div>
       <div class="row input-field">
-        <input class="validate" id="password" name="password"  type="password" [(ngModel)]="formData.password" required minlength="6">
-        <label for="password">Password</label>
+        <input class="validate" id="pwRef" name="password"  type="password" [(ngModel)]="formData.password" required autofocus >
+        <label for="pwRef">Password</label>
       </div>
-      <button [disabled]="f.invalid || loading" data-target="modalLogin" class="btn btn-primary modal-action modal-close waves-effect right">Login</button>
+      <div class="row">
+        <button [disabled]="f.invalid || loading" class="btn btn-primary waves-effect right" (click)="onClose()">Login</button>
+      </div>
     </form>
     <qddt-spinner *ngIf="loading" ></qddt-spinner>
   </div>  

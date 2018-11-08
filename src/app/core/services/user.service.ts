@@ -17,20 +17,22 @@ export class Agency  {
   name: string;
 }
 
-export class ResetPassword {
+export class ResetPassword implements IPassword {
   id: string;
-  oldPassword: string;
   password: string;
+  oldPassword?: string;
+  confirm?: string;
 
   public constructor(init?: Partial<IPassword>) {
     Object.assign(this, init);
   }
+
 }
 
 export interface IPassword {
   id: string;
-  oldPassword: string;
   password: string;
+  oldPassword?: string;
   confirm?: string;
 }
 
@@ -65,14 +67,14 @@ export class UserService {
   public canDo(action: ActionKind, kind: ElementKind): boolean {
 
     function canRead(roles: number) {
-      if (kind.valueOf() === ElementKind.UNIVERSE.valueOf()) {
-        console.log('canRead false ' + kind );
+      if (kind === ElementKind.UNIVERSE) {
+        console.log('canRead false ' + kind);
         return false;
-      } else if (roles >= +AuthorityKind.ROLE_VIEW) {
-        return true;
-      } else {
-        return (kind.valueOf() === ElementKind.PUBLICATION.valueOf());
       }
+      if (roles >= +AuthorityKind.ROLE_VIEW) {
+        return true;
+      }
+      return (kind === ElementKind.PUBLICATION);
     }
 
     function canExport() {
@@ -122,15 +124,10 @@ export class UserService {
     return this.user || new User();
   }
 
-  public async signIn(email: string, password: string) {
-
-    const requestParam = { email: email, password: password };
-
+  public async signIn(requestParam: IPassword) {
     const response = await this.http.post<any>(this.api + UserService.SIGNIN_URL, requestParam).toPromise();
     if (response && response.token) {
       this.setToken(response.token);
-    } else {
-      console.log('login failed');
     }
     return response;
   }

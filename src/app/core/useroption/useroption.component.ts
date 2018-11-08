@@ -13,15 +13,15 @@ export class QddtUserOptionComponent {
 
 
   public formId = Math.round( Math.random() * 10000);
-  public items = ['pageSize', 'email'];
+  public items = [ { name: 'pageSize', type: 'number' }, { name: 'email', type: 'email' } ];
 
   constructor(private router: Router, public qddtProperty: QddtPropertyStoreService) {
     $(document).ready(function() {
       $('.modal').modal({
-        ready: function(modal) {
+        ready: () => {
           Materialize.updateTextFields();
         },
-        complete: function(modal) {
+        complete: () => {
           router.navigate([{ outlets: { popup : null }}]);
         }
       });
