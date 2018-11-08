@@ -10,7 +10,7 @@ import { TemplateModule } from '../template/template.module';
 import { UserService } from './services/user.service';
 import { LoginComponent } from './login/login.component';
 import { ResetpasswordComponent } from './resetpassword/resetpassword.component';
-import {QddtUserOptionComponent} from './useroption/useroption.component';
+import { QddtUserOptionComponent} from './useroption/useroption.component';
 
 
 @NgModule({

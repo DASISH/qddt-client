@@ -1,7 +1,7 @@
 
 import { distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import { Subject} from 'rxjs';
-import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges, OnDestroy} from '@angular/core';
+import {Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges, OnDestroy, AfterViewInit} from '@angular/core';
 import { Column } from './table.column';
 import { LIST_COLUMNS, RESPONSEDOMAIN_COLUMNS, DEFAULT_COLUMNS } from './table.column-map';
 import { ElementEnumAware, PreviewService } from '../../preview/preview.service';
@@ -26,14 +26,13 @@ declare var Materialize: any;
 })
 
 @ElementEnumAware
-export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
+export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
   /**
    * number: the current page beginning with zero
    * size: the size of each page
    * totalElements: the total number of elements
    * totalPages: the total pages
    */
-  // @Input() domainkind: DomainKind;
   @Input() pageSearch: IPageSearch;
   @Input() items: IEntityEditAudit[];
 
@@ -49,7 +48,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
   public showProgressBar = false;
   public rows = [];
   public columns: Column[];
-  public fields = { simplesearch: '' };
+  public fields = { simpleSearch: '' };
   public fieldNames;
   public placeholder: string;
 
@@ -58,7 +57,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
       debounceTime(300),
       distinctUntilChanged())
       .subscribe((field) => {
-        if (field.name === 'simplesearch') {
+        if (field.name === 'simpleSearch') {
           this.pageSearch.key = field.value;
         } else {
           this.pageSearch.keys.set(field.name, field.value);
@@ -68,6 +67,14 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
         this.showProgressBar = true;
         this.fetchEvent.emit(this.pageSearch);
       });
+  }
+
+
+  ngAfterViewInit() {
+    // fires after returning from detailview
+    $(document).ready(function () {
+      Materialize.updateTextFields();
+    });
   }
 
   public ngOnInit(): void {
@@ -90,8 +97,8 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
     if (!this.items) { this.items = []; }
 
     if (!this.pageSearch.keys) {
-      console.log('new keys');
       this.pageSearch.keys = new Map<string, string>(); }
+
     const qe = getQueryInfo(this.pageSearch.kind);
     this.placeholder = qe.placeholder();
 
@@ -121,7 +128,6 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
       });
       this.rows.push(row);
     });
-
     Materialize.updateTextFields();
   }
 
@@ -144,13 +150,8 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
 
   public onDetailChecked() {
     this.pageSearch.hasDetailSearch = !this.pageSearch.hasDetailSearch;
-    if (this.pageSearch.hasDetailSearch) {
-      this.pageSearch.key = '';
-    } else {
-        this.pageSearch.keys.clear();
-    }
     this.initQueryInfo();
-    this.searchKeysChange.next( { name: 'name', value: ''});
+    this.fetchEvent.emit(this.pageSearch);
   }
 
   public pageChange(p: number) {
@@ -163,8 +164,6 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
   public onClear(name: string) {
     this.fields[name] = '';
     this.searchKeysChange.next( { name: name, value: ''});
-    // this.pageSearch.sort = this.getSort();
-    // this.fetchEvent.emit(this.pageSearch);
   }
 
   public getSort() {
@@ -207,7 +206,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
 
   private initQueryInfo() {
     const qe = getQueryInfo(this.pageSearch.kind) as QueryInfo;
-    this.fields.simplesearch = this.pageSearch.key;
+    this.fields.simpleSearch = this.pageSearch.key;
     qe.fields.forEach(value => this.fields[value] = (this.pageSearch.keys.get(value) || ''));
     this.fieldNames = qe.fields;
     this.placeholder = qe.placeholder();

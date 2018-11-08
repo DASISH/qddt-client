@@ -2,7 +2,7 @@ import { Component, ViewEncapsulation, OnDestroy  } from '@angular/core';
 import { UserService } from './core/services/user.service';
 import { QddtPropertyStoreService } from './core/services/property.service';
 import { QddtMessageService } from './core/services/message.service';
-import { IElement, IIdRef, IRevisionRef } from './shared/classes/interfaces';
+import { IElement, IIdRef, IRevisionRef } from './shared/classes';
 
 // declare var $: any;
 

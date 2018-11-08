@@ -14,6 +14,7 @@ import {
   IPageSearch,
   IRevisionResult
 } from '../shared/classes';
+import {forEach} from '@angular/router/src/utils/collection';
 
 @Injectable()
 export class TemplateService {
@@ -32,11 +33,19 @@ export class TemplateService {
       for (let i = 0; i < qe.fields.length; i++) {
         queries.push(qe.fields[i] + '=' +  pageSearch.key.trim() );
       }
+      if ( pageSearch.keys) {
+        Array.from(pageSearch.keys)
+        .filter((item) => !qe.fields.includes(item[0], 0))
+        .forEach(key => {
+          queries.push(key[0] + '=' + key[1]);
+        });
+      }
+    } else {
+      if ( pageSearch.keys) {
+        pageSearch.keys.forEach( (value, key) => (value) ? queries.push(key + '=' + value ) : '' );
+      }
     }
 
-    if (pageSearch.keys) {
-      pageSearch.keys.forEach( (value, key) => (value) ? queries.push(key + '=' + value ) : '' );
-    }
 
     let query = '?' ;
 
@@ -76,10 +85,10 @@ export class TemplateService {
     return this.http.get<IRevisionResult<IEntityEditAudit>>(this.api + 'audit/' + qe.path + '/' + id + '/' + rev).toPromise();
   }
 
-  public copySource(kind: ElementKind, fromId: string, fromRev: number, toParentId: string): Observable<any> {
-    const qe = getQueryInfo(kind);
-    return this.http.post(this.api + qe.path + '/copy/' + fromId + '/' + fromRev + '/' + toParentId, {});
-  }
+  // public copySource(kind: ElementKind, fromId: string, fromRev: number, toParentId: string): Observable<any> {
+  //   const qe = getQueryInfo(kind);
+  //   return this.http.post(this.api + qe.path + '/copy/' + fromId + '/' + fromRev + '/' + toParentId, {});
+  // }
 
   public update(item: IEntityAudit): Observable<any> {
     const kind = this.getElementKind(item.classKind);

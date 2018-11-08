@@ -27,7 +27,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
   new QueryInfo(ElementKind.STATEMENT_CONSTRUCT, 'Statement', 'controlconstruct', ['name', 'statment'],
     '&constructKind=STATEMENT_CONSTRUCT'),
   new QueryInfo(ElementKind.INSTRUMENT, 'Instrument', 'instrument', ['name', 'description', 'kind'], null),
-  new QueryInfo(ElementKind.PUBLICATION, 'Publication', 'publication', ['name', 'purpose'], null),
+  new QueryInfo(ElementKind.PUBLICATION, 'Publication', 'publication', ['name', 'purpose', 'publicationStatus'], null),
   new QueryInfo(ElementKind.QUESTION_GRID, 'QuestionGrid', 'questiongrid', ['name', 'question'], null),
   new QueryInfo(ElementKind.QUESTION_ITEM, 'QuestionItem', 'questionitem', ['name', 'question', 'responseDomainName'], null),
   new QueryInfo(ElementKind.RESPONSEDOMAIN, 'ResponseDomain', 'responsedomain', ['name', 'description', 'question', 'anchor'], null),

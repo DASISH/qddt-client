@@ -2,7 +2,7 @@ import { Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import { QddtMessageService } from '../core/services/message.service';
 import { QddtPropertyStoreService } from '../core/services/property.service';
 import { DOMAIN_TYPE_DESCRIPTION, DomainKind } from './responsedomain.classes';
-import { ActionKind, ElementKind, Page, IPageSearch} from '../shared/classes';
+import { ActionKind, ElementKind, Page, IPageSearch, PageSearch} from '../shared/classes';
 
 @Component({
   selector: 'qddt-responsedomain-preselector',
@@ -32,7 +32,7 @@ import { ActionKind, ElementKind, Page, IPageSearch} from '../shared/classes';
 </div>` ,
 styles: ['.row { margin-bottom: auto; }']
 })
-export class ResponsePreSelector implements OnChanges, OnInit {
+export class ResponsePreSelector implements  OnInit {
 
   public domainType = DomainKind.SCALE;
   public domainTypeDescription = DOMAIN_TYPE_DESCRIPTION.filter((e) => e.id > DomainKind.NONE && e.id < DomainKind.MISSING);
@@ -40,37 +40,27 @@ export class ResponsePreSelector implements OnChanges, OnInit {
   private readonly KEY = 'ResponseKind';
   private readonly path = 'responsedomains';
 
-  constructor(private  messages: QddtMessageService, private properties: QddtPropertyStoreService ) {
-    const kind: string = this.getKey().get(this.KEY);
-    this.domainType = DomainKind[kind];
-  }
-
+  constructor(private  messages: QddtMessageService, private properties: QddtPropertyStoreService ) { }
 
   ngOnInit(): void {
-    const kind: string = this.getKey().get(this.KEY);
+    const kind: string = this.getPageSearch().keys.get(this.KEY);
     this.domainType = DomainKind[kind];
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    // if (changes[''])
   }
 
   onSelectDomainType(id: DomainKind) {
+    const pageSearch = this.getPageSearch();
     this.domainType = id;
-    this.setKey(new Map( [ [this.KEY, DomainKind[id] ] ] ));
-    this.messages.sendAction( { id: this.KEY,  action: ActionKind.Filter, object: this.getKey() } );
+    pageSearch.keys.set(this.KEY, DomainKind[id]);
+    this.setPageSearch(pageSearch);
+    this.messages.sendAction( { id: this.KEY,  action: ActionKind.Filter, object: null } );
   }
 
-  private setKey(map: Map<string, string> ) {
-    const pageSearch = this.properties.get(this.path) as IPageSearch ||
-        { kind: ElementKind.RESPONSEDOMAIN, key: '', page: new Page(), sort: 'modified,desc' } as IPageSearch;
-    pageSearch.keys = map;
+  private setPageSearch(pageSearch: IPageSearch ) {
     this.properties.set(this.path, pageSearch);
   }
 
-  private getKey(): Map<string, string> {
-    return  (this.properties.get(this.path) as IPageSearch).keys ||
-            new Map( [ [this.KEY, DomainKind[DomainKind.SCALE] ] ] );
+  private getPageSearch(): IPageSearch {
+    return (this.properties.get(this.path) || new PageSearch( { kind: ElementKind.RESPONSEDOMAIN } ) ) as IPageSearch;
   }
 
 }
