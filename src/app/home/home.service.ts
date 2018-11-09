@@ -1,17 +1,36 @@
-import { Inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable} from 'rxjs';
+import {Inject, Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
 
-import { API_BASE_HREF } from '../api';
-import { Concept, Study, SurveyProgram, Topic } from './home.classes';
-import { IOtherMaterial, IEntityEditAudit, IEntityAudit, IPageResult, ElementKind, getQueryInfo} from '../shared/classes';
-
+import {API_BASE_HREF} from '../api';
+import {Concept, Study, SurveyProgram, Topic} from './home.classes';
+import {ActionKind, ElementKind, getQueryInfo, IEntityAudit, IEntityEditAudit, IOtherMaterial, IPageResult} from '../shared/classes';
+import {UserService} from '../core/services';
 
 
 @Injectable()
 export class HomeService {
+  public readonly canDo: Map<ElementKind, Map<ActionKind, boolean>>;
 
-  constructor(protected http: HttpClient,  @Inject(API_BASE_HREF) protected api: string) {
+  constructor( private userService: UserService, protected http: HttpClient, @Inject(API_BASE_HREF) protected api: string) {
+    this.canDo = new Map([
+      [ElementKind.CONCEPT, new Map([
+        [ ActionKind.Create, userService.canDo(ActionKind.Create, ElementKind.CONCEPT) ],
+        [ ActionKind.Update, userService.canDo(ActionKind.Update, ElementKind.CONCEPT) ],
+        [ ActionKind.Delete, userService.canDo(ActionKind.Delete, ElementKind.CONCEPT) ]])],
+      [ElementKind.TOPIC_GROUP, new Map([
+        [ ActionKind.Create, userService.canDo(ActionKind.Create, ElementKind.TOPIC_GROUP) ],
+        [ ActionKind.Update, userService.canDo(ActionKind.Update, ElementKind.TOPIC_GROUP) ],
+        [ ActionKind.Delete, userService.canDo(ActionKind.Delete, ElementKind.TOPIC_GROUP) ]])],
+      [ElementKind.STUDY, new Map([
+        [ ActionKind.Create, userService.canDo(ActionKind.Create, ElementKind.STUDY) ],
+        [ ActionKind.Update, userService.canDo(ActionKind.Update, ElementKind.STUDY) ],
+        [ ActionKind.Delete, userService.canDo(ActionKind.Delete, ElementKind.STUDY) ]])],
+      [ElementKind.SURVEY_PROGRAM, new Map([
+        [ ActionKind.Create, userService.canDo(ActionKind.Create, ElementKind.SURVEY_PROGRAM) ],
+        [ ActionKind.Update, userService.canDo(ActionKind.Update, ElementKind.SURVEY_PROGRAM) ],
+        [ ActionKind.Delete, userService.canDo(ActionKind.Delete, ElementKind.SURVEY_PROGRAM) ]])],
+    ]);
   }
 
   getRevisionById(kind: ElementKind, id: string): Promise<any> {
@@ -35,7 +54,7 @@ export class HomeService {
     return this.http.post(this.api + qe.path, item);
   }
 
-  updateWithfiles(kind: ElementKind, form: FormData ): Observable<any> {
+  updateWithFiles(kind: ElementKind, form: FormData ): Observable<any> {
     const qe = getQueryInfo(kind);
     // const req = new HttpRequest('POST', this.api +  qe.path + '/createfile/', form, { reportProgress: true });
     // return this.http.request(req);

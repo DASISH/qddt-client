@@ -1,14 +1,11 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { QuestionItem } from '../question/question.classes';
-import {ActionKind, ElementKind} from '../shared/classes/enums';
-import { ElementRevisionRef, Page } from '../shared/classes/classes';
 import { Instruction, Universe, QuestionConstruct } from '../controlconstruct/controlconstruct.classes';
 import { TemplateService } from '../template/template.service';
-import { IRevisionResult, IElement, IRevisionRef, IOtherMaterial } from '../shared/classes/interfaces';
+import { ActionKind, ElementKind, ElementRevisionRef, IElement, IRevisionRef, IRevisionResult, Page} from '../shared/classes';
 
 @Component({
   selector: 'qddt-question-construct-form',
-
   templateUrl: 'question-construct.form.component.html',
   styles: [
     '.nomargin { margin:0; }',
@@ -110,7 +107,7 @@ export class QuestionConstructFormComponent   {
 
     this.modifiedEvent.emit(
       this.controlConstruct =
-        await this.service.updateWithfiles(ElementKind.QUESTION_CONSTRUCT, formData).toPromise());
+        await this.service.updateWithFiles(ElementKind.QUESTION_CONSTRUCT, formData).toPromise());
   }
 
 }

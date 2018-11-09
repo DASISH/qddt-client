@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from '../core/services';
 import { TemplateListComponent } from '../template/template-list.component';
 import { SequenceDetailComponent } from './sequence-construct.detail.component';
 import { SequenceConstructComponent } from './sequence-construct.component';
+import { AuthGuard } from '../core/services/auth-guard.service';
 
 
 export const sequenceRoutes: Routes = [

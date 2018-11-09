@@ -6,7 +6,6 @@ import { ActionKind, ElementKind, IElement, IPageSearch, Page } from '../shared/
 
 @Component({
   selector: 'qddt-missing-form',
-
   templateUrl: './missing.form.component.html'
 })
 

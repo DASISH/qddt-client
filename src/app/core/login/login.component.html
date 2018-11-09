@@ -2,7 +2,7 @@
 <div id="modalLogin" class="modal" style="width:25%;">
   <div class="modal-content">
     <h4>Login</h4>
-    <form (ngSubmit)="login()" #f="ngForm">
+    <form (ngSubmit)="login()" (keyup.enter)="f.onSubmit()" #f="ngForm">
       <div class="row input-field">
         <input class="validate" id="email"  name="email" type="email" [(ngModel)]="formData.email" required email>
         <label for="email">Email</label>
@@ -12,10 +12,9 @@
         <label for="pwRef">Password</label>
       </div>
       <div class="row">
-        <button [disabled]="f.invalid || loading" class="btn btn-primary waves-effect right" (click)="onClose()">Login</button>
+        <button [disabled]="f.invalid || loading" class="btn btn-primary waves-effect right" (click)="f.onSubmit()">Login</button>
       </div>
     </form>
     <qddt-spinner *ngIf="loading" ></qddt-spinner>
   </div>  
-  <div class="modal-footer"></div>
 </div>

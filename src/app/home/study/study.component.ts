@@ -1,7 +1,6 @@
 import {  Component, OnInit, AfterContentChecked } from '@angular/core';
 import {  Router } from '@angular/router';
 import { HomeService } from '../home.service';
-import { TemplateService } from '../../template/template.service';
 import { Study, SurveyProgram } from '../home.classes';
 import { ActionKind, ElementKind } from '../../shared/classes';
 import {PropertyStoreService} from '../../core/services';
@@ -25,11 +24,10 @@ export class StudyComponent implements OnInit, AfterContentChecked {
   public revision: any;
   refreshCount = 0;
 
-  constructor(  private router: Router, private property: PropertyStoreService,
-                private studyService: HomeService, private service: TemplateService) {
+  constructor(  private router: Router, private property: PropertyStoreService, private homeService: HomeService) {
 
-    this.readonly = !service.can(ActionKind.Create, ElementKind.STUDY );
-    this.canDelete = service.can(ActionKind.Delete, ElementKind.STUDY );
+    this.readonly = !homeService.canDo.get(ElementKind.STUDY).get(ActionKind.Create);
+    this.canDelete = homeService.canDo.get(ElementKind.STUDY).get(ActionKind.Delete);
     this.newStudy = new Study();
   }
 
@@ -39,7 +37,7 @@ export class StudyComponent implements OnInit, AfterContentChecked {
       this.survey = surveyProgram;
     } else {
       const parentId = surveyProgram.id || this.property.menuPath[HierarchyPosition.Survey].id;
-      this.studyService.getStudyBySurvey(parentId).then(result => this.survey = result);
+      this.homeService.getStudyBySurvey(parentId).then(result => this.survey = result);
     }
   }
 
@@ -81,7 +79,7 @@ export class StudyComponent implements OnInit, AfterContentChecked {
 
   onSaveNewStudy() {
     this.showEditForm = false;
-    this.studyService.createStudy(this.newStudy, this.survey.id)
+    this.homeService.createStudy(this.newStudy, this.survey.id)
       .subscribe((result: any) => {
         this.onStudySaved(result);
     });
@@ -90,7 +88,7 @@ export class StudyComponent implements OnInit, AfterContentChecked {
 
   getPdf(element: Study) {
     const fileName = element.name + '.pdf';
-    this.studyService.getPdf(element).then(
+    this.homeService.getPdf(element).then(
       (data: any) => {
         filesaver.saveAs(data, fileName);
       });
@@ -98,7 +96,7 @@ export class StudyComponent implements OnInit, AfterContentChecked {
 
   getXml(element: Study) {
     const fileName = element.name + '.xml';
-    this.studyService.getXml(element).then(
+    this.homeService.getXml(element).then(
       (data: any) => {
         filesaver.saveAs(data, fileName);
       });
@@ -106,7 +104,7 @@ export class StudyComponent implements OnInit, AfterContentChecked {
 
   onRemoveStudy(studyId: string) {
     if (studyId) {
-      this.studyService.deleteStudy(studyId)
+      this.homeService.deleteStudy(studyId)
         .subscribe(() => {
           this.survey.studies = this.survey.studies.filter((s: any) => s.id !== studyId);
           this.property.set('studies', this.survey.studies);

@@ -1,7 +1,7 @@
-import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import {Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges, AfterViewInit} from '@angular/core';
 import { IAuthority, UserJson} from './user.classes';
-import { Agency } from '../core/classes/index';
-import { UserService} from '../core/services/user.service';
+import {Agency} from '../core/classes';
+import {UserService} from '../core/services';
 
 // declare var Materialize: any;
 
@@ -10,13 +10,11 @@ import { UserService} from '../core/services/user.service';
   templateUrl: './user.form.component.html'
 })
 
-export class UserFormComponent implements OnInit, OnChanges {
+export class UserFormComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() user: UserJson;
   @Input() readonly = false;
   @Output() modifiedEvent =  new EventEmitter<String>();
 
-  // public agencies: Agency[];
-  // public authorities: IAuthority[];
   public selectedAgencyId: string;
   public formId = Math.round( Math.random() * 10000);
 
@@ -38,8 +36,8 @@ export class UserFormComponent implements OnInit, OnChanges {
         } else {
           this.getFirstAgency().then( agent => this.onSelectChange(agent.id) );
         }
-        // Materialize.updateTextFields();
       }
+      // try { Materialize.updateTextFields(); } catch (Exception) { }
     }
   }
 
@@ -64,7 +62,7 @@ export class UserFormComponent implements OnInit, OnChanges {
 
 
   private async getFirstAgency() {
-    return await this.getAgencies().then( result => result.find((value, _index) => _index === 0  ));
+    return await this.getAgencies().then( result => result[0]);
   }
 
   private async getAgencies() {
@@ -76,5 +74,9 @@ export class UserFormComponent implements OnInit, OnChanges {
     // .then((result) => {
     //   return result;
     // });
+  }
+
+  ngAfterViewInit(): void {
+    // Materialize.updateTextFields();
   }
 }

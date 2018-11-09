@@ -3,7 +3,7 @@ import { QuestionItem} from '../../question/question.classes';
 import { Concept } from '../home.classes';
 import { HomeService} from '../home.service';
 import { ActionKind, ElementKind, IRevisionRef} from '../../shared/classes';
-import { MessageService, UserService} from '../../core/services';
+import { MessageService } from '../../core/services';
 
 const filesaver = require('file-saver');
 declare var Materialize: any;
@@ -25,12 +25,13 @@ export class TreeNodeComponent implements AfterContentChecked {
   public showbutton = false;
   public newchild: any;
 
-  public canCreate = this.userService.canDo(ActionKind.Create, ElementKind.CONCEPT);
-  public canUpdate = this.userService.canDo(ActionKind.Update, ElementKind.CONCEPT);
-  public canDelete  = this.userService.canDo(ActionKind.Delete, ElementKind.CONCEPT);
+  public readonly canCreate = this.conceptService.canDo.get(ElementKind.CONCEPT).get(ActionKind.Create);
+  public readonly canUpdate = this.conceptService.canDo.get(ElementKind.CONCEPT).get(ActionKind.Update);
+  public readonly canDelete  = this.conceptService.canDo.get(ElementKind.CONCEPT).get(ActionKind.Delete);
+
   private refreshCount = 0;
 
-  constructor(private conceptService: HomeService, private message: MessageService, public userService: UserService) {
+  constructor(private conceptService: HomeService, private message: MessageService) {
     this.newchild = new Concept();
   }
 

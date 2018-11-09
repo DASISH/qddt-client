@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {ChangeLogComponent} from './changelog.component';
 import {TemplateListComponent} from '../template/template-list.component';
 import {ChangeLogDetailComponent} from './changelog.detail.component';
-import {AuthGuard} from '../core/services';
+import {AuthGuard} from '../core/services/auth-guard.service';
 
 
 export const changelogRoutes: Routes = [

@@ -34,6 +34,8 @@ export class TemplateComponent implements OnDestroy, AfterContentChecked {
   private path: string;
   private refreshCount = 0;
 
+  private canCreate: boolean;
+
 
   constructor(private route: ActivatedRoute, private  messages: MessageService, private service: UserService,
               private properties: PropertyStoreService ) {
@@ -50,6 +52,7 @@ export class TemplateComponent implements OnDestroy, AfterContentChecked {
         this.icon = HEADER_DETAILS.get(this.path).icon;
         this.headerName =  HEADER_DETAILS.get(this.path).headerName;
       }
+      this.canCreate =  this.service.canDo(ActionKind.Create, this.kind);
     });
 
     this.messages.getAction().pipe(
@@ -77,7 +80,7 @@ export class TemplateComponent implements OnDestroy, AfterContentChecked {
   }
 
   public canWrite(): boolean {
-    return this.service.canDo(ActionKind.Create, this.kind);
+    return this.canCreate;
   }
 
 

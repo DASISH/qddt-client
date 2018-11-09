@@ -84,11 +84,6 @@ export class TemplateService {
     return this.http.get<IRevisionResult<IEntityEditAudit>>(this.api + 'audit/' + qe.path + '/' + id + '/' + rev).toPromise();
   }
 
-  // public copySource(kind: ElementKind, fromId: string, fromRev: number, toParentId: string): Observable<any> {
-  //   const qe = getQueryInfo(kind);
-  //   return this.http.post(this.api + qe.path + '/copy/' + fromId + '/' + fromRev + '/' + toParentId, {});
-  // }
-
   public update(item: IEntityAudit): Observable<any> {
     const kind = this.getElementKind(item.classKind);
     const qe = getQueryInfo(kind);
@@ -107,7 +102,7 @@ export class TemplateService {
     return this.http.post(this.api + qe.path + path2, item);
   }
 
-  public updateWithfiles(kind: ElementKind, form: FormData ): Observable<any> {
+  public updateWithFiles(kind: ElementKind, form: FormData ): Observable<any> {
     const qe = getQueryInfo(kind);
     return this.http.post( this.api +  qe.path + '/createfile/', form, { reportProgress: true} );
   }

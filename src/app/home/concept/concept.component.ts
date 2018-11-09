@@ -4,8 +4,6 @@ import { PropertyStoreService } from '../../core/services/property.service';
 import { ElementKind, ActionKind } from '../../shared/classes';
 import { Concept, Topic } from '../home.classes';
 import { HomeService } from '../home.service';
-import { TemplateService } from '../../template/template.service';
-
 
 
 @Component({
@@ -28,8 +26,8 @@ export class ConceptComponent implements OnInit {
 
   refreshCount = 0;
 
-  constructor(private property: PropertyStoreService, private conceptService: HomeService, private service: TemplateService ) {
-    this.readonly = !service.can(ActionKind.Create, ElementKind.CONCEPT );
+  constructor(private property: PropertyStoreService, private homeService: HomeService ) {
+    this.readonly = !homeService.canDo.get(ElementKind.CONCEPT).get(ActionKind.Create);
     this.concept = new Concept();
    }
 
@@ -41,7 +39,7 @@ export class ConceptComponent implements OnInit {
     this.concepts = this.property.get('concepts');
     if (!this.concepts) {
       this.showProgressBar = true;
-      this.conceptService.getConceptByTopic(parentId).then((result) => {
+      this.homeService.getConceptByTopic(parentId).then((result) => {
         this.concepts = result.content.sort( (a, b) => a.name.localeCompare(b.name));
         this.property.set('concepts', this.concepts);
         this.showProgressBar = false;
@@ -66,7 +64,7 @@ export class ConceptComponent implements OnInit {
   onNewSave() {
     this.showConceptForm = false;
     this.showProgressBar = true;
-      this.conceptService.createConcept(this.concept, this.topic.id)
+      this.homeService.createConcept(this.concept, this.topic.id)
       .subscribe((result: any) => {
             this.onConceptUpdated(result);
       });
@@ -88,7 +86,7 @@ export class ConceptComponent implements OnInit {
   }
 
   onConfirmDeleteConcept() {
-    this.conceptService.deleteConcept(this.toDeletedConcept.id)
+    this.homeService.deleteConcept(this.toDeletedConcept.id)
       .subscribe(
       (val) => {
         this.confirmDeleteActions.emit({action: 'modal', params: ['close']});

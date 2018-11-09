@@ -38,7 +38,7 @@ export class TopicEditComponent  implements AfterContentChecked {
     this.fileStore.forEach( (file) => { formData.append('files', file); });
 
     this.savedEvent.emit(
-      this.topic = await this.service.updateWithfiles(ElementKind.TOPIC_GROUP, formData).toPromise()
+      this.topic = await this.service.updateWithFiles(ElementKind.TOPIC_GROUP, formData).toPromise()
     );
   }
 

@@ -18,11 +18,11 @@ export class LoginComponent implements OnInit, AfterViewInit {
   public loading = false;
 
   constructor(private router: Router, private authenticationService: UserService) {
+    authenticationService.loggedIn.subscribe( (status) =>  {
+      if (status) { $('#modalLogin').modal('close'); }
+    });
   }
 
-  onClose() {
-    $('#modalLogin').modal('close');
-  }
 
   login() {
     this.loading = true;

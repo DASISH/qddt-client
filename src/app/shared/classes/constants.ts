@@ -1,6 +1,5 @@
-import {ElementKind} from './enums';
-import {QueryInfo} from './classes';
-import {IHeaderDetail} from './interfaces';
+import { ElementKind } from './enums';
+import { QueryInfo } from './classes';
 
 
 export  function getElementKind(kind: string|ElementKind): ElementKind {
@@ -54,5 +53,5 @@ export  const HEADER_DETAILS =  new Map([
   ['instructions', { icon: 'speaker_notes', headerName: 'Instructions', kind: ElementKind.INSTRUCTION }],
   ['universes', { icon: 'public', headerName: 'Universes', kind: ElementKind.UNIVERSE }],
   ['user', { icon: 'user', headerName: 'User Administration', kind: ElementKind.USER }],
-  ['changelog', { icon: 'public', headerName: 'Change Feed', kind: ElementKind.CHANGE_LOG }],
+  ['changelog', { icon: 'timeline', headerName: 'Change Feed', kind: ElementKind.CHANGE_LOG }],
   ]);

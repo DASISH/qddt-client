@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { MissingComponent } from './missing.component';
 import { MissingDetailComponent } from './missing.detail.component';
 import { TemplateListComponent } from '../template/template-list.component';
-import { AuthGuard } from '../core/services';
+import { AuthGuard } from '../core/services/auth-guard.service';
 
 
 export const missingRoutes: Routes = [

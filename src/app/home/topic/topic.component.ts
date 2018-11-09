@@ -1,12 +1,11 @@
-import { AfterContentChecked, Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import {AfterContentChecked, Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 
-import { Study, Topic } from '../home.classes';
-import { HomeService } from '../home.service';
-import { TemplateService } from '../../template/template.service';
-import { ActionKind, ElementKind, IRevisionRef } from '../../shared/classes';
-import { HierarchyPosition } from '../../core/classes';
-import { MessageService, PropertyStoreService } from '../../core/services';
+import {Study, Topic} from '../home.classes';
+import {HomeService} from '../home.service';
+import {ActionKind, ElementKind, IRevisionRef} from '../../shared/classes';
+import {HierarchyPosition} from '../../core/classes';
+import {MessageService, PropertyStoreService} from '../../core/services';
 
 declare var Materialize: any;
 
@@ -35,9 +34,9 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
   private refreshCount = 0;
 
   constructor(private router: Router, private property: PropertyStoreService, private message: MessageService,
-              private topicService: HomeService, private service: TemplateService ) {
-    this.readonly = !service.can(ActionKind.Create, ElementKind.TOPIC_GROUP );
-    this.canDelete = service.can(ActionKind.Delete, ElementKind.TOPIC_GROUP );
+              private homeService: HomeService ) {
+    this.readonly = !homeService.canDo.get(this.TOPIC_KIND).get(ActionKind.Create);
+    this.canDelete = homeService.canDo.get(this.TOPIC_KIND).get(ActionKind.Delete);
     this.newTopic = new Topic();
   }
 
@@ -56,7 +55,7 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
     console.log(parentId);
     this.topics = this.property.get('topics');
     if (!this.topics) {
-      this.topicService.getTopicByStudy(parentId)
+      this.homeService.getTopicByStudy(parentId)
         .then((result) => {
           this.topics = result.sort( (a, b) => a.name.localeCompare(b.name));
           this.property.set('topics', this.topics);
@@ -107,7 +106,7 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
 
   onNewSave() {
     this.showTopicForm = false;
-    this.topicService.createTopic(this.newTopic, this.study.id)
+    this.homeService.createTopic(this.newTopic, this.study.id)
       .subscribe((result: any) => this.onTopicSaved(result));
     this.newTopic  = new Topic();
   }
@@ -118,18 +117,18 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
   }
 
   onAddQuestionItem(ref: IRevisionRef, topicId: any) {
-    this.topicService.attachTopicQuestion(topicId, ref.elementId, ref.elementRevision)
+    this.homeService.attachTopicQuestion(topicId, ref.elementId, ref.elementRevision)
       .subscribe((result: any) => this.onTopicSaved(result));
   }
 
   onRemoveQuestionItem(ref: IRevisionRef, topicId: any) {
-      this.topicService.deattachTopicQuestion(topicId , ref.elementId, ref.elementRevision)
+      this.homeService.deattachTopicQuestion(topicId , ref.elementId, ref.elementRevision)
       .subscribe((result: any) => this.onTopicSaved(result));
   }
 
   onRemoveTopic(topicId: string) {
     if (topicId && topicId.length === 36) {
-      this.topicService.deleteTopic(topicId)
+      this.homeService.deleteTopic(topicId)
         .subscribe(() => {
             this.topics = this.topics.filter((s: any) => s.id !== topicId);
             this.property.set('topics', this.topics);

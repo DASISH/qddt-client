@@ -1,14 +1,12 @@
-
 import { distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import { Subject} from 'rxjs';
-import {Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges, OnDestroy, AfterViewInit} from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges, OnDestroy, AfterViewInit} from '@angular/core';
 import { Column } from './table.column';
 import { LIST_COLUMNS, RESPONSEDOMAIN_COLUMNS, DEFAULT_COLUMNS } from './table.column-map';
 import { ElementEnumAware, PreviewService } from '../../preview/preview.service';
-import { UserService } from '../../core/services/user.service';
 import { DomainKind } from '../../responsedomain/responsedomain.classes';
 import { ElementKind, getQueryInfo, IEntityEditAudit, IPageSearch, QueryInfo, ActionKind } from '../classes';
-import { MessageService } from '../../core/services/message.service';
+import { MessageService, UserService} from '../../core/services';
 
 const filesaver = require('file-saver');
 declare var $;
@@ -119,7 +117,13 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         if (row[column.label] === undefined) {
           let colref = item;
           if (column.name instanceof Array) {
-            column.name.forEach(name => colref = colref[name]);
+            column.name.forEach(name => {
+              if (colref instanceof Array) {
+                colref = colref[0][name];
+              } else {
+                colref = colref[name];
+              }
+            });
           } else {
             colref = colref[column.name];
           }
@@ -210,6 +214,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     qe.fields.forEach(value => this.fields[value] = (this.pageSearch.keys.get(value) || ''));
     this.fieldNames = qe.fields;
     this.placeholder = qe.placeholder();
+    console.log('canDelete?');
     this.canDelete = this.access.canDo(ActionKind.Delete, qe.id);
     this.canExport = this.access.canDo(ActionKind.Export, qe.id);
   }
