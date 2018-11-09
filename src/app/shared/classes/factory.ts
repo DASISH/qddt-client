@@ -8,18 +8,20 @@ import {
   SequenceConstruct,
   StatementConstruct, Universe
 } from '../../controlconstruct/controlconstruct.classes';
-import { Category, CategoryKind} from '../../category/category.classes';
+import { Category, CategoryKind} from '../../lookups/category/category.classes';
 import { ResponseDomain } from '../../responsedomain/responsedomain.classes';
 import { QuestionItem } from '../../question/question.classes';
 import { Instrument } from '../../instrument/instrument.classes';
 import { Publication} from '../../publication/publication.classes';
 import { UserJson } from '../../user/user.classes';
+import {getElementKind} from './constants';
 
 
 export class Factory {
 
-  static createInstance(kind: ElementKind): IEntityAudit {
-    switch (kind) {
+  static createInstance(kind: ElementKind|string): IEntityAudit {
+    const elementKind = getElementKind(kind);
+    switch (elementKind) {
       case ElementKind.CATEGORY:
         return new Category();
       case ElementKind.MISSING_GROUP:
@@ -60,8 +62,9 @@ export class Factory {
     }
   }
 
-  static createFromSeed(kind: ElementKind, seed: any): IEntityAudit {
-    switch (kind) {
+  static createFromSeed(kind: ElementKind|string, seed: any): IEntityAudit {
+  const elementKind = getElementKind(kind);
+  switch (elementKind) {
       case ElementKind.CATEGORY:
         return new Category(seed);
       case ElementKind.MISSING_GROUP:
@@ -96,7 +99,18 @@ export class Factory {
         return new Instruction(seed);
       case ElementKind.UNIVERSE:
         return new Universe(seed);
+      case ElementKind.USER:
+        return new UserJson(seed);
       default: return null;
     }
   }
+
+/*   const StringIsNumber = value => isNaN(Number(value)) === false;
+
+// Turn enum into array
+static ToArray(enumme) {
+    return Object.keys(enumme)
+        .filter(this.StringIsNumber)
+        .map(key => enumme[key]);
+} */
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { TOKEN_NAME } from '../user/user.service';
+import { TOKEN_NAME } from '../services/user.service';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -16,7 +16,8 @@ export class TokenInterceptor implements HttpInterceptor {
     // const authReq = request.clone({setHeaders: {Authorization: 'Bearer  ' + token}});
     if (token) {
       const newheader = new HttpHeaders().set('Authorization', 'Bearer ' + token)
-        .append('Access-Control-Allow-Origin', '*');
+        .append('Access-Control-Allow-Origin', '*')
+        .append('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
       const authReq = request.clone({ headers: newheader });
       return next.handle(authReq);
     }

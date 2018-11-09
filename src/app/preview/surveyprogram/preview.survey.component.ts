@@ -3,7 +3,7 @@ import { SurveyProgram } from '../../home/home.classes';
 
 @Component({
   selector: 'qddt-preview-survey',
-  moduleId: module.id,
+
   template: `
   <div class="row">
     <div class="col s12">

@@ -64,7 +64,7 @@ export function main() {
               'changeKind' : 'CONCEPTUAL',
               'changeComment' : 'Information added'
             };
-            fixture.componentInstance.questionitem = questionitem;
+            fixture.componentInstance.questionItem = questionitem;
             // fixture.componentInstance.ngOnChanges({'noe'});
             fixture.detectChanges();
             fixture.whenStable().then(() => {

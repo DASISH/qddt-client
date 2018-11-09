@@ -1,6 +1,6 @@
-import { Column } from '../table/table.column';
+import { Column } from './table.column';
 import { DomainKind } from '../../responsedomain/responsedomain.classes';
-import { ElementKind } from '../classes/enums';
+import { ElementKind } from '../classes';
 
 export const DEFAULT_COLUMNS = [
   new Column({ name: 'modified',  label: 'Modified', sortable: true, direction: 'desc' }),
@@ -8,7 +8,7 @@ export const DEFAULT_COLUMNS = [
   new Column({ name: ['modifiedBy', 'agencyUserName'],  label: 'User@Agency' })
 ];
 
-const LOCKUP_COLUMNS =  [
+const LOOKUP_COLUMNS =  [
   new Column( { label: 'Name', name: 'name', sortable: true }),
   new Column( { label: 'Description', name: 'description', sortable: true }),
 ];
@@ -31,9 +31,9 @@ const  PUBLICATION_COLUMNS =  [
 ];
 
 const CATEGORY_COLUMNS =  [
-  new Column( { label: 'Label', name: 'label', sortable: true }),
-  new Column( { label: 'Description', name: 'description', sortable: true }),
-  new Column( { label: 'Type', name: 'categoryType', sortable: true } ),
+  new Column( { name: 'label', label: 'Label', sortable: true }),
+  new Column( { name: 'description', label: 'Description', sortable: true }),
+  new Column( { name: 'categoryType', label: 'Type',  sortable: true } ),
 ];
 
 const QUESTIONITEM_COLUMNS = [
@@ -52,7 +52,7 @@ export const USER_COLUMNS = [
   new Column( { name: 'name', label: 'Name', sortable: true }),
   new Column( { name: 'email', label: 'Email', sortable: true }),
   new Column( { name: 'enabled', label: 'Active', sortable: false }),
-  new Column( { name: ['authority', 'name'], label: 'Authority', sortable: false }),
+  new Column( { name: ['authorities', 'name'], label: 'Authority', sortable: false }),
   new Column( { name: 'modified',  label: 'Modified', sortable: true, direction: 'desc' }),
   new Column( { name: ['agency', 'name'], label: 'Agency', sortable: true })
 ];
@@ -112,8 +112,8 @@ export const LIST_COLUMNS: Map<ElementKind, Column[]>  = new Map([
   [ElementKind.SEQUENCE_CONSTRUCT, SEQUENCE_CONSTRUCT_COLUMNS.concat(DEFAULT_COLUMNS) ],
   [ElementKind.INSTRUMENT, INSTRUMENT_COLUMNS.concat(DEFAULT_COLUMNS) ],
   [ElementKind.PUBLICATION, PUBLICATION_COLUMNS.concat(DEFAULT_COLUMNS) ],
-  [ElementKind.UNIVERSE, LOCKUP_COLUMNS.concat(DEFAULT_COLUMNS) ],
-  [ElementKind.INSTRUCTION, LOCKUP_COLUMNS.concat(DEFAULT_COLUMNS) ],
+  [ElementKind.UNIVERSE, LOOKUP_COLUMNS.concat(DEFAULT_COLUMNS) ],
+  [ElementKind.INSTRUCTION, LOOKUP_COLUMNS.concat(DEFAULT_COLUMNS) ],
   [ElementKind.USER, USER_COLUMNS ]
 ]);
 

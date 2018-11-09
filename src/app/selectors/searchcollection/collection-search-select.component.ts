@@ -1,10 +1,7 @@
 import {Component, EventEmitter, Input, Output, ChangeDetectionStrategy, AfterViewInit, SimpleChanges, OnChanges} from '@angular/core';
 import { ElementEnumAware } from '../../preview/preview.service';
+import { ElementKind, getElementKind, getQueryInfo, IElement, IEntityAudit, QueryInfo} from '../../shared/classes';
 import { Factory } from '../../shared/classes/factory';
-import { IElement, IEntityAudit } from '../../shared/classes/interfaces';
-import { ElementKind } from '../../shared/classes/enums';
-import { QueryInfo } from '../../shared/classes/classes';
-import { getElementKind, QDDT_QUERY_INFOES} from '../../shared/classes/constants';
 
 @Component({
   selector: 'qddt-collection-search-select',
@@ -52,7 +49,7 @@ export class CollectionSearchSelectComponent implements AfterViewInit, OnChanges
 
   onAddItem() {
     if (this.isNewItem()) {
-      const item = Factory.createInstance(getElementKind(this.elementKind));
+      const item = Factory.createInstance(this.elementKind);
       item[this.searchField] = this.searchString;
       this.selectedItem = { element: item, elementKind: this.elementKind };
     }
@@ -73,14 +70,10 @@ export class CollectionSearchSelectComponent implements AfterViewInit, OnChanges
     this.listItems.splice(idx, 1);
   }
 
-  public getQueryInfo(): QueryInfo {
-    const kind = getElementKind(this.elementKind);
-    return QDDT_QUERY_INFOES.find(e => e.id === kind);
-  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['elementKind']) {
-      this.queryInfo = this.getQueryInfo();
+      this.queryInfo = getQueryInfo(this.elementKind);
       this.labelName = this.queryInfo.label;
     } else if (changes['searchItems']) {
       if (!this.searchItems) { this.searchItems = []; }

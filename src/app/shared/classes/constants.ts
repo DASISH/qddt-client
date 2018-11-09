@@ -7,29 +7,30 @@ export  function getElementKind(kind: string|ElementKind): ElementKind {
 }
 
 export  function getQueryInfo(kind: string|ElementKind): QueryInfo {
-  return QDDT_QUERY_INFOES[getElementKind(kind)];
+  const key = getElementKind(kind);
+  return QDDT_QUERY_INFOES[key];
 }
 
 export const QDDT_QUERY_INFOES: QueryInfo[] = [
   new QueryInfo(ElementKind.NONE, '', '', [], null),
-  new QueryInfo(ElementKind.CATEGORY, 'Category', 'category', ['name'], '&categoryKind=CATEGORY'),
-  new QueryInfo(ElementKind.MISSING_GROUP, 'Missing Values', 'category', ['name'], '&categoryKind=MISSING_GROUP'),
-  new QueryInfo(ElementKind.CONCEPT, 'Concept', 'concept', ['name'], null),
+  new QueryInfo(ElementKind.CATEGORY, 'Category', 'category', ['name', 'description'], '&categoryKind=CATEGORY'),
+  new QueryInfo(ElementKind.MISSING_GROUP, 'Missing Values', 'category', ['name', 'description'], '&categoryKind=MISSING_GROUP'),
+  new QueryInfo(ElementKind.CONCEPT, 'Concept', 'concept', ['name', 'description'], null),
   new QueryInfo(ElementKind.CONTROL_CONSTRUCT, 'Construct', 'controlconstruct', ['name'],
-    '&constructkind=CONTROL_CONSTRUCT'),
+    '&constructKind=CONTROL_CONSTRUCT'),
   new QueryInfo(ElementKind.CONDITION_CONSTRUCT, 'Condition', 'controlconstruct', ['name', 'condition'],
-    '&constructkind=CONDITION_CONSTRUCT'),
-  new QueryInfo(ElementKind.QUESTION_CONSTRUCT, 'QuestionConstruct', 'controlconstruct', ['name', 'questionname', 'questiontext'],
-    '&constructkind=QUESTION_CONSTRUCT'),
-  new QueryInfo(ElementKind.SEQUENCE_CONSTRUCT, 'Sequence', 'controlconstruct', ['name', 'description', 'sequencekind'],
-    '&constructkind=SEQUENCE_CONSTRUCT'),
+    '&constructKind=CONDITION_CONSTRUCT'),
+  new QueryInfo(ElementKind.QUESTION_CONSTRUCT, 'QuestionConstruct', 'controlconstruct', ['name', 'questionName', 'questionText'],
+    '&constructKind=QUESTION_CONSTRUCT'),
+  new QueryInfo(ElementKind.SEQUENCE_CONSTRUCT, 'Sequence', 'controlconstruct', ['name', 'description', 'sequenceKind'],
+    '&constructKind=SEQUENCE_CONSTRUCT'),
   new QueryInfo(ElementKind.STATEMENT_CONSTRUCT, 'Statement', 'controlconstruct', ['name', 'statment'],
-    '&constructkind=STATEMENT_CONSTRUCT'),
+    '&constructKind=STATEMENT_CONSTRUCT'),
   new QueryInfo(ElementKind.INSTRUMENT, 'Instrument', 'instrument', ['name', 'description', 'kind'], null),
-  new QueryInfo(ElementKind.PUBLICATION, 'Publication', 'publication', ['name', 'purpose'], null),
+  new QueryInfo(ElementKind.PUBLICATION, 'Publication', 'publication', ['name', 'purpose', 'publicationStatus'], null),
   new QueryInfo(ElementKind.QUESTION_GRID, 'QuestionGrid', 'questiongrid', ['name', 'question'], null),
-  new QueryInfo(ElementKind.QUESTION_ITEM, 'QuestionItem', 'questionitem', ['name', 'question', 'responsename'], null),
-  new QueryInfo(ElementKind.RESPONSEDOMAIN, 'ResponseDomain', 'responsedomain', ['name', 'description', 'question'], null),
+  new QueryInfo(ElementKind.QUESTION_ITEM, 'QuestionItem', 'questionitem', ['name', 'question', 'responseDomainName'], null),
+  new QueryInfo(ElementKind.RESPONSEDOMAIN, 'ResponseDomain', 'responsedomain', ['name', 'description', 'question', 'anchor'], null),
   new QueryInfo(ElementKind.STUDY, 'Study', 'study', ['name', 'description'], null),
   new QueryInfo(ElementKind.SURVEY_PROGRAM, 'Survey', 'surveyprogram', ['name', 'description'], null),
   new QueryInfo(ElementKind.TOPIC_GROUP, 'Module', 'topicgroup', ['name', 'description'], null),

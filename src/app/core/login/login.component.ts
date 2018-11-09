@@ -1,47 +1,56 @@
-import { Component, AfterContentChecked, AfterContentInit } from '@angular/core';
-import { UserService } from '../user/user.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { NgForm } from '@angular/forms';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {ResetPassword, UserService} from '../services/user.service';
+import { Router } from '@angular/router';
 
 declare var Materialize: any;
 declare var $;
 
 @Component({
   selector: 'qddt-login',
-  moduleId: module.id,
   templateUrl: './login.component.html'
 })
-export class LoginComponent implements  AfterContentInit {
+export class LoginComponent implements OnInit, AfterViewInit {
 
-  public formData = { email: null, password: null };
+  public formData = { email: '', password: '' };
+  public formId = Math.round( Math.random() * 10000);
+  public loading = false;
 
-  loading = false;
-  once = 0;
-
-  constructor(private route: ActivatedRoute, private router: Router, private authenticationService: UserService) {
-    $(document).ready(function() {
-      $('.modal').modal({
-        ready: function(modal) {
-          Materialize.updateTextFields();
-        },
-        complete: function(modal) {
-          console.log(modal);
-        }
-      });
-      $('#modalLogin').modal('open');
-    });
+  constructor(private router: Router, private authenticationService: UserService) {
   }
 
-  ngAfterContentInit(): void {
+  onClose() {
+    $('#modalLogin').modal('close');
+  }
+
+  login() {
+    this.loading = true;
+    this.authenticationService.signIn(new ResetPassword(this.formData)).then(
+      () => {
+        $('#pwRef').removeClass('invalid');
+        $('#modalLogin').modal('close'); },
+      (error) => {
+        $('#pwRef')[0].labels[0].setAttribute('data-error', error.error['exceptionMessage']);
+        $('#pwRef').addClass('invalid'); },
+    ).then(() => this.loading = false);
+  }
+
+  ngOnInit(): void {
     this.formData.email = this.authenticationService.getEmail();
   }
 
-
-  login(f) {
-    this.loading = true;
-    this.authenticationService.signIn(this.formData.email, this.formData.password).then(
-        () => { console.log('login successful');  this.loading = false;  $('.modal').modal(); $('#modalLogin').modal('close'); },
-        (error) => { this.loading = false; throw error; }
-        );
+  ngAfterViewInit(): void {
+    $('.modal').modal({
+      inDuration: 400, // Transition in duration
+      outDuration: 300, // Transition out duration
+      startingTop: '4%', // Starting top style attribute
+      endingTop: '25%', // Ending top style attribute
+      ready: () => {
+        Materialize.updateTextFields();
+      },
+      complete: () => {
+        // router.navigate([{ outlets: { popup : null }}]);
+      }
+    });
+    $('#modalLogin').modal('open');
   }
 }

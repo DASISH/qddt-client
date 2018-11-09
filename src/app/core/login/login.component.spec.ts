@@ -8,7 +8,7 @@ import {
 import { LoginComponent } from './login.component';
 import { By } from '@angular/platform-browser';
 import { API_BASE_HREF } from '../../api';
-import { UserService } from '../user/user.service';
+import { UserService } from '../services/user.service';
 
 class UserServiceSpy {
   get = jasmine.createSpy('get').and.callFake(function (key) {

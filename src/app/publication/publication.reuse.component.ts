@@ -1,21 +1,18 @@
 
 import {distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import { Component, EventEmitter, Output, Input } from '@angular/core';
-import { PublicationService } from './publication.service';
 import { Subject } from 'rxjs';
-import {ElementRevisionRef, Page, QueryInfo} from '../shared/classes/classes';
-import { ElementKind } from '../shared/classes/enums';
-import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
-import {IElement, IPageSearch, IRevisionRef} from '../shared/classes/interfaces';
-import {TemplateService} from '../template/template.service';
+import { TemplateService} from '../template/template.service';
+import { ElementKind, ElementRevisionRef, IElement, IPageSearch, IRevisionRef, Page } from '../shared/classes';
+import { PUBLICATION_TYPES} from './publication.classes';
 
 @Component({
   selector: 'qddt-publication-reuse',
-  moduleId: module.id,
+
   templateUrl: './publication.reuse.component.html',
   styles: [
     `label, [type="radio"] + label { padding-left: 25px; }`,
-    ':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'
+    ':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0;}'
   ],
 })
 
@@ -28,17 +25,11 @@ export class PublicationReuseComponent  {
   public revisionList: any[];
   public itemList: any[];
   public showProgressBar = false;
+  public publicationTypes = PUBLICATION_TYPES;
 
-  queryFields: QueryInfo[] = [
-    QDDT_QUERY_INFOES[ElementKind.TOPIC_GROUP],
-    QDDT_QUERY_INFOES[ElementKind.CONCEPT],
-    QDDT_QUERY_INFOES[ElementKind.QUESTION_ITEM],
-    QDDT_QUERY_INFOES[ElementKind.QUESTION_CONSTRUCT],
-    QDDT_QUERY_INFOES[ElementKind.SEQUENCE_CONSTRUCT]
-  ];
 
   private searchKeysListener: Subject<string> = new Subject<string>();
-  private pageSearch: IPageSearch = { kind: ElementKind.TOPIC_GROUP, key: '*', page: new Page(), sort: 'name,asc' };
+  private pageSearch: IPageSearch = { kind: ElementKind.TOPIC_GROUP, key: '', page: new Page(), sort: 'name,asc' };
 
   constructor(private templateService: TemplateService) {
     this.selectedElementKind = ElementKind.TOPIC_GROUP;
@@ -75,7 +66,7 @@ export class PublicationReuseComponent  {
     this.onToggleAddElement();
   }
 
-  public onDismiss(value) {
+  public onDismiss() {
     this.revisionList = null;
     this.itemList = null;
   }

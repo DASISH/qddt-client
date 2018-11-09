@@ -1,15 +1,12 @@
 import { Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import { QddtMessageService } from '../core/global/message.service';
-import { QddtPropertyStoreService } from '../core/global/property.service';
 import { PublicationService } from './publication.service';
-import { ActionKind } from '../shared/classes/enums';
 import { PublicationStatus } from './publication.classes';
-import { IPageSearch } from '../shared/classes/interfaces';
+import { ActionKind, IPageSearch, ElementKind, PageSearch,  } from '../shared/classes';
+import { QddtMessageService, QddtPropertyStoreService } from '../core';
 
 
 @Component({
   selector: 'qddt-publication-preselector',
-  moduleId: module.id,
   styles: ['.row { margin-bottom: auto; }'],
   template: `
   <div class="card-action">
@@ -23,59 +20,44 @@ import { IPageSearch } from '../shared/classes/interfaces';
 </div>` ,
 })
 
-export class PublicationPreselectorComponent implements OnChanges, OnInit {
+export class PublicationPreselectorComponent implements OnInit {
 
   public selectOptions: PublicationStatus[];
   public selectId = 0;
   private readonly path = 'publications';
-  private readonly KEY = 'publishedstatus';
+  private readonly KEY = 'publishedKind';
 
   constructor(private  messages: QddtMessageService, private properties: QddtPropertyStoreService,
-              private service: PublicationService) {
-    this.service.PUBLICATION_STATUSES.then( (result) => {
+              private service: PublicationService) { }
+
+   ngOnInit(): void {
+    this.service.publication_statuses$.then( (result) => {
       this.selectOptions = result;
-      const published: string = this.getKey().get(this.KEY);
-      const option = this.selectOptions.find( (s) => s.published === published);
-      if (option) {
-        this.selectId  = option.id;
-      } else if (this.selectOptions.length > 0) {
-        this.selectId  =  this.selectOptions[0].id;
-        this.setKeyPair(this.KEY, this.selectOptions[0].published);
-      }
+      this.selectId = this.getPublished().id;
     });
   }
 
-
-  ngOnInit(): void {
-    if (this.selectOptions) {
-      const published: string = this.getKey().get(this.KEY);
-      this.selectId  = this.selectOptions.find( (s) => s.published === published).id;
-    }
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    // if (changes[''])
-  }
-
   onSelectOption(id: number) {
+    const pageSearch = this.getPageSearch();
     this.selectId = id;
-    this.setKeyPair(this.KEY, this.selectOptions.find( o => o.id === id).published );
-    this.messages.sendAction( { id: this.KEY,  action: ActionKind.Filter, object: this.getKey() } );
+    pageSearch.keys.set(this.KEY, this.selectOptions[id].published );
+    this.setPageSearch(pageSearch);
+    this.messages.sendAction( { id: this.KEY,  action: ActionKind.Filter, object: null } );
   }
 
-  private setKeyPair(key: string, value: string) {
-    this.setKey(new Map([[key, value]]));
+  private getPublished(): PublicationStatus {
+    const page = this.getPageSearch();
+    return  (page.keys.has(this.KEY)) ?
+            this.selectOptions.filter( f => f.published === page.keys.get(this.KEY))[0] :
+            this.selectOptions[0];
   }
 
-  private setKey(map: Map<string, string> ) {
-    const pageSearch = this.properties.get(this.path);
-    pageSearch.keys = map;
+  private setPageSearch(pageSearch: IPageSearch ) {
     this.properties.set(this.path, pageSearch);
   }
 
-  private getKey(): Map<string, string> {
-    const pageSearch: IPageSearch =  this.properties.get(this.path);
-      return pageSearch.keys;
+  private getPageSearch(): IPageSearch {
+    return (this.properties.get(this.path) || new PageSearch( { kind: ElementKind.PUBLICATION } ) ) as IPageSearch;
   }
 
 }

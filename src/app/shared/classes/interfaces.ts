@@ -44,6 +44,7 @@ export interface IComment {
   modifiedBy?: IUser;
   modified?: number;
   ownerId?: string;
+  ownerIdx?: number;
   id?: string;
 }
 
@@ -57,6 +58,7 @@ export interface IEntityEditAudit extends IEntityAudit {
   version?: IVersion;
   agency?: IEntityAudit;
   archived?: boolean;
+  otherMaterials?: IOtherMaterial[];
 }
 
 export interface IVersion {
@@ -100,6 +102,7 @@ export interface IRevisionResult<T extends IEntityAudit> {
 export interface IPageSearch {
   kind: ElementKind;
   key: string;
+  hasDetailSearch?: boolean;
   keys?: Map<string, string>;
   page?: Page;
   sort?: string;

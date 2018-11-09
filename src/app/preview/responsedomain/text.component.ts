@@ -1,10 +1,10 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { ResponseDomain } from '../../responsedomain/responsedomain.classes';
-import { Category } from '../../category/category.classes';
+import { Category } from '../../lookups/category/category.classes';
 
 @Component({
   selector: 'qddt-preview-rd-text',
-  moduleId: module.id,
+
   template: `
     <div class="row" *ngIf="managedRepresentation">
        <textarea id="{{managedRepresentation?.id}}-textarea"

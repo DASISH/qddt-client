@@ -1,6 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { Category, Code } from '../../category/category.classes';
-import { ResponseDomain } from '../../responsedomain/responsedomain.classes';
+import { Category, Code } from '../../lookups/category/category.classes';
 
 class ScaleHead {
   colspan: number;
@@ -16,7 +15,7 @@ class Column {
 
 @Component({
   selector: 'qddt-preview-rd-scale',
-  moduleId: module.id,
+
   templateUrl: './scale.component.html',
   styles: [
     'table { table-layout: fixed; }',
@@ -33,11 +32,11 @@ export class ResponsedomainScaleComponent implements OnChanges {
   @Input() managedRepresentation: Category;
   @Input() displayLayout = 0;
   @Input() numOfRows = 1;
-  private headers: ScaleHead[];
-  private columns: Column[];
-  private rows: any;
-  private max = 5;
-  private min = 1;
+  public headers: ScaleHead[];
+  public columns: Column[];
+  public rows: any;
+  public max = 5;
+  public min = 1;
 
   ngOnChanges() {
     if (this.managedRepresentation) {

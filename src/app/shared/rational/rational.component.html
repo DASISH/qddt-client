@@ -10,7 +10,7 @@
   <div *ngFor="let option of rationalDescriptionsFiltered;">
     <div class="row" *ngIf="option.id === saveOptionIndex && option.children.length > 0">
       <div class="row">
-        <div class="input-field col s3">
+        <div class="input-field col s4">
           <select materialize="material_select" [ngModel]="_RationalIndex"
           name="{{originalId}}-rationals"
           (ngModelChange)="onClickRational1($event)">

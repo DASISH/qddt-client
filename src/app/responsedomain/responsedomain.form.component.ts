@@ -12,17 +12,17 @@ import {
 } from '@angular/core';
 import { TemplateService } from '../template/template.service';
 import { DomainKind, ResponseDomain, DATE_FORMAT } from './responsedomain.classes';
-import { Category } from '../category/category.classes';
+import { Category } from '../lookups/category/category.classes';
 import { Page } from '../shared/classes/classes';
 import { ActionKind, ElementKind} from '../shared/classes/enums';
 import { IElement, IPageSearch} from '../shared/classes/interfaces';
-import { QddtPropertyStoreService } from '../core/global/property.service';
+import { QddtPropertyStoreService } from '../core/services/property.service';
 
 declare let Materialize: any;
 
 @Component({
   selector: 'qddt-responsedomain-form',
-  moduleId: module.id,
+
   templateUrl: './responsedomain.form.component.html',
 })
 
@@ -50,7 +50,7 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy {
 
     this.selectedCategoryIndex = 0;
     this.numberOfAnchors = 0;
-    this.pageSearch = { kind: this.CATEGORY, key: '*', page: new Page(), sort: 'name,asc' };
+    this.pageSearch = { kind: this.CATEGORY, key: '', page: new Page(), sort: 'name,asc' };
     const page = this.getPageSearch();
     this.domainType = (page) ? DomainKind[page.keys.get('ResponseKind')] : DomainKind.SCALE;
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.RESPONSEDOMAIN);
@@ -99,8 +99,8 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy {
   }
 
   onSearchCategories(name: string) {
-    this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex]['isNew'] = true;
-    this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex].label = name;
+    // this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex]['isNew'] = true;
+    // this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex].label = name;
     this.pageSearch.key = name;
     this.service.searchByKind<Category>(this.pageSearch).then(
       (result) => this.categories = result.content
@@ -108,22 +108,30 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy {
   }
 
   onSave() {
-    this.responsedomain.label = this.responsedomain.name;
-    const managed = this.responsedomain.managedRepresentation;
-    managed.name = this.responsedomain.label;
-    managed.changeKind = this.responsedomain.changeKind;
-    managed.version = this.responsedomain.version;
-    this.service.update(managed).pipe(
-      takeWhile(() => this.ok ))
-      .subscribe((result: Category) => {
-        this.responsedomain.managedRepresentation = result;
-        this.service.update(this.responsedomain).subscribe(
-          (rdResult) => {
-            this.responsedomain = rdResult;
-            this.modifiedEvent.emit(rdResult);
-          }
-        );
-    });
+    this.service.update(this.responsedomain).subscribe(
+      (rdResult) => {
+        this.responsedomain = rdResult;
+        this.modifiedEvent.emit(rdResult);
+      }
+    );
+
+    // this.responsedomain.label = this.responsedomain.name;
+    // const managed = this.responsedomain.managedRepresentation;
+    // managed.name = this.responsedomain.label + this.formId;
+    // managed.label = this.responsedomain.label;
+    // managed.changeKind = this.responsedomain.changeKind;
+    // managed.version = this.responsedomain.version;
+    // this.service.update(managed).pipe(
+    //   takeWhile(() => this.ok ))
+    //   .subscribe((result: Category) => {
+    //     this.responsedomain.managedRepresentation = result;
+    //     this.service.update(this.responsedomain).subscribe(
+    //       (rdResult) => {
+    //         this.responsedomain = rdResult;
+    //         this.modifiedEvent.emit(rdResult);
+    //       }
+    //     );
+    // });
   }
 
   changeNumberOfCategories(num: number) {
@@ -150,24 +158,16 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy {
       this.numberOfAnchors = num;
     }
 
+    rep.children = rep.children.slice(0, this.numberOfAnchors);
+
     if (this.domainType === DomainKind.LIST) {
-      rep.children = rep.children.slice(0, this.numberOfAnchors);
       for (let i = rep.children.length; i < this.numberOfAnchors; i++) {
-        const c = new Category();
-        c.code = { codeValue: String(i + 1) , alignment: ''};
-        rep.children.push(c);
+        rep.children.push(new Category({ code:  { codeValue: String(i + 1) , alignment: '' }}));
       }
     } else if (this.domainType === DomainKind.SCALE) {
-      rep.children = rep.children.slice(0, this.numberOfAnchors);
       const len = rep.children.length;
-      for (let i = 0; i < this.numberOfAnchors; i++) {
-        if (i >= len) {
-          const c = new Category();
-          c.code = { codeValue: '', alignment: 'text-left' };
-          rep.children.push(c);
-        } else {
-          rep.children[i].code.codeValue = '';
-        }
+      for (let i = len; i < this.numberOfAnchors; i++) {
+          rep.children.push(new Category({code : { codeValue: '', alignment: 'text-left' }}));
       }
     }
     this.buildPreviewResponseDomain();

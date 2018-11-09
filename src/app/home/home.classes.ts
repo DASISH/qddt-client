@@ -1,8 +1,6 @@
-import { IEntityAudit, IEntityEditAudit, IVersion, IUser} from '../shared/classes/interfaces';
-import { ElementKind } from '../shared/classes/enums';
-import { ElementRevisionRef } from '../shared/classes/classes';
+import { IEntityAudit, IEntityEditAudit, IVersion, IUser, ElementKind, ElementRevisionRef } from '../shared/classes';
 
-interface IRef {
+export interface IRef {
   id: string;
   name: string;
   parent?: IRef;

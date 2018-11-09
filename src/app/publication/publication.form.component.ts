@@ -1,15 +1,11 @@
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {PublicationService} from './publication.service';
-import {IEntityEditAudit} from '../shared/classes/interfaces';
-import {ActionKind, ElementKind} from '../shared/classes/enums';
-import {ElementRevisionRef} from '../shared/classes/classes';
-import {getElementKind} from '../shared/classes/constants';
 import {Publication, PUBLICATION_TYPES, PublicationStatus} from './publication.classes';
 import {TemplateService} from '../template/template.service';
+import {ActionKind, ElementKind, ElementRevisionRef, getElementKind, IEntityEditAudit} from '../shared/classes';
 
 @Component({
   selector: 'qddt-publication-form',
-  moduleId: module.id,
   styles: [  ],
   templateUrl: './publication.form.component.html',
 })
@@ -25,7 +21,7 @@ export class PublicationFormComponent implements OnChanges {
   public readonly = true;
 
   constructor(private service: PublicationService, private templateService: TemplateService) {
-    this.service.PUBLICATION_STATUSES.then( (result) => this.selectOptions = result );
+    this.service.publication_statuses$.then( (result) => this.selectOptions = result );
     this.readonly = !templateService.can(ActionKind.Create, ElementKind.PUBLICATION);
   }
 

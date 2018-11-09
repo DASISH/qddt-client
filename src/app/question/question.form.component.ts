@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
 import { TemplateService } from '../template/template.service';
 import { QuestionItem } from './question.classes';
-import { Category } from '../category/category.classes';
+import { Category } from '../lookups/category/category.classes';
 import { ElementRevisionRef } from '../shared/classes/classes';
 import { makeMixed, ResponseDomain} from '../responsedomain/responsedomain.classes';
 import {ActionKind, ElementKind} from '../shared/classes/enums';
@@ -10,7 +10,7 @@ declare var Materialize: any;
 
 @Component({
   selector: 'qddt-questionitem-form',
-  moduleId: module.id,
+
   styles: [
     ':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'
   ],
@@ -18,7 +18,7 @@ declare var Materialize: any;
 })
 
 export class QuestionFormComponent  implements OnChanges {
-  @Input() questionitem: QuestionItem;
+  @Input() questionItem: QuestionItem;
   @Input() readonly = false;
   @Output() modifiedEvent = new EventEmitter<QuestionItem>();
 
@@ -29,18 +29,18 @@ export class QuestionFormComponent  implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['questionitem'].currentValue) {
-      console.log('new questionitem');
+    if (changes['questionItem'].currentValue) {
+      console.log('new questionItem');
     }
     try { Materialize.updateTextFields(); } catch (Exception) { }
   }
 
   onSaveQuestionItem() {
     console.log('QI no managed rep saving...');
-    this.service.update(this.questionitem)
+    this.service.update(this.questionItem)
       .subscribe((result) => {
-        this.questionitem = result;
-        this.modifiedEvent.emit(this.questionitem);
+        this.questionItem = result;
+        this.modifiedEvent.emit(this.questionItem);
       });
   }
 
@@ -48,30 +48,30 @@ export class QuestionFormComponent  implements OnChanges {
     if (item.element.responseKind === 'MIXED') {
       this.service.update(item.element).subscribe(result => {
         item.element = result;
-        this.questionitem.responseDomain = item.element;
-        this.questionitem.responseDomainRevision = 0;
+        this.questionItem.responseDomain = item.element;
+        this.questionItem.responseDomainRevision = 0;
       });
     } else {
-      this.questionitem.responseDomain = item.element;
-      this.questionitem.responseDomainRevision = item.elementRevision || 0;
+      this.questionItem.responseDomain = item.element;
+      this.questionItem.responseDomainRevision = item.elementRevision || 0;
 
     }
   }
 
   onResponsedomainRemove() {
-    this.questionitem.responseDomainRevision = 0;
-    this.questionitem.responseDomain = null;
+    this.questionItem.responseDomainRevision = 0;
+    this.questionItem.responseDomain = null;
   }
 
 
   private setMissing(missing: Category) {
-    let rd = new ResponseDomain(this.questionitem.responseDomain);
+    let rd = new ResponseDomain(this.questionItem.responseDomain);
     if (!rd.isMixed()) {
       rd = makeMixed(rd);
     }
     rd.addManagedRep(missing);
     rd.name = rd.managedRepresentation.name = 'Mixed [' + rd.name + '+' + missing.name + ']';
-    this.questionitem.responseDomain = rd;
+    this.questionItem.responseDomain = rd;
   }
 
   // private deleteChild(representation: Category, categoryType: string) {

@@ -1,24 +1,22 @@
 
-import {takeWhile} from 'rxjs/operators';
+import { takeWhile} from 'rxjs/operators';
 import { Component, OnDestroy, AfterContentChecked} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { QddtMessageService } from '../core/global/message.service';
-import { Factory } from '../shared/classes/factory';
-import { IEntityEditAudit, IPageSearch } from '../shared/classes/interfaces';
-import { ActionKind, ElementKind } from '../shared/classes/enums';
-import { HEADER_DETAILS } from '../shared/classes/constants';
-import { QddtPropertyStoreService } from '../core/global/property.service';
+import { QddtMessageService } from '../core/services/message.service';
+import { QddtPropertyStoreService } from '../core/services/property.service';
 import { ResponseDomain, DomainKind } from '../responsedomain/responsedomain.classes';
-import { UserService } from '../core/user/user.service';
+import { UserService } from '../core/services/user.service';
+import { IEntityEditAudit, ElementKind, HEADER_DETAILS, ActionKind, IPageSearch } from '../shared/classes';
+import { Factory } from '../shared/classes/factory';
 
 declare var Materialize: any;
 
 @Component({
   selector: 'qddt-template-component',
-  moduleId: module.id,
+
   providers: [],
   styles: [
-    ' .input-field *  { color: white; } '
+    // ' div.input-field *  { color: white; } ',
   ],
   templateUrl: './template.component.html',
 })
@@ -43,12 +41,10 @@ export class TemplateComponent implements OnDestroy, AfterContentChecked {
     takeWhile(() => this.alive))
     .subscribe((event) => {
       this.path = this.route.firstChild.routeConfig.path; // '/:id'
-      // console.log('path1-> ' + this.path);
       const detailIndex = this.path.lastIndexOf('/:id');
       if (detailIndex >= 0) {
         this.path = this.path.substr(0, detailIndex);
       }
-      // console.log('path2-> ' + this.path);
       if (HEADER_DETAILS.has(this.path)) {
         this.kind = HEADER_DETAILS.get(this.path).kind;
         this.icon = HEADER_DETAILS.get(this.path).icon;

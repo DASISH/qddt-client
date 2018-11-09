@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'qddt-author-chip',
-  moduleId: module.id,
+
   template: `
   <div *ngIf="authors">
     <div class="chip" *ngFor="let author of authors">

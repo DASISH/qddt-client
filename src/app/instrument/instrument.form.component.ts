@@ -8,7 +8,7 @@ declare var Materialize: any;
 
 @Component({
   selector: 'qddt-instrument-form',
-  moduleId: module.id,
+
   templateUrl: './instrument.form.component.html',
 })
 

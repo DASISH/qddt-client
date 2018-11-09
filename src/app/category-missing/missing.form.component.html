@@ -25,10 +25,12 @@
            [(ngModel)]="missing.children.length" >
         <label for="{{formId}}-name_number">Number of Missing Codes</label>
       </div>
+      <div class="col s4">{{hf.form.valid | json}}</div>
+      <div class="col s4">{{hf.reportValidity | json}}</div>
     </div>
     <div class="row"  *ngFor="let cat of missing.children; let idx=index">
-      <div class="col s6">
-        <qddt-auto-complete  [formName]="'autocomplete'"
+      <div class="col s6 input-field">
+        <qddt-auto-complete  [formName]="'autocomplete'+idx"
           [items]="missingList"
           [elementKind]="CATEGORY"
           [initialValue]="cat?.name"
@@ -44,7 +46,7 @@
     <qddt-element-footer *ngIf="missing.id" [element]="missing"></qddt-element-footer>
 
     <div class="row right-align">
-      <button  *ngIf="!readonly" type="submit" class="btn btn-default" [disabled]="!hf.form.valid" (click)="onSave()">Submit</button>
+      <button  *ngIf="!readonly" type="submit" class="btn btn-default" [disabled]="hf.form.invalid" (click)="onSave()">Submit</button>
     </div>
 
   </form>

@@ -3,7 +3,7 @@ import { MaterializeAction } from 'angular2-materialize';
 
 @Component({
   selector: 'qddt-confirm-delete',
-  moduleId: module.id,
+
   template: `
 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
    (click)="showConfirmDeleting()"><i class="material-icons left medium" title="Delete" >delete_forever</i></a>
@@ -34,7 +34,10 @@ export class ConfirmDeleteComponent  {
 
   public deleteAction = new EventEmitter<string|MaterializeAction>();
 
-  showConfirmDeleting() {
+  public showConfirmDeleting(element?) {
+    if (element) {
+      this.element = element;
+    }
     this.deleteAction.emit({action: 'modal', params: ['open']});
   }
 

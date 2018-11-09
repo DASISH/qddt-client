@@ -6,7 +6,7 @@ import { ElementEnumAware } from '../../preview/preview.service';
 
 @Component({
   selector: 'qddt-item-revision-select',
-  moduleId: module.id,
+
   templateUrl: './item-revision-select.component.html',
 })
 

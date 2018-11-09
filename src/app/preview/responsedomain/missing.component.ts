@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { ResponseDomain } from '../../responsedomain/responsedomain.classes';
-import { Category } from '../../category/category.classes';
+import { Category } from '../../lookups/category/category.classes';
 
 @Component({
   selector: 'qddt-preview-rd-missing',
-  moduleId: module.id,
+
   template: `<div *ngIf="managedRepresentation?.children">
       <span>Missing</span>
 			<ul class="row">

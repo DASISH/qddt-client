@@ -1,13 +1,11 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { TemplateService } from '../../template/template.service';
-import { Page } from '../../shared/classes/classes';
-import { QDDT_QUERY_INFOES } from '../../shared/classes/constants';
-import { ElementKind } from '../../shared/classes/enums';
 import { Universe } from '../controlconstruct.classes';
+import { ElementKind, Page} from '../../shared/classes';
 
 @Component({
   selector: 'qddt-universe-create',
-  moduleId: module.id,
+
   templateUrl: 'universe.component.html',
 })
 

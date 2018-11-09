@@ -1,7 +1,5 @@
 import { QuestionItem } from '../question/question.classes';
-import { IEntityAudit } from '../shared/classes/interfaces';
-import { ElementKind } from '../shared/classes/enums';
-import { ElementRevisionRef } from '../shared/classes/classes';
+import { ElementKind, ElementRevisionRef, IEntityAudit, IOtherMaterial} from '../shared/classes';
 
 export enum SequenceKind {
   NA,
@@ -46,14 +44,14 @@ export class ConditionCommand {
   command: string;
 }
 
-
 export class QuestionConstruct implements IEntityAudit {
   id: string;
-  name = '';
+  name: string;
+  description: string;
   classKind = ElementKind[ElementKind.QUESTION_CONSTRUCT];
   questionItem: QuestionItem;
   questionItemRevision: number;
-  otherMaterials = [];
+  otherMaterials: IOtherMaterial[] = [];
   universe: Universe[] = [];
   preInstructions: Instruction[] = [];
   postInstructions: Instruction[] = [];
@@ -62,6 +60,7 @@ export class QuestionConstruct implements IEntityAudit {
   }
 
 }
+
 
 export class SequenceConstruct implements IEntityAudit {
   id: string;

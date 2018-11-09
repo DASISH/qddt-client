@@ -1,6 +1,5 @@
-import { Category, ResponseCardinality, CategoryKind } from '../category/category.classes';
-import { IEntityAudit, IEntityEditAudit, IVersion } from '../shared/classes/interfaces';
-import { ElementKind } from '../shared/classes/enums';
+import { Category, ResponseCardinality, CategoryKind } from '../lookups/category/category.classes';
+import { ElementKind, IEntityAudit, IEntityEditAudit, IVersion } from '../shared/classes';
 
 export enum DomainKind {
   NONE = 0,

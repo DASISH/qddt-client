@@ -14,7 +14,7 @@ export class ElementChange {
 
 @Component({
   selector: 'qddt-diff',
-  moduleId: module.id,
+
   providers: [],
   styleUrls: ['./diff.component.css'],
   templateUrl: './diff.component.html'

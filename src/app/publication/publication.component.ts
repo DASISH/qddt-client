@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'qddt-publication',
-  moduleId: module.id,
+
   templateUrl: './publication.component.html'
 })
 export class PublicationComponent  {

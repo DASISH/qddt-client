@@ -1,17 +1,12 @@
-
-import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnDestroy} from '@angular/core';
-import { IElement, IEntityAudit} from '../classes/interfaces';
-import { QueryInfo } from '../classes/classes';
-import { ElementKind } from '../classes/enums';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+import { Subject } from 'rxjs/internal/Subject';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { ElementEnumAware } from '../../preview/preview.service';
-import { getElementKind, QDDT_QUERY_INFOES } from '../classes/constants';
+import { ElementKind, getQueryInfo, IElement, IEntityAudit, QueryInfo } from '../classes';
 import { Factory } from '../classes/factory';
-import { Subject } from 'rxjs';
 
 @Component({
   selector: 'qddt-auto-complete',
-  moduleId: module.id,
   templateUrl: './autocomplete.component.html',
   styleUrls: ['./autocomplete.component.css'],
 })
@@ -33,6 +28,7 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
   public selectedIndex = 0;
   public queryInfo: QueryInfo;
   public showAutoComplete = false;
+  public readonly formId = Math.round( Math.random() * 10000);
 
   private waitingForChange = false;
   private found = true;
@@ -52,8 +48,8 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
   }
 
   ngOnChanges(change: SimpleChanges) {
-    if (change['elementKind'] && change['elementKind'].isFirstChange()) {
-      this.queryInfo = QDDT_QUERY_INFOES[getElementKind(this.elementKind)];
+    if (change['elementKind'] && change['elementKind'].currentValue) {
+      this.queryInfo = getQueryInfo(this.elementKind);
     }
 
     if ( (change['items'] && this.waitingForChange)) {
@@ -101,7 +97,7 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
   onBlur() {
     this.showAutoComplete = false;
     if (!this.selected) {
-      this.value = null;
+      this.value = this.initialValue || null;
     }
   }
 
@@ -110,18 +106,19 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
     this.selected = true;
     const fieldName = this.queryInfo.fields[0];
     this.value = candidate[fieldName];
+    console.log('select');
     this.selectEvent.emit({element: candidate, elementKind: this.elementKind });
   }
 
   getLabel(candiate: IEntityAudit) {
-    if (this.queryInfo.isMultipleFields()) {
-      const results: any[] = this.queryInfo.fields.map(element => {
-        return this.getFieldValue(candiate, element).substring(0, 200).concat('...');
-      });
-      return results.join(' | ');
-    } else {
-      return this.getFieldValue(candiate, this.queryInfo.fields).substring(0, 200).concat('...');
-    }
+    // if (this.queryInfo.isMultipleFields()) {
+    //   const results: any[] = this.queryInfo.fields.map(element => {
+    //     return this.getFieldValue(candiate, element);
+    //   });
+    //   return results.join(' | ');
+    // } else {
+      return this.getFieldValue(candiate, this.queryInfo.fields);
+    // }
   }
 
   onClearKeywords() {
@@ -129,20 +126,12 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
     this.selected = false;
     this.filterItems('');
     this.waitingForChange = true;
-    this.enterEvent.emit('*');
+    this.enterEvent.emit('');
   }
 
   private getFieldValue(object: IEntityAudit, path: any) {
     if (path instanceof Array) {
-      let result: any = object;
-      path.forEach((element: any) => {
-        if ((result) && (result[element])) {
-          result = result[element];
-        } else {
-          result = '';
-        }
-      });
-      return result;
+      return path.map((element: any) => (object[element]) ?  object[element] : '' ).join(' | ');
     } else {
       return object[path] || '??';
     }

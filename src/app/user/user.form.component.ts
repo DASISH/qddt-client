@@ -1,12 +1,11 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { IAuthority, UserJson } from './user.classes';
-import { UserService, Agency } from '../core/user/user.service';
+import {IAuthority, UserJson} from './user.classes';
+import { UserService, Agency } from '../core/services/user.service';
 
-declare var Materialize: any;
+// declare var Materialize: any;
 
 @Component({
   selector: 'qddt-user-form',
-  moduleId: module.id,
   templateUrl: './user.form.component.html'
 })
 
@@ -15,16 +14,19 @@ export class UserFormComponent implements OnInit, OnChanges {
   @Input() readonly = false;
   @Output() modifiedEvent =  new EventEmitter<String>();
 
-  public agencies: Agency[];
-  public authorities: IAuthority[];
+  // public agencies: Agency[];
+  // public authorities: IAuthority[];
   public selectedAgencyId: string;
   public formId = Math.round( Math.random() * 10000);
 
-  constructor(private userService: UserService) {}
+  public agencies$: Promise<Agency[]>;
+  public authorities$: Promise<IAuthority[]>;
+
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.getAgencies();
-    this.getAuthorites();
+    this.agencies$ = this.getAgencies();
+    this.authorities$ = this.getAuthorities();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -33,39 +35,45 @@ export class UserFormComponent implements OnInit, OnChanges {
         if (this.user.agency) {
           this.onSelectChange(this.user.agency.id);
         } else {
-          this.onSelectChange(this.agencies[0].id);
+          this.getFirstAgency().then( agent => this.onSelectChange(agent.id) );
         }
-        Materialize.updateTextFields();
+        // Materialize.updateTextFields();
       }
     }
   }
 
   onSelectChange(id: string) {
     this.selectedAgencyId = id;
-    if (this.agencies) {
-      this.user.agency = this.agencies.find( (f) => f.id === id );
-    }
+    this.getAgencies().then( result => {
+      this.user.agency = result.find( f => f.id === id);
+    });
   }
 
-  onSelectRadio(authorityId: string) {
-    this.user.authority = this.authorities.find( q => q.id === authorityId);
+  onSelectRadio(authority: IAuthority) {
+    this.user.authorities  = [authority];
   }
-
 
   onSave() {
     this.userService.save(this.user).subscribe(
       (result) => {
-        this.user = result;
-        this.modifiedEvent.emit(result);
+        this.modifiedEvent.emit(this.user = result);
       },
       (error) => { throw error; });
   }
 
-  private async getAgencies() {
-    return await this.userService.getAgencies().then((result) => this.agencies = result);
+
+  private async getFirstAgency() {
+    return await this.getAgencies().then( result => result.find((value, _index) => _index === 0  ));
   }
 
-  private async getAuthorites() {
-    return await this.userService.getAuthorites().then((result) => this.authorities = result);
+  private async getAgencies() {
+    return await this.userService.getAgencies();
+  }
+
+  private async getAuthorities() {
+    return await this.userService.getAuthorities();
+    // .then((result) => {
+    //   return result;
+    // });
   }
 }

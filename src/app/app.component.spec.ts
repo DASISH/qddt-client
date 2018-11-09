@@ -6,7 +6,7 @@ import { async, inject, TestBed } from '@angular/core/testing';
 
 import { AppComponent } from './app.component';
 import { By } from '@angular/platform-browser';
-import { UserService } from './core/user/user.service';
+import { UserService } from './core/services/user.service';
 
 class UserServiceSpy {
   get = jasmine.createSpy('get').and.callFake(function(key) {

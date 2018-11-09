@@ -1,20 +1,19 @@
 import { AfterContentChecked, Component, OnInit } from '@angular/core';
-import { ActivatedRoute,  Router } from '@angular/router';
+import { Router } from '@angular/router';
 
-import { HIERARCHY_POSITION, QddtPropertyStoreService } from '../../core/global/property.service';
+import { QddtPropertyStoreService } from '../../core/services/property.service';
 import { HomeService } from '../home.service';
-import { QddtMessageService } from '../../core/global/message.service';
-import { ElementKind, ActionKind } from '../../shared/classes/enums';
+import { QddtMessageService } from '../../core/services/message.service';
+import { ElementKind, ActionKind,  IRevisionRef} from '../../shared/classes';
 import { Study, Topic } from '../home.classes';
-import {IRevisionRef, IOtherMaterial} from '../../shared/classes/interfaces';
 import { TemplateService } from '../../template/template.service';
+import { HIERARCHY_POSITION } from '../../core/classes/UserSettings';
 
-const filesaver = require('file-saver');
 declare var Materialize: any;
 
 @Component({
   selector: 'qddt-topic',
-  moduleId: module.id,
+
   styles: [':host /deep/ .collection-item .row { min-height:3rem; margin-bottom:0px;border-bottom: none;}',
           '.collection .collection-item {border-bottom: none; }',
           '.collection.with-header .collection-header {border-bottom: none; padding: 0px;}',
@@ -36,8 +35,7 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
 
   private refreshCount = 0;
 
-  constructor(private router: Router, private route: ActivatedRoute,
-              private property: QddtPropertyStoreService, private message: QddtMessageService,
+  constructor(private router: Router, private property: QddtPropertyStoreService, private message: QddtMessageService,
               private topicService: HomeService, private service: TemplateService ) {
     this.readonly = !service.can(ActionKind.Create, ElementKind.TOPIC_GROUP );
     this.canDelete = service.can(ActionKind.Delete, ElementKind.TOPIC_GROUP );
@@ -55,11 +53,13 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
 
   ngOnInit(): void {
     this.study = this.property.get('study');
+    const parentId = this.study.id || this.property.menuPath[HIERARCHY_POSITION.Study].id;
+    console.log(parentId);
     this.topics = this.property.get('topics');
     if (!this.topics) {
-      this.topicService.getAllTopic(this.study.id)
+      this.topicService.getTopicByStudy(parentId)
         .then((result) => {
-          this.topics = result.sort((a, b) => a.name < b.name ? -1 : 1);
+          this.topics = result.sort( (a, b) => a.name.localeCompare(b.name));
           this.property.set('topics', this.topics);
           this.showReuse = false;
         });
@@ -86,14 +86,14 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
     this.onTopicSaved(topic);
   }
 
-  onSelectTopic(topic: any) {
+  onSelectTopic(topic: Topic) {
     const prevTopic = this.property.get('topic');
     if (!prevTopic || prevTopic.id !== topic.id) {
       this.property.set('concepts', null);
     }
     this.property.set('topic', topic);
-    this.property.setCurrent(HIERARCHY_POSITION.Topic, topic.name);
-    this.property.setCurrent(HIERARCHY_POSITION.Concept, 'Concept');
+    this.property.setCurrentMenu(HIERARCHY_POSITION.Topic, { id: topic.id, name: topic.name });
+    this.property.setCurrentMenu(HIERARCHY_POSITION.Concept, { id: null, name: 'Concept' });
     this.router.navigate(['concept']);
   }
 
@@ -101,7 +101,7 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
     if (topic !== null) {
       const topics = this.topics.filter((q) => q.id !== topic.id);
       topics.push(topic);
-      this.topics = topics.sort( (a, b) => a.name > b.name ? -1 : 1);
+      this.topics = topics.sort( (a, b) => a.name.localeCompare(b.name));
       this.property.set('topics', this.topics);
     }
   }
@@ -113,27 +113,6 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
     this.newTopic  = new Topic();
   }
 
-  onDownloadFile(o: IOtherMaterial) {
-    const fileName = o.originalName;
-    this.topicService.getFile(o).then(
-      (data: any) => filesaver.saveAs(data, fileName));
-  }
-
-  getPdf(element: Topic) {
-    const fileName = element.name + '.pdf';
-    this.topicService.getPdf(element).then(
-      (data: any) => {
-        filesaver.saveAs(data, fileName);
-      });
-  }
-
-  getXml(element: Topic) {
-    const fileName = element.name + '.xml';
-    this.topicService.getXml(element).then(
-      (data: any) => {
-        filesaver.saveAs(data, fileName);
-      });
-  }
 
   onClickQuestionItem(questionItem) {
     this.message.sendMessage( { element: questionItem, elementKind: ElementKind.QUESTION_ITEM } );

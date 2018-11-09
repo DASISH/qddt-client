@@ -26,7 +26,7 @@ export function main() {
       });
     });
 
-    it('should work with null study',
+    it('should work with null newStudy',
       async(() => {
         TestBed
           .compileComponents()

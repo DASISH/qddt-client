@@ -1,8 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { StatementConstruct } from '../../controlconstruct/controlconstruct.classes';
 
 @Component({
   selector: 'qddt-preview-statementconstruct',
-  moduleId: module.id,
+
   template: `
     <div class="row">
       <h5>Statement</h5>
@@ -14,14 +15,12 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 
 export class PreviewStatementConstructComponent implements OnInit {
-  @Input() statement: any;
+  @Input() statement: StatementConstruct;
+  @Input() showDetail = true;
   text: string;
 
   ngOnInit() {
-    this.text = '';
-    if (this.statement !== null && this.statement !== undefined) {
-      this.text = this.statement.description || '';
-    }
+    this.text = this.statement.statement || '';
   }
 
 }

@@ -1,14 +1,12 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import {ActionKind, ElementKind} from '../shared/classes/enums';
 import { TemplateService } from '../template/template.service';
-import { Category } from '../category/category.classes';
-import { IPageSearch, IElement } from '../shared/classes/interfaces';
-import { Page } from '../shared/classes/classes';
+import { Category } from '../lookups/category/category.classes';
+import { ActionKind, ElementKind, IElement, IPageSearch, Page } from '../shared/classes';
 
 
 @Component({
   selector: 'qddt-missing-form',
-  moduleId: module.id,
+
   templateUrl: './missing.form.component.html'
 })
 
@@ -30,7 +28,7 @@ export class MissingFormComponent implements OnInit {
 
   ngOnInit() {
     // this is for searching categories  , keys: new Map<string, string>([['categoryKind', 'CATEGORY']]) */
-    this.pageSearch = { kind: this.CATEGORY, page: new Page(), key: '*'};
+    this.pageSearch = { kind: this.CATEGORY, page: new Page(), key: ''};
     this.readonly = !this.missingService.can(ActionKind.Create, ElementKind.MISSING_GROUP);
 
   }

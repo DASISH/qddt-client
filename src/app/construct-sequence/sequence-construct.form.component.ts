@@ -1,18 +1,24 @@
 import { Component, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
-import {ActionKind, ElementKind} from '../shared/classes/enums';
-import { IElement, IEntityEditAudit, IRevisionRef } from '../shared/classes/interfaces';
-import { ElementRevisionRef, Page } from '../shared/classes/classes';
 import { TemplateService } from '../template/template.service';
-import { SequenceConstruct } from './sequence-construct.classes';
+import { SequenceKind, SequenceConstruct} from '../controlconstruct/controlconstruct.classes';
+import {
+  ActionKind,
+  ElementKind,
+  ElementRevisionRef,
+  EnumItem,
+  IElement,
+  IEntityEditAudit,
+  IRevisionRef, Page, StringIsNumber
+} from '../shared/classes';
 
 @Component({
   selector: 'qddt-sequence-form',
-  moduleId: module.id,
+
   templateUrl: './sequence-construct.form.component.html',
   styles: [ ]
 })
 
-export class SequenceFormComponent {
+export class SequenceFormComponent implements OnChanges {
   @Input() sequence: SequenceConstruct;
   @Input() readonly = false;
   @Output() modifiedEvent = new EventEmitter<SequenceConstruct>();
@@ -24,11 +30,22 @@ export class SequenceFormComponent {
   public showProgressBar = false;
   public readonly formId = Math.round( Math.random() * 10000);
 
+  public currentSequenceKind: SequenceKind = SequenceKind.SECTION;
+  public sequenceKinds: EnumItem<SequenceKind>[];
+
   constructor(private service: TemplateService) {
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.SEQUENCE_CONSTRUCT);
-
+    this.sequenceKinds = Object.keys( SequenceKind )
+                      .filter(StringIsNumber)
+                      .filter(f => f !== '0')
+                      .map(key => ({ id: +key, name: SequenceKind[key] } as EnumItem<SequenceKind>));
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.sequence) {
+      this.currentSequenceKind = SequenceKind[this.sequence.sequenceKind];
+    }
+  }
 
   public onSaveConstruct() {
     this.service.update(this.sequence).subscribe(
@@ -52,6 +69,11 @@ export class SequenceFormComponent {
         this.revisionList = result.content;
       }
     );
+  }
+
+  public onSelectChange(event) {
+    this.currentSequenceKind = event;
+
   }
 
   public onRevisionSelected(ref: ElementRevisionRef) {

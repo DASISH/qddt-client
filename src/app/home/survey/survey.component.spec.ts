@@ -26,7 +26,7 @@ export function main() {
       });
     });
 
-    it('should work with null survey',
+    it('should work with null Survey',
       async(() => {
         TestBed
           .compileComponents()

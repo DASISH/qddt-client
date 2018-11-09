@@ -1,21 +1,24 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
-import { LoginComponent } from './login/login.component';
-import { AuthGuard } from './guard/auth-guard.service';
-import { QddtPropertyStoreService } from './global/property.service';
-import { ResetpasswordComponent } from './resetpassword/resetpassword.component';
-import { QddtMessageService } from './global/message.service';
+
+import { QddtPropertyStoreService } from './services/property.service';
+import { QddtMessageService } from './services/message.service';
+import { AuthGuard } from './services/auth-guard.service';
 import { TemplateModule } from '../template/template.module';
-import { UserService } from './user/user.service';
+
+import { UserService } from './services/user.service';
+import { LoginComponent } from './login/login.component';
+import { ResetpasswordComponent } from './resetpassword/resetpassword.component';
+import { QddtUserOptionComponent} from './useroption/useroption.component';
 
 
 @NgModule({
   imports: [ FormsModule, SharedModule, TemplateModule ],
 
-  declarations: [ LoginComponent, ResetpasswordComponent ],
+  declarations: [ LoginComponent, ResetpasswordComponent, QddtUserOptionComponent],
 
-  exports: [ LoginComponent, ResetpasswordComponent ],
+  exports: [ LoginComponent, ResetpasswordComponent, QddtUserOptionComponent ],
 
   providers: [ QddtPropertyStoreService, AuthGuard, QddtMessageService, UserService]
 })

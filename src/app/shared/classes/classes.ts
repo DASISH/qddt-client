@@ -1,5 +1,5 @@
 import { ElementKind } from './enums';
-import { IElement, IIdRef, IRevisionRef, IVersion } from './interfaces';
+import { IElement, IIdRef, IRevisionRef, IVersion, IPageSearch } from './interfaces';
 
 export class ElementRevisionRef implements IIdRef, IRevisionRef, IElement {
   elementId: string;
@@ -14,7 +14,7 @@ export class QueryInfo {
   id: ElementKind;
   label: string;
   path: string;
-  fields: any[];
+  fields: string[];
   parameter: string;
 
   constructor(id: ElementKind, label: string, path: string, fields: any[], parameter: string) {
@@ -32,7 +32,7 @@ export class QueryInfo {
   placeholder(): string {
     let message = 'Searches in [';
     this.fields.forEach(o => {
-      message += o + ' and ';
+      message += o.toLowerCase() + ' and ';
     });
     return message.slice(0, message.length - 5) + ']';
   }
@@ -64,5 +64,19 @@ export class Page {
 
   private getSize(): string {
     return (this.size) ? this.size.toString() : '10';
+  }
+}
+
+
+export class PageSearch implements IPageSearch {
+  kind: ElementKind;
+  key = '';
+  hasDetailSearch = false;
+  keys: Map<string, string> = new Map( [  ] );
+  page = new Page();
+  sort  = 'modified,desc';
+
+  public constructor(init?: Partial<IPageSearch>) {
+    Object.assign(this, init);
   }
 }

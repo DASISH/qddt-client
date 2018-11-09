@@ -14,56 +14,7 @@
       <label for="{{formId}}-desc">Description</label>
     </div>
 
-    <ul class="hoverable" (mouseenter)="showbutton = !readonly" (mouseleave)="showbutton = false">
-      <li>
-        <div class="row" (click)="showUploadFileForm=!showUploadFileForm" style="cursor: zoom-in;">
-          <label>External aid</label>
-            <a [ngClass]="{hide: !showbutton}"
-              class="btn-flat btn-floating btn-small waves-effect waves-light teal right">
-              <i class="material-icons" title="Attach external aid (File Upload)">add</i>
-            </a>
-        </div>
-      </li>
-      <div class="row" *ngIf="showUploadFileForm && !readonly">
-        <div class="file-field input-field">
-          <div class="btn">
-            <span>File</span>
-            <input type="file" (change)="onSelectFile($event)">
-          </div>
-          <div class="file-path-wrapper">
-            <input class="file-path validate" type="text" placeholder="Upload one file">
-          </div>
-        </div>
-      </div>
-      <li *ngFor="let m of topic.otherMaterials; let idx=index;">
-        <div class="row">
-          <div class="col s10">
-            <a class="waves-effect waves-light" (click)="onDownloadFile(m)">
-              <i class="material-icons center smal">description</i>{{ m.originalName }}</a>
-          </div>
-          <div class="col s1 right" >
-            <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-              [ngClass]="{hide: !showbutton}" (click)="onMarkForDeletetion(idx)">
-              <i class="material-icons left medium" title="Delete" >delete_forever</i>
-            </a>
-          </div>
-        </div>
-      </li>
-      <li *ngFor="let file of fileStore; let idx=index;">
-        <div class="row">
-          <div class="col s11 m5">
-            <a class="waves-effect waves-light"><i class="material-icons center smal">description</i>{{ file?.name }}</a>
-          </div>
-          <div class="col s1 right" style="min-height:3rem">
-            <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-              [ngClass]="{hide: !showbutton}" (click)="onDeleteFileFromLocal(idx)">
-              <i class="material-icons left medium" title="Delete" >delete_forever</i>
-            </a>
-          </div>
-        </div>
-      </li>
-    </ul>
-
+    <qddt-download [fileStore]="fileStore" [entity]="topic" [readonly]="readonly"></qddt-download>
 
     <qddt-rational [formName]="'RationalComp'" [element]="topic" [config]="{hidden: [2,3]}"></qddt-rational>
 

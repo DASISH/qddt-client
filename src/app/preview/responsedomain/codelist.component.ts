@@ -1,10 +1,10 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { ResponseDomain } from '../../responsedomain/responsedomain.classes';
-import { Category, ResponseCardinality } from '../../category/category.classes';
+import { Category, ResponseCardinality } from '../../lookups/category/category.classes';
 
 @Component({
   selector: 'qddt-preview-rd-codelist',
-  moduleId: module.id,
+
   template: `
     <div class="row" *ngIf="managedRepresentation">
      <ul>

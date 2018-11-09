@@ -8,12 +8,12 @@ import { ElementKind } from '../../shared/classes/enums';
 import { IPageSearch, IElement } from '../../shared/classes/interfaces';
 import { TemplateService } from '../../template/template.service';
 import { ResponseDomain, makeMixed } from '../../responsedomain/responsedomain.classes';
-import { Category } from '../../category/category.classes';
+import { Category } from '../../lookups/category/category.classes';
 
 
 @Component({
   selector: 'qddt-responsedomain-select-missing',
-  moduleId: module.id,
+
   styles: [ '.minHeight { min-height: 400px; height: auto; }',
   ],
   templateUrl: 'responsedomain.select-missing.component.html',
@@ -40,7 +40,7 @@ export class ResponsedomainSelectMissingComponent implements OnInit, OnChanges {
   /* keys: new Map([['categoryKind', 'MISSING_GROUP']]), */
 
   constructor(private service: TemplateService) {
-    this.pageSearch = { kind: this.CATEGORY_KIND, key: '*',
+    this.pageSearch = { kind: this.CATEGORY_KIND, key: '',
                         page: new Page(), sort: 'name,asc' };
     this.selectedCategoryIndex = 0;
     this.missingGroups = [];

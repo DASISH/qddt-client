@@ -1,50 +1,55 @@
 import { Component, Input } from '@angular/core';
 import { SequenceConstruct } from '../../controlconstruct/controlconstruct.classes';
+import { PreviewService } from '../preview.service';
+import { ElementRevisionRef, getElementKind } from '../../shared/classes';
 
 @Component({
   selector: 'qddt-preview-sequenceconstruct',
-  moduleId: module.id,
+
   styles: [
-    'div.collapsible { margin:20px;}'
   ],
   template: `
-    <div class="row" *ngIf="sequence">
-      <span class="row">{{ sequence?.description }}</span>
-      <ul *ngIf="sequence.sequence" materialize="collapsible" class="collapsible popout"
-          data-collapsible="expandable" style="padding: 5pt;">
-        <div *ngFor="let child of sequence.sequence">
-          <li >
-            <div class="collapsible-header green lighten-5">
-              <div class="row"  style="margin-bottom: 0px;">
-                <div class="col s10">Name [{{ child.name }}]</div>
-                <!--<div class="col s2"><qddt-version-label [element]="question"></qddt-version-label></div>-->
+    <div class="row" *ngIf="sequenceConstruct">
+      <span class="row">{{ sequenceConstruct?.description }}</span>
+      <ul *ngIf="sequenceConstruct.sequence"  class="collapsible" data-collapsible="accordion"  materialize="collapsible">
+        <li *ngFor="let child of sequenceConstruct.sequence">
+          <div class="collapsible-header green lighten-5" (click)="onViewDetail(child)">
+            {{ child.name }}
+          </div>
+          <div class="collapsible-body">
+            <div [ngSwitch]="child.elementKind">
+              <div *ngSwitchCase="'SEQUENCE_CONSTRUCT'">
+                <qddt-preview-sequenceconstruct [sequenceConstruct]="child.element"></qddt-preview-sequenceconstruct>
+              </div>
+              <div *ngSwitchCase="'CONDITION_CONSTRUCT'">
+                <qddt-preview-conditionconstruct [condition]="child.element"></qddt-preview-conditionconstruct>
+              </div>
+              <div *ngSwitchCase="'STATEMENT_CONSTRUCT'">
+                <qddt-preview-statementconstruct [statement]="child.element"></qddt-preview-statementconstruct>
+              </div>
+              <div *ngSwitchCase="'QUESTION_CONSTRUCT'">
+                <qddt-preview-questionconstruct [controlConstruct]="child" [showDetail]="showDetail" ></qddt-preview-questionconstruct>
               </div>
             </div>
-            <div class="collapsible-body">
-              <div [ngSwitch]="child.element.classKind">
-                <div *ngSwitchCase="'SEQUENCE_CONSTRUCT'">
-                  <qddt-preview-sequenceconstruct [sequence]="child.element"></qddt-preview-sequenceconstruct>
-                </div>
-                <div *ngSwitchCase="'CONDITION_CONSTRUCT'">
-                  <qddt-preview-conditionconstruct [condition]="child.element"></qddt-preview-conditionconstruct>
-                </div>
-                <div *ngSwitchCase="'STATEMENT_CONSTRUCT'">
-                  <qddt-preview-statementconstruct [statement]="child.element"></qddt-preview-statementconstruct>
-                </div>
-                <div *ngSwitchCase="'QUESTION_CONSTRUCT'">
-                        <qddt-preview-questionitem [questionItem]="child.element.questionItem"></qddt-preview-questionitem>
-                  <!--<qddt-preview-questionconstruct [controlConstruct]="child"></qddt-preview-questionconstruct>-->
-                </div>
-              </div>
-            </div>
-          </li>
-        </div>
+          </div>
+        </li>
       </ul>
     </div>`,
   providers: [ ],
 })
 
 export class PreviewSequenceConstructComponent {
-  @Input() sequence: SequenceConstruct;
+  @Input() sequenceConstruct: SequenceConstruct;
+  @Input() showDetail = false;
 
+  constructor(private service: PreviewService) { }
+
+  onViewDetail(element: ElementRevisionRef) {
+    console.log('onViewDetail' + element );
+    if (!element.element) {
+      this.service.getRevisionByKind(getElementKind(element.elementKind), element.elementId, element.elementRevision).then(
+        (result) => { element.element = result.entity; },
+        (error) => { throw error; });
+    }
+  }
 }

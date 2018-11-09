@@ -3,7 +3,7 @@ import { Study } from '../../home/home.classes';
 
 @Component({
   selector: 'qddt-preview-study',
-  moduleId: module.id,
+
   template: `
   <div class="row" *ngIf="study?.description">
     <div class="input-field col s11">

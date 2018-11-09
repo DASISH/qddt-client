@@ -4,17 +4,16 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TemplateService } from './template.service';
 
-import { Page } from '../shared/classes/classes';
-import { QddtMessageService } from '../core/global/message.service';
-import { IEntityAudit, IPageSearch } from '../shared/classes/interfaces';
-import { ActionKind, ElementKind} from '../shared/classes/enums';
-import { HEADER_DETAILS } from '../shared/classes/constants';
-import { QddtPropertyStoreService } from '../core/global/property.service';
+import { QddtMessageService } from '../core/services/message.service';
+import { QddtPropertyStoreService } from '../core/services/property.service';
 import { DomainKind } from '../responsedomain/responsedomain.classes';
+import { IEntityAudit, IPageSearch, ElementKind, HEADER_DETAILS, ActionKind, Page, PageSearch } from '../shared/classes';
+
+declare var $;
+declare var Materialize;
 
 @Component({
   selector: 'qddt-template-list',
-  moduleId: module.id,
   templateUrl: './template-list.component.html',
   styles: [],
 })
@@ -22,6 +21,9 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
   public items: IEntityAudit[];
   public showProgressBar = false;
   public pageSearch: IPageSearch;
+  public toBeDeleted: IEntityAudit;
+
+  public readonly formId = Math.round( Math.random() * 10000);
 
   private alive = true;
   private path: string;
@@ -49,9 +51,21 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
   }
 
   public ngOnInit(): void {
-    if (this.kind) {
-      this.loadPage(); }
+    if (this.kind) { this.loadPage(); }
+
+    $(document).ready(function() {
+      $('.modal').modal({
+        ready: () => {
+          Materialize.updateTextFields();
+        }
+      });
+    });
   }
+
+  public ngOnDestroy(): void {
+    this.alive = false;
+  }
+
 
   public onFetchItems(page: IPageSearch ) {
     this.setPageSearch(page);
@@ -60,6 +74,21 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
 
   public onDetail(item: IEntityAudit ) {
     this.router.navigate(['./', item.id ], { relativeTo: this.route });
+  }
+
+  public onDelete(item: IEntityAudit) {
+    console.log(JSON.stringify(item));
+    this.service.delete(item)
+    .subscribe(() => {
+      this.loadPage();
+      $('#confirmModal' + this.formId).modal('close');
+    },
+    (error) => { throw error; });
+  }
+
+  public onConfirmDelete(item: IEntityAudit) {
+    this.toBeDeleted = item;
+    $('#confirmModal' + this.formId).modal('open');
   }
 
   private loadPage(search?: string ) {
@@ -74,10 +103,9 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
         this.pageSearch.page = new Page(result.page);
         this.items = result.content;
         this.setPageSearch(this.pageSearch);
-        this.showProgressBar = false; },
-      (error) => {
-        this.showProgressBar = false;
-        throw error; });
+       },
+      (error) => { throw error; })
+      .then( () => this.showProgressBar = false );
   }
 
   private setPageSearch(pageSearch: IPageSearch ) {
@@ -86,27 +114,29 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
 
   private getPageSearch(): IPageSearch {
 
-    let pageSearch = this.properties.get(this.path);
+    let pageSearch =  this.properties.get(this.path) as IPageSearch;
     if (!pageSearch) {
-      pageSearch = { kind: this.kind,  key: '*', page : new Page(), sort : 'modified,desc' };
-      this.properties.set(this.path, pageSearch);
+      pageSearch =   new PageSearch( { kind: this.kind } );
+      this.setPageSearch(pageSearch);
+    } else {
+      pageSearch = new PageSearch(pageSearch);
     }
+    pageSearch.page.size = this.properties.userSetting.pageSize;
+
     if (pageSearch.kind === ElementKind.USER && pageSearch.sort === 'modified,desc') {
       pageSearch.sort = 'name,asc';
     }
-    if (pageSearch.kind === ElementKind.RESPONSEDOMAIN && !pageSearch.keys ) {
-      const KEY = 'ResponseKind';
-      pageSearch.keys = new Map( [ [KEY, DomainKind[DomainKind.SCALE] ] ] );
+
+    const RDKEY = 'ResponseKind';
+    if (pageSearch.kind === ElementKind.RESPONSEDOMAIN && !pageSearch.keys.has(RDKEY)) {
+      pageSearch.keys.set(RDKEY, DomainKind[DomainKind.SCALE]);
     }
-    if (pageSearch.kind === ElementKind.PUBLICATION && !pageSearch.keys ) {
-      const KEY = 'publishedstatus';
-      pageSearch.keys = new Map( [ [KEY, 'NOT_PUBLISHED' ] ] );
+
+    const PKEY = 'publishedKind';
+    if (pageSearch.kind === ElementKind.PUBLICATION && !pageSearch.keys.has(PKEY)) {
+      pageSearch.keys.set(PKEY, 'NOT_PUBLISHED');
     }
     return pageSearch;
-  }
-
-  ngOnDestroy(): void {
-    this.alive = false;
   }
 
 }

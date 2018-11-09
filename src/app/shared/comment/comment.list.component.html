@@ -18,13 +18,11 @@
             </span>
             <div class="row" *ngIf="!isEditComment || selectedCommentId !== idx">
               <br>
-              <div class="col s9">
-               {{ comment.comment }}
-              </div>
-              <div class="col s3 right">
+              <div class="col s9"><p [innerHtml] = "comment.comment"></p></div>
+              <div class="col s2 right">
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                   (click)="isEditComment=true;isPublic=comment.public;message=comment.comment;selectedCommentId=idx;">
-                  <i class="material-icons left small">edit</i>
+                  <i class="material-icons left medium" title="Edit" >edit</i>
                 </a>
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
                   (click)="onDeleteComment(idx)">
@@ -49,11 +47,11 @@
               <div class="col s1 right">
                 <a class="btn-flat btn-floating btn-small waves-effect waves-light teal"
                   (click)="onUpdateComment(idx)">
-                  <i class="material-icons left small">done_all</i>
+                  <i class="material-icons left medium" title="Save and close" >done_all</i>
                 </a>
                 <a class="btn-flat btn-floating btn-small waves-effect waves-light teal"
                   (click)="isEditComment=false">
-                  <i class="material-icons left small">cancel</i>
+                  <i class="material-icons left medium" title="Cancel edit">cancel</i>
                 </a>
               </div>
             </div>
@@ -65,7 +63,7 @@
         </li>
       </ul>
     </div>
-    <qddt-comment-create (updatedEvent)="addedComment($event)" [ownerId]="ownerId">
+    <qddt-comment-create (updatedEvent)="addComment($event)" [ownerId]="ownerId">
     </qddt-comment-create>
   </div>
 </div>

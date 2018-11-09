@@ -1,8 +1,4 @@
-import { IEntityEditAudit, IVersion } from '../shared/classes/interfaces';
-import { ElementKind } from '../shared/classes/enums';
-import { Page } from '../shared/classes/classes';
-import { ParseErrorLevel } from '@angular/compiler';
-import { Agency } from '../core/user/user.service';
+import { Agency } from '../core/services/user.service';
 
 
 export interface IAuthority {
@@ -11,8 +7,6 @@ export interface IAuthority {
   authority: string;
 }
 
-
-
 export class UserJson {
 
   id: string;
@@ -20,7 +14,7 @@ export class UserJson {
   email: String;
   agency: Agency;
   modified: number;
-  authority: IAuthority = {id: 'null', name: 'none', authority: 'NONE' } ;
+  authorities: IAuthority[] = [ {id: 'null', name: 'none', authority: 'NONE' } ];
   enabled = true;
   classKind: 'USER';
 

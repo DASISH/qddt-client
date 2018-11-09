@@ -1,10 +1,9 @@
 import {Component, Input, Output, EventEmitter, AfterContentChecked } from '@angular/core';
 import { QuestionItem } from '../../question/question.classes';
-import { QddtMessageService } from '../../core/global/message.service';
-import {ElementKind} from '../../shared/classes/enums';
-import {HomeService} from '../home.service';
-import {Concept} from '../home.classes';
-import {IRevisionRef} from '../../shared/classes/interfaces';
+import { Concept} from '../home.classes';
+import { QddtMessageService } from '../../core/services/message.service';
+import { HomeService} from '../home.service';
+import { ElementKind, IRevisionRef } from '../../shared/classes';
 
 const filesaver = require('file-saver');
 declare var Materialize: any;
@@ -12,7 +11,6 @@ declare var Materialize: any;
 @Component({
   selector: 'qddt-concept-treenode',
   providers: [  ],
-  moduleId: module.id,
   templateUrl: './concept-tree-node.component.html',
   styleUrls: ['./concept-tree-node.component.css']
 })

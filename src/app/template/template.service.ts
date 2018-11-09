@@ -1,11 +1,20 @@
-import {Inject, Injectable, OnDestroy, OnInit} from '@angular/core';
+import { Inject, Injectable} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_BASE_HREF } from '../api';
-import { Observable, Subscription, BehaviorSubject} from 'rxjs';
-import { UserService } from '../core/user/user.service';
-import { ActionKind, ElementKind} from '../shared/classes/enums';
-import { getQueryInfo } from '../shared/classes/constants';
-import { IEntityAudit, IEntityEditAudit, IPageResult, IRevisionResult, IPageSearch, IOtherMaterial } from '../shared/classes/interfaces';
+import { Observable} from 'rxjs';
+import { UserService } from '../core/services/user.service';
+import {
+  ActionKind,
+  ElementKind,
+  getQueryInfo,
+  IEntityAudit,
+  IEntityEditAudit,
+  IOtherMaterial,
+  IPageResult,
+  IPageSearch,
+  IRevisionResult
+} from '../shared/classes';
+import {forEach} from '@angular/router/src/utils/collection';
 
 @Injectable()
 export class TemplateService {
@@ -18,22 +27,25 @@ export class TemplateService {
 
   public searchByKind<T extends IEntityAudit>(pageSearch: IPageSearch): Promise<IPageResult<T>> {
     const qe = getQueryInfo(pageSearch.kind);
-    const args = pageSearch.key.split(' ');
     const queries = [];
 
-    if (args.length <= qe.fields.length) {
-      for (let i = 0; i < args.length; i++) {
-        queries.push(qe.fields[i] + '=' + args[i].trim() );
+    if (!pageSearch.hasDetailSearch) {
+      for (let i = 0; i < qe.fields.length; i++) {
+        queries.push(qe.fields[i] + '=' +  pageSearch.key.trim() );
+      }
+      if ( pageSearch.keys) {
+        Array.from(pageSearch.keys)
+        .filter((item) => !qe.fields.includes(item[0], 0))
+        .forEach(key => {
+          queries.push(key[0] + '=' + key[1]);
+        });
       }
     } else {
-      for (let i = 0; i < qe.fields.length; i++) {
-        queries.push(qe.fields[i] + '=' + pageSearch.key.trim() );
+      if ( pageSearch.keys) {
+        pageSearch.keys.forEach( (value, key) => (value) ? queries.push(key + '=' + value ) : '' );
       }
     }
 
-    if (pageSearch.keys) {
-      pageSearch.keys.forEach( (value, key) => queries.push(key + '=' + value ) );
-    }
 
     let query = '?' ;
 
@@ -73,10 +85,10 @@ export class TemplateService {
     return this.http.get<IRevisionResult<IEntityEditAudit>>(this.api + 'audit/' + qe.path + '/' + id + '/' + rev).toPromise();
   }
 
-  public copySource(kind: ElementKind, fromId: string, fromRev: number, toParentId: string): Observable<any> {
-    const qe = getQueryInfo(kind);
-    return this.http.post(this.api + qe.path + '/copy/' + fromId + '/' + fromRev + '/' + toParentId, {});
-  }
+  // public copySource(kind: ElementKind, fromId: string, fromRev: number, toParentId: string): Observable<any> {
+  //   const qe = getQueryInfo(kind);
+  //   return this.http.post(this.api + qe.path + '/copy/' + fromId + '/' + fromRev + '/' + toParentId, {});
+  // }
 
   public update(item: IEntityAudit): Observable<any> {
     const kind = this.getElementKind(item.classKind);
@@ -102,17 +114,17 @@ export class TemplateService {
   }
 
   public delete(item: IEntityEditAudit): Observable<any> {
-    const qe = getQueryInfo[item.classKind];
+    const qe = getQueryInfo(item.classKind);
     return this.http.delete(this.api + qe.path + '/delete/' + item.id);
   }
 
   public getPdf(item: IEntityEditAudit): Promise<Blob>  {
-    const qe = getQueryInfo[item.classKind];
+    const qe = getQueryInfo(item.classKind);
     return this.http.get(this.api + qe.path + '/pdf/' + item.id, { responseType: 'blob'}).toPromise();
   }
 
   public getXML(item: IEntityEditAudit): Promise<Blob>  {
-    const qe = getQueryInfo[item.classKind];
+    const qe = getQueryInfo(item.classKind);
     return this.http.get(this.api + qe.path + '/xml/' + item.id, { responseType: 'blob'}).toPromise();
   }
 

@@ -1,4 +1,3 @@
-<!-- <div id="topMenu" class="scrollspy"></div> -->
 <div class="col m10 l9">
   <div class="card white white-text text-lighten-2">
     <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
@@ -13,7 +12,7 @@
           <div class="col s10 offset-s1">
             <form (ngSubmit)="onSave()" #newSurveyFrom="ngForm">
               <div class="row input-field">
-                  <input id="name" name="name" type="text" [(ngModel)]="survey.name" required>
+                  <input id="name" name="name" type="text" [(ngModel)]="newSurvey.name" required>
                   <label for="name" class="white-text">Name</label>
               </div>
               <div class="row input-field">
@@ -21,7 +20,7 @@
                   id="description"
                   name="description"
                   class="materialize-textarea"
-                  [(ngModel)]="survey.description" required>
+                  [(ngModel)]="newSurvey.description" required>
                 </textarea>
                 <label for="description" class="white-text">Description</label>
               </div>
@@ -34,8 +33,8 @@
       </div>
     </div>
 
-    <div *ngIf="surveyList">
-      <div id="{{surveyProgram?.id}}" class="row card scrollspy" *ngFor="let surveyProgram of surveyList" style="padding-left:2%">
+    <div *ngIf="surveys">
+      <div id="{{surveyProgram?.id}}" class="row card scrollspy" *ngFor="let surveyProgram of surveys" style="padding-left:2%">
         <div class="col s1 m1 l1">
           <br />
           <div class="row">
@@ -43,8 +42,8 @@
               <i class="material-icons"title="Edit element">mode_edit</i></a>
             <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="edit.showRevision = !edit.showRevision">
               <i class="material-icons left medium" title="Revision history">history</i></a>
-            <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
-              <i class="material-icons" (click)="getPdf(surveyProgram)" title="Get as Pdf">picture_as_pdf</i></a>
+            <!--<a class="btn-flat btn-floating btn-medium waves-effect waves-light teal">-->
+              <!--<i class="material-icons" (click)="getPdf(surveyProgram)" title="Get as Pdf">picture_as_pdf</i></a>-->
             <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="onShowStudy(surveyProgram)">
               <i class="material-icons left medium"title="Go to child elements">play_arrow</i></a>
           </div>
@@ -69,6 +68,8 @@
             (savedEvent)="onSurveySaved($event)" #edit>
           </qddt-survey-edit>
 
+          <qddt-download  *ngIf="!edit.isVisible" [entity]="surveyProgram" [readonly]="true"></qddt-download>
+
           <qddt-revision *ngIf="edit.showRevision" [current]="surveyProgram" ></qddt-revision>
 
           <qddt-comment-list *ngIf="!edit.isVisible"
@@ -81,5 +82,5 @@
   </div>
 </div>
 
-<qddt-toc [elements]="surveyList" [path]="'survey'"></qddt-toc>
+<qddt-toc [elements]="surveys" [path]="'survey'"></qddt-toc>
 

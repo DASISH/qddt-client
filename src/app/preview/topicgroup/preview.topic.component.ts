@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { PreviewService } from '../preview.service';
-import { QddtMessageService } from '../../core/global/message.service';
+import { QddtMessageService } from '../../core/services/message.service';
 import { Topic } from '../../home/home.classes';
 import { ElementKind } from '../../shared/classes/enums';
 import { IOtherMaterial } from '../../shared/classes/interfaces';
@@ -9,7 +9,7 @@ const filesaver = require('file-saver');
 
 @Component({
   selector: 'qddt-preview-topic',
-  moduleId: module.id,
+
   styles: [
   ],
   templateUrl: 'preview.topic.component.html'

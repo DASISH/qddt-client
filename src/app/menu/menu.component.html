@@ -10,19 +10,25 @@
         </a></li>
       </ul>
 
-      <a *ngIf="path[0]" (click)="onSurvey()" class="breadcrumb">SURVEY [{{ path[0] }}]</a>
-      <a *ngIf="path[1]" (click)="onStudy()" class="breadcrumb">STUDY [{{ path[1] }}]</a>
-      <a *ngIf="path[2]" (click)="onTopic()" class="breadcrumb">MODULE [{{ path[2] }}]</a>
-      <a *ngIf="path[3]" (click)="onConcept()" class="breadcrumb">{{ path[3] }}</a>
+      <a *ngIf="!path[0]" (click)="onSurvey()" class="waves-effect " style="padding-left: 1rem; padding-right: 1rem;">
+        <i class="large material-icons" >store</i>
+      </a>
+
+      <a *ngIf="path[0]" (click)="onSurvey()" class="breadcrumb">SURVEY [{{ path[0].name }}]</a>
+      <a *ngIf="path[1]" (click)="onStudy()" class="breadcrumb">STUDY [{{ path[1].name }}]</a>
+      <a *ngIf="path[2]" (click)="onTopic()" class="breadcrumb">MODULE [{{ path[2].name }}]</a>
+      <a *ngIf="path[3]" (click)="onConcept()" class="breadcrumb">{{ path[3].name }}</a>
+
 
       <ul id="adminmenu" class="dropdown-content"  >
         <div *ngIf="isLoggedIn$ | async as isLoggedIn">
           <li (click)="logoutEvent()"><a href=""><i class="material-icons left">exit_to_app</i>Exit</a></li>
           <li class="divider"></li>
           <li><a [routerLink]="['user']"><i class="material-icons left">edit</i>UserAdmin</a></li>
+          <li><a [routerLink]="[{ outlets: { popup: ['resetpassword'] } }]"><i class="material-icons left">mail_outline</i>Password reset</a></li>
+          <li><a [routerLink]="[{ outlets: { popup: ['useroption'] } }]"><i class="material-icons left">edit</i>User Option</a></li>
           <li class="divider"></li>
-          <li><a [routerLink]="['resetpassword']"><i class="material-icons left">mail_outline</i>Password reset</a></li>
-          <li class="divider"></li>
+          <li><a href="http://en.gravatar.com/" target="_blank"><i class="material-icons left">face</i>How to Gravatar</a></li>
           <li><a href="https://github.com/DASISH/qddt-client/wiki" target="_blank"><i class="material-icons left">help</i>Help</a></li>
         </div>
     </ul>
@@ -69,6 +75,9 @@
                 <a class="collapsible-header waves-effect waves-teal teal-text" >Lookups<i class="material-icons">more_horiz</i></a>
                 <div class="collapsible-body">
                   <ul>
+                    <li><a class="teal-text waves-effect waves-teal" [routerLink]="['/changelog']" tabindex="0">
+                      <i class="material-icons teal-text left medium">publics</i>Change Feed</a>
+                    </li>
                     <li *ngIf="canSee[elementKindRef.UNIVERSE]"><a class="teal-text waves-effect waves-teal" [routerLink]="['/universes']" tabindex="0">
                       <i class="material-icons teal-text left medium">publics</i>Universe</a>
                     </li>
@@ -82,7 +91,7 @@
                 </div>
               </li>
             </ul>
-          </li>   
+          </li>
         </div>
       </ul>
     </div>

@@ -1,8 +1,7 @@
 import { Component, EventEmitter, OnInit} from '@angular/core';
 import { MaterializeAction } from 'angular2-materialize';
-import { ActivatedRoute, Router } from '@angular/router';
-import { QddtPropertyStoreService } from '../../core/global/property.service';
-import { ElementKind, ActionKind } from '../../shared/classes/enums';
+import { QddtPropertyStoreService } from '../../core/services/property.service';
+import { ElementKind, ActionKind } from '../../shared/classes';
 import { Concept, Topic } from '../home.classes';
 import { HomeService } from '../home.service';
 import { TemplateService } from '../../template/template.service';
@@ -11,7 +10,6 @@ import { TemplateService } from '../../template/template.service';
 
 @Component({
   selector: 'qddt-concept',
-  moduleId: module.id,
   providers: [],
   templateUrl: './concept.component.html'
 })
@@ -30,10 +28,7 @@ export class ConceptComponent implements OnInit {
 
   refreshCount = 0;
 
-  private parentId: any;
-
-  constructor(private router: Router, private route: ActivatedRoute, private property: QddtPropertyStoreService,
-              private conceptService: HomeService, private service: TemplateService ) {
+  constructor(private property: QddtPropertyStoreService, private conceptService: HomeService, private service: TemplateService ) {
     this.readonly = !service.can(ActionKind.Create, ElementKind.CONCEPT );
     this.concept = new Concept();
    }
@@ -42,15 +37,12 @@ export class ConceptComponent implements OnInit {
 
   ngOnInit(): void {
     this.topic = this.property.get('topic');
-    if (!this.topic) {
-      console.error('TOPIC IS EMPTY!!!');
-    }
-    this.parentId = this.topic.id;
+    const parentId = this.topic.id || this.property.parentMenu.id ;
     this.concepts = this.property.get('concepts');
     if (!this.concepts) {
       this.showProgressBar = true;
-      this.conceptService.getByTopic(this.parentId).then((result) => {
-        this.concepts = result.content.sort((a, b) => a.name > b.name ? 1 : -1);
+      this.conceptService.getConceptByTopic(parentId).then((result) => {
+        this.concepts = result.content.sort( (a, b) => a.name.localeCompare(b.name));
         this.property.set('concepts', this.concepts);
         this.showProgressBar = false;
       });
@@ -84,7 +76,7 @@ export class ConceptComponent implements OnInit {
   onConceptUpdated(concept: any) {
     if (!this.updateConcept(this.concepts, concept)) {
       this.concepts.push(concept);
-      this.concepts = this.concepts.sort((a, b) => a.name > b.name ? 1 : -1);
+      this.concepts = this.concepts.sort( (a, b) => a.name.localeCompare(b.name));
     }
     this.property.set('concepts', this.concepts);
     this.showProgressBar = false;

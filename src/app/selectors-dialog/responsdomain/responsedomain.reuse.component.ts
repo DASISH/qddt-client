@@ -1,17 +1,14 @@
-
-import {filter, distinctUntilChanged, debounceTime} from 'rxjs/operators';
-import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
-import { MaterializeAction } from 'angular2-materialize';
-import { Subject } from 'rxjs';
-import { TemplateService } from '../../template/template.service';
-import { IPageResult, IPageSearch, IElement } from '../../shared/classes/interfaces';
-import { ResponseDomain, DomainKind, DOMAIN_TYPE_DESCRIPTION } from '../../responsedomain/responsedomain.classes';
-import { ElementRevisionRef, Page } from '../../shared/classes/classes';
-import { ElementKind } from '../../shared/classes/enums';
+import { debounceTime, distinctUntilChanged, filter} from 'rxjs/operators';
+import { Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
+import { MaterializeAction} from 'angular2-materialize';
+import { Subject} from 'rxjs';
+import { TemplateService} from '../../template/template.service';
+import { DOMAIN_TYPE_DESCRIPTION, DomainKind, ResponseDomain} from '../../responsedomain/responsedomain.classes';
+import { ElementKind, ElementRevisionRef, IElement, IPageSearch, Page} from '../../shared/classes';
 
 @Component({
   selector: 'qddt-responsedomain-reuse',
-  moduleId: module.id,
+
   templateUrl: './responsedomain.reuse.component.html',
 })
 
@@ -24,20 +21,20 @@ export class ResponsedomainReuseComponent implements OnChanges  {
 
   public modalActions = new EventEmitter<MaterializeAction>();
 
-  public readonly RESPONSE_KIND = ElementKind.RESPONSEDOMAIN;
+  public readonly ELEMENT_KIND = ElementKind.RESPONSEDOMAIN;
   public readonly domainTypeDescription: any[];
 
-  public selectedDomainKind = DomainKind.SCALE;
   public responseDomainList = [];
   public revisionList: any[];
   public formId = Math.round( Math.random() * 10000);
 
   private searchKeysListener = new Subject<string>();
   private pageSearch: IPageSearch;
+  private selectedDomainKind = DomainKind.SCALE;
 
   constructor(private responseDomainService: TemplateService) {
     this.domainTypeDescription = DOMAIN_TYPE_DESCRIPTION.filter((e) => e.id > DomainKind.NONE && e.id < DomainKind.MISSING);
-    this.pageSearch = { kind: this.RESPONSE_KIND, page: new Page(), key: '*' };
+    this.pageSearch = { kind: this.ELEMENT_KIND, page: new Page(), key: '' };
     this.searchKeysListener.pipe(
       debounceTime(300),
       distinctUntilChanged(),
@@ -52,20 +49,26 @@ export class ResponsedomainReuseComponent implements OnChanges  {
   }
 
   selectDomainType(id: DomainKind) {
-    this.selectedDomainKind = id;
+    this.currentdomainKind = id;
+    console.log(this.selectedDomainKind);
     this.loadPage('*');
   }
 
   ngOnChanges() {
     if (this.responseDomain) {
-      this.selectedDomainKind = DomainKind[this.responseDomain.responseKind];
-    } else if (!this.selectedDomainKind) {
-      this.selectedDomainKind = DomainKind.SCALE;
+      this.currentdomainKind = DomainKind[this.responseDomain.responseKind];
     }
   }
 
+  public get currentdomainKind(): DomainKind {
+    return this.selectedDomainKind || DomainKind.SCALE;
+  }
+
+  public set currentdomainKind(value: DomainKind) {
+    this.selectedDomainKind = (value) && (value < DomainKind.MIXED) ? value : DomainKind.SCALE;
+  }
   onResponseDomainSelected(element: IElement) {
-    this.responseDomainService.getRevisionsByKind(this.RESPONSE_KIND , element.element.id).then(
+    this.responseDomainService.getRevisionsByKind(this.ELEMENT_KIND , element.element.id).then(
       (result) => { this.revisionList = result.content; },
       (error) => { throw error; });
   }
@@ -93,7 +96,7 @@ export class ResponsedomainReuseComponent implements OnChanges  {
 
   private loadPage(search: string): any {
     this.pageSearch.key = search;
-    this.pageSearch.keys = new Map( [ ['ResponseKind',  DomainKind[this.selectedDomainKind] ] ] );
+    this.pageSearch.keys = new Map( [ ['ResponseKind',  DomainKind[this.currentdomainKind] ] ] );
     this.responseDomainService.searchByKind(this.pageSearch).then(
       (result) => { this.responseDomainList = result.content; });
   }

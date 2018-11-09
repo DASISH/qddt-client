@@ -1,21 +1,20 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CommentService } from './comment.service';
-import { IComment } from '../classes/interfaces';
+import { IComment } from '../classes';
 
 @Component({
   selector: 'qddt-comment-create',
-  moduleId: module.id,
+
   template: `
     <form class="card" (ngSubmit)="save()" #hf="ngForm">
       <div class="row">
         <div class="input-field col l9 m7 s12">
-          <label [attr.for]="ownerId + '-comment'">Write a new comment</label>
           <textarea class="materialize-textarea"
             id="{{ownerId}}-comment"
             name="{{ownerId}}-comment"
             length="2000"
             [(ngModel)]="comment.comment" required></textarea>
-        </div>
+            <label for="ownerId + '-comment'">Write a new comment</label>
+            </div>
         <div class="col l3 m5 s7">
           <div class="switch">
             <label>
@@ -30,33 +29,22 @@ import { IComment } from '../classes/interfaces';
       </div>
     </form>
   `,
-  providers: [CommentService]
+  providers: []
 })
 export class CommentCreateComponent {
 
-  @Output() updatedEvent  = new EventEmitter<Comment>();
+  @Output() updatedEvent  = new EventEmitter<IComment>();
   @Input() ownerId: string;
   comment = this.newComment();
 
-  constructor(private commentService: CommentService) {
-    this.commentService = commentService;
-  }
-
   save() {
-    this.comment.ownerId = this.ownerId;
-    this.commentService.create(this.comment).subscribe((result: any) => {
-      this.updatedEvent.emit(result);
-        this.comment = this.newComment();
-      }
-    , (error) => {
-      this.comment = this.newComment();
-      this.updatedEvent.emit(null);
-      throw error;
-    });
+    console.log(this.comment);
+    this.updatedEvent.emit( { comment: this.comment.comment, public: this.comment.public , ownerId: this.ownerId } );
+    this.comment = this.newComment();
   }
 
   private newComment(): IComment {
-    return { comment: '', public: true };
+    return { comment: '', public: true , ownerId: this.ownerId };
   }
 
 }

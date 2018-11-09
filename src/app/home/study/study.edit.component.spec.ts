@@ -26,7 +26,7 @@ export function main() {
       });
     });
 
-    it('should work with null study',
+    it('should work with null newStudy',
       async(() => {
         TestBed
           .compileComponents()
@@ -46,7 +46,7 @@ export function main() {
             const fixture = TestBed.createComponent(StudyEditComponent);
             fixture.componentInstance.study = {
               id: '7f000101-54aa-131e-8154-aa27fc230000',
-              name: 'one study',
+              name: 'one newStudy',
               description: '',
               authors: [],
               comments: [],
@@ -78,7 +78,7 @@ export function main() {
             const fixture = TestBed.createComponent(StudyEditComponent);
             fixture.componentInstance.study = {
               id: '7f000101-54aa-131e-8154-aa27fc230000',
-              name: 'one study',
+              name: 'one newStudy',
               description: '',
               authors: [],
               archived: false,

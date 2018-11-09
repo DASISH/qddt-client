@@ -1,16 +1,21 @@
 import {Component, EventEmitter, Input, Output, ChangeDetectionStrategy, OnChanges, SimpleChanges, AfterViewInit} from '@angular/core';
 import { ElementEnumAware } from '../../preview/preview.service';
-import {IElement, IEntityEditAudit, IRevisionRef, IRevisionResultEntity} from '../../shared/classes/interfaces';
-import { ElementKind } from '../../shared/classes/enums';
-import { ElementRevisionRef, QueryInfo } from '../../shared/classes/classes';
-import { QDDT_QUERY_INFOES } from '../../shared/classes/constants';
-import { QddtMessageService } from '../../core/global/message.service';
+import { QddtMessageService } from '../../core/services/message.service';
+import {
+  ElementKind,
+  ElementRevisionRef, getQueryInfo,
+  IElement,
+  IEntityEditAudit,
+  IRevisionRef,
+  IRevisionResultEntity,
+  QueryInfo
+} from '../../shared/classes';
 
 @Component({
   selector: 'qddt-collection-revision-search-select',
   changeDetection: ChangeDetectionStrategy.OnPush,
 
-  styles: ['.li.over { border: 2px dashed green;}'],
+  styles: ['.li.over { border: 2px dashed green;}', '.col {white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }'],
   templateUrl: './collection-search-revision-select.component.html'
 })
 
@@ -37,7 +42,7 @@ export class CollectionSearchRevisionSelectComponent implements OnChanges, After
   constructor( private message: QddtMessageService) { }
 
   ngAfterViewInit() {
-    this.queryInfo = this.getQueryInfo();
+    this.queryInfo = getQueryInfo(this.kind);
     this.labelName = this.queryInfo.label;
     this.searchField  = this.queryInfo.fields[0];
   }
@@ -77,10 +82,6 @@ export class CollectionSearchRevisionSelectComponent implements OnChanges, After
     event.dataTransfer.dropEffect = 'move';
   }
 
-  public getQueryInfo(): QueryInfo {
-    return QDDT_QUERY_INFOES[this.kind];
-  }
-
   public onSearchElements(key) {
     this.searchItems.emit({ element: key, elementKind: this.kind });
   }
@@ -89,15 +90,12 @@ export class CollectionSearchRevisionSelectComponent implements OnChanges, After
     this.searchRevision.emit( { elementId: item.element.id, elementKind: this.kind, elementRevision: null } );
   }
 
-  public onSelectedRevision(revision ) {
+  public onSelectedRevision(revision: ElementRevisionRef ) {
     this.showList.push(revision);
   }
 
   public onShowElement(element: ElementRevisionRef) {
-    const  ref: IElement =  {
-      element: element.elementId,
-      elementKind: element.elementKind };
-    this.message.sendMessage( ref );
+    this.message.sendMessage( element );
   }
 
   public onDeleteItem(index: number) {

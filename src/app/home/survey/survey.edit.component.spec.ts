@@ -25,7 +25,7 @@ export function main() {
       });
     });
 
-    it('should work with null survey',
+    it('should work with null newSurvey',
       async(() => {
         TestBed
           .compileComponents()
@@ -71,7 +71,7 @@ export function main() {
           });
       }));
 
-    it('should save survey',
+    it('should save newSurvey',
       async(() => {
         TestBed
           .compileComponents()

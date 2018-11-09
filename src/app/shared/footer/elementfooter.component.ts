@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { QddtMessageService } from '../../core/global/message.service';
+import { QddtMessageService } from '../../core/services/message.service';
 import { IEntityEditAudit, IRevisionRef } from '../classes/interfaces';
 
 @Component({
   selector: 'qddt-element-footer',
-  moduleId: module.id,
+
   styles:  [
     'p {padding: 3px ;margin: inherit;!important;}',
     '.input-field label.active {padding-top:3px; !important;}'

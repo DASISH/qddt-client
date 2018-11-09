@@ -3,7 +3,7 @@ import { Component,  ViewChild } from '@angular/core';
 
 @Component({
   selector: 'qddt-sequence-detail',
-  moduleId: module.id,
+
   templateUrl: './sequence-construct.detail.component.html',
 })
 

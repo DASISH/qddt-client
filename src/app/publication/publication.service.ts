@@ -2,20 +2,16 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { API_BASE_HREF } from '../api';
-import { Publication, PUBLICATION_TYPES, PublicationStatus} from './publication.classes';
-import { IRevisionRef } from '../shared/classes/interfaces';
-import { ElementRevisionRef } from '../shared/classes/classes';
+import { Publication, PublicationStatus } from './publication.classes';
 
 
 @Injectable()
 export class PublicationService {
 
-  public PUBLICATION_STATUSES:  Promise<PublicationStatus[]>;
+  public publication_statuses$:  Promise<PublicationStatus[]>;
 
   constructor(protected http: HttpClient, @Inject(API_BASE_HREF) protected api: string) {
-    if (!this.PUBLICATION_STATUSES) {
-      this.PUBLICATION_STATUSES = this.getPublicationStatus();
-    }
+    this.publication_statuses$ = this.getPublicationStatus();
   }
 
   public update(publication: Publication): Observable<Publication> {
@@ -23,8 +19,8 @@ export class PublicationService {
   }
 
 
-  private getPublicationStatus(): Promise<PublicationStatus[]> {
-    return this.http.get<PublicationStatus[]>(this.api + 'publicationstatus/list').toPromise();
+  private async getPublicationStatus(): Promise<PublicationStatus[]> {
+    return await this.http.get<PublicationStatus[]>(this.api + 'publicationstatus/list').toPromise();
   }
 
 }

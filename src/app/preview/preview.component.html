@@ -3,16 +3,16 @@
     <qddt-preview-concept [concept]="element"></qddt-preview-concept>
   </div>
   <div *ngSwitchCase=instanceRefEnum.CONDITION_CONSTRUCT >
-    <qddt-preview-conditionconstruct [condition]="element"></qddt-preview-conditionconstruct>
+    <qddt-preview-conditionconstruct [condition]="element" [showDetail]="showDetail"></qddt-preview-conditionconstruct>
   </div>
   <div *ngSwitchCase=instanceRefEnum.QUESTION_CONSTRUCT >
-    <qddt-preview-questionconstruct [controlConstruct]="element"></qddt-preview-questionconstruct>
+    <qddt-preview-questionconstruct [controlConstruct]="element" [showDetail]="showDetail" ></qddt-preview-questionconstruct>
   </div>
   <div *ngSwitchCase=instanceRefEnum.SEQUENCE_CONSTRUCT >
-    <qddt-preview-sequenceconstruct [sequence]="element"></qddt-preview-sequenceconstruct>
+    <qddt-preview-sequenceconstruct [sequenceConstruct]="element" [showDetail]="showDetail"></qddt-preview-sequenceconstruct>
   </div>
   <div *ngSwitchCase=instanceRefEnum.STATEMENT_CONSTRUCT >
-    <qddt-preview-statementconstruct [statement]="element"></qddt-preview-statementconstruct>
+    <qddt-preview-statementconstruct [statement]="element" [showDetail]="showDetail"></qddt-preview-statementconstruct>
   </div>
   <div *ngSwitchCase=instanceRefEnum.INSTRUMENT >
     <qddt-preview-instrument [instrument]="element"></qddt-preview-instrument>
@@ -45,42 +45,33 @@
     <!--...-->
     <!--INSTRUCTION,-->
     <!--UNIVERSE-->
-  <div class="row">
-    <!-- <span> getElementString:{{ element.classKind }} getElementKind:{{ getElementKind(element) }}<- TEST</span> -->
-    <div class="col s12">
-      <label [attr.for]="element.id + '-name'" class="active teal-text">Name</label>
-      <textarea class="materialize-textarea" id="{{element?.id}}-name"
-                name="{{element?.id}}-name" readonly> {{ element?.name }}
-      </textarea>
-      <label [attr.for]="element.id + '-description'" class="active teal-text">Description</label>
-      <textarea class="materialize-textarea" id="{{element?.id}}-description"
-                name="{{element?.id}}-description"readonly> {{ element?.classKind }}
-      </textarea>
+    <div class="row">
+      <div class="col s12">
+        <label [attr.for]="element.id + '-name'" class="active teal-text">Name</label>
+        <textarea class="materialize-textarea" id="{{element?.id}}-name"
+                  name="{{element?.id}}-name" readonly> {{ element?.name }}
+        </textarea>
+        <label [attr.for]="element.id + '-description'" class="active teal-text">Description</label>
+        <textarea class="materialize-textarea" id="{{element?.id}}-description"
+                  name="{{element?.id}}-description"readonly> {{ element?.classKind }}
+        </textarea>
+      </div>
+    </div>
+    <div class="row">
+      <qddt-element-footer  [element]="element" ></qddt-element-footer>
     </div>
   </div>
-  <div class="row">
-    <qddt-element-footer  [element]="element" ></qddt-element-footer>
-  </div>
+
+  <qddt-download [entity]="element" [readonly]="true"></qddt-download>
+
+  <ul class="hoverable" *ngIf="showDetail">
+    <li (click)="revisionIsVisible=!revisionIsVisible" style="cursor: zoom-in !important;">
+      <label class="teal-text">Revisions</label>
+    </li>
+    <li class="collection-item" *ngIf="revisionIsVisible">
+      <div class="row">
+        <qddt-revision  [current]="element"> </qddt-revision>
+      </div>
+    </li>
+  </ul>
 </div>
-
-<ul class="hoverable">
-  <li>
-    <label class="teal-text">Exports</label>
-  </li>
-  <li class="collection-item">
-    <div class="row">
-      <a style="cursor: pointer;" (click)="onGetPdf(element)"><i class="material-icons smal" >picture_as_pdf</i>{{element.name}}.pdf</a>
-    </div>
-  </li>
-</ul>
-
-<ul class="hoverable">
-  <li (click)="revisionIsVisible=!revisionIsVisible" style="cursor: zoom-in !important;">
-    <label class="teal-text">Revisions</label>
-  </li>
-  <li class="collection-item" *ngIf="revisionIsVisible">
-    <div class="row">
-      <qddt-revision  [current]="element"> </qddt-revision>
-    </div>
-  </li>
-</ul>

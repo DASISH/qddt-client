@@ -19,27 +19,22 @@
       (selectEvent)="onSelectedRevision($event)">
     </qddt-revision-select>
   </li>
-  <div  *ngFor="let item of showList; let idx=index">
-  <li class="collection-item" style="border: 1px; border-color: black"
-  draggable="true" (dragstart)="onDragStart($event, item)" >
-    <div class="row" *ngIf="item.elementId"
-        (mouseenter)="item.showbutton = !readonly"
-        (mouseleave)="item.showbutton = false"
-       >
-      <div class="col s2">[{{labelName}}]</div>
-      <div class="col s7"><a (click)="onShowElement(item)" [ngStyle]="{'cursor': 'pointer'}">{{ item.name }}</a></div>
-      <div class="col s2"><qddt-version-label [element]="item"></qddt-version-label> </div>
-      <div class="col s1">
-        <a [ngClass]="{hide: !showButton}"
-          class="waves-effect waves-light small teal-text"
-          (click)="onDeleteItem(idx)">
+  <!-- <div  *ngFor="let item of showList; let idx=index"> -->
+
+  <li *ngFor="let item of showList; let idx=index" class="collection-item" style="border: 1px; border-color: black; height:2rem"
+   draggable="true" (dragstart)="onDragStart($event, item)" >
+
+    <div class="row" *ngIf="item.elementId" (mouseenter)="item.showbutton = !readonly" (mouseleave)="item.showbutton = false">
+      <div class="col s10"><a (click)="onShowElement(item)" [ngStyle]="{'cursor': 'pointer'}">{{ item.name }}</a></div>
+      <div class="col s2"><qddt-version-label [element]="item"></qddt-version-label> 
+        <a [ngClass]="{hide: !showButton}" class="waves-effect waves-light small teal-text right" (click)="onDeleteItem(idx)"> 
           <i class="material-icons" title="Remove {{labelName}}">remove_circle</i>
         </a>
       </div>
     </div>
   </li>
   <li (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
-      <div class="card">drop here</div>
+      <!-- <div class="card">drop here</div> -->
   </li>
-</div>
+<!-- </div> -->
 </ul>

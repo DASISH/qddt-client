@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'qddt-instrument',
-  moduleId: module.id,
+
   templateUrl: './instrument.component.html'
 })
 export class InstrumentComponent  {

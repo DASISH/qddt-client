@@ -1,14 +1,14 @@
 import { Component, ViewEncapsulation, OnDestroy  } from '@angular/core';
-import { UserService } from './core/user/user.service';
-import { QddtPropertyStoreService } from './core/global/property.service';
-import { QddtMessageService } from './core/global/message.service';
-import { IElement, IIdRef, IRevisionRef } from './shared/classes/interfaces';
+import { UserService } from './core/services/user.service';
+import { QddtPropertyStoreService } from './core/services/property.service';
+import { QddtMessageService } from './core/services/message.service';
+import { IElement, IIdRef, IRevisionRef } from './shared/classes';
 
 // declare var $: any;
 
 
 @Component({
-  moduleId: module.id,
+
   selector: 'qddt-app',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
@@ -21,7 +21,8 @@ export class AppComponent  implements OnDestroy {
 
   private subscription;
 
-  constructor(private users: UserService, private  properties: QddtPropertyStoreService, private messages: QddtMessageService ) {
+  constructor(private users: UserService, private  properties: QddtPropertyStoreService,
+              private messages: QddtMessageService ) {
 
     this.subscription = this.messages.getMessage()
       .subscribe((message) => this.showMessage(message));
@@ -34,11 +35,16 @@ export class AppComponent  implements OnDestroy {
   }
 
   isLoggedIn(): boolean {
-    return !this.users.isTokenExpired();
+    const isExpired = this.users.isTokenExpired();
+    if (isExpired && this.users.loggedIn.getValue()) {
+      this.users.loggedIn.next(false);
+    }
+    return !isExpired;
   }
 
+
   private showMessage<T extends IIdRef|IRevisionRef|IElement>(element: T) {
-    this.ref = element;
+      this.ref = element;
   }
 
   // private checkRouter(target: string, value: string) {

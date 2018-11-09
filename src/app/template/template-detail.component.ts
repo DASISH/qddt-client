@@ -1,13 +1,11 @@
 
-import { Component, EventEmitter, OnInit, Output, OnChanges, SimpleChanges, OnDestroy, AfterContentChecked} from '@angular/core';
-import { takeWhile } from 'rxjs/operators';
-import { TemplateService } from './template.service';
+import { Component, EventEmitter, OnInit, Output, OnDestroy, AfterContentChecked} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MaterializeAction } from 'angular2-materialize';
+import { takeWhile } from 'rxjs/operators';
+import { TemplateService } from './template.service';
+import { IDetailAction, IEntityEditAudit, ActionKind, ElementKind, HEADER_DETAILS } from '../shared/classes';
 import { Factory } from '../shared/classes/factory';
-import { IDetailAction, IEntityEditAudit } from '../shared/classes/interfaces';
-import { ActionKind, ElementKind } from '../shared/classes/enums';
-import { HEADER_DETAILS } from '../shared/classes/constants';
 
 declare var Materialize: any;
 declare var $: any;
@@ -16,7 +14,7 @@ const fileSaver = require('file-saver');
 
 @Component({
   selector: 'qddt-template-detail',
-  moduleId: module.id,
+
   templateUrl: './template-detail.component.html',
 })
 
@@ -59,6 +57,13 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterContentC
             this.selectedItem.emit(item); },
         (error) => { this.showProgressBar = false; throw error; });
     }
+    $(document).ready(function() {
+      $('.modal').modal({
+        ready: () => {
+          // Materialize.updateTextFields();
+        }
+      });
+    });
   }
 
   ngAfterContentChecked(): void {

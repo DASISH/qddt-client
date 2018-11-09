@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'qddt-preview-study-list',
-  moduleId: module.id,
+
   styles: [
     '.collapsible { border:1px  }',
   ],

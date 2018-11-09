@@ -1,40 +1,38 @@
 import { Component,  OnInit, AfterContentChecked } from '@angular/core';
 import { Router } from '@angular/router';
-import { QddtPropertyStoreService , HIERARCHY_POSITION } from '../../core/global/property.service';
+import { QddtPropertyStoreService } from '../../core/services/property.service';
 import { HomeService } from '../home.service';
 import { SurveyProgram } from '../home.classes';
 import { TemplateService } from '../../template/template.service';
-import { ActionKind, ElementKind } from '../../shared/classes/enums';
+import { ActionKind, ElementKind } from '../../shared/classes';
+import { HIERARCHY_POSITION } from '../../core/classes/UserSettings';
 
 const filesaver = require('file-saver');
 declare var Materialize: any;
 
 @Component({
   selector: 'qddt-survey',
-  moduleId: module.id,
+
   templateUrl: './survey.component.html'
 })
 
 export class SurveyComponent implements OnInit, AfterContentChecked {
   showSurveyForm = false;
-  public surveyList: SurveyProgram[] = [];
-  public survey: SurveyProgram;
+  public surveys: SurveyProgram[];
+  public newSurvey: SurveyProgram;
   public readonly = false;
   refreshCount = 0;
 
   constructor(private surveyService: HomeService, private service: TemplateService,
                 private router: Router, private property: QddtPropertyStoreService) {
-    this.survey = new SurveyProgram();
+    this.newSurvey = new SurveyProgram();
     this.readonly = !service.can(ActionKind.Create, ElementKind.SURVEY_PROGRAM);
   }
 
   ngOnInit() {
-    // this.surveyList = this.property.get('surveyList');
-    // if (!this.surveyList) {
-      this.surveyService.getAllSurvey()
-        .then(
-          (data: Array<SurveyProgram> ) => this.surveyList = data
-        );
+      this.surveyService.getSurveyByUser().then(
+        (data: Array<SurveyProgram> ) => this.surveys = data
+      );
   }
 
   ngAfterContentChecked(): void {
@@ -50,33 +48,32 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
     if (surveyId) {
       this.surveyService.deleteSurvey(surveyId)
         .subscribe(() => {
-          this.surveyList = this.surveyList.filter((s: any) => s.id !== surveyId);
-          this.property.set('surveyList', this.surveyList);
+          this.surveys = this.surveys.filter((s: any) => s.id !== surveyId);
+          this.property.set('surveys', this.surveys);
         });
     }
   }
 
   onSurveySaved(surveyProgram: any) {
-    if (surveyProgram !== null) {
-      const list = this.surveyList.filter((q) => q.id !== surveyProgram.id);
+    if (surveyProgram) {
+
+      const list = this.surveys.filter((q) => q.id !== surveyProgram.id);
       list.push(surveyProgram);
-      this.surveyList = list.sort( (a, b) => a.name > b.name ? -1 : 1);
-      this.property.set('surveyList', this.surveyList);
+      this.surveys = list.sort( (a, b) => a.name.localeCompare(b.name));
+      this.property.set('surveys', this.surveys);
     }
   }
 
   onShowStudy(surveyProgram: any) {
     this.property.set('survey', surveyProgram);
-    this.property.setCurrent(HIERARCHY_POSITION.Survey, surveyProgram.name);
+    this.property.setCurrentMenu(HIERARCHY_POSITION.Survey, { id: surveyProgram.id , name: surveyProgram.name });
     this.router.navigate(['study']);
   }
 
   onSave() {
-    this.surveyService.createSurvey(this.survey)
-      .subscribe(
-        (result: any) => this.onSurveySaved(result)
-      );
-    this.survey = new SurveyProgram();
+    this.surveyService.createSurvey(this.newSurvey)
+      .subscribe( result => this.onSurveySaved(result) );
+    this.newSurvey = new SurveyProgram();
     this.showSurveyForm = false;
   }
 
@@ -84,16 +81,14 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
   getPdf(element: SurveyProgram) {
     const fileName = element.name + '.pdf';
     this.surveyService.getPdf(element).then(
-      (data: any) => {
-        filesaver.saveAs(data, fileName);
+      data => { filesaver.saveAs(data, fileName);
       });
   }
 
   getXml(element: SurveyProgram) {
     const fileName = element.name + '.xml';
     this.surveyService.getXml(element).then(
-      (data: any) => {
-        filesaver.saveAs(data, fileName);
-      });
+      data => { filesaver.saveAs(data, fileName); }
+    );
   }
 }

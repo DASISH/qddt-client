@@ -6,7 +6,7 @@ declare var $: any;
 
 @Component({
   selector: 'qddt-survey-edit',
-  moduleId: module.id,
+
   template: `
 <div *ngIf="isVisible && survey"  id="{{formId}}"  >
   <form materialize (ngSubmit)="onSave()" #surveyForm="ngForm">
@@ -21,6 +21,7 @@ declare var $: any;
       </textarea>
       <label for="{{formId}}-desc">Description</label>
     </div>
+
 
     <qddt-rational [formName]="'RationalComp'" [element]="survey" [config]="{hidden: [2,3]}"></qddt-rational>
 
@@ -42,8 +43,8 @@ export class SurveyEditComponent implements  AfterContentChecked {
 
   @Output() savedEvent = new EventEmitter<SurveyProgram>();
 
+  public showRevision;
   public readonly formId = Math.round( Math.random() * 10000);
-
   constructor(private surveyService: HomeService) { }
 
   ngAfterContentChecked() {

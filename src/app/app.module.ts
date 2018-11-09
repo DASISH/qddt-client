@@ -11,31 +11,37 @@ import { PreviewModule } from './preview/preview.module';
 import { SharedModule } from './shared/shared.module';
 import { HomeModule } from './home/home.module';
 import { CoreModule } from './core/core.module';
-import { PageNotFoundComponent } from './core/pagenotfound/page-not-found.component';
-import { TokenInterceptor } from './core/interceptor/token.interceptor';
-import { ErrorLogService } from './core/errorhandler/error-log.service';
-import { GlobalErrorHandler } from './core/errorhandler/error.service';
 import { MenuModule } from './menu/menu.module';
-import { CategoryModule } from './category/category.module';
-import { ResponsedomainModule } from './responsedomain/responsedomain.module';
 import { QuestionModule } from './question/question.module';
+import { MissingModule } from './category-missing/missing.module';
+import { ResponsedomainModule } from './responsedomain/responsedomain.module';
+import { QuestionConstructModule } from './construct-question/question-construct.module';
 import { ControlConstructModule } from './controlconstruct/controlconstruct.module';
+import { SequenceModule } from './construct-sequence/sequence-construct.module';
 import { InstrumentModule } from './instrument/instrument.module';
 import { PublicationModule } from './publication/publication.module';
 import { TemplateModule } from './template/template.module';
-import { TemplateService } from './template/template.service';
-import { QuestionConstructModule } from './construct-question/question-construct.module';
-import { SequenceModule } from './construct-sequence/sequence-construct.module';
-import { MissingModule } from './category-missing/missing.module';
 import { SelectorDialogsModule } from './selectors-dialog/selectors-dialog.module';
 import { UserModule } from './user/user.module';
-import { UniverseModule } from './universe/universe.module';
-import { InstructionModule } from './instruction/instruction.module';
+
+import { UniverseModule } from './lookups/universe/universe.module';
+import { InstructionModule } from './lookups/instruction/instruction.module';
+import { CategoryModule } from './lookups/category/category.module';
+import { DialogModule } from './dialog/dialog.module';
+
+import { TemplateService } from './template/template.service';
+import { PageNotFoundComponent } from './core/pagenotfound/page-not-found.component';
+import { TokenInterceptor } from './core/interceptor/token.interceptor';
+import { ErrorLogService } from './core/services/error-log.service';
+import { GlobalErrorHandler } from './core/services/error-handler.service';
+import {ChangeLogModule} from './changelog/changelog.module';
+
 
 @NgModule({
-  imports: [ BrowserModule, HttpClientModule, SharedModule, CoreModule, HomeModule, MenuModule, SelectorDialogsModule,
+  imports: [ BrowserModule, HttpClientModule, SharedModule, CoreModule, HomeModule, MenuModule, SelectorDialogsModule, DialogModule,
     CategoryModule,  ResponsedomainModule, QuestionModule, ControlConstructModule, PreviewModule, MissingModule, UniverseModule,
-    InstructionModule, InstrumentModule, PublicationModule, TemplateModule, QuestionConstructModule, SequenceModule, UserModule, routing ],
+    ChangeLogModule, InstructionModule, InstrumentModule,
+    PublicationModule, TemplateModule, QuestionConstructModule, SequenceModule, UserModule, routing ],
 
     declarations: [ AppComponent, PageNotFoundComponent ],
 

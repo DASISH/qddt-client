@@ -3,7 +3,7 @@ import { Concept } from '../../home/home.classes';
 
 @Component({
   selector: 'qddt-preview-concept-list',
-  moduleId: module.id,
+
   styles: [  ],
   template: `
     <ul class="col s11" *ngIf="conceptList" materialize="collapsible" class="collapsible" data-collapsible="accordion" >

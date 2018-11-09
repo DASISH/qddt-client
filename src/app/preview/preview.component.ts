@@ -1,13 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { ElementEnumAware, PreviewService } from './preview.service';
-import { IEntityAudit } from '../shared/classes/interfaces';
-import { ElementKind } from '../shared/classes/enums';
+import { ElementKind, IEntityAudit} from '../shared/classes';
 
 const filesaver = require('file-saver');
 
 @Component({
   selector: 'qddt-preview-element',
-  moduleId: module.id,
+
   styles: [
     'table { table-layout: fixed;}',
     ':host /deep/ .row { min-height: 1rem; margin-left: auto; margin-right: auto; margin-bottom: 2px; }',
@@ -22,6 +21,7 @@ const filesaver = require('file-saver');
 @ElementEnumAware
 export class PreviewComponent  {
   @Input() element: IEntityAudit;
+  @Input() showDetail = true;
 
   public instanceRefEnum = ElementKind;
   public revisionIsVisible = false;

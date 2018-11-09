@@ -1,39 +1,80 @@
-<div *ngIf="rows" class="row">
-  <div class="white grey-text text-darken-1" style="overflow-x:auto; margin:0.5rem">
-    <div class="row">
-      <div class="input-field col s11">
-        <input id="filterKey" type="text" [ngModel]="value" (keyup)="enterText($event)" #fkRef>
-        <label for="filterKey">{{ placeholder }}</label>
+<div id ='qddt-pageable-table' class="row white grey-text text-darken-1" style="overflow-x:auto; margin:0.5rem">
+  <form name="filterForm">
+      <div class="row" >
+        <div *ngIf="!pageSearch.hasDetailSearch" >
+          <div class="input-field col s11 m10 l9">
+            <i class="material-icons prefix" >search</i>
+            <input id="simpleSearch" name="simpleSearch" type="search" required
+                   [(ngModel)]="fields.simpleSearch" (ngModelChange)="searchKeysChange.next({ name: 'simpleSearch', value: $event })">
+            <label for="simpleSearch" >{{placeholder}}</label>
+            <i class="material-icons" (click)="onClear('simpleSearch')">close</i>
+          </div>
+        </div>
+        <div *ngIf="pageSearch.hasDetailSearch" >
+        <div class="col s{{ (10-10%fieldNames.length)/fieldNames.length}} input-field" *ngFor="let field of fieldNames; let idx=index;">
+          <i class="material-icons prefix" >search</i>
+          <input id="field-{{idx}}" name="{{field}}" type="search" required
+            [(ngModel)]="fields[field]" (ngModelChange)="searchKeysChange.next( { name: field, value: $event })">
+          <label for="field-{{idx}}">{{field}}</label>
+          <i class="material-icons" (click)="onClear(field)">close</i>
+        </div>
+        </div>
+        <div class="switch"><label><input type = "checkbox"  [checked]="pageSearch.hasDetailSearch" (change)="onDetailChecked()">
+          <span class = "lever"></span>Advanced search</label>
+        </div>
       </div>
-      <div class="input-field col s1">
-      	<a class="waves-effect waves-light btn" (click)="onClearKeywords()">x</a>
-      </div>
-    </div>
-    <table class="highlight">
-      <thead>
-        <tr>
-          <!--<th>Detail</th>-->
-          <th *ngFor="let column of columns" >
-            <span *ngIf="column.sortable" (click)="sortRows(column)" [ngStyle]="{'cursor': 'pointer'}">{{ column.label }} {{ directionSign[column.direction] }}
-            </span>
-            <span *ngIf="!column.sortable" >{{ column.label }} </span>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr id="{{row.id}}" *ngFor="let row of rows" (click)="onDetail(row.Object)" [ngStyle]="{'cursor': 'pointer'}">
-          <td  *ngFor="let column of columns">{{ row[column.label] }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <qddt-pagination
-      [collectionSize]="pageSearch.page.totalElements"
-      [page]="pageSearch.page.number"
-      [pageSize]="pageSearch.page.size"
-      [maxSize]="5"
-      [rotate]="true"
-      [boundaryLinks]="true"
-      (pageChange)="pageChange($event)">
-    </qddt-pagination>
+  </form>
+  <div *ngIf="showProgressBar" class="progress">
+    <div class="indeterminate"></div>
   </div>
+
+  <table class="highlight">
+    <thead>
+      <tr>
+        <th><i class="material-icons tiny">add_circle_outline</i></th>
+        <th *ngFor="let column of columns" >
+          <span *ngIf="column.sortable" (click)="sortRows(column)" [ngStyle]="{'cursor': 'pointer'}">{{ column.label }} {{ directionSign[column.direction] }}
+          </span>
+          <span *ngIf="!column.sortable" >{{ column.label }} </span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="{{row.id}}" *ngFor="let row of rows;"  [ngStyle]="{'cursor': 'pointer'}" (mouseleave)="row.showbutton = false" >
+      <td style="padding:0" (mouseenter)="row.showbutton = true">
+        <div >
+          <i class="material-icons small teal-text"   >keyboard_arrow_right</i>
+          <ul *ngIf="row.showbutton"  style="position: fixed; display: inline-flex; margin-top: 0px; margin-bottom: 0px; z-index: 1; opacity: 0.9;">
+          <!-- <ul  style="position: fixed; display: inline-flex; margin-top: 0px; margin-bottom: 0px; z-index: 1;"> -->
+            <li *ngIf="canDelete"><a class="btn-flat btn-floating waves-effect waves-light red" >
+             <i class="material-icons" (click)="onConfirmDeleting(row.Object)" title="Delete" >delete_forever</i></a>
+            </li>
+            <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light blue" (click)="onViewRevision(row.Object)">
+              <i class="material-icons left medium" title="Revision history">history</i></a>
+            </li>
+            <li *ngIf="canExport"><a class="btn-flat btn-floating waves-effect waves-light orange darken-1">
+              <i class="material-icons" (click)="onGetPdf(row.Object)" title="Get as Pdf">picture_as_pdf</i></a>
+            </li>
+            <li><a class="btn-flat btn-floating waves-effect waves-light green darken-1">
+              <i class="material-icons" (click)="onDetail(row)" title="Edit">edit</i></a>
+            </li>
+          </ul>
+        </div>
+      </td>
+      <td  *ngFor="let column of columns" (click)="onDetail(row)" >{{ row[column.label] }}</td>
+
+      <!-- <td *ngIf="row.revisionIsVisible" colspan="columns.length"><qddt-revision  [current]="row.Object"> </qddt-revision></td> -->
+
+    </tr>
+    </tbody>
+  </table>
+  <qddt-pagination
+    [collectionSize]="pageSearch.page.totalElements"
+    [page]="pageSearch.page.number"
+    [pageSize]="pageSearch.page.size"
+    [maxSize]="5"
+    [rotate]="true"
+    [boundaryLinks]="true"
+    (pageChange)="pageChange($event)">
+  </qddt-pagination>
 </div>

@@ -1,13 +1,11 @@
 import { Component, EventEmitter, Input, OnChanges } from '@angular/core';
 import {  PreviewService } from './preview.service';
 import { MaterializeAction } from 'angular2-materialize';
-import { IElement, IIdRef, IRevisionRef } from '../shared/classes/interfaces';
-import { ElementKind } from '../shared/classes/enums';
-import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
+import { getQueryInfo, IElement, IIdRef, IRevisionRef} from '../shared/classes';
 
 @Component({
   selector: 'qddt-preview-dialog',
-  moduleId: module.id,
+
   template: `
     <div class="modal modal-fixed-footer" id="preview-{{element?.id}}"
          materialize="modal" [materializeActions]="basedonActions">
@@ -19,9 +17,7 @@ import { QDDT_QUERY_INFOES } from '../shared/classes/constants';
         </div>
       </div>
       <div class="modal-footer">
-        <a class="modal-action modal-close waves-effect waves-purple btn-flat teal white-text">
-          Close
-        </a>
+        <a class="modal-action modal-close waves-effect waves-purple btn-flat teal white-text">Close</a>
       </div>
     </div>`
     ,
@@ -39,14 +35,14 @@ export class PreviewDialogComponent implements  OnChanges {
     if (!this.reference) { return; }
 
     if (this.isRevisionRef(this.reference)) {
-      this.service.getRevisionByKind(this.getElementKind(), this.reference.elementId, this.reference.elementRevision)
+      this.service.getRevisionByKind(this.reference.elementKind, this.reference.elementId, this.reference.elementRevision)
         .then(result => {
           this.element = result.entity;
           this.basedonActions.emit({action: 'modal', params: ['open']});
         });
 
     } else if (this.isIdRef(this.reference)) {
-      this.service.getElementByKind(this.getElementKind(), this.reference.elementId)
+      this.service.getElementByKind(this.reference.elementKind, this.reference.elementId)
         .then(result => {
           this.element = result;
           this.basedonActions.emit({action: 'modal', params: ['open']});
@@ -59,18 +55,10 @@ export class PreviewDialogComponent implements  OnChanges {
   }
 
   getClassName(): string {
-    const kind = this.getElementKind();
-    if (kind) {
-      return QDDT_QUERY_INFOES[kind].label;
+    if (this.reference) {
+      return getQueryInfo(this.reference.elementKind).label;
     }
     return '?';
-  }
-
-  private getElementKind(): any {
-    if (!this.reference) { return null; }
-
-    const kind = this.reference.elementKind;
-    return typeof kind === 'string' ? ElementKind[kind] : kind;
   }
 
   private isRevisionRef(element: IIdRef|IRevisionRef|IElement): element is IRevisionRef { // magic happens here
