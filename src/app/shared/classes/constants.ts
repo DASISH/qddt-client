@@ -1,6 +1,7 @@
-import { ElementKind } from './enums';
-import { QueryInfo } from './classes';
-import { IHeaderDetail } from './interfaces';
+import {ElementKind} from './enums';
+import {QueryInfo} from './classes';
+import {IHeaderDetail} from './interfaces';
+
 
 export  function getElementKind(kind: string|ElementKind): ElementKind {
   return (typeof kind === 'string') ?  ElementKind[kind] : kind ;
@@ -37,10 +38,11 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
   new QueryInfo(ElementKind.INSTRUCTION, 'Instruction', 'instruction', ['description'], null),
   new QueryInfo(ElementKind.UNIVERSE, 'Universe', 'universe', ['description'], null),
   new QueryInfo(ElementKind.USER, 'User', 'user', ['name'], null),
+  new QueryInfo(ElementKind.CHANGE_LOG, 'Feed', 'changelog', ['name'], null),
 ];
 
 
-export  const HEADER_DETAILS: Map<string, IHeaderDetail>  = new Map([
+export  const HEADER_DETAILS =  new Map([
   ['categories', { icon: 'view_comfy', headerName: 'Categories', kind: ElementKind.CATEGORY }],
   ['missing', { icon: 'view_module', headerName: 'Missing Values', kind: ElementKind.MISSING_GROUP }],
   ['questionitems', { icon: 'help', headerName: 'QuestionItems' , kind: ElementKind.QUESTION_ITEM}],
@@ -52,4 +54,5 @@ export  const HEADER_DETAILS: Map<string, IHeaderDetail>  = new Map([
   ['instructions', { icon: 'speaker_notes', headerName: 'Instructions', kind: ElementKind.INSTRUCTION }],
   ['universes', { icon: 'public', headerName: 'Universes', kind: ElementKind.UNIVERSE }],
   ['user', { icon: 'user', headerName: 'User Administration', kind: ElementKind.USER }],
-]);
+  ['changelog', { icon: 'public', headerName: 'Change Feed', kind: ElementKind.CHANGE_LOG }],
+  ]);

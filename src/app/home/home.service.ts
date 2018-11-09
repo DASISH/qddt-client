@@ -1,11 +1,10 @@
-
-import { of as observableOf,  Observable } from 'rxjs';
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable} from 'rxjs';
+
 import { API_BASE_HREF } from '../api';
 import { Concept, Study, SurveyProgram, Topic } from './home.classes';
 import { IOtherMaterial, IEntityEditAudit, IEntityAudit, IPageResult, ElementKind, getQueryInfo} from '../shared/classes';
-import {QddtPropertyStoreService} from '../core/services/property.service';
 
 
 
@@ -20,7 +19,7 @@ export class HomeService {
     if (qe) {
       return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/allinclatest').toPromise();
     }
-    return observableOf([]).toPromise();
+    return  Promise.resolve([]);
   }
 
   getElementByTypeAndName(kind: ElementKind, name: string): Promise<any> {
@@ -28,8 +27,7 @@ export class HomeService {
     if (qe) {
       return this.http.get(this.api + qe.path + '/page/search/?name=*' + name + '*' ).toPromise();
     }
-    return observableOf([]).toPromise();
-
+    return Promise.resolve([]);
   }
 
   update(item: IEntityAudit): Observable<any> {
@@ -93,7 +91,6 @@ export class HomeService {
       .toPromise();
   }
 
-
   createSurvey(surveyProgram: SurveyProgram): Observable<any> {
     return this.http.post(this.api + 'surveyprogram/create', surveyProgram);
   }
@@ -129,7 +126,6 @@ export class HomeService {
   deleteSurvey(id: string): Observable<any>  {
     return this.http.delete(this.api + 'surveyprogram/delete/' + id);
   }
-
 
   attachConceptQuestion(conceptId: string, questionId: string, revision: number): Observable<any> {
     if (revision === null) {

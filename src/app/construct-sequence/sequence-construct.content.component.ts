@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
-import { QddtMessageService } from '../core/services/message.service';
+import { MessageService } from '../core/services/message.service';
 import { IElement, IEntityAudit } from '../shared/classes/interfaces';
 import { ElementRevisionRef } from '../shared/classes/classes';
 
@@ -15,7 +15,7 @@ export class SequenceContentComponent implements OnChanges{
   @Input() sequence: ElementRevisionRef[];
 
 
-  constructor( private message: QddtMessageService) { }
+  constructor( private message: MessageService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['sequence']) {

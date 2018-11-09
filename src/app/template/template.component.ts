@@ -2,11 +2,11 @@
 import { takeWhile} from 'rxjs/operators';
 import { Component, OnDestroy, AfterContentChecked} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { QddtMessageService } from '../core/services/message.service';
-import { QddtPropertyStoreService } from '../core/services/property.service';
+import { MessageService } from '../core/services/message.service';
+import { PropertyStoreService } from '../core/services/property.service';
 import { ResponseDomain, DomainKind } from '../responsedomain/responsedomain.classes';
 import { UserService } from '../core/services/user.service';
-import { IEntityEditAudit, ElementKind, HEADER_DETAILS, ActionKind, IPageSearch } from '../shared/classes';
+import {IEntityEditAudit, ElementKind, HEADER_DETAILS, ActionKind, IPageSearch, PageSearch} from '../shared/classes';
 import { Factory } from '../shared/classes/factory';
 
 declare var Materialize: any;
@@ -35,8 +35,8 @@ export class TemplateComponent implements OnDestroy, AfterContentChecked {
   private refreshCount = 0;
 
 
-  constructor( private route: ActivatedRoute,  private  messages: QddtMessageService, private service: UserService,
-    private properties: QddtPropertyStoreService ) {
+  constructor(private route: ActivatedRoute, private  messages: MessageService, private service: UserService,
+              private properties: PropertyStoreService ) {
     this.route.url.pipe(
     takeWhile(() => this.alive))
     .subscribe((event) => {
@@ -90,7 +90,8 @@ export class TemplateComponent implements OnDestroy, AfterContentChecked {
       }
       if (this.showForm ) {
         this.refreshCount = 0;
-        const page: IPageSearch =  this.properties.get(this.path);
+        console.log('onToggleForm');
+        const page =  this.properties.get(this.path) as IPageSearch;
         this.newItem = Factory.createInstance(this.kind);
         if (page.kind === ElementKind.RESPONSEDOMAIN) {
           (this.newItem as ResponseDomain).setResponseKind(DomainKind[page.keys.get('ResponseKind')]);
@@ -103,4 +104,7 @@ export class TemplateComponent implements OnDestroy, AfterContentChecked {
     this.alive = false;
   }
 
+  // private getPageSearch(): IPageSearch {
+  //   return (this.properties.get(this.path) || new PageSearch( { kind: ElementKind.RESPONSEDOMAIN } ) ) as IPageSearch;
+  // }
 }

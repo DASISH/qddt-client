@@ -1,4 +1,4 @@
-import { Agency } from '../core/services/user.service';
+import { Agency } from '../core/classes/index';
 
 
 export interface IAuthority {

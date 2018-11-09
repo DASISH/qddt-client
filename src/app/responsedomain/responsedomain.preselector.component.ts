@@ -1,6 +1,6 @@
 import { Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import { QddtMessageService } from '../core/services/message.service';
-import { QddtPropertyStoreService } from '../core/services/property.service';
+import { MessageService } from '../core/services/message.service';
+import { PropertyStoreService } from '../core/services/property.service';
 import { DOMAIN_TYPE_DESCRIPTION, DomainKind } from './responsedomain.classes';
 import { ActionKind, ElementKind, Page, IPageSearch, PageSearch} from '../shared/classes';
 
@@ -40,7 +40,7 @@ export class ResponsePreSelector implements  OnInit {
   private readonly KEY = 'ResponseKind';
   private readonly path = 'responsedomains';
 
-  constructor(private  messages: QddtMessageService, private properties: QddtPropertyStoreService ) { }
+  constructor(private  messages: MessageService, private properties: PropertyStoreService ) { }
 
   ngOnInit(): void {
     const kind: string = this.getPageSearch().keys.get(this.KEY);

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { QddtMessageService } from '../../core/services/message.service';
+import { MessageService } from '../../core/services/message.service';
 import { IEntityEditAudit, IRevisionRef } from '../classes/interfaces';
 
 @Component({
@@ -21,7 +21,7 @@ export class VersionLabelComponent  {
   @Input() element: IEntityEditAudit;
 
 
-  constructor( private message: QddtMessageService) { }
+  constructor( private message: MessageService) { }
 
 
   onClick() {

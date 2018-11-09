@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { QddtMessageService } from '../../core/services/message.service';
+import { MessageService } from '../../core/services/message.service';
 import { ElementKind } from '../classes/enums';
 
 @Component({
@@ -12,7 +12,7 @@ export class ConceptrefComponent  {
 
   private showRefs = false;
 
-  constructor(private  message: QddtMessageService) {
+  constructor(private  message: MessageService) {
   }
 
   onClickStudy(id: string) {

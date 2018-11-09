@@ -1,8 +1,7 @@
 import { Inject, Injectable} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { API_BASE_HREF } from '../api';
 import { Observable} from 'rxjs';
-import { UserService } from '../core/services/user.service';
+import { API_BASE_HREF } from '../api';
 import {
   ActionKind,
   ElementKind,
@@ -14,7 +13,7 @@ import {
   IPageSearch,
   IRevisionResult
 } from '../shared/classes';
-import {forEach} from '@angular/router/src/utils/collection';
+import {UserService} from '../core/services/user.service';
 
 @Injectable()
 export class TemplateService {

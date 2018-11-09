@@ -8,7 +8,7 @@ import { ElementEnumAware, PreviewService } from '../../preview/preview.service'
 import { UserService } from '../../core/services/user.service';
 import { DomainKind } from '../../responsedomain/responsedomain.classes';
 import { ElementKind, getQueryInfo, IEntityEditAudit, IPageSearch, QueryInfo, ActionKind } from '../classes';
-import { QddtMessageService } from '../../core/services/message.service';
+import { MessageService } from '../../core/services/message.service';
 
 const filesaver = require('file-saver');
 declare var $;
@@ -52,7 +52,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   public fieldNames;
   public placeholder: string;
 
-  constructor(private previewService: PreviewService, public access: UserService, public message: QddtMessageService ) {
+  constructor(private previewService: PreviewService, public access: UserService, public message: MessageService ) {
     this.searchKeysChange.pipe(
       debounceTime(300),
       distinctUntilChanged())

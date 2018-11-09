@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { QddtPropertyStoreService } from '../services/property.service';
+import { PropertyStoreService } from '../services/property.service';
 
 declare var Materialize: any;
 declare var $;
@@ -9,13 +9,13 @@ declare var $;
   selector: 'qddt-useroption',
   templateUrl: './useroption.component.html'
 })
-export class QddtUserOptionComponent {
+export class UserOptionComponent {
 
 
   public formId = Math.round( Math.random() * 10000);
   public items = [ { name: 'pageSize', type: 'number' }, { name: 'email', type: 'email' } ];
 
-  constructor(private router: Router, public qddtProperty: QddtPropertyStoreService) {
+  constructor(private router: Router, public qddtProperty: PropertyStoreService) {
     $(document).ready(function() {
       $('.modal').modal({
         ready: () => {

@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { CanActivate, CanActivateChild,
          Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { UserService } from './user.service';
-import {QddtPropertyStoreService} from './property.service';
+import { PropertyStoreService } from './property.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild  {
 
-  constructor(private authService: UserService, private router: Router, private property: QddtPropertyStoreService) {
+  constructor(private authService: UserService, private router: Router, private property: PropertyStoreService) {
     console.log('AuthGuard created');
   }
 

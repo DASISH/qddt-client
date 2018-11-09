@@ -2,11 +2,10 @@ import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject} from 'rxjs/internal/BehaviorSubject';
 
-import { QddtPropertyStoreService  } from '../core/services/property.service';
-import { UserService } from '../core/services/user.service';
 import { TemplateService } from '../template/template.service';
 import { ActionKind, ElementKind, StringIsNumber} from '../shared/classes';
-import { HIERARCHY_POSITION } from '../core/classes/UserSettings';
+import { PropertyStoreService, UserService} from '../core/services';
+import { HierarchyPosition} from '../core/classes';
 
 
 declare var $: any;
@@ -26,7 +25,7 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   public username;
   public elementKindRef = ElementKind;
 
-  constructor(private userService: UserService, public property: QddtPropertyStoreService,
+  constructor(private userService: UserService, public property: PropertyStoreService,
       private router: Router, private service: TemplateService) {
     this.username = this.getUserName();
     this.isLoggedIn$ = userService.loggedIn;
@@ -131,18 +130,18 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private clearStudy() {
     this.clearTopic();
-    this.property.pathClear(HIERARCHY_POSITION.Study);
+    this.property.pathClear(HierarchyPosition.Study);
     this.property.set('study', null);
   }
 
   private clearTopic() {
     this.clearConcept();
-    this.property.pathClear(HIERARCHY_POSITION.Topic);
+    this.property.pathClear(HierarchyPosition.Topic);
     this.property.set('topic', null);
   }
 
   private clearConcept() {
-    this.property.pathClear(HIERARCHY_POSITION.Concept);
+    this.property.pathClear(HierarchyPosition.Concept);
     this.property.set('concept', null);
   }
 

@@ -1,8 +1,8 @@
-import { Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PublicationService } from './publication.service';
 import { PublicationStatus } from './publication.classes';
 import { ActionKind, IPageSearch, ElementKind, PageSearch,  } from '../shared/classes';
-import { QddtMessageService, QddtPropertyStoreService } from '../core';
+import { MessageService, PropertyStoreService} from '../core/services';
 
 
 @Component({
@@ -27,7 +27,7 @@ export class PublicationPreselectorComponent implements OnInit {
   private readonly path = 'publications';
   private readonly KEY = 'publishedKind';
 
-  constructor(private  messages: QddtMessageService, private properties: QddtPropertyStoreService,
+  constructor(private  messages: MessageService, private properties: PropertyStoreService,
               private service: PublicationService) { }
 
    ngOnInit(): void {

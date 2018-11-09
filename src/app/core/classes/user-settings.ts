@@ -1,16 +1,11 @@
+import {HierarchyPosition} from './hierarchy-position';
 
-export enum HIERARCHY_POSITION {
-  Survey,
-  Study,
-  Topic,
-  Concept
-}
 
 export class UserSettings {
   pageSize = 10;
   url = '/home';
   email = 'review@example.org';
-  hierarchyPosition = HIERARCHY_POSITION.Survey;
+  hierarchyPosition = HierarchyPosition.Survey;
 
   constructor(values: Object = {}) {
     Object.assign(this, values);

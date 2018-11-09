@@ -1,6 +1,8 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {ResetPassword, UserService} from '../services/user.service';
 import { Router } from '@angular/router';
+
+import { UserService } from '../services/user.service';
+import { Password } from '../classes';
 
 declare var Materialize: any;
 declare var $;
@@ -24,7 +26,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   login() {
     this.loading = true;
-    this.authenticationService.signIn(new ResetPassword(this.formData)).then(
+    this.authenticationService.signIn(new Password(this.formData)).then(
       () => {
         $('#pwRef').removeClass('invalid');
         $('#modalLogin').modal('close'); },

@@ -61,7 +61,6 @@ export class QuestionConstruct implements IEntityAudit {
 
 }
 
-
 export class SequenceConstruct implements IEntityAudit {
   id: string;
   name: string;

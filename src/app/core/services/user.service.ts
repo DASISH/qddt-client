@@ -4,37 +4,9 @@ import { HttpClient } from '@angular/common/http';
 import { Observable ,  BehaviorSubject } from 'rxjs';
 import { API_BASE_HREF } from '../../api';
 import { IAuthority, UserJson } from '../../user/user.classes';
-import { ActionKind, ElementKind } from '../../shared/classes/enums';
-import { User } from '../classes/user';
-import { AuthorityKind } from '../classes/authority';
-import { QddtPropertyStoreService } from './property.service';
-import {Resolve} from '@angular/router';
-
-export const TOKEN_NAME = 'jwt_token';
-
-export class Agency  {
-  id: string;
-  name: string;
-}
-
-export class ResetPassword implements IPassword {
-  id: string;
-  password: string;
-  oldPassword?: string;
-  confirm?: string;
-
-  public constructor(init?: Partial<IPassword>) {
-    Object.assign(this, init);
-  }
-
-}
-
-export interface IPassword {
-  id: string;
-  password: string;
-  oldPassword?: string;
-  confirm?: string;
-}
+import { ActionKind, ElementKind } from '../../shared/classes';
+import { PropertyStoreService } from './property.service';
+import { Agency, AuthorityKind, IPassword, TOKEN_NAME, User} from '../classes';
 
 /**
  * UserService uses JSON-Web-Token authorization strategy.
@@ -47,6 +19,7 @@ export class UserService {
   public static readonly RESET_PWD_URL = 'user/resetpassword';
   public static readonly UPDATE_URL = 'user';
   public static readonly AUTHORITY_URL = 'authority/all';
+
   private static readonly AGENCIES = 'AGENCIES';
   private static readonly AUTHORITIES = 'AUTHORITIES';
 
@@ -55,8 +28,7 @@ export class UserService {
   private user: User;
   private roles: number;
 
-
-  constructor(private http: HttpClient,  @Inject(API_BASE_HREF) private api: string, private property: QddtPropertyStoreService) {
+  constructor(private http: HttpClient,  @Inject(API_BASE_HREF) private api: string, private property: PropertyStoreService) {
     if (this.isTokenExpired()) {
       this.logout();
     } else {
@@ -65,7 +37,7 @@ export class UserService {
   }
 
   public canDo(action: ActionKind, kind: ElementKind): boolean {
-
+    console.log('canDo -> Action:' + ActionKind[action] + ' Kind:' + ElementKind[kind]);
     function canRead(roles: number) {
       if (kind === ElementKind.UNIVERSE) {
         console.log('canRead false ' + kind);

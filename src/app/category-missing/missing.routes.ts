@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from '../core';
 import { MissingComponent } from './missing.component';
 import { MissingDetailComponent } from './missing.detail.component';
 import { TemplateListComponent } from '../template/template-list.component';
+import { AuthGuard } from '../core/services';
 
 
 export const missingRoutes: Routes = [

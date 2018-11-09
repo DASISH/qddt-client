@@ -16,7 +16,7 @@ import { Category } from '../lookups/category/category.classes';
 import { Page } from '../shared/classes/classes';
 import { ActionKind, ElementKind} from '../shared/classes/enums';
 import { IElement, IPageSearch} from '../shared/classes/interfaces';
-import { QddtPropertyStoreService } from '../core/services/property.service';
+import { PropertyStoreService } from '../core/services/property.service';
 
 declare let Materialize: any;
 
@@ -46,7 +46,7 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy {
   private pageSearch: IPageSearch;
   private ok = true;
 
-  constructor(private service: TemplateService, private properties: QddtPropertyStoreService) {
+  constructor(private service: TemplateService, private properties: PropertyStoreService) {
 
     this.selectedCategoryIndex = 0;
     this.numberOfAnchors = 0;

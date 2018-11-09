@@ -2,10 +2,10 @@ import {  Component, OnInit, AfterContentChecked } from '@angular/core';
 import {  Router } from '@angular/router';
 import { HomeService } from '../home.service';
 import { TemplateService } from '../../template/template.service';
-import { QddtPropertyStoreService } from '../../core/services/property.service';
 import { Study, SurveyProgram } from '../home.classes';
 import { ActionKind, ElementKind } from '../../shared/classes';
-import {HIERARCHY_POSITION} from '../../core/classes/UserSettings';
+import {PropertyStoreService} from '../../core/services';
+import {HierarchyPosition} from '../../core/classes';
 
 const filesaver = require('file-saver');
 declare var Materialize: any;
@@ -25,7 +25,7 @@ export class StudyComponent implements OnInit, AfterContentChecked {
   public revision: any;
   refreshCount = 0;
 
-  constructor(  private router: Router, private property: QddtPropertyStoreService,
+  constructor(  private router: Router, private property: PropertyStoreService,
                 private studyService: HomeService, private service: TemplateService) {
 
     this.readonly = !service.can(ActionKind.Create, ElementKind.STUDY );
@@ -38,7 +38,7 @@ export class StudyComponent implements OnInit, AfterContentChecked {
     if (surveyProgram) {
       this.survey = surveyProgram;
     } else {
-      const parentId = surveyProgram.id || this.property.menuPath[HIERARCHY_POSITION.Survey].id;
+      const parentId = surveyProgram.id || this.property.menuPath[HierarchyPosition.Survey].id;
       this.studyService.getStudyBySurvey(parentId).then(result => this.survey = result);
     }
   }
@@ -59,7 +59,7 @@ export class StudyComponent implements OnInit, AfterContentChecked {
     }
 
     this.property.set('study', study);
-    this.property.setCurrentMenu(HIERARCHY_POSITION.Study, { id: study.id, name:  study.name });
+    this.property.setCurrentMenu(HierarchyPosition.Study, { id: study.id, name:  study.name });
     this.router.navigate(['topic']);
   }
   //

@@ -1,11 +1,11 @@
 import { Component,  OnInit, AfterContentChecked } from '@angular/core';
 import { Router } from '@angular/router';
-import { QddtPropertyStoreService } from '../../core/services/property.service';
 import { HomeService } from '../home.service';
 import { SurveyProgram } from '../home.classes';
 import { TemplateService } from '../../template/template.service';
 import { ActionKind, ElementKind } from '../../shared/classes';
-import { HIERARCHY_POSITION } from '../../core/classes/UserSettings';
+import {PropertyStoreService} from '../../core/services';
+import {HierarchyPosition} from '../../core/classes';
 
 const filesaver = require('file-saver');
 declare var Materialize: any;
@@ -24,7 +24,7 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
   refreshCount = 0;
 
   constructor(private surveyService: HomeService, private service: TemplateService,
-                private router: Router, private property: QddtPropertyStoreService) {
+                private router: Router, private property: PropertyStoreService) {
     this.newSurvey = new SurveyProgram();
     this.readonly = !service.can(ActionKind.Create, ElementKind.SURVEY_PROGRAM);
   }
@@ -66,7 +66,7 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
 
   onShowStudy(surveyProgram: any) {
     this.property.set('survey', surveyProgram);
-    this.property.setCurrentMenu(HIERARCHY_POSITION.Survey, { id: surveyProgram.id , name: surveyProgram.name });
+    this.property.setCurrentMenu(HierarchyPosition.Survey, { id: surveyProgram.id , name: surveyProgram.name });
     this.router.navigate(['study']);
   }
 

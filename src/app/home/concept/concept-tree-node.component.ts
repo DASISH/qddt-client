@@ -1,9 +1,9 @@
-import {Component, Input, Output, EventEmitter, AfterContentChecked } from '@angular/core';
-import { QuestionItem } from '../../question/question.classes';
-import { Concept} from '../home.classes';
-import { QddtMessageService } from '../../core/services/message.service';
+import { AfterContentChecked, Component, EventEmitter, Input, Output} from '@angular/core';
+import { QuestionItem} from '../../question/question.classes';
+import { Concept } from '../home.classes';
 import { HomeService} from '../home.service';
-import { ElementKind, IRevisionRef } from '../../shared/classes';
+import { ActionKind, ElementKind, IRevisionRef} from '../../shared/classes';
+import { MessageService, UserService} from '../../core/services';
 
 const filesaver = require('file-saver');
 declare var Materialize: any;
@@ -25,9 +25,12 @@ export class TreeNodeComponent implements AfterContentChecked {
   public showbutton = false;
   public newchild: any;
 
+  public canCreate = this.userService.canDo(ActionKind.Create, ElementKind.CONCEPT);
+  public canUpdate = this.userService.canDo(ActionKind.Update, ElementKind.CONCEPT);
+  public canDelete  = this.userService.canDo(ActionKind.Delete, ElementKind.CONCEPT);
   private refreshCount = 0;
 
-  constructor(private conceptService: HomeService, private message: QddtMessageService) {
+  constructor(private conceptService: HomeService, private message: MessageService, public userService: UserService) {
     this.newchild = new Concept();
   }
 

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit} from '@angular/core';
 import { MaterializeAction } from 'angular2-materialize';
-import { QddtPropertyStoreService } from '../../core/services/property.service';
+import { PropertyStoreService } from '../../core/services/property.service';
 import { ElementKind, ActionKind } from '../../shared/classes';
 import { Concept, Topic } from '../home.classes';
 import { HomeService } from '../home.service';
@@ -28,7 +28,7 @@ export class ConceptComponent implements OnInit {
 
   refreshCount = 0;
 
-  constructor(private property: QddtPropertyStoreService, private conceptService: HomeService, private service: TemplateService ) {
+  constructor(private property: PropertyStoreService, private conceptService: HomeService, private service: TemplateService ) {
     this.readonly = !service.can(ActionKind.Create, ElementKind.CONCEPT );
     this.concept = new Concept();
    }

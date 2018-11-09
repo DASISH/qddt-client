@@ -1,6 +1,6 @@
 import { Component, Input,  OnChanges } from '@angular/core';
 import { RevisionService } from './revision.service';
-import { QddtMessageService } from '../../core/services/message.service';
+import { MessageService } from '../../core/services/message.service';
 import { DEFAULT_CONFIG, LIST_CONFIG, RevisionConfig } from './revision-config';
 import { DomainKind, ResponseDomain } from '../../responsedomain/responsedomain.classes';
 import { IElement, IEntityAudit } from '../classes/interfaces';
@@ -21,7 +21,7 @@ export class RevisionComponent implements OnChanges {
   public selectRevisionId: number;
   public showProgressBar = false;
 
-  constructor(private service: RevisionService, private message: QddtMessageService) {
+  constructor(private service: RevisionService, private message: MessageService) {
     this.selectRevisionId = -1;
   }
 

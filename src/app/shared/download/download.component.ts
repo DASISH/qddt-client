@@ -11,8 +11,8 @@ const filesaver = require('file-saver');
   styles: [
     '.collection {border:none; }',
     ':host /deep/ .col { padding-top: 0.5rem;}',
-    '.collection.with-header .collection-item { margin-bottom:0px ;border-bottom: none; padding: 0 10px 0 15px; }',
-    '.collection.with-header .collection-header { border-bottom: none; padding: 0px; background-color: unset; }',
+    '.collection.with-header .collection-item { margin-bottom:0px ;border-bottom: none; padding: 3px 3px 3px 15px; }',
+    '.collection.with-header .collection-header { border-bottom: none; padding: 3px 3px 3px 15px; ; background-color: unset; }',
     '.collection .collection-item { background-color: unset; }',
   ],
 })
@@ -23,7 +23,7 @@ export class QddtDownload implements OnChanges {
 
   public showbutton = false;
   public showUploadFileForm = false;
-  public toDeleteFiles: File[] = [];
+  // public toDeleteFiles: File[] = [];
   public label = '';
 
   constructor(private service: TemplateService) {
@@ -34,7 +34,7 @@ export class QddtDownload implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['entity'].currentValue) {
-      this.label = (this.entity['otherMaterials']) ? 'External aid & Exports' : 'Exports ';
+      this.label = (this.entity.otherMaterials) ? 'External aid & Exports' : 'Exports ';
     }
     // try { Materialize.updateTextFields(); } catch (Exception) { }
   }
@@ -71,13 +71,9 @@ export class QddtDownload implements OnChanges {
     this.showUploadFileForm = false;
   }
 
-  onMarkForDeletetion(idx: number) {
-    if (this.entity['otherMaterials']
-      && this.entity['otherMaterials'].length > idx) {
-      const items = this.entity['otherMaterials'].splice(idx, 1);
-      // if (items.length > 0) {
-      //   this.toDeleteFiles.push(items[0]);
-      // }
+  onMarkForDeletion(idx: number) {
+    if (this.entity.otherMaterials && this.entity.otherMaterials.length > idx) {
+      this.entity.otherMaterials.splice(idx, 1);
     }
   }
 

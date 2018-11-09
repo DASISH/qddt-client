@@ -4,8 +4,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TemplateService } from './template.service';
 
-import { QddtMessageService } from '../core/services/message.service';
-import { QddtPropertyStoreService } from '../core/services/property.service';
+import { MessageService } from '../core/services/message.service';
+import { PropertyStoreService } from '../core/services/property.service';
 import { DomainKind } from '../responsedomain/responsedomain.classes';
 import { IEntityAudit, IPageSearch, ElementKind, HEADER_DETAILS, ActionKind, Page, PageSearch } from '../shared/classes';
 
@@ -30,7 +30,7 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
   private kind: ElementKind;
 
   constructor(private service: TemplateService, private router: Router, private route: ActivatedRoute,
-              private messages: QddtMessageService, private properties: QddtPropertyStoreService ) {
+              private messages: MessageService, private properties: PropertyStoreService ) {
 
     this.route.url.pipe(
       takeWhile(() => this.alive),

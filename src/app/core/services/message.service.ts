@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable ,  Subject } from 'rxjs';
-import { IDetailAction, IElement, IIdRef, IRevisionRef } from '../../shared/classes/interfaces';
+import { IDetailAction, IElement, IIdRef, IRevisionRef } from '../../shared/classes';
 
 
 @Injectable()
-export class QddtMessageService {
+export class MessageService {
     private subject = new Subject<IIdRef|IRevisionRef|IElement>();
 
     private action = new Subject<IDetailAction>();

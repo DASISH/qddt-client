@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from '../core';
 import {ChangeLogComponent} from './changelog.component';
 import {TemplateListComponent} from '../template/template-list.component';
 import {ChangeLogDetailComponent} from './changelog.detail.component';
+import {AuthGuard} from '../core/services';
 
 
 export const changelogRoutes: Routes = [
