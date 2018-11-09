@@ -1,13 +1,18 @@
-import {Agency, User} from '../core/classes/index';
+import {ElementKind} from '../shared/classes';
+import {User} from '../core/classes';
 
 
 export class ChangeLogJson {
-
-  id: string;
-  name: string;
-  agency: Agency;
-  modified: number;
-  modifiedBy: User;
+  changeFeedKey?: {};
+  elementId?: string;
+  elementKind?: ElementKind;
+  elementRevision?: number;
+  modifiedBy?: User;
+  modified?: number;
+  name: String;
+  refAction?: number;
+  refChangeKind?: any;
+  refKind?: String;
 
   public constructor(init?: Partial<ChangeLogJson>) {
     Object.assign(this, init);

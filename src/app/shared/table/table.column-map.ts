@@ -57,6 +57,25 @@ export const USER_COLUMNS = [
   new Column( { name: ['agency', 'name'], label: 'Agency', sortable: true })
 ];
 
+export const CHANGE_LOG_COLUMNS = [
+  new Column( { name: 'name', label: 'Name', sortable: true }),
+  new Column( { name: 'modified',  label: 'Modified', sortable: true, direction: 'desc' }),
+  new Column( { name: ['modifiedBy', 'name'],  label: 'ModifiedBy', sortable: false }),
+  new Column( { name: 'refAction',  label: 'refAction', sortable: true}),
+  new Column( { name: 'refKind',  label: 'refKind', sortable: true }),
+  new Column( { name: 'refChangeKind',  label: 'refChangeKind', sortable: true }),
+  ];
+//   changeFeedKey?: {};
+// elementId?: string;
+// elementKind?: ElementKind;
+// elementRevision?: number;
+// modifiedBy?: User;
+// name: String;
+// refAction?: number;
+// ?: any;
+// ?: String;
+// ?: number;];
+
 const SCALE =  [
     new Column( { label: 'Scale Domain Name', name: 'name', sortable: true} ),
     new Column( { label: 'Description', name: 'description', sortable: true} ),
@@ -114,6 +133,7 @@ export const LIST_COLUMNS: Map<ElementKind, Column[]>  = new Map([
   [ElementKind.PUBLICATION, PUBLICATION_COLUMNS.concat(DEFAULT_COLUMNS) ],
   [ElementKind.UNIVERSE, LOOKUP_COLUMNS.concat(DEFAULT_COLUMNS) ],
   [ElementKind.INSTRUCTION, LOOKUP_COLUMNS.concat(DEFAULT_COLUMNS) ],
-  [ElementKind.USER, USER_COLUMNS ]
+  [ElementKind.USER, USER_COLUMNS ],
+  [ElementKind.CHANGE_LOG, CHANGE_LOG_COLUMNS ],
 ]);
 
