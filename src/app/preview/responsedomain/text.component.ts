@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { ResponseDomain } from '../../responsedomain/responsedomain.classes';
-import { Category } from '../../lookups/category/category.classes';
+import { ResponseDomain } from '../../modules/responsedomain/responsedomain.classes';
+import { Category } from '../../modules/category/category.classes';
 
 @Component({
   selector: 'qddt-preview-rd-text',

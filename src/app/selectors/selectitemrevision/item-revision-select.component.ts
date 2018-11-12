@@ -1,7 +1,7 @@
 import { Component, OnChanges, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
-import { ElementRevisionRef} from '../../shared/classes/classes';
-import { IEntityAudit, IRevisionResultEntity, IRevisionRef, IElement} from '../../shared/classes/interfaces';
-import { ElementKind } from '../../shared/classes/enums';
+import { ElementRevisionRef} from '../../classes/classes';
+import { IEntityAudit, IRevisionResultEntity, IRevisionRef, IElement} from '../../classes/interfaces';
+import { ElementKind } from '../../classes/enums';
 import { ElementEnumAware } from '../../preview/preview.service';
 
 @Component({

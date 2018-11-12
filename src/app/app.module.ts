@@ -8,40 +8,38 @@ import { environment } from '../environments/environment';
 import { routing } from './app.routes';
 import { AppComponent } from './app.component';
 import { PreviewModule } from './preview/preview.module';
-import { SharedModule } from './shared/shared.module';
-import { HomeModule } from './home/home.module';
-import { CoreModule } from './core/core.module';
-import { MenuModule } from './menu/menu.module';
-import { QuestionModule } from './question/question.module';
-import { MissingModule } from './category-missing/missing.module';
-import { ResponsedomainModule } from './responsedomain/responsedomain.module';
-import { QuestionConstructModule } from './construct-question/question-construct.module';
+import { ComponentsModule } from './components/components.module';
+import { HomeModule } from './modules/home/home.module';
+import { CoreModule } from './modules/core/core.module';
+import { MenuModule } from './modules/menu/menu.module';
+import { QuestionModule } from './modules/question/question.module';
+import { MissingModule } from './modules/category-missing/missing.module';
+import { ResponsedomainModule } from './modules/responsedomain/responsedomain.module';
+import { QuestionConstructModule } from './modules/construct-question/question-construct.module';
 import { ControlConstructModule } from './controlconstruct/controlconstruct.module';
-import { SequenceModule } from './construct-sequence/sequence-construct.module';
-import { InstrumentModule } from './instrument/instrument.module';
-import { PublicationModule } from './publication/publication.module';
-import { TemplateModule } from './template/template.module';
+import { SequenceModule } from './modules/construct-sequence/sequence-construct.module';
+import { InstrumentModule } from './modules/instrument/instrument.module';
+import { PublicationModule } from './modules/publication/publication.module';
 import { SelectorDialogsModule } from './selectors-dialog/selectors-dialog.module';
-import { UserModule } from './user/user.module';
+import { UserModule } from './modules/user/user.module';
 
-import { UniverseModule } from './lookups/universe/universe.module';
-import { InstructionModule } from './lookups/instruction/instruction.module';
-import { CategoryModule } from './lookups/category/category.module';
-import { DialogModule } from './dialog/dialog.module';
+import { UniverseModule } from './modules/universe/universe.module';
+import { InstructionModule } from './modules/instruction/instruction.module';
+import { CategoryModule } from './modules/category/category.module';
+import { DialogModule } from './modules/dialog/dialog.module';
 
-import { TemplateService } from './template/template.service';
-import { PageNotFoundComponent } from './core/pagenotfound/page-not-found.component';
-import { TokenInterceptor } from './core/interceptor/token.interceptor';
-import { ErrorLogService } from './core/services/error-log.service';
-import { GlobalErrorHandler } from './core/services/error-handler.service';
-import {ChangeLogModule} from './changelog/changelog.module';
+
+import { ChangeLogModule } from './modules/changelog/changelog.module';
+import { TemplateService } from './components/template';
+import {PageNotFoundComponent} from './modules/core/pagenotfound/page-not-found.component';
+import {ErrorLogService, GlobalErrorHandler, TokenInterceptor} from './modules/core/services';
 
 
 @NgModule({
-  imports: [ BrowserModule, HttpClientModule, SharedModule, CoreModule, HomeModule, MenuModule, SelectorDialogsModule, DialogModule,
+  imports: [ BrowserModule, HttpClientModule, ComponentsModule, CoreModule, HomeModule, MenuModule, SelectorDialogsModule, DialogModule,
     CategoryModule,  ResponsedomainModule, QuestionModule, ControlConstructModule, PreviewModule, MissingModule, UniverseModule,
     ChangeLogModule, InstructionModule, InstrumentModule,
-    PublicationModule, TemplateModule, QuestionConstructModule, SequenceModule, UserModule, routing ],
+    PublicationModule, QuestionConstructModule, SequenceModule, UserModule, routing ],
 
     declarations: [ AppComponent, PageNotFoundComponent ],
 

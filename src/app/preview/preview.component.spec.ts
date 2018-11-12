@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
 import { PreviewComponent } from './preview.component';
-import {PublicationService} from '../publication/publication.service';
+import {PublicationService} from '../modules/publication/publication.service';
 
 export function main() {
   describe('Publication preview component', () => {

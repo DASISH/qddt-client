@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { QuestionItem } from '../../question/question.classes';
+import { QuestionItem } from '../../modules/question/question.classes';
 
 @Component({
   selector: 'qddt-preview-questionitem',

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ElementEnumAware, PreviewService } from './preview.service';
-import { ElementKind, IEntityAudit} from '../shared/classes';
+import { ElementKind, IEntityAudit} from '../classes';
 
 const filesaver = require('file-saver');
 

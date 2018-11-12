@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
 import {StatementEditComponent} from './statementconstruct.edit.component';
-import { TemplateService } from '../../template/template.service';
+import { TemplateService } from '../../components/template/template.service';
 
 export function main() {
   describe('statement edit component', () => {

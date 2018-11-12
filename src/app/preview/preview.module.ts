@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { SharedModule } from '../shared/shared.module';
+import { ComponentsModule } from '../components/components.module';
 import { ResponsedomainCodeListComponent } from './responsedomain/codelist.component';
 import { ResponsedomainDatetimeComponent } from './responsedomain/datetime.component';
 import { ResponsedomainMissingComponent } from './responsedomain/missing.component';
@@ -30,7 +30,7 @@ import { PreviewService } from './preview.service';
 import { PreviewPublicationComponent } from './publication/preview.publication.component';
 
 @NgModule({
-  imports: [ SharedModule ],
+  imports: [ ComponentsModule ],
 
   declarations: [PreviewConceptComponent, PreviewConceptListComponent, PreviewConditionConstructComponent,
     PreviewControlConstructComponent, PreviewQuestionConstructComponent,

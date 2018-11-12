@@ -1,5 +1,5 @@
-import { QuestionItem } from '../question/question.classes';
-import { ElementKind, ElementRevisionRef, IEntityAudit, IOtherMaterial} from '../shared/classes';
+import { QuestionItem } from '../modules/question/question.classes';
+import { ElementKind, ElementRevisionRef, IEntityAudit, IOtherMaterial} from '../classes';
 
 export enum SequenceKind {
   NA,

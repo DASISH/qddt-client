@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { QuestionItem } from '../../question/question.classes';
-import { Category } from '../../lookups/category/category.classes';
+import { QuestionItem } from '../../modules/question/question.classes';
+import { Category } from '../../modules/category/category.classes';
 
 @Component({
   selector: 'qddt-preview-questionitem-grid',

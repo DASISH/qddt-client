@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ConditionCommand, ConditionConstruct} from '../controlconstruct.classes';
-import { TemplateService } from '../../template/template.service';
-import { ElementKind, Page} from '../../shared/classes';
+import { TemplateService } from '../../components/template/template.service';
+import { ElementKind, Page} from '../../classes';
 
 @Component({
   selector: 'qddt-condition-edit',
