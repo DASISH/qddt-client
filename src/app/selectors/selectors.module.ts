@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { SharedModule } from '../shared/shared.module';
+import { ComponentsModule } from '../components/components.module';
 import { PreviewModule } from '../preview/preview.module';
 import { CollectionSearchSelectComponent } from './searchcollection/collection-search-select.component';
 import { RevisionSelectComponent } from './selectrevision/revision-select.component';
@@ -8,7 +8,7 @@ import { ItemRevisionSelectComponent } from './selectitemrevision/item-revision-
 
 
 @NgModule({
-  imports: [ SharedModule, PreviewModule],
+  imports: [ ComponentsModule, PreviewModule],
   declarations: [ ItemRevisionSelectComponent, CollectionSearchSelectComponent,
     RevisionSelectComponent, CollectionSearchRevisionSelectComponent,
   ],

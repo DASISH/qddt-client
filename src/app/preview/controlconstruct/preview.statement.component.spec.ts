@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
 import { PreviewStatementConstructComponent } from './preview.statement.component';
+import {StatementConstruct} from '../../classes';
 
 export function main() {
   describe('Statement preview component', () => {
@@ -38,7 +39,7 @@ export function main() {
           .compileComponents()
           .then(() => {
             const fixture = TestBed.createComponent(PreviewStatementConstructComponent);
-            fixture.componentInstance.statement = {'description': 'test'};
+            fixture.componentInstance.statement = new StatementConstruct( {'statement': 'test'} );
             fixture.detectChanges();
             fixture.whenStable().then(() => {
               expect(fixture.componentInstance.text).toBe('test');

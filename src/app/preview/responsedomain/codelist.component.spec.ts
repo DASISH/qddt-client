@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import { ResponsedomainCodeListComponent } from './codelist.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
 import { MaterializeModule } from 'angular2-materialize';
 
 export function main() {
@@ -17,7 +16,7 @@ export function main() {
         ],
         imports: [CommonModule, FormsModule, MaterializeModule]
       });
-      //Mock debounceTime
+      // Mock debounceTime
       // Observable.prototype.debounceTime = function () { return this; };
     });
 

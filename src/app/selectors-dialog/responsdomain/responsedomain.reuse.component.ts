@@ -2,9 +2,9 @@ import { debounceTime, distinctUntilChanged, filter} from 'rxjs/operators';
 import { Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import { MaterializeAction} from 'angular2-materialize';
 import { Subject} from 'rxjs';
-import { TemplateService} from '../../template/template.service';
-import { DOMAIN_TYPE_DESCRIPTION, DomainKind, ResponseDomain} from '../../responsedomain/responsedomain.classes';
-import { ElementKind, ElementRevisionRef, IElement, IPageSearch, Page} from '../../shared/classes';
+import { TemplateService} from '../../components/template/template.service';
+import { DOMAIN_TYPE_DESCRIPTION, DomainKind, ResponseDomain} from '../../modules/responsedomain/responsedomain.classes';
+import { ElementKind, ElementRevisionRef, IElement, IPageSearch, Page} from '../../classes';
 
 @Component({
   selector: 'qddt-responsedomain-reuse',

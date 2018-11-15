@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { StatementConstruct } from '../../controlconstruct/controlconstruct.classes';
+import {StatementConstruct} from '../../classes';
 
 @Component({
   selector: 'qddt-preview-statementconstruct',

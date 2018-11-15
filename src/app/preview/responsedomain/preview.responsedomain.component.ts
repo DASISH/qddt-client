@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { ResponseDomain, DomainKind } from '../../responsedomain/responsedomain.classes';
-import { Category, ResponseCardinality } from '../../lookups/category/category.classes';
+import { ResponseDomain, DomainKind } from '../../modules/responsedomain/responsedomain.classes';
+import { Category, ResponseCardinality } from '../../modules/category/category.classes';
 
 @Component({
   selector: 'qddt-preview-responsedomain',

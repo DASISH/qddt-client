@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
 import { PreviewConditionConstructComponent } from './preview.condition.component';
-import { ConditionConstruct } from '../../controlconstruct/controlconstruct.classes';
+import {ConditionConstruct} from '../../classes';
 
 export function main() {
   describe('Condition preview component', () => {

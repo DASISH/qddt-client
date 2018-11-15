@@ -1,5 +1,5 @@
 import { Component, OnChanges, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
-import {ElementKind, ElementRevisionRef, getQueryInfo, IEntityEditAudit } from '../../shared/classes';
+import {ElementKind, ElementRevisionRef, getQueryInfo, IEntityEditAudit } from '../../classes';
 
 
 @Component({

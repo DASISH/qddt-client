@@ -4,8 +4,6 @@ import { By } from '@angular/platform-browser';
 import { ResponsedomainNumericComponent } from './numeric.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { MaterializeModule } from 'angular2-materialize';
 
 export function main() {
   describe('Responsedomain numeric component', () => {
@@ -15,9 +13,9 @@ export function main() {
         declarations: [ResponsedomainNumericComponent],
         providers: [
         ],
-        imports: [CommonModule, FormsModule, MaterializeModule]
+        imports: [CommonModule, FormsModule]
       });
-      //Mock debounceTime
+      // Mock debounceTime
       // Observable.prototype.debounceTime = function () { return this; };
     });
 

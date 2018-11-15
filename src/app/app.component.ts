@@ -1,8 +1,6 @@
 import { Component, ViewEncapsulation, OnDestroy  } from '@angular/core';
-import { UserService } from './core/services/user.service';
-import { QddtPropertyStoreService } from './core/services/property.service';
-import { QddtMessageService } from './core/services/message.service';
-import { IElement, IIdRef, IRevisionRef } from './shared/classes';
+import { IElement, IIdRef, IRevisionRef } from './classes';
+import { MessageService, PropertyStoreService, UserService} from './modules/core/services';
 
 // declare var $: any;
 
@@ -21,8 +19,8 @@ export class AppComponent  implements OnDestroy {
 
   private subscription;
 
-  constructor(private users: UserService, private  properties: QddtPropertyStoreService,
-              private messages: QddtMessageService ) {
+  constructor(private users: UserService, private  properties: PropertyStoreService,
+              private messages: MessageService ) {
 
     this.subscription = this.messages.getMessage()
       .subscribe((message) => this.showMessage(message));

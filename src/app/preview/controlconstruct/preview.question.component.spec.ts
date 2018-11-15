@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
 import { PreviewQuestionConstructComponent } from './preview.question.component';
 import {PreviewResponsedomainComponent} from '../responsedomain/preview.responsedomain.component';
+import {QuestionConstruct} from '../../classes';
 
 export function main() {
   describe('Control Construct preview component', () => {
@@ -42,7 +43,7 @@ export function main() {
           .compileComponents()
           .then(() => {
             const fixture = TestBed.createComponent(PreviewQuestionConstructComponent);
-            fixture.componentInstance.controlConstruct = {'name': 'test'};
+            fixture.componentInstance.controlConstruct =  new QuestionConstruct( {'name': 'test'});
             fixture.detectChanges();
             fixture.whenStable().then(() => {
               const de: any = fixture.debugElement.queryAll(By.css('textarea'));

@@ -1,9 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { PreviewService } from '../preview.service';
-import { QddtMessageService } from '../../core/services/message.service';
-import { Topic } from '../../home/home.classes';
-import { ElementKind } from '../../shared/classes/enums';
-import { IOtherMaterial } from '../../shared/classes/interfaces';
+import { ElementKind, IOtherMaterial, Topic} from '../../classes';
+import { MessageService} from '../../modules/core/services';
 
 const filesaver = require('file-saver');
 
@@ -18,7 +16,7 @@ const filesaver = require('file-saver');
 export class PreviewTopicComponent {
   @Input() topic: Topic;
 
-  constructor(private service: PreviewService, private  message: QddtMessageService) {
+  constructor(private service: PreviewService, private  message: MessageService) {
   }
 
   onClickStudy(id: string) {

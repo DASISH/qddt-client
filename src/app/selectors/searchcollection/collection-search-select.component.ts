@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output, ChangeDetectionStrategy, AfterViewInit, SimpleChanges, OnChanges} from '@angular/core';
 import { ElementEnumAware } from '../../preview/preview.service';
-import { ElementKind, getElementKind, getQueryInfo, IElement, IEntityAudit, QueryInfo} from '../../shared/classes';
-import { Factory } from '../../shared/classes/factory';
+import { ElementKind, getElementKind, getQueryInfo, IElement, IEntityAudit, QueryInfo} from '../../classes';
+import { Factory } from '../../classes/factory';
 
 @Component({
   selector: 'qddt-collection-search-select',

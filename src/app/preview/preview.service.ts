@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_BASE_HREF } from '../api';
-import { ElementKind, getQueryInfo, IEntityEditAudit, IOtherMaterial} from '../shared/classes';
+import { ElementKind, getQueryInfo, IEntityEditAudit, IOtherMaterial} from '../classes';
 
 export function ElementEnumAware(constructor: Function) {
   constructor.prototype.ElementKind = ElementKind;

@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, Output, ChangeDetectionStrategy, OnChanges, SimpleChanges, AfterViewInit} from '@angular/core';
 import { ElementEnumAware } from '../../preview/preview.service';
-import { QddtMessageService } from '../../core/services/message.service';
 import {
   ElementKind,
   ElementRevisionRef, getQueryInfo,
@@ -9,7 +8,8 @@ import {
   IRevisionRef,
   IRevisionResultEntity,
   QueryInfo
-} from '../../shared/classes';
+} from '../../classes';
+import {MessageService} from '../../modules/core/services';
 
 @Component({
   selector: 'qddt-collection-revision-search-select',
@@ -39,7 +39,7 @@ export class CollectionSearchRevisionSelectComponent implements OnChanges, After
 
   private queryInfo: QueryInfo;
 
-  constructor( private message: QddtMessageService) { }
+  constructor( private message: MessageService) { }
 
   ngAfterViewInit() {
     this.queryInfo = getQueryInfo(this.kind);

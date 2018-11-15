@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Concept } from '../../home/home.classes';
+import {Concept} from '../../classes';
 
 @Component({
   selector: 'qddt-preview-concept-list',

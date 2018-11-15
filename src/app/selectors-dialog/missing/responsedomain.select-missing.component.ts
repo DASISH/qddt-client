@@ -3,12 +3,12 @@ import {filter, distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import {Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges} from '@angular/core';
 import { Subject } from 'rxjs';
 import { MaterializeAction } from 'angular2-materialize';
-import { ElementRevisionRef, Page } from '../../shared/classes/classes';
-import { ElementKind } from '../../shared/classes/enums';
-import { IPageSearch, IElement } from '../../shared/classes/interfaces';
-import { TemplateService } from '../../template/template.service';
-import { ResponseDomain, makeMixed } from '../../responsedomain/responsedomain.classes';
-import { Category } from '../../lookups/category/category.classes';
+import { ElementRevisionRef, Page } from '../../classes/classes';
+import { ElementKind } from '../../classes/enums';
+import { IPageSearch, IElement } from '../../classes/interfaces';
+import { TemplateService } from '../../components/template/template.service';
+import { ResponseDomain, makeMixed } from '../../modules/responsedomain/responsedomain.classes';
+import { Category } from '../../modules/category/category.classes';
 
 
 @Component({
