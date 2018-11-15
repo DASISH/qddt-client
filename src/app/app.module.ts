@@ -12,11 +12,12 @@ import { ComponentsModule } from './components/components.module';
 import { HomeModule } from './modules/home/home.module';
 import { CoreModule } from './modules/core/core.module';
 import { MenuModule } from './modules/menu/menu.module';
-import { QuestionModule } from './modules/question/question.module';
 import { MissingModule } from './modules/category-missing/missing.module';
 import { ResponsedomainModule } from './modules/responsedomain/responsedomain.module';
 import { QuestionConstructModule } from './modules/construct-question/question-construct.module';
+import { ControlConstructModule } from './modules/controlconstruct/controlconstruct.module';
 import { SequenceModule } from './modules/construct-sequence/sequence-construct.module';
+import { QuestionModule } from './modules/question/question.module';
 import { InstrumentModule } from './modules/instrument/instrument.module';
 import { PublicationModule } from './modules/publication/publication.module';
 import { SelectorDialogsModule } from './selectors-dialog/selectors-dialog.module';
@@ -29,10 +30,9 @@ import { DialogModule } from './modules/dialog/dialog.module';
 
 
 import { ChangeLogModule } from './modules/changelog/changelog.module';
+import { PageNotFoundComponent} from './modules/core/pagenotfound/page-not-found.component';
+import { ErrorLogService, GlobalErrorHandler, TokenInterceptor} from './modules/core/services';
 import { TemplateService } from './components/template';
-import {PageNotFoundComponent} from './modules/core/pagenotfound/page-not-found.component';
-import {ErrorLogService, GlobalErrorHandler, TokenInterceptor} from './modules/core/services';
-import {ControlConstructModule} from './modules/controlconstruct/controlconstruct.module';
 
 
 @NgModule({

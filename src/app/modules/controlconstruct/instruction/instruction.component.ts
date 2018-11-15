@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { Instruction } from '../controlconstruct.classes';
-import { TemplateService } from '../../components/template/template.service';
-import { ElementKind } from '../../classes';
+import { Instruction } from '../../../classes/controlconstruct.classes';
+import {ElementKind} from '../../../classes';
+import {TemplateService} from '../../../components/template';
 
 @Component({
   selector: 'qddt-instruction-create',

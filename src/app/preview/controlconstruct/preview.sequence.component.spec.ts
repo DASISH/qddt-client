@@ -8,7 +8,7 @@ import { PreviewSequenceConstructComponent } from './preview.sequence.component'
 import { PreviewConditionConstructComponent } from './preview.condition.component';
 import { PreviewStatementConstructComponent } from './preview.statement.component';
 import {PreviewControlConstructComponent} from './preview.controlconstruct.component';
-import { SequenceConstruct } from '../../controlconstruct/controlconstruct.classes';
+import {SequenceConstruct} from '../../classes';
 
 export function main() {
   describe('Sequence preview component', () => {
@@ -34,7 +34,7 @@ export function main() {
           .then(() => {
             const fixture = TestBed.createComponent(PreviewSequenceConstructComponent);
             fixture.detectChanges();
-            expect(fixture.componentInstance.sequence).toBe(null);
+            expect(fixture.componentInstance.sequenceConstruct).toBe(null);
           });
       }));
 
@@ -44,10 +44,10 @@ export function main() {
           .compileComponents()
           .then(() => {
             const fixture = TestBed.createComponent(PreviewSequenceConstructComponent);
-            fixture.componentInstance.sequence = new SequenceConstruct( {'description': 'test'});
+            fixture.componentInstance.sequenceConstruct = new SequenceConstruct( {'description': 'test'});
             fixture.detectChanges();
             fixture.whenStable().then(() => {
-              expect(fixture.componentInstance.sequence.description).toBe('test');
+              expect(fixture.componentInstance.sequenceConstruct.description).toBe('test');
             });
           });
       }));

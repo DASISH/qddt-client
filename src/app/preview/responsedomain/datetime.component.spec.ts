@@ -4,8 +4,6 @@ import { By } from '@angular/platform-browser';
 import { ResponsedomainDatetimeComponent } from './datetime.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { MaterializeModule } from 'angular2-materialize';
 
 export function main() {
   describe('Responsedomain datetime component', () => {
@@ -15,9 +13,9 @@ export function main() {
         declarations: [ResponsedomainDatetimeComponent],
         providers: [
         ],
-        imports: [CommonModule, FormsModule, MaterializeModule]
+        imports: [CommonModule, FormsModule]
       });
-      //Mock debounceTime
+      // Mock debounceTime
       // Observable.prototype.debounceTime = function () { return this; };
     });
 

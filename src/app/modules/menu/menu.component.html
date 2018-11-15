@@ -71,11 +71,11 @@
           </li>
           <li>
             <ul class="collapsible collapsible-accordion">
-              <li class="active">
+              <li >
                 <a class="collapsible-header waves-effect waves-teal teal-text" >Lookups<i class="material-icons">more_horiz</i></a>
                 <div class="collapsible-body ">
                   <ul>
-                    <li><a class="teal-text waves-effect waves-teal" [routerLink]="['/changelog']" tabindex="0">
+                    <li><a class="teal-text waves-effect waves-teal active" [routerLink]="['/changelog']" tabindex="0">
                       <i class="material-icons teal-text left medium">timeline</i>Change Feed</a>
                     </li>
                     <li *ngIf="canSee[elementKindRef.UNIVERSE]"><a class="teal-text waves-effect waves-teal" [routerLink]="['/universes']" tabindex="0">

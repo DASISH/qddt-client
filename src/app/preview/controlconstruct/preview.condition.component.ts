@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {ConditionConstruct} from '../../controlconstruct/controlconstruct.classes';
+import {ConditionConstruct} from '../../classes';
 
 @Component({
   selector: 'qddt-preview-conditionconstruct',

@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
 import { PublicationService } from '../../modules/publication/publication.service';
+import {QuestionItem} from '../../modules/question/question.classes';
 
 export function main() {
   describe('Publication questionitem preview component', () => {
@@ -44,18 +45,18 @@ export function main() {
           .compileComponents()
           .then(() => {
             const fixture = TestBed.createComponent(PreviewQuestionitemComponent);
-            const element: any = {
+            const element =  new QuestionItem({
                 'id' : '7f000101-54aa-131e-8154-aa27fc230000',
-                'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
+                'modified' : 132424312421,
                 'name' : 'one questionitem',
                 'description' : 'one questionitem',
-                'question': {'question': 'test'},
+                'question': 'test',
                 'basedOnObject' : null,
                 'basedOnRevision' : null,
                 'version' : {'major' : 6, 'minor' : 0, 'versionLabel' : '', 'revision' : null },
                 'changeKind' : 'CONCEPTUAL',
                 'changeComment' : 'Information added'
-            };
+            });
             fixture.componentInstance.questionItem = element;
             fixture.detectChanges();
             fixture.whenStable().then(() => {

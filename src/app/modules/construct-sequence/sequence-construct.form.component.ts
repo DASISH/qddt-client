@@ -1,5 +1,4 @@
 import { Component, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { SequenceKind, SequenceConstruct} from '../../controlconstruct/controlconstruct.classes';
 import {
   ActionKind,
   ElementKind,
@@ -7,7 +6,7 @@ import {
   EnumItem,
   IElement,
   IEntityEditAudit,
-  IRevisionRef, Page, StringIsNumber
+  IRevisionRef, Page, SequenceConstruct, SequenceKind, StringIsNumber
 } from '../../classes';
 import {TemplateService} from '../../components/template';
 

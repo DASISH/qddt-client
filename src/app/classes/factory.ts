@@ -7,7 +7,7 @@ import {
   QuestionConstruct,
   SequenceConstruct,
   StatementConstruct, Universe
-} from '../controlconstruct/controlconstruct.classes';
+} from './controlconstruct.classes';
 import { Category, CategoryKind} from '../modules/category/category.classes';
 import { ResponseDomain } from '../modules/responsedomain/responsedomain.classes';
 import { QuestionItem } from '../modules/question/question.classes';

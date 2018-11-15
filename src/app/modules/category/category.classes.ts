@@ -45,8 +45,8 @@ export class ResponseCardinality {
 }
 
 export class Code {
-  codeValue = 'text-left';
-  alignment = '0';
+  codeValue = '0';
+  alignment = 'text-left';
   public constructor(init?: Partial<Code>) {
     Object.assign(this, init);
   }
@@ -67,6 +67,7 @@ export class Category implements IEntityEditAudit {
   format?: any;
   changeKind?: string;
   version?: IVersion;
+
   public constructor(init?: Partial<Category>) {
     Object.assign(this, init);
     if (this.name && !this.label) {
@@ -80,7 +81,7 @@ export class Category implements IEntityEditAudit {
     this.description =  CATEGORY_INFO[kind].description;
     this.hierarchyLevel = HierachyLevel[CATEGORY_INFO[kind].level];
     this.categoryType = CategoryKind[kind];
-    if (kind.valueOf() < CategoryKind.CATEGORY.valueOf()) {
+    if (kind.valueOf() <= CategoryKind.CATEGORY) {
       this.code = new Code( { alignment: 'select', codeValue: '1' });
     }
     return this;

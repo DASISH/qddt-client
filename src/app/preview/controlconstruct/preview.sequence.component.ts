@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { SequenceConstruct } from '../../controlconstruct/controlconstruct.classes';
 import { PreviewService } from '../preview.service';
-import { ElementRevisionRef, getElementKind } from '../../classes';
+import {ElementRevisionRef, getElementKind, SequenceConstruct} from '../../classes';
 
 @Component({
   selector: 'qddt-preview-sequenceconstruct',

@@ -1,7 +1,16 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { QuestionItem } from '../question/question.classes';
-import { Instruction, Universe, QuestionConstruct } from '../../controlconstruct/controlconstruct.classes';
-import {ActionKind, ElementKind, ElementRevisionRef, IElement, IRevisionRef, IRevisionResult, Page} from '../../classes';
+import {
+  ActionKind,
+  ElementKind,
+  ElementRevisionRef,
+  IElement,
+  Instruction,
+  IRevisionRef,
+  IRevisionResult,
+  Page,
+  QuestionConstruct, Universe
+} from '../../classes';
 import {TemplateService} from '../../components/template';
 
 

@@ -1,10 +1,8 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ResetpasswordComponent } from './modules/core/resetpassword/resetpassword.component';
-import { LoginComponent } from './modules/core/login/login.component';
-import { UserOptionComponent } from './modules/core/useroption/useroption.component';
-import { PageNotFoundComponent } from './modules/core/pagenotfound/page-not-found.component';
 import { AuthGuard } from './modules/core/services';
+import { LoginComponent, ResetpasswordComponent, UserOptionComponent } from './modules/core';
+import { PageNotFoundComponent } from './modules/core/pagenotfound/page-not-found.component';
 
 
 

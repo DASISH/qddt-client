@@ -12,9 +12,9 @@
         <label for="pwRef">Password</label>
       </div>
       <div class="row">
+        <qddt-spinner *ngIf="loading" ></qddt-spinner>
         <button [disabled]="f.invalid || loading" class="btn btn-primary waves-effect right" (click)="f.onSubmit()">Login</button>
       </div>
     </form>
-    <qddt-spinner *ngIf="loading" ></qddt-spinner>
-  </div>  
+  </div>
 </div>

@@ -1,8 +1,14 @@
 import { Component, Input } from '@angular/core';
-import { TemplateService } from '../../components/template/template.service';
-import { InstrumentSequence } from './instrument.classes';
-import { SequenceConstruct } from '../../controlconstruct/controlconstruct.classes';
-import { ElementKind, IPageSearch, Page, IElement, IRevisionRef, ElementRevisionRef, HEADER_DETAILS } from '../../classes/index';
+import { HEADER_DETAILS,
+  ElementKind,
+  ElementRevisionRef,
+  IElement,
+  IPageSearch,
+  IRevisionRef,
+  Page,
+  SequenceConstruct} from '../../classes';
+import { InstrumentSequence} from './instrument.classes';
+import { TemplateService} from '../../components/template';
 
 
 @Component({
