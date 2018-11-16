@@ -22,9 +22,5 @@ export class PreviewPublicationComponent  {
     }
   }
 
-  // public getQueryInfo2(element: ElementKind): QueryInfo {
-  //   return getQueryInfo(element);
-  // }
-
 
 }

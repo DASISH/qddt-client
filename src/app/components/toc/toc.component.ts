@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'qddt-toc',

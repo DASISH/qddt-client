@@ -1,12 +1,14 @@
 import { Component, Input } from '@angular/core';
-import { HEADER_DETAILS,
+import {
+  HEADER_DETAILS,
   ElementKind,
   ElementRevisionRef,
   IElement,
   IPageSearch,
   IRevisionRef,
   Page,
-  SequenceConstruct} from '../../classes';
+  SequenceConstruct, getElementKind
+} from '../../classes';
 import { InstrumentSequence} from './instrument.classes';
 import { TemplateService} from '../../components/template';
 
@@ -40,7 +42,7 @@ export class InstrumentSequenceComponent  {
 
   public onRevisonSearch(ref: IRevisionRef) {
     this.showProgressBar = true;
-    const kind =  this.service.getElementKind(ref.elementKind);
+    const kind =  getElementKind(ref.elementKind);
     this.service.getRevisionsByKind( kind, ref.elementId).then(
       (result) => { this.revisionResults =
         result.content.sort((e1, e2) => e2.revisionNumber - e1.revisionNumber);
@@ -72,7 +74,7 @@ export class InstrumentSequenceComponent  {
     sequences.forEach((item) => {
       if (!item.elementRef.element && !this.isSequence(item.elementRef.elementKind)) {
         this.service.getRevisionByKind(
-          this.service.getElementKind(item.elementRef.elementKind),
+          getElementKind(item.elementRef.elementKind),
           item.elementRef.elementId,
           item.elementRef.elementRevision )
         .then((result) => {
@@ -86,11 +88,11 @@ export class InstrumentSequenceComponent  {
   }
 
   public isSequence(kind: ElementKind|string): boolean {
-    return this.service.getElementKind(kind) === this.SEQUENCE;
+    return getElementKind(kind) === this.SEQUENCE;
   }
 
   public getIcon(kind: ElementKind|string) {
-    const item = Array.from(HEADER_DETAILS.values()).find(e => e.kind === this.service.getElementKind(kind));
+    const item = Array.from(HEADER_DETAILS.values()).find(e => e.kind === getElementKind(kind));
     return item ? item.icon : 'help';
   }
 }

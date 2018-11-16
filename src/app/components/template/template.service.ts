@@ -4,7 +4,7 @@ import { Observable} from 'rxjs';
 import { API_BASE_HREF } from '../../api';
 import {
   ActionKind,
-  ElementKind,
+  ElementKind, getElementKind,
   getQueryInfo,
   IEntityAudit,
   IEntityEditAudit,
@@ -45,7 +45,6 @@ export class TemplateService {
       }
     }
 
-
     let query = '?' ;
 
     if (queries.length > 0) { query = '?' + queries.join('&'); }
@@ -85,7 +84,7 @@ export class TemplateService {
   }
 
   public update(item: IEntityAudit): Observable<any> {
-    const kind = this.getElementKind(item.classKind);
+    const kind = getElementKind(item.classKind);
     const qe = getQueryInfo(kind);
     let path2 = '';
     if (qe.path === 'controlconstruct' ) { // silly exception to the simple rule
@@ -130,8 +129,8 @@ export class TemplateService {
     return this.userService.canDo(action, kind);
   }
 
-  public getElementKind(kind: string|ElementKind): ElementKind {
-    return (typeof kind === 'string') ?  ElementKind[kind] : kind ;
-  }
+  // public getElementKind(kind: string|ElementKind): ElementKind {
+  //   return (typeof kind === 'string') ?  ElementKind[kind] : kind ;
+  // }
 
 }

@@ -2,11 +2,11 @@ import { ElementKind } from './enums';
 import { QueryInfo } from './classes';
 
 
-export  function getElementKind(kind: string|ElementKind): ElementKind {
+export function getElementKind(kind: string|ElementKind): ElementKind {
   return (typeof kind === 'string') ?  ElementKind[kind] : kind ;
 }
 
-export  function getQueryInfo(kind: string|ElementKind): QueryInfo {
+export function getQueryInfo(kind: string|ElementKind): QueryInfo {
   const key = getElementKind(kind);
   return QDDT_QUERY_INFOES[key];
 }

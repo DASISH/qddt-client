@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject} from 'rxjs/internal/BehaviorSubject';
-import { ActionKind, ElementKind, StringIsNumber} from '../../classes';
+import {ActionKind, ElementKind, getElementKind, StringIsNumber} from '../../classes';
 import { HierarchyPosition} from '../core/classes';
 import { PropertyStoreService, UserService} from '../core/services';
 import { TemplateService} from '../../components/template';
@@ -65,7 +65,7 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
       closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
       draggable: true});
     $('.dropdown-button').dropdown();
-    $(document).ready(function() { $('.collapsible').collapsible(); });
+    $('.collapsible').collapsible();
   }
 
   getEmail(): string {
@@ -146,7 +146,7 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private hasAccess(kind: string|ElementKind): boolean {
-    return this.userService.canDo(ActionKind.Read, this.service.getElementKind(kind));
+    return this.userService.canDo(ActionKind.Read, getElementKind(kind));
   }
 
   private gotoUUID(uuid: string) {
