@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Concept } from '../../../classes';
 
 @Component({
   selector: 'qddt-concept-toc',
@@ -20,6 +21,6 @@ import { Component, Input } from '@angular/core';
 })
 
 export class ConceptTocComponent {
-  @Input() concepts: any;
+  @Input() concepts: Concept[];
   @Input() level: number;
 }

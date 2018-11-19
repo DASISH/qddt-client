@@ -39,11 +39,13 @@ export class ConceptComponent implements OnInit {
     this.concepts = this.property.get('concepts');
     if (!this.concepts) {
       this.showProgressBar = true;
-      this.homeService.getConceptByTopic(parentId).then((result) => {
-        this.concepts = result.content.sort( (a, b) => a.name.localeCompare(b.name));
-        this.property.set('concepts', this.concepts);
-        this.showProgressBar = false;
-      });
+      this.homeService.getConceptByTopic(parentId).then(
+        (result) => {
+          this.concepts = result.content; // .sort( (a, b) => a.name.localeCompare(b.name));
+          this.property.set('concepts', this.concepts);
+        },
+        (error) => { throw error; })
+        .then( () => this.showProgressBar = false );
     }
   }
 
@@ -64,17 +66,18 @@ export class ConceptComponent implements OnInit {
   onNewSave() {
     this.showConceptForm = false;
     this.showProgressBar = true;
-      this.homeService.createConcept(this.concept, this.topic.id)
-      .subscribe((result: any) => {
-            this.onConceptUpdated(result);
-      });
+    this.topic.concepts.push(this.concept);
+      this.homeService.update(this.topic).subscribe(
+        (result) => { this.onConceptUpdated(result); },
+        (error) => { throw error; },
+        () => { this.showProgressBar = false; } );
     this.concept  = new Concept();
   }
 
   onConceptUpdated(concept: any) {
     if (!this.updateConcept(this.concepts, concept)) {
       this.concepts.push(concept);
-      this.concepts = this.concepts.sort( (a, b) => a.name.localeCompare(b.name));
+      // this.concepts = this.concepts.sort( (a, b) => a.name.localeCompare(b.name));
     }
     this.property.set('concepts', this.concepts);
     this.showProgressBar = false;

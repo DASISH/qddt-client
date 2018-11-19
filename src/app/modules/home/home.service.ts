@@ -1,9 +1,9 @@
-import {Inject, Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {ActionKind, ElementKind, getQueryInfo, IEntityAudit, IEntityEditAudit, IOtherMaterial, IPageResult} from '../../classes';
-import {Concept, Study, SurveyProgram, Topic} from '../../classes/home.classes';
-import {UserService} from '../core/services';
+import { Inject, Injectable} from '@angular/core';
+import { HttpClient} from '@angular/common/http';
+import { Observable} from 'rxjs';
+import { ActionKind, ElementKind, getQueryInfo, IEntityAudit, IEntityEditAudit, IOtherMaterial, IPageResult} from '../../classes';
+import { Concept, Study, SurveyProgram, Topic} from '../../classes/home.classes';
+import { UserService} from '../core/services';
 import { API_BASE_HREF } from '../../api';
 
 
@@ -65,9 +65,6 @@ export class HomeService {
     return this.http.post( this.api +  qe.path + '/createfile/', form, { reportProgress: true} );
   }
 
-  getElementKind(kind: string|ElementKind): ElementKind {
-    return (typeof kind === 'string') ?  ElementKind[kind] : kind ;
-  }
 
   getPdf(element: IEntityEditAudit): Promise<Blob> {
     const qe = getQueryInfo(element.classKind);
@@ -97,7 +94,7 @@ export class HomeService {
   }
 
   getConceptByTopic(topicId: string): Promise<IPageResult<Concept>> {
-    return this.http.get<IPageResult<Concept>>(this.api + 'concept/page/by-topicgroup/' + topicId + '?page=0&size=50&sort=asc')
+    return this.http.get<IPageResult<Concept>>(this.api + 'concept/page/by-topicgroup/' + topicId + '?page=0&size=50')
       .toPromise();
   }
 
@@ -126,13 +123,13 @@ export class HomeService {
     return this.http.post(this.api + 'topicgroup/create/' + studyId, topic);
   }
 
-  createConcept(concept: Concept, topicId: string): Observable<any> {
-    return this.http.post(this.api + 'concept/create/by-topicgroup/' + topicId, concept);
-  }
+  // createConcept(concept: Concept, topicId: string): Observable<any> {
+  //   return this.http.post(this.api + 'concept/create/by-topicgroup/' + topicId, concept);
+  // }
 
-  createChildConcept(concept: any, parentId: string): Observable<any> {
-    return this.http.post(this.api + 'concept/create/by-parent/' + parentId, concept);
-  }
+  // createChildConcept(concept: any, parentId: string): Observable<any> {
+  //   return this.http.post(this.api + 'concept/create/by-parent/' + parentId, concept);
+  // }
 
   deleteConcept(conceptId: string): Observable<any> {
     return this.http.delete(this.api + 'concept/delete/' + conceptId , { responseType: 'text'});

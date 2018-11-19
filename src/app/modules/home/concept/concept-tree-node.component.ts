@@ -16,14 +16,14 @@ declare var Materialize: any;
 })
 
 export class TreeNodeComponent implements AfterContentChecked {
-  @Input() concept: any;
+  @Input() concept: Concept;
   @Input() readonly = false;
   @Output() deleteEvent =  new EventEmitter();
   @Output() updatedEvent =  new EventEmitter();
 
   public showConceptChildForm = false;
   public showbutton = false;
-  public newchild: any;
+  public newchild: Concept;
 
   public readonly canCreate = this.conceptService.canDo.get(ElementKind.CONCEPT).get(ActionKind.Create);
   public readonly canUpdate = this.conceptService.canDo.get(ElementKind.CONCEPT).get(ActionKind.Update);
@@ -81,9 +81,10 @@ export class TreeNodeComponent implements AfterContentChecked {
 
   onChildSave() {
     this.showConceptChildForm = false;
-    this.conceptService.createChildConcept(this.newchild, this.concept.id)
+    this.concept.children.push(this.newchild);
+    this.conceptService.update(this.concept)
       .subscribe((result: any) => {
-        this.concept.children.push(result);
+        this.concept = result;
       });
     this.newchild = new Concept();
   }
