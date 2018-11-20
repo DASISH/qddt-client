@@ -1,6 +1,6 @@
 
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { ActionKind, IEntityEditAudit, IOtherMaterial } from '../../classes';
+import {ActionKind, getElementKind, IEntityEditAudit, IOtherMaterial} from '../../classes';
 import { TemplateService } from '../template/template.service';
 
 const filesaver = require('file-saver');
@@ -28,7 +28,7 @@ export class FileDownload implements OnChanges {
 
   constructor(private service: TemplateService) {
     if (!this.readonly) {
-      this.readonly = !this.service.can(ActionKind.Create, service.getElementKind(this.entity.classKind));
+      this.readonly = !this.service.can(ActionKind.Create, getElementKind(this.entity.classKind));
     }
   }
 

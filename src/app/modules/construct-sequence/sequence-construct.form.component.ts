@@ -3,7 +3,7 @@ import {
   ActionKind,
   ElementKind,
   ElementRevisionRef,
-  EnumItem,
+  EnumItem, getElementKind,
   IElement,
   IEntityEditAudit,
   IRevisionRef, Page, SequenceConstruct, SequenceKind, StringIsNumber
@@ -62,7 +62,7 @@ export class SequenceFormComponent implements OnChanges {
   }
 
   public onRevisonSearch(search: IRevisionRef) {
-    const kind = this.service.getElementKind(search.elementKind);
+    const kind = getElementKind(search.elementKind);
     this.service.getRevisionsByKind(kind, search.elementId).then(
       (result) => {
         this.revisionList = result.content;
