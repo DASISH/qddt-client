@@ -8,7 +8,7 @@ export interface IDetailAction {
 }
 
 export interface IMoveTo {
-  before: boolean;
+  index: number;
   target: string;
   source: string;
 }
