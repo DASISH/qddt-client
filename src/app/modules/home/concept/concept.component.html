@@ -45,8 +45,8 @@
       <div *ngIf="showProgressBar" class="progress">
         <div class="indeterminate"></div>
       </div>
-      <div *ngIf="concepts">
-         <qddt-concept-treenode *ngFor="let child of concepts"
+      <div *ngIf="topic.concepts">
+         <qddt-concept-treenode *ngFor="let child of topic.concepts"
             [concept]="child"
             [readonly]="child.archived || readonly"
             (deleteEvent)="onDeleteConcept($event)"
@@ -61,7 +61,7 @@
       <h5>Concept Toc</h5>
       <ul class="section table-of-contents">
         <li><a href="concept#topMenu">To the top </a> </li>
-        <qddt-concept-toc [concepts]="concepts" [level]="0" (conceptMoved)="onMoveConcept($event)"></qddt-concept-toc>
+        <qddt-concept-toc [rootNode]= "topic" [level]="0" (conceptMoved)="onMoveConcept($event)"></qddt-concept-toc>
       </ul>
     </div>
   </div>

@@ -1,5 +1,5 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Concept, IMoveTo } from '../../../classes';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Concept, IMoveTo, Topic } from '../../../classes';
 
 @Component({
   selector: 'qddt-concept-toc',
@@ -7,53 +7,49 @@ import { Concept, IMoveTo } from '../../../classes';
   styles: [
     '.toc-children { padding-left: 20px }',
     'li a:hover:after { content: " (drag me)"; }',
-    'ul.over { border: 2px dashed #000;}',
   ],
   template: `
-    <ul [ngClass]="{ 'toc-children': (level > 0) }" >
-      <li *ngFor="let concept of concepts" draggable="true"
-      (dragstart)="onDragstart($event, concept)"
-      (drop)="onDrop($event, concept.id)"
-      (dragover)="onDragover($event)"
-      (dragleave)="onDragleave($event)">
-        <a *ngIf="concept.name" href="concept#{{concept.id}}">
-          <span *ngIf="level > 0" class=" blue-grey-text" [ngClass]="'text-lighten-' + level">{{ concept.name }}</span>
-          <span *ngIf="level === 0" class=" blue-grey-text" [ngClass]="'text-lighten-' + level"><b>{{ concept.name }}</b></span>
+    <ul *ngIf="children.length" [ngClass]="{ 'toc-children': (level > 0) }"  (drop)="onDrop($event, -1)">
+      <li *ngFor="let concept of children; let idx = index;" draggable="true"
+          (dragstart)="onDragstart($event, concept.id)"
+          (dragover)="onDragover($event)"
+          (dragleave)="onDragleave($event)"
+          (drop)="onDrop($event, idx)">
+        <a href="concept#{{concept.id}}">
+          <span class="teal-text" [ngClass]="'text-lighten-' + level"><b>{{ concept.name }}</b></span>
         </a>
-        <qddt-concept-toc *ngIf="concept.children?.length > 0" [concepts]=concept.children [level]="level+1"></qddt-concept-toc>
+        <qddt-concept-toc
+            [level]="level+1" [rootNode]="conceptClass(concept)" (conceptMoved)="conceptMoved.emit($event)">
+        </qddt-concept-toc>
       </li>
     </ul>
   `
 })
 
 export class ConceptTocComponent {
-  @Input() concepts: Concept[];
+  @Input() rootNode: Topic|Concept;
   @Input() level: number;
   @Output() conceptMoved =  new EventEmitter<IMoveTo>();
 
 
-  private before = false;
-
-  onDragstart(e, element) {
-    console.log('drag ' + element.id);
-
-    e.dataTransfer.effectAllowed = 'move'; // only dropEffect='copy' will be dropable
-    e.dataTransfer.setData('text/plain', element.id); // required otherwise doesn't work
+  onDragstart(event, sourceId) {
+    event.dataTransfer.effectAllowed = 'move'; // only dropEffect='copy' will be dropable
+    event.dataTransfer.setData('text/plain', sourceId); // required otherwise doesn't work
+    event.stopPropagation();
   }
 
-  onDragover(e) {
-    e.dataTransfer.dropEffect = 'move';
-    if (e.preventDefault) { e.preventDefault(); } // allows us to drop
-    const bounding = e.target.getBoundingClientRect();
+  onDragover(event) {
+    event.dataTransfer.dropEffect = 'move';
+    if (event.preventDefault) { event.preventDefault(); } // allows us to drop
+
+    const bounding = event.target.getBoundingClientRect();
     const offset = bounding.y + (bounding.height / 2 );
-    if ( e.clientY - offset > 0 ) {
-        this.before = false;
-        e.target.style['border-bottom'] = 'solid 4px blue';
-        e.target.style['border-top'] = '';
+    if ( event.clientY - offset > 0 ) {
+      event.target.style['border-bottom'] = 'solid 3px blue';
+      event.target.style['border-top'] = '';
     } else {
-      this.before = true;
-      e.target.style['border-top'] = 'solid 4px blue';
-        e.target.style['border-bottom'] = '';
+      event.target.style['border-top'] = 'solid 3px blue';
+      event.target.style['border-bottom'] = '';
     }
     return true;
   }
@@ -63,14 +59,29 @@ export class ConceptTocComponent {
     event.target.style['border-top'] = '';
   }
 
-  onDrop(e, target) {
-    e.target.style['border-bottom'] = '';
-    e.target.style['border-top'] = '';
-    const source = e.dataTransfer.getData('text');
-    e.dataTransfer.clearData();
-    if (e.stopPropagation) { e.stopPropagation(); } // stops the browser from redirecting...why???
-    this.conceptMoved.emit( { before: this.before, target: target, source: source });
+  onDrop(event, index) {
+    event.stopPropagation();
+    event.target.style['border-bottom'] = '';
+    event.target.style['border-top'] = '';
+    const sourceId = event.dataTransfer.getData('text');
+    event.dataTransfer.clearData();
+    console.log(event.currentTarget);
+    console.log(event.target);
+    this.conceptMoved.emit( { target: this.rootNode.id, index: index, source: sourceId } as IMoveTo);
   }
 
+  public get children(): Concept[] {
+    if (this.rootNode instanceof Topic) {
+      return this.rootNode.concepts || [];
+    } else if (this.rootNode instanceof Concept) {
+      return this.rootNode.children || [];
+    } else {
+      return [];
+    }
+  }
+
+  public conceptClass(seed): Concept {
+    return new Concept(seed);
+  }
 
 }

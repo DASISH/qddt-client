@@ -1,9 +1,8 @@
 import { Component, EventEmitter, OnInit} from '@angular/core';
 import { MaterializeAction } from 'angular2-materialize';
-import { Concept, Topic } from '../../../classes/home.classes';
-import { HomeService } from '../home.service';
-import {ActionKind, ElementKind, IMoveTo} from '../../../classes';
-import {PropertyStoreService} from '../../core/services';
+import { ActionKind, Concept, ElementKind, IMoveTo, Topic} from '../../../classes';
+import { HomeService} from '../home.service';
+import { PropertyStoreService} from '../../core/services';
 
 
 @Component({
@@ -21,7 +20,6 @@ export class ConceptComponent implements OnInit {
   public readonly: boolean;
   public toDeletedConcept: any;
   public topic: Topic;
-  public concepts: any;
   public concept: Concept;
 
   refreshCount = 0;
@@ -34,15 +32,15 @@ export class ConceptComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.topic = this.property.get('topic');
-    const parentId = this.topic.id || this.property.parentMenu.id ;
-    this.concepts = this.property.get('concepts');
-    if (!this.concepts) {
+    this.topic = new Topic(this.property.get('topic'));
+    this.topic.id = this.topic.id || this.property.parentMenu.id ;
+    this.topic.concepts = this.property.get('concepts');
+    if (!this.topic.concepts) {
       this.showProgressBar = true;
-      this.homeService.getConceptByTopic(parentId).then(
+      this.homeService.getConceptByTopic(this.topic.id).then(
         (result) => {
-          this.concepts = result.content; // .sort( (a, b) => a.name.localeCompare(b.name));
-          this.property.set('concepts', this.concepts);
+          this.topic.concepts = result.content; // .sort( (a, b) => a.name.localeCompare(b.name));
+          this.property.set('concepts', this.topic.concepts);
         },
         (error) => { throw error; })
         .then( () => this.showProgressBar = false );
@@ -66,7 +64,6 @@ export class ConceptComponent implements OnInit {
   onNewSave() {
     this.showConceptForm = false;
     this.showProgressBar = true;
-    this.topic.concepts.push(this.concept);
       this.homeService.update(this.topic).subscribe(
         (result) => { this.onConceptUpdated(result); },
         (error) => { throw error; },
@@ -76,18 +73,28 @@ export class ConceptComponent implements OnInit {
 
   onMoveConcept(event: IMoveTo) {
     console.log(event);
-    if (event.before) {
-
+    const entity = this.removeConcept(this.topic.concepts, event.source);
+    let target: Concept[];
+    if (event.target === this.topic.id) {
+      target = this.topic.concepts;
+    } else  {
+      target = this.findConcept(this.topic.concepts, event.target).children;
+    }
+    const start  = target.slice(0, event.index) || [];
+    const end    = target.slice(event.index) || [];
+    if (event.target === this.topic.id) {
+      this.topic.concepts = [].concat(start, entity, end);
+    } else  {
+      this.findConcept(this.topic.concepts, event.target).children = [].concat(start, entity, end);
     }
   }
 
-
-  onConceptUpdated(concept: any) {
-    if (!this.updateConcept(this.concepts, concept)) {
-      this.concepts.push(concept);
-      // this.concepts = this.concepts.sort( (a, b) => a.name.localeCompare(b.name));
+  onConceptUpdated(concept: Concept) {
+    if (!this.updateConcept(this.topic.concepts, concept)) {
+      this.topic.concepts.push(concept);
+      // this.topic.concepts = this.topic.concepts.sort( (a, b) => a.name.localeCompare(b.name));
     }
-    this.property.set('concepts', this.concepts);
+    this.property.set('concepts', this.topic.concepts);
     this.showProgressBar = false;
   }
 
@@ -101,8 +108,8 @@ export class ConceptComponent implements OnInit {
       .subscribe(
       (val) => {
         this.confirmDeleteActions.emit({action: 'modal', params: ['close']});
-        this.removeConcept(this.concepts, this.toDeletedConcept.id);
-        this.property.set('concepts', this.concepts);
+        this.removeConcept(this.topic.concepts, this.toDeletedConcept.id);
+        this.property.set('concepts', this.topic.concepts);
       },
       response => { throw response; },
         () => {
@@ -136,6 +143,20 @@ export class ConceptComponent implements OnInit {
       if (concepts[i].id === conceptId) { return concepts.splice(i, 1)[0]; }
       const deleted = this.removeConcept(concepts[i].children, conceptId);
       if (deleted) { return deleted; }
+    }
+    return null;
+  }
+
+  findConcept(concepts: Concept[], conceptId): Concept {
+    let i = -1;
+    while (++i < concepts.length) {
+      if (concepts[i].id === conceptId) {
+        return concepts[i];
+      }
+      const found = this.findConcept(concepts[i].children, conceptId);
+      if (found) {
+        return found;
+      }
     }
     return null;
   }

@@ -50,6 +50,7 @@ export class Study implements IEntityEditAudit {
 export class Topic implements IEntityEditAudit {
   id: string;
   name: string;
+
   description: string;
   archived: boolean;
   authors?: any[];
@@ -61,6 +62,8 @@ export class Topic implements IEntityEditAudit {
   agency?: IEntityAudit;
   basedOnObject?: string;
   basedOnRevision?: number;
+  changeComment?: string;
+  changeKind?: string;
   modified: number;
   modifiedBy?: IUser;
   version: IVersion;
@@ -75,10 +78,12 @@ export class Concept implements IEntityEditAudit {
   name: string;
   label: string;
   description: string;
+  archived: boolean;
   authors: any[];
+  comments: any[];
+
   conceptQuestionItems: ElementRevisionRef[];
   children: Concept[];
-  comments: any[];
   classKind = ElementKind[ElementKind.CONCEPT];
   agency: IEntityAudit;
   basedOnObject?: string;
