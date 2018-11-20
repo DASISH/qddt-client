@@ -7,6 +7,12 @@ export interface IDetailAction {
   object: any;
 }
 
+export interface IMoveTo {
+  before: boolean;
+  target: string;
+  source: string;
+}
+
 export interface IIdRef {
   elementId: string;
   elementKind: ElementKind|string;
