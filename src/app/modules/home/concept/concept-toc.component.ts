@@ -40,7 +40,7 @@ export class ConceptTocComponent {
 
   onDragover(event) {
     event.dataTransfer.dropEffect = 'move';
-    if (event.preventDefault) { event.preventDefault(); } // allows us to drop
+    event.preventDefault();
 
     const bounding = event.target.getBoundingClientRect();
     const offset = bounding.y + (bounding.height / 2 );

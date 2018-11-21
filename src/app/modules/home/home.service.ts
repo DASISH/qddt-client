@@ -107,11 +107,10 @@ export class HomeService {
     return this.http.post(this.api + qe.path + '/copy/' + fromId + '/' + fromRev + '/' + toParentId, {});
   }
 
-  async get<T extends IEntityEditAudit>(id: string): T {
-    const shell = new T();
-    const qe = getQueryInfo(shell.classKind);
-    return await this.http.get(this.api + qe.path + id)
-    .toPromise<T>();
+  async get<T extends IEntityEditAudit>(id: string) {
+    const instanse =  {} as T;
+    const qe = getQueryInfo(instanse.classKind);
+    return  await this.http.get<T>(this.api + qe.path + id).toPromise();
   }
 
   // getConcept(conceptId: string): Promise<any> {

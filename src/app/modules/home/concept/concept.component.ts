@@ -67,7 +67,7 @@ export class ConceptComponent implements OnInit {
         () => { this.showProgressBar = false; } );
   }
 
-  onMoveConcept(event: IMoveTo) {
+  async onMoveConcept(event: IMoveTo) {
     console.log(event);
     const entity = this.removeConcept(this.topic.concepts, event.source);
     let targets: Concept[];
@@ -88,11 +88,12 @@ export class ConceptComponent implements OnInit {
       this.findConcept(this.topic.concepts, event.target).children = targets;
     }
 
-    this.homeService.updateAll<Concept>(this.topic.concepts).subscribe(
-      result => {
-        this.topic = this.homeService.get<Topic>(this.topic.id);
-        this.topic.concepts = result;
-    });
+    const result = await this.homeService.updateAll<Concept>(this.topic.concepts).toPromise();
+    const topic = await this.homeService.get<Topic>(this.topic.id);
+    this.topic = new Topic(topic);
+    console.log(JSON.stringify(topic));
+    console.log(JSON.stringify(this.topic));
+    this.topic.concepts = result;
 
   }
 
