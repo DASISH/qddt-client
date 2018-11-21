@@ -1,11 +1,10 @@
-import {AfterContentChecked, Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import { AfterContentChecked, Component, OnInit} from '@angular/core';
+import { Router} from '@angular/router';
+import { ActionKind, ElementKind, IRevisionRef, Study, Topic} from '../../../classes';
+import { HierarchyPosition} from '../../core/classes';
+import { HomeService} from '../home.service';
+import { MessageService, PropertyStoreService} from '../../core/services';
 
-import {Study, Topic} from '../../../classes/home.classes';
-import {HomeService} from '../home.service';
-import {HierarchyPosition} from '../../core/classes';
-import {MessageService, PropertyStoreService} from '../../core/services';
-import {ActionKind, ElementKind, IRevisionRef} from '../../../classes';
 
 declare var Materialize: any;
 
@@ -55,7 +54,7 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
     console.log(parentId);
     this.topics = this.property.get('topics');
     if (!this.topics) {
-      this.homeService.getTopicByStudy(parentId)
+      this.homeService.getByStudyTopic(parentId)
         .then((result) => {
           this.topics = result.sort( (a, b) => a.name.localeCompare(b.name));
           this.property.set('topics', this.topics);
@@ -106,7 +105,7 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
 
   onNewSave() {
     this.showTopicForm = false;
-    this.homeService.createTopic(this.newTopic, this.study.id)
+    this.homeService.create<Topic>(this.newTopic, this.study.id)
       .subscribe((result: any) => this.onTopicSaved(result));
     this.newTopic  = new Topic();
   }

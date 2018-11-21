@@ -16,9 +16,9 @@
         <qddt-copy-select
           *ngIf="showReuse"
           [parentId]="topic.id"
-          [elementKind]="conceptKind"
+          [elementKind]="CONCEPT"
           (dismissEvent)="showReuse=false;"
-          (itemSelected)="onSelectedRevsion($event)">
+          (itemSelected)="onSelectedRevision($event)">
         </qddt-copy-select>
 
         <div *ngIf="showConceptForm">
@@ -26,16 +26,15 @@
             <div class="col s10 offset-s1">
               <form #hf="ngForm">
                 <div class="row input-field">
-                  <input id="name" name="name" type="text" [(ngModel)]="concept.name" required>
-                  <label for="name" class="white-text">Name</label>
+                  <input id="name" name="name" type="text" ngModel required>
+                  <label class="white-text">Name</label>
                 </div>
                 <div class="row input-field">
-                  <textarea id="description" name="description" class="materialize-textarea"
-                            [(ngModel)]="concept.description" required ></textarea>
-                  <label for="description" class="white-text">Description</label>
+                  <textarea id="description" name="description" class="materialize-textarea" ngModel required ></textarea>
+                  <label class="white-text">Description</label>
                 </div>
                 <div class="row right-align">
-                  <button type="button" (click)="onNewSave()" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
+                  <button type="button" (click)="onNewSave(hf.value)" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
                 </div>
               </form>
             </div>

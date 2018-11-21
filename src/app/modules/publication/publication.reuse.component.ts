@@ -52,7 +52,7 @@ export class PublicationReuseComponent  {
   public onRevisionSearch(item: IRevisionRef ) {
     this.revisionList = null;
     this.showProgressBar = true;
-    this.templateService.getRevisionsByKind( this.selectedElementKind, item.elementId).then(
+    this.templateService.getByKindRevisions( this.selectedElementKind, item.elementId).then(
       (result) => {
         this.revisionList = result.content;
         this.showProgressBar = false;

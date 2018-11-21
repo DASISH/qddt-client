@@ -48,7 +48,7 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterContentC
     this.refreshCount = 0;
     if (this.kind) {
       this.showProgressBar = true;
-      this.service.getItemByKind(this.kind, this.route.snapshot.paramMap.get('id')).then(
+      this.service.getByKindEntity(this.kind, this.route.snapshot.paramMap.get('id')).then(
         (item) => {
             this.action.id = item.id;
             this.item = item;

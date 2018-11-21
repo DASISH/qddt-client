@@ -34,7 +34,7 @@ export class QuestionReuseComponent {
 
   onRevisonSearch(ref: IRevisionRef) {
     this.showProgressBar = true;
-    this.service.getRevisionsByKind( this.QUESTION, ref.elementId).then(
+    this.service.getByKindRevisions( this.QUESTION, ref.elementId).then(
       (result) => { this.revisionResults =
         result.content.sort((e1: any, e2: any) => e2.revisionNumber - e1.revisionNumber);
         this.showProgressBar = false;

@@ -1,11 +1,19 @@
 import { Inject, Injectable} from '@angular/core';
 import { HttpClient} from '@angular/common/http';
 import { Observable} from 'rxjs';
-import { ActionKind, ElementKind, getQueryInfo, IEntityAudit, IEntityEditAudit, IOtherMaterial, IPageResult} from '../../classes';
-import { Concept, Study, SurveyProgram, Topic} from '../../classes/home.classes';
 import { UserService} from '../core/services';
-import { API_BASE_HREF } from '../../api';
-
+import { API_BASE_HREF} from '../../api';
+import {
+  ActionKind,
+  Concept,
+  ElementKind,
+  getQueryInfo,
+  IEntityEditAudit,
+  IOtherMaterial,
+  IPageResult,
+  SurveyProgram,
+  Topic
+} from '../../classes';
 
 
 @Injectable()
@@ -45,7 +53,7 @@ export class HomeService {
     return  Promise.resolve([]);
   }
 
-  getElementByTypeAndName(kind: ElementKind, name: string): Promise<any> {
+  getElementByName(kind: ElementKind, name: string): Promise<any> {
     const qe = getQueryInfo(kind);
     if (qe) {
       return this.http.get(this.api + qe.path + '/page/search/?name=*' + name + '*' ).toPromise();
@@ -53,10 +61,21 @@ export class HomeService {
     return Promise.resolve([]);
   }
 
-  update(item: IEntityAudit): Observable<any> {
+  create<T extends IEntityEditAudit>(item: T, parentId?: string): Observable<T> {
     const qe = getQueryInfo(item.classKind);
-    return this.http.post(this.api + qe.path, item);
+    return this.http.post<T>(this.api + qe.path + '/create/' + parentId, item);
   }
+
+  update<T extends IEntityEditAudit>(item: T): Observable<T> {
+    const qe = getQueryInfo(item.classKind);
+    return this.http.post<T>(this.api + qe.path, item);
+  }
+
+  updateAll <T extends IEntityEditAudit>(items: T[]): Observable<T[]> {
+    const qe = getQueryInfo(items[0].classKind);
+    return this.http.post<T[]>(this.api + qe.path + '/list', items);
+  }
+
 
   updateWithFiles(kind: ElementKind, form: FormData ): Observable<any> {
     const qe = getQueryInfo(kind);
@@ -64,7 +83,6 @@ export class HomeService {
     // return this.http.request(req);
     return this.http.post( this.api +  qe.path + '/createfile/', form, { reportProgress: true} );
   }
-
 
   getPdf(element: IEntityEditAudit): Promise<Blob> {
     const qe = getQueryInfo(element.classKind);
@@ -78,7 +96,7 @@ export class HomeService {
       .toPromise();
   }
 
-  getFile(om: IOtherMaterial): Promise<any> {
+  getFile(om: IOtherMaterial): Promise<Blob> {
     // /files/{root}/{filename}
     return this.http.get(this.api + 'othermaterial/files/' + om.originalOwner + '/' + om.fileName, { responseType: 'blob'})
       .toPromise();
@@ -89,39 +107,46 @@ export class HomeService {
     return this.http.post(this.api + qe.path + '/copy/' + fromId + '/' + fromRev + '/' + toParentId, {});
   }
 
-  getConcept(conceptId: string): Promise<any> {
-    return this.http.get(this.api + 'concept/' + conceptId).toPromise();
+  async get<T extends IEntityEditAudit>(id: string): T {
+    const shell = new T();
+    const qe = getQueryInfo(shell.classKind);
+    return await this.http.get(this.api + qe.path + id)
+    .toPromise<T>();
   }
 
-  getConceptByTopic(topicId: string): Promise<IPageResult<Concept>> {
+  // getConcept(conceptId: string): Promise<any> {
+  //   return this.http.get(this.api + 'concept/' + conceptId).toPromise();
+  // }
+
+  getByTopicConcept(topicId: string): Promise<IPageResult<Concept>> {
     return this.http.get<IPageResult<Concept>>(this.api + 'concept/page/by-topicgroup/' + topicId + '?page=0&size=50')
       .toPromise();
   }
 
-  getTopicByStudy(studyId: string): Promise<Topic[]> {
+  getByStudyTopic(studyId: string): Promise<Topic[]> {
     return this.http.get<Topic[]>(this.api + 'topicgroup/list/by-study/' + studyId).toPromise();
   }
 
-  getStudyBySurvey(surveyProgramId: String): Promise<SurveyProgram> {
+  getBySurveyStudy(surveyProgramId: String): Promise<SurveyProgram> {
     return this.http.get<SurveyProgram>(this.api + 'surveyprogram/' + surveyProgramId).toPromise();
   }
 
-  getSurveyByUser(): Promise<any> {
+  getByUserSurvey(): Promise<any> {
     return this.http.get(this.api + 'surveyprogram/list/by-user')
       .toPromise();
   }
 
-  createSurvey(surveyProgram: SurveyProgram): Observable<any> {
-    return this.http.post(this.api + 'surveyprogram/create', surveyProgram);
-  }
-
-  createStudy(study: Study, surveyProgramId: String): Observable<any>  {
-    return this.http.post(this.api + 'study/create/' + surveyProgramId, study);
-  }
-
-  createTopic(topic: Topic, studyId: string): Observable<any> {
-    return this.http.post(this.api + 'topicgroup/create/' + studyId, topic);
-  }
+  // createSurvey(surveyProgram: SurveyProgram): Observable<any> {
+  //   return this.http.post(this.api + 'surveyprogram/create', surveyProgram);
+  // }
+  //
+  // createStudy(study: Study, surveyProgramId: String): Observable<any>  {
+  //   return this.http.post(this.api + 'study/create/' + surveyProgramId, study);
+  // }
+  //
+  // createTopic(topic: Topic, studyId: string): Observable<any> {
+  //   return this.http.post(this.api + 'topicgroup/create/' + studyId, topic);
+  // }
 
   // createConcept(concept: Concept, topicId: string): Observable<any> {
   //   return this.http.post(this.api + 'concept/create/by-topicgroup/' + topicId, concept);
@@ -131,7 +156,7 @@ export class HomeService {
   //   return this.http.post(this.api + 'concept/create/by-parent/' + parentId, concept);
   // }
 
-  deleteConcept(conceptId: string): Observable<any> {
+  deleteConcept(conceptId: string): Observable<string> {
     return this.http.delete(this.api + 'concept/delete/' + conceptId , { responseType: 'text'});
   }
 
@@ -193,5 +218,6 @@ export class HomeService {
   // deattachStudyAuthor(studyId: string, authorId: string): Observable<any>  {
   //   return this.http.delete(this.api + 'author/decombine?authorId=' + authorId + '&studyId=' + studyId);
   // }
+
 
 }

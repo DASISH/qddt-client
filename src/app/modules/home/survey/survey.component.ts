@@ -28,7 +28,7 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit() {
-      this.homeService.getSurveyByUser().then(
+      this.homeService.getByUserSurvey().then(
         (data: Array<SurveyProgram> ) => this.surveys = data
       );
   }
@@ -42,15 +42,15 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
     }
   }
 
-  onRemoveSurvey(surveyId: any) {
-    if (surveyId) {
-      this.homeService.deleteSurvey(surveyId)
-        .subscribe(() => {
-          this.surveys = this.surveys.filter((s: any) => s.id !== surveyId);
-          this.property.set('surveys', this.surveys);
-        });
-    }
-  }
+  // onRemoveSurvey(surveyId: any) {
+  //   if (surveyId) {
+  //     this.homeService.deleteSurvey(surveyId)
+  //       .subscribe(() => {
+  //         this.surveys = this.surveys.filter((s: any) => s.id !== surveyId);
+  //         this.property.set('surveys', this.surveys);
+  //       });
+  //   }
+  // }
 
   onSurveySaved(surveyProgram: any) {
     if (surveyProgram) {
@@ -69,7 +69,7 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
   }
 
   onSave() {
-    this.homeService.createSurvey(this.newSurvey)
+    this.homeService.create<SurveyProgram>(this.newSurvey, null)
       .subscribe( result => this.onSurveySaved(result) );
     this.newSurvey = new SurveyProgram();
     this.showSurveyForm = false;
@@ -82,11 +82,11 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
       data => { filesaver.saveAs(data, fileName);
       });
   }
-
-  getXml(element: SurveyProgram) {
-    const fileName = element.name + '.xml';
-    this.homeService.getXml(element).then(
-      data => { filesaver.saveAs(data, fileName); }
-    );
-  }
+  //
+  // getXml(element: SurveyProgram) {
+  //   const fileName = element.name + '.xml';
+  //   this.homeService.getXml(element).then(
+  //     data => { filesaver.saveAs(data, fileName); }
+  //   );
+  // }
 }

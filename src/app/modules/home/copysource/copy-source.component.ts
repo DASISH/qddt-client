@@ -25,7 +25,7 @@ export class CopySourceComponent implements OnChanges {
   constructor(private service: HomeService) { }
 
   onItemSearch(item: IElement) {
-    this.service.getElementByTypeAndName(this.elementKind, item.element).then(
+    this.service.getElementByName(this.elementKind, item.element).then(
       (result: any) => { this.items = result.content; }
     );
   }

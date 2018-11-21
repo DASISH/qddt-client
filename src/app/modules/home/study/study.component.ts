@@ -1,10 +1,9 @@
-import {  Component, OnInit, AfterContentChecked } from '@angular/core';
-import {  Router } from '@angular/router';
+import { Component, OnInit, AfterContentChecked } from '@angular/core';
+import { Router } from '@angular/router';
 import { HomeService } from '../home.service';
-import { Study, SurveyProgram } from '../../../classes/home.classes';
-import {PropertyStoreService} from '../../core/services';
-import {HierarchyPosition} from '../../core/classes';
-import {ActionKind, ElementKind} from '../../../classes';
+import { ActionKind, ElementKind, Study, SurveyProgram} from '../../../classes';
+import { HierarchyPosition} from '../../core/classes';
+import { PropertyStoreService} from '../../core/services';
 
 const filesaver = require('file-saver');
 declare var Materialize: any;
@@ -37,7 +36,7 @@ export class StudyComponent implements OnInit, AfterContentChecked {
       this.survey = surveyProgram;
     } else {
       const parentId = surveyProgram.id || this.property.menuPath[HierarchyPosition.Survey].id;
-      this.homeService.getStudyBySurvey(parentId).then(result => this.survey = result);
+      this.homeService.getBySurveyStudy(parentId).then(result => this.survey = result);
     }
   }
 
@@ -69,9 +68,10 @@ export class StudyComponent implements OnInit, AfterContentChecked {
     this.showEditForm = !this.showEditForm;
   }
 
-  onStudySaved(study: any) {
+  onStudySaved(study: Study) {
     if (study) {
       const studies = this.survey.studies.filter((q) => q.id !== study.id);
+      // const studies = this.survey.studies.find((q) => q.id !== study.id);
       studies.push(study);
       this.survey.studies = studies.sort( (a, b) => a.name.localeCompare(b.name));
     }
@@ -79,28 +79,28 @@ export class StudyComponent implements OnInit, AfterContentChecked {
 
   onSaveNewStudy() {
     this.showEditForm = false;
-    this.homeService.createStudy(this.newStudy, this.survey.id)
-      .subscribe((result: any) => {
+    this.homeService.create<Study>(this.newStudy, this.survey.id)
+      .subscribe((result) => {
         this.onStudySaved(result);
     });
     this.newStudy  = new Study();
   }
 
-  getPdf(element: Study) {
-    const fileName = element.name + '.pdf';
-    this.homeService.getPdf(element).then(
+  getPdf(study: Study) {
+    const fileName = study.name + '.pdf';
+    this.homeService.getPdf(study).then(
       (data: any) => {
         filesaver.saveAs(data, fileName);
       });
   }
 
-  getXml(element: Study) {
-    const fileName = element.name + '.xml';
-    this.homeService.getXml(element).then(
-      (data: any) => {
-        filesaver.saveAs(data, fileName);
-      });
-  }
+  // getXml(study: Study) {
+  //   const fileName = study.name + '.xml';
+  //   this.homeService.getXml(study).then(
+  //     (data: any) => {
+  //       filesaver.saveAs(data, fileName);
+  //     });
+  // }
 
   onRemoveStudy(studyId: string) {
     if (studyId) {

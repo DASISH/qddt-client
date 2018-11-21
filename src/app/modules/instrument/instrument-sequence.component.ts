@@ -43,7 +43,7 @@ export class InstrumentSequenceComponent  {
   public onRevisonSearch(ref: IRevisionRef) {
     this.showProgressBar = true;
     const kind =  getElementKind(ref.elementKind);
-    this.service.getRevisionsByKind( kind, ref.elementId).then(
+    this.service.getByKindRevisions( kind, ref.elementId).then(
       (result) => { this.revisionResults =
         result.content.sort((e1, e2) => e2.revisionNumber - e1.revisionNumber);
         this.showProgressBar = false;
@@ -73,7 +73,7 @@ export class InstrumentSequenceComponent  {
   public onOpenBody( sequences: InstrumentSequence[]) {
     sequences.forEach((item) => {
       if (!item.elementRef.element && !this.isSequence(item.elementRef.elementKind)) {
-        this.service.getRevisionByKind(
+        this.service.getByKindRevision(
           getElementKind(item.elementRef.elementKind),
           item.elementRef.elementId,
           item.elementRef.elementRevision )

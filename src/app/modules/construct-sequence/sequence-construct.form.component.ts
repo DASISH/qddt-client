@@ -63,7 +63,7 @@ export class SequenceFormComponent implements OnChanges {
 
   public onRevisonSearch(search: IRevisionRef) {
     const kind = getElementKind(search.elementKind);
-    this.service.getRevisionsByKind(kind, search.elementId).then(
+    this.service.getByKindRevisions(kind, search.elementId).then(
       (result) => {
         this.revisionList = result.content;
       }

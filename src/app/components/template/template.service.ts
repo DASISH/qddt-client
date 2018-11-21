@@ -59,12 +59,12 @@ export class TemplateService {
     return this.http.get<IPageResult<T>>(this.api + qe.path + '/page/search/' + query).toPromise();
   }
 
-  public getItemByKind<T extends IEntityEditAudit>(kind: ElementKind, id: string ): Promise<T> {
+  public getByKindEntity<T extends IEntityEditAudit>(kind: ElementKind, id: string ): Promise<T> {
     const qe = getQueryInfo(kind);
     return this.http.get<T>(this.api + qe.path + '/' + id).toPromise();
   }
 
-  public getRevisionsByKind<T extends IEntityAudit>(kind: ElementKind, id: string): Promise<IPageResult<IRevisionResult<T>>> {
+  public getByKindRevisions<T extends IEntityAudit>(kind: ElementKind, id: string): Promise<IPageResult<IRevisionResult<T>>> {
     const qe = getQueryInfo(kind);
     if (qe) {
       if (kind === ElementKind.CONCEPT || kind === ElementKind.TOPIC_GROUP) {
@@ -78,7 +78,7 @@ export class TemplateService {
     return new Promise(null);
   }
 
-  public getRevisionByKind(kind: ElementKind, id: string, rev: number): Promise<IRevisionResult<IEntityEditAudit>> {
+  public getByKindRevision(kind: ElementKind, id: string, rev: number): Promise<IRevisionResult<IEntityEditAudit>> {
     const qe = getQueryInfo(kind);
     return this.http.get<IRevisionResult<IEntityEditAudit>>(this.api + 'audit/' + qe.path + '/' + id + '/' + rev).toPromise();
   }
@@ -128,9 +128,5 @@ export class TemplateService {
   public can(action: ActionKind, kind: ElementKind): boolean {
     return this.userService.canDo(action, kind);
   }
-
-  // public getElementKind(kind: string|ElementKind): ElementKind {
-  //   return (typeof kind === 'string') ?  ElementKind[kind] : kind ;
-  // }
 
 }

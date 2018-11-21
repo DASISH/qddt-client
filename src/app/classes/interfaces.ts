@@ -81,7 +81,7 @@ export interface IOtherMaterial {
 }
 
 export interface IHeaderDetail {
-  icon: any;
+  icon: string;
   headerName: string;
   kind: ElementKind;
 }

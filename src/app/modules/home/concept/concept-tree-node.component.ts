@@ -25,13 +25,13 @@ export class TreeNodeComponent implements AfterContentChecked {
   public showbutton = false;
   public newchild: Concept;
 
-  public readonly canCreate = this.conceptService.canDo.get(ElementKind.CONCEPT).get(ActionKind.Create);
-  public readonly canUpdate = this.conceptService.canDo.get(ElementKind.CONCEPT).get(ActionKind.Update);
-  public readonly canDelete  = this.conceptService.canDo.get(ElementKind.CONCEPT).get(ActionKind.Delete);
+  public readonly canCreate = this.homeService.canDo.get(ElementKind.CONCEPT).get(ActionKind.Create);
+  public readonly canUpdate = this.homeService.canDo.get(ElementKind.CONCEPT).get(ActionKind.Update);
+  public readonly canDelete  = this.homeService.canDo.get(ElementKind.CONCEPT).get(ActionKind.Delete);
 
   private refreshCount = 0;
 
-  constructor(private conceptService: HomeService, private message: MessageService) {
+  constructor(private homeService: HomeService, private message: MessageService) {
     this.newchild = new Concept();
   }
 
@@ -48,10 +48,7 @@ export class TreeNodeComponent implements AfterContentChecked {
     edit.isVisible = !edit.isVisible;
     if (edit.isVisible) {
       this.refreshCount = 0;
-      this.conceptService.getConcept(this.concept.id).then(
-        (result) => { this.concept = result; },
-        (error) => { throw error; }
-      );
+      this.concept = this.homeService.get<Concept>(this.concept.id);
     }
   }
 
@@ -82,7 +79,7 @@ export class TreeNodeComponent implements AfterContentChecked {
   onChildSave() {
     this.showConceptChildForm = false;
     this.concept.children.push(this.newchild);
-    this.conceptService.update(this.concept)
+    this.homeService.update(this.concept)
       .subscribe((result: any) => {
         this.concept = result;
       });
@@ -90,14 +87,14 @@ export class TreeNodeComponent implements AfterContentChecked {
   }
 
   removeQuestionItem(ref: IRevisionRef) {
-    this.conceptService.deattachConceptQuestion(this.concept.id, ref.elementId , ref.elementRevision)
+    this.homeService.deattachConceptQuestion(this.concept.id, ref.elementId , ref.elementRevision)
       .subscribe((result: any) => {
           this.onConceptSavedEvent(result);
         });
   }
 
   addQuestionItem(ref: IRevisionRef) {
-      this.conceptService.attachConceptQuestion(this.concept.id, ref.elementId, ref.elementRevision)
+      this.homeService.attachConceptQuestion(this.concept.id, ref.elementId, ref.elementRevision)
         .subscribe((result: any) => {
           this.onConceptSavedEvent(result);
         });
@@ -105,7 +102,7 @@ export class TreeNodeComponent implements AfterContentChecked {
 
   getPdf(concept: Concept) {
     const fileName = concept.name + '.pdf';
-    this.conceptService.getPdf(concept).then(
+    this.homeService.getPdf(concept).then(
       (data: any) => {
         filesaver.saveAs(data, fileName);
       });
@@ -113,7 +110,7 @@ export class TreeNodeComponent implements AfterContentChecked {
 
   getXml(concept: Concept) {
     const fileName = concept.name + '.xml';
-    this.conceptService.getXml(concept).then(
+    this.homeService.getXml(concept).then(
       (data: any) => {
         filesaver.saveAs(data, fileName);
       });
