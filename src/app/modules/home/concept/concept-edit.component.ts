@@ -1,13 +1,12 @@
 import { Component, Input, EventEmitter, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { HomeService } from '../home.service';
-import { Concept } from '../../../classes/home.classes';
+import { Concept } from '../../../classes';
 
 declare var $: any;
 
 @Component({
   selector: 'qddt-concept-edit',
-
-  providers: [],
+  providers: [ {provide: 'elementKind', useValue: 'CONCEPT'}, ],
   template: `
 <div *ngIf="concept && isVisible" class="row " id="{{formId}}"  >
   <form (ngSubmit)="save()" #hf="ngForm">
@@ -49,18 +48,16 @@ export class ConceptEditComponent implements OnChanges {
   public readonly formId = Math.round( Math.random() * 10000);
   public showRevision = false;
 
-  constructor(private service: HomeService) { }
+  constructor(private service: HomeService<Concept>) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     $('#' + this.formId + '-desc').trigger('autoresize');
   }
 
   save() {
-    console.log(this.concept.changeKind);
     this.service.update(this.concept)
       .subscribe((result: any) => {
-        this.concept = result;
-        this.conceptSavedEvent.emit(result);
+        this.conceptSavedEvent.emit(this.concept = result);
         this.isVisible = false;
       });
   }

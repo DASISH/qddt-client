@@ -7,7 +7,6 @@ import { ElementEnumAware} from '../../../preview/preview.service';
 
 @Component({
   selector: 'qddt-copy-select',
-
   styles:  [ ],
   templateUrl: './copy-source.component.html',
 })
@@ -22,7 +21,7 @@ export class CopySourceComponent implements OnChanges {
   revisionResults = [];
   className: string;
 
-  constructor(private service: HomeService) { }
+  constructor(private service: HomeService<any>) { }
 
   onItemSearch(item: IElement) {
     this.service.getElementByName(this.elementKind, item.element).then(
@@ -31,7 +30,7 @@ export class CopySourceComponent implements OnChanges {
   }
 
   onRevisonSearch(item: IRevisionRef) {
-    this.service.getRevisionById(this.elementKind, item.elementId).then(
+    this.service.getRevisionsById(this.elementKind, item.elementId).then(
       (result: any) => {
         this.revisionResults = result.content;
     });
@@ -52,7 +51,4 @@ export class CopySourceComponent implements OnChanges {
     this.className = getQueryInfo(this.elementKind).label;
   }
 
-  // getElementClass(kind: ElementKind) {
-  //   return getQueryInfo(kind);
-  // }
 }

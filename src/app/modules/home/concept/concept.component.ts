@@ -7,7 +7,7 @@ import { PropertyStoreService} from '../../core/services';
 
 @Component({
   selector: 'qddt-concept',
-  providers: [],
+  providers: [ {provide: 'elementKind', useValue: 'CONCEPT'}, ],
   templateUrl: './concept.component.html'
 })
 
@@ -23,25 +23,19 @@ export class ConceptComponent implements OnInit {
   public toDeletedConcept: any;
   public topic: Topic;
 
-  constructor(private property: PropertyStoreService, private homeService: HomeService ) {
-    this.readonly = !homeService.canDo.get(ElementKind.CONCEPT).get(ActionKind.Create);
+  constructor(private property: PropertyStoreService, private homeService: HomeService<Concept> ) {
+    this.readonly = !homeService.canDo.get(ActionKind.Create);
    }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.topic = new Topic(this.property.get('topic')) ||
-                 this.homeService.get(this.property.parentMenu.id);
+                 await this.homeService.getExt<Topic>(ElementKind.TOPIC_GROUP, this.property.parentMenu.id);
 
-    this.topic.concepts = this.property.get('concepts');
-    if (!this.topic.concepts) {
-      this.showProgressBar = true;
-      this.homeService.getByTopicConcept(this.topic.id).then(
-        (result) => {
-          this.topic.concepts = result.content;
-          this.property.set('concepts', this.topic.concepts);
-        },
-        (error) => { throw error; })
-        .then( () => this.showProgressBar = false );
-    }
+    this.showProgressBar = true;
+
+    this.topic.concepts = this.property.get('concepts') ||
+      await this.homeService.getPageByParent(this.topic.id).then(
+        () => this.showProgressBar = false);
   }
 
   onToggleConceptForm() {
@@ -61,13 +55,13 @@ export class ConceptComponent implements OnInit {
   onNewSave(newConcept) {
     this.showConceptForm = false;
     this.showProgressBar = true;
-      this.homeService.create<Concept>(new Concept(newConcept), this.topic.id).subscribe(
+      this.homeService.create(new Concept(newConcept), this.topic.id).subscribe(
         (result) => { this.onConceptUpdated(result); },
         (error) => { throw error; },
         () => { this.showProgressBar = false; } );
   }
 
-  onMoveConcept(event: IMoveTo) {
+  async onMoveConcept(event: IMoveTo) {
     console.log(event);
     const entity = this.removeConcept(this.topic.concepts, event.source);
     let targets: Concept[];
@@ -88,11 +82,9 @@ export class ConceptComponent implements OnInit {
       this.findConcept(this.topic.concepts, event.target).children = targets;
     }
 
-    this.homeService.updateAll<Concept>(this.topic.concepts).subscribe(
-      result => {
-        this.topic = this.homeService.get<Topic>(this.topic.id);
-        this.topic.concepts = result;
-    });
+    const result = await this.homeService.updateAll(this.topic.concepts).toPromise();
+    this.topic = await this.homeService.getExt<Topic>(ElementKind.TOPIC_GROUP, this.topic.id);
+    this.topic.concepts = result;
 
   }
 
@@ -110,7 +102,7 @@ export class ConceptComponent implements OnInit {
   }
 
   onConfirmDeleteConcept() {
-    this.homeService.deleteConcept(this.toDeletedConcept.id).subscribe(
+    this.homeService.delete(this.toDeletedConcept.id).subscribe(
       (val) => {
         console.log(val);
         this.confirmDeleteActions.emit({action: 'modal', params: ['close']});

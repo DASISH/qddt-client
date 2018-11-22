@@ -10,7 +10,7 @@ declare var Materialize: any;
 
 @Component({
   selector: 'qddt-topic',
-
+  providers: [ {provide: 'elementKind', useValue: 'TOPIC_GROUP'}, ],
   styles: [':host /deep/ .collection-item .row { min-height:3rem; margin-bottom:0px;border-bottom: none;}',
           '.collection .collection-item {border-bottom: none; }',
           '.collection.with-header .collection-header {border-bottom: none; padding: 0px;}',
@@ -33,9 +33,9 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
   private refreshCount = 0;
 
   constructor(private router: Router, private property: PropertyStoreService, private message: MessageService,
-              private homeService: HomeService ) {
-    this.readonly = !homeService.canDo.get(this.TOPIC_KIND).get(ActionKind.Create);
-    this.canDelete = homeService.canDo.get(this.TOPIC_KIND).get(ActionKind.Delete);
+              private homeService: HomeService<Topic> ) {
+    this.readonly = !homeService.canDo.get(ActionKind.Create);
+    this.canDelete = homeService.canDo.get(ActionKind.Delete);
     this.newTopic = new Topic();
   }
 
@@ -51,13 +51,11 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
   ngOnInit(): void {
     this.study = this.property.get('study');
     const parentId = this.study.id || this.property.menuPath[HierarchyPosition.Study].id;
-    console.log(parentId);
     this.topics = this.property.get('topics');
     if (!this.topics) {
-      this.homeService.getByStudyTopic(parentId)
+      this.homeService.getByParent(parentId)
         .then((result) => {
-          this.topics = result.sort( (a, b) => a.name.localeCompare(b.name));
-          this.property.set('topics', this.topics);
+          this.property.set('topics', this.topics = result);
           this.showReuse = false;
         });
     }
@@ -98,36 +96,34 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
     if (topic !== null) {
       const topics = this.topics.filter((q) => q.id !== topic.id);
       topics.push(topic);
-      this.topics = topics.sort( (a, b) => a.name.localeCompare(b.name));
-      this.property.set('topics', this.topics);
+      this.property.set('topics', this.topics = topics);
     }
   }
 
   onNewSave() {
     this.showTopicForm = false;
-    this.homeService.create<Topic>(this.newTopic, this.study.id)
+    this.homeService.create(this.newTopic, this.study.id)
       .subscribe((result: any) => this.onTopicSaved(result));
     this.newTopic  = new Topic();
   }
-
 
   onClickQuestionItem(questionItem) {
     this.message.sendMessage( { element: questionItem, elementKind: ElementKind.QUESTION_ITEM } );
   }
 
   onAddQuestionItem(ref: IRevisionRef, topicId: any) {
-    this.homeService.attachTopicQuestion(topicId, ref.elementId, ref.elementRevision)
+    this.homeService.attachQuestion(topicId, ref.elementId, ref.elementRevision)
       .subscribe((result: any) => this.onTopicSaved(result));
   }
 
   onRemoveQuestionItem(ref: IRevisionRef, topicId: any) {
-      this.homeService.deattachTopicQuestion(topicId , ref.elementId, ref.elementRevision)
+      this.homeService.deattachQuestion(topicId , ref.elementId, ref.elementRevision)
       .subscribe((result: any) => this.onTopicSaved(result));
   }
 
   onRemoveTopic(topicId: string) {
     if (topicId && topicId.length === 36) {
-      this.homeService.deleteTopic(topicId)
+      this.homeService.delete(topicId)
         .subscribe(() => {
             this.topics = this.topics.filter((s: any) => s.id !== topicId);
             this.property.set('topics', this.topics);

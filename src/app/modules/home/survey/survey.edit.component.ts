@@ -1,12 +1,12 @@
 import { Component, Input, Output, EventEmitter, AfterContentChecked } from '@angular/core';
 import { HomeService } from '../home.service';
-import {SurveyProgram} from '../../../classes/home.classes';
+import { SurveyProgram} from '../../../classes';
 
 declare var $: any;
 
 @Component({
   selector: 'qddt-survey-edit',
-
+  providers: [ {provide: 'elementKind', useValue: 'SURVEY_PROGRAM'}, ],
   template: `
 <div *ngIf="isVisible && survey"  id="{{formId}}"  >
   <form materialize (ngSubmit)="onSave()" #surveyForm="ngForm">
@@ -45,14 +45,14 @@ export class SurveyEditComponent implements  AfterContentChecked {
 
   public showRevision;
   public readonly formId = Math.round( Math.random() * 10000);
-  constructor(private surveyService: HomeService) { }
+  constructor(private homeService: HomeService<SurveyProgram>) { }
 
   ngAfterContentChecked() {
     $('#' + this.formId + '-desc').trigger('autoresize');
   }
 
   onSave() {
-    this.surveyService.update(this.survey)
+    this.homeService.update(this.survey)
       .subscribe((result: any) => {
         this.isVisible = false;
         this.survey = null;

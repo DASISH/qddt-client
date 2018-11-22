@@ -1,16 +1,15 @@
 import { AfterContentChecked, Component, EventEmitter, Input, Output} from '@angular/core';
-import { Concept } from '../../../classes/home.classes';
+import { ActionKind, Concept, ElementKind, IRevisionRef} from '../../../classes';
 import { HomeService} from '../home.service';
-import { MessageService } from '../../core/services';
-import {ActionKind, ElementKind, IRevisionRef} from '../../../classes';
-import {QuestionItem} from '../../question/question.classes';
+import { QuestionItem} from '../../question/question.classes';
+import { MessageService} from '../../core/services';
 
 const filesaver = require('file-saver');
 declare var Materialize: any;
 
 @Component({
   selector: 'qddt-concept-treenode',
-  providers: [  ],
+  providers: [ {provide: 'elementKind', useValue: 'CONCEPT'}, ],
   templateUrl: './concept-tree-node.component.html',
   styleUrls: ['./concept-tree-node.component.css']
 })
@@ -25,13 +24,13 @@ export class TreeNodeComponent implements AfterContentChecked {
   public showbutton = false;
   public newchild: Concept;
 
-  public readonly canCreate = this.homeService.canDo.get(ElementKind.CONCEPT).get(ActionKind.Create);
-  public readonly canUpdate = this.homeService.canDo.get(ElementKind.CONCEPT).get(ActionKind.Update);
-  public readonly canDelete  = this.homeService.canDo.get(ElementKind.CONCEPT).get(ActionKind.Delete);
+  public readonly canCreate = this.homeService.canDo.get(ActionKind.Create);
+  public readonly canUpdate = this.homeService.canDo.get(ActionKind.Update);
+  public readonly canDelete  = this.homeService.canDo.get(ActionKind.Delete);
 
   private refreshCount = 0;
 
-  constructor(private homeService: HomeService, private message: MessageService) {
+  constructor(private homeService: HomeService<Concept>, private message: MessageService) {
     this.newchild = new Concept();
   }
 
@@ -44,11 +43,11 @@ export class TreeNodeComponent implements AfterContentChecked {
     }
   }
 
-  onToggleEdit(edit) {
+  async onToggleEdit(edit) {
     edit.isVisible = !edit.isVisible;
     if (edit.isVisible) {
       this.refreshCount = 0;
-      this.concept = this.homeService.get<Concept>(this.concept.id);
+      this.concept = await this.homeService.get(this.concept.id);
     }
   }
 
@@ -87,14 +86,14 @@ export class TreeNodeComponent implements AfterContentChecked {
   }
 
   removeQuestionItem(ref: IRevisionRef) {
-    this.homeService.deattachConceptQuestion(this.concept.id, ref.elementId , ref.elementRevision)
+    this.homeService.deattachQuestion(this.concept.id, ref.elementId , ref.elementRevision)
       .subscribe((result: any) => {
           this.onConceptSavedEvent(result);
         });
   }
 
   addQuestionItem(ref: IRevisionRef) {
-      this.homeService.attachConceptQuestion(this.concept.id, ref.elementId, ref.elementRevision)
+      this.homeService.attachQuestion(this.concept.id, ref.elementId, ref.elementRevision)
         .subscribe((result: any) => {
           this.onConceptSavedEvent(result);
         });

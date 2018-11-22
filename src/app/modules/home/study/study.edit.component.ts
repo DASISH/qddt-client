@@ -1,13 +1,13 @@
 import { Component, Input, EventEmitter, Output, AfterContentChecked } from '@angular/core';
 import { HomeService } from '../home.service';
-import {Study} from '../../../classes/home.classes';
+import {Study} from '../../../classes';
 
 declare var $: any;
 
 @Component({
-   selector: 'qddt-study-edit',
-   providers: [],
-   template: `
+  selector: 'qddt-study-edit',
+  providers: [ {provide: 'elementKind', useValue: 'STUDY'}, ],
+  template: `
 <div *ngIf="isVisible && study"  id="{{formId}}"  >
   <form (ngSubmit)="onSave()" #studyForm="ngForm">
 
@@ -43,7 +43,7 @@ export class StudyEditComponent implements  AfterContentChecked {
 
   public readonly formId = Math.round( Math.random() * 10000);
   public showRevision;
-  constructor(private studyService: HomeService) { }
+  constructor(private studyService: HomeService<Study>) { }
 
   ngAfterContentChecked() {
     $('#' + this.formId + '-desc').trigger('autoresize');

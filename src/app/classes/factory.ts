@@ -1,5 +1,5 @@
 import { ElementKind } from './enums';
-import { IEntityAudit } from './interfaces';
+import {IEntityAudit } from './interfaces';
 import { Concept, Study, SurveyProgram, Topic } from './home.classes';
 import {
   ConditionConstruct,
@@ -15,7 +15,6 @@ import { Instrument } from '../modules/instrument/instrument.classes';
 import { Publication} from '../modules/publication/publication.classes';
 import { UserJson } from '../modules/user/user.classes';
 import { getElementKind } from './query-info.config';
-
 
 export class Factory {
 
@@ -105,6 +104,9 @@ export class Factory {
     }
   }
 
+  static create<T>(type: (new () => T)): T {
+    return new type();
+  }
 /*   const StringIsNumber = value => isNaN(Number(value)) === false;
 
 // Turn enum into array
