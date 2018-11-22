@@ -27,17 +27,16 @@ export class ConceptComponent implements OnInit {
     this.readonly = !homeService.canDo.get(ElementKind.CONCEPT).get(ActionKind.Create);
    }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.topic = new Topic(this.property.get('topic')) ||
-                 this.homeService.get(this.property.parentMenu.id);
+                 await this.homeService.get<Topic>(this.property.parentMenu.id);
 
     this.topic.concepts = this.property.get('concepts');
     if (!this.topic.concepts) {
       this.showProgressBar = true;
       this.homeService.getByTopicConcept(this.topic.id).then(
         (result) => {
-          this.topic.concepts = result.content;
-          this.property.set('concepts', this.topic.concepts);
+          this.property.set('concepts', this.topic.concepts = result.content);
         },
         (error) => { throw error; })
         .then( () => this.showProgressBar = false );

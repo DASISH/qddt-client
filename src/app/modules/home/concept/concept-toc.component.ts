@@ -16,7 +16,7 @@ import { Concept, IMoveTo, Topic } from '../../../classes';
           (dragleave)="onDragleave($event)"
           (drop)="onDrop($event, idx)">
         <a href="concept#{{concept.id}}">
-          <span class="teal-text" [ngClass]="'text-lighten-' + level"><b>{{ concept.name }}</b></span>
+          <span class="blue-text" [ngClass]="'text-lighten-' + level"><b>{{ concept.name }}</b></span>
         </a>
         <qddt-concept-toc
             [level]="level+1" [rootNode]="conceptClass(concept)" (conceptMoved)="conceptMoved.emit($event)">

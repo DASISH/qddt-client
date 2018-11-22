@@ -44,11 +44,11 @@ export class TreeNodeComponent implements AfterContentChecked {
     }
   }
 
-  onToggleEdit(edit) {
+  async onToggleEdit(edit) {
     edit.isVisible = !edit.isVisible;
     if (edit.isVisible) {
       this.refreshCount = 0;
-      this.concept = this.homeService.get<Concept>(this.concept.id);
+      this.concept = await this.homeService.get<Concept>(this.concept.id);
     }
   }
 
