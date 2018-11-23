@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterContentChecked } from '@angular/core';
 import { Router } from '@angular/router';
 import { HomeService } from '../home.service';
-import { ActionKind, ElementKind, Study, SurveyProgram} from '../../../classes';
+import { ActionKind, ElementKind, Study, SurveyProgram, getQueryInfo} from '../../../classes';
 import { HierarchyPosition} from '../../core/classes';
 import { PropertyStoreService} from '../../core/services';
 
@@ -25,6 +25,7 @@ export class StudyComponent implements OnInit, AfterContentChecked {
 
   constructor(  private router: Router, private property: PropertyStoreService, private homeService: HomeService<Study>) {
 
+    homeService.qe = getQueryInfo('STUDY');
     this.readonly = !homeService.canDo.get(ActionKind.Create);
     this.canDelete = homeService.canDo.get(ActionKind.Delete);
     this.newStudy = new Study();
@@ -35,8 +36,8 @@ export class StudyComponent implements OnInit, AfterContentChecked {
     if (surveyProgram) {
       this.survey = surveyProgram;
     } else {
-      const parentId = surveyProgram.id || this.property.menuPath[HierarchyPosition.Survey].id;
-      this.homeService.getByParent(parentId).then(result => this.survey.studies = result);
+      const parentId = this.property.menuPath[HierarchyPosition.Survey].id;
+      this.homeService.getListByParent(parentId).then(result => this.survey.studies = result);
     }
   }
 

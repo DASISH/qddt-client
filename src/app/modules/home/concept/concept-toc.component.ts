@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { Concept, IMoveTo, Topic } from '../../../classes';
 
 @Component({
@@ -26,7 +26,7 @@ import { Concept, IMoveTo, Topic } from '../../../classes';
   `
 })
 
-export class ConceptTocComponent {
+export class ConceptTocComponent implements OnChanges {
   @Input() rootNode: Topic|Concept;
   @Input() level: number;
   @Output() conceptMoved =  new EventEmitter<IMoveTo>();
@@ -37,6 +37,13 @@ export class ConceptTocComponent {
     event.dataTransfer.setData('text/plain', sourceId); // required otherwise doesn't work
     event.stopPropagation();
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.rootNode.previousValue === null) {
+    console.log( 'hierarchy changed? ' + changes.rootNode.currentValue );
+    }
+  }
+
 
   onDragover(event) {
     event.dataTransfer.dropEffect = 'move';

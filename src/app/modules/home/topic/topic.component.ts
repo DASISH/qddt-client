@@ -1,6 +1,6 @@
 import { AfterContentChecked, Component, OnInit} from '@angular/core';
 import { Router} from '@angular/router';
-import { ActionKind, ElementKind, IRevisionRef, Study, Topic} from '../../../classes';
+import { ActionKind, ElementKind, IRevisionRef, Study, Topic, getQueryInfo} from '../../../classes';
 import { HierarchyPosition} from '../../core/classes';
 import { HomeService} from '../home.service';
 import { MessageService, PropertyStoreService} from '../../core/services';
@@ -32,8 +32,10 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
 
   private refreshCount = 0;
 
-  constructor(private router: Router, private property: PropertyStoreService, private message: MessageService,
-              private homeService: HomeService<Topic> ) {
+  constructor(private router: Router, private property: PropertyStoreService,
+      private message: MessageService, private homeService: HomeService<Topic> ) {
+
+    homeService.qe = getQueryInfo(this.TOPIC_KIND);
     this.readonly = !homeService.canDo.get(ActionKind.Create);
     this.canDelete = homeService.canDo.get(ActionKind.Delete);
     this.newTopic = new Topic();
@@ -51,14 +53,11 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
   ngOnInit(): void {
     this.study = this.property.get('study');
     const parentId = this.study.id || this.property.menuPath[HierarchyPosition.Study].id;
-    this.topics = this.property.get('topics');
-    if (!this.topics) {
-      this.homeService.getByParent(parentId)
-        .then((result) => {
-          this.property.set('topics', this.topics = result);
-          this.showReuse = false;
-        });
-    }
+    this.homeService.getListByParent(parentId)
+      .then((result) => {
+        this.property.set('topics', this.topics = result);
+        this.showReuse = false;
+      });
   }
 
   onToggleTopicForm() {
@@ -94,9 +93,13 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
 
   onTopicSaved(topic: any) {
     if (topic !== null) {
-      const topics = this.topics.filter((q) => q.id !== topic.id);
-      topics.push(topic);
-      this.property.set('topics', this.topics = topics);
+      const index = this.topics.findIndex((f) => f.id === topic.id);
+      if (index > -1) {
+        this.topics.splice(index, 1, topic);
+      } else {
+        this.topics.push(topic);
+      }
+      this.property.set('topics', this.topics);
     }
   }
 

@@ -1,4 +1,4 @@
-import {Inject, Injectable, Optional} from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import { HttpClient} from '@angular/common/http';
 import { Observable} from 'rxjs';
 import { UserService} from '../core/services';
@@ -6,54 +6,48 @@ import { API_BASE_HREF} from '../../api';
 import {
   ActionKind,
   ElementKind,
-  getQueryInfo, HEADER_DETAILS, IEntityAudit,
+  getQueryInfo, IEntityAudit,
   IEntityEditAudit,
   IOtherMaterial,
   IPageResult, IRevisionResult, QueryInfo
 } from '../../classes';
-import {filter, takeWhile} from 'rxjs/operators';
-import {ActivatedRoute} from '@angular/router';
-import {Factory, Generic} from '../../classes/factory';
 
 
 @Injectable()
-export class HomeService<T extends IEntityEditAudit> {
+export class HomeService<T extends IEntityEditAudit>  {
 
-  public readonly canDo: Map<ActionKind, boolean>;
-
-  private qe: QueryInfo;
-
+  private readonly __canDo: Map<ElementKind, Map<ActionKind, boolean>>;
+  private __qe: QueryInfo;
   constructor( private userService: UserService, protected http: HttpClient,
-               @Inject(API_BASE_HREF) protected api: string, @Inject('elementKind')private kind: string) {
-    this.qe = getQueryInfo(kind);
-    this.canDo = new Map<ActionKind, boolean>([
-      [ ActionKind.Create, userService.canDo(ActionKind.Create, this.qe.id) ],
-      [ ActionKind.Update, userService.canDo(ActionKind.Update, this.qe.id) ],
-      [ ActionKind.Delete, userService.canDo(ActionKind.Delete, this.qe.id) ]
-    ]);
-
-    // this.canDoToo = new Map<ElementKind, Map<ActionKind, boolean>>([
-    //   [ElementKind.CONCEPT, new Map<ActionKind, boolean>([
-    //     [ ActionKind.Create, userService.canDo(ActionKind.Create, ElementKind.CONCEPT) ],
-    //     [ ActionKind.Update, userService.canDo(ActionKind.Update, ElementKind.CONCEPT) ],
-    //     [ ActionKind.Delete, userService.canDo(ActionKind.Delete, ElementKind.CONCEPT) ]
-    //   ])],
-    //   [ElementKind.TOPIC_GROUP, new Map<ActionKind, boolean>([
-    //     [ ActionKind.Create, userService.canDo(ActionKind.Create, ElementKind.TOPIC_GROUP) ],
-    //     [ ActionKind.Update, userService.canDo(ActionKind.Update, ElementKind.TOPIC_GROUP) ],
-    //     [ ActionKind.Delete, userService.canDo(ActionKind.Delete, ElementKind.TOPIC_GROUP) ]
-    //   ])],
-    //   [ElementKind.STUDY, new Map<ActionKind, boolean>([
-    //     [ ActionKind.Create, userService.canDo(ActionKind.Create, ElementKind.STUDY) ],
-    //     [ ActionKind.Update, userService.canDo(ActionKind.Update, ElementKind.STUDY) ],
-    //     [ ActionKind.Delete, userService.canDo(ActionKind.Delete, ElementKind.STUDY) ]
-    //   ])],
-    //   [ElementKind.SURVEY_PROGRAM, new Map<ActionKind, boolean>([
-    //     [ ActionKind.Create, userService.canDo(ActionKind.Create, ElementKind.SURVEY_PROGRAM) ],
-    //     [ ActionKind.Update, userService.canDo(ActionKind.Update, ElementKind.SURVEY_PROGRAM) ],
-    //     [ ActionKind.Delete, userService.canDo(ActionKind.Delete, ElementKind.SURVEY_PROGRAM) ]
-    //   ])]
+               @Inject(API_BASE_HREF) protected api: string) {
+    // this.canDo = new Map<ActionKind, boolean>([
+    //   [ ActionKind.Create, userService.canDo(ActionKind.Create, this.qe.id) ],
+    //   [ ActionKind.Update, userService.canDo(ActionKind.Update, this.qe.id) ],
+    //   [ ActionKind.Delete, userService.canDo(ActionKind.Delete, this.qe.id) ]
     // ]);
+
+    this.__canDo = new Map<ElementKind, Map<ActionKind, boolean>>([
+      [ElementKind.CONCEPT, new Map<ActionKind, boolean>([
+        [ ActionKind.Create, userService.canDo(ActionKind.Create, ElementKind.CONCEPT) ],
+        [ ActionKind.Update, userService.canDo(ActionKind.Update, ElementKind.CONCEPT) ],
+        [ ActionKind.Delete, userService.canDo(ActionKind.Delete, ElementKind.CONCEPT) ]
+      ])],
+      [ElementKind.TOPIC_GROUP, new Map<ActionKind, boolean>([
+        [ ActionKind.Create, userService.canDo(ActionKind.Create, ElementKind.TOPIC_GROUP) ],
+        [ ActionKind.Update, userService.canDo(ActionKind.Update, ElementKind.TOPIC_GROUP) ],
+        [ ActionKind.Delete, userService.canDo(ActionKind.Delete, ElementKind.TOPIC_GROUP) ]
+      ])],
+      [ElementKind.STUDY, new Map<ActionKind, boolean>([
+        [ ActionKind.Create, userService.canDo(ActionKind.Create, ElementKind.STUDY) ],
+        [ ActionKind.Update, userService.canDo(ActionKind.Update, ElementKind.STUDY) ],
+        [ ActionKind.Delete, userService.canDo(ActionKind.Delete, ElementKind.STUDY) ]
+      ])],
+      [ElementKind.SURVEY_PROGRAM, new Map<ActionKind, boolean>([
+        [ ActionKind.Create, userService.canDo(ActionKind.Create, ElementKind.SURVEY_PROGRAM) ],
+        [ ActionKind.Update, userService.canDo(ActionKind.Update, ElementKind.SURVEY_PROGRAM) ],
+        [ ActionKind.Delete, userService.canDo(ActionKind.Delete, ElementKind.SURVEY_PROGRAM) ]
+      ])]
+    ]);
   }
 
 
@@ -94,11 +88,12 @@ export class HomeService<T extends IEntityEditAudit> {
     return this.http.post<T[]>(this.api + qe.path + '/list', items);
   }
 
-  updateWithFiles( form: FormData ): Observable<T> {
+  updateWithFiles(form: FormData ): Observable<T> {
+    console.log('updateWithFiles');
     return this.http.post<T>( this.api +  this.qe.path + '/createfile/', form, { reportProgress: true} );
   }
 
-  delete(id: string): Observable<any> {
+  delete( id: string): Observable<any> {
     return this.http.delete(this.api + this.qe.path + '/delete/' + id, {responseType: 'text'});
   }
 
@@ -106,6 +101,18 @@ export class HomeService<T extends IEntityEditAudit> {
     const qe = getQueryInfo(element.classKind);
     return this.http.get(this.api +  qe.path + '/pdf/' + element.id, { responseType: 'blob'})
       .toPromise();
+  }
+
+  get canDo(): Map<ActionKind, boolean> {
+    return this.__canDo.get(this.qe.id);
+  }
+
+  get qe() {
+    return this.__qe;
+  }
+
+  set qe(queryInfo: QueryInfo) {
+    this.__qe = queryInfo;
   }
 
   getXml(element: IEntityEditAudit): Promise<Blob> {
@@ -121,35 +128,37 @@ export class HomeService<T extends IEntityEditAudit> {
   }
 
   async get(id: string) {
-    return await this.http.get<T>(this.api + this.qe.path + id).toPromise();
+    return await this.http.get<T>(this.api + this.qe.path + '/' + id).toPromise();
   }
 
   async getExt<S extends IEntityAudit>(elementKind: ElementKind, id: string) {
     const qe = getQueryInfo(elementKind);
-    return await this.http.get<S>(this.api + qe.path + id).toPromise();
-  }
-
-  getByParent(parentId: string): Promise<T[]> {
-    return this.http.get<T[]>(this.api + this.qe.path + '/list/by-parent/' + parentId).toPromise();
+    return await this.http.get<S>(this.api + qe.path + '/' + id).toPromise();
   }
 
   /// Only for Concept
-  getPageByParent(parentId: string): Promise<IPageResult<T>> {
-    return this.http.get<IPageResult<T>>(this.api + this.qe.path + '/page/by-parent/' + parentId).toPromise();
+  getPageByParent( parentId: string): Promise<IPageResult<T>> {
+    return (parentId) ? this.http.get<IPageResult<T>>(this.api + this.qe.path + '/page/by-parent/' + parentId).toPromise() :
+      this.http.get<IPageResult<T>>(this.api + this.qe.path + '/page').toPromise();
   }
 
-  attachQuestion(id: string, questionId: string, revision: number): Observable<any> {
+  getListByParent(parentId?: string): Promise<T[]> {
+    return (parentId) ?  this.http.get<T[]>(this.api + this.qe.path + '/list/by-parent/' + parentId).toPromise() :
+      this.http.get<T[]>(this.api + this.qe.path + '/list').toPromise();
+  }
+
+  attachQuestion( id: string, questionId: string, revision: number): Observable<any> {
     if (revision === null) {
       revision = 0;
     }
     return this.http.post(this.api +  this.qe.path + '/combine?questionitemid=' + questionId +
-      '&questionitemrevision=' + revision + '&topicid=' + id , {});
+      '&questionitemrevision=' + revision + '&parentId=' + id , {});
   }
 
   deattachQuestion(id: string, questionId: string, revision: number): Observable<any> {
     return this.http.post(this.api +  this.qe.path + '/decombine?questionitemid=' + questionId +
       '&questionitemrevision=' + revision +
-      '&id=' + id, {});
+      '&parentId=' + id, {});
   }
 
   // getByTopicConcept(topicId: string): Promise<IPageResult<Concept>> {

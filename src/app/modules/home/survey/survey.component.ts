@@ -1,7 +1,7 @@
 import { Component,  OnInit, AfterContentChecked } from '@angular/core';
 import { Router } from '@angular/router';
 import { HomeService } from '../home.service';
-import { ActionKind, SurveyProgram} from '../../../classes';
+import { ActionKind, SurveyProgram, getQueryInfo} from '../../../classes';
 import { HierarchyPosition} from '../../core/classes';
 import { PropertyStoreService} from '../../core/services';
 
@@ -23,12 +23,13 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
 
   constructor(private homeService: HomeService<SurveyProgram>, private router: Router, private property: PropertyStoreService) {
     this.newSurvey = new SurveyProgram();
+    homeService.qe = getQueryInfo('SURVEY_PROGRAM');
     this.readonly = !homeService.canDo.get(ActionKind.Create);
   }
 
   ngOnInit() {
-      this.homeService.getByParent(null).then(
-        (data: Array<SurveyProgram> ) => this.surveys = data
+      this.homeService.getListByParent(null).then(
+        (result) => this.surveys = result
       );
   }
 
@@ -53,11 +54,13 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
 
   onSurveySaved(surveyProgram: any) {
     if (surveyProgram) {
-
       const list = this.surveys.filter((q) => q.id !== surveyProgram.id);
-      list.push(surveyProgram);
-      this.surveys = list; // .sort( (a, b) => a.name.localeCompare(b.name));
-      this.property.set('surveys', this.surveys);
+      if (surveyProgram.index) {
+        list.splice(surveyProgram.index, 0, surveyProgram);
+      } else {
+        list.push(surveyProgram);
+      }
+      this.property.set('surveys', this.surveys = list);
     }
   }
 

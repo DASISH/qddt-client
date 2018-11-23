@@ -27,7 +27,7 @@ import { SelectorDialogsModule } from '../../selectors-dialog/selectors-dialog.m
     ConceptComponent, TreeNodeComponent, ConceptEditComponent, ConceptTocComponent,
     CopySourceComponent ],
 
-  providers: [ HomeService ],
+  providers: [HomeService ],
 
   exports: [ HomeComponent ]
 })
