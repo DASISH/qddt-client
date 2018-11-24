@@ -41,6 +41,7 @@ export interface IUser {
   username: string;
   email: string;
   agency?: IEntityAudit;
+  agencyUserName?: string;
 }
 
 export interface IComment {
