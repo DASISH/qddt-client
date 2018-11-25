@@ -26,11 +26,11 @@
             <div class="col s10 offset-s1">
               <form #hf="ngForm">
                 <div class="row input-field">
-                  <input id="name" name="name" type="text" ngModel required>
+                  <input name="name" type="text" ngModel required>
                   <label class="white-text">Name</label>
                 </div>
                 <div class="row input-field">
-                  <textarea id="description" name="description" class="materialize-textarea" ngModel required ></textarea>
+                  <textarea name="description" class="materialize-textarea" ngModel required ></textarea>
                   <label class="white-text">Description</label>
                 </div>
                 <div class="row right-align">
@@ -47,7 +47,7 @@
       <div *ngIf="topic.concepts">
          <qddt-concept-treenode *ngFor="let child of topic.concepts"
             [concept]="child"
-            [readonly]="child.archived || readonly"
+            [readonly]="child.archived"
             (deleteEvent)="onDeleteConcept($event)"
             (updatedEvent)="onConceptUpdated($event)">
          </qddt-concept-treenode>
@@ -60,7 +60,7 @@
       <h5>Concept Toc</h5>
       <ul class="section table-of-contents">
         <li><a href="concept#topMenu">To the top </a> </li>
-        <qddt-concept-toc [rootNode]= "topic" [level]="0" (conceptMoved)="onMoveConcept($event)"></qddt-concept-toc>
+        <qddt-concept-toc [children]= "topic.concepts" [parentId]="topic.id" [level]="0" (conceptMoved)="onMoveConcept($event)"></qddt-concept-toc>
       </ul>
     </div>
   </div>

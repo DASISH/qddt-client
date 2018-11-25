@@ -18,7 +18,6 @@ export class StudyComponent implements OnInit, AfterContentChecked {
   public showEditForm = false;
   public readonly: boolean;
   public canDelete: boolean;
-  public newStudy: Study;
   public survey: SurveyProgram;
   public revision: any;
   refreshCount = 0;
@@ -28,7 +27,6 @@ export class StudyComponent implements OnInit, AfterContentChecked {
     homeService.qe = getQueryInfo('STUDY');
     this.readonly = !homeService.canDo.get(ActionKind.Create);
     this.canDelete = homeService.canDo.get(ActionKind.Delete);
-    this.newStudy = new Study();
   }
 
   ngOnInit(): void {
@@ -60,39 +58,33 @@ export class StudyComponent implements OnInit, AfterContentChecked {
     this.property.setCurrentMenu(HierarchyPosition.Study, { id: study.id, name:  study.name });
     this.router.navigate(['topic']);
   }
-  //
-  // onShowRevision(element: any) {
-  //   this.revision = element;
-  // }
+
 
   onToggleStudyForm() {
     this.showEditForm = !this.showEditForm;
   }
 
   onStudySaved(study: Study) {
-    if (study) {
-      const studies = this.survey.studies.filter((q) => q.id !== study.id);
-      // const studies = this.survey.studies.find((q) => q.id !== study.id);
-      studies.push(study);
-      this.survey.studies = studies.sort( (a, b) => a.name.localeCompare(b.name));
+    if (study !== null) {
+      const index = this.survey.studies.findIndex((f) => f.id === study.id);
+      if (index > -1) {
+        this.survey.studies.splice(index, 1, study);
+      } else {
+        this.survey.studies.push(study);
+      }
     }
   }
 
-  onSaveNewStudy() {
+  onNewSave(study) {
     this.showEditForm = false;
-    this.homeService.create(this.newStudy, this.survey.id)
-      .subscribe((result) => {
-        this.onStudySaved(result);
-    });
-    this.newStudy  = new Study();
+    this.homeService.create(new Study(study), this.survey.id).subscribe(
+      result => this.onStudySaved(result) );
   }
 
   getPdf(study: Study) {
     const fileName = study.name + '.pdf';
     this.homeService.getPdf(study).then(
-      (data: any) => {
-        filesaver.saveAs(data, fileName);
-      });
+      (data) => filesaver.saveAs(data, fileName) );
   }
 
   // getXml(study: Study) {

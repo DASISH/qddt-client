@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit, AfterViewInit } from '@angular/core';
 import { Concept, IMoveTo, Topic } from '../../../classes';
 
 @Component({
@@ -18,16 +18,17 @@ import { Concept, IMoveTo, Topic } from '../../../classes';
         <a href="concept#{{concept.id}}">
           <span class="blue-text" [ngClass]="'text-lighten-' + level"><b>{{ concept.name }}</b></span>
         </a>
-        <qddt-concept-toc
-            [level]="level+1" [rootNode]="conceptClass(concept)" (conceptMoved)="conceptMoved.emit($event)">
+        <qddt-concept-toc *ngIf="concept.children"
+            [level]="level+1" [children]="concept.children" [parentId]= "concept.id" (conceptMoved)="conceptMoved.emit($event)">
         </qddt-concept-toc>
       </li>
     </ul>
   `
 })
 
-export class ConceptTocComponent implements OnChanges {
-  @Input() rootNode: Topic|Concept;
+export class ConceptTocComponent {
+  @Input() children: Concept[];
+  @Input() parentId: string;
   @Input() level: number;
   @Output() conceptMoved =  new EventEmitter<IMoveTo>();
 
@@ -37,13 +38,6 @@ export class ConceptTocComponent implements OnChanges {
     event.dataTransfer.setData('text/plain', sourceId); // required otherwise doesn't work
     event.stopPropagation();
   }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.rootNode.previousValue === null) {
-    console.log( 'hierarchy changed? ' + changes.rootNode.currentValue );
-    }
-  }
-
 
   onDragover(event) {
     event.dataTransfer.dropEffect = 'move';
@@ -74,17 +68,7 @@ export class ConceptTocComponent implements OnChanges {
     event.dataTransfer.clearData();
     console.log(event.currentTarget);
     console.log(event.target);
-    this.conceptMoved.emit( { target: this.rootNode.id, index: index, source: sourceId } as IMoveTo);
-  }
-
-  public get children(): Concept[] {
-    if (this.rootNode instanceof Topic) {
-      return this.rootNode.concepts || [];
-    } else if (this.rootNode instanceof Concept) {
-      return this.rootNode.children || [];
-    } else {
-      return [];
-    }
+    this.conceptMoved.emit( { target: this.parentId , index: index, source: sourceId } as IMoveTo);
   }
 
   public conceptClass(seed): Concept {

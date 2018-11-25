@@ -43,9 +43,9 @@ export class QuestionReuseComponent {
 
   onQuestionSearch(ref: IElement) {
     this.showProgressBar = true;
-    this.service.searchByKind<QuestionItem>( { kind: this.QUESTION, key: ref.element, page: new Page() } ).then(
-      (result) => { this.questionList = result.content; this.showProgressBar = false;
-    });
+    this.service.searchByKind<QuestionItem>( { kind: this.QUESTION, key: ref.element, page: new Page() } )
+    .then((result) => this.questionList = result.content)
+      .then(() => this.showProgressBar = false );
   }
 
   onDismiss() {

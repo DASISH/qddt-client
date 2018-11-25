@@ -1,5 +1,5 @@
 import { AfterContentChecked, Component, EventEmitter, Input, Output} from '@angular/core';
-import { ActionKind, Concept, ElementKind, IRevisionRef} from '../../../classes';
+import { ActionKind, Concept, ElementKind, IRevisionRef, getQueryInfo, ElementRevisionRef} from '../../../classes';
 import { HomeService} from '../home.service';
 import { QuestionItem} from '../../question/question.classes';
 import { MessageService} from '../../core/services';
@@ -22,17 +22,19 @@ export class TreeNodeComponent implements AfterContentChecked {
 
   public showConceptChildForm = false;
   public showbutton = false;
-  public newchild: Concept;
 
-  public readonly canCreate = this.homeService.canDo.get(ActionKind.Create);
-  public readonly canUpdate = this.homeService.canDo.get(ActionKind.Update);
-  public readonly canDelete  = this.homeService.canDo.get(ActionKind.Delete);
+  public readonly canCreate: boolean;
+  public readonly canUpdate: boolean;
+  public readonly canDelete: boolean;
 
   private refreshCount = 0;
 
   constructor(private homeService: HomeService<Concept>, private message: MessageService) {
-    this.newchild = new Concept();
-  }
+    homeService.qe = getQueryInfo(ElementKind.CONCEPT);
+    this.canCreate = this.homeService.canDo.get(ActionKind.Create);
+    this.canUpdate = this.homeService.canDo.get(ActionKind.Update);
+    this.canDelete  = this.homeService.canDo.get(ActionKind.Delete);
+    }
 
   ngAfterContentChecked(): void {
     if (this.refreshCount < 10) {
@@ -71,38 +73,35 @@ export class TreeNodeComponent implements AfterContentChecked {
     this.deleteEvent.emit(concept);
   }
 
-  onClickQuestionItem(questionItem: QuestionItem) {
-    this.message.sendMessage( { element: questionItem, elementKind: ElementKind.QUESTION_ITEM } );
+  onClickQuestionItem(cqi) {
+    this.message.sendMessage( cqi );
+  }
+  onSelectQuestionItem(questionItem) {
+    console.log('select question');
   }
 
-  onChildSave() {
+  onChildSave(newchild) {
+
     this.showConceptChildForm = false;
-    this.concept.children.push(this.newchild);
-    this.homeService.update(this.concept)
-      .subscribe((result: any) => {
-        this.concept = result;
-      });
-    this.newchild = new Concept();
+    this.concept.children.push(new Concept(newchild));
+
+    this.homeService.update(this.concept).subscribe((result: any) => this.concept = result );
   }
 
   removeQuestionItem(ref: IRevisionRef) {
     this.homeService.deattachQuestion(this.concept.id, ref.elementId , ref.elementRevision)
-      .subscribe((result: any) => {
-          this.onConceptSavedEvent(result);
-        });
+      .subscribe(result => this.onConceptSavedEvent(result) );
   }
 
-  addQuestionItem(ref: IRevisionRef) {
-      this.homeService.attachQuestion(this.concept.id, ref.elementId, ref.elementRevision)
-        .subscribe((result: any) => {
-          this.onConceptSavedEvent(result);
-        });
+  addQuestionItem(ref: ElementRevisionRef) {
+    this.homeService.attachQuestion(this.concept.id, ref.elementId, ref.elementRevision)
+      .subscribe(result => this.onConceptSavedEvent(result) );
   }
 
   getPdf(concept: Concept) {
     const fileName = concept.name + '.pdf';
     this.homeService.getPdf(concept).then(
-      (data: any) => {
+      (data) => {
         filesaver.saveAs(data, fileName);
       });
   }
@@ -110,7 +109,7 @@ export class TreeNodeComponent implements AfterContentChecked {
   getXml(concept: Concept) {
     const fileName = concept.name + '.xml';
     this.homeService.getXml(concept).then(
-      (data: any) => {
+      (data) => {
         filesaver.saveAs(data, fileName);
       });
   }

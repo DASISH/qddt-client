@@ -20,11 +20,6 @@ export class HomeService<T extends IEntityEditAudit>  {
   private __qe: QueryInfo;
   constructor( private userService: UserService, protected http: HttpClient,
                @Inject(API_BASE_HREF) protected api: string) {
-    // this.canDo = new Map<ActionKind, boolean>([
-    //   [ ActionKind.Create, userService.canDo(ActionKind.Create, this.qe.id) ],
-    //   [ ActionKind.Update, userService.canDo(ActionKind.Update, this.qe.id) ],
-    //   [ ActionKind.Delete, userService.canDo(ActionKind.Delete, this.qe.id) ]
-    // ]);
 
     this.__canDo = new Map<ElementKind, Map<ActionKind, boolean>>([
       [ElementKind.CONCEPT, new Map<ActionKind, boolean>([
@@ -75,7 +70,8 @@ export class HomeService<T extends IEntityEditAudit>  {
 
   create(item: T, parentId?: string): Observable<T> {
     const qe = getQueryInfo(item.classKind);
-    return this.http.post<T>(this.api + qe.path + '/create/' + parentId, item);
+    return  (parentId) ? this.http.post<T>(this.api + qe.path + '/create/' + parentId , item) :
+      this.http.post<T>(this.api + qe.path + '/create'  , item);
   }
 
   update(item: T): Observable<T> {
@@ -83,9 +79,10 @@ export class HomeService<T extends IEntityEditAudit>  {
     return this.http.post<T>(this.api + qe.path, item);
   }
 
-  updateAll(items: T[]): Observable<T[]> {
+  updateAll(items: T[], parentId?: string, ): Observable<T[]> {
     const qe = getQueryInfo(items[0].classKind);
-    return this.http.post<T[]>(this.api + qe.path + '/list', items);
+    return (parentId) ? this.http.post<T[]>(this.api + qe.path + '/list/' + parentId, items) :
+      this.http.post<T[]>(this.api + qe.path + '/list', items);
   }
 
   updateWithFiles(form: FormData ): Observable<T> {
@@ -137,7 +134,7 @@ export class HomeService<T extends IEntityEditAudit>  {
   }
 
   /// Only for Concept
-  getPageByParent( parentId: string): Promise<IPageResult<T>> {
+  getPageByParent(parentId: string): Promise<IPageResult<T>> {
     return (parentId) ? this.http.get<IPageResult<T>>(this.api + this.qe.path + '/page/by-parent/' + parentId).toPromise() :
       this.http.get<IPageResult<T>>(this.api + this.qe.path + '/page').toPromise();
   }
@@ -160,106 +157,5 @@ export class HomeService<T extends IEntityEditAudit>  {
       '&questionitemrevision=' + revision +
       '&parentId=' + id, {});
   }
-
-  // getByTopicConcept(topicId: string): Promise<IPageResult<Concept>> {
-  //   return this.http.get<IPageResult<Concept>>(this.api + 'concept/page/by-topicgroup/' + topicId + '?page=0&size=50')
-  //     .toPromise();
-  // }
-  //
-  // getByStudyTopic(studyId: string): Promise<Topic[]> {
-  //   return this.http.get<Topic[]>(this.api + 'topicgroup/list/by-study/' + studyId).toPromise();
-  // }
-  //
-  // getBySurveyStudy(surveyProgramId: String): Promise<SurveyProgram> {
-  //   return this.http.get<SurveyProgram>(this.api + 'surveyprogram/' + surveyProgramId).toPromise();
-  // }
-  //
-  // getByUserSurvey(): Promise<any> {
-  //   return this.http.get(this.api + 'surveyprogram/list/by-user')
-  //     .toPromise();
-  // }
-
-  // createSurvey(surveyProgram: SurveyProgram): Observable<any> {
-  //   return this.http.post(this.api + 'surveyprogram/create', surveyProgram);
-  // }
-  //
-  // createStudy(study: Study, surveyProgramId: String): Observable<any>  {
-  //   return this.http.post(this.api + 'study/create/' + surveyProgramId, study);
-  // }
-  //
-  // createTopic(topic: Topic, studyId: string): Observable<any> {
-  //   return this.http.post(this.api + 'topicgroup/create/' + studyId, topic);
-  // }
-
-  // createConcept(concept: Concept, topicId: string): Observable<any> {
-  //   return this.http.post(this.api + 'concept/create/by-topicgroup/' + topicId, concept);
-  // }
-
-  // createChildConcept(concept: any, parentId: string): Observable<any> {
-  //   return this.http.post(this.api + 'concept/create/by-parent/' + parentId, concept);
-  // }
-  //
-  // deleteConcept(conceptId: string): Observable<string> {
-  //   return this.http.delete(this.api + 'concept/delete/' + conceptId , { responseType: 'text'});
-  // }
-  //
-  // deleteTopic(topicId: string): Observable<any> {
-  //   return this.http.delete(this.api + 'topicgroup/delete/' + topicId);
-  // }
-  //
-  // deleteStudy(id: string): Observable<any>  {
-  //   return this.http.delete(this.api + 'study/delete/' + id);
-  // }
-  //
-  // deleteSurvey(id: string): Observable<any>  {
-  //   return this.http.delete(this.api + 'surveyprogram/delete/' + id);
-  // }
-  // attachConceptQuestion(conceptId: string, questionId: string, revision: number): Observable<any> {
-  //   if (revision === null) {
-  //     revision = 0;
-  //   }
-  //   return this.http.post(this.api + 'concept/combine?questionitemid=' + questionId +
-  //     '&questionitemrevision=' + revision +
-  //     '&id=' + conceptId, {});
-  // }
-  //
-  // attachTopicQuestion(topicId: string, questionId: string, revision: number): Observable<any> {
-  //   if (revision === null) {
-  //     revision = 0;
-  //   }
-  //   return this.http.post(this.api + 'topicgroup/combine?questionitemid=' + questionId +
-  //     '&questionitemrevision=' + revision + '&topicid=' + topicId, {});
-  // }
-  //
-  // deattachConceptQuestion(conceptId: string, questionId: string, revision: number): Observable<any> {
-  //   return this.http.post(this.api + 'concept/decombine?questionitemid=' + questionId +
-  //     '&questionitemrevision=' + revision +
-  //     '&conceptid=' + conceptId, {});
-  // }
-  //
-  // deattachTopicQuestion(topicId: string,  questionId: string, revision: number): Observable<any> {
-  //   return this.http.post(this.api + 'topicgroup/decombine?questionitemid=' + questionId +
-  //     '&questionitemrevision=' + revision +
-  //     '&topicid=' + topicId, {});
-  // }
-
-
-  // getStudy(id: String): Promise<any> {
-  //   return this.http.get(this.api + 'study/' + id).toPromise();
-  // }
-
-  // getTopic(id: string): Promise<any> {
-  //   return this.http.get(this.api + 'topicgroup/' + id).toPromise();
-  // }
-
-  // attachStudyAuthor(studyId: string, authorId: string): Observable<any> {
-  //   return this.http.post(this.api + 'author/combine?authorId=' + authorId + '&studyId=' + studyId, {});
-  // }
-  //
-  //
-  // deattachStudyAuthor(studyId: string, authorId: string): Observable<any>  {
-  //   return this.http.delete(this.api + 'author/decombine?authorId=' + authorId + '&studyId=' + studyId);
-  // }
-
 
 }

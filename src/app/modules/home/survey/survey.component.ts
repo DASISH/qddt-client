@@ -28,9 +28,8 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
   }
 
   ngOnInit() {
-      this.homeService.getListByParent(null).then(
-        (result) => this.surveys = result
-      );
+      this.homeService.getListByParent().then(
+        (result) => this.surveys = result );
   }
 
   ngAfterContentChecked(): void {
@@ -41,16 +40,6 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
       } catch (Exception) {}
     }
   }
-
-  // onRemoveSurvey(surveyId: any) {
-  //   if (surveyId) {
-  //     this.homeService.deleteSurvey(surveyId)
-  //       .subscribe(() => {
-  //         this.surveys = this.surveys.filter((s: any) => s.id !== surveyId);
-  //         this.property.set('surveys', this.surveys);
-  //       });
-  //   }
-  // }
 
   onSurveySaved(surveyProgram: any) {
     if (surveyProgram) {
@@ -70,10 +59,10 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
     this.router.navigate(['study']);
   }
 
-  onSave() {
-    this.homeService.create(this.newSurvey, null)
-      .subscribe( result => this.onSurveySaved(result) );
-    this.newSurvey = new SurveyProgram();
+  onNewSave(survey) {
+    console.log('saving');
+    this.homeService.create(new SurveyProgram(survey)).subscribe(
+      result => this.onSurveySaved(result) );
     this.showSurveyForm = false;
   }
 
@@ -81,14 +70,7 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
   getPdf(element: SurveyProgram) {
     const fileName = element.name + '.pdf';
     this.homeService.getPdf(element).then(
-      data => { filesaver.saveAs(data, fileName);
-      });
+      data => filesaver.saveAs(data, fileName));
   }
-  //
-  // getXml(element: SurveyProgram) {
-  //   const fileName = element.name + '.xml';
-  //   this.homeService.getXml(element).then(
-  //     data => { filesaver.saveAs(data, fileName); }
-  //   );
-  // }
+
 }

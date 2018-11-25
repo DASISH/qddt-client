@@ -10,20 +10,20 @@
       <div *ngIf="showEditForm">
         <div class="row card-action">
           <div class="col s10 offset-s1">
-            <form (ngSubmit)="onSaveNewStudy()" #newStudyForm="ngForm">
-            <div class="row input-field ">
-              <input id="study-name" name="name" type="text" [(ngModel)]="newStudy.name" required>
-              <label for="study-name" class="white-text">Name</label>
-            </div>
-            <div class="row input-field">
-              <textarea id="study-desc" name="description" class="materialize-textarea"
-                        [(ngModel)]="newStudy.description" required ></textarea>
-              <label for="study-desc" class="white-text">Description</label>
-            </div>
-            <div class="row right-align">
-              <button type="submit" class="btn btn-default" [disabled]="!newStudyForm.form.valid" >Submit</button>
-            </div>
-          </form>
+            <form #hf="ngForm">
+              <div class="row input-field">
+                <input name="name" type="text" ngModel required>
+                <label class="white-text">Name</label>
+              </div>
+              <div class="row input-field">
+                <textarea name="description" class="materialize-textarea" ngModel required ></textarea>
+                <label class="white-text">Description</label>
+              </div>
+              <div class="row right-align">
+                  <button type="button" (click)="onNewSave(hf.value)" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
+              </div>
+            </form>
+
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit} from '@angular/core';
 import { MaterializeAction } from 'angular2-materialize';
-import {ActionKind, Concept, ElementKind, IEntityEditAudit, IMoveTo, Topic, getQueryInfo} from '../../../classes';
+import { Concept, ElementKind, IEntityEditAudit, IMoveTo, Topic, getQueryInfo} from '../../../classes';
 import { HomeService} from '../home.service';
 import { PropertyStoreService} from '../../core/services';
 
@@ -18,24 +18,22 @@ export class ConceptComponent implements OnInit {
   public showReuse = false;
   public showConceptForm = false;
   public showProgressBar = false;
-  public readonly: boolean;
+  // public readonly: boolean;
 
   public toDeletedConcept: any;
   public topic: Topic;
 
   constructor(private property: PropertyStoreService, private homeService: HomeService<Concept> ) {
     homeService.qe = getQueryInfo(this.CONCEPT);
-    console.log(JSON.stringify(homeService.qe));
-    this.readonly = !homeService.canDo[ActionKind.Create];
-   }
+    let root = this.property.get('topic');
+    if (!root) {
+       this.homeService.getExt<Topic>(ElementKind.TOPIC_GROUP, this.property.parentMenu.id).then(
+         result => root = result);
+    }
+    this.topic = new Topic(root);
+  }
 
   async ngOnInit() {
-    this.topic = new Topic(this.property.get('topic'));
-    if (!this.topic) {
-       this.topic =  await this.homeService.getExt<Topic>(ElementKind.TOPIC_GROUP, this.property.parentMenu.id);
-    }
-
-  // console.log(JSON.stringify(this.topic));
     this.topic.concepts = this.property.get('concepts');
     if (!this.topic.concepts) {
       this.showProgressBar = true;
@@ -59,6 +57,7 @@ export class ConceptComponent implements OnInit {
   }
 
   onNewSave(newConcept) {
+    console.log('sadlfk');
     this.showConceptForm = false;
     this.showProgressBar = true;
       this.homeService.create(new Concept(newConcept), this.topic.id).subscribe(
@@ -88,7 +87,7 @@ export class ConceptComponent implements OnInit {
       this.findConcept(this.topic.concepts, event.target).children = targets;
     }
 
-    const result = await this.homeService.updateAll(this.topic.concepts).toPromise();
+    const result = await this.homeService.updateAll(this.topic.concepts, this.topic.id).toPromise();
     const topic = await this.homeService.getExt<Topic>(ElementKind.TOPIC_GROUP, this.topic.id);
     topic.concepts = result;
     this.property.set('topic',  topic);

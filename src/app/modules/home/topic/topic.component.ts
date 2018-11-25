@@ -23,7 +23,6 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
 
   public study: Study;
   public topics: Topic[];
-  public newTopic: Topic;
 
   public showReuse = false;
   public showTopicForm = false;
@@ -38,7 +37,6 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
     homeService.qe = getQueryInfo(this.TOPIC_KIND);
     this.readonly = !homeService.canDo.get(ActionKind.Create);
     this.canDelete = homeService.canDo.get(ActionKind.Delete);
-    this.newTopic = new Topic();
   }
 
   ngAfterContentChecked(): void {
@@ -91,7 +89,7 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
     this.router.navigate(['concept']);
   }
 
-  onTopicSaved(topic: any) {
+  onTopicSaved(topic: Topic) {
     if (topic !== null) {
       const index = this.topics.findIndex((f) => f.id === topic.id);
       if (index > -1) {
@@ -103,15 +101,14 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
     }
   }
 
-  onNewSave() {
+  onNewSave(newTopic) {
     this.showTopicForm = false;
-    this.homeService.create(this.newTopic, this.study.id)
-      .subscribe((result: any) => this.onTopicSaved(result));
-    this.newTopic  = new Topic();
+    this.homeService.create(new Topic(newTopic), this.study.id).subscribe(
+      result => this.onTopicSaved(result));
   }
 
-  onClickQuestionItem(questionItem) {
-    this.message.sendMessage( { element: questionItem, elementKind: ElementKind.QUESTION_ITEM } );
+  onClickQuestionItem(cqi) {
+    this.message.sendMessage( cqi );
   }
 
   onAddQuestionItem(ref: IRevisionRef, topicId: any) {
@@ -126,11 +123,10 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
 
   onRemoveTopic(topicId: string) {
     if (topicId && topicId.length === 36) {
-      this.homeService.delete(topicId)
-        .subscribe(() => {
-            this.topics = this.topics.filter((s: any) => s.id !== topicId);
-            this.property.set('topics', this.topics);
-          });
+      this.homeService.delete(topicId).subscribe(() => {
+        this.topics = this.topics.filter((s: any) => s.id !== topicId);
+        this.property.set('topics', this.topics);
+      });
     }
   }
 
