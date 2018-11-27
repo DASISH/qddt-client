@@ -144,16 +144,16 @@ export class HomeService<T extends IEntityEditAudit>  {
       this.http.get<T[]>(this.api + this.qe.path + '/list').toPromise();
   }
 
-  attachQuestion( id: string, questionId: string, revision: number): Observable<any> {
+  attachQuestion( id: string, questionId: string, revision: number): Observable<T> {
     if (revision === null) {
       revision = 0;
     }
-    return this.http.post(this.api +  this.qe.path + '/combine?questionitemid=' + questionId +
+    return this.http.post<T>(this.api +  this.qe.path + '/combine?questionitemid=' + questionId +
       '&questionitemrevision=' + revision + '&parentId=' + id , {});
   }
 
-  deattachQuestion(id: string, questionId: string, revision: number): Observable<any> {
-    return this.http.post(this.api +  this.qe.path + '/decombine?questionitemid=' + questionId +
+  deattachQuestion(id: string, questionId: string, revision: number): Observable<T> {
+    return this.http.post<T>(this.api +  this.qe.path + '/decombine?questionitemid=' + questionId +
       '&questionitemrevision=' + revision +
       '&parentId=' + id, {});
   }
