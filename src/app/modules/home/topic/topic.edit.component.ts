@@ -22,7 +22,7 @@ export class TopicEditComponent  implements AfterContentChecked {
   @Output() savedEvent = new EventEmitter<any>();
 
   public readonly formId = Math.round( Math.random() * 10000);
-  private fileStore: File[] = [];
+  public fileStore: File[] = [];
 
   constructor(private homeService: HomeService<Topic>) {
     homeService.qe = getQueryInfo('TOPIC_GROUP');
