@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit} from '@angular/core';
 import { MaterializeAction } from 'angular2-materialize';
-import { Concept, ElementKind, IEntityEditAudit, IMoveTo, Topic, getQueryInfo} from '../../../classes';
+import {Concept, ElementKind, IEntityEditAudit, IMoveTo, Topic, getQueryInfo, ActionKind} from '../../../classes';
 import { HomeService} from '../home.service';
 import { PropertyStoreService} from '../../core/services';
 
@@ -22,15 +22,18 @@ export class ConceptComponent implements OnInit {
 
   public toDeletedConcept: any;
   public topic: Topic;
+  canCreate: boolean;
 
   constructor(private property: PropertyStoreService, private homeService: HomeService<Concept> ) {
     homeService.qe = getQueryInfo(this.CONCEPT);
-    let root = this.property.get('topic');
+    this.canCreate = this.homeService.canDo.get(ActionKind.Create);
+    const root = this.property.get('topic');
     if (!root) {
        this.homeService.getExt<Topic>(ElementKind.TOPIC_GROUP, this.property.parentMenu.id).then(
-         result => root = result);
+         result => this.topic  = new Topic(result));
+    } else {
+      this.topic = new Topic(root);
     }
-    this.topic = new Topic(root);
   }
 
   async ngOnInit() {
@@ -57,7 +60,7 @@ export class ConceptComponent implements OnInit {
   }
 
   onNewSave(newConcept) {
-    console.log('sadlfk');
+    console.log('newConcept');
     this.showConceptForm = false;
     this.showProgressBar = true;
       this.homeService.create(new Concept(newConcept), this.topic.id).subscribe(
@@ -127,6 +130,7 @@ export class ConceptComponent implements OnInit {
   }
 
   private updateConcept(concepts: Concept[], concept: Concept): boolean {
+    if (!concepts) { return false; }
     let found = false;
     let i = -1;
     while (!found && ++i < concepts.length) {

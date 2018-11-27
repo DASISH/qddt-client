@@ -3,15 +3,15 @@
     <div class="col s1 m1 l1">
       <br />
       <div class="row">
-        <a *ngIf="!readonly && canUpdate" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+        <a *ngIf="canUpdate && !(concept.archived)" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
            (click)="onToggleEdit(edit)"><i class="material-icons" title="Edit Concept">mode_edit</i></a>
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
            (click)="edit.showRevision = !edit.showRevision"><i class="material-icons left medium" title="Revision history">history</i></a>
-        <qddt-questionitem-reuse *ngIf="!readonly && canCreate" [parentId]="concept.id"
+        <qddt-questionitem-reuse *ngIf="canCreate && !(concept.archived)" [parentId]="concept.id"
                                  (createdEvent)="addQuestionItem($event)"></qddt-questionitem-reuse>
-        <a *ngIf="!readonly && canUpdate" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-           (click)="onCreateConcept(concept)"><i class="material-icons left medium" title="Add sub concept">add</i></a>
-        <a *ngIf="!readonly && canDelete" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+        <a *ngIf="canUpdate && !(concept.archived)" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+           (click)="onCreateConcept()"><i class="material-icons left medium" title="Add sub concept">add</i></a>
+        <a *ngIf="canDelete && !(concept.archived)" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
            (click)="onDeleteConcept(concept)"><i class="material-icons left medium" title="Delete" >delete_forever</i></a>
       </div>
     </div>
@@ -31,24 +31,23 @@
         <qddt-author-chip [authors]="concept.authors" ></qddt-author-chip>
       </div>
       <div *ngIf="showConceptChildForm">
-        <div class="card-action">
+        <div class="card-panel">
           <form #hf="ngForm">
             <div class="row input-field">
               <input name="name" type="text" ngModel required>
-              <label class="white-text">Name</label>
+              <label>Name</label>
             </div>
             <div class="row input-field">
               <textarea name="description" class="materialize-textarea" ngModel required ></textarea>
-              <label class="white-text">Description</label>
+              <label>Description</label>
             </div>
             <div class="row right-align">
-              <button type="button" (click)="onChildSave(hf.value)" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
+              <button type="button" (click)="onChildSave(hf.value)" class="btn btn-default" [disabled]="!hf.form.valid" >Add</button>
             </div>
           </form>
         </div>
       </div>
-      <qddt-concept-edit [isVisible]="edit.isVisible" [concept]="concept"
-                         (conceptSavedEvent)="onConceptSavedEvent($event)" #edit>
+      <qddt-concept-edit [isVisible]="edit.isVisible" [(concept)]="concept" #edit (conceptChanged)="onConceptUpdated($event)" >
       </qddt-concept-edit>
 
       <qddt-revision *ngIf = "edit.showRevision" [current]="concept"></qddt-revision>
@@ -61,7 +60,7 @@
           <a class="collection-item grey-text text-darken-1" *ngFor="let cqi of concept.conceptQuestionItems.sort()"
             style="padding:10px 5px 0px 10px ; ">
             <div class="row" style="min-height: 3rem;">
-              <div [innerHtml]="cqi?.name" class="col s9" (click)="onClickQuestionItem(cqi)" style="cursor: pointer;">
+              <div [innerHtml]="cqi?.name" class="col s9" (click)="onShowQuestionItem(cqi)" style="cursor: pointer;">
               </div>
               <div class="col s3">
                 <a *ngIf="!readonly" class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal right"
@@ -69,7 +68,7 @@
                   <i class="material-icons" title="Remove selected">remove</i>
                 </a>
                 <a *ngIf="!readonly" class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal right"
-                   [ngClass]="{hide: !showbutton}" (click)="onSelectQuestionItem(cqi)">
+                   [ngClass]="{hide: !showbutton}" (click)="onSelectRevision(cqi)">
                   <i class="material-icons" title="Select version">edit</i>
                 </a>
               </div>
@@ -89,7 +88,6 @@
       <div class="tree-children">
         <qddt-concept-treenode *ngFor="let child of concept.children"
            [concept]="child"
-           [readonly]="child.archived"
            (deleteEvent)="onDeleteConcept($event)"
            (updatedEvent)="onConceptUpdated($event)">
         </qddt-concept-treenode>

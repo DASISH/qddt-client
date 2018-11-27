@@ -12,15 +12,15 @@ declare var $: any;
   <form (ngSubmit)="onSave()" #studyForm="ngForm">
 
     <div class="row input-field">
-      <input id="{{formId}}-name" name="name" type="text" [(ngModel)]="study.name" required>
-      <label for="{{formId}}-name" >Name</label>
+      <input name="name" type="text" [(ngModel)]="study.name" required>
+      <label>Name</label>
     </div>
 
     <div class="row input-field">
-      <textarea id="{{formId}}-desc" name="{{formId}}-description" class="materialize-textarea"
+      <textarea name="{{formId}}-description" class="materialize-textarea"
         [(ngModel)]="study.description" required >
       </textarea>
-      <label for="{{formId}}-desc">Description</label>
+      <label>Description</label>
     </div>
 
     <qddt-rational [formName]="'RationalComp'" [element]="study" [config]="{hidden: [2,3]}"></qddt-rational>

@@ -16,7 +16,7 @@ export class SurveyProgram implements IEntityEditAudit {
   authors?: any[];
   comments?: any[];
   modified: any;
-  archived: boolean;
+  archived = false;
   studies: Study[];
   classKind = ElementKind[ElementKind.SURVEY_PROGRAM];
   agency?: IEntityAudit;
@@ -32,7 +32,7 @@ export class Study implements IEntityEditAudit {
   id: string;
   name: string;
   description: string;
-  archived: boolean;
+  archived = false;
   authors?: any[];
   comments?: any[];
   topicGroups: Topic[];
@@ -52,7 +52,7 @@ export class Topic implements IEntityEditAudit {
   name: string;
 
   description: string;
-  archived: boolean;
+  archived = false;
   authors?: any[];
   comments?: any[];
   otherMaterials: any[];
@@ -78,7 +78,7 @@ export class Concept implements IEntityEditAudit {
   name: string;
   label: string;
   description: string;
-  archived: boolean;
+  archived = false;
   authors: any[];
   comments: any[];
 

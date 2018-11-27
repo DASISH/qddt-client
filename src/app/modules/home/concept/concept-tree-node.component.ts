@@ -1,7 +1,6 @@
 import { AfterContentChecked, Component, EventEmitter, Input, Output} from '@angular/core';
 import { ActionKind, Concept, ElementKind, IRevisionRef, getQueryInfo, ElementRevisionRef} from '../../../classes';
 import { HomeService} from '../home.service';
-import { QuestionItem} from '../../question/question.classes';
 import { MessageService} from '../../core/services';
 
 const filesaver = require('file-saver');
@@ -16,9 +15,8 @@ declare var Materialize: any;
 
 export class TreeNodeComponent implements AfterContentChecked {
   @Input() concept: Concept;
-  @Input() readonly = false;
   @Output() deleteEvent =  new EventEmitter();
-  @Output() updatedEvent =  new EventEmitter();
+  @Output() updatedEvent =  new EventEmitter<Concept>();
 
   public showConceptChildForm = false;
   public showbutton = false;
@@ -33,7 +31,7 @@ export class TreeNodeComponent implements AfterContentChecked {
     homeService.qe = getQueryInfo(ElementKind.CONCEPT);
     this.canCreate = this.homeService.canDo.get(ActionKind.Create);
     this.canUpdate = this.homeService.canDo.get(ActionKind.Update);
-    this.canDelete  = this.homeService.canDo.get(ActionKind.Delete);
+    this.canDelete = this.homeService.canDo.get(ActionKind.Delete);
     }
 
   ngAfterContentChecked(): void {
@@ -53,16 +51,10 @@ export class TreeNodeComponent implements AfterContentChecked {
     }
   }
 
-  onCreateConcept(concept: any) {
-    if (!this.readonly) {
-      this.readonly = concept.archived;
+  onCreateConcept() {
+    if (this.canCreate ) {
+      this.showConceptChildForm = !this.showConceptChildForm;
     }
-    this.showConceptChildForm = !this.showConceptChildForm;
-  }
-
-  onConceptSavedEvent(concept: any) {
-    this.concept.version = concept.version;
-    this.updatedEvent.emit(concept);
   }
 
   onConceptUpdated(concept: any) {
@@ -73,10 +65,11 @@ export class TreeNodeComponent implements AfterContentChecked {
     this.deleteEvent.emit(concept);
   }
 
-  onClickQuestionItem(cqi) {
+  onShowQuestionItem(cqi) {
     this.message.sendMessage( cqi );
   }
-  onSelectQuestionItem(questionItem) {
+
+  onSelectRevision(questionItem) {
     console.log('select question');
   }
 
@@ -84,18 +77,19 @@ export class TreeNodeComponent implements AfterContentChecked {
 
     this.showConceptChildForm = false;
     this.concept.children.push(new Concept(newchild));
-
+    this.concept.changeKind = 'UPDATED_HIERARCHY_RELATION';
+    this.concept.changeComment = 'ADDED CHILD CONCEPT';
     this.homeService.update(this.concept).subscribe((result: any) => this.concept = result );
   }
 
   removeQuestionItem(ref: IRevisionRef) {
     this.homeService.deattachQuestion(this.concept.id, ref.elementId , ref.elementRevision)
-      .subscribe(result => this.onConceptSavedEvent(result) );
+      .subscribe(result => this.onConceptUpdated(result) );
   }
 
   addQuestionItem(ref: ElementRevisionRef) {
     this.homeService.attachQuestion(this.concept.id, ref.elementId, ref.elementRevision)
-      .subscribe(result => this.onConceptSavedEvent(result) );
+      .subscribe(result => this.onConceptUpdated(result) );
   }
 
   getPdf(concept: Concept) {

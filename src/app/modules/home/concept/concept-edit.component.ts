@@ -13,14 +13,14 @@ declare var $: any;
 
     <div class="row input-field">
       <input name="{{formId}}-name" type="text" [(ngModel)]="concept.name" required>
-      <label for="{{formId}}-name">Name</label>
+      <label>Name</label>
     </div>
 
     <div class="row input-field">
-      <textarea id="{{formId}}-desc" name="{{formId}}-description" class="materialize-textarea"
-        [(ngModel)]="concept.description" required >
+      <textarea
+        name="{{formId}}-description" class="materialize-textarea" [(ngModel)]="concept.description" required >
       </textarea>
-      <label for="{{formId}}-desc">Description</label>
+      <label>Description</label>
     </div>
 
     <qddt-rational
@@ -41,9 +41,9 @@ declare var $: any;
 })
 export class ConceptEditComponent implements OnChanges {
   @Input() concept: Concept;
+  @Output() conceptChanged =  new EventEmitter<Concept>();
   @Input() readonly = false;
   @Input() isVisible = false;
-  @Output() conceptSavedEvent =  new EventEmitter<any>();
 
   public readonly formId = Math.round( Math.random() * 10000);
   public showRevision = false;
@@ -56,8 +56,9 @@ export class ConceptEditComponent implements OnChanges {
 
   save() {
     this.service.update(this.concept)
-      .subscribe((result: any) => {
-        this.conceptSavedEvent.emit(this.concept = result);
+      .subscribe((result) => {
+        this.concept = result;
+        this.conceptChanged.emit(result);
         this.isVisible = false;
       });
   }
