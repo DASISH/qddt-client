@@ -104,7 +104,7 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy {
   }
 
   onSave() {
-    this.service.update(this.responsedomain).subscribe(
+    this.service.update<ResponseDomain>(this.responsedomain).subscribe(
       (rdResult) => {
         this.responsedomain = rdResult;
         this.modifiedEvent.emit(rdResult);

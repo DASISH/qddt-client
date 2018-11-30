@@ -4,6 +4,7 @@ import { ActionKind, ElementKind, IRevisionRef, Study, Topic, getQueryInfo} from
 import { HierarchyPosition} from '../../core/classes';
 import { HomeService} from '../home.service';
 import { MessageService, PropertyStoreService} from '../../core/services';
+import {TemplateService} from '../../../components/template';
 
 
 declare var Materialize: any;
@@ -32,11 +33,10 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
   private refreshCount = 0;
 
   constructor(private router: Router, private property: PropertyStoreService,
-      private message: MessageService, private homeService: HomeService<Topic> ) {
+      private message: MessageService, private homeService: HomeService<Topic>, private templateSrvice: TemplateService) {
 
-    homeService.qe = getQueryInfo(this.TOPIC_KIND);
-    this.readonly = !homeService.canDo.get(ActionKind.Create);
-    this.canDelete = homeService.canDo.get(ActionKind.Delete);
+    this.readonly = !homeService.canDo(this.TOPIC_KIND).get(ActionKind.Create);
+    this.canDelete = homeService.canDo(this.TOPIC_KIND).get(ActionKind.Delete);
   }
 
   ngAfterContentChecked(): void {
@@ -51,7 +51,7 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
   ngOnInit(): void {
     this.study = this.property.get('study');
     const parentId = this.study.id || this.property.menuPath[HierarchyPosition.Study].id;
-    this.homeService.getListByParent(parentId)
+    this.homeService.getListByParent(this.TOPIC_KIND, parentId)
       .then((result) => {
         this.property.set('topics', this.topics = result);
         this.showReuse = false;
@@ -103,7 +103,7 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
 
   onNewSave(newTopic) {
     this.showTopicForm = false;
-    this.homeService.create(new Topic(newTopic), this.study.id).subscribe(
+    this.templateSrvice.create(new Topic(newTopic), this.study.id).subscribe(
       result => this.onTopicSaved(result));
   }
 
@@ -112,18 +112,18 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
   }
 
   onAddQuestionItem(ref: IRevisionRef, topicId: any) {
-    this.homeService.attachQuestion(topicId, ref.elementId, ref.elementRevision)
+    this.homeService.attachQuestion(this.TOPIC_KIND, topicId, ref.elementId, ref.elementRevision)
       .subscribe((result: any) => this.onTopicSaved(result));
   }
 
   onRemoveQuestionItem(ref: IRevisionRef, topicId: any) {
-      this.homeService.deattachQuestion(topicId , ref.elementId, ref.elementRevision)
+      this.homeService.deattachQuestion(this.TOPIC_KIND, topicId , ref.elementId, ref.elementRevision)
       .subscribe((result: any) => this.onTopicSaved(result));
   }
 
   onRemoveTopic(topicId: string) {
     if (topicId && topicId.length === 36) {
-      this.homeService.delete(topicId).subscribe(() => {
+      this.templateSrvice.delete(new Topic({ id : topicId})).subscribe(() => {
         this.topics = this.topics.filter((s: any) => s.id !== topicId);
         this.property.set('topics', this.topics);
       });

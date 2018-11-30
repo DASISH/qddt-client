@@ -1,6 +1,7 @@
 import { Component, Input, EventEmitter, Output, AfterContentChecked } from '@angular/core';
 import { HomeService } from '../home.service';
 import {Study} from '../../../classes';
+import {TemplateService} from '../../../components/template';
 
 declare var $: any;
 
@@ -43,14 +44,14 @@ export class StudyEditComponent implements  AfterContentChecked {
 
   public readonly formId = Math.round( Math.random() * 10000);
   public showRevision;
-  constructor(private studyService: HomeService<Study>) { }
+  constructor(private service: TemplateService) { }
 
   ngAfterContentChecked() {
     $('#' + this.formId + '-desc').trigger('autoresize');
   }
 
   onSave() {
-    this.studyService.update(this.study).subscribe((result: any) => {
+    this.service.update(this.study).subscribe((result: any) => {
       this.study = null;
       this.savedEvent.emit(result);
     });

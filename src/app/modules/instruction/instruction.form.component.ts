@@ -12,7 +12,7 @@ export class InstructionFormComponent implements OnInit {
 
   @Input() instruction: Instruction;
   @Input() readonly = false;
-  @Output() modifiedEvent =  new EventEmitter<String>();
+  @Output() modifiedEvent =  new EventEmitter<Instruction>();
 
   public readonly INSTRUCTION = ElementKind.INSTRUCTION;
 
@@ -34,7 +34,7 @@ export class InstructionFormComponent implements OnInit {
 
 
   onSave() {
-    this.instructionService.update(this.instruction).subscribe(
+    this.instructionService.update<Instruction>(this.instruction).subscribe(
       (result) => {
         this.instruction = result;
         this.modifiedEvent.emit(result);

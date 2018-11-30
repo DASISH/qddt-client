@@ -1,6 +1,6 @@
 import { Component, Input, EventEmitter, Output, OnChanges, SimpleChanges } from '@angular/core';
-import { HomeService } from '../home.service';
 import { Concept } from '../../../classes';
+import {TemplateService} from '../../../components/template';
 
 declare var $: any;
 
@@ -48,14 +48,14 @@ export class ConceptEditComponent implements OnChanges {
   public readonly formId = Math.round( Math.random() * 10000);
   public showRevision = false;
 
-  constructor(private service: HomeService<Concept>) { }
+  constructor(private service: TemplateService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     $('#' + this.formId + '-desc').trigger('autoresize');
   }
 
   save() {
-    this.service.update(this.concept)
+    this.service.update<Concept>(this.concept)
       .subscribe((result) => {
         this.concept = result;
         this.conceptChanged.emit(result);

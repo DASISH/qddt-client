@@ -1,34 +1,36 @@
 import { Component,  OnInit, AfterContentChecked } from '@angular/core';
 import { Router } from '@angular/router';
 import { HomeService } from '../home.service';
-import { ActionKind, SurveyProgram, getQueryInfo} from '../../../classes';
+import { ActionKind, SurveyProgram, ElementKind} from '../../../classes';
 import { HierarchyPosition} from '../../core/classes';
 import { PropertyStoreService} from '../../core/services';
+import { TemplateService} from '../../../components/template';
 
 const filesaver = require('file-saver');
 declare var Materialize: any;
 
 @Component({
   selector: 'qddt-survey',
-  providers: [ {provide: 'elementKind', useValue: 'SURVEY_PROGRAM'}, ],
   templateUrl: './survey.component.html'
 })
 
 export class SurveyComponent implements OnInit, AfterContentChecked {
-  showSurveyForm = false;
   public surveys: SurveyProgram[];
   public newSurvey: SurveyProgram;
+  public showSurveyForm = false;
   public readonly = false;
-  refreshCount = 0;
 
-  constructor(private homeService: HomeService<SurveyProgram>, private router: Router, private property: PropertyStoreService) {
+  private refreshCount = 0;
+  private readonly SURVEY = ElementKind.SURVEY_PROGRAM;
+
+  constructor(private router: Router, private property: PropertyStoreService,
+              private homeService: HomeService<SurveyProgram>, private  templateService: TemplateService) {
     this.newSurvey = new SurveyProgram();
-    homeService.qe = getQueryInfo('SURVEY_PROGRAM');
-    this.readonly = !homeService.canDo.get(ActionKind.Create);
+    this.readonly = !homeService.canDo(this.SURVEY).get(ActionKind.Create);
   }
 
   ngOnInit() {
-      this.homeService.getListByParent().then(
+      this.homeService.getListByParent(this.SURVEY).then(
         (result) => this.surveys = result );
   }
 
@@ -61,7 +63,7 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
 
   onNewSave(survey) {
     console.log('saving');
-    this.homeService.create(new SurveyProgram(survey)).subscribe(
+    this.templateService.create(new SurveyProgram(survey)).subscribe(
       result => this.onSurveySaved(result) );
     this.showSurveyForm = false;
   }
@@ -69,7 +71,7 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
 
   getPdf(element: SurveyProgram) {
     const fileName = element.name + '.pdf';
-    this.homeService.getPdf(element).then(
+    this.templateService.getPdf(element).then(
       data => filesaver.saveAs(data, fileName));
   }
 

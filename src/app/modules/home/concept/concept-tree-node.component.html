@@ -50,7 +50,13 @@
       <qddt-concept-edit [isVisible]="edit.isVisible" [(concept)]="concept" #edit (conceptChanged)="onConceptUpdated($event)" >
       </qddt-concept-edit>
 
-      <qddt-revision *ngIf = "edit.showRevision" [current]="concept"></qddt-revision>
+      <!--<qddt-collection-revision-search-select-->
+        <!--[showProgressBar] = "showProgressBar" [kind] = "QUESTION_ITEM"-->
+        <!--[showList]="concept.conceptQuestionItems" [searchList] = "questionItemList"-->
+        <!--[revisionList] = "revisionList"-->
+        <!--(searchItems)="onSearchElements($event)"-->
+        <!--(searchRevision)="onRevisonSearch($event)">-->
+      <!--</qddt-collection-revision-search-select>-->
 
       <div *ngIf="concept.conceptQuestionItems?.length > 0 && !edit.isVisible" >
         <ul class="collection with-header hoverable"
@@ -78,6 +84,8 @@
       </div>
 
       <qddt-download *ngIf="!edit.isVisible" [entity]="concept" [readonly]="true"></qddt-download>
+
+      <qddt-revision *ngIf = "edit.showRevision" [current]="concept"></qddt-revision>
 
       <qddt-comment-list
         *ngIf="!edit.isVisible"

@@ -9,14 +9,14 @@ import { Concept, IMoveTo, Topic } from '../../../classes';
     'li a:hover:after { content: " (drag me)"; }',
   ],
   template: `
-    <ul *ngIf="children.length" [ngClass]="{ 'toc-children': (level > 0) }"  (drop)="onDrop($event, -1)">
+    <ul *ngIf="children?.length" [ngClass]="{ 'toc-children': (level > 0) }"  (drop)="onDrop($event, -1)">
       <li *ngFor="let concept of children; let idx = index;" draggable="true"
           (dragstart)="onDragstart($event, concept.id)"
           (dragover)="onDragover($event)"
           (dragleave)="onDragleave($event)"
           (drop)="onDrop($event, idx)">
         <a href="concept#{{concept.id}}">
-          <span class="blue-text" [ngClass]="'text-lighten-' + level"><b>{{ concept.name }}</b></span>
+          <span class="teal-text" [ngClass]="'text-lighten-' + level"><b>{{ concept.name }}</b></span>
         </a>
         <qddt-concept-toc *ngIf="concept.children"
             [level]="level+1" [children]="concept.children" [parentId]= "concept.id" (conceptMoved)="conceptMoved.emit($event)">

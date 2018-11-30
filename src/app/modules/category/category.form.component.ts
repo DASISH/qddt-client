@@ -13,7 +13,7 @@ export class CategoryFormComponent implements OnInit {
 
   @Input() category: Category;
   @Input() readonly = false;
-  @Output() modifiedEvent =  new EventEmitter<String>();
+  @Output() modifiedEvent =  new EventEmitter<Category>();
 
   public readonly CATEGORY = ElementKind.CATEGORY;
 
@@ -43,7 +43,7 @@ export class CategoryFormComponent implements OnInit {
   // }
 
   onSave() {
-    this.categoryService.update(this.category).subscribe(
+    this.categoryService.update<Category>(this.category).subscribe(
       (result) => {
         this.category = result;
         this.modifiedEvent.emit(result);

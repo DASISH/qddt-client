@@ -1,12 +1,11 @@
 import { Component, Input, EventEmitter, Output, AfterContentChecked } from '@angular/core';
-import { HomeService } from '../home.service';
-import { Topic, getQueryInfo} from '../../../classes';
+import {ElementKind, Topic} from '../../../classes';
+import {TemplateService} from '../../../components/template';
 
 declare var $: any;
 
 @Component({
   selector: 'qddt-topic-edit',
-  providers: [ {provide: 'elementKind', useValue: 'TOPIC_GROUP'}, ],
   styles: [
     '.nomargin { margin:0; }',
     ':host /deep/ .hoverable { margin-bottom:0px;}',
@@ -22,10 +21,11 @@ export class TopicEditComponent  implements AfterContentChecked {
   @Output() savedEvent = new EventEmitter<any>();
 
   public readonly formId = Math.round( Math.random() * 10000);
+  private readonly TOPIC_KIND = ElementKind.TOPIC_GROUP;
+
   private fileStore: File[] = [];
 
-  constructor(private homeService: HomeService<Topic>) {
-    homeService.qe = getQueryInfo('TOPIC_GROUP');
+  constructor(private service: TemplateService) {
    }
 
   ngAfterContentChecked() {
@@ -37,7 +37,7 @@ export class TopicEditComponent  implements AfterContentChecked {
     formData.append('topicgroup', JSON.stringify(this.topic));
     this.fileStore.forEach( (file) => { formData.append('files', file); });
 
-    this.topic = await this.homeService.updateWithFiles(formData).toPromise();
+    this.topic = await this.service.updateWithFiles(this.TOPIC_KIND, formData).toPromise();
 
     this.savedEvent.emit(this.topic);
   }

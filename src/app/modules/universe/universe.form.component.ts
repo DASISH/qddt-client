@@ -12,7 +12,7 @@ export class UniverseFormComponent implements OnInit {
 
   @Input() universe: Universe;
   @Input() readonly = false;
-  @Output() modifiedEvent =  new EventEmitter<String>();
+  @Output() modifiedEvent =  new EventEmitter<Universe>();
 
   public readonly UNIVERSE = ElementKind.UNIVERSE;
 
@@ -33,7 +33,7 @@ export class UniverseFormComponent implements OnInit {
 
 
   onSave() {
-    this.universeService.update(this.universe).subscribe(
+    this.universeService.update<Universe>(this.universe).subscribe(
       (result) => {
         this.universe = result;
         this.modifiedEvent.emit(result);

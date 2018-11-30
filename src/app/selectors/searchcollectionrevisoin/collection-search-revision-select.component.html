@@ -19,7 +19,6 @@
       (selectEvent)="onSelectedRevision($event)">
     </qddt-revision-select>
   </li>
-  <!-- <div  *ngFor="let item of showList; let idx=index"> -->
 
   <li *ngFor="let item of showList; let idx=index" class="collection-item" style="border: 1px; border-color: black; height:2rem"
    draggable="true" (dragstart)="onDragStart($event, item)" >
@@ -33,8 +32,4 @@
       </div>
     </div>
   </li>
-  <li (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
-      <!-- <div class="card">drop here</div> -->
-  </li>
-<!-- </div> -->
 </ul>

@@ -1,8 +1,10 @@
 import { Component, EventEmitter, OnInit} from '@angular/core';
 import { MaterializeAction } from 'angular2-materialize';
-import {Concept, ElementKind, IEntityEditAudit, IMoveTo, Topic, getQueryInfo, ActionKind} from '../../../classes';
+import {Concept, ElementKind, IEntityEditAudit, IMoveTo, Topic, ActionKind} from '../../../classes';
 import { HomeService} from '../home.service';
-import { PropertyStoreService} from '../../core/services';
+import { TemplateService} from '../../../components/template';
+import { PropertyStoreService } from '../../core/services';
+import {HierarchyPosition} from '../../core/classes';
 
 
 @Component({
@@ -24,24 +26,28 @@ export class ConceptComponent implements OnInit {
   public topic: Topic;
   canCreate: boolean;
 
-  constructor(private property: PropertyStoreService, private homeService: HomeService<Concept> ) {
-    homeService.qe = getQueryInfo(this.CONCEPT);
-    this.canCreate = this.homeService.canDo.get(ActionKind.Create);
-    const root = this.property.get('topic');
-    if (!root) {
-       this.homeService.getExt<Topic>(ElementKind.TOPIC_GROUP, this.property.parentMenu.id).then(
-         result => this.topic  = new Topic(result));
-    } else {
-      this.topic = new Topic(root);
-    }
+  constructor(private property: PropertyStoreService, private homeService: HomeService<Concept>,
+              private  templateService: TemplateService) {
+    this.canCreate = this.homeService.canDo(this.CONCEPT).get(ActionKind.Create);
   }
 
   async ngOnInit() {
-    this.topic.concepts = this.property.get('concepts');
-    if (!this.topic.concepts) {
+    const root = this.property.get('topic');
+    const parentId = root.id || this.property.menuPath[HierarchyPosition.Topic].id;
+    if (!root) {
       this.showProgressBar = true;
-      this.topic.concepts = await this.homeService.getListByParent(this.topic.id);
+      this.topic = new Topic( await this.homeService.getExt<Topic>(ElementKind.TOPIC_GROUP, parentId));
       this.showProgressBar = false;
+    } else {
+      this.topic = new Topic(root);
+    }
+    const list = this.property.get('concepts');
+    if (!list) {
+      this.showProgressBar = true;
+      this.topic.concepts = await this.homeService.getListByParent(this.CONCEPT, parentId);
+      this.showProgressBar = false;
+    } else {
+      this.topic.concepts = list;
     }
   }
 
@@ -63,7 +69,7 @@ export class ConceptComponent implements OnInit {
     console.log('newConcept');
     this.showConceptForm = false;
     this.showProgressBar = true;
-      this.homeService.create(new Concept(newConcept), this.topic.id).subscribe(
+      this.templateService.create(new Concept(newConcept), this.topic.id).subscribe(
         (result) => { this.onConceptUpdated(result); },
         (error) => { throw error; },
         () => { this.showProgressBar = false; } );
@@ -90,7 +96,7 @@ export class ConceptComponent implements OnInit {
       this.findConcept(this.topic.concepts, event.target).children = targets;
     }
 
-    const result = await this.homeService.updateAll(this.topic.concepts, this.topic.id).toPromise();
+    const result = await this.templateService.updateAll(this.topic.concepts, this.topic.id).toPromise();
     const topic = await this.homeService.getExt<Topic>(ElementKind.TOPIC_GROUP, this.topic.id);
     topic.concepts = result;
     this.property.set('topic',  topic);
@@ -111,7 +117,7 @@ export class ConceptComponent implements OnInit {
   }
 
   onConfirmDeleteConcept() {
-    this.homeService.delete(this.toDeletedConcept.id).subscribe(
+    this.templateService.delete(this.toDeletedConcept).subscribe(
       (val) => {
         // console.log(val);
         this.confirmDeleteActions.emit({action: 'modal', params: ['close']});

@@ -1,16 +1,16 @@
-import { Component, OnInit, AfterContentChecked } from '@angular/core';
-import { Router } from '@angular/router';
-import { HomeService } from '../home.service';
-import { ActionKind, ElementKind, Study, SurveyProgram, getQueryInfo} from '../../../classes';
+import { AfterContentChecked, Component, OnInit} from '@angular/core';
+import { Router} from '@angular/router';
+import { HomeService} from '../home.service';
+import { ActionKind, ElementKind, Study, SurveyProgram} from '../../../classes';
 import { HierarchyPosition} from '../../core/classes';
 import { PropertyStoreService} from '../../core/services';
+import { TemplateService} from '../../../components/template';
 
 const filesaver = require('file-saver');
 declare var Materialize: any;
 
 @Component({
   selector: 'qddt-study',
-  providers: [ {provide: 'elementKind', useValue: 'STUDY'}, ],
   templateUrl: './study.component.html',
 })
 
@@ -20,23 +20,24 @@ export class StudyComponent implements OnInit, AfterContentChecked {
   public canDelete: boolean;
   public survey: SurveyProgram;
   public revision: any;
-  refreshCount = 0;
 
-  constructor(  private router: Router, private property: PropertyStoreService, private homeService: HomeService<Study>) {
+  private refreshCount = 0;
+  private readonly STUDY = ElementKind.STUDY;
 
-    homeService.qe = getQueryInfo('STUDY');
-    this.readonly = !homeService.canDo.get(ActionKind.Create);
-    this.canDelete = homeService.canDo.get(ActionKind.Delete);
+  constructor(  private router: Router, private property: PropertyStoreService,
+                private homeService: HomeService<Study>, private templateService: TemplateService ) {
+
+    this.readonly = !homeService.canDo(this.STUDY).get(ActionKind.Create);
+    this.canDelete = homeService.canDo(this.STUDY).get(ActionKind.Delete);
   }
 
   ngOnInit(): void {
-    const surveyProgram = this.property.get('survey');
-    if (surveyProgram) {
-      this.survey = surveyProgram;
-    } else {
-      const parentId = this.property.menuPath[HierarchyPosition.Survey].id;
-      this.homeService.getListByParent(parentId).then(result => this.survey.studies = result);
-    }
+    this.survey = this.property.get('survey');
+    const parentId = this.survey.id || this.property.menuPath[HierarchyPosition.Survey].id;
+    this.templateService.getByKindEntity<SurveyProgram>(ElementKind.SURVEY_PROGRAM, parentId)
+    .then((result) => {
+      this.property.set('survey', this.survey = result);
+    });
   }
 
   ngAfterContentChecked(): void {
@@ -77,27 +78,20 @@ export class StudyComponent implements OnInit, AfterContentChecked {
 
   onNewSave(study) {
     this.showEditForm = false;
-    this.homeService.create(new Study(study), this.survey.id).subscribe(
+    this.templateService.create(new Study(study), this.survey.id).subscribe(
       result => this.onStudySaved(result) );
   }
 
   getPdf(study: Study) {
     const fileName = study.name + '.pdf';
-    this.homeService.getPdf(study).then(
+    this.templateService.getPdf(study).then(
       (data) => filesaver.saveAs(data, fileName) );
   }
 
-  // getXml(study: Study) {
-  //   const fileName = study.name + '.xml';
-  //   this.homeService.getXml(study).then(
-  //     (data: any) => {
-  //       filesaver.saveAs(data, fileName);
-  //     });
-  // }
 
   onRemoveStudy(studyId: string) {
     if (studyId) {
-      this.homeService.delete(studyId)
+      this.templateService.delete(new Study({id: studyId}))
         .subscribe(() => {
           this.survey.studies = this.survey.studies.filter((s: any) => s.id !== studyId);
           this.property.set('studies', this.survey.studies);
