@@ -3,11 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Observable ,  BehaviorSubject } from 'rxjs';
 
 import { API_BASE_HREF} from '../../../api';
-import { TOKEN_NAME} from '../classes/token-name.config';
 import { PropertyStoreService } from './property.service';
 import { ActionKind, ElementKind} from '../../../classes';
 import { Agency, IAuthority, UserJson} from '../../user/user.classes';
-import { AuthorityKind, IPassword, User} from '../classes';
+import { AuthorityKind, IPassword, TOKEN_NAME, User} from '../classes';
 
 /**
  * UserService uses JSON-Web-Token authorization strategy.

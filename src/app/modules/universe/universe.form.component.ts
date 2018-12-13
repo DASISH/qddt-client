@@ -16,7 +16,7 @@ export class UniverseFormComponent implements OnInit {
 
   public readonly UNIVERSE = ElementKind.UNIVERSE;
 
-  public isTemplate: boolean;
+  // public isTemplate: boolean;
 
   private selectedUniverseIndex: number;
 

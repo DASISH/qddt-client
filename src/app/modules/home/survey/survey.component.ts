@@ -16,16 +16,17 @@ declare var Materialize: any;
 
 export class SurveyComponent implements OnInit, AfterContentChecked {
   public surveys: SurveyProgram[];
-  public newSurvey: SurveyProgram;
   public showSurveyForm = false;
   public readonly = false;
 
   private refreshCount = 0;
   private readonly SURVEY = ElementKind.SURVEY_PROGRAM;
 
-  constructor(private router: Router, private property: PropertyStoreService,
-              private homeService: HomeService<SurveyProgram>, private  templateService: TemplateService) {
-    this.newSurvey = new SurveyProgram();
+  constructor(private router: Router,
+              private property: PropertyStoreService,
+              private homeService: HomeService<SurveyProgram>,
+              private  templateService: TemplateService) {
+
     this.readonly = !homeService.canDo(this.SURVEY).get(ActionKind.Create);
   }
 

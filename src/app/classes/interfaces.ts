@@ -33,7 +33,6 @@ export interface IEntityAudit {
   id: string;
   name: string;
   classKind: string;
-  comments?: IComment[];
 }
 
 export interface IUser {
@@ -66,6 +65,8 @@ export interface IEntityEditAudit extends IEntityAudit {
   agency?: IEntityAudit;
   archived?: boolean;
   otherMaterials?: IOtherMaterial[];
+  xmlLang?: string;
+  comments?: IComment[];
 }
 
 export interface IVersion {
@@ -95,16 +96,18 @@ export interface IPageResult<T> {
 
 export interface IRevisionResultEntity {
   entity: IEntityEditAudit;
-  metadata: { delegate: { id: number, timestamp: number }, revisionDate: any, revisionNumber: number };
+  revisionModifiedBy: IUser;
+  metadata: { delegate: { id: number, timestamp: number, modifiedBy: IUser }, revisionDate: any, revisionNumber: number };
   revisionDate: any;
   revisionNumber: number;
 }
 export interface IRevisionResult<T extends IEntityAudit> {
   entity: T;
-  metadata: { delegate: { id: number, timestamp: number }, revisionDate: any, revisionNumber: number };
+  metadata: { delegate: { id: number, timestamp: number, modifiedBy: IUser }, revisionDate: any, revisionNumber: number };
   revisionDate: any;
   revisionNumber: number;
 }
+
 
 export interface IPageSearch {
   kind: ElementKind;

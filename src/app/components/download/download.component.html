@@ -47,7 +47,7 @@
           {{entity.name}}.pdf </a>
       </div>
     </a>
-    <a class="row collection-item" >
+    <a *ngIf="showXmlDownload" class="row collection-item" >
       <div class="col s11 " (click)="getXml(entity)">
       <a class="waves-effect waves-light" title="Get as XML (DDI 3.2)" >
         <svg style="width:24px;height:24px" viewBox="0 0 24 24">

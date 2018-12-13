@@ -1,7 +1,6 @@
-
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import {ActionKind, getElementKind, IEntityEditAudit, IOtherMaterial} from '../../classes';
-import { TemplateService } from '../template/template.service';
+import {AfterViewInit, Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {ActionKind, ElementKind, getElementKind, IEntityEditAudit, IOtherMaterial} from '../../classes';
+import {TemplateService} from '../template';
 
 const filesaver = require('file-saver');
 
@@ -16,21 +15,27 @@ const filesaver = require('file-saver');
     '.collection .collection-item { background-color: unset; }',
   ],
 })
-export class FileDownload implements OnChanges {
+export class FileDownload implements OnChanges, AfterViewInit {
   @Input() fileStore: File[] = [];
   @Input() entity: IEntityEditAudit;
   @Input() readonly = true;
 
   public showbutton = false;
   public showUploadFileForm = false;
+  public showXmlDownload = true;
   // public toDeleteFiles: File[] = [];
   public label = '';
 
-  constructor(private service: TemplateService) {
+  constructor(private service: TemplateService) { }
+
+  ngAfterViewInit(): void {
+    const ek =  getElementKind(this.entity.classKind);
     if (!this.readonly) {
-      this.readonly = !this.service.can(ActionKind.Create, getElementKind(this.entity.classKind));
+      this.readonly = !this.service.can(ActionKind.Create, ek);
     }
+    this.showXmlDownload = !(ek ===  ElementKind.SURVEY_PROGRAM || ek === ElementKind.STUDY);
   }
+
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['entity'].currentValue) {

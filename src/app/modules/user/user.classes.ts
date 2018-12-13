@@ -1,4 +1,3 @@
-
 export interface IAuthority {
   id: string;
   name: string;
@@ -22,7 +21,6 @@ export class UserJson {
   authorities: IAuthority[] = [ {id: 'null', name: 'none', authority: 'NONE' } ];
   enabled = true;
   classKind: 'USER';
-
   public constructor(init?: Partial<UserJson>) {
     Object.assign(this, init);
   }
