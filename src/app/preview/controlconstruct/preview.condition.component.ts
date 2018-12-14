@@ -7,16 +7,33 @@ import {ConditionConstruct} from '../../classes';
   template: `
     <div class="row" *ngIf="condition">
       <h5>Condition</h5>
-      <div class="row input-field">
-        <input name="{{elementId}}-name" [ngModel]="condition.name" readonly>
-        <label >Name</label>
+      <div class="row">
+        <label>Name</label>
       </div>
-      <div class="row input-field">
-        <input name="{{elementId}}-conditionKind" [ngModel]="condition.conditionKind" readonly>
-        <label >conditionKind</label>
+      <div class="row">
+        {{condition.name}}
+      </div>
+      <div class="row">
+        <label>conditionKind</label>
+      </div>
+      <div class="row">
+        {{condition.conditionKind}}
+      </div>
+      <!--<div class="row input-field">-->
+        <!--&lt;!&ndash;<input name="{{elementId}}-name" [ngModel]="condition.name" readonly>&ndash;&gt;-->
+        <!--<label>Name</label>-->
+        <!--{{condition.name}}-->
+      <!--</div>-->
+      <!--<div class="row input-field">-->
+        <!--&lt;!&ndash;<input name="{{elementId}}-conditionKind" [ngModel]="condition.conditionKind" readonly>&ndash;&gt;-->
+        <!--<label>conditionKind</label>-->
+        <!--{{condition.conditionKind}}-->
+      <!--</div>-->
+      <div class="row">
+        <label>Condition</label>
       </div>
       <div class="row card">
-        <p> {{ conditionT | json }} </p>
+        <p> {{ condition.condition | json }} </p>
       </div>
     </div>`,
   styles: [
@@ -29,9 +46,6 @@ export class PreviewConditionConstructComponent implements OnChanges {
   @Input() showDetail = true;
   elementId: string = new Date().toString();
 
-  get  conditionT() {
-    return this.condition.conditionT;
-  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.condition) {

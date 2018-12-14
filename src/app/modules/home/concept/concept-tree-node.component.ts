@@ -72,11 +72,11 @@ export class TreeNodeComponent implements AfterContentChecked {
     }
   }
 
-  onConceptUpdated(concept: any) {
+  onConceptUpdated(concept: Concept) {
     this.updatedEvent.emit(concept);
   }
 
-  onDeleteConcept(concept: any) {
+  onDeleteConcept(concept: Concept) {
     this.deleteEvent.emit(concept);
   }
 

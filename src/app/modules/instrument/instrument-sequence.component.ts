@@ -19,7 +19,7 @@ import { TemplateService} from '../../components/template';
 })
 
 export class InstrumentSequenceComponent  {
-  @Input() sequences: InstrumentSequence[];
+  @Input() sequence: InstrumentSequence[];
 
   public revisionResults: any[];
   public sequenceList: any[];
@@ -56,13 +56,13 @@ export class InstrumentSequenceComponent  {
     ref.element.sequence.forEach( (seq: ElementRevisionRef) => {
       const newSeq = new InstrumentSequence();
       newSeq.elementRef = seq;
-      insSeq.sequences.push(newSeq);
+      insSeq.sequence.push(newSeq);
     });
-    this.sequences.push(insSeq);
+    this.sequence.push(insSeq);
   }
 
   public onDeleteItem(idx) {
-    this.sequences.splice(idx, 1);
+    this.sequence.splice(idx, 1);
   }
 
   public onDismiss() {
@@ -70,8 +70,8 @@ export class InstrumentSequenceComponent  {
     this.sequenceList = null;
   }
 
-  public onOpenBody( sequences: InstrumentSequence[]) {
-    sequences.forEach((item) => {
+  public onOpenBody( sequence: InstrumentSequence[]) {
+    sequence.forEach((item) => {
       if (!item.elementRef.element && !this.isSequence(item.elementRef.elementKind)) {
         this.service.getByKindRevision(
           getElementKind(item.elementRef.elementKind),

@@ -28,7 +28,7 @@
           </option>
       </select>
     </div>
-    <qddt-instrument-sequence [sequences] = "element.sequence" ></qddt-instrument-sequence>
+    <qddt-instrument-sequence [sequence] = "element.sequence" ></qddt-instrument-sequence>
 
     <qddt-rational [formName]="'RationalComp'" *ngIf="!readonly && element.id" [element]="element" [config]="{hidden: [3,4]}">
     </qddt-rational>

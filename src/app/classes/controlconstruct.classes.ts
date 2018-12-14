@@ -88,26 +88,30 @@ enum ConditionKind {
 export class ConditionConstruct implements IEntityEditAudit {
   id: string;
   name: string;
-  conditionKind: ConditionKind;
-  condition: string;
+  conditionKind: string;
+  condition: string | IfThenElse | Loop | RepeatWhile | RepeatUntil;
   classKind = ElementKind[ElementKind.CONDITION_CONSTRUCT];
-
-  get conditionT(): IfThenElse | Loop | RepeatWhile | RepeatUntil {
-      switch (this.conditionKind) {
-        case ConditionKind.COMPUTATION_ITEM:
-        case ConditionKind.IF_THEN_ELSE:
-          return new IfThenElse(JSON.parse(this.condition));
-        case ConditionKind.LOOP:
-          return new Loop(JSON.parse(this.condition));
-        case ConditionKind.REPEAT_UNTIL:
-          return  new RepeatUntil(JSON.parse(this.condition));
-        case ConditionKind.REPEAT_WHILE:
-          return new RepeatWhile(JSON.parse(this.condition));
-      }
-  }
 
   public constructor(init?: Partial<ConditionConstruct>) {
     Object.assign(this, init);
+    if (init.condition && typeof init.condition === 'string') {
+      switch (ConditionKind[init.conditionKind]) {
+        case ConditionKind.COMPUTATION_ITEM:
+          break;
+        case ConditionKind.IF_THEN_ELSE:
+          this.condition = new IfThenElse(JSON.parse(init.condition));
+          break;
+        case ConditionKind.LOOP:
+          this.condition = new Loop(JSON.parse(init.condition));
+          break;
+        case ConditionKind.REPEAT_UNTIL:
+          this.condition = new RepeatUntil(JSON.parse(init.condition));
+          break;
+        case ConditionKind.REPEAT_WHILE:
+          this.condition = new RepeatWhile(JSON.parse(init.condition));
+          break;
+      }
+    }
   }
 }
 
