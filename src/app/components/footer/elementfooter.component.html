@@ -1,23 +1,23 @@
 <div *ngIf="element" class="row truncate" >
-  <div class="input-field col s3 l1">
+  <div class="input-field col s3 m1">
     <p><label class="active teal-text">Version</label></p>
     <div class="chip" title={{getVersion()}}>
       {{element?.version?.major}}.{{element?.version?.minor}}</div>
   </div>
-  <div class="input-field col s5 l3">
+  <div class="input-field col s5 m3">
     <p><label class="active teal-text">Last Saved</label></p>
     <div class="chip" title={{getTime()}}>{{element?.modified | date:'E, MMMM d, y' }}</div>
   </div>
-  <div class="input-field col s5 l3">
+  <div class="input-field col s5 m3">
     <p><label class="active teal-text">Last Saved By</label></p>
     <div class="chip"><img class="gravatar" gravatar [email]="element?.modifiedBy?.email" [size]="32">
       {{element?.modifiedBy?.username}}</div>
   </div>
-  <div class="input-field col s5 l3">
+  <div class="input-field col s5 m3">
     <p><label class="active teal-text">Agency</label></p>
     <div class="chip">{{element?.agency?.name}}</div>
   </div>
-  <div class="input-field col s5 l2">
+  <div class="input-field col s5 m2">
     <p><label class="active teal-text">Based On Object</label></p>
     <div *ngIf="element.basedOnObject" class="chip"
          [ngStyle]="{'cursor': 'pointer'}"
