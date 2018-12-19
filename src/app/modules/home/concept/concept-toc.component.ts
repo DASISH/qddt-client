@@ -1,5 +1,5 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnInit, AfterViewInit } from '@angular/core';
-import { Concept, IMoveTo, Topic } from '../../../classes';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Concept, IMoveTo } from '../../../classes';
 
 @Component({
   selector: 'qddt-concept-toc',

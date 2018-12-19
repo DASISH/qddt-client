@@ -1,0 +1,13 @@
+*[draggable=true] {
+  -moz-user-select:none;
+  -khtml-user-drag: element;
+  cursor: move;
+}
+
+.input-field { margin-top: 0; }
+
+
+li.over {
+  border-color: #3d557a;
+  background: #ccc;
+}

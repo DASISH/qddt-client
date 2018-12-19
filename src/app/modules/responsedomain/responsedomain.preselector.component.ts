@@ -42,7 +42,7 @@ export class ResponsePreSelector implements  OnInit {
   constructor(private  messages: MessageService, private properties: PropertyStoreService ) { }
 
   ngOnInit(): void {
-    const kind: string = this.getPageSearch().keys.get(this.KEY);
+    const kind = this.getPageSearch().keys.get(this.KEY) || 'SCALE';
     this.domainType = DomainKind[kind];
   }
 
