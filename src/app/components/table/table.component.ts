@@ -117,13 +117,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         if (row[column.label] === undefined) {
           let colref = item;
           if (column.name instanceof Array) {
-            column.name.forEach(colName => {
-              if (colref instanceof Array) {
-                colref = colref[0][colName];
-              } else {
-                colref = colref[colName];
-              }
-            });
+            column.name.forEach(colName => colref = colref[colName]);
           } else {
             colref = colref[column.name];
           }
