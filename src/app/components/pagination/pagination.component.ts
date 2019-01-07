@@ -90,11 +90,11 @@ export class QddtPaginationComponent implements OnChanges {
    *  Current page.
    */
   @Input()
-  set page(value: number | string) {
+  set page(value: number) {
     this._page = parseInt(`${value}`, 10) + 1;
   }
 
-  get page(): number | string { return this._page; }
+  get page(): number { return this._page; }
 
   /**
    *  Number of items per page.
@@ -120,6 +120,10 @@ export class QddtPaginationComponent implements OnChanges {
   hasPrevious(): boolean { return this.page > 1; }
 
   hasNext(): boolean { return this.page < this._pageCount; }
+
+  selectLastPage(): void {
+    this.selectPage(this._pageCount);
+  }
 
   selectPage(pageNumber: number): void {
     const prevPageNo = this.page;

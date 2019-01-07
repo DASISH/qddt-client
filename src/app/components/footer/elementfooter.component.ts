@@ -1,13 +1,12 @@
 import { Component, Input } from '@angular/core';
-import {IEntityEditAudit, IRevisionRef} from '../../classes';
-import {MessageService} from '../../modules/core/services';
+import { IEntityEditAudit, IRevisionRef } from '../../classes';
+import { MessageService } from '../../modules/core/services';
 
 @Component({
   selector: 'qddt-element-footer',
 
   styles:  [
-    'p {padding: 3px ;margin: inherit;!important;}',
-    '.input-field label.active {padding-top:3px; !important;}'
+    ' .chip {margin-top: 5px;}',
   ],
   templateUrl: './elementfooter.component.html'
 })

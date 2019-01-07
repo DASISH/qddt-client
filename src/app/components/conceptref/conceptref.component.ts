@@ -10,7 +10,7 @@ import {MessageService} from '../../modules/core/services';
 export class ConceptrefComponent  {
   @Input() element: any;
 
-  private showRefs = false;
+  public showRefs = false;
 
   constructor(private  message: MessageService) {
   }
