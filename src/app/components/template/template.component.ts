@@ -1,6 +1,6 @@
 import { takeWhile} from 'rxjs/operators';
 import { Component, OnDestroy, AfterContentChecked} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ResponseDomain, DomainKind } from '../../modules/responsedomain/responsedomain.classes';
 import { Factory } from '../../classes/factory';
 import { ActionKind, ElementKind, HEADER_DETAILS, IEntityEditAudit, IPageSearch} from '../../classes';
@@ -34,8 +34,8 @@ export class TemplateComponent implements OnDestroy, AfterContentChecked {
   private canCreate: boolean;
 
 
-  constructor(private route: ActivatedRoute, private  messages: MessageService, private service: UserService,
-              private properties: PropertyStoreService ) {
+  constructor(private route: ActivatedRoute, private router: Router, private  messages: MessageService,
+              private service: UserService, private properties: PropertyStoreService ) {
     this.route.url.pipe(
     takeWhile(() => this.alive))
     .subscribe((event) => {
@@ -56,13 +56,13 @@ export class TemplateComponent implements OnDestroy, AfterContentChecked {
       takeWhile(() => this.alive))
       .subscribe(event => {
         if (event.action === ActionKind.Filter
-          && (event.id === 'ResponseKind' || event.id === 'publishedstatus' ) ) {
+          && (event.id === 'ResponseKind' || event.id === 'publishedKind' ) ) {
           if (this.showForm) { this.onToggleForm(); }
-          if (event.id === 'ResponseKind') {
-            // TODO go to response List
-          } else {
-            // TODO go to publised List
-          }
+            const param = this.route.snapshot.firstChild.params;
+            if (param.id) {
+              this.router.navigate(['../' ], { relativeTo: this.route.firstChild });
+              // console.log(this.route.snapshot.firstChild.url[1].path);
+            }
         }
       });
   }

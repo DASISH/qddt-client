@@ -53,7 +53,7 @@ export class UserFormComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   onSave() {
-    this.userService.save(this.user).subscribe(
+    this.userService.saveUser(this.user).subscribe(
       (result) => {
         this.modifiedEvent.emit(this.user = result);
       },

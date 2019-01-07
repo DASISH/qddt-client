@@ -57,6 +57,7 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
   }
 
   onShowStudy(surveyProgram: any) {
+    console.log('onshow survey');
     this.property.set('survey', surveyProgram);
     this.property.setCurrentMenu(HierarchyPosition.Survey, { id: surveyProgram.id , name: surveyProgram.name });
     this.router.navigate(['study']);

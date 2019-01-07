@@ -16,4 +16,4 @@ const appRoutes: Routes = [
 
 export const routing: ModuleWithProviders =
   RouterModule.forRoot(appRoutes, {
-    enableTracing: false, anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled', scrollOffset: [-100, -100] } );
+    enableTracing: false, anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled', scrollOffset: [0, 300] } );

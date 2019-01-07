@@ -89,7 +89,7 @@ const LIST = [
     new Column( { label: 'Code Domain', name: 'name', sortable: true} ),
     new Column( { label: 'Description', name: 'description', sortable: true} ),
     new Column( { label: 'Number of Codes', name: ['managedRepresentation', 'children', 'length'], sortable: false} ),
-  ];
+    new Column( { label: 'Anchors', name: 'anchorLabel', sortable: false} ),  ];
 
 const NUMERIC = [
     new Column( { label: 'Numeric Domain', name: 'name', sortable: true} ),

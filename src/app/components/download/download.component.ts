@@ -15,7 +15,7 @@ const filesaver = require('file-saver');
     '.collection .collection-item { background-color: unset; }',
   ],
 })
-export class FileDownload implements OnChanges, AfterViewInit {
+export class FileDownload implements OnChanges {
   @Input() fileStore: File[] = [];
   @Input() entity: IEntityEditAudit;
   @Input() readonly = true;
@@ -23,22 +23,18 @@ export class FileDownload implements OnChanges, AfterViewInit {
   public showbutton = false;
   public showUploadFileForm = false;
   public showXmlDownload = true;
-  // public toDeleteFiles: File[] = [];
   public label = '';
 
   constructor(private service: TemplateService) { }
 
-  ngAfterViewInit(): void {
-    const ek =  getElementKind(this.entity.classKind);
-    if (!this.readonly) {
-      this.readonly = !this.service.can(ActionKind.Create, ek);
-    }
-    this.showXmlDownload = !(ek ===  ElementKind.SURVEY_PROGRAM || ek === ElementKind.STUDY);
-  }
-
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['entity'].currentValue) {
+      const ek =  getElementKind(this.entity.classKind);
+      if (!this.readonly) {
+        this.readonly = !this.service.can(ActionKind.Create, ek);
+      }
+      this.showXmlDownload = !(ek ===  ElementKind.SURVEY_PROGRAM || ek === ElementKind.STUDY);
       this.label = (this.entity.otherMaterials) ? 'External aid & Exports' : 'Exports ';
     }
     // try { Materialize.updateTextFields(); } catch (Exception) { }

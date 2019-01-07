@@ -37,7 +37,7 @@ export class UserService {
   }
 
   public canDo(action: ActionKind, kind: ElementKind): boolean {
-    console.log('canDo -> Action:' + ActionKind[action] + ' Kind:' + ElementKind[kind]);
+    // console.log('canDo -> Action:' + ActionKind[action] + ' Kind:' + kind);
     function canRead(roles: number) {
       if (kind === ElementKind.UNIVERSE) {
         console.log('canRead false ' + kind);
@@ -104,7 +104,7 @@ export class UserService {
     return response;
   }
 
-  public save(userdata: UserJson): Observable<any> {
+  public saveUser(userdata: UserJson): Observable<any> {
     return this.http.post(this.api + UserService.UPDATE_URL, userdata);
   }
 

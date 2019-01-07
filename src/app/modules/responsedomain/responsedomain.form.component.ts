@@ -59,7 +59,7 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy {
 
     if (!this.responseDomain) { return; }
 
-    console.log(this.responseDomain.managedRepresentation.inputLimit);
+    // console.log(this.responseDomain.managedRepresentation.inputLimit);
     this.numberOfAnchors = this.responseDomain.managedRepresentation.children.length;
 
     if (this.domainType === DomainKind.SCALE) {

@@ -63,7 +63,7 @@
             (savedEvent)="onSurveySaved($event)" #edit>
           </qddt-survey-edit>
 
-          <qddt-download  *ngIf="!edit.isVisible" [entity]="surveyProgram" [readonly]="true"></qddt-download>
+          <qddt-download  *ngIf="!edit.isVisible" [entity]="surveyProgram"></qddt-download>
 
           <qddt-revision *ngIf="edit.showRevision" [current]="surveyProgram" ></qddt-revision>
 
