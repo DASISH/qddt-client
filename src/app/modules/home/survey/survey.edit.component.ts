@@ -1,25 +1,26 @@
 import { Component, Input, Output, EventEmitter, AfterContentChecked } from '@angular/core';
 import { HomeService } from '../home.service';
-import {SurveyProgram} from '../../../classes/home.classes';
+import { SurveyProgram} from '../../../classes';
+import {TemplateService} from '../../../components/template';
 
 declare var $: any;
 
 @Component({
   selector: 'qddt-survey-edit',
-
+  providers: [ {provide: 'elementKind', useValue: 'SURVEY_PROGRAM'}, ],
   template: `
 <div *ngIf="isVisible && survey"  id="{{formId}}"  >
   <form materialize (ngSubmit)="onSave()" #surveyForm="ngForm">
     <div class="row input-field">
-      <input id="{{formId}}-name" name="{{formId}}-name" type="text" [(ngModel)]="survey.name" required>
-      <label for="{{formId}}-name" >Name</label>
+      <input name="{{formId}}-name" type="text" [(ngModel)]="survey.name" required>
+      <label>Name</label>
     </div>
 
     <div class="row input-field">
-      <textarea id="{{formId}}-desc" name="{{formId}}-description" class="materialize-textarea"
+      <textarea name="{{formId}}-description" class="materialize-textarea"
         [(ngModel)]="survey.description" required >
       </textarea>
-      <label for="{{formId}}-desc">Description</label>
+      <label>Description</label>
     </div>
 
 
@@ -45,15 +46,15 @@ export class SurveyEditComponent implements  AfterContentChecked {
 
   public showRevision;
   public readonly formId = Math.round( Math.random() * 10000);
-  constructor(private surveyService: HomeService) { }
+  constructor(private service: TemplateService) { }
 
   ngAfterContentChecked() {
     $('#' + this.formId + '-desc').trigger('autoresize');
   }
 
   onSave() {
-    this.surveyService.update(this.survey)
-      .subscribe((result: any) => {
+    this.service.update<SurveyProgram>(this.survey)
+      .subscribe((result) => {
         this.isVisible = false;
         this.survey = null;
         this.savedEvent.emit(result); }

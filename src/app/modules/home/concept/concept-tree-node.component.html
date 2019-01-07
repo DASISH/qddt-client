@@ -1,17 +1,17 @@
 <div *ngIf="concept" class="row card">
-  <div id="{{concept?.id}}" class="scrollspy">
+  <div id="{{concept.id}}" class="scrollspy">
     <div class="col s1 m1 l1">
       <br />
       <div class="row">
-        <a *ngIf="!readonly && canUpdate" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+        <a *ngIf="canUpdate && !(concept.archived)" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
            (click)="onToggleEdit(edit)"><i class="material-icons" title="Edit Concept">mode_edit</i></a>
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
            (click)="edit.showRevision = !edit.showRevision"><i class="material-icons left medium" title="Revision history">history</i></a>
-        <qddt-questionitem-reuse *ngIf="!readonly && canCreate" [parentId]="concept.id"
+        <qddt-questionitem-reuse *ngIf="canCreate && !(concept.archived)" [parentId]="concept.id"
                                  (createdEvent)="addQuestionItem($event)"></qddt-questionitem-reuse>
-        <a *ngIf="!readonly && canUpdate" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-           (click)="onCreateConcept(concept)"><i class="material-icons left medium" title="Add sub concept">add</i></a>
-        <a *ngIf="!readonly && canDelete" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+        <a *ngIf="canUpdate && !(concept.archived)" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+           (click)="onCreateConcept()"><i class="material-icons left medium" title="Add sub concept">add</i></a>
+        <a *ngIf="canDelete && !(concept.archived)" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
            (click)="onDeleteConcept(concept)"><i class="material-icons left medium" title="Delete" >delete_forever</i></a>
       </div>
     </div>
@@ -31,34 +31,32 @@
         <qddt-author-chip [authors]="concept.authors" ></qddt-author-chip>
       </div>
       <div *ngIf="showConceptChildForm">
-        <div class="card-action">
-          <form (ngSubmit)="onChildSave()" #newchildConcept="ngForm">
-            <div class="row">
-              <div class="input-field col s11">
-                <input id="name" name="name" type="text" [(ngModel)]="newchild.name" required>
-                <label for="name" class="blue-text">Name</label>
-              </div>
+        <div class="card-panel">
+          <form #hf="ngForm">
+            <div class="row input-field">
+              <input name="name" type="text" ngModel required>
+              <label>Name</label>
             </div>
-            <div class="row">
-              <div class="input-field col s11">
-                <textarea id="description" name="description"
-                 class="materialize-textarea"
-                 [(ngModel)]="newchild.description" required>
-                </textarea>
-                <label for="description" class="blue-text">Description</label>
-              </div>
+            <div class="row input-field">
+              <textarea name="description" class="materialize-textarea" ngModel required ></textarea>
+              <label>Description</label>
             </div>
             <div class="row right-align">
-              <button type="submit" class="btn btn-default" [disabled]="!newchildConcept.form.valid" >Submit</button>
+              <button type="button" (click)="onChildSave(hf.value)" class="btn btn-default" [disabled]="!hf.form.valid" >Add</button>
             </div>
           </form>
         </div>
       </div>
-      <qddt-concept-edit [isVisible]="edit.isVisible" [concept]="concept"
-                         (conceptSavedEvent)="onConceptSavedEvent($event)" #edit>
+      <qddt-concept-edit [isVisible]="edit.isVisible" [(concept)]="concept" #edit (conceptChanged)="onConceptUpdated($event)" >
       </qddt-concept-edit>
 
-      <qddt-revision *ngIf = "edit.showRevision" [current]="concept"></qddt-revision>
+      <!--<qddt-collection-revision-search-select-->
+        <!--[showProgressBar] = "showProgressBar" [kind] = "QUESTION_ITEM"-->
+        <!--[showList]="concept.conceptQuestionItems" [searchList] = "questionItemList"-->
+        <!--[revisionList] = "revisionList"-->
+        <!--(searchItems)="onSearchElements($event)"-->
+        <!--(searchRevision)="onRevisonSearch($event)">-->
+      <!--</qddt-collection-revision-search-select>-->
 
       <div *ngIf="concept.conceptQuestionItems?.length > 0 && !edit.isVisible" >
         <ul class="collection with-header hoverable"
@@ -66,17 +64,17 @@
             (mouseleave)="showbutton = false">
           <li class="collection-header"><label>Question Items</label></li>
           <a class="collection-item grey-text text-darken-1" *ngFor="let cqi of concept.conceptQuestionItems.sort()"
-            style="padding-bottom: 5pt;">
+            style="padding:10px 5px 0px 10px ; ">
             <div class="row" style="min-height: 3rem;">
-              <div [innerHtml]="cqi?.element?.question" class="col s11" (click)="onClickQuestionItem(cqi.element)" style="cursor: pointer;">
+              <div [innerHtml]="cqi?.name" class="col s9" (click)="onShowQuestionItem(cqi)" style="cursor: pointer;">
               </div>
-              <div class="col s1">
-                <a *ngIf="!readonly" class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
+              <div class="col s3">
+                <a *ngIf="!readonly" class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal right"
                   [ngClass]="{hide: !showbutton}" (click)="removeQuestionItem(cqi)">
                   <i class="material-icons" title="Remove selected">remove</i>
                 </a>
-                <a *ngIf="!readonly" class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                   [ngClass]="{hide: !showbutton}" (click)="selectQuestionItem(cqi)">
+                <a *ngIf="!readonly" class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal right"
+                   [ngClass]="{hide: !showbutton}" (click)="onSelectRevision(cqi)">
                   <i class="material-icons" title="Select version">edit</i>
                 </a>
               </div>
@@ -87,6 +85,8 @@
 
       <qddt-download *ngIf="!edit.isVisible" [entity]="concept" [readonly]="true"></qddt-download>
 
+      <qddt-revision *ngIf = "edit.showRevision" [current]="concept"></qddt-revision>
+
       <qddt-comment-list
         *ngIf="!edit.isVisible"
         [ownerId]="concept.id"
@@ -96,7 +96,6 @@
       <div class="tree-children">
         <qddt-concept-treenode *ngFor="let child of concept.children"
            [concept]="child"
-           [readonly]="child.archived"
            (deleteEvent)="onDeleteConcept($event)"
            (updatedEvent)="onConceptUpdated($event)">
         </qddt-concept-treenode>

@@ -77,7 +77,7 @@ export const CHANGE_LOG_COLUMNS = [
 // ?: number;];
 
 const SCALE =  [
-    new Column( { label: 'Scale Domain Name', name: 'name', sortable: true} ),
+    new Column( { label: 'Scale Domain', name: 'name', sortable: true} ),
     new Column( { label: 'Description', name: 'description', sortable: true} ),
     new Column( { label: 'N', name: ['managedRepresentation', 'children', 'length'], sortable: false} ),
     new Column( { label: 'Start', name: ['managedRepresentation', 'inputLimit', 'minimum'], sortable: false} ),
@@ -86,27 +86,27 @@ const SCALE =  [
   ];
 
 const LIST = [
-    new Column( { label: 'Code Domain Name', name: 'name', sortable: true} ),
+    new Column( { label: 'Code Domain', name: 'name', sortable: true} ),
     new Column( { label: 'Description', name: 'description', sortable: true} ),
     new Column( { label: 'Number of Codes', name: ['managedRepresentation', 'children', 'length'], sortable: false} ),
-  ];
+    new Column( { label: 'Anchors', name: 'anchorLabel', sortable: false} ),  ];
 
 const NUMERIC = [
-    new Column( { label: 'Numeric Domain Name', name: 'name', sortable: true} ),
+    new Column( { label: 'Numeric Domain', name: 'name', sortable: true} ),
     new Column( { label: 'Description', name: 'description', sortable: true} ),
     new Column( { label: 'Low', name: ['managedRepresentation', 'inputLimit', 'minimum'], sortable: false} ),
     new Column( { label: 'High', name: ['managedRepresentation', 'inputLimit', 'maximum'], sortable: false} ),
   ];
 
 const TEXT = [
-    new Column( { label: 'Text Domain Name', name: 'name', sortable: true} ),
+    new Column( { label: 'Text Domain', name: 'name', sortable: true} ),
     new Column( { label: 'Description', name: 'description', sortable: true} ),
     new Column( { label: 'Min Length', name: ['managedRepresentation', 'inputLimit', 'minimum'], sortable: false} ),
     new Column( { label: 'Max Length', name: ['managedRepresentation', 'inputLimit', 'maximum'], sortable: false} ),
   ];
 
 const DATETIME = [
-    new Column( { label: 'DateTime Domain Name', name: 'name', sortable: true} ),
+    new Column( { label: 'DateTime Domain', name: 'name', sortable: true} ),
     new Column( { label: 'Description', name: 'description', sortable: true} ),
     new Column( { label: 'Low', name: ['managedRepresentation', 'inputLimit', 'minimum'], sortable: false} ),
     new Column( { label: 'High', name: ['managedRepresentation', 'inputLimit', 'maximum'], sortable: false} ),

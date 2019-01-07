@@ -1,31 +1,30 @@
-<div class="row" *ngIf="publication" class="qddt-form" >
+<div class="row" *ngIf="publication" >
   <form (ngSubmit)="onUpdatePublication()" #hf="ngForm">
     <div class="row input-field">
-      <label [attr.for]="formId + '-name'" >Name</label>
       <input id= "{{formId}}-name" name="name" type="text" class="validate" required
         [(ngModel)]="publication.name" materialize="characterCounter" data-length="255">
+      <label>Name</label>
     </div>
     <div class="row input-field">
-      <label [attr.for]="formId + '-purpose'" >Purpose</label>
       <textarea id= "{{formId}}-purpose" name="purpose" type="text"
         class="materialize-textarea validate" required
         [(ngModel)]="publication.purpose" materialize="characterCounter" data-length="255">
       </textarea>
+      <label >Purpose</label>
     </div>
     <div class="row input-field" *ngIf="selectOptions">
         <div class=" col s6 m5 l4">
-          <select materialize="material_select" name="{{formId}}-status" id="{{formId}}-status" class="validate" required
+          <select materialize="material_select" name="{{formId}}-status" class="validate" required
             [materializeSelectOptions]="selectOptions"
             [(ngModel)]="selectedOptionId" (ngModelChange)="onSelectChange($event)">
             <optgroup *ngFor="let parent of selectOptions" label="{{parent.label}}">
               <option *ngFor="let child of parent.children" [value]="child.id" >{{child.label}}</option>
             </optgroup>
           </select>
-          <label for="{{formId}}-status" >Publication status</label>
+          <label>Publication status</label>
         </div>
         <div class="s6 m7 l8">
-            <p> </p>
-            <span>{{ publication?.status?.description }}</span>
+            <p><span>{{ publication?.status?.description }}</span></p>
         </div>
     </div>
     <div class="row">
@@ -41,7 +40,7 @@
         <li *ngFor="let element of publication.publicationElements; let idx=index">
           <div class="collapsible-header grey lighten-5" style="color: #323232" (click)="onShowDetail(idx)" >
               <div class="col s2">{{ getLabelByElement(element?.elementKind) }}</div>
-              <div class="col s7">{{ element?.name }}</div>
+              <div class="col s7" [innerHtml]="element?.name"></div>
               <div class="col s2 right-align"><qddt-version [element]="element"></qddt-version></div>
               <div class="col s1" *ngIf="!readonly">
                 <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable ,  Subject } from 'rxjs';
-import {IDetailAction, IElement, IIdRef, IRevisionRef} from '../../../classes';
+import { IDetailAction, IElement, IIdRef, IRevisionRef} from '../../../classes';
 
 
 @Injectable()

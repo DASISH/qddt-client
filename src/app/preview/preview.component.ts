@@ -1,8 +1,10 @@
-import { Component, Input } from '@angular/core';
+import {AfterViewInit, Component, Input} from '@angular/core';
 import { ElementEnumAware, PreviewService } from './preview.service';
 import { ElementKind, IEntityAudit} from '../classes';
 
 const filesaver = require('file-saver');
+declare var Materialize: any;
+declare var $;
 
 @Component({
   selector: 'qddt-preview-element',
@@ -19,7 +21,7 @@ const filesaver = require('file-saver');
   templateUrl: './preview.component.html',
 })
 @ElementEnumAware
-export class PreviewComponent  {
+export class PreviewComponent implements AfterViewInit {
   @Input() element: IEntityAudit;
   @Input() showDetail = true;
 
@@ -35,5 +37,11 @@ export class PreviewComponent  {
   onGetPdf(element: IEntityAudit) {
     const fileName = element.name + '.pdf';
     this.service.getPdf(element).then((data: any) => { filesaver.saveAs(data, fileName); });
+  }
+
+  ngAfterViewInit(): void {
+    $(document).ready(function () {
+      Materialize.updateTextFields();
+    });
   }
 }

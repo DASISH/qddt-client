@@ -36,7 +36,7 @@ export class QuestionFormComponent  implements OnChanges {
 
   onSaveQuestionItem() {
     console.log('QI no managed rep saving...');
-    this.service.update(this.questionItem)
+    this.service.update<QuestionItem>(this.questionItem)
       .subscribe((result) => {
         this.questionItem = result;
         this.modifiedEvent.emit(this.questionItem);

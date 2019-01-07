@@ -1,5 +1,5 @@
 import {ElementKind} from './enums';
-import {IElement, IIdRef, IPageSearch, IRevisionRef, IVersion} from './interfaces';
+import {IElement, IEntityAudit, IIdRef, IPageSearch, IRevisionRef, IRevisionResult, IUser, IVersion} from './interfaces';
 
 export class ElementRevisionRef implements IIdRef, IRevisionRef, IElement {
   elementId: string;
@@ -37,6 +37,20 @@ export class QueryInfo {
     return message.slice(0, message.length - 5) + ']';
   }
 }
+
+export class  RevisionResult<T extends IEntityAudit> {
+  entity: T;
+  revisionModifiedBy: IUser;
+  revisionDate: any;
+  revisionNumber: number;
+  constructor(init?: Partial<IRevisionResult<T>> ) {
+    this.entity = init.entity;
+    this.revisionDate = init.metadata.revisionDate;
+    this.revisionNumber = init.metadata.revisionNumber;
+    this.revisionModifiedBy = init.metadata.delegate.modifiedBy;
+  }
+}
+
 
 /*
    * number: the current page beginning with zero

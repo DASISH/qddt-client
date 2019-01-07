@@ -91,7 +91,7 @@ export class QuestionConstructFormComponent   {
   }
 
   onRevisionSearch(item: IRevisionRef) {
-    this.service.getRevisionsByKind<QuestionItem>(this.QUESTION, item.elementId ).then(
+    this.service.getByKindRevisions<QuestionItem>(this.QUESTION, item.elementId ).then(
       (result) => {
         this.revisionResults = result.content;
       });

@@ -1,4 +1,4 @@
-import { ElementKind, IEntityEditAudit, IVersion } from '../../classes';
+import {ElementKind, IComment, IEntityEditAudit, IVersion} from '../../classes';
 
 
 export enum CategoryKind {
@@ -62,12 +62,12 @@ export class Category implements IEntityEditAudit {
   classKind = ElementKind[ElementKind.CATEGORY];
   inputLimit = new ResponseCardinality();
   children: Category[] = [];
-  comments?: any[];
   code?: Code;
   format?: any;
   changeKind?: string;
   version?: IVersion;
-
+  xmlLang: string;
+  comments: IComment[];
   public constructor(init?: Partial<Category>) {
     Object.assign(this, init);
     if (this.name && !this.label) {

@@ -1,20 +1,28 @@
-<div *ngIf="universe" >
   <form (ngSubmit)="onSave()" #hf="ngForm">
 
     <div class="row">
       <div class="input-field col m12 ">
         <input id="name2" name="name" type="text" class="validate" required [(ngModel)]="universe.name"
                data-length="255" materialize="characterCounter">
-        <label for="name2">Name</label>
+        <label>Name</label>
       </div>
     </div>
 
     <div class="row">
       <div class="input-field col m12 ">
-        <textarea class="materialize-textarea validate" name="{{universe?.id}}-cat-desc"
+        <textarea class="materialize-textarea validate" name="description"
                   data-length="1000" materialize="characterCounter" [(ngModel)]="universe.description" >
         </textarea>
-        <label for="{{universe?.id}}-cat-desc" >Description</label>
+        <label>Description</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-field col m12 ">
+        <textarea class="materialize-textarea validate" name="description"
+                  data-length="1000" materialize="characterCounter" [(ngModel)]="universe.xmlLang" >
+        </textarea>
+        <label>Description</label>
       </div>
     </div>
 
@@ -26,4 +34,3 @@
       <button  *ngIf="!readonly" type="submit" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
     </div>
   </form>
-</div>

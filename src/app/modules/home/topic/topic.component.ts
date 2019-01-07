@@ -1,17 +1,17 @@
-import {AfterContentChecked, Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import { AfterContentChecked, Component, OnInit} from '@angular/core';
+import { Router} from '@angular/router';
+import { ActionKind, ElementKind, IRevisionRef, Study, Topic, getQueryInfo} from '../../../classes';
+import { HierarchyPosition} from '../../core/classes';
+import { HomeService} from '../home.service';
+import { MessageService, PropertyStoreService} from '../../core/services';
+import {TemplateService} from '../../../components/template';
 
-import {Study, Topic} from '../../../classes/home.classes';
-import {HomeService} from '../home.service';
-import {HierarchyPosition} from '../../core/classes';
-import {MessageService, PropertyStoreService} from '../../core/services';
-import {ActionKind, ElementKind, IRevisionRef} from '../../../classes';
 
 declare var Materialize: any;
 
 @Component({
   selector: 'qddt-topic',
-
+  providers: [ {provide: 'elementKind', useValue: 'TOPIC_GROUP'}, ],
   styles: [':host /deep/ .collection-item .row { min-height:3rem; margin-bottom:0px;border-bottom: none;}',
           '.collection .collection-item {border-bottom: none; }',
           '.collection.with-header .collection-header {border-bottom: none; padding: 0px;}',
@@ -24,7 +24,6 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
 
   public study: Study;
   public topics: Topic[];
-  public newTopic: Topic;
 
   public showReuse = false;
   public showTopicForm = false;
@@ -33,11 +32,11 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
 
   private refreshCount = 0;
 
-  constructor(private router: Router, private property: PropertyStoreService, private message: MessageService,
-              private homeService: HomeService ) {
-    this.readonly = !homeService.canDo.get(this.TOPIC_KIND).get(ActionKind.Create);
-    this.canDelete = homeService.canDo.get(this.TOPIC_KIND).get(ActionKind.Delete);
-    this.newTopic = new Topic();
+  constructor(private router: Router, private property: PropertyStoreService,
+      private message: MessageService, private homeService: HomeService<Topic>, private templateSrvice: TemplateService) {
+
+    this.readonly = !homeService.canDo(this.TOPIC_KIND).get(ActionKind.Create);
+    this.canDelete = homeService.canDo(this.TOPIC_KIND).get(ActionKind.Delete);
   }
 
   ngAfterContentChecked(): void {
@@ -52,16 +51,11 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
   ngOnInit(): void {
     this.study = this.property.get('study');
     const parentId = this.study.id || this.property.menuPath[HierarchyPosition.Study].id;
-    console.log(parentId);
-    this.topics = this.property.get('topics');
-    if (!this.topics) {
-      this.homeService.getTopicByStudy(parentId)
-        .then((result) => {
-          this.topics = result.sort( (a, b) => a.name.localeCompare(b.name));
-          this.property.set('topics', this.topics);
-          this.showReuse = false;
-        });
-    }
+    this.homeService.getListByParent(this.TOPIC_KIND, parentId)
+      .then((result) => {
+        this.property.set('topics', this.topics = result);
+        this.showReuse = false;
+      });
   }
 
   onToggleTopicForm() {
@@ -95,44 +89,44 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
     this.router.navigate(['concept']);
   }
 
-  onTopicSaved(topic: any) {
+  onTopicSaved(topic: Topic) {
     if (topic !== null) {
-      const topics = this.topics.filter((q) => q.id !== topic.id);
-      topics.push(topic);
-      this.topics = topics.sort( (a, b) => a.name.localeCompare(b.name));
+      const index = this.topics.findIndex((f) => f.id === topic.id);
+      if (index > -1) {
+        this.topics.splice(index, 1, topic);
+      } else {
+        this.topics.push(topic);
+      }
       this.property.set('topics', this.topics);
     }
   }
 
-  onNewSave() {
+  onNewSave(newTopic) {
     this.showTopicForm = false;
-    this.homeService.createTopic(this.newTopic, this.study.id)
-      .subscribe((result: any) => this.onTopicSaved(result));
-    this.newTopic  = new Topic();
+    this.templateSrvice.create(new Topic(newTopic), this.study.id).subscribe(
+      result => this.onTopicSaved(result));
   }
 
-
-  onClickQuestionItem(questionItem) {
-    this.message.sendMessage( { element: questionItem, elementKind: ElementKind.QUESTION_ITEM } );
+  onClickQuestionItem(cqi) {
+    this.message.sendMessage( cqi );
   }
 
   onAddQuestionItem(ref: IRevisionRef, topicId: any) {
-    this.homeService.attachTopicQuestion(topicId, ref.elementId, ref.elementRevision)
+    this.homeService.attachQuestion(this.TOPIC_KIND, topicId, ref.elementId, ref.elementRevision)
       .subscribe((result: any) => this.onTopicSaved(result));
   }
 
   onRemoveQuestionItem(ref: IRevisionRef, topicId: any) {
-      this.homeService.deattachTopicQuestion(topicId , ref.elementId, ref.elementRevision)
+      this.homeService.deattachQuestion(this.TOPIC_KIND, topicId , ref.elementId, ref.elementRevision)
       .subscribe((result: any) => this.onTopicSaved(result));
   }
 
   onRemoveTopic(topicId: string) {
     if (topicId && topicId.length === 36) {
-      this.homeService.deleteTopic(topicId)
-        .subscribe(() => {
-            this.topics = this.topics.filter((s: any) => s.id !== topicId);
-            this.property.set('topics', this.topics);
-          });
+      this.templateSrvice.delete(new Topic({ id : topicId})).subscribe(() => {
+        this.topics = this.topics.filter((s: any) => s.id !== topicId);
+        this.property.set('topics', this.topics);
+      });
     }
   }
 

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ActionKind, ElementKind, IPageSearch, PageSearch} from '../../classes';
 import { DOMAIN_TYPE_DESCRIPTION, DomainKind} from './responsedomain.classes';
 import { MessageService, PropertyStoreService} from '../core/services';
@@ -42,11 +43,14 @@ export class ResponsePreSelector implements  OnInit {
   constructor(private  messages: MessageService, private properties: PropertyStoreService ) { }
 
   ngOnInit(): void {
-    const kind: string = this.getPageSearch().keys.get(this.KEY);
-    this.domainType = DomainKind[kind];
+    const kind = this.getPageSearch().keys.get(this.KEY);
+    if (kind) {
+      this.domainType = DomainKind[kind];
+    }
   }
 
   onSelectDomainType(id: DomainKind) {
+    console.log('onSelectDomainType');
     const pageSearch = this.getPageSearch();
     this.domainType = id;
     pageSearch.keys.set(this.KEY, DomainKind[id]);

@@ -3,11 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Observable ,  BehaviorSubject } from 'rxjs';
 
 import { API_BASE_HREF} from '../../../api';
-import { TOKEN_NAME} from '../classes/token-name.config';
 import { PropertyStoreService } from './property.service';
 import { ActionKind, ElementKind} from '../../../classes';
 import { Agency, IAuthority, UserJson} from '../../user/user.classes';
-import { AuthorityKind, IPassword, User} from '../classes';
+import { AuthorityKind, IPassword, TOKEN_NAME, User} from '../classes';
 
 /**
  * UserService uses JSON-Web-Token authorization strategy.
@@ -38,7 +37,7 @@ export class UserService {
   }
 
   public canDo(action: ActionKind, kind: ElementKind): boolean {
-    console.log('canDo -> Action:' + ActionKind[action] + ' Kind:' + ElementKind[kind]);
+    // console.log('canDo -> Action:' + ActionKind[action] + ' Kind:' + kind);
     function canRead(roles: number) {
       if (kind === ElementKind.UNIVERSE) {
         console.log('canRead false ' + kind);
@@ -105,7 +104,7 @@ export class UserService {
     return response;
   }
 
-  public save(userdata: UserJson): Observable<any> {
+  public saveUser(userdata: UserJson): Observable<any> {
     return this.http.post(this.api + UserService.UPDATE_URL, userdata);
   }
 

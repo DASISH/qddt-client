@@ -34,7 +34,7 @@ export class QuestionReuseComponent {
 
   onRevisonSearch(ref: IRevisionRef) {
     this.showProgressBar = true;
-    this.service.getRevisionsByKind( this.QUESTION, ref.elementId).then(
+    this.service.getByKindRevisions( this.QUESTION, ref.elementId).then(
       (result) => { this.revisionResults =
         result.content.sort((e1: any, e2: any) => e2.revisionNumber - e1.revisionNumber);
         this.showProgressBar = false;
@@ -43,9 +43,9 @@ export class QuestionReuseComponent {
 
   onQuestionSearch(ref: IElement) {
     this.showProgressBar = true;
-    this.service.searchByKind<QuestionItem>( { kind: this.QUESTION, key: ref.element, page: new Page() } ).then(
-      (result) => { this.questionList = result.content; this.showProgressBar = false;
-    });
+    this.service.searchByKind<QuestionItem>( { kind: this.QUESTION, key: ref.element, page: new Page() } )
+    .then((result) => this.questionList = result.content)
+      .then(() => this.showProgressBar = false );
   }
 
   onDismiss() {

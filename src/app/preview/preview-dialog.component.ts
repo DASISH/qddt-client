@@ -33,7 +33,7 @@ export class PreviewDialogComponent implements  OnChanges {
 
   ngOnChanges(): void {
     if (!this.reference) { return; }
-
+    console.log('preview');
     if (this.isRevisionRef(this.reference)) {
       this.service.getRevisionByKind(this.reference.elementKind, this.reference.elementId, this.reference.elementRevision)
         .then(result => {

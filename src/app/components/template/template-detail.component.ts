@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MaterializeAction } from 'angular2-materialize';
 import { takeWhile } from 'rxjs/operators';
 import { TemplateService } from './template.service';
-import { IDetailAction, IEntityEditAudit, ActionKind, ElementKind, HEADER_DETAILS } from '../../classes/index';
+import { IDetailAction, IEntityEditAudit, ActionKind, ElementKind, HEADER_DETAILS } from '../../classes';
 import { Factory } from '../../classes/factory';
 
 declare var Materialize: any;
@@ -13,7 +13,6 @@ const fileSaver = require('file-saver');
 
 @Component({
   selector: 'qddt-template-detail',
-
   templateUrl: './template-detail.component.html',
 })
 
@@ -21,10 +20,10 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterContentC
   @Output() closeState = new EventEmitter<IDetailAction>();
   @Output() selectedItem = new EventEmitter<IEntityEditAudit>();
 
+  public deleteAction = new EventEmitter<MaterializeAction>();
   public item: IEntityEditAudit;
   public revisionIsVisible = false;
   public canDelete: boolean;
-  public deleteAction = new EventEmitter<MaterializeAction>();
   public showProgressBar = true;
 
   private action: IDetailAction = { id: '', action: ActionKind.None, object: null };
@@ -48,7 +47,7 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterContentC
     this.refreshCount = 0;
     if (this.kind) {
       this.showProgressBar = true;
-      this.service.getItemByKind(this.kind, this.route.snapshot.paramMap.get('id')).then(
+      this.service.getByKindEntity(this.kind, this.route.snapshot.paramMap.get('id')).then(
         (item) => {
             this.action.id = item.id;
             this.item = item;

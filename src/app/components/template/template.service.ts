@@ -59,12 +59,12 @@ export class TemplateService {
     return this.http.get<IPageResult<T>>(this.api + qe.path + '/page/search/' + query).toPromise();
   }
 
-  public getItemByKind<T extends IEntityEditAudit>(kind: ElementKind, id: string ): Promise<T> {
+  public getByKindEntity<T extends IEntityEditAudit>(kind: ElementKind, id: string ): Promise<T> {
     const qe = getQueryInfo(kind);
     return this.http.get<T>(this.api + qe.path + '/' + id).toPromise();
   }
 
-  public getRevisionsByKind<T extends IEntityAudit>(kind: ElementKind, id: string): Promise<IPageResult<IRevisionResult<T>>> {
+  public getByKindRevisions<T extends IEntityAudit>(kind: ElementKind, id: string): Promise<IPageResult<IRevisionResult<T>>> {
     const qe = getQueryInfo(kind);
     if (qe) {
       if (kind === ElementKind.CONCEPT || kind === ElementKind.TOPIC_GROUP) {
@@ -78,12 +78,23 @@ export class TemplateService {
     return new Promise(null);
   }
 
-  public getRevisionByKind(kind: ElementKind, id: string, rev: number): Promise<IRevisionResult<IEntityEditAudit>> {
+  public getByKindRevision(kind: ElementKind, id: string, rev: number): Promise<IRevisionResult<IEntityEditAudit>> {
     const qe = getQueryInfo(kind);
     return this.http.get<IRevisionResult<IEntityEditAudit>>(this.api + 'audit/' + qe.path + '/' + id + '/' + rev).toPromise();
   }
 
-  public update(item: IEntityAudit): Observable<any> {
+  public create<T extends IEntityAudit>(item: T, parentId?: string): Observable<T> {
+    const qe = getQueryInfo(item.classKind);
+    return  (parentId) ? this.http.post<T>(this.api + qe.path + '/create/' + parentId , item) :
+      this.http.post<T>(this.api + qe.path + '/create'  , item);
+  }
+
+  public copySource<T extends IEntityAudit>(elementKind: ElementKind, fromId: string, fromRev: number, toParentId: string): Observable<T> {
+    const qe = getQueryInfo(elementKind);
+    return this.http.post<T>(this.api + qe.path + '/copy/' + fromId + '/' + fromRev + '/' + toParentId, {});
+  }
+
+  public update<T extends IEntityAudit>(item: IEntityAudit): Observable<T> {
     const kind = getElementKind(item.classKind);
     const qe = getQueryInfo(kind);
     let path2 = '';
@@ -98,7 +109,13 @@ export class TemplateService {
         path2 = '/statement';
       }
     }
-    return this.http.post(this.api + qe.path + path2, item);
+    return this.http.post<T>(this.api + qe.path + path2, item);
+  }
+
+  public updateAll<T extends IEntityAudit>(items: T[], parentId?: string, ): Observable<T[]> {
+    const qe = getQueryInfo(items[0].classKind);
+    return (parentId) ? this.http.post<T[]>(this.api + qe.path + '/list/' + parentId, items) :
+      this.http.post<T[]>(this.api + qe.path + '/list', items);
   }
 
   public updateWithFiles(kind: ElementKind, form: FormData ): Observable<any> {
@@ -128,9 +145,5 @@ export class TemplateService {
   public can(action: ActionKind, kind: ElementKind): boolean {
     return this.userService.canDo(action, kind);
   }
-
-  // public getElementKind(kind: string|ElementKind): ElementKind {
-  //   return (typeof kind === 'string') ?  ElementKind[kind] : kind ;
-  // }
 
 }

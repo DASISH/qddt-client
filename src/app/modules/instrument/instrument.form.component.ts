@@ -1,8 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { TemplateService } from '../../components/template/template.service';
-import { IEntityEditAudit } from '../../classes/interfaces';
-import { Instrument, INSTRUMENT_KIND, InstrumentKind } from './instrument.classes';
-import {ActionKind, ElementKind} from '../../classes/enums';
+import { Instrument, INSTRUMENT_KIND, InstrumentKind} from './instrument.classes';
+import { ActionKind, ElementKind} from '../../classes';
+import { TemplateService} from '../../components/template';
 
 declare var Materialize: any;
 
@@ -13,7 +12,7 @@ declare var Materialize: any;
 })
 
 export class InstrumentFormComponent implements OnChanges {
-  @Output() modifiedEvent = new EventEmitter<IEntityEditAudit>();
+  @Output() modifiedEvent = new EventEmitter<Instrument>();
   @Input() readonly = false;
   @Input() element: Instrument;
 
@@ -38,7 +37,7 @@ export class InstrumentFormComponent implements OnChanges {
 
   public onUpdateInstrument() {
     console.log(this.element);
-    this.service.update(this.element).subscribe(
+    this.service.update<Instrument>(this.element).subscribe(
       (result) => {
           console.log(result);
           this.element = result;

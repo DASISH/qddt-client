@@ -1,27 +1,26 @@
 import { Component, Input, EventEmitter, Output, OnChanges, SimpleChanges } from '@angular/core';
-import { HomeService } from '../home.service';
-import { Concept } from '../../../classes/home.classes';
+import { Concept } from '../../../classes';
+import {TemplateService} from '../../../components/template';
 
 declare var $: any;
 
 @Component({
   selector: 'qddt-concept-edit',
-
-  providers: [],
+  providers: [ {provide: 'elementKind', useValue: 'CONCEPT'}, ],
   template: `
 <div *ngIf="concept && isVisible" class="row " id="{{formId}}"  >
   <form (ngSubmit)="save()" #hf="ngForm">
 
     <div class="row input-field">
       <input name="{{formId}}-name" type="text" [(ngModel)]="concept.name" required>
-      <label for="{{formId}}-name">Name</label>
+      <label>Name</label>
     </div>
 
     <div class="row input-field">
-      <textarea id="{{formId}}-desc" name="{{formId}}-description" class="materialize-textarea"
-        [(ngModel)]="concept.description" required >
+      <textarea
+        name="{{formId}}-description" class="materialize-textarea" [(ngModel)]="concept.description" required >
       </textarea>
-      <label for="{{formId}}-desc">Description</label>
+      <label>Description</label>
     </div>
 
     <qddt-rational
@@ -42,25 +41,24 @@ declare var $: any;
 })
 export class ConceptEditComponent implements OnChanges {
   @Input() concept: Concept;
+  @Output() conceptChanged =  new EventEmitter<Concept>();
   @Input() readonly = false;
   @Input() isVisible = false;
-  @Output() conceptSavedEvent =  new EventEmitter<any>();
 
   public readonly formId = Math.round( Math.random() * 10000);
   public showRevision = false;
 
-  constructor(private service: HomeService) { }
+  constructor(private service: TemplateService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     $('#' + this.formId + '-desc').trigger('autoresize');
   }
 
   save() {
-    console.log(this.concept.changeKind);
-    this.service.update(this.concept)
-      .subscribe((result: any) => {
+    this.service.update<Concept>(this.concept)
+      .subscribe((result) => {
         this.concept = result;
-        this.conceptSavedEvent.emit(result);
+        this.conceptChanged.emit(result);
         this.isVisible = false;
       });
   }

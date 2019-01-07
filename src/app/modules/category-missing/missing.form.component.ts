@@ -51,7 +51,7 @@ export class MissingFormComponent implements OnInit {
   }
 
   onSave() {
-    this.missingService.update(this.missing).subscribe(
+    this.missingService.update<Category>(this.missing).subscribe(
       (result) => {
         this.missing = result;
         this.modifiedEvent.emit(result);

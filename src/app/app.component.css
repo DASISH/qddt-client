@@ -54,6 +54,14 @@ form p {
 .noItemFound { border: thick solid dodgerblue; }
 .itemInvalid { border: thick solid red; }
 
+
+input {
+  margin: auto;
+  margin-bottom: 0px;
+}
+
+
+
 input[type="number"] {
   -moz-appearance: textfield;
 }

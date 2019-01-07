@@ -31,7 +31,7 @@ export class ElementFooterComponent {
     if (!m) { return '?'; }
     const date = new Date();
     date.setTime(m);
-    return date.toISOString();
+    return date.toLocaleString();
   }
 
   getVersion(): string {

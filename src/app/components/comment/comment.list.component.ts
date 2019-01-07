@@ -28,22 +28,21 @@ export class CommentListComponent implements OnInit {
   toggleComments() {
     this.showComments = !this.showComments;
     if (this.showComments && (!this.comments || this.comments && this.comments.length === 0)) {
-      this.commentService.getAll(this.ownerId)
-        .then((result: any) => this.comments = result.content);
+      this.commentService.getAll(this.ownerId).then(
+        (result) => this.comments = result.content);
       }
   }
 
   addComment(comment: IComment ) {
     comment.ownerIdx = this.comments.length;
-    this.commentService.update(comment).subscribe((result: any) => {
-      this.comments.push(result);
-    });
+    this.commentService.update(comment).subscribe(
+      result => this.comments.push(result) );
   }
 
   onDeleteComment(idx: number) {
     const comment = this.comments[idx];
-    this.commentService.delete(comment.id)
-      .subscribe(() => this.comments.splice(idx, 1));
+    this.commentService.delete(comment.id).subscribe(
+      () => this.comments.splice(idx, 1));
   }
 
   onUpdateComment(idx: number) {
@@ -54,9 +53,12 @@ export class CommentListComponent implements OnInit {
         comment.comment = this.message;
         comment.public = this.isPublic;
         comment.ownerIdx = idx;
-        this.commentService.update(comment).subscribe((result: any) => {
-          this.comments.splice(idx, 1, result);
-        });
+        this.commentService.update(comment).subscribe(
+          (result) => this.comments.splice(idx, 1, result),
+          (err) => {
+            this.commentService.getAll(this.ownerId).then((result) => this.comments = result.content);
+            throw err;
+          });
       }
     }
   }

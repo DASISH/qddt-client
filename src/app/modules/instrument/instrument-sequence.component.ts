@@ -19,7 +19,7 @@ import { TemplateService} from '../../components/template';
 })
 
 export class InstrumentSequenceComponent  {
-  @Input() sequences: InstrumentSequence[];
+  @Input() sequence: InstrumentSequence[];
 
   public revisionResults: any[];
   public sequenceList: any[];
@@ -43,7 +43,7 @@ export class InstrumentSequenceComponent  {
   public onRevisonSearch(ref: IRevisionRef) {
     this.showProgressBar = true;
     const kind =  getElementKind(ref.elementKind);
-    this.service.getRevisionsByKind( kind, ref.elementId).then(
+    this.service.getByKindRevisions( kind, ref.elementId).then(
       (result) => { this.revisionResults =
         result.content.sort((e1, e2) => e2.revisionNumber - e1.revisionNumber);
         this.showProgressBar = false;
@@ -56,13 +56,13 @@ export class InstrumentSequenceComponent  {
     ref.element.sequence.forEach( (seq: ElementRevisionRef) => {
       const newSeq = new InstrumentSequence();
       newSeq.elementRef = seq;
-      insSeq.sequences.push(newSeq);
+      insSeq.sequence.push(newSeq);
     });
-    this.sequences.push(insSeq);
+    this.sequence.push(insSeq);
   }
 
   public onDeleteItem(idx) {
-    this.sequences.splice(idx, 1);
+    this.sequence.splice(idx, 1);
   }
 
   public onDismiss() {
@@ -70,10 +70,10 @@ export class InstrumentSequenceComponent  {
     this.sequenceList = null;
   }
 
-  public onOpenBody( sequences: InstrumentSequence[]) {
-    sequences.forEach((item) => {
+  public onOpenBody( sequence: InstrumentSequence[]) {
+    sequence.forEach((item) => {
       if (!item.elementRef.element && !this.isSequence(item.elementRef.elementKind)) {
-        this.service.getRevisionByKind(
+        this.service.getByKindRevision(
           getElementKind(item.elementRef.elementKind),
           item.elementRef.elementId,
           item.elementRef.elementRevision )

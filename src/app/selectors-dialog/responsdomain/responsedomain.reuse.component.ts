@@ -68,7 +68,7 @@ export class ResponsedomainReuseComponent implements OnChanges  {
     this.selectedDomainKind = (value) && (value < DomainKind.MIXED) ? value : DomainKind.SCALE;
   }
   onResponseDomainSelected(element: IElement) {
-    this.responseDomainService.getRevisionsByKind(this.ELEMENT_KIND , element.element.id).then(
+    this.responseDomainService.getByKindRevisions(this.ELEMENT_KIND , element.element.id).then(
       (result) => { this.revisionList = result.content; },
       (error) => { throw error; });
   }

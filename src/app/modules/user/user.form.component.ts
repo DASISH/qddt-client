@@ -2,7 +2,7 @@ import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChange
 import { Agency, IAuthority, UserJson} from './user.classes';
 import { UserService} from '../core/services';
 
-// declare var Materialize: any;
+declare var Materialize: any;
 
 @Component({
   selector: 'qddt-user-form',
@@ -17,18 +17,20 @@ export class UserFormComponent implements OnInit, OnChanges, AfterViewInit {
   public selectedAgencyId: string;
   public formId = Math.round( Math.random() * 10000);
 
-  public agencies$: Promise<Agency[]>;
-  public authorities$: Promise<IAuthority[]>;
+  public agencies: Agency[];
+  public authorities: IAuthority[];
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService) {
+  }
 
-  ngOnInit() {
-    this.agencies$ = this.getAgencies();
-    this.authorities$ = this.getAuthorities();
+   async ngOnInit() {
+    this.agencies = await this.userService.getAgencies();
+    this.authorities = await this.userService.getAuthorities();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['user'].currentValue) {
+      try { Materialize.updateTextFields(); } catch (Exception) { }
       if (this.user) {
         if (this.user.agency) {
           this.onSelectChange(this.user.agency.id);
@@ -36,7 +38,6 @@ export class UserFormComponent implements OnInit, OnChanges, AfterViewInit {
           this.getFirstAgency().then( agent => this.onSelectChange(agent.id) );
         }
       }
-      // try { Materialize.updateTextFields(); } catch (Exception) { }
     }
   }
 
@@ -52,7 +53,7 @@ export class UserFormComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   onSave() {
-    this.userService.save(this.user).subscribe(
+    this.userService.saveUser(this.user).subscribe(
       (result) => {
         this.modifiedEvent.emit(this.user = result);
       },
@@ -68,14 +69,8 @@ export class UserFormComponent implements OnInit, OnChanges, AfterViewInit {
     return await this.userService.getAgencies();
   }
 
-  private async getAuthorities() {
-    return await this.userService.getAuthorities();
-    // .then((result) => {
-    //   return result;
-    // });
-  }
 
   ngAfterViewInit(): void {
-    // Materialize.updateTextFields();
+    try { Materialize.updateTextFields(); } catch (Exception) { }
   }
 }

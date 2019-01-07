@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import {HierarchyPosition, UserSettings} from '../classes';
-import {MenuItem} from '../../menu/menu.component';
+import { HierarchyPosition, UserSettings} from '../classes';
+import { MenuItem} from '../../menu/menu.component';
 
 /**
  *

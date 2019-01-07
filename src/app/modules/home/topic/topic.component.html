@@ -23,22 +23,21 @@
       <div *ngIf="showTopicForm">
         <div class="row card-action">
           <div class="col s10 offset-s1">
-            <form (ngSubmit)="onNewSave()" #newTopicFrom="ngForm">
-              <div class="row input-field">
-                <input id="topic-name" name="name" type="text" [(ngModel)]="newTopic.name" required>
-                  <label for="topic-name" class="white-text">Name</label>
-              </div>
 
+            <form #hf="ngForm">
               <div class="row input-field">
-                <textarea id="topic-desc" name="description" class="materialize-textarea" [(ngModel)]="newTopic.description"
-                          required ></textarea>
-                <label for="topic-desc" class="white-text">Description</label>
+                <input name="name" type="text" ngModel required>
+                <label class="white-text">Name</label>
               </div>
-
+              <div class="row input-field">
+                <textarea name="description" class="materialize-textarea" ngModel required ></textarea>
+                <label class="white-text">Description</label>
+              </div>
               <div class="row right-align">
-                <button type="submit" class="btn btn-default" [disabled]="!newTopicFrom.form.valid" >Submit</button>
+                  <button type="button" (click)="onNewSave(hf.value)" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
               </div>
             </form>
+
           </div>
         </div>
       </div>
@@ -88,8 +87,8 @@
 
                 <a class="collection-item grey-text text-darken-1" *ngFor="let cqi of currentElement.topicQuestionItems">
                   <div class="row" style="min-height: 3rem;" (mouseenter)="cqi.show = true" (mouseleave)="cqi.show  = false">
-                    <div class="col s11" (click)="onClickQuestionItem(cqi.element)" style="cursor: pointer;">
-                      {{ cqi?.element?.question }}</div>
+                    <div class="col s11" (click)="onClickQuestionItem(cqi)" style="cursor: pointer;">
+                      {{ cqi?.name }}</div>
                     <div class="col s1">
                       <a *ngIf="!currentElement.archived"
                          class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"

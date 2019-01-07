@@ -47,7 +47,7 @@ export class SequenceFormComponent implements OnChanges {
   }
 
   public onSaveConstruct() {
-    this.service.update(this.sequence).subscribe(
+    this.service.update<SequenceConstruct>(this.sequence).subscribe(
       (result) => {
           this.sequence = result;
           this.modifiedEvent.emit(result); },
@@ -63,7 +63,7 @@ export class SequenceFormComponent implements OnChanges {
 
   public onRevisonSearch(search: IRevisionRef) {
     const kind = getElementKind(search.elementKind);
-    this.service.getRevisionsByKind(kind, search.elementId).then(
+    this.service.getByKindRevisions(kind, search.elementId).then(
       (result) => {
         this.revisionList = result.content;
       }
@@ -75,13 +75,13 @@ export class SequenceFormComponent implements OnChanges {
 
   }
 
-  public onRevisionSelected(ref: ElementRevisionRef) {
-    this.sequence.sequence.push(ref);
-  }
-
-  public onSelectCanceled(value) {
-    this.selectedElement = null;
-  }
+  // public onRevisionSelected(ref: ElementRevisionRef) {
+  //   this.sequence.sequence.push(ref);
+  // }
+  //
+  // public onSelectCanceled(value) {
+  //   this.selectedElement = null;
+  // }
 
 
 }

@@ -45,17 +45,17 @@
     <!--...-->
     <!--INSTRUCTION,-->
     <!--UNIVERSE-->
-    <div class="row">
-      <div class="col s12">
-        <label [attr.for]="element.id + '-name'" class="active teal-text">Name</label>
-        <textarea class="materialize-textarea" id="{{element?.id}}-name"
-                  name="{{element?.id}}-name" readonly> {{ element?.name }}
-        </textarea>
-        <label [attr.for]="element.id + '-description'" class="active teal-text">Description</label>
-        <textarea class="materialize-textarea" id="{{element?.id}}-description"
-                  name="{{element?.id}}-description"readonly> {{ element?.classKind }}
-        </textarea>
-      </div>
+    <div class="row input-field">
+      <input type="text" name="{{element?.id}}-name" readonly [(ngModel)]="element.name">
+      <label>Name</label>
+    </div>
+    <div class="row input-field">
+      <input type="text" name="{{element?.id}}-classKind"readonly  [(ngModel)]="element.classKind">
+      <label>ClassKind</label>
+    </div>
+    <div *ngIf="element['description']" class="row input-field">
+      <input type="text" name="{{element?.id}}-description"readonly  [(ngModel)]="element['description']">
+      <label>Description</label>
     </div>
     <div class="row">
       <qddt-element-footer  [element]="element" ></qddt-element-footer>

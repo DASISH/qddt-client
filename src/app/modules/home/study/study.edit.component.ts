@@ -1,26 +1,27 @@
 import { Component, Input, EventEmitter, Output, AfterContentChecked } from '@angular/core';
 import { HomeService } from '../home.service';
-import {Study} from '../../../classes/home.classes';
+import {Study} from '../../../classes';
+import {TemplateService} from '../../../components/template';
 
 declare var $: any;
 
 @Component({
-   selector: 'qddt-study-edit',
-   providers: [],
-   template: `
+  selector: 'qddt-study-edit',
+  providers: [ {provide: 'elementKind', useValue: 'STUDY'}, ],
+  template: `
 <div *ngIf="isVisible && study"  id="{{formId}}"  >
   <form (ngSubmit)="onSave()" #studyForm="ngForm">
 
     <div class="row input-field">
-      <input id="{{formId}}-name" name="name" type="text" [(ngModel)]="study.name" required>
-      <label for="{{formId}}-name" >Name</label>
+      <input name="name" type="text" [(ngModel)]="study.name" required>
+      <label>Name</label>
     </div>
 
     <div class="row input-field">
-      <textarea id="{{formId}}-desc" name="{{formId}}-description" class="materialize-textarea"
+      <textarea name="{{formId}}-description" class="materialize-textarea"
         [(ngModel)]="study.description" required >
       </textarea>
-      <label for="{{formId}}-desc">Description</label>
+      <label>Description</label>
     </div>
 
     <qddt-rational [formName]="'RationalComp'" [element]="study" [config]="{hidden: [2,3]}"></qddt-rational>
@@ -43,14 +44,14 @@ export class StudyEditComponent implements  AfterContentChecked {
 
   public readonly formId = Math.round( Math.random() * 10000);
   public showRevision;
-  constructor(private studyService: HomeService) { }
+  constructor(private service: TemplateService) { }
 
   ngAfterContentChecked() {
     $('#' + this.formId + '-desc').trigger('autoresize');
   }
 
   onSave() {
-    this.studyService.update(this.study).subscribe((result: any) => {
+    this.service.update(this.study).subscribe((result: any) => {
       this.study = null;
       this.savedEvent.emit(result);
     });

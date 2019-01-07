@@ -55,7 +55,7 @@ export class InstrumentSequence {
   id: string;
   elementRef: ElementRevisionRef;
   parameters: Parameter[] = [];
-  sequences: InstrumentSequence[] = [];
+  sequence: InstrumentSequence[] = [];
 }
 
 export class Parameter {

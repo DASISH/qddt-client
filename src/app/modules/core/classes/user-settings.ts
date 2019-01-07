@@ -7,9 +7,10 @@ export class UserSettings {
   email = 'review@example.org';
   hierarchyPosition = HierarchyPosition.Survey;
 
-  constructor(values: Object = {}) {
-    Object.assign(this, values);
+  public constructor(init?: Partial<UserSettings>) {
+    Object.assign(this, init);
   }
+
 
   save() {
     localStorage.setItem('USER_SETTINGS', JSON.stringify(this));

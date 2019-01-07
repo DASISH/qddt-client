@@ -1,51 +1,53 @@
 import { Component, EventEmitter, OnInit} from '@angular/core';
 import { MaterializeAction } from 'angular2-materialize';
-import { Concept, Topic } from '../../../classes/home.classes';
-import { HomeService } from '../home.service';
-import {ActionKind, ElementKind, IMoveTo} from '../../../classes';
-import {PropertyStoreService} from '../../core/services';
+import {Concept, ElementKind, IEntityEditAudit, IMoveTo, Topic, ActionKind} from '../../../classes';
+import { HomeService} from '../home.service';
+import { TemplateService} from '../../../components/template';
+import { PropertyStoreService } from '../../core/services';
+import {HierarchyPosition} from '../../core/classes';
 
 
 @Component({
   selector: 'qddt-concept',
-  providers: [],
+  providers: [ {provide: 'elementKind', useValue: 'CONCEPT'}, ],
   templateUrl: './concept.component.html'
 })
 
 export class ConceptComponent implements OnInit {
-  public readonly conceptKind = ElementKind.CONCEPT;
+  public readonly CONCEPT = ElementKind.CONCEPT;
   public confirmDeleteActions = new EventEmitter<string|MaterializeAction>();
+
   public showReuse = false;
   public showConceptForm = false;
   public showProgressBar = false;
-  public readonly: boolean;
+  // public readonly: boolean;
+
   public toDeletedConcept: any;
   public topic: Topic;
-  public concepts: any;
-  public concept: Concept;
+  canCreate: boolean;
 
-  refreshCount = 0;
+  constructor(private property: PropertyStoreService, private homeService: HomeService<Concept>,
+              private  templateService: TemplateService) {
+    this.canCreate = this.homeService.canDo(this.CONCEPT).get(ActionKind.Create);
+  }
 
-  constructor(private property: PropertyStoreService, private homeService: HomeService ) {
-    this.readonly = !homeService.canDo.get(ElementKind.CONCEPT).get(ActionKind.Create);
-    this.concept = new Concept();
-   }
-
-
-
-  ngOnInit(): void {
-    this.topic = this.property.get('topic');
-    const parentId = this.topic.id || this.property.parentMenu.id ;
-    this.concepts = this.property.get('concepts');
-    if (!this.concepts) {
+  async ngOnInit() {
+    const root = this.property.get('topic');
+    const parentId = root.id || this.property.menuPath[HierarchyPosition.Topic].id;
+    if (!root) {
       this.showProgressBar = true;
-      this.homeService.getConceptByTopic(parentId).then(
-        (result) => {
-          this.concepts = result.content; // .sort( (a, b) => a.name.localeCompare(b.name));
-          this.property.set('concepts', this.concepts);
-        },
-        (error) => { throw error; })
-        .then( () => this.showProgressBar = false );
+      this.topic = new Topic( await this.homeService.getExt<Topic>(ElementKind.TOPIC_GROUP, parentId));
+      this.showProgressBar = false;
+    } else {
+      this.topic = new Topic(root);
+    }
+    const list = this.property.get('concepts');
+    if (!list) {
+      this.showProgressBar = true;
+      this.topic.concepts = await this.homeService.getListByParent(this.CONCEPT, parentId);
+      this.showProgressBar = false;
+    } else {
+      this.topic.concepts = list;
     }
   }
 
@@ -63,31 +65,49 @@ export class ConceptComponent implements OnInit {
     }
   }
 
-  onNewSave() {
+  onNewSave(newConcept) {
+    console.log('newConcept');
     this.showConceptForm = false;
     this.showProgressBar = true;
-    this.topic.concepts.push(this.concept);
-      this.homeService.update(this.topic).subscribe(
+      this.templateService.create(new Concept(newConcept), this.topic.id).subscribe(
         (result) => { this.onConceptUpdated(result); },
         (error) => { throw error; },
         () => { this.showProgressBar = false; } );
-    this.concept  = new Concept();
   }
 
-  onMoveConcept(event: IMoveTo) {
+  async onMoveConcept(event: IMoveTo) {
     console.log(event);
-    if (event.before) {
-
+    const entity = this.removeConcept(this.topic.concepts, event.source);
+    let targets: Concept[];
+    if (event.target === this.topic.id) {
+      targets = this.topic.concepts;
+    } else  {
+      targets = this.findConcept(this.topic.concepts, event.target).children;
     }
+
+    const start  = targets.slice(0, event.index) || [];
+    const end    = targets.slice(event.index) || [];
+    targets = [].concat(start, entity, end);
+    targets.forEach( c => this.setUHR(c));
+
+    if (event.target === this.topic.id) {
+      this.topic.concepts = targets;
+    } else  {
+      this.findConcept(this.topic.concepts, event.target).children = targets;
+    }
+
+    const result = await this.templateService.updateAll(this.topic.concepts, this.topic.id).toPromise();
+    const topic = await this.homeService.getExt<Topic>(ElementKind.TOPIC_GROUP, this.topic.id);
+    topic.concepts = result;
+    this.property.set('topic',  topic);
+    this.topic = topic;
   }
 
-
-  onConceptUpdated(concept: any) {
-    if (!this.updateConcept(this.concepts, concept)) {
-      this.concepts.push(concept);
-      // this.concepts = this.concepts.sort( (a, b) => a.name.localeCompare(b.name));
+  onConceptUpdated(concept: Concept) {
+    if (!this.updateConcept(this.topic.concepts, concept)) {
+      this.topic.concepts.push(concept);
     }
-    this.property.set('concepts', this.concepts);
+    this.property.set('concepts', this.topic.concepts);
     this.showProgressBar = false;
   }
 
@@ -97,12 +117,12 @@ export class ConceptComponent implements OnInit {
   }
 
   onConfirmDeleteConcept() {
-    this.homeService.deleteConcept(this.toDeletedConcept.id)
-      .subscribe(
+    this.templateService.delete(this.toDeletedConcept).subscribe(
       (val) => {
+        // console.log(val);
         this.confirmDeleteActions.emit({action: 'modal', params: ['close']});
-        this.removeConcept(this.concepts, this.toDeletedConcept.id);
-        this.property.set('concepts', this.concepts);
+        this.removeConcept(this.topic.concepts, this.toDeletedConcept.id);
+        this.property.set('concepts', this.topic.concepts);
       },
       response => { throw response; },
         () => {
@@ -110,12 +130,13 @@ export class ConceptComponent implements OnInit {
       });
   }
 
-  onSelectedRevsion(concept: Concept) {
+  onSelectedRevision(concept: Concept) {
     this.showReuse = false;
     this.onConceptUpdated(concept);
   }
 
   private updateConcept(concepts: Concept[], concept: Concept): boolean {
+    if (!concepts) { return false; }
     let found = false;
     let i = -1;
     while (!found && ++i < concepts.length) {
@@ -129,7 +150,6 @@ export class ConceptComponent implements OnInit {
     return found;
   }
 
-
   private removeConcept(concepts: Concept[], conceptId: any): Concept {
     let i = -1;
     while (++i < concepts.length) {
@@ -138,6 +158,24 @@ export class ConceptComponent implements OnInit {
       if (deleted) { return deleted; }
     }
     return null;
+  }
+
+  private findConcept(concepts: Concept[], conceptId): Concept {
+    let i = -1;
+    while (++i < concepts.length) {
+      if (concepts[i].id === conceptId) {
+        return concepts[i];
+      }
+      const found = this.findConcept(concepts[i].children, conceptId);
+      if (found) {
+        return found;
+      }
+    }
+    return null;
+  }
+
+  private setUHR(entity: IEntityEditAudit) {
+    if (entity.changeKind !== 'IN_DEVELOPMENT') { entity.changeKind = 'UPDATED_HIERARCHY_RELATION'; }
   }
 
 }

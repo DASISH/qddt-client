@@ -37,7 +37,7 @@ export class ItemRevisionSelectComponent implements OnChanges {
     this.searchRevision.emit( { elementId: item.element.id, elementKind: this.kind, elementRevision: null } );
   }
 
-  public onSelectedRevision(revision) {
+  public onSelectedRevision(revision: ElementRevisionRef) {
     this.revisionList = null;
     this.revisionSelected.emit(revision);
   }

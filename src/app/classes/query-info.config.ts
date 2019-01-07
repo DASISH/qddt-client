@@ -1,5 +1,6 @@
 import { ElementKind } from './enums';
 import { QueryInfo } from './classes';
+import {IHeaderDetail} from './interfaces';
 
 
 export function getElementKind(kind: string|ElementKind): ElementKind {
@@ -41,7 +42,9 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
 ];
 
 
-export  const HEADER_DETAILS =  new Map([
+
+
+export  const HEADER_DETAILS =  new Map<string, IHeaderDetail>([
   ['categories', { icon: 'view_comfy', headerName: 'Categories', kind: ElementKind.CATEGORY }],
   ['missing', { icon: 'view_module', headerName: 'Missing Values', kind: ElementKind.MISSING_GROUP }],
   ['questionitems', { icon: 'help', headerName: 'QuestionItems' , kind: ElementKind.QUESTION_ITEM}],

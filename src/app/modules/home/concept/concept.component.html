@@ -1,14 +1,14 @@
-<div class="row">
+<div class="row" *ngIf="topic">
   <div class="col s12 m9">
     <div class="card white white-text text-lighten-2">
       <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
         <i class="material-icons large right">store</i><h4>Concepts for {{ topic?.name }}</h4>
 
-        <a class="btn" (click)="onToggleConceptForm()" *ngIf="!topic.archived && !readonly">
+        <a class="btn" (click)="onToggleConceptForm()" *ngIf="!topic.archived && canCreate">
           <i class="material-icons right" *ngIf="!showConceptForm">keyboard_arrow_down</i>
           <i class="material-icons right" *ngIf="showConceptForm">keyboard_arrow_up</i>
           New</a>
-        <a class="btn" (click)="onToggleReuse()" *ngIf="!topic.archived && !readonly">
+        <a class="btn" (click)="onToggleReuse()" *ngIf="!topic.archived && canCreate">
           <i class="material-icons right" *ngIf="!showReuse">keyboard_arrow_down</i>
           <i class="material-icons right" *ngIf="showReuse">keyboard_arrow_up</i>
           reuse</a>
@@ -16,9 +16,9 @@
         <qddt-copy-select
           *ngIf="showReuse"
           [parentId]="topic.id"
-          [elementKind]="conceptKind"
+          [elementKind]="CONCEPT"
           (dismissEvent)="showReuse=false;"
-          (itemSelected)="onSelectedRevsion($event)">
+          (itemSelected)="onSelectedRevision($event)">
         </qddt-copy-select>
 
         <div *ngIf="showConceptForm">
@@ -26,16 +26,15 @@
             <div class="col s10 offset-s1">
               <form #hf="ngForm">
                 <div class="row input-field">
-                  <input id="name" name="name" type="text" [(ngModel)]="concept.name" required>
-                  <label for="name" class="white-text">Name</label>
+                  <input name="name" type="text" ngModel required>
+                  <label class="white-text">Name</label>
                 </div>
                 <div class="row input-field">
-                  <textarea id="description" name="description" class="materialize-textarea"
-                            [(ngModel)]="concept.description" required ></textarea>
-                  <label for="description" class="white-text">Description</label>
+                  <textarea name="description" class="materialize-textarea" ngModel required ></textarea>
+                  <label class="white-text">Description</label>
                 </div>
                 <div class="row right-align">
-                  <button type="button" (click)="onNewSave()" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
+                  <button type="button" (click)="onNewSave(hf.value)" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
                 </div>
               </form>
             </div>
@@ -45,10 +44,9 @@
       <div *ngIf="showProgressBar" class="progress">
         <div class="indeterminate"></div>
       </div>
-      <div *ngIf="concepts">
-         <qddt-concept-treenode *ngFor="let child of concepts"
+      <div *ngIf="topic.concepts">
+         <qddt-concept-treenode *ngFor="let child of topic.concepts"
             [concept]="child"
-            [readonly]="child.archived || readonly"
             (deleteEvent)="onDeleteConcept($event)"
             (updatedEvent)="onConceptUpdated($event)">
          </qddt-concept-treenode>
@@ -61,7 +59,7 @@
       <h5>Concept Toc</h5>
       <ul class="section table-of-contents">
         <li><a href="concept#topMenu">To the top </a> </li>
-        <qddt-concept-toc [concepts]="concepts" [level]="0" (conceptMoved)="onMoveConcept($event)"></qddt-concept-toc>
+        <qddt-concept-toc [children]= "topic.concepts" [parentId]="topic.id" [level]="0" (conceptMoved)="onMoveConcept($event)"></qddt-concept-toc>
       </ul>
     </div>
   </div>

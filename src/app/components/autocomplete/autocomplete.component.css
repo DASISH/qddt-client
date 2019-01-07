@@ -56,6 +56,16 @@
   width: 500px;
   margin: 50px auto auto;
 }
+
+.input-field {
+  padding: auto;
+  margin: 0;
+}
+
+input[type=search] {
+  margin-bottom: 0;
+}
+
 /*.search-box {*/
   /*border: 1px solid #ccc;*/
   /*outline: 0;*/

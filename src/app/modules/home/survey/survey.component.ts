@@ -1,36 +1,38 @@
 import { Component,  OnInit, AfterContentChecked } from '@angular/core';
 import { Router } from '@angular/router';
 import { HomeService } from '../home.service';
-import { SurveyProgram } from '../../../classes/home.classes';
-import { PropertyStoreService} from '../../core/services';
+import { ActionKind, SurveyProgram, ElementKind} from '../../../classes';
 import { HierarchyPosition} from '../../core/classes';
-import {ActionKind, ElementKind} from '../../../classes';
+import { PropertyStoreService} from '../../core/services';
+import { TemplateService} from '../../../components/template';
 
 const filesaver = require('file-saver');
 declare var Materialize: any;
 
 @Component({
   selector: 'qddt-survey',
-
   templateUrl: './survey.component.html'
 })
 
 export class SurveyComponent implements OnInit, AfterContentChecked {
-  showSurveyForm = false;
   public surveys: SurveyProgram[];
-  public newSurvey: SurveyProgram;
+  public showSurveyForm = false;
   public readonly = false;
-  refreshCount = 0;
 
-  constructor(private homeService: HomeService, private router: Router, private property: PropertyStoreService) {
-    this.newSurvey = new SurveyProgram();
-    this.readonly = !homeService.canDo.get(ElementKind.SURVEY_PROGRAM).get(ActionKind.Create);
+  private refreshCount = 0;
+  private readonly SURVEY = ElementKind.SURVEY_PROGRAM;
+
+  constructor(private router: Router,
+              private property: PropertyStoreService,
+              private homeService: HomeService<SurveyProgram>,
+              private  templateService: TemplateService) {
+
+    this.readonly = !homeService.canDo(this.SURVEY).get(ActionKind.Create);
   }
 
   ngOnInit() {
-      this.homeService.getSurveyByUser().then(
-        (data: Array<SurveyProgram> ) => this.surveys = data
-      );
+      this.homeService.getListByParent(this.SURVEY).then(
+        (result) => this.surveys = result );
   }
 
   ngAfterContentChecked(): void {
@@ -42,51 +44,37 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
     }
   }
 
-  onRemoveSurvey(surveyId: any) {
-    if (surveyId) {
-      this.homeService.deleteSurvey(surveyId)
-        .subscribe(() => {
-          this.surveys = this.surveys.filter((s: any) => s.id !== surveyId);
-          this.property.set('surveys', this.surveys);
-        });
-    }
-  }
-
   onSurveySaved(surveyProgram: any) {
     if (surveyProgram) {
-
       const list = this.surveys.filter((q) => q.id !== surveyProgram.id);
-      list.push(surveyProgram);
-      this.surveys = list.sort( (a, b) => a.name.localeCompare(b.name));
-      this.property.set('surveys', this.surveys);
+      if (surveyProgram.index) {
+        list.splice(surveyProgram.index, 0, surveyProgram);
+      } else {
+        list.push(surveyProgram);
+      }
+      this.property.set('surveys', this.surveys = list);
     }
   }
 
   onShowStudy(surveyProgram: any) {
+    console.log('onshow survey');
     this.property.set('survey', surveyProgram);
     this.property.setCurrentMenu(HierarchyPosition.Survey, { id: surveyProgram.id , name: surveyProgram.name });
     this.router.navigate(['study']);
   }
 
-  onSave() {
-    this.homeService.createSurvey(this.newSurvey)
-      .subscribe( result => this.onSurveySaved(result) );
-    this.newSurvey = new SurveyProgram();
+  onNewSave(survey) {
+    console.log('saving');
+    this.templateService.create(new SurveyProgram(survey)).subscribe(
+      result => this.onSurveySaved(result) );
     this.showSurveyForm = false;
   }
 
 
   getPdf(element: SurveyProgram) {
     const fileName = element.name + '.pdf';
-    this.homeService.getPdf(element).then(
-      data => { filesaver.saveAs(data, fileName);
-      });
+    this.templateService.getPdf(element).then(
+      data => filesaver.saveAs(data, fileName));
   }
 
-  getXml(element: SurveyProgram) {
-    const fileName = element.name + '.xml';
-    this.homeService.getXml(element).then(
-      data => { filesaver.saveAs(data, fileName); }
-    );
-  }
 }

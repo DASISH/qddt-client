@@ -49,9 +49,9 @@
             <li *ngIf="canDelete"><a class="btn-flat btn-floating waves-effect waves-light red" >
              <i class="material-icons" (click)="onConfirmDeleting(row.Object)" title="Delete" >delete_forever</i></a>
             </li>
-            <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light blue" (click)="onViewRevision(row.Object)">
-              <i class="material-icons left medium" title="Revision history">history</i></a>
-            </li>
+            <!--<li><a class="btn-flat btn-floating btn-medium waves-effect waves-light blue" (click)="onViewRevision(row.Object)">-->
+              <!--<i class="material-icons left medium" title="Revision history">history</i></a>-->
+            <!--</li>-->
             <li *ngIf="canExport"><a class="btn-flat btn-floating waves-effect waves-light orange darken-1">
               <i class="material-icons" (click)="onGetPdf(row.Object)" title="Get as Pdf">picture_as_pdf</i></a>
             </li>
@@ -61,7 +61,7 @@
           </ul>
         </div>
       </td>
-      <td  *ngFor="let column of columns" (click)="onDetail(row)" >{{ row[column.label] }}</td>
+      <td  *ngFor="let column of columns" (click)="onDetail(row)" [innerHtml]="row[column.label]"></td>
 
       <!-- <td *ngIf="row.revisionIsVisible" colspan="columns.length"><qddt-revision  [current]="row.Object"> </qddt-revision></td> -->
 

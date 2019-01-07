@@ -2,7 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'qddt-responsedomain',
-
   templateUrl: './responsedomain.component.html',
 })
 
