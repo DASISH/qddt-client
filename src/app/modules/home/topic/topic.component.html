@@ -80,21 +80,24 @@
             <div class="row" *ngIf="!edit.isVisible">
               <p  [innerHtml]="currentElement?.description" ></p>
             </div>
-
-            <div *ngIf="!edit.isVisible && currentElement?.topicQuestionItems?.length > 0" >
-              <ul class="collection with-header hoverable">
+            <div *ngIf="currentElement?.topicQuestionItems?.length > 0 && !edit.isVisible" >
+              <ul class="collection with-header hoverable"
+                  (mouseenter)="showbutton = true"
+                  (mouseleave)="showbutton = false">
                 <li class="collection-header"><label>Question Items</label></li>
-
-                <a class="collection-item grey-text text-darken-1" *ngFor="let cqi of currentElement.topicQuestionItems">
-                  <div class="row" style="min-height: 3rem;" (mouseenter)="cqi.show = true" (mouseleave)="cqi.show  = false">
-                    <div class="col s11" (click)="onClickQuestionItem(cqi)" style="cursor: pointer;">
-                      {{ cqi?.name }}</div>
-                    <div class="col s1">
-                      <a *ngIf="!currentElement.archived"
-                         class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                         [ngClass]="{hide: !cqi.show }"
-                         (click)="onRemoveQuestionItem( cqi, currentElement.id )">
+                <a class="collection-item grey-text text-darken-1" *ngFor="let cqi of currentElement.topicQuestionItems.sort()"
+                  style="padding:10px 5px 0px 10px ; ">
+                  <div class="row" style="min-height: 3rem;">
+                    <div [innerHtml]="cqi?.name" class="col s9" (click)="onClickQuestionItem(cqi)" style="cursor: pointer;">
+                    </div>
+                    <div class="col s3">
+                      <a *ngIf="!readonly" class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal right"
+                        [ngClass]="{hide: !showbutton}" (click)="onRemoveQuestionItem( cqi, currentElement.id )">
                         <i class="material-icons" title="Remove selected">remove</i>
+                      </a>
+                      <a *ngIf="!readonly" class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal right"
+                         [ngClass]="{hide: !showbutton}" (click)="onSelectRevision(cqi)">
+                        <i class="material-icons" title="Select version">edit</i>
                       </a>
                     </div>
                   </div>

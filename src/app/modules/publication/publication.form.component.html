@@ -1,5 +1,5 @@
 <div class="row" *ngIf="publication" >
-  <form (ngSubmit)="onUpdatePublication()" #hf="ngForm">
+  <form  #hf="ngForm" (ngSubmit)="onUpdatePublication()">
     <div class="row input-field">
       <input id= "{{formId}}-name" name="name" type="text" class="validate" required
         [(ngModel)]="publication.name" materialize="characterCounter" data-length="255">

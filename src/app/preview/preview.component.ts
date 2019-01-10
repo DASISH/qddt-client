@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input} from '@angular/core';
+import { AfterViewInit, Component, Input} from '@angular/core';
 import { ElementEnumAware, PreviewService } from './preview.service';
 import { ElementKind, IEntityAudit} from '../classes';
 
