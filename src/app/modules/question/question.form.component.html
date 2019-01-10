@@ -8,8 +8,8 @@
   </qddt-preview-responsedomain>
 
   <qddt-conceptref [element]="questionItem"></qddt-conceptref>
-
-  <form  #questionEditForm="ngForm">
+  
+  <form  #hf="ngForm" (ngSubmit)="onSaveQuestionItem()">
     <div class="row input-field">
       <input id= "{{formId}}-name" name="name" type="text" class="validate" required
         [(ngModel)]="questionItem.name"
@@ -68,9 +68,7 @@
     <qddt-element-footer *ngIf="questionItem.id" [element]="questionItem"></qddt-element-footer>
 
     <div class="row right-align">
-      <button *ngIf="!readonly" [disabled]="!questionEditForm.form.valid" (click)="onSaveQuestionItem()"
-              type="submit" class="btn btn-default">Submit
-      </button>
+      <button *ngIf="!readonly" [disabled]="!hf.form.valid" type="submit" class="btn btn-default">Submit</button>
     </div>
   </form>
 </div>

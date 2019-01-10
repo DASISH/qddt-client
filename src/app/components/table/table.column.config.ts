@@ -79,17 +79,17 @@ export const CHANGE_LOG_COLUMNS = [
 const SCALE =  [
     new Column( { label: 'Scale Domain', name: 'name', sortable: true} ),
     new Column( { label: 'Description', name: 'description', sortable: true} ),
-    new Column( { label: 'N', name: ['managedRepresentation', 'children', 'length'], sortable: false} ),
     new Column( { label: 'Start', name: ['managedRepresentation', 'inputLimit', 'minimum'], sortable: false} ),
     new Column( { label: 'End', name: ['managedRepresentation', 'inputLimit', 'maximum'], sortable: false} ),
+    new Column( { label: '# Ancors', name: ['managedRepresentation', 'children', 'length'], sortable: false} ),
     new Column( { label: 'Anchors', name: 'anchorLabel', sortable: false} ),
   ];
 
 const LIST = [
     new Column( { label: 'Code Domain', name: 'name', sortable: true} ),
     new Column( { label: 'Description', name: 'description', sortable: true} ),
-    new Column( { label: 'Number of Codes', name: ['managedRepresentation', 'children', 'length'], sortable: false} ),
-    new Column( { label: 'Anchors', name: 'anchorLabel', sortable: false} ),  ];
+    new Column( { label: '# Codes', name: ['managedRepresentation', 'children', 'length'], sortable: false} ),
+    new Column( { label: 'Codes', name: 'anchorLabel', sortable: false} ),  ];
 
 const NUMERIC = [
     new Column( { label: 'Numeric Domain', name: 'name', sortable: true} ),

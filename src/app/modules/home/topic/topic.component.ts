@@ -33,7 +33,7 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
   private refreshCount = 0;
 
   constructor(private router: Router, private property: PropertyStoreService,
-      private message: MessageService, private homeService: HomeService<Topic>, private templateSrvice: TemplateService) {
+      private message: MessageService, private homeService: HomeService<Topic>, private templateService: TemplateService) {
 
     this.readonly = !homeService.canDo(this.TOPIC_KIND).get(ActionKind.Create);
     this.canDelete = homeService.canDo(this.TOPIC_KIND).get(ActionKind.Delete);
@@ -103,7 +103,7 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
 
   onNewSave(newTopic) {
     this.showTopicForm = false;
-    this.templateSrvice.create(new Topic(newTopic), this.study.id).subscribe(
+    this.templateService.create(new Topic(newTopic), this.study.id).subscribe(
       result => this.onTopicSaved(result));
   }
 
@@ -123,7 +123,7 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
 
   onRemoveTopic(topicId: string) {
     if (topicId && topicId.length === 36) {
-      this.templateSrvice.delete(new Topic({ id : topicId})).subscribe(() => {
+      this.templateService.delete(new Topic({ id : topicId})).subscribe(() => {
         this.topics = this.topics.filter((s: any) => s.id !== topicId);
         this.property.set('topics', this.topics);
       });

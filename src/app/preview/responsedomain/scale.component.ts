@@ -21,7 +21,8 @@ class Column {
     'table { table-layout: fixed; }',
     'table .text-center {text-align: center;}',
     'table .text-left {text-align: left;}',
-    'table .text-right {text-align: right;}'
+    'table .text-right {text-align: right;}',
+    '[type="radio"] + label { padding-left: 25px; }',
   ],
 })
 
