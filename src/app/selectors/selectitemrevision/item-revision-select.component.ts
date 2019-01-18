@@ -1,8 +1,6 @@
 import { Component, OnChanges, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
-import { ElementRevisionRef} from '../../classes/classes';
-import { IEntityAudit, IRevisionResultEntity, IRevisionRef, IElement} from '../../classes/interfaces';
-import { ElementKind } from '../../classes/enums';
 import { ElementEnumAware } from '../../preview/preview.service';
+import { ElementKind, ElementRevisionRef, IElement, IEntityAudit, IRevisionRef, IRevisionResultEntity} from '../../classes';
 
 @Component({
   selector: 'qddt-item-revision-select',

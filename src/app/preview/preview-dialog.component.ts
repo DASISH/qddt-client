@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import {  PreviewService } from './preview.service';
 import { MaterializeAction } from 'angular2-materialize';
 import { getQueryInfo, IElement, IIdRef, IRevisionRef} from '../classes';
@@ -7,7 +7,7 @@ import { getQueryInfo, IElement, IIdRef, IRevisionRef} from '../classes';
   selector: 'qddt-preview-dialog',
 
   template: `
-    <div class="modal modal-fixed-footer" id="preview-{{element?.id}}"
+    <div class="modal modal-fixed-footer" id="preview-id"
          materialize="modal" [materializeActions]="basedonActions">
       <div class="modal-content teal-text" style="padding:36px;">
         <h4>Preview {{getClassName()}}</h4>
@@ -17,7 +17,7 @@ import { getQueryInfo, IElement, IIdRef, IRevisionRef} from '../classes';
         </div>
       </div>
       <div class="modal-footer">
-        <a class="modal-action modal-close waves-effect waves-purple btn-flat teal white-text">Close</a>
+        <a class="modal-action modal-close waves-effect waves-purple btn-flat teal white-text" (close)="onClose()">Close</a>
       </div>
     </div>`
     ,
@@ -25,6 +25,7 @@ import { getQueryInfo, IElement, IIdRef, IRevisionRef} from '../classes';
 
 export class PreviewDialogComponent implements  OnChanges {
   @Input() reference: IIdRef|IRevisionRef|IElement;
+  @Output() close = new EventEmitter<boolean>(false);
 
   basedonActions = new EventEmitter<string|MaterializeAction>();
   element: any;
@@ -32,8 +33,8 @@ export class PreviewDialogComponent implements  OnChanges {
   constructor(private service: PreviewService) { }
 
   ngOnChanges(): void {
-    if (!this.reference) { return; }
     console.log('preview');
+    if (!this.reference) { return; }
     if (this.isRevisionRef(this.reference)) {
       this.service.getRevisionByKind(this.reference.elementKind, this.reference.elementId, this.reference.elementRevision)
         .then(result => {
@@ -52,6 +53,11 @@ export class PreviewDialogComponent implements  OnChanges {
       this.element = this.reference.element;
       this.basedonActions.emit({action: 'modal', params: ['open']});
     }
+  }
+
+  onClose() {
+    this.reference = null;
+    this.close.next(true);
   }
 
   getClassName(): string {

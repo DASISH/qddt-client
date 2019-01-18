@@ -1,6 +1,7 @@
 import { Component, ViewEncapsulation, OnDestroy  } from '@angular/core';
 import { IElement, IIdRef, IRevisionRef } from './classes';
 import { MessageService, PropertyStoreService, UserService} from './modules/core/services';
+import { Subject } from 'rxjs';
 
 // declare var $: any;
 
@@ -17,19 +18,19 @@ export class AppComponent  implements OnDestroy {
 
   ref: IIdRef|IRevisionRef|IElement;
 
-  private subscription;
-
   constructor(private users: UserService, private  properties: PropertyStoreService,
               private messages: MessageService ) {
 
-    this.subscription = this.messages.getMessage()
-      .subscribe((message) => this.showMessage(message));
+    messages.getMessage().subscribe(
+      (message) => this.showMessage(message),
+      () => this.ref = null);
 
   }
 
   ngOnDestroy() {
     // unsubscribe to ensure no memory leaks
-    this.subscription.unsubscribe();
+    this.messages.getMessage().unsubscribe();
+    // this.subscription.unsubscribe();
   }
 
   isLoggedIn(): boolean {
@@ -40,9 +41,14 @@ export class AppComponent  implements OnDestroy {
     return !isExpired;
   }
 
+  onClose() {
+    // this.messages.getMessage().
+  }
 
   private showMessage<T extends IIdRef|IRevisionRef|IElement>(element: T) {
-      this.ref = element;
+    // this.subscription
+    console.log('show preview');
+    this.ref = element;
   }
 
   // private checkRouter(target: string, value: string) {

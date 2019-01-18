@@ -1,5 +1,14 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
-import {ElementKind, ElementRevisionRef, getQueryInfo, IElement, IEntityAudit, IPageSearch, IRevisionRef} from '../../../classes';
+import {
+  ElementKind,
+  ElementRevisionRef,
+  getQueryInfo,
+  IElement,
+  IEntityAudit,
+  IPageSearch,
+  IRevisionRef,
+  PageSearch
+} from '../../../classes';
 import { ElementEnumAware} from '../../../preview/preview.service';
 import { TemplateService} from '../../../components/template';
 
@@ -24,7 +33,11 @@ export class CopySourceComponent implements OnChanges {
   constructor(private service: TemplateService) { }
 
   onItemSearch(item: IElement) {
-    this.service.searchByKind( {kind: this.elementKind, key: item.element.name}).then(
+    console.log(item || JSON);
+    const qe = getQueryInfo(item.elementKind);
+    this.service.searchByKind(
+      new PageSearch({kind: this.elementKind, key: item.element, sort: qe.fields.join(',') }))
+    .then(
       (result) => { this.items = result.content; }
     );
   }

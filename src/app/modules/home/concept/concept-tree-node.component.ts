@@ -12,7 +12,8 @@ import {
 } from '../../../classes';
 import { HomeService } from '../home.service';
 import { QuestionItem } from '../../question/question.classes';
-import {TemplateService} from '../../../components/template';
+import { TemplateService} from '../../../components/template';
+import { MessageService } from '../../core/services';
 
 const filesaver = require('file-saver');
 declare var Materialize: any;
@@ -43,7 +44,8 @@ export class TreeNodeComponent implements AfterContentChecked {
 
   private refreshCount = 0;
 
-  constructor(private homeService: HomeService<Concept>, private templateService: TemplateService) {
+  constructor(private homeService: HomeService<Concept>,
+              private message: MessageService,  private templateService: TemplateService) {
     this.canCreate = this.homeService.canDo(this.CONCEPT).get(ActionKind.Create);
     this.canUpdate = this.homeService.canDo(this.CONCEPT).get(ActionKind.Update);
     this.canDelete = this.homeService.canDo(this.CONCEPT).get(ActionKind.Delete);
@@ -80,10 +82,10 @@ export class TreeNodeComponent implements AfterContentChecked {
     this.deleteEvent.emit(concept);
   }
 
-  // onShowQuestionItem(cqi) {
-  //   this.message.sendMessage( cqi );
-  // }
-  //
+  onShowQuestionItem(cqi) {
+    this.message.sendMessage( cqi );
+  }
+
   // onSelectRevision(questionItem) {
   //   console.log('select question');
   // }
