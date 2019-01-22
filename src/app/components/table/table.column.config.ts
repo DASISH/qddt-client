@@ -59,11 +59,11 @@ export const USER_COLUMNS = [
 
 export const CHANGE_LOG_COLUMNS = [
   new Column( { name: 'name', label: 'Name', sortable: true }),
+  new Column( { name: 'refRev',  label: 'Revision', sortable: true }),
+  new Column( { name: 'refKind',  label: 'Kind', sortable: true }),
+  new Column( { name: 'refChangeKind',  label: 'ChangeKind', sortable: true }),
   new Column( { name: 'modified',  label: 'Modified', sortable: true, direction: 'desc' }),
   new Column( { name: ['modifiedBy', 'name'],  label: 'ModifiedBy', sortable: false }),
-  new Column( { name: 'refAction',  label: 'refAction', sortable: true}),
-  new Column( { name: 'refKind',  label: 'refKind', sortable: true }),
-  new Column( { name: 'refChangeKind',  label: 'refChangeKind', sortable: true }),
   ];
 //   changeFeedKey?: {};
 // elementId?: string;

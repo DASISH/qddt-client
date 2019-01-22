@@ -18,5 +18,5 @@
   </div>
   <router-outlet></router-outlet>
   <router-outlet name="popup"></router-outlet>
-  <qddt-preview-dialog  [reference] =ref></qddt-preview-dialog>
+  <qddt-preview-dialog  [reference] =ref (close)="onClose()"></qddt-preview-dialog>
 </main>

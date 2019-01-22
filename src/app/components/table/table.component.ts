@@ -1,12 +1,12 @@
-import { distinctUntilChanged, debounceTime} from 'rxjs/operators';
-import { Subject} from 'rxjs';
-import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges, OnDestroy, AfterViewInit} from '@angular/core';
-import { Column } from './table.column';
-import { LIST_COLUMNS, RESPONSEDOMAIN_COLUMNS, DEFAULT_COLUMNS } from './table.column.config';
-import { ElementEnumAware, PreviewService } from '../../preview/preview.service';
-import { DomainKind } from '../../modules/responsedomain/responsedomain.classes';
-import { ElementKind, getQueryInfo, IEntityEditAudit, IPageSearch, QueryInfo, ActionKind } from '../../classes';
-import { MessageService, UserService } from '../../modules/core/services';
+import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
+import {Subject} from 'rxjs';
+import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Column} from './table.column';
+import {DEFAULT_COLUMNS, LIST_COLUMNS, RESPONSEDOMAIN_COLUMNS} from './table.column.config';
+import {ElementEnumAware, PreviewService} from '../../preview/preview.service';
+import {DomainKind} from '../../modules/responsedomain/responsedomain.classes';
+import {ActionKind, ElementKind, getQueryInfo, IEntityEditAudit, IPageSearch, IRevisionRef, QueryInfo} from '../../classes';
+import {MessageService, UserService} from '../../modules/core/services';
 
 const filesaver = require('file-saver');
 declare var $;
@@ -43,6 +43,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
   public canDelete = false;
   public canExport = false;
+  public canEdit = true;
   public showProgressBar = false;
   public rows = [];
   public columns: Column[];
@@ -133,8 +134,13 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     this.detailEvent.emit(item);
   }
 
-  public onViewRevision(item: IEntityEditAudit) {
-    this.message.sendMessage( { elementId: item.id, elementRevision: null, elementKind: item.classKind});
+  // public onViewRevision(item: IEntityEditAudit) {
+  //   this.message.sendMessage( { elementId: item.id, elementRevision: null, elementKind: item.classKind});
+  // }
+
+  public onPreview(item) {
+    // console.log(item || JSON);
+    this.message.sendMessage( { elementId: item.refId, elementRevision: item.refRev, elementKind: item.refKind} as IRevisionRef);
   }
 
   public onConfirmDeleting(item: IEntityEditAudit) {
@@ -211,6 +217,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     console.log('canDelete?');
     this.canDelete = this.access.canDo(ActionKind.Delete, qe.id);
     this.canExport = this.access.canDo(ActionKind.Export, qe.id);
+    this.canEdit =   this.access.canDo(ActionKind.Update, qe.id);
   }
 
 }

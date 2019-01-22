@@ -3,14 +3,13 @@ import { User} from '../core/classes';
 
 
 export class ChangeLogJson {
-  changeFeedKey?: {};
+  // changeFeedKey?: {};
   elementId?: string;
   elementKind?: ElementKind;
   elementRevision?: number;
   modifiedBy?: User;
-  modified?: number;
+  modified?: any;
   name: String;
-  refAction?: number;
   refChangeKind?: any;
   refKind?: String;
 

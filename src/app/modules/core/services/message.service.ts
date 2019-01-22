@@ -25,7 +25,7 @@ export class MessageService {
         this.subject.next();
     }
 
-    getMessage(): Observable<IIdRef|IRevisionRef|IElement> {
-        return this.subject.asObservable();
+    getMessage(): Subject<IIdRef|IRevisionRef|IElement> {
+        return this.subject;
     }
 }

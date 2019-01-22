@@ -45,10 +45,11 @@ export class PreviewService {
   }
 
   getPdf(element: IEntityEditAudit): Promise<Blob> {
-    const qe = getQueryInfo(element.classKind);
-    if (element.version.revision) {
-    return this.http.get(this.api +  'audit/' + qe.path + '/pdf/' + element.id + '/' + element.version.revision
-    , { responseType: 'blob'}).toPromise();
+    const qe = getQueryInfo(element.classKind || element['refKind']);
+    const revision = element['refRev'] || element.version.revision;
+    if (revision) {
+      return this.http.get(this.api +  'audit/' + qe.path + '/pdf/' + element.id + '/' + element.version.revision
+              , { responseType: 'blob'}).toPromise();
     } else {
       return this.http.get(this.api +  qe.path + '/pdf/' + element.id  , { responseType: 'blob'}).toPromise();
     }

@@ -1,7 +1,7 @@
 import { QuestionItem } from '../modules/question/question.classes';
 import { IEntityEditAudit, IIdRef, IOtherMaterial} from './interfaces';
-import {ElementKind} from './enums';
-import {ElementRevisionRef} from './classes';
+import { ElementKind} from './enums';
+import { ElementRevisionRef} from './classes';
 
 export enum SequenceKind {
   NA,

@@ -1,12 +1,12 @@
-import { Injectable, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable ,  BehaviorSubject } from 'rxjs';
+import {Inject, Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {BehaviorSubject, Observable} from 'rxjs';
 
-import { API_BASE_HREF} from '../../../api';
-import { PropertyStoreService } from './property.service';
-import { ActionKind, ElementKind} from '../../../classes';
-import { Agency, IAuthority, UserJson} from '../../user/user.classes';
-import { AuthorityKind, IPassword, TOKEN_NAME, User} from '../classes';
+import {API_BASE_HREF} from '../../../api';
+import {PropertyStoreService} from './property.service';
+import {ActionKind, ElementKind} from '../../../classes';
+import {Agency, IAuthority, UserJson} from '../../user/user.classes';
+import {AuthorityKind, IPassword, TOKEN_NAME, User} from '../classes';
 
 /**
  * UserService uses JSON-Web-Token authorization strategy.
@@ -56,7 +56,7 @@ export class UserService {
     }
 
     function canUpdate(roles: number) {
-      if (kind === ElementKind.USER && roles < AuthorityKind.ROLE_ADMIN ) {
+      if ((kind === ElementKind.USER && roles < AuthorityKind.ROLE_ADMIN ) || (kind === ElementKind.CHANGE_LOG)) {
         return false;
       } else if (roles >= +AuthorityKind.ROLE_EDITOR) {
         return true;
@@ -68,7 +68,9 @@ export class UserService {
     }
 
     function canDelete(roles: number) {
-      if (roles >= +AuthorityKind.ROLE_ADMIN) {
+      if (kind === ElementKind.CHANGE_LOG) {
+        return false;
+      } else if (roles >= +AuthorityKind.ROLE_ADMIN) {
         return true;
       } else if (roles >= +AuthorityKind.ROLE_EDITOR ) {
         return ( kind !== ElementKind.SURVEY_PROGRAM && kind !== ElementKind.STUDY );
