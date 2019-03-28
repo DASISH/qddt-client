@@ -43,6 +43,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
   public canDelete = false;
   public canExport = false;
+  public canPreview = false;
   public canEdit = true;
   public showProgressBar = false;
   public rows = [];
@@ -116,13 +117,19 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
       this.columns.forEach((column) => {
         if (row[column.label] === undefined) {
-          let colref = item;
-          if (column.name instanceof Array) {
+          if (column.name === 'modifiedBy') {
+            if (item['agency']) {
+              row[column.label] = item[column.name]['name'] + '@' + item['agency']['name'];
+            } else {
+              row[column.label] = item[column.name]['name'] + '@' + item[column.name]['agencyName'];
+            }
+          } else if (column.name instanceof Array) {
+            let colref = item;
             column.name.forEach(colName => colref = colref[colName]);
+            row[column.label] = colref;
           } else {
-            colref = colref[column.name];
+            row[column.label] = item[column.name];
           }
-          row[column.label] = colref;
         }
       });
       this.rows.push(row);
@@ -218,6 +225,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     this.canDelete = this.access.canDo(ActionKind.Delete, qe.id);
     this.canExport = this.access.canDo(ActionKind.Export, qe.id);
     this.canEdit =   this.access.canDo(ActionKind.Update, qe.id);
+    this.canPreview = (qe.id === ElementKind.CHANGE_LOG);
   }
 
 }

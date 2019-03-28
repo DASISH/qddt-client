@@ -1,6 +1,7 @@
 import {ElementKind} from './enums';
 import {ElementRevisionRef} from './classes';
 import {IEntityAudit, IEntityEditAudit, IUser, IVersion} from './interfaces';
+import {Instrument} from '../modules/instrument/instrument.classes';
 
 export interface IRef {
   id: string;
@@ -35,7 +36,8 @@ export class Study implements IEntityEditAudit {
   archived = false;
   authors?: any[];
   comments?: any[];
-  topicGroups: Topic[];
+  topicGroups?: Topic[];
+  instruments?: Instrument[]
   classKind = ElementKind[ElementKind.STUDY];
   agency?: IEntityAudit;
   basedOnObject?: string;

@@ -101,23 +101,23 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
     }
   }
 
-  select(candidate: IEntityAudit) {
+  select(entity: IEntityAudit) {
     this.showAutoComplete = false;
     this.selected = true;
     const fieldName = this.queryInfo.fields[0];
-    this.value = candidate[fieldName];
+    this.value = entity[fieldName];
     console.log('select');
-    this.selectEvent.emit({element: candidate, elementKind: this.elementKind });
+    this.selectEvent.emit({element: entity, elementKind: this.elementKind });
   }
 
-  getLabel(candiate: IEntityAudit) {
+  getLabel(entity: IEntityAudit) {
     // if (this.queryInfo.isMultipleFields()) {
     //   const results: any[] = this.queryInfo.fields.map(element => {
-    //     return this.getFieldValue(candiate, element);
+    //     return this.getFieldValue(entity, element);
     //   });
     //   return results.join(' | ');
     // } else {
-      return this.getFieldValue(candiate, this.queryInfo.fields);
+      return this.getFieldValue(entity, this.queryInfo.fields);
     // }
   }
 
@@ -129,11 +129,11 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
     this.enterEvent.emit('');
   }
 
-  private getFieldValue(object: IEntityAudit, path: any) {
+  private getFieldValue(entity: IEntityAudit, path: any) {
     if (path instanceof Array) {
-      return path.map((element: any) => (object[element]) ?  object[element] : '' ).join(' | ');
+      return path.map((element: any) => (entity[element]) ?  entity[element] : '' ).join(' | ');
     } else {
-      return object[path] || '??';
+      return entity[path] || '??';
     }
   }
 

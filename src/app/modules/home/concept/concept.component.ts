@@ -33,23 +33,22 @@ export class ConceptComponent implements OnInit {
 
   async ngOnInit() {
     const root = this.property.get('topic');
-    const parentId = root.id || this.property.menuPath[HierarchyPosition.Topic].id;
-    if (!root) {
-      this.showProgressBar = true;
-      this.topic = new Topic( await this.homeService.getExt<Topic>(ElementKind.TOPIC_GROUP, parentId));
-      this.showProgressBar = false;
-    } else {
-      this.topic = new Topic(root);
-    }
     const list = this.property.get('concepts');
-    if (!list) {
-      this.showProgressBar = true;
-      this.topic.concepts = await this.homeService.getListByParent(this.CONCEPT, parentId);
-      this.showProgressBar = false;
-    } else {
-      this.topic.concepts = list;
-    }
+    const parentId = root.id || this.property.menuPath[HierarchyPosition.Topic].id;
+
+    this.showProgressBar = true;
+    this.topic = await (root) ?
+      new Topic(root) :
+      new Topic( await this.homeService.getExt<Topic>(ElementKind.TOPIC_GROUP, parentId));
+
+    // console.log(this.topic || JSON);
+    this.topic.concepts = await (list) ?
+      list :
+      await this.homeService.getListByParent(this.CONCEPT, parentId);
+    // console.log(this.topic || JSON);
+    this.showProgressBar = false;
   }
+
 
   onToggleConceptForm() {
     this.showConceptForm = !this.showConceptForm;

@@ -15,7 +15,7 @@ export const DEFAULT_CONFIG: RevisionConfig[] = [
   {name: 'changeKind', label: 'cKind'},
   {name: ['modified'], label: 'Modified',
     init: function(o: number ) { const date = new Date(); date.setTime(o); return date.toLocaleString(); } },
-  {name: ['modifiedBy', 'username'], label: 'User'},
+  {name: ['modifiedBy', 'name'], label: 'User'},
   {name: ['version'], label: 'Ver', init: function (version: IVersion ) {
     return (version) ?  'V' + version.major + '.' + version.minor : ''; } }
 ];

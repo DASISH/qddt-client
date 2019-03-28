@@ -3,10 +3,10 @@ import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { SurveyEditComponent } from './survey.edit.component';
-import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HomeService } from '../home.service';
+import {API_BASE_HREF} from '../../../api';
 
 export function main() {
   describe('Survey edit component', () => {

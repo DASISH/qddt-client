@@ -31,7 +31,7 @@ export function main() {
           .then(() => {
             const fixture = TestBed.createComponent(PreviewConditionConstructComponent);
             fixture.detectChanges();
-            expect(fixture.componentInstance.conditionjson.elseConditions.length).toBe(0);
+            expect(fixture.componentInstance.condition.conditionKind).toBe('');
           });
       }));
 

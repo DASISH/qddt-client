@@ -3,9 +3,9 @@ import { DomainKind } from '../../modules/responsedomain/responsedomain.classes'
 import { ElementKind } from '../../classes';
 
 export const DEFAULT_COLUMNS = [
-  new Column({ name: 'modified',  label: 'Modified', sortable: true, direction: 'desc' }),
-  new Column({ name: 'version',  label: 'Version' }),
-  new Column({ name: ['modifiedBy', 'agencyUserName'],  label: 'User@Agency' })
+  new Column({ name: 'modified', label: 'Modified', sortable: true, direction: 'desc' }),
+  new Column({ name: 'version', label: 'Version' }),
+  new Column({ name: 'modifiedBy', label: 'User@Agency' })
 ];
 
 const LOOKUP_COLUMNS =  [
@@ -52,7 +52,7 @@ export const USER_COLUMNS = [
   new Column( { name: 'name', label: 'Name', sortable: true }),
   new Column( { name: 'email', label: 'Email', sortable: true }),
   new Column( { name: 'enabled', label: 'Active', sortable: false }),
-  new Column( { name: ['authorities', 'name'], label: 'Authority', sortable: false }),
+  new Column( { name: ['authorities', [0], 'name'], label: 'Authority', sortable: false }),
   new Column( { name: 'modified',  label: 'Modified', sortable: true, direction: 'desc' }),
   new Column( { name: ['agency', 'name'], label: 'Agency', sortable: true })
 ];
@@ -63,7 +63,7 @@ export const CHANGE_LOG_COLUMNS = [
   new Column( { name: 'refKind',  label: 'Kind', sortable: true }),
   new Column( { name: 'refChangeKind',  label: 'ChangeKind', sortable: true }),
   new Column( { name: 'modified',  label: 'Modified', sortable: true, direction: 'desc' }),
-  new Column( { name: ['modifiedBy', 'name'],  label: 'ModifiedBy', sortable: false }),
+  new Column( { name: 'modifiedBy',  label: 'ModifiedBy', sortable: false }),
   ];
 //   changeFeedKey?: {};
 // elementId?: string;

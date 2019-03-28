@@ -51,7 +51,7 @@ export function main() {
                 'changeKind' : 'CONCEPTUAL',
                 'changeComment' : 'Information added'
             };
-            fixture.componentInstance.concepts = [ concept ];
+            fixture.componentInstance.children = [ concept ];
             fixture.componentInstance.level = 0;
             fixture.detectChanges();
             fixture.whenStable().then(() => {

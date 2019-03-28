@@ -16,6 +16,8 @@ export class Universe implements IEntityEditAudit {
   name = '';
   description = '';
   classKind = ElementKind[ElementKind.UNIVERSE];
+  xmlLang?: string;
+
 
   public constructor(init?: Partial<Universe>) {
     Object.assign(this, init);

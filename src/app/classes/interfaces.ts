@@ -37,10 +37,10 @@ export interface IEntityAudit {
 
 export interface IUser {
   id: string;
-  username: string;
+  name: string;
   email: string;
-  agency?: IEntityAudit;
-  agencyUserName?: string;
+  modified?: number;
+  agencyName?: string;
 }
 
 export interface IComment {

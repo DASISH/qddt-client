@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { TemplateService } from './template.service';
 
 import { DomainKind } from '../../modules/responsedomain/responsedomain.classes';
-import { IEntityAudit, IPageSearch, ElementKind, HEADER_DETAILS, ActionKind, Page, PageSearch } from '../../classes/index';
+import { IEntityAudit, IPageSearch, ElementKind, HEADER_DETAILS, ActionKind, Page, PageSearch } from '../../classes';
 import { MessageService, PropertyStoreService} from '../../modules/core/services';
 
 declare var $;
@@ -124,8 +124,11 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
     if (pageSearch.kind === ElementKind.USER && pageSearch.sort === 'modified,desc') {
       pageSearch.sort = 'name,asc';
     }
+    // else if (pageSearch.kind === ElementKind.CHANGE_LOG && pageSearch.sort === 'modified,desc') {
+    //   pageSearch.sort = 'ref_modified,desc';
+    // }
 
-    const RDKEY = 'ResponseKind';
+      const RDKEY = 'ResponseKind';
     if (pageSearch.kind === ElementKind.RESPONSEDOMAIN && !pageSearch.keys.has(RDKEY)) {
       pageSearch.keys.set(RDKEY, DomainKind[DomainKind.SCALE]);
     }

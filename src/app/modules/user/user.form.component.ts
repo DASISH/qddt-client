@@ -30,7 +30,8 @@ export class UserFormComponent implements OnInit, OnChanges, AfterViewInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['user'].currentValue) {
-      try { Materialize.updateTextFields(); } catch (Exception) { }
+      try { Materialize.updateTextFields();
+            console.log('updateTextFields' ); } catch (Exception) { }
       if (this.user) {
         if (this.user.agency) {
           this.onSelectChange(this.user.agency.id);
@@ -71,6 +72,6 @@ export class UserFormComponent implements OnInit, OnChanges, AfterViewInit {
 
 
   ngAfterViewInit(): void {
-    try { Materialize.updateTextFields(); } catch (Exception) { }
+    try { Materialize.updateTextFields(); console.log('ngAfterViewInit updateTextFields' );  } catch (Exception) { }
   }
 }

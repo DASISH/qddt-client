@@ -1,10 +1,12 @@
 import { AfterContentChecked, Component, OnInit} from '@angular/core';
 import { Router} from '@angular/router';
 import { HomeService} from '../home.service';
-import { ActionKind, ElementKind, Study, SurveyProgram} from '../../../classes';
+import {ActionKind, ElementKind, ElementRevisionRef, Study, SurveyProgram} from '../../../classes';
 import { HierarchyPosition} from '../../core/classes';
-import { PropertyStoreService} from '../../core/services';
+import {MessageService, PropertyStoreService} from '../../core/services';
 import { TemplateService} from '../../../components/template';
+import {Instrument} from '../../instrument/instrument.classes';
+import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 const filesaver = require('file-saver');
 declare var Materialize: any;
@@ -25,6 +27,7 @@ export class StudyComponent implements OnInit, AfterContentChecked {
   private readonly STUDY = ElementKind.STUDY;
 
   constructor(  private router: Router, private property: PropertyStoreService,
+                private message: MessageService,
                 private homeService: HomeService<Study>, private templateService: TemplateService ) {
 
     this.readonly = !homeService.canDo(this.STUDY).get(ActionKind.Create);
@@ -60,6 +63,9 @@ export class StudyComponent implements OnInit, AfterContentChecked {
     this.router.navigate(['topic']);
   }
 
+  public onShowElement(element: Instrument) {
+    this.message.sendMessage( {element: element , elementKind: element.classKind });
+  }
 
   onToggleStudyForm() {
     this.showEditForm = !this.showEditForm;

@@ -1,12 +1,16 @@
-import { Component, Input, EventEmitter, Output, AfterContentChecked } from '@angular/core';
-import { HomeService } from '../home.service';
-import {Study} from '../../../classes';
+import {AfterContentChecked, Component, EventEmitter, Input, Output} from '@angular/core';
+import {ElementKind, IElement, Page, Study} from '../../../classes';
 import {TemplateService} from '../../../components/template';
+import {Instrument} from '../../instrument/instrument.classes';
 
 declare var $: any;
 
 @Component({
   selector: 'qddt-study-edit',
+  styles: [
+    '.nomargin { margin:0; }',
+    ':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'
+  ],
   providers: [ {provide: 'elementKind', useValue: 'STUDY'}, ],
   template: `
 <div *ngIf="isVisible && study"  id="{{formId}}"  >
@@ -23,6 +27,15 @@ declare var $: any;
       </textarea>
       <label>Description</label>
     </div>
+
+    <qddt-collection-search-select
+      [listItems] = "study.instruments"
+      [searchItems]="instrumentsList"
+      [labelName]="'Instruments'"
+      [elementKind]="INSTRUMENT"
+      (selectEvent)="onAddInstrument($event)"
+      (searchEvent)="onInstrumentSearch($event)">
+    </qddt-collection-search-select>
 
     <qddt-rational [formName]="'RationalComp'" [element]="study" [config]="{hidden: [2,3]}"></qddt-rational>
 
@@ -43,7 +56,9 @@ export class StudyEditComponent implements  AfterContentChecked {
   @Output() savedEvent =  new EventEmitter<any>();
 
   public readonly formId = Math.round( Math.random() * 10000);
-  public showRevision;
+  public readonly  INSTRUMENT = ElementKind.INSTRUMENT;
+  private instrumentsList: Instrument[];
+
   constructor(private service: TemplateService) { }
 
   ngAfterContentChecked() {
@@ -55,6 +70,22 @@ export class StudyEditComponent implements  AfterContentChecked {
       this.study = null;
       this.savedEvent.emit(result);
     });
+  }
+
+  onAddInstrument(item: IElement) {
+    this.service.getByKindEntity<Instrument>(this.INSTRUMENT, item.element.id)
+      .then( instrument => {
+        this.study.instruments.push(instrument);
+        // instrument.study = this.study;
+        // this.service.update(instrument);
+      });
+  }
+
+  onInstrumentSearch(key: string) {
+    this.service.searchByKind<Instrument>(  {kind: this.INSTRUMENT, key: key, page: new Page() }).then(
+      (result) => {
+        this.instrumentsList = result.content;
+      });
   }
   //
   // onAuthorSelected(author: any) {

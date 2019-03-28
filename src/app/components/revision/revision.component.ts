@@ -2,7 +2,7 @@ import { Component, Input,  OnChanges } from '@angular/core';
 import { RevisionService } from './revision.service';
 import { DEFAULT_CONFIG, LIST_CONFIG, RevisionConfig } from './revision-config';
 import { DomainKind, ResponseDomain } from '../../modules/responsedomain/responsedomain.classes';
-import { ElementKind, IElement, IEntityAudit} from '../../classes';
+import {ElementKind, IElement, IEntityAudit, IEntityEditAudit} from '../../classes';
 import { MessageService} from '../../modules/core/services';
 
 
@@ -14,7 +14,7 @@ import { MessageService} from '../../modules/core/services';
   providers: [RevisionService]
 })
 export class RevisionComponent implements OnChanges {
-  @Input() current: IEntityAudit;
+  @Input() current: IEntityEditAudit;
 
   public config: RevisionConfig[];
   public revisions = [];
