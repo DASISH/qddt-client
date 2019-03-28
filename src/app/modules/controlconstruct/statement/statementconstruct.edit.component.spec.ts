@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
 import {StatementEditComponent} from './statementconstruct.edit.component';
-import { TemplateService } from '../../components/template/template.service';
+import {API_BASE_HREF} from '../../../api';
+import {TemplateService} from '../../../components/template';
 
 export function main() {
   describe('statement edit component', () => {

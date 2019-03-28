@@ -1,7 +1,6 @@
 import { Component, ViewEncapsulation, OnDestroy  } from '@angular/core';
 import { IElement, IIdRef, IRevisionRef } from './classes';
 import { MessageService, PropertyStoreService, UserService} from './modules/core/services';
-import { Subject } from 'rxjs';
 
 // declare var $: any;
 

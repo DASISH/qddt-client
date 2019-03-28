@@ -3,11 +3,11 @@ import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { StudyEditComponent } from './study.edit.component';
-import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
 import {HomeService} from '../home.service';
+import {API_BASE_HREF} from '../../../api';
 
 export function main() {
   describe('Study edit component', () => {

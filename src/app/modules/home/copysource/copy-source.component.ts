@@ -36,7 +36,7 @@ export class CopySourceComponent implements OnChanges {
     console.log(item || JSON);
     const qe = getQueryInfo(item.elementKind);
     this.service.searchByKind(
-      new PageSearch({kind: this.elementKind, key: item.element, sort: qe.fields.join(',') }))
+      { kind: this.elementKind, key: item.element, sort: qe.fields.join(',') })
     .then(
       (result) => { this.items = result.content; }
     );

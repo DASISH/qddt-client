@@ -1,4 +1,4 @@
-import {ElementKind, ElementRevisionRef, IEntityAudit} from '../../classes/index';
+import {ElementKind, ElementRevisionRef, IEntityAudit, Study} from '../../classes/index';
 
 
 export enum InstrumentKind {
@@ -44,6 +44,7 @@ export class Instrument implements IEntityAudit {
   description: string;
   instrumentKind = InstrumentKind[InstrumentKind.QUESTIONNAIRE];
   sequence: InstrumentSequence[];
+  study?: Study;
   comments: any[];
   classKind = ElementKind[ElementKind.INSTRUMENT];
   public constructor(init?: Partial<Instrument>) {

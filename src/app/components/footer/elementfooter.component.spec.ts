@@ -50,13 +50,13 @@ export function main() {
               'modified': 23948719853794585,
               'modifiedBy': {
                 'id': '83d4c30a-4ff9-11e5-885d-feff819cdc9f',
-                'username': 'test',
+                'name': 'test',
                 'email': 'test@nsd.no'
               },
               'agency': {
                 'id': '1359dede-9f18-11e5-8994-feff819cdc9f',
                 'name': 'NSD-qddt',
-                'classKind': ''
+                'classKind': 'AGENCY'
               },
               'name': 'test',
               'basedOnObject': null,

@@ -49,13 +49,10 @@ export function main() {
                 'id' : '7f000101-54aa-131e-8154-aa27fc230000',
                 'modified' : 132424312421,
                 'name' : 'one questionitem',
-                'description' : 'one questionitem',
                 'question': 'test',
                 'basedOnObject' : null,
                 'basedOnRevision' : null,
-                'version' : {'major' : 6, 'minor' : 0, 'versionLabel' : '', 'revision' : null },
-                'changeKind' : 'CONCEPTUAL',
-                'changeComment' : 'Information added'
+                'version' : {'major' : 6, 'minor' : 0, 'versionLabel' : '', 'revision' : null }
             });
             fixture.componentInstance.questionItem = element;
             fixture.detectChanges();

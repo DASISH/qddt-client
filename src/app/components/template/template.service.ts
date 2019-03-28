@@ -11,7 +11,7 @@ import {
   IOtherMaterial,
   IPageResult,
   IPageSearch,
-  IRevisionResult
+  IRevisionResult, PageSearch
 } from '../../classes';
 import {UserService} from '../../modules/core/services';
 
@@ -25,6 +25,7 @@ export class TemplateService {
   }
 
   public searchByKind<T extends IEntityAudit>(pageSearch: IPageSearch): Promise<IPageResult<T>> {
+    pageSearch = new PageSearch(pageSearch);
     const qe = getQueryInfo(pageSearch.kind);
     const queries = [];
 

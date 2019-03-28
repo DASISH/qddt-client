@@ -1,6 +1,6 @@
 import { ElementKind } from './enums';
 import { QueryInfo } from './classes';
-import {IHeaderDetail} from './interfaces';
+import { IHeaderDetail } from './interfaces';
 
 
 export function getElementKind(kind: string|ElementKind): ElementKind {
@@ -27,7 +27,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     '&constructKind=SEQUENCE_CONSTRUCT'),
   new QueryInfo(ElementKind.STATEMENT_CONSTRUCT, 'Statement', 'controlconstruct', ['name', 'statment'],
     '&constructKind=STATEMENT_CONSTRUCT'),
-  new QueryInfo(ElementKind.INSTRUMENT, 'Instrument', 'instrument', ['name', 'description', 'kind'], null),
+  new QueryInfo(ElementKind.INSTRUMENT, 'Instrument', 'instrument', ['label', 'description', 'kind'], null),
   new QueryInfo(ElementKind.PUBLICATION, 'Publication', 'publication', ['name', 'purpose', 'publicationStatus'], null),
   new QueryInfo(ElementKind.QUESTION_GRID, 'QuestionGrid', 'questiongrid', ['name', 'question'], null),
   new QueryInfo(ElementKind.QUESTION_ITEM, 'QuestionItem', 'questionitem', ['name', 'question', 'responseDomainName'], null),
@@ -38,7 +38,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
   new QueryInfo(ElementKind.INSTRUCTION, 'Instruction', 'instruction', ['description'], null),
   new QueryInfo(ElementKind.UNIVERSE, 'Universe', 'universe', ['description'], null),
   new QueryInfo(ElementKind.USER, 'User', 'user', ['name'], null),
-  new QueryInfo(ElementKind.CHANGE_LOG, 'Feed', 'changelog', ['name'], null),
+  new QueryInfo(ElementKind.CHANGE_LOG, 'Feed', 'changelog', ['name', 'change', 'kind'], null),
 ];
 
 

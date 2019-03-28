@@ -58,7 +58,7 @@
             <li *ngIf="canEdit"><a class="btn-flat btn-floating waves-effect waves-light green darken-1">
               <i class="material-icons" (click)="onDetail(row)" title="Edit">edit</i></a>
             </li>
-            <li><a class="btn-flat btn-floating waves-effect waves-light blue darken-1">
+            <li *ngIf="canPreview"><a class="btn-flat btn-floating waves-effect waves-light blue darken-1">
               <i class="material-icons" (click)="onPreview(row.Object)" title="Preview">search</i></a>
             </li>
           </ul>
