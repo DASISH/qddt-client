@@ -7,7 +7,7 @@ import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
-import { TemplateService } from '../../components/template/template.service';
+import { TemplateService } from '../../components/template';
 
 export function main() {
   describe('Instrument detail component', () => {

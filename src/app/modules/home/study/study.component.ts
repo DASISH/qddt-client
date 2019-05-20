@@ -1,14 +1,14 @@
 import { AfterContentChecked, Component, OnInit} from '@angular/core';
 import { Router} from '@angular/router';
 import { HomeService} from '../home.service';
-import {ActionKind, ElementKind, ElementRevisionRef, Study, SurveyProgram} from '../../../classes';
+import {ActionKind, ElementKind, Study, SurveyProgram} from '../../../classes';
 import { HierarchyPosition} from '../../core/classes';
 import {MessageService, PropertyStoreService} from '../../core/services';
 import { TemplateService} from '../../../components/template';
 import {Instrument} from '../../instrument/instrument.classes';
-import {el} from '@angular/platform-browser/testing/src/browser_util';
 
-const filesaver = require('file-saver');
+import filesaver from 'file-saver';
+
 declare var Materialize: any;
 
 @Component({

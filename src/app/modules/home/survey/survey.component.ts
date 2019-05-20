@@ -6,7 +6,8 @@ import { HierarchyPosition} from '../../core/classes';
 import { PropertyStoreService} from '../../core/services';
 import { TemplateService} from '../../../components/template';
 
-const filesaver = require('file-saver');
+import filesaver from 'file-saver';
+
 declare var Materialize: any;
 
 @Component({

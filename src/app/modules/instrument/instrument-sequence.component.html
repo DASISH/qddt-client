@@ -1,5 +1,3 @@
-
-
 <ul *ngIf="sequence" materialize="collapsible" class="collapsible popout" (click)="onOpenBody(sequence)"
   data-collapsible="expandable" style="padding: 1pt;" >
   <li *ngFor="let cqi of sequence;let idx = index">
@@ -20,7 +18,7 @@
         <qddt-preview-element *ngIf="!isSequence(cqi.elementRef.elementKind)" 
         [element]= "cqi.elementRef.element" [showDetail]="false" ></qddt-preview-element>
         <label  *ngIf="isSequence(cqi.elementRef.elementKind)" >Description</label>
-        <qddt-instrument-sequence *ngIf="isSequence(cqi.elementRef.elementKind)" [sequence] = "cqi.sequence">
+        <qddt-instrument-sequence *ngIf="isSequence(cqi.elementRef.elementKind)" ([sequence]) = "cqi.sequence">
         </qddt-instrument-sequence>
     </div>
   </li>

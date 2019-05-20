@@ -2,7 +2,7 @@ import {AfterViewInit, Component, Input, OnChanges, SimpleChanges} from '@angula
 import {ActionKind, ElementKind, getElementKind, IEntityEditAudit, IOtherMaterial} from '../../classes';
 import {TemplateService} from '../template';
 
-const filesaver = require('file-saver');
+import filesaver from 'file-saver';
 
 @Component({
   selector: 'qddt-download',

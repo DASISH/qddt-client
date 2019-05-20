@@ -6,10 +6,10 @@ import { TemplateService } from './template.service';
 import { IDetailAction, IEntityEditAudit, ActionKind, ElementKind, HEADER_DETAILS } from '../../classes';
 import { Factory } from '../../classes/factory';
 
+import fileSaver from 'file-saver';
+
 declare var Materialize: any;
 declare var $: any;
-
-const fileSaver = require('file-saver');
 
 @Component({
   selector: 'qddt-template-detail',

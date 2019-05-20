@@ -15,7 +15,8 @@ import { QuestionItem } from '../../question/question.classes';
 import { TemplateService} from '../../../components/template';
 import { MessageService } from '../../core/services';
 
-const filesaver = require('file-saver');
+import filesaver from 'file-saver';
+
 declare var Materialize: any;
 
 @Component({

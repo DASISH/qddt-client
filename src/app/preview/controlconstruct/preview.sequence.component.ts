@@ -12,7 +12,7 @@ import {ElementRevisionRef, getElementKind, SequenceConstruct} from '../../class
       <span class="row">{{ sequenceConstruct?.description }}</span>
       <ul *ngIf="sequenceConstruct.sequence"  class="collapsible" data-collapsible="accordion"  materialize="collapsible">
         <li *ngFor="let child of sequenceConstruct.sequence">
-          <div class="collapsible-header green lighten-5" (click)="onViewDetail(child)">
+          <div class="collapsible-header green lighten-5"  (click)="onViewDetail(child)">
             {{ child.name }}
           </div>
           <div class="collapsible-body">
@@ -27,7 +27,8 @@ import {ElementRevisionRef, getElementKind, SequenceConstruct} from '../../class
                 <qddt-preview-statementconstruct [statement]="child.element"></qddt-preview-statementconstruct>
               </div>
               <div *ngSwitchCase="'QUESTION_CONSTRUCT'">
-                <qddt-preview-questionconstruct [controlConstruct]="child" [showDetail]="showDetail" ></qddt-preview-questionconstruct>
+                <qddt-preview-questionconstruct [controlConstruct]="child.element" >
+                </qddt-preview-questionconstruct>
               </div>
             </div>
           </div>
@@ -43,12 +44,13 @@ export class PreviewSequenceConstructComponent {
 
   constructor(private service: PreviewService) { }
 
-  onViewDetail(element: ElementRevisionRef) {
-    console.log('onViewDetail' + element );
+  public onViewDetail(element: ElementRevisionRef) {
+    console.log('onViewDetail ' + element.name );
     if (!element.element) {
       this.service.getRevisionByKind(getElementKind(element.elementKind), element.elementId, element.elementRevision).then(
         (result) => { element.element = result.entity; },
-        (error) => { throw error; });
+        (error) => { this.showDetail = false; throw error; });
     }
+    this.showDetail = true;
   }
 }
