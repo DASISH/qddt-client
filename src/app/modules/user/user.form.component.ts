@@ -3,6 +3,7 @@ import { Agency, IAuthority, UserJson} from './user.classes';
 import { UserService} from '../core/services';
 
 declare var Materialize: any;
+declare var $: any;
 
 @Component({
   selector: 'qddt-user-form',
@@ -26,20 +27,35 @@ export class UserFormComponent implements OnInit, OnChanges, AfterViewInit {
    async ngOnInit() {
     this.agencies = await this.userService.getAgencies();
     this.authorities = await this.userService.getAuthorities();
+     $(document).ready(function() {
+       $('.modal').modal({
+         ready: () => {
+           Materialize.updateTextFields();
+           console.log('document ready');
+         }
+       });
+     });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['user'].currentValue) {
-      try { Materialize.updateTextFields();
-            console.log('updateTextFields' ); } catch (Exception) { }
       if (this.user) {
         if (this.user.agency) {
           this.onSelectChange(this.user.agency.id);
+          console.log('agency set');
         } else {
           this.getFirstAgency().then( agent => this.onSelectChange(agent.id) );
         }
+        try { Materialize.updateTextFields(); console.log('ngOnChanges updateTextFields' );
+        } catch (ex ) {
+          console.log('ngOnChanges updateTextFields' + ex );
+        }
       }
     }
+  }
+
+  ngAfterViewInit(): void {
+    try { Materialize.updateTextFields(); console.log('ngAfterViewInit updateTextFields' );  } catch (Exception) { }
   }
 
   onSelectChange(id: string) {
@@ -70,8 +86,4 @@ export class UserFormComponent implements OnInit, OnChanges, AfterViewInit {
     return await this.userService.getAgencies();
   }
 
-
-  ngAfterViewInit(): void {
-    try { Materialize.updateTextFields(); console.log('ngAfterViewInit updateTextFields' );  } catch (Exception) { }
-  }
 }

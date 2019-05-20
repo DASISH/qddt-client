@@ -8,7 +8,8 @@ import {DomainKind} from '../../modules/responsedomain/responsedomain.classes';
 import {ActionKind, ElementKind, getQueryInfo, IEntityEditAudit, IPageSearch, IRevisionRef, QueryInfo} from '../../classes';
 import {MessageService, UserService} from '../../modules/core/services';
 
-const filesaver = require('file-saver');
+import filesaver from 'file-saver';
+
 declare var $;
 declare var Materialize: any;
 

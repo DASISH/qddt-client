@@ -3,7 +3,7 @@ import { PreviewService } from '../preview.service';
 import { ElementKind, IOtherMaterial, Topic} from '../../classes';
 import { MessageService} from '../../modules/core/services';
 
-const filesaver = require('file-saver');
+import filesaver from 'file-saver';
 
 @Component({
   selector: 'qddt-preview-topic',

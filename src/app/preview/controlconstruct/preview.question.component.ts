@@ -6,7 +6,7 @@ import {QuestionConstruct} from '../../classes';
 
   styles: [ ],
   template: `
-  <div class="row" *ngIf="controlConstruct.preInstructions?.length>0">
+  <div class="row" *ngIf="controlConstruct?.preInstructions?.length>0">
     <ul>
       <li>
         <div class="row">
@@ -23,14 +23,14 @@ import {QuestionConstruct} from '../../classes';
   <div class="row">
     <h5 [innerHtml]="controlConstruct?.questionItem?.question" ></h5>
   </div>
-  <div class="row" *ngIf="controlConstruct.postInstructions?.length>0">
+  <div class="row" *ngIf="controlConstruct?.postInstructions?.length>0">
     <ul>
       <li>
         <div class="row">
           <label>Post Instructions</label>
         </div>
       </li>
-      <li class="collection-item" *ngFor="let instruction of controlConstruct.postInstructions">
+      <li class="collection-item" *ngFor="let instruction of controlConstruct?.postInstructions">
         <div class="row">
           <div class="col">{{ instruction?.description }}</div>
         </div>
@@ -39,7 +39,7 @@ import {QuestionConstruct} from '../../classes';
   </div>
   <div class="row" style="padding-right: 10pt;">
     <qddt-preview-responsedomain
-      *ngIf="controlConstruct.questionItem && controlConstruct.questionItem.responseDomain"
+      *ngIf="controlConstruct?.questionItem && controlConstruct.questionItem?.responseDomain"
       [responseDomain]="controlConstruct.questionItem.responseDomain">
     </qddt-preview-responsedomain>
   </div>

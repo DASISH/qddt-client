@@ -2,7 +2,8 @@ import { AfterViewInit, Component, Input} from '@angular/core';
 import { ElementEnumAware, PreviewService } from './preview.service';
 import { ElementKind, IEntityAudit} from '../classes';
 
-const filesaver = require('file-saver');
+import filesaver from 'file-saver';
+
 declare var Materialize: any;
 declare var $;
 
