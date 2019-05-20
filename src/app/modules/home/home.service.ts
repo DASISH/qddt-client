@@ -7,10 +7,7 @@ import {
   ActionKind,
   ElementKind,
   getQueryInfo, IEntityAudit,
-  IEntityEditAudit,
-  IOtherMaterial,
-  IPageResult, IRevisionResult, QueryInfo
-} from '../../classes';
+  IEntityEditAudit} from '../../classes';
 
 
 @Injectable()
