@@ -14,8 +14,7 @@ export class DialogComponent implements AfterViewInit, OnDestroy {
 
   componentRef: ComponentRef<any>;
 
-  @ViewChild(InsertionDirective)
-  insertionPoint: InsertionDirective;
+  @ViewChild(InsertionDirective, {static: true})  insertionPoint: InsertionDirective;
 
   private readonly _onClose = new Subject<any>();
   public onClose = this._onClose.asObservable();

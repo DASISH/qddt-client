@@ -9,7 +9,7 @@ import { Component, ViewChild } from '@angular/core';
 })
 
 export class SequenceConstructComponent  {
-  @ViewChild('detail') templateDetail;
+  @ViewChild('detail', {static: true}) templateDetail;
 
 
   public onFormModified(event) {
