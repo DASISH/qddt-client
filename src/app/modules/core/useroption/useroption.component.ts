@@ -13,9 +13,9 @@ export class UserOptionComponent  implements AfterViewInit {
 
 
   public formId = Math.round( Math.random() * 10000);
-  public items = [ { name: 'pageSize', type: 'number', class: 'validate' },
-                  { name: 'email', type: 'email', class: 'validate' },
-                  { name: 'ISO 639-1 Language Code', type: 'text', class: 'autocomplete' }  ];
+  public items = [ { name: 'pageSize', type: 'number', class: 'validate', label: null },
+                  { name: 'email', type: 'email', class: 'validate'  },
+                  { name: 'xmlLang', type: 'text', class: 'autocomplete', label: 'ISO 639-1 Language Code' }  ];
 
   constructor(private router: Router, public qddtProperty: PropertyStoreService) { }
 
@@ -32,6 +32,7 @@ export class UserOptionComponent  implements AfterViewInit {
         Materialize.updateTextFields();
       },
       complete: () => {
+        this.qddtProperty.userSetting.save();
         this.router.navigate([{ outlets: { popup : null }}]);
       }
     });

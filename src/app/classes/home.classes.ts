@@ -1,7 +1,7 @@
-import {ElementKind} from './enums';
-import {ElementRevisionRef} from './classes';
-import {IEntityAudit, IEntityEditAudit, IUser, IVersion} from './interfaces';
-import {Instrument} from '../modules/instrument/instrument.classes';
+import { ElementKind} from './enums';
+import { ElementRevisionRef} from './classes';
+import { IEntityAudit, IEntityEditAudit, IUser, IVersion} from './interfaces';
+import { Instrument} from '../modules/instrument/instrument.classes';
 
 export interface IRef {
   id: string;
@@ -70,6 +70,7 @@ export class Topic implements IEntityEditAudit {
   modifiedBy?: IUser;
   version: IVersion;
   studyRef?: IRef;
+  xmlLang?: string;
   public constructor(init?: Partial<Topic>) {
     Object.assign(this, init);
   }

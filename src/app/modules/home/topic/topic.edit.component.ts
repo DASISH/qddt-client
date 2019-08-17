@@ -1,6 +1,7 @@
 import { Component, Input, EventEmitter, Output, AfterContentChecked } from '@angular/core';
-import {ElementKind, Topic} from '../../../classes';
-import {TemplateService} from '../../../components/template';
+import { ElementKind, Topic } from '../../../classes';
+import { TemplateService } from '../../../components/template';
+import { PropertyStoreService } from '../../core/services';
 
 declare var $: any;
 
@@ -25,8 +26,8 @@ export class TopicEditComponent  implements AfterContentChecked {
 
   private fileStore: File[] = [];
 
-  constructor(private service: TemplateService) {
-   }
+  constructor(private service: TemplateService, private property: PropertyStoreService) {
+  }
 
   ngAfterContentChecked() {
     $('#' + this.formId + '-desc').trigger('autoresize');

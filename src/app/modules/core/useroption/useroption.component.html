@@ -5,7 +5,7 @@
     <form #f="ngForm" >
       <div class="row input-field" *ngFor="let item of items">
         <input class="{{item.class}}" id="{{item.name}}{{formId}}" name="{{item.name}}" type="{{item.type}}"  list="languages" [(ngModel)]="qddtProperty.userSetting[item.name]" required>
-        <label >{{item.name}}</label>
+        <label >{{item?.label||item.name}}</label>
       </div>
       <datalist id="languages">
         <option value="en-GB">
