@@ -9,8 +9,7 @@
   <a *ngIf="!showbutton || readOnly " class="btn-flat btn-floating btn-medium" style="background-color: transparent; color: transparent;" ></a>
   <span style="min-height:max-content; "> {{ responseDomain?.name }}</span>
 
-  <div id="{{formId}}" class="modal modal-fixed-footer" materialize="modal"
-    [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
+  <div id="{{formId}}" class="modal modal-fixed-footer" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
 
     <div class="modal-content white black-text">
 

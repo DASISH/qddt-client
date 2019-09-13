@@ -8,7 +8,6 @@ import { ElementKind, ElementRevisionRef, IElement, IPageSearch, Page} from '../
 
 @Component({
   selector: 'qddt-responsedomain-reuse',
-
   templateUrl: './responsedomain.reuse.component.html',
 })
 

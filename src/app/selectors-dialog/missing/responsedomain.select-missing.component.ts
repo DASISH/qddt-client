@@ -1,6 +1,6 @@
 
-import {filter, distinctUntilChanged, debounceTime} from 'rxjs/operators';
-import {Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges} from '@angular/core';
+import { filter, distinctUntilChanged, debounceTime} from 'rxjs/operators';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges} from '@angular/core';
 import { Subject } from 'rxjs';
 import { MaterializeAction } from 'angular2-materialize';
 import { ElementRevisionRef, Page } from '../../classes/classes';
@@ -14,8 +14,8 @@ import { Category } from '../../modules/category/category.classes';
 @Component({
   selector: 'qddt-responsedomain-select-missing',
 
-  styles: [ '.minHeight { min-height: 400px; height: auto; }',
-  ],
+  // styles: [ '.minHeight { min-height: 400px; height: auto; }',],
+
   templateUrl: 'responsedomain.select-missing.component.html',
 })
 
@@ -27,6 +27,8 @@ export class ResponsedomainSelectMissingComponent implements OnInit, OnChanges {
   @Output() removeEvent = new EventEmitter<any>();
 
   public readonly CATEGORY_KIND = ElementKind.MISSING_GROUP;
+  public formId = Math.round( Math.random() * 10000);
+  
   public findMissingAction = new EventEmitter<MaterializeAction>();
   public showbutton: any;
   public missingGroups: Category[];
