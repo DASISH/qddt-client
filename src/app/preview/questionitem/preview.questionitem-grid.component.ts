@@ -6,7 +6,7 @@ import { Category } from '../../modules/category/category.classes';
   selector: 'qddt-preview-questionitem-grid',
 
   styles: [
-    `:host /deep/ .row {
+    `:host ::ng-deep .row {
        margin-left: auto;
        margin-right: auto;
        margin-bottom: 2px;

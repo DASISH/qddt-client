@@ -12,7 +12,7 @@ declare var Materialize: any;
 @Component({
   selector: 'qddt-topic',
   providers: [ {provide: 'elementKind', useValue: 'TOPIC_GROUP'}, ],
-  styles: [':host /deep/ .collection-item .row { min-height:3rem; margin-bottom:0px;border-bottom: none;}',
+  styles: [':host ::ng-deep .collection-item .row { min-height:3rem; margin-bottom:0px;border-bottom: none;}',
           '.collection .collection-item {border-bottom: none; }',
           '.collection.with-header .collection-header {border-bottom: none; padding: 0px;}',
           '.collection {border:none; }'],

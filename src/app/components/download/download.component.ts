@@ -9,7 +9,7 @@ import filesaver from 'file-saver';
   templateUrl: './download.component.html',
   styles: [
     '.collection {border:none; }',
-    ':host /deep/ .col { padding-top: 0.5rem;}',
+    ':host ::ng-deep .col { padding-top: 0.5rem;}',
     '.collection.with-header .collection-item { margin-bottom:0px ;border-bottom: none; padding: 3px 3px 3px 15px; }',
     '.collection.with-header .collection-header { border-bottom: none; padding: 3px 3px 3px 15px; ; background-color: unset; }',
     '.collection .collection-item { background-color: unset; }',

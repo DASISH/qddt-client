@@ -4,7 +4,7 @@ import { Component, Input } from '@angular/core';
   selector: 'qddt-preview-rd-grid',
 
   styles: [
-    `:host /deep/ .row {
+    `:host ::ng-deep .row {
        margin-left: auto;
        margin-right: auto;
        margin-bottom: 2px;

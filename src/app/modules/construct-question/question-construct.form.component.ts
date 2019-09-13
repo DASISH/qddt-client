@@ -19,7 +19,7 @@ import {TemplateService} from '../../components/template';
   templateUrl: 'question-construct.form.component.html',
   styles: [
     '.nomargin { margin:0; }',
-    ':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'
+    ':host ::ng-deep .hoverable .row { min-height:3rem; margin-bottom:0px;}'
   ],
 })
 

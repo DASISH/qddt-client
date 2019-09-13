@@ -16,7 +16,7 @@ declare var Materialize: any;
 @Component({
   selector: 'qddt-table',
   styles: [
-    ':host /deep/ i.left  { margin-right: 0px; }',
+    ':host ::ng-deep i.left  { margin-right: 0px; }',
     'th { white-space: nowrap;}',
     'td, td div { max-width: 400px;  white-space: nowrap;  overflow: hidden; text-overflow: ellipsis;}',
     'table { table-layout:auto;}'],

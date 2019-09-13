@@ -9,7 +9,7 @@ declare var $: any;
   selector: 'qddt-study-edit',
   styles: [
     '.nomargin { margin:0; }',
-    ':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'
+    ':host ::ng-deep .hoverable .row { min-height:3rem; margin-bottom:0px;}'
   ],
   providers: [ {provide: 'elementKind', useValue: 'STUDY'}, ],
   template: `

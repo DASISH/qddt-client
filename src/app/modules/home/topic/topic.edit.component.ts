@@ -8,8 +8,8 @@ declare var $: any;
   selector: 'qddt-topic-edit',
   styles: [
     '.nomargin { margin:0; }',
-    ':host /deep/ .hoverable { margin-bottom:0px;}',
-    ':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'
+    ':host ::ng-deep .hoverable { margin-bottom:0px;}',
+    ':host ::ng-deep .hoverable .row { min-height:3rem; margin-bottom:0px;}'
   ],
   templateUrl: 'topic.edit.component.html'
 })

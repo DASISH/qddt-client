@@ -12,7 +12,7 @@ import { TemplateService} from '../../components/template';
   templateUrl: './publication.reuse.component.html',
   styles: [
     `label, [type="radio"] + label { padding-left: 25px; }`,
-    ':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0;}'
+    ':host ::ng-deep .hoverable .row { min-height:3rem; margin-bottom:0;}'
   ],
 })
 

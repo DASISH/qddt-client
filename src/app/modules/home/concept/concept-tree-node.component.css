@@ -7,7 +7,7 @@
 .tree-node {
   border: solid green;
 }
-:host /deep/ .collection-item .row {
+:host ::ng-deep .collection-item .row {
   min-height: 3rem;
   margin-bottom: 0px;
   border-bottom: none;

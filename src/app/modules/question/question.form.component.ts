@@ -11,7 +11,7 @@ declare var Materialize: any;
   selector: 'qddt-questionitem-form',
 
   styles: [
-    ':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'
+    ':host ::ng-deep .hoverable .row { min-height:3rem; margin-bottom:0px;}'
   ],
   templateUrl: './question.form.component.html'
 })
