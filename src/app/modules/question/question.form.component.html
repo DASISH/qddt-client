@@ -50,13 +50,16 @@
         </qddt-responsedomain-reuse>
       </div>
       <div class="col s4">
-        <qddt-responsedomain-select-missing
-          *ngIf="!readonly && questionItem?.responseDomain"
-          [modalId] = "formId"
-          [responseDomain]="questionItem.responseDomain"
-          (selectedEvent)="onSaveResponseDomain($event)"
-          (removeEvent)="onResponsedomainRemove($event)">
-        </qddt-responsedomain-select-missing>
+        <div class="row hoverable" (mouseenter)="showbutton = true" (mouseleave)="showbutton = false">
+          <div class="row"><label>Missing</label></div>
+          <qddt-responsedomain-select-missing
+              *ngIf="!readonly && questionItem?.responseDomain"
+              [modalId] = "formId"
+              [responseDomain]="questionItem.responseDomain"
+              (selectedEvent)="onSaveResponseDomain($event)"
+              (removeEvent)="onResponsedomainRemove($event)">
+          </qddt-responsedomain-select-missing>
+        </div>
       </div>
     </div>
 

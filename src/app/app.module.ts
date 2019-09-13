@@ -26,7 +26,7 @@ import { UserModule } from './modules/user/user.module';
 import { UniverseModule } from './modules/universe/universe.module';
 import { InstructionModule } from './modules/instruction/instruction.module';
 import { CategoryModule } from './modules/category/category.module';
-import { DialogModule } from './modules/dialog/dialog.module';
+import { ModalModule } from './modules/modal/modal.module';
 
 
 import { ChangeLogModule } from './modules/changelog/changelog.module';
@@ -36,7 +36,7 @@ import { TemplateService } from './components/template';
 
 
 @NgModule({
-  imports: [ BrowserModule, HttpClientModule, ComponentsModule, CoreModule, HomeModule, MenuModule, SelectorDialogsModule, DialogModule,
+  imports: [ BrowserModule, HttpClientModule, ComponentsModule, CoreModule, HomeModule, MenuModule, SelectorDialogsModule, ModalModule,
     CategoryModule,  ResponsedomainModule, QuestionModule, ControlConstructModule, PreviewModule, MissingModule, UniverseModule,
     ChangeLogModule, InstructionModule, InstrumentModule,
     PublicationModule, QuestionConstructModule, SequenceModule, UserModule, routing ],
