@@ -9,7 +9,7 @@ import { Component, ViewChild } from '@angular/core';
 })
 
 export class QuestionConstructComponent  {
-  @ViewChild('detail') templateDetail;
+  @ViewChild('detail', {static: false}) templateDetail;
 
 
   public onFormModified(event) {

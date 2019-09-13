@@ -7,7 +7,7 @@ import { Component, ViewChild } from '@angular/core';
 })
 
 export class InstrumentDetailComponent  {
-  @ViewChild('detail') templateDetail;
+  @ViewChild('detail', {static: false}) templateDetail;
 
   public onFormModified(event) {
     this.templateDetail.onHideDetail();

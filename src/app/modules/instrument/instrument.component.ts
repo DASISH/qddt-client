@@ -6,7 +6,7 @@ import { Component, ViewChild } from '@angular/core';
   templateUrl: './instrument.component.html'
 })
 export class InstrumentComponent  {
-  @ViewChild('detail') templateDetail;
+  @ViewChild('detail', {static: false}) templateDetail;
 
 
   public onFormModified(event) {

@@ -1,4 +1,4 @@
-import { Component, Input, PipeTransform, Pipe, EventEmitter, Output } from '@angular/core';
+import { Component, Input, PipeTransform, Pipe, EventEmitter, Output, Directive } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -91,6 +91,7 @@ class CommentListComponent {
 //   template: `<div></div>`
 // })
 
+@Directive()
 export class QddtAutoCompleteComponent {
   @Input() items:  any[];
   @Input() searchField: any;

@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Directive } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location, CommonModule } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -30,6 +30,7 @@ class TestComponent {
 }
 
 
+@Directive()
 export class UserLoginComponent {
   @Output() logoutEvent = new EventEmitter<string>();
 }

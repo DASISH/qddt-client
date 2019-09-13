@@ -6,7 +6,7 @@ import { Component, ViewChild } from '@angular/core';
   templateUrl: './universe.component.html'
 })
 export class UniverseComponent  {
-  @ViewChild('detail') templateDetail;
+  @ViewChild('detail', {static: false}) templateDetail;
 
 
   public onFormModified(event) {
