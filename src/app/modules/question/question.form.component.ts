@@ -4,6 +4,7 @@ import { Category } from '../category/category.classes';
 import { makeMixed, ResponseDomain} from '../responsedomain/responsedomain.classes';
 import { ActionKind, ElementKind, ElementRevisionRef} from '../../classes';
 import { TemplateService} from '../../components/template';
+import { ModalService } from '../modal/modal.service';
 
 declare var Materialize: any;
 
@@ -23,7 +24,7 @@ export class QuestionFormComponent  implements OnChanges {
 
   public showbutton = false;
   public formId = Math.round( Math.random() * 10000);
-  constructor(private service: TemplateService) {
+  constructor(private service: TemplateService, public modal: ModalService) {
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.QUESTION_ITEM);
   }
 
@@ -73,6 +74,9 @@ export class QuestionFormComponent  implements OnChanges {
     this.questionItem.responseDomain = rd;
   }
 
+  public openModal() {
+    this.modal.open('313131');
+  }
   // private deleteChild(representation: Category, categoryType: string) {
   //   if (!representation.children) {
   //     return;

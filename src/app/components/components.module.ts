@@ -28,6 +28,7 @@ import { FormErrorsComponent } from './form-errors/form-errors.component';
 import { ConfirmDeleteComponent } from './confim-delete/delete.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { FileDownload } from './download/download.component';
+
 import { TemplateComponent, TemplateDetailComponent, TemplateListComponent, TemplateService} from './template';
 
 

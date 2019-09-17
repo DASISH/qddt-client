@@ -6,7 +6,7 @@ import { Component, ViewChild } from '@angular/core';
   templateUrl: './user.component.html'
 })
 export class UserComponent  {
-  @ViewChild('detail', {static: false}) templateDetail;
+  @ViewChild('detail', {static: true}) templateDetail;
 
 
   public onFormModified(event) {

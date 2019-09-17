@@ -2,9 +2,9 @@ import { Component, ViewEncapsulation, ElementRef, Input, OnInit, OnDestroy } fr
 
 import { ModalService } from './modal.service';
 
-@Component({ 
-    selector: 'jw-modal', 
-    templateUrl: 'modal.component.html', 
+@Component({
+    selector: 'qddt-modal',
+    templateUrl: 'modal.component.html',
     styleUrls: ['modal.component.less'],
     encapsulation: ViewEncapsulation.None
 })
@@ -28,7 +28,7 @@ export class ModalComponent implements OnInit, OnDestroy {
 
         // close modal on background click
         this.element.addEventListener('click', el => {
-            if (el.target.className === 'jw-modal') {
+            if (el.target.className === 'qddt-modal') {
                 this.close();
             }
         });
@@ -46,12 +46,12 @@ export class ModalComponent implements OnInit, OnDestroy {
     // open modal
     open(): void {
         this.element.style.display = 'block';
-        document.body.classList.add('jw-modal-open');
+        document.body.classList.add('qddt-modal-open');
     }
 
     // close modal
     close(): void {
         this.element.style.display = 'none';
-        document.body.classList.remove('jw-modal-open');
+        document.body.classList.remove('qddt-modal-open');
     }
 }

@@ -1,21 +1,17 @@
 
-import { filter, distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges} from '@angular/core';
+import { filter, distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { MaterializeAction } from 'angular2-materialize';
-import { ElementRevisionRef, Page } from '../../classes/classes';
-import { ElementKind } from '../../classes/enums';
-import { IPageSearch, IElement } from '../../classes/interfaces';
-import { TemplateService } from '../../components/template/template.service';
+import { MaterializeAction} from 'angular2-materialize';
+import { ElementRevisionRef, Page, ElementKind,  IPageSearch, IElement } from '../../classes';
+import { TemplateService } from '../../components/template';
 import { ResponseDomain, makeMixed } from '../../modules/responsedomain/responsedomain.classes';
 import { Category } from '../../modules/category/category.classes';
+import {ModalService} from '../../modules/modal/modal.service';
 
 
 @Component({
   selector: 'qddt-responsedomain-select-missing',
-
-  // styles: [ '.minHeight { min-height: 400px; height: auto; }',],
-
   templateUrl: 'responsedomain.select-missing.component.html',
 })
 
@@ -28,8 +24,8 @@ export class ResponsedomainSelectMissingComponent implements OnInit, OnChanges {
 
   public readonly CATEGORY_KIND = ElementKind.MISSING_GROUP;
   public formId = Math.round( Math.random() * 10000);
-  
-  public findMissingAction = new EventEmitter<MaterializeAction>();
+
+  public modalActions = new EventEmitter<MaterializeAction>();
   public showbutton: any;
   public missingGroups: Category[];
   public selectedCategoryIndex: number;
@@ -41,7 +37,7 @@ export class ResponsedomainSelectMissingComponent implements OnInit, OnChanges {
 
   /* keys: new Map([['categoryKind', 'MISSING_GROUP']]), */
 
-  constructor(private service: TemplateService) {
+  constructor(private service: TemplateService, public modal: ModalService) {
     this.pageSearch = { kind: this.CATEGORY_KIND, key: '',
                         page: new Page(), sort: 'name,asc' };
     this.selectedCategoryIndex = 0;
@@ -66,8 +62,9 @@ export class ResponsedomainSelectMissingComponent implements OnInit, OnChanges {
   }
 
   onAddMissing() {
-    this.searchKeysListener.next('*');
-    this.findMissingAction.emit({action: 'modal', params: ['open']});
+    // this.searchKeysListener.next('*');
+    this.modal.open(this.modalId.toString());
+    // this.modalActions.emit({action: 'modal', params: ['open']});
   }
 
   onDismiss() {
@@ -77,7 +74,8 @@ export class ResponsedomainSelectMissingComponent implements OnInit, OnChanges {
   }
 
   onSave() {
-    this.findMissingAction.emit({action: 'modal', params: ['close']});
+    this.modal.close(this.modalId.toString());
+    // this.modalActions.emit({action: 'modal', params: ['close']});
     if (this._rd.getMissing()) {
       if (this._rd.changeKind) {
         this._rd.changeKind = 'TYPO';

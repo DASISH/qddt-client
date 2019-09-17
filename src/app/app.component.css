@@ -62,13 +62,13 @@ input {
 
 
 
-input[type="number"] {
-  -moz-appearance: textfield;
-}
-input[type="number"]:hover,
-input[type="number"]:focus {
-  -moz-appearance: number-input;
-}
+/*input[type="number"] {*/
+/*  -moz-appearance: textfield;*/
+/*}*/
+/*input[type="number"]:hover,*/
+/*input[type="number"]:focus {*/
+/*  -moz-appearance:  spinner-textfield;*/
+/*}*/
 
 .collapsible.popout > li  {
   margin: 0px !important;

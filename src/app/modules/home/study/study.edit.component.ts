@@ -17,12 +17,12 @@ declare var $: any;
   <form (ngSubmit)="onSave()" #studyForm="ngForm">
 
     <div class="row input-field">
-      <input name="name" type="text" [(ngModel)]="study.name" required>
+      <input name="name" type="text" [(ngModel)]="study.name" required  data-length ="255" materialize="characterCounter">
       <label>Name</label>
     </div>
 
     <div class="row input-field">
-      <textarea name="{{formId}}-description" class="materialize-textarea"
+      <textarea name="{{formId}}-description" class="materialize-textarea"  data-length ="10000" materialize="characterCounter"
         [(ngModel)]="study.description" required >
       </textarea>
       <label>Description</label>

@@ -108,5 +108,11 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterContentC
     this.alive = false;
   }
 
+
+  // onToggleForm() {
+  //   throw new Error("Method not implemented.");
+  // }
+
+
 }
 

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommentService } from './comment.service';
-import { IComment } from '../../classes/interfaces';
+import { IComment } from '../../classes';
 
 @Component({
   selector: 'qddt-comment-list',

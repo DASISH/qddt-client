@@ -6,7 +6,7 @@ import { Component, ViewChild } from '@angular/core';
 })
 
 export class ResponseComponent {
-  @ViewChild('detail', {static: false}) templateDetail;
+  @ViewChild('detail', {static: true}) templateDetail;
 
   public onFormModified(event) {
     this.templateDetail.onToggleForm();

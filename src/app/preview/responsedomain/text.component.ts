@@ -1,5 +1,4 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { ResponseDomain } from '../../modules/responsedomain/responsedomain.classes';
 import { Category } from '../../modules/category/category.classes';
 
 @Component({

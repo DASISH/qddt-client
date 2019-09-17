@@ -5,10 +5,11 @@ import { SelectorsModule } from '../selectors/selectors.module';
 import { ResponsedomainReuseComponent } from './responsdomain/responsedomain.reuse.component';
 import { ResponsedomainSelectMissingComponent } from './missing/responsedomain.select-missing.component';
 import { QuestionReuseComponent } from './question/question.reuse.component';
+import {ModalModule} from '../modules/modal/modal.module';
 
 
 @NgModule({
-  imports: [ ComponentsModule, PreviewModule, SelectorsModule],
+  imports: [ ComponentsModule, PreviewModule, SelectorsModule, ModalModule],
   declarations: [ ResponsedomainReuseComponent, ResponsedomainSelectMissingComponent, QuestionReuseComponent ],
   exports: [ ResponsedomainReuseComponent, ResponsedomainSelectMissingComponent, QuestionReuseComponent ],
   providers: [  ]

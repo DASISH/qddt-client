@@ -2,14 +2,14 @@
   <form (ngSubmit)="onSave()" #topicForm="ngForm">
 
     <div class="row input-field">
-      <input id="{{formId}}-name"
+      <input id="{{formId}}-name"  data-length ="250" materialize="characterCounter"
                 name="{{formId}}-name"type="text" [(ngModel)]="topic.name" required>
       <label for="{{formId}}-name" >Name</label>
     </div>
 
     <div class="row input-field">
       <textarea id="{{formId}}-desc" name="{{formId}}-description" class="materialize-textarea"
-        [(ngModel)]="topic.description" required >
+        [(ngModel)]="topic.description" required  data-length ="10000" materialize="characterCounter">
       </textarea>
       <label for="{{formId}}-desc">Description</label>
     </div>

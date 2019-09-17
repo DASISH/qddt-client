@@ -6,7 +6,7 @@ import { Component, ViewChild } from '@angular/core';
   templateUrl: './question.detail.component.html',
 })
 export class QuestionDetailComponent {
-  @ViewChild('detail', {static: false}) templateDetail;
+  @ViewChild('detail', {static: true}) templateDetail;
 
   public onFormModified(event) {
     this.templateDetail.onHideDetail();

@@ -7,7 +7,7 @@ import { By } from '@angular/platform-browser';
 import { API_BASE_HREF } from '../../api';
 import { MaterializeModule } from 'angular2-materialize';
 import { SequenceContentComponent } from './sequence-construct.content.component';
-import { TemplateService } from '../../components/template/template.service';
+import { TemplateService } from '../../components/template';
 
 
 export function main() {

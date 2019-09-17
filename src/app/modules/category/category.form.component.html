@@ -17,9 +17,9 @@
     <div class="row">
       <div class="input-field col m12 ">
         <textarea class="materialize-textarea validate" name="{{category?.id}}-cat-desc"
-                  data-length="1000" materialize="characterCounter" [(ngModel)]="category.description" >
+                  data-length="2000" materialize="characterCounter" [(ngModel)]="category.description" >
         </textarea>
-        <label for="{{category?.id}}-cat-desc" >Description</label>
+        <label>Description</label>
       </div>
     </div>
     <div class="row" *ngIf="category.categoryType!=='CATEGORY'">

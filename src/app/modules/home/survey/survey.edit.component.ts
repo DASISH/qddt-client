@@ -12,13 +12,13 @@ declare var $: any;
 <div *ngIf="isVisible && survey"  id="{{formId}}"  >
   <form materialize (ngSubmit)="onSave()" #surveyForm="ngForm">
     <div class="row input-field">
-      <input name="{{formId}}-name" type="text" [(ngModel)]="survey.name" required>
+      <input name="{{formId}}-name" type="text" [(ngModel)]="survey.name" required  data-length ="250" materialize="characterCounter">
       <label>Name</label>
     </div>
 
     <div class="row input-field">
       <textarea name="{{formId}}-description" class="materialize-textarea"
-        [(ngModel)]="survey.description" required >
+        [(ngModel)]="survey.description" required  data-length ="10000" materialize="characterCounter">
       </textarea>
       <label>Description</label>
     </div>

@@ -1,7 +1,7 @@
 <div class="row" *ngIf="element" class="qddt-form" >
   <form (ngSubmit)="onUpdateInstrument()" #instrumentform="ngForm">
     <div class="row input-field">
-      <label [attr.for]="formId + '-name'" >Name</label>
+      <label>Name</label>
       <input id= "{{formId}}-name" name="name" type="text" class="validate" required
       [(ngModel)]="element.name" materialize="characterCounter" data-length="255">
     </div>
@@ -14,7 +14,7 @@
       <label [attr.for]="formId + '-desc'" >Description</label>
       <textarea id="formId + '-desc'" required
         name="{{formId}}-desc" class="materialize-textarea"
-        [(ngModel)]="element.description" materialize="characterCounter" data-length="255">
+        [(ngModel)]="element.description" materialize="characterCounter" data-length="1000">
       </textarea>
     </div>
     <div class="row input-field">

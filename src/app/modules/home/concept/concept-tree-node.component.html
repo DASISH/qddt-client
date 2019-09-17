@@ -34,11 +34,11 @@
         <div class="card-panel">
           <form #hf="ngForm">
             <div class="row input-field">
-              <input name="name" type="text" ngModel required>
+              <input name="name" type="text" ngModel required  data-length ="250" materialize="characterCounter">
               <label>Name</label>
             </div>
             <div class="row input-field">
-              <textarea name="description" class="materialize-textarea" ngModel required ></textarea>
+              <textarea name="description" class="materialize-textarea" ngModel required  data-length ="10000" materialize="characterCounter"></textarea>
               <label>Description</label>
             </div>
             <div class="row right-align">

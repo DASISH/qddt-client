@@ -2,7 +2,7 @@ import { debounceTime, distinctUntilChanged, filter} from 'rxjs/operators';
 import { Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import { MaterializeAction} from 'angular2-materialize';
 import { Subject} from 'rxjs';
-import { TemplateService} from '../../components/template/template.service';
+import { TemplateService} from '../../components/template';
 import { DOMAIN_TYPE_DESCRIPTION, DomainKind, ResponseDomain} from '../../modules/responsedomain/responsedomain.classes';
 import { ElementKind, ElementRevisionRef, IElement, IPageSearch, Page} from '../../classes';
 

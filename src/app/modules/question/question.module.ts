@@ -8,10 +8,11 @@ import { PreviewModule } from '../../preview/preview.module';
 import { QuestionRoutingModule } from './question.route';
 import { SelectorsModule } from '../../selectors/selectors.module';
 import { SelectorDialogsModule } from '../../selectors-dialog/selectors-dialog.module';
+import { ModalModule} from '../modal/modal.module';
 
 @NgModule({
   imports: [ ComponentsModule, ResponsedomainModule, PreviewModule, SelectorsModule, SelectorDialogsModule,
-    QuestionRoutingModule ],
+    QuestionRoutingModule, ModalModule],
   declarations: [QuestionComponent, QuestionDetailComponent, QuestionFormComponent],
   exports: [QuestionComponent, QuestionFormComponent, QuestionDetailComponent ],
   providers: []

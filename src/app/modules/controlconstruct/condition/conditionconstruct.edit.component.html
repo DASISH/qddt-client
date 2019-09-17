@@ -1,10 +1,10 @@
 <div class="row teal-text">
     <h5>Condition</h5>
     <div class="input-field row">
-      <label [attr.for]="elementId + '-name'">Name</label>
-      <textarea id="{{elementId}}-name" name="{{elementId}}-name"
+      <label>Name</label>
+      <textarea id="{{elementId}}-name" name="con-name"
         class="materialize-textarea"
-        [(ngModel)]="condition.name" [attr.maxlength]="255"
+        [(ngModel)]="condition.name"  data-length ="250" materialize="characterCounter"
         required>
       </textarea>
     </div>
@@ -17,10 +17,10 @@
     </div>
     <div class="row card">
       <div class="input-field col s6">
-      <label [attr.for]="elementId + '-ifCondition'">if Condition Command</label>
+      <label>if Condition Command</label>
       <textarea id="{{elementId}}-ifCondition" name="{{elementId}}-ifCondition"
         class="materialize-textarea"
-        [(ngModel)]="condition" [attr.maxlength]="255" >
+        [(ngModel)]="condition"  data-length ="1500" materialize="characterCounter">
       </textarea>
       </div>
       <div class="input-field col s6">

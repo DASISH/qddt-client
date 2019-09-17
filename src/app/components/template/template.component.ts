@@ -12,9 +12,7 @@ declare var Materialize: any;
   selector: 'qddt-template-component',
 
   providers: [],
-  styles: [
-    // ' div.input-field *  { color: white; } ',
-  ],
+  styles: [],
   templateUrl: './template.component.html',
 })
 

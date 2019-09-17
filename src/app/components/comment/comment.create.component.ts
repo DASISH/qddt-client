@@ -8,7 +8,7 @@ import { IComment } from '../../classes';
     <form class="card" (ngSubmit)="save()" #hf="ngForm">
       <div class="row">
         <div class="input-field col l9 m7 s12">
-          <textarea class="materialize-textarea" name="{{ownerId}}-comment" length="2000" [(ngModel)]="comment.comment" required></textarea>
+          <textarea class="materialize-textarea" name="{{ownerId}}-comment" data-length="10000" materialize="characterCounter" [(ngModel)]="comment.comment" required></textarea>
           <label>Write a new comment</label>
         </div>
         <div class="col l3 m5 s7">

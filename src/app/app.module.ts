@@ -26,19 +26,19 @@ import { UserModule } from './modules/user/user.module';
 import { UniverseModule } from './modules/universe/universe.module';
 import { InstructionModule } from './modules/instruction/instruction.module';
 import { CategoryModule } from './modules/category/category.module';
-import { ModalModule } from './modules/modal/modal.module';
 
 
 import { ChangeLogModule } from './modules/changelog/changelog.module';
 import { PageNotFoundComponent} from './modules/core/pagenotfound/page-not-found.component';
 import { ErrorLogService, GlobalErrorHandler, TokenInterceptor} from './modules/core/services';
 import { TemplateService } from './components/template';
+import {ModalModule} from './modules/modal/modal.module';
 
 
 @NgModule({
-  imports: [ BrowserModule, HttpClientModule, ComponentsModule, CoreModule, HomeModule, MenuModule, SelectorDialogsModule, ModalModule,
+  imports: [ BrowserModule, HttpClientModule, ComponentsModule, CoreModule, HomeModule, MenuModule, SelectorDialogsModule,
     CategoryModule,  ResponsedomainModule, QuestionModule, ControlConstructModule, PreviewModule, MissingModule, UniverseModule,
-    ChangeLogModule, InstructionModule, InstrumentModule,
+    ChangeLogModule, InstructionModule, InstrumentModule, ModalModule,
     PublicationModule, QuestionConstructModule, SequenceModule, UserModule, routing ],
 
     declarations: [ AppComponent, PageNotFoundComponent ],
