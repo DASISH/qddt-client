@@ -10,7 +10,7 @@
             *ngFor="let comment of comments; let idx=index;">
           <div *ngIf="showPrivate || comment.public ">
             <img gravatar [email]="comment?.modifiedBy?.email" [size]="48" class="circle">
-            <span class="title" [style.color]="comment.public ? 'blue': 'grey'">
+            <span class="title" [style.color]="comment.public ? 'blue': 'grey'" i18n>
              {{ comment.modifiedBy.agencyUserName}}  {{ comment?.modified | date:'long' }}
               <i *ngIf="comment.public" class="material-icons left tiny" title="This comment is visible for all">public</i>
             </span>

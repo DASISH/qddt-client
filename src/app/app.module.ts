@@ -1,7 +1,7 @@
 import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { APP_BASE_HREF } from '@angular/common';
+import {APP_BASE_HREF, registerLocaleData} from '@angular/common';
 import { API_BASE_HREF } from './api';
 
 import { environment } from '../environments/environment';
@@ -32,8 +32,16 @@ import { ChangeLogModule } from './modules/changelog/changelog.module';
 import { PageNotFoundComponent} from './modules/core/pagenotfound/page-not-found.component';
 import { ErrorLogService, GlobalErrorHandler, TokenInterceptor} from './modules/core/services';
 import { TemplateService } from './components/template';
-import {ModalModule} from './modules/modal/modal.module';
+import { ModalModule } from './modules/modal/modal.module';
 
+import localeGb from '@angular/common/locales/en-GB';
+import localeGbExtra from '@angular/common/locales/extra/en-GB';
+import localeNo from '@angular/common/locales/nb';
+import localeNoExtra from '@angular/common/locales/extra/nb';
+
+registerLocaleData(localeGb, 'en-GB', localeGbExtra);
+
+registerLocaleData(localeNo, 'nb-NO', localeNoExtra);
 
 @NgModule({
   imports: [ BrowserModule, HttpClientModule, ComponentsModule, CoreModule, HomeModule, MenuModule, SelectorDialogsModule,
