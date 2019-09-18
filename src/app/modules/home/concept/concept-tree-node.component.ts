@@ -7,9 +7,8 @@ import {
   ElementRevisionRef,
   IElement,
   Page,
-  getElementKind, IRevisionResult, QuestionItem, HomeService, MessageService
+  getElementKind, IRevisionResult, QuestionItem, HomeService, MessageService, TemplateService
 } from '../../../lib';
-import {TemplateService} from '../../../components/template';
 
 import filesaver from 'file-saver';
 declare var Materialize: any;
