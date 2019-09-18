@@ -6,7 +6,7 @@ import { TreeNodeComponent } from './concept-tree-node.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
-import {HomeService} from '../home.service';
+import {HomeService} from '../../../lib/services/home.service';
 import {API_BASE_HREF} from '../../../api';
 
 export function main() {

@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation, OnDestroy  } from '@angular/core';
-import { IElement, IIdRef, IRevisionRef } from './classes';
-import { MessageService, PropertyStoreService, UserService} from './modules/core/services';
+import { IElement, IIdRef, IRevisionRef } from './lib';
+import { MessageService, PropertyStoreService, UserService} from './lib/services';
 
 // declare var $: any;
 

@@ -1,6 +1,6 @@
-import {AfterViewInit, Component} from '@angular/core';
+import { AfterViewInit, Component} from '@angular/core';
 import { Router } from '@angular/router';
-import { PropertyStoreService } from '../services';
+import { PropertyStoreService } from '../../../lib/services';
 
 declare var Materialize: any;
 declare var $;

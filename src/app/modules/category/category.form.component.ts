@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import {ActionKind, ElementKind} from '../../classes';
-import {Category} from './category.classes';
+import {ActionKind, Category, ElementKind} from '../../lib';
 import {TemplateService} from '../../components/template';
 
 

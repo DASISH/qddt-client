@@ -1,10 +1,16 @@
 import { Component, EventEmitter, OnInit} from '@angular/core';
 import { MaterializeAction } from 'angular2-materialize';
-import {Concept, ElementKind, IEntityEditAudit, IMoveTo, Topic, ActionKind} from '../../../classes';
-import { HomeService} from '../home.service';
-import { TemplateService} from '../../../components/template';
-import { PropertyStoreService } from '../../core/services';
-import {HierarchyPosition} from '../../core/classes';
+import {
+  ElementKind,
+  IEntityEditAudit,
+  IMoveTo,
+  Topic,
+  ActionKind,
+  PropertyStoreService,
+  HomeService,
+  HierarchyPosition, Concept
+} from '../../../lib';
+import {TemplateService} from '../../../components/template';
 
 
 @Component({

@@ -1,16 +1,19 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject} from 'rxjs/internal/BehaviorSubject';
-import {ActionKind, ElementKind, getElementKind, StringIsNumber} from '../../classes';
-import { HierarchyPosition} from '../core/classes';
-import { PropertyStoreService, UserService} from '../core/services';
+import {
+  ActionKind,
+  ElementKind,
+  getElementKind,
+  HierarchyPosition,
+  MenuItem,
+  PropertyStoreService,
+  StringIsNumber,
+  UserService
+} from '../../lib';
 import { TemplateService} from '../../components/template';
 
-
-
 declare var $: any;
-
-export interface MenuItem { id: string; name: string; }
 
 @Component({
   selector: 'qddt-menu',

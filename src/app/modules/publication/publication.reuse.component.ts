@@ -1,8 +1,7 @@
 import {distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { Subject } from 'rxjs';
-import { ElementKind, ElementRevisionRef, IElement, IPageSearch, IRevisionRef, Page} from '../../classes';
-import { PUBLICATION_TYPES} from './publication.classes';
+import {ElementKind, ElementRevisionRef, IElement, IPageSearch, IRevisionRef, Page, PUBLICATION_TYPES} from '../../lib';
 import { TemplateService} from '../../components/template';
 
 

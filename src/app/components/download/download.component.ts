@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {ActionKind, ElementKind, getElementKind, IEntityEditAudit, IOtherMaterial} from '../../classes';
+import {ActionKind, ElementKind, getElementKind, IEntityEditAudit, IOtherMaterial} from '../../lib';
 import {TemplateService} from '../template';
 
 import filesaver from 'file-saver';

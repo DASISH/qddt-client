@@ -1,6 +1,5 @@
 import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {ElementRevisionRef, IElement, IEntityAudit} from '../../classes';
-import {MessageService} from '../core/services';
+import {ElementRevisionRef, IElement, IEntityAudit, MessageService} from '../../lib';
 
 
 @Component({

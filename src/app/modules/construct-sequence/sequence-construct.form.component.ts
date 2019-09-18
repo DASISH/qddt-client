@@ -2,12 +2,11 @@ import { Component, Output, EventEmitter, Input, OnChanges, SimpleChanges } from
 import {
   ActionKind,
   ElementKind,
-  ElementRevisionRef,
   EnumItem, getElementKind,
   IElement,
   IEntityEditAudit,
   IRevisionRef, Page, SequenceConstruct, SequenceKind, StringIsNumber
-} from '../../classes';
+} from '../../lib';
 import {TemplateService} from '../../components/template';
 
 @Component({

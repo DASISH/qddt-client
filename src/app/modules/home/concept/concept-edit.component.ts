@@ -1,5 +1,5 @@
 import { Component, Input, EventEmitter, Output, OnChanges, SimpleChanges } from '@angular/core';
-import { Concept } from '../../../classes';
+import { Concept } from '../../../lib';
 import {TemplateService} from '../../../components/template';
 
 declare var $: any;

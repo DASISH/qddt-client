@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { IComment } from '../../classes';
+import { IComment } from '../../lib';
 
 @Component({
   selector: 'qddt-comment-create',

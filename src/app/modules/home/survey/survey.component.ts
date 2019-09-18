@@ -1,9 +1,9 @@
 import { Component,  OnInit, AfterContentChecked } from '@angular/core';
 import { Router } from '@angular/router';
-import { HomeService } from '../home.service';
-import { ActionKind, SurveyProgram, ElementKind} from '../../../classes';
-import { HierarchyPosition} from '../../core/classes';
-import { PropertyStoreService} from '../../core/services';
+import { HomeService } from '../../../lib/services/home.service';
+import { ActionKind, SurveyProgram, ElementKind} from '../../../lib';
+import { HierarchyPosition} from '../../../lib';
+import { PropertyStoreService} from '../../../lib/services';
 import { TemplateService} from '../../../components/template';
 
 import filesaver from 'file-saver';

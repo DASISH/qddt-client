@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { Instruction } from '../../../classes/controlconstruct.classes';
-import {ElementKind} from '../../../classes';
+import {ElementKind, Instruction} from '../../../lib';
 import {TemplateService} from '../../../components/template';
 
 @Component({

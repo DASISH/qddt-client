@@ -1,8 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ActionKind, ElementKind, IPageSearch, PageSearch} from '../../classes';
-import { DOMAIN_TYPE_DESCRIPTION, DomainKind} from './responsedomain.classes';
-import { MessageService, PropertyStoreService} from '../core/services';
+import {
+  ActionKind,
+  DOMAIN_TYPE_DESCRIPTION,
+  DomainKind,
+  ElementKind,
+  IPageSearch,
+  MessageService,
+  PageSearch,
+  PropertyStoreService
+} from '../../lib';
 
 @Component({
   selector: 'qddt-responsedomain-preselector',

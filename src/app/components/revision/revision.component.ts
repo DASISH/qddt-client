@@ -1,9 +1,7 @@
 import { Component, Input,  OnChanges } from '@angular/core';
 import { RevisionService } from './revision.service';
 import { DEFAULT_CONFIG, LIST_CONFIG, RevisionConfig } from './revision-config';
-import { DomainKind, ResponseDomain } from '../../modules/responsedomain/responsedomain.classes';
-import {ElementKind, IElement, IEntityAudit, IEntityEditAudit} from '../../classes';
-import { MessageService} from '../../modules/core/services';
+import {DomainKind, ElementKind, IElement, IEntityAudit, IEntityEditAudit, MessageService, ResponseDomain} from '../../lib';
 
 
 @Component({

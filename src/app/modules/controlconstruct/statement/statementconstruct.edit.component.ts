@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { StatementConstruct } from '../../../classes/controlconstruct.classes';
+import {StatementConstruct} from '../../../lib';
 import {TemplateService} from '../../../components/template';
 
 

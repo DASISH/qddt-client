@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { Instrument, INSTRUMENT_KIND, InstrumentKind} from './instrument.classes';
-import { ActionKind, ElementKind} from '../../classes';
+import { ActionKind, ElementKind, Instrument, INSTRUMENT_KIND, InstrumentKind} from '../../lib';
 import { TemplateService} from '../../components/template';
 
 declare var Materialize: any;

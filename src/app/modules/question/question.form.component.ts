@@ -1,10 +1,7 @@
 import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
-import { QuestionItem } from './question.classes';
-import { Category } from '../category/category.classes';
-import { makeMixed, ResponseDomain} from '../responsedomain/responsedomain.classes';
-import { ActionKind, ElementKind, ElementRevisionRef} from '../../classes';
-import { TemplateService} from '../../components/template';
-import { ModalService } from '../modal/modal.service';
+import {ActionKind, Category, ElementKind, ElementRevisionRef, makeMixed, QuestionItem, ResponseDomain} from '../../lib';
+import {TemplateService} from '../../components/template';
+import {ModalService} from '../modal/modal.service';
 
 declare var Materialize: any;
 

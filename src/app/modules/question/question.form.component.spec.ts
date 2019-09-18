@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { MaterializeModule } from 'angular2-materialize';
 import { QuestionFormComponent } from './question.form.component';
-import { TemplateService } from '../../components/template/template.service';
+import { TemplateService } from '../../lib/services/template.service';
 
 export function main() {
   describe('Question edit component', () => {

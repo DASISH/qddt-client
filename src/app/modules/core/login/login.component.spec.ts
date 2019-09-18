@@ -7,7 +7,7 @@ import {
 } from '@angular/core/testing';
 import { LoginComponent } from './login.component';
 import { By } from '@angular/platform-browser';
-import { UserService } from '../services/user.service';
+import { UserService } from '../../../lib/services/user.service';
 import {API_BASE_HREF} from '../../../api';
 
 class UserServiceSpy {

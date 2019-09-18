@@ -1,8 +1,8 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from './modules/core/services';
 import { LoginComponent, ResetpasswordComponent, UserOptionComponent } from './modules/core';
-import { PageNotFoundComponent } from './modules/core/pagenotfound/page-not-found.component';
+import { PageNotFoundComponent } from './components/pagenotfound/page-not-found.component';
+import { AuthGuard } from './lib';
 
 
 

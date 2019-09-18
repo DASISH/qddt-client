@@ -4,19 +4,14 @@ import {
   Concept,
   ElementKind,
   IRevisionRef,
-  getQueryInfo,
   ElementRevisionRef,
   IElement,
   Page,
-  getElementKind, IRevisionResult
-} from '../../../classes';
-import { HomeService } from '../home.service';
-import { QuestionItem } from '../../question/question.classes';
-import { TemplateService} from '../../../components/template';
-import { MessageService } from '../../core/services';
+  getElementKind, IRevisionResult, QuestionItem, HomeService, MessageService
+} from '../../../lib';
+import {TemplateService} from '../../../components/template';
 
 import filesaver from 'file-saver';
-
 declare var Materialize: any;
 
 @Component({

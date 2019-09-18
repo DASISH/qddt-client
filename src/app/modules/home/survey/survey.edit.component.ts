@@ -1,7 +1,6 @@
 import { Component, Input, Output, EventEmitter, AfterContentChecked } from '@angular/core';
-import { HomeService } from '../home.service';
-import { SurveyProgram} from '../../../classes';
-import {TemplateService} from '../../../components/template';
+import { SurveyProgram} from '../../../lib';
+import { TemplateService} from '../../../components/template';
 
 declare var $: any;
 

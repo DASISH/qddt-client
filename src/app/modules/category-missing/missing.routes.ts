@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MissingComponent } from './missing.component';
 import { MissingDetailComponent } from './missing.detail.component';
-import {AuthGuard} from '../core/services';
+import {AuthGuard} from '../../lib/services';
 import {TemplateListComponent} from '../../components/template';
 
 

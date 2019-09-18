@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
 import { RevisionComponent } from '../revision/revision.component';
-import { Topic } from '../../classes';
+import { Topic } from '../../lib';
 
 export function main() {
   describe('Revision detail component', () => {

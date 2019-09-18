@@ -1,5 +1,5 @@
 import { Component, Input, EventEmitter, Output, AfterContentChecked } from '@angular/core';
-import {ElementKind, Topic} from '../../../classes';
+import {ElementKind, Topic} from '../../../lib';
 import {TemplateService} from '../../../components/template';
 
 declare var $: any;

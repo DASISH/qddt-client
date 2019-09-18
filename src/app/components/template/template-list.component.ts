@@ -1,11 +1,11 @@
 import {filter, takeWhile} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { TemplateService } from './template.service';
+import { TemplateService } from '../../lib/services/template.service';
 
-import { DomainKind } from '../../modules/responsedomain/responsedomain.classes';
-import { IEntityAudit, IPageSearch, ElementKind, HEADER_DETAILS, ActionKind, Page, PageSearch } from '../../classes';
-import { MessageService, PropertyStoreService} from '../../modules/core/services';
+import { DomainKind } from '../../lib/classes/responsedomain.classes';
+import { IEntityAudit, IPageSearch, ElementKind, HEADER_DETAILS, ActionKind, Page, PageSearch } from '../../lib';
+import { MessageService, PropertyStoreService} from '../../lib/services';
 
 declare var $;
 declare var Materialize;

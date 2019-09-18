@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import {IEntityEditAudit, IRevisionRef} from '../../classes';
-import {MessageService} from '../../modules/core/services';
+import {IEntityEditAudit, IRevisionRef, MessageService} from '../../lib';
+
 
 @Component({
   selector: 'qddt-version-label',

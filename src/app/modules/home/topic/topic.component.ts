@@ -1,9 +1,9 @@
 import { AfterContentChecked, Component, OnInit} from '@angular/core';
 import { Router} from '@angular/router';
-import { ActionKind, ElementKind, IRevisionRef, Study, Topic, getQueryInfo} from '../../../classes';
-import { HierarchyPosition} from '../../core/classes';
-import { HomeService} from '../home.service';
-import { MessageService, PropertyStoreService} from '../../core/services';
+import { ActionKind, ElementKind, IRevisionRef, Study, Topic, getQueryInfo} from '../../../lib';
+import { HierarchyPosition} from '../../../lib';
+import { HomeService} from '../../../lib/services/home.service';
+import { MessageService, PropertyStoreService} from '../../../lib/services';
 import {TemplateService} from '../../../components/template';
 
 

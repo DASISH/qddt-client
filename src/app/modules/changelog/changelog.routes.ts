@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {ChangeLogComponent} from './changelog.component';
 import {ChangeLogDetailComponent} from './changelog.detail.component';
-import {AuthGuard} from '../core/services';
+import {AuthGuard} from '../../lib/services';
 import {TemplateListComponent} from '../../components/template';
 
 

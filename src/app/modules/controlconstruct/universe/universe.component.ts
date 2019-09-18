@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { ElementKind, Page } from '../../../classes';
+import {ElementKind, Page, Universe} from '../../../lib';
 import { TemplateService } from '../../../components/template';
-import { Universe } from '../../../classes/controlconstruct.classes';
 
 @Component({
   selector: 'qddt-universe-create',

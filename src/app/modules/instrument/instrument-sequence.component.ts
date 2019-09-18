@@ -7,9 +7,8 @@ import {
   IPageSearch,
   IRevisionRef,
   Page,
-  SequenceConstruct, getElementKind
-} from '../../classes';
-import { InstrumentSequence} from './instrument.classes';
+  SequenceConstruct, getElementKind, InstrumentSequence
+} from '../../lib';
 import { TemplateService} from '../../components/template';
 
 

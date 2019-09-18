@@ -1,9 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/internal/Subject';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { ElementEnumAware } from '../../preview/preview.service';
-import { ElementKind, getQueryInfo, IElement, IEntityAudit, QueryInfo } from '../../classes';
-import { Factory } from '../../classes/factory';
+import {ElementEnumAware, ElementKind, Factory, getQueryInfo, IElement, IEntityAudit, QueryInfo} from '../../lib';
 
 @Component({
   selector: 'qddt-auto-complete',

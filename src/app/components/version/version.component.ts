@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { IEntityEditAudit } from '../../classes/interfaces';
+import {IEntityEditAudit} from '../../lib/interfaces';
 
 @Component({
   selector: 'qddt-version',

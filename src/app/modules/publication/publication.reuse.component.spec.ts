@@ -2,7 +2,7 @@ import { Component, Input,  EventEmitter, Output } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { PublicationService } from './publication.service';
+import { PublicationService } from '../../lib/services/publication.service';
 import { PublicationReuseComponent } from './publication.reuse.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';

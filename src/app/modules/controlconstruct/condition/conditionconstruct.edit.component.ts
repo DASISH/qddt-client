@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { ConditionConstruct, ElementKind, Page} from '../../../classes';
+import { ConditionConstruct, ElementKind, Page} from '../../../lib';
 import { TemplateService} from '../../../components/template';
 
 @Component({

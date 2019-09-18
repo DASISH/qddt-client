@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_BASE_HREF } from '../../api';
-import {ElementKind, getQueryInfo, Page} from '../../classes';
+import {ElementKind, getQueryInfo, Page} from '../../lib';
 
 
 @Injectable()

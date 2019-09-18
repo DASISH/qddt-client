@@ -3,12 +3,20 @@ import {Subject} from 'rxjs';
 import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
 import {Column} from './table.column';
 import {DEFAULT_COLUMNS, LIST_COLUMNS, RESPONSEDOMAIN_COLUMNS} from './table.column.config';
-import {ElementEnumAware, PreviewService} from '../../preview/preview.service';
-import {DomainKind} from '../../modules/responsedomain/responsedomain.classes';
-import {ActionKind, ElementKind, getQueryInfo, IEntityEditAudit, IPageSearch, IRevisionRef, QueryInfo} from '../../classes';
-import {MessageService, UserService} from '../../modules/core/services';
+import {
+  ActionKind, DomainKind,
+  ElementEnumAware,
+  ElementKind,
+  getQueryInfo,
+  IEntityEditAudit,
+  IPageSearch,
+  IRevisionRef, MessageService,
+  PreviewService,
+  QueryInfo, SessionService, UserService
+} from '../../lib';
 
 import filesaver from 'file-saver';
+import {formatDate} from '@angular/common';
 
 declare var $;
 declare var Materialize: any;
@@ -53,7 +61,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   public fieldNames;
   public placeholder: string;
 
-  constructor(private previewService: PreviewService, public access: UserService, public message: MessageService ) {
+  constructor(private previewService: PreviewService, public access: UserService, public message: MessageService, public session: SessionService) {
     this.searchKeysChange.pipe(
       debounceTime(300),
       distinctUntilChanged())
@@ -90,6 +98,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
+    console.debug(this.session.locale);
 
     this.showProgressBar = false;
 
@@ -112,7 +121,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       const row: any = {
         'id': item.id,
         'Version': (item.version) ? item.version.major + '.' + item.version.minor : '',
-        'Modified': date.toDateString(),
+        'Modified': formatDate(date, 'shortDate', this.session.locale)  ,
         'Object': item,
       };
 

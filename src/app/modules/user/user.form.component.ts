@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges, AfterViewInit} from '@angular/core';
-import { Agency, IAuthority, UserJson} from './user.classes';
-import { UserService} from '../core/services';
+import { Agency, IAuthority, UserJson, UserService} from '../../lib';
 
 declare var Materialize: any;
 declare var $: any;

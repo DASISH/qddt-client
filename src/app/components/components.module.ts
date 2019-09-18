@@ -9,7 +9,6 @@ import { AutosizeDirective } from './directive/autosize.directive';
 import { GravatarDirective } from './directive/gravatar.directive';
 import { EqualValidator } from './directive/validate-password.directive';
 
-import { LocalDatePipe } from './date.pipe';
 import { AuthorChipComponent } from './author/author.chip.component';
 import { QddtTableComponent } from './table/table.component';
 import { QddtPaginationComponent } from './pagination/pagination.component';
@@ -30,17 +29,18 @@ import { SpinnerComponent } from './spinner/spinner.component';
 import { FileDownload } from './download/download.component';
 
 import { TemplateComponent, TemplateDetailComponent, TemplateListComponent, TemplateService} from './template';
+import { LocalDatePipe, LocalNumberPipe } from '../lib';
 
 
 @NgModule({
   imports: [ MaterializeModule, CommonModule, RouterModule, FormsModule, CompareModule ],
-  declarations: [ LocalDatePipe, TemplateComponent, TemplateListComponent, TemplateDetailComponent,
+  declarations: [ LocalDatePipe, LocalNumberPipe, TemplateComponent, TemplateListComponent, TemplateDetailComponent,
     QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, FileDownload,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent, CommentCreateComponent,
     RationalComponent, RevisionComponent,  ConceptrefComponent, FormErrorsComponent, SpinnerComponent,
     AutosizeDirective, ParentFormConnectDirective, GravatarDirective, EqualValidator ],
-  exports: [ LocalDatePipe, CommonModule, FormsModule, MaterializeModule, SpinnerComponent,
+  exports: [ LocalDatePipe, LocalNumberPipe, CommonModule, FormsModule, MaterializeModule, SpinnerComponent,
      QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, FileDownload,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent,

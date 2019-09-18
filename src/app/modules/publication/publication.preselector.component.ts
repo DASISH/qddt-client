@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { PublicationService } from './publication.service';
-import { PublicationStatus } from './publication.classes';
-import { ActionKind, ElementKind, IPageSearch, PageSearch} from '../../classes';
-import { MessageService, PropertyStoreService} from '../core/services';
+import {ActionKind, ElementKind, IPageSearch, PageSearch, PublicationService, PublicationStatus} from '../../lib';
+import { MessageService, PropertyStoreService} from '../../lib/services';
 
 
 @Component({

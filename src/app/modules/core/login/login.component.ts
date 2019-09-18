@@ -1,8 +1,7 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import { AfterViewInit, Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 
-import { UserService } from '../services/user.service';
-import { Password } from '../classes';
+import {Password, UserService} from '../../../lib';
 
 declare var Materialize: any;
 declare var $;

@@ -8,11 +8,18 @@ import {
   OnChanges,
   SimpleChanges
 } from '@angular/core';
-import { DomainKind, ResponseDomain, DATE_FORMAT } from './responsedomain.classes';
-import {ActionKind, ElementKind, IElement, IMoveTo, IPageSearch, Page} from '../../classes';
-import { Category} from '../category/category.classes';
-import { PropertyStoreService} from '../core/services';
-import { TemplateService} from '../../components/template';
+import {
+  ActionKind,
+  Category, DATE_FORMAT,
+  DomainKind,
+  ElementKind,
+  IElement,
+  IPageSearch,
+  Page,
+  PropertyStoreService,
+  ResponseDomain
+} from '../../lib';
+import {TemplateService} from '../../components/template';
 
 declare let Materialize: any;
 

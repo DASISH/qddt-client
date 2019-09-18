@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import {ChangeLogJson} from './changelog.classes';
+import {ChangeLogJson} from '../../lib';
 import {TemplateService} from '../../components/template';
 
 // declare var Materialize: any;

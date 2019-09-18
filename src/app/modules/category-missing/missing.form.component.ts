@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import {ActionKind, ElementKind, IElement, IPageSearch, Page} from '../../classes';
-import {Category} from '../category/category.classes';
+import {ActionKind, Category, ElementKind, IElement, IPageSearch, Page} from '../../lib';
 import {TemplateService} from '../../components/template';
 
 

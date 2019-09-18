@@ -1,10 +1,10 @@
 import { takeWhile} from 'rxjs/operators';
 import { Component, OnDestroy, AfterContentChecked} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ResponseDomain, DomainKind } from '../../modules/responsedomain/responsedomain.classes';
-import { Factory } from '../../classes/factory';
-import { ActionKind, ElementKind, HEADER_DETAILS, IEntityEditAudit, IPageSearch} from '../../classes';
-import { MessageService, PropertyStoreService, UserService} from '../../modules/core/services';
+import { ResponseDomain, DomainKind } from '../../lib/classes/responsedomain.classes';
+import { Factory } from '../../lib/factory';
+import { ActionKind, ElementKind, HEADER_DETAILS, IEntityEditAudit, IPageSearch} from '../../lib';
+import { MessageService, PropertyStoreService, UserService} from '../../lib/services';
 
 declare var Materialize: any;
 

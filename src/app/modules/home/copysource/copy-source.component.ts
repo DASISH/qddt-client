@@ -1,15 +1,13 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {
+  ElementEnumAware,
   ElementKind,
   ElementRevisionRef,
   getQueryInfo,
   IElement,
   IEntityAudit,
-  IPageSearch,
-  IRevisionRef,
-  PageSearch
-} from '../../../classes';
-import { ElementEnumAware} from '../../../preview/preview.service';
+  IRevisionRef
+} from '../../../lib';
 import { TemplateService} from '../../../components/template';
 
 

@@ -1,6 +1,6 @@
 import { Column } from './table.column';
-import { DomainKind } from '../../modules/responsedomain/responsedomain.classes';
-import { ElementKind } from '../../classes';
+import { DomainKind } from '../../lib/classes/responsedomain.classes';
+import { ElementKind } from '../../lib';
 
 export const DEFAULT_COLUMNS = [
   new Column({ name: 'modified', label: 'Modified', sortable: true, direction: 'desc' }),
