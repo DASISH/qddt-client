@@ -4,10 +4,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
-import { ParentFormConnectDirective } from './directive/parent-form-connect.directive';
-import { AutosizeDirective } from './directive/autosize.directive';
-import { GravatarDirective } from './directive/gravatar.directive';
-import { EqualValidator } from './directive/validate-password.directive';
 
 import { AuthorChipComponent } from './author/author.chip.component';
 import { QddtTableComponent } from './table/table.component';
@@ -30,6 +26,7 @@ import { FileDownload } from './download/download.component';
 
 import { TemplateComponent, TemplateDetailComponent, TemplateListComponent, TemplateService} from './template';
 import { LocalDatePipe, LocalNumberPipe } from '../lib';
+import { AutosizeDirective, EqualValidator, GravatarDirective, ParentFormConnectDirective} from '../lib/directives';
 
 
 @NgModule({
