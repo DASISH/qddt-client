@@ -19,7 +19,7 @@ export class LocalDatePipe implements PipeTransform {
   //   return date.toDateString();
   // }
 
-  transform(value: any, format: string) {
+  transform(value: any, format?: string) {
 
     if (!value) { return ''; }
     if (!format) { format = 'shortDate'; }

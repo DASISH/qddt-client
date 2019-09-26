@@ -1,6 +1,6 @@
 <div>
   <a *ngIf="showbutton && !readOnly && !responseDomain" class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal" href="#{{formId}}">
-      <i class="material-icons" title="response domain edit" (click)="openModal()">add</i>
+      <i class="material-icons" title="response domain edit" (click)="showDialog != showDialog">add</i>
   </a>
   <a *ngIf="showbutton && !readOnly && responseDomain" class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
     <i class="material-icons" title="response domain remove" (click)="removeResponseDomain()">remove</i>
@@ -8,9 +8,10 @@
   <a *ngIf="!showbutton || readOnly " class="btn-flat btn-floating btn-medium" style="background-color: transparent; color: transparent;" ></a>
   <span style="min-height:max-content; "> {{ responseDomain?.name }}</span>
 
-  <div id="{{formId}}" class="modal modal-fixed-footer" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">
+<!--  <qddt-modal2  [(visible)]="!showDialog">-->
+<!--  <div id="{{formId}}" class="modal modal-fixed-footer" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">-->
 
-    <div class="modal-content white black-text">
+<!--    <div class="modal-content white black-text">-->
 
       <div class="row">
         <h4>Reuse Domain</h4>
@@ -33,10 +34,11 @@
         (selectEvent)="onRevisionSelected($event)"
         (dismissEvent)="closeModal()">
       </qddt-revision-select>
-    </div>
+<!--    </div>-->
 
-    <div class="modal-footer">
-      <button class="btn btn-default red waves-effect waves-red" (click)="closeModal()">Dismiss</button>
-    </div>
-  </div>
+<!--    <div class="modal-footer">-->
+<!--      <button class="btn btn-default red waves-effect waves-red" (click)="closeModal()">Dismiss</button>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  </qddt-modal2>-->
 </div>

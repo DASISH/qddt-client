@@ -1,12 +1,9 @@
 import { Component,  OnInit, AfterContentChecked } from '@angular/core';
 import { Router } from '@angular/router';
-import { HomeService } from '../../../lib/services/home.service';
-import { ActionKind, SurveyProgram, ElementKind} from '../../../lib';
-import { HierarchyPosition} from '../../../lib';
-import { PropertyStoreService} from '../../../lib/services';
-import { TemplateService} from '../../../components/template';
+import { ActionKind, SurveyProgram, ElementKind, HomeService, TemplateService, HierarchyPosition, PropertyStoreService} from '../../../lib';
 
 import filesaver from 'file-saver';
+// import {ModalService} from '../../selectors-dialog/modal/modal.service';
 
 declare var Materialize: any;
 
@@ -26,10 +23,19 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
   constructor(private router: Router,
               private property: PropertyStoreService,
               private homeService: HomeService<SurveyProgram>,
-              private  templateService: TemplateService) {
-
+              private templateService: TemplateService,
+             // private modalService: ModalService
+  ) {
     this.readonly = !homeService.canDo(this.SURVEY).get(ActionKind.Create);
   }
+
+  // openModal(id: string) {
+  //   this.modalService.open(id);
+  // }
+  //
+  // closeModal(id: string) {
+  //   this.modalService.close(id);
+  // }
 
   ngOnInit() {
       this.homeService.getListByParent(this.SURVEY).then(

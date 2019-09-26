@@ -17,9 +17,8 @@ import {
   IPageSearch,
   Page,
   PropertyStoreService,
-  ResponseDomain
+  ResponseDomain, TemplateService
 } from '../../lib';
-import {TemplateService} from '../../components/template';
 
 declare let Materialize: any;
 

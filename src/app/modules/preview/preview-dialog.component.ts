@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import {  PreviewService } from '../../lib/services/preview.service';
 import { MaterializeAction } from 'angular2-materialize';
-import { getQueryInfo, IElement, IIdRef, IRevisionRef} from '../../lib';
+import { getQueryInfo, IElement, IIdRef, IRevisionRef, PreviewService} from '../../lib';
 
 @Component({
   selector: 'qddt-preview-dialog',
@@ -20,7 +19,6 @@ import { getQueryInfo, IElement, IIdRef, IRevisionRef} from '../../lib';
         <a class="modal-action modal-close waves-effect waves-purple btn-flat teal white-text" (close)="onClose()">Close</a>
       </div>
     </div>`
-    ,
 })
 
 export class PreviewDialogComponent implements  OnChanges {

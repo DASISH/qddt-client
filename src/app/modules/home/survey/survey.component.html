@@ -28,6 +28,14 @@
       </div>
     </div>
 
+<!--  <button (click)="openModal('custom-modal-1')">Open Modal 2</button>-->
+
+<!--  <qddt-modal id="custom-modal-1">-->
+<!--    <h1>A Custom Modal!</h1>-->
+<!--    <p>Home page text: </p>-->
+<!--    <button (click)="closeModal('custom-modal-1');">Close</button>-->
+<!--  </qddt-modal>-->
+
     <div *ngIf="surveys">
       <div id="{{surveyProgram?.id}}" class="row card scrollspy" *ngFor="let surveyProgram of surveys" style="padding-left:2%">
         <div class="col s1 m1 l1">
@@ -76,6 +84,7 @@
     </div>
   </div>
 </div>
+
 
 <qddt-toc [elements]="surveys" [path]="'survey'"></qddt-toc>
 

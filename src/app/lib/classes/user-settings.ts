@@ -5,6 +5,7 @@ export class UserSettings {
   url = '/home';
   email = 'review@example.org';
   hierarchyPosition = HierarchyPosition.Survey;
+  xmlLang = 'en-GB';
 
   public constructor(init?: Partial<UserSettings>) {
     Object.assign(this, init);

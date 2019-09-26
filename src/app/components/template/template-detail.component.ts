@@ -2,9 +2,7 @@ import { Component, EventEmitter, OnInit, Output, OnDestroy, AfterContentChecked
 import { ActivatedRoute, Router } from '@angular/router';
 import { MaterializeAction } from 'angular2-materialize';
 import { takeWhile } from 'rxjs/operators';
-import { TemplateService } from '../../lib/services/template.service';
-import { IDetailAction, IEntityEditAudit, ActionKind, ElementKind, HEADER_DETAILS } from '../../lib';
-import { Factory } from '../../lib/factory';
+import {IDetailAction, IEntityEditAudit, ActionKind, ElementKind, HEADER_DETAILS, TemplateService, Factory} from '../../lib';
 
 import fileSaver from 'file-saver';
 

@@ -1,16 +1,48 @@
-
-import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges} from '@angular/core';
-import { filter, distinctUntilChanged, debounceTime} from 'rxjs/operators';
-import { Subject } from 'rxjs';
-import { MaterializeAction} from 'angular2-materialize';
-import {ElementRevisionRef, Page, ElementKind, IPageSearch, IElement, ResponseDomain, Category, makeMixed} from '../../../lib';
-import {TemplateService} from '../../../components/template';
-import {ModalService} from '../../modal/modal.service';
-
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import { MaterializeAction } from 'angular2-materialize';
+import {Subject} from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter} from 'rxjs/operators';
+import {
+  Category,
+  ElementKind,
+  ElementRevisionRef,
+  IPageSearch,
+  Page,
+  ResponseDomain,
+  TemplateService
+} from '../../../lib';
 
 @Component({
-  selector: 'qddt-responsedomain-select-missing',
-  templateUrl: 'responsedomain.select-missing.component.html',
+  selector: 'qddt-select-missing-dialog',
+
+  template: `
+    <div class="modal modal-fixed-footer" id="select-missing-id"
+         materialize="modal" [materializeActions]="dialogOpenAction">
+      <div class="modal-content teal-text" style="padding:36px;">
+    <div class="row">
+        <qddt-auto-complete
+          [items]="missingGroups"
+          [elementKind]="CATEGORY_KIND"
+          [autoCreate]="false"
+          (enterEvent)="onSearchCategories($event)"
+          (selectEvent)="setMissing($event)">
+        </qddt-auto-complete>
+        <table *ngIf="missingRd">
+          <thead><tr><td>Code</td><td>Category</td></tr></thead>
+          <tbody>
+          <tr *ngFor="let category of getMissing().children; let idx=index">
+            <td><input id="{{category?.id}}-code-value"
+                       name="{{category?.id}}-code-value"
+                       type="text" [(ngModel)]="category.code.codeValue" required></td>
+            <td>{{ category?.label }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <a class="modal-action modal-close waves-effect waves-purple btn-flat teal white-text" (close)="onClose()">Close</a>
+      </div>
+    </div>`
 })
 
 export class ResponsedomainSelectMissingComponent implements OnInit, OnChanges {
@@ -20,35 +52,46 @@ export class ResponsedomainSelectMissingComponent implements OnInit, OnChanges {
   @Output() selectedEvent = new EventEmitter<ElementRevisionRef>();
   @Output() removeEvent = new EventEmitter<any>();
 
+  // @Output() close = new EventEmitter<boolean>(false);
+
+  dialogOpenAction = new EventEmitter<string|MaterializeAction>();
+
   public readonly CATEGORY_KIND = ElementKind.MISSING_GROUP;
   public formId = Math.round( Math.random() * 10000);
 
-  public modalActions = new EventEmitter<MaterializeAction>();
   public showbutton: any;
   public missingGroups: Category[];
   public selectedCategoryIndex: number;
   public missingRd: ResponseDomain;
 
+
   private _rd: ResponseDomain;
   private searchKeysListener = new Subject<string>();
   private pageSearch: IPageSearch;
 
-  /* keys: new Map([['categoryKind', 'MISSING_GROUP']]), */
-
-  constructor(private service: TemplateService, public modal: ModalService) {
+  constructor(private service: TemplateService) {
     this.pageSearch = { kind: this.CATEGORY_KIND, key: '',
-                        page: new Page(), sort: 'name,asc' };
+      page: new Page(), sort: 'name,asc' };
     this.selectedCategoryIndex = 0;
     this.missingGroups = [];
     this.searchKeysListener.pipe(
       debounceTime(300),
       distinctUntilChanged(),
       filter(val => val.length > 0), )
-      .subscribe((name: string) => {
-        this.pageSearch.key = name;
-        this.service.searchByKind<Category>(this.pageSearch).then(
-          (result) => { this.missingGroups = result.content; });
-      });
+    .subscribe((name: string) => {
+      this.pageSearch.key = name;
+      this.service.searchByKind<Category>(this.pageSearch).then(
+        (result) => { this.missingGroups = result.content; });
+    });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['responseDomain']) {
+      this._rd = new ResponseDomain(this.responseDomain);
+      this.dialogOpenAction.emit({action: 'modal', params: ['open']});
+    }
+    console.log('preview');
+
   }
 
   ngOnInit() {
@@ -61,7 +104,6 @@ export class ResponsedomainSelectMissingComponent implements OnInit, OnChanges {
 
   onAddMissing() {
     // this.searchKeysListener.next('*');
-    this.modal.open(this.modalId.toString());
     // this.modalActions.emit({action: 'modal', params: ['open']});
   }
 
@@ -72,7 +114,6 @@ export class ResponsedomainSelectMissingComponent implements OnInit, OnChanges {
   }
 
   onSave() {
-    this.modal.close(this.modalId.toString());
     // this.modalActions.emit({action: 'modal', params: ['close']});
     if (this._rd.getMissing()) {
       if (this._rd.changeKind) {
@@ -84,25 +125,9 @@ export class ResponsedomainSelectMissingComponent implements OnInit, OnChanges {
       this.selectedEvent.emit(
         { elementRevision: 0, element: this._rd, elementKind: ElementKind.RESPONSEDOMAIN, elementId: this._rd.id  } );
     }
+    this.dialogOpenAction.emit({action: 'modal', params: ['close']});
   }
 
-  public getMissing(): Category {
-    return this._rd.getMissing();
-  }
-
-  public setMissing(missing: IElement) {
-    console.log('add missing ' + missing.element);
-    let rd = this._rd;
-
-    if (!rd.isMixed()) {
-      rd = makeMixed(rd);
-    }
-    rd.addManagedRep(missing.element);
-
-    rd.name = rd.managedRepresentation.name =
-      'Mixed [' + this.getGroupEntities(rd.managedRepresentation)[0].name + '+' + missing.element.name + ']';
-    this.missingRd = this._rd = rd;
-  }
 
 
   private getGroupEntities(representation: Category): Category[] {
@@ -113,10 +138,6 @@ export class ResponsedomainSelectMissingComponent implements OnInit, OnChanges {
     }
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['responseDomain']) {
-      this._rd = new ResponseDomain(this.responseDomain);
-    }
-  }
+
 
 }

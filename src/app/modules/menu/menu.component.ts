@@ -8,10 +8,9 @@ import {
   HierarchyPosition,
   MenuItem,
   PropertyStoreService,
-  StringIsNumber,
+  StringIsNumber, TemplateService,
   UserService
 } from '../../lib';
-import { TemplateService} from '../../components/template';
 
 declare var $: any;
 

@@ -1,14 +1,14 @@
 import { Component, Input } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
 import { PreviewQuestionitemComponent } from './preview.questionitem.component';
 import { API_BASE_HREF } from '../../../api';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { MaterializeModule } from 'angular2-materialize';
-import { PublicationService } from '../../../lib/services/publication.service';
-import {QuestionItem} from '../../lib/classes/question.classes';
+import {PublicationService} from '../../../lib/services';
+import {QuestionItem} from '../../../lib/classes';
 
 export function main() {
   describe('Publication questionitem preview component', () => {

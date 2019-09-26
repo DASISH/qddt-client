@@ -55,21 +55,22 @@
              (mouseleave)="showbutton = false">
           <div class="row"><label>Missing</label></div>
           <div class="row">
-            <button *ngIf="!readonly"
+            <button *ngIf="!getMissing() && !readonly"
                     [ngClass]="{hide: !showbutton}"
                     [ngClass]="{disabled:responseDomain === null || responseDomain === undefined}"
-                    (click)="openModal()"
+                    (click)="openModal('response-missing-01')"
                     class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
               <i class="material-icons" title="response domain add">add</i>
             </button>
-            <qddt-modal id="313131">TEST</qddt-modal>
+            <span *ngIf="getMissing()">{{ getMissing().name }}</span>
           </div>
-<!--          <qddt-responsedomain-select-missing-->
-<!--              *ngIf="!readonly && questionItem?.responseDomain"-->
-<!--              [responseDomain]="questionItem.responseDomain"-->
-<!--              (selectedEvent)="onSaveResponseDomain($event)"-->
-<!--              (removeEvent)="onResponsedomainRemove($event)">-->
-<!--          </qddt-responsedomain-select-missing>-->
+
+          <qddt-select-missing-dialog
+              *ngIf="!readonly && questionItem?.responseDomain"
+              [responseDomain]="questionItem.responseDomain"
+              (selectedEvent)="onSaveResponseDomain($event)"
+              (removeEvent)="onResponsedomainRemove($event)">
+          </qddt-select-missing-dialog>
         </div>
       </div>
     </div>

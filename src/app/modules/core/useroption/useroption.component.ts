@@ -13,11 +13,13 @@ export class UserOptionComponent  implements AfterViewInit {
 
 
   public formId = Math.round( Math.random() * 10000);
-  public items = [ { name: 'pageSize', type: 'number', class: 'validate' },
-                  { name: 'email', type: 'email', class: 'validate' },
-                  { name: 'ISO 639-1 Language Code', type: 'text', class: 'autocomplete' }  ];
+  public items = [ { label: 'pageSize', name: 'pageSize', type: 'number', class: 'validate' },
+                  { label: 'email', name: 'email', type: 'email', class: 'validate' },
+                  { label: 'ISO 639-1 Language Code', name: 'xmlLang', type: 'text', class: 'autocomplete' }  ];
 
-  constructor(private router: Router, public qddtProperty: PropertyStoreService) { }
+  constructor(private router: Router, public qddtProperty: PropertyStoreService) {
+
+  }
 
   onClose() {
     $('#userOption').modal('close');

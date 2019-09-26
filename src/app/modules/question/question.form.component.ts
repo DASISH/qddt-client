@@ -1,7 +1,15 @@
 import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
-import {ActionKind, Category, ElementKind, ElementRevisionRef, makeMixed, QuestionItem, ResponseDomain} from '../../lib';
-import {TemplateService} from '../../components/template';
-import {ModalService} from '../modal/modal.service';
+import {
+  ActionKind,
+  Category,
+  ElementKind,
+  ElementRevisionRef,
+  IElement,
+  makeMixed,
+  QuestionItem,
+  ResponseDomain,
+  TemplateService
+} from '../../lib';
 
 declare var Materialize: any;
 
@@ -21,7 +29,7 @@ export class QuestionFormComponent  implements OnChanges {
 
   public showbutton = false;
   public formId = Math.round( Math.random() * 10000);
-  constructor(private service: TemplateService, public modal: ModalService) {
+  constructor(private service: TemplateService) {
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.QUESTION_ITEM);
   }
 
@@ -70,10 +78,11 @@ export class QuestionFormComponent  implements OnChanges {
     rd.name = rd.managedRepresentation.name = 'Mixed [' + rd.name + '+' + missing.name + ']';
     this.questionItem.responseDomain = rd;
   }
-
-  public openModal() {
-    this.modal.open('313131');
+  public getMissing(): Category {
+      return this.questionItem.responseDomain.getMissing();
   }
+
+
   // private deleteChild(representation: Category, categoryType: string) {
   //   if (!representation.children) {
   //     return;

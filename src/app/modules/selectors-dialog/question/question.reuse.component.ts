@@ -1,11 +1,9 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
-import {ElementKind, ElementRevisionRef, IElement, IRevisionRef, Page, QuestionItem} from '../../../lib';
-import {TemplateService} from '../../../components/template';
+import {ElementKind, ElementRevisionRef, IElement, IRevisionRef, Page, QuestionItem, TemplateService} from '../../../lib';
 
 
 @Component({
   selector: 'qddt-questionitem-reuse',
-
   templateUrl: './question.reuse.component.html',
 })
 

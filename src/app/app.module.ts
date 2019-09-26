@@ -1,5 +1,6 @@
 import { ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { APP_BASE_HREF } from '@angular/common';
 import { API_BASE_HREF } from './api';
@@ -19,7 +20,6 @@ import { InstructionModule } from './modules/instruction/instruction.module';
 import { InstrumentModule } from './modules/instrument/instrument.module';
 import { MenuModule } from './modules/menu/menu.module';
 import { MissingModule } from './modules/category-missing/missing.module';
-import { ModalModule } from './modules/modal/modal.module';
 import { PageNotFoundComponent} from './components/pagenotfound/page-not-found.component';
 import { PreviewModule } from './modules/preview/preview.module';
 import { PublicationModule } from './modules/publication/publication.module';
@@ -33,9 +33,9 @@ import { UserModule } from './modules/user/user.module';
 
 
 @NgModule({
-  imports: [ BrowserModule, HttpClientModule, ComponentsModule, CoreModule, HomeModule, MenuModule, SelectorDialogsModule,
-    CategoryModule,  ResponsedomainModule, QuestionModule, ControlConstructModule, PreviewModule, MissingModule, UniverseModule,
-    ChangeLogModule, InstructionModule, InstrumentModule, ModalModule,
+  imports: [ BrowserModule, HttpClientModule, ComponentsModule, CoreModule, BrowserAnimationsModule, HomeModule, MenuModule,
+    SelectorDialogsModule, CategoryModule,  ResponsedomainModule, QuestionModule, ControlConstructModule, PreviewModule,
+    MissingModule, UniverseModule, ChangeLogModule, InstructionModule, InstrumentModule,
     PublicationModule, QuestionConstructModule, SequenceModule, UserModule, routing ],
 
     declarations: [ AppComponent, PageNotFoundComponent ],

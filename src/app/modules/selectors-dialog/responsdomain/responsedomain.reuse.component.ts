@@ -2,9 +2,17 @@ import { debounceTime, distinctUntilChanged, filter} from 'rxjs/operators';
 import { Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import { MaterializeAction} from 'angular2-materialize';
 import { Subject} from 'rxjs';
-import { TemplateService} from '../../../components/template';
-import { DOMAIN_TYPE_DESCRIPTION, DomainKind, ResponseDomain} from '../../../lib/classes/responsedomain.classes';
-import { ElementKind, ElementRevisionRef, IElement, IPageSearch, Page} from '../../../lib';
+import {
+  DOMAIN_TYPE_DESCRIPTION,
+  DomainKind,
+  ElementKind,
+  ElementRevisionRef,
+  IElement,
+  IPageSearch,
+  Page,
+  ResponseDomain,
+  TemplateService
+} from '../../../lib';
 
 @Component({
   selector: 'qddt-responsedomain-reuse',
@@ -18,6 +26,7 @@ export class ResponsedomainReuseComponent implements OnChanges  {
   @Output() selectedEvent = new EventEmitter<ElementRevisionRef>();
   @Output() removeEvent = new EventEmitter<any>();
 
+  public showDialog = false;
   public modalActions = new EventEmitter<MaterializeAction>();
 
   public readonly ELEMENT_KIND = ElementKind.RESPONSEDOMAIN;

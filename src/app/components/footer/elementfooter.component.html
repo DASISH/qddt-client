@@ -10,7 +10,7 @@
   </div>
   <div class="input-field col s5 m3">
     <div class="chip"><img class="gravatar" gravatar [email]="element?.modifiedBy?.email" [size]="32">
-      {{element?.modifiedBy?.name}}</div>
+      {{element?.modifiedBy?.name |titlecase }}</div>
     <!--{{element?.modifiedBy?.name + '@' + element?.modifiedBy?.agencyName}}</div>-->
     <label class="active">Last Saved By</label>
   </div>
