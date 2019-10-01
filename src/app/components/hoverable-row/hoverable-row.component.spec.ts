@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import {ModalComponent} from './modal.component';
 
+import { HoverableRowComponent } from './hoverable-row.component';
 
-describe('ModalComponent', () => {
-  let component: ModalComponent;
-  let fixture: ComponentFixture<ModalComponent>;
+describe('HoverableRowComponent', () => {
+  let component: HoverableRowComponent;
+  let fixture: ComponentFixture<HoverableRowComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ModalComponent ]
+      declarations: [ HoverableRowComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ModalComponent);
+    fixture = TestBed.createComponent(HoverableRowComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

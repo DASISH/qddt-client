@@ -1,12 +1,10 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MaterializeAction } from 'angular2-materialize';
-import {Subject} from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter} from 'rxjs/operators';
 import {
   Category,
   ElementKind,
-  ElementRevisionRef,
-  IPageSearch,
+  ElementRevisionRef, IElement,
+  IRevisionRef,
   Page,
   ResponseDomain,
   TemplateService
@@ -14,129 +12,94 @@ import {
 
 @Component({
   selector: 'qddt-select-missing-dialog',
-
   template: `
-    <div class="modal modal-fixed-footer" id="select-missing-id"
-         materialize="modal" [materializeActions]="dialogOpenAction">
-      <div class="modal-content teal-text" style="padding:36px;">
-    <div class="row">
-        <qddt-auto-complete
-          [items]="missingGroups"
-          [elementKind]="CATEGORY_KIND"
-          [autoCreate]="false"
-          (enterEvent)="onSearchCategories($event)"
-          (selectEvent)="setMissing($event)">
-        </qddt-auto-complete>
-        <table *ngIf="missingRd">
-          <thead><tr><td>Code</td><td>Category</td></tr></thead>
-          <tbody>
-          <tr *ngFor="let category of getMissing().children; let idx=index">
-            <td><input id="{{category?.id}}-code-value"
-                       name="{{category?.id}}-code-value"
-                       type="text" [(ngModel)]="category.code.codeValue" required></td>
-            <td>{{ category?.label }}</td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="modal-footer">
-        <a class="modal-action modal-close waves-effect waves-purple btn-flat teal white-text" (close)="onClose()">Close</a>
-      </div>
-    </div>`
+<!--     [ngClass]="{hide: !showbutton}"-->
+  <a class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
+     [ngClass]="{disabled:responseDomain === null || responseDomain === undefined}"
+     (click)="onOpenModal()">
+    <i class="material-icons left medium" title="Add element">add</i>
+  </a>
+  <div class="modal modal-fixed-footer"
+       materialize="modal" [materializeActions]="closeReuseActions">
+    <div class="modal-content white black-text" >
+      <qddt-item-revision-select
+        [showProgressBar] = "showProgressBar"
+        [kind] = "MISSING_GROUP"
+        [itemList] = "categories"
+        [revisionList] = "revisionResults"
+        (searchItems)="onResponseDomainSearch($event)"
+        (searchRevision)="onRevisonSearch($event)"
+        (revisionSelected)="onRevisionSelect($event)"
+        (dismissEvent) ="onDismiss()">
+      </qddt-item-revision-select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn red waves-effect waves-red" (click)="onDismiss()" >Dismiss</button>
+    </div>
+  </div>`
 })
 
-export class ResponsedomainSelectMissingComponent implements OnInit, OnChanges {
+export class ResponsedomainSelectMissingComponent {
+  @Input() parentId: string;
+  @Input() name: string;
   @Input() responseDomain: ResponseDomain;
-  @Input() modalId =  Math.round( Math.random() * 10000);
-  @Input() readonly = false;
-  @Output() selectedEvent = new EventEmitter<ElementRevisionRef>();
-  @Output() removeEvent = new EventEmitter<any>();
+  @Output() createdEvent = new EventEmitter<ElementRevisionRef>();
+  @Output() dismissEvent = new EventEmitter<boolean>();
 
-  // @Output() close = new EventEmitter<boolean>(false);
+  closeReuseActions = new EventEmitter<any>();
 
-  dialogOpenAction = new EventEmitter<string|MaterializeAction>();
+  public readonly MISSING_GROUP = ElementKind.MISSING_GROUP;
+  public showProgressBar = false;
 
-  public readonly CATEGORY_KIND = ElementKind.MISSING_GROUP;
-  public formId = Math.round( Math.random() * 10000);
+  public categories: Category[];
+  public revisionResults: any[];
 
-  public showbutton: any;
-  public missingGroups: Category[];
-  public selectedCategoryIndex: number;
-  public missingRd: ResponseDomain;
+  constructor(private service: TemplateService) {  }
 
-
-  private _rd: ResponseDomain;
-  private searchKeysListener = new Subject<string>();
-  private pageSearch: IPageSearch;
-
-  constructor(private service: TemplateService) {
-    this.pageSearch = { kind: this.CATEGORY_KIND, key: '',
-      page: new Page(), sort: 'name,asc' };
-    this.selectedCategoryIndex = 0;
-    this.missingGroups = [];
-    this.searchKeysListener.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      filter(val => val.length > 0), )
-    .subscribe((name: string) => {
-      this.pageSearch.key = name;
-      this.service.searchByKind<Category>(this.pageSearch).then(
-        (result) => { this.missingGroups = result.content; });
-    });
+  onRevisionSelect(ref: ElementRevisionRef) {
+    this.createdEvent.emit(ref);
+    this.closeReuseActions.emit({action: 'modal', params: ['close']});
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['responseDomain']) {
-      this._rd = new ResponseDomain(this.responseDomain);
-      this.dialogOpenAction.emit({action: 'modal', params: ['open']});
-    }
-    console.log('preview');
-
+  onRevisonSearch(ref: IRevisionRef) {
+    this.showProgressBar = true;
+    this.service.getByKindRevisions( this.MISSING_GROUP, ref.elementId).then(
+      (result) => { this.revisionResults =
+        result.content.sort((e1: any, e2: any) => e2.revisionNumber - e1.revisionNumber);
+        this.showProgressBar = false;
+      } );
   }
 
-  ngOnInit() {
-    if (!this.readonly) { this.readonly = false; }
-  }
-
-  onSearchCategories(name: string) {
-    this.searchKeysListener.next(name);
-  }
-
-  onAddMissing() {
-    // this.searchKeysListener.next('*');
-    // this.modalActions.emit({action: 'modal', params: ['open']});
+  onResponseDomainSearch(ref: IElement) {
+    this.showProgressBar = true;
+    this.service.searchByKind<Category>( { kind: this.MISSING_GROUP, key: ref.element, page: new Page() } )
+    .then((result) => this.categories = result.content)
+    .then(() => this.showProgressBar = false );
   }
 
   onDismiss() {
-    this._rd = new ResponseDomain(this.responseDomain);
-    this.missingRd = null;
-    return false; // funker  dette da?
+    this.dismissEvent.emit(true);
+    this.closeReuseActions.emit({action: 'modal', params: ['close']});
   }
 
-  onSave() {
-    // this.modalActions.emit({action: 'modal', params: ['close']});
-    if (this._rd.getMissing()) {
-      if (this._rd.changeKind) {
-        this._rd.changeKind = 'TYPO';
-        this._rd.changeComment = 'Comment by rule';    // but why this rule?
-        console.log('changeKind set, ready for persisting');
-      }
-      console.log(this._rd.getMissing());
-      this.selectedEvent.emit(
-        { elementRevision: 0, element: this._rd, elementKind: ElementKind.RESPONSEDOMAIN, elementId: this._rd.id  } );
-    }
-    this.dialogOpenAction.emit({action: 'modal', params: ['close']});
+  onOpenModal() {
+    this.closeReuseActions.emit({action: 'modal', params: ['open']});
+    this.onResponseDomainSearch( { element: '*', elementKind: this.MISSING_GROUP });
   }
 
 
-
-  private getGroupEntities(representation: Category): Category[] {
-    if (representation.categoryType === 'MIXED') {
-      return representation.children;
-    } else {
-      return [representation];
-    }
+  public getMissing(): Category {
+    return this.responseDomain.getMissing();
   }
+
+
+  // private getGroupEntities(representation: Category): Category[] {
+  //   if (representation.categoryType === 'MIXED') {
+  //     return representation.children;
+  //   } else {
+  //     return [representation];
+  //   }
+  // }
 
 
 

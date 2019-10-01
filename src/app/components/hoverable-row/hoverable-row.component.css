@@ -1,0 +1,3 @@
+a:hover + div {
+  display: block;
+}

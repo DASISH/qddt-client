@@ -39,16 +39,8 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log('loggedIn ' + connected);
         this.username = this.getUserName();
         this.setVisibility();
-        if ( connected ) {
-          this.router.navigate([this.property.userSetting.url]);
-        } else {
-          console.log('should have rerouted...');
-          // this.router.navigate([{ outlets: { popup: ['login'] } }]);
-          this.router.navigate(['/login']);
-          // const redirectUrl = this.property.userSetting.url;
-          // this.router.navigateByUrl(
-          //   this.router.createUrlTree( ['/login'], { queryParams: { redirectUrl } } )
-          // );
+        if (connected && this.router.url === '/login') {
+          this.router.navigate([ this.property.userSetting.url]);
         }
       },
     (error) => console.error(error.toString())

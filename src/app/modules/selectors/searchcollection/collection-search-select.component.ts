@@ -74,7 +74,11 @@ export class CollectionSearchSelectComponent implements AfterViewInit, OnChanges
       this.queryInfo = getQueryInfo(this.elementKind);
       this.labelName = this.queryInfo.label;
     } else if (changes['searchItems']) {
-      if (!this.searchItems) { this.searchItems = []; }
+      if (!this.searchItems) {
+        this.searchItems = [];
+      } else {
+        this.elementKind = this.searchItems[0].classKind;
+      }
     }
   }
 

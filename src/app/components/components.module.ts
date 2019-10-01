@@ -27,6 +27,7 @@ import { FileDownload } from './download/download.component';
 import { TemplateComponent, TemplateDetailComponent, TemplateListComponent, TemplateService} from './template';
 import { LocalDatePipe, LocalNumberPipe } from '../lib';
 import { AutosizeDirective, EqualValidator, GravatarDirective, ParentFormConnectDirective} from '../lib/directives';
+import { HoverableRowComponent } from './hoverable-row/hoverable-row.component';
 
 
 @NgModule({
@@ -36,7 +37,7 @@ import { AutosizeDirective, EqualValidator, GravatarDirective, ParentFormConnect
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent, CommentCreateComponent,
     RationalComponent, RevisionComponent,  ConceptrefComponent, FormErrorsComponent, SpinnerComponent,
-    AutosizeDirective, ParentFormConnectDirective, GravatarDirective, EqualValidator ],
+    AutosizeDirective, ParentFormConnectDirective, GravatarDirective, EqualValidator, HoverableRowComponent ],
   exports: [ LocalDatePipe, LocalNumberPipe, CommonModule, FormsModule, MaterializeModule, SpinnerComponent,
      QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, FileDownload,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,

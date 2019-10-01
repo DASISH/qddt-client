@@ -3,7 +3,7 @@ import {ElementKind, ElementRevisionRef, IElement, IRevisionRef, Page, QuestionI
 
 
 @Component({
-  selector: 'qddt-questionitem-reuse',
+  selector: 'qddt-questionitem-reuse-dialog',
   templateUrl: './question.reuse.component.html',
 })
 
@@ -23,11 +23,6 @@ export class QuestionReuseComponent {
 
   constructor(private service: TemplateService) {  }
 
-  onRevisionSelect(ref: ElementRevisionRef) {
-    this.createdEvent.emit(ref);
-    this.closeReuseActions.emit({action: 'modal', params: ['close']});
-  }
-
   onRevisonSearch(ref: IRevisionRef) {
     this.showProgressBar = true;
     this.service.getByKindRevisions( this.QUESTION, ref.elementId).then(
@@ -40,19 +35,26 @@ export class QuestionReuseComponent {
   onQuestionSearch(ref: IElement) {
     this.showProgressBar = true;
     this.service.searchByKind<QuestionItem>( { kind: this.QUESTION, key: ref.element, page: new Page() } )
-    .then((result) => this.questionList = result.content)
+      .then((result) => this.questionList = result.content)
       .then(() => this.showProgressBar = false );
-  }
-
-  onDismiss() {
-    this.dismissEvent.emit(true);
-    this.closeReuseActions.emit({action: 'modal', params: ['close']});
   }
 
   openModal() {
     this.closeReuseActions.emit({action: 'modal', params: ['open']});
     this.onQuestionSearch( { element: '*', elementKind: this.QUESTION });
   }
+
+  onDismiss() {
+    this.questionList = null;
+    this.dismissEvent.emit(true);
+    this.closeReuseActions.emit({action: 'modal', params: ['close']});
+  }
+
+  onRevisionSelect(ref: ElementRevisionRef) {
+    this.createdEvent.emit(ref);
+    this.closeReuseActions.emit({action: 'modal', params: ['close']});
+  }
+
 
 
 

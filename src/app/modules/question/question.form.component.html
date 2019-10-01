@@ -33,45 +33,29 @@
       <label>Question intent</label>
     </div>
     <div class="row hoverable"
-         (mouseenter)="showbutton = true"
+         (mouseenter)="showbutton = !readonly"
          (mouseleave)="showbutton = false">
-      <div class="col s8">
-        <div class="row ">
-          <label>Response Domain (V <qddt-version [element]="questionItem?.responseDomain?.managedRepresentation"></qddt-version>)
-          </label>
-        </div>
-        <!--(selectedEvent)="onRdSelectedOld($event)"-->
-        <qddt-responsedomain-reuse
-           [readOnly] = "readonly"
-           [showbutton] = "showbutton"
+      <div class="col s7">
+        <div class="row">
+          <label>Response Domain (V <qddt-version [element]="questionItem?.responseDomain"></qddt-version>) </label></div>
+
+        <qddt-responsedomain-reuse-dialog
            [responseDomain]="questionItem?.responseDomain"
            (selectedEvent)="onSaveResponseDomain($event)"
            (removeEvent)="onResponsedomainRemove($event)">
-        </qddt-responsedomain-reuse>
+        </qddt-responsedomain-reuse-dialog>
+        <span style="min-height:max-content; ">{{ questionItem?.responseDomain?.name }}</span>
       </div>
-      <div class="col s4">
-        <div class="row hoverable"
-             (mouseenter)="showbutton = true"
-             (mouseleave)="showbutton = false">
-          <div class="row"><label>Missing</label></div>
-          <div class="row">
-            <button *ngIf="!getMissing() && !readonly"
-                    [ngClass]="{hide: !showbutton}"
-                    [ngClass]="{disabled:responseDomain === null || responseDomain === undefined}"
-                    (click)="openModal('response-missing-01')"
-                    class="btn-flat btn-floating btn-medium waves-effect waves-light teal">
-              <i class="material-icons" title="response domain add">add</i>
-            </button>
-            <span *ngIf="getMissing()">{{ getMissing().name }}</span>
-          </div>
-
-          <qddt-select-missing-dialog
-              *ngIf="!readonly && questionItem?.responseDomain"
-              [responseDomain]="questionItem.responseDomain"
-              (selectedEvent)="onSaveResponseDomain($event)"
-              (removeEvent)="onResponsedomainRemove($event)">
-          </qddt-select-missing-dialog>
+      <div class="col s5">
+        <div class="row">
+          <label>Missing</label>
         </div>
+          <qddt-select-missing-dialog
+            [responseDomain]="questionItem?.responseDomain"
+            (selectedEvent)="onSaveResponseDomain($event)"
+            (removeEvent)="onResponsedomainRemove($event)">
+        </qddt-select-missing-dialog>
+        <span style="min-height:max-content; ">{{getMissing()?.label}}</span>
       </div>
     </div>
 

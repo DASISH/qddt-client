@@ -8,7 +8,7 @@
   <a *ngIf="!showbutton || readOnly " class="btn-flat btn-floating btn-medium" style="background-color: transparent; color: transparent;" ></a>
   <span style="min-height:max-content; "> {{ responseDomain?.name }}</span>
 
-<!--  <qddt-modal2  [(visible)]="!showDialog">-->
+  <qddt-modal2  [(visible)]="!showDialog">
 <!--  <div id="{{formId}}" class="modal modal-fixed-footer" materialize="modal" [materializeParams]="[{dismissible: false}]" [materializeActions]="modalActions">-->
 
 <!--    <div class="modal-content white black-text">-->
@@ -40,5 +40,5 @@
 <!--      <button class="btn btn-default red waves-effect waves-red" (click)="closeModal()">Dismiss</button>-->
 <!--    </div>-->
 <!--  </div>-->
-<!--  </qddt-modal2>-->
+  </qddt-modal2>
 </div>

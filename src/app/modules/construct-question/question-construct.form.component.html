@@ -45,18 +45,6 @@
           </a>
         </div>
       </div>
-      <div class="row">
-        <div class="col s11">
-          <p [innerHtml]="controlConstruct?.questionItem?.question" style="font-size: 1.5rem"></p>
-        </div>
-        <div class="col s1">
-          <a [ngClass]="{hide: !showQuestionButton}"
-             class="btn-flat btn-floating btn-small waves-effect waves-light teal"
-             (click)="onRemoveQuestionItem()">
-            <i class="material-icons" title="Remove QuestionItem">remove</i>
-          </a>
-        </div>
-      </div>
       <qddt-item-revision-select  [ngClass]="{hide: !editQuestoinItem}"
                                   [showProgressBar] = "showProgressBar"
                                   [kind] = "QUESTION"
@@ -67,7 +55,18 @@
                                   (revisionSelected)="onRevisionSelect($event)"
                                   (dismissEvent) ="onDismiss()">
       </qddt-item-revision-select>
-
+      <div class="row">
+        <div class="col s11">
+          <p [innerHtml]="controlConstruct?.questionItem?.question" style="font-size: larger"></p>
+        </div>
+        <div class="col s1">
+          <a [ngClass]="{hide: !showQuestionButton}"
+             class="btn-flat btn-floating btn-small waves-effect waves-light teal"
+             (click)="onRemoveQuestionItem()">
+            <i class="material-icons" title="Remove QuestionItem">remove</i>
+          </a>
+        </div>
+      </div>
     </div>
 
     <qddt-collection-search-select

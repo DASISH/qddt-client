@@ -19,23 +19,25 @@
       </div>
     </div>
     <div class="row">
-      <div class="col s3 input-field">
+      <div class="col s4 l2 input-field">
         <input class="validate" id="{{formId}}-name_number" name="{{formId}}-name_number"
            type="number" min="1" max="25"
            [(ngModel)]="missing.children.length" >
-        <label for="{{formId}}-name_number">Number of Missing Codes</label>
+        <label for="{{formId}}-name_number"># Missing Codes</label>
       </div>
-    </div>
-    <div class="row"  *ngFor="let cat of missing.children; let idx=index">
-      <div class="col s6 input-field">
-        <qddt-auto-complete  [formName]="'autocomplete'+idx"
-          [items]="missingList"
-          [elementKind]="CATEGORY"
-          [initialValue]="cat?.name"
-          (focusEvent)="missingIndex=idx;"
-          (enterEvent)="onSearchMissing($event)"
-          (selectEvent)="onSelect($event)">
-        </qddt-auto-complete>
+      <div class="col s8 l10">
+        <div class="row"  *ngFor="let cat of missing.children; let idx=index">
+          <div class="col s8 input-field">
+            <qddt-auto-complete  [formName]="'autocomplete'+idx"
+                                 [items]="missingList"
+                                 [elementKind]="CATEGORY"
+                                 [initialValue]="cat?.name"
+                                 (focusEvent)="missingIndex=idx;"
+                                 (enterEvent)="onSearchMissing($event)"
+                                 (selectEvent)="onSelect($event)">
+            </qddt-auto-complete>
+          </div>
+        </div>
       </div>
     </div>
 

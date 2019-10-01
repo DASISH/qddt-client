@@ -107,7 +107,7 @@ class RevisionComponent {
 }
 
 @Component({
-  selector: 'qddt-questionitem-reuse',
+  selector: 'qddt-questionitem-reuse-dialog',
   template: `<div></div>`
 })
 

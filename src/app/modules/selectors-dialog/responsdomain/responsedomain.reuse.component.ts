@@ -1,65 +1,72 @@
-import { debounceTime, distinctUntilChanged, filter} from 'rxjs/operators';
-import { Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
-import { MaterializeAction} from 'angular2-materialize';
-import { Subject} from 'rxjs';
+import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import {
-  DOMAIN_TYPE_DESCRIPTION,
-  DomainKind,
+  DOMAIN_TYPE_DESCRIPTION, DomainKind,
   ElementKind,
   ElementRevisionRef,
   IElement,
-  IPageSearch,
-  Page,
-  ResponseDomain,
-  TemplateService
+  IRevisionRef,
+  Page, ResponseDomain, TemplateService
 } from '../../../lib';
 
 @Component({
-  selector: 'qddt-responsedomain-reuse',
-  templateUrl: './responsedomain.reuse.component.html',
+  selector: 'qddt-responsedomain-reuse-dialog',
+  styles: [ '.hidden { display:none; }',
+            '.parent:hover .hidden { display:block; }',
+            ],
+  template: `
+  <a class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"  (click)="openModal()">
+    <i class="material-icons left medium" title="Add element">add</i>
+  </a>
+  <div class="modal modal-fixed-footer"
+       materialize="modal" [materializeActions]="closeReuseActions">
+    <div class="modal-content white black-text" >
+    <div class="row">
+        <h4>Reuse Domain</h4>
+        <div class="response-domain-title"><span name="text">Domain Type</span></div>
+        <div class="col left" *ngFor="let domain of domainTypeDescription">
+          <input name="domaintypegroup" type="radio" id="rdomain-type-{{domain.id}}" (click)="selectDomainType(domain.id)" [checked]="currentdomainKind === domain.id" >
+          <label for="rdomain-type-{{domain.id}}">{{ domain.label }}</label>
+        </div>
+      </div>
+      <qddt-item-revision-select
+        [showProgressBar] = "showProgressBar"
+        [kind] = "RESPONSEDOMAIN"
+        [itemList] = "responseDomains"
+        [revisionList] = "revisionResults"
+        (searchItems)="onResponseDomainSearch($event)"
+        (searchRevision)="onRevisonSearch($event)"
+        (revisionSelected)="onRevisionSelect($event)"
+        (dismissEvent) ="onDismiss()">
+      </qddt-item-revision-select>
+    </div>
+    <div class="modal-footer">
+      <div class="input-field col offset-s8">
+        <a class="waves-effect waves-light btn right red" (click)="onDismiss()">Dismiss</a>
+      </div>
+    </div>
+  </div>`
 })
 
-export class ResponsedomainReuseComponent implements OnChanges  {
-  @Input() readOnly: boolean;
-  @Input() showbutton: boolean;
+export class ResponsedomainReuseComponent implements  OnChanges{
+  @Input() parentId: string;
+  @Input() name: string;
   @Input() responseDomain: ResponseDomain;
-  @Output() selectedEvent = new EventEmitter<ElementRevisionRef>();
-  @Output() removeEvent = new EventEmitter<any>();
+  @Output() createdEvent = new EventEmitter<ElementRevisionRef>();
+  @Output() dismissEvent = new EventEmitter<boolean>();
 
-  public showDialog = false;
-  public modalActions = new EventEmitter<MaterializeAction>();
+  closeReuseActions = new EventEmitter<any>();
 
-  public readonly ELEMENT_KIND = ElementKind.RESPONSEDOMAIN;
+  public readonly RESPONSEDOMAIN = ElementKind.RESPONSEDOMAIN;
   public readonly domainTypeDescription: any[];
 
-  public responseDomainList = [];
-  public revisionList: any[];
-  public formId = Math.round( Math.random() * 10000);
+  public showProgressBar = false;
+  public responseDomains: ResponseDomain[];
+  public revisionResults: any[];
+  private _domainKind: DomainKind;
 
-  private searchKeysListener = new Subject<string>();
-  private pageSearch: IPageSearch;
-  private selectedDomainKind = DomainKind.SCALE;
-
-  constructor(private responseDomainService: TemplateService) {
+  constructor(private service: TemplateService) {
     this.domainTypeDescription = DOMAIN_TYPE_DESCRIPTION.filter((e) => e.id > DomainKind.NONE && e.id < DomainKind.MISSING);
-    this.pageSearch = { kind: this.ELEMENT_KIND, page: new Page(), key: '' };
-    this.searchKeysListener.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      filter(val => val.length > 0), )
-      .subscribe((search: string) => {
-        this.loadPage(search);
-      });
-  }
 
-  searchResponseDomains(key: string) {
-    this.searchKeysListener.next(key);
-  }
-
-  selectDomainType(id: DomainKind) {
-    this.currentdomainKind = id;
-    console.log(this.selectedDomainKind);
-    this.loadPage('*');
   }
 
   ngOnChanges() {
@@ -68,45 +75,59 @@ export class ResponsedomainReuseComponent implements OnChanges  {
     }
   }
 
+  selectDomainType(id: DomainKind) {
+    this.currentdomainKind = id;
+  }
+
   public get currentdomainKind(): DomainKind {
-    return this.selectedDomainKind || DomainKind.SCALE;
+    return this._domainKind || DomainKind.SCALE;
   }
 
   public set currentdomainKind(value: DomainKind) {
-    this.selectedDomainKind = (value) && (value < DomainKind.MIXED) ? value : DomainKind.SCALE;
-  }
-  onResponseDomainSelected(element: IElement) {
-    this.responseDomainService.getByKindRevisions(this.ELEMENT_KIND , element.element.id).then(
-      (result) => { this.revisionList = result.content; },
-      (error) => { throw error; });
+    this._domainKind = (value) && (value < DomainKind.MIXED) ? value : DomainKind.SCALE;
   }
 
-  onRevisionSelected(item: ElementRevisionRef) {
-    this.selectedEvent.emit(item);
-    this.closeModal();
+  // private loadPage(search: string): any {
+  //   this.pageSearch.key = search;
+  //   this.pageSearch.keys = new Map( [ ['ResponseKind',  DomainKind[this.currentdomainKind] ] ] );
+  //   this.responseDomainService.searchByKind(this.pageSearch).then(
+  //     (result) => { this.responseDomainList = result.content; });
+  // }
+
+  // -----------------------------------------
+
+  onRevisionSelect(ref: ElementRevisionRef) {
+    this.createdEvent.emit(ref);
+    this.closeReuseActions.emit({action: 'modal', params: ['close']});
   }
 
-
-  removeResponseDomain() {
-    this.responseDomain = null;
-    this.removeEvent.emit(true);
+  onRevisonSearch(ref: IRevisionRef) {
+    this.showProgressBar = true;
+    this.service.getByKindRevisions( this.RESPONSEDOMAIN, ref.elementId).then(
+      (result) => { this.revisionResults =
+        result.content.sort((e1: any, e2: any) => e2.revisionNumber - e1.revisionNumber);
+        this.showProgressBar = false;
+      } );
   }
 
-
-  public openModal() {
-    this.loadPage('*');
-    this.modalActions.emit({action: 'modal', params: ['open']});
+  onResponseDomainSearch(ref: IElement) {
+    this.showProgressBar = true;
+    this.service.searchByKind<ResponseDomain>( {
+      kind: this.RESPONSEDOMAIN,
+      key: ref.element,
+      keys: new Map( [ ['ResponseKind',  DomainKind[this.currentdomainKind] ] ] ),
+      page: new Page() } )
+    .then((result) => this.responseDomains = result.content)
+    .then(() => this.showProgressBar = false );
   }
 
-  public closeModal() {
-    this.modalActions.emit({action: 'modal', params: ['close']});
+  onDismiss() {
+    this.dismissEvent.emit(true);
+    this.closeReuseActions.emit({action: 'modal', params: ['close']});
   }
 
-  private loadPage(search: string): any {
-    this.pageSearch.key = search;
-    this.pageSearch.keys = new Map( [ ['ResponseKind',  DomainKind[this.currentdomainKind] ] ] );
-    this.responseDomainService.searchByKind(this.pageSearch).then(
-      (result) => { this.responseDomainList = result.content; });
+  openModal() {
+    this.closeReuseActions.emit({action: 'modal', params: ['open']});
+    this.onResponseDomainSearch( { element: '*', elementKind: this.RESPONSEDOMAIN });
   }
-
 }

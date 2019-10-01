@@ -78,10 +78,10 @@ export class QuestionFormComponent  implements OnChanges {
     rd.name = rd.managedRepresentation.name = 'Mixed [' + rd.name + '+' + missing.name + ']';
     this.questionItem.responseDomain = rd;
   }
-  public getMissing(): Category {
-      return this.questionItem.responseDomain.getMissing();
-  }
 
+  public getMissing(): Category {
+    return  new ResponseDomain(this.questionItem.responseDomain).getMissing();
+  }
 
   // private deleteChild(representation: Category, categoryType: string) {
   //   if (!representation.children) {
