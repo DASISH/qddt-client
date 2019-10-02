@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import {Concept, ElementKind, MessageService} from '../../../lib';
+import {Concept, ElementKind, ElementRevisionRef, MessageService, PreviewService} from '../../../lib';
 
 @Component({
   selector: 'qddt-preview-concept',
@@ -13,9 +13,15 @@ import {Concept, ElementKind, MessageService} from '../../../lib';
 export class PreviewConceptComponent {
   @Input() concept: Concept;
 
-  constructor(private  message: MessageService) {
-  }
+  constructor(private  message: MessageService, private service: PreviewService) { }
 
+  onViewDetail(element: ElementRevisionRef) {
+    if (!element.element) {
+      this.service.getRevisionByKind(element.elementKind, element.elementId, element.elementRevision).then(
+        (result) => { element.element = result.entity; },
+        (error) => { throw error; });
+    }
+  }
   onClickStudy(id: string) {
     this.message.sendMessage( { elementId: id, elementKind: ElementKind[ElementKind.STUDY]} );
   }

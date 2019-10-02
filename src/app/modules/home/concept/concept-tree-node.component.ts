@@ -11,6 +11,7 @@ import {
 } from '../../../lib';
 
 import filesaver from 'file-saver';
+import {Router} from '@angular/router';
 declare var Materialize: any;
 
 @Component({
@@ -39,7 +40,7 @@ export class TreeNodeComponent implements AfterContentChecked {
 
   private refreshCount = 0;
 
-  constructor(private homeService: HomeService<Concept>,
+  constructor(private homeService: HomeService<Concept>, private router: Router,
               private message: MessageService,  private templateService: TemplateService) {
     this.canCreate = this.homeService.canDo(this.CONCEPT).get(ActionKind.Create);
     this.canUpdate = this.homeService.canDo(this.CONCEPT).get(ActionKind.Update);
@@ -103,10 +104,16 @@ export class TreeNodeComponent implements AfterContentChecked {
       (error) => { throw error; } );
   }
 
-  public onRevisonSearch(search: IRevisionRef) {
-    const kind = getElementKind(search.elementKind);
-    this.templateService.getByKindRevisions<QuestionItem>(kind, search.elementId).then(
-      (result) => this.revisionList = result.content);
+  public onEditQuestion(search: IRevisionRef) {
+    this.gotoUUID(search.elementId);
+  }
+
+
+
+  private gotoUUID(uuid: string) {
+    this.templateService.searchByUuid(uuid).then( (result) => {
+        this.router.navigate([result.url]); },
+      (error) => { throw  error; });
   }
 
   // public onSelectChange(event) {

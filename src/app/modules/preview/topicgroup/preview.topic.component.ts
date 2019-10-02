@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import {ElementKind, IOtherMaterial, MessageService, PreviewService, Topic} from '../../../lib';
+import {ElementKind, ElementRevisionRef, IOtherMaterial, MessageService, PreviewService, Topic} from '../../../lib';
 
 import filesaver from 'file-saver';
 
@@ -14,9 +14,15 @@ import filesaver from 'file-saver';
 export class PreviewTopicComponent {
   @Input() topic: Topic;
 
-  constructor(private service: PreviewService, private  message: MessageService) {
-  }
+  constructor(private  message: MessageService, private service: PreviewService) { }
 
+  onViewDetail(element: ElementRevisionRef) {
+    if (!element.element) {
+      this.service.getRevisionByKind(element.elementKind, element.elementId, element.elementRevision).then(
+        (result) => { element.element = result.entity; },
+        (error) => { throw error; });
+    }
+  }
   onClickStudy(id: string) {
     this.message.sendMessage( { elementId: id, elementKind: ElementKind[ElementKind.STUDY]} );
   }

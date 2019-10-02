@@ -40,7 +40,7 @@ import {
       </qddt-item-revision-select>
     </div>
     <div class="modal-footer">
-      <div class="input-field col offset-s8">
+      <div class="input-field right">
         <a class="waves-effect waves-light btn right red" (click)="onDismiss()">Dismiss</a>
       </div>
     </div>

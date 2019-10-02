@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import {Instrument} from '../../../lib/classes';
+import {ElementRevisionRef, Instrument} from '../../../lib/classes';
+import {MessageService, PreviewService} from '../../../lib/services';
 
 @Component({
   selector: 'qddt-preview-instrument',
@@ -14,7 +15,7 @@ import {Instrument} from '../../../lib/classes';
   </div>
   <ul *ngIf="instrument.sequence"s class="collapsible"
       data-collapsible="accordion" style="margin:25px; padding:10px;">
-    <li *ngFor="let cc of instrument.sequence">
+    <li *ngFor="let cc of instrument.sequence"  (click)="onViewDetail(cc)" >
       <div class="collapsible-header yellow lighten-5">
         <div class="col l10">{{ cc?.elementRef.name }}</div>
         <div class="col l2">
@@ -38,4 +39,14 @@ import {Instrument} from '../../../lib/classes';
 
 export class PreviewInstrumentComponent {
   @Input() instrument: Instrument;
+
+  constructor(private  message: MessageService, private service: PreviewService) { }
+
+  onViewDetail(element: ElementRevisionRef) {
+    if (!element.element) {
+      this.service.getRevisionByKind(element.elementKind, element.elementId, element.elementRevision).then(
+        (result) => { element.element = result.entity; },
+        (error) => { throw error; });
+    }
+  }
 }
