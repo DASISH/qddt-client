@@ -1,4 +1,5 @@
 import { AfterContentChecked, Component, EventEmitter, Input, Output} from '@angular/core';
+import { Router } from '@angular/router';
 import {
   ActionKind,
   Concept,
@@ -7,11 +8,10 @@ import {
   ElementRevisionRef,
   IElement,
   Page,
-  getElementKind, IRevisionResult, QuestionItem, HomeService, MessageService, TemplateService
+  IRevisionResult, QuestionItem, HomeService, MessageService, TemplateService
 } from '../../../lib';
 
 import filesaver from 'file-saver';
-import {Router} from '@angular/router';
 declare var Materialize: any;
 
 @Component({
@@ -82,9 +82,6 @@ export class TreeNodeComponent implements AfterContentChecked {
     this.message.sendMessage( cqi );
   }
 
-  // onSelectRevision(questionItem) {
-  //   console.log('select question');
-  // }
 
   onChildSave(newchild) {
 
@@ -108,26 +105,11 @@ export class TreeNodeComponent implements AfterContentChecked {
     this.gotoUUID(search.elementId);
   }
 
-
-
   private gotoUUID(uuid: string) {
-    this.templateService.searchByUuid(uuid).then( (result) => {
-        this.router.navigate([result.url]); },
+    this.templateService.searchByUuid(uuid).then(
+      (result) => { this.router.navigate([result.url]); },
       (error) => { throw  error; });
   }
-
-  // public onSelectChange(event) {
-  //   this.currentSequenceKind = event;
-  //
-  // }
-  //
-  // public onRevisionSelected(ref: ElementRevisionRef) {
-  //   this.sequence.sequence.push(ref);
-  // }
-  //
-  // public onSelectCanceled(value) {
-  //   this.selectedElement = null;
-  // }
 
   removeQuestionItem(ref: IRevisionRef) {
     this.homeService.deattachQuestion(this.CONCEPT, this.concept.id, ref.elementId , ref.elementRevision)

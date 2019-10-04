@@ -61,7 +61,8 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   public fieldNames;
   public placeholder: string;
 
-  constructor(private previewService: PreviewService, public access: UserService, public message: MessageService, public session: SessionService) {
+  constructor(private previewService: PreviewService, public access: UserService, public message: MessageService,
+              public session: SessionService) {
     this.searchKeysChange.pipe(
       debounceTime(300),
       distinctUntilChanged())

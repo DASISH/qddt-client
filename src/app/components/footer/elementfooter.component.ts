@@ -30,7 +30,7 @@ export class ElementFooterComponent {
     if (!m) { return '?'; }
     const date = new Date();
     date.setTime(m);
-    console.info(this.session.locale);
+    // console.info(this.session.locale);
     return formatDate(date, 'longTime', this.session.locale);
     // return date.toLocaleString(this.session.locale);
   }

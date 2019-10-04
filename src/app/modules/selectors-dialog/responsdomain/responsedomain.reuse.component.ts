@@ -1,71 +1,77 @@
 import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import {
+  ActionKind,
   DOMAIN_TYPE_DESCRIPTION, DomainKind,
   ElementKind,
   ElementRevisionRef,
   IElement,
   IRevisionRef,
-  Page, ResponseDomain, TemplateService
+  Page, ResponseDomain, TemplateService, UserService
 } from '../../../lib';
+
+declare var $: any;
 
 @Component({
   selector: 'qddt-responsedomain-reuse-dialog',
-  styles: [ '.hidden { display:none; }',
-            '.parent:hover .hidden { display:block; }',
-            ],
+  styles: ['.qddt-hide { visibility: hidden}'],
   template: `
-  <a class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"  (click)="openModal()">
+  <a *ngIf="!responseDomain" class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
+    (click)="openModal()" [ngClass]="{'qddt-hide': !showbutton}" >
     <i class="material-icons left medium" title="Add element">add</i>
   </a>
-  <div class="modal modal-fixed-footer"
-       materialize="modal" [materializeActions]="closeReuseActions">
-    <div class="modal-content white black-text" >
+  <a *ngIf="canDelete && responseDomain" class="btn-flat btn-floating waves-effect waves-light red" [ngClass]="{'qddt-hide': !showbutton}">
+     <i class="material-icons" (click)="onConfirmDeleting()" title="Remove" >remove</i>
+  </a>
+  <a *ngIf="canEdit && responseDomain"class="btn-flat btn-floating waves-effect waves-light green darken-1" [ngClass]="{'qddt-hide': !showbutton}">
+    <i class="material-icons" (click)="onGetLatest()" title="Get latest">autorenew</i>
+  </a>
+
+  <qddt-dialog-big [modalId] = "modalId">
     <div class="row">
-        <h4>Reuse Domain</h4>
-        <div class="response-domain-title"><span name="text">Domain Type</span></div>
-        <div class="col left" *ngFor="let domain of domainTypeDescription">
-          <input name="domaintypegroup" type="radio" id="rdomain-type-{{domain.id}}" (click)="selectDomainType(domain.id)" [checked]="currentdomainKind === domain.id" >
-          <label for="rdomain-type-{{domain.id}}">{{ domain.label }}</label>
-        </div>
-      </div>
-      <qddt-item-revision-select
-        [showProgressBar] = "showProgressBar"
-        [kind] = "RESPONSEDOMAIN"
-        [itemList] = "responseDomains"
-        [revisionList] = "revisionResults"
-        (searchItems)="onResponseDomainSearch($event)"
-        (searchRevision)="onRevisonSearch($event)"
-        (revisionSelected)="onRevisionSelect($event)"
-        (dismissEvent) ="onDismiss()">
-      </qddt-item-revision-select>
-    </div>
-    <div class="modal-footer">
-      <div class="input-field right">
-        <a class="waves-effect waves-light btn right red" (click)="onDismiss()">Dismiss</a>
+      <h4>Select Domain</h4>
+      <div class="response-domain-title"><span name="text">Domain Type</span></div>
+      <div class="col left" *ngFor="let domain of domainTypeDescription">
+        <input name="domaintypegroup" type="radio" id="rdomain-type-{{domain.id}}" (click)="selectDomainType(domain.id)" [checked]="currentdomainKind === domain.id" >
+        <label for="rdomain-type-{{domain.id}}">{{ domain.label }}</label>
       </div>
     </div>
-  </div>`
+    <qddt-item-revision-select
+      [showProgressBar] = "showProgressBar"
+      [kind] = "RESPONSEDOMAIN"
+      [itemList] = "responseDomains"
+      [revisionList] = "revisionResults"
+      (searchItems)="onResponseDomainSearch($event)"
+      (searchRevision)="onRevisonSearch($event)"
+      (revisionSelected)="onRevisionSelect($event)"
+      (dismissEvent) ="onDismiss()">
+    </qddt-item-revision-select>
+    <p></p>
+  </qddt-dialog-big>
+ `
 })
 
-export class ResponsedomainReuseComponent implements  OnChanges{
-  @Input() parentId: string;
-  @Input() name: string;
+export class ResponsedomainReuseComponent implements  OnChanges {
+  @Input() showbutton = true;
   @Input() responseDomain: ResponseDomain;
   @Output() createdEvent = new EventEmitter<ElementRevisionRef>();
   @Output() dismissEvent = new EventEmitter<boolean>();
 
-  closeReuseActions = new EventEmitter<any>();
-
   public readonly RESPONSEDOMAIN = ElementKind.RESPONSEDOMAIN;
   public readonly domainTypeDescription: any[];
+  public readonly modalId = Math.round( Math.random() * 10000).toString();
 
   public showProgressBar = false;
+  public canDelete: boolean;
+  public canEdit: boolean;
   public responseDomains: ResponseDomain[];
   public revisionResults: any[];
+
   private _domainKind: DomainKind;
 
-  constructor(private service: TemplateService) {
+  constructor(private service: TemplateService, private access: UserService) {
     this.domainTypeDescription = DOMAIN_TYPE_DESCRIPTION.filter((e) => e.id > DomainKind.NONE && e.id < DomainKind.MISSING);
+    this.canDelete = access.canDo(ActionKind.Delete, this.RESPONSEDOMAIN);
+    this.canEdit =  access.canDo(ActionKind.Update, this.RESPONSEDOMAIN);
 
   }
 
@@ -87,18 +93,12 @@ export class ResponsedomainReuseComponent implements  OnChanges{
     this._domainKind = (value) && (value < DomainKind.MIXED) ? value : DomainKind.SCALE;
   }
 
-  // private loadPage(search: string): any {
-  //   this.pageSearch.key = search;
-  //   this.pageSearch.keys = new Map( [ ['ResponseKind',  DomainKind[this.currentdomainKind] ] ] );
-  //   this.responseDomainService.searchByKind(this.pageSearch).then(
-  //     (result) => { this.responseDomainList = result.content; });
-  // }
 
   // -----------------------------------------
 
   onRevisionSelect(ref: ElementRevisionRef) {
     this.createdEvent.emit(ref);
-    this.closeReuseActions.emit({action: 'modal', params: ['close']});
+    $('#' + this.modalId ).modal('close');
   }
 
   onRevisonSearch(ref: IRevisionRef) {
@@ -123,11 +123,11 @@ export class ResponsedomainReuseComponent implements  OnChanges{
 
   onDismiss() {
     this.dismissEvent.emit(true);
-    this.closeReuseActions.emit({action: 'modal', params: ['close']});
+    $('#' + this.modalId ).modal('close');
   }
 
   openModal() {
-    this.closeReuseActions.emit({action: 'modal', params: ['open']});
+    $('#' + this.modalId ).modal('open');
     this.onResponseDomainSearch( { element: '*', elementKind: this.RESPONSEDOMAIN });
   }
 }

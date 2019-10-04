@@ -96,10 +96,10 @@
                         [ngClass]="{hide: !showbutton}" (click)="onRemoveQuestionItem( cqi, currentElement.id )">
                         <i class="material-icons" title="Remove selected">remove</i>
                       </a>
-<!--                      <a *ngIf="!readonly" class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal right"-->
-<!--                         [ngClass]="{hide: !showbutton}" (click)="onSelectRevision(cqi)">-->
-<!--                        <i class="material-icons" title="Select version">edit</i>-->
-<!--                      </a>-->
+                      <a *ngIf="!readonly" class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal right"
+                         [ngClass]="{hide: !showbutton}" (click)="onEditQuestion(cqi)">
+                        <i class="material-icons" title="Edit question">edit</i>
+                      </a>
                     </div>
                   </div>
                 </a>

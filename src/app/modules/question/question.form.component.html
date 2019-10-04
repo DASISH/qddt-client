@@ -32,14 +32,15 @@
       </textarea>
       <label>Question intent</label>
     </div>
+
     <div class="row hoverable"
          (mouseenter)="showbutton = !readonly"
          (mouseleave)="showbutton = false">
       <div class="col s7">
         <div class="row">
-          <label>Response Domain (V <qddt-version [element]="questionItem?.responseDomain"></qddt-version>) </label></div>
-
-        <qddt-responsedomain-reuse-dialog
+          <label>Response Domain (V <qddt-version [element]="questionItem?.responseDomain"></qddt-version>) </label>
+        </div>
+        <qddt-responsedomain-reuse-dialog [showbutton] = showbutton
            [responseDomain]="questionItem?.responseDomain"
            (selectedEvent)="onSaveResponseDomain($event)"
            (removeEvent)="onResponsedomainRemove($event)">
@@ -50,9 +51,9 @@
         <div class="row">
           <label>Missing</label>
         </div>
-          <qddt-select-missing-dialog
+          <qddt-select-missing-dialog [showbutton] = showbutton
             [responseDomain]="questionItem?.responseDomain"
-            (selectedEvent)="onSaveResponseDomain($event)"
+            (selectedEvent)="onSaveMissingResponseDomain($event)"
             (removeEvent)="onResponsedomainRemove($event)">
         </qddt-select-missing-dialog>
         <span style="min-height:max-content; ">{{getMissing()?.label}}</span>

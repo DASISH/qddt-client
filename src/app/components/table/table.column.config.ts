@@ -1,6 +1,5 @@
 import { Column } from './table.column';
-import { DomainKind } from '../../lib/classes/responsedomain.classes';
-import { ElementKind } from '../../lib';
+import {DomainKind, ElementKind} from '../../lib';
 
 export const DEFAULT_COLUMNS = [
   new Column({ name: 'modified', label: 'Modified', sortable: true, direction: 'desc' }),
@@ -59,10 +58,11 @@ export const USER_COLUMNS = [
 
 export const CHANGE_LOG_COLUMNS = [
   new Column( { name: 'name', label: 'Name', sortable: true }),
-  new Column( { name: 'refRev',  label: 'Revision', sortable: true }),
+  new Column( { name: 'refRev',  label: 'Revision', sortable: true, direction: 'desc' }),
   new Column( { name: 'refKind',  label: 'Kind', sortable: true }),
   new Column( { name: 'refChangeKind',  label: 'ChangeKind', sortable: true }),
-  new Column( { name: 'modified',  label: 'Modified', sortable: true, direction: 'desc' }),
+  new Column( { name: 'refAction',  label: 'Action', sortable: true }),
+  new Column( { name: 'modified',  label: 'Modified', sortable: true}),
   new Column( { name: 'modifiedBy',  label: 'ModifiedBy', sortable: false }),
   ];
 //   changeFeedKey?: {};

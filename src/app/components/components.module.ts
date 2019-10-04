@@ -28,20 +28,22 @@ import { TemplateComponent, TemplateDetailComponent, TemplateListComponent, Temp
 import { LocalDatePipe, LocalNumberPipe } from '../lib';
 import { AutosizeDirective, EqualValidator, GravatarDirective, ParentFormConnectDirective} from '../lib/directives';
 import { HoverableRowComponent } from './hoverable-row/hoverable-row.component';
+import {DialogComponent} from './dialog/dialog.component';
+import {DialogBigComponent} from './dialog/dialog-big.component';
 
 
 @NgModule({
   imports: [ MaterializeModule, CommonModule, RouterModule, FormsModule, CompareModule ],
   declarations: [ LocalDatePipe, LocalNumberPipe, TemplateComponent, TemplateListComponent, TemplateDetailComponent,
     QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, FileDownload,
-    AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
-    ConfirmDeleteComponent, TocComponent, CommentListComponent, CommentCreateComponent,
+    AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent, DialogBigComponent,
+    ConfirmDeleteComponent, TocComponent, CommentListComponent, CommentCreateComponent, DialogComponent,
     RationalComponent, RevisionComponent,  ConceptrefComponent, FormErrorsComponent, SpinnerComponent,
     AutosizeDirective, ParentFormConnectDirective, GravatarDirective, EqualValidator, HoverableRowComponent ],
   exports: [ LocalDatePipe, LocalNumberPipe, CommonModule, FormsModule, MaterializeModule, SpinnerComponent,
      QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, FileDownload,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
-    ConfirmDeleteComponent, TocComponent, CommentListComponent,
+    ConfirmDeleteComponent, TocComponent, CommentListComponent, DialogComponent, DialogBigComponent,
     RationalComponent, RevisionComponent, ConceptrefComponent, FormErrorsComponent,
     TemplateComponent, TemplateListComponent, TemplateDetailComponent,
     AutosizeDirective, ParentFormConnectDirective, GravatarDirective, EqualValidator ],

@@ -116,6 +116,14 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
       .subscribe((result: any) => this.onTopicSaved(result));
   }
 
+
+  public onEditQuestion(search: IRevisionRef) {
+    this.templateService.searchByUuid(search.elementId).then(
+      (result) => { this.router.navigate([result.url]); },
+      (error) => { throw  error; });
+  }
+
+
   onRemoveQuestionItem(ref: IRevisionRef, topicId: any) {
       this.homeService.deattachQuestion(this.TOPIC_KIND, topicId , ref.elementId, ref.elementRevision)
       .subscribe((result: any) => this.onTopicSaved(result));

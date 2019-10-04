@@ -63,9 +63,7 @@ export class HomeService<T extends IEntityEditAudit>  {
 
   attachQuestion(kind: ElementKind, id: string, questionId: string, revision: number): Observable<T> {
     const qe = getQueryInfo(kind);
-    if (revision === null) {
-      revision = 0;
-    }
+    if (revision === null) { revision = 0; }
     return this.http.post<T>(this.api +  qe.path + '/combine?questionitemid=' + questionId +
       '&questionitemrevision=' + revision + '&parentId=' + id , {});
   }
@@ -73,8 +71,7 @@ export class HomeService<T extends IEntityEditAudit>  {
   deattachQuestion(kind: ElementKind, id: string, questionId: string, revision: number): Observable<T> {
     const qe = getQueryInfo(kind);
     return this.http.post<T>(this.api +  qe.path + '/decombine?questionitemid=' + questionId +
-      '&questionitemrevision=' + revision +
-      '&parentId=' + id, {});
+      '&questionitemrevision=' + revision + '&parentId=' + id, {});
   }
 
   moveTo(targetId: String, index: number, sourceId: String ): Observable<T> {

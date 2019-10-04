@@ -8,9 +8,8 @@ import {
   IRevisionRef,
   IRevisionResult,
   Page,
-  QuestionConstruct, QuestionItem, Universe
+  QuestionConstruct, QuestionItem, TemplateService, Universe
 } from '../../lib';
-import {TemplateService} from '../../components/template';
 
 
 @Component({

@@ -6,6 +6,9 @@ export enum ActionKind {
   Create,
   Update,
   Delete,
-  Ask,
-  Tell
+  Ok,
+  Cancel,
+  Yes,
+  No,
+  Dismiss
 }

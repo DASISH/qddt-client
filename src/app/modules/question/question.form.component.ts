@@ -12,6 +12,7 @@ import {
 } from '../../lib';
 
 declare var Materialize: any;
+declare var $: any;
 
 @Component({
   selector: 'qddt-questionitem-form',
@@ -82,6 +83,12 @@ export class QuestionFormComponent  implements OnChanges {
   public getMissing(): Category {
     return  new ResponseDomain(this.questionItem.responseDomain).getMissing();
   }
+
+  // onOpenModal() {
+  //   $('#unique01').modal('open');
+  //   // $('#unique02').modal('open');
+  //   // this.deleteAction.emit({action: 'modal', params: ['open']});
+  // }
 
   // private deleteChild(representation: Category, categoryType: string) {
   //   if (!representation.children) {

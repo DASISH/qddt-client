@@ -27,6 +27,7 @@ import {Category, DomainKind, ResponseCardinality, ResponseDomain} from '../../.
       <qddt-preview-rd-datetime *ngSwitchCase="refKind.DATETIME" [managedRepresentation]="rep"></qddt-preview-rd-datetime>
       <qddt-preview-rd-numeric *ngSwitchCase="refKind.NUMERIC" [managedRepresentation]="rep"></qddt-preview-rd-numeric>
       <qddt-preview-rd-text *ngSwitchCase="refKind.TEXT" [managedRepresentation]="rep"></qddt-preview-rd-text>
+      <qddt-preview-rd-missing *ngSwitchCase="refKind.MISSING" [managedRepresentation]="rep."></qddt-preview-rd-missing>
     </div>
   </div>`,
   providers: [],

@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MaterializeAction } from 'angular2-materialize';
 import { takeWhile } from 'rxjs/operators';
 import {IDetailAction, IEntityEditAudit, ActionKind, ElementKind, HEADER_DETAILS, TemplateService, Factory} from '../../lib';
-
+import { Location } from '@angular/common';
 import fileSaver from 'file-saver';
 
 declare var Materialize: any;
@@ -29,7 +29,7 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterContentC
   private alive = true;
   private refreshCount = 0;
 
-  constructor(private service: TemplateService, private router: Router, private route: ActivatedRoute) {
+  constructor(private service: TemplateService, private router: Router, private route: ActivatedRoute, private location: Location) {
     this.route.url.pipe(
       takeWhile(() => this.alive))
       .subscribe((event) => {
@@ -77,6 +77,12 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterContentC
     this.closeState.emit(this.action);
   }
 
+
+  goBack() {
+    this.location.back();
+    // this.closeState.emit(this.action);
+  }
+
   onDeleteConfirmModal() {
     $('#confirmModal' + this.item.id ).modal('open');
     // this.deleteAction.emit({action: 'modal', params: ['open']});
@@ -86,14 +92,14 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterContentC
     this.service.delete(this.item)
       .subscribe(() => {
         this.action.action = ActionKind.Delete;
-        this.onHideDetail();
+        this.goBack();
       });
   }
 
   onItemSaved(item: IEntityEditAudit) {
     this.action.action = ActionKind.Update;
     this.action.object = item;
-    this.onHideDetail();
+    this.goBack();
   }
 
   onGetPdf( item: IEntityEditAudit) {
