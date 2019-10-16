@@ -33,32 +33,11 @@
       <label>Question intent</label>
     </div>
 
-    <div class="row hoverable"
-         (mouseenter)="showbutton = !readonly"
-         (mouseleave)="showbutton = false">
-      <div class="col s7">
-        <div class="row">
-          <label>Response Domain (V <qddt-version [element]="questionItem?.responseDomain"></qddt-version>) </label>
-        </div>
-        <qddt-responsedomain-reuse-dialog [showbutton] = showbutton
-           [responseDomain]="questionItem?.responseDomain"
-           (selectedEvent)="onSaveResponseDomain($event)"
-           (removeEvent)="onResponsedomainRemove($event)">
-        </qddt-responsedomain-reuse-dialog>
-        <span style="min-height:max-content; ">{{ questionItem?.responseDomain?.name }}</span>
-      </div>
-      <div class="col s5">
-        <div class="row">
-          <label>Missing</label>
-        </div>
-          <qddt-select-missing-dialog [showbutton] = showbutton
-            [responseDomain]="questionItem?.responseDomain"
-            (selectedEvent)="onSaveMissingResponseDomain($event)"
-            (removeEvent)="onResponsedomainRemove($event)">
-        </qddt-select-missing-dialog>
-        <span style="min-height:max-content; ">{{getMissing()?.label}}</span>
-      </div>
-    </div>
+    <qddt-responsedomain-select *ngIf="questionItem"
+        [responseDomain]="questionItem.responseDomain"
+        (selectedEvent)="onSaveResponseDomain($event)"
+        (removeEvent)="onResponsedomainRemove($event)">
+    </qddt-responsedomain-select>
 
     <qddt-rational [formName]="'RationalComp'"
       *ngIf="!readonly && questionItem.id"

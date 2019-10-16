@@ -5,24 +5,31 @@ import { Concept, IMoveTo } from '../../../lib';
   selector: 'qddt-concept-toc',
   providers: [],
   styles: [
-    '.toc-children { padding-left: 20px }',
-    'li a:hover:after { content: " (drag me)"; }',
+    // '.toc-children { padding-left: 10px }',
+    'ol { list-style-type: none; counter-reset: item; margin: 0; padding: 0; }',
+    'ol > li { display: table; counter-increment: item; margin-bottom: 0.6em; }',
+    'ol > li:before { content: counters(item, ".") ". "; display: table-cell; padding-right: 0.6em; }',
+    'li ol > li { margin: 0; }',
+    'li ol > li:before { content: counters(item, ".") " "; }',
+    'li a:hover { color: blue; }',
+    'a { color: #757575; }'
+    // 'li a:hover:after { content: " (drag me)"; }',
   ],
   template: `
-    <ul *ngIf="children?.length" [ngClass]="{ 'toc-children': (level > 0) }"  (drop)="onDrop($event, -1)">
+    <ol *ngIf="children?.length"  (drop)="onDrop($event, -1)">
       <li *ngFor="let concept of children; let idx = index;" draggable="true"
           (dragstart)="onDragstart($event, concept.id)"
           (dragover)="onDragover($event)"
           (dragleave)="onDragleave($event)"
           (drop)="onDrop($event, idx)">
         <a href="concept#{{concept.id}}">
-          <span class="teal-text" [ngClass]="'text-lighten-' + level"><b>{{ concept.name }}</b></span>
+          <span [ngClass]="'text-lighten-' + level">{{ concept.name | titlecase }}</span>
         </a>
         <qddt-concept-toc *ngIf="concept.children"
             [level]="level+1" [children]="concept.children" [parentId]= "concept.id" (conceptMoved)="conceptMoved.emit($event)">
         </qddt-concept-toc>
       </li>
-    </ul>
+    </ol>
   `
 })
 

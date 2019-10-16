@@ -55,12 +55,9 @@
   </div>
 
   <div class="col hide-on-small-only m3">
-    <div style="height: 800px; overflow-y: auto;" class="row toc-wrapper pinned">
+    <div class="row scroll-content">
       <h5>Concept Toc</h5>
-      <ul class="section table-of-contents">
-        <li><a href="concept#topMenu">To the top </a> </li>
-        <qddt-concept-toc [children]= "topic.concepts" [parentId]="topic.id" [level]="0" (conceptMoved)="onMoveConcept($event)"></qddt-concept-toc>
-      </ul>
+      <qddt-concept-toc [children]= "topic.concepts" [parentId]="topic.id" [level]="0" (conceptMoved)="onMoveConcept($event)"></qddt-concept-toc>
     </div>
   </div>
 

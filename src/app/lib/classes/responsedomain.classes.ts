@@ -39,8 +39,18 @@ export const DOMAIN_TYPE_DESCRIPTION = [
 
 
 export class ResponseDomain implements IEntityEditAudit {
+
+  public constructor(init?: Partial<ResponseDomain>) {
+    Object.assign(this, init);
+  }
+
+  public get isMixed() { return (this.responseKind === 'MIXED');  }
+
+  public get missing(): Category {
+    return this.managedRepresentation.children.find(e => e.categoryType === 'MISSING_GROUP');
+  }
+
   id: string;
-  label: string;
   name: string;
   description: string;
   displayLayout = '0';
@@ -58,9 +68,6 @@ export class ResponseDomain implements IEntityEditAudit {
   modified?: number;
   version?: IVersion;
 
-  public constructor(init?: Partial<ResponseDomain>) {
-    Object.assign(this, init);
-  }
 
   public setResponseKind(kind: DomainKind): ResponseDomain {
     this.responseKind = DomainKind[kind];
@@ -69,46 +76,50 @@ export class ResponseDomain implements IEntityEditAudit {
   }
 
   public addManagedRep(rep: Category) {
-    // if (this.responseKind === 'MIXED') {
+    this.managedRepresentation.children = this.managedRepresentation.children.filter(e => e.categoryType !== rep.categoryType);
 
-    // replace if exsist from before.
-    const index = this.managedRepresentation.children.findIndex(e => e.categoryType === rep.categoryType );
-    if (index >= 0) {
-      this.managedRepresentation.children = this.managedRepresentation.children.slice(index, 1);
+    if ( this.managedRepresentation.children.length > 0 && !this.isMixed) {
+      this.managedRepresentation = new Category({
+        hierarchyLevel: 'GROUP_ENTITY',
+        name: 'Mixed [ named on client ]',
+        children: [this.managedRepresentation]});
+      this.id = null;
+      this.setResponseKind(DomainKind.MIXED);
     }
-    if (this.managedRepresentation.children.length > 0 && !this.isMixed) {
-      // adding an extra rep, to a none mixed, convert to mixed.... or fail?
-      // we have to fail....
-    } else {
       // there is no other children or this is a mixed responseDomain....
-      this.managedRepresentation.children.push(rep);
-      this.name += ' ' + rep.name;
-    }
-  }
-
-  public isMixed(): boolean {
-    return (this.responseKind === 'MIXED');
-  }
-
-  public getMissing(): Category {
-    return this.managedRepresentation.children.find(e => e.categoryType === 'MISSING_GROUP');
+    this.managedRepresentation.children.push(rep);
+    this.name = this.managedRepresentation.label =
+      'Mixed (name from client) [' + this.managedRepresentation.children.map( c => c.label).join(' + ') + ']';
   }
 
 }
 
-export function makeMixed(old: ResponseDomain): ResponseDomain {
-  const managedRepresentation = new Category({
-    description: '[Mixed] group - ' + old.name + '...]',
-    hierarchyLevel: 'GROUP_ENTITY',
-    categoryType: 'MIXED',
-    name: old.id,
-    children: [old.managedRepresentation] });
-
-  return new ResponseDomain({
-    responseKind: 'MIXED',
-    name: old.name,
-    description: 'Mixed [' + old.description + '...]',
-    displayLayout: old.displayLayout,
-    managedRepresentation: managedRepresentation,
-    responseCardinality: old.responseCardinality });
-}
+// export function makeMixed(old: ResponseDomain): ResponseDomain {
+//   if (this.isMixed) {
+//     return old;
+//   }
+//
+//   const rd = new ResponseDomain(old);
+//   rd.setResponseKind(DomainKind.MIXED);
+//   rd.
+//
+//   {
+//
+//     name: old.name,
+//     displayLayout: old.displayLayout,
+//     responseCardinality: old.responseCardinality
+//   });
+//
+//   rd.addManagedRep()
+//
+//
+//   const managedRepresentation = new Category({
+//     hierarchyLevel: 'GROUP_ENTITY',
+//     categoryType: 'MIXED',
+//     name: old.id,
+//     children: [old.managedRepresentation]
+//   });
+//
+// }
+//
+//   return

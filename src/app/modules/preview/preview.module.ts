@@ -26,7 +26,7 @@ import { PreviewSurveyComponent } from './surveyprogram/preview.survey.component
 import { PreviewInstrumentComponent } from './instrument/preview.instrument.component';
 import { PreviewComponent } from './preview.component';
 import { PreviewDialogComponent } from './preview-dialog.component';
-import { PreviewService } from '../../lib/services/preview.service';
+import { PreviewService } from '../../lib/services';
 import { PreviewPublicationComponent } from './publication/preview.publication.component';
 
 @NgModule({
@@ -44,7 +44,7 @@ import { PreviewPublicationComponent } from './publication/preview.publication.c
 
   exports: [PreviewConceptComponent, PreviewConceptListComponent, PreviewTopicComponent,
     PreviewTopicListComponent, PreviewStudyComponent, PreviewControlConstructComponent,
-    PreviewQuestionitemComponent, PreviewQuestionitemGridComponent,
+    PreviewQuestionitemComponent, PreviewQuestionitemGridComponent, ResponsedomainDatetimeComponent,
     PreviewResponsedomainComponent , PreviewInstrumentComponent, PreviewPublicationComponent,
     PreviewComponent, PreviewDialogComponent ],
 

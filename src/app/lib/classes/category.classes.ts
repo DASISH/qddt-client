@@ -79,7 +79,9 @@ export class Category implements IEntityEditAudit {
   }
 
   public setKind(kind: CategoryKind): Category {
-    this.description =  CATEGORY_INFO[kind].description;
+    if (this.description.length === 0) {
+      this.description = CATEGORY_INFO[kind].description;
+    }
     this.hierarchyLevel = HierachyLevel[CATEGORY_INFO[kind].level];
     this.categoryType = CategoryKind[kind];
     if (kind.valueOf() <= CategoryKind.CATEGORY) {

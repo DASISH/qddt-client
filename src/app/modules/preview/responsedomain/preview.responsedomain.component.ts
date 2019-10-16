@@ -7,7 +7,7 @@ import {Category, DomainKind, ResponseCardinality, ResponseDomain} from '../../.
   styles: [  ],
   template: `
     <div *ngIf="responseType" class="card-panel grey lighten-5 black-text" style="padding-left:3%; padding-right:5%; margin: 1%">
-    <label *ngIf="responseType !== refKind.MIXED" class="active teal-text">
+    <label *ngIf="responseType !== refKind.MIXED" class="teal-text">
       {{ responseDomain?.name }}(V<qddt-version [element]="rep"></qddt-version>)
     </label>
     <div [ngSwitch]="responseType">
@@ -27,7 +27,7 @@ import {Category, DomainKind, ResponseCardinality, ResponseDomain} from '../../.
       <qddt-preview-rd-datetime *ngSwitchCase="refKind.DATETIME" [managedRepresentation]="rep"></qddt-preview-rd-datetime>
       <qddt-preview-rd-numeric *ngSwitchCase="refKind.NUMERIC" [managedRepresentation]="rep"></qddt-preview-rd-numeric>
       <qddt-preview-rd-text *ngSwitchCase="refKind.TEXT" [managedRepresentation]="rep"></qddt-preview-rd-text>
-      <qddt-preview-rd-missing *ngSwitchCase="refKind.MISSING" [managedRepresentation]="rep."></qddt-preview-rd-missing>
+      <qddt-preview-rd-missing *ngSwitchCase="refKind.MISSING" [managedRepresentation]="rep"></qddt-preview-rd-missing>
     </div>
   </div>`,
   providers: [],

@@ -8,4 +8,7 @@ export class ElementRevisionRef implements IIdRef, IRevisionRef, IElement {
   element: any;
   name?: string;
   version?: IVersion;
+  public constructor(init?: Partial<ElementRevisionRef>) {
+    Object.assign(this, init);
+  }
 }

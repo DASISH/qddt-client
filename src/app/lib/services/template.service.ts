@@ -50,7 +50,6 @@ export class TemplateService {
 
     if ( pageSearch.sort ) { query += '&sort=' + pageSearch.sort; }
 
-
     return this.http.get<IPageResult<T>>(this.api + qe.path + '/page/search/' + query).toPromise();
   }
 
@@ -73,9 +72,13 @@ export class TemplateService {
     return new Promise(null);
   }
 
-  public getByKindRevision(kind: ElementKind, id: string, rev: number): Promise<IRevisionResult<IEntityEditAudit>> {
+  public getByKindRevision(kind: ElementKind, id: string, rev?: number): Promise<IRevisionResult<IEntityEditAudit>> {
     const qe = getQueryInfo(kind);
-    return this.http.get<IRevisionResult<IEntityEditAudit>>(this.api + 'audit/' + qe.path + '/' + id + '/' + rev).toPromise();
+    if ( rev ) {
+      return this.http.get<IRevisionResult<IEntityEditAudit>>(this.api + 'audit/' + qe.path + '/' + id +  '/' + rev ).toPromise();
+    }
+    return this.http.get<IRevisionResult<IEntityEditAudit>>(this.api + 'audit/' + qe.path + '/' + id ).toPromise();
+
   }
 
   public create<T extends IEntityAudit>(item: T, parentId?: string): Observable<T> {

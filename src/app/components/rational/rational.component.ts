@@ -71,12 +71,14 @@ export class RationalComponent implements OnInit, OnChanges {
     if (id === 2) {
       this.savedbasedOnObject = this.element.basedOnObject;
       this.element.basedOnObject = null;
+      this.element.modifiedBy = null;
       if (this.element.id === null) {
         this.element.id = this.originalId;
       }
     } else if (id === 3) {
       this.savedId = this.element.id;
       this.element.basedOnObject = null;
+      this.element.modifiedBy = null;
       this.element.id = null;
       this.element.changeKind = null;
     } else {

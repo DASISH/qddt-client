@@ -5,8 +5,8 @@ import {IHeaderDetail} from '../interfaces';
 
 export const QDDT_QUERY_INFOES: QueryInfo[] = [
   new QueryInfo(ElementKind.NONE, '', '', [], null),
-  new QueryInfo(ElementKind.CATEGORY, 'Category', 'category', ['name', 'description'], '&categoryKind=CATEGORY'),
-  new QueryInfo(ElementKind.MISSING_GROUP, 'Missing Values', 'category', ['name', 'description'], '&categoryKind=MISSING_GROUP'),
+  new QueryInfo(ElementKind.CATEGORY, 'Category', 'category', ['label', 'description'], '&categoryKind=CATEGORY'),
+  new QueryInfo(ElementKind.MISSING_GROUP, 'Missing Values', 'category', ['label', 'description'], '&categoryKind=MISSING_GROUP'),
   new QueryInfo(ElementKind.CONCEPT, 'Concept', 'concept', ['name', 'description'], null),
   new QueryInfo(ElementKind.CONTROL_CONSTRUCT, 'Construct', 'controlconstruct', ['name'],
     '&constructKind=CONTROL_CONSTRUCT'),

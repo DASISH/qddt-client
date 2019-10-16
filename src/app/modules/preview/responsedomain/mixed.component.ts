@@ -6,7 +6,7 @@ import {Category, ResponseCardinality} from '../../../lib/classes';
 
   template: `<div>
     <label *ngIf="managedRepresentation && managedRepresentation.children.length > 0" class="active teal-text">
-        {{ managedRepresentation.name }} v.<qddt-version [element]="managedRepresentation" ></qddt-version>
+        {{ managedRepresentation.label }} v.<qddt-version [element]="managedRepresentation" ></qddt-version>
     </label>
       <div *ngFor="let rep of managedRepresentation.children">
         <div [ngSwitch]="rep.categoryType">

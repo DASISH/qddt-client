@@ -8,14 +8,14 @@ import {
   ActionKind,
   PropertyStoreService,
   HomeService,
-  HierarchyPosition, Concept
+  HierarchyPosition, Concept, TemplateService
 } from '../../../lib';
-import {TemplateService} from '../../../components/template';
 
 
 @Component({
   selector: 'qddt-concept',
   providers: [ {provide: 'elementKind', useValue: 'CONCEPT'}, ],
+  styles: ['.scroll-content { position:fixed; overflow-y:auto; overflow-x:hidden;  top:64px; height: calc(100vh - 64px); }'],
   templateUrl: './concept.component.html'
 })
 
