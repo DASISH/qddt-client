@@ -13,10 +13,10 @@
     <tbody *ngIf="max - min <= 15">
     <tr *ngFor="let row of rows; let idx=index">
       <td *ngFor="let option of columns" style="text-align: center">
-              <span>
-                <input name="{{managedRepresentation.id}}-group-{{idx}}" type="radio" id="{{managedRepresentation.id}}-option-{{option.value}}-{{idx}}" />
-                <label [attr.for]="managedRepresentation.id + '-option-' + option.value +'-'+ idx">{{ option?.value }}</label>
-              </span>
+              <label>
+                <input name="{{managedRepresentation.id}}-group-{{idx}}" type="radio" />
+                <span>{{ option?.value }}</span>
+              </label>
       </td>
     </tr>
     </tbody>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {ActionKind, ElementKind, IPageSearch, PageSearch, PublicationService, PublicationStatus} from '../../lib';
 import { MessageService, PropertyStoreService} from '../../lib/services';
 
@@ -10,9 +10,11 @@ import { MessageService, PropertyStoreService} from '../../lib/services';
   <div class="card-action">
     <div class="row">
     <div class="col left" *ngFor="let option of selectOptions" >
-      <input name="domaintypegroup" type="radio" id="domain{{option.id}}"
+      <label>
+        <input name="DOMAIN-TYPE-GROUP" type="radio"
         (click)="onSelectOption(option.id)" [checked]="selectId === option.id"/>
-      <label class="white-text" for="domain{{option.id}}" >{{ option.label }}</label>
+        <span class="white-text">{{ option.label }}</span>
+      </label>
     </div>
   </div>
 </div>` ,

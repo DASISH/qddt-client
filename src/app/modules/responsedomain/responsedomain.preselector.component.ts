@@ -16,23 +16,14 @@ import {
   template: `
 <div class="card-action">
   <div class="row">
-    <!--<div class="col s1 input-field" style="padding-right: 0;padding-left: 0;margin-top: 0">-->
-      <!--<select id="globalfilter1" name="globalfilter1t"-->
-              <!--[ngModel]="3"-->
-              <!--(ngModelChange)="onChangeDegreeSlope($event)"-->
-              <!--materialize="material_select" required>-->
-        <!--<option [value]="0">No filter</option>-->
-        <!--<option [value]="1">Survey</option>-->
-        <!--<option [value]="2">Study</option>-->
-        <!--<option [value]="3">Module</option>-->
-        <!--<option [value]="4">Concept</option>-->
-      <!--</select>-->
-    <!--</div>-->
+
 
     <div class="col left" *ngFor="let domain of domainTypeDescription" >
-      <input name="domaintypegroup" type="radio" id="domain{{domain.id}}"
+    <label>
+        <input name="DOMAIN-TYPE-GROUP" type="radio"
         (click)="onSelectDomainType(domain.id)" [checked]="domainType === domain.id"/>
-      <label class="white-text" for="domain{{domain.id}}" >{{ domain.label }}</label>
+        <span class="white-text">{{ domain.label }}</span>
+      </label>
     </div>
   </div>
 </div>` ,
