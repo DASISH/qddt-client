@@ -4,7 +4,7 @@
       <label [attr.for]="elementId + '-name'">Name</label>
       <textarea id="{{elementId}}-name" name="{{elementId}}-name"
         class="materialize-textarea"
-        [(ngModel)]="statement.name"  data-length ="250" materialize="characterCounter"
+        [(ngModel)]="statement.name"  data-length ="250"
         required >
       </textarea>
     </div>
@@ -12,7 +12,7 @@
       <label [attr.for]="elementId + '-text'">Text</label>
       <textarea id="{{elementId}}-text" name="{{elementId}}-text"
         class="materialize-textarea"
-        [(ngModel)]="statement.statement"  data-length ="250" materialize="characterCounter">
+        [(ngModel)]="statement.statement"  data-length ="250" >
       </textarea>
     </div>
     <button

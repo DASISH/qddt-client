@@ -5,9 +5,8 @@ import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { API_BASE_HREF } from '../../api';
-import { MaterializeModule } from 'angular2-materialize';
 import { SequenceContentComponent } from './sequence-construct.content.component';
-import { TemplateService } from '../../components/template';
+import { TemplateService } from '../../lib/services';
 
 
 export function main() {
@@ -26,7 +25,7 @@ export function main() {
             useValue: '<%= API_BASE %>'
           }
         ],
-        imports: [CommonModule, FormsModule, MaterializeModule]
+        imports: [CommonModule, FormsModule ]
       });
     });
 

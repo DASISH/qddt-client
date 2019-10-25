@@ -4,12 +4,13 @@
     <h4>Login</h4>
     <form (ngSubmit)="login()" (keyup.enter)="f.onSubmit()" #f="ngForm">
       <div class="row input-field">
-        <input class="validate" id="email"  name="email" type="email" [(ngModel)]="formData.email" required email>
-        <label for="email">Email</label>
+        <input class="validate" id="email" name="email" type="email" [(ngModel)]="formData.email" required email>
+        <label for="email" >Email</label>
       </div>
       <div class="row input-field">
-        <input class="validate" id="pwRef" name="password"  type="password" [(ngModel)]="formData.password" required autofocus >
-        <label for="pwRef">Password</label>
+        <input class="validate"  id="password" name="password" type="password" [(ngModel)]="formData.password" required autofocus >
+        <label for="password">Password</label>
+        <span class="helper-text"></span>
       </div>
       <div class="row">
         <qddt-spinner *ngIf="loading" ></qddt-spinner>

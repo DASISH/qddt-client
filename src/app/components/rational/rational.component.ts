@@ -1,4 +1,11 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {
+  AfterViewChecked, AfterViewInit,
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges
+} from '@angular/core';
 import { RATIONAL_DESCRIPTIONS , RationalDescription} from './rationaldescription';
 
 @Component({
@@ -7,10 +14,12 @@ import { RATIONAL_DESCRIPTIONS , RationalDescription} from './rationaldescriptio
   templateUrl: './rational.component.html'
 })
 
-export class RationalComponent implements OnInit, OnChanges {
+export class RationalComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() element: any;
   @Input() formName: string;
   @Input() config: any;
+
+
   public saveOptionIndex: number;
   public rationalDescriptionsFiltered: RationalDescription[];
   public rationalDescriptions = RATIONAL_DESCRIPTIONS;
@@ -29,8 +38,14 @@ export class RationalComponent implements OnInit, OnChanges {
     this.savedId = null;
   }
 
-  ngOnInit() {
 
+  ngAfterViewInit(): void {
+    M.AutoInit(document.querySelector('form'));
+    document.querySelectorAll('select')
+    .forEach( select => M.FormSelect.init(select));
+  }
+
+  ngOnInit() {
     if (this.config) {
       const hiddenIds = this.config.hidden || [];
       if (!('archived' in this.element)) {            // Hide Archived option if element don't have this field.
@@ -38,6 +53,12 @@ export class RationalComponent implements OnInit, OnChanges {
       }
       this.rationalDescriptionsFiltered = RATIONAL_DESCRIPTIONS.filter(f => !hiddenIds.find(id => id === f.id));
     }
+    // document.querySelectorAll('.tabs')
+    // .forEach( tab => M.Tabs.init(tab, { swipeable: true }));
+    // document.querySelectorAll('select')
+    // .forEach( select => M.FormSelect.init(select));
+    // document.querySelectorAll('.carousel')
+    // .forEach( carousel => M.Carousel.init(carousel));
 
   }
 
@@ -51,6 +72,7 @@ export class RationalComponent implements OnInit, OnChanges {
       // set default value, in case user decides to go on without selecting an item...
       this.onClickRational2(rational.children[this._Rational2Index]);
     }
+    console.log('onClickRational1 ' + id );
   }
 
   onClickRational2(rational: any) {
@@ -58,7 +80,7 @@ export class RationalComponent implements OnInit, OnChanges {
     if (rational.change) {
       this.element.changeKind = rational.change;
     }
-
+    console.log('onClickRational2 ' + rational );
   }
 
   onSelectOption(id: number) {
@@ -87,9 +109,15 @@ export class RationalComponent implements OnInit, OnChanges {
         this.element.basedOnObject = this.savedbasedOnObject;
       }
     }
+    console.log('onSelectOption');
+
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (changes['element'].isFirstChange()){
+      this.element.changeComment = '';
+    }
     this.originalId = this.element.id;
     this.onSelectOption(0);
     // console.log(this.element.changeKind);

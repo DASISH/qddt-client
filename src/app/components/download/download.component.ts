@@ -1,8 +1,8 @@
-import {AfterViewInit, Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {ActionKind, ElementKind, getElementKind, IEntityEditAudit, IOtherMaterial} from '../../lib';
 import {TemplateService} from '../template';
+import * as FileSaver from 'file-saver';
 
-import filesaver from 'file-saver';
 
 @Component({
   selector: 'qddt-download',
@@ -37,13 +37,14 @@ export class FileDownload implements OnChanges {
       this.showXmlDownload = !(ek ===  ElementKind.SURVEY_PROGRAM || ek === ElementKind.STUDY);
       this.label = (this.entity.otherMaterials) ? 'External aid & Exports' : 'Exports ';
     }
-    // try { Materialize.updateTextFields(); } catch (Exception) { }
+    // console.log(this.entity || JSON);
+    // try { M.updateTextFields(); } catch (Exception) { }
   }
 
   onDownloadFile(o: IOtherMaterial) {
     const fileName = o.originalName;
     this.service.getFile(o).then(
-      (data) => { filesaver.saveAs(data, fileName); },
+      (data) => { FileSaver.saveAs(data, fileName); },
       (error) => { throw error; });
   }
 
@@ -52,7 +53,7 @@ export class FileDownload implements OnChanges {
     const fileName = element.name + '-' + element.version.major + element.version.minor + '.pdf';
     this.service.getPdf(element).then(
       (data: any) => {
-        filesaver.saveAs(data, fileName);
+        FileSaver.saveAs(data, fileName);
       });
   }
 
@@ -60,7 +61,7 @@ export class FileDownload implements OnChanges {
     const fileName = element.name + '-ddi32-' + element.version.major + element.version.minor + '.xml';
     this.service.getXML(element).then(
       (data: any) => {
-        filesaver.saveAs(data, fileName);
+        FileSaver.saveAs(data, fileName);
       });
   }
 

@@ -1,52 +1,58 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { MaterializeAction } from 'angular2-materialize';
+import {Component, Input, Output, EventEmitter, AfterViewInit, ElementRef, ViewChild} from '@angular/core';
 
 @Component({
   selector: 'qddt-confirm-delete',
 
   template: `
-<a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-   (click)="showConfirmDeleting()"><i class="material-icons left medium" title="Delete" >delete_forever</i></a>
-<div class="modal" materialize="modal" [materializeActions]="deleteAction">
-  <div class="modal-content" style="color: black">
+<a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"  (click)="showConfirmDeleting()">
+    <i class="material-icons left medium" title="Delete" >delete_forever</i></a>
+<div class="modal"  #modaldelete>
+  <div class="modal-content black-text">
     <div class="row">
       <h4>Warning</h4>
       <span>Are you sure you want to delete [{{ element?.name }}] ?</span>
     </div>
   </div>
-  <div class="modal-footer" style="color: white">
-    <button (click)="onOk()"
-            class="btn btn-default green modal-action modal-close waves-effect">
-      <a><i class="close material-icons medium white-text">done</i></a>
+  <div class="modal-footer" >
+    <button class="btn green waves-effect" (click)="onOk()">
+      ok<a><i class="material-icons ">done</i></a>
     </button>
-    <button (click)="onCancel()"
-      class="btn btn-default red modal-action modal-close waves-effect">
-      <a><i class="close material-icons medium white-text">close</i></a>
+    <button class="btn btn-default red waves-effect"  (click)="onCancel()">
+      cancel<a><i class="material-icons">close</i></a>
     </button>
   </div>
 </div>
 `,
-  providers: []
+  providers: [],
+  styles: [ 'a { color: white; text-align: center; vertical-align: middle;}' ]
 })
-export class ConfirmDeleteComponent  {
+export class ConfirmDeleteComponent implements AfterViewInit   {
   @Input() element: any;
   @Output() confirmAction = new EventEmitter<string>();
 
-  public deleteAction = new EventEmitter<string|MaterializeAction>();
+  @ViewChild('modaldelete', {static: false}) modaldelete: ElementRef;
 
-  public showConfirmDeleting(element?) {
-    if (element) {
-      this.element = element;
-    }
-    this.deleteAction.emit({action: 'modal', params: ['open']});
+  private instance  = null;
+
+  constructor() {}
+
+  ngAfterViewInit() {
+    this.instance = M.Modal.init(this.modaldelete.nativeElement);
+  }
+
+
+  public showConfirmDeleting() {
+      this.instance.open();
   }
 
   onOk() {
     this.confirmAction.emit(this.element.id);
+    this.instance.close();
   }
 
   onCancel() {
     this.confirmAction.emit('');
+    this.instance.close();
   }
 }
 

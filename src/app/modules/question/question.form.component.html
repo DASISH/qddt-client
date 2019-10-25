@@ -13,14 +13,14 @@
     <div class="row input-field">
       <input id= "{{formId}}-name" name="name" type="text" class="validate" required
         [(ngModel)]="questionItem.name"
-        materialize="characterCounter" data-length="255">
+         data-length="255">
       <label>Name</label>
     </div>
     <div class="row input-field">
       <textarea id="{{formId}}-textarea"
                 name="{{formId}}-textarea" [(ngModel)]="questionItem.question"
                 class="materialize-textarea validate" required minlength="2"
-                materialize="characterCounter" data-length="1500">
+                 data-length="1500">
       </textarea>
       <label >Question text</label>
     </div>
@@ -28,7 +28,7 @@
       <textarea id="{{formId}}-intent"
                 name="{{formId}}-intent" [(ngModel)]="questionItem.intent"
                 class="materialize-textarea validate"
-                materialize="characterCounter" data-length="2000">
+                 data-length="2000">
       </textarea>
       <label>Question intent</label>
     </div>

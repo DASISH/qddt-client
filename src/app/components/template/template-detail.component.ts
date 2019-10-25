@@ -1,12 +1,11 @@
 import { Component, EventEmitter, OnInit, Output, OnDestroy, AfterContentChecked} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MaterializeAction } from 'angular2-materialize';
 import { takeWhile } from 'rxjs/operators';
 import {IDetailAction, IEntityEditAudit, ActionKind, ElementKind, HEADER_DETAILS, TemplateService, Factory} from '../../lib';
 import { Location } from '@angular/common';
-import fileSaver from 'file-saver';
+import * as FileSaver from 'file-saver';
 
-declare var Materialize: any;
+
 declare var $: any;
 
 @Component({
@@ -18,7 +17,7 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterContentC
   @Output() closeState = new EventEmitter<IDetailAction>();
   @Output() selectedItem = new EventEmitter<IEntityEditAudit>();
 
-  public deleteAction = new EventEmitter<MaterializeAction>();
+  public deleteAction = new EventEmitter<boolean>();
   public item: IEntityEditAudit;
   public revisionIsVisible = false;
   public canDelete: boolean;
@@ -56,7 +55,7 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterContentC
     $(document).ready(function() {
       $('.modal').modal({
         ready: () => {
-          // Materialize.updateTextFields();
+          // M.updateTextFields();
         }
       });
     });
@@ -66,7 +65,7 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterContentC
     if (this.refreshCount < 15) {
       try {
         this.refreshCount++;
-        Materialize.updateTextFields();
+        M.updateTextFields();
       } catch (Exception) {
       }
     }
@@ -104,7 +103,7 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterContentC
 
   onGetPdf( item: IEntityEditAudit) {
     this.service.getPdf(item).then(
-      (data) => { fileSaver.saveAs(data, item.name + '.pdf'); },
+      (data) => { FileSaver.saveAs(data, item.name + '.pdf'); },
       (error) => { throw error; });
   }
 

@@ -1,4 +1,3 @@
-import { MaterializeModule } from 'angular2-materialize';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -31,16 +30,15 @@ import { HoverableRowComponent } from './hoverable-row/hoverable-row.component';
 import {DialogComponent} from './dialog/dialog.component';
 import {DialogBigComponent} from './dialog/dialog-big.component';
 
-
 @NgModule({
-  imports: [ MaterializeModule, CommonModule, RouterModule, FormsModule, CompareModule ],
+  imports: [  CommonModule, RouterModule, FormsModule, CompareModule ],
   declarations: [ LocalDatePipe, LocalNumberPipe, TemplateComponent, TemplateListComponent, TemplateDetailComponent,
     QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, FileDownload,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent, DialogBigComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent, CommentCreateComponent, DialogComponent,
     RationalComponent, RevisionComponent,  ConceptrefComponent, FormErrorsComponent, SpinnerComponent,
     AutosizeDirective, ParentFormConnectDirective, GravatarDirective, EqualValidator, HoverableRowComponent ],
-  exports: [ LocalDatePipe, LocalNumberPipe, CommonModule, FormsModule, MaterializeModule, SpinnerComponent,
+  exports: [ LocalDatePipe, LocalNumberPipe, CommonModule, FormsModule, SpinnerComponent,
      QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, FileDownload,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent, DialogComponent, DialogBigComponent,

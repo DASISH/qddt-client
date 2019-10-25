@@ -6,7 +6,7 @@ import { Factory } from '../../lib/factory';
 import { ActionKind, ElementKind, HEADER_DETAILS, IEntityEditAudit, IPageSearch} from '../../lib';
 import { MessageService, PropertyStoreService, UserService} from '../../lib/services';
 
-declare var Materialize: any;
+
 
 @Component({
   selector: 'qddt-template-component',
@@ -69,7 +69,7 @@ export class TemplateComponent implements OnDestroy, AfterContentChecked {
     if (this.refreshCount < 10) {
       try {
         this.refreshCount++;
-        Materialize.updateTextFields();
+        M.updateTextFields();
       } catch (Exception) { }
     }
   }

@@ -9,7 +9,7 @@ import {
   TemplateService
 } from '../../lib';
 
-declare var Materialize: any;
+
 declare var $: any;
 
 @Component({
@@ -37,7 +37,7 @@ export class QuestionFormComponent  implements OnChanges {
     if (changes['questionItem'].currentValue) {
       console.log('new questionItem');
     }
-    try { Materialize.updateTextFields(); } catch (Exception) { }
+    try { M.updateTextFields(); } catch (Exception) { }
   }
 
   onSaveQuestionItem() {

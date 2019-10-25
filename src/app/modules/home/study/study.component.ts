@@ -1,15 +1,19 @@
 import { AfterContentChecked, Component, OnInit} from '@angular/core';
 import { Router} from '@angular/router';
-import { HomeService} from '../../../lib/services/home.service';
-import {ActionKind, ElementKind, Study, SurveyProgram} from '../../../lib';
-import { HierarchyPosition} from '../../../lib';
-import {MessageService, PropertyStoreService} from '../../../lib/services';
-import { TemplateService} from '../../../components/template';
-import {Instrument} from '../../../lib/classes/instrument.classes';
+import {
+  ActionKind,
+  ElementKind, HierarchyPosition,
+  HomeService, Instrument,
+  MessageService,
+  PropertyStoreService,
+  Study,
+  SurveyProgram,
+  TemplateService
+} from '../../../lib';
+import * as FileSaver from 'file-saver';
 
-import filesaver from 'file-saver';
 
-declare var Materialize: any;
+
 
 @Component({
   selector: 'qddt-study',
@@ -47,7 +51,7 @@ export class StudyComponent implements OnInit, AfterContentChecked {
     if (this.refreshCount < 10) {
       try {
         this.refreshCount++;
-        Materialize.updateTextFields();
+        M.updateTextFields();
       } catch (Exception) {}
     }
   }
@@ -91,7 +95,7 @@ export class StudyComponent implements OnInit, AfterContentChecked {
   getPdf(study: Study) {
     const fileName = study.name + '.pdf';
     this.templateService.getPdf(study).then(
-      (data) => filesaver.saveAs(data, fileName) );
+      (data) => FileSaver.saveAs(data, fileName) );
   }
 
 

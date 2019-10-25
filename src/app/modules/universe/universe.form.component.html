@@ -3,7 +3,7 @@
     <div class="row">
       <div class="input-field col m12 ">
         <input id="name2" name="name" type="text" class="validate" required [(ngModel)]="universe.name"
-               data-length="255" materialize="characterCounter">
+               data-length="255" >
         <label>Name</label>
       </div>
     </div>
@@ -11,7 +11,7 @@
     <div class="row">
       <div class="input-field col m12 ">
         <textarea class="materialize-textarea validate" name="description"
-                  data-length="1000" materialize="characterCounter" [(ngModel)]="universe.description" >
+                  data-length="1000"  [(ngModel)]="universe.description" >
         </textarea>
         <label>Description</label>
       </div>
@@ -20,7 +20,7 @@
     <div class="row">
       <div class="input-field col m12 ">
         <textarea class="materialize-textarea validate" name="xmlLang"
-                  data-length="25" materialize="characterCounter" [(ngModel)]="universe.xmlLang" >
+                  data-length="25"  [(ngModel)]="universe.xmlLang" >
         </textarea>
         <label>Xml Language</label>
       </div>

@@ -8,7 +8,7 @@ import { IEntityAudit, IPageSearch, ElementKind, HEADER_DETAILS, ActionKind, Pag
 import { MessageService, PropertyStoreService} from '../../lib/services';
 
 declare var $;
-declare var Materialize;
+declare var M;
 
 @Component({
   selector: 'qddt-template-list',
@@ -54,7 +54,7 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
     $(document).ready(function() {
       $('.modal').modal({
         ready: () => {
-          Materialize.updateTextFields();
+          M.updateTextFields();
         }
       });
     });

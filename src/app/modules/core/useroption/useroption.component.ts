@@ -2,7 +2,7 @@ import { AfterViewInit, Component} from '@angular/core';
 import { Router } from '@angular/router';
 import { PropertyStoreService } from '../../../lib/services';
 
-declare var Materialize: any;
+
 declare var $;
 
 @Component({
@@ -31,7 +31,7 @@ export class UserOptionComponent  implements AfterViewInit {
     // auto.list = 'languages';
     $('.modal').modal({
       ready: () => {
-        Materialize.updateTextFields();
+        M.updateTextFields();
       },
       complete: () => {
         this.router.navigate([{ outlets: { popup : null }}]);

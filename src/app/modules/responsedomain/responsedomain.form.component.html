@@ -1,12 +1,12 @@
 <div *ngIf="responseDomain" id="{{formId}}">
   <form  #hf="ngForm" (ngSubmit)="onSave()">
     <div class="row input-field">
-      <input id="name" name="name" type="text" materialize="characterCounter" data-length ="255"
+      <input id="name" name="name" type="text"  data-length ="255"
               [(ngModel)]="responseDomain.name" required>
       <label for="name" >Name</label>
     </div>
     <div class="row input-field">
-      <textarea class="materialize-textarea" data-length ="2000" materialize="characterCounter"
+      <textarea class="materialize-textarea" data-length ="2000"
                 id="description" name="description"
         [(ngModel)]="responseDomain.description"></textarea>
       <label for="description" >Description</label>
@@ -97,7 +97,7 @@
                       [attr.min]=0
                       [ngModel]="responseDomain.managedRepresentation.inputLimit.maximum"
                       (ngModelChange)="changeNumberOfCategories($event)" required>
-              <label for="code_number">Number of Codes</label>
+              <label>Number of Codes</label>
             </div>
             <div class="input-field col m3 l3 offset-m1 offset-l1">
               <input id="responseCardinality_minimum" name="responseCardinality_minimum" type="number"
@@ -105,7 +105,7 @@
                       [attr.min]=0
                       [attr.max]="responseDomain.responseCardinality.maximum"
                       [(ngModel)]="responseDomain.responseCardinality.minimum" required>
-              <label for="responseCardinality_minimum">Min # of Response Cardinality</label>
+              <label>Min # of Response Cardinality</label>
             </div>
             <div class="input-field col m3 l3 offset-m1 offset-l1 ">
               <input id="responseCardinality_maximum" name="responseCardinality_maximum" type="number"
@@ -113,7 +113,7 @@
                       [attr.min]=1
                       [attr.max]="responseDomain.managedRepresentation.inputLimit.maximum"
                       [(ngModel)]="responseDomain.responseCardinality.maximum" required>
-              <label for="responseCardinality_maximum">Max # of Response Cardinality</label>
+              <label>Max # of Response Cardinality</label>
             </div>
           </div>
 
@@ -201,33 +201,32 @@
         </div>
         <div *ngSwitchCase="domainTypeDef.DATETIME">
           <qddt-preview-rd-datetime
-            [managedRepresentation]="previewResponseDomain.managedRepresentation">
+            [managedRepresentation]="responseDomain.managedRepresentation">
           </qddt-preview-rd-datetime>
 
           <div class="row">
             <div class="input-field col l2">
-              <label for="representation_lowD" >After</label>
               <input id="representation_lowD" name="representation_lowD" type="number"
                       (ngModelChange)="buildPreviewResponseDomain()"
                       [attr.max]="[responseDomain.managedRepresentation.inputLimit.maximum] - 1"
                       [(ngModel)]="responseDomain.managedRepresentation.inputLimit.minimum" required>
+              <label>After</label>
             </div>
             <div class="input-field col l2">
-              <label for="representation_highD" >Before</label>
               <input id="representation_highD" name="representation_highD" type="number"
                       (ngModelChange)="buildPreviewResponseDomain()"
                       [attr.min]="[responseDomain.managedRepresentation.inputLimit.minimum] + 1"
                       [(ngModel)]="responseDomain.managedRepresentation.inputLimit.maximum" required>
+              <label>Before</label>
             </div>
             <div class="input-field col l4">
-              <select materialize="material_select" [materializeSelectOptions]="dateFormatOption"
-                      id="representation_formatD" name="representation_formatD"
+              <select id="representation_formatD" name="representation_formatD"
                       (ngModelChange)="buildPreviewResponseDomain()"
                       [(ngModel)]="responseDomain.managedRepresentation.format"
                       (change)="onSelectDateFormatChange($event.target.value)">
                   <option *ngFor="let option of dateFormatOption" [value]="option.format">{{ option.label }}</option>
               </select>
-              <label for="representation_formatD" >Date format</label>
+              <label>Date format</label>
             </div>
           </div>
         </div>

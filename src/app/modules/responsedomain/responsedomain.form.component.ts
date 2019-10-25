@@ -20,7 +20,7 @@ import {
   ResponseDomain, TemplateService
 } from '../../lib';
 
-declare let Materialize: any;
+declare let M: any;
 
 @Component({
   selector: 'qddt-responsedomain-form',

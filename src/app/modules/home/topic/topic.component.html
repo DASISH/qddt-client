@@ -1,49 +1,88 @@
 <div class="col s12 m9">
-  <div class="card white white-text text-lighten-2">
-    <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
-      <i class="material-icons large right">store</i><h4>Questionnaire modules for {{ study?.name }}</h4>
-
-      <a class="btn" (click)="onToggleTopicForm()" *ngIf="!study.archived && !readonly" >
+  <div class="card-panel row teal white-text text-lighten-2">
+    <i class="material-icons large right">store</i><h4>Questionnaire modules for {{ study?.name }}</h4>
+    <a *ngIf="!study.archived && !readonly" class="btn" (click)="showTopicForm = !showTopicForm">
       <i class="material-icons right" *ngIf="!showTopicForm">keyboard_arrow_down</i>
       <i class="material-icons right" *ngIf="showTopicForm">keyboard_arrow_up</i>
       New</a>
-      <a class="btn" (click)="onToggleReuse()" *ngIf="!study.archived && !readonly">
-        <i class="material-icons right" *ngIf="!showReuse">keyboard_arrow_down</i>
-        <i class="material-icons right" *ngIf="showReuse">keyboard_arrow_up</i>
-        reuse</a>
+    <a class="btn" (click)="onToggleReuse()" *ngIf="!study.archived && !readonly">
+      <i class="material-icons right" *ngIf="!showReuse">keyboard_arrow_down</i>
+      <i class="material-icons right" *ngIf="showReuse">keyboard_arrow_up</i>
+      reuse</a>
+    <qddt-copy-select
+      *ngIf="showReuse"
+      [parentId]="study.id"
+      [elementKind]="TOPIC_KIND"
+      (dismissEvent)="showReuse=false;"
+      (itemSelected)="onSelectedRevsion($event)">
+    </qddt-copy-select>
 
-      <qddt-copy-select
-        *ngIf="showReuse"
-        [parentId]="study.id"
-        [elementKind]="TOPIC_KIND"
-        (dismissEvent)="showReuse=false;"
-        (itemSelected)="onSelectedRevsion($event)">
-      </qddt-copy-select>
-
-      <div *ngIf="showTopicForm">
-        <div class="row card-action">
-          <div class="col s10 offset-s1">
-
-            <form #hf="ngForm">
-              <div class="row input-field">
-                <input name="name" type="text" ngModel required  data-length ="250" materialize="characterCounter">
-                <label class="white-text">Name</label>
-              </div>
-              <div class="row input-field">
-                <textarea name="description" class="materialize-textarea" ngModel required  data-length ="10000" materialize="characterCounter"></textarea>
-                <label class="white-text">Description</label>
-              </div>
-              <div class="row right-align">
-                  <button type="button" (click)="onNewSave(hf.value)" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
-              </div>
-            </form>
-
-          </div>
+    <div *ngIf="showTopicForm">
+      <div class="row card-action">
+        <div class="col s10 offset-s1">
+          <form #hf="ngForm">
+            <div class="row input-field">
+              <input name="name" class="white-text" type="text" ngModel required  data-length ="250" >
+              <label class="white-text">Name</label>
+            </div>
+            <div class="row input-field white-text">
+              <textarea name="description" class="materialize-textarea white-text" ngModel required  data-length ="10000" ></textarea>
+              <label class="white-text">Description</label>
+            </div>
+            <div class="row right-align">
+              <button type="button" (click)="onNewSave(hf.value)" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
+  </div>
+
+<!--  <div class="card white white-text text-lighten-2">-->
+<!--    <div class="row teal z-depth-1" style="padding-left:12px; padding-top:12px;">-->
+<!--      <i class="material-icons large right">store</i><h4>Questionnaire modules for {{ study?.name }}</h4>-->
+
+<!--      <a class="btn" (click)="onToggleTopicForm()" *ngIf="!study.archived && !readonly" >-->
+<!--      <i class="material-icons right" *ngIf="!showTopicForm">keyboard_arrow_down</i>-->
+<!--      <i class="material-icons right" *ngIf="showTopicForm">keyboard_arrow_up</i>-->
+<!--      New</a>-->
+<!--      <a class="btn" (click)="onToggleReuse()" *ngIf="!study.archived && !readonly">-->
+<!--        <i class="material-icons right" *ngIf="!showReuse">keyboard_arrow_down</i>-->
+<!--        <i class="material-icons right" *ngIf="showReuse">keyboard_arrow_up</i>-->
+<!--        reuse</a>-->
+
+<!--      <qddt-copy-select-->
+<!--        *ngIf="showReuse"-->
+<!--        [parentId]="study.id"-->
+<!--        [elementKind]="TOPIC_KIND"-->
+<!--        (dismissEvent)="showReuse=false;"-->
+<!--        (itemSelected)="onSelectedRevsion($event)">-->
+<!--      </qddt-copy-select>-->
+
+<!--      <div *ngIf="showTopicForm">-->
+<!--        <div class="row card-action">-->
+<!--          <div class="col s10 offset-s1">-->
+
+<!--            <form #hf="ngForm">-->
+<!--              <div class="row input-field">-->
+<!--                <input name="name" type="text" ngModel required  data-length ="250" >-->
+<!--                <label class="white-text">Name</label>-->
+<!--              </div>-->
+<!--              <div class="row input-field">-->
+<!--                <textarea name="description" class="materialize-textarea" ngModel required  data-length ="10000" ></textarea>-->
+<!--                <label class="white-text">Description</label>-->
+<!--              </div>-->
+<!--              <div class="row right-align">-->
+<!--                  <button type="button" (click)="onNewSave(hf.value)" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>-->
+<!--              </div>-->
+<!--            </form>-->
+
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
     <div *ngIf="topics">
-      <div class="row card" *ngFor="let currentElement of topics" style="padding-left:2%">
+      <div class="row card" *ngFor="let currentElement of topics" style="padding-left:10px">
         <div id="{{currentElement?.id}}" class="scrollspy">
           <div class="col s1 m1 l1">
             <br/>
@@ -119,7 +158,6 @@
         </div>
       </div>
     </div>
-  </div>
 </div>
 <qddt-toc [path]="'module'" [elements]="topics"></qddt-toc>
 

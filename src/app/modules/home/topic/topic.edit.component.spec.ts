@@ -5,8 +5,7 @@ import { By } from '@angular/platform-browser';
 import { TopicEditComponent } from './topic.edit.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MaterializeModule } from 'angular2-materialize';
-import {HomeService} from '../../../lib/services/home.service';
+import {HomeService} from '../../../lib/services';
 import {API_BASE_HREF} from '../../../api';
 
 export function main() {
@@ -22,7 +21,7 @@ export function main() {
             useValue: '<%= API_BASE %>'
           }
         ],
-        imports: [CommonModule, FormsModule, MaterializeModule]
+        imports: [CommonModule, FormsModule]
       });
     });
 

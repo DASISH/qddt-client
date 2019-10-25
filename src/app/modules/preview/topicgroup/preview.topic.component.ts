@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import {ElementKind, ElementRevisionRef, IOtherMaterial, MessageService, PreviewService, Topic} from '../../../lib';
+import * as FileSaver from 'file-saver';
 
-import filesaver from 'file-saver';
 
 @Component({
   selector: 'qddt-preview-topic',
@@ -31,7 +31,7 @@ export class PreviewTopicComponent {
     const fileName = o.originalName;
     this.service.getFile(o).then(
       (data: any) => {
-        filesaver.saveAs(data, fileName);
+        FileSaver.saveAs(data, fileName);
       });
   }
 }

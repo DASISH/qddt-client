@@ -1,13 +1,11 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { MaterializeAction } from 'angular2-materialize';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, Output, ViewChild} from '@angular/core';
 import { getQueryInfo, IElement, IIdRef, IRevisionRef, PreviewService} from '../../lib';
 
 @Component({
   selector: 'qddt-preview-dialog',
 
   template: `
-    <div class="modal modal-fixed-footer" id="preview-id"
-         materialize="modal" [materializeActions]="basedonActions">
+    <div class="modal modal-fixed-footer" id="preview-id" #preview>
       <div class="modal-content teal-text" style="padding:36px;">
         <h4>Preview {{getClassName()}}</h4>
         <div class="row" *ngIf="element">
@@ -21,35 +19,41 @@ import { getQueryInfo, IElement, IIdRef, IRevisionRef, PreviewService} from '../
     </div>`
 })
 
-export class PreviewDialogComponent implements  OnChanges {
+export class PreviewDialogComponent implements  OnChanges, AfterViewInit {
   @Input() reference: IIdRef|IRevisionRef|IElement;
   @Output() close = new EventEmitter<boolean>(false);
 
-  basedonActions = new EventEmitter<string|MaterializeAction>();
   element: any;
+  @ViewChild('preview', {static: false}) modalPreview: ElementRef;
+
+  private instance  = null;
 
   constructor(private service: PreviewService) { }
 
+  ngAfterViewInit() {
+    this.instance = M.AutoInit(this.modalPreview.nativeElement);
+  }
+
   ngOnChanges(): void {
-    console.log('preview');
+    // console.log('preview');
     if (!this.reference) { return; }
     if (this.isRevisionRef(this.reference)) {
       this.service.getRevisionByKind(this.reference.elementKind, this.reference.elementId, this.reference.elementRevision)
         .then(result => {
           this.element = result.entity;
-          this.basedonActions.emit({action: 'modal', params: ['open']});
+          this.instance.open();
         });
 
     } else if (this.isIdRef(this.reference)) {
       this.service.getElementByKind(this.reference.elementKind, this.reference.elementId)
         .then(result => {
           this.element = result;
-          this.basedonActions.emit({action: 'modal', params: ['open']});
+          this.instance.open();
         });
 
     } else {
       this.element = this.reference.element;
-      this.basedonActions.emit({action: 'modal', params: ['open']});
+      this.instance.open();
     }
   }
 

@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import { API_BASE_HREF } from '../../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MaterializeModule } from 'angular2-materialize';
 import { PreviewConditionConstructComponent } from './preview.condition.component';
 import {ConditionConstruct} from '../../../lib';
 
@@ -20,7 +19,7 @@ export function main() {
             useValue: '<%= API_BASE %>'
           }
         ],
-        imports: [CommonModule, FormsModule, MaterializeModule]
+        imports: [CommonModule, FormsModule]
       });
     });
 

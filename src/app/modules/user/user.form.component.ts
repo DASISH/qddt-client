@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges, AfterViewInit} from '@angular/core';
 import { Agency, IAuthority, UserJson, UserService} from '../../lib';
 
-declare var Materialize: any;
+
 declare var $: any;
 
 @Component({
@@ -29,7 +29,7 @@ export class UserFormComponent implements OnInit, OnChanges, AfterViewInit {
      $(document).ready(function() {
        $('.modal').modal({
          ready: () => {
-           Materialize.updateTextFields();
+           M.updateTextFields();
            console.log('document ready');
          }
        });
@@ -45,7 +45,7 @@ export class UserFormComponent implements OnInit, OnChanges, AfterViewInit {
         } else {
           this.getFirstAgency().then( agent => this.onSelectChange(agent.id) );
         }
-        try { Materialize.updateTextFields(); console.log('ngOnChanges updateTextFields' );
+        try { M.updateTextFields(); console.log('ngOnChanges updateTextFields' );
         } catch (ex ) {
           console.log('ngOnChanges updateTextFields' + ex );
         }
@@ -54,7 +54,7 @@ export class UserFormComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    try { Materialize.updateTextFields(); console.log('ngAfterViewInit updateTextFields' );  } catch (Exception) { }
+    try { M.updateTextFields(); console.log('ngAfterViewInit updateTextFields' );  } catch (Exception) { }
   }
 
   onSelectChange(id: string) {

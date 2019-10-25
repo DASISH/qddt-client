@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import {Component, OnInit, AfterViewInit, OnDestroy, ElementRef, ViewChild} from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject} from 'rxjs/internal/BehaviorSubject';
 import {
@@ -27,6 +27,8 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   public username;
   public elementKindRef = ElementKind;
 
+  @ViewChild('navnbar', {static: false}) menu: ElementRef;
+
   constructor(private userService: UserService, public property: PropertyStoreService,
       private router: Router, private service: TemplateService) {
     this.username = this.getUserName();
@@ -53,13 +55,19 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   ngAfterViewInit() {
-    $('.button-collapse').sideNav({
-      menuWidth: 100, // Default is 300
-      edge: 'left', // Choose the horizontal origin
-      closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
-      draggable: true});
-    $('.dropdown-button').dropdown();
+    M.Sidenav.init(this.menu.nativeElement, { edge: 'left', draggable: true});
+    $('.dropdown-trigger').dropdown({
+      coverTrigger: false
+    });
     $('.collapsible').collapsible();
+    // M.Dropdown.arguments = {constrainWidth: false };
+    // $('.button-collapse').sideNav({
+    //   menuWidth: 100, // Default is 300
+    //   edge: 'left', // Choose the horizontal origin
+    //   closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+    //   draggable: true});
+    // $('.dropdown-button').dropdown();
+    // $('.collapsible').collapsible();
   }
 
   getEmail(): string {

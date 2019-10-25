@@ -4,10 +4,9 @@ import { By } from '@angular/platform-browser';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MaterializeModule } from 'angular2-materialize';
 import {StatementEditComponent} from './statementconstruct.edit.component';
 import {API_BASE_HREF} from '../../../api';
-import {TemplateService} from '../../../components/template';
+import {TemplateService} from '../../../lib/services';
 
 export function main() {
   describe('statement edit component', () => {
@@ -22,7 +21,7 @@ export function main() {
             useValue: '<%= API_BASE %>'
           }
         ],
-        imports: [CommonModule, FormsModule, MaterializeModule]
+        imports: [CommonModule, FormsModule]
       });
     });
 

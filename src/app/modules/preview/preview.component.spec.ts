@@ -5,9 +5,8 @@ import { By } from '@angular/platform-browser';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MaterializeModule } from 'angular2-materialize';
 import { PreviewComponent } from './preview.component';
-import {PublicationService} from '../../lib/services/publication.service';
+import {PublicationService} from '../../lib/services';
 
 export function main() {
   describe('Publication preview component', () => {
@@ -22,7 +21,7 @@ export function main() {
             useValue: '<%= API_BASE %>'
           }
         ],
-        imports: [CommonModule, FormsModule, MaterializeModule]
+        imports: [CommonModule, FormsModule]
       });
     });
 

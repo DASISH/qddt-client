@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, Output, EventEmitter } from '@angular/core
 import { DiffString } from './diff.string';
 import {isDate} from 'util';
 import {formatDate} from '@angular/common';
-import {MessageService, PreviewService, SessionService, UserService} from '../../lib/services';
+import { SessionService } from '../../lib/services';
 
 export class ElementFieldChange {
   name: string;

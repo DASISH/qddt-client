@@ -5,10 +5,8 @@ import { By } from '@angular/platform-browser';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { MaterializeModule } from 'angular2-materialize';
 import { QuestionFormComponent } from './question.form.component';
-import { TemplateService } from '../../lib/services/template.service';
+import { TemplateService } from '../../lib/services';
 
 export function main() {
   describe('Question edit component', () => {
@@ -28,7 +26,7 @@ export function main() {
             useValue: '<%= API_BASE %>'
           }
         ],
-        imports: [CommonModule, FormsModule, MaterializeModule]
+        imports: [CommonModule, FormsModule ]
       });
       // Mock debounceTime
       // Observable.prototype.debounceTime = function () { return this; };

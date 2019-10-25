@@ -4,11 +4,15 @@
     "baseUrl": "./",
     "types": [
       "node",
-      "jasmine"
+      "jasmine",
+      "materialize-css"
     ],
     "paths": {
       "core-js/es7/reflect": ["../node_modules/core-js/proposals/reflect-metadata"]
-    }
+    },
+    "typeRoots": [
+      "./node_modules/@types",
+    ]
   },
   "files": [
     "main.ts",

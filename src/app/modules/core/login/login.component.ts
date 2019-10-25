@@ -1,10 +1,8 @@
 import { AfterViewInit, Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 
-import {Password, UserService} from '../../../lib';
+import { Password, UserService } from '../../../lib';
 
-declare var Materialize: any;
-declare var $;
 
 @Component({
   selector: 'qddt-login',
@@ -15,43 +13,37 @@ export class LoginComponent implements OnInit, AfterViewInit {
   public formData = { email: '', password: '' };
   public formId = Math.round( Math.random() * 10000);
   public loading = false;
+  private instance;
 
   constructor(private router: Router, private authenticationService: UserService) {
     authenticationService.loggedIn.subscribe( (status) =>  {
-      if (status) { $('#modalLogin').modal('close'); }
+      if (status) { this.instance.close(); }
     });
   }
 
+  ngOnInit(): void {
+    this.instance = M.Modal.init(document.querySelector('#modalLogin'),
+      { inDuration: 400, outDuration: 300, startingTop: '4%', endingTop: '25%'});
+    this.formData.email = this.authenticationService.getEmail();
+  }
+
+  ngAfterViewInit(): void {
+    this.instance.open();
+    M.updateTextFields();
+  }
 
   login() {
     this.loading = true;
     this.authenticationService.signIn(new Password(this.formData)).then(
       () => {
-        $('#pwRef').removeClass('invalid');
-        $('#modalLogin').modal('close'); },
+        // document.querySelector('#password').classList.remove('invalid');
+        this.instance.close(); },
       (error) => {
-        $('#pwRef')[0].labels[0].setAttribute('data-error', error.error['exceptionMessage']);
-        $('#pwRef').addClass('invalid'); },
+        document.querySelector('#password').classList.add('invalid');
+        document.querySelector('.helper-text')
+        .setAttribute('data-error', error.error['exceptionMessage']);
+      },
     ).then(() => this.loading = false);
   }
 
-  ngOnInit(): void {
-    this.formData.email = this.authenticationService.getEmail();
-  }
-
-  ngAfterViewInit(): void {
-    $('.modal').modal({
-      inDuration: 400, // Transition in duration
-      outDuration: 300, // Transition out duration
-      startingTop: '4%', // Starting top style attribute
-      endingTop: '25%', // Ending top style attribute
-      ready: () => {
-        Materialize.updateTextFields();
-      },
-      complete: () => {
-        // router.navigate([{ outlets: { popup : null }}]);
-      }
-    });
-    $('#modalLogin').modal('open');
-  }
 }

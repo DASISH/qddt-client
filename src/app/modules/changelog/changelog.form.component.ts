@@ -1,8 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import {ChangeLogJson} from '../../lib';
-import {TemplateService} from '../../components/template';
+import {ChangeLogJson, TemplateService} from '../../lib';
 
-// declare var Materialize: any;
+//
 
 @Component({
   selector: 'qddt-changelog-form',
@@ -25,7 +24,7 @@ export class ChangeLogFormComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['changelog'].currentValue) {
       if (this.changelog) {
-        // Materialize.updateTextFields();
+        M.updateTextFields();
       }
     }
   }

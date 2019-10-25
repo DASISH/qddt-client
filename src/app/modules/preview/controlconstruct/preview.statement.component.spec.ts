@@ -2,7 +2,6 @@ import { TestBed, async } from '@angular/core/testing';
 import { API_BASE_HREF } from '../../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MaterializeModule } from 'angular2-materialize';
 import { PreviewStatementConstructComponent } from './preview.statement.component';
 import {StatementConstruct} from '../../../lib';
 
@@ -18,7 +17,7 @@ export function main() {
             useValue: '<%= API_BASE %>'
           }
         ],
-        imports: [CommonModule, FormsModule, MaterializeModule]
+        imports: [CommonModule, FormsModule]
       });
     });
 

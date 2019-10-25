@@ -27,6 +27,11 @@
   padding-left: 200px;
 }
 
+.sidenav.fixed {
+  width: 200px;
+}
+
+
 .description {
   text-align: justify;
   text-justify: inter-word;

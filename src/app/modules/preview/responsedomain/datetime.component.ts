@@ -8,10 +8,10 @@ import {Category} from '../../../lib/classes';
   <div class="row" *ngIf="managedRepresentation">
     <span>
       <label>{{ low }} - {{ high }}</label>
-      <input  type="text" class="datepicker" materialize="pickadate" [materializeParams]=
-               "[{format:dFormat,selectYears:80, max: [high, 12,31], min: [low, 1,1] }]">
+      <input  type="text" class="datepicker">
     </span>
-  </div>`,
+  </div>
+`,
   styles: [],
 })
 

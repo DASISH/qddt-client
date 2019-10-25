@@ -1,7 +1,7 @@
-<div class="navbar-fixed">
+<div class="navbar-fixed" #navnbar>
   <nav>
     <div class="nav-wrapper">
-      <a href="#" data-activates="leftmenu" class="button-collapse"><i class="material-icons">menu</i></a>
+<!--      <a href="#" data-target="leftmenu" class="button-collapse"><i class="material-icons">menu</i></a>-->
       <span style="height: 64px; overflow: hidden">
         <a *ngIf="!path[0]" (click)="onSurvey()" class="waves-effect " style="padding-left: 1rem; padding-right: 1rem;"> <i class="large material-icons" >store</i></a>
 
@@ -11,14 +11,14 @@
         <a *ngIf="path[3]" (click)="onConcept()" class="breadcrumb">{{ path[3].name }}</a>
       </span>
       <ul class="right">
-        <li><a class="dropdown-button"  data-activates="adminmenu" data-beloworigin="true">
+        <li><a class="dropdown-trigger"  href="#!" data-target="adminmenu" data-beloworigin="true">
           {{username}} <i class="material-icons left">arrow_drop_down</i>
           <img class="gravatar" gravatar [email]="getEmail()" [size]="48">
         </a></li>
       </ul>
-      <ul id="nav-mobile" class="side-nav fixed hide-on-med-and-down teal-text" style="transform: translateX(0px);">
+      <ul id="leftmenu" class="sidenav hide-on-med-and-down teal-text" style="transform: translateX(0px); width: 200px;">
         <div class="container" style="color: #fff; background-color: #ee6e73; width: 100%; height: 64px; line-height: 64px;
-        font-size: 2rem; text-align: center; vertical-align: center">
+        font-size: 2rem; text-align: center; vertical-align: middle">
           <img src="/assets/images/qddt-text.png" style="height:100%; left: 90%; ">
         </div>
         <div *ngIf="isLoggedIn$ | async as isLoggedIn">
@@ -94,7 +94,7 @@
   </div>
 </ul>
 
-<ul id="leftmenu" class="side-nav" style="width: 200px;">
+<ul id="nav-mobile" class="sidenav" style="width: 200px;">
   <div *ngIf="isLoggedIn$ | async as isLoggedIn">
     <li><a [routerLink]="['/home']"  title="home">
       <i class="medium material-icons teal-text">store</i></a>

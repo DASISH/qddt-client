@@ -2,12 +2,11 @@ import { Component, Input,  EventEmitter, Output } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { PublicationService } from '../../lib/services/publication.service';
+import { PublicationService } from '../../lib/services';
 import { PublicationReuseComponent } from './publication.reuse.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MaterializeModule } from 'angular2-materialize';
 
 export function main() {
   describe('Publication reuse component', () => {
@@ -23,7 +22,7 @@ export function main() {
             useValue: '<%= API_BASE %>'
           }
         ],
-        imports: [CommonModule, FormsModule, MaterializeModule]
+        imports: [CommonModule, FormsModule]
       });
     });
 

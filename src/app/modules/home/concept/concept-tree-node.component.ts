@@ -1,4 +1,4 @@
-import { AfterContentChecked, Component, EventEmitter, Input, Output} from '@angular/core';
+import {AfterContentChecked, AfterViewInit, Component, EventEmitter, Input, Output} from '@angular/core';
 import { Router } from '@angular/router';
 import {
   ActionKind,
@@ -10,9 +10,9 @@ import {
   Page,
   IRevisionResult, QuestionItem, HomeService, MessageService, TemplateService
 } from '../../../lib';
+import * as FileSaver from 'file-saver';
 
-import filesaver from 'file-saver';
-declare var Materialize: any;
+
 
 @Component({
   selector: 'qddt-concept-treenode',
@@ -20,7 +20,7 @@ declare var Materialize: any;
   styleUrls: ['./concept-tree-node.component.css']
 })
 
-export class TreeNodeComponent implements AfterContentChecked {
+export class TreeNodeComponent implements AfterContentChecked, AfterViewInit {
   @Input() concept: Concept;
   @Output() deleteEvent =  new EventEmitter();
   @Output() updatedEvent =  new EventEmitter<Concept>();
@@ -47,11 +47,14 @@ export class TreeNodeComponent implements AfterContentChecked {
     this.canDelete = this.homeService.canDo(this.CONCEPT).get(ActionKind.Delete);
     }
 
+  ngAfterViewInit(): void {
+    // M.AutoInit();
+  }
   ngAfterContentChecked(): void {
     if (this.refreshCount < 10) {
       try {
         this.refreshCount++;
-        Materialize.updateTextFields();
+        M.updateTextFields();
       } catch (Exception) {}
     }
   }
@@ -125,7 +128,7 @@ export class TreeNodeComponent implements AfterContentChecked {
     const fileName = concept.name + '.pdf';
     this.templateService.getPdf(concept).then(
       (data) => {
-        filesaver.saveAs(data, fileName);
+        FileSaver.saveAs(data, fileName);
       });
   }
 
@@ -133,8 +136,9 @@ export class TreeNodeComponent implements AfterContentChecked {
     const fileName = concept.name + '.xml';
     this.templateService.getXML(concept).then(
       (data) => {
-        filesaver.saveAs(data, fileName);
+        FileSaver.saveAs(data, fileName);
       });
   }
+
 
 }

@@ -1,6 +1,5 @@
-import { Component, Input, Output, EventEmitter, AfterContentChecked } from '@angular/core';
-import { SurveyProgram} from '../../../lib';
-import { TemplateService} from '../../../components/template';
+import {Component, Input, Output, EventEmitter, AfterContentChecked, AfterViewInit} from '@angular/core';
+import {SurveyProgram, TemplateService} from '../../../lib';
 
 declare var $: any;
 
@@ -8,20 +7,19 @@ declare var $: any;
   selector: 'qddt-survey-edit',
   providers: [ {provide: 'elementKind', useValue: 'SURVEY_PROGRAM'}, ],
   template: `
-<div *ngIf="isVisible && survey"  id="{{formId}}"  >
-  <form materialize (ngSubmit)="onSave()" #surveyForm="ngForm">
+<div [hidden]="!isVisible">
+  <form id="{{formId}}" (ngSubmit)="onSave()" #surveyForm="ngForm">
     <div class="row input-field">
-      <input name="{{formId}}-name" type="text" [(ngModel)]="survey.name" required  data-length ="250" materialize="characterCounter">
-      <label>Name</label>
+      <input id="NAME-{{formId}}" name="name" type="text" [(ngModel)]="survey.name" required data-length ="250" >
+      <label for="NAME-{{formId}}">Name</label>
     </div>
 
     <div class="row input-field">
-      <textarea name="{{formId}}-description" class="materialize-textarea"
-        [(ngModel)]="survey.description" required  data-length ="10000" materialize="characterCounter">
+      <textarea id="DESC-{{formId}}" class="materialize-textarea" name="description"
+        [(ngModel)]="survey.description" required  data-length ="10000">
       </textarea>
-      <label>Description</label>
+      <label for="DESC-{{formId}}">Description</label>
     </div>
-
 
     <qddt-rational [formName]="'RationalComp'" [element]="survey" [config]="{hidden: [2,3]}"></qddt-rational>
 
@@ -35,32 +33,40 @@ declare var $: any;
 `
 })
 
-export class SurveyEditComponent implements  AfterContentChecked {
-
+export class SurveyEditComponent implements  AfterViewInit , AfterContentChecked {
   @Input() survey: SurveyProgram;
   @Input() readonly = false;
   @Input() isVisible = false;
 
   @Output() savedEvent = new EventEmitter<SurveyProgram>();
 
-  public showRevision;
+  public showRevision = false;
+
   public readonly formId = Math.round( Math.random() * 10000);
+
   constructor(private service: TemplateService) { }
 
-  ngAfterContentChecked() {
-    $('#' + this.formId + '-desc').trigger('autoresize');
-  }
 
   onSave() {
     this.service.update<SurveyProgram>(this.survey)
       .subscribe((result) => {
-        this.isVisible = false;
         this.survey = null;
+        this.isVisible = true;
         this.savedEvent.emit(result); }
         , (err: any) => {
           this.savedEvent.emit(null);
           throw err;
         });
+  }
+
+  ngAfterContentChecked(): void {
+    document.querySelectorAll('textarea').forEach(
+      input => M.textareaAutoResize(input));
+  }
+
+  ngAfterViewInit(): void {
+    document.querySelectorAll('input[data-length], textarea[data-length]').forEach(
+      input => M.CharacterCounter.init(input));
   }
 
 }

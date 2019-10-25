@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import {Password, UserService} from '../../../lib';
 
-declare var Materialize: any;
+
 declare var $;
 
 @Component({
@@ -19,7 +19,7 @@ export class ResetpasswordComponent  implements AfterViewInit {
   register(f) {
     this.loading = true;
     this.authenticationService.resetPassword(new Password(f)).subscribe(
-      (result) => { Materialize.toast(result.message, 5000); },
+      (result) => { M.toast( {html: result.message, displayLength: 5000}); },
       (error) => { throw error; },
       () => this.loading = false
     );
@@ -36,7 +36,7 @@ export class ResetpasswordComponent  implements AfterViewInit {
   ngAfterViewInit(): void {
     $('.modal').modal({
       ready: () => {
-        Materialize.updateTextFields();
+        M.updateTextFields();
       },
       complete: () => {
         this.router.navigate([{ outlets: { popup : null }}]);

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {AfterViewInit, Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {Category, DomainKind, ResponseCardinality, ResponseDomain} from '../../../lib';
 
 @Component({
@@ -33,7 +33,7 @@ import {Category, DomainKind, ResponseCardinality, ResponseDomain} from '../../.
   providers: [],
 })
 
-export class PreviewResponsedomainComponent implements OnChanges {
+export class PreviewResponsedomainComponent implements OnChanges, AfterViewInit {
   @Input() responseDomain: ResponseDomain;
 
   public refKind = DomainKind;
@@ -50,4 +50,11 @@ export class PreviewResponsedomainComponent implements OnChanges {
       this.displayLayout = +this.responseDomain.displayLayout;
     }
   }
+  ngAfterViewInit(): void {
+    M.AutoInit();
+    M.updateTextFields();
+    document.querySelectorAll('select')
+    .forEach( select => M.FormSelect.init(select));
+  }
+
 }

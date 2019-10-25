@@ -1,5 +1,4 @@
 import { Component, ViewChild } from '@angular/core';
-// import { MaterializeAction } from 'angular2-materialize';
 
 
 @Component({

@@ -50,6 +50,7 @@ export interface IComment {
   comment: string;
   public: boolean;
   comments?: IComment[];
+  size: number;
   modifiedBy?: IUser;
   modified?: number;
   ownerId?: string;

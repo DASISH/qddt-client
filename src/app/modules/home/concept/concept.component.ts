@@ -1,5 +1,4 @@
-import { Component, EventEmitter, OnInit} from '@angular/core';
-import { MaterializeAction } from 'angular2-materialize';
+import {AfterViewInit, Component, ElementRef, EventEmitter, OnInit, ViewChild} from '@angular/core';
 import {
   ElementKind,
   IEntityEditAudit,
@@ -19,22 +18,32 @@ import {
   templateUrl: './concept.component.html'
 })
 
-export class ConceptComponent implements OnInit {
+export class ConceptComponent implements OnInit, AfterViewInit {
   public readonly CONCEPT = ElementKind.CONCEPT;
-  public confirmDeleteActions = new EventEmitter<string|MaterializeAction>();
+  public confirmDeleteActions = new EventEmitter<string>();
 
   public showReuse = false;
   public showConceptForm = false;
   public showProgressBar = false;
-  // public readonly: boolean;
 
   public toDeletedConcept: any;
   public topic: Topic;
   canCreate: boolean;
+  private instance;
+
+
+  // private instance  = null;
 
   constructor(private property: PropertyStoreService, private homeService: HomeService<Concept>,
               private  templateService: TemplateService) {
     this.canCreate = this.homeService.canDo(this.CONCEPT).get(ActionKind.Create);
+  }
+
+  ngAfterViewInit() {
+    this.instance = M.Modal.init(document.querySelector('modaldelete'));
+    M.AutoInit();
+      // .forEach( modal => (modal));
+    // this.instance = M.AutoInit(this.modaldelete.nativeElement);
   }
 
   async ngOnInit() {
@@ -47,11 +56,9 @@ export class ConceptComponent implements OnInit {
       new Topic(root) :
       new Topic( await this.homeService.getExt<Topic>(ElementKind.TOPIC_GROUP, parentId));
 
-    // console.log(this.topic || JSON);
     this.topic.concepts = await (list) ?
       list :
       await this.homeService.getListByParent(this.CONCEPT, parentId);
-    // console.log(this.topic || JSON);
     this.showProgressBar = false;
   }
 
@@ -118,14 +125,13 @@ export class ConceptComponent implements OnInit {
 
   onDeleteConcept(concept: any) {
     this.toDeletedConcept = concept;
-    this.confirmDeleteActions.emit({action: 'modal', params: ['open']});
+    this.instance.open();
   }
 
   onConfirmDeleteConcept() {
     this.templateService.delete(this.toDeletedConcept).subscribe(
       (val) => {
-        // console.log(val);
-        this.confirmDeleteActions.emit({action: 'modal', params: ['close']});
+        this.instance.close();
         this.removeConcept(this.topic.concepts, this.toDeletedConcept.id);
         this.property.set('concepts', this.topic.concepts);
       },

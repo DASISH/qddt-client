@@ -8,18 +8,18 @@ declare var $: any;
   providers: [ {provide: 'elementKind', useValue: 'CONCEPT'}, ],
   template: `
 <div *ngIf="concept && isVisible" class="row " id="{{formId}}"  >
-  <form (ngSubmit)="save()" #hf="ngForm">
+  <form class="col s11 " (ngSubmit)="save()" #hf="ngForm">
 
     <div class="row input-field">
-      <input name="{{formId}}-name" type="text" [(ngModel)]="concept.name" required  data-length ="250" materialize="characterCounter">
-      <label>Name</label>
+      <input id="name-{{formId}}" type="text" required  data-length ="250"  [(ngModel)]="concept.name" [ngModelOptions]="{standalone: true}">
+      <label for="name-{{formId}}">Name</label>
     </div>
 
     <div class="row input-field">
       <textarea
-        name="{{formId}}-description" class="materialize-textarea" [(ngModel)]="concept.description" required  data-length ="10000" materialize="characterCounter">
+        id="desc-{{formId}}" class="materialize-textarea" required  data-length ="10000" [(ngModel)]="concept.description" [ngModelOptions]="{standalone: true}">
       </textarea>
-      <label>Description</label>
+      <label for="desc-{{formId}}">Description</label>
     </div>
 
     <qddt-rational

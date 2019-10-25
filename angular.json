@@ -26,11 +26,10 @@
               "node_modules/materialize-css/dist/css/materialize.css"
             ],
             "scripts": [
+              "node_modules/file-saver/dist/FileSaver.js",
               "node_modules/jquery/dist/jquery.js",
               "node_modules/hammerjs/hammer.js",
-              "node_modules/file-saver/dist/FileSaver.js",
-              "node_modules/materialize-css/dist/js/materialize.js"
-            ]
+              "node_modules/materialize-css/dist/js/materialize.js"            ]
           },
           "configurations": {
             "production": {
@@ -109,14 +108,13 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [
-              "node_modules/jquery/dist/jquery.js",
-              "node_modules/hammerjs/hammer.js",
               "node_modules/file-saver/dist/FileSaver.js",
               "node_modules/materialize-css/dist/js/materialize.js"
             ],
             "styles": [
               "src/styles.css",
-              "node_modules/materialize-css/dist/css/materialize.css"
+              "node_modules/materialize-css/dist/css/materialize.css",
+              "https://fonts.googleapis.com/icon?family=Material+Icons"
             ],
             "assets": [
               "src/assets"

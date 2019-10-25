@@ -1,13 +1,18 @@
 import { AfterContentChecked, Component, OnInit} from '@angular/core';
 import { Router} from '@angular/router';
-import { ActionKind, ElementKind, IRevisionRef, Study, Topic, getQueryInfo} from '../../../lib';
-import { HierarchyPosition} from '../../../lib';
-import { HomeService} from '../../../lib/services/home.service';
-import { MessageService, PropertyStoreService} from '../../../lib/services';
-import {TemplateService} from '../../../components/template';
+import {
+  ActionKind,
+  ElementKind,
+  IRevisionRef,
+  Study,
+  Topic,
+  PropertyStoreService,
+  MessageService,
+  HomeService, TemplateService, HierarchyPosition
+} from '../../../lib';
 
 
-declare var Materialize: any;
+
 
 @Component({
   selector: 'qddt-topic',
@@ -43,7 +48,7 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
     if (this.refreshCount < 10) {
       try {
         this.refreshCount++;
-        Materialize.updateTextFields();
+        M.updateTextFields();
       } catch (Exception) {}
     }
   }

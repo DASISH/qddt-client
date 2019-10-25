@@ -3,21 +3,21 @@
     <div class="row">
       <div class="col s12 input-field">
         <input name="{{formId}}-label" id="{{formId}}-label" type="text" class="validate" required
-               [(ngModel)]="missing.label" data-length="255" materialize="characterCounter"  minlength="1">
+               [(ngModel)]="missing.label" data-length="255"   minlength="1">
         <label>Label</label>
       </div>
     </div>
     <div class="row">
       <div class="col s12 input-field">
         <input name="{{formId}}-name" id="{{formId}}-name" type="text" class="validate" required
-               [(ngModel)]="missing.name" data-length="255" materialize="characterCounter"  minlength="3">
+               [(ngModel)]="missing.name" data-length="255"   minlength="3">
         <label>Name</label>
       </div>
     </div>
     <div class="row">
       <div class="input-field col s12">
         <textarea class="materialize-textarea validate" required
-            materialize="characterCounter" data-length="1000" maxlength="1000"
+             data-length="1000" maxlength="1000"
             name="{{formId}}-decs" id ="{{formId}}-desc"
             [(ngModel)]="missing.description" >
         </textarea>

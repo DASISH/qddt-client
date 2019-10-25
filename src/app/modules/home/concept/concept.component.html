@@ -1,68 +1,52 @@
 <div class="row" *ngIf="topic">
   <div class="col s12 m9">
-    <div class="card white white-text text-lighten-2">
-      <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
-        <i class="material-icons large right">store</i><h4>Concepts for {{ topic?.name }}</h4>
-
-        <a class="btn" (click)="onToggleConceptForm()" *ngIf="!topic.archived && canCreate">
-          <i class="material-icons right" *ngIf="!showConceptForm">keyboard_arrow_down</i>
-          <i class="material-icons right" *ngIf="showConceptForm">keyboard_arrow_up</i>
-          New</a>
-        <a class="btn" (click)="onToggleReuse()" *ngIf="!topic.archived && canCreate">
-          <i class="material-icons right" *ngIf="!showReuse">keyboard_arrow_down</i>
-          <i class="material-icons right" *ngIf="showReuse">keyboard_arrow_up</i>
-          reuse</a>
-
-        <qddt-copy-select
-          *ngIf="showReuse"
-          [parentId]="topic.id"
-          [elementKind]="CONCEPT"
-          (dismissEvent)="showReuse=false;"
-          (itemSelected)="onSelectedRevision($event)">
-        </qddt-copy-select>
-
-        <div *ngIf="showConceptForm">
-          <div class="row card-action">
-            <div class="col s10 offset-s1">
-              <form #hf="ngForm">
-                <div class="row input-field">
-                  <input name="name" type="text" ngModel required  data-length ="250" materialize="characterCounter">
-                  <label class="white-text">Name</label>
-                </div>
-                <div class="row input-field">
-                  <textarea name="description" class="materialize-textarea" ngModel required  data-length ="10000" materialize="characterCounter" ></textarea>
-                  <label class="white-text">Description</label>
-                </div>
-                <div class="row right-align">
-                  <button type="button" (click)="onNewSave(hf.value)" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
-                </div>
-              </form>
-            </div>
-          </div>
+    <div class="row teal card-panel white-text" style="padding:12px;" >
+      <i class="material-icons large right">store</i><h4>Concepts for {{ topic.name }}</h4>
+      <a class="btn" (click)="onToggleConceptForm()" *ngIf="!topic.archived && canCreate">
+        <i class="material-icons right" *ngIf="!showConceptForm">keyboard_arrow_down</i>
+        <i class="material-icons right" *ngIf="showConceptForm">keyboard_arrow_up</i>
+        New</a>
+      <a class="btn" (click)="onToggleReuse()" *ngIf="!topic.archived && canCreate">
+        <i class="material-icons right" *ngIf="!showReuse">keyboard_arrow_down</i>
+        <i class="material-icons right" *ngIf="showReuse">keyboard_arrow_up</i>
+        reuse</a>
+      <qddt-copy-select
+        *ngIf="showReuse"
+        [parentId]="topic.id"
+        [elementKind]="CONCEPT"
+        (dismissEvent)="showReuse=false;"
+        (itemSelected)="onSelectedRevision($event)">
+      </qddt-copy-select>
+      <form class="col s9 offset-s1" *ngIf="showConceptForm"  #hf="ngForm">
+        <div class="row input-field">
+          <input name="name" type="text" ngModel required  data-length ="250" >
+          <label class="white-text">Name</label>
         </div>
-      </div>
-      <div *ngIf="showProgressBar" class="progress">
-        <div class="indeterminate"></div>
-      </div>
-      <div *ngIf="topic.concepts">
-         <qddt-concept-treenode *ngFor="let child of topic.concepts"
-            [concept]="child"
-            (deleteEvent)="onDeleteConcept($event)"
-            (updatedEvent)="onConceptUpdated($event)">
-         </qddt-concept-treenode>
-      </div>
+        <div class="row input-field">
+          <textarea name="description" class="materialize-textarea" ngModel required  data-length ="10000"  ></textarea>
+          <label class="white-text">Description</label>
+        </div>
+        <div class="row right-align">
+          <button type="button" (click)="onNewSave(hf.value)" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
+        </div>
+      </form>
     </div>
+    <div *ngIf="showProgressBar" class="progress"><div class="indeterminate"></div></div>
+    <qddt-concept-treenode *ngFor="let child of topic.concepts"
+       [concept]="child"
+       (deleteEvent)="onDeleteConcept($event)"
+       (updatedEvent)="onConceptUpdated($event)">
+    </qddt-concept-treenode>
   </div>
 
-  <div class="col hide-on-small-only m3">
-    <div class="row scroll-content">
+  <div class="col hide-on-small-only m3" >
+    <div class="row scroll-content" style="padding:12px;">
       <h5>Concept Toc</h5>
       <qddt-concept-toc [children]= "topic.concepts" [parentId]="topic.id" [level]="0" (conceptMoved)="onMoveConcept($event)"></qddt-concept-toc>
     </div>
   </div>
 
-  <div id="'delete-concept-modal'" class="modal"
-       materialize="modal" [materializeActions]="confirmDeleteActions">
+  <div class="modal"  id = "modaldelete">
     <div class="modal-content">
       <h4>Warning!</h4>
       <div class="row" *ngIf="toDeletedConcept && toDeletedConcept.conceptQuestionItems && toDeletedConcept.conceptQuestionItems.length === 0">
@@ -75,11 +59,10 @@
     <div class="modal-footer">
       <button *ngIf="toDeletedConcept && toDeletedConcept.conceptQuestionItems && toDeletedConcept.conceptQuestionItems.length === 0"
         (click)="onConfirmDeleteConcept()"
-        class="btn btn-default green waves-green modal-close waves-effect">
+        class="btn btn-default green waves-green waves-effect">
         <a><i class="material-icons left medium white-text">check</i></a>
       </button>
-      <button id="concept-modal-close"
-        class="btn btn-default red modal-action modal-close waves-effect">
+      <button class="btn btn-default red modal-action  waves-effect">
         <a><i class="close material-icons medium white-text">close</i></a>
       </button>
     </div>

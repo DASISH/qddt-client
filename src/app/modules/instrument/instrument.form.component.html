@@ -3,18 +3,18 @@
     <div class="row input-field">
       <label>Name</label>
       <input id= "{{formId}}-name" name="name" type="text" class="validate" required
-      [(ngModel)]="element.name" materialize="characterCounter" data-length="255">
+      [(ngModel)]="element.name"  data-length="255">
     </div>
     <div class="row input-field">
       <label [attr.for]="formId + '-label'" >Label</label>
       <input id= "{{formId}}-label" name="label" type="text" class="validate" required
-      [(ngModel)]="element.label" materialize="characterCounter" data-length="255">
+      [(ngModel)]="element.label"  data-length="255">
     </div>
     <div class="row input-field">
       <label [attr.for]="formId + '-desc'" >Description</label>
       <textarea id="formId + '-desc'" required
         name="{{formId}}-desc" class="materialize-textarea"
-        [(ngModel)]="element.description" materialize="characterCounter" data-length="1000">
+        [(ngModel)]="element.description"  data-length="1000">
       </textarea>
     </div>
     <div class="row input-field">

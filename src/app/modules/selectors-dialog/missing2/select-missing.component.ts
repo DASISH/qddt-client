@@ -1,21 +1,19 @@
 import {AfterViewInit, Component, EventEmitter, Input, Output, SimpleChanges} from '@angular/core';
 import { Router } from '@angular/router';
 import {debounceTime, distinctUntilChanged, filter} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 import {
   Category,
   ElementKind,
   ElementRevisionRef,
   IElement,
   IPageSearch,
-  makeMixed,
   Page,
   ResponseDomain,
   TemplateService
 } from '../../../lib';
-import {Subject} from 'rxjs';
 
 
-declare var Materialize: any;
 declare var $;
 
 @Component({
@@ -62,12 +60,9 @@ export class SelectMissingComponent  implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // const id = 'language' + this.formId;
-    // const auto = <HTMLInputElement>document.getElementById(id);
-    // auto.list = 'languages';
     $('.modal').modal({
       ready: () => {
-        Materialize.updateTextFields();
+        M.updateTextFields();
       },
       complete: () => {
         this.router.navigate([{ outlets: { popup : null }}]);
@@ -84,13 +79,13 @@ export class SelectMissingComponent  implements AfterViewInit {
 
   onSave() {
     // this.modalActions.emit({action: 'modal', params: ['close']});
-    if (this._rd.getMissing()) {
+    if (this._rd.missing) {
       if (this._rd.changeKind) {
         this._rd.changeKind = 'TYPO';
         this._rd.changeComment = 'Comment by rule';    // but why this rule?
         console.log('changeKind set, ready for persisting');
       }
-      console.log(this._rd.getMissing());
+      console.log(this._rd.missing);
       this.selectedEvent.emit(
         { elementRevision: 0, element: this._rd, elementKind: ElementKind.RESPONSEDOMAIN, elementId: this._rd.id  } );
     }
@@ -98,16 +93,13 @@ export class SelectMissingComponent  implements AfterViewInit {
   }
 
   public getMissing(): Category {
-    return this._rd.getMissing();
+    return this._rd.missing;
   }
 
   public setMissing(missing: IElement) {
     console.log('add missing ' + missing.element);
     let rd = this._rd;
 
-    if (!rd.isMixed()) {
-      rd = makeMixed(rd);
-    }
     rd.addManagedRep(missing.element);
 
     rd.name = rd.managedRepresentation.name =

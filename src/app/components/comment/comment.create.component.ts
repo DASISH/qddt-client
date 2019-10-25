@@ -1,45 +1,51 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {Component, Input, Output, EventEmitter, AfterContentChecked} from '@angular/core';
 import { IComment } from '../../lib';
 
 @Component({
   selector: 'qddt-comment-create',
 
   template: `
-    <form class="card" (ngSubmit)="save()" #hf="ngForm">
-      <div class="row">
-        <div class="input-field col l9 m7 s12">
-          <textarea class="materialize-textarea" name="{{ownerId}}-comment" data-length="10000" materialize="characterCounter" [(ngModel)]="comment.comment" required></textarea>
-          <label>Write a new comment</label>
-        </div>
-        <div class="col l3 m5 s7">
-          <div class="switch">
-            <label>
-              <input id="{{ownerId}}-checked" type="checkbox" [checked]="comment.public" (change)="comment.public = !comment.public">
-              <span class="lever"></span>Published
-            </label>
-          </div>
-        </div>
+  <form class="row card-panel" id="{{formId}}" (ngSubmit)="onSave()" >
+    <div class="input-field col s9">
+      <textarea class="materialize-textarea" name="{{ownerId}}-comment" data-length="10000"  [(ngModel)]="comment.comment" required></textarea>
+      <label>Write a new comment</label>
+    </div>
+    <div class="input-field col s3">
+      <div class="switch right">
+        <label>
+          <input id="{{ownerId}}-checked" type="checkbox" [checked]="comment.public" (change)="comment.public = !comment.public">
+          <span class="lever"></span>Published
+        </label>
       </div>
-      <div class="row">
-        <button type="submit" class="btn col s3 offset-s9 ">Submit</button>
-      </div>
-    </form>
+    </div>
+    <button type="submit" class="btn col s3 right">Submit</button>
+  </form>
   `,
   providers: []
 })
-export class CommentCreateComponent {
+export class CommentCreateComponent implements AfterContentChecked {
 
   @Output() updatedEvent  = new EventEmitter<IComment>();
   @Input() ownerId: string;
+
+  public readonly formId = Math.round( Math.random() * 10000);
   comment = this.newComment();
 
-  save() {
-    this.updatedEvent.emit( { comment: this.comment.comment, public: this.comment.public , ownerId: this.ownerId } );
+  onSave() {
+    this.updatedEvent.emit( {size: 0, comment: this.comment.comment, public: this.comment.public , ownerId: this.ownerId } );
     this.comment = this.newComment();
   }
 
   private newComment(): IComment {
-    return { comment: '', public: true , ownerId: this.ownerId };
+    return {size: 0, comment: '', public: true , ownerId: this.ownerId };
+  }
+  ngAfterContentChecked(): void {
+    document.querySelectorAll('textarea').forEach(
+      input => M.textareaAutoResize(input));
   }
 
+  // ngAfterViewInit(): void {
+  //   document.querySelectorAll('input[data-length], textarea[data-length]').forEach(
+  //     input => M.CharacterCounter.init(input));
+  // }
 }

@@ -1,11 +1,10 @@
 import { Component,  OnInit, AfterContentChecked } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActionKind, SurveyProgram, ElementKind, HomeService, TemplateService, HierarchyPosition, PropertyStoreService} from '../../../lib';
+import * as FileSaver from 'file-saver';
 
-import filesaver from 'file-saver';
-// import {ModalService} from '../../selectors-dialog/modal/modal.service';
 
-declare var Materialize: any;
+
 
 @Component({
   selector: 'qddt-survey',
@@ -29,14 +28,6 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
     this.readonly = !homeService.canDo(this.SURVEY).get(ActionKind.Create);
   }
 
-  // openModal(id: string) {
-  //   this.modalService.open(id);
-  // }
-  //
-  // closeModal(id: string) {
-  //   this.modalService.close(id);
-  // }
-
   ngOnInit() {
       this.homeService.getListByParent(this.SURVEY).then(
         (result) => this.surveys = result );
@@ -46,7 +37,7 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
     if (this.refreshCount < 10) {
       try {
         this.refreshCount++;
-        Materialize.updateTextFields();
+        M.updateTextFields();
       } catch (Exception) {}
     }
   }
@@ -81,7 +72,7 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
   getPdf(element: SurveyProgram) {
     const fileName = element.name + '.pdf';
     this.templateService.getPdf(element).then(
-      data => filesaver.saveAs(data, fileName));
+      data => FileSaver.saveAs(data, fileName));
   }
 
 }

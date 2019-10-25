@@ -22,7 +22,6 @@
   border-bottom: 1px solid red; /* red */
 }
 
-
 p {
   text-align: justify;
   text-justify: inter-word;
@@ -33,10 +32,6 @@ form p {
   text-align: justify;
 }
 
-
-.side-nav.fixed {
-  width: 200px;
-}
 
 .dropdown-content {
   background-color: #fff;
@@ -54,41 +49,14 @@ form p {
 .noItemFound { border: thick solid dodgerblue; }
 .itemInvalid { border: thick solid red; }
 
-
 input {
   margin: auto;
   margin-bottom: 0px;
 }
-
-
-
-/*input[type="number"] {*/
-/*  -moz-appearance: textfield;*/
-/*}*/
-/*input[type="number"]:hover,*/
-/*input[type="number"]:focus {*/
-/*  -moz-appearance:  spinner-textfield;*/
-/*}*/
 
 .collapsible.popout > li  {
   margin: 0px !important;
 }
 
 .collapsible-header .col {white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-/* .btn-small {
-  width: 24px;
-  height: 24px;
-  border: none;
-  border-radius: 50%;
-  position: relative;
-  vertical-align: middle;
-  font-weight: normal;
-  -webkit-tap-highlight-color: transparent;
-}
-
-/*.qddtIcon { margin:0px; vertical-align: middle;float: unset; display: unset; position: relative; }
-.collapsible-header {*/
-  /*display: block;*/
-/*}*/
 

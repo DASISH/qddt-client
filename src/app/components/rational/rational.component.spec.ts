@@ -6,7 +6,6 @@ import {
 import { By } from '@angular/platform-browser';
 
 import { RationalComponent } from './rational.component';
-import { MaterializeModule } from 'angular2-materialize';
 import { FormsModule } from '@angular/forms';
 
 export function main() {
@@ -15,7 +14,7 @@ export function main() {
     beforeEach(() => {
       TestBed.configureTestingModule({
         declarations: [TestComponent, RationalComponent],
-        imports: [MaterializeModule, FormsModule]
+        imports: [ FormsModule]
       });
     });
 

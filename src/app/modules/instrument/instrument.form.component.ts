@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from
 import { ActionKind, ElementKind, Instrument, INSTRUMENT_KIND, InstrumentKind} from '../../lib';
 import { TemplateService} from '../../components/template';
 
-declare var Materialize: any;
+
 
 @Component({
   selector: 'qddt-instrument-form',
@@ -27,7 +27,7 @@ export class InstrumentFormComponent implements OnChanges {
     if (changes['element'].currentValue) {
       this.currentInstrumentType = InstrumentKind[this.element.instrumentKind];
     }
-    try { Materialize.updateTextFields(); } catch (Exception) { }
+    try { M.updateTextFields(); } catch (Exception) { }
   }
 
   public onSelectInstrumentType(value: InstrumentKind) {

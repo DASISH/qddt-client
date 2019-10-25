@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, OnDestroy  } from '@angular/core';
+import {Component, ViewEncapsulation, OnDestroy, AfterViewInit} from '@angular/core';
 import { IElement, IIdRef, IRevisionRef } from './lib';
 import { MessageService, PropertyStoreService, UserService} from './lib/services';
 
@@ -13,8 +13,7 @@ import { MessageService, PropertyStoreService, UserService} from './lib/services
   encapsulation: ViewEncapsulation.None,
 })
 
-export class AppComponent  implements OnDestroy {
-
+export class AppComponent  implements OnDestroy, AfterViewInit {
   ref: IIdRef|IRevisionRef|IElement;
 
   constructor(private users: UserService, private  properties: PropertyStoreService,
@@ -24,6 +23,10 @@ export class AppComponent  implements OnDestroy {
       (message) => this.showMessage(message),
       () => this.ref = null);
 
+  }
+
+  ngAfterViewInit(): void {
+    M.AutoInit();
   }
 
   ngOnDestroy() {

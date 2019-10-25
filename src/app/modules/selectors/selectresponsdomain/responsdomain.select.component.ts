@@ -117,7 +117,7 @@ export class ResponsedomainSelectComponent implements  OnChanges {
     this._localresponseDomain = (responseDomain) ? new ResponseDomain(JSON.parse(JSON.stringify(responseDomain))) : null;
   }
   get responseDomain(): ResponseDomain { return this._localresponseDomain; }
-
+  @Input() readonly = false;
   @Output() removeEvent = new EventEmitter<IIdRef>();
   @Output() selectedEvent = new EventEmitter<ElementRevisionRef>();
 

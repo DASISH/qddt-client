@@ -6,7 +6,6 @@ import { By } from '@angular/platform-browser';
 
 import { PreviewQuestionitemComponent } from './preview.questionitem.component';
 import { API_BASE_HREF } from '../../../api';
-import { MaterializeModule } from 'angular2-materialize';
 import {PublicationService} from '../../../lib/services';
 import {QuestionItem} from '../../../lib/classes';
 
@@ -23,7 +22,7 @@ export function main() {
             useValue: '<%= API_BASE %>'
           }
         ],
-        imports: [CommonModule, FormsModule, MaterializeModule]
+        imports: [CommonModule, FormsModule]
       });
     });
 

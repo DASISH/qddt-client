@@ -15,11 +15,11 @@ import {
   QueryInfo, SessionService, UserService
 } from '../../lib';
 
-import filesaver from 'file-saver';
 import {formatDate} from '@angular/common';
+import * as FileSaver from 'file-saver';
 
 declare var $;
-declare var Materialize: any;
+
 
 @Component({
   selector: 'qddt-table',
@@ -27,7 +27,7 @@ declare var Materialize: any;
     ':host ::ng-deep i.left  { margin-right: 0px; }',
     'th { white-space: nowrap;}',
     'td, td div { max-width: 400px;  white-space: nowrap;  overflow: hidden; text-overflow: ellipsis;}',
-    'table { table-layout:auto;}'],
+    'table { table-layout:auto; border-collapse:separate;}'],
 
   templateUrl: './table.component.html',
 })
@@ -83,7 +83,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   ngAfterViewInit() {
     // fires after returning from detailview
     $(document).ready(function () {
-      Materialize.updateTextFields();
+      M.updateTextFields();
     });
   }
 
@@ -99,7 +99,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    console.debug(this.session.locale);
+    // console.debug(this.session.locale);
 
     this.showProgressBar = false;
 
@@ -145,7 +145,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       });
       this.rows.push(row);
     });
-    Materialize.updateTextFields();
+    M.updateTextFields();
   }
 
   public onDetail(item: IEntityEditAudit) {
@@ -167,7 +167,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
   public onGetPdf(item: IEntityEditAudit) {
       const fileName = item.name + '.pdf';
-      this.previewService.getPdf(item).then((data: any) => { filesaver.saveAs(data, fileName); });
+      this.previewService.getPdf(item).then((data: any) => { FileSaver.saveAs(data, fileName); });
   }
 
   public onDetailChecked() {

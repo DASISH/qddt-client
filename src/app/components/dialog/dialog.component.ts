@@ -33,4 +33,7 @@ export class DialogComponent {
      $('#' + this.modalId).modal('close');
   }
 
+  public open() {
+    $('#' + this.modalId).modal('open');
+  }
 }

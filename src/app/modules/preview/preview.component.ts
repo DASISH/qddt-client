@@ -1,9 +1,9 @@
 import { AfterViewInit, Component, Input} from '@angular/core';
 import {ElementEnumAware, ElementKind, IEntityAudit, PreviewService} from '../../lib';
+import * as FileSaver from 'file-saver';
 
-import filesaver from 'file-saver';
 
-declare var Materialize: any;
+
 declare var $;
 
 @Component({
@@ -36,12 +36,20 @@ export class PreviewComponent implements AfterViewInit {
 
   onGetPdf(element: IEntityAudit) {
     const fileName = element.name + '.pdf';
-    this.service.getPdf(element).then((data: any) => { filesaver.saveAs(data, fileName); });
+    this.service.getPdf(element).then((data: any) => { FileSaver.saveAs(data, fileName); });
   }
 
+
   ngAfterViewInit(): void {
-    $(document).ready(function () {
-      Materialize.updateTextFields();
-    });
+    M.AutoInit();
+    M.updateTextFields();
+    document.querySelectorAll('select')
+    .forEach( select => M.FormSelect.init(select));
   }
+
+  // ngAfterViewInit(): void {
+  //   $(document).ready(function () {
+  //     M.updateTextFields();
+  //   });
+  // }
 }
