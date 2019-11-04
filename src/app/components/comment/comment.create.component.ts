@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, AfterContentChecked} from '@angular/core';
+import {Component, Input, Output, EventEmitter } from '@angular/core';
 import { IComment } from '../../lib';
 
 @Component({
@@ -23,7 +23,7 @@ import { IComment } from '../../lib';
   `,
   providers: []
 })
-export class CommentCreateComponent implements AfterContentChecked {
+export class CommentCreateComponent  {
 
   @Output() updatedEvent  = new EventEmitter<IComment>();
   @Input() ownerId: string;
@@ -39,10 +39,10 @@ export class CommentCreateComponent implements AfterContentChecked {
   private newComment(): IComment {
     return {size: 0, comment: '', public: true , ownerId: this.ownerId };
   }
-  ngAfterContentChecked(): void {
-    document.querySelectorAll('textarea').forEach(
-      input => M.textareaAutoResize(input));
-  }
+  // ngAfterContentChecked(): void {
+  //   document.querySelectorAll('textarea').forEach(
+  //     input => M.textareaAutoResize(input));
+  // }
 
   // ngAfterViewInit(): void {
   //   document.querySelectorAll('input[data-length], textarea[data-length]').forEach(

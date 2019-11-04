@@ -51,12 +51,12 @@ export class TreeNodeComponent implements AfterContentChecked, AfterViewInit {
     // M.AutoInit();
   }
   ngAfterContentChecked(): void {
-    if (this.refreshCount < 10) {
-      try {
-        this.refreshCount++;
-        M.updateTextFields();
-      } catch (Exception) {}
-    }
+    // if (this.refreshCount < 10) {
+    //   try {
+    //     this.refreshCount++;
+    //     M.updateTextFields();
+    //   } catch (Exception) {}
+    // }
   }
 
   async onToggleEdit(edit) {
@@ -104,23 +104,23 @@ export class TreeNodeComponent implements AfterContentChecked, AfterViewInit {
       (error) => { throw error; } );
   }
 
-  public onEditQuestion(search: IRevisionRef) {
-    this.gotoUUID(search.elementId);
-  }
+  // public onEditQuestion(search: IRevisionRef) {
+  //   this.gotoUUID(search.elementId);
+  // }
 
-  private gotoUUID(uuid: string) {
-    this.templateService.searchByUuid(uuid).then(
-      (result) => { this.router.navigate([result.url]); },
-      (error) => { throw  error; });
-  }
+  // private gotoUUID(uuid: string) {
+  //   this.templateService.searchByUuid(uuid).then(
+  //     (result) => { this.router.navigate([result.url]); },
+  //     (error) => { throw  error; });
+  // }
 
-  removeQuestionItem(ref: IRevisionRef) {
+  onRemoveQuestionItem(ref: IRevisionRef) {
     this.homeService.deattachQuestion(this.CONCEPT, this.concept.id, ref.elementId , ref.elementRevision)
       .subscribe(result => this.onConceptUpdated(result) );
   }
 
-  addQuestionItem(ref: ElementRevisionRef) {
-    this.homeService.attachQuestion(this.CONCEPT, this.concept.id, ref.elementId, ref.elementRevision)
+  public onAddQuestionItem(ref: ElementRevisionRef, conceptId) {
+    this.homeService.attachQuestion(this.CONCEPT, conceptId, ref.elementId, ref.elementRevision)
       .subscribe(result => this.onConceptUpdated(result) );
   }
 

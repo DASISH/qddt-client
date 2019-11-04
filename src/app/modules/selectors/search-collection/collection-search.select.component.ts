@@ -4,7 +4,7 @@ import {ElementEnumAware, ElementKind, Factory, getQueryInfo, IElement, IEntityA
 @Component({
   selector: 'qddt-collection-search-select',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: 'collection-search-select.component.html'
+  templateUrl: 'collection-search.select.component.html'
 })
 
 @ElementEnumAware

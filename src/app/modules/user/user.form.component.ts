@@ -1,9 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges, AfterViewInit} from '@angular/core';
 import { Agency, IAuthority, UserJson, UserService} from '../../lib';
 
-
-declare var $: any;
-
 @Component({
   selector: 'qddt-user-form',
   templateUrl: './user.form.component.html'
@@ -26,14 +23,6 @@ export class UserFormComponent implements OnInit, OnChanges, AfterViewInit {
    async ngOnInit() {
     this.agencies = await this.userService.getAgencies();
     this.authorities = await this.userService.getAuthorities();
-     $(document).ready(function() {
-       $('.modal').modal({
-         ready: () => {
-           M.updateTextFields();
-           console.log('document ready');
-         }
-       });
-     });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -41,20 +30,18 @@ export class UserFormComponent implements OnInit, OnChanges, AfterViewInit {
       if (this.user) {
         if (this.user.agency) {
           this.onSelectChange(this.user.agency.id);
-          console.log('agency set');
         } else {
           this.getFirstAgency().then( agent => this.onSelectChange(agent.id) );
         }
-        try { M.updateTextFields(); console.log('ngOnChanges updateTextFields' );
-        } catch (ex ) {
-          console.log('ngOnChanges updateTextFields' + ex );
-        }
       }
+      console.log('agency set');
     }
   }
 
   ngAfterViewInit(): void {
-    try { M.updateTextFields(); console.log('ngAfterViewInit updateTextFields' );  } catch (Exception) { }
+    document.querySelectorAll('select')
+      .forEach( select => M.FormSelect.init(select));
+    M.updateTextFields();
   }
 
   onSelectChange(id: string) {

@@ -1,0 +1,43 @@
+<div class="collection with-header hoverable"
+     (mouseenter)="showbutton = !readonly"
+     (mouseleave)="showbutton = false">
+
+  <a class="collection-header" (click)="onShowItems()" [ngClass] = "{ 'qddtSearchCursor' : showbutton }">
+    <label>{{labelName}}</label>
+    <a *ngIf="showbutton" class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light teal">
+      <i class="material-icons" title="Add {{labelName}}">add</i>
+    </a>
+  </a>
+
+<!--  <li>-->
+<!--    <div class="row" (click)=onShowItems() style="cursor: zoom-in;">-->
+<!--      <div class="col s11"><label>{{labelName}}</label></div>-->
+<!--      <div class="col s1">-->
+<!--        <a [ngClass]="{hide: !showButton}"-->
+<!--          class="btn-flat btn-floating btn-small waves-effect waves-light teal">-->
+<!--          <i class="material-icons" title="Add {{labelName}}">add</i>-->
+<!--        </a>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </li>-->
+  <qddt-auto-complete *ngIf="showAddItem"
+                      [items]="searchItems" class="text-darken-2"
+                      [elementKind]="elementKind"
+                      (selectEvent)="onSelectItem($event)"
+                      (enterEvent)="onSearchElements($event)">
+  </qddt-auto-complete>
+
+<!--  <a class="collection-item col s12" >-->
+<!--      <a class="waves-effect waves-light btn btn-small green right" (click)="onAddItem()">add</a>-->
+<!--  </a>-->
+  <a class="collection-item" *ngFor="let element of listItems; let idx=index">
+      <div class="col s11 text-darken-2">{{ element[searchField] }}</div>
+      <div class="col s1">
+        <a [ngClass]="{hide: !showButton}"
+          class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal"
+          (click)="onDeleteItem(idx)">
+          <i class="material-icons" title="Remove {{labelName}}">remove</i>
+        </a>
+      </div>
+  </a>
+</div>

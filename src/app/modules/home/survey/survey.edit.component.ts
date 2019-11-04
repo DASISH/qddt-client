@@ -1,7 +1,6 @@
 import {Component, Input, Output, EventEmitter, AfterContentChecked, AfterViewInit} from '@angular/core';
 import {SurveyProgram, TemplateService} from '../../../lib';
 
-declare var $: any;
 
 @Component({
   selector: 'qddt-survey-edit',

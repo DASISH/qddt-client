@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {ActionKind, ElementKind, getElementKind, IEntityEditAudit, IOtherMaterial} from '../../lib';
-import {TemplateService} from '../template';
+import { ActionKind, ElementKind, getElementKind, IEntityEditAudit, IOtherMaterial} from '../../lib';
+import { TemplateService} from '../template';
 import * as FileSaver from 'file-saver';
 
 
@@ -9,10 +9,10 @@ import * as FileSaver from 'file-saver';
   templateUrl: './download.component.html',
   styles: [
     '.collection {border:none; }',
-    ':host ::ng-deep .col { padding-top: 0.5rem;}',
-    '.collection.with-header .collection-item { margin-bottom:0px ;border-bottom: none; padding: 3px 3px 3px 15px; }',
-    '.collection.with-header .collection-header { border-bottom: none; padding: 3px 3px 3px 15px; ; background-color: unset; }',
-    '.collection .collection-item { background-color: unset; }',
+    '.collection.with-header .collection-header {border-bottom: none; padding: 5px 10px 5px 0px ;}',
+    '.collection a.collection-item { min-height: 3rem; border-bottom: none; color: rgb(3, 155, 229); cursor: pointer; padding:5px 10px 5px 10px ; }'
+    // 'padding:10px 5px 0px 10px ;'
+    // '.collection-item  {min-height: 3rem; padding:10px 5px 0px 10px ;}'
   ],
 })
 export class FileDownload implements OnChanges {

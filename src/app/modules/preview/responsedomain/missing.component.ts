@@ -4,16 +4,19 @@ import {Category} from '../../../lib/classes';
 @Component({
   selector: 'qddt-preview-rd-missing',
 
-  template: `<div *ngIf="missing?.children">
-      <span>Missing</span>
-			<ul class="row">
-			  <li *ngFor="let category of missing.children; let i = index;" class="row">
-          <input name="{{missing.name}}" type="radio"/>
-          <label>{{ category?.label }}</label>
-          <span class="s1 right"> {{ category?.code?.codeValue }} </span>
-        </li>
-			</ul>
-    </div>`,
+  template: `
+<div *ngIf="missing?.children">
+  <span style="font-weight: bold;"><label>Missing</label></span>
+  <ul>
+    <li *ngFor="let category of missing.children; let i = index;" >
+      <label>
+        <input name="{{missing.name}}" type="radio"/>
+        <span >{{category.label}}</span>
+      </label>
+      <label class="right"> {{ category.code?.codeValue }} </label>
+    </li>
+  </ul>
+</div>`,
   styles: [],
 })
 
@@ -21,7 +24,7 @@ export class ResponsedomainMissingComponent {
   @Input() managedRepresentation: Category;
 
   public get missing() {
-    if (this.managedRepresentation.categoryType === 'MISSING_GROUP'){
+    if (this.managedRepresentation.categoryType === 'MISSING_GROUP') {
       return this.managedRepresentation;
     }
     return this.managedRepresentation.children.find(e => e.categoryType === 'MISSING_GROUP');

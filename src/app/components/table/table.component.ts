@@ -18,9 +18,6 @@ import {
 import {formatDate} from '@angular/common';
 import * as FileSaver from 'file-saver';
 
-declare var $;
-
-
 @Component({
   selector: 'qddt-table',
   styles: [
@@ -81,10 +78,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
 
   ngAfterViewInit() {
-    // fires after returning from detailview
-    $(document).ready(function () {
       M.updateTextFields();
-    });
   }
 
   public ngOnInit(): void {
@@ -145,7 +139,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       });
       this.rows.push(row);
     });
-    M.updateTextFields();
+    // M.updateTextFields();
   }
 
   public onDetail(item: IEntityEditAudit) {

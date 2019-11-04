@@ -1,4 +1,4 @@
-import { AfterContentChecked, Component, OnInit} from '@angular/core';
+import {AfterContentChecked, AfterViewInit, Component, OnInit} from '@angular/core';
 import { Router} from '@angular/router';
 import {
   ActionKind,
@@ -12,19 +12,13 @@ import {
 } from '../../../lib';
 
 
-
-
 @Component({
   selector: 'qddt-topic',
   providers: [ {provide: 'elementKind', useValue: 'TOPIC_GROUP'}, ],
-  styles: [':host ::ng-deep .collection-item .row { min-height:3rem; margin-bottom:0px;border-bottom: none;}',
-          '.collection .collection-item {border-bottom: none; }',
-          '.collection.with-header .collection-header {border-bottom: none; padding: 0px;}',
-          '.collection {border:none; }'],
   templateUrl: './topic.component.html',
 })
 
-export class TopicComponent implements  OnInit, AfterContentChecked {
+export class TopicComponent implements  OnInit, AfterViewInit {
   public readonly TOPIC_KIND = ElementKind.TOPIC_GROUP;
 
   public study: Study;
@@ -44,14 +38,10 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
     this.canDelete = homeService.canDo(this.TOPIC_KIND).get(ActionKind.Delete);
   }
 
-  ngAfterContentChecked(): void {
-    if (this.refreshCount < 10) {
-      try {
-        this.refreshCount++;
-        M.updateTextFields();
-      } catch (Exception) {}
-    }
+  ngAfterViewInit(): void {
+    // M.updateTextFields();
   }
+
 
   ngOnInit(): void {
     this.study = this.property.get('study');
@@ -112,15 +102,19 @@ export class TopicComponent implements  OnInit, AfterContentChecked {
       result => this.onTopicSaved(result));
   }
 
-  onClickQuestionItem(cqi) {
-    this.message.sendMessage( cqi );
-  }
+  // onClickQuestionItem(cqi) {
+  //   this.message.sendMessage( cqi );
+  // }
 
   onAddQuestionItem(ref: IRevisionRef, topicId: any) {
     this.homeService.attachQuestion(this.TOPIC_KIND, topicId, ref.elementId, ref.elementRevision)
       .subscribe((result: any) => this.onTopicSaved(result));
   }
 
+  public onRemovedQuestionItem(ref: IRevisionRef, topicId: any) {
+    this.homeService.deattachQuestion(this.TOPIC_KIND, topicId, ref.elementId, ref.elementRevision)
+    .subscribe((result: any) => this.onTopicSaved(result));
+  }
 
   public onEditQuestion(search: IRevisionRef) {
     this.templateService.searchByUuid(search.elementId).then(

@@ -18,9 +18,10 @@ import {
   templateUrl: './concept.component.html'
 })
 
+
 export class ConceptComponent implements OnInit, AfterViewInit {
   public readonly CONCEPT = ElementKind.CONCEPT;
-  public confirmDeleteActions = new EventEmitter<string>();
+  // public confirmDeleteActions = new EventEmitter<string>();
 
   public showReuse = false;
   public showConceptForm = false;
@@ -28,11 +29,12 @@ export class ConceptComponent implements OnInit, AfterViewInit {
 
   public toDeletedConcept: any;
   public topic: Topic;
-  canCreate: boolean;
-  private instance;
+  public canCreate: boolean;
+
+  @ViewChild('modalconceptdelete', {static: false}) modalconceptdelete: ElementRef;
 
 
-  // private instance  = null;
+  private instance  = null;
 
   constructor(private property: PropertyStoreService, private homeService: HomeService<Concept>,
               private  templateService: TemplateService) {
@@ -40,11 +42,9 @@ export class ConceptComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.instance = M.Modal.init(document.querySelector('modaldelete'));
-    M.AutoInit();
-      // .forEach( modal => (modal));
-    // this.instance = M.AutoInit(this.modaldelete.nativeElement);
+    this.instance = M.Modal.init(this.modalconceptdelete.nativeElement);
   }
+
 
   async ngOnInit() {
     const root = this.property.get('topic');
@@ -126,6 +126,14 @@ export class ConceptComponent implements OnInit, AfterViewInit {
   onDeleteConcept(concept: any) {
     this.toDeletedConcept = concept;
     this.instance.open();
+  }
+
+  public canDelete(toDeletedConcept) {
+    return (toDeletedConcept && toDeletedConcept.conceptQuestionItems && toDeletedConcept.conceptQuestionItems.length === 0);
+  }
+
+  public onCancel() {
+    this.instance.close();
   }
 
   onConfirmDeleteConcept() {

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {AfterContentChecked, AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import { CommentService } from './comment.service';
 import { IComment } from '../../lib';
 
@@ -9,7 +9,7 @@ import { IComment } from '../../lib';
   providers: [CommentService]
 })
 
-export class CommentListComponent implements OnInit, AfterViewInit, OnChanges {
+export class CommentListComponent implements AfterViewInit, AfterContentChecked {
   @Input() ownerId: string;
   @Input() comments: IComment[] = [];
   @Input() showPrivate = true;
@@ -48,10 +48,9 @@ export class CommentListComponent implements OnInit, AfterViewInit, OnChanges {
         }, 0).toString();
   }
 
-  ngOnInit() {  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    // console.log(changes.valueOf() || JSON);
+  ngAfterContentChecked(): void {
+    document.querySelectorAll('textarea').forEach(
+      input => M.textareaAutoResize(input));
   }
 
   ngAfterViewInit(): void {

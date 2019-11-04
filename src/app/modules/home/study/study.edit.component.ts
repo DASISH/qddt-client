@@ -1,8 +1,5 @@
-import {AfterContentChecked, Component, EventEmitter, Input, Output} from '@angular/core';
-import {ElementKind, IElement, Instrument, Page, Study} from '../../../lib';
-import {TemplateService} from '../../../components/template';
-
-declare var $: any;
+import {AfterContentChecked, AfterViewInit, Component, EventEmitter, Input, Output} from '@angular/core';
+import {ElementKind, IElement, Instrument, Page, Study, TemplateService} from '../../../lib';
 
 @Component({
   selector: 'qddt-study-edit',
@@ -12,16 +9,15 @@ declare var $: any;
   ],
   providers: [ {provide: 'elementKind', useValue: 'STUDY'}, ],
   template: `
-<div *ngIf="isVisible && study"  id="{{formId}}"  >
-  <form (ngSubmit)="onSave()" #studyForm="ngForm">
-
+<div [hidden]="!(isVisible && study)">
+  <form id="{{formId}}" (ngSubmit)="onSave()" #studyForm="ngForm">
     <div class="row input-field">
       <input name="name" type="text" [(ngModel)]="study.name" required  data-length ="255" >
       <label>Name</label>
     </div>
 
     <div class="row input-field">
-      <textarea name="{{formId}}-description" class="materialize-textarea"  data-length ="10000" 
+      <textarea name="description" class="materialize-textarea"  data-length ="10000"
         [(ngModel)]="study.description" required >
       </textarea>
       <label>Description</label>
@@ -48,7 +44,7 @@ declare var $: any;
 `
 })
 
-export class StudyEditComponent implements  AfterContentChecked {
+export class StudyEditComponent implements  AfterContentChecked, AfterViewInit {
   @Input() study: Study;
   @Input() readonly = false;
   @Input() isVisible = false;
@@ -56,13 +52,20 @@ export class StudyEditComponent implements  AfterContentChecked {
 
   public readonly formId = Math.round( Math.random() * 10000);
   public readonly  INSTRUMENT = ElementKind.INSTRUMENT;
-  private instrumentsList: Instrument[];
+  public instrumentsList: Instrument[];
 
   constructor(private service: TemplateService) { }
 
-  ngAfterContentChecked() {
-    $('#' + this.formId + '-desc').trigger('autoresize');
+  ngAfterContentChecked(): void {
+    document.querySelectorAll('textarea').forEach(
+      input => M.textareaAutoResize(input));
   }
+
+  ngAfterViewInit(): void {
+    document.querySelectorAll('input[data-length], textarea[data-length]').forEach(
+      input => M.CharacterCounter.init(input));
+  }
+
 
   onSave() {
     this.service.update(this.study).subscribe((result: any) => {

@@ -45,16 +45,11 @@
           </a>
         </div>
       </div>
-      <qddt-item-revision-select  [ngClass]="{hide: !editQuestoinItem}"
-                                  [showProgressBar] = "showProgressBar"
-                                  [kind] = "QUESTION"
-                                  [itemList] = "questionList"
-                                  [revisionList] = "revisionResults"
-                                  (searchItems)="onQuestionSearch($event)"
-                                  (searchRevision)="onRevisionSearch($event)"
-                                  (revisionSelected)="onRevisionSelect($event)"
-                                  (dismissEvent) ="onDismiss()">
-      </qddt-item-revision-select>
+      <qddt-element-revision-select  [ngClass]="{hide: !editQuestoinItem}"
+          [source] = "QUESTION"
+          (revisionSelected)="onRevisionSelect($event)"
+          (dismissEvent) ="onDismiss()">
+      </qddt-element-revision-select>
       <div class="row">
         <div class="col s11">
           <p [innerHtml]="controlConstruct?.questionItem?.question" style="font-size: larger"></p>

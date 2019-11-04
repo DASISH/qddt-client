@@ -1,16 +1,14 @@
-<div class="card row white-text" style=" margin-right: 15px; padding-left: 10px;">
-  <h3 class="teal-text ">Reuse {{ className }}</h3>
-  <qddt-item-revision-select
-    [kind] = "elementKind"
-    [itemList] = "items"
-    [revisionList] = "revisionResults"
-    (searchItems)="onItemSearch($event)"
-    (searchRevision)="onRevisonSearch($event)"
-    (revisionSelected)="onRevisionSelect($event)"
-    (dismissEvent) ="onDismiss()">
-  </qddt-item-revision-select>
-  <!-- <div class="row"></div> -->
+<div class="col s10 offset-s1 card-action white-text">
   <div class="row">
-      <div class="col offset-s9"><a class="waves-effect waves-light btn red" (click)="onDismiss()">Dismiss</a></div>
+    <h5>Reuse {{ className }}</h5>
+    <qddt-element-revision-select
+      [source] = "elementKind"
+      (revisionSelected)="onRevisionSelect($event)"
+      (dismissEvent) ="onDismiss()">
+    </qddt-element-revision-select>
+    <!-- <div class="row"></div> -->
+  </div>
+  <div class="row right-align">
+    <button type="button" class="btn btn-default waves-effect waves-light red" (click)="onDismiss()" >dismiss</button>
   </div>
 </div>

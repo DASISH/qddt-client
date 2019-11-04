@@ -1,7 +1,6 @@
-import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
+import {Component, Input, Output, EventEmitter, AfterViewInit} from '@angular/core';
 import {
   ActionKind,
-  Category,
   ElementKind,
   ElementRevisionRef,
   QuestionItem,
@@ -10,18 +9,16 @@ import {
 } from '../../lib';
 
 
-declare var $: any;
-
 @Component({
   selector: 'qddt-questionitem-form',
 
   styles: [
-    ':host ::ng-deep .hoverable .row { min-height:3rem; margin-bottom:0px;}'
+    ':host .hoverable .row { min-height:3rem; margin-bottom:0px;}'
   ],
   templateUrl: './question.form.component.html'
 })
 
-export class QuestionFormComponent  implements OnChanges {
+export class QuestionFormComponent  implements AfterViewInit {
   @Input() questionItem: QuestionItem;
   @Input() readonly = false;
   @Output() modifiedEvent = new EventEmitter<QuestionItem>();
@@ -33,11 +30,10 @@ export class QuestionFormComponent  implements OnChanges {
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.QUESTION_ITEM);
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['questionItem'].currentValue) {
-      console.log('new questionItem');
-    }
-    try { M.updateTextFields(); } catch (Exception) { }
+  ngAfterViewInit(): void {
+    // document.querySelectorAll('input[data-length], textarea[data-length]').forEach(
+    //   input => M.CharacterCounter.init(input));
+    M.updateTextFields();
   }
 
   onSaveQuestionItem() {

@@ -14,7 +14,7 @@ import { getQueryInfo, IElement, IIdRef, IRevisionRef, PreviewService} from '../
         </div>
       </div>
       <div class="modal-footer">
-        <a class="modal-action modal-close waves-effect waves-purple btn-flat teal white-text" (close)="onClose()">Close</a>
+        <a class="waves-effect waves-purple btn-flat teal white-text" (click)="onClose()">Close</a>
       </div>
     </div>`
 })
@@ -23,15 +23,15 @@ export class PreviewDialogComponent implements  OnChanges, AfterViewInit {
   @Input() reference: IIdRef|IRevisionRef|IElement;
   @Output() close = new EventEmitter<boolean>(false);
 
-  element: any;
   @ViewChild('preview', {static: false}) modalPreview: ElementRef;
 
-  private instance  = null;
+  public element: any;
+  private modelRef: M.Modal;
 
   constructor(private service: PreviewService) { }
 
   ngAfterViewInit() {
-    this.instance = M.AutoInit(this.modalPreview.nativeElement);
+    this.modelRef =  M.Modal.init(this.modalPreview.nativeElement);
   }
 
   ngOnChanges(): void {
@@ -41,24 +41,26 @@ export class PreviewDialogComponent implements  OnChanges, AfterViewInit {
       this.service.getRevisionByKind(this.reference.elementKind, this.reference.elementId, this.reference.elementRevision)
         .then(result => {
           this.element = result.entity;
-          this.instance.open();
+          this.modelRef.open();
         });
 
     } else if (this.isIdRef(this.reference)) {
       this.service.getElementByKind(this.reference.elementKind, this.reference.elementId)
         .then(result => {
           this.element = result;
-          this.instance.open();
+          this.modelRef.open();
         });
 
     } else {
       this.element = this.reference.element;
-      this.instance.open();
+      this.modelRef.open();
     }
   }
 
   onClose() {
+    console.log('closing');
     this.reference = null;
+    this.modelRef.close();
     this.close.next(true);
   }
 

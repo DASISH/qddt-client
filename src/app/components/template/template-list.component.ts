@@ -1,14 +1,18 @@
 import {filter, takeWhile} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { TemplateService } from '../../lib/services/template.service';
+import {
+  IEntityAudit,
+  IPageSearch,
+  ElementKind,
+  HEADER_DETAILS,
+  ActionKind,
+  Page,
+  PageSearch,
+  TemplateService,
+  MessageService, PropertyStoreService, DomainKind
+} from '../../lib';
 
-import { DomainKind } from '../../lib/classes/responsedomain.classes';
-import { IEntityAudit, IPageSearch, ElementKind, HEADER_DETAILS, ActionKind, Page, PageSearch } from '../../lib';
-import { MessageService, PropertyStoreService} from '../../lib/services';
-
-declare var $;
-declare var M;
 
 @Component({
   selector: 'qddt-template-list',
@@ -50,14 +54,6 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
 
   public ngOnInit(): void {
     if (this.kind) { this.loadPage(); }
-
-    $(document).ready(function() {
-      $('.modal').modal({
-        ready: () => {
-          M.updateTextFields();
-        }
-      });
-    });
   }
 
   public ngOnDestroy(): void {

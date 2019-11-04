@@ -15,7 +15,7 @@
         </div>
 
         <div class="row input-field">
-          <select id="{{formId}}-agency" name="{{formId}}-agency" materialize="material_select" class="validate" required
+          <select id="{{formId}}-agency" name="{{formId}}-agency"  class="validate" required
                   [ngModel]="selectedAgencyId"
                   (ngModelChange)="onSelectChange($event)">
                   <!--id="{{formId}}-agency" class="validate" name="agency" required materialize="material_select"-->
@@ -31,9 +31,10 @@
         <label>Authority</label>
         <div  class="card-action">
           <div *ngFor="let authority of (authorities)">
-            <input id="{{formId}}-auth{{authority.id}}" name="{{formId}}-autGroup" type="radio"
-              (click)="onSelectRadio(authority)" [checked]="user.authorities[0].id === authority.id"/>
-            <label for="{{formId}}-auth{{authority.id}}">{{ authority?.name }}</label>
+            <label>
+              <input name="{{formId}}-autGroup" type="radio" (click)="onSelectRadio(authority)" [checked]="user.authorities[0].id === authority.id"/>
+              <span>{{ authority.name }}</span>
+            </label>
           </div>
         </div>
         <div class="row">

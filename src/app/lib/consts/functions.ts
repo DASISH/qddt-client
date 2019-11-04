@@ -16,3 +16,7 @@ export function getQueryInfo(kind: string|ElementKind): QueryInfo {
 export function ElementEnumAware(constructor: Function) {
   constructor.prototype.ElementKind = ElementKind;
 }
+
+// export function isElementKind(kind: string|ElementKind): kind is ElementKind {
+//   return (kind as ElementKind) !== undefined;
+// }

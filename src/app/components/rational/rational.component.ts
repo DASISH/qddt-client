@@ -19,6 +19,7 @@ export class RationalComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() formName: string;
   @Input() config: any;
 
+  public readonly formId = Math.round( Math.random() * 10000);
 
   public saveOptionIndex: number;
   public rationalDescriptionsFiltered: RationalDescription[];
@@ -40,7 +41,7 @@ export class RationalComponent implements OnInit, OnChanges, AfterViewInit {
 
 
   ngAfterViewInit(): void {
-    M.AutoInit(document.querySelector('form'));
+    // M.AutoInit(document.querySelector('form'));
     document.querySelectorAll('select')
     .forEach( select => M.FormSelect.init(select));
   }

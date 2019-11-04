@@ -2,10 +2,6 @@ import { AfterViewInit, Component, Input} from '@angular/core';
 import {ElementEnumAware, ElementKind, IEntityAudit, PreviewService} from '../../lib';
 import * as FileSaver from 'file-saver';
 
-
-
-declare var $;
-
 @Component({
   selector: 'qddt-preview-element',
 
@@ -41,15 +37,10 @@ export class PreviewComponent implements AfterViewInit {
 
 
   ngAfterViewInit(): void {
-    M.AutoInit();
     M.updateTextFields();
     document.querySelectorAll('select')
     .forEach( select => M.FormSelect.init(select));
   }
 
-  // ngAfterViewInit(): void {
-  //   $(document).ready(function () {
-  //     M.updateTextFields();
-  //   });
-  // }
+
 }

@@ -6,7 +6,7 @@ import {IEntityEditAudit, IRevisionRef, MessageService} from '../../lib';
   selector: 'qddt-version-label',
 
   styles: [
-    'label  { white-space: nowrap; vertical-align: middle; text-align: right; width: 90px;}',
+    'label  { white-space: nowrap; vertical-align: middle; text-align: right; width: 90px; padding-left: 5px}',
     'i { margin:0px; vertical-align: middle;float: unset; display: unset; position: relative; }'
   ],
   template:

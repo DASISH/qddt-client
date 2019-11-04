@@ -13,15 +13,11 @@
         <label for="element-type-{{element.id}}">{{ element.label }}</label>
       </div>
     </div>
-    <qddt-item-revision-select
-      [kind] = "selectedElementKind"
-      [itemList] = "itemList"
-      [revisionList] = "revisionList"
-      (searchItems)="onItemSearch($event)"
-      (searchRevision)="onRevisionSearch($event)"
+    <qddt-element-revision-select
+      [source] = "selectedElementKind"
       (revisionSelected)="onRevisionSelect($event)"
       (dismissEvent) ="onDismiss()">
-    </qddt-item-revision-select>
+    </qddt-element-revision-select>
   </div>
 </div>
 

@@ -6,7 +6,7 @@ import {
   OnInit,
   OnDestroy,
   OnChanges,
-  SimpleChanges
+  SimpleChanges, AfterViewInit
 } from '@angular/core';
 import {
   ActionKind,
@@ -29,7 +29,7 @@ declare let M: any;
 })
 
 
-export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy {
+export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, AfterViewInit {
   @Input() responseDomain: ResponseDomain;
   @Input() readonly: boolean;
   @Output() modifiedEvent = new EventEmitter<ResponseDomain>();
@@ -57,6 +57,10 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy {
     this.domainType = (page) ? DomainKind[page.keys.get('ResponseKind')] : DomainKind.SCALE;
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.RESPONSEDOMAIN);
 
+  }
+
+  ngAfterViewInit(): void {
+    // M.AutoInit(document.getElementById('RD-{{formId}}'));
   }
 
   ngOnInit() {

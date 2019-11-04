@@ -1,7 +1,7 @@
 <div class="row" *ngIf="comments">
   <a class="btn btn-flat btn-medium waves-effect waves-light teal white-text" (click)="showComments = !showComments;" title="View Comment(s)">
   <i class="material-icons left" >message</i>{{ size }} </a>
-  <div *ngIf="showComments">
+  <div [hidden]="!showComments">
     <ul class="collection row">
       <li class="collection-item avatar" *ngFor="let comment of comments; let idx=index;">
         <div *ngIf="showPrivate || comment.public ">

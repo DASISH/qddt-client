@@ -1,22 +1,25 @@
 import { takeWhile} from 'rxjs/operators';
-import { Component, OnDestroy, AfterContentChecked} from '@angular/core';
+import {Component, OnDestroy, AfterContentChecked, AfterViewInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ResponseDomain, DomainKind } from '../../lib/classes/responsedomain.classes';
-import { Factory } from '../../lib/factory';
-import { ActionKind, ElementKind, HEADER_DETAILS, IEntityEditAudit, IPageSearch} from '../../lib';
-import { MessageService, PropertyStoreService, UserService} from '../../lib/services';
+import {
+  ActionKind, DomainKind,
+  ElementKind, Factory,
+  HEADER_DETAILS,
+  IEntityEditAudit,
+  IPageSearch,
+  MessageService,
+  PropertyStoreService, ResponseDomain,
+  UserService
+} from '../../lib';
 
 
 
 @Component({
   selector: 'qddt-template-component',
-
-  providers: [],
-  styles: [],
   templateUrl: './template.component.html',
 })
 
-export class TemplateComponent implements OnDestroy, AfterContentChecked {
+export class TemplateComponent implements OnDestroy, AfterContentChecked, AfterViewInit {
 
   public readonly formId = Math.round( Math.random() * 10000);
   public newItem: IEntityEditAudit;
@@ -65,15 +68,6 @@ export class TemplateComponent implements OnDestroy, AfterContentChecked {
       });
   }
 
-  ngAfterContentChecked(): void {
-    if (this.refreshCount < 10) {
-      try {
-        this.refreshCount++;
-        M.updateTextFields();
-      } catch (Exception) { }
-    }
-  }
-
   public canWrite(): boolean {
     return this.canCreate;
   }
@@ -100,6 +94,13 @@ export class TemplateComponent implements OnDestroy, AfterContentChecked {
 
   ngOnDestroy(): void {
     this.alive = false;
+  }
+
+  ngAfterContentChecked(): void {
+  }
+
+  ngAfterViewInit(): void {
+    // M.AutoInit(document.getElementById('qtc-{{formId}}'));
   }
 
   // private getPageSearch(): IPageSearch {

@@ -1,0 +1,25 @@
+<div  class="white grey-text" >
+  <div *ngIf="showProgressBar" class="progress"><div class="indeterminate"></div></div>
+  <div *ngIf="showPickRevision" class="row">
+    <div class="input-field col s4" >
+      <select name="revisions" [ngModel]="selectedRevision" (ngModelChange)="onClickRevisions($event)">
+        <option *ngFor="let revision of revisionResultEntities"
+                [selected]="revision.revisionNumber === selectedRevision"
+                [value]="revision.revisionNumber">
+          {{ revision.entity?.version?.major }}.{{ revision.entity?.version?.minor }} {{ revision.entity?.version?.versionLabel }}
+        </option>
+      </select>
+      <label>business version</label>
+    </div>
+    <div class="input-field col -offset s8">
+      <a class="waves-effect waves-light btn right red" (click)="onDismiss()">Dismiss</a>
+      <a class="waves-effect waves-light btn right green" (click)="onSelectRevision()">Use this</a>
+    </div>
+  </div>
+  <div class="card" *ngIf="!showProgressBar && selectedRevisionResult" style="padding: 3rem; ">
+    <h3 class="row teal-text">Preview</h3>
+    <div class="teal-text" *ngIf="selectedRevisionResult.entity.name" style="padding-bottom: 5pt">Name</div>
+    <div style="padding-bottom: 5pt; color:dimgrey; ">{{ selectedRevisionResult.entity.name }}</div>
+    <qddt-preview-element  [element]="selectedRevisionResult.entity"></qddt-preview-element>
+  </div>
+</div>

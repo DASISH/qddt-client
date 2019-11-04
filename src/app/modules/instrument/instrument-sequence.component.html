@@ -15,7 +15,7 @@
         <div *ngFor="let parameter of cqi.parameters">
            <div class="chip"> {{parameter.name}} </div>
         </div>
-        <qddt-preview-element *ngIf="!isSequence(cqi.elementRef.elementKind)" 
+        <qddt-preview-element *ngIf="!isSequence(cqi.elementRef.elementKind)"
         [element]= "cqi.elementRef.element" [showDetail]="false" ></qddt-preview-element>
         <label  *ngIf="isSequence(cqi.elementRef.elementKind)" >Description</label>
         <qddt-instrument-sequence *ngIf="isSequence(cqi.elementRef.elementKind)" ([sequence]) = "cqi.sequence">
@@ -27,15 +27,11 @@
       <div>Add element </div>
     </div>
     <div class="collapsible-body"  style="padding:1rem">
-      <qddt-item-revision-select
-        [kind] = "SEQUENCE"
-        [itemList] = "sequenceList"
-        [revisionList] = "revisionResults"
-        (searchItems)="onItemSearch($event)"
-        (searchRevision)="onRevisonSearch($event)"
+      <qddt-element-revision-select
+        [source] = "SEQUENCE"
         (revisionSelected)="onRevisionSelect($event)"
         (dismissEvent) ="onDismiss()">
-      </qddt-item-revision-select>
+      </qddt-element-revision-select>
     </div>
   </li>
 </ul>

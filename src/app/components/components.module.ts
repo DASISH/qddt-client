@@ -27,8 +27,8 @@ import { TemplateComponent, TemplateDetailComponent, TemplateListComponent, Temp
 import { LocalDatePipe, LocalNumberPipe } from '../lib';
 import { AutosizeDirective, EqualValidator, GravatarDirective, ParentFormConnectDirective} from '../lib/directives';
 import { HoverableRowComponent } from './hoverable-row/hoverable-row.component';
-import {DialogComponent} from './dialog/dialog.component';
-import {DialogBigComponent} from './dialog/dialog-big.component';
+import { DialogComponent} from './dialog/dialog.component';
+import { DialogBigComponent} from './dialog/dialog-big.component';
 
 @NgModule({
   imports: [  CommonModule, RouterModule, FormsModule, CompareModule ],

@@ -2,7 +2,7 @@ import { IUser , IEntityEditAudit, IEntityAudit} from '.';
 
 export interface IRevisionResultEntity {
   entity: IEntityEditAudit;
-  revisionModifiedBy: IUser;
+  revisionModifiedBy?: IUser;
   metadata: { delegate: { id: number, timestamp: number, modifiedBy: IUser }, revisionDate: any, revisionNumber: number };
   revisionDate: any;
   revisionNumber: number;

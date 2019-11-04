@@ -14,9 +14,8 @@ import {MessageService} from '../../../lib/services';
 @Component({
   selector: 'qddt-collection-revision-search-select',
   changeDetection: ChangeDetectionStrategy.OnPush,
-
-  styles: ['.li.over { border: 2px dashed green;}', '.col {white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }'],
-  templateUrl: './collection-search-revision-select.component.html'
+  styles: [],
+  templateUrl: './collection-search-revision.select.component.html'
 })
 
 @ElementEnumAware

@@ -4,7 +4,7 @@ import { Component, Input } from '@angular/core';
   selector: 'qddt-toc',
   styleUrls: ['./toc.component.css', ],
   template: `
-<div class="col hide-on-small-only m1 l1">
+<div class="col hide-on-small-only">
   <div style="top: 55;" class="toc-wrapper pinned">
     <h5>{{path | titlecase }} Toc</h5>
     <ul id="drags" class="section table-of-contents" style="padding:3;"

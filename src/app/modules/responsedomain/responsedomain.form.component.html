@@ -1,15 +1,15 @@
-<div *ngIf="responseDomain" id="{{formId}}">
+<div *ngIf="responseDomain" id="RD-{{formId}}">
   <form  #hf="ngForm" (ngSubmit)="onSave()">
     <div class="row input-field">
-      <input id="name" name="name" type="text"  data-length ="255"
+      <input name="name" type="text" data-length ="255"
               [(ngModel)]="responseDomain.name" required>
-      <label for="name" >Name</label>
+      <label>Name</label>
     </div>
     <div class="row input-field">
       <textarea class="materialize-textarea" data-length ="2000"
-                id="description" name="description"
+                 name="description"
         [(ngModel)]="responseDomain.description"></textarea>
-      <label for="description" >Description</label>
+      <label>Description</label>
     </div>
 
     <div class="row">

@@ -31,10 +31,10 @@
       <div class="col s1 m1 l1">
         <br />
         <div class="row">
-          <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" *ngIf="!surveyProgram.archived && !readonly" (click)="edit.isVisible = !edit.isVisible; refreshCount=0">
+          <a class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2" *ngIf="!surveyProgram.archived && !readonly" (click)="edit.isVisible = !edit.isVisible; refreshCount=0">
             <i class="material-icons"title="Edit element">mode_edit</i></a>
 
-          <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="edit.showRevision = !edit.showRevision">
+          <a class="btn-flat btn-floating btn-medium waves-effect waves-light blue lighten-2" (click)="edit.showRevision = !edit.showRevision">
             <i class="material-icons left medium" title="Revision history">history</i></a>
 
           <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="onShowStudy(surveyProgram)">

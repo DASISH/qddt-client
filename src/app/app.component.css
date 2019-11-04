@@ -28,9 +28,9 @@ p {
   white-space: pre-wrap;
 }
 
-form p {
-  text-align: justify;
-}
+/*form p {*/
+/*  text-align: justify;*/
+/*}*/
 
 
 .dropdown-content {
@@ -50,13 +50,36 @@ form p {
 .itemInvalid { border: thick solid red; }
 
 input {
-  margin: auto;
-  margin-bottom: 0px;
+  margin: auto auto 0px;
 }
 
 .collapsible.popout > li  {
-  margin: 0px !important;
+  margin: 0 !important;
+}
+
+
+.collection { border:none; }
+
+/*.collection.with-header {*/
+/*  border-bottom: none;*/
+/*  padding: 5px 10px 5px 0px;*/
+/*  min-height: 3rem;*/
+/*}*/
+
+.collection.with-header .collection-header {
+  border-bottom: none;
+  padding: 5px 10px 5px 0px ;
+  min-height: 3rem;
+}
+
+.collection a.collection-item {
+  min-height: 3rem;
+  border-bottom: none;
+  padding: 5px 10px 5px 10px;
 }
 
 .collapsible-header .col {white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+
+.qddtSearchCursor { cursor: zoom-in; }
 
