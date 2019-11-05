@@ -25,15 +25,15 @@ import {
       (mouseover)="cqi.hover=true" (mouseleave)="cqi.hover=false" (click)="onPreview($event,cqi)">
       <qddt-version-label class="right" [element]="cqi?.element"></qddt-version-label>
       <div style="float: left; z-index:2;" [hidden]="!cqi.hover" >
-        <a class="btn-flat btn-floating btn-small waves-effect waves-light teal"
+        <a class="btn-flat btn-floating btn-small waves-effect waves-light green lighten-2"
             (click)="onQuestionItemEdit($event,cqi)">
           <i class="material-icons" title="Edit question">edit</i>
         </a>
-        <a class="btn-flat btn-floating btn-small waves-effect waves-light teal"
+        <a class="btn-flat btn-floating btn-small waves-effect waves-light blue lighten-2"
           (click)="onQuestionItemUpdate($event, cqi )">
           <i class="material-icons" title="update selected">sync</i>
         </a>
-        <a class="btn-flat btn-floating btn-small waves-effect waves-light teal"
+        <a class="btn-flat btn-floating btn-small waves-effect waves-light red lighten-2"
             (click)="onQuestionItemRemove($event, cqi )">
           <i class="material-icons" title="Remove selected">remove</i>
         </a>

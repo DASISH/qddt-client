@@ -75,14 +75,16 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
     this.service.delete(item)
     .subscribe(() => {
       this.loadPage();
-      $('#confirmModal' + this.formId).modal('close');
+      // TODO fix modal
+      // $('#confirmModal' + this.formId).modal('close');
     },
     (error) => { throw error; });
   }
 
   public onConfirmDelete(item: IEntityAudit) {
     this.toBeDeleted = item;
-    $('#confirmModal' + this.formId).modal('open');
+      // TODO fix modal
+    // $('#confirmModal' + this.formId).modal('open');
   }
 
   private loadPage(search?: string ) {

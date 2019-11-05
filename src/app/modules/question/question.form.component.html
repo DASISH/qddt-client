@@ -1,6 +1,9 @@
 <div *ngIf="questionItem" class="white col s12">
 
-  <p class="row card-panel  grey-text grey lighten-5" [innerHtml]="questionItem.question" style="font-style: italic"></p>
+  <div class="row" >
+    <p class="card-panel  grey-text grey lighten-5" 
+    [innerHtml]="questionItem.question" style="font-style: italic"></p>
+  </div>
 
   <qddt-preview-responsedomain
     *ngIf="questionItem?.responseDomain"
@@ -16,7 +19,7 @@
     </div>
     <div class="row input-field">
       <textarea id="{{formId}}-question" name="question" [(ngModel)]="questionItem.question"
-                class="materialize-textarea" required minlength="2" data-length="1500">
+                class="materialize-textarea validate" required minlength="2" data-length="1500">
       </textarea>
       <label for="{{formId}}-question" >Question text</label>
     </div>

@@ -11,7 +11,7 @@ import { Password, UserService } from '../../../lib';
 <div id="FORM-{{formId}}" class="modal" style="width:25%;">
   <div class="modal-content">
     <h4>Login</h4>
-    <form class="" (ngSubmit)="login()" (keyup.enter)="f.onSubmit()" #f="ngForm">
+    <form (ngSubmit)="login()" (keyup.enter)="f.onSubmit()" #f="ngForm">
       <div class="row input-field">
         <input class="validate" name="email" type="email" [(ngModel)]="formData.email" required email tabindex="1">
         <label class="active">Email</label>

@@ -1,24 +1,24 @@
 <div class="hoverable row" (mouseenter)="showbutton = !readonly" (mouseleave)="showbutton = false">
-  <div class="col s12">
-    <div class="row">
       <div class="col s7">
         <div class="row">
           <label>Response Domain (V <qddt-version [element]="responseDomain"></qddt-version>) </label>
         </div>
         <div class="row" style="min-height:3rem; ">
-          <span >{{ responseDomain?.name }}</span>
+          <!-- <span > -->
+            {{ responseDomain?.name }}
           <a *ngIf="showbutton && canEdit && !responseDomain"
              class="btn-flat btn-floating btn-small waves-effect waves-light teal" (click)="openResponseDomain()">
             <i class="material-icons left medium" title="Add element">add</i>
           </a>
           <a *ngIf="showbutton && canDelete && responseDomain"
-             class="btn-flat btn-floating btn-small waves-effect waves-light red" (click)="onDeletResponsDomain()">
+             class="btn-flat btn-floating btn-small waves-effect waves-light red lighten-2" (click)="onDeletResponsDomain()">
              <i class="material-icons"  title="Remove" >remove</i>
           </a>
           <a *ngIf="showbutton && canEdit && responseDomain"
-             class="btn-flat btn-floating btn-small waves-effect waves-light green darken-1" (click)="onGetLatest()">
+             class="btn-flat btn-floating btn-small waves-effect waves-light blue lighten-1" (click)="onGetLatest()">
             <i class="material-icons"  title="Get latest">autorenew</i>
           </a>
+        <!-- </span> -->
         </div>
       </div>
       <div class="col s5">
@@ -26,22 +26,20 @@
           <label>Missing</label>
         </div>
         <div class="row">
-          <span style="min-height:max-content; ">{{responseDomain?.missing?.label}}</span>
+          <span>{{responseDomain?.missing?.label}}</span>
           <a *ngIf="showbutton && responseDomain &&  !responseDomain?.missing"
              class="modal-trigger btn-flat btn-floating btn-small waves-effect waves-light teal" (click)="openMissing()">
               <i class="material-icons left medium" title="Add element">add</i>
           </a>
           <a *ngIf="showbutton && canDelete && responseDomain?.missing"
-             class="btn-flat btn-floating btn-small waves-effect waves-light red" (click)="onConfirmDeleting()">
+             class="btn-flat btn-floating btn-small waves-effect waves-light red lighten-2" (click)="onConfirmDeleting()">
               <i class="material-icons" title="Remove" >remove</i>
           </a>
           <a *ngIf="showbutton && canEdit && responseDomain?.missing"
-             class="btn-flat btn-floating btn-small waves-effect waves-light green darken-1" (click)="openMissing()">
+             class="btn-flat btn-floating btn-small waves-effect waves-light green lighten-2" (click)="openMissing()">
               <i class="material-icons" title="Edit">edit</i>
           </a>
         </div>
-      </div>
-    </div>
     <div class="row" [hidden]="!showResponsDomain || !showbutton">
         <div class="response-domain-title"><span>Select Domain and Search</span></div>
         <div class="col left" *ngFor="let domain of domainTypeDescription">
@@ -75,17 +73,17 @@
                          type="text" [(ngModel)]="category.code.codeValue" required></td>
               <td>{{ category?.label }}</td>
             </tr>
+            <tr><td class="right-align" >
+              <a  class="btn btn-flat waves-effect waves-light green white-text" (click)="closeMissing()">
+                <i class="material-icons medium white-text">done</i>
+              </a>
+              <a class="brn btn-flat btn-medium waves-effect waves-light red white-text" (click)="showMissing = false">
+                <i class="material-icons medium white-text">close</i>
+              </a>
+            </td></tr>
             </tbody>
           </table>
-          <div class="row right-align">
-            <a  class="btn btn-flat waves-effect waves-light green white-text" (click)="closeMissing()">
-                <i class="material-icons medium white-text">done</i>
-            </a>
-            <a class="brn btn-flat btn-medium waves-effect waves-light red white-text" (click)="showMissing = false">
-                <i class="material-icons medium white-text">close</i>
-            </a>
-          </div>
-        </form>
+      </form>
     </div>
   </div>
 </div>

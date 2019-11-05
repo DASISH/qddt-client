@@ -5,12 +5,12 @@ import { IComment } from '../../lib';
   selector: 'qddt-comment-create',
 
   template: `
-  <form class="row card-panel" id="{{formId}}" (ngSubmit)="onSave()" >
-    <div class="input-field col s9">
+  <form class="row card-action" id="{{formId}}" (ngSubmit)="onSave()" >
+    <div class="input-field col s10">
       <textarea class="materialize-textarea" name="{{ownerId}}-comment" data-length="10000"  [(ngModel)]="comment.comment" required></textarea>
       <label>Write a new comment</label>
     </div>
-    <div class="input-field col s3">
+    <div class="input-field col s2">
       <div class="switch right">
         <label>
           <input id="{{ownerId}}-checked" type="checkbox" [checked]="comment.public" (change)="comment.public = !comment.public">

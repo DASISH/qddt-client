@@ -12,7 +12,7 @@ import {
   UserService
 } from '../../lib';
 
-declare var $: any;
+
 
 @Component({
   selector: 'qddt-menu',
@@ -56,10 +56,10 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit() {
     M.Sidenav.init(this.menu.nativeElement, { edge: 'left', draggable: true});
-    $('.dropdown-trigger').dropdown({
-      coverTrigger: false
-    });
-    $('.collapsible').collapsible();
+    // $('.dropdown-trigger').dropdown({
+    //   coverTrigger: false
+    // });
+    // $('.collapsible').collapsible();
     // M.Dropdown.arguments = {constrainWidth: false };
     // $('.button-collapse').sideNav({
     //   menuWidth: 100, // Default is 300

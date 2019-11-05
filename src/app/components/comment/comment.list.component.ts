@@ -17,6 +17,7 @@ export class CommentListComponent implements AfterViewInit, AfterContentChecked 
   isEditComment = false;
   isPublic = true;
   selectedCommentId: number;
+  hoverIndex: String;
   message = '';
   private _showComments = false;
   private _hasShown = false;
