@@ -150,7 +150,7 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, Af
 
     if (this.domainType === DomainKind.LIST) {
       for (let i = rep.children.length; i < this.numberOfAnchors; i++) {
-        rep.children.push(new Category({ code:  { codeValue: String(i + 1) , alignment: '' }}));
+        rep.children.push(new Category({ code:  { codeValue: string(i + 1) , alignment: '' }}));
       }
     } else if (this.domainType === DomainKind.SCALE) {
       const len = rep.children.length;

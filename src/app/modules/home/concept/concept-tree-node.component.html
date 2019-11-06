@@ -1,12 +1,10 @@
-<div id="{{concept.id}}" class="row card scrollspy">
+<div id="{{concept.id}}" class="row card-panel scrollspy">
   <div class="col s1">
     <br/>
     <a *ngIf="canUpdate && !(concept.archived)" class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2"
        (click)="onToggleEdit(edit)"><i class="material-icons" title="Edit Concept">mode_edit</i></a>
     <a class="btn-flat btn-floating btn-medium waves-effect waves-light blue lighten-2"
        (click)="edit.showRevision = !edit.showRevision"><i class="material-icons left medium" title="Revision history">history</i></a>
-<!--    <qddt-questionitem-reuse-dialog *ngIf="canCreate && !(concept.archived)"-->
-<!--                             (createdEvent)="addQuestionItem($event)"></qddt-questionitem-reuse-dialog>-->
     <a *ngIf="canUpdate && !(concept.archived)" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
        (click)="onCreateConcept()"><i class="material-icons left medium" title="Add sub concept">add</i></a>
     <a *ngIf="canDelete && !(concept.archived)" class="btn-flat btn-floating btn-medium waves-effect waves-light red lighten-2"
@@ -15,60 +13,61 @@
 
   <div class="col s10 grey-text text-darken-2">
     <h5 class="row">
-      <div class="col s9">{{ concept?.name }}</div>
-      <div class="col s3">
+      <div class="col s10">{{ concept?.name }}</div>
+      <div class="col s2">
         <qddt-version-label class="right" [element]="concept"></qddt-version-label>
       </div>
     </h5>
+    <div class="row white grey-text text-darken-1">
+
+      <div *ngIf="!edit.isVisible">
+        <p  [innerHtml]="concept?.description" ></p>
+        <qddt-author-chip [authors]="concept.authors" ></qddt-author-chip>
+        <form *ngIf="showConceptChildForm" class="col s12 card"  #hf="ngForm">
+          <span class="card-title">Add Concept</span>
+          <div class="card-content">
+            <div class="row input-field">
+              <input name="name" type="text" ngModel required  data-length ="250" >
+              <label>Name</label>
+            </div>
+            <div class="row input-field">
+              <textarea name="description" class="materialize-textarea" ngModel required  data-length ="10000" ></textarea>
+              <label>Description</label>
+            </div>
+          </div>
+          <div class="card-action right-align">
+            <button type="button" (click)="onChildSave(hf.value)" class="btn btn-default " [disabled]="!hf.form.valid" >submit</button>
+          </div>
+        </form>
+      </div>
+
+      <qddt-concept-edit [isVisible]="edit.isVisible" [(concept)]="concept" #edit (conceptChanged)="onConceptUpdated($event)" >
+      </qddt-concept-edit>
+
+      <qddt-question-items
+        [questionItems] ="concept.conceptQuestionItems"
+        [readonly] = "concept.archived || !canUpdate"
+        (createdEvent) ="onAddQuestionItem($event,concept.id)">
+      </qddt-question-items>
+
+      <qddt-download *ngIf="!edit.isVisible" [entity]="concept" [readonly]="true"></qddt-download>
+
+      <qddt-revision *ngIf = "edit.showRevision" [current]="concept"></qddt-revision>
+
+      <qddt-comment-list
+        *ngIf="!edit.isVisible"
+        [ownerId]="concept.id"
+        [comments]="concept.comments">
+      </qddt-comment-list>
+
+      <div class="tree-children">
+        <qddt-concept-treenode *ngFor="let child of concept.children"
+                               [concept]="child"
+                               (deleteEvent)="onDeleteConcept($event)"
+                               (updatedEvent)="onConceptUpdated($event)">
+        </qddt-concept-treenode>
+      </div>
+    </div>
   </div>
 
-  <div class="col s10 white grey-text text-darken-1">
-
-    <div *ngIf="!edit.isVisible">
-      <p  [innerHtml]="concept?.description" ></p>
-      <qddt-author-chip [authors]="concept.authors" ></qddt-author-chip>
-      <form *ngIf="showConceptChildForm" class="col s12 card"  #hf="ngForm">
-        <span class="card-title">Add Concept</span>
-        <div class="card-content">
-          <div class="row input-field">
-            <input name="name" type="text" ngModel required  data-length ="250" >
-            <label>Name</label>
-          </div>
-          <div class="row input-field">
-            <textarea name="description" class="materialize-textarea" ngModel required  data-length ="10000" ></textarea>
-            <label>Description</label>
-          </div>
-        </div>
-        <div class="card-action right-align">
-          <button type="button" (click)="onChildSave(hf.value)" class="btn btn-default " [disabled]="!hf.form.valid" >submit</button>
-        </div>
-      </form>
-    </div>
-
-    <qddt-concept-edit [isVisible]="edit.isVisible" [(concept)]="concept" #edit (conceptChanged)="onConceptUpdated($event)" >
-    </qddt-concept-edit>
-
-    <qddt-question-items
-      [questionItems] ="concept.conceptQuestionItems"
-      [readonly] = "concept.archived || !canUpdate"
-      (createdEvent) ="onAddQuestionItem($event,concept.id)">
-    </qddt-question-items>
-
-    <qddt-download *ngIf="!edit.isVisible" [entity]="concept" [readonly]="true"></qddt-download>
-
-    <qddt-revision *ngIf = "edit.showRevision" [current]="concept"></qddt-revision>
-
-    <qddt-comment-list
-      *ngIf="!edit.isVisible"
-      [ownerId]="concept.id"
-      [comments]="concept.comments">
-    </qddt-comment-list>
-
-    <div class="tree-children">
-      <qddt-concept-treenode *ngFor="let child of concept.children"
-         [concept]="child"
-         (deleteEvent)="onDeleteConcept($event)"
-         (updatedEvent)="onConceptUpdated($event)">
-      </qddt-concept-treenode>
-    </div>
 </div>

@@ -40,7 +40,8 @@
               <i class="material-icons" title="Edit">edit</i>
           </a>
         </div>
-    <div class="row" [hidden]="!showResponsDomain || !showbutton">
+      </div>
+    <div class="col s12" [hidden]="!showResponsDomain || !showbutton">
         <div class="response-domain-title"><span>Select Domain and Search</span></div>
         <div class="col left" *ngFor="let domain of domainTypeDescription">
           <label>
@@ -55,7 +56,7 @@
         (dismissEvent) ="showResponsDomain = false">
       </qddt-element-revision-select>
     </div>
-    <div class="row" *ngIf="showMissing">
+    <div class="col s12" *ngIf="showMissing">
       <qddt-auto-complete *ngIf="!responseDomain.missing"
         [items]="categories"
         [elementKind]="MISSING_GROUP"
@@ -85,5 +86,5 @@
           </table>
       </form>
     </div>
-  </div>
 </div>
+

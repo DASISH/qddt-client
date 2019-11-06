@@ -30,7 +30,7 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('navnbar', {static: false}) menu: ElementRef;
 
   constructor(private userService: UserService, public property: PropertyStoreService,
-      private router: Router, private service: TemplateService) {
+              private router: Router, private service: TemplateService) {
     this.username = this.getUserName();
     this.isLoggedIn$ = userService.loggedIn;
   }

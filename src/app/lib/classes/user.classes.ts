@@ -10,7 +10,7 @@ export class Agency  {
 export class UserJson {
   id: string;
   name: string;
-  email: String;
+  email: string;
   agency: Agency;
   modified: number;
   authorities?: IAuthority[] = [ {id: 'null', name: 'none', authority: 'NONE' } ];

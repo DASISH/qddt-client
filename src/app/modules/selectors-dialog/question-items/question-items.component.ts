@@ -23,7 +23,7 @@ import {
     </a>
     <a class="col s12 collection-item grey-text text-darken-1" *ngFor="let cqi of questionItems.sort()"
       (mouseover)="cqi.hover=true" (mouseleave)="cqi.hover=false" (click)="onPreview($event,cqi)">
-      <qddt-version-label class="right" [element]="cqi?.element"></qddt-version-label>
+      <qddt-version-label class="right" [revisionRef]="cqi" ></qddt-version-label>
       <div style="float: left; z-index:2;" [hidden]="!cqi.hover" >
         <a class="btn-flat btn-floating btn-small waves-effect waves-light green lighten-2"
             (click)="onQuestionItemEdit($event,cqi)">
@@ -93,7 +93,7 @@ export class QuestionItemsComponent implements AfterViewInit {
     //   // this.questionItems = this.questionItems.filter( qi => qi.elementId !== ref.elementId);
     //   this.createdEvent.emit(ref);
     // } else {
-      this.createdEvent.emit(ref);
+    this.createdEvent.emit(ref);
     // }
     this.SOURCE = null;
     this.modalRef.close();

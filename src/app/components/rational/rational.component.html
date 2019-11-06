@@ -3,20 +3,19 @@
 <!--    [ngClass]="{hide: option.hidden}-->
     <div class="col left" *ngFor="let option of rationalDescriptionsFiltered" [hidden]="option.hidden">
       <label>
-        <input name="{{originalId}}-OTG" type="radio"
-          (click)="onSelectOption(option.id)" [checked]="saveOptionIndex === option.id" />
+        <input name="OTG-{{formId}}" type="radio" (click)="onSelectOption(option.id)" [checked]="saveOptionIndex === option.id" />
         <span>{{ option.name }}</span>
       </label>
     </div>
   </div>
-  <div *ngFor="let option of rationalDescriptionsFiltered;">
-    <div class="row" [hidden]="!(option.id === saveOptionIndex && option.children.length > 0)">
-      <div class="col s5">
-        <select name="SELECT-{{originalId}}" [ngModel]="_RationalIndex" (ngModelChange)="onClickRational1($event)">
+  <div *ngFor="let option of rationalDescriptionsFiltered; let _idx = index" >
+    <div class="row" *ngIf="option.children.length > 0" [hidden] = "!(option.id === saveOptionIndex)" >
+      <div class="input-field col s5">
+        <select id="SELECT-{{formId}}" name="rational" [ngModel]="_RationalIndex" (ngModelChange)="onClickRational1($event)">
           <option value="" disabled selected>Choose your rationale</option>
           <option *ngFor="let rational of option.children;" value="{{rational.id}}">{{ rational.name }}</option>
         </select>
-        <label>Versioning Reason</label>
+        <label for="SELECT-{{formId}}">Versioning Reason</label>
       </div>
       <div class="col s7">
         <span>{{ option.children[_RationalIndex]?.description }}</span>
@@ -25,8 +24,7 @@
         <div *ngFor="let child of option.children[_RationalIndex]?.children; let idx = index">
           <div class="col left">
             <label>
-              <input name="{{originalId}}-OTG2" type="radio"
-                [checked]="_Rational2Index === idx" (click)="onClickRational2(child)"/>
+              <input name="OTG2-{{formId}}" type="radio" [checked]="_Rational2Index === idx" (click)="onClickRational2(child)"/>
               <span title="{{child.description}}">{{ child.name }}</span>
             </label>
           </div>
@@ -36,9 +34,9 @@
   </div>
   <div *ngIf="saveOptionIndex >= 0 && rationalDescriptions[saveOptionIndex].showComment" class="row">
     <div class="input-field col s12">
-      <input id="COMMENT-{{originalId}}" class="validate" type="text" name="changeComment"
+      <input id="COMMENT-{{formId}}" class="validate" type="text" name="changeComment"
              [(ngModel)]="element.changeComment" required minlength="4">
-      <label for="COMMENT-{{originalId}}"  data-error="Description is mandatory">Rationale for change</label>
+      <label for="COMMENT-{{formId}}"  data-error="Description is mandatory">Rationale for change</label>
     </div>
   </div>
 </form>

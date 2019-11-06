@@ -74,7 +74,7 @@ export class HomeService<T extends IEntityEditAudit>  {
       '&questionitemrevision=' + revision + '&parentId=' + id, {});
   }
 
-  moveTo(targetId: String, index: number, sourceId: String ): Observable<T> {
+  moveTo(targetId: string, index: number, sourceId: string ): Observable<T> {
     return this.http.post<T>(this.api +  'concept/move/' + targetId + '/' + index + '/' + sourceId , {});
   }
 

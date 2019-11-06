@@ -1,28 +1,20 @@
-<div *ngIf="missing">
+<div *ngIf="missing"  class="white col s12">
   <form  #hf="ngForm">
-    <div class="row">
-      <div class="col s12 input-field">
-        <input name="{{formId}}-label" id="{{formId}}-label" type="text" class="validate" required
+    <div class="row" input-field>
+        <input name="label" type="text" class="validate" required
                [(ngModel)]="missing.label" data-length="255"   minlength="1">
         <label>Label</label>
-      </div>
     </div>
-    <div class="row">
-      <div class="col s12 input-field">
-        <input name="{{formId}}-name" id="{{formId}}-name" type="text" class="validate" required
+    <div class="row input-field">
+        <input name="name" id="NAME-{{formId}}" type="text" class="validate" required
                [(ngModel)]="missing.name" data-length="255"   minlength="3">
         <label>Name</label>
-      </div>
     </div>
-    <div class="row">
-      <div class="input-field col s12">
-        <textarea class="materialize-textarea validate" required
-             data-length="1000" maxlength="1000"
-            name="{{formId}}-decs" id ="{{formId}}-desc"
-            [(ngModel)]="missing.description" >
+    <div class="row input-field">
+        <textarea name="description" id ="DESCRIPTION-{{formId}}" class="materialize-textarea validate" required
+             [(ngModel)]="missing.description" data-length="1000"  >
         </textarea>
         <label>Description</label>
-      </div>
     </div>
     <div class="row">
       <div class="col s4 l2 input-field">

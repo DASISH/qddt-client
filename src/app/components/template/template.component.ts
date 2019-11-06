@@ -13,7 +13,6 @@ import {
 } from '../../lib';
 
 
-
 @Component({
   selector: 'qddt-template-component',
   templateUrl: './template.component.html',
@@ -56,14 +55,10 @@ export class TemplateComponent implements OnDestroy, AfterContentChecked, AfterV
     this.messages.getAction().pipe(
       takeWhile(() => this.alive))
       .subscribe(event => {
-        if (event.action === ActionKind.Filter
-          && (event.id === 'ResponseKind' || event.id === 'publishedKind' ) ) {
+        if (event.action === ActionKind.Filter && (event.id === 'ResponseKind' || event.id === 'publishedKind' ) ) {
           if (this.showForm) { this.onToggleForm(); }
-            const param = this.route.snapshot.firstChild.params;
-            if (param.id) {
-              this.router.navigate(['../' ], { relativeTo: this.route.firstChild });
-              // console.log(this.route.snapshot.firstChild.url[1].path);
-            }
+          const param = this.route.snapshot.firstChild.params;
+          if (param.id) { this.router.navigate(['../' ], { relativeTo: this.route.firstChild }); }
         }
       });
   }
@@ -76,11 +71,11 @@ export class TemplateComponent implements OnDestroy, AfterContentChecked, AfterV
   onToggleForm() {
     if (!this.canWrite()) { throw Error('Access denied'); }
 
-      this.showForm = !this.showForm;
-      if (!this.showForm) {
+    this.showForm = !this.showForm;
+    if (!this.showForm) {
         this.messages.sendAction(  { id: '', action: ActionKind.Update, object: null });
       }
-      if (this.showForm ) {
+    if (this.showForm ) {
         this.refreshCount = 0;
         console.log('onToggleForm');
         const page =  this.properties.get(this.path) as IPageSearch;

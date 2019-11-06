@@ -70,10 +70,10 @@ export const CHANGE_LOG_COLUMNS = [
 // elementKind?: ElementKind;
 // elementRevision?: number;
 // modifiedBy?: User;
-// name: String;
+// name: string;
 // refAction?: number;
 // ?: any;
-// ?: String;
+// ?: string;
 // ?: number;];
 
 const SCALE =  [

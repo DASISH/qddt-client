@@ -1,4 +1,4 @@
-import {AfterContentChecked, AfterViewInit, Component, OnInit} from '@angular/core';
+import { AfterViewInit, Component, OnInit} from '@angular/core';
 import { Router} from '@angular/router';
 import {
   ActionKind,

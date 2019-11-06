@@ -1,5 +1,5 @@
 <div *ngIf="topic" class="col s12 m9">
-  <div class="card-panel row teal white-text text-lighten-2">
+  <div class="card-panel row white-text teal">
     <i class="material-icons large right">store</i><h4>Concepts for {{ topic.name }}</h4>
     <a *ngIf="!topic.archived && canCreate" class="btn" (click)="showConceptForm = !showConceptForm; showReuse=false">
       <i class="material-icons right" *ngIf="!showConceptForm">keyboard_arrow_down</i>
@@ -24,11 +24,11 @@
         <div class="col s10 offset-s1">
           <form #hf="ngForm">
             <div class="row input-field">
-              <input name="name" type="text" ngModel required  data-length ="250" >
+              <input  class="white-text" name="name" type="text" ngModel required  data-length ="250" >
               <label class="white-text">Name</label>
             </div>
             <div class="row input-field">
-              <textarea name="description" class="materialize-textarea" ngModel required  data-length ="10000"  ></textarea>
+              <textarea name="description" class="materialize-textarea white-text" ngModel required  data-length ="10000"  ></textarea>
               <label class="white-text">Description</label>
             </div>
             <div class="row right-align">
@@ -50,9 +50,11 @@
 </div>
 
 <div *ngIf="topic" class="col hide-on-small-only " >
-  <div class="row scroll-content" style="padding:12px;">
+  <div class="toc-wrapper pinned scroll-content">
     <h5>Concept Toc</h5>
-    <qddt-concept-toc [children]= "topic.concepts" [parentId]="topic.id" [level]="0" (conceptMoved)="onMoveConcept($event)"></qddt-concept-toc>
+    <ol class="table-of-contents" style="padding-inline-start: 0px;">
+      <qddt-concept-toc [children]= "topic.concepts" [parentId]="topic.id" [level]="0" (conceptMoved)="onMoveConcept($event)"></qddt-concept-toc>
+    </ol>
   </div>
 </div>
 

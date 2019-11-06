@@ -1,4 +1,4 @@
-import {Component, Input, EventEmitter, Output, AfterViewInit, AfterContentChecked} from '@angular/core';
+import {Component, Input, EventEmitter, Output,  OnChanges, SimpleChanges} from '@angular/core';
 import {Concept, TemplateService} from '../../../lib';
 
 
@@ -7,22 +7,22 @@ import {Concept, TemplateService} from '../../../lib';
   selector: 'qddt-concept-edit',
   providers: [ {provide: 'elementKind', useValue: 'CONCEPT'}, ],
   template: `
-<div [hidden]="!(concept && isVisible)">
+<div *ngIf="concept && isVisible">
   <form id="{{formId}}" (ngSubmit)="save()" #hf="ngForm">
     <div class="row input-field">
-      <input type="text" required  data-length ="250"  [(ngModel)]="concept.name" [ngModelOptions]="{standalone: true}">
-      <label>Name</label>
+      <input id="NAME-{{formId}}" name="name" type="text" required  data-length ="250"  [(ngModel)]="concept.name">
+      <label class="active" for="NAME-{{formId}}">Name</label>
     </div>
 
     <div class="row input-field">
-      <textarea
-        class="materialize-textarea" required  data-length ="10000" [(ngModel)]="concept.description" [ngModelOptions]="{standalone: true}">
+      <textarea id="DESC-{{formId}}" name="description"
+        class="materialize-textarea" required  data-length ="10000" [(ngModel)]="concept.description">
       </textarea>
-      <label>Description</label>
+      <label class="active" for="DESC-{{formId}}">Description</label>
     </div>
 
     <qddt-rational
-      *ngIf="!readonly"
+      *ngIf="!readonly && isVisible"
       [formName]="'RationalComp'"
       [element]="concept"
       [config]="{hidden: [2,3]}">
@@ -37,7 +37,7 @@ import {Concept, TemplateService} from '../../../lib';
 </div>
 `
 })
-export class ConceptEditComponent implements AfterViewInit, AfterContentChecked {
+export class ConceptEditComponent implements  OnChanges {
   @Input() concept: Concept;
   @Output() conceptChanged =  new EventEmitter<Concept>();
   @Input() readonly = false;
@@ -48,14 +48,12 @@ export class ConceptEditComponent implements AfterViewInit, AfterContentChecked 
 
   constructor(private service: TemplateService) { }
 
-  ngAfterContentChecked(): void {
-    document.querySelectorAll('textarea').forEach(
-      input => M.textareaAutoResize(input));
-  }
 
-  ngAfterViewInit(): void {
-    document.querySelectorAll('input[data-length], textarea[data-length]').forEach(
-      input => M.CharacterCounter.init(input));
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.isVisible && changes.isVisible.currentValue && !changes.isVisible.previousValue) {
+      M.updateTextFields();
+    }
   }
 
   save() {
@@ -66,4 +64,5 @@ export class ConceptEditComponent implements AfterViewInit, AfterContentChecked 
         this.isVisible = false;
       });
   }
+
 }

@@ -1,5 +1,5 @@
 import {
-  AfterViewChecked, AfterViewInit,
+  AfterViewInit,
   Component,
   Input,
   OnChanges,
@@ -39,11 +39,19 @@ export class RationalComponent implements OnInit, OnChanges, AfterViewInit {
     this.savedId = null;
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.element.isFirstChange()) {
+      this.element.changeComment = '';
+    }
+    this.originalId = this.element.id;
+    this.onSelectOption(0);
+    // console.log(this.element.changeKind);
+  }
 
   ngAfterViewInit(): void {
-    // M.AutoInit(document.querySelector('form'));
-    document.querySelectorAll('select')
-    .forEach( select => M.FormSelect.init(select));
+    // document.querySelectorAll('SELECT').forEach( comp => M.FormSelect.init(comp));
+    M.FormSelect.init(document.getElementById('SELECT-' + this.formId));
+    console.log('init select');
   }
 
   ngOnInit() {
@@ -54,13 +62,6 @@ export class RationalComponent implements OnInit, OnChanges, AfterViewInit {
       }
       this.rationalDescriptionsFiltered = RATIONAL_DESCRIPTIONS.filter(f => !hiddenIds.find(id => id === f.id));
     }
-    // document.querySelectorAll('.tabs')
-    // .forEach( tab => M.Tabs.init(tab, { swipeable: true }));
-    // document.querySelectorAll('select')
-    // .forEach( select => M.FormSelect.init(select));
-    // document.querySelectorAll('.carousel')
-    // .forEach( carousel => M.Carousel.init(carousel));
-
   }
 
   onClickRational1(id: number) {
@@ -111,17 +112,6 @@ export class RationalComponent implements OnInit, OnChanges, AfterViewInit {
       }
     }
     console.log('onSelectOption');
-
-
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['element'].isFirstChange()){
-      this.element.changeComment = '';
-    }
-    this.originalId = this.element.id;
-    this.onSelectOption(0);
-    // console.log(this.element.changeKind);
   }
 
 }

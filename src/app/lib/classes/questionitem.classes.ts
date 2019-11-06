@@ -7,14 +7,14 @@ export class QuestionItem implements IEntityEditAudit {
   agency: IEntityAudit;
   name: string;
   modified: number;
-  version: IVersion;
+  version: IVersion = {major: 0, minor: 0 };
   classKind = ElementKind[ElementKind.QUESTION_ITEM];
   basedOnObject: string;
   basedOnRevision: number;
   question: string;
   intent: string;
   responseDomain: ResponseDomain;
-  responseDomainName: String;
+  responseDomainName: string;
   responseDomainRevision: number;
   conceptRefs: any;
   public constructor(init?: Partial<QuestionItem>) {

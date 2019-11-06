@@ -9,9 +9,9 @@ export class ChangeLogJson {
   elementRevision?: number;
   modifiedBy?: User;
   modified?: any;
-  name: String;
+  name: string;
   refChangeKind?: any;
-  refKind?: String;
+  refKind?: string;
 
   public constructor(init?: Partial<ChangeLogJson>) {
     Object.assign(this, init);

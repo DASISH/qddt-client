@@ -55,7 +55,7 @@ export class PublicationFormComponent implements OnChanges {
         (error) => { throw error; });
   }
 
-  public getLabelByElement(kind: ElementKind): String {
+  public getLabelByElement(kind: ElementKind): string {
     kind = getElementKind(kind);
     return PUBLICATION_TYPES.find(e => e.id === kind).label;
   }

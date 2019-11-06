@@ -10,7 +10,7 @@
           <i *ngIf="comment.public" class="material-icons left tiny" title="This comment is visible for all">public</i>
         </span>
         <div *ngIf="!isEditComment" [hidden] = "hoverIndex != ownerId + idx" >
-          <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" 
+          <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
               style="position: absolute; left: 15px; top: 50px;"
               (click)="isEditComment=true;isPublic=comment.public;message=comment.comment;selectedCommentId=idx;">
             <i class="material-icons left medium" title="Edit" >edit</i>
@@ -35,7 +35,7 @@
           <div class="input-field col s12">
             <textarea class="materialize-textarea" name="{{comment.id}}-comment" data-length="10000" [(ngModel)]="message">
             </textarea>
-            <div class="switch">
+            <div class="switch right">
                 <label>
                   <input type="checkbox" [(ngModel)]="isPublic" >
                   <span class="lever"></span>Published
@@ -43,7 +43,7 @@
               </div>
           </div>
           <!-- <div class="col s3">
-            
+
           </div> -->
         </div>
         <!--<i class="secondary-content material-icons right ">comment</i>-->
@@ -54,7 +54,7 @@
     </li>
     <li class="collection-item">
         <qddt-comment-create (updatedEvent)="addComment($event)" [ownerId]="ownerId">
-        </qddt-comment-create>        
+        </qddt-comment-create>
     </li>
   </ul>
 </div>

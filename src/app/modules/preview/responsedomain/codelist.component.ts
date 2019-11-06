@@ -5,19 +5,19 @@ import {Category, ResponseCardinality} from '../../../lib/classes';
   selector: 'qddt-preview-rd-codelist',
 
   template: `
-    <div class="row" *ngIf="managedRepresentation">
-     <ul>
-       <li *ngFor="let row of rows" class="row">
-         <input name="{{managedRepresentation?.id}}-codegroup" type="{{type}}"
-           id="{{managedRepresentation?.id}}code{{row?.code}}"
-           [disabled]="row.disabled"
-           (change)="checkOption(row, $event)"/>
-         <label [attr.for]="managedRepresentation.id + 'code' + row.code">{{ row?.label }}</label>
-         <span class="right"> {{ row?.code }}</span>
-       </li>
-     </ul>
-     </div>`,
-  styles: [],
+<div *ngIf="managedRepresentation">
+  <ul>
+    <li *ngFor="let row of rows" >
+      <label>
+       <input name="{{managedRepresentation?.id}}-codegroup" type="{{type}}"
+         [disabled]="row.disabled" (change)="checkOption(row, $event)"/>
+        <span >{{row.label}}</span>
+      </label>
+      <label class="right">{{ row.code }}</label>
+    </li>
+  </ul>
+</div>
+`,
 })
 
 export class ResponsedomainCodeListComponent implements OnChanges {
@@ -31,7 +31,7 @@ export class ResponsedomainCodeListComponent implements OnChanges {
     const rep = this.managedRepresentation;
 
     for (const c of rep.children) {
-      this.rows.push({ 'label': c.label, 'code': c.code.codeValue, 'checked': false });
+      this.rows.push({ label: c.label, code: c.code.codeValue, checked: false });
     }
 
     this.type = (+this.responseCardinality.maximum > 1) ? 'checkbox' : 'radio';

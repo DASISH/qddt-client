@@ -6,9 +6,9 @@ import { Concept, IMoveTo } from '../../../lib';
   providers: [],
   styles: [
     // '.toc-children { padding-left: 10px }',
-    'ol { list-style-type: none; counter-reset: item; margin: 0; padding: 0; }',
-    'ol > li { display: table; counter-increment: item; margin-bottom: 0.6em; }',
-    'ol > li:before { content: counters(item, ".") ". "; display: table-cell; padding-right: 0.6em; }',
+    'ol { list-style-type: none; counter-reset: item; margin: 0; padding: 0; padding-inline-start: 5px; }',
+    'ol > li { display: table; counter-increment: item; }',
+    'ol > li:before { content: counters(item, ".") ". "; display: table-cell; padding-right: 0.3em; }',
     'li ol > li { margin: 0; }',
     'li ol > li:before { content: counters(item, ".") " "; }',
     'li a:hover { color: blue; }',

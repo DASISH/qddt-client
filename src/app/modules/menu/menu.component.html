@@ -3,7 +3,7 @@
     <div class="nav-wrapper">
 <!--      <a href="#" data-target="leftmenu" class="button-collapse"><i class="material-icons">menu</i></a>-->
       <span style="height: 64px; overflow: hidden">
-        <a *ngIf="!path[0]" (click)="onSurvey()" class="waves-effect " style="padding-left: 1rem; padding-right: 1rem;"> <i class="large material-icons" >store</i></a>
+<!--        <a *ngIf="!path[0]" (click)="onSurvey()" class="waves-effect " style="padding-left: 1rem; padding-right: 1rem;"> <i class="large material-icons" >store</i></a>-->
 
         <a *ngIf="path[0]" (click)="onSurvey()" class="breadcrumb">SURVEY [{{ path[0].name }}]</a>
         <a *ngIf="path[1]" (click)="onStudy()" class="breadcrumb">STUDY [{{ path[1].name }}]</a>

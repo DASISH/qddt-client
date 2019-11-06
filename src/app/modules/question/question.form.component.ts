@@ -13,7 +13,7 @@ import {
   selector: 'qddt-questionitem-form',
 
   styles: [
-    ':host .hoverable .row { min-height:3rem; margin-bottom:0px;}'
+    // ':host .hoverable .row { min-height:3rem; margin-bottom:0px;}'
   ],
   templateUrl: './question.form.component.html'
 })
