@@ -46,11 +46,11 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
   }
 
   ngOnChanges(change: SimpleChanges) {
-    if (change['elementKind'] && change['elementKind'].currentValue) {
+    if (change.elementKind && change.elementKind.currentValue) {
       this.queryInfo = getQueryInfo(this.elementKind);
     }
 
-    if ( (change['items'] && this.waitingForChange)) {
+    if ( (change.items && this.waitingForChange)) {
       this.waitingForChange = false;
       this.candidates = this.items;
       if (this.items && this.items.length > 0) {
@@ -59,7 +59,7 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
       this.found = ((this.candidates) && (this.candidates.length > 0));
     }
 
-    if (change['initialValue'] && change['initialValue'].isFirstChange() && !this.selected ) {
+    if (change.initialValue && change.initialValue.isFirstChange() && !this.selected ) {
       this.value = this.initialValue;
     }
   }
@@ -142,15 +142,15 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
     if (!this.items || !this.queryInfo) { return; }
     const field = this.queryInfo.fields;
     const isMultipleFields = this.queryInfo.isMultipleFields();
-    const filterItem = this.filterItem;
+    // const filterItem = this.filterItem;
     this.candidates = this.items.filter(
-      function (item) {
+      item => {
         if (isMultipleFields) {
           return field.findIndex((element: any) => {
-            return filterItem(item, element, search);
+            return this.filterItem(item, element, search);
           }) >= 0;
         } else {
-          return filterItem(item, field, search);
+          return this.filterItem(item, field, search);
         }
     });
   }

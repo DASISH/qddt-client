@@ -60,7 +60,8 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, Af
   }
 
   ngAfterViewInit(): void {
-    // M.AutoInit(document.getElementById('RD-{{formId}}'));
+    // M.FormSelect.init(document.getElementById('ScaleDisplayLayout-' + this.formId));
+    M.updateTextFields();
   }
 
   ngOnInit() {
@@ -88,8 +89,12 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, Af
       const page = this.getPageSearch();
       this.domainType = (page) ? DomainKind[page.keys.get('ResponseKind')] : DomainKind.SCALE;
       this.numberOfAnchors = this.responseDomain.managedRepresentation.children.length;
+
       this.buildPreviewResponseDomain();
-    }
+      document.querySelectorAll('SELECT').forEach( comp => {
+        M.FormSelect.init(comp);
+        console.log( comp.nodeName);
+      });    }
   }
 
   ngOnDestroy(): void {
@@ -150,7 +155,7 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, Af
 
     if (this.domainType === DomainKind.LIST) {
       for (let i = rep.children.length; i < this.numberOfAnchors; i++) {
-        rep.children.push(new Category({ code:  { codeValue: string(i + 1) , alignment: '' }}));
+        rep.children.push(new Category({ code:  { codeValue: String(i + 1) , alignment: '' }}));
       }
     } else if (this.domainType === DomainKind.SCALE) {
       const len = rep.children.length;
@@ -161,50 +166,6 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, Af
     this.buildPreviewResponseDomain();
   }
 
-
-  // onClickClear(idx: number) {
-  //   const rep = this.responseDomain.managedRepresentation;
-  //   if (this.domainType === DomainKind.LIST) {
-  //     if ( idx < rep.children.length) {
-  //       const c = new Category();
-  //       c.code = rep.children[idx].code;
-  //       rep.children[idx] = c;
-  //       this.buildPreviewResponseDomain();
-  //     }
-  //   }
-  // }
-
-  // onClickUp(idx: number) {
-  //   const rep = this.responseDomain.managedRepresentation;
-  //   if (this.domainType === DomainKind.LIST) {
-  //     if ( idx < rep.children.length && idx > 0) {
-  //       const prev = rep.children[idx - 1];
-  //       const curr = rep.children[idx];
-  //       const code = curr.code;
-  //       curr.code = prev.code;
-  //       rep.children[idx - 1] = curr;
-  //       prev.code = code;
-  //       rep.children[idx] = prev;
-  //       this.buildPreviewResponseDomain();
-  //     }
-  //   }
-  // }
-  //
-  // onClickDown(idx: number) {
-  //   const rep = this.responseDomain.managedRepresentation;
-  //   if (this.domainType === DomainKind.LIST) {
-  //     if ( idx < (rep.children.length - 1) && idx >= 0) {
-  //       const next = rep.children[idx + 1];
-  //       const curr = rep.children[idx];
-  //       const code = curr.code;
-  //       curr.code = next.code;
-  //       rep.children[idx + 1] = curr;
-  //       next.code = code;
-  //       rep.children[idx] = next;
-  //       this.buildPreviewResponseDomain();
-  //     }
-  //   }
-  // }
 
   onChangeDegreeSlope(degree: string) {
     this.responseDomain.displayLayout = degree;
@@ -226,10 +187,12 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, Af
   }
 
   subtract(value1, value2): number {
+    // tslint:disable-next-line:radix
     return parseInt(value1) - parseInt(value2);
   }
 
   addition(value1, value2): number {
+    // tslint:disable-next-line:radix
     return parseInt(value1) + parseInt(value2);
   }
 

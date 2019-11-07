@@ -1,9 +1,8 @@
-import { Component, Input, OnChanges } from '@angular/core';
-import {Category, ResponseCardinality} from '../../../lib/classes';
+import { Component, Input } from '@angular/core';
+import { Category, ResponseCardinality } from '../../../lib/classes';
 
 @Component({
   selector: 'qddt-preview-rd-mixed',
-
   template: `
 <div>
   <label *ngIf="managedRepresentation && managedRepresentation.children.length > 0" class="active teal-text">
@@ -21,17 +20,13 @@ import {Category, ResponseCardinality} from '../../../lib/classes';
       <qddt-preview-rd-missing *ngSwitchCase="'MISSING_GROUP'" [managedRepresentation]="rep"></qddt-preview-rd-missing>
     </div>
   </div>
-</div>`,
-  styles: [],
-  providers: [],
+</div>
+`
 })
 
-export class ResponsedomainMixedComponent implements OnChanges {
+export class ResponsedomainMixedComponent {
   @Input() managedRepresentation: Category;
   @Input() responseCardinality: ResponseCardinality;
   @Input() displayLayout = 0;
 
-
-  ngOnChanges() {
-  }
 }

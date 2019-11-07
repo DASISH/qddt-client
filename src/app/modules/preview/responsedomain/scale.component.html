@@ -14,7 +14,7 @@
     <tr *ngFor="let row of rows; let idx=index">
       <td *ngFor="let option of columns" style="text-align: center">
               <label>
-                <input name="{{managedRepresentation.id}}-group-{{idx}}" type="radio" />
+                <input name="option-select" type="radio" />
                 <span>{{ option?.value }}</span>
               </label>
       </td>
@@ -30,13 +30,23 @@
 
   <div *ngIf="displayLayout !== 0">
     <ul>
-      <li *ngFor="let option of rows; let i=index" class="row">
+      <li *ngFor="let option of rows">
+        <span class="left" style="width: 30px; float: right; "> {{  option.value }} </span>
         <label>
-          <input name="{{managedRepresentation.id}}-list" type="radio" id="{{managedRepresentation.id}}list{{i}}"/>
-          <span>{{ option.label }}</span>
+          <input name="option-select" type="radio"/>
+          <span >{{option.label}}</span>
         </label>
       </li>
     </ul>
+<!--    <ul>-->
+<!--      <li *ngFor="let option of rows; let i=index">-->
+<!--        <span class="left" style="margin-right: 10px;"> {{ option.value }} </span>-->
+<!--        <label>-->
+<!--          <input name="{{managedRepresentation.id}}-list" type="radio" id="{{managedRepresentation.id}}list{{i}}"/>-->
+<!--          <span>{{ option.label }}</span>-->
+<!--        </label>-->
+<!--      </li>-->
+<!--    </ul>-->
   </div>
 
 </div>

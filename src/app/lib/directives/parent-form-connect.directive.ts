@@ -20,7 +20,7 @@ export class ParentFormConnectDirective implements OnInit, OnDestroy {
 
       if (this.parentForm.form.contains(this.parentFormConnect) === true) {
 
-        alert('goht it gibts scho');
+        // alert('goht it gibts scho');
         return;
       }
 

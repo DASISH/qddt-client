@@ -14,7 +14,7 @@
 
   <form  id="{{formId}}" #hf="ngForm" (ngSubmit)="onSaveQuestionItem()" >
     <div class="row input-field">
-      <input id="NAME-{{formId}}"  placeholder="Name me" name="name" type="text" class="validate" required [(ngModel)]="questionItem.name" data-length="255">
+      <input id="NAME-{{formId}}" placeholder="Name me" name="name" type="text" class="validate" required [(ngModel)]="questionItem.name" data-length="255">
       <label for="NAME-{{formId}}">Name</label>
     </div>
     <div class="row input-field">

@@ -30,7 +30,7 @@ import {
 export class ElementRevisionSelectComponent implements OnChanges {
   @Input() source: ElementKind|IRevisionRef;
   @Output() elementRevisionSelected = new EventEmitter<ElementRevisionRef>();
-  @Output() dismissEvent = new EventEmitter<Boolean>();
+  @Output() dismissEvent = new EventEmitter<boolean>();
 
   public itemList = null;
 
@@ -43,14 +43,14 @@ export class ElementRevisionSelectComponent implements OnChanges {
   constructor(private service: TemplateService) {  }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['source'] && changes['source'].currentValue) {
+    if (changes.source && changes.source.currentValue) {
       console.log('afds');
-        if (this.isElementRevision(changes['source'].currentValue)) {
-          this.revisionRef = changes['source'].currentValue as IRevisionRef;
+      if (this.isElementRevision(changes.source.currentValue)) {
+          this.revisionRef = changes.source.currentValue as IRevisionRef;
           this.kind = getElementKind(this.revisionRef.elementKind);
           this.showRevisionSelect = true;
         } else {
-          this.kind = getElementKind(changes['source'].currentValue);
+          this.kind = getElementKind(changes.source.currentValue);
           this.showAutoComplete = true;
           this.revisionRef = null;
         }
@@ -58,7 +58,7 @@ export class ElementRevisionSelectComponent implements OnChanges {
   }
 
   public onSearchElements(key) {
-    this.service.searchByKind( { kind:  this.kind, key: key, page: new Page() } )
+    this.service.searchByKind( { kind:  this.kind, key, page: new Page() } )
     .then((result) => this.itemList = result.content);
   }
 
@@ -87,7 +87,7 @@ export class ElementRevisionSelectComponent implements OnChanges {
       elementKind: this.kind,
       element: elementRevision.entity,
       name: (this.kind === ElementKind.QUESTION_CONSTRUCT) ?
-        elementRevision.entity.name + ' - ' + elementRevision.entity['questionItem']['question'] : elementRevision.entity.name,
+        elementRevision.entity.name + ' - ' + elementRevision.entity['questionItem'].question : elementRevision.entity.name,
       version: elementRevision.entity.version });
   }
 

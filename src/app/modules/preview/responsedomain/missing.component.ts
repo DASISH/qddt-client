@@ -9,11 +9,11 @@ import {Category} from '../../../lib/classes';
   <span style="font-weight: bold;"><label>Missing</label></span>
   <ul>
     <li *ngFor="let category of missing.children; let i = index;" >
+      <span class="left" style="width: 30px; float: right; "> {{ category.code?.codeValue }} </span>
       <label>
-        <input name="{{missing.name}}" type="radio"/>
+        <input name="option-select" type="radio"/>
         <span >{{category.label}}</span>
       </label>
-      <label class="right"> {{ category.code?.codeValue }} </label>
     </li>
   </ul>
 </div>`,

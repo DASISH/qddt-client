@@ -27,8 +27,6 @@ class Column {
 })
 
 
-
-
 export class ResponsedomainScaleComponent implements OnChanges {
   @Input() managedRepresentation: Category;
   @Input() displayLayout = 0;
@@ -41,7 +39,6 @@ export class ResponsedomainScaleComponent implements OnChanges {
 
   ngOnChanges() {
     if (this.managedRepresentation) {
-      // console.log('ResponsedomainScaleComponent ngOnChanges doing');
       const rep = this.managedRepresentation;
       this.columns = [];
       this.headers = [];
@@ -58,7 +55,6 @@ export class ResponsedomainScaleComponent implements OnChanges {
         this.buildHorizontalColumns();
       }
     }
-    // console.log('ResponsedomainScaleComponent ngOnChanges done');
   }
 
 
@@ -93,7 +89,7 @@ export class ResponsedomainScaleComponent implements OnChanges {
     const numberOfcols = this.max - this.min + 1;
     const categories = rep.children
       .map(x => Object.assign({}, x))
-      .sort(function(a, b) { return  parseInt(a.code.codeValue) - parseInt(b.code.codeValue); } );
+      .sort((a, b) => parseInt(a.code.codeValue) - parseInt(b.code.codeValue));
 
     const colspan = minDistance(categories);
 

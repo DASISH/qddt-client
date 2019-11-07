@@ -1,6 +1,6 @@
-import {ElementKind} from '../enums/element-kind';
-import {QueryInfo} from '../classes/classes';
 import {QDDT_QUERY_INFOES} from './query-info.config';
+import {ElementKind} from '../enums';
+import {QueryInfo} from '../classes';
 
 export const StringIsNumber = value => isNaN(Number(value)) === false;
 
@@ -17,6 +17,9 @@ export function ElementEnumAware(constructor: Function) {
   constructor.prototype.ElementKind = ElementKind;
 }
 
-// export function isElementKind(kind: string|ElementKind): kind is ElementKind {
-//   return (kind as ElementKind) !== undefined;
-// }
+
+export function enumKeys<E>(e: E): (keyof E)[] {
+  return Object.keys(e) as (keyof E)[];
+}
+
+

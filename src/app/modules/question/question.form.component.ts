@@ -11,10 +11,6 @@ import {
 
 @Component({
   selector: 'qddt-questionitem-form',
-
-  styles: [
-    // ':host .hoverable .row { min-height:3rem; margin-bottom:0px;}'
-  ],
   templateUrl: './question.form.component.html'
 })
 
@@ -31,8 +27,6 @@ export class QuestionFormComponent  implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // document.querySelectorAll('input[data-length], textarea[data-length]').forEach(
-    //   input => M.CharacterCounter.init(input));
     M.updateTextFields();
   }
 
@@ -61,39 +55,9 @@ export class QuestionFormComponent  implements AfterViewInit {
     }
   }
 
-  // onSaveMissingResponseDomain(item: ResponseDomain) {
-  //   item.changeKind = 'CONCEPTUAL';
-  //   item.changeComment = 'Values changed or managed representation added';
-  //   this.service.update<ResponseDomain>(item).subscribe(result => {
-  //     this.questionItem.responseDomain = result;
-  //     this.questionItem.responseDomainRevision = 0;
-  //   });
-  //   console.log(this.questionItem.responseDomain);
-  // }
-
   onResponsedomainRemove() {
     this.questionItem.responseDomainRevision = 0;
     this.questionItem.responseDomain = null;
   }
-
-  // public getMissing(): Category {
-  //   return  new ResponseDomain(this.questionItem.responseDomain).missing;
-  // }
-
-  // onOpenModal() {
-  //   $('#unique01').modal('open');
-  //   // $('#unique02').modal('open');
-  //   // this.deleteAction.emit({action: 'modal', params: ['open']});
-  // }
-
-  // private deleteChild(representation: Category, categoryType: string) {
-  //   if (!representation.children) {
-  //     return;
-  //   }
-  //   const index = representation.children.findIndex((e: any) => e.categoryType === categoryType);
-  //   if (index >= 0) {
-  //     representation.children.splice(index, 1);
-  //   }
-  // }
 
 }
