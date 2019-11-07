@@ -13,7 +13,7 @@ export class EqualValidator implements Validator {
 
   }
 
-  private get isReverse() {
+  private get isReverse(): boolean {
     return (this.reverse && this.reverse === 'true');
   }
 
@@ -28,7 +28,7 @@ export class EqualValidator implements Validator {
 
     // value equal and reverse
     if (e && v === e.value && this.isReverse) {
-      delete e.errors['validateEqual'];
+      delete e.errors.validateEqual;
       if (!Object.keys(e.errors).length) {
         e.setErrors(null);
       }

@@ -60,7 +60,8 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, Af
   }
 
   ngAfterViewInit(): void {
-    // M.AutoInit(document.getElementById('RD-{{formId}}'));
+    // M.FormSelect.init(document.getElementById('ScaleDisplayLayout-' + this.formId));
+    M.updateTextFields();
   }
 
   ngOnInit() {
@@ -88,8 +89,12 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, Af
       const page = this.getPageSearch();
       this.domainType = (page) ? DomainKind[page.keys.get('ResponseKind')] : DomainKind.SCALE;
       this.numberOfAnchors = this.responseDomain.managedRepresentation.children.length;
+
       this.buildPreviewResponseDomain();
-    }
+      document.querySelectorAll('SELECT').forEach( comp => {
+        M.FormSelect.init(comp);
+        console.log( comp.nodeName);
+      });    }
   }
 
   ngOnDestroy(): void {
@@ -182,10 +187,12 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, Af
   }
 
   subtract(value1, value2): number {
+    // tslint:disable-next-line:radix
     return parseInt(value1) - parseInt(value2);
   }
 
   addition(value1, value2): number {
+    // tslint:disable-next-line:radix
     return parseInt(value1) + parseInt(value2);
   }
 

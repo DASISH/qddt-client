@@ -8,12 +8,12 @@ import {Category, ResponseCardinality} from '../../../lib/classes';
 <div *ngIf="managedRepresentation">
   <ul>
     <li *ngFor="let row of rows" >
+      <span class="left" style="width: 30px; float: right; "> {{ row.code }} </span>
       <label>
-       <input name="{{managedRepresentation?.id}}-codegroup" type="{{type}}"
+       <input name="option-select" type="{{type}}"
          [disabled]="row.disabled" (change)="checkOption(row, $event)"/>
         <span >{{row.label}}</span>
       </label>
-      <label class="right">{{ row.code }}</label>
     </li>
   </ul>
 </div>

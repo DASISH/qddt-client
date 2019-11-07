@@ -11,13 +11,13 @@ import {Category, DomainKind, ResponseCardinality, ResponseDomain} from '../../.
         {{ responseDomain?.name }}(V<qddt-version [element]="rep"></qddt-version>)
     </label>
     <div [ngSwitch]="responseType">
-      <qddt-preview-rd-mixed *ngSwitchCase="refKind.MIXED" [managedRepresentation]="rep" [displayLayout]="displayLayout" [responseCardinality]="cardinality"></qddt-preview-rd-mixed>
-      <qddt-preview-rd-scale *ngSwitchCase="refKind.SCALE" [managedRepresentation]="rep" [displayLayout]="displayLayout"></qddt-preview-rd-scale>
-      <qddt-preview-rd-codelist *ngSwitchCase="refKind.LIST" [managedRepresentation]="rep" [responseCardinality]="cardinality"></qddt-preview-rd-codelist>
-      <qddt-preview-rd-datetime *ngSwitchCase="refKind.DATETIME" [managedRepresentation]="rep"></qddt-preview-rd-datetime>
-      <qddt-preview-rd-numeric *ngSwitchCase="refKind.NUMERIC" [managedRepresentation]="rep"></qddt-preview-rd-numeric>
-      <qddt-preview-rd-text *ngSwitchCase="refKind.TEXT" [managedRepresentation]="rep"></qddt-preview-rd-text>
-      <qddt-preview-rd-missing *ngSwitchCase="refKind.MISSING" [managedRepresentation]="rep"></qddt-preview-rd-missing>
+      <qddt-preview-rd-mixed id="{{compId}}" *ngSwitchCase="refKind.MIXED" [managedRepresentation]="rep" [displayLayout]="displayLayout" [responseCardinality]="cardinality"></qddt-preview-rd-mixed>
+      <qddt-preview-rd-scale id="{{compId}}" *ngSwitchCase="refKind.SCALE" [managedRepresentation]="rep" [displayLayout]="displayLayout"></qddt-preview-rd-scale>
+      <qddt-preview-rd-codelist id="{{compId}}" *ngSwitchCase="refKind.LIST" [managedRepresentation]="rep" [responseCardinality]="cardinality"></qddt-preview-rd-codelist>
+      <qddt-preview-rd-datetime id="{{compId}}" *ngSwitchCase="refKind.DATETIME" [managedRepresentation]="rep"></qddt-preview-rd-datetime>
+      <qddt-preview-rd-numeric id="{{compId}}" *ngSwitchCase="refKind.NUMERIC" [managedRepresentation]="rep"></qddt-preview-rd-numeric>
+      <qddt-preview-rd-text id="{{compId}}" *ngSwitchCase="refKind.TEXT" [managedRepresentation]="rep"></qddt-preview-rd-text>
+      <qddt-preview-rd-missing id="{{compId}}" *ngSwitchCase="refKind.MISSING" [managedRepresentation]="rep"></qddt-preview-rd-missing>
     </div>
   </div>`,
   providers: [],
@@ -31,6 +31,7 @@ export class PreviewResponsedomainComponent implements OnChanges, AfterViewInit 
   public cardinality: ResponseCardinality;
   public displayLayout: number;
   public rep: Category;
+  public compId = Math.round( Math.random() * 10000);
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.responseDomain) {
@@ -41,10 +42,8 @@ export class PreviewResponsedomainComponent implements OnChanges, AfterViewInit 
     }
   }
   ngAfterViewInit(): void {
-    // M.AutoInit();
-    // M.updateTextFields();
-    document.querySelectorAll('select')
-    .forEach( select => M.FormSelect.init(select));
+    // document.querySelectorAll('select')
+    // .forEach( select => M.FormSelect.init(select));
   }
 
 }

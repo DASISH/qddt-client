@@ -42,9 +42,9 @@ export class RationalComponent implements OnInit, OnChanges, AfterViewInit {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.element.isFirstChange()) {
       this.element.changeComment = '';
+      this.onSelectOption(0);
     }
     this.originalId = this.element.id;
-    this.onSelectOption(0);
     // console.log(this.element.changeKind);
   }
 
