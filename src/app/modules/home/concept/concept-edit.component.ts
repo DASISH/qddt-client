@@ -7,30 +7,30 @@ import {Concept, TemplateService} from '../../../lib';
   selector: 'qddt-concept-edit',
   providers: [ {provide: 'elementKind', useValue: 'CONCEPT'}, ],
   template: `
-<div *ngIf="concept && isVisible">
-  <form id="{{formId}}" (ngSubmit)="save()" #hf="ngForm">
-    <div class="row input-field">
-      <input id="NAME-{{formId}}" name="name" type="text" required  data-length ="250"  [(ngModel)]="concept.name">
-      <label class="active" for="NAME-{{formId}}">Name</label>
+<div [hidden]="!(concept && isVisible)">
+  <form class="row" id="{{formId}}" (ngSubmit)="save()" #hf="ngForm">
+    <div class="col s12 input-field">
+      <input name="name" type="text" required  data-length ="250"  [(ngModel)]="concept.name">
+      <label>Name</label>
     </div>
 
-    <div class="row input-field">
-      <textarea id="DESC-{{formId}}" name="description"
+    <div class="col s12 input-field">
+      <textarea  name="description"
         class="materialize-textarea" required  data-length ="10000" [(ngModel)]="concept.description">
       </textarea>
-      <label class="active" for="DESC-{{formId}}">Description</label>
+      <label class="active">Description</label>
     </div>
 
-    <qddt-rational
+    <qddt-rational class="col s12" 
       *ngIf="!readonly && isVisible"
       [formName]="'RationalComp'"
       [element]="concept"
       [config]="{hidden: [2,3]}">
     </qddt-rational>
 
-    <qddt-element-footer [element]="concept"></qddt-element-footer>
+    <qddt-element-footer  class="col s12" [element]="concept"></qddt-element-footer>
 
-    <div class="row right-align" *ngIf="!readonly">
+    <div class="col s12 right-align" *ngIf="!readonly">
       <button type="submit" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
     </div>
   </form>

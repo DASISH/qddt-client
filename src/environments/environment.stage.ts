@@ -1,5 +1,5 @@
 export const environment = {
-  production: true,
+  production: false,
   APP_BASE: '/',
   API_BASE: 'https://qddt-test.nsd.no/api/'
 };

@@ -6,7 +6,7 @@ import {SurveyProgram, TemplateService} from '../../../lib';
   selector: 'qddt-survey-edit',
   providers: [ {provide: 'elementKind', useValue: 'SURVEY_PROGRAM'}, ],
   template: `
-<div [hidden]="!isVisible">
+<div class="col s12" [hidden]="!isVisible">
   <form id="{{formId}}" (ngSubmit)="onSave()" #surveyForm="ngForm">
     <div class="row input-field">
       <input id="NAME-{{formId}}" name="name" type="text" [(ngModel)]="survey.name" required data-length ="250" >
@@ -32,7 +32,7 @@ import {SurveyProgram, TemplateService} from '../../../lib';
 `
 })
 
-export class SurveyEditComponent implements  AfterViewInit , AfterContentChecked {
+export class SurveyEditComponent implements  AfterViewInit {
   @Input() survey: SurveyProgram;
   @Input() readonly = false;
   @Input() isVisible = false;
@@ -58,10 +58,10 @@ export class SurveyEditComponent implements  AfterViewInit , AfterContentChecked
         });
   }
 
-  ngAfterContentChecked(): void {
-    document.querySelectorAll('textarea').forEach(
-      input => M.textareaAutoResize(input));
-  }
+  // ngAfterContentChecked(): void {
+  //   document.querySelectorAll('textarea').forEach(
+  //     input => M.textareaAutoResize(input));
+  // }
 
   ngAfterViewInit(): void {
     document.querySelectorAll('input[data-length], textarea[data-length]').forEach(

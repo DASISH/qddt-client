@@ -40,9 +40,9 @@
 
   <div *ngIf="showProgressBar" class="progress"><div class="indeterminate"></div></div>
 
-  <div class="row card-panel scrollspy" id="{{topic.id}}" *ngFor="let topic of topics">
+  <div class="row card section scrollspy white grey-text text-darken-2" id="{{topic.id}}" *ngFor="let topic of topics">
     <div class="col s1">
-      <div class="row">
+        <br/>
         <a *ngIf="!topic.archived && !readonly" class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2"
             (click)="edit.isVisible = !edit.isVisible; refreshCount = 0"><i class="material-icons" title="Edit Concept">mode_edit</i></a>
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light blue lighten-2"
@@ -53,17 +53,14 @@
                              [element]="topic"
                              (confirmAction)="onRemoveTopic($event)">
         </qddt-confirm-delete>
-      </div>
     </div>
-    <div class="col s10 grey-text text-darken-2">
+    <div class="col s10">
       <h5 class="row">
-          <div class="col s9">{{ topic?.name }}</div>
-          <div class="col s3">
+          <div class="col s10">{{ topic?.name }}</div>
+          <div class="col s2">
               <qddt-version-label class="right" [element]="topic"></qddt-version-label>
           </div>
-        </h5>
-    </div>
-    <div class="col s10 white grey-text text-darken-1">
+      </h5>
       <qddt-topic-edit [isVisible]="edit.isVisible" #edit
          [topic]="topic" (savedEvent)="onTopicSaved($event)">
       </qddt-topic-edit>

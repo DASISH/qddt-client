@@ -3,34 +3,27 @@ import {ElementKind, TemplateService, Topic} from '../../../lib';
 
 @Component({
   selector: 'qddt-topic-edit',
-  styles: [
-    // '.nomargin { margin:0; }',
-    // ':host ::ng-deep .hoverable { margin-bottom:0px;}',
-    // ':host ::ng-deep .hoverable .row { min-height:3rem; margin-bottom:0px;}'
-  ],
   template: `
 <div [hidden]="!(topic && isVisible)">
-  <form id="{{formId}}" (ngSubmit)="onSave()" #topicForm="ngForm">
-    <div class="row input-field">
-      <input  type="text" name="name"
-        [(ngModel)]="topic.name" required data-length ="250">
+  <form class="row" id="{{formId}}" (ngSubmit)="onSave()" #topicForm="ngForm">
+    <div class="col s12 input-field">
+      <input name="name" type="text" [(ngModel)]="topic.name" required data-length ="250">
       <label class="active">Name</label>
     </div>
 
-    <div class="row input-field">
-      <textarea name="description" class="materialize-textarea"
-        [(ngModel)]="topic.description" required  data-length ="10000" >
+    <div class="col s12 input-field">
+      <textarea name="description" class="materialize-textarea" [(ngModel)]="topic.description" required  data-length ="10000" >
       </textarea>
-      <label>Description</label>
+      <label class="active">Description</label>
     </div>
 
-    <qddt-download [fileStore]="fileStore" [entity]="topic" [readonly]="readonly"></qddt-download>
+    <qddt-download class="col s12" [fileStore]="fileStore" [entity]="topic" [readonly]="readonly"></qddt-download>
 
-    <qddt-rational [formName]="'RationalComp'" [element]="topic" [config]="{hidden: [2,3]}"></qddt-rational>
+    <qddt-rational class="col s12" [formName]="'RationalComp'" [element]="topic" [config]="{hidden: [2,3]}"></qddt-rational>
 
-    <qddt-element-footer [element]="topic"></qddt-element-footer>
+    <qddt-element-footer class="col s12" [element]="topic"></qddt-element-footer>
 
-    <div class="row right-align">
+    <div class="col s12 right-align">
       <button type="submit" class="btn btn-default" [disabled]="topicForm.form.invalid" >Submit</button>
     </div>
 
@@ -38,7 +31,7 @@ import {ElementKind, TemplateService, Topic} from '../../../lib';
 </div>
 `})
 
-export class TopicEditComponent  implements AfterContentChecked, AfterViewInit {
+export class TopicEditComponent  implements AfterViewInit {
   @Input() topic: Topic;
   @Input() readonly = false;
   @Input() isVisible = false;
@@ -52,15 +45,10 @@ export class TopicEditComponent  implements AfterContentChecked, AfterViewInit {
   constructor(private service: TemplateService) {
    }
 
-  ngAfterContentChecked(): void {
-    // document.querySelectorAll('textarea').forEach(
-    //   input => M.textareaAutoResize(input));
-  }
-
   ngAfterViewInit(): void {
-    document.querySelectorAll('input[data-length], textarea[data-length]').forEach(
-      input => M.CharacterCounter.init(input));
-    M.updateTextFields();
+    // document.querySelectorAll('input[data-length], textarea[data-length]').forEach(
+    //   input => M.CharacterCounter.init(input));
+    // M.updateTextFields();
   }
 
 

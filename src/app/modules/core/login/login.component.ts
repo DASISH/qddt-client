@@ -6,8 +6,7 @@ import { Password, UserService } from '../../../lib';
 
 @Component({
   selector: 'qddt-login',
-  template:
-`
+  template:`
 <div id="FORM-{{formId}}" class="modal" style="width:25%;">
   <div class="modal-content">
     <h4>Login</h4>

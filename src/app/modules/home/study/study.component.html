@@ -22,9 +22,9 @@
       </form>
     </div>
   </div>
-  <div class="card-panel row scrollspy" id="{{study.id}}"  *ngFor="let study of survey?.studies">
+  <div class="row card section scrollspyy" id="{{study.id}}"  *ngFor="let study of survey?.studies">
     <div class="col s1 ">
-      <div class="row">
+      <br/>
         <a *ngIf="!study?.archived && !readonly" class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2"
             (click)="edit.isVisible = !edit.isVisible; refreshCount=0;"><i class="material-icons"title="Edit element">mode_edit</i></a>
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light blue lighten-2"
@@ -35,7 +35,6 @@
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
             (click)="onShowTopic(study)"><i class="material-icons left medium" title="Go to child elements">play_arrow</i></a>
         <qddt-confirm-delete *ngIf="!study?.archived && canDelete" [element]="study" (confirmAction)="onRemoveStudy($event)"></qddt-confirm-delete>
-      </div>
     </div>
     <div class="col s10 grey-text text-darken-2">
       <h5 class="row">

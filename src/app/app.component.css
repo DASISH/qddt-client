@@ -28,9 +28,9 @@ p {
   white-space: pre-wrap;
 }
 
-/*form p {*/
-/*  text-align: justify;*/
-/*}*/
+form p {
+ text-align: justify;
+}
 
 
 .dropdown-content {
