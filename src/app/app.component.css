@@ -24,12 +24,13 @@
 
 p {
   text-align: justify;
-  text-justify: inter-word;
-  white-space: pre-wrap;
+  text-justify: auto;
+  white-space: pre-line;
 }
 
 form p {
- text-align: justify;
+  text-justify: auto;
+  white-space: pre-line;
 }
 
 

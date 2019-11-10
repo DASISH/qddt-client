@@ -30,6 +30,7 @@ export class MissingFormComponent implements OnInit, AfterViewInit {
   constructor(private service: TemplateService) {
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.MISSING_GROUP);
   }
+
   ngOnInit() {
     this.pageSearch = { kind: this.CATEGORY, page: new Page(), key: ''};
   }
@@ -39,10 +40,10 @@ export class MissingFormComponent implements OnInit, AfterViewInit {
   }
 
   public onSelect(item: IElement) {
-    if (this.missingIndex === this._missing.children.length) {
-      this._missing.children.push(item.element);
+    if (this.missingIndex === this.missing.children.length) {
+      this.missing.children.push(item.element);
     } else {
-      this._missing.children[this.missingIndex] = item.element;
+      this.missing.children[this.missingIndex] = item.element;
     }
     this.missingList = [];
   }
@@ -57,7 +58,7 @@ export class MissingFormComponent implements OnInit, AfterViewInit {
   public onSave() {
     this.service.update<Category>(this._missing).subscribe(
       (result) => {
-        this._missing = result;
+        this.missing = result;
         this.modifiedEvent.emit(result);
       },
       (error) => { throw error; });

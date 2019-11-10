@@ -1,5 +1,5 @@
-import {AfterContentChecked, AfterViewInit, Component, EventEmitter, Input, Output} from '@angular/core';
-import {ElementKind, IElement, Instrument, Page, Study, TemplateService} from '../../../lib';
+import { AfterContentChecked, AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ElementKind, IElement, Instrument, Page, Study, TemplateService } from '../../../lib';
 
 @Component({
   selector: 'qddt-study-edit',
@@ -7,7 +7,7 @@ import {ElementKind, IElement, Instrument, Page, Study, TemplateService} from '.
     '.nomargin { margin:0; }',
     ':host ::ng-deep .hoverable .row { min-height:3rem; margin-bottom:0px;}'
   ],
-  providers: [ {provide: 'elementKind', useValue: 'STUDY'}, ],
+  providers: [{ provide: 'elementKind', useValue: 'STUDY' }],
   template: `
 <div [hidden]="!(isVisible && study)">
   <form id="{{formId}}" (ngSubmit)="onSave()" #studyForm="ngForm">
@@ -44,14 +44,14 @@ import {ElementKind, IElement, Instrument, Page, Study, TemplateService} from '.
 `
 })
 
-export class StudyEditComponent implements  AfterContentChecked, AfterViewInit {
+export class StudyEditComponent implements AfterContentChecked, AfterViewInit {
   @Input() study: Study;
   @Input() readonly = false;
   @Input() isVisible = false;
-  @Output() savedEvent =  new EventEmitter<any>();
+  @Output() savedEvent = new EventEmitter<any>();
 
-  public readonly formId = Math.round( Math.random() * 10000);
-  public readonly  INSTRUMENT = ElementKind.INSTRUMENT;
+  public readonly formId = Math.round(Math.random() * 10000);
+  public readonly INSTRUMENT = ElementKind.INSTRUMENT;
   public instrumentsList: Instrument[];
 
   constructor(private service: TemplateService) { }
@@ -76,7 +76,7 @@ export class StudyEditComponent implements  AfterContentChecked, AfterViewInit {
 
   onAddInstrument(item: IElement) {
     this.service.getByKindEntity<Instrument>(this.INSTRUMENT, item.element.id)
-      .then( instrument => {
+      .then(instrument => {
         this.study.instruments.push(instrument);
         // instrument.study = this.study;
         // this.service.update(instrument);
@@ -84,21 +84,10 @@ export class StudyEditComponent implements  AfterContentChecked, AfterViewInit {
   }
 
   onInstrumentSearch(key: string) {
-    this.service.searchByKind<Instrument>(  {kind: this.INSTRUMENT, key: key, page: new Page() }).then(
+    this.service.searchByKind<Instrument>({ kind: this.INSTRUMENT, key, page: new Page() }).then(
       (result) => {
         this.instrumentsList = result.content;
       });
   }
-  //
-  // onAuthorSelected(author: any) {
-  //  this.studyService.attachStudyAuthor(this.study.id, author.id);
-  //  this.study['authors'].push(author);
-  // }
-  //
-  // onAuthorRemoved(author: any) {
-  //  this.studyService.deattachStudyAuthor(this.study.id, author.id);
-  //  const i = this.study['authors'].findIndex((F: any) => F === author);
-  //  this.study['authors'].splice(i, 1);
-  // }
 
 }

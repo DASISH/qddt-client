@@ -1,17 +1,13 @@
 <div class="row" *ngIf="item">
-  <!-- <div id="{{item.id}}" class="scrollspy"> -->
 
     <div class="fixed-action-btn vertical click-to-toggle">
       <a class="btn-floating btn-large cyan"><i class="large material-icons">menu</i></a>
       <ul>
         <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light blue lighten-2" (click)="revisionIsVisible = !revisionIsVisible">
-               <!--href=".#scrollRevision">-->
           <i class="material-icons left medium" title="Revision history">history</i>
         </a></li>
         <li *ngIf="canDelete">
           <qddt-confirm-delete *ngIf="canDelete" [element]="item" (confirmAction)="onDeleteConfirmModal()"></qddt-confirm-delete>
-<!--          <a class="btn-flat btn-floating btn-medium waves-effect waves-light red lighten-2">-->
-<!--          <i class="material-icons" (click)="onDeleteConfirmModal()" title="Delete" >delete_forever</i></a>-->
         </li>
         <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light orange lighten-2">
           <i class="material-icons" (click)="onGetPdf(item)" title="Get as Pdf">picture_as_pdf</i>
@@ -33,12 +29,7 @@
       </div>
       <div class="row">
         <qddt-version-label class="right" [element]="item"></qddt-version-label>
-        <h5 [innerHtml]="item?.name" style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;color: dimgrey;">
-<!--        <h5 class="col s9 m10">{{ item?.name }}</h5>-->
-<!--        <div class="col s3 m2">-->
-<!--          <qddt-version-label class="right" [element]="item"></qddt-version-label>-->
-<!--        </div>-->
-      </h5>
+        <h5 [innerHtml]="item?.name" style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;color: dimgrey;"></h5>
       </div>
       <div #childForm class="row">
           <ng-content selector='.qddt-form'></ng-content>

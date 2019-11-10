@@ -8,17 +8,17 @@ import { ResponseDetailComponent } from './responsedomain.detail.component';
 import { ResponseFormComponent } from './responsedomain.form.component';
 import { ResponseRoutingModule } from './responsedomain.route';
 import { ResponsePreSelector } from './responsedomain.preselector.component';
-import {AnchorPointComponent} from './anchor-point.component';
+import { AnchorPointComponent } from './anchor-point.component';
 
 
 @NgModule({
-  imports: [ ComponentsModule, PreviewModule, SelectorsModule, SelectorDialogsModule, ResponseRoutingModule ],
+  imports: [ComponentsModule, PreviewModule, SelectorsModule, SelectorDialogsModule, ResponseRoutingModule],
 
-  declarations: [ResponsePreSelector, ResponseComponent, ResponseDetailComponent, ResponseFormComponent, AnchorPointComponent ],
+  declarations: [ResponsePreSelector, ResponseComponent, ResponseDetailComponent, ResponseFormComponent, AnchorPointComponent],
 
-  exports: [ResponseComponent ],
+  exports: [ResponseComponent],
 
-  providers: [  ]
+  providers: []
 })
 
 export class ResponsedomainModule { }

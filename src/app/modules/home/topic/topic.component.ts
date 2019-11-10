@@ -32,7 +32,7 @@ export class TopicComponent implements  OnInit, AfterViewInit {
   private refreshCount = 0;
 
   constructor(private router: Router, private property: PropertyStoreService,
-      private message: MessageService, private homeService: HomeService<Topic>, private templateService: TemplateService) {
+              private message: MessageService, private homeService: HomeService<Topic>, private templateService: TemplateService) {
 
     this.readonly = !homeService.canDo(this.TOPIC_KIND).get(ActionKind.Create);
     this.canDelete = homeService.canDo(this.TOPIC_KIND).get(ActionKind.Delete);

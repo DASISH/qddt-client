@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import {ElementKind, ElementRevisionRef, IOtherMaterial, MessageService, PreviewService, Topic} from '../../../lib';
+import { Component, Input, AfterViewInit } from '@angular/core';
+import { ElementKind, ElementRevisionRef, IOtherMaterial, MessageService, PreviewService, Topic } from '../../../lib';
 import * as FileSaver from 'file-saver';
 
 
@@ -11,11 +11,16 @@ import * as FileSaver from 'file-saver';
   templateUrl: 'preview.topic.component.html'
 })
 
-export class PreviewTopicComponent {
+export class PreviewTopicComponent implements AfterViewInit {
   @Input() topic: Topic;
 
   constructor(private  message: MessageService, private service: PreviewService) { }
 
+
+  ngAfterViewInit(): void {
+    document.querySelectorAll('.collapsible').forEach( item => M.Collapsible.init(item));
+
+  }
   onViewDetail(element: ElementRevisionRef) {
     if (!element.element) {
       this.service.getRevisionByKind(element.elementKind, element.elementId, element.elementRevision).then(

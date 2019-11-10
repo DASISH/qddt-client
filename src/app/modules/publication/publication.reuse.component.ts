@@ -16,7 +16,7 @@ import { TemplateService} from '../../components/template';
 })
 
 export class PublicationReuseComponent  {
-  @Input() showbutton: boolean;
+  @Input() showButton: boolean;
   @Output() selectedEvent = new EventEmitter<ElementRevisionRef>();
 
   public showAddElement = false;

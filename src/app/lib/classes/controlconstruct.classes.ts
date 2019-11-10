@@ -122,7 +122,7 @@ interface Condition { programmingLanguage: string; content: string; }
 
 
 export class IfThenElse {
-  IfCondition:  Condition;
+  IfCondition: Condition;
   ThenConstructReference: IIdRef;
   ElseIf?: Condition;
   ElseConstructReference?: IIdRef;

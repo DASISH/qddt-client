@@ -40,11 +40,11 @@
       </tr>
     </thead>
     <tbody>
-      <tr id="{{row.id}}" *ngFor="let row of rows;"  [ngStyle]="{'cursor': 'pointer'}" (mouseleave)="row.showbutton = false" >
-      <td style="padding:0" (mouseenter)="row.showbutton = true">
+      <tr id="{{row.id}}" *ngFor="let row of rows;"  [ngStyle]="{'cursor': 'pointer'}" (mouseleave)="row.showButton = false" >
+      <td style="padding:0" (mouseenter)="row.showButton = true">
         <div >
           <i class="material-icons small teal-text"   >keyboard_arrow_right</i>
-          <ul *ngIf="row.showbutton"  style="position: fixed; display: inline-flex; margin-top: 0px; margin-bottom: 0px; z-index: 1; ">
+          <ul *ngIf="row.showButton"  style="position: fixed; display: inline-flex; margin-top: 0px; margin-bottom: 0px; z-index: 1; ">
             <li *ngIf="canDelete">
               <qddt-confirm-delete [element]="row.Object" (confirmAction)="onConfirmDeleting(row.Object)"></qddt-confirm-delete>
 <!--            <a class="btn-flat btn-floating waves-effect waves-light red" >-->

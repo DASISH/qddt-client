@@ -19,7 +19,7 @@ export class QuestionFormComponent  implements AfterViewInit {
   @Input() readonly = false;
   @Output() modifiedEvent = new EventEmitter<QuestionItem>();
 
-  public showbutton = false;
+  public showButton = false;
   public formId = Math.round( Math.random() * 10000);
 
   constructor(private service: TemplateService) {

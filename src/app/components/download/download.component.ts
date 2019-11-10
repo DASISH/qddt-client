@@ -1,6 +1,6 @@
-import { Component, Input, OnChanges, SimpleChanges} from '@angular/core';
-import { ActionKind, ElementKind, getElementKind, IEntityEditAudit, IOtherMaterial} from '../../lib';
-import { TemplateService} from '../template';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { ActionKind, ElementKind, getElementKind, IEntityEditAudit, IOtherMaterial } from '../../lib';
+import { TemplateService } from '../template';
 import * as FileSaver from 'file-saver';
 
 
@@ -15,12 +15,12 @@ import * as FileSaver from 'file-saver';
     // '.collection-item  {min-height: 3rem; padding:10px 5px 0px 10px ;}'
   ],
 })
-export class FileDownload implements OnChanges {
+export class FileDownloadComponent implements OnChanges {
   @Input() fileStore: File[] = [];
   @Input() entity: IEntityEditAudit;
   @Input() readonly = true;
 
-  public showbutton = false;
+  public showButton = false;
   public showUploadFileForm = false;
   public showXmlDownload = true;
   public label = '';
@@ -29,12 +29,12 @@ export class FileDownload implements OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['entity'].currentValue) {
-      const ek =  getElementKind(this.entity.classKind);
+    if (changes.entity.currentValue) {
+      const ek = getElementKind(this.entity.classKind);
       if (!this.readonly) {
         this.readonly = !this.service.can(ActionKind.Create, ek);
       }
-      this.showXmlDownload = !(ek ===  ElementKind.SURVEY_PROGRAM || ek === ElementKind.STUDY);
+      this.showXmlDownload = !(ek === ElementKind.SURVEY_PROGRAM || ek === ElementKind.STUDY);
       this.label = (this.entity.otherMaterials) ? 'External aid & Exports' : 'Exports ';
     }
     // console.log(this.entity || JSON);

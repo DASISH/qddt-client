@@ -1,6 +1,7 @@
 <div class="col s12 m9">
   <div class="card-panel row teal white-text text-lighten-2">
-    <i class="material-icons large right">store</i><h4>Studies for {{ survey?.name }}</h4>
+    <i class="material-icons large right">store</i>
+    <h4>Studies for {{ survey?.name }}</h4>
     <a *ngIf="!survey.archived && !readonly" class="btn" (click)="showEditForm = !showEditForm">
       <i class="material-icons right" *ngIf="!showEditForm">keyboard_arrow_down</i>
       <i class="material-icons right" *ngIf="showEditForm">keyboard_arrow_up</i>
@@ -9,56 +10,64 @@
     <div *ngIf="showEditForm" class="col s10 offset-s1 card-action">
       <form #hf="ngForm">
         <div class="row input-field">
-          <input name="name" class="white-text" type="text" ngModel required  data-length ="250" >
+          <input name="name" class="white-text" type="text" ngModel required data-length="250" />
           <label class="white-text">Name</label>
         </div>
         <div class="row input-field white-text">
-          <textarea name="description" class="materialize-textarea white-text" ngModel required  data-length ="10000" ></textarea>
+          <textarea name="description" class="materialize-textarea white-text" ngModel required
+            data-length="10000"></textarea>
           <label class="white-text">Description</label>
         </div>
         <div class="row right-align">
-          <button type="button" (click)="onNewSave(hf.value)" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
+          <button type="button" (click)="onNewSave(hf.value)" class="btn btn-default" [disabled]="!hf.form.valid">
+            Submit
+          </button>
         </div>
       </form>
     </div>
   </div>
-  <div class="row card section scrollspyy" id="{{study.id}}"  *ngFor="let study of survey?.studies">
+  <div class="row card section scrollspyy" id="{{ study.id }}" *ngFor="let study of survey?.studies">
     <div class="col s1 ">
-      <br/>
-        <a *ngIf="!study?.archived && !readonly" class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2"
-            (click)="edit.isVisible = !edit.isVisible; refreshCount=0;"><i class="material-icons"title="Edit element">mode_edit</i></a>
-        <a class="btn-flat btn-floating btn-medium waves-effect waves-light blue lighten-2"
-            (click)="edit.showRevision = !edit.showRevision"><i class="material-icons left medium" title="Revision history">history</i></a>
-        <!--<a class="btn-flat btn-floating btn-medium waves-effect waves-light teal">-->
-          <!--<i class="material-icons" (click)="getPdf(study)" title="Get as Pdf">picture_as_pdf</i>-->
-        <!--</a>-->
-        <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-            (click)="onShowTopic(study)"><i class="material-icons left medium" title="Go to child elements">play_arrow</i></a>
-        <qddt-confirm-delete *ngIf="!study?.archived && canDelete" [element]="study" (confirmAction)="onRemoveStudy($event)"></qddt-confirm-delete>
+      <br />
+      <a *ngIf="!study?.archived && !readonly"
+        class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2"
+        (click)="edit.isVisible = !edit.isVisible; refreshCount = 0"><i class="material-icons"
+          title="Edit element">mode_edit</i></a>
+      <a class="btn-flat btn-floating btn-medium waves-effect waves-light blue lighten-2"
+        (click)="edit.showRevision = !edit.showRevision"><i class="material-icons left medium"
+          title="Revision history">history</i></a>
+      <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="onShowTopic(study)"><i
+          class="material-icons left medium" title="Go to child elements">play_arrow</i></a>
+      <qddt-confirm-delete *ngIf="!study?.archived && canDelete" [element]="study"
+        (confirmAction)="onRemoveStudy($event)"></qddt-confirm-delete>
     </div>
     <div class="col s10 grey-text text-darken-2">
       <h5 class="row">
         <div class="col s9">{{ study?.name }}</div>
         <div class="col s3">
           <qddt-version-label class="right" [element]="study"></qddt-version-label>
-      </div>
+        </div>
       </h5>
     </div>
 
     <div class="col s10 white grey-text text-darken-1">
       <div class="row" *ngIf="!edit.isVisible">
-        <p  [innerHtml]="study.description" ></p>
-        <qddt-author-chip [authors]="study.authors" ></qddt-author-chip>
-        <ul >
+        <p [innerHtml]="study.description"></p>
+        <qddt-author-chip [authors]="study.authors"></qddt-author-chip>
+        <ul>
           <li class="collection-header">Instruments</li>
-          <li *ngFor="let item of study.instruments; let idx=index" class="collection-item" style="border: 1px black;height:2rem"
-              draggable="true" (dragstart)="onDragStart($event, item)" >
-
-            <div class="row" *ngIf="item.id" (mouseenter)="item.showbutton = !readonly" (mouseleave)="item.showbutton = false">
-              <div class="col s10"><a (click)="onShowElement(item)" [ngStyle]="{'cursor': 'pointer'}">{{ item.name }}</a></div>
-              <div class="col s2"><qddt-version-label [element]="item"></qddt-version-label>
-                <a [ngClass]="{hide: !showButton}" class="waves-effect waves-light small teal-text right" (click)="onDeleteItem(idx)">
-                  <i class="material-icons" title="Remove {{labelName}}">remove_circle</i>
+          <li *ngFor="let item of study.instruments; let idx = index" class="collection-item"
+            style="border: 1px black;height:2rem" draggable="true" (dragstart)="onDragStart($event, item)">
+            <div class="row" *ngIf="item.id" (mouseenter)="item.showButton = !readonly"
+              (mouseleave)="item.showButton = false">
+              <div class="col s10">
+                <a (click)="onShowElement(item)" [ngStyle]="{ cursor: 'pointer' }">{{ item.name }}</a>
+              </div>
+              <div class="col s2">
+                <qddt-version-label [element]="item"></qddt-version-label>
+                <a [ngClass]="{ hide: !showButton }" class="waves-effect waves-light small teal-text right"
+                  (click)="onDeleteItem(idx)">
+                  <i class="material-icons" title="Remove {{ labelName }}">remove_circle</i>
                 </a>
               </div>
             </div>
@@ -66,17 +75,14 @@
         </ul>
       </div>
 
-      <qddt-study-edit [isVisible]="edit.isVisible" [study]="study" #edit
-        (savedEvent)="onStudySaved($event)">
+      <qddt-study-edit [isVisible]="edit.isVisible" [study]="study" #edit (savedEvent)="onStudySaved($event)">
       </qddt-study-edit>
 
       <qddt-download *ngIf="!edit.isVisible" [entity]="study" [readonly]="true"></qddt-download>
 
-      <qddt-revision *ngIf = "edit.showRevision" [current]="study" ></qddt-revision>
+      <qddt-revision *ngIf="edit.showRevision" [current]="study"></qddt-revision>
 
-      <qddt-comment-list *ngIf="!edit.isVisible"
-        [ownerId]="study.id"
-        [comments]="study.comments">
+      <qddt-comment-list *ngIf="!edit.isVisible" [ownerId]="study.id" [comments]="study.comments">
       </qddt-comment-list>
     </div>
   </div>

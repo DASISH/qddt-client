@@ -27,7 +27,7 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   public username;
   public elementKindRef = ElementKind;
 
-  @ViewChild('navnbar', {static: false}) menu: ElementRef;
+  // @ViewChild('navbar', {static: false}) menu: ElementRef;
 
   constructor(private userService: UserService, public property: PropertyStoreService,
               private router: Router, private service: TemplateService) {
@@ -55,7 +55,10 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   ngAfterViewInit() {
-    M.Sidenav.init(this.menu.nativeElement, { edge: 'left', draggable: true});
+    document.querySelectorAll('.dropdown-trigger')
+      .forEach( menu => M.Dropdown.init(menu, { constrainWidth: false, coverTrigger: false }));
+    // M.Sidenav.init(document.getElementById('nav-bar1'), { edge: 'left', draggable: true});
+    // M.Dropdown.arguments = {constrainWidth: false };
     // $('.dropdown-trigger').dropdown({
     //   coverTrigger: false
     // });

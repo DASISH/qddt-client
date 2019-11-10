@@ -1,52 +1,58 @@
-import {Component, Input, Output, EventEmitter, AfterViewInit, ElementRef, ViewChild} from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  AfterViewInit,
+  ElementRef,
+  ViewChild
+} from '@angular/core';
 
 @Component({
   selector: 'qddt-confirm-delete',
 
   template: `
-<a class="btn-flat btn-floating btn-medium waves-effect waves-light red lighten-2"  (click)="showConfirmDeleting()">
-    <i class="material-icons left medium" title="Delete" >delete_forever</i></a>
-<div class="modal"  #modaldelete >
-  <div class="modal-content black-text">
-    <div class="row">
-      <h4>Warning</h4>
-      <span>Are you sure you want to delete [{{ element?.name }}] ?</span>
+    <a class="btn-flat btn-floating btn-medium waves-effect waves-light red lighten-2"
+      (click)="showConfirmDeleting()" ><i class="material-icons left medium" title="Delete">delete_forever</i>
+    </a>
+    <div class="modal" #modaldelete>
+      <div class="modal-content black-text">
+        <div class="row">
+          <h4>Warning</h4>
+          <span>Are you sure you want to delete [{{ element?.name }}] ?</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn green waves-effect" (click)="onOk()">
+          <a><i class="material-icons white-text">done</i></a>
+        </button>
+        <button class="btn btn-default red waves-effect" (click)="onCancel()">
+          <a><i class="material-icons medium white-text">close</i></a>
+        </button>
+      </div>
     </div>
-  </div>
-  <div class="modal-footer" >
-    <button class="btn green waves-effect" (click)="onOk()">
-      <a><i class="material-icons white-text">done</i></a>
-    </button>
-  <button class="btn btn-default red waves-effect" (click)="onCancel()">
-    <a><i class="material-icons medium white-text">close</i></a>
-  </button>
-
-<!--    <button class="btn btn-default red waves-effect"  >cancel-->
-<!--    <i class="close material-icons medium white-text">close</i>-->
-<!--    </button>-->
-  </div>
-</div>
-`,
-  providers: [],
+  `,
+  providers: []
   // styles: [ 'a { color: white; text-align: center; vertical-align: middle;}' ]
 })
-export class ConfirmDeleteComponent implements AfterViewInit   {
+export class ConfirmDeleteComponent implements AfterViewInit {
   @Input() element: any;
   @Output() confirmAction = new EventEmitter<string>();
 
-  @ViewChild('modaldelete', {static: false}) modaldelete: ElementRef;
+  @ViewChild('modaldelete', { static: false }) modaldelete: ElementRef;
 
-  private instance  = null;
+  private instance = null;
 
   constructor() {}
 
   ngAfterViewInit() {
-    this.instance = M.Modal.init( this.modaldelete.nativeElement, { opacity: 0 } );
+    this.instance = M.Modal.init(this.modaldelete.nativeElement, {
+      opacity: 0
+    });
   }
 
-
   public showConfirmDeleting() {
-      this.instance.open();
+    this.instance.open();
   }
 
   onOk() {
@@ -59,7 +65,3 @@ export class ConfirmDeleteComponent implements AfterViewInit   {
     this.instance.close();
   }
 }
-
-
-
-

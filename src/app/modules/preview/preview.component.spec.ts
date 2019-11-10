@@ -6,7 +6,7 @@ import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PreviewComponent } from './preview.component';
-import {PublicationService} from '../../lib/services';
+import { PublicationService } from '../../lib/services';
 
 export function main() {
   describe('Publication preview component', () => {
@@ -44,16 +44,16 @@ export function main() {
           .then(() => {
             const fixture = TestBed.createComponent(PreviewComponent);
             const element: any = {
-                'id' : '7f000101-54aa-131e-8154-aa27fc230000',
-                'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
-                'name' : 'one element',
-                'description' : 'one element',
-                'basedOnObject' : null,
-                'basedOnRevision' : null,
-                'version' : {'major' : 6, 'minor' : 0 },
-                'changeKind' : 'CONCEPTUAL',
-                'changeComment' : 'Information added',
-                'classKind': 'CONCEPT'
+              id: '7f000101-54aa-131e-8154-aa27fc230000',
+              modified: [2016, 9, 8, 15, 21, 26, 254000000],
+              name: 'one element',
+              description: 'one element',
+              basedOnObject: null,
+              basedOnRevision: null,
+              version: { major: 6, minor: 0 },
+              changeKind: 'CONCEPTUAL',
+              changeComment: 'Information added',
+              classKind: 'CONCEPT'
             };
             fixture.componentInstance.element = element;
             fixture.detectChanges();

@@ -81,7 +81,7 @@ export class ConceptComponent implements OnInit, AfterViewInit {
     console.log('newConcept');
     this.showConceptForm = false;
     this.showProgressBar = true;
-      this.templateService.create(new Concept(newConcept), this.topic.id).subscribe(
+    this.templateService.create(new Concept(newConcept), this.topic.id).subscribe(
         (result) => { this.onConceptUpdated(result); },
         (error) => { throw error; },
         () => { this.showProgressBar = false; } );

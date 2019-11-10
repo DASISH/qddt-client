@@ -6,7 +6,7 @@ import {Category, DomainKind, ResponseCardinality, ResponseDomain} from '../../.
 
   styles: [  ],
   template: `
-    <div *ngIf="responseType" class="card-panel row grey lighten-5 black-text">
+    <div *ngIf="responseType" class="row card-panel grey lighten-5 grey-text text-darken-1">
     <label *ngIf="responseType !== refKind.MIXED" class="teal-text">
         {{ responseDomain?.name }}(V<qddt-version [element]="rep"></qddt-version>)
     </label>

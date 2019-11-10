@@ -48,15 +48,15 @@ export function main() {
           .then(() => {
             const fixture = TestBed.createComponent(SequenceContentComponent);
             const element: any = {
-                'id' : '7f000101-54aa-131e-8154-aa27fc230000',
-                'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
-                'name' : 'one condition',
-                'classKind': 'CONDITION_CONSTRUCT',
-                'basedOnObject' : null,
-                'basedOnRevision' : null,
-                'version' : {'major' : 6, 'minor' : 0, 'versionLabel' : '', 'revision' : null },
-                'changeKind' : 'CONCEPTUAL',
-                'changeComment' : 'Information added'
+                id : '7f000101-54aa-131e-8154-aa27fc230000',
+                modified : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
+                name : 'one condition',
+                classKind: 'CONDITION_CONSTRUCT',
+                basedOnObject : null,
+                basedOnRevision : null,
+                version : {major : 6, minor : 0, versionLabel : '', revision : null },
+                changeKind : 'CONCEPTUAL',
+                changeComment : 'Information added'
                 };
             fixture.componentInstance.onSelectedElement(element);
             fixture.detectChanges();
@@ -73,7 +73,7 @@ export function main() {
 
 // override dependencies
 class SequenceServiceSpy {
-  getElements = jasmine.createSpy('getElements').and.callFake(function (key) {
+  getElements = jasmine.createSpy('getElements').and.callFake(function(key) {
     return [];
   });
 }
@@ -97,7 +97,7 @@ class SequenceDetailComponent {
   @Input() sequence: any;
   @Input() sequences: any[];
   @Input() isVisible: boolean;
-  @Output() hideDetailEvent =  new EventEmitter<String>();
+  @Output() hideDetailEvent =  new EventEmitter<string>();
 }
 
 @Component({

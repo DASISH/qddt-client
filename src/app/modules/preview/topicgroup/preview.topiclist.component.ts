@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'qddt-preview-topic-list',
@@ -26,7 +26,12 @@ import { Component, Input } from '@angular/core';
   providers: [ ],
 })
 
-export class PreviewTopicListComponent {
+export class PreviewTopicListComponent implements AfterViewInit {
   @Input() topicList: any[];
+
+  ngAfterViewInit(): void {
+    document.querySelectorAll('.collapsible').forEach( item => M.Collapsible.init(item));
+
+  }
 
 }

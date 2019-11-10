@@ -74,7 +74,24 @@
                   "with": "src/environments/environment.stage.ts"
                 }
               ]
+            },
+            "home": {
+              "optimization": false,
+              "outputHashing": "all",
+              "sourceMap": true,
+              "extractCss": true,
+              "namedChunks": true,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": false,
+              "fileReplacements": [{
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.home.ts"
+                }
+              ]
             }
+
           }
         },
         "serve": {
@@ -88,6 +105,9 @@
             },
             "stage": {
               "browserTarget": "Qddt-client:build:stage"
+            },
+            "home": {
+              "browserTarget": "Qddt-client:build:home"
             }
           }
         },

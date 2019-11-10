@@ -15,12 +15,12 @@ export class FormErrorsComponent {
   link:  https://www.toptal.com/angular-js/angular-4-forms-validation
 */
  private static readonly errorMessages = {
-   'required': () => 'This field is required',
-   'minlength': (params) => 'The min number of characters is ' + params.requiredLength,
-   'maxlength': (params) => 'The max allowed number of characters is ' + params.requiredLength,
-   'pattern': (params) => 'The required pattern is: ' + params.requiredPattern,
-   'years': (params) => params.message,
-   'telephoneNumber': (params) => params.message
+   required: () => 'This field is required',
+   minlength: (params) => 'The min number of characters is ' + params.requiredLength,
+   maxlength: (params) => 'The max allowed number of characters is ' + params.requiredLength,
+   pattern: (params) => 'The required pattern is: ' + params.requiredPattern,
+   years: (params) => params.message,
+   telephoneNumber: (params) => params.message
  };
 
  @Input()

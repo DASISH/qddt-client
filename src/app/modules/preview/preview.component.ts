@@ -38,8 +38,8 @@ export class PreviewComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     M.updateTextFields();
-    document.querySelectorAll('select')
-    .forEach( select => M.FormSelect.init(select));
+    // document.querySelectorAll('select')
+    // .forEach( select => M.FormSelect.init(select));
   }
 
 

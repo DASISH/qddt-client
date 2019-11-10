@@ -6,15 +6,15 @@ import { By } from '@angular/platform-browser';
 
 import { PreviewQuestionitemComponent } from './preview.questionitem.component';
 import { API_BASE_HREF } from '../../../api';
-import {PublicationService} from '../../../lib/services';
-import {QuestionItem} from '../../../lib/classes';
+import { PublicationService } from '../../../lib/services';
+import { QuestionItem } from '../../../lib/classes';
 
 export function main() {
   describe('Publication questionitem preview component', () => {
     //
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [ PreviewQuestionitemComponent, PreviewResponsedomainComponent],
+        declarations: [PreviewQuestionitemComponent, PreviewResponsedomainComponent],
         providers: [
           { provide: PublicationService, useClass: PublicationServiceSpy },
           {
@@ -44,14 +44,14 @@ export function main() {
           .compileComponents()
           .then(() => {
             const fixture = TestBed.createComponent(PreviewQuestionitemComponent);
-            const element =  new QuestionItem({
-                'id' : '7f000101-54aa-131e-8154-aa27fc230000',
-                'modified' : 132424312421,
-                'name' : 'one questionitem',
-                'question': 'test',
-                'basedOnObject' : null,
-                'basedOnRevision' : null,
-                'version' : {'major' : 6, 'minor' : 0, 'versionLabel' : '', 'revision' : null }
+            const element = new QuestionItem({
+              id: '7f000101-54aa-131e-8154-aa27fc230000',
+              modified: 132424312421,
+              name: 'one questionitem',
+              question: 'test',
+              basedOnObject: null,
+              basedOnRevision: null,
+              version: { major: 6, minor: 0, versionLabel: '', revision: null }
             });
             fixture.componentInstance.questionItem = element;
             fixture.detectChanges();
@@ -67,7 +67,7 @@ export function main() {
 
 // override dependencies
 class PublicationServiceSpy {
-  searchPublications = jasmine.createSpy('searchPublications').and.callFake(function (key) {
+  searchPublications = jasmine.createSpy('searchPublications').and.callFake(function(key) {
     return [];
   });
 }

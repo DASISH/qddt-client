@@ -15,25 +15,25 @@ export enum CategoryKind {
   MIXED
 }
 
-export enum HierachyLevel { ENTITY, GROUP_ENTITY }
+export enum HierarchyLevel { ENTITY, GROUP_ENTITY }
 
 export interface ICategoryInfo {
   kind: CategoryKind;
-  level: HierachyLevel;
+  level: HierarchyLevel;
   description: string;
 }
 
 export const CATEGORY_INFO: ICategoryInfo[] = [
-  {kind: CategoryKind.DATETIME, level: HierachyLevel.ENTITY , description: 'Datetime'},
-  {kind: CategoryKind.TEXT, level: HierachyLevel.ENTITY , description: 'Text'},
-  {kind: CategoryKind.NUMERIC, level: HierachyLevel.ENTITY , description: 'Numeric'},
-  {kind: CategoryKind.BOOLEAN, level: HierachyLevel.ENTITY , description: 'Boolean'},
-  {kind: CategoryKind.URI, level: HierachyLevel.ENTITY , description: 'Uniform Resource Identifier'},
-  {kind: CategoryKind.CATEGORY, level: HierachyLevel.ENTITY , description: 'Code'},
-  {kind: CategoryKind.MISSING_GROUP, level: HierachyLevel.GROUP_ENTITY , description: 'CodeList Missing value'},
-  {kind: CategoryKind.LIST, level: HierachyLevel.GROUP_ENTITY , description: 'CodeList'},
-  {kind: CategoryKind.SCALE, level: HierachyLevel.GROUP_ENTITY , description: 'ScaleDomain'},
-  {kind: CategoryKind.MIXED, level: HierachyLevel.GROUP_ENTITY , description: 'Mixed Mananged representation'},
+  {kind: CategoryKind.DATETIME, level: HierarchyLevel.ENTITY , description: 'Datetime'},
+  {kind: CategoryKind.TEXT, level: HierarchyLevel.ENTITY , description: 'Text'},
+  {kind: CategoryKind.NUMERIC, level: HierarchyLevel.ENTITY , description: 'Numeric'},
+  {kind: CategoryKind.BOOLEAN, level: HierarchyLevel.ENTITY , description: 'Boolean'},
+  {kind: CategoryKind.URI, level: HierarchyLevel.ENTITY , description: 'Uniform Resource Identifier'},
+  {kind: CategoryKind.CATEGORY, level: HierarchyLevel.ENTITY , description: 'Code'},
+  {kind: CategoryKind.MISSING_GROUP, level: HierarchyLevel.GROUP_ENTITY , description: 'CodeList Missing value'},
+  {kind: CategoryKind.LIST, level: HierarchyLevel.GROUP_ENTITY , description: 'CodeList'},
+  {kind: CategoryKind.SCALE, level: HierarchyLevel.GROUP_ENTITY , description: 'ScaleDomain'},
+  {kind: CategoryKind.MIXED, level: HierarchyLevel.GROUP_ENTITY , description: 'Mixed Mananged representation'},
 ];
 
 export class ResponseCardinality {
@@ -58,7 +58,7 @@ export class Category implements IEntityEditAudit {
   name = '';
   label = '';
   description = '';
-  hierarchyLevel = HierachyLevel[CATEGORY_INFO[CategoryKind.CATEGORY].level];
+  hierarchyLevel = HierarchyLevel[CATEGORY_INFO[CategoryKind.CATEGORY].level];
   categoryType = CategoryKind[CategoryKind.CATEGORY];
   classKind = ElementKind[ElementKind.CATEGORY];
   inputLimit = new ResponseCardinality();
@@ -82,7 +82,7 @@ export class Category implements IEntityEditAudit {
     if (this.description.length === 0) {
       this.description = CATEGORY_INFO[kind].description;
     }
-    this.hierarchyLevel = HierachyLevel[CATEGORY_INFO[kind].level];
+    this.hierarchyLevel = HierarchyLevel[CATEGORY_INFO[kind].level];
     this.categoryType = CategoryKind[kind];
     if (kind.valueOf() <= CategoryKind.CATEGORY) {
       this.code = new Code( { alignment: 'select', codeValue: '1' });

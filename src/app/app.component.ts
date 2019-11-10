@@ -53,19 +53,4 @@ export class AppComponent  implements OnDestroy, AfterViewInit {
     this.ref = element;
   }
 
-  // private checkRouter(target: string, value: string) {
-  //   const current = this.properties.get('current');
-  //   if (current === target) {
-  //     const config = this.properties.get('home');
-  //     if (config.current !== value) {
-  //       this.properties.set(target, {'current': value});
-  //     }
-  //   } else if (this.properties.get(target) === '') {
-  //     this.properties.set(target, {'current': value});
-  //   }
-  //   this.properties.set('current', target);
-  //
-  // }
-
-
 }

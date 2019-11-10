@@ -1,52 +1,59 @@
-<div *ngIf="category" >
-  <form (ngSubmit)="onSave()" #hf="ngForm">
+<div *ngIf="category" class="white col s12">
+
+  <form id="{{formId}}" #hf="ngForm" (ngSubmit)="onSave()">
+
     <div class="row">
-      <div class="input-field col s12 ">
-        <input id="label2" name="label2" type="text" class="validate" required
-               [(ngModel)]="category.label" data-length="100" >
-        <label for="label2">Label</label>
-      </div>
+      <p class="card-panel grey lighten-5 grey-text text-darken-1" [innerHtml]="category.label"
+        style="font-style: italic"></p>
     </div>
-    <div class="row">
-      <div class="input-field col m12 ">
-        <input id="name2" name="name" type="text" class="validate" required [(ngModel)]="category.name"
-               data-length="255" >
-        <label for="name2">Name</label>
-      </div>
+
+    <div class="row input-field " >
+      <input name="label2" type="text" class="validate" required [(ngModel)]="category.label"
+        data-length="100"  tabindex="0"/>
+      <label>Label</label>
     </div>
-    <div class="row">
-      <div class="input-field col m12 ">
-        <textarea class="materialize-textarea validate" name="{{category?.id}}-cat-desc"
-                  data-length="2000"  [(ngModel)]="category.description" >
-        </textarea>
-        <label>Description</label>
-      </div>
+
+    <div class="row input-field " >
+      <input name="name" type="text" class="validate" required [(ngModel)]="category.name" data-length="255" tabindex="1" />
+      <label>Name</label>
     </div>
-    <div class="row" *ngIf="category.categoryType!=='CATEGORY'">
+
+    <div class="row input-field " >
+      <textarea class="materialize-textarea validate" name="description" data-length="2000"
+        [(ngModel)]="category.description" tabindex="3">
+      </textarea>
+      <label>Description</label>
+    </div>
+
+    <div class="row" *ngIf="category.categoryType !== 'CATEGORY'">
       <div class="input-field col s2 ">
         <label for="ctype" class="teal-text">Type</label>
-        <input id="ctype" name="ctype" type="text" class="validate" [(ngModel)]="category.categoryType" readonly>
+        <input id="ctype" name="ctype" type="text" class="validate" [(ngModel)]="category.categoryType" readonly />
       </div>
       <div class="input-field col s2 offset-m1">
         <label for="min" class="teal-text">Input limit minimum</label>
-        <input id="min" name="mini" type="number" class="validate" readonly min="0" [(ngModel)]="category.inputLimit.minimum" >
+        <input id="min" name="mini" type="number" class="validate" readonly min="0"
+          [(ngModel)]="category.inputLimit.minimum" />
       </div>
       <div class="input-field col s2 offset-m1">
         <label for="max" class="teal-text">Input limit maximum</label>
-        <input id="max" name="maxi" type="number" class="validate" readonly min="1"  [(ngModel)]="category.inputLimit.maximum" >
+        <input id="max" name="maxi" type="number" class="validate" readonly min="1"
+          [(ngModel)]="category.inputLimit.maximum" />
       </div>
       <div class="input-field col s6 m8">
         <label for="format" class="teal-text">Format</label>
-        <input id="format" name="format" type="text" class="validate" [(ngModel)]="category.format" >
+        <input id="format" name="format" type="text" class="validate" [(ngModel)]="category.format" />
       </div>
     </div>
 
-    <qddt-rational  *ngIf="!readonly && category.id" [formName]="'RationalComp'" [element]="category" [config]="{hidden: [4]}"></qddt-rational>
+    <qddt-rational *ngIf="!readonly && category.id" [formName]="'RationalComp'" [element]="category"
+      [config]="{ hidden: [4] }"></qddt-rational>
 
-    <qddt-element-footer  *ngIf="category.id" [element]="category"></qddt-element-footer>
+    <qddt-element-footer *ngIf="category.id" [element]="category"></qddt-element-footer>
 
     <div class="row right-align">
-      <button  *ngIf="!readonly" type="submit" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
+      <button *ngIf="!readonly" [disabled]="!hf.form.valid" type="submit" class="btn btn-default">Submit</button>
     </div>
+
   </form>
 </div>

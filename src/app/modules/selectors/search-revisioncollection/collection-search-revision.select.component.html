@@ -28,7 +28,7 @@
   <li *ngFor="let item of showList; let idx=index" class="collection-item" style="border: 1px; border-color: black; height:2rem"
    draggable="true" (dragstart)="onDragStart($event, item)" >
 
-    <div class="row" *ngIf="item.elementId" (mouseenter)="item.showbutton = !readonly" (mouseleave)="item.showbutton = false">
+    <div class="row" *ngIf="item.elementId" (mouseenter)="item.showButton = !readonly" (mouseleave)="item.showButton = false">
       <div class="col s10"><a (click)="onShowElement(item)" [ngStyle]="{'cursor': 'pointer'}">{{ item.name }}</a></div>
       <div class="col s2"><qddt-version-label [element]="item"></qddt-version-label>
         <a [ngClass]="{hide: !showButton}" class="waves-effect waves-light small teal-text right" (click)="onDeleteItem(idx)">

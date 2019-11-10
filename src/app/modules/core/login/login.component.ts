@@ -6,8 +6,8 @@ import { Password, UserService } from '../../../lib';
 
 @Component({
   selector: 'qddt-login',
-  template:`
-<div id="FORM-{{formId}}" class="modal" style="width:25%;">
+  template: `
+<div id="login-{{formId}}" class="modal" style="width:25%;">
   <div class="modal-content">
     <h4>Login</h4>
     <form (ngSubmit)="login()" (keyup.enter)="f.onSubmit()" #f="ngForm">
@@ -31,10 +31,10 @@ import { Password, UserService } from '../../../lib';
 })
 export class LoginComponent implements OnInit, AfterViewInit {
   public formData = { email: '', password: '' };
-  public formId = Math.round( Math.random() * 10000);
+  public readonly formId = Math.round( Math.random() * 10000);
   public loading = false;
 
-  private instance;
+  private instance: M.Modal;
 
   constructor(private router: Router, private authenticationService: UserService) {
     authenticationService.loggedIn.subscribe( (status) =>  {
@@ -47,8 +47,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.instance = M.Modal.init(document.querySelector('#FORM-' + this.formId),
-      { inDuration: 400, outDuration: 300, startingTop: '4%', endingTop: '25%', preventScrolling: true});
+    this.instance = M.Modal.init(document.getElementById('login-' + this.formId),
+      { inDuration: 400, outDuration: 300, startingTop: '4%', endingTop: '25%', preventScrolling: true });
     this.instance.open();
   }
 
@@ -59,9 +59,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
       () => {
         this.instance.close(); },
       (error) => {
-        document.querySelector('#password').classList.add('invalid');
+        document.getElementById('login-' + this.formId).classList.add('invalid');
         document.querySelector('.helper-text')
-        .setAttribute('data-error', error.error['exceptionMessage']);
+        .setAttribute('data-error', error.error.exceptionMessage);
       },
     ).then(() => this.loading = false);
   }

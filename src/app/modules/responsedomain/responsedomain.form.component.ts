@@ -172,8 +172,8 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, Af
     this.buildPreviewResponseDomain();
   }
 
-  onSelectAligment(value: any, idx: any) {
-    console.log('onSelectAligment ' + value + ' ' + idx);
+  onSelectAlignment(value: any, idx: any) {
+    console.log('onSelectAlignment ' + value + ' ' + idx);
     this.responseDomain.managedRepresentation.children[idx].code.alignment = value;
     this.buildPreviewResponseDomain();
   }

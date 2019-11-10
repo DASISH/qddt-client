@@ -4,8 +4,8 @@ import { Observable} from 'rxjs';
 import { API_BASE_HREF} from '../../api';
 import { ActionKind, ElementKind} from '../enums';
 import { IEntityEditAudit, IEntityAudit} from '../interfaces';
-import {getQueryInfo} from '../consts';
-import {UserService} from './user.service';
+import { getQueryInfo } from '../consts';
+import { UserService } from './user.service';
 
 
 @Injectable()

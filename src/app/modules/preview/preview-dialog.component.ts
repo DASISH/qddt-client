@@ -1,5 +1,5 @@
-import {AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, Output, ViewChild} from '@angular/core';
-import { getQueryInfo, IElement, IIdRef, IRevisionRef, PreviewService} from '../../lib';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
+import { getQueryInfo, IElement, IIdRef, IRevisionRef, PreviewService } from '../../lib';
 
 @Component({
   selector: 'qddt-preview-dialog',
@@ -19,11 +19,11 @@ import { getQueryInfo, IElement, IIdRef, IRevisionRef, PreviewService} from '../
     </div>`
 })
 
-export class PreviewDialogComponent implements  OnChanges, AfterViewInit {
-  @Input() reference: IIdRef|IRevisionRef|IElement;
-  @Output() close = new EventEmitter<boolean>(false);
+export class PreviewDialogComponent implements OnChanges, AfterViewInit {
+  @Input() reference: IIdRef | IRevisionRef | IElement;
+  @Output() doClose = new EventEmitter<boolean>(false);
 
-  @ViewChild('preview', {static: false}) modalPreview: ElementRef;
+  @ViewChild('preview', { static: false }) modalPreview: ElementRef;
 
   public element: any;
   private modelRef: M.Modal;
@@ -31,7 +31,8 @@ export class PreviewDialogComponent implements  OnChanges, AfterViewInit {
   constructor(private service: PreviewService) { }
 
   ngAfterViewInit() {
-    this.modelRef =  M.Modal.init(this.modalPreview.nativeElement);
+    this.modelRef = M.Modal.init(this.modalPreview.nativeElement);
+
   }
 
   ngOnChanges(): void {
@@ -61,7 +62,7 @@ export class PreviewDialogComponent implements  OnChanges, AfterViewInit {
     console.log('closing');
     this.reference = null;
     this.modelRef.close();
-    this.close.next(true);
+    this.doClose.next(true);
   }
 
   getClassName(): string {
@@ -71,12 +72,12 @@ export class PreviewDialogComponent implements  OnChanges, AfterViewInit {
     return '?';
   }
 
-  private isRevisionRef(element: IIdRef|IRevisionRef|IElement): element is IRevisionRef { // magic happens here
-    return (<IRevisionRef>element).elementRevision !== undefined;
+  private isRevisionRef(element: IIdRef | IRevisionRef | IElement): element is IRevisionRef { // magic happens here
+    return (element as IRevisionRef).elementRevision !== undefined;
   }
 
-  private isIdRef(element: IIdRef|IRevisionRef|IElement): element is IIdRef { // magic happens here
-    return (<IIdRef>element).elementId !== undefined;
+  private isIdRef(element: IIdRef | IRevisionRef | IElement): element is IIdRef { // magic happens here
+    return (element as IIdRef).elementId !== undefined;
   }
 
 

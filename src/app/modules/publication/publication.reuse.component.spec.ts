@@ -60,7 +60,7 @@ export function main() {
                 + '"page" : { "size" : 20, "totalElements" : 1, "totalPages" : 1, "number" : 0}}'
               })));
             });
- */            fixture.componentInstance.onItemSearch( { element: 'test', elementKind: ''});
+ */         fixture.componentInstance.onItemSearch( { element: 'test', elementKind: ''});
             fixture.detectChanges();
             fixture.whenStable().then(() => {
               expect(fixture.componentInstance.itemList.length).toBe(1);
@@ -72,7 +72,7 @@ export function main() {
 
 // override dependencies
 class PublicationServiceSpy {
-  getElements = jasmine.createSpy('getElements').and.callFake(function (key) {
+  getElements = jasmine.createSpy('getElements').and.callFake(function(key) {
     return [];
   });
 }
@@ -104,7 +104,7 @@ class PublicationSelectComponent {
 })
 
 class QddtAutoCompleteComponent {
-  @Input() items:  any[];
+  @Input() items: any[];
   @Input() searchField: any;
   @Input() placeholder: string;
   @Input() isMultipleFields: boolean;

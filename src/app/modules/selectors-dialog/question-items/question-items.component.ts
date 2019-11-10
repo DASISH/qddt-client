@@ -13,11 +13,11 @@ import {
   template:
 `
 <div class="collection with-header row hoverable"
-    (mouseenter)="showbutton = !readonly" (mouseleave)="showbutton = false">
+    (mouseenter)="showButton = !readonly" (mouseleave)="showButton = false">
     <a class="collection-header">
       <label><i class="material-icons small">help_outline</i>Question Items</label>
       <a class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light teal"
-        [ngClass]="{ hide: !showbutton }"  (click)="onQuestionItemSearch($event)">
+        [ngClass]="{ hide: !showButton }"  (click)="onQuestionItemSearch($event)">
         <i class="material-icons" title="Associate QuestionItem with element">playlist_add</i>
       </a>
     </a>
@@ -75,7 +75,7 @@ export class QuestionItemsComponent implements AfterViewInit {
 
   public readonly QUESTION = ElementKind.QUESTION_ITEM;
   public modalId = Math.round( Math.random() * 10000);
-  public showbutton = false;
+  public showButton = false;
 
   public SOURCE: ElementKind| IRevisionRef;
   private modalRef: M.Modal;

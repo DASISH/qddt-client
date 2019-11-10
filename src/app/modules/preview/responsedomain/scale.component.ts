@@ -77,10 +77,10 @@ export class ResponsedomainScaleComponent implements OnChanges {
     function minDistance(c: Category[]): number {
       if (!c || c.length < 2) { return 0; }
       let minDiff = parseInt(c[1].code.codeValue) - parseInt(c[0].code.codeValue);
-      for (let i = 2 ; i !== c.length ; i++) {
+      for (let i = 2; i !== c.length; i++) {
         minDiff = Math.min(minDiff, parseInt(c[i].code.codeValue) - parseInt(c[i - 1].code.codeValue));
       }
-      if (rep.inputLimit.maximum < 4 ) {
+      if (rep.inputLimit.maximum < 4) {
         minDiff = 1;
       }
       return (minDiff > 3) ? 3 : minDiff;
@@ -119,8 +119,8 @@ export class ResponsedomainScaleComponent implements OnChanges {
 
       this.headers.push({
         label: categories[i].label,
-        colspan: colspan,
-        class:  alignment,
+        colspan,
+        class: alignment,
         width: colspan / numberOfcols * 100
       });
       usedCols += colspan;

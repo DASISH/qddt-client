@@ -13,7 +13,7 @@ export function main() {
     //
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [ RationalComponent, RevisionComponent,
+        declarations: [RationalComponent, RevisionComponent,
           LocalDatePipe, InstrumentFormComponent,
           CommentListComponent, AuthorChipComponent,
           TableComponent],
@@ -47,14 +47,14 @@ export function main() {
           .then(() => {
             const fixture = TestBed.createComponent(InstrumentFormComponent);
             const instrument: any = {
-              'id' : '7f000101-54aa-131e-8154-aa27fc230000',
-              'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
-              'name' : 'one test',
-              'basedOnObject' : null,
-              'basedOnRevision' : null,
-              'version' : {'major' : 6, 'minor' : 0, 'versionLabel' : '', 'revision' : null },
-              'changeKind' : 'CONCEPTUAL',
-              'changeComment' : 'Information added'
+              id: '7f000101-54aa-131e-8154-aa27fc230000',
+              modified: [2016, 9, 8, 15, 21, 26, 254000000],
+              name: 'one test',
+              basedOnObject: null,
+              basedOnRevision: null,
+              version: { major: 6, minor: 0, versionLabel: '', revision: null },
+              changeKind: 'CONCEPTUAL',
+              changeComment: 'Information added'
             };
             fixture.componentInstance.element = instrument;
             fixture.componentInstance.onUpdateInstrument();
@@ -65,7 +65,7 @@ export function main() {
 
 // override dependencies
 class InstrumentServiceSpy {
-  create = jasmine.createSpy('create').and.callFake(function (key) {
+  create = jasmine.createSpy('create').and.callFake(function(key) {
     return [];
   });
 }
@@ -124,9 +124,9 @@ class TableComponent {
   @Input() placeholder: string;
 
   @Input() searchFromServer: boolean;
-  @Output() detailEvent =  new EventEmitter<String>();
-  @Output() pageChangeEvent =  new EventEmitter<String>();
-  @Output() enterEvent =  new EventEmitter<any>();
+  @Output() detailEvent = new EventEmitter<String>();
+  @Output() pageChangeEvent = new EventEmitter<String>();
+  @Output() enterEvent = new EventEmitter<any>();
 }
 
 @Component({

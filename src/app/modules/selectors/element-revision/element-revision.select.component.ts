@@ -9,26 +9,24 @@ import {
 
 @Component({
   selector: 'qddt-element-revision-select',
-  // templateUrl: 'element-revision.select.component.html',
-  template:
-`
-  <qddt-auto-complete [items]="itemList" class="black-text" *ngIf = "showAutoComplete"
-    [elementKind]="kind" [autoCreate] = "false"
-    (selectEvent)="onSelectElement($event)"
-    (enterEvent)="onSearchElements($event)">
-  </qddt-auto-complete>
+  template: `
+<qddt-auto-complete [items]="itemList" class="black-text" *ngIf = "showAutoComplete"
+  [elementKind]="kind" [autoCreate] = "false"
+  (selectEvent)="onSelectElement($event)"
+  (enterEvent)="onSearchElements($event)">
+</qddt-auto-complete>
 
-  <qddt-revision-select *ngIf = "showRevisionSelect"
-    [revisionRef]="revisionRef"
-    (selectEvent)="onSelectedRevision($event)"
-    (dismissEvent)="onDismiss($event)">
-  </qddt-revision-select>
+<qddt-revision-select *ngIf = "showRevisionSelect"
+  [revisionRef]="revisionRef"
+  (selectEvent)="onSelectedRevision($event)"
+  (dismissEvent)="onDismiss($event)">
+</qddt-revision-select>
 `,
 })
 
 @ElementEnumAware
 export class ElementRevisionSelectComponent implements OnChanges {
-  @Input() source: ElementKind|IRevisionRef;
+  @Input() source: ElementKind | IRevisionRef;
   @Output() elementRevisionSelected = new EventEmitter<ElementRevisionRef>();
   @Output() dismissEvent = new EventEmitter<boolean>();
 
@@ -40,26 +38,26 @@ export class ElementRevisionSelectComponent implements OnChanges {
   public showAutoComplete = false;
   public showRevisionSelect = false;
 
-  constructor(private service: TemplateService) {  }
+  constructor(private service: TemplateService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.source && changes.source.currentValue) {
       console.log('afds');
       if (this.isElementRevision(changes.source.currentValue)) {
-          this.revisionRef = changes.source.currentValue as IRevisionRef;
-          this.kind = getElementKind(this.revisionRef.elementKind);
-          this.showRevisionSelect = true;
-        } else {
-          this.kind = getElementKind(changes.source.currentValue);
-          this.showAutoComplete = true;
-          this.revisionRef = null;
-        }
+        this.revisionRef = changes.source.currentValue as IRevisionRef;
+        this.kind = getElementKind(this.revisionRef.elementKind);
+        this.showRevisionSelect = true;
+      } else {
+        this.kind = getElementKind(changes.source.currentValue);
+        this.showAutoComplete = true;
+        this.revisionRef = null;
+      }
     }
   }
 
   public onSearchElements(key) {
-    this.service.searchByKind( { kind:  this.kind, key, page: new Page() } )
-    .then((result) => this.itemList = result.content);
+    this.service.searchByKind({ kind: this.kind, key, page: new Page() })
+      .then((result) => this.itemList = result.content);
   }
 
   public onSelectElement(item: IElement) {
@@ -71,12 +69,11 @@ export class ElementRevisionSelectComponent implements OnChanges {
     this.source = null;
   }
 
-
   public onDismiss(ok) {
     this.dismissEvent.emit(ok);
   }
 
-  private isElementRevision(kind: IRevisionRef|ElementKind): kind is IRevisionRef {
+  private isElementRevision(kind: IRevisionRef | ElementKind): kind is IRevisionRef {
     return (kind as IRevisionRef).elementId !== undefined;
   }
 
@@ -88,7 +85,8 @@ export class ElementRevisionSelectComponent implements OnChanges {
       element: elementRevision.entity,
       name: (this.kind === ElementKind.QUESTION_CONSTRUCT) ?
         elementRevision.entity.name + ' - ' + elementRevision.entity['questionItem'].question : elementRevision.entity.name,
-      version: elementRevision.entity.version });
+      version: elementRevision.entity.version
+    });
   }
 
 }

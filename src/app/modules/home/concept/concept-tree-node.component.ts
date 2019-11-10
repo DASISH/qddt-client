@@ -29,7 +29,7 @@ export class TreeNodeComponent implements AfterContentChecked, AfterViewInit {
   public questionItemList: QuestionItem[];
 
   public showConceptChildForm = false;
-  public showbutton = false;
+  public showButton = false;
   public showProgressBar = false;
 
   public readonly QUESTION_ITEM = ElementKind.QUESTION_ITEM;

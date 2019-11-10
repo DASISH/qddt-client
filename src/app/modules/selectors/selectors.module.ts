@@ -5,19 +5,19 @@ import { ElementRevisionSelectComponent } from './element-revision/element-revis
 import { RevisionResultSelectComponent } from './revision-result/revision-result.select.component';
 import { CollectionSearchRevisionSelectComponent } from './search-revisioncollection/collection-search-revision.select.component';
 import { CollectionSearchSelectComponent } from './search-collection/collection-search.select.component';
-import {ResponsedomainSelectComponent} from './responsdomain/responsdomain.select.component';
+import { ResponsedomainSelectComponent } from './responsedomain/responsedomain.select.component';
 
 
 @NgModule({
-  imports: [ ComponentsModule, PreviewModule],
-  declarations: [ ElementRevisionSelectComponent, CollectionSearchSelectComponent,
+  imports: [ComponentsModule, PreviewModule],
+  declarations: [ElementRevisionSelectComponent, CollectionSearchSelectComponent,
     RevisionResultSelectComponent, CollectionSearchRevisionSelectComponent, ResponsedomainSelectComponent
   ],
   exports: [
     CollectionSearchSelectComponent, RevisionResultSelectComponent, ElementRevisionSelectComponent, CollectionSearchRevisionSelectComponent,
     ResponsedomainSelectComponent
   ],
-  providers: [  ]
+  providers: []
 })
 
 export class SelectorsModule { }

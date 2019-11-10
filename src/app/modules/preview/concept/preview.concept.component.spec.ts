@@ -45,18 +45,18 @@ export function main() {
           .then(() => {
             const fixture = TestBed.createComponent(PreviewConceptComponent);
             const element: any = {
-                'id' : '7f000101-54aa-131e-8154-aa27fc230000',
-                'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
-                'name' : 'one concept',
-                'description' : 'one concept',
-                'children': [],
-                'comments': [],
-                'conceptQuestionItems': [],
-                'basedOnObject' : null,
-                'basedOnRevision' : null,
-                'version' : {'major' : 6, 'minor' : 0, 'versionLabel' : '', 'revision' : null },
-                'changeKind' : 'CONCEPTUAL',
-                'changeComment' : 'Information added'
+                id : '7f000101-54aa-131e-8154-aa27fc230000',
+                modified : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
+                name : 'one concept',
+                description : 'one concept',
+                children: [],
+                comments: [],
+                conceptQuestionItems: [],
+                basedOnObject : null,
+                basedOnRevision : null,
+                version : {major : 6, minor : 0, versionLabel : '', revision : null },
+                changeKind : 'CONCEPTUAL',
+                changeComment : 'Information added'
             };
             fixture.componentInstance.concept = element;
             fixture.detectChanges();
@@ -72,7 +72,7 @@ export function main() {
 
 // override dependencies
 class PublicationServiceSpy {
-  searchPublications = jasmine.createSpy('searchPublications').and.callFake(function (key) {
+  searchPublications = jasmine.createSpy('searchPublications').and.callFake(function(key) {
     return [];
   });
 }

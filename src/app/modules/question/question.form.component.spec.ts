@@ -51,16 +51,16 @@ export function main() {
           .then(() => {
             const fixture = TestBed.createComponent(QuestionFormComponent);
             const questionitem: any = {
-              'id' : '7f000101-54aa-131e-8154-aa27fc230000',
-              'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
-              'name' : 'questionitem',
-              'label' : 'questionitem',
-              'question': 'questionitem',
-              'basedOnObject' : null,
-              'basedOnRevision' : null,
-              'version' : {'major' : 6, 'minor' : 0, 'versionLabel' : '', 'revision' : null },
-              'changeKind' : 'CONCEPTUAL',
-              'changeComment' : 'Information added'
+              id : '7f000101-54aa-131e-8154-aa27fc230000',
+              modified : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
+              name : 'questionitem',
+              label : 'questionitem',
+              question: 'questionitem',
+              basedOnObject : null,
+              basedOnRevision : null,
+              version : {major : 6, minor : 0, versionLabel : '', revision : null },
+              changeKind : 'CONCEPTUAL',
+              changeComment : 'Information added'
             };
             fixture.componentInstance.questionItem = questionitem;
             // fixture.componentInstance.ngOnChanges({'noe'});
@@ -77,7 +77,7 @@ export function main() {
 
 // override dependencies
 class QuestionServiceSpy {
-  updateQuestionItem = jasmine.createSpy('updateQuestionItem').and.callFake(function (key) {
+  updateQuestionItem = jasmine.createSpy('updateQuestionItem').and.callFake(function(key) {
     return [];
   });
 }

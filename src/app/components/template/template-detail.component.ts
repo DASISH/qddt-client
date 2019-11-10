@@ -13,6 +13,7 @@ declare var $: any;
   templateUrl: './template-detail.component.html',
 })
 
+// tslint:disable-next-line:one-line
 export class TemplateDetailComponent implements OnInit, OnDestroy, AfterContentChecked, AfterViewInit{
   @Output() closeState = new EventEmitter<IDetailAction>();
   @Output() selectedItem = new EventEmitter<IEntityEditAudit>();

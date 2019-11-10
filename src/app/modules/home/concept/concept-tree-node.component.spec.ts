@@ -47,15 +47,15 @@ export function main() {
           .then(() => {
             const fixture = TestBed.createComponent(TreeNodeComponent);
             const concept: any = {
-                'id' : '7f000101-54aa-131e-8154-aa27fc230000',
-                'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
-                'name' : 'one concept',
-                'basedOnObject' : null,
-                'basedOnRevision' : null,
-                'conceptQuestionItems': [],
-                'version' : {'major' : 6, 'minor' : 0, 'versionLabel' : '', 'revision' : null },
-                'changeKind' : 'CONCEPTUAL',
-                'changeComment' : 'Information added'
+                id : '7f000101-54aa-131e-8154-aa27fc230000',
+                modified : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
+                name : 'one concept',
+                basedOnObject : null,
+                basedOnRevision : null,
+                conceptQuestionItems: [],
+                version : {major : 6, minor : 0, versionLabel : '', revision : null },
+                changeKind : 'CONCEPTUAL',
+                changeComment : 'Information added'
                 };
             fixture.componentInstance.concept = concept;
             fixture.detectChanges();

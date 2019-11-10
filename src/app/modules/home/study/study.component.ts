@@ -68,7 +68,7 @@ export class StudyComponent implements OnInit, AfterContentChecked {
   }
 
   public onShowElement(element: Instrument) {
-    this.message.sendMessage( {element: element , elementKind: element.classKind });
+    this.message.sendMessage( {element , elementKind: element.classKind });
   }
 
   onToggleStudyForm() {

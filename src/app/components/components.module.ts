@@ -21,7 +21,7 @@ import { ConceptrefComponent } from './conceptref/conceptref.component';
 import { FormErrorsComponent } from './form-errors/form-errors.component';
 import { ConfirmDeleteComponent } from './confim-delete/delete.component';
 import { SpinnerComponent } from './spinner/spinner.component';
-import { FileDownload } from './download/download.component';
+import { FileDownloadComponent } from './download/download.component';
 
 import { TemplateComponent, TemplateDetailComponent, TemplateListComponent, TemplateService} from './template';
 import { LocalDatePipe, LocalNumberPipe } from '../lib';
@@ -33,13 +33,13 @@ import { DialogBigComponent} from './dialog/dialog-big.component';
 @NgModule({
   imports: [  CommonModule, RouterModule, FormsModule, CompareModule ],
   declarations: [ LocalDatePipe, LocalNumberPipe, TemplateComponent, TemplateListComponent, TemplateDetailComponent,
-    QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, FileDownload,
+    QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, FileDownloadComponent,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent, DialogBigComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent, CommentCreateComponent, DialogComponent,
     RationalComponent, RevisionComponent,  ConceptrefComponent, FormErrorsComponent, SpinnerComponent,
     AutosizeDirective, ParentFormConnectDirective, GravatarDirective, EqualValidator, HoverableRowComponent ],
   exports: [ LocalDatePipe, LocalNumberPipe, CommonModule, FormsModule, SpinnerComponent,
-     QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, FileDownload,
+     QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, FileDownloadComponent,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent, DialogComponent, DialogBigComponent,
     RationalComponent, RevisionComponent, ConceptrefComponent, FormErrorsComponent,

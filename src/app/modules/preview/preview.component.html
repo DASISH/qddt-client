@@ -1,4 +1,4 @@
-<div *ngIf="element" [ngSwitch]="getElementKind(element)" style="color: dimgrey">
+<div *ngIf="element" [ngSwitch]="getElementKind(element)" style="color: dimgrey" >
   <div *ngSwitchCase=instanceRefEnum.CONCEPT>
     <qddt-preview-concept [concept]="element"></qddt-preview-concept>
   </div>

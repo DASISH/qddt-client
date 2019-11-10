@@ -1,19 +1,20 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, AfterViewInit } from '@angular/core';
 import {Concept, ElementKind, ElementRevisionRef, MessageService, PreviewService} from '../../../lib';
 
 @Component({
   selector: 'qddt-preview-concept',
-
-  styles: [
-  ],
   templateUrl: 'preview.concept.component.html',
-  providers: [ ],
 })
 
-export class PreviewConceptComponent {
+export class PreviewConceptComponent implements AfterViewInit {
   @Input() concept: Concept;
 
   constructor(private  message: MessageService, private service: PreviewService) { }
+
+  ngAfterViewInit(): void {
+    document.querySelectorAll('.collapsible').forEach( item => M.Collapsible.init(item));
+
+  }
 
   onViewDetail(element: ElementRevisionRef) {
     if (!element.element) {

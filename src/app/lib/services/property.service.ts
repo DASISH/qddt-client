@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import {HierarchyPosition} from '../enums';
-import {MenuItem} from '../interfaces';
-import {UserSettings} from '../classes';
+import { HierarchyPosition} from '../enums';
+import { MenuItem} from '../interfaces';
+import { UserSettings} from '../classes';
 
 /**
  *
- * In memmory store...
+ * In memory store...
  */
 @Injectable()
 export class PropertyStoreService {

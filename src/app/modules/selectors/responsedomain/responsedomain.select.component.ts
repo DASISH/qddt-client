@@ -11,10 +11,10 @@ import {
 
 @Component({
   selector: 'qddt-responsedomain-select',
-  templateUrl: 'responsdomain.select.component.html'
+  templateUrl: 'responsedomain.select.component.html'
 })
 
-export class ResponsedomainSelectComponent implements  OnChanges, AfterViewInit{
+export class ResponsedomainSelectComponent implements  OnChanges, AfterViewInit {
   @Input()
   set responseDomain(responseDomain) {
     this._localresponseDomain = (responseDomain) ? new ResponseDomain(JSON.parse(JSON.stringify(responseDomain))) : null;
@@ -30,10 +30,10 @@ export class ResponsedomainSelectComponent implements  OnChanges, AfterViewInit{
   public readonly canDelete: boolean;
   public readonly canEdit: boolean;
 
-  public showResponsDomain = false;
+  public showResponseDomain = false;
   public showMissing = false;
   public showProgressBar = false;
-  public showbutton = false;
+  public showButton = false;
   public selectedDomainId = 1;
 
   public responseDomains: ResponseDomain[];
@@ -75,7 +75,7 @@ export class ResponsedomainSelectComponent implements  OnChanges, AfterViewInit{
       });
   }
 
-  public onDeletResponsDomain() {
+  public onDeleteResponseDomain() {
     this.removeEvent.emit({ elementId: this.responseDomain.id, elementKind: this.responseDomain.classKind });
     this.responseDomain = null;
   }
@@ -95,15 +95,17 @@ export class ResponsedomainSelectComponent implements  OnChanges, AfterViewInit{
   public onRevisionSelect(ref: ElementRevisionRef) {
     this.responseDomain = ref.element;
     this.selectedEvent.emit(ref);
-    this.showResponsDomain = false;
+    this.showResponseDomain = false;
   }
 
-  public onRevisonSearch(ref: IRevisionRef) {
+  public onRevisionSearch(ref: IRevisionRef) {
     this.showProgressBar = true;
     this.service.getByKindRevisions( this.RESPONSEDOMAIN, ref.elementId).then(
-      (result) => { this.revisionResults =
-        result.content.sort((e1: any, e2: any) => e2.revisionNumber - e1.revisionNumber);
-        this.showProgressBar = false;
+      (result) => {
+          this.revisionResults = result.content.sort((e1: any, e2: any) => {
+          return e2.revisionNumber - e1.revisionNumber;
+        });
+          this.showProgressBar = false;
       } );
   }
 
@@ -130,12 +132,12 @@ export class ResponsedomainSelectComponent implements  OnChanges, AfterViewInit{
   }
 
   public openResponseDomain() {
-    this.showMissing = !(this.showResponsDomain = true);
+    this.showMissing = !(this.showResponseDomain = true);
     this.onResponseDomainSearch( { element: '*', elementKind: this.RESPONSEDOMAIN });
   }
 
   public openMissing() {
-    this.showResponsDomain = !(this.showMissing = true);
+    this.showResponseDomain = !(this.showMissing = true);
     this.onMissingSearch( { element: '*', elementKind: this.MISSING_GROUP });
   }
 

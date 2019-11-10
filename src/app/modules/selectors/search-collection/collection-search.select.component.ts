@@ -9,7 +9,7 @@ import {ElementEnumAware, ElementKind, Factory, getQueryInfo, IElement, IEntityA
 
 @ElementEnumAware
 export class CollectionSearchSelectComponent implements AfterViewInit, OnChanges {
-  @Input() listItems:  IEntityAudit[];
+  @Input() listItems: IEntityAudit[];
   @Input() searchItems: IEntityAudit[];
   @Input() elementKind: ElementKind|string;
   @Input() labelName?: string;
@@ -70,10 +70,10 @@ export class CollectionSearchSelectComponent implements AfterViewInit, OnChanges
 
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['elementKind']) {
+    if (changes.elementKind) {
       this.queryInfo = getQueryInfo(this.elementKind);
       this.labelName = this.queryInfo.label;
-    } else if (changes['searchItems']) {
+    } else if (changes.searchItems) {
       if (!this.searchItems) {
         this.searchItems = [];
       } else {
