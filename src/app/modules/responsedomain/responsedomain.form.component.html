@@ -36,7 +36,7 @@
             <label for="SCALE_ANCHOR-{{formId}}">Number of Anchor</label>
           </div>
           <div class="col s3 input-field">
-              <select id="LAYOUT-{{formId}}" name="Layout" [ngModel]="responseDomain.displayLayout" (ngModelChange)="onChangeDegreeSlope($event)" required class="validate">
+              <select id="LAYOUT-{{formId}}" name="Layout" [(ngModel)]="responseDomain.displayLayout" (ngModelChange)="onChangeDegreeSlope($event)" required class="validate">
                 <option [value]="0" [selected]="responseDomain.displayLayout===0" >horizontal</option>
                 <option [value]="90" [selected]="responseDomain.displayLayout===90">vertical</option>
               </select>

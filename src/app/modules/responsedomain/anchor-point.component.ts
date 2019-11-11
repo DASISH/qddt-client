@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, Input} from '@angular/core';
 import {Category, ResponseCardinality} from '../../lib/classes';
 import {AligmentKind} from '../../lib/enums';
-import {enumKeys, EnumToArray} from '../../lib/consts';
+import { enumKeys } from '../../lib/consts';
 
 @Component({
   selector: 'qddt-achor-point',
@@ -12,7 +12,7 @@ import {enumKeys, EnumToArray} from '../../lib/consts';
      [(ngModel)]="category.code.codeValue" required class="validate">
   </div>
   <div class="col s2 input-field" tabindex="1">
-    <select id="PA-{{formId}}" (change)="onSelectAligment(item)" required class="validate">
+    <select id="PA-{{formId}}" name="alignment" [(ngModel)]="category.code.alignment" (ngModelChange)="onSelectAligment($event)" required class="validate" >
         <option *ngFor="let item of aligments2;" [selected]="isSelected(item)" [value]="item">{{item}}</option>
     </select>
   </div>
@@ -38,16 +38,21 @@ export class AnchorPointComponent implements AfterViewInit {
   public readonly formId = Math.round( Math.random() * 10000);
   public aligments2 = enumKeys(AligmentKind);
 
+  constructor() {
+      // this.aligments2
+  }
+
   ngAfterViewInit(): void {
     M.FormSelect.init(document.getElementById('PA-' + this.formId));
   }
 
   public onSelectAligment(item) {
     this.category.code.alignment = AligmentKind[item];
-    console.log(this.category.code.alignment + ' ' + item);
+    // console.log(this.category.code.alignment + ' ' + item);
   }
 
   public isSelected(item): boolean {
+    console.log(this.category.code.alignment + ' ' + item + ' ' + AligmentKind[item]);
     return (this.category.code.alignment === AligmentKind[item]);
   }
 }
