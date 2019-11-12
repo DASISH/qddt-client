@@ -1,5 +1,5 @@
-import {IComment, IEntityEditAudit, IVersion} from '../interfaces';
-import {ElementKind} from '../enums';
+import { ElementKind } from '../enums';
+import { IComment, IEntityEditAudit, IVersion, IUser, IEntityAudit, IOtherMaterial } from '../interfaces';
 
 
 export enum CategoryKind {
@@ -24,16 +24,16 @@ export interface ICategoryInfo {
 }
 
 export const CATEGORY_INFO: ICategoryInfo[] = [
-  {kind: CategoryKind.DATETIME, level: HierarchyLevel.ENTITY , description: 'Datetime'},
-  {kind: CategoryKind.TEXT, level: HierarchyLevel.ENTITY , description: 'Text'},
-  {kind: CategoryKind.NUMERIC, level: HierarchyLevel.ENTITY , description: 'Numeric'},
-  {kind: CategoryKind.BOOLEAN, level: HierarchyLevel.ENTITY , description: 'Boolean'},
-  {kind: CategoryKind.URI, level: HierarchyLevel.ENTITY , description: 'Uniform Resource Identifier'},
-  {kind: CategoryKind.CATEGORY, level: HierarchyLevel.ENTITY , description: 'Code'},
-  {kind: CategoryKind.MISSING_GROUP, level: HierarchyLevel.GROUP_ENTITY , description: 'CodeList Missing value'},
-  {kind: CategoryKind.LIST, level: HierarchyLevel.GROUP_ENTITY , description: 'CodeList'},
-  {kind: CategoryKind.SCALE, level: HierarchyLevel.GROUP_ENTITY , description: 'ScaleDomain'},
-  {kind: CategoryKind.MIXED, level: HierarchyLevel.GROUP_ENTITY , description: 'Mixed Mananged representation'},
+  { kind: CategoryKind.DATETIME, level: HierarchyLevel.ENTITY, description: 'Datetime' },
+  { kind: CategoryKind.TEXT, level: HierarchyLevel.ENTITY, description: 'Text' },
+  { kind: CategoryKind.NUMERIC, level: HierarchyLevel.ENTITY, description: 'Numeric' },
+  { kind: CategoryKind.BOOLEAN, level: HierarchyLevel.ENTITY, description: 'Boolean' },
+  { kind: CategoryKind.URI, level: HierarchyLevel.ENTITY, description: 'Uniform Resource Identifier' },
+  { kind: CategoryKind.CATEGORY, level: HierarchyLevel.ENTITY, description: 'Code' },
+  { kind: CategoryKind.MISSING_GROUP, level: HierarchyLevel.GROUP_ENTITY, description: 'CodeList Missing value' },
+  { kind: CategoryKind.LIST, level: HierarchyLevel.GROUP_ENTITY, description: 'CodeList' },
+  { kind: CategoryKind.SCALE, level: HierarchyLevel.GROUP_ENTITY, description: 'ScaleDomain' },
+  { kind: CategoryKind.MIXED, level: HierarchyLevel.GROUP_ENTITY, description: 'Mixed Mananged representation' },
 ];
 
 export class ResponseCardinality {
@@ -66,9 +66,18 @@ export class Category implements IEntityEditAudit {
   code?: Code;
   format?: any;
   changeKind?: string;
+  basedOnObject?: string;
+  basedOnRevision?: number;
+  changeComment?: string;
+  modified?: number;
+  modifiedBy?: IUser;
   version?: IVersion;
-  xmlLang: string;
-  comments: IComment[];
+  agency?: IEntityAudit;
+  archived?: boolean;
+  otherMaterials?: IOtherMaterial[];
+  xmlLang?: string;
+  comments?: IComment[];
+
   public constructor(init?: Partial<Category>) {
     Object.assign(this, init);
     if (this.name && !this.label) {
@@ -79,13 +88,10 @@ export class Category implements IEntityEditAudit {
   }
 
   public setKind(kind: CategoryKind): Category {
-    // if (this.description.length === 0) {
-    //   this.description = CATEGORY_INFO[kind].description;
-    // }
     this.hierarchyLevel = HierarchyLevel[CATEGORY_INFO[kind].level];
     this.categoryType = CategoryKind[kind];
     if (kind.valueOf() <= CategoryKind.CATEGORY) {
-      this.code = new Code( { alignment: 'select', codeValue: '1' });
+      this.code = new Code({ alignment: 'select', codeValue: '1' });
     }
     return this;
   }
