@@ -1,4 +1,5 @@
-<div id="{{concept.id}}" class="row card section scrollspy white grey-text text-darken-2" >
+<div id="{{concept.id}}" class="row card section scrollspy white grey-text text-darken-2"
+     [ngClass]="{'grey lighten-5': edit.isVisible}">
   <div class="col s1">
     <br/>
     <a *ngIf="canUpdate && !(concept.archived)" class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2"
@@ -42,9 +43,11 @@
       </form>
 
       <qddt-question-items
-        [questionItems] ="concept.conceptQuestionItems"
+        [revisionRefs] ="concept.conceptQuestionItems"
         [readonly] = "concept.archived || !canUpdate"
-        (createdEvent) ="onAddQuestionItem($event,concept.id)">
+        (createdEvent) = "onQuestionItemAdded($event,concept.id)"
+        (deletedEvent) = "onQuestionItemRemoved($event,concept.id)"
+        (modifiedEvent) = "onQuestionItemModified($event,concept.id)">
       </qddt-question-items>
 
       <qddt-download [entity]="concept" [readonly]="true"></qddt-download>

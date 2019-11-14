@@ -1,7 +1,8 @@
 import { Component,  OnInit, AfterContentChecked } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActionKind, SurveyProgram, ElementKind, HomeService, TemplateService, HierarchyPosition, PropertyStoreService} from '../../../lib';
-import * as FileSaver from 'file-saver';
+
+// import * as FileSaver from 'file-saver';
 
 
 
@@ -34,12 +35,12 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
   }
 
   ngAfterContentChecked(): void {
-    if (this.refreshCount < 10) {
-      try {
-        this.refreshCount++;
-        M.updateTextFields();
-      } catch (Exception) {}
-    }
+    // if (this.refreshCount < 10) {
+    //   try {
+    //     this.refreshCount++;
+    //     M.updateTextFields();
+    //   } catch (Exception) {}
+    // }
   }
 
   onSurveySaved(surveyProgram: any) {
@@ -69,10 +70,10 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
   }
 
 
-  getPdf(element: SurveyProgram) {
-    const fileName = element.name + '.pdf';
-    this.templateService.getPdf(element).then(
-      data => FileSaver.saveAs(data, fileName));
-  }
+  // getPdf(element: SurveyProgram) {
+  //   const fileName = element.name + '.pdf';
+  //   this.templateService.getPdf(element).then(
+  //     data => FileSaver.saveAs(data, fileName));
+  // }
 
 }

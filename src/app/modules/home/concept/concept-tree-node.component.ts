@@ -1,18 +1,14 @@
-import {AfterContentChecked, AfterViewInit, Component, EventEmitter, Input, Output} from '@angular/core';
+import { Component, EventEmitter, Input, Output} from '@angular/core';
 import { Router } from '@angular/router';
 import {
   ActionKind,
   Concept,
-  ElementKind,
-  IRevisionRef,
-  ElementRevisionRef,
-  IElement,
-  Page,
-  IRevisionResult, QuestionItem, HomeService, MessageService, TemplateService
+  ElementKind, ElementRevisionRef,
+  HomeService,
+  IRevisionResult,
+  MessageService,
+  QuestionItem, TemplateService
 } from '../../../lib';
-import * as FileSaver from 'file-saver';
-
-
 
 @Component({
   selector: 'qddt-concept-treenode',
@@ -20,7 +16,7 @@ import * as FileSaver from 'file-saver';
   styleUrls: ['./concept-tree-node.component.css']
 })
 
-export class TreeNodeComponent implements AfterContentChecked, AfterViewInit {
+export class TreeNodeComponent  {
   @Input() concept: Concept;
   @Output() deleteEvent =  new EventEmitter();
   @Output() updatedEvent =  new EventEmitter<Concept>();
@@ -45,18 +41,6 @@ export class TreeNodeComponent implements AfterContentChecked, AfterViewInit {
     this.canCreate = this.homeService.canDo(this.CONCEPT).get(ActionKind.Create);
     this.canUpdate = this.homeService.canDo(this.CONCEPT).get(ActionKind.Update);
     this.canDelete = this.homeService.canDo(this.CONCEPT).get(ActionKind.Delete);
-    }
-
-  ngAfterViewInit(): void {
-    // M.AutoInit();
-  }
-  ngAfterContentChecked(): void {
-    // if (this.refreshCount < 10) {
-    //   try {
-    //     this.refreshCount++;
-    //     M.updateTextFields();
-    //   } catch (Exception) {}
-    // }
   }
 
   async onToggleEdit(edit) {
@@ -81,13 +65,7 @@ export class TreeNodeComponent implements AfterContentChecked, AfterViewInit {
     this.deleteEvent.emit(concept);
   }
 
-  onShowQuestionItem(cqi) {
-    this.message.sendMessage( cqi );
-  }
-
-
   onChildSave(newchild) {
-
     this.showConceptChildForm = false;
     this.concept.children.push(new Concept(newchild));
     this.concept.changeKind = 'UPDATED_HIERARCHY_RELATION';
@@ -96,49 +74,20 @@ export class TreeNodeComponent implements AfterContentChecked, AfterViewInit {
       (result) => this.concept = result );
   }
 
-
-  public onSearchElements(search: IElement) {
-    this.templateService.searchByKind<QuestionItem>(
-      { kind: this.QUESTION_ITEM, key: search.element, page: new Page( { size: 15 } ) } ).then(
-      (result) => { this.questionItemList = result.content; },
-      (error) => { throw error; } );
-  }
-
-  // public onEditQuestion(search: IRevisionRef) {
-  //   this.gotoUUID(search.elementId);
-  // }
-
-  // private gotoUUID(uuid: string) {
-  //   this.templateService.searchByUuid(uuid).then(
-  //     (result) => { this.router.navigate([result.url]); },
-  //     (error) => { throw  error; });
-  // }
-
-  onRemoveQuestionItem(ref: IRevisionRef) {
-    this.homeService.deattachQuestion(this.CONCEPT, this.concept.id, ref.elementId , ref.elementRevision)
+  public onQuestionItemRemoved(ref: ElementRevisionRef, conceptId) {
+    this.homeService.deattachQuestion(this.CONCEPT, conceptId, ref.elementId , ref.elementRevision)
       .subscribe(result => this.onConceptUpdated(result) );
   }
 
-  public onAddQuestionItem(ref: ElementRevisionRef, conceptId) {
+  public onQuestionItemAdded(ref: ElementRevisionRef, conceptId) {
     this.homeService.attachQuestion(this.CONCEPT, conceptId, ref.elementId, ref.elementRevision)
       .subscribe(result => this.onConceptUpdated(result) );
   }
 
-  getPdf(concept: Concept) {
-    const fileName = concept.name + '.pdf';
-    this.templateService.getPdf(concept).then(
-      (data) => {
-        FileSaver.saveAs(data, fileName);
-      });
+  public onQuestionItemModified(ref: ElementRevisionRef, conceptId) {
+    console.log(ref || JSON);
+    // this.homeService.attachQuestion(this.CONCEPT, conceptId, ref.elementId, ref.elementRevision)
+    // .subscribe(result => this.onConceptUpdated(result) );
   }
-
-  getXml(concept: Concept) {
-    const fileName = concept.name + '.xml';
-    this.templateService.getXML(concept).then(
-      (data) => {
-        FileSaver.saveAs(data, fileName);
-      });
-  }
-
 
 }

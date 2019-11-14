@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, AfterContentChecked, AfterViewInit} from '@angular/core';
+import {Component, Input, Output, EventEmitter,  AfterViewInit} from '@angular/core';
 import {SurveyProgram, TemplateService} from '../../../lib';
 
 
@@ -6,25 +6,25 @@ import {SurveyProgram, TemplateService} from '../../../lib';
   selector: 'qddt-survey-edit',
   providers: [ {provide: 'elementKind', useValue: 'SURVEY_PROGRAM'}, ],
   template: `
-<div class="col s12" [hidden]="!isVisible">
-  <form id="{{formId}}" (ngSubmit)="onSave()" #surveyForm="ngForm">
-    <div class="row input-field">
+<div [hidden]="!isVisible">
+  <form class="row" id="{{formId}}" (ngSubmit)="onSave()" #surveyForm="ngForm">
+    <div class="col s12 input-field">
       <input id="NAME-{{formId}}" name="name" type="text" [(ngModel)]="survey.name" required data-length ="250" >
       <label for="NAME-{{formId}}">Name</label>
     </div>
 
-    <div class="row input-field">
+    <div class="col s12 input-field">
       <textarea id="DESC-{{formId}}" class="materialize-textarea" name="description"
         [(ngModel)]="survey.description" required  data-length ="10000">
       </textarea>
       <label for="DESC-{{formId}}">Description</label>
     </div>
 
-    <qddt-rational [formName]="'RationalComp'" [element]="survey" [config]="{hidden: [2,3]}"></qddt-rational>
+    <qddt-rational class="col s12" [formName]="'RationalComp'" [element]="survey" [config]="{hidden: [2,3]}"></qddt-rational>
 
-    <qddt-element-footer [element]="survey"> </qddt-element-footer>
+    <qddt-element-footer class="col s12" [element]="survey"> </qddt-element-footer>
 
-    <div class="row right-align">
+    <div class="col s12 right-align">
       <button type="submit" class="btn btn-default" [disabled]="!surveyForm.form.valid" >Submit</button>
     </div>
   </form>
@@ -66,6 +66,9 @@ export class SurveyEditComponent implements  AfterViewInit {
   ngAfterViewInit(): void {
     document.querySelectorAll('input[data-length], textarea[data-length]').forEach(
       input => M.CharacterCounter.init(input));
+    document.querySelectorAll('textarea').forEach(
+    input => M.textareaAutoResize(input));
+    M.updateTextFields();
   }
 
 }

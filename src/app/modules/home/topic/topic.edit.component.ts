@@ -1,4 +1,4 @@
-import {Component, Input, EventEmitter, Output, AfterContentChecked, AfterViewInit} from '@angular/core';
+import {Component, Input, EventEmitter, Output,  AfterViewInit} from '@angular/core';
 import {ElementKind, TemplateService, Topic} from '../../../lib';
 
 @Component({

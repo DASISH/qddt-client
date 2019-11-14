@@ -29,6 +29,10 @@ import { AutosizeDirective, EqualValidator, GravatarDirective, ParentFormConnect
 import { HoverableRowComponent } from './hoverable-row/hoverable-row.component';
 import { DialogComponent} from './dialog/dialog.component';
 import { DialogBigComponent} from './dialog/dialog-big.component';
+import {ValidationComponent} from './form/validation.component';
+import {FormSelectComponent} from './form/select.component';
+import {FormInputComponent} from './form/input.component';
+import {FormTextAreaComponent} from './form/textarea.component';
 
 @NgModule({
   imports: [  CommonModule, RouterModule, FormsModule, CompareModule ],
@@ -37,14 +41,16 @@ import { DialogBigComponent} from './dialog/dialog-big.component';
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent, DialogBigComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent, CommentCreateComponent, DialogComponent,
     RationalComponent, RevisionComponent,  ConceptrefComponent, FormErrorsComponent, SpinnerComponent,
-    AutosizeDirective, ParentFormConnectDirective, GravatarDirective, EqualValidator, HoverableRowComponent ],
+    AutosizeDirective, ParentFormConnectDirective, GravatarDirective, EqualValidator, HoverableRowComponent,
+    FormSelectComponent, FormInputComponent, FormTextAreaComponent, ValidationComponent ],
   exports: [ LocalDatePipe, LocalNumberPipe, CommonModule, FormsModule, SpinnerComponent,
      QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, FileDownloadComponent,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent, DialogComponent, DialogBigComponent,
     RationalComponent, RevisionComponent, ConceptrefComponent, FormErrorsComponent,
     TemplateComponent, TemplateListComponent, TemplateDetailComponent,
-    AutosizeDirective, ParentFormConnectDirective, GravatarDirective, EqualValidator ],
+    AutosizeDirective, ParentFormConnectDirective, GravatarDirective, EqualValidator,
+    FormSelectComponent, FormInputComponent, FormTextAreaComponent ],
   providers: [TemplateService]
 })
 

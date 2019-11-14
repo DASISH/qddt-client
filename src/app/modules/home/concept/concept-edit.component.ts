@@ -1,4 +1,4 @@
-import {Component, Input, EventEmitter, Output,  OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Input, EventEmitter, Output, AfterViewInit} from '@angular/core';
 import {Concept, TemplateService} from '../../../lib';
 
 
@@ -7,11 +7,11 @@ import {Concept, TemplateService} from '../../../lib';
   selector: 'qddt-concept-edit',
   providers: [ {provide: 'elementKind', useValue: 'CONCEPT'}, ],
   template: `
-<div [hidden]="!(concept && isVisible)">
+<div *ngIf="(concept && isVisible)">
   <form class="row" id="{{formId}}" (ngSubmit)="save()" #hf="ngForm">
     <div class="col s12 input-field">
       <input name="name" type="text" required  data-length ="250"  [(ngModel)]="concept.name">
-      <label>Name</label>
+      <label class="active">Name</label>
     </div>
 
     <div class="col s12 input-field">
@@ -21,8 +21,8 @@ import {Concept, TemplateService} from '../../../lib';
       <label class="active">Description</label>
     </div>
 
-    <qddt-rational class="col s12" 
-      *ngIf="!readonly && isVisible"
+    <qddt-rational *ngIf="!readonly && isVisible"
+      class="col s12"
       [formName]="'RationalComp'"
       [element]="concept"
       [config]="{hidden: [2,3]}">
@@ -37,7 +37,7 @@ import {Concept, TemplateService} from '../../../lib';
 </div>
 `
 })
-export class ConceptEditComponent implements  OnChanges {
+export class ConceptEditComponent implements  AfterViewInit {
   @Input() concept: Concept;
   @Output() conceptChanged =  new EventEmitter<Concept>();
   @Input() readonly = false;
@@ -47,14 +47,12 @@ export class ConceptEditComponent implements  OnChanges {
   public showRevision = false;
 
   constructor(private service: TemplateService) { }
-
-
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.isVisible && changes.isVisible.currentValue && !changes.isVisible.previousValue) {
-      M.updateTextFields();
-    }
-  }
+  //
+  //
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   if (changes.isVisible && changes.isVisible.currentValue && !changes.isVisible.previousValue) {
+  //   }
+  // }
 
   save() {
     this.service.update<Concept>(this.concept)
@@ -63,6 +61,10 @@ export class ConceptEditComponent implements  OnChanges {
         this.conceptChanged.emit(result);
         this.isVisible = false;
       });
+  }
+
+  ngAfterViewInit(): void {
+    M.updateTextFields();
   }
 
 }

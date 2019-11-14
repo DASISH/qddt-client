@@ -11,10 +11,10 @@ import {
 
 @Component({
   selector: 'qddt-responsedomain-select',
-  templateUrl: 'responsedomain.select.component.html'
+  templateUrl: 'responsedomain.component.html'
 })
 
-export class ResponsedomainSelectComponent implements  OnChanges, AfterViewInit {
+export class ResponsedomainComponent implements  OnChanges, AfterViewInit {
   @Input()
   set responseDomain(responseDomain) {
     this._localresponseDomain = (responseDomain) ? new ResponseDomain(JSON.parse(JSON.stringify(responseDomain))) : null;

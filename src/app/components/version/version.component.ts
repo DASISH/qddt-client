@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Input } from '@angular/core';
 import {IEntityEditAudit, IVersion} from '../../lib/interfaces';
 import {ElementRevisionRef} from '../../lib/classes';
 

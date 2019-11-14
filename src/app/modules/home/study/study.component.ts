@@ -10,10 +10,7 @@ import {
   SurveyProgram,
   TemplateService
 } from '../../../lib';
-import * as FileSaver from 'file-saver';
-
-
-
+// import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'qddt-study',
@@ -48,12 +45,12 @@ export class StudyComponent implements OnInit, AfterContentChecked {
   }
 
   ngAfterContentChecked(): void {
-    if (this.refreshCount < 10) {
-      try {
-        this.refreshCount++;
-        M.updateTextFields();
-      } catch (Exception) {}
-    }
+    // if (this.refreshCount < 10) {
+    //   try {
+    //     this.refreshCount++;
+    //     M.updateTextFields();
+    //   } catch (Exception) {}
+    // }
   }
 
   onShowTopic(study: Study) {
@@ -92,11 +89,11 @@ export class StudyComponent implements OnInit, AfterContentChecked {
       result => this.onStudySaved(result) );
   }
 
-  getPdf(study: Study) {
-    const fileName = study.name + '.pdf';
-    this.templateService.getPdf(study).then(
-      (data) => FileSaver.saveAs(data, fileName) );
-  }
+  // getPdf(study: Study) {
+  //   const fileName = study.name + '.pdf';
+  //   this.templateService.getPdf(study).then(
+  //     (data) => FileSaver.saveAs(data, fileName) );
+  // }
 
 
   onRemoveStudy(studyId: string) {

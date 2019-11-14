@@ -8,9 +8,14 @@
   margin-left: 10px
 }
 
-.dropdown-button {
+.dropdown-trigger {
   min-width: 200px;
 }
+
+.breadcrumb::before {
+  margin: 0;
+}
+
 
 .breadcrumb {
   cursor: pointer;
@@ -22,21 +27,14 @@
   max-width: 250px;
 }
 
-.nav-mobile {
-  width: 200px;
-  padding-left: 200px;
-}
 
-.sidenav.fixed {
-  width: 200px;
-}
-
+/*.sidenav.fixed {*/
+/*  width: 200px;*/
+/*}*/
 
 .description {
   text-align: justify;
   text-justify: inter-word;
   white-space: pre-wrap;
 }
-/*.nav-wrapper {*/
-  /*overflow: hidden;*/
-/*}*/
+

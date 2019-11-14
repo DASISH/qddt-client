@@ -8,9 +8,8 @@ import * as FileSaver from 'file-saver';
   selector: 'qddt-download',
   templateUrl: './download.component.html',
   styles: [
-    '.collection {border:none; }',
-    '.collection.with-header .collection-header {border-bottom: none; padding: 5px 10px 5px 0px ;}',
-    '.collection a.collection-item { min-height: 3rem; border-bottom: none; color: rgb(3, 155, 229); cursor: pointer; padding:5px 10px 5px 10px ; }'
+    '.collection.with-header .collection-header { padding: 5px 10px 5px 0px ;}',
+    '.collection a.collection-item { min-height: 3rem;  color: rgb(3, 155, 229); cursor: pointer; padding:5px 10px 5px 10px ; }'
     // 'padding:10px 5px 0px 10px ;'
     // '.collection-item  {min-height: 3rem; padding:10px 5px 0px 10px ;}'
   ],

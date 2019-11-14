@@ -1,24 +1,22 @@
 <div id="nav-bar1" class="navbar-fixed">
   <nav>
     <div class="nav-wrapper">
-      <span style="height: 64px; overflow: hidden">
-
-        <a *ngIf="path[0]" (click)="onSurvey()" class="breadcrumb">SURVEY [{{ path[0].name }}]</a>
-        <a *ngIf="path[1]" (click)="onStudy()" class="breadcrumb">STUDY [{{ path[1].name }}]</a>
-        <a *ngIf="path[2]" (click)="onTopic()" class="breadcrumb">MODULE [{{ path[2].name }}]</a>
-        <a *ngIf="path[3]" (click)="onConcept()" class="breadcrumb">{{
-          path[3].name
-        }}</a>
-      </span>
-      <ul class="right">
-        <li>
-          <a class="dropdown-trigger" href="#!" data-target="admin-menu1" style="width: max-content;" >
-            {{ username }} <i class="material-icons left">arrow_drop_down</i>
-            <img class="gravatar" gravatar [email]="getEmail()" [size]="48" />
-          </a>
-        </li>
-      </ul>
-      <ul id="leftmenu1" class="sidenav hide-on-med-and-down teal-text"
+      <a href="#" data-target="nav-leftmenuSmal" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+      <div style="height: 64px; overflow: hidden">
+        <ul class="right">
+          <li>
+            <a class="dropdown-trigger" href="#!" data-target="admin-menu1" >
+              {{ username }} <i class="material-icons left">arrow_drop_down</i>
+              <img class="gravatar" gravatar [email]="getEmail()" [size]="48" />
+            </a>
+          </li>
+        </ul>
+        <a *ngIf="path[0]" (click)="onSurvey()" class="breadcrumb" title="{{path[0].name}}">SURVEY [{{ path[0].name }}]</a>
+        <a *ngIf="path[1]" (click)="onStudy()" class="breadcrumb" title="{{path[1].name}}">STUDY [{{ path[1].name }}]</a>
+        <a *ngIf="path[2]" (click)="onTopic()" class="breadcrumb" title="{{path[2].name}}">MODULE [{{ path[2].name }}]</a>
+        <a *ngIf="path[3]" (click)="onConcept()" class="breadcrumb">{{path[3].name}}</a>
+      </div>
+      <ul id="nav-leftmenuLarge" class="sidenav hide-on-med-and-down teal-text"
         style="transform: translateX(0px); width: 200px;">
         <div class="container" style="color: #fff; background-color: #ee6e73; width: 100%; height: 64px; line-height: 64px;
         font-size: 2rem; text-align: center; vertical-align: middle">
@@ -26,11 +24,9 @@
         </div>
         <div *ngIf="isLoggedIn$ | async as isLoggedIn">
           <li>
-            <div class="row card">
-              <div class="col s2"><i class="material-icons">search</i></div>
-              <div class="col s10">
-                <input id="search" placeholder="goto url/id" (input)="onCheckUrl($event)" />
-              </div>
+            <div class="card horizontal input-field" style="height: 55px">
+              <i class="material-icons prefix" style="top: unset;">search</i>
+              <input id="icon_prefix" type="text" class="validate" placeholder="goto url/id" (input)="onCheckUrl($event)">
             </div>
           </li>
           <li>
@@ -99,7 +95,7 @@
   </nav>
 </div>
 
-<ul id="admin-menu1" class="dropdown-content" style="width: max-content;">
+<ul id="admin-menu1" class="dropdown-content">
   <div *ngIf="isLoggedIn$ | async as isLoggedIn" >
     <li (click)="logoutEvent()" >
       <a href=""><i class="material-icons left">exit_to_app</i>Exit</a>
@@ -127,7 +123,7 @@
   </div>
 </ul>
 
-<ul id="nav-mobile1" class="sidenav" style="width: 200px;">
+<ul id="nav-leftmenuSmal" class="sidenav" style="width: 100px;">
   <div *ngIf="isLoggedIn$ | async as isLoggedIn" >
     <li>
       <a [routerLink]="['/home']" title="home">

@@ -12,7 +12,9 @@ import { UserService} from './user.service';
 @Injectable()
 export class TemplateService {
 
-  constructor(protected http: HttpClient, private userService: UserService, @Inject(API_BASE_HREF) protected api: string) { }
+  constructor(protected http: HttpClient, private userService: UserService, @Inject(API_BASE_HREF) protected api: string) {
+    console.log('TemplateService::CONST');
+  }
 
   public searchByUuid(id: string): Promise<any> {
     return this.http.get(this.api + 'search/' + id).toPromise();

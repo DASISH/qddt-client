@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   ElementKind,
@@ -10,21 +10,26 @@ import {
 
 @Component({
   selector: 'qddt-question-items',
+  styles: [
+          '.qlabel { padding-top: 5px; }',
+          '.qmenu { float: left; z-index:2;}',
+          '.question { white-space: nowrap; overflow: hidden;text-overflow: ellipsis; padding-top:5px; }',
+          '.collection a.collection-item { cursor: pointer; padding-left: 10px;}'
+  ],
   template:
 `
-<div class="collection with-header row hoverable"
-    (mouseenter)="showButton = !readonly" (mouseleave)="showButton = false">
-    <a class="collection-header">
+<div class="collection with-header hoverable" (mouseenter)="showButton = !readonly" (mouseleave)="showButton = false">
+    <a class="collection-header col s12"  (click)="onQuestionItemSearch($event)" style="cursor: zoom-in">
       <label><i class="material-icons small">help_outline</i>Question Items</label>
       <a class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light teal"
-        [ngClass]="{ hide: !showButton }"  (click)="onQuestionItemSearch($event)">
+        [ngClass]="{ hide: !showButton }" >
         <i class="material-icons" title="Associate QuestionItem with element">playlist_add</i>
       </a>
     </a>
-    <a class="col s12 collection-item grey-text text-darken-1" *ngFor="let cqi of questionItems.sort()"
-      (mouseover)="cqi.hover=true" (mouseleave)="cqi.hover=false" (click)="onPreview($event,cqi)">
+    <a class="collection-item col s12 grey-text text-darken-1" *ngFor="let cqi of revisionRefs.sort()"
+      (mouseover)="cqi.hover=true" (mouseleave)="cqi.hover=false" (click)="onQuestionItemPreview($event,cqi)" >
       <qddt-version-label class="right" [revisionRef]="cqi" ></qddt-version-label>
-      <div style="float: left; z-index:2;" [hidden]="!cqi.hover" >
+      <div class="qmenu" [hidden]="!cqi.hover" >
         <a class="btn-flat btn-floating btn-small waves-effect waves-light green lighten-2"
             (click)="onQuestionItemEdit($event,cqi)">
           <i class="material-icons" title="Edit question">edit</i>
@@ -38,18 +43,16 @@ import {
           <i class="material-icons" title="Remove selected">remove</i>
         </a>
       </div>
-      <div [innerHtml]="cqi?.name || cqi?.element?.name && ' - ' && cqi?.element?.question"
-      style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;">
-      </div>
+      <div class="question" [innerHtml]="cqi?.name || cqi?.element?.name && ' - ' && cqi?.element?.question"></div>
     </a>
   </div>
 <!-- Modal Structure -->
-<div id="MODAL-{{modalId}}" class="modal modal-fixed-footer">
+<div  *ngIf="showRevision" id="MODAL-{{modalId}}" class="modal modal-fixed-footer">
   <div class="modal-content white black-text" >
     <h4>Select QuestionItem version</h4>
     <qddt-element-revision-select
         [source] = "SOURCE"
-        (revisionSelected)="onRevisionSelect($event)"
+        (revisionSelectedEvent)="revisionSelectedEvent($event)"
         (dismissEvent) ="onDismiss()">
     </qddt-element-revision-select>
   </div>
@@ -61,40 +64,46 @@ import {
   </div>
 </div>
 `,
-styles: [
-  '.collection.with-header .collection-header {border-bottom: none; padding: 0px;}',
-  '.collection a.collection-item { min-height: 3rem; border-bottom: none; color: rgb(3, 155, 229); cursor: pointer; padding:5px 10px 5px 10px ; }',
-  '.collection {border:none; }'],
 })
-export class QuestionItemsComponent implements AfterViewInit {
-  @Input() questionItems: ElementRevisionRef[];
+export class QuestionItemsComponent {
+  @Input() revisionRefs: ElementRevisionRef[];
   @Input() readonly = true;
   @Output() createdEvent = new EventEmitter<ElementRevisionRef>();
   @Output() deletedEvent = new EventEmitter<ElementRevisionRef>();
   @Output() modifiedEvent = new EventEmitter<ElementRevisionRef>();
 
   public readonly QUESTION = ElementKind.QUESTION_ITEM;
-  public modalId = Math.round( Math.random() * 10000);
-  public showButton = false;
+  public readonly modalId = Math.round( Math.random() * 10000);
 
-  public SOURCE: ElementKind| IRevisionRef;
-  private modalRef: M.Modal;
+  public SOURCE: ElementKind| IRevisionRef| null;
+  private _modalRef: M.Modal;
+  private _ShowRef = false;
+  private _showButton = false;
 
-  constructor(private service: TemplateService, public message: MessageService, private router: Router ) {  }
-
-  ngAfterViewInit(): void {
-    this.modalRef = M.Modal.init(document.querySelector('#MODAL-' + this.modalId));
+  constructor(private service: TemplateService, public message: MessageService, private router: Router ) {
   }
 
-  public onRevisionSelect(ref: ElementRevisionRef) {
-    console.log(ref || JSON );
-    // if (this.selectedItem) {
-    //   this.deletedEvent.emit(this.selectedItem);
-    //   // this.questionItems = this.questionItems.filter( qi => qi.elementId !== ref.elementId);
-    //   this.createdEvent.emit(ref);
-    // } else {
+  get showButton(): boolean {
+    return this._showButton;
+  }
+  set showButton(value: boolean) {
+    if (value) {
+      this._ShowRef = true;
+    }
+    this._showButton = value;
+  }
+
+  get showRevision(): boolean { return this._ShowRef; }
+
+  get modalRef(): M.Modal {
+    if (!(this._modalRef)) {
+      this._modalRef = M.Modal.init(document.querySelector('#MODAL-' + this.modalId));
+    }
+    return this._modalRef;
+  }
+
+  public revisionSelectedEvent(ref: ElementRevisionRef) {
     this.createdEvent.emit(ref);
-    // }
     this.SOURCE = null;
     this.modalRef.close();
   }
@@ -112,7 +121,7 @@ export class QuestionItemsComponent implements AfterViewInit {
 
   public onQuestionItemRemove(event: Event, cqi: ElementRevisionRef) {
     event.stopPropagation();
-    this.questionItems = this.questionItems.filter( qi => qi.elementId !== cqi.elementId);
+    this.revisionRefs = this.revisionRefs.filter(qi => !(qi.elementId === cqi.elementId && qi.elementRevision === cqi.elementRevision));
     this.deletedEvent.emit(cqi);
   }
 
@@ -129,12 +138,9 @@ export class QuestionItemsComponent implements AfterViewInit {
     this.modalRef.open();
   }
 
-  public onPreview(event: Event, item: ElementRevisionRef) {
+  public onQuestionItemPreview(event: Event, item: ElementRevisionRef) {
     event.stopPropagation();
     this.message.sendMessage(item);
-      // { elementId: item.elementId,
-      //   elementRevision: item.elementRevision,
-      //   elementKind: item.elementKind} as IRevisionRef);
   }
 
 

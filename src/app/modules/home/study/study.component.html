@@ -26,8 +26,8 @@
       </form>
     </div>
   </div>
-  <div class="row card section scrollspyy" id="{{ study.id }}" *ngFor="let study of survey?.studies">
-    <div class="col s1 ">
+  <div class="row card section scrollspy white grey-text text-darken-2" id="{{ study.id }}" *ngFor="let study of survey?.studies" [ngClass]="{'grey lighten-5': edit.isVisible}">
+    <div class="col s1">
       <br />
       <a *ngIf="!study?.archived && !readonly"
         class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2"
@@ -41,20 +41,16 @@
       <qddt-confirm-delete *ngIf="!study?.archived && canDelete" [element]="study"
         (confirmAction)="onRemoveStudy($event)"></qddt-confirm-delete>
     </div>
-    <div class="col s10 grey-text text-darken-2">
+    <div class="col s10">
       <h5 class="row">
-        <div class="col s9">{{ study?.name }}</div>
-        <div class="col s3">
-          <qddt-version-label class="right" [element]="study"></qddt-version-label>
-        </div>
+        <div class="col s10">{{ study?.name }}</div>
+        <div class="col s2"><qddt-version-label class="right" [element]="study"></qddt-version-label></div>
       </h5>
-    </div>
-
-    <div class="col s10 white grey-text text-darken-1">
-      <div class="row" *ngIf="!edit.isVisible">
-        <p [innerHtml]="study.description"></p>
-        <qddt-author-chip [authors]="study.authors"></qddt-author-chip>
-        <ul>
+      <div class="row">
+        <div class="col s12" *ngIf="!edit.isVisible" >
+          <p [innerHtml]="study.description"></p>
+          <qddt-author-chip [authors]="study.authors"></qddt-author-chip>
+          <ul>
           <li class="collection-header">Instruments</li>
           <li *ngFor="let item of study.instruments; let idx = index" class="collection-item"
             style="border: 1px black;height:2rem" draggable="true" (dragstart)="onDragStart($event, item)">
@@ -73,17 +69,18 @@
             </div>
           </li>
         </ul>
+        </div>
+
+        <qddt-study-edit [isVisible]="edit.isVisible" [study]="study" #edit (savedEvent)="onStudySaved($event)">
+        </qddt-study-edit>
+
+        <qddt-download *ngIf="!edit.isVisible" [entity]="study" [readonly]="true"></qddt-download>
+
+        <qddt-revision *ngIf="edit.showRevision" [current]="study"></qddt-revision>
+
+        <qddt-comment-list *ngIf="!edit.isVisible" [ownerId]="study.id" [comments]="study.comments">
+        </qddt-comment-list>
       </div>
-
-      <qddt-study-edit [isVisible]="edit.isVisible" [study]="study" #edit (savedEvent)="onStudySaved($event)">
-      </qddt-study-edit>
-
-      <qddt-download *ngIf="!edit.isVisible" [entity]="study" [readonly]="true"></qddt-download>
-
-      <qddt-revision *ngIf="edit.showRevision" [current]="study"></qddt-revision>
-
-      <qddt-comment-list *ngIf="!edit.isVisible" [ownerId]="study.id" [comments]="study.comments">
-      </qddt-comment-list>
     </div>
   </div>
 </div>

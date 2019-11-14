@@ -1,22 +1,22 @@
 <div class="col s12 m9">
   <div class="card-panel row white-text teal">
     <i class="material-icons large right">store</i><h4>Questionnaire modules for {{ study?.name }}</h4>
-    <a *ngIf="!study.archived && !readonly" class="btn" (click)="showTopicForm = !showTopicForm; showReuse=false">
+    <a class="btn" *ngIf="!study.archived && !readonly" (click)="showTopicForm = !showTopicForm; showReuse=false">
       <i class="material-icons right" *ngIf="!showTopicForm">keyboard_arrow_down</i>
       <i class="material-icons right" *ngIf="showTopicForm">keyboard_arrow_up</i>
-      New</a>
-    <a class="btn" (click)="showReuse = !showReuse; showTopicForm=false " *ngIf="!study.archived && !readonly">
+      New
+    </a>
+    <a class="btn" *ngIf="!study.archived && !readonly" (click)="showReuse = !showReuse; showTopicForm=false " >
       <i class="material-icons right" *ngIf="!showReuse">keyboard_arrow_down</i>
       <i class="material-icons right" *ngIf="showReuse">keyboard_arrow_up</i>
-      reuse</a>
-
+      reuse
+    </a>
     <qddt-copy-select *ngIf="showReuse"
                       [parentId]="study.id"
                       [elementKind]="TOPIC_KIND"
                       (dismissEvent)="showReuse=false;"
                       (itemSelected)="onSelectedRevsion($event)">
     </qddt-copy-select>
-
     <div *ngIf="showTopicForm">
       <div class="row card-action">
         <div class="col s10 offset-s1">
@@ -40,16 +40,17 @@
 
   <div *ngIf="showProgressBar" class="progress"><div class="indeterminate"></div></div>
 
-  <div class="row card section scrollspy white grey-text text-darken-2" id="{{topic.id}}" *ngFor="let topic of topics">
+  <div id="{{topic.id}}" class="row card section scrollspy white grey-text text-darken-2"  *ngFor="let topic of topics"
+       [ngClass]="{'grey lighten-5': edit.isVisible}">
     <div class="col s1">
         <br/>
         <a *ngIf="!topic.archived && !readonly" class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2"
             (click)="edit.isVisible = !edit.isVisible; refreshCount = 0"><i class="material-icons" title="Edit Concept">mode_edit</i></a>
-        <a class="btn-flat btn-floating btn-medium waves-effect waves-light blue lighten-2"
+        <a *ngIf="!edit.isVisible" class="btn-flat btn-floating btn-medium waves-effect waves-light blue lighten-2"
             (click)="edit.showRevision = !edit.showRevision"><i class="material-icons left medium" title="Revision history">history</i></a>
-        <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+        <a *ngIf="!edit.isVisible" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
             (click)="onSelectTopic(topic)"><i class="material-icons left medium"title="Go to child elements">play_arrow</i></a>
-        <qddt-confirm-delete *ngIf="!topic.archived  && canDelete"
+        <qddt-confirm-delete *ngIf="!edit.isVisible && !topic.archived  && canDelete"
                              [element]="topic"
                              (confirmAction)="onRemoveTopic($event)">
         </qddt-confirm-delete>
@@ -68,7 +69,7 @@
         <p  [innerHtml]="topic?.description" ></p>
       </div>
       <qddt-question-items *ngIf="!edit.isVisible"
-        [questionItems] ="topic?.topicQuestionItems"
+        [revisionRefs] ="topic?.topicQuestionItems"
         [readonly] = "topic.archived || readonly"
         (createdEvent) ="onAddQuestionItem($event,topic?.id)"
         (deletedEvent) = "onRemovedQuestionItem($event,topic?.id)">
@@ -76,7 +77,7 @@
 
       <qddt-download *ngIf="!edit.isVisible" [entity]="topic" [readonly]="true"></qddt-download>
 
-      <qddt-revision *ngIf = "edit.showRevision" [current]="topic" ></qddt-revision>
+      <qddt-revision *ngIf="edit.showRevision" [current]="topic" ></qddt-revision>
 
       <qddt-comment-list *ngIf="!edit.isVisible"
         [ownerId]="topic.id"

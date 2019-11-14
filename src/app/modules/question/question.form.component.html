@@ -13,16 +13,28 @@
   <qddt-conceptref [element]="questionItem"></qddt-conceptref>
 
   <form  id="{{formId}}" #hf="ngForm" (ngSubmit)="onSaveQuestionItem()" >
-    <div class="row input-field">
-      <input id="NAME-{{formId}}" placeholder="Name me" name="name" type="text" class="validate" required [(ngModel)]="questionItem.name" data-length="255">
-      <label for="NAME-{{formId}}">Name</label>
-    </div>
-    <div class="row input-field">
-      <textarea id="QUESTION-{{formId}}" name="question" [(ngModel)]="questionItem.question"
-                class="materialize-textarea validate" required minlength="2" data-length="1500">
-      </textarea>
-      <label for="QUESTION-{{formId}}" >Question text</label>
-    </div>
+    <qddt-input
+      required
+      name="name"
+      placeholder="Name me"
+      label="Question Name"
+      [(ngModel)]="questionItem.name"
+      data-length="100">
+    </qddt-input>
+    <qddt-textarea
+      required
+      name="question"
+      placeholder="Question"
+      label="Question"
+      [(ngModel)]="questionItem.question"
+      data-length="1500">
+    </qddt-textarea>
+<!--    <div class="row input-field">-->
+<!--      <textarea id="QUESTION-{{formId}}" name="question" [(ngModel)]="questionItem.question"-->
+<!--                class="materialize-textarea validate" required minlength="2" data-length="1500">-->
+<!--      </textarea>-->
+<!--      <label for="QUESTION-{{formId}}" >Question text</label>-->
+<!--    </div>-->
     <div class="row input-field">
       <textarea id="INTENT-{{formId}}" name="intent" [(ngModel)]="questionItem.intent"
                 class="materialize-textarea validate" data-length="2000">

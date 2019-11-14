@@ -4,19 +4,19 @@ import { ElementKind, IElement, Instrument, Page, Study, TemplateService } from 
 @Component({
   selector: 'qddt-study-edit',
   styles: [
-    '.nomargin { margin:0; }',
-    ':host ::ng-deep .hoverable .row { min-height:3rem; margin-bottom:0px;}'
+    // '.nomargin { margin:0; }',
+    // ':host ::ng-deep .hoverable .row { min-height:3rem; margin-bottom:0px;}'
   ],
   providers: [{ provide: 'elementKind', useValue: 'STUDY' }],
   template: `
 <div [hidden]="!(isVisible && study)">
-  <form id="{{formId}}" (ngSubmit)="onSave()" #studyForm="ngForm">
-    <div class="row input-field">
+  <form class="row" id="{{formId}}" (ngSubmit)="onSave()" #studyForm="ngForm">
+    <div class="col s12 input-field">
       <input name="name" type="text" [(ngModel)]="study.name" required  data-length ="255" >
       <label>Name</label>
     </div>
 
-    <div class="row input-field">
+    <div class="col s12 input-field">
       <textarea name="description" class="materialize-textarea"  data-length ="10000"
         [(ngModel)]="study.description" required >
       </textarea>
@@ -32,11 +32,11 @@ import { ElementKind, IElement, Instrument, Page, Study, TemplateService } from 
       (searchEvent)="onInstrumentSearch($event)">
     </qddt-collection-search-select>
 
-    <qddt-rational [formName]="'RationalComp'" [element]="study" [config]="{hidden: [2,3]}"></qddt-rational>
+    <qddt-rational class="col s12" [formName]="'RationalComp'" [element]="study" [config]="{hidden: [2,3]}"></qddt-rational>
 
-    <qddt-element-footer [element]="study" ></qddt-element-footer>
+    <qddt-element-footer class="col s12" [element]="study" ></qddt-element-footer>
 
-    <div class="row right-align">
+    <div class="col s12 right-align">
       <button type="submit" class="btn btn-default" [disabled]="studyForm.form.invalid" >Submit</button>
     </div>
   </form>

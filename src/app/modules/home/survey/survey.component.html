@@ -4,7 +4,8 @@
       <a *ngIf="!readonly" class="btn" (click)="showSurveyForm = !showSurveyForm">
         <i class="material-icons right" *ngIf="!showSurveyForm">keyboard_arrow_down</i>
         <i class="material-icons right" *ngIf="showSurveyForm">keyboard_arrow_up</i>
-        New</a>
+        New
+      </a>
       <div *ngIf="showSurveyForm">
         <div class="row card-action">
           <div class="col s10 offset-s1">
@@ -26,7 +27,7 @@
     </div>
   </div>
 
-  <div class="row card section scrollspy" id="{{surveyProgram.id}}"  *ngFor="let surveyProgram of surveys" >
+  <div class="row card section scrollspy white grey-text text-darken-2" id="{{surveyProgram.id}}"  *ngFor="let surveyProgram of surveys" [ngClass]="{'grey lighten-5': edit.isVisible}">
     <div class="col s1">
         <br/>
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2" *ngIf="!surveyProgram.archived && !readonly" (click)="edit.isVisible = !edit.isVisible; refreshCount=0">
@@ -39,11 +40,11 @@
           <i class="material-icons left medium" title="Go to child elements">play_arrow</i></a>
     </div>
     <div class="col s10">
-      <div classs="row">
-        <div class="col s10"><h5>{{ surveyProgram?.name }}</h5></div>
-        <div class="col s2"><qddt-version-label class="right" [element]="surveyProgram"></qddt-version-label></div> 
-      </div>
-      <div class="row white grey-text text-darken-2">
+      <h5 class="row">
+        <div class="col s10">{{ surveyProgram?.name }}</div>
+        <div class="col s2"><qddt-version-label class="right" [element]="surveyProgram"></qddt-version-label></div>
+      </h5>
+      <div class="row">
         <div class="col s12" *ngIf="!edit.isVisible" >
           <p [innerHtml]="surveyProgram?.description" ></p>
           <qddt-author-chip [authors]="surveyProgram?.authors" ></qddt-author-chip>
