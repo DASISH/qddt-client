@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   ActionKind,
@@ -16,10 +16,10 @@ import {
   styleUrls: ['./concept-tree-node.component.css']
 })
 
-export class TreeNodeComponent  {
+export class TreeNodeComponent {
   @Input() concept: Concept;
-  @Output() deleteEvent =  new EventEmitter();
-  @Output() updatedEvent =  new EventEmitter<Concept>();
+  @Output() deleteEvent = new EventEmitter();
+  @Output() updatedEvent = new EventEmitter<Concept>();
 
   public revisionList: IRevisionResult<QuestionItem>[];
   public questionItemList: QuestionItem[];
@@ -37,7 +37,7 @@ export class TreeNodeComponent  {
   private refreshCount = 0;
 
   constructor(private homeService: HomeService<Concept>, private router: Router,
-              private message: MessageService,  private templateService: TemplateService) {
+    private message: MessageService, private templateService: TemplateService) {
     this.canCreate = this.homeService.canDo(this.CONCEPT).get(ActionKind.Create);
     this.canUpdate = this.homeService.canDo(this.CONCEPT).get(ActionKind.Update);
     this.canDelete = this.homeService.canDo(this.CONCEPT).get(ActionKind.Delete);
@@ -52,7 +52,7 @@ export class TreeNodeComponent  {
   }
 
   onCreateConcept() {
-    if (this.canCreate ) {
+    if (this.canCreate) {
       this.showConceptChildForm = !this.showConceptChildForm;
     }
   }
@@ -71,17 +71,17 @@ export class TreeNodeComponent  {
     this.concept.changeKind = 'UPDATED_HIERARCHY_RELATION';
     this.concept.changeComment = 'ADDED CHILD CONCEPT';
     this.templateService.update<Concept>(this.concept).subscribe(
-      (result) => this.concept = result );
+      (result) => this.concept = result);
   }
 
   public onQuestionItemRemoved(ref: ElementRevisionRef, conceptId) {
-    this.homeService.deattachQuestion(this.CONCEPT, conceptId, ref.elementId , ref.elementRevision)
-      .subscribe(result => this.onConceptUpdated(result) );
+    this.homeService.deattachQuestion(this.CONCEPT, conceptId, ref.elementId, ref.elementRevision)
+      .subscribe(result => this.onConceptUpdated(result));
   }
 
   public onQuestionItemAdded(ref: ElementRevisionRef, conceptId) {
     this.homeService.attachQuestion(this.CONCEPT, conceptId, ref.elementId, ref.elementRevision)
-      .subscribe(result => this.onConceptUpdated(result) );
+      .subscribe(result => this.onConceptUpdated(result));
   }
 
   public onQuestionItemModified(ref: ElementRevisionRef, conceptId) {

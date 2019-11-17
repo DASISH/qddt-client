@@ -37,7 +37,7 @@ export class ConceptTocComponent {
   @Input() children: Concept[];
   @Input() parentId: string;
   @Input() level: number;
-  @Output() conceptMoved =  new EventEmitter<IMoveTo>();
+  @Output() conceptMoved = new EventEmitter<IMoveTo>();
 
 
   onDragstart(event, sourceId) {
@@ -51,8 +51,8 @@ export class ConceptTocComponent {
     event.preventDefault();
 
     const bounding = event.target.getBoundingClientRect();
-    const offset = bounding.y + (bounding.height / 2 );
-    if ( event.clientY - offset > 0 ) {
+    const offset = bounding.y + (bounding.height / 2);
+    if (event.clientY - offset > 0) {
       event.target.style['border-bottom'] = 'solid 3px blue';
       event.target.style['border-top'] = '';
     } else {
@@ -75,7 +75,7 @@ export class ConceptTocComponent {
     event.dataTransfer.clearData();
     console.log(event.currentTarget);
     console.log(event.target);
-    this.conceptMoved.emit( { target: this.parentId , index: index, source: sourceId } as IMoveTo);
+    this.conceptMoved.emit({ target: this.parentId, index: index, source: sourceId } as IMoveTo);
   }
 
   public conceptClass(seed): Concept {

@@ -4,9 +4,10 @@ import { By } from '@angular/platform-browser';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ConditionEditComponent } from './conditionconstruct.edit.component';
-import { TemplateService } from '../../../lib/services';
+
 import { API_BASE_HREF } from '../../../api';
+import { ConditionEditComponent } from './conditionconstruct.edit.component';
+import { TemplateService } from 'src/app/lib';
 
 export function main() {
   describe('Condition edit component', () => {

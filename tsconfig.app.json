@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "./out-tsc/app",
     "types": [ "node",
-      "materialize-css"]
+      "materialize-css"],
   },
   "files": [
     "src/main.ts",
@@ -15,5 +15,8 @@
   "exclude": [
     "src/test.ts",
     "src/**/*.spec.ts"
-  ]
+  ],
+  "angularCompilerOptions": {
+    "enableIvy": true
+  },
 }

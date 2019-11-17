@@ -1,5 +1,5 @@
-import {Component, Input, EventEmitter, Output,  AfterViewInit} from '@angular/core';
-import {ElementKind, TemplateService, Topic} from '../../../lib';
+import { Component, Input, EventEmitter, Output, AfterViewInit } from '@angular/core';
+import { ElementKind, TemplateService, Topic } from '../../../lib';
 
 @Component({
   selector: 'qddt-topic-edit',
@@ -31,19 +31,19 @@ import {ElementKind, TemplateService, Topic} from '../../../lib';
 </div>
 `})
 
-export class TopicEditComponent  implements AfterViewInit {
+export class TopicEditComponent implements AfterViewInit {
   @Input() topic: Topic;
   @Input() readonly = false;
   @Input() isVisible = false;
   @Output() savedEvent = new EventEmitter<any>();
 
-  public readonly formId = Math.round( Math.random() * 10000);
+  public readonly formId = Math.round(Math.random() * 10000);
   private readonly TOPIC_KIND = ElementKind.TOPIC_GROUP;
 
   public fileStore: File[] = [];
 
   constructor(private service: TemplateService) {
-   }
+  }
 
   ngAfterViewInit(): void {
     // document.querySelectorAll('input[data-length], textarea[data-length]').forEach(
@@ -55,7 +55,7 @@ export class TopicEditComponent  implements AfterViewInit {
   public async onSave() {
     const formData = new FormData();
     formData.append('topicgroup', JSON.stringify(this.topic));
-    this.fileStore.forEach( (file) => { formData.append('files', file); });
+    this.fileStore.forEach((file) => { formData.append('files', file); });
 
     this.topic = await this.service.updateWithFiles(this.TOPIC_KIND, formData).toPromise();
 

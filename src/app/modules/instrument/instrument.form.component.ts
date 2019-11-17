@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { ActionKind, ElementKind, Instrument, INSTRUMENT_KIND, InstrumentKind} from '../../lib';
-import { TemplateService} from '../../components/template';
+import { ActionKind, ElementKind, Instrument, INSTRUMENT_KIND, InstrumentKind } from '../../lib';
+import { TemplateService } from '../../components/template';
 
 
 
@@ -15,7 +15,7 @@ export class InstrumentFormComponent implements OnChanges {
   @Input() readonly = false;
   @Input() element: Instrument;
 
-  public formId = Math.round( Math.random() * 10000);
+  public formId = Math.round(Math.random() * 10000);
   public currentInstrumentType = InstrumentKind.QUESTIONNAIRE;
   public instrumentKinds = INSTRUMENT_KIND;
 
@@ -38,9 +38,10 @@ export class InstrumentFormComponent implements OnChanges {
     console.log(this.element);
     this.service.update<Instrument>(this.element).subscribe(
       (result) => {
-          console.log(result);
-          this.element = result;
-          this.modifiedEvent.emit(result); },
+        console.log(result);
+        this.element = result;
+        this.modifiedEvent.emit(result);
+      },
       (error) => { throw error; });
   }
 }

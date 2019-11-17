@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, OnInit} from '@angular/core';
-import { Router} from '@angular/router';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   ActionKind,
   ElementKind,
@@ -14,11 +14,11 @@ import {
 
 @Component({
   selector: 'qddt-topic',
-  providers: [ {provide: 'elementKind', useValue: 'TOPIC_GROUP'}, ],
+  providers: [{ provide: 'elementKind', useValue: 'TOPIC_GROUP' },],
   templateUrl: './topic.component.html',
 })
 
-export class TopicComponent implements  OnInit, AfterViewInit {
+export class TopicComponent implements OnInit, AfterViewInit {
   public readonly TOPIC_KIND = ElementKind.TOPIC_GROUP;
 
   public study: Study;
@@ -113,24 +113,24 @@ export class TopicComponent implements  OnInit, AfterViewInit {
 
   public onRemovedQuestionItem(ref: IRevisionRef, topicId: any) {
     this.homeService.deattachQuestion(this.TOPIC_KIND, topicId, ref.elementId, ref.elementRevision)
-    .subscribe((result: any) => this.onTopicSaved(result));
+      .subscribe((result: any) => this.onTopicSaved(result));
   }
 
   public onEditQuestion(search: IRevisionRef) {
     this.templateService.searchByUuid(search.elementId).then(
       (result) => { this.router.navigate([result.url]); },
-      (error) => { throw  error; });
+      (error) => { throw error; });
   }
 
 
   onRemoveQuestionItem(ref: IRevisionRef, topicId: any) {
-      this.homeService.deattachQuestion(this.TOPIC_KIND, topicId , ref.elementId, ref.elementRevision)
+    this.homeService.deattachQuestion(this.TOPIC_KIND, topicId, ref.elementId, ref.elementRevision)
       .subscribe((result: any) => this.onTopicSaved(result));
   }
 
   onRemoveTopic(topicId: string) {
     if (topicId && topicId.length === 36) {
-      this.templateService.delete(new Topic({ id : topicId})).subscribe(() => {
+      this.templateService.delete(new Topic({ id: topicId })).subscribe(() => {
         this.topics = this.topics.filter((s: any) => s.id !== topicId);
         this.property.set('topics', this.topics);
       });

@@ -1,72 +1,75 @@
 <div class="col s12 m9">
   <div class="card-panel row teal white-text text-lighten-2">
-      <i class="material-icons large right">store</i><h4>Survey</h4>
-      <a *ngIf="!readonly" class="btn" (click)="showSurveyForm = !showSurveyForm">
-        <i class="material-icons right" *ngIf="!showSurveyForm">keyboard_arrow_down</i>
-        <i class="material-icons right" *ngIf="showSurveyForm">keyboard_arrow_up</i>
-        New
-      </a>
-      <div *ngIf="showSurveyForm">
-        <div class="row card-action">
-          <div class="col s10 offset-s1">
-              <form #hf="ngForm">
-                <div class="row input-field">
-                  <input name="name" class="white-text" type="text" ngModel required  data-length ="250" >
-                  <label class="white-text">Name</label>
-                </div>
-                <div class="row input-field white-text">
-                  <textarea name="description" class="materialize-textarea white-text" ngModel required  data-length ="10000" ></textarea>
-                  <label class="white-text">Description</label>
-                </div>
-                <div class="row right-align">
-                    <button type="button" (click)="onNewSave(hf.value)" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
-                </div>
-              </form>
-          </div>
+    <i class="material-icons large right">store</i>
+    <h4>Survey</h4>
+    <a *ngIf="!readonly" class="btn" (click)="showSurveyForm = !showSurveyForm">
+      <i class="material-icons right" *ngIf="!showSurveyForm">keyboard_arrow_down</i>
+      <i class="material-icons right" *ngIf="showSurveyForm">keyboard_arrow_up</i>
+      New
+    </a>
+    <div *ngIf="showSurveyForm">
+      <div class="row card-action">
+        <div class="col s10 offset-s1">
+          <form #hf="ngForm">
+            <div class="row input-field">
+              <input name="name" class="white-text" type="text" ngModel required data-length="250">
+              <label class="white-text">Name</label>
+            </div>
+            <div class="row input-field white-text">
+              <textarea name="description" class="materialize-textarea white-text" ngModel required
+                data-length="10000"></textarea>
+              <label class="white-text">Description</label>
+            </div>
+            <div class="row right-align">
+              <button type="button" (click)="onNewSave(hf.value)" class="btn btn-default"
+                [disabled]="!hf.form.valid">Submit</button>
+            </div>
+          </form>
         </div>
+      </div>
     </div>
   </div>
 
-  <div class="row card section scrollspy white grey-text text-darken-2" id="{{surveyProgram.id}}"  *ngFor="let surveyProgram of surveys" [ngClass]="{'grey lighten-5': edit.isVisible}">
+  <div class="row card section scrollspy white grey-text text-darken-2" id="{{surveyProgram.id}}"
+    *ngFor="let surveyProgram of surveys" [ngClass]="{'grey lighten-5': edit.isVisible}">
     <div class="col s1">
-        <br/>
-        <a class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2" *ngIf="!surveyProgram.archived && !readonly" (click)="edit.isVisible = !edit.isVisible; refreshCount=0">
-          <i class="material-icons"title="Edit element">mode_edit</i></a>
+      <br />
+      <a class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2"
+        *ngIf="!surveyProgram.archived && !readonly" (click)="edit.isVisible = !edit.isVisible; refreshCount=0">
+        <i class="material-icons" title="Edit element">mode_edit</i></a>
 
-        <a class="btn-flat btn-floating btn-medium waves-effect waves-light blue lighten-2" (click)="edit.showRevision = !edit.showRevision">
-          <i class="material-icons left medium" title="Revision history">history</i></a>
+      <a class="btn-flat btn-floating btn-medium waves-effect waves-light blue lighten-2"
+        (click)="edit.showRevision = !edit.showRevision">
+        <i class="material-icons left medium" title="Revision history">history</i></a>
 
-        <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="onShowStudy(surveyProgram)">
-          <i class="material-icons left medium" title="Go to child elements">play_arrow</i></a>
+      <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="onShowStudy(surveyProgram)">
+        <i class="material-icons left medium" title="Go to child elements">play_arrow</i></a>
     </div>
     <div class="col s10">
       <h5 class="row">
         <div class="col s10">{{ surveyProgram?.name }}</div>
-        <div class="col s2"><qddt-version-label class="right" [element]="surveyProgram"></qddt-version-label></div>
-      </h5>
-      <div class="row">
-        <div class="col s12" *ngIf="!edit.isVisible" >
-          <p [innerHtml]="surveyProgram?.description" ></p>
-          <qddt-author-chip [authors]="surveyProgram?.authors" ></qddt-author-chip>
+        <div class="col s2">
+          <qddt-version-label class="right" [element]="surveyProgram"></qddt-version-label>
         </div>
-
-        <qddt-survey-edit [isVisible]="edit.isVisible"
-          [survey]="surveyProgram"
-          (savedEvent)="onSurveySaved($event)" #edit>
-        </qddt-survey-edit>
-
-        <qddt-download  *ngIf="!edit.isVisible" [entity]="surveyProgram"></qddt-download>
-
-        <qddt-revision *ngIf="edit.showRevision" [current]="surveyProgram" ></qddt-revision>
-
-        <qddt-comment-list [hidden]="edit.isVisible"
-          [ownerId]="surveyProgram.id"
-          [comments]="surveyProgram.comments">
-        </qddt-comment-list>
+      </h5>
+      <qddt-survey-edit [isVisible]="edit.isVisible" [survey]="surveyProgram" (savedEvent)="onSurveySaved($event)"
+        #edit>
+      </qddt-survey-edit>
+      <div class="row">
+        <div class="col s12" *ngIf="!edit.isVisible">
+          <p [innerHtml]="surveyProgram?.description"></p>
+          <qddt-author-chip [authors]="surveyProgram?.authors"></qddt-author-chip>
+        </div>
       </div>
+
+      <qddt-download [entity]="surveyProgram" [readonly]="true"></qddt-download>
+
+      <qddt-revision *ngIf="edit.showRevision" [current]="surveyProgram"></qddt-revision>
+
+      <qddt-comment-list [hidden]="edit.isVisible" [ownerId]="surveyProgram.id" [comments]="surveyProgram.comments">
+      </qddt-comment-list>
     </div>
   </div>
 </div>
 
 <qddt-toc [elements]="surveys" [path]="'survey'"></qddt-toc>
-

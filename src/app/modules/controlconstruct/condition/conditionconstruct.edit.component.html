@@ -1,58 +1,48 @@
 <div class="row teal-text">
-    <h5>Condition</h5>
-    <div class="input-field row">
-      <label>Name</label>
-      <textarea id="{{elementId}}-name" name="con-name"
-        class="materialize-textarea"
-        [(ngModel)]="condition.name"  data-length ="250"
-        required>
+  <h5>Condition</h5>
+  <div class="input-field row">
+    <label>Name</label>
+    <textarea id="{{elementId}}-name" name="con-name" class="materialize-textarea" [(ngModel)]="condition.name"
+      data-length="250" required>
       </textarea>
-    </div>
-    <div class="input-field row">
-      <label for="elseCondition_num" class="active">Number of elseConditions</label>
-      <input id="elseCondition_num" name="elseCondition_num"
-        type="number"
-                  (ngModelChange)="buildElseConditions()"
-                [(ngModel)]="elseConditionNum" required>
-    </div>
-    <div class="row card">
-      <div class="input-field col s6">
-      <label>if Condition Command</label>
-      <textarea id="{{elementId}}-ifCondition" name="{{elementId}}-ifCondition"
-        class="materialize-textarea"
-        [(ngModel)]="condition"  data-length ="1500" >
-      </textarea>
-      </div>
-      <div class="input-field col s6">
-        <qddt-auto-complete
-          [items]="elements"
-          [elementKind]="CONDITION"
-          (selectEvent)="onSelectElement($event)"
-          (enterEvent)="onSearchElements($event)">
-        </qddt-auto-complete>
-      </div>
-    </div>
-    <!--<div class="row card" *ngFor="let condition of condition; let idx=index;">-->
-      <!--<div class="input-field col s6">-->
-      <!--<label [attr.for]="elementId + '-elseCondition-' + idx">else Condition Command</label>-->
-      <!--<textarea id="{{elementId}}-elseCondition-{{idx}}"-->
-        <!--name="{{elementId}}-elseCondition-{{idx}}"-->
-        <!--class="materialize-textarea"-->
-        <!--[(ngModel)]="condition.command" [attr.maxlength]="255" >-->
-      <!--</textarea>-->
-      <!--</div>-->
-      <!--<div class="input-field col s6">-->
-        <!--<qddt-auto-complete-->
-          <!--[items]="elements"-->
-          <!--[elementKind]="CONDITION"-->
-          <!--(selectEvent)="onSelectElseElement($event, idx)"-->
-                  <!--(enterEvent)="onSearchElements($event)">-->
-              <!--</qddt-auto-complete>-->
-      <!--</div>-->
-    <!--</div>-->
-    <button
-      (click)="onCreate()"
-      class="btn btn-default green modal-action modal-close waves-effect">
-      <a><i class="close material-icons medium white-text">create</i></a>
-    </button>
   </div>
+  <div class="input-field row">
+    <label for="elseCondition_num" class="active">Number of elseConditions</label>
+    <input id="elseCondition_num" name="elseCondition_num" type="number" (ngModelChange)="buildElseConditions()"
+      [(ngModel)]="elseConditionNum" required>
+  </div>
+  <div class="row card">
+    <div class="input-field col s6">
+      <label>if Condition Command</label>
+      <textarea id="{{elementId}}-ifCondition" name="{{elementId}}-ifCondition" class="materialize-textarea"
+        [(ngModel)]="condition" data-length="1500">
+      </textarea>
+    </div>
+    <div class="input-field col s6">
+      <qddt-auto-complete [items]="elements" [elementKind]="CONDITION" (selectEvent)="onSelectElement($event)"
+        (enterEvent)="onSearchElements($event)">
+      </qddt-auto-complete>
+    </div>
+  </div>
+  <!--<div class="row card" *ngFor="let condition of condition; let idx=index;">-->
+  <!--<div class="input-field col s6">-->
+  <!--<label [attr.for]="elementId + '-elseCondition-' + idx">else Condition Command</label>-->
+  <!--<textarea id="{{elementId}}-elseCondition-{{idx}}"-->
+  <!--name="{{elementId}}-elseCondition-{{idx}}"-->
+  <!--class="materialize-textarea"-->
+  <!--[(ngModel)]="condition.command" [attr.maxlength]="255" >-->
+  <!--</textarea>-->
+  <!--</div>-->
+  <!--<div class="input-field col s6">-->
+  <!--<qddt-auto-complete-->
+  <!--[items]="elements"-->
+  <!--[elementKind]="CONDITION"-->
+  <!--(selectEvent)="onSelectElseElement($event, idx)"-->
+  <!--(enterEvent)="onSearchElements($event)">-->
+  <!--</qddt-auto-complete>-->
+  <!--</div>-->
+  <!--</div>-->
+  <button (click)="onCreate()" class="btn btn-default green modal-action modal-close waves-effect">
+    <a><i class="close material-icons medium white-text">create</i></a>
+  </button>
+</div>

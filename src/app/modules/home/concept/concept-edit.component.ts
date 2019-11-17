@@ -1,11 +1,11 @@
-import {Component, Input, EventEmitter, Output, AfterViewInit} from '@angular/core';
-import {Concept, TemplateService} from '../../../lib';
+import { Component, Input, EventEmitter, Output, AfterViewInit } from '@angular/core';
+import { Concept, TemplateService } from '../../../lib';
 
 
 
 @Component({
   selector: 'qddt-concept-edit',
-  providers: [ {provide: 'elementKind', useValue: 'CONCEPT'}, ],
+  providers: [{ provide: 'elementKind', useValue: 'CONCEPT' },],
   template: `
 <div *ngIf="(concept && isVisible)">
   <form class="row" id="{{formId}}" (ngSubmit)="save()" #hf="ngForm">
@@ -37,13 +37,13 @@ import {Concept, TemplateService} from '../../../lib';
 </div>
 `
 })
-export class ConceptEditComponent implements  AfterViewInit {
+export class ConceptEditComponent implements AfterViewInit {
   @Input() concept: Concept;
-  @Output() conceptChanged =  new EventEmitter<Concept>();
+  @Output() conceptChanged = new EventEmitter<Concept>();
   @Input() readonly = false;
   @Input() isVisible = false;
 
-  public readonly formId = Math.round( Math.random() * 10000);
+  public readonly formId = Math.round(Math.random() * 10000);
   public showRevision = false;
 
   constructor(private service: TemplateService) { }

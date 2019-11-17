@@ -3,16 +3,17 @@
     <div class="row input-field" tabindex="0">
       <input id="{{ formId }}-name" name="name" type="text" class="validate" required
         [(ngModel)]="controlConstruct.name" data-length="255" />
-      <label for="{{ formId }}-name" >Name</label>
+      <label for="{{ formId }}-name">Name</label>
     </div>
     <div class="row input-field" tabindex="1">
       <input id="{{ formId }}-description" name="description" type="text" class="validate"
         [(ngModel)]="controlConstruct.description" data-length="255" />
-      <label for="{{ formId }}-description" >Description</label>
+      <label for="{{ formId }}-description">Description</label>
     </div>
 
     <qddt-collection-search-select [listItems]="controlConstruct.universe" [searchItems]="universeList"
-      [elementKind]="UNIVERSE" (selectEvent)="onAddUniverse($event)" (searchEvent)="onUniverseSearch($event)" tabindex="2">
+      [elementKind]="UNIVERSE" (selectEvent)="onAddUniverse($event)" (searchEvent)="onUniverseSearch($event)"
+      tabindex="2">
     </qddt-collection-search-select>
 
     <qddt-download [fileStore]="fileStore" [entity]="controlConstruct" [readonly]="false"></qddt-download>

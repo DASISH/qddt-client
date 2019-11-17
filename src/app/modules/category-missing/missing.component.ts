@@ -5,8 +5,8 @@ import { Component, ViewChild } from '@angular/core';
 
   templateUrl: './missing.component.html'
 })
-export class MissingComponent  {
-  @ViewChild('detail', {static: true}) templateDetail;
+export class MissingComponent {
+  @ViewChild('detail', { static: true }) templateDetail;
 
 
   public onFormModified(event) {

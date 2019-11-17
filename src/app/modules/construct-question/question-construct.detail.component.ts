@@ -8,7 +8,7 @@ import { Component, ViewChild } from '@angular/core';
 })
 
 export class QuestionConstructDetailComponent {
-  @ViewChild('detail', {static: true}) templateDetail;
+  @ViewChild('detail', { static: true }) templateDetail;
 
   public onFormModified(event) {
     this.templateDetail.onHideDetail();

@@ -1,43 +1,43 @@
 <div *ngIf="missing" class="white col s12">
 
-    <div class="row">
-      <p class="card-panel grey lighten-5 grey-text text-darken-1"
-      [innerHtml]="missing.label" style="font-style: italic"></p>
+  <div class="row">
+    <p class="card-panel grey lighten-5 grey-text text-darken-1" [innerHtml]="missing.label" style="font-style: italic">
+    </p>
+  </div>
+
+  <form id="{{formId}}" #hf="ngForm" (ngSubmit)="onSave()">
+
+    <div class="row input-field">
+      <input id="label-{{formId}}" placeholder="This is what is shown" name="label" type="text" class="validate"
+        required [(ngModel)]="missing.label" data-length="255">
+      <label for="label-{{formId}}">Label</label>
+    </div>
+    <div class="row input-field">
+      <input id="NAME-{{formId}}" placeholder="unique name" name="name" type="text" class="validate" required
+        [(ngModel)]="missing.name" data-length="255">
+      <label for="NAME-{{formId}}">Name</label>
     </div>
 
-    <form  id="{{formId}}" #hf="ngForm" (ngSubmit)="onSave()" >
-
-      <div class="row input-field">
-        <input id="label-{{formId}}" placeholder="This is what is shown" name="label" type="text" class="validate" required [(ngModel)]="missing.label" data-length="255">
-        <label for="label-{{formId}}">Label</label>
-      </div>
-      <div class="row input-field">
-        <input id="NAME-{{formId}}" placeholder="unique name" name="name" type="text" class="validate" required [(ngModel)]="missing.name" data-length="255">
-        <label for="NAME-{{formId}}">Name</label>
-      </div>
-
-      <div class="row input-field">
-        <textarea id="description-{{formId}}" placeholder="You may enter a description if you want" name="description" [(ngModel)]="missing.description"
-                  class="materialize-textarea validate" data-length="1000">
+    <div class="row input-field">
+      <textarea id="description-{{formId}}" placeholder="You may enter a description if you want" name="description"
+        [(ngModel)]="missing.description" class="materialize-textarea validate" data-length="1000">
         </textarea>
-        <label for="description-{{formId}}" >Description</label>
-      </div>
+      <label for="description-{{formId}}">Description</label>
+    </div>
 
 
 
 
-      <qddt-rational [formName]="'RationalComp'"
-        *ngIf="!readonly && missing.id"
-        [element]="missing"
-        [config]="{hidden: [4]}">
-      </qddt-rational>
-      <qddt-element-footer *ngIf="missing.id" [element]="missing"></qddt-element-footer>
+    <qddt-rational [formName]="'RationalComp'" *ngIf="!readonly && missing.id" [element]="missing"
+      [config]="{hidden: [4]}">
+    </qddt-rational>
+    <qddt-element-footer *ngIf="missing.id" [element]="missing"></qddt-element-footer>
 
-      <div class="row right-align">
-        <button *ngIf="!readonly" [disabled]="!hf.form.valid" type="submit" class="btn btn-default">Submit</button>
-      </div>
-    </form>
-  </div>
+    <div class="row right-align">
+      <button *ngIf="!readonly" [disabled]="!hf.form.valid" type="submit" class="btn btn-default">Submit</button>
+    </div>
+  </form>
+</div>
 
 
 <!-- <div *ngIf="missing" class="white col s11">

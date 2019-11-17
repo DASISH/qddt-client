@@ -1,6 +1,12 @@
-import { Component,  OnInit, AfterContentChecked } from '@angular/core';
+import { Component, OnInit, AfterContentChecked } from '@angular/core';
 import { Router } from '@angular/router';
-import { ActionKind, SurveyProgram, ElementKind, HomeService, TemplateService, HierarchyPosition, PropertyStoreService} from '../../../lib';
+import { ActionKind,
+  SurveyProgram,
+  ElementKind,
+  HomeService,
+  TemplateService,
+  HierarchyPosition,
+  PropertyStoreService } from '../../../lib';
 
 // import * as FileSaver from 'file-saver';
 
@@ -24,14 +30,14 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
               private property: PropertyStoreService,
               private homeService: HomeService<SurveyProgram>,
               private templateService: TemplateService,
-             // private modalService: ModalService
+    // private modalService: ModalService
   ) {
     this.readonly = !homeService.canDo(this.SURVEY).get(ActionKind.Create);
   }
 
   ngOnInit() {
-      this.homeService.getListByParent(this.SURVEY).then(
-        (result) => this.surveys = result );
+    this.homeService.getListByParent(this.SURVEY).then(
+      (result) => this.surveys = result);
   }
 
   ngAfterContentChecked(): void {
@@ -58,14 +64,14 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
   onShowStudy(surveyProgram: any) {
     console.log('onshow survey');
     this.property.set('survey', surveyProgram);
-    this.property.setCurrentMenu(HierarchyPosition.Survey, { id: surveyProgram.id , name: surveyProgram.name });
+    this.property.setCurrentMenu(HierarchyPosition.Survey, { id: surveyProgram.id, name: surveyProgram.name });
     this.router.navigate(['study']);
   }
 
   onNewSave(survey) {
     console.log('saving');
     this.templateService.create(new SurveyProgram(survey)).subscribe(
-      result => this.onSurveySaved(result) );
+      result => this.onSurveySaved(result));
     this.showSurveyForm = false;
   }
 

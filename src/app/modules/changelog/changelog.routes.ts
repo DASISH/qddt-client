@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {ChangeLogComponent} from './changelog.component';
-import {ChangeLogDetailComponent} from './changelog.detail.component';
-import {AuthGuard} from '../../lib/services';
-import {TemplateListComponent} from '../../components/template';
+import { ChangeLogComponent } from './changelog.component';
+import { ChangeLogDetailComponent } from './changelog.detail.component';
+import { AuthGuard } from '../../lib/services';
+import { TemplateListComponent } from '../../components/template';
 
 
 export const changelogRoutes: Routes = [
@@ -19,7 +19,7 @@ export const changelogRoutes: Routes = [
 ];
 
 @NgModule({
-  imports: [ RouterModule.forChild(changelogRoutes) ],
-  exports: [ RouterModule ]
+  imports: [RouterModule.forChild(changelogRoutes)],
+  exports: [RouterModule]
 })
-export class ChangeLogRoutingModule {}
+export class ChangeLogRoutingModule { }

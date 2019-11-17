@@ -21,7 +21,7 @@ import {
   ],
 })
 
-export class QuestionConstructFormComponent   {
+export class QuestionConstructFormComponent {
   @Input() controlConstruct: QuestionConstruct;
   @Input() readonly = false;
   @Output() modifiedEvent = new EventEmitter<QuestionConstruct>();
@@ -30,7 +30,7 @@ export class QuestionConstructFormComponent   {
   public readonly INSTRUCTION = ElementKind.INSTRUCTION;
   public readonly QUESTION = ElementKind.QUESTION_ITEM;
 
-  public readonly formId = Math.round( Math.random() * 10000);
+  public readonly formId = Math.round(Math.random() * 10000);
 
   /* public savedQuestionItem: any; */
   public instructionList: Instruction[];
@@ -63,21 +63,21 @@ export class QuestionConstructFormComponent   {
   }
 
   onInstructionSearch(key: string) {
-    this.service.searchByKind<Instruction>( {kind: this.INSTRUCTION, key: key , page: new Page() }).then(
+    this.service.searchByKind<Instruction>({ kind: this.INSTRUCTION, key: key, page: new Page() }).then(
       (result) => {
         this.instructionList = result.content;
       });
   }
 
   onUniverseSearch(key: string) {
-    this.service.searchByKind<Universe>(  {kind: this.UNIVERSE, key: key, page: new Page() }).then(
+    this.service.searchByKind<Universe>({ kind: this.UNIVERSE, key: key, page: new Page() }).then(
       (result) => {
         this.universeList = result.content;
       });
   }
 
   onQuestionSearch(key: IElement) {
-    this.service.searchByKind<QuestionItem>( {kind: this.QUESTION, key: key.element, page: new Page() } ).then(
+    this.service.searchByKind<QuestionItem>({ kind: this.QUESTION, key: key.element, page: new Page() }).then(
       (result) => {
         this.questionList = result.content;
       });
@@ -89,14 +89,14 @@ export class QuestionConstructFormComponent   {
   }
 
   onRevisionSearch(item: IRevisionRef) {
-    this.service.getByKindRevisions<QuestionItem>(this.QUESTION, item.elementId ).then(
+    this.service.getByKindRevisions<QuestionItem>(this.QUESTION, item.elementId).then(
       (result) => {
         this.revisionResults = result.content;
       });
 
   }
 
-  onRevisionSelect(ref: ElementRevisionRef ) {
+  onRevisionSelect(ref: ElementRevisionRef) {
     this.controlConstruct.questionItem = ref.element;
     this.controlConstruct.questionItemRevision = ref.elementRevision;
     this.questionList = [];
@@ -111,11 +111,11 @@ export class QuestionConstructFormComponent   {
 
     const formData = new FormData();
     formData.append('controlconstruct', JSON.stringify(this.controlConstruct));
-    this.fileStore.forEach( (file) => { formData.append('files', file); });
+    this.fileStore.forEach((file) => { formData.append('files', file); });
 
     this.modifiedEvent.emit(
       this.controlConstruct =
-        await this.service.updateWithFiles(ElementKind.QUESTION_CONSTRUCT, formData).toPromise());
+      await this.service.updateWithFiles(ElementKind.QUESTION_CONSTRUCT, formData).toPromise());
   }
 
 }

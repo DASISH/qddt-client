@@ -14,11 +14,11 @@ import { QuestionConstructRoutingModule } from './question-construct.routes';
 
 
 @NgModule({
-  imports: [ ComponentsModule, ResponsedomainModule, QuestionModule, PreviewModule, SelectorsModule,
-    QuestionConstructRoutingModule ],
-  declarations: [ QuestionConstructComponent, QuestionConstructDetailComponent, QuestionConstructFormComponent ],
-  exports: [ QuestionConstructComponent ],
-  providers: [  ]
+  imports: [ComponentsModule, ResponsedomainModule, QuestionModule, PreviewModule, SelectorsModule,
+    QuestionConstructRoutingModule],
+  declarations: [QuestionConstructComponent, QuestionConstructDetailComponent, QuestionConstructFormComponent],
+  exports: [QuestionConstructComponent],
+  providers: []
 })
 
 export class QuestionConstructModule { }

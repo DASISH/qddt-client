@@ -1,11 +1,11 @@
-
 <div id="userOption" class="modal" style="width:35%;">
   <div class="modal-content">
     <h4>User Option</h4>
-    <form #f="ngForm" >
+    <form #f="ngForm">
       <div class="row input-field" *ngFor="let item of items">
-        <input class="{{item.class}}" id="{{item.name}}{{formId}}" name="{{item.name}}" type="{{item.type}}"  list="languages" [(ngModel)]="qddtProperty.userSetting[item.name]" required>
-        <label >{{item.name}}</label>
+        <input class="{{item.class}}" id="{{item.name}}{{formId}}" name="{{item.name}}" type="{{item.type}}"
+          list="languages" [(ngModel)]="qddtProperty.userSetting[item.name]" required>
+        <label>{{item.name}}</label>
       </div>
       <datalist id="languages">
         <option value="en-GB">

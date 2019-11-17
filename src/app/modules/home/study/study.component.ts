@@ -1,5 +1,5 @@
-import { AfterContentChecked, Component, OnInit} from '@angular/core';
-import { Router} from '@angular/router';
+import { AfterContentChecked, Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   ActionKind,
   ElementKind, HierarchyPosition,
@@ -27,9 +27,9 @@ export class StudyComponent implements OnInit, AfterContentChecked {
   private refreshCount = 0;
   private readonly STUDY = ElementKind.STUDY;
 
-  constructor(  private router: Router, private property: PropertyStoreService,
-                private message: MessageService,
-                private homeService: HomeService<Study>, private templateService: TemplateService ) {
+  constructor(private router: Router, private property: PropertyStoreService,
+    private message: MessageService,
+    private homeService: HomeService<Study>, private templateService: TemplateService) {
 
     this.readonly = !homeService.canDo(this.STUDY).get(ActionKind.Create);
     this.canDelete = homeService.canDo(this.STUDY).get(ActionKind.Delete);
@@ -39,9 +39,9 @@ export class StudyComponent implements OnInit, AfterContentChecked {
     this.survey = this.property.get('survey');
     const parentId = this.survey.id || this.property.menuPath[HierarchyPosition.Survey].id;
     this.templateService.getByKindEntity<SurveyProgram>(ElementKind.SURVEY_PROGRAM, parentId)
-    .then((result) => {
-      this.property.set('survey', this.survey = result);
-    });
+      .then((result) => {
+        this.property.set('survey', this.survey = result);
+      });
   }
 
   ngAfterContentChecked(): void {
@@ -60,12 +60,12 @@ export class StudyComponent implements OnInit, AfterContentChecked {
     }
 
     this.property.set('study', study);
-    this.property.setCurrentMenu(HierarchyPosition.Study, { id: study.id, name:  study.name });
+    this.property.setCurrentMenu(HierarchyPosition.Study, { id: study.id, name: study.name });
     this.router.navigate(['topic']);
   }
 
   public onShowElement(element: Instrument) {
-    this.message.sendMessage( {element , elementKind: element.classKind });
+    this.message.sendMessage({ element, elementKind: element.classKind });
   }
 
   onToggleStudyForm() {
@@ -86,7 +86,7 @@ export class StudyComponent implements OnInit, AfterContentChecked {
   onNewSave(study) {
     this.showEditForm = false;
     this.templateService.create(new Study(study), this.survey.id).subscribe(
-      result => this.onStudySaved(result) );
+      result => this.onStudySaved(result));
   }
 
   // getPdf(study: Study) {
@@ -98,7 +98,7 @@ export class StudyComponent implements OnInit, AfterContentChecked {
 
   onRemoveStudy(studyId: string) {
     if (studyId) {
-      this.templateService.delete(new Study({id: studyId}))
+      this.templateService.delete(new Study({ id: studyId }))
         .subscribe(() => {
           this.survey.studies = this.survey.studies.filter((s: any) => s.id !== studyId);
           this.property.set('studies', this.survey.studies);

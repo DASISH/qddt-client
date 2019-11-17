@@ -4,16 +4,16 @@ import { By } from '@angular/platform-browser';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import {StatementEditComponent} from './statementconstruct.edit.component';
-import {API_BASE_HREF} from '../../../api';
-import {TemplateService} from '../../../lib/services';
+import { StatementEditComponent } from './statementconstruct.edit.component';
+import { API_BASE_HREF } from '../../../api';
+import { TemplateService } from '../../../lib/services';
 
 export function main() {
   describe('statement edit component', () => {
     //
     beforeEach(() => {
       TestBed.configureTestingModule({
-        declarations: [ TestComponent, StatementEditComponent ],
+        declarations: [TestComponent, StatementEditComponent],
         providers: [
           { provide: TemplateService, useClass: SequenceServiceSpy },
           {

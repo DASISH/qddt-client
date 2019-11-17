@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Qddt-client": {
+    "qddt-client": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -18,10 +18,10 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "src/assets",
-              "src/assets/images/page-logo.ico"
+              "src/favicon.ico",
             ],
             "styles": [
               "src/styles.css",
@@ -84,10 +84,13 @@
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": false,
+              "buildOptimizer": true,
               "fileReplacements": [{
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.home.ts"
+                },{
+                  "replace": "src/index.html",
+                  "with": "src/index.home.html"
                 }
               ]
             }
@@ -97,24 +100,24 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "Qddt-client:build"
+            "browserTarget": "qddt-client:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "Qddt-client:build:production"
+              "browserTarget": "qddt-client:build:production"
             },
             "stage": {
-              "browserTarget": "Qddt-client:build:stage"
+              "browserTarget": "qddt-client:build:stage"
             },
             "home": {
-              "browserTarget": "Qddt-client:build:home"
+              "browserTarget": "qddt-client:build:home"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Qddt-client:build"
+            "browserTarget": "qddt-client:build"
           }
         },
         "test": {
@@ -154,18 +157,18 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "Qddt-client:serve"
+            "devServerTarget": "qddt-client:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "Qddt-client:serve:production"
+              "devServerTarget": "qddt-client:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "Qddt-client",
+  "defaultProject": "qddt-client",
   "cli": {
     "packageManager": "npm"
   },

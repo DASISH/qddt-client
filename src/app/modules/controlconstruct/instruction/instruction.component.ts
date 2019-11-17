@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import {ElementKind, Instruction} from '../../../lib';
-import {TemplateService} from '../../../components/template';
+import { ElementKind, Instruction } from '../../../lib';
+import { TemplateService } from '../../../components/template';
 
 @Component({
   selector: 'qddt-instruction-create',
 
   templateUrl: 'instruction.component.html',
-  styles: [ ],
+  styles: [],
 })
 
 export class InstructionComponent {
@@ -30,7 +30,7 @@ export class InstructionComponent {
 
   onSearchInstructions(key: string) {
     this.instruction.description = key;
-    this.service.searchByKind( {kind: this.INSTRUCTION, key: key }).then(
+    this.service.searchByKind({ kind: this.INSTRUCTION, key: key }).then(
       (result: any) => {
         this.instructionList = result.content;
         this.isInstructionNew = this.instructionList.length === 0;

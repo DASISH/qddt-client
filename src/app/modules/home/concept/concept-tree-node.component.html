@@ -1,15 +1,19 @@
 <div id="{{concept.id}}" class="row card section scrollspy white grey-text text-darken-2"
-     [ngClass]="{'grey lighten-5': edit.isVisible}">
+  [ngClass]="{'grey lighten-5': edit.isVisible}">
   <div class="col s1">
-    <br/>
-    <a *ngIf="canUpdate && !(concept.archived)" class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2"
-       (click)="onToggleEdit(edit)"><i class="material-icons" title="Edit Concept">mode_edit</i></a>
+    <br />
+    <a *ngIf="canUpdate && !(concept.archived)"
+      class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2" (click)="onToggleEdit(edit)"><i
+        class="material-icons" title="Edit Concept">mode_edit</i></a>
     <a *ngIf="!edit.isVisible" class="btn-flat btn-floating btn-medium waves-effect waves-light blue lighten-2"
-       (click)="edit.showRevision = !edit.showRevision"><i class="material-icons left medium" title="Revision history">history</i></a>
-    <a *ngIf="canUpdate && !(concept.archived) && !edit.isVisible" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-       (click)="onCreateConcept()"><i class="material-icons left medium" title="Add sub concept">add</i></a>
-    <a *ngIf="canDelete && !(concept.archived) && !edit.isVisible" class="btn-flat btn-floating btn-medium waves-effect waves-light red lighten-2"
-       (click)="onDeleteConcept(concept)"><i class="material-icons left medium" title="Delete" >delete_forever</i></a>
+      (click)="edit.showRevision = !edit.showRevision"><i class="material-icons left medium"
+        title="Revision history">history</i></a>
+    <a *ngIf="canUpdate && !(concept.archived) && !edit.isVisible"
+      class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="onCreateConcept()"><i
+        class="material-icons left medium" title="Add sub concept">add</i></a>
+    <a *ngIf="canDelete && !(concept.archived) && !edit.isVisible"
+      class="btn-flat btn-floating btn-medium waves-effect waves-light red lighten-2"
+      (click)="onDeleteConcept(concept)"><i class="material-icons left medium" title="Delete">delete_forever</i></a>
   </div>
 
   <div class="col s10">
@@ -20,52 +24,48 @@
       </div>
     </h5>
 
-    <qddt-concept-edit [isVisible]="edit.isVisible" [(concept)]="concept" #edit (conceptChanged)="onConceptUpdated($event)" >
+    <qddt-concept-edit [isVisible]="edit.isVisible" [(concept)]="concept" #edit
+      (conceptChanged)="onConceptUpdated($event)">
     </qddt-concept-edit>
 
     <div *ngIf="!edit.isVisible">
-      <p  [innerHtml]="concept?.description" ></p>
-      <form *ngIf="showConceptChildForm" class="col s12 card"  #hf="ngForm">
+      <p [innerHtml]="concept?.description"></p>
+      <form *ngIf="showConceptChildForm" class="col s12 card" #hf="ngForm">
         <span class="card-title">Add Concept</span>
         <div class="card-content">
           <div class="row input-field">
-            <input name="name" type="text" ngModel required  data-length ="250" >
+            <input name="name" type="text" ngModel required data-length="250">
             <label>Name</label>
           </div>
           <div class="row input-field">
-            <textarea name="description" class="materialize-textarea" ngModel required  data-length ="10000" ></textarea>
+            <textarea name="description" class="materialize-textarea" ngModel required data-length="10000"></textarea>
             <label>Description</label>
           </div>
         </div>
         <div class="card-action right-align">
-          <button type="button" (click)="onChildSave(hf.value)" class="btn btn-default " [disabled]="!hf.form.valid" >submit</button>
+          <button type="button" (click)="onChildSave(hf.value)" class="btn btn-default "
+            [disabled]="!hf.form.valid">submit</button>
         </div>
       </form>
 
-      <qddt-question-items
-        [revisionRefs] ="concept.conceptQuestionItems"
-        [readonly] = "concept.archived || !canUpdate"
-        (createdEvent) = "onQuestionItemAdded($event,concept.id)"
-        (deletedEvent) = "onQuestionItemRemoved($event,concept.id)"
-        (modifiedEvent) = "onQuestionItemModified($event,concept.id)">
+      <qddt-question-items [revisionRefs]="concept.conceptQuestionItems" [readonly]="concept.archived || !canUpdate"
+        (createdEvent)="onQuestionItemAdded($event,concept.id)"
+        (deletedEvent)="onQuestionItemRemoved($event,concept.id)"
+        (modifiedEvent)="onQuestionItemModified($event,concept.id)">
       </qddt-question-items>
 
       <qddt-download [entity]="concept" [readonly]="true"></qddt-download>
 
-      <qddt-comment-list
-        [ownerId]="concept.id"
-        [comments]="concept.comments">
+      <qddt-comment-list [ownerId]="concept.id" [comments]="concept.comments">
       </qddt-comment-list>
 
     </div>
 
-    <qddt-revision *ngIf = "edit.showRevision" [current]="concept"></qddt-revision>
+    <qddt-revision *ngIf="edit.showRevision" [current]="concept"></qddt-revision>
 
     <div class="tree-children">
-      <qddt-concept-treenode *ngFor="let child of concept.children"
-                              [concept]="child"
-                              (deleteEvent)="onDeleteConcept($event)"
-                              (updatedEvent)="onConceptUpdated($event)">
+      <qddt-concept-treenode *ngFor="let child of concept.children" [concept]="child"
+        (deleteEvent)="onDeleteConcept($event)" (updatedEvent)="onConceptUpdated($event)">
       </qddt-concept-treenode>
     </div>
   </div>

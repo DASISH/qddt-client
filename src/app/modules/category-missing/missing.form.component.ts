@@ -1,5 +1,5 @@
-import {Component, Input, OnInit, Output, EventEmitter, AfterViewInit} from '@angular/core';
-import {ActionKind, Category, ElementKind, IElement, IPageSearch, Page, TemplateService} from '../../lib';
+import { Component, Input, OnInit, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { ActionKind, Category, ElementKind, IElement, IPageSearch, Page, TemplateService } from '../../lib';
 
 
 
@@ -17,9 +17,9 @@ export class MissingFormComponent implements OnInit, AfterViewInit {
     return this._missing;
   }
   @Input() readonly = false;
-  @Output() modifiedEvent =  new EventEmitter<Category>();
+  @Output() modifiedEvent = new EventEmitter<Category>();
 
-  public readonly formId = Math.round( Math.random() * 10000);
+  public readonly formId = Math.round(Math.random() * 10000);
   public readonly CATEGORY = ElementKind.CATEGORY;
 
   public missingList: Category[];
@@ -32,7 +32,7 @@ export class MissingFormComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.pageSearch = { kind: this.CATEGORY, page: new Page(), key: ''};
+    this.pageSearch = { kind: this.CATEGORY, page: new Page(), key: '' };
   }
 
   public ngAfterViewInit(): void {
@@ -51,7 +51,7 @@ export class MissingFormComponent implements OnInit, AfterViewInit {
   public onSearchMissing(key: string) {
     this.pageSearch.key = key;
     this.service.searchByKind<Category>(this.pageSearch).then(
-      (result) => {this.missingList = result.content; }
+      (result) => { this.missingList = result.content; }
     );
   }
 

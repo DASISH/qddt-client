@@ -44,8 +44,8 @@ export class InstrumentSequenceComponent {
     const kind = getElementKind(ref.elementKind);
     this.service.getByKindRevisions(kind, ref.elementId).then(
       (result) => {
-      this.revisionResults =
-        result.content.sort((e1, e2) => e2.revisionNumber - e1.revisionNumber);
+        this.revisionResults =
+          result.content.sort((e1, e2) => e2.revisionNumber - e1.revisionNumber);
         this.showProgressBar = false;
       });
   }

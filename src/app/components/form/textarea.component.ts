@@ -39,6 +39,9 @@ import {animations} from './animations';
   }],
 })
 export class FormTextAreaComponent extends ElementBase<string> {
+  @Input() public label: string;
+  @Input() public placeholder: string;
+
   @ViewChild(NgModel, { static: true }) model: NgModel;
 
   public identifier = 'qddt-textarea-' + ident++;

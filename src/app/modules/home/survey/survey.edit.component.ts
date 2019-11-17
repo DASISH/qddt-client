@@ -1,17 +1,25 @@
-import {Component, Input, Output, EventEmitter,  AfterViewInit} from '@angular/core';
-import {SurveyProgram, TemplateService} from '../../../lib';
+import { Component, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { SurveyProgram, TemplateService } from '../../../lib';
 
 
 @Component({
   selector: 'qddt-survey-edit',
-  providers: [ {provide: 'elementKind', useValue: 'SURVEY_PROGRAM'}, ],
+  providers: [{ provide: 'elementKind', useValue: 'SURVEY_PROGRAM' },],
   template: `
-<div [hidden]="!isVisible">
-  <form class="row" id="{{formId}}" (ngSubmit)="onSave()" #surveyForm="ngForm">
-    <div class="col s12 input-field">
+<div *ngIf="isVisible">
+  <form id="{{formId}}" (ngSubmit)="onSave()" #surveyForm="ngForm">
+    <!-- <div class="col s12 input-field">
       <input id="NAME-{{formId}}" name="name" type="text" [(ngModel)]="survey.name" required data-length ="250" >
       <label for="NAME-{{formId}}">Name</label>
-    </div>
+    </div> -->
+    <qddt-input
+      required
+      name="name"
+      placeholder="Name me"
+      label="Name"
+      [(ngModel)]="survey.name"
+      data-length="250">
+    </qddt-input>
 
     <div class="col s12 input-field">
       <textarea id="DESC-{{formId}}" class="materialize-textarea" name="description"
@@ -32,7 +40,7 @@ import {SurveyProgram, TemplateService} from '../../../lib';
 `
 })
 
-export class SurveyEditComponent implements  AfterViewInit {
+export class SurveyEditComponent implements AfterViewInit {
   @Input() survey: SurveyProgram;
   @Input() readonly = false;
   @Input() isVisible = false;
@@ -41,7 +49,7 @@ export class SurveyEditComponent implements  AfterViewInit {
 
   public showRevision = false;
 
-  public readonly formId = Math.round( Math.random() * 10000);
+  public readonly formId = Math.round(Math.random() * 10000);
 
   constructor(private service: TemplateService) { }
 
@@ -51,7 +59,8 @@ export class SurveyEditComponent implements  AfterViewInit {
       .subscribe((result) => {
         this.survey = null;
         this.isVisible = true;
-        this.savedEvent.emit(result); }
+        this.savedEvent.emit(result);
+      }
         , (err: any) => {
           this.savedEvent.emit(null);
           throw err;
@@ -67,8 +76,8 @@ export class SurveyEditComponent implements  AfterViewInit {
     document.querySelectorAll('input[data-length], textarea[data-length]').forEach(
       input => M.CharacterCounter.init(input));
     document.querySelectorAll('textarea').forEach(
-    input => M.textareaAutoResize(input));
-    M.updateTextFields();
+      input => M.textareaAutoResize(input));
+    // M.updateTextFields();
   }
 
 }

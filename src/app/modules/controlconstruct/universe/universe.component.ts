@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import {ElementKind, Page, Universe} from '../../../lib';
+import { ElementKind, Page, Universe } from '../../../lib';
 import { TemplateService } from '../../../components/template';
 
 @Component({
@@ -28,7 +28,7 @@ export class UniverseComponent {
 
   onSearchUniverses(key: string) {
     this.universe.description = key;
-    this.service.searchByKind( { kind: this.UNIVERSE, key: key, page: new Page() } ).then(
+    this.service.searchByKind({ kind: this.UNIVERSE, key: key, page: new Page() }).then(
       (result: any) => {
         this.universeList = result.content;
         this.isNew = this.universeList.length === 0;

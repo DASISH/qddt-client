@@ -1,8 +1,7 @@
-import {IEntityEditAudit, IIdRef, IOtherMaterial} from '../interfaces';
-import {ElementKind} from '../enums';
-import {ElementRevisionRef} from './element-revision-ref';
-import {QuestionItem} from './questionitem.classes';
-
+import { IEntityEditAudit, IIdRef, IOtherMaterial } from '../interfaces';
+import { ElementKind } from '../enums';
+import { ElementRevisionRef } from './element-revision-ref';
+import { QuestionItem } from './questionitem.classes';
 
 export enum SequenceKind {
   NA,
@@ -18,11 +17,9 @@ export class Universe implements IEntityEditAudit {
   description = '';
   classKind = ElementKind[ElementKind.UNIVERSE];
   xmlLang?: string;
-
-
   public constructor(init?: Partial<Universe>) {
     Object.assign(this, init);
-    if (this.description && ( !this.name || this.name.length === 0)) {
+    if (this.description && (!this.name || this.name.length === 0)) {
       this.name = this.description.substr(0, 20).toUpperCase();
     }
   }
@@ -33,10 +30,9 @@ export class Instruction implements IEntityEditAudit {
   name: string;
   description: string;
   classKind = ElementKind[ElementKind.INSTRUCTION];
-
   public constructor(init?: Partial<Instruction>) {
     Object.assign(this, init);
-    if (this.description && ( !this.name || this.name.length === 0)) {
+    if (this.description && (!this.name || this.name.length === 0)) {
       this.name = this.description.substr(0, 20).toUpperCase();
     }
   }

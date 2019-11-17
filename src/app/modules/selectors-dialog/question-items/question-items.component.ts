@@ -16,8 +16,7 @@ import {
           '.question { white-space: nowrap; overflow: hidden;text-overflow: ellipsis; padding-top:5px; }',
           '.collection a.collection-item { cursor: pointer; padding-left: 10px;}'
   ],
-  template:
-`
+  template: `
 <div class="collection with-header hoverable" (mouseenter)="showButton = !readonly" (mouseleave)="showButton = false">
     <a class="collection-header col s12"  (click)="onQuestionItemSearch($event)" style="cursor: zoom-in">
       <label><i class="material-icons small">help_outline</i>Question Items</label>
