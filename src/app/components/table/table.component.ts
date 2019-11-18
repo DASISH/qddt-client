@@ -44,7 +44,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   @Output() deleteEvent = new EventEmitter<IEntityEditAudit>();
   @Output() fetchEvent = new EventEmitter<IPageSearch>();
 
-  public readonly directionSign: { [dir: string]: string; } = {'': '⇳', 'asc':  '▲', 'desc': '▼'};
+  public readonly directionSign: { [dir: string]: string; } = {'': '⇳', asc:  '▲', desc: '▼'};
   public searchKeysChange: Subject< { name: string, value: string }> = new Subject<{ name: string, value: string }>();
 
   public canDelete = false;
@@ -114,19 +114,19 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       date.setTime(item.modified);
 
       const row: any = {
-        'id': item.id,
-        'Version': (item.version) ? item.version.major + '.' + item.version.minor : '',
-        'Modified': formatDate(date, 'shortDate', this.session.locale)  ,
-        'Object': item,
+        id: item.id,
+        Version: (item.version) ? item.version.major + '.' + item.version.minor : '',
+        Modified: formatDate(date, 'shortDate', this.session.locale)  ,
+        Object: item,
       };
 
       this.columns.forEach((column) => {
         if (row[column.label] === undefined) {
           if (column.name === 'modifiedBy') {
-            if (item['agency']) {
-              row[column.label] = item[column.name]['name'] + '@' + item['agency']['name'];
+            if (item.agency) {
+              row[column.label] = item[column.name].name + '@' + item.agency.name;
             } else {
-              row[column.label] = item[column.name]['name'] + '@' + item[column.name]['agencyName'];
+              row[column.label] = item[column.name].name + '@' + item[column.name].agencyName;
             }
           } else if (column.name instanceof Array) {
             let colref = item;
@@ -179,7 +179,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
   public onClear(name: string) {
     this.fields[name] = '';
-    this.searchKeysChange.next( { name: name, value: ''});
+    this.searchKeysChange.next( { name, value: ''});
   }
 
   public getSort() {
@@ -201,7 +201,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       this.columns
         .filter((c) => c.name !== column.name)
         .forEach((col) => col.direction = '');
-        this.pageSearch.sort = this.getSort();
+      this.pageSearch.sort = this.getSort();
       this.showProgressBar = true;
       this.fetchEvent.emit(this.pageSearch);
     }

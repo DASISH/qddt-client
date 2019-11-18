@@ -22,17 +22,16 @@ import { FormErrorsComponent } from './form-errors/form-errors.component';
 import { ConfirmDeleteComponent } from './confim-delete/delete.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { FileDownloadComponent } from './download/download.component';
-
 import { TemplateComponent, TemplateDetailComponent, TemplateListComponent, TemplateService} from './template';
 import { LocalDatePipe, LocalNumberPipe } from '../lib';
 import { AutosizeDirective, EqualValidator, GravatarDirective, ParentFormConnectDirective} from '../lib/directives';
+import { DialogComponent } from './dialog/dialog.component';
+import { DialogBigComponent } from './dialog/dialog-big.component';
+import { ValidationComponent } from './form/validation.component';
+import { FormSelectComponent } from './form/select.component';
+import { FormInputComponent } from './form/input.component';
+import { FormTextAreaComponent } from './form/textarea.component';
 import { HoverableRowComponent } from './hoverable-row/hoverable-row.component';
-import { DialogComponent} from './dialog/dialog.component';
-import { DialogBigComponent} from './dialog/dialog-big.component';
-import {ValidationComponent} from './form/validation.component';
-import {FormSelectComponent} from './form/select.component';
-import {FormInputComponent} from './form/input.component';
-import {FormTextAreaComponent} from './form/textarea.component';
 
 @NgModule({
   imports: [  CommonModule, RouterModule, FormsModule, CompareModule ],

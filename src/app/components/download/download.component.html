@@ -1,4 +1,4 @@
-<div class="collection with-header hoverable" (mouseenter)="showButton = !readonly"  (mouseleave)="showButton = false">
+<div class="collection with-header hoverable row" (mouseenter)="showButton = !readonly"  (mouseleave)="showButton = false">
   <a class="collection-header col s12" (click)="showUploadFileForm = !showUploadFileForm"
     [ngClass]="{ qddtSearchCursor: showButton }">
     <label><i class="material-icons small">attach_file</i>{{ label }}</label>

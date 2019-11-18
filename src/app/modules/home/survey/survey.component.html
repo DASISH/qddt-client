@@ -30,7 +30,7 @@
     </div>
   </div>
 
-  <div class="row card section scrollspy white grey-text text-darken-2" id="{{surveyProgram.id}}"
+  <div class="card section row  scrollspy white grey-text text-darken-2" id="{{surveyProgram.id}}"
     *ngFor="let surveyProgram of surveys" [ngClass]="{'grey lighten-5': edit.isVisible}">
     <div class="col s1">
       <br />
@@ -46,17 +46,19 @@
         <i class="material-icons left medium" title="Go to child elements">play_arrow</i></a>
     </div>
     <div class="col s10">
-      <h5 class="row">
-        <div class="col s10">{{ surveyProgram?.name }}</div>
+      <div class="row">
+        <div class="col s10">
+          <h5>{{ surveyProgram?.name }}</h5>
+        </div>
         <div class="col s2">
           <qddt-version-label class="right" [element]="surveyProgram"></qddt-version-label>
         </div>
-      </h5>
+      </div>
       <qddt-survey-edit [isVisible]="edit.isVisible" [survey]="surveyProgram" (savedEvent)="onSurveySaved($event)"
         #edit>
       </qddt-survey-edit>
-      <div class="row">
-        <div class="col s12" *ngIf="!edit.isVisible">
+      <div class="row" *ngIf="!edit.isVisible">
+        <div class="col s12">
           <p [innerHtml]="surveyProgram?.description"></p>
           <qddt-author-chip [authors]="surveyProgram?.authors"></qddt-author-chip>
         </div>

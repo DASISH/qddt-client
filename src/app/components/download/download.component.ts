@@ -9,7 +9,7 @@ import * as FileSaver from 'file-saver';
   templateUrl: './download.component.html',
   styles: [
     '.collection.with-header .collection-header { padding: 5px 10px 5px 0px ;}',
-    '.collection a.collection-item { min-height: 3rem;  color: rgb(3, 155, 229); cursor: pointer; padding:5px 10px 5px 10px ; }'
+    '.collection a.collection-item { min-height: 3rem;  cursor: pointer; padding:5px 10px 5px 10px ; }'
     // 'padding:10px 5px 0px 10px ;'
     // '.collection-item  {min-height: 3rem; padding:10px 5px 0px 10px ;}'
   ],

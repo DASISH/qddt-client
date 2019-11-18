@@ -5,7 +5,7 @@ import { IComment } from '../../lib';
   selector: 'qddt-comment-create',
 
   template: `
-  <form class="row card-action" id="{{formId}}" (ngSubmit)="onSave()" >
+  <form class="row" id="{{formId}}" (ngSubmit)="onSave()" >
     <div class="input-field col s10">
       <textarea class="materialize-textarea" name="{{ownerId}}-comment" data-length="10000"  [(ngModel)]="comment.comment" required></textarea>
       <label>Write a new comment</label>

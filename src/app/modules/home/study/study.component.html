@@ -49,8 +49,11 @@
           <qddt-version-label class="right" [element]="study"></qddt-version-label>
         </div>
       </h5>
-      <div class="row">
-        <div class="col s12" *ngIf="!edit.isVisible">
+      <qddt-study-edit [isVisible]="edit.isVisible" [study]="study" #edit (savedEvent)="onStudySaved($event)">
+      </qddt-study-edit>
+
+      <div class="row" *ngIf="!edit.isVisible">
+        <div class="col s12">
           <p [innerHtml]="study.description"></p>
           <qddt-author-chip [authors]="study.authors"></qddt-author-chip>
           <ul>
@@ -74,14 +77,11 @@
           </ul>
         </div>
 
-        <qddt-study-edit [isVisible]="edit.isVisible" [study]="study" #edit (savedEvent)="onStudySaved($event)">
-        </qddt-study-edit>
-
-        <qddt-download *ngIf="!edit.isVisible" [entity]="study" [readonly]="true"></qddt-download>
+        <qddt-download  [entity]="study" [readonly]="true"></qddt-download>
 
         <qddt-revision *ngIf="edit.showRevision" [current]="study"></qddt-revision>
 
-        <qddt-comment-list *ngIf="!edit.isVisible" [ownerId]="study.id" [comments]="study.comments">
+        <qddt-comment-list  [ownerId]="study.id" [comments]="study.comments">
         </qddt-comment-list>
       </div>
     </div>

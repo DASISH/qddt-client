@@ -7,31 +7,31 @@ import { SurveyProgram, TemplateService } from '../../../lib';
   providers: [{ provide: 'elementKind', useValue: 'SURVEY_PROGRAM' },],
   template: `
 <div *ngIf="isVisible">
-  <form id="{{formId}}" (ngSubmit)="onSave()" #surveyForm="ngForm">
-    <!-- <div class="col s12 input-field">
-      <input id="NAME-{{formId}}" name="name" type="text" [(ngModel)]="survey.name" required data-length ="250" >
-      <label for="NAME-{{formId}}">Name</label>
-    </div> -->
-    <qddt-input
-      required
-      name="name"
-      placeholder="Name me"
-      label="Name"
-      [(ngModel)]="survey.name"
-      data-length="250">
-    </qddt-input>
-
-    <div class="col s12 input-field">
-      <textarea id="DESC-{{formId}}" class="materialize-textarea" name="description"
-        [(ngModel)]="survey.description" required  data-length ="10000">
-      </textarea>
-      <label for="DESC-{{formId}}">Description</label>
+  <form class="row" id="{{formId}}" (ngSubmit)="onSave()" #surveyForm="ngForm">
+    <div class="col s12">
+      <qddt-input name="name"
+        required
+        placeholder="Name me"
+        label="Name"
+        [(ngModel)]="survey.name"
+        data-length="250">
+      </qddt-input>
     </div>
-
-    <qddt-rational class="col s12" [formName]="'RationalComp'" [element]="survey" [config]="{hidden: [2,3]}"></qddt-rational>
-
-    <qddt-element-footer class="col s12" [element]="survey"> </qddt-element-footer>
-
+    <div class="col s12">
+      <qddt-textarea name="description"
+        required
+        placeholder="Name me"
+        label="Description"
+        [(ngModel)]="survey.description"
+        data-length="10000">
+      </qddt-textarea>
+    </div>
+    <div class="col s12">
+        <qddt-rational  [formName]="'RationalComp'" [element]="survey" [config]="{hidden: [2,3]}"></qddt-rational>
+    </div>
+    <div class="col s12">
+        <qddt-element-footer  [element]="survey"> </qddt-element-footer>
+    </div>
     <div class="col s12 right-align">
       <button type="submit" class="btn btn-default" [disabled]="!surveyForm.form.valid" >Submit</button>
     </div>
@@ -73,10 +73,10 @@ export class SurveyEditComponent implements AfterViewInit {
   // }
 
   ngAfterViewInit(): void {
-    document.querySelectorAll('input[data-length], textarea[data-length]').forEach(
-      input => M.CharacterCounter.init(input));
-    document.querySelectorAll('textarea').forEach(
-      input => M.textareaAutoResize(input));
+    // document.querySelectorAll('input[data-length], textarea[data-length]').forEach(
+    //   input => M.CharacterCounter.init(input));
+    // document.querySelectorAll('textarea').forEach(
+    //   input => M.textareaAutoResize(input));
     // M.updateTextFields();
   }
 
