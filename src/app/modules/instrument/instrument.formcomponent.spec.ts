@@ -124,8 +124,8 @@ class TableComponent {
   @Input() placeholder: string;
 
   @Input() searchFromServer: boolean;
-  @Output() detailEvent = new EventEmitter<String>();
-  @Output() pageChangeEvent = new EventEmitter<String>();
+  @Output() detailEvent = new EventEmitter<string>();
+  @Output() pageChangeEvent = new EventEmitter<string>();
   @Output() enterEvent = new EventEmitter<any>();
 }
 

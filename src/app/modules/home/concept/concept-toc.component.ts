@@ -75,7 +75,7 @@ export class ConceptTocComponent {
     event.dataTransfer.clearData();
     console.log(event.currentTarget);
     console.log(event.target);
-    this.conceptMoved.emit({ target: this.parentId, index: index, source: sourceId } as IMoveTo);
+    this.conceptMoved.emit({ target: this.parentId, index, source: sourceId } as IMoveTo);
   }
 
   public conceptClass(seed): Concept {

@@ -35,7 +35,7 @@ export class ConditionEditComponent implements OnInit {
   }
 
   onSearchElements(key: string) {
-    this.service.searchByKind({ kind: this.CONDITION, key: key, page: new Page() })
+    this.service.searchByKind({ kind: this.CONDITION, key, page: new Page() })
       .then(
         (result) => { this.elements = result.content; },
         (error) => { throw error; });

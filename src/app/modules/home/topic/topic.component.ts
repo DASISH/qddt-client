@@ -14,7 +14,7 @@ import {
 
 @Component({
   selector: 'qddt-topic',
-  providers: [{ provide: 'elementKind', useValue: 'TOPIC_GROUP' },],
+  providers: [{ provide: 'elementKind', useValue: 'TOPIC_GROUP' }, ],
   templateUrl: './topic.component.html',
 })
 

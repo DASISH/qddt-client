@@ -5,7 +5,7 @@ import { Concept, TemplateService } from '../../../lib';
 
 @Component({
   selector: 'qddt-concept-edit',
-  providers: [{ provide: 'elementKind', useValue: 'CONCEPT' },],
+  providers: [{ provide: 'elementKind', useValue: 'CONCEPT' }, ],
   template: `
 <div *ngIf="(concept && isVisible)">
   <form class="row" id="{{formId}}" (ngSubmit)="save()" #hf="ngForm">

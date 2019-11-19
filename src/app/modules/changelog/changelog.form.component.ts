@@ -11,7 +11,7 @@ import { ChangeLogJson, TemplateService } from '../../lib';
 export class ChangeLogFormComponent implements OnChanges {
   @Input() changelog: ChangeLogJson;
   @Input() readonly = false;
-  @Output() modifiedEvent = new EventEmitter<String>();
+  @Output() modifiedEvent = new EventEmitter<string>();
 
   public formId = Math.round(Math.random() * 10000);
 
