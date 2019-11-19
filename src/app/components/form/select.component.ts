@@ -36,7 +36,7 @@ export class FormSelectComponent extends ElementBase<number>  implements  AfterV
   }
 
   ngAfterViewInit(): void {
-    console.log('ngAfterViewInit::SELECT');
+    // console.log('ngAfterViewInit::SELECT');
     M.FormSelect.init(document.getElementById(this.identifier));
   }
 

@@ -8,10 +8,8 @@ import * as FileSaver from 'file-saver';
   selector: 'qddt-download',
   templateUrl: './download.component.html',
   styles: [
-    '.collection.with-header .collection-header { padding: 5px 10px 5px 0px ;}',
-    '.collection a.collection-item { min-height: 3rem;  cursor: pointer; padding:5px 10px 5px 10px ; }'
-    // 'padding:10px 5px 0px 10px ;'
-    // '.collection-item  {min-height: 3rem; padding:10px 5px 0px 10px ;}'
+    '.collection.with-header .collection-header { padding: 5px 10px 5px 0px; background-color: unset; }',
+    '.collection a.collection-item { color: #039be5; cursor: pointer; padding:5px 10px 5px 10px; background-color: unset; }'
   ],
 })
 export class FileDownloadComponent implements OnChanges {

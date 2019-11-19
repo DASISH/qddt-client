@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output, AfterViewInit } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { Concept, TemplateService } from '../../../lib';
 
 
@@ -9,16 +9,24 @@ import { Concept, TemplateService } from '../../../lib';
   template: `
 <div *ngIf="(concept && isVisible)">
   <form class="row" id="{{formId}}" (ngSubmit)="save()" #hf="ngForm">
-    <div class="col s12 input-field">
-      <input name="name" type="text" required  data-length ="250"  [(ngModel)]="concept.name">
-      <label class="active">Name</label>
+  <div class="col s12">
+    <qddt-input
+      required
+      name="name"
+      placeholder="add concept name"
+      label="Concept Name"
+      [(ngModel)]="concept.name"
+      data-length="100">
+    </qddt-input>
     </div>
-
-    <div class="col s12 input-field">
-      <textarea  name="description"
-        class="materialize-textarea" required  data-length ="10000" [(ngModel)]="concept.description">
-      </textarea>
-      <label class="active">Description</label>
+    <div class="col s12">
+      <qddt-textarea name="description"
+        required
+        placeholder="add description"
+        label="Description"
+        [(ngModel)]="concept.description"
+        data-length="10000">
+      </qddt-textarea>
     </div>
 
     <qddt-rational *ngIf="!readonly && isVisible"
@@ -37,7 +45,7 @@ import { Concept, TemplateService } from '../../../lib';
 </div>
 `
 })
-export class ConceptEditComponent implements AfterViewInit {
+export class ConceptEditComponent {
   @Input() concept: Concept;
   @Output() conceptChanged = new EventEmitter<Concept>();
   @Input() readonly = false;
@@ -47,12 +55,7 @@ export class ConceptEditComponent implements AfterViewInit {
   public showRevision = false;
 
   constructor(private service: TemplateService) { }
-  //
-  //
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   if (changes.isVisible && changes.isVisible.currentValue && !changes.isVisible.previousValue) {
-  //   }
-  // }
+
 
   save() {
     this.service.update<Concept>(this.concept)
@@ -61,10 +64,6 @@ export class ConceptEditComponent implements AfterViewInit {
         this.conceptChanged.emit(result);
         this.isVisible = false;
       });
-  }
-
-  ngAfterViewInit(): void {
-    M.updateTextFields();
   }
 
 }

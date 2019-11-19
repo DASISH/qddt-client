@@ -5,7 +5,7 @@ import { ElementRevisionComponent } from './element-revision/element-revision.co
 import { RevisionComponent } from './revision/revision.component';
 import { CollectionSearchRevisionSelectComponent } from './search-revisioncollection/collection-search-revision.select.component';
 import { CollectionSearchSelectComponent } from './search-collection/collection-search.select.component';
-import { ResponsedomainComponent } from './responsedomain/responsedomain.component';
+import { ResponsedomainComponent } from '../selectors-dialog/responsedomain/responsedomain.component';
 
 
 @NgModule({

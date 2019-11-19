@@ -42,7 +42,7 @@
     <div class="indeterminate"></div>
   </div>
 
-  <div id="{{topic.id}}" class="row card section scrollspy white grey-text text-darken-2" *ngFor="let topic of topics"
+  <div id="{{topic.id}}" *ngFor="let topic of topics" class="row card section scrollspy white grey-text text-darken-2"
     [ngClass]="{'grey lighten-5': edit.isVisible}">
     <div class="col s1">
       <br />
@@ -69,20 +69,26 @@
       </h5>
       <qddt-topic-edit [isVisible]="edit.isVisible" #edit [topic]="topic" (savedEvent)="onTopicSaved($event)">
       </qddt-topic-edit>
-      <div *ngIf="!edit.isVisible">
-        <p [innerHtml]="topic?.description"></p>
-      </div>
-      <qddt-question-items *ngIf="!edit.isVisible" [revisionRefs]="topic?.topicQuestionItems"
-        [readonly]="topic.archived || readonly" (createdEvent)="onAddQuestionItem($event,topic?.id)"
-        (deletedEvent)="onRemovedQuestionItem($event,topic?.id)">
-      </qddt-question-items>
 
-      <qddt-download *ngIf="!edit.isVisible" [entity]="topic" [readonly]="true"></qddt-download>
+      <div *ngIf="!edit.isVisible" class="row">
+        <div class="col s12">
+          <p [innerHtml]="topic.description"></p>
+
+          <qddt-question-items  [revisionRefs]="topic.topicQuestionItems" [readonly]="topic.archived || readonly"
+                                (createdEvent) ="onQuestionItemAdded($event,topic.id)"
+                                (deletedEvent) ="onQuestionItemRemoved($event,topic.id)"
+                                (modifiedEvent)="onQuestionItemModified($event,topic.id)">
+          </qddt-question-items>
+
+          <qddt-download [entity]="topic" [readonly]="true"></qddt-download>
+
+          <qddt-comment-list [ownerId]="topic.id" [comments]="topic.comments">
+          </qddt-comment-list>
+        </div>
+      </div>
 
       <qddt-revision *ngIf="edit.showRevision" [current]="topic"></qddt-revision>
 
-      <qddt-comment-list *ngIf="!edit.isVisible" [ownerId]="topic.id" [comments]="topic.comments">
-      </qddt-comment-list>
     </div>
   </div>
 </div>

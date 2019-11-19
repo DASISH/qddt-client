@@ -34,21 +34,22 @@
     *ngFor="let surveyProgram of surveys" [ngClass]="{'grey lighten-5': edit.isVisible}">
     <div class="col s1">
       <br />
-      <a class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2"
-        *ngIf="!surveyProgram.archived && !readonly" (click)="edit.isVisible = !edit.isVisible; refreshCount=0">
-        <i class="material-icons" title="Edit element">mode_edit</i></a>
-
-      <a class="btn-flat btn-floating btn-medium waves-effect waves-light blue lighten-2"
-        (click)="edit.showRevision = !edit.showRevision">
-        <i class="material-icons left medium" title="Revision history">history</i></a>
-
-      <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="onShowStudy(surveyProgram)">
+      <a *ngIf="!surveyProgram.archived && !readonly" class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2"
+         (click)="edit.isVisible = !edit.isVisible; ">
+        <i class="material-icons" title="Edit Concept">mode_edit</i>
+      </a>
+      <a *ngIf="!edit.isVisible" class="btn-flat btn-floating btn-medium waves-effect waves-light blue lighten-2"
+         (click)="edit.showRevision = !edit.showRevision">
+        <i class="material-icons left medium" title="Revision history">history</i>
+      </a>
+      <a *ngIf="!edit.isVisible" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+         (click)="onShowStudy(surveyProgram)">
         <i class="material-icons left medium" title="Go to child elements">play_arrow</i></a>
     </div>
     <div class="col s10">
       <div class="row">
         <div class="col s10">
-          <h5>{{ surveyProgram?.name }}</h5>
+          <h5>{{ surveyProgram.name }}</h5>
         </div>
         <div class="col s2">
           <qddt-version-label class="right" [element]="surveyProgram"></qddt-version-label>
@@ -59,8 +60,8 @@
       </qddt-survey-edit>
       <div class="row" *ngIf="!edit.isVisible">
         <div class="col s12">
-          <p [innerHtml]="surveyProgram?.description"></p>
-          <qddt-author-chip [authors]="surveyProgram?.authors"></qddt-author-chip>
+          <p [innerHtml]="surveyProgram.description"></p>
+          <qddt-author-chip [authors]="surveyProgram.authors"></qddt-author-chip>
         </div>
       </div>
 

@@ -30,25 +30,31 @@
     *ngFor="let study of survey?.studies" [ngClass]="{'grey lighten-5': edit.isVisible}">
     <div class="col s1">
       <br />
-      <a *ngIf="!study?.archived && !readonly"
-        class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2"
-        (click)="edit.isVisible = !edit.isVisible; refreshCount = 0"><i class="material-icons"
-          title="Edit element">mode_edit</i></a>
-      <a class="btn-flat btn-floating btn-medium waves-effect waves-light blue lighten-2"
-        (click)="edit.showRevision = !edit.showRevision"><i class="material-icons left medium"
-          title="Revision history">history</i></a>
-      <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="onShowTopic(study)"><i
-          class="material-icons left medium" title="Go to child elements">play_arrow</i></a>
-      <qddt-confirm-delete *ngIf="!study?.archived && canDelete" [element]="study"
-        (confirmAction)="onRemoveStudy($event)"></qddt-confirm-delete>
+      <a *ngIf="!study.archived && !readonly" class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2"
+         (click)="edit.isVisible = !edit.isVisible; ">
+        <i class="material-icons" title="Edit Concept">mode_edit</i>
+      </a>
+      <a *ngIf="!edit.isVisible" class="btn-flat btn-floating btn-medium waves-effect waves-light blue lighten-2"
+         (click)="edit.showRevision = !edit.showRevision">
+        <i class="material-icons left medium" title="Revision history">history</i>
+      </a>
+      <a *ngIf="!edit.isVisible" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+         (click)="onShowTopic(study)">
+        <i class="material-icons left medium" title="Go to child elements">play_arrow</i></a>
+      <qddt-confirm-delete *ngIf="!edit.isVisible && !study.archived  && canDelete" [element]="study"
+           (confirmAction)="onRemoveStudy($event)">
+      </qddt-confirm-delete>
     </div>
+
     <div class="col s10">
-      <h5 class="row">
-        <div class="col s10">{{ study?.name }}</div>
+      <div class="row">
+        <div class="col s10">
+          <h5>{{ study.name }}</h5>
+        </div>
         <div class="col s2">
           <qddt-version-label class="right" [element]="study"></qddt-version-label>
         </div>
-      </h5>
+      </div>
       <qddt-study-edit [isVisible]="edit.isVisible" [study]="study" #edit (savedEvent)="onStudySaved($event)">
       </qddt-study-edit>
 
@@ -56,34 +62,15 @@
         <div class="col s12">
           <p [innerHtml]="study.description"></p>
           <qddt-author-chip [authors]="study.authors"></qddt-author-chip>
-          <ul>
-            <li class="collection-header">Instruments</li>
-            <li *ngFor="let item of study.instruments; let idx = index" class="collection-item"
-              style="border: 1px black;height:2rem" draggable="true" (dragstart)="onDragStart($event, item)">
-              <div class="row" *ngIf="item.id" (mouseenter)="item.showButton = !readonly"
-                (mouseleave)="item.showButton = false">
-                <div class="col s10">
-                  <a (click)="onShowElement(item)" [ngStyle]="{ cursor: 'pointer' }">{{ item.name }}</a>
-                </div>
-                <div class="col s2">
-                  <qddt-version-label [element]="item"></qddt-version-label>
-                  <a [ngClass]="{ hide: !showButton }" class="waves-effect waves-light small teal-text right"
-                    (click)="onDeleteItem(idx)">
-                    <i class="material-icons" title="Remove {{ labelName }}">remove_circle</i>
-                  </a>
-                </div>
-              </div>
-            </li>
-          </ul>
         </div>
-
-        <qddt-download  [entity]="study" [readonly]="true"></qddt-download>
-
-        <qddt-revision *ngIf="edit.showRevision" [current]="study"></qddt-revision>
-
-        <qddt-comment-list  [ownerId]="study.id" [comments]="study.comments">
-        </qddt-comment-list>
       </div>
+
+      <qddt-download [entity]="study" [readonly]="true"></qddt-download>
+
+      <qddt-revision *ngIf="edit.showRevision" [current]="study"></qddt-revision>
+
+      <qddt-comment-list [hidden]="edit.isVisible" [ownerId]="study.id" [comments]="study.comments">
+      </qddt-comment-list>
     </div>
   </div>
 </div>
