@@ -11,7 +11,12 @@ import {
 
 @Component({
   selector: 'qddt-responsedomain-select',
-  templateUrl: 'responsedomain.component.html'
+  templateUrl: 'responsedomain.component.html',
+  styles: [
+    '.row:hover > ul.dropleft { display:block; } ',
+    'ul.dropleft { position: fixed; display: none; margin-top: 5px; margin-bottom: 0px; z-index: 1;}',
+    'ul.dropleft li { display:inline-flex; }',
+  ],
 })
 
 export class ResponsedomainComponent implements  OnChanges, AfterViewInit {

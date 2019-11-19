@@ -41,6 +41,8 @@ export class FormInputComponent extends ElementBase<string> implements AfterView
     const element = document.getElementById(this.idOuter);
     if (element.parentElement.dataset.length) {
       element.firstElementChild.setAttribute('data-length', element.parentElement.dataset.length);
+      // console.log('setting data length');
+      M.CharacterCounter.init(element.children.item(0));
     }
     M.updateTextFields();
   }

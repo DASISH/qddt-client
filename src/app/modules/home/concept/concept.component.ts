@@ -21,7 +21,6 @@ import {
 
 export class ConceptComponent implements OnInit, AfterViewInit {
   public readonly CONCEPT = ElementKind.CONCEPT;
-  // public confirmDeleteActions = new EventEmitter<string>();
 
   public showReuse = false;
   public showConceptForm = false;

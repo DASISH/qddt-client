@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { SurveyProgram, TemplateService } from '../../../lib';
 
 
@@ -7,7 +7,7 @@ import { SurveyProgram, TemplateService } from '../../../lib';
   providers: [{ provide: 'elementKind', useValue: 'SURVEY_PROGRAM' },],
   template: `
 <div *ngIf="isVisible">
-  <form class="row" id="{{formId}}" (ngSubmit)="onSave()" #surveyForm="ngForm">
+  <form class="row" id="{{formId}}" (ngSubmit)="onSave()" #ngForm="ngForm">
     <div class="col s12">
       <qddt-input name="name"
         required
@@ -33,26 +33,22 @@ import { SurveyProgram, TemplateService } from '../../../lib';
         <qddt-element-footer  [element]="survey"> </qddt-element-footer>
     </div>
     <div class="col s12 right-align">
-      <button type="submit" class="btn btn-default" [disabled]="!surveyForm.form.valid" >Submit</button>
+      <button type="submit" class="btn btn-default" [disabled]="!ngForm.form.valid" >Submit</button>
     </div>
   </form>
 </div>
 `
 })
 
-export class SurveyEditComponent implements AfterViewInit {
+export class SurveyEditComponent  {
   @Input() survey: SurveyProgram;
-  @Input() readonly = false;
   @Input() isVisible = false;
-
   @Output() savedEvent = new EventEmitter<SurveyProgram>();
 
-  public showRevision = false;
-
+  public showRevision = false;    // used by parent form to keep track of revision comp
   public readonly formId = Math.round(Math.random() * 10000);
 
   constructor(private service: TemplateService) { }
-
 
   onSave() {
     this.service.update<SurveyProgram>(this.survey)
@@ -66,18 +62,4 @@ export class SurveyEditComponent implements AfterViewInit {
           throw err;
         });
   }
-
-  // ngAfterContentChecked(): void {
-  //   document.querySelectorAll('textarea').forEach(
-  //     input => M.textareaAutoResize(input));
-  // }
-
-  ngAfterViewInit(): void {
-    // document.querySelectorAll('input[data-length], textarea[data-length]').forEach(
-    //   input => M.CharacterCounter.init(input));
-    // document.querySelectorAll('textarea').forEach(
-    //   input => M.textareaAutoResize(input));
-    // M.updateTextFields();
-  }
-
 }

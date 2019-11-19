@@ -58,6 +58,7 @@ export class FormTextAreaComponent extends ElementBase<string> {
     const element = document.getElementById(this.idOuter);
     if (element.parentElement.dataset.length) {
       element.firstElementChild.setAttribute('data-length', element.parentElement.dataset.length);
+      M.CharacterCounter.init(element.children.item(0));
     }
     M.updateTextFields();
   }

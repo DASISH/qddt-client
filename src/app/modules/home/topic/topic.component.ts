@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   ActionKind,
@@ -18,7 +18,7 @@ import {
   templateUrl: './topic.component.html',
 })
 
-export class TopicComponent implements OnInit, AfterViewInit {
+export class TopicComponent implements OnInit {
   public readonly TOPIC_KIND = ElementKind.TOPIC_GROUP;
 
   public study: Study;
@@ -37,11 +37,6 @@ export class TopicComponent implements OnInit, AfterViewInit {
     this.readonly = !homeService.canDo(this.TOPIC_KIND).get(ActionKind.Create);
     this.canDelete = homeService.canDo(this.TOPIC_KIND).get(ActionKind.Delete);
   }
-
-  ngAfterViewInit(): void {
-    // M.updateTextFields();
-  }
-
 
   ngOnInit(): void {
     this.study = this.property.get('study');
@@ -102,18 +97,18 @@ export class TopicComponent implements OnInit, AfterViewInit {
       result => this.onTopicSaved(result));
   }
 
-  // onClickQuestionItem(cqi) {
-  //   this.message.sendMessage( cqi );
-  // }
-
-  onAddQuestionItem(ref: IRevisionRef, topicId: any) {
+  onQuestionItemAdded(ref: IRevisionRef, topicId: any) {
     this.homeService.attachQuestion(this.TOPIC_KIND, topicId, ref.elementId, ref.elementRevision)
       .subscribe((result: any) => this.onTopicSaved(result));
   }
 
-  public onRemovedQuestionItem(ref: IRevisionRef, topicId: any) {
+  public onQuestionItemRemoved(ref: IRevisionRef, topicId: any) {
     this.homeService.deattachQuestion(this.TOPIC_KIND, topicId, ref.elementId, ref.elementRevision)
       .subscribe((result: any) => this.onTopicSaved(result));
+  }
+
+  public onQuestionItemModified(ref: IRevisionRef, topicId: any) {
+    // TODO implement!!!
   }
 
   public onEditQuestion(search: IRevisionRef) {

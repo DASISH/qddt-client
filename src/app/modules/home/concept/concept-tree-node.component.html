@@ -28,37 +28,38 @@
       (conceptChanged)="onConceptUpdated($event)">
     </qddt-concept-edit>
 
-    <div *ngIf="!edit.isVisible">
-      <p [innerHtml]="concept?.description"></p>
-      <form *ngIf="showConceptChildForm" class="col s12 card" #hf="ngForm">
-        <span class="card-title">Add Concept</span>
-        <div class="card-content">
-          <div class="row input-field">
-            <input name="name" type="text" ngModel required data-length="250">
-            <label>Name</label>
+    <div *ngIf="!edit.isVisible" class="row">
+      <div class="col s12">
+        <p [innerHtml]="concept?.description"></p>
+        <form *ngIf="showConceptChildForm" class="row card" #hf="ngForm">
+          <span class="card-title">Add Concept</span>
+          <div class="card-content">
+            <div class="input-field">
+              <input name="name" type="text" ngModel required data-length="250">
+              <label>Name</label>
+            </div>
+            <div class="input-field">
+              <textarea name="description" class="materialize-textarea" ngModel required data-length="10000"></textarea>
+              <label>Description</label>
+            </div>
           </div>
-          <div class="row input-field">
-            <textarea name="description" class="materialize-textarea" ngModel required data-length="10000"></textarea>
-            <label>Description</label>
+          <div class="card-action right-align">
+            <button type="button" (click)="onChildSave(hf.value)" class="btn btn-default "
+              [disabled]="!hf.form.valid">submit</button>
           </div>
-        </div>
-        <div class="card-action right-align">
-          <button type="button" (click)="onChildSave(hf.value)" class="btn btn-default "
-            [disabled]="!hf.form.valid">submit</button>
-        </div>
-      </form>
+        </form>
 
-      <qddt-question-items [revisionRefs]="concept.conceptQuestionItems" [readonly]="concept.archived || !canUpdate"
-        (createdEvent)="onQuestionItemAdded($event,concept.id)"
-        (deletedEvent)="onQuestionItemRemoved($event,concept.id)"
-        (modifiedEvent)="onQuestionItemModified($event,concept.id)">
-      </qddt-question-items>
+        <qddt-question-items [revisionRefs]="concept.conceptQuestionItems" [readonly]="concept.archived || !canUpdate"
+          (createdEvent)="onQuestionItemAdded($event,concept.id)"
+          (deletedEvent)="onQuestionItemRemoved($event,concept.id)"
+          (modifiedEvent)="onQuestionItemModified($event,concept.id)">
+        </qddt-question-items>
 
-      <qddt-download [entity]="concept" [readonly]="true"></qddt-download>
+        <qddt-download [entity]="concept" [readonly]="true"></qddt-download>
 
-      <qddt-comment-list [ownerId]="concept.id" [comments]="concept.comments">
-      </qddt-comment-list>
-
+        <qddt-comment-list [ownerId]="concept.id" [comments]="concept.comments">
+        </qddt-comment-list>
+      </div>
     </div>
 
     <qddt-revision *ngIf="edit.showRevision" [current]="concept"></qddt-revision>

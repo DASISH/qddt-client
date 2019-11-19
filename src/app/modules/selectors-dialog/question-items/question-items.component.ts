@@ -12,41 +12,45 @@ import {
   selector: 'qddt-question-items',
   styles: [
           '.qlabel { padding-top: 5px; }',
-          '.qmenu { float: left; z-index:2;}',
+          '.collection a.collection-item { cursor: pointer; padding-left: 10px;}',
           '.question { white-space: nowrap; overflow: hidden;text-overflow: ellipsis; padding-top:5px; }',
-          '.collection a.collection-item { cursor: pointer; padding-left: 10px;}'
-  ],
+          '.collection-item:hover > ul.dropleft { display:block; } ',
+          'ul.dropleft { position: fixed; display: none; margin-top: 0px; margin-bottom: 0px; z-index: 1;}',
+          'ul.dropleft li { display:inline-flex; }',
+   ],
   template: `
-<div class="collection with-header hoverable" (mouseenter)="showButton = !readonly" (mouseleave)="showButton = false">
-    <a class="collection-header col s12"  (click)="onQuestionItemSearch($event)" style="cursor: zoom-in">
+<div class="collection with-header hoverable row">
+    <a class="collection-header col s12"  (click)="onItemSearch($event)" style="cursor: zoom-in">
       <label><i class="material-icons small">help_outline</i>Question Items</label>
       <a class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light teal"
         [ngClass]="{ hide: !showButton }" >
         <i class="material-icons" title="Associate QuestionItem with element">playlist_add</i>
       </a>
     </a>
-    <a class="collection-item col s12 grey-text text-darken-1" *ngFor="let cqi of revisionRefs.sort()"
-      (mouseover)="cqi.hover=true" (mouseleave)="cqi.hover=false" (click)="onQuestionItemPreview($event,cqi)" >
+    <a class="collection-item col s12 grey-text text-darken-1" *ngFor="let cqi of revisionRefs.sort()" (click)="onItemPreview($event,cqi)" >
       <qddt-version-label class="right" [revisionRef]="cqi" ></qddt-version-label>
-      <div class="qmenu" [hidden]="!cqi.hover" >
-        <a class="btn-flat btn-floating btn-small waves-effect waves-light green lighten-2"
-            (click)="onQuestionItemEdit($event,cqi)">
-          <i class="material-icons" title="Edit question">edit</i>
-        </a>
-        <a class="btn-flat btn-floating btn-small waves-effect waves-light blue lighten-2"
-          (click)="onQuestionItemUpdate($event, cqi )">
-          <i class="material-icons" title="update selected">sync</i>
-        </a>
-        <a class="btn-flat btn-floating btn-small waves-effect waves-light red lighten-2"
-            (click)="onQuestionItemRemove($event, cqi )">
-          <i class="material-icons" title="Remove selected">remove</i>
-        </a>
-      </div>
+      <ul *ngIf="!readonly" class="dropleft">
+        <li>
+          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green" (click)="onItemEdit($event,cqi)">
+            <i class="material-icons" title="Edit question">edit</i>
+          </a>
+        </li>
+        <li>
+          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue" (click)="onItemUpdate($event, cqi)">
+            <i class="material-icons" title="update selected">sync</i>
+          </a>
+        </li>
+        <li>
+          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 red" (click)="onItemRemove($event, cqi)">
+            <i class="material-icons" title="Remove selected">remove</i>
+          </a>
+        </li>
+      </ul>
       <div class="question" [innerHtml]="cqi?.name || cqi?.element?.name && ' - ' && cqi?.element?.question"></div>
     </a>
   </div>
 <!-- Modal Structure -->
-<div  *ngIf="showRevision" id="MODAL-{{modalId}}" class="modal modal-fixed-footer">
+<div  id="MODAL-{{modalId}}" class="modal modal-fixed-footer">
   <div class="modal-content white black-text" >
     <h4>Select QuestionItem version</h4>
     <qddt-element-revision-select
@@ -112,32 +116,32 @@ export class QuestionItemsComponent {
     this.modalRef.close();
   }
 
-  public onQuestionItemSearch(event: Event) {
+  public onItemSearch(event: Event) {
     event.stopPropagation();
     this.SOURCE = this.QUESTION;
     this.modalRef.open();
   }
 
-  public onQuestionItemRemove(event: Event, cqi: ElementRevisionRef) {
+  public onItemRemove(event: Event, cqi: ElementRevisionRef) {
     event.stopPropagation();
     this.revisionRefs = this.revisionRefs.filter(qi => !(qi.elementId === cqi.elementId && qi.elementRevision === cqi.elementRevision));
     this.deletedEvent.emit(cqi);
   }
 
-  public onQuestionItemEdit(event: Event, cqi: ElementRevisionRef) {
+  public onItemEdit(event: Event, cqi: ElementRevisionRef) {
     event.stopPropagation();
     this.service.searchByUuid(cqi.elementId).then(
       (result) => { this.router.navigate([result.url]); },
       (error) => { throw  error; });
   }
 
-  public onQuestionItemUpdate(event: Event, cqi: ElementRevisionRef) {
+  public onItemUpdate(event: Event, cqi: ElementRevisionRef) {
     event.stopPropagation();
     this.SOURCE = cqi;
     this.modalRef.open();
   }
 
-  public onQuestionItemPreview(event: Event, item: ElementRevisionRef) {
+  public onItemPreview(event: Event, item: ElementRevisionRef) {
     event.stopPropagation();
     this.message.sendMessage(item);
   }
