@@ -1,19 +1,24 @@
-<div id="{{concept.id}}" class="row card section scrollspy white grey-text text-darken-2"
+<div id="{{concept.id}}" class="row card section scrollspy white grey-text text-darken-2" style="margin-left: -0.7rem;"
   [ngClass]="{'grey lighten-5': edit.isVisible}">
   <div class="col s1">
-    <br />
-    <a *ngIf="canUpdate && !(concept.archived)"
-      class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2" (click)="onToggleEdit(edit)"><i
-        class="material-icons" title="Edit Concept">mode_edit</i></a>
-    <a *ngIf="!edit.isVisible" class="btn-flat btn-floating btn-medium waves-effect waves-light blue lighten-2"
-      (click)="edit.showRevision = !edit.showRevision"><i class="material-icons left medium"
-        title="Revision history">history</i></a>
-    <a *ngIf="canUpdate && !(concept.archived) && !edit.isVisible"
-      class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="onCreateConcept()"><i
-        class="material-icons left medium" title="Add sub concept">add</i></a>
-    <a *ngIf="canDelete && !(concept.archived) && !edit.isVisible"
-      class="btn-flat btn-floating btn-medium waves-effect waves-light red lighten-2"
-      (click)="onDeleteConcept(concept)"><i class="material-icons left medium" title="Delete">delete_forever</i></a>
+    <ul class="dropdownmenu">
+      <li *ngIf="canUpdate && !(concept.archived)">
+        <a class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2" (click)="onToggleEdit(edit)">
+          <i class="material-icons" title="Edit Concept">mode_edit</i></a>
+      </li>
+      <li *ngIf="!edit.isVisible">
+        <a class="btn-flat btn-floating btn-medium waves-effect waves-light blue lighten-2" (click)="edit.showRevision = !edit.showRevision">
+          <i class="material-icons"title="Revision history">history</i></a>
+      </li>
+      <li *ngIf="canUpdate && !(concept.archived) && !edit.isVisible">
+        <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="onCreateConcept()">
+          <i class="material-icons" title="Add sub concept">add</i></a>
+      </li>
+      <li *ngIf="canDelete && !(concept.archived) && !edit.isVisible">
+        <a class="btn-flat btn-floating btn-medium waves-effect waves-light red lighten-2" (click)="onDeleteConcept(concept)">
+          <i class="material-icons" title="Delete">delete_forever</i></a>
+      </li>
+    </ul>
   </div>
 
   <div class="col s10">

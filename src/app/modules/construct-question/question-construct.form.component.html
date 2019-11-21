@@ -1,66 +1,63 @@
 <div *ngIf="controlConstruct" class="white col s12">
   <form #qcform="ngForm">
-    <div class="row input-field" tabindex="0">
-      <input id="{{ formId }}-name" name="name" type="text" class="validate" required
-        [(ngModel)]="controlConstruct.name" data-length="255" />
-      <label for="{{ formId }}-name">Name</label>
-    </div>
-    <div class="row input-field" tabindex="1">
-      <input id="{{ formId }}-description" name="description" type="text" class="validate"
-        [(ngModel)]="controlConstruct.description" data-length="255" />
-      <label for="{{ formId }}-description">Description</label>
-    </div>
+    <qddt-input
+      required
+      name="name"
+      label="Name"
+      [(ngModel)]="controlConstruct.name"
+      data-length="255">
+    </qddt-input>
+    <qddt-textarea
+      placeholder="add description..."
+      name="description"
+      label="Description"
+      [(ngModel)]="controlConstruct.description"
+      data-length="255">
+    </qddt-textarea>
 
-    <qddt-collection-search-select [listItems]="controlConstruct.universe" [searchItems]="universeList"
-      [elementKind]="UNIVERSE" (selectEvent)="onAddUniverse($event)" (searchEvent)="onUniverseSearch($event)"
-      tabindex="2">
-    </qddt-collection-search-select>
+    <qddt-element-collection [listItems]="controlConstruct.universe" [labelName]="'Universe'" [elementKind]="UNIVERSE" [readonly]="false"
+                             (selectEvent)="onAddUniverse($event)" tabindex="2">
+    </qddt-element-collection>
 
     <qddt-download [fileStore]="fileStore" [entity]="controlConstruct" [readonly]="false"></qddt-download>
 
-    <qddt-collection-search-select [listItems]="controlConstruct.preInstructions" [searchItems]="instructionList"
-      [labelName]="'Pre Instructions'" [elementKind]="INSTRUCTION" (selectEvent)="onAddPreInstruction($event)"
-      (searchEvent)="onInstructionSearch($event)">
-    </qddt-collection-search-select>
+    <qddt-element-collection [listItems]="controlConstruct.preInstructions" [labelName]="'Pre Instructions'" [elementKind]="INSTRUCTION" [readonly]="false"
+                             (selectEvent)="onAddPreInstruction($event)">
+    </qddt-element-collection>
 
-    <div class="hoverable" (mouseenter)="showQuestionButton = !readonly" (mouseleave)="showQuestionButton = false">
-      <div class="row" (click)="editQuestoinItem = !editQuestoinItem" style="cursor: zoom-in;">
-        <div class="col s11">
-          <label>Question Text (Version
-            <qddt-version [element]="controlConstruct?.questionItem"></qddt-version>)</label>
-        </div>
-        <div class="col s1">
-          <a [ngClass]="{ hide: !showQuestionButton }"
-            class="btn-flat btn-floating btn-small waves-effect waves-light teal">
-            <i class="material-icons" title="Add QuestionItem">add</i>
-          </a>
-        </div>
-      </div>
-      <qddt-element-revision-select [ngClass]="{ hide: !editQuestoinItem }" [source]="QUESTION"
-        (revisionSelected)="onRevisionSelect($event)" (dismissEvent)="onDismiss()">
-      </qddt-element-revision-select>
-      <div class="row">
-        <div class="col s11">
-          <p [innerHtml]="controlConstruct?.questionItem?.question" style="font-size: larger"></p>
-        </div>
-        <div class="col s1">
-          <a [ngClass]="{ hide: !showQuestionButton }"
-            class="btn-flat btn-floating btn-small waves-effect waves-light teal" (click)="onRemoveQuestionItem()">
-            <i class="material-icons" title="Remove QuestionItem">remove</i>
-          </a>
+    <div class="collection with-header hoverable row">
+      <a class="collection-header col s12"  (click)="onItemSearch($event)" style="cursor: zoom-in">
+        <label><i class="material-icons small">help</i>Question Text</label>
+        <a class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light teal">
+          <i class="material-icons" title="Add QuestionItem">playlist_add</i>
+        </a>
+      </a>
+      <div class="col s12" style="padding: 1px 1px;">
+        <div class="card-panel grey lighten-5 grey-text text-darken-1" style="margin-bottom: 1px;">
+          <qddt-version-label class="right" [revisionRef]="controlConstruct.questionItem" ></qddt-version-label>
+          <ul *ngIf="!readonly" class="dropleft">
+            <li>
+              <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green" (click)="onItemEdit($event,item)">
+                <i class="material-icons" title="Edit Item">edit</i>
+              </a>
+            </li>
+            <li>
+              <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 red" (click)="onItemRemove($event, item)">
+                <i class="material-icons" title="Remove item">remove</i>
+              </a>
+            </li>
+          </ul>
+          <p [innerHtml]="controlConstruct.questionItem.question" style="font-style: italic"></p>
         </div>
       </div>
     </div>
 
-    <qddt-collection-search-select [listItems]="controlConstruct.postInstructions" [searchItems]="instructionList"
-      [labelName]="'Post Instructions'" [elementKind]="INSTRUCTION" (selectEvent)="onAddPostInstruction($event)"
-      (searchEvent)="onInstructionSearch($event)">
-    </qddt-collection-search-select>
+    <qddt-element-collection [listItems]="controlConstruct.postInstructions" [labelName]="'Post Instructions'" [elementKind]="INSTRUCTION" [readonly]="false"
+                             (selectEvent)="onAddPostInstruction($event)">
+    </qddt-element-collection>
 
-    <qddt-preview-responsedomain *ngIf="
-        controlConstruct.questionItem &&
-        controlConstruct.questionItem.responseDomain
-      " [responseDomain]="controlConstruct.questionItem.responseDomain">
+    <qddt-preview-responsedomain *ngIf="controlConstruct.questionItem && controlConstruct.questionItem.responseDomain"
+                                 [responseDomain]="controlConstruct.questionItem.responseDomain">
     </qddt-preview-responsedomain>
 
     <qddt-conceptref [element]="controlConstruct.questionItem"></qddt-conceptref>

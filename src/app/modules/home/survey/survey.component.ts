@@ -8,17 +8,17 @@ import { ActionKind,
   HierarchyPosition,
   PropertyStoreService } from '../../../lib';
 
-// import * as FileSaver from 'file-saver';
-
-
-
 
 @Component({
   selector: 'qddt-survey',
-  templateUrl: './survey.component.html'
+  templateUrl: './survey.component.html',
+  styles: [
+    // '.row:hover > .col > ul.dropdownmenu { display:block; } ',
+    // 'ul.dropdownmenu {  display:none;}',
+  ],
 })
 
-export class SurveyComponent implements OnInit, AfterContentChecked {
+export class SurveyComponent implements OnInit {
   public surveys: SurveyProgram[];
   public showSurveyForm = false;
   public readonly = false;
@@ -40,14 +40,6 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
       (result) => this.surveys = result);
   }
 
-  ngAfterContentChecked(): void {
-    // if (this.refreshCount < 10) {
-    //   try {
-    //     this.refreshCount++;
-    //     M.updateTextFields();
-    //   } catch (Exception) {}
-    // }
-  }
 
   onSurveySaved(surveyProgram: any) {
     if (surveyProgram) {
@@ -74,12 +66,5 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
       result => this.onSurveySaved(result));
     this.showSurveyForm = false;
   }
-
-
-  // getPdf(element: SurveyProgram) {
-  //   const fileName = element.name + '.pdf';
-  //   this.templateService.getPdf(element).then(
-  //     data => FileSaver.saveAs(data, fileName));
-  // }
 
 }

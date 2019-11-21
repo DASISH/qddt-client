@@ -16,8 +16,6 @@ import {
   template: `
 <div class="card-action">
   <div class="row">
-
-
     <div class="col left" *ngFor="let domain of domainTypeDescription" >
     <label>
         <input name="DOMAIN-TYPE-GROUP" type="radio"

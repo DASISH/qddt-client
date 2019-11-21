@@ -16,8 +16,11 @@ import {
   selector: 'qddt-question-construct-form',
   templateUrl: 'question-construct.form.component.html',
   styles: [
-    '.nomargin { margin:0; }',
-    ':host ::ng-deep .hoverable .row { min-height:3rem; margin-bottom:0px;}'
+    // '.nomargin { margin:0; }',
+    // ':host ::ng-deep .hoverable .row { min-height:3rem; margin-bottom:0px;}'
+    '.collection-item:hover > ul.dropleft { display:block; } ',
+    'ul.dropleft { position: absolute; display: none; margin-top: 0px; margin-bottom: 0px; z-index: 1;}',
+    'ul.dropleft li { display:inline-flex; }'
   ],
 })
 

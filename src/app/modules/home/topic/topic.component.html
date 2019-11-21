@@ -45,20 +45,23 @@
   <div id="{{topic.id}}" *ngFor="let topic of topics" class="row card section scrollspy white grey-text text-darken-2"
     [ngClass]="{'grey lighten-5': edit.isVisible}">
     <div class="col s1">
-      <br />
-      <a *ngIf="!topic.archived && !readonly"
-        class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2"
-        (click)="edit.isVisible = !edit.isVisible; refreshCount = 0"><i class="material-icons"
-          title="Edit Concept">mode_edit</i></a>
-      <a *ngIf="!edit.isVisible" class="btn-flat btn-floating btn-medium waves-effect waves-light blue lighten-2"
-        (click)="edit.showRevision = !edit.showRevision"><i class="material-icons left medium"
-          title="Revision history">history</i></a>
-      <a *ngIf="!edit.isVisible" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-        (click)="onSelectTopic(topic)"><i class="material-icons left medium"
-          title="Go to child elements">play_arrow</i></a>
-      <qddt-confirm-delete *ngIf="!edit.isVisible && !topic.archived  && canDelete" [element]="topic"
-        (confirmAction)="onRemoveTopic($event)">
-      </qddt-confirm-delete>
+      <ul class="dropdownmenu">
+        <li *ngIf="!topic.archived && !readonly">
+          <a class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2" (click)="edit.isVisible = !edit.isVisible; refreshCount = 0">
+            <i class="material-icons" title="Edit Concept">mode_edit</i></a>
+        </li>
+        <li *ngIf="!edit.isVisible">
+          <a class="btn-flat btn-floating btn-medium waves-effect waves-light blue lighten-2" (click)="edit.showRevision = !edit.showRevision">
+            <i class="material-icons" title="Revision history">history</i></a>
+        </li>
+        <li *ngIf="!edit.isVisible" >
+          <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="onSelectTopic(topic)">
+            <i class="material-icons" title="Go to child elements">play_arrow</i></a>
+        </li>
+        <li *ngIf="!edit.isVisible && !topic.archived  && canDelete">
+          <qddt-confirm-delete  [element]="topic" (confirmAction)="onRemoveTopic($event)"></qddt-confirm-delete>
+        </li>
+      </ul>
     </div>
     <div class="col s10">
       <h5 class="row">

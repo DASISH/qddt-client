@@ -6,9 +6,8 @@ import {
   getQueryInfo,
   IElement,
   IEntityAudit,
-  IRevisionRef
+  IRevisionRef, TemplateService
 } from '../../../lib';
-import { TemplateService} from '../../../components/template';
 
 
 

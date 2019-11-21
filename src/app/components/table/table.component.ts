@@ -23,7 +23,7 @@ import * as FileSaver from 'file-saver';
   styles: [
     ':host ::ng-deep i.left  { margin-right: 0px; }',
     'th { white-space: nowrap;}',
-    'td, td div { max-width: 300px;  white-space: nowrap;  overflow: hidden; text-overflow: ellipsis;}',
+    'td, td div { max-width: 250px;  white-space: nowrap;  overflow: hidden; text-overflow: ellipsis;}',
     'table { table-layout:auto; border-collapse:separate;}'],
 
   templateUrl: './table.component.html',

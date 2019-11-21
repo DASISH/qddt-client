@@ -8,7 +8,6 @@ import {
   TemplateService
 } from '../../lib';
 
-
 @Component({
   selector: 'qddt-questionitem-form',
   templateUrl: './question.form.component.html'

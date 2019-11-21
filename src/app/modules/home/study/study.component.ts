@@ -17,7 +17,7 @@ import {
   templateUrl: './study.component.html',
 })
 
-export class StudyComponent implements OnInit, AfterContentChecked {
+export class StudyComponent implements OnInit {
   public showEditForm = false;
   public readonly: boolean;
   public canDelete: boolean;
@@ -44,14 +44,6 @@ export class StudyComponent implements OnInit, AfterContentChecked {
       });
   }
 
-  ngAfterContentChecked(): void {
-    // if (this.refreshCount < 10) {
-    //   try {
-    //     this.refreshCount++;
-    //     M.updateTextFields();
-    //   } catch (Exception) {}
-    // }
-  }
 
   onShowTopic(study: Study) {
     const prevStudy = this.property.get('study');
@@ -88,12 +80,6 @@ export class StudyComponent implements OnInit, AfterContentChecked {
     this.templateService.create(new Study(study), this.survey.id).subscribe(
       result => this.onStudySaved(result));
   }
-
-  // getPdf(study: Study) {
-  //   const fileName = study.name + '.pdf';
-  //   this.templateService.getPdf(study).then(
-  //     (data) => FileSaver.saveAs(data, fileName) );
-  // }
 
 
   onRemoveStudy(studyId: string) {

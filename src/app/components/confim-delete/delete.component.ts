@@ -12,9 +12,14 @@ import {
   selector: 'qddt-confirm-delete',
 
   template: `
-    <a class="btn-flat btn-floating btn-medium waves-effect waves-light red lighten-2"
-      (click)="showConfirmDeleting()" ><i class="material-icons left medium" title="Delete">delete_forever</i>
+    <a *ngIf="small;  else LARGE" class="btn-flat btn-small btn-floating btn-medium waves-effect waves-light red lighten-2"
+      (click)="showConfirmDeleting()" ><i class="material-icons" title="Delete">delete_forever</i>
     </a>
+    <ng-template #LARGE>
+      <a class="btn-flat btn-floating btn-medium waves-effect waves-light red lighten-2"
+        (click)="showConfirmDeleting()" ><i class="material-icons" title="Delete">delete_forever</i>
+      </a>
+    </ng-template>
     <div class="modal" #modaldelete>
       <div class="modal-content black-text">
         <div class="row">
@@ -37,6 +42,7 @@ import {
 })
 export class ConfirmDeleteComponent implements AfterViewInit {
   @Input() element: any;
+  @Input() small = false;
   @Output() confirmAction = new EventEmitter<string>();
 
   @ViewChild('modaldelete', { static: false }) modaldelete: ElementRef;

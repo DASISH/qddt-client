@@ -36,10 +36,9 @@
       </div>
     </div>
 
-    <qddt-collection-revision-search-select [showProgressBar]="showProgressBar" [kind]="QUESTION"
-      [showList]="sequence.sequence" [searchList]="questionConstrucs" [revisionList]="revisionList"
-      (searchItems)="onSearchElements($event)" (searchRevision)="onRevisonSearch($event)">
-    </qddt-collection-revision-search-select>
+    <qddt-element-revision-collection [elementKind]="QUESTION" [revisionRefs]="sequence.sequence" [labelName]="'Question Constructs'"
+      (searchItems)="onSearchElements($event)" >
+    </qddt-element-revision-collection>
 
     <qddt-rational *ngIf="!readonly && sequence.modified" [formName]="'RationalComp'" [element]="sequence"
       [config]="{hidden: [4]}"></qddt-rational>

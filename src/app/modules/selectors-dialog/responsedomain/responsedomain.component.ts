@@ -14,7 +14,7 @@ import {
   templateUrl: 'responsedomain.component.html',
   styles: [
     '.row:hover > ul.dropleft { display:block; } ',
-    'ul.dropleft { position: fixed; display: none; margin-top: 5px; margin-bottom: 0px; z-index: 1;}',
+    'ul.dropleft { position: absolute; display: none; margin-top: 5px; margin-bottom: 0px; z-index: 1;}',
     'ul.dropleft li { display:inline-flex; }',
   ],
 })

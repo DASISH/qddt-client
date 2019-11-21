@@ -9,19 +9,19 @@ import {
 
 
 @Component({
-  selector: 'qddt-question-items',
+  selector: 'qddt-element-revision-collection',
   styles: [
-          '.qlabel { padding-top: 5px; }',
-          '.collection a.collection-item { cursor: pointer; padding-left: 10px;}',
-          '.question { white-space: nowrap; overflow: hidden;text-overflow: ellipsis; padding-top:5px; }',
-          '.collection-item:hover > ul.dropleft { display:block; } ',
-          'ul.dropleft { position: absolute; display: none; margin-top: 0px; margin-bottom: 0px; z-index: 1;}',
-          'ul.dropleft li { display:inline-flex; }',
-   ],
+    '.qlabel { padding-top: 5px; }',
+    '.collection a.collection-item { cursor: pointer; padding-left: 10px;}',
+    '.question { white-space: nowrap; overflow: hidden;text-overflow: ellipsis; padding-top:5px; }',
+    '.collection-item:hover > ul.dropleft { display:block; } ',
+    'ul.dropleft { position: absolute; display: none; margin-top: 0px; margin-bottom: 0px; z-index: 1;}',
+    'ul.dropleft li { display:inline-flex; }',
+  ],
   template: `
 <div class="collection with-header hoverable row">
     <a class="collection-header col s12"  (click)="onItemSearch($event)" style="cursor: zoom-in">
-      <label><i class="material-icons small">help_outline</i>Question Items</label>
+      <label><i class="material-icons small">format_list_bulleted</i>Question Items</label>
       <a class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light teal"
         [ngClass]="{ hide: !showButton }" >
         <i class="material-icons" title="Associate QuestionItem with element">playlist_add</i>
@@ -53,11 +53,11 @@ import {
 <div  id="MODAL-{{modalId}}" class="modal modal-fixed-footer">
   <div class="modal-content white black-text" >
     <h4>Select QuestionItem version</h4>
-    <qddt-element-revision-select
-        [source] = "SOURCE"
-        (revisionSelectedEvent)="revisionSelectedEvent($event)"
-        (dismissEvent) ="onDismiss()">
-    </qddt-element-revision-select>
+<!--    <qddt-element-select-->
+<!--        [source] = "SOURCE"-->
+<!--        (revisionSelectedEvent)="revisionSelectedEvent($event)"-->
+<!--        (dismissEvent) ="onDismiss()">-->
+<!--    </qddt-element-select>-->
   </div>
   <div class="modal-footer">
     <button
@@ -68,17 +68,17 @@ import {
 </div>
 `,
 })
-export class QuestionItemsComponent {
+export class ElementRevisionCollectionComponent {
   @Input() revisionRefs: ElementRevisionRef[];
+  @Input() elementKind: ElementKind;
+  @Input() labelName = '???';
   @Input() readonly = true;
   @Output() createdEvent = new EventEmitter<ElementRevisionRef>();
   @Output() deletedEvent = new EventEmitter<ElementRevisionRef>();
   @Output() modifiedEvent = new EventEmitter<ElementRevisionRef>();
 
-  public readonly QUESTION = ElementKind.QUESTION_ITEM;
   public readonly modalId = Math.round( Math.random() * 10000);
 
-  public SOURCE: ElementKind| IRevisionRef| null;
   private _modalRef: M.Modal;
   private _ShowRef = false;
   private _showButton = false;
@@ -107,18 +107,15 @@ export class QuestionItemsComponent {
 
   public revisionSelectedEvent(ref: ElementRevisionRef) {
     this.createdEvent.emit(ref);
-    this.SOURCE = null;
     this.modalRef.close();
   }
 
   public onDismiss() {
-    this.SOURCE = null;
     this.modalRef.close();
   }
 
   public onItemSearch(event: Event) {
     event.stopPropagation();
-    this.SOURCE = this.QUESTION;
     this.modalRef.open();
   }
 
@@ -137,7 +134,6 @@ export class QuestionItemsComponent {
 
   public onItemUpdate(event: Event, cqi: ElementRevisionRef) {
     event.stopPropagation();
-    this.SOURCE = cqi;
     this.modalRef.open();
   }
 

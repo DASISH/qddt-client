@@ -1,5 +1,5 @@
 import {  Component, EventEmitter, Input, Output } from '@angular/core';
-import { ElementKind, IElement, Instrument, Page, Study, SurveyProgram, TemplateService} from '../../../lib';
+import {ElementKind, ElementRevisionRef, IElement, Instrument, Page, Study, SurveyProgram, TemplateService} from '../../../lib';
 
 @Component({
   selector: 'qddt-study-edit',
@@ -26,14 +26,14 @@ import { ElementKind, IElement, Instrument, Page, Study, SurveyProgram, Template
       </qddt-textarea>
     </div>
     <div class="col s12">
-      <qddt-collection-search-select
-        [listItems] = "study.instruments"
-        [searchItems]="instrumentsList"
+      <qddt-element-revision-collection
+        [revisionRefs] = "study.instruments"
         [labelName]="'Instruments'"
         [elementKind]="INSTRUMENT"
-        (selectEvent)="onAddInstrument($event)"
-        (searchEvent)="onInstrumentSearch($event)">
-      </qddt-collection-search-select>
+        (createdEvent) ="onInstrumentAdded($event)"
+        (deletedEvent) ="onInstrumentDeleted($event)"
+        (modifiedEvent) ="onInstrumentListChanged($event)">
+      </qddt-element-revision-collection>
     </div>
 
     <div class="col s12">
@@ -57,7 +57,6 @@ export class StudyEditComponent {
 
   public readonly formId = Math.round(Math.random() * 10000);
   public readonly INSTRUMENT = ElementKind.INSTRUMENT;
-  public instrumentsList: Instrument[];
   public showRevision = false;    // used by parent form to keep track of revision comp
 
   constructor(private service: TemplateService) { }
@@ -75,18 +74,26 @@ export class StudyEditComponent {
       });
   }
 
-  onAddInstrument(item: IElement) {
-    this.service.getByKindEntity<Instrument>(this.INSTRUMENT, item.element.id)
-      .then(instrument => {
-        this.study.instruments.push(instrument);
-      });
+  onInstrumentAdded(item: ElementRevisionRef) {
+    console.log('onInstrumentAdded');
+    // this.service.getByKindEntity<Instrument>(this.INSTRUMENT, item.element.id)
+    //   .then(instrument => {
+    //     this.study.instruments.push(instrument);
+    //   });
   }
-
-  onInstrumentSearch(key: string) {
-    this.service.searchByKind<Instrument>({ kind: this.INSTRUMENT, key, page: new Page() }).then(
-      (result) => {
-        this.instrumentsList = result.content;
-      });
+  onInstrumentDeleted(item: ElementRevisionRef) {
+    console.log('onInstrumentDeleted');
+    // this.service.getByKindEntity<Instrument>(this.INSTRUMENT, item.element.id)
+    // .then(instrument => {
+    //   this.study.instruments.push(instrument);
+    // });
+  }
+  onInstrumentListChanged(item: ElementRevisionRef) {
+    console.log('onInstrumentListChanged');
+    // this.service.getByKindEntity<Instrument>(this.INSTRUMENT, item.element.id)
+    // .then(instrument => {
+    //   this.study.instruments.push(instrument);
+    // });
   }
 
 }

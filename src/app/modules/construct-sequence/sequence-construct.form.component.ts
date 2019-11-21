@@ -5,9 +5,8 @@ import {
   EnumItem, getElementKind,
   IElement,
   IEntityEditAudit,
-  IRevisionRef, Page, SequenceConstruct, SequenceKind, StringIsNumber
+  IRevisionRef, Page, SequenceConstruct, SequenceKind, StringIsNumber, TemplateService
 } from '../../lib';
-import {TemplateService} from '../../components/template';
 
 @Component({
   selector: 'qddt-sequence-form',

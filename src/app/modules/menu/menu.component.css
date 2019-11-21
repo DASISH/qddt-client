@@ -16,7 +16,6 @@
   margin: 0;
 }
 
-
 .breadcrumb {
   cursor: pointer;
   display: inline-block;
@@ -24,13 +23,12 @@
   overflow: hidden;
   text-overflow: ellipsis;     /** IE6+, Firefox 7+, Opera 11+, Chrome, Safari **/
   -o-text-overflow: ellipsis;  /** Opera 9 & 10 **/
-  max-width: 250px;
+  max-width: 200px;
 }
 
-
-/*.sidenav.fixed {*/
-/*  width: 200px;*/
-/*}*/
+ul.sidenav  {
+  box-shadow:unset;
+}
 
 .description {
   text-align: justify;

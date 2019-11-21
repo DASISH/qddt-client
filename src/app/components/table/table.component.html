@@ -43,18 +43,18 @@
       <tr id="{{row.id}}" *ngFor="let row of rows;"  [ngStyle]="{'cursor': 'pointer'}" (mouseleave)="row.showButton = false" >
       <td style="padding:0" (mouseenter)="row.showButton = true">
         <div >
-          <i class="material-icons small teal-text" >keyboard_arrow_right</i>
-          <ul *ngIf="row.showButton"  style="position: fixed; display: inline-flex; margin-top: 0px; margin-bottom: 0px; z-index: 1; ">
+          <i class="material-icons tiny teal-text" >menu</i>
+          <ul *ngIf="row.showButton"  style="position: absolute; display: inline-flex; margin-top: -5px; margin-bottom: 0px; z-index: 1; ">
             <li *ngIf="canDelete">
-              <qddt-confirm-delete [element]="row.Object" (confirmAction)="onConfirmDeleting(row.Object)"></qddt-confirm-delete>
+              <qddt-confirm-delete  [small]="true"  [element]="row.Object" (confirmAction)="onConfirmDeleting(row.Object)"></qddt-confirm-delete>
             </li>
-            <li *ngIf="canExport"><a class="btn-flat btn-sm btn-floating waves-effect waves-light orange lighten-2">
+            <li *ngIf="canExport"><a class="btn-flat btn-small btn-floating waves-effect waves-light orange lighten-2">
               <i class="material-icons" (click)="onGetPdf(row.Object)" title="Get as Pdf">picture_as_pdf</i></a>
             </li>
-            <li *ngIf="canEdit"><a class="btn-flat btn-floating waves-effect waves-light green lighten-2">
+            <li *ngIf="canEdit"><a class="btn-flat btn-small btn-floating waves-effect waves-light green lighten-2">
               <i class="material-icons" (click)="onDetail(row)" title="Edit">edit</i></a>
             </li>
-            <li *ngIf="canPreview"><a class="btn-flat btn-floating waves-effect waves-light blue lighten-2">
+            <li *ngIf="canPreview"><a class="btn-flat btn-small btn-floating waves-effect waves-light blue lighten-2">
               <i class="material-icons" (click)="onPreview(row.Object)" title="Preview">search</i></a>
             </li>
           </ul>
