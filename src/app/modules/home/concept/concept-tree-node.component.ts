@@ -37,7 +37,7 @@ export class TreeNodeComponent {
   private refreshCount = 0;
 
   constructor(private homeService: HomeService<Concept>, private router: Router,
-    private message: MessageService, private templateService: TemplateService) {
+              private message: MessageService, private templateService: TemplateService) {
     this.canCreate = this.homeService.canDo(this.CONCEPT).get(ActionKind.Create);
     this.canUpdate = this.homeService.canDo(this.CONCEPT).get(ActionKind.Update);
     this.canDelete = this.homeService.canDo(this.CONCEPT).get(ActionKind.Delete);

@@ -9,7 +9,7 @@ import { Agency, IAuthority, UserJson, UserService} from '../../lib';
 export class UserFormComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() user: UserJson;
   @Input() readonly = false;
-  @Output() modifiedEvent =  new EventEmitter<String>();
+  @Output() modifiedEvent =  new EventEmitter<string>();
 
   public selectedAgencyId: string;
   public formId = Math.round( Math.random() * 10000);

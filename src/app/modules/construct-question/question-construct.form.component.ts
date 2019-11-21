@@ -66,14 +66,14 @@ export class QuestionConstructFormComponent {
   }
 
   onInstructionSearch(key: string) {
-    this.service.searchByKind<Instruction>({ kind: this.INSTRUCTION, key: key, page: new Page() }).then(
+    this.service.searchByKind<Instruction>({ kind: this.INSTRUCTION, key, page: new Page() }).then(
       (result) => {
         this.instructionList = result.content;
       });
   }
 
   onUniverseSearch(key: string) {
-    this.service.searchByKind<Universe>({ kind: this.UNIVERSE, key: key, page: new Page() }).then(
+    this.service.searchByKind<Universe>({ kind: this.UNIVERSE, key, page: new Page() }).then(
       (result) => {
         this.universeList = result.content;
       });
