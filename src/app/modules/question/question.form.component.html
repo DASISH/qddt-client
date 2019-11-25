@@ -40,7 +40,7 @@
     <qddt-responsedomain-select *ngIf="questionItem"
         [responseDomain]="questionItem.responseDomain"
         (selectedEvent)="onSaveResponseDomain($event)"
-        (removeEvent)="onResponsedomainRemove($event)">
+        (removeEvent)="onResponsedomainRemove()">
     </qddt-responsedomain-select>
 
     <qddt-rational [formName]="'RationalComp'"

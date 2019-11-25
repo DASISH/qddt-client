@@ -1,6 +1,6 @@
-<div class="hoverable row" >
+<div class="hoverable row">
   <div class="col s7">
-    <div class="row input-field" >
+    <div class="row input-field">
       <ul *ngIf="canEdit" class="dropleft">
         <li *ngIf="!responseDomain">
           <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green" (click)="onItemEdit()">
@@ -8,7 +8,7 @@
           </a>
         </li>
         <li *ngIf="responseDomain">
-          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue" (click)="onGetLatest()">
+          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue" (click)="onItemGetLatest()">
             <i class="material-icons" title="Get latest">autorenew</i>
           </a>
         </li>
@@ -18,7 +18,8 @@
           </a>
         </li>
       </ul>
-      <input name="name" type="text"  placeholder="select responseDomain"  readonly="true" [ngModel]="responseDomain?.name">
+      <input name="name" type="text" placeholder="select responseDomain" readonly="true"
+        [ngModel]="responseDomain?.name">
       <label>Response Domain (V <qddt-version [element]="responseDomain"></qddt-version>) </label>
     </div>
   </div>
@@ -26,94 +27,93 @@
     <div class="row input-field">
       <ul *ngIf="canEdit" class="dropleft">
         <li *ngIf="responseDomain && !responseDomain?.missing">
-          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green" (click)="openMissing()">
+          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green" (click)="onMissingAdd()">
             <i class="material-icons" title="Add element">add</i>
           </a>
         </li>
         <li *ngIf="responseDomain && responseDomain?.missing">
-          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue" (click)="openMissing()">
+          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue" (click)="onMissingEdit()">
             <i class="material-icons" title="Edit">edit</i>
           </a>
         </li>
         <li *ngIf="canDelete && responseDomain?.missing">
-          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 red" (click)="onItemRemove()">
+          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 red" (click)="onMissingRemove()">
             <i class="material-icons" title="Remove">remove</i>
           </a>
         </li>
       </ul>
-      <input name="missing" type="text" placeholder="select missing" readonly="true" [ngModel]="responseDomain?.missing?.label">
+      <input name="missing" type="text" placeholder="select missing" readonly="true"
+        [ngModel]="responseDomain?.missing?.label">
       <label>Missing</label>
-    <div >
-  </div>
-</div>
-
-<!--      <span>{{responseDomain?.missing?.label}}</span>-->
-<!--      <a *ngIf="showButton && responseDomain &&  !responseDomain?.missing"-->
-<!--         class="modal-trigger btn-flat btn-floating btn-small waves-effect waves-light teal" (click)="openMissing()">-->
-<!--          <i class="material-icons left medium" title="Add element">add</i>-->
-<!--      </a>-->
-<!--      <a *ngIf="showButton && canDelete && responseDomain?.missing"-->
-<!--         class="btn-flat btn-floating btn-small waves-effect waves-light red lighten-2" (click)="onConfirmDeleting()">-->
-<!--          <i class="material-icons" title="Remove" >remove</i>-->
-<!--      </a>-->
-<!--      <a *ngIf="showButton && canEdit && responseDomain?.missing"-->
-<!--         class="btn-flat btn-floating btn-small waves-effect waves-light green lighten-2" (click)="openMissing()">-->
-<!--          <i class="material-icons" title="Edit">edit</i>-->
-<!--      </a>-->
-<!-- Modal Structure -->
-<div  id="MODAL-{{modalId}}" class="modal modal-fixed-footer">
-  <div class="modal-content white black-text" >
-    <div class="col s12" [hidden]="!showResponseDomain || !showButton">
-      <div class="response-domain-title"><span>Select Domain and Search</span></div>
-      <div class="col left" *ngFor="let domain of domainTypeDescription">
-        <label>
-          <input name="{{formId}}-OTG2" type="radio"
-                 (click)="onSelectDomainKind(domain.id)" [checked]="selectedDomainId === domain.id"/>
-          <span>{{ domain.label }}</span>
-        </label>
+      <div>
       </div>
-      <qddt-element-revision-select class="col s12"
-                                    [source] = "RESPONSEDOMAIN"
-                                    (revisionSelected)="onRevisionSelect($event)"
-                                    (dismissEvent) ="showResponseDomain = false">
-      </qddt-element-revision-select>
     </div>
-    <div class="col s12" *ngIf="showMissing">
-      <qddt-auto-complete *ngIf="!responseDomain.missing"
-                          [items]="categories"
-                          [elementKind]="MISSING_GROUP"
-                          [autoCreate]="false"
-                          (selectEvent)="onMissingSelect($event)"
-                          (enterEvent)="onMissingSearch($event)">
-      </qddt-auto-complete>
-      <form #missingForm="ngForm">
-        <table *ngIf="responseDomain.missing">
-          <thead><tr><td>Code</td><td>Category</td></tr></thead>
-          <tbody>
-          <tr *ngFor="let category of responseDomain.missing.children; let idx=index">
-            <td><input id="{{category?.id}}-code-value"
-                       name="{{category?.id}}-code-value"
-                       type="text" [(ngModel)]="category.code.codeValue" required></td>
-            <td>{{ category?.label }}</td>
-          </tr>
-          <tr><td class="right-align" >
-            <a  class="btn btn-flat waves-effect waves-light green white-text" (click)="closeMissing()">
-              <i class="material-icons medium white-text">done</i>
-            </a>
-            <a class="brn btn-flat btn-medium waves-effect waves-light red white-text" (click)="showMissing = false">
-              <i class="material-icons medium white-text">close</i>
-            </a>
-          </td></tr>
-          </tbody>
-        </table>
-      </form>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button
-      class="btn btn-default red modal-action modal-close waves-effect waves-red" (click)="onDismiss()" >
-      Dismiss
-    </button>
-  </div>
-</div>
 
+    <!--      <span>{{responseDomain?.missing?.label}}</span>-->
+    <!--      <a *ngIf="showButton && responseDomain &&  !responseDomain?.missing"-->
+    <!--         class="modal-trigger btn-flat btn-floating btn-small waves-effect waves-light teal" (click)="openMissing()">-->
+    <!--          <i class="material-icons left medium" title="Add element">add</i>-->
+    <!--      </a>-->
+    <!--      <a *ngIf="showButton && canDelete && responseDomain?.missing"-->
+    <!--         class="btn-flat btn-floating btn-small waves-effect waves-light red lighten-2" (click)="onConfirmDeleting()">-->
+    <!--          <i class="material-icons" title="Remove" >remove</i>-->
+    <!--      </a>-->
+    <!--      <a *ngIf="showButton && canEdit && responseDomain?.missing"-->
+    <!--         class="btn-flat btn-floating btn-small waves-effect waves-light green lighten-2" (click)="openMissing()">-->
+    <!--          <i class="material-icons" title="Edit">edit</i>-->
+    <!--      </a>-->
+    <!-- Modal Structure -->
+    <div id="MODAL-{{modalId}}" class="modal modal-fixed-footer">
+      <div class="modal-content white black-text">
+        <div class="col s12" *ngIf="showResponseDomain">
+          <div class="response-domain-title"><span>Select Domain and Search</span></div>
+          <div class="col left" *ngFor="let domain of domainTypeDescription">
+            <label>
+              <input name="{{formId}}-OTG2" type="radio" (click)="onSelectDomainKind(domain.id)"
+                [checked]="selectedDomainId === domain.id" />
+              <span>{{ domain.label }}</span>
+            </label>
+          </div>
+          <qddt-element-revision-select class="col s12" [source]="RESPONSEDOMAIN"
+          (revisionSelected)="onRevisionSelect($event)" (dismissEvent)="onDismiss()" >
+          </qddt-element-revision-select>
+        </div>
+        <div class="col s12" *ngIf="showMissing">
+          <qddt-element-select *ngIf="!responseDomain.missing" [source]="MISSING_GROUP"
+            (elementSelectedEvent)="onMissingSelect($event)">
+          </qddt-element-select>
+          <form #missingForm="ngForm" *ngIf="responseDomain.missing">
+            <table>
+              <thead>
+                <tr>
+                  <td>Code</td>
+                  <td>Category</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let category of responseDomain.missing.children; let idx=index;">
+                  <td><input id="{{category?.id}}-code-value" name="{{category?.id}}-code-value" type="text"
+                      [(ngModel)]="category.code.codeValue" required></td>
+                  <td>{{ category?.label }}</td>
+                </tr>
+                <tr>
+                  <td class="right-align">
+                    <a class="btn btn-flat waves-effect waves-light green white-text" (click)="onOkMissing()">
+                      <i class="material-icons medium white-text">Ok</i>
+                    </a>
+                    <a class="brn btn-flat btn-medium waves-effect waves-light red white-text" (click)="onDismiss()">
+                      <i class="material-icons medium white-text">Cancel</i>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-default red modal-action modal-close waves-effect waves-red" (click)="onDismiss()">
+          Dismiss
+        </button>
+      </div>
+    </div>

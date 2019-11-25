@@ -20,8 +20,7 @@ import {
       </label>
     </div>
   </div>
-  <qddt-auto-complete [items]="itemList" class="black-text"
-    [elementKind]="kind" [autoCreate] = "false"
+  <qddt-auto-complete [items]="itemList" class="black-text" [elementKind]="kind" [autoCreate] = "false"
     (selectEvent)="onSelectElement($event)"
     (enterEvent)="onSearchElements($event)">
   </qddt-auto-complete>
@@ -38,10 +37,10 @@ export class ElementComponent implements OnChanges {
   public isResponseDomain = false;
   public domainType = DomainKind.SCALE;
   public domainTypeDescription = DOMAIN_TYPE_DESCRIPTION.filter((e) => e.id > DomainKind.NONE && e.id < DomainKind.MISSING);
+  public kind: ElementKind;
   private readonly KEY = 'ResponseKind';
 
   private item: IElement;
-  private kind: ElementKind;
   private pageSearch: PageSearch;
 
 
