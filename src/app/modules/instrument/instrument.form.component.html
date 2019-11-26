@@ -1,43 +1,40 @@
-<div class="row" *ngIf="element" class="qddt-form" >
+<div class="row" *ngIf="element" class="qddt-form">
   <form (ngSubmit)="onUpdateInstrument()" #instrumentform="ngForm">
     <div class="row input-field">
-      <label [attr.for]="formId + '-name'" >Name</label>
-      <input id= "{{formId}}-name" name="name" type="text" class="validate" required
-      [(ngModel)]="element.name" materialize="characterCounter" data-length="255">
+      <label>Name</label>
+      <input id="{{formId}}-name" name="name" type="text" class="validate" required [(ngModel)]="element.name"
+        data-length="255">
     </div>
     <div class="row input-field">
-      <label [attr.for]="formId + '-label'" >Label</label>
-      <input id= "{{formId}}-label" name="label" type="text" class="validate" required
-      [(ngModel)]="element.label" materialize="characterCounter" data-length="255">
+      <label [attr.for]="formId + '-label'">Label</label>
+      <input id="{{formId}}-label" name="label" type="text" class="validate" required [(ngModel)]="element.label"
+        data-length="255">
     </div>
     <div class="row input-field">
-      <label [attr.for]="formId + '-desc'" >Description</label>
-      <textarea id="formId + '-desc'" required
-        name="{{formId}}-desc" class="materialize-textarea"
-        [(ngModel)]="element.description" materialize="characterCounter" data-length="255">
+      <label [attr.for]="formId + '-desc'">Description</label>
+      <textarea id="formId + '-desc'" required name="{{formId}}-desc" class="materialize-textarea"
+        [(ngModel)]="element.description" data-length="1000">
       </textarea>
     </div>
     <div class="row input-field">
       <label class="active">Instrument Type</label>
-      <select name="formId + '-type'" materialize="material_select" required
-          [(ngModel)]="currentInstrumentType"
-          (ngModelChange)="onSelectInstrumentType($event)">
-          <option *ngFor="let item of instrumentKinds"
-            [selected]="item.id === currentInstrumentType"
-            [value]="item.id">{{item.label}}
-          </option>
+      <select name="formId + '-type'" materialize="material_select" required [(ngModel)]="currentInstrumentType"
+        (ngModelChange)="onSelectInstrumentType($event)">
+        <option *ngFor="let item of instrumentKinds" [selected]="item.id === currentInstrumentType" [value]="item.id">
+          {{item.label}}
+        </option>
       </select>
     </div>
-    <qddt-instrument-sequence [sequence] = "element.sequence" ></qddt-instrument-sequence>
+    <qddt-instrument-sequence [sequence]="element.sequence"></qddt-instrument-sequence>
 
-    <qddt-rational [formName]="'RationalComp'" *ngIf="!readonly && element.id" [element]="element" [config]="{hidden: [3,4]}">
+    <qddt-rational [formName]="'RationalComp'" *ngIf="!readonly && element.id" [element]="element"
+      [config]="{hidden: [3,4]}">
     </qddt-rational>
 
     <qddt-element-footer *ngIf="element.id" [element]="element"></qddt-element-footer>
 
     <div class="row right-align">
-      <button *ngIf="!readonly" [disabled]="!instrumentform.form.valid"
-              type="submit" class="btn btn-default">Submit
+      <button *ngIf="!readonly" [disabled]="!instrumentform.form.valid" type="submit" class="btn btn-default">Submit
       </button>
     </div>
   </form>

@@ -1,0 +1,54 @@
+<div class="row" *ngIf="concept.topicRef">
+
+  <label class="teal-text">Path</label>
+  <p>
+    <a style="cursor: pointer;"
+      (click)="onClickStudy(concept.topicRef.parent.id)">{{ concept?.topicRef?.parent?.name }}</a>\
+    <a style="cursor: pointer;" (click)="onClickTopic(concept.topicRef.id)">{{ concept?.topicRef?.name }}</a>\
+    <a> {{ concept.name }} </a></p>
+</div>
+<div class="row" *ngIf="concept?.description">
+  <label class="teal-text">Description</label>
+  <P [innerHtml]="concept?.description"></P>
+</div>
+<div class="row">
+  <div *ngIf="concept?.conceptQuestionItems && concept?.conceptQuestionItems?.length > 0" class="section">
+    <label class="teal-text">QuestionItem(s)</label>
+    <ul class="collapsible  question" data-collapsible="expandable">
+      <li *ngFor="let cqi of concept.conceptQuestionItems;" (click)="onViewDetail(cqi)">
+        <div class="collapsible-header green lighten-5">
+          <div class="col s10">{{ cqi?.name }}</div>
+          <div class="col s2 right-align">
+            <qddt-version [element]="cqi.version"></qddt-version>
+          </div>
+        </div>
+        <div class="collapsible-body">
+          <qddt-preview-questionitem *ngIf="cqi.element" [questionItem]="cqi.element">
+          </qddt-preview-questionitem>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="row">
+  <qddt-element-footer [element]="concept"></qddt-element-footer>
+</div>
+<div class="row">
+  <qddt-comment-list [ownerId]="concept.id" [comments]="concept.comments"></qddt-comment-list>
+</div>
+<div class="row" *ngIf="concept.children && concept.children.length > 0">
+  <ul class="collapsible" data-collapsible="accordion">
+    <li *ngFor="let concept of concept.children">
+      <div class="collapsible-header yellow lighten-5">
+        <div class="col s2">Concept</div>
+        <div class="col s7">{{ concept?.name }}</div>
+        <div class="col s2 right-align">
+          <qddt-version [element]="concept"></qddt-version>
+        </div>
+      </div>
+      <div class="collapsible-body">
+        <qddt-preview-concept [concept]="concept"></qddt-preview-concept>
+      </div>
+    </li>
+  </ul>
+</div>

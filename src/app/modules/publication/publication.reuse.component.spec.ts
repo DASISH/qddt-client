@@ -2,12 +2,11 @@ import { Component, Input,  EventEmitter, Output } from '@angular/core';
 import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { PublicationService } from './publication.service';
+import { PublicationService } from '../../lib/services';
 import { PublicationReuseComponent } from './publication.reuse.component';
 import { API_BASE_HREF } from '../../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MaterializeModule } from 'angular2-materialize';
 
 export function main() {
   describe('Publication reuse component', () => {
@@ -23,7 +22,7 @@ export function main() {
             useValue: '<%= API_BASE %>'
           }
         ],
-        imports: [CommonModule, FormsModule, MaterializeModule]
+        imports: [CommonModule, FormsModule]
       });
     });
 
@@ -61,7 +60,7 @@ export function main() {
                 + '"page" : { "size" : 20, "totalElements" : 1, "totalPages" : 1, "number" : 0}}'
               })));
             });
- */            fixture.componentInstance.onItemSearch( { element: 'test', elementKind: ''});
+ */         fixture.componentInstance.onItemSearch( { element: 'test', elementKind: ''});
             fixture.detectChanges();
             fixture.whenStable().then(() => {
               expect(fixture.componentInstance.itemList.length).toBe(1);
@@ -73,7 +72,7 @@ export function main() {
 
 // override dependencies
 class PublicationServiceSpy {
-  getElements = jasmine.createSpy('getElements').and.callFake(function (key) {
+  getElements = jasmine.createSpy('getElements').and.callFake(function(key) {
     return [];
   });
 }
@@ -105,7 +104,7 @@ class PublicationSelectComponent {
 })
 
 class QddtAutoCompleteComponent {
-  @Input() items:  any[];
+  @Input() items: any[];
   @Input() searchField: any;
   @Input() placeholder: string;
   @Input() isMultipleFields: boolean;

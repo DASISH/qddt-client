@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import {ElementKind} from '../../classes';
-import {MessageService} from '../../modules/core/services';
+import {ElementKind} from '../../lib';
+import {MessageService} from '../../lib/services';
 
 @Component({
   selector: 'qddt-conceptref',

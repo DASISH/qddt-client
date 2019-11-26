@@ -1,7 +1,5 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import {ActionKind, ElementKind} from '../../classes';
-import {Category} from './category.classes';
-import {TemplateService} from '../../components/template';
+import { Component, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Category, ElementKind, TemplateService, ActionKind } from 'src/app/lib';
 
 
 @Component({
@@ -9,38 +7,25 @@ import {TemplateService} from '../../components/template';
   templateUrl: './category.form.component.html'
 })
 
-export class CategoryFormComponent implements OnInit {
-
+export class CategoryFormComponent implements AfterViewInit {
   @Input() category: Category;
   @Input() readonly = false;
   @Output() modifiedEvent =  new EventEmitter<Category>();
 
   public readonly CATEGORY = ElementKind.CATEGORY;
-
-  // public isTemplate: boolean;
-
-  // public categoryEnums: ICategoryInfo[];
-  // private selectedCategoryIndex: number;
-  // private numberOfCategories: number;
+  public readonly formId = Math.round( Math.random() * 10000);
 
   constructor(private categoryService: TemplateService) {
-    // this.selectedCategoryIndex = 0;
-    // this.numberOfCategories = 0;
-  }
-
-  ngOnInit() {
+    this.readonly = !this.categoryService.can(ActionKind.Create, ElementKind.CATEGORY);
     if (!this.category) {
       this.category = new Category();
     }
-    this.readonly = !this.categoryService.can(ActionKind.Create, ElementKind.CATEGORY);
-    // this.isTemplate = this.category.hierarchyLevel === 'GROUP_ENTITY';
-    // this.categoryEnums = CATEGORY_INFO.filter( (e) => e.level ===  HierachyLevel[this.category.hierarchyLevel]);
   }
 
+  ngAfterViewInit(): void {
+    M.updateTextFields();
+  }
 
-  // onSelect(candidate: any) {
-  //   this.category.children[this.selectedCategoryIndex] = candidate;
-  // }
 
   onSave() {
     this.categoryService.update<Category>(this.category).subscribe(

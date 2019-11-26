@@ -1,27 +1,27 @@
-<div *ngIf="instruction" >
+<div *ngIf="instruction">
   <form (ngSubmit)="onSave()" #hf="ngForm">
     <div class="row">
       <div class="input-field col m12 ">
-        <input name="name" type="text" class="validate" required [(ngModel)]="instruction.name"
-               data-length="255" materialize="characterCounter">
+        <input name="name" type="text" class="validate" required [(ngModel)]="instruction.name" data-length="255">
         <label>Name</label>
       </div>
     </div>
     <div class="row">
       <div class="input-field col m12 ">
-        <textarea class="materialize-textarea validate" name="description"
-                  data-length="1000" materialize="characterCounter" [(ngModel)]="instruction.description" >
+        <textarea class="materialize-textarea validate" name="description" data-length="255"
+          [(ngModel)]="instruction.description">
         </textarea>
         <label>Description</label>
       </div>
     </div>
-  
-    <qddt-rational  *ngIf="!readonly && instruction.id" [formName]="'RationalComp'" [element]="instruction" [config]="{hidden: [4]}"></qddt-rational>
 
-    <qddt-element-footer  *ngIf="instruction.id" [element]="instruction"></qddt-element-footer>
+    <qddt-rational *ngIf="!readonly && instruction.id" [formName]="'RationalComp'" [element]="instruction"
+      [config]="{hidden: [4]}"></qddt-rational>
+
+    <qddt-element-footer *ngIf="instruction.id" [element]="instruction"></qddt-element-footer>
 
     <div class="row right-align">
-      <button  *ngIf="!readonly" type="submit" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
+      <button *ngIf="!readonly" type="submit" class="btn btn-default" [disabled]="!hf.form.valid">Submit</button>
     </div>
   </form>
 </div>

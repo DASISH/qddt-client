@@ -1,8 +1,6 @@
 <qddt-template-component #detail>
 
-  <qddt-missing-form class="qddt-edit"
-    [missing] = "templateDetail.newItem"
-    (modifiedEvent) = "onFormModified($event)">
+  <qddt-missing-form class="qddt-edit" [missing]="templateDetail.newItem" (modifiedEvent)="onFormModified($event)">
   </qddt-missing-form>
 
   <router-outlet></router-outlet>

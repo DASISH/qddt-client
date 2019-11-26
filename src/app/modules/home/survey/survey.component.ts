@@ -1,21 +1,24 @@
-import { Component,  OnInit, AfterContentChecked } from '@angular/core';
+import { Component, OnInit, AfterContentChecked } from '@angular/core';
 import { Router } from '@angular/router';
-import { HomeService } from '../home.service';
-import { ActionKind, SurveyProgram, ElementKind} from '../../../classes';
-import { HierarchyPosition} from '../../core/classes';
-import { PropertyStoreService} from '../../core/services';
-import { TemplateService} from '../../../components/template';
+import { ActionKind,
+  SurveyProgram,
+  ElementKind,
+  HomeService,
+  TemplateService,
+  HierarchyPosition,
+  PropertyStoreService } from '../../../lib';
 
-import filesaver from 'file-saver';
-
-declare var Materialize: any;
 
 @Component({
   selector: 'qddt-survey',
-  templateUrl: './survey.component.html'
+  templateUrl: './survey.component.html',
+  styles: [
+    // '.row:hover > .col > ul.dropdownmenu { display:block; } ',
+    // 'ul.dropdownmenu {  display:none;}',
+  ],
 })
 
-export class SurveyComponent implements OnInit, AfterContentChecked {
+export class SurveyComponent implements OnInit {
   public surveys: SurveyProgram[];
   public showSurveyForm = false;
   public readonly = false;
@@ -26,24 +29,17 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
   constructor(private router: Router,
               private property: PropertyStoreService,
               private homeService: HomeService<SurveyProgram>,
-              private  templateService: TemplateService) {
-
+              private templateService: TemplateService,
+    // private modalService: ModalService
+  ) {
     this.readonly = !homeService.canDo(this.SURVEY).get(ActionKind.Create);
   }
 
   ngOnInit() {
-      this.homeService.getListByParent(this.SURVEY).then(
-        (result) => this.surveys = result );
+    this.homeService.getListByParent(this.SURVEY).then(
+      (result) => this.surveys = result);
   }
 
-  ngAfterContentChecked(): void {
-    if (this.refreshCount < 10) {
-      try {
-        this.refreshCount++;
-        Materialize.updateTextFields();
-      } catch (Exception) {}
-    }
-  }
 
   onSurveySaved(surveyProgram: any) {
     if (surveyProgram) {
@@ -60,22 +56,15 @@ export class SurveyComponent implements OnInit, AfterContentChecked {
   onShowStudy(surveyProgram: any) {
     console.log('onshow survey');
     this.property.set('survey', surveyProgram);
-    this.property.setCurrentMenu(HierarchyPosition.Survey, { id: surveyProgram.id , name: surveyProgram.name });
+    this.property.setCurrentMenu(HierarchyPosition.Survey, { id: surveyProgram.id, name: surveyProgram.name });
     this.router.navigate(['study']);
   }
 
   onNewSave(survey) {
     console.log('saving');
     this.templateService.create(new SurveyProgram(survey)).subscribe(
-      result => this.onSurveySaved(result) );
+      result => this.onSurveySaved(result));
     this.showSurveyForm = false;
-  }
-
-
-  getPdf(element: SurveyProgram) {
-    const fileName = element.name + '.pdf';
-    this.templateService.getPdf(element).then(
-      data => filesaver.saveAs(data, fileName));
   }
 
 }

@@ -1,5 +1,5 @@
-import { IVersion } from '../../classes/interfaces';
-import { ElementKind } from '../../classes/enums';
+import {IVersion} from '../../lib/interfaces';
+import {ElementKind} from '../../lib/enums';
 
 
 export class RevisionConfig {

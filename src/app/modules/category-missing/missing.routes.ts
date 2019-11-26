@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MissingComponent } from './missing.component';
 import { MissingDetailComponent } from './missing.detail.component';
-import {AuthGuard} from '../core/services';
-import {TemplateListComponent} from '../../components/template';
+import { AuthGuard } from '../../lib/services';
+import { TemplateListComponent } from '../../components/template';
 
 
 export const missingRoutes: Routes = [
@@ -19,7 +19,7 @@ export const missingRoutes: Routes = [
 ];
 
 @NgModule({
-  imports: [ RouterModule.forChild(missingRoutes) ],
-  exports: [ RouterModule ]
+  imports: [RouterModule.forChild(missingRoutes)],
+  exports: [RouterModule]
 })
-export class MissingRoutingModule {}
+export class MissingRoutingModule { }

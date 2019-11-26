@@ -1,14 +1,11 @@
-import { Component, EventEmitter, OnInit, Output, OnDestroy, AfterContentChecked} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, OnDestroy, AfterContentChecked, AfterViewInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MaterializeAction } from 'angular2-materialize';
+import { Location } from '@angular/common';
 import { takeWhile } from 'rxjs/operators';
-import { TemplateService } from './template.service';
-import { IDetailAction, IEntityEditAudit, ActionKind, ElementKind, HEADER_DETAILS } from '../../classes';
-import { Factory } from '../../classes/factory';
+import { IDetailAction, IEntityEditAudit, ActionKind, ElementKind, HEADER_DETAILS, TemplateService, Factory} from '../../lib';
+import * as FileSaver from 'file-saver';
 
-import fileSaver from 'file-saver';
 
-declare var Materialize: any;
 declare var $: any;
 
 @Component({
@@ -16,11 +13,12 @@ declare var $: any;
   templateUrl: './template-detail.component.html',
 })
 
-export class TemplateDetailComponent implements OnInit, OnDestroy, AfterContentChecked {
+// tslint:disable-next-line:one-line
+export class TemplateDetailComponent implements OnInit, OnDestroy, AfterContentChecked, AfterViewInit{
   @Output() closeState = new EventEmitter<IDetailAction>();
   @Output() selectedItem = new EventEmitter<IEntityEditAudit>();
 
-  public deleteAction = new EventEmitter<MaterializeAction>();
+
   public item: IEntityEditAudit;
   public revisionIsVisible = false;
   public canDelete: boolean;
@@ -31,7 +29,7 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterContentC
   private alive = true;
   private refreshCount = 0;
 
-  constructor(private service: TemplateService, private router: Router, private route: ActivatedRoute) {
+  constructor(private service: TemplateService, private router: Router, private route: ActivatedRoute, private location: Location) {
     this.route.url.pipe(
       takeWhile(() => this.alive))
       .subscribe((event) => {
@@ -55,23 +53,10 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterContentC
             this.selectedItem.emit(item); },
         (error) => { this.showProgressBar = false; throw error; });
     }
-    $(document).ready(function() {
-      $('.modal').modal({
-        ready: () => {
-          // Materialize.updateTextFields();
-        }
-      });
-    });
   }
 
   ngAfterContentChecked(): void {
-    if (this.refreshCount < 15) {
-      try {
-        this.refreshCount++;
-        Materialize.updateTextFields();
-      } catch (Exception) {
-      }
-    }
+
   }
 
   onHideDetail() {
@@ -79,8 +64,13 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterContentC
     this.closeState.emit(this.action);
   }
 
+
+  goBack() {
+    this.location.back();
+    // this.closeState.emit(this.action);
+  }
+
   onDeleteConfirmModal() {
-    $('#confirmModal' + this.item.id ).modal('open');
     // this.deleteAction.emit({action: 'modal', params: ['open']});
   }
 
@@ -88,25 +78,44 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterContentC
     this.service.delete(this.item)
       .subscribe(() => {
         this.action.action = ActionKind.Delete;
-        this.onHideDetail();
+        this.goBack();
       });
   }
 
   onItemSaved(item: IEntityEditAudit) {
     this.action.action = ActionKind.Update;
     this.action.object = item;
-    this.onHideDetail();
+    this.goBack();
   }
 
   onGetPdf( item: IEntityEditAudit) {
     this.service.getPdf(item).then(
-      (data) => { fileSaver.saveAs(data, item.name + '.pdf'); },
+      (data) => { FileSaver.saveAs(data, item.name + '.pdf'); },
       (error) => { throw error; });
   }
 
   ngOnDestroy(): void {
     this.alive = false;
   }
+
+  ngAfterViewInit(): void {
+
+    document.querySelectorAll('.fixed-action-btn').forEach(
+    input => M.FloatingActionButton.init(input));
+
+    document.querySelectorAll('input[data-length], textarea[data-length]').forEach(
+        input => {
+          M.CharacterCounter.init(input);
+          M.AutoInit(input);
+        });
+    // M.updateTextFields();
+  }
+
+
+  // onToggleForm() {
+  //   throw new Error("Method not implemented.");
+  // }
+
 
 }
 

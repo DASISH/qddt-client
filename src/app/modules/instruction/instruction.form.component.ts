@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { ActionKind, ElementKind, Instruction} from '../../classes';
-import { TemplateService} from '../../components/template';
+import { ActionKind, ElementKind, Instruction } from '../../lib';
+import { TemplateService } from '../../components/template';
 
 
 @Component({
@@ -12,7 +12,7 @@ export class InstructionFormComponent implements OnInit {
 
   @Input() instruction: Instruction;
   @Input() readonly = false;
-  @Output() modifiedEvent =  new EventEmitter<Instruction>();
+  @Output() modifiedEvent = new EventEmitter<Instruction>();
 
   public readonly INSTRUCTION = ElementKind.INSTRUCTION;
 
@@ -30,7 +30,7 @@ export class InstructionFormComponent implements OnInit {
       this.instruction = new Instruction();
     }
     this.readonly = !this.instructionService.can(ActionKind.Create, this.INSTRUCTION);
-   }
+  }
 
 
   onSave() {

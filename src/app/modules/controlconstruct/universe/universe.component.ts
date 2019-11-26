@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { ElementKind, Page } from '../../../classes';
+import { ElementKind, Page, Universe } from '../../../lib';
 import { TemplateService } from '../../../components/template';
-import { Universe } from '../../../classes/controlconstruct.classes';
 
 @Component({
   selector: 'qddt-universe-create',
@@ -29,7 +28,7 @@ export class UniverseComponent {
 
   onSearchUniverses(key: string) {
     this.universe.description = key;
-    this.service.searchByKind( { kind: this.UNIVERSE, key: key, page: new Page() } ).then(
+    this.service.searchByKind({ kind: this.UNIVERSE, key, page: new Page() }).then(
       (result: any) => {
         this.universeList = result.content;
         this.isNew = this.universeList.length === 0;

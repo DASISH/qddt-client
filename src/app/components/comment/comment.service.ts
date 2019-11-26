@@ -1,9 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
-import { API_BASE_HREF } from '../../api';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IComment, IPageResult } from '../../classes/interfaces';
-import { Page } from '../../classes/classes';
+import {API_BASE_HREF, IComment, IPageResult, Page} from '../../lib';
 
 
 @Injectable()
@@ -24,7 +22,7 @@ export class CommentService  {
   }
 
   getAll(ownerId: string): Promise<IPageResult<IComment>> {
-    return this.http.get<IPageResult<IComment>>(this.api + 'comment/page/by-owner/' + ownerId + '?' + new Page( { size: 20 }))
+    return this.http.get<IPageResult<IComment>>(this.api + 'comment/page/by-owner/' + ownerId + '?' + new Page( { size: 50 }))
       .toPromise();
   }
 

@@ -5,8 +5,7 @@ import { By } from '@angular/platform-browser';
 import { TreeNodeComponent } from './concept-tree-node.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MaterializeModule } from 'angular2-materialize';
-import {HomeService} from '../home.service';
+import {HomeService} from '../../../lib/services';
 import {API_BASE_HREF} from '../../../api';
 
 export function main() {
@@ -25,7 +24,7 @@ export function main() {
             useValue: '<%= API_BASE %>'
           }
         ],
-        imports: [CommonModule, FormsModule, MaterializeModule]
+        imports: [CommonModule, FormsModule]
       });
     });
 
@@ -48,15 +47,15 @@ export function main() {
           .then(() => {
             const fixture = TestBed.createComponent(TreeNodeComponent);
             const concept: any = {
-                'id' : '7f000101-54aa-131e-8154-aa27fc230000',
-                'modified' : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
-                'name' : 'one concept',
-                'basedOnObject' : null,
-                'basedOnRevision' : null,
-                'conceptQuestionItems': [],
-                'version' : {'major' : 6, 'minor' : 0, 'versionLabel' : '', 'revision' : null },
-                'changeKind' : 'CONCEPTUAL',
-                'changeComment' : 'Information added'
+                id : '7f000101-54aa-131e-8154-aa27fc230000',
+                modified : [ 2016, 9, 8, 15, 21, 26, 254000000 ],
+                name : 'one concept',
+                basedOnObject : null,
+                basedOnRevision : null,
+                conceptQuestionItems: [],
+                version : {major : 6, minor : 0, versionLabel : '', revision : null },
+                changeKind : 'CONCEPTUAL',
+                changeComment : 'Information added'
                 };
             fixture.componentInstance.concept = concept;
             fixture.detectChanges();
@@ -107,7 +106,7 @@ class RevisionComponent {
 }
 
 @Component({
-  selector: 'qddt-questionitem-reuse',
+  selector: 'qddt-questionitem-reuse-dialog',
   template: `<div></div>`
 })
 

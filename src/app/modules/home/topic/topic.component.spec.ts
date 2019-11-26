@@ -5,8 +5,8 @@ import { By } from '@angular/platform-browser';
 import { TopicComponent } from './topic.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import {HomeService} from '../home.service';
-import {API_BASE_HREF} from '../../../api';
+import { HomeService } from '../../../lib/services/home.service';
+import { API_BASE_HREF } from '../../../api';
 
 export function main() {
   describe('Topic component', () => {
@@ -44,7 +44,6 @@ export function main() {
           .compileComponents()
           .then(() => {
             const fixture = TestBed.createComponent(TopicComponent);
-            const changes: SimpleChanges = {'study': new SimpleChange('test', 'test1', true)};
             fixture.componentInstance.ngOnInit();
             fixture.detectChanges();
             fixture.whenStable().then(() => {

@@ -6,15 +6,21 @@ import {
   OnInit,
   OnDestroy,
   OnChanges,
-  SimpleChanges
+  SimpleChanges, AfterViewInit
 } from '@angular/core';
-import { DomainKind, ResponseDomain, DATE_FORMAT } from './responsedomain.classes';
-import {ActionKind, ElementKind, IElement, IMoveTo, IPageSearch, Page} from '../../classes';
-import { Category} from '../category/category.classes';
-import { PropertyStoreService} from '../core/services';
-import { TemplateService} from '../../components/template';
+import {
+  ActionKind,
+  Category, DATE_FORMAT,
+  DomainKind,
+  ElementKind,
+  IElement,
+  IPageSearch,
+  Page,
+  PropertyStoreService,
+  ResponseDomain, TemplateService
+} from '../../lib';
 
-declare let Materialize: any;
+declare let M: any;
 
 @Component({
   selector: 'qddt-responsedomain-form',
@@ -23,7 +29,7 @@ declare let Materialize: any;
 })
 
 
-export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy {
+export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, AfterViewInit {
   @Input() responseDomain: ResponseDomain;
   @Input() readonly: boolean;
   @Output() modifiedEvent = new EventEmitter<ResponseDomain>();
@@ -53,6 +59,11 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy {
 
   }
 
+  ngAfterViewInit(): void {
+    // M.FormSelect.init(document.getElementById('ScaleDisplayLayout-' + this.formId));
+    M.updateTextFields();
+  }
+
   ngOnInit() {
 
     if (!this.readonly) { this.readonly = false; }
@@ -78,8 +89,12 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy {
       const page = this.getPageSearch();
       this.domainType = (page) ? DomainKind[page.keys.get('ResponseKind')] : DomainKind.SCALE;
       this.numberOfAnchors = this.responseDomain.managedRepresentation.children.length;
+
       this.buildPreviewResponseDomain();
-    }
+      document.querySelectorAll('SELECT').forEach( comp => {
+        M.FormSelect.init(comp);
+        console.log( comp.nodeName);
+      });    }
   }
 
   ngOnDestroy(): void {
@@ -152,57 +167,13 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy {
   }
 
 
-  // onClickClear(idx: number) {
-  //   const rep = this.responseDomain.managedRepresentation;
-  //   if (this.domainType === DomainKind.LIST) {
-  //     if ( idx < rep.children.length) {
-  //       const c = new Category();
-  //       c.code = rep.children[idx].code;
-  //       rep.children[idx] = c;
-  //       this.buildPreviewResponseDomain();
-  //     }
-  //   }
-  // }
-
-  // onClickUp(idx: number) {
-  //   const rep = this.responseDomain.managedRepresentation;
-  //   if (this.domainType === DomainKind.LIST) {
-  //     if ( idx < rep.children.length && idx > 0) {
-  //       const prev = rep.children[idx - 1];
-  //       const curr = rep.children[idx];
-  //       const code = curr.code;
-  //       curr.code = prev.code;
-  //       rep.children[idx - 1] = curr;
-  //       prev.code = code;
-  //       rep.children[idx] = prev;
-  //       this.buildPreviewResponseDomain();
-  //     }
-  //   }
-  // }
-  //
-  // onClickDown(idx: number) {
-  //   const rep = this.responseDomain.managedRepresentation;
-  //   if (this.domainType === DomainKind.LIST) {
-  //     if ( idx < (rep.children.length - 1) && idx >= 0) {
-  //       const next = rep.children[idx + 1];
-  //       const curr = rep.children[idx];
-  //       const code = curr.code;
-  //       curr.code = next.code;
-  //       rep.children[idx + 1] = curr;
-  //       next.code = code;
-  //       rep.children[idx] = next;
-  //       this.buildPreviewResponseDomain();
-  //     }
-  //   }
-  // }
-
   onChangeDegreeSlope(degree: string) {
     this.responseDomain.displayLayout = degree;
     this.buildPreviewResponseDomain();
   }
 
-  onSelectAligment(value: any, idx: any) {
-    console.log('onSelectAligment ' + value + ' ' + idx);
+  onSelectAlignment(value: any, idx: any) {
+    console.log('onSelectAlignment ' + value + ' ' + idx);
     this.responseDomain.managedRepresentation.children[idx].code.alignment = value;
     this.buildPreviewResponseDomain();
   }
@@ -216,10 +187,12 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy {
   }
 
   subtract(value1, value2): number {
+    // tslint:disable-next-line:radix
     return parseInt(value1) - parseInt(value2);
   }
 
   addition(value1, value2): number {
+    // tslint:disable-next-line:radix
     return parseInt(value1) + parseInt(value2);
   }
 

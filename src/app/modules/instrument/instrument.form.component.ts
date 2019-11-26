@@ -1,9 +1,8 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { Instrument, INSTRUMENT_KIND, InstrumentKind} from './instrument.classes';
-import { ActionKind, ElementKind} from '../../classes';
-import { TemplateService} from '../../components/template';
+import { ActionKind, ElementKind, Instrument, INSTRUMENT_KIND, InstrumentKind } from '../../lib';
+import { TemplateService } from '../../components/template';
 
-declare var Materialize: any;
+
 
 @Component({
   selector: 'qddt-instrument-form',
@@ -16,7 +15,7 @@ export class InstrumentFormComponent implements OnChanges {
   @Input() readonly = false;
   @Input() element: Instrument;
 
-  public formId = Math.round( Math.random() * 10000);
+  public formId = Math.round(Math.random() * 10000);
   public currentInstrumentType = InstrumentKind.QUESTIONNAIRE;
   public instrumentKinds = INSTRUMENT_KIND;
 
@@ -28,7 +27,7 @@ export class InstrumentFormComponent implements OnChanges {
     if (changes['element'].currentValue) {
       this.currentInstrumentType = InstrumentKind[this.element.instrumentKind];
     }
-    try { Materialize.updateTextFields(); } catch (Exception) { }
+    try { M.updateTextFields(); } catch (Exception) { }
   }
 
   public onSelectInstrumentType(value: InstrumentKind) {
@@ -39,9 +38,10 @@ export class InstrumentFormComponent implements OnChanges {
     console.log(this.element);
     this.service.update<Instrument>(this.element).subscribe(
       (result) => {
-          console.log(result);
-          this.element = result;
-          this.modifiedEvent.emit(result); },
+        console.log(result);
+        this.element = result;
+        this.modifiedEvent.emit(result);
+      },
       (error) => { throw error; });
   }
 }

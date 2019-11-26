@@ -1,50 +1,12 @@
-<div *ngIf="changelog" >
+<div *ngIf="changelog">
   <form #hf="ngForm" (ngSubmit)="onSave()">
-    <div class="row">
-      <div class="col m6">
-  
-        <div class="row input-field">
-          <input id="{{formId}}-name2"  type="text" class="validate" required [(ngModel)]="changelog.name" name="name"
-                data-length="25" materialize="characterCounter">
-          <label for="{{formId}}-name2">Name</label>
-        </div>
-
-        <div class="input-field row ">
-          <input id="{{formId}}-email"  type="email" class="validate" required [(ngModel)]="changelog.email" name="email"
-                data-length="128" materialize="characterCounter">
-          <label for="{{formId}}-email">Email </label>
-        </div>
-          <div class=" input-field row">
-          <select [ngModel]="selectedAgencyId" (ngModelChange)="onSelectChange($event)" id="{{formId}}-agency" name="agency"
-                  materialize="material_select" class="validate" [materializeSelectOptions]="agencies$" required>
-              <option *ngFor="let agency of (agencies$ | async)" [value]="agency.id" >{{agency.name}}</option>
-          </select>
-          <label for="{{formId}}-agency">Agency</label>
-        </div>
-      </div>
-      <div class="col m3 offset-m1">
-        <label>Authority </label>
-        <div  class="card-action">
-          <div  *ngFor="let authority of (authorities$ | async)">
-            <input name="authoritiesGroup" type="radio" id="auth{{authority.id}}"
-              (click)="onSelectRadio(authority)" [checked]="changelog.authorities[0].id === authority.id"/>
-            <label for="auth{{authority.id}}">{{ authority?.name }}</label>
-          </div>
-        </div>
-        <!--<P>{{authorities|json}}</P>-->
-        <div class="row ">
-          <div class="switch">
-            <label>
-              <input type="checkbox"  name="enabled" [(ngModel)]="changelog.enabled" />
-              <span class="lever"></span>Enabled
-            </label>
-          </div>
-        </div>
-      </div>
+    <div class="row input-field">
+      <input id="{{formId}}-name2" type="text" class="validate" required [(ngModel)]="changelog.name" name="name"
+        data-length="25">
+      <label>Name</label>
     </div>
-    <!-- <div class="row">{{changelog|json}}</div> -->
     <div class="row right-align">
-        <button  *ngIf="!readonly" type="submit" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
+      <button *ngIf="!readonly" type="submit" class="btn btn-default" [disabled]="!hf.form.valid">Submit</button>
     </div>
   </form>
 </div>

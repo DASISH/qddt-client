@@ -1,59 +1,53 @@
 <div *ngIf="sequence">
-  <form  #qcform="ngForm" >
+  <form id="{{formId}}" #qcform="ngForm">
 
     <div class="row">
       <div class="col s4 input-field">
-        <select [ngModel]="currentSequenceKind" (ngModelChange)="onSelectChange($event)" name="sequenceKind"
-            materialize="material_select" class="validate" [materializeSelectOptions]="sequenceKinds" disabled>
-          <option *ngFor="let item of sequenceKinds" [value]="item.id" >{{[item.name]}}</option>
+        <select class="validate" name="{{formId}}-sequenceKind" [ngModel]="currentSequenceKind"
+          (ngModelChange)="onSelectChange($event)" disabled>
+          <option *ngFor="let item of sequenceKinds" [value]="item.id">{{[item.name]}}</option>
         </select>
         <label>SequenceKind</label>
       </div>
     </div>
 
     <div class="row">
-        <div class="col s12 input-field">
-      <input name="{{formId}}-name" type="text" class="validate" required
-        [(ngModel)]="sequence.name" materialize="characterCounter" data-length="255">
-      <label>Name</label>
-    </div>
-    </div>
-
-    <div class="row">
-        <div class="col s12 input-field">
-          <input name="{{formId}}-label" type="text" class="validate" required
-            [(ngModel)]="sequence.label" materialize="characterCounter" data-length="255">
-          <label>Label</label>
-       </div>
+      <div class="col s12 input-field">
+        <input name="{{formId}}-name" type="text" class="validate" required [(ngModel)]="sequence.name"
+          data-length="255">
+        <label>Name</label>
+      </div>
     </div>
 
     <div class="row">
       <div class="col s12 input-field">
-        <textarea name="{{formId}}-desc" class="materialize-textarea"
-                  [(ngModel)]="sequence.description"
-                  materialize="characterCounter" data-length="255">
+        <input name="{{formId}}-label" type="text" class="validate" required [(ngModel)]="sequence.label"
+          data-length="255">
+        <label>Label</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s12 input-field">
+        <textarea name="{{formId}}-desc" class="materialize-textarea" [(ngModel)]="sequence.description"
+          data-length="255">
         </textarea>
         <label>Description</label>
       </div>
     </div>
 
-    <qddt-collection-revision-search-select
-      [showProgressBar] = "showProgressBar"
-      [kind] = "QUESTION"
-      [showList]="sequence.sequence"
-      [searchList] = "questionConstrucs"
-      [revisionList] = "revisionList"
-      (searchItems)="onSearchElements($event)"
-      (searchRevision)="onRevisonSearch($event)">
-    </qddt-collection-revision-search-select>
+    <qddt-element-revision-collection [elementKind]="QUESTION" [revisionRefs]="sequence.sequence" [labelName]="'Question Constructs'"
+      (searchItems)="onSearchElements($event)" >
+    </qddt-element-revision-collection>
 
-    <qddt-rational *ngIf="!readonly && sequence.modified" [formName]="'RationalComp'" [element]="sequence" [config]="{hidden: [4]}"></qddt-rational>
+    <qddt-rational *ngIf="!readonly && sequence.modified" [formName]="'RationalComp'" [element]="sequence"
+      [config]="{hidden: [4]}"></qddt-rational>
 
-    <qddt-element-footer  *ngIf="sequence.id" [element]="sequence"></qddt-element-footer>
+    <qddt-element-footer *ngIf="sequence.id" [element]="sequence"></qddt-element-footer>
 
     <div class="row right-align">
       <button *ngIf="!readonly" type="button" class="btn btn-default" [disabled]="!qcform.form.valid"
-              (click)="onSaveConstruct()">Submit</button>
+        (click)="onSaveConstruct()">Submit</button>
     </div>
 
   </form>

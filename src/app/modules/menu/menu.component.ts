@@ -1,16 +1,18 @@
-import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import {Component, OnInit, AfterViewInit, OnDestroy, ElementRef, ViewChild} from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject} from 'rxjs/internal/BehaviorSubject';
-import {ActionKind, ElementKind, getElementKind, StringIsNumber} from '../../classes';
-import { HierarchyPosition} from '../core/classes';
-import { PropertyStoreService, UserService} from '../core/services';
-import { TemplateService} from '../../components/template';
+import {
+  ActionKind,
+  ElementKind,
+  getElementKind,
+  HierarchyPosition,
+  MenuItem,
+  PropertyStoreService,
+  StringIsNumber, TemplateService,
+  UserService
+} from '../../lib';
 
 
-
-declare var $: any;
-
-export interface MenuItem { id: string; name: string; }
 
 @Component({
   selector: 'qddt-menu',
@@ -26,7 +28,7 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   public elementKindRef = ElementKind;
 
   constructor(private userService: UserService, public property: PropertyStoreService,
-      private router: Router, private service: TemplateService) {
+              private router: Router, private service: TemplateService) {
     this.username = this.getUserName();
     this.isLoggedIn$ = userService.loggedIn;
   }
@@ -37,16 +39,8 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
         console.log('loggedIn ' + connected);
         this.username = this.getUserName();
         this.setVisibility();
-        if ( connected ) {
-          this.router.navigate([this.property.userSetting.url]);
-        } else {
-          console.log('should have rerouted...');
-          // this.router.navigate([{ outlets: { popup: ['login'] } }]);
-          this.router.navigate(['/login']);
-          // const redirectUrl = this.property.userSetting.url;
-          // this.router.navigateByUrl(
-          //   this.router.createUrlTree( ['/login'], { queryParams: { redirectUrl } } )
-          // );
+        if (connected && this.router.url === '/login') {
+          this.router.navigate([ this.property.userSetting.url]);
         }
       },
     (error) => console.error(error.toString())
@@ -59,13 +53,10 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   ngAfterViewInit() {
-    $('.button-collapse').sideNav({
-      menuWidth: 100, // Default is 300
-      edge: 'left', // Choose the horizontal origin
-      closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
-      draggable: true});
-    $('.dropdown-button').dropdown();
-    $('.collapsible').collapsible();
+    document.querySelectorAll('.dropdown-trigger')
+      .forEach( menu => M.Dropdown.init(menu, {  hover: true, coverTrigger: true }));
+    // M.Sidenav.init(document.getElementById('nav-bar1'), { edge: 'left', draggable: true});
+    // M.Dropdown.arguments = {constrainWidth: false };
   }
 
   getEmail(): string {

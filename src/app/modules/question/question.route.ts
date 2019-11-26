@@ -2,8 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { QuestionComponent } from './question.component';
 import { QuestionDetailComponent } from './question.detail.component';
-import { AuthGuard} from '../core/services';
+import { AuthGuard} from '../../lib/services';
 import { TemplateListComponent} from '../../components/template';
+import { MissingComponent } from '../category-missing/missing.component';
 
 
 export const questionRoutes: Routes = [
@@ -14,6 +15,8 @@ export const questionRoutes: Routes = [
     children: [
       { path: 'questionitems', component: TemplateListComponent, canActivate: [AuthGuard], },
       { path: 'questionitems/:id', component: QuestionDetailComponent, canActivate: [AuthGuard], },
+      { path: 'missing', outlet: 'popup', component: MissingComponent, canActivate: [AuthGuard], },
+
     ],
   }
 ];

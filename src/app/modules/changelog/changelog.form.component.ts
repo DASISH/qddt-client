@@ -1,31 +1,31 @@
-import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import {ChangeLogJson} from './changelog.classes';
-import {TemplateService} from '../../components/template';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeLogJson, TemplateService } from '../../lib';
 
-// declare var Materialize: any;
+//
 
 @Component({
   selector: 'qddt-changelog-form',
   templateUrl: './changelog.form.component.html'
 })
 
-export class ChangeLogFormComponent implements OnInit, OnChanges {
+export class ChangeLogFormComponent implements OnChanges {
   @Input() changelog: ChangeLogJson;
   @Input() readonly = false;
-  @Output() modifiedEvent =  new EventEmitter<String>();
+  @Output() modifiedEvent = new EventEmitter<string>();
 
-  public formId = Math.round( Math.random() * 10000);
+  public formId = Math.round(Math.random() * 10000);
 
 
   constructor(private service: TemplateService) { }
 
-  ngOnInit() {
+  onSave() {
+    console.log('notin done...');
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['changelog'].currentValue) {
+    if (changes.changelog.currentValue) {
       if (this.changelog) {
-        // Materialize.updateTextFields();
+        M.updateTextFields();
       }
     }
   }

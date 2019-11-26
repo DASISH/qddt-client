@@ -8,8 +8,12 @@
   margin-left: 10px
 }
 
-.dropdown-button {
+.dropdown-trigger {
   min-width: 200px;
+}
+
+.breadcrumb::before {
+  margin: 0;
 }
 
 .breadcrumb {
@@ -19,12 +23,11 @@
   overflow: hidden;
   text-overflow: ellipsis;     /** IE6+, Firefox 7+, Opera 11+, Chrome, Safari **/
   -o-text-overflow: ellipsis;  /** Opera 9 & 10 **/
-  max-width: 250px;
+  max-width: 200px;
 }
 
-.nav-mobile {
-  width: 200px;
-  padding-left: 200px;
+ul.sidenav  {
+  box-shadow:unset;
 }
 
 .description {
@@ -32,6 +35,4 @@
   text-justify: inter-word;
   white-space: pre-wrap;
 }
-/*.nav-wrapper {*/
-  /*overflow: hidden;*/
-/*}*/
+

@@ -1,23 +1,14 @@
-import { AfterContentChecked, Component, EventEmitter, Input, Output} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   ActionKind,
   Concept,
-  ElementKind,
-  IRevisionRef,
-  getQueryInfo,
-  ElementRevisionRef,
-  IElement,
-  Page,
-  getElementKind, IRevisionResult
-} from '../../../classes';
-import { HomeService } from '../home.service';
-import { QuestionItem } from '../../question/question.classes';
-import { TemplateService} from '../../../components/template';
-import { MessageService } from '../../core/services';
-
-import filesaver from 'file-saver';
-
-declare var Materialize: any;
+  ElementKind, ElementRevisionRef,
+  HomeService,
+  IRevisionResult,
+  MessageService,
+  QuestionItem, TemplateService
+} from '../../../lib';
 
 @Component({
   selector: 'qddt-concept-treenode',
@@ -25,16 +16,16 @@ declare var Materialize: any;
   styleUrls: ['./concept-tree-node.component.css']
 })
 
-export class TreeNodeComponent implements AfterContentChecked {
+export class TreeNodeComponent {
   @Input() concept: Concept;
-  @Output() deleteEvent =  new EventEmitter();
-  @Output() updatedEvent =  new EventEmitter<Concept>();
+  @Output() deleteEvent = new EventEmitter();
+  @Output() updatedEvent = new EventEmitter<Concept>();
 
   public revisionList: IRevisionResult<QuestionItem>[];
   public questionItemList: QuestionItem[];
 
   public showConceptChildForm = false;
-  public showbutton = false;
+  public showButton = false;
   public showProgressBar = false;
 
   public readonly QUESTION_ITEM = ElementKind.QUESTION_ITEM;
@@ -45,20 +36,11 @@ export class TreeNodeComponent implements AfterContentChecked {
 
   private refreshCount = 0;
 
-  constructor(private homeService: HomeService<Concept>,
-              private message: MessageService,  private templateService: TemplateService) {
+  constructor(private homeService: HomeService<Concept>, private router: Router,
+              private message: MessageService, private templateService: TemplateService) {
     this.canCreate = this.homeService.canDo(this.CONCEPT).get(ActionKind.Create);
     this.canUpdate = this.homeService.canDo(this.CONCEPT).get(ActionKind.Update);
     this.canDelete = this.homeService.canDo(this.CONCEPT).get(ActionKind.Delete);
-    }
-
-  ngAfterContentChecked(): void {
-    if (this.refreshCount < 10) {
-      try {
-        this.refreshCount++;
-        Materialize.updateTextFields();
-      } catch (Exception) {}
-    }
   }
 
   async onToggleEdit(edit) {
@@ -70,7 +52,7 @@ export class TreeNodeComponent implements AfterContentChecked {
   }
 
   onCreateConcept() {
-    if (this.canCreate ) {
+    if (this.canCreate) {
       this.showConceptChildForm = !this.showConceptChildForm;
     }
   }
@@ -83,75 +65,29 @@ export class TreeNodeComponent implements AfterContentChecked {
     this.deleteEvent.emit(concept);
   }
 
-  onShowQuestionItem(cqi) {
-    this.message.sendMessage( cqi );
-  }
-
-  // onSelectRevision(questionItem) {
-  //   console.log('select question');
-  // }
-
   onChildSave(newchild) {
-
     this.showConceptChildForm = false;
     this.concept.children.push(new Concept(newchild));
     this.concept.changeKind = 'UPDATED_HIERARCHY_RELATION';
     this.concept.changeComment = 'ADDED CHILD CONCEPT';
     this.templateService.update<Concept>(this.concept).subscribe(
-      (result) => this.concept = result );
+      (result) => this.concept = result);
   }
 
-
-  public onSearchElements(search: IElement) {
-    this.templateService.searchByKind<QuestionItem>(
-      { kind: this.QUESTION_ITEM, key: search.element, page: new Page( { size: 15 } ) } ).then(
-      (result) => { this.questionItemList = result.content; },
-      (error) => { throw error; } );
+  public onQuestionItemRemoved(ref: ElementRevisionRef, conceptId) {
+    this.homeService.deattachQuestion(this.CONCEPT, conceptId, ref.elementId, ref.elementRevision)
+      .subscribe(result => this.onConceptUpdated(result));
   }
 
-  public onRevisonSearch(search: IRevisionRef) {
-    const kind = getElementKind(search.elementKind);
-    this.templateService.getByKindRevisions<QuestionItem>(kind, search.elementId).then(
-      (result) => this.revisionList = result.content);
+  public onQuestionItemAdded(ref: ElementRevisionRef, conceptId) {
+    this.homeService.attachQuestion(this.CONCEPT, conceptId, ref.elementId, ref.elementRevision)
+      .subscribe(result => this.onConceptUpdated(result));
   }
 
-  // public onSelectChange(event) {
-  //   this.currentSequenceKind = event;
-  //
-  // }
-  //
-  // public onRevisionSelected(ref: ElementRevisionRef) {
-  //   this.sequence.sequence.push(ref);
-  // }
-  //
-  // public onSelectCanceled(value) {
-  //   this.selectedElement = null;
-  // }
-
-  removeQuestionItem(ref: IRevisionRef) {
-    this.homeService.deattachQuestion(this.CONCEPT, this.concept.id, ref.elementId , ref.elementRevision)
-      .subscribe(result => this.onConceptUpdated(result) );
-  }
-
-  addQuestionItem(ref: ElementRevisionRef) {
-    this.homeService.attachQuestion(this.CONCEPT, this.concept.id, ref.elementId, ref.elementRevision)
-      .subscribe(result => this.onConceptUpdated(result) );
-  }
-
-  getPdf(concept: Concept) {
-    const fileName = concept.name + '.pdf';
-    this.templateService.getPdf(concept).then(
-      (data) => {
-        filesaver.saveAs(data, fileName);
-      });
-  }
-
-  getXml(concept: Concept) {
-    const fileName = concept.name + '.xml';
-    this.templateService.getXML(concept).then(
-      (data) => {
-        filesaver.saveAs(data, fileName);
-      });
+  public onQuestionItemModified(ref: ElementRevisionRef, conceptId) {
+    console.log(ref || JSON);
+    // this.homeService.attachQuestion(this.CONCEPT, conceptId, ref.elementId, ref.elementRevision)
+    // .subscribe(result => this.onConceptUpdated(result) );
   }
 
 }

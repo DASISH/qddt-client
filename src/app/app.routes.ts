@@ -1,8 +1,8 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from './modules/core/services';
 import { LoginComponent, ResetpasswordComponent, UserOptionComponent } from './modules/core';
-import { PageNotFoundComponent } from './modules/core/pagenotfound/page-not-found.component';
+import { PageNotFoundComponent } from './components/pagenotfound/page-not-found.component';
+import { AuthGuard } from './lib';
 
 
 
@@ -16,4 +16,4 @@ const appRoutes: Routes = [
 
 export const routing: ModuleWithProviders =
   RouterModule.forRoot(appRoutes, {
-    enableTracing: true, anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled', scrollOffset: [0, -96] } );
+    enableTracing: false, anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled', scrollOffset: [0, 64] } );

@@ -1,23 +1,18 @@
 <div class="row teal-text">
-    <h5>Statement</h5>
-    <div class="input-field row">
-      <label [attr.for]="elementId + '-name'">Name</label>
-      <textarea id="{{elementId}}-name" name="{{elementId}}-name"
-        class="materialize-textarea"
-        [(ngModel)]="statement.name" [attr.maxlength]="255"
-        required >
+  <h5>Statement</h5>
+  <div class="input-field row">
+    <label [attr.for]="elementId + '-name'">Name</label>
+    <textarea id="{{elementId}}-name" name="{{elementId}}-name" class="materialize-textarea"
+      [(ngModel)]="statement.name" data-length="250" required>
       </textarea>
-    </div>
-    <div class="input-field row">
-      <label [attr.for]="elementId + '-text'">Text</label>
-      <textarea id="{{elementId}}-text" name="{{elementId}}-text"
-        class="materialize-textarea"
-        [(ngModel)]="statement.statement" [attr.maxlength]="255">
-      </textarea>
-    </div>
-    <button
-      (click)="onCreate()"
-      class="btn btn-default green modal-action modal-close waves-effect">
-      <a><i class="close material-icons medium white-text">create</i></a>
-    </button>
   </div>
+  <div class="input-field row">
+    <label [attr.for]="elementId + '-text'">Text</label>
+    <textarea id="{{elementId}}-text" name="{{elementId}}-text" class="materialize-textarea"
+      [(ngModel)]="statement.statement" data-length="250">
+      </textarea>
+  </div>
+  <button (click)="onCreate()" class="btn btn-default green modal-action modal-close waves-effect">
+    <a><i class="close material-icons medium white-text">create</i></a>
+  </button>
+</div>

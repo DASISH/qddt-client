@@ -1,5 +1,4 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { QuestionItem } from '../question/question.classes';
 import {
   ActionKind,
   ElementKind,
@@ -9,21 +8,23 @@ import {
   IRevisionRef,
   IRevisionResult,
   Page,
-  QuestionConstruct, Universe
-} from '../../classes';
-import {TemplateService} from '../../components/template';
+  QuestionConstruct, QuestionItem, TemplateService, Universe
+} from '../../lib';
 
 
 @Component({
   selector: 'qddt-question-construct-form',
   templateUrl: 'question-construct.form.component.html',
   styles: [
-    '.nomargin { margin:0; }',
-    ':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'
+    // '.nomargin { margin:0; }',
+    // ':host ::ng-deep .hoverable .row { min-height:3rem; margin-bottom:0px;}'
+    '.collection-item:hover > ul.dropleft { display:block; } ',
+    'ul.dropleft { position: absolute; display: none; margin-top: 0px; margin-bottom: 0px; z-index: 1;}',
+    'ul.dropleft li { display:inline-flex; }'
   ],
 })
 
-export class QuestionConstructFormComponent   {
+export class QuestionConstructFormComponent {
   @Input() controlConstruct: QuestionConstruct;
   @Input() readonly = false;
   @Output() modifiedEvent = new EventEmitter<QuestionConstruct>();
@@ -32,7 +33,7 @@ export class QuestionConstructFormComponent   {
   public readonly INSTRUCTION = ElementKind.INSTRUCTION;
   public readonly QUESTION = ElementKind.QUESTION_ITEM;
 
-  public readonly formId = Math.round( Math.random() * 10000);
+  public readonly formId = Math.round(Math.random() * 10000);
 
   /* public savedQuestionItem: any; */
   public instructionList: Instruction[];
@@ -65,21 +66,21 @@ export class QuestionConstructFormComponent   {
   }
 
   onInstructionSearch(key: string) {
-    this.service.searchByKind<Instruction>( {kind: this.INSTRUCTION, key: key , page: new Page() }).then(
+    this.service.searchByKind<Instruction>({ kind: this.INSTRUCTION, key, page: new Page() }).then(
       (result) => {
         this.instructionList = result.content;
       });
   }
 
   onUniverseSearch(key: string) {
-    this.service.searchByKind<Universe>(  {kind: this.UNIVERSE, key: key, page: new Page() }).then(
+    this.service.searchByKind<Universe>({ kind: this.UNIVERSE, key, page: new Page() }).then(
       (result) => {
         this.universeList = result.content;
       });
   }
 
   onQuestionSearch(key: IElement) {
-    this.service.searchByKind<QuestionItem>( {kind: this.QUESTION, key: key.element, page: new Page() } ).then(
+    this.service.searchByKind<QuestionItem>({ kind: this.QUESTION, key: key.element, page: new Page() }).then(
       (result) => {
         this.questionList = result.content;
       });
@@ -91,14 +92,14 @@ export class QuestionConstructFormComponent   {
   }
 
   onRevisionSearch(item: IRevisionRef) {
-    this.service.getByKindRevisions<QuestionItem>(this.QUESTION, item.elementId ).then(
+    this.service.getByKindRevisions<QuestionItem>(this.QUESTION, item.elementId).then(
       (result) => {
         this.revisionResults = result.content;
       });
 
   }
 
-  onRevisionSelect(ref: ElementRevisionRef ) {
+  onRevisionSelect(ref: ElementRevisionRef) {
     this.controlConstruct.questionItem = ref.element;
     this.controlConstruct.questionItemRevision = ref.elementRevision;
     this.questionList = [];
@@ -113,11 +114,11 @@ export class QuestionConstructFormComponent   {
 
     const formData = new FormData();
     formData.append('controlconstruct', JSON.stringify(this.controlConstruct));
-    this.fileStore.forEach( (file) => { formData.append('files', file); });
+    this.fileStore.forEach((file) => { formData.append('files', file); });
 
     this.modifiedEvent.emit(
       this.controlConstruct =
-        await this.service.updateWithFiles(ElementKind.QUESTION_CONSTRUCT, formData).toPromise());
+      await this.service.updateWithFiles(ElementKind.QUESTION_CONSTRUCT, formData).toPromise());
   }
 
 }

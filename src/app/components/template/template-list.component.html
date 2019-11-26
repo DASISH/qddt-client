@@ -6,19 +6,3 @@
   </qddt-table>
 </div>
 
-<div id="confirmModal{{formId}}" class="modal"  materialize="modal">
-  <div class="modal-content">
-    <div class="row">
-      <h4>Warning</h4>
-      <span>Are you sure you want to delete [{{ toBeDeleted?.name }}]?</span>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button class="btn green waves-effect" (click)="onDelete(toBeDeleted)">
-      <a><i class="close material-icons medium white-text">done</i></a>
-    </button>
-    <button class="btn btn-default red modal-action modal-close waves-effect">
-      <a><i class="close material-icons medium white-text">close</i></a>
-    </button>
-  </div>
-</div>

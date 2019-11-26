@@ -1,8 +1,7 @@
 import {distinctUntilChanged, debounceTime} from 'rxjs/operators';
 import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { Subject } from 'rxjs';
-import { ElementKind, ElementRevisionRef, IElement, IPageSearch, IRevisionRef, Page} from '../../classes';
-import { PUBLICATION_TYPES} from './publication.classes';
+import {ElementKind, ElementRevisionRef, IElement, IPageSearch, IRevisionRef, Page, PUBLICATION_TYPES} from '../../lib';
 import { TemplateService} from '../../components/template';
 
 
@@ -12,12 +11,12 @@ import { TemplateService} from '../../components/template';
   templateUrl: './publication.reuse.component.html',
   styles: [
     `label, [type="radio"] + label { padding-left: 25px; }`,
-    ':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0;}'
+    ':host ::ng-deep .hoverable .row { min-height:3rem; margin-bottom:0;}'
   ],
 })
 
 export class PublicationReuseComponent  {
-  @Input() showbutton: boolean;
+  @Input() showButton: boolean;
   @Output() selectedEvent = new EventEmitter<ElementRevisionRef>();
 
   public showAddElement = false;

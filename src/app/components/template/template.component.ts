@@ -1,24 +1,24 @@
 import { takeWhile} from 'rxjs/operators';
-import { Component, OnDestroy, AfterContentChecked} from '@angular/core';
+import {Component, OnDestroy, AfterContentChecked, AfterViewInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ResponseDomain, DomainKind } from '../../modules/responsedomain/responsedomain.classes';
-import { Factory } from '../../classes/factory';
-import { ActionKind, ElementKind, HEADER_DETAILS, IEntityEditAudit, IPageSearch} from '../../classes';
-import { MessageService, PropertyStoreService, UserService} from '../../modules/core/services';
+import {
+  ActionKind, DomainKind,
+  ElementKind, Factory,
+  HEADER_DETAILS,
+  IEntityEditAudit,
+  IPageSearch,
+  MessageService,
+  PropertyStoreService, ResponseDomain,
+  UserService
+} from '../../lib';
 
-declare var Materialize: any;
 
 @Component({
   selector: 'qddt-template-component',
-
-  providers: [],
-  styles: [
-    // ' div.input-field *  { color: white; } ',
-  ],
   templateUrl: './template.component.html',
 })
 
-export class TemplateComponent implements OnDestroy, AfterContentChecked {
+export class TemplateComponent implements OnDestroy, AfterContentChecked, AfterViewInit {
 
   public readonly formId = Math.round( Math.random() * 10000);
   public newItem: IEntityEditAudit;
@@ -55,25 +55,12 @@ export class TemplateComponent implements OnDestroy, AfterContentChecked {
     this.messages.getAction().pipe(
       takeWhile(() => this.alive))
       .subscribe(event => {
-        if (event.action === ActionKind.Filter
-          && (event.id === 'ResponseKind' || event.id === 'publishedKind' ) ) {
+        if (event.action === ActionKind.Filter && (event.id === 'ResponseKind' || event.id === 'publishedKind' ) ) {
           if (this.showForm) { this.onToggleForm(); }
-            const param = this.route.snapshot.firstChild.params;
-            if (param.id) {
-              this.router.navigate(['../' ], { relativeTo: this.route.firstChild });
-              // console.log(this.route.snapshot.firstChild.url[1].path);
-            }
+          const param = this.route.snapshot.firstChild.params;
+          if (param.id) { this.router.navigate(['../' ], { relativeTo: this.route.firstChild }); }
         }
       });
-  }
-
-  ngAfterContentChecked(): void {
-    if (this.refreshCount < 10) {
-      try {
-        this.refreshCount++;
-        Materialize.updateTextFields();
-      } catch (Exception) { }
-    }
   }
 
   public canWrite(): boolean {
@@ -84,11 +71,11 @@ export class TemplateComponent implements OnDestroy, AfterContentChecked {
   onToggleForm() {
     if (!this.canWrite()) { throw Error('Access denied'); }
 
-      this.showForm = !this.showForm;
-      if (!this.showForm) {
+    this.showForm = !this.showForm;
+    if (!this.showForm) {
         this.messages.sendAction(  { id: '', action: ActionKind.Update, object: null });
       }
-      if (this.showForm ) {
+    if (this.showForm ) {
         this.refreshCount = 0;
         console.log('onToggleForm');
         const page =  this.properties.get(this.path) as IPageSearch;
@@ -102,6 +89,13 @@ export class TemplateComponent implements OnDestroy, AfterContentChecked {
 
   ngOnDestroy(): void {
     this.alive = false;
+  }
+
+  ngAfterContentChecked(): void {
+  }
+
+  ngAfterViewInit(): void {
+    // M.AutoInit(document.getElementById('qtc-{{formId}}'));
   }
 
   // private getPageSearch(): IPageSearch {

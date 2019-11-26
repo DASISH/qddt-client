@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {SequenceDetailComponent} from './sequence-construct.detail.component';
 import {SequenceConstructComponent} from './sequence-construct.component';
-import {AuthGuard} from '../core/services';
+import {AuthGuard} from '../../lib/services';
 import {TemplateListComponent} from '../../components/template';
 
 

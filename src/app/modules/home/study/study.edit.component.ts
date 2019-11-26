@@ -1,102 +1,99 @@
-import {AfterContentChecked, Component, EventEmitter, Input, Output} from '@angular/core';
-import {ElementKind, IElement, Page, Study} from '../../../classes';
-import {TemplateService} from '../../../components/template';
-import {Instrument} from '../../instrument/instrument.classes';
-
-declare var $: any;
+import {  Component, EventEmitter, Input, Output } from '@angular/core';
+import {ElementKind, ElementRevisionRef, IElement, Instrument, Page, Study, SurveyProgram, TemplateService} from '../../../lib';
 
 @Component({
   selector: 'qddt-study-edit',
-  styles: [
-    '.nomargin { margin:0; }',
-    ':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'
-  ],
-  providers: [ {provide: 'elementKind', useValue: 'STUDY'}, ],
+  providers: [{ provide: 'elementKind', useValue: 'STUDY' }],
   template: `
-<div *ngIf="isVisible && study"  id="{{formId}}"  >
-  <form (ngSubmit)="onSave()" #studyForm="ngForm">
-
-    <div class="row input-field">
-      <input name="name" type="text" [(ngModel)]="study.name" required>
-      <label>Name</label>
+<div *ngIf="isVisible">
+  <form class="row" id="{{formId}}" (ngSubmit)="onSave()" #ngForm="ngForm">
+    <div class="col s12">
+      <qddt-input name="name"
+        required
+        placeholder="Name me"
+        label="Name"
+        [(ngModel)]="study.name"
+        data-length="250">
+      </qddt-input>
+    </div>
+    <div class="col s12">
+      <qddt-textarea name="description"
+        required
+        placeholder="Name me"
+        label="Description"
+        [(ngModel)]="study.description"
+        data-length="10000">
+      </qddt-textarea>
+    </div>
+    <div class="col s12">
+      <qddt-element-revision-collection
+        [revisionRefs] = "study.instruments"
+        [labelName]="'Instruments'"
+        [elementKind]="INSTRUMENT"
+        (createdEvent) ="onInstrumentAdded($event)"
+        (deletedEvent) ="onInstrumentDeleted($event)"
+        (modifiedEvent) ="onInstrumentListChanged($event)">
+      </qddt-element-revision-collection>
     </div>
 
-    <div class="row input-field">
-      <textarea name="{{formId}}-description" class="materialize-textarea"
-        [(ngModel)]="study.description" required >
-      </textarea>
-      <label>Description</label>
+    <div class="col s12">
+        <qddt-rational  [formName]="'RationalComp'" [element]="study" [config]="{hidden: [2,3]}"></qddt-rational>
     </div>
-
-    <qddt-collection-search-select
-      [listItems] = "study.instruments"
-      [searchItems]="instrumentsList"
-      [labelName]="'Instruments'"
-      [elementKind]="INSTRUMENT"
-      (selectEvent)="onAddInstrument($event)"
-      (searchEvent)="onInstrumentSearch($event)">
-    </qddt-collection-search-select>
-
-    <qddt-rational [formName]="'RationalComp'" [element]="study" [config]="{hidden: [2,3]}"></qddt-rational>
-
-    <qddt-element-footer [element]="study" ></qddt-element-footer>
-
-    <div class="row right-align">
-      <button type="submit" class="btn btn-default" [disabled]="studyForm.form.invalid" >Submit</button>
+    <div class="col s12">
+        <qddt-element-footer  [element]="study"> </qddt-element-footer>
+    </div>
+    <div class="col s12 right-align">
+      <button type="submit" class="btn btn-default" [disabled]="!ngForm.form.valid" >Submit</button>
     </div>
   </form>
 </div>
 `
 })
 
-export class StudyEditComponent implements  AfterContentChecked {
+export class StudyEditComponent {
   @Input() study: Study;
-  @Input() readonly = false;
   @Input() isVisible = false;
-  @Output() savedEvent =  new EventEmitter<any>();
+  @Output() savedEvent = new EventEmitter<SurveyProgram>();
 
-  public readonly formId = Math.round( Math.random() * 10000);
-  public readonly  INSTRUMENT = ElementKind.INSTRUMENT;
-  private instrumentsList: Instrument[];
+  public readonly formId = Math.round(Math.random() * 10000);
+  public readonly INSTRUMENT = ElementKind.INSTRUMENT;
+  public showRevision = false;    // used by parent form to keep track of revision comp
 
   constructor(private service: TemplateService) { }
 
-  ngAfterContentChecked() {
-    $('#' + this.formId + '-desc').trigger('autoresize');
-  }
-
   onSave() {
-    this.service.update(this.study).subscribe((result: any) => {
-      this.study = null;
-      this.savedEvent.emit(result);
-    });
-  }
-
-  onAddInstrument(item: IElement) {
-    this.service.getByKindEntity<Instrument>(this.INSTRUMENT, item.element.id)
-      .then( instrument => {
-        this.study.instruments.push(instrument);
-        // instrument.study = this.study;
-        // this.service.update(instrument);
+    this.service.update<SurveyProgram>(this.study)
+    .subscribe((result) => {
+        this.study = null;
+        this.isVisible = true;
+        this.savedEvent.emit(result);
+      }
+      , (err: any) => {
+        this.savedEvent.emit(null);
+        throw err;
       });
   }
 
-  onInstrumentSearch(key: string) {
-    this.service.searchByKind<Instrument>(  {kind: this.INSTRUMENT, key: key, page: new Page() }).then(
-      (result) => {
-        this.instrumentsList = result.content;
-      });
+  onInstrumentAdded(item: ElementRevisionRef) {
+    console.log('onInstrumentAdded');
+    // this.service.getByKindEntity<Instrument>(this.INSTRUMENT, item.element.id)
+    //   .then(instrument => {
+    //     this.study.instruments.push(instrument);
+    //   });
   }
-  //
-  // onAuthorSelected(author: any) {
-  //  this.studyService.attachStudyAuthor(this.study.id, author.id);
-  //  this.study['authors'].push(author);
-  // }
-  //
-  // onAuthorRemoved(author: any) {
-  //  this.studyService.deattachStudyAuthor(this.study.id, author.id);
-  //  const i = this.study['authors'].findIndex((F: any) => F === author);
-  //  this.study['authors'].splice(i, 1);
-  // }
+  onInstrumentDeleted(item: ElementRevisionRef) {
+    console.log('onInstrumentDeleted');
+    // this.service.getByKindEntity<Instrument>(this.INSTRUMENT, item.element.id)
+    // .then(instrument => {
+    //   this.study.instruments.push(instrument);
+    // });
+  }
+  onInstrumentListChanged(item: ElementRevisionRef) {
+    console.log('onInstrumentListChanged');
+    // this.service.getByKindEntity<Instrument>(this.INSTRUMENT, item.element.id)
+    // .then(instrument => {
+    //   this.study.instruments.push(instrument);
+    // });
+  }
 
 }

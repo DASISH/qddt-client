@@ -1,16 +1,16 @@
 import { Component, Input } from '@angular/core';
-import {IEntityEditAudit, IRevisionRef} from '../../classes';
-import {MessageService} from '../../modules/core/services';
+import {ElementRevisionRef, IEntityEditAudit, MessageService} from '../../lib';
+
 
 @Component({
   selector: 'qddt-version-label',
 
   styles: [
-    'label  { white-space: nowrap; vertical-align: middle; text-align: right; width: 90px;}',
+    'label  { white-space: nowrap; vertical-align: middle; text-align: right; width: 90px; padding-left: 5px}',
     'i { margin:0px; vertical-align: middle;float: unset; display: unset; position: relative; }'
   ],
   template:
-    `<label class="active teal-text">Version <qddt-version [element]="element"></qddt-version>
+    `<label class="teal-text">Version <qddt-version [element]="element" [revisionRef]="revisionRef" ></qddt-version>
     <i *ngIf="element?.basedOnObject" (click)="onClick()" class="qddtIcon material-icons teal-text tiny"
     style="cursor: pointer;" title="based on preview">content_copy</i>
     </label>`
@@ -19,17 +19,22 @@ import {MessageService} from '../../modules/core/services';
 })
 export class VersionLabelComponent  {
   @Input() element: IEntityEditAudit;
+  @Input() revisionRef: ElementRevisionRef;
 
 
   constructor( private message: MessageService) { }
 
 
   onClick() {
-    const  ref: IRevisionRef =  {
-      elementId: this.element.basedOnObject,
-      elementRevision: this.element.basedOnRevision,
-      elementKind: this.element.classKind };
-    this.message.sendMessage( ref );
+    if (this.element) {
+      this.message.sendMessage({
+        elementId: this.element.basedOnObject,
+        elementRevision: this.element.basedOnRevision,
+        elementKind: this.element.classKind
+      });
+    } else {
+      this.message.sendMessage(this.revisionRef);
+    }
   }
 
 }

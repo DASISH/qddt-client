@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {AfterContentChecked, AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import { CommentService } from './comment.service';
-import { IComment } from '../../classes/interfaces';
+import { IComment } from '../../lib';
 
 @Component({
   selector: 'qddt-comment-list',
@@ -9,28 +9,55 @@ import { IComment } from '../../classes/interfaces';
   providers: [CommentService]
 })
 
-export class CommentListComponent implements OnInit {
+export class CommentListComponent implements AfterViewInit, AfterContentChecked {
   @Input() ownerId: string;
   @Input() comments: IComment[] = [];
   @Input() showPrivate = true;
+
   isEditComment = false;
   isPublic = true;
   selectedCommentId: number;
+  hoverIndex: string;
   message = '';
-  showComments = false;
-
+  private _showComments = false;
+  private _hasShown = false;
   constructor(private commentService: CommentService) {
     this.selectedCommentId = 0;
   }
 
-  ngOnInit() {  }
+  private isRetrieved() { return (this._hasShown || (this.comments && this.comments.length > 0) ); }
 
-  toggleComments() {
-    this.showComments = !this.showComments;
-    if (this.showComments && (!this.comments || this.comments && this.comments.length === 0)) {
+  get showComments(): boolean {
+    return this._showComments;
+  }
+
+  set showComments(value: boolean) {
+    this._showComments = value;
+    if (!this.isRetrieved()) {
       this.commentService.getAll(this.ownerId).then(
-        (result) => this.comments = result.content);
-      }
+        (result) =>  {
+          this._hasShown = true;
+          this.comments = result.content;
+        });
+    }
+  }
+
+  get size(): string {
+    return (!this.isRetrieved()) ? '?' :
+      this.comments.map( c => c.size + 1).reduce((previousValue, currentValue) => {
+      return (previousValue + (isNaN(currentValue) ? 1 : currentValue));
+        }, 0).toString();
+  }
+
+  ngAfterContentChecked(): void {
+    document.querySelectorAll('textarea').forEach(
+      input => M.textareaAutoResize(input));
+  }
+
+  ngAfterViewInit(): void {
+    document.querySelectorAll('input[data-length], textarea[data-length]').forEach(
+      input => M.CharacterCounter.init(input));
+
   }
 
   addComment(comment: IComment ) {
@@ -39,10 +66,12 @@ export class CommentListComponent implements OnInit {
       result => this.comments.push(result) );
   }
 
-  onDeleteComment(idx: number) {
-    const comment = this.comments[idx];
-    this.commentService.delete(comment.id).subscribe(
-      () => this.comments.splice(idx, 1));
+  onDeleteComment(idx) {
+    if (idx) {
+      const comment = this.comments[idx];
+      this.commentService.delete(comment.id).subscribe(
+        () => this.comments.splice(idx, 1));
+    }
   }
 
   onUpdateComment(idx: number) {
@@ -61,6 +90,10 @@ export class CommentListComponent implements OnInit {
           });
       }
     }
+  }
+
+  commentAsElement(comment: IComment, idx: number) {
+    return { id: idx, name: comment.comment.slice(1, 20) };
   }
 
 }

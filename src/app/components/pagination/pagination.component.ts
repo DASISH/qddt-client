@@ -41,7 +41,7 @@ export class QddtPaginationComponent implements OnChanges {
    */
   @Input()
   set boundaryLinks(value: boolean) {
-    this._boundaryLinks = this.toBoolean(value);
+    this._boundaryLinks = this.toboolean(value);
   }
 
   get boundaryLinks(): boolean { return this._boundaryLinks; }
@@ -51,7 +51,7 @@ export class QddtPaginationComponent implements OnChanges {
    */
   @Input()
   set directionLinks(value: boolean) {
-    this._directionLinks = this.toBoolean(value);
+    this._directionLinks = this.toboolean(value);
   }
 
   get directionLinks(): boolean { return this._directionLinks; }
@@ -61,7 +61,7 @@ export class QddtPaginationComponent implements OnChanges {
    */
   @Input()
   set ellipses(value: boolean) {
-    this._ellipses = this.toBoolean(value);
+    this._ellipses = this.toboolean(value);
   }
 
   get ellipses(): boolean { return this._ellipses; }
@@ -112,7 +112,7 @@ export class QddtPaginationComponent implements OnChanges {
    */
   @Input()
   set rotate(value: boolean) {
-    this._rotate = this.toBoolean(value);
+    this._rotate = this.toboolean(value);
   }
 
   get rotate(): boolean { return this._rotate; }
@@ -228,7 +228,7 @@ export class QddtPaginationComponent implements OnChanges {
 
   private _getPageNoInRange(newPageNo: any): number { return this.getValueInRange(newPageNo, this._pageCount, 1); }
 
-  private toBoolean(value: any): boolean {
+  private toboolean(value: any): boolean {
     return value === '' ? true : !!value;
   }
 

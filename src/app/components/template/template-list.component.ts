@@ -1,14 +1,18 @@
 import {filter, takeWhile} from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { TemplateService } from './template.service';
+import {
+  IEntityAudit,
+  IPageSearch,
+  ElementKind,
+  HEADER_DETAILS,
+  ActionKind,
+  Page,
+  PageSearch,
+  TemplateService,
+  MessageService, PropertyStoreService, DomainKind
+} from '../../lib';
 
-import { DomainKind } from '../../modules/responsedomain/responsedomain.classes';
-import { IEntityAudit, IPageSearch, ElementKind, HEADER_DETAILS, ActionKind, Page, PageSearch } from '../../classes';
-import { MessageService, PropertyStoreService} from '../../modules/core/services';
-
-declare var $;
-declare var Materialize;
 
 @Component({
   selector: 'qddt-template-list',
@@ -50,14 +54,6 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
 
   public ngOnInit(): void {
     if (this.kind) { this.loadPage(); }
-
-    $(document).ready(function() {
-      $('.modal').modal({
-        ready: () => {
-          Materialize.updateTextFields();
-        }
-      });
-    });
   }
 
   public ngOnDestroy(): void {
@@ -79,14 +75,16 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
     this.service.delete(item)
     .subscribe(() => {
       this.loadPage();
-      $('#confirmModal' + this.formId).modal('close');
+      // TODO fix modal
+      // $('#confirmModal' + this.formId).modal('close');
     },
     (error) => { throw error; });
   }
 
   public onConfirmDelete(item: IEntityAudit) {
     this.toBeDeleted = item;
-    $('#confirmModal' + this.formId).modal('open');
+      // TODO fix modal
+    // $('#confirmModal' + this.formId).modal('open');
   }
 
   private loadPage(search?: string ) {

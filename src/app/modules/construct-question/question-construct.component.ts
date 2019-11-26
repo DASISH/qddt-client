@@ -8,8 +8,8 @@ import { Component, ViewChild } from '@angular/core';
   templateUrl: './question-construct.component.html',
 })
 
-export class QuestionConstructComponent  {
-  @ViewChild('detail', {static: true}) templateDetail;
+export class QuestionConstructComponent {
+  @ViewChild('detail', { static: true }) templateDetail;
 
 
   public onFormModified(event) {

@@ -3,23 +3,28 @@ import {Subject} from 'rxjs';
 import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
 import {Column} from './table.column';
 import {DEFAULT_COLUMNS, LIST_COLUMNS, RESPONSEDOMAIN_COLUMNS} from './table.column.config';
-import {ElementEnumAware, PreviewService} from '../../preview/preview.service';
-import {DomainKind} from '../../modules/responsedomain/responsedomain.classes';
-import {ActionKind, ElementKind, getQueryInfo, IEntityEditAudit, IPageSearch, IRevisionRef, QueryInfo} from '../../classes';
-import {MessageService, UserService} from '../../modules/core/services';
+import {
+  ActionKind, DomainKind,
+  ElementEnumAware,
+  ElementKind,
+  getQueryInfo,
+  IEntityEditAudit,
+  IPageSearch,
+  IRevisionRef, MessageService,
+  PreviewService,
+  QueryInfo, SessionService, UserService
+} from '../../lib';
 
-import filesaver from 'file-saver';
-
-declare var $;
-declare var Materialize: any;
+import {formatDate} from '@angular/common';
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'qddt-table',
   styles: [
-    ':host /deep/ i.left  { margin-right: 0px; }',
+    ':host ::ng-deep i.left  { margin-right: 0px; }',
     'th { white-space: nowrap;}',
-    'td, td div { max-width: 400px;  white-space: nowrap;  overflow: hidden; text-overflow: ellipsis;}',
-    'table { table-layout:auto;}'],
+    'td, td div { max-width: 250px;  white-space: nowrap;  overflow: hidden; text-overflow: ellipsis;}',
+    'table { table-layout:auto; border-collapse:separate;}'],
 
   templateUrl: './table.component.html',
 })
@@ -39,7 +44,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   @Output() deleteEvent = new EventEmitter<IEntityEditAudit>();
   @Output() fetchEvent = new EventEmitter<IPageSearch>();
 
-  public readonly directionSign: { [dir: string]: string; } = {'': '⇳', 'asc':  '▲', 'desc': '▼'};
+  public readonly directionSign: { [dir: string]: string; } = {'': '⇳', asc:  '▲', desc: '▼'};
   public searchKeysChange: Subject< { name: string, value: string }> = new Subject<{ name: string, value: string }>();
 
   public canDelete = false;
@@ -53,7 +58,8 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   public fieldNames;
   public placeholder: string;
 
-  constructor(private previewService: PreviewService, public access: UserService, public message: MessageService ) {
+  constructor(private previewService: PreviewService, public access: UserService, public message: MessageService,
+              public session: SessionService) {
     this.searchKeysChange.pipe(
       debounceTime(300),
       distinctUntilChanged())
@@ -72,10 +78,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
 
   ngAfterViewInit() {
-    // fires after returning from detailview
-    $(document).ready(function () {
-      Materialize.updateTextFields();
-    });
+      M.updateTextFields();
   }
 
   public ngOnInit(): void {
@@ -90,6 +93,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
+    // console.debug(this.session.locale);
 
     this.showProgressBar = false;
 
@@ -110,19 +114,19 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       date.setTime(item.modified);
 
       const row: any = {
-        'id': item.id,
-        'Version': (item.version) ? item.version.major + '.' + item.version.minor : '',
-        'Modified': date.toDateString(),
-        'Object': item,
+        id: item.id,
+        Version: (item.version) ? item.version.major + '.' + item.version.minor : '',
+        Modified: formatDate(date, 'shortDate', this.session.locale)  ,
+        Object: item,
       };
 
       this.columns.forEach((column) => {
         if (row[column.label] === undefined) {
           if (column.name === 'modifiedBy') {
-            if (item['agency']) {
-              row[column.label] = item[column.name]['name'] + '@' + item['agency']['name'];
+            if (item.agency) {
+              row[column.label] = item[column.name].name + '@' + item.agency.name;
             } else {
-              row[column.label] = item[column.name]['name'] + '@' + item[column.name]['agencyName'];
+              row[column.label] = item[column.name].name + '@' + item[column.name].agencyName;
             }
           } else if (column.name instanceof Array) {
             let colref = item;
@@ -135,7 +139,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       });
       this.rows.push(row);
     });
-    Materialize.updateTextFields();
+    // M.updateTextFields();
   }
 
   public onDetail(item: IEntityEditAudit) {
@@ -157,7 +161,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
   public onGetPdf(item: IEntityEditAudit) {
       const fileName = item.name + '.pdf';
-      this.previewService.getPdf(item).then((data: any) => { filesaver.saveAs(data, fileName); });
+      this.previewService.getPdf(item).then((data: any) => { FileSaver.saveAs(data, fileName); });
   }
 
   public onDetailChecked() {
@@ -175,7 +179,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
   public onClear(name: string) {
     this.fields[name] = '';
-    this.searchKeysChange.next( { name: name, value: ''});
+    this.searchKeysChange.next( { name, value: ''});
   }
 
   public getSort() {
@@ -197,7 +201,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       this.columns
         .filter((c) => c.name !== column.name)
         .forEach((col) => col.direction = '');
-        this.pageSearch.sort = this.getSort();
+      this.pageSearch.sort = this.getSort();
       this.showProgressBar = true;
       this.fetchEvent.emit(this.pageSearch);
     }

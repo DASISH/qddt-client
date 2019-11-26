@@ -2,13 +2,11 @@ import { Component, Output, EventEmitter, Input, OnChanges, SimpleChanges } from
 import {
   ActionKind,
   ElementKind,
-  ElementRevisionRef,
   EnumItem, getElementKind,
   IElement,
   IEntityEditAudit,
-  IRevisionRef, Page, SequenceConstruct, SequenceKind, StringIsNumber
-} from '../../classes';
-import {TemplateService} from '../../components/template';
+  IRevisionRef, Page, SequenceConstruct, SequenceKind, StringIsNumber, TemplateService
+} from '../../lib';
 
 @Component({
   selector: 'qddt-sequence-form',

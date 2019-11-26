@@ -1,15 +1,9 @@
-import { MaterializeModule } from 'angular2-materialize';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
-import { ParentFormConnectDirective } from './directive/parent-form-connect.directive';
-import { AutosizeDirective } from './directive/autosize.directive';
-import { GravatarDirective } from './directive/gravatar.directive';
-import { EqualValidator } from './directive/validate-password.directive';
 
-import { LocalDatePipe } from './date.pipe';
 import { AuthorChipComponent } from './author/author.chip.component';
 import { QddtTableComponent } from './table/table.component';
 import { QddtPaginationComponent } from './pagination/pagination.component';
@@ -27,25 +21,35 @@ import { ConceptrefComponent } from './conceptref/conceptref.component';
 import { FormErrorsComponent } from './form-errors/form-errors.component';
 import { ConfirmDeleteComponent } from './confim-delete/delete.component';
 import { SpinnerComponent } from './spinner/spinner.component';
-import { FileDownload } from './download/download.component';
+import { FileDownloadComponent } from './download/download.component';
 import { TemplateComponent, TemplateDetailComponent, TemplateListComponent, TemplateService} from './template';
-
+import { LocalDatePipe, LocalNumberPipe } from '../lib';
+import { AutosizeDirective, EqualValidator, GravatarDirective, ParentFormConnectDirective} from '../lib/directives';
+import { DialogComponent } from './dialog/dialog.component';
+import { DialogBigComponent } from './dialog/dialog-big.component';
+import { ValidationComponent } from './form/validation.component';
+import { FormSelectComponent } from './form/select.component';
+import { FormInputComponent } from './form/input.component';
+import { FormTextAreaComponent } from './form/textarea.component';
+import { HoverableRowComponent } from './hoverable-row/hoverable-row.component';
 
 @NgModule({
-  imports: [ MaterializeModule, CommonModule, RouterModule, FormsModule, CompareModule ],
-  declarations: [ LocalDatePipe, TemplateComponent, TemplateListComponent, TemplateDetailComponent,
-    QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, FileDownload,
-    AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
-    ConfirmDeleteComponent, TocComponent, CommentListComponent, CommentCreateComponent,
+  imports: [  CommonModule, RouterModule, FormsModule, CompareModule ],
+  declarations: [ LocalDatePipe, LocalNumberPipe, TemplateComponent, TemplateListComponent, TemplateDetailComponent,
+    QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, FileDownloadComponent,
+    AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent, DialogBigComponent,
+    ConfirmDeleteComponent, TocComponent, CommentListComponent, CommentCreateComponent, DialogComponent,
     RationalComponent, RevisionComponent,  ConceptrefComponent, FormErrorsComponent, SpinnerComponent,
-    AutosizeDirective, ParentFormConnectDirective, GravatarDirective, EqualValidator ],
-  exports: [ LocalDatePipe, CommonModule, FormsModule, MaterializeModule, SpinnerComponent,
-     QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, FileDownload,
+    AutosizeDirective, ParentFormConnectDirective, GravatarDirective, EqualValidator, HoverableRowComponent,
+    FormSelectComponent, FormInputComponent, FormTextAreaComponent, ValidationComponent ],
+  exports: [ LocalDatePipe, LocalNumberPipe, CommonModule, FormsModule, SpinnerComponent,
+     QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, FileDownloadComponent,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
-    ConfirmDeleteComponent, TocComponent, CommentListComponent,
+    ConfirmDeleteComponent, TocComponent, CommentListComponent, DialogComponent, DialogBigComponent,
     RationalComponent, RevisionComponent, ConceptrefComponent, FormErrorsComponent,
     TemplateComponent, TemplateListComponent, TemplateDetailComponent,
-    AutosizeDirective, ParentFormConnectDirective, GravatarDirective, EqualValidator ],
+    AutosizeDirective, ParentFormConnectDirective, GravatarDirective, EqualValidator,
+    FormSelectComponent, FormInputComponent, FormTextAreaComponent ],
   providers: [TemplateService]
 })
 

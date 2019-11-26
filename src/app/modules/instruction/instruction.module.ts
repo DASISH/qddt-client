@@ -7,10 +7,10 @@ import { InstructionRoutingModule } from './instruction.routes';
 
 
 @NgModule({
-    imports: [ ComponentsModule, InstructionRoutingModule ],
-    declarations: [ InstructionComponent, InstructionDetailComponent, InstructionFormComponent ],
-    exports: [ InstructionComponent ],
-    providers: [  ]
+  imports: [ComponentsModule, InstructionRoutingModule],
+  declarations: [InstructionComponent, InstructionDetailComponent, InstructionFormComponent],
+  exports: [InstructionComponent],
+  providers: []
 })
 
 export class InstructionModule { }

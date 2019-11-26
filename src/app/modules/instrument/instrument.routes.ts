@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { InstrumentDetailComponent} from './instrument.detail.component';
 import { InstrumentComponent} from './instrument.component';
-import { AuthGuard} from '../core/services';
+import { AuthGuard} from '../../lib/services';
 import { TemplateListComponent} from '../../components/template';
 
 

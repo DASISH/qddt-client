@@ -1,6 +1,6 @@
 <div class="row hoverable white text-darken-2" style="padding: 10pt;"
-     (mouseenter)="showbutton = true"
-     (mouseleave)="showbutton = false">
+     (mouseenter)="showButton = true"
+     (mouseleave)="showButton = false">
   <div class="row teal-text" (click)="onToggleAddElement()" style="cursor: zoom-in;">
     <div class="col s2">Add element</div>
   </div>
@@ -13,15 +13,11 @@
         <label for="element-type-{{element.id}}">{{ element.label }}</label>
       </div>
     </div>
-    <qddt-item-revision-select
-      [kind] = "selectedElementKind"
-      [itemList] = "itemList"
-      [revisionList] = "revisionList"
-      (searchItems)="onItemSearch($event)"
-      (searchRevision)="onRevisionSearch($event)"
+    <qddt-element-revision-select
+      [source] = "selectedElementKind"
       (revisionSelected)="onRevisionSelect($event)"
       (dismissEvent) ="onDismiss()">
-    </qddt-item-revision-select>
+    </qddt-element-revision-select>
   </div>
 </div>
 

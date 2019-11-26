@@ -7,10 +7,10 @@ import { ChangeLogRoutingModule } from './changelog.routes';
 
 
 @NgModule({
-    imports: [ ComponentsModule, ChangeLogRoutingModule ],
-    declarations: [ ChangeLogComponent, ChangeLogDetailComponent, ChangeLogFormComponent ],
-    exports: [ ChangeLogComponent ],
-    providers: [  ]
+  imports: [ComponentsModule, ChangeLogRoutingModule],
+  declarations: [ChangeLogComponent, ChangeLogDetailComponent, ChangeLogFormComponent],
+  exports: [ChangeLogComponent],
+  providers: []
 })
 
 export class ChangeLogModule { }

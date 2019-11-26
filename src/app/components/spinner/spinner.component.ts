@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { AbstractControlDirective, AbstractControl } from '@angular/forms';
+import { Component } from '@angular/core';
+
 
 @Component({
  selector: 'qddt-spinner',
@@ -25,6 +25,7 @@ import { AbstractControlDirective, AbstractControl } from '@angular/forms';
      <div class="gap-patch"><div class="circle"></div></div>
      <div class="circle-clipper right"><div class="circle"></div></div>
  </div>
-</div> `,
+</div>
+`,
 })
 export class SpinnerComponent { }

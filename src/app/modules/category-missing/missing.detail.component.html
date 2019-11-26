@@ -1,6 +1,4 @@
 <qddt-template-detail #detail>
-    <qddt-missing-form
-      [missing]= "templateDetail.item"
-      (modifiedEvent) = "onFormModified($event)">
-    </qddt-missing-form>
+  <qddt-missing-form [missing]="templateDetail.item" (modifiedEvent)="onFormModified($event)">
+  </qddt-missing-form>
 </qddt-template-detail>

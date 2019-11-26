@@ -7,10 +7,10 @@ import { MissingRoutingModule } from './missing.routes';
 
 
 @NgModule({
-    imports: [ ComponentsModule, MissingRoutingModule ],
-    declarations: [ MissingComponent, MissingDetailComponent, MissingFormComponent ],
-    exports: [ MissingComponent ],
-    providers: [  ]
+  imports: [ComponentsModule, MissingRoutingModule],
+  declarations: [MissingComponent, MissingDetailComponent, MissingFormComponent],
+  exports: [MissingComponent],
+  providers: []
 })
 
 export class MissingModule { }

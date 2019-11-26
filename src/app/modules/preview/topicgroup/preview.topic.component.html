@@ -1,0 +1,55 @@
+<div class="row" *ngIf="topic?.studyRef">
+  <label class="active teal-text">Path</label>
+  <p>
+    <a style="cursor: pointer;" (click)="onClickStudy(topic.studyRef.id)">{{ topic.studyRef?.name }}</a>\
+    <a> {{ topic.name }} </a>
+  </p>
+</div>
+
+<div class="row" *ngIf="topic?.description">
+  <label class="active teal-text">Description</label>
+  <p [innerHtml]="topic?.description"></p>
+</div>
+
+<div class="row" *ngIf="topic?.otherMaterials && topic.otherMaterials.length >0">
+  <label class="teal-text">External aid</label>
+</div>
+
+<div class="row" *ngIf="topic?.otherMaterials && topic.otherMaterials.length >0">
+  <ul>
+    <li *ngFor="let m of topic.otherMaterials;" class="col s12 m6 l3">
+      <a class="waves-effect waves-light" (click)="onDownloadFile(m)">
+        <i class="material-icons center smal">description</i> {{ m.originalName }}</a>
+    </li>
+  </ul>
+</div>
+
+<div *ngIf="topic?.topicQuestionItems && topic?.topicQuestionItems?.length > 0" class="section">
+  <ul *ngIf="topic?.topicQuestionItems" materialize="collapsible" class="collapsible popout"
+    data-collapsible="expandable" style="padding: 5pt;">
+    <li *ngFor="let cqi of topic?.topicQuestionItems;" (click)="onViewDetail(cqi)">
+      <div class="collapsible-header green lighten-5">
+        <div class="col s10">[{{ cqi?.name }}]</div>
+        <div class="col s2">
+          <qddt-version-label [element]="cqi.version"></qddt-version-label>
+        </div>
+      </div>
+      <div class="collapsible-body">
+        <qddt-preview-questionitem *ngIf="cqi.element" [questionItem]="cqi.element">
+        </qddt-preview-questionitem>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<div class="row">
+  <qddt-comment-list [ownerId]="topic.id" [comments]="topic.comments"></qddt-comment-list>
+</div>
+
+<div class="row" *ngIf="topic.concepts && topic.concepts.length>0">
+  <qddt-preview-concept-list [conceptList]="topic.concepts"></qddt-preview-concept-list>
+</div>
+
+<div class="row">
+  <qddt-element-footer [element]="topic"></qddt-element-footer>
+</div>

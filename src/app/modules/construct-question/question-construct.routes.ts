@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {QuestionConstructComponent} from './question-construct.component';
-import {QuestionConstructDetailComponent} from './question-construct.detail.component';
-import {AuthGuard} from '../core/services';
-import {TemplateListComponent} from '../../components/template';
+import { QuestionConstructComponent } from './question-construct.component';
+import { QuestionConstructDetailComponent } from './question-construct.detail.component';
+import { AuthGuard } from '../../lib/services';
+import { TemplateListComponent } from '../../components/template';
 
 
 export const questionConstructRoutes: Routes = [
@@ -14,12 +14,12 @@ export const questionConstructRoutes: Routes = [
     children: [
       { path: 'questions', component: TemplateListComponent, canActivate: [AuthGuard], },
       { path: 'questions/:id', component: QuestionConstructDetailComponent, canActivate: [AuthGuard], },
-      ],
+    ],
   }
 ];
 
 @NgModule({
-  imports: [ RouterModule.forChild(questionConstructRoutes) ],
-  exports: [ RouterModule ]
+  imports: [RouterModule.forChild(questionConstructRoutes)],
+  exports: [RouterModule]
 })
-export class QuestionConstructRoutingModule {}
+export class QuestionConstructRoutingModule { }

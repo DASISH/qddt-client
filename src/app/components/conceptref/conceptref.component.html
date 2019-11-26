@@ -1,8 +1,10 @@
-<div class="row" *ngIf="element && element?.conceptRefs && element?.conceptRefs?.length > 0" >
-  <div class="hoverable" style="margin: 1%">
+<div *ngIf="element && element?.conceptRefs && element?.conceptRefs?.length > 0" >
+  <div class="hoverable row" (click)="showRefs = !showRefs" style="cursor: zoom-in; padding-bottom: 1rem;">
+    <label style="cursor: zoom-in;" >
+      Question referenced by ({{ element.conceptRefs.length }})
+    </label>
     <table class="highlight">
-      <caption class="teal-text"  (click)="showRefs = !showRefs" style="cursor: zoom-in;">Question referenced by ({{ element.conceptRefs.length }})</caption>
-      <thead class="teal-text" >
+      <thead class="teal-text text-lighten-2" >
       <tr><th>Study</th><th>Module</th><th>Concept names</th></tr>
       </thead>
       <tbody *ngIf="showRefs">

@@ -1,9 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs/internal/Subject';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { ElementEnumAware } from '../../preview/preview.service';
-import { ElementKind, getQueryInfo, IElement, IEntityAudit, QueryInfo } from '../../classes';
-import { Factory } from '../../classes/factory';
+import { ElementEnumAware, ElementKind, Factory, getElementKind, getQueryInfo, IElement, IEntityAudit, QueryInfo} from '../../lib';
 
 @Component({
   selector: 'qddt-auto-complete',
@@ -48,17 +46,20 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
   }
 
   ngOnChanges(change: SimpleChanges) {
-    if (change['elementKind'] && change['elementKind'].currentValue) {
+    if (change.elementKind && change.elementKind.currentValue) {
       this.queryInfo = getQueryInfo(this.elementKind);
     }
 
-    if ( (change['items'] && this.waitingForChange)) {
+    if ( (change.items && this.waitingForChange)) {
       this.waitingForChange = false;
       this.candidates = this.items;
+      if (this.items && this.items.length > 0) {
+        this.elementKind =  getElementKind(this.items[0].classKind);
+      }
       this.found = ((this.candidates) && (this.candidates.length > 0));
     }
 
-    if (change['initialValue'] && change['initialValue'].isFirstChange() && !this.selected ) {
+    if (change.initialValue && change.initialValue.isFirstChange() && !this.selected ) {
       this.value = this.initialValue;
     }
   }
@@ -141,15 +142,15 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
     if (!this.items || !this.queryInfo) { return; }
     const field = this.queryInfo.fields;
     const isMultipleFields = this.queryInfo.isMultipleFields();
-    const filterItem = this.filterItem;
+    // const filterItem = this.filterItem;
     this.candidates = this.items.filter(
-      function (item) {
+      item => {
         if (isMultipleFields) {
           return field.findIndex((element: any) => {
-            return filterItem(item, element, search);
+            return this.filterItem(item, element, search);
           }) >= 0;
         } else {
-          return filterItem(item, field, search);
+          return this.filterItem(item, field, search);
         }
     });
   }

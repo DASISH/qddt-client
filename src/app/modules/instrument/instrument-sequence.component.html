@@ -1,41 +1,37 @@
 <ul *ngIf="sequence" materialize="collapsible" class="collapsible popout" (click)="onOpenBody(sequence)"
-  data-collapsible="expandable" style="padding: 1pt;" >
+  data-collapsible="expandable" style="padding: 1pt;">
   <li *ngFor="let cqi of sequence;let idx = index">
-    <div class="collapsible-header grey lighten-5"  >
-        <div class="col s10 l">
-          <i class="material-icons teal-text left" title="{{cqi?.elementRef?.elementKind}}">{{ getIcon(cqi?.elementRef?.elementKind) }}</i>
-          [{{ cqi?.elementRef?.name }}]</div>
-        <div class="col s2" style="z-index: 99;" ><qddt-version-label [element]="cqi?.elementRef"></qddt-version-label>
-          <a class="waves-effect waves-light small teal-text" (click)="onDeleteItem(idx)" >
+    <div class="collapsible-header grey lighten-5">
+      <div class="col s10 l">
+        <i class="material-icons teal-text left"
+          title="{{cqi?.elementRef?.elementKind}}">{{ getIcon(cqi?.elementRef?.elementKind) }}</i>
+        [{{ cqi?.elementRef?.name }}]</div>
+      <div class="col s2" style="z-index: 99;">
+        <qddt-version-label [element]="cqi?.elementRef" ></qddt-version-label>
+        <a class="waves-effect waves-light small teal-text" (click)="onDeleteItem(idx)" >
           <i class="material-icons" title="Remove">remove_circle</i></a>
-        </div>
+      </div>
     </div>
-    <div class="collapsible-body"  style="padding:1rem">
-        <label *ngIf="cqi.parameters.length>0" >Parameters</label>
-        <div *ngFor="let parameter of cqi.parameters">
-           <div class="chip"> {{parameter.name}} </div>
-        </div>
-        <qddt-preview-element *ngIf="!isSequence(cqi.elementRef.elementKind)" 
-        [element]= "cqi.elementRef.element" [showDetail]="false" ></qddt-preview-element>
-        <label  *ngIf="isSequence(cqi.elementRef.elementKind)" >Description</label>
-        <qddt-instrument-sequence *ngIf="isSequence(cqi.elementRef.elementKind)" ([sequence]) = "cqi.sequence">
-        </qddt-instrument-sequence>
+    <div class="collapsible-body" style="padding:1rem">
+      <label *ngIf="cqi.parameters.length>0" >Parameters</label>
+      <div *ngFor="let parameter of cqi.parameters" >
+        <div class="chip"> {{parameter.name}} </div>
+      </div>
+      <qddt-preview-element *ngIf="!isSequence(cqi.elementRef.elementKind)" [element]="cqi.elementRef.element"
+        [showDetail]="false" ></qddt-preview-element>
+      <label *ngIf="isSequence(cqi.elementRef.elementKind)" >Description</label>
+      <qddt-instrument-sequence *ngIf="isSequence(cqi.elementRef.elementKind)" ([sequence])="cqi.sequence" >
+      </qddt-instrument-sequence>
     </div>
   </li>
   <li>
     <div class="collapsible-header grey lighten-5">
       <div>Add element </div>
     </div>
-    <div class="collapsible-body"  style="padding:1rem">
-      <qddt-item-revision-select
-        [kind] = "SEQUENCE"
-        [itemList] = "sequenceList"
-        [revisionList] = "revisionResults"
-        (searchItems)="onItemSearch($event)"
-        (searchRevision)="onRevisonSearch($event)"
-        (revisionSelected)="onRevisionSelect($event)"
-        (dismissEvent) ="onDismiss()">
-      </qddt-item-revision-select>
+    <div class="collapsible-body" style="padding:1rem">
+      <qddt-element-revision-select [source]="SEQUENCE" (revisionSelected)="onRevisionSelect($event)"
+        (dismissEvent)="onDismiss()" >
+      </qddt-element-revision-select>
     </div>
   </li>
 </ul>

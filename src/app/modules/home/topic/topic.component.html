@@ -1,126 +1,99 @@
 <div class="col s12 m9">
-  <div class="card white white-text text-lighten-2">
-    <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
-      <i class="material-icons large right">store</i><h4>Questionnaire modules for {{ study?.name }}</h4>
-
-      <a class="btn" (click)="onToggleTopicForm()" *ngIf="!study.archived && !readonly" >
+  <div class="card-panel row white-text teal">
+    <i class="material-icons large right">store</i>
+    <h4>Questionnaire modules for {{ study?.name }}</h4>
+    <a class="btn" *ngIf="!study.archived && !readonly" (click)="showTopicForm = !showTopicForm; showReuse=false">
       <i class="material-icons right" *ngIf="!showTopicForm">keyboard_arrow_down</i>
       <i class="material-icons right" *ngIf="showTopicForm">keyboard_arrow_up</i>
-      New</a>
-      <a class="btn" (click)="onToggleReuse()" *ngIf="!study.archived && !readonly">
-        <i class="material-icons right" *ngIf="!showReuse">keyboard_arrow_down</i>
-        <i class="material-icons right" *ngIf="showReuse">keyboard_arrow_up</i>
-        reuse</a>
-
-      <qddt-copy-select
-        *ngIf="showReuse"
-        [parentId]="study.id"
-        [elementKind]="TOPIC_KIND"
-        (dismissEvent)="showReuse=false;"
-        (itemSelected)="onSelectedRevsion($event)">
-      </qddt-copy-select>
-
-      <div *ngIf="showTopicForm">
-        <div class="row card-action">
-          <div class="col s10 offset-s1">
-
-            <form #hf="ngForm">
-              <div class="row input-field">
-                <input name="name" type="text" ngModel required>
-                <label class="white-text">Name</label>
-              </div>
-              <div class="row input-field">
-                <textarea name="description" class="materialize-textarea" ngModel required ></textarea>
-                <label class="white-text">Description</label>
-              </div>
-              <div class="row right-align">
-                  <button type="button" (click)="onNewSave(hf.value)" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
-              </div>
-            </form>
-
-          </div>
-        </div>
-      </div>
-    </div>
-    <div *ngIf="topics">
-      <div class="row card" *ngFor="let currentElement of topics" style="padding-left:2%">
-        <div id="{{currentElement?.id}}" class="scrollspy">
-          <div class="col s1 m1 l1">
-            <br/>
-            <div class="row">
-              <a *ngIf="!currentElement.archived && !readonly" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                  (click)="edit.isVisible = !edit.isVisible; refreshCount = 0"><i class="material-icons" title="Edit Concept">mode_edit</i></a>
-              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                  (click)="edit.showRevision = !edit.showRevision"><i class="material-icons left medium" title="Revision history">history</i></a>
-              <qddt-questionitem-reuse
-                *ngIf="!currentElement.archived && !readonly"
-                [parentId]="currentElement?.id"
-                (createdEvent)="onAddQuestionItem($event,currentElement?.id)">
-              </qddt-questionitem-reuse>
-              <qddt-confirm-delete *ngIf="!currentElement.archived  && canDelete"
-                [element]="currentElement"
-                (confirmAction)="onRemoveTopic($event)">
-              </qddt-confirm-delete>
-              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                  (click)="onSelectTopic(currentElement)"><i class="material-icons left medium"title="Go to child elements">play_arrow</i></a>
+      New
+    </a>
+    <a class="btn" *ngIf="!study.archived && !readonly" (click)="showReuse = !showReuse; showTopicForm=false ">
+      <i class="material-icons right" *ngIf="!showReuse">keyboard_arrow_down</i>
+      <i class="material-icons right" *ngIf="showReuse">keyboard_arrow_up</i>
+      reuse
+    </a>
+    <qddt-copy-select *ngIf="showReuse" [parentId]="study.id" [elementKind]="TOPIC_KIND"
+      (dismissEvent)="showReuse=false;" (itemSelected)="onSelectedRevsion($event)">
+    </qddt-copy-select>
+    <div *ngIf="showTopicForm">
+      <div class="row card-action">
+        <div class="col s10 offset-s1">
+          <form #hf="ngForm">
+            <div class="row input-field">
+              <input name="name" class="white-text" type="text" ngModel required data-length="250">
+              <label class="white-text">Name</label>
             </div>
-          </div>
-
-          <div class="col s10 m10 l10 grey-text text-darken-2">
-            <h5 class="row">
-              <div class="col s9">{{ currentElement?.name }}</div>
-              <div class="col s3">
-                  <qddt-version-label class="right" [element]="currentElement"></qddt-version-label>
-              </div>
-            </h5>
-            <qddt-topic-edit [isVisible]="edit.isVisible" [topic]="currentElement"
-                              (savedEvent)="onTopicSaved($event)"
-                              #edit>
-            </qddt-topic-edit>
-            <div class="row" *ngIf="!edit.isVisible">
-              <p  [innerHtml]="currentElement?.description" ></p>
+            <div class="row input-field white-text">
+              <textarea name="description" class="materialize-textarea white-text" ngModel required
+                data-length="10000"></textarea>
+              <label class="white-text">Description</label>
             </div>
-            <div *ngIf="currentElement?.topicQuestionItems?.length > 0 && !edit.isVisible" >
-              <ul class="collection with-header hoverable"
-                  (mouseenter)="showbutton = true"
-                  (mouseleave)="showbutton = false">
-                <li class="collection-header"><label>Question Items</label></li>
-                <a class="collection-item grey-text text-darken-1" *ngFor="let cqi of currentElement.topicQuestionItems.sort()"
-                  style="padding:10px 5px 0px 10px ; ">
-                  <div class="row" style="min-height: 3rem;">
-                    <div [innerHtml]="cqi?.name" class="col s9" (click)="onClickQuestionItem(cqi)" style="cursor: pointer;">
-                    </div>
-                    <div class="col s3">
-                      <a *ngIf="!readonly" class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal right"
-                        [ngClass]="{hide: !showbutton}" (click)="onRemoveQuestionItem( cqi, currentElement.id )">
-                        <i class="material-icons" title="Remove selected">remove</i>
-                      </a>
-                      <a *ngIf="!readonly" class="modal-trigger btn-flat btn-floating btn-medium waves-effect waves-light teal right"
-                         [ngClass]="{hide: !showbutton}" (click)="onSelectRevision(cqi)">
-                        <i class="material-icons" title="Select version">edit</i>
-                      </a>
-                    </div>
-                  </div>
-                </a>
-              </ul>
+            <div class="row right-align">
+              <button type="button" (click)="onNewSave(hf.value)" class="btn btn-default"
+                [disabled]="!hf.form.valid">Submit</button>
             </div>
-
-            <qddt-download *ngIf="!edit.isVisible" [entity]="currentElement" [readonly]="true"></qddt-download>
-
-            <qddt-revision *ngIf = "edit.showRevision" [current]="currentElement" ></qddt-revision>
-
-            <qddt-comment-list *ngIf="!edit.isVisible"
-              [ownerId]="currentElement.id"
-              [comments]="currentElement.comments">
-            </qddt-comment-list>
-          </div>
-
+          </form>
         </div>
       </div>
     </div>
   </div>
+
+  <div *ngIf="showProgressBar" class="progress">
+    <div class="indeterminate"></div>
+  </div>
+
+  <div id="{{topic.id}}" *ngFor="let topic of topics" class="row card section scrollspy white grey-text text-darken-2"
+    [ngClass]="{'grey lighten-5': edit.isVisible}">
+    <div class="col s1">
+      <ul class="dropdownmenu">
+        <li *ngIf="!topic.archived && !readonly">
+          <a class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2" (click)="edit.isVisible = !edit.isVisible; refreshCount = 0">
+            <i class="material-icons" title="Edit Concept">mode_edit</i></a>
+        </li>
+        <li *ngIf="!edit.isVisible">
+          <a class="btn-flat btn-floating btn-medium waves-effect waves-light blue lighten-2" (click)="edit.showRevision = !edit.showRevision">
+            <i class="material-icons" title="Revision history">history</i></a>
+        </li>
+        <li *ngIf="!edit.isVisible" >
+          <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="onSelectTopic(topic)">
+            <i class="material-icons" title="Go to child elements">play_arrow</i></a>
+        </li>
+        <li *ngIf="!edit.isVisible && !topic.archived  && canDelete">
+          <qddt-confirm-delete  [element]="topic" (confirmAction)="onRemoveTopic($event)"></qddt-confirm-delete>
+        </li>
+      </ul>
+    </div>
+    <div class="col s10">
+      <h5 class="row">
+        <div class="col s10">{{ topic?.name }}</div>
+        <div class="col s2">
+          <qddt-version-label class="right" [element]="topic"></qddt-version-label>
+        </div>
+      </h5>
+      <qddt-topic-edit [isVisible]="edit.isVisible" #edit [topic]="topic" (savedEvent)="onTopicSaved($event)">
+      </qddt-topic-edit>
+
+      <div *ngIf="!edit.isVisible" class="row">
+        <div class="col s12">
+          <p [innerHtml]="topic.description"></p>
+
+          <qddt-question-items  [revisionRefs]="topic.topicQuestionItems" [readonly]="topic.archived || readonly"
+                                (createdEvent) ="onQuestionItemAdded($event,topic.id)"
+                                (deletedEvent) ="onQuestionItemRemoved($event,topic.id)"
+                                (modifiedEvent)="onQuestionItemModified($event,topic.id)">
+          </qddt-question-items>
+
+          <qddt-download [entity]="topic" [readonly]="true"></qddt-download>
+
+          <qddt-comment-list [ownerId]="topic.id" [comments]="topic.comments">
+          </qddt-comment-list>
+        </div>
+      </div>
+
+      <qddt-revision *ngIf="edit.showRevision" [current]="topic"></qddt-revision>
+
+    </div>
+  </div>
 </div>
+
 <qddt-toc [path]="'module'" [elements]="topics"></qddt-toc>
-
-
-<!-- (click)="onRemoveQuestionItem( { ref:cqi, id: currentElement.id } )"> -->

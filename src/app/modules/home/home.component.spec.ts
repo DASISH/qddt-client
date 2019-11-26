@@ -3,7 +3,7 @@ import { async, TestBed } from '@angular/core/testing';
 import { HomeComponent } from './home.component';
 import { By } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
-import {UserService} from '../core/services';
+import {UserService} from '../../lib/services';
 import {API_BASE_HREF} from '../../api';
 
 class UserServiceSpy {

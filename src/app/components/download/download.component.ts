@@ -1,26 +1,23 @@
-import {AfterViewInit, Component, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {ActionKind, ElementKind, getElementKind, IEntityEditAudit, IOtherMaterial} from '../../classes';
-import {TemplateService} from '../template';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { ActionKind, ElementKind, getElementKind, IEntityEditAudit, IOtherMaterial } from '../../lib';
+import { TemplateService } from '../template';
+import * as FileSaver from 'file-saver';
 
-import filesaver from 'file-saver';
 
 @Component({
   selector: 'qddt-download',
   templateUrl: './download.component.html',
   styles: [
-    '.collection {border:none; }',
-    ':host /deep/ .col { padding-top: 0.5rem;}',
-    '.collection.with-header .collection-item { margin-bottom:0px ;border-bottom: none; padding: 3px 3px 3px 15px; }',
-    '.collection.with-header .collection-header { border-bottom: none; padding: 3px 3px 3px 15px; ; background-color: unset; }',
-    '.collection .collection-item { background-color: unset; }',
+    '.collection.with-header .collection-header { padding: 5px 10px 5px 0px; background-color: unset; }',
+    '.collection a.collection-item { color: #039be5; cursor: pointer; padding:5px 10px 5px 10px; background-color: unset; }'
   ],
 })
-export class FileDownload implements OnChanges {
+export class FileDownloadComponent implements OnChanges {
   @Input() fileStore: File[] = [];
   @Input() entity: IEntityEditAudit;
   @Input() readonly = true;
 
-  public showbutton = false;
+  public showButton = false;
   public showUploadFileForm = false;
   public showXmlDownload = true;
   public label = '';
@@ -29,21 +26,22 @@ export class FileDownload implements OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['entity'].currentValue) {
-      const ek =  getElementKind(this.entity.classKind);
+    if (changes.entity.currentValue) {
+      const ek = getElementKind(this.entity.classKind);
       if (!this.readonly) {
         this.readonly = !this.service.can(ActionKind.Create, ek);
       }
-      this.showXmlDownload = !(ek ===  ElementKind.SURVEY_PROGRAM || ek === ElementKind.STUDY);
+      this.showXmlDownload = !(ek === ElementKind.SURVEY_PROGRAM || ek === ElementKind.STUDY);
       this.label = (this.entity.otherMaterials) ? 'External aid & Exports' : 'Exports ';
     }
-    // try { Materialize.updateTextFields(); } catch (Exception) { }
+    // console.log(this.entity || JSON);
+    // try { M.updateTextFields(); } catch (Exception) { }
   }
 
   onDownloadFile(o: IOtherMaterial) {
     const fileName = o.originalName;
     this.service.getFile(o).then(
-      (data) => { filesaver.saveAs(data, fileName); },
+      (data) => { FileSaver.saveAs(data, fileName); },
       (error) => { throw error; });
   }
 
@@ -52,7 +50,7 @@ export class FileDownload implements OnChanges {
     const fileName = element.name + '-' + element.version.major + element.version.minor + '.pdf';
     this.service.getPdf(element).then(
       (data: any) => {
-        filesaver.saveAs(data, fileName);
+        FileSaver.saveAs(data, fileName);
       });
   }
 
@@ -60,7 +58,7 @@ export class FileDownload implements OnChanges {
     const fileName = element.name + '-ddi32-' + element.version.major + element.version.minor + '.xml';
     this.service.getXML(element).then(
       (data: any) => {
-        filesaver.saveAs(data, fileName);
+        FileSaver.saveAs(data, fileName);
       });
   }
 

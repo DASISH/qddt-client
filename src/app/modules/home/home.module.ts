@@ -12,12 +12,12 @@ import { StudyEditComponent } from './study/study.edit.component';
 import { TopicEditComponent } from './topic/topic.edit.component';
 import { TreeNodeComponent } from './concept/concept-tree-node.component';
 import { ConceptEditComponent } from './concept/concept-edit.component';
-import { HomeService } from './home.service';
 import { ConceptTocComponent } from './concept/concept-toc.component';
-import { PreviewModule } from '../../preview/preview.module';
+import { PreviewModule } from '../preview/preview.module';
 import { QuestionModule } from '../question/question.module';
-import { SelectorsModule } from '../../selectors/selectors.module';
-import { SelectorDialogsModule } from '../../selectors-dialog/selectors-dialog.module';
+import { SelectorsModule } from '../selectors/selectors.module';
+import { SelectorDialogsModule } from '../selectors-dialog/selectors-dialog.module';
+import {HomeService} from '../../lib/services';
 
 @NgModule({
   imports: [ ComponentsModule, HomeRoutingModule, PreviewModule, QuestionModule, SelectorDialogsModule, SelectorsModule ],

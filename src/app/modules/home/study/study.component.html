@@ -1,96 +1,81 @@
 <div class="col s12 m9">
-  <div class="card white white-text text-lighten-2">
-    <div class="row teal z-depth-1" style="padding-left:2%;padding-top:1%;padding-bottom:1%;">
-      <i class="material-icons large right">store</i><h4>Studies for {{ survey?.name }}</h4>
-
-      <a class="btn" (click)="onToggleStudyForm()" *ngIf="!survey?.archived && !readonly">
+  <div class="card-panel row teal white-text text-lighten-2">
+    <i class="material-icons large right">store</i>
+    <h4>Studies for {{ survey?.name }}</h4>
+    <a *ngIf="!survey.archived && !readonly" class="btn" (click)="showEditForm = !showEditForm">
       <i class="material-icons right" *ngIf="!showEditForm">keyboard_arrow_down</i>
       <i class="material-icons right" *ngIf="showEditForm">keyboard_arrow_up</i>
-      New</a>
-      <div *ngIf="showEditForm">
-        <div class="row card-action">
-          <div class="col s10 offset-s1">
-            <form #hf="ngForm">
-              <div class="row input-field">
-                <input name="name" type="text" ngModel required>
-                <label class="white-text">Name</label>
-              </div>
-              <div class="row input-field">
-                <textarea name="description" class="materialize-textarea" ngModel required ></textarea>
-                <label class="white-text">Description</label>
-              </div>
-              <div class="row right-align">
-                  <button type="button" (click)="onNewSave(hf.value)" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
-              </div>
-            </form>
+      New
+    </a>
+    <div *ngIf="showEditForm" class="col s10 offset-s1 card-action">
+      <form #hf="ngForm">
+        <div class="row input-field">
+          <input name="name" class="white-text" type="text" ngModel required data-length="250" />
+          <label class="white-text">Name</label>
+        </div>
+        <div class="row input-field white-text">
+          <textarea name="description" class="materialize-textarea white-text" ngModel required
+            data-length="10000"></textarea>
+          <label class="white-text">Description</label>
+        </div>
+        <div class="row right-align">
+          <button type="button" (click)="onNewSave(hf.value)" class="btn btn-default" [disabled]="!hf.form.valid">
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row card section scrollspy white grey-text text-darken-2" id="{{ study.id }}"
+    *ngFor="let study of survey?.studies" [ngClass]="{'grey lighten-5': edit.isVisible}">
+    <div class="col s1">
+      <ul class="dropdownmenu">
+        <li *ngIf="!study.archived && !readonly">
+          <a  class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2" (click)="edit.isVisible = !edit.isVisible; ">
+            <i class="material-icons" title="Edit Concept">mode_edit</i>
+          </a>
+        </li>
+        <li *ngIf="!edit.isVisible">
+          <a class="btn-flat btn-floating btn-medium waves-effect waves-light blue lighten-2" (click)="edit.showRevision = !edit.showRevision">
+            <i class="material-icons left medium" title="Revision history">history</i>
+          </a>
+        </li>
+        <li *ngIf="!edit.isVisible">
+          <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+           (click)="onShowTopic(study)">
+          <i class="material-icons left medium" title="Go to child elements">play_arrow</i></a>
+        </li>
+        <li *ngIf="!edit.isVisible && !study.archived  && canDelete">
+          <qddt-confirm-delete  [element]="study" (confirmAction)="onRemoveStudy($event)"></qddt-confirm-delete>
+        </li>
+      </ul>
+    </div>
 
-          </div>
+    <div class="col s10">
+      <div class="row">
+        <div class="col s10">
+          <h5>{{ study.name }}</h5>
+        </div>
+        <div class="col s2">
+          <qddt-version-label class="right" [element]="study"></qddt-version-label>
         </div>
       </div>
-    </div>
-    <div *ngIf="survey?.studies">
-      <div id="{{study.id}}" class="row card scrollspy" *ngFor="let study of survey.studies" style="padding-left:2%">
-          <div class="col s1 m1 l1">
-            <br />
-            <div class="row">
-              <a *ngIf="!study?.archived && !readonly" class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                  (click)="edit.isVisible = !edit.isVisible; refreshCount=0;"><i class="material-icons"title="Edit element">mode_edit</i></a>
-              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                  (click)="edit.showRevision = !edit.showRevision"><i class="material-icons left medium" title="Revision history">history</i></a>
-              <!--<a class="btn-flat btn-floating btn-medium waves-effect waves-light teal">-->
-                <!--<i class="material-icons" (click)="getPdf(study)" title="Get as Pdf">picture_as_pdf</i>-->
-              <!--</a>-->
-              <qddt-confirm-delete *ngIf="!study?.archived && canDelete" [element]="study" (confirmAction)="onRemoveStudy($event)"></qddt-confirm-delete>
-              <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-                  (click)="onShowTopic(study)"><i class="material-icons left medium" title="Go to child elements">play_arrow</i></a>
-            </div>
-          </div>
+      <qddt-study-edit [isVisible]="edit.isVisible" [study]="study" #edit (savedEvent)="onStudySaved($event)">
+      </qddt-study-edit>
 
-          <div class="col s10 m10 l10 grey-text text-darken-2">
-            <h5 class="row">
-              <div class="col s9">{{ study?.name }}</div>
-              <div class="col s3">
-                <qddt-version-label class="right" [element]="study"></qddt-version-label>
-            </div>
-            </h5>
-          </div>
-
-          <div class="col s10 m10 l10 white grey-text text-darken-1">
-            <div class="row" *ngIf="!edit.isVisible">
-              <p  [innerHtml]="study.description" ></p>
-              <qddt-author-chip [authors]="study.authors" ></qddt-author-chip>
-              <ul >
-                <li class="collection-header">Instruments</li>
-                <li *ngFor="let item of study.instruments; let idx=index" class="collection-item" style="border: 1px black;height:2rem"
-                    draggable="true" (dragstart)="onDragStart($event, item)" >
-
-                  <div class="row" *ngIf="item.id" (mouseenter)="item.showbutton = !readonly" (mouseleave)="item.showbutton = false">
-                    <div class="col s10"><a (click)="onShowElement(item)" [ngStyle]="{'cursor': 'pointer'}">{{ item.name }}</a></div>
-                    <div class="col s2"><qddt-version-label [element]="item"></qddt-version-label>
-                      <a [ngClass]="{hide: !showButton}" class="waves-effect waves-light small teal-text right" (click)="onDeleteItem(idx)">
-                        <i class="material-icons" title="Remove {{labelName}}">remove_circle</i>
-                      </a>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-
-
-            <qddt-study-edit [isVisible]="edit.isVisible" [study]="study" #edit
-              (savedEvent)="onStudySaved($event)">
-            </qddt-study-edit>
-
-            <qddt-download *ngIf="!edit.isVisible" [entity]="study" [readonly]="true"></qddt-download>
-
-            <qddt-revision *ngIf = "edit.showRevision" [current]="study" ></qddt-revision>
-
-            <qddt-comment-list *ngIf="!edit.isVisible"
-              [ownerId]="study.id"
-              [comments]="study.comments">
-            </qddt-comment-list>
-          </div>
+      <div class="row" *ngIf="!edit.isVisible">
+        <div class="col s12">
+          <p [innerHtml]="study.description"></p>
+          <qddt-author-chip [authors]="study.authors"></qddt-author-chip>
+        </div>
       </div>
+
+      <qddt-download [entity]="study" [readonly]="true"></qddt-download>
+
+      <qddt-revision *ngIf="edit.showRevision" [current]="study"></qddt-revision>
+
+      <qddt-comment-list [hidden]="edit.isVisible" [ownerId]="study.id" [comments]="study.comments">
+      </qddt-comment-list>
     </div>
   </div>
 </div>

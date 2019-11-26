@@ -1,67 +1,65 @@
-import { Component, Input, Output, EventEmitter, AfterContentChecked } from '@angular/core';
-import { HomeService } from '../home.service';
-import { SurveyProgram} from '../../../classes';
-import {TemplateService} from '../../../components/template';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { SurveyProgram, TemplateService } from '../../../lib';
 
-declare var $: any;
 
 @Component({
   selector: 'qddt-survey-edit',
-  providers: [ {provide: 'elementKind', useValue: 'SURVEY_PROGRAM'}, ],
+  providers: [{ provide: 'elementKind', useValue: 'SURVEY_PROGRAM' },],
   template: `
-<div *ngIf="isVisible && survey"  id="{{formId}}"  >
-  <form materialize (ngSubmit)="onSave()" #surveyForm="ngForm">
-    <div class="row input-field">
-      <input name="{{formId}}-name" type="text" [(ngModel)]="survey.name" required>
-      <label>Name</label>
+<div *ngIf="isVisible">
+  <form class="row" id="{{formId}}" (ngSubmit)="onSave()" #ngForm="ngForm">
+    <div class="col s12">
+      <qddt-input name="name"
+        required
+        placeholder="Name me"
+        label="Name"
+        [(ngModel)]="survey.name"
+        data-length="250">
+      </qddt-input>
     </div>
-
-    <div class="row input-field">
-      <textarea name="{{formId}}-description" class="materialize-textarea"
-        [(ngModel)]="survey.description" required >
-      </textarea>
-      <label>Description</label>
+    <div class="col s12">
+      <qddt-textarea name="description"
+        required
+        placeholder="Name me"
+        label="Description"
+        [(ngModel)]="survey.description"
+        data-length="10000">
+      </qddt-textarea>
     </div>
-
-
-    <qddt-rational [formName]="'RationalComp'" [element]="survey" [config]="{hidden: [2,3]}"></qddt-rational>
-
-    <qddt-element-footer [element]="survey"> </qddt-element-footer>
-
-    <div class="row right-align">
-      <button type="submit" class="btn btn-default" [disabled]="!surveyForm.form.valid" >Submit</button>
+    <div class="col s12">
+        <qddt-rational  [formName]="'RationalComp'" [element]="survey" [config]="{hidden: [2,3]}"></qddt-rational>
+    </div>
+    <div class="col s12">
+        <qddt-element-footer  [element]="survey"> </qddt-element-footer>
+    </div>
+    <div class="col s12 right-align">
+      <button type="submit" class="btn btn-default" [disabled]="!ngForm.form.valid" >Submit</button>
     </div>
   </form>
 </div>
 `
 })
 
-export class SurveyEditComponent implements  AfterContentChecked {
-
+export class SurveyEditComponent  {
   @Input() survey: SurveyProgram;
-  @Input() readonly = false;
   @Input() isVisible = false;
-
   @Output() savedEvent = new EventEmitter<SurveyProgram>();
 
-  public showRevision;
-  public readonly formId = Math.round( Math.random() * 10000);
-  constructor(private service: TemplateService) { }
+  public showRevision = false;    // used by parent form to keep track of revision comp
+  public readonly formId = Math.round(Math.random() * 10000);
 
-  ngAfterContentChecked() {
-    $('#' + this.formId + '-desc').trigger('autoresize');
-  }
+  constructor(private service: TemplateService) { }
 
   onSave() {
     this.service.update<SurveyProgram>(this.survey)
       .subscribe((result) => {
-        this.isVisible = false;
         this.survey = null;
-        this.savedEvent.emit(result); }
+        this.isVisible = true;
+        this.savedEvent.emit(result);
+      }
         , (err: any) => {
           this.savedEvent.emit(null);
           throw err;
         });
   }
-
 }

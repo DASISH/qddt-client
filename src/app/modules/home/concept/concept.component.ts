@@ -1,35 +1,49 @@
-import { Component, EventEmitter, OnInit} from '@angular/core';
-import { MaterializeAction } from 'angular2-materialize';
-import {Concept, ElementKind, IEntityEditAudit, IMoveTo, Topic, ActionKind} from '../../../classes';
-import { HomeService} from '../home.service';
-import { TemplateService} from '../../../components/template';
-import { PropertyStoreService } from '../../core/services';
-import {HierarchyPosition} from '../../core/classes';
+import { AfterViewInit, Component, ElementRef, EventEmitter, OnInit, ViewChild } from '@angular/core';
+import {
+  ElementKind,
+  IEntityEditAudit,
+  IMoveTo,
+  Topic,
+  ActionKind,
+  PropertyStoreService,
+  HomeService,
+  HierarchyPosition, Concept, TemplateService
+} from '../../../lib';
 
 
 @Component({
   selector: 'qddt-concept',
-  providers: [ {provide: 'elementKind', useValue: 'CONCEPT'}, ],
+  providers: [{ provide: 'elementKind', useValue: 'CONCEPT' }, ],
+  // styles: ['.scroll-content { position:fixed; overflow-y:auto; overflow-x:hidden;  top:64px; height: calc(100vh - 64px); }'],
   templateUrl: './concept.component.html'
 })
 
-export class ConceptComponent implements OnInit {
+
+export class ConceptComponent implements OnInit, AfterViewInit {
   public readonly CONCEPT = ElementKind.CONCEPT;
-  public confirmDeleteActions = new EventEmitter<string|MaterializeAction>();
 
   public showReuse = false;
   public showConceptForm = false;
   public showProgressBar = false;
-  // public readonly: boolean;
 
   public toDeletedConcept: any;
   public topic: Topic;
-  canCreate: boolean;
+  public canCreate: boolean;
+
+  @ViewChild('modalconceptdelete', { static: false }) modalconceptdelete: ElementRef;
+
+
+  private instance = null;
 
   constructor(private property: PropertyStoreService, private homeService: HomeService<Concept>,
-              private  templateService: TemplateService) {
+              private templateService: TemplateService) {
     this.canCreate = this.homeService.canDo(this.CONCEPT).get(ActionKind.Create);
   }
+
+  ngAfterViewInit() {
+    this.instance = M.Modal.init(this.modalconceptdelete.nativeElement);
+  }
+
 
   async ngOnInit() {
     const root = this.property.get('topic');
@@ -39,13 +53,11 @@ export class ConceptComponent implements OnInit {
     this.showProgressBar = true;
     this.topic = await (root) ?
       new Topic(root) :
-      new Topic( await this.homeService.getExt<Topic>(ElementKind.TOPIC_GROUP, parentId));
+      new Topic(await this.homeService.getExt<Topic>(ElementKind.TOPIC_GROUP, parentId));
 
-    // console.log(this.topic || JSON);
     this.topic.concepts = await (list) ?
       list :
       await this.homeService.getListByParent(this.CONCEPT, parentId);
-    // console.log(this.topic || JSON);
     this.showProgressBar = false;
   }
 
@@ -68,10 +80,10 @@ export class ConceptComponent implements OnInit {
     console.log('newConcept');
     this.showConceptForm = false;
     this.showProgressBar = true;
-      this.templateService.create(new Concept(newConcept), this.topic.id).subscribe(
-        (result) => { this.onConceptUpdated(result); },
-        (error) => { throw error; },
-        () => { this.showProgressBar = false; } );
+    this.templateService.create(new Concept(newConcept), this.topic.id).subscribe(
+      (result) => { this.onConceptUpdated(result); },
+      (error) => { throw error; },
+      () => { this.showProgressBar = false; });
   }
 
   async onMoveConcept(event: IMoveTo) {
@@ -80,25 +92,25 @@ export class ConceptComponent implements OnInit {
     let targets: Concept[];
     if (event.target === this.topic.id) {
       targets = this.topic.concepts;
-    } else  {
+    } else {
       targets = this.findConcept(this.topic.concepts, event.target).children;
     }
 
-    const start  = targets.slice(0, event.index) || [];
-    const end    = targets.slice(event.index) || [];
+    const start = targets.slice(0, event.index) || [];
+    const end = targets.slice(event.index) || [];
     targets = [].concat(start, entity, end);
-    targets.forEach( c => this.setUHR(c));
+    targets.forEach(c => this.setUHR(c));
 
     if (event.target === this.topic.id) {
       this.topic.concepts = targets;
-    } else  {
+    } else {
       this.findConcept(this.topic.concepts, event.target).children = targets;
     }
 
     const result = await this.templateService.updateAll(this.topic.concepts, this.topic.id).toPromise();
     const topic = await this.homeService.getExt<Topic>(ElementKind.TOPIC_GROUP, this.topic.id);
     topic.concepts = result;
-    this.property.set('topic',  topic);
+    this.property.set('topic', topic);
     this.topic = topic;
   }
 
@@ -112,20 +124,27 @@ export class ConceptComponent implements OnInit {
 
   onDeleteConcept(concept: any) {
     this.toDeletedConcept = concept;
-    this.confirmDeleteActions.emit({action: 'modal', params: ['open']});
+    this.instance.open();
+  }
+
+  public canDelete(toDeletedConcept) {
+    return (toDeletedConcept && toDeletedConcept.conceptQuestionItems && toDeletedConcept.conceptQuestionItems.length === 0);
+  }
+
+  public onCancel() {
+    this.instance.close();
   }
 
   onConfirmDeleteConcept() {
     this.templateService.delete(this.toDeletedConcept).subscribe(
       (val) => {
-        // console.log(val);
-        this.confirmDeleteActions.emit({action: 'modal', params: ['close']});
+        this.instance.close();
         this.removeConcept(this.topic.concepts, this.toDeletedConcept.id);
         this.property.set('concepts', this.topic.concepts);
       },
       response => { throw response; },
-        () => {
-          console.log('The DELETE observable is now completed.');
+      () => {
+        console.log('The DELETE observable is now completed.');
       });
   }
 

@@ -5,12 +5,12 @@
     <label class="active">Version</label>
   </div>
   <div class="input-field col s5 m3">
-    <div class="chip" title={{getTime()}}>{{element?.modified | date:'E, MMMM d, y' }}</div>
+    <div class="chip" title="{{element?.modified | date:'full'}}">{{element?.modified | date:'mediumDate' }}</div>
     <label class="active">Last Saved</label>
   </div>
   <div class="input-field col s5 m3">
     <div class="chip"><img class="gravatar" gravatar [email]="element?.modifiedBy?.email" [size]="32">
-      {{element?.modifiedBy?.name}}</div>
+      {{element?.modifiedBy?.name |titlecase }}</div>
     <!--{{element?.modifiedBy?.name + '@' + element?.modifiedBy?.agencyName}}</div>-->
     <label class="active">Last Saved By</label>
   </div>

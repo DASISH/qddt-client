@@ -1,4 +1,4 @@
-<div class="row card" *ngIf="compared !== null && compared !== current">
+<div class="row" *ngIf="compared !== null && compared !== current">
   <div class="d2h-file-wrapper" data-lang="js">
     <div class="d2h-file-header">
       <span class="d2h-file-name-wrapper">
@@ -12,7 +12,7 @@
         <span class="d2h-file-name"> {{ elementChange.name }} Version {{ elementChange.version }} </span>
         <span class="d2h-tag d2h-changed d2h-changed-tag">CHANGED</span>
         <div>
-            <a class="btn-flat btn-floating waves-effect waves-light teal small"(click)="onHide()" [ngStyle]="{'cursor': 'pointer'}">
+            <a class="btn-flat btn-small btn-floating waves-effect waves-light teal" (click)="onHide()" [ngStyle]="{'cursor': 'pointer'}">
              <i class="material-icons white-text" title="Closes compare">close</i>
            </a>
         </div>

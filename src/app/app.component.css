@@ -22,21 +22,17 @@
   border-bottom: 1px solid red; /* red */
 }
 
-
 p {
   text-align: justify;
-  text-justify: inter-word;
-  white-space: pre-wrap;
+  text-justify: auto;
+  white-space: pre-line;
 }
 
 form p {
-  text-align: justify;
+  text-justify: auto;
+  white-space: pre-line;
 }
 
-
-.side-nav.fixed {
-  width: 200px;
-}
 
 .dropdown-content {
   background-color: #fff;
@@ -54,41 +50,37 @@ form p {
 .noItemFound { border: thick solid dodgerblue; }
 .itemInvalid { border: thick solid red; }
 
-
 input {
-  margin: auto;
-  margin-bottom: 0px;
-}
-
-
-
-input[type="number"] {
-  -moz-appearance: textfield;
-}
-input[type="number"]:hover,
-input[type="number"]:focus {
-  -moz-appearance: number-input;
+  margin: auto auto 0px;
 }
 
 .collapsible.popout > li  {
-  margin: 0px !important;
+  margin: 0 !important;
+}
+
+
+.collection { border:none; }
+
+/*.collection.with-header {*/
+/*  border-bottom: none;*/
+/*  padding: 5px 10px 5px 0px;*/
+/*  min-height: 3rem;*/
+/*}*/
+
+.collection.with-header .collection-header {
+  border-bottom: none;
+  padding: 5px 10px 5px 0px ;
+  min-height: 3rem;
+}
+
+.collection a.collection-item {
+  min-height: 3rem;
+  border-bottom: none;
+  padding: 5px 10px 5px 10px;
 }
 
 .collapsible-header .col {white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-/* .btn-small {
-  width: 24px;
-  height: 24px;
-  border: none;
-  border-radius: 50%;
-  position: relative;
-  vertical-align: middle;
-  font-weight: normal;
-  -webkit-tap-highlight-color: transparent;
-}
 
-/*.qddtIcon { margin:0px; vertical-align: middle;float: unset; display: unset; position: relative; }
-.collapsible-header {*/
-  /*display: block;*/
-/*}*/
+.qddtSearchCursor { cursor: zoom-in; }
 

@@ -1,38 +1,32 @@
-<form class="row hoverable" [parentFormConnect]="formName">
+<form id="RAT-{{formId}}" class="hoverable row" [parentFormConnect]="formName">
   <div class="row">
-    <div class="col left" *ngFor="let option of rationalDescriptionsFiltered" [ngClass]="{hide: option.hidden}">
-      <input  name="{{originalId}}-optiontypegroup" type="radio"
-        id="{{originalId}}-option-type-{{option.id}}" (click)="onSelectOption(option.id)"
-        [checked]="saveOptionIndex === option.id" />
-      <label [attr.for]="originalId + '-option-type-' + option.id">{{ option.name }}</label>
+<!--    [ngClass]="{hide: option.hidden}-->
+    <div class="col left" *ngFor="let option of rationalDescriptionsFiltered" [hidden]="option.hidden">
+      <label>
+        <input name="OTG-{{formId}}" type="radio" (click)="onSelectOption(option.id)" [checked]="saveOptionIndex === option.id" />
+        <span>{{ option.name }}</span>
+      </label>
     </div>
   </div>
-  <div *ngFor="let option of rationalDescriptionsFiltered;">
-    <div class="row" *ngIf="option.id === saveOptionIndex && option.children.length > 0">
-      <div class="row">
-        <div class="input-field col s4">
-          <select materialize="material_select" [ngModel]="_RationalIndex"
-          name="{{originalId}}-rationals"
-          (ngModelChange)="onClickRational1($event)">
-          <option value="-1" disabled selected>Choose your rationale</option>
-          <option *ngFor="let rational of option.children;"
-            value="{{rational.id}}">{{ rational.name }}</option>
-          </select>
-          <label>Versioning Reason</label>
-        </div>
-        <div class="input-field col s8">
-          <div class="card" >
-            <span>{{ option.children[_RationalIndex]?.description }}</span>
-          </div>
-        </div>
+  <div *ngFor="let option of rationalDescriptionsFiltered; let _idx = index" >
+    <div class="row" *ngIf="option.children.length > 0" [hidden] = "!(option.id === saveOptionIndex)" >
+      <div class="input-field col s5">
+        <select id="SELECT-{{formId}}" name="rational" [ngModel]="_RationalIndex" (ngModelChange)="onClickRational1($event)">
+          <option value="" disabled selected>Choose your rationale</option>
+          <option *ngFor="let rational of option.children;" value="{{rational.id}}">{{ rational.name }}</option>
+        </select>
+        <label for="SELECT-{{formId}}">Versioning Reason</label>
       </div>
-      <div *ngIf="_RationalIndex>=0">
-        <div *ngFor="let child of option.children[_RationalIndex].children; let idx = index">
+      <div class="col s7">
+        <span>{{ option.children[_RationalIndex]?.description }}</span>
+      </div>
+      <div *ngIf="_RationalIndex>=0" class="col s12">
+        <div *ngFor="let child of option.children[_RationalIndex]?.children; let idx = index">
           <div class="col left">
-            <input name="{{originalId}}-rationalgroup2" type="radio"
-              id="{{originalId}}-rational2-type-{{idx}}" [checked]="_Rational2Index === idx"
-              (click)="onClickRational2(child)"/>
-            <label title="{{child.description}}" [attr.for]="originalId + '-rational2-type-' + idx">{{ child.name }}</label>
+            <label>
+              <input name="OTG2-{{formId}}" type="radio" [checked]="_Rational2Index === idx" (click)="onClickRational2(child)"/>
+              <span title="{{child.description}}">{{ child.name }}</span>
+            </label>
           </div>
         </div>
       </div>
@@ -40,9 +34,9 @@
   </div>
   <div *ngIf="saveOptionIndex >= 0 && rationalDescriptions[saveOptionIndex].showComment" class="row">
     <div class="input-field col s12">
-      <input id="{{originalId}}-changeComment" class="validate" required minlength="4"
-        name="{{originalId}}-changeComment" type="text" [(ngModel)]="element.changeComment" >
-      <label for="{{originalId}}-changeComment"  data-error="Description is mandatory"  class="teal-text">Rationale for change</label>
+      <input id="COMMENT-{{formId}}" class="validate" type="text" name="changeComment"
+             [(ngModel)]="element.changeComment" required minlength="4">
+      <label for="COMMENT-{{formId}}"  data-error="Description is mandatory">Rationale for change</label>
     </div>
   </div>
 </form>

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { IEntityEditAudit, IRevisionRef } from '../../classes';
-import { MessageService } from '../../modules/core/services';
+import {IEntityEditAudit, IRevisionRef, MessageService, SessionService} from '../../lib';
+import {formatDate} from '@angular/common';
 
 @Component({
   selector: 'qddt-element-footer',
@@ -14,7 +14,7 @@ export class ElementFooterComponent {
 
   @Input() element: IEntityEditAudit;
 
-  constructor( private message: MessageService) { }
+  constructor( private message: MessageService, public session: SessionService) { }
 
   onClick() {
     const  ref: IRevisionRef =  {
@@ -30,7 +30,9 @@ export class ElementFooterComponent {
     if (!m) { return '?'; }
     const date = new Date();
     date.setTime(m);
-    return date.toLocaleString();
+    // console.info(this.session.locale);
+    return formatDate(date, 'longTime', this.session.locale);
+    // return date.toLocaleString(this.session.locale);
   }
 
   getVersion(): string {

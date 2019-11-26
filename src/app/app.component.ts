@@ -1,6 +1,6 @@
-import { Component, ViewEncapsulation, OnDestroy  } from '@angular/core';
-import { IElement, IIdRef, IRevisionRef } from './classes';
-import { MessageService, PropertyStoreService, UserService} from './modules/core/services';
+import {Component, ViewEncapsulation, OnDestroy, AfterViewInit} from '@angular/core';
+import { IElement, IIdRef, IRevisionRef } from './lib';
+import { MessageService, PropertyStoreService, UserService} from './lib/services';
 
 // declare var $: any;
 
@@ -13,8 +13,7 @@ import { MessageService, PropertyStoreService, UserService} from './modules/core
   encapsulation: ViewEncapsulation.None,
 })
 
-export class AppComponent  implements OnDestroy {
-
+export class AppComponent  implements OnDestroy, AfterViewInit {
   ref: IIdRef|IRevisionRef|IElement;
 
   constructor(private users: UserService, private  properties: PropertyStoreService,
@@ -24,6 +23,10 @@ export class AppComponent  implements OnDestroy {
       (message) => this.showMessage(message),
       () => this.ref = null);
 
+  }
+
+  ngAfterViewInit(): void {
+    M.AutoInit();
   }
 
   ngOnDestroy() {
@@ -49,20 +52,5 @@ export class AppComponent  implements OnDestroy {
     console.log('show preview');
     this.ref = element;
   }
-
-  // private checkRouter(target: string, value: string) {
-  //   const current = this.properties.get('current');
-  //   if (current === target) {
-  //     const config = this.properties.get('home');
-  //     if (config.current !== value) {
-  //       this.properties.set(target, {'current': value});
-  //     }
-  //   } else if (this.properties.get(target) === '') {
-  //     this.properties.set(target, {'current': value});
-  //   }
-  //   this.properties.set('current', target);
-  //
-  // }
-
 
 }

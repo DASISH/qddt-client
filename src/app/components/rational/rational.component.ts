@@ -1,16 +1,26 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges
+} from '@angular/core';
 import { RATIONAL_DESCRIPTIONS , RationalDescription} from './rationaldescription';
 
 @Component({
   selector: 'qddt-rational',
-  styles: [':host /deep/ .hoverable .row { min-height:3rem; margin-bottom:0px;}'],
+  styles: [':host ::ng-deep .hoverable .row { min-height:3rem; margin-bottom:0px;}'],
   templateUrl: './rational.component.html'
 })
 
-export class RationalComponent implements OnInit, OnChanges {
+export class RationalComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() element: any;
   @Input() formName: string;
   @Input() config: any;
+
+  public readonly formId = Math.round( Math.random() * 10000);
+
   public saveOptionIndex: number;
   public rationalDescriptionsFiltered: RationalDescription[];
   public rationalDescriptions = RATIONAL_DESCRIPTIONS;
@@ -29,8 +39,22 @@ export class RationalComponent implements OnInit, OnChanges {
     this.savedId = null;
   }
 
-  ngOnInit() {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.element.isFirstChange()) {
+      this.element.changeComment = '';
+      this.onSelectOption(0);
+    }
+    this.originalId = this.element.id;
+    // console.log(this.element.changeKind);
+  }
 
+  ngAfterViewInit(): void {
+    // document.querySelectorAll('SELECT').forEach( comp => M.FormSelect.init(comp));
+    M.FormSelect.init(document.getElementById('SELECT-' + this.formId));
+    console.log('init select');
+  }
+
+  ngOnInit() {
     if (this.config) {
       const hiddenIds = this.config.hidden || [];
       if (!('archived' in this.element)) {            // Hide Archived option if element don't have this field.
@@ -38,7 +62,6 @@ export class RationalComponent implements OnInit, OnChanges {
       }
       this.rationalDescriptionsFiltered = RATIONAL_DESCRIPTIONS.filter(f => !hiddenIds.find(id => id === f.id));
     }
-
   }
 
   onClickRational1(id: number) {
@@ -51,6 +74,7 @@ export class RationalComponent implements OnInit, OnChanges {
       // set default value, in case user decides to go on without selecting an item...
       this.onClickRational2(rational.children[this._Rational2Index]);
     }
+    console.log('onClickRational1 ' + id );
   }
 
   onClickRational2(rational: any) {
@@ -58,7 +82,7 @@ export class RationalComponent implements OnInit, OnChanges {
     if (rational.change) {
       this.element.changeKind = rational.change;
     }
-
+    console.log('onClickRational2 ' + rational );
   }
 
   onSelectOption(id: number) {
@@ -71,12 +95,14 @@ export class RationalComponent implements OnInit, OnChanges {
     if (id === 2) {
       this.savedbasedOnObject = this.element.basedOnObject;
       this.element.basedOnObject = null;
+      this.element.modifiedBy = null;
       if (this.element.id === null) {
         this.element.id = this.originalId;
       }
     } else if (id === 3) {
       this.savedId = this.element.id;
       this.element.basedOnObject = null;
+      this.element.modifiedBy = null;
       this.element.id = null;
       this.element.changeKind = null;
     } else {
@@ -85,12 +111,7 @@ export class RationalComponent implements OnInit, OnChanges {
         this.element.basedOnObject = this.savedbasedOnObject;
       }
     }
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    this.originalId = this.element.id;
-    this.onSelectOption(0);
-    // console.log(this.element.changeKind);
+    console.log('onSelectOption');
   }
 
 }

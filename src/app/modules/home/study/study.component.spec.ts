@@ -1,12 +1,12 @@
-import { Component, Input, PipeTransform, Pipe } from '@angular/core';
+import { Component, Input, PipeTransform, Pipe, Directive } from '@angular/core';
+import { CommonModule} from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { TestBed, async } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { StudyComponent } from './study.component';
-import {CommonModule} from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import {HomeService} from '../home.service';
-import {API_BASE_HREF} from '../../../api';
+import { HomeService} from '../../../lib/services';
+import { API_BASE_HREF} from '../../../api';
 
 export function main() {
   describe('Study component', () => {
@@ -86,6 +86,7 @@ class StudyEditComponent {
 }
 
 
+// @Directive()
 class RevisionComponent {
   @Input() isVisible: any;
   @Input() config: any;

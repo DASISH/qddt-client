@@ -1,13 +1,13 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { StatementConstruct } from '../../../classes/controlconstruct.classes';
-import {TemplateService} from '../../../components/template';
+import { StatementConstruct } from '../../../lib';
+import { TemplateService } from '../../../components/template';
 
 
 @Component({
   selector: 'qddt-statement-edit',
 
   templateUrl: 'statementconstruct.edit.component.html',
-  styles: [ ]
+  styles: []
 })
 export class StatementEditComponent implements OnInit {
   @Output() element = new EventEmitter<any>();

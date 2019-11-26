@@ -1,8 +1,15 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
-import { PublicationService} from './publication.service';
-import { Publication, PUBLICATION_TYPES, PublicationStatus} from './publication.classes';
-import { ActionKind, ElementKind, ElementRevisionRef, getElementKind, IEntityEditAudit} from '../../classes';
-import { TemplateService} from '../../components/template';
+import {
+  ActionKind,
+  ElementKind,
+  ElementRevisionRef,
+  IEntityEditAudit,
+  getElementKind,
+  Publication,
+  PUBLICATION_TYPES,
+  PublicationService, PublicationStatus
+} from '../../lib';
+import {TemplateService} from '../../components/template';
 
 @Component({
   selector: 'qddt-publication-form',
@@ -48,7 +55,7 @@ export class PublicationFormComponent implements OnChanges {
         (error) => { throw error; });
   }
 
-  public getLabelByElement(kind: ElementKind): String {
+  public getLabelByElement(kind: ElementKind): string {
     kind = getElementKind(kind);
     return PUBLICATION_TYPES.find(e => e.id === kind).label;
   }

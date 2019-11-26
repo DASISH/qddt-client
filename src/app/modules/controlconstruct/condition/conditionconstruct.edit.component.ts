@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { ConditionConstruct, ElementKind, Page} from '../../../classes';
-import { TemplateService} from '../../../components/template';
+import { ConditionConstruct, ElementKind, Page } from '../../../lib';
+import { TemplateService } from '../../../components/template';
 
 @Component({
   selector: 'qddt-condition-edit',
@@ -35,7 +35,7 @@ export class ConditionEditComponent implements OnInit {
   }
 
   onSearchElements(key: string) {
-    this.service.searchByKind( { kind: this.CONDITION, key: key, page: new Page()})
+    this.service.searchByKind({ kind: this.CONDITION, key, page: new Page() })
       .then(
         (result) => { this.elements = result.content; },
         (error) => { throw error; });
@@ -47,7 +47,7 @@ export class ConditionEditComponent implements OnInit {
       .subscribe(
         (result) => { this.element.emit(result); },
         (error) => { throw error; }
-    );
+      );
     return false;
   }
 

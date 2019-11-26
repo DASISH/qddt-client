@@ -1,5 +1,8 @@
 import { Component, Input, OnChanges, Output, EventEmitter } from '@angular/core';
 import { DiffString } from './diff.string';
+import {isDate} from 'util';
+import {formatDate} from '@angular/common';
+import { SessionService } from '../../lib/services';
 
 export class ElementFieldChange {
   name: string;
@@ -28,7 +31,9 @@ export class DiffComponent implements OnChanges {
   public elementChange: ElementChange = new ElementChange();
   private diff: DiffString = new DiffString();
 
-  ngOnChanges() {
+  constructor(public session: SessionService) {}
+
+    ngOnChanges() {
     this.elementChange.name = this.current['name'] || '';
     this.elementChange.version = this.compared.version.major + '.' + this.compared.version.minor
       + ' vs Current working version';
@@ -66,7 +71,10 @@ export class DiffComponent implements OnChanges {
         && result !== null && result !== undefined && result !== '') {
         return init(result);
       }
-      return result.toString();
+      if (isDate(result) ) {
+        return formatDate(result, 'short', this.session.locale);
+      }
+      return  result.toString();
     } else {
       if (obj[names] === null || obj[names] === undefined) {
         return '';
