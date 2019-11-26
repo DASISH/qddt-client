@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output, AfterViewInit } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { ElementKind, TemplateService, Topic } from '../../../lib';
 
 @Component({
@@ -31,26 +31,20 @@ import { ElementKind, TemplateService, Topic } from '../../../lib';
 </div>
 `})
 
-export class TopicEditComponent implements AfterViewInit {
+export class TopicEditComponent  {
   @Input() topic: Topic;
   @Input() readonly = false;
-  @Input() isVisible = false;
   @Output() savedEvent = new EventEmitter<any>();
 
   public readonly formId = Math.round(Math.random() * 10000);
   private readonly TOPIC_KIND = ElementKind.TOPIC_GROUP;
 
+  public isVisible = false;
+  public showRevision = false;
   public fileStore: File[] = [];
 
   constructor(private service: TemplateService) {
   }
-
-  ngAfterViewInit(): void {
-    // document.querySelectorAll('input[data-length], textarea[data-length]').forEach(
-    //   input => M.CharacterCounter.init(input));
-    // M.updateTextFields();
-  }
-
 
   public async onSave() {
     const formData = new FormData();

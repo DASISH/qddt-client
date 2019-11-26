@@ -20,8 +20,7 @@ import {
 <div class="collection with-header hoverable row">
     <a class="collection-header col s12"  (click)="onItemSearch($event)" style="cursor: zoom-in">
       <label><i class="material-icons tiny">format_list_bulleted</i>{{labelName}}</label>
-      <a class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light teal"
-        [ngClass]="{ hide: !showButton }" >
+      <a class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light teal">
         <i class="material-icons" title="add Item">playlist_add</i>
       </a>
     </a>
@@ -46,8 +45,8 @@ import {
 <div id="MODAL-{{modalId}}" class="modal modal-fixed-footer">
   <div class="modal-content white black-text" >
     <h4>Search for item</h4>
-<!--    <qddt-element-select [source] = "SOURCE" (elementSelectedEvent)="elementSelectedEvent($event)">-->
-<!--    </qddt-element-select>-->
+    <qddt-element-select [source] = "elementKind" (elementSelectedEvent)="onElementSelectedEvent($event)">
+    </qddt-element-select>
   </div>
   <div class="modal-footer">
     <button
@@ -69,20 +68,11 @@ export class ElementCollectionComponent {
 
   public readonly modalId = Math.round( Math.random() * 10000);
 
+  // tslint:disable-next-line:variable-name
   private _modalRef: M.Modal;
 
   constructor(private service: TemplateService, public message: MessageService, private router: Router ) {
   }
-
-  // get showButton(): boolean {
-  //   return this._showButton;
-  // }
-  // set showButton(value: boolean) {
-  //   if (value) {
-  //     this._ShowRef = true;
-  //   }
-  //   this._showButton = value;
-  // }
 
   get modalRef(): M.Modal {
     if (!(this._modalRef)) {
@@ -91,7 +81,7 @@ export class ElementCollectionComponent {
     return this._modalRef;
   }
 
-  public elementSelectedEvent(ref: IElement) {
+  public onElementSelectedEvent(ref: IElement) {
     this.createdEvent.emit(ref);
     this.modalRef.close();
   }
@@ -114,6 +104,11 @@ export class ElementCollectionComponent {
   }
 
   public onItemUpdate(event: Event, item: IEntityAudit) {
+    event.stopPropagation();
+    this.modalRef.open();
+  }
+
+  public onItemSearch(event: Event) {
     event.stopPropagation();
     this.modalRef.open();
   }

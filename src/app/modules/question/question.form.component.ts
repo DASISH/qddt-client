@@ -40,23 +40,24 @@ export class QuestionFormComponent  implements AfterViewInit {
 
   onSaveResponseDomain(item: ElementRevisionRef) {
     if (item.element.responseKind === 'MIXED') {
-      const element = item.element as ResponseDomain;
-      element.changeKind = 'CONCEPTUAL';
-      element.changeComment = 'Values changed or managed representation added';
-      this.service.update(element).subscribe(result => {
-        item.element = result;
-        this.questionItem.responseDomain = item.element;
-        this.questionItem.responseDomainRevision = 0;
-      });
+      this.onUpdateResponseDomain(item.element as ResponseDomain);
     } else {
       this.questionItem.responseDomain = item.element;
       this.questionItem.responseDomainRevision = item.elementRevision || 0;
     }
   }
 
-  onResponsedomainRemove() {
+  onResponseDomainRemove() {
     this.questionItem.responseDomainRevision = 0;
     this.questionItem.responseDomain = null;
   }
 
+  onUpdateResponseDomain(element: ResponseDomain) {
+    element.changeKind = 'CONCEPTUAL';
+    element.changeComment = 'Values changed or managed representation added';
+    this.service.update(element).subscribe(result => {
+      this.questionItem.responseDomain = result as ResponseDomain;
+      this.questionItem.responseDomainRevision = 0;
+    });
+  }
 }

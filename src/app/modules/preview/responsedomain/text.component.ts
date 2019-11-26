@@ -6,8 +6,9 @@ import { Category } from '../../../lib';
 
   template: `
     <div class="row" *ngIf="managedRepresentation">
-       <textarea id="{{managedRepresentation?.id}}-textarea"
-         class="materialize-textarea"  data-length="high" validate></textarea>
+    
+       <textarea id="textarea-{{managedRepresentation?.id}}"
+         class="materialize-textarea" data-length="high" validate></textarea>
        <label>Text length from {{ low }} to {{ high }}</label>
      </div>`,
   styles: [],

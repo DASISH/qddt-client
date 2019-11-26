@@ -2,12 +2,13 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'qddt-toc',
-  styleUrls: ['./toc.component.css', ],
+  // styleUrls: ['./toc.component.css', ],
+  styles: ['li.over { border-color: #333; background: #ccc; }'],
   template: `
-<div class="col hide-on-small-only">
-  <div style="top: 55;" class="toc-wrapper pinned">
+<div class="col m3 hide-on-small-only">
+  <div class="toc-wrapper pinned" style="overflow-y: auto;" >
     <h5>{{path | titlecase }} Toc</h5>
-    <ul id="drags" class="section table-of-contents" style="padding:3;"
+    <ol id="drags" class="section table-of-contents"
     (dragover)="onDragover($event)"
     (dragenter)="onDragenter($event)"
     (drop)="onDrop($event)" >
@@ -15,7 +16,7 @@ import { Component, Input } from '@angular/core';
       <a href="{{path}}#{{element.id}}" draggable="true" (dragstart)="onDragstart($event, element)">
       {{ element.name }}</a>
       </li>
-    </ul>
+    </ol>
   </div>
 </div>
 `,

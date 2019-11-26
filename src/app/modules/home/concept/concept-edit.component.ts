@@ -49,10 +49,10 @@ export class ConceptEditComponent {
   @Input() concept: Concept;
   @Output() conceptChanged = new EventEmitter<Concept>();
   @Input() readonly = false;
-  @Input() isVisible = false;
 
   public readonly formId = Math.round(Math.random() * 10000);
   public showRevision = false;
+  public isVisible = false;
 
   constructor(private service: TemplateService) { }
 

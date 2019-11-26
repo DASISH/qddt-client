@@ -1,4 +1,4 @@
-import { AfterContentChecked, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   ActionKind,
@@ -10,7 +10,6 @@ import {
   SurveyProgram,
   TemplateService
 } from '../../../lib';
-// import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'qddt-study',
@@ -27,9 +26,11 @@ export class StudyComponent implements OnInit {
   private refreshCount = 0;
   private readonly STUDY = ElementKind.STUDY;
 
-  constructor(private router: Router, private property: PropertyStoreService,
-    private message: MessageService,
-    private homeService: HomeService<Study>, private templateService: TemplateService) {
+  constructor(private router: Router,
+              private property: PropertyStoreService,
+              private message: MessageService,
+              private homeService: HomeService<Study>,
+              private templateService: TemplateService) {
 
     this.readonly = !homeService.canDo(this.STUDY).get(ActionKind.Create);
     this.canDelete = homeService.canDo(this.STUDY).get(ActionKind.Delete);

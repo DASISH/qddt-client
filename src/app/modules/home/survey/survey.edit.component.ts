@@ -42,9 +42,9 @@ import { SurveyProgram, TemplateService } from '../../../lib';
 
 export class SurveyEditComponent  {
   @Input() survey: SurveyProgram;
-  @Input() isVisible = false;
   @Output() savedEvent = new EventEmitter<SurveyProgram>();
 
+  public isVisible = false;
   public showRevision = false;    // used by parent form to keep track of revision comp
   public readonly formId = Math.round(Math.random() * 10000);
 

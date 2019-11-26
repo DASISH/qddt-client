@@ -60,7 +60,8 @@
           <qddt-version-label class="right" [element]="study"></qddt-version-label>
         </div>
       </div>
-      <qddt-study-edit [isVisible]="edit.isVisible" [study]="study" #edit (savedEvent)="onStudySaved($event)">
+
+      <qddt-study-edit [study]="study" #edit (savedEvent)="onStudySaved($event)">
       </qddt-study-edit>
 
       <div class="row" *ngIf="!edit.isVisible">

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { getQueryInfo, ElementRevisionRef, PreviewService, Publication } from '../../../lib';
+import {getQueryInfo, ElementRevisionRef, PreviewService, Publication, QueryInfo} from '../../../lib';
 
 @Component({
   selector: 'qddt-preview-publication',
@@ -26,7 +26,7 @@ import { getQueryInfo, ElementRevisionRef, PreviewService, Publication } from '.
 
   <div class="row">
     <div *ngIf="publication?.publicationElements && publication?.publicationElements?.length > 0" class="section">
-      <ul *ngIf="publication?.publicationElements" materialize="collapsible" class="collapsible popout"
+      <ul *ngIf="publication?.publicationElements" class="collapsible popout"
           data-collapsible="expandable" style="padding: 5pt;">
         <li *ngFor="let cqi of publication.publicationElements;" (click)="onViewDetail(cqi)">
           <div class="collapsible-header green lighten-5">
@@ -54,7 +54,6 @@ import { getQueryInfo, ElementRevisionRef, PreviewService, Publication } from '.
 export class PreviewPublicationComponent  {
   @Input() publication: Publication;
 
-
   constructor(private service: PreviewService) { }
 
   onViewDetail(element: ElementRevisionRef) {
@@ -63,6 +62,9 @@ export class PreviewPublicationComponent  {
         (result) => { element.element = result.entity; },
         (error) => { throw error; });
     }
+  }
+  public  getQueryInfo(kind): QueryInfo {
+    return getQueryInfo(kind);
   }
 
 }

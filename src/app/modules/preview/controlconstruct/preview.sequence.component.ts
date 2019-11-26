@@ -9,7 +9,7 @@ import {ElementRevisionRef, getElementKind, PreviewService, SequenceConstruct} f
   template: `
     <div class="row" *ngIf="sequenceConstruct">
       <span class="row">{{ sequenceConstruct?.description }}</span>
-      <ul *ngIf="sequenceConstruct.sequence"  class="collapsible" data-collapsible="accordion"  materialize="collapsible">
+      <ul *ngIf="sequenceConstruct.sequence"  class="collapsible" data-collapsible="accordion"  >
         <li *ngFor="let child of sequenceConstruct.sequence">
           <div class="collapsible-header green lighten-5"  (click)="onViewDetail(child)">
             {{ child.name }}

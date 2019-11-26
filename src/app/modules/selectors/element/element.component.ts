@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {
   DOMAIN_TYPE_DESCRIPTION, DomainKind,
   ElementEnumAware,
@@ -16,11 +16,11 @@ import {
     <div class="col left" *ngFor="let domain of domainTypeDescription" >
     <label>
         <input name="DOMAIN-TYPE-GROUP" type="radio" (click)="onSelectDomainType(domain.id)" [checked]="domainType === domain.id"/>
-        <span class="white-text">{{ domain.label }}</span>
+        <span>{{ domain.label }}</span>
       </label>
     </div>
   </div>
-  <qddt-auto-complete [items]="itemList" class="black-text" [elementKind]="kind" [autoCreate] = "false"
+  <qddt-auto-complete [items]="itemList" class="black-text" [elementKind]="kind" [autoCreate] = "autoCreate"
     (selectEvent)="onSelectElement($event)"
     (enterEvent)="onSearchElements($event)">
   </qddt-auto-complete>
@@ -28,8 +28,9 @@ import {
 })
 
 @ElementEnumAware
-export class ElementComponent implements OnChanges {
+export class ElementComponent implements OnChanges, AfterViewInit {
   @Input() source: ElementKind | IIdRef;
+  @Input() autoCreate = false;
   @Output() elementSelectedEvent = new EventEmitter<IElement>();
   // @Output() dismissEvent = new EventEmitter<boolean>();
 
@@ -76,5 +77,12 @@ export class ElementComponent implements OnChanges {
 
   private isElementRef(kind: IElement | ElementKind): kind is IElement {
     return (kind as IElement).element !== undefined;
+  }
+
+  ngAfterViewInit(): void {
+    this.isResponseDomain = (this.kind === ElementKind.RESPONSEDOMAIN);
+    if (this.isResponseDomain) {
+      this.onSelectDomainType(this.domainType);
+    }
   }
 }

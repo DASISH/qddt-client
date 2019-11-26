@@ -1,29 +1,28 @@
 <div class="row" *ngIf="element" class="qddt-form">
   <form (ngSubmit)="onUpdateInstrument()" #instrumentform="ngForm">
     <div class="row input-field">
-      <label>Name</label>
       <input id="{{formId}}-name" name="name" type="text" class="validate" required [(ngModel)]="element.name"
         data-length="255">
+      <label>Name</label>
     </div>
     <div class="row input-field">
-      <label [attr.for]="formId + '-label'">Label</label>
       <input id="{{formId}}-label" name="label" type="text" class="validate" required [(ngModel)]="element.label"
         data-length="255">
+      <label>Label</label>
     </div>
     <div class="row input-field">
-      <label [attr.for]="formId + '-desc'">Description</label>
       <textarea id="formId + '-desc'" required name="{{formId}}-desc" class="materialize-textarea"
         [(ngModel)]="element.description" data-length="1000">
       </textarea>
+      <label >Description</label>
     </div>
     <div class="row input-field">
-      <label class="active">Instrument Type</label>
-      <select name="formId + '-type'" materialize="material_select" required [(ngModel)]="currentInstrumentType"
-        (ngModelChange)="onSelectInstrumentType($event)">
+      <select name="formId + '-type'" required [(ngModel)]="currentInstrumentType" (ngModelChange)="onSelectInstrumentType($event)">
         <option *ngFor="let item of instrumentKinds" [selected]="item.id === currentInstrumentType" [value]="item.id">
           {{item.label}}
         </option>
       </select>
+      <label class="active">Instrument Type</label>
     </div>
     <qddt-instrument-sequence [sequence]="element.sequence"></qddt-instrument-sequence>
 

@@ -26,10 +26,9 @@ export class TopicComponent implements OnInit {
 
   public showReuse = false;
   public showTopicForm = false;
+  public showProgressBar = false;
   public readonly: boolean;
   public canDelete: boolean;
-
-  private refreshCount = 0;
 
   constructor(private router: Router, private property: PropertyStoreService,
               private message: MessageService, private homeService: HomeService<Topic>, private templateService: TemplateService) {
@@ -41,10 +40,12 @@ export class TopicComponent implements OnInit {
   ngOnInit(): void {
     this.study = this.property.get('study');
     const parentId = this.study.id || this.property.menuPath[HierarchyPosition.Study].id;
+    this.showProgressBar = true;
     this.homeService.getListByParent(this.TOPIC_KIND, parentId)
       .then((result) => {
         this.property.set('topics', this.topics = result);
         this.showReuse = false;
+        this.showProgressBar = false;
       });
   }
 

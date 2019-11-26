@@ -5,8 +5,8 @@ import {ElementKind, ElementRevisionRef, IElement, Instrument, Page, Study, Surv
   selector: 'qddt-study-edit',
   providers: [{ provide: 'elementKind', useValue: 'STUDY' }],
   template: `
-<div *ngIf="isVisible">
-  <form class="row" id="{{formId}}" (ngSubmit)="onSave()" #ngForm="ngForm">
+<div >
+  <form *ngIf="isVisible" class="row" id="{{formId}}" (ngSubmit)="onSave()" #ngForm="ngForm">
     <div class="col s12">
       <qddt-input name="name"
         required
@@ -52,11 +52,11 @@ import {ElementKind, ElementRevisionRef, IElement, Instrument, Page, Study, Surv
 
 export class StudyEditComponent {
   @Input() study: Study;
-  @Input() isVisible = false;
   @Output() savedEvent = new EventEmitter<SurveyProgram>();
 
   public readonly formId = Math.round(Math.random() * 10000);
   public readonly INSTRUMENT = ElementKind.INSTRUMENT;
+  public isVisible = false;
   public showRevision = false;    // used by parent form to keep track of revision comp
 
   constructor(private service: TemplateService) { }

@@ -1,12 +1,10 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
-  ActionKind, Category,
-  DOMAIN_TYPE_DESCRIPTION, DomainKind,
+  ActionKind,
   ElementKind,
   ElementRevisionRef,
   IElement, IIdRef,
-  IRevisionRef,
-  Page, ResponseDomain, TemplateService, UserService
+  ResponseDomain, TemplateService, UserService
 } from '../../../lib';
 
 @Component({
@@ -19,7 +17,7 @@ import {
   ],
 })
 
-export class ResponsedomainComponent implements OnChanges, AfterViewInit {
+export class ResponsedomainComponent  {
   @Input()
   set responseDomain(responseDomain) {
     this._localresponseDomain = (responseDomain) ? new ResponseDomain(JSON.parse(JSON.stringify(responseDomain))) : null;
@@ -28,42 +26,37 @@ export class ResponsedomainComponent implements OnChanges, AfterViewInit {
   @Input() readonly = false;
   @Output() removeEvent = new EventEmitter<IIdRef>();
   @Output() selectedEvent = new EventEmitter<ElementRevisionRef>();
+  @Output() updateEvent = new EventEmitter<ResponseDomain>();
 
   public readonly MISSING_GROUP = ElementKind.MISSING_GROUP;
   public readonly RESPONSEDOMAIN = ElementKind.RESPONSEDOMAIN;
-  public readonly domainTypeDescription: any[];
   public readonly canDelete: boolean;
   public readonly canEdit: boolean;
   public readonly modalId = Math.round( Math.random() * 10000);
 
-  public showProgressBar = false;
-  public selectedDomainId = 1;
+  public showResponseDomain = true;
 
+  // tslint:disable-next-line:variable-name
   private _localresponseDomain: ResponseDomain;
+  // tslint:disable-next-line:variable-name
+  private _modalRef: M.Modal;
 
   constructor(private service: TemplateService, private access: UserService) {
-    this.domainTypeDescription = DOMAIN_TYPE_DESCRIPTION.filter((e) => e.id > DomainKind.NONE && e.id < DomainKind.MISSING);
     this.canDelete = access.canDo(ActionKind.Delete, this.RESPONSEDOMAIN);
     this.canEdit = access.canDo(ActionKind.Update, this.RESPONSEDOMAIN);
   }
 
-  public ngAfterViewInit(): void {
-    // document.querySelectorAll('select')
-    // .forEach( select => M.FormSelect.init(select));
-  }
-
-  public ngOnChanges() {
-    if (this.responseDomain) {
-      this.onSelectDomainKind(DomainKind[this.responseDomain.responseKind]);
+  get modalRef(): M.Modal {
+    if (!(this._modalRef)) {
+      this._modalRef = M.Modal.init(document.querySelector('#MODAL-' + this.modalId));
     }
+    return this._modalRef;
   }
 
-  public onSelectDomainKind(value: number) {
-    this.selectedDomainId = (value) && (value < DomainKind.MIXED) ? value : DomainKind.SCALE;
-  }
-
-  public onItemEdit() {
-
+  public onItemEdit(event: Event) {
+    event.stopPropagation();
+    this.showResponseDomain = true;
+    this.modalRef.open();
   }
 
   public onItemGetLatest() {
@@ -85,8 +78,21 @@ export class ResponsedomainComponent implements OnChanges, AfterViewInit {
     this.responseDomain = null;
   }
 
-  public onMissingAdd() {
+  public onRevisionSelect(ref: ElementRevisionRef) {
+    this.selectedEvent.emit(ref);
+    this.modalRef.close();
+  }
 
+  public onMissingAdd(event: Event) {
+    event.stopPropagation();
+    this.showResponseDomain = false;
+    this.modalRef.open();
+  }
+
+  public onMissingEdit(event: Event) {
+    event.stopPropagation();
+    this.showResponseDomain = false;
+    this.modalRef.open();
   }
 
   public onMissingRemove() {
@@ -101,35 +107,20 @@ export class ResponsedomainComponent implements OnChanges, AfterViewInit {
     }
   }
 
-
   public onMissingSelect(ref: IElement) {
-    this.responseDomain.addManagedRep(ref.element);
+    this._localresponseDomain.addManagedRep(ref.element);
   }
 
-  public onOkMissing() {
-
+  public onOkMissing(event: Event) {
+    event.stopPropagation();
+    this.updateEvent.emit(this.responseDomain);
+    this.modalRef.close();
   }
 
-  public onDismiss() {
-
+  public onDismiss(event: Event) {
+    event.stopPropagation();
+    this.modalRef.close();
   }
 
-  public onRevisionSelect() {
-    
-  }
 
-  public openResponseDomain() {
-    this.showMissing = !(this.showResponseDomain = true);
-    this.onResponseDomainSearch({ element: '*', elementKind: this.RESPONSEDOMAIN });
-  }
-
-  public openMissing() {
-    this.showResponseDomain = !(this.showMissing = true);
-    this.onMissingSearch({ element: '*', elementKind: this.MISSING_GROUP });
-  }
-
-  public closeMissing() {
-    this.selectedEvent.emit(new ElementRevisionRef({ element: this.responseDomain, elementRevision: 0 }));
-    this.showMissing = false;
-  }
 }

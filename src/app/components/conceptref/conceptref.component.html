@@ -10,10 +10,10 @@
       <tbody *ngIf="showRefs">
       <tr *ngFor="let ref of getRefRoot()" >
         <td>
-          <a  style="cursor: pointer;" (click)="onClickStudy(ref.topicRef.studyRef.id)">{{ ref?.topicRef?.studyRef?.name }}</a>
+          <a  style="cursor: pointer;" (click)="onClickStudy(ref.parent.parent.id)">{{ ref?.parent?.parent?.name }}</a>
         </td>
         <td>
-          <a  style="cursor: pointer;" (click)="onClickTopic(ref.topicRef.id)">{{ ref?.topicRef?.name }}</a>
+          <a  style="cursor: pointer;" (click)="onClickTopic(ref.parent.id)">{{ ref?.parent?.name }}</a>
         </td>
         <td *ngIf="ref.id">
           <a  style="cursor: pointer;" (click)="onClickConcept(ref.id)">{{ ref?.name }}</a>

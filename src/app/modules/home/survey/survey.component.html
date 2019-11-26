@@ -62,8 +62,7 @@
           <qddt-version-label class="right" [element]="surveyProgram"></qddt-version-label>
         </div>
       </div>
-      <qddt-survey-edit [isVisible]="edit.isVisible" [survey]="surveyProgram" (savedEvent)="onSurveySaved($event)"
-        #edit>
+      <qddt-survey-edit [survey]="surveyProgram" #edit (savedEvent)="onSurveySaved($event)" >
       </qddt-survey-edit>
       <div class="row" *ngIf="!edit.isVisible">
         <div class="col s12">

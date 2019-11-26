@@ -6,7 +6,7 @@ import {Concept} from '../../../lib';
 
   styles: [  ],
   template: `
-    <ul class="col s11" *ngIf="conceptList" materialize="collapsible" class="collapsible" data-collapsible="accordion" >
+    <ul class="col s11" *ngIf="conceptList"  class="collapsible" data-collapsible="accordion" >
       <li class="row" *ngFor="let concept of conceptList">
         <div class="collapsible-header yellow lighten-5"
           style="display: flow-root;  margin-left: unset; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; ">

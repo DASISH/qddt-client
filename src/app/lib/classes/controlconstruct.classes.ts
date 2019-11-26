@@ -1,4 +1,4 @@
-import { IEntityEditAudit, IIdRef, IOtherMaterial } from '../interfaces';
+import {IComment, IEntityAudit, IEntityEditAudit, IIdRef, IOtherMaterial, IUser, IVersion} from '../interfaces';
 import { ElementKind } from '../enums';
 import { ElementRevisionRef } from './element-revision-ref';
 import { QuestionItem } from './questionitem.classes';
@@ -61,6 +61,18 @@ export class SequenceConstruct implements IEntityEditAudit {
   name: string;
   label?: string;
   description?: string;
+  basedOnObject?: string;
+  basedOnRevision?: number;
+  changeComment?: string;
+  changeKind?: string;
+  modified?: number;
+  modifiedBy?: IUser;
+  version?: IVersion;
+  agency?: IEntityAudit;
+  archived?: boolean;
+  otherMaterials?: IOtherMaterial[];
+  xmlLang?: string;
+  comments?: IComment[];
   classKind = ElementKind[ElementKind.SEQUENCE_CONSTRUCT];
   sequenceKind = SequenceKind[SequenceKind.SECTION];
   sequence: ElementRevisionRef[] = [];

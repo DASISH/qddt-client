@@ -3,7 +3,7 @@ import {
   Optional,
   Inject,
   Input,
-  ViewChild,
+  ViewChild, AfterViewInit,
 } from '@angular/core';
 
 import {
@@ -38,7 +38,7 @@ import {animations} from './animations';
     multi: true,
   }],
 })
-export class FormTextAreaComponent extends ElementBase<string> {
+export class FormTextAreaComponent extends ElementBase<string>  implements AfterViewInit {
   @Input() public label: string;
   @Input() public placeholder: string;
 

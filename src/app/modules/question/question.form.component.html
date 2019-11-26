@@ -38,9 +38,10 @@
     </qddt-textarea>
 
     <qddt-responsedomain-select *ngIf="questionItem"
-        [responseDomain]="questionItem.responseDomain"
+        [(responseDomain)]="questionItem.responseDomain"
         (selectedEvent)="onSaveResponseDomain($event)"
-        (removeEvent)="onResponsedomainRemove()">
+        (updateEvent)="onUpdateResponseDomain($event)"
+        (removeEvent)="onResponseDomainRemove()">
     </qddt-responsedomain-select>
 
     <qddt-rational [formName]="'RationalComp'"

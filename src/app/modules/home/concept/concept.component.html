@@ -12,7 +12,7 @@
       <i class="material-icons right" *ngIf="showReuse">keyboard_arrow_up</i>
       reuse
     </a>
-    <qddt-copy-select *ngIf="showReuse" [parentId]="topic.id" [elementKind]="elementKind"
+    <qddt-copy-select *ngIf="showReuse" [parentId]="topic.id" [elementKind]="CONCEPT"
       (dismissEvent)="showReuse=false;" (itemSelected)="onSelectedRevision($event)">
     </qddt-copy-select>
 
@@ -48,13 +48,13 @@
   </qddt-concept-treenode>
 </div>
 
-<div *ngIf="topic" class="col hide-on-small-only ">
-  <div class="toc-wrapper pinned scroll-content">
+<div *ngIf="topic" class="col m3 hide-on-small-only ">
+  <div class="toc-wrapper " style="position: fixed;">
     <h5>Concept Toc</h5>
-    <ol class="table-of-contents" style="padding-inline-start: 0px;">
-      <qddt-concept-toc [children]="topic.concepts" [parentId]="topic.id" [level]="0"
+<!--    <ol class="table-of-contents" style="padding-inline-start: 0px;">-->
+      <qddt-concept-toc class="table-of-contents" [children]="topic.concepts" [parentId]="topic.id" [level]="0"
         (conceptMoved)="onMoveConcept($event)"></qddt-concept-toc>
-    </ol>
+<!--    </ol>-->
   </div>
 </div>
 

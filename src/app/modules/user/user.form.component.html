@@ -15,12 +15,8 @@
         </div>
 
         <div class="row input-field">
-          <select id="{{formId}}-agency" name="{{formId}}-agency"  class="validate" required
-                  [ngModel]="selectedAgencyId"
-                  (ngModelChange)="onSelectChange($event)">
-                  <!--id="{{formId}}-agency" class="validate" name="agency" required materialize="material_select"-->
-                  <!--[ngModel]="selectedAgencyId" (ngModelChange)="onSelectChange($event)">-->
-                  <!--[(ngModel)]="user.agency">-->
+          <select id="{{formId}}-agency" name="{{formId}}-agency"  class="validate" required [ngModel]="selectedAgencyId"
+            (ngModelChange)="onSelectChange($event)">
             <option *ngFor="let agency of agencies" [value]="agency.id" >{{agency.name}}</option>
           </select>
           <label>Agency</label>

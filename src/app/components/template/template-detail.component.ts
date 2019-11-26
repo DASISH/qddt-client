@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output, OnDestroy, AfterContentChecked, AfterViewInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, OnDestroy, AfterViewInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { takeWhile } from 'rxjs/operators';
@@ -6,15 +6,12 @@ import { IDetailAction, IEntityEditAudit, ActionKind, ElementKind, HEADER_DETAIL
 import * as FileSaver from 'file-saver';
 
 
-declare var $: any;
-
 @Component({
   selector: 'qddt-template-detail',
   templateUrl: './template-detail.component.html',
 })
 
-// tslint:disable-next-line:one-line
-export class TemplateDetailComponent implements OnInit, OnDestroy, AfterContentChecked, AfterViewInit{
+export class TemplateDetailComponent implements OnInit, OnDestroy, AfterViewInit{
   @Output() closeState = new EventEmitter<IDetailAction>();
   @Output() selectedItem = new EventEmitter<IEntityEditAudit>();
 
@@ -53,10 +50,6 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterContentC
             this.selectedItem.emit(item); },
         (error) => { this.showProgressBar = false; throw error; });
     }
-  }
-
-  ngAfterContentChecked(): void {
-
   }
 
   onHideDetail() {
@@ -108,14 +101,7 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterContentC
           M.CharacterCounter.init(input);
           M.AutoInit(input);
         });
-    // M.updateTextFields();
   }
-
-
-  // onToggleForm() {
-  //   throw new Error("Method not implemented.");
-  // }
-
 
 }
 

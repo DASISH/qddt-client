@@ -10,11 +10,9 @@ import {
 @Component({
   selector: 'qddt-element-revision-select',
   template: `
-<qddt-auto-complete [items]="itemList" class="black-text" *ngIf = "showAutoComplete"
-  [elementKind]="kind" [autoCreate] = "false"
-  (selectEvent)="onSelectElement($event)"
-  (enterEvent)="onSearchElements($event)">
-</qddt-auto-complete>
+<qddt-element-select *ngIf = "showAutoComplete" [source]="kind" (elementSelectedEvent)="onSelectElement($event)" >
+
+</qddt-element-select>
 
 <qddt-revision-select *ngIf = "showRevisionSelect"
   [revisionRef]="revisionRef"

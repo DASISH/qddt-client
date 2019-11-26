@@ -10,14 +10,13 @@ import {
   Page,
   QuestionConstruct, QuestionItem, TemplateService, Universe
 } from '../../lib';
+import {Router} from '@angular/router';
 
 
 @Component({
   selector: 'qddt-question-construct-form',
   templateUrl: 'question-construct.form.component.html',
   styles: [
-    // '.nomargin { margin:0; }',
-    // ':host ::ng-deep .hoverable .row { min-height:3rem; margin-bottom:0px;}'
     '.collection-item:hover > ul.dropleft { display:block; } ',
     'ul.dropleft { position: absolute; display: none; margin-top: 0px; margin-bottom: 0px; z-index: 1;}',
     'ul.dropleft li { display:inline-flex; }'
@@ -36,8 +35,6 @@ export class QuestionConstructFormComponent {
   public readonly formId = Math.round(Math.random() * 10000);
 
   /* public savedQuestionItem: any; */
-  public instructionList: Instruction[];
-  public universeList: Universe[];
   public questionList: QuestionItem[];
   public revisionResults: IRevisionResult<QuestionItem>[];
 
@@ -47,7 +44,7 @@ export class QuestionConstructFormComponent {
   public fileStore: File[] = [];
 
 
-  constructor(private service: TemplateService) {
+  constructor(private service: TemplateService, private router: Router) {
     this.showUploadFileForm = false;
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.CONTROL_CONSTRUCT);
 
@@ -65,19 +62,6 @@ export class QuestionConstructFormComponent {
     this.controlConstruct.postInstructions.push(item.element);
   }
 
-  onInstructionSearch(key: string) {
-    this.service.searchByKind<Instruction>({ kind: this.INSTRUCTION, key, page: new Page() }).then(
-      (result) => {
-        this.instructionList = result.content;
-      });
-  }
-
-  onUniverseSearch(key: string) {
-    this.service.searchByKind<Universe>({ kind: this.UNIVERSE, key, page: new Page() }).then(
-      (result) => {
-        this.universeList = result.content;
-      });
-  }
 
   onQuestionSearch(key: IElement) {
     this.service.searchByKind<QuestionItem>({ kind: this.QUESTION, key: key.element, page: new Page() }).then(
@@ -86,18 +70,22 @@ export class QuestionConstructFormComponent {
       });
   }
 
+  onQuestionEdit(event: Event, item: QuestionItem) {
+    event.stopPropagation();
+    this.service.searchByUuid(item.id).then(
+      (result) => { this.router.navigate([result.url]); },
+      (error) => { throw  error; });
+  }
+
+  onQuestionRemove(event: Event) {
+    this.controlConstruct.questionItem = null;
+  }
+
   public onDismiss() {
     this.revisionResults = null;
     this.questionList = null;
   }
 
-  onRevisionSearch(item: IRevisionRef) {
-    this.service.getByKindRevisions<QuestionItem>(this.QUESTION, item.elementId).then(
-      (result) => {
-        this.revisionResults = result.content;
-      });
-
-  }
 
   onRevisionSelect(ref: ElementRevisionRef) {
     this.controlConstruct.questionItem = ref.element;
@@ -106,9 +94,6 @@ export class QuestionConstructFormComponent {
     this.revisionResults = [];
   }
 
-  onRemoveQuestionItem() {
-    this.controlConstruct.questionItem = null;
-  }
 
   async onSaveForm() {
 

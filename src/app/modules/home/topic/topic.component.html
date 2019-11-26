@@ -47,7 +47,7 @@
     <div class="col s1">
       <ul class="dropdownmenu">
         <li *ngIf="!topic.archived && !readonly">
-          <a class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2" (click)="edit.isVisible = !edit.isVisible; refreshCount = 0">
+          <a class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2" (click)="edit.isVisible = !edit.isVisible;">
             <i class="material-icons" title="Edit Concept">mode_edit</i></a>
         </li>
         <li *ngIf="!edit.isVisible">
@@ -70,7 +70,7 @@
           <qddt-version-label class="right" [element]="topic"></qddt-version-label>
         </div>
       </h5>
-      <qddt-topic-edit [isVisible]="edit.isVisible" #edit [topic]="topic" (savedEvent)="onTopicSaved($event)">
+      <qddt-topic-edit  #edit [topic]="topic" (savedEvent)="onTopicSaved($event)">
       </qddt-topic-edit>
 
       <div *ngIf="!edit.isVisible" class="row">

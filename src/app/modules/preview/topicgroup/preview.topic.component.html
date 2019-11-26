@@ -25,7 +25,7 @@
 </div>
 
 <div *ngIf="topic?.topicQuestionItems && topic?.topicQuestionItems?.length > 0" class="section">
-  <ul *ngIf="topic?.topicQuestionItems" materialize="collapsible" class="collapsible popout"
+  <ul *ngIf="topic?.topicQuestionItems"  class="collapsible popout"
     data-collapsible="expandable" style="padding: 5pt;">
     <li *ngFor="let cqi of topic?.topicQuestionItems;" (click)="onViewDetail(cqi)">
       <div class="collapsible-header green lighten-5">
