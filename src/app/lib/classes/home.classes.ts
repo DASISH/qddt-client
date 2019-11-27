@@ -1,4 +1,4 @@
-import {IEntityAudit, IEntityEditAudit, IRef, IUser, IVersion} from '../interfaces';
+import {IEntityAudit, IEntityEditAudit, ITreeRef, IUser, IVersion} from '../interfaces';
 import {ElementKind} from '../enums';
 import {Instrument} from './instrument.classes';
 import {ElementRevisionRef} from './element-revision-ref';
@@ -63,7 +63,7 @@ export class Topic implements IEntityEditAudit {
   modified: number;
   modifiedBy?: IUser;
   version: IVersion;
-  studyRef?: IRef;
+  studyRef?: ITreeRef;
   public constructor(init?: Partial<Topic>) {
     Object.assign(this, init);
   }
@@ -89,7 +89,7 @@ export class Concept implements IEntityEditAudit {
   modified?: number;
   modifiedBy?: IUser;
   version?: IVersion;
-  topicRef?: IRef;
+  topicRef?: ITreeRef;
   public constructor(init?: Partial<Concept>) {
     Object.assign(this, init);
   }

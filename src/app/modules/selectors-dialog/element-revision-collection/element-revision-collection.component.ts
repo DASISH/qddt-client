@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   ElementKind,
-  ElementRevisionRef, IRevisionRef,
+  ElementRevisionRef,
   MessageService,
   TemplateService
 } from '../../../lib';
@@ -19,53 +19,53 @@ import {
     'ul.dropleft li { display:inline-flex; }',
   ],
   template: `
-<div class="collection with-header hoverable row">
-    <a class="collection-header col s12"  (click)="onItemSearch($event)" style="cursor: zoom-in">
-      <label><i class="material-icons small">format_list_bulleted</i>Question Items</label>
-      <a class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light teal"
-        [ngClass]="{ hide: !showButton }" >
-        <i class="material-icons" title="Associate QuestionItem with element">playlist_add</i>
+  <div class="collection with-header hoverable row">
+      <a class="collection-header col s12"  (click)="onItemSearch($event)" style="cursor: zoom-in">
+        <label><i class="material-icons small">format_list_bulleted</i>Question Items</label>
+        <a class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light teal"
+          [ngClass]="{ hide: !showButton }" >
+          <i class="material-icons" title="Associate QuestionItem with element">playlist_add</i>
+        </a>
       </a>
-    </a>
-    <a class="collection-item col s12 grey-text text-darken-1" *ngFor="let cqi of revisionRefs.sort()" (click)="onItemPreview($event,cqi)" >
-      <qddt-version-label class="right" [revisionRef]="cqi" ></qddt-version-label>
-      <ul *ngIf="!readonly" class="dropleft">
-        <li>
-          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green" (click)="onItemEdit($event,cqi)">
-            <i class="material-icons" title="Edit question">edit</i>
-          </a>
-        </li>
-        <li>
-          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue" (click)="onItemUpdate($event, cqi)">
-            <i class="material-icons" title="update selected">sync</i>
-          </a>
-        </li>
-        <li>
-          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 red" (click)="onItemRemove($event, cqi)">
-            <i class="material-icons" title="Remove selected">remove</i>
-          </a>
-        </li>
-      </ul>
-      <div class="question" [innerHtml]="cqi?.name || cqi?.element?.name && ' - ' && cqi?.element?.question"></div>
-    </a>
+      <a class="collection-item col s12 grey-text text-darken-1" *ngFor="let cqi of revisionRefs.sort()" (click)="onItemPreview($event,cqi)" >
+        <qddt-version-label class="right" [revisionRef]="cqi" ></qddt-version-label>
+        <ul *ngIf="!readonly" class="dropleft">
+          <li>
+            <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green" (click)="onItemEdit($event,cqi)">
+              <i class="material-icons" title="Edit question">edit</i>
+            </a>
+          </li>
+          <li>
+            <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue" (click)="onItemUpdate($event, cqi)">
+              <i class="material-icons" title="update selected">sync</i>
+            </a>
+          </li>
+          <li>
+            <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 red" (click)="onItemRemove($event, cqi)">
+              <i class="material-icons" title="Remove selected">remove</i>
+            </a>
+          </li>
+        </ul>
+        <div class="question" [innerHtml]="cqi?.name || cqi?.element?.name && ' - ' && cqi?.element?.question"></div>
+      </a>
+    </div>
+  <!-- Modal Structure -->
+  <div  id="MODAL-{{modalId}}" class="modal modal-fixed-footer">
+    <div class="modal-content white black-text" >
+      <h4>Select QuestionItem version</h4>
+  <!--    <qddt-element-select-->
+  <!--        [source] = "SOURCE"-->
+  <!--        (revisionSelectedEvent)="revisionSelectedEvent($event)"-->
+  <!--        (dismissEvent) ="onDismiss()">-->
+  <!--    </qddt-element-select>-->
+    </div>
+    <div class="modal-footer">
+      <button
+        class="btn btn-default red modal-action modal-close waves-effect waves-red" (click)="onDismiss()" >
+        Dismiss
+      </button>
+    </div>
   </div>
-<!-- Modal Structure -->
-<div  id="MODAL-{{modalId}}" class="modal modal-fixed-footer">
-  <div class="modal-content white black-text" >
-    <h4>Select QuestionItem version</h4>
-<!--    <qddt-element-select-->
-<!--        [source] = "SOURCE"-->
-<!--        (revisionSelectedEvent)="revisionSelectedEvent($event)"-->
-<!--        (dismissEvent) ="onDismiss()">-->
-<!--    </qddt-element-select>-->
-  </div>
-  <div class="modal-footer">
-    <button
-      class="btn btn-default red modal-action modal-close waves-effect waves-red" (click)="onDismiss()" >
-      Dismiss
-    </button>
-  </div>
-</div>
 `,
 })
 export class ElementRevisionCollectionComponent {
@@ -79,8 +79,11 @@ export class ElementRevisionCollectionComponent {
 
   public readonly modalId = Math.round( Math.random() * 10000);
 
+  // tslint:disable-next-line:variable-name
   private _modalRef: M.Modal;
+  // tslint:disable-next-line:variable-name
   private _ShowRef = false;
+  // tslint:disable-next-line:variable-name
   private _showButton = false;
 
   constructor(private service: TemplateService, public message: MessageService, private router: Router ) {

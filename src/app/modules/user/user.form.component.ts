@@ -26,7 +26,7 @@ export class UserFormComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['user'].currentValue) {
+    if (changes.user.currentValue) {
       if (this.user) {
         if (this.user.agency) {
           this.onSelectChange(this.user.agency.id);

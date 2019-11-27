@@ -26,8 +26,8 @@ export class TemplateService {
     const queries = [];
 
     if (!pageSearch.hasDetailSearch) {
-      for (let i = 0; i < qe.fields.length; i++) {
-        queries.push(qe.fields[i] + '=' +  pageSearch.key.trim() );
+      for (const field of qe.fields) {
+        queries.push(field + '=' +  pageSearch.key.trim() );
       }
       if ( pageSearch.keys) {
         Array.from(pageSearch.keys)

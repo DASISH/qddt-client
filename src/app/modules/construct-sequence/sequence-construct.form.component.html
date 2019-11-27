@@ -1,5 +1,28 @@
-<div *ngIf="sequence">
+<div *ngIf="sequence" class="col s12" >
   <form id="{{formId}}" #qcform="ngForm">
+<!--    placeholder="add name"-->
+    <qddt-input
+      required
+      name="name"
+      label="Name"
+      [(ngModel)]="sequence.name"
+      data-length="100">
+    </qddt-input>
+    <qddt-input
+      required
+      name="label"
+      label="Label"
+      [(ngModel)]="sequence.label"
+      data-length="255">
+    </qddt-input>
+    <qddt-textarea
+      required
+      name="description"
+      placeholder="add description"
+      label="Description"
+      [(ngModel)]="sequence.description"
+      data-length="255">
+    </qddt-textarea>
 
     <div class="row">
       <div class="col s4 input-field">
@@ -11,30 +34,6 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="col s12 input-field">
-        <input name="{{formId}}-name" type="text" class="validate" required [(ngModel)]="sequence.name"
-          data-length="255">
-        <label>Name</label>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col s12 input-field">
-        <input name="{{formId}}-label" type="text" class="validate" required [(ngModel)]="sequence.label"
-          data-length="255">
-        <label>Label</label>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col s12 input-field">
-        <textarea name="{{formId}}-desc" class="materialize-textarea" [(ngModel)]="sequence.description"
-          data-length="255">
-        </textarea>
-        <label>Description</label>
-      </div>
-    </div>
 
     <qddt-element-revision-collection [elementKind]="QUESTION" [revisionRefs]="sequence.sequence" [labelName]="'Question Constructs'"
       (searchItems)="onSearchElements($event)" >

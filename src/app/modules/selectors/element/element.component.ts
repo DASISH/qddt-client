@@ -4,8 +4,8 @@ import {
   ElementEnumAware,
   ElementKind,
   getElementKind,
-  IElement,
-  IIdRef, PageSearch,
+  IElement, IEntityAudit,
+  PageSearch,
   TemplateService,
 } from '../../../lib';
 
@@ -20,7 +20,8 @@ import {
       </label>
     </div>
   </div>
-  <qddt-auto-complete [items]="itemList" class="black-text" [elementKind]="kind" [autoCreate] = "autoCreate"
+  <qddt-auto-complete [items]="itemList" [elementKind]="source?.elementKind" [autoCreate] = "autoCreate"
+    [formName] ="'AC'" [initialValue]="searchValue"
     (selectEvent)="onSelectElement($event)"
     (enterEvent)="onSearchElements($event)">
   </qddt-auto-complete>
@@ -29,35 +30,39 @@ import {
 
 @ElementEnumAware
 export class ElementComponent implements OnChanges, AfterViewInit {
-  @Input() source: ElementKind | IIdRef;
+  @Input() source: IElement;
   @Input() autoCreate = false;
   @Output() elementSelectedEvent = new EventEmitter<IElement>();
-  // @Output() dismissEvent = new EventEmitter<boolean>();
 
   public itemList = null;
   public isResponseDomain = false;
+  public searchValue = '';
   public domainType = DomainKind.SCALE;
   public domainTypeDescription = DOMAIN_TYPE_DESCRIPTION.filter((e) => e.id > DomainKind.NONE && e.id < DomainKind.MISSING);
-  public kind: ElementKind;
   private readonly KEY = 'ResponseKind';
 
-  private item: IElement;
   private pageSearch: PageSearch;
-
 
   constructor(private service: TemplateService) { }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.source && changes.source.currentValue) {
-      if (this.isElementRef(changes.source.currentValue)) {
-        this.item = changes.source.currentValue as IElement;
-        this.kind = getElementKind(this.item.elementKind);
+  ngAfterViewInit(): void {
+    if (this.isResponseDomain) {
+      this.onSelectDomainType(this.domainType);
+    }
+  }
+
+  async  ngOnChanges(changes: SimpleChanges) {
+    if ((changes.source) && (changes.source.currentValue)) {
+      const element = changes.source.currentValue as IElement;
+      if (this.isIEntityAudit(element.element)) {
+        // @ts-ignore
+        this.searchValue = element.element.hasOwnProperty('label') ? element.element.label : element.element.name;
       } else {
-        this.kind = getElementKind(changes.source.currentValue);
-        this.item = null;
+        this.searchValue = element.element;
       }
-      this.pageSearch = new PageSearch( { kind: this.kind } );
-      this.isResponseDomain = (this.kind === ElementKind.RESPONSEDOMAIN);
+      const  kind = getElementKind(element.elementKind);
+      this.pageSearch = new PageSearch( { kind} );
+      this.isResponseDomain = (kind === ElementKind.RESPONSEDOMAIN);
     }
   }
   onSelectDomainType(id: DomainKind) {
@@ -67,22 +72,15 @@ export class ElementComponent implements OnChanges, AfterViewInit {
 
   public onSearchElements(key) {
     this.pageSearch.key = key;
-    this.service.searchByKind(this.pageSearch)
-    .then((result) => this.itemList = result.content);
+    this.service.searchByKind(this.pageSearch).then((result) => this.itemList = result.content);
   }
 
   public onSelectElement(item: IElement) {
     this.elementSelectedEvent.emit( item );
   }
 
-  private isElementRef(kind: IElement | ElementKind): kind is IElement {
-    return (kind as IElement).element !== undefined;
+  private isIEntityAudit(element): element is IEntityAudit {
+    return (element as IEntityAudit).id !== undefined;
   }
 
-  ngAfterViewInit(): void {
-    this.isResponseDomain = (this.kind === ElementKind.RESPONSEDOMAIN);
-    if (this.isResponseDomain) {
-      this.onSelectDomainType(this.domainType);
-    }
-  }
 }

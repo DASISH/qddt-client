@@ -1,4 +1,4 @@
-import {Component, Optional, Inject, Input, ViewChild, AfterViewInit, AfterContentInit} from '@angular/core';
+import {Component, Optional, Inject, Input, ViewChild, AfterViewInit } from '@angular/core';
 import { NgModel, NG_VALUE_ACCESSOR, NG_VALIDATORS, NG_ASYNC_VALIDATORS } from '@angular/forms';
 import { ElementBase} from './element-base.class';
 import { animations } from './animations';
@@ -9,7 +9,7 @@ import { animations } from './animations';
   template: `
   <div class="input-field">
     <select id="{{identifier}}" [(ngModel)]="value" [ngClass]="{invalid: (invalid | async)}"  >
-      <option value="" disabled selected *ngIf="placeholder">{{placeholder}}</option>
+      <option *ngIf="placeholder" value="" disabled selected >{{placeholder}}</option>
       <ng-content></ng-content>
     </select>
     <label *ngIf="label" for="{{identifier}}">{{label}}</label>

@@ -1,16 +1,16 @@
-<div class="row hoverable white text-darken-2" style="padding: 10pt;"
-     (mouseenter)="showButton = true"
-     (mouseleave)="showButton = false">
-  <div class="row teal-text" (click)="onToggleAddElement()" style="cursor: zoom-in;">
-    <div class="col s2">Add element</div>
+<div class="hoverable white text-darken-2" (mouseenter)="showButton = true" (mouseleave)="showButton = false">
+  <div class="teal-text" (click)="onToggleAddElement()" style="cursor: zoom-in;">
+    <div class="">Add element</div>
   </div>
   <div class="row" *ngIf="showAddElement">
-    <div class="row teal-text"><span>Element Type</span></div>
-    <div class="row" >
+    <div class="col s12 teal-text"><span>Element Type</span></div>
+    <div class="col s12" >
 		  <div class="left" *ngFor="let element of publicationTypes;">
-			  <input name="elementtypegroup" type="radio" id="element-type-{{element.id}}"
-          (click)="onSelectElementKind(element.id)" [checked]="selectedElementKind === element.id"/>
-        <label for="element-type-{{element.id}}">{{ element.label }}</label>
+        <label>
+          <input name="elementtypegroup" type="radio" [checked]="selectedElementKind === element.id"
+            (click)="onSelectElementKind(element.id)" />
+          <span>{{ element.label }}</span>
+        </label>
       </div>
     </div>
     <qddt-element-revision-select

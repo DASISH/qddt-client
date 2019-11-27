@@ -20,8 +20,6 @@ import {
   ResponseDomain, TemplateService
 } from '../../lib';
 
-declare let M: any;
-
 @Component({
   selector: 'qddt-responsedomain-form',
   styleUrls: ['./responsedomain.form.component.css'],
@@ -101,20 +99,16 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, Af
     this.ok = false;
   }
 
-
-  onSelectCategory(item: IElement) {
-    // console.debug('onSelect...');
-    item.element.code = this.responseDomain.managedRepresentation.children[this.selectedCategoryIndex].code;
-    this.responseDomain.managedRepresentation.children[this.selectedCategoryIndex] = item.element;
+  anchorChanged(event, idx) {
+    this.responseDomain.managedRepresentation.children[idx] = event;
     this.buildPreviewResponseDomain();
   }
 
-  onSearchCategories(name: string) {
-    // this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex]['isNew'] = true;
-    // this.responsedomain.managedRepresentation.children[this.selectedCategoryIndex].label = name;
-    this.pageSearch.key = name;
-    this.service.searchByKind<Category>(this.pageSearch).then(
-      (result) => this.categories = result.content
+  onCreateCategory(event, idx) {
+    this.service.update(event).subscribe(
+      (result) => {
+        this.anchorChanged(result, idx);
+      }
     );
   }
 

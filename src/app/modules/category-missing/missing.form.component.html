@@ -6,44 +6,47 @@
 <!--  </div>-->
 
   <form id="{{formId}}" #hf="ngForm" (ngSubmit)="onSave()">
+    <qddt-input
+      required
+      name="name"
+      label="Name"
+      [(ngModel)]="missing.name"
+      data-length="100">
+    </qddt-input>
+    <qddt-input
+      required
+      name="label"
+      label="Label"
+      [(ngModel)]="missing.label"
+      data-length="255">
+    </qddt-input>    <qddt-textarea
+    required
+    name="description"
+    placeholder="add description"
+    label="Description"
+    [(ngModel)]="missing.description"
+    data-length="255">
+  </qddt-textarea>
 
-    <div class="row input-field">
-      <input id="label-{{formId}}" placeholder="This is what is shown" name="label" type="text" class="validate"
-        required [(ngModel)]="missing.label" data-length="255">
-      <label for="label-{{formId}}">Label</label>
+  <div class="row">
+    <div class="col s4 m2 input-field">
+      <input id="COUNT-{{formId}}" class="validate" name="COUNT" type="number" min="1" max="25"
+             [(ngModel)]="missing.children.length">
+      <label class="active" for="COUNT-{{formId}}"># Missing Codes</label>
     </div>
-    <div class="row input-field">
-      <input id="NAME-{{formId}}" placeholder="unique name" name="name" type="text" class="validate" required
-        [(ngModel)]="missing.name" data-length="255">
-      <label for="NAME-{{formId}}">Name</label>
-    </div>
-
-    <div class="row input-field">
-      <textarea id="description-{{formId}}" placeholder="You may enter a description if you want" name="description"
-        [(ngModel)]="missing.description" class="materialize-textarea validate" data-length="1000">
-        </textarea>
-      <label for="description-{{formId}}">Description</label>
-    </div>
-
-    <div class="row">
-      <div class="col s4 m2 input-field">
-        <input id="COUNT-{{formId}}" class="validate" name="COUNT" type="number" min="1" max="25"
-               [(ngModel)]="missing.children.length">
-        <label class="active" for="COUNT-{{formId}}"># Missing Codes</label>
-      </div>
-      <div class="col s8 l6">
-        <div class="row input-field" *ngFor="let cat of missing.children; let idx=index;" >
+    <div class="col s8 l6">
+      <div class="row input-field" *ngFor="let cat of missing.children; let idx=index;" >
 <!--          <qddt-element-select  [source] = "'{ elementId: cat.id, elementKind: CATEGORY }'"-->
 <!--            (elementSelectedEvent)="onSelect($event)">-->
 
 <!--          </qddt-element-select>-->
-          <qddt-auto-complete [formName]="'autocomplete'+idx" [items]="missingList" [elementKind]="CATEGORY"
-                              [initialValue]="cat.label" (focusEvent)="missingIndex=idx;" (enterEvent)="onSearchMissing($event)"
-                              (selectEvent)="onSelect($event)" >
-          </qddt-auto-complete>
-        </div>
+        <qddt-auto-complete [formName]="'autocomplete'+idx" [items]="missingList" [elementKind]="CATEGORY"
+                            [initialValue]="cat.label" (focusEvent)="missingIndex=idx;" (enterEvent)="onSearchMissing($event)"
+                            (selectEvent)="onSelect($event)" >
+        </qddt-auto-complete>
       </div>
     </div>
+  </div>
 
 
     <qddt-rational [formName]="'RationalComp'" *ngIf="!readonly && missing.id" [element]="missing"

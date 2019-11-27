@@ -11,8 +11,7 @@ import { MessageService, PropertyStoreService} from '../../lib/services';
     <div class="row">
     <div class="col left" *ngFor="let option of selectOptions" >
       <label>
-        <input name="DOMAIN-TYPE-GROUP" type="radio"
-        (click)="onSelectOption(option.id)" [checked]="selectId === option.id"/>
+        <input name="DOMAIN-TYPE-GROUP" type="radio" [checked]="selectId === option.id" (click)="onSelectOption(option.id)" />
         <span class="white-text">{{ option.label }}</span>
       </label>
     </div>
@@ -30,14 +29,12 @@ export class PublicationPreselectorComponent implements OnInit {
   constructor(private  messages: MessageService, private properties: PropertyStoreService,
               private service: PublicationService) { }
 
-   ngOnInit(): void {
-    this.service.publication_statuses$.then( (result) => {
-      this.selectOptions = result;
-      this.selectId = this.getPublished().id;
-    });
+  async ngOnInit() {
+    this.selectOptions = await this.service.getPublicationStatus();
+    this.selectId = this.getPublished().id;
   }
 
-  onSelectOption(id: number) {
+  public onSelectOption(id: number) {
     const pageSearch = this.getPageSearch();
     this.selectId = id;
     pageSearch.keys.set(this.KEY, this.selectOptions[id].published );

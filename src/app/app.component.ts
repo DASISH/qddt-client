@@ -1,5 +1,5 @@
 import {Component, ViewEncapsulation, OnDestroy, AfterViewInit} from '@angular/core';
-import { IElement, IIdRef, IRevisionRef } from './lib';
+import { IElement, IElementRef, IRevisionRef } from './lib';
 import { MessageService, PropertyStoreService, UserService} from './lib/services';
 
 // declare var $: any;
@@ -14,7 +14,7 @@ import { MessageService, PropertyStoreService, UserService} from './lib/services
 })
 
 export class AppComponent  implements OnDestroy, AfterViewInit {
-  ref: IIdRef|IRevisionRef|IElement;
+  ref: IElementRef|IRevisionRef|IElement;
 
   constructor(private users: UserService, private  properties: PropertyStoreService,
               private messages: MessageService ) {
@@ -47,7 +47,7 @@ export class AppComponent  implements OnDestroy, AfterViewInit {
     // this.messages.getMessage().
   }
 
-  private showMessage<T extends IIdRef|IRevisionRef|IElement>(element: T) {
+  private showMessage<T extends IElementRef|IRevisionRef|IElement>(element: T) {
     // this.subscription
     console.log('show preview');
     this.ref = element;

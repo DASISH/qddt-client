@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
-import { getQueryInfo, IElement, IIdRef, IRevisionRef, PreviewService } from '../../lib';
+import { getQueryInfo, IElement, IElementRef, IRevisionRef, PreviewService } from '../../lib';
 
 @Component({
   selector: 'qddt-preview-dialog',
@@ -20,7 +20,7 @@ import { getQueryInfo, IElement, IIdRef, IRevisionRef, PreviewService } from '..
 })
 
 export class PreviewDialogComponent implements OnChanges, AfterViewInit {
-  @Input() reference: IIdRef | IRevisionRef | IElement;
+  @Input() reference: IElementRef | IRevisionRef | IElement;
   @Output() doClose = new EventEmitter<boolean>(false);
 
   @ViewChild('preview', { static: false }) modalPreview: ElementRef;
@@ -72,12 +72,12 @@ export class PreviewDialogComponent implements OnChanges, AfterViewInit {
     return '?';
   }
 
-  private isRevisionRef(element: IIdRef | IRevisionRef | IElement): element is IRevisionRef { // magic happens here
+  private isRevisionRef(element: IElementRef | IRevisionRef | IElement): element is IRevisionRef { // magic happens here
     return (element as IRevisionRef).elementRevision !== undefined;
   }
 
-  private isIdRef(element: IIdRef | IRevisionRef | IElement): element is IIdRef { // magic happens here
-    return (element as IIdRef).elementId !== undefined;
+  private isIdRef(element: IElementRef | IRevisionRef | IElement): element is IElementRef { // magic happens here
+    return (element as IElementRef).elementId !== undefined;
   }
 
 

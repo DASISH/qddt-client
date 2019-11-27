@@ -1,4 +1,4 @@
-import {IComment, IEntityAudit, IEntityEditAudit, IIdRef, IOtherMaterial, IUser, IVersion} from '../interfaces';
+import {IComment, IEntityAudit, IEntityEditAudit, IElementRef, IOtherMaterial, IUser, IVersion} from '../interfaces';
 import { ElementKind } from '../enums';
 import { ElementRevisionRef } from './element-revision-ref';
 import { QuestionItem } from './questionitem.classes';
@@ -131,20 +131,20 @@ interface Condition { programmingLanguage: string; content: string; }
 
 export class IfThenElse {
   IfCondition: Condition;
-  ThenConstructReference: IIdRef;
+  ThenConstructReference: IElementRef;
   ElseIf?: Condition;
-  ElseConstructReference?: IIdRef;
+  ElseConstructReference?: IElementRef;
   public constructor(init?: Partial<IfThenElse>) {
     Object.assign(this, init);
   }
 }
 
 export class Loop {
-  LoopVariableReference?: IIdRef;
+  LoopVariableReference?: IElementRef;
   InitialValue?: number;
   LoopWhile: Condition;
   StepValue?: number;
-  ControlConstructReference: IIdRef;
+  ControlConstructReference: IElementRef;
   public constructor(init?: Partial<Loop>) {
     Object.assign(this, init);
   }
@@ -152,7 +152,7 @@ export class Loop {
 
 export class RepeatWhile {
   WhileCondition: Condition;
-  WhileConstructReference: IIdRef;
+  WhileConstructReference: IElementRef;
   public constructor(init?: Partial<RepeatWhile>) {
     Object.assign(this, init);
   }
@@ -160,7 +160,7 @@ export class RepeatWhile {
 
 export class RepeatUntil {
   UntilCondition: Condition;
-  UntilConstructReference: IIdRef;
+  UntilConstructReference: IElementRef;
   public constructor(init?: Partial<RepeatUntil>) {
     Object.assign(this, init);
   }

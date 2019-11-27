@@ -45,9 +45,8 @@
         </div>
         <ul [hidden]="numberOfAnchors === 0">
           <li class="hoverable row" *ngFor="let category of responseDomain.managedRepresentation.children; let idx=index;" >
-            <qddt-anchor-point [category]="category"
-              [inputLimit]="responseDomain.managedRepresentation.inputLimit"
-              [formName]="'AnchorPointComponent'">
+            <qddt-anchor-point [category]="category" [inputLimit]="responseDomain.managedRepresentation.inputLimit"  [formName]="'AP'+idx"
+              (changeEvent)="anchorChanged($event,idx)" (createEvent)="onCreateCategory($event,idx)" >
             </qddt-anchor-point>
           </li>
         </ul>
@@ -79,16 +78,16 @@
           </div>
         </div>
 
-        <qddt-preview-responsedomain
+        <qddt-preview-responsedomain class="row"
           [responseDomain]="previewResponseDomain">
         </qddt-preview-responsedomain>
 
-        <ul class="hoverable">
+        <ul >
           <li *ngFor="let category of responseDomain.managedRepresentation.children; let idx=index" draggable="true"
               (dragstart)="onDragstart($event, category.id)"
               (dragover)="onDragover($event)"
               (dragleave)="onDragleave($event)"
-              (drop)="onDrop($event, idx)">
+              (drop)="onDrop($event, idx)" class="hoverable row">
             <div class="col s2 input-field">
               <input name="{{idx}}-code-value" type="text" (ngModelChange)="buildPreviewResponseDomain()" [(ngModel)]="category.code.codeValue" required>
             </div>
@@ -102,7 +101,7 @@
                 (enterEvent)="onSearchCategories($event)">
               </qddt-auto-complete>
             </div>
-            <div class="col s2">
+            <div class="col s2 input-field">
               <i class="material-icons">menu</i>
             </div>
           </li>
@@ -110,7 +109,7 @@
 
       </div>
       <div *ngSwitchCase="domainTypeDef.NUMERIC">
-        <qddt-preview-responsedomain
+        <qddt-preview-responsedomain class="row"
           [responseDomain]="previewResponseDomain">
         </qddt-preview-responsedomain>
 

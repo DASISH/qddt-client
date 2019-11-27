@@ -67,7 +67,7 @@ export class RevisionComponent implements OnChanges {
   }
 
   private isResponseDomain(element: IEntityAudit): element is ResponseDomain { // magic happens here
-    return (<ResponseDomain>element).responseKind !== undefined;
+    return (element as ResponseDomain).responseKind !== undefined;
   }
   private getResponseKind(): DomainKind {
     if (this.isResponseDomain(this.current)) {
@@ -89,8 +89,8 @@ export class RevisionComponent implements OnChanges {
       config.push({ name: ['managedRepresentation', 'inputLimit', 'minimum'], label: 'Start' } );
       config.push({ name: ['managedRepresentation', 'inputLimit', 'maximum'], label: 'End' } );
       config.push({ name: 'displayLayout', label: 'display Layout' } );
-        const size = this.getChildrenSize();
-        for (let i = 0; i < size; i++) {
+      const size = this.getChildrenSize();
+      for (let i = 0; i < size; i++) {
           config.push({ name: ['managedRepresentation', 'children', i, 'label'], label: 'Category' + i});
           config.push({ name: ['managedRepresentation', 'children', i, 'code', 'codeValue'], label: 'Code' + i});
         }

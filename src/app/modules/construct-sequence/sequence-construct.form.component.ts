@@ -21,8 +21,8 @@ export class SequenceFormComponent implements OnChanges {
   @Output() modifiedEvent = new EventEmitter<SequenceConstruct>();
 
   public readonly QUESTION = ElementKind.QUESTION_CONSTRUCT;
-  public selectedElement: IEntityEditAudit;
-  public questionConstrucs: IEntityEditAudit[];
+  // public selectedElement: IEntityEditAudit;
+  public entityEditAudits: IEntityEditAudit[];
   public revisionList = [];
   public showProgressBar = false;
   public readonly formId = Math.round( Math.random() * 10000);
@@ -54,8 +54,9 @@ export class SequenceFormComponent implements OnChanges {
   }
 
   public onSearchElements(search: IElement) {
-    this.service.searchByKind( { kind: this.QUESTION, key: search.element, page: new Page( { size: 15 } ) } ).then(
-      (result) => { this.questionConstrucs = result.content; },
+    const kind = getElementKind(search.elementKind);
+    this.service.searchByKind( { kind, key: search.element, page: new Page( { size: 15 } ) } ).then(
+      (result) => { this.entityEditAudits = result.content; },
       (error) => { throw error; } );
   }
 

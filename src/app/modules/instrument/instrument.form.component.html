@@ -1,21 +1,28 @@
-<div class="row" *ngIf="element" class="qddt-form">
+<div class="col s12" *ngIf="element" >
   <form (ngSubmit)="onUpdateInstrument()" #instrumentform="ngForm">
-    <div class="row input-field">
-      <input id="{{formId}}-name" name="name" type="text" class="validate" required [(ngModel)]="element.name"
-        data-length="255">
-      <label>Name</label>
-    </div>
-    <div class="row input-field">
-      <input id="{{formId}}-label" name="label" type="text" class="validate" required [(ngModel)]="element.label"
-        data-length="255">
-      <label>Label</label>
-    </div>
-    <div class="row input-field">
-      <textarea id="formId + '-desc'" required name="{{formId}}-desc" class="materialize-textarea"
-        [(ngModel)]="element.description" data-length="1000">
-      </textarea>
-      <label >Description</label>
-    </div>
+    <qddt-input
+      required
+      name="name"
+      label="Name"
+      [(ngModel)]="element.name"
+      data-length="255">
+    </qddt-input>
+    <qddt-input
+      required
+      name="label"
+      label="Label"
+      [(ngModel)]="element.label"
+      data-length="255">
+    </qddt-input>
+    <qddt-textarea
+      required
+      name="description"
+      label="Description"
+      [(ngModel)]="element.description"
+      data-length="1000">
+    </qddt-textarea>
+
+
     <div class="row input-field">
       <select name="formId + '-type'" required [(ngModel)]="currentInstrumentType" (ngModelChange)="onSelectInstrumentType($event)">
         <option *ngFor="let item of instrumentKinds" [selected]="item.id === currentInstrumentType" [value]="item.id">

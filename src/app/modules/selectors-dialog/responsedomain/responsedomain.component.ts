@@ -3,7 +3,7 @@ import {
   ActionKind,
   ElementKind,
   ElementRevisionRef,
-  IElement, IIdRef,
+  IElement, IElementRef,
   ResponseDomain, TemplateService, UserService
 } from '../../../lib';
 
@@ -24,7 +24,7 @@ export class ResponsedomainComponent  {
   }
   get responseDomain(): ResponseDomain { return this._localresponseDomain; }
   @Input() readonly = false;
-  @Output() removeEvent = new EventEmitter<IIdRef>();
+  @Output() removeEvent = new EventEmitter<IElementRef>();
   @Output() selectedEvent = new EventEmitter<ElementRevisionRef>();
   @Output() updateEvent = new EventEmitter<ResponseDomain>();
 

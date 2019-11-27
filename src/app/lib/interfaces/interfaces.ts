@@ -14,29 +14,28 @@ export interface IMoveTo {
   source: string;
 }
 
-export interface IIdRef {
+export interface IElement {
+  element: any;
+  elementKind: ElementKind|string;
+}
+
+export interface IElementRef {
   elementId: string;
   elementKind: ElementKind|string;
 }
 
-
-export interface IRevisionRef extends IIdRef {
+export interface IRevisionRef extends IElementRef {
   elementId: string;
   elementRevision: number;
   elementKind: ElementKind|string;
 }
 
-export interface IRef {
+export interface ITreeRef {
   id: string;
   name: string;
-  parent?: IRef;
+  parent?: ITreeRef;
 }
 
-
-export interface IElement {
-  element: any;
-  elementKind: ElementKind|string;
-}
 
 export interface IUser {
   id: string;

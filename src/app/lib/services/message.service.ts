@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable ,  Subject } from 'rxjs';
-import {IDetailAction, IElement, IIdRef, IRevisionRef} from '../interfaces';
+import {IDetailAction, IElement, IElementRef, IRevisionRef} from '../interfaces';
 
 
 @Injectable()
 export class MessageService {
-    private subject = new Subject<IIdRef|IRevisionRef|IElement>();
+    private subject = new Subject<IElementRef|IRevisionRef|IElement>();
 
     private action = new Subject<IDetailAction>();
 
@@ -17,7 +17,7 @@ export class MessageService {
       return this.action.asObservable();
     }
 
-    sendMessage(ref: IIdRef|IRevisionRef|IElement) {
+    sendMessage(ref: IElementRef|IRevisionRef|IElement) {
         this.subject.next(ref);
     }
 
@@ -25,7 +25,7 @@ export class MessageService {
         this.subject.next();
     }
 
-    getMessage(): Subject<IIdRef|IRevisionRef|IElement> {
+    getMessage(): Subject<IElementRef|IRevisionRef|IElement> {
         return this.subject;
     }
 }

@@ -24,14 +24,12 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
   public candidates: IEntityAudit[] = [];
   public value = '';
   public selectedIndex = 0;
-  public queryInfo: QueryInfo;
   public showAutoComplete = false;
   public readonly formId = Math.round( Math.random() * 10000);
 
   private waitingForChange = false;
   private found = true;
   private selected = false;
-
 
   private searchKeysChange: Subject<string> = new Subject<string>();
 
@@ -45,10 +43,13 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
       });
   }
 
+  get queryInfo(): QueryInfo {
+    // console.log(this.elementKind || this.items[0] || JSON );
+    return this.elementKind ? getQueryInfo(this.elementKind) : null;
+  }
+
+
   ngOnChanges(change: SimpleChanges) {
-    if (change.elementKind && change.elementKind.currentValue) {
-      this.queryInfo = getQueryInfo(this.elementKind);
-    }
 
     if ( (change.items && this.waitingForChange)) {
       this.waitingForChange = false;

@@ -1,29 +1,22 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
-import { AlignmentKind, Category, ResponseCardinality, enumKeys } from 'src/app/lib';
+import {AfterViewInit, Component, EventEmitter, Input, Output} from '@angular/core';
+import {AlignmentKind, Category, ElementKind, enumKeys, IElement, ResponseCardinality} from 'src/app/lib';
 
 @Component({
   selector: 'qddt-anchor-point',
   template: `
-<form  id="AP-{{formId}}"  [parentFormConnect]="formName">
+<form  id="AP-{{formId}}"  [parentFormConnect]="formName" (change)="onChange()">
   <div class="col s2 input-field" tabindex="0">
-    <input id="CODE-VALUE-{{formId}}" name="value" type="number" min="{{inputLimit.minimum}}" max="{{inputLimit.maximum}}"
+    <input id="CV-{{formId}}" name="value" type="number" min="{{inputLimit.minimum}}" max="{{inputLimit.maximum}}"
      [(ngModel)]="category.code.codeValue" required class="validate">
   </div>
   <div class="col s2 input-field" tabindex="1">
-    <select id="PA-{{formId}}" (change)="onSelectAlignment($event)" required class="validate">
-        <option *ngFor="let item of alignments2;" [selected]="isSelected(item)" [value]="item">{{item}}</option>
+    <select id="PA-{{formId}}"  required class="validate" name="alignment"
+        (change)="onSelectAlignment($event)">
+        <option *ngFor="let item of alignments2;" [selected]="isSelected(item)" [value]="item" >{{item}}</option>
     </select>
   </div>
-  <div class="col s6">{{category.label}}
-<!--    <qddt-auto-complete-->
-<!--      [items]="categories"-->
-<!--      [initialValue]="category?.label"-->
-<!--      [elementKind]="CATEGORY"-->
-<!--      (focusEvent)="selectedCategoryIndex=idx;"-->
-<!--      (selectEvent)="onSelectCategory($event)"-->
-<!--      (enterEvent)="onSearchCategories($event)">-->
-<!--    </qddt-auto-complete>-->
-  </div>
+  <qddt-element-select  class="col s8 input-field" [source]="getSource(category)" [autoCreate]="true" (elementSelectedEvent)="onSelectCategory($event)">
+  </qddt-element-select>
 </form>
 `
 })
@@ -32,17 +25,39 @@ export class AnchorPointComponent implements AfterViewInit {
   @Input() category: Category;
   @Input() inputLimit: ResponseCardinality;
   @Input() formName: string;
+  @Output() changeEvent = new EventEmitter<Category>();
+  @Output() createEvent = new EventEmitter<Category>();
 
   public readonly formId = Math.round(Math.random() * 10000);
   public alignments2 = enumKeys(AlignmentKind);
 
-  ngAfterViewInit(): void {
-    M.FormSelect.init(document.getElementById('PA-' + this.formId));
+  public getSource(category: Category): IElement {
+    return {element: category, elementKind: ElementKind.CATEGORY};
   }
 
-  public onSelectAlignment(item) {
-    this.category.code.alignment = AlignmentKind[item];
-    console.log(this.category.code.alignment + ' ' + item);
+  ngAfterViewInit(): void {
+    const instanse = document.getElementById('PA-' + this.formId);
+    M.FormSelect.init(instanse);
+  }
+
+  public onSelectCategory(item: IElement) {
+    const code = this.category.code;
+    this.category = item.element;
+    this.category.code = code;
+    if (this.category.id === undefined) {
+      this.createEvent.emit(this.category);
+    } else {
+      this.changeEvent.emit(this.category);
+    }
+  }
+
+  public onSelectAlignment(event) {
+    this.category.code.alignment = AlignmentKind[event.target.value];
+    this.changeEvent.emit(this.category);
+  }
+
+  public onChange() {
+    this.changeEvent.emit(this.category);
   }
 
   public isSelected(item): boolean {
