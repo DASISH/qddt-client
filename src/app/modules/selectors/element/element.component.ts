@@ -43,25 +43,31 @@ export class ElementComponent implements OnChanges, AfterViewInit {
 
   private pageSearch: PageSearch;
 
-  constructor(private service: TemplateService) { }
+  constructor(private service: TemplateService) {
+    console.log('ElementComponent:CNSTR');
+  }
 
   ngAfterViewInit(): void {
     if (this.isResponseDomain) {
       this.onSelectDomainType(this.domainType);
     }
+
   }
 
   async  ngOnChanges(changes: SimpleChanges) {
     if ((changes.source) && (changes.source.currentValue)) {
-      const element = changes.source.currentValue as IElement;
-      if (this.isIEntityAudit(element.element)) {
+      console.log(changes.source.currentValue || JSON);
+      const cv = changes.source.currentValue as IElement;
+      if (this.isIEntityAudit(cv.element)) {
         // @ts-ignore
-        this.searchValue = element.element.hasOwnProperty('label') ? element.element.label : element.element.name;
+        this.searchValue = cv.element.hasOwnProperty('label') ? cv.element.label : cv.element.name;
       } else {
-        this.searchValue = element.element;
+        this.searchValue = cv.element;
       }
-      const  kind = getElementKind(element.elementKind);
-      this.pageSearch = new PageSearch( { kind} );
+      console.log(this.searchValue);
+
+      const kind = getElementKind(cv.elementKind);
+      this.pageSearch = new PageSearch( { kind } );
       this.isResponseDomain = (kind === ElementKind.RESPONSEDOMAIN);
     }
   }
@@ -80,7 +86,7 @@ export class ElementComponent implements OnChanges, AfterViewInit {
   }
 
   private isIEntityAudit(element): element is IEntityAudit {
-    return (element as IEntityAudit).id !== undefined;
+    return (element as IEntityAudit).classKind !== undefined;
   }
 
 }

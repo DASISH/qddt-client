@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, EventEmitter, Input, Output} from '@angular/core';
 import {AlignmentKind, Category, ElementKind, enumKeys, IElement, ResponseCardinality} from 'src/app/lib';
 
+
 @Component({
   selector: 'qddt-anchor-point',
   template: `

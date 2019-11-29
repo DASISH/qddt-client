@@ -19,10 +19,10 @@
     <div *ngIf="showConceptForm">
       <div class="row card-action">
         <div class="col s10 offset-s1">
-          <form #hf="ngForm">
+          <form #hf="ngForm" class="white-text">
             <div class="row input-field">
-              <input class="white-text" name="name" type="text" ngModel required data-length="250">
-              <label class="white-text">Name</label>
+              <input  name="name" type="text" ngModel required data-length="250">
+              <label>Name</label>
             </div>
             <div class="row input-field">
               <textarea name="description" class="materialize-textarea" ngModel required

@@ -1,19 +1,19 @@
-<div *ngIf="responseDomain" class="white col s12">
+<div *ngIf="responseDomain" class="col s12">
   <form id="{{formId}}" #hf="ngForm" (ngSubmit)="onSave()">
     <div class="row input-field">
       <input id="NAME-{{formId}}"  placeholder="Name mr" name="name" type="text" data-length ="255" [(ngModel)]="responseDomain.name" required class="validate">
-      <label for="NAME-{{formId}}">Name</label>
+      <label>Name</label>
     </div>
     <div class="row input-field">
       <textarea id="DESC-{{formId}}" placeholder="Add a description" name="description" class="materialize-textarea validate" data-length ="2000" [(ngModel)]="responseDomain.description"></textarea>
-      <label for="DESC-{{formId}}" >Description</label>
+      <label>Description</label>
     </div>
     <div [ngSwitch]="domainType">
       <div *ngSwitchCase="domainTypeDef.SCALE">
         <qddt-preview-responsedomain class="row"
           [responseDomain]="previewResponseDomain">
         </qddt-preview-responsedomain>
-        <div class="row">
+        <div class="row hoverable">
           <div class="col s3 input-field">
             <input class="validate" id="SCALE_START-{{formId}}" name="scale_start" placeholder="starting point"
                     type="number" max="{{responseDomain.managedRepresentation.inputLimit.maximum}}"
@@ -51,25 +51,25 @@
           </li>
         </ul>
       </div>
-      <div *ngSwitchCase="domainTypeDef.LIST" class="row">
+      <div *ngSwitchCase="domainTypeDef.LIST">
         <div class="row">
           <div class="input-field col s3">
-            <input id="code_number" name="code_number" type="number"
+            <input id="code_number{{formId}}" name="code_number" type="number"
                     [attr.min]=0
                     [ngModel]="responseDomain.managedRepresentation.inputLimit.maximum"
                     (ngModelChange)="changeNumberOfCategories($event)" required>
             <label>Number of Codes</label>
           </div>
-          <div class="input-field col s3 offset-m1 offset-l1">
-            <input id="responseCardinality_minimum" name="responseCardinality_minimum" type="number"
+          <div class="input-field col s3 offset-m1 ">
+            <input id="responseCardinality_minimum{{formId}}" name="responseCardinality_minimum" type="number"
                     (ngModelChange)="buildPreviewResponseDomain()"
                     [attr.min]=0
                     [attr.max]="responseDomain.responseCardinality.maximum"
                     [(ngModel)]="responseDomain.responseCardinality.minimum" required>
             <label>Min # of Response Cardinality</label>
           </div>
-          <div class="input-field col s3 offset-m1 offset-l1 ">
-            <input id="responseCardinality_maximum" name="responseCardinality_maximum" type="number"
+          <div class="input-field col s3 offset-m1 ">
+            <input id="responseCardinality_maximum{{formId}}" name="responseCardinality_maximum" type="number"
                     (ngModelChange)="buildPreviewResponseDomain()"
                     [attr.min]=1
                     [attr.max]="responseDomain.managedRepresentation.inputLimit.maximum"
@@ -78,9 +78,7 @@
           </div>
         </div>
 
-        <qddt-preview-responsedomain class="row"
-          [responseDomain]="previewResponseDomain">
-        </qddt-preview-responsedomain>
+        <qddt-preview-responsedomain class="row" [responseDomain]="previewResponseDomain"></qddt-preview-responsedomain>
 
         <ul >
           <li *ngFor="let category of responseDomain.managedRepresentation.children; let idx=index" draggable="true"
@@ -91,17 +89,19 @@
             <div class="col s2 input-field">
               <input name="{{idx}}-code-value" type="text" (ngModelChange)="buildPreviewResponseDomain()" [(ngModel)]="category.code.codeValue" required>
             </div>
-            <div class="col s8 input-field">
-              <qddt-auto-complete
-                [items]="categories"
-                [initialValue]="category?.label"
-                [elementKind]="CATEGORY"
-                (focusEvent)="selectedCategoryIndex=idx;"
-                (selectEvent)="onSelectCategory($event)"
-                (enterEvent)="onSearchCategories($event)">
-              </qddt-auto-complete>
-            </div>
-            <div class="col s2 input-field">
+            <qddt-element-select  class="col s8 input-field" [source]="getSource(category)" [autoCreate]="true" (elementSelectedEvent)="onSelectCategory($event,idx)">
+            </qddt-element-select>
+<!--            <div class="col s8 input-field">-->
+<!--              <qddt-auto-complete-->
+<!--                [items]="categories"-->
+<!--                [initialValue]="category?.label"-->
+<!--                [elementKind]="CATEGORY"-->
+<!--                (focusEvent)="selectedCategoryIndex=idx;"-->
+<!--                (selectEvent)="onSelectCategory($event)"-->
+<!--                (enterEvent)="onSearchCategories($event)">-->
+<!--              </qddt-auto-complete>-->
+<!--            </div>-->
+            <div class="secondary-content">
               <i class="material-icons">menu</i>
             </div>
           </li>
@@ -139,7 +139,7 @@
         </div>
       </div>
       <div *ngSwitchCase="domainTypeDef.TEXT">
-        <qddt-preview-responsedomain
+        <qddt-preview-responsedomain class="row"
           [responseDomain]="previewResponseDomain">
         </qddt-preview-responsedomain>
 
@@ -161,11 +161,11 @@
         </div>
       </div>
       <div *ngSwitchCase="domainTypeDef.DATETIME">
-        <qddt-preview-rd-datetime
+        <qddt-preview-rd-datetime class="row"
           [managedRepresentation]="responseDomain.managedRepresentation">
         </qddt-preview-rd-datetime>
 
-        <div class="row">
+        <div class="row hoverable">
           <div class="input-field col l2">
             <input id="representation_lowD" name="representation_lowD" type="number"
                     (ngModelChange)="buildPreviewResponseDomain()"

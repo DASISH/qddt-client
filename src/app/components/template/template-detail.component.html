@@ -1,4 +1,4 @@
-<div class="row" *ngIf="item">
+<div *ngIf="item">
 
     <div class="fixed-action-btn vertical click-to-toggle">
       <a class="btn-floating btn-large cyan"><i class="large material-icons">menu</i></a>
@@ -7,7 +7,7 @@
           <i class="material-icons left medium" title="Revision history">history</i>
         </a></li>
         <li *ngIf="canDelete">
-          <qddt-confirm-delete *ngIf="canDelete" [element]="item" (confirmAction)="onDeleteConfirmModal()"></qddt-confirm-delete>
+          <qddt-confirm-delete *ngIf="canDelete" [element]="item" (confirmAction)="onDeleteConfirmModal(item)"></qddt-confirm-delete>
         </li>
         <li><a class="btn-flat btn-floating btn-medium waves-effect waves-light orange lighten-2">
           <i class="material-icons" (click)="onGetPdf(item)" title="Get as Pdf">picture_as_pdf</i>

@@ -32,6 +32,7 @@ import { FormSelectComponent } from './form/select.component';
 import { FormInputComponent } from './form/input.component';
 import { FormTextAreaComponent } from './form/textarea.component';
 import { HoverableRowComponent } from './hoverable-row/hoverable-row.component';
+import {FormInputNComponent} from './form/input-number.component';
 
 @NgModule({
   imports: [  CommonModule, RouterModule, FormsModule, CompareModule ],
@@ -41,7 +42,7 @@ import { HoverableRowComponent } from './hoverable-row/hoverable-row.component';
     ConfirmDeleteComponent, TocComponent, CommentListComponent, CommentCreateComponent, DialogComponent,
     RationalComponent, RevisionComponent,  ConceptrefComponent, FormErrorsComponent, SpinnerComponent,
     AutosizeDirective, ParentFormConnectDirective, GravatarDirective, EqualValidator, HoverableRowComponent,
-    FormSelectComponent, FormInputComponent, FormTextAreaComponent, ValidationComponent ],
+    FormSelectComponent, FormInputComponent, FormTextAreaComponent, FormInputNComponent, ValidationComponent ],
   exports: [ LocalDatePipe, LocalNumberPipe, CommonModule, FormsModule, SpinnerComponent,
      QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, FileDownloadComponent,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
@@ -49,7 +50,7 @@ import { HoverableRowComponent } from './hoverable-row/hoverable-row.component';
     RationalComponent, RevisionComponent, ConceptrefComponent, FormErrorsComponent,
     TemplateComponent, TemplateListComponent, TemplateDetailComponent,
     AutosizeDirective, ParentFormConnectDirective, GravatarDirective, EqualValidator,
-    FormSelectComponent, FormInputComponent, FormTextAreaComponent ],
+    FormSelectComponent, FormInputComponent, FormTextAreaComponent, FormInputNComponent ],
   providers: [TemplateService]
 })
 

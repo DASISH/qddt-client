@@ -40,7 +40,7 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, Af
   public numberOfAnchors: number;
   public selectedCategoryIndex: number;
   public domainType: DomainKind;
-  public categories: Category[];
+  // public categories: Category[];
   public readonly formId = Math.round( Math.random() * 10000);
 
   private pageSearch: IPageSearch;
@@ -58,28 +58,23 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, Af
   }
 
   ngAfterViewInit(): void {
-    // M.FormSelect.init(document.getElementById('ScaleDisplayLayout-' + this.formId));
     M.updateTextFields();
+    document.querySelectorAll('SELECT').forEach( comp => {
+      M.FormSelect.init(comp);
+      console.log( comp.nodeName);
+    });
   }
 
   ngOnInit() {
-
     if (!this.readonly) { this.readonly = false; }
-
     if (!this.responseDomain) { return; }
 
-    // console.log(this.responseDomain.managedRepresentation.inputLimit);
     this.numberOfAnchors = this.responseDomain.managedRepresentation.children.length;
 
-    if (this.domainType === DomainKind.SCALE) {
-      if (this.responseDomain.displayLayout !== '90') {
-        this.responseDomain.displayLayout = '0';
-      }
+    if (this.domainType === DomainKind.SCALE && this.responseDomain.displayLayout !== '90') {
+      this.responseDomain.displayLayout = '0';
     }
-
-    this.previewResponseDomain = this.responseDomain;
-
-    // haven't really looked into how to handle form groups or binds using ngModel
+    this.buildPreviewResponseDomain();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -87,18 +82,27 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, Af
       const page = this.getPageSearch();
       this.domainType = (page) ? DomainKind[page.keys.get('ResponseKind')] : DomainKind.SCALE;
       this.numberOfAnchors = this.responseDomain.managedRepresentation.children.length;
-
       this.buildPreviewResponseDomain();
-      document.querySelectorAll('SELECT').forEach( comp => {
-        M.FormSelect.init(comp);
-        console.log( comp.nodeName);
-      });    }
+    }
   }
 
   ngOnDestroy(): void {
     this.ok = false;
   }
 
+  public getSource(category: Category): IElement {
+    return {element: category, elementKind: ElementKind.CATEGORY};
+  }
+
+  public onSelectCategory(item: IElement, idx) {
+    const code = this.responseDomain.managedRepresentation.children[idx].code;
+    item.element.code = code;
+    if (item.element.id === undefined) {
+      this.onCreateCategory(item.element, idx);
+    } else {
+      this.anchorChanged(item.element, idx);
+    }
+  }
   anchorChanged(event, idx) {
     this.responseDomain.managedRepresentation.children[idx] = event;
     this.buildPreviewResponseDomain();
@@ -106,8 +110,7 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, Af
 
   onCreateCategory(event, idx) {
     this.service.update(event).subscribe(
-      (result) => {
-        this.anchorChanged(result, idx);
+      (result) => { this.anchorChanged(result, idx);
       }
     );
   }
@@ -167,7 +170,6 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, Af
   }
 
   onSelectAlignment(value: any, idx: any) {
-    console.log('onSelectAlignment ' + value + ' ' + idx);
     this.responseDomain.managedRepresentation.children[idx].code.alignment = value;
     this.buildPreviewResponseDomain();
   }

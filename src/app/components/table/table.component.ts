@@ -155,8 +155,10 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     this.message.sendMessage( { elementId: item.refId, elementRevision: item.refRev, elementKind: item.refKind} as IRevisionRef);
   }
 
-  public onConfirmDeleting(item: IEntityEditAudit) {
-    this.deleteEvent.emit(item);
+  public onConfirmDeleting(response, item: IEntityEditAudit) {
+    if (response) {
+      this.deleteEvent.emit(item);
+    }
   }
 
   public onGetPdf(item: IEntityEditAudit) {

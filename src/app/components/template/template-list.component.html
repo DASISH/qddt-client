@@ -1,7 +1,7 @@
 <div *ngIf="items">
   <qddt-table [items]="items" [pageSearch]="pageSearch"
               (fetchEvent)="onFetchItems($event)"
-              (deleteEvent)="onConfirmDelete($event)"
+              (deleteEvent)="onDelete($event)"
               (detailEvent)="onDetail($event)">
   </qddt-table>
 </div>

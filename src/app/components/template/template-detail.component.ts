@@ -63,17 +63,16 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterViewInit
     // this.closeState.emit(this.action);
   }
 
-  onDeleteConfirmModal() {
-    // this.deleteAction.emit({action: 'modal', params: ['open']});
+  onDeleteConfirmModal(item) {
+    this.service.delete(item)
+    .subscribe(() => {
+      this.action.action = ActionKind.Delete;
+      this.goBack();
+    });
   }
 
-  onConfirmDeleting() {
-    this.service.delete(this.item)
-      .subscribe(() => {
-        this.action.action = ActionKind.Delete;
-        this.goBack();
-      });
-  }
+  // onConfirmDeleting() {
+  // }
 
   onItemSaved(item: IEntityEditAudit) {
     this.action.action = ActionKind.Update;

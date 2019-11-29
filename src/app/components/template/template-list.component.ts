@@ -71,20 +71,10 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
   }
 
   public onDelete(item: IEntityAudit) {
-    console.log(JSON.stringify(item));
     this.service.delete(item)
-    .subscribe(() => {
-      this.loadPage();
-      // TODO fix modal
-      // $('#confirmModal' + this.formId).modal('close');
-    },
-    (error) => { throw error; });
-  }
-
-  public onConfirmDelete(item: IEntityAudit) {
-    this.toBeDeleted = item;
-      // TODO fix modal
-    // $('#confirmModal' + this.formId).modal('open');
+    .subscribe(
+      () => { this.loadPage(); },
+      (error) => { throw error; });
   }
 
   private loadPage(search?: string ) {
@@ -126,7 +116,7 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
     //   pageSearch.sort = 'ref_modified,desc';
     // }
 
-      const RDKEY = 'ResponseKind';
+    const RDKEY = 'ResponseKind';
     if (pageSearch.kind === ElementKind.RESPONSEDOMAIN && !pageSearch.keys.has(RDKEY)) {
       pageSearch.keys.set(RDKEY, DomainKind[DomainKind.SCALE]);
     }

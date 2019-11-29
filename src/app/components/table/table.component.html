@@ -1,5 +1,4 @@
-<form class="row" name="filterForm">
-  <div  >
+  <form name="filterForm">
     <div *ngIf="!pageSearch.hasDetailSearch" >
       <div class="input-field col s11 m10 l9">
         <i class="material-icons prefix" >search</i>
@@ -18,17 +17,19 @@
         <i class="material-icons" (click)="onClear(field)">close</i>
       </div>
     </div>
-    <div class="switch"><label><input type = "checkbox"  [checked]="pageSearch.hasDetailSearch" (change)="onDetailChecked()">
-      <span class = "lever"></span>Advanced search</label>
+    <div class="switch">
+      <label>
+        <input type = "checkbox"  [checked]="pageSearch.hasDetailSearch" (change)="onDetailChecked()">
+        <span class = "lever"></span>Advanced search
+      </label>
     </div>
-  </div>
-</form>
-<div *ngIf="showProgressBar" class="progress">
-  <div class="indeterminate"></div>
-</div>
+  </form>
 
-<div id ='qddt-pageable-table' class="grey-text text-darken-1" style="overflow-x:auto; margin:0.5rem">
-  <table class="highlight">
+  <div *ngIf="showProgressBar" class="progress"><div class="indeterminate"></div></div>
+
+  <div id ='qddt-pageable-table' class="grey-text text-darken-1">
+
+    <table class="highlight" style="padding-left: 1rem;">
     <thead>
       <tr>
         <th><i class="material-icons tiny">add_circle_outline</i></th>
@@ -46,7 +47,7 @@
           <i class="material-icons tiny teal-text" >menu</i>
           <ul *ngIf="row.showButton"  style="position: absolute; display: inline-flex; margin-top: -5px; margin-bottom: 0px; z-index: 1; ">
             <li *ngIf="canDelete">
-              <qddt-confirm-delete  [small]="true"  [element]="row.Object" (confirmAction)="onConfirmDeleting(row.Object)"></qddt-confirm-delete>
+              <qddt-confirm-delete  [small]="true"  [element]="row.Object" (confirmAction)="onConfirmDeleting($event, row.Object)"></qddt-confirm-delete>
             </li>
             <li *ngIf="canExport"><a class="btn-flat btn-small btn-floating waves-effect waves-light orange lighten-2">
               <i class="material-icons" (click)="onGetPdf(row.Object)" title="Get as Pdf">picture_as_pdf</i></a>
@@ -62,19 +63,18 @@
       </td>
       <td  *ngFor="let column of columns" (click)="onDetail(row)" [innerHtml]="row[column.label]"></td>
 
-      <!-- <td *ngIf="row.revisionIsVisible" colspan="columns.length"><qddt-revision  [current]="row.Object"> </qddt-revision></td> -->
-
     </tr>
     </tbody>
   </table>
 
-</div>
-<qddt-pagination
-  [collectionSize]="pageSearch.page.totalElements"
-  [page]="pageSearch.page.number"
-  [pageSize]="pageSearch.page.size"
-  [maxSize]="5"
-  [rotate]="true"
-  [boundaryLinks]="true"
-  (pageChange)="pageChange($event)">
-</qddt-pagination>
+  </div>
+
+  <qddt-pagination
+    [collectionSize]="pageSearch.page.totalElements"
+    [page]="pageSearch.page.number"
+    [pageSize]="pageSearch.page.size"
+    [maxSize]="5"
+    [rotate]="true"
+    [boundaryLinks]="true"
+    (pageChange)="pageChange($event)">
+  </qddt-pagination>
