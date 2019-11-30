@@ -27,7 +27,7 @@
     <div class="row input-field">
       <ul *ngIf="canEdit" class="dropleft">
         <li *ngIf="responseDomain && !responseDomain?.missing">
-          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green" (click)="onMissingAdd($event)">
+          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green" (click)="onMissingEdit($event)">
             <i class="material-icons" title="Add element">add</i>
           </a>
         </li>
@@ -68,8 +68,9 @@
           <thead><tr><td>Code</td><td>Category</td></tr></thead>
           <tbody>
             <tr *ngFor="let category of responseDomain.missing.children;" >
-              <td><input id="code-value-{{category?.id}}" name="code-value" type="text"
-                  [(ngModel)]="category.code.codeValue" required></td>
+              <td><input name="value" id="category.id" type="text"
+                [value]="category.code.codeValue"
+                [(ngModel)]="category.code.codeValue" required></td>
               <td>{{ category?.label }}</td>
             </tr>
           </tbody>
@@ -78,16 +79,11 @@
           <a class="btn btn-flat waves-effect waves-light green white-text" (click)="onOkMissing($event)">
             ok
           </a>
-          <a class="brn btn-flat btn-medium waves-effect waves-light red white-text" (click)="onDismiss($event)">
+          <a class="btn btn-flat btn-medium waves-effect waves-light red white-text" (click)="onDismiss($event)">
             cancel
           </a>
         </div>
       </form>
     </div>
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-default red modal-action waves-effect waves-red" (click)="onDismiss($event)">
-      Dismiss
-    </button>
   </div>
 </div>

@@ -21,7 +21,7 @@
             "aot": true,
             "assets": [
               "src/assets",
-              "src/favicon.ico",
+              "src/favicon.ico"
             ],
             "styles": [
               "src/styles.css",
@@ -34,7 +34,8 @@
           },
           "configurations": {
             "production": {
-              "fileReplacements": [{
+              "fileReplacements": [
+                {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
                 }
@@ -48,11 +49,13 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "budgets": [{
+              "budgets": [
+                {
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
-                }, {
+                },
+                {
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb",
                   "maximumError": "10kb"
@@ -69,7 +72,8 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "fileReplacements": [{
+              "fileReplacements": [
+                {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.stage.ts"
                 }
@@ -85,16 +89,17 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "fileReplacements": [{
+              "fileReplacements": [
+                {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.home.ts"
-                },{
+                },
+                {
                   "replace": "src/index.html",
                   "with": "src/index.home.html"
                 }
               ]
             }
-
           }
         },
         "serve": {
@@ -170,7 +175,8 @@
   },
   "defaultProject": "qddt-client",
   "cli": {
-    "packageManager": "npm"
+    "packageManager": "npm",
+    "analytics": "318bb2cc-d75f-44f3-83ad-a28a4e239c65"
   },
   "schematics": {
     "@schematics/angular:component": {

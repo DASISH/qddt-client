@@ -8,6 +8,7 @@ import {
   IEntityAudit,
   IRevisionRef, TemplateService
 } from '../../../lib';
+import { VirtualTimeScheduler } from 'rxjs';
 
 
 
@@ -23,28 +24,11 @@ export class CopySourceComponent implements OnChanges {
   @Output() itemSelected = new EventEmitter<any>();
   @Output() dismissEvent = new EventEmitter<any>();
 
-  items: IEntityAudit[] = [];
-  revisionResults = [];
-  className: string;
+  public element: IElement;
+  public className: string;
 
   constructor(private service: TemplateService) { }
 
-  onItemSearch(item: IElement) {
-    console.log(item || JSON);
-    const qe = getQueryInfo(item.elementKind);
-    this.service.searchByKind(
-      { kind: this.elementKind, key: item.element, sort: qe.fields.join(',') })
-    .then(
-      (result) => { this.items = result.content; }
-    );
-  }
-
-  onRevisonSearch(item: IRevisionRef) {
-    this.service.getByKindRevisions(this.elementKind, item.elementId).then(
-      (result: any) => {
-        this.revisionResults = result.content;
-    });
-  }
 
   onRevisionSelect(rev: ElementRevisionRef) {
     this.service.copySource(this.elementKind, rev.elementId, rev.elementRevision, this.parentId)
@@ -58,6 +42,7 @@ export class CopySourceComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.element = { element: '', elementKind: this.elementKind };
     this.className = getQueryInfo(this.elementKind).label;
   }
 

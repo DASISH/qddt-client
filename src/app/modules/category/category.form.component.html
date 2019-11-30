@@ -1,4 +1,4 @@
-<div *ngIf="category" class="white col s12">
+<div *ngIf="category" class="col s12">
 
   <form id="{{formId}}" #hf="ngForm" (ngSubmit)="onSave()">
 
@@ -7,23 +7,27 @@
         style="font-style: italic"></p>
     </div>
 
-    <div class="row input-field " >
-      <input name="label2" type="text" class="validate" required [(ngModel)]="category.label"
-        data-length="100"  tabindex="0"/>
-      <label>Label</label>
-    </div>
-
-    <div class="row input-field " >
-      <input name="name" type="text" class="validate" required [(ngModel)]="category.name" data-length="255" tabindex="1" />
-      <label>Name</label>
-    </div>
-
-    <div class="row input-field " >
-      <textarea class="materialize-textarea validate" name="description" data-length="2000"
-        [(ngModel)]="category.description" tabindex="3">
-      </textarea>
-      <label>Description</label>
-    </div>
+    <qddt-input
+      required
+      name="name"
+      label="Name"
+      [(ngModel)]="category.name"
+      data-length="100">
+    </qddt-input>
+    <qddt-input
+      required
+      name="label"
+      label="Label"
+      [(ngModel)]="category.label"
+      data-length="100">
+    </qddt-input>
+    <qddt-textarea
+      required
+      name="description"
+      label="Description"
+      [(ngModel)]="category.description"
+      data-length="255">
+    </qddt-textarea>
 
     <div class="row" *ngIf="category.categoryType !== 'CATEGORY'">
       <div class="input-field col s2 ">
@@ -46,8 +50,11 @@
       </div>
     </div>
 
-    <qddt-rational *ngIf="!readonly && category.id" [formName]="'RationalComp'" [element]="category"
-      [config]="{ hidden: [4] }"></qddt-rational>
+    <qddt-rational *ngIf="!readonly && category.id"
+      [formName]="'RationalComp'"
+      [element]="category"
+      [config]="{hidden: [4]}">
+    </qddt-rational>
 
     <qddt-element-footer *ngIf="category.id" [element]="category"></qddt-element-footer>
 

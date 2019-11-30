@@ -28,8 +28,8 @@ export class ResponsedomainComponent  {
   @Output() selectedEvent = new EventEmitter<ElementRevisionRef>();
   @Output() updateEvent = new EventEmitter<ResponseDomain>();
 
-  public readonly MISSING_GROUP = ElementKind.MISSING_GROUP;
-  public readonly RESPONSEDOMAIN = ElementKind.RESPONSEDOMAIN;
+  public readonly MISSING_GROUP = {element: '', elementKind: ElementKind.MISSING_GROUP};
+  public readonly RESPONSEDOMAIN =  {element: '', elementKind: ElementKind.RESPONSEDOMAIN};
   public readonly canDelete: boolean;
   public readonly canEdit: boolean;
   public readonly modalId = Math.round( Math.random() * 10000);
@@ -42,8 +42,8 @@ export class ResponsedomainComponent  {
   private _modalRef: M.Modal;
 
   constructor(private service: TemplateService, private access: UserService) {
-    this.canDelete = access.canDo(ActionKind.Delete, this.RESPONSEDOMAIN);
-    this.canEdit = access.canDo(ActionKind.Update, this.RESPONSEDOMAIN);
+    this.canDelete = access.canDo(ActionKind.Delete, ElementKind.RESPONSEDOMAIN );
+    this.canEdit = access.canDo(ActionKind.Update, ElementKind.RESPONSEDOMAIN );
   }
 
   get modalRef(): M.Modal {
@@ -60,14 +60,14 @@ export class ResponsedomainComponent  {
   }
 
   public onItemGetLatest() {
-    this.service.getByKindRevision(this.RESPONSEDOMAIN, this.responseDomain.id).then(
+    this.service.getByKindRevision( ElementKind.RESPONSEDOMAIN, this.responseDomain.id).then(
       (result) => {
         this.responseDomain = result.entity as ResponseDomain;
         this.selectedEvent.emit(
           {
             element: this.responseDomain,
             elementId: this.responseDomain.id,
-            elementKind: this.RESPONSEDOMAIN,
+            elementKind:  ElementKind.RESPONSEDOMAIN,
             elementRevision: result.revisionNumber
           });
       });
@@ -81,12 +81,6 @@ export class ResponsedomainComponent  {
   public onRevisionSelect(ref: ElementRevisionRef) {
     this.selectedEvent.emit(ref);
     this.modalRef.close();
-  }
-
-  public onMissingAdd(event: Event) {
-    event.stopPropagation();
-    this.showResponseDomain = false;
-    this.modalRef.open();
   }
 
   public onMissingEdit(event: Event) {
@@ -118,7 +112,7 @@ export class ResponsedomainComponent  {
   }
 
   public onDismiss(event: Event) {
-    event.stopPropagation();
+    // event.stopPropagation();
     this.modalRef.close();
   }
 

@@ -9,16 +9,12 @@ import { TemplateService } from '../../components/template';
 })
 
 export class InstructionFormComponent implements OnInit {
-
   @Input() instruction: Instruction;
   @Input() readonly = false;
   @Output() modifiedEvent = new EventEmitter<Instruction>();
 
   public readonly INSTRUCTION = ElementKind.INSTRUCTION;
-
-  // public isTemplate: boolean;
-  // private selectedInstructionIndex: number;
-
+  public formId = Math.round( Math.random() * 10000);
 
   constructor(private instructionService: TemplateService) {
     // this.selectedInstructionIndex = 0;
@@ -33,7 +29,7 @@ export class InstructionFormComponent implements OnInit {
   }
 
 
-  onSave() {
+  onSaveItem() {
     this.instructionService.update<Instruction>(this.instruction).subscribe(
       (result) => {
         this.instruction = result;

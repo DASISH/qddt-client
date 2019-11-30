@@ -2,7 +2,7 @@
   <div class="row">
     <h5>Reuse {{ className }}</h5>
     <qddt-element-revision-select
-      [source] = "elementKind"
+      [source] = "element"
       (revisionSelectedEvent)="onRevisionSelect($event)"
       (dismissEvent) ="onDismiss()">
     </qddt-element-revision-select>

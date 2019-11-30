@@ -5,8 +5,7 @@
     [innerHtml]="questionItem.question" style="font-style: italic"></p>
   </div>
 
-  <qddt-preview-responsedomain
-    *ngIf="questionItem?.responseDomain"
+  <qddt-preview-responsedomain *ngIf="questionItem?.responseDomain"
     [responseDomain]="questionItem.responseDomain">
   </qddt-preview-responsedomain>
 
@@ -44,8 +43,8 @@
         (removeEvent)="onResponseDomainRemove()">
     </qddt-responsedomain-select>
 
-    <qddt-rational [formName]="'RationalComp'"
-      *ngIf="!readonly && questionItem.id"
+    <qddt-rational *ngIf="!readonly && questionItem.id"
+      [formName]="'RationalComp'"
       [element]="questionItem"
       [config]="{hidden: [4]}">
     </qddt-rational>

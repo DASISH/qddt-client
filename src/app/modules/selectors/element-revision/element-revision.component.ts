@@ -10,15 +10,15 @@ import {
 @Component({
   selector: 'qddt-element-revision-select',
   template: `
-<qddt-element-select *ngIf = "showAutoComplete" [source]="kind" (elementSelectedEvent)="onSelectElement($event)" >
+  <qddt-element-select *ngIf = "showAutoComplete" [source]="source"
+    (elementSelectedEvent)="onSelectElement($event)" >
+  </qddt-element-select>
 
-</qddt-element-select>
-
-<qddt-revision-select *ngIf = "showRevisionSelect"
-  [revisionRef]="revisionRef"
-  (selectEvent)="onSelectedRevision($event)"
-  (dismissEvent)="onDismiss($event)">
-</qddt-revision-select>
+  <qddt-revision-select *ngIf = "showRevisionSelect"
+    [revisionRef]="revisionRef"
+    (selectEvent)="onSelectedRevision($event)"
+    (dismissEvent)="onDismiss($event)">
+  </qddt-revision-select>
 `,
 })
 
@@ -28,26 +28,22 @@ export class ElementRevisionComponent implements OnChanges {
   @Output() revisionSelectedEvent = new EventEmitter<ElementRevisionRef>();
   @Output() dismissEvent = new EventEmitter<boolean>();
 
-  public itemList = null;
-
-  public kind: ElementKind;
   public revisionRef: IRevisionRef;
   public showProgressBar: boolean;
   public showAutoComplete = false;
   public showRevisionSelect = false;
 
-  constructor(private service: TemplateService) {
-  }
+  constructor(private service: TemplateService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.source && changes.source.currentValue) {
       console.log('afds');
       if (this.isElementRevision(changes.source.currentValue)) {
         this.revisionRef = changes.source.currentValue as IRevisionRef;
-        this.kind = getElementKind(this.revisionRef.elementKind);
+        // this.kind = getElementKind(this.revisionRef.elementKind);
         this.showRevisionSelect = true;
       } else {
-        this.kind = getElementKind(changes.source.currentValue);
+        // this.kind = getElementKind(changes.source.currentValue);
         this.showAutoComplete = true;
         this.revisionRef = null;
       }
@@ -60,7 +56,7 @@ export class ElementRevisionComponent implements OnChanges {
   }
 
   public onSelectElement(item: IElement) {
-    this.revisionRef = { elementId: item.element.id, elementKind: this.kind, elementRevision: 0 };
+    this.revisionRef =  { elementId: item.element.id, elementKind: item.elementKind, elementRevision: 0 };
     this.showRevisionSelect = true;
   }
 
@@ -79,12 +75,13 @@ export class ElementRevisionComponent implements OnChanges {
   }
 
   private getRevisionRef(elementRevision: IRevisionResultEntity): ElementRevisionRef {
+    const kind = getElementKind(elementRevision.entity.classKind);
     return new ElementRevisionRef({
       elementId: elementRevision.entity.id,
       elementRevision: elementRevision.revisionNumber,
-      elementKind: this.kind,
+      elementKind: kind,
       element: elementRevision.entity,
-      name: (this.kind === ElementKind.QUESTION_CONSTRUCT) ?
+      name: (kind === ElementKind.QUESTION_CONSTRUCT) ?
         elementRevision.entity.name + ' - ' + (elementRevision.entity as QuestionConstruct).questionItem.question :
         elementRevision.entity.name,
       version: elementRevision.entity.version
