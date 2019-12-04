@@ -10,6 +10,7 @@ export class Publication  implements  IEntityAudit {
   purpose: string;
   status: PublicationStatus;  // = { id: 0, published: 'NOT_PUBLISHED', label: 'No publication' };  // magic number NOT_PUBLISHED
   classKind = ElementKind[ElementKind.PUBLICATION];
+  xmlLang?: string;
   publicationElements: ElementRevisionRef[] = [];
   comments?: IComment[];
   public constructor(init?: Partial<Publication>) {

@@ -1,4 +1,4 @@
-import {IEntityAudit, IEntityEditAudit, ITreeRef, IUser, IVersion} from '../interfaces';
+import {IEntityAudit, IEntityEditAudit, ITreeRef, IUser, IVersion, IOtherMaterial, IComment} from '../interfaces';
 import {ElementKind} from '../enums';
 import {Instrument} from './instrument.classes';
 import {ElementRevisionRef} from './element-revision-ref';
@@ -9,15 +9,20 @@ export class SurveyProgram implements IEntityEditAudit {
   name: string;
   description: string;
   authors?: any[];
-  comments?: any[];
-  modified: any;
   archived = false;
   studies: Study[];
   classKind = ElementKind[ElementKind.SURVEY_PROGRAM];
-  agency?: IEntityAudit;
+  changeKind?: string;
   basedOnObject?: string;
   basedOnRevision?: number;
-  version: IVersion;
+  changeComment?: string;
+  modified?: number;
+  modifiedBy?: IUser;
+  version?: IVersion;
+  agency?: IEntityAudit;
+  otherMaterials?: IOtherMaterial[];
+  xmlLang?: string;
+  comments?: IComment[];
   public constructor(init?: Partial<SurveyProgram>) {
     Object.assign(this, init);
   }
@@ -29,15 +34,20 @@ export class Study implements IEntityEditAudit {
   description: string;
   archived = false;
   authors?: any[];
-  comments?: any[];
   topicGroups?: Topic[];
   instruments?: Instrument[]
   classKind = ElementKind[ElementKind.STUDY];
-  agency?: IEntityAudit;
+  changeKind?: string;
   basedOnObject?: string;
   basedOnRevision?: number;
-  modified: number;
-  version: IVersion;
+  changeComment?: string;
+  modified?: number;
+  modifiedBy?: IUser;
+  version?: IVersion;
+  agency?: IEntityAudit;
+  otherMaterials?: IOtherMaterial[];
+  xmlLang?: string;
+  comments?: IComment[];
   public constructor(init?: Partial<Study>) {
     Object.assign(this, init);
   }
@@ -50,19 +60,20 @@ export class Topic implements IEntityEditAudit {
   description: string;
   archived = false;
   authors?: any[];
-  comments?: any[];
-  otherMaterials: any[];
   topicQuestionItems: ElementRevisionRef[];
   concepts: Concept[];
   classKind = ElementKind[ElementKind.TOPIC_GROUP];
-  agency?: IEntityAudit;
+  changeKind?: string;
   basedOnObject?: string;
   basedOnRevision?: number;
   changeComment?: string;
-  changeKind?: string;
-  modified: number;
+  modified?: number;
   modifiedBy?: IUser;
-  version: IVersion;
+  version?: IVersion;
+  agency?: IEntityAudit;
+  otherMaterials?: IOtherMaterial[];
+  xmlLang?: string;
+  comments?: IComment[];
   studyRef?: ITreeRef;
   public constructor(init?: Partial<Topic>) {
     Object.assign(this, init);
@@ -76,7 +87,6 @@ export class Concept implements IEntityEditAudit {
   description: string;
   archived = false;
   authors: any[];
-  comments: any[];
 
   conceptQuestionItems: ElementRevisionRef[];
   children: Concept[];
@@ -89,6 +99,8 @@ export class Concept implements IEntityEditAudit {
   modified?: number;
   modifiedBy?: IUser;
   version?: IVersion;
+  xmlLang?: string;
+  comments?: IComment[];
   topicRef?: ITreeRef;
   public constructor(init?: Partial<Concept>) {
     Object.assign(this, init);

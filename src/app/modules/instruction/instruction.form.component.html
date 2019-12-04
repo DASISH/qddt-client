@@ -1,14 +1,23 @@
 <div *ngIf="instruction" class="col s12">
   <form  id="{{formId}}" #hf="ngForm" (ngSubmit)="onSaveItem()">
-    <qddt-input
-      required
-      name="name"
-      label="Name"
-      [(ngModel)]="instruction.name"   
-      data-length="100">
-    </qddt-input>
+    <div class="row">
+      <qddt-input class="col s11"
+        required
+        name="name"
+        label="Name"
+        [(ngModel)]="instruction.name"
+        data-length="100">
+      </qddt-input>
+      <qddt-select class="col s1"
+        required
+        name="xmlLang"
+        label="xmlLang"
+        [(ngModel)]="instruction.xmlLang"
+        [enum]="LANGUAGES" >
+      </qddt-select>
+    </div>
+
     <qddt-textarea
-      required
       name="description"
       label="Description"
       [(ngModel)]="instruction.description"

@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { ActionKind, ElementKind, Universe } from '../../lib';
+import { ActionKind, ElementKind, Universe, enumLANGUAGES } from '../../lib';
 import { TemplateService } from '../../components/template';
+import { LanguageKind } from 'src/app/lib/enums/language-kind';
 
 
 @Component({
@@ -15,7 +16,8 @@ export class UniverseFormComponent implements OnInit {
   @Output() modifiedEvent =  new EventEmitter<Universe>();
 
   public readonly UNIVERSE = ElementKind.UNIVERSE;
-
+  public readonly formId = Math.round( Math.random() * 10000);
+  public readonly LANGUAGES = LanguageKind;
   // public isTemplate: boolean;
 
   private selectedUniverseIndex: number;

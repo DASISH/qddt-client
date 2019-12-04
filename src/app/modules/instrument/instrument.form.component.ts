@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { ActionKind, ElementKind, Instrument, INSTRUMENT_KIND, InstrumentKind } from '../../lib';
+import { ActionKind, ElementKind, Instrument, INSTRUMENT_KIND, InstrumentKind, enumLANGUAGES, StringIsNumber } from '../../lib';
 import { TemplateService } from '../../components/template';
+import { LanguageKind } from '../../lib/enums/language-kind';
 
 
 
@@ -17,17 +18,22 @@ export class InstrumentFormComponent implements OnChanges {
 
   public formId = Math.round(Math.random() * 10000);
   public currentInstrumentType = InstrumentKind.QUESTIONNAIRE;
-  public instrumentKinds = INSTRUMENT_KIND;
+  public readonly instrumentKinds;
+  public readonly LANGUAGES = LanguageKind;
 
   constructor(private service: TemplateService) {
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.INSTRUMENT);
+    this.instrumentKinds = Object.keys( INSTRUMENT_KIND )
+    .filter(StringIsNumber)
+    .filter(f => f !== '0')
+    .map(key => (InstrumentKind[key] as string));
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['element'].currentValue) {
+    if (changes.element.currentValue) {
       this.currentInstrumentType = InstrumentKind[this.element.instrumentKind];
     }
-    try { M.updateTextFields(); } catch (Exception) { }
+    // try { M.updateTextFields(); } catch (Exception) { }
   }
 
   public onSelectInstrumentType(value: InstrumentKind) {

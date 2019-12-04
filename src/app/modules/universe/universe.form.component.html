@@ -1,36 +1,37 @@
-  <form (ngSubmit)="onSave()" #hf="ngForm">
-
+<div *ngIf="universe" class="col s12">
+  <form id="UNI{{formId}}" #hf="ngForm" (ngSubmit)="onSave()">
     <div class="row">
-      <div class="input-field col m12 ">
-        <input id="name2" name="name" type="text" class="validate" required [(ngModel)]="universe.name"
-               data-length="255" >
-        <label>Name</label>
-      </div>
+      <qddt-input class="col s11"
+        required
+        name="name"
+        label="Name"
+        [(ngModel)]="universe.name"
+        data-length="100">
+      </qddt-input>
+      <qddt-select class="col s1"
+        required
+        name="xmlLang"
+        label="xmlLang"
+        [(ngModel)]="universe.xmlLang"
+        [enum]="LANGUAGES" >
+      </qddt-select>
     </div>
+    <qddt-textarea
+      required
+      name="description"
+      placeholder="describe universe"
+      label="Description"
+      [(ngModel)]="universe.description"
+      data-length="1000">
+    </qddt-textarea>
 
-    <div class="row">
-      <div class="input-field col m12 ">
-        <textarea class="materialize-textarea validate" name="description"
-                  data-length="1000"  [(ngModel)]="universe.description" >
-        </textarea>
-        <label>Description</label>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="input-field col m12 ">
-        <textarea class="materialize-textarea validate" name="xmlLang"
-                  data-length="25"  [(ngModel)]="universe.xmlLang" >
-        </textarea>
-        <label>Xml Language</label>
-      </div>
-    </div>
 
     <qddt-rational  *ngIf="!readonly && universe.id" [formName]="'RationalComp'" [element]="universe" [config]="{hidden: [4]}"></qddt-rational>
 
     <qddt-element-footer  *ngIf="universe.id" [element]="universe"></qddt-element-footer>
 
     <div class="row right-align">
-      <button  *ngIf="!readonly" type="submit" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
+        <button  *ngIf="!readonly" type="submit" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
     </div>
   </form>
+</div>

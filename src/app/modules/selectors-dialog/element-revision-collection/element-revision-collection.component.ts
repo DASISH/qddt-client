@@ -52,12 +52,9 @@ import {
   <!-- Modal Structure -->
   <div  id="MODAL-{{modalId}}" class="modal modal-fixed-footer">
     <div class="modal-content white black-text" >
-      <h4>Select QuestionItem version</h4>
-  <!--    <qddt-element-select-->
-  <!--        [source] = "SOURCE"-->
-  <!--        (revisionSelectedEvent)="revisionSelectedEvent($event)"-->
-  <!--        (dismissEvent) ="onDismiss()">-->
-  <!--    </qddt-element-select>-->
+      <h4>Select ???  version</h4>
+      <qddt-element-select [source]="{}" >
+      </qddt-element-select>
     </div>
     <div class="modal-footer">
       <button

@@ -13,6 +13,7 @@ export class QuestionItem implements IEntityEditAudit {
   basedOnRevision: number;
   question: string;
   intent: string;
+  xmlLang?: string;
   responseDomain: ResponseDomain;
   responseDomainName: string;
   responseDomainRevision: number;

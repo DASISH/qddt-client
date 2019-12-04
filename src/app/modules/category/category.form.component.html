@@ -7,27 +7,36 @@
         style="font-style: italic"></p>
     </div>
 
-    <qddt-input
-      required
-      name="name"
-      label="Name"
-      [(ngModel)]="category.name"
-      data-length="100">
-    </qddt-input>
+    <div class="row">
+      <qddt-input class="col s11"
+        required
+        name="name"
+        label="Name"
+        [(ngModel)]="category.name"
+        data-length="100">
+      </qddt-input>
+      <qddt-select class="col s1"
+        required
+        name="xmlLang"
+        label="xmlLang"
+        [(ngModel)]="category.xmlLang"
+        [enum]="LANGUAGES" >
+      </qddt-select>
+    </div>
     <qddt-input
       required
       name="label"
       label="Label"
       [(ngModel)]="category.label"
-      data-length="100">
+      data-length="255">
     </qddt-input>
     <qddt-textarea
-      required
       name="description"
       label="Description"
       [(ngModel)]="category.description"
       data-length="255">
     </qddt-textarea>
+
 
     <div class="row" *ngIf="category.categoryType !== 'CATEGORY'">
       <div class="input-field col s2 ">
@@ -35,18 +44,18 @@
         <input id="ctype" name="ctype" type="text" class="validate" [(ngModel)]="category.categoryType" readonly />
       </div>
       <div class="input-field col s2 offset-m1">
-        <label for="min" class="teal-text">Input limit minimum</label>
         <input id="min" name="mini" type="number" class="validate" readonly min="0"
           [(ngModel)]="category.inputLimit.minimum" />
-      </div>
+          <label>Input limit minimum</label>
+        </div>
       <div class="input-field col s2 offset-m1">
-        <label for="max" class="teal-text">Input limit maximum</label>
         <input id="max" name="maxi" type="number" class="validate" readonly min="1"
           [(ngModel)]="category.inputLimit.maximum" />
-      </div>
+          <label>Input limit maximum</label>
+        </div>
       <div class="input-field col s6 m8">
-        <label for="format" class="teal-text">Format</label>
         <input id="format" name="format" type="text" class="validate" [(ngModel)]="category.format" />
+        <label>Format</label>
       </div>
     </div>
 

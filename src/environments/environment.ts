@@ -9,4 +9,5 @@ export const environment = {
   API_BASE: 'https://qddt-test.nsd.no/api/'
 };
 // API_BASE: 'http://localhost:5001/'
+// API_BASE: 'https://qddt-test.nsd.no/api/'
 

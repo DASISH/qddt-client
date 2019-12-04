@@ -56,6 +56,7 @@ export class ResponseDomain implements IEntityEditAudit {
   basedOnRevision?: number;
   modified?: number;
   version?: IVersion =  {major: 0, minor: 0 };
+  xmlLang?: string;
 
   public constructor(init?: Partial<ResponseDomain>) {
     Object.assign(this, init);

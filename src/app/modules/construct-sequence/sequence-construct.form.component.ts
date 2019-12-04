@@ -1,11 +1,12 @@
 import { Component, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { LanguageKind } from '../../lib/enums/language-kind';
 import {
   ActionKind,
   ElementKind,
   EnumItem, getElementKind,
   IElement,
   IEntityEditAudit,
-  IRevisionRef, Page, SequenceConstruct, SequenceKind, StringIsNumber, TemplateService
+  IRevisionRef, Page, SequenceConstruct, SequenceKind, StringIsNumber, TemplateService, enumLANGUAGES
 } from '../../lib';
 
 @Component({
@@ -21,6 +22,8 @@ export class SequenceFormComponent implements OnChanges {
   @Output() modifiedEvent = new EventEmitter<SequenceConstruct>();
 
   public readonly QUESTION = ElementKind.QUESTION_CONSTRUCT;
+  public readonly LANGUAGES = LanguageKind;
+
   // public selectedElement: IEntityEditAudit;
   public entityEditAudits: IEntityEditAudit[];
   public revisionList = [];
@@ -28,14 +31,19 @@ export class SequenceFormComponent implements OnChanges {
   public readonly formId = Math.round( Math.random() * 10000);
 
   public currentSequenceKind: SequenceKind = SequenceKind.SECTION;
-  public sequenceKinds: EnumItem<SequenceKind>[];
+  // public sequenceKinds: EnumItem<SequenceKind>[];
+  public sequenceKinds: string[];
 
   constructor(private service: TemplateService) {
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.SEQUENCE_CONSTRUCT);
+    // this.sequenceKinds = Object.keys( SequenceKind )
+    //                   .filter(StringIsNumber)
+    //                   .filter(f => f !== '0')
+    //                   .map(key => ({ id: +key, name: SequenceKind[key] } as EnumItem<SequenceKind>));
     this.sequenceKinds = Object.keys( SequenceKind )
                       .filter(StringIsNumber)
                       .filter(f => f !== '0')
-                      .map(key => ({ id: +key, name: SequenceKind[key] } as EnumItem<SequenceKind>));
+                      .map(key => (SequenceKind[key] as string));
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -44,7 +52,7 @@ export class SequenceFormComponent implements OnChanges {
     }
   }
 
-  public onSaveConstruct() {
+  public onSave() {
     this.service.update<SequenceConstruct>(this.sequence).subscribe(
       (result) => {
           this.sequence = result;

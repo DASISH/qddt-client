@@ -5,6 +5,7 @@ export interface IEntityAudit {
   id: string;
   name: string;
   classKind: string;
+  xmlLang?: string;
 }
 
 export interface IEntityEditAudit extends IEntityAudit {
@@ -18,7 +19,6 @@ export interface IEntityEditAudit extends IEntityAudit {
   agency?: IEntityAudit;
   archived?: boolean;
   otherMaterials?: IOtherMaterial[];
-  xmlLang?: string;
   comments?: IComment[];
 }
 

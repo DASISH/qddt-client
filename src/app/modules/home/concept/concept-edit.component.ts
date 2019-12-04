@@ -1,7 +1,6 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { Concept, TemplateService } from '../../../lib';
-
-
+import { Concept, TemplateService, enumLANGUAGES } from '../../../lib';
+import { LanguageKind } from 'src/app/lib/enums/language-kind';
 
 @Component({
   selector: 'qddt-concept-edit',
@@ -9,15 +8,24 @@ import { Concept, TemplateService } from '../../../lib';
   template: `
 <div *ngIf="(concept && isVisible)">
   <form class="row" id="{{formId}}" (ngSubmit)="save()" #hf="ngForm">
-  <div class="col s12">
-    <qddt-input
-      required
-      name="name"
-      placeholder="add concept name"
-      label="Concept Name"
-      [(ngModel)]="concept.name"
-      data-length="100">
-    </qddt-input>
+    <div class="col s12">
+      <div class="row">
+        <qddt-input class="col s10"
+          required
+          name="name"
+          placeholder="add concept name"
+          label="Name"
+          [(ngModel)]="concept.name"
+          data-length="100">
+        </qddt-input>
+        <qddt-select class="col s2"
+          required
+          name="xmlLang"
+          label="xmlLang"
+          [(ngModel)]="concept.xmlLang"
+          [enum]="LANGUAGES" >
+        </qddt-select>
+      </div>
     </div>
     <div class="col s12">
       <qddt-textarea name="description"
@@ -51,6 +59,7 @@ export class ConceptEditComponent {
   @Input() readonly = false;
 
   public readonly formId = Math.round(Math.random() * 10000);
+  public readonly LANGUAGES = LanguageKind;
   public showRevision = false;
   public isVisible = false;
 

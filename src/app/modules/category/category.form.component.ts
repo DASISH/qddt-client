@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
-import { Category, ElementKind, TemplateService, ActionKind } from 'src/app/lib';
+import { Category, ElementKind, TemplateService, ActionKind, enumLANGUAGES } from 'src/app/lib';
+import { LanguageKind } from 'src/app/lib/enums/language-kind';
 
 
 @Component({
@@ -12,6 +13,7 @@ export class CategoryFormComponent implements AfterViewInit {
   @Input() readonly = false;
   @Output() modifiedEvent =  new EventEmitter<Category>();
 
+  public readonly LANGUAGES = LanguageKind;
   public readonly CATEGORY = ElementKind.CATEGORY;
   public readonly formId = Math.round( Math.random() * 10000);
 

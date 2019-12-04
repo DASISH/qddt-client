@@ -5,8 +5,10 @@ import {
   ElementRevisionRef,
   QuestionItem,
   ResponseDomain,
-  TemplateService
+  TemplateService,
+  enumLANGUAGES
 } from '../../lib';
+import { LanguageKind } from 'src/app/lib/enums/language-kind';
 
 @Component({
   selector: 'qddt-questionitem-form',
@@ -20,6 +22,7 @@ export class QuestionFormComponent  implements AfterViewInit {
 
   public showButton = false;
   public formId = Math.round( Math.random() * 10000);
+  public readonly LANGUAGES = LanguageKind;
 
   constructor(private service: TemplateService) {
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.QUESTION_ITEM);

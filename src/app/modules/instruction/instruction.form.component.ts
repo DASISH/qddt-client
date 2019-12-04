@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { ActionKind, ElementKind, Instruction } from '../../lib';
+import { ActionKind, ElementKind, Instruction, enumLANGUAGES } from '../../lib';
 import { TemplateService } from '../../components/template';
+import { LanguageKind } from '../../lib/enums/language-kind';
 
 
 @Component({
@@ -14,6 +15,7 @@ export class InstructionFormComponent implements OnInit {
   @Output() modifiedEvent = new EventEmitter<Instruction>();
 
   public readonly INSTRUCTION = ElementKind.INSTRUCTION;
+  public readonly LANGUAGES = LanguageKind;
   public formId = Math.round( Math.random() * 10000);
 
   constructor(private instructionService: TemplateService) {

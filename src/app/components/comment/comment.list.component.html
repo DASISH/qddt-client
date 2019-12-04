@@ -1,12 +1,12 @@
 <div class="row" *ngIf="comments">
   <a class="btn btn-flat btn-medium waves-effect waves-light teal white-text" (click)="showComments = !showComments;" title="View Comment(s)">
-  <i class="material-icons left" >message</i>{{ size }} </a>
+  <i class="material-icons left">message</i>{{ size }} </a>
   <ul *ngIf="showComments" class="collection">
     <li class="collection-item avatar" *ngFor="let comment of comments; let idx=index;" (mouseenter)="hoverIndex = ownerId + idx" (mouseleave)="hoverIndex = null" style="min-height: 144px;" >
       <div *ngIf="showPrivate || comment.public ">
         <img gravatar [email]="comment?.modifiedBy?.email" [size]="48" class="circle">
         <p class="title" [style.color]="comment.public ? 'blue': 'grey'" i18n>
-          <i *ngIf="comment.public" class="material-icons left tiny" title="This comment is visible for all">public</i>
+          <i *ngIf="comment.public" class="material-icons tiny" title="This comment is visible for all">public</i>
           {{comment.modifiedBy.name}}@{{comment.modifiedBy.agencyName}}  {{ comment?.modified | date:'long' }}
         </p>
         <div *ngIf="!isEditComment" [hidden] = "hoverIndex != ownerId + idx" >
@@ -23,11 +23,11 @@
         <div *ngIf="isEditComment" [hidden] = "hoverIndex != ownerId + idx" >
           <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal lighten-1" style="position: absolute; left: 15px; top: 50px;"
               (click)="onUpdateComment(idx)">
-            <i class="material-icons white-text" title="Save and close" >done_all</i>
+            <i class="material-icons" title="Save and close" >done_all</i>
           </a>
           <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal lighten-2 " style="position: absolute; left: 15px; top: 90px;"
               (click)="isEditComment=false">
-            <i class="material-icons white-text" title="Cancel edit">cancel</i>
+            <i class="material-icons" title="Cancel edit">cancel</i>
           </a>
         </div>
         <p *ngIf="!isEditComment || selectedCommentId !== idx" [innerHtml] = "comment.comment" style="padding:1rem 0 2rem; min-height: 4rem; "></p>

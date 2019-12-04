@@ -1,13 +1,21 @@
 <div *ngIf="sequence" class="col s12" >
-  <form id="{{formId}}" #qcform="ngForm">
-<!--    placeholder="add name"-->
-    <qddt-input
-      required
-      name="name"
-      label="Name"
-      [(ngModel)]="sequence.name"
-      data-length="100">
-    </qddt-input>
+    <form id="{{formId}}" #hf="ngForm" (ngSubmit)="onSave()">
+      <div class="row">
+        <qddt-input class="col s11"
+          required
+          name="name"
+          label="Name"
+          [(ngModel)]="sequence.name"
+          data-length="100">
+        </qddt-input>
+        <qddt-select class="col s1"
+          required
+          name="xmlLang"
+          label="xmlLang"
+          [(ngModel)]="sequence.xmlLang"
+          [enum]="LANGUAGES" >
+        </qddt-select>
+      </div>
     <qddt-input
       required
       name="label"
@@ -23,8 +31,15 @@
       [(ngModel)]="sequence.description"
       data-length="255">
     </qddt-textarea>
+    <qddt-select
+      required
+      name="SequenceKind"
+      label="SequenceKind"
+      [(ngModel)]="sequence.sequenceKind"
+      [enum]="sequenceKinds" >
+    </qddt-select>
 
-    <div class="row">
+    <!-- <div class="row">
       <div class="col s4 input-field">
         <select class="validate" name="{{formId}}-sequenceKind" [ngModel]="currentSequenceKind"
           (ngModelChange)="onSelectChange($event)" disabled>
@@ -32,7 +47,7 @@
         </select>
         <label>SequenceKind</label>
       </div>
-    </div>
+    </div> -->
 
 
     <qddt-element-revision-collection [elementKind]="QUESTION" [revisionRefs]="sequence.sequence" [labelName]="'Question Constructs'"
@@ -45,9 +60,8 @@
     <qddt-element-footer *ngIf="sequence.id" [element]="sequence"></qddt-element-footer>
 
     <div class="row right-align">
-      <button *ngIf="!readonly" type="button" class="btn btn-default" [disabled]="!qcform.form.valid"
-        (click)="onSaveConstruct()">Submit</button>
-    </div>
+        <button *ngIf="!readonly" [disabled]="!hf.form.valid" type="submit" class="btn btn-default">Submit</button>
+      </div>
 
   </form>
 </div>

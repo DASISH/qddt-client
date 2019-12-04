@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter, AfterViewInit } from '@angular/core';
-import { ActionKind, Category, ElementKind, IElement, IPageSearch, Page, TemplateService } from '../../lib';
+import { ActionKind, Category, ElementKind, IElement, IPageSearch, Page, TemplateService, langMap, enumKeys} from '../../lib';
+import { LanguageKind } from '../../lib/enums/language-kind';
 
 
 
@@ -21,14 +22,17 @@ export class MissingFormComponent implements OnInit, AfterViewInit {
 
   public readonly formId = Math.round(Math.random() * 10000);
   public readonly CATEGORY = ElementKind.CATEGORY;
+  public  LANGUAGES = LanguageKind;
 
   // public missingList: Category[];
   public missingIndex: number;
   private pageSearch: IPageSearch;
+  // tslint:disable-next-line:variable-name
   private _missing: Category;
 
   constructor(private service: TemplateService) {
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.MISSING_GROUP);
+    console.log(this.LANGUAGES || JSON);
   }
 
   ngOnInit() {

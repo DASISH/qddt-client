@@ -1,13 +1,29 @@
 <div *ngIf="responseDomain" class="col s12">
   <form id="{{formId}}" #hf="ngForm" (ngSubmit)="onSave()">
-    <div class="row input-field">
-      <input id="NAME-{{formId}}"  placeholder="Name mr" name="name" type="text" data-length ="255" [(ngModel)]="responseDomain.name" required class="validate">
-      <label>Name</label>
+    <div class="row">
+      <qddt-input class="col s11"
+        required
+        name="name"
+        label="Name"
+        [(ngModel)]="responseDomain.name"
+        data-length="100">
+      </qddt-input>
+      <qddt-select class="col s1"
+        required
+        name="xmlLang"
+        label="xmlLang"
+        [(ngModel)]="responseDomain.xmlLang"
+        [enum]="LANGUAGES" >
+      </qddt-select>
     </div>
-    <div class="row input-field">
-      <textarea id="DESC-{{formId}}" placeholder="Add a description" name="description" class="materialize-textarea validate" data-length ="2000" [(ngModel)]="responseDomain.description"></textarea>
-      <label>Description</label>
-    </div>
+    <qddt-textarea
+      required
+      name="description"
+      label="Description"
+      [(ngModel)]="responseDomain.description"
+      data-length="255">
+    </qddt-textarea>
+
     <div [ngSwitch]="domainType">
       <div *ngSwitchCase="domainTypeDef.SCALE">
         <qddt-preview-responsedomain class="row"
@@ -91,16 +107,6 @@
             </div>
             <qddt-element-select  class="col s8 input-field" [source]="getSource(category)" [autoCreate]="true" (elementSelectedEvent)="onSelectCategory($event,idx)">
             </qddt-element-select>
-<!--            <div class="col s8 input-field">-->
-<!--              <qddt-auto-complete-->
-<!--                [items]="categories"-->
-<!--                [initialValue]="category?.label"-->
-<!--                [elementKind]="CATEGORY"-->
-<!--                (focusEvent)="selectedCategoryIndex=idx;"-->
-<!--                (selectEvent)="onSelectCategory($event)"-->
-<!--                (enterEvent)="onSearchCategories($event)">-->
-<!--              </qddt-auto-complete>-->
-<!--            </div>-->
             <div class="secondary-content">
               <i class="material-icons">menu</i>
             </div>

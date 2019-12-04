@@ -20,14 +20,23 @@
       [(ngModel)]="questionItem.name"
       data-length="100">
     </qddt-input>
-    <qddt-textarea
-      required
-      name="question"
-      placeholder="add question text"
-      label="Question"
-      [(ngModel)]="questionItem.question"
-      data-length="1500">
-    </qddt-textarea>
+    <div class="row">
+      <qddt-textarea class="col s11"
+        required
+        name="question"
+        placeholder="add question text"
+        label="Question"
+        [(ngModel)]="questionItem.question"
+        data-length="1500">
+      </qddt-textarea>
+      <qddt-select class="col s1"
+        required
+        name="xmlLang"
+        label="xmlLang"
+        [(ngModel)]="questionItem.xmlLang"
+        [enum]="LANGUAGES" >
+      </qddt-select>
+    </div>
     <qddt-textarea
       name="intent"
       placeholder="Add intent?"

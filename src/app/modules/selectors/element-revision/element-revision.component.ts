@@ -1,7 +1,7 @@
 import { Component, OnChanges, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import {
   ElementEnumAware,
-  ElementKind,
+  ElementKind, IEntityAudit,
   ElementRevisionRef, getElementKind,
   IElement,
   IRevisionRef, IRevisionResultEntity, Page, QuestionConstruct, TemplateService,
@@ -29,9 +29,11 @@ export class ElementRevisionComponent implements OnChanges {
   @Output() dismissEvent = new EventEmitter<boolean>();
 
   public revisionRef: IRevisionRef;
+  public itemList: IEntityAudit[];
   public showProgressBar: boolean;
   public showAutoComplete = false;
   public showRevisionSelect = false;
+  private kind: ElementKind;
 
   constructor(private service: TemplateService) { }
 
@@ -40,10 +42,10 @@ export class ElementRevisionComponent implements OnChanges {
       console.log('afds');
       if (this.isElementRevision(changes.source.currentValue)) {
         this.revisionRef = changes.source.currentValue as IRevisionRef;
-        // this.kind = getElementKind(this.revisionRef.elementKind);
+        this.kind = getElementKind(this.revisionRef.elementKind);
         this.showRevisionSelect = true;
       } else {
-        // this.kind = getElementKind(changes.source.currentValue);
+        this.kind = getElementKind(changes.source.currentValue);
         this.showAutoComplete = true;
         this.revisionRef = null;
       }

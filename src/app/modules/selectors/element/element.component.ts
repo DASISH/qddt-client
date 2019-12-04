@@ -56,7 +56,7 @@ export class ElementComponent implements OnChanges, AfterViewInit {
 
   async  ngOnChanges(changes: SimpleChanges) {
     if ((changes.source) && (changes.source.currentValue)) {
-      console.log(changes.source.currentValue || JSON);
+      // console.log(changes.source.currentValue || JSON);
       const cv = changes.source.currentValue as IElement;
       if (this.isIEntityAudit(cv.element)) {
         // @ts-ignore
@@ -64,7 +64,7 @@ export class ElementComponent implements OnChanges, AfterViewInit {
       } else {
         this.searchValue = cv.element;
       }
-      console.log(this.searchValue);
+      // console.log(this.searchValue);
 
       const kind = getElementKind(cv.elementKind);
       this.pageSearch = new PageSearch( { kind } );

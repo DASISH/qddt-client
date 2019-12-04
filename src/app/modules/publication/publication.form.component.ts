@@ -25,6 +25,7 @@ export class PublicationFormComponent implements OnChanges, OnInit {
   public selectOptions: any;
 
   public readonly = true;
+  // tslint:disable-next-line:variable-name
   private _statusId = 0;
   private statusList: PublicationStatus[];
 

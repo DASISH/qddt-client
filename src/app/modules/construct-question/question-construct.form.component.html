@@ -1,12 +1,23 @@
-<div *ngIf="controlConstruct" class="white col s12">
-  <form #qcform="ngForm">
-    <qddt-input
-      required
-      name="name"
-      label="Name"
-      [(ngModel)]="controlConstruct.name"
-      data-length="255">
-    </qddt-input>
+<div *ngIf="controlConstruct" class="col s12">
+
+  <form id="{{formId}}" #hf="ngForm" (ngSubmit)="onSave()">
+    <div class="row">
+      <qddt-input class="col s11"
+        required
+        name="name"
+        label="Name"
+        [(ngModel)]="controlConstruct.name"
+        data-length="100">
+      </qddt-input>
+      <qddt-select class="col s1"
+        required
+        name="xmlLang"
+        label="xmlLang"
+        [(ngModel)]="controlConstruct.xmlLang"
+        [enum]="LANGUAGES" >
+      </qddt-select>
+    </div>
+
     <qddt-textarea
       placeholder="add description..."
       name="description"
@@ -69,10 +80,7 @@
     <qddt-element-footer *ngIf="controlConstruct.id" [element]="controlConstruct"></qddt-element-footer>
 
     <div class="row right-align">
-      <button *ngIf="!readonly" type="button" class="btn btn-default" [disabled]="!qcform.form.valid"
-        (click)="onSaveForm()">
-        Submit
-      </button>
+      <button *ngIf="!readonly" [disabled]="!hf.form.valid" type="submit" class="btn btn-default">Submit</button>
     </div>
   </form>
 </div>

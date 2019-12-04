@@ -8,9 +8,10 @@ import {
   IRevisionRef,
   IRevisionResult,
   Page,
-  QuestionConstruct, QuestionItem, TemplateService, Universe
+  QuestionConstruct, QuestionItem, TemplateService, Universe, enumLANGUAGES
 } from '../../lib';
 import {Router} from '@angular/router';
+import { LanguageKind } from 'src/app/lib/enums/language-kind';
 
 
 @Component({
@@ -31,6 +32,7 @@ export class QuestionConstructFormComponent {
   public readonly UNIVERSE = ElementKind.UNIVERSE;
   public readonly INSTRUCTION = ElementKind.INSTRUCTION;
   public readonly QUESTION = ElementKind.QUESTION_ITEM;
+  public readonly LANGUAGES = LanguageKind;
 
   public readonly formId = Math.round(Math.random() * 10000);
 
@@ -95,7 +97,7 @@ export class QuestionConstructFormComponent {
   }
 
 
-  async onSaveForm() {
+  async onSave() {
 
     const formData = new FormData();
     formData.append('controlconstruct', JSON.stringify(this.controlConstruct));

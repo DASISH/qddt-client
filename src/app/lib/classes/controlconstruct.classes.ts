@@ -30,6 +30,7 @@ export class Instruction implements IEntityEditAudit {
   name: string;
   description: string;
   classKind = ElementKind[ElementKind.INSTRUCTION];
+  xmlLang?: string;
   public constructor(init?: Partial<Instruction>) {
     Object.assign(this, init);
     if (this.description && (!this.name || this.name.length === 0)) {
@@ -50,6 +51,7 @@ export class QuestionConstruct implements IEntityEditAudit {
   universe: Universe[] = [];
   preInstructions: Instruction[] = [];
   postInstructions: Instruction[] = [];
+  xmlLang?: string;
   public constructor(init?: Partial<QuestionConstruct>) {
     Object.assign(this, init);
   }
@@ -85,6 +87,7 @@ export class StatementConstruct implements IEntityEditAudit {
   id: string;
   name: string;
   statement: string;
+  xmlLang?: string;
   classKind = ElementKind[ElementKind.STATEMENT_CONSTRUCT];
   public constructor(init?: Partial<StatementConstruct>) {
     Object.assign(this, init);

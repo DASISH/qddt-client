@@ -49,6 +49,7 @@ export class Instrument implements IEntityAudit {
   sequence: InstrumentSequence[];
   study?: Study;
   comments: any[];
+  xmlLang?: string;
   classKind = ElementKind[ElementKind.INSTRUMENT];
   public constructor(init?: Partial<Instrument>) {
     Object.assign(this, init);

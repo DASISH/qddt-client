@@ -67,7 +67,7 @@ export class CommentListComponent implements AfterViewInit, AfterContentChecked 
   }
 
   onDeleteComment(idx) {
-    if (idx) {
+    if(idx !== '') {
       const comment = this.comments[idx];
       this.commentService.delete(comment.id).subscribe(
         () => this.comments.splice(idx, 1));

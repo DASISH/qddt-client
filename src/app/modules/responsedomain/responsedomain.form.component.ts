@@ -1,3 +1,4 @@
+import { LanguageKind } from '../../lib/enums/language-kind';
 import {
   Component,
   Input,
@@ -17,7 +18,7 @@ import {
   IPageSearch,
   Page,
   PropertyStoreService,
-  ResponseDomain, TemplateService
+  ResponseDomain, TemplateService, enumLANGUAGES
 } from '../../lib';
 
 @Component({
@@ -42,6 +43,7 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, Af
   public domainType: DomainKind;
   // public categories: Category[];
   public readonly formId = Math.round( Math.random() * 10000);
+  public readonly LANGUAGES = LanguageKind;
 
   private pageSearch: IPageSearch;
   private ok = true;

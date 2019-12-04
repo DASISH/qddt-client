@@ -1,12 +1,22 @@
 <div class="col s12" *ngIf="element" >
   <form (ngSubmit)="onUpdateInstrument()" #instrumentform="ngForm">
-    <qddt-input
-      required
-      name="name"
-      label="Name"
-      [(ngModel)]="element.name"
-      data-length="255">
-    </qddt-input>
+    <div class="row">
+      <qddt-input class="col s11"
+        required
+        name="name"
+        label="Name"
+        [(ngModel)]="element.name"
+        data-length="100">
+      </qddt-input>
+      <qddt-select class="col s1"
+        required
+        name="xmlLang"
+        label="xmlLang"
+        [(ngModel)]="element.xmlLang"
+        [enum]="LANGUAGES" >
+      </qddt-select>
+    </div>
+
     <qddt-input
       required
       name="label"
@@ -22,15 +32,22 @@
       data-length="1000">
     </qddt-textarea>
 
+    <qddt-select
+      required
+      name="instrumentKind"
+      label="Instrument type"
+      [(ngModel)]="element.instrumentKind"
+      [enum]="instrumentKinds" >
+    </qddt-select>
 
-    <div class="row input-field">
+    <!-- <div class="row input-field">
       <select name="formId + '-type'" required [(ngModel)]="currentInstrumentType" (ngModelChange)="onSelectInstrumentType($event)">
         <option *ngFor="let item of instrumentKinds" [selected]="item.id === currentInstrumentType" [value]="item.id">
           {{item.label}}
         </option>
       </select>
       <label class="active">Instrument Type</label>
-    </div>
+    </div> -->
     <qddt-instrument-sequence [sequence]="element.sequence"></qddt-instrument-sequence>
 
     <qddt-rational [formName]="'RationalComp'" *ngIf="!readonly && element.id" [element]="element"
