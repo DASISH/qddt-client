@@ -4,14 +4,12 @@ import {
   ElementKind,
   ElementRevisionRef,
   IElement,
-  Instruction,
-  IRevisionRef,
-  IRevisionResult,
+  IRevisionResult, LANGUAGE_MAP,
   Page,
-  QuestionConstruct, QuestionItem, TemplateService, Universe, enumLANGUAGES
+  QuestionConstruct, QuestionItem, TemplateService
 } from '../../lib';
 import {Router} from '@angular/router';
-import { LanguageKind } from 'src/app/lib/enums/language-kind';
+
 
 
 @Component({
@@ -32,7 +30,7 @@ export class QuestionConstructFormComponent {
   public readonly UNIVERSE = ElementKind.UNIVERSE;
   public readonly INSTRUCTION = ElementKind.INSTRUCTION;
   public readonly QUESTION = ElementKind.QUESTION_ITEM;
-  public readonly LANGUAGES = LanguageKind;
+  public readonly LANGUAGES = LANGUAGE_MAP;
 
   public readonly formId = Math.round(Math.random() * 10000);
 

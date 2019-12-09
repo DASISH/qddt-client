@@ -1,20 +1,28 @@
-import { Component, Optional, Inject, Input, ViewChild, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Optional,
+  Inject,
+  Input,
+  ViewChild,
+  AfterViewInit,
+  OnChanges,
+  SimpleChanges,
+  AfterContentInit,
+  AfterContentChecked, AfterViewChecked
+} from '@angular/core';
 import { NgModel, NG_VALUE_ACCESSOR, NG_VALIDATORS, NG_ASYNC_VALIDATORS } from '@angular/forms';
 import { ElementBase} from './element-base.class';
 import { animations } from './animations';
-import { EnumItem, toEnumItems, EnumType } from '../../lib/enums/enum-item';
-import { enumKeys, ElementEnumAware, StringIsNumber } from 'src/app/lib';
+
 
 
 @Component({
   selector: 'qddt-select',
   template: `
-  <div class="row input-field" *ngIf="lockups">
-    <select id="{{identifier}}"  (change)="doChange($event.target.value)">
-      <option *ngIf="placeholder" value="" disabled selected >{{placeholder}}</option>
-      <option *ngFor="let item of lockups;" [selected]="isSelected(item)" [value]="item" >{{item}}</option>
-
-<!--      <option *ngFor="let item of list" [value]="item" [ngClass]="{selected: isSelected(item)}" >{{item}}</option> -->
+  <div class="row input-field">
+    <select id="{{identifier}}" [(ngModel)]="value" >
+      <option *ngIf="placeholder" value="" disabled >{{placeholder}}</option>
+      <option *ngFor="let item of lockups" [value]="item[0]" >{{item[1]}}</option>
     </select>
     <label *ngIf="label" for="{{identifier}}">{{label}}</label>
   </div>
@@ -22,52 +30,71 @@ import { enumKeys, ElementEnumAware, StringIsNumber } from 'src/app/lib';
   animations,
   providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: FormSelectComponent, multi: true }],
 })
-@ElementEnumAware
-export class FormSelectComponent extends ElementBase<any>  implements  AfterViewInit, OnChanges {
+
+export class FormSelectComponent extends ElementBase<string>  implements  AfterViewInit,  OnChanges, AfterViewChecked {
   @Input() public label: string;
   @Input() public placeholder: string;
-  @Input() public enum: any;
-  // @Input() public enum: EnumType;
-  // @Input() public keys: Map<any, string>;
-  // @Input() public map: Map;
+  @Input() public lockups: [string, string][];
 
   @ViewChild(NgModel, { static: true }) model: NgModel;
 
   public identifier = `qddt-select-` + ident++;
-  public lockups;
+  public  showLockups = false;
+  private init = false;
 
-  constructor(
-    @Optional() @Inject(NG_VALIDATORS) validators: Array<any>,
-    @Optional() @Inject(NG_ASYNC_VALIDATORS) asyncValidators: Array<any>,
+  constructor(@Optional() @Inject(NG_VALIDATORS) validators: Array<any>,
+              @Optional() @Inject(NG_ASYNC_VALIDATORS) asyncValidators: Array<any>,
   ) {
     super(validators, asyncValidators);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-  // this.lockups = enumKeys(this.enum).filter;
-    // console.log(this.lockups || JSON);
-    this.lockups = Object.keys( this.enum )
-    .filter(StringIsNumber)
-    .filter(f => f !== '0')
-    .map(key => (this.enum[key] as string));
+    if (changes.lockups.currentValue) {
+      this.showLockups = true;
+    }
+
+    if (!changes.lockups.isFirstChange()) {
+      const element = document.getElementById(this.identifier) as HTMLSelectElement;
+      while ( element.options.length > 0) {
+        element.options.remove(0);
+      }
+      if (this.placeholder) {
+        element.options.add(new Option(this.placeholder, '', true));
+      }
+      this.lockups.forEach(c => {
+        element.options.add(new Option(c[1], c[0], false));
+      });
+      element.options.selectedIndex = this.lockups.findIndex( item => item[0] === this.value);
+      M.FormSelect.init(element);
+      console.log('not frist change ' + this.value);
+    }
   }
 
   ngAfterViewInit(): void {
-    M.FormSelect.init(document.getElementById(this.identifier));
+    const element = document.getElementById(this.identifier) as HTMLSelectElement;
+    M.FormSelect.init(element);
   }
 
-  public doChange(event) {
-    this.value = this.enum[event];
-    console.log(event, this.value);
+  ngAfterViewChecked(): void {
+    if (this.value && !this.init) {
+      const element = document.getElementById(this.identifier) as HTMLSelectElement;
+      element.options.selectedIndex = this.lockups.findIndex( item => item[0] === this.value);
+      this.init = true;
+      M.FormSelect.init(element);
+      console.log(this.value + ' <-> ' +  element.options.selectedIndex);
+    }
   }
 
-  public isSelected(value): boolean {
-    if (this.value === this.enum[value]) {
-      console.log(value);
-      return true;
-     }
-    return false;
-  }
+  // public isSelected(key): boolean {
+  //   // console.log(key + ' - ' + (this.value === key) );
+  //   return (this.value === key);
+  // }
+
+  // ngAfterContentInit(): void {
+  //   console.log( this.value);
+  //   const element = document.getElementById(this.identifier) as HTMLSelectElement;
+  //   element.options.selectedIndex = this.lockups.findIndex( item => item[0] === this.value);
+  // }
 
 }
 

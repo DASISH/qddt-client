@@ -1,8 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { ActionKind, ElementKind, Instruction, enumLANGUAGES } from '../../lib';
-import { TemplateService } from '../../components/template';
-import { LanguageKind } from '../../lib/enums/language-kind';
-
+import {ActionKind, ElementKind, Instruction, LANGUAGE_MAP, TemplateService} from '../../lib';
 
 @Component({
   selector: 'qddt-instruction-form',
@@ -15,7 +12,7 @@ export class InstructionFormComponent implements OnInit {
   @Output() modifiedEvent = new EventEmitter<Instruction>();
 
   public readonly INSTRUCTION = ElementKind.INSTRUCTION;
-  public readonly LANGUAGES = LanguageKind;
+  public readonly LANGUAGES = LANGUAGE_MAP;
   public formId = Math.round( Math.random() * 10000);
 
   constructor(private instructionService: TemplateService) {

@@ -1,12 +1,12 @@
 import { Component, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { LanguageKind } from '../../lib/enums/language-kind';
+
 import {
   ActionKind,
   ElementKind,
-  EnumItem, getElementKind,
+  getElementKind,
   IElement,
   IEntityEditAudit,
-  IRevisionRef, Page, SequenceConstruct, SequenceKind, StringIsNumber, TemplateService, enumLANGUAGES
+  IRevisionRef, Page, SequenceConstruct, SequenceKind, StringIsNumber, TemplateService, LANGUAGE_MAP
 } from '../../lib';
 
 @Component({
@@ -22,7 +22,7 @@ export class SequenceFormComponent implements OnChanges {
   @Output() modifiedEvent = new EventEmitter<SequenceConstruct>();
 
   public readonly QUESTION = ElementKind.QUESTION_CONSTRUCT;
-  public readonly LANGUAGES = LanguageKind;
+  public readonly LANGUAGES = LANGUAGE_MAP;
 
   // public selectedElement: IEntityEditAudit;
   public entityEditAudits: IEntityEditAudit[];

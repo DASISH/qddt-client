@@ -13,7 +13,7 @@
         name="xmlLang"
         label="xmlLang"
         [(ngModel)]="responseDomain.xmlLang"
-        [enum]="LANGUAGES" >
+        [lockups]="LANGUAGES" >
       </qddt-select>
     </div>
     <qddt-textarea
@@ -51,13 +51,18 @@
                     (ngModelChange)="changeNumberOfAnchors($event)" required class="validate">
             <label for="SCALE_ANCHOR-{{formId}}">Number of Anchor</label>
           </div>
-          <div class="col s3 input-field">
-              <select id="LAYOUT-{{formId}}" name="Layout" [(ngModel)]="responseDomain.displayLayout" (ngModelChange)="onChangeDegreeSlope($event)" required class="validate">
-                <option [value]="'0'" [selected]="responseDomain.displayLayout==='0'" >horizontal</option>
-                <option [value]="'90'" [selected]="responseDomain.displayLayout==='90'">vertical</option>
-              </select>
-              <label for="LAYOUT-{{formId}}">Display Layout</label>
+          <div class="col s3">
+            <qddt-select label="Display Layout" name ="displayLayout" [lockups] = "DISPLAYLAYOUTS"
+                         [(ngModel)]="responseDomain.displayLayout" (ngModelChange)="buildPreviewResponseDomain()" >
+            </qddt-select>
           </div>
+<!--          <div class="col s3 input-field">-->
+<!--              <select id="LAYOUT-{{formId}}" name="Layout" [(ngModel)]="responseDomain.displayLayout" (ngModelChange)="onChangeDegreeSlope($event)" required class="validate">-->
+<!--                <option [value]="'0'" [selected]="responseDomain.displayLayout==='0'" >horizontal</option>-->
+<!--                <option [value]="'90'" [selected]="responseDomain.displayLayout==='90'">vertical</option>-->
+<!--              </select>-->
+<!--              <label for="LAYOUT-{{formId}}">Display Layout</label>-->
+<!--          </div>-->
         </div>
         <ul [hidden]="numberOfAnchors === 0">
           <li class="hoverable row" *ngFor="let category of responseDomain.managedRepresentation.children; let idx=index;" >

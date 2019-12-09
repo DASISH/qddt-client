@@ -1,5 +1,5 @@
 import { takeWhile} from 'rxjs/operators';
-import {Component, OnDestroy, AfterContentChecked, AfterViewInit} from '@angular/core';
+import {Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   ActionKind, DomainKind,
@@ -18,7 +18,7 @@ import {
   templateUrl: './template.component.html',
 })
 
-export class TemplateComponent implements OnDestroy, AfterContentChecked, AfterViewInit {
+export class TemplateComponent implements OnDestroy {
 
   public readonly formId = Math.round( Math.random() * 10000);
   public newItem: IEntityEditAudit;
@@ -30,9 +30,7 @@ export class TemplateComponent implements OnDestroy, AfterContentChecked, AfterV
   private alive = true;
   private path: string;
   private refreshCount = 0;
-
   private canCreate: boolean;
-
 
   constructor(private route: ActivatedRoute, private router: Router, private  messages: MessageService,
               private service: UserService, private properties: PropertyStoreService ) {
@@ -67,7 +65,6 @@ export class TemplateComponent implements OnDestroy, AfterContentChecked, AfterV
     return this.canCreate;
   }
 
-
   onToggleForm() {
     if (!this.canWrite()) { throw Error('Access denied'); }
 
@@ -86,19 +83,7 @@ export class TemplateComponent implements OnDestroy, AfterContentChecked, AfterV
       }
   }
 
-
   ngOnDestroy(): void {
     this.alive = false;
   }
-
-  ngAfterContentChecked(): void {
-  }
-
-  ngAfterViewInit(): void {
-    // M.AutoInit(document.getElementById('qtc-{{formId}}'));
-  }
-
-  // private getPageSearch(): IPageSearch {
-  //   return (this.properties.get(this.path) || new PageSearch( { kind: ElementKind.RESPONSEDOMAIN } ) ) as IPageSearch;
-  // }
 }

@@ -7,4 +7,4 @@ export * from './pipes/number.pipe';
 export * from './services';
 export * from './interceptor/token.interceptor';
 export {API_BASE_HREF} from '../api';
-export  { Factory } from './factory';
+export { Factory } from './factory';

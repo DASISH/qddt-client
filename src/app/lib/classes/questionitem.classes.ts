@@ -5,15 +5,15 @@ import {ResponseDomain} from './responsedomain.classes';
 export class QuestionItem implements IEntityEditAudit {
   id: string;
   agency: IEntityAudit;
-  name: string;
+  name = '';
   modified: number;
   version: IVersion = {major: 0, minor: 0 };
   classKind = ElementKind[ElementKind.QUESTION_ITEM];
   basedOnObject: string;
   basedOnRevision: number;
-  question: string;
+  question = '';
   intent: string;
-  xmlLang?: string;
+  xmlLang = 'en-GB';
   responseDomain: ResponseDomain;
   responseDomainName: string;
   responseDomainRevision: number;

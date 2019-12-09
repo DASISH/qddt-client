@@ -1,22 +1,21 @@
 <div *ngIf="missing" class="col s12">
 
   <form id="MISS{{formId}}" #hf="ngForm" (ngSubmit)="onSave()">
+
     <div class="row">
-      <div class="col s10">
-          <qddt-input
-          required
-          name="name"
-          label="Name"
-          [(ngModel)]="missing.name"
-          data-length="100">
-        </qddt-input>
-      </div>
-      <qddt-select class="col s2"
-        required
-        name="xmlLang"
-        label="xmlLang"
-        [enum]="LANGUAGES"
-        [(ngModel)]="missing.xmlLang" >
+      <qddt-input class="col s11"
+                  required
+                  name="name"
+                  label="Name"
+                  [(ngModel)]="missing.name"
+                  data-length="100">
+      </qddt-input>
+      <qddt-select class="col s1"
+                   required
+                   name="xmlLang"
+                   label="xmlLang"
+                   [(ngModel)]="missing.xmlLang"
+                   [lockups]="LANGUAGES" >
       </qddt-select>
     </div>
     <qddt-input

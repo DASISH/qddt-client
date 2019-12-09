@@ -1,15 +1,15 @@
-import {IEntityAudit } from './interfaces';
-import {ElementKind} from './enums';
-import {getElementKind} from './consts';
+import { IEntityAudit } from './interfaces';
+import { ElementKind } from './enums';
+import { getElementKind } from './consts';
 import {
-  Category,
-  CategoryKind,
-  Concept,
-  ConditionConstruct, Instruction,
-  Instrument, Publication,
-  QuestionConstruct, QuestionItem, ResponseDomain,
-  SequenceConstruct,
-  StatementConstruct, Study, SurveyProgram, Topic, Universe, UserJson
+  Category, CategoryKind, Concept, ConditionConstruct,
+  Instruction, Instrument,
+  Publication,
+  QuestionConstruct, QuestionItem,
+  ResponseDomain,
+  SequenceConstruct, StatementConstruct, Study, SurveyProgram,
+  Topic,
+  Universe, UserJson
 } from './classes';
 
 export class Factory {
@@ -103,12 +103,5 @@ export class Factory {
   static create<T>(type: (new () => T)): T {
     return new type();
   }
-/*   const StringIsNumber = value => isNaN(Number(value)) === false;
 
-// Turn enum into array
-static ToArray(enumme) {
-    return Object.keys(enumme)
-        .filter(this.StringIsNumber)
-        .map(key => enumme[key]);
-} */
 }

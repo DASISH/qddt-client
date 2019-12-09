@@ -1,4 +1,3 @@
-import { LanguageKind } from '../../lib/enums/language-kind';
 import {
   Component,
   Input,
@@ -11,14 +10,14 @@ import {
 } from '@angular/core';
 import {
   ActionKind,
-  Category, DATE_FORMAT,
+  Category, DATE_FORMAT, DisplayLayoutKind,
   DomainKind,
   ElementKind,
   IElement,
-  IPageSearch,
+  IPageSearch, LANGUAGE_MAP,
   Page,
   PropertyStoreService,
-  ResponseDomain, TemplateService, enumLANGUAGES
+  ResponseDomain, TemplateService, toMap
 } from '../../lib';
 
 @Component({
@@ -43,7 +42,8 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, Af
   public domainType: DomainKind;
   // public categories: Category[];
   public readonly formId = Math.round( Math.random() * 10000);
-  public readonly LANGUAGES = LanguageKind;
+  public readonly LANGUAGES = LANGUAGE_MAP;
+  public readonly DISPLAYLAYOUTS = toMap(DisplayLayoutKind) ;
 
   private pageSearch: IPageSearch;
   private ok = true;

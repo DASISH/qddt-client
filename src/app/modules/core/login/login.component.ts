@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
         this.instance.close();
       },
       (error) => {
-        document.getElementById('login-' + this.formId).classList.add('invalid');
+        document.getElementById('password').classList.add('invalid');
         document.querySelector('.helper-text')
           .setAttribute('data-error', error.error.exceptionMessage);
       },

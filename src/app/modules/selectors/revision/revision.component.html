@@ -3,12 +3,8 @@
   <div class="card" *ngIf="showPickRevision" style="padding: 1rem; ">
     <div class="row">
       <div class="col s4">
-        <qddt-select name="revisions" label="business version" placeholder="select version"
-                     [(ngModel)]="selectedRevision">
-          <option *ngFor="let revision of revisionResultEntities"
-                  [selected]="revision.revisionNumber === selectedRevision"
-                  [value]="revision.revisionNumber">{{ version(revision.entity) }}
-          </option>
+        <qddt-select label="Business version" placeholder="select version"
+                     [lockups]="revisionlockups" [(ngModel)]="selectedRevision">
         </qddt-select>
       </div>
       <div class="input-field col right">

@@ -1,7 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { ActionKind, ElementKind, Universe, enumLANGUAGES } from '../../lib';
-import { TemplateService } from '../../components/template';
-import { LanguageKind } from 'src/app/lib/enums/language-kind';
+import { ActionKind, ElementKind, LANGUAGE_MAP, TemplateService, Universe} from '../../lib';
 
 
 @Component({
@@ -10,15 +8,13 @@ import { LanguageKind } from 'src/app/lib/enums/language-kind';
 })
 
 export class UniverseFormComponent implements OnInit {
-
   @Input() universe: Universe;
   @Input() readonly = false;
   @Output() modifiedEvent =  new EventEmitter<Universe>();
 
-  public readonly UNIVERSE = ElementKind.UNIVERSE;
   public readonly formId = Math.round( Math.random() * 10000);
-  public readonly LANGUAGES = LanguageKind;
-  // public isTemplate: boolean;
+  public readonly UNIVERSE = ElementKind.UNIVERSE;
+  public readonly LANGUAGES = LANGUAGE_MAP;
 
   private selectedUniverseIndex: number;
 
@@ -32,7 +28,6 @@ export class UniverseFormComponent implements OnInit {
     }
     this.readonly = !this.universeService.can(ActionKind.Create, ElementKind.UNIVERSE);
   }
-
 
   onSave() {
     this.universeService.update<Universe>(this.universe).subscribe(

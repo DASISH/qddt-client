@@ -1,6 +1,6 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { Concept, TemplateService, enumLANGUAGES } from '../../../lib';
-import { LanguageKind } from 'src/app/lib/enums/language-kind';
+import {Concept, LANGUAGE_MAP, TemplateService} from '../../../lib';
+
 
 @Component({
   selector: 'qddt-concept-edit',
@@ -23,7 +23,7 @@ import { LanguageKind } from 'src/app/lib/enums/language-kind';
           name="xmlLang"
           label="xmlLang"
           [(ngModel)]="concept.xmlLang"
-          [enum]="LANGUAGES" >
+          [lockups]="LANGUAGES" >
         </qddt-select>
       </div>
     </div>
@@ -59,7 +59,7 @@ export class ConceptEditComponent {
   @Input() readonly = false;
 
   public readonly formId = Math.round(Math.random() * 10000);
-  public readonly LANGUAGES = LanguageKind;
+  public readonly LANGUAGES = LANGUAGE_MAP;
   public showRevision = false;
   public isVisible = false;
 

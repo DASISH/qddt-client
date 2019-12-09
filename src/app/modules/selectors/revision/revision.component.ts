@@ -1,5 +1,5 @@
 import { Component, OnChanges, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
-import {getElementKind, IEntityEditAudit, IRevisionRef, IRevisionResultEntity, TemplateService} from '../../../lib';
+import { getElementKind, IEntityEditAudit, IRevisionRef, IRevisionResultEntity, TemplateService} from '../../../lib';
 
 
 @Component({
@@ -14,6 +14,7 @@ export class RevisionComponent implements OnChanges {
 
   public revisionResultEntities: IRevisionResultEntity[];
   public selectedRevisionResult: IRevisionResultEntity;
+  public  revisionlockups: [number, string][];
   public showProgressBar = false;
   public showPickRevision = false;
   private _selectedRevision;
@@ -25,12 +26,12 @@ export class RevisionComponent implements OnChanges {
   }
   set selectedRevision(value) {
     this._selectedRevision = +value;
-    this.selectedRevisionResult = this.revisionResultEntities.find(entity => entity.revisionNumber === +value);
+    this.selectedRevisionResult = this.revisionResultEntities.find(entity => entity.revisionNumber === this._selectedRevision);
+    // console.log(this._selectedRevision + ' -> ' +  this.selectedRevisionResult || JSON);
   }
 
   public version(item: IEntityEditAudit) {
-    return item.version.major + '.' + item.version.minor;
-      // + (item.version.versionLabel) ? '.' + item.version.versionLabel : '';
+    return item.version.major + '.' + item.version.minor + ((item.version.versionLabel) ? ' latest version' : '');
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -43,6 +44,7 @@ export class RevisionComponent implements OnChanges {
         (result) => {
           this.revisionResultEntities = result.content.sort((e1: any, e2: any) => e2.revisionNumber - e1.revisionNumber);
           this.selectedRevision = ref.elementRevision;
+          this.revisionlockups =  (this.revisionResultEntities.map(rev => [ rev.revisionNumber, this.version(rev.entity) ] ));
           this.showPickRevision = true;
           this.showProgressBar = false;
         },

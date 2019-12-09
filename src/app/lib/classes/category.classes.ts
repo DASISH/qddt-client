@@ -55,9 +55,9 @@ export class Code {
 
 export class Category implements IEntityEditAudit {
   id: string;
-  name = '';
-  label = '';
-  description = '';
+  name = ' ';
+  label = ' ';
+  description = ' ';
   hierarchyLevel = HierarchyLevel[CATEGORY_INFO[CategoryKind.CATEGORY].level];
   categoryType = CategoryKind[CategoryKind.CATEGORY];
   classKind = ElementKind[ElementKind.CATEGORY];
@@ -75,7 +75,7 @@ export class Category implements IEntityEditAudit {
   agency?: IEntityAudit;
   archived?: boolean;
   otherMaterials?: IOtherMaterial[];
-  xmlLang?: string;
+  xmlLang: string; // = 'en-GB';
   comments?: IComment[];
 
   public constructor(init?: Partial<Category>) {

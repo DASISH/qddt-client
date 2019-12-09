@@ -13,7 +13,7 @@
         name="xmlLang"
         label="xmlLang"
         [(ngModel)]="element.xmlLang"
-        [enum]="LANGUAGES" >
+        [lockups]="LANGUAGES" >
       </qddt-select>
     </div>
 
@@ -37,7 +37,7 @@
       name="instrumentKind"
       label="Instrument type"
       [(ngModel)]="element.instrumentKind"
-      [enum]="instrumentKinds" >
+      [lockups]="instrumentKinds" >
     </qddt-select>
 
     <!-- <div class="row input-field">

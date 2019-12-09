@@ -1,4 +1,5 @@
 export enum LanguageKind {
+  'none',
   'en-GB',
   'en-CA',
   'en-US',
@@ -7,3 +8,4 @@ export enum LanguageKind {
   'nb-NO',
   'nn-NO'
 }
+

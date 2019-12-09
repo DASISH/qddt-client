@@ -1,15 +1,16 @@
 import { Component, OnChanges, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import {
   ElementEnumAware,
-  ElementKind, IEntityAudit,
+  ElementKind,
   ElementRevisionRef, getElementKind,
   IElement,
-  IRevisionRef, IRevisionResultEntity, Page, QuestionConstruct, TemplateService,
+  IRevisionRef, IRevisionResultEntity, QuestionConstruct,
 } from '../../../lib';
 
 @Component({
   selector: 'qddt-element-revision-select',
   template: `
+<div class="row">
   <qddt-element-select *ngIf = "showAutoComplete" [source]="source"
     (elementSelectedEvent)="onSelectElement($event)" >
   </qddt-element-select>
@@ -19,61 +20,55 @@ import {
     (selectEvent)="onSelectedRevision($event)"
     (dismissEvent)="onDismiss($event)">
   </qddt-revision-select>
+</div>
 `,
 })
 
 @ElementEnumAware
 export class ElementRevisionComponent implements OnChanges {
-  @Input() source: ElementKind | IRevisionRef;
+  @Input() source: IElement | IRevisionRef;
   @Output() revisionSelectedEvent = new EventEmitter<ElementRevisionRef>();
   @Output() dismissEvent = new EventEmitter<boolean>();
 
   public revisionRef: IRevisionRef;
-  public itemList: IEntityAudit[];
-  public showProgressBar: boolean;
   public showAutoComplete = false;
   public showRevisionSelect = false;
-  private kind: ElementKind;
 
-  constructor(private service: TemplateService) { }
+  constructor() { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.source && changes.source.currentValue) {
-      console.log('afds');
       if (this.isElementRevision(changes.source.currentValue)) {
         this.revisionRef = changes.source.currentValue as IRevisionRef;
-        this.kind = getElementKind(this.revisionRef.elementKind);
         this.showRevisionSelect = true;
-      } else {
-        this.kind = getElementKind(changes.source.currentValue);
+      } else if (this.isElement(changes.source.currentValue)) {
         this.showAutoComplete = true;
         this.revisionRef = null;
       }
     }
   }
 
-  public onSearchElements(key) {
-    this.service.searchByKind({ kind: this.kind, key, page: new Page() })
-      .then((result) => this.itemList = result.content);
-  }
-
   public onSelectElement(item: IElement) {
-    this.revisionRef =  { elementId: item.element.id, elementKind: item.elementKind, elementRevision: 0 };
+    console.log('ElementRevisionComponent.onSelectElement');
     this.showRevisionSelect = true;
+    this.revisionRef =  { elementId: item.element.id, elementKind: item.elementKind, elementRevision: 0 };
   }
 
   public onSelectedRevision(revision: IRevisionResultEntity) {
     console.log('ElementRevisionComponent.onSelectedRevision');
     this.revisionSelectedEvent.emit(this.getRevisionRef(revision));
-    this.source = null;
   }
 
   public onDismiss(ok) {
     this.dismissEvent.emit(ok);
   }
 
-  private isElementRevision(kind: IRevisionRef | ElementKind): kind is IRevisionRef {
+  private isElementRevision(kind: IRevisionRef | IElement): kind is IRevisionRef {
     return (kind as IRevisionRef).elementId !== undefined;
+  }
+
+  private isElement(kind: IRevisionRef | IElement): kind is IElement {
+    return (kind as IElement).element !== undefined;
   }
 
   private getRevisionRef(elementRevision: IRevisionResultEntity): ElementRevisionRef {

@@ -1,7 +1,15 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { ActionKind, ElementKind, Instrument, INSTRUMENT_KIND, InstrumentKind, enumLANGUAGES, StringIsNumber } from '../../lib';
-import { TemplateService } from '../../components/template';
-import { LanguageKind } from '../../lib/enums/language-kind';
+import {
+  ActionKind,
+  ElementKind,
+  Instrument,
+  INSTRUMENT_KIND,
+  InstrumentKind,
+  StringIsNumber,
+  LANGUAGE_MAP,
+  TemplateService
+} from '../../lib';
+
 
 
 
@@ -19,7 +27,7 @@ export class InstrumentFormComponent implements OnChanges {
   public formId = Math.round(Math.random() * 10000);
   public currentInstrumentType = InstrumentKind.QUESTIONNAIRE;
   public readonly instrumentKinds;
-  public readonly LANGUAGES = LanguageKind;
+  public readonly LANGUAGES = LANGUAGE_MAP;
 
   constructor(private service: TemplateService) {
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.INSTRUMENT);

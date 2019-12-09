@@ -1,14 +1,6 @@
 import {Component, Input, Output, EventEmitter, AfterViewInit} from '@angular/core';
-import {
-  ActionKind,
-  ElementKind,
-  ElementRevisionRef,
-  QuestionItem,
-  ResponseDomain,
-  TemplateService,
-  enumLANGUAGES
-} from '../../lib';
-import { LanguageKind } from 'src/app/lib/enums/language-kind';
+import {ActionKind, ElementKind, ElementRevisionRef, LANGUAGE_MAP, QuestionItem, ResponseDomain, TemplateService} from '../../lib';
+
 
 @Component({
   selector: 'qddt-questionitem-form',
@@ -22,7 +14,7 @@ export class QuestionFormComponent  implements AfterViewInit {
 
   public showButton = false;
   public formId = Math.round( Math.random() * 10000);
-  public readonly LANGUAGES = LanguageKind;
+  public readonly LANGUAGES = LANGUAGE_MAP;
 
   constructor(private service: TemplateService) {
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.QUESTION_ITEM);

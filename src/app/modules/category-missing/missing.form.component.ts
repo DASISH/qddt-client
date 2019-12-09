@@ -1,8 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter, AfterViewInit } from '@angular/core';
-import { ActionKind, Category, ElementKind, IElement, IPageSearch, Page, TemplateService, langMap, enumKeys} from '../../lib';
-import { LanguageKind } from '../../lib/enums/language-kind';
-
-
+import {ActionKind, Category, ElementKind, IElement, IPageSearch, LANGUAGE_MAP, Page, TemplateService,} from '../../lib';
 
 @Component({
   selector: 'qddt-missing-form',
@@ -10,29 +7,22 @@ import { LanguageKind } from '../../lib/enums/language-kind';
 })
 
 export class MissingFormComponent implements OnInit, AfterViewInit {
-  @Input()
-  set missing(value: Category) {
-    this._missing = new Category(value);
-  }
-  get missing(): Category {
-    return this._missing;
-  }
+  @Input() missing: Category;
   @Input() readonly = false;
   @Output() modifiedEvent = new EventEmitter<Category>();
 
   public readonly formId = Math.round(Math.random() * 10000);
   public readonly CATEGORY = ElementKind.CATEGORY;
-  public  LANGUAGES = LanguageKind;
+  public readonly LANGUAGES = LANGUAGE_MAP;
 
-  // public missingList: Category[];
   public missingIndex: number;
   private pageSearch: IPageSearch;
-  // tslint:disable-next-line:variable-name
-  private _missing: Category;
 
   constructor(private service: TemplateService) {
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.MISSING_GROUP);
-    console.log(this.LANGUAGES || JSON);
+    if (!this.missing) {
+      this.missing = new Category();
+    }
   }
 
   ngOnInit() {
@@ -40,8 +30,6 @@ export class MissingFormComponent implements OnInit, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    // const instanse = document.getElementById('MISS' + this.formId);
-    // M.FormSelect.init(instanse);
     M.updateTextFields();
   }
 
@@ -77,24 +65,8 @@ export class MissingFormComponent implements OnInit, AfterViewInit {
     );
   }
 
-  // public onSelect(item: IElement) {
-  //   if (this.missingIndex === this.missing.children.length) {
-  //     this.missing.children.push(item.element);
-  //   } else {
-  //     this.missing.children[this.missingIndex] = item.element;
-  //   }
-  //   this.missingList = [];
-  // }
-
-  // public onSearchMissing(key: string) {
-  //   this.pageSearch.key = key;
-  //   this.service.searchByKind<Category>(this.pageSearch).then(
-  //     (result) => { this.missingList = result.content; }
-  //   );
-  // }
-
   public onSave() {
-    this.service.update<Category>(this._missing).subscribe(
+    this.service.update<Category>(this.missing).subscribe(
       (result) => {
         this.missing = result;
         this.modifiedEvent.emit(result);

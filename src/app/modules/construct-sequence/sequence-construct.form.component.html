@@ -13,7 +13,7 @@
           name="xmlLang"
           label="xmlLang"
           [(ngModel)]="sequence.xmlLang"
-          [enum]="LANGUAGES" >
+          [lockups]="LANGUAGES" >
         </qddt-select>
       </div>
     <qddt-input
@@ -36,7 +36,7 @@
       name="SequenceKind"
       label="SequenceKind"
       [(ngModel)]="sequence.sequenceKind"
-      [enum]="sequenceKinds" >
+      [lockups]="sequenceKinds" >
     </qddt-select>
 
     <!-- <div class="row">

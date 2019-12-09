@@ -5,10 +5,8 @@ import {
   ElementRevisionRef,
   getQueryInfo,
   IElement,
-  IEntityAudit,
-  IRevisionRef, TemplateService
+   TemplateService
 } from '../../../lib';
-import { VirtualTimeScheduler } from 'rxjs';
 
 
 
