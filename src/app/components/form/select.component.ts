@@ -36,7 +36,7 @@ export class FormSelectComponent extends ElementBase<string>  implements  AfterV
   @Input() public placeholder: string;
   @Input() public lockups: [string, string][];
 
-  @ViewChild(NgModel, { static: true }) model: NgModel;
+  @ViewChild(NgModel, { static: false }) model: NgModel;
 
   public identifier = `qddt-select-` + ident++;
   public  showLockups = false;
@@ -73,15 +73,18 @@ export class FormSelectComponent extends ElementBase<string>  implements  AfterV
   ngAfterViewInit(): void {
     const element = document.getElementById(this.identifier) as HTMLSelectElement;
     M.FormSelect.init(element);
+    // this.touch();
   }
 
   ngAfterViewChecked(): void {
-    if (this.value && !this.init) {
+    if ((this.value) && !this.init) {
       const element = document.getElementById(this.identifier) as HTMLSelectElement;
       element.options.selectedIndex = this.lockups.findIndex( item => item[0] === this.value);
       this.init = true;
       M.FormSelect.init(element);
       console.log(this.value + ' <-> ' +  element.options.selectedIndex);
+    } else {
+      console.log('not intit ' + this.label);
     }
   }
 

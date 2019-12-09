@@ -52,8 +52,10 @@
             <label for="SCALE_ANCHOR-{{formId}}">Number of Anchor</label>
           </div>
           <div class="col s3">
-            <qddt-select label="Display Layout" name ="displayLayout" [lockups] = "DISPLAYLAYOUTS"
-                         [(ngModel)]="responseDomain.displayLayout" (ngModelChange)="buildPreviewResponseDomain()" >
+            <qddt-select required name ="displayLayout" label="Display Layout"
+                         [(ngModel)]="responseDomain.displayLayout"
+                         [lockups] = "DISPLAYLAYOUTS"
+                         (ngModelChange)="buildPreviewResponseDomain()" >
             </qddt-select>
           </div>
 <!--          <div class="col s3 input-field">-->
