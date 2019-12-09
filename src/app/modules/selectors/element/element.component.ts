@@ -44,7 +44,7 @@ export class ElementComponent implements OnChanges, AfterViewInit {
   private pageSearch: PageSearch;
 
   constructor(private service: TemplateService) {
-    console.log('ElementComponent:CNSTR');
+    // console.log('ElementComponent:CNSTR');
   }
 
   ngAfterViewInit(): void {
@@ -56,7 +56,6 @@ export class ElementComponent implements OnChanges, AfterViewInit {
 
   async  ngOnChanges(changes: SimpleChanges) {
     if ((changes.source) && (changes.source.currentValue)) {
-      // console.log(changes.source.currentValue || JSON);
       const cv = changes.source.currentValue as IElement;
       if (this.isIEntityAudit(cv.element)) {
         // @ts-ignore
@@ -64,7 +63,6 @@ export class ElementComponent implements OnChanges, AfterViewInit {
       } else {
         this.searchValue = cv.element;
       }
-      // console.log(this.searchValue);
 
       const kind = getElementKind(cv.elementKind);
       this.pageSearch = new PageSearch( { kind } );
@@ -86,7 +84,7 @@ export class ElementComponent implements OnChanges, AfterViewInit {
   }
 
   private isIEntityAudit(element): element is IEntityAudit {
-    return (element as IEntityAudit).classKind !== undefined;
+    return (element) && (element as IEntityAudit).classKind !== undefined;
   }
 
 }

@@ -17,10 +17,10 @@ import {
           'ul.dropleft li { display:inline-flex; }',
    ],
   template: `
-<div class="collection with-header hoverable row">
+<div class="collection with-header hoverable row" (mouseenter)="showButton = !readonly"  (mouseleave)="showButton = false">
     <a class="collection-header col s12"  (click)="onItemSearch($event)" style="cursor: zoom-in">
       <label><i class="material-icons tiny">format_list_bulleted</i>{{labelName}}</label>
-      <a class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light teal">
+      <a *ngIf="showButton" class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light teal">
         <i class="material-icons" title="add Item">playlist_add</i>
       </a>
     </a>
@@ -40,12 +40,16 @@ import {
       </ul>
       <div class="question" [innerHtml]="item?.description"></div>
     </a>
+    <a *ngIf="showSearch" class="collection-item col s12">
+    <qddt-element-select  class="input-field" [source]="{ element:'', elementKind: elementKind }" [autoCreate]="true" (elementSelectedEvent)="onElementSelectedEvent($event)">
+    </qddt-element-select>
+    </a>
   </div>
 <!-- Modal Structure -->
 <div id="MODAL-{{modalId}}" class="modal modal-fixed-footer">
   <div class="modal-content white black-text" >
     <h4>Search for item</h4>
-    <qddt-element-select [source] = "elementKind" (elementSelectedEvent)="onElementSelectedEvent($event)">
+    <qddt-element-select [source] = "{ element:'', elementKind: elementKind }" (elementSelectedEvent)="onElementSelectedEvent($event)">
     </qddt-element-select>
   </div>
   <div class="modal-footer">
@@ -67,9 +71,10 @@ export class ElementCollectionComponent {
   @Output() modifiedEvent = new EventEmitter<IElement>();
 
   public readonly modalId = Math.round( Math.random() * 10000);
-
+  public showButton = false;
   // tslint:disable-next-line:variable-name
   private _modalRef: M.Modal;
+  showSearch = false;
 
   constructor(private service: TemplateService, public message: MessageService, private router: Router ) {
   }
@@ -110,7 +115,8 @@ export class ElementCollectionComponent {
 
   public onItemSearch(event: Event) {
     event.stopPropagation();
-    this.modalRef.open();
+    // this.modalRef.open();
+    this.showSearch = !this.showSearch;
   }
 
   public onItemPreview(event: Event, item: IEntityAudit) {

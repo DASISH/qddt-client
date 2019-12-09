@@ -6,9 +6,7 @@ import {
   ViewChild,
   AfterViewInit,
   OnChanges,
-  SimpleChanges,
-  AfterContentInit,
-  AfterContentChecked, AfterViewChecked
+  SimpleChanges
 } from '@angular/core';
 import { NgModel, NG_VALUE_ACCESSOR, NG_VALIDATORS, NG_ASYNC_VALIDATORS } from '@angular/forms';
 import { ElementBase} from './element-base.class';
@@ -20,7 +18,7 @@ import { animations } from './animations';
   selector: 'qddt-select',
   template: `
   <div class="row input-field">
-    <select id="{{identifier}}" [(ngModel)]="value" >
+    <select  id="{{identifier}}" [(ngModel)]="value" >
       <option *ngIf="placeholder" value="" disabled >{{placeholder}}</option>
       <option *ngFor="let item of lockups" [value]="item[0]" >{{item[1]}}</option>
     </select>
@@ -31,7 +29,7 @@ import { animations } from './animations';
   providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: FormSelectComponent, multi: true }],
 })
 
-export class FormSelectComponent extends ElementBase<string>  implements  AfterViewInit,  OnChanges, AfterViewChecked {
+export class FormSelectComponent extends ElementBase<string>  implements  AfterViewInit,  OnChanges {
   @Input() public label: string;
   @Input() public placeholder: string;
   @Input() public lockups: [string, string][];
@@ -39,21 +37,20 @@ export class FormSelectComponent extends ElementBase<string>  implements  AfterV
   @ViewChild(NgModel, { static: false }) model: NgModel;
 
   public identifier = `qddt-select-` + ident++;
-  public  showLockups = false;
-  private init = false;
 
   constructor(@Optional() @Inject(NG_VALIDATORS) validators: Array<any>,
               @Optional() @Inject(NG_ASYNC_VALIDATORS) asyncValidators: Array<any>,
   ) {
     super(validators, asyncValidators);
+    this.registerOnWritten( () => {
+      const element = document.getElementById(this.identifier) as HTMLSelectElement;
+      element.options.selectedIndex = this.lockups.findIndex( item => item[0] === this.value);
+      M.FormSelect.init(element);
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.lockups.currentValue) {
-      this.showLockups = true;
-    }
-
-    if (!changes.lockups.isFirstChange()) {
+    if (changes.lockups.isFirstChange() === false) {
       const element = document.getElementById(this.identifier) as HTMLSelectElement;
       while ( element.options.length > 0) {
         element.options.remove(0);
@@ -66,7 +63,7 @@ export class FormSelectComponent extends ElementBase<string>  implements  AfterV
       });
       element.options.selectedIndex = this.lockups.findIndex( item => item[0] === this.value);
       M.FormSelect.init(element);
-      console.log('not frist change ' + this.value);
+      // console.log('not frist change ' + this.value);
     }
   }
 
@@ -75,29 +72,6 @@ export class FormSelectComponent extends ElementBase<string>  implements  AfterV
     M.FormSelect.init(element);
     // this.touch();
   }
-
-  ngAfterViewChecked(): void {
-    if ((this.value) && !this.init) {
-      const element = document.getElementById(this.identifier) as HTMLSelectElement;
-      element.options.selectedIndex = this.lockups.findIndex( item => item[0] === this.value);
-      this.init = true;
-      M.FormSelect.init(element);
-      console.log(this.value + ' <-> ' +  element.options.selectedIndex);
-    } else {
-      console.log('not intit ' + this.label);
-    }
-  }
-
-  // public isSelected(key): boolean {
-  //   // console.log(key + ' - ' + (this.value === key) );
-  //   return (this.value === key);
-  // }
-
-  // ngAfterContentInit(): void {
-  //   console.log( this.value);
-  //   const element = document.getElementById(this.identifier) as HTMLSelectElement;
-  //   element.options.selectedIndex = this.lockups.findIndex( item => item[0] === this.value);
-  // }
 
 }
 
