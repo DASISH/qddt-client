@@ -26,9 +26,7 @@
 
     <div [ngSwitch]="domainType">
       <div *ngSwitchCase="domainTypeDef.SCALE">
-        <qddt-preview-responsedomain class="row"
-          [responseDomain]="previewResponseDomain">
-        </qddt-preview-responsedomain>
+
         <div class="row hoverable">
           <div class="col s3 input-field">
             <input class="validate" id="SCALE_START-{{formId}}" name="scale_start" placeholder="starting point"
@@ -58,14 +56,11 @@
                          (ngModelChange)="buildPreviewResponseDomain()" >
             </qddt-select>
           </div>
-<!--          <div class="col s3 input-field">-->
-<!--              <select id="LAYOUT-{{formId}}" name="Layout" [(ngModel)]="responseDomain.displayLayout" (ngModelChange)="onChangeDegreeSlope($event)" required class="validate">-->
-<!--                <option [value]="'0'" [selected]="responseDomain.displayLayout==='0'" >horizontal</option>-->
-<!--                <option [value]="'90'" [selected]="responseDomain.displayLayout==='90'">vertical</option>-->
-<!--              </select>-->
-<!--              <label for="LAYOUT-{{formId}}">Display Layout</label>-->
-<!--          </div>-->
         </div>
+        <qddt-preview-responsedomain class="row"
+          [responseDomain]="previewResponseDomain">
+        </qddt-preview-responsedomain>
+
         <ul [hidden]="numberOfAnchors === 0">
           <li class="hoverable row" *ngFor="let category of responseDomain.managedRepresentation.children; let idx=index;" >
             <qddt-anchor-point [category]="category" [inputLimit]="responseDomain.managedRepresentation.inputLimit"  [formName]="'AP'+idx"
@@ -81,23 +76,23 @@
                     [attr.min]=0
                     [ngModel]="responseDomain.managedRepresentation.inputLimit.maximum"
                     (ngModelChange)="changeNumberOfCategories($event)" required>
-            <label>Number of Codes</label>
+            <label class="active" >Number of Codes</label>
           </div>
           <div class="input-field col s3 offset-m1 ">
-            <input id="responseCardinality_minimum{{formId}}" name="responseCardinality_minimum" type="number"
+            <input id="rc_minimum{{formId}}" name="responseCardinality_minimum" type="number"
                     (ngModelChange)="buildPreviewResponseDomain()"
                     [attr.min]=0
                     [attr.max]="responseDomain.responseCardinality.maximum"
                     [(ngModel)]="responseDomain.responseCardinality.minimum" required>
-            <label>Min # of Response Cardinality</label>
+            <label class="active">Min # of Response Cardinality</label>
           </div>
           <div class="input-field col s3 offset-m1 ">
-            <input id="responseCardinality_maximum{{formId}}" name="responseCardinality_maximum" type="number"
+            <input id="rc_maximum{{formId}}" name="responseCardinality_maximum" type="number"
                     (ngModelChange)="buildPreviewResponseDomain()"
                     [attr.min]=1
                     [attr.max]="responseDomain.managedRepresentation.inputLimit.maximum"
                     [(ngModel)]="responseDomain.responseCardinality.maximum" required>
-            <label>Max # of Response Cardinality</label>
+            <label class="active">Max # of Response Cardinality</label>
           </div>
         </div>
 
@@ -112,7 +107,7 @@
             <div class="col s2 input-field">
               <input name="{{idx}}-code-value" type="text" (ngModelChange)="buildPreviewResponseDomain()" [(ngModel)]="category.code.codeValue" required>
             </div>
-            <qddt-element-select  class="col s8 input-field" [source]="getSource(category)" [autoCreate]="true" (elementSelectedEvent)="onSelectCategory($event,idx)">
+            <qddt-element-select class="col s8 input-field" [source]="getSource(category)" [autoCreate]="true" (elementSelectedEvent)="onSelectCategory($event,idx)" >
             </qddt-element-select>
             <div class="secondary-content">
               <i class="material-icons">menu</i>

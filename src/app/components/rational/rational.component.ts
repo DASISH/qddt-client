@@ -49,9 +49,9 @@ export class RationalComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // document.querySelectorAll('SELECT').forEach( comp => M.FormSelect.init(comp));
-    M.FormSelect.init(document.getElementById('SELECT-' + this.formId));
-    console.log('init select');
+     document.querySelectorAll('SELECT').forEach( comp => M.FormSelect.init(comp));
+    // M.FormSelect.init(document.getElementById('SELECT-' + this.formId));
+    // console.log('init select');
   }
 
   ngOnInit() {
