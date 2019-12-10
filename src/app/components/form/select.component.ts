@@ -11,6 +11,7 @@ import {
 import { NgModel, NG_VALUE_ACCESSOR, NG_VALIDATORS, NG_ASYNC_VALIDATORS } from '@angular/forms';
 import { ElementBase} from './element-base.class';
 import { animations } from './animations';
+import { ISelectItem } from 'src/app/lib';
 
 
 
@@ -32,7 +33,7 @@ import { animations } from './animations';
 export class FormSelectComponent extends ElementBase<string>  implements  AfterViewInit,  OnChanges {
   @Input() public label: string;
   @Input() public placeholder: string;
-  @Input() public lockups: [string, string][];
+  @Input() public lockups: ISelectItem[];
 
   @ViewChild(NgModel, { static: false }) model: NgModel;
 
