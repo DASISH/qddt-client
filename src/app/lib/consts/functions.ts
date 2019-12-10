@@ -1,6 +1,7 @@
 import { QDDT_QUERY_INFOES } from './query-info.config';
-import { ElementKind } from '../enums';
-import { QueryInfo } from '../classes';
+import {ElementKind, EnumType} from '../enums';
+import {QueryInfo, SelectItem} from '../classes';
+import {ISelectOption} from '../interfaces';
 
 export const StringIsNumber = value => isNaN(Number(value)) === false;
 
@@ -20,6 +21,23 @@ export function ElementEnumAware(constructor: Function) {
 
 export function enumKeys<E>(e: E): (keyof E)[] {
   return Object.keys(e) as (keyof E)[];
+}
+
+export function toMap(enumerable: EnumType): [string, string][] {
+  return Object.keys(enumerable)
+  .filter(x => typeof x === 'string')
+  .map( val => [ enumerable[val], val ] );
+}
+
+export function toSelectItems(enumerable: EnumType): ISelectOption[] {
+  let i = -1;
+  const keys = Object.keys(enumerable);
+  return Object.values(enumerable)
+  .filter(x => typeof x === 'string')
+  .map( val => new SelectItem({
+    id: ++i,
+    label: (isNaN(Number(keys[i]))) ? keys[i] : val ,
+    value: (+enumerable[val] === i ) ? val : enumerable[keys[i]] }) );
 }
 
 

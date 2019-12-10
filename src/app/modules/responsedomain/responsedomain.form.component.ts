@@ -17,7 +17,7 @@ import {
   IPageSearch, LANGUAGE_MAP,
   Page,
   PropertyStoreService,
-  ResponseDomain, TemplateService, toMap
+  ResponseDomain, TemplateService, toSelectItems
 } from '../../lib';
 
 @Component({
@@ -43,7 +43,7 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, Af
   // public categories: Category[];
   public readonly formId = Math.round( Math.random() * 10000);
   public readonly LANGUAGES = LANGUAGE_MAP;
-  public readonly DISPLAYLAYOUTS = toMap(DisplayLayoutKind) ;
+  public readonly DISPLAYLAYOUTS = toSelectItems(DisplayLayoutKind);
 
   private pageSearch: IPageSearch;
   private ok = true;
@@ -63,7 +63,7 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, Af
     M.updateTextFields();
     document.querySelectorAll('SELECT').forEach( comp => {
       M.FormSelect.init(comp);
-      console.log( comp.nodeName);
+      // console.log( comp.nodeName);
     });
   }
 

@@ -32,9 +32,6 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
   new QueryInfo(ElementKind.CHANGE_LOG, 'Feed', 'changelog', ['name', 'change', 'kind'], null),
 ];
 
-
-
-
 export  const HEADER_DETAILS =  new Map<string, IHeaderDetail>([
   ['categories', { icon: 'view_comfy', headerName: 'Categories', kind: ElementKind.CATEGORY }],
   ['missing', { icon: 'view_module', headerName: 'Missing Values', kind: ElementKind.MISSING_GROUP }],

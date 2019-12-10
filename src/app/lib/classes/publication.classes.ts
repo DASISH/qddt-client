@@ -1,8 +1,6 @@
 import {ElementKind} from '../enums';
-import {IComment, IEntityAudit} from '../interfaces';
+import {IComment, IEntityAudit, ISelectOption} from '../interfaces';
 import { ElementRevisionRef } from './element-revision-ref';
-
-
 
 export class Publication  implements  IEntityAudit {
   id: string;
@@ -19,7 +17,7 @@ export class Publication  implements  IEntityAudit {
 
 }
 
-export class PublicationStatus {
+export class PublicationStatus implements ISelectOption {
   id: number;
   label: string;
   published: string;

@@ -7,12 +7,12 @@ import {
   getElementKind,
   Publication,
   PUBLICATION_TYPES,
-  PublicationService, PublicationStatus, TemplateService
+  PublicationService, PublicationStatus, TemplateService, ISelectOption, SelectItem
 } from '../../lib';
+
 
 @Component({
   selector: 'qddt-publication-form',
-  styles: [  ],
   templateUrl: './publication.form.component.html',
 })
 
@@ -21,50 +21,47 @@ export class PublicationFormComponent implements OnChanges, OnInit {
   @Output() modifiedEvent = new EventEmitter<IEntityEditAudit>();
 
   public formId = Math.round( Math.random() * 10000);
-  // public selectedOptionId: number;
-  public selectOptions: any;
-
   public readonly = true;
-  // tslint:disable-next-line:variable-name
-  private _statusId = 0;
+  public SELECT_OPTIONS: ISelectOption[];
   private statusList: PublicationStatus[];
+  // tslint:disable-next-line:variable-name
+  private _statusId: number;
 
   constructor(private service: PublicationService, private templateService: TemplateService) {
     this.readonly = !templateService.can(ActionKind.Create, ElementKind.PUBLICATION);
   }
 
-  get statusId() {
+  public get statusId() {
     return this._statusId;
   }
-  set statusId(value: number) {
+  public set statusId(value: number) {
     this._statusId = +value;
-    console.log('statusId set-> ' + this._statusId);
     if ((value) && (this.statusList)) {
       const item =  this.statusList.find(e => e.id === this._statusId );
       this.publication.status = item;
-    } else {
+    } else if  (this.statusList) {
       this.publication.status = this.statusList.find(e => e.published === 'NOT_PUBLISHED');
     }
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.publication.currentValue && (this.publication.status)) {
-      // this.onSelectChange(this.publication.status.id);
+      console.log('ngOnChanges');
+      this.statusId = this.publication.status.id;
     }
   }
   async ngOnInit() {
-    console.log('pre init');
-    this.selectOptions = await this.service.getPublicationStatus();
-    console.log('init selectOptions set');
+    console.log('ngOnInit');
+    const publicationStatus = await this.service.getPublicationStatus();
+    this.SELECT_OPTIONS = publicationStatus.map( item => new SelectItem(item));
     this.statusList = [];
-    this.selectOptions.forEach( s => {
+    publicationStatus.forEach( s => {
       if (s.children) {
         s.children.forEach(s1 =>
           this.statusList.push(
             new PublicationStatus({id: s1.id, label: s1.label, published: s.published, description: s1.description }) ));
       } } );
   }
-
 
   public onShowDetail(index) {
     console.log('onShowDetail');
@@ -88,7 +85,6 @@ export class PublicationFormComponent implements OnChanges, OnInit {
     return PUBLICATION_TYPES.find(e => e.id === kind).label;
   }
 
-
   public onElementDelete(index: number) {
     if (index < this.publication.publicationElements.length) {
       this.publication.publicationElements.splice(index, 1);
@@ -99,20 +95,4 @@ export class PublicationFormComponent implements OnChanges, OnInit {
     this.publication.publicationElements.push(pe);
   }
 
-  // public onSelectChange(id?: number) {
-  //   const statusList: PublicationStatus[] = [];
-  //   this.selectOptions.forEach( s => {
-  //     if (s.children) {
-  //       s.children.forEach(s1 =>
-  //         statusList.push(
-  //           new PublicationStatus({id: s1.id, label: s1.label, published: s.published, description: s1.description }) ));
-  //   } } );
-  //
-  //   if (id) {
-  //     this.publication.status = statusList.find(e => e.id === +id );
-  //   } else {
-  //     this.publication.status = statusList.find(e => e.published === 'NOT_PUBLISHED');
-  //   }
-  //   this.selectedOptionId = this.publication.status.id;
-  // }
 }

@@ -36,11 +36,12 @@ export interface ITreeRef {
   parent?: ITreeRef;
 }
 
-export interface ISelectItem {
+export interface ISelectOption {
   id: number;
-  text: string;
-  value: any;
-  children?: ISelectItem[];
+  label: string;
+  value?: any;
+  ref?: any;
+  children?: ISelectOption[];
 }
 
 export interface IUser {

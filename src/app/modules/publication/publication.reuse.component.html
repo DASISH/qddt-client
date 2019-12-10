@@ -6,18 +6,18 @@
     <span class="teal-text">Element Type</span>
     <div class="row">
       <div class="col left" *ngFor="let element of publicationTypes;" >
-      <label>
-          <input name="PUP-TYPE-GROUP" type="radio"
-          (click)="onSelectElementKind(element.id)"
-          [checked]="selectedElementKind === element.id" />
-          <span>{{ element.label }}</span>
+        <label>
+            <input name="PUP-TYPE-GROUP" type="radio"
+            (click)="onSelectElementKind(element.id)"
+            [checked]="selectedElementKind === element.id" />
+            <span>{{ element.label }}</span>
         </label>
       </div>
     </div>
     <qddt-element-revision-select
       [source] = "{ element:'', elementKind: selectedElementKind}"
-      (revisionSelected)="onRevisionSelect($event)"
-      (dismissEvent) ="onDismiss()">
+      (revisionSelectedEvent)="onRevisionSelect($event)"
+      (dismissEvent) ="onToggleAddElement()">
     </qddt-element-revision-select>
   </div>
 </div>

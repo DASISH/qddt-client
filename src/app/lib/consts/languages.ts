@@ -1,3 +1,4 @@
-import {LanguageKind, toValueMap} from '../enums';
+import {LanguageKind } from '../enums';
+import {toSelectItems} from './functions';
 
-export const LANGUAGE_MAP = toValueMap(LanguageKind);
+export const LANGUAGE_MAP = toSelectItems(LanguageKind);

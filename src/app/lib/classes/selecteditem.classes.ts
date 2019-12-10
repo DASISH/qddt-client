@@ -1,15 +1,26 @@
-import { ISelectItem } from '../interfaces/interfaces';
+import { ISelectOption } from '../interfaces';
 
-export class SelectedItem implements ISelectItem {
+export class SelectItem implements ISelectOption {
   id: number;
-  text: string;
+  label: string;
   value?: any;
-  children?: ISelectItem[];
+  ref?: any
+  children?: ISelectOption[];
 
-  public constructor(init?: Partial<ISelectItem>) {
-    Object.assign(this, init);
-    if (!this.value) {
-      this.value = this.text;
+  public constructor(init?: Partial<ISelectOption>) {
+    this.id = init.id;
+    this.label = init.label;
+    this.value = init.value || init.id;
+
+    const values = Object.entries(init).filter( f => f[0] !== 'children');
+    if (values.length > 3) {
+      const source =  '{ ' + values.map(key => `"${key[0]}": "${key[1]}"`).join(' ,') + ' }';
+      this.ref = JSON.parse(source);
+    }
+    if (init.children && init.children.length > 0) {
+      this.children = init.children.map(child => new SelectItem(child));
     }
   }
+
 }
+

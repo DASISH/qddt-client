@@ -1,5 +1,13 @@
 import { Component, OnChanges, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
-import { getElementKind, IEntityEditAudit, IRevisionRef, IRevisionResultEntity, TemplateService} from '../../../lib';
+import {
+  getElementKind,
+  IEntityEditAudit,
+  IRevisionRef,
+  IRevisionResultEntity,
+  ISelectOption,
+  SelectItem,
+  TemplateService
+} from '../../../lib';
 
 
 @Component({
@@ -14,10 +22,11 @@ export class RevisionComponent implements OnChanges {
 
   public revisionResultEntities: IRevisionResultEntity[];
   public selectedRevisionResult: IRevisionResultEntity;
-  public  revisionlockups: [number, string][];
+  public  revisionlockups: ISelectOption[];
   public showProgressBar = false;
   public showPickRevision = false;
-  private _selectedRevision;
+  // tslint:disable-next-line:variable-name
+  private _selectedRevision: number;
 
   constructor(private service: TemplateService) { }
 
@@ -26,8 +35,9 @@ export class RevisionComponent implements OnChanges {
   }
   set selectedRevision(value) {
     this._selectedRevision = +value;
+    if (this._selectedRevision <= 1) { return; }
     this.selectedRevisionResult = this.revisionResultEntities.find(entity => entity.revisionNumber === this._selectedRevision);
-    // console.log(this._selectedRevision + ' -> ' +  this.selectedRevisionResult || JSON);
+    console.log(this._selectedRevision + ' -> ' +  this.selectedRevisionResult || JSON);
   }
 
   public version(item: IEntityEditAudit) {
@@ -44,7 +54,10 @@ export class RevisionComponent implements OnChanges {
         (result) => {
           this.revisionResultEntities = result.content.sort((e1: any, e2: any) => e2.revisionNumber - e1.revisionNumber);
           this.selectedRevision = ref.elementRevision;
-          this.revisionlockups =  (this.revisionResultEntities.map(rev => [ rev.revisionNumber, this.version(rev.entity) ] ));
+          this.revisionlockups =  this.revisionResultEntities.map(rev => new SelectItem({
+            id: rev.revisionNumber,
+            label: this.version(rev.entity)
+          }));
           this.showPickRevision = true;
           this.showProgressBar = false;
         },

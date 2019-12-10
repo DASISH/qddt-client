@@ -15,34 +15,20 @@
       [(ngModel)]="publication.purpose"
       data-length="255">
     </qddt-textarea>
-    <div class="row" *ngIf="selectOptions">
-    <qddt-select class=" col s6 m5 l4"
-      required
-      name="status"
-      label="Publication status"
-      [(ngModel)]="statusId">
-      <optgroup *ngFor="let parent of selectOptions" label="{{parent.label}}">
-        <option *ngFor="let child of parent.children" [value]="child.id" >{{child.label}}</option>
-      </optgroup>
-    </qddt-select>
-    <div class="s6 m7 l8">
+    <div class="row" *ngIf="SELECT_OPTIONS">
+      <div class="col s6 m5 l4 ">
+        <qddt-select
+          required
+          name="status"
+          label="Publication status"
+          [lockups] = "SELECT_OPTIONS"
+          [(ngModel)]="statusId">
+        </qddt-select>
+      </div>
+      <div class="col s6 m7 l8 card-content ">
         <p>{{ publication?.status?.description }}</p>
+      </div>
     </div>
-    </div>
-<!--    <div class="row input-field" *ngIf="selectOptions">-->
-<!--        <div class=" col s6 m5 l4">-->
-<!--          <select  name="{{formId}}-status" class="validate" required-->
-<!--            [(ngModel)]="selectedOptionId" (ngModelChange)="onSelectChange($event)">-->
-<!--            <optgroup *ngFor="let parent of selectOptions" label="{{parent.label}}">-->
-<!--              <option *ngFor="let child of parent.children" [value]="child.id" >{{child.label}}</option>-->
-<!--            </optgroup>-->
-<!--          </select>-->
-<!--          <label>Publication status</label>-->
-<!--        </div>-->
-<!--        <div class="s6 m7 l8">-->
-<!--            <p><span>{{ publication?.status?.description }}</span></p>-->
-<!--        </div>-->
-<!--    </div>-->
     <div class="row">
       <label for="{{formId}}-ppe">Content list</label>
       <ul id="{{formId}}-ppe" class="collapsible popout">
