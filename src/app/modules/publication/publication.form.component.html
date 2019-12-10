@@ -51,7 +51,7 @@
           <div class="col s7">Element name</div>
           <div class="col s2 right-align">Version</div>
         </li>
-        <li *ngFor="let element of publication.publicationElements; let idx=index">
+        <li *ngFor="let element of publication.publicationElements; let idx=index;" >
           <div class="collapsible-header grey lighten-5" style="color: #323232" (click)="onShowDetail(idx)" >
               <div class="col s2">{{ getLabelByElement(element?.elementKind) }}</div>
               <div class="col s7" [innerHtml]="element?.name"></div>

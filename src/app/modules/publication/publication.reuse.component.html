@@ -2,19 +2,20 @@
   <div class="teal-text" (click)="onToggleAddElement()" style="cursor: zoom-in;">
     <div class="">Add element</div>
   </div>
-  <div class="row" *ngIf="showAddElement">
-    <div class="col s12 teal-text"><span>Element Type</span></div>
-    <div class="col s12" >
-		  <div class="left" *ngFor="let element of publicationTypes;">
-        <label>
-          <input name="elementtypegroup" type="radio" [checked]="selectedElementKind === element.id"
-            (click)="onSelectElementKind(element.id)" />
+  <div class="card-action" *ngIf="showAddElement">
+    <span class="teal-text">Element Type</span>
+    <div class="row">
+      <div class="col left" *ngFor="let element of publicationTypes;" >
+      <label>
+          <input name="PUP-TYPE-GROUP" type="radio"
+          (click)="onSelectElementKind(element.id)"
+          [checked]="selectedElementKind === element.id" />
           <span>{{ element.label }}</span>
         </label>
       </div>
     </div>
     <qddt-element-revision-select
-      [source] = "selectedElementKind"
+      [source] = "{ element:'', elementKind: selectedElementKind}"
       (revisionSelected)="onRevisionSelect($event)"
       (dismissEvent) ="onDismiss()">
     </qddt-element-revision-select>
