@@ -20,16 +20,18 @@ export class ErrorLogService {
     } else if (error instanceof TypeError) {
 
       console.error(error.stack);
-      M.toast({ html: (<TypeError>error).message, displayLength: 5000});
+      M.toast({ html: (error as TypeError).message, displayLength: 5000});
 
     } else if (error instanceof Error) {
 
-      if (error['rejection']) {
-        this.logError(error['rejection']);
+      // @ts-ignore
+      if (error.rejection) {
+        // @ts-ignore
+        this.logError(error.rejection);
         return;
       }
-        M.toast({ html: error.message, displayLength: 5000});
-      } else {
+      M.toast({ html: error.message, displayLength: 5000});
+    } else {
 
       console.error('Nobody threw an error but something happened!', error);
       M.toast({ html: error.message, displayLength: 5000});
@@ -48,9 +50,13 @@ export class ErrorLogService {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
       if (error.error.userfriendlyMessage) {
-        M.toast({ html: error.error.userfriendlyMessage, displayLength: 5000 });
+        M.toast({
+          html: error.error.userfriendlyMessage,
+          displayLength: 5000 });
       } else {
-        M.toast({ html: 'Error code ${error.status}, <br> ${error.error.exceptionMessage}', displayLength: 5000} );
+        M.toast({
+          html: `Error code ${error.status}, <br> ${error.error.exceptionMessage}`,
+          displayLength: 5000} );
       }
     }
     throwError('Something bad happened; please try again later.');

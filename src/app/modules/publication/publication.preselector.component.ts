@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import {ActionKind, ElementKind, IPageSearch, PageSearch, PublicationService, PublicationStatus} from '../../lib';
 import { MessageService, PropertyStoreService} from '../../lib/services';
 

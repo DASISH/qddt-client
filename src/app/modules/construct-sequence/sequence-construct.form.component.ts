@@ -2,18 +2,15 @@ import { Component, Output, EventEmitter, Input, OnChanges, SimpleChanges } from
 
 import {
   ActionKind,
-  ElementKind,
-  getElementKind,
-  IElement,
-  IEntityEditAudit,
-  IRevisionRef, Page, SequenceConstruct, SequenceKind, StringIsNumber, TemplateService, LANGUAGE_MAP
+  ElementKind, ElementRevisionRef,
+  LANGUAGE_MAP,
+  SequenceConstruct, SequenceKind,
+  TemplateService, toSelectItems
 } from '../../lib';
 
 @Component({
   selector: 'qddt-sequence-form',
-
   templateUrl: './sequence-construct.form.component.html',
-  styles: [ ]
 })
 
 export class SequenceFormComponent implements OnChanges {
@@ -21,29 +18,15 @@ export class SequenceFormComponent implements OnChanges {
   @Input() readonly = false;
   @Output() modifiedEvent = new EventEmitter<SequenceConstruct>();
 
-  public readonly QUESTION = ElementKind.QUESTION_CONSTRUCT;
   public readonly LANGUAGES = LANGUAGE_MAP;
-
-  // public selectedElement: IEntityEditAudit;
-  public entityEditAudits: IEntityEditAudit[];
-  public revisionList = [];
-  public showProgressBar = false;
+  public readonly SEQUENCE_MAP = toSelectItems(SequenceKind);
   public readonly formId = Math.round( Math.random() * 10000);
 
+  public showProgressBar = false;
   public currentSequenceKind: SequenceKind = SequenceKind.SECTION;
-  // public sequenceKinds: EnumItem<SequenceKind>[];
-  public sequenceKinds: string[];
 
   constructor(private service: TemplateService) {
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.SEQUENCE_CONSTRUCT);
-    // this.sequenceKinds = Object.keys( SequenceKind )
-    //                   .filter(StringIsNumber)
-    //                   .filter(f => f !== '0')
-    //                   .map(key => ({ id: +key, name: SequenceKind[key] } as EnumItem<SequenceKind>));
-    this.sequenceKinds = Object.keys( SequenceKind )
-                      .filter(StringIsNumber)
-                      .filter(f => f !== '0')
-                      .map(key => (SequenceKind[key] as string));
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -61,34 +44,31 @@ export class SequenceFormComponent implements OnChanges {
     );
   }
 
-  public onSearchElements(search: IElement) {
-    const kind = getElementKind(search.elementKind);
-    this.service.searchByKind( { kind, key: search.element, page: new Page( { size: 15 } ) } ).then(
-      (result) => { this.entityEditAudits = result.content; },
-      (error) => { throw error; } );
-  }
-
-  public onRevisonSearch(search: IRevisionRef) {
-    const kind = getElementKind(search.elementKind);
-    this.service.getByKindRevisions(kind, search.elementId).then(
-      (result) => {
-        this.revisionList = result.content;
-      }
-    );
-  }
-
   public onSelectChange(event) {
     this.currentSequenceKind = event;
-
   }
 
-  // public onRevisionSelected(ref: ElementRevisionRef) {
-  //   this.sequence.sequence.push(ref);
-  // }
-  //
-  // public onSelectCanceled(value) {
-  //   this.selectedElement = null;
-  // }
+  public onItemRemoved(ref: ElementRevisionRef) {
+    console.log('onItemRemoved -> ' + ref || JSON);
+    this.sequence.sequence =
+      this.sequence.sequence.filter( f => !(f.elementId === ref.elementId && f.elementRevision === ref.elementRevision) );
+  }
+
+  public onItemAdded(ref: ElementRevisionRef) {
+    console.log('onItemAdded -> ' + ref || JSON);
+    this.sequence.sequence.push(ref);
+  }
+
+  public onItemModified(ref: ElementRevisionRef) {
+    console.log('onItemModified -> ' + ref || JSON);
+    const idx = this.sequence.sequence.findIndex(f => f.elementId === ref.elementId && f.elementRevision === ref.elementKind );
+    this.sequence.sequence =
+      this.sequence.sequence.concat(
+        this.sequence.sequence.slice(0, idx - 1),
+        ref,
+        this.sequence.sequence.slice(idx + 1)
+      );
+  }
 
 
 }

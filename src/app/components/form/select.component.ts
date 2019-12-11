@@ -57,11 +57,8 @@ export class FormSelectComponent extends ElementBase<string>  implements  AfterV
     this.registerOnWritten( () => {
       const element = document.getElementById(this.identifier) as HTMLSelectElement;
       if (element) {
-        console.log('value set setting index');
         this.setindex(element);
         M.FormSelect.init(element);
-      } else {
-        console.log('element not found...');
       }
     });
     this.registerOnChange( value => console.log(value || JSON));
@@ -76,13 +73,10 @@ export class FormSelectComponent extends ElementBase<string>  implements  AfterV
   ngAfterViewInit(): void {
     const element = document.getElementById(this.identifier) as HTMLSelectElement;
     M.FormSelect.init(element);
-    if (this.lockups) {
-      console.log(this.lockups || JSON);
-    }
   }
 
   public hasChildren(): boolean {
-    return this.lockups.findIndex( item => ((item.children) && (item.children.length > 0)) ) >= 0 ;
+    return (this.lockups) && this.lockups.findIndex( item => ((item.children) && (item.children.length > 0)) ) >= 0 ;
   }
 
   private buildOptions() {
@@ -114,14 +108,14 @@ export class FormSelectComponent extends ElementBase<string>  implements  AfterV
 
   private setindex(element: HTMLSelectElement) {
     if ((element.options) && (this.value)) {
-      console.log(element.options.selectedIndex  + ' ' + this.value);
       let i = -1;
-      let notFound = true;
-      while (notFound || i >= element.options.length - 1 ) {
-        notFound =  element.options.item(++i).value != this.value;
+      let isFound = false;
+      while (i < element.options.length && !isFound ) {
+        isFound =  element.options.item(++i).value == this.value;
       }
-      element.options.selectedIndex = i;
-      console.log(element.options.selectedIndex  + ' ' + this.value);
+      if (isFound ) {
+        element.options.selectedIndex = i;
+      }
     }
   }
 

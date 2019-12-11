@@ -6,3 +6,4 @@ export * from './hierarchy-position';
 export * from './alignment-kind';
 export * from './language-kind';
 export * from './displayLayout-kind';
+export * from './construct-kind';

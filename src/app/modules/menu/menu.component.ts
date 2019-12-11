@@ -1,4 +1,4 @@
-import {Component, OnInit, AfterViewInit, OnDestroy, ElementRef, ViewChild} from '@angular/core';
+import {Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject} from 'rxjs/internal/BehaviorSubject';
 import {

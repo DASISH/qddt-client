@@ -1,15 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Router } from '@angular/router';
-import {
-  ElementKind,
-  ElementRevisionRef, IElement, IRevisionRef,
-  MessageService,
-  TemplateService
-} from '../../../lib';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Router} from '@angular/router';
+import {CONSTRUCT_MAP, ElementKind, ElementRevisionRef, IElement, IRevisionRef, MessageService, TemplateService} from '../../../lib';
 
 
 @Component({
-  selector: 'qddt-question-items',
+  selector: 'qddt-constructs',
   styles: [
           '.qlabel { padding-top: 5px; }',
           '.collection a.collection-item { cursor: pointer; padding-left: 10px;}',
@@ -21,7 +16,7 @@ import {
   template: `
   <div class="collection with-header hoverable row">
       <a class="collection-header col s12"  (click)="onItemSearch($event)" style="cursor: zoom-in">
-        <label><i class="material-icons small">help_outline</i>Question Items</label>
+        <label><i class="material-icons small">help_outline</i>Constructs</label>
         <a class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light teal"
           [ngClass]="{ hide: !showButton }" >
           <i class="material-icons" title="Associate QuestionItem with element">playlist_add</i>
@@ -46,13 +41,23 @@ import {
             </a>
           </li>
         </ul>
-        <div class="question" [innerHtml]="cqi?.name || cqi?.element?.name && ' - ' && cqi?.element?.question"></div>
+        <div class="question" [innerHtml]="cqi?.name || cqi?.element?.name"></div>
       </a>
     </div>
   <!-- Modal Structure -->
   <div  id="MODAL-{{modalId}}" class="modal modal-fixed-footer">
-    <div class="modal-content white black-text" >
-      <h4>Select QuestionItem version</h4>
+    <div class="modal-content" >
+      <h4>Select version</h4>
+      <div class="card-action">
+        <div class="row">
+          <div class="col left" *ngFor="let option of selectOptions" >
+            <label>
+              <input name="DOMAIN-TYPE-GROUP" type="radio" [checked]="selectId === option.id" (click)="onSelectOption(option.value)" />
+              <span>{{ option.label }}</span>
+            </label>
+          </div>
+        </div>
+      </div>
       <qddt-element-revision-select
           [source] = "SOURCE"
           (revisionSelectedEvent)="revisionSelectedEvent($event)"
@@ -68,16 +73,16 @@ import {
   </div>
 `,
 })
-export class QuestionItemsComponent {
+export class ConstructsComponent {
   @Input() revisionRefs: ElementRevisionRef[];
   @Input() readonly = true;
   @Output() createdEvent = new EventEmitter<ElementRevisionRef>();
   @Output() deletedEvent = new EventEmitter<ElementRevisionRef>();
   @Output() modifiedEvent = new EventEmitter<ElementRevisionRef>();
 
-  public readonly QUESTION = ElementKind.QUESTION_ITEM;
   public readonly modalId = Math.round( Math.random() * 10000);
-
+  public readonly selectOptions = CONSTRUCT_MAP;
+  public selectId = 0;
   public SOURCE: IElement| IRevisionRef| null;
   // tslint:disable-next-line:variable-name
   private _modalRef: M.Modal;
@@ -87,6 +92,7 @@ export class QuestionItemsComponent {
   private _showButton = false;
 
   constructor(private service: TemplateService, public message: MessageService, private router: Router ) {
+    console.log(this.selectOptions || JSON);
   }
 
   get showButton(): boolean {
@@ -121,13 +127,11 @@ export class QuestionItemsComponent {
 
   public onItemSearch(event: Event) {
     event.stopPropagation();
-    this.SOURCE = { element: '', elementKind: this.QUESTION };
     this.modalRef.open();
   }
 
   public onItemRemove(event: Event, cqi: ElementRevisionRef) {
     event.stopPropagation();
-    this.revisionRefs = this.revisionRefs.filter(qi => !(qi.elementId === cqi.elementId && qi.elementRevision === cqi.elementRevision));
     this.deletedEvent.emit(cqi);
   }
 
@@ -149,5 +153,9 @@ export class QuestionItemsComponent {
     this.message.sendMessage(item);
   }
 
+  public onSelectOption(value) {
+    this.SOURCE = { element: '', elementKind: ElementKind[value] };
+    console.log(this.SOURCE);
+  }
 
 }
