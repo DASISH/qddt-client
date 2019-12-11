@@ -65,10 +65,7 @@ import {CONSTRUCT_MAP, ElementKind, ElementRevisionRef, IElement, IRevisionRef, 
       </qddt-element-revision-select>
     </div>
     <div class="modal-footer">
-      <button
-        class="btn btn-default red modal-action modal-close waves-effect waves-red" (click)="onDismiss()" >
-        Dismiss
-      </button>
+      <button class="btn red waves-effect waves-red" (click)="onDismiss($event)" >Dismiss</button>
     </div>
   </div>
 `,
@@ -120,7 +117,10 @@ export class ConstructsComponent {
     this.modalRef.close();
   }
 
-  public onDismiss() {
+  public onDismiss(event?: Event) {
+    if (event) {
+      event.stopPropagation();
+    }
     this.SOURCE = null;
     this.modalRef.close();
   }
