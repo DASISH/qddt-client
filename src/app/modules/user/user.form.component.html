@@ -2,25 +2,39 @@
   <form #hf="ngForm" (ngSubmit)="onSave()">
     <div class="row">
       <div class="col m6">
-        <div class="row input-field">
-          <input id="{{formId}}-name" type="text" class="validate"  name="name" required [(ngModel)]="user.name"
-                data-length="25" >
-          <label>Name</label>
-        </div>
+        <qddt-input
+          required
+          name="name"
+          label="Name"
+          [(ngModel)]="user.name"
+          data-length="25">
+        </qddt-input>
 
-        <div class="row input-field">
-          <input id="{{formId}}-email" type="email" class="validate" name="email"  required [(ngModel)]="user.email"
-                data-length="128" >
-          <label>Email</label>
-        </div>
+        <qddt-input
+          required
+          name="email"
+          type="email"
+          label="Email"
+          [(ngModel)]="user.email"
+          data-length="120">
+        </qddt-input>
 
-        <div class="row input-field">
+        <qddt-select
+        required
+        name="agency"
+        label="Agency"
+        [(ngModel)]="selectedAgencyId"
+        (change)="onSelectChange()"
+        [lockups]="AGENCY_LIST" >
+      </qddt-select>
+ 
+        <!-- <div class="row input-field">
           <select id="{{formId}}-agency" name="{{formId}}-agency"  class="validate" required [ngModel]="selectedAgencyId"
             (ngModelChange)="onSelectChange($event)">
             <option *ngFor="let agency of agencies" [value]="agency.id" >{{agency.name}}</option>
           </select>
           <label>Agency</label>
-        </div>
+        </div> -->
       </div>
 
       <div class="col m3 offset-m1">

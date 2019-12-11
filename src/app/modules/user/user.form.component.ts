@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges, AfterViewInit} from '@angular/core';
 import { Agency, IAuthority, UserJson, UserService} from '../../lib';
+import { SelectItem } from '../../lib/classes/selecteditem.classes';
 
 @Component({
   selector: 'qddt-user-form',
@@ -16,6 +17,7 @@ export class UserFormComponent implements OnInit, OnChanges, AfterViewInit {
 
   public agencies: Agency[];
   public authorities: IAuthority[];
+  public AGENCY_LIST: SelectItem[];
 
   constructor(private userService: UserService) {
   }
@@ -23,6 +25,9 @@ export class UserFormComponent implements OnInit, OnChanges, AfterViewInit {
    async ngOnInit() {
     this.agencies = await this.userService.getAgencies();
     this.authorities = await this.userService.getAuthorities();
+
+    this.AGENCY_LIST = this.agencies.map( item => new SelectItem( { label: item.name, value: item.id } ) );
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -47,7 +52,7 @@ export class UserFormComponent implements OnInit, OnChanges, AfterViewInit {
   onSelectChange(id: string) {
     this.selectedAgencyId = id;
     this.getAgencies().then( result => {
-      this.user.agency = result.find( f => f.id === id);
+      this.user.agency = result.find( f => f.id ===  this.selectedAgencyId );
     });
   }
 

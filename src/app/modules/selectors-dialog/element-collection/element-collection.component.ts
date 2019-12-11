@@ -10,8 +10,8 @@ import {
   selector: 'qddt-element-collection',
   styles: [
           '.qlabel { padding-top: 5px; }',
-          '.collection a.collection-item { cursor: pointer; padding-left: 10px;}',
           '.question { white-space: nowrap; overflow: hidden;text-overflow: ellipsis; padding-top:5px; }',
+          '.collection a.collection-item { cursor: pointer; padding-left: 10px;}',
           '.collection-item:hover > ul.dropleft { display:block; } ',
           'ul.dropleft { position: absolute; display: none; margin-top: 0px; margin-bottom: 0px; z-index: 1;}',
           'ul.dropleft li { display:inline-flex; }',
@@ -46,7 +46,7 @@ import {
     </a>
   </div>
 <!-- Modal Structure -->
-<div id="MODAL-{{modalId}}" class="modal modal-fixed-footer">
+<!-- <div id="MODAL-{{modalId}}" class="modal modal-fixed-footer">
   <div class="modal-content white black-text" >
     <h4>Search for item</h4>
     <qddt-element-select [source] = "{ element:'', elementKind: elementKind }" (elementSelectedEvent)="onElementSelectedEvent($event)">
@@ -58,14 +58,14 @@ import {
       Dismiss
     </button>
   </div>
-</div>
+</div> -->
 `,
 })
 export class ElementCollectionComponent {
   @Input() listItems: IEntityAudit[];
   @Input() elementKind: ElementKind;
   @Input() labelName = 'where is my label?';
-  @Input() readonly = true;
+  @Input() readonly = false;
   @Output() createdEvent = new EventEmitter<IElement>();
   @Output() deletedEvent = new EventEmitter<IElement>();
   @Output() modifiedEvent = new EventEmitter<IElement>();
@@ -79,20 +79,20 @@ export class ElementCollectionComponent {
   constructor(private service: TemplateService, public message: MessageService, private router: Router ) {
   }
 
-  get modalRef(): M.Modal {
-    if (!(this._modalRef)) {
-      this._modalRef = M.Modal.init(document.querySelector('#MODAL-' + this.modalId));
-    }
-    return this._modalRef;
-  }
+  // get modalRef(): M.Modal {
+  //   if (!(this._modalRef)) {
+  //     this._modalRef = M.Modal.init(document.querySelector('#MODAL-' + this.modalId));
+  //   }
+  //   return this._modalRef;
+  // }
 
   public onElementSelectedEvent(ref: IElement) {
     this.createdEvent.emit(ref);
-    this.modalRef.close();
+    // this.modalRef.close();
   }
 
   public onDismiss() {
-    this.modalRef.close();
+    // this.modalRef.close();
   }
 
   public onItemRemove(event: Event, item: IEntityAudit) {
@@ -110,7 +110,7 @@ export class ElementCollectionComponent {
 
   public onItemUpdate(event: Event, item: IEntityAudit) {
     event.stopPropagation();
-    this.modalRef.open();
+    // this.modalRef.open();
   }
 
   public onItemSearch(event: Event) {
