@@ -1,11 +1,4 @@
-// export enum ConstructKind {
-//   ConditionConstruct = ElementKind.CONDITION_CONSTRUCT,
-//   InstructionConstruct = ElementKind.INSTRUCTION,
-//   QuestionConstruct = ElementKind.QUESTION_CONSTRUCT,
-//   SequenceConstruct= ElementKind.SEQUENCE_CONSTRUCT,
-//   StatementConstruct= ElementKind.STATEMENT_CONSTRUCT,
-//   Universe = ElementKind.UNIVERSE
-// }
+
 
 export enum ConstructKind {
   ConditionConstruct = 'CONDITION_CONSTRUCT',
@@ -15,3 +8,10 @@ export enum ConstructKind {
   StatementConstruct= 'STATEMENT_CONSTRUCT'
 }
 
+export enum ConstructIconKind {
+  ConditionConstruct = 'low_priority',
+  InstructionConstruct = 'speaker_notes',
+  QuestionConstruct = 'help_outline',
+  SequenceConstruct= 'format_line_spacing',
+  StatementConstruct= 'record_voice_over'
+}

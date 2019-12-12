@@ -12,10 +12,6 @@ import { ActionKind,
 @Component({
   selector: 'qddt-survey',
   templateUrl: './survey.component.html',
-  styles: [
-    // '.row:hover > .col > ul.dropdownmenu { display:block; } ',
-    // 'ul.dropdownmenu {  display:none;}',
-  ],
 })
 
 export class SurveyComponent implements OnInit {

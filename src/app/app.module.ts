@@ -30,12 +30,13 @@ import { SelectorDialogsModule } from './modules/selectors-dialog/selectors-dial
 import { SequenceModule } from './modules/construct-sequence/sequence-construct.module';
 import { UniverseModule } from './modules/universe/universe.module';
 import { UserModule } from './modules/user/user.module';
+import { StatementModule } from './modules/statement/statement.module';
 
 
 @NgModule({
   imports: [ BrowserModule, HttpClientModule, ComponentsModule, CoreModule, BrowserAnimationsModule, HomeModule, MenuModule,
     SelectorDialogsModule, CategoryModule,  ResponsedomainModule, QuestionModule, ControlConstructModule, PreviewModule,
-    MissingModule, UniverseModule, ChangeLogModule, InstructionModule, InstrumentModule,
+    MissingModule, UniverseModule, ChangeLogModule, InstructionModule, InstrumentModule, StatementModule,
     PublicationModule, QuestionConstructModule, SequenceModule, UserModule, routing ],
 
     declarations: [ AppComponent, PageNotFoundComponent ],

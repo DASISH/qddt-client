@@ -4,7 +4,7 @@ export class SelectItem implements ISelectOption {
   id: number;
   label: string;
   value?: any;
-  ref?: any
+  ref?: any;
   children?: ISelectOption[];
 
   public constructor(init?: Partial<ISelectOption>) {

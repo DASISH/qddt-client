@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { ActionKind, ElementKind, LANGUAGE_MAP, TemplateService, Universe} from '../../lib';
 
 
@@ -7,7 +7,7 @@ import { ActionKind, ElementKind, LANGUAGE_MAP, TemplateService, Universe} from 
   templateUrl: './universe.form.component.html'
 })
 
-export class UniverseFormComponent implements OnInit {
+export class UniverseFormComponent implements AfterViewInit {
   @Input() universe: Universe;
   @Input() readonly = false;
   @Output() modifiedEvent =  new EventEmitter<Universe>();
@@ -16,17 +16,16 @@ export class UniverseFormComponent implements OnInit {
   public readonly UNIVERSE = ElementKind.UNIVERSE;
   public readonly LANGUAGES = LANGUAGE_MAP;
 
-  private selectedUniverseIndex: number;
 
   constructor(private universeService: TemplateService) {
-    this.selectedUniverseIndex = 0;
-  }
-
-  ngOnInit() {
     if (!this.universe) {
       this.universe = new Universe();
     }
     this.readonly = !this.universeService.can(ActionKind.Create, ElementKind.UNIVERSE);
+  }
+
+  ngAfterViewInit(): void {
+    M.updateTextFields();
   }
 
   onSave() {

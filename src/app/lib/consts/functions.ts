@@ -1,7 +1,7 @@
-import { QDDT_QUERY_INFOES } from './query-info.config';
-import {ElementKind, EnumType} from '../enums';
-import {QueryInfo, SelectItem} from '../classes';
-import {ISelectOption} from '../interfaces';
+import { QDDT_QUERY_INFOES, HEADER_DETAILS } from './query-info.config';
+import { ElementKind, EnumType} from '../enums';
+import { QueryInfo, SelectItem} from '../classes';
+import { ISelectOption} from '../interfaces';
 
 export const StringIsNumber = value => isNaN(Number(value)) === false;
 
@@ -23,6 +23,10 @@ export function enumKeys<E>(e: E): (keyof E)[] {
   return Object.keys(e) as (keyof E)[];
 }
 
+export function enumValues<E>(e: E): (keyof E)[] {
+  return Object.values(e) as (keyof E)[];
+}
+
 export function toMap(enumerable: EnumType): [string, string][] {
   return Object.keys(enumerable)
   .filter(x => typeof x === 'string')
@@ -41,3 +45,7 @@ export function toSelectItems(enumerable: EnumType): ISelectOption[] {
 }
 
 
+export function getIcon(kind: ElementKind | string): string {
+  const item = Array.from(HEADER_DETAILS.values()).find(e => e.kind === getElementKind(kind));
+  return item ? item.icon : 'help';
+}

@@ -23,6 +23,11 @@ const  SEQUENCE_CONSTRUCT_COLUMNS = [
   new Column({ label: 'Description', name: 'description', sortable: true }),
 ];
 
+const  STATEMENT_CONSTRUCT_COLUMNS = [
+  new Column({ label: 'Name', name: 'name', sortable: true }),
+  new Column({ label: 'Statement', name: 'statement', sortable: true }),
+];
+
 const  PUBLICATION_COLUMNS =  [
   new Column({ name: 'name', label: 'Name', sortable: true }),
   new Column({ name: 'purpose', label: 'Purpose', sortable: true }),
@@ -129,6 +134,7 @@ export const LIST_COLUMNS: Map<ElementKind, Column[]>  = new Map([
   [ElementKind.RESPONSEDOMAIN, null ],
   [ElementKind.QUESTION_CONSTRUCT, QUESTION_CONSTRUCT_COLUMNS.concat(DEFAULT_COLUMNS) ],
   [ElementKind.SEQUENCE_CONSTRUCT, SEQUENCE_CONSTRUCT_COLUMNS.concat(DEFAULT_COLUMNS) ],
+  [ElementKind.STATEMENT_CONSTRUCT, STATEMENT_CONSTRUCT_COLUMNS.concat(DEFAULT_COLUMNS) ],
   [ElementKind.INSTRUMENT, INSTRUMENT_COLUMNS.concat(DEFAULT_COLUMNS) ],
   [ElementKind.PUBLICATION, PUBLICATION_COLUMNS.concat(DEFAULT_COLUMNS) ],
   [ElementKind.UNIVERSE, LOOKUP_COLUMNS.concat(DEFAULT_COLUMNS) ],

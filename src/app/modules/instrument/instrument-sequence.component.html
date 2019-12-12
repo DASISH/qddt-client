@@ -1,10 +1,10 @@
 <ul *ngIf="sequence"  class="collapsible popout" (click)="onOpenBody(sequence)"
   data-collapsible="expandable" style="padding: 1pt;">
-  <li *ngFor="let cqi of sequence;let idx = index">
+  <li *ngFor="let cqi of sequence;let idx = index;">
     <div class="collapsible-header grey lighten-5">
       <div class="col s10 l">
         <i class="material-icons teal-text left"
-          title="{{cqi?.elementRef?.elementKind}}">{{ getIcon(cqi?.elementRef?.elementKind) }}</i>
+          title="{{cqi?.elementRef?.elementKind}}">{{ getMatIcon(cqi?.elementRef?.elementKind) }}</i>
         [{{ cqi?.elementRef?.name }}]</div>
       <div class="col s2" style="z-index: 99;">
         <qddt-version-label [element]="cqi?.elementRef" ></qddt-version-label>

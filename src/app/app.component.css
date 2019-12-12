@@ -84,3 +84,10 @@ input {
 
 .qddtSearchCursor { cursor: zoom-in; }
 
+.question { white-space: nowrap; overflow: hidden;text-overflow: ellipsis; padding-top:5px; display: flex; line-height:30px; }
+
+.collection-item:hover > ul.dropleft { display:block; }
+
+ul.dropleft { position: absolute; display: none; margin-top: 0px; margin-bottom: 0px;  margin-right: 10px; z-index: 1;}
+
+ul.dropleft li { display:inline-flex; padding: 0 10px 0  5px; }

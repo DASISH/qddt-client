@@ -1,0 +1,49 @@
+<div *ngIf="statement" class="col s12">
+
+  <form id="STA{{formId}}" #hf="ngForm" (ngSubmit)="onSave()">
+
+    <div class="row">
+      <p class="card-panel grey lighten-5 grey-text text-darken-1" [innerHtml]="statement.statement"
+        style="font-style: italic"></p>
+    </div>
+
+    <div class="row">
+      <qddt-input class="col s11"
+        required
+        name="name"
+        label="Name"
+        [(ngModel)]="statement.name"
+        data-length="100">
+      </qddt-input>
+      <qddt-select class="col s1"
+        required
+        name="xmlLang"
+        label="xmlLang"
+        [(ngModel)]="statement.xmlLang"
+        [lockups]="LANGUAGES" >
+      </qddt-select>
+    </div>
+    <qddt-textarea
+      required
+      name="statement"
+      placeholder="describe statement"
+      label="Statement"
+      [(ngModel)]="statement.statement"
+      data-length="1000">
+    </qddt-textarea>
+
+
+    <qddt-rational *ngIf="!readonly && statement.id"
+      [formName]="'RationalComp'"
+      [element]="statement"
+      [config]="{hidden: [4]}">
+    </qddt-rational>
+
+    <qddt-element-footer *ngIf="statement.id" [element]="statement"></qddt-element-footer>
+
+    <div class="row right-align">
+      <button *ngIf="!readonly" [disabled]="!hf.form.valid" type="submit" class="btn btn-default">Submit</button>
+    </div>
+
+  </form>
+</div>

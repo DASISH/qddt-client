@@ -45,7 +45,7 @@
       <td style="padding:0" (mouseenter)="row.showButton = true">
         <div >
           <i class="material-icons tiny teal-text" >menu</i>
-          <ul *ngIf="row.showButton"  style="position: absolute; display: inline-flex; margin-top: -5px; margin-bottom: 0px; z-index: 1; ">
+          <ul *ngIf="row.showButton" class="dropleft" >
             <li *ngIf="canDelete">
               <qddt-confirm-delete  [small]="true"  [element]="row.Object" (confirmAction)="onConfirmDeleting($event, row.Object)"></qddt-confirm-delete>
             </li>

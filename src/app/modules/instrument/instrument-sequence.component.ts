@@ -7,7 +7,7 @@ import {
   IPageSearch,
   IRevisionRef,
   Page,
-  SequenceConstruct, getElementKind, InstrumentSequence
+  SequenceConstruct, getElementKind, InstrumentSequence, getIcon
 } from '../../lib';
 import { TemplateService } from '../../components/template';
 
@@ -91,8 +91,9 @@ export class InstrumentSequenceComponent {
     return getElementKind(kind) === this.SEQUENCE;
   }
 
-  public getIcon(kind: ElementKind | string) {
-    const item = Array.from(HEADER_DETAILS.values()).find(e => e.kind === getElementKind(kind));
-    return item ? item.icon : 'help';
+  public getMatIcon(kind: ElementKind): string {
+    return getIcon(kind);
   }
+
+
 }

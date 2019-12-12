@@ -1,6 +1,11 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Router} from '@angular/router';
-import {CONSTRUCT_MAP, ElementKind, ElementRevisionRef, IElement, IRevisionRef, MessageService, TemplateService} from '../../../lib';
+import { CONSTRUCT_MAP,
+        ElementKind, ElementRevisionRef,
+        getIcon,
+        IElement, IRevisionRef,
+        MessageService,
+        TemplateService} from '../../../lib';
 
 
 @Component({
@@ -8,45 +13,42 @@ import {CONSTRUCT_MAP, ElementKind, ElementRevisionRef, IElement, IRevisionRef, 
   styles: [
           '.qlabel { padding-top: 5px; }',
           '.collection a.collection-item { cursor: pointer; padding-left: 10px;}',
-          '.question { white-space: nowrap; overflow: hidden;text-overflow: ellipsis; padding-top:5px; }',
-          '.collection-item:hover > ul.dropleft { display:block; } ',
-          'ul.dropleft { position: absolute; display: none; margin-top: 0px; margin-bottom: 0px; z-index: 1;}',
-          'ul.dropleft li { display:inline-flex; }',
    ],
   template: `
-  <a class="collection with-header hoverable row">
-      <a class="collection-header col s12"  (click)="onItemSearch($event)" style="cursor: zoom-in">
-        <label><i class="material-icons tiny">format_list_numbered</i>Constructs</label>
-        <a class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light teal"
-          [ngClass]="{ hide: !showButton }" >
-          <i class="material-icons" title="Associate QuestionItem with element">playlist_add</i>
-        </a>
-      </a>
-      <a class="collection-item " *ngFor="let cqi of revisionRefs.sort()" (click)="onItemPreview($event,cqi)" >
-        <qddt-version-label class="secondary-content" [revisionRef]="cqi" ></qddt-version-label>
+  <div class="collection with-header hoverable row" (mouseenter)="showButton = !readonly"  (mouseleave)="showButton = false">
 
-        <ul *ngIf="!readonly" class="dropleft">
-          <li>
-            <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green" (click)="onItemEdit($event,cqi)">
-              <i class="material-icons" title="Edit question">edit</i>
-            </a>
-          </li>
-          <li>
-            <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue" (click)="onItemUpdate($event, cqi)">
-              <i class="material-icons" title="update selected">sync</i>
-            </a>
-          </li>
-          <li>
-            <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 red" (click)="onItemRemove($event, cqi)">
-              <i class="material-icons" title="Remove selected">remove</i>
-            </a>
-          </li>
-        </ul>
-<!--        <i class="material-icons tiny">help</i>-->
-        <div class="question" [innerHtml]="cqi?.name || cqi?.element?.name || 'EMPTY?'">
-        </div>
+    <a class="collection-header col s12"  (click)="onItemSearch($event)" style="cursor: zoom-in">
+      <label><i class="material-icons small">format_line_spacing</i>Sequence</label>
+      <a *ngIf="showButton" class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light teal">
+        <i class="material-icons" title="add Item">playlist_add</i>
       </a>
-  </a>
+    </a>
+
+    <a class="collection-item col s12 black-text" *ngFor="let cqi of revisionRefs.sort()" (click)="onItemPreview($event,cqi)" >
+    <qddt-version-label class="secondary-content" [revisionRef]="cqi" ></qddt-version-label>
+      <ul *ngIf="!readonly" class="dropleft">
+        <li>
+          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green" (click)="onItemEdit($event,cqi)">
+            <i class="material-icons" title="Edit question">edit</i>
+          </a>
+        </li>
+        <li>
+          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue" (click)="onItemUpdate($event, cqi)">
+            <i class="material-icons" title="update selected">sync</i>
+          </a>
+        </li>
+        <li>
+          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 red" (click)="onItemRemove($event, cqi)">
+            <i class="material-icons" title="Remove selected">remove</i>
+          </a>
+        </li>
+      </ul>
+      <div class="question">
+          <i class="material-icons small">{{getMatIcon(cqi.elementKind)}}</i>{{cqi?.name}}
+      </div >
+    </a>
+  </div>
+
   <!-- Modal Structure -->
   <div  id="MODAL-{{modalId}}" class="modal modal-fixed-footer">
     <div class="modal-content" >
@@ -159,6 +161,13 @@ export class ConstructsComponent {
   public onSelectOption(value) {
     this.SOURCE = { element: '', elementKind: value };
     console.log(this.SOURCE);
+  }
+
+  public getMatIcon(kind: ElementKind): string {
+    return getIcon(kind);
+    // const idx = enumValues(ConstructKind).findIndex( item => item == kind);
+    // console.log(enumValues(ConstructIconKind)[idx]);
+    // return enumValues(ConstructIconKind)[idx];
   }
 
 }

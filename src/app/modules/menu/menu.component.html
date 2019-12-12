@@ -47,7 +47,7 @@
           </li>
           <li *ngIf="canSee[elementKindRef.QUESTION_CONSTRUCT]" >
             <a class="teal-text waves-effect waves-teal" [routerLink]="['/questions']" tabindex="4">
-              <i class="material-icons teal-text left medium">view_agenda</i>Constructs</a>
+              <i class="material-icons teal-text left medium">help_outline</i>Constructs</a>
           </li>
           <li *ngIf="canSee[elementKindRef.SEQUENCE_CONSTRUCT]" >
             <a class="teal-text waves-effect waves-teal" [routerLink]="['/sequences']" tabindex="5">
@@ -71,6 +71,10 @@
                     <li>
                       <a class="teal-text waves-effect waves-teal active" [routerLink]="['/changelog']" tabindex="0">
                         <i class="material-icons teal-text left medium">timeline</i>Change Feed</a>
+                    </li>
+                    <li *ngIf="canSee[elementKindRef.STATEMENT_CONSTRUCT]" >
+                      <a class="teal-text waves-effect waves-teal" [routerLink]="['/statements']" tabindex="0">
+                        <i class="material-icons teal-text left medium">record_voice_over</i>Statement</a>
                     </li>
                     <li *ngIf="canSee[elementKindRef.UNIVERSE]" >
                       <a class="teal-text waves-effect waves-teal" [routerLink]="['/universes']" tabindex="0">

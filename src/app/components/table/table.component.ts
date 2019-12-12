@@ -24,8 +24,9 @@ import * as FileSaver from 'file-saver';
     ':host ::ng-deep i.left  { margin-right: 0px; }',
     'th { white-space: nowrap;}',
     'td, td div { max-width: 250px;  white-space: nowrap;  overflow: hidden; text-overflow: ellipsis;}',
-    'table { table-layout:auto; border-collapse:separate;}'],
-
+    'table { table-layout:auto; border-collapse:separate;}',
+    '.dropleft { position: absolute; display: inline-flex;  margin-top: -5px; margin-bottom: 0px; z-index: 1;}',
+  ],
   templateUrl: './table.component.html',
 })
 

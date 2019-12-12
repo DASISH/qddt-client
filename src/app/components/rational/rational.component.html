@@ -12,7 +12,7 @@
       <div class="input-field col s5">
         <select id="SELECT-{{formId}}-{{_idx}}" name="rational" [ngModel]="_RationalIndex" (ngModelChange)="onClickRational1($event)" >
           <option value="" disabled selected>Choose your rationale</option>
-          <option *ngFor="let rational of option.children;" value="rational.id">{{ rational.name }}</option>
+          <option *ngFor="let rational of option.children;" [value]="rational.id">{{ rational.name }}</option>
         </select>
         <label for="SELECT-{{formId}}-{{_idx}}" >Versioning Reason</label>
       </div>
@@ -20,7 +20,7 @@
         <span> {{option.children[_RationalIndex]?.description }}</span>
       </div>
       <div *ngIf="_RationalIndex>=0" class="col s12">
-        <div *ngFor="let child of option.children[_RationalIndex]?.children; let idx = index" >
+        <div *ngFor="let child of option.children[_RationalIndex]?.children; let idx = index;" >
           <div class="col left">
             <label>
               <input name="OTG2-{{formId}}" type="radio" [checked]="_Rational2Index === idx" (click)="onClickRational2(child)" />

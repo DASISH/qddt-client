@@ -60,37 +60,37 @@ export class RationalComponent implements OnInit, OnChanges, AfterViewInit {
       if (!('archived' in this.element)) {            // Hide Archived option if element don't have this field.
         hiddenIds.push(4);
       }
-      this.rationalDescriptionsFiltered = RATIONAL_DESCRIPTIONS.filter(f => !hiddenIds.find(id => id === f.id));
+      this.rationalDescriptionsFiltered = this.rationalDescriptions.filter(f => !hiddenIds.find(id => id === f.id));
     }
   }
 
   onClickRational1(id: number) {
+    console.log('onClickRational1 ' + id );
     this._RationalIndex = id;
     this._Rational2Index = 0;
-    const rational = RATIONAL_DESCRIPTIONS[this.saveOptionIndex].children[id];
+    const rational = this.rationalDescriptions[this.saveOptionIndex].children[id];
     if (rational.change) {
       this.element.changeKind = rational.change;
     } else {
       // set default value, in case user decides to go on without selecting an item...
       this.onClickRational2(rational.children[this._Rational2Index]);
     }
-    console.log('onClickRational1 ' + id );
   }
 
   onClickRational2(rational: any) {
+    console.log('onClickRational2 ' + rational );
     this._Rational2Index = rational.id;
     if (rational.change) {
       this.element.changeKind = rational.change;
     }
-    console.log('onClickRational2 ' + rational );
   }
 
   onSelectOption(id: number) {
     this.saveOptionIndex = id;
     this._RationalIndex = -1;
     this._Rational2Index = 0;
-    if (RATIONAL_DESCRIPTIONS[id].change) {
-      this.element.changeKind = RATIONAL_DESCRIPTIONS[id].change;
+    if (this.rationalDescriptions[id].change) {
+      this.element.changeKind = this.rationalDescriptions[id].change;
     }
     if (id === 2) {
       this.savedbasedOnObject = this.element.basedOnObject;

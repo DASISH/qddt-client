@@ -13,10 +13,7 @@ import {
   styles: [
     '.qlabel { padding-top: 5px; }',
     '.collection a.collection-item { cursor: pointer; padding-left: 10px;}',
-    '.question { white-space: nowrap; overflow: hidden;text-overflow: ellipsis; padding-top:5px; }',
-    '.collection-item:hover > ul.dropleft { display:block; } ',
-    'ul.dropleft { position: absolute; display: none; margin-top: 0px; margin-bottom: 0px; z-index: 1;}',
-    'ul.dropleft li { display:inline-flex; }',
+
   ],
   template: `
   <div class="collection with-header hoverable row">
@@ -27,7 +24,7 @@ import {
           <i class="material-icons" title="Associate QuestionItem with element">playlist_add</i>
         </a>
       </a>
-      <a class="collection-item col s12 grey-text text-darken-1" *ngFor="let cqi of revisionRefs.sort()" (click)="onItemPreview($event,cqi)" >
+      <a class="collection-item col s12 black-text text-lighten-3" *ngFor="let cqi of revisionRefs.sort()" (click)="onItemPreview($event,cqi)" >
         <qddt-version-label class="right" [revisionRef]="cqi" ></qddt-version-label>
         <ul *ngIf="!readonly" class="dropleft">
           <li>

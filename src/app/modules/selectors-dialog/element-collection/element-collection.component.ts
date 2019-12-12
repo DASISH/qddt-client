@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   ElementKind, IElement, IEntityAudit,
-  MessageService, TemplateService
+  MessageService, TemplateService, getIcon
 } from '../../../lib';
 
 
@@ -10,21 +10,18 @@ import {
   selector: 'qddt-element-collection',
   styles: [
           '.qlabel { padding-top: 5px; }',
-          '.question { white-space: nowrap; overflow: hidden;text-overflow: ellipsis; padding-top:5px; }',
           '.collection a.collection-item { cursor: pointer; padding-left: 10px;}',
-          '.collection-item:hover > ul.dropleft { display:block; } ',
-          'ul.dropleft { position: absolute; display: none; margin-top: 0px; margin-bottom: 0px; z-index: 1;}',
-          'ul.dropleft li { display:inline-flex; }',
+
    ],
   template: `
 <div class="collection with-header hoverable row" (mouseenter)="showButton = !readonly"  (mouseleave)="showButton = false">
     <a class="collection-header col s12"  (click)="onItemSearch($event)" style="cursor: zoom-in">
-      <label><i class="material-icons tiny">format_list_bulleted</i>{{labelName}}</label>
+      <label><i class="material-icons small">{{getMatIcon()}}</i>{{labelName}}</label>
       <a *ngIf="showButton" class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light teal">
         <i class="material-icons" title="add Item">playlist_add</i>
       </a>
     </a>
-    <a class="collection-item col s12 grey-text text-darken-1" *ngFor="let item of listItems.sort()" (click)="onItemPreview($event,item)" >
+    <a class="collection-item col s12 black-text text-lighten-3" *ngFor="let item of listItems.sort()" (click)="onItemPreview($event,item)" >
       <qddt-version-label class="right" [revisionRef]="item" ></qddt-version-label>
       <ul *ngIf="!readonly" class="dropleft">
         <li>
@@ -38,7 +35,7 @@ import {
           </a>
         </li>
       </ul>
-      <div class="question" [innerHtml]="item?.description"></div>
+      <div class="question" [innerHtml]="item['description']"></div>
     </a>
     <a *ngIf="showSearch" class="collection-item col s12">
     <qddt-element-select  class="input-field" [source]="{ element:'', elementKind: elementKind }" [autoCreate]="true" (elementSelectedEvent)="onElementSelectedEvent($event)">
@@ -122,5 +119,9 @@ export class ElementCollectionComponent {
   public onItemPreview(event: Event, item: IEntityAudit) {
     event.stopPropagation();
     this.message.sendMessage( { element: item, elementKind: item.classKind });
+  }
+
+  public getMatIcon(): string {
+    return getIcon(this.elementKind);
   }
 }

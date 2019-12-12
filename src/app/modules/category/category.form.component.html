@@ -1,6 +1,6 @@
 <div *ngIf="category" class="col s12">
 
-  <form id="{{formId}}" #hf="ngForm" (ngSubmit)="onSave()">
+  <form id="CAT{{formId}}" #hf="ngForm" (ngSubmit)="onSave()">
 
     <div class="row">
       <p class="card-panel grey lighten-5 grey-text text-darken-1" [innerHtml]="category.label"
