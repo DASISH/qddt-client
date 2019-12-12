@@ -9,35 +9,28 @@ import {QuestionConstruct} from '../../../lib';
   <div class="row" *ngIf="controlConstruct?.preInstructions?.length>0">
     <ul>
       <li>
-        <div class="row">
-          <label>Pre Instructions</label>
-        </div>
+        <label>Pre Instructions</label>
       </li>
       <li class="collection-item" *ngFor="let instruction of controlConstruct.preInstructions">
-        <div class="row">
-          <div class="col">{{ instruction?.description }}</div>
-        </div>
+        <div >{{ instruction?.description }}</div>
       </li>
     </ul>
   </div>
   <div class="row">
-    <h5 [innerHtml]="controlConstruct?.questionItem?.question" ></h5>
+    <p class="card-panel grey lighten-5 grey-text text-darken-1"
+    [innerHtml]="controlConstruct?.questionItem?.question" style="font-style: italic"></p>
   </div>
   <div class="row" *ngIf="controlConstruct?.postInstructions?.length>0">
     <ul>
-      <li>
-        <div class="row">
+      <li >
           <label>Post Instructions</label>
-        </div>
       </li>
       <li class="collection-item" *ngFor="let instruction of controlConstruct?.postInstructions">
-        <div class="row">
-          <div class="col">{{ instruction?.description }}</div>
-        </div>
+          <div >{{ instruction?.description }}</div>
       </li>
     </ul>
   </div>
-  <div class="row" style="padding-right: 10pt;">
+  <div class="row">
     <qddt-preview-responsedomain
       *ngIf="controlConstruct?.questionItem && controlConstruct.questionItem?.responseDomain"
       [responseDomain]="controlConstruct.questionItem.responseDomain">

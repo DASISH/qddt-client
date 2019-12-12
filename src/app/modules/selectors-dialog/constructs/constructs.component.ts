@@ -14,16 +14,17 @@ import {CONSTRUCT_MAP, ElementKind, ElementRevisionRef, IElement, IRevisionRef, 
           'ul.dropleft li { display:inline-flex; }',
    ],
   template: `
-  <div class="collection with-header hoverable row">
+  <a class="collection with-header hoverable row">
       <a class="collection-header col s12"  (click)="onItemSearch($event)" style="cursor: zoom-in">
-        <label><i class="material-icons small">help_outline</i>Constructs</label>
+        <label><i class="material-icons tiny">format_list_numbered</i>Constructs</label>
         <a class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light teal"
           [ngClass]="{ hide: !showButton }" >
           <i class="material-icons" title="Associate QuestionItem with element">playlist_add</i>
         </a>
       </a>
-      <a class="collection-item col s12 grey-text text-darken-1" *ngFor="let cqi of revisionRefs.sort()" (click)="onItemPreview($event,cqi)" >
-        <qddt-version-label class="right" [revisionRef]="cqi" ></qddt-version-label>
+      <a class="collection-item " *ngFor="let cqi of revisionRefs.sort()" (click)="onItemPreview($event,cqi)" >
+        <qddt-version-label class="secondary-content" [revisionRef]="cqi" ></qddt-version-label>
+
         <ul *ngIf="!readonly" class="dropleft">
           <li>
             <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green" (click)="onItemEdit($event,cqi)">
@@ -41,9 +42,11 @@ import {CONSTRUCT_MAP, ElementKind, ElementRevisionRef, IElement, IRevisionRef, 
             </a>
           </li>
         </ul>
-        <div class="question" [innerHtml]="cqi?.name || cqi?.element?.name"></div>
+<!--        <i class="material-icons tiny">help</i>-->
+        <div class="question" [innerHtml]="cqi?.name || cqi?.element?.name || 'EMPTY?'">
+        </div>
       </a>
-    </div>
+  </a>
   <!-- Modal Structure -->
   <div  id="MODAL-{{modalId}}" class="modal modal-fixed-footer">
     <div class="modal-content" >
@@ -154,7 +157,7 @@ export class ConstructsComponent {
   }
 
   public onSelectOption(value) {
-    this.SOURCE = { element: '', elementKind: ElementKind[value] };
+    this.SOURCE = { element: '', elementKind: value };
     console.log(this.SOURCE);
   }
 

@@ -1,4 +1,4 @@
-<div *ngIf="element" [ngSwitch]="getElementKind(element)" style="color: dimgrey" >
+<div *ngIf="element" [ngSwitch]="getElementKind(element)" style="color: dimgrey"  #preview>
   <div *ngSwitchCase=instanceRefEnum.CONCEPT>
     <qddt-preview-concept [concept]="element"></qddt-preview-concept>
   </div>
@@ -45,33 +45,26 @@
     <!--...-->
     <!--INSTRUCTION,-->
     <!--UNIVERSE-->
-    <div class="row input-field">
-      <input type="text" name="{{element?.id}}-name" readonly [(ngModel)]="element.name">
-      <label>Name</label>
-    </div>
-    <div class="row input-field">
-      <input type="text" name="{{element?.id}}-classKind"readonly  [(ngModel)]="element.classKind">
-      <label>ClassKind</label>
-    </div>
-    <div *ngIf="element['description']" class="row input-field">
-      <input type="text" name="{{element?.id}}-description"readonly  [(ngModel)]="element['description']">
-      <label>Description</label>
-    </div>
-    <div class="row">
-      <qddt-element-footer  [element]="element" ></qddt-element-footer>
-    </div>
+    <ul class="grey lighten-5 grey-text text-darken-1">
+      <li class="collection-item" ><label>ClassKind</label></li>
+      <li class="collection-item" ><p>{{ element?.classKind }}</p></li>
+      <li class="collection-item" *ngIf="element['description']"><label>Description</label></li>
+      <li class="collection-item" *ngIf="element['description']"><p [innerHtml]="element['description']"></p></li>
+      <li class="collection-item" >
+        <qddt-element-footer  [element]="element" ></qddt-element-footer>
+      </li>
+    </ul>
+
   </div>
 
   <qddt-download [entity]="element" [readonly]="true"></qddt-download>
 
   <ul class="hoverable" *ngIf="showDetail">
     <li (click)="revisionIsVisible=!revisionIsVisible" style="cursor: zoom-in !important;">
-      <label class="teal-text">Revisions</label>
+      <label>Revisions</label>
     </li>
     <li class="collection-item" *ngIf="revisionIsVisible">
-      <div class="row">
-        <qddt-revision  [current]="element"> </qddt-revision>
-      </div>
+      <qddt-revision  [current]="element"> </qddt-revision>
     </li>
   </ul>
 </div>

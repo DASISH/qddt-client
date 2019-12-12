@@ -35,11 +35,9 @@ export class PreviewComponent implements AfterViewInit {
     this.service.getPdf(element).then((data: any) => { FileSaver.saveAs(data, fileName); });
   }
 
-
   ngAfterViewInit(): void {
+    // M.AutoInit(document.getElementById('preview'));
     M.updateTextFields();
-    // document.querySelectorAll('select')
-    // .forEach( select => M.FormSelect.init(select));
   }
 
 

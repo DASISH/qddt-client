@@ -1,10 +1,13 @@
-import { Component, OnChanges, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {
   ElementEnumAware,
   ElementKind,
-  ElementRevisionRef, getElementKind,
+  ElementRevisionRef,
+  getElementKind,
   IElement,
-  IRevisionRef, IRevisionResultEntity, QuestionConstruct,
+  IRevisionRef,
+  IRevisionResultEntity,
+  QuestionConstruct,
 } from '../../../lib';
 
 @Component({
@@ -49,14 +52,14 @@ export class ElementRevisionComponent implements OnChanges {
   }
 
   public onSelectElement(item: IElement) {
-    console.log('ElementRevisionComponent.onSelectElement');
     this.showRevisionSelect = true;
     this.revisionRef =  { elementId: item.element.id, elementKind: item.elementKind, elementRevision: 0 };
+    console.log(this.revisionRef || JSON);
   }
 
   public onSelectedRevision(revision: IRevisionResultEntity) {
-    console.log('ElementRevisionComponent.onSelectedRevision');
     this.revisionSelectedEvent.emit(this.getRevisionRef(revision));
+    console.log(this.revisionRef || JSON);
   }
 
   public onDismiss(ok) {
@@ -76,7 +79,7 @@ export class ElementRevisionComponent implements OnChanges {
     return new ElementRevisionRef({
       elementId: elementRevision.entity.id,
       elementRevision: elementRevision.revisionNumber,
-      elementKind: kind,
+      elementKind:  ElementKind[kind],
       element: elementRevision.entity,
       name: (kind === ElementKind.QUESTION_CONSTRUCT) ?
         elementRevision.entity.name + ' - ' + (elementRevision.entity as QuestionConstruct).questionItem.question :

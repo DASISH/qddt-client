@@ -10,7 +10,7 @@ import { animations } from './animations';
       <input
         id="{{identifier}}"
         class="validate"
-        type="email"
+        type="{{inputType}}"
         placeholder="{{placeholder}}"
         [(ngModel)]="value"
         [ngClass]="{invalid: (invalid | async)}" />
@@ -40,7 +40,6 @@ export class FormInputComponent extends ElementBase<string> implements AfterView
   ngAfterViewInit(): void {
     const element = document.getElementById(this.idOuter);
     if ((element) && (element.parentElement.dataset.length)) {
-      console.log('setting data length');
       element.firstElementChild.setAttribute('data-length', element.parentElement.dataset.length);
       M.CharacterCounter.init(element.children.item(0));
     }

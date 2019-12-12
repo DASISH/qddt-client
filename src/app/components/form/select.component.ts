@@ -107,12 +107,13 @@ export class FormSelectComponent extends ElementBase<string>  implements  AfterV
   }
 
   private setindex(element: HTMLSelectElement) {
-    if ((element.options) && (this.value)) {
+    if ((element.options) && (element.options.length > 0) && (this.value)) {
       let i = -1;
       let isFound = false;
-      while (i < element.options.length && !isFound ) {
-        isFound =  element.options.item(++i).value == this.value;
+      do {
+        isFound =  (element.options.item(++i).value == this.value);
       }
+      while (isFound === false ||  (element.options.length === i - 1) );
       if (isFound ) {
         element.options.selectedIndex = i;
       }

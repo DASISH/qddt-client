@@ -6,23 +6,30 @@ import {QuestionItem} from '../../../lib/classes';
 
   styles: [],
   template: `
-<div class="row" >
-  <div class="flow-text" style="padding-top: 15pt;padding-left: 10pt;"[innerHtml]="questionItem?.question" ></div>
-</div>
-<div class="teal-text" *ngIf="questionItem?.intent" style="padding-left: 10pt; padding-bottom: 10pt">Intent</div>
-<div style="padding-left: 10pt;">{{ questionItem?.intent }}</div>
+<ul class="grey lighten-5 grey-text text-darken-1">
+  <li class="collection-item" ><label>Text</label></li>
+  <li class="collection-item" >
+    <p class="card-panel" [innerHtml]="questionItem?.question" style="font-style: italic"></p>
+  </li>
+  <li class="collection-item" ><label>Responsedomain</label></li>
+  <li class="collection-item" >
+    <qddt-preview-responsedomain *ngIf="questionItem?.responseDomain"
+      [responseDomain]="questionItem.responseDomain">
+    </qddt-preview-responsedomain>
+  </li>
+  <li class="collection-item" *ngIf="questionItem?.intent" ><label>Intent</label></li>
+  <li class="collection-item" *ngIf="questionItem?.intent" >
+    <p  [innerHtml]="questionItem?.intent"></p>
+  </li>
 
-<div class="row" >
-  <qddt-preview-responsedomain *ngIf="questionItem?.responseDomain"
-    [responseDomain]="questionItem.responseDomain">
-  </qddt-preview-responsedomain>
-</div>
+  <li class="collection-item" >
+    <qddt-conceptref [element]="questionItem"></qddt-conceptref>
+  </li>
+  <li class="collection-item" *ngIf="questionItem" >
+      <qddt-element-footer [element]="questionItem" ></qddt-element-footer>
+  </li>
+</ul>
 
-<qddt-conceptref [element]="questionItem"></qddt-conceptref>
-
-<div class="row" *ngIf="questionItem">
-  <qddt-element-footer [element]="questionItem" ></qddt-element-footer>
-</div>
 `,
   providers: [ ],
 })

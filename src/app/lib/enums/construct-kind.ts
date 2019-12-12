@@ -1,5 +1,3 @@
-import {ElementKind} from './element-kind';
-
 // export enum ConstructKind {
 //   ConditionConstruct = ElementKind.CONDITION_CONSTRUCT,
 //   InstructionConstruct = ElementKind.INSTRUCTION,
@@ -14,16 +12,6 @@ export enum ConstructKind {
   InstructionConstruct = 'INSTRUCTION',
   QuestionConstruct = 'QUESTION_CONSTRUCT',
   SequenceConstruct= 'SEQUENCE_CONSTRUCT',
-  StatementConstruct= 'STATEMENT_CONSTRUCT',
-  Universe = 'UNIVERSE'
+  StatementConstruct= 'STATEMENT_CONSTRUCT'
 }
 
-
-// export enum ConstructKind {
-//   'ConditionConstruct' = CONDITION_CONSTRUCT,
-//   'InstructionConstruct' = INSTRUCTION,
-//   'QuestionConstruct' = QUESTION_CONSTRUCT,
-//   'SequenceConstruct'= SEQUENCE_CONSTRUCT,
-//   'StatementConstruct'= STATEMENT_CONSTRUCT,
-//   'Universe' = UNIVERSE
-// }

@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
-import {QuestionConstruct} from '../../../lib';
-import { SequenceConstruct, ConditionConstruct, StatementConstruct } from '../../../lib/classes/controlconstruct.classes';
+import { ConditionConstruct, QuestionConstruct, SequenceConstruct, StatementConstruct} from '../../../lib';
 
 @Component({
   selector: 'qddt-preview-controlconstruct',
