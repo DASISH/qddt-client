@@ -1,10 +1,26 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import { ElementKind, Page, TemplateService, Universe} from '../../../lib';
 
 @Component({
   selector: 'qddt-universe-create',
-
-  templateUrl: 'universe.component.html',
+  // templateUrl: 'universe.component.html',
+  template: `
+  TESTSET
+  <div class="row card-action">
+    <div class="col s10 black-text">
+      <label>Description</label>
+      <!-- <div [ngClass]="{ noItemFound: (isNew && universe.description.length > 0 ) }">
+        <qddt-auto-complete [items]="universeList" class="black-text" [elementKind]="UNIVERSE"
+          [initialValue]="universe?.description" (selectEvent)="onSelectUniverse($event)"
+          (enterEvent)="onSearchUniverses($event)">
+        </qddt-auto-complete>
+      </div> -->
+    </div>
+    <div class="col s2 right">
+      <a class="waves-effect waves-light btn" (click)="onAddUniverse()">add</a>
+    </div>
+</div>
+`,
 })
 
 export class UniverseComponent {

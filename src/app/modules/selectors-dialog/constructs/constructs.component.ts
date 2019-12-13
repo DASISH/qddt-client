@@ -23,7 +23,6 @@ import { CONSTRUCT_MAP,
         <i class="material-icons" title="add Item">playlist_add</i>
       </a>
     </a>
-
     <a class="collection-item col s12 black-text" *ngFor="let cqi of revisionRefs.sort()" (click)="onItemPreview($event,cqi)" >
     <qddt-version-label class="secondary-content" [revisionRef]="cqi" ></qddt-version-label>
       <ul *ngIf="!readonly" class="dropleft">
@@ -70,7 +69,7 @@ import { CONSTRUCT_MAP,
       </qddt-element-revision-select>
     </div>
     <div class="modal-footer">
-      <button class="btn red waves-effect waves-red" (click)="onDismiss($event)" >Dismiss</button>
+      <a class="btn red waves-effect waves-red" (click)="onDismiss($event)" >Dismiss</a>
     </div>
   </div>
 `,

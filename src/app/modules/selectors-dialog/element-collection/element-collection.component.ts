@@ -11,7 +11,6 @@ import {
   styles: [
           '.qlabel { padding-top: 5px; }',
           '.collection a.collection-item { cursor: pointer; padding-left: 10px;}',
-
    ],
   template: `
 <div class="collection with-header hoverable row" (mouseenter)="showButton = !readonly"  (mouseleave)="showButton = false">
@@ -23,7 +22,7 @@ import {
     </a>
     <a class="collection-item col s12 black-text text-lighten-3" *ngFor="let item of listItems.sort()" (click)="onItemPreview($event,item)" >
       <qddt-version-label class="right" [revisionRef]="item" ></qddt-version-label>
-      <ul *ngIf="!readonly" class="dropleft">
+      <ul  class="dropleft">
         <li>
           <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green" (click)="onItemEdit($event,item)">
             <i class="material-icons" title="Edit Item">edit</i>
@@ -37,10 +36,11 @@ import {
       </ul>
       <div class="question" [innerHtml]="item['description']"></div>
     </a>
-    <a *ngIf="showSearch" class="collection-item col s12">
-    <qddt-element-select  class="input-field" [source]="{ element:'', elementKind: elementKind }" [autoCreate]="true" (elementSelectedEvent)="onElementSelectedEvent($event)">
-    </qddt-element-select>
+    <a class="collection-item col s12 ">
+    <!-- <qddt-element-select  class="input-field" [source]="{ element:'', elementKind: elementKind }" [autoCreate]="true" (elementSelectedEvent)="onElementSelectedEvent($event)">
+    </qddt-element-select> -->
     </a>
+
   </div>
 <!-- Modal Structure -->
 <!-- <div id="MODAL-{{modalId}}" class="modal modal-fixed-footer">
