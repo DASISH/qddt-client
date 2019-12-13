@@ -39,11 +39,11 @@
           </li>
           <li *ngIf="canSee[elementKindRef.MISSING_GROUP]" >
             <a class="teal-text waves-effect waves-teal" [routerLink]="['/missing']" tabindex="2">
-              <i class="material-icons teal-text left medium">view_module</i>Missings</a>
+              <i class="material-icons teal-text left medium">check_box_outline_blank</i>Missings</a>
           </li>
           <li *ngIf="canSee[elementKindRef.RESPONSEDOMAIN]" >
             <a class="teal-text waves-effect waves-teal" [routerLink]="['/responsedomains']" tabindex="3">
-              <i class="material-icons teal-text left medium">blur_linear</i>Domains</a>
+              <i class="material-icons teal-text left medium">check_box</i>Domains</a>
           </li>
           <li *ngIf="canSee[elementKindRef.QUESTION_CONSTRUCT]" >
             <a class="teal-text waves-effect waves-teal" [routerLink]="['/questions']" tabindex="4">
@@ -69,23 +69,27 @@
                 <div class="collapsible-body ">
                   <ul>
                     <li>
-                      <a class="teal-text waves-effect waves-teal active" [routerLink]="['/changelog']" tabindex="0">
+                      <a class="teal-text waves-effect waves-teal active" [routerLink]="['/changelog']" tabindex="8">
                         <i class="material-icons teal-text left medium">timeline</i>Change Feed</a>
                     </li>
                     <li *ngIf="canSee[elementKindRef.STATEMENT_CONSTRUCT]" >
-                      <a class="teal-text waves-effect waves-teal" [routerLink]="['/statements']" tabindex="0">
+                      <a class="teal-text waves-effect waves-teal" [routerLink]="['/statements']" tabindex="9">
                         <i class="material-icons teal-text left medium">record_voice_over</i>Statement</a>
                     </li>
+                    <li *ngIf="canSee[elementKindRef.CONDITION_CONSTRUCT]" >
+                      <a class="teal-text waves-effect waves-teal" [routerLink]="['/conditions']" tabindex="10">
+                        <i class="material-icons teal-text left medium">device_hub</i>Condition</a>
+                    </li>
                     <li *ngIf="canSee[elementKindRef.UNIVERSE]" >
-                      <a class="teal-text waves-effect waves-teal" [routerLink]="['/universes']" tabindex="0">
+                      <a class="teal-text waves-effect waves-teal" [routerLink]="['/universes']" tabindex="11">
                         <i class="material-icons teal-text left medium">publics</i>Universe</a>
                     </li>
                     <li *ngIf="canSee[elementKindRef.INSTRUCTION]" >
-                      <a class="teal-text waves-effect waves-teal" [routerLink]="['/instructions']" tabindex="0">
+                      <a class="teal-text waves-effect waves-teal" [routerLink]="['/instructions']" tabindex="12">
                         <i class="material-icons teal-text left medium">speaker_notes</i>Instructions</a>
                     </li>
                     <li *ngIf="canSee[elementKindRef.CATEGORY]" >
-                      <a class="teal-text waves-effect waves-teal" [routerLink]="['/categories']" tabindex="0">
+                      <a class="teal-text waves-effect waves-teal" [routerLink]="['/categories']" tabindex="13">
                         <i class="material-icons teal-text left medium">view_comfy</i>Categories</a>
                     </li>
                   </ul>

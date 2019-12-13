@@ -95,7 +95,7 @@ export class StatementConstruct implements IEntityEditAudit {
 
 }
 
-enum ConditionKind {
+export enum ConditionKind {
   COMPUTATION_ITEM, IF_THEN_ELSE, LOOP, REPEAT_UNTIL, REPEAT_WHILE
 }
 
@@ -108,7 +108,7 @@ export class ConditionConstruct implements IEntityEditAudit {
 
   public constructor(init?: Partial<ConditionConstruct>) {
     Object.assign(this, init);
-    if (init.condition && typeof init.condition === 'string') {
+    if (init && init.condition && typeof init.condition === 'string') {
       switch (ConditionKind[init.conditionKind]) {
         case ConditionKind.COMPUTATION_ITEM:
           break;

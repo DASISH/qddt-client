@@ -1,0 +1,56 @@
+<div *ngIf="condition" class="col s12">
+
+  <form id="STA{{formId}}" #hf="ngForm" (ngSubmit)="onSave()">
+
+    <div class="row">
+      <p class="card-panel grey lighten-5 grey-text text-darken-1" [innerHtml]="condition.condition"
+        style="font-style: italic"></p>
+    </div>
+
+    <div class="row">
+      <qddt-input class="col s11"
+        required
+        name="name"
+        label="Name"
+        [(ngModel)]="condition.name"
+        data-length="100">
+      </qddt-input>
+      <qddt-select class="col s1"
+        required
+        name="xmlLang"
+        label="xmlLang"
+        [(ngModel)]="condition.xmlLang"
+        [lockups]="LANGUAGES" >
+      </qddt-select>
+    </div>
+    <qddt-select
+      required
+      name="conditionKind"
+      label="conditionType"
+      [(ngModel)]="condition.conditionKind"
+      [lockups]="CONDITION_KIND_MAP" >
+    </qddt-select>
+    <qddt-textarea
+      required
+      name="condition"
+      placeholder="describe condition"
+      label="Condition"
+      [(ngModel)]="condition.condition"
+      data-length="1000">
+    </qddt-textarea>
+
+
+    <qddt-rational *ngIf="!readonly && condition.id"
+      [formName]="'RationalComp'"
+      [element]="condition"
+      [config]="{hidden: [4]}">
+    </qddt-rational>
+
+    <qddt-element-footer *ngIf="condition.id" [element]="condition"></qddt-element-footer>
+
+    <div class="row right-align">
+      <button *ngIf="!readonly" [disabled]="!hf.form.valid" type="submit" class="btn btn-default">Submit</button>
+    </div>
+
+  </form>
+</div>
