@@ -26,7 +26,8 @@
       data-length="255">
     </qddt-textarea>
 
-    <qddt-element-collection [listItems]="controlConstruct.universe" [labelName]="'Universe'" [elementKind]="UNIVERSE" [readonly]="false"
+
+    <qddt-element-collection [(listItems)]="controlConstruct.universe" [labelName]="'Universe'" [elementKind]="UNIVERSE" [readonly]="false"
                              (selectEvent)="onAddUniverse($event)" tabindex="2">
     </qddt-element-collection>
 

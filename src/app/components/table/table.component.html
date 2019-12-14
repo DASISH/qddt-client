@@ -46,14 +46,14 @@
         <div >
           <i class="material-icons tiny teal-text" >menu</i>
           <ul *ngIf="row.showButton" class="dropleft" >
-            <li *ngIf="canDelete">
-              <qddt-confirm-delete  [small]="true"  [element]="row.Object" (confirmAction)="onConfirmDeleting($event, row.Object)"></qddt-confirm-delete>
+            <li *ngIf="canEdit"><a class="btn-flat btn-small btn-floating waves-effect waves-light green lighten-2">
+              <i class="material-icons" (click)="onDetail(row)" title="Edit">edit</i></a>
             </li>
             <li *ngIf="canExport"><a class="btn-flat btn-small btn-floating waves-effect waves-light orange lighten-2">
               <i class="material-icons" (click)="onGetPdf(row.Object)" title="Get as Pdf">picture_as_pdf</i></a>
             </li>
-            <li *ngIf="canEdit"><a class="btn-flat btn-small btn-floating waves-effect waves-light green lighten-2">
-              <i class="material-icons" (click)="onDetail(row)" title="Edit">edit</i></a>
+            <li *ngIf="canDelete">
+              <qddt-confirm-delete  [small]="true"  [element]="row.Object" (confirmAction)="onConfirmDeleting($event, row.Object)"></qddt-confirm-delete>
             </li>
             <li *ngIf="canPreview"><a class="btn-flat btn-small btn-floating waves-effect waves-light blue lighten-2">
               <i class="material-icons" (click)="onPreview(row.Object)" title="Preview">search</i></a>

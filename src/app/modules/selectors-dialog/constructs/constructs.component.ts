@@ -164,9 +164,6 @@ export class ConstructsComponent {
 
   public getMatIcon(kind: ElementKind): string {
     return getIcon(kind);
-    // const idx = enumValues(ConstructKind).findIndex( item => item == kind);
-    // console.log(enumValues(ConstructIconKind)[idx]);
-    // return enumValues(ConstructIconKind)[idx];
   }
 
 }
