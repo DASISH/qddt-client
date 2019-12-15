@@ -45,9 +45,7 @@
 
     <qddt-constructs
         [revisionRefs]="sequence.sequence"  [readonly]="readonly"
-        (createdEvent)="onItemAdded($event)"
-        (deletedEvent)="onItemRemoved($event)"
-        (modifiedEvent)="onItemModified($event)">
+        (actionEvent)="onDoAction($event)">
     </qddt-constructs>
 
     <qddt-rational *ngIf="!readonly && sequence.modified" [formName]="'RationalComp'" [element]="sequence" [config]="{hidden: [4]}"></qddt-rational>

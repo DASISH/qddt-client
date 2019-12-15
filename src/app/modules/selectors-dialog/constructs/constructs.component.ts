@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Router} from '@angular/router';
+import { ActionKind } from 'src/app/lib';
 import { CONSTRUCT_MAP,
         ElementKind, ElementRevisionRef,
         getIcon,
@@ -17,7 +18,7 @@ import { CONSTRUCT_MAP,
   template: `
   <div class="collection with-header hoverable row" (mouseenter)="showButton = !readonly"  (mouseleave)="showButton = false">
 
-    <a class="collection-header col s12"  (click)="onItemSearch($event)" style="cursor: zoom-in">
+    <a class="collection-header col s12"  (click)="onItemNew($event)" style="cursor: zoom-in">
       <label><i class="material-icons small">format_line_spacing</i>Sequence</label>
       <a *ngIf="showButton" class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light teal">
         <i class="material-icons" title="add Item">playlist_add</i>
@@ -77,9 +78,7 @@ import { CONSTRUCT_MAP,
 export class ConstructsComponent {
   @Input() revisionRefs: ElementRevisionRef[];
   @Input() readonly = true;
-  @Output() createdEvent = new EventEmitter<ElementRevisionRef>();
-  @Output() deletedEvent = new EventEmitter<ElementRevisionRef>();
-  @Output() modifiedEvent = new EventEmitter<ElementRevisionRef>();
+  @Output() actionEvent = new EventEmitter<{ action: ActionKind , ref: ElementRevisionRef }>();
 
   public readonly modalId = Math.round( Math.random() * 10000);
   public readonly selectOptions = CONSTRUCT_MAP;
@@ -91,6 +90,7 @@ export class ConstructsComponent {
   private _ShowRef = false;
   // tslint:disable-next-line:variable-name
   private _showButton = false;
+  private action = ActionKind.Create;
 
   constructor(private service: TemplateService, public message: MessageService, private router: Router ) {
     console.log(this.selectOptions || JSON);
@@ -116,7 +116,7 @@ export class ConstructsComponent {
   }
 
   public revisionSelectedEvent(ref: ElementRevisionRef) {
-    this.createdEvent.emit(ref);
+    this.actionEvent.emit( {action: this.action, ref });
     this.SOURCE = null;
     this.modalRef.close();
   }
@@ -129,14 +129,15 @@ export class ConstructsComponent {
     this.modalRef.close();
   }
 
-  public onItemSearch(event: Event) {
+  public onItemNew(event: Event) {
     event.stopPropagation();
+    this.action = ActionKind.Create;
     this.modalRef.open();
   }
 
-  public onItemRemove(event: Event, cqi: ElementRevisionRef) {
+  public onItemRemove(event: Event, ref: ElementRevisionRef) {
     event.stopPropagation();
-    this.deletedEvent.emit(cqi);
+    this.actionEvent.emit( {action: ActionKind.Delete, ref });
   }
 
   public onItemEdit(event: Event, cqi: ElementRevisionRef) {
@@ -148,6 +149,7 @@ export class ConstructsComponent {
 
   public onItemUpdate(event: Event, cqi: ElementRevisionRef) {
     event.stopPropagation();
+    this.action = ActionKind.Update;
     this.SOURCE = cqi;
     this.modalRef.open();
   }
@@ -164,9 +166,6 @@ export class ConstructsComponent {
 
   public getMatIcon(kind: ElementKind): string {
     return getIcon(kind);
-    // const idx = enumValues(ConstructKind).findIndex( item => item == kind);
-    // console.log(enumValues(ConstructIconKind)[idx]);
-    // return enumValues(ConstructIconKind)[idx];
   }
 
 }

@@ -48,6 +48,19 @@ export class SequenceFormComponent implements OnChanges {
     this.currentSequenceKind = event;
   }
 
+  public onDoAction( response) {
+    const action = response.action as ActionKind;
+    const ref = response.ref as ElementRevisionRef;
+    switch (action) {
+      case ActionKind.Create: this.onItemAdded(ref); break;
+      case ActionKind.Delete: this.onItemRemoved(ref); break;
+      case ActionKind.Update: this.onItemModified(ref); break;
+      default: {
+        console.error('wrong action recieved ' + ActionKind[action]);
+      }
+    }
+  }
+
   public onItemRemoved(ref: ElementRevisionRef) {
     console.log('onItemRemoved -> ' + ref || JSON);
     this.sequence.sequence =
@@ -61,12 +74,12 @@ export class SequenceFormComponent implements OnChanges {
 
   public onItemModified(ref: ElementRevisionRef) {
     console.log('onItemModified -> ' + ref || JSON);
-    const idx = this.sequence.sequence.findIndex(f => f.elementId === ref.elementId && f.elementRevision === ref.elementKind );
+    const idx = this.sequence.sequence.findIndex(f => f.elementId === ref.elementId  );
     this.sequence.sequence =
       this.sequence.sequence.concat(
         this.sequence.sequence.slice(0, idx - 1),
         ref,
-        this.sequence.sequence.slice(idx + 1)
+        this.sequence.sequence.slice(idx )
       );
   }
 
