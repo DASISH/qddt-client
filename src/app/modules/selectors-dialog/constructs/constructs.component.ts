@@ -44,7 +44,7 @@ import { CONSTRUCT_MAP,
         </li>
       </ul>
       <div class="question">
-          <i class="material-icons small">{{getMatIcon(cqi.elementKind)}}</i>{{cqi?.name}}
+          <i class="material-icons small">{{getMatIcon(cqi.elementKind)}}</i><div [innerHtml]=cqi?.name></div>
       </div >
     </a>
   </div>

@@ -2,6 +2,7 @@ import {IEntityAudit} from '../interfaces';
 import {Study} from './home.classes';
 import {ElementKind} from '../enums';
 import {ElementRevisionRef} from './element-revision-ref';
+import { SequenceKind } from '.';
 
 
 export enum InstrumentKind {
@@ -51,6 +52,13 @@ export class Instrument implements IEntityAudit {
   comments: any[];
   xmlLang?: string;
   classKind = ElementKind[ElementKind.INSTRUMENT];
+  get parameters(): Map<string, Parameter> {
+    return new Map(
+      this.sequence
+      .map(s => [...s.parameters])
+      .reduce((acc, it) => [...acc, ...it]) );
+  }
+
   public constructor(init?: Partial<Instrument>) {
     Object.assign(this, init);
   }
@@ -59,11 +67,25 @@ export class Instrument implements IEntityAudit {
 export class InstrumentSequence {
   id: string;
   elementRef: ElementRevisionRef;
-  parameters: Parameter[] = [];
-  sequence: InstrumentSequence[] = [];
+  get parameters(): Map<string, Parameter> {
+    const children = this.sequence
+      .map(s => [...s.parameters])
+      .reduce((acc, it) => [...acc, ...it]);
+    return new Map([[this.id, new Parameter({name: this.elementRef.name})], ...children ]) ;
+  }
+  sequenceKind?: SequenceKind;
+  sequence?: InstrumentSequence[] = [];
+
+  public constructor(init?: Partial<InstrumentSequence>) {
+    Object.assign(this, init);
+  }
+
 }
 
 export class Parameter {
-  referenceId: string;
   name: string;
+  value: any;
+  public constructor(init?: Partial<Parameter>) {
+    Object.assign(this, init);
+  }
 }

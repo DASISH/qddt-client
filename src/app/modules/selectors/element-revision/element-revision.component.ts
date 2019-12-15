@@ -8,7 +8,12 @@ import {
   IRevisionRef,
   IRevisionResultEntity,
   QuestionConstruct,
+  ConditionConstruct,
+  StatementConstruct,
+  QuestionItem,
+  Instruction,
 } from '../../../lib';
+import { getLocaleDayNames } from '@angular/common';
 
 @Component({
   selector: 'qddt-element-revision-select',
@@ -62,7 +67,7 @@ export class ElementRevisionComponent implements OnChanges {
     console.log(this.revisionRef || JSON);
   }
 
-  public onDismiss(ok) {
+  public onDismiss(ok: boolean) {
     this.dismissEvent.emit(ok);
   }
 
@@ -81,11 +86,26 @@ export class ElementRevisionComponent implements OnChanges {
       elementRevision: elementRevision.revisionNumber,
       elementKind:  ElementKind[kind],
       element: elementRevision.entity,
-      name: (kind === ElementKind.QUESTION_CONSTRUCT) ?
-        elementRevision.entity.name + ' - ' + (elementRevision.entity as QuestionConstruct).questionItem.question :
-        elementRevision.entity.name,
-      version: elementRevision.entity.version
+      version: elementRevision.entity.version,
+      name: this.getName(kind, elementRevision.entity)
     });
+  }
+
+  private getName(kind: ElementKind, entity: any): string {
+    const name = '<b>' + entity.name + '</b>';
+    switch (kind) {
+      case ElementKind.CONDITION_CONSTRUCT:
+        return name + ' ➫ ' + (entity as ConditionConstruct).condition.toString();
+      case ElementKind.QUESTION_CONSTRUCT:
+        return name + ' ➫ ' + (entity as QuestionConstruct).questionItem.question;
+      case ElementKind.STATEMENT_CONSTRUCT:
+        return name + ' ➫ ' + (entity as StatementConstruct).statement;
+      case ElementKind.QUESTION_ITEM:
+          return name + ' ➫ ' + (entity as QuestionItem).question;
+      case ElementKind.INSTRUCTION:
+        return name + ' ➫ ' + (entity as Instruction).description;
+      default: return name;
+    }
   }
 
 }

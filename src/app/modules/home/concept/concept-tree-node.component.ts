@@ -85,9 +85,13 @@ export class TreeNodeComponent {
   }
 
   public onQuestionItemModified(ref: ElementRevisionRef, conceptId) {
-    console.log(ref || JSON);
-    // this.homeService.attachQuestion(this.CONCEPT, conceptId, ref.elementId, ref.elementRevision)
-    // .subscribe(result => this.onConceptUpdated(result) );
-  }
+    console.log('onItemModified -> ' + ref || JSON);
+    const idx = this.concept.conceptQuestionItems.findIndex(f => f.elementId === ref.elementId  );
+    const seqNew: ElementRevisionRef[] = [].concat(
+      this.concept.conceptQuestionItems.slice(0, idx ),
+      ref,
+      this.concept.conceptQuestionItems.slice(idx + 1)
+    );
+    this.concept.conceptQuestionItems = seqNew;  }
 
 }

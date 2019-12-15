@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import {
-  ElementKind,
-  ElementRevisionRef, IElement, IRevisionRef,
+  ElementKind, ElementRevisionRef,
+  IElement, IRevisionRef,
   MessageService,
-  TemplateService
+  TemplateService,
+  ActionKind
 } from '../../../lib';
 
 
@@ -42,7 +43,7 @@ import {
             </a>
           </li>
         </ul>
-        <div class="question" [innerHtml]="cqi?.name || cqi?.element?.name && ' - ' && cqi?.element?.question"></div>
+        <div class="question" [innerHtml]="cqi?.name || cqi?.element?.name &&  ' ➫ ' && cqi?.element?.question"></div>
       </a>
     </div>
   <!-- Modal Structure -->
@@ -81,6 +82,8 @@ export class QuestionItemsComponent {
   private _ShowRef = false;
   // tslint:disable-next-line:variable-name
   private _showButton = false;
+  private action = ActionKind.Create;
+
 
   constructor(private service: TemplateService, public message: MessageService, private router: Router ) {
   }
@@ -105,9 +108,13 @@ export class QuestionItemsComponent {
   }
 
   public revisionSelectedEvent(ref: ElementRevisionRef) {
-    this.createdEvent.emit(ref);
     this.SOURCE = null;
     this.modalRef.close();
+    if (this.action === ActionKind.Create) {
+      this.createdEvent.emit(ref);
+    } else {
+      this.modifiedEvent.emit(ref);
+    }
   }
 
   public onDismiss() {
@@ -136,6 +143,7 @@ export class QuestionItemsComponent {
 
   public onItemUpdate(event: Event, cqi: ElementRevisionRef) {
     event.stopPropagation();
+    this.action = ActionKind.Update;
     this.SOURCE = cqi;
     this.modalRef.open();
   }

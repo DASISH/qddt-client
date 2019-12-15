@@ -1,7 +1,6 @@
-import {IComment, IEntityAudit, IEntityEditAudit, IElementRef, IOtherMaterial, IUser, IVersion} from '../interfaces';
+import { IComment, IEntityAudit, IEntityEditAudit, IElementRef, IOtherMaterial, IUser, IVersion } from '../interfaces';
 import { ElementKind } from '../enums';
-import { ElementRevisionRef } from './element-revision-ref';
-import { QuestionItem } from './questionitem.classes';
+import { InstrumentSequence, ElementRevisionRef, QuestionItem } from '.';
 
 export enum SequenceKind {
   NA,
@@ -135,20 +134,20 @@ interface Condition { programmingLanguage: string; content: string; }
 
 export class IfThenElse {
   IfCondition: Condition;
-  ThenConstructReference: IElementRef;
+  ThenConstructReference: InstrumentSequence;
   ElseIf?: Condition;
-  ElseConstructReference?: IElementRef;
+  ElseConstructReference?: InstrumentSequence;
   public constructor(init?: Partial<IfThenElse>) {
     Object.assign(this, init);
   }
 }
 
 export class Loop {
-  LoopVariableReference?: IElementRef;
+  LoopVariableReference?: InstrumentSequence;
   InitialValue?: number;
   LoopWhile: Condition;
   StepValue?: number;
-  ControlConstructReference: IElementRef;
+  ControlConstructReference: InstrumentSequence;
   public constructor(init?: Partial<Loop>) {
     Object.assign(this, init);
   }
@@ -156,7 +155,7 @@ export class Loop {
 
 export class RepeatWhile {
   WhileCondition: Condition;
-  WhileConstructReference: IElementRef;
+  WhileConstructReference: InstrumentSequence;
   public constructor(init?: Partial<RepeatWhile>) {
     Object.assign(this, init);
   }
@@ -164,7 +163,7 @@ export class RepeatWhile {
 
 export class RepeatUntil {
   UntilCondition: Condition;
-  UntilConstructReference: IElementRef;
+  UntilConstructReference: InstrumentSequence;
   public constructor(init?: Partial<RepeatUntil>) {
     Object.assign(this, init);
   }

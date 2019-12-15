@@ -13,7 +13,6 @@ import { AppComponent } from './app.component';
 import { CategoryModule } from './modules/category/category.module';
 import { ChangeLogModule } from './modules/changelog/changelog.module';
 import { ComponentsModule } from './components/components.module';
-import { ControlConstructModule } from './modules/controlconstruct/controlconstruct.module';
 import { CoreModule } from './modules/core/core.module';
 import { HomeModule } from './modules/home/home.module';
 import { InstructionModule } from './modules/instruction/instruction.module';
@@ -36,7 +35,7 @@ import { ConditionModule } from './modules/construct-condition/condition.module'
 
 @NgModule({
   imports: [ BrowserModule, HttpClientModule, ComponentsModule, CoreModule, BrowserAnimationsModule, HomeModule, MenuModule,
-    SelectorDialogsModule, CategoryModule,  ResponsedomainModule, QuestionModule, ControlConstructModule, PreviewModule,
+    SelectorDialogsModule, CategoryModule,  ResponsedomainModule, QuestionModule, PreviewModule,
     MissingModule, UniverseModule, ChangeLogModule, InstructionModule, InstrumentModule, StatementModule, ConditionModule,
     PublicationModule, QuestionConstructModule, SequenceModule, UserModule, routing ],
 

@@ -75,12 +75,12 @@ export class SequenceFormComponent implements OnChanges {
   public onItemModified(ref: ElementRevisionRef) {
     console.log('onItemModified -> ' + ref || JSON);
     const idx = this.sequence.sequence.findIndex(f => f.elementId === ref.elementId  );
-    this.sequence.sequence =
-      this.sequence.sequence.concat(
-        this.sequence.sequence.slice(0, idx - 1),
-        ref,
-        this.sequence.sequence.slice(idx )
-      );
+    const seqNew: ElementRevisionRef[] = [].concat(
+      this.sequence.sequence.slice(0, idx ),
+      ref,
+      this.sequence.sequence.slice(idx + 1)
+    );
+    this.sequence.sequence = seqNew;
   }
 
 
