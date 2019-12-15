@@ -43,9 +43,7 @@ export class ElementComponent implements OnChanges, AfterViewInit {
 
   private pageSearch: PageSearch;
 
-  constructor(private service: TemplateService) {
-    // console.log('ElementComponent:CNSTR');
-  }
+  constructor(private service: TemplateService) {  }
 
   ngAfterViewInit(): void {
     if (this.isResponseDomain) {

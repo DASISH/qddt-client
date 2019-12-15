@@ -108,19 +108,11 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
     this.selected = true;
     const fieldName = this.queryInfo.fields[0];
     this.value = entity[fieldName];
-    console.log('select');
     this.selectEvent.emit({element: entity, elementKind: this.elementKind });
   }
 
   getLabel(entity: IEntityAudit) {
-    // if (this.queryInfo.isMultipleFields()) {
-    //   const results: any[] = this.queryInfo.fields.map(element => {
-    //     return this.getFieldValue(entity, element);
-    //   });
-    //   return results.join(' | ');
-    // } else {
       return this.getFieldValue(entity, this.queryInfo.fields);
-    // }
   }
 
   onClearKeywords() {

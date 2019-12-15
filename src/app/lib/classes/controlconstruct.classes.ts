@@ -105,6 +105,7 @@ export class ConditionConstruct implements IEntityEditAudit {
   conditionKind: string;
   condition: string | IfThenElse | Loop | RepeatWhile | RepeatUntil;
   classKind = ElementKind[ElementKind.CONDITION_CONSTRUCT];
+  xmlLang?: string;
 
   public constructor(init?: Partial<ConditionConstruct>) {
     Object.assign(this, init);
