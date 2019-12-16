@@ -1,6 +1,14 @@
-import { Component, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
-import { ConditionConstruct, ElementKind, TemplateService, ActionKind,  LANGUAGE_MAP, ConditionKind} from 'src/app/lib';
-import { toSelectItems } from '../../lib/consts/functions';
+import {Component, Input, Output, EventEmitter, AfterViewInit, OnChanges, SimpleChanges} from '@angular/core';
+
+import {
+  ConditionConstruct,
+  ElementKind,
+  TemplateService,
+  ActionKind,
+  LANGUAGE_MAP,
+  ConditionKind,
+  toSelectItems,
+} from 'src/app/lib';
 
 
 @Component({
@@ -8,7 +16,7 @@ import { toSelectItems } from '../../lib/consts/functions';
   templateUrl: './condition.form.component.html'
 })
 
-export class ConditionFormComponent implements AfterViewInit {
+export class ConditionFormComponent implements AfterViewInit, OnChanges {
   @Input() condition: ConditionConstruct;
   @Input() readonly = false;
   @Output() modifiedEvent =  new EventEmitter<ConditionConstruct>();
@@ -26,18 +34,33 @@ export class ConditionFormComponent implements AfterViewInit {
     }
   }
 
-
   ngAfterViewInit(): void {
     M.updateTextFields();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.condition.currentValue) {
+      this.doCheck();
+    }
+  }
+
+
+  public doCheck() {
+    if (typeof this.condition.condition === 'string') {
+      console.log('is string');
+      this.condition.condition = JSON.parse(this.condition.condition as string);
+    }
+  }
+
   onSave() {
+    this.condition.condition = JSON.stringify(this.condition.condition);
     this.service.update<ConditionConstruct>(this.condition).subscribe(
       (result) => {
-        this.condition = result;
+        this.condition = new ConditionConstruct(result);
         this.modifiedEvent.emit(result);
       },
       (error) => { throw error; });
   }
+
 
 }

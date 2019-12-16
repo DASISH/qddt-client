@@ -24,12 +24,17 @@ import { CONSTRUCT_MAP,
         <i class="material-icons" title="add Item">playlist_add</i>
       </a>
     </a>
-    <a class="collection-item col s12 black-text" *ngFor="let cqi of revisionRefs.sort()" (click)="onItemPreview($event,cqi)" >
+    <a class="collection-item col s12 black-text" *ngFor="let cqi of revisionRefs.sort()" >
     <qddt-version-label class="secondary-content" [revisionRef]="cqi" ></qddt-version-label>
       <ul *ngIf="!readonly" class="dropleft">
         <li>
           <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green" (click)="onItemEdit($event,cqi)">
-            <i class="material-icons" title="Edit question">edit</i>
+            <i class="material-icons" title="Edit selected">edit</i>
+          </a>
+        </li>
+        <li>
+          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green" (click)="onItemPreview($event,cqi)">
+            <i class="material-icons" title="Preview selected">pageview</i>
           </a>
         </li>
         <li>

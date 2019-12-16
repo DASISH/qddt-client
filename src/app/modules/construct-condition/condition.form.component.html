@@ -3,8 +3,8 @@
   <form id="STA{{formId}}" #hf="ngForm" (ngSubmit)="onSave()">
 
     <div class="row">
-      <p class="card-panel grey lighten-5 grey-text text-darken-1" [innerHtml]="condition.condition"
-        style="font-style: italic"></p>
+      <p class="card-panel grey lighten-5 grey-text text-darken-1"
+        style="font-style: italic">{{condition.condition | json }}</p>
     </div>
 
     <div class="row">
@@ -23,22 +23,19 @@
         [lockups]="LANGUAGES" >
       </qddt-select>
     </div>
-    <qddt-select
-      required
-      name="conditionKind"
-      label="conditionType"
-      [(ngModel)]="condition.conditionKind"
-      [lockups]="CONDITION_KIND_MAP" >
-    </qddt-select>
-    <qddt-if-then-else-form
-    <qddt-textarea
-      required
-      name="condition"
-      placeholder="describe condition"
-      label="Condition"
-      [(ngModel)]="condition.condition"
-      data-length="1000">
-    </qddt-textarea>
+    <div class="row">
+      <qddt-select class="col s6"
+        required
+        name="conditionKind"
+        label="conditionType"
+        [(ngModel)]="condition.conditionKind"
+        [lockups]="CONDITION_KIND_MAP"
+        (change)="doCheck()">
+      </qddt-select>
+    </div>
+    <qddt-if-then-else-form [element] = condition.condition [formName]="'IFTHENELSE'">
+
+    </qddt-if-then-else-form>
 
 
     <qddt-rational *ngIf="!readonly && condition.id"

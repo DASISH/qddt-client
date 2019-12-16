@@ -3,7 +3,7 @@ import {
   ActionKind,
   ElementKind,
   ElementRevisionRef,
-  IElement,
+  IElement, IElementRef,
   IRevisionResult, LANGUAGE_MAP,
   Page,
   QuestionConstruct, QuestionItem, TemplateService
@@ -62,6 +62,12 @@ export class QuestionConstructFormComponent {
     this.controlConstruct.postInstructions.push(item.element);
   }
 
+  onDelete(item: IElementRef) {
+    this.service.removeRef(this.controlConstruct.id, item).subscribe(
+      (result) => {
+        this.controlConstruct = result.content;
+      });
+  }
 
   onQuestionSearch(key: IElement) {
     this.service.searchByKind<QuestionItem>({ kind: this.QUESTION, key: key.element, page: new Page() }).then(

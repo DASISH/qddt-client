@@ -98,6 +98,12 @@ export enum ConditionKind {
   COMPUTATION_ITEM, IF_THEN_ELSE, LOOP, REPEAT_UNTIL, REPEAT_WHILE
 }
 
+export enum ConstructReferenceKind {
+  EXIT,
+  EXIT_SEQUENCE,
+  NEXT,
+  SKIPNEXT
+}
 export class ConditionConstruct implements IEntityEditAudit {
   id: string;
   name: string;
@@ -133,37 +139,37 @@ interface Condition { programmingLanguage: string; content: string; }
 
 
 export class IfThenElse {
-  IfCondition: Condition;
-  ThenConstructReference: InstrumentSequence;
-  ElseIf?: Condition;
-  ElseConstructReference?: InstrumentSequence;
+  ifCondition: Condition;
+  thenConstructReference: InstrumentSequence | ConstructReferenceKind;
+  elseIf?: Condition;
+  elseConstructReference?: InstrumentSequence | ConstructReferenceKind;
   public constructor(init?: Partial<IfThenElse>) {
     Object.assign(this, init);
   }
 }
 
 export class Loop {
-  LoopVariableReference?: InstrumentSequence;
-  InitialValue?: number;
-  LoopWhile: Condition;
-  StepValue?: number;
-  ControlConstructReference: InstrumentSequence;
+  loopVariableReference?: InstrumentSequence | ConstructReferenceKind;
+  initialValue?: number;
+  loopWhile: Condition;
+  stepValue?: number;
+  controlConstructReference: InstrumentSequence | ConstructReferenceKind;
   public constructor(init?: Partial<Loop>) {
     Object.assign(this, init);
   }
 }
 
 export class RepeatWhile {
-  WhileCondition: Condition;
-  WhileConstructReference: InstrumentSequence;
+  whileCondition: Condition;
+  whileConstructReference: InstrumentSequence | ConstructReferenceKind;
   public constructor(init?: Partial<RepeatWhile>) {
     Object.assign(this, init);
   }
 }
 
 export class RepeatUntil {
-  UntilCondition: Condition;
-  UntilConstructReference: InstrumentSequence;
+  untilCondition: Condition;
+  untilConstructReference: InstrumentSequence | ConstructReferenceKind;
   public constructor(init?: Partial<RepeatUntil>) {
     Object.assign(this, init);
   }

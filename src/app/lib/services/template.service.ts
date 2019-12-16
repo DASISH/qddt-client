@@ -5,7 +5,16 @@ import { API_BASE_HREF } from '../../api';
 import { PageSearch} from '../classes';
 import { getElementKind, getQueryInfo} from '../consts';
 import { ActionKind, ElementKind} from '../enums';
-import { IEntityAudit, IEntityEditAudit, IOtherMaterial, IPageResult, IPageSearch, IRevisionResult} from '../interfaces';
+import {
+  IElement,
+  IElementRef,
+  IEntityAudit,
+  IEntityEditAudit,
+  IOtherMaterial,
+  IPageResult,
+  IPageSearch,
+  IRevisionResult
+} from '../interfaces';
 import { UserService} from './user.service';
 
 
@@ -126,6 +135,12 @@ export class TemplateService {
   public delete(item: IEntityEditAudit): Observable<any> {
     const qe = getQueryInfo(item.classKind);
     return this.http.delete(this.api + qe.path + '/delete/' + item.id);
+  }
+
+  public removeRef(uuid: string, item: IElementRef): Observable<any> {
+    const qe = getQueryInfo(item.elementKind);
+    return this.http.post(this.api + '/controlconstruct/decombine?constructid=' + uuid +
+      '&refid=' + item.elementId, {});
   }
 
   public getPdf(item: IEntityEditAudit): Promise<Blob>  {

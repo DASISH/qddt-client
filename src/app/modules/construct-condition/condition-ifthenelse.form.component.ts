@@ -3,41 +3,44 @@ import {
   Component,
   Input,
 } from '@angular/core';
-import { IfThenElse, TemplateService } from 'src/app/lib';
+import { ConstructReferenceKind, IElementRef, IfThenElse, toSelectItems} from 'src/app/lib';
 
 
 @Component({
   selector: 'qddt-if-then-else-form',
   template: `
-<form id="CON-{{formId}}" class="hoverable row" [parentFormConnect]="formName">
-  <qddt-input
-    required
-    name="IfCondition"
-    label="IfCondition"
-    [(ngModel)]="element.IfCondition"
-    data-length="100">
-  </qddt-input>
-  <qddt-input
-    required
-    name="ThenConstructReference"
-    label="ThenConstructReference"
-    [(ngModel)]="element.ThenConstructReference"
-    data-length="100">
-  </qddt-input>
-  <qddt-input
-    required
-    name="ElseIf"
-    label="ElseIf"
-    [(ngModel)]="element.ElseIf"
-    data-length="100">
-  </qddt-input>
-  <qddt-input
-    required
-    name="ElseConstructReference"
-    label="ElseConstructReference"
-    [(ngModel)]="element.ElseConstructReference"
-    data-length="100">
-  </qddt-input>
+<form id="CON-{{formId}}" [parentFormConnect]="formName" class="row">
+  <div class="row>">
+    <qddt-input class="col s6"
+      required
+      name="ifcondition"
+      label="IfCondition"
+      [(ngModel)]="element.ifCondition"
+      data-length="100">
+    </qddt-input>
+    <qddt-select class="col s6"
+      required
+      name="thenconstructreference"
+      label="ThenConstructReference"
+      [(ngModel)]="element.thenConstructReference"
+      [lockups]="CONDITION"
+      >
+    </qddt-select>
+  </div>
+  <div class="row>">
+    <qddt-input class="col s6"
+      name="elseif"
+      label="ElseIf"
+      [(ngModel)]="element.elseIf"
+      data-length="100">
+    </qddt-input>
+    <qddt-select class="col s6"
+      name="elseconstructreference"
+      label="ElseConstructReference"
+      [(ngModel)]="element.elseConstructReference"
+      [lockups]="CONDITION">
+    </qddt-select>
+  </div>
 </form>
 `,
 })
@@ -46,11 +49,19 @@ export class IfThenElseFormComponent implements AfterViewInit {
   @Input() element: IfThenElse;
   @Input() formName: string;
 
+  public readonly CONDITION = toSelectItems(ConstructReferenceKind);
   public readonly formId = Math.round( Math.random() * 10000);
 
-  constructor(private service: TemplateService) {  }
+  constructor() {  }
 
   ngAfterViewInit(): void {
+    if (!this.isIfThenElse(this.element)) {
+      this.element = new IfThenElse();
+    }
+  }
 
+
+  public isIfThenElse(element: any | IfThenElse): element is IElementRef {
+    return (element as IfThenElse).thenConstructReference !== undefined;
   }
 }

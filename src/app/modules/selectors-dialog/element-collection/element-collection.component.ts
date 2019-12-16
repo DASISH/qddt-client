@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   ElementKind, IElement, IEntityAudit,
-  MessageService, TemplateService, getIcon
+  MessageService, TemplateService, getIcon, IElementRef
 } from '../../../lib';
 
 
@@ -47,7 +47,7 @@ export class ElementCollectionComponent {
   @Input() labelName = 'where is my label?';
   @Input() readonly = false;
   @Output() createdEvent = new EventEmitter<IElement>();
-  @Output() deletedEvent = new EventEmitter<IElement>();
+  @Output() deletedEvent = new EventEmitter<IElementRef>();
   @Output() modifiedEvent = new EventEmitter<IElement>();
 
   public readonly modalId = Math.round( Math.random() * 10000);
@@ -68,7 +68,7 @@ export class ElementCollectionComponent {
   public onItemRemove(event: Event, item: IEntityAudit) {
     event.stopPropagation();
     this.listItems = this.listItems.filter(qi => qi.id !== item.id);
-    this.deletedEvent.emit({ element: item, elementKind: item.classKind });
+    this.deletedEvent.emit({ elementId: item.id, elementKind: item.classKind });
   }
 
   public onItemEdit(event: Event, item: IEntityAudit) {

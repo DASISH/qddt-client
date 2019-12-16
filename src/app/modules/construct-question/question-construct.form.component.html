@@ -28,13 +28,13 @@
 
 
     <qddt-element-collection [(listItems)]="controlConstruct.universe" [labelName]="'Universe'" [elementKind]="UNIVERSE" [readonly]="false"
-                             (selectEvent)="onAddUniverse($event)" tabindex="2">
+                             (selectEvent)="onAddUniverse($event)" (deletedEvent)="onDelete($event)" tabindex="2">
     </qddt-element-collection>
 
     <qddt-download [fileStore]="fileStore" [entity]="controlConstruct" [readonly]="false"></qddt-download>
 
     <qddt-element-collection [listItems]="controlConstruct.preInstructions" [labelName]="'Pre Instructions'" [elementKind]="INSTRUCTION" [readonly]="false"
-                             (selectEvent)="onAddPreInstruction($event)">
+                             (selectEvent)="onAddPreInstruction($event)" (deletedEvent)="onDelete($event)" >
     </qddt-element-collection>
 
     <div class="collection with-header hoverable row">
@@ -65,7 +65,7 @@
     </div>
 
     <qddt-element-collection [listItems]="controlConstruct.postInstructions" [labelName]="'Post Instructions'" [elementKind]="INSTRUCTION" [readonly]="false"
-                             (selectEvent)="onAddPostInstruction($event)">
+                             (selectEvent)="onAddPostInstruction($event)" (deletedEvent)="onDelete($event)" >
     </qddt-element-collection>
 
     <qddt-preview-responsedomain *ngIf="controlConstruct.questionItem && controlConstruct.questionItem.responseDomain"
