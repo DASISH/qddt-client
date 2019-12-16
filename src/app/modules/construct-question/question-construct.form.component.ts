@@ -63,10 +63,7 @@ export class QuestionConstructFormComponent {
   }
 
   onDelete(item: IElementRef) {
-    this.service.removeRef(this.controlConstruct.id, item).subscribe(
-      (result) => {
-        this.controlConstruct = result.content;
-      });
+    this.controlConstruct.universe = this.controlConstruct.universe.filter( u => u.id !== item.elementId);
   }
 
   onQuestionSearch(key: IElement) {
