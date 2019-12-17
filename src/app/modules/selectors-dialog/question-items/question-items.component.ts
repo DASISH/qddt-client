@@ -11,10 +11,6 @@ import {
 
 @Component({
   selector: 'qddt-question-items',
-  styles: [
-          '.qlabel { padding-top: 5px; }',
-          '.collection a.collection-item { cursor: pointer; padding-left: 10px;}',
-   ],
   template: `
   <div class="collection with-header hoverable row">
       <a class="collection-header col s12"  (click)="onItemSearch($event)" style="cursor: zoom-in">

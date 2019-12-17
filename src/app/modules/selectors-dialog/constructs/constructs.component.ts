@@ -11,10 +11,6 @@ import { CONSTRUCT_MAP,
 
 @Component({
   selector: 'qddt-constructs',
-  styles: [
-          '.qlabel { padding-top: 5px; }',
-          '.collection a.collection-item { cursor: pointer; padding-left: 10px;}',
-   ],
   template: `
   <div class="collection with-header hoverable row" (mouseenter)="showButton = !readonly"  (mouseleave)="showButton = false">
 

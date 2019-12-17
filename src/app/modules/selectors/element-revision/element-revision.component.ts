@@ -13,7 +13,6 @@ import {
   QuestionItem,
   Instruction,
 } from '../../../lib';
-import { getLocaleDayNames } from '@angular/common';
 
 @Component({
   selector: 'qddt-element-revision-select',

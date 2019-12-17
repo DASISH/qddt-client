@@ -8,12 +8,8 @@ import {
 
 @Component({
   selector: 'qddt-element-collection',
-  styles: [
-          '.qlabel { padding-top: 5px; }',
-          '.collection a.collection-item { cursor: pointer; padding-left: 10px;}',
-   ],
   template: `
-<div class="collection with-header hoverable row" (mouseenter)="showButton = !readonly"  (mouseleave)="showButton = false">
+  <div class="collection with-header hoverable row" (mouseenter)="showButton = !readonly"  (mouseleave)="showButton = false">
     <a class="collection-header col s12"  (click)="onItemSearch($event)" style="cursor: zoom-in">
       <label><i class="material-icons small">{{getMatIcon()}}</i>{{labelName}}</label>
       <a *ngIf="showButton" class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light teal">

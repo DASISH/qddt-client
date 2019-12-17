@@ -79,8 +79,9 @@ input {
   padding: 5px 10px 5px 10px;
 }
 
-.collapsible-header .col {white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.collection a.collection-item { cursor: pointer; padding-left: 10px;}
 
+.collapsible-header .col {white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 .qddtSearchCursor { cursor: zoom-in; }
 
