@@ -26,22 +26,21 @@
       data-length="255">
     </qddt-textarea>
 
-
     <qddt-element-collection [(listItems)]="controlConstruct.universe" [labelName]="'Universe'" [elementKind]="UNIVERSE" [readonly]="false"
-                             (selectEvent)="onAddUniverse($event)" (deletedEvent)="onDelete($event)" tabindex="2">
+                             (selectEvent)="onAddUniverse($event)" (deletedEvent)="onRemoveUniverse($event)" tabindex="2">
     </qddt-element-collection>
 
     <qddt-download [fileStore]="fileStore" [entity]="controlConstruct" [readonly]="false"></qddt-download>
 
     <qddt-element-collection [listItems]="controlConstruct.preInstructions" [labelName]="'Pre Instructions'" [elementKind]="INSTRUCTION" [readonly]="false"
-                             (selectEvent)="onAddPreInstruction($event)" (deletedEvent)="onDelete($event)" >
+                             (selectEvent)="onAddPreInstruction($event)" (deletedEvent)="onRemovePreInstruction($event)" >
     </qddt-element-collection>
 
-    <div class="collection with-header hoverable row">
-      <a class="collection-header col s12"  (click)="onQuestionSearch($event)" style="cursor: zoom-in">
-        <label><i class="material-icons small">help</i>Question Text</label>
-        <a class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light teal">
-          <i class="material-icons" title="Add QuestionItem">playlist_add</i>
+    <div class="collection with-header hoverable row" (mouseenter)="showButton = !readonly"  (mouseleave)="showButton = false">
+      <a class="collection-header col s12"  (click)="onQuestionSearch()" style="cursor: zoom-in">
+        <label><i class="material-icons small">help</i>Question ➫ {{controlConstruct?.questionItem?.name}}</label>
+        <a *ngIf="showButton" class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light teal">
+          <i class="material-icons" title="add QuestionItem">playlist_add</i>
         </a>
       </a>
       <div class="col s12" style="padding: 1px 1px;">
@@ -49,13 +48,23 @@
           <qddt-version-label class="right" [revisionRef]="controlConstruct.questionItem" ></qddt-version-label>
           <ul *ngIf="!readonly" class="dropleft">
             <li>
-              <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green" (click)="onQuestionEdit($event,controlConstruct.questionItem)">
-                <i class="material-icons" title="Edit Item">edit</i>
+              <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green" (click)="onQuestionEdit()">
+                <i class="material-icons" title="Edit selected">edit</i>
               </a>
             </li>
             <li>
-              <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 red" (click)="onQuestionRemove($event)">
-                <i class="material-icons" title="Remove item">remove</i>
+              <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green" (click)="onQuestionPreview()">
+                <i class="material-icons" title="Preview selected">pageview</i>
+              </a>
+            </li>
+            <li>
+              <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue" (click)="onQuestionSync()">
+                <i class="material-icons" title="update selected">sync</i>
+              </a>
+            </li>
+            <li>
+              <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 red" (click)="onQuestionRemove()">
+                <i class="material-icons" title="Remove selected">remove</i>
               </a>
             </li>
           </ul>
@@ -65,7 +74,7 @@
     </div>
 
     <qddt-element-collection [listItems]="controlConstruct.postInstructions" [labelName]="'Post Instructions'" [elementKind]="INSTRUCTION" [readonly]="false"
-                             (selectEvent)="onAddPostInstruction($event)" (deletedEvent)="onDelete($event)" >
+                             (selectEvent)="onAddPostInstruction($event)" (deletedEvent)="onRemovePostInstruction($event)" >
     </qddt-element-collection>
 
     <qddt-preview-responsedomain *ngIf="controlConstruct.questionItem && controlConstruct.questionItem.responseDomain"
@@ -85,3 +94,6 @@
     </div>
   </form>
 </div>
+
+<qddt-element-collection-dialog [source] = "SOURCE" (revSelectEvent)="onRevisionSelect($event)" >
+</qddt-element-collection-dialog>

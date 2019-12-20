@@ -1,25 +1,24 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {
   ActionKind,
   ElementKind,
   ElementRevisionRef,
-  IElement, IElementRef,
-  IRevisionResult, LANGUAGE_MAP,
-  Page,
-  QuestionConstruct, QuestionItem, TemplateService
+  IElement,
+  IElementRef,
+  IRevisionRef,
+  LANGUAGE_MAP,
+  MessageService,
+  QuestionConstruct,
+  TemplateService
 } from '../../lib';
 import {Router} from '@angular/router';
 
-
-
 @Component({
   selector: 'qddt-question-construct-form',
-  templateUrl: 'question-construct.form.component.html',
   styles: [
-    '.collection-item:hover > ul.dropleft { display:block; } ',
-    'ul.dropleft { position: absolute; display: none; margin-top: 0px; margin-bottom: 0px; z-index: 1;}',
-    'ul.dropleft li { display:inline-flex; }'
+    '.card-panel:hover > ul.dropleft { display:block; }',
   ],
+  templateUrl: 'question-construct.form.component.html',
 })
 
 export class QuestionConstructFormComponent {
@@ -29,22 +28,16 @@ export class QuestionConstructFormComponent {
 
   public readonly UNIVERSE = ElementKind.UNIVERSE;
   public readonly INSTRUCTION = ElementKind.INSTRUCTION;
-  public readonly QUESTION = ElementKind.QUESTION_ITEM;
   public readonly LANGUAGES = LANGUAGE_MAP;
-
   public readonly formId = Math.round(Math.random() * 10000);
-
-  /* public savedQuestionItem: any; */
-  public questionList: QuestionItem[];
-  public revisionResults: IRevisionResult<QuestionItem>[];
+  public SOURCE: IElement | IRevisionRef | null;
 
   public showUploadFileForm: boolean;
   public showProgressBar = false;
-
+  public showButton = false;
   public fileStore: File[] = [];
 
-
-  constructor(private service: TemplateService, private router: Router) {
+  constructor(private service: TemplateService, private router: Router, private message: MessageService, ) {
     this.showUploadFileForm = false;
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.CONTROL_CONSTRUCT);
 
@@ -62,41 +55,44 @@ export class QuestionConstructFormComponent {
     this.controlConstruct.postInstructions.push(item.element);
   }
 
-  onDelete(item: IElementRef) {
+  onRemoveUniverse(item: IElementRef) {
     this.controlConstruct.universe = this.controlConstruct.universe.filter( u => u.id !== item.elementId);
   }
 
-  onQuestionSearch(key: IElement) {
-    this.service.searchByKind<QuestionItem>({ kind: this.QUESTION, key: key.element, page: new Page() }).then(
-      (result) => {
-        this.questionList = result.content;
-      });
+  onRemovePreInstruction(item: IElementRef) {
+    this.controlConstruct.preInstructions = this.controlConstruct.preInstructions.filter( u => u.id !== item.elementId);
   }
 
-  onQuestionEdit(event: Event, item: QuestionItem) {
-    event.stopPropagation();
-    this.service.searchByUuid(item.id).then(
+  onRemovePostInstruction(item: IElementRef) {
+    this.controlConstruct.postInstructions = this.controlConstruct.postInstructions.filter( u => u.id !== item.elementId);
+  }
+
+  onQuestionEdit() {
+    this.service.searchByUuid(this.controlConstruct.questionItem.id).then(
       (result) => { this.router.navigate([result.url]); },
       (error) => { throw  error; });
   }
 
-  onQuestionRemove(event: Event) {
+  onQuestionRemove() {
     this.controlConstruct.questionItem = null;
   }
 
-  public onDismiss() {
-    this.revisionResults = null;
-    this.questionList = null;
+  onQuestionSync() {
+    this.SOURCE = this.refvisionRef;
   }
 
-
-  onRevisionSelect(ref: ElementRevisionRef) {
-    this.controlConstruct.questionItem = ref.element;
-    this.controlConstruct.questionItemRevision = ref.elementRevision;
-    this.questionList = [];
-    this.revisionResults = [];
+  onQuestionSearch() {
+    this.SOURCE = { elementKind: ElementKind.QUESTION_ITEM, element: '' } as IElement;
+  }
+  onRevisionSelect(rev: ElementRevisionRef) {
+    this.controlConstruct.questionItem = rev.element;
+    this.controlConstruct.questionItemRevision = rev.elementRevision;
+    this.SOURCE = null;
   }
 
+  public onQuestionPreview() {
+    this.message.sendMessage( this.refvisionRef);
+  }
 
   async onSave() {
 
@@ -107,6 +103,13 @@ export class QuestionConstructFormComponent {
     this.modifiedEvent.emit(
       this.controlConstruct =
       await this.service.updateWithFiles(ElementKind.QUESTION_CONSTRUCT, formData).toPromise());
+  }
+
+  get refvisionRef(): IRevisionRef {
+    return {
+      elementId: this.controlConstruct.questionItem.id,
+      elementRevision: this.controlConstruct.questionItemRevision,
+      elementKind: ElementKind.QUESTION_ITEM } as IRevisionRef;
   }
 
 }
