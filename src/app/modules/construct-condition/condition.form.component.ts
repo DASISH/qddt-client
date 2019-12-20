@@ -25,12 +25,12 @@ export class ConditionFormComponent implements AfterViewInit, OnChanges {
   public readonly CONDITION = ElementKind.CONDITION_CONSTRUCT;
   public readonly LANGUAGES = LANGUAGE_MAP;
   public readonly CONDITION_KIND_MAP = toSelectItems(ConditionKind);
-
+  public foreach: boolean;
 
   constructor(private service: TemplateService) {
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.CONDITION_CONSTRUCT);
     if (!this.condition) {
-      this.condition = new ConditionConstruct();
+      this.condition = new ConditionConstruct( {xmlLang: 'none'});
     }
   }
 
@@ -44,8 +44,18 @@ export class ConditionFormComponent implements AfterViewInit, OnChanges {
     }
   }
 
-
   public doCheck() {
+
+    if (!this.condition.condition) {
+      switch(this.condition.conditionKind) {
+        case ConditionKind.IF_THEN_ELSE:
+          this.condition.condition = '{ ifCondition: {}, thenConstructReference: "" }'; break;
+          case ConditionKind.LOOP:
+            this.condition.condition = '{ loopWhile:{}, controlConstructReference: "" }'; break;
+          }
+      this.condition.condition
+    }
+
     if (typeof this.condition.condition === 'string') {
       console.log('is string');
       this.condition.condition = JSON.parse(this.condition.condition as string);

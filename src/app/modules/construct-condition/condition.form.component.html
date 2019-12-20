@@ -33,11 +33,26 @@
         (change)="doCheck()">
       </qddt-select>
     </div>
-    <qddt-if-then-else-form [element] = condition.condition [formName]="'IFTHENELSE'">
-
-    </qddt-if-then-else-form>
-
-
+    <div [ngSwitch]="condition.conditionKind">
+      <div *ngSwitchCase="'IF_THEN_ELSE'">
+        <qddt-if-then-else-form [element] = condition.condition [formName]="'IFTHENELSE'"></qddt-if-then-else-form>
+      </div>
+      <div *ngSwitchCase="'LOOP'"  class="row">
+        <span>?????</span>
+          <!-- <div *ngIf="foreach===true"> -->
+            <qddt-for-each-form [element] = condition.condition [formName]="'LOOP'"></qddt-for-each-form>
+          <!-- </div> -->
+          <!-- <div *ngIf="foreach===fasle"> -->
+            <!-- <qddt-for-i-form [element] = condition.condition [formName]="'LOOP'"></qddt-for-i-form> -->
+          <!-- </div> -->
+      </div>
+      <div *ngSwitchCase="'REPEAT_UNTIL'">
+        DXFHGPGCGXFHDS
+      </div>
+      <div *ngSwitchCase="'REPEAT_WHILE'">
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      </div>
+    </div>
     <qddt-rational *ngIf="!readonly && condition.id"
       [formName]="'RationalComp'"
       [element]="condition"

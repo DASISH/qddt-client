@@ -9,7 +9,7 @@ import { ConstructReferenceKind, IElementRef, IfThenElse, toSelectItems} from 's
 @Component({
   selector: 'qddt-if-then-else-form',
   template: `
-<form id="CON-{{formId}}" [parentFormConnect]="formName" class="row">
+<form id="CON-{{formId}}" [parentFormConnect]="formName" >
   <div class="row>">
     <qddt-input class="col s6"
       required
