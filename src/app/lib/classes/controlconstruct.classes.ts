@@ -94,8 +94,16 @@ export class StatementConstruct implements IEntityEditAudit {
 
 }
 
-export enum ConditionKind {
+export enum ConditionValue {
   COMPUTATION_ITEM, IF_THEN_ELSE, LOOP, REPEAT_UNTIL, REPEAT_WHILE
+}
+
+export enum ConditionKind {
+  ComputationItem = ConditionValue.COMPUTATION_ITEM,
+  IfTheElse = ConditionValue.IF_THEN_ELSE,
+  Loop = ConditionValue.LOOP,
+  RepeatUntil = ConditionValue.REPEAT_UNTIL,
+  RepeatWhile = ConditionValue.REPEAT_WHILE
 }
 
 export enum ConstructReferenceKind {
@@ -116,18 +124,18 @@ export class ConditionConstruct implements IEntityEditAudit {
     Object.assign(this, init);
     if (init && init.condition && typeof init.condition === 'string') {
       switch (ConditionKind[init.conditionKind]) {
-        case ConditionKind.COMPUTATION_ITEM:
+        case ConditionKind.ComputationItem:
           break;
-        case ConditionKind.IF_THEN_ELSE:
+        case ConditionKind.IfTheElse:
           this.condition = new IfThenElse(JSON.parse(init.condition));
           break;
-        case ConditionKind.LOOP:
+        case ConditionKind.Loop:
           this.condition = new Loop(JSON.parse(init.condition));
           break;
-        case ConditionKind.REPEAT_UNTIL:
+        case ConditionKind.RepeatUntil:
           this.condition = new RepeatUntil(JSON.parse(init.condition));
           break;
-        case ConditionKind.REPEAT_WHILE:
+        case ConditionKind.RepeatWhile:
           this.condition = new RepeatWhile(JSON.parse(init.condition));
           break;
       }

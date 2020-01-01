@@ -24,7 +24,7 @@
       </qddt-select>
     </div>
     <div class="row">
-      <qddt-select class="col s6"
+      <qddt-select class="col s3"
         required
         name="conditionKind"
         label="conditionType"
@@ -33,11 +33,11 @@
         (change)="doCheck()">
       </qddt-select>
     </div>
-    <div [ngSwitch]="condition.conditionKind">
+    <div [ngSwitch]="condition.conditionKind" class="row">
       <div *ngSwitchCase="'IF_THEN_ELSE'">
         <qddt-if-then-else-form [element] = condition.condition [formName]="'IFTHENELSE'"></qddt-if-then-else-form>
       </div>
-      <div *ngSwitchCase="'LOOP'"  class="row">
+      <div *ngSwitchCase="'LOOP'">
         <span>?????</span>
           <!-- <div *ngIf="foreach===true"> -->
             <qddt-for-each-form [element] = condition.condition [formName]="'LOOP'"></qddt-for-each-form>

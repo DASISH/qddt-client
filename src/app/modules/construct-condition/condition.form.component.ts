@@ -32,6 +32,7 @@ export class ConditionFormComponent implements AfterViewInit, OnChanges {
     if (!this.condition) {
       this.condition = new ConditionConstruct( {xmlLang: 'none'});
     }
+    console.log(this.CONDITION_KIND_MAP || JSON);
   }
 
   ngAfterViewInit(): void {
