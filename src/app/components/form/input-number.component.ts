@@ -10,22 +10,23 @@ import { animations } from './animations';
       <input
         id="{{identifier}}"
         class="validate"
-        type="text"
+        type="number"
         [(ngModel)]="value"
+        [ngModelOptions]="{updateOn: 'blur'}"
         [ngClass]="{invalid: (invalid | async)}" />
       <label *ngIf="label" for="{{identifier}}">{{label}}</label>
-      <qddt-validation [@flyInOut]="'in,out'" *ngIf="invalid | async" [messages]="failures | async"></qddt-validation>
+      <!-- <qddt-validation [@flyInOut]="'in,out'" *ngIf="invalid | async" [messages]="failures | async"></qddt-validation> -->
     </div>
   `,
   animations,
   providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: FormInputNComponent, multi: true }],
 })
-export class FormInputNComponent extends ElementBase<string> implements AfterViewInit {
+export class FormInputNComponent extends ElementBase<number> implements AfterViewInit {
   @Input() public label: string;
 
   @ViewChild(NgModel, { static: true }) model: NgModel;
 
-  public identifier = 'qddt-input-' + ident++;
+  public identifier = 'qddt-input-n-' + ident++;
 
   constructor(
     @Optional() @Inject(NG_VALIDATORS) validators: Array<any>,

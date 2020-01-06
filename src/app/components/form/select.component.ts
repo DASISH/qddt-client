@@ -18,8 +18,8 @@ import { ISelectOption } from 'src/app/lib';
 @Component({
   selector: 'qddt-select',
   template: `
-    <div class="row input-field" *ngIf="hasChildren();  else ITEM">
-      <select  id="{{identifier}}" [(ngModel)]="value" >
+    <div class="input-field" *ngIf="hasChildren();  else ITEM">
+      <select  id="{{identifier}}" [(ngModel)]="value" [ngModelOptions]="{updateOn: 'blur'}">
         <option *ngIf="placeholder" value="" disabled >{{placeholder}}</option>
         <optgroup *ngFor="let item of lockups" label="{{item.label}}">
             <option *ngFor="let child of item.children" [value]="child.value" >{{child.label}}</option>
@@ -28,7 +28,7 @@ import { ISelectOption } from 'src/app/lib';
       <label *ngIf="label">{{label}}</label>
     </div>
     <ng-template #ITEM>
-      <div class="row input-field">
+      <div class="input-field">
         <select  id="{{identifier}}" [(ngModel)]="value" >
           <option *ngIf="placeholder" value="" disabled >{{placeholder}}</option>
           <option *ngFor="let item of lockups" [value]="item.value">{{item.label}}</option>

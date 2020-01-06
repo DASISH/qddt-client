@@ -8,6 +8,7 @@ import {
   LANGUAGE_MAP,
   ConditionKind,
   toSelectItems,
+  Loop,
 } from 'src/app/lib';
 
 
@@ -41,20 +42,25 @@ export class ConditionFormComponent implements AfterViewInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.condition.currentValue) {
-      this.doCheck();
+      // this.doCheck();
     }
   }
 
-  public doCheck() {
+  public doCheck(doit: boolean) {
 
-    if (!this.condition.condition) {
+    if (doit || !this.condition.condition) {
       switch(this.condition.conditionKind) {
-        case ConditionKind.IF_THEN_ELSE:
-          this.condition.condition = '{ ifCondition: {}, thenConstructReference: "" }'; break;
-          case ConditionKind.LOOP:
-            this.condition.condition = '{ loopWhile:{}, controlConstructReference: "" }'; break;
-          }
-      this.condition.condition
+        case ConditionKind.IfThenElse:
+          this.condition.condition = '{ "ifCondition": "{}", "thenConstructReference": "" }'; break;
+          case ConditionKind.ForI:
+            if (this.isForEach(this.condition.condition)) {
+              this.condition.condition = '{ "loopWhile": { "content": "HASNEXT" }, "controlConstructReference": "", "loopVariableReference" :"" }';
+            } else {
+              this.condition.condition = '{ "loopWhile": { "content": 10 }, "loopVariableReference": "", "initialValue": 0, "stepValue": 1 }';
+            }
+            break;
+            }
+      // this.condition.condition
     }
 
     if (typeof this.condition.condition === 'string') {
@@ -63,7 +69,12 @@ export class ConditionFormComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  onSave() {
+
+  public isForEach(element: any | Loop): element is Loop {
+    return (element as Loop).controlConstructReference !== undefined;
+  }
+
+  public onSave() {
     this.condition.condition = JSON.stringify(this.condition.condition);
     this.service.update<ConditionConstruct>(this.condition).subscribe(
       (result) => {
@@ -72,6 +83,5 @@ export class ConditionFormComponent implements AfterViewInit, OnChanges {
       },
       (error) => { throw error; });
   }
-
 
 }

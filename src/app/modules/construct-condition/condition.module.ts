@@ -4,7 +4,7 @@ import { ConditionComponent } from './condition.component';
 import { ConditionDetailComponent } from './condition.detail.component';
 import { ConditionFormComponent } from './condition.form.component';
 import { ConditionRoutingModule } from './condition.routes';
-import {IfThenElseFormComponent} from './condition-ifthenelse.form.component';
+import { IfThenElseFormComponent} from './condition-ifthenelse.form.component';
 import { ForIFormComponent } from './condition-fori.form.component';
 import { ForeachFormComponent } from './condition-foreach.form.component';
 

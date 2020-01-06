@@ -18,12 +18,13 @@ import {animations} from './animations';
 @Component({
   selector: 'qddt-textarea',
   template: `
-    <div class="row input-field" id="{{idOuter}}">
+    <div class="input-field" id="{{idOuter}}">
       <textarea
         id="{{identifier}}"
         class="materialize-textarea validate"
         placeholder="{{placeholder}}"
         [(ngModel)]="value"
+        [ngModelOptions]="{updateOn: 'blur'}"
         [ngClass]="{invalid: (invalid | async)}" >
       </textarea>
       <label *ngIf="label" for="{{identifier}}">{{label}}</label>

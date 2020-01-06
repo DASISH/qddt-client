@@ -6,16 +6,17 @@ import { animations } from './animations';
 @Component({
   selector: 'qddt-input',
   template: `
-    <div class="row input-field" id="{{idOuter}}">
+    <div class="input-field" id="{{idOuter}}">
       <input
         id="{{identifier}}"
         class="validate"
         type="{{inputType}}"
         placeholder="{{placeholder}}"
         [(ngModel)]="value"
+        [ngModelOptions]="{updateOn: 'blur'}"
         [ngClass]="{invalid: (invalid | async)}" />
       <label *ngIf="label" for="{{identifier}}">{{label}}</label>
-      <qddt-validation [@flyInOut]="'in,out'" *ngIf="invalid | async" [messages]="failures | async"></qddt-validation>
+      <!-- <qddt-validation [@flyInOut]="'in,out'" *ngIf="invalid | async" [messages]="failures | async"></qddt-validation> -->
     </div>
   `,
   animations,
