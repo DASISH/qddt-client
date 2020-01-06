@@ -9,16 +9,16 @@ import { ConstructReferenceKind, IElementRef, IfThenElse, toSelectItems} from 's
 @Component({
   selector: 'qddt-if-then-else-form',
   template: `
-<form id="CON-{{formId}}" [parentFormConnect]="formName" class="row">
+<form id="CON-{{formId}}" [parentFormConnect]="formName" >
   <div class="row>">
-    <qddt-input class="col s6"
+    <qddt-input class="col s3"
       required
       name="ifcondition"
       label="IfCondition"
       [(ngModel)]="element.ifCondition"
       data-length="100">
     </qddt-input>
-    <qddt-select class="col s6"
+    <qddt-select class="col s3"
       required
       name="thenconstructreference"
       label="ThenConstructReference"
@@ -26,15 +26,13 @@ import { ConstructReferenceKind, IElementRef, IfThenElse, toSelectItems} from 's
       [lockups]="CONDITION"
       >
     </qddt-select>
-  </div>
-  <div class="row>">
-    <qddt-input class="col s6"
+    <qddt-input class="col s3"
       name="elseif"
       label="ElseIf"
       [(ngModel)]="element.elseIf"
       data-length="100">
     </qddt-input>
-    <qddt-select class="col s6"
+    <qddt-select class="col s3"
       name="elseconstructreference"
       label="ElseConstructReference"
       [(ngModel)]="element.elseConstructReference"

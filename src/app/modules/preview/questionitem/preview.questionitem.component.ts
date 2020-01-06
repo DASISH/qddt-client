@@ -6,7 +6,7 @@ import {QuestionItem} from '../../../lib/classes';
 
   styles: [],
   template: `
-<ul class="grey lighten-5 grey-text text-darken-1">
+<ul class="grey-text text-darken-1">
   <li class="collection-item" ><label>Text</label></li>
   <li class="collection-item" >
     <p class="card-panel" [innerHtml]="questionItem?.question" style="font-style: italic"></p>

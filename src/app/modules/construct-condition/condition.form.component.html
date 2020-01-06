@@ -24,20 +24,35 @@
       </qddt-select>
     </div>
     <div class="row">
-      <qddt-select class="col s6"
+      <qddt-select class="col s3"
         required
         name="conditionKind"
         label="conditionType"
         [(ngModel)]="condition.conditionKind"
         [lockups]="CONDITION_KIND_MAP"
-        (change)="doCheck()">
+        (change)="doCheck(true)">
       </qddt-select>
     </div>
-    <qddt-if-then-else-form [element] = condition.condition [formName]="'IFTHENELSE'">
-
-    </qddt-if-then-else-form>
-
-
+    <div [ngSwitch]="condition.conditionKind" class="row">
+      <div *ngSwitchCase="'IF_THEN_ELSE'">
+        <qddt-if-then-else-form [(element)] = condition.condition [formName]="'IFTHENELSE'"></qddt-if-then-else-form>
+      </div>
+      <div *ngSwitchCase="'LOOP'">
+        <span>FOR</span>
+            <div *ngIf="isForEach(condition.condition)">
+              <qddt-for-each-form [(element)] = condition.condition [formName]="'LOOPN'"></qddt-for-each-form>
+            </div>
+            <div *ngIf="!isForEach(condition.condition)">
+              <qddt-for-i-form [(element)] = condition.condition [formName]="'LOOPI'"></qddt-for-i-form>
+            </div>
+      </div>
+      <div *ngSwitchCase="'REPEAT_UNTIL'">
+        DXFHGPGCGXFHDS
+      </div>
+      <div *ngSwitchCase="'REPEAT_WHILE'">
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      </div>
+    </div>
     <qddt-rational *ngIf="!readonly && condition.id"
       [formName]="'RationalComp'"
       [element]="condition"

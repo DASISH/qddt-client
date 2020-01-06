@@ -138,9 +138,9 @@ export class TemplateService {
   }
 
   public removeRef(uuid: string, item: IElementRef): Observable<any> {
-    const qe = getQueryInfo(item.elementKind);
-    return this.http.post(this.api + '/controlconstruct/decombine?constructid=' + uuid +
-      '&refid=' + item.elementId, {});
+    // const qe = getQueryInfo(item.elementKind);
+    // return this.http.post(this.api + '/controlconstruct/decombine?constructid=' + uuid +
+    //   '&refid=' + item.elementId, {});
   }
 
   public getPdf(item: IEntityEditAudit): Promise<Blob>  {

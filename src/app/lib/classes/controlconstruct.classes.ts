@@ -32,6 +32,7 @@ export class Instruction implements IEntityEditAudit {
   xmlLang?: string;
   public constructor(init?: Partial<Instruction>) {
     Object.assign(this, init);
+    /// TODO remove this code and on line 21, implement in backend.
     if (this.description && (!this.name || this.name.length === 0)) {
       this.name = this.description.substr(0, 20).toUpperCase();
     }
@@ -94,8 +95,14 @@ export class StatementConstruct implements IEntityEditAudit {
 
 }
 
+
 export enum ConditionKind {
-  COMPUTATION_ITEM, IF_THEN_ELSE, LOOP, REPEAT_UNTIL, REPEAT_WHILE
+  ComputationItem = 'COMPUTATION_ITEM',
+  IfThenElse = 'IF_THEN_ELSE',
+  ForI = 'LOOP',
+  ForEach = 'LOOP_E',
+  RepeatUntil = 'REPEAT_UNTIL',
+  RepeatWhile = 'REPEAT_WHILE'
 }
 
 export enum ConstructReferenceKind {
@@ -116,18 +123,21 @@ export class ConditionConstruct implements IEntityEditAudit {
     Object.assign(this, init);
     if (init && init.condition && typeof init.condition === 'string') {
       switch (ConditionKind[init.conditionKind]) {
-        case ConditionKind.COMPUTATION_ITEM:
+        case ConditionKind.ComputationItem:
           break;
-        case ConditionKind.IF_THEN_ELSE:
+        case ConditionKind.IfThenElse:
           this.condition = new IfThenElse(JSON.parse(init.condition));
           break;
-        case ConditionKind.LOOP:
+        case ConditionKind.ForEach:
           this.condition = new Loop(JSON.parse(init.condition));
           break;
-        case ConditionKind.REPEAT_UNTIL:
+        case ConditionKind.ForI:
+          this.condition = new Loop(JSON.parse(init.condition));
+          break;
+        case ConditionKind.RepeatUntil:
           this.condition = new RepeatUntil(JSON.parse(init.condition));
           break;
-        case ConditionKind.REPEAT_WHILE:
+        case ConditionKind.RepeatWhile:
           this.condition = new RepeatWhile(JSON.parse(init.condition));
           break;
       }
@@ -135,7 +145,7 @@ export class ConditionConstruct implements IEntityEditAudit {
   }
 }
 
-interface Condition { programmingLanguage: string; content: string; }
+interface Condition { programmingLanguage?: string; content: string; }
 
 
 export class IfThenElse {
