@@ -137,11 +137,11 @@ export class TemplateService {
     return this.http.delete(this.api + qe.path + '/delete/' + item.id);
   }
 
-  public removeRef(uuid: string, item: IElementRef): Observable<any> {
+  // public removeRef(uuid: string, item: IElementRef): Observable<any> {
     // const qe = getQueryInfo(item.elementKind);
     // return this.http.post(this.api + '/controlconstruct/decombine?constructid=' + uuid +
     //   '&refid=' + item.elementId, {});
-  }
+  // }
 
   public getPdf(item: IEntityEditAudit): Promise<Blob>  {
     const qe = getQueryInfo(item.classKind);
