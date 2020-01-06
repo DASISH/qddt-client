@@ -1,12 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
 
 @Component({
-  selector: 'qddt-universe-detail',
+  selector: 'qddt-author-detail',
 
-  templateUrl: './universe.detail.component.html',
+  templateUrl: './author.detail.component.html',
 })
 
-export class UniverseDetailComponent {
+export class AuthorDetailComponent {
   @ViewChild('detail', {static: true}) templateDetail;
 
   public onFormModified(event) {

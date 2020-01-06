@@ -1,4 +1,4 @@
-  <form name="filterForm">
+<form name="filterForm" class="col s12">
     <div *ngIf="!pageSearch.hasDetailSearch" >
       <div class="input-field col s11 m10 l9">
         <i class="material-icons prefix" >search</i>
@@ -25,11 +25,10 @@
     </div>
   </form>
 
-  <div *ngIf="showProgressBar" class="progress"><div class="indeterminate"></div></div>
+<div *ngIf="showProgressBar" class="progress col s12" ><div class="indeterminate"></div></div>
 
-  <div id ='qddt-pageable-table' class="grey-text text-darken-1">
-
-    <table class="highlight" style="padding-left: 1rem;">
+<div id ='qddt-pageable-table' class="grey-text text-darken-1 col s12">
+  <table class="highlight" >
     <thead>
       <tr>
         <th><i class="material-icons tiny">add_circle_outline</i></th>
@@ -42,7 +41,7 @@
     </thead>
     <tbody>
       <tr id="{{row.id}}" *ngFor="let row of rows;"  [ngStyle]="{'cursor': 'pointer'}" (mouseleave)="row.showButton = false" >
-      <td style="padding:0" (mouseenter)="row.showButton = true">
+        <td style="padding:0" (mouseenter)="row.showButton = true">
         <div >
           <i class="material-icons tiny teal-text" >menu</i>
           <ul *ngIf="row.showButton" class="dropleft" >
@@ -61,20 +60,18 @@
           </ul>
         </div>
       </td>
-      <td  *ngFor="let column of columns" (click)="onDetail(row)" [innerHtml]="row[column.label]"></td>
-
-    </tr>
+        <td  *ngFor="let column of columns" (click)="onDetail(row)" [innerHtml]="row[column.label]" [title]="row[column.label]"></td>
+      </tr>
     </tbody>
   </table>
+</div>
 
-  </div>
-
-  <qddt-pagination
-    [collectionSize]="pageSearch.page.totalElements"
-    [page]="pageSearch.page.number"
-    [pageSize]="pageSearch.page.size"
-    [maxSize]="5"
-    [rotate]="true"
-    [boundaryLinks]="true"
-    (pageChange)="pageChange($event)">
-  </qddt-pagination>
+<qddt-pagination class="col s12"
+  [collectionSize]="pageSearch.page.totalElements"
+  [page]="pageSearch.page.number"
+  [pageSize]="pageSearch.page.size"
+  [maxSize]="5"
+  [rotate]="true"
+  [boundaryLinks]="true"
+  (pageChange)="pageChange($event)">
+</qddt-pagination>

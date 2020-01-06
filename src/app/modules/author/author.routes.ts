@@ -1,25 +1,25 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UniverseComponent } from './universe.component';
-import { UniverseDetailComponent } from './universe.detail.component';
+import { AuthorComponent } from './author.component';
+import { AuthorDetailComponent } from './author.detail.component';
 import { AuthGuard} from '../../lib/services';
 import { TemplateListComponent} from '../../components/template';
 
 
-export const universeRoutes: Routes = [
+export const authorRoutes: Routes = [
   {
     path: '',
-    component: UniverseComponent,
+    component: AuthorComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: 'universes', component: TemplateListComponent, canActivate: [AuthGuard], },
-      { path: 'universes/:id', component: UniverseDetailComponent, canActivate: [AuthGuard], },
+      { path: 'authors', component: TemplateListComponent, canActivate: [AuthGuard], },
+      { path: 'authors/:id', component: AuthorDetailComponent, canActivate: [AuthGuard], },
     ],
   }
 ];
 
 @NgModule({
-  imports: [ RouterModule.forChild(universeRoutes) ],
+  imports: [ RouterModule.forChild(authorRoutes) ],
   exports: [ RouterModule ]
 })
-export class UniverseRoutingModule {}
+export class AuthorRoutingModule {}

@@ -31,11 +31,12 @@ import { UniverseModule } from './modules/universe/universe.module';
 import { UserModule } from './modules/user/user.module';
 import { StatementModule } from './modules/construct-statement/statement.module';
 import { ConditionModule } from './modules/construct-condition/condition.module';
+import { AuthorModule} from './modules/author/author.module';
 
 
 @NgModule({
   imports: [ BrowserModule, HttpClientModule, ComponentsModule, CoreModule, BrowserAnimationsModule, HomeModule, MenuModule,
-    SelectorDialogsModule, CategoryModule,  ResponsedomainModule, QuestionModule, PreviewModule,
+    SelectorDialogsModule, CategoryModule,  ResponsedomainModule, QuestionModule, PreviewModule, AuthorModule,
     MissingModule, UniverseModule, ChangeLogModule, InstructionModule, InstrumentModule, StatementModule, ConditionModule,
     PublicationModule, QuestionConstructModule, SequenceModule, UserModule, routing ],
 

@@ -1,27 +1,27 @@
 import { Component, Input, OnInit, Output, EventEmitter, AfterViewInit } from '@angular/core';
-import { ActionKind, ElementKind, LANGUAGE_MAP, TemplateService, Universe} from '../../lib';
+import { ActionKind, ElementKind, LANGUAGE_MAP, TemplateService, Author} from '../../lib';
 
 
 @Component({
-  selector: 'qddt-universe-form',
-  templateUrl: './universe.form.component.html'
+  selector: 'qddt-author-form',
+  templateUrl: './author.form.component.html'
 })
 
-export class UniverseFormComponent implements AfterViewInit {
-  @Input() universe: Universe;
+export class AuthorFormComponent implements AfterViewInit {
+  @Input() author: Author;
   @Input() readonly = false;
-  @Output() modifiedEvent =  new EventEmitter<Universe>();
+  @Output() modifiedEvent =  new EventEmitter<Author>();
 
   public readonly formId = Math.round( Math.random() * 10000);
   public readonly UNIVERSE = ElementKind.UNIVERSE;
   public readonly LANGUAGES = LANGUAGE_MAP;
 
 
-  constructor(private universeService: TemplateService) {
-    if (!this.universe) {
-      this.universe = new Universe();
+  constructor(private authorService: TemplateService) {
+    if (!this.author) {
+      this.author = new Author();
     }
-    this.readonly = !this.universeService.can(ActionKind.Create, ElementKind.UNIVERSE);
+    this.readonly = !this.authorService.can(ActionKind.Create, ElementKind.UNIVERSE);
   }
 
   ngAfterViewInit(): void {
@@ -29,9 +29,9 @@ export class UniverseFormComponent implements AfterViewInit {
   }
 
   onSave() {
-    this.universeService.update<Universe>(this.universe).subscribe(
+    this.authorService.update<Author>(this.author).subscribe(
       (result) => {
-        this.universe = result;
+        this.author = result;
         this.modifiedEvent.emit(result);
       },
       (error) => { throw error; });

@@ -28,10 +28,8 @@ import { CONSTRUCT_MAP,
             <i class="material-icons" title="Edit selected">edit</i>
           </a>
         </li>
-        <li>
-          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green" (click)="onItemPreview($event,cqi)">
-            <i class="material-icons" title="Preview selected">pageview</i>
-          </a>
+        <li ><a class="btn-flat btn-small btn-floating waves-effect waves-light blue lighten-2" (click)="onItemPreview($event,cqi)">
+            <i class="material-icons" title="Preview selected">search</i></a>
         </li>
         <li>
           <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue" (click)="onItemUpdate($event, cqi)">
@@ -43,6 +41,11 @@ import { CONSTRUCT_MAP,
             <i class="material-icons" title="Remove selected">remove</i>
           </a>
         </li>
+<!--        <li>-->
+<!--          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green" (click)="onItemNew($event, cqi)">-->
+<!--            <i class="material-icons" title="insert above">add</i>-->
+<!--          </a>-->
+<!--        </li>-->
       </ul>
       <div class="question">
           <i class="material-icons small">{{getMatIcon(cqi.elementKind)}}</i><div [innerHtml]=cqi?.name></div>
@@ -130,7 +133,7 @@ export class ConstructsComponent {
     this.modalRef.close();
   }
 
-  public onItemNew(event: Event) {
+  public onItemNew(event: Event, ref?: ElementRevisionRef) {
     event.stopPropagation();
     this.action = ActionKind.Create;
     this.modalRef.open();

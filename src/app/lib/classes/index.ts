@@ -14,3 +14,4 @@ export * from './user.classes';
 export * from './user';
 export * from './user-settings';
 export * from './selecteditem.classes';
+export * from './author.classes';

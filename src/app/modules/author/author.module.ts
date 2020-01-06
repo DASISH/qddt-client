@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { ComponentsModule } from '../../components/components.module';
-import { UniverseComponent } from './universe.component';
-import { UniverseDetailComponent } from './universe.detail.component';
-import { UniverseFormComponent } from './universe.form.component';
-import { UniverseRoutingModule } from './universe.routes';
+import { AuthorComponent } from './author.component';
+import { AuthorDetailComponent } from './author.detail.component';
+import { AuthorFormComponent } from './author.form.component';
+import { AuthorRoutingModule } from './author.routes';
 
 
 @NgModule({
-    imports: [ ComponentsModule, UniverseRoutingModule ],
-    declarations: [ UniverseComponent, UniverseDetailComponent, UniverseFormComponent ],
-    exports: [ UniverseComponent ],
+    imports: [ ComponentsModule, AuthorRoutingModule ],
+    declarations: [ AuthorComponent, AuthorDetailComponent, AuthorFormComponent ],
+    exports: [ AuthorComponent ],
     providers: [  ]
 })
 
-export class UniverseModule { }
+export class AuthorModule { }

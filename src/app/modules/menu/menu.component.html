@@ -72,6 +72,11 @@
                       <a class="teal-text waves-effect waves-teal active" [routerLink]="['/changelog']" tabindex="8">
                         <i class="material-icons teal-text left medium">timeline</i>Change Feed</a>
                     </li>
+<!--                    <li *ngIf="canSee[elementKindRef.AUTHOR]" >-->
+                    <li >
+                      <a class="teal-text waves-effect waves-teal" [routerLink]="['/authors']" >
+                        <i class="material-icons teal-text left medium">face</i>Authors</a>
+                    </li>
                     <li *ngIf="canSee[elementKindRef.STATEMENT_CONSTRUCT]" >
                       <a class="teal-text waves-effect waves-teal" [routerLink]="['/statements']" tabindex="9">
                         <i class="material-icons teal-text left medium">record_voice_over</i>Statement</a>

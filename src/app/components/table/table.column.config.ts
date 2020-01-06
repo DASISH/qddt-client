@@ -75,6 +75,14 @@ export const CHANGE_LOG_COLUMNS = [
   new Column( { name: 'modified',  label: 'Modified', sortable: true}),
   new Column( { name: 'modifiedBy',  label: 'ModifiedBy', sortable: false }),
   ];
+
+export  const AUTHOR_COLUMNS = [
+  new Column( { name: 'name', label: 'Name', sortable: true }),
+  new Column( { name: 'refRev',  label: 'Revision', sortable: true, direction: 'desc' }),
+  new Column( { name: 'refKind',  label: 'Kind', sortable: true }),
+  new Column( { name: 'refChangeKind',  label: 'ChangeKind', sortable: true }),
+  new Column( { name: 'refAction',  label: 'Action', sortable: true })
+];
 //   changeFeedKey?: {};
 // elementId?: string;
 // elementKind?: ElementKind;
@@ -123,7 +131,7 @@ const DATETIME = [
   ];
 
 
-export const RESPONSEDOMAIN_COLUMNS:  Map<DomainKind, Column[]>  = new Map([
+export const RESPONSEDOMAIN_COLUMNS: Map<DomainKind, Column[]>  = new Map([
   [DomainKind.SCALE, SCALE.concat(DEFAULT_COLUMNS) ],
   [DomainKind.LIST, LIST.concat(DEFAULT_COLUMNS) ],
   [DomainKind.NUMERIC, NUMERIC.concat(DEFAULT_COLUMNS) ],

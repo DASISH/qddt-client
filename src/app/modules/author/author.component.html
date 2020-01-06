@@ -1,9 +1,9 @@
 <qddt-template-component #detail>
 
-  <qddt-universe-form class="qddt-edit"
-    [universe] = "templateDetail.newItem"
+  <qddt-author-form class="qddt-edit"
+    [author] = "templateDetail.newItem"
     (modifiedEvent) = "onFormModified($event)">
-  </qddt-universe-form>
+  </qddt-author-form>
 
   <router-outlet></router-outlet>
 

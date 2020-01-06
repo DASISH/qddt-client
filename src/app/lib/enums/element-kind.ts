@@ -19,5 +19,6 @@ export enum ElementKind {
   INSTRUCTION,
   UNIVERSE,
   USER,
-  CHANGE_LOG
+  CHANGE_LOG,
+  AUTHOR
 }

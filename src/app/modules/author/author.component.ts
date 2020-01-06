@@ -1,11 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
 
 @Component({
-  selector: 'qddt-universe',
+  selector: 'qddt-author',
 
-  templateUrl: './universe.component.html'
+  templateUrl: './author.component.html'
 })
-export class UniverseComponent  {
+export class AuthorComponent  {
   @ViewChild('detail', {static: true}) templateDetail;
 
 

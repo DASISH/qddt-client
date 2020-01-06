@@ -1,34 +1,34 @@
-<div *ngIf="universe" class="col s12">
+<div *ngIf="author" class="col s12">
   <form id="UNI{{formId}}" #hf="ngForm" (ngSubmit)="onSave()">
     <div class="row">
       <qddt-input class="col s11"
         required
         name="name"
         label="Name"
-        [(ngModel)]="universe.name"
+        [(ngModel)]="author.name"
         data-length="100">
       </qddt-input>
       <qddt-select class="col s1"
         required
         name="xmlLang"
         label="xmlLang"
-        [(ngModel)]="universe.xmlLang"
+        [(ngModel)]="author.xmlLang"
         [lockups]="LANGUAGES" >
       </qddt-select>
     </div>
     <qddt-textarea
       required
       name="description"
-      placeholder="describe universe"
+      placeholder="describe author"
       label="Description"
-      [(ngModel)]="universe.description"
+      [(ngModel)]="author.description"
       data-length="1000">
     </qddt-textarea>
 
 
-    <qddt-rational  *ngIf="!readonly && universe.id" [formName]="'RationalComp'" [element]="universe" [config]="{hidden: [4]}"></qddt-rational>
+    <qddt-rational  *ngIf="!readonly && author.id" [formName]="'RationalComp'" [element]="author" [config]="{hidden: [4]}"></qddt-rational>
 
-    <qddt-element-footer  *ngIf="universe.id" [element]="universe"></qddt-element-footer>
+    <qddt-element-footer  *ngIf="author.id" [element]="author"></qddt-element-footer>
 
     <div class="row right-align">
         <button  *ngIf="!readonly" type="submit" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
