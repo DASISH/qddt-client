@@ -1,3 +1,5 @@
+import { Author } from './classes/author.classes';
+import { AuthGuard } from './services/auth-guard.service';
 import { IEntityAudit } from './interfaces';
 import { ElementKind } from './enums';
 import { getElementKind } from './consts';
@@ -14,7 +16,7 @@ import {
 
 export class Factory {
 
-  static createInstance(kind: ElementKind|string): IEntityAudit {
+  static createInstance(kind: ElementKind | string): IEntityAudit {
     const elementKind = getElementKind(kind);
     switch (elementKind) {
       case ElementKind.CATEGORY:
@@ -53,13 +55,15 @@ export class Factory {
         return new Universe();
       case ElementKind.USER:
         return new UserJson();
+      case ElementKind.AUTHOR:
+        return new Author();
       default: return null;
     }
   }
 
-  static createFromSeed(kind: ElementKind|string, seed: any): IEntityAudit {
-  const elementKind = getElementKind(kind);
-  switch (elementKind) {
+  static createFromSeed(kind: ElementKind | string, seed: any): IEntityAudit {
+    const elementKind = getElementKind(kind);
+    switch (elementKind) {
       case ElementKind.CATEGORY:
         return new Category(seed);
       case ElementKind.MISSING_GROUP:
@@ -96,6 +100,8 @@ export class Factory {
         return new Universe(seed);
       case ElementKind.USER:
         return new UserJson(seed);
+      case ElementKind.AUTHOR:
+        return new Author(seed);
       default: return null;
     }
   }

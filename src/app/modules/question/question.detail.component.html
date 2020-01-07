@@ -1,6 +1,4 @@
 <qddt-template-detail #detail>
-  <qddt-questionitem-form
-    [questionItem]= "templateDetail.item"
-    (modifiedEvent) = "onFormModified($event)">
+  <qddt-questionitem-form [questionItem]="templateDetail.item" (modifiedEvent)="onFormModified($event)">
   </qddt-questionitem-form>
 </qddt-template-detail>

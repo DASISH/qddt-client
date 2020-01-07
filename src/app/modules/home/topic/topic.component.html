@@ -47,19 +47,21 @@
     <div class="col s1">
       <ul class="dropdownmenu">
         <li *ngIf="!topic.archived && !readonly">
-          <a class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2" (click)="edit.isVisible = !edit.isVisible;">
+          <a class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2"
+            (click)="edit.isVisible = !edit.isVisible;">
             <i class="material-icons" title="Edit Concept">mode_edit</i></a>
         </li>
         <li *ngIf="!edit.isVisible">
-          <a class="btn-flat btn-floating btn-medium waves-effect waves-light blue lighten-2" (click)="edit.showRevision = !edit.showRevision">
+          <a class="btn-flat btn-floating btn-medium waves-effect waves-light blue lighten-2"
+            (click)="edit.showRevision = !edit.showRevision">
             <i class="material-icons" title="Revision history">history</i></a>
         </li>
-        <li *ngIf="!edit.isVisible" >
+        <li *ngIf="!edit.isVisible">
           <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="onSelectTopic(topic)">
             <i class="material-icons" title="Go to child elements">play_arrow</i></a>
         </li>
         <li *ngIf="!edit.isVisible && !topic.archived  && canDelete">
-          <qddt-confirm-delete  [element]="topic" (confirmAction)="onRemoveTopic($event)"></qddt-confirm-delete>
+          <qddt-confirm-delete [element]="topic" (confirmAction)="onRemoveTopic($event)"></qddt-confirm-delete>
         </li>
       </ul>
     </div>
@@ -70,17 +72,17 @@
           <qddt-version-label class="right" [element]="topic"></qddt-version-label>
         </div>
       </h5>
-      <qddt-topic-edit  #edit [topic]="topic" (savedEvent)="onTopicSaved($event)">
+      <qddt-topic-edit #edit [topic]="topic" (savedEvent)="onTopicSaved($event)">
       </qddt-topic-edit>
 
       <div *ngIf="!edit.isVisible" class="row">
         <div class="col s12">
           <p [innerHtml]="topic.description"></p>
 
-          <qddt-question-items  [revisionRefs]="topic.topicQuestionItems" [readonly]="topic.archived || readonly"
-                                (createdEvent) ="onQuestionItemAdded($event,topic.id)"
-                                (deletedEvent) ="onQuestionItemRemoved($event,topic.id)"
-                                (modifiedEvent)="onQuestionItemModified($event,topic.id)">
+          <qddt-question-items [revisionRefs]="topic.topicQuestionItems" [readonly]="topic.archived || readonly"
+            (createdEvent)="onQuestionItemAdded($event,topic.id)"
+            (deletedEvent)="onQuestionItemRemoved($event,topic.id)"
+            (modifiedEvent)="onQuestionItemModified($event,topic.id)">
           </qddt-question-items>
 
           <qddt-download [entity]="topic" [readonly]="true"></qddt-download>

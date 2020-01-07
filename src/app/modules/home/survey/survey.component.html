@@ -35,21 +35,21 @@
     <div class="col s1">
       <ul class="dropdownmenu">
         <li *ngIf="!surveyProgram.archived && !readonly">
-          <a  class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2"
-             (click)="edit.isVisible = !edit.isVisible; ">
+          <a class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2"
+            (click)="edit.isVisible = !edit.isVisible; ">
             <i class="material-icons" title="Edit Concept">mode_edit</i>
           </a>
         </li>
-        <li *ngIf="!edit.isVisible" >
-        <a class="btn-flat btn-floating btn-medium waves-effect waves-light blue lighten-2"
-           (click)="edit.showRevision = !edit.showRevision">
-          <i class="material-icons left medium" title="Revision history">history</i>
-        </a>
+        <li *ngIf="!edit.isVisible">
+          <a class="btn-flat btn-floating btn-medium waves-effect waves-light blue lighten-2"
+            (click)="edit.showRevision = !edit.showRevision">
+            <i class="material-icons left medium" title="Revision history">history</i>
+          </a>
         </li>
         <li *ngIf="!edit.isVisible">
-          <a  class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-           (click)="onShowStudy(surveyProgram)">
-          <i class="material-icons left medium" title="Go to child elements">play_arrow</i></a>
+          <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+            (click)="onShowStudy(surveyProgram)">
+            <i class="material-icons left medium" title="Go to child elements">play_arrow</i></a>
         </li>
       </ul>
     </div>
@@ -62,7 +62,7 @@
           <qddt-version-label class="right" [element]="surveyProgram"></qddt-version-label>
         </div>
       </div>
-      <qddt-survey-edit [survey]="surveyProgram" #edit (savedEvent)="onSurveySaved($event)" >
+      <qddt-survey-edit [survey]="surveyProgram" #edit (savedEvent)="onSurveySaved($event)">
       </qddt-survey-edit>
       <div class="row" *ngIf="!edit.isVisible">
         <div class="col s12">

@@ -1,8 +1,8 @@
-import {Component, EventEmitter, OnInit, Output, OnDestroy, AfterViewInit} from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, OnDestroy, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { takeWhile } from 'rxjs/operators';
-import { IDetailAction, IEntityEditAudit, ActionKind, ElementKind, HEADER_DETAILS, TemplateService, Factory} from '../../lib';
+import { IDetailAction, IEntityEditAudit, ActionKind, ElementKind, HEADER_DETAILS, TemplateService, Factory } from '../../lib';
 import * as FileSaver from 'file-saver';
 
 
@@ -11,7 +11,7 @@ import * as FileSaver from 'file-saver';
   templateUrl: './template-detail.component.html',
 })
 
-export class TemplateDetailComponent implements OnInit, OnDestroy, AfterViewInit{
+export class TemplateDetailComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() closeState = new EventEmitter<IDetailAction>();
   @Output() selectedItem = new EventEmitter<IEntityEditAudit>();
 
@@ -32,7 +32,7 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterViewInit
       .subscribe((event) => {
         const path = event[0].path;
         this.kind = HEADER_DETAILS.get(path).kind;
-        this.canDelete = service.can(ActionKind.Delete, this.kind );
+        this.canDelete = service.can(ActionKind.Delete, this.kind);
         // console.log('can delete ' + this.canDelete);
         this.item = Factory.createInstance(this.kind);
       });
@@ -44,16 +44,17 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterViewInit
       this.showProgressBar = true;
       this.service.getByKindEntity(this.kind, this.route.snapshot.paramMap.get('id')).then(
         (item) => {
-            this.action.id = item.id;
-            this.item = item;
-            this.showProgressBar = false;
-            this.selectedItem.emit(item); },
+          this.action.id = item.id;
+          this.item = item;
+          this.showProgressBar = false;
+          this.selectedItem.emit(item);
+        },
         (error) => { this.showProgressBar = false; throw error; });
     }
   }
 
   onHideDetail() {
-    this.router.navigate(['../' ], { relativeTo: this.route });
+    this.router.navigate(['../'], { relativeTo: this.route });
     this.closeState.emit(this.action);
   }
 
@@ -65,10 +66,10 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterViewInit
 
   onDeleteConfirmModal(item) {
     this.service.delete(item)
-    .subscribe(() => {
-      this.action.action = ActionKind.Delete;
-      this.goBack();
-    });
+      .subscribe(() => {
+        this.action.action = ActionKind.Delete;
+        this.goBack();
+      });
   }
 
   // onConfirmDeleting() {
@@ -80,9 +81,15 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterViewInit
     this.goBack();
   }
 
-  onGetPdf( item: IEntityEditAudit) {
+  onGetPdf(item: IEntityEditAudit) {
     this.service.getPdf(item).then(
       (data) => { FileSaver.saveAs(data, item.name + '.pdf'); },
+      (error) => { throw error; });
+  }
+
+  onGetXml(item: IEntityEditAudit) {
+    this.service.getXML(item).then(
+      (data) => { FileSaver.saveAs(data, item.name + '.xml'); },
       (error) => { throw error; });
   }
 
@@ -93,13 +100,13 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterViewInit
   ngAfterViewInit(): void {
 
     document.querySelectorAll('.fixed-action-btn').forEach(
-    input => M.FloatingActionButton.init(input));
+      input => M.FloatingActionButton.init(input));
 
     document.querySelectorAll('input[data-length], textarea[data-length]').forEach(
-        input => {
-          M.CharacterCounter.init(input);
-          M.AutoInit(input);
-        });
+      input => {
+        M.CharacterCounter.init(input);
+        M.AutoInit(input);
+      });
   }
 
 }

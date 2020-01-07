@@ -8,34 +8,18 @@
     </div>
 
     <div class="row">
-      <qddt-input class="col s11"
-        required
-        name="name"
-        label="Name"
-        [(ngModel)]="statement.name"
-        data-length="100">
+      <qddt-input class="col s11" required name="name" label="Name" [(ngModel)]="statement.name" data-length="100">
       </qddt-input>
-      <qddt-select class="col s1"
-        required
-        name="xmlLang"
-        label="xmlLang"
-        [(ngModel)]="statement.xmlLang"
-        [lockups]="LANGUAGES" >
+      <qddt-select class="col s1" required name="xmlLang" label="xmlLang" [(ngModel)]="statement.xmlLang"
+        [lockups]="LANGUAGES">
       </qddt-select>
     </div>
-    <qddt-textarea
-      required
-      name="statement"
-      placeholder="describe statement"
-      label="Statement"
-      [(ngModel)]="statement.statement"
-      data-length="1000">
+    <qddt-textarea required name="statement" placeholder="describe statement" label="Statement"
+      [(ngModel)]="statement.statement" data-length="1000">
     </qddt-textarea>
 
 
-    <qddt-rational *ngIf="!readonly && statement.id"
-      [formName]="'RationalComp'"
-      [element]="statement"
+    <qddt-rational *ngIf="!readonly && statement.id" [formName]="'RationalComp'" [element]="statement"
       [config]="{hidden: [4]}">
     </qddt-rational>
 

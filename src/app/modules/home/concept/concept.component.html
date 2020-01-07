@@ -12,8 +12,8 @@
       <i class="material-icons right" *ngIf="showReuse">keyboard_arrow_up</i>
       reuse
     </a>
-    <qddt-copy-select *ngIf="showReuse" [parentId]="topic.id" [elementKind]="CONCEPT"
-      (dismissEvent)="showReuse=false;" (itemSelected)="onSelectedRevision($event)">
+    <qddt-copy-select *ngIf="showReuse" [parentId]="topic.id" [elementKind]="CONCEPT" (dismissEvent)="showReuse=false;"
+      (itemSelected)="onSelectedRevision($event)">
     </qddt-copy-select>
 
     <div *ngIf="showConceptForm">
@@ -21,12 +21,11 @@
         <div class="col s10 offset-s1">
           <form #hf="ngForm" class="white-text">
             <div class="row input-field">
-              <input  name="name" type="text" ngModel required data-length="250">
+              <input name="name" type="text" ngModel required data-length="250">
               <label>Name</label>
             </div>
             <div class="row input-field">
-              <textarea name="description" class="materialize-textarea" ngModel required
-                data-length="10000"></textarea>
+              <textarea name="description" class="materialize-textarea" ngModel required data-length="10000"></textarea>
               <label class="white-text">Description</label>
             </div>
             <div class="row right-align">
@@ -51,10 +50,10 @@
 <div *ngIf="topic" class="col m3 hide-on-small-only ">
   <div class="toc-wrapper " style="position: fixed;">
     <h5>Concept Toc</h5>
-<!--    <ol class="table-of-contents" style="padding-inline-start: 0px;">-->
-      <qddt-concept-toc class="table-of-contents" [children]="topic.concepts" [parentId]="topic.id" [level]="0"
-        (conceptMoved)="onMoveConcept($event)"></qddt-concept-toc>
-<!--    </ol>-->
+    <!--    <ol class="table-of-contents" style="padding-inline-start: 0px;">-->
+    <qddt-concept-toc class="table-of-contents" [children]="topic.concepts" [parentId]="topic.id" [level]="0"
+      (conceptMoved)="onMoveConcept($event)"></qddt-concept-toc>
+    <!--    </ol>-->
   </div>
 </div>
 

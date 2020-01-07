@@ -1,6 +1,4 @@
 <qddt-template-detail #detail>
-    <qddt-author-form
-      [author]= "templateDetail.item"
-      (modifiedEvent) = "onFormModified($event)">
-    </qddt-author-form>
+  <qddt-author-form [author]="templateDetail.item" (modifiedEvent)="onFormModified($event)">
+  </qddt-author-form>
 </qddt-template-detail>

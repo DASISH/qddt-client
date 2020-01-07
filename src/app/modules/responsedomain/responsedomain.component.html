@@ -2,12 +2,10 @@
 
   <qddt-responsedomain-preselector class="qddt-preselector"></qddt-responsedomain-preselector>
 
-  <qddt-responsedomain-form class="qddt-edit"
-                            [responseDomain]="templateDetail.newItem"
-    (modifiedEvent) = "onFormModified($event)">
+  <qddt-responsedomain-form class="qddt-edit" [responseDomain]="templateDetail.newItem"
+    (modifiedEvent)="onFormModified($event)">
   </qddt-responsedomain-form>
 
   <router-outlet></router-outlet>
 
 </qddt-template-component>
-

@@ -1,17 +1,18 @@
-import {IEntityEditAudit} from '../interfaces';
+import { IEntityEditAudit } from '../interfaces';
+import { ElementKind } from '../enums';
 
 export class Author implements IEntityEditAudit {
   id: string;
   name: string;
   email: string;
-  url: string;
-  info: string;
+  about: string;
+  homepage: string;
   picture: string;
-  classKind: string;
-  xmlLang?: string;
+  authorsAffiliation: string;
+  classKind = ElementKind[ElementKind.AUTHOR];
+  xmlLang = 'none';
 
   public constructor(init?: Partial<Author>) {
     Object.assign(this, init);
   }
-
 }

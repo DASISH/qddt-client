@@ -1,5 +1,5 @@
-<div *ngIf="managedRepresentation" >
-  <table *ngIf="displayLayout === 0" >
+<div *ngIf="managedRepresentation">
+  <table *ngIf="displayLayout === 0">
     <thead>
       <tr>
         <th *ngFor="let item of headers" [attr.colspan]=item.colspan scope="colgroup" class="{{item.class}}">
@@ -10,8 +10,8 @@
       </tr>
     </thead>
     <tbody *ngIf="max - min <= 15">
-      <tr *ngFor="let row of rows; let idx=index;" >
-        <td *ngFor="let option of columns" style="text-align: center" >
+      <tr *ngFor="let row of rows; let idx=index;">
+        <td *ngFor="let option of columns" style="text-align: center">
           <label>
             <input name="option-select" type="radio" />
             <span>{{ option?.value }}</span>
@@ -25,9 +25,9 @@
     <input type="range" id="test5" min={{min}} max={{max}} />
   </div>
 
-  <div *ngIf="displayLayout !== 0" >
+  <div *ngIf="displayLayout !== 0">
     <ul>
-      <li *ngFor="let option of rows" >
+      <li *ngFor="let option of rows">
         <span class="left" style="width: 30px; float: right; "> {{ option.value }} </span>
         <label>
           <input name="option-select" type="radio" />

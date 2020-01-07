@@ -1,10 +1,9 @@
-<qddt-template-component #detail >
+<qddt-template-component #detail>
 
-    <qddt-sequence-form class="qddt-edit  white-text"
-      [sequence]= "templateDetail.newItem"
-      (modifiedEvent) = "onFormModified($event)">
-    </qddt-sequence-form>
+  <qddt-sequence-form class="qddt-edit  white-text" [sequence]="templateDetail.newItem"
+    (modifiedEvent)="onFormModified($event)">
+  </qddt-sequence-form>
 
-    <router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 
 </qddt-template-component>

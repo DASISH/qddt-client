@@ -11,14 +11,14 @@ import {
   selector: 'qddt-responsedomain-select',
   templateUrl: 'responsedomain.component.html',
   styles: [
-    '.row:hover > ul.dropleft { display:block; } ',
+    'div:hover > ul.dropleft { display:block; } ',
   ],
 })
 
 // 'ul.dropleft { position: absolute; display: none; margin-top: 5px; margin-bottom: 0px; z-index: 1;}',
 //   'ul.dropleft li { display:inline-flex; }',
 
-export class ResponsedomainComponent  {
+export class ResponsedomainComponent {
   @Input()
   set responseDomain(responseDomain) {
     this._localresponseDomain = (responseDomain) ? new ResponseDomain(JSON.parse(JSON.stringify(responseDomain))) : null;
@@ -29,11 +29,11 @@ export class ResponsedomainComponent  {
   @Output() selectedEvent = new EventEmitter<ElementRevisionRef>();
   @Output() updateEvent = new EventEmitter<ResponseDomain>();
 
-  public readonly MISSING_GROUP = {element: '', elementKind: ElementKind.MISSING_GROUP};
-  public readonly RESPONSEDOMAIN =  {element: '', elementKind: ElementKind.RESPONSEDOMAIN};
+  public readonly MISSING_GROUP = { element: '', elementKind: ElementKind.MISSING_GROUP };
+  public readonly RESPONSEDOMAIN = { element: '', elementKind: ElementKind.RESPONSEDOMAIN };
   public readonly canDelete: boolean;
   public readonly canEdit: boolean;
-  public readonly modalId = Math.round( Math.random() * 10000);
+  public readonly modalId = Math.round(Math.random() * 10000);
 
   public showResponseDomain = true;
 
@@ -43,8 +43,8 @@ export class ResponsedomainComponent  {
   private _modalRef: M.Modal;
 
   constructor(private service: TemplateService, private access: UserService) {
-    this.canDelete = access.canDo(ActionKind.Delete, ElementKind.RESPONSEDOMAIN );
-    this.canEdit = access.canDo(ActionKind.Update, ElementKind.RESPONSEDOMAIN );
+    this.canDelete = access.canDo(ActionKind.Delete, ElementKind.RESPONSEDOMAIN);
+    this.canEdit = access.canDo(ActionKind.Update, ElementKind.RESPONSEDOMAIN);
   }
 
   get modalRef(): M.Modal {
@@ -61,14 +61,14 @@ export class ResponsedomainComponent  {
   }
 
   public onItemGetLatest() {
-    this.service.getByKindRevision( ElementKind.RESPONSEDOMAIN, this.responseDomain.id).then(
+    this.service.getByKindRevision(ElementKind.RESPONSEDOMAIN, this.responseDomain.id).then(
       (result) => {
         this.responseDomain = result.entity as ResponseDomain;
         this.selectedEvent.emit(
           {
             element: this.responseDomain,
             elementId: this.responseDomain.id,
-            elementKind:  ElementKind.RESPONSEDOMAIN,
+            elementKind: ElementKind.RESPONSEDOMAIN,
             elementRevision: result.revisionNumber
           });
       });

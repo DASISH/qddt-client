@@ -1,13 +1,11 @@
 <div class="row white-text">
   <div class="col s10 offset-s1">
-    <h5  class="row">Reuse {{ className }}</h5>
-    <qddt-element-revision-select
-      [source] = "element"
-      (revisionSelectedEvent)="onRevisionSelect($event)"
-      (dismissEvent) ="onDismiss()">
+    <h5 class="row">Reuse {{ className }}</h5>
+    <qddt-element-revision-select [source]="element" (revisionSelectedEvent)="onRevisionSelect($event)"
+      (dismissEvent)="onDismiss()">
     </qddt-element-revision-select>
     <!-- <div class="row"></div> -->
-  <div class="row right-align">
-    <button type="button" class="btn btn-default waves-effect waves-light red" (click)="onDismiss()" >dismiss</button>
+    <div class="row right-align">
+      <button type="button" class="btn btn-default waves-effect waves-light red" (click)="onDismiss()">dismiss</button>
+    </div>
   </div>
-</div>

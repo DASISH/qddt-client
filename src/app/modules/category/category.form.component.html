@@ -8,33 +8,15 @@
     </div>
 
     <div class="row">
-      <qddt-input class="col s11"
-        required
-        name="name"
-        label="Name"
-        [(ngModel)]="category.name"
-        data-length="100">
+      <qddt-input class="col s11" required name="name" label="Name" [(ngModel)]="category.name" data-length="100">
       </qddt-input>
-      <qddt-select class="col s1"
-        required
-        name="xmlLang"
-        label="xmlLang"
-        [(ngModel)]="category.xmlLang"
-        [lockups]="LANGUAGES" >
+      <qddt-select class="col s1" required name="xmlLang" label="xmlLang" [(ngModel)]="category.xmlLang"
+        [lockups]="LANGUAGES">
       </qddt-select>
     </div>
-    <qddt-input
-      required
-      name="label"
-      label="Label"
-      [(ngModel)]="category.label"
-      data-length="255">
+    <qddt-input required name="label" label="Label" [(ngModel)]="category.label" data-length="255">
     </qddt-input>
-    <qddt-textarea
-      name="description"
-      label="Description"
-      [(ngModel)]="category.description"
-      data-length="255">
+    <qddt-textarea name="description" label="Description" [(ngModel)]="category.description" data-length="255">
     </qddt-textarea>
 
 
@@ -46,22 +28,20 @@
       <div class="input-field col s2 offset-m1">
         <input id="min" name="mini" type="number" class="validate" readonly min="0"
           [(ngModel)]="category.inputLimit.minimum" />
-          <label>Input limit minimum</label>
-        </div>
+        <label>Input limit minimum</label>
+      </div>
       <div class="input-field col s2 offset-m1">
         <input id="max" name="maxi" type="number" class="validate" readonly min="1"
           [(ngModel)]="category.inputLimit.maximum" />
-          <label>Input limit maximum</label>
-        </div>
+        <label>Input limit maximum</label>
+      </div>
       <div class="input-field col s6 m8">
         <input id="format" name="format" type="text" class="validate" [(ngModel)]="category.format" />
         <label>Format</label>
       </div>
     </div>
 
-    <qddt-rational *ngIf="!readonly && category.id"
-      [formName]="'RationalComp'"
-      [element]="category"
+    <qddt-rational *ngIf="!readonly && category.id" [formName]="'RationalComp'" [element]="category"
       [config]="{hidden: [4]}">
     </qddt-rational>
 

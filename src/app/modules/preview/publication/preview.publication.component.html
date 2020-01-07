@@ -19,8 +19,8 @@
 
 <div class="row">
   <div *ngIf="publication?.publicationElements && publication?.publicationElements?.length > 0" class="section">
-    <ul *ngIf="publication?.publicationElements"  class="collapsible popout"
-        data-collapsible="expandable" style="padding: 5pt;">
+    <ul *ngIf="publication?.publicationElements" class="collapsible popout" data-collapsible="expandable"
+      style="padding: 5pt;">
       <li *ngFor="let cqi of publication.publicationElements;" (click)="onViewDetail(cqi)">
         <div class="collapsible-header green lighten-5">
           <div class="col s2">[{{ getQueryInfo(cqi?.elementKind).label }}]</div>

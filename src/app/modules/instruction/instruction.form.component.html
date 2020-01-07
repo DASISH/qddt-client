@@ -1,32 +1,17 @@
 <div *ngIf="instruction" class="col s12">
-  <form  id="{{formId}}" #hf="ngForm" (ngSubmit)="onSaveItem()">
+  <form id="{{formId}}" #hf="ngForm" (ngSubmit)="onSaveItem()">
     <div class="row">
-      <qddt-input class="col s10"
-        required
-        name="name"
-        label="Name"
-        [(ngModel)]="instruction.name"
-        data-length="100">
+      <qddt-input class="col s10" required name="name" label="Name" [(ngModel)]="instruction.name" data-length="100">
       </qddt-input>
-      <qddt-select  class="col s1"
-                    required
-                    name="xmlLang"
-                    label="xmlLang"
-                    [(ngModel)]="instruction.xmlLang"
-                    [lockups]="LANGUAGES" >
+      <qddt-select class="col s1" required name="xmlLang" label="xmlLang" [(ngModel)]="instruction.xmlLang"
+        [lockups]="LANGUAGES">
       </qddt-select>
     </div>
 
-    <qddt-textarea
-      name="description"
-      label="Description"
-      [(ngModel)]="instruction.description"
-      data-length="255">
+    <qddt-textarea name="description" label="Description" [(ngModel)]="instruction.description" data-length="255">
     </qddt-textarea>
 
-    <qddt-rational *ngIf="!readonly && instruction.id"
-      [formName]="'RationalComp'"
-      [element]="instruction"
+    <qddt-rational *ngIf="!readonly && instruction.id" [formName]="'RationalComp'" [element]="instruction"
       [config]="{hidden: [4]}">
     </qddt-rational>
 

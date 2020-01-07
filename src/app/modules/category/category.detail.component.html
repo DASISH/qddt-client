@@ -1,6 +1,4 @@
 <qddt-template-detail #detail>
-    <qddt-category-form
-      [category]= "templateDetail.item"
-      (modifiedEvent) = "onFormModified($event)">
-    </qddt-category-form>
+  <qddt-category-form [category]="templateDetail.item" (modifiedEvent)="onFormModified($event)">
+  </qddt-category-form>
 </qddt-template-detail>

@@ -3,19 +3,22 @@
   <div class="col s1">
     <ul class="dropdownmenu">
       <li *ngIf="canUpdate && !(concept.archived)">
-        <a class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2" (click)="onToggleEdit(edit)">
+        <a class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2"
+          (click)="onToggleEdit(edit)">
           <i class="material-icons" title="Edit Concept">mode_edit</i></a>
       </li>
       <li *ngIf="!edit.isVisible">
-        <a class="btn-flat btn-floating btn-medium waves-effect waves-light blue lighten-2" (click)="edit.showRevision = !edit.showRevision">
-          <i class="material-icons"title="Revision history">history</i></a>
+        <a class="btn-flat btn-floating btn-medium waves-effect waves-light blue lighten-2"
+          (click)="edit.showRevision = !edit.showRevision">
+          <i class="material-icons" title="Revision history">history</i></a>
       </li>
       <li *ngIf="canUpdate && !(concept.archived) && !edit.isVisible">
         <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="onCreateConcept()">
           <i class="material-icons" title="Add sub concept">add</i></a>
       </li>
       <li *ngIf="canDelete && !(concept.archived) && !edit.isVisible">
-        <a class="btn-flat btn-floating btn-medium waves-effect waves-light red lighten-2" (click)="onDeleteConcept(concept)">
+        <a class="btn-flat btn-floating btn-medium waves-effect waves-light red lighten-2"
+          (click)="onDeleteConcept(concept)">
           <i class="material-icons" title="Delete">delete_forever</i></a>
       </li>
     </ul>
@@ -29,8 +32,7 @@
       </div>
     </h5>
 
-    <qddt-concept-edit [(concept)]="concept" #edit
-      (conceptChanged)="onConceptUpdated($event)">
+    <qddt-concept-edit [(concept)]="concept" #edit (conceptChanged)="onConceptUpdated($event)">
     </qddt-concept-edit>
 
     <div *ngIf="!edit.isVisible" class="row">

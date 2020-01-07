@@ -1,43 +1,20 @@
-<div class="col s12" *ngIf="element" >
+<div class="col s12" *ngIf="element">
   <form (ngSubmit)="onUpdateInstrument()" #instrumentform="ngForm">
     <div class="row">
-      <qddt-input class="col s11"
-        required
-        name="name"
-        label="Name"
-        [(ngModel)]="element.name"
-        data-length="100">
+      <qddt-input class="col s11" required name="name" label="Name" [(ngModel)]="element.name" data-length="100">
       </qddt-input>
-      <qddt-select class="col s1"
-        required
-        name="xmlLang"
-        label="xmlLang"
-        [(ngModel)]="element.xmlLang"
-        [lockups]="LANGUAGES" >
+      <qddt-select class="col s1" required name="xmlLang" label="xmlLang" [(ngModel)]="element.xmlLang"
+        [lockups]="LANGUAGES">
       </qddt-select>
     </div>
 
-    <qddt-input
-      required
-      name="label"
-      label="Label"
-      [(ngModel)]="element.label"
-      data-length="255">
+    <qddt-input required name="label" label="Label" [(ngModel)]="element.label" data-length="255">
     </qddt-input>
-    <qddt-textarea
-      required
-      name="description"
-      label="Description"
-      [(ngModel)]="element.description"
-      data-length="1000">
+    <qddt-textarea required name="description" label="Description" [(ngModel)]="element.description" data-length="1000">
     </qddt-textarea>
 
-    <qddt-select
-      required
-      name="instrumentKind"
-      label="Instrument type"
-      [(ngModel)]="element.instrumentKind"
-      [lockups]="instrumentKinds" >
+    <qddt-select required name="instrumentKind" label="Instrument type" [(ngModel)]="element.instrumentKind"
+      [lockups]="instrumentKinds">
     </qddt-select>
 
     <!-- <div class="row input-field">

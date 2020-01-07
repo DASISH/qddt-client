@@ -1,60 +1,37 @@
 <div *ngIf="questionItem" class="col s12">
 
   <div class="row">
-    <p class="card-panel grey lighten-5 grey-text text-darken-1"
-    [innerHtml]="questionItem.question" style="font-style: italic"></p>
+    <p class="card-panel grey lighten-5 grey-text text-darken-1" [innerHtml]="questionItem.question"
+      style="font-style: italic"></p>
   </div>
 
-  <qddt-preview-responsedomain *ngIf="questionItem?.responseDomain"
-    [responseDomain]="questionItem.responseDomain">
+  <qddt-preview-responsedomain *ngIf="questionItem?.responseDomain" [responseDomain]="questionItem.responseDomain">
   </qddt-preview-responsedomain>
 
   <qddt-conceptref [element]="questionItem"></qddt-conceptref>
 
-  <form  id="{{formId}}" #hf="ngForm" (ngSubmit)="onSaveQuestionItem()">
-    <qddt-input
-      required
-      name="name"
-      placeholder="add question name"
-      label="Question Name"
-      [(ngModel)]="questionItem.name"
-      data-length="100">
+  <form id="{{formId}}" #hf="ngForm" (ngSubmit)="onSaveQuestionItem()">
+    <qddt-input required name="name" placeholder="add question name" label="Question Name"
+      [(ngModel)]="questionItem.name" data-length="100">
     </qddt-input>
     <div class="row">
-      <qddt-textarea class="col s11"
-        required
-        name="question"
-        placeholder="add question text"
-        label="Question"
-        [(ngModel)]="questionItem.question"
-        data-length="1500">
+      <qddt-textarea class="col s10" required name="question" placeholder="add question text" label="Question"
+        [(ngModel)]="questionItem.question" data-length="1500">
       </qddt-textarea>
-      <qddt-select class="col s1"
-        required
-        name="xmlLang"
-        label="xmlLang"
-        [(ngModel)]="questionItem.xmlLang"
-        [lockups]="LANGUAGES" >
+      <qddt-select class="col s2" required name="xmlLang" label="xmlLang" [(ngModel)]="questionItem.xmlLang"
+        [lockups]="LANGUAGES">
       </qddt-select>
     </div>
-    <qddt-textarea
-      name="intent"
-      placeholder="Add intent?"
-      label="Question intent"
-      [(ngModel)]="questionItem.intent"
+    <qddt-textarea name="intent" placeholder="Add intent?" label="Question intent" [(ngModel)]="questionItem.intent"
       data-length="2000">
     </qddt-textarea>
 
-    <qddt-responsedomain-select *ngIf="questionItem"
-        [(responseDomain)]="questionItem.responseDomain"
-        (selectedEvent)="onSaveResponseDomain($event)"
-        (updateEvent)="onUpdateResponseDomain($event)"
-        (removeEvent)="onResponseDomainRemove()">
+    <qddt-responsedomain-select *ngIf="questionItem" [(responseDomain)]="questionItem.responseDomain"
+      (selectedEvent)="onSaveResponseDomain($event)" (updateEvent)="onUpdateResponseDomain($event)"
+      (removeEvent)="onResponseDomainRemove()">
     </qddt-responsedomain-select>
 
-    <qddt-rational *ngIf="!readonly && questionItem.id"
-      [formName]="'RationalComp'"
-      [element]="questionItem"
+    <qddt-rational *ngIf="!readonly && questionItem.id" [formName]="'RationalComp'" [element]="questionItem"
       [config]="{hidden: [4]}">
     </qddt-rational>
 

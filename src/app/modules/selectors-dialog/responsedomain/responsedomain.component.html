@@ -1,14 +1,16 @@
-<div class="hoverable row">
+<div class="row hoverable ">
   <div class="col s7">
-    <div class="row input-field">
+    <div class="input-field">
       <ul *ngIf="canEdit" class="dropleft">
         <li *ngIf="!responseDomain">
-          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green" (click)="onItemEdit($event)">
+          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green"
+            (click)="onItemEdit($event)">
             <i class="material-icons" title="Add element">add</i>
           </a>
         </li>
         <li *ngIf="responseDomain">
-          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue" (click)="onItemGetLatest()">
+          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue"
+            (click)="onItemGetLatest()">
             <i class="material-icons" title="Get latest">autorenew</i>
           </a>
         </li>
@@ -24,15 +26,17 @@
     </div>
   </div>
   <div class="col s5">
-    <div class="row input-field">
+    <div class="input-field">
       <ul *ngIf="canEdit" class="dropleft">
         <li *ngIf="responseDomain && !responseDomain?.missing">
-          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green" (click)="onMissingEdit($event)">
+          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green"
+            (click)="onMissingEdit($event)">
             <i class="material-icons" title="Add element">add</i>
           </a>
         </li>
         <li *ngIf="responseDomain && responseDomain?.missing">
-          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue" (click)="onMissingEdit($event)">
+          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue"
+            (click)="onMissingEdit($event)">
             <i class="material-icons" title="Edit">edit</i>
           </a>
         </li>
@@ -56,7 +60,7 @@
     <div class="col s12" *ngIf="showResponseDomain">
       <div class="response-domain-title"><span>Select Domain and Search</span></div>
       <qddt-element-revision-select class="col s12" [source]="RESPONSEDOMAIN"
-      (revisionSelectedEvent)="onRevisionSelect($event)" (dismissEvent)="onDismiss($event)" >
+        (revisionSelectedEvent)="onRevisionSelect($event)" (dismissEvent)="onDismiss($event)">
       </qddt-element-revision-select>
     </div>
     <div class="col s12" *ngIf="!showResponseDomain">
@@ -65,12 +69,16 @@
       </qddt-element-select>
       <form #missingForm="ngForm" *ngIf="responseDomain.missing">
         <table>
-          <thead><tr><td>Code</td><td>Category</td></tr></thead>
+          <thead>
+            <tr>
+              <td>Code</td>
+              <td>Category</td>
+            </tr>
+          </thead>
           <tbody>
-            <tr *ngFor="let category of responseDomain.missing.children;" >
-              <td><input name="value" id="category.id" type="text"
-                [value]="category.code.codeValue"
-                [(ngModel)]="category.code.codeValue" required></td>
+            <tr *ngFor="let category of responseDomain.missing.children;">
+              <td><input name="value" id="category.id" type="text" [value]="category.code.codeValue"
+                  [(ngModel)]="category.code.codeValue" required></td>
               <td>{{ category?.label }}</td>
             </tr>
           </tbody>

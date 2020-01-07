@@ -2,9 +2,8 @@
 
   <qddt-publication-preselector class="qddt-preselector"></qddt-publication-preselector>
 
-  <qddt-publication-form class="qddt-edit"
-    [publication] = "templateDetail.newItem"
-    (modifiedEvent) = "onFormModified($event)">
+  <qddt-publication-form class="qddt-edit" [publication]="templateDetail.newItem"
+    (modifiedEvent)="onFormModified($event)">
   </qddt-publication-form>
 
   <router-outlet></router-outlet>

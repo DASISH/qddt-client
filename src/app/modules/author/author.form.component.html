@@ -1,37 +1,38 @@
 <div *ngIf="author" class="col s12">
-  <form id="UNI{{formId}}" #hf="ngForm" (ngSubmit)="onSave()">
+  <form id="UNI{{ formId }}" #hf="ngForm" (ngSubmit)="onSave()">
     <div class="row">
-      <qddt-input class="col s11"
-        required
-        name="name"
-        label="Name"
-        [(ngModel)]="author.name"
-        data-length="100">
+      <qddt-input class="col s11" required name="name" label="Name" [(ngModel)]="author.name" data-length="100">
       </qddt-input>
-      <qddt-select class="col s1"
-        required
-        name="xmlLang"
-        label="xmlLang"
-        [(ngModel)]="author.xmlLang"
-        [lockups]="LANGUAGES" >
+      <qddt-select class="col s1" required name="xmlLang" label="xmlLang" [(ngModel)]="author.xmlLang"
+        [lockups]="LANGUAGES">
       </qddt-select>
     </div>
-    <qddt-textarea
-      required
-      name="description"
-      placeholder="describe author"
-      label="Description"
-      [(ngModel)]="author.description"
+    <qddt-textarea class="row" name="about" placeholder="about author" label="Description" [(ngModel)]="author.about"
       data-length="1000">
     </qddt-textarea>
 
+    <qddt-input class="row" type="email" name="email" label="Email" [(ngModel)]="author.email" data-length="100">
+    </qddt-input>
 
-    <qddt-rational  *ngIf="!readonly && author.id" [formName]="'RationalComp'" [element]="author" [config]="{hidden: [4]}"></qddt-rational>
+    <qddt-input class="row" type="URL" name="homepage" label="homepage" [(ngModel)]="author.homepage" data-length="100">
+    </qddt-input>
 
-    <qddt-element-footer  *ngIf="author.id" [element]="author"></qddt-element-footer>
+    <qddt-input class="row" type="URL" name="picture" label="picture" [(ngModel)]="author.picture" data-length="100">
+    </qddt-input>
+
+    <qddt-input class="row" required name="authorsAffiliation" label="Authors affiliation"
+      [(ngModel)]="author.authorsAffiliation" data-length="100">
+    </qddt-input>
+
+    <qddt-rational *ngIf="!readonly && author.id" [formName]="'RationalComp'" [element]="author"
+      [config]="{ hidden: [4] }"></qddt-rational>
+
+    <qddt-element-footer *ngIf="author.id" [element]="author"></qddt-element-footer>
 
     <div class="row right-align">
-        <button  *ngIf="!readonly" type="submit" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
+      <button *ngIf="!readonly" type="submit" class="btn btn-default" [disabled]="!hf.form.valid">
+        Submit
+      </button>
     </div>
   </form>
 </div>

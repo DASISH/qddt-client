@@ -1,8 +1,6 @@
 <qddt-template-component #detail>
 
-  <qddt-category-form class="qddt-edit"
-    [category] = "templateDetail.newItem"
-    (modifiedEvent) = "onFormModified($event)">
+  <qddt-category-form class="qddt-edit" [category]="templateDetail.newItem" (modifiedEvent)="onFormModified($event)">
   </qddt-category-form>
 
   <router-outlet></router-outlet>

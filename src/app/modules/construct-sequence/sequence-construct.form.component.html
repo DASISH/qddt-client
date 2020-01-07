@@ -1,59 +1,35 @@
-<div *ngIf="sequence" class="col s12" >
+<div *ngIf="sequence" class="col s12">
   <form id="{{formId}}" #hf="ngForm" (ngSubmit)="onSave()">
     <div class="row">
-      <qddt-input class="col s11"
-        required
-        name="name"
-        label="Name"
-        [(ngModel)]="sequence.name"
-        data-length="100">
+      <qddt-input class="col s11" required name="name" label="Name" [(ngModel)]="sequence.name" data-length="100">
       </qddt-input>
 
-      <qddt-select class="col s1"
-        required
-        name="xmlLang"
-        label="xmlLang"
-        [(ngModel)]="sequence.xmlLang"
-        [lockups]="LANGUAGES" >
+      <qddt-select class="col s1" required name="xmlLang" label="xmlLang" [(ngModel)]="sequence.xmlLang"
+        [lockups]="LANGUAGES">
       </qddt-select>
     </div>
 
-    <qddt-input
-      required
-      name="label"
-      label="Label"
-      [(ngModel)]="sequence.label"
-      data-length="255">
+    <qddt-input required name="label" label="Label" [(ngModel)]="sequence.label" data-length="255">
     </qddt-input>
 
-    <qddt-textarea
-      required
-      name="description"
-      placeholder="add description"
-      label="Description"
-      [(ngModel)]="sequence.description"
-      data-length="255">
+    <qddt-textarea required name="description" placeholder="add description" label="Description"
+      [(ngModel)]="sequence.description" data-length="255">
     </qddt-textarea>
 
-    <qddt-select
-      required
-      name="SequenceKind"
-      label="SequenceKind"
-      [(ngModel)]="sequence.sequenceKind"
-      [lockups]="SEQUENCE_MAP" >
+    <qddt-select required name="SequenceKind" label="SequenceKind" [(ngModel)]="sequence.sequenceKind"
+      [lockups]="SEQUENCE_MAP">
     </qddt-select>
 
-    <qddt-constructs
-        [revisionRefs]="sequence.sequence"  [readonly]="readonly"
-        (actionEvent)="onDoAction($event)">
+    <qddt-constructs [revisionRefs]="sequence.sequence" [readonly]="readonly" (actionEvent)="onDoAction($event)">
     </qddt-constructs>
 
-    <qddt-rational *ngIf="!readonly && sequence.modified" [formName]="'RationalComp'" [element]="sequence" [config]="{hidden: [4]}"></qddt-rational>
+    <qddt-rational *ngIf="!readonly && sequence.modified" [formName]="'RationalComp'" [element]="sequence"
+      [config]="{hidden: [4]}"></qddt-rational>
 
     <qddt-element-footer *ngIf="sequence.id" [element]="sequence"></qddt-element-footer>
 
     <div class="row right-align">
-        <button *ngIf="!readonly" [disabled]="!hf.form.valid" type="submit" class="btn btn-default">Submit</button>
+      <button *ngIf="!readonly" [disabled]="!hf.form.valid" type="submit" class="btn btn-default">Submit</button>
     </div>
   </form>
 </div>

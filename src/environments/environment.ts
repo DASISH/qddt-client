@@ -5,9 +5,8 @@
 
 export const environment = {
   production: false,
-  APP_BASE: '/',
-  API_BASE: 'https://qddt-test.nsd.no/api/'
+  APP_BASE: "/",
+  API_BASE: "http://localhost:5001/"
 };
 // API_BASE: 'http://localhost:5001/'
 // API_BASE: 'https://qddt-test.nsd.no/api/'
-
