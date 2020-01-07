@@ -12,8 +12,8 @@ import {
   NG_VALIDATORS,
   NG_ASYNC_VALIDATORS,
 } from '@angular/forms';
-import {ElementBase} from './element-base.class';
-import {animations} from './animations';
+import { ElementBase } from './element-base.class';
+import { animations } from './animations';
 
 @Component({
   selector: 'qddt-textarea',
@@ -28,7 +28,7 @@ import {animations} from './animations';
         [ngClass]="{invalid: (invalid | async)}" >
       </textarea>
       <label *ngIf="label" for="{{identifier}}">{{label}}</label>
-      <qddt-validation [@flyInOut]="'in,out'" *ngIf="invalid | async" [messages]="failures | async"></qddt-validation>
+      <!-- <qddt-validation [@flyInOut]="'in,out'" *ngIf="invalid | async" [messages]="failures | async"></qddt-validation> -->
     </div>
 
   `,
@@ -39,7 +39,7 @@ import {animations} from './animations';
     multi: true,
   }],
 })
-export class FormTextAreaComponent extends ElementBase<string>  implements AfterViewInit {
+export class FormTextAreaComponent extends ElementBase<string> implements AfterViewInit {
   @Input() public label: string;
   @Input() public placeholder: string;
 

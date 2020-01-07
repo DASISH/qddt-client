@@ -1,10 +1,10 @@
 <div *ngIf="sequence" class="col s12">
   <form id="{{formId}}" #hf="ngForm" (ngSubmit)="onSave()">
     <div class="row">
-      <qddt-input class="col s11" required name="name" label="Name" [(ngModel)]="sequence.name" data-length="100">
+      <qddt-input class="col s10" required name="name" label="Name" [(ngModel)]="sequence.name" data-length="100">
       </qddt-input>
 
-      <qddt-select class="col s1" required name="xmlLang" label="xmlLang" [(ngModel)]="sequence.xmlLang"
+      <qddt-select class="col s2" required name="xmlLang" label="xmlLang" [(ngModel)]="sequence.xmlLang"
         [lockups]="LANGUAGES">
       </qddt-select>
     </div>

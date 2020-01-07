@@ -1,5 +1,5 @@
-import {Component, Optional, Inject, Input, ViewChild, AfterViewInit} from '@angular/core';
-import { NgModel,  NG_VALUE_ACCESSOR,  NG_VALIDATORS,  NG_ASYNC_VALIDATORS } from '@angular/forms';
+import { Component, Optional, Inject, Input, ViewChild, AfterViewInit } from '@angular/core';
+import { NgModel, NG_VALUE_ACCESSOR, NG_VALIDATORS, NG_ASYNC_VALIDATORS } from '@angular/forms';
 import { ElementBase } from './element-base.class';
 import { animations } from './animations';
 
@@ -14,7 +14,7 @@ import { animations } from './animations';
         placeholder="{{placeholder}}"
         [(ngModel)]="value"
         [ngModelOptions]="{updateOn: 'blur'}"
-        [ngClass]="{invalid: (invalid | async)}" />
+         />
       <label *ngIf="label" for="{{identifier}}">{{label}}</label>
       <!-- <qddt-validation [@flyInOut]="'in,out'" *ngIf="invalid | async" [messages]="failures | async"></qddt-validation> -->
     </div>

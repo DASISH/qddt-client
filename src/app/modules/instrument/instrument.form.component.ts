@@ -7,6 +7,7 @@ import {
   InstrumentKind,
   StringIsNumber,
   LANGUAGE_MAP,
+  toSelectItems,
   TemplateService
 } from '../../lib';
 
@@ -26,15 +27,15 @@ export class InstrumentFormComponent implements OnChanges {
 
   public formId = Math.round(Math.random() * 10000);
   public currentInstrumentType = InstrumentKind.QUESTIONNAIRE;
-  public readonly instrumentKinds;
+  public readonly instrumentKinds = INSTRUMENT_KIND;
   public readonly LANGUAGES = LANGUAGE_MAP;
 
   constructor(private service: TemplateService) {
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.INSTRUMENT);
-    this.instrumentKinds = Object.keys( INSTRUMENT_KIND )
-    .filter(StringIsNumber)
-    .filter(f => f !== '0')
-    .map(key => (InstrumentKind[key] as string));
+    // this.instrumentKinds = Object.keys( INSTRUMENT_KIND )
+    // .filter(StringIsNumber)
+    // .filter(f => f !== '0')
+    // .map(key => (InstrumentKind[key] as string));
   }
 
   ngOnChanges(changes: SimpleChanges): void {
