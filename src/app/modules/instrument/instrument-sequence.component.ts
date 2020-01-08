@@ -1,15 +1,12 @@
-import { Component, Input, AfterViewInit } from '@angular/core';
+import { Component, Input, AfterViewInit, EventEmitter, Output, OnChanges, SimpleChanges } from '@angular/core';
 import {
   HEADER_DETAILS,
   ElementKind,
   ElementRevisionRef,
   IElement,
-  IPageSearch,
   IRevisionRef,
-  Page,
-  SequenceConstruct, getElementKind, InstrumentSequence, getIcon, TemplateService
+  getElementKind, InstrumentSequence, getIcon, TemplateService, CONSTRUCT_MAP, ActionKind, MessageService
 } from '../../lib';
-
 
 
 @Component({
@@ -17,19 +14,35 @@ import {
   templateUrl: './instrument-sequence.component.html'
 })
 
-export class InstrumentSequenceComponent implements AfterViewInit {
+export class InstrumentSequenceComponent implements OnChanges {
   @Input() sequence: InstrumentSequence[];
+  @Input() readonly = false;
+  @Input() level = 0;
+  @Output() actionEvent = new EventEmitter<{ action: ActionKind, ref: ElementRevisionRef }>();
 
-  public showProgressBar = false;
+  public readonly modalId = Math.round(Math.random() * 10000);
+  public readonly selectOptions = CONSTRUCT_MAP;
   public readonly SEQUENCE = ElementKind.SEQUENCE_CONSTRUCT;
-  // private refMap: Map<string, string> = new Map();
+  public selectId = 0;
+  public SOURCE: IElement | IRevisionRef | null;
+  // tslint:disable-next-line:variable-name
+  private _modalRef: M.Modal;
 
-  constructor(private service: TemplateService) {
+
+  private action = ActionKind.Create;
+
+  constructor(private service: TemplateService, public message: MessageService) { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(this.sequence || JSON);
   }
 
-  ngAfterViewInit(): void {
-    var elems = document.querySelectorAll('.collapsible');
-    M.Collapsible.init(elems);
+
+  get modalRef(): M.Modal {
+    if (!(this._modalRef)) {
+      this._modalRef = M.Modal.init(document.querySelector('#MODAL-' + this.modalId));
+    }
+    return this._modalRef;
   }
 
 
@@ -45,36 +58,14 @@ export class InstrumentSequenceComponent implements AfterViewInit {
     this.sequence.push(insSeq);
   }
 
-  public onDeleteItem(idx) {
-    this.sequence.splice(idx, 1);
-  }
 
   public onDismiss() {
     console.log('dissmiss');
   }
 
-  public onOpenBody(sequence: InstrumentSequence[]) {
-    sequence.forEach((item) => {
-      if (!item.elementRef.element && !this.isSequence(item.elementRef.elementKind)) {
-        this.service.getByKindRevision(
-          getElementKind(item.elementRef.elementKind),
-          item.elementRef.elementId,
-          item.elementRef.elementRevision)
-          .then((result) => {
-            item.elementRef.element = result.entity;
-            item.elementRef.version = result.entity.version;
-          });
-      }
-    });
-
-  }
-
-  public isSequence(kind: ElementKind | string): boolean {
-    return getElementKind(kind) === this.SEQUENCE;
-  }
-
-  public getMatIcon(kind: ElementKind): string {
-    return getIcon(kind);
+  public onSelectOption(value) {
+    this.SOURCE = { element: '', elementKind: value };
+    console.log(this.SOURCE);
   }
 
 

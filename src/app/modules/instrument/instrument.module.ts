@@ -7,13 +7,15 @@ import { InstrumentDetailComponent } from './instrument.detail.component';
 import { PreviewModule } from '../preview/preview.module';
 import { InstrumentSequenceComponent } from './instrument-sequence.component';
 import { SelectorsModule } from '../selectors/selectors.module';
+import { InstrumentSequenceTreeComponent } from './instrument-sequence-tree.component';
 
 
 @NgModule({
-  imports: [ ComponentsModule, InstrumentRoutingModule, PreviewModule, SelectorsModule ],
-  declarations: [ InstrumentComponent, InstrumentFormComponent, InstrumentDetailComponent, InstrumentSequenceComponent ],
-  exports: [ InstrumentComponent ],
-  providers: [  ]
+  imports: [ComponentsModule, InstrumentRoutingModule, PreviewModule, SelectorsModule],
+  declarations: [InstrumentComponent, InstrumentFormComponent, InstrumentDetailComponent,
+    InstrumentSequenceComponent, InstrumentSequenceTreeComponent],
+  exports: [InstrumentComponent],
+  providers: []
 })
 
 export class InstrumentModule { }
