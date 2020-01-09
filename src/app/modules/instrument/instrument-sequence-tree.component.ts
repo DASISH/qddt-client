@@ -1,6 +1,5 @@
-import { Component, Input, EventEmitter, Output, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import {
-  HEADER_DETAILS,
   ElementKind,
   ElementRevisionRef,
   IElement,
@@ -49,13 +48,6 @@ export class InstrumentSequenceTreeComponent {
     this._showButton = value;
   }
 
-  ngAfterViewInit(): void {
-
-    var elems = document.querySelectorAll('.collapsible');
-    M.Collapsible.init(elems);
-    (document.getElementById('UL-' + this.modalId) as HTMLElement).style.marginLeft = this.level + 'rem';
-  }
-
 
   public onRevisionSelect(ref: ElementRevisionRef) {
     const insSeq = new InstrumentSequence();
@@ -78,7 +70,7 @@ export class InstrumentSequenceTreeComponent {
   }
 
   public onOpenBody(item: InstrumentSequence) {
-    // sequence.forEach((item) => {
+
     if (!item.elementRef.element && !this.isSequence(item.elementRef.elementKind)) {
       this.service.getByKindRevision(
         getElementKind(item.elementRef.elementKind),
@@ -89,8 +81,6 @@ export class InstrumentSequenceTreeComponent {
           item.elementRef.version = result.entity.version;
         });
     }
-    // });
-
   }
 
   public isSequence(kind: ElementKind | string): boolean {

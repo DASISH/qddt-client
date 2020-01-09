@@ -8,7 +8,7 @@ import { API_BASE_HREF } from './api';
 import { environment } from '../environments/environment';
 import { routing } from './app.routes';
 import { ErrorLogService, GlobalErrorHandler, SessionService, TemplateService } from './lib/services';
-import { TokenInterceptor} from './lib/interceptor';
+import { TokenInterceptor } from './lib/interceptor';
 import { AppComponent } from './app.component';
 import { CategoryModule } from './modules/category/category.module';
 import { ChangeLogModule } from './modules/changelog/changelog.module';
@@ -19,7 +19,7 @@ import { InstructionModule } from './modules/instruction/instruction.module';
 import { InstrumentModule } from './modules/instrument/instrument.module';
 import { MenuModule } from './modules/menu/menu.module';
 import { MissingModule } from './modules/category-missing/missing.module';
-import { PageNotFoundComponent} from './components/pagenotfound/page-not-found.component';
+import { PageNotFoundComponent } from './components/pagenotfound/page-not-found.component';
 import { PreviewModule } from './modules/preview/preview.module';
 import { PublicationModule } from './modules/publication/publication.module';
 import { QuestionConstructModule } from './modules/construct-question/question-construct.module';
@@ -31,25 +31,25 @@ import { UniverseModule } from './modules/universe/universe.module';
 import { UserModule } from './modules/user/user.module';
 import { StatementModule } from './modules/construct-statement/statement.module';
 import { ConditionModule } from './modules/construct-condition/condition.module';
-import { AuthorModule} from './modules/author/author.module';
+import { AuthorModule } from './modules/author/author.module';
 
 
 @NgModule({
-  imports: [ BrowserModule, HttpClientModule, ComponentsModule, CoreModule, BrowserAnimationsModule, HomeModule, MenuModule,
-    SelectorDialogsModule, CategoryModule,  ResponsedomainModule, QuestionModule, PreviewModule, AuthorModule,
+  imports: [BrowserModule, HttpClientModule, ComponentsModule, CoreModule, BrowserAnimationsModule, HomeModule, MenuModule,
+    SelectorDialogsModule, CategoryModule, ResponsedomainModule, QuestionModule, PreviewModule, AuthorModule,
     MissingModule, UniverseModule, ChangeLogModule, InstructionModule, InstrumentModule, StatementModule, ConditionModule,
-    PublicationModule, QuestionConstructModule, SequenceModule, UserModule, routing ],
+    PublicationModule, QuestionConstructModule, SequenceModule, UserModule, routing],
 
-    declarations: [ AppComponent, PageNotFoundComponent ],
+  declarations: [AppComponent, PageNotFoundComponent],
 
-    providers: [ ErrorLogService, TemplateService,
-      { provide: LOCALE_ID, deps: [SessionService], useFactory: sessionService => sessionService.locale },
-      { provide: APP_BASE_HREF, useValue: environment.APP_BASE },
-      { provide: API_BASE_HREF, useValue: environment.API_BASE },
-      { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
-      { provide: ErrorHandler, useClass: GlobalErrorHandler }
-    ],
-  bootstrap: [ AppComponent ]
+  providers: [ErrorLogService, TemplateService,
+    { provide: LOCALE_ID, deps: [SessionService], useFactory: sessionService => sessionService.locale },
+    { provide: APP_BASE_HREF, useValue: environment.APP_BASE },
+    { provide: API_BASE_HREF, useValue: environment.API_BASE },
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    { provide: ErrorHandler, useClass: GlobalErrorHandler }
+  ],
+  bootstrap: [AppComponent]
 })
 
 export class AppModule { }

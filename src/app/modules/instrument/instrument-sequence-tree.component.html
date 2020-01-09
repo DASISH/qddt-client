@@ -1,7 +1,6 @@
-<ul id="UL-{{modalId}}" class="collapsible accordion" style="margin-top:0; margin-bottom: 0;">
-  <li *ngFor="let cqi of subSequence;let idx = index;" (mouseenter)="showButton = !readonly"
-    (mouseleave)="showButton = false" (click)="onOpenBody(cqi)">
-
+<ng-container *ngFor="let cqi of subSequence;let idx = index;">
+  <li [ngStyle]="{'marginLeft': level*1.5+'rem' }"
+      (mouseenter)="showButton = !readonly" (mouseleave)="showButton = false" (click)="onOpenBody(cqi)">
     <div class="collapsible-header grey lighten-5">
       <ul *ngIf="showButton" class="dropleft">
         <li>
@@ -27,7 +26,6 @@
       <div class="col s9 m10 " [innerHtml]=cqi.elementRef?.name></div>
       <qddt-version-label class="col s3 m2 " [revisionRef]="cqi.elementRef"></qddt-version-label>
     </div>
-
     <div class="collapsible-body">
       <label *ngIf="cqi.parameters.size > 0">Parameters</label>
       <div *ngFor="let parameter of cqi.parameters">
@@ -36,7 +34,8 @@
       <qddt-preview-element [element]="cqi.elementRef.element" [showDetail]="false"></qddt-preview-element>
       <label *ngIf="isSequence(cqi.elementRef.elementKind)">Description</label>
     </div>
-    <qddt-instrument-sequence-tree *ngIf="cqi.sequence?.length >0" [subSequence]="cqi.sequence" [level]="level+1">
-    </qddt-instrument-sequence-tree>
   </li>
-</ul>
+
+  <qddt-instrument-sequence-tree *ngIf="cqi.sequence?.length >0" [subSequence]="cqi.sequence" [level]="level+1">
+  </qddt-instrument-sequence-tree>
+</ng-container>

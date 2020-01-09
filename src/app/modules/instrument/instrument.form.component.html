@@ -17,7 +17,11 @@
       [lockups]="instrumentKinds">
     </qddt-select>
 
-    <qddt-instrument-sequence [(sequence)]="element.sequence"></qddt-instrument-sequence>
+<!--    <qddt-tree-view [node]="element.sequence">-->
+<!--      <span>{{node | json}} </span>-->
+<!--    </qddt-tree-view>-->
+
+     <qddt-instrument-sequence [(sequence)]="element.sequence"></qddt-instrument-sequence>
 
     <qddt-rational [formName]="'RationalComp'" *ngIf="!readonly && element.id" [element]="element"
       [config]="{hidden: [3,4]}">

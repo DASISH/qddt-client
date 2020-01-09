@@ -1,4 +1,4 @@
-import {ActionKind, ElementKind} from '../enums';
+import { ActionKind, ElementKind } from '../enums';
 
 export interface MenuItem { id: string; name: string; }
 
@@ -16,18 +16,18 @@ export interface IMoveTo {
 
 export interface IElement {
   element: any;
-  elementKind: ElementKind|string;
+  elementKind: ElementKind | string;
 }
 
 export interface IElementRef {
   elementId: string;
-  elementKind: ElementKind|string;
+  elementKind: ElementKind | string;
 }
 
 export interface IRevisionRef extends IElementRef {
   elementId: string;
   elementRevision: number;
-  elementKind: ElementKind|string;
+  elementKind: ElementKind | string;
 }
 
 export interface ITreeRef {
@@ -36,6 +36,9 @@ export interface ITreeRef {
   parent?: ITreeRef;
 }
 
+export interface ITreeNode {
+  children: ITreeNode;
+}
 export interface ISelectOption {
   id: number;
   label: string;
@@ -65,10 +68,10 @@ export interface IComment {
 }
 
 export interface IVersion {
-  major: string|number;
-  minor: string|number;
+  major: string | number;
+  minor: string | number;
   versionLabel?: string;
-  revision?: string|number;
+  revision?: string | number;
 }
 
 export interface IOtherMaterial {

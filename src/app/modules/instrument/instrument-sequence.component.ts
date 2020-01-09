@@ -1,11 +1,11 @@
 import { Component, Input, AfterViewInit, EventEmitter, Output, OnChanges, SimpleChanges } from '@angular/core';
 import {
-  HEADER_DETAILS,
   ElementKind,
   ElementRevisionRef,
   IElement,
   IRevisionRef,
-  getElementKind, InstrumentSequence, getIcon, TemplateService, CONSTRUCT_MAP, ActionKind, MessageService
+  InstrumentSequence,
+  TemplateService, CONSTRUCT_MAP, ActionKind, MessageService
 } from '../../lib';
 
 
@@ -14,7 +14,7 @@ import {
   templateUrl: './instrument-sequence.component.html'
 })
 
-export class InstrumentSequenceComponent implements OnChanges {
+export class InstrumentSequenceComponent implements AfterViewInit {
   @Input() sequence: InstrumentSequence[];
   @Input() readonly = false;
   @Input() level = 0;
@@ -33,10 +33,13 @@ export class InstrumentSequenceComponent implements OnChanges {
 
   constructor(private service: TemplateService, public message: MessageService) { }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(this.sequence || JSON);
-  }
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   console.log(this.sequence || JSON);
+  // }
 
+  ngAfterViewInit(): void {
+    M.Collapsible.init(document.querySelectorAll('.collapsible'));
+  }
 
   get modalRef(): M.Modal {
     if (!(this._modalRef)) {

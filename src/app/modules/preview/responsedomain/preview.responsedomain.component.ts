@@ -1,10 +1,10 @@
-import {AfterViewInit, Component, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {Category, DomainKind, ResponseCardinality, ResponseDomain} from '../../../lib';
+import { AfterViewInit, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Category, DomainKind, ResponseCardinality, ResponseDomain } from '../../../lib';
 
 @Component({
   selector: 'qddt-preview-responsedomain',
 
-  styles: [  ],
+  styles: [],
   template: `
     <div *ngIf="responseType" class="row card-panel grey lighten-5 grey-text text-darken-1">
     <label *ngIf="responseType !== refKind.MIXED" >
@@ -31,12 +31,12 @@ export class PreviewResponsedomainComponent implements OnChanges, AfterViewInit 
   public cardinality: ResponseCardinality;
   public displayLayout: number;
   public rep: Category;
-  public compId = Math.round( Math.random() * 10000);
+  public compId = Math.round(Math.random() * 10000);
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.responseDomain) {
       this.responseType = DomainKind[this.responseDomain.responseKind];
-      this.rep = new Category( this.responseDomain.managedRepresentation);
+      this.rep = new Category(this.responseDomain.managedRepresentation);
       this.cardinality = new ResponseCardinality(this.responseDomain.responseCardinality);
       this.displayLayout = +this.responseDomain.displayLayout;
     }
