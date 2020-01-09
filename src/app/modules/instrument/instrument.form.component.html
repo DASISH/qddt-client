@@ -12,11 +12,12 @@
     </qddt-input>
     <qddt-textarea required name="description" label="Description" [(ngModel)]="element.description" data-length="1000">
     </qddt-textarea>
-
-    <qddt-select required name="instrumentKind" label="Instrument type" [(ngModel)]="element.instrumentKind"
-      [lockups]="instrumentKinds">
-    </qddt-select>
-
+    <div class="row">
+      <qddt-select class="col s5" required name="instrumentKind" label="Instrument type" [(ngModel)]="element.instrumentKind"
+        [lockups]="instrumentKinds">
+      </qddt-select>
+      <div class="col s7">{{getDescription(element.instrumentKind)}}</div>
+    </div>
 <!--    <qddt-tree-view [node]="element.sequence">-->
 <!--      <span>{{node | json}} </span>-->
 <!--    </qddt-tree-view>-->

@@ -59,4 +59,8 @@ export class InstrumentFormComponent implements OnChanges {
       },
       (error) => { throw error; });
   }
+
+  public getDescription(value: string): string {
+    return this.instrumentKinds.find( pre => pre.value === value).description;
+  }
 }

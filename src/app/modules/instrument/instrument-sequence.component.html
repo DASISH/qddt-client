@@ -1,4 +1,7 @@
 <ul class="collapsible accordion">
+  <li (click)="doAdd()">
+      <div class="collapsible-header grey lighten-5">Questionare</div>
+  </li>
   <qddt-instrument-sequence-tree *ngIf="sequence" [subSequence]="sequence">
   </qddt-instrument-sequence-tree>
 </ul>

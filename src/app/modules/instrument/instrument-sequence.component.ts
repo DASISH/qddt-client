@@ -33,9 +33,6 @@ export class InstrumentSequenceComponent implements AfterViewInit {
 
   constructor(private service: TemplateService, public message: MessageService) { }
 
-  // ngOnChanges(changes: SimpleChanges): void {
-  //   console.log(this.sequence || JSON);
-  // }
 
   ngAfterViewInit(): void {
     M.Collapsible.init(document.querySelectorAll('.collapsible'));
@@ -71,5 +68,8 @@ export class InstrumentSequenceComponent implements AfterViewInit {
     console.log(this.SOURCE);
   }
 
+  public doAdd() {
+    this.modalRef.open();
+  }
 
 }
