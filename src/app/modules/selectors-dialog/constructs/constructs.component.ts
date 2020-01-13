@@ -41,11 +41,6 @@ import { CONSTRUCT_MAP,
             <i class="material-icons" title="Remove selected">remove</i>
           </a>
         </li>
-<!--        <li>-->
-<!--          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green" (click)="onItemNew($event, cqi)">-->
-<!--            <i class="material-icons" title="insert above">add</i>-->
-<!--          </a>-->
-<!--        </li>-->
       </ul>
       <div class="question">
           <i class="material-icons small">{{getMatIcon(cqi.elementKind)}}</i><div [innerHtml]=cqi?.name></div>

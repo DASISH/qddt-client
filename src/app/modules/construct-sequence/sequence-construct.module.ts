@@ -6,7 +6,6 @@ import { QuestionModule } from '../question/question.module';
 
 import { SequenceFormComponent } from './sequence-construct.form.component';
 import { SequenceDetailComponent } from './sequence-construct.detail.component';
-import { SequenceContentComponent } from './sequence-construct.content.component';
 import { SequenceConstructComponent } from './sequence-construct.component';
 import { SequenceRoutingModule } from './sequence-construct.routes';
 import { SelectorDialogsModule} from '../selectors-dialog/selectors-dialog.module';
@@ -16,7 +15,7 @@ import { SelectorDialogsModule} from '../selectors-dialog/selectors-dialog.modul
 @NgModule({
   imports: [ ComponentsModule, ResponsedomainModule, QuestionModule, PreviewModule,
     SelectorDialogsModule, SequenceRoutingModule ],
-  declarations: [ SequenceFormComponent, SequenceDetailComponent, SequenceContentComponent,
+  declarations: [ SequenceFormComponent, SequenceDetailComponent,
       SequenceConstructComponent ],
   exports: [ SequenceConstructComponent ],
   providers: [  ]

@@ -34,9 +34,7 @@ export class InstrumentSequenceComponent implements AfterViewInit {
   constructor(private service: TemplateService, public message: MessageService) { }
 
 
-  ngAfterViewInit(): void {
-    M.Collapsible.init(document.querySelectorAll('.collapsible'));
-  }
+  ngAfterViewInit(): void {}
 
   get modalRef(): M.Modal {
     if (!(this._modalRef)) {
@@ -60,7 +58,7 @@ export class InstrumentSequenceComponent implements AfterViewInit {
 
 
   public onDismiss() {
-    console.log('dissmiss');
+    this.modalRef.close();
   }
 
   public onSelectOption(value) {

@@ -1,34 +1,26 @@
-<ul class="collapsible accordion" (click)="onOpenBody(sequence)">
-  <li *ngFor="let cqi of sequence;let idx = index;">
-    <div class="collapsible-header grey lighten-5">
-      <div class="col s10">
-        <i class="material-icons"
-          title="{{cqi?.elementRef?.elementKind}}">{{ getMatIcon(cqi?.elementRef?.elementKind) }}</i>
-        [{{ cqi?.elementRef?.name }}]</div>
-      <div class="col s2">
-        <qddt-version-label [element]="cqi?.elementRef"></qddt-version-label>
+<qddt-instrument-sequence-tree *ngIf="sequence" [subSequence]="sequence" class="row">
+</qddt-instrument-sequence-tree>
+
+  <!-- Modal Structure -->
+<div id="MODAL-{{modalId}}" class="modal modal-fixed-footer">
+  <div class="modal-content">
+    <h4>Select version</h4>
+    <div class="card-action">
+      <div class="row">
+        <div class="col left" *ngFor="let option of selectOptions">
+          <label>
+            <input name="DOMAIN-TYPE-GROUP" type="radio" [checked]="selectId === option.id"
+              (click)="onSelectOption(option.value)" />
+            <span>{{ option.label }}</span>
+          </label>
+        </div>
       </div>
     </div>
-    <div class="collapsible-body">
-      <label *ngIf="cqi.parameters.size > 0">Parameters</label>
-      <div *ngFor="let parameter of cqi.parameters">
-        <div class="chip"> {{parameter.name}} </div>
-      </div>
-      <qddt-preview-element *ngIf="!isSequence(cqi.elementRef.elementKind)" [element]="cqi.elementRef.element"
-        [showDetail]="false"></qddt-preview-element>
-      <label *ngIf="isSequence(cqi.elementRef.elementKind)">Description</label>
-    </div>
-    <qddt-instrument-sequence *ngIf="isSequence(cqi.elementRef.elementKind)" ([sequence])="cqi.sequence">
-    </qddt-instrument-sequence>
-  </li>
-  <li>
-    <div class="collapsible-header grey lighten-5">
-      <div>Add element </div>
-    </div>
-    <div class="collapsible-body">
-      <qddt-element-revision-select [source]="{  element:'', elementKind: 'SEQUENCE_CONSTRUCT' }"
-        (revisionSelectedEvent)="onRevisionSelect($event)" (dismissEvent)="onDismiss()">
-      </qddt-element-revision-select>
-    </div>
-  </li>
-</ul>
+    <qddt-element-revision-select [source]="SOURCE" (revisionSelectedEvent)="onRevisionSelect($event)"
+      (dismissEvent)="onDismiss()">
+    </qddt-element-revision-select>
+  </div>
+  <div class="modal-footer">
+    <a class="btn red waves-effect waves-red" (click)="onDismiss()">Dismiss</a>
+  </div>
+</div>

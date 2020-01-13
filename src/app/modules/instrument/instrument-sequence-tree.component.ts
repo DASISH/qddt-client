@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import {Component, Input, EventEmitter, Output, AfterContentInit} from '@angular/core';
 import {
   ElementKind,
   ElementRevisionRef,
@@ -6,24 +6,26 @@ import {
   IRevisionRef,
   getElementKind, InstrumentSequence, getIcon, TemplateService, CONSTRUCT_MAP, ActionKind, MessageService
 } from '../../lib';
+import {Router} from '@angular/router';
 
 
 
 @Component({
   selector: 'qddt-instrument-sequence-tree',
   styles: [
-    'ul { padding: 1px; border: 0; }',
+    'ul.collapsible { padding: 1px; border: 0; margin-top:0; margin-bottom: 0; }',
+    'ul.collapsible  ul.collapsible {  margin-left: 1rem; }',
     '.collapsible-header {padding: 0.75rem; }',
     '.collapsible-header:hover > ul.dropleft { display:block; }',
   ],
   templateUrl: './instrument-sequence-tree.component.html'
 })
 
-export class InstrumentSequenceTreeComponent {
+export class InstrumentSequenceTreeComponent implements AfterContentInit {
   @Input() subSequence: InstrumentSequence[];
   @Input() readonly = false;
   @Input() level = 0;
-  @Output() actionEvent = new EventEmitter<{ action: ActionKind, ref: ElementRevisionRef }>();
+  @Output() actionEvent = new EventEmitter<{ action: ActionKind, ref: InstrumentSequence }>();
 
   public readonly modalId = Math.round(Math.random() * 10000);
   public readonly selectOptions = CONSTRUCT_MAP;
@@ -34,8 +36,12 @@ export class InstrumentSequenceTreeComponent {
   private _showButton = false;
   private action = ActionKind.Create;
 
-  constructor(private service: TemplateService, public message: MessageService) {
+  constructor(private service: TemplateService, public message: MessageService, private router: Router) {
 
+  }
+
+  ngAfterContentInit(): void {
+      M.Collapsible.init(document.querySelectorAll('.collapsible'));
   }
 
   get showButton(): boolean {
@@ -61,9 +67,6 @@ export class InstrumentSequenceTreeComponent {
     this.subSequence.push(insSeq);
   }
 
-  public onDeleteItem(idx) {
-    this.subSequence.splice(idx, 1);
-  }
 
   public onDismiss() {
     console.log('dissmiss');
@@ -87,26 +90,14 @@ export class InstrumentSequenceTreeComponent {
     return getElementKind(kind) === this.SEQUENCE;
   }
 
-  public onItemNew(event: Event, ref?: ElementRevisionRef) {
+  public onItemEdit(event: Event, cqi: ElementRevisionRef) {
     event.stopPropagation();
-    this.action = ActionKind.Create;
+    console.log(cqi || JSON);
+    this.service.searchByUuid(cqi.elementId).then(
+      (result) => { this.router.navigate([result.url]); },
+      (error) => { throw  error; });
   }
 
-  public onItemRemove(event: Event, ref: ElementRevisionRef) {
-    event.stopPropagation();
-    this.actionEvent.emit({ action: ActionKind.Delete, ref });
-  }
-
-  public onItemUpdate(event: Event, cqi: ElementRevisionRef) {
-    event.stopPropagation();
-    this.action = ActionKind.Update;
-    this.SOURCE = cqi;
-  }
-
-  public onItemPreview(event: Event, item: ElementRevisionRef) {
-    event.stopPropagation();
-    this.message.sendMessage(item);
-  }
 
   public onSelectOption(value) {
     this.SOURCE = { element: '', elementKind: value };

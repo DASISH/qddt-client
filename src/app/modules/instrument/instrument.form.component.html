@@ -22,7 +22,11 @@
 <!--      <span>{{node | json}} </span>-->
 <!--    </qddt-tree-view>-->
 
-     <qddt-instrument-sequence [(sequence)]="element.sequence"></qddt-instrument-sequence>
+    <qddt-instrument-sequence-tree [(subSequence)]="element.sequence" class="row"  (actionEvent)="onDoAction($event)">
+    </qddt-instrument-sequence-tree>
+
+
+<!--     <qddt-instrument-sequence [(sequence)]="element.sequence"></qddt-instrument-sequence>-->
 
     <qddt-rational [formName]="'RationalComp'" *ngIf="!readonly && element.id" [element]="element"
       [config]="{hidden: [3,4]}">
@@ -36,4 +40,29 @@
     </div>
   </form>
 </div>
-<div *ngIf="!element!">NO element here... </div>
+
+<div *ngIf="!element!">NO element here...? </div>
+
+<!-- Modal Structure -->
+<div id="MODAL-{{formId}}" class="modal modal-fixed-footer">
+  <div class="modal-content">
+    <h4>Select version</h4>
+    <div class="card-action">
+      <div class="row">
+        <div class="col left" *ngFor="let option of selectOptions">
+          <label>
+            <input name="DOMAIN-TYPE-GROUP" type="radio" [checked]="selectId === option.id"
+                   (click)="onSelectOption(option.value)" />
+            <span>{{ option.label }}</span>
+          </label>
+        </div>
+      </div>
+    </div>
+    <qddt-element-revision-select [source]="SOURCE" (revisionSelectedEvent)="onRevisionSelect($event)"
+                                  (dismissEvent)="onDismiss()">
+    </qddt-element-revision-select>
+  </div>
+  <div class="modal-footer">
+    <a class="btn red waves-effect waves-red" (click)="onDismiss()">Dismiss</a>
+  </div>
+</div>
