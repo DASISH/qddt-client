@@ -1,12 +1,17 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {
   ActionKind,
+  CONSTRUCT_MAP,
   ElementKind,
+  ElementRevisionRef,
+  IElement,
   Instrument,
   INSTRUMENT_KIND,
   InstrumentKind,
+  InstrumentSequence,
+  IRevisionRef,
   LANGUAGE_MAP,
-  TemplateService, InstrumentSequence
+  TemplateService
 } from '../../lib';
 
 @Component({
@@ -22,38 +27,16 @@ export class InstrumentFormComponent implements OnChanges {
 
   public formId = Math.round(Math.random() * 10000);
   public currentInstrumentType = InstrumentKind.QUESTIONNAIRE;
+  public SOURCE: IElement | IRevisionRef | null;
   public readonly instrumentKinds = INSTRUMENT_KIND;
   public readonly LANGUAGES = LANGUAGE_MAP;
-  private _modalRef : M.Modal;
+  public readonly selectOptions = CONSTRUCT_MAP;
+  public selectId = 0;
+  // tslint:disable-next-line:variable-name
+  private _modalRef: M.Modal;
 
   constructor(private service: TemplateService) {
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.INSTRUMENT);
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.element.currentValue) {
-      this.currentInstrumentType = InstrumentKind[this.element.instrumentKind];
-    }
-    // try { M.updateTextFields(); } catch (Exception) { }
-  }
-
-  public onSelectInstrumentType(value: InstrumentKind) {
-    this.element.instrumentKind = InstrumentKind[value];
-  }
-
-  public onUpdateInstrument() {
-    console.log(this.element);
-    this.service.update<Instrument>(this.element).subscribe(
-      (result) => {
-        console.log(result);
-        this.element = result;
-        this.modifiedEvent.emit(result);
-      },
-      (error) => { throw error; });
-  }
-
-  public getDescription(value: string): string {
-    return this.instrumentKinds.find( pre => pre.value === value).description;
   }
 
   get modalRef(): M.Modal {
@@ -63,13 +46,57 @@ export class InstrumentFormComponent implements OnChanges {
     return this._modalRef;
   }
 
+  public getDescription(value: string): string {
+    return this.instrumentKinds.find( pre => pre.value === value).description;
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes.element.currentValue) {
+      this.currentInstrumentType = InstrumentKind[this.element.instrumentKind];
+    }
+    // try { M.updateTextFields(); } catch (Exception) { }
+  }
+
+  public onUpdateInstrument() {
+    this.service.update<Instrument>(this.element).subscribe(
+      (result) => {
+        this.element = result;
+        this.modifiedEvent.emit(result);
+      },
+      (error) => { throw error; });
+  }
+
+  public onRevisionSelect(ref: ElementRevisionRef) {
+    this.element.sequence.push(
+        new InstrumentSequence( {
+          elementRef: ref,
+          sequence: ref.element.sequence
+            .map((isref: ElementRevisionRef) => new InstrumentSequence({ elementRef: isref }))
+    }));
+  }
+
+  public onSelectOption(value) {
+    this.SOURCE = { element: '', elementKind: value };
+    console.log(this.SOURCE);
+  }
+
+  public onOpen() {
+    this.modalRef.open();
+  }
+
+  public onDismiss() {
+    this.modalRef.close();
+  }
+
   public onDoAction( response) {
+    console.log(response || JSON);
     const action = response.action as ActionKind;
     const ref = response.ref as InstrumentSequence;
     switch (action) {
+      case ActionKind.Read: break;
       case ActionKind.Create: this.onItemAdded(ref); break;
-      case ActionKind.Delete: this.onItemRemoved(ref); break;
       case ActionKind.Update: this.onItemModified(ref); break;
+      case ActionKind.Delete: this.onItemRemoved(ref); break;
       default: {
         console.error('wrong action recieved ' + ActionKind[action]);
       }
@@ -77,18 +104,19 @@ export class InstrumentFormComponent implements OnChanges {
   }
 
   public onItemRemoved(ref: InstrumentSequence) {
-    console.log('onItemRemoved -> ' + ref || JSON);
-    this.element.sequence =
-      this.element.sequence.filter(f => !(f.id === ref.id ));
+      const tmp = this.element.sequence.filter(f => !(f.id === ref.id ));
+      this.element.sequence = null;
+      this.element.sequence = tmp;
   }
 
   public onItemAdded(ref: InstrumentSequence) {
-    console.log('onItemAdded -> ' + ref || JSON);
-    this.element.sequence.push(ref);
+    console.log(ref || JSON);
+    this.modalRef.open();
+    // this.element.sequence.push(ref);
   }
 
   public onItemModified(ref: InstrumentSequence) {
-    console.log('onItemModified -> ' + ref || JSON);
+    console.log(ref || JSON);
     const idx = this.element.sequence.findIndex(f => f.id === ref.id  );
     const seqNew: InstrumentSequence[] = [].concat(
       this.element.sequence.slice(0, idx ),
@@ -99,3 +127,4 @@ export class InstrumentFormComponent implements OnChanges {
   }
 
 }
+

@@ -43,7 +43,7 @@ import {
 export class ConfirmDeleteComponent implements AfterViewInit {
   @Input() element: any;
   @Input() small = false;
-  @Output() confirmAction = new EventEmitter<string>();
+  @Output() confirmAction = new EventEmitter<any>();
 
   @ViewChild('modaldelete', { static: false }) modaldelete: ElementRef;
 
@@ -62,7 +62,7 @@ export class ConfirmDeleteComponent implements AfterViewInit {
   }
 
   onOk() {
-    this.confirmAction.emit(this.element.id);
+    this.confirmAction.emit(this.element);
     this.instance.close();
   }
 

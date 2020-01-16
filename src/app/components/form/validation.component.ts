@@ -8,7 +8,7 @@ import {Component, Input} from '@angular/core';
     </div>
   `,
   styles: [`
-    .validation { color: red; margin: 6px;  }`
+    .validation { color: yellow; margin: 26px;  }`
   ]
 })
 export class ValidationComponent {

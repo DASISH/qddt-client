@@ -1,17 +1,17 @@
-<ul id="UL-{{modalId}}" class=" collapsible popup" >
+<ul class="collapsible popup" >
   <li *ngFor="let cqi of subSequence;let idx = index;"
       (mouseenter)="showButton = !readonly" (mouseleave)="showButton = false" (click)="onOpenBody(cqi)">
 
     <div class="collapsible-header grey lighten-5">
       <ul class="dropleft">
         <li>
-          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green" (click)="onItemEdit($event,cqi.elementRef)">
+          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green" (click)="onItemEdit($event, cqi)">
             <i class="material-icons tiny" title="Edit selected">edit</i>
           </a>
         </li>
         <li>
           <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue"
-             (click)="onItemUpdate($event, cqi.elementRef)">
+             (click)="onItemUpdate($event, cqi)">
             <i class="material-icons tiny" title="update selected">sync</i>
           </a>
         </li>
@@ -41,7 +41,8 @@
       <label *ngIf="isSequence(cqi.elementRef.elementKind)">Description</label>
     </div>
 
-    <qddt-instrument-sequence-tree *ngIf="cqi.sequence?.length >0" [subSequence]="cqi.sequence" [level]="level+1">
+    <qddt-instrument-sequence-tree *ngIf="cqi.sequence?.length >0" [subSequence]="cqi.sequence" [level]="level+1"
+                                   (actionEvent)="doPassEvent($event)">
     </qddt-instrument-sequence-tree>
   </li>
 </ul>

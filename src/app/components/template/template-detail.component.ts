@@ -65,11 +65,13 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterViewInit
   }
 
   onDeleteConfirmModal(item) {
-    this.service.delete(item)
+    if (item) {
+      this.service.delete(item)
       .subscribe(() => {
         this.action.action = ActionKind.Delete;
         this.goBack();
       });
+    }
   }
 
   // onConfirmDeleting() {

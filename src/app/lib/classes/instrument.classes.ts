@@ -1,6 +1,6 @@
 import { IEntityAudit } from '../interfaces';
 import { Study } from './home.classes';
-import { ElementKind } from '../enums';
+import {ActionKind, ElementKind} from '../enums';
 import { ElementRevisionRef } from './element-revision-ref';
 import { SequenceKind } from '.';
 
@@ -99,6 +99,14 @@ export class Parameter {
   name: string;
   value: any;
   public constructor(init?: Partial<Parameter>) {
+    Object.assign(this, init);
+  }
+}
+
+export class EventAction {
+  action: ActionKind;
+  ref: InstrumentSequence|ElementRevisionRef;
+  public constructor(init?: Partial<EventAction>) {
     Object.assign(this, init);
   }
 }

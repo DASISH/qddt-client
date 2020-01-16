@@ -24,13 +24,10 @@ import { animations } from './animations';
         class="materialize-textarea validate"
         placeholder="{{placeholder}}"
         [(ngModel)]="value"
-        [ngModelOptions]="{updateOn: 'blur'}"
         [ngClass]="{invalid: (invalid | async)}" >
       </textarea>
       <label *ngIf="label" for="{{identifier}}">{{label}}</label>
-      <!-- <qddt-validation [@flyInOut]="'in,out'" *ngIf="invalid | async" [messages]="failures | async"></qddt-validation> -->
     </div>
-
   `,
   animations,
   providers: [{

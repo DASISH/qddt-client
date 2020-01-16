@@ -13,10 +13,8 @@ import { animations } from './animations';
         type="{{inputType}}"
         placeholder="{{placeholder}}"
         [(ngModel)]="value"
-        [ngModelOptions]="{updateOn: 'blur'}"
-         />
+        [ngClass]="{invalid: (invalid | async)}" />
       <label *ngIf="label" for="{{identifier}}">{{label}}</label>
-      <!-- <qddt-validation [@flyInOut]="'in,out'" *ngIf="invalid | async" [messages]="failures | async"></qddt-validation> -->
     </div>
   `,
   animations,
