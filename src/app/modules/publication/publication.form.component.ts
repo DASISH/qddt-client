@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {
   ActionKind,
   ElementKind,
@@ -7,7 +7,7 @@ import {
   getElementKind,
   Publication,
   PUBLICATION_TYPES,
-  PublicationService, PublicationStatus, TemplateService, ISelectOption, SelectItem
+  PublicationService, PublicationStatus, TemplateService, ISelectOption, SelectItem, getIcon
 } from '../../lib';
 
 
@@ -16,7 +16,7 @@ import {
   templateUrl: './publication.form.component.html',
 })
 
-export class PublicationFormComponent implements OnChanges, OnInit {
+export class PublicationFormComponent implements OnChanges, OnInit, AfterViewInit {
   @Input() publication: Publication;
   @Output() modifiedEvent = new EventEmitter<IEntityEditAudit>();
 
@@ -95,4 +95,11 @@ export class PublicationFormComponent implements OnChanges, OnInit {
     this.publication.publicationElements.push(pe);
   }
 
+  ngAfterViewInit(): void {
+    const elems = document.querySelectorAll('.collapsible');
+    M.Collapsible.init(elems);
+  }
+  public getMatIcon(kind: ElementKind|string): string {
+    return getIcon(kind);
+  }
 }
