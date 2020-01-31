@@ -21,6 +21,7 @@ import {
 export class ResponsedomainComponent {
   @Input()
   set responseDomain(responseDomain) {
+    // This will ensure that a new object is created...
     this._localresponseDomain = (responseDomain) ? new ResponseDomain(JSON.parse(JSON.stringify(responseDomain))) : null;
   }
   get responseDomain(): ResponseDomain { return this._localresponseDomain; }

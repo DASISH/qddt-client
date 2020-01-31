@@ -1,12 +1,12 @@
-import {Inject, Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {Agency, IPassword, User, UserJson} from '../classes';
-import {API_BASE_HREF} from '../../api';
-import {PropertyStoreService} from './property.service';
-import {ActionKind, AuthorityKind, ElementKind} from '../enums';
-import {TOKEN_NAME} from '../consts';
-import {IAuthority} from '../interfaces';
+import { Inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { Agency, IPassword, User, UserJson } from '../classes';
+import { API_BASE_HREF } from '../../api';
+import { PropertyStoreService } from './property.service';
+import { ActionKind, AuthorityKind, ElementKind } from '../enums';
+import { TOKEN_NAME } from '../consts';
+import { IAuthority } from '../interfaces';
 
 
 /**
@@ -29,7 +29,7 @@ export class UserService {
   private user: User;
   private roles: number;
 
-  constructor(private http: HttpClient,  @Inject(API_BASE_HREF) private api: string, private property: PropertyStoreService) {
+  constructor(private http: HttpClient, @Inject(API_BASE_HREF) private api: string, private property: PropertyStoreService) {
     if (this.isTokenExpired()) {
       this.logout();
     } else {
@@ -40,7 +40,7 @@ export class UserService {
   public canDo(action: ActionKind, kind: ElementKind): boolean {
     // console.log('canDo -> Action:' + ActionKind[action] + ' Kind:' + kind);
     function canRead(roles: number) {
-      if (kind === ElementKind.UNIVERSE) {
+      if (kind >= ElementKind.INSTRUCTION && roles < AuthorityKind.ROLE_ADMIN) {
         console.log('canRead false ' + kind);
         return false;
       }
@@ -53,16 +53,16 @@ export class UserService {
     function canExport() {
       return !(kind === ElementKind.CATEGORY || kind === ElementKind.MISSING_GROUP ||
         kind === ElementKind.RESPONSEDOMAIN || kind === ElementKind.UNIVERSE ||
-        kind === ElementKind.INSTRUCTION );
+        kind === ElementKind.INSTRUCTION);
     }
 
     function canUpdate(roles: number) {
-      if ((kind === ElementKind.USER && roles < AuthorityKind.ROLE_ADMIN ) || (kind === ElementKind.CHANGE_LOG)) {
+      if ((kind === ElementKind.USER && roles < AuthorityKind.ROLE_ADMIN) || (kind === ElementKind.CHANGE_LOG)) {
         return false;
       } else if (roles >= +AuthorityKind.ROLE_EDITOR) {
         return true;
       } else if (roles >= +AuthorityKind.ROLE_CONCEPT) {
-        return (kind === ElementKind.TOPIC_GROUP || kind ===  ElementKind.CONCEPT);
+        return (kind === ElementKind.TOPIC_GROUP || kind === ElementKind.CONCEPT);
       } else {
         return false;
       }
@@ -73,8 +73,8 @@ export class UserService {
         return false;
       } else if (roles >= +AuthorityKind.ROLE_ADMIN) {
         return true;
-      } else if (roles >= +AuthorityKind.ROLE_EDITOR ) {
-        return ( kind !== ElementKind.SURVEY_PROGRAM && kind !== ElementKind.STUDY );
+      } else if (roles >= +AuthorityKind.ROLE_EDITOR) {
+        return (kind !== ElementKind.SURVEY_PROGRAM && kind !== ElementKind.STUDY);
       } else {
         return false;
       }
@@ -113,7 +113,7 @@ export class UserService {
 
   public resetPassword(password: IPassword): Observable<any> {
     if (!password.id) {
-        password.id = this.getUserId();
+      password.id = this.getUserId();
     }
     return this.http.post(this.api + UserService.RESET_PWD_URL, password);
   }
@@ -123,9 +123,9 @@ export class UserService {
       const list = this.property.get(UserService.AGENCIES);
       return Promise.resolve(list);
     }
-    return this.http.get<Agency[]>( this.api + UserService.AGENCY_URL).toPromise()
+    return this.http.get<Agency[]>(this.api + UserService.AGENCY_URL).toPromise()
       .then(result => {
-        this.property.set(UserService.AGENCIES, result );
+        this.property.set(UserService.AGENCIES, result);
         return result;
       });
   }
@@ -135,9 +135,9 @@ export class UserService {
       const list = this.property.get(UserService.AUTHORITIES);
       return Promise.resolve(list);
     }
-    return this.http.get<IAuthority[]>( this.api + UserService.AUTHORITY_URL).toPromise()
+    return this.http.get<IAuthority[]>(this.api + UserService.AUTHORITY_URL).toPromise()
       .then(result => {
-        this.property.set(UserService.AUTHORITIES, result );
+        this.property.set(UserService.AUTHORITIES, result);
         return result;
       });
   }
@@ -157,12 +157,12 @@ export class UserService {
     const expire = new Date(0);
     expire.setUTCSeconds(this.getUser().exp);
     if (expire === undefined) {
-      console.log('usr exp undefined ->') ; // + this.getUsername());
+      console.log('usr exp undefined ->'); // + this.getUsername());
       return true;
     }
     const clientTime = new Date();
     const diff = expire.getTime() - clientTime.getTime();
-    return  (diff < 0 );
+    return (diff < 0);
   }
 
   public getUsername(): string {
@@ -174,13 +174,13 @@ export class UserService {
     return this.getUser().id || '';
   }
 
-  public  getEmail(): string {
+  public getEmail(): string {
     return this.getUser().email || this.property.userSetting.email || '';
   }
 
-  public  getRoles(): string[] {
-    if ((this.getUser().role) && this.getUser().role instanceof Array ) {
-      return this.getUser().role.map( e => e.authority);
+  public getRoles(): string[] {
+    if ((this.getUser().role) && this.getUser().role instanceof Array) {
+      return this.getUser().role.map(e => e.authority);
     } else {
       return [];
     }

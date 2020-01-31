@@ -20,5 +20,7 @@ export enum ElementKind {
   UNIVERSE,
   USER,
   CHANGE_LOG,
-  AUTHOR
+  AUTHOR,
+  REFERENCED,
+  AGENCY
 }

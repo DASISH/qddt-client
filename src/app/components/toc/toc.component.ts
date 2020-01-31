@@ -12,9 +12,8 @@ import { Component, Input } from '@angular/core';
     (dragover)="onDragover($event)"
     (dragenter)="onDragenter($event)"
     (drop)="onDrop($event)" >
-      <li *ngFor="let element of elements" (drop)="onDrop($event)">
-      <a href="{{path}}#{{element.id}}" draggable="true" (dragstart)="onDragstart($event, element)">
-      {{ element.name }}</a>
+      <li *ngFor="let element of elements"  draggable="true" (dragstart)="onDragstart($event, element)">
+        <a href="{{path}}#{{element.id}}" >{{ element.name }}</a>
       </li>
     </ol>
   </div>
@@ -22,13 +21,13 @@ import { Component, Input } from '@angular/core';
 `,
   providers: []
 })
-export class TocComponent  {
+export class TocComponent {
   @Input() path: string;
   @Input() elements: any[];
 
-  constructor(  ) {}
+  constructor() { }
   // <a (click)="scrollto(element.id)">{{ element.name }}</a>
-//   <a routerLink="." fragment="{{element.id}}" queryParamsHandling="merge">{{ element.name }}</a>
+  //   <a routerLink="." fragment="{{element.id}}" queryParamsHandling="merge">{{ element.name }}</a>
   // public scrollto(tag: string) {
   //   this.viewportScroller.scrollToAnchor(tag);
   // }

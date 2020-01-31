@@ -1,0 +1,8 @@
+<qddt-template-component #detail>
+
+  <qddt-referenced-form class="qddt-edit" [referenced]="templateDetail.newItem" (modifiedEvent)="onFormModified($event)">
+  </qddt-referenced-form>
+
+  <router-outlet></router-outlet>
+
+</qddt-template-component>

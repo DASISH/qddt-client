@@ -24,14 +24,13 @@ import { SpinnerComponent } from './spinner/spinner.component';
 import { FileDownloadComponent } from './download/download.component';
 import { TemplateComponent, TemplateDetailComponent, TemplateListComponent, TemplateService } from './template';
 import { LocalDatePipe, LocalNumberPipe } from '../lib';
-import { AutosizeDirective, EqualValidator, GravatarDirective, ParentFormConnectDirective } from '../lib/directives';
+import { AutosizeDirective, EqualValidator, GravatarDirective, ParentFormConnectDirective, ContenteditableDirective } from '../lib/directives';
 import { DialogComponent } from './dialog/dialog.component';
 import { DialogBigComponent } from './dialog/dialog-big.component';
 import { ValidationComponent } from './form/validation.component';
 import { FormSelectComponent } from './form/select.component';
 import { FormInputComponent } from './form/input.component';
 import { FormTextAreaComponent } from './form/textarea.component';
-import { HoverableRowComponent } from './hoverable-row/hoverable-row.component';
 import { FormInputNComponent } from './form/input-number.component';
 // import { TreeViewComponent } from './tree-view/tree-view.component';
 
@@ -42,7 +41,7 @@ import { FormInputNComponent } from './form/input-number.component';
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent, DialogBigComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent, CommentCreateComponent, DialogComponent,
     RationalComponent, RevisionComponent, ConceptrefComponent, FormErrorsComponent, SpinnerComponent,
-    AutosizeDirective, ParentFormConnectDirective, GravatarDirective, EqualValidator, HoverableRowComponent,
+    AutosizeDirective, ParentFormConnectDirective, GravatarDirective, ContenteditableDirective, EqualValidator,
     FormSelectComponent, FormInputComponent, FormTextAreaComponent, FormInputNComponent, ValidationComponent],
   exports: [LocalDatePipe, LocalNumberPipe, CommonModule, FormsModule, SpinnerComponent,
     QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, FileDownloadComponent,
@@ -50,7 +49,7 @@ import { FormInputNComponent } from './form/input-number.component';
     ConfirmDeleteComponent, TocComponent, CommentListComponent, DialogComponent, DialogBigComponent,
     RationalComponent, RevisionComponent, ConceptrefComponent, FormErrorsComponent,
     TemplateComponent, TemplateListComponent, TemplateDetailComponent,
-    AutosizeDirective, ParentFormConnectDirective, GravatarDirective, EqualValidator,
+    AutosizeDirective, ParentFormConnectDirective, GravatarDirective, EqualValidator, ContenteditableDirective,
     FormSelectComponent, FormInputComponent, FormTextAreaComponent, FormInputNComponent],
   providers: [TemplateService]
 })

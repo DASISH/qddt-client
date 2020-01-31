@@ -32,13 +32,15 @@ import { UserModule } from './modules/user/user.module';
 import { StatementModule } from './modules/construct-statement/statement.module';
 import { ConditionModule } from './modules/construct-condition/condition.module';
 import { AuthorModule } from './modules/author/author.module';
+import { ReferencedModule } from './modules/referenced/referenced.module';
+import { AgencyModule } from './modules/agency/agency.module';
 
 
 @NgModule({
   imports: [BrowserModule, HttpClientModule, ComponentsModule, CoreModule, BrowserAnimationsModule, HomeModule, MenuModule,
-    SelectorDialogsModule, CategoryModule, ResponsedomainModule, QuestionModule, PreviewModule, AuthorModule,
+    SelectorDialogsModule, CategoryModule, ResponsedomainModule, QuestionModule, PreviewModule, AuthorModule, ReferencedModule,
     MissingModule, UniverseModule, ChangeLogModule, InstructionModule, InstrumentModule, StatementModule, ConditionModule,
-    PublicationModule, QuestionConstructModule, SequenceModule, UserModule, routing],
+    PublicationModule, QuestionConstructModule, SequenceModule, UserModule, AgencyModule, routing],
 
   declarations: [AppComponent, PageNotFoundComponent],
 

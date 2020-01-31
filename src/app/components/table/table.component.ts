@@ -1,8 +1,8 @@
-import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
-import {Subject} from 'rxjs';
-import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
-import {Column} from './table.column';
-import {DEFAULT_COLUMNS, LIST_COLUMNS, RESPONSEDOMAIN_COLUMNS} from './table.column.config';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Column } from './table.column';
+import { DEFAULT_COLUMNS, LIST_COLUMNS, RESPONSEDOMAIN_COLUMNS } from './table.column.config';
 import {
   ActionKind, DomainKind,
   ElementEnumAware,
@@ -15,7 +15,7 @@ import {
   QueryInfo, SessionService, UserService
 } from '../../lib';
 
-import {formatDate} from '@angular/common';
+import { formatDate } from '@angular/common';
 import * as FileSaver from 'file-saver';
 
 @Component({
@@ -47,8 +47,8 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   @Output() deleteEvent = new EventEmitter<IEntityEditAudit>();
   @Output() fetchEvent = new EventEmitter<IPageSearch>();
 
-  public readonly directionSign: { [dir: string]: string; } = {'': '⇳', asc:  '▲', desc: '▼'};
-  public searchKeysChange: Subject< { name: string, value: string }> = new Subject<{ name: string, value: string }>();
+  public readonly directionSign: { [dir: string]: string; } = { '': '⇳', asc: '▲', desc: '▼' };
+  public searchKeysChange: Subject<{ name: string, value: string }> = new Subject<{ name: string, value: string }>();
 
   public canDelete = false;
   public canExport = false;
@@ -62,7 +62,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   public placeholder: string;
 
   constructor(private previewService: PreviewService, public access: UserService, public message: MessageService,
-              public session: SessionService) {
+    public session: SessionService) {
     this.searchKeysChange.pipe(
       debounceTime(300),
       distinctUntilChanged())
@@ -81,7 +81,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
 
   ngAfterViewInit() {
-      M.updateTextFields();
+    M.updateTextFields();
   }
 
   public ngOnInit(): void {
@@ -105,7 +105,8 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     if (!this.items) { this.items = []; }
 
     if (!this.pageSearch.keys) {
-      this.pageSearch.keys = new Map<string, string>(); }
+      this.pageSearch.keys = new Map<string, string>();
+    }
 
     const qe = getQueryInfo(this.pageSearch.kind);
     this.placeholder = qe.placeholder();
@@ -119,7 +120,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       const row: any = {
         id: item.id,
         Version: (item.version) ? item.version.major + '.' + item.version.minor : '',
-        Modified: formatDate(date, 'shortDate', this.session.locale)  ,
+        Modified: formatDate(date, 'shortDate', this.session.locale),
         Object: item,
       };
 
@@ -128,8 +129,10 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           if (column.name === 'modifiedBy') {
             if (item.agency) {
               row[column.label] = item[column.name].name + '@' + item.agency.name;
-            } else {
+            } else if (item[column.name]) {
               row[column.label] = item[column.name].name + '@' + item[column.name].agencyName;
+            } else {
+              row[column.label] = '';
             }
           } else if (column.name instanceof Array) {
             let colref = item;
@@ -155,7 +158,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
   public onPreview(item) {
     // console.log(item || JSON);
-    this.message.sendMessage( { elementId: item.refId, elementRevision: item.refRev, elementKind: item.refKind} as IRevisionRef);
+    this.message.sendMessage({ elementId: item.refId, elementRevision: item.refRev, elementKind: item.refKind } as IRevisionRef);
   }
 
   public onConfirmDeleting(response, item: IEntityEditAudit) {
@@ -165,8 +168,8 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   }
 
   public onGetPdf(item: IEntityEditAudit) {
-      const fileName = item.name + '.pdf';
-      this.previewService.getPdf(item).then((data: any) => { FileSaver.saveAs(data, fileName); });
+    const fileName = item.name + '.pdf';
+    this.previewService.getPdf(item).then((data: any) => { FileSaver.saveAs(data, fileName); });
   }
 
   public onDetailChecked() {
@@ -184,7 +187,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
   public onClear(name: string) {
     this.fields[name] = '';
-    this.searchKeysChange.next( { name, value: ''});
+    this.searchKeysChange.next({ name, value: '' });
   }
 
   public getSort() {
@@ -234,7 +237,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     console.log('canDelete?');
     this.canDelete = this.access.canDo(ActionKind.Delete, qe.id);
     this.canExport = this.access.canDo(ActionKind.Export, qe.id);
-    this.canEdit =   this.access.canDo(ActionKind.Update, qe.id);
+    this.canEdit = this.access.canDo(ActionKind.Update, qe.id);
     this.canPreview = (qe.id === ElementKind.CHANGE_LOG);
   }
 

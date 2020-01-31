@@ -144,6 +144,20 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     'author',
     ['name', 'about', 'email'],
     null
+  ),
+  new QueryInfo(
+    ElementKind.REFERENCED,
+    'References',
+    'references',
+    ['kind'],
+    null
+  ),
+  new QueryInfo(
+    ElementKind.AGENCY,
+    'Agency',
+    'agency',
+    ['name'],
+    null
   )
 ];
 
@@ -240,15 +254,10 @@ export const HEADER_DETAILS = new Map<string, IHeaderDetail>([
     'user',
     { icon: 'user', headerName: 'User Administration', kind: ElementKind.USER }
   ],
-  [
-    'changelog',
-    {
-      icon: 'timeline',
-      headerName: 'Change Feed',
-      kind: ElementKind.CHANGE_LOG
-    }
-  ],
+  ['changelog', { icon: 'timeline', headerName: 'Change Feed', kind: ElementKind.CHANGE_LOG }],
+  ['referenced', { icon: 'insert_link', headerName: 'Referenced', kind: ElementKind.REFERENCED }],
   ['authors', { icon: 'face', headerName: 'Authors', kind: ElementKind.AUTHOR }],
+  ['agencies', { icon: 'verified_user', headerName: 'Agencies', kind: ElementKind.AGENCY }],
   ['module', { icon: 'store', headerName: 'Modules', kind: ElementKind.TOPIC_GROUP }],
   ['concept', { icon: 'store', headerName: 'Concepts', kind: ElementKind.CONCEPT }]
 ]);

@@ -90,17 +90,20 @@ export const USER_COLUMNS = [
 
 export const CHANGE_LOG_COLUMNS = [
   new Column({ name: "name", label: "Name", sortable: true }),
-  new Column({
-    name: "refRev",
-    label: "Revision",
-    sortable: true,
-    direction: "desc"
-  }),
+  new Column({ name: "refRev", label: "Revision", sortable: true, direction: "desc" }),
   new Column({ name: "refKind", label: "Kind", sortable: true }),
   new Column({ name: "refChangeKind", label: "ChangeKind", sortable: true }),
   new Column({ name: "refAction", label: "Action", sortable: true }),
   new Column({ name: "modified", label: "Modified", sortable: true }),
   new Column({ name: "modifiedBy", label: "ModifiedBy", sortable: false })
+];
+
+export const REFERENCED_COLUMNS = [
+  new Column({ name: "entity", label: "Id", sortable: true }),
+  new Column({ name: "kind", label: "Kind", sortable: true }),
+  new Column({ name: "modified", label: "Modified", sortable: true }),
+  new Column({ name: "antall", label: "Number of ref", sortable: true }),
+  new Column({ name: "refs", label: "References", sortable: false }),
 ];
 
 export const AUTHOR_COLUMNS = [
@@ -112,6 +115,18 @@ export const AUTHOR_COLUMNS = [
     sortable: true,
     direction: "desc"
   })
+];
+
+export const AGENCY_COLUMNS = [
+  new Column({ name: "id", label: "Id", sortable: true }),
+  new Column({ name: "name", label: "Name", sortable: true }),
+  new Column({
+    name: "modified",
+    label: "Modified",
+    sortable: true,
+    direction: "desc"
+  }),
+  new Column({ name: "users", label: "Agents", sortable: false }),
 ];
 //   changeFeedKey?: {};
 // elementId?: string;
@@ -236,5 +251,7 @@ export const LIST_COLUMNS: Map<ElementKind, Column[]> = new Map([
   [ElementKind.INSTRUCTION, LOOKUP_COLUMNS.concat(DEFAULT_COLUMNS)],
   [ElementKind.USER, USER_COLUMNS],
   [ElementKind.CHANGE_LOG, CHANGE_LOG_COLUMNS],
-  [ElementKind.AUTHOR, AUTHOR_COLUMNS]
+  [ElementKind.AUTHOR, AUTHOR_COLUMNS],
+  [ElementKind.REFERENCED, REFERENCED_COLUMNS],
+  [ElementKind.AGENCY, AGENCY_COLUMNS]
 ]);

@@ -15,3 +15,4 @@ export * from './user';
 export * from './user-settings';
 export * from './selecteditem.classes';
 export * from './author.classes';
+export * from './referenced.classes';

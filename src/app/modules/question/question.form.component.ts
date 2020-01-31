@@ -1,5 +1,5 @@
-import {Component, Input, Output, EventEmitter, AfterViewInit} from '@angular/core';
-import {ActionKind, ElementKind, ElementRevisionRef, LANGUAGE_MAP, QuestionItem, ResponseDomain, TemplateService} from '../../lib';
+import { Component, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { ActionKind, ElementKind, ElementRevisionRef, LANGUAGE_MAP, QuestionItem, ResponseDomain, TemplateService } from '../../lib';
 
 
 @Component({
@@ -7,13 +7,13 @@ import {ActionKind, ElementKind, ElementRevisionRef, LANGUAGE_MAP, QuestionItem,
   templateUrl: './question.form.component.html'
 })
 
-export class QuestionFormComponent  implements AfterViewInit {
+export class QuestionFormComponent implements AfterViewInit {
   @Input() questionItem: QuestionItem;
   @Input() readonly = false;
   @Output() modifiedEvent = new EventEmitter<QuestionItem>();
 
   public showButton = false;
-  public formId = Math.round( Math.random() * 10000);
+  public formId = Math.round(Math.random() * 10000);
   public readonly LANGUAGES = LANGUAGE_MAP;
 
   constructor(private service: TemplateService) {
@@ -40,6 +40,12 @@ export class QuestionFormComponent  implements AfterViewInit {
       this.questionItem.responseDomain = item.element;
       this.questionItem.responseDomainRevision = item.elementRevision || 0;
     }
+    this.questionItem.changeComment = 'have to save after each RD change';
+    this.questionItem.changeKind = 'IN_DEVELOPMENT';
+    this.service.update<QuestionItem>(this.questionItem)
+      .subscribe((result) => {
+        this.questionItem = result;
+      });
   }
 
   onResponseDomainRemove() {
@@ -52,7 +58,7 @@ export class QuestionFormComponent  implements AfterViewInit {
     element.changeComment = 'Values changed or managed representation added';
     this.service.update(element).subscribe(result => {
       this.questionItem.responseDomain = result as ResponseDomain;
-      this.questionItem.responseDomainRevision = 0;
+      this.questionItem.responseDomainRevision = 0;   // this will fetch latest revision of Rd, when QI is saved.
     });
   }
 }

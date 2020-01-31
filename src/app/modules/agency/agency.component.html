@@ -1,0 +1,8 @@
+<qddt-template-component #detail>
+
+  <qddt-agency-form class="qddt-edit" [agency]="templateDetail.newItem" (modifiedEvent)="onFormModified($event)">
+  </qddt-agency-form>
+
+  <router-outlet></router-outlet>
+
+</qddt-template-component>

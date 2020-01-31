@@ -14,7 +14,7 @@ import {
   template: `
   <div class="collection with-header hoverable row">
       <a class="collection-header col s12"  (click)="onItemSearch($event)" style="cursor: zoom-in">
-        <label><i class="material-icons small">help_outline</i>Question Items</label>
+        <label><i class="material-icons small">help</i>Question Items</label>
         <a class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light teal"
           [ngClass]="{ hide: !showButton }" >
           <i class="material-icons" title="Associate QuestionItem with element">playlist_add</i>
@@ -69,9 +69,9 @@ export class QuestionItemsComponent {
   @Output() modifiedEvent = new EventEmitter<ElementRevisionRef>();
 
   public readonly QUESTION = ElementKind.QUESTION_ITEM;
-  public readonly modalId = Math.round( Math.random() * 10000);
+  public readonly modalId = Math.round(Math.random() * 10000);
 
-  public SOURCE: IElement| IRevisionRef| null;
+  public SOURCE: IElement | IRevisionRef | null;
   // tslint:disable-next-line:variable-name
   private _modalRef: M.Modal;
   // tslint:disable-next-line:variable-name
@@ -81,7 +81,7 @@ export class QuestionItemsComponent {
   private action = ActionKind.Create;
 
 
-  constructor(private service: TemplateService, public message: MessageService, private router: Router ) {
+  constructor(private service: TemplateService, public message: MessageService, private router: Router) {
   }
 
   get showButton(): boolean {
@@ -134,7 +134,7 @@ export class QuestionItemsComponent {
     event.stopPropagation();
     this.service.searchByUuid(cqi.elementId).then(
       (result) => { this.router.navigate([result.url]); },
-      (error) => { throw  error; });
+      (error) => { throw error; });
   }
 
   public onItemUpdate(event: Event, cqi: ElementRevisionRef) {

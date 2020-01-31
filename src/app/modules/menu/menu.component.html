@@ -53,14 +53,14 @@
             <a class="teal-text waves-effect waves-teal" [routerLink]="['/questions']" tabindex="4">
               <i class="material-icons teal-text left medium">help_outline</i>Constructs</a>
           </li>
-          <li *ngIf="canSee[elementKindRef.SEQUENCE_CONSTRUCT]">
-            <a class="teal-text waves-effect waves-teal" [routerLink]="['/sequences']" tabindex="5">
-              <i class="material-icons teal-text left medium">format_line_spacing</i>Sequences</a>
-          </li>
-          <li *ngIf="canSee[elementKindRef.INSTRUMENT]">
-            <a class="teal-text waves-effect waves-teal" [routerLink]="['/instruments']" tabindex="6">
-              <i class="material-icons teal-text left medium">tablet_mac</i>Instruments</a>
-          </li>
+          <!--          <li *ngIf="canSee[elementKindRef.SEQUENCE_CONSTRUCT]">-->
+          <!--            <a class="teal-text waves-effect waves-teal" [routerLink]="['/sequences']" tabindex="5">-->
+          <!--              <i class="material-icons teal-text left medium">format_line_spacing</i>Sequences</a>-->
+          <!--          </li>-->
+          <!--          <li *ngIf="canSee[elementKindRef.INSTRUMENT]">-->
+          <!--            <a class="teal-text waves-effect waves-teal" [routerLink]="['/instruments']" tabindex="6">-->
+          <!--              <i class="material-icons teal-text left medium">tablet_mac</i>Instruments</a>-->
+          <!--          </li>-->
           <li>
             <a class="teal-text waves-effect waves-teal" [routerLink]="['/publications']" tabindex="7">
               <i class="material-icons teal-text left medium">folder_special</i>Publications</a>
@@ -76,9 +76,16 @@
                       <a class="teal-text waves-effect waves-teal active" [routerLink]="['/changelog']" tabindex="8">
                         <i class="material-icons teal-text left medium">timeline</i>Change Feed</a>
                     </li>
-                    <!--                    <li *ngIf="canSee[elementKindRef.AUTHOR]" >-->
-                    <li>
-                      <a class="teal-text waves-effect waves-teal" [routerLink]="['/authors']">
+                    <li *ngIf="canSee[elementKindRef.REFERENCED]">
+                      <a class=" teal-text waves-effect waves-teal active" [routerLink]="['/referenced']" tabindex="14">
+                        <i class="material-icons teal-text left medium">link</i>Referenced</a>
+                    </li> <!--                    <li *ngIf="canSee[elementKindRef.AUTHOR]" >-->
+                    <li *ngIf="canSee[elementKindRef.AGENCY]">
+                      <a class=" teal-text waves-effect waves-teal" [routerLink]="['/agencies']">
+                        <i class="material-icons teal-text left medium">verified_user</i>Agencies</a>
+                    </li>
+                    <li *ngIf="canSee[elementKindRef.AUTHOR]">
+                      <a class=" teal-text waves-effect waves-teal" [routerLink]="['/authors']">
                         <i class="material-icons teal-text left medium">face</i>Authors</a>
                     </li>
                     <li *ngIf="canSee[elementKindRef.STATEMENT_CONSTRUCT]">
