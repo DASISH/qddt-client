@@ -2,7 +2,7 @@
   <nav>
     <div class="nav-wrapper red lighten-2">
       <a href="#" data-target="nav-leftmenuSmal" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-      <div style="height: 64px; overflow: hidden">
+      <div>
         <ul class="right">
           <li>
             <a class="dropdown-trigger" href="#!" data-target="admin-menu1">
@@ -11,15 +11,25 @@
             </a>
           </li>
         </ul>
-        <a *ngIf="path[0]" (click)="onSurvey()" class="breadcrumb" title="{{path[0].name}}">SURVEY
-          [{{ path[0].name }}]</a>
-        <a *ngIf="path[1]" (click)="onStudy()" class="breadcrumb" title="{{path[1].name}}">
-          <i class="material-icons small" title="Study">filter_1</i>
-          [{{ path[1].name }}]</a>
-        <a *ngIf="path[2]" (click)="onTopic()" class="breadcrumb" title="{{path[2].name}}">
-          <i class="material-icons small" title="Modul">filter_2</i>
-          [{{ path[2].name }}]</a>
-        <a *ngIf="path[3]" (click)="onConcept()" class="breadcrumb">{{path[3].name}}</a>
+        <a class="breadcrumb" (click)="onSurvey()">
+          <i class="material-icons small" title="Survey">store</i>
+          <ng-container *ngIf="path[0]">[{{ path[0].name }}]</ng-container>
+          <ng-container *ngIf="!path[0]">[Survey]</ng-container>
+        </a>
+        <a *ngIf="path[0]" class="breadcrumb" (click)="onStudy()">
+          <i class="material-icons small" title="Study">looks_one</i>
+          <ng-container *ngIf="path[1]">[{{ path[1].name }}]</ng-container>
+          <ng-container *ngIf="!path[1]">[Study]</ng-container>
+        </a>
+        <a *ngIf="path[1]" class="breadcrumb" (click)="onTopic()">
+          <i class="material-icons small" title="Module">looks_two</i>
+          <ng-container *ngIf="path[2]">[{{ path[2].name }}]</ng-container>
+          <ng-container *ngIf="!path[2]">[Module]</ng-container>
+        </a>
+        <a *ngIf="path[2]" class="breadcrumb" (click)="onConcept()">
+          <i class="material-icons small" title="Concept">looks_3</i>
+          [Concept]
+        </a>
       </div>
       <ul id="nav-leftmenuLarge" class="sidenav hide-on-med-and-down teal-text"
         style="transform: translateX(0px); width: 200px;">

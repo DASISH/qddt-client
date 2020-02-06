@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { HierarchyPosition} from '../enums';
-import { MenuItem} from '../interfaces';
-import { UserSettings} from '../classes';
+import { HierarchyPosition } from '../enums';
+import { MenuItem } from '../interfaces';
+import { UserSettings } from '../classes';
 
 /**
  *
@@ -58,11 +58,11 @@ export class PropertyStoreService {
   }
 
   public pathClear(pos: HierarchyPosition) {
-     this.path = this.path.filter( (f, i) => i < pos);
-     localStorage.setItem(PropertyStoreService.PATH, JSON.stringify(this.menuPath));
-     this.userSetting.hierarchyPosition = pos;
-     this.currentChange$.next(pos);
-    }
+    this.path = this.path.filter((f, i) => i < pos);
+    localStorage.setItem(PropertyStoreService.PATH, JSON.stringify(this.menuPath));
+    this.userSetting.hierarchyPosition = pos;
+    this.currentChange$.next(pos);
+  }
 
   public setCurrentMenu(pos: HierarchyPosition, item: MenuItem) {
     this.menuPath[pos] = item;

@@ -1,6 +1,6 @@
-import {Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject} from 'rxjs/internal/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import {
   ActionKind,
   ElementKind,
@@ -28,7 +28,7 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   public elementKindRef = ElementKind;
 
   constructor(private userService: UserService, public property: PropertyStoreService,
-              private router: Router, private service: TemplateService) {
+    private router: Router, private service: TemplateService) {
     this.username = this.getUserName();
     this.isLoggedIn$ = userService.loggedIn;
   }
@@ -40,10 +40,10 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
         this.username = this.getUserName();
         this.setVisibility();
         if (connected && this.router.url === '/login') {
-          this.router.navigate([ this.property.userSetting.url]);
+          this.router.navigate([this.property.userSetting.url]);
         }
       },
-    (error) => console.error(error.toString())
+      (error) => console.error(error.toString())
     );
   }
 
@@ -54,7 +54,7 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit() {
     document.querySelectorAll('.dropdown-trigger')
-      .forEach( menu => M.Dropdown.init(menu, {  hover: true, coverTrigger: true }));
+      .forEach(menu => M.Dropdown.init(menu, { hover: true, coverTrigger: true }));
     // M.Sidenav.init(document.getElementById('nav-bar1'), { edge: 'left', draggable: true});
     // M.Dropdown.arguments = {constrainWidth: false };
   }
@@ -82,14 +82,14 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
     if (parts[parts.length - 1].length !== 36) { return; } // must be a valid UUID....
     let url;
     if (parts.length === 1) {
-      url =  parts[0];
+      url = parts[0];
     } else if (parts.length >= 2) {
       url = parts[parts.length - 2] + '/' + parts[parts.length - 1];
     }
 
     if (event.inputType === 'insertFromPaste' && (parts.length >= 2)) {
-        this.router.navigate([url]);
-        event.srcElement.value = '';
+      this.router.navigate([url]);
+      event.srcElement.value = '';
     } else {
       event.srcElement.value = '';
       this.gotoUUID(url);
@@ -97,26 +97,33 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onSurvey() {
-    this.clearStudy();
+    this.clearSurvey();
     this.router.navigate(['/survey']);
   }
 
   onStudy() {
-    this.clearTopic();
+    this.clearStudy();
     this.router.navigate(['/study']);
   }
 
   onTopic() {
-    this.clearConcept();
+    this.clearTopic();
     this.router.navigate(['/topic']);
   }
 
   onConcept() {
+    this.clearConcept();
     this.router.navigate(['/concept']);
   }
 
   get path(): Array<MenuItem> {
     return this.property.menuPath;
+  }
+
+  private clearSurvey() {
+    this.clearStudy();
+    this.property.pathClear(HierarchyPosition.Survey);
+    this.property.set('survey', null);
   }
 
   private clearStudy() {
@@ -136,18 +143,19 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
     this.property.set('concept', null);
   }
 
-  private hasAccess(kind: string|ElementKind): boolean {
+  private hasAccess(kind: string | ElementKind): boolean {
     return this.userService.canDo(ActionKind.Read, getElementKind(kind));
   }
 
   private gotoUUID(uuid: string) {
-    this.service.searchByUuid(uuid).then( (result) => {
-      this.router.navigate([result.url]); },
-      (error) => { throw  error; });
+    this.service.searchByUuid(uuid).then((result) => {
+      this.router.navigate([result.url]);
+    },
+      (error) => { throw error; });
   }
 
   private setVisibility() {
-    this.canSee =  Object.keys(ElementKind)
+    this.canSee = Object.keys(ElementKind)
       .filter(StringIsNumber)
       .map(key => this.hasAccess(key));
     // console.log(this.canSee);
