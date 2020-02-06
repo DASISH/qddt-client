@@ -5,9 +5,26 @@ export class Agency {
   id: string;
   name: string;
   modified?: number;
-  classKind?: string;
+  classKind: string;
   users?: UserJson[];
 }
+
+
+export class User {
+  id: string;
+  sub: string; // -> name
+  email: string;
+  agency: string;
+  modified?: number;
+  role: Array<any>;
+  exp: any;  // -> should be number, is expire date
+  password?: string;
+
+  constructor(values: Object = {}) {
+    Object.assign(this, values);
+  }
+}
+
 
 
 export class UserJson {

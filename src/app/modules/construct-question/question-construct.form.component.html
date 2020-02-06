@@ -18,8 +18,6 @@
       [readonly]="false" (selectEvent)="onAddUniverse($event)" (deletedEvent)="onRemoveUniverse($event)" tabindex="2">
     </qddt-element-collection>
 
-    <qddt-download [fileStore]="fileStore" [entity]="controlConstruct" [readonly]="false"></qddt-download>
-
     <qddt-element-collection [listItems]="controlConstruct.preInstructions" [labelName]="'Pre Instructions'"
       [elementKind]="INSTRUCTION" [readonly]="false" (selectEvent)="onAddPreInstruction($event)"
       (deletedEvent)="onRemovePreInstruction($event)">
@@ -30,12 +28,13 @@
       <a class="collection-header col s12" (click)="onQuestionSearch()" style="cursor: zoom-in">
         <label><i class="material-icons small">help</i>Question ➫ {{controlConstruct?.questionItem?.name}}</label>
         <a *ngIf="showButton" class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light teal">
-          <i class="material-icons" title="add QuestionItem">playlist_add</i>
+          <i class="material-icons" title="add QuestionItem">add</i>
         </a>
+        <qddt-version-label *ngIf="!showButton" class="right" [revisionRef]="controlConstruct.questionItem">
+        </qddt-version-label>
       </a>
       <div class="col s12" style="padding: 1px 1px;">
         <div class="card-panel grey lighten-5 grey-text text-darken-1" style="margin-bottom: 1px;">
-          <qddt-version-label class="right" [revisionRef]="controlConstruct.questionItem"></qddt-version-label>
           <ul *ngIf="!readonly" class="dropleft">
             <li>
               <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green"
@@ -75,6 +74,8 @@
     </qddt-preview-responsedomain>
 
     <qddt-conceptref [element]="controlConstruct.questionItem"></qddt-conceptref>
+
+    <qddt-download [fileStore]="fileStore" [entity]="controlConstruct" [readonly]="false"></qddt-download>
 
     <qddt-rational [formName]="'RationalComp'" *ngIf="!readonly && controlConstruct.id" [element]="controlConstruct"
       [config]="{ hidden: [3, 4] }">

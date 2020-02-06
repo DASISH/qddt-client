@@ -13,9 +13,11 @@
         </ul>
         <a *ngIf="path[0]" (click)="onSurvey()" class="breadcrumb" title="{{path[0].name}}">SURVEY
           [{{ path[0].name }}]</a>
-        <a *ngIf="path[1]" (click)="onStudy()" class="breadcrumb" title="{{path[1].name}}">STUDY
+        <a *ngIf="path[1]" (click)="onStudy()" class="breadcrumb" title="{{path[1].name}}">
+          <i class="material-icons small" title="Study">filter_1</i>
           [{{ path[1].name }}]</a>
-        <a *ngIf="path[2]" (click)="onTopic()" class="breadcrumb" title="{{path[2].name}}">MODULE
+        <a *ngIf="path[2]" (click)="onTopic()" class="breadcrumb" title="{{path[2].name}}">
+          <i class="material-icons small" title="Modul">filter_2</i>
           [{{ path[2].name }}]</a>
         <a *ngIf="path[3]" (click)="onConcept()" class="breadcrumb">{{path[3].name}}</a>
       </div>

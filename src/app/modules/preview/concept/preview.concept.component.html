@@ -17,6 +17,7 @@
     <ul class="collapsible  question" data-collapsible="expandable">
       <li *ngFor="let cqi of concept.conceptQuestionItems;" (click)="onViewDetail(cqi)">
         <div class="collapsible-header green lighten-5">
+          <i class="material-icons small" title="{{getLabelByElement(cqi)}}">{{getMatIcon(cqi)}}</i>
           <div class="col s10">{{ cqi?.name }}</div>
           <div class="col s2 right-align">
             <qddt-version [element]="cqi.version"></qddt-version>
@@ -40,8 +41,8 @@
   <ul class="collapsible" data-collapsible="accordion">
     <li *ngFor="let concept of concept.children">
       <div class="collapsible-header yellow lighten-5">
-        <div class="col s2">Concept</div>
-        <div class="col s7">{{ concept?.name }}</div>
+        <i class="material-icons small" title="Concept">store</i>
+        <div class="col s9">{{ concept?.name }}</div>
         <div class="col s2 right-align">
           <qddt-version [element]="concept"></qddt-version>
         </div>

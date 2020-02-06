@@ -1,9 +1,10 @@
-<div class="collection with-header hoverable row" (mouseenter)="showButton = !readonly"  (mouseleave)="showButton = false">
+<div class="collection with-header hoverable row" (mouseenter)="showButton = !readonly"
+  (mouseleave)="showButton = false">
   <a class="collection-header col s12" (click)="showUploadFileForm = !showUploadFileForm"
     [ngClass]="{ qddtSearchCursor: showButton }">
     <label><i class="material-icons small">attach_file</i>{{ label }}</label>
     <a *ngIf="showButton" class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light teal">
-      <i class="material-icons" title="Attach external aid (File Upload)">add</i>
+      <i class="material-icons" title="Attach external aid (File Upload)">playlist_add</i>
     </a>
   </a>
   <a class="collection-item col s12" *ngIf="showUploadFileForm && !readonly">
@@ -24,7 +25,8 @@
     <span>
       <i class="material-icons smal">description</i>{{ m.originalName }}
     </span>
-    <a *ngIf="showButton" class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light red lighten-2"
+    <a *ngIf="showButton"
+      class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light red lighten-2"
       (click)="onMarkForDeletion(idx)">
       <i class="material-icons medium" title="Delete">delete_forever</i>
     </a>

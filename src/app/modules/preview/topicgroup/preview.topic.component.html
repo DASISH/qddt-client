@@ -25,10 +25,10 @@
 </div>
 
 <div *ngIf="topic?.topicQuestionItems && topic?.topicQuestionItems?.length > 0" class="section">
-  <ul *ngIf="topic?.topicQuestionItems"  class="collapsible popout"
-    data-collapsible="expandable" style="padding: 5pt;">
-    <li *ngFor="let cqi of topic?.topicQuestionItems;" (click)="onViewDetail(cqi)">
+  <ul *ngIf="topic?.topicQuestionItems" class="collapsible popout" data-collapsible="expandable" style="padding: 5pt;">
+    <li class="row" *ngFor="let cqi of topic?.topicQuestionItems;" (click)="onViewDetail(cqi)">
       <div class="collapsible-header green lighten-5">
+        <i class="material-icons small" title="{{getLabelByElement(cqi)}}">{{getMatIcon(cqi)}}</i>
         <div class="col s10">[{{ cqi?.name }}]</div>
         <div class="col s2">
           <qddt-version-label [element]="cqi.version"></qddt-version-label>

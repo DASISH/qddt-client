@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
   ActionKind,
+  Category,
   ElementKind,
   ElementRevisionRef,
   IElement, IElementRef,
@@ -53,6 +54,10 @@ export class ResponsedomainComponent {
       this._modalRef = M.Modal.init(document.querySelector('#MODAL-' + this.modalId));
     }
     return this._modalRef;
+  }
+
+  trackByCategoryId(category: Category): string {
+    return category.id;
   }
 
   public onItemEdit(event: Event) {

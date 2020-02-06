@@ -1,6 +1,6 @@
 <div *ngIf="topic" class="col s12 m9">
   <div class="card-panel row white-text teal">
-    <i class="material-icons large right">store</i>
+    <i class="material-icons large right">filter_3</i>
     <h4>Concepts for {{ topic.name }}</h4>
     <a *ngIf="!topic.archived && canCreate" class="btn" (click)="showConceptForm = !showConceptForm; showReuse=false">
       <i class="material-icons right" *ngIf="!showConceptForm">keyboard_arrow_down</i>

@@ -1,5 +1,5 @@
-import {User} from './user';
-import {ElementKind} from '../enums';
+import { ElementKind } from '../enums';
+import { User } from './user.classes';
 
 
 export class ChangeLogJson {

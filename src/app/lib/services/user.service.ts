@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Agency, IPassword, User, UserJson } from '../classes';
 import { API_BASE_HREF } from '../../api';
 import { PropertyStoreService } from './property.service';
+import { Agency, IPassword, User, UserJson } from '../classes';
 import { ActionKind, AuthorityKind, ElementKind } from '../enums';
 import { TOKEN_NAME } from '../consts';
 import { IAuthority } from '../interfaces';

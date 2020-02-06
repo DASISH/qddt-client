@@ -76,7 +76,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let category of responseDomain.missing.children;trackBy:category?.id">
+            <tr *ngFor="let category of responseDomain.missing.children;trackBy:trackByCategoryId">
               <td contenteditable=true [(contenteditableModel)]="category.code.codeValue" required>
               </td>
               <td>{{ category?.label }}</td>

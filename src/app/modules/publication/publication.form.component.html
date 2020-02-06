@@ -19,15 +19,15 @@
       <label for="{{formId}}-ppe">Content list</label>
       <ul id="{{formId}}-ppe" class="collapsible popout">
         <li class="collapsible-header grey lighten-2" style="color: black">
-          <div class="col s2">Element type</div>
-          <div class="col s7">Element name</div>
+          <i class="material-icons small">info_outline</i>
+          <div class="col s10">Element name</div>
           <div class="col s2 right-align">Version</div>
         </li>
         <li *ngFor="let element of publication.publicationElements; let idx=index;">
           <div class="collapsible-header grey lighten-5" style="color: #323232" (click)="onShowDetail(idx)">
-            <i class="material-icons small">{{getMatIcon(element.elementKind)}}</i>
-            <div class="col s2">{{ getLabelByElement(element?.elementKind) }}</div>
-            <div class="col s7" [innerHtml]="element?.name"></div>
+            <i class="material-icons small"
+              title="{{getLabelByElement(element?.elementKind)}}">{{getMatIcon(element.elementKind)}}</i>
+            <div class="col s10" [innerHtml]="element?.name"></div>
             <div class="col s2 right-align">
               <qddt-version [element]="element"></qddt-version>
             </div>

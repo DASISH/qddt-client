@@ -11,7 +11,6 @@ export * from './publication.classes';
 export * from './questionitem.classes';
 export * from './responsedomain.classes';
 export * from './user.classes';
-export * from './user';
 export * from './user-settings';
 export * from './selecteditem.classes';
 export * from './author.classes';

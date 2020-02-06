@@ -1,5 +1,5 @@
 import { Component, Input, AfterViewInit } from '@angular/core';
-import {Concept, ElementKind, ElementRevisionRef, MessageService, PreviewService} from '../../../lib';
+import { Concept, ElementKind, ElementRevisionRef, MessageService, PreviewService, getIcon, PUBLICATION_TYPES, getElementKind } from '../../../lib';
 
 @Component({
   selector: 'qddt-preview-concept',
@@ -9,27 +9,36 @@ import {Concept, ElementKind, ElementRevisionRef, MessageService, PreviewService
 export class PreviewConceptComponent implements AfterViewInit {
   @Input() concept: Concept;
 
-  constructor(private  message: MessageService, private service: PreviewService) { }
+  constructor(private message: MessageService, private service: PreviewService) { }
 
-  ngAfterViewInit(): void {
-    document.querySelectorAll('.collapsible').forEach( item => M.Collapsible.init(item));
+  public ngAfterViewInit(): void {
+    document.querySelectorAll('.collapsible').forEach(item => M.Collapsible.init(item));
 
   }
 
-  onViewDetail(element: ElementRevisionRef) {
+  public onViewDetail(element: ElementRevisionRef) {
     if (!element.element) {
       this.service.getRevisionByKind(element.elementKind, element.elementId, element.elementRevision).then(
         (result) => { element.element = result.entity; },
         (error) => { throw error; });
     }
   }
-  onClickStudy(id: string) {
-    this.message.sendMessage( { elementId: id, elementKind: ElementKind[ElementKind.STUDY]} );
+
+  public onClickStudy(id: string) {
+    this.message.sendMessage({ elementId: id, elementKind: ElementKind[ElementKind.STUDY] });
   }
 
-  onClickTopic(id: string) {
-    this.message.sendMessage( { elementId: id, elementKind: ElementKind[ElementKind.TOPIC_GROUP]} );
+  public onClickTopic(id: string) {
+    this.message.sendMessage({ elementId: id, elementKind: ElementKind[ElementKind.TOPIC_GROUP] });
   }
 
+  public getMatIcon(cgi: ElementRevisionRef): string {
+    return getIcon(cgi.elementKind);
+  }
+
+  public getLabelByElement(cgi: ElementRevisionRef): string {
+    const kind = getElementKind(cgi.elementKind);
+    return PUBLICATION_TYPES.find(e => e.id === kind).label;
+  }
 
 }
