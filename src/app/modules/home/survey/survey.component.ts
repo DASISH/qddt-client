@@ -26,7 +26,6 @@ export class SurveyComponent implements OnInit {
               private property: PropertyStoreService,
               private homeService: HomeService<SurveyProgram>,
               private templateService: TemplateService,
-    // private modalService: ModalService
   ) {
     this.readonly = !homeService.canDo(this.SURVEY).get(ActionKind.Create);
   }
@@ -50,14 +49,18 @@ export class SurveyComponent implements OnInit {
   }
 
   onShowStudy(surveyProgram: any) {
-    console.log('onshow survey');
     this.property.set('survey', surveyProgram);
     this.property.setCurrentMenu(HierarchyPosition.Survey, { id: surveyProgram.id, name: surveyProgram.name });
+    this.property.pathClear(HierarchyPosition.Study);
+    this.property.pathClear(HierarchyPosition.Topic);
+    this.property.pathClear(HierarchyPosition.Concept);
     this.router.navigate(['study']);
+    // this.property.set('topic', null);
+    // this.property.set('study', null);
+    // this.property.set('concept', null);
   }
 
   onNewSave(survey) {
-    console.log('saving');
     this.templateService.create(new SurveyProgram(survey)).subscribe(
       result => this.onSurveySaved(result));
     this.showSurveyForm = false;

@@ -10,7 +10,7 @@
       </qddt-select>
     </div>
 
-    <qddt-textarea placeholder="add description..." name="description" label="Description"
+    <qddt-textarea class="row" name="description" label="Description"
       [(ngModel)]="controlConstruct.description" data-length="255">
     </qddt-textarea>
 
@@ -64,14 +64,14 @@
       </div>
     </div>
 
+    <qddt-preview-responsedomain *ngIf="controlConstruct.questionItem && controlConstruct.questionItem.responseDomain"
+      [responseDomain]="controlConstruct.questionItem.responseDomain">
+    </qddt-preview-responsedomain>
+
     <qddt-element-collection [listItems]="controlConstruct.postInstructions" [labelName]="'Post Instructions'"
       [elementKind]="INSTRUCTION" [readonly]="false" (selectEvent)="onAddPostInstruction($event)"
       (deletedEvent)="onRemovePostInstruction($event)">
     </qddt-element-collection>
-
-    <qddt-preview-responsedomain *ngIf="controlConstruct.questionItem && controlConstruct.questionItem.responseDomain"
-      [responseDomain]="controlConstruct.questionItem.responseDomain">
-    </qddt-preview-responsedomain>
 
     <qddt-conceptref [element]="controlConstruct.questionItem"></qddt-conceptref>
 

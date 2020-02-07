@@ -258,6 +258,6 @@ export const HEADER_DETAILS = new Map<string, IHeaderDetail>([
   ['referenced', { icon: 'insert_link', headerName: 'Referenced', kind: ElementKind.REFERENCED }],
   ['authors', { icon: 'face', headerName: 'Authors', kind: ElementKind.AUTHOR }],
   ['agencies', { icon: 'verified_user', headerName: 'Agencies', kind: ElementKind.AGENCY }],
-  ['module', { icon: 'store', headerName: 'Modules', kind: ElementKind.TOPIC_GROUP }],
-  ['concept', { icon: 'store', headerName: 'Concepts', kind: ElementKind.CONCEPT }]
+  ['module', { icon: 'looks_two', headerName: 'Modules', kind: ElementKind.TOPIC_GROUP }],
+  ['concept', { icon: 'looks_3', headerName: 'Concepts', kind: ElementKind.CONCEPT }]
 ]);

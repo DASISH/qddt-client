@@ -13,8 +13,9 @@
 }
 
 .breadcrumb::before {
-  margin: 0;
+  margin: 0px;
 }
+
 
 .breadcrumb {
   cursor: pointer;
@@ -23,7 +24,7 @@
   overflow: hidden;
   text-overflow: ellipsis;     /** IE6+, Firefox 7+, Opera 11+, Chrome, Safari **/
   -o-text-overflow: ellipsis;  /** Opera 9 & 10 **/
-  max-width: 200px;
+  max-width: 250px;
 }
 
 ul.sidenav  {

@@ -9,7 +9,7 @@ import { Concept } from '../../../lib';
     <ul *ngIf="conceptList"  class="collapsible" data-collapsible="accordion" >
       <li class="row" *ngFor="let concept of conceptList">
         <div class="collapsible-header yellow lighten-5">
-          <i class="material-icons small" title="Concept">home</i>
+          <i class="material-icons small" title="Concept">looks_3</i>
           <div class="col s10">{{ concept?.name }}</div>
           <div class="col s2 right-align"><qddt-version [element]="concept"></qddt-version></div>
         </div>

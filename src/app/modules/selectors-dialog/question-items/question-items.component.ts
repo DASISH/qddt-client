@@ -7,13 +7,14 @@ import {
   TemplateService,
   ActionKind
 } from '../../../lib';
+import { retryWhen } from 'rxjs/operators';
 
 
 @Component({
   selector: 'qddt-question-items',
   template: `
   <div class="collection with-header hoverable row">
-      <a class="collection-header col s12"  (click)="onItemSearch($event)" style="cursor: zoom-in">
+      <a class="collection-header col s12"  (click)="onItemSearch($event)" [ngStyle]= " { 'cursor': readonly ? 'normal' : 'zoom-in' }">
         <label><i class="material-icons small">help</i>Question Items</label>
         <a class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light teal"
           [ngClass]="{ hide: !showButton }" >
@@ -85,7 +86,7 @@ export class QuestionItemsComponent {
   }
 
   get showButton(): boolean {
-    return this._showButton;
+    return this._showButton && this.readonly;
   }
   set showButton(value: boolean) {
     if (value) {
@@ -119,6 +120,7 @@ export class QuestionItemsComponent {
   }
 
   public onItemSearch(event: Event) {
+    if (this.readonly) {return; }
     event.stopPropagation();
     this.SOURCE = { element: '', elementKind: this.QUESTION };
     this.modalRef.open();

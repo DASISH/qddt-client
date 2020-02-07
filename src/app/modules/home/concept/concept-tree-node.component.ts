@@ -92,6 +92,10 @@ export class TreeNodeComponent {
       ref,
       this.concept.conceptQuestionItems.slice(idx + 1)
     );
-    this.concept.conceptQuestionItems = seqNew;  }
+    this.concept.conceptQuestionItems = seqNew;
+
+    this.templateService.update<Concept>(this.concept).subscribe(
+      (result) => this.concept = result);
+  }
 
 }

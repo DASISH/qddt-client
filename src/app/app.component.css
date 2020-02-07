@@ -85,7 +85,7 @@ input {
 
 .qddtSearchCursor { cursor: zoom-in; }
 
-.question { white-space: nowrap; overflow: hidden;text-overflow: ellipsis; padding-top:5px; display: flex; line-height:30px; }
+.question { white-space: nowrap; overflow: hidden;text-overflow: ellipsis; padding-top:5px; display: flow-root; line-height:30px; }
 
 .collection-item:hover > ul.dropleft { display:block; }
 
