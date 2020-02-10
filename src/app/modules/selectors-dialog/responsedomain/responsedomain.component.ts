@@ -66,18 +66,38 @@ export class ResponsedomainComponent {
     this.modalRef.open();
   }
 
-  public onItemGetLatest() {
-    this.service.getByKindRevision(ElementKind.RESPONSEDOMAIN, this.responseDomain.id).then(
-      (result) => {
-        this.responseDomain = result.entity as ResponseDomain;
-        this.selectedEvent.emit(
-          {
-            element: this.responseDomain,
-            elementId: this.responseDomain.id,
-            elementKind: ElementKind.RESPONSEDOMAIN,
-            elementRevision: result.revisionNumber
-          });
+  public async onItemGetLatest() {
+    if (this.responseDomain.isMixed) {
+      let changed = false;
+      const mr = this.responseDomain.managedRepresentation;
+      console.log(mr.children || JSON);
+      mr.children.forEach(async (child, i) => {
+        const rev = await this.service.getByKindRevision(ElementKind.CATEGORY, child.id);
+        if (JSON.stringify(child.version) !== JSON.stringify(rev.entity.version)) {
+          changed = true;
+          const codes = [child.code].concat(child.children.map(cc => cc.code));
+          child = rev.entity as Category;
+          child.code = codes[0];
+          child.children.forEach((ccc, j) => ccc.code = codes[j + 1]);
+          this.responseDomain.managedRepresentation.children[i] = child;
+        }
       });
+      if (changed) {
+        await this.service.update(this.responseDomain).toPromise();
+      }
+
+      this.service.getByKindRevision(ElementKind.RESPONSEDOMAIN, this.responseDomain.id).then(
+        (result) => {
+          this.responseDomain = result.entity as ResponseDomain;
+          this.selectedEvent.emit(
+            {
+              element: this.responseDomain,
+              elementId: this.responseDomain.id,
+              elementKind: ElementKind.RESPONSEDOMAIN,
+              elementRevision: result.revisionNumber
+            });
+        });
+    }
   }
 
   public onItemRemove() {
