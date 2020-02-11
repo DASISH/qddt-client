@@ -34,12 +34,12 @@ export class QuestionFormComponent implements AfterViewInit {
   }
 
   onSaveResponseDomain(item: ElementRevisionRef) {
-    if (item.element.responseKind === 'MIXED') {
-      this.onUpdateResponseDomain(item.element as ResponseDomain);
-    } else {
-      this.questionItem.responseDomain = item.element;
-      this.questionItem.responseDomainRevision = item.elementRevision || 0;
-    }
+    // if (item.element.responseKind === 'MIXED') {
+    //   this.onUpdateResponseDomain(item.element as ResponseDomain);
+    // } else {
+    this.questionItem.responseDomain = item.element;
+    this.questionItem.responseDomainRevision = item.elementRevision || 0;
+    // }
     this.questionItem.changeComment = 'have to save after each RD change';
     this.questionItem.changeKind = 'IN_DEVELOPMENT';
     this.service.update<QuestionItem>(this.questionItem)

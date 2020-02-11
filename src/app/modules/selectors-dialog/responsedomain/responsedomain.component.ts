@@ -5,8 +5,9 @@ import {
   ElementKind,
   ElementRevisionRef,
   IElement, IElementRef,
-  ResponseDomain, TemplateService, UserService
+  ResponseDomain, TemplateService, UserService, IEntityAudit
 } from '../../../lib';
+import { async } from '@angular/core/testing';
 
 @Component({
   selector: 'qddt-responsedomain-select',
@@ -44,6 +45,34 @@ export class ResponsedomainComponent {
   // tslint:disable-next-line:variable-name
   private _modalRef: M.Modal;
 
+  private readonly getRevAsync = async (id: string) => this.service.getByKindRevision(ElementKind.CATEGORY, id);
+  private readonly updateRevAsync = async (responseDomain: ResponseDomain) =>
+    this.service.update<ResponseDomain>(responseDomain).toPromise()
+
+  private readonly updateMixedAsync = async (responseDomain: ResponseDomain) => {
+    if (responseDomain.isMixed) {
+      let changed = false;
+      const updatedChildren = responseDomain.managedRepresentation.children.map(async (child, i) => {
+        const rev = await this.getRevAsync(child.id);
+        if (child.modified !== rev.entity.modified) {
+          changed = true;
+          const codes = [child.code].concat(child.children.map(cc => cc.code));
+          child = rev.entity as Category;
+          child.code = codes[0];
+          child.children.forEach((ccc, j) => ccc.code = codes[j + 1]);
+        }
+        return child;
+      });
+      Promise.all(updatedChildren).then(items => responseDomain.managedRepresentation.children = items);
+      if (changed) {
+        return await this.updateRevAsync(responseDomain);
+      }
+    }
+    return responseDomain;
+  }
+
+
+
   constructor(private service: TemplateService, private access: UserService) {
     this.canDelete = access.canDo(ActionKind.Delete, ElementKind.RESPONSEDOMAIN);
     this.canEdit = access.canDo(ActionKind.Update, ElementKind.RESPONSEDOMAIN);
@@ -67,36 +96,26 @@ export class ResponsedomainComponent {
   }
 
   public async onItemGetLatest() {
-    if (this.responseDomain.isMixed) {
-      let changed = false;
-      const mr = this.responseDomain.managedRepresentation;
-      console.log(mr.children || JSON);
-      mr.children.forEach(async (child, i) => {
-        const rev = await this.service.getByKindRevision(ElementKind.CATEGORY, child.id);
-        if (JSON.stringify(child.version) !== JSON.stringify(rev.entity.version)) {
-          changed = true;
-          const codes = [child.code].concat(child.children.map(cc => cc.code));
-          child = rev.entity as Category;
-          child.code = codes[0];
-          child.children.forEach((ccc, j) => ccc.code = codes[j + 1]);
-          this.responseDomain.managedRepresentation.children[i] = child;
-        }
-      });
-      if (changed) {
-        await this.service.update(this.responseDomain).toPromise();
-      }
 
-      this.service.getByKindRevision(ElementKind.RESPONSEDOMAIN, this.responseDomain.id).then(
-        (result) => {
-          this.responseDomain = result.entity as ResponseDomain;
-          this.selectedEvent.emit(
-            {
-              element: this.responseDomain,
-              elementId: this.responseDomain.id,
-              elementKind: ElementKind.RESPONSEDOMAIN,
-              elementRevision: result.revisionNumber
-            });
+    const RD = await this.updateMixedAsync(this.responseDomain);
+
+    console.log(RD.modified);
+    console.log(this.responseDomain.modified);
+    const result = await this.service.getByKindRevision(ElementKind.RESPONSEDOMAIN, this.responseDomain.id);
+    if (this.responseDomain.modified !== result.entity.modified) {
+      this.responseDomain = result.entity as ResponseDomain;
+      this.selectedEvent.emit(
+        {
+          element: this.responseDomain,
+          elementId: this.responseDomain.id,
+          elementKind: ElementKind.RESPONSEDOMAIN,
+          elementRevision: result.revisionNumber
         });
+    } else {
+      M.toast({
+        html: 'No updated entity available',
+        displayLength: 2000
+      });
     }
   }
 
@@ -142,6 +161,5 @@ export class ResponsedomainComponent {
     // event.stopPropagation();
     this.modalRef.close();
   }
-
 
 }
