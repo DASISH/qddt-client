@@ -5,7 +5,8 @@ import {
   getElementKind,
   getIcon,
   InstrumentSequence,
-  TemplateService
+  TemplateService,
+  Parameter
 } from '../../lib';
 
 
@@ -27,7 +28,6 @@ export class InstrumentSequenceTreeComponent implements AfterContentInit {
   @Output() actionEvent = new EventEmitter<{ action: ActionKind, ref: InstrumentSequence }>();
   // @Output() actionEvent = new EventEmitter<EventAction>();
 
-  public value: any;
   // tslint:disable-next-line:variable-name
   private _showButton = false;
 
@@ -43,13 +43,11 @@ export class InstrumentSequenceTreeComponent implements AfterContentInit {
     this._showButton = value;
   }
 
-  public readModel(event: Event) {
-    console.log(event.returnValue);
-    this.value = event.returnValue;
-  }
-
   public ngAfterContentInit(): void {
     M.Collapsible.init(document.querySelectorAll('.collapsible'));
+    this.subSequence.forEach(seq => {
+      console.log(seq.parameters);
+    });
   }
 
   public onItemNew(event: Event, ref: InstrumentSequence) {
@@ -105,4 +103,12 @@ export class InstrumentSequenceTreeComponent implements AfterContentInit {
     return getIcon(kind);
   }
 
+  public getParam(param: Parameter): string {
+    if (param.referencedId) {
+      return (param.value || '?') + '➫' + param.name
+
+    } else {
+      return param.name + '➫' + (param.value || '?')
+    }
+  }
 }
