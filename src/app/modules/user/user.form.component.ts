@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges, AfterViewInit} from '@angular/core';
-import { Agency, IAuthority, UserJson, UserService} from '../../lib';
+import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges, AfterViewInit } from '@angular/core';
+import { Agency, IAuthority, UserJson, UserService } from '../../lib';
 import { SelectItem } from '../../lib/classes/selecteditem.classes';
 
 @Component({
@@ -10,10 +10,10 @@ import { SelectItem } from '../../lib/classes/selecteditem.classes';
 export class UserFormComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() user: UserJson;
   @Input() readonly = false;
-  @Output() modifiedEvent =  new EventEmitter<string>();
+  @Output() modifiedEvent = new EventEmitter<string>();
 
   public selectedAgencyId: string;
-  public formId = Math.round( Math.random() * 10000);
+  public formId = Math.round(Math.random() * 10000);
 
   public agencies: Agency[];
   public authorities: IAuthority[];
@@ -22,11 +22,10 @@ export class UserFormComponent implements OnInit, OnChanges, AfterViewInit {
   constructor(private userService: UserService) {
   }
 
-   async ngOnInit() {
+  async ngOnInit() {
     this.agencies = await this.userService.getAgencies();
     this.authorities = await this.userService.getAuthorities();
-
-    this.AGENCY_LIST = this.agencies.map( item => new SelectItem( { label: item.name, value: item.id } ) );
+    this.AGENCY_LIST = this.agencies.map(item => new SelectItem({ label: item.name, value: item.id }));
 
   }
 
@@ -36,7 +35,7 @@ export class UserFormComponent implements OnInit, OnChanges, AfterViewInit {
         if (this.user.agency) {
           this.onSelectChange(this.user.agency.id);
         } else {
-          this.getFirstAgency().then( agent => this.onSelectChange(agent.id) );
+          this.getFirstAgency().then(agent => this.onSelectChange(agent.id));
         }
       }
       console.log('agency set');
@@ -45,19 +44,19 @@ export class UserFormComponent implements OnInit, OnChanges, AfterViewInit {
 
   ngAfterViewInit(): void {
     document.querySelectorAll('select')
-      .forEach( select => M.FormSelect.init(select));
+      .forEach(select => M.FormSelect.init(select));
     M.updateTextFields();
   }
 
   onSelectChange(id: string) {
     this.selectedAgencyId = id;
-    this.getAgencies().then( result => {
-      this.user.agency = result.find( f => f.id ===  this.selectedAgencyId );
+    this.getAgencies().then(result => {
+      this.user.agency = result.find(f => f.id === this.selectedAgencyId);
     });
   }
 
   onSelectRadio(authority: IAuthority) {
-    this.user.authorities  = [authority];
+    this.user.authorities = [authority];
   }
 
   onSave() {
@@ -70,7 +69,7 @@ export class UserFormComponent implements OnInit, OnChanges, AfterViewInit {
 
 
   private async getFirstAgency() {
-    return await this.getAgencies().then( result => result[0]);
+    return await this.getAgencies().then(result => result[0]);
   }
 
   private async getAgencies() {

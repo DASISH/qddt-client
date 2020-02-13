@@ -40,6 +40,16 @@
   <div *ngSwitchCase=instanceRefEnum.TOPIC_GROUP>
     <qddt-preview-topic [topic]="element"></qddt-preview-topic>
   </div>
+  <div *ngSwitchCase=instanceRefEnum.INSTRUCTION>
+    <li class="collection-item" *ngIf="element['description']">
+      <p [innerHtml]="element['description']"></p>
+    </li>
+  </div>
+  <div *ngSwitchCase=instanceRefEnum.STATEMENT_CONSTRUCT>
+    <li class="collection-item" *ngIf="element['description']">
+      <p [innerHtml]="element['description']"></p>
+    </li>
+  </div>
   <div *ngSwitchDefault>
     <!--CATEGORY = 0,-->
     <!--...-->
@@ -63,7 +73,8 @@
 
   </div>
 
-  <qddt-download [entity]="element" [readonly]="true"></qddt-download>
+  <qddt-download *ngIf="hideElement(element)" [entity]="element" [readonly]="true">
+  </qddt-download>
 
   <ul class="hoverable" *ngIf="showDetail">
     <li (click)="revisionIsVisible=!revisionIsVisible" style="cursor: zoom-in !important;">

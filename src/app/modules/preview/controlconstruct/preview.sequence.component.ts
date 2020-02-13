@@ -1,5 +1,5 @@
 import { Component, Input, AfterViewInit } from '@angular/core';
-import {ElementRevisionRef, getElementKind, PreviewService, SequenceConstruct} from '../../../lib';
+import { ElementRevisionRef, getElementKind, PreviewService, SequenceConstruct } from '../../../lib';
 
 @Component({
   selector: 'qddt-preview-sequenceconstruct',
@@ -7,8 +7,8 @@ import {ElementRevisionRef, getElementKind, PreviewService, SequenceConstruct} f
   styles: [
   ],
   template: `
-    <div [id]="compId" class="row" *ngIf="sequenceConstruct">
-      <span class="row">{{ sequenceConstruct?.description }}</span>
+    <div [id]="compId"  *ngIf="sequenceConstruct">
+      <span >{{ sequenceConstruct?.description }}</span>
       <ul id="col{{compId}}" *ngIf="sequenceConstruct.sequence"  class="collapsible" data-collapsible="accordion"  >
         <li *ngFor="let child of sequenceConstruct.sequence">
           <div class="collapsible-header green lighten-5"
@@ -18,8 +18,7 @@ import {ElementRevisionRef, getElementKind, PreviewService, SequenceConstruct} f
           <div class="collapsible-body">
             <div [ngSwitch]="child.elementKind">
               <div *ngSwitchCase="'SEQUENCE_CONSTRUCT'">
-                RECURSIVE?
-                <qddt-preview-sequenceconstruct [sequenceConstruct]="child.element"></qddt-preview-sequenceconstruct>
+                <qddt-preview-sequenceconstruct id="pseq{{compId}}" [sequenceConstruct]="child.element"></qddt-preview-sequenceconstruct>
               </div>
               <div *ngSwitchCase="'CONDITION_CONSTRUCT'">
                 <qddt-preview-conditionconstruct [condition]="child.element"></qddt-preview-conditionconstruct>
@@ -28,19 +27,23 @@ import {ElementRevisionRef, getElementKind, PreviewService, SequenceConstruct} f
                 <qddt-preview-statementconstruct [statement]="child.element"></qddt-preview-statementconstruct>
               </div>
               <div *ngSwitchCase="'QUESTION_CONSTRUCT'">
-                NOTHING?
                 <qddt-preview-questionconstruct [controlConstruct]="child.element" >
                 </qddt-preview-questionconstruct>
+              </div>
+              <div *ngSwitchCase="'INSTRUCTION'">
+                <li *ngIf="child?.element">
+                  <p [innerHtml]="child?.element['description']"></p>
+                </li>
               </div>
             </div>
           </div>
         </li>
       </ul>
     </div>`,
-  providers: [ ],
+  providers: [],
 })
 
-export class PreviewSequenceConstructComponent  implements AfterViewInit {
+export class PreviewSequenceConstructComponent implements AfterViewInit {
   @Input() sequenceConstruct: SequenceConstruct;
   @Input() showDetail = false;
   public compId = Math.round(Math.random() * 10000);
@@ -53,11 +56,13 @@ export class PreviewSequenceConstructComponent  implements AfterViewInit {
   }
 
   public onViewDetail(element: ElementRevisionRef) {
-    console.log('onViewDetail ' + element.name );
+    console.log('onViewDetail ' + element.name);
     if (!element.element) {
       this.service.getRevisionByKind(getElementKind(element.elementKind), element.elementId, element.elementRevision).then(
         (result) => { element.element = result.entity; },
         (error) => { this.showDetail = false; throw error; });
+    } else {
+      console.log('allerede her...')
     }
     this.showDetail = true;
   }

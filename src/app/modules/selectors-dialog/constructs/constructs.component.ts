@@ -1,12 +1,14 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Router} from '@angular/router';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { ActionKind } from 'src/app/lib';
-import { CONSTRUCT_MAP,
-        ElementKind, ElementRevisionRef,
-        getIcon,
-        IElement, IRevisionRef,
-        MessageService,
-        TemplateService} from '../../../lib';
+import {
+  CONSTRUCT_MAP,
+  ElementKind, ElementRevisionRef,
+  getIcon,
+  IElement, IRevisionRef,
+  MessageService,
+  TemplateService
+} from '../../../lib';
 
 
 @Component({
@@ -43,7 +45,8 @@ import { CONSTRUCT_MAP,
         </li>
       </ul>
       <div class="question">
-          <i class="material-icons small">{{getMatIcon(cqi.elementKind)}}</i><div [innerHtml]=cqi?.name></div>
+          <i class="material-icons small">{{getMatIcon(cqi.elementKind)}}</i>
+          <span [innerHtml]=cqi?.name></span>
       </div >
     </a>
   </div>
@@ -77,12 +80,12 @@ import { CONSTRUCT_MAP,
 export class ConstructsComponent {
   @Input() revisionRefs: ElementRevisionRef[];
   @Input() readonly = true;
-  @Output() actionEvent = new EventEmitter<{ action: ActionKind , ref: ElementRevisionRef }>();
+  @Output() actionEvent = new EventEmitter<{ action: ActionKind, ref: ElementRevisionRef }>();
 
-  public readonly modalId = Math.round( Math.random() * 10000);
+  public readonly modalId = Math.round(Math.random() * 10000);
   public readonly selectOptions = CONSTRUCT_MAP;
   public selectId = 0;
-  public SOURCE: IElement| IRevisionRef| null;
+  public SOURCE: IElement | IRevisionRef | null;
   // tslint:disable-next-line:variable-name
   private _modalRef: M.Modal;
   // tslint:disable-next-line:variable-name
@@ -91,7 +94,7 @@ export class ConstructsComponent {
   private _showButton = false;
   private action = ActionKind.Create;
 
-  constructor(private service: TemplateService, public message: MessageService, private router: Router ) {
+  constructor(private service: TemplateService, public message: MessageService, private router: Router) {
     console.log(this.selectOptions || JSON);
   }
 
@@ -115,7 +118,7 @@ export class ConstructsComponent {
   }
 
   public revisionSelectedEvent(ref: ElementRevisionRef) {
-    this.actionEvent.emit( {action: this.action, ref });
+    this.actionEvent.emit({ action: this.action, ref });
     this.SOURCE = null;
     this.modalRef.close();
   }
@@ -136,14 +139,14 @@ export class ConstructsComponent {
 
   public onItemRemove(event: Event, ref: ElementRevisionRef) {
     event.stopPropagation();
-    this.actionEvent.emit( {action: ActionKind.Delete, ref });
+    this.actionEvent.emit({ action: ActionKind.Delete, ref });
   }
 
   public onItemEdit(event: Event, cqi: ElementRevisionRef) {
     event.stopPropagation();
     this.service.searchByUuid(cqi.elementId).then(
       (result) => { this.router.navigate([result.url]); },
-      (error) => { throw  error; });
+      (error) => { throw error; });
   }
 
   public onItemUpdate(event: Event, cqi: ElementRevisionRef) {

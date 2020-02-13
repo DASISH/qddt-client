@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, Input} from '@angular/core';
-import {ElementEnumAware, ElementKind, IEntityAudit, PreviewService} from '../../lib';
+import { AfterViewInit, Component, Input } from '@angular/core';
+import { ElementEnumAware, ElementKind, IEntityAudit, PreviewService } from '../../lib';
 import * as FileSaver from 'file-saver';
 
 @Component({
@@ -23,6 +23,8 @@ export class PreviewComponent implements AfterViewInit {
 
   public instanceRefEnum = ElementKind;
   public revisionIsVisible = false;
+  private readonly hide = [ElementKind.AGENCY, ElementKind.AUTHOR, ElementKind.CONDITION_CONSTRUCT,
+  ElementKind.INSTRUCTION, ElementKind.STATEMENT_CONSTRUCT, ElementKind.INSTRUCTION];
 
   constructor(private service: PreviewService) { }
 
@@ -30,15 +32,22 @@ export class PreviewComponent implements AfterViewInit {
     return ElementKind[element.classKind];
   }
 
-  onGetPdf(element: IEntityAudit) {
+  public onGetPdf(element: IEntityAudit) {
     const fileName = element.name + '.pdf';
     this.service.getPdf(element).then((data: any) => { FileSaver.saveAs(data, fileName); });
   }
 
-  ngAfterViewInit(): void {
+  public hideElement(element: IEntityAudit): boolean {
+    const idx = this.getElementKind(element).valueOf();
+    const result = this.hide.findIndex(p => p.valueOf() === idx);
+    return (result < 0);
+  }
+
+  public ngAfterViewInit(): void {
     // M.AutoInit(document.getElementById('preview'));
     M.updateTextFields();
   }
+
 
 
 }

@@ -45,8 +45,8 @@ export class ResponsedomainComponent {
   // tslint:disable-next-line:variable-name
   private _modalRef: M.Modal;
 
-  private readonly getRevAsync = async (id: string) => this.service.getByKindRevision(ElementKind.CATEGORY, id);
-  private readonly updateRevAsync = async (responseDomain: ResponseDomain) =>
+  private readonly getRevAsync = (id: string) => this.service.getByKindRevision(ElementKind.CATEGORY, id);
+  private readonly updateRevAsync = (responseDomain: ResponseDomain) =>
     this.service.update<ResponseDomain>(responseDomain).toPromise()
 
   private readonly updateMixedAsync = async (responseDomain: ResponseDomain) => {
@@ -68,7 +68,7 @@ export class ResponsedomainComponent {
         return await this.updateRevAsync(responseDomain);
       }
     }
-    return responseDomain;
+    return Promise.resolve(responseDomain);
   }
 
 
@@ -96,12 +96,13 @@ export class ResponsedomainComponent {
   }
 
   public async onItemGetLatest() {
-
+    console.log('before');
     const RD = await this.updateMixedAsync(this.responseDomain);
 
     console.log(RD.modified);
     console.log(this.responseDomain.modified);
     const result = await this.service.getByKindRevision(ElementKind.RESPONSEDOMAIN, this.responseDomain.id);
+    console.log('check');
     if (this.responseDomain.modified !== result.entity.modified) {
       this.responseDomain = result.entity as ResponseDomain;
       this.selectedEvent.emit(
@@ -117,26 +118,33 @@ export class ResponsedomainComponent {
         displayLength: 2000
       });
     }
+    console.log('after');
   }
 
   public onItemRemove() {
-    this.removeEvent.emit({ elementId: this.responseDomain.id, elementKind: this.responseDomain.classKind });
-    this.responseDomain = null;
+    if (this.canDelete) {
+      this.removeEvent.emit({ elementId: this.responseDomain.id, elementKind: this.responseDomain.classKind });
+      this.responseDomain = null;
+    }
   }
 
   public onRevisionSelect(ref: ElementRevisionRef) {
-    this.selectedEvent.emit(ref);
-    this.modalRef.close();
+    if (this.canEdit) {
+      this.selectedEvent.emit(ref);
+      this.modalRef.close();
+    }
   }
 
   public onMissingEdit(event: Event) {
     event.stopPropagation();
-    this.showResponseDomain = false;
-    this.modalRef.open();
+    if (this.canEdit) {
+      this.showResponseDomain = false;
+      this.modalRef.open();
+    }
   }
 
   public onMissingRemove() {
-    if (this.responseDomain.isMixed) {
+    if (this.canDelete && this.responseDomain.isMixed) {
       // const rd =  new ResponseDomain(JSON.parse(JSON.stringify(this.responseDomain)));
       const i = this.responseDomain.managedRepresentation.children.findIndex(e => e.categoryType === 'MISSING_GROUP');
       this.responseDomain.managedRepresentation.children.splice(i, 1);
@@ -148,13 +156,17 @@ export class ResponsedomainComponent {
   }
 
   public onMissingSelect(ref: IElement) {
-    this._localresponseDomain.addManagedRep(ref.element);
+    if (this.canEdit) {
+      this._localresponseDomain.addManagedRep(ref.element);
+    }
   }
 
   public onOkMissing(event: Event) {
     event.stopPropagation();
-    this.updateEvent.emit(this.responseDomain);
-    this.modalRef.close();
+    if (this.canEdit) {
+      this.updateEvent.emit(this.responseDomain);
+      this.modalRef.close();
+    }
   }
 
   public onDismiss(event: Event) {

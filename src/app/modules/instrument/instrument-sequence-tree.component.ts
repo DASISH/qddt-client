@@ -1,4 +1,4 @@
-import {AfterContentInit, Component, EventEmitter, Input, Output} from '@angular/core';
+import { AfterContentInit, Component, EventEmitter, Input, Output } from '@angular/core';
 import {
   ActionKind,
   ElementKind, ElementRevisionRef, EventAction,
@@ -27,6 +27,7 @@ export class InstrumentSequenceTreeComponent implements AfterContentInit {
   @Output() actionEvent = new EventEmitter<{ action: ActionKind, ref: InstrumentSequence }>();
   // @Output() actionEvent = new EventEmitter<EventAction>();
 
+  public value: any;
   // tslint:disable-next-line:variable-name
   private _showButton = false;
 
@@ -42,39 +43,44 @@ export class InstrumentSequenceTreeComponent implements AfterContentInit {
     this._showButton = value;
   }
 
+  public readModel(event: Event) {
+    console.log(event.returnValue);
+    this.value = event.returnValue;
+  }
+
   public ngAfterContentInit(): void {
-      M.Collapsible.init(document.querySelectorAll('.collapsible'));
+    M.Collapsible.init(document.querySelectorAll('.collapsible'));
   }
 
   public onItemNew(event: Event, ref: InstrumentSequence) {
     // console.log('onItemNew');
-    this.actionEvent.emit( { action: ActionKind.Create,  ref });
+    this.actionEvent.emit({ action: ActionKind.Create, ref });
     event.stopPropagation();
   }
 
   public onItemRemove(event: Event, ref: InstrumentSequence) {
     // console.log('onItemRemove');
-    this.actionEvent.emit({ action: ActionKind.Delete,  ref });
+    this.actionEvent.emit({ action: ActionKind.Delete, ref });
     event.stopPropagation();
   }
 
   public onItemEdit(event: Event, ref: InstrumentSequence) {
     // console.log('onItemEdit');
-    this.actionEvent.emit( { action: ActionKind.Read,  ref });
+    this.actionEvent.emit({ action: ActionKind.Read, ref });
     event.stopPropagation();
   }
 
   public onItemUpdate(event: Event, ref: InstrumentSequence) {
     // console.log('onItemUpdate');
-    this.actionEvent.emit( { action: ActionKind.Update,  ref });
+    this.actionEvent.emit({ action: ActionKind.Update, ref });
     event.stopPropagation();
   }
 
   public doPassEvent(response) {
-      // console.log(response || JSON);
-      // const action = response.action as ActionKind;
-      // const ref = response.ref as InstrumentSequence;
-      this.actionEvent.emit( response);
+    // console.log(response || JSON);
+    // const action = response.action as ActionKind;
+    // const ref = response.ref as InstrumentSequence;
+    this.actionEvent.emit(response);
   }
 
   public onOpenBody(item: InstrumentSequence) {
