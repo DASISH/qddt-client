@@ -94,39 +94,47 @@ export class Instrument implements IEntityAudit {
   xmlLang?: string;
   classKind = ElementKind[ElementKind.INSTRUMENT];
   get parameters(): Map<string, Parameter> {
-    return new Map(
+    return (this.sequence) ? new Map(
       this.sequence
         .map(s => [...s.parameters])
-        .reduce((acc, it) => [...acc, ...it]));
+        .reduce((acc, it) => [...acc, ...it])) : new Map();
   }
 
   public constructor(init?: Partial<Instrument>) {
     Object.assign(this, init);
+    if (init && init.sequence) {
+      this.sequence = init.sequence.map(seq => new InstrumentSequence(seq));
+    }
   }
 }
 
 export class InstrumentSequence {
   id: string;
   elementRef: ElementRevisionRef;
-  get parameters(): Map<string, Parameter> {
-    const children = this.sequence
-      .map(s => [...s.parameters])
-      .reduce((acc, it) => [...acc, ...it]);
-    return new Map([[this.id, new Parameter({ name: this.elementRef.name })], ...children]);
-  }
   sequenceKind?: SequenceKind;
   sequence?: InstrumentSequence[] = [];
+  parameters: [string, Parameter][] = [];
 
   public constructor(init?: Partial<InstrumentSequence>) {
     Object.assign(this, init);
+    if (init && init.sequence) {
+      this.sequence = init.sequence.map(seq => new InstrumentSequence(seq));
+    }
+    if (this.sequence.length > 0) {
+      this.parameters = this.sequence
+        .map(s => [...s.parameters])
+        .reduce((acc, it) => [...acc, ...it]);
+    } else {
+      this.parameters = this.parameters.map(pam =>
+        [(pam['referencedId']) ? pam['referencedId'] : this.id, new Parameter({ name: pam['name'], referencedId: pam['referencedId'] })]);
+    }
   }
-
 }
 
 export class Parameter {
   name: string;
   referencedId?: string;
-  value: any;
+  value = null;
   public constructor(init?: Partial<Parameter>) {
     Object.assign(this, init);
   }

@@ -48,12 +48,11 @@
 </div>
 
 <div *ngIf="topic" class="col m3 hide-on-small-only ">
-  <div class="toc-wrapper " style="position: fixed;">
+  <div class="toc-wrapper pinned" style="height: calc(100% - 60px); overflow-y: auto;">
     <h5>Concept Toc</h5>
-    <!--    <ol class="table-of-contents" style="padding-inline-start: 0px;">-->
     <qddt-concept-toc class="table-of-contents" [children]="topic.concepts" [parentId]="topic.id" [level]="0"
-      (conceptMoved)="onMoveConcept($event)"></qddt-concept-toc>
-    <!--    </ol>-->
+      (conceptMoved)="onMoveConcept($event)">
+    </qddt-concept-toc>
   </div>
 </div>
 

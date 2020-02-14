@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, EventEmitter, Input, Output } from '@angular/core';
+import { AfterContentInit, Component, EventEmitter, Input, Output, AfterViewInit } from '@angular/core';
 import {
   ActionKind,
   ElementKind, ElementRevisionRef, EventAction,
@@ -21,7 +21,7 @@ import {
   templateUrl: './instrument-sequence-tree.component.html'
 })
 
-export class InstrumentSequenceTreeComponent implements AfterContentInit {
+export class InstrumentSequenceTreeComponent implements AfterViewInit {
   @Input() subSequence: InstrumentSequence[];
   @Input() readonly = false;
   @Input() level = 0;
@@ -43,11 +43,11 @@ export class InstrumentSequenceTreeComponent implements AfterContentInit {
     this._showButton = value;
   }
 
-  public ngAfterContentInit(): void {
+  public ngAfterViewInit(): void {
     M.Collapsible.init(document.querySelectorAll('.collapsible'));
-    this.subSequence.forEach(seq => {
-      console.log(seq.parameters);
-    });
+    // this.subSequence.forEach(seq => {
+    //   console.log(seq.parameters);
+    // });
   }
 
   public onItemNew(event: Event, ref: InstrumentSequence) {
@@ -104,11 +104,10 @@ export class InstrumentSequenceTreeComponent implements AfterContentInit {
   }
 
   public getParam(param: Parameter): string {
-    if (param.referencedId) {
-      return (param.value || '?') + '➫' + param.name
-
+    if (param[1].referencedId) {
+      return (param[1].value || '?') + '➫' + param[1].name
     } else {
-      return param.name + '➫' + (param.value || '?')
+      return param[1].name + '➫' + (param[1].value || '?')
     }
   }
 }

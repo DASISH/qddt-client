@@ -1,4 +1,4 @@
-<div class="col s12" *ngIf="element">
+<div class="col s10" *ngIf="element">
   <form (ngSubmit)="onUpdateInstrument()" #instrumentform="ngForm">
     <div class="row">
       <qddt-input class="col s10" required name="name" label="Name" [(ngModel)]="element.name" data-length="100">
@@ -13,21 +13,15 @@
     <qddt-textarea required name="description" label="Description" [(ngModel)]="element.description" data-length="1000">
     </qddt-textarea>
     <div class="row">
-      <qddt-select class="col s5" required name="instrumentKind" label="Instrument type" [(ngModel)]="element.instrumentKind"
-        [lockups]="instrumentKinds">
+      <qddt-select class="col s5" required name="instrumentKind" label="Instrument type"
+        [(ngModel)]="element.instrumentKind" [lockups]="instrumentKinds">
       </qddt-select>
       <div class="col s7 grey-text">{{getDescription(element.instrumentKind)}}</div>
     </div>
-<!--    <qddt-tree-view [node]="element.sequence">-->
-<!--      <span>{{node | json}} </span>-->
-<!--    </qddt-tree-view>-->
 
-    <qddt-instrument-sequence-tree [subSequence]="element.sequence" class="row"
-                                   (actionEvent)="onDoAction($event)" (modifiedEvent)="onDoAction('tes')" >
+    <qddt-instrument-sequence-tree [subSequence]="element.sequence" class="row" (actionEvent)="onDoAction($event)"
+      (modifiedEvent)="onDoAction('tes')">
     </qddt-instrument-sequence-tree>
-
-
-<!--     <qddt-instrument-sequence [(sequence)]="element.sequence"></qddt-instrument-sequence>-->
 
     <qddt-rational [formName]="'RationalComp'" *ngIf="!readonly && element.id" [element]="element"
       [config]="{hidden: [3,4]}">
@@ -40,9 +34,18 @@
       </button>
     </div>
   </form>
+
+</div>
+<div class="col s2">
+  <div class="toc-wrapper pinned " style="height: 100%; right:0; overflow-y: auto;">
+    <ol>
+      <li *ngFor="let parameter of element.parameters.values()">
+        <div class="chip">{{parameter.name}} </div>
+      </li>
+    </ol>
+  </div>
 </div>
 
-<div *ngIf="!element!">NO element here...? </div>
 
 <!-- Modal Structure -->
 <div id="MODAL-{{formId}}" class="modal modal-fixed-footer">
@@ -53,14 +56,14 @@
         <div class="col left" *ngFor="let option of selectOptions">
           <label>
             <input name="DOMAIN-TYPE-GROUP" type="radio" [checked]="selectId === option.id"
-                   (click)="onSelectOption(option.value)" />
+              (click)="onSelectOption(option.value)" />
             <span>{{ option.label }}</span>
           </label>
         </div>
       </div>
     </div>
     <qddt-element-revision-select [source]="SOURCE" (revisionSelectedEvent)="onRevisionSelect($event)"
-                                  (dismissEvent)="onDismiss()">
+      (dismissEvent)="onDismiss()">
     </qddt-element-revision-select>
   </div>
   <div class="modal-footer">

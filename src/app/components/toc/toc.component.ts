@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
   styles: ['li.over { border-color: #333; background: #ccc; }'],
   template: `
 <div class="col m3 hide-on-small-only">
-  <div class="toc-wrapper pinned" style="overflow-y: auto;" >
+  <div class="toc-wrapper pinned" style="height: 100%; overflow-y: auto;" >
     <h5>{{path | titlecase }} Toc</h5>
     <ol id="drags" class="section table-of-contents"
     (dragover)="onDragover($event)"

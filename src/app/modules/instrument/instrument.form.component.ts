@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import {
   ActionKind,
   CONSTRUCT_MAP,
@@ -11,7 +11,8 @@ import {
   InstrumentSequence,
   IRevisionRef,
   LANGUAGE_MAP,
-  TemplateService
+  TemplateService,
+  Parameter
 } from '../../lib';
 
 @Component({
@@ -47,11 +48,13 @@ export class InstrumentFormComponent implements OnChanges {
   }
 
   public getDescription(value: string): string {
-    return this.instrumentKinds.find( pre => pre.value === value).description;
+    return this.instrumentKinds.find(pre => pre.value === value).description;
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.element.currentValue) {
+      this.element = new Instrument(changes.element.currentValue);
+      console.log(this.element.parameters || JSON);
       this.currentInstrumentType = InstrumentKind[this.element.instrumentKind];
     }
     // try { M.updateTextFields(); } catch (Exception) { }
@@ -68,11 +71,11 @@ export class InstrumentFormComponent implements OnChanges {
 
   public onRevisionSelect(ref: ElementRevisionRef) {
     this.element.sequence.push(
-        new InstrumentSequence( {
-          elementRef: ref,
-          sequence: ref.element.sequence
-            .map((isref: ElementRevisionRef) => new InstrumentSequence({ elementRef: isref }))
-    }));
+      new InstrumentSequence({
+        elementRef: ref,
+        sequence: ref.element.sequence
+          .map((isref: ElementRevisionRef) => new InstrumentSequence({ elementRef: isref }))
+      }));
   }
 
   public onSelectOption(value) {
@@ -88,7 +91,7 @@ export class InstrumentFormComponent implements OnChanges {
     this.modalRef.close();
   }
 
-  public onDoAction( response) {
+  public onDoAction(response) {
     console.log(response || JSON);
     const action = response.action as ActionKind;
     const ref = response.ref as InstrumentSequence;
@@ -104,9 +107,9 @@ export class InstrumentFormComponent implements OnChanges {
   }
 
   public onItemRemoved(ref: InstrumentSequence) {
-      const tmp = this.element.sequence.filter(f => !(f.id === ref.id ));
-      this.element.sequence = null;
-      this.element.sequence = tmp;
+    const tmp = this.element.sequence.filter(f => !(f.id === ref.id));
+    this.element.sequence = null;
+    this.element.sequence = tmp;
   }
 
   public onItemAdded(ref: InstrumentSequence) {
@@ -117,9 +120,9 @@ export class InstrumentFormComponent implements OnChanges {
 
   public onItemModified(ref: InstrumentSequence) {
     console.log(ref || JSON);
-    const idx = this.element.sequence.findIndex(f => f.id === ref.id  );
+    const idx = this.element.sequence.findIndex(f => f.id === ref.id);
     const seqNew: InstrumentSequence[] = [].concat(
-      this.element.sequence.slice(0, idx ),
+      this.element.sequence.slice(0, idx),
       ref,
       this.element.sequence.slice(idx + 1)
     );
