@@ -1,4 +1,4 @@
-<div class="col s11" *ngIf="element">
+<div class="col s12" *ngIf="element">
   <form (ngSubmit)="onUpdateInstrument()" #instrumentform="ngForm">
     <div class="row">
       <qddt-input class="col s10" required name="name" label="Name" [(ngModel)]="element.name" data-length="100">
@@ -36,14 +36,14 @@
   </form>
 
 </div>
-<div class="toc-wrapper pinned" style="height: 100%; right:0; overflow-y: auto; width: 160px;">
+<!-- <div class="toc-wrapper pinned" style="height: 100%; right:0; overflow-y: auto; width: 160px;">
   <h6>Parameters</h6>
   <ol>
     <li *ngFor="let parameter of element.parameters.values()">
       <div class="chip">{{parameter.name}}</div>{{parameter.value}}
     </li>
   </ol>
-</div>
+</div> -->
 
 
 <!-- Modal Structure -->

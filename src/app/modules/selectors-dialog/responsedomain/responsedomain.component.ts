@@ -46,13 +46,14 @@ export class ResponsedomainComponent {
   private _modalRef: M.Modal;
 
   private readonly getRevAsync = (id: string) => this.service.getByKindRevision(ElementKind.CATEGORY, id);
+
   private readonly updateRevAsync = (responseDomain: ResponseDomain) =>
     this.service.update<ResponseDomain>(responseDomain).toPromise()
 
   private readonly updateMixedAsync = async (responseDomain: ResponseDomain) => {
     if (responseDomain.isMixed) {
       let changed = false;
-      const updatedChildren = responseDomain.managedRepresentation.children.map(async (child, i) => {
+      const updatedpromises = responseDomain.managedRepresentation.children.map(async (child, _i) => {
         const rev = await this.getRevAsync(child.id);
         if (child.modified !== rev.entity.modified) {
           changed = true;
@@ -63,12 +64,13 @@ export class ResponsedomainComponent {
         }
         return child;
       });
-      Promise.all(updatedChildren).then(items => responseDomain.managedRepresentation.children = items);
+      const updatedchildren = await Promise.all(updatedpromises);
       if (changed) {
+        responseDomain.managedRepresentation.children = updatedchildren;
         return await this.updateRevAsync(responseDomain);
       }
     }
-    return Promise.resolve(responseDomain);
+    return await Promise.resolve(responseDomain);
   }
 
 
@@ -96,14 +98,11 @@ export class ResponsedomainComponent {
   }
 
   public async onItemGetLatest() {
-    console.log('before');
-    const RD = await this.updateMixedAsync(this.responseDomain);
 
-    console.log(RD.modified);
-    console.log(this.responseDomain.modified);
-    const result = await this.service.getByKindRevision(ElementKind.RESPONSEDOMAIN, this.responseDomain.id);
-    console.log('check');
-    if (this.responseDomain.modified !== result.entity.modified) {
+    const RD = await this.updateMixedAsync(this.responseDomain);
+    const result = await this.service.getLatestVersionByKindEntity(ElementKind.RESPONSEDOMAIN, this.responseDomain.id);
+
+    if (RD.modified !== result.entity.modified) {
       this.responseDomain = result.entity as ResponseDomain;
       this.selectedEvent.emit(
         {
@@ -114,11 +113,10 @@ export class ResponsedomainComponent {
         });
     } else {
       M.toast({
-        html: 'No updated entity available',
+        html: 'No updated managed representation available',
         displayLength: 2000
       });
     }
-    console.log('after');
   }
 
   public onItemRemove() {
@@ -169,7 +167,7 @@ export class ResponsedomainComponent {
     }
   }
 
-  public onDismiss(event: Event) {
+  public onDismiss(_event: Event) {
     // event.stopPropagation();
     this.modalRef.close();
   }

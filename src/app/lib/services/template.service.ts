@@ -90,6 +90,12 @@ export class TemplateService {
 
   }
 
+  public getLatestVersionByKindEntity<T extends IEntityEditAudit>(kind: ElementKind, id: string): Promise<IRevisionResult<T>> {
+    const qe = getQueryInfo(kind);
+    return this.http.get<IRevisionResult<T>>(this.api + 'audit/' + qe.path + '/' + id + '/latestversion').toPromise();
+  }
+
+
   public create<T extends IEntityAudit>(item: T, parentId?: string): Observable<T> {
     const qe = getQueryInfo(item.classKind);
     return (parentId) ? this.http.post<T>(this.api + qe.path + '/create/' + parentId, item) :
