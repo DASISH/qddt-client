@@ -105,9 +105,9 @@ export class InstrumentSequenceTreeComponent implements AfterViewInit {
 
   public getParam(param: Parameter): string {
     if (param[1].referencedId) {
-      return (param[1].value || '?') + '➫' + param[1].name
+      return (param[1].value || '?') + '➫' + param[1].name;
     } else {
-      return param[1].name + '➫' + (param[1].value || '?')
+      return param[1].name + '➫' + (param[1].value || '?');
     }
   }
 }

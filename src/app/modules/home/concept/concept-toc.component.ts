@@ -25,7 +25,7 @@ import { Concept, IMoveTo } from '../../../lib';
         <a href="concept#{{concept.id}}">
           <span [ngClass]="'text-lighten-' + level">{{ concept.name | titlecase }}</span>
         </a>
-        <qddt-concept-toc *ngIf="concept.children"
+        <qddt-concept-toc *ngIf="concept.children && concept.children.length > 0"
             [level]="level+1" [children]="concept.children" [parentId]= "concept.id" (conceptMoved)="conceptMoved.emit($event)">
         </qddt-concept-toc>
       </li>
