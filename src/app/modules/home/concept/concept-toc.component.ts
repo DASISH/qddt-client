@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Concept, IMoveTo } from '../../../lib';
+import { Concept, IMoveTo, Topic } from '../../../lib';
 
 @Component({
   selector: 'qddt-concept-toc',
@@ -16,29 +16,40 @@ import { Concept, IMoveTo } from '../../../lib';
     // 'li a:hover:after { content: " (drag me)"; }',
   ],
   template: `
-    <ol *ngIf="children?.length"  (drop)="onDrop($event, -1)">
-      <li *ngFor="let concept of children; let idx = index;" draggable="true"
-          (dragstart)="onDragstart($event, concept.id)"
-          (dragover)="onDragover($event)"
-          (dragleave)="onDragleave($event)"
-          (drop)="onDrop($event, idx)">
-        <a href="concept#{{concept.id}}">
-          <span [ngClass]="'text-lighten-' + level">{{ concept.name | titlecase }}</span>
-        </a>
-        <qddt-concept-toc *ngIf="concept.children && concept.children.length > 0"
-            [level]="level+1" [children]="concept.children" [parentId]= "concept.id" (conceptMoved)="conceptMoved.emit($event)">
-        </qddt-concept-toc>
-      </li>
-    </ol>
-  `
+<ng-template #nodeTemplateRef   let-children="source" >
+  <ol (drop)="onDrop($event, -1)">
+    <ng-template ngFor let-child [ngForOf]="children">
+    <li draggable="true"
+        (dragstart)="onDragstart($event, child.id)"
+        (dragover)="onDragover($event)"
+        (dragleave)="onDragleave($event)"
+        (drop)="onDrop($event, child.id)">
+      <a [ngClass]="{'active':isActive===child.id}" href="concept#{{child.id}}" (click)="isActive=child.id">
+        <span>{{ child.name | titlecase }}</span>
+      </a>
+        <!-- Invoke the recursive template. -->
+      <ng-template
+        [ngTemplateOutlet]="nodeTemplateRef"
+        [ngTemplateOutletContext]="{ source: child.children }">
+      </ng-template>
+    </li>
+    </ng-template>
+  </ol>
+</ng-template>
+
+<!-- Initiate the recursive template rendering. -->
+<ng-template
+  [ngTemplateOutlet]="nodeTemplateRef"
+  [ngTemplateOutletContext]="{ source: topic.concepts }">
+</ng-template>
+`
 })
 
 export class ConceptTocComponent {
-  @Input() children: Concept[];
-  @Input() parentId: string;
-  @Input() level: number;
+  @Input() topic: Topic;
   @Output() conceptMoved = new EventEmitter<IMoveTo>();
 
+  public isActive: string;
 
   onDragstart(event, sourceId) {
     event.dataTransfer.effectAllowed = 'move'; // only dropEffect='copy' will be dropable
@@ -75,11 +86,7 @@ export class ConceptTocComponent {
     event.dataTransfer.clearData();
     console.log(event.currentTarget);
     console.log(event.target);
-    this.conceptMoved.emit({ target: this.parentId, index, source: sourceId } as IMoveTo);
-  }
-
-  public conceptClass(seed): Concept {
-    return new Concept(seed);
+    this.conceptMoved.emit({ target: '1432', index, source: sourceId } as IMoveTo);
   }
 
 }

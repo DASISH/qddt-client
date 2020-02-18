@@ -27,7 +27,7 @@
     </qddt-textarea>
 
     <qddt-responsedomain-select *ngIf="questionItem" [(responseDomain)]="questionItem.responseDomain"
-      (selectedEvent)="onSaveResponseDomain($event)" (updateEvent)="onUpdateResponseDomain($event)"
+      (selectedEvent)="onResponseDomainSelected($event)" (updateEvent)="onUpdateResponseDomain($event)"
       (removeEvent)="onResponseDomainRemove()">
     </qddt-responsedomain-select>
 

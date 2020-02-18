@@ -26,9 +26,10 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   public isLoggedIn$: BehaviorSubject<boolean>;
   public username;
   public elementKindRef = ElementKind;
+  public isActive: number;
 
   constructor(private userService: UserService, public property: PropertyStoreService,
-              private router: Router, private service: TemplateService) {
+    private router: Router, private service: TemplateService) {
 
     this.username = this.getUserName();
     this.isLoggedIn$ = userService.loggedIn;

@@ -50,8 +50,7 @@
 <div *ngIf="topic" class="col m3 hide-on-small-only ">
   <div class="toc-wrapper pinned" style="height: calc(100% - 60px); overflow-y: auto;">
     <h5>Concept Toc</h5>
-    <qddt-concept-toc class="table-of-contents" [children]="topic.concepts" [parentId]="topic.id" [level]="0"
-      (conceptMoved)="onMoveConcept($event)">
+    <qddt-concept-toc class="section table-of-contents" [topic]="topic" (conceptMoved)="onMoveConcept($event)">
     </qddt-concept-toc>
   </div>
 </div>

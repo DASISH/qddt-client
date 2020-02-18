@@ -12,8 +12,9 @@ import { Component, Input } from '@angular/core';
     (dragover)="onDragover($event)"
     (dragenter)="onDragenter($event)"
     (drop)="onDrop($event)" >
-      <li *ngFor="let element of elements"  draggable="true" (dragstart)="onDragstart($event, element)">
-        <a href="{{path}}#{{element.id}}" >{{ element.name }}</a>
+      <li *ngFor="let element of elements; let i = index"  draggable="true"
+        (dragstart)="onDragstart($event, element)" (click)="isActive=i">
+        <a [ngClass]="{'active':isActive===i}" href="{{path}}#{{element.id}}" >{{ element.name }}</a>
       </li>
     </ol>
   </div>
@@ -24,6 +25,8 @@ import { Component, Input } from '@angular/core';
 export class TocComponent {
   @Input() path: string;
   @Input() elements: any[];
+
+  public isActive: number;
 
   constructor() { }
   // <a (click)="scrollto(element.id)">{{ element.name }}</a>

@@ -41,84 +41,96 @@
           <li>
             <div class="card horizontal input-field" style="height: 55px">
               <i class="material-icons prefix" style="top: unset;">search</i>
-              <input id="icon_prefix" type="text" class="validate" placeholder="goto url/id" (input) = "onCheckUrl($event)" >
+              <input id="icon_prefix" type="text" class="validate" placeholder="goto url/id"
+                (input)="onCheckUrl($event)">
             </div>
           </li>
-          <li>
+          <li [ngClass]="{'active':isActive===0}" (click)="isActive=0">
             <a class="teal-text waves-effect waves-teal" [routerLink]="['/home']" tabindex="0">
               <i class="medium material-icons teal-text left ">store</i>Home</a>
           </li>
-          <li *ngIf= "canSee[elementKindRef.QUESTION_ITEM]" >
+          <li *ngIf="canSee[elementKindRef.QUESTION_ITEM]" [ngClass]="{'active':isActive===1}" (click)="isActive=1">
             <a class="teal-text waves-effect waves-teal" [routerLink]="['/questionitems']" tabindex="1">
               <i class="material-icons teal-text left medium">help</i>Questions</a>
           </li>
-          <li *ngIf= "canSee[elementKindRef.MISSING_GROUP]" >
+          <li *ngIf="canSee[elementKindRef.MISSING_GROUP]" [ngClass]="{'active':isActive===2}" (click)="isActive=2">
             <a class="teal-text waves-effect waves-teal" [routerLink]="['/missing']" tabindex="2">
               <i class="material-icons teal-text left medium">check_box_outline_blank</i>Missings</a>
           </li>
-          <li *ngIf= "canSee[elementKindRef.RESPONSEDOMAIN]" >
+          <li *ngIf="canSee[elementKindRef.RESPONSEDOMAIN]" [ngClass]="{'active':isActive===3}" (click)="isActive=3">
             <a class="teal-text waves-effect waves-teal" [routerLink]="['/responsedomains']" tabindex="3">
               <i class="material-icons teal-text left medium">check_box</i>Domains</a>
           </li>
-          <li *ngIf= "canSee[elementKindRef.QUESTION_CONSTRUCT]" >
+          <li *ngIf="canSee[elementKindRef.QUESTION_CONSTRUCT]" [ngClass]="{'active':isActive===4}"
+            (click)="isActive=4">
             <a class="teal-text waves-effect waves-teal" [routerLink]="['/questions']" tabindex="4">
               <i class="material-icons teal-text left medium">help_outline</i>Constructs</a>
           </li>
-          <li *ngIf= "canSee[elementKindRef.SEQUENCE_CONSTRUCT]">
+          <li *ngIf="canSee[elementKindRef.SEQUENCE_CONSTRUCT]" [ngClass]="{'active':isActive===5}"
+            (click)="isActive=5">
             <a class="teal-text waves-effect waves-teal" [routerLink]="['/sequences']" tabindex="5">
-            <i class="material-icons teal-text left medium">format_line_spacing</i>Sequences</a>
+              <i class="material-icons teal-text left medium">format_line_spacing</i>Sequences</a>
           </li>
-          <li *ngIf= "canSee[elementKindRef.INSTRUMENT]">
-          <a class="teal-text waves-effect waves-teal" [routerLink]="['/instruments']" tabindex="6">
-          <i class="material-icons teal-text left medium">tablet_mac</i>Instruments</a>
+          <li *ngIf="canSee[elementKindRef.INSTRUMENT]" [ngClass]="{'active':isActive===6}" (click)="isActive=6">
+            <a class="teal-text waves-effect waves-teal" [routerLink]="['/instruments']" tabindex="6">
+              <i class="material-icons teal-text left medium">tablet_mac</i>Instruments</a>
           </li>
-          <li>
+          <li [ngClass]="{'active':isActive===7}" (click)="isActive=7">
             <a class="teal-text waves-effect waves-teal" [routerLink]="['/publications']" tabindex="7">
               <i class="material-icons teal-text left medium">folder_special</i>Publications</a>
           </li>
-          <li>
+          <li class="no-padding">
             <ul class="collapsible collapsible-accordion">
-              <li>
-                <a class="collapsible-header waves-effect waves-teal teal-text">Lookups<i
-                    class="material-icons">more_horiz</i></a>
-                <div class="collapsible-body ">
+              <li [ngClass]="{'active':isActive>=8}">
+                <a class="collapsible-header teal-text ">Lookups<i class="material-icons">arrow_drop_down</i></a>
+                <div class="collapsible-body">
                   <ul>
-                    <li>
-                      <a class="teal-text waves-effect waves-teal active" [routerLink]="['/changelog']" tabindex="8">
-                        <i class="material-icons teal-text left medium">timeline</i>Change Feed</a>
-                    </li>
-                    <li *ngIf= "canSee[elementKindRef.REFERENCED]" >
-                      <a class=" teal-text waves-effect waves-teal active" [routerLink]="['/referenced']" tabindex="14">
-                        <i class="material-icons teal-text left medium">link</i>Referenced</a>
-                    </li> <!--                    <li *ngIf= "canSee[elementKindRef.AUTHOR]" >-->
-                    <li *ngIf= "canSee[elementKindRef.AGENCY]">
-                      <a class=" teal-text waves-effect waves-teal" [routerLink]="['/agencies']">
-                        <i class="material-icons teal-text left medium">verified_user</i>Agencies</a>
-                    </li>
-                    <li *ngIf= "canSee[elementKindRef.AUTHOR]">
-                      <a class=" teal-text waves-effect waves-teal" [routerLink]="['/authors']">
-                        <i class="material-icons teal-text left medium">face</i>Authors</a>
-                    </li>
-                    <li *ngIf= "canSee[elementKindRef.STATEMENT_CONSTRUCT]">
-                      <a class="teal-text waves-effect waves-teal" [routerLink]="['/statements']" tabindex="9">
-                        <i class="material-icons teal-text left medium">record_voice_over</i>Statement</a>
-                    </li>
-                    <li *ngIf= "canSee[elementKindRef.CONDITION_CONSTRUCT]">
-                      <a class="teal-text waves-effect waves-teal" [routerLink]="['/conditions']" tabindex="10">
-                        <i class="material-icons teal-text left medium">device_hub</i>Condition</a>
-                    </li>
-                    <li *ngIf= "canSee[elementKindRef.UNIVERSE]">
-                      <a class="teal-text waves-effect waves-teal" [routerLink]="['/universes']" tabindex="11">
-                        <i class="material-icons teal-text left medium">publics</i>Universe</a>
-                    </li>
-                    <li *ngIf= "canSee[elementKindRef.INSTRUCTION]">
-                      <a class="teal-text waves-effect waves-teal" [routerLink]="['/instructions']" tabindex="12">
-                        <i class="material-icons teal-text left medium">speaker_notes</i>Instructions</a>
-                    </li>
-                    <li *ngIf= "canSee[elementKindRef.CATEGORY]">
-                      <a class="teal-text waves-effect waves-teal" [routerLink]="['/categories']" tabindex="13">
-                        <i class="material-icons teal-text left medium">view_comfy</i>Categories</a>
-                    </li>
+                    <ul>
+                      <li [ngClass]="{'active':isActive===8}" (click)="isActive=8">
+                        <a class="teal-text waves-effect waves-teal active" [routerLink]="['/changelog']" tabindex="8">
+                          <i class="material-icons teal-text left medium">timeline</i>Change Feed</a>
+                      </li>
+                      <li *ngIf="canSee[elementKindRef.REFERENCED]" [ngClass]="{'active':isActive===9}"
+                        (click)="isActive=9">
+                        <a class=" teal-text waves-effect waves-teal active" [routerLink]="['/referenced']">
+                          <i class="material-icons teal-text left medium">link</i>Referenced</a>
+                      </li> <!--                    <li *ngIf= "canSee[elementKindRef.AUTHOR]" >-->
+                      <li *ngIf="canSee[elementKindRef.AGENCY]" [ngClass]="{'active':isActive===10}"
+                        (click)="isActive=10">
+                        <a class=" teal-text waves-effect waves-teal" [routerLink]="['/agencies']">
+                          <i class="material-icons teal-text left medium">verified_user</i>Agencies</a>
+                      </li>
+                      <li *ngIf="canSee[elementKindRef.AUTHOR]" [ngClass]="{'active':isActive===11}"
+                        (click)="isActive=11">
+                        <a class=" teal-text waves-effect waves-teal" [routerLink]="['/authors']">
+                          <i class="material-icons teal-text left medium">face</i>Authors</a>
+                      </li>
+                      <li *ngIf="canSee[elementKindRef.STATEMENT_CONSTRUCT]" [ngClass]="{'active':isActive===12}"
+                        (click)="isActive=12">
+                        <a class="teal-text waves-effect waves-teal" [routerLink]="['/statements']" tabindex="9">
+                          <i class="material-icons teal-text left medium">record_voice_over</i>Statement</a>
+                      </li>
+                      <li *ngIf="canSee[elementKindRef.CONDITION_CONSTRUCT]" [ngClass]="{'active':isActive===13}"
+                        (click)="isActive=13">
+                        <a class="teal-text waves-effect waves-teal" [routerLink]="['/conditions']" tabindex="10">
+                          <i class="material-icons teal-text left medium">device_hub</i>Condition</a>
+                      </li>
+                      <li *ngIf="canSee[elementKindRef.UNIVERSE]" [ngClass]="{'active':isActive===14}"
+                        (click)="isActive=14">
+                        <a class="teal-text waves-effect waves-teal" [routerLink]="['/universes']" tabindex="11">
+                          <i class="material-icons teal-text left medium">publics</i>Universe</a>
+                      </li>
+                      <li *ngIf="canSee[elementKindRef.INSTRUCTION]" [ngClass]="{'active':isActive===15}"
+                        (click)="isActive=15">
+                        <a class="teal-text waves-effect waves-teal" [routerLink]="['/instructions']" tabindex="12">
+                          <i class="material-icons teal-text left medium">speaker_notes</i>Instructions</a>
+                      </li>
+                      <li *ngIf="canSee[elementKindRef.CATEGORY]" [ngClass]="{'active':isActive===16}"
+                        (click)="isActive=16">
+                        <a class="teal-text waves-effect waves-teal" [routerLink]="['/categories']" tabindex="13">
+                          <i class="material-icons teal-text left medium">view_comfy</i>Categories</a>
+                      </li>
+                    </ul>
                   </ul>
                 </div>
               </li>
@@ -131,8 +143,8 @@
 </div>
 
 <ul id="admin-menu1" class="dropdown-content">
-  <div *ngIf="isLoggedIn$ | async as isLoggedIn" >
-    <li (click)= "logoutEvent()">
+  <div *ngIf="isLoggedIn$ | async as isLoggedIn">
+    <li (click)="logoutEvent()">
       <a href=""><i class="material-icons left">exit_to_app</i>Exit</a>
     </li>
     <li class="divider"></li>
