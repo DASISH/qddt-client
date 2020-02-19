@@ -14,7 +14,7 @@ import {
 
 @Component({
   selector: 'qddt-topic',
-  providers: [{ provide: 'elementKind', useValue: 'TOPIC_GROUP' }, ],
+  providers: [{ provide: 'elementKind', useValue: 'TOPIC_GROUP' },],
   templateUrl: './topic.component.html',
 })
 
@@ -30,8 +30,10 @@ export class TopicComponent implements OnInit {
   public readonly: boolean;
   public canDelete: boolean;
 
+  private readonly parentId;
+
   constructor(private router: Router, private property: PropertyStoreService,
-              private message: MessageService, private homeService: HomeService<Topic>, private templateService: TemplateService) {
+    private message: MessageService, private homeService: HomeService<Topic>, private templateService: TemplateService) {
 
     this.readonly = !homeService.canDo(this.TOPIC_KIND).get(ActionKind.Create);
     this.canDelete = homeService.canDo(this.TOPIC_KIND).get(ActionKind.Delete);
@@ -40,6 +42,13 @@ export class TopicComponent implements OnInit {
   ngOnInit(): void {
     this.study = this.property.get('study');
     const parentId = this.study.id || this.property.menuPath[HierarchyPosition.Study].id;
+    if (!this.study) {
+      this.homeService.get(ElementKind.STUDY, parentId).then(result => this.property.set('study', this.study = result));
+    }
+    this.loadTopics(parentId);
+  }
+
+  private loadTopics(parentId: string) {
     this.showProgressBar = true;
     this.homeService.getListByParent(this.TOPIC_KIND, parentId)
       .then((result) => {
@@ -131,6 +140,17 @@ export class TopicComponent implements OnInit {
         this.property.set('topics', this.topics);
       });
     }
+  }
+
+  onHierarchyChanged(event) {
+    console.log('moving event?');
+    this.study.changeKind = 'UPDATED_HIERARCHY_RELATION';
+    this.study.changeComment = 'Topic order changed';
+    this.study.topicGroups = this.topics;
+    this.templateService.update<Study>(this.study).subscribe((result) => {
+      this.property.set('study', this.study = result);
+      this.loadTopics(this.study.id);
+    });
   }
 
 }

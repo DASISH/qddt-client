@@ -82,4 +82,4 @@
   </div>
 </div>
 
-<qddt-toc [elements]="survey?.studies" [path]="'study'"></qddt-toc>
+<qddt-toc [elements]="survey?.studies" [path]="'study'" (hierarchyChanged)="onHierarchyChanged($event)"></qddt-toc>

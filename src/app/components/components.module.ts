@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
 import { AuthorChipComponent } from './author/author.chip.component';
@@ -32,10 +33,9 @@ import { FormSelectComponent } from './form/select.component';
 import { FormInputComponent } from './form/input.component';
 import { FormTextAreaComponent } from './form/textarea.component';
 import { FormInputNComponent } from './form/input-number.component';
-// import { TreeViewComponent } from './tree-view/tree-view.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, FormsModule, CompareModule],
+  imports: [CommonModule, RouterModule, FormsModule, CompareModule, DragDropModule],
   declarations: [LocalDatePipe, LocalNumberPipe, TemplateComponent, TemplateListComponent, TemplateDetailComponent,
     QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, FileDownloadComponent,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent, DialogBigComponent,

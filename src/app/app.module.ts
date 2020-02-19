@@ -2,6 +2,8 @@ import { ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+
 import { APP_BASE_HREF } from '@angular/common';
 import { API_BASE_HREF } from './api';
 
@@ -37,7 +39,7 @@ import { AgencyModule } from './modules/agency/agency.module';
 
 
 @NgModule({
-  imports: [BrowserModule, HttpClientModule, ComponentsModule, CoreModule, BrowserAnimationsModule, HomeModule, MenuModule,
+  imports: [BrowserModule, HttpClientModule, DragDropModule, ComponentsModule, CoreModule, BrowserAnimationsModule, HomeModule, MenuModule,
     SelectorDialogsModule, CategoryModule, ResponsedomainModule, QuestionModule, PreviewModule, AuthorModule, ReferencedModule,
     MissingModule, UniverseModule, ChangeLogModule, InstructionModule, InstrumentModule, StatementModule, ConditionModule,
     PublicationModule, QuestionConstructModule, SequenceModule, UserModule, AgencyModule, routing],

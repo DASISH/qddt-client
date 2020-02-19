@@ -9,10 +9,10 @@ import { ResponseFormComponent } from './responsedomain.form.component';
 import { ResponseRoutingModule } from './responsedomain.route';
 import { ResponsePreSelector } from './responsedomain.preselector.component';
 import { AnchorPointComponent } from './anchor-point.component';
-
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
-  imports: [ComponentsModule, PreviewModule, SelectorsModule, SelectorDialogsModule, ResponseRoutingModule],
+  imports: [ComponentsModule, PreviewModule, SelectorsModule, SelectorDialogsModule, ResponseRoutingModule, DragDropModule],
 
   declarations: [ResponsePreSelector, ResponseComponent, ResponseDetailComponent, ResponseFormComponent, AnchorPointComponent],
 

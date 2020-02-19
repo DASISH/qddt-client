@@ -31,7 +31,7 @@
           <div class="col s3 input-field">
             <input id="SCALE_ANCHOR-{{formId}}" name="scale_anchor" placeholder="number of anchors" type="number"
               [min]="0" [max]="responseDomain.managedRepresentation.inputLimit.maximum" [(ngModel)]="numberOfAnchors"
-              (ngModelChange)="changeNumberOfAnchors($event)" required class="validate">
+              (ngModelChange)="onChangeNumberOfAnchors($event)" required class="validate">
             <label for="SCALE_ANCHOR-{{formId}}">Number of Anchor</label>
           </div>
           <div class="col s3">
@@ -47,7 +47,7 @@
           <li class="hoverable row"
             *ngFor="let category of responseDomain.managedRepresentation.children; let idx=index;">
             <qddt-anchor-point [category]="category" [inputLimit]="responseDomain.managedRepresentation.inputLimit"
-              [formName]="'AP'+idx" (changeEvent)="anchorChanged($event,idx)"
+              [formName]="'AP'+idx" (changeEvent)="onAnchorChanged($event,idx)"
               (createEvent)="onCreateCategory($event,idx)">
             </qddt-anchor-point>
           </li>
@@ -78,23 +78,25 @@
         </div>
 
         <qddt-preview-responsedomain class="row" [responseDomain]="previewResponseDomain"></qddt-preview-responsedomain>
-
-        <ul>
-          <li *ngFor="let category of responseDomain.managedRepresentation.children; let idx=index;" draggable="true"
-            (dragstart)="onDragstart($event, category.id)" (dragover)="onDragover($event)"
-            (dragleave)="onDragleave($event)" (drop)="onDrop($event, idx)" class="hoverable row">
-            <div class="col s2 input-field">
-              <input name="{{idx}}-code-value" type="text" (ngModelChange)="buildPreviewResponseDomain()"
-                [(ngModel)]="category.code.codeValue" required>
-            </div>
-            <qddt-element-select class="col s8 input-field" [source]="getSource(category)" [autoCreate]="true"
-              (elementSelectedEvent)="onSelectCategory($event,idx)">
-            </qddt-element-select>
-            <div class="secondary-content">
-              <i class="material-icons">menu</i>
-            </div>
-          </li>
-        </ul>
+        <div cdkDropList cdkDrop [cdkDropListData]="responseDomain.managedRepresentation.children"
+          (cdkDropListDropped)="onItemDrop($event)">
+          <ul class="row">
+            <li class="hoverable minirow"
+              *ngFor="let category of responseDomain.managedRepresentation.children; let idx=index;" cdkDrag>
+              <div class="input-field minicol" style="width: 20%;">
+                <input name="{{idx}}-code-value" type="text" (ngModelChange)="buildPreviewResponseDomain()"
+                  [(ngModel)]="category.code.codeValue" required>
+              </div>
+              <qddt-element-select class="input-field minicol" [source]="getSource(category)" [autoCreate]="true"
+                style="width: 70%" (elementSelectedEvent)="onSelectCategory($event,idx)">
+              </qddt-element-select>
+              <div class="minicol" cdkDragHandle style="width: 10%; top: 2rem; position: relative; cursor: grab;"
+                title="Grab...">
+                <i class="material-icons" style="display: inline; ">menu</i>
+              </div>
+            </li>
+          </ul>
+        </div>
 
       </div>
       <div *ngSwitchCase="domainTypeDef.NUMERIC">

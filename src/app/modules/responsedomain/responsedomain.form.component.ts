@@ -6,8 +6,9 @@ import {
   OnInit,
   OnDestroy,
   OnChanges,
-  SimpleChanges, AfterViewInit
+  SimpleChanges, AfterViewInit, ɵsetCurrentInjector
 } from '@angular/core';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import {
   ActionKind,
   Category, DATE_FORMAT, DisplayLayoutKind,
@@ -27,7 +28,7 @@ import {
 })
 
 
-export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, AfterViewInit {
+export class ResponseFormComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
   @Input() responseDomain: ResponseDomain;
   @Input() readonly: boolean;
   @Output() modifiedEvent = new EventEmitter<ResponseDomain>();
@@ -40,13 +41,10 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, Af
   public numberOfAnchors: number;
   public selectedCategoryIndex: number;
   public domainType: DomainKind;
-  // public categories: Category[];
-  public readonly formId = Math.round( Math.random() * 10000);
+  public readonly formId = Math.round(Math.random() * 10000);
   public readonly LANGUAGES = LANGUAGE_MAP;
   public readonly DISPLAYLAYOUTS = toSelectItems(DisplayLayoutKind);
 
-  private pageSearch: IPageSearch;
-  private ok = true;
 
   constructor(private service: TemplateService, private properties: PropertyStoreService) {
 
@@ -59,15 +57,15 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, Af
 
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     M.updateTextFields();
-    document.querySelectorAll('SELECT').forEach( comp => {
+    document.querySelectorAll('SELECT').forEach(comp => {
       M.FormSelect.init(comp);
       // console.log( comp.nodeName);
     });
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     if (!this.readonly) { this.readonly = false; }
     if (!this.responseDomain) { return; }
 
@@ -79,7 +77,7 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, Af
     this.buildPreviewResponseDomain();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     if (this.responseDomain) {
       const page = this.getPageSearch();
       this.domainType = (page) ? DomainKind[page.keys.get('ResponseKind')] : DomainKind.SCALE;
@@ -88,12 +86,12 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, Af
     }
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.ok = false;
   }
 
   public getSource(category: Category): IElement {
-    return {element: category, elementKind: ElementKind.CATEGORY};
+    return { element: category, elementKind: ElementKind.CATEGORY };
   }
 
   public onSelectCategory(item: IElement, idx) {
@@ -102,22 +100,19 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, Af
     if (item.element.id === undefined) {
       this.onCreateCategory(item.element, idx);
     } else {
-      this.anchorChanged(item.element, idx);
+      this.onAnchorChanged(item.element, idx);
     }
   }
-  anchorChanged(event, idx) {
-    this.responseDomain.managedRepresentation.children[idx] = event;
-    this.buildPreviewResponseDomain();
-  }
 
-  onCreateCategory(event, idx) {
+  public onCreateCategory(event, idx) {
     this.service.update(event).subscribe(
-      (result) => { this.anchorChanged(result, idx);
+      (result) => {
+        this.onAnchorChanged(result, idx);
       }
     );
   }
 
-  onSave() {
+  public onSave() {
     this.service.update<ResponseDomain>(this.responseDomain).subscribe(
       (rdResult) => {
         this.responseDomain = rdResult;
@@ -126,17 +121,22 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, Af
     );
   }
 
-  changeNumberOfCategories(num: number) {
-    this.responseDomain.managedRepresentation.inputLimit.maximum  = num;
-    this.changeNumberOfAnchors(num);
+  public onAnchorChanged(event, idx) {
+    this.responseDomain.managedRepresentation.children[idx] = event;
+    this.buildPreviewResponseDomain();
   }
 
-  onSelectDateFormatChange(format: string) {
+  public onChangeNumberOfCategories(num: number) {
+    this.responseDomain.managedRepresentation.inputLimit.maximum = num;
+    this.onChangeNumberOfAnchors(num);
+  }
+
+  public onSelectDateFormatChange(format: string) {
     this.responseDomain.managedRepresentation.format = format;
     this.buildPreviewResponseDomain();
   }
 
-  changeNumberOfAnchors(num: number) {
+  public onChangeNumberOfAnchors(num: number) {
     const rep = this.responseDomain.managedRepresentation;
     if (rep.children.length === num) {
       return;
@@ -154,99 +154,71 @@ export class ResponseFormComponent implements OnInit , OnChanges,  OnDestroy, Af
 
     if (this.domainType === DomainKind.LIST) {
       for (let i = rep.children.length; i < this.numberOfAnchors; i++) {
-        rep.children.push(new Category({ code:  { codeValue: String(i + 1) , alignment: '' }}));
+        rep.children.push(new Category({ code: { codeValue: String(i + 1), alignment: '' } }));
       }
     } else if (this.domainType === DomainKind.SCALE) {
       const len = rep.children.length;
       for (let i = len; i < this.numberOfAnchors; i++) {
-          rep.children.push(new Category({code : { codeValue: '', alignment: 'text-left' }}));
+        rep.children.push(new Category({ code: { codeValue: '', alignment: 'text-left' } }));
       }
     }
     this.buildPreviewResponseDomain();
   }
 
 
-  onChangeDegreeSlope(degree: string) {
+  public onChangeDegreeSlope(degree: string) {
     this.responseDomain.displayLayout = degree;
     this.buildPreviewResponseDomain();
   }
 
-  onSelectAlignment(value: any, idx: any) {
+  public onSelectAlignment(value: any, idx: any) {
     this.responseDomain.managedRepresentation.children[idx].code.alignment = value;
     this.buildPreviewResponseDomain();
   }
 
-  buildPreviewResponseDomain() {
+  public buildPreviewResponseDomain() {
     this.previewResponseDomain = new ResponseDomain(this.responseDomain);
   }
 
-  power10(format: number): number {
+  public power10(format: number): number {
     return 1 / Math.pow(10, format);
   }
 
-  subtract(value1, value2): number {
+  public subtract(value1, value2): number {
     // tslint:disable-next-line:radix
     return parseInt(value1) - parseInt(value2);
   }
 
-  addition(value1, value2): number {
+  public addition(value1, value2): number {
     // tslint:disable-next-line:radix
     return parseInt(value1) + parseInt(value2);
   }
+
+  public trackByFunc(idx: any, category: { id: any; }) {
+    if (!category) return null;
+    return category.id;
+  }
+
+
+
+  public onItemDrop(event: CdkDragDrop<any[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      this.buildPreviewResponseDomain();
+    }
+  }
+
 
   private getPageSearch(): IPageSearch {
     return this.properties.get('responsedomains');
   }
 
-  onDragstart(event, sourceId) {
-    event.dataTransfer.effectAllowed = 'move'; // only dropEffect='copy' will be dropable
-    event.dataTransfer.setData('text/plain', sourceId); // required otherwise doesn't work
-    event.stopPropagation();
-  }
-
-  onDragover(event) {
-    event.dataTransfer.dropEffect = 'move';
-    event.preventDefault();
-
-    console.log(event);
-
-    const bounding = event.target.getBoundingClientRect();
-    const offset = bounding.y + (bounding.height / 2 );
-    if ( event.clientY - offset > 0 ) {
-      event.target.style['border-bottom'] = 'solid 3px blue';
-      event.target.style['border-top'] = '';
-    } else {
-      event.target.style['border-top'] = 'solid 3px blue';
-      event.target.style['border-bottom'] = '';
-    }
-    return true;
-  }
-
-  onDragleave(event) {
-    event.target.style['border-bottom'] = '';
-    event.target.style['border-top'] = '';
-  }
-
-  onDrop(event, index) {
-    event.stopPropagation();
-    event.target.style['border-bottom'] = '';
-    event.target.style['border-top'] = '';
-    const sourceIndex = event.dataTransfer.getData('text');
-    event.dataTransfer.clearData();
-    console.log(event.currentTarget);
-    console.log(event.target);
-
-    const rep = this.responseDomain.managedRepresentation;
-    if (this.domainType === DomainKind.LIST) {
-        this.arraymove(rep.children, sourceIndex, index);
-        this.buildPreviewResponseDomain();
-    }
-    // this.conceptMoved.emit( { target: this.parentId , index: index, source: sourceId } as IMoveTo);
-  }
 
   private arraymove(arr: Category[], fromIndex, toIndex) {
+    console.log('arraymove');
     const element = arr[fromIndex];
     arr.splice(fromIndex, 1);
     arr.splice(toIndex, 0, element);
+    console.log('arraymoved');
   }
 }

@@ -27,10 +27,10 @@ export class StudyComponent implements OnInit {
   private readonly STUDY = ElementKind.STUDY;
 
   constructor(private router: Router,
-              private property: PropertyStoreService,
-              private message: MessageService,
-              private homeService: HomeService<Study>,
-              private templateService: TemplateService) {
+    private property: PropertyStoreService,
+    private message: MessageService,
+    private homeService: HomeService<Study>,
+    private templateService: TemplateService) {
 
     this.readonly = !homeService.canDo(this.STUDY).get(ActionKind.Create);
     this.canDelete = homeService.canDo(this.STUDY).get(ActionKind.Delete);
@@ -91,5 +91,14 @@ export class StudyComponent implements OnInit {
           this.property.set('studies', this.survey.studies);
         });
     }
+  }
+
+  onHierarchyChanged(event) {
+    console.log('moving event?');
+    this.survey.changeKind = 'UPDATED_HIERARCHY_RELATION';
+    this.survey.changeComment = 'Study order changed';
+    this.templateService.update<SurveyProgram>(this.survey).subscribe((result) => {
+      this.property.set('survey', this.survey = result);
+    });
   }
 }
