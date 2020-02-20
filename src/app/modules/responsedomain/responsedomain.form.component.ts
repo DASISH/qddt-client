@@ -1,3 +1,4 @@
+import { PageSearch } from './../../lib/classes/classes';
 import {
   Component,
   Input,
@@ -45,12 +46,14 @@ export class ResponseFormComponent implements OnInit, OnChanges, OnDestroy, Afte
   public readonly LANGUAGES = LANGUAGE_MAP;
   public readonly DISPLAYLAYOUTS = toSelectItems(DisplayLayoutKind);
 
+  private pageSearch: PageSearch;
+  private ok: boolean = false;
 
   constructor(private service: TemplateService, private properties: PropertyStoreService) {
 
     this.selectedCategoryIndex = 0;
     this.numberOfAnchors = 0;
-    this.pageSearch = { kind: this.CATEGORY, key: '', page: new Page(), sort: 'name,asc' };
+    this.pageSearch = new PageSearch({ kind: this.CATEGORY, key: '', page: new Page(), sort: 'name,asc' });
     const page = this.getPageSearch();
     this.domainType = (page) ? DomainKind[page.keys.get('ResponseKind')] : DomainKind.SCALE;
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.RESPONSEDOMAIN);

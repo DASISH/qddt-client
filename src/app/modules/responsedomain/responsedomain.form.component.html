@@ -58,7 +58,7 @@
           <div class="col s3 input-field ">
             <input class="validate" id="CN-{{formId}}" name="code_number" type="number" placeholder="#" min=0
               [ngModel]="responseDomain.managedRepresentation.inputLimit.maximum"
-              (ngModelChange)="changeNumberOfCategories($event)" required>
+              (ngModelChange)="onChangeNumberOfCategories($event)" required>
             <label for="CN-{{formId}}">Number of Codes</label>
           </div>
           <div class="col s3 offset-m1 input-field">

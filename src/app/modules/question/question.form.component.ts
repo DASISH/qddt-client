@@ -37,8 +37,7 @@ export class QuestionFormComponent implements AfterViewInit {
     // if (item.element.responseKind === 'MIXED') {
     //   this.onUpdateResponseDomain(item.element as ResponseDomain);
     // } else {
-    this.questionItem.responseDomain = item.element;
-    this.questionItem.responseDomainRevision = item.elementRevision || 0;
+    this.questionItem.responsedomainRef = item;
     // }
     // this.questionItem.changeComment = 'have to save after each RD change';
     // this.questionItem.changeKind = 'IN_DEVELOPMENT';
@@ -49,16 +48,16 @@ export class QuestionFormComponent implements AfterViewInit {
   }
 
   onResponseDomainRemove() {
-    this.questionItem.responseDomainRevision = 0;
-    this.questionItem.responseDomain = null;
+    this.questionItem.responsedomainRef = null
   }
 
   onUpdateResponseDomain(element: ResponseDomain) {
     element.changeKind = 'CONCEPTUAL';
     element.changeComment = 'Values changed or managed representation added';
     this.service.update(element).subscribe(result => {
-      this.questionItem.responseDomain = result as ResponseDomain;
-      this.questionItem.responseDomainRevision = 0;   // this will fetch latest revision of Rd, when QI is saved.
+      this.questionItem.responsedomainRef.element = result;
+      this.questionItem.responsedomainRef.elementRevision = 0;
+      // this will fetch latest revision of Rd, when QI is saved.
     });
   }
 }

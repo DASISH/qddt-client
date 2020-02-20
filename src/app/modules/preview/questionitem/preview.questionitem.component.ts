@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import {QuestionItem} from '../../../lib/classes';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { QuestionItem, ResponseDomain } from '../../../lib/classes';
 
 @Component({
   selector: 'qddt-preview-questionitem',
@@ -13,8 +13,8 @@ import {QuestionItem} from '../../../lib/classes';
   </li>
   <li class="collection-item" ><label>Responsedomain</label></li>
   <li class="collection-item" >
-    <qddt-preview-responsedomain *ngIf="questionItem?.responseDomain"
-      [responseDomain]="questionItem.responseDomain">
+    <qddt-preview-responsedomain  *ngIf="questionItem?.responsedomainRef"
+      [responseDomain]="questionItem.responsedomainRef.element">
     </qddt-preview-responsedomain>
   </li>
   <li class="collection-item" *ngIf="questionItem?.intent" ><label>Intent</label></li>
@@ -31,10 +31,11 @@ import {QuestionItem} from '../../../lib/classes';
 </ul>
 
 `,
-  providers: [ ],
+  providers: [],
 })
 
 export class PreviewQuestionitemComponent {
   @Input() questionItem: QuestionItem;
+
 
 }

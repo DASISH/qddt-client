@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, AfterViewInit } from '@angular/core';
 import {
   ActionKind,
   Category,
@@ -20,7 +20,7 @@ import { async } from '@angular/core/testing';
 // 'ul.dropleft { position: absolute; display: none; margin-top: 5px; margin-bottom: 0px; z-index: 1;}',
 //   'ul.dropleft li { display:inline-flex; }',
 
-export class ResponsedomainComponent {
+export class ResponsedomainComponent implements AfterViewInit {
   @Input()
   set responseDomain(responseDomain) {
     // This will ensure that a new object is created...
@@ -87,7 +87,11 @@ export class ResponsedomainComponent {
     return this._modalRef;
   }
 
-  trackByCategoryId(category: Category): string {
+  public ngAfterViewInit(): void {
+    M.updateTextFields();
+  }
+
+  public trackByCategoryId(category: Category): string {
     return category.id;
   }
 
