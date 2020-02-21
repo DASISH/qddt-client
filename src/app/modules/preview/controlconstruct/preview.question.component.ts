@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
-import {QuestionConstruct} from '../../../lib';
+import { QuestionConstruct } from '../../../lib';
 
 @Component({
   selector: 'qddt-preview-questionconstruct',
 
-  styles: [ ],
+  styles: [],
   template: `
   <div class="row" *ngIf="controlConstruct?.preInstructions?.length>0">
     <ul>
@@ -18,7 +18,7 @@ import {QuestionConstruct} from '../../../lib';
   </div>
   <div class="row">
     <p class="card-panel grey lighten-5 grey-text text-darken-1"
-    [innerHtml]="controlConstruct?.questionItem?.question" style="font-style: italic"></p>
+    [innerHtml]="controlConstruct?.questionItemRef?.text" style="font-style: italic"></p>
   </div>
   <div class="row" *ngIf="controlConstruct?.postInstructions?.length>0">
     <ul>
@@ -32,8 +32,8 @@ import {QuestionConstruct} from '../../../lib';
   </div>
   <div class="row">
     <qddt-preview-responsedomain
-      *ngIf="controlConstruct?.questionItem && controlConstruct.questionItem?.responseDomain"
-      [responseDomain]="controlConstruct.questionItem.responseDomain">
+      *ngIf="controlConstruct?.questionItemRef && controlConstruct.questionItemRef.element"
+      [responseDomain]="controlConstruct.questionItemRef.element.responseDomainRef.element">
     </qddt-preview-responsedomain>
   </div>
   <div class="row" *ngIf="showDetail">

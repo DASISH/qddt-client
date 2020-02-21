@@ -1,8 +1,7 @@
 import { IEntityAudit } from '../interfaces';
 import { Study } from './home.classes';
 import { ActionKind, ElementKind } from '../enums';
-import { ElementRevisionRef } from './element-revision-ref';
-import { SequenceKind } from '.';
+import { SequenceKind, ElementRevisionRef } from '.';
 
 
 export enum InstrumentKind {

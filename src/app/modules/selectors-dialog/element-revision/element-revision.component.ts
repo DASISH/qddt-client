@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { ElementRevisionRef, IElement, IRevisionRef } from '../../../lib';
 
 
@@ -28,13 +28,13 @@ export class ElementRevisionSelectComponent implements OnChanges {
   @Input() source: IElement | IRevisionRef | null;
   @Output() revSelectEvent = new EventEmitter<ElementRevisionRef>();
 
-  public readonly modalId = Math.round( Math.random() * 10000);
+  public readonly modalId = Math.round(Math.random() * 10000);
 
   // tslint:disable-next-line:variable-name
   private _modalRef: M.Modal;
 
-  constructor( ) {
-    console.log('ElementRevisionSelectComponent::CNSTR');
+  constructor() {
+    // console.log('ElementRevisionSelectComponent::CNSTR');
   }
 
   get modalRef(): M.Modal {

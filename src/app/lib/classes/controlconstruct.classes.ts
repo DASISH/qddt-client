@@ -45,8 +45,7 @@ export class QuestionConstruct implements IEntityEditAudit {
   name: string;
   description: string;
   classKind = ElementKind[ElementKind.QUESTION_CONSTRUCT];
-  questionItem: QuestionItem;
-  questionItemRevision: number;
+  questionItemRef: ElementRevisionRef<QuestionItem>;
   otherMaterials: IOtherMaterial[] = [];
   universe: Universe[] = [];
   preInstructions: Instruction[] = [];

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import {
   ElementEnumAware,
   ElementKind,
@@ -45,6 +45,7 @@ export class ElementRevisionComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.source && changes.source.currentValue) {
+      console.log(changes.source.currentValue || JSON);
       if (this.isElementRevision(changes.source.currentValue)) {
         this.revisionRef = changes.source.currentValue as IRevisionRef;
         this.showRevisionSelect = true;
@@ -57,7 +58,7 @@ export class ElementRevisionComponent implements OnChanges {
 
   public onSelectElement(item: IElement) {
     this.showRevisionSelect = true;
-    this.revisionRef =  { elementId: item.element.id, elementKind: item.elementKind, elementRevision: 0 };
+    this.revisionRef = { elementId: item.element.id, elementKind: item.elementKind, elementRevision: 0 };
     console.log(this.revisionRef || JSON);
   }
 
@@ -83,7 +84,7 @@ export class ElementRevisionComponent implements OnChanges {
     return new ElementRevisionRef({
       elementId: elementRevision.entity.id,
       elementRevision: elementRevision.revisionNumber,
-      elementKind:  ElementKind[kind],
+      elementKind: ElementKind[kind],
       element: elementRevision.entity,
       version: elementRevision.entity.version,
       name: this.getName(kind, elementRevision.entity)
@@ -96,11 +97,11 @@ export class ElementRevisionComponent implements OnChanges {
       case ElementKind.CONDITION_CONSTRUCT:
         return name + ' ➫ ' + (entity as ConditionConstruct).condition.toString();
       case ElementKind.QUESTION_CONSTRUCT:
-        return name + ' ➫ ' + (entity as QuestionConstruct).questionItem.question;
+        return name + ' ➫ ' + (entity as QuestionConstruct).description;
       case ElementKind.STATEMENT_CONSTRUCT:
         return name + ' ➫ ' + (entity as StatementConstruct).statement;
       case ElementKind.QUESTION_ITEM:
-          return name + ' ➫ ' + (entity as QuestionItem).question;
+        return name + ' ➫ ' + (entity as QuestionItem).question;
       case ElementKind.INSTRUCTION:
         return name + ' ➫ ' + (entity as Instruction).description;
       default: return name;

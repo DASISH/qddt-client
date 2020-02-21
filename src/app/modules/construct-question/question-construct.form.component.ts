@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
   ActionKind,
   ElementKind,
@@ -9,9 +9,10 @@ import {
   LANGUAGE_MAP,
   MessageService,
   QuestionConstruct,
-  TemplateService
+  TemplateService,
+  QuestionItem
 } from '../../lib';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'qddt-question-construct-form',
@@ -43,55 +44,58 @@ export class QuestionConstructFormComponent {
 
   }
 
-  onAddUniverse(item: IElement) {
+  public onAddUniverse(item: IElement) {
     this.controlConstruct.universe.push(item.element);
   }
 
-  onAddPreInstruction(item: IElement) {
+  public onAddPreInstruction(item: IElement) {
     this.controlConstruct.preInstructions.push(item.element);
   }
 
-  onAddPostInstruction(item: IElement) {
+  public onAddPostInstruction(item: IElement) {
     this.controlConstruct.postInstructions.push(item.element);
   }
 
-  onRemoveUniverse(item: IElementRef) {
-    this.controlConstruct.universe = this.controlConstruct.universe.filter( u => u.id !== item.elementId);
+  public onRemoveUniverse(item: IElementRef) {
+    this.controlConstruct.universe = this.controlConstruct.universe.filter(u => u.id !== item.elementId);
   }
 
-  onRemovePreInstruction(item: IElementRef) {
-    this.controlConstruct.preInstructions = this.controlConstruct.preInstructions.filter( u => u.id !== item.elementId);
+  public onRemovePreInstruction(item: IElementRef) {
+    this.controlConstruct.preInstructions = this.controlConstruct.preInstructions.filter(u => u.id !== item.elementId);
   }
 
-  onRemovePostInstruction(item: IElementRef) {
-    this.controlConstruct.postInstructions = this.controlConstruct.postInstructions.filter( u => u.id !== item.elementId);
+  public onRemovePostInstruction(item: IElementRef) {
+    this.controlConstruct.postInstructions = this.controlConstruct.postInstructions.filter(u => u.id !== item.elementId);
   }
 
-  onQuestionEdit() {
-    this.service.searchByUuid(this.controlConstruct.questionItem.id).then(
+  public onQuestionEdit() {
+    this.service.searchByUuid(this.controlConstruct.questionItemRef.elementId).then(
       (result) => { this.router.navigate([result.url]); },
-      (error) => { throw  error; });
+      (error) => { throw error; });
   }
 
-  onQuestionRemove() {
-    this.controlConstruct.questionItem = null;
+  public onQuestionRemove() {
+    this.controlConstruct.questionItemRef = null;
   }
 
-  onQuestionSync() {
-    this.SOURCE = this.refvisionRef;
+  public onQuestionSync() {
+    this.SOURCE = this.controlConstruct.questionItemRef
   }
 
-  onQuestionSearch() {
+  public onQuestionSearch() {
     this.SOURCE = { elementKind: ElementKind.QUESTION_ITEM, element: '' } as IElement;
   }
-  onRevisionSelect(rev: ElementRevisionRef) {
-    this.controlConstruct.questionItem = rev.element;
-    this.controlConstruct.questionItemRevision = rev.elementRevision;
+
+  public onRevisionSelect(rev: ElementRevisionRef<QuestionItem>) {
+    rev.name = rev.element.name;
+    rev.text = rev.element.question;
+    this.controlConstruct.questionItemRef = rev;
+    console.log(rev || JSON);
     this.SOURCE = null;
   }
 
   public onQuestionPreview() {
-    this.message.sendMessage( this.refvisionRef);
+    this.message.sendMessage(this.controlConstruct.questionItemRef);
   }
 
   async onSave() {
@@ -103,13 +107,6 @@ export class QuestionConstructFormComponent {
     this.modifiedEvent.emit(
       this.controlConstruct =
       await this.service.updateWithFiles(ElementKind.QUESTION_CONSTRUCT, formData).toPromise());
-  }
-
-  get refvisionRef(): IRevisionRef {
-    return {
-      elementId: this.controlConstruct.questionItem.id,
-      elementRevision: this.controlConstruct.questionItemRevision,
-      elementKind: ElementKind.QUESTION_ITEM } as IRevisionRef;
   }
 
 }

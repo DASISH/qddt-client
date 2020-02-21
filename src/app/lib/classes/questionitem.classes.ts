@@ -1,6 +1,7 @@
 import { ElementRevisionRef } from './element-revision-ref';
 import { IEntityAudit, IEntityEditAudit, IVersion } from '../interfaces';
 import { ElementKind } from '../enums';
+import { ResponseDomain } from './responsedomain.classes';
 
 export class QuestionItem implements IEntityEditAudit {
   id: string;
@@ -16,7 +17,7 @@ export class QuestionItem implements IEntityEditAudit {
   question = '';
   intent: string;
   xmlLang = 'en-GB';
-  responsedomainRef: ElementRevisionRef;
+  responseDomainRef: ElementRevisionRef<ResponseDomain>;
   conceptRefs: any;
   public constructor(init?: Partial<QuestionItem>) {
     Object.assign(this, init);

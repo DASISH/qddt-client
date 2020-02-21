@@ -10,8 +10,8 @@
       </qddt-select>
     </div>
 
-    <qddt-textarea class="row" name="description" label="Description"
-      [(ngModel)]="controlConstruct.description" data-length="255">
+    <qddt-textarea class="row" name="description" label="Description" [(ngModel)]="controlConstruct.description"
+      data-length="255">
     </qddt-textarea>
 
     <qddt-element-collection [(listItems)]="controlConstruct.universe" [labelName]="'Universe'" [elementKind]="UNIVERSE"
@@ -26,11 +26,14 @@
     <div class="collection with-header hoverable row" (mouseenter)="showButton = !readonly"
       (mouseleave)="showButton = false">
       <a class="collection-header col s12" (click)="onQuestionSearch()" style="cursor: zoom-in">
-        <label><i class="material-icons small">help</i>Question ➫ {{controlConstruct?.questionItem?.name}}</label>
+        <label>
+          <i class="material-icons small">help</i>
+          <span [innerHtml]="'Question ➫ ' + controlConstruct?.questionItemRef?.name"></span>
+        </label>
         <a *ngIf="showButton" class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light teal">
           <i class="material-icons" title="add QuestionItem">add</i>
         </a>
-        <qddt-version-label *ngIf="!showButton" class="right" [revisionRef]="controlConstruct.questionItem">
+        <qddt-version-label *ngIf="!showButton" class="right" [revisionRef]="controlConstruct?.questionItemRef">
         </qddt-version-label>
       </a>
       <div class="col s12" style="padding: 1px 1px;">
@@ -59,21 +62,21 @@
               </a>
             </li>
           </ul>
-          <p [innerHtml]="controlConstruct.questionItem?.question" style="font-style: italic"></p>
+          <p [innerHtml]="controlConstruct?.questionItemRef?.text" style="font-style: italic"></p>
         </div>
       </div>
     </div>
 
-    <qddt-preview-responsedomain *ngIf="controlConstruct.questionItem && controlConstruct.questionItem.responseDomain"
-      [responseDomain]="controlConstruct.questionItem.responseDomain">
+    <qddt-preview-responsedomain
+      *ngIf="controlConstruct?.questionItemRef && controlConstruct.questionItemRef.element?.responseDomainRef?.element"
+      [responseDomain]="controlConstruct.questionItemRef.element.responseDomainRef.element">
     </qddt-preview-responsedomain>
-
     <qddt-element-collection [listItems]="controlConstruct.postInstructions" [labelName]="'Post Instructions'"
       [elementKind]="INSTRUCTION" [readonly]="false" (selectEvent)="onAddPostInstruction($event)"
       (deletedEvent)="onRemovePostInstruction($event)">
     </qddt-element-collection>
 
-    <qddt-conceptref [element]="controlConstruct.questionItem"></qddt-conceptref>
+    <qddt-conceptref [element]="controlConstruct?.questionItemRef?.element"></qddt-conceptref>
 
     <qddt-download [fileStore]="fileStore" [entity]="controlConstruct" [readonly]="false"></qddt-download>
 

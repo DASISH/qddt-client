@@ -33,30 +33,20 @@ export class QuestionFormComponent implements AfterViewInit {
       });
   }
 
-  onResponseDomainSelected(item: ElementRevisionRef) {
-    // if (item.element.responseKind === 'MIXED') {
-    //   this.onUpdateResponseDomain(item.element as ResponseDomain);
-    // } else {
-    this.questionItem.responsedomainRef = item;
-    // }
-    // this.questionItem.changeComment = 'have to save after each RD change';
-    // this.questionItem.changeKind = 'IN_DEVELOPMENT';
-    // this.service.update<QuestionItem>(this.questionItem)
-    //   .subscribe((result) => {
-    //     this.questionItem = result;
-    //   });
+  onResponseDomainSelected(item: ElementRevisionRef<ResponseDomain>) {
+    this.questionItem.responseDomainRef = item;
   }
 
   onResponseDomainRemove() {
-    this.questionItem.responsedomainRef = null
+    this.questionItem.responseDomainRef = null
   }
 
   onUpdateResponseDomain(element: ResponseDomain) {
     element.changeKind = 'CONCEPTUAL';
     element.changeComment = 'Values changed or managed representation added';
-    this.service.update(element).subscribe(result => {
-      this.questionItem.responsedomainRef.element = result;
-      this.questionItem.responsedomainRef.elementRevision = 0;
+    this.service.update<ResponseDomain>(element).subscribe(result => {
+      this.questionItem.responseDomainRef.elementRevision = 0;
+      this.questionItem.responseDomainRef.element = result;
       // this will fetch latest revision of Rd, when QI is saved.
     });
   }

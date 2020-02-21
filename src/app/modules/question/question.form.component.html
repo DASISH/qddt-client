@@ -5,8 +5,8 @@
       style="font-style: italic"></p>
   </div>
 
-  <qddt-preview-responsedomain *ngIf="questionItem?.responsedomainRef"
-    [responseDomain]="questionItem.responsedomainRef.element">
+  <qddt-preview-responsedomain *ngIf="questionItem?.responseDomainRef"
+    [responseDomain]="questionItem.responseDomainRef.element">
   </qddt-preview-responsedomain>
 
   <qddt-conceptref [element]="questionItem"></qddt-conceptref>
@@ -27,8 +27,8 @@
       data-length="2000">
     </qddt-textarea>
 
-    <qddt-responsedomain-select *ngIf="questionItem?.responsedomainRef"
-      [(responseDomain)]="questionItem.responsedomainRef.element" (selectedEvent)="onResponseDomainSelected($event)"
+    <qddt-responsedomain-select *ngIf="questionItem?.responseDomainRef"
+      [(responseDomain)]="questionItem.responseDomainRef.element" (selectedEvent)="onResponseDomainSelected($event)"
       (updateEvent)="onUpdateResponseDomain($event)" (removeEvent)="onResponseDomainRemove()">
     </qddt-responsedomain-select>
 
