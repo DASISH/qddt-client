@@ -1,3 +1,4 @@
+import { Agency } from 'src/app/lib';
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -95,7 +96,6 @@ export class TemplateService {
     return this.http.get<IRevisionResult<T>>(this.api + 'audit/' + qe.path + '/' + id + '/latestversion').toPromise();
   }
 
-
   public create<T extends IEntityAudit>(item: T, parentId?: string): Observable<T> {
     const qe = getQueryInfo(item.classKind);
     return (parentId) ? this.http.post<T>(this.api + qe.path + '/create/' + parentId, item) :
@@ -141,12 +141,6 @@ export class TemplateService {
     return this.http.delete(this.api + qe.path + '/delete/' + item.id);
   }
 
-  // public removeRef(uuid: string, item: IElementRef): Observable<any> {
-  // const qe = getQueryInfo(item.elementKind);
-  // return this.http.post(this.api + '/controlconstruct/decombine?constructid=' + uuid +
-  //   '&refid=' + item.elementId, {});
-  // }
-
   public getPdf(item: IEntityEditAudit): Promise<Blob> {
     const qe = getQueryInfo(item.classKind);
     return this.http.get(this.api + qe.path + '/pdf/' + item.id, { responseType: 'blob' }).toPromise();
@@ -165,4 +159,11 @@ export class TemplateService {
     return this.userService.canDo(action, kind);
   }
 
+  public async canDoAction(action: ActionKind, entity: IEntityEditAudit ) {
+    return this.userService.canDo(action, getElementKind(entity.classKind)) && (await this.hasOwnerRights(entity.agency));
+  }
+
+  public async hasOwnerRights(entityAgency?: Agency) {
+    return (entityAgency) ? ((await this.userService.getCurrentAgency()).id === entityAgency.id) : true;
+  }
 }

@@ -23,11 +23,14 @@ export class UserService {
 
   private static readonly AGENCIES = 'AGENCIES';
   private static readonly AUTHORITIES = 'AUTHORITIES';
+  private static readonly USER = 'USER_REF';
 
   public loggedIn = new BehaviorSubject<boolean>(false);
 
   private user: User;
   private roles: number;
+
+  private readonly getUserAsync = (id: string) => this.http.get<User>(this.api + 'user/' + id).toPromise();
 
   constructor(private http: HttpClient, @Inject(API_BASE_HREF) private api: string, private property: PropertyStoreService) {
     if (this.isTokenExpired()) {
@@ -116,6 +119,26 @@ export class UserService {
       password.id = this.getUserId();
     }
     return this.http.post(this.api + UserService.RESET_PWD_URL, password);
+  }
+
+  public getCurrentUser():Promise<User> {
+    if (!this.getUserId) throw new Error('User not logged in');
+    if (this.property.has(UserService.USER)) {
+      const user = this.property.get(UserService.USER) as User;
+      if (user.id === this.getUserId()) {
+        return Promise.resolve(user);
+      }
+      this.property.delete(UserService.USER);
+    }
+    return this.getUserAsync(this.getUserId())
+      .then(result => {
+        this.property.set(UserService.USER, result);
+        return result;
+      });
+  }
+
+  public async getCurrentAgency():Promise<Agency>{
+    return (await this.getCurrentUser()).agency;
   }
 
   public getAgencies(): Promise<Agency[]> {

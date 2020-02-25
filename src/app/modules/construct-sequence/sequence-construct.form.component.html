@@ -20,8 +20,11 @@
       [lockups]="SEQUENCE_MAP">
     </qddt-select>
 
-    <qddt-constructs [revisionRefs]="sequence.sequence" [readonly]="readonly" (actionEvent)="onDoAction($event)">
-    </qddt-constructs>
+    <qddt-element-revision-ref [readonly]="readonly" [elementRevisions]="sequence.sequence" class="row" (actionEvent)="onDoAction($event)">
+    </qddt-element-revision-ref>
+
+<!--    <qddt-constructs [revisionRefs]="sequence.sequence" [readonly]="readonly" (actionEvent)="onDoAction($event)">-->
+<!--    </qddt-constructs>-->
 
     <qddt-rational *ngIf="!readonly && sequence.modified" [formName]="'RationalComp'" [element]="sequence"
       [config]="{hidden: [4]}"></qddt-rational>

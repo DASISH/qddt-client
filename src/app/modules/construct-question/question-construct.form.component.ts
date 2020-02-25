@@ -10,7 +10,7 @@ import {
   MessageService,
   QuestionConstruct,
   TemplateService,
-  QuestionItem
+  QuestionItem, ElementRevisionRefImpl
 } from '../../lib';
 import { Router } from '@angular/router';
 
@@ -86,7 +86,7 @@ export class QuestionConstructFormComponent {
     this.SOURCE = { elementKind: ElementKind.QUESTION_ITEM, element: '' } as IElement;
   }
 
-  public onRevisionSelect(rev: ElementRevisionRef<QuestionItem>) {
+  public onRevisionSelect(rev: ElementRevisionRefImpl<QuestionItem>) {
     rev.name = rev.element.name;
     rev.text = rev.element.question;
     this.controlConstruct.questionItemRef = rev;

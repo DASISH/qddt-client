@@ -7,12 +7,13 @@ import { PublicationReuseComponent } from './publication.reuse.component';
 import { PublicationFormComponent } from './publication.form.component';
 import { PublicationPreselectorComponent } from './publication.preselector.component';
 import { ResponsedomainModule } from '../responsedomain/responsedomain.module';
-import { PublicationService } from '../../lib/services/publication.service';
+import { PublicationService } from '../../lib/services';
 import { PublicationRoutingModule } from './publication.routes';
 import { SelectorsModule } from '../selectors/selectors.module';
+import {SelectorDialogsModule} from '../selectors-dialog/selectors-dialog.module';
 
 @NgModule({
-  imports: [ ComponentsModule, PreviewModule, ResponsedomainModule, PublicationRoutingModule, SelectorsModule],
+  imports: [ ComponentsModule, PreviewModule, ResponsedomainModule, PublicationRoutingModule, SelectorsModule, SelectorDialogsModule],
   declarations: [ PublicationComponent, PublicationDetailComponent, PublicationReuseComponent, PublicationPreselectorComponent,
     PublicationFormComponent ],
   exports: [ PublicationComponent ],

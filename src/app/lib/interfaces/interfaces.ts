@@ -43,7 +43,7 @@ export interface ISelectOption {
   id: number;
   label: string;
   value?: any;
-  ref?: any;
+  description?: string;
   children?: ISelectOption[];
 }
 

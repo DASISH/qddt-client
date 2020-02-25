@@ -19,19 +19,19 @@ import { ISelectOption } from 'src/app/lib';
   selector: 'qddt-select',
   template: `
     <div class="input-field" *ngIf="hasChildren();  else ITEM">
-      <select  id="{{identifier}}" [(ngModel)]="value" [ngModelOptions]="{updateOn: 'blur'}">
+      <select  [disabled]="readonly" id="{{identifier}}" [(ngModel)]="value">
         <option *ngIf="placeholder" value="" disabled >{{placeholder}}</option>
         <optgroup *ngFor="let item of lockups" label="{{item.label}}">
-            <option *ngFor="let child of item.children" [value]="child.value" >{{child.label}}</option>
+            <option *ngFor="let child of item.children" value="{{child.value}}">{{child.label}}</option>
         </optgroup>
       </select>
       <label *ngIf="label">{{label}}</label>
     </div>
     <ng-template #ITEM>
       <div class="input-field">
-        <select  id="{{identifier}}" [(ngModel)]="value" >
+        <select  [disabled]="readonly" id="{{identifier}}" [(ngModel)]="value" >
           <option *ngIf="placeholder" value="" disabled >{{placeholder}}</option>
-          <option *ngFor="let item of lockups" [value]="item.value">{{item.label}}</option>
+          <option *ngFor="let item of lockups" value="{{item.value}}">{{item.label}}</option>
         </select>
         <label *ngIf="label">{{label}}</label>
       </div>
@@ -41,10 +41,11 @@ import { ISelectOption } from 'src/app/lib';
   providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: FormSelectComponent, multi: true }],
 })
 
-export class FormSelectComponent extends ElementBase<string>  implements  AfterViewInit,  OnChanges {
+export class FormSelectComponent extends ElementBase<any>  implements  AfterViewInit,  OnChanges {
   @Input() public lockups: ISelectOption[];
   @Input() public label: string;
   @Input() public placeholder: string;
+  @Input() public readonly = false;
 
   @ViewChild(NgModel, { static: false }) model: NgModel;
 
@@ -61,16 +62,16 @@ export class FormSelectComponent extends ElementBase<string>  implements  AfterV
         M.FormSelect.init(element);
       }
     });
-    this.registerOnChange( value => console.log(value || JSON));
+    this.registerOnChange( (value) => console.log(value || JSON));
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     if (changes.lockups.isFirstChange() === false) {
       this.buildOptions();
     }
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     const element = document.getElementById(this.identifier) as HTMLSelectElement;
     M.FormSelect.init(element);
   }
@@ -102,24 +103,25 @@ export class FormSelectComponent extends ElementBase<string>  implements  AfterV
   private populateOptGroup(item: ISelectOption ): HTMLOptGroupElement {
     const optGrp = new HTMLOptGroupElement();
     optGrp.label = item.label;
-    item.children.forEach( child =>  optGrp.append(new Option(child.label, child.value, false)));
+    item.children.forEach( child => {
+      optGrp.append(new Option(child.label, child.value, false));
+    });
     return optGrp;
   }
 
   private setindex(element: HTMLSelectElement) {
-    if ((element.options) && (element.options.length > 0) && (this.value)) {
+    if ((element)  && (element.options) && (this.value)) {
       let i = -1;
-      let isFound = false;
-      do {
-        isFound =  (element.options.item(++i).value == this.value);
-      }
-      while (isFound === false ||  (element.options.length === i - 1) );
-      if (isFound ) {
-        element.options.selectedIndex = i;
+      for (let key in element.options) {
+        i++;
+        if(element.options[key].value == this.value) {
+          console.log('hitted...' + this.value)
+          element.options.selectedIndex = i;
+          break;
+        }
       }
     }
   }
-
 
 }
 

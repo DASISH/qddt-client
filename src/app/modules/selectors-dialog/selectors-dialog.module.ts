@@ -8,13 +8,14 @@ import { ElementCollectionComponent } from './element-collection/element-collect
 import { ElementRevisionCollectionComponent } from './element-revision-collection/element-revision-collection.component';
 import { ConstructsComponent } from './constructs/constructs.component';
 import { ElementRevisionSelectComponent} from './element-revision/element-revision.component';
+import { ElementRevisionRefComponent} from './element-revision-ref/element-revision-ref.component';
 
 @NgModule({
   imports: [ ComponentsModule, PreviewModule, SelectorsModule ],
   declarations: [  QuestionItemsComponent, ResponsedomainComponent, ElementCollectionComponent, ElementRevisionCollectionComponent,
-    ConstructsComponent, ElementRevisionSelectComponent ],
+    ConstructsComponent, ElementRevisionSelectComponent, ElementRevisionRefComponent ],
   exports: [  QuestionItemsComponent, ResponsedomainComponent, ElementCollectionComponent, ElementRevisionCollectionComponent,
-    ConstructsComponent, ElementRevisionSelectComponent],
+    ConstructsComponent, ElementRevisionSelectComponent, ElementRevisionRefComponent],
   providers: [  ]
 })
 

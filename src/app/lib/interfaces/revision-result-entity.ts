@@ -1,6 +1,6 @@
 import { IUser , IEntityEditAudit, IEntityAudit} from '.';
 
-export interface IRevisionResultEntity {
+export interface IRevisionResultEntity extends IRevisionResult<IEntityEditAudit>{
   entity: IEntityEditAudit;
   revisionModifiedBy?: IUser;
   metadata: { delegate: { id: number, timestamp: number, modifiedBy: IUser }, revisionDate: any, revisionNumber: number };

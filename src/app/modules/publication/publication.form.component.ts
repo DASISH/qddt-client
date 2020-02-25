@@ -1,13 +1,12 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {
   ActionKind,
-  ElementKind,
-  ElementRevisionRef,
-  IEntityEditAudit,
-  getElementKind,
+  ElementRevisionRef, EventAction,
+  IEntityEditAudit, InstrumentSequence,
   Publication,
-  PUBLICATION_TYPES,
-  PublicationService, PublicationStatus, TemplateService, ISelectOption, SelectItem, getIcon
+  PublicationService,
+  PublicationStatus, SelectItem,
+  TemplateService
 } from '../../lib';
 
 
@@ -21,34 +20,33 @@ export class PublicationFormComponent implements OnChanges, OnInit, AfterViewIni
   @Output() modifiedEvent = new EventEmitter<IEntityEditAudit>();
 
   public formId = Math.round(Math.random() * 10000);
-  public readonly = true;
-  public SELECT_OPTIONS: ISelectOption[];
+  public readonly = false;
+  public statusMap: SelectItem[];
   private statusList: PublicationStatus[];
-  // tslint:disable-next-line:variable-name
-  private _statusId: number;
+
 
   constructor(private service: PublicationService, private templateService: TemplateService) {
-    this.readonly = !templateService.can(ActionKind.Create, ElementKind.PUBLICATION);
-  }
-
-  public get statusId() {
-    return this._statusId;
-  }
-  public set statusId(value: number) {
-    this._statusId = +value;
-    if ((value) && (this.statusList)) {
-      const item = this.statusList.find(e => e.id === this._statusId);
-      this.publication.status = item;
-    } else if (this.statusList) {
-      this.publication.status = this.statusList.find(e => e.published === 'NOT_PUBLISHED');
-    }
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.publication.currentValue && (this.publication.status)) {
-      console.log('ngOnChanges');
-      this.statusId = this.publication.status.id;
+    if (!changes.publication.isFirstChange()) {
+      const pub = changes.publication.currentValue as Publication;
+      if (pub.status) {
+        this.templateService.canDoAction(ActionKind.Update, pub)
+          .then(can => this.readonly = !can);
+      }
     }
+  }
+
+  async ngOnInit() {
+    const pstat = await this.service.getPublicationStatus();
+    this.statusList = [];
+    pstat.forEach(s => {
+      if (s.children) {
+        s.children.forEach(status => this.statusList.push( status));
+      }
+    });
+    this.statusMap = pstat.map( value => new SelectItem(value));
   }
 
   public ngAfterViewInit(): void {
@@ -56,29 +54,14 @@ export class PublicationFormComponent implements OnChanges, OnInit, AfterViewIni
     M.Collapsible.init(elems);
   }
 
-  async ngOnInit() {
-    console.log('ngOnInit');
-    const publicationStatus = await this.service.getPublicationStatus();
-    this.SELECT_OPTIONS = publicationStatus.map(item => new SelectItem(item));
-    this.statusList = [];
-    publicationStatus.forEach(s => {
-      if (s.children) {
-        s.children.forEach(s1 =>
-          this.statusList.push(
-            new PublicationStatus({ id: s1.id, label: s1.label, published: s.published, description: s1.description })));
-      }
-    });
-  }
-
-  public onShowDetail(index) {
-    console.log('onShowDetail');
-    const item = this.publication.publicationElements[index];
-    if (!item.element) {
-      this.templateService.getByKindRevision(ElementKind[item.elementKind], item.elementId, item.elementRevision)
-        .then(rev => {
-          item.element = rev.entity;
-        });
+  public getDescription(id:number): string {
+    if (this.statusList) {
+      this.publication.status = (id) ?
+        this.statusList.find(e => e.id === +id):
+        this.statusList.find(e => e.published === 'NOT_PUBLISHED');
+      return this.publication.status.description;
     }
+    return '?';
   }
 
   public onUpdatePublication() {
@@ -87,23 +70,45 @@ export class PublicationFormComponent implements OnChanges, OnInit, AfterViewIni
       (error) => { throw error; });
   }
 
-
-  public onElementDelete(index: number) {
-    if (index < this.publication.publicationElements.length) {
-      this.publication.publicationElements.splice(index, 1);
+  public onDoAction(response: EventAction) {
+    const action = response.action as ActionKind;
+    const ref = response.ref as ElementRevisionRef;
+    switch (action) {
+      case ActionKind.Read: break;
+      case ActionKind.Create: this.onItemAdded(ref); break;
+      case ActionKind.Update: this.onItemModified(ref); break;
+      case ActionKind.Delete: this.onItemRemoved(ref); break;
+      default: {
+        console.error('wrong action recieved ' + ActionKind[action]);
+      }
     }
   }
 
-  public onElementAdd(pe: ElementRevisionRef) {
-    this.publication.publicationElements.push(pe);
+  public onItemRemoved(ref: ElementRevisionRef) {
+    const idx = this.publication.publicationElements.findIndex( p => p.elementId === ref.elementId );
+    if (idx) {
+      this.publication.publicationElements.splice(idx, 1);
+    }
+    // const tmp = this.publication.publicationElements.filter(f => !(f.id === ref.id));
+    // this.publication.publicationElements = null;
+    // this.publication.publicationElements = tmp;
   }
 
-  public getLabelByElement(kind: ElementKind): string {
-    kind = getElementKind(kind);
-    return PUBLICATION_TYPES.find(e => e.id === kind).label;
+  public onItemAdded(ref: ElementRevisionRef) {
+    this.publication.publicationElements.push(ref);
+    // console.log(ref || JSON);
+    // this.modalRef.open();
+    // this.publication.publicationElements.push(ref);
   }
 
-  public getMatIcon(kind: ElementKind | string): string {
-    return getIcon(kind);
+  public onItemModified(ref: ElementRevisionRef) {
+    const idx = this.publication.publicationElements.findIndex( p => p.elementId === ref.elementId );
+    const seqNew: ElementRevisionRef[] = [].concat(
+      this.publication.publicationElements.slice(0, idx),
+      ref,
+      this.publication.publicationElements.slice(idx + 1)
+    );
+    this.publication.publicationElements = seqNew;
   }
+
 }

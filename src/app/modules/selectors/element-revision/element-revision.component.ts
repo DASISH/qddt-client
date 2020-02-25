@@ -11,7 +11,7 @@ import {
   ConditionConstruct,
   StatementConstruct,
   QuestionItem,
-  Instruction,
+  Instruction, ElementRevisionRefImpl, IEntityEditAudit,
 } from '../../../lib';
 
 @Component({
@@ -81,7 +81,7 @@ export class ElementRevisionComponent implements OnChanges {
 
   private getRevisionRef(elementRevision: IRevisionResultEntity): ElementRevisionRef {
     const kind = getElementKind(elementRevision.entity.classKind);
-    return new ElementRevisionRef({
+    return new ElementRevisionRefImpl<IEntityEditAudit>({
       elementId: elementRevision.entity.id,
       elementRevision: elementRevision.revisionNumber,
       elementKind: ElementKind[kind],

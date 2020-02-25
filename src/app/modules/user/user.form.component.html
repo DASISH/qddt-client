@@ -1,32 +1,16 @@
-<div *ngIf="user" >
-  <form #hf="ngForm" (ngSubmit)="onSave()">
+<div *ngIf="user">
+  <form id="formId" #hf="ngForm" (ngSubmit)="onSave()">
     <div class="row">
       <div class="col m6">
-        <qddt-input
-          required
-          name="name"
-          label="Name"
-          [(ngModel)]="user.name"
-          data-length="25">
+        <qddt-input required name="name" label="Name" [(ngModel)]="user.name" data-length="25">
         </qddt-input>
 
-        <qddt-input
-          required
-          name="email"
-          inputType="email"
-          label="Email"
-          [(ngModel)]="user.email"
-          data-length="120">
+        <qddt-input required name="email" inputType="email" label="Email" [(ngModel)]="user.email" data-length="120">
         </qddt-input>
 
-        <qddt-select
-        required
-        name="agency"
-        label="Agency"
-        [(ngModel)]="selectedAgencyId"
-        (change)="onSelectChange($event.target.value)"
-        [lockups]="AGENCY_LIST" >
-      </qddt-select>
+        <qddt-select id="dkgøl{{formId}}" required name="agency" label="Agency" [(ngModel)]="selectedAgencyId"
+          (change)="onSelectChange($event.target.value)" [lockups]="AGENCY_LIST">
+        </qddt-select>
 
         <!-- <div class="row input-field">
           <select id="{{formId}}-agency" name="{{formId}}-agency"  class="validate" required [ngModel]="selectedAgencyId"
@@ -39,10 +23,11 @@
 
       <div class="col m3 offset-m1">
         <label>Authority</label>
-        <div  class="card-action">
+        <div class="card-action">
           <div *ngFor="let authority of (authorities)">
             <label>
-              <input name="{{formId}}-autGroup" type="radio" (click)="onSelectRadio(authority)" [checked]="user.authorities[0].id === authority.id"/>
+              <input name="{{formId}}-autGroup" type="radio" (click)="onSelectRadio(authority)"
+                [checked]="user.authorities[0].id === authority.id" />
               <span>{{ authority.name }}</span>
             </label>
           </div>
@@ -50,7 +35,7 @@
         <div class="row">
           <div class="switch">
             <label>
-              <input id="{{formId}}-enabled" type="checkbox"  name="enabled" [(ngModel)]="user.enabled" />
+              <input id="{{formId}}-enabled" type="checkbox" name="enabled" [(ngModel)]="user.enabled" />
               <span class="lever"></span>Enabled
             </label>
           </div>
@@ -58,7 +43,8 @@
       </div>
     </div>
     <div class="row right-align">
-        <button *ngIf="!readonly" type="submit" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
+      <button *ngIf="!readonly" type="submit" class="btn btn-default" [disabled]="!hf.form.valid">Submit</button>
     </div>
   </form>
+
 </div>

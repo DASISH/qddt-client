@@ -1,46 +1,25 @@
 <div class="col s12" *ngIf="publication">
   <form id="{{formId}}" #hf="ngForm" (ngSubmit)="onUpdatePublication()">
-    <qddt-input required name="name" label="Name" [(ngModel)]="publication.name" data-length="255">
+
+    <qddt-input [disabled]="readonly" required name="name" label="Name" [(ngModel)]="publication.name" data-length="255">
     </qddt-input>
-    <qddt-textarea required name="purpose" placeholder="add purpose" label="Purpose" [(ngModel)]="publication.purpose"
+
+    <qddt-textarea [disabled]="readonly" required name="purpose" placeholder="add purpose" label="Purpose" [(ngModel)]="publication.purpose"
       data-length="255">
     </qddt-textarea>
-    <div class="row" *ngIf="SELECT_OPTIONS">
-      <div class="col s6 m5 l4 ">
-        <qddt-select required name="status" label="Publication status" [lockups]="SELECT_OPTIONS"
-          [(ngModel)]="statusId">
+
+    <div class="row" *ngIf="statusMap">
+        <qddt-select id="ps-{{formId}}" class="col s6 m5 l4 "
+                     name="statusId" label="Publication status" required
+                     (change)="getDescription(publication.statusId)"
+                     [(ngModel)]="publication.statusId" [lockups]="statusMap" [readonly]="readonly">
         </qddt-select>
-      </div>
-      <div class="col s6 m7 l8 card-content ">
-        <p>{{ publication?.status?.description }}</p>
-      </div>
+        <div class="col s6 m7 l8 grey-text">{{publication?.status?.description}}</div>
     </div>
-    <div class="row">
-      <label for="{{formId}}-ppe">Content list</label>
-      <ul id="{{formId}}-ppe" class="collapsible popout">
-        <li class="collapsible-header grey lighten-2" style="color: black">
-          <i class="material-icons small">info_outline</i>
-          <div class="col s10">Element name</div>
-          <div class="col s2 right-align">Version</div>
-        </li>
-        <li *ngFor="let element of publication.publicationElements; let idx=index;">
-          <div class="collapsible-header grey lighten-5" style="color: #323232" (click)="onShowDetail(idx)">
-            <i class="material-icons small"
-              title="{{getLabelByElement(element?.elementKind)}}">{{getMatIcon(element.elementKind)}}</i>
-            <div class="col s10" [innerHtml]="element?.name"></div>
-            <div class="col s2 right-align">
-              <qddt-version [element]="element"></qddt-version>
-            </div>
-          </div>
-          <div class="collapsible-body white">
-            <qddt-preview-element [element]="element.element"></qddt-preview-element>
-          </div>
-        </li>
-        <li>
-          <qddt-publication-reuse (selectedEvent)="onElementAdd($event)"></qddt-publication-reuse>
-        </li>
-      </ul>
-    </div>
+
+    <qddt-element-revision-ref [readonly]="readonly" [elementRevisions]="publication.publicationElements" class="row" (actionEvent)="onDoAction($event)">
+    </qddt-element-revision-ref>
+
     <qddt-rational [formName]="'RationalComp'" *ngIf="!readonly && publication.id" [element]="publication"
       [config]="{hidden: [3,4]}"></qddt-rational>
 

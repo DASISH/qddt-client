@@ -44,6 +44,10 @@ export class PropertyStoreService {
     return this.globalObjects.has(key);
   }
 
+  delete(key: string): boolean {
+    return this.globalObjects.delete(key);
+  }
+
   get userSetting(): UserSettings {
     return this.userSettings;
   }

@@ -7,7 +7,6 @@ import {
   TemplateService,
   ActionKind
 } from '../../../lib';
-import { retryWhen } from 'rxjs/operators';
 
 
 @Component({

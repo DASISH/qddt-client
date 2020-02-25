@@ -1,5 +1,13 @@
 import { Component, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
-import { ActionKind, ElementKind, ElementRevisionRef, LANGUAGE_MAP, QuestionItem, ResponseDomain, TemplateService } from '../../lib';
+import {
+  ActionKind,
+  ElementKind,
+  ElementRevisionRefImpl,
+  LANGUAGE_MAP,
+  QuestionItem,
+  ResponseDomain,
+  TemplateService
+} from '../../lib';
 
 
 @Component({
@@ -33,7 +41,7 @@ export class QuestionFormComponent implements AfterViewInit {
       });
   }
 
-  onResponseDomainSelected(item: ElementRevisionRef<ResponseDomain>) {
+  onResponseDomainSelected(item: ElementRevisionRefImpl<ResponseDomain>) {
     this.questionItem.responseDomainRef = item;
   }
 

@@ -1,13 +1,5 @@
-import { AfterContentInit, Component, EventEmitter, Input, Output, AfterViewInit } from '@angular/core';
-import {
-  ActionKind,
-  ElementKind, ElementRevisionRef, EventAction,
-  getElementKind,
-  getIcon,
-  InstrumentSequence,
-  TemplateService,
-  Parameter
-} from '../../lib';
+import {AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {ActionKind, ElementKind, getElementKind, getIcon, InstrumentSequence, Parameter, TemplateService} from '../../lib';
 
 
 @Component({
@@ -21,7 +13,7 @@ import {
   templateUrl: './instrument-sequence-tree.component.html'
 })
 
-export class InstrumentSequenceTreeComponent implements AfterViewInit {
+export class InstrumentSequenceTreeComponent implements AfterViewInit, OnChanges {
   @Input() subSequence: InstrumentSequence[];
   @Input() readonly = false;
   @Input() level = 0;
@@ -32,44 +24,41 @@ export class InstrumentSequenceTreeComponent implements AfterViewInit {
   private _showButton = false;
 
   constructor(private service: TemplateService) {
-    this.readonly = !service.can(ActionKind.Create, ElementKind.INSTRUMENT);
   }
 
   get showButton(): boolean {
     return this._showButton;
   }
   set showButton(value: boolean) {
-
     this._showButton = value;
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    // console.log(changes || JSON);
+    // if (changes.subSequence.currentValue) {
+    // }
   }
 
   public ngAfterViewInit(): void {
     M.Collapsible.init(document.querySelectorAll('.collapsible'));
-    // this.subSequence.forEach(seq => {
-    //   console.log(seq.parameters);
-    // });
   }
 
   public onItemNew(event: Event, ref: InstrumentSequence) {
-    // console.log('onItemNew');
     this.actionEvent.emit({ action: ActionKind.Create, ref });
     event.stopPropagation();
   }
 
   public onItemRemove(event: Event, ref: InstrumentSequence) {
-    // console.log('onItemRemove');
     this.actionEvent.emit({ action: ActionKind.Delete, ref });
     event.stopPropagation();
   }
 
   public onItemEdit(event: Event, ref: InstrumentSequence) {
-    // console.log('onItemEdit');
     this.actionEvent.emit({ action: ActionKind.Read, ref });
     event.stopPropagation();
   }
 
   public onItemUpdate(event: Event, ref: InstrumentSequence) {
-    // console.log('onItemUpdate');
     this.actionEvent.emit({ action: ActionKind.Update, ref });
     event.stopPropagation();
   }

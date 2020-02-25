@@ -1,5 +1,5 @@
 <ul class="collapsible">
-  <li *ngFor="let cqi of subSequence;let idx = index;" (mouseenter)="showButton = !readonly"
+  <li *ngFor="let cqi of elementRevisions;let idx = index;" (mouseenter)="showButton = !readonly"
     (mouseleave)="showButton = false" (click)="onOpenBody(cqi)">
 
     <div class="collapsible-header ">
@@ -29,30 +29,17 @@
           </a>
         </li>
       </ul>
-      <i class="material-icons small teal-text text-lighten-3">{{getMatIcon(cqi.elementRef?.elementKind)}}</i>
-      <div class="col s9 m10 grey-text text-darken-1" [innerHtml]=cqi.elementRef?.name></div>
-      <qddt-version-label class="col s3 m2 right-align" [revisionRef]="cqi.elementRef"></qddt-version-label>
+      <i class="material-icons small teal-text text-lighten-3">{{getMatIcon(cqi.elementKind)}}</i>
+      <div class="col s9 m10 grey-text text-darken-1" [innerHtml]=cqi.name></div>
+      <qddt-version-label class="col s3 m2 right-align" [revisionRef]="cqi"></qddt-version-label>
     </div>
     <div class="collapsible-body">
-      <ul *ngIf="cqi.parameters.length > 0">
-        <li class="collection-item"><label>Parameters</label></li>
-        <li class="collection-item">
-          <div class="chip" *ngFor="let parameter of cqi.parameters">{{getParam(parameter)}} </div>
-        </li>
-      </ul>
-      <qddt-preview-element [element]="cqi.elementRef.element" [showDetail]="false">
+      <qddt-preview-element [element]="cqi.element" [showDetail]="false">
       </qddt-preview-element>
-      <ng-container *ngIf="isSequence(cqi.elementRef.elementKind)">
-        <label>Description</label>
-        <span>{{cqi.elementRef?.element?.description}}</span>
-      </ng-container>
     </div>
 
-    <qddt-instrument-sequence-tree  [readonly]="readonly" *ngIf="cqi.sequence?.length >0" [subSequence]="cqi.sequence" [level]="level+1"
-      (actionEvent)="doPassEvent($event)">
-    </qddt-instrument-sequence-tree>
   </li>
-  <li *ngIf="level===0" (mouseenter)="showButton = !readonly" (mouseleave)="showButton = false">
+  <li (mouseenter)="showButton = !readonly" (mouseleave)="showButton = false">
     <div class="collapsible-header ">
       <ul class="dropleft" *ngIf="!readonly">
         <li>

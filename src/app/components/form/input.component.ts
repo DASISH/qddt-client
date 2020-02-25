@@ -10,6 +10,7 @@ import { animations } from './animations';
       <input
         id="{{identifier}}"
         class="validate"
+        [readonly]="readonly"
         type="{{inputType}}"
         placeholder="{{placeholder}}"
         [(ngModel)]="value"
@@ -24,6 +25,7 @@ export class FormInputComponent extends ElementBase<string> implements AfterView
   @Input() public label: string;
   @Input() public placeholder: string;
   @Input() public inputType = 'text';
+  @Input() public readonly = false;
   @ViewChild(NgModel, { static: true }) model: NgModel;
 
   public identifier = 'qddt-input-' + ident++;

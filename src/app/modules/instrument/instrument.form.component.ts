@@ -1,23 +1,20 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {
   ActionKind,
   CONSTRUCT_MAP,
-  ElementKind,
   ElementRevisionRef,
   IElement,
   Instrument,
-  INSTRUMENT_KIND,
+  INSTRUMENT_MAP,
   InstrumentKind,
   InstrumentSequence,
   IRevisionRef,
   LANGUAGE_MAP,
-  TemplateService,
-  Parameter
+  TemplateService
 } from '../../lib';
 
 @Component({
   selector: 'qddt-instrument-form',
-
   templateUrl: './instrument.form.component.html',
 })
 
@@ -27,17 +24,16 @@ export class InstrumentFormComponent implements OnChanges {
   @Input() element: Instrument;
 
   public formId = Math.round(Math.random() * 10000);
+  public selectId = 0;
   public currentInstrumentType = InstrumentKind.QUESTIONNAIRE;
   public SOURCE: IElement | IRevisionRef | null;
-  public readonly instrumentKinds = INSTRUMENT_KIND;
-  public readonly LANGUAGES = LANGUAGE_MAP;
-  public readonly selectOptions = CONSTRUCT_MAP;
-  public selectId = 0;
+  public readonly instrumentMap = INSTRUMENT_MAP;
+  public readonly languageMap = LANGUAGE_MAP;
+  public readonly constructMap = CONSTRUCT_MAP;
   // tslint:disable-next-line:variable-name
   private _modalRef: M.Modal;
 
   constructor(private service: TemplateService) {
-    this.readonly = !this.service.can(ActionKind.Create, ElementKind.INSTRUMENT);
   }
 
   get modalRef(): M.Modal {
@@ -48,14 +44,15 @@ export class InstrumentFormComponent implements OnChanges {
   }
 
   public getDescription(value: string): string {
-    return this.instrumentKinds.find(pre => pre.value === value).description;
+    return this.instrumentMap.find(pre => pre.value === value).description;
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.element.currentValue) {
       this.element = new Instrument(changes.element.currentValue);
-      console.log(this.element.parameters || JSON);
       this.currentInstrumentType = InstrumentKind[this.element.instrumentKind];
+      this.service.canDoAction(ActionKind.Update, this.element)
+        .then( can => this.readonly = !can);
     }
     // try { M.updateTextFields(); } catch (Exception) { }
   }
@@ -91,8 +88,7 @@ export class InstrumentFormComponent implements OnChanges {
     this.modalRef.close();
   }
 
-  public onDoAction(response) {
-    console.log(response || JSON);
+  public onDoAction(response: { action: ActionKind; ref: InstrumentSequence; }) {
     const action = response.action as ActionKind;
     const ref = response.ref as InstrumentSequence;
     switch (action) {

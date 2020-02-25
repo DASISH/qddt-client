@@ -23,6 +23,7 @@ import { animations } from './animations';
         id="{{identifier}}"
         class="materialize-textarea validate"
         placeholder="{{placeholder}}"
+        [readonly]="readonly"
         [(ngModel)]="value"
         [ngClass]="{invalid: (invalid | async)}" >
       </textarea>
@@ -39,6 +40,7 @@ import { animations } from './animations';
 export class FormTextAreaComponent extends ElementBase<string> implements AfterViewInit {
   @Input() public label: string;
   @Input() public placeholder: string;
+  @Input() public readonly = false;
 
   @ViewChild(NgModel, { static: true }) model: NgModel;
 

@@ -1,6 +1,6 @@
 import { IComment, IEntityAudit, IEntityEditAudit, IElementRef, IOtherMaterial, IUser, IVersion } from '../interfaces';
 import { ElementKind } from '../enums';
-import { InstrumentSequence, ElementRevisionRef, QuestionItem } from '.';
+import {InstrumentSequence, ElementRevisionRef, QuestionItem, ElementRevisionRefImpl} from '.';
 
 export enum SequenceKind {
   NA,
@@ -45,7 +45,7 @@ export class QuestionConstruct implements IEntityEditAudit {
   name: string;
   description: string;
   classKind = ElementKind[ElementKind.QUESTION_CONSTRUCT];
-  questionItemRef: ElementRevisionRef<QuestionItem>;
+  questionItemRef: ElementRevisionRefImpl<QuestionItem>;
   otherMaterials: IOtherMaterial[] = [];
   universe: Universe[] = [];
   preInstructions: Instruction[] = [];
