@@ -1,4 +1,4 @@
-<ul class="collapsible">
+<ul class="collapsible row">
   <li *ngFor="let cqi of elementRevisions;let idx = index;" (mouseenter)="showButton = !readonly"
     (mouseleave)="showButton = false" (click)="onOpenBody(cqi)">
 
@@ -50,7 +50,7 @@
         </li>
       </ul>
       <i class="material-icons small teal-text text-lighten-3">vertical_align_top</i>
-      <div class="col s12 grey-text text-darken-1" [innerHtml]="'Add New Element'"></div>
+      <div class="col s12 blue-text text-lighten-1" [innerHtml]="'Add New Element'"></div>
 
     </div>
   </li>
