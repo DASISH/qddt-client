@@ -5,8 +5,7 @@ import { StatementConstruct } from '../../../lib';
   selector: 'qddt-preview-statementconstruct',
 
   template: `
-      <h5>Statement</h5>
-      <span class="row">{{ statement?.statement }}</span>
+      <p>{{ statement?.statement }}</p>
 `,
   styles: [
   ],

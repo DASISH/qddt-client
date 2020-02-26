@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import {
   ActionKind,
@@ -8,7 +8,7 @@ import {
   MessageService,
   TemplateService
 } from '../../../lib';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -80,10 +80,10 @@ export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
         getElementKind(item.elementKind),
         item.elementId,
         item.elementRevision)
-      .then((result) => {
-        item.element = result.entity;
-        item.version = result.entity.version;
-      });
+        .then((result) => {
+          item.element = result.entity;
+          item.version = result.entity.version;
+        });
     }
   }
 
@@ -91,7 +91,7 @@ export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
     return getIcon(kind);
   }
 
-// -------------------------------------------------------------------
+  // -------------------------------------------------------------------
   public onSelectElementKind(kind) {
     this.SOURCE = { element: '', elementKind: kind };
     console.log(this.SOURCE);
@@ -111,7 +111,7 @@ export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
     this.modalRef.close();
   }
 
-  public onItemNew(event: Event, ref?: ElementRevisionRef) {
+  public onItemNew(event: Event) {
     event.stopPropagation();
     this.action = ActionKind.Create;
     this.modalRef.open();
@@ -136,6 +136,6 @@ export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
     this.modalRef.open();
   }
 
-// -------------------------------------------------------------------
+  // -------------------------------------------------------------------
 
 }
