@@ -12,6 +12,6 @@ export enum ConstructIconKind {
   ConditionConstruct = 'low_priority',
   InstructionConstruct = 'speaker_notes',
   QuestionConstruct = 'help_outline',
-  SequenceConstruct= 'format_line_spacing',
+  SequenceConstruct= 'view_list',
   StatementConstruct= 'record_voice_over'
 }

@@ -2,6 +2,7 @@ import { Component, Output, EventEmitter, Input, OnChanges, SimpleChanges } from
 
 import {
   ActionKind,
+  SEQUENCE_TYPES,
   ElementKind, ElementRevisionRef,
   LANGUAGE_MAP,
   SequenceConstruct, SequenceKind,
@@ -20,6 +21,7 @@ export class SequenceFormComponent implements OnChanges {
 
   public readonly LANGUAGES = LANGUAGE_MAP;
   public readonly SEQUENCE_MAP = toSelectItems(SequenceKind);
+  public readonly CONSTRUCT = SEQUENCE_TYPES;
   public readonly formId = Math.round( Math.random() * 10000);
 
   public showProgressBar = false;

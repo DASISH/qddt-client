@@ -6,7 +6,6 @@ import { QuestionItemsComponent } from './question-items/question-items.componen
 import { ResponsedomainComponent } from './responsedomain/responsedomain.component';
 import { ElementCollectionComponent } from './element-collection/element-collection.component';
 import { ElementRevisionCollectionComponent } from './element-revision-collection/element-revision-collection.component';
-import { ConstructsComponent } from './constructs/constructs.component';
 import { ElementRevisionSelectComponent} from './element-revision/element-revision.component';
 import { ElementRevisionRefComponent} from './element-revision-ref/element-revision-ref.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -14,9 +13,9 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 @NgModule({
   imports: [ ComponentsModule, PreviewModule, SelectorsModule, DragDropModule ],
   declarations: [  QuestionItemsComponent, ResponsedomainComponent, ElementCollectionComponent, ElementRevisionCollectionComponent,
-    ConstructsComponent, ElementRevisionSelectComponent, ElementRevisionRefComponent ],
+    ElementRevisionSelectComponent, ElementRevisionRefComponent ],
   exports: [  QuestionItemsComponent, ResponsedomainComponent, ElementCollectionComponent, ElementRevisionCollectionComponent,
-    ConstructsComponent, ElementRevisionSelectComponent, ElementRevisionRefComponent],
+    ElementRevisionSelectComponent, ElementRevisionRefComponent],
   providers: [  ]
 })
 

@@ -2,14 +2,13 @@ import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, Simpl
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import {
   ActionKind,
-  ElementKind,
-  getElementKind,
-  getIcon,
-  ElementRevisionRef,
-  TemplateService,
-  EventAction,
-  InstrumentSequence
+  ElementKind, ElementRevisionRef, EventAction,
+  getElementKind, getIcon,
+  IElement, IRevisionRef, ISelectOption,
+  MessageService,
+  TemplateService
 } from '../../../lib';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -25,14 +24,29 @@ import {
 
 export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
   @Input() elementRevisions: ElementRevisionRef[];
+  @Input() selectOptions: ISelectOption[];
   @Input() readonly = false;
   @Input() showIcon = true;
   @Output() actionEvent = new EventEmitter<EventAction>();
 
+  public readonly modalId = Math.round(Math.random() * 10000);
+
+  public selectedElementKind = 0;
+  public SOURCE: IElement | IRevisionRef | null;
+  // tslint:disable-next-line:variable-name
+  private _modalRef: M.Modal;
   // tslint:disable-next-line:variable-name
   private _showButton = false;
+  private action = ActionKind.Create;
 
-  constructor(private service: TemplateService) {
+  constructor(private service: TemplateService, public message: MessageService, private router: Router) {
+  }
+
+  get modalRef(): M.Modal {
+    if (!(this._modalRef)) {
+      this._modalRef = M.Modal.init(document.querySelector('#MODAL-' + this.modalId));
+    }
+    return this._modalRef;
   }
 
   get showButton(): boolean {
@@ -52,71 +66,13 @@ export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
     M.Collapsible.init(document.querySelectorAll('.collapsible'));
   }
 
-
   public onItemDrop(event: CdkDragDrop<any[]>) {
     if (event.previousContainer === event.container) {
       console.log('moving');
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-      // this.hierarchyChanged.emit(true);
     }
   }
 
-  public onItemNew(event: Event, ref: ElementRevisionRef) {
-    this.actionEvent.emit(new EventAction({ action: ActionKind.Create, ref }));
-    event.stopPropagation();
-  }
-
-  public onItemRemove(event: Event, ref: ElementRevisionRef) {
-    this.actionEvent.emit(new EventAction({ action: ActionKind.Delete, ref }));
-    event.stopPropagation();
-  }
-
-  public onItemEdit(event: Event, ref: ElementRevisionRef) {
-    this.actionEvent.emit(new EventAction({ action: ActionKind.Read, ref }));
-    event.stopPropagation();
-  }
-
-  public onItemUpdate(event: Event, ref: ElementRevisionRef) {
-    this.actionEvent.emit(new EventAction({ action: ActionKind.Update, ref }));
-    event.stopPropagation();
-  }
-
-  // public onDoAction(response: { action: ActionKind; ref: InstrumentSequence; }) {
-  //   const action = response.action as ActionKind;
-  //   const ref = response.ref as InstrumentSequence;
-  //   switch (action) {
-  //     case ActionKind.Read: break;
-  //     case ActionKind.Create: this.onItemAdded(ref); break;
-  //     case ActionKind.Update: this.onItemModified(ref); break;
-  //     case ActionKind.Delete: this.onItemRemoved(ref); break;
-  //     default: {
-  //       console.error('wrong action recieved ' + ActionKind[action]);
-  //     }
-  //   }
-  // }
-  //
-  // public onItemRemoved(ref: InstrumentSequence) {
-  //   const tmp = this.element.sequence.filter(f => !(f.id === ref.id));
-  //   this.element.sequence = null;
-  //   this.element.sequence = tmp;
-  // }
-  //
-  // public onItemAdded(ref: InstrumentSequence) {
-  //   console.log(ref || JSON);
-  //   this.modalRef.open();
-  //   // this.element.sequence.push(ref);
-  // }
-  //
-  // public onItemModified(ref: InstrumentSequence) {
-  //   console.log(ref || JSON);
-  //   const idx = this.element.sequence.findIndex(f => f.id === ref.id);
-  //   const seqNew: InstrumentSequence[] = [].concat(
-  //     this.element.sequence.slice(0, idx),
-  //     ref,
-  //     this.element.sequence.slice(idx + 1)
-  //   );
-  //   this.element.sequence = seqNew;
-  // }
   public onOpenBody(item: ElementRevisionRef) {
 
     if (!item.element) {
@@ -124,15 +80,62 @@ export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
         getElementKind(item.elementKind),
         item.elementId,
         item.elementRevision)
-        .then((result) => {
-          item.element = result.entity;
-          item.version = result.entity.version;
-        });
+      .then((result) => {
+        item.element = result.entity;
+        item.version = result.entity.version;
+      });
     }
   }
 
   public getMatIcon(kind: ElementKind): string {
     return getIcon(kind);
   }
+
+// -------------------------------------------------------------------
+  public onSelectElementKind(kind) {
+    this.SOURCE = { element: '', elementKind: kind };
+    console.log(this.SOURCE);
+  }
+
+  public revisionSelectedEvent(ref: ElementRevisionRef) {
+    this.actionEvent.emit({ action: this.action, ref });
+    this.SOURCE = null;
+    this.modalRef.close();
+  }
+
+  public onDismiss(event?: Event) {
+    if (event) {
+      event.stopPropagation();
+    }
+    this.SOURCE = null;
+    this.modalRef.close();
+  }
+
+  public onItemNew(event: Event, ref?: ElementRevisionRef) {
+    event.stopPropagation();
+    this.action = ActionKind.Create;
+    this.modalRef.open();
+  }
+
+  public onItemRemove(event: Event, ref: ElementRevisionRef) {
+    event.stopPropagation();
+    this.actionEvent.emit({ action: ActionKind.Delete, ref });
+  }
+
+  public onItemEdit(event: Event, cqi: ElementRevisionRef) {
+    event.stopPropagation();
+    this.service.searchByUuid(cqi.elementId).then(
+      (result) => { this.router.navigate([result.url]); },
+      (error) => { throw error; });
+  }
+
+  public onItemUpdate(event: Event, cqi: ElementRevisionRef) {
+    event.stopPropagation();
+    this.action = ActionKind.Update;
+    this.SOURCE = cqi;
+    this.modalRef.open();
+  }
+
+// -------------------------------------------------------------------
 
 }

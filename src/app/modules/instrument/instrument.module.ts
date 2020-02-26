@@ -8,10 +8,10 @@ import { PreviewModule } from '../preview/preview.module';
 import { InstrumentSequenceComponent } from './instrument-sequence.component';
 import { SelectorsModule } from '../selectors/selectors.module';
 import { InstrumentSequenceTreeComponent } from './instrument-sequence-tree.component';
-
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
-  imports: [ComponentsModule, InstrumentRoutingModule, PreviewModule, SelectorsModule],
+  imports: [ComponentsModule, InstrumentRoutingModule, PreviewModule, SelectorsModule, DragDropModule],
   declarations: [InstrumentComponent, InstrumentFormComponent, InstrumentDetailComponent,
     InstrumentSequenceComponent, InstrumentSequenceTreeComponent],
   exports: [InstrumentComponent],

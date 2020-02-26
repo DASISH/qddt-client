@@ -193,7 +193,7 @@ export const HEADER_DETAILS = new Map<string, IHeaderDetail>([
   [
     'sequences',
     {
-      icon: 'format_line_spacing',
+      icon: 'view_list',
       headerName: 'Sequence constructs',
       kind: ElementKind.SEQUENCE_CONSTRUCT
     }

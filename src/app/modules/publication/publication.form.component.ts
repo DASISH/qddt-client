@@ -2,8 +2,8 @@ import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output
 import {
   ActionKind,
   ElementRevisionRef, EventAction,
-  IEntityEditAudit, InstrumentSequence,
-  Publication,
+  IEntityEditAudit,
+  Publication, PUBLICATION_TYPES,
   PublicationService,
   PublicationStatus, SelectItem,
   TemplateService
@@ -18,6 +18,8 @@ import {
 export class PublicationFormComponent implements OnChanges, OnInit, AfterViewInit {
   @Input() publication: Publication;
   @Output() modifiedEvent = new EventEmitter<IEntityEditAudit>();
+
+  public readonly PUBLICATION = PUBLICATION_TYPES;
 
   public formId = Math.round(Math.random() * 10000);
   public readonly = false;
@@ -86,12 +88,9 @@ export class PublicationFormComponent implements OnChanges, OnInit, AfterViewIni
 
   public onItemRemoved(ref: ElementRevisionRef) {
     const idx = this.publication.publicationElements.findIndex( p => p.elementId === ref.elementId );
-    if (idx) {
+    if (idx >=0) {
       this.publication.publicationElements.splice(idx, 1);
     }
-    // const tmp = this.publication.publicationElements.filter(f => !(f.id === ref.id));
-    // this.publication.publicationElements = null;
-    // this.publication.publicationElements = tmp;
   }
 
   public onItemAdded(ref: ElementRevisionRef) {

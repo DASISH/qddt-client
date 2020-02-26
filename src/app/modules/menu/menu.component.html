@@ -69,7 +69,7 @@
           <li *ngIf="canSee[elementKindRef.SEQUENCE_CONSTRUCT]" [ngClass]="{'active':isActive===5}"
             (click)="isActive=5">
             <a class="teal-text waves-effect waves-teal" [routerLink]="['/sequences']" tabindex="5">
-              <i class="material-icons teal-text left medium">format_line_spacing</i>Sequences</a>
+              <i class="material-icons teal-text left medium">view_list</i>Sequences</a>
           </li>
           <li *ngIf="canSee[elementKindRef.INSTRUMENT]" [ngClass]="{'active':isActive===6}" (click)="isActive=6">
             <a class="teal-text waves-effect waves-teal" [routerLink]="['/instruments']" tabindex="6">
@@ -198,7 +198,7 @@
     </li>
     <li *ngIf="canSee[elementKindRef.SEQUENCE_CONSTRUCT]">
       <a [routerLink]="['/sequences']" title="Sequences">
-        <i class="medium material-icons teal-text">format_line_spacing</i></a>
+        <i class="medium material-icons teal-text">view_list</i></a>
     </li>
     <li *ngIf="canSee[elementKindRef.INSTRUMENT]">
       <a [routerLink]="['/instruments']" title="Instruments">

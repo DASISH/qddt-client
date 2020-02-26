@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {ActionKind, ElementKind, getElementKind, getIcon, InstrumentSequence, Parameter, TemplateService} from '../../lib';
-
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'qddt-instrument-sequence-tree',
@@ -18,7 +18,6 @@ export class InstrumentSequenceTreeComponent implements AfterViewInit, OnChanges
   @Input() readonly = false;
   @Input() level = 0;
   @Output() actionEvent = new EventEmitter<{ action: ActionKind, ref: InstrumentSequence }>();
-  // @Output() actionEvent = new EventEmitter<EventAction>();
 
   // tslint:disable-next-line:variable-name
   private _showButton = false;
@@ -41,6 +40,13 @@ export class InstrumentSequenceTreeComponent implements AfterViewInit, OnChanges
 
   public ngAfterViewInit(): void {
     M.Collapsible.init(document.querySelectorAll('.collapsible'));
+  }
+
+  public onItemDrop(event: CdkDragDrop<any[]>) {
+    if (event.previousContainer === event.container) {
+      console.log('moving');
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    }
   }
 
   public onItemNew(event: Event, ref: InstrumentSequence) {

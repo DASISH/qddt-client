@@ -1,5 +1,7 @@
+<div cdkDropList cdkDrop [cdkDropListData]="subSequence" (cdkDropListDropped)="onItemDrop($event)">
+
 <ul class="collapsible">
-  <li *ngFor="let cqi of subSequence;let idx = index;" (mouseenter)="showButton = !readonly"
+  <li *ngFor="let cqi of subSequence;let idx = index;" cdkDrag (mouseenter)="showButton = !readonly"
     (mouseleave)="showButton = false" (click)="onOpenBody(cqi)">
 
     <div class="collapsible-header ">
@@ -32,6 +34,9 @@
       <i class="material-icons small teal-text text-lighten-3">{{getMatIcon(cqi.elementRef?.elementKind)}}</i>
       <div class="col s9 m10 grey-text text-darken-1" [innerHtml]=cqi.elementRef?.name></div>
       <qddt-version-label class="col s3 m2 right-align" [revisionRef]="cqi.elementRef"></qddt-version-label>
+      <div *ngIf="level===0" class="minicol" cdkDragHandle style="width: 2rem; position: relative; cursor: grab;" title="Grab...">
+        <i class="material-icons blue-text text-lighten-2" style=" display: inline; ">reorder</i>
+      </div>
     </div>
     <div class="collapsible-body">
       <ul *ngIf="cqi.parameters.length > 0">
@@ -52,19 +57,11 @@
       (actionEvent)="doPassEvent($event)">
     </qddt-instrument-sequence-tree>
   </li>
-  <li *ngIf="level===0" (mouseenter)="showButton = !readonly" (mouseleave)="showButton = false">
-    <div class="collapsible-header ">
-      <ul class="dropleft" *ngIf="!readonly">
-        <li>
-          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green"
-             (click)="onItemNew($event, null)">
-            <i class="material-icons tiny" title="insert above">playlist_add</i>
-          </a>
-        </li>
-      </ul>
+  <li *ngIf="level===0">
+    <div class="collapsible-header "   (click)="onItemNew($event)">
       <i class="material-icons small teal-text text-lighten-3">vertical_align_top</i>
-      <div class="col s12 grey-text text-darken-1" [innerHtml]="'Add New Element'"></div>
-
+      <div class="col s12 blue-text text-lighten-2" [innerHtml]="'Add New Element'"></div>
     </div>
   </li>
 </ul>
+</div>

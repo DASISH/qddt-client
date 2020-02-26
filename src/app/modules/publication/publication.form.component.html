@@ -16,8 +16,12 @@
         </qddt-select>
         <div class="col s6 m7 l8 grey-text">{{publication?.status?.description}}</div>
     </div>
-
-    <qddt-element-revision-ref [readonly]="readonly" [elementRevisions]="publication.publicationElements" class="row" (actionEvent)="onDoAction($event)">
+    <label>Content list</label>
+    <qddt-element-revision-ref  class="row"
+                                [readonly]="readonly"
+                                [elementRevisions]="publication.publicationElements"
+                                [selectOptions]="PUBLICATION"
+                                (actionEvent)="onDoAction($event)">
     </qddt-element-revision-ref>
 
     <qddt-rational [formName]="'RationalComp'" *ngIf="!readonly && publication.id" [element]="publication"
