@@ -1,4 +1,3 @@
-import { PageSearch } from './../../lib/classes/classes';
 import {
   Component,
   Input,
@@ -19,7 +18,7 @@ import {
   IPageSearch, LANGUAGE_MAP,
   Page,
   PropertyStoreService,
-  ResponseDomain, TemplateService, toSelectItems
+  ResponseDomain, TemplateService, toSelectItems, PageSearch
 } from '../../lib';
 
 @Component({
@@ -47,7 +46,7 @@ export class ResponseFormComponent implements OnInit, OnChanges, OnDestroy, Afte
   public readonly DISPLAYLAYOUTS = toSelectItems(DisplayLayoutKind);
 
   private pageSearch: PageSearch;
-  private ok: boolean = false;
+  private ok = false;
 
   constructor(private service: TemplateService, private properties: PropertyStoreService) {
 
@@ -202,8 +201,6 @@ export class ResponseFormComponent implements OnInit, OnChanges, OnDestroy, Afte
     return category.id;
   }
 
-
-
   public onItemDrop(event: CdkDragDrop<any[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -211,17 +208,8 @@ export class ResponseFormComponent implements OnInit, OnChanges, OnDestroy, Afte
     }
   }
 
-
   private getPageSearch(): IPageSearch {
     return this.properties.get('responsedomains');
   }
 
-
-  private arraymove(arr: Category[], fromIndex, toIndex) {
-    console.log('arraymove');
-    const element = arr[fromIndex];
-    arr.splice(fromIndex, 1);
-    arr.splice(toIndex, 0, element);
-    console.log('arraymoved');
-  }
 }

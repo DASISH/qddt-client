@@ -9,9 +9,10 @@ import { ElementRevisionCollectionComponent } from './element-revision-collectio
 import { ConstructsComponent } from './constructs/constructs.component';
 import { ElementRevisionSelectComponent} from './element-revision/element-revision.component';
 import { ElementRevisionRefComponent} from './element-revision-ref/element-revision-ref.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
-  imports: [ ComponentsModule, PreviewModule, SelectorsModule ],
+  imports: [ ComponentsModule, PreviewModule, SelectorsModule, DragDropModule ],
   declarations: [  QuestionItemsComponent, ResponsedomainComponent, ElementCollectionComponent, ElementRevisionCollectionComponent,
     ConstructsComponent, ElementRevisionSelectComponent, ElementRevisionRefComponent ],
   exports: [  QuestionItemsComponent, ResponsedomainComponent, ElementCollectionComponent, ElementRevisionCollectionComponent,

@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import {
   ActionKind,
   ElementKind,
@@ -25,6 +26,7 @@ import {
 export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
   @Input() elementRevisions: ElementRevisionRef[];
   @Input() readonly = false;
+  @Input() showIcon = true;
   @Output() actionEvent = new EventEmitter<EventAction>();
 
   // tslint:disable-next-line:variable-name
@@ -48,6 +50,15 @@ export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
 
   public ngAfterViewInit(): void {
     M.Collapsible.init(document.querySelectorAll('.collapsible'));
+  }
+
+
+  public onItemDrop(event: CdkDragDrop<any[]>) {
+    if (event.previousContainer === event.container) {
+      console.log('moving');
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      // this.hierarchyChanged.emit(true);
+    }
   }
 
   public onItemNew(event: Event, ref: ElementRevisionRef) {

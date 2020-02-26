@@ -1,5 +1,6 @@
+<div cdkDropList cdkDrop [cdkDropListData]="elementRevisions" (cdkDropListDropped)="onItemDrop($event)">
 <ul class="collapsible row">
-  <li *ngFor="let cqi of elementRevisions;let idx = index;" (mouseenter)="showButton = !readonly"
+  <li *ngFor="let cqi of elementRevisions;let idx = index;" cdkDrag (mouseenter)="showButton = !readonly"
     (mouseleave)="showButton = false" (click)="onOpenBody(cqi)">
 
     <div class="collapsible-header ">
@@ -29,9 +30,13 @@
           </a>
         </li>
       </ul>
-      <i class="material-icons small teal-text text-lighten-3">{{getMatIcon(cqi.elementKind)}}</i>
+      <i *ngIf="showIcon" class="material-icons small teal-text text-lighten-3">{{getMatIcon(cqi.elementKind)}}</i>
       <div class="col s9 m10 grey-text text-darken-1" [innerHtml]=cqi.name></div>
       <qddt-version-label class="col s3 m2 right-align" [revisionRef]="cqi"></qddt-version-label>
+      <div class="minicol" cdkDragHandle style="width: 2rem; position: relative; cursor: grab;"
+        title="Grab...">
+        <i class="material-icons" style="display: inline; ">menu</i>
+      </div>
     </div>
     <div class="collapsible-body">
       <qddt-preview-element [element]="cqi.element" [showDetail]="false">
@@ -55,3 +60,4 @@
     </div>
   </li>
 </ul>
+</div>
