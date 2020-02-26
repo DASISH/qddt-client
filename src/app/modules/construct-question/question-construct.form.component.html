@@ -10,9 +10,11 @@
       </qddt-select>
     </div>
 
-    <qddt-textarea name="description" label="Description" [(ngModel)]="controlConstruct.description"
-      data-length="255">
-    </qddt-textarea>
+    <div class="row">
+      <qddt-textarea class="col s12" name="description" label="Description" [(ngModel)]="controlConstruct.description"
+        data-length="255">
+      </qddt-textarea>
+    </div>
 
     <qddt-element-collection [(listItems)]="controlConstruct.universe" [labelName]="'Universe'" [elementKind]="UNIVERSE"
       [readonly]="false" (selectEvent)="onAddUniverse($event)" (deletedEvent)="onRemoveUniverse($event)" tabindex="2">
