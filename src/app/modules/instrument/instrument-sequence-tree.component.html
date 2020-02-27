@@ -1,67 +1,68 @@
 <div cdkDropList cdkDrop [cdkDropListData]="subSequence" (cdkDropListDropped)="onItemDrop($event)">
 
-<ul class="collapsible">
-  <li *ngFor="let cqi of subSequence;let idx = index;" cdkDrag (mouseenter)="showButton = !readonly"
-    (mouseleave)="showButton = false" (click)="onOpenBody(cqi)">
+  <ul class="collapsible">
+    <li *ngFor="let cqi of subSequence;let idx = index;" cdkDrag (mouseenter)="showButton = !readonly"
+      (mouseleave)="showButton = false" (click)="onOpenBody(cqi)">
 
-    <div class="collapsible-header ">
-      <ul class="dropleft" *ngIf="!readonly">
-        <li>
-          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green"
-            (click)="onItemEdit($event, cqi)">
-            <i class="material-icons tiny" title="Edit selected">edit</i>
-          </a>
-        </li>
-        <li>
-          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue"
-            (click)="onItemUpdate($event, cqi)">
-            <i class="material-icons tiny" title="update selected">sync</i>
-          </a>
-        </li>
-        <li>
-          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green"
-            (click)="onItemNew($event, cqi)">
-            <i class="material-icons tiny" title="insert above">playlist_add</i>
-          </a>
-        </li>
-        <li>
-          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 red"
-            (click)="onItemRemove($event, cqi)">
-            <i class="material-icons tiny" title="Remove selected">remove</i>
-          </a>
-        </li>
-      </ul>
-      <i class="material-icons small teal-text text-lighten-3">{{getMatIcon(cqi.elementRef?.elementKind)}}</i>
-      <div class="col s9 m10 grey-text text-darken-1" [innerHtml]=cqi.elementRef?.name></div>
-      <qddt-version-label class="col s3 m2 right-align" [revisionRef]="cqi.elementRef"></qddt-version-label>
-      <div *ngIf="level===0" class="minicol" cdkDragHandle style="width: 2rem; position: relative; cursor: grab;" title="Grab...">
-        <i class="material-icons blue-text text-lighten-2" style=" display: inline; ">reorder</i>
+      <div class="collapsible-header ">
+        <ul class="dropleft" *ngIf="!readonly">
+          <li>
+            <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green"
+              (click)="onItemEdit($event, cqi)">
+              <i class="material-icons tiny" title="Edit selected">edit</i>
+            </a>
+          </li>
+          <li>
+            <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue"
+              (click)="onItemUpdate($event, cqi)">
+              <i class="material-icons tiny" title="update selected">sync</i>
+            </a>
+          </li>
+          <li>
+            <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green"
+              (click)="onItemNew($event, cqi)">
+              <i class="material-icons tiny" title="insert above">playlist_add</i>
+            </a>
+          </li>
+          <li>
+            <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 red"
+              (click)="onItemRemove($event, cqi)">
+              <i class="material-icons tiny" title="Remove selected">remove</i>
+            </a>
+          </li>
+        </ul>
+        <i class="material-icons small teal-text text-lighten-3">{{getMatIcon(cqi.elementRef?.elementKind)}}</i>
+        <div class="col s9 m10 grey-text text-darken-1" [innerHtml]=cqi.elementRef?.name></div>
+        <qddt-version-label class="col s3 m2 right-align" [revisionRef]="cqi.elementRef"></qddt-version-label>
+        <div *ngIf="level===0" class="minicol" cdkDragHandle style="width: 2rem; position: relative; cursor: grab;"
+          title="Grab...">
+          <i class="material-icons blue-text text-lighten-2" style=" display: inline; ">reorder</i>
+        </div>
       </div>
-    </div>
-    <div class="collapsible-body">
-      <ul *ngIf="cqi.parameters.length > 0">
-        <li class="collection-item"><label>Parameters</label></li>
-        <li class="collection-item">
-          <div class="chip" *ngFor="let parameter of cqi.parameters">{{getParam(parameter)}} </div>
-        </li>
-      </ul>
-      <qddt-preview-element [element]="cqi.elementRef.element" [showDetail]="false">
-      </qddt-preview-element>
-      <ng-container *ngIf="isSequence(cqi.elementRef.elementKind)">
-        <label>Description</label>
-        <span>{{cqi.elementRef?.element?.description}}</span>
-      </ng-container>
-    </div>
+      <div class="collapsible-body">
+        <ul *ngIf="cqi.parameters.length > 0">
+          <li class="collection-item"><label>Parameters</label></li>
+          <li class="collection-item">
+            <div class="chip" *ngFor="let parameter of cqi.parameters">{{getParam(parameter)}} </div>
+          </li>
+        </ul>
+        <qddt-preview-element [element]="cqi.elementRef.element" [showDetail]="false">
+        </qddt-preview-element>
+        <ng-container *ngIf="isSequence(cqi.elementRef.elementKind)">
+          <label>Description</label>
+          <span>{{cqi.elementRef?.element?.description}}</span>
+        </ng-container>
+      </div>
 
-    <qddt-instrument-sequence-tree  [readonly]="readonly" *ngIf="cqi.sequence?.length >0" [subSequence]="cqi.sequence" [level]="level+1"
-      (actionEvent)="doPassEvent($event)">
-    </qddt-instrument-sequence-tree>
-  </li>
-  <li *ngIf="level===0">
-    <div class="collapsible-header "   (click)="onItemNew($event)">
-      <i class="material-icons small teal-text text-lighten-3">vertical_align_top</i>
-      <div class="col s12 blue-text text-lighten-2" [innerHtml]="'Add New Element'"></div>
-    </div>
-  </li>
-</ul>
+      <qddt-instrument-sequence-tree [readonly]="readonly" *ngIf="cqi.sequence?.length >0" [subSequence]="cqi.sequence"
+        [level]="level+1" (actionEvent)="doPassEvent($event)">
+      </qddt-instrument-sequence-tree>
+    </li>
+    <li *ngIf="level===0">
+      <div class="collapsible-header " (click)="onItemNew($event,null)">
+        <i class="material-icons small teal-text text-lighten-3">vertical_align_top</i>
+        <div class="col s12 blue-text text-lighten-2" [innerHtml]="'Add New Element'"></div>
+      </div>
+    </li>
+  </ul>
 </div>
