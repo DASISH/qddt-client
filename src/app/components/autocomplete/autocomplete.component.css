@@ -3,6 +3,11 @@
   position: relative;
 }
 
+::placeholder {
+  color: teal;
+}
+
+.input-field > label { color: teeal;}
 
 .autocomplete ul {
   position: absolute;
@@ -38,7 +43,7 @@
 
 .autocomplete li.active .highlight {
   background: #666;
-  color: #fff;
+  color: teal;
 }
 
 .search-box, .search-wrapper {
