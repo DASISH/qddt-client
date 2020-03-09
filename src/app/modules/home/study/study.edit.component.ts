@@ -1,5 +1,5 @@
-import {  Component, EventEmitter, Input, Output } from '@angular/core';
-import {ElementKind, ElementRevisionRef, IElement, Instrument, Page, Study, SurveyProgram, TemplateService} from '../../../lib';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ElementKind, Study, TemplateService, ElementRevisionRef } from '../../../lib';
 
 @Component({
   selector: 'qddt-study-edit',
@@ -52,7 +52,7 @@ import {ElementKind, ElementRevisionRef, IElement, Instrument, Page, Study, Surv
 
 export class StudyEditComponent {
   @Input() study: Study;
-  @Output() savedEvent = new EventEmitter<SurveyProgram>();
+  @Output() savedEvent = new EventEmitter<Study>();
 
   public readonly formId = Math.round(Math.random() * 10000);
   public readonly INSTRUMENT = ElementKind.INSTRUMENT;
@@ -62,16 +62,16 @@ export class StudyEditComponent {
   constructor(private service: TemplateService) { }
 
   onSave() {
-    this.service.update<SurveyProgram>(this.study)
-    .subscribe((result) => {
+    this.service.update<Study>(this.study)
+      .subscribe((result) => {
         this.study = null;
         this.isVisible = true;
         this.savedEvent.emit(result);
       }
-      , (err: any) => {
-        this.savedEvent.emit(null);
-        throw err;
-      });
+        , (err: any) => {
+          this.savedEvent.emit(null);
+          throw err;
+        });
   }
 
   onInstrumentAdded(item: ElementRevisionRef) {

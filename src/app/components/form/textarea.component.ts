@@ -24,8 +24,7 @@ import { animations } from './animations';
         class="materialize-textarea validate"
         placeholder="{{placeholder}}"
         [readonly]="readonly"
-        [(ngModel)]="value"
-        [ngClass]="{invalid: (invalid | async)}" >
+        [(ngModel)]="value">
       </textarea>
       <label *ngIf="label" for="{{identifier}}">{{label}}</label>
     </div>

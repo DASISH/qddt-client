@@ -1,4 +1,4 @@
-import {ElementRevisionRef, ElementRevisionRefImpl} from './element-revision-ref';
+import { ElementRevisionRef, ElementRevisionRefImpl } from './element-revision-ref';
 import { IEntityAudit, IEntityEditAudit, IVersion } from '../interfaces';
 import { ElementKind } from '../enums';
 import { ResponseDomain } from './responsedomain.classes';
@@ -21,5 +21,8 @@ export class QuestionItem implements IEntityEditAudit {
   conceptRefs: any;
   public constructor(init?: Partial<QuestionItem>) {
     Object.assign(this, init);
+    if (!this.responseDomainRef) {
+      this.responseDomainRef = new ElementRevisionRefImpl<ResponseDomain>();
+    }
   }
 }

@@ -13,7 +13,7 @@ import {
 
 @Component({
   selector: 'qddt-concept',
-  providers: [{ provide: 'elementKind', useValue: 'CONCEPT' }, ],
+  providers: [{ provide: 'elementKind', useValue: 'CONCEPT' },],
   // styles: ['.scroll-content { position:fixed; overflow-y:auto; overflow-x:hidden;  top:64px; height: calc(100vh - 64px); }'],
   templateUrl: './concept.component.html'
 })
@@ -36,7 +36,7 @@ export class ConceptComponent implements OnInit, AfterViewInit {
   private instance = null;
 
   constructor(private property: PropertyStoreService, private homeService: HomeService<Concept>,
-              private templateService: TemplateService) {
+    private templateService: TemplateService) {
     this.canCreate = this.homeService.canDo(this.CONCEPT).get(ActionKind.Create);
   }
 
@@ -58,6 +58,7 @@ export class ConceptComponent implements OnInit, AfterViewInit {
     this.topic.concepts = await (list) ?
       list :
       await this.homeService.getListByParent(this.CONCEPT, parentId);
+
     this.showProgressBar = false;
   }
 
@@ -86,33 +87,44 @@ export class ConceptComponent implements OnInit, AfterViewInit {
       () => { this.showProgressBar = false; });
   }
 
-  async onMoveConcept(event: IMoveTo) {
-    console.log(event);
-    const entity = this.removeConcept(this.topic.concepts, event.source);
-    let targets: Concept[];
-    if (event.target === this.topic.id) {
-      targets = this.topic.concepts;
-    } else {
-      targets = this.findConcept(this.topic.concepts, event.target).children;
-    }
 
-    const start = targets.slice(0, event.index) || [];
-    const end = targets.slice(event.index) || [];
-    targets = [].concat(start, entity, end);
-    targets.forEach(c => this.setUHR(c));
-
-    if (event.target === this.topic.id) {
-      this.topic.concepts = targets;
-    } else {
-      this.findConcept(this.topic.concepts, event.target).children = targets;
-    }
-
-    const result = await this.templateService.updateAll(this.topic.concepts, this.topic.id).toPromise();
-    const topic = await this.homeService.getExt<Topic>(ElementKind.TOPIC_GROUP, this.topic.id);
-    topic.concepts = result;
-    this.property.set('topic', topic);
-    this.topic = topic;
+  onHierarchyChanged(event) {
+    console.log('moving event?');
+    this.topic.changeKind = 'UPDATED_HIERARCHY_RELATION';
+    this.topic.changeComment = 'Topic order changed';
+    // this.topic.concepts = this.topics;
+    this.templateService.update<Topic>(this.topic).subscribe((result) => {
+      this.property.set('topic', this.topic = result);
+    });
   }
+
+  // async onMoveConcept(event: IMoveTo) {
+  //   console.log(event);
+  //   const entity = this.removeConcept(this.topic.concepts, event.source);
+  //   let targets: Concept[];
+  //   if (event.target === this.topic.id) {
+  //     targets = this.topic.concepts;
+  //   } else {
+  //     targets = this.findConcept(this.topic.concepts, event.target).children;
+  //   }
+
+  //   const start = targets.slice(0, event.index) || [];
+  //   const end = targets.slice(event.index) || [];
+  //   targets = [].concat(start, entity, end);
+  //   targets.forEach(c => this.setUHR(c));
+
+  //   if (event.target === this.topic.id) {
+  //     this.topic.concepts = targets;
+  //   } else {
+  //     this.findConcept(this.topic.concepts, event.target).children = targets;
+  //   }
+
+  //   const result = await this.templateService.updateAll(this.topic.concepts, this.topic.id).toPromise();
+  //   const topic = await this.homeService.getExt<Topic>(ElementKind.TOPIC_GROUP, this.topic.id);
+  //   topic.concepts = result;
+  //   this.property.set('topic', topic);
+  //   this.topic = topic;
+  // }
 
   onConceptUpdated(concept: Concept) {
     if (!this.updateConcept(this.topic.concepts, concept)) {
