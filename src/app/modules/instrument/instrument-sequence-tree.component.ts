@@ -1,5 +1,6 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
-import {ActionKind, ElementKind, getElementKind, getIcon, InstrumentSequence, Parameter, TemplateService} from '../../lib';
+import { filter } from 'rxjs/operators';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { ActionKind, ElementKind, getElementKind, getIcon, InstrumentSequence, Parameter, TemplateService } from '../../lib';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
@@ -77,15 +78,18 @@ export class InstrumentSequenceTreeComponent implements AfterViewInit, OnChanges
   }
 
   public onOpenBody(item: InstrumentSequence) {
-
-    if (!item.elementRef.element && !this.isSequence(item.elementRef.elementKind)) {
-      this.service.getByKindRevision(
-        getElementKind(item.elementRef.elementKind),
-        item.elementRef.elementId,
-        item.elementRef.elementRevision)
+    const ref = item.elementRef;
+    if (!ref.element && !this.isSequence(ref.elementKind)) {
+      this.service.getByKindRevision(getElementKind(ref.elementKind), ref.elementId, ref.elementRevision)
         .then((result) => {
-          item.elementRef.element = result.entity;
-          item.elementRef.version = result.entity.version;
+          ref.element = result.entity;
+          ref.version = result.entity.version;
+          item = new InstrumentSequence(item);
+          // console.log(item || JSON);
+          // const idx = this.subSequence.findIndex(p => p.id === item.id);
+          // if (idx > 0) {
+          //   this.subSequence[idx] = item;
+          // }
         });
     }
   }
@@ -99,10 +103,10 @@ export class InstrumentSequenceTreeComponent implements AfterViewInit, OnChanges
   }
 
   public getParam(param: Parameter): string {
-    if (param[1].referencedId) {
-      return (param[1].value || '?') + '➫' + param[1].name;
+    if (param.referencedId) {
+      return (param.value || '?') + '➫' + param.name;
     } else {
-      return param[1].name + '➫' + (param[1].value || '?');
+      return param.name + '➫' + (param.value || '?');
     }
   }
 }

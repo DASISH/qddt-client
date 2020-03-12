@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import {
   ActionKind,
   CONSTRUCT_MAP,
@@ -12,6 +12,7 @@ import {
   LANGUAGE_MAP,
   TemplateService
 } from '../../lib';
+import { toArray } from 'rxjs/operators';
 
 @Component({
   selector: 'qddt-instrument-form',
@@ -52,7 +53,9 @@ export class InstrumentFormComponent implements OnChanges {
       this.element = new Instrument(changes.element.currentValue);
       this.currentInstrumentType = InstrumentKind[this.element.instrumentKind];
       this.service.canDoAction(ActionKind.Update, this.element)
-        .then( can => this.readonly = !can);
+        .then(can => this.readonly = !can);
+
+      console.log(this.element.parameters || JSON);
     }
     // try { M.updateTextFields(); } catch (Exception) { }
   }
@@ -70,7 +73,7 @@ export class InstrumentFormComponent implements OnChanges {
     this.element.sequence.push(
       new InstrumentSequence({
         elementRef: ref,
-        sequence: ref.element.sequence
+        sequence: (ref.element.sequence) ? ref.element.sequence : []
           .map((isref: ElementRevisionRef) => new InstrumentSequence({ elementRef: isref }))
       }));
   }

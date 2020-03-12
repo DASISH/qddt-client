@@ -1,5 +1,6 @@
-import { IElement, IElementRef, IRevisionRef, IVersion, IEntityEditAudit } from '../interfaces';
-import { ElementKind } from '../enums';
+import { IElement, IElementRef, IRevisionRef, IVersion, IEntityAudit } from '../interfaces';
+import { ElementKind } from '../enums/element-kind';
+
 
 
 export abstract class ElementRevisionRef implements IElementRef, IRevisionRef, IElement {
@@ -15,12 +16,9 @@ export abstract class ElementRevisionRef implements IElementRef, IRevisionRef, I
   }
 }
 
-export class ElementRevisionRefImpl<T extends IEntityEditAudit> extends ElementRevisionRef {
-
+export class ElementRevisionRefImpl<T extends IEntityAudit> extends ElementRevisionRef {
   element: T;
-
   public constructor(init?: Partial<ElementRevisionRef>) {
     super(init);
   }
-
 }

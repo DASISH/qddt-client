@@ -1,39 +1,41 @@
-<form id="RAT-{{formId}}" class="hoverable row" [parentFormConnect]="formName">
-  <div class="row">
-    <div class="col left" *ngFor="let option of rationalDescriptionsFiltered" [hidden]="option.hidden">
-      <label>
-        <input name="OTG-{{formId}}" type="radio" (click)="onSelectOption(option.id)"
-          [checked]="saveOptionIndex === option.id" />
-        <span>{{ option.name }}</span>
-      </label>
+<form id="RAT-{{formId}}" class="hoverable row section" [parentFormConnect]="formName">
+  <div class="col s12">
+    <div class="row">
+      <div class="col left" *ngFor="let option of rationalDescriptionsFiltered" [hidden]="option.hidden">
+        <label>
+          <input name="OTG-{{formId}}" type="radio" (click)="onSelectOption(option.id)"
+            [checked]="saveOptionIndex === option.id" />
+          <span>{{ option.name }}</span>
+        </label>
+      </div>
     </div>
   </div>
-  <div *ngFor="let option of rationalDescriptionsFiltered; let _idx = index;">
-    <div class="row" *ngIf="option.children.length > 0" [hidden]="!(option.id === saveOptionIndex)">
-      <div class="input-field col s5">
-        <select id="SELECT-{{formId}}-{{_idx}}" name="rational" [ngModel]="_RationalIndex"
-          (ngModelChange)="onClickRational1($event)">
-          <option value="" disabled selected>Choose your rationale</option>
-          <option *ngFor="let rational of option.children;" [value]="rational.id">{{ rational.name }}</option>
-        </select>
-        <label for="SELECT-{{formId}}-{{_idx}}">Versioning Reason</label>
+  <ng-container *ngFor="let option of rationalDescriptionsFiltered; let _idx = index;">
+    <div class="col s12" *ngIf="option.children.length > 0" [hidden]="!(option.id === saveOptionIndex)">
+      <div class="row">
+        <div class="input-field col s5">
+          <select id="SELECT-{{formId}}-{{_idx}}" name="rational" [ngModel]="_RationalIndex"
+            (ngModelChange)="onClickRational1($event)">
+            <option value="" disabled selected>Choose your rationale</option>
+            <option *ngFor="let rational of option.children;" [value]="rational.id">{{ rational.name }}</option>
+          </select>
+          <label for="SELECT-{{formId}}-{{_idx}}">Versioning Reason</label>
+        </div>
+        <div class="col s7 grey-text">
+          {{option.children[_RationalIndex]?.description }}
+        </div>
       </div>
-      <div class="col s7">
-        <span> {{option.children[_RationalIndex]?.description }}</span>
-      </div>
-      <div *ngIf="_RationalIndex>=0" class="col s12">
-        <div *ngFor="let child of option.children[_RationalIndex]?.children; let idx = index;">
-          <div class="col left">
-            <label>
-              <input name="OTG2-{{formId}}" type="radio" [checked]="_Rational2Index === idx"
-                (click)="onClickRational2(child)" />
-              <span title="{{child.description}}">{{ child.name }}</span>
-            </label>
-          </div>
+      <div class="row" *ngIf="_RationalIndex==1">
+        <div class="col left" *ngFor="let child of option.children[_RationalIndex]?.children; let idx = index;">
+          <label>
+            <input name="OTG2-{{formId}}" type="radio" [checked]="_Rational2Index === idx"
+              (click)="onClickRational2(child)" />
+            <span title="{{child.description}}">{{ child.name }}</span>
+          </label>
         </div>
       </div>
     </div>
-  </div>
+  </ng-container>
   <div *ngIf="saveOptionIndex >= 0 && rationalDescriptions[saveOptionIndex].showComment">
     <div class="input-field col s12">
       <input id="COMMENT-{{formId}}" class="validate" type="text" name="changeComment"

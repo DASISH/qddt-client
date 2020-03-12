@@ -1,9 +1,9 @@
-import {IEntityAudit, IEntityEditAudit} from '../interfaces';
+import { IEntityAudit, IEntityEditAudit } from '../interfaces';
 import { Study } from './home.classes';
 import { ActionKind, ElementKind } from '../enums';
 import { SequenceKind, ElementRevisionRef } from '.';
-import {ISelectOption} from '../interfaces/interfaces';
-
+import { ISelectOption } from '../interfaces/interfaces';
+import { v4 as uuidv4 } from 'uuid';
 
 export enum InstrumentKind {
   QUESTIONNAIRE = 1,
@@ -26,7 +26,7 @@ export const INSTRUMENT_MAP = [
   {
     id: InstrumentKind.QUESTIONNAIRE, value: 'QUESTIONNAIRE', label: 'Questionnaire',
     description: 'Set of pre-determined questions presented to study participants.'
-  }as ISelectOption,
+  } as ISelectOption,
   {
     id: InstrumentKind.QUESTIONNAIRE_STRUCTURED, value: 'QUESTIONNAIRE_STRUCTURED', label: 'Questionnaire Structured',
     description: 'Set of pre-determined questions, a great majority of which are closed-ended, although there may be a small proportion of open-ended questions.'
@@ -34,52 +34,52 @@ export const INSTRUMENT_MAP = [
   {
     id: InstrumentKind.QUESTIONNAIRE_SEMISTRUCTURED, value: 'QUESTIONNAIRE_SEMISTRUCTURED', label: 'Questionnaire SemiStructured',
     description: 'Set of pre-determined questions, a significant proportion of which are open-ended (roughly one third to two thirds), and the rest are closed-ended.'
-  }as ISelectOption,
+  } as ISelectOption,
   {
     id: InstrumentKind.QUESTIONNAIRE_UNSTRUCTURED, value: 'QUESTIONNAIRE_UNSTRUCTURED', label: 'Questionnaire Unstructured',
     description: 'Set of pre-determined questions, a great majority of which are open-ended, although there may be a small proportion of close-ended questions.'
-  }as ISelectOption,
+  } as ISelectOption,
   {
     id: InstrumentKind.INTERVIEW_SCHEME_AND_THEMES, value: 'INTERVIEW_SCHEME_AND_THEMES', label: 'InterviewSchemeAndThemes',
     description: 'Themes, topics, and/or questions used in an interview. Can vary between loosely defined themes to more exactly formulated questions. There is more flexibility than in an unstructured questionnaire regarding which questions are asked of each participant and how they are conveyed.'
-  }as ISelectOption,
+  } as ISelectOption,
   {
     id: InstrumentKind.DATA_COLLECTION_GUIDELINES, value: 'DATA_COLLECTION_GUIDELINES', label: 'DataCollectionGuidelines',
     description: 'Guidelines and directions that define the content of the data capture. Use a narrower term if possible.'
-  }as ISelectOption,
+  } as ISelectOption,
   {
     id: InstrumentKind.DATACOLLECTIONGUIDELINES_OBSERVATIONGUIDE, value: 'DATACOLLECTIONGUIDELINES_OBSERVATIONGUIDE', label: 'DataCollectionGuidelines ObservationGuide',
     description: 'Guidelines regarding what will be observed. Depending on the study design, an observation guide can be more or less structured, ranging from exact specifications and scales to loosely formulated ideas.'
-  }as ISelectOption,
+  } as ISelectOption,
   {
     id: InstrumentKind.DATACOLLECTIONGUIDELINES_DISCUSSIONGUIDE, value: 'DATACOLLECTIONGUIDELINES_DISCUSSIONGUIDE', label: 'DataCollectionGuidelines DiscussionGuide',
     description: 'Guidelines for a group discussion. Depending on the study design, a discussion guide can be more or less structured, ranging from exactly formulated questions to general ideas on what to discuss. For example, a list of topics to be discussed in a focus group, or themes formulated by a researcher to direct a blog discussion, etc.'
-  }as ISelectOption,
+  } as ISelectOption,
   {
     id: InstrumentKind.DATACOLLECTIONGUIDELINES_SELFADMINISTEREDWRITINGSGUIDE, value: 'DATACOLLECTIONGUIDELINES_SELFADMINISTEREDWRITINGSGUIDE', label: 'DataCollectionGuidelines SelfAdministeredWritingsGuide',
     description: 'Guidelines regarding the desired, or expected content of self-written personal accounts or narratives from potential participants. The instructions can be supplied as part of the writing invitation or separately. For example, a writing competition announcement asking people with a life-threatening disease to describe how the disease affects their feelings, social relations and everyday life; or a writing invitation asking people to keep a diary of books read during a period of six months and the thoughts provoked by the books.'
-  }as ISelectOption,
+  } as ISelectOption,
   {
     id: InstrumentKind.DATACOLLECTIONGUIDELINES_SECONDARYDATACOLLECTIONGUIDE,
     value: 'DATACOLLECTIONGUIDELINES_SECONDARYDATACOLLECTIONGUIDE', label: 'DataCollectionGuidelines SecondaryDataCollectionGuide',
     description: 'Guidelines specifying what data are to be collected from previously existing sources originally created for other purposes. For example, directions on how to select and code data from qualitative sources to create a quantitative dataset.'
-  }as ISelectOption,
+  } as ISelectOption,
   {
     id: InstrumentKind.PARTICIPANT_TASKS, value: 'PARTICIPANT_TASKS', label: 'ParticipantTasks',
     description: 'A description of tasks that participants are asked to carry out as a part of the data collection process. For example, marking places on a map, taking photographs, telling a fairy tale, etc.'
-  }as ISelectOption,
+  } as ISelectOption,
   {
     id: InstrumentKind.TECHNICAL_INSTRUMENTS, value: 'TECHNICAL_INSTRUMENTS', label: 'TechnicalInstruments',
     description: 'Instruments used to collect objective data like measurements, images, etc. For example, chronometers, scales, speedometers, blood pressure monitors, thermometers, x-ray machines, etc.'
-  }as ISelectOption,
+  } as ISelectOption,
   {
     id: InstrumentKind.PROGRAMMING_SCRIPT, value: 'PROGRAMMING_SCRIPT', label: 'ProgrammingScript',
     description: 'Programming script written in a data query language that is used to extract specific data, for instance from online social networks.'
-  }as ISelectOption,
+  } as ISelectOption,
   {
     id: InstrumentKind.OTHER, value: 'OTHER', label: 'Other',
     description: 'Use when the type of instrument is known, but not found in the list.'
-  }as ISelectOption,
+  } as ISelectOption,
 ];
 
 export class Instrument implements IEntityEditAudit {
@@ -93,11 +93,11 @@ export class Instrument implements IEntityEditAudit {
   comments: any[];
   xmlLang?: string;
   classKind = ElementKind[ElementKind.INSTRUMENT];
+
+  // new Map<number, ChangeMap>(changeMaps.map((v,i) => [i+1,v] as [number, ChangeMap]))
+
   get parameters(): Map<string, Parameter> {
-    return (this.sequence) ? new Map(
-      this.sequence
-        .map(s => [...s.parameters])
-        .reduce((acc, it) => [...acc, ...it])) : new Map();
+    return (this.sequence) ? new Map([Array.from(this.sequence.map(s => s.parameters.values()))]) : new Map();
   }
 
   public constructor(init?: Partial<Instrument>) {
@@ -113,20 +113,33 @@ export class InstrumentSequence {
   elementRef: ElementRevisionRef;
   sequenceKind?: SequenceKind;
   sequence?: InstrumentSequence[] = [];
-  parameters: [string, Parameter][] = [];
+  parameters: Map<string, Parameter>;
+
 
   public constructor(init?: Partial<InstrumentSequence>) {
     Object.assign(this, init);
-    if (init && init.sequence) {
-      this.sequence = init.sequence.map(seq => new InstrumentSequence(seq));
+    console.log(this.parameters || JSON);
+    if (init) {
+      this.id = this.id || uuidv4();
+      if (init.sequence) {
+        this.sequence = init.sequence.map(seq => new InstrumentSequence(seq));
+      }
     }
-    if (this.sequence.length > 0) {
-      this.parameters = this.sequence
-        .map(s => [...s.parameters])
-        .reduce((acc, it) => [...acc, ...it]);
+    if (this.sequence.length === 0) {
+      // if (this.elementRef.element) {
+      //   if (this.parameters.find(p => p[0] === this.elementRef.element.name) !== null) {
+      //     this.parameters.push([this.elementRef.element.name, new Parameter({ name: this.elementRef.element.name })]);
+      //   }
+
+      //   this.elementRef.element.parameter.forEach(param => {
+      //     this.parameters.push([param, new Parameter({ name: param, referencedId: '?' })]);
+      //   });
+      // }
     } else {
-      this.parameters = this.parameters.map(pam =>
-        [(pam['referencedId']) ? pam['referencedId'] : this.id, new Parameter({ name: pam['name'], referencedId: pam['referencedId'] })]);
+      this.parameters = this.sequence
+        .map(s => s.parameters.entries)
+        .reduce((acc, it) => [...acc, ...it]);
+      console.log(this.parameters || JSON);
     }
   }
 }

@@ -1,5 +1,3 @@
-import { Author } from './classes/author.classes';
-import { AuthGuard } from './services/auth-guard.service';
 import { IEntityAudit } from './interfaces';
 import { ElementKind } from './enums';
 import { getElementKind } from './consts';
@@ -11,7 +9,7 @@ import {
   ResponseDomain,
   SequenceConstruct, StatementConstruct, Study, SurveyProgram,
   Topic,
-  Universe, UserJson
+  Universe, UserJson, ElementRevisionRef, ElementRevisionRefImpl, Author
 } from './classes';
 
 export class Factory {
@@ -108,6 +106,21 @@ export class Factory {
 
   static create<T>(type: (new () => T)): T {
     return new type();
+  }
+
+
+  static createRef(kind: ElementKind | string, seed: any): ElementRevisionRef {
+    const elementKind = getElementKind(kind);
+    switch (elementKind) {
+      case ElementKind.CONDITION_CONSTRUCT:
+        return new ElementRevisionRefImpl<ConditionConstruct>(seed);
+      case ElementKind.QUESTION_CONSTRUCT:
+        return new ElementRevisionRefImpl<QuestionConstruct>(seed);
+      case ElementKind.SEQUENCE_CONSTRUCT:
+        return new ElementRevisionRefImpl<SequenceConstruct>(seed);
+      case ElementKind.STATEMENT_CONSTRUCT:
+        return new ElementRevisionRefImpl<StatementConstruct>(seed);
+    }
   }
 
 }
