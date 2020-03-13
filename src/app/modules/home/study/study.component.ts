@@ -83,11 +83,11 @@ export class StudyComponent implements OnInit {
   }
 
 
-  onRemoveStudy(studyId: string) {
-    if (studyId) {
-      this.templateService.delete(new Study({ id: studyId }))
+  onRemoveStudy(study: Study) {
+    if (study) {
+      this.templateService.delete(study)
         .subscribe(() => {
-          this.survey.studies = this.survey.studies.filter((s: any) => s.id !== studyId);
+          this.survey.studies = this.survey.studies.filter((s: any) => s.id !== study.id);
           this.property.set('studies', this.survey.studies);
         });
     }

@@ -133,10 +133,10 @@ export class TopicComponent implements OnInit {
       .subscribe((result: any) => this.onTopicSaved(result));
   }
 
-  onRemoveTopic(topicId: string) {
-    if (topicId && topicId.length === 36) {
-      this.templateService.delete(new Topic({ id: topicId })).subscribe(() => {
-        this.topics = this.topics.filter((s: any) => s.id !== topicId);
+  onRemoveTopic(topic: Topic) {
+    if (topic && topic.id) {
+      this.templateService.delete(topic).subscribe(() => {
+        this.topics = this.topics.filter((s: any) => s.id !== topic.id);
         this.property.set('topics', this.topics);
       });
     }

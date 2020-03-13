@@ -1,11 +1,8 @@
-import { HierarchyPosition } from './../../lib/enums/hierarchy-position';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'qddt-toc',
-  // styleUrls: ['./toc.component.css', ],
-  styles: ['li.over { border-color: #333; background: #ccc; }'],
   template: `
 <div class="col m3 hide-on-small-only">
   <div class="toc-wrapper pinned" style="height: 100%; overflow-y: auto;" >
@@ -33,7 +30,6 @@ export class TocComponent {
 
   public onItemDrop(event: CdkDragDrop<any[]>) {
     if (event.previousContainer === event.container) {
-      console.log('moving');
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
       this.hierarchyChanged.emit(true);
     }

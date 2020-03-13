@@ -1,9 +1,13 @@
-import { Component, EventEmitter, OnInit, Output, OnDestroy, AfterViewInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { takeWhile } from 'rxjs/operators';
-import { IDetailAction, IEntityEditAudit, ActionKind, ElementKind, HEADER_DETAILS, TemplateService, Factory } from '../../lib';
+import { AfterViewInit, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as FileSaver from 'file-saver';
+import { takeWhile } from 'rxjs/operators';
+import {
+  ActionKind, ElementKind, Factory, HEADER_DETAILS,
+  IDetailAction, IEntityAudit, IEntityEditAudit,
+  TemplateService
+} from '../../lib';
 
 
 @Component({
@@ -64,13 +68,14 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterViewInit
     // this.closeState.emit(this.action);
   }
 
-  onDeleteConfirmModal(item) {
+  onDeleteConfirmModal(item: IEntityAudit) {
     if (item) {
+      console.log(item || JSON);
       this.service.delete(item)
-      .subscribe(() => {
-        this.action.action = ActionKind.Delete;
-        this.goBack();
-      });
+        .subscribe(() => {
+          this.action.action = ActionKind.Delete;
+          this.goBack();
+        });
     }
   }
 

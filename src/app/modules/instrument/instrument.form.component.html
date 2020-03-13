@@ -1,16 +1,18 @@
 <div class="col s12" *ngIf="element">
   <form (ngSubmit)="onUpdateInstrument()" #instrumentform="ngForm">
     <div class="row">
-      <qddt-input [readonly]="readonly" class="col s10" required name="name" label="Name" [(ngModel)]="element.name" data-length="100">
+      <qddt-input [readonly]="readonly" class="col s10" required name="name" label="Name" [(ngModel)]="element.name"
+        data-length="100">
       </qddt-input>
-      <qddt-select [readonly]="readonly" class="col s2" required name="xmlLang" label="xmlLang" [(ngModel)]="element.xmlLang"
-        [lockups]="languageMap">
+      <qddt-select [readonly]="readonly" class="col s2" required name="xmlLang" label="xmlLang"
+        [(ngModel)]="element.xmlLang" [lockups]="languageMap">
       </qddt-select>
     </div>
 
     <qddt-input [readonly]="readonly" required name="label" label="Label" [(ngModel)]="element.label" data-length="255">
     </qddt-input>
-    <qddt-textarea [readonly]="readonly" required name="description" label="Description" [(ngModel)]="element.description" data-length="1000">
+    <qddt-textarea [readonly]="readonly" required name="description" label="Description"
+      [(ngModel)]="element.description" data-length="1000">
     </qddt-textarea>
     <div class="row">
       <qddt-select [readonly]="readonly" class="col s5" required name="instrumentKind" label="Instrument type"
@@ -19,7 +21,8 @@
       <div class="col s7 grey-text">{{getDescription(element.instrumentKind)}}</div>
     </div>
 
-    <qddt-instrument-sequence-tree [readonly]="readonly" [subSequence]="element.sequence" class="row" (actionEvent)="onDoAction($event)" >
+    <qddt-instrument-sequence-tree [readonly]="readonly" [subSequence]="element.sequence" class="section row"
+      (actionEvent)="onDoAction($event)">
     </qddt-instrument-sequence-tree>
 
     <qddt-rational [formName]="'RationalComp'" *ngIf="!readonly && element.id" [element]="element"
@@ -34,6 +37,7 @@
     </div>
   </form>
 </div>
+
 
 <!-- Modal Structure -->
 <div id="MODAL-{{formId}}" class="modal modal-fixed-footer">

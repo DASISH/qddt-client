@@ -7,6 +7,7 @@ import {
   ElementRef,
   ViewChild
 } from '@angular/core';
+import { IEntityAudit } from 'src/app/lib';
 
 @Component({
   selector: 'qddt-confirm-delete',
@@ -41,15 +42,15 @@ import {
   // styles: [ 'a { color: white; text-align: center; vertical-align: middle;}' ]
 })
 export class ConfirmDeleteComponent implements AfterViewInit {
-  @Input() element: any;
+  @Input() element: IEntityAudit;
   @Input() small = false;
-  @Output() confirmAction = new EventEmitter<any>();
+  @Output() confirmAction = new EventEmitter<IEntityAudit>();
 
   @ViewChild('modaldelete', { static: false }) modaldelete: ElementRef;
 
   private instance = null;
 
-  constructor() {}
+  constructor() { }
 
   ngAfterViewInit() {
     this.instance = M.Modal.init(this.modaldelete.nativeElement, {
@@ -62,12 +63,13 @@ export class ConfirmDeleteComponent implements AfterViewInit {
   }
 
   onOk() {
+    console.log(this.element || JSON);
     this.confirmAction.emit(this.element);
     this.instance.close();
   }
 
   onCancel() {
-    this.confirmAction.emit('');
+    this.confirmAction.emit(null);
     this.instance.close();
   }
 }

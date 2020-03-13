@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ComponentsModule } from '../../components/components.module';
 import { HomeRoutingModule } from './home.routes';
 import { HomeComponent } from './home.component';
@@ -17,24 +18,24 @@ import { PreviewModule } from '../preview/preview.module';
 import { QuestionModule } from '../question/question.module';
 import { SelectorsModule } from '../selectors/selectors.module';
 import { SelectorDialogsModule } from '../selectors-dialog/selectors-dialog.module';
-import {HomeService} from '../../lib/services';
-
+import { HomeService } from '../../lib/services';
 @NgModule({
-  imports: [ ComponentsModule, HomeRoutingModule, PreviewModule, QuestionModule, SelectorDialogsModule, SelectorsModule ],
+  imports: [ComponentsModule, HomeRoutingModule, PreviewModule, QuestionModule, SelectorDialogsModule,
+    SelectorsModule, DragDropModule],
 
-  declarations: [ HomeComponent, SurveyComponent, SurveyEditComponent,
+  declarations: [HomeComponent, SurveyComponent, SurveyEditComponent,
     StudyComponent, StudyEditComponent, TopicComponent, TopicEditComponent,
     ConceptComponent, TreeNodeComponent, ConceptEditComponent, ConceptTocComponent,
-    CopySourceComponent ],
+    CopySourceComponent],
 
-  providers: [HomeService ],
+  providers: [HomeService],
 
-  exports: [ HomeComponent ]
+  exports: [HomeComponent]
 })
 
 export class HomeModule {
 
-// } implements OnInit {
+  // } implements OnInit {
 
   // constructor(private route: ActivatedRoute) { }
 

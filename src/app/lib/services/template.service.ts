@@ -1,27 +1,20 @@
-import { Agency } from 'src/app/lib';
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { API_BASE_HREF } from '../../api';
-import { PageSearch } from '../classes';
-import { getElementKind, getQueryInfo } from '../consts';
-import { ActionKind, ElementKind } from '../enums';
-import {
-  IEntityAudit,
-  IEntityEditAudit,
-  IOtherMaterial,
-  IPageResult,
-  IPageSearch,
-  IRevisionResult
-} from '../interfaces';
 import { UserService } from './user.service';
+import { IEntityAudit, IEntityEditAudit, IPageResult, IPageSearch, IRevisionResult, IOtherMaterial } from '../interfaces';
+import { ElementKind, ActionKind } from '../enums';
+import { getQueryInfo, getElementKind } from '../consts';
+import { Agency, PageSearch } from '../classes';
+
 
 
 @Injectable()
 export class TemplateService {
 
   constructor(protected http: HttpClient, private userService: UserService, @Inject(API_BASE_HREF) protected api: string) {
-    console.log('TemplateService::CONST');
+    // console.log('TemplateService::CONST ' + api);
   }
 
   public searchByUuid(id: string): Promise<any> {
@@ -98,7 +91,8 @@ export class TemplateService {
 
   public create<T extends IEntityAudit>(item: T, parentId?: string): Observable<T> {
     const qe = getQueryInfo(item.classKind);
-    return (parentId) ? this.http.post<T>(this.api + qe.path + '/create/' + parentId, item) :
+    return (parentId) ?
+      this.http.post<T>(this.api + qe.path + '/create/' + parentId, item) :
       this.http.post<T>(this.api + qe.path + '/create', item);
   }
 
@@ -136,7 +130,8 @@ export class TemplateService {
     return this.http.post(this.api + qe.path + '/createfile/', form, { reportProgress: true });
   }
 
-  public delete(item: IEntityEditAudit): Observable<any> {
+  public delete(item: IEntityAudit): Observable<any> {
+    console.log(item || JSON);
     const qe = getQueryInfo(item.classKind);
     return this.http.delete(this.api + qe.path + '/delete/' + item.id);
   }
@@ -159,7 +154,7 @@ export class TemplateService {
     return this.userService.canDo(action, kind);
   }
 
-  public async canDoAction(action: ActionKind, entity: IEntityEditAudit ) {
+  public async canDoAction(action: ActionKind, entity: IEntityEditAudit) {
     return this.userService.canDo(action, getElementKind(entity.classKind)) && (await this.hasOwnerRights(entity.agency));
   }
 

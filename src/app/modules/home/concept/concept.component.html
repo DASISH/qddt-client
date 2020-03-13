@@ -19,13 +19,14 @@
     <div *ngIf="showConceptForm">
       <div class="row card-action">
         <div class="col s10 offset-s1">
-          <form #hf="ngForm" class="white-text">
+          <form #hf="ngForm">
             <div class="row input-field">
-              <input name="name" type="text" ngModel required data-length="250">
-              <label>Name</label>
+              <input name="name" class="white-text" type="text" ngModel required data-length="250">
+              <label class="white-text">Name</label>
             </div>
-            <div class="row input-field">
-              <textarea name="description" class="materialize-textarea" ngModel required data-length="10000"></textarea>
+            <div class="row input-field white-text">
+              <textarea name="description" class="materialize-textarea white-text" ngModel required
+                data-length="10000"></textarea>
               <label class="white-text">Description</label>
             </div>
             <div class="row right-align">
@@ -48,11 +49,7 @@
 </div>
 
 <div *ngIf="topic" class="col m3 hide-on-small-only ">
-  <div class="toc-wrapper pinned" style="height: calc(100% - 60px); overflow-y: auto;">
-    <h5>Concept Toc</h5>
-    <qddt-concept-toc class="section table-of-contents" [topic]="topic" (conceptMoved)="onMoveConcept($event)">
-    </qddt-concept-toc>
-  </div>
+  <qddt-concept-toc [topic]="topic" (hierarchyChanged)="onHierarchyChanged($event)"></qddt-concept-toc>
 </div>
 
 <div class="modal" #modalconceptdelete>

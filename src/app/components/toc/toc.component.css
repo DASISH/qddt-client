@@ -1,5 +1,5 @@
 
-[draggable=true] {
+/* [draggable=true] {
  -moz-user-select:none;
  html-user-drag: element;
  cursor: move;
@@ -17,4 +17,4 @@ li a:hover:after {
 li.over {
   border-color: #333;
   background: #ccc;
-}
+} */
