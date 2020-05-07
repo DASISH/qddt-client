@@ -12,6 +12,7 @@ import { animations } from './animations';
         class="validate"
         [readonly]="readonly"
         type="{{inputType}}"
+        placeholder="{{placeholder}}"
         [(ngModel)]="value"
         [ngClass]="{invalid: (invalid | async)}" />
       <label *ngIf="label" for="{{identifier}}">{{label}}</label>
