@@ -82,7 +82,8 @@ export const INSTRUMENT_MAP = [
   } as ISelectOption,
 ];
 
-export class Instrument implements IEntityEditAudit {
+
+export class Instrument implements IEntityAudit {
   id: string;
   label: string;
   name: string;
@@ -93,55 +94,34 @@ export class Instrument implements IEntityEditAudit {
   comments: any[];
   xmlLang?: string;
   classKind = ElementKind[ElementKind.INSTRUMENT];
-
-  // new Map<number, ChangeMap>(changeMaps.map((v,i) => [i+1,v] as [number, ChangeMap]))
-
   get parameters(): Map<string, Parameter> {
-    return (this.sequence) ? new Map([Array.from(this.sequence.map(s => s.parameters.values()))]) : new Map();
+    return new Map(
+      this.sequence
+        .map(s => [...s.parameters])
+        .reduce((acc, it) => [...acc, ...it]));
   }
 
   public constructor(init?: Partial<Instrument>) {
     Object.assign(this, init);
-    if (init && init.sequence) {
-      this.sequence = init.sequence.map(seq => new InstrumentSequence(seq));
-    }
   }
 }
 
 export class InstrumentSequence {
   id: string;
   elementRef: ElementRevisionRef;
+  get parameters(): Map<string, Parameter> {
+    const children = this.sequence
+      .map(s => [...s.parameters])
+      .reduce((acc, it) => [...acc, ...it]);
+    return new Map([[this.id, new Parameter({ name: this.elementRef.name })], ...children]);
+  }
   sequenceKind?: SequenceKind;
   sequence?: InstrumentSequence[] = [];
-  parameters: Map<string, Parameter>;
-
 
   public constructor(init?: Partial<InstrumentSequence>) {
     Object.assign(this, init);
-    console.log(this.parameters || JSON);
-    if (init) {
-      this.id = this.id || uuidv4();
-      if (init.sequence) {
-        this.sequence = init.sequence.map(seq => new InstrumentSequence(seq));
-      }
-    }
-    if (this.sequence.length === 0) {
-      // if (this.elementRef.element) {
-      //   if (this.parameters.find(p => p[0] === this.elementRef.element.name) !== null) {
-      //     this.parameters.push([this.elementRef.element.name, new Parameter({ name: this.elementRef.element.name })]);
-      //   }
-
-      //   this.elementRef.element.parameter.forEach(param => {
-      //     this.parameters.push([param, new Parameter({ name: param, referencedId: '?' })]);
-      //   });
-      // }
-    } else {
-      this.parameters = this.sequence
-        .map(s => s.parameters.entries)
-        .reduce((acc, it) => [...acc, ...it]);
-      console.log(this.parameters || JSON);
-    }
   }
+
 }
 
 export class Parameter {

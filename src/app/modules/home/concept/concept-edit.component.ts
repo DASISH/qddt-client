@@ -1,10 +1,10 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
-import {Concept, LANGUAGE_MAP, TemplateService} from '../../../lib';
+import { Concept, LANGUAGE_MAP, TemplateService } from '../../../lib';
 
 
 @Component({
   selector: 'qddt-concept-edit',
-  providers: [{ provide: 'elementKind', useValue: 'CONCEPT' }, ],
+  providers: [{ provide: 'elementKind', useValue: 'CONCEPT' },],
   template: `
 <div *ngIf="(concept && isVisible)">
   <form class="row" id="{{formId}}" (ngSubmit)="save()" #hf="ngForm">
@@ -21,7 +21,7 @@ import {Concept, LANGUAGE_MAP, TemplateService} from '../../../lib';
         <qddt-select class="col s2"
           required
           name="xmlLang"
-          label="xmlLang"
+          label="Language"
           [(ngModel)]="concept.xmlLang"
           [lockups]="LANGUAGES" >
         </qddt-select>

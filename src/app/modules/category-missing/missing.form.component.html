@@ -3,35 +3,16 @@
   <form id="MISS{{formId}}" #hf="ngForm" (ngSubmit)="onSave()">
 
     <div class="row">
-      <qddt-input class="col s11"
-                  required
-                  name="name"
-                  label="Name"
-                  [(ngModel)]="missing.name"
-                  data-length="100">
+      <qddt-input class="col s11" required name="name" label="Name" [(ngModel)]="missing.name" data-length="100">
       </qddt-input>
-      <qddt-select class="col s1"
-                   required
-                   name="xmlLang"
-                   label="xmlLang"
-                   [(ngModel)]="missing.xmlLang"
-                   [lockups]="LANGUAGES" >
+      <qddt-select class="col s1" required name="xmlLang" label="Language" [(ngModel)]="missing.xmlLang"
+        [lockups]="LANGUAGES">
       </qddt-select>
     </div>
-    <qddt-input
-      required
-      name="label"
-      label="Label"
-      [(ngModel)]="missing.label"
-      data-length="255">
+    <qddt-input required name="label" label="Label" [(ngModel)]="missing.label" data-length="255">
     </qddt-input>
-    <qddt-textarea
-      required
-      name="description"
-      placeholder="add description"
-      label="Description"
-      [(ngModel)]="missing.description"
-      data-length="255">
+    <qddt-textarea required name="description" placeholder="add description" label="Description"
+      [(ngModel)]="missing.description" data-length="255">
     </qddt-textarea>
 
 
@@ -39,22 +20,21 @@
       <div class="col s4 m3 ">
         <div class="row input-field">
           <input id="COUNT-{{formId}}" class="validate" name="COUNT" type="number" min="1" max="25"
-                 [ngModel]="missing.children.length" (ngModelChange)="numbers($event)" >
-          <label for="COUNT-{{formId}}" class="active" ># Missing Codes</label>
+            [ngModel]="missing.children.length" (ngModelChange)="numbers($event)">
+          <label for="COUNT-{{formId}}" class="active"># Missing Codes</label>
         </div>
       </div>
       <div class="col offset-m1 s7 m7">
-        <div *ngFor="let cat of missing.children; let idx=index;"  class="row input-field">
-          <qddt-element-select  [source]="getSource(cat)" [autoCreate]="true" (elementSelectedEvent)="onSelectCategory($event,idx)">
+        <div *ngFor="let cat of missing.children; let idx=index;" class="row input-field">
+          <qddt-element-select [source]="getSource(cat)" [autoCreate]="true"
+            (elementSelectedEvent)="onSelectCategory($event,idx)">
           </qddt-element-select>
         </div>
       </div>
     </div>
 
 
-    <qddt-rational *ngIf="missing.modified && !readonly"
-       [formName]="'RationalComp'"
-       [element]="missing"
+    <qddt-rational *ngIf="missing.modified && !readonly" [formName]="'RationalComp'" [element]="missing"
       [config]="{hidden: [4]}">
     </qddt-rational>
 
@@ -65,5 +45,3 @@
     </div>
   </form>
 </div>
-
-
