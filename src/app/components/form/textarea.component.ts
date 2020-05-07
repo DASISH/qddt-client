@@ -3,7 +3,7 @@ import {
   Optional,
   Inject,
   Input,
-  ViewChild, AfterViewInit,
+  ViewChild, AfterViewInit, SimpleChanges,
 } from '@angular/core';
 
 import {
@@ -14,17 +14,18 @@ import {
 } from '@angular/forms';
 import { ElementBase } from './element-base.class';
 import { animations } from './animations';
+import { OnChanges } from '@angular/core';
+import { FormInputComponent } from './input.component';
 
 @Component({
   selector: 'qddt-textarea',
   template: `
     <div class="input-field" id="{{idOuter}}">
       <textarea
-        id="{{identifier}}"
+        [id]="identifier"
         class="materialize-textarea validate"
-        placeholder="{{placeholder}}"
         [readonly]="readonly"
-        [(ngModel)]="value">
+        [(ngModel)]="value" >
       </textarea>
       <label *ngIf="label" for="{{identifier}}">{{label}}</label>
     </div>
@@ -38,7 +39,7 @@ import { animations } from './animations';
 })
 export class FormTextAreaComponent extends ElementBase<string> implements AfterViewInit {
   @Input() public label: string;
-  @Input() public placeholder: string;
+  // @Input() public placeholder: string;
   @Input() public readonly = false;
 
   @ViewChild(NgModel, { static: true }) model: NgModel;
@@ -51,17 +52,19 @@ export class FormTextAreaComponent extends ElementBase<string> implements AfterV
     @Optional() @Inject(NG_ASYNC_VALIDATORS) asyncValidators: Array<any>,
   ) {
     super(validators, asyncValidators);
+
   }
 
   ngAfterViewInit(): void {
-    const element = document.getElementById(this.idOuter);
+    const element = document.getElementById(this.identifier);
     if ((element) && (element.parentElement.dataset.length)) {
       console.log('setting data length');
       element.firstElementChild.setAttribute('data-length', element.parentElement.dataset.length);
       M.CharacterCounter.init(element.children.item(0));
     }
-    M.updateTextFields();
+    M.textareaAutoResize(document.getElementById(this.identifier));
   }
+
 }
 
 let ident = 0;

@@ -29,6 +29,7 @@ export class QuestionFormComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+
     M.updateTextFields();
   }
 
