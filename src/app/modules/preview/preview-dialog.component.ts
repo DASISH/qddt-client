@@ -35,8 +35,7 @@ export class PreviewDialogComponent implements OnChanges, AfterViewInit {
 
   }
 
-  ngOnChanges(): void {
-    // console.log('preview');
+  public ngOnChanges(): void {
     if (!this.reference) { return; }
     if (this.isRevisionRef(this.reference)) {
       this.service.getRevisionByKind(this.reference.elementKind, this.reference.elementId, this.reference.elementRevision)
@@ -58,14 +57,13 @@ export class PreviewDialogComponent implements OnChanges, AfterViewInit {
     }
   }
 
-  onClose() {
-    console.log('closing');
+  public onClose() {
     this.reference = null;
     this.modelRef.close();
     this.doClose.next(true);
   }
 
-  getClassName(): string {
+  public getClassName(): string {
     if (this.reference) {
       return getQueryInfo(this.reference.elementKind).label;
     }

@@ -1,6 +1,6 @@
-import {Component, ViewEncapsulation, OnDestroy, AfterViewInit} from '@angular/core';
+import { Component, ViewEncapsulation, OnDestroy, AfterViewInit } from '@angular/core';
 import { IElement, IElementRef, IRevisionRef } from './lib';
-import { MessageService, PropertyStoreService, UserService} from './lib/services';
+import { MessageService, PropertyStoreService, UserService } from './lib/services';
 
 // declare var $: any;
 
@@ -13,29 +13,29 @@ import { MessageService, PropertyStoreService, UserService} from './lib/services
   encapsulation: ViewEncapsulation.None,
 })
 
-export class AppComponent  implements OnDestroy, AfterViewInit {
-  ref: IElementRef|IRevisionRef|IElement;
+export class AppComponent implements OnDestroy, AfterViewInit {
+  ref: IElementRef | IRevisionRef | IElement;
 
-  constructor(private users: UserService, private  properties: PropertyStoreService,
-              private messages: MessageService ) {
+  constructor(private users: UserService, private properties: PropertyStoreService,
+    private messages: MessageService) {
 
-    messages.getMessage().subscribe(
-      (message) => this.showMessage(message),
-      () => this.ref = null);
+    messages.getMessage().subscribe({
+      next: (aMessage) => this.onPreivewShow(aMessage)
+    });
 
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     M.AutoInit();
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     // unsubscribe to ensure no memory leaks
     this.messages.getMessage().unsubscribe();
     // this.subscription.unsubscribe();
   }
 
-  isLoggedIn(): boolean {
+  public isLoggedIn(): boolean {
     const isExpired = this.users.isTokenExpired();
     if (isExpired && this.users.loggedIn.getValue()) {
       this.users.loggedIn.next(false);
@@ -43,13 +43,11 @@ export class AppComponent  implements OnDestroy, AfterViewInit {
     return !isExpired;
   }
 
-  onClose() {
-    // this.messages.getMessage().
+  public onPreviewClose() {
+    this.ref = null;
   }
 
-  private showMessage<T extends IElementRef|IRevisionRef|IElement>(element: T) {
-    // this.subscription
-    console.log('show preview');
+  private onPreivewShow<T extends IElementRef | IRevisionRef | IElement>(element: T) {
     this.ref = element;
   }
 

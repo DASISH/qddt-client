@@ -1,3 +1,5 @@
+import { MessageService } from './../../lib/services/message.service';
+import { BrowserModule } from '@angular/platform-browser';
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
@@ -11,6 +13,7 @@ import {
   StringIsNumber, TemplateService,
   UserService
 } from '../../lib';
+import { isNumber } from 'util';
 
 
 
@@ -29,7 +32,7 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   public isActive: number;
 
   constructor(private userService: UserService, public property: PropertyStoreService,
-    private router: Router, private service: TemplateService) {
+    private msgService: MessageService, private router: Router, private service: TemplateService) {
 
     this.username = this.getUserName();
     this.isLoggedIn$ = userService.loggedIn;
@@ -57,8 +60,6 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit() {
     document.querySelectorAll('.dropdown-trigger')
       .forEach(menu => M.Dropdown.init(menu, { hover: true, coverTrigger: true }));
-    // M.Sidenav.init(document.getElementById('nav-bar1'), { edge: 'left', draggable: true});
-    // M.Dropdown.arguments = {constrainWidth: false };
   }
 
   getEmail(): string {
@@ -81,21 +82,17 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onCheckUrl(event) {
     const parts = event.srcElement.value.toString().split('/');
-    if (parts[parts.length - 1].length !== 36) { return; } // must be a valid UUID....
-    let url;
-    if (parts.length === 1) {
-      url = parts[0];
-    } else if (parts.length >= 2) {
-      url = parts[parts.length - 2] + '/' + parts[parts.length - 1];
-    }
+    if (!this.hasUUID(parts)) { return; } // must be a valid UUID....
 
-    if (event.inputType === 'insertFromPaste' && (parts.length >= 2)) {
-      this.router.navigate([url]);
-      event.srcElement.value = '';
-    } else {
-      event.srcElement.value = '';
-      this.gotoUUID(url);
+    const uuidIdx = this.getUUIDIdx(parts);
+    let url;
+    if (parts.length - 1 === uuidIdx) {
+      url = parts[uuidIdx];
+    } else if (parts.length - 2 === uuidIdx) {
+      url = parts[uuidIdx] + '/' + parts[uuidIdx + 1];
     }
+    event.srcElement.value = '';
+    this.gotoUUID(url);
   }
 
   onSurvey() {
@@ -149,9 +146,28 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
     return this.userService.canDo(ActionKind.Read, getElementKind(kind));
   }
 
+  private hasUUID(parts): boolean {
+    const idx = this.getUUIDIdx(parts);
+    return parts.length - 1 === idx ||
+      (parts.length - 2 === idx && typeof +parts[parts.length - 1] === 'number');
+  }
+
+  private getUUIDIdx(parts: any[]): number {
+    return parts.findIndex(pre => pre.length === 36);
+  }
+
   private gotoUUID(uuid: string) {
     this.service.searchByUuid(uuid).then((result) => {
-      this.router.navigate([result.url]);
+      if (result.revision) {
+
+        this.msgService.sendMessage({
+          elementId: result.id,
+          elementRevision: result.revision,
+          elementKind: result.elementKind
+        });
+      } else {
+        this.router.navigate([result.url]);
+      }
     },
       (error) => { throw error; });
   }
@@ -160,7 +176,6 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
     this.canSee = Object.keys(ElementKind)
       .filter(StringIsNumber)
       .map(key => this.hasAccess(key));
-    // console.log(this.canSee);
   }
 }
 

@@ -4,7 +4,6 @@ import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'qddt-preview-element',
-
   styles: [
     'table { table-layout: fixed;}',
     ':host ::ng-deep .row { min-height: 1rem; margin-left: auto; margin-right: auto; margin-bottom: 2px; }',
@@ -16,6 +15,7 @@ import * as FileSaver from 'file-saver';
   ],
   templateUrl: './preview.component.html',
 })
+
 @ElementEnumAware
 export class PreviewComponent implements AfterViewInit {
   @Input() element: IEntityAudit;
@@ -27,6 +27,10 @@ export class PreviewComponent implements AfterViewInit {
   ElementKind.INSTRUCTION, ElementKind.STATEMENT_CONSTRUCT, ElementKind.INSTRUCTION];
 
   constructor(private service: PreviewService) { }
+
+  public ngAfterViewInit(): void {
+    M.updateTextFields();
+  }
 
   public getElementKind(element: IEntityAudit): ElementKind {
     return ElementKind[element.classKind];
@@ -42,12 +46,6 @@ export class PreviewComponent implements AfterViewInit {
     const result = this.hide.findIndex(p => p.valueOf() === idx);
     return (result < 0);
   }
-
-  public ngAfterViewInit(): void {
-    // M.AutoInit(document.getElementById('preview'));
-    M.updateTextFields();
-  }
-
 
 
 }
