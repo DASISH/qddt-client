@@ -9,7 +9,7 @@
         </th>
       </tr>
     </thead>
-    <tbody *ngIf="max - min <= 15">
+    <tbody *ngIf="((max - min)/stepUnit) <= 15">
       <tr *ngFor="let row of rows; let idx=index;">
         <td *ngFor="let option of columns" style="text-align: center">
           <label>
@@ -21,7 +21,7 @@
     </tbody>
   </table>
 
-  <div *ngIf="displayLayout === 0 && (max - min)>15" class="range-field">
+  <div *ngIf="displayLayout === 0 && ((max - min)/stepUnit)>15" class="range-field">
     <input type="range" id="test5" min={{min}} max={{max}} />
   </div>
 

@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { Category, Code } from '../../../lib/classes';
+import { timingSafeEqual } from 'crypto';
 
 class ScaleHead {
   colspan: number;
@@ -36,6 +37,7 @@ export class ResponsedomainScaleComponent implements OnChanges {
   public rows: any;
   public max = 5;
   public min = 1;
+  public stepUnit = 1;
 
   ngOnChanges() {
     if (this.managedRepresentation) {
@@ -45,8 +47,9 @@ export class ResponsedomainScaleComponent implements OnChanges {
       this.rows = new Array(this.numOfRows).fill(1);
 
       if (rep.inputLimit) {
-        this.max = +rep.inputLimit.maximum;
-        this.min = +rep.inputLimit.minimum;
+        this.max = rep.inputLimit.maximum;
+        this.min = rep.inputLimit.minimum;
+        this.stepUnit = rep.inputLimit.stepUnit;
       }
 
       if (this.displayLayout > 0) {
@@ -74,32 +77,33 @@ export class ResponsedomainScaleComponent implements OnChanges {
       return category.code.alignment;
     }
 
-    function minDistance(c: Category[]): number {
+    function minDistance(c: Category[], stepUnit: number): number {
       if (!c || c.length < 2) { return 0; }
-      let minDiff = parseInt(c[1].code.codeValue) - parseInt(c[0].code.codeValue);
-      for (let i = 2; i !== c.length; i++) {
-        minDiff = Math.min(minDiff, parseInt(c[i].code.codeValue) - parseInt(c[i - 1].code.codeValue));
+      let minDiff = c[1].code.value() - c[0].code.value();
+      for (let i = 2; i < c.length; i++) {
+        minDiff = Math.min(minDiff, c[i].code.value() - c[i - 1].code.value());
       }
       if (rep.inputLimit.maximum < 4) {
         minDiff = 1;
       }
-      return (minDiff > 3) ? 3 : minDiff;
+      return Math.floor((stepUnit > minDiff) ? stepUnit : minDiff);
     }
 
-    const numberOfcols = this.max - this.min + 1;
+    const numberOfcols = Math.floor(((this.max - this.min) / this.stepUnit) + 1);
     const categories = rep.children
       .map(x => Object.assign({}, x))
-      .sort((a, b) => parseInt(a.code.codeValue) - parseInt(b.code.codeValue));
+      .sort((a, b) => a.code.value() - b.code.value());
 
-    const colspan = minDistance(categories);
+    const colspan = minDistance(categories, this.stepUnit);
 
+    console.log('colspan: ' + colspan + ' numberOfcols: ' + numberOfcols);
 
     for (let i = 0; i < categories.length; i++) {
       if (categories[i].code === undefined) {
         categories[i].code = new Code();
         categories[i].code.codeValue = (this.min + (i * colspan)).toString();
       }
-      let nextcol = parseInt(categories[i].code.codeValue) - this.min;
+      let nextcol = categories[i].code.value() - this.min;
 
       if (usedCols + 1 <= nextcol) {
         if (nextcol + usedCols + colspan > numberOfcols) {
@@ -125,9 +129,9 @@ export class ResponsedomainScaleComponent implements OnChanges {
       });
       usedCols += colspan;
     }
-    for (let i = this.min; i <= this.max; i++) {
+    for (let i = this.min; i <= this.max; i += this.stepUnit) {
       const c = categories
-        .find(category => category.code && category.code.codeValue === i.toString());
+        .find(category => category.code && category.code.value() === i);
       this.columns.push({ label: c !== undefined ? c.label : '', value: i });
     }
   }
@@ -142,7 +146,7 @@ export class ResponsedomainScaleComponent implements OnChanges {
     }
     for (let i = this.min; i <= this.max; i++) {
       const c = categories
-        .find(category => category.code && category.code.codeValue === i.toString());
+        .find(category => category.code && category.code.value() === i);
       this.rows.push({ label: c !== undefined ? c.label : '', value: i });
     }
   }

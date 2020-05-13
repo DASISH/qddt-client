@@ -14,19 +14,28 @@
       <div *ngSwitchCase="domainTypeDef.SCALE">
 
         <div class="row hoverable">
-          <div class="col s3 input-field">
+          <div class="col s2 input-field">
             <input class="validate" id="SCALE_START-{{formId}}" name="scale_start" placeholder="starting point"
               type="number" [max]="responseDomain.managedRepresentation.inputLimit.maximum"
               (ngModelChange)="buildPreviewResponseDomain()"
               [(ngModel)]="responseDomain.managedRepresentation.inputLimit.minimum" required>
             <label for="SCALE_START-{{formId}}">Start</label>
           </div>
-          <div class="col s3 input-field">
+          <div class="col s2 input-field">
             <input class="validate" id="SCALE_END-{{formId}}" name="scale_end" placeholder="ending point" type="number"
               [min]="responseDomain.managedRepresentation.inputLimit.minimum"
+              [step]="responseDomain.managedRepresentation.inputLimit.stepUnit"
               (ngModelChange)="buildPreviewResponseDomain()"
               [(ngModel)]="responseDomain.managedRepresentation.inputLimit.maximum" required>
             <label for="SCALE_END-{{formId}}">End</label>
+          </div>
+          <div class="col s2 input-field">
+            <input class="validate" id="SCALE_STEP-{{formId}}" name="scale_step" placeholder="RangeUnit" type="number"
+              [min]="1" [max]="responseDomain.managedRepresentation.inputLimit.maximum/2"
+              [step]="responseDomain.managedRepresentation.inputLimit.stepUnit"
+              (ngModelChange)="buildPreviewResponseDomain()"
+              [(ngModel)]="responseDomain.managedRepresentation.inputLimit.stepUnit" required>
+            <label for="SCALE_STEP-{{formId}}">Range</label>
           </div>
           <div class="col s3 input-field">
             <input id="SCALE_ANCHOR-{{formId}}" name="scale_anchor" placeholder="number of anchors" type="number"
@@ -46,6 +55,7 @@
         <ul [hidden]="numberOfAnchors === 0">
           <li class="hoverable row"
             *ngFor="let category of responseDomain.managedRepresentation.children; let idx=index;">
+            <label>Anchor</label>
             <qddt-anchor-point [category]="category" [inputLimit]="responseDomain.managedRepresentation.inputLimit"
               [formName]="'AP'+idx" (changeEvent)="onAnchorChanged($event,idx)"
               (createEvent)="onCreateCategory($event,idx)">

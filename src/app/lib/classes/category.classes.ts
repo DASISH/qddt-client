@@ -39,8 +39,9 @@ export const CATEGORY_INFO: ICategoryInfo[] = [
 export class ResponseCardinality {
   minimum: number;
   maximum: number;
+  stepUnit: number;
   public constructor(init?: Partial<ResponseCardinality>) {
-    this.minimum = this.maximum = 1;
+    this.minimum = this.maximum = this.stepUnit = 1;
     Object.assign(this, init);
   }
 }
@@ -48,6 +49,8 @@ export class ResponseCardinality {
 export class Code {
   codeValue = '0';
   alignment = 'text-left';
+  value(): number { return parseInt(this.codeValue) || 0; }
+
   public constructor(init?: Partial<Code>) {
     Object.assign(this, init);
   }
@@ -85,6 +88,8 @@ export class Category implements IEntityEditAudit {
     } else if (this.label && !this.name) {
       this.name = this.label;
     }
+    this.code = (init) ? new Code(init.code) : new Code();
+    this.children = (init) ? init.children.map(value => new Category(value)) : [];
   }
 
   public setKind(kind: CategoryKind): Category {

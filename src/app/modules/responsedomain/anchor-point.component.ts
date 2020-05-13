@@ -1,5 +1,5 @@
-import {AfterViewInit, Component, EventEmitter, Input, Output} from '@angular/core';
-import {AlignmentKind, Category, ElementKind, enumKeys, IElement, ResponseCardinality} from 'src/app/lib';
+import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/core';
+import { AlignmentKind, Category, ElementKind, enumKeys, IElement, ResponseCardinality } from 'src/app/lib';
 
 
 @Component({
@@ -7,7 +7,7 @@ import {AlignmentKind, Category, ElementKind, enumKeys, IElement, ResponseCardin
   template: `
 <form  id="AP-{{formId}}"  [parentFormConnect]="formName" (change)="onChange()">
   <div class="col s2 input-field" tabindex="0">
-    <input id="CV-{{formId}}" name="value" type="number" min="{{inputLimit.minimum}}" max="{{inputLimit.maximum}}"
+    <input id="CV-{{formId}}" name="value" type="number" min="{{inputLimit.minimum}}" max="{{inputLimit.maximum}}" step="{{inputLimit.stepUnit}}"
      [(ngModel)]="category.code.codeValue" required class="validate">
   </div>
   <div class="col s2 input-field" tabindex="1">
@@ -33,7 +33,7 @@ export class AnchorPointComponent implements AfterViewInit {
   public alignments2 = enumKeys(AlignmentKind);
 
   public getSource(category: Category): IElement {
-    return {element: category, elementKind: ElementKind.CATEGORY};
+    return { element: category, elementKind: ElementKind.CATEGORY };
   }
 
   ngAfterViewInit(): void {
