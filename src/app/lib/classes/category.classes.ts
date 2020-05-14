@@ -49,7 +49,7 @@ export class ResponseCardinality {
 export class Code {
   codeValue = '0';
   alignment = 'text-left';
-  value(): number { return parseInt(this.codeValue) || 0; }
+  public getValue(): number { return parseInt(this.codeValue) || 0; }
 
   public constructor(init?: Partial<Code>) {
     Object.assign(this, init);

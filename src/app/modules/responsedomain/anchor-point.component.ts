@@ -38,7 +38,6 @@ export class AnchorPointComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     const instanse = document.getElementById('PA-' + this.formId);
-    console.log(this.alignments2 || JSON);
     M.FormSelect.init(instanse);
   }
 

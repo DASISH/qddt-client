@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, AfterViewInit } from '@angular/core';
 import { Category, Code } from '../../../lib/classes';
 import { timingSafeEqual } from 'crypto';
 
@@ -28,7 +28,7 @@ class Column {
 })
 
 
-export class ResponsedomainScaleComponent implements OnChanges {
+export class ResponsedomainScaleComponent implements OnChanges, AfterViewInit {
   @Input() managedRepresentation: Category;
   @Input() displayLayout = 0;
   @Input() numOfRows = 1;
@@ -39,7 +39,9 @@ export class ResponsedomainScaleComponent implements OnChanges {
   public min = 1;
   public stepUnit = 1;
 
-  ngOnChanges() {
+  private byStep = (max, min, step) => Math.floor(((max - min) / step));
+
+  public ngOnChanges() {
     if (this.managedRepresentation) {
       const rep = this.managedRepresentation;
       this.columns = [];
@@ -52,6 +54,11 @@ export class ResponsedomainScaleComponent implements OnChanges {
         this.stepUnit = rep.inputLimit.stepUnit;
       }
 
+      if (this.byStep(this.max, this.min, this.stepUnit) > 15) {
+        let elems = document.querySelectorAll('input[type=range]');
+        M.Range.init(elems);
+      }
+
       if (this.displayLayout > 0) {
         this.buildVerticalColumns();
       } else {
@@ -60,6 +67,10 @@ export class ResponsedomainScaleComponent implements OnChanges {
     }
   }
 
+  public ngAfterViewInit(): void {
+    let elems = document.querySelectorAll('input[type=range]');
+    M.Range.init(elems);
+  }
 
   private buildHorizontalColumns() {
     this.columns = [];
@@ -70,40 +81,32 @@ export class ResponsedomainScaleComponent implements OnChanges {
 
     if (!rep) { return; }
 
-    function getAlignment(category: Category, islast: boolean) {
-      if (!category.code.alignment) {
-        return (islast) ? 'text-right' : 'text-left';
-      }
-      return category.code.alignment;
-    }
 
-    function minDistance(c: Category[], stepUnit: number): number {
+    let getAlignment = (category: Category, islast: boolean) => (!category.code.alignment) ?
+      (islast) ? 'text-right' : 'text-left' :
+      category.code.alignment;
+
+
+    let minDistance = (c: Category[], stepUnit: number): number => {
       if (!c || c.length < 2) { return 0; }
-      let minDiff = c[1].code.value() - c[0].code.value();
+      let minDiff = this.byStep(c[1].code.getValue(), c[0].code.getValue(), stepUnit);
       for (let i = 2; i < c.length; i++) {
-        minDiff = Math.min(minDiff, c[i].code.value() - c[i - 1].code.value());
+        minDiff = Math.min(minDiff, this.byStep(c[i].code.getValue(), c[i - 1].code.getValue(), stepUnit));
       }
-      if (rep.inputLimit.maximum < 4) {
-        minDiff = 1;
-      }
-      return Math.floor((stepUnit > minDiff) ? stepUnit : minDiff);
+      return (rep.inputLimit.maximum < 4) ? 1 : minDiff;
     }
 
-    const numberOfcols = Math.floor(((this.max - this.min) / this.stepUnit) + 1);
-    const categories = rep.children
-      .map(x => Object.assign({}, x))
-      .sort((a, b) => a.code.value() - b.code.value());
+    const numberOfcols = this.byStep(this.max, this.min, this.stepUnit);
+
+    const categories = rep.children.map(x => Object.assign({}, x))
+      .sort((a, b) => a.code.getValue() - b.code.getValue());
 
     const colspan = minDistance(categories, this.stepUnit);
 
     console.log('colspan: ' + colspan + ' numberOfcols: ' + numberOfcols);
 
     for (let i = 0; i < categories.length; i++) {
-      if (categories[i].code === undefined) {
-        categories[i].code = new Code();
-        categories[i].code.codeValue = (this.min + (i * colspan)).toString();
-      }
-      let nextcol = categories[i].code.value() - this.min;
+      let nextcol = this.byStep(categories[i].code.getValue(), this.min, this.stepUnit);
 
       if (usedCols + 1 <= nextcol) {
         if (nextcol + usedCols + colspan > numberOfcols) {
@@ -131,7 +134,7 @@ export class ResponsedomainScaleComponent implements OnChanges {
     }
     for (let i = this.min; i <= this.max; i += this.stepUnit) {
       const c = categories
-        .find(category => category.code && category.code.value() === i);
+        .find(category => category.code && category.code.getValue() === i);
       this.columns.push({ label: c !== undefined ? c.label : '', value: i });
     }
   }
@@ -146,7 +149,7 @@ export class ResponsedomainScaleComponent implements OnChanges {
     }
     for (let i = this.min; i <= this.max; i++) {
       const c = categories
-        .find(category => category.code && category.code.value() === i);
+        .find(category => category.code && category.code.getValue() === i);
       this.rows.push({ label: c !== undefined ? c.label : '', value: i });
     }
   }

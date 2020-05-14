@@ -22,7 +22,9 @@
   </table>
 
   <div *ngIf="displayLayout === 0 && ((max - min)/stepUnit)>15" class="range-field">
-    <input type="range" id="test5" min={{min}} max={{max}} />
+    <p class="range-field">
+      <input type="range" name="points" id="test5" min={{min}} max={{max}} step={{stepUnit}} />
+    </p>
   </div>
 
   <div *ngIf="displayLayout !== 0">
