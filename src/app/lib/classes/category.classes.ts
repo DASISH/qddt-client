@@ -49,11 +49,11 @@ export class ResponseCardinality {
 export class Code {
   codeValue = '0';
   alignment = 'text-left';
-  public getValue(): number { return parseInt(this.codeValue) || 0; }
 
   public constructor(init?: Partial<Code>) {
     Object.assign(this, init);
   }
+  public getValue(): number { return parseInt(this.codeValue) || 0; }
 }
 
 export class Category implements IEntityEditAudit {
@@ -89,7 +89,7 @@ export class Category implements IEntityEditAudit {
       this.name = this.label;
     }
     this.code = (init) ? new Code(init.code) : new Code();
-    this.children = (init) ? init.children.map(value => new Category(value)) : [];
+    this.children = ((init) && (init.children)) ? init.children.map(value => new Category(value)) : [];
   }
 
   public setKind(kind: CategoryKind): Category {
