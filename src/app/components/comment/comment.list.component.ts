@@ -1,4 +1,4 @@
-import {AfterContentChecked, AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import { AfterContentChecked, AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { CommentService } from './comment.service';
 import { IComment } from '../../lib';
 
@@ -25,7 +25,7 @@ export class CommentListComponent implements AfterViewInit, AfterContentChecked 
     this.selectedCommentId = 0;
   }
 
-  private isRetrieved() { return (this._hasShown || (this.comments && this.comments.length > 0) ); }
+  private isRetrieved() { return (this._hasShown || (this.comments && this.comments.length > 0)); }
 
   get showComments(): boolean {
     return this._showComments;
@@ -35,7 +35,7 @@ export class CommentListComponent implements AfterViewInit, AfterContentChecked 
     this._showComments = value;
     if (!this.isRetrieved()) {
       this.commentService.getAll(this.ownerId).then(
-        (result) =>  {
+        (result) => {
           this._hasShown = true;
           this.comments = result.content;
         });
@@ -44,9 +44,9 @@ export class CommentListComponent implements AfterViewInit, AfterContentChecked 
 
   get size(): string {
     return (!this.isRetrieved()) ? '?' :
-      this.comments.map( c => c.size + 1).reduce((previousValue, currentValue) => {
-      return (previousValue + (isNaN(currentValue) ? 1 : currentValue));
-        }, 0).toString();
+      this.comments.map(c => c.size + 1).reduce((previousValue, currentValue) => {
+        return (previousValue + (isNaN(currentValue) ? 1 : currentValue));
+      }, 0).toString();
   }
 
   ngAfterContentChecked(): void {
@@ -60,17 +60,18 @@ export class CommentListComponent implements AfterViewInit, AfterContentChecked 
 
   }
 
-  addComment(comment: IComment ) {
+  addComment(comment: IComment) {
     comment.ownerIdx = this.comments.length;
     this.commentService.update(comment).subscribe(
-      result => this.comments.push(result) );
+      result => this.comments.push(result));
   }
 
-  onDeleteComment(idx) {
-    if(idx !== '') {
-      const comment = this.comments[idx];
+  onDeleteComment(element: { id: any, name: string }) {
+    if (element.id !== '') {
+      // console.log('delete...');
+      const comment = this.comments[element.id];
       this.commentService.delete(comment.id).subscribe(
-        () => this.comments.splice(idx, 1));
+        () => this.comments.splice(element.id, 1));
     }
   }
 
@@ -92,7 +93,7 @@ export class CommentListComponent implements AfterViewInit, AfterContentChecked 
     }
   }
 
-  commentAsElement(comment: IComment, idx: number) {
+  commentAsElement(comment: IComment, idx: number): { id: any, name: string } {
     return { id: idx, name: comment.comment.slice(1, 20) };
   }
 

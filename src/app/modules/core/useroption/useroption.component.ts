@@ -15,6 +15,8 @@ export class UserOptionComponent implements AfterViewInit {
     { label: 'email', name: 'email', type: 'email', class: 'validate' },
     { label: 'ISO 639-1 Language Code', name: 'xmlLang', type: 'text', class: 'autocomplete' }];
 
+  private instance: M.Modal;
+
   constructor(private router: Router, public qddtProperty: PropertyStoreService) {
 
   }
@@ -22,20 +24,25 @@ export class UserOptionComponent implements AfterViewInit {
   onClose() {
     // $('#userOption').modal('close');
   }
-
   ngAfterViewInit(): void {
-    // const id = 'language' + this.formId;
-    // const auto = <HTMLInputElement>document.getElementById(id);
-    // auto.list = 'languages';
-    // $('.modal').modal({
-    //   ready: () => {
-    //     M.updateTextFields();
-    //   },
-    //   complete: () => {
-    //     this.router.navigate([{ outlets: { popup: null } }]);
-    //   }
-    // });
-    // $('#userOption').modal('open');
+    this.instance = M.Modal.init(document.getElementById('userOption-00'),
+      { inDuration: 400, outDuration: 300, startingTop: '4%', endingTop: '25%', preventScrolling: true });
+    this.instance.open();
   }
+
+  // ngAfterViewInit(): void {
+  // const id = 'language' + this.formId;
+  // const auto = <HTMLInputElement>document.getElementById(id);
+  // auto.list = 'languages';
+  // $('.modal').modal({
+  //   ready: () => {
+  //     M.updateTextFields();
+  //   },
+  //   complete: () => {
+  //     this.router.navigate([{ outlets: { popup: null } }]);
+  //   }
+  // });
+  // $('#userOption').modal('open');
+  // }
 
 }

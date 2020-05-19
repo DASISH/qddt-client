@@ -6,7 +6,7 @@ import {
   OnInit,
   SimpleChanges
 } from '@angular/core';
-import { RATIONAL_DESCRIPTIONS , RationalDescription} from './rationaldescription';
+import { RATIONAL_DESCRIPTIONS, RationalDescription } from './rationaldescription';
 
 @Component({
   selector: 'qddt-rational',
@@ -19,7 +19,7 @@ export class RationalComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() formName: string;
   @Input() config: any;
 
-  public readonly formId = Math.round( Math.random() * 10000);
+  public readonly formId = Math.round(Math.random() * 10000);
 
   public saveOptionIndex: number;
   public rationalDescriptionsFiltered: RationalDescription[];
@@ -49,7 +49,7 @@ export class RationalComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-     document.querySelectorAll('SELECT').forEach( comp => M.FormSelect.init(comp));
+    document.querySelectorAll('SELECT').forEach(comp => M.FormSelect.init(comp));
     // M.FormSelect.init(document.getElementById('SELECT-' + this.formId));
     // console.log('init select');
   }
@@ -65,7 +65,7 @@ export class RationalComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   onClickRational1(id: number) {
-    console.log('onClickRational1 ' + id );
+    console.log('onClickRational1 ' + id);
     this._RationalIndex = id;
     this._Rational2Index = 0;
     const rational = this.rationalDescriptions[this.saveOptionIndex].children[id];
@@ -78,7 +78,7 @@ export class RationalComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   onClickRational2(rational: any) {
-    console.log('onClickRational2 ' + rational );
+    console.log('onClickRational2 ' + rational);
     this._Rational2Index = rational.id;
     if (rational.change) {
       this.element.changeKind = rational.change;
@@ -95,7 +95,7 @@ export class RationalComponent implements OnInit, OnChanges, AfterViewInit {
     if (id === 2) {
       this.savedbasedOnObject = this.element.basedOnObject;
       this.element.basedOnObject = null;
-      this.element.modifiedBy = null;
+      // this.element.modifiedBy = null;
       if (this.element.id === null) {
         this.element.id = this.originalId;
       }

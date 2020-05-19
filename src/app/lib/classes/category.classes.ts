@@ -53,7 +53,9 @@ export class Code {
   public constructor(init?: Partial<Code>) {
     Object.assign(this, init);
   }
-  public getValue(): number { return parseInt(this.codeValue) || 0; }
+
+  public getValue?(): number { return parseInt(this.codeValue) || 0; }
+
 }
 
 export class Category implements IEntityEditAudit {

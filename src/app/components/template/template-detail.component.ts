@@ -37,7 +37,6 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterViewInit
         const path = event[0].path;
         this.kind = HEADER_DETAILS.get(path).kind;
         this.canDelete = service.can(ActionKind.Delete, this.kind);
-        // console.log('can delete ' + this.canDelete);
         this.item = Factory.createInstance(this.kind);
       });
   }
@@ -57,15 +56,29 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterViewInit
     }
   }
 
+  ngOnDestroy(): void {
+    this.alive = false;
+  }
+
+  ngAfterViewInit(): void {
+
+    document.querySelectorAll('.fixed-action-btn').forEach(
+      input => M.FloatingActionButton.init(input));
+
+    document.querySelectorAll('input[data-length], textarea[data-length]').forEach(
+      input => {
+        M.CharacterCounter.init(input);
+        M.AutoInit(input);
+      });
+  }
+
   onHideDetail() {
     this.router.navigate(['../'], { relativeTo: this.route });
     this.closeState.emit(this.action);
   }
 
-
   goBack() {
     this.location.back();
-    // this.closeState.emit(this.action);
   }
 
   onDeleteConfirmModal(item: IEntityAudit) {
@@ -78,9 +91,6 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterViewInit
         });
     }
   }
-
-  // onConfirmDeleting() {
-  // }
 
   onItemSaved(item: IEntityEditAudit) {
     this.action.action = ActionKind.Update;
@@ -98,22 +108,6 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterViewInit
     this.service.getXML(item).then(
       (data) => { FileSaver.saveAs(data, item.name + '.xml'); },
       (error) => { throw error; });
-  }
-
-  ngOnDestroy(): void {
-    this.alive = false;
-  }
-
-  ngAfterViewInit(): void {
-
-    document.querySelectorAll('.fixed-action-btn').forEach(
-      input => M.FloatingActionButton.init(input));
-
-    document.querySelectorAll('input[data-length], textarea[data-length]').forEach(
-      input => {
-        M.CharacterCounter.init(input);
-        M.AutoInit(input);
-      });
   }
 
 }

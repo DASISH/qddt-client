@@ -1,8 +1,6 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   ElementKind,
-  IEntityEditAudit,
-  IMoveTo,
   Topic,
   ActionKind,
   PropertyStoreService,
@@ -29,6 +27,7 @@ export class ConceptComponent implements OnInit, AfterViewInit {
   public toDeletedConcept: any;
   public topic: Topic;
   public canCreate: boolean;
+
 
   @ViewChild('modalconceptdelete', { static: false }) modalconceptdelete: ElementRef;
 
@@ -88,7 +87,7 @@ export class ConceptComponent implements OnInit, AfterViewInit {
   }
 
 
-  onHierarchyChanged(event) {
+  onHierarchyChanged() {
     console.log('moving event?');
     this.topic.changeKind = 'UPDATED_HIERARCHY_RELATION';
     this.topic.changeComment = 'Topic order changed';
@@ -149,7 +148,7 @@ export class ConceptComponent implements OnInit, AfterViewInit {
 
   onConfirmDeleteConcept() {
     this.templateService.delete(this.toDeletedConcept).subscribe(
-      (val) => {
+      () => {
         this.instance.close();
         this.removeConcept(this.topic.concepts, this.toDeletedConcept.id);
         this.property.set('concepts', this.topic.concepts);
@@ -190,22 +189,6 @@ export class ConceptComponent implements OnInit, AfterViewInit {
     return null;
   }
 
-  private findConcept(concepts: Concept[], conceptId): Concept {
-    let i = -1;
-    while (++i < concepts.length) {
-      if (concepts[i].id === conceptId) {
-        return concepts[i];
-      }
-      const found = this.findConcept(concepts[i].children, conceptId);
-      if (found) {
-        return found;
-      }
-    }
-    return null;
-  }
 
-  private setUHR(entity: IEntityEditAudit) {
-    if (entity.changeKind !== 'IN_DEVELOPMENT') { entity.changeKind = 'UPDATED_HIERARCHY_RELATION'; }
-  }
 
 }

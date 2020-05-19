@@ -9,7 +9,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { NgModel, NG_VALUE_ACCESSOR, NG_VALIDATORS, NG_ASYNC_VALIDATORS } from '@angular/forms';
-import { ElementBase} from './element-base.class';
+import { ElementBase } from './element-base.class';
 import { animations } from './animations';
 import { ISelectOption } from 'src/app/lib';
 
@@ -41,7 +41,7 @@ import { ISelectOption } from 'src/app/lib';
   providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: FormSelectComponent, multi: true }],
 })
 
-export class FormSelectComponent extends ElementBase<any>  implements  AfterViewInit,  OnChanges {
+export class FormSelectComponent extends ElementBase<any> implements AfterViewInit, OnChanges {
   @Input() public lockups: ISelectOption[];
   @Input() public label: string;
   @Input() public placeholder: string;
@@ -52,17 +52,17 @@ export class FormSelectComponent extends ElementBase<any>  implements  AfterView
   public identifier = `qddt-select-` + ident++;
 
   constructor(@Optional() @Inject(NG_VALIDATORS) validators: Array<any>,
-              @Optional() @Inject(NG_ASYNC_VALIDATORS) asyncValidators: Array<any>,
+    @Optional() @Inject(NG_ASYNC_VALIDATORS) asyncValidators: Array<any>,
   ) {
     super(validators, asyncValidators);
-    this.registerOnWritten( () => {
+    this.registerOnWritten(() => {
       const element = document.getElementById(this.identifier) as HTMLSelectElement;
       if (element) {
         this.setindex(element);
         M.FormSelect.init(element);
       }
     });
-    this.registerOnChange( (value) => console.log(value || JSON));
+    this.registerOnChange((value) => console.log(value || JSON));
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -77,12 +77,12 @@ export class FormSelectComponent extends ElementBase<any>  implements  AfterView
   }
 
   public hasChildren(): boolean {
-    return (this.lockups) && this.lockups.findIndex( item => ((item.children) && (item.children.length > 0)) ) >= 0 ;
+    return (this.lockups) && this.lockups.findIndex(item => ((item.children) && (item.children.length > 0))) >= 0;
   }
 
   private buildOptions() {
     const element = document.getElementById(this.identifier) as HTMLSelectElement;
-    while ( element.options.length > 0) {
+    while (element.options.length > 0) {
       element.options.remove(0);
     }
     if (this.placeholder) {
@@ -100,21 +100,21 @@ export class FormSelectComponent extends ElementBase<any>  implements  AfterView
 
   }
 
-  private populateOptGroup(item: ISelectOption ): HTMLOptGroupElement {
+  private populateOptGroup(item: ISelectOption): HTMLOptGroupElement {
     const optGrp = new HTMLOptGroupElement();
     optGrp.label = item.label;
-    item.children.forEach( child => {
+    item.children.forEach(child => {
       optGrp.append(new Option(child.label, child.value, false));
     });
     return optGrp;
   }
 
   private setindex(element: HTMLSelectElement) {
-    if ((element)  && (element.options) && (this.value)) {
+    if ((element) && (element.options) && (this.value)) {
       let i = -1;
       for (let key in element.options) {
         i++;
-        if(element.options[key].value == this.value) {
+        if (element.options[key].value == this.value) {
           console.log('hitted...' + this.value)
           element.options.selectedIndex = i;
           break;

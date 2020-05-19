@@ -36,13 +36,14 @@ import { ConditionModule } from './modules/construct-condition/condition.module'
 import { AuthorModule } from './modules/author/author.module';
 import { ReferencedModule } from './modules/referenced/referenced.module';
 import { AgencyModule } from './modules/agency/agency.module';
+import { SearchModule } from './modules/search/search.module';
 
 
 @NgModule({
   imports: [BrowserModule, HttpClientModule, DragDropModule, ComponentsModule, CoreModule, BrowserAnimationsModule, HomeModule, MenuModule,
     SelectorDialogsModule, CategoryModule, ResponsedomainModule, QuestionModule, PreviewModule, AuthorModule, ReferencedModule,
     MissingModule, UniverseModule, ChangeLogModule, InstructionModule, InstrumentModule, StatementModule, ConditionModule,
-    PublicationModule, QuestionConstructModule, SequenceModule, UserModule, AgencyModule, routing],
+    PublicationModule, QuestionConstructModule, SequenceModule, UserModule, AgencyModule, SearchModule, routing],
 
   declarations: [AppComponent, PageNotFoundComponent],
 

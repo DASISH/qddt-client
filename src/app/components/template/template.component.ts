@@ -1,5 +1,5 @@
-import { takeWhile} from 'rxjs/operators';
-import {Component, OnDestroy } from '@angular/core';
+import { takeWhile } from 'rxjs/operators';
+import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   ActionKind, DomainKind,
@@ -20,7 +20,7 @@ import {
 
 export class TemplateComponent implements OnDestroy {
 
-  public readonly formId = Math.round( Math.random() * 10000);
+  public readonly formId = Math.round(Math.random() * 10000);
   public newItem: IEntityEditAudit;
 
   public icon: any;
@@ -29,34 +29,33 @@ export class TemplateComponent implements OnDestroy {
   private kind: ElementKind;
   private alive = true;
   private path: string;
-  private refreshCount = 0;
   private canCreate: boolean;
 
-  constructor(private route: ActivatedRoute, private router: Router, private  messages: MessageService,
-              private service: UserService, private properties: PropertyStoreService ) {
+  constructor(private route: ActivatedRoute, private router: Router, private messages: MessageService,
+    private service: UserService, private properties: PropertyStoreService) {
     this.route.url.pipe(
-    takeWhile(() => this.alive))
-    .subscribe((event) => {
-      this.path = this.route.firstChild.routeConfig.path; // '/:id'
-      const detailIndex = this.path.lastIndexOf('/:id');
-      if (detailIndex >= 0) {
-        this.path = this.path.substr(0, detailIndex);
-      }
-      if (HEADER_DETAILS.has(this.path)) {
-        this.kind = HEADER_DETAILS.get(this.path).kind;
-        this.icon = HEADER_DETAILS.get(this.path).icon;
-        this.headerName =  HEADER_DETAILS.get(this.path).headerName;
-      }
-      this.canCreate =  this.service.canDo(ActionKind.Create, this.kind);
-    });
+      takeWhile(() => this.alive))
+      .subscribe(() => {
+        this.path = this.route.firstChild.routeConfig.path; // '/:id'
+        const detailIndex = this.path.lastIndexOf('/:id');
+        if (detailIndex >= 0) {
+          this.path = this.path.substr(0, detailIndex);
+        }
+        if (HEADER_DETAILS.has(this.path)) {
+          this.kind = HEADER_DETAILS.get(this.path).kind;
+          this.icon = HEADER_DETAILS.get(this.path).icon;
+          this.headerName = HEADER_DETAILS.get(this.path).headerName;
+        }
+        this.canCreate = this.service.canDo(ActionKind.Create, this.kind);
+      });
 
     this.messages.getAction().pipe(
       takeWhile(() => this.alive))
       .subscribe(event => {
-        if (event.action === ActionKind.Filter && (event.id === 'ResponseKind' || event.id === 'publishedKind' ) ) {
+        if (event.action === ActionKind.Filter && (event.id === 'ResponseKind' || event.id === 'publishedKind')) {
           if (this.showForm) { this.onToggleForm(); }
           const param = this.route.snapshot.firstChild.params;
-          if (param.id) { this.router.navigate(['../' ], { relativeTo: this.route.firstChild }); }
+          if (param.id) { this.router.navigate(['../'], { relativeTo: this.route.firstChild }); }
         }
       });
   }
@@ -70,17 +69,16 @@ export class TemplateComponent implements OnDestroy {
 
     this.showForm = !this.showForm;
     if (!this.showForm) {
-        this.messages.sendAction(  { id: '', action: ActionKind.Update, object: null });
+      this.messages.sendAction({ id: '', action: ActionKind.Update, object: null });
+    }
+    if (this.showForm) {
+      console.log('onToggleForm');
+      const page = this.properties.get(this.path) as IPageSearch;
+      this.newItem = Factory.createInstance(this.kind);
+      if (page.kind === ElementKind.RESPONSEDOMAIN) {
+        (this.newItem as ResponseDomain).setResponseKind(DomainKind[page.keys.get('ResponseKind')]);
       }
-    if (this.showForm ) {
-        this.refreshCount = 0;
-        console.log('onToggleForm');
-        const page =  this.properties.get(this.path) as IPageSearch;
-        this.newItem = Factory.createInstance(this.kind);
-        if (page.kind === ElementKind.RESPONSEDOMAIN) {
-          (this.newItem as ResponseDomain).setResponseKind(DomainKind[page.keys.get('ResponseKind')]);
-        }
-      }
+    }
   }
 
   ngOnDestroy(): void {
