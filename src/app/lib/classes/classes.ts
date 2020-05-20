@@ -1,5 +1,5 @@
-import {ElementKind} from '../enums';
-import {IEntityAudit, IPageSearch, IRevisionResult, IUser} from '../interfaces';
+import { ElementKind } from '../enums';
+import { IEntityAudit, IPageSearch, IRevisionResult, IUser } from '../interfaces';
 
 export class QueryInfo {
   id: ElementKind;
@@ -29,12 +29,12 @@ export class QueryInfo {
   }
 }
 
-export class  RevisionResult<T extends IEntityAudit> {
+export class RevisionResult<T extends IEntityAudit> {
   entity: T;
   revisionModifiedBy: IUser;
   revisionDate: any;
   revisionNumber: number;
-  constructor(init?: Partial<IRevisionResult<T>> ) {
+  constructor(init?: Partial<IRevisionResult<T>>) {
     this.entity = init.entity;
     this.revisionDate = init.metadata.revisionDate;
     this.revisionNumber = init.metadata.revisionNumber;
@@ -76,11 +76,15 @@ export class PageSearch implements IPageSearch {
   kind: ElementKind;
   key = '';
   hasDetailSearch = false;
-  keys: Map<string, string> = new Map( [  ] );
+  keys: Map<string, string> = new Map([]);
+  xmlLang: string;
   page = new Page();
-  sort  = 'modified,desc';
+  sort = 'modified,desc';
 
   public constructor(init?: Partial<IPageSearch>) {
     Object.assign(this, init);
+    if (!this.xmlLang) {
+      this.xmlLang = 'none';
+    }
   }
 }

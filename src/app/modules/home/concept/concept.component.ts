@@ -87,7 +87,7 @@ export class ConceptComponent implements OnInit, AfterViewInit {
   }
 
 
-  onHierarchyChanged() {
+  onHierarchyChanged(event) {
     console.log('moving event?');
     this.topic.changeKind = 'UPDATED_HIERARCHY_RELATION';
     this.topic.changeComment = 'Topic order changed';

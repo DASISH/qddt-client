@@ -1,12 +1,12 @@
-import { Component, Input, OnInit, Output, EventEmitter, AfterViewInit } from '@angular/core';
-import {ActionKind, Category, ElementKind, IElement, IPageSearch, LANGUAGE_MAP, Page, TemplateService,} from '../../lib';
+import { Component, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { ActionKind, Category, ElementKind, IElement, LANGUAGE_MAP, TemplateService, } from '../../lib';
 
 @Component({
   selector: 'qddt-missing-form',
   templateUrl: './missing.form.component.html'
 })
 
-export class MissingFormComponent implements OnInit, AfterViewInit {
+export class MissingFormComponent implements AfterViewInit {
   @Input() missing: Category;
   @Input() readonly = false;
   @Output() modifiedEvent = new EventEmitter<Category>();
@@ -16,7 +16,6 @@ export class MissingFormComponent implements OnInit, AfterViewInit {
   public readonly LANGUAGES = LANGUAGE_MAP;
 
   public missingIndex: number;
-  private pageSearch: IPageSearch;
 
   constructor(private service: TemplateService) {
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.MISSING_GROUP);
@@ -25,21 +24,18 @@ export class MissingFormComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ngOnInit() {
-    this.pageSearch = { kind: this.CATEGORY, page: new Page(), key: '' };
-  }
 
   public ngAfterViewInit(): void {
     M.updateTextFields();
   }
 
   public getSource(category: Category): IElement {
-    return {element: (category) ? category : '*', elementKind: ElementKind.CATEGORY};
+    return { element: (category) ? category : '*', elementKind: ElementKind.CATEGORY };
   }
 
   public numbers(value) {
     if (this.missing.children.length < value) {
-      this.missing.children.push(new Category({label: ''}));
+      this.missing.children.push(new Category({ label: '' }));
     } else if (this.missing.children.length > value) {
       this.missing.children.pop();
     }
@@ -60,7 +56,8 @@ export class MissingFormComponent implements OnInit, AfterViewInit {
 
   onCreateCategory(event, idx) {
     this.service.update(event).subscribe(
-      (result) => { this.anchorChanged(result, idx);
+      (result) => {
+        this.anchorChanged(result, idx);
       }
     );
   }

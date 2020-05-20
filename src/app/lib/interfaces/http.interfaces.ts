@@ -1,10 +1,10 @@
-import {ElementKind} from '../enums';
-import {Page} from '../classes';
+import { ElementKind } from '../enums';
+import { Page } from '../classes';
 
 
 export interface IPageResult<T> {
   content: T[];
-  links: [ { href: string , rel: string } ];
+  links: [{ href: string, rel: string }];
   page: Page;
 }
 
@@ -12,6 +12,7 @@ export interface IPageResult<T> {
 export interface IPageSearch {
   kind: ElementKind;
   key: string;
+  xmlLang: string;
   hasDetailSearch?: boolean;
   keys?: Map<string, string>;
   page?: Page;

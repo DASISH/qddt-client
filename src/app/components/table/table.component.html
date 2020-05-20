@@ -1,77 +1,84 @@
 <form name="filterForm" class="col s12">
-    <div *ngIf="!pageSearch.hasDetailSearch" >
-      <div class="input-field col s11 m10 l9">
-        <i class="material-icons prefix" >search</i>
-        <input id="simpleSearch" name="simpleSearch" type="search" required
-               [(ngModel)]="fields.simpleSearch" (ngModelChange)="searchKeysChange.next({ name: 'simpleSearch', value: $event })">
-        <label for="simpleSearch" >{{placeholder}}</label>
-        <i class="material-icons" (click)="onClear('simpleSearch')">close</i>
-      </div>
+  <ng-container *ngIf="!pageSearch.hasDetailSearch">
+    <div class="input-field col s10 m9 l8">
+      <i class="material-icons prefix">search</i>
+      <input id="simpleSearch" name="simpleSearch" type="search" required [(ngModel)]="fields.simpleSearch"
+        (ngModelChange)="searchKeysChange.next({ name: 'simpleSearch', value: $event })">
+      <label for="simpleSearch">{{placeholder}}</label>
+      <i class="material-icons" (click)="onClear('simpleSearch')">close</i>
     </div>
-    <div *ngIf="pageSearch.hasDetailSearch" >
-      <div class="col s{{ (10-10%fieldNames.length)/fieldNames.length}} input-field" *ngFor="let field of fieldNames; let idx=index;">
-        <i class="material-icons prefix" >search</i>
-        <input id="field-{{idx}}" name="{{field}}" type="search" required
-               [(ngModel)]="fields[field]" (ngModelChange)="searchKeysChange.next( { name: field, value: $event })">
-        <label for="field-{{idx}}">{{field}}</label>
-        <i class="material-icons" (click)="onClear(field)">close</i>
-      </div>
+  </ng-container>
+  <ng-container *ngIf="pageSearch.hasDetailSearch">
+    <div class="col s{{ (10-10%fieldNames.length)/fieldNames.length}} input-field"
+      *ngFor="let field of fieldNames; let idx=index;">
+      <i class="material-icons prefix">search</i>
+      <input id="field-{{idx}}" name="{{field}}" type="search" required [(ngModel)]="fields[field]"
+        (ngModelChange)="searchKeysChange.next( { name: field, value: $event })">
+      <label for="field-{{idx}}">{{field}}</label>
+      <i class="material-icons" (click)="onClear(field)">close</i>
     </div>
-    <div class="switch">
-      <label>
-        <input type = "checkbox"  [checked]="pageSearch.hasDetailSearch" (change)="onDetailChecked()">
-        <span class = "lever"></span>Advanced search
-      </label>
-    </div>
-  </form>
+  </ng-container>
+  <div class="col s2">
+    <qddt-select required name="xmlLang" label="Language" [(ngModel)]="pageSearch.xmlLang" [lockups]="LANGUAGES">
+    </qddt-select>
+  </div>
+  <div class="switch">
+    <label>
+      <input type="checkbox" [checked]="pageSearch.hasDetailSearch" (change)="onDetailChecked()">
+      <span class="lever"></span>Advanced search
+    </label>
+  </div>
+</form>
 
-<div *ngIf="showProgressBar" class="progress col s12" ><div class="indeterminate"></div></div>
+<div *ngIf="showProgressBar" class="progress col s12">
+  <div class="indeterminate"></div>
+</div>
 
-<div id ='qddt-pageable-table' class="grey-text text-darken-1 col s12">
-  <table class="highlight" >
+<div id='qddt-pageable-table' class="grey-text text-darken-1 col s12">
+  <table class="highlight">
     <thead>
       <tr>
         <th><i class="material-icons tiny">add_circle_outline</i></th>
-        <th *ngFor="let column of columns" >
-          <span *ngIf="column.sortable" (click)="sortRows(column)" [ngStyle]="{'cursor': 'pointer'}">{{ column.label }} {{ directionSign[column.direction] }}
+        <th *ngFor="let column of columns">
+          <span *ngIf="column.sortable" (click)="sortRows(column)" [ngStyle]="{'cursor': 'pointer'}">{{ column.label }}
+            {{ directionSign[column.direction] }}
           </span>
-          <span *ngIf="!column.sortable" >{{ column.label }} </span>
+          <span *ngIf="!column.sortable">{{ column.label }} </span>
         </th>
       </tr>
     </thead>
     <tbody>
-      <tr id="{{row.id}}" *ngFor="let row of rows;"  [ngStyle]="{'cursor': 'pointer'}" (mouseleave)="row.showButton = false" >
+      <tr id="{{row.id}}" *ngFor="let row of rows;" [ngStyle]="{'cursor': 'pointer'}"
+        (mouseleave)="row.showButton = false">
         <td style="padding:0" (mouseenter)="row.showButton = true">
-        <div >
-          <i class="material-icons tiny teal-text" >menu</i>
-          <ul *ngIf="row.showButton" class="dropleft" >
-            <li *ngIf="canEdit"><a class="btn-flat btn-small btn-floating waves-effect waves-light green lighten-2">
-              <i class="material-icons" (click)="onDetail(row)" title="Edit">edit</i></a>
-            </li>
-            <li *ngIf="canExport"><a class="btn-flat btn-small btn-floating waves-effect waves-light orange lighten-2">
-              <i class="material-icons" (click)="onGetPdf(row.Object)" title="Get as Pdf">picture_as_pdf</i></a>
-            </li>
-            <li *ngIf="canDelete">
-              <qddt-confirm-delete  [small]="true"  [element]="row.Object" (confirmAction)="onConfirmDeleting($event, row.Object)"></qddt-confirm-delete>
-            </li>
-            <li *ngIf="canPreview"><a class="btn-flat btn-small btn-floating waves-effect waves-light blue lighten-2">
-              <i class="material-icons" (click)="onPreview(row.Object)" title="Preview">search</i></a>
-            </li>
-          </ul>
-        </div>
-      </td>
-        <td  *ngFor="let column of columns" (click)="onDetail(row)" [innerHtml]="row[column.label]" [title]="row[column.label]"></td>
+          <div>
+            <i class="material-icons tiny teal-text">menu</i>
+            <ul *ngIf="row.showButton" class="dropleft">
+              <li *ngIf="canEdit"><a class="btn-flat btn-small btn-floating waves-effect waves-light green lighten-2">
+                  <i class="material-icons" (click)="onDetail(row)" title="Edit">edit</i></a>
+              </li>
+              <li *ngIf="canExport"><a
+                  class="btn-flat btn-small btn-floating waves-effect waves-light orange lighten-2">
+                  <i class="material-icons" (click)="onGetPdf(row.Object)" title="Get as Pdf">picture_as_pdf</i></a>
+              </li>
+              <li *ngIf="canDelete">
+                <qddt-confirm-delete [small]="true" [element]="row.Object"
+                  (confirmAction)="onConfirmDeleting($event, row.Object)"></qddt-confirm-delete>
+              </li>
+              <li *ngIf="canPreview"><a class="btn-flat btn-small btn-floating waves-effect waves-light blue lighten-2">
+                  <i class="material-icons" (click)="onPreview(row.Object)" title="Preview">search</i></a>
+              </li>
+            </ul>
+          </div>
+        </td>
+        <td *ngFor="let column of columns" (click)="onDetail(row)" [innerHtml]="row[column.label]"
+          [title]="row[column.label]"></td>
       </tr>
     </tbody>
   </table>
 </div>
 
-<qddt-pagination class="col s12"
-  [collectionSize]="pageSearch.page.totalElements"
-  [page]="pageSearch.page.number"
-  [pageSize]="pageSearch.page.size"
-  [maxSize]="5"
-  [rotate]="true"
-  [boundaryLinks]="true"
+<qddt-pagination class="col s12" [collectionSize]="pageSearch.page.totalElements" [page]="pageSearch.page.number"
+  [pageSize]="pageSearch.page.size" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"
   (pageChange)="pageChange($event)">
 </qddt-pagination>

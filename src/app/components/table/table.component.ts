@@ -12,7 +12,7 @@ import {
   IPageSearch,
   IRevisionRef, MessageService,
   PreviewService,
-  QueryInfo, SessionService, UserService
+  QueryInfo, SessionService, UserService, LANGUAGE_MAP
 } from '../../lib';
 
 import { formatDate } from '@angular/common';
@@ -47,6 +47,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   @Output() fetchEvent = new EventEmitter<IPageSearch>();
 
   public readonly directionSign: { [dir: string]: string; } = { '': '⇳', asc: '▲', desc: '▼' };
+  public readonly LANGUAGES = LANGUAGE_MAP;
   public searchKeysChange: Subject<{ name: string, value: string }> = new Subject<{ name: string, value: string }>();
 
   public canDelete = false;
@@ -56,7 +57,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   public showProgressBar = false;
   public rows = [];
   public columns: Column[];
-  public fields = { simpleSearch: '' };
+  public fields = { simpleSearch: '', xmlLang: '' };
   public fieldNames;
   public placeholder: string;
 

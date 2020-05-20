@@ -42,6 +42,7 @@ export class TemplateService {
         pageSearch.keys.forEach((value, key) => (value) ? queries.push(key + '=' + value) : '');
       }
     }
+    queries.push('xmlLang=' + pageSearch.xmlLang);
 
     let query = '?';
 

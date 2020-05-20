@@ -1,4 +1,4 @@
-import {filter, takeWhile} from 'rxjs/operators';
+import { filter, takeWhile } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
@@ -19,28 +19,28 @@ import {
   templateUrl: './template-list.component.html',
   styles: [],
 })
-export class TemplateListComponent implements OnInit, OnDestroy  {
+export class TemplateListComponent implements OnInit, OnDestroy {
   public items: IEntityAudit[];
   public showProgressBar = false;
   public pageSearch: IPageSearch;
   public toBeDeleted: IEntityAudit;
 
-  public readonly formId = Math.round( Math.random() * 10000);
+  public readonly formId = Math.round(Math.random() * 10000);
 
   private alive = true;
   private path: string;
   private kind: ElementKind;
 
   constructor(private service: TemplateService, private router: Router, private route: ActivatedRoute,
-              private messages: MessageService, private properties: PropertyStoreService ) {
+    private messages: MessageService, private properties: PropertyStoreService) {
 
     this.route.url.pipe(
       takeWhile(() => this.alive),
-      filter( (f) => f.length > 0))
+      filter((f) => f.length > 0))
       .subscribe((event) => {
         this.path = event[0].path;
         this.kind = HEADER_DETAILS.get(this.path).kind;
-    });
+      });
 
     this.messages.getAction().pipe(
       takeWhile(() => this.alive))
@@ -61,23 +61,23 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
   }
 
 
-  public onFetchItems(page: IPageSearch ) {
+  public onFetchItems(page: IPageSearch) {
     this.setPageSearch(page);
     this.loadPage();
   }
 
-  public onDetail(item: IEntityAudit ) {
-    this.router.navigate(['./', item.id ], { relativeTo: this.route });
+  public onDetail(item: IEntityAudit) {
+    this.router.navigate(['./', item.id], { relativeTo: this.route });
   }
 
   public onDelete(item: IEntityAudit) {
     this.service.delete(item)
-    .subscribe(
-      () => { this.loadPage(); },
-      (error) => { throw error; });
+      .subscribe(
+        () => { this.loadPage(); },
+        (error) => { throw error; });
   }
 
-  private loadPage(search?: string ) {
+  private loadPage(search?: string) {
 
     this.showProgressBar = true;
     this.pageSearch = this.getPageSearch();
@@ -89,20 +89,20 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
         this.pageSearch.page = new Page(result.page);
         this.items = result.content;
         this.setPageSearch(this.pageSearch);
-       },
+      },
       (error) => { throw error; })
-      .then( () => this.showProgressBar = false );
+      .then(() => this.showProgressBar = false);
   }
 
-  private setPageSearch(pageSearch: IPageSearch ) {
+  private setPageSearch(pageSearch: IPageSearch) {
     this.properties.set(this.path, pageSearch);
   }
 
   private getPageSearch(): IPageSearch {
 
-    let pageSearch =  this.properties.get(this.path) as IPageSearch;
+    let pageSearch = this.properties.get(this.path) as IPageSearch;
     if (!pageSearch) {
-      pageSearch =   new PageSearch( { kind: this.kind } );
+      pageSearch = new PageSearch({ kind: this.kind, xmlLang: this.properties.userSetting.xmlLang });
       this.setPageSearch(pageSearch);
     } else {
       pageSearch = new PageSearch(pageSearch);
@@ -112,9 +112,6 @@ export class TemplateListComponent implements OnInit, OnDestroy  {
     if (pageSearch.kind === ElementKind.USER && pageSearch.sort === 'modified,desc') {
       pageSearch.sort = 'name,asc';
     }
-    // else if (pageSearch.kind === ElementKind.CHANGE_LOG && pageSearch.sort === 'modified,desc') {
-    //   pageSearch.sort = 'ref_modified,desc';
-    // }
 
     const RDKEY = 'ResponseKind';
     if (pageSearch.kind === ElementKind.RESPONSEDOMAIN && !pageSearch.keys.has(RDKEY)) {
