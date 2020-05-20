@@ -1,11 +1,11 @@
-import {HierarchyPosition} from '../enums';
+import { HierarchyPosition } from '../enums';
 
 export class UserSettings {
   pageSize = 10;
   url = '/home';
   email = 'review@example.org';
   hierarchyPosition = HierarchyPosition.Survey;
-  xmlLang = 'en-GB';
+  xmlLang = 'none';
 
   public constructor(init?: Partial<UserSettings>) {
     Object.assign(this, init);

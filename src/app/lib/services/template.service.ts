@@ -42,7 +42,8 @@ export class TemplateService {
         pageSearch.keys.forEach((value, key) => (value) ? queries.push(key + '=' + value) : '');
       }
     }
-    queries.push('xmlLang=' + pageSearch.xmlLang);
+    const xmlLang = ((pageSearch.xmlLang) && pageSearch.xmlLang !== 'none') ? pageSearch.xmlLang : '*';
+    queries.push('xmlLang=' + xmlLang);
 
     let query = '?';
 

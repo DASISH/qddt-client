@@ -26,7 +26,7 @@
       </div>
       <div class="col offset-m1 s7 m7">
         <div *ngFor="let cat of missing.children; let idx=index;" class="row input-field">
-          <qddt-element-select [source]="getSource(cat)" [autoCreate]="true"
+          <qddt-element-select [source]="getSource(cat)" [autoCreate]="true" [xmlLang]="missing.xmlLang"
             (elementSelectedEvent)="onSelectCategory($event,idx)">
           </qddt-element-select>
         </div>

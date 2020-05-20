@@ -19,7 +19,8 @@
     </div>
   </ng-container>
   <div class="col s2">
-    <qddt-select required name="xmlLang" label="Language" [(ngModel)]="pageSearch.xmlLang" [lockups]="LANGUAGES">
+    <qddt-select required name="xmlLang" label="Language" [(ngModel)]="pageSearch.xmlLang" [lockups]="LANGUAGES"
+      (ngModelChange)="pageChange(0)">
     </qddt-select>
   </div>
   <div class="switch">

@@ -16,7 +16,7 @@ import { AlignmentKind, Category, ElementKind, enumKeys, IElement, ResponseCardi
         <option *ngFor="let item of alignments2;" [selected]="isSelected(item)" [value]="item" >{{item}}</option>
     </select>
   </div>
-  <qddt-element-select  class="col s8 input-field" [source]="getSource(category)" [autoCreate]="true" (elementSelectedEvent)="onSelectCategory($event)">
+  <qddt-element-select  class="col s8 input-field" [source]="getSource(category)" [autoCreate]="true" [xmlLang]="category.xmlLang" (elementSelectedEvent)="onSelectCategory($event)">
   </qddt-element-select>
 </form>
 `

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import {
   DOMAIN_TYPE_DESCRIPTION, DomainKind,
   ElementEnumAware,
@@ -6,6 +6,7 @@ import {
   getElementKind,
   IElement, IEntityAudit,
   PageSearch,
+  PropertyStoreService,
   TemplateService,
 } from '../../../lib';
 
@@ -31,6 +32,7 @@ import {
 @ElementEnumAware
 export class ElementComponent implements OnChanges, AfterViewInit {
   @Input() source: IElement;
+  @Input() xmlLang = 'none';
   @Input() autoCreate = false;
   @Output() elementSelectedEvent = new EventEmitter<IElement>();
 
@@ -43,7 +45,7 @@ export class ElementComponent implements OnChanges, AfterViewInit {
 
   private pageSearch: PageSearch;
 
-  constructor(private service: TemplateService) {  }
+  constructor(private service: TemplateService) { }
 
   ngAfterViewInit(): void {
     if (this.isResponseDomain) {
@@ -62,8 +64,9 @@ export class ElementComponent implements OnChanges, AfterViewInit {
         this.searchValue = cv.element;
       }
 
+      const xmlLang = this.xmlLang;
       const kind = getElementKind(cv.elementKind);
-      this.pageSearch = new PageSearch( { kind } );
+      this.pageSearch = new PageSearch({ kind, xmlLang });
       this.isResponseDomain = (kind === ElementKind.RESPONSEDOMAIN);
     }
   }
@@ -78,7 +81,7 @@ export class ElementComponent implements OnChanges, AfterViewInit {
   }
 
   public onSelectElement(item: IElement) {
-    this.elementSelectedEvent.emit( item );
+    this.elementSelectedEvent.emit(item);
   }
 
   private isIEntityAudit(element): element is IEntityAudit {

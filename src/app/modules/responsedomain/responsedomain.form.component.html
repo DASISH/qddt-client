@@ -98,7 +98,7 @@
                   [(ngModel)]="category.code.codeValue" required>
               </div>
               <qddt-element-select class="input-field minicol" [source]="getSource(category)" [autoCreate]="true"
-                style="width: 75%" (elementSelectedEvent)="onSelectCategory($event,idx)">
+                [xmlLang]="category.xmlLang" style="width: 75%" (elementSelectedEvent)="onSelectCategory($event,idx)">
               </qddt-element-select>
               <div class="minicol" cdkDragHandle style="width: 5%; top: 2rem; position: relative; cursor: grab;"
                 title="Grab...">

@@ -64,7 +64,7 @@
       </qddt-element-revision-select>
     </div>
     <div class="col s12" *ngIf="!showResponseDomain">
-      <qddt-element-select *ngIf="!responseDomain.missing" [source]="MISSING_GROUP"
+      <qddt-element-select *ngIf="!responseDomain.missing" [source]="MISSING_GROUP" [xmlLang]="responseDomain.xmlLang"
         (elementSelectedEvent)="onMissingSelect($event)">
       </qddt-element-select>
       <form #missingForm="ngForm" *ngIf="responseDomain.missing">

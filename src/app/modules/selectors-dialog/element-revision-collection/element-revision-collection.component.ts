@@ -66,7 +66,7 @@ export class ElementRevisionCollectionComponent {
   @Output() deletedEvent = new EventEmitter<ElementRevisionRef>();
   @Output() modifiedEvent = new EventEmitter<ElementRevisionRef>();
 
-  public readonly modalId = Math.round( Math.random() * 10000);
+  public readonly modalId = Math.round(Math.random() * 10000);
 
   // tslint:disable-next-line:variable-name
   private _modalRef: M.Modal;
@@ -75,7 +75,7 @@ export class ElementRevisionCollectionComponent {
   // tslint:disable-next-line:variable-name
   private _showButton = false;
 
-  constructor(private service: TemplateService, public message: MessageService, private router: Router ) {
+  constructor(private service: TemplateService, public message: MessageService, private router: Router) {
   }
 
   get showButton(): boolean {
@@ -121,7 +121,7 @@ export class ElementRevisionCollectionComponent {
     event.stopPropagation();
     this.service.searchByUuid(cqi.elementId).then(
       (result) => { this.router.navigate([result.url]); },
-      (error) => { throw  error; });
+      (error) => { throw error; });
   }
 
   public onItemUpdate(event: Event, cqi: ElementRevisionRef) {
