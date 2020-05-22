@@ -1,7 +1,7 @@
-<div class="row" *ngIf="topic?.studyRef">
+<div class="row" *ngIf="topic?.parentRef">
   <label class="active teal-text">Path</label>
   <p>
-    <a style="cursor: pointer;" (click)="onClickStudy(topic.studyRef.id)">{{ topic.studyRef?.name }}</a>\
+    <a style="cursor: pointer;" (click)="onClickStudy(topic.parentRef.id)">{{ topic.parentRef?.name }}</a>\
     <a> {{ topic.name }} </a>
   </p>
 </div>

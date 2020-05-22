@@ -1,7 +1,7 @@
-import {IEntityAudit, IEntityEditAudit, ITreeRef, IUser, IVersion, IOtherMaterial, IComment} from '../interfaces';
-import {ElementKind} from '../enums';
-import {Instrument} from './instrument.classes';
-import {ElementRevisionRef} from './element-revision-ref';
+import { IEntityAudit, IEntityEditAudit, ITreeRef, IUser, IVersion, IOtherMaterial, IComment } from '../interfaces';
+import { ElementKind } from '../enums';
+import { Instrument } from './instrument.classes';
+import { ElementRevisionRef } from './element-revision-ref';
 
 
 export class SurveyProgram implements IEntityEditAudit {
@@ -74,7 +74,7 @@ export class Topic implements IEntityEditAudit {
   otherMaterials?: IOtherMaterial[];
   xmlLang?: string;
   comments?: IComment[];
-  studyRef?: ITreeRef;
+  parentRef?: ITreeRef;
   public constructor(init?: Partial<Topic>) {
     Object.assign(this, init);
   }
@@ -101,7 +101,7 @@ export class Concept implements IEntityEditAudit {
   version?: IVersion;
   xmlLang?: string;
   comments?: IComment[];
-  topicRef?: ITreeRef;
+  parentRef?: ITreeRef;
   public constructor(init?: Partial<Concept>) {
     Object.assign(this, init);
   }

@@ -1,10 +1,10 @@
-<div class="row" *ngIf="concept.topicRef">
+<div class="row" *ngIf="concept.parentRef">
 
   <label class="teal-text">Path</label>
   <p>
     <a style="cursor: pointer;"
-      (click)="onClickStudy(concept.topicRef.parent.id)">{{ concept?.topicRef?.parent?.name }}</a>\
-    <a style="cursor: pointer;" (click)="onClickTopic(concept.topicRef.id)">{{ concept?.topicRef?.name }}</a>\
+      (click)="onClickStudy(concept.parentRef.parentRef.id)">{{ concept?.parentRef?.parentRef?.name }}</a>\
+    <a style="cursor: pointer;" (click)="onClickTopic(concept.parentRef.id)">{{ concept?.parentRef?.name }}</a>\
     <a> {{ concept.name }} </a></p>
 </div>
 <div class="row" *ngIf="concept?.description">

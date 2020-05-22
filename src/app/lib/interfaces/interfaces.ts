@@ -33,7 +33,7 @@ export interface IRevisionRef extends IElementRef {
 export interface ITreeRef {
   id: string;
   name: string;
-  parent?: ITreeRef;
+  parentRef?: ITreeRef;
 }
 
 export interface ITreeNode {
