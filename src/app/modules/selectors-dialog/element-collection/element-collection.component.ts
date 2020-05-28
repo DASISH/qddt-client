@@ -33,14 +33,16 @@ import {
       <div class="question" [innerHtml]="item['description']"></div>
     </a>
   </div>
-  <qddt-element-select *ngIf="showSearch" class="input-field" [source]="{ element:'', elementKind: elementKind }" [autoCreate]="true" (elementSelectedEvent)="onElementSelectedEvent($event)">
-  </qddt-element-select>
+  <qddt-element-select *ngIf="showSearch" class="input-field" [source]="{ element:'', elementKind: elementKind }" [autoCreate]="true" [xmlLang]="xmlLang"
+      (elementSelectedEvent)="onElementSelectedEvent($event)">
+    </qddt-element-select>
 `,
 })
 export class ElementCollectionComponent {
   @Input() listItems: IEntityAudit[];
   @Input() elementKind: ElementKind;
   @Input() labelName = 'where is my label?';
+  @Input() xmlLang='none';
   @Input() readonly = false;
   @Output() createdEvent = new EventEmitter<IElement>();
   @Output() deletedEvent = new EventEmitter<IElementRef>();

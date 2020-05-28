@@ -18,7 +18,7 @@ import {
   selector: 'qddt-element-revision-select',
   template: `
 <div class="row">
-  <qddt-element-select *ngIf = "showAutoComplete" [source]="source"
+  <qddt-element-select *ngIf = "showAutoComplete" [source]="source" [xmlLang]="xmlLang"
     (elementSelectedEvent)="onSelectElement($event)" >
   </qddt-element-select>
 
@@ -34,6 +34,7 @@ import {
 @ElementEnumAware
 export class ElementRevisionComponent implements OnChanges {
   @Input() source: IElement | IRevisionRef;
+  @Input() xmlLang = 'none';
   @Output() revisionSelectedEvent = new EventEmitter<ElementRevisionRef>();
   @Output() dismissEvent = new EventEmitter<boolean>();
 

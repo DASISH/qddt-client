@@ -23,9 +23,9 @@ export function enumKeys<E>(e: E): (keyof E)[] {
   return Object.keys(e) as (keyof E)[];
 }
 
-export function enumValues<E>(e: E): (keyof E)[] {
-  return Object.values(e) as (keyof E)[];
-}
+// export function enumValues<E>(e: E): (keyof E)[] {
+//   return Object.values(e) as (keyof E)[];
+// }
 
 export function toMap(enumerable: EnumType): [string, string][] {
   return Object.keys(enumerable)

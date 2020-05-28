@@ -56,7 +56,7 @@
           </div>
         </form>
 
-        <qddt-question-items [revisionRefs]="concept.conceptQuestionItems" [readonly]="concept.archived || !canUpdate"
+        <qddt-question-items [revisionRefs]="concept.conceptQuestionItems" [readonly]="concept.archived || !canUpdate" [xmlLang]="concept.xmlLang"
           (createdEvent)="onQuestionItemAdded($event,concept.id)"
           (deletedEvent)="onQuestionItemRemoved($event,concept.id)"
           (modifiedEvent)="onQuestionItemModified($event,concept.id)">

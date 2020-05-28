@@ -16,7 +16,7 @@ export class QuestionItem implements IEntityEditAudit {
   changeKind?: string;
   question = '';
   intent: string;
-  xmlLang = 'en-GB';
+  xmlLang = 'none';
   responseDomainRef: ElementRevisionRefImpl<ResponseDomain>;
   conceptRefs: any;
   public constructor(init?: Partial<QuestionItem>) {

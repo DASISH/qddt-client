@@ -1,6 +1,7 @@
 <div *ngIf="element" class="row truncate" >
   <div class="input-field col s3 m1">
     <div class="chip" title={{getVersion()}}>
+      <!-- <img class="no" style="height: 32px;" > -->
       {{element?.version?.major}}.{{element?.version?.minor}}</div>
     <label class="active">Version</label>
   </div>

@@ -4,7 +4,7 @@ import {ElementRevisionRef} from '../../lib/classes';
 
 @Component({
   selector: 'qddt-version',
-
+  // styleUrls: ['./style.css'],
   styles: [
      'i { margin:0px; vertical-align: middle;float: unset; display: unset; position: relative;  }'
   ],
@@ -16,8 +16,10 @@ import {ElementRevisionRef} from '../../lib/classes';
     title="Latest changes, not saved as a version">error</i>
   <i *ngIf="version?.versionLabel=='Changes in hierarchy'" class="material-icons teal-text tiny "
     title="Hierarchy changes, not saved as a version">error</i>
+    <!-- <div class="no" style="width: 1rem; vertical-align: middle; position: absolute; top: 1rem; right: 0px;" ></div> -->
 `,
-  providers: []
+  providers: [
+  ]
 })
 export class VersionComponent {
   @Input() element: IEntityEditAudit;

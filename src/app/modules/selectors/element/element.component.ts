@@ -22,7 +22,7 @@ import {
     </div>
   </div>
   <qddt-auto-complete [items]="itemList" [elementKind]="source?.elementKind" [autoCreate] = "autoCreate"
-    [formName] ="'AC'" [initialValue]="searchValue"
+    [formName] ="'AC'" [initialValue]="searchValue" [xmlLang]="xmlLang"
     (selectEvent)="onSelectElement($event)"
     (enterEvent)="onSearchElements($event)">
   </qddt-auto-complete>
@@ -64,9 +64,8 @@ export class ElementComponent implements OnChanges, AfterViewInit {
         this.searchValue = cv.element;
       }
 
-      const xmlLang = this.xmlLang;
       const kind = getElementKind(cv.elementKind);
-      this.pageSearch = new PageSearch({ kind, xmlLang });
+      this.pageSearch = new PageSearch({ kind,  xmlLang: this.xmlLang });
       this.isResponseDomain = (kind === ElementKind.RESPONSEDOMAIN);
     }
   }

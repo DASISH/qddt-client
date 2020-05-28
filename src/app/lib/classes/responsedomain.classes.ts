@@ -79,6 +79,7 @@ export class ResponseDomain implements IEntityEditAudit {
       this.managedRepresentation = new Category({
         hierarchyLevel: 'GROUP_ENTITY',
         name: 'Mixed [ renamed in service ]',
+        xmlLang: this.xmlLang,
         children: [this.managedRepresentation]
       });
       this.id = null;

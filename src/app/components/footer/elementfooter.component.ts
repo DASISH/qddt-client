@@ -5,9 +5,10 @@ import {formatDate} from '@angular/common';
 @Component({
   selector: 'qddt-element-footer',
 
-  styles:  [
-    ' .chip {margin-top: 5px;}',
-  ],
+  styleUrls: [ './style.css'],
+  // styles:  [
+  //   ' .chip {margin-top: 5px;}',
+  // ],
   templateUrl: './elementfooter.component.html'
 })
 export class ElementFooterComponent {

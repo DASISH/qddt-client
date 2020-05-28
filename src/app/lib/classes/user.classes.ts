@@ -5,6 +5,7 @@ export class Agency {
   id: string;
   name: string;
   modified?: number;
+  defaultXmlLang: string;
   classKind: string;
   users?: UserJson[];
 }

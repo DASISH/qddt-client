@@ -48,6 +48,7 @@ import {
       <h4>Select QuestionItem version</h4>
       <qddt-element-revision-select
           [source] = "SOURCE"
+          [xmlLang]="xmlLang"
           (revisionSelectedEvent)="revisionSelectedEvent($event)"
           (dismissEvent) ="onDismiss()">
       </qddt-element-revision-select>
@@ -63,6 +64,7 @@ import {
 })
 export class QuestionItemsComponent {
   @Input() revisionRefs: ElementRevisionRef[];
+  @Input() xmlLang = 'none';
   @Input() readonly = true;
   @Output() createdEvent = new EventEmitter<ElementRevisionRef>();
   @Output() deletedEvent = new EventEmitter<ElementRevisionRef>();

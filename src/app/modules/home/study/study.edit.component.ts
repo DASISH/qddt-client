@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ElementKind, Study, TemplateService, ElementRevisionRef } from '../../../lib';
+import { LANGUAGE_MAP, Study, ElementKind, TemplateService, ElementRevisionRef } from 'src/app/lib';
 
 @Component({
   selector: 'qddt-study-edit',
@@ -7,15 +7,12 @@ import { ElementKind, Study, TemplateService, ElementRevisionRef } from '../../.
   template: `
 <div >
   <form *ngIf="isVisible" class="row" id="{{formId}}" (ngSubmit)="onSave()" #ngForm="ngForm">
-    <div class="col s12">
-      <qddt-input name="name"
-        required
-        placeholder="Name me"
-        label="Name"
-        [(ngModel)]="study.name"
-        data-length="250">
-      </qddt-input>
-    </div>
+  <qddt-input class="col s10" required name="name" label="Name" type="text"
+      [(ngModel)]="study.name" data-length="250">
+    </qddt-input>
+    <qddt-select class="col s2" required name="xmlLang" label="Language" [(ngModel)]="study.xmlLang"
+      [lockups]="LANGUAGES">
+    </qddt-select>
     <div class="col s12">
       <qddt-textarea name="description"
         required
@@ -56,6 +53,8 @@ export class StudyEditComponent {
 
   public readonly formId = Math.round(Math.random() * 10000);
   public readonly INSTRUMENT = ElementKind.INSTRUMENT;
+  public readonly LANGUAGES = LANGUAGE_MAP;
+
   public isVisible = false;
   public showRevision = false;    // used by parent form to keep track of revision comp
 

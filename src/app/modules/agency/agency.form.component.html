@@ -1,13 +1,16 @@
-<div *ngIf="agency" class="col s12">
+<div *ngIf="agency">
 
   <form id="CAT{{formId}}" #hf="ngForm" (ngSubmit)="onSave()">
 
-
-    <qddt-input class="row" required name="name" label="Name" [(ngModel)]="agency.name" data-length="100">
-    </qddt-input>
-
-    <!-- <qddt-element-footer *ngIf="agency.id" [element]="agency"></qddt-element-footer> -->
-
+    <div class="row">
+      <qddt-input class="col s10" required name="name" label="Name" type="text"
+        [(ngModel)]="agency.name" data-length="250">
+      </qddt-input>
+      <qddt-select class="col s2" required name="xmlLang" label="Default Language" [(ngModel)]="agency.defaultXmlLang"
+        [lockups]="LANGUAGES">
+      </qddt-select>
+      <!-- <qddt-element-footer *ngIf="agency.id" [element]="agency"></qddt-element-footer> -->
+    </div>
     <div class="row right-align">
       <button *ngIf="!readonly" [disabled]="!hf.form.valid" type="submit" class="btn btn-default">Submit</button>
     </div>

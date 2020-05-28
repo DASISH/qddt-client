@@ -1,16 +1,24 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { ElementKind, TemplateService, Topic } from '../../../lib';
+import { ElementKind, TemplateService, Topic, LANGUAGE_MAP } from '../../../lib';
 
 @Component({
   selector: 'qddt-topic-edit',
   template: `
 <div [hidden]="!(topic && isVisible)">
   <form class="row" id="{{formId}}" (ngSubmit)="onSave()" #topicForm="ngForm">
-    <div class="col s12 input-field">
+    <!-- <div class="col s12 input-field">
       <input name="name" type="text" [(ngModel)]="topic.name" required data-length ="250">
       <label class="active">Name</label>
-    </div>
+    </div> -->
 
+    <!-- <div class="row"> -->
+    <qddt-input class="col s10" required name="name" label="Name" type="text"
+      [(ngModel)]="topic.name" data-length="250">
+    </qddt-input>
+    <qddt-select class="col s2" required name="xmlLang" label="Language" [(ngModel)]="topic.xmlLang"
+      [lockups]="LANGUAGES">
+    </qddt-select>
+    <!-- </div> -->
     <div class="col s12 input-field">
       <textarea name="description" class="materialize-textarea" [(ngModel)]="topic.description" required  data-length ="10000" >
       </textarea>
@@ -38,6 +46,7 @@ export class TopicEditComponent  {
 
   public readonly formId = Math.round(Math.random() * 10000);
   private readonly TOPIC_KIND = ElementKind.TOPIC_GROUP;
+  public readonly LANGUAGES = LANGUAGE_MAP;
 
   public isVisible = false;
   public showRevision = false;

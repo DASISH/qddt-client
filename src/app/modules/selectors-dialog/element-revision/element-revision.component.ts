@@ -11,6 +11,7 @@ import { ElementRevisionRef, IElement, IRevisionRef } from '../../../lib';
       <h4>Select Item version</h4>
       <qddt-element-revision-select
           [source] = "source"
+          [xmlLang]="xmlLang"
           (revisionSelectedEvent)="revisionSelectedEvent($event)"
           (dismissEvent) ="onDismiss()">
       </qddt-element-revision-select>
@@ -26,6 +27,7 @@ import { ElementRevisionRef, IElement, IRevisionRef } from '../../../lib';
 })
 export class ElementRevisionSelectComponent implements OnChanges {
   @Input() source: IElement | IRevisionRef | null;
+  @Input() xmlLang = 'none';
   @Output() revSelectEvent = new EventEmitter<ElementRevisionRef>();
 
   public readonly modalId = Math.round(Math.random() * 10000);

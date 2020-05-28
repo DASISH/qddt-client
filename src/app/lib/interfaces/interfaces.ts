@@ -85,5 +85,3 @@ export interface IAuthority {
   name: string;
   authority: string;
 }
-
-

@@ -16,6 +16,7 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
   @Input() formName: string;
   @Input() initialValue = '';
   @Input() autoCreate = true;
+  @Input() xmlLang = 'none';
 
   @Output() selectEvent = new EventEmitter<IElement>();
   @Output() focusEvent = new EventEmitter<string>();
@@ -71,7 +72,7 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
       this.showAutoComplete = false;
       const fieldName = this.queryInfo.fields[0];
       const item = (this.found) ? this.candidates[0] :
-        (this.autoCreate) ? Factory.createFromSeed(this.elementKind, { [fieldName] : this.value }) : null;
+        (this.autoCreate) ? Factory.createFromSeed(this.elementKind, { [fieldName] : this.value.trim(), xmlLang: this.xmlLang }) : null;
       if (item) {
         this.value = item[fieldName];
         this.selected = true;

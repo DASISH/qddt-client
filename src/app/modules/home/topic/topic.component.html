@@ -79,7 +79,7 @@
         <div class="col s12">
           <p [innerHtml]="topic.description"></p>
 
-          <qddt-question-items [revisionRefs]="topic.topicQuestionItems" [readonly]="topic.archived || readonly"
+          <qddt-question-items [revisionRefs]="topic.topicQuestionItems" [readonly]="topic.archived || readonly" [xmlLang]="topic.xmlLang"
             (createdEvent)="onQuestionItemAdded($event,topic.id)"
             (deletedEvent)="onQuestionItemRemoved($event,topic.id)"
             (modifiedEvent)="onQuestionItemModified($event,topic.id)">
