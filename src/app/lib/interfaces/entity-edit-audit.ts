@@ -1,4 +1,5 @@
-import {IComment, IOtherMaterial, IUser, IVersion} from './interfaces';
+import { IComment, IOtherMaterial, IUser, IVersion } from './interfaces';
+import { Agency } from '../classes';
 
 
 export interface IEntityAudit {
@@ -16,7 +17,7 @@ export interface IEntityEditAudit extends IEntityAudit {
   modified?: number;
   modifiedBy?: IUser;
   version?: IVersion;
-  agency?: IEntityAudit;
+  agency?: Agency;
   archived?: boolean;
   otherMaterials?: IOtherMaterial[];
   comments?: IComment[];

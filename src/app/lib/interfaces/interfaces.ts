@@ -30,10 +30,10 @@ export interface IRevisionRef extends IElementRef {
   elementKind: ElementKind | string;
 }
 
-export interface ITreeRef {
+export interface IParentRef {
   id: string;
   name: string;
-  parentRef?: ITreeRef;
+  parentRef?: IParentRef;
 }
 
 export interface ITreeNode {

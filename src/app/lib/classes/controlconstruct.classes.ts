@@ -1,6 +1,7 @@
+import { Agency } from 'src/app/lib';
 import { IComment, IEntityAudit, IEntityEditAudit, IElementRef, IOtherMaterial, IUser, IVersion } from '../interfaces';
 import { ElementKind } from '../enums';
-import {InstrumentSequence, ElementRevisionRef, QuestionItem, ElementRevisionRefImpl} from '.';
+import { InstrumentSequence, ElementRevisionRef, QuestionItem, ElementRevisionRefImpl } from '.';
 
 export enum SequenceKind {
   NA,
@@ -69,7 +70,7 @@ export class SequenceConstruct implements IEntityEditAudit {
   modified?: number;
   modifiedBy?: IUser;
   version?: IVersion;
-  agency?: IEntityAudit;
+  agency?: Agency;
   archived?: boolean;
   otherMaterials?: IOtherMaterial[];
   xmlLang?: string;

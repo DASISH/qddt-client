@@ -1,6 +1,7 @@
+import { Agency } from 'src/app/lib';
 import { ElementKind } from '../enums';
-import {IComment, ISelectOption, IEntityEditAudit, IEntityAudit} from '../interfaces';
-import {ElementRevisionRef } from './element-revision-ref';
+import { IComment, ISelectOption, IEntityEditAudit, IEntityAudit } from '../interfaces';
+import { ElementRevisionRef } from './element-revision-ref';
 
 export class Publication implements IEntityEditAudit {
   id: string;
@@ -10,7 +11,7 @@ export class Publication implements IEntityEditAudit {
   status: PublicationStatus;  // = { id: 0, published: 'NOT_PUBLISHED', label: 'No publication' };  // magic number NOT_PUBLISHED
   classKind = ElementKind[ElementKind.PUBLICATION];
   xmlLang?: string;
-  agency?: IEntityAudit;
+  agency?: Agency;
   publicationElements: ElementRevisionRef[] = [];
   comments?: IComment[];
   public constructor(init?: Partial<Publication>) {

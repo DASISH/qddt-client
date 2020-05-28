@@ -1,3 +1,4 @@
+import { Agency } from 'src/app/lib';
 import { Category, CategoryKind, ResponseCardinality } from './category.classes';
 import { IEntityAudit, IEntityEditAudit, IVersion } from '../interfaces';
 import { ElementKind } from '../enums';
@@ -49,7 +50,7 @@ export class ResponseDomain implements IEntityEditAudit {
   classKind: string = ElementKind[ElementKind.RESPONSEDOMAIN];
   comments?: any[];
 
-  agency?: IEntityAudit;
+  agency?: Agency;
   changeComment?: string;
   changeKind?: string;
   basedOnObject?: string;

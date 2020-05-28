@@ -1,3 +1,4 @@
+import { Agency } from 'src/app/lib';
 import { ElementKind } from '../enums';
 import { IComment, IEntityEditAudit, IVersion, IUser, IEntityAudit, IOtherMaterial } from '../interfaces';
 
@@ -77,7 +78,7 @@ export class Category implements IEntityEditAudit {
   modified?: number;
   modifiedBy?: IUser;
   version?: IVersion;
-  agency?: IEntityAudit;
+  agency?: Agency;
   archived?: boolean;
   otherMaterials?: IOtherMaterial[];
   xmlLang: string; // = 'en-GB';

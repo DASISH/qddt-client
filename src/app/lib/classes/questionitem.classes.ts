@@ -1,11 +1,12 @@
 import { ElementRevisionRef, ElementRevisionRefImpl } from './element-revision-ref';
-import { IEntityAudit, IEntityEditAudit, IVersion } from '../interfaces';
+import { IEntityAudit, IEntityEditAudit, IVersion, IParentRef } from '../interfaces';
 import { ElementKind } from '../enums';
 import { ResponseDomain } from './responsedomain.classes';
+import { Agency } from './user.classes';
 
 export class QuestionItem implements IEntityEditAudit {
   id: string;
-  agency: IEntityAudit;
+  agency: Agency;
   name = '';
   modified: number;
   version: IVersion = { major: 0, minor: 0 };
@@ -18,7 +19,7 @@ export class QuestionItem implements IEntityEditAudit {
   intent: string;
   xmlLang = 'none';
   responseDomainRef: ElementRevisionRefImpl<ResponseDomain>;
-  conceptRefs: any;
+  parentRefs: IParentRef[];
   public constructor(init?: Partial<QuestionItem>) {
     Object.assign(this, init);
     if (!this.responseDomainRef) {

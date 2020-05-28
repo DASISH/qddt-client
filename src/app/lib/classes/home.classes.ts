@@ -1,3 +1,4 @@
+import { Agency } from 'src/app/lib';
 import { IEntityAudit, IEntityEditAudit, ITreeRef, IUser, IVersion, IOtherMaterial, IComment } from '../interfaces';
 import { ElementKind } from '../enums';
 import { Instrument } from './instrument.classes';
@@ -19,7 +20,7 @@ export class SurveyProgram implements IEntityEditAudit {
   modified?: number;
   modifiedBy?: IUser;
   version?: IVersion;
-  agency?: IEntityAudit;
+  agency?: Agency;
   otherMaterials?: IOtherMaterial[];
   xmlLang?: string;
   comments?: IComment[];
@@ -44,7 +45,7 @@ export class Study implements IEntityEditAudit {
   modified?: number;
   modifiedBy?: IUser;
   version?: IVersion;
-  agency?: IEntityAudit;
+  agency?: Agency;
   otherMaterials?: IOtherMaterial[];
   xmlLang?: string;
   comments?: IComment[];
@@ -70,7 +71,7 @@ export class Topic implements IEntityEditAudit {
   modified?: number;
   modifiedBy?: IUser;
   version?: IVersion;
-  agency?: IEntityAudit;
+  agency?: Agency;
   otherMaterials?: IOtherMaterial[];
   xmlLang?: string;
   comments?: IComment[];
@@ -91,7 +92,7 @@ export class Concept implements IEntityEditAudit {
   conceptQuestionItems: ElementRevisionRef[];
   children: Concept[];
   classKind = ElementKind[ElementKind.CONCEPT];
-  agency: IEntityAudit;
+  agency: Agency;
   basedOnObject?: string;
   basedOnRevision?: number;
   changeComment?: string;
