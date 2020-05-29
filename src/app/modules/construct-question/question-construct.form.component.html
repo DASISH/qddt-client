@@ -16,13 +16,14 @@
       </qddt-textarea>
     </div>
 
-    <qddt-element-collection [(listItems)]="controlConstruct.universe" [labelName]="'Universe'" [elementKind]="UNIVERSE" [xmlLang]="controlConstruct.xmlLang"
-      [readonly]="false" (selectEvent)="onAddUniverse($event)" (deletedEvent)="onRemoveUniverse($event)" tabindex="2">
+    <qddt-element-collection [(listItems)]="controlConstruct.universe" [labelName]="'Universe'" [elementKind]="UNIVERSE"
+      [xmlLang]="controlConstruct.xmlLang" [readonly]="false" (selectEvent)="onAddUniverse($event)"
+      (deletedEvent)="onRemoveUniverse($event)" tabindex="2">
     </qddt-element-collection>
 
-    <qddt-element-collection [listItems]="controlConstruct.preInstructions" [labelName]="'Pre Instructions'" [xmlLang]="controlConstruct.xmlLang"
-      [elementKind]="INSTRUCTION" [readonly]="false" (selectEvent)="onAddPreInstruction($event)"
-      (deletedEvent)="onRemovePreInstruction($event)">
+    <qddt-element-collection [listItems]="controlConstruct.preInstructions" [labelName]="'Pre Instructions'"
+      [xmlLang]="controlConstruct.xmlLang" [elementKind]="INSTRUCTION" [readonly]="false"
+      (selectEvent)="onAddPreInstruction($event)" (deletedEvent)="onRemovePreInstruction($event)">
     </qddt-element-collection>
 
     <div class="collection with-header hoverable row" (mouseenter)="showButton = !readonly"
@@ -74,12 +75,12 @@
       [responseDomain]="controlConstruct.questionItemRef.element.responseDomainRef.element">
     </qddt-preview-responsedomain>
 
-    <qddt-element-collection [listItems]="controlConstruct.postInstructions" [labelName]="'Post Instructions'" [xmlLang]="controlConstruct.xmlLang"
-      [elementKind]="INSTRUCTION" [readonly]="false" (selectEvent)="onAddPostInstruction($event)"
-      (deletedEvent)="onRemovePostInstruction($event)">
+    <qddt-element-collection [listItems]="controlConstruct.postInstructions" [labelName]="'Post Instructions'"
+      [xmlLang]="controlConstruct.xmlLang" [elementKind]="INSTRUCTION" [readonly]="false"
+      (selectEvent)="onAddPostInstruction($event)" (deletedEvent)="onRemovePostInstruction($event)">
     </qddt-element-collection>
 
-    <qddt-conceptref [element]="controlConstruct?.questionItemRef?.element"></qddt-conceptref>
+    <qddt-conceptref [element]="controlConstruct?.questionItemRef?.element.parentRefs"></qddt-conceptref>
 
     <qddt-download [fileStore]="fileStore" [entity]="controlConstruct" [readonly]="false"></qddt-download>
 
@@ -95,5 +96,6 @@
   </form>
 </div>
 
-<qddt-element-collection-dialog [source]="SOURCE" (revSelectEvent)="onRevisionSelect($event)">
+<qddt-element-collection-dialog [source]="SOURCE" [xmlLang]="controlConstruct?.xmlLang"
+  (revSelectEvent)="onRevisionSelect($event)">
 </qddt-element-collection-dialog>

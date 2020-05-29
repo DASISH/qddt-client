@@ -27,6 +27,7 @@ export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
   @Input() selectOptions: ISelectOption[];
   @Input() readonly = false;
   @Input() showIcon = true;
+  @Input() xmlLang = 'none';
   @Output() actionEvent = new EventEmitter<EventAction>();
 
   public readonly modalId = Math.round(Math.random() * 10000);

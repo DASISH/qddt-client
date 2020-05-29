@@ -172,6 +172,16 @@ const LIST = [
   new Column({ label: 'Codes', name: 'anchorLabel', sortable: false })
 ];
 
+const MIXED = [
+  new Column({ label: 'Domain name', name: 'name', sortable: true }),
+  new Column({ label: 'Description', name: 'description', sortable: true }),
+  new Column({
+    label: '# Managed rep',
+    name: ['managedRepresentation', 'children', 'length'],
+    sortable: false
+  })
+];
+
 const NUMERIC = [
   new Column({ label: 'Numeric Domain', name: 'name', sortable: true }),
   new Column({ label: 'Description', name: 'description', sortable: true }),
@@ -222,7 +232,8 @@ export const RESPONSEDOMAIN_COLUMNS: Map<DomainKind, Column[]> = new Map([
   [DomainKind.LIST, LIST.concat(DEFAULT_COLUMNS)],
   [DomainKind.NUMERIC, NUMERIC.concat(DEFAULT_COLUMNS)],
   [DomainKind.TEXT, TEXT.concat(DEFAULT_COLUMNS)],
-  [DomainKind.DATETIME, DATETIME.concat(DEFAULT_COLUMNS)]
+  [DomainKind.DATETIME, DATETIME.concat(DEFAULT_COLUMNS)],
+  [DomainKind.MIXED, MIXED.concat(DEFAULT_COLUMNS)]
 ]);
 
 export const LIST_COLUMNS: Map<ElementKind, Column[]> = new Map([

@@ -1,9 +1,9 @@
-import { IEntityAudit, IEntityEditAudit } from '../interfaces';
+import { IEntityAudit } from '../interfaces';
 import { Study } from './home.classes';
 import { ActionKind, ElementKind } from '../enums';
 import { SequenceKind, ElementRevisionRef } from '.';
 import { ISelectOption } from '../interfaces/interfaces';
-import { v4 as uuidv4 } from 'uuid';
+// import { v4 as uuidv4 } from 'uuid';
 
 export enum InstrumentKind {
   QUESTIONNAIRE = 1,
@@ -95,31 +95,49 @@ export class Instrument implements IEntityAudit {
   xmlLang?: string;
   classKind = ElementKind[ElementKind.INSTRUMENT];
   get parameters(): Map<string, Parameter> {
-    return new Map(
+    console.log('seq get para1');
+    return new Map((this.sequence) ?
       this.sequence
-        .map(s => [...s.parameters])
-        .reduce((acc, it) => [...acc, ...it]));
+        .map(s => [...s.parametersFlatten])
+        .reduce((acc, it) => [...acc, ...it]) : new Map<string, Parameter>());
   }
 
   public constructor(init?: Partial<Instrument>) {
     Object.assign(this, init);
+    if (this.sequence) {
+      console.log('seq init 1');
+      this.sequence.forEach(seq => new InstrumentSequence(seq));
+    }
   }
 }
 
 export class InstrumentSequence {
   id: string;
   elementRef: ElementRevisionRef;
-  get parameters(): Map<string, Parameter> {
-    const children = this.sequence
-      .map(s => [...s.parameters])
-      .reduce((acc, it) => [...acc, ...it]);
-    return new Map([[this.id, new Parameter({ name: this.elementRef.name })], ...children]);
+  parameters: Map<string, Parameter>;
+  get parametersFlatten(): Map<string, Parameter> {
+    console.log('seq get para2');
+    const children = (this.sequence) ?
+      this.sequence
+        .map(s => [...s.parametersFlatten])
+        .reduce((acc, it) => [...acc, ...it]) : new Map<string, Parameter>();
+    if (this.parameters) {
+      console.log('seq get para21');
+      return new Map([...this.parameters, ...children]);
+    } else {
+      console.log('seq get para22');
+      return new Map([[this.id, new Parameter({ name: this.elementRef.name })], ...children]);
+    }
   }
   sequenceKind?: SequenceKind;
   sequence?: InstrumentSequence[] = [];
 
   public constructor(init?: Partial<InstrumentSequence>) {
     Object.assign(this, init);
+    if (this.sequence && this.sequence.length > 0) {
+      console.log('seq init 2');
+      this.sequence.forEach(seq => new InstrumentSequence(seq));
+    }
   }
 
 }

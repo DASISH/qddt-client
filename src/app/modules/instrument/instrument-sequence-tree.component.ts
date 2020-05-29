@@ -18,6 +18,7 @@ export class InstrumentSequenceTreeComponent implements AfterViewInit, OnChanges
   @Input() subSequence: InstrumentSequence[];
   @Input() readonly = false;
   @Input() level = 0;
+  @Input() xmlLang = 'none';
   @Output() actionEvent = new EventEmitter<{ action: ActionKind, ref: InstrumentSequence }>();
 
   // tslint:disable-next-line:variable-name
@@ -85,11 +86,6 @@ export class InstrumentSequenceTreeComponent implements AfterViewInit, OnChanges
           ref.element = result.entity;
           ref.version = result.entity.version;
           item = new InstrumentSequence(item);
-          // console.log(item || JSON);
-          // const idx = this.subSequence.findIndex(p => p.id === item.id);
-          // if (idx > 0) {
-          //   this.subSequence[idx] = item;
-          // }
         });
     }
   }

@@ -18,11 +18,11 @@ import {
   selector: 'qddt-element-revision-select',
   template: `
 <div class="row">
-  <qddt-element-select *ngIf = "showAutoComplete" [source]="source" [xmlLang]="xmlLang"
+  <qddt-element-select *ngIf="showAutoComplete" [source]="source" [xmlLang]="xmlLang"
     (elementSelectedEvent)="onSelectElement($event)" >
   </qddt-element-select>
 
-  <qddt-revision-select *ngIf = "showRevisionSelect"
+  <qddt-revision-select *ngIf="showRevisionSelect"
     [revisionRef]="revisionRef"
     (selectEvent)="onSelectedRevision($event)"
     (dismissEvent)="onDismiss($event)">
@@ -46,7 +46,7 @@ export class ElementRevisionComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.source && changes.source.currentValue) {
-      console.log(changes.source.currentValue || JSON);
+      // console.log(changes.source.currentValue || JSON);
       if (this.isElementRevision(changes.source.currentValue)) {
         this.revisionRef = changes.source.currentValue as IRevisionRef;
         this.showRevisionSelect = true;
@@ -60,12 +60,12 @@ export class ElementRevisionComponent implements OnChanges {
   public onSelectElement(item: IElement) {
     this.showRevisionSelect = true;
     this.revisionRef = { elementId: item.element.id, elementKind: item.elementKind, elementRevision: 0 };
-    console.log(this.revisionRef || JSON);
+    // console.log(this.revisionRef || JSON);
   }
 
   public onSelectedRevision(revision: IRevisionResultEntity) {
     this.revisionSelectedEvent.emit(this.getRevisionRef(revision));
-    console.log(this.revisionRef || JSON);
+    // console.log(this.revisionRef || JSON);
   }
 
   public onDismiss(ok: boolean) {

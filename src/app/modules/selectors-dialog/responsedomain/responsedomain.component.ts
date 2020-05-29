@@ -28,6 +28,7 @@ export class ResponsedomainComponent implements AfterViewInit {
   }
   get responseDomain(): ResponseDomain { return this._localresponseDomain; }
   @Input() readonly = false;
+  @Input() xmlLang = 'none';
   @Output() removeEvent = new EventEmitter<IElementRef>();
   @Output() selectedEvent = new EventEmitter<ElementRevisionRef>();
   @Output() updateEvent = new EventEmitter<ResponseDomain>();

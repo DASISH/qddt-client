@@ -1,4 +1,4 @@
-<div cdkDropList cdkDrop [cdkDropListData]="subSequence" (cdkDropListDropped)="onItemDrop($event)">
+<div *ngIf="subSequence" cdkDropList cdkDrop [cdkDropListData]="subSequence" (cdkDropListDropped)="onItemDrop($event)">
 
   <ul class="collapsible">
     <li *ngFor="let cqi of subSequence;let idx = index;" cdkDrag (mouseenter)="showButton = !readonly"
@@ -40,7 +40,7 @@
         </div>
       </div>
       <div class="collapsible-body">
-        <ul *ngIf="cqi.parameters.length > 0">
+        <ul *ngIf="cqi.parameters.size > 0">
           <li class="collection-item"><label>Parameters</label></li>
           <li class="collection-item">
             <div class="chip" *ngFor="let parameter of cqi.parameters">{{getParam(parameter)}} </div>
@@ -54,7 +54,7 @@
         </ng-container>
       </div>
 
-      <qddt-instrument-sequence-tree [readonly]="readonly" *ngIf="cqi.sequence?.length >0" [subSequence]="cqi.sequence"
+      <qddt-instrument-sequence-tree [readonly]="readonly" *ngIf="cqi?.sequence" [subSequence]="cqi.sequence"
         [level]="level+1" (actionEvent)="doPassEvent($event)">
       </qddt-instrument-sequence-tree>
     </li>

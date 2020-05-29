@@ -49,12 +49,14 @@ export class InstrumentFormComponent implements OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.element.currentValue) {
+    if (changes.element && changes.element.currentValue) {
       this.element = new Instrument(changes.element.currentValue);
       this.currentInstrumentType = InstrumentKind[this.element.instrumentKind];
       this.service.canDoAction(ActionKind.Update, this.element)
         .then(can => this.readonly = !can);
 
+    }
+    if (this.element && this.element.parameters) {
       console.log(this.element.parameters || JSON);
     }
     // try { M.updateTextFields(); } catch (Exception) { }

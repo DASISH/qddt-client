@@ -53,17 +53,17 @@
       </div>
     </div>
   </div>
-  <!-- Modal Structure -->
 </div>
+<!-- Modal Structure -->
 <div id="MODAL-{{modalId}}" class="modal modal-fixed-footer">
   <div class="modal-content white black-text">
-    <div class="col s12" *ngIf="showResponseDomain">
-      <div class="response-domain-title"><span>Select Domain and Search</span></div>
-      <qddt-element-revision-select class="col s12" [source]="RESPONSEDOMAIN"
-        (revisionSelectedEvent)="onRevisionSelect($event)" (dismissEvent)="onDismiss($event)">
+    <ng-container *ngIf="showResponseDomain">
+      <h4>Select Domain and Search</h4>
+      <qddt-element-revision-select [source]="RESPONSEDOMAIN" [xmlLang]="xmlLang"
+        (revisionSelectedEvent)="onRevisionSelect($event)" (dismissEvent)="onDismiss()">
       </qddt-element-revision-select>
-    </div>
-    <div class="col s12" *ngIf="!showResponseDomain">
+    </ng-container>
+    <ng-container *ngIf="!showResponseDomain">
       <qddt-element-select *ngIf="!responseDomain.missing" [source]="MISSING_GROUP" [xmlLang]="responseDomain.xmlLang"
         (elementSelectedEvent)="onMissingSelect($event)">
       </qddt-element-select>
@@ -92,6 +92,11 @@
           </a>
         </div>
       </form>
-    </div>
+    </ng-container>
+  </div>
+  <div class="modal-footer">
+    <button class="btn red modal-action waves-effect waves-red" (click)="onDismiss()">
+      Dismiss
+    </button>
   </div>
 </div>

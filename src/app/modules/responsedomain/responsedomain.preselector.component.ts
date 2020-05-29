@@ -7,7 +7,9 @@ import {
   IPageSearch,
   MessageService,
   PageSearch,
-  PropertyStoreService
+  PropertyStoreService,
+  CategoryKind,
+  UserService
 } from '../../lib';
 
 @Component({
@@ -25,17 +27,24 @@ import {
     </div>
   </div>
 </div>` ,
-styles: ['.row { margin-bottom: auto; }']
+  styles: ['.row { margin-bottom: auto; }']
 })
-export class ResponsePreSelector implements  OnInit {
+export class ResponsePreSelector implements OnInit {
 
   public domainType = DomainKind.SCALE;
-  public domainTypeDescription = DOMAIN_TYPE_DESCRIPTION.filter((e) => e.id > DomainKind.NONE && e.id < DomainKind.MISSING);
+  public readonly domainTypeDescription: { id: DomainKind; label: string; categoryType: CategoryKind; }[];
 
   private readonly KEY = 'ResponseKind';
   private readonly path = 'responsedomains';
 
-  constructor(private  messages: MessageService, private properties: PropertyStoreService ) { }
+  constructor(private messages: MessageService, private properties: PropertyStoreService, private userService: UserService) {
+    console.log(userService.getUser().role || JSON);
+    if (userService.getUser().role.find(p => p.authority === 'ROLE_ADMIN')) {
+      this.domainTypeDescription = DOMAIN_TYPE_DESCRIPTION.filter((e) => e.id !== DomainKind.NONE && e.id !== DomainKind.MISSING);
+    } else {
+      this.domainTypeDescription = DOMAIN_TYPE_DESCRIPTION.filter((e) => e.id > DomainKind.NONE && e.id < DomainKind.MISSING);
+    }
+  }
 
   ngOnInit(): void {
     const kind = this.getPageSearch().keys.get(this.KEY);
@@ -50,15 +59,15 @@ export class ResponsePreSelector implements  OnInit {
     this.domainType = id;
     pageSearch.keys.set(this.KEY, DomainKind[id]);
     this.setPageSearch(pageSearch);
-    this.messages.sendAction( { id: this.KEY,  action: ActionKind.Filter, object: null } );
+    this.messages.sendAction({ id: this.KEY, action: ActionKind.Filter, object: null });
   }
 
-  private setPageSearch(pageSearch: IPageSearch ) {
+  private setPageSearch(pageSearch: IPageSearch) {
     this.properties.set(this.path, pageSearch);
   }
 
   private getPageSearch(): IPageSearch {
-    return (this.properties.get(this.path) || new PageSearch( { kind: ElementKind.RESPONSEDOMAIN } ) ) as IPageSearch;
+    return (this.properties.get(this.path) || new PageSearch({ kind: ElementKind.RESPONSEDOMAIN })) as IPageSearch;
   }
 
 }

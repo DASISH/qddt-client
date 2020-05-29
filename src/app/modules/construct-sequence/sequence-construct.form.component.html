@@ -21,7 +21,8 @@
     </qddt-select>
 
     <qddt-element-revision-ref class="row" [readonly]="readonly" [elementRevisions]="sequence.sequence"
-      [selectOptions]="CONSTRUCT" (actionEvent)="onDoAction($event)">
+      [xmlLang]="sequence.xmlLang" [xmlLang]="sequence.xmlLang" [selectOptions]="CONSTRUCT"
+      (actionEvent)="onDoAction($event)">
     </qddt-element-revision-ref>
 
     <!--    <qddt-constructs [revisionRefs]="sequence.sequence" [readonly]="readonly" (actionEvent)="onDoAction($event)">-->

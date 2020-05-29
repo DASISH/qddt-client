@@ -40,7 +40,7 @@ export class ElementComponent implements OnChanges, AfterViewInit {
   public isResponseDomain = false;
   public searchValue = '';
   public domainType = DomainKind.SCALE;
-  public domainTypeDescription = DOMAIN_TYPE_DESCRIPTION.filter((e) => e.id > DomainKind.NONE && e.id < DomainKind.MISSING);
+  public domainTypeDescription = DOMAIN_TYPE_DESCRIPTION.filter((e) => e.id !== DomainKind.NONE && e.id !== DomainKind.MISSING);
   private readonly KEY = 'ResponseKind';
 
   private pageSearch: PageSearch;
@@ -65,7 +65,7 @@ export class ElementComponent implements OnChanges, AfterViewInit {
       }
 
       const kind = getElementKind(cv.elementKind);
-      this.pageSearch = new PageSearch({ kind,  xmlLang: this.xmlLang });
+      this.pageSearch = new PageSearch({ kind, xmlLang: this.xmlLang });
       this.isResponseDomain = (kind === ElementKind.RESPONSEDOMAIN);
     }
   }
@@ -76,6 +76,7 @@ export class ElementComponent implements OnChanges, AfterViewInit {
 
   public onSearchElements(key) {
     this.pageSearch.key = key;
+    this.pageSearch.xmlLang = this.xmlLang;
     this.service.searchByKind(this.pageSearch).then((result) => this.itemList = result.content);
   }
 

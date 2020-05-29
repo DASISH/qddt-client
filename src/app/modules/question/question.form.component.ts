@@ -47,15 +47,17 @@ export class QuestionFormComponent implements AfterViewInit {
   }
 
   onResponseDomainRemove() {
-    this.questionItem.responseDomainRef = null
+    this.questionItem.responseDomainRef = new ElementRevisionRefImpl<ResponseDomain>();
   }
 
-  onUpdateResponseDomain(element: ResponseDomain) {
+  onResponseDomainUpdate(element: ResponseDomain) {
     element.changeKind = 'CONCEPTUAL';
     element.changeComment = 'Values changed or managed representation added';
     this.service.update<ResponseDomain>(element).subscribe(result => {
       this.questionItem.responseDomainRef.elementRevision = 0;
+      this.questionItem.responseDomainRef.elementId = result.id;
       this.questionItem.responseDomainRef.element = result;
+      console.log('rd + rdref updated');
       // this will fetch latest revision of Rd, when QI is saved.
     });
   }
