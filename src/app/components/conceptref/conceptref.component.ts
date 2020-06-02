@@ -1,4 +1,3 @@
-import { IParentRef } from './../../lib/interfaces/interfaces';
 import { Component, Input } from '@angular/core';
 import { ElementKind, IParentRef, QuestionItem } from '../../lib';
 import { MessageService } from '../../lib/services';

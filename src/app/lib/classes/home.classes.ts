@@ -1,5 +1,5 @@
 import { Agency } from 'src/app/lib';
-import { IEntityAudit, IEntityEditAudit, ITreeRef, IUser, IVersion, IOtherMaterial, IComment } from '../interfaces';
+import { IParentRef, IEntityEditAudit, IUser, IVersion, IOtherMaterial, IComment } from '../interfaces';
 import { ElementKind } from '../enums';
 import { Instrument } from './instrument.classes';
 import { ElementRevisionRef } from './element-revision-ref';
@@ -75,7 +75,7 @@ export class Topic implements IEntityEditAudit {
   otherMaterials?: IOtherMaterial[];
   xmlLang?: string;
   comments?: IComment[];
-  parentRef?: ITreeRef;
+  parentRef?: IParentRef;
   public constructor(init?: Partial<Topic>) {
     Object.assign(this, init);
   }
@@ -102,7 +102,7 @@ export class Concept implements IEntityEditAudit {
   version?: IVersion;
   xmlLang?: string;
   comments?: IComment[];
-  parentRef?: ITreeRef;
+  parentRef?: IParentRef;
   public constructor(init?: Partial<Concept>) {
     Object.assign(this, init);
   }

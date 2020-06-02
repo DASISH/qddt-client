@@ -6,6 +6,18 @@ import { QuestionConstruct } from '../../../lib';
 
   styles: [],
   template: `
+  <ul class="row" *ngIf="controlConstruct?.outParameter?.length>0 || controlConstruct?.inParameter?.length>0">
+    <li>
+      <label>Parameter</label>
+    </li>
+    <li class="collection-item" *ngFor="let parameter of controlConstruct.inParameter">
+      <p>{{ parameter }}</p>
+    </li>
+    <li class="collection-item" *ngFor="let parameter of controlConstruct.outParameter">
+      <p>{{ parameter?.name }}</p>
+    </li>
+  </ul>
+
   <ul class="row" *ngIf="controlConstruct?.universe?.length>0">
     <li>
       <label>Universe</label>

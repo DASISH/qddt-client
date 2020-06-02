@@ -1,14 +1,15 @@
+import { style } from '@angular/animations';
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
-import {UserService} from './user.service';
+import { UserService } from './user.service';
 
 
 
 @Injectable()
 export class ErrorLogService {
 
-  constructor(private authService: UserService) {}
+  constructor(private authService: UserService) { }
 
   logError(error: any) {
     console.error('ERROR LOG -> ', error);
@@ -20,7 +21,7 @@ export class ErrorLogService {
     } else if (error instanceof TypeError) {
 
       console.error(error.stack);
-      M.toast({ html: (error as TypeError).message, displayLength: 5000});
+      M.toast({ html: '<em style="color:yellow">' + (error as TypeError).message + '</em>', displayLength: 5000 });
 
     } else if (error instanceof Error) {
 
@@ -30,11 +31,11 @@ export class ErrorLogService {
         this.logError(error.rejection);
         return;
       }
-      M.toast({ html: error.message, displayLength: 5000});
+      M.toast({ html: error.message, displayLength: 5000 });
     } else {
 
       console.error('Nobody threw an error but something happened!', error);
-      M.toast({ html: error.message, displayLength: 5000});
+      M.toast({ html: error.message, displayLength: 5000 });
 
     }
   }
@@ -45,18 +46,20 @@ export class ErrorLogService {
       M.toast({ html: error.error.message });
     } else {
       if (error.status === 401) {
-          this.authService.logout();
+        this.authService.logout();
       }
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
       if (error.error.userfriendlyMessage) {
         M.toast({
           html: error.error.userfriendlyMessage,
-          displayLength: 5000 });
+          displayLength: 5000
+        });
       } else {
         M.toast({
           html: `Error code ${error.status}, <br> ${error.error.exceptionMessage}`,
-          displayLength: 5000} );
+          displayLength: 5000
+        });
       }
     }
     throwError('Something bad happened; please try again later.');

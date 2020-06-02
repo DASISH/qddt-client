@@ -21,6 +21,13 @@
       <div class="col s7 grey-text">{{getDescription(element.instrumentKind)}}</div>
     </div>
 
+    <ul *ngIf="element.parameters && element.parameters.size > 0">
+      <li><label>Parameters</label></li>
+      <li>
+        <div class="chip" *ngFor="let parameter of element.parameters.entries()">{{getParam(parameter)}} </div>
+      </li>
+    </ul>
+
     <qddt-instrument-sequence-tree [readonly]="readonly" [subSequence]="element.sequence" [xmlLang]="element.xmlLang"
       class="section row" (actionEvent)="onDoAction($event)">
     </qddt-instrument-sequence-tree>

@@ -1,7 +1,7 @@
-import { Agency } from 'src/app/lib';
 import { IComment, IEntityAudit, IEntityEditAudit, IElementRef, IOtherMaterial, IUser, IVersion } from '../interfaces';
 import { ElementKind } from '../enums';
-import { InstrumentSequence, ElementRevisionRef, QuestionItem, ElementRevisionRefImpl } from '.';
+import { Agency, InstrumentSequence, ElementRevisionRef, QuestionItem, ElementRevisionRefImpl } from '.';
+import { Parameter } from './instrument.classes';
 
 export enum SequenceKind {
   NA,
@@ -51,6 +51,8 @@ export class QuestionConstruct implements IEntityEditAudit {
   universe: Universe[] = [];
   preInstructions: Instruction[] = [];
   postInstructions: Instruction[] = [];
+  inParameter?: string[] = [];
+  outParameter?: Parameter[] = [];
   xmlLang?: string;
   public constructor(init?: Partial<QuestionConstruct>) {
     Object.assign(this, init);
@@ -73,6 +75,8 @@ export class SequenceConstruct implements IEntityEditAudit {
   agency?: Agency;
   archived?: boolean;
   otherMaterials?: IOtherMaterial[];
+  inParameter?: string[] = [];
+  outParameter?: Parameter[] = [];
   xmlLang?: string;
   comments?: IComment[];
   classKind = ElementKind[ElementKind.SEQUENCE_CONSTRUCT];
@@ -87,6 +91,7 @@ export class StatementConstruct implements IEntityEditAudit {
   id: string;
   name: string;
   statement: string;
+  inParameter?: string[] = [];
   xmlLang?: string;
   classKind = ElementKind[ElementKind.STATEMENT_CONSTRUCT];
   public constructor(init?: Partial<StatementConstruct>) {

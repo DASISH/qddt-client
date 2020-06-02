@@ -10,7 +10,8 @@ import {
   InstrumentSequence,
   IRevisionRef,
   LANGUAGE_MAP,
-  TemplateService
+  TemplateService,
+  Parameter
 } from '../../lib';
 import { toArray } from 'rxjs/operators';
 
@@ -50,15 +51,15 @@ export class InstrumentFormComponent implements OnChanges {
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.element && changes.element.currentValue) {
-      this.element = new Instrument(changes.element.currentValue);
+      this.element = new Instrument(JSON.parse(JSON.stringify(changes.element.currentValue)));
       this.currentInstrumentType = InstrumentKind[this.element.instrumentKind];
       this.service.canDoAction(ActionKind.Update, this.element)
         .then(can => this.readonly = !can);
 
     }
-    if (this.element && this.element.parameters) {
-      console.log(this.element.parameters || JSON);
-    }
+    // if (this.element && this.element.parameters) {
+    //   console.log(this.element.parameters || JSON);
+    // }
     // try { M.updateTextFields(); } catch (Exception) { }
   }
 
@@ -130,5 +131,12 @@ export class InstrumentFormComponent implements OnChanges {
     this.element.sequence = seqNew;
   }
 
+  public getParam(param: Parameter): string {
+    if (param.referencedId) {
+      return (param.value || '?') + '➫' + param.name;
+    } else {
+      return param.name + '➫' + (param.value || '?');
+    }
+  }
 }
 

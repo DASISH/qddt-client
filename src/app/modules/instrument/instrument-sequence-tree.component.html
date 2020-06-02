@@ -40,15 +40,15 @@
         </div>
       </div>
       <div class="collapsible-body">
-        <ul *ngIf="cqi.parameters.size > 0">
+        <ul *ngIf="cqi?.parameters && cqi.parameters.size > 0">
           <li class="collection-item"><label>Parameters</label></li>
           <li class="collection-item">
             <div class="chip" *ngFor="let parameter of cqi.parameters">{{getParam(parameter)}} </div>
           </li>
         </ul>
-        <qddt-preview-element [element]="cqi.elementRef.element" [showDetail]="false">
+        <qddt-preview-element [element]="cqi.elementRef?.element" [showDetail]="false">
         </qddt-preview-element>
-        <ng-container *ngIf="isSequence(cqi.elementRef.elementKind)">
+        <ng-container *ngIf="isSequence(cqi.elementRef?.elementKind)">
           <label>Description</label>
           <span>{{cqi.elementRef?.element?.description}}</span>
         </ng-container>
