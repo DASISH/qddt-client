@@ -172,7 +172,7 @@ export class ResponsedomainComponent implements AfterViewInit {
     }
   }
 
-  public onDismiss(_event: Event) {
+  public onDismiss(_event?: Event) {
     // event.stopPropagation();
     this.modalRef.close();
   }
