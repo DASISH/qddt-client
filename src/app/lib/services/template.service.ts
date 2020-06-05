@@ -18,7 +18,7 @@ export class TemplateService {
   }
 
   public searchByUuid(id: string): Promise<any> {
-    return this.http.get(this.api + 'search/' + id).toPromise();
+    return this.http.get(this.api + 'preview/' + id).toPromise();
   }
 
   public searchByKind<T extends IEntityAudit>(pageSearch: IPageSearch): Promise<IPageResult<T>> {

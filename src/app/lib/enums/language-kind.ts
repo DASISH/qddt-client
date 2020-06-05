@@ -1,5 +1,6 @@
 export enum LanguageKind {
   'none',
+  'ar-EG',
   'en-GB',
   'en-CA',
   'en-US',

@@ -17,9 +17,9 @@ import { SearchComponent } from './search.component';
 //   }
 // ];
 export const searchRoutes: Routes = [
-  { path: 'search', component: SearchComponent, canActivate: [AuthGuard], },
-  { path: 'search/:id', component: SearchComponent, canActivate: [AuthGuard], },
-  { path: 'search/:id/:revision', component: SearchComponent, canActivate: [AuthGuard], },
+  { path: 'preview', component: SearchComponent, canActivate: [AuthGuard], },
+  { path: 'preview/:id', component: SearchComponent, canActivate: [AuthGuard], },
+  { path: 'preview/:id/:revision', component: SearchComponent, canActivate: [AuthGuard], },
 ];
 
 @NgModule({
