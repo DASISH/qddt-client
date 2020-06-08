@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, ParamMap, Params } from '@angular/router';
-import { PropertyStoreService, MessageService, TemplateService } from 'src/app/lib';
+import { PropertyStoreService, MessageService, TemplateService, IOtherMaterial } from 'src/app/lib';
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'qddt-search',
@@ -13,23 +14,36 @@ export class SearchComponent implements OnInit {
 
 
   ngOnInit() {
-    this.gotoUUID(this.route.snapshot.params['id'], +this.route.snapshot.params['revision']);
+    this.gotoUUID(this.route.snapshot.params['id'], this.route.snapshot.params['revision']);
   }
 
 
-  private gotoUUID(uuid: string, revision?: number) {
+  private gotoUUID(uuid: string, revision?: string) {
     this.service.searchByUuid(uuid).then((result) => {
       if (revision) {
-
-        this.msgService.sendMessage({
-          elementId: result.id,
-          elementRevision: revision,
-          elementKind: result.elementKind
-        });
+        if (isNaN(+revision)) {   // I.E. FILENAME
+          const filename = revision.substring(0, revision.length - 2).replace('_', '.').toLowerCase();
+          this.downloadFile({ fileName: revision, originalName: filename, originalOwner: uuid })
+          // TODO filedownload
+          console.log('filedownload ' + revision);
+        } else {
+          this.msgService.sendMessage({
+            elementId: result.id,
+            elementRevision: +revision,
+            elementKind: result.elementKind
+          });
+        }
       } else {
         this.router.navigate([result.url]);
       }
     },
+      (error) => { throw error; });
+  }
+
+  private downloadFile(o: IOtherMaterial) {
+    const fileName = o.originalName;
+    this.service.getFile(o).then(
+      (data) => { FileSaver.saveAs(data, fileName); },
       (error) => { throw error; });
   }
 }
