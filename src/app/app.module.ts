@@ -49,7 +49,7 @@ import { SearchModule } from './modules/search/search.module';
 
   providers: [ErrorLogService, TemplateService,
     { provide: LOCALE_ID, deps: [SessionService], useFactory: sessionService => sessionService.locale },
-    { provide: APP_BASE_HREF, useValue: environment.APP_BASE },
+    // { provide: APP_BASE_HREF, useValue: environment.APP_BASE },
     { provide: API_BASE_HREF, useValue: environment.API_BASE },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     { provide: ErrorHandler, useClass: GlobalErrorHandler }

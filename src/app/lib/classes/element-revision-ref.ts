@@ -20,5 +20,6 @@ export class ElementRevisionRefImpl<T extends IEntityAudit> extends ElementRevis
   element: T;
   public constructor(init?: Partial<ElementRevisionRef>) {
     super(init);
+    this.elementKind = this.elementKind || this.element.classKind;
   }
 }

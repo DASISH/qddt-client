@@ -14,7 +14,7 @@ import { Agency, PageSearch } from '../classes';
 export class TemplateService {
 
   constructor(protected http: HttpClient, private userService: UserService, @Inject(API_BASE_HREF) protected api: string) {
-    // console.log('TemplateService::CONST ' + api);
+    console.log('TemplateService::CONST ' + api);
   }
 
   public searchByUuid(id: string): Promise<any> {

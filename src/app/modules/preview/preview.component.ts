@@ -23,6 +23,7 @@ export class PreviewComponent implements AfterViewInit {
 
   public instanceRefEnum = ElementKind;
   public revisionIsVisible = false;
+  public readonly compId = Math.round(Math.random() * 10000);
   private readonly hide = [ElementKind.AGENCY, ElementKind.AUTHOR, ElementKind.CONDITION_CONSTRUCT,
   ElementKind.INSTRUCTION, ElementKind.STATEMENT_CONSTRUCT, ElementKind.INSTRUCTION];
 

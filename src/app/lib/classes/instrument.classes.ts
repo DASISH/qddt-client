@@ -1,7 +1,7 @@
 import { IEntityAudit } from '../interfaces';
 import { Study } from './home.classes';
 import { ActionKind, ElementKind } from '../enums';
-import { SequenceKind, ElementRevisionRef } from '.';
+import { SequenceKind, ElementRevisionRef, UserResponse } from '.';
 import { ISelectOption } from '../interfaces/interfaces';
 // import { v4 as uuidv4 } from 'uuid';
 
@@ -137,10 +137,7 @@ export class InstrumentSequence {
 
   public constructor(init?: Partial<InstrumentSequence>) {
     Object.assign(this, init);
-    // if (this.sequence && this.sequence.length > 0) {
-    //   console.log('seq init 2');
-    //   this.sequence.forEach(seq => new InstrumentSequence(seq));
-    // }
+
   }
 
 }
@@ -148,9 +145,10 @@ export class InstrumentSequence {
 export class Parameter {
   name: string;
   referencedId?: string;
-  value = null;
+  value: UserResponse[] = [];
   public constructor(init?: Partial<Parameter>) {
     Object.assign(this, init);
+    // this.name = this.name.replace('[', '').replace(']', '').toUpperCase();
   }
 }
 

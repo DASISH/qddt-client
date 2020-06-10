@@ -1,4 +1,3 @@
-import { filter } from 'rxjs/operators';
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { ActionKind, ElementKind, getElementKind, getIcon, InstrumentSequence, Parameter, TemplateService } from '../../lib';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';

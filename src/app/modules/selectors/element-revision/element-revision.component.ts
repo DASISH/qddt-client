@@ -1,3 +1,4 @@
+import { element } from 'protractor';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import {
   ElementEnumAware,
@@ -46,13 +47,13 @@ export class ElementRevisionComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.source && changes.source.currentValue) {
-      // console.log(changes.source.currentValue || JSON);
-      if (this.isElementRevision(changes.source.currentValue)) {
-        this.revisionRef = changes.source.currentValue as IRevisionRef;
+      const element = changes.source.currentValue;
+      console.log(changes.source.currentValue || JSON);
+      if (this.isElementRevision(element)) {
+        this.revisionRef = new ElementRevisionRefImpl(element);
         this.showRevisionSelect = true;
-      } else if (this.isElement(changes.source.currentValue)) {
+      } else if (this.isElement(element)) {
         this.showAutoComplete = true;
-        this.revisionRef = null;
       }
     }
   }
@@ -73,7 +74,7 @@ export class ElementRevisionComponent implements OnChanges {
   }
 
   private isElementRevision(kind: IRevisionRef | IElement): kind is IRevisionRef {
-    return (kind as IRevisionRef).elementId !== undefined;
+    return (kind as IRevisionRef).elementId !== undefined && (kind as IRevisionRef).elementRevision !== undefined;
   }
 
   private isElement(kind: IRevisionRef | IElement): kind is IElement {

@@ -1,17 +1,11 @@
-import { Component, Input, OnChanges, AfterViewInit } from '@angular/core';
-import { Category, Code } from '../../../lib/classes';
-import { timingSafeEqual } from 'crypto';
+import { Component, Input, OnChanges, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { Category, UserResponse } from '../../../lib/classes';
 
 class ScaleHead {
   colspan: number;
   class: string;
   label: string;
   width: number;
-}
-
-class Column {
-  value: number;
-  label: string;
 }
 
 @Component({
@@ -29,11 +23,12 @@ class Column {
 
 
 export class ResponsedomainScaleComponent implements OnChanges, AfterViewInit {
+  @Output() selectedEvent = new EventEmitter<UserResponse[]>();
   @Input() managedRepresentation: Category;
   @Input() displayLayout = 0;
   @Input() numOfRows = 1;
   public headers: ScaleHead[];
-  public columns: Column[];
+  public columns: UserResponse[];
   public rows: any;
   public max = 5;
   public min = 1;
@@ -55,7 +50,7 @@ export class ResponsedomainScaleComponent implements OnChanges, AfterViewInit {
       }
 
       if (this.byStep(this.max, this.min, this.stepUnit) > 15) {
-        let elems = document.querySelectorAll('input[type=range]');
+        const elems = document.querySelectorAll('input[type=range]');
         M.Range.init(elems);
       }
 
@@ -68,8 +63,16 @@ export class ResponsedomainScaleComponent implements OnChanges, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    let elems = document.querySelectorAll('input[type=range]');
+    const elems = document.querySelectorAll('input[type=range]');
     M.Range.init(elems);
+  }
+
+  public checkOption(option: any | UserResponse) {
+    if (option instanceof UserResponse) {
+      this.selectedEvent.emit([{ label: option.label, value: option.value }]);
+    } else {
+      this.selectedEvent.emit([{ label: '', value: option }]);
+    }
   }
 
   private buildHorizontalColumns() {
@@ -82,12 +85,12 @@ export class ResponsedomainScaleComponent implements OnChanges, AfterViewInit {
     if (!rep) { return; }
 
 
-    let getAlignment = (category: Category, islast: boolean) => (!category.code.alignment) ?
+    const getAlignment = (category: Category, islast: boolean) => (!category.code.alignment) ?
       (islast) ? 'text-right' : 'text-left' :
       category.code.alignment;
 
 
-    let minDistance = (c: Category[], stepUnit: number): number => {
+    const minDistance = (c: Category[], stepUnit: number): number => {
       if (!c || c.length < 2) { return 0; }
       let minDiff = this.byStep(c[1].code.getValue(), c[0].code.getValue(), stepUnit);
       for (let i = 2; i < c.length; i++) {

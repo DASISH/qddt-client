@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { UserResponse } from 'src/app/lib';
 
 @Component({
   selector: 'qddt-preview-rd-grid',
@@ -14,11 +15,15 @@ import { Component, Input } from '@angular/core';
 <div *ngIf="responseDomain" >
   <!--<qddt-responsedomain-scale [responseDomain]="responseDomain" [ ></qddt-responsedomain-scale>-->
 </div>`,
-  providers: [ ],
+  providers: [],
 })
 
 export class PreviewResponseDomainGridComponent {
+  @Output() selectedEvent = new EventEmitter<UserResponse[]>();
   @Input() responseDomain: any;
 
 
+  public onSelectedEvent(idxs: UserResponse[]) {
+    this.selectedEvent.emit(idxs);
+  }
 }

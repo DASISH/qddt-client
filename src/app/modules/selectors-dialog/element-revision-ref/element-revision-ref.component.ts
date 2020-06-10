@@ -58,9 +58,7 @@ export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    // console.log(changes || JSON);
-    // if (changes.subSequence.currentValue) {
-    // }
+
   }
 
   public ngAfterViewInit(): void {

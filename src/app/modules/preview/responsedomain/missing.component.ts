@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import {Category} from '../../../lib/classes';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Category, UserResponse } from '../../../lib/classes';
 
 @Component({
   selector: 'qddt-preview-rd-missing',
@@ -11,7 +11,7 @@ import {Category} from '../../../lib/classes';
     <li *ngFor="let category of missing.children; let i = index;" >
       <span class="left" style="width: 30px; float: right; "> {{ category.code?.codeValue }} </span>
       <label>
-        <input name="option-select" type="radio"/>
+        <input name="option-select" type="radio" (change)="checkOption(category)"/>
         <span >{{category.label}}</span>
       </label>
     </li>
@@ -21,6 +21,7 @@ import {Category} from '../../../lib/classes';
 })
 
 export class ResponsedomainMissingComponent {
+  @Output() selectedEvent = new EventEmitter<UserResponse[]>();
   @Input() managedRepresentation: Category;
 
   public get missing() {
@@ -30,4 +31,9 @@ export class ResponsedomainMissingComponent {
     return this.managedRepresentation.children.find(e => e.categoryType === 'MISSING_GROUP');
   }
 
+  public checkOption(category: Category) {
+
+    this.selectedEvent.emit([{ label: category.label, value: category.code.codeValue }]);
+
+  }
 }

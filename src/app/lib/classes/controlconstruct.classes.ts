@@ -51,7 +51,7 @@ export class QuestionConstruct implements IEntityEditAudit {
   universe: Universe[] = [];
   preInstructions: Instruction[] = [];
   postInstructions: Instruction[] = [];
-  inParameter?: string[] = [];
+  inParameter?: Parameter[] = [];
   outParameter?: Parameter[] = [];
   xmlLang?: string;
   public constructor(init?: Partial<QuestionConstruct>) {
@@ -75,7 +75,7 @@ export class SequenceConstruct implements IEntityEditAudit {
   agency?: Agency;
   archived?: boolean;
   otherMaterials?: IOtherMaterial[];
-  inParameter?: string[] = [];
+  inParameter?: Parameter[] = [];
   outParameter?: Parameter[] = [];
   xmlLang?: string;
   comments?: IComment[];
@@ -91,7 +91,7 @@ export class StatementConstruct implements IEntityEditAudit {
   id: string;
   name: string;
   statement: string;
-  inParameter?: string[] = [];
+  inParameter?: Parameter[] = [];
   xmlLang?: string;
   classKind = ElementKind[ElementKind.STATEMENT_CONSTRUCT];
   public constructor(init?: Partial<StatementConstruct>) {

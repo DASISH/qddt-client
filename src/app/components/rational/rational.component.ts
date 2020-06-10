@@ -45,13 +45,10 @@ export class RationalComponent implements OnInit, OnChanges, AfterViewInit {
       this.onSelectOption(0);
     }
     this.originalId = this.element.id;
-    // console.log(this.element.changeKind);
   }
 
   ngAfterViewInit(): void {
     document.querySelectorAll('SELECT').forEach(comp => M.FormSelect.init(comp));
-    // M.FormSelect.init(document.getElementById('SELECT-' + this.formId));
-    // console.log('init select');
   }
 
   ngOnInit() {
@@ -95,7 +92,6 @@ export class RationalComponent implements OnInit, OnChanges, AfterViewInit {
     if (id === 2) {
       this.savedbasedOnObject = this.element.basedOnObject;
       this.element.basedOnObject = null;
-      // this.element.modifiedBy = null;
       if (this.element.id === null) {
         this.element.id = this.originalId;
       }
@@ -111,7 +107,6 @@ export class RationalComponent implements OnInit, OnChanges, AfterViewInit {
         this.element.basedOnObject = this.savedbasedOnObject;
       }
     }
-    console.log('onSelectOption');
   }
 
 }

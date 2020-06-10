@@ -1,5 +1,5 @@
-import { Component, Input, OnChanges } from '@angular/core';
-import {Category, ResponseCardinality} from '../../../lib/classes';
+import { Component, Input, OnChanges, Output, EventEmitter } from '@angular/core';
+import { Category, ResponseCardinality, UserResponse } from '../../../lib/classes';
 
 @Component({
   selector: 'qddt-preview-rd-codelist',
@@ -8,7 +8,7 @@ import {Category, ResponseCardinality} from '../../../lib/classes';
 <div *ngIf="managedRepresentation">
   <ul>
     <li *ngFor="let row of rows" >
-      <span class="left" style="width: 30px; float: right; "> {{ row.code }} </span>
+      <span class="left" style="width: 30px; float: right; "> {{ row.value }} </span>
       <label>
        <input name="option-select" type="{{type}}"
          [disabled]="row.disabled" (change)="checkOption(row, $event)"/>
@@ -21,9 +21,10 @@ import {Category, ResponseCardinality} from '../../../lib/classes';
 })
 
 export class ResponsedomainCodeListComponent implements OnChanges {
+  @Output() selectedEvent = new EventEmitter<UserResponse[]>();
   @Input() managedRepresentation: Category;
   @Input() responseCardinality: ResponseCardinality;
-  public rows: any[] = [];
+  public rows: UserResponse[] = [];
   public type: string;
 
   ngOnChanges() {
@@ -31,7 +32,8 @@ export class ResponsedomainCodeListComponent implements OnChanges {
     const rep = this.managedRepresentation;
 
     for (const c of rep.children) {
-      this.rows.push({ label: c.label, code: c.code.codeValue, checked: false });
+      const newLocal = { label: c.label, value: c.code.codeValue, checked: false } as UserResponse;
+      this.rows.push(newLocal);
     }
 
     this.type = (+this.responseCardinality.maximum > 1) ? 'checkbox' : 'radio';
@@ -46,6 +48,13 @@ export class ResponsedomainCodeListComponent implements OnChanges {
       } else {
         this.rows.forEach((e: any) => e.disabled = '');
       }
+      this.selectedEvent.emit([...this.rows.filter(e => e.checked)
+        .map((e: UserResponse) => {
+          const newLocal = { label: e.label, value: e.value } as UserResponse;
+          return newLocal;
+        })]);
     }
+    else
+      this.selectedEvent.emit([{ label: row.label, value: row.value }]);
   }
 }

@@ -59,7 +59,7 @@ export class ElementRevisionSelectComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if ((changes.source) && changes.source.currentValue) {
-      console.log('got something to show');
+      // console.log(this.source);
       this.modalRef.open();
     }
   }

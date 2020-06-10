@@ -1,5 +1,5 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import {Category} from '../../../lib/classes';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, Output, EventEmitter } from '@angular/core';
+import { Category, UserResponse } from '../../../lib/classes';
 
 @Component({
   selector: 'qddt-preview-rd-datetime',
@@ -8,7 +8,7 @@ import {Category} from '../../../lib/classes';
   <div class="row" *ngIf="managedRepresentation">
     <span>
       <label>{{ low }} - {{ high }}</label>
-      <input  type="text" class="datepicker">
+      <input  type="text" class="datepicker" () >
     </span>
   </div>
 `,
@@ -16,6 +16,7 @@ import {Category} from '../../../lib/classes';
 })
 
 export class ResponsedomainDatetimeComponent implements OnInit, OnChanges {
+  @Output() selectedEvent = new EventEmitter<UserResponse[]>();
   @Input() managedRepresentation: Category;
 
   public low: number;
@@ -30,21 +31,21 @@ export class ResponsedomainDatetimeComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-      const rep = this.managedRepresentation;
-      if (rep) {
-        if (rep.inputLimit.maximum) {
-          this.high = rep.inputLimit.maximum;
-        }
-        if (rep.inputLimit.minimum) {
-          this.low = rep.inputLimit.minimum;
-        }
-        if (rep.format) {
-          this.dFormat = rep.format;
-        } else {
-          this.dFormat = 'd mmmm, yyyy!';
-        }
+    const rep = this.managedRepresentation;
+    if (rep) {
+      if (rep.inputLimit.maximum) {
+        this.high = rep.inputLimit.maximum;
       }
-      this.dateOptions = this.getDefaultPickaOption();
+      if (rep.inputLimit.minimum) {
+        this.low = rep.inputLimit.minimum;
+      }
+      if (rep.format) {
+        this.dFormat = rep.format;
+      } else {
+        this.dFormat = 'd mmmm, yyyy!';
+      }
+    }
+    this.dateOptions = this.getDefaultPickaOption();
   }
 
   private getDefaultPickaOption(): any {

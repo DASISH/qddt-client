@@ -38,6 +38,13 @@ export const DOMAIN_TYPE_DESCRIPTION = [
   { id: DomainKind.MIXED, label: 'Mixed Domain', categoryType: CategoryKind.MIXED },
 ];
 
+export class UserResponse {
+  label: string;
+  value: number | string;
+  checked?: boolean;
+  disabled?: string;
+}
+
 
 export class ResponseDomain implements IEntityEditAudit {
   id: string;
@@ -91,7 +98,7 @@ export class ResponseDomain implements IEntityEditAudit {
     // there is no other children or this is a mixed responseDomain....
     this.managedRepresentation.children = filtered;
     this.name = this.managedRepresentation.label =
-      'Mixed (name from client) [' + this.managedRepresentation.children.map(c => c.label).join(' + ') + ']';
+      'Mixed (' + this.managedRepresentation.children.map(c => c.label).join(' + ') + ')';
   }
 
 }

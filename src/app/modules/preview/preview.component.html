@@ -25,11 +25,12 @@
   <div *ngSwitchCase=instanceRefEnum.QUESTION_GRID>
     <qddt-preview-questionitem-grid [questionItem]="element"></qddt-preview-questionitem-grid>
   </div>
-  <div *ngSwitchCase="instanceRefEnum.QUESTION_ITEM">
+  <div *ngSwitchCase=instanceRefEnum.QUESTION_ITEM>
     <qddt-preview-questionitem [questionItem]="element"></qddt-preview-questionitem>
   </div>
   <div *ngSwitchCase=instanceRefEnum.RESPONSEDOMAIN>
-    <qddt-preview-responsedomain [responseDomain]="element"></qddt-preview-responsedomain>
+    <qddt-preview-responsedomain [responseDomain]="element">
+    </qddt-preview-responsedomain>
   </div>
   <div *ngSwitchCase=instanceRefEnum.STUDY>
     <qddt-preview-study [study]="element"></qddt-preview-study>
@@ -45,11 +46,11 @@
       <p [innerHtml]="element['description']"></p>
     </li>
   </div>
-  <div *ngSwitchCase=instanceRefEnum.STATEMENT_CONSTRUCT>
+  <!-- <div *ngSwitchCase=instanceRefEnum.STATEMENT_CONSTRUCT>
     <li class="collection-item" *ngIf="element['description']">
       <p [innerHtml]="element['description']"></p>
     </li>
-  </div>
+  </div> -->
   <div *ngSwitchDefault>
     <!--CATEGORY = 0,-->
     <!--...-->

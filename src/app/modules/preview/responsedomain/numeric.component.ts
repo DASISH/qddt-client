@@ -1,5 +1,5 @@
-import { Component, Input, OnChanges } from '@angular/core';
-import {Category} from '../../../lib/classes';
+import { Component, Input, OnChanges, Output, EventEmitter } from '@angular/core';
+import { Category, UserResponse } from '../../../lib/classes';
 
 
 @Component({
@@ -20,6 +20,7 @@ import {Category} from '../../../lib/classes';
 })
 
 export class ResponsedomainNumericComponent implements OnChanges {
+  @Output() selectedEvent = new EventEmitter<UserResponse[]>();
   @Input() managedRepresentation: Category;
   low: number;
   high: number;
@@ -50,6 +51,7 @@ export class ResponsedomainNumericComponent implements OnChanges {
     } else if (value > this.high) {
       this.value = this.high;
     }
+    this.selectedEvent.emit([{ label: this.managedRepresentation.label, value }]);
   }
 
   parts(format: number): number {
