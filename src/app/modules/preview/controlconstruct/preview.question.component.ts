@@ -11,8 +11,8 @@ import { QuestionConstruct, Parameter, UserResponse } from '../../../lib';
     <li class="collection-item">
       <label>Parameters</label>
     </li>
-    <li class="collection-item chip" title="In parameter" *ngFor="let parameter of controlConstruct.inParameter">{{getParam(parameter)}} </li>
-    <li class="collection-item chip" title="Out parameter" *ngFor="let parameter of controlConstruct.outParameter">{{getParam(parameter)}} </li>
+    <li class="collection-item chip" title="In parameter" *ngFor="let parameter of controlConstruct.inParameter">{{getParam(parameter,'🢩')}} </li>
+    <li class="collection-item chip" title="Out parameter" *ngFor="let parameter of controlConstruct.outParameter">{{getParam(parameter, '🢨')}} </li>
   </ng-container>
 
   <ng-container *ngIf="controlConstruct?.universe?.length>0">
@@ -35,7 +35,7 @@ import { QuestionConstruct, Parameter, UserResponse } from '../../../lib';
 
   <li class="collection-item" >
     <p class="card-panel grey lighten-5 grey-text text-darken-1"
-    [innerHtml]="controlConstruct?.questionItemRef?.text" style="font-style: italic"></p>
+    [innerHtml]="insertParam(controlConstruct?.questionItemRef?.text)" style="font-style: italic"></p>
   </li>
 
   <li class="collection-item">
@@ -71,30 +71,33 @@ export class PreviewQuestionConstructComponent implements OnChanges {
   constructor() { }
 
   public ngOnChanges(changes: SimpleChanges): void {
+    if (this.inParameters) {
+      console.log('i c in params');
+      this.controlConstruct.inParameter =
+        this.controlConstruct.inParameter.map(obj => this.inParameters.find(o => o.name === obj.name) || obj);
+    }
   }
 
 
-  public getParam(param: Parameter): string {
-    if (this.inParameters) {
-      this.inParameters.forEach((p) => {
-        let inp = this.controlConstruct.inParameter.find((ip) => ip.name.toUpperCase().includes(p.name));
-        if (inp) {
-          inp = p;
-        }
-      });
-    }
-    if (param.value) {
-
-      // return param.name + '🢩' + (param.value) ? param.value.map(u => u.value + ':' + u.label).join(',') : '?';
-      return param.name + '🢩' + (param.value[0].value || '?');
-    } else {
-      return param.name + '🢨' + (param.value[0].value || '?');
-    }
+  public getParam(param: Parameter, divider: string): string {
+    return param.name + divider + ((param.value) ? param.value.map(p => '[' + p.value + ':' + p.label + ']').join(',') : '?');
   }
 
   public onSelectedEvent(urs: UserResponse[]) {
     this.controlConstruct.outParameter[0].name = this.controlConstruct.name;
     this.controlConstruct.outParameter[0].value = urs;
+  }
+
+  public insertParam(text: string): string {
+    if (this.controlConstruct && this.controlConstruct.inParameter) {
+      this.controlConstruct.inParameter.forEach(p => {
+        if (p.value) {
+          text = text.replace(new RegExp('\\[' + p.name + '\\]', 'ig'), '<mark>' + p.value.map(pp => pp.label).join(',') + '</mark>');
+        }
+      });
+    }
+    return text;
+
   }
 
 }

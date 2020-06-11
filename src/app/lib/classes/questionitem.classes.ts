@@ -1,5 +1,5 @@
 import { ElementRevisionRef, ElementRevisionRefImpl } from './element-revision-ref';
-import { IEntityAudit, IEntityEditAudit, IVersion, IParentRef } from '../interfaces';
+import { IEntityEditAudit, IVersion, IParentRef } from '../interfaces';
 import { ElementKind } from '../enums';
 import { ResponseDomain } from './responsedomain.classes';
 import { Agency } from './user.classes';
@@ -23,7 +23,7 @@ export class QuestionItem implements IEntityEditAudit {
   public constructor(init?: Partial<QuestionItem>) {
     Object.assign(this, init);
     if (!this.responseDomainRef) {
-      this.responseDomainRef = new ElementRevisionRefImpl<ResponseDomain>();
+      this.responseDomainRef = new ElementRevisionRefImpl<ResponseDomain>({ elementKind: 'RESPONSE_DOMAIN' });
     }
   }
 }

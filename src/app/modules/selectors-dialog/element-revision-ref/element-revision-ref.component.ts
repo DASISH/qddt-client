@@ -82,6 +82,7 @@ export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
         .then((result) => {
           item.element = result.entity;
           item.version = result.entity.version;
+          this.actionEvent.emit({ action: ActionKind.Read, ref: null });
         });
     }
   }

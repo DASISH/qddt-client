@@ -23,7 +23,7 @@
     <ng-container *ngIf="sequence.sequence">
       <div class="collection-item"><label>Parameters</label></div>
       <div class="collection-item chip" title="Out parameter" *ngFor="let parameter of sequence.outParameter">
-        {{getParam(parameter)}} </div>
+        {{getParam(parameter, '🢨')}} </div>
     </ng-container>
     <qddt-element-revision-ref class="row" [readonly]="readonly" [elementRevisions]="sequence.sequence"
       [xmlLang]="sequence.xmlLang" [xmlLang]="sequence.xmlLang" [selectOptions]="CONSTRUCT"

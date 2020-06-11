@@ -1,58 +1,60 @@
-import { flatMap, filter } from 'rxjs/operators';
 import { Component, Input, AfterViewInit } from '@angular/core';
 import { ElementRevisionRef, getElementKind, PreviewService, SequenceConstruct, Parameter, getIcon, ElementKind } from '../../../lib';
 
 @Component({
   selector: 'qddt-preview-sequenceconstruct',
-
-  styles: [
-  ],
+  styles: [],
   template: `
-  <div [id]="compId"  *ngIf="sequenceConstruct">
-    <span >{{ sequenceConstruct?.description }}</span>
-    <ul *ngIf="sequenceConstruct.outParameter">
-        <li class="collection-item"><label>Parameters</label></li>
-        <li class="collection-item chip" title="Out parameter" *ngFor="let parameter of sequenceConstruct.outParameter">{{getParam(parameter)}} </li>
-    </ul>
+<div [id]="compId" *ngIf="sequenceConstruct">
+  <span>{{ sequenceConstruct?.description }}</span>
+  <ul  id="col{{compId}}-1" *ngIf="sequenceConstruct.outParameter">
+      <li class="collection-item"><label>Parameters</label></li>
+      <li class="collection-item chip" title="Out parameter" *ngFor="let parameter of sequenceConstruct.outParameter">{{getParam(parameter, '🢨')}} </li>
+  </ul>
+  <ul id="col{{compId}-2" class="collapsible " data-collapsible="accordion" >
+    <ng-container *ngTemplateOutlet="sequenceConstructTmpl; context:{ sequence: sequenceConstruct }"></ng-container>
+  </ul>
 
-    <ul id="col{{compId}}" class="collapsible row" data-collapsible="accordion" >
-      <li *ngFor="let cqi of sequenceConstruct.sequence">
-        <div class="collapsible-header" (click)="onOpenBody(cqi)" >
-          <i class="material-icons small teal-text text-lighten-3">{{getMatIcon(cqi.elementKind)}}</i>
-          <div class="col s9 m10 grey-text text-darken-1" [innerHtml]=cqi.name></div>
-          <qddt-version-label class="col s3 m2 right-align" [revisionRef]="cqi"></qddt-version-label>
-        </div>
-        <div class=" collapsible-body">
-          <div [ngSwitch]="cqi.elementKind">
-            <div *ngSwitchCase="'SEQUENCE_CONSTRUCT'">
-              <qddt-preview-sequenceconstruct id="pseq{{compId}}" [sequenceConstruct]="cqi.element" [inParameters]="sequenceConstruct?.outParameter"></qddt-preview-sequenceconstruct>
-            </div>
-            <div *ngSwitchCase="'CONDITION_CONSTRUCT'">
-              <qddt-preview-conditionconstruct [condition]="cqi.element"></qddt-preview-conditionconstruct>
-            </div>
-            <div *ngSwitchCase="'STATEMENT_CONSTRUCT'">
-              <qddt-preview-statementconstruct [statement]="cqi.element"></qddt-preview-statementconstruct>
-            </div>
-            <div *ngSwitchCase="'QUESTION_CONSTRUCT'">
-              <qddt-preview-questionconstruct [controlConstruct]="cqi.element" [inParameters]="sequenceConstruct?.outParameter">
-              </qddt-preview-questionconstruct>
-            </div>
-            <div *ngSwitchCase="'INSTRUCTION'">
-              <li *ngIf="cqi?.element">
-                <p [innerHtml]="cqi?.element['description']"></p>
-              </li>
-            </div>
-          </div>
-        </div>
-      </li>
-    </ul>
+  <ng-template #sequenceConstructTmpl let-sequence="sequence">
+    <li *ngFor="let cqi of sequence.sequence; let idx = index;">
+      <div class="collapsible-header" (click)="onOpenBody(cqi)">
+        <i class="material-icons small teal-text text-lighten-3">{{getMatIcon(cqi.elementKind)}}</i>
+        <div class="col s9 m10 grey-text text-darken-1" [innerHtml]=cqi.name></div>
+        <qddt-version-label class="col s3 m2 right-align" [revisionRef]="cqi"></qddt-version-label>
+      </div>
+      <div class="collapsible-body" ()>
+        <ng-container [ngSwitch]="cqi.elementKind">
+          <ng-container *ngSwitchCase="'SEQUENCE_CONSTRUCT'">
+            <ul id="{{compId}}{{idx}}" class="collapsible" data-collapsible="accordion" >
+              <ng-container *ngTemplateOutlet="sequenceConstructTmpl; context:{ sequence: cqi.element }"></ng-container>
+            </ul>
+          </ng-container>
+          <ng-container *ngSwitchCase="'CONDITION_CONSTRUCT'">
+              <qddt-preview-conditionconstruct id="{{compId}}{{idx}}" [condition]="cqi.element" [inParameters]="sequence?.outParameter"></qddt-preview-conditionconstruct>
+          </ng-container>
+          <ng-container *ngSwitchCase="'STATEMENT_CONSTRUCT'">
+            <qddt-preview-statementconstruct id="{{compId}}{{idx}}" [statement]="cqi.element" [inParameters]="sequence?.outParameter"></qddt-preview-statementconstruct>
+          </ng-container>
+          <ng-container *ngSwitchCase="'QUESTION_CONSTRUCT'">
+            <qddt-preview-questionconstruct id="{{compId}}{{idx}}" [controlConstruct]="cqi.element" [inParameters]="sequence?.outParameter">
+            </qddt-preview-questionconstruct>
+          </ng-container>
+          <ng-container *ngSwitchCase="'INSTRUCTION'">
+            <li *ngIf="cqi?.element">
+              <p [innerHtml]="cqi?.element['description']"></p>
+            </li>
+          </ng-container>
+        </ng-container>
+      </div>
+    </li>
+  </ng-template>
   </div>`,
   providers: [],
 })
 
 export class PreviewSequenceConstructComponent implements AfterViewInit {
   @Input() sequenceConstruct: SequenceConstruct;
-  @Input() inParameters: Parameter[];
+  @Input() inParameters: Parameter[] = [];
   @Input() showDetail = false;
 
 
@@ -63,7 +65,7 @@ export class PreviewSequenceConstructComponent implements AfterViewInit {
   constructor(private service: PreviewService) { }
 
   public ngAfterViewInit(): void {
-    const elems = document.getElementById('col' + this.compId);
+    const elems = document.querySelectorAll('.collapsible');
     M.Collapsible.init(elems);
   }
 
@@ -92,17 +94,12 @@ export class PreviewSequenceConstructComponent implements AfterViewInit {
     return getIcon(kind);
   }
 
-  public getParam(param: Parameter): string {
-    if (param.value) {
-      return param.name + '🢩' + (param.value || '?');
-    } else {
-      return param.name + '🢨' + (param.value[0].value || '?');
+  public getParam(param: Parameter, divider: string): string {
+    if (this.inParameters) {
+      this.sequenceConstruct.inParameter =
+        this.sequenceConstruct.inParameter.map(obj => this.inParameters.find(o => o.name === obj.name) || obj);
     }
-
-    if (param.referencedId) {
-      return param.name + '🢩' + (param.value || '?');
-    } else {
-      return param.name + '🢨' + (param.value || '?');
-    }
+    return param.name + divider + ((param.value) ? param.value.map(p => '[' + p.value + ':' + p.label + ']').join(',') : '?');
   }
+
 }

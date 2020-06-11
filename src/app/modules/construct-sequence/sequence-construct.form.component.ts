@@ -53,11 +53,16 @@ export class SequenceFormComponent implements OnChanges {
 
   public onDoAction(response) {
     const action = response.action as ActionKind;
-    const ref = response.ref as ElementRevisionRef;
+    const ref = response.ref || {} as ElementRevisionRef;
     switch (action) {
       case ActionKind.Create: this.onItemAdded(ref); break;
       case ActionKind.Delete: this.onItemRemoved(ref); break;
       case ActionKind.Update: this.onItemModified(ref); break;
+      case ActionKind.Read:
+        if (this.sequence.sequence) {
+          this.sequence.outParameter =
+            [].concat(...this.sequence.sequence.map(seq => (seq.element) ? seq.element.outParameter : []));
+        }; break;
       default: {
         console.error('wrong action recieved ' + ActionKind[action]);
       }
@@ -85,12 +90,8 @@ export class SequenceFormComponent implements OnChanges {
     );
     this.sequence.sequence = seqNew;
   }
-  public getParam(param: Parameter): string {
-    if (param.referencedId) {
-      return param.name + '🢩' + (param.value || '?');
-    } else {
-      return param.name + '🢨' + (param.value || '?');
-    }
+  public getParam(param: Parameter, divider: string): string {
+    return param.name + divider + ((param.value) ? param.value.map(p => '[' + p.value + ':' + p.label + ']').join(',') : '?');
   }
 
 }

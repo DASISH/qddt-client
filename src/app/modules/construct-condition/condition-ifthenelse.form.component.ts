@@ -3,7 +3,7 @@ import {
   Component,
   Input,
 } from '@angular/core';
-import { ConstructReferenceKind, IElementRef, IfThenElse, toSelectItems} from 'src/app/lib';
+import { ConstructReferenceKind, IElementRef, IfThenElse, toSelectItems } from 'src/app/lib';
 
 
 @Component({
@@ -15,7 +15,7 @@ import { ConstructReferenceKind, IElementRef, IfThenElse, toSelectItems} from 's
       required
       name="ifcondition"
       label="IfCondition"
-      [(ngModel)]="element.ifCondition"
+      [(ngModel)]="element.ifCondition.content"
       data-length="100">
     </qddt-input>
     <qddt-select class="col s3"
@@ -48,9 +48,9 @@ export class IfThenElseFormComponent implements AfterViewInit {
   @Input() formName: string;
 
   public readonly CONDITION = toSelectItems(ConstructReferenceKind);
-  public readonly formId = Math.round( Math.random() * 10000);
+  public readonly formId = Math.round(Math.random() * 10000);
 
-  constructor() {  }
+  constructor() { }
 
   ngAfterViewInit(): void {
     if (!this.isIfThenElse(this.element)) {

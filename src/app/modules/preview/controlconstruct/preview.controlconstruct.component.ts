@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ConditionConstruct, QuestionConstruct, SequenceConstruct, StatementConstruct} from '../../../lib';
+import { ConditionConstruct, QuestionConstruct, SequenceConstruct, StatementConstruct, Parameter } from '../../../lib';
 
 @Component({
   selector: 'qddt-preview-controlconstruct',
@@ -8,13 +8,14 @@ import { ConditionConstruct, QuestionConstruct, SequenceConstruct, StatementCons
     <div class="row" *ngIf="construct">
       <div [ngSwitch]="construct.classKind">
 				<div *ngSwitchCase="'SEQUENCE_CONSTRUCT'">
-          <qddt-preview-sequenceconstruct [sequenceConstruct]="construct"></qddt-preview-sequenceconstruct>
+        preview-controlconstruct-SEQUENCE_CONSTRUCT
+          <qddt-preview-sequenceconstruct [sequenceConstruct]="construct" ></qddt-preview-sequenceconstruct>
         </div>
         <div *ngSwitchCase="'CONDITION_CONSTRUCT'">
-          <qddt-preview-conditionconstruct [condition]="construct"></qddt-preview-conditionconstruct>
+          <qddt-preview-conditionconstruct [condition]="construct" ></qddt-preview-conditionconstruct>
         </div>
         <div *ngSwitchCase="'STATEMENT_CONSTRUCT'">
-          <qddt-preview-statementconstruct [statement]="construct"></qddt-preview-statementconstruct>
+          <qddt-preview-statementconstruct [statement]="construct" ></qddt-preview-statementconstruct>
         </div>
         <div *ngSwitchCase="'QUESTION_CONSTRUCT'">
             <qddt-preview-questionconstruct [controlConstruct]="construct" >
@@ -25,11 +26,11 @@ import { ConditionConstruct, QuestionConstruct, SequenceConstruct, StatementCons
         </div>
       </div>
     </div>`,
-  styles: [ ],
+  styles: [],
 })
 
 export class PreviewControlConstructComponent {
-  @Input() construct: QuestionConstruct|SequenceConstruct|ConditionConstruct|StatementConstruct;
+  @Input() construct: QuestionConstruct | SequenceConstruct | ConditionConstruct | StatementConstruct;
   @Input() showDetail = true;
 
 }

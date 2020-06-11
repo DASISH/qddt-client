@@ -1,7 +1,6 @@
-import { IComment, IEntityAudit, IEntityEditAudit, IElementRef, IOtherMaterial, IUser, IVersion } from '../interfaces';
+import { IComment, IEntityEditAudit, IOtherMaterial, IUser, IVersion } from '../interfaces';
 import { ElementKind } from '../enums';
-import { Agency, InstrumentSequence, ElementRevisionRef, QuestionItem, ElementRevisionRefImpl } from '.';
-import { Parameter } from './instrument.classes';
+import { Parameter, Agency, InstrumentSequence, ElementRevisionRef, QuestionItem, ElementRevisionRefImpl } from '.';
 
 export enum SequenceKind {
   NA,
@@ -92,6 +91,7 @@ export class StatementConstruct implements IEntityEditAudit {
   name: string;
   statement: string;
   inParameter?: Parameter[] = [];
+  outParameter?: Parameter[];
   xmlLang?: string;
   classKind = ElementKind[ElementKind.STATEMENT_CONSTRUCT];
   public constructor(init?: Partial<StatementConstruct>) {
@@ -111,16 +111,17 @@ export enum ConditionKind {
 }
 
 export enum ConstructReferenceKind {
-  EXIT,
+  EXIT_CONDITION,
   EXIT_SEQUENCE,
-  NEXT,
-  SKIPNEXT
+  NEXT_IN_SEQUENCE
 }
 export class ConditionConstruct implements IEntityEditAudit {
   id: string;
   name: string;
   conditionKind: string;
   condition: string | IfThenElse | Loop | RepeatWhile | RepeatUntil;
+  inParameter?: Parameter[] = [];
+  outParameter?: Parameter[] = [];
   classKind = ElementKind[ElementKind.CONDITION_CONSTRUCT];
   xmlLang?: string;
 
@@ -150,25 +151,25 @@ export class ConditionConstruct implements IEntityEditAudit {
   }
 }
 
-interface Condition { programmingLanguage?: string; content: string; }
+export class Condition { programmingLanguage?: string; content: string; }
 
 
 export class IfThenElse {
   ifCondition: Condition;
-  thenConstructReference: InstrumentSequence | ConstructReferenceKind;
+  thenConstructReference: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind;
   elseIf?: Condition;
-  elseConstructReference?: InstrumentSequence | ConstructReferenceKind;
+  elseConstructReference?: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind;
   public constructor(init?: Partial<IfThenElse>) {
     Object.assign(this, init);
   }
 }
 
 export class Loop {
-  loopVariableReference?: InstrumentSequence | ConstructReferenceKind;
+  loopVariableReference?: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind;
   initialValue?: number;
   loopWhile: Condition;
   stepValue?: number;
-  controlConstructReference: InstrumentSequence | ConstructReferenceKind;
+  controlConstructReference: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind;
   public constructor(init?: Partial<Loop>) {
     Object.assign(this, init);
   }
@@ -176,7 +177,7 @@ export class Loop {
 
 export class RepeatWhile {
   whileCondition: Condition;
-  whileConstructReference: InstrumentSequence | ConstructReferenceKind;
+  whileConstructReference: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind;
   public constructor(init?: Partial<RepeatWhile>) {
     Object.assign(this, init);
   }
@@ -184,7 +185,7 @@ export class RepeatWhile {
 
 export class RepeatUntil {
   untilCondition: Condition;
-  untilConstructReference: InstrumentSequence | ConstructReferenceKind;
+  untilConstructReference: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind;
   public constructor(init?: Partial<RepeatUntil>) {
     Object.assign(this, init);
   }
