@@ -11,19 +11,6 @@
   <p [innerHtml]="topic?.description"></p>
 </div>
 
-<div class="row" *ngIf="topic?.otherMaterials && topic.otherMaterials.length >0">
-  <label class="teal-text">External aid</label>
-</div>
-
-<div class="row" *ngIf="topic?.otherMaterials && topic.otherMaterials.length >0">
-  <ul>
-    <li *ngFor="let m of topic.otherMaterials;" class="col s12 m6 l3">
-      <a class="waves-effect waves-light" (click)="onDownloadFile(m)">
-        <i class="material-icons center smal">description</i> {{ m.originalName }}</a>
-    </li>
-  </ul>
-</div>
-
 <div *ngIf="topic?.topicQuestionItems && topic?.topicQuestionItems?.length > 0" class="section">
   <ul *ngIf="topic?.topicQuestionItems" class="collapsible popout" data-collapsible="expandable" style="padding: 5pt;">
     <li class="row" *ngFor="let cqi of topic?.topicQuestionItems;" (click)="onViewDetail(cqi)">

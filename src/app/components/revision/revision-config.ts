@@ -25,11 +25,10 @@ export const DEFAULT_CONFIG: RevisionConfig[] = [
   }
 ];
 
-
 const QUESTION_CONSTRUCT_CONFIG = DEFAULT_CONFIG.concat([
-  { name: 'questionText', label: 'Question' },
+  { name: ['questionItemRef', 'text'], label: 'Question' },
   {
-    name: ['questionItem', 'version'], label: 'QI-Ver',
+    name: ['questionItemRef', 'version'], label: 'QI-Ver',
     init: function (version: IVersion) { return (version) ? 'V' + version.major + '.' + version.minor : ''; }
   },
   {
@@ -83,6 +82,12 @@ const PUBLICATION_CONFIG = DEFAULT_CONFIG.concat([
   { name: ['status', 'label'], label: 'Status' }
 ]);
 
+const TOPIC_CONFIG = DEFAULT_CONFIG.concat([
+  {
+    name: ['otherMaterials'], label: 'Files',
+    init: function (o: any) { return (o) ? o.map((element) => element['originalName'] || '').sort().join(',') : ''; }
+  }
+])
 // export const  RESPONSEDOMAIN_CONFIG = [];
 // Responsedomain has subtypes that config depends on number of element, it is not static
 
@@ -93,5 +98,6 @@ export const LIST_CONFIG: Map<ElementKind, RevisionConfig[]> = new Map([
   [ElementKind.CATEGORY, CATEGORY_CONFIG],
   [ElementKind.QUESTION_CONSTRUCT, QUESTION_CONSTRUCT_CONFIG],
   [ElementKind.SEQUENCE_CONSTRUCT, SEQUENCE_CONSTRUCT_CONFIG],
-  [ElementKind.PUBLICATION, PUBLICATION_CONFIG]
+  [ElementKind.PUBLICATION, PUBLICATION_CONFIG],
+  [ElementKind.TOPIC_GROUP, TOPIC_CONFIG]
 ]);

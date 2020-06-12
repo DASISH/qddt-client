@@ -1,8 +1,6 @@
-import { IEntityAudit } from '../interfaces';
-import { Study } from './home.classes';
 import { ActionKind, ElementKind } from '../enums';
-import { SequenceKind, ElementRevisionRef, UserResponse } from '.';
-import { ISelectOption } from '../interfaces/interfaces';
+import { Study, SequenceKind, ElementRevisionRef, UserResponse, ElementRevisionRefImpl, IControlConstruct } from '.';
+import { ISelectOption, IEntityAudit } from '../interfaces';
 // import { v4 as uuidv4 } from 'uuid';
 
 export enum InstrumentKind {
@@ -98,21 +96,21 @@ export class Instrument implements IEntityAudit {
   public constructor(init?: Partial<Object>) {
     Object.assign(this, init);
     if (this.sequence) {
-      console.log('seq init 1');
       this.sequence.forEach(seq => new InstrumentSequence(seq));
     }
   }
 
   public get parameters(): Map<string, Parameter> {
-    return new Map((this.sequence) ?
-      this.sequence
-        .map(s => [...this.getParametersFlatten(s)])
-        .reduce((acc, it) => [...acc, ...it]) : new Map<string, Parameter>());
+    return new Map(
+      (this.sequence) ?
+        [].concat(...this.sequence.map(s => [...this.getParametersFlatten(s)])) :
+        []);
   }
 
   private getParametersFlatten(sequence: InstrumentSequence): Map<string, Parameter> {
     const children = new Map<string, Parameter>();
     return children.set(sequence.id, new Parameter({ name: sequence.elementRef.name }));
+
     // (sequence.sequence) ?
     // sequence.sequence.forEach(s => {
     //   this.getParametersFlatten(s)
@@ -130,14 +128,15 @@ export class Instrument implements IEntityAudit {
 
 export class InstrumentSequence {
   id: string;
-  elementRef: ElementRevisionRef;
+  elementRef: ElementRevisionRefImpl<IControlConstruct>;
   parameters: Map<string, Parameter>;
   sequenceKind?: SequenceKind;
   sequence?: InstrumentSequence[] = [];
 
   public constructor(init?: Partial<InstrumentSequence>) {
     Object.assign(this, init);
-
+    if (this.elementRef.element) {
+    }
   }
 
 }

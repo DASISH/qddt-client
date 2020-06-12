@@ -40,7 +40,7 @@ export class Instruction implements IEntityEditAudit {
 }
 
 
-export class QuestionConstruct implements IEntityEditAudit {
+export class QuestionConstruct implements IControlConstruct {
   id: string;
   name: string;
   description: string;
@@ -59,7 +59,7 @@ export class QuestionConstruct implements IEntityEditAudit {
 
 }
 
-export class SequenceConstruct implements IEntityEditAudit {
+export class SequenceConstruct implements IControlConstruct {
   id: string;
   name: string;
   label?: string;
@@ -86,7 +86,7 @@ export class SequenceConstruct implements IEntityEditAudit {
   }
 }
 
-export class StatementConstruct implements IEntityEditAudit {
+export class StatementConstruct implements IControlConstruct {
   id: string;
   name: string;
   statement: string;
@@ -98,6 +98,11 @@ export class StatementConstruct implements IEntityEditAudit {
     Object.assign(this, init);
   }
 
+}
+
+export interface IControlConstruct extends IEntityEditAudit {
+  inParameter?: Parameter[];
+  outParameter?: Parameter[];
 }
 
 
@@ -115,7 +120,7 @@ export enum ConstructReferenceKind {
   EXIT_SEQUENCE,
   NEXT_IN_SEQUENCE
 }
-export class ConditionConstruct implements IEntityEditAudit {
+export class ConditionConstruct implements IControlConstruct {
   id: string;
   name: string;
   conditionKind: string;

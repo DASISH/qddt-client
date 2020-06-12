@@ -65,7 +65,7 @@ export class PreviewDialogComponent implements OnChanges, AfterViewInit {
 
   public getClassName(): string {
     if (this.reference) {
-      console.log(this.reference);
+      // console.log(this.reference);
       return getQueryInfo(this.reference.elementKind).label || 'OtherMaterial';
     }
     return '?';

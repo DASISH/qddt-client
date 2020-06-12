@@ -11,21 +11,21 @@ import { ElementRevisionRef, getElementKind, PreviewService, SequenceConstruct, 
       <li class="collection-item"><label>Parameters</label></li>
       <li class="collection-item chip" title="Out parameter" *ngFor="let parameter of sequenceConstruct.outParameter">{{getParam(parameter, '🢨')}} </li>
   </ul>
-  <ul id="col{{compId}-2" class="collapsible " data-collapsible="accordion" >
+  <ul id="col{{compId}-2" class="collapsible" data-collapsible="accordion" >
     <ng-container *ngTemplateOutlet="sequenceConstructTmpl; context:{ sequence: sequenceConstruct }"></ng-container>
   </ul>
 
   <ng-template #sequenceConstructTmpl let-sequence="sequence">
-    <li *ngFor="let cqi of sequence.sequence; let idx = index;">
+    <li id="LI-{{compId}}{{idx}}"  *ngFor="let cqi of sequence.sequence; let idx = index;">
       <div class="collapsible-header" (click)="onOpenBody(cqi)">
         <i class="material-icons small teal-text text-lighten-3">{{getMatIcon(cqi.elementKind)}}</i>
         <div class="col s9 m10 grey-text text-darken-1" [innerHtml]=cqi.name></div>
-        <qddt-version-label class="col s3 m2 right-align" [revisionRef]="cqi"></qddt-version-label>
+        <qddt-version-label id="QV-{{compId}}{{idx}}" class="col s3 m2 right-align" [revisionRef]="cqi"></qddt-version-label>
       </div>
-      <div class="collapsible-body" ()>
+      <div class="collapsible-body">
         <ng-container [ngSwitch]="cqi.elementKind">
           <ng-container *ngSwitchCase="'SEQUENCE_CONSTRUCT'">
-            <ul id="{{compId}}{{idx}}" class="collapsible" data-collapsible="accordion" >
+            <ul id="UL-{{compId}}{{idx}}" class="collapsible" data-collapsible="accordion" >
               <ng-container *ngTemplateOutlet="sequenceConstructTmpl; context:{ sequence: cqi.element }"></ng-container>
             </ul>
           </ng-container>

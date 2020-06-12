@@ -39,7 +39,7 @@ import { ElementKind, TemplateService, Topic, LANGUAGE_MAP } from '../../../lib'
 </div>
 `})
 
-export class TopicEditComponent  {
+export class TopicEditComponent {
   @Input() topic: Topic;
   @Input() readonly = false;
   @Output() savedEvent = new EventEmitter<any>();
@@ -57,6 +57,7 @@ export class TopicEditComponent  {
 
   public async onSave() {
     const formData = new FormData();
+    this.topic.parentRef = null;
     formData.append('topicgroup', JSON.stringify(this.topic));
     this.fileStore.forEach((file) => { formData.append('files', file); });
 
