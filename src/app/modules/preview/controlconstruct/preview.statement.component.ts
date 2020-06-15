@@ -26,8 +26,7 @@ export class PreviewStatementConstructComponent implements OnChanges {
   @Input() showDetail = true;
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.inParameters && changes.inParameters.currentValue) {
-      console.log('i c in params');
+    if (this.statement && changes.inParameters && changes.inParameters.currentValue) {
       this.statement.inParameter =
         this.statement.inParameter.map(obj => this.inParameters.find(o => o.name === obj.name) || obj);
     }

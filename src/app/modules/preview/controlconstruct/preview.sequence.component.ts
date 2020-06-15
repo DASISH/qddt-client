@@ -1,21 +1,22 @@
 import { Component, Input, AfterViewInit } from '@angular/core';
-import { ElementRevisionRef, getElementKind, PreviewService, SequenceConstruct, Parameter, getIcon, ElementKind } from '../../../lib';
+import {
+  ElementKind, ElementRevisionRefImpl, getElementKind, getIcon,
+  IControlConstruct, PreviewService, SequenceConstruct, Parameter
+} from '../../../lib';
+import { sequence } from '@angular/animations';
+import { identifierModuleUrl } from '@angular/compiler';
 
 @Component({
   selector: 'qddt-preview-sequenceconstruct',
   styles: [],
   template: `
 <div [id]="compId" *ngIf="sequenceConstruct">
-  <span>{{ sequenceConstruct?.description }}</span>
-  <ul  id="col{{compId}}-1" *ngIf="sequenceConstruct.outParameter">
-      <li class="collection-item"><label>Parameters</label></li>
-      <li class="collection-item chip" title="Out parameter" *ngFor="let parameter of sequenceConstruct.outParameter">{{getParam(parameter, '🢨')}} </li>
-  </ul>
   <ul id="col{{compId}-2" class="collapsible" data-collapsible="accordion" >
     <ng-container *ngTemplateOutlet="sequenceConstructTmpl; context:{ sequence: sequenceConstruct }"></ng-container>
   </ul>
 
   <ng-template #sequenceConstructTmpl let-sequence="sequence">
+    <ng-container *ngIf="sequence?.sequence" >
     <li id="LI-{{compId}}{{idx}}"  *ngFor="let cqi of sequence.sequence; let idx = index;">
       <div class="collapsible-header" (click)="onOpenBody(cqi)">
         <i class="material-icons small teal-text text-lighten-3">{{getMatIcon(cqi.elementKind)}}</i>
@@ -25,6 +26,11 @@ import { ElementRevisionRef, getElementKind, PreviewService, SequenceConstruct, 
       <div class="collapsible-body">
         <ng-container [ngSwitch]="cqi.elementKind">
           <ng-container *ngSwitchCase="'SEQUENCE_CONSTRUCT'">
+            <span>{{ cqi.element?.description }}</span>
+            <ul *ngIf="cqi.element?.outParameter">
+                <li><label>Parameters</label></li>
+                <li class="chip" title="Out parameter" *ngFor="let parameter of cqi.element.outParameter">{{getParam(parameter, '🢨')}} </li>
+            </ul>
             <ul id="UL-{{compId}}{{idx}}" class="collapsible" data-collapsible="accordion" >
               <ng-container *ngTemplateOutlet="sequenceConstructTmpl; context:{ sequence: cqi.element }"></ng-container>
             </ul>
@@ -47,6 +53,7 @@ import { ElementRevisionRef, getElementKind, PreviewService, SequenceConstruct, 
         </ng-container>
       </div>
     </li>
+    </ng-container>
   </ng-template>
   </div>`,
   providers: [],
@@ -57,10 +64,35 @@ export class PreviewSequenceConstructComponent implements AfterViewInit {
   @Input() inParameters: Parameter[] = [];
   @Input() showDetail = false;
 
-
   public showButton = false;
   public readonly = false;
   public compId = Math.round(Math.random() * 10000);
+
+
+  private readonly getRev = (kind: ElementKind, elementId: string, elementRevision: number) =>
+    this.service.getRevisionByKind(kind, elementId, elementRevision);
+
+
+  private readonly getRevRefAsync = async (item: ElementRevisionRefImpl<IControlConstruct>) => {
+    if (!item.element) {
+      const kind = getElementKind(item.elementKind);
+      const result = await this.getRev(kind, item.elementId, item.elementRevision);
+      item.element = result.entity;
+      item.version = item.element.version;
+      if (kind === ElementKind.SEQUENCE_CONSTRUCT) {
+        let localSeq = (item.element as SequenceConstruct).sequence;
+        const sequencePromises = localSeq
+          .map(async (child, _i) =>
+            (getElementKind(child.elementKind) === ElementKind.SEQUENCE_CONSTRUCT) ?
+              await this.getRevRefAsync(child) :
+              await Promise.resolve(child));
+        localSeq = await Promise.all(sequencePromises);
+        const elems = document.querySelectorAll('.collapsible');
+        M.Collapsible.init(elems);
+      }
+    };
+    return await Promise.resolve(item);
+  }
 
   constructor(private service: PreviewService) { }
 
@@ -69,25 +101,20 @@ export class PreviewSequenceConstructComponent implements AfterViewInit {
     M.Collapsible.init(elems);
   }
 
-  public onOpenBody(item: ElementRevisionRef) {
-
-    if (!item.element) {
-      this.service.getRevisionByKind(
-        getElementKind(item.elementKind),
-        item.elementId,
-        item.elementRevision)
-        .then((result) => {
-          item.element = result.entity;
-          item.version = result.entity.version;
-          this.setParameters()
-          this.showDetail = true;
-        });
-    }
+  public async onOpenBody(item: ElementRevisionRefImpl<IControlConstruct>) {
+    console.log('onOpenBody');
+    item = await this.getRevRefAsync(item);
+    this.setParameters(item);
+    this.showDetail = true;
   }
 
-  public setParameters() {
-    this.sequenceConstruct.outParameter =
-      [].concat(...this.sequenceConstruct.sequence.map((seq) => (seq.element) ? seq.element.outParameter : [] as Parameter[]));
+
+  public setParameters(item: ElementRevisionRefImpl<IControlConstruct>) {
+    if (item.element.sequence) {
+      item.element.outParameter =
+        [].concat(...item.element.sequence.map((seq) => (seq.element) ? seq.element.outParameter : [] as Parameter[]));
+      console.log('outp count: ' + item.element.outParameter.length);
+    }
   }
 
   public getMatIcon(kind: ElementKind): string {

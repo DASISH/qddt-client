@@ -1,9 +1,9 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {API_BASE_HREF} from '../../api';
-import {ElementKind} from '../enums';
-import {getQueryInfo} from '../consts';
-import {IEntityEditAudit, IOtherMaterial} from '../interfaces';
+import { API_BASE_HREF } from '../../api';
+import { ElementKind } from '../enums';
+import { getQueryInfo } from '../consts';
+import { IEntityEditAudit, IOtherMaterial, IRevisionResult } from '../interfaces';
 
 
 
@@ -11,21 +11,21 @@ import {IEntityEditAudit, IOtherMaterial} from '../interfaces';
 @Injectable()
 export class PreviewService {
 
-  constructor(protected http: HttpClient,  @Inject(API_BASE_HREF) protected api: string) {  }
+  constructor(protected http: HttpClient, @Inject(API_BASE_HREF) protected api: string) { }
 
-  getElementByKind(kind: ElementKind|string, id: string): Promise<any> {
-
-    const qe = getQueryInfo(kind);
-    return this.http.get(this.api  + qe.path + '/' + id ).toPromise();
-  }
-
-  getRevisionByKind(kind: ElementKind|string, id: string, rev: number): Promise<any>  {
+  getElementByKind(kind: ElementKind | string, id: string): Promise<any> {
 
     const qe = getQueryInfo(kind);
-    return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/' + rev).toPromise();
+    return this.http.get(this.api + qe.path + '/' + id).toPromise();
   }
 
-  getRevisionsByKind(kind: ElementKind|string, id: string): Promise<any> {
+  getRevisionByKind(kind: ElementKind | string, id: string, rev: number): Promise<IRevisionResult<IEntityEditAudit>> {
+
+    const qe = getQueryInfo(kind);
+    return this.http.get<IRevisionResult<IEntityEditAudit>>(this.api + 'audit/' + qe.path + '/' + id + '/' + rev).toPromise();
+  }
+
+  getRevisionsByKind(kind: ElementKind | string, id: string): Promise<any> {
 
     const qe = getQueryInfo(kind);
     if (qe) {
@@ -40,7 +40,7 @@ export class PreviewService {
 
   getFile(om: IOtherMaterial): Promise<Blob> {
     // /files/{root}/{filename}
-    return this.http.get(this.api + 'othermaterial/files/' + om.originalOwner + '/' + om.fileName, { responseType: 'blob'})
+    return this.http.get(this.api + 'othermaterial/files/' + om.originalOwner + '/' + om.fileName, { responseType: 'blob' })
       .toPromise();
   }
 
@@ -48,10 +48,10 @@ export class PreviewService {
     const qe = getQueryInfo(element.classKind || element['refKind']);
     const revision = element['refRev'] || element.version.revision;
     if (revision) {
-      return this.http.get(this.api +  'audit/' + qe.path + '/pdf/' + element.id + '/' + element.version.revision
-              , { responseType: 'blob'}).toPromise();
+      return this.http.get(this.api + 'audit/' + qe.path + '/pdf/' + element.id + '/' + element.version.revision
+        , { responseType: 'blob' }).toPromise();
     } else {
-      return this.http.get(this.api +  qe.path + '/pdf/' + element.id  , { responseType: 'blob'}).toPromise();
+      return this.http.get(this.api + qe.path + '/pdf/' + element.id, { responseType: 'blob' }).toPromise();
     }
   }
 

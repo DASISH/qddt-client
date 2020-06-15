@@ -43,6 +43,9 @@ export class UserResponse {
   value: number | string;
   checked?: boolean;
   disabled?: string;
+  public constructor(init?: Partial<UserResponse>) {
+    Object.assign(this, init);
+  }
 }
 
 

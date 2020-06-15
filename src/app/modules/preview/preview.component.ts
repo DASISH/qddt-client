@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input, OnChanges } from '@angular/core';
 import { ElementEnumAware, ElementKind, IEntityAudit, PreviewService } from '../../lib';
 import * as FileSaver from 'file-saver';
 
@@ -17,9 +17,10 @@ import * as FileSaver from 'file-saver';
 })
 
 @ElementEnumAware
-export class PreviewComponent implements AfterViewInit {
+export class PreviewComponent implements AfterViewInit, OnChanges {
   @Input() element: IEntityAudit;
   @Input() showDetail = true;
+  @Input() inParameters: Parameter[] = [];
 
   public instanceRefEnum = ElementKind;
   public revisionIsVisible = false;
@@ -28,6 +29,14 @@ export class PreviewComponent implements AfterViewInit {
   ElementKind.INSTRUCTION, ElementKind.STATEMENT_CONSTRUCT, ElementKind.INSTRUCTION];
 
   constructor(private service: PreviewService) { }
+
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    // if (this.element && this.element. && changes.inParameters && changes.inParameters.currentValue) {
+    //   this.statement.inParameter =
+    //     this.statement.inParameter.map(obj => this.inParameters.find(o => o.name === obj.name) || obj);
+    // }
+  }
 
   public ngAfterViewInit(): void {
     M.updateTextFields();
@@ -48,5 +57,12 @@ export class PreviewComponent implements AfterViewInit {
     return (result < 0);
   }
 
+  public getParam(param: Parameter, divider: string): string {
+    // if (this.inParameters) {
+    //   this.sequenceConstruct.inParameter =
+    //     this.sequenceConstruct.inParameter.map(obj => this.inParameters.find(o => o.name === obj.name) || obj);
+    // }
+    return param.name + divider + ((param.value) ? param.value.map(p => '[' + p.value + ':' + p.label + ']').join(',') : '?');
+  }
 
 }

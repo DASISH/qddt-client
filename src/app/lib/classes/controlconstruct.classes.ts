@@ -80,7 +80,7 @@ export class SequenceConstruct implements IControlConstruct {
   comments?: IComment[];
   classKind = ElementKind[ElementKind.SEQUENCE_CONSTRUCT];
   sequenceKind = SequenceKind[SequenceKind.SECTION];
-  sequence: ElementRevisionRef[] = [];
+  sequence: ElementRevisionRefImpl<IControlConstruct>[] = [];
   public constructor(init?: Partial<SequenceConstruct>) {
     Object.assign(this, init);
   }

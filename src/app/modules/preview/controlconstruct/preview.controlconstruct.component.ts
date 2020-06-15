@@ -9,16 +9,16 @@ import { ConditionConstruct, QuestionConstruct, SequenceConstruct, StatementCons
       <div [ngSwitch]="construct.classKind">
 				<div *ngSwitchCase="'SEQUENCE_CONSTRUCT'">
         preview-controlconstruct-SEQUENCE_CONSTRUCT
-          <qddt-preview-sequenceconstruct [sequenceConstruct]="construct" ></qddt-preview-sequenceconstruct>
+          <qddt-preview-sequenceconstruct [sequenceConstruct]="construct" [inParameters]="inParameters" ></qddt-preview-sequenceconstruct>
         </div>
         <div *ngSwitchCase="'CONDITION_CONSTRUCT'">
-          <qddt-preview-conditionconstruct [condition]="construct" ></qddt-preview-conditionconstruct>
+          <qddt-preview-conditionconstruct [condition]="construct" [inParameters]="inParameters" ></qddt-preview-conditionconstruct>
         </div>
         <div *ngSwitchCase="'STATEMENT_CONSTRUCT'">
-          <qddt-preview-statementconstruct [statement]="construct" ></qddt-preview-statementconstruct>
+          <qddt-preview-statementconstruct [statement]="construct" [inParameters]="inParameters" ></qddt-preview-statementconstruct>
         </div>
         <div *ngSwitchCase="'QUESTION_CONSTRUCT'">
-            <qddt-preview-questionconstruct [controlConstruct]="construct" >
+            <qddt-preview-questionconstruct [controlConstruct]="construct" [inParameters]="inParameters" >
             </qddt-preview-questionconstruct>
         </div>
         <div *ngSwitchDefault>
@@ -31,6 +31,7 @@ import { ConditionConstruct, QuestionConstruct, SequenceConstruct, StatementCons
 
 export class PreviewControlConstructComponent {
   @Input() construct: QuestionConstruct | SequenceConstruct | ConditionConstruct | StatementConstruct;
+  @Input() inParameters: Parameter[] = [];
   @Input() showDetail = true;
 
 }

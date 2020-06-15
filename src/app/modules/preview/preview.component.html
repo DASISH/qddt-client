@@ -3,18 +3,29 @@
     <qddt-preview-concept [concept]="element"></qddt-preview-concept>
   </div>
   <div *ngSwitchCase=instanceRefEnum.CONDITION_CONSTRUCT>
-    <qddt-preview-conditionconstruct [condition]="element" [showDetail]="showDetail"></qddt-preview-conditionconstruct>
+    <qddt-preview-conditionconstruct [condition]="element" [inParameters]="inParameters" [showDetail]="showDetail">
+    </qddt-preview-conditionconstruct>
   </div>
   <div *ngSwitchCase=instanceRefEnum.QUESTION_CONSTRUCT>
-    <qddt-preview-questionconstruct [controlConstruct]="element" [showDetail]="showDetail">
+    <qddt-preview-questionconstruct [controlConstruct]="element" [inParameters]="inParameters"
+      [showDetail]="showDetail">
     </qddt-preview-questionconstruct>
   </div>
   <div *ngSwitchCase=instanceRefEnum.SEQUENCE_CONSTRUCT>
-    <qddt-preview-sequenceconstruct [sequenceConstruct]="element" [showDetail]="showDetail">
+    <span>{{ element?.description }}</span>
+    <ul *ngIf="element?.outParameter">
+      <li><label>Parameters</label></li>
+      <li class="chip" title="Out parameter" *ngFor="let parameter of element.outParameter">
+        {{getParam(parameter, '🢨')}} </li>
+    </ul>
+
+    <qddt-preview-sequenceconstruct [sequenceConstruct]="element" [inParameters]="element.outParameter"
+      [showDetail]="showDetail">
     </qddt-preview-sequenceconstruct>
   </div>
   <div *ngSwitchCase=instanceRefEnum.STATEMENT_CONSTRUCT>
-    <qddt-preview-statementconstruct [statement]="element" [showDetail]="showDetail"></qddt-preview-statementconstruct>
+    <qddt-preview-statementconstruct [statement]="element" [inParameters]="inParameters" [showDetail]="showDetail">
+    </qddt-preview-statementconstruct>
   </div>
   <div *ngSwitchCase=instanceRefEnum.INSTRUMENT>
     <qddt-preview-instrument [instrument]="element"></qddt-preview-instrument>
