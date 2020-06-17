@@ -9,7 +9,7 @@ import {
   ResponseDomain,
   SequenceConstruct, StatementConstruct, Study, SurveyProgram,
   Topic,
-  Universe, UserJson, ElementRevisionRef, ElementRevisionRefImpl, Author
+  Universe, UserJson, ElementRevisionRefImpl, Author, IControlConstruct
 } from './classes';
 
 export class Factory {
@@ -109,7 +109,7 @@ export class Factory {
   }
 
 
-  static createRef(kind: ElementKind | string, seed: any): ElementRevisionRef {
+  static createRef(kind: ElementKind | string, seed: any): ElementRevisionRefImpl<IControlConstruct> {
     const elementKind = getElementKind(kind);
     switch (elementKind) {
       case ElementKind.CONDITION_CONSTRUCT:

@@ -50,9 +50,9 @@ export class InstrumentSequenceTreeComponent implements AfterViewInit, OnChanges
     }
   }
 
-  public onItemNew(event: Event, ref: InstrumentSequence) {
-    this.actionEvent.emit({ action: ActionKind.Create, ref });
+  public onItemNew(event: Event, ref?: InstrumentSequence) {
     event.stopPropagation();
+    this.actionEvent.emit({ action: ActionKind.Delete, ref });
   }
 
   public onItemRemove(event: Event, ref: InstrumentSequence) {

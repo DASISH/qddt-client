@@ -57,10 +57,6 @@ export class InstrumentFormComponent implements OnChanges {
         .then(can => this.readonly = !can);
 
     }
-    // if (this.element && this.element.parameters) {
-    //   console.log(this.element.parameters || JSON);
-    // }
-    // try { M.updateTextFields(); } catch (Exception) { }
   }
 
   public onUpdateInstrument() {
@@ -115,13 +111,13 @@ export class InstrumentFormComponent implements OnChanges {
   }
 
   public onItemAdded(ref: InstrumentSequence) {
-    console.log(ref || JSON);
+    console.log('ref || JSON');
     this.modalRef.open();
     // this.element.sequence.push(ref);
   }
 
   public onItemModified(ref: InstrumentSequence) {
-    console.log(ref || JSON);
+    // console.log(ref || JSON);
     const idx = this.element.sequence.findIndex(f => f.id === ref.id);
     const seqNew: InstrumentSequence[] = [].concat(
       this.element.sequence.slice(0, idx),

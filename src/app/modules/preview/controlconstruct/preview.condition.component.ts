@@ -1,7 +1,5 @@
-import { UserResponse } from './../../../lib/classes/responsedomain.classes';
-import { Condition } from './../../../lib/classes/controlconstruct.classes';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { ConditionConstruct, Parameter, ConditionKind, IfThenElse, Loop, RepeatUntil, RepeatWhile } from '../../../lib';
+import { ConditionConstruct, Parameter, ConditionKind, IfThenElse, Loop, RepeatUntil, RepeatWhile, ConRef } from '../../../lib';
 
 @Component({
   selector: 'qddt-preview-conditionconstruct',
@@ -30,8 +28,12 @@ export class PreviewConditionConstructComponent implements OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.condition) {
+    if (changes.condition && changes.condition.currentValue) {
       this.condition = new ConditionConstruct(this.condition);
+    }
+    if (changes.inParameters && changes.inParameters.currentValue && this.condition) {
+      this.condition.inParameter =
+        this.condition.inParameter.map(obj => this.inParameters.find(o => o.name === obj.name) || obj);
     }
     // if (changes.inParameters) {
     //   console.log('changes in params');
@@ -73,7 +75,9 @@ export class PreviewConditionConstructComponent implements OnChanges {
     return param.name + divider + ((param.value) ? param.value.map(p => '[' + p.value + ':' + p.label + ']').join(',') : '?');
   }
 
-  public insertParam(text: string): string {
+  public insertParam(conref: ConRef | string): string {
+    let text = this.isConRef(conref) ? (conref as ConRef).condition.content : conref;
+
     if (this.condition && this.condition.inParameter) {
       this.condition.inParameter.forEach(p => {
         if (p.value) {
@@ -87,6 +91,10 @@ export class PreviewConditionConstructComponent implements OnChanges {
       });
     }
     return text;
+  }
+
+  public isConRef(element: any | ConRef): element is ConRef {
+    return (element as ConRef).condition !== undefined;
   }
 
 }

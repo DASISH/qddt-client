@@ -12,14 +12,7 @@
     </qddt-preview-questionconstruct>
   </div>
   <div *ngSwitchCase=instanceRefEnum.SEQUENCE_CONSTRUCT>
-    <span>{{ element?.description }}</span>
-    <ul *ngIf="element?.outParameter">
-      <li><label>Parameters</label></li>
-      <li class="chip" title="Out parameter" *ngFor="let parameter of element.outParameter">
-        {{getParam(parameter, '🢨')}} </li>
-    </ul>
-
-    <qddt-preview-sequenceconstruct [sequenceConstruct]="element" [inParameters]="element.outParameter"
+    <qddt-preview-sequenceconstruct [sequenceConstruct]="element" [inParameters]="inParameters"
       [showDetail]="showDetail">
     </qddt-preview-sequenceconstruct>
   </div>

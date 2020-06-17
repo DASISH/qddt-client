@@ -1,5 +1,5 @@
 <div *ngIf="sequence" class="col s12">
-  <form id="{{formId}}" #hf="ngForm" (ngSubmit)="onSave()">
+  <form [id]="formId" #hf="ngForm" (ngSubmit)="onSave()">
     <div class="row">
       <qddt-input class="col s10" required name="name" label="Name" [(ngModel)]="sequence.name" data-length="100">
       </qddt-input>
@@ -12,8 +12,7 @@
     <qddt-input required name="label" label="Label" [(ngModel)]="sequence.label" data-length="255">
     </qddt-input>
 
-    <qddt-textarea required name="description" placeholder="add description" label="Description"
-      [(ngModel)]="sequence.description" data-length="255">
+    <qddt-textarea required name="description" label="Description" [(ngModel)]="sequence.description" data-length="255">
     </qddt-textarea>
 
     <qddt-select required name="SequenceKind" label="SequenceKind" [(ngModel)]="sequence.sequenceKind"
@@ -26,7 +25,7 @@
         {{getParam(parameter, '🢨')}} </div>
     </ng-container>
     <qddt-element-revision-ref class="row" [readonly]="readonly" [elementRevisions]="sequence.sequence"
-      [xmlLang]="sequence.xmlLang" [xmlLang]="sequence.xmlLang" [selectOptions]="CONSTRUCT"
+      [inParameters]="sequence.outParameter" [xmlLang]="sequence.xmlLang" [selectOptions]="CONSTRUCT"
       (actionEvent)="onDoAction($event)">
     </qddt-element-revision-ref>
 

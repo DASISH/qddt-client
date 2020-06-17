@@ -118,7 +118,8 @@ export enum ConditionKind {
 export enum ConstructReferenceKind {
   EXIT_CONDITION,
   EXIT_SEQUENCE,
-  NEXT_IN_SEQUENCE
+  ITEM_NEXT,
+  ITEM_NEXT_SKIP
 }
 export class ConditionConstruct implements IControlConstruct {
   id: string;
@@ -158,40 +159,68 @@ export class ConditionConstruct implements IControlConstruct {
 
 export class Condition { programmingLanguage?: string; content: string; }
 
+export abstract class ConRef {
+  abstract get condition(): Condition;
+  abstract get ref(): InstrumentSequence | ElementRevisionRef | ConstructReferenceKind;
+}
 
-export class IfThenElse {
+export class IfThenElse implements ConRef {
   ifCondition: Condition;
-  thenConstructReference: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind;
+  thenConstructReference: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind = ConstructReferenceKind.ITEM_NEXT;
   elseIf?: Condition;
-  elseConstructReference?: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind;
+  elseConstructReference?: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind = ConstructReferenceKind.ITEM_NEXT_SKIP;
   public constructor(init?: Partial<IfThenElse>) {
     Object.assign(this, init);
   }
+  get condition(): Condition {
+    return this.ifCondition;
+  }
+  get ref(): InstrumentSequence | ElementRevisionRef | ConstructReferenceKind {
+    return this.thenConstructReference;
+  }
 }
 
-export class Loop {
+export class Loop implements ConRef {
+  loopWhile: Condition;
+  controlConstructReference: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind = ConstructReferenceKind.ITEM_NEXT;
   loopVariableReference?: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind;
   initialValue?: number;
-  loopWhile: Condition;
   stepValue?: number;
-  controlConstructReference: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind;
   public constructor(init?: Partial<Loop>) {
     Object.assign(this, init);
   }
-}
-
-export class RepeatWhile {
-  whileCondition: Condition;
-  whileConstructReference: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind;
-  public constructor(init?: Partial<RepeatWhile>) {
-    Object.assign(this, init);
+  get condition(): Condition {
+    return this.loopWhile;
+  }
+  get ref(): InstrumentSequence | ElementRevisionRef | ConstructReferenceKind {
+    return this.controlConstructReference;
   }
 }
 
-export class RepeatUntil {
+export class RepeatWhile implements ConRef {
+  whileCondition: Condition;
+  whileConstructReference: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind = ConstructReferenceKind.ITEM_NEXT;
+  public constructor(init?: Partial<RepeatWhile>) {
+    Object.assign(this, init);
+  }
+  get condition(): Condition {
+    return this.whileCondition;
+  }
+  get ref(): InstrumentSequence | ElementRevisionRef | ConstructReferenceKind {
+    return this.whileConstructReference;
+  }
+}
+
+export class RepeatUntil implements ConRef {
   untilCondition: Condition;
-  untilConstructReference: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind;
+  untilConstructReference: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind = ConstructReferenceKind.ITEM_NEXT;
   public constructor(init?: Partial<RepeatUntil>) {
     Object.assign(this, init);
+  }
+  get condition(): Condition {
+    return this.untilCondition;
+  }
+  get ref(): InstrumentSequence | ElementRevisionRef | ConstructReferenceKind {
+    return this.untilConstructReference;
   }
 }

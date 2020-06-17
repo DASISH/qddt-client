@@ -3,21 +3,17 @@ import { StatementConstruct, Parameter } from '../../../lib';
 
 @Component({
   selector: 'qddt-preview-statementconstruct',
-
   template: `
   <ul>
     <ng-container *ngIf="statement?.inParameter?.length>0">
     <li class="collection-item"><label>Parameters</label></li>
     <li class="collection-item chip" title="In parameter" *ngFor="let parameter of statement.inParameter">{{getParam(parameter,'🢩')}} </li>
     </ng-container>
-  <li class="collection-item" >
-    <p [innerHtml]="insertParam(statement?.statement)" style="font-style: italic"></p>
-  </li>
+    <li class="collection-item" >
+      <p [innerHtml]="insertParam(statement?.statement)" style="font-style: italic"></p>
+    </li>
 </ul>
 `,
-  styles: [
-  ],
-  providers: [],
 })
 
 export class PreviewStatementConstructComponent implements OnChanges {
@@ -26,9 +22,13 @@ export class PreviewStatementConstructComponent implements OnChanges {
   @Input() showDetail = true;
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (this.statement && changes.inParameters && changes.inParameters.currentValue) {
-      this.statement.inParameter =
-        this.statement.inParameter.map(obj => this.inParameters.find(o => o.name === obj.name) || obj);
+    if (changes.inParameters && changes.inParameters.currentValue
+      && this.statement && this.statement.inParameter.length > 0) {
+      this.statement.inParameter = [].concat(
+        ...this.statement.inParameter.map(obj => this.inParameters.find(o => o.name === obj.name) || obj));
+      console.log('this shouldn\'t be emty: ');
+      console.log(this.statement.inParameter || JSON);
+      console.log(this.inParameters || JSON);
     }
   }
 

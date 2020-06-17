@@ -1,20 +1,18 @@
 import { Component, Input } from '@angular/core';
-import {ElementRevisionRef, Instrument} from '../../../lib/classes';
-import {MessageService, PreviewService} from '../../../lib/services';
+import { ElementRevisionRef, Instrument } from '../../../lib/classes';
+import { MessageService, PreviewService } from '../../../lib/services';
 
 @Component({
   selector: 'qddt-preview-instrument',
-
   template: `
   <div class="row">
     <div class="col s12">
-      <textarea class="materialize-textarea" id="{{instrument?.id}}-desc" name="{{instrument?.id}}-desc" readonly>
+      <textarea class="materialize-textarea" [id]="instrument?.id+ '-desc'"readonly>
       </textarea>
-      <label for ="{{instrument?.id}}-desc" class="teal-text">Description</label>
+      <label class="teal-text">Description</label>
     </div>
   </div>
-  <ul *ngIf="instrument.sequence"s class="collapsible"
-      data-collapsible="accordion" style="margin:25px; padding:10px;">
+  <ul *ngIf="instrument.sequence"s class="collapsible" data-collapsible="accordion" style="margin:25px; padding:10px;">
     <li *ngFor="let cc of instrument.sequence"  (click)="onViewDetail(cc)" >
       <div class="collapsible-header yellow lighten-5">
         <div class="col l10">{{ cc?.elementRef.name }}</div>
@@ -23,7 +21,8 @@ import {MessageService, PreviewService} from '../../../lib/services';
         </div>
       </div>
       <div class="collapsible-body">
-        <qddt-preview-controlconstruct [construct]="cc.elementRef.element"></qddt-preview-controlconstruct>
+        <qddt-preview-controlconstruct [construct]="cc.elementRef.element" [inParameters]="instrument.parameters.entries()">
+        </qddt-preview-controlconstruct>
       </div>
     </li>
   </ul>
@@ -34,13 +33,12 @@ import {MessageService, PreviewService} from '../../../lib/services';
     <qddt-element-footer [element]="instrument"></qddt-element-footer>
   </div>`
   ,
-  providers: [ ],
 })
 
 export class PreviewInstrumentComponent {
   @Input() instrument: Instrument;
 
-  constructor(private  message: MessageService, private service: PreviewService) { }
+  constructor(private message: MessageService, private service: PreviewService) { }
 
   onViewDetail(element: ElementRevisionRef) {
     if (!element.element) {

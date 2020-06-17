@@ -61,8 +61,8 @@
         </div>
       </div>
     </div>
-    <qddt-element-revision-select [source]="SOURCE" (revisionSelectedEvent)="onRevisionSelect($event)"
-      (dismissEvent)="onDismiss()">
+    <qddt-element-revision-select [source]="SOURCE" [xmlLang]="element.xmlLang"
+      (revisionSelectedEvent)="onRevisionSelect($event)" (dismissEvent)="onDismiss()">
     </qddt-element-revision-select>
   </div>
   <div class="modal-footer">

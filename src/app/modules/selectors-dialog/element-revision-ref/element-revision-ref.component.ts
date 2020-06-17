@@ -1,3 +1,4 @@
+import { Parameter } from './../../../lib/classes/instrument.classes';
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import {
@@ -28,6 +29,7 @@ export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
   @Input() readonly = false;
   @Input() showIcon = true;
   @Input() xmlLang = 'none';
+  @Input() inParameters: Parameter[] = [];
   @Output() actionEvent = new EventEmitter<EventAction>();
 
   public readonly modalId = Math.round(Math.random() * 10000);
@@ -85,6 +87,7 @@ export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
           this.actionEvent.emit({ action: ActionKind.Read, ref: null });
         });
     }
+    this.actionEvent.emit({ action: ActionKind.Read, ref: null });
   }
 
   public getMatIcon(kind: ElementKind): string {

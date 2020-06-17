@@ -66,12 +66,12 @@ export class PreviewQuestionConstructComponent implements OnChanges {
   @Input() controlConstruct: QuestionConstruct;
   @Input() inParameters: Parameter[];
   @Input() showDetail = true;
-  questionItem: any;
 
   constructor() { }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (this.inParameters && this.controlConstruct) {
+    if (changes.inParameters && changes.inParameters.currentValue
+      && this.controlConstruct && this.controlConstruct.inParameter.length > 0) {
       this.controlConstruct.inParameter =
         this.controlConstruct.inParameter.map(obj => this.inParameters.find(o => o.name === obj.name) || obj);
     }
@@ -84,13 +84,6 @@ export class PreviewQuestionConstructComponent implements OnChanges {
 
   public onSelectedEvent(urs: UserResponse[]) {
     this.controlConstruct.outParameter = [new Parameter({ name: this.controlConstruct.name, value: urs })];
-    let idx = this.inParameters.findIndex(f => f.name === this.controlConstruct.outParameter[0].name)
-    if (idx >= 0) {
-      this.inParameters.splice(idx, 1, ...[this.controlConstruct.outParameter[0]]);
-    } else {
-      this.inParameters = [].concat(...this.inParameters, ...[this.controlConstruct.outParameter[0]]);
-    }
-
   }
 
   public insertParam(text: string): string {

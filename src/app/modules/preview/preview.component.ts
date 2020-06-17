@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, Input, OnChanges } from '@angular/core';
-import { ElementEnumAware, ElementKind, IEntityAudit, PreviewService } from '../../lib';
+import { AfterViewInit, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { ElementEnumAware, ElementKind, IEntityAudit, PreviewService, Parameter } from '../../lib';
 import * as FileSaver from 'file-saver';
 
 @Component({
@@ -57,12 +57,12 @@ export class PreviewComponent implements AfterViewInit, OnChanges {
     return (result < 0);
   }
 
-  public getParam(param: Parameter, divider: string): string {
-    // if (this.inParameters) {
-    //   this.sequenceConstruct.inParameter =
-    //     this.sequenceConstruct.inParameter.map(obj => this.inParameters.find(o => o.name === obj.name) || obj);
-    // }
-    return param.name + divider + ((param.value) ? param.value.map(p => '[' + p.value + ':' + p.label + ']').join(',') : '?');
-  }
+  // public getParam(param: Parameter, divider: string): string {
+  //   // if (this.inParameters) {
+  //   //   this.sequenceConstruct.inParameter =
+  //   //     this.sequenceConstruct.inParameter.map(obj => this.inParameters.find(o => o.name === obj.name) || obj);
+  //   // }
+  //   return param.name + divider + ((param.value) ? param.value.map(p => '[' + p.value + ':' + p.label + ']').join(',') : '?');
+  // }
 
 }

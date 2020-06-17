@@ -52,12 +52,10 @@ export class ConditionFormComponent implements AfterViewInit, OnChanges {
   public doCheck(doit?: boolean) {
 
     if (doit || !this.condition.condition) {
+      console.log('condition uninitialized');
       switch (this.condition.conditionKind) {
         case ConditionKind.IfThenElse:
-          this.condition.condition = new IfThenElse({
-            ifCondition: new Condition(),
-            thenConstructReference: ConstructReferenceKind.NEXT_IN_SEQUENCE
-          });
+          this.condition.condition = new IfThenElse({ ifCondition: new Condition() });
           break;
         case ConditionKind.ForI:
           if (this.isForEach(this.condition.condition)) {
