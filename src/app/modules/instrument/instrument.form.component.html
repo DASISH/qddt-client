@@ -18,7 +18,7 @@
       <qddt-select [readonly]="readonly" class="col s5" required name="instrumentKind" label="Instrument type"
         [(ngModel)]="element.instrumentKind" [lockups]="instrumentMap">
       </qddt-select>
-      <div class="col s7 grey-text">{{getDescription(element.instrumentKind)}}</div>
+      <div class="col s7 infoText">{{getDescription(element.instrumentKind)}}</div>
     </div>
 
     <ul *ngIf="element.parameters && element.parameters.size > 0">

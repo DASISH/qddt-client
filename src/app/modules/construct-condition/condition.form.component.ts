@@ -52,16 +52,25 @@ export class ConditionFormComponent implements AfterViewInit, OnChanges {
   public doCheck(doit?: boolean) {
 
     if (doit || !this.condition.condition) {
-      console.log('condition uninitialized');
-      switch (this.condition.conditionKind) {
-        case ConditionKind.IfThenElse:
+      switch (ConditionKind[this.condition.conditionKind]) {
+        case ConditionKind.IF_THEN_ELSE:
           this.condition.condition = new IfThenElse({ ifCondition: new Condition() });
           break;
-        case ConditionKind.ForI:
+        case ConditionKind.LOOP_E:
           if (this.isForEach(this.condition.condition)) {
-            this.condition.condition = '{ "loopWhile": { "content": "HASNEXT" }, "controlConstructReference": "", "loopVariableReference" :"" }';
+            this.condition.condition =
+              new Loop({
+                loopWhile: { content: 'HAS_NEXT' },
+                controlConstructReference: ConstructReferenceKind.NEXT_IN_LINE,
+                loopVariableReference: ConstructReferenceKind.ASSIGN_LATER
+              });
           } else {
-            this.condition.condition = '{ "loopWhile": { "content": 10 }, "loopVariableReference": "", "initialValue": 0, "stepValue": 1 }';
+            this.condition.condition =
+              new Loop({
+                loopWhile: { content: '>=10' },
+                controlConstructReference: ConstructReferenceKind.NEXT_IN_LINE,
+                initialValue: 0, stepValue: 1
+              });
           }
           break;
       }

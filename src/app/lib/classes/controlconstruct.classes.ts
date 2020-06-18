@@ -106,21 +106,32 @@ export interface IControlConstruct extends IEntityEditAudit {
 }
 
 
+// export enum ConditionKind {
+//   ComputationItem = 'COMPUTATION_ITEM',
+//   IfThenElse = 'IF_THEN_ELSE',
+//   ForI = 'LOOP',
+//   ForEach = 'LOOP_E',
+//   RepeatUntil = 'REPEAT_UNTIL',
+//   RepeatWhile = 'REPEAT_WHILE'
+// }
+
 export enum ConditionKind {
-  ComputationItem = 'COMPUTATION_ITEM',
-  IfThenElse = 'IF_THEN_ELSE',
-  ForI = 'LOOP',
-  ForEach = 'LOOP_E',
-  RepeatUntil = 'REPEAT_UNTIL',
-  RepeatWhile = 'REPEAT_WHILE'
+  COMPUTATION_ITEM,
+  IF_THEN_ELSE,
+  LOOP,
+  LOOP_E,
+  REPEAT_UNTIL,
+  REPEAT_WHILE
 }
 
+
 export enum ConstructReferenceKind {
-  EXIT_CONDITION,
+  NONE,
+  ASSIGN_LATER,
+  NEXT_IN_LINE,
   EXIT_SEQUENCE,
-  ITEM_NEXT,
-  ITEM_NEXT_SKIP
 }
+
 export class ConditionConstruct implements IControlConstruct {
   id: string;
   name: string;
@@ -135,21 +146,21 @@ export class ConditionConstruct implements IControlConstruct {
     Object.assign(this, init);
     if (init && init.condition && typeof init.condition === 'string') {
       switch (ConditionKind[init.conditionKind]) {
-        case ConditionKind.ComputationItem:
+        case ConditionKind.COMPUTATION_ITEM:
           break;
-        case ConditionKind.IfThenElse:
+        case ConditionKind.IF_THEN_ELSE:
           this.condition = new IfThenElse(JSON.parse(init.condition));
           break;
-        case ConditionKind.ForEach:
+        case ConditionKind.LOOP_E:
           this.condition = new Loop(JSON.parse(init.condition));
           break;
-        case ConditionKind.ForI:
+        case ConditionKind.LOOP:
           this.condition = new Loop(JSON.parse(init.condition));
           break;
-        case ConditionKind.RepeatUntil:
+        case ConditionKind.REPEAT_UNTIL:
           this.condition = new RepeatUntil(JSON.parse(init.condition));
           break;
-        case ConditionKind.RepeatWhile:
+        case ConditionKind.REPEAT_WHILE:
           this.condition = new RepeatWhile(JSON.parse(init.condition));
           break;
       }
@@ -157,7 +168,7 @@ export class ConditionConstruct implements IControlConstruct {
   }
 }
 
-export class Condition { programmingLanguage?: string; content: string; }
+export class Condition { programmingLanguage?: 'JavaScript'; content: string; }
 
 export abstract class ConRef {
   abstract get condition(): Condition;
@@ -166,9 +177,9 @@ export abstract class ConRef {
 
 export class IfThenElse implements ConRef {
   ifCondition: Condition;
-  thenConstructReference: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind = ConstructReferenceKind.ITEM_NEXT;
+  thenConstructReference: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind = ConstructReferenceKind.NEXT_IN_LINE;
   elseIf?: Condition;
-  elseConstructReference?: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind = ConstructReferenceKind.ITEM_NEXT_SKIP;
+  elseConstructReference?: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind = ConstructReferenceKind.NONE;
   public constructor(init?: Partial<IfThenElse>) {
     Object.assign(this, init);
   }
@@ -182,7 +193,7 @@ export class IfThenElse implements ConRef {
 
 export class Loop implements ConRef {
   loopWhile: Condition;
-  controlConstructReference: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind = ConstructReferenceKind.ITEM_NEXT;
+  controlConstructReference: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind = ConstructReferenceKind.NEXT_IN_LINE;
   loopVariableReference?: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind;
   initialValue?: number;
   stepValue?: number;
@@ -199,7 +210,7 @@ export class Loop implements ConRef {
 
 export class RepeatWhile implements ConRef {
   whileCondition: Condition;
-  whileConstructReference: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind = ConstructReferenceKind.ITEM_NEXT;
+  whileConstructReference: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind = ConstructReferenceKind.NEXT_IN_LINE;
   public constructor(init?: Partial<RepeatWhile>) {
     Object.assign(this, init);
   }
@@ -213,7 +224,7 @@ export class RepeatWhile implements ConRef {
 
 export class RepeatUntil implements ConRef {
   untilCondition: Condition;
-  untilConstructReference: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind = ConstructReferenceKind.ITEM_NEXT;
+  untilConstructReference: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind = ConstructReferenceKind.NEXT_IN_LINE;
   public constructor(init?: Partial<RepeatUntil>) {
     Object.assign(this, init);
   }

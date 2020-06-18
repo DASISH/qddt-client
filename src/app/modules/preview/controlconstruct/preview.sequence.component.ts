@@ -10,7 +10,16 @@ import {
   selector: 'qddt-preview-sequenceconstruct',
   template: `
 <div [id]="compId" *ngIf="sequenceConstruct">
+  <ul *ngIf="sequenceConstruct.outParameter.length > 0">
+    <li>
+      <label>Parameters</label>
+      <div class="chip" title="Out parameter" *ngFor="let parameter of sequenceConstruct.outParameter">
+        {{getParam(parameter, '🢨')}} </div>
+    </li>
+  </ul>
   <ul [id]="'UL-' + compId"  class = "collapsible" data-collapsible = "accordion" >
+  <ng-container *ngIf="sequenceConstruct">
+    </ng-container>
     <ng-container *ngTemplateOutlet="sequenceConstructTmpl; context:{ sequence: sequenceConstruct,  level: 0 }"></ng-container>
   </ul>
 
@@ -81,6 +90,7 @@ export class PreviewSequenceConstructComponent implements AfterViewInit, OnChang
               await this.getRevRefAsync(child) :
               await Promise.resolve(child));
         localSeq = await Promise.all(sequencePromises);
+        (item.element as SequenceConstruct).sequence = localSeq;
         const elems = document.querySelectorAll('.collapsible');
         M.Collapsible.init(elems);
       }
@@ -110,8 +120,8 @@ export class PreviewSequenceConstructComponent implements AfterViewInit, OnChang
       this._opened = [].concat(...this._opened, [id]);
       item = await this.getRevRefAsync(item);
       this.showDetail = true;
+      this.setParameters(item);
     }
-    this.setParameters(item);
   }
 
 
@@ -134,7 +144,7 @@ export class PreviewSequenceConstructComponent implements AfterViewInit, OnChang
     return param.name + divider + ((param.value) ? param.value.map(p => '[' + p.value + ':' + p.label + ']').join(',') : '?');
   }
 
-  public isSequence(element: any | SequenceConstruct): element is SequenceConstruct {
+  public isSequence(element?: any | SequenceConstruct): element is SequenceConstruct {
     return (element as SequenceConstruct).sequence !== undefined;
   }
 

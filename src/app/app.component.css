@@ -49,6 +49,7 @@ form p {
 
 .noItemFound { border: thick solid dodgerblue; }
 .itemInvalid { border: thick solid red; }
+.infoText { font-style: italic; color: grey; }
 
 input {
   margin: auto auto 0px;

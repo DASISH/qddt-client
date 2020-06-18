@@ -24,7 +24,6 @@
         <qddt-if-then-else-form [(element)]=condition.condition [formName]="'IFTHENELSE'"></qddt-if-then-else-form>
       </div>
       <div *ngSwitchCase="'LOOP'">
-        <span>FOR</span>
         <div *ngIf="isForEach(condition.condition)">
           <qddt-for-each-form [(element)]=condition.condition [formName]="'LOOPN'"></qddt-for-each-form>
         </div>
@@ -33,10 +32,10 @@
         </div>
       </div>
       <div *ngSwitchCase="'REPEAT_UNTIL'">
-        DXFHGPGCGXFHDS
+        REPEAT_UNTIL ?
       </div>
       <div *ngSwitchCase="'REPEAT_WHILE'">
-        FFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        REPEAT_WHILE ?
       </div>
     </div>
     <qddt-rational *ngIf="!readonly && condition.id" [formName]="'RationalComp'" [element]="condition"

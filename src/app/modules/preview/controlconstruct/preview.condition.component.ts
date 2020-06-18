@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { ConditionConstruct, Parameter, ConditionKind, IfThenElse, Loop, RepeatUntil, RepeatWhile, ConRef } from '../../../lib';
+import { ConditionConstruct, Parameter, ConditionKind, IfThenElse, Loop, RepeatUntil, RepeatWhile, ConRef, UserResponse } from '../../../lib';
 
 @Component({
   selector: 'qddt-preview-conditionconstruct',
@@ -28,42 +28,23 @@ export class PreviewConditionConstructComponent implements OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.condition && changes.condition.currentValue) {
+    if (changes.condition && changes.condition.isFirstChange()) {
       this.condition = new ConditionConstruct(this.condition);
     }
     if (changes.inParameters && changes.inParameters.currentValue && this.condition) {
       this.condition.inParameter =
-        this.condition.inParameter.map(obj => this.inParameters.find(o => o.name === obj.name) || obj);
+        this.condition.inParameter.map(obj => this.inParameters.find(o => o.name === obj.name)
+          || obj);
+      const idx = this.inParameters.findIndex(p => p.name === this.condition.name);
+      if (idx >= 0) {
+        this.condition.inParameter
+          .filter(f => f.name.startsWith('INPUT'))
+          .forEach((para, index) => {
+            para.value = this.inParameters[idx - (index + 1)].value;
+          });
+      }
     }
-    // if (changes.inParameters) {
-    //   console.log('changes in params');
-    //   if (this.condition && this.condition.condition) {
-    //     switch (ConditionKind[this.condition.conditionKind]) {
-    //       case ConditionKind.ComputationItem:
-    //         break;
-    //       case ConditionKind.IfThenElse:
-    //         const ifthenelse = this.condition.condition as IfThenElse;
-    //         this.setOutParam(ifthenelse.ifCondition);
-    //         break;
-    //       case ConditionKind.ForEach:
-    //         const loop = this.condition.condition as Loop;
-    //         this.setOutParam(loop.loopWhile);
-    //         break;
-    //       case ConditionKind.ForI:
-    //         const fori = this.condition.condition as Loop;
-    //         this.setOutParam(fori.loopWhile);
-    //         break;
-    //       case ConditionKind.RepeatUntil:
-    //         const repeat = this.condition.condition as RepeatUntil;
-    //         this.setOutParam(repeat.untilCondition)
-    //         break;
-    //       case ConditionKind.RepeatWhile:
-    //         const repeatwhile = this.condition.condition as RepeatWhile;
-    //         this.setOutParam(repeatwhile.whileCondition)
-    //         break;
-    //     }
-    //   }
-    // }
+
   }
 
   public getParam(param: Parameter, divider: string): string {
@@ -77,20 +58,25 @@ export class PreviewConditionConstructComponent implements OnChanges {
 
   public insertParam(conref: ConRef | string): string {
     let text = this.isConRef(conref) ? (conref as ConRef).condition.content : conref;
+    let label = text;
 
     if (this.condition && this.condition.inParameter) {
       this.condition.inParameter.forEach(p => {
         if (p.value) {
-          // let label = text.replace(new RegExp('\\[' + p.name + '\\]', 'ig'), p.value.map(pp => pp.value).join(','));
-          // let label = text.replace(new RegExp('\\[' + p.name + '\\]', 'ig'), p.value[0].value.toString())
-          text = text.replace(new RegExp('\\[' + p.name + '\\]', 'ig'), '<mark>' + p.value.map(pp => pp.label).join(',') + '</mark>');
-          // if (this.condition.outParameter && this.condition.outParameter.length === 1) {
-          //   this.condition.outParameter[0].value = [new UserResponse({ label, value: eval(label) })]
-          // }
+          label = label.replace(new RegExp('\\[' + p.name + '\\]', 'ig'), p.value[0].value.toString());
+          text = text.replace(new RegExp('\\[' + p.name + '\\]', 'ig'), '<mark>' + p.value.map(pp => pp.label || p.name).join(',') + '</mark>');
         }
       });
+      if (this.condition.outParameter && this.condition.outParameter.length === 1 && label) {
+        try {
+          this.condition.outParameter[0].value = [new UserResponse({ label, value: eval(label) })];
+        } catch (Ex) {
+          this.condition.outParameter[0].value = [new UserResponse({ label, value: '?' })];
+        }
+      }
     }
-    return text;
+    return text + ' = ' + this.condition.outParameter[0].value[0].value || '?' +
+      '\nRef: ' + (conref as ConRef).ref;
   }
 
   public isConRef(element: any | ConRef): element is ConRef {

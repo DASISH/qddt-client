@@ -1,7 +1,8 @@
 <div class="col s12" *ngIf="publication">
   <form id="{{formId}}" #hf="ngForm" (ngSubmit)="onUpdatePublication()">
 
-    <qddt-input [disabled]="readonly" required name="name" label="Name" [(ngModel)]="publication.name" data-length="255">
+    <qddt-input [disabled]="readonly" required name="name" label="Name" [(ngModel)]="publication.name"
+      data-length="255">
     </qddt-input>
 
     <qddt-textarea [disabled]="readonly" required name="purpose" label="Purpose" [(ngModel)]="publication.purpose"
@@ -9,19 +10,15 @@
     </qddt-textarea>
 
     <div class="row" *ngIf="statusMap">
-        <qddt-select id="ps-{{formId}}" class="col s6 m5 l4 "
-                     name="statusId" label="Publication status" required
-                     (change)="getDescription(publication.statusId)"
-                     [(ngModel)]="publication.statusId" [lockups]="statusMap" [readonly]="readonly">
-        </qddt-select>
-        <div class="col s6 m7 l8 grey-text">{{publication?.status?.description}}</div>
+      <qddt-select id="ps-{{formId}}" class="col s6 m5 l4 " name="statusId" label="Publication status" required
+        (change)="getDescription(publication.statusId)" [(ngModel)]="publication.statusId" [lockups]="statusMap"
+        [readonly]="readonly">
+      </qddt-select>
+      <div class="col s6 m7 l8 infoText">{{publication?.status?.description}}</div>
     </div>
     <label>Content list</label>
-    <qddt-element-revision-ref  class="row"
-                                [readonly]="readonly"
-                                [elementRevisions]="publication.publicationElements"
-                                [selectOptions]="PUBLICATION"
-                                (actionEvent)="onDoAction($event)">
+    <qddt-element-revision-ref class="row" [readonly]="readonly" [elementRevisions]="publication.publicationElements"
+      [selectOptions]="PUBLICATION" (actionEvent)="onDoAction($event)">
     </qddt-element-revision-ref>
 
     <qddt-rational [formName]="'RationalComp'" *ngIf="!readonly && publication.id" [element]="publication"
