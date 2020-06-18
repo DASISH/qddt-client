@@ -14,6 +14,10 @@ export abstract class ElementRevisionRef implements IElementRef, IRevisionRef, I
   public constructor(init?: Partial<ElementRevisionRef>) {
     Object.assign(this, init);
   }
+  toString(): string {
+    return this.name;
+  }
+
 }
 
 export class ElementRevisionRefImpl<T extends IEntityAudit> extends ElementRevisionRef {

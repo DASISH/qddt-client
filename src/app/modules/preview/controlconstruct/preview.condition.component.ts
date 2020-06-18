@@ -9,12 +9,15 @@ import { ConditionConstruct, Parameter, ConditionKind, IfThenElse, Loop, RepeatU
         <li class="collection-item">
           <label>Parameters</label>
         </li>
-        <li class="collection-item chip" title="In parameter" *ngFor="let parameter of condition.inParameter">{{getParam(parameter,'🢩')}} </li>
-        <li class="collection-item chip" title="Out parameter" *ngFor="let parameter of condition.outParameter">{{getParam(parameter, '🢨')}} </li>
+        <div class="chip" title="In parameter" *ngFor="let parameter of condition.inParameter">{{getParam(parameter,'🢩')}} </div>
+        <div class="chip" title="Out parameter" *ngFor="let parameter of condition.outParameter">{{getParam(parameter, '🢨')}} </div>
       </ng-container>
       <li class="collection-item card-panel">
-        <label>Condition</label>
+        <p><label>Condition</label></p>
         <code [innerHtml]="insertParam(condition.condition)"> </code>
+        <p><label>Ref</label></p>
+        <p>{{condition?.condition?.ref.toString()}}</p>
+
       </li>
   </ul>
   `,

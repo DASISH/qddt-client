@@ -139,6 +139,11 @@ export class InstrumentSequence {
     }
   }
 
+  toString(): string {
+    return this.elementRef.name;
+  }
+
+
 }
 
 export class Parameter {
