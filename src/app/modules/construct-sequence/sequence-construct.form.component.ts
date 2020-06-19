@@ -6,7 +6,7 @@ import {
   ElementKind, ElementRevisionRef,
   LANGUAGE_MAP,
   SequenceConstruct, SequenceKind,
-  TemplateService, toSelectItems, Parameter
+  TemplateService, toSelectItems, Parameter, isParamTrue
 } from '../../lib';
 
 @Component({
@@ -23,6 +23,7 @@ export class SequenceFormComponent implements OnChanges {
   public readonly SEQUENCE_MAP = toSelectItems(SequenceKind);
   public readonly CONSTRUCT = SEQUENCE_TYPES;
   public readonly formId = Math.round(Math.random() * 10000);
+  public readonly isParamTrueRef = isParamTrue;
 
   public showProgressBar = false;
   public currentSequenceKind: SequenceKind = SequenceKind.SECTION;

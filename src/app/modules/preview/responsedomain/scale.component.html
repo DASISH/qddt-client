@@ -13,7 +13,7 @@
       <tr *ngFor="let row of rows; let idx=index;">
         <td *ngFor="let option of columns" style="text-align: center">
           <label>
-            <input name="option-select" type="radio" (change)="checkOption(option?.value)" />
+            <input name="option-select{{compId}}" type="radio" (change)="checkOption(option?.value)" />
             <span>{{ option?.value }}</span>
           </label>
         </td>
@@ -33,7 +33,7 @@
       <li *ngFor="let option of rows">
         <span class="left" style="width: 30px; float: right; "> {{ option.value }} </span>
         <label>
-          <input name="option-select" type="radio" (change)="checkOption(option.value)" />
+          <input name="'option-select'+compId" type="radio" (change)="checkOption(option.value)" />
           <span>{{option.label}}</span>
         </label>
       </li>

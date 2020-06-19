@@ -33,6 +33,7 @@ export class ResponsedomainScaleComponent implements OnChanges, AfterViewInit {
   public max = 5;
   public min = 1;
   public stepUnit = 1;
+  public compId = Math.round(Math.random() * 10000);
 
   private byStep = (max, min, step) => Math.floor(((max - min) / step));
 
@@ -65,6 +66,7 @@ export class ResponsedomainScaleComponent implements OnChanges, AfterViewInit {
   public ngAfterViewInit(): void {
     const elems = document.querySelectorAll('input[type=range]');
     M.Range.init(elems);
+
   }
 
   public checkOption(option: any | UserResponse) {

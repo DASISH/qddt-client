@@ -1,7 +1,7 @@
 import { Component, Input, AfterViewInit, SimpleChanges, OnChanges } from '@angular/core';
 import {
   ElementKind, ElementRevisionRefImpl, getElementKind, getIcon,
-  IControlConstruct, PreviewService, SequenceConstruct, Parameter
+  IControlConstruct, PreviewService, SequenceConstruct, Parameter, isParamTrue
 } from '../../../lib';
 
 
@@ -11,11 +11,15 @@ import {
   template: `
 <div [id]="compId" *ngIf="sequenceConstruct">
   <ul *ngIf="sequenceConstruct.outParameter.length > 0">
-    <li>
+      <li class="collection-item"><label>Parameters</label></li>
+      <li class="chip" [ngClass]="{'green lighten-5': isParamTrueRef(parameter) }" title="Out parameter"
+        *ngFor="let parameter of sequenceConstruct.outParameter">
+        {{getParam(parameter, '🢨')}} </li>
+    <!-- <li>
       <label>Parameters</label>
-      <div class="chip" title="Out parameter" *ngFor="let parameter of sequenceConstruct.outParameter">
+      <div class="chip" title="Out parameter" [ngClass]="{'green lighten-5': isParamTrueRef(parameter) }" *ngFor="let parameter of sequenceConstruct.outParameter">
         {{getParam(parameter, '🢨')}} </div>
-    </li>
+    </li> -->
   </ul>
   <ul [id]="'UL-' + compId"  class = "collapsible" data-collapsible = "accordion" >
   <ng-container *ngIf="sequenceConstruct">
@@ -71,6 +75,8 @@ export class PreviewSequenceConstructComponent implements AfterViewInit, OnChang
   public readonly = false;
   public compId = Math.round(Math.random() * 10000);
 
+  public readonly isParamTrueRef = isParamTrue;
+
   private _opened: string[] = [];
 
   private readonly getRev = (kind: ElementKind, elementId: string, elementRevision: number) =>
@@ -120,8 +126,8 @@ export class PreviewSequenceConstructComponent implements AfterViewInit, OnChang
       this._opened = [].concat(...this._opened, [id]);
       item = await this.getRevRefAsync(item);
       this.showDetail = true;
-      this.setParameters(item);
     }
+    this.setParameters(item);
   }
 
 
@@ -132,8 +138,8 @@ export class PreviewSequenceConstructComponent implements AfterViewInit, OnChang
           .map(seq => (seq.element) ? seq.element.outParameter : []));
     } else {
     }
-    console.log(item.name)
-    console.log(item.element.outParameter || JSON);
+    // console.log(item.name)
+    // console.log(item.element.outParameter || JSON);
   }
 
   public getMatIcon(kind: ElementKind): string {

@@ -1,6 +1,6 @@
 import { QDDT_QUERY_INFOES, HEADER_DETAILS } from './query-info.config';
 import { ElementKind, EnumType } from '../enums';
-import { QueryInfo, SelectItem } from '../classes';
+import { QueryInfo, SelectItem, Parameter } from '../classes';
 import { ISelectOption } from '../interfaces';
 
 export const StringIsNumber = value => isNaN(Number(value)) === false;
@@ -21,6 +21,24 @@ export function ElementEnumAware(constructor: Function) {
 
 export function enumKeys<E>(e: E): (keyof E)[] {
   return Object.keys(e) as (keyof E)[];
+}
+
+export function tryParse(obj: string): boolean {
+  console.log('parse: ' + obj);
+  try { return Function('"use strict";return (' + obj + ')')(); }
+  catch (ex) { return false; }
+}
+
+export const isParamTrue = (parameter: Parameter) => {
+  if (parameter.value && parameter.value[0].value) {
+    // console.log('parameter: ' + parameter.value[0]);
+    return (parameter.value[0].value === 'true')
+  } else {
+    return false;
+  }
+  // (parameter.value && parameter.value[0].value) ?
+  //   parameter.value[0].value as unknown as boolean :
+  //   false;
 }
 
 // export function enumValues<E>(e: E): (keyof E)[] {

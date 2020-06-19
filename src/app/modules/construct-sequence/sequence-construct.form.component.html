@@ -21,7 +21,8 @@
 
     <ng-container *ngIf="sequence.sequence">
       <div class="collection-item"><label>Parameters</label></div>
-      <div class="collection-item chip" title="Out parameter" *ngFor="let parameter of sequence.outParameter">
+      <div class="chip" [ngClass]="{'green lighten-5': isParamTrueRef(parameter) }" title="Out parameter"
+        *ngFor="let parameter of sequence.outParameter">
         {{getParam(parameter, '🢨')}} </div>
     </ng-container>
     <qddt-element-revision-ref class="row" [readonly]="readonly" [elementRevisions]="sequence.sequence"

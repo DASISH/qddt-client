@@ -7,10 +7,10 @@ import { Category, ResponseCardinality, UserResponse } from '../../../lib/classe
   template: `
 <div *ngIf="managedRepresentation">
   <ul>
-    <li *ngFor="let row of rows" >
+    <li *ngFor="let row of rows; let idx = index" >
       <span class="left" style="width: 30px; float: right; "> {{ row.value }} </span>
       <label>
-       <input name="option-select" type="{{type}}"
+       <input  [id]="compId + idx"   name="option-select{{compId}}" type="{{type}}"
          [disabled]="row.disabled" (change)="checkOption(row, $event)"/>
         <span >{{row.label}}</span>
       </label>
@@ -24,6 +24,8 @@ export class ResponsedomainCodeListComponent implements OnChanges {
   @Output() selectedEvent = new EventEmitter<UserResponse[]>();
   @Input() managedRepresentation: Category;
   @Input() responseCardinality: ResponseCardinality;
+
+  public compId = Math.round(Math.random() * 10000);
   public rows: UserResponse[] = [];
   public type: string;
 
