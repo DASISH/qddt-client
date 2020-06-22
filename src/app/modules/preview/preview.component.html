@@ -1,61 +1,61 @@
 <div *ngIf="element" [ngSwitch]="getElementKind(element)" style="color: dimgrey" #preview>
-  <div *ngSwitchCase=instanceRefEnum.CONCEPT>
+  <ng-container *ngSwitchCase=instanceRefEnum.CONCEPT>
     <qddt-preview-concept [concept]="element"></qddt-preview-concept>
-  </div>
-  <div *ngSwitchCase=instanceRefEnum.CONDITION_CONSTRUCT>
+  </ng-container>
+  <ng-container *ngSwitchCase=instanceRefEnum.CONDITION_CONSTRUCT>
     <qddt-preview-conditionconstruct [condition]="element" [inParameters]="inParameters" [showDetail]="showDetail">
     </qddt-preview-conditionconstruct>
-  </div>
-  <div *ngSwitchCase=instanceRefEnum.QUESTION_CONSTRUCT>
+  </ng-container>
+  <ng-container *ngSwitchCase=instanceRefEnum.QUESTION_CONSTRUCT>
     <qddt-preview-questionconstruct [controlConstruct]="element" [inParameters]="inParameters"
       [showDetail]="showDetail">
     </qddt-preview-questionconstruct>
-  </div>
-  <div *ngSwitchCase=instanceRefEnum.SEQUENCE_CONSTRUCT>
+  </ng-container>
+  <ng-container *ngSwitchCase=instanceRefEnum.SEQUENCE_CONSTRUCT>
     <qddt-preview-sequenceconstruct [sequenceConstruct]="element" [inParameters]="inParameters"
       [showDetail]="showDetail">
     </qddt-preview-sequenceconstruct>
-  </div>
-  <div *ngSwitchCase=instanceRefEnum.STATEMENT_CONSTRUCT>
-    <qddt-preview-statementconstruct [statement]="element" [inParameters]="inParameters" [showDetail]="showDetail">
+  </ng-container>
+  <ng-container *ngSwitchCase=instanceRefEnum.STATEMENT_CONSTRUCT>
+    <qddt-preview-statementconstruct [statement]="element" [inParameters]="inParameters">
     </qddt-preview-statementconstruct>
-  </div>
-  <div *ngSwitchCase=instanceRefEnum.INSTRUMENT>
+  </ng-container>
+  <ng-container *ngSwitchCase=instanceRefEnum.INSTRUMENT>
     <qddt-preview-instrument [instrument]="element"></qddt-preview-instrument>
-  </div>
-  <div *ngSwitchCase=instanceRefEnum.PUBLICATION>
+  </ng-container>
+  <ng-container *ngSwitchCase=instanceRefEnum.PUBLICATION>
     <qddt-preview-publication [publication]="element"></qddt-preview-publication>
-  </div>
-  <div *ngSwitchCase=instanceRefEnum.QUESTION_GRID>
+  </ng-container>
+  <ng-container *ngSwitchCase=instanceRefEnum.QUESTION_GRID>
     <qddt-preview-questionitem-grid [questionItem]="element"></qddt-preview-questionitem-grid>
-  </div>
-  <div *ngSwitchCase=instanceRefEnum.QUESTION_ITEM>
+  </ng-container>
+  <ng-container *ngSwitchCase=instanceRefEnum.QUESTION_ITEM>
     <qddt-preview-questionitem [questionItem]="element"></qddt-preview-questionitem>
-  </div>
-  <div *ngSwitchCase=instanceRefEnum.RESPONSEDOMAIN>
+  </ng-container>
+  <ng-container *ngSwitchCase=instanceRefEnum.RESPONSEDOMAIN>
     <qddt-preview-responsedomain [responseDomain]="element">
     </qddt-preview-responsedomain>
-  </div>
-  <div *ngSwitchCase=instanceRefEnum.STUDY>
+  </ng-container>
+  <ng-container *ngSwitchCase=instanceRefEnum.STUDY>
     <qddt-preview-study [study]="element"></qddt-preview-study>
-  </div>
-  <div *ngSwitchCase=instanceRefEnum.SURVEY_PROGRAM>
+  </ng-container>
+  <ng-container *ngSwitchCase=instanceRefEnum.SURVEY_PROGRAM>
     <qddt-preview-survey [survey]="element"></qddt-preview-survey>
-  </div>
-  <div *ngSwitchCase=instanceRefEnum.TOPIC_GROUP>
+  </ng-container>
+  <ng-container *ngSwitchCase=instanceRefEnum.TOPIC_GROUP>
     <qddt-preview-topic [topic]="element"></qddt-preview-topic>
-  </div>
-  <div *ngSwitchCase=instanceRefEnum.INSTRUCTION>
+  </ng-container>
+  <ng-container *ngSwitchCase=instanceRefEnum.INSTRUCTION>
     <li class="collection-item" *ngIf="element['description']">
       <p [innerHtml]="element['description']"></p>
     </li>
-  </div>
+  </ng-container>
   <!-- <div *ngSwitchCase=instanceRefEnum.STATEMENT_CONSTRUCT>
     <li class="collection-item" *ngIf="element['description']">
       <p [innerHtml]="element['description']"></p>
     </li>
   </div> -->
-  <div *ngSwitchDefault>
+  <ng-container *ngSwitchDefault>
     <!--CATEGORY = 0,-->
     <!--...-->
     <!--PUBLICATION,-->
@@ -76,7 +76,7 @@
       </li>
     </ul>
 
-  </div>
+  </ng-container>
 
   <qddt-download *ngIf="hideElement(element)" [entity]="element" [readonly]="true">
   </qddt-download>

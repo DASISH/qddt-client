@@ -5,18 +5,18 @@ import { AlignmentKind, Category, ElementKind, enumKeys, IElement, ResponseCardi
 @Component({
   selector: 'qddt-anchor-point',
   template: `
-<form  id="AP-{{formId}}"  [parentFormConnect]="formName" (change)="onChange()">
-  <div class="col s2 input-field" tabindex="0">
-    <input id="CV-{{formId}}" name="value" type="number" min="{{inputLimit.minimum}}" max="{{inputLimit.maximum}}" step="{{inputLimit.stepUnit}}"
+<form  [id]="'AP-'+formId"  [parentFormConnect]="formName" (change)="onChange()">
+  <div class="col s3 input-field" tabindex="0">
+    <input [id]="'CV-' + formId" name="value" type="number" [min]="inputLimit.minimum" [max]="inputLimit.maximum" [step]="inputLimit.stepUnit"
      [(ngModel)]="category.code.codeValue" required class="validate">
   </div>
-  <div class="col s2 input-field" tabindex="1">
+  <!-- <div class="col s2 input-field" tabindex="1">
     <select id="PA-{{formId}}"  required class="validate" name="alignment"
         (change)="onSelectAlignment($event)">
         <option *ngFor="let item of alignments2;" [selected]="isSelected(item)" [value]="item" >{{item}}</option>
     </select>
-  </div>
-  <qddt-element-select  class="col s8 input-field" [source]="getSource(category)" [autoCreate]="true" [xmlLang]="category.xmlLang" (elementSelectedEvent)="onSelectCategory($event)">
+  </div> -->
+  <qddt-element-select  class="col s9 input-field" [source]="getSource(category)" [autoCreate]="true" [xmlLang]="category.xmlLang" (elementSelectedEvent)="onSelectCategory($event)">
   </qddt-element-select>
 </form>
 `

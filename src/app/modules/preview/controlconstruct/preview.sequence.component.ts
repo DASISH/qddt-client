@@ -1,3 +1,4 @@
+import { element } from 'protractor';
 import { Component, Input, AfterViewInit, SimpleChanges, OnChanges } from '@angular/core';
 import {
   ElementKind, ElementRevisionRefImpl, getElementKind, getIcon,
@@ -9,61 +10,49 @@ import {
 @Component({
   selector: 'qddt-preview-sequenceconstruct',
   template: `
-<div [id]="compId" *ngIf="sequenceConstruct">
+<ng-container *ngIf="sequenceConstruct">
   <ul *ngIf="sequenceConstruct.outParameter.length > 0">
       <li class="collection-item"><label>Parameters</label></li>
       <li class="chip" [ngClass]="{'green lighten-5': isParamTrueRef(parameter) }" title="Out parameter"
-        *ngFor="let parameter of sequenceConstruct.outParameter">
-        {{getParam(parameter, '🢨')}} </li>
-    <!-- <li>
-      <label>Parameters</label>
-      <div class="chip" title="Out parameter" [ngClass]="{'green lighten-5': isParamTrueRef(parameter) }" *ngFor="let parameter of sequenceConstruct.outParameter">
-        {{getParam(parameter, '🢨')}} </div>
-    </li> -->
+        *ngFor="let parameter of sequenceConstruct.outParameter"> {{getParam(parameter, '🢨')}} </li>
   </ul>
-  <ul [id]="'UL-' + compId"  class = "collapsible" data-collapsible = "accordion" >
-  <ng-container *ngIf="sequenceConstruct">
-    </ng-container>
-    <ng-container *ngTemplateOutlet="sequenceConstructTmpl; context:{ sequence: sequenceConstruct,  level: 0 }"></ng-container>
-  </ul>
+  <ng-container *ngTemplateOutlet="sequenceConstructTmpl; context:{ sequence: sequenceConstruct,  level: 1 }"></ng-container>
 
   <ng-template #sequenceConstructTmpl let-sequence="sequence" let-level="level">
-    <ng-container *ngIf="sequence?.sequence" >
-    <li [id]="'LI-' + compId + level + idx"  *ngFor="let cqi of sequence.sequence; let idx = index;" (click)="onOpenBody('LI-' + compId + level + idx, $event, cqi)" >
-      <div class="collapsible-header" >
-        <i class="material-icons small teal-text text-lighten-3">{{getMatIcon(cqi.elementKind)}}</i>
-        <div class="col s9 m10 grey-text text-darken-1" [innerHtml]=cqi.name></div>
-        <qddt-version-label [id]="'QV-' + compId + level + idx" class="col s3 m2 right-align" [revisionRef]="cqi"></qddt-version-label>
-      </div>
-      <div class="collapsible-body">
-        <ng-container [ngSwitch]="cqi.elementKind">
-          <ng-container *ngSwitchCase="'SEQUENCE_CONSTRUCT'">
-            <span>{{ cqi.element?.description }}</span>
-            <ul [id]="'UL-' + compId + level+idx " class="collapsible" data-collapsible="accordion" >
-              <ng-container *ngTemplateOutlet="sequenceConstructTmpl; context:{ sequence: cqi.element, level: idx }"></ng-container>
-            </ul>
+    <ul *ngIf="sequence?.sequence" class="collapsible" data-collapsible="accordion">
+      <li *ngFor="let cqi of sequence.sequence; trackBy:trackByIndex" (click)="onOpenBody( $event, cqi)" >
+        <div class="collapsible-header" >
+          <i class="material-icons small teal-text text-lighten-3">{{getMatIcon(cqi.elementKind)}}</i>
+          <div class="col s9 m10 grey-text text-darken-1" [innerHtml]=cqi.name></div>
+          <qddt-version-label  class="col s3 m2 right-align" [revisionRef]="cqi"></qddt-version-label>
+        </div>
+        <div class="collapsible-body">
+          <ng-container [ngSwitch]="cqi.elementKind">
+            <ng-container *ngSwitchCase="'SEQUENCE_CONSTRUCT'">
+              <span>{{ cqi.element?.description }}</span>
+              <ng-container *ngTemplateOutlet="sequenceConstructTmpl; context:{ sequence: cqi.element, level: nextLevel(level) }"></ng-container>
+            </ng-container>
+            <ng-container *ngSwitchCase="'CONDITION_CONSTRUCT'">
+                <qddt-preview-conditionconstruct [condition]="cqi.element" [inParameters]="inParameters"></qddt-preview-conditionconstruct>
+            </ng-container>
+            <ng-container *ngSwitchCase="'STATEMENT_CONSTRUCT'">
+              <qddt-preview-statementconstruct  [statement]="cqi.element" [inParameters]="inParameters"></qddt-preview-statementconstruct>
+            </ng-container>
+            <ng-container *ngSwitchCase="'QUESTION_CONSTRUCT'">
+              <qddt-preview-questionconstruct  [controlConstruct]="cqi.element" [inParameters]="inParameters">
+              </qddt-preview-questionconstruct>
+            </ng-container>
+            <ng-container *ngSwitchCase="'INSTRUCTION'">
+              <div *ngIf="cqi?.element">
+                <p [innerHtml]="cqi?.element['description']"></p>
+              </div>
+            </ng-container>
           </ng-container>
-          <ng-container *ngSwitchCase="'CONDITION_CONSTRUCT'">
-              <qddt-preview-conditionconstruct [id]="compId + level + idx" [condition]="cqi.element" [inParameters]="inParameters"></qddt-preview-conditionconstruct>
-          </ng-container>
-          <ng-container *ngSwitchCase="'STATEMENT_CONSTRUCT'">
-            <qddt-preview-statementconstruct [id]="compId + level + idx" [statement]="cqi.element" [inParameters]="inParameters"></qddt-preview-statementconstruct>
-          </ng-container>
-          <ng-container *ngSwitchCase="'QUESTION_CONSTRUCT'">
-            <qddt-preview-questionconstruct [id]="compId + level + idx" [controlConstruct]="cqi.element" [inParameters]="inParameters">
-            </qddt-preview-questionconstruct>
-          </ng-container>
-          <ng-container *ngSwitchCase="'INSTRUCTION'">
-            <li *ngIf="cqi?.element">
-              <p [innerHtml]="cqi?.element['description']"></p>
-            </li>
-          </ng-container>
-        </ng-container>
-      </div>
-    </li>
-    </ng-container>
+        </div>
+      </li>
+    </ul>
   </ng-template>
-  </div>`,
+</ng-container>`,
 })
 
 export class PreviewSequenceConstructComponent implements AfterViewInit, OnChanges {
@@ -76,8 +65,7 @@ export class PreviewSequenceConstructComponent implements AfterViewInit, OnChang
   public compId = Math.round(Math.random() * 10000);
 
   public readonly isParamTrueRef = isParamTrue;
-
-  private _opened: string[] = [];
+  public readonly nextLevel = (level) => ++level;
 
   private readonly getRev = (kind: ElementKind, elementId: string, elementRevision: number) =>
     this.service.getRevisionByKind(kind, elementId, elementRevision);
@@ -120,14 +108,13 @@ export class PreviewSequenceConstructComponent implements AfterViewInit, OnChang
     M.Collapsible.init(elems);
   }
 
-  public async onOpenBody(id: string, event: Event, item: ElementRevisionRefImpl<IControlConstruct>) {
+  public async onOpenBody(event: Event, item: ElementRevisionRefImpl<IControlConstruct>) {
     event.preventDefault();
-    if (!this._opened.find(f => f === id)) {
-      this._opened = [].concat(...this._opened, [id]);
+    if (!item.element) {
       item = await this.getRevRefAsync(item);
-      this.showDetail = true;
+      this.showDetail = false;
+      this.setParameters(item);
     }
-    this.setParameters(item);
   }
 
 
@@ -151,7 +138,10 @@ export class PreviewSequenceConstructComponent implements AfterViewInit, OnChang
   }
 
   public isSequence(element?: any | SequenceConstruct): element is SequenceConstruct {
-    return (element as SequenceConstruct).sequence !== undefined;
+    return (element) && (element as SequenceConstruct).sequence !== undefined;
   }
 
+  public trackByIndex = (index: number, level: number): number => {
+    return level * 100 + index;
+  };
 }

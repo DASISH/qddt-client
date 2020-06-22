@@ -36,9 +36,6 @@ export const isParamTrue = (parameter: Parameter) => {
   } else {
     return false;
   }
-  // (parameter.value && parameter.value[0].value) ?
-  //   parameter.value[0].value as unknown as boolean :
-  //   false;
 }
 
 // export function enumValues<E>(e: E): (keyof E)[] {

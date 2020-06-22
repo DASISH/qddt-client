@@ -1,4 +1,3 @@
-import { element } from 'protractor';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import {
   ElementEnumAware,
@@ -9,10 +8,9 @@ import {
   IRevisionRef,
   IRevisionResultEntity,
   QuestionConstruct,
-  ConditionConstruct,
   StatementConstruct,
   QuestionItem,
-  Instruction, ElementRevisionRefImpl, IEntityEditAudit,
+  Instruction, ElementRevisionRefImpl, IEntityEditAudit
 } from '../../../lib';
 
 @Component({
@@ -45,10 +43,10 @@ export class ElementRevisionComponent implements OnChanges {
 
   constructor() { }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     if (changes.source && changes.source.currentValue) {
       const element = changes.source.currentValue;
-      console.log(changes.source.currentValue || JSON);
+      // console.log(changes.source.currentValue || JSON);
       if (this.isElementRevision(element)) {
         this.revisionRef = new ElementRevisionRefImpl(element);
         this.showRevisionSelect = true;
@@ -81,6 +79,10 @@ export class ElementRevisionComponent implements OnChanges {
     return (kind as IElement).element !== undefined;
   }
 
+  // private readonly conRefToString = (item): string => (isConRef(item)) ? item.condition.content : item.name || 'NULL';
+
+
+
   private getRevisionRef(elementRevision: IRevisionResultEntity): ElementRevisionRef {
     const kind = getElementKind(elementRevision.entity.classKind);
     return new ElementRevisionRefImpl<IEntityEditAudit>({
@@ -96,8 +98,8 @@ export class ElementRevisionComponent implements OnChanges {
   private getName(kind: ElementKind, entity: any): string {
     const name = '<b>' + entity.name + '</b>';
     switch (kind) {
-      case ElementKind.CONDITION_CONSTRUCT:
-        return name + ' ➫ ' + (entity as ConditionConstruct).condition.toString();
+      // case ElementKind.CONDITION_CONSTRUCT:
+      //   return name;
       case ElementKind.QUESTION_CONSTRUCT:
         return name + ' ➫ ' + (entity as QuestionConstruct).description;
       case ElementKind.STATEMENT_CONSTRUCT:

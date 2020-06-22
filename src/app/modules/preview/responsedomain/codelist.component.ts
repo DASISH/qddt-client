@@ -1,22 +1,21 @@
-import { Component, Input, OnChanges, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnChanges, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { Category, ResponseCardinality, UserResponse } from '../../../lib/classes';
 
 @Component({
   selector: 'qddt-preview-rd-codelist',
 
   template: `
-<div *ngIf="managedRepresentation">
-  <ul>
-    <li *ngFor="let row of rows; let idx = index" >
-      <span class="left" style="width: 30px; float: right; "> {{ row.value }} </span>
+<ng-container *ngIf="managedRepresentation">
+  <!-- <ul [id]="'UL-' + compId" > -->
+    <div *ngFor="let row of rows; trackBy:trackByIndex;" >
+      <span class="codeValue"> {{ row.value }} </span>
       <label>
-       <input  [id]="compId + idx"   name="option-select{{compId}}" type="{{type}}"
-         [disabled]="row.disabled" (change)="checkOption(row, $event)"/>
-        <span >{{row.label}}</span>
-      </label>
-    </li>
-  </ul>
-</div>
+        <input [name]="inputGroupName" [type]="type"  (change)="checkOption(row, $event)"/>
+        <span>{{row.label}}</span>
+      </label >
+    </div>
+  <!-- </ul> -->
+</ng-container>
 `,
 })
 
@@ -24,12 +23,14 @@ export class ResponsedomainCodeListComponent implements OnChanges {
   @Output() selectedEvent = new EventEmitter<UserResponse[]>();
   @Input() managedRepresentation: Category;
   @Input() responseCardinality: ResponseCardinality;
+  @Input() inputGroupName = 'option-select'
 
   public compId = Math.round(Math.random() * 10000);
   public rows: UserResponse[] = [];
   public type: string;
 
-  ngOnChanges() {
+
+  public ngOnChanges() {
     this.rows = [];
     const rep = this.managedRepresentation;
 
@@ -42,21 +43,29 @@ export class ResponsedomainCodeListComponent implements OnChanges {
 
   }
 
-  checkOption(row: any, event: any) {
-    row.checked = event.target.checked;
-    if (this.type === 'checkbox') {
-      if (this.rows.filter((e: any) => e.checked).length >= this.responseCardinality.maximum) {
-        this.rows.filter((e: any) => !e.checked).forEach(e => e.disabled = 'disabled');
+  public checkOption(row: any, event: any) {
+    try {
+      row.checked = event.target.checked;
+      if (this.type === 'checkbox') {
+        if (this.rows.filter((e: any) => e.checked).length >= this.responseCardinality.maximum) {
+          this.rows.filter((e: any) => !e.checked).forEach(e => e.disabled = 'disabled');
+        } else {
+          this.rows.forEach((e: any) => e.disabled = '');
+        }
+        this.selectedEvent.emit([...this.rows.filter(e => e.checked)
+          .map((e: UserResponse) => {
+            const newLocal = { label: e.label, value: e.value } as UserResponse;
+            return newLocal;
+          })]);
       } else {
-        this.rows.forEach((e: any) => e.disabled = '');
+        this.selectedEvent.emit([{ label: row.label, value: row.value }]);
       }
-      this.selectedEvent.emit([...this.rows.filter(e => e.checked)
-        .map((e: UserResponse) => {
-          const newLocal = { label: e.label, value: e.value } as UserResponse;
-          return newLocal;
-        })]);
+    } catch (ex) {
+      console.log(ex);
     }
-    else
-      this.selectedEvent.emit([{ label: row.label, value: row.value }]);
   }
+
+  public trackByIndex = (index: number): number => {
+    return index;
+  };
 }

@@ -5,12 +5,12 @@ import { Category, UserResponse } from '../../../lib/classes';
   selector: 'qddt-preview-rd-datetime',
 
   template: `
-  <div class="row" *ngIf="managedRepresentation">
+  <li *ngIf="managedRepresentation">
     <span>
       <label>{{ low }} - {{ high }}</label>
       <input  type="text" class="datepicker" () >
     </span>
-  </div>
+  </li>
 `,
   styles: [],
 })

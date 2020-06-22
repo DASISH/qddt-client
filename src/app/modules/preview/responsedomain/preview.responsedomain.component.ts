@@ -3,48 +3,51 @@ import { Category, DomainKind, ResponseCardinality, ResponseDomain, UserResponse
 
 @Component({
   selector: 'qddt-preview-responsedomain',
-
-  styles: [],
   template: `
   <ng-container *ngIf="responseDomain">
     <div *ngIf="responseType" class="row card-panel grey lighten-5 grey-text text-darken-1">
       <label *ngIf="responseType !== refKind.MIXED" >
           {{ responseDomain?.name }}(V<qddt-version [element]="rep"></qddt-version>)
       </label>
-        <div [ngSwitch]="responseType">
-          <qddt-preview-rd-mixed id="{{compId}}" *ngSwitchCase="refKind.MIXED"
-            [managedRepresentation]="rep"
-            [displayLayout]="displayLayout"
-            [responseCardinality]="cardinality"
-            (selectedEvent)="onSelectedEvent($event)">
-          </qddt-preview-rd-mixed>
-          <qddt-preview-rd-scale id="{{compId}}" *ngSwitchCase=refKind.SCALE
+      <!-- <form> -->
+        <ng-container [ngSwitch]="responseType">
+          <!-- <ng-container *ngSwitchCase="refKind.MIXED"> -->
+            <qddt-preview-rd-mixed *ngSwitchCase="refKind.MIXED"
+              [managedRepresentation]="rep"
+              [displayLayout]="displayLayout"
+              [responseCardinality]="cardinality"
+              (selectedEvent)="onSelectedEvent($event)">
+            </qddt-preview-rd-mixed>
+          <!-- </ng-container> -->
+          <qddt-preview-rd-scale  *ngSwitchCase=refKind.SCALE
             [managedRepresentation]="rep"
             [displayLayout]="displayLayout"
             (selectedEvent)="onSelectedEvent($event)">
           </qddt-preview-rd-scale>
-          <qddt-preview-rd-codelist id="{{compId}}" *ngSwitchCase=refKind.LIST
+          <qddt-preview-rd-codelist  *ngSwitchCase=refKind.LIST
             [managedRepresentation]="rep"
+            [inputGroupName]="responseDomain.name"
             [responseCardinality]="cardinality"
             (selectedEvent)="onSelectedEvent($event)">
           </qddt-preview-rd-codelist>
-          <qddt-preview-rd-datetime id="{{compId}}" *ngSwitchCase="refKind.DATETIME"
+          <qddt-preview-rd-datetime  *ngSwitchCase="refKind.DATETIME"
             [managedRepresentation]="rep"
             (selectedEvent)="onSelectedEvent($event)">
           </qddt-preview-rd-datetime>
-          <qddt-preview-rd-numeric id="{{compId}}" *ngSwitchCase="refKind.NUMERIC"
+          <qddt-preview-rd-numeric  *ngSwitchCase="refKind.NUMERIC"
             [managedRepresentation]="rep"
             (selectedEvent)="onSelectedEvent($event)">
           </qddt-preview-rd-numeric>
-          <qddt-preview-rd-text id="{{compId}}" *ngSwitchCase="refKind.TEXT"
+          <qddt-preview-rd-text  *ngSwitchCase="refKind.TEXT"
             [managedRepresentation]="rep"
             (selectedEvent)="onSelectedEvent($event)">
           </qddt-preview-rd-text>
-          <qddt-preview-rd-missing id="{{compId}}" *ngSwitchCase="refKind.MISSING"
-            [managedRepresentation]="rep"
+          <qddt-preview-rd-missing  *ngSwitchCase="refKind.MISSING"
+            [inputGroupName]="responseDomain.name"
             (selectedEvent)="onSelectedEvent($event)">
           </qddt-preview-rd-missing>
-        </div>
+        </ng-container>
+      <!-- </form> -->
     </div>
   </ng-container>`,
   providers: [],
@@ -59,7 +62,7 @@ export class PreviewResponsedomainComponent implements OnChanges {
   public cardinality: ResponseCardinality;
   public displayLayout: number;
   public rep: Category;
-  public compId = Math.round(Math.random() * 10000);
+  // public compId = Math.round(Math.random() * 10000);
 
   public values: {};
 

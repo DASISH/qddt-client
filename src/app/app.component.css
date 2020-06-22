@@ -55,6 +55,7 @@ input {
   margin: auto auto 0px;
 }
 
+
 .collapsible.popout > li  {
   margin: 0 !important;
 }
@@ -84,14 +85,15 @@ input {
 
 .collapsible-header .col {white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-.qddtSearchCursor { cursor: zoom-in; }
-
-.question { white-space: nowrap; overflow: hidden;text-overflow: ellipsis; display: flow-root; line-height:30px; color: gray; }
-
 .collection-item:hover > ul.dropleft { display:block; }
 
 ul.dropleft { position: absolute; display: none; margin-top: 0px; margin-bottom: 0px;  margin-right: 10px; z-index: 1;}
 
 ul.dropleft li { display:inline-flex; padding: 0 10px 0  5px; }
 
+.qddtSearchCursor { cursor: zoom-in; }
+
+.question { white-space: nowrap; overflow: hidden;text-overflow: ellipsis; display: flow-root; line-height:30px; color: gray; }
+
+.codeValue { width: 30px; float: left;}
 

@@ -141,7 +141,6 @@ export class ConditionConstruct implements IControlConstruct {
   outParameter?: Parameter[] = [];
   classKind = ElementKind[ElementKind.CONDITION_CONSTRUCT];
   xmlLang?: string;
-
   public constructor(init?: Partial<ConditionConstruct>) {
     Object.assign(this, init);
     if (init && init.condition && typeof init.condition === 'string') {
@@ -166,9 +165,11 @@ export class ConditionConstruct implements IControlConstruct {
       }
     }
   }
+
 }
 
 export class Condition { programmingLanguage?: 'JavaScript'; content: string; }
+
 
 export abstract class ConRef {
   abstract get condition(): Condition;
@@ -235,3 +236,12 @@ export class RepeatUntil implements ConRef {
     return this.untilConstructReference;
   }
 }
+
+export const isConRef = (element: any | ConRef): element is ConRef => {
+  return (element) && (element as ConRef).condition !== undefined;
+}
+
+// export const isConditionConstruct = (element: any | ConditionConstruct): element is ConditionConstruct => {
+//   return (element) && (element as ConditionConstruct).condition !== undefined;
+// }
+

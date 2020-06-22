@@ -1,42 +1,39 @@
-<div *ngIf="managedRepresentation">
-  <table *ngIf="displayLayout === 0">
-    <thead>
-      <tr>
-        <th *ngFor="let item of headers" [attr.colspan]=item.colspan scope="colgroup" class="{{item.class}}">
-          <span>
+<ng-container *ngIf="managedRepresentation">
+  <ng-container *ngIf="displayLayout === 0">
+    <table>
+      <thead>
+        <tr style="white-space: nowrap;">
+          <th *ngFor="let item of headers">
             <label>{{ item.label }}</label>
-          </span>
-        </th>
-      </tr>
-    </thead>
-    <tbody *ngIf="((max - min)/stepUnit) <= 15">
-      <tr *ngFor="let row of rows; let idx=index;">
-        <td *ngFor="let option of columns" style="text-align: center">
-          <label>
-            <input name="option-select{{compId}}" type="radio" (change)="checkOption(option?.value)" />
-            <span>{{ option?.value }}</span>
-          </label>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+          </th>
+        </tr>
+      </thead>
+      <tbody *ngIf="numberOfSteps(max,min,stepUnit) <= 15">
+        <tr *ngFor="let row of rows;">
+          <td *ngFor="let option of columns;let idx=index;">
+            <label>
+              <input [id]="idx" [name]="inputGroupName" type="radio" (change)="checkOption(option?.value)" />
+              <span>{{ option?.value }}</span>
+            </label>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-  <!-- <div> -->
-  <p *ngIf="displayLayout === 0 && ((max - min)/stepUnit)>15" class="range-field">
-    <input type="range" name="points" min={{min}} max={{max}} step={{stepUnit}}
-      (input)="checkOption( $event.target.value)" />
-  </p>
-  <!-- </div> -->
-
-  <div *ngIf="displayLayout !== 0">
+    <p *ngIf="numberOfSteps(max,min,stepUnit)>15" class="range-field">
+      <input type="range" name="points" min={{min}} max={{max}} step={{stepUnit}}
+        (input)="checkOption( $event.target.value)" />
+    </p>
+  </ng-container>
+  <ng-container *ngIf="displayLayout !== 0">
     <ul>
       <li *ngFor="let option of rows">
-        <span class="left" style="width: 30px; float: right; "> {{ option.value }} </span>
+        <span class="codeValue"> {{ option.value }} </span>
         <label>
-          <input name="'option-select'+compId" type="radio" (change)="checkOption(option.value)" />
+          <input [name]="inputGroupName" type="radio" (change)="checkOption(option.value)" />
           <span>{{option.label}}</span>
         </label>
       </li>
     </ul>
-  </div>
-</div>
+  </ng-container>
+</ng-container>

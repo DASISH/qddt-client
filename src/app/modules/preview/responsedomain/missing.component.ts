@@ -3,26 +3,28 @@ import { Category, UserResponse } from '../../../lib/classes';
 
 @Component({
   selector: 'qddt-preview-rd-missing',
-
   template: `
-<div *ngIf="missing?.children">
-  <span style="font-weight: bold;"><label>Missing</label></span>
-  <ul>
-    <li *ngFor="let category of missing.children; let i = index;" >
-      <span class="left" style="width: 30px; float: right; "> {{ category.code?.codeValue }} </span>
+<ng-container *ngIf="missing?.children">
+  <span style="font-weight: bold;">
+    <label>Missing</label>
+  </span>
+    <div *ngFor="let category of missing.children;" >
+      <span class="codeValue"> {{ category.code?.codeValue }} </span>
       <label>
-        <input name="option-select" type="radio" (change)="checkOption(category)"/>
+        <input [name]="inputGroupName" type="radio" (change)="checkOption(category)"/>
         <span >{{category.label}}</span>
       </label>
-    </li>
-  </ul>
-</div>`,
-  styles: [],
+    </div>
+</ng-container>
+`,
 })
 
 export class ResponsedomainMissingComponent {
   @Output() selectedEvent = new EventEmitter<UserResponse[]>();
   @Input() managedRepresentation: Category;
+  @Input() inputGroupName = 'option-select'
+
+  public compId = Math.round(Math.random() * 10000);
 
   public get missing() {
     if (this.managedRepresentation.categoryType === 'MISSING_GROUP') {
@@ -32,8 +34,6 @@ export class ResponsedomainMissingComponent {
   }
 
   public checkOption(category: Category) {
-
     this.selectedEvent.emit([{ label: category.label, value: category.code.codeValue }]);
-
   }
 }
