@@ -36,7 +36,8 @@ export class PreviewConditionConstructComponent implements OnChanges {
   public readonly isParamTrueRef = isParamTrue;
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.condition && (changes.condition.isFirstChange() || !isConRef(this.condition))) {
+    if (changes.condition && changes.condition.currentValue && (!isConRef(this.condition))) {
+      console.log('init condition..');
       this.condition = new ConditionConstruct(this.condition);
     }
     if (changes.inParameters && changes.inParameters.currentValue && this.condition) {
@@ -44,7 +45,7 @@ export class PreviewConditionConstructComponent implements OnChanges {
         this.condition.inParameter
           .map(obj => this.inParameters.find(o => o.name === obj.name) || obj);
 
-      const idx = this.inParameters.findIndex(p => p.name === this.condition.name);
+      const idx = this.inParameters.findIndex(p => p.referencedId === this.condition.outParameter[0].referencedId);
 
       if (idx >= 0) {
         this.condition.inParameter

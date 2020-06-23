@@ -3,8 +3,6 @@ import { QuestionConstruct, Parameter, UserResponse } from '../../../lib';
 
 @Component({
   selector: 'qddt-preview-questionconstruct',
-
-  styles: [],
   template: `
   <ul class="row">
     <ng-container class="row" *ngIf="controlConstruct?.outParameter?.length>0 || controlConstruct?.inParameter?.length>0">
@@ -75,9 +73,9 @@ export class PreviewQuestionConstructComponent implements OnChanges {
       this.controlConstruct.inParameter =
         this.controlConstruct.inParameter.map(obj => this.inParameters.find(o => o.name === obj.name) || obj);
     }
-    if (changes.controlConstruct && changes.controlConstruct.currentValue) {
-      M.updateTextFields();
-    }
+    // if (changes.controlConstruct && changes.controlConstruct.currentValue) {
+    //   M.updateTextFields();
+    // }
   }
 
 

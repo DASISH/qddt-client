@@ -23,7 +23,7 @@
       <div class="collection-item"><label>Parameters</label></div>
       <div class="chip" [ngClass]="{'green lighten-5': isParamTrueRef(parameter) }" title="Out parameter"
         *ngFor="let parameter of sequence.outParameter">
-        {{getParam(parameter, '🢨')}}
+        {{getParam(parameter, '🢨')}} - {{parameter.referencedId}}
       </div>
     </ng-container>
     <qddt-element-revision-ref class="row" [readonly]="readonly" [elementRevisions]="sequence.sequence"

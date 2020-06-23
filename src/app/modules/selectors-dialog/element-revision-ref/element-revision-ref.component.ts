@@ -1,4 +1,4 @@
-import { Parameter } from './../../../lib/classes/instrument.classes';
+import { Factory } from './../../../lib/factory';
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import {
@@ -7,7 +7,8 @@ import {
   getElementKind, getIcon,
   IElement, IRevisionRef, ISelectOption,
   MessageService,
-  TemplateService
+  TemplateService,
+  Parameter
 } from '../../../lib';
 import { Router } from '@angular/router';
 
@@ -59,9 +60,7 @@ export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
     this._showButton = value;
   }
 
-  public ngOnChanges(changes: SimpleChanges): void {
-
-  }
+  public ngOnChanges(changes: SimpleChanges): void { }
 
   public ngAfterViewInit(): void {
     M.Collapsible.init(document.querySelectorAll('.collapsible'));
@@ -69,7 +68,7 @@ export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
 
   public onItemDrop(event: CdkDragDrop<any[]>) {
     if (event.previousContainer === event.container) {
-      console.log('moving');
+      // console.log('moving');
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     }
   }
@@ -77,12 +76,14 @@ export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
   public onOpenBody(item: ElementRevisionRef) {
 
     if (!item.element) {
+      const kind = getElementKind(item.elementKind);
       this.service.getByKindRevision(
-        getElementKind(item.elementKind),
+        kind,
         item.elementId,
         item.elementRevision)
         .then((result) => {
-          item.element = result.entity;
+          // console.log('create from seed');
+          item.element = Factory.createFromSeed(kind, result.entity);
           item.version = result.entity.version;
           this.actionEvent.emit({ action: ActionKind.Read, ref: null });
         });
@@ -97,7 +98,7 @@ export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
   // -------------------------------------------------------------------
   public onSelectElementKind(kind) {
     this.SOURCE = { element: '', elementKind: kind };
-    console.log(this.SOURCE);
+    // console.log(this.SOURCE);
   }
 
   public revisionSelectedEvent(ref: ElementRevisionRef) {

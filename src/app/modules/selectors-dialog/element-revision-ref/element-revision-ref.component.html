@@ -2,7 +2,6 @@
   <ul class="collapsible row">
     <li *ngFor="let cqi of elementRevisions;let idx = index;" cdkDrag (mouseenter)="showButton = !readonly"
       (mouseleave)="showButton = false" (click)="onOpenBody(cqi)">
-
       <div class="collapsible-header ">
         <ul class="dropleft" *ngIf="!readonly">
           <li>
@@ -31,7 +30,7 @@
           <i class="material-icons blue-text text-lighten-2" style=" display: inline; ">reorder</i>
         </div>
       </div>
-      <div class=" collapsible-body">
+      <div class="collapsible-body">
         <qddt-preview-element [element]="cqi.element" [showDetail]="false" [inParameters]="inParameters">
         </qddt-preview-element>
       </div>

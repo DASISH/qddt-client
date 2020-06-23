@@ -1,8 +1,7 @@
-import { element } from 'protractor';
 import { Component, Input, AfterViewInit, SimpleChanges, OnChanges } from '@angular/core';
 import {
   ElementKind, ElementRevisionRefImpl, getElementKind, getIcon,
-  IControlConstruct, PreviewService, SequenceConstruct, Parameter, isParamTrue
+  IControlConstruct, PreviewService, SequenceConstruct, Parameter, isParamTrue, ElementRevisionRef, Factory
 } from '../../../lib';
 
 
@@ -19,8 +18,8 @@ import {
   <ng-container *ngTemplateOutlet="sequenceConstructTmpl; context:{ sequence: sequenceConstruct,  level: 1 }"></ng-container>
 
   <ng-template #sequenceConstructTmpl let-sequence="sequence" let-level="level">
-    <ul *ngIf="sequence?.sequence" class="collapsible" data-collapsible="accordion">
-      <li *ngFor="let cqi of sequence.sequence; trackBy:trackByIndex" (click)="onOpenBody( $event, cqi)" >
+    <ul [id]="compId + level" *ngIf="sequence?.sequence" class="collapsible" data-collapsible="accordion">
+      <li [id]="nextIdx" *ngFor="let cqi of sequence.sequence; trackBy:trackByIndex" (click)="onOpenBody(cqi,counter,level)" >
         <div class="collapsible-header" >
           <i class="material-icons small teal-text text-lighten-3">{{getMatIcon(cqi.elementKind)}}</i>
           <div class="col s9 m10 grey-text text-darken-1" [innerHtml]=cqi.name></div>
@@ -63,9 +62,10 @@ export class PreviewSequenceConstructComponent implements AfterViewInit, OnChang
   public showButton = false;
   public readonly = false;
   public compId = Math.round(Math.random() * 10000);
-
+  public counter = 1;
   public readonly isParamTrueRef = isParamTrue;
-  public readonly nextLevel = (level) => ++level;
+  public readonly nextLevel = (level: number) => ++level;
+  public readonly nextIdx = () => (this.counter++).toString();
 
   private readonly getRev = (kind: ElementKind, elementId: string, elementRevision: number) =>
     this.service.getRevisionByKind(kind, elementId, elementRevision);
@@ -74,32 +74,36 @@ export class PreviewSequenceConstructComponent implements AfterViewInit, OnChang
     if (!item.element) {
       const kind = getElementKind(item.elementKind);
       const result = await this.getRev(kind, item.elementId, item.elementRevision);
-      item.element = result.entity;
-      item.version = item.element.version;
-      if (kind === ElementKind.SEQUENCE_CONSTRUCT) {
-        let localSeq = (item.element as SequenceConstruct).sequence;
-        const sequencePromises = localSeq
+      item.element = Factory.createFromSeed(kind, result.entity);
+      if (this.isSequence(item.element)) {
+        const sequencePromises = item.element.sequence
           .map(async (child, _i) =>
             (getElementKind(child.elementKind) === ElementKind.SEQUENCE_CONSTRUCT) ?
               await this.getRevRefAsync(child) :
               await Promise.resolve(child));
-        localSeq = await Promise.all(sequencePromises);
-        (item.element as SequenceConstruct).sequence = localSeq;
-        const elems = document.querySelectorAll('.collapsible');
-        M.Collapsible.init(elems);
+        console.log('get await');
+        item.element.sequence = await Promise.all(sequencePromises);
       }
     };
     return await Promise.resolve(item);
   }
 
+  private readonly newParam = (name: string, idx, level) => new Parameter({ name, referencedId: this.trackByIndex(idx, level).toString() })
+
+
+
   constructor(private service: PreviewService) { }
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.inParameters && changes.inParameters.currentValue && this.sequenceConstruct) {
-      this.sequenceConstruct.outParameter =
-        [].concat(...this.sequenceConstruct.sequence
-          .map(seq => (seq.element) ? seq.element.outParameter : []));
-      this.sequenceConstruct.inParameter.map(obj => this.inParameters.find(o => o.name === obj.name) || obj);
+      this.sequenceConstruct.inParameter
+        .map(obj => this.inParameters.find(o => o.name === obj.name) || obj);
+
+      this.sequenceConstruct.outParameter = [].concat(
+        ...this.sequenceConstruct.sequence
+          .map((seq: ElementRevisionRefImpl<IControlConstruct>, index) =>
+            (seq.element) ? seq.element.outParameter : []));
+
     }
   }
 
@@ -108,26 +112,29 @@ export class PreviewSequenceConstructComponent implements AfterViewInit, OnChang
     M.Collapsible.init(elems);
   }
 
-  public async onOpenBody(event: Event, item: ElementRevisionRefImpl<IControlConstruct>) {
-    event.preventDefault();
-    if (!item.element) {
-      item = await this.getRevRefAsync(item);
-      this.showDetail = false;
-      this.setParameters(item);
+  public async onOpenBody(item: ElementRevisionRefImpl<IControlConstruct>, idx, level) {
+    try {
+      if (!item.element) {
+        item = await this.getRevRefAsync(item);
+        this.showDetail = false;
+        item.element.outParameter =
+          [].concat(...(this.isSequence(item.element)) ? item.element.sequence : [item]
+            .map((seq: ElementRevisionRefImpl<IControlConstruct>) =>
+              (seq.element) ? (this.isSequence(seq.element)) ?
+                seq.element.outParameter :
+                [this.newParam(seq.element.name, idx, level)] :
+                []));
+        console.log(item.element.outParameter || JSON);
+        if (this.isSequence(item.element)) {
+          console.log('collapsable init');
+          M.Collapsible.init(document.getElementById((this.compId + level).toString()));
+        }
+      }
+    } catch (ex) {
+      console.log(ex || JSON);
     }
   }
 
-
-  public setParameters(item: ElementRevisionRefImpl<IControlConstruct>) {
-    if (this.isSequence(item.element)) {
-      item.element.outParameter =
-        [].concat(...(item.element as SequenceConstruct).sequence
-          .map(seq => (seq.element) ? seq.element.outParameter : []));
-    } else {
-    }
-    // console.log(item.name)
-    // console.log(item.element.outParameter || JSON);
-  }
 
   public getMatIcon(kind: ElementKind): string {
     return getIcon(kind);
@@ -144,4 +151,7 @@ export class PreviewSequenceConstructComponent implements AfterViewInit, OnChang
   public trackByIndex = (index: number, level: number): number => {
     return level * 100 + index;
   };
+
+
+
 }

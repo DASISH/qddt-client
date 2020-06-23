@@ -24,13 +24,15 @@ export function enumKeys<E>(e: E): (keyof E)[] {
 }
 
 export function tryParse(obj: string): boolean {
-  console.log('parse: ' + obj);
   try { return Function('"use strict";return (' + obj + ')')(); }
-  catch (ex) { return false; }
+  catch (ex) {
+    console.log('parse: ' + obj);
+    return false;
+  }
 }
 
 export const isParamTrue = (parameter: Parameter) => {
-  if (parameter.value && parameter.value[0].value) {
+  if (parameter.value && parameter.value.length > 0) {
     // console.log('parameter: ' + parameter.value[0]);
     return (parameter.value[0].value === 'true')
   } else {
