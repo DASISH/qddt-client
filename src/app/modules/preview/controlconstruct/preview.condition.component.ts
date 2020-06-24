@@ -5,18 +5,8 @@ import { ConditionConstruct, Parameter, ConRef, UserResponse, tryParse, isParamT
   selector: 'qddt-preview-conditionconstruct',
   template: `
     <ul *ngIf="condition">
-      <ng-container *ngIf="condition?.outParameter?.length>0 || condition?.inParameter?.length>0">
-        <li class="collection-item">
-          <label>Parameters</label>
-        </li>
-        <li class="chip" title="In parameter" *ngFor="let parameter of condition.inParameter">
-          {{getParam(parameter,'🢩')}}
-        </li>
-        <li class="chip" title="Out parameter" *ngFor="let parameter of condition.outParameter"
-          [ngClass]="{'green lighten-5': isParamTrueRef(parameter) }">
-          {{getParam(parameter, '🢨')}}
-        </li>
-      </ng-container>
+      <qddt-parameter [inParameters]="condition.inParameter" [outParameters]="condition.outParameter">
+      </qddt-parameter>
       <li class="collection-item card-panel" >
         <p><label>Condition</label></p>
         <code [innerHtml]="insertParam(condition.condition)"> </code>
@@ -29,23 +19,20 @@ import { ConditionConstruct, Parameter, ConRef, UserResponse, tryParse, isParamT
 
 export class PreviewConditionConstructComponent implements OnChanges {
   @Input() condition: ConditionConstruct;
-  @Input() inParameters: Parameter[];
+  @Input() inParameters: Map<number, Parameter>;
   @Input() showDetail = true;
 
 
   public readonly isParamTrueRef = isParamTrue;
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.condition && changes.condition.currentValue && (!isConRef(this.condition))) {
-      console.log('init condition..');
-      this.condition = new ConditionConstruct(this.condition);
-    }
     if (changes.inParameters && changes.inParameters.currentValue && this.condition) {
+      const params = [...this.inParameters.values()];
       this.condition.inParameter =
         this.condition.inParameter
-          .map(obj => this.inParameters.find(o => o.name === obj.name) || obj);
+          .map(obj => params.find(o => o.name === obj.name) || obj);
 
-      const idx = this.inParameters.findIndex(p => p.referencedId === this.condition.outParameter[0].referencedId);
+      const idx = params.findIndex(p => p.referencedId === this.condition.outParameter[0].referencedId);
 
       if (idx >= 0) {
         this.condition.inParameter
@@ -59,10 +46,6 @@ export class PreviewConditionConstructComponent implements OnChanges {
     }
   }
 
-  public getParam(param: Parameter, divider: string): string {
-    return param.name + divider + ((param.value) ? param.value.map(p => '[' + p.value + ':' + p.label + ']').join(',') : '?');
-  }
-
   public insertParam(conref: ConRef | string): string {
     let text = isConRef(conref) ? (conref as ConRef).condition.content : conref;
     let label = text;
@@ -71,7 +54,9 @@ export class PreviewConditionConstructComponent implements OnChanges {
       this.condition.inParameter.forEach(p => {
         if (p.value) {
           label = label.replace(new RegExp('\\[' + p.name + '\\]', 'ig'), p.value[0].value.toString());
-          text = text.replace(new RegExp('\\[' + p.name + '\\]', 'ig'), '<mark>' + p.value.map(pp => pp.label || p.name).join(',') + '</mark>');
+          text = text.replace(
+            new RegExp('\\[' + p.name + '\\]', 'ig'), '<mark>' + p.value.map(pp => pp.label || pp.value)
+              .join(',') + '</mark>');
         }
       });
       const outp = this.condition.outParameter;

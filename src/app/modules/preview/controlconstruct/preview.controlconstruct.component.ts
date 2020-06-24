@@ -31,7 +31,7 @@ import { ConditionConstruct, QuestionConstruct, SequenceConstruct, StatementCons
 
 export class PreviewControlConstructComponent {
   @Input() construct: QuestionConstruct | SequenceConstruct | ConditionConstruct | StatementConstruct;
-  @Input() inParameters: Parameter[] = [];
+  @Input() inParameters: Map<number, Parameter>
   @Input() showDetail = true;
 
 }

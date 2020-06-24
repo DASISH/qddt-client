@@ -4,14 +4,9 @@ import { QuestionConstruct, Parameter, UserResponse } from '../../../lib';
 @Component({
   selector: 'qddt-preview-questionconstruct',
   template: `
-  <ul class="row">
-    <ng-container class="row" *ngIf="controlConstruct?.outParameter?.length>0 || controlConstruct?.inParameter?.length>0">
-      <li class="collection-item">
-        <label>Parameters</label>
-      </li>
-      <li class="chip" title="In parameter" *ngFor="let parameter of controlConstruct.inParameter">{{getParam(parameter,'🢩')}} </li>
-      <li class="chip" title="Out parameter" *ngFor="let parameter of controlConstruct.outParameter">{{getParam(parameter, '🢨')}} </li>
-    </ng-container>
+  <ul class="row" *ngIf="controlConstruct">
+    <qddt-parameter [inParameters]="controlConstruct.inParameter" [outParameters]="controlConstruct.outParameter">
+    </qddt-parameter>
 
     <ng-container *ngIf="controlConstruct?.universe?.length>0">
       <li class="collection-item">
@@ -62,7 +57,7 @@ import { QuestionConstruct, Parameter, UserResponse } from '../../../lib';
 
 export class PreviewQuestionConstructComponent implements OnChanges {
   @Input() controlConstruct: QuestionConstruct;
-  @Input() inParameters: Parameter[];
+  @Input() inParameters: Map<number, Parameter>
   @Input() showDetail = true;
 
   constructor() { }
@@ -70,18 +65,13 @@ export class PreviewQuestionConstructComponent implements OnChanges {
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.inParameters && changes.inParameters.currentValue
       && this.controlConstruct && this.controlConstruct.inParameter.length > 0) {
+      const params = [...this.inParameters.values()];
+
       this.controlConstruct.inParameter =
-        this.controlConstruct.inParameter.map(obj => this.inParameters.find(o => o.name === obj.name) || obj);
+        this.controlConstruct.inParameter.map(obj => params.find(o => o.name === obj.name) || obj);
     }
-    // if (changes.controlConstruct && changes.controlConstruct.currentValue) {
-    //   M.updateTextFields();
-    // }
   }
 
-
-  public getParam(param: Parameter, divider: string): string {
-    return param.name + divider + ((param.value) ? param.value.map(p => '[' + p.value + ':' + p.label + ']').join(',') : '?');
-  }
 
   public onSelectedEvent(urs: UserResponse[]) {
     this.controlConstruct.outParameter = [new Parameter({ name: this.controlConstruct.name, value: urs })];
@@ -91,7 +81,8 @@ export class PreviewQuestionConstructComponent implements OnChanges {
     if (this.controlConstruct && this.controlConstruct.inParameter) {
       this.controlConstruct.inParameter.forEach(p => {
         if (p.value) {
-          text = text.replace(new RegExp('\\[' + p.name + '\\]', 'ig'), '<mark>' + p.value.map(pp => pp.label).join(',') + '</mark>');
+          text = text.replace(
+            new RegExp('\\[' + p.name + '\\]', 'ig'), '<mark>' + p.value.map(pp => (pp.label) ? pp.label : pp.value).join(',') + '</mark>');
         }
       });
     }

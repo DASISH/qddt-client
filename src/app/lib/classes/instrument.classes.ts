@@ -1,5 +1,5 @@
 import { ActionKind, ElementKind } from '../enums';
-import { Study, SequenceKind, ElementRevisionRef, UserResponse, ElementRevisionRefImpl, IControlConstruct } from '.';
+import { Study, SequenceKind, ElementRevisionRef, UserResponse, ElementRevisionRefImpl, AbstractControlConstruct } from '.';
 import { ISelectOption, IEntityAudit } from '../interfaces';
 // import { v4 as uuidv4 } from 'uuid';
 
@@ -128,7 +128,7 @@ export class Instrument implements IEntityAudit {
 
 export class InstrumentSequence {
   id: string;
-  elementRef: ElementRevisionRefImpl<IControlConstruct>;
+  elementRef: ElementRevisionRefImpl<AbstractControlConstruct>;
   parameters: Map<string, Parameter>;
   sequenceKind?: SequenceKind;
   sequence?: InstrumentSequence[] = [];

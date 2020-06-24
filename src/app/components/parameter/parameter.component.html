@@ -1,0 +1,15 @@
+<ul *ngIf="outParameters?.length>0 || inParameters?.length>0">
+  <li class="collection-item"><label>Parameters</label></li>
+  <ng-container *ngIf="outParameters?.length>0">
+    <li class="chip" [ngClass]="{'green lighten-5': isParamTrueRef(parameter) }" title="Out parameter"
+      *ngFor="let parameter of outParameters; let idx=index;">
+      {{idx}}: {{getParam(parameter, '🢨')}}
+    </li>
+  </ng-container>
+  <ng-container *ngIf="inParameters?.length>0">
+    <li class="chip" [ngClass]="{'green lighten-5': isParamTrueRef(parameter) }" title="In parameter"
+      *ngFor="let parameter of inParameters">
+      {{getParam(parameter, '🢩')}}
+    </li>
+  </ng-container>
+</ul>

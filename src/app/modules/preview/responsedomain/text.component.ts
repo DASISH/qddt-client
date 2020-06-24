@@ -33,6 +33,6 @@ export class ResponsedomainTextComponent implements OnChanges {
   }
 
   public checkOption(option: any) {
-    this.selectedEvent.emit([{ label: option, value: option }]);
+    this.selectedEvent.emit([{ label: '', value: option }]);
   }
 }

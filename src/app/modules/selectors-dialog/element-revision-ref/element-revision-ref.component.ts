@@ -30,7 +30,7 @@ export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
   @Input() readonly = false;
   @Input() showIcon = true;
   @Input() xmlLang = 'none';
-  @Input() inParameters: Parameter[] = [];
+  @Input() inParameters: Map<number, Parameter>
   @Output() actionEvent = new EventEmitter<EventAction>();
 
   public readonly modalId = Math.round(Math.random() * 10000);

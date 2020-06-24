@@ -6,7 +6,7 @@ import {
   ElementKind, ElementRevisionRef,
   LANGUAGE_MAP,
   SequenceConstruct, SequenceKind,
-  TemplateService, toSelectItems, Parameter, isParamTrue
+  TemplateService, toSelectItems, Parameter
 } from '../../lib';
 
 @Component({
@@ -19,21 +19,27 @@ export class SequenceFormComponent implements OnChanges {
   @Input() readonly = false;
   @Output() modifiedEvent = new EventEmitter<SequenceConstruct>();
 
-  public readonly LANGUAGES = LANGUAGE_MAP;
-  public readonly SEQUENCE_MAP = toSelectItems(SequenceKind);
+
+  public currentSequenceKind: SequenceKind = SequenceKind.SECTION;
+
+  public readonly LANGUAGE_LOOKUP = LANGUAGE_MAP;
+  public readonly SEQUENCE_LOOKUP = toSelectItems(SequenceKind);
   public readonly CONSTRUCT = SEQUENCE_TYPES;
   public readonly formId = Math.round(Math.random() * 10000);
-  public readonly isParamTrueRef = isParamTrue;
 
-  public showProgressBar = false;
-  public currentSequenceKind: SequenceKind = SequenceKind.SECTION;
+  // public parameters = () => new Map((this.sequence) ?
+  //   this.sequence.parameters.map((p, i) => [i, p] as [number, Parameter]) :
+  //   []);
+
+  public inParameters: Map<number, Parameter>
 
   constructor(private service: TemplateService) {
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.SEQUENCE_CONSTRUCT);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.sequence) {
+    if (changes.sequence && changes.sequence.currentValue) {
+      this.sequence = new SequenceConstruct(changes.sequence.currentValue);
       this.currentSequenceKind = SequenceKind[this.sequence.sequenceKind];
     }
   }
@@ -60,10 +66,13 @@ export class SequenceFormComponent implements OnChanges {
       case ActionKind.Delete: this.onItemRemoved(ref); break;
       case ActionKind.Update: this.onItemModified(ref); break;
       case ActionKind.Read:
-        if (this.sequence.sequence) {
-          this.sequence.outParameter =
-            [].concat(...this.sequence.sequence.map(seq => (seq.element) ? seq.element.outParameter : []));
-        }; break;
+        this.inParameters = new Map(this.sequence.parameters.map((p, i) => [i, p] as [number, Parameter]));
+        console.log(this.inParameters || JSON);
+        // if (this.sequence.sequence) {
+        //   this.sequence.outParameter =
+        //     [].concat(...this.sequence.sequence.map(seq => (seq.element) ? seq.element.outParameter : []));
+        // };
+        break;
       default: {
         console.error('wrong action recieved ' + ActionKind[action]);
       }
@@ -71,18 +80,15 @@ export class SequenceFormComponent implements OnChanges {
   }
 
   public onItemRemoved(ref: ElementRevisionRef) {
-    console.log('onItemRemoved -> ' + ref || JSON);
     this.sequence.sequence =
       this.sequence.sequence.filter(f => !(f.elementId === ref.elementId && f.elementRevision === ref.elementRevision));
   }
 
   public onItemAdded(ref: ElementRevisionRef) {
-    console.log('onItemAdded -> ' + ref || JSON);
     this.sequence.sequence.push(ref);
   }
 
   public onItemModified(ref: ElementRevisionRef) {
-    console.log('onItemModified -> ' + ref || JSON);
     const idx = this.sequence.sequence.findIndex(f => f.elementId === ref.elementId);
     const seqNew: ElementRevisionRef[] = [].concat(
       this.sequence.sequence.slice(0, idx),
@@ -90,9 +96,6 @@ export class SequenceFormComponent implements OnChanges {
       this.sequence.sequence.slice(idx + 1)
     );
     this.sequence.sequence = seqNew;
-  }
-  public getParam(param: Parameter, divider: string): string {
-    return param.name + divider + ((param.value) ? param.value.map(p => '[' + p.value + ':' + p.label + ']').join(',') : '?');
   }
 
 }

@@ -2,8 +2,10 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_BASE_HREF } from '../../api';
 import { ElementKind } from '../enums';
-import { getQueryInfo } from '../consts';
+import { getQueryInfo, getElementKind } from '../consts';
 import { IEntityEditAudit, IOtherMaterial, IRevisionResult } from '../interfaces';
+import { ElementRevisionRefImpl, AbstractControlConstruct, isAbstractControlConstruct, SequenceConstruct } from '../classes';
+import { Factory } from '../factory';
 
 
 
@@ -13,19 +15,19 @@ export class PreviewService {
 
   constructor(protected http: HttpClient, @Inject(API_BASE_HREF) protected api: string) { }
 
-  getElementByKind(kind: ElementKind | string, id: string): Promise<any> {
+  public getElementByKind(kind: ElementKind | string, id: string): Promise<any> {
 
     const qe = getQueryInfo(kind);
     return this.http.get(this.api + qe.path + '/' + id).toPromise();
   }
 
-  getRevisionByKind(kind: ElementKind | string, id: string, rev: number): Promise<IRevisionResult<IEntityEditAudit>> {
+  public getRevisionByKind(kind: ElementKind | string, id: string, rev: number): Promise<IRevisionResult<IEntityEditAudit>> {
 
     const qe = getQueryInfo(kind);
     return this.http.get<IRevisionResult<IEntityEditAudit>>(this.api + 'audit/' + qe.path + '/' + id + '/' + rev).toPromise();
   }
 
-  getRevisionsByKind(kind: ElementKind | string, id: string): Promise<any> {
+  public getRevisionsByKind(kind: ElementKind | string, id: string): Promise<any> {
 
     const qe = getQueryInfo(kind);
     if (qe) {
@@ -38,13 +40,13 @@ export class PreviewService {
     return new Promise(null);
   }
 
-  getFile(om: IOtherMaterial): Promise<Blob> {
+  public getFile(om: IOtherMaterial): Promise<Blob> {
     // /files/{root}/{filename}
     return this.http.get(this.api + 'othermaterial/files/' + om.originalOwner + '/' + om.fileName, { responseType: 'blob' })
       .toPromise();
   }
 
-  getPdf(element: IEntityEditAudit): Promise<Blob> {
+  public getPdf(element: IEntityEditAudit): Promise<Blob> {
     const qe = getQueryInfo(element.classKind || element['refKind']);
     const revision = element['refRev'] || element.version.revision;
     if (revision) {
@@ -55,6 +57,27 @@ export class PreviewService {
     }
   }
 
+  public async getCtrlRevRefAsync(item: ElementRevisionRefImpl<AbstractControlConstruct>) {
+    if (!item.element) {
+      const kind = getElementKind(item.elementKind);
+      const result = await this.getRevisionByKind(kind, item.elementId, item.elementRevision);
+      const element = Factory.createFromSeed(kind, result.entity);
+      item.element = isAbstractControlConstruct(element) ? element : null;
+      if (this.isSequence(item.element)) {
+        const sequencePromises = item.element.sequence
+          .map(async (child, _i) =>
+            (getElementKind(child.elementKind) === ElementKind.SEQUENCE_CONSTRUCT) ?
+              await this.getCtrlRevRefAsync(child) :
+              await Promise.resolve(child));
+        item.element.sequence = await Promise.all(sequencePromises);
+      }
+    };
+    return await Promise.resolve(item);
+  }
+
+  public isSequence(element?: any | SequenceConstruct): element is SequenceConstruct {
+    return (element) && (element as SequenceConstruct).sequence !== undefined;
+  }
   // private getElementKind(kind: string|ElementKind): ElementKind {
   //   return (typeof kind === 'string') ?  ElementKind[kind] : kind ;
   // }

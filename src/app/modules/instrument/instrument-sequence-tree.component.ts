@@ -1,5 +1,10 @@
+import { Factory } from './../../lib/factory';
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { ActionKind, ElementKind, getElementKind, getIcon, InstrumentSequence, Parameter, TemplateService } from '../../lib';
+import {
+  ActionKind, ElementKind, getElementKind, getIcon,
+  InstrumentSequence, TemplateService, isAbstractControlConstruct, ElementRevisionRefImpl,
+  SequenceConstruct, AbstractControlConstruct
+} from '../../lib';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
@@ -71,37 +76,45 @@ export class InstrumentSequenceTreeComponent implements AfterViewInit, OnChanges
   }
 
   public doPassEvent(response) {
-    // console.log(response || JSON);
-    // const action = response.action as ActionKind;
-    // const ref = response.ref as InstrumentSequence;
     this.actionEvent.emit(response);
   }
 
-  public onOpenBody(item: InstrumentSequence) {
+  public async onOpenBody(item: InstrumentSequence) {
     const ref = item.elementRef;
-    if (!ref.element && !this.isSequence(ref.elementKind)) {
-      this.service.getByKindRevision(getElementKind(ref.elementKind), ref.elementId, ref.elementRevision)
-        .then((result) => {
-          ref.element = result.entity;
-          ref.version = result.entity.version;
-          item = new InstrumentSequence(item);
-        });
+    if (!ref.element && !this.isSequenceKind(ref.elementKind)) {
+      item = item = new InstrumentSequence(await this.getCtrlRevRefAsync(ref));
     }
   }
 
-  public isSequence(kind: ElementKind | string): boolean {
-    return getElementKind(kind) === ElementKind.SEQUENCE_CONSTRUCT;
-  }
 
   public getMatIcon(kind: ElementKind): string {
     return getIcon(kind);
   }
 
-  public getParam(param: Parameter): string {
-    if (param.referencedId) {
-      return (param.value || '?') + '➫' + param.name;
-    } else {
-      return param.name + '➫' + (param.value || '?');
-    }
+  public getCtrlRevRefAsync = async (item: ElementRevisionRefImpl<AbstractControlConstruct>) => {
+    if (!item.element) {
+      const kind = getElementKind(item.elementKind);
+      const result = await this.service.getByKindRevision(kind, item.elementId, item.elementRevision);
+      const element = Factory.createFromSeed(kind, result.entity);
+      item.element = isAbstractControlConstruct(element) ? element : null;
+      if (this.isSequence(item.element)) {
+        const sequencePromises = item.element.sequence
+          .map(async (child, _i) =>
+            (getElementKind(child.elementKind) === ElementKind.SEQUENCE_CONSTRUCT) ?
+              await this.getCtrlRevRefAsync(child) :
+              await Promise.resolve(child));
+        console.log('get await');
+        item.element.sequence = await Promise.all(sequencePromises);
+      }
+    };
+    return await Promise.resolve(item);
+  }
+
+  public isSequence(element?: any | SequenceConstruct): element is SequenceConstruct {
+    return (element) && (element as SequenceConstruct).sequence !== undefined;
+  }
+
+  public isSequenceKind(kind: ElementKind | string): boolean {
+    return getElementKind(kind) === ElementKind.SEQUENCE_CONSTRUCT;
   }
 }

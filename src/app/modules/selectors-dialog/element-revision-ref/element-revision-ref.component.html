@@ -2,7 +2,7 @@
   <ul class="collapsible row">
     <li *ngFor="let cqi of elementRevisions;let idx = index;" cdkDrag (mouseenter)="showButton = !readonly"
       (mouseleave)="showButton = false" (click)="onOpenBody(cqi)">
-      <div class="collapsible-header ">
+      <div class="collapsible-header">
         <ul class="dropleft" *ngIf="!readonly">
           <li>
             <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green"

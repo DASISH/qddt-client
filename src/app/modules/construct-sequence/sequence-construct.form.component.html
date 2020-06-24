@@ -5,7 +5,7 @@
       </qddt-input>
 
       <qddt-select class="col s2" required name="xmlLang" label="Language" [(ngModel)]="sequence.xmlLang"
-        [lockups]="LANGUAGES">
+        [lockups]="LANGUAGE_LOOKUP">
       </qddt-select>
     </div>
 
@@ -16,26 +16,19 @@
     </qddt-textarea>
 
     <qddt-select required name="SequenceKind" label="SequenceKind" [(ngModel)]="sequence.sequenceKind"
-      [lockups]="SEQUENCE_MAP">
+      [lockups]="SEQUENCE_LOOKUP">
     </qddt-select>
 
-    <ng-container *ngIf="sequence.sequence">
-      <div class="collection-item"><label>Parameters</label></div>
-      <div class="chip" [ngClass]="{'green lighten-5': isParamTrueRef(parameter) }" title="Out parameter"
-        *ngFor="let parameter of sequence.outParameter">
-        {{getParam(parameter, '🢨')}} - {{parameter.referencedId}}
-      </div>
-    </ng-container>
+    <qddt-parameter [outParameters]="sequence.parameters"></qddt-parameter>
+
     <qddt-element-revision-ref class="row" [readonly]="readonly" [elementRevisions]="sequence.sequence"
-      [inParameters]="sequence.outParameter" [xmlLang]="sequence.xmlLang" [selectOptions]="CONSTRUCT"
+      [inParameters]="inParameters" [xmlLang]="sequence.xmlLang" [selectOptions]="CONSTRUCT"
       (actionEvent)="onDoAction($event)">
     </qddt-element-revision-ref>
 
-    <!--    <qddt-constructs [revisionRefs]="sequence.sequence" [readonly]="readonly" (actionEvent)="onDoAction($event)">-->
-    <!--    </qddt-constructs>-->
-
     <qddt-rational *ngIf="!readonly && sequence.modified" [formName]="'RationalComp'" [element]="sequence"
-      [config]="{hidden: [4]}"></qddt-rational>
+      [config]="{hidden: [4]}">
+    </qddt-rational>
 
     <qddt-element-footer *ngIf="sequence.id" [element]="sequence"></qddt-element-footer>
 

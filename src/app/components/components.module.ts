@@ -33,11 +33,12 @@ import { FormSelectComponent } from './form/select.component';
 import { FormInputComponent } from './form/input.component';
 import { FormTextAreaComponent } from './form/textarea.component';
 import { FormInputNComponent } from './form/input-number.component';
+import { ParameterComponent } from './parameter/parameter.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, FormsModule, CompareModule, DragDropModule],
   declarations: [LocalDatePipe, LocalNumberPipe, TemplateComponent, TemplateListComponent, TemplateDetailComponent,
-    QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, FileDownloadComponent,
+    QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, FileDownloadComponent, ParameterComponent,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent, DialogBigComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent, CommentCreateComponent, DialogComponent,
     RationalComponent, RevisionComponent, ConceptrefComponent, FormErrorsComponent, SpinnerComponent,
@@ -48,7 +49,7 @@ import { FormInputNComponent } from './form/input-number.component';
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent, DialogComponent, DialogBigComponent,
     RationalComponent, RevisionComponent, ConceptrefComponent, FormErrorsComponent,
-    TemplateComponent, TemplateListComponent, TemplateDetailComponent,
+    TemplateComponent, TemplateListComponent, TemplateDetailComponent, ParameterComponent,
     AutosizeDirective, ParentFormConnectDirective, GravatarDirective, EqualValidator, ContenteditableDirective,
     FormSelectComponent, FormInputComponent, FormTextAreaComponent, FormInputNComponent],
   providers: [TemplateService]

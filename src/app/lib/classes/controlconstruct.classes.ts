@@ -10,6 +10,25 @@ export enum SequenceKind {
   // UNIVERSE
 }
 
+
+export enum ConditionKind {
+  COMPUTATION_ITEM,
+  IF_THEN_ELSE,
+  LOOP,
+  LOOP_E,
+  REPEAT_UNTIL,
+  REPEAT_WHILE
+}
+
+
+export enum ConstructReferenceKind {
+  NONE,
+  ASSIGN_LATER,
+  NEXT_IN_LINE,
+  EXIT_SEQUENCE,
+}
+
+
 export class Universe implements IEntityEditAudit {
   id: string;
   name = '';
@@ -23,6 +42,7 @@ export class Universe implements IEntityEditAudit {
     }
   }
 }
+
 
 export class Instruction implements IEntityEditAudit {
   id: string;
@@ -40,7 +60,29 @@ export class Instruction implements IEntityEditAudit {
 }
 
 
-export class QuestionConstruct implements IControlConstruct {
+export abstract class AbstractControlConstruct implements IEntityEditAudit {
+  basedOnObject?: string;
+  basedOnRevision?: number;
+  changeComment?: string;
+  changeKind?: string;
+  modified?: number;
+  modifiedBy?: IUser;
+  version?: IVersion;
+  agency?: Agency;
+  archived?: boolean;
+  otherMaterials?: IOtherMaterial[];
+  comments?: IComment[];
+  id: string;
+  name: string;
+  classKind: string;
+  xmlLang?: string;
+  inParameter?: Parameter[];
+  outParameter?: Parameter[];
+  abstract get parameters(): Parameter[];
+}
+
+
+export class QuestionConstruct implements AbstractControlConstruct {
   id: string;
   name: string;
   description: string;
@@ -53,13 +95,16 @@ export class QuestionConstruct implements IControlConstruct {
   inParameter?: Parameter[] = [];
   outParameter?: Parameter[] = [];
   xmlLang?: string;
+  get parameters() { return this.outParameter; }
+
   public constructor(init?: Partial<QuestionConstruct>) {
     Object.assign(this, init);
   }
 
 }
 
-export class SequenceConstruct implements IControlConstruct {
+
+export class SequenceConstruct implements AbstractControlConstruct {
   id: string;
   name: string;
   label?: string;
@@ -80,13 +125,17 @@ export class SequenceConstruct implements IControlConstruct {
   comments?: IComment[];
   classKind = ElementKind[ElementKind.SEQUENCE_CONSTRUCT];
   sequenceKind = SequenceKind[SequenceKind.SECTION];
-  sequence: ElementRevisionRefImpl<IControlConstruct>[] = [];
+  sequence: ElementRevisionRefImpl<AbstractControlConstruct>[] = [];
+  get parameters(): Parameter[] {
+    return [].concat(...this.sequence.map(seq => (seq.element) ? seq.element.parameters : []));
+  }
   public constructor(init?: Partial<SequenceConstruct>) {
     Object.assign(this, init);
   }
 }
 
-export class StatementConstruct implements IControlConstruct {
+
+export class StatementConstruct implements AbstractControlConstruct {
   id: string;
   name: string;
   statement: string;
@@ -94,45 +143,16 @@ export class StatementConstruct implements IControlConstruct {
   outParameter?: Parameter[];
   xmlLang?: string;
   classKind = ElementKind[ElementKind.STATEMENT_CONSTRUCT];
+  get parameters() { return this.outParameter; }
+
   public constructor(init?: Partial<StatementConstruct>) {
     Object.assign(this, init);
   }
 
 }
 
-export interface IControlConstruct extends IEntityEditAudit {
-  inParameter?: Parameter[];
-  outParameter?: Parameter[];
-}
 
-
-// export enum ConditionKind {
-//   ComputationItem = 'COMPUTATION_ITEM',
-//   IfThenElse = 'IF_THEN_ELSE',
-//   ForI = 'LOOP',
-//   ForEach = 'LOOP_E',
-//   RepeatUntil = 'REPEAT_UNTIL',
-//   RepeatWhile = 'REPEAT_WHILE'
-// }
-
-export enum ConditionKind {
-  COMPUTATION_ITEM,
-  IF_THEN_ELSE,
-  LOOP,
-  LOOP_E,
-  REPEAT_UNTIL,
-  REPEAT_WHILE
-}
-
-
-export enum ConstructReferenceKind {
-  NONE,
-  ASSIGN_LATER,
-  NEXT_IN_LINE,
-  EXIT_SEQUENCE,
-}
-
-export class ConditionConstruct implements IControlConstruct {
+export class ConditionConstruct implements AbstractControlConstruct {
   id: string;
   name: string;
   conditionKind: string;
@@ -141,6 +161,7 @@ export class ConditionConstruct implements IControlConstruct {
   outParameter?: Parameter[] = [];
   classKind = ElementKind[ElementKind.CONDITION_CONSTRUCT];
   xmlLang?: string;
+  get parameters() { return this.outParameter; }
   public constructor(init?: Partial<ConditionConstruct>) {
     Object.assign(this, init);
     if (init && init.condition && typeof init.condition === 'string') {
@@ -168,6 +189,7 @@ export class ConditionConstruct implements IControlConstruct {
 
 }
 
+
 export class Condition { programmingLanguage?: 'JavaScript'; content: string; }
 
 
@@ -175,6 +197,7 @@ export abstract class ConRef {
   abstract get condition(): Condition;
   abstract get ref(): InstrumentSequence | ElementRevisionRef | ConstructReferenceKind;
 }
+
 
 export class IfThenElse implements ConRef {
   ifCondition: Condition;
@@ -191,6 +214,7 @@ export class IfThenElse implements ConRef {
     return this.thenConstructReference;
   }
 }
+
 
 export class Loop implements ConRef {
   loopWhile: Condition;
@@ -209,6 +233,7 @@ export class Loop implements ConRef {
   }
 }
 
+
 export class RepeatWhile implements ConRef {
   whileCondition: Condition;
   whileConstructReference: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind = ConstructReferenceKind.NEXT_IN_LINE;
@@ -222,6 +247,7 @@ export class RepeatWhile implements ConRef {
     return this.whileConstructReference;
   }
 }
+
 
 export class RepeatUntil implements ConRef {
   untilCondition: Condition;
@@ -237,8 +263,14 @@ export class RepeatUntil implements ConRef {
   }
 }
 
+
 export const isConRef = (element: any | ConRef): element is ConRef => {
   return (element) && (element as ConRef).condition !== undefined;
+}
+
+
+export const isAbstractControlConstruct = (element: any | AbstractControlConstruct): element is AbstractControlConstruct => {
+  return (element) && (element as AbstractControlConstruct).outParameter !== undefined;
 }
 
 // export const isConditionConstruct = (element: any | ConditionConstruct): element is ConditionConstruct => {

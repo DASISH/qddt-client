@@ -20,7 +20,7 @@ import * as FileSaver from 'file-saver';
 export class PreviewComponent implements AfterViewInit {
   @Input() element: IEntityAudit;
   @Input() showDetail = true;
-  @Input() inParameters: Parameter[] = [];
+  @Input() inParameters = new Map<number, Parameter>()
 
   public instanceRefEnum = ElementKind;
   public revisionIsVisible = false;

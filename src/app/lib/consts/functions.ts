@@ -26,7 +26,7 @@ export function enumKeys<E>(e: E): (keyof E)[] {
 export function tryParse(obj: string): boolean {
   try { return Function('"use strict";return (' + obj + ')')(); }
   catch (ex) {
-    console.log('parse: ' + obj);
+    // console.log('parse: ' + obj);
     return false;
   }
 }
