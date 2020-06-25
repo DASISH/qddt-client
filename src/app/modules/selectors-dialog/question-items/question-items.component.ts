@@ -7,6 +7,7 @@ import {
   TemplateService,
   ActionKind
 } from '../../../lib';
+import { computeMsgId } from '@angular/compiler';
 
 
 @Component({
@@ -121,7 +122,7 @@ export class QuestionItemsComponent {
   }
 
   public onItemSearch(event: Event) {
-    if (this.readonly) {return; }
+    if (this.readonly) { return; }
     event.stopPropagation();
     this.SOURCE = { element: '', elementKind: this.QUESTION };
     this.modalRef.open();
@@ -143,7 +144,10 @@ export class QuestionItemsComponent {
   public onItemUpdate(event: Event, cqi: ElementRevisionRef) {
     event.stopPropagation();
     this.action = ActionKind.Update;
-    this.SOURCE = cqi;
+    if (cqi && cqi.elementRevision) {
+      this.SOURCE = cqi;
+    }
+    console.log(this.SOURCE || JSON);
     this.modalRef.open();
   }
 

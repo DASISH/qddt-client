@@ -25,6 +25,6 @@ export class ElementRevisionRefImpl<T extends IEntityEditAudit> extends ElementR
   public constructor(init?: Partial<ElementRevisionRef>) {
     super(init);
     this.elementKind = this.elementKind || this.element.classKind;
-    this.version = this.element.version;
+    // this.version = (this.element) ? this.element.version;
   }
 }

@@ -9,7 +9,7 @@ import { Parameter, isParamTrue } from 'src/app/lib';
 export class ParameterComponent implements OnInit {
   @Input() inParameters: Parameter[];
   @Input() outParameters: Parameter[];
-
+  @Input() showParameters = false;
   public readonly isParamTrueRef = isParamTrue;
 
   constructor() { }

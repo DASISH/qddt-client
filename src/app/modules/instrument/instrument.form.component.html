@@ -1,38 +1,40 @@
-<div class="col s12" *ngIf="element">
+<div class="col s12" *ngIf="instrument">
   <form (ngSubmit)="onUpdateInstrument()" #instrumentform="ngForm">
     <div class="row">
-      <qddt-input [readonly]="readonly" class="col s10" required name="name" label="Name" [(ngModel)]="element.name"
+      <qddt-input [readonly]="readonly" class="col s10" required name="name" label="Name" [(ngModel)]="instrument.name"
         data-length="100">
       </qddt-input>
       <qddt-select [readonly]="readonly" class="col s2" required name="xmlLang" label="Language"
-        [(ngModel)]="element.xmlLang" [lockups]="languageMap">
+        [(ngModel)]="instrument.xmlLang" [lockups]="languageMap">
       </qddt-select>
     </div>
 
-    <qddt-input [readonly]="readonly" required name="label" label="Label" [(ngModel)]="element.label" data-length="255">
+    <qddt-input [readonly]="readonly" required name="label" label="Label" [(ngModel)]="instrument.label"
+      data-length="255">
     </qddt-input>
     <qddt-textarea [readonly]="readonly" required name="description" label="Description"
-      [(ngModel)]="element.description" data-length="1000">
+      [(ngModel)]="instrument.description" data-length="1000">
     </qddt-textarea>
     <div class="row">
       <qddt-select [readonly]="readonly" class="col s5" required name="instrumentKind" label="Instrument type"
-        [(ngModel)]="element.instrumentKind" [lockups]="instrumentMap">
+        [(ngModel)]="instrument.instrumentKind" [lockups]="instrumentMap">
       </qddt-select>
-      <div class="col s7 infoText">{{getDescription(element.instrumentKind)}}</div>
+      <div class="col s7 infoText">{{getDescription(instrument.instrumentKind)}}</div>
     </div>
 
-    <qddt-parameter [inParameters]="element.parameters">
+    <qddt-parameter [inParameters]="inParameters" [showParameters]="true">
     </qddt-parameter>
 
-    <qddt-instrument-sequence-tree [readonly]="readonly" [subSequence]="element.sequence" [xmlLang]="element.xmlLang"
-      [inParameters]="element.parameters" class="section row" (actionEvent)="onDoAction($event)">
+    <qddt-instrument-sequence-tree [readonly]="readonly" [subSequence]="instrument.sequence"
+      [xmlLang]="instrument.xmlLang" [inParameters]="inParameters" class="section row"
+      (actionEvent)="onDoAction($event)">
     </qddt-instrument-sequence-tree>
 
-    <qddt-rational [formName]="'RationalComp'" *ngIf="!readonly && element.id" [element]="element"
+    <qddt-rational [formName]="'RationalComp'" *ngIf="!readonly && instrument.id" [element]="instrument"
       [config]="{hidden: [3,4]}">
     </qddt-rational>
 
-    <qddt-element-footer *ngIf="element.id" [element]="element"></qddt-element-footer>
+    <qddt-element-footer *ngIf="instrument.id" [element]="instrument"></qddt-element-footer>
 
     <div class="row right-align">
       <button *ngIf="!readonly" [disabled]="!instrumentform.form.valid" type="submit" class="btn btn-default">Submit
@@ -57,7 +59,7 @@
         </div>
       </div>
     </div>
-    <qddt-element-revision-select [source]="SOURCE" [xmlLang]="element.xmlLang"
+    <qddt-element-revision-select [source]="SOURCE" [xmlLang]="instrument?.xmlLang"
       (revisionSelectedEvent)="onRevisionSelect($event)" (dismissEvent)="onDismiss()">
     </qddt-element-revision-select>
   </div>

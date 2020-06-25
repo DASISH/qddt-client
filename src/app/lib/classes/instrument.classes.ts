@@ -92,36 +92,31 @@ export class Instrument implements IEntityAudit {
   comments: any[];
   xmlLang?: string;
   classKind = ElementKind[ElementKind.INSTRUMENT];
+  get parameters(): Parameter[] {
+    return [].concat(...this.sequence.map(seq => (seq.) ? seq.element.parameters : []));
+  }
 
-  public constructor(init?: Partial<Object>) {
+  public constructor(init?: Partial<Instrument>) {
     Object.assign(this, init);
     if (this.sequence) {
       this.sequence.forEach(seq => new InstrumentSequence(seq));
+    } else {
+      this.sequence = [];
     }
   }
 
-  public get parameters(): Map<string, Parameter> {
-    return new Map(
-      (this.sequence) ?
-        [].concat(...this.sequence.map(s => [...this.getParametersFlatten(s)])) :
-        []);
-  }
+  // public get parameters(): Map<string, Parameter> {
+  //   return new Map(
+  //     (this.sequence) ?
+  //       [].concat(...this.sequence.map(s => [...this.getParametersFlatten(s)])) :
+  //       []);
+  // }
 
-  private getParametersFlatten(sequence: InstrumentSequence): Map<string, Parameter> {
-    const children = new Map<string, Parameter>();
-    return children.set(sequence.id, new Parameter({ name: sequence.elementRef.name }));
+  // private getParametersFlatten(sequence: InstrumentSequence): Map<string, Parameter> {
+  //   const children = new Map<string, Parameter>();
+  //   return children.set(sequence.id, new Parameter({ name: sequence.elementRef.name }));
 
-    // (sequence.sequence) ?
-    // sequence.sequence.forEach(s => {
-    //   this.getParametersFlatten(s)
-    // }
-
-    // if (sequence.parameters) {
-    //   return new Map([...sequence.parameters, ...children]);
-    // } else {
-    //  children;
-
-  }
+  // }
 
 
 }
@@ -129,7 +124,6 @@ export class Instrument implements IEntityAudit {
 export class InstrumentSequence {
   id: string;
   elementRef: ElementRevisionRefImpl<AbstractControlConstruct>;
-  parameters: Map<string, Parameter>;
   sequenceKind?: SequenceKind;
   sequence?: InstrumentSequence[] = [];
 
@@ -143,7 +137,6 @@ export class InstrumentSequence {
     return this.elementRef.name;
   }
 
-
 }
 
 export class Parameter {
@@ -153,10 +146,6 @@ export class Parameter {
   value: UserResponse[] = [];
   public constructor(init?: Partial<Parameter>) {
     Object.assign(this, init);
-    if (!id) {
-      id = Ran
-    }
-    // this.name = this.name.replace('[', '').replace(']', '').toUpperCase();
   }
 }
 

@@ -13,7 +13,6 @@ import {
   TemplateService,
   Parameter
 } from '../../lib';
-import { toArray } from 'rxjs/operators';
 
 @Component({
   selector: 'qddt-instrument-form',
@@ -23,12 +22,13 @@ import { toArray } from 'rxjs/operators';
 export class InstrumentFormComponent implements OnChanges {
   @Output() modifiedEvent = new EventEmitter<Instrument>();
   @Input() readonly = false;
-  @Input() element: Instrument;
+  @Input() instrument: Instrument;
 
   public formId = Math.round(Math.random() * 10000);
   public selectId = 0;
   public currentInstrumentType = InstrumentKind.QUESTIONNAIRE;
   public SOURCE: IElement | IRevisionRef | null;
+  public inParameters = new Map<string, Parameter>();
   public readonly instrumentMap = INSTRUMENT_MAP;
   public readonly languageMap = LANGUAGE_MAP;
   public readonly constructMap = CONSTRUCT_MAP;
@@ -50,26 +50,26 @@ export class InstrumentFormComponent implements OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.element && changes.element.currentValue) {
-      this.element = new Instrument(JSON.parse(JSON.stringify(changes.element.currentValue)));
-      this.currentInstrumentType = InstrumentKind[this.element.instrumentKind];
-      this.service.canDoAction(ActionKind.Update, this.element)
+    if (changes.instrument && changes.instrument.currentValue) {
+      this.instrument = new Instrument(JSON.parse(JSON.stringify(changes.instrument.currentValue)));
+      this.currentInstrumentType = InstrumentKind[this.instrument.instrumentKind];
+      this.service.canDoAction(ActionKind.Update, this.instrument)
         .then(can => this.readonly = !can);
 
     }
   }
 
   public onUpdateInstrument() {
-    this.service.update<Instrument>(this.element).subscribe(
+    this.service.update<Instrument>(this.instrument).subscribe(
       (result) => {
-        this.element = result;
+        this.instrument = result;
         this.modifiedEvent.emit(result);
       },
       (error) => { throw error; });
   }
 
   public onRevisionSelect(ref: ElementRevisionRef) {
-    this.element.sequence.push(
+    this.instrument.sequence.push(
       new InstrumentSequence({
         elementRef: ref,
         sequence: (ref.element.sequence) ? ref.element.sequence : []
@@ -94,7 +94,7 @@ export class InstrumentFormComponent implements OnChanges {
     const action = response.action as ActionKind;
     const ref = response.ref as InstrumentSequence;
     switch (action) {
-      case ActionKind.Read: break;
+      case ActionKind.Read: this.onSetParameters(ref); break;
       case ActionKind.Create: this.onItemAdded(ref); break;
       case ActionKind.Update: this.onItemModified(ref); break;
       case ActionKind.Delete: this.onItemRemoved(ref); break;
@@ -105,28 +105,37 @@ export class InstrumentFormComponent implements OnChanges {
   }
 
   public onItemRemoved(ref: InstrumentSequence) {
-    const tmp = this.element.sequence.filter(f => !(f.id === ref.id));
-    this.element.sequence = null;
-    this.element.sequence = tmp;
+    const tmp = this.instrument.sequence.filter(f => !(f.id === ref.id));
+    this.instrument.sequence = null;
+    this.instrument.sequence = tmp;
   }
 
   public onItemAdded(ref: InstrumentSequence) {
     console.log('ref || JSON');
     this.modalRef.open();
-    // this.element.sequence.push(ref);
+    // this.instrument.sequence.push(ref);
   }
 
   public onItemModified(ref: InstrumentSequence) {
     // console.log(ref || JSON);
-    const idx = this.element.sequence.findIndex(f => f.id === ref.id);
+    const idx = this.instrument.sequence.findIndex(f => f.id === ref.id);
     const seqNew: InstrumentSequence[] = [].concat(
-      this.element.sequence.slice(0, idx),
+      this.instrument.sequence.slice(0, idx),
       ref,
-      this.element.sequence.slice(idx + 1)
+      this.instrument.sequence.slice(idx + 1)
     );
-    this.element.sequence = seqNew;
+    this.instrument.sequence = seqNew;
   }
 
+  private onSetParameters(ref: InstrumentSequence) {
+    if (this.isSequence(ref.elementRef.element)) {
+      this.inParameters = new Map(ref.elementRef.element.parameters.map((p) => [p.id, p] as [string, Parameter]));
+    }
+  }
+
+  public isSequence(instrument?: any | SequenceConstruct): instrument is SequenceConstruct {
+    return (instrument) && (instrument as SequenceConstruct).sequence !== undefined;
+  }
 
 }
 

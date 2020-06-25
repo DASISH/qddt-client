@@ -12,7 +12,7 @@ import {
   template: `
 <ng-container *ngIf="sequenceConstruct">
 
-  <qddt-parameter [outParameters]="sequenceConstruct.parameters"></qddt-parameter>
+  <qddt-parameter [outParameters]="sequenceConstruct.parameters" [showParameters]="false"></qddt-parameter>
 
   <ng-container *ngTemplateOutlet="sequenceConstructTmpl; context:{ sequence: sequenceConstruct,  counter: 1 }"></ng-container>
 
@@ -82,7 +82,7 @@ export class PreviewSequenceConstructComponent implements AfterViewInit, OnChang
       console.log('new SequenceConstruct');
       this.sequenceConstruct = new SequenceConstruct(changes.sequenceConstruct.currentValue);
     } else {
-      console.log('seems to be fine...');
+      // console.log('seems to be fine...');
     }
   }
 

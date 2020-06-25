@@ -1,14 +1,19 @@
-<ul *ngIf="outParameters?.length>0 || inParameters?.length>0">
-  <li class="collection-item"><label>Parameters</label></li>
-  <ng-container *ngIf="outParameters?.length>0">
-    <li class="chip" [ngClass]="{'green lighten-5': isParamTrueRef(parameter) }" title="Out parameter"
-      *ngFor="let parameter of outParameters; let idx=index;">
+<!-- <div *ngIf="element && element?.parentRefs && element?.parentRefs?.length > 0">
+<div class="hoverable row" (click)="showRefs = !showRefs" style="cursor: zoom-in; padding: 0 10px 1rem 10px;"> -->
+
+<ul class="hoverable row" *ngIf="outParameters?.length>0 || inParameters?.length>0"
+  (click)=" showParameters=!showParameters">
+  <li class="" style="cursor: zoom-in; padding: 1rem;">
+    <label>Parameters({{outParameters?.length + inParameters?.length }})</label></li>
+  <ng-container *ngIf="outParameters?.length>0 && showParameters">
+    <li class="chip" style="margin-left: 1rem;" [ngClass]="{'green lighten-5': isParamTrueRef(parameter) }"
+      title="Out parameter" *ngFor="let parameter of outParameters; let idx=index;">
       {{idx}}: {{getParam(parameter, '🢨')}}
     </li>
   </ng-container>
-  <ng-container *ngIf="inParameters?.length>0">
-    <li class="chip" [ngClass]="{'green lighten-5': isParamTrueRef(parameter) }" title="In parameter"
-      *ngFor="let parameter of inParameters">
+  <ng-container *ngIf="inParameters?.length>0 && showParameters">
+    <li class="chip" style="margin-left: 1rem;" [ngClass]="{'green lighten-5': isParamTrueRef(parameter) }"
+      title="In parameter" *ngFor="let parameter of inParameters">
       {{getParam(parameter, '🢩')}}
     </li>
   </ng-container>
