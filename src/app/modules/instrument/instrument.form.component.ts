@@ -127,12 +127,6 @@ export class InstrumentFormComponent implements OnChanges {
     this.element.sequence = seqNew;
   }
 
-  public getParam(param: Parameter): string {
-    if (param.referencedId) {
-      return (param.value || '?') + '➫' + param.name;
-    } else {
-      return param.name + '➫' + (param.value || '?');
-    }
-  }
+
 }
 

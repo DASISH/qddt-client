@@ -1,11 +1,11 @@
-import { Factory } from './../../lib/factory';
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import {
   ActionKind, ElementKind, getElementKind, getIcon,
   InstrumentSequence, TemplateService, isAbstractControlConstruct, ElementRevisionRefImpl,
-  SequenceConstruct, AbstractControlConstruct
+  SequenceConstruct, AbstractControlConstruct, Parameter
 } from '../../lib';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { Factory } from './../../lib/factory';
 
 @Component({
   selector: 'qddt-instrument-sequence-tree',
@@ -22,7 +22,8 @@ export class InstrumentSequenceTreeComponent implements AfterViewInit, OnChanges
   @Input() subSequence: InstrumentSequence[];
   @Input() readonly = false;
   @Input() level = 0;
-  @Input() xmlLang = 'none';
+  @Input() xmlLang: string;
+  @Input() inParameters: Map<string, Parameter>;
   @Output() actionEvent = new EventEmitter<{ action: ActionKind, ref: InstrumentSequence }>();
 
   // tslint:disable-next-line:variable-name

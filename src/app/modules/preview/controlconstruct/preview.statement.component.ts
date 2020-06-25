@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges, Input } from '@angular/core';
+import { Component, OnChanges, SimpleChanges, Input, AfterViewInit } from '@angular/core';
 import { StatementConstruct, Parameter } from '../../../lib';
 
 @Component({
@@ -16,15 +16,34 @@ import { StatementConstruct, Parameter } from '../../../lib';
 
 export class PreviewStatementConstructComponent implements OnChanges {
   @Input() statement: StatementConstruct;
-  @Input() inParameters: Map<number, Parameter>
+  @Input() inParameters: Map<string, Parameter>
 
   public ngOnChanges(changes: SimpleChanges): void {
+
+    if (changes.statement && changes.statement.currentValue && changes.statement.currentValue.inParameter.length > 0) {
+      this.assignValueToParameters(this.statement.inParameter);
+    }
+
     if (changes.inParameters && changes.inParameters.currentValue
       && this.statement && this.statement.inParameter.length > 0) {
-      const params = [...this.inParameters.values()];
-      this.statement.inParameter = [].concat(
-        ...this.statement.inParameter.map(obj => params.find(o => o.name === obj.name) || obj));
+      this.assignValueToParameters(this.statement.inParameter);
     }
+  }
+
+  private assignValueToParameters(inParameters: Parameter[]) {
+    const reversed = [...this.inParameters.entries()].reverse();
+    inParameters.forEach((p, i, refArray) => {
+      if (!p.referencedId) {
+        const found = reversed.find(o => o[1].name === p.name);
+        if (found) {
+          p.referencedId = found[1].id;
+        }
+      }
+      if (p.referencedId) {
+        p.value = this.inParameters.get(p.referencedId).value;
+      }
+      refArray[i] = p;
+    });
   }
 
   public insertParam(text: string): string {

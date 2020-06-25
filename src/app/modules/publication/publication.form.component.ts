@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import {
   ActionKind,
   ElementRevisionRef, EventAction,
@@ -6,7 +6,9 @@ import {
   Publication, PUBLICATION_TYPES,
   PublicationService,
   PublicationStatus, SelectItem,
-  TemplateService
+  TemplateService,
+  Parameter,
+  SequenceConstruct
 } from '../../lib';
 
 
@@ -19,13 +21,15 @@ export class PublicationFormComponent implements OnChanges, OnInit, AfterViewIni
   @Input() publication: Publication;
   @Output() modifiedEvent = new EventEmitter<IEntityEditAudit>();
 
+  public readonly = false;
+  public formId = Math.round(Math.random() * 10000);
+
+  public inParameters = new Map<string, Parameter>();
+  public statusMap: SelectItem[];
+
   public readonly PUBLICATION = PUBLICATION_TYPES;
 
-  public formId = Math.round(Math.random() * 10000);
-  public readonly = false;
-  public statusMap: SelectItem[];
   private statusList: PublicationStatus[];
-
 
   constructor(private service: PublicationService, private templateService: TemplateService) {
   }
@@ -45,10 +49,10 @@ export class PublicationFormComponent implements OnChanges, OnInit, AfterViewIni
     this.statusList = [];
     pstat.forEach(s => {
       if (s.children) {
-        s.children.forEach(status => this.statusList.push( status));
+        s.children.forEach(status => this.statusList.push(status));
       }
     });
-    this.statusMap = pstat.map( value => new SelectItem(value));
+    this.statusMap = pstat.map(value => new SelectItem(value));
   }
 
   public ngAfterViewInit(): void {
@@ -56,10 +60,10 @@ export class PublicationFormComponent implements OnChanges, OnInit, AfterViewIni
     M.Collapsible.init(elems);
   }
 
-  public getDescription(id:number): string {
+  public getDescription(id: number): string {
     if (this.statusList) {
       this.publication.status = (id) ?
-        this.statusList.find(e => e.id === +id):
+        this.statusList.find(e => e.id === +id) :
         this.statusList.find(e => e.published === 'NOT_PUBLISHED');
       return this.publication.status.description;
     }
@@ -76,7 +80,7 @@ export class PublicationFormComponent implements OnChanges, OnInit, AfterViewIni
     const action = response.action as ActionKind;
     const ref = response.ref as ElementRevisionRef;
     switch (action) {
-      case ActionKind.Read: break;
+      case ActionKind.Read: this.onSetParameters(ref); break;
       case ActionKind.Create: this.onItemAdded(ref); break;
       case ActionKind.Update: this.onItemModified(ref); break;
       case ActionKind.Delete: this.onItemRemoved(ref); break;
@@ -86,28 +90,37 @@ export class PublicationFormComponent implements OnChanges, OnInit, AfterViewIni
     }
   }
 
+  private onSetParameters(ref: ElementRevisionRef) {
+    if (this.isSequence(ref.element)) {
+      this.inParameters = new Map(ref.element.parameters.map((p) => [p.id, p] as [string, Parameter]));
+    }
+  }
+
+
   public onItemRemoved(ref: ElementRevisionRef) {
-    const idx = this.publication.publicationElements.findIndex( p => p.elementId === ref.elementId );
-    if (idx >=0) {
+    const idx = this.publication.publicationElements.findIndex(p => p.elementId === ref.elementId);
+    if (idx >= 0) {
       this.publication.publicationElements.splice(idx, 1);
     }
   }
 
   public onItemAdded(ref: ElementRevisionRef) {
     this.publication.publicationElements.push(ref);
-    // console.log(ref || JSON);
-    // this.modalRef.open();
-    // this.publication.publicationElements.push(ref);
   }
 
   public onItemModified(ref: ElementRevisionRef) {
-    const idx = this.publication.publicationElements.findIndex( p => p.elementId === ref.elementId );
+    const idx = this.publication.publicationElements.findIndex(p => p.elementId === ref.elementId);
     const seqNew: ElementRevisionRef[] = [].concat(
       this.publication.publicationElements.slice(0, idx),
       ref,
       this.publication.publicationElements.slice(idx + 1)
     );
     this.publication.publicationElements = seqNew;
+  }
+
+
+  public isSequence(element?: any | SequenceConstruct): element is SequenceConstruct {
+    return (element) && (element as SequenceConstruct).sequence !== undefined;
   }
 
 }

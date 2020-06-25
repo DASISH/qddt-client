@@ -18,7 +18,8 @@
     </div>
     <label>Content list</label>
     <qddt-element-revision-ref class="row" [readonly]="readonly" [elementRevisions]="publication.publicationElements"
-      [selectOptions]="PUBLICATION" (actionEvent)="onDoAction($event)">
+      [inParameters]="inParameters" [xmlLang]="publication.xmlLang" [selectOptions]="PUBLICATION"
+      (actionEvent)="onDoAction($event)">
     </qddt-element-revision-ref>
 
     <qddt-rational [formName]="'RationalComp'" *ngIf="!readonly && publication.id" [element]="publication"

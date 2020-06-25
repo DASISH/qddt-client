@@ -19,32 +19,54 @@ import { ConditionConstruct, Parameter, ConRef, UserResponse, tryParse, isParamT
 
 export class PreviewConditionConstructComponent implements OnChanges {
   @Input() condition: ConditionConstruct;
-  @Input() inParameters: Map<number, Parameter>;
+  @Input() inParameters: Map<string, Parameter>;
   @Input() showDetail = true;
 
 
   public readonly isParamTrueRef = isParamTrue;
 
   public ngOnChanges(changes: SimpleChanges): void {
+
+    if (changes.condition && changes.condition.currentValue) {
+      this.condition = new ConditionConstruct(changes.condition.currentValue);
+      this.assignValueToParameters(this.condition.inParameter);
+    }
+
     if (changes.inParameters && changes.inParameters.currentValue && this.condition) {
-      const params = [...this.inParameters.values()];
-      this.condition.inParameter =
-        this.condition.inParameter
-          .map(obj => params.find(o => o.name === obj.name) || obj);
-
-      const idx = params.findIndex(p => p.referencedId === this.condition.outParameter[0].referencedId);
-
-      if (idx >= 0) {
-        this.condition.inParameter
-          .filter(f => f.name.startsWith('INPUT'))
-          .forEach((para, index) => {
-            if (this.inParameters[idx - (index + 1)]) {
-              para.value = this.inParameters[idx - (index + 1)].value;
-            }
-          });
-      }
+      this.assignValueToParameters(this.condition.inParameter);
     }
   }
+
+  private assignValueToParameters(inParameters: Parameter[]) {
+    const reversed = [...this.inParameters.entries()].reverse();
+    const thisIdx = reversed.findIndex(pre => pre[0] === this.condition.outParameter[0].id);
+    const searchables = reversed.filter((p, i) => i >= thisIdx);
+
+    inParameters.forEach((p, i, refArray) => {
+      if (!p.referencedId) {
+        const found = reversed.find(o => o[1].name === p.name);
+        if (found) {
+          p.referencedId = found[1].id;
+        }
+      }
+      if (p.referencedId) {
+        p.value = this.inParameters.get(p.referencedId).value;
+      }
+      refArray[i] = p;
+    });
+
+    if (thisIdx >= 0) {
+      this.condition.inParameter
+        .filter(f => f.name.startsWith('INPUT'))
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .forEach((para, index) => {
+          if (searchables[index + 1]) {
+            para.value = searchables[index + 1][1].value;
+          }
+        });
+    }
+  }
+
 
   public insertParam(conref: ConRef | string): string {
     let text = isConRef(conref) ? (conref as ConRef).condition.content : conref;
@@ -66,11 +88,10 @@ export class PreviewConditionConstructComponent implements OnChanges {
         } catch (Ex) {
           outp[0].value = [new UserResponse({ label, value: '?' })];
         }
-        return text + ' = ' + outp[0].value[0].value || '?' +
-          '\nRef: ' + (conref as ConRef).ref;
       }
+      return text + ' = ' + outp[0].value[0].value || '?' + '\nRef: ' + (conref as ConRef).ref;
     }
-    return text + isConRef(conref) ? '\nRef: ' + (conref as ConRef).ref : '';
+    return text + isConRef(conref) ? '\nRef: ' + (conref as ConRef).ref : '<NOT INITIALIZED>';
   }
 
 }

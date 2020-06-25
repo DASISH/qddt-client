@@ -147,11 +147,15 @@ export class InstrumentSequence {
 }
 
 export class Parameter {
+  id: string;
   name: string;
   referencedId?: string;
   value: UserResponse[] = [];
   public constructor(init?: Partial<Parameter>) {
     Object.assign(this, init);
+    if (!id) {
+      id = Ran
+    }
     // this.name = this.name.replace('[', '').replace(']', '').toUpperCase();
   }
 }

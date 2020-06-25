@@ -30,7 +30,7 @@ export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
   @Input() readonly = false;
   @Input() showIcon = true;
   @Input() xmlLang = 'none';
-  @Input() inParameters: Map<number, Parameter>
+  @Input() inParameters: Map<string, Parameter>
   @Output() actionEvent = new EventEmitter<EventAction>();
 
   public readonly modalId = Math.round(Math.random() * 10000);
@@ -85,10 +85,11 @@ export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
           // console.log('create from seed');
           item.element = Factory.createFromSeed(kind, result.entity);
           item.version = result.entity.version;
-          this.actionEvent.emit({ action: ActionKind.Read, ref: null });
+          this.actionEvent.emit({ action: ActionKind.Read, ref: item });
         });
+    } else {
+      this.actionEvent.emit({ action: ActionKind.Read, ref: item });
     }
-    this.actionEvent.emit({ action: ActionKind.Read, ref: null });
   }
 
   public getMatIcon(kind: ElementKind): string {

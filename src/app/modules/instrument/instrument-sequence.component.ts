@@ -5,7 +5,7 @@ import {
   IElement,
   IRevisionRef,
   InstrumentSequence,
-  TemplateService, CONSTRUCT_MAP, ActionKind, MessageService
+  TemplateService, CONSTRUCT_MAP, ActionKind, MessageService, Parameter
 } from '../../lib';
 
 
@@ -18,6 +18,7 @@ export class InstrumentSequenceComponent implements AfterViewInit {
   @Input() sequence: InstrumentSequence[];
   @Input() readonly = false;
   @Input() level = 0;
+  @Input() inParameters: Map<string, Parameter>;
   @Output() actionEvent = new EventEmitter<{ action: ActionKind, ref: ElementRevisionRef }>();
 
   public readonly modalId = Math.round(Math.random() * 10000);
@@ -34,7 +35,7 @@ export class InstrumentSequenceComponent implements AfterViewInit {
   constructor(private service: TemplateService, public message: MessageService) { }
 
 
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void { }
 
   get modalRef(): M.Modal {
     if (!(this._modalRef)) {

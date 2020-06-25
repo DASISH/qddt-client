@@ -50,7 +50,7 @@
       </div>
 
       <qddt-instrument-sequence-tree [readonly]="readonly" *ngIf="cqi?.sequence" [subSequence]="cqi.sequence"
-        [level]="level+1" (actionEvent)="doPassEvent($event)">
+        [inParameters]="inParameters" [level]="level+1" (actionEvent)="doPassEvent($event)">
       </qddt-instrument-sequence-tree>
     </li>
     <li *ngIf="level===0">

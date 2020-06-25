@@ -18,7 +18,7 @@ import {
 
   <ng-template #sequenceConstructTmpl let-sequence="sequence" let-counter="counter">
     <ul [id]="'UL-' + compId + '-' + counter" *ngIf="sequence?.sequence" class="collapsible" data-collapsible="accordion">
-      <li [id]="'LI-' + trackByIndex(idx,counter)" *ngFor="let cqi of sequence.sequence; trackBy:trackByIndex; let idx=index;" (click)="onOpenBody(cqi,'UL-' + compId + '-' + counter)" >
+      <li [id]="'LI-' + trackByIndex(idx,counter)" *ngFor="let cqi of sequence.sequence; trackBy:trackByIndex; let idx=index;" (click)="onOpenBody(cqi,'UL-' + compId + '-' + (counter+1))" >
         <div class="collapsible-header" >
           <i class="material-icons small teal-text text-lighten-3">{{getMatIcon(cqi.elementKind)}}</i>
           <div class="col s9 m10 grey-text text-darken-1" [innerHtml]=cqi.name></div>
@@ -54,15 +54,13 @@ import {
 
 export class PreviewSequenceConstructComponent implements AfterViewInit, OnChanges {
   @Input() sequenceConstruct: SequenceConstruct;
-  @Input() inParameters: Map<number, Parameter>
+  @Input() inParameters: Map<string, Parameter>
   @Input() showDetail = false;
 
   public showButton = false;
   public readonly = false;
   public compId = Math.round(Math.random() * 10000);
   public counter = 1;
-
-  // public readonly isParamTrueRef = isParamTrue;
 
   public readonly nextLevel = (level: number) => ++level;
 
@@ -71,18 +69,20 @@ export class PreviewSequenceConstructComponent implements AfterViewInit, OnChang
   public readonly trackByIndex = (index: number, level: number) => level * 100 + index;
 
   public readonly isSequence = (element?: any | SequenceConstruct): element is SequenceConstruct =>
-    (element) && (element as SequenceConstruct).sequence !== undefined;
+    (element) && (element as SequenceConstruct).parameters !== undefined;
 
   // private readonly newParam = (name: string, idx, level) => new Parameter({ name, referencedId: this.trackByIndex(idx, level).toString() })
 
+  private initialized = [String];
 
   constructor(private service: PreviewService) { }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.inParameters && changes.inParameters.currentValue && this.sequenceConstruct) {
-      const params = [...this.inParameters.values()];
-      this.sequenceConstruct.inParameter
-        .map(obj => params.find(o => o.name === obj.name) || obj);
+    if (changes.sequenceConstruct && changes.sequenceConstruct.currentValue && !this.isSequence(this.sequenceConstruct)) {
+      console.log('new SequenceConstruct');
+      this.sequenceConstruct = new SequenceConstruct(changes.sequenceConstruct.currentValue);
+    } else {
+      console.log('seems to be fine...');
     }
   }
 
@@ -91,22 +91,26 @@ export class PreviewSequenceConstructComponent implements AfterViewInit, OnChang
     M.Collapsible.init(elems);
   }
 
+
+
   public async onOpenBody(item: ElementRevisionRefImpl<AbstractControlConstruct>, key) {
     try {
       if (!item.element) {
         item = await this.service.getCtrlRevRefAsync(item);
         this.showDetail = false;
-        // item.element.outParameter =
-        //   [].concat(...(this.isSequence(item.element)) ? item.element.sequence : [item]
-        //     .map((seq: ElementRevisionRefImpl<AbstractControlConstruct>) =>
-        //       (seq.element) ? (this.isSequence(seq.element)) ?
-        //         seq.element.outParameter :
-        //         [this.newParam(seq.element.name, idx, level)] :
-        //         []));
-        // console.log(item.element.outParameter || JSON);
       }
-      if (getElementKind(item.elementKind) === ElementKind.SEQUENCE_CONSTRUCT) {
-        M.Collapsible.init(document.getElementById(key));
+      if (!this.initialized.includes(key)) {
+        if (getElementKind(item.elementKind) === ElementKind.SEQUENCE_CONSTRUCT) {
+          let element = document.getElementById(key);
+          let result = M.Collapsible.init(element);
+          if (result) {
+            this.initialized.push(key);
+            console.log(key);
+          } else {
+            console.log('init failed');
+          }
+        }
+
       }
     } catch (ex) {
       console.log(ex || JSON);

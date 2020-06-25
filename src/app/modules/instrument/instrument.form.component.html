@@ -21,15 +21,11 @@
       <div class="col s7 infoText">{{getDescription(element.instrumentKind)}}</div>
     </div>
 
-    <ul *ngIf="element.parameters && element.parameters.size > 0">
-      <li><label>Parameters</label></li>
-      <li>
-        <div class="chip" *ngFor="let parameter of element.parameters.entries()">{{getParam(parameter)}} </div>
-      </li>
-    </ul>
+    <qddt-parameter [inParameters]="element.parameters">
+    </qddt-parameter>
 
     <qddt-instrument-sequence-tree [readonly]="readonly" [subSequence]="element.sequence" [xmlLang]="element.xmlLang"
-      class="section row" (actionEvent)="onDoAction($event)">
+      [inParameters]="element.parameters" class="section row" (actionEvent)="onDoAction($event)">
     </qddt-instrument-sequence-tree>
 
     <qddt-rational [formName]="'RationalComp'" *ngIf="!readonly && element.id" [element]="element"

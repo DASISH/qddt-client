@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { QuestionConstruct, Parameter, UserResponse } from '../../../lib';
-
+import * as uuid from 'uuid';
 @Component({
   selector: 'qddt-preview-questionconstruct',
   template: `
@@ -57,24 +57,46 @@ import { QuestionConstruct, Parameter, UserResponse } from '../../../lib';
 
 export class PreviewQuestionConstructComponent implements OnChanges {
   @Input() controlConstruct: QuestionConstruct;
-  @Input() inParameters: Map<number, Parameter>
+  @Input() inParameters: Map<string, Parameter>
   @Input() showDetail = true;
 
   constructor() { }
 
   public ngOnChanges(changes: SimpleChanges): void {
+    if (changes.controlConstruct && changes.controlConstruct.currentValue) {
+      // this.condition = new ConditionConstruct(changes.condition.currentValue);
+      this.assignValueToParameters(this.controlConstruct.inParameter);
+    }
+
     if (changes.inParameters && changes.inParameters.currentValue
       && this.controlConstruct && this.controlConstruct.inParameter.length > 0) {
-      const params = [...this.inParameters.values()];
+      this.assignValueToParameters(this.controlConstruct.inParameter);
+    }
+  }
 
-      this.controlConstruct.inParameter =
-        this.controlConstruct.inParameter.map(obj => params.find(o => o.name === obj.name) || obj);
+  public onSelectedEvent(urs: UserResponse[]) {
+    if (this.controlConstruct.outParameter[0]) {
+      this.controlConstruct.outParameter[0].value = urs;
+    } else {
+      this.controlConstruct.outParameter[0] = new Parameter({ id: uuid.v4(), name: this.controlConstruct.name, value: urs });
     }
   }
 
 
-  public onSelectedEvent(urs: UserResponse[]) {
-    this.controlConstruct.outParameter = [new Parameter({ name: this.controlConstruct.name, value: urs })];
+  private assignValueToParameters(inParameters: Parameter[]) {
+    const reversed = [...this.inParameters.entries()].reverse();
+    inParameters.forEach((p, i, refArray) => {
+      if (!p.referencedId) {
+        const found = reversed.find(o => o[1].name === p.name);
+        if (found) {
+          p.referencedId = found[1].id;
+        }
+      }
+      if (p.referencedId) {
+        p.value = this.inParameters.get(p.referencedId).value;
+      }
+      refArray[i] = p;
+    });
   }
 
   public insertParam(text: string): string {

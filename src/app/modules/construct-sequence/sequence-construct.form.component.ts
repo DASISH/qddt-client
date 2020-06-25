@@ -27,11 +27,7 @@ export class SequenceFormComponent implements OnChanges {
   public readonly CONSTRUCT = SEQUENCE_TYPES;
   public readonly formId = Math.round(Math.random() * 10000);
 
-  // public parameters = () => new Map((this.sequence) ?
-  //   this.sequence.parameters.map((p, i) => [i, p] as [number, Parameter]) :
-  //   []);
-
-  public inParameters: Map<number, Parameter>
+  public inParameters = new Map<string, Parameter>();
 
   constructor(private service: TemplateService) {
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.SEQUENCE_CONSTRUCT);
@@ -60,23 +56,21 @@ export class SequenceFormComponent implements OnChanges {
 
   public onDoAction(response) {
     const action = response.action as ActionKind;
-    const ref = response.ref || {} as ElementRevisionRef;
+    const ref = response.ref as ElementRevisionRef;
     switch (action) {
+      case ActionKind.Read: this.onSetParameters(ref); break;
       case ActionKind.Create: this.onItemAdded(ref); break;
       case ActionKind.Delete: this.onItemRemoved(ref); break;
       case ActionKind.Update: this.onItemModified(ref); break;
-      case ActionKind.Read:
-        this.inParameters = new Map(this.sequence.parameters.map((p, i) => [i, p] as [number, Parameter]));
-        console.log(this.inParameters || JSON);
-        // if (this.sequence.sequence) {
-        //   this.sequence.outParameter =
-        //     [].concat(...this.sequence.sequence.map(seq => (seq.element) ? seq.element.outParameter : []));
-        // };
-        break;
       default: {
         console.error('wrong action recieved ' + ActionKind[action]);
       }
     }
+  }
+
+  private onSetParameters(ref: ElementRevisionRef) {
+    this.inParameters = new Map(this.sequence.parameters.map((p) => [p.id, p] as [string, Parameter]));
+
   }
 
   public onItemRemoved(ref: ElementRevisionRef) {
@@ -98,5 +92,8 @@ export class SequenceFormComponent implements OnChanges {
     this.sequence.sequence = seqNew;
   }
 
+  public isSequence(element?: any | SequenceConstruct): element is SequenceConstruct {
+    return (element) && (element as SequenceConstruct).sequence !== undefined;
+  }
 }
 
