@@ -93,7 +93,7 @@ export class Instrument implements IEntityAudit {
   xmlLang?: string;
   classKind = ElementKind[ElementKind.INSTRUMENT];
   get parameters(): Parameter[] {
-    return [].concat(...this.sequence.map(seq => (seq.elementRef) ? seq.elementRef.element.parameters : []));
+    return [].concat(...this.sequence.map(seq => seq.parameters));
   }
 
   public constructor(init?: Partial<Instrument>) {
@@ -126,10 +126,15 @@ export class InstrumentSequence {
   elementRef: ElementRevisionRefImpl<AbstractControlConstruct>;
   sequenceKind?: SequenceKind;
   sequence?: InstrumentSequence[] = [];
-
+  get parameters(): Parameter[] {
+    return [].concat(...this.sequence.map(seq => seq.parameters));
+  }
   public constructor(init?: Partial<InstrumentSequence>) {
     Object.assign(this, init);
-    if (this.elementRef.element) {
+    if (this.sequence) {
+      this.sequence.forEach(seq => new InstrumentSequence(seq));
+    } else {
+      this.sequence = [];
     }
   }
 

@@ -1,3 +1,4 @@
+import { Factory } from './../../../lib/factory';
 import { Component, EventEmitter, Input, Output, AfterViewInit } from '@angular/core';
 import {
   ActionKind,
@@ -7,12 +8,12 @@ import {
   IElement, IElementRef,
   ResponseDomain, TemplateService, UserService, IEntityAudit
 } from '../../../lib';
-import { async } from '@angular/core/testing';
 
 @Component({
   selector: 'qddt-responsedomain-select',
   templateUrl: 'responsedomain.component.html',
   styles: [
+    '.descLabel {left: 1rem;top: -1rem;position: relative;width: 95%;display: inline-block;font-style: italic;}',
     'div:hover > ul.dropleft { display:block; } ',
   ],
 })
@@ -108,7 +109,7 @@ export class ResponsedomainComponent implements AfterViewInit {
     const result = await this.service.getLatestVersionByKindEntity(ElementKind.RESPONSEDOMAIN, this.responseDomain.id);
 
     if (RD.modified !== result.entity.modified) {
-      this.responseDomain = result.entity as ResponseDomain;
+      this.responseDomain = Factory.createFromSeed(ElementKind.RESPONSEDOMAIN, result.entity) as ResponseDomain;
       this.selectedEvent.emit(
         {
           element: this.responseDomain,
@@ -116,6 +117,11 @@ export class ResponsedomainComponent implements AfterViewInit {
           elementKind: ElementKind.RESPONSEDOMAIN,
           elementRevision: result.revisionNumber
         });
+      M.toast({
+        html: 'Updated Mixed responsedomain',
+        displayLength: 2000
+      });
+
     } else {
       M.toast({
         html: 'No updated managed representation available',

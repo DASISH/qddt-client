@@ -68,14 +68,14 @@ export class InstrumentFormComponent implements OnChanges {
       (error) => { throw error; });
   }
 
-  public onRevisionSelect(ref: ElementRevisionRef) {
-    this.instrument.sequence.push(
-      new InstrumentSequence({
-        elementRef: ref,
-        sequence: (ref.element.sequence) ? ref.element.sequence : []
-          .map((isref: ElementRevisionRef) => new InstrumentSequence({ elementRef: isref }))
-      }));
-  }
+  // public onRevisionSelect(ref: ElementRevisionRef) {
+  //   this.instrument.sequence.push(
+  //     new InstrumentSequence({
+  //       elementRef: ref,
+  //       sequence: (ref.element.sequence) ? ref.element.sequence : []
+  //         .map((isref: ElementRevisionRef) => new InstrumentSequence({ elementRef: isref }))
+  //     }));
+  // }
 
   public onSelectOption(value) {
     this.SOURCE = { element: '', elementKind: value };
@@ -111,9 +111,7 @@ export class InstrumentFormComponent implements OnChanges {
   }
 
   public onItemAdded(ref: InstrumentSequence) {
-    console.log('ref || JSON');
-    this.modalRef.open();
-    // this.instrument.sequence.push(ref);
+    this.instrument.sequence.push(ref);
   }
 
   public onItemModified(ref: InstrumentSequence) {

@@ -73,6 +73,7 @@ export class PreviewConditionConstructComponent implements OnChanges {
     let label = text;
 
     if (this.condition && this.condition.inParameter) {
+      // if (this.condition.)
       this.condition.inParameter.forEach(p => {
         if (p.value) {
           label = label.replace(new RegExp('\\[' + p.name + '\\]', 'ig'), p.value[0].value.toString());

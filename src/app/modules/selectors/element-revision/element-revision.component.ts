@@ -1,3 +1,4 @@
+import { Factory } from './../../../lib/factory';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import {
   ElementEnumAware,
@@ -59,7 +60,7 @@ export class ElementRevisionComponent implements OnChanges {
   public onSelectElement(item: IElement) {
     this.showRevisionSelect = true;
     this.revisionRef = { elementId: item.element.id, elementKind: item.elementKind, elementRevision: 0 };
-    // console.log(this.revisionRef || JSON);
+    console.log(this.revisionRef || JSON);
   }
 
   public onSelectedRevision(revision: IRevisionResultEntity) {
@@ -89,7 +90,7 @@ export class ElementRevisionComponent implements OnChanges {
       elementId: elementRevision.entity.id,
       elementRevision: elementRevision.revisionNumber,
       elementKind: ElementKind[kind],
-      element: elementRevision.entity,
+      element: Factory.createFromSeed(ElementKind[kind], elementRevision.entity),
       version: elementRevision.entity.version,
       name: this.getName(kind, elementRevision.entity)
     });

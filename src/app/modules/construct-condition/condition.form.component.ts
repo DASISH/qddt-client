@@ -60,7 +60,7 @@ export class ConditionFormComponent implements AfterViewInit, OnChanges {
           if (this.isForEach(this.condition.condition)) {
             this.condition.condition =
               new Loop({
-                loopWhile: { content: 'HAS_NEXT' },
+                loopWhile: { content: '[input1].next()' },
                 controlConstructReference: ConstructReferenceKind.NEXT_IN_LINE,
                 loopVariableReference: ConstructReferenceKind.ASSIGN_LATER
               });
