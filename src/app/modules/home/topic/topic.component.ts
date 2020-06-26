@@ -1,3 +1,4 @@
+import { Factory } from './../../../lib/factory';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {
@@ -8,7 +9,7 @@ import {
   Topic,
   PropertyStoreService,
   MessageService,
-  HomeService, TemplateService, HierarchyPosition
+  HomeService, TemplateService, HierarchyPosition, ElementRevisionRef, Concept
 } from '../../../lib';
 
 
@@ -33,7 +34,8 @@ export class TopicComponent implements OnInit {
   private readonly parentId;
 
   constructor(private router: Router, private property: PropertyStoreService,
-    private message: MessageService, private homeService: HomeService<Topic>, private templateService: TemplateService) {
+    private message: MessageService, private homeService: HomeService<Topic>,
+    private templateService: TemplateService) {
 
     this.readonly = !homeService.canDo(this.TOPIC_KIND).get(ActionKind.Create);
     this.canDelete = homeService.canDo(this.TOPIC_KIND).get(ActionKind.Delete);
@@ -43,7 +45,8 @@ export class TopicComponent implements OnInit {
     this.study = this.property.get('study');
     const parentId = this.study.id || this.property.menuPath[HierarchyPosition.Study].id;
     if (!this.study) {
-      this.homeService.get(ElementKind.STUDY, parentId).then(result => this.property.set('study', this.study = result));
+      this.homeService.get(ElementKind.STUDY, parentId)
+        .then(result => this.property.set('study', this.study = result));
     }
     this.loadTopics(parentId);
   }
@@ -107,19 +110,6 @@ export class TopicComponent implements OnInit {
       result => this.onTopicSaved(result));
   }
 
-  onQuestionItemAdded(ref: IRevisionRef, topicId: any) {
-    this.homeService.attachQuestion(this.TOPIC_KIND, topicId, ref.elementId, ref.elementRevision)
-      .subscribe((result: any) => this.onTopicSaved(result));
-  }
-
-  public onQuestionItemRemoved(ref: IRevisionRef, topicId: any) {
-    this.homeService.deattachQuestion(this.TOPIC_KIND, topicId, ref.elementId, ref.elementRevision)
-      .subscribe((result: any) => this.onTopicSaved(result));
-  }
-
-  public onQuestionItemModified(ref: IRevisionRef, topicId: any) {
-    // TODO implement!!!
-  }
 
   public onEditQuestion(search: IRevisionRef) {
     this.templateService.searchByUuid(search.elementId).then(
@@ -127,10 +117,28 @@ export class TopicComponent implements OnInit {
       (error) => { throw error; });
   }
 
-
-  onRemoveQuestionItem(ref: IRevisionRef, topicId: any) {
+  public onQuestionItemRemoved(ref: ElementRevisionRef, topicId) {
     this.homeService.deattachQuestion(this.TOPIC_KIND, topicId, ref.elementId, ref.elementRevision)
-      .subscribe((result: any) => this.onTopicSaved(result));
+      .subscribe(result => this.onTopicSaved(result));
+  }
+
+  public onQuestionItemAdded(ref: ElementRevisionRef, topicId) {
+    this.homeService.attachQuestion(this.TOPIC_KIND, topicId, ref.elementId, ref.elementRevision)
+      .subscribe(result => this.onTopicSaved(result));
+  }
+
+  public onQuestionItemModified(ref: ElementRevisionRef, topicId) {
+    const topic = this.topics.find((f) => f.id === topicId);
+    const idx = topic.topicQuestionItems.findIndex(f => f.elementId === ref.elementId);
+    const seqNew: ElementRevisionRef[] = [].concat(
+      topic.topicQuestionItems.slice(0, idx),
+      ref,
+      topic.topicQuestionItems.slice(idx + 1)
+    );
+    topic.topicQuestionItems = seqNew;
+
+    this.templateService.update<Topic>(topic).subscribe(
+      (result) => this.onTopicSaved(result));
   }
 
   onRemoveTopic(topic: Topic) {

@@ -17,6 +17,9 @@ import * as FileSaver from 'file-saver';
 export class PreviewTopicComponent implements AfterViewInit {
   @Input() topic: Topic;
 
+  public compId = Math.round(Math.random() * 10000);
+  public readonly trackByIndex = (index: number, cqi) => cqi.id;
+
   constructor(private message: MessageService, private service: PreviewService) { }
 
 

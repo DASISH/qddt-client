@@ -9,6 +9,9 @@ import { Concept, ElementKind, ElementRevisionRef, MessageService, PreviewServic
 export class PreviewConceptComponent implements AfterViewInit {
   @Input() concept: Concept;
 
+  public compId = Math.round(Math.random() * 10000);
+  public readonly trackByIndex = (index: number, cqi) => cqi.id;
+
   constructor(private message: MessageService, private service: PreviewService) { }
 
   public ngAfterViewInit(): void {

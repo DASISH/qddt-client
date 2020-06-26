@@ -93,7 +93,7 @@ export class Instrument implements IEntityAudit {
   xmlLang?: string;
   classKind = ElementKind[ElementKind.INSTRUMENT];
   get parameters(): Parameter[] {
-    return [].concat(...this.sequence.map(seq => (seq.) ? seq.element.parameters : []));
+    return [].concat(...this.sequence.map(seq => (seq.elementRef) ? seq.elementRef.element.parameters : []));
   }
 
   public constructor(init?: Partial<Instrument>) {

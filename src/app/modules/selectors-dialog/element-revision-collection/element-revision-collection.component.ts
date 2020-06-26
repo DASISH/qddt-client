@@ -4,7 +4,9 @@ import {
   ElementKind,
   ElementRevisionRef,
   MessageService,
-  TemplateService
+  TemplateService,
+  IElement,
+  IRevisionRef
 } from '../../../lib';
 
 
@@ -13,7 +15,7 @@ import {
   template: `
   <div class="collection with-header hoverable row">
       <a class="collection-header col s12"  (click)="onItemSearch($event)" style="cursor: zoom-in">
-        <label><i class="material-icons small">format_list_bulleted</i>Question Items</label>
+        <label><i class="material-icons small">format_list_bulleted</i>{{labelName}}</label>
         <a class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light teal"
           [ngClass]="{ hide: !showButton }" >
           <i class="material-icons" title="Associate QuestionItem with element">playlist_add</i>
@@ -41,12 +43,16 @@ import {
         <div class="question" [innerHtml]="cqi?.name || cqi?.element?.name && ' - ' && cqi?.element?.question"></div>
       </a>
     </div>
-  <!-- Modal Structure -->
-  <div  id="MODAL-{{modalId}}" class="modal modal-fixed-footer">
+ <!-- Modal Structure -->
+ <div  id="MODAL-{{modalId}}" class="modal modal-fixed-footer">
     <div class="modal-content white black-text" >
-      <h4>Select ???  version</h4>
-      <qddt-element-select [source]="{}" >
-      </qddt-element-select>
+      <h4>Select Instrument</h4>
+      <qddt-element-revision-select
+          [source] = "SOURCE"
+          [xmlLang]="xmlLang"
+          (revisionSelectedEvent)="revisionSelectedEvent($event)"
+          (dismissEvent) ="onDismiss()">
+      </qddt-element-revision-select>
     </div>
     <div class="modal-footer">
       <button
@@ -55,18 +61,21 @@ import {
       </button>
     </div>
   </div>
+
 `,
 })
 export class ElementRevisionCollectionComponent {
   @Input() revisionRefs: ElementRevisionRef[];
   @Input() elementKind: ElementKind;
-  @Input() labelName = '???';
+  @Input() labelName = 'Study';
   @Input() readonly = true;
+  @Input() xmlLang = 'none';
   @Output() createdEvent = new EventEmitter<ElementRevisionRef>();
   @Output() deletedEvent = new EventEmitter<ElementRevisionRef>();
   @Output() modifiedEvent = new EventEmitter<ElementRevisionRef>();
 
   public readonly modalId = Math.round(Math.random() * 10000);
+  public SOURCE: IElement | IRevisionRef | null;
 
   // tslint:disable-next-line:variable-name
   private _modalRef: M.Modal;

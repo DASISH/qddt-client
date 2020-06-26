@@ -5,27 +5,27 @@ import { ConditionConstruct, QuestionConstruct, SequenceConstruct, StatementCons
   selector: 'qddt-preview-controlconstruct',
 
   template: `
-    <div class="row" *ngIf="construct">
-      <div [ngSwitch]="construct.classKind">
-				<div *ngSwitchCase="'SEQUENCE_CONSTRUCT'">
+    <ng-container class="row" *ngIf="construct">
+      <ng-container [ngSwitch]="construct.classKind">
+				<ng-container *ngSwitchCase="'SEQUENCE_CONSTRUCT'">
         preview-controlconstruct-SEQUENCE_CONSTRUCT
           <qddt-preview-sequenceconstruct [sequenceConstruct]="construct" [inParameters]="inParameters" ></qddt-preview-sequenceconstruct>
-        </div>
-        <div *ngSwitchCase="'CONDITION_CONSTRUCT'">
+        </ng-container>
+        <ng-container *ngSwitchCase="'CONDITION_CONSTRUCT'">
           <qddt-preview-conditionconstruct [condition]="construct" [inParameters]="inParameters" ></qddt-preview-conditionconstruct>
-        </div>
-        <div *ngSwitchCase="'STATEMENT_CONSTRUCT'">
+        </ng-container>
+        <ng-container *ngSwitchCase="'STATEMENT_CONSTRUCT'">
           <qddt-preview-statementconstruct [statement]="construct" [inParameters]="inParameters" ></qddt-preview-statementconstruct>
-        </div>
-        <div *ngSwitchCase="'QUESTION_CONSTRUCT'">
+        </ng-container>
+        <ng-container *ngSwitchCase="'QUESTION_CONSTRUCT'">
             <qddt-preview-questionconstruct [controlConstruct]="construct" [inParameters]="inParameters" >
             </qddt-preview-questionconstruct>
-        </div>
-        <div *ngSwitchDefault>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
           <P>UNKNOWN CONSTRUCT</P>
-        </div>
-      </div>
-    </div>`,
+        </ng-container>
+      </ng-container>
+    </ng-container>`,
   styles: [],
 })
 

@@ -1,42 +1,44 @@
-<div class="row" *ngIf="topic?.parentRef">
-  <label class="active teal-text">Path</label>
-  <p>
-    <a style="cursor: pointer;" (click)="onClickStudy(topic.parentRef.id)">{{ topic.parentRef?.name }}</a>\
-    <a> {{ topic.name }} </a>
-  </p>
-</div>
+<ul *ngIf="topic">
+  <li *ngIf="topic.parentRef">
+    <label>Path</label>
+    <p>
+      <a style="cursor: pointer;" (click)="onClickStudy(topic.parentRef.id)">{{ topic.parentRef?.name }}</a>\
+      <a> {{ topic.name }} </a>
+    </p>
+  </li>
 
-<div class="row" *ngIf="topic?.description">
-  <label class="active teal-text">Description</label>
-  <p [innerHtml]="topic?.description"></p>
-</div>
-
-<div *ngIf="topic?.topicQuestionItems && topic?.topicQuestionItems?.length > 0" class="section">
-  <ul *ngIf="topic?.topicQuestionItems" class="collapsible popout" data-collapsible="expandable" style="padding: 5pt;">
-    <li class="row" *ngFor="let cqi of topic?.topicQuestionItems;" (click)="onViewDetail(cqi)">
-      <div class="collapsible-header green lighten-5">
-        <i class="material-icons small" title="{{getLabelByElement(cqi)}}">{{getMatIcon(cqi)}}</i>
-        <div class="col s10">[{{ cqi?.name }}]</div>
-        <div class="col s2">
-          <qddt-version-label [element]="cqi"></qddt-version-label>
+  <li *ngIf="topic?.description">
+    <label>Description</label>
+    <p [innerHtml]="topic?.description"></p>
+  </li>
+  <li>
+    <label>QuestionItem(s)</label>
+    <ul [id]="'UL-' + compId" *ngIf="topic.topicQuestionItems && topic.topicQuestionItems?.length > 0"
+      class="collapsible" data-collapsible="accordion">
+      <li [id]="'LI-' + compId + '-' + idx"
+        *ngFor="let cqi of topic.topicQuestionItems; trackBy:trackByIndex; let idx=index;" (click)="onViewDetail(cqi)">
+        <div class="collapsible-header">
+          <i class="material-icons small teal-text text-lighten-3">{{getMatIcon(cqi)}}</i>
+          <div class="col s9 m10 grey-text text-darken-1" [innerHtml]=cqi.name></div>
+          <qddt-version-label class="col s3 m2 right-align" [revisionRef]="cqi"></qddt-version-label>
         </div>
-      </div>
-      <div class="collapsible-body">
-        <qddt-preview-questionitem *ngIf="cqi.element" [questionItem]="cqi.element">
-        </qddt-preview-questionitem>
-      </div>
-    </li>
-  </ul>
-</div>
+        <div class="collapsible-body">
+          <qddt-preview-questionitem *ngIf="cqi.element" [questionItem]="cqi.element">
+          </qddt-preview-questionitem>
+        </div>
+      </li>
+    </ul>
+  </li>
 
-<div class="row">
-  <qddt-comment-list [ownerId]="topic.id" [comments]="topic.comments"></qddt-comment-list>
-</div>
+  <li>
+    <qddt-comment-list [ownerId]="topic.id" [comments]="topic.comments"></qddt-comment-list>
+  </li>
 
-<div class="row" *ngIf="topic.concepts && topic.concepts.length>0">
-  <qddt-preview-concept-list [conceptList]="topic.concepts"></qddt-preview-concept-list>
-</div>
+  <li *ngIf="topic.concepts && topic.concepts.length>0">
+    <qddt-preview-concept-list [conceptList]="topic.concepts"></qddt-preview-concept-list>
+  </li>
 
-<div class="row">
-  <qddt-element-footer [element]="topic"></qddt-element-footer>
-</div>
+  <li>
+    <qddt-element-footer [element]="topic"></qddt-element-footer>
+  </li>
+</ul>

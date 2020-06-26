@@ -1,27 +1,28 @@
-<div class="row" *ngIf="concept.parentRef">
-
-  <label class="teal-text">Path</label>
-  <p>
-    <a style="cursor: pointer;"
-      (click)="onClickStudy(concept.parentRef.parentRef.id)">{{ concept?.parentRef?.parentRef?.name }}</a>\
-    <a style="cursor: pointer;" (click)="onClickTopic(concept.parentRef.id)">{{ concept?.parentRef?.name }}</a>\
-    <a> {{ concept.name }} </a></p>
-</div>
-<div class="row" *ngIf="concept?.description">
-  <label class="teal-text">Description</label>
-  <P [innerHtml]="concept?.description"></P>
-</div>
-<div class="row">
-  <div *ngIf="concept?.conceptQuestionItems && concept?.conceptQuestionItems?.length > 0" class="section">
-    <label class="teal-text">QuestionItem(s)</label>
-    <ul class="collapsible  question" data-collapsible="expandable">
-      <li *ngFor="let cqi of concept.conceptQuestionItems;" (click)="onViewDetail(cqi)">
-        <div class="collapsible-header green lighten-5">
-          <i class="material-icons small" title="{{getLabelByElement(cqi)}}">{{getMatIcon(cqi)}}</i>
-          <div class="col s10">{{ cqi?.name }}</div>
-          <div class="col s2 right-align">
-            <qddt-version [element]="cqi"></qddt-version>
-          </div>
+<ul>
+  <li *ngIf="concept.parentRef">
+    <label>Path</label>
+    <p>
+      <a style="cursor: pointer;"
+        (click)="onClickStudy(concept.parentRef.parentRef.id)">{{ concept?.parentRef?.parentRef?.name }}</a>\
+      <a style="cursor: pointer;" (click)="onClickTopic(concept.parentRef.id)">{{ concept?.parentRef?.name }}</a>\
+      <a> {{ concept.name }} </a>
+    </p>
+  </li>
+  <li *ngIf="concept?.description">
+    <label>Description</label>
+    <P [innerHtml]="concept?.description"></P>
+  </li>
+  <li>
+    <label>QuestionItem(s)</label>
+    <ul [id]="'UL-' + compId" *ngIf="concept?.conceptQuestionItems && concept?.conceptQuestionItems?.length > 0"
+      class="collapsible" data-collapsible="accordion">
+      <li [id]="'LI-' + compId + '-' + idx"
+        *ngFor="let cqi of concept.conceptQuestionItems; trackBy:trackByIndex; let idx=index;"
+        (click)="onViewDetail(cqi)">
+        <div class="collapsible-header">
+          <i class="material-icons small teal-text text-lighten-3">{{getMatIcon(cqi)}}</i>
+          <div class="col s9 m10 grey-text text-darken-1" [innerHtml]=cqi.name></div>
+          <qddt-version-label class="col s3 m2 right-align" [revisionRef]="cqi"></qddt-version-label>
         </div>
         <div class="collapsible-body">
           <qddt-preview-questionitem *ngIf="cqi.element" [questionItem]="cqi.element">
@@ -29,27 +30,26 @@
         </div>
       </li>
     </ul>
-  </div>
-</div>
-<div class="row">
-  <qddt-element-footer [element]="concept"></qddt-element-footer>
-</div>
-<div class="row">
-  <qddt-comment-list [ownerId]="concept.id" [comments]="concept.comments"></qddt-comment-list>
-</div>
-<div class="row" *ngIf="concept.children && concept.children.length > 0">
-  <ul class="collapsible" data-collapsible="accordion">
-    <li *ngFor="let concept of concept.children">
-      <div class="collapsible-header yellow lighten-5">
-        <i class="material-icons small" title="Concept">looks_3</i>
-        <div class="col s9">{{ concept?.name }}</div>
-        <div class="col s2 right-align">
-          <qddt-version [element]="concept"></qddt-version>
+  </li>
+  <li>
+    <qddt-element-footer [element]="concept"></qddt-element-footer>
+  </li>
+  <li>
+    <qddt-comment-list [ownerId]="concept.id" [comments]="concept.comments"></qddt-comment-list>
+  </li>
+  <ng-container *ngIf="concept.children && concept.children.length > 0">
+    <ul [id]="'UL2-' + compId" class="collapsible" data-collapsible="accordion">
+      <li [id]="'LI-' + compId + '-' + idx"
+        *ngFor="let concept of concept.children; trackBy:trackByIndex; let idx=index;">
+        <div class="collapsible-header ">
+          <i class="material-icons small teal-text text-lighten-3">{{getMatIcon(concept)}}</i>
+          <div class="col s9 m10 grey-text text-darken-1" [innerHtml]=concept.name></div>
+          <qddt-version-label class="col s3 m2 right-align" [element]="concept"></qddt-version-label>
         </div>
-      </div>
-      <div class="collapsible-body">
-        <qddt-preview-concept [concept]="concept"></qddt-preview-concept>
-      </div>
-    </li>
-  </ul>
-</div>
+        <div class="collapsible-body">
+          <qddt-preview-concept [concept]="concept"></qddt-preview-concept>
+        </div>
+      </li>
+    </ul>
+  </ng-container>
+</ul>

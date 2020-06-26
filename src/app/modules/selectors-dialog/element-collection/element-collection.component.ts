@@ -35,24 +35,24 @@ import {
   </div>
   <qddt-element-select *ngIf="showSearch" class="input-field" [source]="{ element:'', elementKind: elementKind }" [autoCreate]="true" [xmlLang]="xmlLang"
       (elementSelectedEvent)="onElementSelectedEvent($event)">
-    </qddt-element-select>
+  </qddt-element-select>
 `,
 })
 export class ElementCollectionComponent {
   @Input() listItems: IEntityAudit[];
   @Input() elementKind: ElementKind;
   @Input() labelName = 'where is my label?';
-  @Input() xmlLang='none';
+  @Input() xmlLang = 'none';
   @Input() readonly = false;
   @Output() createdEvent = new EventEmitter<IElement>();
   @Output() deletedEvent = new EventEmitter<IElementRef>();
   @Output() modifiedEvent = new EventEmitter<IElement>();
 
-  public readonly modalId = Math.round( Math.random() * 10000);
+  public readonly modalId = Math.round(Math.random() * 10000);
   public showButton = false;
   showSearch = false;
 
-  constructor(private service: TemplateService, public message: MessageService, private router: Router ) {
+  constructor(private service: TemplateService, public message: MessageService, private router: Router) {
   }
 
 
@@ -73,7 +73,7 @@ export class ElementCollectionComponent {
     event.stopPropagation();
     this.service.searchByUuid(item.id).then(
       (result) => { this.router.navigate([result.url]); },
-      (error) => { throw  error; });
+      (error) => { throw error; });
   }
 
   public onItemUpdate(event: Event, item: IEntityAudit) {
@@ -87,7 +87,7 @@ export class ElementCollectionComponent {
 
   public onItemPreview(event: Event, item: IEntityAudit) {
     event.stopPropagation();
-    this.message.sendMessage( { element: item, elementKind: item.classKind });
+    this.message.sendMessage({ element: item, elementKind: item.classKind });
   }
 
   public getMatIcon(): string {
