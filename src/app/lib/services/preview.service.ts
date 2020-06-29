@@ -71,7 +71,9 @@ export class PreviewService {
               await Promise.resolve(child));
         item.element.sequence = await Promise.all(sequencePromises);
       }
-    };
+    } else {
+      console.log(item.element || JSON);
+    }
     return await Promise.resolve(item);
   }
 

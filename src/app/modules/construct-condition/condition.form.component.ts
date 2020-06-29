@@ -1,4 +1,3 @@
-import { Condition, ConstructReferenceKind } from './../../lib/classes/controlconstruct.classes';
 import { Component, Input, Output, EventEmitter, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
 
 import {
@@ -12,6 +11,9 @@ import {
   Loop,
   Parameter,
   IfThenElse,
+  isString,
+  isCondition,
+  isConRef,
 } from 'src/app/lib';
 
 
@@ -33,10 +35,6 @@ export class ConditionFormComponent implements AfterViewInit, OnChanges {
 
   constructor(private service: TemplateService) {
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.CONDITION_CONSTRUCT);
-    if (!this.condition) {
-      this.condition = new ConditionConstruct({ xmlLang: 'none' });
-    }
-    console.log(this.CONDITION_KIND_MAP || JSON);
   }
 
   ngAfterViewInit(): void {
@@ -45,48 +43,24 @@ export class ConditionFormComponent implements AfterViewInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.condition.currentValue) {
-      this.doCheck();
+      this.condition = new ConditionConstruct(this.condition);
     }
+
   }
 
   public doCheck(doit?: boolean) {
-
-    if (doit || !this.condition.condition) {
-      switch (ConditionKind[this.condition.conditionKind]) {
-        case ConditionKind.IF_THEN_ELSE:
-          this.condition.condition = new IfThenElse({ ifCondition: new Condition() });
-          break;
-        case ConditionKind.LOOP_E:
-          if (this.isForEach(this.condition.condition)) {
-            this.condition.condition =
-              new Loop({
-                loopWhile: { content: '[input1].next()' },
-                controlConstructReference: ConstructReferenceKind.NEXT_IN_LINE,
-                loopVariableReference: ConstructReferenceKind.ASSIGN_LATER
-              });
-          } else {
-            this.condition.condition =
-              new Loop({
-                loopWhile: { content: '>=10' },
-                controlConstructReference: ConstructReferenceKind.NEXT_IN_LINE,
-                initialValue: 0, stepValue: 1
-              });
-          }
-          break;
-      }
-      // this.condition.condition
-    }
-
-    if (typeof this.condition.condition === 'string') {
-      console.log('is string');
-      this.condition.condition = JSON.parse(this.condition.condition as string);
+    switch (this.condition.conditionKind) {
+      case ConditionKind.IfThenElse:
+        this.condition.condition = new IfThenElse((doit) ? JSON.parse(this.condition.condition) : '{}');
+        break;
+      case ConditionKind.Loop:
+        this.condition.condition = new Loop((doit) ? JSON.parse(this.condition.condition) : '{}');
+        break;
+      default:
+        console.log(this.condition.conditionKind);
     }
   }
 
-
-  public isForEach(element: any | Loop): element is Loop {
-    return (element as Loop).controlConstructReference !== undefined;
-  }
 
   public onSave() {
     this.condition.condition = JSON.stringify(this.condition.condition);

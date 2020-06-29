@@ -1,51 +1,47 @@
 import {
-  AfterViewInit,
   Component,
-  Input,
+  Input
 } from '@angular/core';
-import { ConstructReferenceKind, toSelectItems, Loop} from 'src/app/lib';
+import { ConstructReferenceKind, toSelectItems, Loop } from 'src/app/lib';
 
 
 @Component({
   selector: 'qddt-for-each-form',
   template: `
-<form id="CONF-{{formId}}" [parentFormConnect]="formName" *ngIf="element">
-    <qddt-input class="col s6"
+<form id="CON-{{formId}}" [parentFormConnect]="formName" *ngIf="isLoop(element)" >
+  <li class="row">
+    <qddt-textarea class="col s8"
       required
-      name="foreach"
+      name="loopWhile"
       label="Foreach"
-      [(ngModel)]="element.loopVariableReference"
-      data-length="100">
-    </qddt-input>
-    <qddt-select class="col s6"
+      [(ngModel)]="element.loopWhile.content"
+      data-length="100"
+      style="font-style: monospaced">
+    </qddt-textarea>
+    <qddt-select class="col s4"
       required
-      name="loopvariablereference"
+      name="controlConstructReference"
       label="Run this sequence"
       [(ngModel)]="element.controlConstructReference"
       [lockups]="CONDITION">
     </qddt-select>
+  </li>
 </form>
 `,
 })
 
-export class ForeachFormComponent implements AfterViewInit {
+export class ForeachFormComponent {
   @Input() element: Loop;
   @Input() formName: string;
 
   public readonly CONDITION = toSelectItems(ConstructReferenceKind);
-  public readonly formId = Math.round( Math.random() * 10000);
+  public readonly formId = Math.round(Math.random() * 10000);
 
-  constructor() {  }
 
-  ngAfterViewInit(): void {
-    if (!this.isLoop(this.element)) {
-      console.log('loop inti')
-      this.element = new Loop({loopVariableReference: null});
-    }
-  }
+  constructor() { }
 
   public isLoop(element: any | Loop): element is Loop {
-    return (element as Loop).controlConstructReference !== undefined;
+    return (element) && (element as Loop).loopWhile !== undefined;
   }
 
 }

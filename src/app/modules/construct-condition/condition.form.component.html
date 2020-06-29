@@ -1,52 +1,52 @@
-<div *ngIf="condition" class="col s12">
+<ng-container *ngIf="condition">
+  <ul>
+    <form [id]="'STA'+formId" #hf="ngForm" (ngSubmit)="onSave()">
 
-  <form id="STA{{formId}}" #hf="ngForm" (ngSubmit)="onSave()">
+      <li class="row">
+        <p class="card-panel grey lighten-5 grey-text text-darken-1" style="font-style: italic">
+          {{condition.condition | json }}</p>
+      </li>
 
-    <div class="row">
-      <p class="card-panel grey lighten-5 grey-text text-darken-1" style="font-style: italic">
-        {{condition.condition | json }}</p>
-    </div>
+      <li class="row">
+        <qddt-input class="col s10" required name="name" label="Name" [(ngModel)]="condition.name" data-length="100">
+        </qddt-input>
+        <qddt-select class="col s2" required name="xmlLang" label="Language" [(ngModel)]="condition.xmlLang"
+          [lockups]="LANGUAGES">
+        </qddt-select>
+      </li>
+      <li class="row">
+        <qddt-select class="col s3" required name="conditionKind" label="conditionType"
+          [(ngModel)]="condition.conditionKind" [lockups]="CONDITION_KIND_MAP" (change)="doCheck(true)">
+        </qddt-select>
+      </li>
+      <li [ngSwitch]="condition.conditionKind">
+        <ng-container *ngSwitchCase="'IF_THEN_ELSE'">
+          <qddt-if-then-else-form [(element)]=condition.condition [formName]="'IFTHENELSE'"></qddt-if-then-else-form>
+        </ng-container>
+        <ng-container *ngSwitchCase="'LOOP'">
+          <qddt-for-each-form [(element)]=condition.condition [formName]="'LOOP'"></qddt-for-each-form>
+        </ng-container>
+        <ng-container *ngSwitchCase="'REPEAT_UNTIL'">
+          REPEAT_UNTIL ?
+          <!-- {{condition.condition | json}} -->
+        </ng-container>
+        <ng-container *ngSwitchCase="'REPEAT_WHILE'">
+          REPEAT_WHILE ?
+          <!-- {{condition.condition | json}} -->
+        </ng-container>
+      </li>
 
-    <div class="row">
-      <qddt-input class="col s11" required name="name" label="Name" [(ngModel)]="condition.name" data-length="100">
-      </qddt-input>
-      <qddt-select class="col s1" required name="xmlLang" label="Language" [(ngModel)]="condition.xmlLang"
-        [lockups]="LANGUAGES">
-      </qddt-select>
-    </div>
-    <div class="row">
-      <qddt-select class="col s3" required name="conditionKind" label="conditionType"
-        [(ngModel)]="condition.conditionKind" [lockups]="CONDITION_KIND_MAP" (change)="doCheck(true)">
-      </qddt-select>
-    </div>
-    <div [ngSwitch]="condition.conditionKind" class="row">
-      <div *ngSwitchCase="'IF_THEN_ELSE'">
-        <qddt-if-then-else-form [(element)]=condition.condition [formName]="'IFTHENELSE'"></qddt-if-then-else-form>
-      </div>
-      <div *ngSwitchCase="'LOOP'">
-        <div *ngIf="isForEach(condition.condition)">
-          <qddt-for-each-form [(element)]=condition.condition [formName]="'LOOPN'"></qddt-for-each-form>
-        </div>
-        <div *ngIf="!isForEach(condition.condition)">
-          <qddt-for-i-form [(element)]=condition.condition [formName]="'LOOPI'"></qddt-for-i-form>
-        </div>
-      </div>
-      <div *ngSwitchCase="'REPEAT_UNTIL'">
-        REPEAT_UNTIL ?
-      </div>
-      <div *ngSwitchCase="'REPEAT_WHILE'">
-        REPEAT_WHILE ?
-      </div>
-    </div>
-    <qddt-rational *ngIf="!readonly && condition.id" [formName]="'RationalComp'" [element]="condition"
-      [config]="{hidden: [4]}">
-    </qddt-rational>
+      <li>
+        <qddt-rational *ngIf="!readonly && condition.id" [formName]="'RationalComp'" [element]="condition"
+          [config]="{hidden: [4]}">
+        </qddt-rational>
+      </li>
+      <qddt-element-footer *ngIf="condition.id" [element]="condition"></qddt-element-footer>
 
-    <qddt-element-footer *ngIf="condition.id" [element]="condition"></qddt-element-footer>
+      <li class="right-align">
+        <button *ngIf="!readonly" [disabled]="!hf.form.valid" type="submit" class="btn btn-default">Submit</button>
+      </li>
 
-    <div class="row right-align">
-      <button *ngIf="!readonly" [disabled]="!hf.form.valid" type="submit" class="btn btn-default">Submit</button>
-    </div>
-
-  </form>
-</div>
+    </form>
+  </ul>
+</ng-container>

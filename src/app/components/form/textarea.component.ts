@@ -57,7 +57,7 @@ export class FormTextAreaComponent extends ElementBase<string> implements AfterV
   ngAfterViewInit(): void {
     const element = document.getElementById(this.idOuter);
     if ((element) && (element.parentElement.dataset.length)) {
-      console.log('setting data length');
+      // console.log('setting data length');
       element.firstElementChild.setAttribute('data-length', element.parentElement.dataset.length);
       M.CharacterCounter.init(element.children.item(0));
     }

@@ -1,6 +1,7 @@
 import { IComment, IEntityEditAudit, IOtherMaterial, IUser, IVersion } from '../interfaces';
 import { ElementKind } from '../enums';
-import { Parameter, Agency, InstrumentSequence, ElementRevisionRef, QuestionItem, ElementRevisionRefImpl } from '.';
+import { Parameter, Agency, InstrumentSequence, QuestionItem, ElementRevisionRefImpl } from '.';
+import { isString } from '../consts/functions';
 
 export enum SequenceKind {
   NA,
@@ -12,20 +13,19 @@ export enum SequenceKind {
 
 
 export enum ConditionKind {
-  COMPUTATION_ITEM,
-  IF_THEN_ELSE,
-  LOOP,
-  LOOP_E,
-  REPEAT_UNTIL,
-  REPEAT_WHILE
+  ComputationItem = 'COMPUTATION_ITEM',
+  IfThenElse = 'IF_THEN_ELSE',
+  Loop = 'LOOP',
+  RepeatUntil = 'REPEAT_UNTIL',
+  RepeatWhile = 'REPEAT_WHILE'
 }
 
 
 export enum ConstructReferenceKind {
-  NONE,
-  ASSIGN_LATER,
-  NEXT_IN_LINE,
-  EXIT_SEQUENCE,
+  NONE = 'NONE',
+  ASSIGN_LATER = 'ASSIGN_LATER',
+  NEXT_IN_LINE = 'NEXT_IN_LINE',
+  EXIT_SEQUENCE = 'EXIT_SEQUENCE',
 }
 
 
@@ -162,64 +162,68 @@ export class ConditionConstruct implements AbstractControlConstruct {
   classKind = ElementKind[ElementKind.CONDITION_CONSTRUCT];
   xmlLang?: string;
   get parameters() { return this.outParameter; }
+
   public constructor(init?: Partial<ConditionConstruct>) {
     Object.assign(this, init);
-    if (init && init.condition && typeof init.condition === 'string') {
-      switch (ConditionKind[init.conditionKind]) {
-        case ConditionKind.COMPUTATION_ITEM:
+
+    if (init) {
+      switch (init.conditionKind) {
+        case ConditionKind.ComputationItem:
           break;
-        case ConditionKind.IF_THEN_ELSE:
-          this.condition = new IfThenElse(JSON.parse(init.condition));
+        case ConditionKind.IfThenElse:
+          this.condition = new IfThenElse(JSON.parse(this.condition.toString()));
           break;
-        case ConditionKind.LOOP_E:
-          this.condition = new Loop(JSON.parse(init.condition));
+        case ConditionKind.Loop:
+          this.condition = new Loop(JSON.parse(this.condition.toString()));
           break;
-        case ConditionKind.LOOP:
-          this.condition = new Loop(JSON.parse(init.condition));
+        case ConditionKind.RepeatUntil:
+          this.condition = new RepeatUntil(JSON.parse(this.condition.toString()));
           break;
-        case ConditionKind.REPEAT_UNTIL:
-          this.condition = new RepeatUntil(JSON.parse(init.condition));
-          break;
-        case ConditionKind.REPEAT_WHILE:
-          this.condition = new RepeatWhile(JSON.parse(init.condition));
+        case ConditionKind.RepeatWhile:
+          this.condition = new RepeatWhile(JSON.parse(this.condition.toString()));
           break;
       }
+      // }
     }
   }
-
 }
 
 
-export class Condition { programmingLanguage?: 'JavaScript'; content: string; }
+export class Condition {
+  programmingLanguage?: 'JavaScript'; content = '';
+  public constructor(init?: Partial<Condition>) {
+    Object.assign(this, init);
+  }
+}
 
 
 export abstract class ConRef {
   abstract get condition(): Condition;
-  abstract get ref(): InstrumentSequence | ElementRevisionRef | ConstructReferenceKind;
+  abstract get ref(): InstrumentSequence | ConstructReferenceKind;
 }
 
 
 export class IfThenElse implements ConRef {
-  ifCondition: Condition;
-  thenConstructReference: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind = ConstructReferenceKind.NEXT_IN_LINE;
-  elseIf?: Condition;
-  elseConstructReference?: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind = ConstructReferenceKind.NONE;
+  ifCondition: Condition = new Condition();
+  thenConstructReference: InstrumentSequence | ConstructReferenceKind = ConstructReferenceKind.NEXT_IN_LINE;
+  elseIf?: Condition = new Condition();
+  elseConstructReference?: InstrumentSequence | ConstructReferenceKind = ConstructReferenceKind.NONE;
   public constructor(init?: Partial<IfThenElse>) {
     Object.assign(this, init);
   }
   get condition(): Condition {
     return this.ifCondition;
   }
-  get ref(): InstrumentSequence | ElementRevisionRef | ConstructReferenceKind {
+  get ref(): InstrumentSequence | ConstructReferenceKind {
     return this.thenConstructReference;
   }
 }
 
 
 export class Loop implements ConRef {
-  loopWhile: Condition;
-  controlConstructReference: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind = ConstructReferenceKind.NEXT_IN_LINE;
-  loopVariableReference?: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind;
+  loopWhile: Condition = new Condition({ content: '' });
+  controlConstructReference: InstrumentSequence | ConstructReferenceKind = ConstructReferenceKind.NEXT_IN_LINE;
+  loopVariableReference?: InstrumentSequence | ConstructReferenceKind;
   initialValue?: number;
   stepValue?: number;
   public constructor(init?: Partial<Loop>) {
@@ -228,37 +232,37 @@ export class Loop implements ConRef {
   get condition(): Condition {
     return this.loopWhile;
   }
-  get ref(): InstrumentSequence | ElementRevisionRef | ConstructReferenceKind {
+  get ref(): InstrumentSequence | ConstructReferenceKind {
     return this.controlConstructReference;
   }
 }
 
 
 export class RepeatWhile implements ConRef {
-  whileCondition: Condition;
-  whileConstructReference: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind = ConstructReferenceKind.NEXT_IN_LINE;
+  whileCondition: Condition = new Condition();
+  whileConstructReference: InstrumentSequence | ConstructReferenceKind = ConstructReferenceKind.NEXT_IN_LINE;
   public constructor(init?: Partial<RepeatWhile>) {
     Object.assign(this, init);
   }
   get condition(): Condition {
     return this.whileCondition;
   }
-  get ref(): InstrumentSequence | ElementRevisionRef | ConstructReferenceKind {
+  get ref(): InstrumentSequence | ConstructReferenceKind {
     return this.whileConstructReference;
   }
 }
 
 
 export class RepeatUntil implements ConRef {
-  untilCondition: Condition;
-  untilConstructReference: InstrumentSequence | ElementRevisionRef | ConstructReferenceKind = ConstructReferenceKind.NEXT_IN_LINE;
+  untilCondition: Condition = new Condition();;
+  untilConstructReference: InstrumentSequence | ConstructReferenceKind = ConstructReferenceKind.NEXT_IN_LINE;
   public constructor(init?: Partial<RepeatUntil>) {
     Object.assign(this, init);
   }
   get condition(): Condition {
     return this.untilCondition;
   }
-  get ref(): InstrumentSequence | ElementRevisionRef | ConstructReferenceKind {
+  get ref(): InstrumentSequence | ConstructReferenceKind {
     return this.untilConstructReference;
   }
 }
@@ -268,12 +272,19 @@ export const isConRef = (element: any | ConRef): element is ConRef => {
   return (element) && (element as ConRef).condition !== undefined;
 }
 
+export const isCondition = (element: any | Condition): element is Condition => {
+  return (element) && (element as Condition).content !== undefined;
+}
+
+// export const asConditionKind = (value: ConditionKind | any): value is ConditionKind => {
+//   return (value as ConditionKind) !== undefined;
+// }
+
+
+// export const isConditionKind = (maybeFruit: string): maybeFruit is keyof typeof ConditionKind => {
+//   return Object.values(ConditionKind).indexOf(maybeFruit) !== -1;
+// }
 
 export const isAbstractControlConstruct = (element: any | AbstractControlConstruct): element is AbstractControlConstruct => {
   return (element) && (element as AbstractControlConstruct).outParameter !== undefined;
 }
-
-// export const isConditionConstruct = (element: any | ConditionConstruct): element is ConditionConstruct => {
-//   return (element) && (element as ConditionConstruct).condition !== undefined;
-// }
-

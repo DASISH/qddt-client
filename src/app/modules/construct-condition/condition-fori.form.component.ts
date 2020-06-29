@@ -35,7 +35,7 @@ import { ConstructReferenceKind, toSelectItems, Loop } from 'src/app/lib';
     [(ngModel)]="element.loopVariableReference"
     [lockups]="CONDITION">
   </qddt-select>
-<span class="cl s6" >{{ element |json}}</span>
+<!-- <span class="cl s6" >{{ element |json}}</span> -->
 </form>
 `,
 })

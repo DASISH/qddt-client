@@ -9,7 +9,7 @@ import { ConstructReferenceKind, IElementRef, IfThenElse, toSelectItems } from '
 @Component({
   selector: 'qddt-if-then-else-form',
   template: `
-<form id="CON-{{formId}}" [parentFormConnect]="formName" >
+<form id="CON-{{formId}}" [parentFormConnect]="formName" *ngIf="isIfThenElse(element)">
   <div class="row>">
     <qddt-input class="col s3"
       required
@@ -29,7 +29,7 @@ import { ConstructReferenceKind, IElementRef, IfThenElse, toSelectItems } from '
     <qddt-input class="col s3"
       name="elseif"
       label="ElseIf"
-      [(ngModel)]="element.elseIf"
+      [(ngModel)]="element.elseIf.content"
       data-length="100">
     </qddt-input>
     <qddt-select class="col s3"
@@ -53,13 +53,11 @@ export class IfThenElseFormComponent implements AfterViewInit {
   constructor() { }
 
   ngAfterViewInit(): void {
-    if (!this.isIfThenElse(this.element)) {
-      this.element = new IfThenElse();
-    }
+
   }
 
 
   public isIfThenElse(element: any | IfThenElse): element is IElementRef {
-    return (element as IfThenElse).thenConstructReference !== undefined;
+    return (element) && (element as IfThenElse).thenConstructReference !== undefined;
   }
 }

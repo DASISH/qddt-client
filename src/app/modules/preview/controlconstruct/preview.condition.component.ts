@@ -83,6 +83,7 @@ export class PreviewConditionConstructComponent implements OnChanges {
         }
       });
       const outp = this.condition.outParameter;
+      console.log('break here...');
       if (outp && outp.length === 1 && label) {
         try {
           outp[0].value = [new UserResponse({ label, value: tryParse(label).toString() })];
