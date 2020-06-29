@@ -9,7 +9,7 @@ import { ConditionConstruct, Parameter, ConRef, UserResponse, tryParse, isParamT
       </qddt-parameter>
       <li class="collection-item card-panel" >
         <p><label>Condition</label></p>
-        <code [innerHtml]="insertParam(condition.condition)"> </code>
+        <code [innerHtml]="innerHtml"> </code>
         <p><label>Ref</label></p>
         <p>{{condition?.condition?.ref?.toString()}}</p>
       </li>
@@ -22,6 +22,7 @@ export class PreviewConditionConstructComponent implements OnChanges {
   @Input() inParameters: Map<string, Parameter>;
   @Input() showDetail = true;
 
+  public innerHtml = '';
 
   public readonly isParamTrueRef = isParamTrue;
 
@@ -30,10 +31,12 @@ export class PreviewConditionConstructComponent implements OnChanges {
     if (changes.condition && changes.condition.currentValue) {
       this.condition = new ConditionConstruct(changes.condition.currentValue);
       this.assignValueToParameters(this.condition.inParameter);
+      this.innerHtml = this.insertParam(this.condition.condition);
     }
 
     if (changes.inParameters && changes.inParameters.currentValue && this.condition) {
       this.assignValueToParameters(this.condition.inParameter);
+      this.innerHtml = this.insertParam(this.condition.condition);
     }
   }
 
@@ -73,20 +76,21 @@ export class PreviewConditionConstructComponent implements OnChanges {
     let label = text;
 
     if (this.condition && this.condition.inParameter) {
-      // if (this.condition.)
       this.condition.inParameter.forEach(p => {
         if (p.value) {
-          label = label.replace(new RegExp('\\[' + p.name + '\\]', 'ig'), p.value[0].value.toString());
+          label = label.replace(new RegExp('\\[' + p.name + '\\]', 'ig'), '[' + p.value.map(pp => pp.value).join(',').toString() + ']');
           text = text.replace(
             new RegExp('\\[' + p.name + '\\]', 'ig'), '<mark>' + p.value.map(pp => pp.label || pp.value)
               .join(',') + '</mark>');
         }
       });
       const outp = this.condition.outParameter;
-      console.log('break here...');
       if (outp && outp.length === 1 && label) {
         try {
-          outp[0].value = [new UserResponse({ label, value: tryParse(label).toString() })];
+          const result = tryParse(label);
+          const value = (result || JSON).done || result;
+          console.log(value);
+          outp[0].value = [new UserResponse({ label, value })];
         } catch (Ex) {
           outp[0].value = [new UserResponse({ label, value: '?' })];
         }

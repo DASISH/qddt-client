@@ -33,10 +33,10 @@ export function enumKeys<E>(e: E): (keyof E)[] {
   return Object.keys(e) as (keyof E)[];
 }
 
-export function tryParse(obj: string): boolean {
+export function tryParse(obj: string): boolean | string {
   try { return Function('"use strict";return (' + obj + ')')(); }
   catch (ex) {
-    // console.log('parse: ' + obj);
+    // console.log(ex);
     return false;
   }
 }
