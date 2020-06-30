@@ -1,7 +1,6 @@
+import { Parameter, Agency, InstrumentSequence, QuestionItem, ElementRevisionRefImpl } from '.';
 import { IComment, IEntityEditAudit, IOtherMaterial, IUser, IVersion } from '../interfaces';
 import { ElementKind } from '../enums';
-import { Parameter, Agency, InstrumentSequence, QuestionItem, ElementRevisionRefImpl } from '.';
-import { isString } from '../consts/functions';
 
 export enum SequenceKind {
   NA,

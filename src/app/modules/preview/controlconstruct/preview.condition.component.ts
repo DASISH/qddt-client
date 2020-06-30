@@ -13,6 +13,12 @@ import { ConditionConstruct, Parameter, UserResponse, tryParse, isParamTrue, isB
         <code [innerHtml]="innerHtml"> </code>
         <p><label>Ref</label></p>
         <p>{{condition?.condition?.ref?.toString()}}</p>
+        <ng-container *ngIf="condition?.condition?.elseIf">
+          <p><label>ElseIF</label></p>
+          <code [innerHtml]="innerHtml2"> </code>
+          <p><label>Ref2</label></p>
+          <p>{{condition?.condition?.elseConstructReference?.toString()}}</p>
+        </ng-container>
       </li>
   </ul>
   `,
@@ -24,6 +30,7 @@ export class PreviewConditionConstructComponent implements OnChanges {
   @Input() showDetail = true;
 
   public innerHtml = '';
+  public innerHtml2 = '';
 
   public readonly isParamTrueRef = isParamTrue;
 
@@ -74,7 +81,6 @@ export class PreviewConditionConstructComponent implements OnChanges {
     const reversed = this.reversed();
     parameters.forEach((p, i, refArray) => {
       if (!p.referencedId) {
-        // console.log('assignReference ' + i);
         const find = reversed.find(o => o[1].name === p.name);
         if (find) {
           p.referencedId = find[1].id;
