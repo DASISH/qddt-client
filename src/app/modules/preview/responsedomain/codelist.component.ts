@@ -46,7 +46,7 @@ export class ResponsedomainCodeListComponent implements OnChanges {
   public checkOption(row: any, event: any) {
     try {
       row.checked = event.target.checked;
-      console.log('check here?');
+      // console.log('check here?');
       if (this.type === 'checkbox') {
         if (this.rows.filter((e: any) => e.checked).length >= this.responseCardinality.maximum) {
           this.rows.filter((e: any) => !e.checked).forEach(e => e.disabled = 'true');
@@ -63,6 +63,7 @@ export class ResponsedomainCodeListComponent implements OnChanges {
       }
     } catch (ex) {
       console.log(ex);
+      throw ex;
     }
   }
 

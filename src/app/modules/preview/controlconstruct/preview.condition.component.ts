@@ -1,5 +1,6 @@
+import { instructionRoutes } from './../../instruction/instruction.routes';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { ConditionConstruct, Parameter, ConRef, UserResponse, tryParse, isParamTrue, isConRef } from '../../../lib';
+import { ConditionConstruct, Parameter, UserResponse, tryParse, isParamTrue, isBoolean, isObject } from '../../../lib';
 
 @Component({
   selector: 'qddt-preview-conditionconstruct',
@@ -26,40 +27,71 @@ export class PreviewConditionConstructComponent implements OnChanges {
 
   public readonly isParamTrueRef = isParamTrue;
 
+  private get outParameter() {
+    return (this.condition && this.condition.outParameter && this.condition.outParameter.length === 1) ?
+      this.condition.outParameter[0] : null;
+  }
+
+  private isDifferent = (current: Map<string, Parameter>, prior: Map<string, Parameter>) => {
+    if (!current) return false;
+    if (!prior) return true;
+    if (current.size !== prior.size) return true;
+
+    for (let key in current.keys()) {
+      if (!current.get(key).equals(prior.get(key)))
+        return false;
+    }
+    return true;
+  }
+
   public ngOnChanges(changes: SimpleChanges): void {
 
-    if (changes.condition && changes.condition.currentValue) {
-      this.condition = new ConditionConstruct(changes.condition.currentValue);
-      this.assignValueToParameters(this.condition.inParameter);
-      this.innerHtml = this.insertParam(this.condition.condition);
-    }
+    if (this.isDifferent(changes.inParameters.currentValue, changes.inParameters.previousValue)
+      && this.condition && this.condition.condition.condition) {
+      let expression = this.condition.condition.condition.content
+      let label = expression;
+      this.assignReferenceAndValueTo(this.condition.inParameter);
+      this.condition.inParameter.forEach(p => {
+        if (p.value) {
+          expression = expression.replace(new RegExp('\\[' + p.name + '\\]', 'ig'), '[' + p.value.map(pp => pp.value).join(',').toString() + ']');
+          label = label.replace(
+            new RegExp('\\[' + p.name + '\\]', 'ig'), '<mark>' + p.value.map(pp => pp.label || pp.value)
+              .join(',') + '</mark>');
+        }
+      });
 
-    if (changes.inParameters && changes.inParameters.currentValue && this.condition) {
-      this.assignValueToParameters(this.condition.inParameter);
-      this.innerHtml = this.insertParam(this.condition.condition);
+      this.assignValueToOutPutParameter(expression);
+      this.innerHtml = label + ' = ' + this.outParameter.value[0].value || '?' + '\nRef: ' + this.condition.condition.ref;
     }
   }
 
-  private assignValueToParameters(inParameters: Parameter[]) {
-    const reversed = [...this.inParameters.entries()].reverse();
-    const thisIdx = reversed.findIndex(pre => pre[0] === this.condition.outParameter[0].id);
-    const searchables = reversed.filter((p, i) => i >= thisIdx);
+  private reversed = () => [...this.inParameters.entries()].reverse();
 
-    inParameters.forEach((p, i, refArray) => {
+  private Idx = () => this.reversed().findIndex(pre => pre[0] === this.condition.outParameter[0].id);
+
+  // UPDATES inputvariables, triggers a new changes.condition
+  private assignReferenceAndValueTo(parameters: Parameter[]) {
+    const reversed = this.reversed();
+    parameters.forEach((p, i, refArray) => {
       if (!p.referencedId) {
-        const found = reversed.find(o => o[1].name === p.name);
-        if (found) {
-          p.referencedId = found[1].id;
+        // console.log('assignReference ' + i);
+        const find = reversed.find(o => o[1].name === p.name);
+        if (find) {
+          p.referencedId = find[1].id;
         }
       }
       if (p.referencedId) {
+        console.log('assignValue ' + i);
         p.value = this.inParameters.get(p.referencedId).value;
       }
       refArray[i] = p;
     });
 
+    // updates [INPUTxx] parameters
+    const thisIdx = this.Idx();
     if (thisIdx >= 0) {
-      this.condition.inParameter
+      const searchables = reversed.filter((p, i) => i >= thisIdx);
+      parameters
         .filter(f => f.name.startsWith('INPUT'))
         .sort((a, b) => a.name.localeCompare(b.name))
         .forEach((para, index) => {
@@ -70,34 +102,19 @@ export class PreviewConditionConstructComponent implements OnChanges {
     }
   }
 
+  private assignValueToOutPutParameter(label: string) {
+    if (this.outParameter && label) {
+      try {
 
-  public insertParam(conref: ConRef | string): string {
-    let text = isConRef(conref) ? (conref as ConRef).condition.content : conref;
-    let label = text;
+        const result = tryParse(label);
+        const value = (isBoolean(result)) ? result : (isObject(result)) ? !result.done : result;
+        this.outParameter.value = [new UserResponse({ label, value })];
 
-    if (this.condition && this.condition.inParameter) {
-      this.condition.inParameter.forEach(p => {
-        if (p.value) {
-          label = label.replace(new RegExp('\\[' + p.name + '\\]', 'ig'), '[' + p.value.map(pp => pp.value).join(',').toString() + ']');
-          text = text.replace(
-            new RegExp('\\[' + p.name + '\\]', 'ig'), '<mark>' + p.value.map(pp => pp.label || pp.value)
-              .join(',') + '</mark>');
-        }
-      });
-      const outp = this.condition.outParameter;
-      if (outp && outp.length === 1 && label) {
-        try {
-          const result = tryParse(label);
-          const value = (result || JSON).done || result;
-          console.log(value);
-          outp[0].value = [new UserResponse({ label, value })];
-        } catch (Ex) {
-          outp[0].value = [new UserResponse({ label, value: '?' })];
-        }
+      } catch (ex) {
+        this.outParameter.value = [new UserResponse({ label, value: '?' })];
+        throw ex;
       }
-      return text + ' = ' + outp[0].value[0].value || '?' + '\nRef: ' + (conref as ConRef).ref;
     }
-    return text + isConRef(conref) ? '\nRef: ' + (conref as ConRef).ref : '<NOT INITIALIZED>';
   }
 
 }

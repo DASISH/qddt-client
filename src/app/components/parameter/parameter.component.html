@@ -6,14 +6,14 @@
   <li class="" style="cursor: zoom-in; padding: 1rem;">
     <label>Parameters({{outParameters?.length + inParameters?.length }})</label></li>
   <ng-container *ngIf="outParameters?.length>0 && showParameters">
-    <li class="chip" style="margin-left: 1rem;" [ngClass]="{'green lighten-5': isParamTrueRef(parameter) }"
+    <li class="chip" style="margin-left: 1rem;" [ngClass]="{'green lighten-5': isTrue(parameter) }"
       title="Out parameter" *ngFor="let parameter of outParameters; let idx=index;">
       {{idx}}: {{getParam(parameter, '🢨')}}
     </li>
   </ng-container>
   <ng-container *ngIf="inParameters?.length>0 && showParameters">
-    <li class="chip" style="margin-left: 1rem;" [ngClass]="{'green lighten-5': isParamTrueRef(parameter) }"
-      title="In parameter" *ngFor="let parameter of inParameters">
+    <li class="chip" style="margin-left: 1rem;" [ngClass]="{'green lighten-5': isTrue(parameter) }" title="In parameter"
+      *ngFor="let parameter of inParameters">
       {{getParam(parameter, '🢩')}}
     </li>
   </ng-container>

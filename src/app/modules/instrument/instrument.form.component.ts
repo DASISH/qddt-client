@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 import {
   ActionKind,
   CONSTRUCT_MAP,
-  ElementRevisionRef,
   IElement,
   Instrument,
   INSTRUMENT_MAP,
@@ -11,7 +10,9 @@ import {
   IRevisionRef,
   LANGUAGE_MAP,
   TemplateService,
-  Parameter
+  Parameter,
+  SequenceConstruct,
+  ElementRevisionRef
 } from '../../lib';
 
 @Component({
@@ -68,14 +69,14 @@ export class InstrumentFormComponent implements OnChanges {
       (error) => { throw error; });
   }
 
-  // public onRevisionSelect(ref: ElementRevisionRef) {
-  //   this.instrument.sequence.push(
-  //     new InstrumentSequence({
-  //       elementRef: ref,
-  //       sequence: (ref.element.sequence) ? ref.element.sequence : []
-  //         .map((isref: ElementRevisionRef) => new InstrumentSequence({ elementRef: isref }))
-  //     }));
-  // }
+  public onRevisionSelect(ref: ElementRevisionRef) {
+    this.instrument.sequence.push(
+      new InstrumentSequence({
+        elementRef: ref,
+        sequence: (ref.element.sequence) ? ref.element.sequence : []
+          .map((isref: ElementRevisionRef) => new InstrumentSequence({ elementRef: isref }))
+      }));
+  }
 
   public onSelectOption(value) {
     this.SOURCE = { element: '', elementKind: value };

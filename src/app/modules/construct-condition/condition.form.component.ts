@@ -1,5 +1,4 @@
 import { Component, Input, Output, EventEmitter, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
-
 import {
   ConditionConstruct,
   ElementKind,
@@ -12,8 +11,6 @@ import {
   Parameter,
   IfThenElse,
   isString,
-  isCondition,
-  isConRef,
 } from 'src/app/lib';
 
 
@@ -37,30 +34,34 @@ export class ConditionFormComponent implements AfterViewInit, OnChanges {
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.CONDITION_CONSTRUCT);
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     M.updateTextFields();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     if (changes.condition.currentValue) {
       this.condition = new ConditionConstruct(this.condition);
     }
 
   }
 
-  public doCheck(doit?: boolean) {
+
+  public doCheck() {
     switch (this.condition.conditionKind) {
       case ConditionKind.IfThenElse:
-        this.condition.condition = new IfThenElse((doit) ? JSON.parse(this.condition.condition) : '{}');
+        if (isString(this.condition.condition)) {
+          this.condition.condition = new IfThenElse(JSON.parse(this.condition.condition))
+        }
         break;
       case ConditionKind.Loop:
-        this.condition.condition = new Loop((doit) ? JSON.parse(this.condition.condition) : '{}');
+        if (isString(this.condition.condition)) {
+          this.condition.condition = new Loop(JSON.parse(this.condition.condition));
+        }
         break;
       default:
         console.log(this.condition.conditionKind);
     }
   }
-
 
   public onSave() {
     this.condition.condition = JSON.stringify(this.condition.condition);
@@ -70,10 +71,6 @@ export class ConditionFormComponent implements AfterViewInit, OnChanges {
         this.modifiedEvent.emit(result);
       },
       (error) => { throw error; });
-  }
-
-  public getParam(param: Parameter, divider: string): string {
-    return param.name + divider + ((param.value) ? param.value.map(p => '[' + p.value + ':' + p.label + ']').join(',') : '?');
   }
 
 }

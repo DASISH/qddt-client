@@ -4,11 +4,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
-import { APP_BASE_HREF } from '@angular/common';
+// import { APP_BASE_HREF } from '@angular/common';
 import { API_BASE_HREF } from './api';
 
 import { environment } from '../environments/environment';
-import { routing } from './app.routes';
+// import { routing } from './app.routes';
 import { ErrorLogService, GlobalErrorHandler, SessionService, TemplateService } from './lib/services';
 import { TokenInterceptor } from './lib/interceptor';
 import { AppComponent } from './app.component';
@@ -37,13 +37,14 @@ import { AuthorModule } from './modules/author/author.module';
 import { ReferencedModule } from './modules/referenced/referenced.module';
 import { AgencyModule } from './modules/agency/agency.module';
 import { SearchModule } from './modules/search/search.module';
+import { AppRoutingModule } from './app.routes';
 
 
 @NgModule({
   imports: [BrowserModule, HttpClientModule, DragDropModule, ComponentsModule, CoreModule, BrowserAnimationsModule, HomeModule, MenuModule,
     SelectorDialogsModule, CategoryModule, ResponsedomainModule, QuestionModule, PreviewModule, AuthorModule, ReferencedModule,
     MissingModule, UniverseModule, ChangeLogModule, InstructionModule, InstrumentModule, StatementModule, ConditionModule,
-    PublicationModule, QuestionConstructModule, SequenceModule, UserModule, AgencyModule, SearchModule, routing],
+    PublicationModule, QuestionConstructModule, SequenceModule, UserModule, AgencyModule, SearchModule, AppRoutingModule],
 
   declarations: [AppComponent, PageNotFoundComponent],
 

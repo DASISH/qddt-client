@@ -156,7 +156,7 @@ export class ConditionConstruct implements AbstractControlConstruct {
   id: string;
   name: string;
   conditionKind: string;
-  condition: string | IfThenElse | Loop | RepeatWhile | RepeatUntil;
+  condition: IfThenElse | Loop | RepeatWhile | RepeatUntil;
   inParameter?: Parameter[] = [];
   outParameter?: Parameter[] = [];
   classKind = ElementKind[ElementKind.CONDITION_CONSTRUCT];

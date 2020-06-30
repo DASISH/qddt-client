@@ -40,7 +40,7 @@ export const DOMAIN_TYPE_DESCRIPTION = [
 
 export class UserResponse {
   label: string;
-  value: number | string;
+  value: any;
   checked?: boolean;
   disabled?: string;
   public constructor(init?: Partial<UserResponse>) {

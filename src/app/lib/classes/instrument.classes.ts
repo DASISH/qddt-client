@@ -152,6 +152,24 @@ export class Parameter {
   public constructor(init?: Partial<Parameter>) {
     Object.assign(this, init);
   }
+  equals(arg0: Parameter) {
+    if (this.id !== arg0.id) return false;
+    if (this.value.length !== arg0.value.length) return false;
+
+    for (var i = 0, l = this.value.length; i < l; i++) {
+      // Check if we have nested arrays
+      // if (this[i] instanceof Array && array[i] instanceof Array) {
+      //     // recurse into the nested arrays
+      //     if (!this[i].equals(array[i]))
+      //         return false;
+      // }
+      // else
+      if (this.value[i] !== arg0.value[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
 }
 
 export class EventAction {

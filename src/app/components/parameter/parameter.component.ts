@@ -10,7 +10,7 @@ export class ParameterComponent implements OnInit {
   @Input() inParameters: Parameter[];
   @Input() outParameters: Parameter[];
   @Input() showParameters = false;
-  public readonly isParamTrueRef = isParamTrue;
+  public readonly isTrue = isParamTrue;
 
   constructor() { }
 

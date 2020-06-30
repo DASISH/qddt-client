@@ -16,7 +16,7 @@
       </li>
       <li class="row">
         <qddt-select class="col s3" required name="conditionKind" label="conditionType"
-          [(ngModel)]="condition.conditionKind" [lockups]="CONDITION_KIND_MAP" (change)="doCheck(true)">
+          [(ngModel)]="condition.conditionKind" [lockups]="CONDITION_KIND_MAP" (change)="doCheck()">
         </qddt-select>
       </li>
       <li [ngSwitch]="condition.conditionKind">

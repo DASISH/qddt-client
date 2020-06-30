@@ -33,7 +33,7 @@ export function enumKeys<E>(e: E): (keyof E)[] {
   return Object.keys(e) as (keyof E)[];
 }
 
-export function tryParse(obj: string): boolean | string {
+export function tryParse(obj: string) {
   try { return Function('"use strict";return (' + obj + ')')(); }
   catch (ex) {
     // console.log(ex);
@@ -65,16 +65,25 @@ export function toSelectItems(enumerable: EnumType): ISelectOption[] {
 
 export const isParamTrue = (parameter: Parameter) => {
   if (parameter.value && parameter.value.length > 0) {
-    // console.log('parameter: ' + parameter.value[0]);
-    return (parameter.value[0].value === 'true')
+    // console.log('parameter: ' + parameter.value[0].value);
+    return (parameter.value[0].value === true || parameter.value[0].value === 'true')
   } else {
     return false;
   }
 }
 
 export const isString = (value: string | any): value is string => {
-  return (value as string) !== undefined;
+  return (typeof value === 'string') ? (value as string) !== undefined : false;
 }
+
+export const isBoolean = (expression: boolean | any): expression is boolean => {
+  return (expression) && (typeof expression === 'boolean');
+}
+
+export const isObject = (value: object | any): value is object => {
+  return value !== null && typeof value === 'object';
+}
+
 
 export const StringIsNumber = value => isNaN(Number(value)) === false;
 
