@@ -2,8 +2,8 @@ import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, Simpl
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import {
   ActionKind, ElementKind, getElementKind, getIcon,
-  InstrumentSequence, TemplateService, isAbstractControlConstruct, ElementRevisionRefImpl,
-  SequenceConstruct, AbstractControlConstruct, Parameter
+  TemplateService, isAbstractControlConstruct, ElementRevisionRefImpl,
+  SequenceConstruct, AbstractControlConstruct, Parameter, InstrumentElement
 } from '../../lib';
 import { Factory } from './../../lib/factory';
 
@@ -19,12 +19,12 @@ import { Factory } from './../../lib/factory';
 })
 
 export class InstrumentSequenceTreeComponent implements AfterViewInit, OnChanges {
-  @Input() subSequence: InstrumentSequence[];
+  @Input() subSequence: InstrumentElement[];
   @Input() readonly = false;
   @Input() level = 0;
   @Input() xmlLang: string;
   @Input() inParameters: Map<string, Parameter>;
-  @Output() actionEvent = new EventEmitter<{ action: ActionKind, ref: InstrumentSequence }>();
+  @Output() actionEvent = new EventEmitter<{ action: ActionKind, ref: InstrumentElement }>();
 
   // tslint:disable-next-line:variable-name
   private _showButton = false;
@@ -56,22 +56,22 @@ export class InstrumentSequenceTreeComponent implements AfterViewInit, OnChanges
     }
   }
 
-  public onItemNew(event: Event, ref?: InstrumentSequence) {
+  public onItemNew(event: Event, ref?: InstrumentElement) {
     event.stopPropagation();
     this.actionEvent.emit({ action: ActionKind.Create, ref });
   }
 
-  public onItemRemove(event: Event, ref: InstrumentSequence) {
+  public onItemRemove(event: Event, ref: InstrumentElement) {
     this.actionEvent.emit({ action: ActionKind.Delete, ref });
     event.stopPropagation();
   }
 
-  public onItemEdit(event: Event, ref: InstrumentSequence) {
+  public onItemEdit(event: Event, ref: InstrumentElement) {
     this.actionEvent.emit({ action: ActionKind.Read, ref });
     event.stopPropagation();
   }
 
-  public onItemUpdate(event: Event, ref: InstrumentSequence) {
+  public onItemUpdate(event: Event, ref: InstrumentElement) {
     this.actionEvent.emit({ action: ActionKind.Update, ref });
     event.stopPropagation();
   }
@@ -80,10 +80,9 @@ export class InstrumentSequenceTreeComponent implements AfterViewInit, OnChanges
     this.actionEvent.emit(response);
   }
 
-  public async onOpenBody(item: InstrumentSequence) {
-    const ref = item.elementRef;
-    if (!ref.element && !this.isSequenceKind(ref.elementKind)) {
-      item = item = new InstrumentSequence(await this.getCtrlRevRefAsync(ref));
+  public async onOpenBody(item: InstrumentElement) {
+    if (!item.element && !this.isSequenceKind(item.elementKind)) {
+      item = new InstrumentElement(await this.getCtrlRevRefAsync(item));
     }
   }
 

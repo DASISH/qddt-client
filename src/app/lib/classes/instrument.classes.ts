@@ -1,7 +1,6 @@
 import { ActionKind, ElementKind } from '../enums';
-import { Study, SequenceKind, ElementRevisionRef, UserResponse, ElementRevisionRefImpl, AbstractControlConstruct } from '.';
 import { ISelectOption, IEntityAudit } from '../interfaces';
-// import { v4 as uuidv4 } from 'uuid';
+import { ElementRevisionRefImpl, Study, AbstractControlConstruct, UserResponse, ElementRevisionRef } from '.';
 
 export enum InstrumentKind {
   QUESTIONNAIRE = 1,
@@ -87,7 +86,7 @@ export class Instrument implements IEntityAudit {
   name: string;
   description: string;
   instrumentKind = InstrumentKind[InstrumentKind.QUESTIONNAIRE];
-  sequence: InstrumentSequence[];
+  sequence: InstrumentElement[];
   study?: Study;
   comments: any[];
   xmlLang?: string;
@@ -99,47 +98,31 @@ export class Instrument implements IEntityAudit {
   public constructor(init?: Partial<Instrument>) {
     Object.assign(this, init);
     if (this.sequence) {
-      this.sequence.forEach(seq => new InstrumentSequence(seq));
+      this.sequence.forEach(seq => new InstrumentElement(seq));
     } else {
       this.sequence = [];
     }
   }
-
-  // public get parameters(): Map<string, Parameter> {
-  //   return new Map(
-  //     (this.sequence) ?
-  //       [].concat(...this.sequence.map(s => [...this.getParametersFlatten(s)])) :
-  //       []);
-  // }
-
-  // private getParametersFlatten(sequence: InstrumentSequence): Map<string, Parameter> {
-  //   const children = new Map<string, Parameter>();
-  //   return children.set(sequence.id, new Parameter({ name: sequence.elementRef.name }));
-
-  // }
-
-
 }
 
-export class InstrumentSequence {
+export class InstrumentElement extends ElementRevisionRefImpl<AbstractControlConstruct> {
   id: string;
-  elementRef: ElementRevisionRefImpl<AbstractControlConstruct>;
-  sequenceKind?: SequenceKind;
-  sequence?: InstrumentSequence[] = [];
+  sequence?: InstrumentElement[] = [];
   get parameters(): Parameter[] {
     return [].concat(...this.sequence.map(seq => seq.parameters));
   }
-  public constructor(init?: Partial<InstrumentSequence>) {
+  public constructor(init?: Partial<InstrumentElement>) {
+    super(init);
     Object.assign(this, init);
     if (this.sequence) {
-      this.sequence.forEach(seq => new InstrumentSequence(seq));
+      this.sequence.forEach(seq => new InstrumentElement(seq));
     } else {
       this.sequence = [];
     }
   }
 
   toString(): string {
-    return this.elementRef.name;
+    return this.name;
   }
 
 }
@@ -174,7 +157,7 @@ export class Parameter {
 
 export class EventAction {
   action: ActionKind;
-  ref: InstrumentSequence | ElementRevisionRef;
+  ref: InstrumentElement | ElementRevisionRef;
   public constructor(init?: Partial<EventAction>) {
     Object.assign(this, init);
   }

@@ -16,9 +16,14 @@ export class ParameterComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  public onClickIgnore(event: Event) {
+    event.stopPropagation();
+    console.log('ignore click');
+  }
 
   public getParam(param: Parameter, divider: string): string {
     return param.name + divider + ((param.value) ? param.value.map(p => '[' + p.value + ':' + p.label + ']').join(',') : '?');
   }
+
 
 }

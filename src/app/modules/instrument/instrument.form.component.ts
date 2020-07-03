@@ -6,13 +6,14 @@ import {
   Instrument,
   INSTRUMENT_MAP,
   InstrumentKind,
-  InstrumentSequence,
   IRevisionRef,
   LANGUAGE_MAP,
   TemplateService,
   Parameter,
   SequenceConstruct,
-  ElementRevisionRef
+  ElementRevisionRef,
+  SEQUENCE_TYPES,
+  InstrumentElement
 } from '../../lib';
 
 @Component({
@@ -29,10 +30,14 @@ export class InstrumentFormComponent implements OnChanges {
   public selectId = 0;
   public currentInstrumentType = InstrumentKind.QUESTIONNAIRE;
   public SOURCE: IElement | IRevisionRef | null;
+  public readonly CONSTRUCT = SEQUENCE_TYPES;
+
   public inParameters = new Map<string, Parameter>();
+
   public readonly instrumentMap = INSTRUMENT_MAP;
   public readonly languageMap = LANGUAGE_MAP;
   public readonly constructMap = CONSTRUCT_MAP;
+
   // tslint:disable-next-line:variable-name
   private _modalRef: M.Modal;
 
@@ -70,12 +75,10 @@ export class InstrumentFormComponent implements OnChanges {
   }
 
   public onRevisionSelect(ref: ElementRevisionRef) {
-    this.instrument.sequence.push(
-      new InstrumentSequence({
-        elementRef: ref,
-        sequence: (ref.element.sequence) ? ref.element.sequence : []
-          .map((isref: ElementRevisionRef) => new InstrumentSequence({ elementRef: isref }))
-      }));
+    this.instrument.sequence.push(new InstrumentElement(ref));
+    //   sequence: (ref.element.sequence) ? ref.element.sequence : []
+    //     .map((isref: ElementRevisionRef) => new InstrumentElement({ elementRef: isref }))
+    // }));
   }
 
   public onSelectOption(value) {
@@ -91,9 +94,9 @@ export class InstrumentFormComponent implements OnChanges {
     this.modalRef.close();
   }
 
-  public onDoAction(response: { action: ActionKind; ref: InstrumentSequence; }) {
+  public onDoAction(response: { action: ActionKind; ref: InstrumentElement; }) {
     const action = response.action as ActionKind;
-    const ref = response.ref as InstrumentSequence;
+    const ref = response.ref as InstrumentElement;
     switch (action) {
       case ActionKind.Read: this.onSetParameters(ref); break;
       case ActionKind.Create: this.onItemAdded(ref); break;
@@ -105,20 +108,20 @@ export class InstrumentFormComponent implements OnChanges {
     }
   }
 
-  public onItemRemoved(ref: InstrumentSequence) {
+  public onItemRemoved(ref: InstrumentElement) {
     const tmp = this.instrument.sequence.filter(f => !(f.id === ref.id));
     this.instrument.sequence = null;
     this.instrument.sequence = tmp;
   }
 
-  public onItemAdded(ref: InstrumentSequence) {
+  public onItemAdded(ref: InstrumentElement) {
     this.instrument.sequence.push(ref);
   }
 
-  public onItemModified(ref: InstrumentSequence) {
+  public onItemModified(ref: InstrumentElement) {
     // console.log(ref || JSON);
     const idx = this.instrument.sequence.findIndex(f => f.id === ref.id);
-    const seqNew: InstrumentSequence[] = [].concat(
+    const seqNew: InstrumentElement[] = [].concat(
       this.instrument.sequence.slice(0, idx),
       ref,
       this.instrument.sequence.slice(idx + 1)
@@ -126,9 +129,9 @@ export class InstrumentFormComponent implements OnChanges {
     this.instrument.sequence = seqNew;
   }
 
-  private onSetParameters(ref: InstrumentSequence) {
-    if (this.isSequence(ref.elementRef.element)) {
-      this.inParameters = new Map(ref.elementRef.element.parameters.map((p) => [p.id, p] as [string, Parameter]));
+  private onSetParameters(ref: InstrumentElement) {
+    if (this.isSequence(ref.element)) {
+      this.inParameters = new Map(ref.element.parameters.map((p) => [p.id, p] as [string, Parameter]));
     }
   }
 

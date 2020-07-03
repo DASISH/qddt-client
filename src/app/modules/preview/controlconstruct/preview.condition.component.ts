@@ -1,4 +1,3 @@
-import { instructionRoutes } from './../../instruction/instruction.routes';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ConditionConstruct, Parameter, UserResponse, tryParse, isParamTrue, isBoolean, isObject } from '../../../lib';
 

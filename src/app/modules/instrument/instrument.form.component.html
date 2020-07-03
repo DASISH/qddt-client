@@ -25,10 +25,15 @@
     <qddt-parameter [inParameters]="inParameters" [showParameters]="true">
     </qddt-parameter>
 
-    <qddt-instrument-sequence-tree [readonly]="readonly" [subSequence]="instrument.sequence"
+    <qddt-element-revision-ref class="row" [readonly]="readonly" [elementRevisions]="instrument.sequence"
+      [inParameters]="inParameters" [xmlLang]="instrument.xmlLang" [selectOptions]="CONSTRUCT"
+      (actionEvent)="onDoAction($event)">
+    </qddt-element-revision-ref>
+
+    <!-- <qddt-instrument-sequence-tree [readonly]="readonly" [subSequence]="instrument.sequence"
       [xmlLang]="instrument.xmlLang" [inParameters]="inParameters" class="section row"
       (actionEvent)="onDoAction($event)">
-    </qddt-instrument-sequence-tree>
+    </qddt-instrument-sequence-tree> -->
 
     <qddt-rational [formName]="'RationalComp'" *ngIf="!readonly && instrument.id" [element]="instrument"
       [config]="{hidden: [3,4]}">

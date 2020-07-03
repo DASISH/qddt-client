@@ -4,8 +4,7 @@ import {
   ElementRevisionRef,
   IElement,
   IRevisionRef,
-  InstrumentSequence,
-  TemplateService, CONSTRUCT_MAP, ActionKind, MessageService, Parameter
+  TemplateService, CONSTRUCT_MAP, ActionKind, MessageService, Parameter, InstrumentElement
 } from '../../lib';
 
 
@@ -15,7 +14,7 @@ import {
 })
 
 export class InstrumentSequenceComponent implements AfterViewInit {
-  @Input() sequence: InstrumentSequence[];
+  @Input() sequence: InstrumentElement[];
   @Input() readonly = false;
   @Input() level = 0;
   @Input() inParameters: Map<string, Parameter>;
@@ -46,11 +45,9 @@ export class InstrumentSequenceComponent implements AfterViewInit {
 
 
   public onRevisionSelect(ref: ElementRevisionRef) {
-    const insSeq = new InstrumentSequence();
-    insSeq.elementRef = ref;
+    const insSeq = new InstrumentElement(ref);
     ref.element.sequence.forEach((seq: ElementRevisionRef) => {
-      const newSeq = new InstrumentSequence();
-      newSeq.elementRef = seq;
+      const newSeq = new InstrumentElement(seq);
       insSeq.sequence.push(newSeq);
     });
     console.log(insSeq || JSON);
