@@ -9,7 +9,6 @@ import { ConstructReferenceKind, toSelectItems, Loop } from 'src/app/lib';
   selector: 'qddt-for-each-form',
   template: `
 <form id="CON-{{formId}}" [parentFormConnect]="formName" *ngIf="isLoop(element)" >
-  <li class="row">
     <qddt-textarea class="col s8"
       required
       name="loopWhile"
@@ -25,7 +24,6 @@ import { ConstructReferenceKind, toSelectItems, Loop } from 'src/app/lib';
       [(ngModel)]="element.controlConstructReference"
       [lockups]="CONDITION">
     </qddt-select>
-  </li>
 </form>
 `,
 })

@@ -15,11 +15,15 @@
         </qddt-select>
       </li>
       <li class="row">
+        <qddt-input class="col s12" required name="label" label="Label" [(ngModel)]="condition.label" data-length="100">
+        </qddt-input>
+      </li>
+      <li class="row">
         <qddt-select class="col s3" required name="conditionKind" label="conditionType"
           [(ngModel)]="condition.conditionKind" [lockups]="CONDITION_KIND_MAP" (change)="doCheck()">
         </qddt-select>
       </li>
-      <li [ngSwitch]="condition.conditionKind">
+      <li class="row" [ngSwitch]="condition.conditionKind">
         <ng-container *ngSwitchCase="'IF_THEN_ELSE'">
           <qddt-if-then-else-form [(element)]=condition.condition [formName]="'IFTHENELSE'"></qddt-if-then-else-form>
         </ng-container>

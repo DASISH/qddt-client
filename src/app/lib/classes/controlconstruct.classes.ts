@@ -74,6 +74,8 @@ export abstract class AbstractControlConstruct implements IEntityEditAudit {
   comments?: IComment[];
   id: string;
   name: string;
+  label?: string;
+  description?: string;
   classKind: string;
   xmlLang?: string;
   inParameter?: Parameter[];
@@ -85,7 +87,8 @@ export abstract class AbstractControlConstruct implements IEntityEditAudit {
 export class QuestionConstruct implements AbstractControlConstruct {
   id: string;
   name: string;
-  description: string;
+  label?: string;
+  description?: string;
   classKind = ElementKind[ElementKind.QUESTION_CONSTRUCT];
   questionItemRef: ElementRevisionRefImpl<QuestionItem>;
   otherMaterials: IOtherMaterial[] = [];
@@ -155,6 +158,8 @@ export class StatementConstruct implements AbstractControlConstruct {
 export class ConditionConstruct implements AbstractControlConstruct {
   id: string;
   name: string;
+  label?: string;
+  description?: string;
   conditionKind: string;
   condition: IfThenElse | Loop | RepeatWhile | RepeatUntil;
   inParameter?: Parameter[] = [];

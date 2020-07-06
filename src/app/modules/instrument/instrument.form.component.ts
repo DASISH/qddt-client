@@ -58,6 +58,7 @@ export class InstrumentFormComponent implements OnChanges {
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.instrument && changes.instrument.currentValue) {
       this.instrument = new Instrument(JSON.parse(JSON.stringify(changes.instrument.currentValue)));
+      console.log(this.instrument.parameters || JSON);
       this.currentInstrumentType = InstrumentKind[this.instrument.instrumentKind];
       this.service.canDoAction(ActionKind.Update, this.instrument)
         .then(can => this.readonly = !can);
@@ -126,13 +127,26 @@ export class InstrumentFormComponent implements OnChanges {
       ref,
       this.instrument.sequence.slice(idx + 1)
     );
+    seqNew.forEach(seq => seq.)
     this.instrument.sequence = seqNew;
   }
 
   private onSetParameters(ref: InstrumentElement) {
-    if (this.isSequence(ref.element)) {
-      this.inParameters = new Map(ref.element.parameters.map((p) => [p.id, p] as [string, Parameter]));
-    }
+    console.log('onSetParameters ' + ref.name);
+    this.inParameters = new Map(...this.instrument.sequence.map(seq =>
+      seq.parameters.map((p) => [p.id, p] as [string, Parameter])));
+
+    // ref.outParameters.forEach(p => this.inParameters.set(p.id, p))
+    // if (this.isSequence(ref.)) {
+    //   this.sequence.parameters.map((p) => [p.id, p] as [string, Parameter])
+    //   = new Map(this.sequence.parameters.map((p) => [p.id, p] as [string, Parameter]));
+
+    //   this.inParameters = new Map(function* () {
+    //     yield* this.inParameters;
+    //     yield* ref.parameters.map((p) => [p.id, p] as [string, Parameter]);
+    //   }());
+    //   // this.inParameters = new Map(...this.inParameters, ...ref.element.parameters.map((p) => [p.id, p] as [string, Parameter]));
+    // }
   }
 
   public isSequence(instrument?: any | SequenceConstruct): instrument is SequenceConstruct {

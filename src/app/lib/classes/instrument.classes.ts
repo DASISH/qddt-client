@@ -1,6 +1,10 @@
 import { ActionKind, ElementKind } from '../enums';
 import { ISelectOption, IEntityAudit } from '../interfaces';
-import { ElementRevisionRefImpl, Study, AbstractControlConstruct, UserResponse, ElementRevisionRef } from '.';
+import { UserResponse } from './responsedomain.classes';
+import { ElementRevisionRef, ElementRevisionRefImpl } from './element-revision-ref';
+import { AbstractControlConstruct } from './controlconstruct.classes';
+import { Study } from './home.classes';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 export enum InstrumentKind {
   QUESTIONNAIRE = 1,
@@ -92,6 +96,7 @@ export class Instrument implements IEntityAudit {
   xmlLang?: string;
   classKind = ElementKind[ElementKind.INSTRUMENT];
   get parameters(): Parameter[] {
+    console.log('Instrument::get parameters()');
     return [].concat(...this.sequence.map(seq => seq.parameters));
   }
 
@@ -108,12 +113,17 @@ export class Instrument implements IEntityAudit {
 export class InstrumentElement extends ElementRevisionRefImpl<AbstractControlConstruct> {
   id: string;
   sequence?: InstrumentElement[] = [];
+  outParameters?: Parameter[];
   get parameters(): Parameter[] {
-    return [].concat(...this.sequence.map(seq => seq.parameters));
+    console.log('InstrumentElement::get parameters()');
+    return [].concat(
+      ...(this.sequence) ? this.sequence.map(seq => seq.parameters) : [],
+      ...(this.outParameters) ? this.outParameters : []);
   }
   public constructor(init?: Partial<InstrumentElement>) {
     super(init);
     Object.assign(this, init);
+    console.log('InstrumentElement::constructor ' + this.name);
     if (this.sequence) {
       this.sequence.forEach(seq => new InstrumentElement(seq));
     } else {

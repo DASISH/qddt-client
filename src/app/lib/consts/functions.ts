@@ -64,7 +64,7 @@ export function toSelectItems(enumerable: EnumType): ISelectOption[] {
 // IS tester
 
 export const isParamTrue = (parameter: Parameter) => {
-  if (parameter.value && parameter.value.length > 0) {
+  if (parameter && parameter.value && parameter.value.length > 0) {
     // console.log('parameter: ' + parameter.value[0].value);
     return (parameter.value[0].value === true || parameter.value[0].value === 'true')
   } else {

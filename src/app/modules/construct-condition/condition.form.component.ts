@@ -64,7 +64,7 @@ export class ConditionFormComponent implements AfterViewInit, OnChanges {
   }
 
   public onSave() {
-    this.condition.condition = JSON.stringify(this.condition.condition);
+    // this.condition.condition = JSON.stringify(this.condition.condition);
     this.service.update<ConditionConstruct>(this.condition).subscribe(
       (result) => {
         this.condition = new ConditionConstruct(result);

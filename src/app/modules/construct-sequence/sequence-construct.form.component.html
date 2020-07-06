@@ -15,10 +15,11 @@
     <qddt-textarea required name="description" label="Description" [(ngModel)]="sequence.description" data-length="255">
     </qddt-textarea>
 
-    <qddt-select required name="SequenceKind" label="SequenceKind" [(ngModel)]="sequence.sequenceKind"
-      [lockups]="SEQUENCE_LOOKUP">
-    </qddt-select>
-
+    <div class="row">
+      <qddt-select class="col s5" required name="SequenceKind" label="SequenceKind" [(ngModel)]="sequence.sequenceKind"
+        [lockups]="SEQUENCE_LOOKUP">
+      </qddt-select>
+    </div>
     <qddt-parameter [outParameters]="sequence.parameters" [showParameters]="true"></qddt-parameter>
 
     <qddt-element-revision-ref class="row" [readonly]="readonly" [elementRevisions]="sequence.sequence"

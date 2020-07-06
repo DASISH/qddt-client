@@ -10,35 +10,33 @@ import { ConstructReferenceKind, IElementRef, IfThenElse, toSelectItems } from '
   selector: 'qddt-if-then-else-form',
   template: `
 <form id="CON-{{formId}}" [parentFormConnect]="formName" *ngIf="isIfThenElse(element)">
-  <div class="row>">
-    <qddt-input class="col s3"
-      required
-      name="ifcondition"
-      label="IfCondition"
-      [(ngModel)]="element.ifCondition.content"
-      data-length="100">
-    </qddt-input>
-    <qddt-select class="col s3"
-      required
-      name="thenconstructreference"
-      label="ThenConstructReference"
-      [(ngModel)]="element.thenConstructReference"
-      [lockups]="CONDITION"
-      >
-    </qddt-select>
-    <qddt-input class="col s3"
-      name="elseif"
-      label="ElseIf"
-      [(ngModel)]="element.elseIf.content"
-      data-length="100">
-    </qddt-input>
-    <qddt-select class="col s3"
-      name="elseconstructreference"
-      label="ElseConstructReference"
-      [(ngModel)]="element.elseConstructReference"
-      [lockups]="CONDITION">
-    </qddt-select>
-  </div>
+  <qddt-textarea class="col s9"
+    required
+    name="ifcondition"
+    label="IfCondition"
+    [(ngModel)]="element.ifCondition.content"
+    data-length="100">
+  </qddt-textarea>
+  <qddt-select class="col s3"
+    required
+    name="thenconstructreference"
+    label="ThenConstructReference"
+    [(ngModel)]="element.thenConstructReference"
+    [lockups]="CONDITION"
+    >
+  </qddt-select>
+  <qddt-textarea class="col s9"
+    name="elseif"
+    label="ElseIf"
+    [(ngModel)]="element.elseIf.content"
+    data-length="100">
+  </qddt-textarea>
+  <qddt-select class="col s3"
+    name="elseconstructreference"
+    label="ElseConstructReference"
+    [(ngModel)]="element.elseConstructReference"
+    [lockups]="CONDITION">
+  </qddt-select>
 </form>
 `,
 })

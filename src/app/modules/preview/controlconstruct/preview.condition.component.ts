@@ -52,7 +52,7 @@ export class PreviewConditionConstructComponent implements OnChanges {
 
   public ngOnChanges(changes: SimpleChanges): void {
 
-    if (this.isDifferent(changes.inParameters.currentValue, changes.inParameters.previousValue)
+    if (changes.inParameters && this.isDifferent(changes.inParameters.currentValue, changes.inParameters.previousValue)
       && this.condition && this.condition.condition.condition) {
       let expression = this.condition.condition.condition.content
       let label = expression;

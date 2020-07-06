@@ -17,8 +17,9 @@
   </div>
   <ng-container *ngIf="outParameters?.length>0 && showParameters">
     <div class="chip" style="margin-left: 0.75rem;" [ngClass]="{'green lighten-5': isTrue(parameter) }"
-      title="Out parameter" *ngFor="let parameter of outParameters; let idx=index;">
-      {{idx}}: {{getParam(parameter, '🢨')}}
+      title="Out parameter: {{getParam(parameter, '🢨')}}" *ngFor="let parameter of outParameters; let idx=index;">
+      {{idx}}: {{parameter.name +  '🢨' }}{{(parameter.value) ? parameter.value[0]?.value: '?'}}
+      <!-- + parameter?.value[0]?.value}} -->
     </div>
   </ng-container>
   <ng-container *ngIf="inParameters?.length>0 && showParameters">

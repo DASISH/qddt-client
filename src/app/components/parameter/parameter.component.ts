@@ -22,7 +22,12 @@ export class ParameterComponent implements OnInit {
   }
 
   public getParam(param: Parameter, divider: string): string {
-    return param.name + divider + ((param.value) ? param.value.map(p => '[' + p.value + ':' + p.label + ']').join(',') : '?');
+    try {
+      return param.name + divider + ((param.value) ? param.value.map(p => '[' + p.value + ':' + p.label + ']').join(',') : '?');
+    } catch (ex) {
+      // console.log(ex);
+      return '?';
+    }
   }
 
 
