@@ -127,7 +127,7 @@ export class InstrumentFormComponent implements OnChanges {
       ref,
       this.instrument.sequence.slice(idx + 1)
     );
-    seqNew.forEach(seq => seq.)
+    // seqNew.forEach(seq => seq.)
     this.instrument.sequence = seqNew;
   }
 
