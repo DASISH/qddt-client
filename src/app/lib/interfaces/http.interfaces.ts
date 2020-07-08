@@ -8,6 +8,9 @@ export interface IPageResult<T> {
   page: Page;
 }
 
+// export interface EmbeddedList<T> {
+//   results: T[];
+// }
 
 export interface IPageSearch {
   kind: ElementKind;

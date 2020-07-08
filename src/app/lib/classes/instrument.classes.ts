@@ -1,10 +1,10 @@
 import { ActionKind, ElementKind } from '../enums';
 import { ISelectOption, IEntityAudit } from '../interfaces';
 import { UserResponse } from './responsedomain.classes';
-import { ElementRevisionRef, ElementRevisionRefImpl } from './element-revision-ref';
 import { AbstractControlConstruct } from './controlconstruct.classes';
 import { Study } from './home.classes';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { TreeNodeRevisionRefImpl, TreeNodeRevisionRef } from './treenode-revision-ref';
+import { ElementRevisionRef } from './element-revision-ref';
 
 export enum InstrumentKind {
   QUESTIONNAIRE = 1,
@@ -83,6 +83,14 @@ export const INSTRUMENT_MAP = [
   } as ISelectOption,
 ];
 
+const mapTreeNodes = (nodes: TreeNodeRevisionRef[]): TreeNodeRevisionRef[] =>
+  [].concat(nodes.flatMap(node =>
+    (node.children && node.children.length > 0) ? [...mapTreeNodes(node.children)] : [node]));
+
+// function* yieldTreeNodes(nodes: TreeNodeRevisionRef[]) {
+//     nodes.forEach(node =>
+//       (node.children && node.children.length > 0) ? yieldTreeNodes(node.children) : yield node);
+//     }
 
 export class Instrument implements IEntityAudit {
   id: string;
@@ -90,51 +98,36 @@ export class Instrument implements IEntityAudit {
   name: string;
   description: string;
   instrumentKind = InstrumentKind[InstrumentKind.QUESTIONNAIRE];
-  sequence: InstrumentElement[];
   study?: Study;
   comments: any[];
   xmlLang?: string;
   classKind = ElementKind[ElementKind.INSTRUMENT];
-  get parameters(): Parameter[] {
-    console.log('Instrument::get parameters()');
-    return [].concat(...this.sequence.map(seq => seq.parameters));
-  }
+  parameters: Map<string, Parameter>;
+  outParameters: Map<string, Parameter>;
+  sequence: TreeNodeRevisionRefImpl<AbstractControlConstruct>[] = [];
 
   public constructor(init?: Partial<Instrument>) {
     Object.assign(this, init);
-    if (this.sequence) {
-      this.sequence.forEach(seq => new InstrumentElement(seq));
-    } else {
-      this.sequence = [];
+    if (init) {
+      this.parameters = new Map<string, Parameter>();
+      if (init.sequence && init.sequence.length > 0) {
+        mapTreeNodes(this.sequence).forEach((entity) => {
+          if (!this.parameters.has(entity.id)) {
+            this.parameters.set(entity.id, new Parameter({ id: entity.id, name: entity.name }))
+          }
+        });
+      }
+
+
+      if (init.outParameters) {
+        this.outParameters = new Map<string, Parameter>();
+        Object.keys(init.outParameters).forEach(key => {
+          this.outParameters.set(key, init.outParameters[key]);
+        });
+      }
     }
+    // console.log(this.parameters || JSON);
   }
-}
-
-export class InstrumentElement extends ElementRevisionRefImpl<AbstractControlConstruct> {
-  id: string;
-  sequence?: InstrumentElement[] = [];
-  outParameters?: Parameter[];
-  get parameters(): Parameter[] {
-    console.log('InstrumentElement::get parameters()');
-    return [].concat(
-      ...(this.sequence) ? this.sequence.map(seq => seq.parameters) : [],
-      ...(this.outParameters) ? this.outParameters : []);
-  }
-  public constructor(init?: Partial<InstrumentElement>) {
-    super(init);
-    Object.assign(this, init);
-    console.log('InstrumentElement::constructor ' + this.name);
-    if (this.sequence) {
-      this.sequence.forEach(seq => new InstrumentElement(seq));
-    } else {
-      this.sequence = [];
-    }
-  }
-
-  toString(): string {
-    return this.name;
-  }
-
 }
 
 export class Parameter {
@@ -167,7 +160,7 @@ export class Parameter {
 
 export class EventAction {
   action: ActionKind;
-  ref: InstrumentElement | ElementRevisionRef;
+  ref: ElementRevisionRef;
   public constructor(init?: Partial<EventAction>) {
     Object.assign(this, init);
   }

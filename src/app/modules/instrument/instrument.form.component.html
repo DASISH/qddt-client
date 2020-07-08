@@ -22,18 +22,13 @@
       <div class="col s7 infoText">{{getDescription(instrument.instrumentKind)}}</div>
     </div>
 
-    <qddt-parameter [inParameters]="inParameters.values" [showParameters]="true">
+    <qddt-parameter [inParameters]="inParameters" [showParameters]="true">
     </qddt-parameter>
 
-    <qddt-element-revision-ref class="row" [readonly]="readonly" [elementRevisions]="instrument.sequence"
-      [inParameters]="inParameters" [xmlLang]="instrument.xmlLang" [selectOptions]="CONSTRUCT"
+    <qddt-instrument-treenode [readonly]="readonly" [treeNodes]="instrument.sequence"
+      [inParameters]="instrument.parameters" [xmlLang]="instrument.xmlLang" [selectOptions]="CONSTRUCT"
       (actionEvent)="onDoAction($event)">
-    </qddt-element-revision-ref>
-
-    <!-- <qddt-instrument-sequence-tree [readonly]="readonly" [subSequence]="instrument.sequence"
-      [xmlLang]="instrument.xmlLang" [inParameters]="inParameters" class="section row"
-      (actionEvent)="onDoAction($event)">
-    </qddt-instrument-sequence-tree> -->
+    </qddt-instrument-treenode>
 
     <qddt-rational [formName]="'RationalComp'" *ngIf="!readonly && instrument.id" [element]="instrument"
       [config]="{hidden: [3,4]}">

@@ -11,9 +11,8 @@ import {
   TemplateService,
   Parameter,
   SequenceConstruct,
-  ElementRevisionRef,
   SEQUENCE_TYPES,
-  InstrumentElement
+  TreeNodeRevisionRefImpl, TreeNodeRevisionRef
 } from '../../lib';
 
 @Component({
@@ -32,7 +31,7 @@ export class InstrumentFormComponent implements OnChanges {
   public SOURCE: IElement | IRevisionRef | null;
   public readonly CONSTRUCT = SEQUENCE_TYPES;
 
-  public inParameters = new Map<string, Parameter>();
+  public inParameters: Parameter[] = [];
 
   public readonly instrumentMap = INSTRUMENT_MAP;
   public readonly languageMap = LANGUAGE_MAP;
@@ -58,11 +57,11 @@ export class InstrumentFormComponent implements OnChanges {
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.instrument && changes.instrument.currentValue) {
       this.instrument = new Instrument(JSON.parse(JSON.stringify(changes.instrument.currentValue)));
-      console.log(this.instrument.parameters || JSON);
+      this.inParameters = [...this.instrument.parameters.values()];
+      console.log(this.inParameters || JSON);
       this.currentInstrumentType = InstrumentKind[this.instrument.instrumentKind];
       this.service.canDoAction(ActionKind.Update, this.instrument)
         .then(can => this.readonly = !can);
-
     }
   }
 
@@ -75,11 +74,8 @@ export class InstrumentFormComponent implements OnChanges {
       (error) => { throw error; });
   }
 
-  public onRevisionSelect(ref: ElementRevisionRef) {
-    this.instrument.sequence.push(new InstrumentElement(ref));
-    //   sequence: (ref.element.sequence) ? ref.element.sequence : []
-    //     .map((isref: ElementRevisionRef) => new InstrumentElement({ elementRef: isref }))
-    // }));
+  public onRevisionSelect(ref: TreeNodeRevisionRef) {
+    this.instrument.sequence.push(new TreeNodeRevisionRefImpl(ref));
   }
 
   public onSelectOption(value) {
@@ -95,11 +91,11 @@ export class InstrumentFormComponent implements OnChanges {
     this.modalRef.close();
   }
 
-  public onDoAction(response: { action: ActionKind; ref: InstrumentElement; }) {
+  public onDoAction(response: { action: ActionKind; ref: TreeNodeRevisionRef }) {
     const action = response.action as ActionKind;
-    const ref = response.ref as InstrumentElement;
+    const ref = response.ref as TreeNodeRevisionRef;
     switch (action) {
-      case ActionKind.Read: this.onSetParameters(ref); break;
+      case ActionKind.Read: this.inParameters = [...this.instrument.parameters.values()]; break;
       case ActionKind.Create: this.onItemAdded(ref); break;
       case ActionKind.Update: this.onItemModified(ref); break;
       case ActionKind.Delete: this.onItemRemoved(ref); break;
@@ -109,45 +105,30 @@ export class InstrumentFormComponent implements OnChanges {
     }
   }
 
-  public onItemRemoved(ref: InstrumentElement) {
+  public onItemRemoved(ref: TreeNodeRevisionRef) {
     const tmp = this.instrument.sequence.filter(f => !(f.id === ref.id));
     this.instrument.sequence = null;
     this.instrument.sequence = tmp;
   }
 
-  public onItemAdded(ref: InstrumentElement) {
+  public onItemAdded(ref: TreeNodeRevisionRef) {
+    console.log('onItemAdded');
+
     this.instrument.sequence.push(ref);
   }
 
-  public onItemModified(ref: InstrumentElement) {
-    // console.log(ref || JSON);
+  public onItemModified(ref: TreeNodeRevisionRef) {
+    console.log('onItemModified');
     const idx = this.instrument.sequence.findIndex(f => f.id === ref.id);
-    const seqNew: InstrumentElement[] = [].concat(
+    const seqNew: TreeNodeRevisionRef[] = [].concat(
       this.instrument.sequence.slice(0, idx),
       ref,
       this.instrument.sequence.slice(idx + 1)
     );
-    // seqNew.forEach(seq => seq.)
     this.instrument.sequence = seqNew;
   }
 
-  private onSetParameters(ref: InstrumentElement) {
-    console.log('onSetParameters ' + ref.name);
-    this.inParameters = new Map(...this.instrument.sequence.map(seq =>
-      seq.parameters.map((p) => [p.id, p] as [string, Parameter])));
 
-    // ref.outParameters.forEach(p => this.inParameters.set(p.id, p))
-    // if (this.isSequence(ref.)) {
-    //   this.sequence.parameters.map((p) => [p.id, p] as [string, Parameter])
-    //   = new Map(this.sequence.parameters.map((p) => [p.id, p] as [string, Parameter]));
-
-    //   this.inParameters = new Map(function* () {
-    //     yield* this.inParameters;
-    //     yield* ref.parameters.map((p) => [p.id, p] as [string, Parameter]);
-    //   }());
-    //   // this.inParameters = new Map(...this.inParameters, ...ref.element.parameters.map((p) => [p.id, p] as [string, Parameter]));
-    // }
-  }
 
   public isSequence(instrument?: any | SequenceConstruct): instrument is SequenceConstruct {
     return (instrument) && (instrument as SequenceConstruct).sequence !== undefined;
