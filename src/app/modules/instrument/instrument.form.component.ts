@@ -58,7 +58,7 @@ export class InstrumentFormComponent implements OnChanges {
     if (changes.instrument && changes.instrument.currentValue) {
       this.instrument = new Instrument(JSON.parse(JSON.stringify(changes.instrument.currentValue)));
       this.inParameters = [...this.instrument.parameters.values()];
-      console.log(this.inParameters || JSON);
+      // console.log(this.inParameters || JSON);
       this.currentInstrumentType = InstrumentKind[this.instrument.instrumentKind];
       this.service.canDoAction(ActionKind.Update, this.instrument)
         .then(can => this.readonly = !can);
@@ -80,7 +80,7 @@ export class InstrumentFormComponent implements OnChanges {
 
   public onSelectOption(value) {
     this.SOURCE = { element: '', elementKind: value };
-    console.log(this.SOURCE);
+    // console.log(this.SOURCE);
   }
 
   public onOpen() {
@@ -112,13 +112,13 @@ export class InstrumentFormComponent implements OnChanges {
   }
 
   public onItemAdded(ref: TreeNodeRevisionRef) {
-    console.log('onItemAdded');
+    // console.log('onItemAdded');
 
     this.instrument.sequence.push(ref);
   }
 
   public onItemModified(ref: TreeNodeRevisionRef) {
-    console.log('onItemModified');
+    // console.log('onItemModified');
     const idx = this.instrument.sequence.findIndex(f => f.id === ref.id);
     const seqNew: TreeNodeRevisionRef[] = [].concat(
       this.instrument.sequence.slice(0, idx),
