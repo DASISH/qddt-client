@@ -8,12 +8,12 @@ import { Component, ViewChild } from '@angular/core';
   templateUrl: './sequence-construct.component.html',
 })
 
-export class SequenceConstructComponent  {
-  @ViewChild('detail', {static: true}) templateDetail;
+export class SequenceConstructComponent {
+  @ViewChild('detail', { static: true }) templateDetail;
 
 
   public onFormModified(event) {
-    console.log(event);
+    // console.log(event);
     this.templateDetail.onToggleForm();
   }
 }

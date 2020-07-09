@@ -60,7 +60,7 @@ export class ElementRevisionComponent implements OnChanges {
   public onSelectElement(item: IElement) {
     this.showRevisionSelect = true;
     this.revisionRef = { elementId: item.element.id, elementKind: item.elementKind, elementRevision: 0 };
-    console.log(this.revisionRef || JSON);
+    // console.log(this.revisionRef || JSON);
   }
 
   public onSelectedRevision(revision: IRevisionResultEntity) {

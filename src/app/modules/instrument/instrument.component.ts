@@ -10,7 +10,6 @@ export class InstrumentComponent {
 
 
   public onFormModified(event) {
-    console.log(event);
     this.templateDetail.onToggleForm();
   }
 

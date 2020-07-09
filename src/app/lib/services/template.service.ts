@@ -14,7 +14,7 @@ import { Agency, PageSearch } from '../classes';
 export class TemplateService {
 
   constructor(protected http: HttpClient, private userService: UserService, @Inject(API_BASE_HREF) protected api: string) {
-    console.log('TemplateService::CONST ' + api);
+    // console.log('TemplateService::CONST ' + api);
   }
 
   public searchByUuid(id: string): Promise<any> {
@@ -121,7 +121,7 @@ export class TemplateService {
     return this.http.post<T>(this.api + qe.path + path2, item);
   }
 
-  public updateAll<T extends IEntityAudit>(items: T[], parentId?: string, ): Observable<T[]> {
+  public updateAll<T extends IEntityAudit>(items: T[], parentId?: string,): Observable<T[]> {
     const qe = getQueryInfo(items[0].classKind);
     return (parentId) ? this.http.post<T[]>(this.api + qe.path + '/list/' + parentId, items) :
       this.http.post<T[]>(this.api + qe.path + '/list', items);
@@ -133,7 +133,7 @@ export class TemplateService {
   }
 
   public delete(item: IEntityAudit): Observable<any> {
-    console.log(item || JSON);
+    // console.log(item || JSON);
     const qe = getQueryInfo(item.classKind);
     return this.http.delete(this.api + qe.path + '/delete/' + item.id);
   }

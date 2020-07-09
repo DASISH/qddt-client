@@ -63,7 +63,7 @@ export class ConfirmDeleteComponent implements AfterViewInit {
   }
 
   onOk() {
-    console.log(this.element || JSON);
+    // console.log(this.element || JSON);
     this.confirmAction.emit(this.element);
     this.instance.close();
   }

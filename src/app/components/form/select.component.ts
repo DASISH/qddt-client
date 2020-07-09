@@ -33,7 +33,7 @@ import { ISelectOption } from 'src/app/lib';
           <option *ngIf="placeholder" value="" disabled >{{placeholder}}</option>
           <option *ngFor="let item of lockups" value="{{item.value}}">{{item.label}}</option>
         </select>
-        <label *ngIf="label">{{label}}</label>
+        <label >{{label}}</label>
       </div>
     </ng-template>
   `,
@@ -52,21 +52,23 @@ export class FormSelectComponent extends ElementBase<any> implements AfterViewIn
   public identifier = `qddt-select-` + ident++;
 
   constructor(@Optional() @Inject(NG_VALIDATORS) validators: Array<any>,
-    @Optional() @Inject(NG_ASYNC_VALIDATORS) asyncValidators: Array<any>,
-  ) {
+    @Optional() @Inject(NG_ASYNC_VALIDATORS) asyncValidators: Array<any>) {
     super(validators, asyncValidators);
-    this.registerOnWritten(() => {
+
+    this.registerOnSourceChanged(() => {
       const element = document.getElementById(this.identifier) as HTMLSelectElement;
       if (element) {
         this.setindex(element);
         M.FormSelect.init(element);
       }
     });
-    this.registerOnChange((value) => console.log(value || JSON));
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.lockups.isFirstChange() === false) {
+    if (changes.lockups.isFirstChange()) {
+      const element = document.getElementById(this.identifier) as HTMLSelectElement;
+      M.FormSelect.init(element);
+    } else {
       this.buildOptions();
     }
   }
@@ -112,17 +114,17 @@ export class FormSelectComponent extends ElementBase<any> implements AfterViewIn
   private setindex(element: HTMLSelectElement) {
     if ((element) && (element.options) && (this.value)) {
       let i = -1;
-      for (let key in element.options) {
+      for (const key of Object.keys(element.options)) {
         i++;
-        if (element.options[key].value == this.value) {
-          console.log('hitted...' + this.value)
+        if (element.options[key].value === this.value) {
           element.options.selectedIndex = i;
           break;
         }
       }
     }
-  }
 
+  }
 }
 
 let ident = 0;
+

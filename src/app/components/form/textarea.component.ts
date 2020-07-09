@@ -18,16 +18,15 @@ import { animations } from './animations';
 @Component({
   selector: 'qddt-textarea',
   template: `
-    <div class="input-field" id="{{idOuter}}">
+    <div class="input-field" [id]="idOuter">
       <textarea
-        id="{{identifier}}"
+        [id]="identifier"
         class="materialize-textarea validate"
-        placeholder="{{placeholder}}"
         [readonly]="readonly"
         [(ngModel)]="value"
         [ngClass]="{invalid: (invalid | async)}" >
       </textarea>
-      <label *ngIf="label" for="{{identifier}}">{{label}}</label>
+      <label [for]="identifier">{{label}}</label>
     </div>
   `,
   animations,
@@ -37,7 +36,7 @@ import { animations } from './animations';
     multi: true,
   }],
 })
-export class FormTextAreaComponent extends ElementBase<string> implements AfterViewInit {
+export class FormTextAreaComponent extends ElementBase<string> {
   @Input() public label: string;
   @Input() public placeholder: string;
   @Input() public readonly = false;
@@ -52,17 +51,18 @@ export class FormTextAreaComponent extends ElementBase<string> implements AfterV
     @Optional() @Inject(NG_ASYNC_VALIDATORS) asyncValidators: Array<any>,
   ) {
     super(validators, asyncValidators);
+    this.registerOnSourceChanged(() => {
+      const element = document.getElementById(this.idOuter);
+      if ((element) && (element.parentElement.dataset.length)) {
+        // console.log('setting data length');
+        element.firstElementChild.setAttribute('data-length', element.parentElement.dataset.length);
+        M.CharacterCounter.init(element.children.item(0));
+        M.textareaAutoResize(element.children.item(0));
+      }
+      // M.updateTextFields();
+    });
   }
 
-  ngAfterViewInit(): void {
-    const element = document.getElementById(this.idOuter);
-    if ((element) && (element.parentElement.dataset.length)) {
-      // console.log('setting data length');
-      element.firstElementChild.setAttribute('data-length', element.parentElement.dataset.length);
-      M.CharacterCounter.init(element.children.item(0));
-    }
-    M.updateTextFields();
-  }
 }
 
 let ident = 0;

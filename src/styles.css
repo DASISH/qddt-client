@@ -5,3 +5,20 @@ div > .card.section.row { margin-left: -0.6rem; }
 .row:hover > .col > ul.dropdownmenu { display:block; }
 ul.dropdownmenu {  display:none;}
 ul:not(.browser-default) > li > a { margin-bottom: 10px; }
+
+/* You can add global styles to this file, and also import other style files */
+
+.ng-touched.ng-invalid{
+  border-color:rgb(213, 216, 32);
+}
+
+.ng-invalid.ng-touched + label{
+  color: red;
+  font-style: italic;
+}
+
+.ng-invalid.ng-touched + label:before,
+.ng-invalid.ng-touched + label:after
+{
+  border-color:rgb(255, 1, 200);
+}

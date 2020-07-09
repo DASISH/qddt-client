@@ -13,7 +13,7 @@ export class QuestionConstructComponent {
 
 
   public onFormModified(event) {
-    console.log(event);
+    // console.log(event);
     this.templateDetail.onToggleForm();
   }
 }

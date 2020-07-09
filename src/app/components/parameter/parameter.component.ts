@@ -18,7 +18,7 @@ export class ParameterComponent implements OnInit {
   }
   public onClickIgnore(event: Event) {
     event.stopPropagation();
-    console.log('ignore click');
+    // console.log('ignore click');
   }
 
   public getParam(param: Parameter, divider: string): string {

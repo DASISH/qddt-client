@@ -44,7 +44,7 @@ export class UserService {
     // console.log('canDo -> Action:' + ActionKind[action] + ' Kind:' + kind);
     function canRead(roles: number) {
       if (kind >= ElementKind.INSTRUCTION && roles < AuthorityKind.ROLE_ADMIN) {
-        console.log('canRead false ' + kind);
+        // console.log('canRead false ' + kind);
         return false;
       }
       if (roles >= +AuthorityKind.ROLE_VIEW) {
@@ -121,7 +121,7 @@ export class UserService {
     return this.http.post(this.api + UserService.RESET_PWD_URL, password);
   }
 
-  public getCurrentUser():Promise<User> {
+  public getCurrentUser(): Promise<User> {
     if (!this.getUserId) throw new Error('User not logged in');
     if (this.property.has(UserService.USER)) {
       const user = this.property.get(UserService.USER) as User;
@@ -137,7 +137,7 @@ export class UserService {
       });
   }
 
-  public async getCurrentAgency():Promise<Agency>{
+  public async getCurrentAgency(): Promise<Agency> {
     return (await this.getCurrentUser()).agency;
   }
 
@@ -170,7 +170,7 @@ export class UserService {
    */
   public logout(): void {
     localStorage.removeItem(TOKEN_NAME);
-    console.log('loggin out fires');
+    // console.log('loggin out fires');
     this.loggedIn.next(false);
   }
 
@@ -193,7 +193,7 @@ export class UserService {
   }
 
   public getUserId(): string {
-    console.log('getUserId->' + this.getUser().id);
+    // console.log('getUserId->' + this.getUser().id);
     return this.getUser().id || '';
   }
 
@@ -234,7 +234,7 @@ export class UserService {
     this.property.userSetting.email = this.user.email;
     this.roles = 0;
     this.getRoles().forEach((role) => this.roles += +AuthorityKind[role]);
-    console.log('logged in fires');
+    // console.log('logged in fires');
     this.loggedIn.next(true);
   }
 

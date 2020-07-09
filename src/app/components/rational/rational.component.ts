@@ -62,7 +62,7 @@ export class RationalComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   onClickRational1(id: number) {
-    console.log('onClickRational1 ' + id);
+    // console.log('onClickRational1 ' + id);
     this._RationalIndex = id;
     this._Rational2Index = 0;
     const rational = this.rationalDescriptions[this.saveOptionIndex].children[id];
@@ -75,7 +75,7 @@ export class RationalComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   onClickRational2(rational: any) {
-    console.log('onClickRational2 ' + rational);
+    // console.log('onClickRational2 ' + rational);
     this._Rational2Index = rational.id;
     if (rational.change) {
       this.element.changeKind = rational.change;

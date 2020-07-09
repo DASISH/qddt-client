@@ -234,7 +234,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     qe.fields.forEach(value => this.fields[value] = (this.pageSearch.keys.get(value) || ''));
     this.fieldNames = qe.fields;
     this.placeholder = qe.placeholder();
-    console.log('canDelete?');
+    // console.log('canDelete?');
     this.canDelete = this.access.canDo(ActionKind.Delete, qe.id);
     this.canExport = this.access.canDo(ActionKind.Export, qe.id);
     this.canEdit = this.access.canDo(ActionKind.Update, qe.id);

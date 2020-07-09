@@ -1,4 +1,3 @@
-import { InstrumentElement } from './instrument.classes';
 import { Parameter, Agency, QuestionItem, ElementRevisionRefImpl } from '.';
 import { IComment, IEntityEditAudit, IOtherMaterial, IUser, IVersion } from '../interfaces';
 import { ElementKind } from '../enums';
@@ -204,22 +203,22 @@ export class Condition {
 
 export abstract class ConRef {
   abstract get condition(): Condition;
-  abstract get ref(): InstrumentElement | ConstructReferenceKind;
+  abstract get ref(): ConstructReferenceKind;
 }
 
 
 export class IfThenElse implements ConRef {
   ifCondition: Condition = new Condition();
-  thenConstructReference: InstrumentElement | ConstructReferenceKind = ConstructReferenceKind.NEXT_IN_LINE;
+  thenConstructReference: ConstructReferenceKind = ConstructReferenceKind.NEXT_IN_LINE;
   elseIf?: Condition = new Condition();
-  elseConstructReference?: InstrumentElement | ConstructReferenceKind = ConstructReferenceKind.NONE;
+  elseConstructReference?: ConstructReferenceKind = ConstructReferenceKind.NONE;
   public constructor(init?: Partial<IfThenElse>) {
     Object.assign(this, init);
   }
   get condition(): Condition {
     return this.ifCondition;
   }
-  get ref(): InstrumentElement | ConstructReferenceKind {
+  get ref(): ConstructReferenceKind {
     return this.thenConstructReference;
   }
 }
@@ -227,8 +226,8 @@ export class IfThenElse implements ConRef {
 
 export class Loop implements ConRef {
   loopWhile: Condition = new Condition({ content: '' });
-  controlConstructReference: InstrumentElement | ConstructReferenceKind = ConstructReferenceKind.NEXT_IN_LINE;
-  loopVariableReference?: InstrumentElement | ConstructReferenceKind;
+  controlConstructReference: ConstructReferenceKind = ConstructReferenceKind.NEXT_IN_LINE;
+  loopVariableReference?: ConstructReferenceKind;
   initialValue?: number;
   stepValue?: number;
   public constructor(init?: Partial<Loop>) {
@@ -237,7 +236,7 @@ export class Loop implements ConRef {
   get condition(): Condition {
     return this.loopWhile;
   }
-  get ref(): InstrumentElement | ConstructReferenceKind {
+  get ref(): ConstructReferenceKind {
     return this.controlConstructReference;
   }
 }
@@ -245,14 +244,14 @@ export class Loop implements ConRef {
 
 export class RepeatWhile implements ConRef {
   whileCondition: Condition = new Condition();
-  whileConstructReference: InstrumentElement | ConstructReferenceKind = ConstructReferenceKind.NEXT_IN_LINE;
+  whileConstructReference: ConstructReferenceKind = ConstructReferenceKind.NEXT_IN_LINE;
   public constructor(init?: Partial<RepeatWhile>) {
     Object.assign(this, init);
   }
   get condition(): Condition {
     return this.whileCondition;
   }
-  get ref(): InstrumentElement | ConstructReferenceKind {
+  get ref(): ConstructReferenceKind {
     return this.whileConstructReference;
   }
 }
@@ -260,14 +259,14 @@ export class RepeatWhile implements ConRef {
 
 export class RepeatUntil implements ConRef {
   untilCondition: Condition = new Condition();;
-  untilConstructReference: InstrumentElement | ConstructReferenceKind = ConstructReferenceKind.NEXT_IN_LINE;
+  untilConstructReference: ConstructReferenceKind = ConstructReferenceKind.NEXT_IN_LINE;
   public constructor(init?: Partial<RepeatUntil>) {
     Object.assign(this, init);
   }
   get condition(): Condition {
     return this.untilCondition;
   }
-  get ref(): InstrumentElement | ConstructReferenceKind {
+  get ref(): ConstructReferenceKind {
     return this.untilConstructReference;
   }
 }

@@ -27,14 +27,12 @@ export class SessionService {
           break;
         case 'en':
         case 'en-GB':
-          registerLocaleData(localeGb, value , localeGbExtra);
+          registerLocaleData(localeGb, value, localeGbExtra);
           break;
         default: break;
       }
       this._initLocals.push(value);
     }
-    // tslint:disable-next-line:no-console
-    console.info(value);
   }
 
   get locale(): string {

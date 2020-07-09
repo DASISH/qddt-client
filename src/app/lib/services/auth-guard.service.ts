@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, CanActivateChild,
-         Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import {UserService} from './user.service';
-import {PropertyStoreService} from './property.service';
+import {
+  CanActivate, CanActivateChild,
+  Router, ActivatedRouteSnapshot, RouterStateSnapshot
+} from '@angular/router';
+import { UserService } from './user.service';
+import { PropertyStoreService } from './property.service';
 
 
 
 @Injectable()
-export class AuthGuard implements CanActivate, CanActivateChild  {
+export class AuthGuard implements CanActivate, CanActivateChild {
 
   constructor(private authService: UserService, private router: Router, private property: PropertyStoreService) {
-    console.log('AuthGuard created');
+    // console.log('AuthGuard created');
   }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
@@ -25,7 +27,7 @@ export class AuthGuard implements CanActivate, CanActivateChild  {
 
     // this.router.navigate([{ outlets: { popup: ['login'] } }]);
 
-    this.router.navigate([ '/login']);
+    this.router.navigate(['/login']);
 
     // const redirectUrl = next['_routerState']['url'];
     // console.log('isTokenExpired -> redirecting to login ' + redirectUrl );

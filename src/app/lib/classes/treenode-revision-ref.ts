@@ -1,6 +1,6 @@
 import { SequenceConstruct } from './controlconstruct.classes';
-import { IEntityEditAudit } from '..';
-import { ElementRevisionRef } from '.';
+import { ElementRevisionRef } from './element-revision-ref';
+import { IEntityEditAudit } from '../interfaces';
 
 import * as uuid from 'uuid';
 

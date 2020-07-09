@@ -59,7 +59,7 @@ export class ConditionFormComponent implements AfterViewInit, OnChanges {
         }
         break;
       default:
-        console.log(this.condition.conditionKind);
+        console.log('This kind isn\'t implemented yet; ' + this.condition.conditionKind);
     }
   }
 

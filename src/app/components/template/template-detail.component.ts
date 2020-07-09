@@ -83,7 +83,7 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterViewInit
 
   onDeleteConfirmModal(item: IEntityAudit) {
     if (item) {
-      console.log(item || JSON);
+      // console.log(item || JSON);
       this.service.delete(item)
         .subscribe(() => {
           this.action.action = ActionKind.Delete;

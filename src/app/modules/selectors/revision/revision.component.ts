@@ -22,7 +22,7 @@ export class RevisionComponent implements OnChanges {
 
   public revisionResultEntities: IRevisionResultEntity[];
   public selectedRevisionResult: IRevisionResultEntity;
-  public  revisionlockups: ISelectOption[];
+  public revisionlockups: ISelectOption[];
   public showProgressBar = false;
   public showPickRevision = false;
   // tslint:disable-next-line:variable-name
@@ -37,7 +37,7 @@ export class RevisionComponent implements OnChanges {
     this._selectedRevision = +value;
     if (this._selectedRevision <= 1) { return; }
     this.selectedRevisionResult = this.revisionResultEntities.find(entity => entity.revisionNumber === this._selectedRevision);
-    console.log(this._selectedRevision + ' -> ' +  this.selectedRevisionResult || JSON);
+    // console.log(this._selectedRevision + ' -> ' +  this.selectedRevisionResult || JSON);
   }
 
   public version(item: IEntityEditAudit) {
@@ -54,7 +54,7 @@ export class RevisionComponent implements OnChanges {
         (result) => {
           this.revisionResultEntities = result.content.sort((e1: any, e2: any) => e2.revisionNumber - e1.revisionNumber);
           this.selectedRevision = ref.elementRevision;
-          this.revisionlockups =  this.revisionResultEntities.map(rev => new SelectItem({
+          this.revisionlockups = this.revisionResultEntities.map(rev => new SelectItem({
             id: rev.revisionNumber,
             label: this.version(rev.entity)
           }));
@@ -63,7 +63,7 @@ export class RevisionComponent implements OnChanges {
         },
         () => this.showProgressBar = false);
     } else {
-      console.log(changes.toString());
+      // console.log(changes.toString());
     }
   }
 

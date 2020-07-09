@@ -6,24 +6,25 @@ import { animations } from './animations';
 @Component({
   selector: 'qddt-input',
   template: `
-    <div class="input-field" id="{{idOuter}}">
+    <div class="input-field" [id]="idOuter">
       <input
-        id="{{identifier}}"
+        [id]="identifier"
         class="validate"
+        required
         [readonly]="readonly"
         type="{{inputType}}"
-        placeholder="{{placeholder}}"
         [(ngModel)]="value"
         [ngClass]="{invalid: (invalid | async)}" />
-      <label *ngIf="label" for="{{identifier}}">{{label}}</label>
+      <label >{{label}}</label>
     </div>
   `,
   animations,
   providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: FormInputComponent, multi: true }],
+  styles: ['.character-counter { color: rbg(0,255,0); }'],
 })
 export class FormInputComponent extends ElementBase<string> implements AfterViewInit {
   @Input() public label: string;
-  @Input() public placeholder: string;
+  @Input() public placeholder = '';
   @Input() public inputType = 'text';
   @Input() public readonly = false;
   @ViewChild(NgModel, { static: true }) model: NgModel;
@@ -36,6 +37,14 @@ export class FormInputComponent extends ElementBase<string> implements AfterView
     @Optional() @Inject(NG_ASYNC_VALIDATORS) asyncValidators: Array<any>,
   ) {
     super(validators, asyncValidators);
+    this.registerOnSourceChanged(() => {
+      const element = document.getElementById(this.idOuter);
+      if (element) {
+        console.log('M.updateTextFields');
+        // M.updateTextFields();
+        // M.AutoInit(element);      // const element = document.getElementById(this.identifier) as HTMLSelectElement;
+      }
+    });
   }
 
   ngAfterViewInit(): void {
@@ -44,7 +53,6 @@ export class FormInputComponent extends ElementBase<string> implements AfterView
       element.firstElementChild.setAttribute('data-length', element.parentElement.dataset.length);
       M.CharacterCounter.init(element.children.item(0));
     }
-    M.updateTextFields();
   }
 }
 

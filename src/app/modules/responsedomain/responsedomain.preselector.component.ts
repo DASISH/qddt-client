@@ -38,7 +38,7 @@ export class ResponsePreSelector implements OnInit {
   private readonly path = 'responsedomains';
 
   constructor(private messages: MessageService, private properties: PropertyStoreService, private userService: UserService) {
-    console.log(userService.getUser().role || JSON);
+    // console.log(userService.getUser().role || JSON);
     if (userService.getUser().role.find(p => p.authority === 'ROLE_ADMIN')) {
       this.domainTypeDescription = DOMAIN_TYPE_DESCRIPTION.filter((e) => e.id !== DomainKind.NONE && e.id !== DomainKind.MISSING);
     } else {
@@ -54,7 +54,7 @@ export class ResponsePreSelector implements OnInit {
   }
 
   onSelectDomainType(id: DomainKind) {
-    console.log('onSelectDomainType');
+    // console.log('onSelectDomainType');
     const pageSearch = this.getPageSearch();
     this.domainType = id;
     pageSearch.keys.set(this.KEY, DomainKind[id]);

@@ -38,7 +38,7 @@ export class QuestionConstructFormComponent {
   public showButton = false;
   public fileStore: File[] = [];
 
-  constructor(private service: TemplateService, private router: Router, private message: MessageService, ) {
+  constructor(private service: TemplateService, private router: Router, private message: MessageService,) {
     this.showUploadFileForm = false;
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.CONTROL_CONSTRUCT);
 
@@ -90,7 +90,6 @@ export class QuestionConstructFormComponent {
     rev.name = rev.element.name;
     rev.text = rev.element.question;
     this.controlConstruct.questionItemRef = rev;
-    console.log(rev || JSON);
     this.SOURCE = null;
   }
 

@@ -19,7 +19,7 @@ export class ChangeLogFormComponent implements OnChanges {
   constructor(private service: TemplateService) { }
 
   onSave() {
-    console.log('notin done...');
+    console.log('This service doesn\'t provide persisting.');
   }
 
   ngOnChanges(changes: SimpleChanges): void {

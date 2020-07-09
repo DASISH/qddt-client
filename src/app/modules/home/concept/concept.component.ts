@@ -77,7 +77,7 @@ export class ConceptComponent implements OnInit, AfterViewInit {
   }
 
   onNewSave(newConcept) {
-    console.log('newConcept');
+    // console.log('newConcept');
     this.showConceptForm = false;
     this.showProgressBar = true;
     this.templateService.create(new Concept(newConcept), this.topic.id).subscribe(
@@ -88,7 +88,7 @@ export class ConceptComponent implements OnInit, AfterViewInit {
 
 
   onHierarchyChanged(event) {
-    console.log('moving event?');
+    // console.log('moving event?');
     this.topic.changeKind = 'UPDATED_HIERARCHY_RELATION';
     this.topic.changeComment = 'Topic order changed';
     // this.topic.concepts = this.topics;
@@ -169,7 +169,7 @@ export class ConceptComponent implements OnInit, AfterViewInit {
     let found = false;
     let i = -1;
     while (!found && ++i < concepts.length) {
-      console.log(i);
+      // console.log(i);
       found = this.updateConcept(concepts[i].children, concept);
       if (concepts[i].id === concept.id) {
         concepts[i] = concept;

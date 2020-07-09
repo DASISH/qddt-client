@@ -86,7 +86,7 @@ export class PreviewConditionConstructComponent implements OnChanges {
         }
       }
       if (p.referencedId) {
-        console.log('assignValue ' + i);
+        // console.log('assignValue ' + i);
         p.value = this.inParameters.get(p.referencedId).value;
       }
       refArray[i] = p;
@@ -112,7 +112,7 @@ export class PreviewConditionConstructComponent implements OnChanges {
       try {
 
         const result = tryParse(label);
-        const value = (isBoolean(result)) ? result : (isObject(result)) ? !result.done : result;
+        const value = (isBoolean(result)) ? result : (this.isDone(result)) ? result.done : result;
         this.outParameter.value = [new UserResponse({ label, value })];
 
       } catch (ex) {
@@ -120,6 +120,10 @@ export class PreviewConditionConstructComponent implements OnChanges {
         throw ex;
       }
     }
+  }
+
+  private isDone = (value: { done: any } | any): value is { done: any } => {
+    return (value) ? (value as { done: any }).done !== undefined : false;
   }
 
 }

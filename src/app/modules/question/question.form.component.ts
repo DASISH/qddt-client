@@ -34,7 +34,7 @@ export class QuestionFormComponent implements AfterViewInit {
   }
 
   onSaveQuestionItem() {
-    console.log('QI no managed rep saving...');
+    // console.log('QI no managed rep saving...');
     this.service.update<QuestionItem>(this.questionItem)
       .subscribe((result) => {
         this.questionItem = result;
@@ -57,7 +57,7 @@ export class QuestionFormComponent implements AfterViewInit {
       this.questionItem.responseDomainRef.elementRevision = 0;
       this.questionItem.responseDomainRef.elementId = result.id;
       this.questionItem.responseDomainRef.element = result;
-      console.log('rd + rdref updated');
+      // console.log('rd + rdref updated');
       // this will fetch latest revision of Rd, when QI is saved.
     });
   }

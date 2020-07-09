@@ -18,9 +18,9 @@
   }
 }
 
-.ng-invalid:not(form) {
-  border-bottom: 1px solid red; /* red */
-}
+ /* .ng-invalid:not(form) {
+  border-bottom: 1px solid red;
+} */
 
 p {
   text-align: justify;

@@ -147,7 +147,7 @@ export class QuestionItemsComponent {
     if (cqi && cqi.elementRevision) {
       this.SOURCE = cqi;
     }
-    console.log(this.SOURCE || JSON);
+    // console.log(this.SOURCE || JSON);
     this.modalRef.open();
   }
 

@@ -9,7 +9,8 @@ import {
   IPageSearch,
   MessageService,
   PropertyStoreService, ResponseDomain,
-  UserService
+  UserService,
+  PageSearch
 } from '../../lib';
 
 
@@ -72,11 +73,14 @@ export class TemplateComponent implements OnDestroy {
       this.messages.sendAction({ id: '', action: ActionKind.Update, object: null });
     }
     if (this.showForm) {
-      console.log('onToggleForm');
-      const page = this.properties.get(this.path) as IPageSearch;
-      this.newItem = Factory.createInstance(this.kind);
-      if (page.kind === ElementKind.RESPONSEDOMAIN) {
-        (this.newItem as ResponseDomain).setResponseKind(DomainKind[page.keys.get('ResponseKind')]);
+      let pageSearch = this.properties.get(this.path) as IPageSearch;
+      if (!pageSearch) {
+        pageSearch = new PageSearch({ kind: this.kind, xmlLang: this.properties.userSetting.xmlLang });
+        this.properties.set(this.path, pageSearch);
+      }
+      this.newItem = Factory.createFromSeed(this.kind, { xmlLang: pageSearch.xmlLang });
+      if (pageSearch.kind === ElementKind.RESPONSEDOMAIN) {
+        (this.newItem as ResponseDomain).setResponseKind(DomainKind[pageSearch.keys.get('ResponseKind')]);
       }
     }
   }

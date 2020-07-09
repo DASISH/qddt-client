@@ -53,6 +53,8 @@ import {
 })
 
 export class PreviewSequenceConstructComponent implements AfterViewInit, OnChanges {
+
+  constructor(private service: PreviewService) { }
   @Input() sequenceConstruct: SequenceConstruct;
   @Input() inParameters: Map<string, Parameter>
   @Input() showDetail = false;
@@ -62,6 +64,10 @@ export class PreviewSequenceConstructComponent implements AfterViewInit, OnChang
   public compId = Math.round(Math.random() * 10000);
   public counter = 1;
 
+  // private readonly newParam = (name: string, idx, level) => new Parameter({ name, referencedId: this.trackByIndex(idx, level).toString() })
+
+  private initialized = [String];
+
   public readonly nextLevel = (level: number) => ++level;
 
   public readonly getMatIcon = (kind: ElementKind) => getIcon(kind);
@@ -70,12 +76,6 @@ export class PreviewSequenceConstructComponent implements AfterViewInit, OnChang
 
   public readonly isSequence = (element?: any | SequenceConstruct): element is SequenceConstruct =>
     (element) && (element as SequenceConstruct).parameters !== undefined;
-
-  // private readonly newParam = (name: string, idx, level) => new Parameter({ name, referencedId: this.trackByIndex(idx, level).toString() })
-
-  private initialized = [String];
-
-  constructor(private service: PreviewService) { }
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.sequenceConstruct && changes.sequenceConstruct.currentValue && !this.isSequence(this.sequenceConstruct)) {
@@ -101,11 +101,11 @@ export class PreviewSequenceConstructComponent implements AfterViewInit, OnChang
       }
       if (!this.initialized.includes(key)) {
         if (getElementKind(item.elementKind) === ElementKind.SEQUENCE_CONSTRUCT) {
-          let element = document.getElementById(key);
-          let result = M.Collapsible.init(element);
+          const htmlElement = document.getElementById(key);
+          const result = M.Collapsible.init(htmlElement);
           if (result) {
             this.initialized.push(key);
-            console.log(key);
+            // console.log(key);
           } else {
             console.log('init failed');
           }
