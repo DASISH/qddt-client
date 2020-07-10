@@ -49,10 +49,6 @@
             <a class="teal-text waves-effect waves-teal" [routerLink]="['/home']" tabindex="0">
               <i class="medium material-icons teal-text left ">store</i>Home</a>
           </li>
-          <li *ngIf="canSee[elementKindRef.QUESTION_ITEM]" [ngClass]="{'active':isActive===1}" (click)="isActive=1">
-            <a class="teal-text waves-effect waves-teal" [routerLink]="['/questionitems']" tabindex="1">
-              <i class="material-icons teal-text left medium">help</i>Questions</a>
-          </li>
           <li *ngIf="canSee[elementKindRef.MISSING_GROUP]" [ngClass]="{'active':isActive===2}" (click)="isActive=2">
             <a class="teal-text waves-effect waves-teal" [routerLink]="['/missing']" tabindex="2">
               <i class="material-icons teal-text left medium">check_box_outline_blank</i>Missings</a>
@@ -60,6 +56,10 @@
           <li *ngIf="canSee[elementKindRef.RESPONSEDOMAIN]" [ngClass]="{'active':isActive===3}" (click)="isActive=3">
             <a class="teal-text waves-effect waves-teal" [routerLink]="['/responsedomains']" tabindex="3">
               <i class="material-icons teal-text left medium">check_box</i>Domains</a>
+          </li>
+          <li *ngIf="canSee[elementKindRef.QUESTION_ITEM]" [ngClass]="{'active':isActive===1}" (click)="isActive=1">
+            <a class="teal-text waves-effect waves-teal" [routerLink]="['/questionitems']" tabindex="1">
+              <i class="material-icons teal-text left medium">help</i>Questions</a>
           </li>
           <li *ngIf="canSee[elementKindRef.QUESTION_CONSTRUCT]" [ngClass]="{'active':isActive===4}"
             (click)="isActive=4">
@@ -176,14 +176,6 @@
       <a [routerLink]="['/home']" title="home">
         <i class="medium material-icons teal-text">store</i></a>
     </li>
-    <li *ngIf="canSee[elementKindRef.QUESTION_ITEM]">
-      <a [routerLink]="['/questionitems']" title="Questions">
-        <i class="medium material-icons teal-text">help</i></a>
-    </li>
-    <li *ngIf="canSee[elementKindRef.CATEGORY]">
-      <a [routerLink]="['/categories']" title="Categories">
-        <i class="medium material-icons teal-text">view_comfy</i></a>
-    </li>
     <li *ngIf="canSee[elementKindRef.MISSING_GROUP]">
       <a [routerLink]="['/missing']" title="Missings">
         <i class="medium material-icons teal-text">view_module</i></a>
@@ -191,6 +183,10 @@
     <li *ngIf="canSee[elementKindRef.RESPONSEDOMAIN]">
       <a [routerLink]="['/responsedomains']" title="Domains">
         <i class="medium material-icons teal-text">blur_linear</i></a>
+    </li>
+    <li *ngIf="canSee[elementKindRef.QUESTION_ITEM]">
+      <a [routerLink]="['/questionitems']" title="Questions">
+        <i class="medium material-icons teal-text">help</i></a>
     </li>
     <li *ngIf="canSee[elementKindRef.QUESTION_CONSTRUCT]">
       <a [routerLink]="['/questions']" title="Constructs">

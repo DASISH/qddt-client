@@ -1,12 +1,12 @@
 import { Location } from '@angular/common';
 import { AfterViewInit, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import * as FileSaver from 'file-saver';
 import { takeWhile } from 'rxjs/operators';
 import {
   ActionKind, ElementKind, Factory, HEADER_DETAILS,
   IDetailAction, IEntityAudit, IEntityEditAudit,
-  TemplateService
+  TemplateService,
+  saveAs
 } from '../../lib';
 
 
@@ -100,13 +100,13 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterViewInit
 
   onGetPdf(item: IEntityEditAudit) {
     this.service.getPdf(item).then(
-      (data) => { FileSaver.saveAs(data, item.name + '.pdf'); },
+      (data) => { saveAs(data, item.name + '.pdf', 'application/pdf'); },
       (error) => { throw error; });
   }
 
   onGetXml(item: IEntityEditAudit) {
     this.service.getXML(item).then(
-      (data) => { FileSaver.saveAs(data, item.name + '.xml'); },
+      (data) => { saveAs(data, item.name + '.xml', 'application/xml'); },
       (error) => { throw error; });
   }
 

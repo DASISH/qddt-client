@@ -76,6 +76,7 @@ export interface IVersion {
 
 export interface IOtherMaterial {
   fileName: string;
+  fileType: string;
   originalName: string;
   originalOwner: string;
 }

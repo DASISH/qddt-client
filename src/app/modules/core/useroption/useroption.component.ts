@@ -17,13 +17,25 @@ export class UserOptionComponent implements AfterViewInit {
 
   private instance: M.Modal;
 
+
+
   constructor(private router: Router, public qddtProperty: PropertyStoreService) {
 
   }
 
-  onClose() {
-    // $('#userOption').modal('close');
+  get modalRef(): M.Modal {
+    if (!(this.instance)) {
+      this.instance = M.Modal.init(document.querySelector('#userOption-00'));
+    }
+    return this.instance;
   }
+
+
+
+  onClose() {
+    this.modalRef.close();
+  }
+
   ngAfterViewInit(): void {
     this.instance = M.Modal.init(document.getElementById('userOption-00'),
       { inDuration: 400, outDuration: 300, startingTop: '4%', endingTop: '25%', preventScrolling: true });

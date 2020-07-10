@@ -32,14 +32,13 @@ export class MissingFormComponent implements OnChanges {
       const element = document.getElementById('MISS' + this.formId);
       if (element) {
 
-        const getData = async () => {
-          return await M.updateTextFields();
-        }
+        // const getData = async () => {
+        //   return await 'do a refresh';
+        // }
 
-        getData().then(data => {
-          console.log(data);
-          M.updateTextFields();
-        });
+        // getData().then(data => {
+        //   M.updateTextFields();
+        // });
       }
     }
   }

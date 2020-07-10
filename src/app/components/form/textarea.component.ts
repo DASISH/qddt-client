@@ -27,6 +27,7 @@ import { animations } from './animations';
         [ngClass]="{invalid: (invalid | async)}" >
       </textarea>
       <label [for]="identifier">{{label}}</label>
+      <qddt-validation [@flyInOut]="'in,out'" *ngIf="invalid | async" [messages]="failures | async"></qddt-validation>
     </div>
   `,
   animations,
@@ -36,7 +37,7 @@ import { animations } from './animations';
     multi: true,
   }],
 })
-export class FormTextAreaComponent extends ElementBase<string> {
+export class FormTextAreaComponent extends ElementBase<string> implements AfterViewInit {
   @Input() public label: string;
   @Input() public placeholder: string;
   @Input() public readonly = false;
@@ -51,16 +52,21 @@ export class FormTextAreaComponent extends ElementBase<string> {
     @Optional() @Inject(NG_ASYNC_VALIDATORS) asyncValidators: Array<any>,
   ) {
     super(validators, asyncValidators);
-    this.registerOnSourceChanged(() => {
-      const element = document.getElementById(this.idOuter);
-      if ((element) && (element.parentElement.dataset.length)) {
-        // console.log('setting data length');
-        element.firstElementChild.setAttribute('data-length', element.parentElement.dataset.length);
-        M.CharacterCounter.init(element.children.item(0));
-        M.textareaAutoResize(element.children.item(0));
-      }
-      // M.updateTextFields();
-    });
+    // this.registerOnSourceChanged(() => {
+    //   const element = document.getElementById(this.idOuter);
+    //   if ((element) && (element.parentElement.dataset.length)) {
+    //     element.firstElementChild.setAttribute('data-length', element.parentElement.dataset.length);
+    //     M.CharacterCounter.init(element.children.item(0));
+    //     // M.textareaAutoResize(element.children.item(0));
+    //   }
+    // });
+  }
+  ngAfterViewInit(): void {
+    const element = document.getElementById(this.idOuter);
+    if ((element) && (element.parentElement.dataset.length)) {
+      element.firstElementChild.setAttribute('data-length', element.parentElement.dataset.length);
+      M.CharacterCounter.init(element.children.item(0));
+    }
   }
 
 }

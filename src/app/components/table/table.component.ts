@@ -1,6 +1,7 @@
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { formatDate } from '@angular/common';
 import { Column } from './table.column';
 import { DEFAULT_COLUMNS, LIST_COLUMNS, RESPONSEDOMAIN_COLUMNS } from './table.column.config';
 import {
@@ -12,11 +13,9 @@ import {
   IPageSearch,
   IRevisionRef, MessageService,
   PreviewService,
-  QueryInfo, SessionService, UserService, LANGUAGE_MAP
+  QueryInfo, SessionService, UserService, LANGUAGE_MAP, saveAs
 } from '../../lib';
 
-import { formatDate } from '@angular/common';
-import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'qddt-table',
@@ -169,7 +168,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
   public onGetPdf(item: IEntityEditAudit) {
     const fileName = item.name + '.pdf';
-    this.previewService.getPdf(item).then((data: any) => { FileSaver.saveAs(data, fileName); });
+    this.previewService.getPdf(item).then((data: any) => { saveAs(data, fileName, 'application/pdf'); });
   }
 
   public onDetailChecked() {

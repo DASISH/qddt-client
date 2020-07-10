@@ -25,13 +25,13 @@
           <label [for]="'COUNT-' +formId"># Missing Codes</label>
         </div>
       </div>
-      <div class="col offset-m1 s7 m8">
-        <ng-container *ngFor="let cat of missing.children; let idx=index;">
-          <qddt-element-select class="row" [source]="getSource(cat)" [autoCreate]="true" [xmlLang]="missing.xmlLang"
+      <ul class="col offset-m1 s7 m8">
+        <li *ngFor="let cat of missing.children; let idx=index;">
+          <qddt-element-select [source]="getSource(cat)" [autoCreate]="true" [xmlLang]="missing.xmlLang"
             (elementSelectedEvent)="onSelectCategory($event,idx)">
           </qddt-element-select>
-        </ng-container>
-      </div>
+        </li>
+      </ul>
     </div>
 
 

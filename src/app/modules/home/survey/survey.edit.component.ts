@@ -8,30 +8,20 @@ import { SurveyProgram, TemplateService } from '../../../lib';
   template: `
 <div *ngIf="isVisible">
   <form class="row" id="{{formId}}" (ngSubmit)="onSave()" #ngForm="ngForm">
-    <div class="col s12">
       <qddt-input name="name"
         required
-        placeholder="Name me"
         label="Name"
         [(ngModel)]="survey.name"
         data-length="250">
       </qddt-input>
-    </div>
-    <div class="col s12">
       <qddt-textarea name="description"
         required
-        placeholder="Name me"
         label="Description"
         [(ngModel)]="survey.description"
         data-length="10000">
       </qddt-textarea>
-    </div>
-    <div class="col s12">
-        <qddt-rational  [formName]="'RationalComp'" [element]="survey" [config]="{hidden: [2,3]}"></qddt-rational>
-    </div>
-    <div class="col s12">
-        <qddt-element-footer  [element]="survey"> </qddt-element-footer>
-    </div>
+      <qddt-rational  [formName]="'RationalComp'" [element]="survey" [config]="{hidden: [2,3]}"></qddt-rational>
+      <qddt-element-footer  [element]="survey"> </qddt-element-footer>
     <div class="col s12 right-align">
       <button type="submit" class="btn btn-default" [disabled]="!ngForm.form.valid" >Submit</button>
     </div>
@@ -40,7 +30,7 @@ import { SurveyProgram, TemplateService } from '../../../lib';
 `
 })
 
-export class SurveyEditComponent  {
+export class SurveyEditComponent {
   @Input() survey: SurveyProgram;
   @Output() savedEvent = new EventEmitter<SurveyProgram>();
 

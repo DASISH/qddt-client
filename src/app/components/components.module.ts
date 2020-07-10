@@ -19,13 +19,12 @@ import { TocComponent } from './toc/toc.component';
 import { CommentListComponent } from './comment/comment.list.component';
 import { CommentCreateComponent } from './comment/comment.create.component';
 import { ConceptrefComponent } from './conceptref/conceptref.component';
-import { FormErrorsComponent } from './form-errors/form-errors.component';
 import { ConfirmDeleteComponent } from './confim-delete/delete.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { FileDownloadComponent } from './download/download.component';
 import { TemplateComponent, TemplateDetailComponent, TemplateListComponent, TemplateService } from './template';
 import { LocalDatePipe, LocalNumberPipe } from '../lib';
-import { AutosizeDirective, EqualValidator, GravatarDirective, ParentFormConnectDirective, ContenteditableDirective } from '../lib/directives';
+import { EqualValidator, GravatarDirective, ParentFormConnectDirective, ContenteditableDirective } from '../lib/directives';
 import { DialogComponent } from './dialog/dialog.component';
 import { DialogBigComponent } from './dialog/dialog-big.component';
 import { ValidationComponent } from './form/validation.component';
@@ -34,6 +33,7 @@ import { FormInputComponent } from './form/input.component';
 import { FormTextAreaComponent } from './form/textarea.component';
 import { FormInputNComponent } from './form/input-number.component';
 import { ParameterComponent } from './parameter/parameter.component';
+import { MustMatchDirective } from './form/match.directive';
 
 @NgModule({
   imports: [CommonModule, RouterModule, FormsModule, CompareModule, DragDropModule],
@@ -41,16 +41,16 @@ import { ParameterComponent } from './parameter/parameter.component';
     QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, FileDownloadComponent, ParameterComponent,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent, DialogBigComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent, CommentCreateComponent, DialogComponent,
-    RationalComponent, RevisionComponent, ConceptrefComponent, FormErrorsComponent, SpinnerComponent,
-    AutosizeDirective, ParentFormConnectDirective, GravatarDirective, ContenteditableDirective, EqualValidator,
+    RationalComponent, RevisionComponent, ConceptrefComponent, MustMatchDirective, SpinnerComponent,
+    ParentFormConnectDirective, GravatarDirective, ContenteditableDirective, EqualValidator,
     FormSelectComponent, FormInputComponent, FormTextAreaComponent, FormInputNComponent, ValidationComponent],
   exports: [LocalDatePipe, LocalNumberPipe, CommonModule, FormsModule, SpinnerComponent,
     QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, FileDownloadComponent,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent, DialogComponent, DialogBigComponent,
-    RationalComponent, RevisionComponent, ConceptrefComponent, FormErrorsComponent,
+    RationalComponent, RevisionComponent, ConceptrefComponent, MustMatchDirective,
     TemplateComponent, TemplateListComponent, TemplateDetailComponent, ParameterComponent,
-    AutosizeDirective, ParentFormConnectDirective, GravatarDirective, EqualValidator, ContenteditableDirective,
+    ParentFormConnectDirective, GravatarDirective, EqualValidator, ContenteditableDirective,
     FormSelectComponent, FormInputComponent, FormTextAreaComponent, FormInputNComponent],
   providers: [TemplateService]
 })

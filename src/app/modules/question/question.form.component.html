@@ -12,17 +12,17 @@
   <qddt-conceptref [element]="questionItem"></qddt-conceptref>
 
   <form id="{{formId}}" #hf="ngForm" (ngSubmit)="onSaveQuestionItem()">
-    <qddt-input required name="name" label="Question Name" [(ngModel)]="questionItem.name" data-length="100">
+    <qddt-input required name="name" label="Question Name" [(ngModel)]="questionItem.name" data-length="100">TEST
     </qddt-input>
     <div class="row">
-      <qddt-textarea class="col s10" required name="question" label="Question" [(ngModel)]="questionItem.question"
+      <qddt-textarea class="col s10" required name="question" label="Question Text" [(ngModel)]="questionItem.question"
         data-length="1500">
       </qddt-textarea>
       <qddt-select class="col s2" required name="xmlLang" label="Language" [(ngModel)]="questionItem.xmlLang"
         [lockups]="LANGUAGES">
       </qddt-select>
     </div>
-    <qddt-textarea name="intent" label="Question intent" [(ngModel)]="questionItem.intent" data-length="2000">
+    <qddt-textarea name="intent" label="Question Intent" [(ngModel)]="questionItem.intent" data-length="2000">
     </qddt-textarea>
 
     <qddt-responsedomain-select *ngIf="questionItem?.responseDomainRef" [xmlLang]="questionItem.xmlLang"

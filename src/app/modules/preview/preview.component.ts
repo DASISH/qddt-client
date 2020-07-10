@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, Input } from '@angular/core';
-import { ElementEnumAware, ElementKind, IEntityAudit, PreviewService, Parameter } from '../../lib';
-import * as FileSaver from 'file-saver';
+import { ElementEnumAware, ElementKind, IEntityAudit, PreviewService, Parameter, saveAs } from '../../lib';
 
 @Component({
   selector: 'qddt-preview-element',
@@ -40,7 +39,7 @@ export class PreviewComponent implements AfterViewInit {
 
   public onGetPdf(element: IEntityAudit) {
     const fileName = element.name + '.pdf';
-    this.service.getPdf(element).then((data: any) => { FileSaver.saveAs(data, fileName); });
+    this.service.getPdf(element).then((data: any) => { saveAs(data, fileName, 'application/pdf'); });
   }
 
   public hideElement(element: IEntityAudit): boolean {

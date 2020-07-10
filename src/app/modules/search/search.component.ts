@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, ParamMap, Params } from '@angular/router';
-import { PropertyStoreService, MessageService, TemplateService, IOtherMaterial } from 'src/app/lib';
-import * as FileSaver from 'file-saver';
+import { PropertyStoreService, MessageService, TemplateService, IOtherMaterial, saveAs } from 'src/app/lib';
 
 @Component({
   selector: 'qddt-search',
@@ -23,7 +22,7 @@ export class SearchComponent implements OnInit {
       if (revision) {
         if (isNaN(+revision)) {   // I.E. FILENAME
           const filename = revision.substring(0, revision.length - 2).replace('_', '.').toLowerCase();
-          this.downloadFile({ fileName: revision, originalName: filename, originalOwner: uuid })
+          this.downloadFile({ fileName: revision, originalName: filename, originalOwner: uuid, fileType: 'application/pdf' })
           // TODO filedownload
           // console.log('filedownload ' + revision);
         } else {
@@ -43,7 +42,7 @@ export class SearchComponent implements OnInit {
   private downloadFile(o: IOtherMaterial) {
     const fileName = o.originalName;
     this.service.getFile(o).then(
-      (data) => { FileSaver.saveAs(data, fileName); },
+      (data) => { saveAs(data, fileName, o.fileType); },
       (error) => { throw error; });
   }
 }

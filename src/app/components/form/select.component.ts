@@ -25,7 +25,7 @@ import { ISelectOption } from 'src/app/lib';
             <option *ngFor="let child of item.children" value="{{child.value}}">{{child.label}}</option>
         </optgroup>
       </select>
-      <label *ngIf="label">{{label}}</label>
+      <label>{{label}}</label>
     </div>
     <ng-template #ITEM>
       <div class="input-field">
@@ -33,7 +33,7 @@ import { ISelectOption } from 'src/app/lib';
           <option *ngIf="placeholder" value="" disabled >{{placeholder}}</option>
           <option *ngFor="let item of lockups" value="{{item.value}}">{{item.label}}</option>
         </select>
-        <label >{{label}}</label>
+        <label>{{label}}</label>
       </div>
     </ng-template>
   `,

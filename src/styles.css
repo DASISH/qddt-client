@@ -8,11 +8,8 @@ ul:not(.browser-default) > li > a { margin-bottom: 10px; }
 
 /* You can add global styles to this file, and also import other style files */
 
-.ng-touched.ng-invalid{
-  border-color:rgb(213, 216, 32);
-}
 
-.ng-invalid.ng-touched + label{
+/* .ng-invalid.ng-touched + label{
   color: red;
   font-style: italic;
 }
@@ -21,4 +18,43 @@ ul:not(.browser-default) > li > a { margin-bottom: 10px; }
 .ng-invalid.ng-touched + label:after
 {
   border-color:rgb(255, 1, 200);
+} */
+
+
+/* .ng-valid[required], .ng-valid.required  {
+  color: green;
 }
+
+.ng-invalid:not(form)  {
+  border-color: red;
+} */
+
+
+
+  /* label color */
+  .input-field label {
+    color: #000;
+  }
+  /* label focus color */
+  .input-field input[type=text]:focus + label {
+    color: rgb(46, 114, 76);
+  }
+  /* label underline focus color */
+  .input-field input[type=text]:focus {
+    border-bottom: 1px solid rgb(29, 31, 151);
+    box-shadow: 0 1px 0 0 #000;
+  }
+  /* valid color */
+  .input-field input[type=text].valid {
+    border-bottom: 1px solid rgb(15, 223, 26);
+    box-shadow: 0 1px 0 0 #000;
+  }
+  /* invalid color */
+  .input-field input[type=text].invalid {
+    border-bottom: 1px solid rgb(255, 0, 0);
+    box-shadow: 0 1px 0 0 #000;
+  }
+  /* icon prefix focus color */
+  .input-field .prefix.active {
+    color: #000;
+  }

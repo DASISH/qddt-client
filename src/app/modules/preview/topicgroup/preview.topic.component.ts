@@ -1,9 +1,8 @@
 import { Component, Input, AfterViewInit } from '@angular/core';
 import {
   ElementKind, ElementRevisionRef, IOtherMaterial, MessageService,
-  PreviewService, Topic, getIcon, PUBLICATION_TYPES, getElementKind
+  PreviewService, Topic, getIcon, PUBLICATION_TYPES, getElementKind, saveAs
 } from '../../../lib';
-import * as FileSaver from 'file-saver';
 
 
 @Component({
@@ -43,7 +42,7 @@ export class PreviewTopicComponent implements AfterViewInit {
     const fileName = o.originalName;
     this.service.getFile(o).then(
       (data: any) => {
-        FileSaver.saveAs(data, fileName);
+        saveAs(data, fileName, o.fileType);
       });
   }
 

@@ -9,32 +9,35 @@ import { of } from 'rxjs';
 
 // import {Observable} from 'rxjs';
 
-export interface ValidationResult {[validator: string]: string | boolean; }
+export interface ValidationResult { [validator: string]: string | boolean; }
 
 export type AsyncValidatorArray = Array<Validator | AsyncValidatorFn>;
 
 export type ValidatorArray = Array<Validator | ValidatorFn>;
 
 const normalizeValidator =
-    (validator: Validator | ValidatorFn): ValidatorFn | AsyncValidatorFn => {
-  const func = (validator as Validator).validate.bind(validator);
-  if (typeof func === 'function') {
-    return (c: AbstractControl) => func(c);
-  } else {
-    return validator as ValidatorFn | AsyncValidatorFn;
-  }
-};
+  (validator: Validator | ValidatorFn): ValidatorFn | AsyncValidatorFn => {
+    const func = (validator as Validator).validate.bind(validator);
+    if (typeof func === 'function') {
+      return (c: AbstractControl) => func(c);
+    } else {
+      return validator as ValidatorFn | AsyncValidatorFn;
+    }
+  };
 
 export const composeValidators =
-    (validators: ValidatorArray): AsyncValidatorFn | ValidatorFn => {
-  if (validators == null || validators.length === 0) {
-    return null;
-  }
-  return Validators.compose(validators.map(normalizeValidator));
-};
+  (validators: ValidatorArray): AsyncValidatorFn | ValidatorFn => {
+    if (validators == null || validators.length === 0) {
+      return null;
+    }
+    return Validators.compose(validators.map(normalizeValidator));
+  };
 
 export const validate = (validators: ValidatorArray, asyncValidators: AsyncValidatorArray) => {
   return (control: AbstractControl) => {
+    if (control.pristine && control.untouched) {
+      return of(null);
+    }
     const synchronousValid = () => composeValidators(validators)(control);
 
     if (asyncValidators) {
@@ -59,13 +62,13 @@ export const validate = (validators: ValidatorArray, asyncValidators: AsyncValid
 export const message = (validator: ValidationResult, key: string): string => {
   switch (key) {
     case 'required':
-      return 'Please enter a value';
+      return 'This field is required';
     case 'pattern':
       return 'Value does not match required pattern';
     case 'minlength':
-      return 'Value must be N characters';
+      return 'Your response doesn\'t fullfill minium length required';
     case 'maxlength':
-      return 'Value must be a maximum of N characters';
+      return 'Your response excide maximum length allowed';
   }
 
   switch (typeof validator[key]) {

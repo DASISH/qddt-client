@@ -28,7 +28,6 @@
               "node_modules/materialize-css/dist/css/materialize.css"
             ],
             "scripts": [
-              "node_modules/file-saver/dist/FileSaver.js",
               "node_modules/materialize-css/dist/js/materialize.min.js"
             ]
           },
@@ -133,7 +132,6 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "scripts": [
-              "node_modules/file-saver/dist/FileSaver.js",
               "node_modules/materialize-css/dist/js/materialize.js"
             ],
             "styles": [

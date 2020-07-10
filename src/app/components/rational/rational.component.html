@@ -36,11 +36,9 @@
       </div>
     </div>
   </ng-container>
-  <div *ngIf="saveOptionIndex >= 0 && rationalDescriptions[saveOptionIndex].showComment">
-    <div class="input-field col s12">
-      <input id="COMMENT-{{formId}}" class="validate" type="text" name="changeComment"
-        [(ngModel)]="element.changeComment" required minlength="4">
-      <label for="COMMENT-{{formId}}" data-error="Description is mandatory">Rationale for change</label>
-    </div>
+  <div class="col s12" *ngIf="saveOptionIndex >= 0 && rationalDescriptions[saveOptionIndex].showComment">
+    <qddt-input name="changeComment" label="Rationale for change" [(ngModel)]="element.changeComment" data-length="255"
+      required minlength="4">
+    </qddt-input>
   </div>
 </form>

@@ -1,15 +1,9 @@
-import {Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'qddt-validation',
-  template: `
-    <div class="validation">
-      <div *ngFor="let message of messages">{{message}}</div>
-    </div>
-  `,
-  styles: [`
-    .validation { color: yellow; margin: 26px;  }`
-  ]
+  styles: ['.helper-text { display: inline; font-size: 0.7rem; color: red;}'],
+  template: `<div class="helper-text" *ngFor="let message of messages">{{message}}</div>`
 })
 export class ValidationComponent {
   @Input() messages: Array<string>;
