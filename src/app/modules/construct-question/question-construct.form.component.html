@@ -1,6 +1,7 @@
 <div *ngIf="controlConstruct" class="col s12">
 
   <form id="{{formId}}" #hf="ngForm" (ngSubmit)="onSave()">
+
     <div class="row">
       <qddt-input class="col s10" required name="name" label="Name" [(ngModel)]="controlConstruct.name"
         data-length="100">

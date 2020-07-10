@@ -1,8 +1,8 @@
+import { Router } from '@angular/router';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
   ActionKind,
   ElementKind,
-  ElementRevisionRef,
   IElement,
   IElementRef,
   IRevisionRef,
@@ -12,7 +12,6 @@ import {
   TemplateService,
   QuestionItem, ElementRevisionRefImpl
 } from '../../lib';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'qddt-question-construct-form',
