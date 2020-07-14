@@ -32,6 +32,8 @@ export class FormInputComponent extends ElementBase<string> implements AfterView
   public identifier = 'qddt-input-' + ident++;
   public idOuter = 'qddt-oi-' + ident;
 
+  private readonly delay = () => new Promise(resolve => setTimeout(resolve, 20));
+
   constructor(
     @Optional() @Inject(NG_VALIDATORS) validators: Array<any>,
     @Optional() @Inject(NG_ASYNC_VALIDATORS) asyncValidators: Array<any>,
@@ -40,11 +42,8 @@ export class FormInputComponent extends ElementBase<string> implements AfterView
     this.registerOnSourceChanged(() => {
       const element = document.getElementById(this.idOuter);
       if (element) {
-        const getData = async () => {
-          return await 'do a refresh';
-        }
 
-        getData().then(data => {
+        this.delay().then(data => {
           M.updateTextFields();
         });
       }

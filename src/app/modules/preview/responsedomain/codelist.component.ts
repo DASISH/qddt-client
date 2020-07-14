@@ -1,21 +1,19 @@
-import { Component, Input, OnChanges, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, Input, OnChanges, Output, EventEmitter } from '@angular/core';
 import { Category, ResponseCardinality, UserResponse } from '../../../lib/classes';
 
 @Component({
   selector: 'qddt-preview-rd-codelist',
 
   template: `
-<ng-container *ngIf="managedRepresentation">
-  <!-- <ul [id]="'UL-' + compId" > -->
-    <div *ngFor="let row of rows; trackBy:trackByIndex;" >
+<ul *ngIf="managedRepresentation">
+    <li *ngFor="let row of rows; trackBy:trackByIndex;" >
       <span class="codeValue"> {{ row.value }} </span>
       <label>
         <input [name]="inputGroupName" [type]="type" [disabled]="row.disabled"  (change)="checkOption(row, $event)"/>
         <span>{{row.label}}</span>
       </label >
-    </div>
-  <!-- </ul> -->
-</ng-container>
+    </li>
+</ul>
 `,
 })
 
@@ -35,7 +33,7 @@ export class ResponsedomainCodeListComponent implements OnChanges {
     const rep = this.managedRepresentation;
 
     for (const c of rep.children) {
-      const newLocal = { label: c.label, value: c.code.codeValue, checked: false } as UserResponse;
+      const newLocal = { label: c.label, value: c.code.value, checked: false } as UserResponse;
       this.rows.push(newLocal);
     }
 

@@ -8,24 +8,3 @@ ul:not(.browser-default) > li > a { margin-bottom: 10px; }
 
 /* You can add global styles to this file, and also import other style files */
 
-
-/* label focus color */
-.input-field input[type=text]:focus + label {
-  color: rgb(46, 114, 76);
-}
-/* label underline focus color */
-.input-field input[type=text]:focus {
-  border-bottom: 1px solid rgb(29, 31, 151);
-  box-shadow: 0 1px 0 0 #000;
-}
-/* valid color */
-.input-field input[type=text].valid {
-  border-bottom: 1px solid rgb(15, 223, 26);
-  box-shadow: 0 1px 0 0 #000;
-}
-/* invalid color */
-.input-field input[type=text].invalid {
-  border-bottom: 1px solid rgb(255, 0, 0);
-  box-shadow: 0 1px 0 0 #000;
-}
-

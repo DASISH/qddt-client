@@ -36,10 +36,11 @@ export function enumKeys<E>(e: E): (keyof E)[] {
 export function tryParse(obj: string) {
   try { return Function('"use strict";return (' + obj + ')')(); }
   catch (ex) {
-    // console.log(ex);
     return false;
   }
 }
+
+export const delay = (milliseconds: number) => new Promise(resolve => setTimeout(resolve, milliseconds));
 
 
 export function toMap(enumerable: EnumType): [string, string][] {
@@ -65,7 +66,6 @@ export function toSelectItems(enumerable: EnumType): ISelectOption[] {
 
 export const isParamTrue = (parameter: Parameter) => {
   if (parameter && parameter.value && parameter.value.length > 0) {
-    // console.log('parameter: ' + parameter.value[0].value);
     return (parameter.value[0].value === true || parameter.value[0].value === 'true')
   } else {
     return false;

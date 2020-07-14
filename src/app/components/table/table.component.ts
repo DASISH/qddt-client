@@ -1,6 +1,6 @@
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, Inject, LOCALE_ID } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { Column } from './table.column';
 import { DEFAULT_COLUMNS, LIST_COLUMNS, RESPONSEDOMAIN_COLUMNS } from './table.column.config';
@@ -13,7 +13,7 @@ import {
   IPageSearch,
   IRevisionRef, MessageService,
   PreviewService,
-  QueryInfo, SessionService, UserService, LANGUAGE_MAP, saveAs
+  QueryInfo, UserService, LANGUAGE_MAP, saveAs
 } from '../../lib';
 
 
@@ -61,7 +61,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   public placeholder: string;
 
   constructor(private previewService: PreviewService, public access: UserService, public message: MessageService,
-    public session: SessionService) {
+    @Inject(LOCALE_ID) protected localID: string) {
     this.searchKeysChange.pipe(
       debounceTime(300),
       distinctUntilChanged())
@@ -95,7 +95,6 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    // console.debug(this.session.locale);
 
     this.showProgressBar = false;
 
@@ -119,7 +118,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       const row: any = {
         id: item.id,
         Version: (item.version) ? item.version.major + '.' + item.version.minor : '',
-        Modified: formatDate(date, 'shortDate', this.session.locale),
+        Modified: formatDate(date, 'shortDate', this.localID),
         Object: item,
       };
 
@@ -144,19 +143,14 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       });
       this.rows.push(row);
     });
-    // M.updateTextFields();
   }
 
   public onDetail(item: IEntityEditAudit) {
     this.detailEvent.emit(item);
   }
 
-  // public onViewRevision(item: IEntityEditAudit) {
-  //   this.message.sendMessage( { elementId: item.id, elementRevision: null, elementKind: item.classKind});
-  // }
 
   public onPreview(item) {
-    // console.log(item || JSON);
     this.message.sendMessage({ elementId: item.refId, elementRevision: item.refRev, elementKind: item.refKind } as IRevisionRef);
   }
 
@@ -233,7 +227,6 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     qe.fields.forEach(value => this.fields[value] = (this.pageSearch.keys.get(value) || ''));
     this.fieldNames = qe.fields;
     this.placeholder = qe.placeholder();
-    // console.log('canDelete?');
     this.canDelete = this.access.canDo(ActionKind.Delete, qe.id);
     this.canExport = this.access.canDo(ActionKind.Export, qe.id);
     this.canEdit = this.access.canDo(ActionKind.Update, qe.id);

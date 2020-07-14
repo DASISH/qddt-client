@@ -4,22 +4,21 @@ import {
   Output,
   EventEmitter,
   OnInit,
-  OnDestroy,
   OnChanges,
-  SimpleChanges, AfterViewInit, ɵsetCurrentInjector
+  SimpleChanges, AfterViewInit
 } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import {
   ActionKind,
-  Category, DATE_FORMAT, DisplayLayoutKind,
+  Category, DisplayLayoutKind,
   DomainKind,
   ElementKind,
   IElement,
   IPageSearch, LANGUAGE_MAP,
-  Page,
   PropertyStoreService,
-  ResponseDomain, TemplateService, toSelectItems, PageSearch
+  ResponseDomain, TemplateService, toSelectItems, DATE_FORMAT_MAP, delay
 } from '../../lib';
+import { threadId } from 'worker_threads';
 
 @Component({
   selector: 'qddt-responsedomain-form',
@@ -28,7 +27,7 @@ import {
 })
 
 
-export class ResponseFormComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
+export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() responseDomain: ResponseDomain;
   @Input() readonly: boolean;
   @Output() modifiedEvent = new EventEmitter<ResponseDomain>();
@@ -37,22 +36,18 @@ export class ResponseFormComponent implements OnInit, OnChanges, OnDestroy, Afte
 
   public readonly CATEGORY = ElementKind.CATEGORY;
   public domainTypeDef = DomainKind;
-  public dateFormatOption = DATE_FORMAT;
   public numberOfAnchors: number;
-  public selectedCategoryIndex: number;
   public domainType: DomainKind;
+
   public readonly formId = Math.round(Math.random() * 10000);
+  public readonly DATE_FORMATS = DATE_FORMAT_MAP;
   public readonly LANGUAGES = LANGUAGE_MAP;
   public readonly DISPLAYLAYOUTS = toSelectItems(DisplayLayoutKind);
 
-  private pageSearch: PageSearch;
-  private ok = false;
 
   constructor(private service: TemplateService, private properties: PropertyStoreService) {
 
-    this.selectedCategoryIndex = 0;
     this.numberOfAnchors = 0;
-    this.pageSearch = new PageSearch({ kind: this.CATEGORY, key: '', page: new Page(), sort: 'name,asc' });
     const page = this.getPageSearch();
     this.domainType = (page) ? DomainKind[page.keys.get('ResponseKind')] : DomainKind.SCALE;
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.RESPONSEDOMAIN);
@@ -60,11 +55,7 @@ export class ResponseFormComponent implements OnInit, OnChanges, OnDestroy, Afte
   }
 
   public ngAfterViewInit(): void {
-    M.updateTextFields();
-    document.querySelectorAll('SELECT').forEach(comp => {
-      M.FormSelect.init(comp);
-      // console.log( comp.nodeName);
-    });
+    document.querySelectorAll('SELECT').forEach(comp => M.FormSelect.init(comp));
   }
 
   public ngOnInit() {
@@ -80,16 +71,15 @@ export class ResponseFormComponent implements OnInit, OnChanges, OnDestroy, Afte
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (this.responseDomain) {
+    if (changes.responseDomain && changes.responseDomain.currentValue) {
       const page = this.getPageSearch();
       this.domainType = (page) ? DomainKind[page.keys.get('ResponseKind')] : DomainKind.SCALE;
       this.numberOfAnchors = this.responseDomain.managedRepresentation.children.length;
-      this.buildPreviewResponseDomain();
+      delay(20).then(() => {
+        M.updateTextFields();
+        this.buildPreviewResponseDomain();
+      });
     }
-  }
-
-  public ngOnDestroy(): void {
-    this.ok = false;
   }
 
   public getSource(category: Category): IElement {
@@ -156,12 +146,12 @@ export class ResponseFormComponent implements OnInit, OnChanges, OnDestroy, Afte
 
     if (this.domainType === DomainKind.LIST) {
       for (let i = rep.children.length; i < this.numberOfAnchors; i++) {
-        rep.children.push(new Category({ code: { codeValue: String(i + 1), alignment: ''} , xmlLang: this.responseDomain.xmlLang }));
+        rep.children.push(new Category({ code: { value: String(i + 1) }, xmlLang: this.responseDomain.xmlLang }));
       }
     } else if (this.domainType === DomainKind.SCALE) {
       const len = rep.children.length;
       for (let i = len; i < this.numberOfAnchors; i++) {
-        rep.children.push(new Category({ code: { codeValue: '', alignment: 'text-left' } , xmlLang: this.responseDomain.xmlLang }));
+        rep.children.push(new Category({ code: { value: '', }, xmlLang: this.responseDomain.xmlLang }));
       }
     }
     this.buildPreviewResponseDomain();
@@ -173,10 +163,6 @@ export class ResponseFormComponent implements OnInit, OnChanges, OnDestroy, Afte
     this.buildPreviewResponseDomain();
   }
 
-  public onSelectAlignment(value: any, idx: any) {
-    this.responseDomain.managedRepresentation.children[idx].code.alignment = value;
-    this.buildPreviewResponseDomain();
-  }
 
   public buildPreviewResponseDomain() {
     this.previewResponseDomain = new ResponseDomain(this.responseDomain);

@@ -1,6 +1,6 @@
 import { Agency } from 'src/app/lib';
 import { ElementKind } from '../enums';
-import { IComment, IEntityEditAudit, IVersion, IUser, IEntityAudit, IOtherMaterial } from '../interfaces';
+import { IComment, IEntityEditAudit, IVersion, IUser, IOtherMaterial } from '../interfaces';
 
 
 export enum CategoryKind {
@@ -48,14 +48,12 @@ export class ResponseCardinality {
 }
 
 export class Code {
-  codeValue = '0';
-  alignment = 'text-left';
-
+  value: any;
   public constructor(init?: Partial<Code>) {
     Object.assign(this, init);
   }
 
-  public getValue?(): number { return parseInt(this.codeValue) || 0; }
+  public getValue?(): number { return parseInt(this.value) || 0; }
 
 }
 
@@ -99,7 +97,7 @@ export class Category implements IEntityEditAudit {
     this.hierarchyLevel = HierarchyLevel[CATEGORY_INFO[kind].level];
     this.categoryType = CategoryKind[kind];
     if (kind.valueOf() <= CategoryKind.CATEGORY) {
-      this.code = new Code({ alignment: 'select', codeValue: '1' });
+      this.code = new Code({ value: '1' });
     }
     return this;
   }

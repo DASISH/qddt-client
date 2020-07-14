@@ -9,7 +9,7 @@ import { Category, UserResponse } from '../../../lib/classes';
     <label>Missing</label>
   </span>
     <div *ngFor="let category of missing.children;" >
-      <span class="codeValue"> {{ category.code?.codeValue }} </span>
+      <span class="codeValue"> {{ category.code?.value }} </span>
       <label>
         <input [name]="inputGroupName" type="radio" (change)="checkOption(category)"/>
         <span >{{category.label}}</span>
@@ -34,6 +34,6 @@ export class ResponsedomainMissingComponent {
   }
 
   public checkOption(category: Category) {
-    this.selectedEvent.emit([{ label: category.label, value: category.code.codeValue }]);
+    this.selectedEvent.emit([{ label: category.label, value: category.code.value }]);
   }
 }

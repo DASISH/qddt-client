@@ -23,8 +23,8 @@ export class StudyComponent implements OnInit {
   public survey: SurveyProgram;
   public revision: any;
 
-  private refreshCount = 0;
   private readonly STUDY = ElementKind.STUDY;
+  private notInit = true;
 
   constructor(private router: Router,
     private property: PropertyStoreService,
@@ -101,4 +101,17 @@ export class StudyComponent implements OnInit {
       this.property.set('survey', this.survey = result);
     });
   }
+
+  private readonly delay = () => new Promise(resolve => setTimeout(resolve, 50));
+
+  initComp() {
+    if (this.notInit) {
+      this.notInit = false;
+      this.delay().then(data => {
+        document.querySelectorAll('input[data-length], textarea[data-length]').forEach(
+          input => M.CharacterCounter.init(input));
+      });
+    }
+  }
+
 }

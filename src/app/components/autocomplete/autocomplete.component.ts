@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
-import { Subject } from 'rxjs/internal/Subject';
+import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { ElementEnumAware, ElementKind, Factory, getElementKind, getQueryInfo, IElement, IEntityAudit, QueryInfo} from '../../lib';
+import { ElementEnumAware, ElementKind, Factory, getElementKind, getQueryInfo, IElement, IEntityAudit, QueryInfo } from '../../lib';
 
 @Component({
   selector: 'qddt-auto-complete',
@@ -26,7 +26,7 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
   public value = '';
   public selectedIndex = 0;
   public showAutoComplete = false;
-  public readonly formId = Math.round( Math.random() * 10000);
+  public readonly formId = Math.round(Math.random() * 10000);
 
   private waitingForChange = false;
   private found = true;
@@ -52,16 +52,16 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
 
   ngOnChanges(change: SimpleChanges) {
 
-    if ( (change.items && this.waitingForChange)) {
+    if ((change.items && this.waitingForChange)) {
       this.waitingForChange = false;
       this.candidates = this.items;
       if (this.items && this.items.length > 0) {
-        this.elementKind =  getElementKind(this.items[0].classKind);
+        this.elementKind = getElementKind(this.items[0].classKind);
       }
       this.found = ((this.candidates) && (this.candidates.length > 0));
     }
 
-    if (change.initialValue && change.initialValue.isFirstChange() && !this.selected ) {
+    if (change.initialValue && change.initialValue.isFirstChange() && !this.selected) {
       this.value = this.initialValue;
     }
   }
@@ -72,11 +72,11 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
       this.showAutoComplete = false;
       const fieldName = this.queryInfo.fields[0];
       const item = (this.found) ? this.candidates[0] :
-        (this.autoCreate) ? Factory.createFromSeed(this.elementKind, { [fieldName] : this.value.trim(), xmlLang: this.xmlLang }) : null;
+        (this.autoCreate) ? Factory.createFromSeed(this.elementKind, { [fieldName]: this.value.trim(), xmlLang: this.xmlLang }) : null;
       if (item) {
         this.value = item[fieldName];
         this.selected = true;
-        this.selectEvent.emit({element: item , elementKind: this.elementKind });
+        this.selectEvent.emit({ element: item, elementKind: this.elementKind });
       }
     } else {
       this.searchKeysChange.next(this.value);
@@ -84,11 +84,11 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
   }
 
   notFound(): boolean {
-    return ( !this.found );
+    return (!this.found);
   }
 
   invalid(): boolean {
-    return ( !this.found && !this.autoCreate );
+    return (!this.found && !this.autoCreate);
   }
 
   onFocus() {
@@ -109,11 +109,11 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
     this.selected = true;
     const fieldName = this.queryInfo.fields[0];
     this.value = entity[fieldName];
-    this.selectEvent.emit({element: entity, elementKind: this.elementKind });
+    this.selectEvent.emit({ element: entity, elementKind: this.elementKind });
   }
 
   getLabel(entity: IEntityAudit) {
-      return this.getFieldValue(entity, this.queryInfo.fields);
+    return this.getFieldValue(entity, this.queryInfo.fields);
   }
 
   onClearKeywords() {
@@ -126,7 +126,7 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
 
   private getFieldValue(entity: IEntityAudit, path: any) {
     if (path instanceof Array) {
-      return path.map((element: any) => (entity[element]) ?  entity[element] : '' ).join(' | ');
+      return path.map((element: any) => (entity[element]) ? entity[element] : '').join(' | ');
     } else {
       return entity[path] || '??';
     }
@@ -146,7 +146,7 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
         } else {
           return this.filterItem(item, field, search);
         }
-    });
+      });
   }
 
   private filterItem(item: any, path: any, search: string) {

@@ -1,55 +1,58 @@
-import { Component, Input, OnChanges, Output, EventEmitter } from '@angular/core';
-import { Category, UserResponse } from '../../../lib/classes';
+import { Component, Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { ResponseCardinality, Category, UserResponse } from '../../../lib/classes';
 
 
 @Component({
   selector: 'qddt-preview-rd-numeric',
 
   template: `
-    <div class="row" *ngIf="managedRepresentation">
-      <form>
-        <input type="number" min="{{low}}" max="{{high}}" step="{{stepping}}"
-          id="numeric-domain-{{managedRepresentation.id}}"
-          name="numeric-domain-{{managedRepresentation.id}}"
-          [ngModel]="value"
-          (ngModelChange)="changeNumber($event)">
-        <label>Range from {{ low }} to {{ high }} steps {{ stepping }}</label>
-      </form>
-    </div>`,
+<ng-container  *ngIf="managedRepresentation">
+  <div class="input-field">
+    <input  type="number" [min]="inputLimit?.minimum" [max]="inputLimit?.maximum" [step]="inputLimit?.stepUnit" class="validate" required
+      [id]="identifier"
+      name="number"
+      [ngModel]="value"
+      (ngModelChange)="changeNumber($event)">
+    <label [for]="identifier">{{managedRepresentation.label}}</label>
+    <span>Range from {{ inputLimit.minimum }} to {{ inputLimit.maximum }} steps {{ inputLimit.stepUnit }}</span>
+  </div>
+</ng-container>`,
   styles: [],
 })
 
 export class ResponsedomainNumericComponent implements OnChanges {
   @Output() selectedEvent = new EventEmitter<UserResponse[]>();
   @Input() managedRepresentation: Category;
-  low: number;
-  high: number;
-  stepping: number;
+
+  public inputLimit: ResponseCardinality
   value: number;
 
-  ngOnChanges() {
-    this.low = 0;
-    this.high = 1;
-    const rep = this.managedRepresentation;
-    if (rep) {
-      if (rep.inputLimit) {
-        this.high = rep.inputLimit.maximum;
-        this.low = rep.inputLimit.minimum;
+  public identifier;
+
+  constructor() {
+    this.identifier = 'NUM-' + ident++;
+  }
+
+
+
+  public ngOnChanges(changes: SimpleChanges) {
+    if (changes.managedRepresentation && changes.managedRepresentation.currentValue) {
+      this.inputLimit = this.managedRepresentation.inputLimit;
+      if (!this.managedRepresentation.format) {
+        this.managedRepresentation.format = '0';
       }
-      if (!rep.format) {
-        rep.format = '0';
-      }
-      this.stepping = this.parts(rep.format);
+      this.inputLimit.stepUnit = this.parts(this.managedRepresentation.format);
     }
   }
 
+
   changeNumber(value: number) {
-    if (value >= this.low && value <= this.high) {
+    if (value >= this.inputLimit.minimum && value <= this.inputLimit.maximum) {
       this.value = value;
-    } else if (value < this.low) {
-      this.value = this.low;
-    } else if (value > this.high) {
-      this.value = this.high;
+    } else if (value < this.inputLimit.minimum) {
+      this.value = this.inputLimit.minimum;
+    } else if (value > this.inputLimit.maximum) {
+      this.value = this.inputLimit.maximum;
     }
     this.selectedEvent.emit([{ label: this.managedRepresentation.label, value }]);
   }
@@ -59,3 +62,5 @@ export class ResponsedomainNumericComponent implements OnChanges {
   }
 
 }
+
+let ident = 0;

@@ -1,38 +1,46 @@
-import { Component, Input, OnChanges, Output, EventEmitter } from '@angular/core';
-import { Category, UserResponse } from '../../../lib';
+import { Component, Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Category, UserResponse, ResponseCardinality, delay } from '../../../lib';
 
 @Component({
   selector: 'qddt-preview-rd-text',
-
   template: `
-    <div class="row" *ngIf="managedRepresentation">
-
-       <textarea id="textarea-{{managedRepresentation?.id}}"
-         class="materialize-textarea" data-length="high" validate (change)="checkOption($event.target.value)"></textarea>
-       <label>Text length from {{ low }} to {{ high }}</label>
-     </div>`,
-  styles: [],
+<ng-container *ngIf="managedRepresentation">
+  <qddt-textarea [id]="identifier"  name="text" [label]="managedRepresentation.label" ngModel  [ngClass]= "{ required : minimum > 0 }"
+      data-length=minimum >
+  </qddt-textarea>
+</ng-container>
+`
 })
 
 export class ResponsedomainTextComponent implements OnChanges {
   @Output() selectedEvent = new EventEmitter<UserResponse[]>();
   @Input() managedRepresentation: Category;
-  low = 0;
-  high = 20;
 
-  public ngOnChanges() {
-    const rep = this.managedRepresentation;
-    if (rep) {
-      if (rep.inputLimit.maximum) {
-        this.high = +rep.inputLimit.maximum;
-      }
-      if (rep.inputLimit.minimum) {
-        this.low = +rep.inputLimit.minimum;
-      }
+  public inputLimit: ResponseCardinality
+  public minimum = 0;
+  public identifier;
+
+  // private readonly delay = () => new Promise(resolve => setTimeout(resolve, 20));
+
+  constructor() {
+    this.identifier = 'TXT-' + ident++;
+  }
+
+  public ngOnChanges(changes: SimpleChanges) {
+
+    if (changes.managedRepresentation && changes.managedRepresentation.currentValue) {
+      this.inputLimit = this.managedRepresentation.inputLimit;
+      this.minimum = this.inputLimit.minimum;
+      delay(20).then(data => {
+        const element = document.getElementById(this.identifier);
+        element.firstElementChild.firstElementChild.setAttribute('data-length', this.inputLimit.maximum.toString());
+        element.firstElementChild.firstElementChild.setAttribute('maxlength', this.inputLimit.maximum.toString());
+        M.CharacterCounter.init(element.firstElementChild.firstElementChild);
+        M.updateTextFields();
+      });
     }
   }
-
-  public checkOption(option: any) {
-    this.selectedEvent.emit([{ label: '', value: option }]);
-  }
 }
+
+
+let ident = 0;

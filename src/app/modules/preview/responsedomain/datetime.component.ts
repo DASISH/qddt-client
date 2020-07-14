@@ -1,62 +1,66 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, Output, EventEmitter, Inject, LOCALE_ID } from '@angular/core';
 import { Category, UserResponse } from '../../../lib/classes';
+import { DatepickerOptions } from 'materialize-css';
+import { getLocaleDateFormat, getLocaleMonthNames, getLocaleDayNames } from '@angular/common';
+import { delay } from 'src/app/lib';
 
 @Component({
   selector: 'qddt-preview-rd-datetime',
 
   template: `
-  <li *ngIf="managedRepresentation">
-    <span>
-      <label>{{ low }} - {{ high }}</label>
-      <input  type="text" class="datepicker" () >
-    </span>
-  </li>
+<ng-container *ngIf="managedRepresentation">
+  <div class="input-field">
+    <div style="color:rgb(200, 200, 200); position: Absolute ; top: 1rem; right:0; z-index: 1;" >[ {{managedRepresentation.format}} ]</div>
+    <input [id]="identifier" type="text" class="datepicker" name="value" ngModel>
+    <label [for]="identifier" >{{managedRepresentation.label}}</label>
+    <span>Range  {{ managedRepresentation.inputLimit.minimum }} - {{ managedRepresentation.inputLimit.maximum }}</span>
+  </div>
+</ng-container>
 `,
   styles: [],
 })
 
-export class ResponsedomainDatetimeComponent implements OnInit, OnChanges {
+export class ResponsedomainDatetimeComponent implements OnChanges {
   @Output() selectedEvent = new EventEmitter<UserResponse[]>();
   @Input() managedRepresentation: Category;
 
-  public low: number;
-  public high: number;
-  private dFormat: any;
-  private dateOptions: any;
+  public identifier;
 
-  ngOnInit() {
-    this.low = 0;
-    this.high = 1;
-    this.ngOnChanges(null);
+  constructor(@Inject(LOCALE_ID) protected localID: string) {
+    this.identifier = 'DATE-' + ident++;
   }
+
 
   ngOnChanges(changes: SimpleChanges): void {
-    const rep = this.managedRepresentation;
-    if (rep) {
-      if (rep.inputLimit.maximum) {
-        this.high = rep.inputLimit.maximum;
-      }
-      if (rep.inputLimit.minimum) {
-        this.low = rep.inputLimit.minimum;
-      }
-      if (rep.format) {
-        this.dFormat = rep.format;
-      } else {
-        this.dFormat = 'd mmmm, yyyy!';
-      }
+
+    if (changes.value && changes.value.currentValue) {
+      this.selectedEvent.emit([{ label: this.managedRepresentation.label, value: changes.value.currentValue }]);
     }
-    this.dateOptions = this.getDefaultPickaOption();
+
+    if (changes.managedRepresentation && changes.managedRepresentation.currentValue) {
+      delay(20).then(() => {
+        this.initDate(this.managedRepresentation);
+      });
+    }
   }
 
-  private getDefaultPickaOption(): any {
-    return Object.assign({}, {
-      selectMonths: true,
-      selectYears: 80,
-      format: this.dFormat,
-      max: [this.high, 12, 31],
-      min: [this.low, 1, 1],
-      editable: true,
-      closeOnSelect: true
+
+  private initDate(rep: Category) {
+    const elems = document.querySelectorAll('.datepicker');
+    M.Datepicker.init(elems, {
+      format: rep.format,
+      autoClose: true,
+      yearRange: [rep.inputLimit.minimum, rep.inputLimit.maximum],
+      i18n: {
+        months: getLocaleMonthNames(rep.xmlLang, 1, 2),
+        monthsShort: getLocaleMonthNames(rep.xmlLang, 1, 1),
+        weekdays: getLocaleDayNames(rep.xmlLang, 1, 2),
+        weekdaysShort: getLocaleDayNames(rep.xmlLang, 1, 1)
+      }
     });
+
   }
+
 }
+
+let ident = 0;

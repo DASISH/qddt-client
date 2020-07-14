@@ -1,4 +1,5 @@
 import { ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -9,7 +10,7 @@ import { API_BASE_HREF } from './api';
 
 import { environment } from '../environments/environment';
 // import { routing } from './app.routes';
-import { ErrorLogService, GlobalErrorHandler, SessionService, TemplateService } from './lib/services';
+import { ErrorLogService, GlobalErrorHandler, TemplateService } from './lib/services';
 import { TokenInterceptor } from './lib/interceptor';
 import { AppComponent } from './app.component';
 import { CategoryModule } from './modules/category/category.module';
@@ -39,6 +40,11 @@ import { AgencyModule } from './modules/agency/agency.module';
 import { SearchModule } from './modules/search/search.module';
 import { AppRoutingModule } from './app.routes';
 
+// dynamically load languages to support
+import('@angular/common/locales/global/nb').then(lang => registerLocaleData(lang.default));
+import('@angular/common/locales/global/en-GB').then(lang => registerLocaleData(lang.default));
+import('@angular/common/locales/global/en-CA').then(lang => registerLocaleData(lang.default));
+import('@angular/common/locales/global/fr-CA').then(lang => registerLocaleData(lang.default));
 
 @NgModule({
   imports: [BrowserModule, HttpClientModule, DragDropModule, ComponentsModule, CoreModule, BrowserAnimationsModule, HomeModule, MenuModule,
@@ -49,7 +55,7 @@ import { AppRoutingModule } from './app.routes';
   declarations: [AppComponent, PageNotFoundComponent],
 
   providers: [ErrorLogService, TemplateService,
-    { provide: LOCALE_ID, deps: [SessionService], useFactory: sessionService => sessionService.locale },
+    { provide: LOCALE_ID, useValue: navigator.language },
     // { provide: APP_BASE_HREF, useValue: environment.APP_BASE },
     { provide: API_BASE_HREF, useValue: environment.API_BASE },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },

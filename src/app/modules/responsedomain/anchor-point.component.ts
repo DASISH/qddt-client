@@ -6,16 +6,10 @@ import { AlignmentKind, Category, ElementKind, enumKeys, IElement, ResponseCardi
   selector: 'qddt-anchor-point',
   template: `
 <form  [id]="'AP-'+formId"  [parentFormConnect]="formName" (change)="onChange()">
-  <div class="col s3 input-field" tabindex="0">
+  <div class="col s3 input-field" >
     <input [id]="'CV-' + formId" name="value" type="number" [min]="inputLimit.minimum" [max]="inputLimit.maximum" [step]="inputLimit.stepUnit"
-     [(ngModel)]="category.code.codeValue" required class="validate">
+     [(ngModel)]="category.code.value" required class="validate">
   </div>
-  <!-- <div class="col s2 input-field" tabindex="1">
-    <select id="PA-{{formId}}"  required class="validate" name="alignment"
-        (change)="onSelectAlignment($event)">
-        <option *ngFor="let item of alignments2;" [selected]="isSelected(item)" [value]="item" >{{item}}</option>
-    </select>
-  </div> -->
   <qddt-element-select  class="col s9 input-field" [source]="getSource(category)" [autoCreate]="true" [xmlLang]="category.xmlLang" (elementSelectedEvent)="onSelectCategory($event)">
   </qddt-element-select>
 </form>
@@ -36,7 +30,7 @@ export class AnchorPointComponent implements AfterViewInit {
     return { element: category, elementKind: ElementKind.CATEGORY };
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     const instanse = document.getElementById('PA-' + this.formId);
     M.FormSelect.init(instanse);
   }
@@ -52,16 +46,9 @@ export class AnchorPointComponent implements AfterViewInit {
     }
   }
 
-  public onSelectAlignment(event) {
-    this.category.code.alignment = AlignmentKind[event.target.value];
-    this.changeEvent.emit(this.category);
-  }
 
   public onChange() {
     this.changeEvent.emit(this.category);
   }
 
-  public isSelected(item): boolean {
-    return (this.category.code.alignment === AlignmentKind[item]);
-  }
 }

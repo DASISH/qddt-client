@@ -1,4 +1,4 @@
-import { Agency } from 'src/app/lib';
+import { Agency, ISelectOption } from 'src/app/lib';
 import { Category, CategoryKind, ResponseCardinality } from './category.classes';
 import { IEntityAudit, IEntityEditAudit, IVersion } from '../interfaces';
 import { ElementKind } from '../enums';
@@ -14,17 +14,17 @@ export enum DomainKind {
   MIXED,
 }
 
-export const DATE_FORMAT: any = [
-  { id: 1, format: 'yyyy-mm-dd', label: 'Date' },
-  { id: 2, format: 'yyyy-mm-dd HH:mm:SS', label: 'DateTime' },
-  { id: 3, format: 'dd', label: 'gDay' },
-  { id: 4, format: 'mm', label: 'gMonth' },
-  { id: 5, format: 'mm-dd', label: 'gMonthDay' },
-  { id: 6, format: 'yyyy', label: 'gYear' },
-  { id: 7, format: 'yyyy-mm', label: 'gYearMonth' },
-  { id: 8, format: 'HH:mm:SS', label: 'Time' },
-  { id: 9, format: 'd mmm yyyy', label: 'Date-text-short' },
-  { id: 10, format: 'dddd d mmmm yyyy', label: 'Full-date-text' },
+export const DATE_FORMAT_MAP: ISelectOption[] = [
+  { id: 0, value: 'yyyy-mm-dd', label: 'Date' },
+  { id: 1, value: 'yyyy-mm-dd HH:MM:SS', label: 'DateTime' },
+  { id: 2, value: 'dd', label: 'gDay' },
+  { id: 3, value: 'mm', label: 'gMonth' },
+  { id: 4, value: 'mm-dd', label: 'gMonthDay' },
+  { id: 5, value: 'yyyy', label: 'gYear' },
+  { id: 6, value: 'yyyy-mm', label: 'gYearMonth' },
+  { id: 7, value: 'HH:mm:SS', label: 'Time' },
+  { id: 8, value: 'd mmm yyyy', label: 'Date-text-short' },
+  { id: 9, value: 'dddd d mmmm yyyy', label: 'Full-date-text' },
 ];
 
 export const DOMAIN_TYPE_DESCRIPTION = [
@@ -71,6 +71,9 @@ export class ResponseDomain implements IEntityEditAudit {
 
   public constructor(init?: Partial<ResponseDomain>) {
     Object.assign(this, init);
+    if (init && init.xmlLang) {
+      this.managedRepresentation.xmlLang = init.xmlLang;
+    }
   }
 
   public get isMixed() { return (this.responseKind === 'MIXED'); }
@@ -82,6 +85,12 @@ export class ResponseDomain implements IEntityEditAudit {
   public setResponseKind(kind: DomainKind): ResponseDomain {
     this.responseKind = DomainKind[kind];
     this.managedRepresentation.setKind(DOMAIN_TYPE_DESCRIPTION[kind].categoryType);
+    if (kind === DomainKind.SCALE) {
+      this.managedRepresentation.inputLimit = { minimum: 1, maximum: 5, stepUnit: 1 }
+    } else if (kind === DomainKind.DATETIME) {
+      this.managedRepresentation.inputLimit = { minimum: 1950, maximum: 2050, stepUnit: 1 }
+
+    }
     return this;
   }
 

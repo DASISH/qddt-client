@@ -1,16 +1,19 @@
-import { Component, OnInit, AfterContentChecked } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ActionKind,
+import {
+  ActionKind,
   SurveyProgram,
   ElementKind,
   HomeService,
   TemplateService,
   HierarchyPosition,
-  PropertyStoreService } from '../../../lib';
+  PropertyStoreService
+} from '../../../lib';
 
 
 @Component({
   selector: 'qddt-survey',
+  styles: ['div .helper-text { color: white !important}'],
   templateUrl: './survey.component.html',
 })
 
@@ -19,13 +22,13 @@ export class SurveyComponent implements OnInit {
   public showSurveyForm = false;
   public readonly = false;
 
-  private refreshCount = 0;
+  private notInit = true;
   private readonly SURVEY = ElementKind.SURVEY_PROGRAM;
 
   constructor(private router: Router,
-              private property: PropertyStoreService,
-              private homeService: HomeService<SurveyProgram>,
-              private templateService: TemplateService,
+    private property: PropertyStoreService,
+    private homeService: HomeService<SurveyProgram>,
+    private templateService: TemplateService,
   ) {
     this.readonly = !homeService.canDo(this.SURVEY).get(ActionKind.Create);
   }
@@ -65,5 +68,18 @@ export class SurveyComponent implements OnInit {
       result => this.onSurveySaved(result));
     this.showSurveyForm = false;
   }
+
+  private readonly delay = () => new Promise(resolve => setTimeout(resolve, 50));
+
+  initComp() {
+    if (this.notInit) {
+      this.notInit = false;
+      this.delay().then(data => {
+        document.querySelectorAll('input[data-length], textarea[data-length]').forEach(
+          input => M.CharacterCounter.init(input));
+      });
+    }
+  }
+
 
 }

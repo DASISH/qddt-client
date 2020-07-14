@@ -2,7 +2,8 @@
   <div class="card-panel row white-text teal">
     <i class="material-icons large right">looks_two</i>
     <h4>Questionnaire modules for {{ study?.name }}</h4>
-    <a class="btn" *ngIf="!study.archived && !readonly" (click)="showTopicForm = !showTopicForm; showReuse=false">
+    <a class="btn" *ngIf="!study.archived && !readonly"
+      (click)="showTopicForm = !showTopicForm; showReuse=false; initComp();">
       <i class="material-icons right" *ngIf="!showTopicForm">keyboard_arrow_down</i>
       <i class="material-icons right" *ngIf="showTopicForm">keyboard_arrow_up</i>
       New
@@ -20,13 +21,14 @@
         <div class="col s10 offset-s1">
           <form #hf="ngForm">
             <div class="row input-field">
-              <input name="name" class="white-text" type="text" ngModel required data-length="250">
-              <label class="white-text">Name</label>
+              <input id="name111" name="name" class="validate white-text" type="text" ngModel required
+                data-length="250">
+              <label for="name111" class="white-text">Name</label>
             </div>
             <div class="row input-field white-text">
-              <textarea name="description" class="materialize-textarea white-text" ngModel required
-                data-length="10000"></textarea>
-              <label class="white-text">Description</label>
+              <textarea id="desc111" name="description" class="materialize-textarea white-text validate" ngModel
+                required data-length="10000"></textarea>
+              <label for="desc111" class="white-text">Description</label>
             </div>
             <div class="row right-align">
               <button type="button" (click)="onNewSave(hf.value)" class="btn btn-default"
@@ -79,8 +81,8 @@
         <div class="col s12">
           <p [innerHtml]="topic.description"></p>
 
-          <qddt-question-items [revisionRefs]="topic.topicQuestionItems" [readonly]="topic.archived || readonly" [xmlLang]="topic.xmlLang"
-            (createdEvent)="onQuestionItemAdded($event,topic.id)"
+          <qddt-question-items [revisionRefs]="topic.topicQuestionItems" [readonly]="topic.archived || readonly"
+            [xmlLang]="topic.xmlLang" (createdEvent)="onQuestionItemAdded($event,topic.id)"
             (deletedEvent)="onQuestionItemRemoved($event,topic.id)"
             (modifiedEvent)="onQuestionItemModified($event,topic.id)">
           </qddt-question-items>

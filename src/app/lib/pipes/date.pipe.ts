@@ -1,6 +1,5 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform, Inject, LOCALE_ID } from '@angular/core';
 import { formatDate } from '@angular/common';
-import { SessionService } from '../services';
 
 @Pipe({
   name: 'localDate',
@@ -8,7 +7,7 @@ import { SessionService } from '../services';
 })
 export class LocalDatePipe implements PipeTransform {
 
-  constructor(private session: SessionService) { }
+  constructor(@Inject(LOCALE_ID) protected localID: string) { }
 
   // transform(input: Array<number>): string {
   //   if (input === null || input === undefined || input.length < 3) {
@@ -24,6 +23,6 @@ export class LocalDatePipe implements PipeTransform {
     if (!value) { return ''; }
     if (!format) { format = 'shortDate'; }
 
-    return formatDate(value, format, this.session.locale);
+    return formatDate(value, format, this.localID);
   }
 }

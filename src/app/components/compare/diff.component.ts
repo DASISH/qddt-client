@@ -1,8 +1,6 @@
-import { Component, Input, OnChanges, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnChanges, Output, EventEmitter, Inject, LOCALE_ID } from '@angular/core';
 import { DiffString } from './diff.string';
-import { isDate } from 'util';
 import { formatDate } from '@angular/common';
-import { SessionService } from '../../lib/services';
 
 export class ElementFieldChange {
   name: string;
@@ -31,7 +29,7 @@ export class DiffComponent implements OnChanges {
   public elementChange: ElementChange = new ElementChange();
   private diff: DiffString = new DiffString();
 
-  constructor(public session: SessionService) { }
+  constructor(@Inject(LOCALE_ID) protected localID: string) { }
 
   ngOnChanges() {
     this.elementChange.name = this.current['name'] || '';
@@ -53,6 +51,8 @@ export class DiffComponent implements OnChanges {
     this.hideCompareEvent.emit('hide');
   }
 
+  private readonly isDate = (x) => (null != x) && !isNaN(x) && ("undefined" !== typeof x.getDate);
+
   private getValue(obj: any, names: string | any[], init: any): string {
     if (names instanceof Array) {
       let result: any = obj;
@@ -71,8 +71,8 @@ export class DiffComponent implements OnChanges {
         && result !== null && result !== undefined && result !== '') {
         return init(result);
       }
-      if (isDate(result)) {
-        return formatDate(result, 'short', this.session.locale);
+      if (this.isDate(result)) {
+        return formatDate(result, 'short', this.localID);
       }
       return result.toString();
     } else {

@@ -1,38 +1,5 @@
 .chip {margin-top: 5px;}
 
-/*
- * Phoca Flags 1.0.0 by Jan Pavelka
- * Copyright 2013 Jan Pavelka ( http://www.phoca.cz )
- * License GNU General Public License version 3
- */
-/* .phoca-box {
-	width: 32%;
-	float: left;
-	position: relative;
-	height: 140px;
-} */
-/* .phoca-flagbox {
-	width: 120px;
-	height: 120px;
-	display: inline-block;
-	vertical-align: middle;
-	position: relative
-}
-.phoca-flag {
-	position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-	display: inline-block;
-	vertical-align: middle;
-	border: 1px solid #e5e5e5;
-	-webkit-box-shadow: inset 0px 0px 0px 2px #fff;
-	box-shadow: inset 0px 0px 0px 2px #fff;
-} */
-
-
 /* france */
 .fr {
   background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5MDAgNjAwIj4NCjxwYXRoIGZpbGw9IiNlZDI5MzkiIGQ9Im0wLDBoOTAwdjYwMGgtOTAweiIvPg0KPHBhdGggZmlsbD0iI2ZmZiIgZD0ibTAsMGg2MDB2NjAwaC02MDB6Ii8+DQo8cGF0aCBmaWxsPSIjMDAyMzk1IiBkPSJtMCwwaDMwMHY2MDBoLTMwMHoiLz4NCjwvc3ZnPg0K');

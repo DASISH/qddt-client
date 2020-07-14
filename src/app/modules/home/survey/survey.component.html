@@ -2,7 +2,7 @@
   <div class="card-panel row teal white-text text-lighten-2">
     <i class="material-icons large right">store</i>
     <h4>Survey</h4>
-    <a *ngIf="!readonly" class="btn" (click)="showSurveyForm = !showSurveyForm">
+    <a *ngIf="!readonly" class="btn" (click)="showSurveyForm = !showSurveyForm; initComp();">
       <i class="material-icons right" *ngIf="!showSurveyForm">keyboard_arrow_down</i>
       <i class="material-icons right" *ngIf="showSurveyForm">keyboard_arrow_up</i>
       New
@@ -10,15 +10,15 @@
     <div *ngIf="showSurveyForm">
       <div class="row card-action">
         <div class="col s10 offset-s1">
-          <form #hf="ngForm">
+          <form id="form1" #hf="ngForm">
             <div class="row input-field">
-              <input name="name" class="white-text" type="text" ngModel required data-length="250">
-              <label class="white-text">Name</label>
+              <input id="name1" name="name" class="white-text validate" type="text" ngModel required data-length="250">
+              <label for="name1" class="white-text">Name</label>
             </div>
             <div class="row input-field white-text">
-              <textarea name="description" class="materialize-textarea white-text" ngModel required
+              <textarea id="desc1" name="description" class="materialize-textarea white-text validate" ngModel required
                 data-length="10000"></textarea>
-              <label class="white-text">Description</label>
+              <label for="desc1" class="white-text">Description</label>
             </div>
             <div class="row right-align">
               <button type="button" (click)="onNewSave(hf.value)" class="btn btn-default"

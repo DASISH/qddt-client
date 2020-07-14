@@ -3,7 +3,7 @@ import {
   Optional,
   Inject,
   Input,
-  ViewChild, AfterViewInit,
+  ViewChild, AfterViewInit, OnChanges, SimpleChanges,
 } from '@angular/core';
 
 import {
@@ -14,6 +14,7 @@ import {
 } from '@angular/forms';
 import { ElementBase } from './element-base.class';
 import { animations } from './animations';
+import { delay } from '../../lib';
 
 @Component({
   selector: 'qddt-textarea',
@@ -37,7 +38,7 @@ import { animations } from './animations';
     multi: true,
   }],
 })
-export class FormTextAreaComponent extends ElementBase<string> implements AfterViewInit {
+export class FormTextAreaComponent extends ElementBase<string> implements OnChanges {
   @Input() public label: string;
   @Input() public placeholder: string;
   @Input() public readonly = false;
@@ -49,25 +50,32 @@ export class FormTextAreaComponent extends ElementBase<string> implements AfterV
 
   constructor(
     @Optional() @Inject(NG_VALIDATORS) validators: Array<any>,
-    @Optional() @Inject(NG_ASYNC_VALIDATORS) asyncValidators: Array<any>,
-  ) {
+    @Optional() @Inject(NG_ASYNC_VALIDATORS) asyncValidators: Array<any>) {
+
     super(validators, asyncValidators);
-    // this.registerOnSourceChanged(() => {
-    //   const element = document.getElementById(this.idOuter);
-    //   if ((element) && (element.parentElement.dataset.length)) {
-    //     element.firstElementChild.setAttribute('data-length', element.parentElement.dataset.length);
-    //     M.CharacterCounter.init(element.children.item(0));
-    //     // M.textareaAutoResize(element.children.item(0));
-    //   }
-    // });
+
   }
-  ngAfterViewInit(): void {
-    const element = document.getElementById(this.idOuter);
-    if ((element) && (element.parentElement.dataset.length)) {
-      element.firstElementChild.setAttribute('data-length', element.parentElement.dataset.length);
-      M.CharacterCounter.init(element.children.item(0));
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.value && changes.value.currentValue) {
+      delay(20).then(() => {
+        const element = document.getElementById(this.idOuter);
+        if ((element) && (element.parentElement.dataset.length)) {
+          element.firstElementChild.setAttribute('data-length', element.parentElement.dataset.length);
+          element.firstElementChild.setAttribute('maxlength', element.parentElement.dataset.length);
+          M.CharacterCounter.init(element.children.item(0));
+        }
+      });
     }
   }
+
+  // ngAfterViewInit(): void {
+  //   const element = document.getElementById(this.idOuter);
+  //   if ((element) && (element.parentElement.dataset.length)) {
+  //     element.firstElementChild.setAttribute('data-length', element.parentElement.dataset.length);
+  //     element.firstElementChild.setAttribute('maxlength', element.parentElement.dataset.length);
+  //     M.CharacterCounter.init(element.children.item(0));
+  //   }
+  // }
 
 }
 

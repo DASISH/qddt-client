@@ -6,48 +6,44 @@ import { Category, DomainKind, ResponseCardinality, ResponseDomain, UserResponse
   template: `
   <ng-container *ngIf="responseDomain">
     <div *ngIf="responseType" class="row card-panel grey lighten-5 grey-text text-darken-1">
-      <label *ngIf="responseType !== refKind.MIXED" >
+      <span *ngIf="responseType !== refKind.MIXED" >
           {{ responseDomain?.name }}(V<qddt-version [element]="rep"></qddt-version>)
-      </label>
-      <!-- <form> -->
-        <ng-container [ngSwitch]="responseType">
-          <!-- <ng-container *ngSwitchCase="refKind.MIXED"> -->
-            <qddt-preview-rd-mixed *ngSwitchCase="refKind.MIXED"
-              [managedRepresentation]="rep"
-              [displayLayout]="displayLayout"
-              [responseCardinality]="cardinality"
-              (selectedEvent)="onSelectedEvent($event)">
-            </qddt-preview-rd-mixed>
-          <!-- </ng-container> -->
-          <qddt-preview-rd-scale  *ngSwitchCase=refKind.SCALE
-            [managedRepresentation]="rep"
-            [displayLayout]="displayLayout"
-            (selectedEvent)="onSelectedEvent($event)">
-          </qddt-preview-rd-scale>
-          <qddt-preview-rd-codelist  *ngSwitchCase=refKind.LIST
-            [managedRepresentation]="rep"
-            [inputGroupName]="responseDomain.name"
-            [responseCardinality]="cardinality"
-            (selectedEvent)="onSelectedEvent($event)">
-          </qddt-preview-rd-codelist>
-          <qddt-preview-rd-datetime  *ngSwitchCase="refKind.DATETIME"
-            [managedRepresentation]="rep"
-            (selectedEvent)="onSelectedEvent($event)">
-          </qddt-preview-rd-datetime>
-          <qddt-preview-rd-numeric  *ngSwitchCase="refKind.NUMERIC"
-            [managedRepresentation]="rep"
-            (selectedEvent)="onSelectedEvent($event)">
-          </qddt-preview-rd-numeric>
-          <qddt-preview-rd-text  *ngSwitchCase="refKind.TEXT"
-            [managedRepresentation]="rep"
-            (selectedEvent)="onSelectedEvent($event)">
-          </qddt-preview-rd-text>
-          <qddt-preview-rd-missing  *ngSwitchCase="refKind.MISSING"
-            [inputGroupName]="responseDomain.name"
-            (selectedEvent)="onSelectedEvent($event)">
-          </qddt-preview-rd-missing>
-        </ng-container>
-      <!-- </form> -->
+      </span>
+      <ng-container [ngSwitch]="responseType">
+        <qddt-preview-rd-mixed *ngSwitchCase="refKind.MIXED"
+          [managedRepresentation]="rep"
+          [displayLayout]="displayLayout"
+          [responseCardinality]="cardinality"
+          (selectedEvent)="onSelectedEvent($event)">
+        </qddt-preview-rd-mixed>
+        <qddt-preview-rd-scale  *ngSwitchCase=refKind.SCALE
+          [managedRepresentation]="rep"
+          [displayLayout]="displayLayout"
+          (selectedEvent)="onSelectedEvent($event)">
+        </qddt-preview-rd-scale>
+        <qddt-preview-rd-codelist  *ngSwitchCase=refKind.LIST
+          [managedRepresentation]="rep"
+          [inputGroupName]="responseDomain.name"
+          [responseCardinality]="cardinality"
+          (selectedEvent)="onSelectedEvent($event)">
+        </qddt-preview-rd-codelist>
+        <qddt-preview-rd-datetime  *ngSwitchCase="refKind.DATETIME"
+          [managedRepresentation]="rep"
+          (selectedEvent)="onSelectedEvent($event)">
+        </qddt-preview-rd-datetime>
+        <qddt-preview-rd-numeric  *ngSwitchCase="refKind.NUMERIC"
+          [managedRepresentation]="rep"
+          (selectedEvent)="onSelectedEvent($event)">
+        </qddt-preview-rd-numeric>
+        <qddt-preview-rd-text  *ngSwitchCase="refKind.TEXT"
+          [managedRepresentation]="rep"
+          (selectedEvent)="onSelectedEvent($event)">
+        </qddt-preview-rd-text>
+        <qddt-preview-rd-missing  *ngSwitchCase="refKind.MISSING"
+          [inputGroupName]="responseDomain.name"
+          (selectedEvent)="onSelectedEvent($event)">
+        </qddt-preview-rd-missing>
+      </ng-container>
     </div>
   </ng-container>`,
   providers: [],

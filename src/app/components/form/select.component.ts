@@ -112,6 +112,7 @@ export class FormSelectComponent extends ElementBase<any> implements AfterViewIn
   }
 
   private setindex(element: HTMLSelectElement) {
+    console.log('set index');
     if ((element) && (element.options) && (this.value)) {
       let i = -1;
       for (const key of Object.keys(element.options)) {
