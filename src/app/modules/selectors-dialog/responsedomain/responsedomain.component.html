@@ -4,8 +4,14 @@
       <ul *ngIf="canEdit" class="dropleft">
         <li *ngIf="!responseDomain">
           <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green"
-            (click)="onItemEdit($event)">
+            (click)="onItemEdit($event,null)">
             <i class="material-icons" title="Add element">add</i>
+          </a>
+        </li>
+        <li *ngIf="responseDomain">
+          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green"
+            (click)="onItemEdit($event,responseDomain)">
+            <i class="material-icons" title="Edit question">edit</i>
           </a>
         </li>
         <li *ngIf="responseDomain">

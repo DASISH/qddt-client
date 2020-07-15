@@ -8,7 +8,8 @@ import {
   PropertyStoreService,
   Study,
   SurveyProgram,
-  TemplateService
+  TemplateService,
+  delay
 } from '../../../lib';
 
 @Component({
@@ -102,15 +103,13 @@ export class StudyComponent implements OnInit {
     });
   }
 
-  private readonly delay = () => new Promise(resolve => setTimeout(resolve, 50));
 
   initComp() {
     if (this.notInit) {
       this.notInit = false;
-      this.delay().then(data => {
-        document.querySelectorAll('input[data-length], textarea[data-length]').forEach(
-          input => M.CharacterCounter.init(input));
-      });
+      delay(20)
+        .then(() => document.querySelectorAll('input[data-length], textarea[data-length]')
+          .forEach(input => M.CharacterCounter.init(input)));
     }
   }
 

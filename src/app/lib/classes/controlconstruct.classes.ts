@@ -82,7 +82,10 @@ export abstract class AbstractControlConstruct implements IEntityEditAudit {
   abstract get parameters(): Parameter[];
 }
 
-
+export class ConstructInstruction {
+  instruction: Instruction;
+  instructionRank: string;
+}
 export class QuestionConstruct implements AbstractControlConstruct {
   id: string;
   name: string;
@@ -92,12 +95,13 @@ export class QuestionConstruct implements AbstractControlConstruct {
   questionItemRef: ElementRevisionRefImpl<QuestionItem>;
   otherMaterials: IOtherMaterial[] = [];
   universe: Universe[] = [];
-  preInstructions: Instruction[] = [];
-  postInstructions: Instruction[] = [];
+  controlConstructInstructions: ConstructInstruction[] = [];
   inParameter?: Parameter[] = [];
   outParameter?: Parameter[] = [];
   xmlLang?: string;
   get parameters() { return this.outParameter; }
+  get preInstructions() { return this.controlConstructInstructions.filter(f => f.instructionRank === 'PRE').map(p => p.instruction); }
+  get postInstructions() { return this.controlConstructInstructions.filter(f => f.instructionRank === 'POST').map(p => p.instruction); }
 
   public constructor(init?: Partial<QuestionConstruct>) {
     Object.assign(this, init);

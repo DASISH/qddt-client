@@ -1,7 +1,6 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, Output, EventEmitter, Inject, LOCALE_ID } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, Output, EventEmitter, Inject, LOCALE_ID } from '@angular/core';
 import { Category, UserResponse } from '../../../lib/classes';
-import { DatepickerOptions } from 'materialize-css';
-import { getLocaleDateFormat, getLocaleMonthNames, getLocaleDayNames } from '@angular/common';
+import { getLocaleMonthNames, getLocaleDayNames } from '@angular/common';
 import { delay } from 'src/app/lib';
 
 @Component({
@@ -11,7 +10,7 @@ import { delay } from 'src/app/lib';
 <ng-container *ngIf="managedRepresentation">
   <div class="input-field">
     <div style="color:rgb(200, 200, 200); position: Absolute ; top: 1rem; right:0; z-index: 1;" >[ {{managedRepresentation.format}} ]</div>
-    <input [id]="identifier" type="text" class="datepicker" name="value" ngModel>
+    <input [id]="identifier" type="text" class="datepicker">
     <label [for]="identifier" >{{managedRepresentation.label}}</label>
     <span>Range  {{ managedRepresentation.inputLimit.minimum }} - {{ managedRepresentation.inputLimit.maximum }}</span>
   </div>
@@ -33,10 +32,6 @@ export class ResponsedomainDatetimeComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
 
-    if (changes.value && changes.value.currentValue) {
-      this.selectedEvent.emit([{ label: this.managedRepresentation.label, value: changes.value.currentValue }]);
-    }
-
     if (changes.managedRepresentation && changes.managedRepresentation.currentValue) {
       delay(20).then(() => {
         this.initDate(this.managedRepresentation);
@@ -44,6 +39,11 @@ export class ResponsedomainDatetimeComponent implements OnChanges {
     }
   }
 
+
+  onChanges(value) {
+    console.log(value);
+    this.selectedEvent.emit([{ label: this.managedRepresentation.label, value }]);
+  }
 
   private initDate(rep: Category) {
     const elems = document.querySelectorAll('.datepicker');
@@ -56,7 +56,8 @@ export class ResponsedomainDatetimeComponent implements OnChanges {
         monthsShort: getLocaleMonthNames(rep.xmlLang, 1, 1),
         weekdays: getLocaleDayNames(rep.xmlLang, 1, 2),
         weekdaysShort: getLocaleDayNames(rep.xmlLang, 1, 1)
-      }
+      },
+      onSelect: (date) => this.onChanges(date)
     });
 
   }

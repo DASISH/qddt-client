@@ -38,7 +38,7 @@ import { delay } from '../../lib';
     multi: true,
   }],
 })
-export class FormTextAreaComponent extends ElementBase<string> implements OnChanges {
+export class FormTextAreaComponent extends ElementBase<string> implements OnChanges, AfterViewInit {
   @Input() public label: string;
   @Input() public placeholder: string;
   @Input() public readonly = false;
@@ -55,27 +55,29 @@ export class FormTextAreaComponent extends ElementBase<string> implements OnChan
     super(validators, asyncValidators);
 
   }
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.value && changes.value.currentValue) {
+  ngAfterViewInit(): void {
+    const element = document.getElementById(this.idOuter);
+    if (element) {
       delay(20).then(() => {
-        const element = document.getElementById(this.idOuter);
-        if ((element) && (element.parentElement.dataset.length)) {
-          element.firstElementChild.setAttribute('data-length', element.parentElement.dataset.length);
-          element.firstElementChild.setAttribute('maxlength', element.parentElement.dataset.length);
-          M.CharacterCounter.init(element.children.item(0));
+        const max = element.parentElement.getAttribute('maxlength') || element.parentElement.dataset.length;
+        if (max) {
+          element.firstElementChild.setAttribute('data-length', max);
+          element.firstElementChild.setAttribute('maxlength', max);
+          M.CharacterCounter.init(element.firstElementChild);
         }
+        const min = element.parentElement.getAttribute('minlength')
+        if (min) {
+          element.firstElementChild.setAttribute('minlength', min);
+        }
+        M.updateTextFields();
       });
     }
   }
 
-  // ngAfterViewInit(): void {
-  //   const element = document.getElementById(this.idOuter);
-  //   if ((element) && (element.parentElement.dataset.length)) {
-  //     element.firstElementChild.setAttribute('data-length', element.parentElement.dataset.length);
-  //     element.firstElementChild.setAttribute('maxlength', element.parentElement.dataset.length);
-  //     M.CharacterCounter.init(element.children.item(0));
-  //   }
-  // }
+  ngOnChanges(changes: SimpleChanges): void {
+
+    // console.log(changes || JSON);
+  }
 
 }
 

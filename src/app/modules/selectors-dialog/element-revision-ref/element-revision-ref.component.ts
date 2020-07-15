@@ -1,10 +1,10 @@
-import { Factory } from './../../../lib/factory';
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import {
   ActionKind,
   ElementKind, ElementRevisionRef, EventAction,
   getElementKind, getIcon,
+  Factory,
   IElement, IRevisionRef, ISelectOption,
   MessageService,
   TemplateService,

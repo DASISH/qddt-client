@@ -1,5 +1,6 @@
+import { Instruction } from './../../lib/classes/controlconstruct.classes';
 import { Router } from '@angular/router';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 import {
   ActionKind,
   ElementKind,
@@ -21,7 +22,7 @@ import {
   templateUrl: 'question-construct.form.component.html',
 })
 
-export class QuestionConstructFormComponent {
+export class QuestionConstructFormComponent implements OnChanges {
   @Input() controlConstruct: QuestionConstruct;
   @Input() readonly = false;
   @Output() modifiedEvent = new EventEmitter<QuestionConstruct>();
@@ -37,10 +38,23 @@ export class QuestionConstructFormComponent {
   public showButton = false;
   public fileStore: File[] = [];
 
+  public preInstructions: Instruction[] = [];
+  public postInstructions: Instruction[] = [];
+
+  private readonly filterInstructions = (rank: string) => this.controlConstruct.controlConstructInstructions
+    .filter(f => f.instructionRank === rank)
+    .map(ci => ci.instruction);
+
   constructor(private service: TemplateService, private router: Router, private message: MessageService,) {
     this.showUploadFileForm = false;
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.CONTROL_CONSTRUCT);
 
+  }
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes.controlConstruct && changes.controlConstruct.currentValue) {
+      this.preInstructions = this.filterInstructions('PRE');
+      this.postInstructions = this.filterInstructions('POST');
+    }
   }
 
   public onAddUniverse(item: IElement) {
@@ -48,11 +62,14 @@ export class QuestionConstructFormComponent {
   }
 
   public onAddPreInstruction(item: IElement) {
-    this.controlConstruct.preInstructions.push(item.element);
+    console.log('break here');
+    this.controlConstruct.controlConstructInstructions.push({ instruction: item.element, instructionRank: 'PRE' });
+    this.preInstructions = this.filterInstructions('PRE');
   }
 
   public onAddPostInstruction(item: IElement) {
-    this.controlConstruct.postInstructions.push(item.element);
+    this.controlConstruct.controlConstructInstructions.push({ instruction: item.element, instructionRank: 'POST' });
+    this.preInstructions = this.filterInstructions('POST');
   }
 
   public onRemoveUniverse(item: IElementRef) {
@@ -60,11 +77,15 @@ export class QuestionConstructFormComponent {
   }
 
   public onRemovePreInstruction(item: IElementRef) {
-    this.controlConstruct.preInstructions = this.controlConstruct.preInstructions.filter(u => u.id !== item.elementId);
+    this.controlConstruct.controlConstructInstructions =
+      this.controlConstruct.controlConstructInstructions.filter(u => u.instruction.id !== item.elementId);
+    this.preInstructions = this.filterInstructions('PRE');
   }
 
   public onRemovePostInstruction(item: IElementRef) {
-    this.controlConstruct.postInstructions = this.controlConstruct.postInstructions.filter(u => u.id !== item.elementId);
+    this.controlConstruct.controlConstructInstructions =
+      this.controlConstruct.controlConstructInstructions.filter(u => u.instruction.id !== item.elementId);
+    this.preInstructions = this.filterInstructions('POST');
   }
 
   public onQuestionEdit() {

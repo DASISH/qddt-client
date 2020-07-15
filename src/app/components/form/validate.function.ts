@@ -7,9 +7,8 @@ import {
 } from '@angular/forms';
 import { of } from 'rxjs';
 
-// import {Observable} from 'rxjs';
 
-export interface ValidationResult { [validator: string]: string | boolean; }
+export interface ValidationResult { [validator: string]: string | boolean | any; }
 
 export type AsyncValidatorArray = Array<Validator | AsyncValidatorFn>;
 
@@ -66,7 +65,7 @@ export const message = (validator: ValidationResult, key: string): string => {
     case 'pattern':
       return 'Value does not match required pattern';
     case 'minlength':
-      return 'Your response doesn\'t fullfill minium length required';
+      return 'minium length required [' + validator[key].requiredLength + ']';
     case 'maxlength':
       return 'Your response excide maximum length allowed';
   }

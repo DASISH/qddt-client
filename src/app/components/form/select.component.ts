@@ -11,7 +11,7 @@ import {
 import { NgModel, NG_VALUE_ACCESSOR, NG_VALIDATORS, NG_ASYNC_VALIDATORS } from '@angular/forms';
 import { ElementBase } from './element-base.class';
 import { animations } from './animations';
-import { ISelectOption } from 'src/app/lib';
+import { ISelectOption, delay } from 'src/app/lib';
 
 
 
@@ -66,16 +66,18 @@ export class FormSelectComponent extends ElementBase<any> implements AfterViewIn
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.lockups.isFirstChange()) {
-      const element = document.getElementById(this.identifier) as HTMLSelectElement;
-      M.FormSelect.init(element);
+      // const element = document.getElementById(this.identifier) as HTMLSelectElement;
+      // M.FormSelect.init(element);
     } else {
       this.buildOptions();
     }
   }
 
   public ngAfterViewInit(): void {
-    const element = document.getElementById(this.identifier) as HTMLSelectElement;
-    M.FormSelect.init(element);
+    delay(20).then(() => {
+      const element = document.getElementById(this.identifier) as HTMLSelectElement;
+      M.FormSelect.init(element);
+    });
   }
 
   public hasChildren(): boolean {
@@ -112,7 +114,7 @@ export class FormSelectComponent extends ElementBase<any> implements AfterViewIn
   }
 
   private setindex(element: HTMLSelectElement) {
-    console.log('set index');
+    // console.log('set index');
     if ((element) && (element.options) && (this.value)) {
       let i = -1;
       for (const key of Object.keys(element.options)) {

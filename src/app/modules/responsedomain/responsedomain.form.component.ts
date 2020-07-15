@@ -73,7 +73,7 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.responseDomain && changes.responseDomain.currentValue) {
       const page = this.getPageSearch();
-      this.domainType = (page) ? DomainKind[page.keys.get('ResponseKind')] : DomainKind.SCALE;
+      this.domainType = (page) ? DomainKind[page.keys.get('ResponseKind')] : DomainKind[this.responseDomain.responseKind];
       this.numberOfAnchors = this.responseDomain.managedRepresentation.children.length;
       delay(20).then(() => {
         M.updateTextFields();

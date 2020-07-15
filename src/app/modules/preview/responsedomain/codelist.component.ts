@@ -6,7 +6,7 @@ import { Category, ResponseCardinality, UserResponse } from '../../../lib/classe
 
   template: `
 <ul *ngIf="managedRepresentation">
-    <li *ngFor="let row of rows; trackBy:trackByIndex;" >
+    <li *ngFor="let row of rows;" >
       <span class="codeValue"> {{ row.value }} </span>
       <label>
         <input [name]="inputGroupName" [type]="type" [disabled]="row.disabled"  (change)="checkOption(row, $event)"/>
@@ -65,7 +65,4 @@ export class ResponsedomainCodeListComponent implements OnChanges {
     }
   }
 
-  public trackByIndex = (index: number): number => {
-    return index;
-  };
 }

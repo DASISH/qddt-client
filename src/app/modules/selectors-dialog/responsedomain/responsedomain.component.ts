@@ -1,12 +1,13 @@
-import { Factory } from './../../../lib/factory';
+import { Router } from '@angular/router';
 import { Component, EventEmitter, Input, Output, AfterViewInit } from '@angular/core';
 import {
   ActionKind,
   Category,
   ElementKind,
   ElementRevisionRef,
+  Factory,
   IElement, IElementRef,
-  ResponseDomain, TemplateService, UserService, IEntityAudit
+  ResponseDomain, TemplateService, UserService
 } from '../../../lib';
 
 @Component({
@@ -18,8 +19,6 @@ import {
   ],
 })
 
-// 'ul.dropleft { position: absolute; display: none; margin-top: 5px; margin-bottom: 0px; z-index: 1;}',
-//   'ul.dropleft li { display:inline-flex; }',
 
 export class ResponsedomainComponent implements AfterViewInit {
   @Input()
@@ -75,9 +74,7 @@ export class ResponsedomainComponent implements AfterViewInit {
     return await Promise.resolve(responseDomain);
   }
 
-
-
-  constructor(private service: TemplateService, private access: UserService) {
+  constructor(private service: TemplateService, private access: UserService, private router: Router) {
     this.canDelete = access.canDo(ActionKind.Delete, ElementKind.RESPONSEDOMAIN);
     this.canEdit = access.canDo(ActionKind.Update, ElementKind.RESPONSEDOMAIN);
   }
@@ -97,10 +94,16 @@ export class ResponsedomainComponent implements AfterViewInit {
     return category.id;
   }
 
-  public onItemEdit(event: Event) {
+  public onItemEdit(event: Event, rd: ResponseDomain) {
     event.stopPropagation();
-    this.showResponseDomain = true;
-    this.modalRef.open();
+    if (rd) {
+      this.service.searchByUuid(rd.id).then(
+        (result) => { this.router.navigate([result.url]); },
+        (error) => { throw error; });
+    } else {
+      this.showResponseDomain = true;
+      this.modalRef.open();
+    }
   }
 
   public async onItemGetLatest() {

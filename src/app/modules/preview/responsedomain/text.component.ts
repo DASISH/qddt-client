@@ -5,8 +5,11 @@ import { Category, UserResponse, ResponseCardinality, delay } from '../../../lib
   selector: 'qddt-preview-rd-text',
   template: `
 <ng-container *ngIf="managedRepresentation">
-  <qddt-textarea [id]="identifier"  name="text" [label]="managedRepresentation.label" ngModel  [ngClass]= "{ required : minimum > 0 }"
-      data-length=minimum >
+  <qddt-textarea [id]="identifier"  [label]="managedRepresentation.label" ngModel
+    [minlength]="inputLimit.minimum"
+    [maxlength]="inputLimit.maximum"
+    [required]="isRequired(inputLimit)"
+    (ngModelChange)="onModelChange($event)" >
   </qddt-textarea>
 </ng-container>
 `
@@ -17,10 +20,9 @@ export class ResponsedomainTextComponent implements OnChanges {
   @Input() managedRepresentation: Category;
 
   public inputLimit: ResponseCardinality
-  public minimum = 0;
   public identifier;
 
-  // private readonly delay = () => new Promise(resolve => setTimeout(resolve, 20));
+  public readonly isRequired = (inputLimit) => inputLimit.minimum > 0;
 
   constructor() {
     this.identifier = 'TXT-' + ident++;
@@ -30,15 +32,19 @@ export class ResponsedomainTextComponent implements OnChanges {
 
     if (changes.managedRepresentation && changes.managedRepresentation.currentValue) {
       this.inputLimit = this.managedRepresentation.inputLimit;
-      this.minimum = this.inputLimit.minimum;
-      delay(20).then(data => {
+      delay(20).then(() => {
         const element = document.getElementById(this.identifier);
         element.firstElementChild.firstElementChild.setAttribute('data-length', this.inputLimit.maximum.toString());
         element.firstElementChild.firstElementChild.setAttribute('maxlength', this.inputLimit.maximum.toString());
+        element.firstElementChild.firstElementChild.setAttribute('minlength', this.inputLimit.minimum.toString());
         M.CharacterCounter.init(element.firstElementChild.firstElementChild);
         M.updateTextFields();
       });
     }
+  }
+
+  public onModelChange(value) {
+    this.selectedEvent.emit([{ label: '', value }])
   }
 }
 

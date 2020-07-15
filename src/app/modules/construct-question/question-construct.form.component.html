@@ -18,13 +18,12 @@
     </div>
 
     <qddt-element-collection [(listItems)]="controlConstruct.universe" [labelName]="'Universe'" [elementKind]="UNIVERSE"
-      [xmlLang]="controlConstruct.xmlLang" [readonly]="false" (selectEvent)="onAddUniverse($event)"
-      (deletedEvent)="onRemoveUniverse($event)">
+      [xmlLang]="controlConstruct.xmlLang" [readonly]="false" (deletedEvent)="onRemoveUniverse($event)">
     </qddt-element-collection>
 
-    <qddt-element-collection [listItems]="controlConstruct.preInstructions" [labelName]="'Pre Instructions'"
+    <qddt-element-collection [listItems]="preInstructions" [labelName]="'Pre Instructions'"
       [xmlLang]="controlConstruct.xmlLang" [elementKind]="INSTRUCTION" [readonly]="false"
-      (selectEvent)="onAddPreInstruction($event)" (deletedEvent)="onRemovePreInstruction($event)">
+      (createdEvent)="onAddPreInstruction($event)" (deletedEvent)="onRemovePreInstruction($event)">
     </qddt-element-collection>
 
     <div class="collection with-header hoverable row" (mouseenter)="showButton = !readonly"
@@ -76,9 +75,9 @@
       [responseDomain]="controlConstruct.questionItemRef.element.responseDomainRef.element">
     </qddt-preview-responsedomain>
 
-    <qddt-element-collection [listItems]="controlConstruct.postInstructions" [labelName]="'Post Instructions'"
+    <qddt-element-collection [listItems]="postInstructions" [labelName]="'Post Instructions'"
       [xmlLang]="controlConstruct.xmlLang" [elementKind]="INSTRUCTION" [readonly]="false"
-      (selectEvent)="onAddPostInstruction($event)" (deletedEvent)="onRemovePostInstruction($event)">
+      (createdEvent)="onAddPostInstruction($event)" (deletedEvent)="onRemovePostInstruction($event)">
     </qddt-element-collection>
 
     <qddt-conceptref [element]="controlConstruct?.questionItemRef?.element.parentRefs"></qddt-conceptref>

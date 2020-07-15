@@ -7,7 +7,8 @@ import {
   HomeService,
   TemplateService,
   HierarchyPosition,
-  PropertyStoreService
+  PropertyStoreService,
+  delay
 } from '../../../lib';
 
 
@@ -69,12 +70,12 @@ export class SurveyComponent implements OnInit {
     this.showSurveyForm = false;
   }
 
-  private readonly delay = () => new Promise(resolve => setTimeout(resolve, 50));
+
 
   initComp() {
     if (this.notInit) {
       this.notInit = false;
-      this.delay().then(data => {
+      delay(20).then(() => {
         document.querySelectorAll('input[data-length], textarea[data-length]').forEach(
           input => M.CharacterCounter.init(input));
       });

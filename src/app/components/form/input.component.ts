@@ -2,6 +2,7 @@ import { Component, Optional, Inject, Input, ViewChild, AfterViewInit } from '@a
 import { NgModel, NG_VALUE_ACCESSOR, NG_VALIDATORS, NG_ASYNC_VALIDATORS } from '@angular/forms';
 import { ElementBase } from './element-base.class';
 import { animations } from './animations';
+import { delay } from 'src/app/lib';
 
 @Component({
   selector: 'qddt-input',
@@ -32,29 +33,30 @@ export class FormInputComponent extends ElementBase<string> implements AfterView
   public identifier = 'qddt-input-' + ident++;
   public idOuter = 'qddt-oi-' + ident;
 
-  private readonly delay = () => new Promise(resolve => setTimeout(resolve, 20));
 
   constructor(
     @Optional() @Inject(NG_VALIDATORS) validators: Array<any>,
     @Optional() @Inject(NG_ASYNC_VALIDATORS) asyncValidators: Array<any>,
   ) {
     super(validators, asyncValidators);
-    this.registerOnSourceChanged(() => {
-      const element = document.getElementById(this.idOuter);
-      if (element) {
-
-        this.delay().then(data => {
-          M.updateTextFields();
-        });
-      }
-    });
   }
 
   ngAfterViewInit(): void {
     const element = document.getElementById(this.idOuter);
-    if ((element) && (element.parentElement.dataset.length)) {
-      element.firstElementChild.setAttribute('data-length', element.parentElement.dataset.length);
-      M.CharacterCounter.init(element.children.item(0));
+    if (element) {
+      delay(20).then(() => {
+        const max = element.parentElement.getAttribute('maxlength') || element.parentElement.dataset.length;
+        if (max) {
+          element.firstElementChild.setAttribute('data-length', max);
+          element.firstElementChild.setAttribute('maxlength', max);
+          M.CharacterCounter.init(element.firstElementChild);
+        }
+        const min = element.parentElement.getAttribute('minlength')
+        if (min) {
+          element.firstElementChild.setAttribute('minlength', min);
+        }
+        M.updateTextFields();
+      });
     }
   }
 }

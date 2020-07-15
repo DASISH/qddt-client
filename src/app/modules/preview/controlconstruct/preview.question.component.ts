@@ -17,11 +17,11 @@ import * as uuid from 'uuid';
       </li>
     </ng-container>
 
-    <ng-container *ngIf="controlConstruct?.preInstructions?.length>0">
+    <ng-container *ngIf="filterInstructions('PRE')?.length>0">
       <li class="collection-item">
         <label>Pre Instructions</label>
       </li>
-      <li class="collection-item" *ngFor="let instruction of controlConstruct.preInstructions">
+      <li class="collection-item" *ngFor="let instruction of filterInstructions('PRE')">
         <p>{{ instruction?.description }}</p>
       </li>
     </ng-container>
@@ -39,11 +39,11 @@ import * as uuid from 'uuid';
       </qddt-preview-responsedomain>
     </li>
 
-    <ng-container *ngIf="controlConstruct?.postInstructions?.length>0">
+    <ng-container *ngIf="filterInstructions('POST')?.length>0">
       <li class="collection-item" >
           <label>Post Instructions</label>
       </li>
-      <li class="collection-item" *ngFor="let instruction of controlConstruct?.postInstructions">
+      <li class="collection-item" *ngFor="let instruction of filterInstructions('POST')">
           <p>{{ instruction?.description }}</p>
       </li>
     </ng-container>
@@ -60,11 +60,14 @@ export class PreviewQuestionConstructComponent implements OnChanges {
   @Input() inParameters: Map<string, Parameter>
   @Input() showDetail = true;
 
+  public readonly filterInstructions = (rank: string) => this.controlConstruct.controlConstructInstructions
+    .filter(f => f.instructionRank === rank)
+    .map(ci => ci.instruction);
+
   constructor() { }
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.controlConstruct && changes.controlConstruct.currentValue) {
-      // this.condition = new ConditionConstruct(changes.condition.currentValue);
       this.assignValueToParameters(this.controlConstruct.inParameter);
     }
 

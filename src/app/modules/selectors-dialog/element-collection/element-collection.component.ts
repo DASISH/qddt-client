@@ -46,7 +46,7 @@ export class ElementCollectionComponent {
   @Input() readonly = false;
   @Output() createdEvent = new EventEmitter<IElement>();
   @Output() deletedEvent = new EventEmitter<IElementRef>();
-  @Output() modifiedEvent = new EventEmitter<IElement>();
+  // @Output() modifiedEvent = new EventEmitter<IElement>();
 
   public readonly modalId = Math.round(Math.random() * 10000);
   public showButton = false;

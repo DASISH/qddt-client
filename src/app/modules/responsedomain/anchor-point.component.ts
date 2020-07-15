@@ -9,6 +9,7 @@ import { AlignmentKind, Category, ElementKind, enumKeys, IElement, ResponseCardi
   <div class="col s3 input-field" >
     <input [id]="'CV-' + formId" name="value" type="number" [min]="inputLimit.minimum" [max]="inputLimit.maximum" [step]="inputLimit.stepUnit"
      [(ngModel)]="category.code.value" required class="validate">
+     <label [for]="'CV-' + formId">Anchor</label>
   </div>
   <qddt-element-select  class="col s9 input-field" [source]="getSource(category)" [autoCreate]="true" [xmlLang]="category.xmlLang" (elementSelectedEvent)="onSelectCategory($event)">
   </qddt-element-select>

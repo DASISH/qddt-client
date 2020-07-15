@@ -2,11 +2,12 @@ import { Component, Optional, Inject, Input, ViewChild, AfterViewInit } from '@a
 import { NgModel, NG_VALUE_ACCESSOR, NG_VALIDATORS, NG_ASYNC_VALIDATORS } from '@angular/forms';
 import { ElementBase } from './element-base.class';
 import { animations } from './animations';
+import { delay } from 'src/app/lib';
 
 @Component({
   selector: 'qddt-input-number',
   template: `
-    <div class="input-field">
+    <div class="input-field" [id]="idOuter">
       <input
         id="{{identifier}}"
         class="validate"
@@ -15,7 +16,7 @@ import { animations } from './animations';
         [ngModelOptions]="{updateOn: 'blur'}"
         [ngClass]="{invalid: (invalid | async)}" />
       <label for="{{identifier}}">{{label}}</label>
-      <!-- <qddt-validation [@flyInOut]="'in,out'" *ngIf="invalid | async" [messages]="failures | async"></qddt-validation> -->
+      <qddt-validation [@flyInOut]="'in,out'" *ngIf="invalid | async" [messages]="failures | async"></qddt-validation>
     </div>
   `,
   animations,
@@ -27,7 +28,7 @@ export class FormInputNComponent extends ElementBase<number> implements AfterVie
   @ViewChild(NgModel, { static: true }) model: NgModel;
 
   public identifier = 'qddt-input-n-' + ident++;
-
+  public idOuter = 'qddt-input-n-oi-' + ident;
   constructor(
     @Optional() @Inject(NG_VALIDATORS) validators: Array<any>,
     @Optional() @Inject(NG_ASYNC_VALIDATORS) asyncValidators: Array<any>,
@@ -36,7 +37,20 @@ export class FormInputNComponent extends ElementBase<number> implements AfterVie
   }
 
   ngAfterViewInit(): void {
-    M.updateTextFields();
+    const element = document.getElementById(this.idOuter);
+    if (element) {
+      delay(20).then(() => {
+        const max = element.parentElement.getAttribute('max');
+        if (max) {
+          element.firstElementChild.setAttribute('max', max);
+        }
+        const min = element.parentElement.getAttribute('min')
+        if (min) {
+          element.firstElementChild.setAttribute('min', min);
+        }
+        M.updateTextFields();
+      });
+    }
   }
 }
 
