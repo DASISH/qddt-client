@@ -5,14 +5,13 @@ import {
   ActionKind,
   PropertyStoreService,
   HomeService,
-  HierarchyPosition, Concept, TemplateService
+  HierarchyPosition, Concept, TemplateService, delay
 } from '../../../lib';
 
 
 @Component({
   selector: 'qddt-concept',
   providers: [{ provide: 'elementKind', useValue: 'CONCEPT' },],
-  // styles: ['.scroll-content { position:fixed; overflow-y:auto; overflow-x:hidden;  top:64px; height: calc(100vh - 64px); }'],
   templateUrl: './concept.component.html'
 })
 
@@ -69,14 +68,14 @@ export class ConceptComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onToggleReuse() {
+  public onToggleReuse() {
     this.showReuse = !this.showReuse;
     if (this.showReuse) {
       this.showConceptForm = false;
     }
   }
 
-  onNewSave(newConcept) {
+  public onNewSave(newConcept) {
     // console.log('newConcept');
     this.showConceptForm = false;
     this.showProgressBar = true;
@@ -87,11 +86,9 @@ export class ConceptComponent implements OnInit, AfterViewInit {
   }
 
 
-  onHierarchyChanged(event) {
-    // console.log('moving event?');
+  public onHierarchyChanged(event) {
     this.topic.changeKind = 'UPDATED_HIERARCHY_RELATION';
     this.topic.changeComment = 'Topic order changed';
-    // this.topic.concepts = this.topics;
     this.templateService.update<Topic>(this.topic).subscribe((result) => {
       this.property.set('topic', this.topic = result);
     });
@@ -125,7 +122,7 @@ export class ConceptComponent implements OnInit, AfterViewInit {
   //   this.topic = topic;
   // }
 
-  onConceptUpdated(concept: Concept) {
+  public onConceptUpdated(concept: Concept) {
     if (!this.updateConcept(this.topic.concepts, concept)) {
       this.topic.concepts.push(concept);
     }
@@ -133,7 +130,7 @@ export class ConceptComponent implements OnInit, AfterViewInit {
     this.showProgressBar = false;
   }
 
-  onDeleteConcept(concept: any) {
+  public onDeleteConcept(concept: any) {
     this.toDeletedConcept = concept;
     this.instance.open();
   }
@@ -146,7 +143,7 @@ export class ConceptComponent implements OnInit, AfterViewInit {
     this.instance.close();
   }
 
-  onConfirmDeleteConcept() {
+  public onConfirmDeleteConcept() {
     this.templateService.delete(this.toDeletedConcept).subscribe(
       () => {
         this.instance.close();
@@ -159,10 +156,18 @@ export class ConceptComponent implements OnInit, AfterViewInit {
       });
   }
 
-  onSelectedRevision(concept: Concept) {
+  public onSelectedRevision(concept: Concept) {
     this.showReuse = false;
     this.onConceptUpdated(concept);
   }
+
+  public initComp() {
+    delay(20).then(() => {
+      document.querySelectorAll('input[data-length], textarea[data-length]').forEach(
+        input => M.CharacterCounter.init(input));
+    });
+  }
+
 
   private updateConcept(concepts: Concept[], concept: Concept): boolean {
     if (!concepts) { return false; }
@@ -188,7 +193,6 @@ export class ConceptComponent implements OnInit, AfterViewInit {
     }
     return null;
   }
-
 
 
 }

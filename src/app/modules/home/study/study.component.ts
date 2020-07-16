@@ -25,7 +25,6 @@ export class StudyComponent implements OnInit {
   public revision: any;
 
   private readonly STUDY = ElementKind.STUDY;
-  private notInit = true;
 
   constructor(private router: Router,
     private property: PropertyStoreService,
@@ -105,12 +104,10 @@ export class StudyComponent implements OnInit {
 
 
   initComp() {
-    if (this.notInit) {
-      this.notInit = false;
-      delay(20)
-        .then(() => document.querySelectorAll('input[data-length], textarea[data-length]')
-          .forEach(input => M.CharacterCounter.init(input)));
-    }
+    delay(20).then(() => {
+      document.querySelectorAll('input[data-length], textarea[data-length]').forEach(
+        input => M.CharacterCounter.init(input));
+    });
   }
 
 }

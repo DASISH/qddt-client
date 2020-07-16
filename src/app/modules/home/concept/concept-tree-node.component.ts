@@ -5,39 +5,43 @@ import {
   Concept,
   ElementKind, ElementRevisionRef,
   HomeService,
-  IRevisionResult,
   MessageService,
-  QuestionItem, TemplateService
+  TemplateService, LANGUAGE_MAP
 } from '../../../lib';
 
 @Component({
   selector: 'qddt-concept-treenode',
+  styles: [
+    'li ul:not(.dropdownmenu) {  margin-left: 2rem; }',
+    '.card.section.row { margin-left: -0.6rem; }',
+    '.dropdownmenu { top:1rem; position:relative;}',
+  ],
   templateUrl: './concept-tree-node.component.html',
-  styleUrls: ['./concept-tree-node.component.css']
 })
+// 'h5 .row > div:before { content: counters(item, ".") " "; counter-increment: item }',
+// 'h5 .row { counter-reset: item; }'
 
 export class TreeNodeComponent {
-  @Input() concept: Concept;
+  @Input() concepts: Concept[];
   @Output() deleteEvent = new EventEmitter();
   @Output() updatedEvent = new EventEmitter<Concept>();
 
-  public revisionList: IRevisionResult<QuestionItem>[];
-  public questionItemList: QuestionItem[];
-
-  public showConceptChildForm = false;
   public showButton = false;
   public showProgressBar = false;
 
+  public readonly LANGUAGES = LANGUAGE_MAP;
   public readonly QUESTION_ITEM = ElementKind.QUESTION_ITEM;
   public readonly CONCEPT = ElementKind.CONCEPT;
+
   public readonly canCreate: boolean;
   public readonly canUpdate: boolean;
   public readonly canDelete: boolean;
 
-  private refreshCount = 0;
+  public readonly trackByIndex = (index: number, entity) => entity.id;
+
 
   constructor(private homeService: HomeService<Concept>, private router: Router,
-              private message: MessageService, private templateService: TemplateService) {
+    private message: MessageService, private templateService: TemplateService) {
     this.canCreate = this.homeService.canDo(this.CONCEPT).get(ActionKind.Create);
     this.canUpdate = this.homeService.canDo(this.CONCEPT).get(ActionKind.Update);
     this.canDelete = this.homeService.canDo(this.CONCEPT).get(ActionKind.Delete);
@@ -45,16 +49,6 @@ export class TreeNodeComponent {
 
   async onToggleEdit(edit) {
     edit.isVisible = !edit.isVisible;
-    if (edit.isVisible) {
-      this.refreshCount = 0;
-      this.concept = await this.homeService.get(this.CONCEPT, this.concept.id);
-    }
-  }
-
-  onCreateConcept() {
-    if (this.canCreate) {
-      this.showConceptChildForm = !this.showConceptChildForm;
-    }
   }
 
   onConceptUpdated(concept: Concept) {
@@ -65,14 +59,15 @@ export class TreeNodeComponent {
     this.deleteEvent.emit(concept);
   }
 
-  onChildSave(newchild) {
-    this.showConceptChildForm = false;
-    this.concept.children.push(new Concept(newchild));
-    this.concept.changeKind = 'UPDATED_HIERARCHY_RELATION';
-    this.concept.changeComment = 'ADDED CHILD CONCEPT';
-    this.templateService.update<Concept>(this.concept).subscribe(
-      (result) => this.concept = result);
+  onChildSave(newConcept: Concept, parentId: string) {
+    this.showProgressBar = true;
+    this.templateService.create(new Concept(newConcept), parentId).subscribe(
+      (result) => { this.onConceptUpdated(result); },
+      (error) => { throw error; },
+      () => { this.showProgressBar = false; });
+
   }
+
 
   public onQuestionItemRemoved(ref: ElementRevisionRef, conceptId) {
     this.homeService.deattachQuestion(this.CONCEPT, conceptId, ref.elementId, ref.elementRevision)
@@ -84,18 +79,18 @@ export class TreeNodeComponent {
       .subscribe(result => this.onConceptUpdated(result));
   }
 
-  public onQuestionItemModified(ref: ElementRevisionRef, conceptId) {
+  public onQuestionItemModified(ref: ElementRevisionRef, concept: Concept) {
     console.log('onItemModified -> ' + ref || JSON);
-    const idx = this.concept.conceptQuestionItems.findIndex(f => f.elementId === ref.elementId  );
+    const idx = concept.conceptQuestionItems.findIndex(f => f.elementId === ref.elementId);
     const seqNew: ElementRevisionRef[] = [].concat(
-      this.concept.conceptQuestionItems.slice(0, idx ),
+      concept.conceptQuestionItems.slice(0, idx),
       ref,
-      this.concept.conceptQuestionItems.slice(idx + 1)
+      concept.conceptQuestionItems.slice(idx + 1)
     );
-    this.concept.conceptQuestionItems = seqNew;
+    concept.conceptQuestionItems = seqNew;
 
-    this.templateService.update<Concept>(this.concept).subscribe(
-      (result) => this.concept = result);
+    this.templateService.update<Concept>(concept).subscribe(
+      (result) => concept = result);
   }
 
 }

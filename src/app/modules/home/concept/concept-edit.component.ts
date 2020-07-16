@@ -6,10 +6,8 @@ import { Concept, LANGUAGE_MAP, TemplateService } from '../../../lib';
   selector: 'qddt-concept-edit',
   providers: [{ provide: 'elementKind', useValue: 'CONCEPT' },],
   template: `
-<div *ngIf="(concept && isVisible)">
+<ng-container *ngIf="(concept && isVisible)">
   <form class="row" id="{{formId}}" (ngSubmit)="save()" #hf="ngForm">
-    <div class="col s12">
-      <div class="row">
         <qddt-input class="col s10"
           required
           name="name"
@@ -25,17 +23,13 @@ import { Concept, LANGUAGE_MAP, TemplateService } from '../../../lib';
           [(ngModel)]="concept.xmlLang"
           [lockups]="LANGUAGES" >
         </qddt-select>
-      </div>
-    </div>
-    <div class="col s12">
-      <qddt-textarea name="description"
+      <qddt-textarea class="col s12" name="description"
         required
         placeholder="add description"
         label="Description"
         [(ngModel)]="concept.description"
         data-length="10000">
       </qddt-textarea>
-    </div>
 
     <qddt-rational *ngIf="!readonly && isVisible"
       class="col s12"
@@ -50,7 +44,7 @@ import { Concept, LANGUAGE_MAP, TemplateService } from '../../../lib';
       <button type="submit" class="btn btn-default" [disabled]="!hf.form.valid" >Submit</button>
     </div>
   </form>
-</div>
+</ng-container>
 `
 })
 export class ConceptEditComponent {
@@ -61,6 +55,7 @@ export class ConceptEditComponent {
   public readonly formId = Math.round(Math.random() * 10000);
   public readonly LANGUAGES = LANGUAGE_MAP;
   public showRevision = false;
+  public showNew = false;
   public isVisible = false;
 
   constructor(private service: TemplateService) { }

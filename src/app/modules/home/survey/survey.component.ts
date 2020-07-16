@@ -23,7 +23,6 @@ export class SurveyComponent implements OnInit {
   public showSurveyForm = false;
   public readonly = false;
 
-  private notInit = true;
   private readonly SURVEY = ElementKind.SURVEY_PROGRAM;
 
   constructor(private router: Router,
@@ -71,16 +70,11 @@ export class SurveyComponent implements OnInit {
   }
 
 
-
   initComp() {
-    if (this.notInit) {
-      this.notInit = false;
-      delay(20).then(() => {
-        document.querySelectorAll('input[data-length], textarea[data-length]').forEach(
-          input => M.CharacterCounter.init(input));
-      });
-    }
+    delay(20).then(() => {
+      document.querySelectorAll('input[data-length], textarea[data-length]').forEach(
+        input => M.CharacterCounter.init(input));
+    });
   }
-
 
 }

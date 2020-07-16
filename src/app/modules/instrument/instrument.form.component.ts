@@ -75,7 +75,7 @@ export class InstrumentFormComponent implements OnChanges {
   }
 
   public onRevisionSelect(ref: TreeNodeRevisionRef) {
-    this.instrument.sequence.push(new TreeNodeRevisionRefImpl(ref));
+    this.instrument.root.children.push(new TreeNodeRevisionRefImpl(ref));
   }
 
   public onSelectOption(value) {
@@ -106,32 +106,32 @@ export class InstrumentFormComponent implements OnChanges {
   }
 
   public onItemRemoved(ref: TreeNodeRevisionRef) {
-    const tmp = this.instrument.sequence.filter(f => !(f.id === ref.id));
-    this.instrument.sequence = null;
-    this.instrument.sequence = tmp;
+    const tmp = this.instrument.root.children.filter(f => !(f.id === ref.id));
+    this.instrument.root.children = null;
+    this.instrument.root.children = tmp;
   }
 
   public onItemAdded(ref: TreeNodeRevisionRef) {
     // console.log('onItemAdded');
 
-    this.instrument.sequence.push(ref);
+    this.instrument.root.children.push(ref);
   }
 
   public onItemModified(ref: TreeNodeRevisionRef) {
     // console.log('onItemModified');
-    const idx = this.instrument.sequence.findIndex(f => f.id === ref.id);
+    const idx = this.instrument.root.children.findIndex(f => f.id === ref.id);
     const seqNew: TreeNodeRevisionRef[] = [].concat(
-      this.instrument.sequence.slice(0, idx),
+      this.instrument.root.children.slice(0, idx),
       ref,
-      this.instrument.sequence.slice(idx + 1)
+      this.instrument.root.children.slice(idx + 1)
     );
-    this.instrument.sequence = seqNew;
+    this.instrument.root.children = seqNew;
   }
 
 
 
-  public isSequence(instrument?: any | SequenceConstruct): instrument is SequenceConstruct {
-    return (instrument) && (instrument as SequenceConstruct).sequence !== undefined;
+  public isSequence(entity?: any | SequenceConstruct): entity is SequenceConstruct {
+    return (entity) && (entity as SequenceConstruct).sequence !== undefined;
   }
 
 }

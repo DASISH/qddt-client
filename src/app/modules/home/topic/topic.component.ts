@@ -31,8 +31,6 @@ export class TopicComponent implements OnInit {
   public readonly: boolean;
   public canDelete: boolean;
 
-  private notInit = true;
-
   constructor(private router: Router, private property: PropertyStoreService,
     private message: MessageService, private homeService: HomeService<Topic>,
     private templateService: TemplateService) {
@@ -162,13 +160,10 @@ export class TopicComponent implements OnInit {
   }
 
   initComp() {
-    if (this.notInit) {
-      this.notInit = false;
-      delay(20).then(() => {
-        document.querySelectorAll('input[data-length], textarea[data-length]').forEach(
-          input => M.CharacterCounter.init(input));
-      });
-    }
+    delay(20).then(() => {
+      document.querySelectorAll('input[data-length], textarea[data-length]').forEach(
+        input => M.CharacterCounter.init(input));
+    });
   }
 
 }

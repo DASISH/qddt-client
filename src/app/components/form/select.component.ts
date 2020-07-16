@@ -11,34 +11,38 @@ import {
 import { NgModel, NG_VALUE_ACCESSOR, NG_VALIDATORS, NG_ASYNC_VALIDATORS } from '@angular/forms';
 import { ElementBase } from './element-base.class';
 import { animations } from './animations';
-import { ISelectOption, delay } from 'src/app/lib';
+import { delay, ISelectOption } from 'src/app/lib';
 
 
 
 @Component({
   selector: 'qddt-select',
   template: `
-    <div class="input-field" *ngIf="hasChildren();  else ITEM">
-      <select  [disabled]="readonly" id="{{identifier}}" [(ngModel)]="value">
+  <div class="input-field" *ngIf="hasChildren();  else ITEM">
+    <select  [disabled]="readonly" [id]="identifier" [(ngModel)]="value" >
+      <option *ngIf="placeholder" value="" disabled >{{placeholder}}</option>
+      <optgroup *ngFor="let item of lockups" [label]="item.label">
+        <option *ngFor="let child of item.children" [value]="child.value">{{child.label}}</option>
+      </optgroup>
+    </select>
+    <label [for]="identifier">{{label}}</label>
+  </div>
+  <ng-template #ITEM>
+    <div class="input-field">
+      <select  [disabled]="readonly" [id]="identifier" [(ngModel)]="value" >
         <option *ngIf="placeholder" value="" disabled >{{placeholder}}</option>
-        <optgroup *ngFor="let item of lockups" label="{{item.label}}">
-            <option *ngFor="let child of item.children" value="{{child.value}}">{{child.label}}</option>
-        </optgroup>
+        <option *ngFor="let item of lockups" value="{{item.value}}">{{item.label}}</option>
       </select>
       <label>{{label}}</label>
     </div>
-    <ng-template #ITEM>
-      <div class="input-field">
-        <select  [disabled]="readonly" id="{{identifier}}" [(ngModel)]="value" >
-          <option *ngIf="placeholder" value="" disabled >{{placeholder}}</option>
-          <option *ngFor="let item of lockups" value="{{item.value}}">{{item.label}}</option>
-        </select>
-        <label>{{label}}</label>
-      </div>
-    </ng-template>
+  </ng-template>
   `,
   animations,
-  providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: FormSelectComponent, multi: true }],
+  providers: [{
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: FormSelectComponent,
+    multi: true,
+  }],
 })
 
 export class FormSelectComponent extends ElementBase<any> implements AfterViewInit, OnChanges {
@@ -54,7 +58,6 @@ export class FormSelectComponent extends ElementBase<any> implements AfterViewIn
   constructor(@Optional() @Inject(NG_VALIDATORS) validators: Array<any>,
     @Optional() @Inject(NG_ASYNC_VALIDATORS) asyncValidators: Array<any>) {
     super(validators, asyncValidators);
-
     this.registerOnSourceChanged(() => {
       const element = document.getElementById(this.identifier) as HTMLSelectElement;
       if (element) {
@@ -65,10 +68,7 @@ export class FormSelectComponent extends ElementBase<any> implements AfterViewIn
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.lockups.isFirstChange()) {
-      // const element = document.getElementById(this.identifier) as HTMLSelectElement;
-      // M.FormSelect.init(element);
-    } else {
+    if (!changes.lockups.isFirstChange()) {
       this.buildOptions();
     }
   }
@@ -76,6 +76,7 @@ export class FormSelectComponent extends ElementBase<any> implements AfterViewIn
   public ngAfterViewInit(): void {
     delay(20).then(() => {
       const element = document.getElementById(this.identifier) as HTMLSelectElement;
+      this.setindex(element);
       M.FormSelect.init(element);
     });
   }
@@ -99,8 +100,10 @@ export class FormSelectComponent extends ElementBase<any> implements AfterViewIn
         element.options.add(new Option(item.label, item.value, false));
       }
     });
-    this.setindex(element);
-    M.FormSelect.init(element);
+    delay(20).then(() => {
+      this.setindex(element);
+      M.FormSelect.init(element);
+    });
 
   }
 

@@ -12,16 +12,16 @@ import { MessageService, PreviewService } from '../../../lib/services';
       <label class="teal-text">Description</label>
     </div>
   </div>
-  <ul *ngIf="instrument.sequence"s class="collapsible" data-collapsible="accordion" style="margin:25px; padding:10px;">
-    <li *ngFor="let cc of instrument.sequence"  (click)="onViewDetail(cc)" >
+  <ul *ngIf="instrument.root.children"s class="collapsible" data-collapsible="accordion" style="margin:25px; padding:10px;">
+    <li *ngFor="let cc of instrument.root.children"  (click)="onViewDetail(cc)" >
       <div class="collapsible-header yellow lighten-5">
-        <div class="col l10">{{ cc?.elementRef.name }}</div>
+        <div class="col l10">{{ cc?.name }}</div>
         <div class="col l2">
-          <qddt-version-label [element]="cc.elementRef"></qddt-version-label>
+          <qddt-version-label [element]="cc"></qddt-version-label>
         </div>
       </div>
       <div class="collapsible-body">
-        <qddt-preview-controlconstruct [construct]="cc.elementRef.element" [inParameters]="instrument.parameters.entries()">
+        <qddt-preview-controlconstruct [construct]="cc.element" [inParameters]="instrument.parameters.entries()">
         </qddt-preview-controlconstruct>
       </div>
     </li>

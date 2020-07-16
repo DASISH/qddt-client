@@ -2,7 +2,8 @@
   <div class="card-panel row white-text teal">
     <i class="material-icons large right">looks_3</i>
     <h4>Concepts for {{ topic.name }}</h4>
-    <a *ngIf="!topic.archived && canCreate" class="btn" (click)="showConceptForm = !showConceptForm; showReuse=false">
+    <a *ngIf="!topic.archived && canCreate" class="btn"
+      (click)="showConceptForm = !showConceptForm; showReuse=false; initComp();">
       <i class="material-icons right" *ngIf="!showConceptForm">keyboard_arrow_down</i>
       <i class="material-icons right" *ngIf="showConceptForm">keyboard_arrow_up</i>
       New
@@ -19,19 +20,21 @@
     <div *ngIf="showConceptForm">
       <div class="row card-action">
         <div class="col s10 offset-s1">
-          <form #hf="ngForm">
+          <form id="form1" #hf="ngForm">
             <div class="row input-field">
-              <input name="name" class="white-text" type="text" ngModel required data-length="100">
-              <label class="white-text">Name</label>
+              <input id="name111" name="name" class="white-text validate" type="text" ngModel required
+                data-length="250" />
+              <label for="name111" class="white-text">Name</label>
             </div>
             <div class="row input-field white-text">
-              <textarea name="description" class="materialize-textarea white-text" ngModel required
-                data-length="10000"></textarea>
-              <label class="white-text">Description</label>
+              <textarea id="desc111" name="description" class="materialize-textarea white-text validate" ngModel
+                required data-length="10000"></textarea>
+              <label for="desc111" class="white-text">Description</label>
             </div>
             <div class="row right-align">
-              <button type="button" (click)="onNewSave(hf.value)" class="btn btn-default"
-                [disabled]="!hf.form.valid">Submit</button>
+              <button type="button" (click)="onNewSave(hf.value)" class="btn btn-default" [disabled]="!hf.form.valid">
+                Submit
+              </button>
             </div>
           </form>
         </div>
@@ -43,9 +46,11 @@
     <div class="indeterminate"></div>
   </div>
 
-  <qddt-concept-treenode *ngFor="let child of topic.concepts" [concept]="child" (deleteEvent)="onDeleteConcept($event)"
-    (updatedEvent)="onConceptUpdated($event)">
-  </qddt-concept-treenode>
+  <ng-container *ngIf="topic">
+    <qddt-concept-treenode [concepts]="topic.concepts" (deleteEvent)="onDeleteConcept($event)"
+      (updatedEvent)="onConceptUpdated($event)">
+    </qddt-concept-treenode>
+  </ng-container>
 </div>
 
 <div *ngIf="topic" class="col m3 hide-on-small-only ">

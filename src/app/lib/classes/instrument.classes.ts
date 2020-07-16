@@ -98,26 +98,28 @@ export class Instrument implements IEntityAudit {
   name: string;
   description: string;
   instrumentKind = InstrumentKind[InstrumentKind.QUESTIONNAIRE];
-  study?: Study;
+  // study?: Study;
   comments: any[];
   xmlLang?: string;
   classKind = ElementKind[ElementKind.INSTRUMENT];
   parameters: Map<string, Parameter>;
   outParameters: Map<string, Parameter>;
-  sequence: TreeNodeRevisionRefImpl<AbstractControlConstruct>[] = [];
+  root: TreeNodeRevisionRefImpl<AbstractControlConstruct>;
 
   public constructor(init?: Partial<Instrument>) {
     Object.assign(this, init);
+    if (!this.root) {
+      this.root = new TreeNodeRevisionRefImpl<AbstractControlConstruct>({ name: 'root', elementKind: 'SEQUENCE_CONSTRUCT' });
+    }
     if (init) {
       this.parameters = new Map<string, Parameter>();
-      if (init.sequence && init.sequence.length > 0) {
-        mapTreeNodes(this.sequence).forEach((entity) => {
+      if (init.root && init.root.children.length > 0) {
+        mapTreeNodes(this.root.children).forEach((entity) => {
           if (!this.parameters.has(entity.id)) {
             this.parameters.set(entity.id, new Parameter({ id: entity.id, name: entity.name }))
           }
         });
       }
-
 
       if (init.outParameters) {
         this.outParameters = new Map<string, Parameter>();
