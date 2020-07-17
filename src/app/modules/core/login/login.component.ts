@@ -12,12 +12,12 @@ import { Password, UserService } from '../../../lib';
       <h4>Login</h4>
       <form (ngSubmit)="login()" (keyup.enter)="f.onSubmit($event)" #f="ngForm">
         <div class="row input-field">
-          <input class="validate" name="email" type="email" [(ngModel)]="formData.email" required>
-          <label class="active">Email</label>
+          <input id="email-1"  class="validate" name="email" type="email" [(ngModel)]="formData.email" required>
+          <label for="email-1">Email</label>
         </div>
         <div class="row input-field">
-          <input id="password" class="validate" pattern=".{6,}"  name="password" type="password" [(ngModel)]="formData.password" required autofocus >
-          <label>Password</label>
+          <input id="password-1" class="validate" pattern=".{6,}"  name="password" type="password" [(ngModel)]="formData.password" required autofocus >
+          <label for="password-1">Password</label>
           <span class="helper-text"></span>
         </div>
       </form>
@@ -48,7 +48,11 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.instance = M.Modal.init(document.getElementById('login-' + this.formId),
-      { inDuration: 400, outDuration: 300, startingTop: '4%', endingTop: '25%', preventScrolling: true });
+      {
+        inDuration: 400, outDuration: 300, startingTop: '4%', endingTop: '25%', preventScrolling: true,
+        onOpenEnd: () => M.updateTextFields(),
+        onCloseEnd: () => this.router.navigate([{ outlets: { popup: null } }])
+      });
     this.instance.open();
   }
 

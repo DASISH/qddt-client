@@ -1,13 +1,13 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { PropertyStoreService } from '../../../lib/services';
+import { delay } from 'src/app/lib';
 
 @Component({
   selector: 'qddt-useroption',
   templateUrl: './useroption.component.html'
 })
 export class UserOptionComponent implements AfterViewInit {
-
 
   public formId = Math.round(Math.random() * 10000);
   public items = [
@@ -17,44 +17,21 @@ export class UserOptionComponent implements AfterViewInit {
 
   private instance: M.Modal;
 
-
-
-  constructor(private router: Router, public qddtProperty: PropertyStoreService) {
-
-  }
-
-  get modalRef(): M.Modal {
-    if (!(this.instance)) {
-      this.instance = M.Modal.init(document.querySelector('#userOption-00'));
-    }
-    return this.instance;
-  }
-
+  constructor(private router: Router, public qddtProperty: PropertyStoreService) { }
 
 
   onClose() {
-    this.modalRef.close();
+    this.instance.close();
   }
 
   ngAfterViewInit(): void {
     this.instance = M.Modal.init(document.getElementById('userOption-00'),
-      { inDuration: 400, outDuration: 300, startingTop: '4%', endingTop: '25%', preventScrolling: true });
+      {
+        inDuration: 400, outDuration: 300, startingTop: '4%', endingTop: '25%', preventScrolling: true,
+        onOpenEnd: () => M.updateTextFields(),
+        onCloseEnd: () => this.router.navigate([{ outlets: { popup: null } }])
+      });
     this.instance.open();
   }
-
-  // ngAfterViewInit(): void {
-  // const id = 'language' + this.formId;
-  // const auto = <HTMLInputElement>document.getElementById(id);
-  // auto.list = 'languages';
-  // $('.modal').modal({
-  //   ready: () => {
-  //     M.updateTextFields();
-  //   },
-  //   complete: () => {
-  //     this.router.navigate([{ outlets: { popup: null } }]);
-  //   }
-  // });
-  // $('#userOption').modal('open');
-  // }
 
 }

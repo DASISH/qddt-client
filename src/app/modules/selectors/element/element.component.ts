@@ -6,7 +6,6 @@ import {
   getElementKind,
   IElement, IEntityAudit,
   PageSearch,
-  PropertyStoreService,
   TemplateService,
 } from '../../../lib';
 
@@ -21,7 +20,7 @@ import {
       </label>
     </div>
   </div>
-  <qddt-auto-complete [items]="itemList" [elementKind]="source?.elementKind" [autoCreate] = "autoCreate"
+  <qddt-auto-complete   [items]="itemList" [elementKind]="source?.elementKind" [autoCreate] = "autoCreate"
     [formName] ="'AC'" [initialValue]="searchValue" [xmlLang]="xmlLang"
     (selectEvent)="onSelectElement($event)"
     (enterEvent)="onSearchElements($event)">
@@ -43,7 +42,7 @@ export class ElementComponent implements OnChanges, AfterViewInit {
   public domainTypeDescription = DOMAIN_TYPE_DESCRIPTION.filter((e) => e.id !== DomainKind.NONE && e.id !== DomainKind.MISSING);
   private readonly KEY = 'ResponseKind';
 
-  private pageSearch: PageSearch;
+  private pageSearch = new PageSearch();
 
   constructor(private service: TemplateService) { }
 
@@ -54,19 +53,20 @@ export class ElementComponent implements OnChanges, AfterViewInit {
 
   }
 
-  async  ngOnChanges(changes: SimpleChanges) {
+  async ngOnChanges(changes: SimpleChanges) {
     if ((changes.source) && (changes.source.currentValue)) {
       const cv = changes.source.currentValue as IElement;
+      const kind = getElementKind(cv.elementKind);
+      this.isResponseDomain = (kind === ElementKind.RESPONSEDOMAIN);
+      this.pageSearch.kind = kind;
       if (this.isIEntityAudit(cv.element)) {
         // @ts-ignore
         this.searchValue = cv.element.hasOwnProperty('label') ? cv.element.label : cv.element.name;
       } else {
         this.searchValue = cv.element;
       }
+      this.onSearchElements(this.searchValue);
 
-      const kind = getElementKind(cv.elementKind);
-      this.pageSearch = new PageSearch({ kind, xmlLang: this.xmlLang });
-      this.isResponseDomain = (kind === ElementKind.RESPONSEDOMAIN);
     }
   }
   onSelectDomainType(id: DomainKind) {
@@ -77,7 +77,9 @@ export class ElementComponent implements OnChanges, AfterViewInit {
   public onSearchElements(key) {
     this.pageSearch.key = key;
     this.pageSearch.xmlLang = this.xmlLang;
-    this.service.searchByKind(this.pageSearch).then((result) => this.itemList = result.content);
+    this.service.searchByKind(this.pageSearch).then((result) =>
+      this.itemList = result.content.sort((a, b) =>
+        a.name.localeCompare(b.name)));
   }
 
   public onSelectElement(item: IElement) {

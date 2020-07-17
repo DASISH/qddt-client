@@ -50,9 +50,9 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
   }
 
 
-  ngOnChanges(change: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges) {
 
-    if ((change.items && this.waitingForChange)) {
+    if ((changes.items && this.waitingForChange)) {
       this.waitingForChange = false;
       this.candidates = this.items;
       if (this.items && this.items.length > 0) {
@@ -61,8 +61,12 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
       this.found = ((this.candidates) && (this.candidates.length > 0));
     }
 
-    if (change.initialValue && change.initialValue.isFirstChange() && !this.selected) {
+    if (changes.initialValue && changes.initialValue.isFirstChange() && !this.selected) {
       this.value = this.initialValue;
+    }
+    if (changes.elementKind && !changes.elementKind.isFirstChange() &&
+      changes.elementKind.currentValue !== changes.elementKind.previousValue) {
+      this.onClearKeywords()
     }
   }
 

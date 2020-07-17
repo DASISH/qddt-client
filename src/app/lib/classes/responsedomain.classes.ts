@@ -15,17 +15,18 @@ export enum DomainKind {
 }
 
 export const DATE_FORMAT_MAP: ISelectOption[] = [
-  { id: 0, value: 'yyyy-mm-dd', label: 'Date' },
-  { id: 1, value: 'yyyy-mm-dd HH:MM:SS', label: 'DateTime' },
-  { id: 2, value: 'dd', label: 'gDay' },
-  { id: 3, value: 'mm', label: 'gMonth' },
-  { id: 4, value: 'mm-dd', label: 'gMonthDay' },
-  { id: 5, value: 'yyyy', label: 'gYear' },
-  { id: 6, value: 'yyyy-mm', label: 'gYearMonth' },
-  { id: 7, value: 'HH:mm:SS', label: 'Time' },
-  { id: 8, value: 'd mmm yyyy', label: 'Date-text-short' },
-  { id: 9, value: 'dddd d mmmm yyyy', label: 'Full-date-text' },
+  { id: 0, value: 'yyyy-mm-dd', label: 'Date', description: 'shortDate' },
+  { id: 1, value: 'yyyy-mm-dd HH:MM:SS', label: 'DateTime', description: 'short' },
+  { id: 2, value: 'dd', label: 'gDay', description: 'd' },
+  { id: 3, value: 'mm', label: 'gMonth', description: 'M' },
+  { id: 4, value: 'mm-dd', label: 'gMonthDay', description: 'M-d' },
+  { id: 5, value: 'yyyy', label: 'gYear', description: 'y' },
+  { id: 6, value: 'yyyy-mm', label: 'gYearMonth', description: 'y-M' },
+  { id: 7, value: 'd mmm yyyy', label: 'Date-text-short', description: 'd MMM y' },
+  { id: 8, value: 'dddd d mmmm yyyy', label: 'Full-date-text', description: 'fullDate' },
 ];
+
+// { id: 7, value: 'HH:mm:SS', label: 'Time', description: '' },
 
 export const DOMAIN_TYPE_DESCRIPTION = [
   { id: DomainKind.NONE, label: '', categoryType: null },

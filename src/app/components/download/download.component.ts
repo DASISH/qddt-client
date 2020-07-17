@@ -15,6 +15,7 @@ export class FileDownloadComponent implements OnChanges {
   @Input() fileStore: File[] = [];
   @Input() entity: IEntityEditAudit;
   @Input() readonly = true;
+  @Input() isHidden = false;
 
   public showButton = false;
   public showUploadFileForm = false;
@@ -36,7 +37,12 @@ export class FileDownloadComponent implements OnChanges {
     // console.log(this.entity || JSON);
     // try { M.updateTextFields(); } catch (Exception) { }
   }
-
+  toggleForm() {
+    if (this.isHidden) {
+      this.isHidden = false;
+    }
+    this.showUploadFileForm = !this.showUploadFileForm;
+  }
   onDownloadFile(o: IOtherMaterial) {
     const fileName = o.originalName;
     this.service.getFile(o).then(

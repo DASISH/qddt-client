@@ -11,6 +11,7 @@ import { Password, UserService } from '../../../lib';
 export class ResetpasswordComponent implements AfterViewInit {
 
   public loading = false;
+  private instance: M.Modal;
 
   constructor(private route: ActivatedRoute, private router: Router, private authenticationService: UserService) { }
 
@@ -24,23 +25,17 @@ export class ResetpasswordComponent implements AfterViewInit {
   }
 
   onClose() {
-    // $('#modalReset').modal('close');
-  }
-
-  onChange(event: FocusEvent): void {
-    console.log(JSON.stringify(event));
+    this.instance.close();
   }
 
   ngAfterViewInit(): void {
-    // $('.modal').modal({
-    //   ready: () => {
-    //     M.updateTextFields();
-    //   },
-    //   complete: () => {
-    //     this.router.navigate([{ outlets: { popup: null } }]);
-    //   },
-    // });
-    // $('#modalReset').modal('open');
+    this.instance = M.Modal.init(document.getElementById('modalReset'),
+      {
+        inDuration: 400, outDuration: 300, startingTop: '4%', endingTop: '25%', preventScrolling: true,
+        onOpenEnd: () => M.updateTextFields(),
+        onCloseEnd: () => this.router.navigate([{ outlets: { popup: null } }])
+      });
+    this.instance.open();
   }
 
 }

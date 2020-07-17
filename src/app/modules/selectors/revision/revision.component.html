@@ -1,10 +1,12 @@
 <div class="white grey-text">
-  <div *ngIf="showProgressBar" class="progress"><div class="indeterminate"></div></div>
+  <div *ngIf="showProgressBar" class="progress">
+    <div class="indeterminate"></div>
+  </div>
   <div class="card" *ngIf="showPickRevision" style="padding: 1rem; ">
     <div class="row">
       <div class="col s4">
-        <qddt-select label="Business version" placeholder="select version"
-                      [(ngModel)]="selectedRevision" [lockups]="revisionlockups">
+        <qddt-select label="Business version" placeholder="select version" [(ngModel)]="selectedRevision"
+          [lockups]="revisionlockups">
         </qddt-select>
       </div>
       <div class="input-field col right">
@@ -19,7 +21,7 @@
       <li>
         <label>Name</label>
       </li>
-      <li >
+      <li>
         <div class="black-text text-lighten-1">{{ selectedRevisionResult.entity.name }}</div>
       </li>
     </ul>

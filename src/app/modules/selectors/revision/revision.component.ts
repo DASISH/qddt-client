@@ -26,17 +26,21 @@ export class RevisionComponent implements OnChanges {
   public showProgressBar = false;
   public showPickRevision = false;
   // tslint:disable-next-line:variable-name
-  private _selectedRevision: number;
+  private _revisionIndex: number;
 
   constructor(private service: TemplateService) { }
 
+  // used as index for select comp
   get selectedRevision() {
-    return this._selectedRevision;
+    return this._revisionIndex;
   }
   set selectedRevision(value) {
-    this._selectedRevision = +value;
-    if (this._selectedRevision <= 1) { return; }
-    this.selectedRevisionResult = this.revisionResultEntities.find(entity => entity.revisionNumber === this._selectedRevision);
+    this._revisionIndex = +value;
+    if (this._revisionIndex <= 1) {
+      this.selectedRevisionResult = null;
+    } else {
+      this.selectedRevisionResult = this.revisionResultEntities.find(entity => entity.revisionNumber === this._revisionIndex);
+    }
     // console.log(this._selectedRevision + ' -> ' +  this.selectedRevisionResult || JSON);
   }
 
@@ -73,6 +77,8 @@ export class RevisionComponent implements OnChanges {
   }
 
   public onDismiss() {
+    this.showPickRevision = false;
+    this.selectedRevision = 0;
     this.dismissEvent.emit(true);
     this.revisionRef = null;
   }

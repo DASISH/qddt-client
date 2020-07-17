@@ -10,7 +10,9 @@ import {
   MessageService,
   TemplateService,
   Parameter,
-  TreeNodeRevisionRef
+  TreeNodeRevisionRef,
+  ElementRevisionRef,
+  TreeNodeRevisionRefImpl
 } from '../../../lib';
 
 
@@ -105,8 +107,8 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit, OnChanges {
     // console.log(this.SOURCE);
   }
 
-  public revisionSelectedEvent(ref: TreeNodeRevisionRef) {
-    this.actionEvent.emit({ action: this.action, ref });
+  public revisionSelectedEvent(ref: ElementRevisionRef) {
+    this.actionEvent.emit({ action: this.action, ref: new TreeNodeRevisionRefImpl(ref) });
     this.SOURCE = null;
     this.modalRef.close();
   }

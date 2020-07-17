@@ -26,7 +26,7 @@ export class TopicComponent implements OnInit {
   public topics: Topic[];
 
   public showReuse = false;
-  public showTopicForm = false;
+  public showEditForm = false;
   public showProgressBar = false;
   public readonly: boolean;
   public canDelete: boolean;
@@ -60,8 +60,8 @@ export class TopicComponent implements OnInit {
   }
 
   onToggleTopicForm() {
-    this.showTopicForm = !this.showTopicForm;
-    if (this.showTopicForm) {
+    this.showEditForm = !this.showEditForm;
+    if (this.showEditForm) {
       this.showReuse = false;
     }
   }
@@ -69,7 +69,7 @@ export class TopicComponent implements OnInit {
   onToggleReuse() {
     this.showReuse = !this.showReuse;
     if (this.showReuse) {
-      this.showTopicForm = false;
+      this.showEditForm = false;
     }
   }
 
@@ -103,7 +103,7 @@ export class TopicComponent implements OnInit {
   }
 
   onNewSave(newTopic) {
-    this.showTopicForm = false;
+    this.showEditForm = false;
     this.templateService.create(new Topic(newTopic), this.study.id).subscribe(
       result => this.onTopicSaved(result));
   }

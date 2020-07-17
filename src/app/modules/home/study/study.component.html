@@ -1,12 +1,15 @@
 <div class="col s12 m9">
+
   <div class="card-panel row white-text teal">
     <i class="material-icons large right">looks_one</i>
     <h4>Studies for {{ survey?.name }}</h4>
+
     <a *ngIf="!survey.archived && !readonly" class="btn" (click)="showEditForm = !showEditForm; initComp();">
       <i class="material-icons right" *ngIf="!showEditForm">keyboard_arrow_down</i>
       <i class="material-icons right" *ngIf="showEditForm">keyboard_arrow_up</i>
       New
     </a>
+
     <div *ngIf="showEditForm" class="col s10 offset-s1 card-action">
       <form id="form1" #hf="ngForm">
         <div class="row input-field">
@@ -25,9 +28,11 @@
         </div>
       </form>
     </div>
+
   </div>
+
   <div class="row card section scrollspy white grey-text text-darken-2" id="{{ study.id }}"
-    *ngFor="let study of survey?.studies" [ngClass]="{'grey lighten-5': edit.isVisible}">
+    *ngFor="let study of survey?.studies" [ngClass]="{'editGreen': edit.isVisible}">
     <div class="col s1">
       <ul class="dropdownmenu">
         <li *ngIf="!study.archived && !readonly">
@@ -65,17 +70,18 @@
       <qddt-study-edit [study]="study" #edit (savedEvent)="onStudySaved($event)">
       </qddt-study-edit>
 
-      <div class="row" *ngIf="!edit.isVisible">
-        <div class="col s12">
-          <p [innerHtml]="study.description"></p>
-          <qddt-author-chip [authors]="study.authors"></qddt-author-chip>
+      <ng-container *ngIf="!edit.isVisible">
+        <div class="row">
+          <div class="col s12">
+            <p [innerHtml]="study.description"></p>
+            <qddt-author-chip [authors]="study.authors"></qddt-author-chip>
+          </div>
         </div>
-      </div>
 
-      <qddt-download [entity]="study" [readonly]="true"></qddt-download>
+        <qddt-download [entity]="study" [readonly]="true"></qddt-download>
 
-      <qddt-revision *ngIf="edit.showRevision" [current]="study"></qddt-revision>
-
+        <qddt-revision *ngIf="edit.showRevision" [current]="study"></qddt-revision>
+      </ng-container>
       <qddt-comment-list [hidden]="edit.isVisible" [ownerId]="study.id" [comments]="study.comments">
       </qddt-comment-list>
     </div>

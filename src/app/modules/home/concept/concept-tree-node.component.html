@@ -4,7 +4,7 @@
   <ng-template #conceptTemplateRef let-concepts="children" let-level="level">
     <ul *ngIf="concepts">
       <li *ngFor="let concept of concepts; trackBy:trackByIndex;" class="scrollspy" [id]="concept.id">
-        <div class="card section row grey-text text-darken-2" [ngClass]="{'grey lighten-4': edit.isVisible}">
+        <div class="card section row grey-text text-darken-2" [ngClass]="{'editGreen': edit.isVisible}">
           <div class="col s1">
             <ul class="dropdownmenu">
               <li *ngIf="canUpdate && !(concept.archived)">

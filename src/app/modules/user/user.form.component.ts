@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges, AfterViewInit } from '@angular/core';
-import { Agency, IAuthority, UserJson, UserService } from '../../lib';
+import { Agency, IAuthority, UserJson, UserService, delay } from '../../lib';
 import { SelectItem } from '../../lib/classes/selecteditem.classes';
 
 @Component({
@@ -43,9 +43,11 @@ export class UserFormComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    document.querySelectorAll('select')
-      .forEach(select => M.FormSelect.init(select));
-    M.updateTextFields();
+    delay(30).then(() => {
+      M.updateTextFields();
+    });
+    // document.querySelectorAll('select')
+    //   .forEach(select => M.FormSelect.init(select));
   }
 
   onSelectChange(id: string) {

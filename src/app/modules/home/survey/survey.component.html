@@ -1,37 +1,39 @@
 <div class="col s12 m9">
-  <div class="card-panel row teal white-text text-lighten-2">
+
+  <div class="card-panel row white-text teal">
     <i class="material-icons large right">store</i>
     <h4>Survey</h4>
-    <a *ngIf="!readonly" class="btn" (click)="showSurveyForm = !showSurveyForm; initComp();">
-      <i class="material-icons right" *ngIf="!showSurveyForm">keyboard_arrow_down</i>
-      <i class="material-icons right" *ngIf="showSurveyForm">keyboard_arrow_up</i>
+
+    <a *ngIf="!readonly" class="btn" (click)="showEditForm = !showEditForm; initComp();">
+      <i class="material-icons right" *ngIf="!showEditForm">keyboard_arrow_down</i>
+      <i class="material-icons right" *ngIf="showEditForm">keyboard_arrow_up</i>
       New
     </a>
-    <div *ngIf="showSurveyForm">
-      <div class="row card-action">
-        <div class="col s10 offset-s1">
-          <form id="form1" #hf="ngForm">
-            <div class="row input-field">
-              <input id="name1" name="name" class="white-text validate" type="text" ngModel required data-length="250">
-              <label for="name1" class="white-text">Name</label>
-            </div>
-            <div class="row input-field white-text">
-              <textarea id="desc1" name="description" class="materialize-textarea white-text validate" ngModel required
-                data-length="10000"></textarea>
-              <label for="desc1" class="white-text">Description</label>
-            </div>
-            <div class="row right-align">
-              <button type="button" (click)="onNewSave(hf.value)" class="btn btn-default"
-                [disabled]="!hf.form.valid">Submit</button>
-            </div>
-          </form>
+
+    <div *ngIf="showEditForm" class="col s10 offset-s1 card-action">
+      <form id="form1" #hf="ngForm">
+        <div class="row input-field">
+          <input id="name11" name="name" class="white-text validate" type="text" ngModel required data-length="250" />
+          <label for="name11" class="white-text">Name</label>
         </div>
-      </div>
+        <div class="row input-field white-text">
+          <textarea id="desc11" name="description" class="materialize-textarea white-text validate" ngModel required
+            data-length="10000"></textarea>
+          <label for="desc11" class="white-text">Description</label>
+        </div>
+        <div class="row right-align">
+          <button type="button" (click)="onNewSave(hf.value)" class="btn btn-default" [disabled]="!hf.form.valid">
+            Submit
+          </button>
+        </div>
+      </form>
     </div>
+
   </div>
 
+
   <div class="card section row  scrollspy white grey-text text-darken-2" id="{{surveyProgram.id}}"
-    *ngFor="let surveyProgram of surveys" [ngClass]="{'grey lighten-5': edit.isVisible}">
+    *ngFor="let surveyProgram of surveys" [ngClass]="{'editGreen': edit.isVisible}">
     <div class="col s1">
       <ul class="dropdownmenu">
         <li *ngIf="!surveyProgram.archived && !readonly">

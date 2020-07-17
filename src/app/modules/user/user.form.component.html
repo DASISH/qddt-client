@@ -1,5 +1,5 @@
-<div *ngIf="user">
-  <form id="formId" #hf="ngForm" (ngSubmit)="onSave()">
+<div *ngIf="user" class="col s12">
+  <form [id]="formId" #hf="ngForm" (ngSubmit)="onSave()">
     <div class="row">
       <div class="col m6">
         <qddt-input required name="name" label="Name" [(ngModel)]="user.name" data-length="25">
@@ -8,17 +8,10 @@
         <qddt-input required name="email" inputType="email" label="Email" [(ngModel)]="user.email" data-length="120">
         </qddt-input>
 
-        <qddt-select id="dkgøl{{formId}}" required name="agency" label="Agency" [(ngModel)]="selectedAgencyId"
+        <qddt-select required name="agency" label="Agency" [(ngModel)]="selectedAgencyId"
           (change)="onSelectChange($event.target.value)" [lockups]="AGENCY_LIST">
         </qddt-select>
 
-        <!-- <div class="row input-field">
-          <select id="{{formId}}-agency" name="{{formId}}-agency"  class="validate" required [ngModel]="selectedAgencyId"
-            (ngModelChange)="onSelectChange($event)">
-            <option *ngFor="let agency of agencies" [value]="agency.id" >{{agency.name}}</option>
-          </select>
-          <label>Agency</label>
-        </div> -->
       </div>
 
       <div class="col m3 offset-m1">

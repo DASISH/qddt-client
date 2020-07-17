@@ -70,16 +70,19 @@ input {
 /*}*/
 
 .collection.with-header .collection-header {
+  background-color: unset;
   border-bottom: none;
   padding: 5px 10px 5px 0px ;
   min-height: 3rem;
 }
 
 .collection a.collection-item {
+  background-color: unset;
   min-height: 3rem;
   border-bottom: none;
   padding: 5px 10px 5px 10px;
 }
+
 
 .collection a.collection-item { cursor: pointer; padding-left: 10px;}
 
@@ -97,3 +100,4 @@ ul.dropleft li { display:inline-flex; padding: 0 10px 0  5px; }
 
 .codeValue { width: 30px; float: left;}
 
+.editGreen {background-color: #e7ece7 !important;}

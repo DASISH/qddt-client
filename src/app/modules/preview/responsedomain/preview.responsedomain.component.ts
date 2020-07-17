@@ -6,7 +6,7 @@ import { Category, DomainKind, ResponseCardinality, ResponseDomain, UserResponse
   template: `
   <ng-container *ngIf="responseDomain">
     <div *ngIf="responseType" class="row card-panel grey lighten-5 grey-text text-darken-1">
-      <span *ngIf="responseType !== refKind.MIXED" >
+      <span *ngIf="responseType !== refKind.MIXED && showLabel" >
           {{ responseDomain?.name }}(V<qddt-version [element]="rep"></qddt-version>)
       </span>
       <ng-container [ngSwitch]="responseType">
@@ -50,8 +50,9 @@ import { Category, DomainKind, ResponseCardinality, ResponseDomain, UserResponse
 })
 
 export class PreviewResponsedomainComponent implements OnChanges {
-  @Output() selectedEvent = new EventEmitter<UserResponse[]>();
   @Input() responseDomain: ResponseDomain;
+  @Input() showLabel = true;
+  @Output() selectedEvent = new EventEmitter<UserResponse[]>();
 
   public refKind = DomainKind;
   public responseType: DomainKind;

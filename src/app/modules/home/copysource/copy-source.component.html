@@ -1,7 +1,8 @@
 <div class="row white-text">
   <div class="col s10 offset-s1">
-    <h5 class="row">Reuse {{ className }}</h5>
-    <qddt-element-revision-select [source]="element" (revisionSelectedEvent)="onRevisionSelect($event)"
+    <h5>Reuse {{ className }}</h5>
+
+    <qddt-element-revision-select class="row" [source]="element" (revisionSelectedEvent)="onRevisionSelect($event)"
       (dismissEvent)="onDismiss()">
     </qddt-element-revision-select>
     <!-- <div class="row"></div> -->

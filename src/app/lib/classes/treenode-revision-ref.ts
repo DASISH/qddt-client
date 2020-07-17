@@ -3,17 +3,18 @@ import { ElementRevisionRef } from './element-revision-ref';
 import { IEntityEditAudit } from '../interfaces';
 
 import * as uuid from 'uuid';
+import { ElementKind } from '../enums';
 
 export abstract class TreeNodeRevisionRef extends ElementRevisionRef {
   id: string;
-  children: TreeNodeRevisionRef[];
+  children: TreeNodeRevisionRef[] = [];
 
   public constructor(init?: Partial<TreeNodeRevisionRef>) {
     super();
     Object.assign(this, init);
-    if (!init.id) {
-      this.id = uuid.v4();
-    }
+    // if (!init.id) {
+    //   this.id = uuid.v4();
+    // }
   }
 }
 

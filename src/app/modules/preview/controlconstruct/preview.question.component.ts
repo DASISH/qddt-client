@@ -35,6 +35,7 @@ import * as uuid from 'uuid';
       <qddt-preview-responsedomain
         *ngIf="controlConstruct?.questionItemRef && controlConstruct.questionItemRef.element"
         [responseDomain]="controlConstruct.questionItemRef.element.responseDomainRef.element"
+        [showLabel]="false"
         (selectedEvent)="onSelectedEvent($event)">
       </qddt-preview-responsedomain>
     </li>

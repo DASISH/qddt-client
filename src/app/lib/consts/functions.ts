@@ -87,6 +87,7 @@ export const isObject = (value: object | any): value is object => {
 
 export const StringIsNumber = value => isNaN(Number(value)) === false;
 
+// borrowed from the net.
 export function saveAs(blob: Blob, fileName: string, type: string): void {
   const newBlob = new Blob([blob], { type });
 

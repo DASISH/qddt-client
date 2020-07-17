@@ -1,4 +1,4 @@
-import { Factory } from './../../../lib/factory';
+import { delay } from 'src/app/lib';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import {
   ElementEnumAware,
@@ -11,13 +11,12 @@ import {
   QuestionConstruct,
   StatementConstruct,
   QuestionItem,
-  Instruction, ElementRevisionRefImpl, IEntityEditAudit
+  Instruction, ElementRevisionRefImpl, IEntityEditAudit, Factory
 } from '../../../lib';
 
 @Component({
   selector: 'qddt-element-revision-select',
   template: `
-<div class="row">
   <qddt-element-select *ngIf="showAutoComplete" [source]="source" [xmlLang]="xmlLang"
     (elementSelectedEvent)="onSelectElement($event)" >
   </qddt-element-select>
@@ -27,7 +26,7 @@ import {
     (selectEvent)="onSelectedRevision($event)"
     (dismissEvent)="onDismiss($event)">
   </qddt-revision-select>
-</div>
+
 `,
 })
 
@@ -46,13 +45,14 @@ export class ElementRevisionComponent implements OnChanges {
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.source && changes.source.currentValue) {
-      const element = changes.source.currentValue;
-      // console.log(changes.source.currentValue || JSON);
+      const element = changes.source.currentValue as IElement | IRevisionRef;
       if (this.isElementRevision(element)) {
         this.revisionRef = new ElementRevisionRefImpl(element);
         this.showRevisionSelect = true;
       } else if (this.isElement(element)) {
         this.showAutoComplete = true;
+        this.revisionRef = null;
+        this.showRevisionSelect = false;
       }
     }
   }
@@ -69,7 +69,9 @@ export class ElementRevisionComponent implements OnChanges {
   }
 
   public onDismiss(ok: boolean) {
-    this.dismissEvent.emit(ok);
+    this.source = null;
+    this.revisionRef = null;
+    delay(50).then(() => this.dismissEvent.emit(ok));
   }
 
   private isElementRevision(kind: IRevisionRef | IElement): kind is IRevisionRef {
@@ -79,9 +81,6 @@ export class ElementRevisionComponent implements OnChanges {
   private isElement(kind: IRevisionRef | IElement): kind is IElement {
     return (kind as IElement).element !== undefined;
   }
-
-  // private readonly conRefToString = (item): string => (isConRef(item)) ? item.condition.content : item.name || 'NULL';
-
 
 
   private getRevisionRef(elementRevision: IRevisionResultEntity): ElementRevisionRef {

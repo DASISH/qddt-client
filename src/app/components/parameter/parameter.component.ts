@@ -4,7 +4,6 @@ import { Parameter, isParamTrue } from 'src/app/lib';
 @Component({
   selector: 'qddt-parameter',
   templateUrl: './parameter.component.html',
-  styleUrls: ['./parameter.component.css']
 })
 export class ParameterComponent implements OnInit {
   @Input() inParameters: Parameter[];

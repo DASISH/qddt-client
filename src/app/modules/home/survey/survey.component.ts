@@ -20,7 +20,7 @@ import {
 
 export class SurveyComponent implements OnInit {
   public surveys: SurveyProgram[];
-  public showSurveyForm = false;
+  public showEditForm = false;
   public readonly = false;
 
   private readonly SURVEY = ElementKind.SURVEY_PROGRAM;
@@ -66,7 +66,7 @@ export class SurveyComponent implements OnInit {
   onNewSave(survey) {
     this.templateService.create(new SurveyProgram(survey)).subscribe(
       result => this.onSurveySaved(result));
-    this.showSurveyForm = false;
+    this.showEditForm = false;
   }
 
 

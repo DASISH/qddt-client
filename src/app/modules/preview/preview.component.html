@@ -78,7 +78,7 @@
 
   </ng-container>
 
-  <qddt-download *ngIf="hideElement(element)" [entity]="element" [readonly]="true">
+  <qddt-download *ngIf="hideElement(element)" [entity]="element" [readonly]="true" [isHidden]="!showDetail">
   </qddt-download>
 
   <ul class="hoverable" *ngIf="showDetail">

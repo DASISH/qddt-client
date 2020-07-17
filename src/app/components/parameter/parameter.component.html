@@ -1,14 +1,4 @@
-<!-- <div *ngIf="element && element?.parentRefs && element?.parentRefs?.length > 0">
-<div class="hoverable row" (click)="showRefs = !showRefs" style="cursor: zoom-in; padding: 0 10px 1rem 10px;"> -->
-
 <div class="collection with-header hoverable row" *ngIf="outParameters?.length>0 || inParameters?.length>0">
-  <!-- <a class="collection-header col s12" (click)="showUploadFileForm = !showUploadFileForm"
-  [ngClass]="{ qddtSearchCursor: showButton }">
-  <label><i class="material-icons small">attach_file</i>{{ label }}</label>
-  <a *ngIf="showButton" class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light teal">
-    <i class="material-icons" title="Attach external aid (File Upload)">playlist_add</i>
-  </a>
-</a> -->
 
   <div class="collection-header col s12" style="cursor: zoom-in;" (click)="showParameters=!showParameters">
     <label> <i class="material-icons small">compare_arrows</i>
