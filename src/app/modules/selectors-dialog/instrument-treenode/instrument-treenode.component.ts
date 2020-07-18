@@ -1,11 +1,11 @@
 import { Router } from '@angular/router';
-import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Factory } from '../../../lib/factory';
 import {
-  ActionKind,
+  ActionKind, delay,
   ElementKind, EventAction,
   getElementKind, getIcon,
+  Factory,
   IElement, IRevisionRef, ISelectOption,
   MessageService,
   TemplateService,
@@ -27,7 +27,7 @@ import {
   templateUrl: './instrument-treenode.component.html'
 })
 
-export class TreeNodeRevisionRefComponent implements AfterViewInit, OnChanges {
+export class TreeNodeRevisionRefComponent implements AfterViewInit {
   @Input() treeNodes: TreeNodeRevisionRef[];
   @Input() selectOptions: ISelectOption[];
   @Input() readonly = false;
@@ -36,29 +36,21 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit, OnChanges {
   @Input() inParameters: Map<string, Parameter>
   @Output() actionEvent = new EventEmitter<EventAction>();
 
-  public readonly modalId = Math.round(Math.random() * 10000);
-
   public selectedElementKind = 0;
   public SOURCE: IElement | IRevisionRef | null;
+  public instance: M.Modal;
 
-  public readonly trackById = (item: TreeNodeRevisionRef) => item.id;
-  public readonly isSequence = (node: TreeNodeRevisionRef): boolean => getElementKind(node.elementKind) === ElementKind.SEQUENCE_CONSTRUCT;
-
-  // tslint:disable-next-line:variable-name
-  private _modalRef: M.Modal;
-  // tslint:disable-next-line:variable-name
   private _showButton = false;
   private action = ActionKind.Create;
+
+
+  public readonly modalId = Math.round(Math.random() * 10000);
+  public readonly trackById = (item: TreeNodeRevisionRef) => item.id;
+  public readonly isSequence = (node: TreeNodeRevisionRef): boolean => getElementKind(node.elementKind) === ElementKind.SEQUENCE_CONSTRUCT;
 
   constructor(private service: TemplateService, public message: MessageService, private router: Router) {
   }
 
-  get modalRef(): M.Modal {
-    if (!(this._modalRef)) {
-      this._modalRef = M.Modal.init(document.querySelector('#MODAL-' + this.modalId));
-    }
-    return this._modalRef;
-  }
 
   get showButton(): boolean {
     return this._showButton;
@@ -67,10 +59,14 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit, OnChanges {
     this._showButton = value;
   }
 
-  public ngOnChanges(changes: SimpleChanges): void { }
-
   public ngAfterViewInit(): void {
-    M.Collapsible.init(document.querySelectorAll('.collapsible'));
+    this.instance = M.Modal.init(document.getElementById('MODAL-' + this.modalId),
+      {
+        inDuration: 400, outDuration: 300, startingTop: '4%', endingTop: '25%', preventScrolling: true,
+        onOpenEnd: () => M.updateTextFields(),
+        onCloseEnd: () => this.router.navigate([{ outlets: { popup: null } }])
+      });
+    delay(20).then(() => M.Collapsible.init(document.querySelectorAll('.collapsible')));
   }
 
   public onItemDrop(event: CdkDragDrop<any[]>) {
@@ -110,7 +106,7 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit, OnChanges {
   public revisionSelectedEvent(ref: ElementRevisionRef) {
     this.actionEvent.emit({ action: this.action, ref: new TreeNodeRevisionRefImpl(ref) });
     this.SOURCE = null;
-    this.modalRef.close();
+    this.instance.close();
   }
 
   public onDismiss(event?: Event) {
@@ -118,18 +114,24 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit, OnChanges {
       event.stopPropagation();
     }
     this.SOURCE = null;
-    this.modalRef.close();
+    this.instance.close();
   }
 
   public onItemNew(event: Event) {
     event.stopPropagation();
     this.action = ActionKind.Create;
-    this.modalRef.open();
+    this.instance.open();
   }
 
-  public onItemRemove(event: Event, ref: TreeNodeRevisionRef) {
+  public onDialogConfirm(ref) {
+    if (ref) {
+      this.actionEvent.emit({ action: ActionKind.Delete, ref });
+    }
+  }
+
+  public onItemRemove(event: Event, ref: TreeNodeRevisionRef, dialog) {
     event.stopPropagation();
-    this.actionEvent.emit({ action: ActionKind.Delete, ref });
+    dialog.open(ref);
   }
 
   public onItemEdit(event: Event, cqi: TreeNodeRevisionRef) {
@@ -143,7 +145,7 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit, OnChanges {
     event.stopPropagation();
     this.action = ActionKind.Update;
     this.SOURCE = cqi;
-    this.modalRef.open();
+    this.instance.open();
   }
 
   // -------------------------------------------------------------------

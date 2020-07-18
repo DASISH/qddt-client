@@ -1,5 +1,5 @@
 import { AfterViewInit, Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { Password, UserService } from '../../../lib';
 
@@ -13,7 +13,7 @@ export class ResetpasswordComponent implements AfterViewInit {
   public loading = false;
   private instance: M.Modal;
 
-  constructor(private route: ActivatedRoute, private router: Router, private authenticationService: UserService) { }
+  constructor(private router: Router, private authenticationService: UserService) { }
 
   register(f) {
     this.loading = true;

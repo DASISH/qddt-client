@@ -1,6 +1,6 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import { Router } from '@angular/router';
+import { Component, EventEmitter, Input, Output, AfterViewInit } from '@angular/core';
 
-declare var $: any;
 
 @Component({
   selector: 'qddt-dialog',
@@ -10,30 +10,49 @@ declare var $: any;
     <ng-content></ng-content>
   </div>
   <div class="modal-footer">
-    <a *ngIf="confirm" class="btn btn-flat waves-effect waves-light green white-text" (click)="onClose(true)">
+    <a *ngIf="confirm" class="btn-flat waves-effect waves-light green white-text" (click)="onClose(true)">
       <i class="material-icons medium white-text">done</i>
     </a>
-    <a class="brn btn-flat btn-medium waves-effect waves-light red white-text" (click)="onClose(false)">
+    <a class="btn-flat btn-medium waves-effect waves-light red white-text" (click)="onClose(false)">
       <i class="material-icons medium white-text">close</i>
     </a>
   </div>
 </div>
 `
 })
-export class DialogComponent {
-  @Input() modalId = Math.round( Math.random() * 10000).toString();
+export class DialogComponent implements AfterViewInit {
+  @Input() modalId = Math.round(Math.random() * 10000).toString();
   @Input() confirm = false;
-  @Output() closeState = new EventEmitter<boolean>();
+  @Output() dialogResult = new EventEmitter<{ result: boolean, ref: any }>();
 
+  public loading = false;
+  private instance: M.Modal;
 
-  constructor() {}
+  private ref;
 
-  public onClose(status: boolean) {
-     this.closeState.emit(status);
-     $('#' + this.modalId).modal('close');
+  constructor(private router: Router) { }
+
+  public open(event, ref) {
+    if (event) {
+      event.stopPropagation();
+    }
+    this.ref = ref
+    this.instance.open();
   }
 
-  public open() {
-    $('#' + this.modalId).modal('open');
+  public onClose(result: boolean) {
+    this.dialogResult.emit({ result, ref: this.ref });
+    this.instance.close();
   }
+
+  ngAfterViewInit(): void {
+    this.instance = M.Modal.init(document.getElementById(this.modalId),
+      {
+        inDuration: 400, outDuration: 300, startingTop: '10', endingTop: '45%', preventScrolling: true, opacity: 0.3,
+        onOpenEnd: () => M.updateTextFields(),
+        onCloseEnd: () => this.router.navigate([{ outlets: { popup: null } }])
+      });
+  }
+
+
 }

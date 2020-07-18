@@ -1,6 +1,6 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import { Component, EventEmitter, Input, Output, AfterViewInit } from '@angular/core';
+import { Router } from '@angular/router';
 
-declare var $: any;
 
 @Component({
   selector: 'qddt-dialog-big',
@@ -20,17 +20,37 @@ declare var $: any;
 </div>
 `
 })
-export class DialogBigComponent {
-  @Input() modalId = Math.round( Math.random() * 10000).toString();
+export class DialogBigComponent implements AfterViewInit {
+  @Input() modalId = Math.round(Math.random() * 10000).toString();
   @Input() confirm = false;
-  @Output() closeState = new EventEmitter<boolean>();
+  @Output() dialogResult = new EventEmitter<{ result: boolean, ref: any }>();
 
+  private instance: M.Modal;
+  private ref;
 
-  constructor() {}
+  constructor(private router: Router) { }
 
-  public onClose(status: boolean) {
-    this.closeState.emit(status);
-    $('#' + this.modalId).modal('close');
+  public open(event, ref) {
+    if (event) {
+      event.stopPropagation();
+    }
+    this.ref = ref
+    this.instance.open();
   }
+
+  public onClose(result: boolean) {
+    this.dialogResult.emit({ result, ref: this.ref });
+    this.instance.close();
+  }
+
+  ngAfterViewInit(): void {
+    this.instance = M.Modal.init(document.getElementById(this.modalId),
+      {
+        inDuration: 400, outDuration: 300, startingTop: '5%', endingTop: '45%', preventScrolling: true,
+        onOpenEnd: () => M.updateTextFields(),
+        onCloseEnd: () => this.router.navigate([{ outlets: { popup: null } }])
+      });
+  }
+
 
 }

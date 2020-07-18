@@ -122,9 +122,10 @@ export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
     this.modalRef.open();
   }
 
-  public onItemRemove(event: Event, ref: ElementRevisionRef) {
-    event.stopPropagation();
-    this.actionEvent.emit({ action: ActionKind.Delete, ref });
+  public onItemRemove(ref: ElementRevisionRef) {
+    if (ref) {
+      this.actionEvent.emit({ action: ActionKind.Delete, ref });
+    }
   }
 
   public onItemEdit(event: Event, cqi: ElementRevisionRef) {

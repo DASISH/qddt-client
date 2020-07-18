@@ -20,7 +20,7 @@ import {
 })
 
 
-export class ResponsedomainComponent implements AfterViewInit {
+export class ResponsedomainComponent {
   @Input()
   set responseDomain(responseDomain) {
     // This will ensure that a new object is created...
@@ -39,19 +39,23 @@ export class ResponsedomainComponent implements AfterViewInit {
   public readonly canEdit: boolean;
   public readonly modalId = Math.round(Math.random() * 10000);
 
-  public showResponseDomain = true;
+  public showResponseDomain = false;
 
   // tslint:disable-next-line:variable-name
   private _localresponseDomain: ResponseDomain;
   // tslint:disable-next-line:variable-name
   private _modalRef: M.Modal;
 
-  private readonly getRevAsync = (id: string) => this.service.getByKindRevision(ElementKind.CATEGORY, id);
+  private readonly getRevAsync = (id: string) => {
+    console.log('getRevAsync');
+    return this.service.getByKindRevision(ElementKind.CATEGORY, id);
+  }
 
   private readonly updateRevAsync = (responseDomain: ResponseDomain) =>
     this.service.update<ResponseDomain>(responseDomain).toPromise()
 
   private readonly updateMixedAsync = async (responseDomain: ResponseDomain) => {
+    console.log('updateMixedAsync');
     if (responseDomain.isMixed) {
       let changed = false;
       const updatedpromises = responseDomain.managedRepresentation.children.map(async (child, _i) => {
@@ -86,9 +90,9 @@ export class ResponsedomainComponent implements AfterViewInit {
     return this._modalRef;
   }
 
-  public ngAfterViewInit(): void {
-    M.updateTextFields();
-  }
+  // public ngAfterViewInit(): void {
+  //   M.updateTextFields();
+  // }
 
   public trackByCategoryId(category: Category): string {
     return category.id;

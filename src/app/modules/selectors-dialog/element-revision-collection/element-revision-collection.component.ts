@@ -35,7 +35,7 @@ import {
             </a>
           </li>
           <li>
-            <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 red" (click)="onItemRemove($event, cqi)">
+            <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 red" (click)="confirmDialog.showConfirmDeleting($event, cqi)">
               <i class="material-icons" title="Remove selected">remove</i>
             </a>
           </li>
@@ -43,6 +43,11 @@ import {
         <div class="question" [innerHtml]="cqi?.name || cqi?.element?.name && ' - ' && cqi?.element?.question"></div>
       </a>
     </div>
+
+
+<qddt-confirm-remove (dialogResult)="onItemRemove($event)" #confirmDialog>
+</qddt-confirm-remove>
+
  <!-- Modal Structure -->
  <div  id="MODAL-{{modalId}}" class="modal modal-fixed-footer">
     <div class="modal-content white black-text" >
@@ -120,8 +125,7 @@ export class ElementRevisionCollectionComponent {
     this.modalRef.open();
   }
 
-  public onItemRemove(event: Event, cqi: ElementRevisionRef) {
-    event.stopPropagation();
+  public onItemRemove(cqi: ElementRevisionRef) {
     this.revisionRefs = this.revisionRefs.filter(qi => !(qi.elementId === cqi.elementId && qi.elementRevision === cqi.elementRevision));
     this.deletedEvent.emit(cqi);
   }

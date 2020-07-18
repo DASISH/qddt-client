@@ -34,13 +34,13 @@
   <div class="col s5">
     <div class="input-field">
       <ul *ngIf="canEdit" class="dropleft">
-        <li *ngIf="responseDomain && !responseDomain?.missing">
+        <li *ngIf="responseDomain && !responseDomain.missing">
           <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green"
             (click)="onMissingEdit($event)">
             <i class="material-icons" title="Add element">add</i>
           </a>
         </li>
-        <li *ngIf="responseDomain && responseDomain?.missing">
+        <li *ngIf="responseDomain && responseDomain.missing">
           <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue"
             (click)="onMissingEdit($event)">
             <i class="material-icons" title="Edit">edit</i>
@@ -71,10 +71,10 @@
       </qddt-element-revision-select>
     </ng-container>
     <ng-container *ngIf="!showResponseDomain">
-      <qddt-element-select *ngIf="!responseDomain.missing" [source]="MISSING_GROUP" [xmlLang]="responseDomain.xmlLang"
+      <qddt-element-select *ngIf="!responseDomain?.missing" [source]="MISSING_GROUP" [xmlLang]="responseDomain?.xmlLang"
         (elementSelectedEvent)="onMissingSelect($event)">
       </qddt-element-select>
-      <form #missingForm="ngForm" *ngIf="responseDomain.missing">
+      <form #missingForm="ngForm" *ngIf="responseDomain?.missing">
         <table>
           <thead>
             <tr>

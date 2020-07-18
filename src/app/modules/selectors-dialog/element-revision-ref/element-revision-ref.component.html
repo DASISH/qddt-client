@@ -18,7 +18,7 @@
           </li>
           <li>
             <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 red"
-              (click)="onItemRemove($event, cqi)">
+              (click)="confirmDialog.showConfirmDeleting($event, cqi)">
               <i class="material-icons tiny" title="Remove selected">remove</i>
             </a>
           </li>
@@ -44,6 +44,9 @@
     </li>
   </ul>
 </div>
+
+<qddt-confirm-remove (dialogResult)="onItemRemove($event)" #confirmDialog>
+</qddt-confirm-remove>
 
 <!-- Modal Structure -->
 <div id="MODAL-{{modalId}}" class="modal modal-fixed-footer">

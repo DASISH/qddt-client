@@ -22,24 +22,28 @@ import { IEntityAudit } from 'src/app/lib';
       </a>
     </ng-template>
     <div class="modal" #modaldelete>
-      <div class="modal-content black-text">
-        <div class="row">
-          <h4>Warning</h4>
-          <span>Are you sure you want to delete [{{ element?.name }}] ?</span>
-        </div>
+      <div class="modal-content center grey-text text-darken-1">
+        <i class="material-icons medium">delete_forever</i>
+        <h4> Confirm action</h4>
+        <span [innerHTML]="'Are you sure you want to delete ['+ element?.name+ '] ?'"></span>
       </div>
       <div class="modal-footer">
-        <button class="btn green waves-effect" (click)="onOk()">
-          <a><i class="material-icons white-text">done</i></a>
-        </button>
-        <button class="btn btn-default red waves-effect" (click)="onCancel()">
-          <a><i class="material-icons medium white-text">close</i></a>
-        </button>
+      <a class="btn-flat btn-medium waves-effect waves-light green white-text" (click)="onOk()">
+        <span>sure</span>
+      </a>
+      <a class="btn-flat btn-medium waves-effect waves-light red white-text" (click)="onCancel()">
+        <span>not now</span>
+      </a>
+<!--
+        <a class="btn-flat  btn-medium waves-effect waves-light green " (click)="onOk()">
+          <i class="material-icons white-text">done</i>
+        </a>
+        <a class="btn-flat  btn-medium btn-default red waves-effect waves-light" (click)="onCancel()">
+          <i class="material-icons white-text">close</i>
+        </a> -->
       </div>
     </div>
   `,
-  providers: []
-  // styles: [ 'a { color: white; text-align: center; vertical-align: middle;}' ]
 })
 export class ConfirmDeleteComponent implements AfterViewInit {
   @Input() element: IEntityAudit;
@@ -53,9 +57,11 @@ export class ConfirmDeleteComponent implements AfterViewInit {
   constructor() { }
 
   ngAfterViewInit() {
-    this.instance = M.Modal.init(this.modaldelete.nativeElement, {
-      opacity: 0
-    });
+    this.instance = M.Modal.init(this.modaldelete.nativeElement,
+      {
+        inDuration: 500, outDuration: 400, startingTop: '5%', endingTop: '40%', preventScrolling: true, opacity: 0.3,
+        onOpenEnd: () => M.updateTextFields(),
+      });
   }
 
   public showConfirmDeleting() {

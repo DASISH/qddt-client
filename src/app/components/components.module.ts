@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
+import { LocalDatePipe, LocalNumberPipe } from '../lib';
 import { AuthorChipComponent } from './author/author.chip.component';
 import { QddtTableComponent } from './table/table.component';
 import { QddtPaginationComponent } from './pagination/pagination.component';
@@ -19,12 +20,11 @@ import { TocComponent } from './toc/toc.component';
 import { CommentListComponent } from './comment/comment.list.component';
 import { CommentCreateComponent } from './comment/comment.create.component';
 import { ConceptrefComponent } from './conceptref/conceptref.component';
-import { ConfirmDeleteComponent } from './confim-delete/delete.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { FileDownloadComponent } from './download/download.component';
 import { TemplateComponent, TemplateDetailComponent, TemplateListComponent, TemplateService } from './template';
-import { LocalDatePipe, LocalNumberPipe } from '../lib';
 import { EqualValidator, GravatarDirective, ParentFormConnectDirective, ContenteditableDirective } from '../lib/directives';
+import { ConfirmDeleteComponent } from './dialog/delete.component';
 import { DialogComponent } from './dialog/dialog.component';
 import { DialogBigComponent } from './dialog/dialog-big.component';
 import { ValidationComponent } from './form/validation.component';
@@ -34,12 +34,13 @@ import { FormTextAreaComponent } from './form/textarea.component';
 import { FormInputNComponent } from './form/input-number.component';
 import { ParameterComponent } from './parameter/parameter.component';
 import { MustMatchDirective } from './form/match.directive';
+import { ConfirmRemoveComponent } from './dialog/remove.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, FormsModule, CompareModule, DragDropModule],
   declarations: [LocalDatePipe, LocalNumberPipe, TemplateComponent, TemplateListComponent, TemplateDetailComponent,
     QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, FileDownloadComponent, ParameterComponent,
-    AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent, DialogBigComponent,
+    AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent, DialogBigComponent, ConfirmRemoveComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent, CommentCreateComponent, DialogComponent,
     RationalComponent, RevisionComponent, ConceptrefComponent, MustMatchDirective, SpinnerComponent,
     ParentFormConnectDirective, GravatarDirective, ContenteditableDirective, EqualValidator,
@@ -47,7 +48,7 @@ import { MustMatchDirective } from './form/match.directive';
   exports: [LocalDatePipe, LocalNumberPipe, CommonModule, FormsModule, SpinnerComponent,
     QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, FileDownloadComponent,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
-    ConfirmDeleteComponent, TocComponent, CommentListComponent, DialogComponent, DialogBigComponent,
+    ConfirmDeleteComponent, TocComponent, CommentListComponent, DialogComponent, DialogBigComponent, ConfirmRemoveComponent,
     RationalComponent, RevisionComponent, ConceptrefComponent, MustMatchDirective,
     TemplateComponent, TemplateListComponent, TemplateDetailComponent, ParameterComponent,
     ParentFormConnectDirective, GravatarDirective, EqualValidator, ContenteditableDirective,

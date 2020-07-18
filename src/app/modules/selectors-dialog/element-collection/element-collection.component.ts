@@ -25,7 +25,7 @@ import {
           </a>
         </li>
         <li>
-          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 red" (click)="onItemRemove($event, item)">
+          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 red" (click)="confirmDialog.showConfirmDeleting($event, item)">
             <i class="material-icons" title="Remove item">remove</i>
           </a>
         </li>
@@ -36,6 +36,10 @@ import {
   <qddt-element-select *ngIf="showSearch" class="input-field" [source]="{ element:'', elementKind: elementKind }" [autoCreate]="true" [xmlLang]="xmlLang"
       (elementSelectedEvent)="onElementSelectedEvent($event)">
   </qddt-element-select>
+
+ <qddt-confirm-remove (dialogResult)="onItemRemove($event)" #confirmDialog>
+</qddt-confirm-remove>
+
 `,
 })
 export class ElementCollectionComponent {
@@ -63,8 +67,7 @@ export class ElementCollectionComponent {
   }
 
 
-  public onItemRemove(event: Event, item: IEntityAudit) {
-    event.stopPropagation();
+  public onItemRemove(item: IEntityAudit) {
     this.listItems = this.listItems.filter(qi => qi.id !== item.id);
     this.deletedEvent.emit({ elementId: item.id, elementKind: item.classKind });
   }
