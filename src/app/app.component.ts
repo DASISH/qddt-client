@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation, OnDestroy, AfterViewInit } from '@angular/core';
-import { delay, IElement, IElementRef, IRevisionRef } from './lib';
+import { IElement, IElementRef, IRevisionRef } from './lib';
 import { MessageService, PropertyStoreService, UserService } from './lib/services';
 
 // declare var $: any;
@@ -26,7 +26,7 @@ export class AppComponent implements OnDestroy, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    delay(20).then(() => M.AutoInit());
+    M.AutoInit();
   }
 
   public ngOnDestroy() {

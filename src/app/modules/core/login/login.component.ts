@@ -1,3 +1,4 @@
+import { delay } from 'src/app/lib';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -7,7 +8,7 @@ import { Password, UserService } from '../../../lib';
 @Component({
   selector: 'qddt-login',
   template: `
-  <div id="login-{{formId}}" class="modal" style="width:25%;">
+  <div id="login-1" class="modal" style="width:25%;">
     <div class="modal-content">
       <h4>Login</h4>
       <form (ngSubmit)="login()" (keyup.enter)="f.onSubmit($event)" #f="ngForm">
@@ -31,40 +32,35 @@ import { Password, UserService } from '../../../lib';
 })
 export class LoginComponent implements OnInit, AfterViewInit {
   public formData = { email: '', password: '' };
-  public readonly formId = Math.round(Math.random() * 10000);
   public loading = false;
 
   private instance: M.Modal;
 
-  constructor(private router: Router, private authenticationService: UserService) {
-    authenticationService.loggedIn.subscribe((status) => {
-      if (status) { this.instance.close(); }
-    });
+  constructor(private router: Router, private userService: UserService) {
   }
 
   ngOnInit(): void {
-    this.formData.email = this.authenticationService.getEmail();
+    this.formData.email = this.userService.getEmail();
+    this.instance = M.Modal.init(document.getElementById('login-1'),
+      {
+        inDuration: 500, outDuration: 300, startingTop: '5%', endingTop: '35%', preventScrolling: true,
+        onOpenEnd: () => M.updateTextFields()
+      });
   }
 
   ngAfterViewInit(): void {
-    this.instance = M.Modal.init(document.getElementById('login-' + this.formId),
-      {
-        inDuration: 400, outDuration: 300, startingTop: '4%', endingTop: '25%', preventScrolling: true,
-        onOpenEnd: () => M.updateTextFields(),
-        onCloseEnd: () => this.router.navigate([{ outlets: { popup: null } }])
-      });
     this.instance.open();
   }
 
 
   login() {
     this.loading = true;
-    this.authenticationService.signIn(new Password(this.formData)).then(
+    this.userService.signIn(new Password(this.formData)).then(
       () => {
         this.instance.close();
       },
       (error) => {
-        document.getElementById('password').classList.add('invalid');
+        document.getElementById('password-1').classList.add('invalid');
         document.querySelector('.helper-text')
           .setAttribute('data-error', error.error.exceptionMessage);
       },
