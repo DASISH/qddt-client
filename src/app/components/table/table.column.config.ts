@@ -51,8 +51,9 @@ const PUBLICATION_COLUMNS = [
 
 const CATEGORY_COLUMNS = [
   new Column({ name: 'label', label: 'Label', sortable: true }),
+  new Column({ name: 'name', label: 'Name', sortable: true }),
   new Column({ name: 'description', label: 'Description', sortable: true }),
-  new Column({ name: 'categoryType', label: 'Type', sortable: true })
+  new Column({ name: 'xmlLang', label: 'Language', sortable: true })
 ];
 
 const QUESTIONITEM_COLUMNS = [

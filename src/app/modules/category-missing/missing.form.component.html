@@ -28,7 +28,7 @@
       <ul class="col offset-m1 s7 m8">
         <li *ngFor="let cat of missing.children; let idx=index;">
           <qddt-element-select [source]="getSource(cat)" [autoCreate]="true" [xmlLang]="missing.xmlLang"
-            (elementSelectedEvent)="onSelectCategory($event,idx)">
+            [formName]="'AP-'+formId+idx" [validate]="true" (elementSelectedEvent)="onSelectCategory($event,idx)">
           </qddt-element-select>
         </li>
       </ul>

@@ -7,7 +7,7 @@ import {
   ElementKind, ElementRevisionRef,
   LANGUAGE_MAP,
   SequenceConstruct, SequenceKind,
-  TemplateService, toSelectItems, Parameter
+  TemplateService, toSelectItems, Parameter, hasChanges
 } from '../../lib';
 
 @Component({
@@ -35,7 +35,7 @@ export class SequenceFormComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.sequence && changes.sequence.currentValue) {
+    if (hasChanges(changes.sequence)) {
       this.sequence = new SequenceConstruct(changes.sequence.currentValue);
       this.currentSequenceKind = SequenceKind[this.sequence.sequenceKind];
     }

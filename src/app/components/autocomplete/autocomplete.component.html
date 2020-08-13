@@ -1,13 +1,32 @@
-<div class="autocomplete input-field" [ngClass]="{ noItemFound: notFound(), itemInvalid: invalid() }">
-  <input id="auto{{formId}}" class="validate" required type="search" [ngModel]="value"
-    placeholder="{{queryInfo?.placeholder()}}" (blur)="onBlur()" (keyup)="enterText($event)" (focus)="onFocus()">
-  <i class="material-icons" (click)="onClearKeywords()">close</i>
+<form [parentFormConnect]="formName">
+  <div class="autocomplete input-field" [ngClass]="{ noItemFound: notFound(), itemInvalid: invalid() }">
 
-  <div style="color:rgb(200, 200, 200); position: Absolute ; top: 1rem; right:0; z-index: 10;" >[ {{xmlLang}} ]</div>
-  <ul *ngIf="showAutoComplete && candidates">
-    <li *ngFor="let candidate of candidates; let idx=index" [ngClass]="{ active: (idx === selectedIndex) }"
-      (mouseover)="selectedIndex=idx;" (mousedown)="select(candidate)">
-      {{ getLabel(candidate) }}
-    </li>
-  </ul>
-</div>
+    <input *ngIf="!validate" id="auto{{formId}}" type="search" [ngModel]="value" name="value"
+      placeholder="{{queryInfo?.placeholder()}}" (blur)="onBlur()" (keyup)="enterText($event,confirmDialog)"
+      (focus)="onFocus()">
+
+    <input *ngIf="validate" id="auto{{formId}}" class="validate" required type="search" [ngModel]="value" name="value"
+      placeholder="{{queryInfo?.placeholder()}}" (blur)="onBlur()" (keyup)="enterText($event,confirmDialog)"
+      (focus)="onFocus()">
+
+    <i class="material-icons" (click)="onClearKeywords()">close</i>
+
+    <div style="color:rgb(200, 200, 200); position: Absolute ; top: 1rem; right:0; z-index: 10;">[ {{xmlLang}} ]</div>
+
+    <ul *ngIf="showAutoComplete && candidates">
+      <li *ngFor="let candidate of candidates; let idx=index" [ngClass]="{ active: (idx === selectedIndex) }"
+        (mouseover)="selectedIndex=idx;" (mousedown)="onSelectCandidate(candidate)">
+        {{ getLabel(candidate) }}
+      </li>
+    </ul>
+
+  </div>
+</form>
+
+<qddt-dialog [confirm]='true' (dialogResult)="onNewItem($event)" #confirmDialog>
+  <div class="grey-text text-darken-1 center-align">
+    <h4><i class="material-icons medium">help_outline</i>Confirm action</h4>
+    <br>
+    <p class="center-align" [innerHTML]="'No direct match, create new element instead?'"></p>
+  </div>
+</qddt-dialog>

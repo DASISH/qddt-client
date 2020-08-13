@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import {
   DOMAIN_TYPE_DESCRIPTION, DomainKind,
   ElementEnumAware,
@@ -7,6 +7,7 @@ import {
   IElement, IEntityAudit,
   PageSearch,
   TemplateService,
+  hasChanges,
 } from '../../../lib';
 
 @Component({
@@ -14,14 +15,14 @@ import {
   template: `
   <div *ngIf="isResponseDomain" class="row" >
     <div class="col left" *ngFor="let domain of domainTypeDescription" >
-    <label>
+      <label>
         <input name="DOMAIN-TYPE-GROUP" type="radio" (click)="onSelectDomainType(domain.id)" [checked]="domainType === domain.id"/>
         <span>{{ domain.label }}</span>
       </label>
     </div>
   </div>
-  <qddt-auto-complete   [items]="itemList" [elementKind]="source?.elementKind" [autoCreate] = "autoCreate"
-    [formName] ="'AC'" [initialValue]="searchValue" [xmlLang]="xmlLang"
+  <qddt-auto-complete [items]="itemList" [elementKind]="source?.elementKind" [autoCreate]="autoCreate"
+    [formName] ="formName" [initialValue]="searchValue" [xmlLang]="xmlLang"  [validate]="validate"
     (selectEvent)="onSelectElement($event)"
     (enterEvent)="onSearchElements($event)">
   </qddt-auto-complete>
@@ -29,10 +30,12 @@ import {
 })
 
 @ElementEnumAware
-export class ElementComponent implements OnChanges, AfterViewInit {
+export class ElementComponent implements OnChanges {
   @Input() source: IElement;
   @Input() xmlLang = 'none';
+  @Input() formName: string;
   @Input() autoCreate = false;
+  @Input() validate = false;
   @Output() elementSelectedEvent = new EventEmitter<IElement>();
 
   public itemList = null;
@@ -46,32 +49,36 @@ export class ElementComponent implements OnChanges, AfterViewInit {
 
   constructor(private service: TemplateService) { }
 
-  ngAfterViewInit(): void {
-    if (this.isResponseDomain) {
-      this.onSelectDomainType(this.domainType);
-    }
-
-  }
-
   async ngOnChanges(changes: SimpleChanges) {
-    if ((changes.source) && (changes.source.currentValue)) {
-      const cv = changes.source.currentValue as IElement;
-      const kind = getElementKind(cv.elementKind);
-      this.isResponseDomain = (kind === ElementKind.RESPONSEDOMAIN);
-      this.pageSearch.kind = kind;
-      if (this.isIEntityAudit(cv.element)) {
-        // @ts-ignore
-        this.searchValue = cv.element.hasOwnProperty('label') ? cv.element.label : cv.element.name;
-      } else {
-        this.searchValue = cv.element;
-      }
-      this.onSearchElements(this.searchValue);
+    if (hasChanges<IElement>(changes.source)) {
 
+      if (hasChanges<IElement>(changes.source, (a1, a2) => a1.elementKind === a2.elementKind)) {
+        const cv = changes.source.currentValue as IElement;
+        const kind = getElementKind(cv.elementKind);
+        this.pageSearch.kind = kind;
+        this.isResponseDomain = (kind === ElementKind.RESPONSEDOMAIN);
+        if (this.isResponseDomain) {
+          this.onSelectDomainType(this.domainType);
+        }
+      }
+      if (hasChanges<IElement>(changes.source, (a1, a2) => a1.element.modified === a2.element.modified)) {
+        const cv = changes.source.currentValue as IElement;
+        if (this.isIEntityAudit(cv.element)) {
+          // @ts-ignore
+          this.searchValue = cv.element.hasOwnProperty('label') ? cv.element.label : cv.element.name;
+        } else {
+          this.searchValue = cv.element;
+        }
+        this.onSearchElements(this.searchValue);
+      }
     }
   }
+
   onSelectDomainType(id: DomainKind) {
     this.domainType = id;
     this.pageSearch.keys.set(this.KEY, DomainKind[id]);
+    this.onSearchElements(this.searchValue);
+    this.elementSelectedEvent.emit(null);
   }
 
   public onSearchElements(key) {
@@ -84,10 +91,13 @@ export class ElementComponent implements OnChanges, AfterViewInit {
 
   public onSelectElement(item: IElement) {
     this.elementSelectedEvent.emit(item);
+    if (this.source?.element) {
+      this.source.element = null;
+    }
   }
 
-  private isIEntityAudit(element): element is IEntityAudit {
-    return (element) && (element as IEntityAudit).classKind !== undefined;
+  private isIEntityAudit(entity): entity is IEntityAudit {
+    return (entity) && (entity as IEntityAudit).classKind !== undefined;
   }
 
 }

@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { ResponseCardinality, Category, UserResponse } from '../../../lib/classes';
+import { hasChanges } from 'src/app/lib/consts';
 
 
 @Component({
@@ -36,7 +37,7 @@ export class ResponsedomainNumericComponent implements OnChanges {
 
 
   public ngOnChanges(changes: SimpleChanges) {
-    if (changes.managedRepresentation && changes.managedRepresentation.currentValue) {
+    if (hasChanges(changes.managedRepresentation)) {
       this.inputLimit = this.managedRepresentation.inputLimit;
       if (!this.managedRepresentation.format) {
         this.managedRepresentation.format = '0';

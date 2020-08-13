@@ -11,7 +11,7 @@ import {
   MessageService,
   QuestionConstruct,
   TemplateService,
-  QuestionItem, ElementRevisionRefImpl
+  QuestionItem, ElementRevisionRefImpl, hasChanges
 } from '../../lib';
 
 @Component({
@@ -51,7 +51,7 @@ export class QuestionConstructFormComponent implements OnChanges {
 
   }
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.controlConstruct && changes.controlConstruct.currentValue) {
+    if (hasChanges(changes.controlConstruct)) {
       this.preInstructions = this.filterInstructions('PRE');
       this.postInstructions = this.filterInstructions('POST');
     }

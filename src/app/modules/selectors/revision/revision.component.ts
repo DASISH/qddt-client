@@ -6,7 +6,8 @@ import {
   IRevisionResultEntity,
   ISelectOption,
   SelectItem,
-  TemplateService
+  TemplateService,
+  hasChanges
 } from '../../../lib';
 
 
@@ -49,7 +50,7 @@ export class RevisionComponent implements OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.revisionRef && changes.revisionRef.currentValue) {
+    if (hasChanges(changes.revisionRef)) {
 
       const ref = changes.revisionRef.currentValue as IRevisionRef;
       this.showProgressBar = true;

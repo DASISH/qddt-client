@@ -1,3 +1,4 @@
+import { validate } from './../../components/form/validate.function';
 import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/core';
 import { AlignmentKind, Category, ElementKind, enumKeys, IElement, ResponseCardinality } from 'src/app/lib';
 
@@ -11,7 +12,13 @@ import { AlignmentKind, Category, ElementKind, enumKeys, IElement, ResponseCardi
      [(ngModel)]="category.code.value" required class="validate">
      <label [for]="'CV-' + formId">Anchor</label>
   </div>
-  <qddt-element-select  class="col s9 input-field" [source]="getSource(category)" [autoCreate]="true" [xmlLang]="category.xmlLang" (elementSelectedEvent)="onSelectCategory($event)">
+  <qddt-element-select  class="col s9 input-field"
+    [formName]="'AP-'+formId"
+    [source]="getSource(category)"
+    [autoCreate]="true"
+    [validate]="true"
+    [xmlLang]="category.xmlLang"
+    (elementSelectedEvent)="onSelectCategory($event)">
   </qddt-element-select>
 </form>
 `

@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { ActionKind, ElementKind, getElementKind, IEntityEditAudit, IOtherMaterial, saveAs } from '../../lib';
+import { ActionKind, ElementKind, getElementKind, IEntityEditAudit, IOtherMaterial, saveAs, hasChanges } from '../../lib';
 import { TemplateService } from '../template';
 
 
@@ -26,7 +26,7 @@ export class FileDownloadComponent implements OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.entity.currentValue) {
+    if (hasChanges(changes.entity)) {
       const ek = getElementKind(this.entity.classKind);
       if (!this.readonly) {
         this.readonly = !this.service.can(ActionKind.Create, ek);
@@ -34,15 +34,15 @@ export class FileDownloadComponent implements OnChanges {
       this.showXmlDownload = !(ek === ElementKind.SURVEY_PROGRAM || ek === ElementKind.STUDY);
       this.label = (this.entity.otherMaterials) ? 'External aid & Exports' : 'Exports ';
     }
-    // console.log(this.entity || JSON);
-    // try { M.updateTextFields(); } catch (Exception) { }
   }
+
   toggleForm() {
     if (this.isHidden) {
       this.isHidden = false;
     }
     this.showUploadFileForm = !this.showUploadFileForm;
   }
+
   onDownloadFile(o: IOtherMaterial) {
     const fileName = o.originalName;
     this.service.getFile(o).then(
@@ -86,33 +86,5 @@ export class FileDownloadComponent implements OnChanges {
       this.fileStore.splice(idx, 1);
     }
   }
-
-
-  // public saveAs(blob: Blob, fileName: string, type: string): void {
-  //   const newBlob = new Blob([blob], { type });
-
-  //   // IE doesn't allow using a blob object directly as link href
-  //   // instead it is necessary to use msSaveOrOpenBlob
-  //   if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-  //     window.navigator.msSaveOrOpenBlob(newBlob);
-  //     return;
-  //   }
-
-  //   // For other browsers:
-  //   // Create a link pointing to the ObjectURL containing the blob.
-  //   const objectURL = window.URL.createObjectURL(newBlob);
-
-  //   const link = document.createElement('a');
-  //   link.href = objectURL;
-  //   link.download = fileName;
-  //   // this is necessary as link.click() does not work on the latest firefox
-  //   link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
-
-  //   setTimeout(function () {
-  //     // For Firefox it is necessary to delay revoking the ObjectURL
-  //     window.URL.revokeObjectURL(objectURL);
-  //     link.remove();
-  //   }, 100);
-  // }
 
 }

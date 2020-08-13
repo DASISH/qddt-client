@@ -11,6 +11,7 @@ import {
   Parameter,
   IfThenElse,
   isString,
+  hasChanges,
 } from 'src/app/lib';
 
 
@@ -39,7 +40,7 @@ export class ConditionFormComponent implements AfterViewInit, OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.condition.currentValue) {
+    if (hasChanges(changes.condition)) {
       this.condition = new ConditionConstruct(this.condition);
     }
 

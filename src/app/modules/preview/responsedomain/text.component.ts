@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
-import { Category, UserResponse, ResponseCardinality, delay } from '../../../lib';
+import { Category, UserResponse, ResponseCardinality, delay, hasChanges } from '../../../lib';
 
 @Component({
   selector: 'qddt-preview-rd-text',
@@ -30,7 +30,7 @@ export class ResponsedomainTextComponent implements OnChanges {
 
   public ngOnChanges(changes: SimpleChanges) {
 
-    if (changes.managedRepresentation && changes.managedRepresentation.currentValue) {
+    if (hasChanges(changes.managedRepresentation)) {
       this.inputLimit = this.managedRepresentation.inputLimit;
       delay(20).then(() => {
         const element = document.getElementById(this.identifier);

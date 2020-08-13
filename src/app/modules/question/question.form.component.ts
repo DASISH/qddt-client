@@ -1,3 +1,4 @@
+import { FormGroup } from '@angular/forms';
 import { Component, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import {
   ActionKind,
@@ -42,7 +43,10 @@ export class QuestionFormComponent implements AfterViewInit {
       });
   }
 
-  onResponseDomainSelected(item: ElementRevisionRefImpl<ResponseDomain>) {
+  onResponseDomainSelected(item: ElementRevisionRefImpl<ResponseDomain>, form: FormGroup) {
+    console.log('onResponseDomainSelected');
+    console.log(form.errors);
+    console.log(form.invalid);
     this.questionItem.responseDomainRef = item;
   }
 
@@ -50,7 +54,10 @@ export class QuestionFormComponent implements AfterViewInit {
     this.questionItem.responseDomainRef = new ElementRevisionRefImpl<ResponseDomain>();
   }
 
-  onResponseDomainUpdate(element: ResponseDomain) {
+  onResponseDomainUpdate(element: ResponseDomain, form: FormGroup) {
+    console.log('onResponseDomainUpdate');
+    console.log(form.errors);
+    console.log(form.invalid);
     element.changeKind = 'CONCEPTUAL';
     element.changeComment = 'Values changed or managed representation added';
     this.service.update<ResponseDomain>(element).subscribe(result => {

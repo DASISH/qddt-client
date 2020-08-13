@@ -33,6 +33,7 @@ form p {
   white-space: pre-line;
 }
 
+.table-of-contents a { display: inline-table; }
 
 .dropdown-content {
   background-color: #fff;
@@ -54,7 +55,6 @@ form p {
 input {
   margin: auto auto 0px;
 }
-
 
 .collapsible.popout > li  {
   margin: 0 !important;

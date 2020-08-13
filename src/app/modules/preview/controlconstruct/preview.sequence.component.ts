@@ -2,7 +2,7 @@ import { element } from 'protractor';
 import { Component, Input, AfterViewInit, SimpleChanges, OnChanges } from '@angular/core';
 import {
   ElementKind, ElementRevisionRefImpl, getElementKind, getIcon,
-  AbstractControlConstruct, PreviewService, SequenceConstruct, Parameter, isParamTrue, Factory, isAbstractControlConstruct
+  AbstractControlConstruct, PreviewService, SequenceConstruct, Parameter, isParamTrue, Factory, isAbstractControlConstruct, hasChanges
 } from '../../../lib';
 
 
@@ -78,7 +78,7 @@ export class PreviewSequenceConstructComponent implements AfterViewInit, OnChang
     (element) && (element as SequenceConstruct).parameters !== undefined;
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.sequenceConstruct && changes.sequenceConstruct.currentValue && !this.isSequence(this.sequenceConstruct)) {
+    if (hasChanges(changes.sequenceConstruct) && !this.isSequence(this.sequenceConstruct)) {
       console.log('new SequenceConstruct');
       this.sequenceConstruct = new SequenceConstruct(changes.sequenceConstruct.currentValue);
     } else {

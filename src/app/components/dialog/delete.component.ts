@@ -13,37 +13,30 @@ import { IEntityAudit } from 'src/app/lib';
   selector: 'qddt-confirm-delete',
 
   template: `
-    <a *ngIf="small;  else LARGE" class="btn-flat btn-small btn-floating btn-medium waves-effect waves-light red lighten-2"
+  <a *ngIf="small;  else LARGE" class="btn-flat btn-small btn-floating btn-medium waves-effect waves-light red lighten-2"
+    (click)="showConfirmDeleting()" ><i class="material-icons" title="Delete">delete_forever</i>
+  </a>
+  <ng-template #LARGE>
+    <a class="btn-flat btn-floating btn-medium waves-effect waves-light red lighten-2"
       (click)="showConfirmDeleting()" ><i class="material-icons" title="Delete">delete_forever</i>
     </a>
-    <ng-template #LARGE>
-      <a class="btn-flat btn-floating btn-medium waves-effect waves-light red lighten-2"
-        (click)="showConfirmDeleting()" ><i class="material-icons" title="Delete">delete_forever</i>
-      </a>
-    </ng-template>
-    <div class="modal" #modaldelete>
-      <div class="modal-content center grey-text text-darken-1">
-        <i class="material-icons medium">delete_forever</i>
-        <h4> Confirm action</h4>
-        <span [innerHTML]="'Are you sure you want to delete ['+ element?.name+ '] ?'"></span>
-      </div>
-      <div class="modal-footer">
+  </ng-template>
+  <div class="modal" #modaldelete>
+    <div class="modal-content grey-text text-darken-1 center-align">
+      <h4><i class="material-icons medium prefix">delete_forever</i>Confirm action</h4>
+      <br>
+      <p class="center-align" style="font-size: large;" [innerHTML]="'Are you sure you want to delete ['+ element?.name+ '] ?'"></p>
+    </div>
+    <div class="modal-footer">
       <a class="btn-flat btn-medium waves-effect waves-light green white-text" (click)="onOk()">
         <span>sure</span>
       </a>
       <a class="btn-flat btn-medium waves-effect waves-light red white-text" (click)="onCancel()">
         <span>not now</span>
       </a>
-<!--
-        <a class="btn-flat  btn-medium waves-effect waves-light green " (click)="onOk()">
-          <i class="material-icons white-text">done</i>
-        </a>
-        <a class="btn-flat  btn-medium btn-default red waves-effect waves-light" (click)="onCancel()">
-          <i class="material-icons white-text">close</i>
-        </a> -->
-      </div>
     </div>
-  `,
+  </div>
+`,
 })
 export class ConfirmDeleteComponent implements AfterViewInit {
   @Input() element: IEntityAudit;

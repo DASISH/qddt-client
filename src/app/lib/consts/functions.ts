@@ -1,7 +1,8 @@
 import { QDDT_QUERY_INFOES, HEADER_DETAILS } from './query-info.config';
 import { ElementKind, EnumType } from '../enums';
 import { QueryInfo, SelectItem, Parameter } from '../classes';
-import { ISelectOption } from '../interfaces';
+import { ISelectOption, IEntityEditAudit } from '../interfaces';
+import { SimpleChange } from '@angular/core';
 
 
 export function ElementEnumAware(constructor: Function) {
@@ -61,6 +62,17 @@ export function toSelectItems(enumerable: EnumType): ISelectOption[] {
     }));
 }
 
+export function hasChanges<T>(change?: SimpleChange, comparar?: (a: T, b: T) => boolean): boolean {
+  if (change && change.currentValue) {
+    if (!change.previousValue) {
+      return true;
+    }
+    return (comparar) ?
+      !comparar(change.previousValue, change.currentValue) :
+      (change.previousValue !== change.currentValue);
+  }
+  return false;
+}
 
 // IS tester
 
@@ -71,6 +83,11 @@ export const isParamTrue = (parameter: Parameter) => {
     return false;
   }
 }
+
+export const isIEntityEditAudit = (element: IEntityEditAudit | any): element is IEntityEditAudit => {
+  return (element) && (element as IEntityEditAudit).modified !== undefined;
+}
+
 
 export const isString = (value: string | any): value is string => {
   return (typeof value === 'string') ? (value as string) !== undefined : false;
@@ -86,6 +103,7 @@ export const isObject = (value: object | any): value is object => {
 
 
 export const StringIsNumber = value => isNaN(Number(value)) === false;
+
 
 // borrowed from the net.
 export function saveAs(blob: Blob, fileName: string, type: string): void {
@@ -108,7 +126,7 @@ export function saveAs(blob: Blob, fileName: string, type: string): void {
   // this is necessary as link.click() does not work on the latest firefox
   link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
 
-  setTimeout(function () {
+  setTimeout(() => {
     // For Firefox it is necessary to delay revoking the ObjectURL
     window.URL.revokeObjectURL(objectURL);
     link.remove();

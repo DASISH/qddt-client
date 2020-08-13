@@ -9,13 +9,6 @@
     </a>
   </div>
 
-  <!-- <a class="collection-header col s12" (click)="showUploadFileForm = !showUploadFileForm"
-    [ngClass]="{ qddtSearchCursor: showButton }">
-    <label><i class="material-icons small">attach_file</i>{{ label }}</label>
-    <a *ngIf="showButton" class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light teal">
-      <i class="material-icons" title="Attach external aid (File Upload)">playlist_add</i>
-    </a>
-  </a> -->
   <ng-container *ngIf="!isHidden">
     <a class="collection-item col s12" *ngIf="showUploadFileForm && !readonly">
       <div class="file-field input-field">

@@ -1,5 +1,5 @@
 import { Component, OnChanges, SimpleChanges, Input, AfterViewInit } from '@angular/core';
-import { StatementConstruct, Parameter } from '../../../lib';
+import { StatementConstruct, Parameter, hasChanges } from '../../../lib';
 
 @Component({
   selector: 'qddt-preview-statementconstruct',
@@ -20,7 +20,7 @@ export class PreviewStatementConstructComponent implements OnChanges {
 
   public ngOnChanges(changes: SimpleChanges): void {
 
-    if (changes.statement && changes.statement.currentValue && changes.statement.currentValue.inParameter.length > 0) {
+    if (hasChanges(changes.statement) && changes.statement.currentValue.inParameter.length > 0) {
       this.assignValueToParameters(this.statement.inParameter);
     }
 

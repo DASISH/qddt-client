@@ -25,6 +25,7 @@ import {
     'td, td  { max-width: 150px;  white-space: nowrap;  overflow: hidden; text-overflow: ellipsis;}',
     'table {  white-space: nowrap; border-collapse:separate; table-layout:auto; overflow-x: auto;}',
     '.input-field > label { color: teal; }',
+    'input[type=search]:focus:not(.browser-default) { border-bottom: 1px solid #9e9e9e;}',
     '.dropleft { position: absolute; display: inline-flex;  margin-top: -5px; margin-bottom: 0px; z-index: 1;}',
   ],
   templateUrl: './table.component.html',

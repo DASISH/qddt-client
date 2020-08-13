@@ -12,8 +12,8 @@
       (ngModelChange)="buildPreviewResponseDomain()" data-length="255">
     </qddt-textarea>
 
-    <div [ngSwitch]="domainType">
-      <div *ngSwitchCase="domainTypeDef.SCALE">
+    <ng-container [ngSwitch]="domainType">
+      <ng-container *ngSwitchCase="domainTypeDef.SCALE">
         <div class="row hoverable">
           <div class="col s2 input-field">
             <input [id]="'RDC-'+formId+1" class="validate" name="minimum" type="number"
@@ -59,8 +59,8 @@
             </qddt-anchor-point>
           </li>
         </ul>
-      </div>
-      <div *ngSwitchCase="domainTypeDef.LIST">
+      </ng-container>
+      <ng-container *ngSwitchCase="domainTypeDef.LIST">
         <div class="row hoverable">
           <div class="col s3 input-field ">
             <input class="validate" [id]="'RDC-'+formId+5" name="code_number" type="number" placeholder="#" min=0
@@ -87,14 +87,14 @@
         <div cdkDropList cdkDrop [cdkDropListData]="responseDomain.managedRepresentation.children"
           (cdkDropListDropped)="onItemDrop($event)">
           <ul class="row">
-            <li class="hoverable minirow"
-              *ngFor="let category of responseDomain.managedRepresentation.children; let idx=index;" cdkDrag>
+            <li class="hoverable minirow" cdkDrag
+              *ngFor="let category of responseDomain.managedRepresentation.children; let idx=index;trackBy:trackByIndex">
               <div class="input-field minicol" style="width: 20%;">
                 <input name="{{idx}}-code-value" type="text" (ngModelChange)="buildPreviewResponseDomain()"
-                  [(ngModel)]="category.code.value" required>
+                  [(ngModel)]="category.code.value" class="validate" required>
               </div>
               <qddt-element-select class="input-field minicol" [source]="getSource(category)" [autoCreate]="true"
-                [xmlLang]="responseDomain.xmlLang" style="width: 75%"
+                [validate]="true" [formName]="'EC'+idx" [xmlLang]="responseDomain.xmlLang" style="width: 75%"
                 (elementSelectedEvent)="onSelectCategory($event,idx)">
               </qddt-element-select>
               <div class="minicol" cdkDragHandle style="width: 5%; top: 2rem; position: relative; cursor: grab;"
@@ -104,8 +104,8 @@
             </li>
           </ul>
         </div>
-      </div>
-      <div *ngSwitchCase="domainTypeDef.NUMERIC">
+      </ng-container>
+      <ng-container *ngSwitchCase="domainTypeDef.NUMERIC">
 
         <qddt-input required name="label" label="Label" [(ngModel)]="responseDomain.managedRepresentation.label"
           (ngModelChange)="buildPreviewResponseDomain()" data-length="50">
@@ -136,8 +136,8 @@
         <qddt-preview-responsedomain [responseDomain]="previewResponseDomain">
         </qddt-preview-responsedomain>
 
-      </div>
-      <div *ngSwitchCase="domainTypeDef.TEXT">
+      </ng-container>
+      <ng-container *ngSwitchCase="domainTypeDef.TEXT">
 
         <qddt-input required name="label" label="Label" [(ngModel)]="responseDomain.managedRepresentation.label"
           (ngModelChange)="buildPreviewResponseDomain()" data-length="100">
@@ -163,8 +163,8 @@
         <qddt-preview-responsedomain [responseDomain]="previewResponseDomain">
         </qddt-preview-responsedomain>
 
-      </div>
-      <div *ngSwitchCase="domainTypeDef.DATETIME">
+      </ng-container>
+      <ng-container *ngSwitchCase="domainTypeDef.DATETIME">
 
         <qddt-input required name="label" label="Label" [(ngModel)]="responseDomain.managedRepresentation.label"
           (ngModelChange)="buildPreviewResponseDomain()" data-length=" 50">
@@ -197,8 +197,8 @@
         </div>
         <qddt-preview-responsedomain [responseDomain]="previewResponseDomain">
         </qddt-preview-responsedomain>
-      </div>
-    </div>
+      </ng-container>
+    </ng-container>
 
     <qddt-rational *ngIf="responseDomain.modified && !readonly" [formName]="'RationalComp'" [element]="responseDomain"
       [config]="{hidden: [4]}">

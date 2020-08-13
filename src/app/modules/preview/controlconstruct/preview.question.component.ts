@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { QuestionConstruct, Parameter, UserResponse } from '../../../lib';
+import { QuestionConstruct, Parameter, UserResponse, hasChanges } from '../../../lib';
 import * as uuid from 'uuid';
 @Component({
   selector: 'qddt-preview-questionconstruct',
@@ -68,7 +68,7 @@ export class PreviewQuestionConstructComponent implements OnChanges {
   constructor() { }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.controlConstruct && changes.controlConstruct.currentValue) {
+    if (hasChanges(changes.controlConstruct)) {
       this.assignValueToParameters(this.controlConstruct.inParameter);
     }
 

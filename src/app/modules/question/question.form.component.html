@@ -26,8 +26,9 @@
     </qddt-textarea>
 
     <qddt-responsedomain-select *ngIf="questionItem?.responseDomainRef" [xmlLang]="questionItem.xmlLang"
-      [(responseDomain)]="questionItem.responseDomainRef.element" (selectedEvent)="onResponseDomainSelected($event)"
-      (updateEvent)="onResponseDomainUpdate($event)" (removeEvent)="onResponseDomainRemove()">
+      [(responseDomain)]="questionItem.responseDomainRef.element"
+      (selectedEvent)="onResponseDomainSelected($event,hf.form)" (updateEvent)="onResponseDomainUpdate($event, hf.form)"
+      (removeEvent)="onResponseDomainRemove()">
     </qddt-responsedomain-select>
 
     <qddt-rational *ngIf="!readonly && questionItem.id" [formName]="'RationalComp'" [element]="questionItem"
@@ -35,7 +36,6 @@
     </qddt-rational>
 
     <qddt-element-footer *ngIf="questionItem.id" [element]="questionItem"></qddt-element-footer>
-
     <div class="row right-align">
       <button *ngIf="!readonly" [disabled]="!hf.form.valid" type="submit" class="btn btn-default">Submit</button>
     </div>

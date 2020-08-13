@@ -230,10 +230,10 @@ export const HEADER_DETAILS = new Map<string, IHeaderDetail>([
       kind: ElementKind.INSTRUMENT
     }
   ],
-  ['publications',{icon: 'folder_special',headerName: 'Publication packages',kind: ElementKind.PUBLICATION}],
-  ['instructions',{icon: 'speaker_notes',headerName: 'Instructions',kind: ElementKind.INSTRUCTION}],
-  ['universes',{ icon: 'public', headerName: 'Universes', kind: ElementKind.UNIVERSE }],
-  ['user',{ icon: 'user', headerName: 'User Administration', kind: ElementKind.USER }],
+  ['publications', { icon: 'folder_special', headerName: 'Publication packages', kind: ElementKind.PUBLICATION }],
+  ['instructions', { icon: 'speaker_notes', headerName: 'Instructions', kind: ElementKind.INSTRUCTION }],
+  ['universes', { icon: 'public', headerName: 'Universes', kind: ElementKind.UNIVERSE }],
+  ['user', { icon: 'user', headerName: 'User Administration', kind: ElementKind.USER }],
   ['changelog', { icon: 'timeline', headerName: 'Change Feed', kind: ElementKind.CHANGE_LOG }],
   ['referenced', { icon: 'insert_link', headerName: 'Referenced', kind: ElementKind.REFERENCED }],
   ['authors', { icon: 'face', headerName: 'Authors', kind: ElementKind.AUTHOR }],

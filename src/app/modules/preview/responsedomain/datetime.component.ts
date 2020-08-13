@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges, Output, EventEmitter, Inject, LOCALE_ID } from '@angular/core';
 import { getLocaleMonthNames, getLocaleDayNames, formatDate } from '@angular/common';
 import { Category, UserResponse } from '../../../lib/classes';
-import { delay, DATE_FORMAT_MAP } from 'src/app/lib';
+import { delay, DATE_FORMAT_MAP, hasChanges } from 'src/app/lib';
 
 @Component({
   selector: 'qddt-preview-rd-datetime',
@@ -33,7 +33,7 @@ export class ResponsedomainDatetimeComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
 
-    if (changes.managedRepresentation && changes.managedRepresentation.currentValue) {
+    if (hasChanges(changes.managedRepresentation)) {
       delay(20).then(() => {
         this.initDate(this.managedRepresentation);
       });

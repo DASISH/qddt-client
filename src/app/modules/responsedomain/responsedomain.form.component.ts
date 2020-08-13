@@ -16,7 +16,7 @@ import {
   IElement,
   IPageSearch, LANGUAGE_MAP,
   PropertyStoreService,
-  ResponseDomain, TemplateService, toSelectItems, DATE_FORMAT_MAP, delay
+  ResponseDomain, TemplateService, toSelectItems, DATE_FORMAT_MAP, delay, hasChanges
 } from '../../lib';
 import { threadId } from 'worker_threads';
 
@@ -44,6 +44,7 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
   public readonly LANGUAGES = LANGUAGE_MAP;
   public readonly DISPLAYLAYOUTS = toSelectItems(DisplayLayoutKind);
 
+  public readonly trackByIndex = (index: number, entity) => entity.id || index;
 
   constructor(private service: TemplateService, private properties: PropertyStoreService) {
 
@@ -71,7 +72,7 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.responseDomain && changes.responseDomain.currentValue) {
+    if (hasChanges(changes.responseDomain)) {
       const page = this.getPageSearch();
       this.domainType = (page) ? DomainKind[page.keys.get('ResponseKind')] : DomainKind[this.responseDomain.responseKind];
       this.numberOfAnchors = this.responseDomain.managedRepresentation.children.length;

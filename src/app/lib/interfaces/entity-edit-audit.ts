@@ -24,3 +24,6 @@ export interface IEntityEditAudit extends IEntityAudit {
 }
 
 
+export interface ILabel extends IEntityAudit {
+  label: string;
+}

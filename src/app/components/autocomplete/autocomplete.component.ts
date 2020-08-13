@@ -1,7 +1,12 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { ElementEnumAware, ElementKind, Factory, getElementKind, getQueryInfo, IElement, IEntityAudit, QueryInfo } from '../../lib';
+import {
+  ElementEnumAware, ElementKind,
+  Factory, getElementKind, getQueryInfo,
+  IElement, IEntityAudit, QueryInfo, hasChanges, ILabel
+} from '../../lib';
+import { DialogComponent } from '../dialog/dialog.component';
 
 @Component({
   selector: 'qddt-auto-complete',
@@ -16,6 +21,7 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
   @Input() formName: string;
   @Input() initialValue = '';
   @Input() autoCreate = true;
+  @Input() validate = false;
   @Input() xmlLang = 'none';
 
   @Output() selectEvent = new EventEmitter<IElement>();
@@ -44,71 +50,111 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
       });
   }
 
-  get queryInfo(): QueryInfo {
-    // console.log(this.elementKind || this.items[0] || JSON );
-    return this.elementKind ? getQueryInfo(this.elementKind) : null;
+  public ngOnDestroy(): void {
+    this.searchKeysChange.unsubscribe();
   }
 
 
-  ngOnChanges(changes: SimpleChanges) {
+  public ngOnChanges(changes: SimpleChanges) {
 
     if ((changes.items && this.waitingForChange)) {
       this.waitingForChange = false;
-      this.candidates = this.items;
-      if (this.items && this.items.length > 0) {
-        this.elementKind = getElementKind(this.items[0].classKind);
+      this.candidates = this.items.sort((a, b) => this.elementCompare(a, b));
+      if (this.candidates && this.candidates.length > 0) {
+        this.elementKind = getElementKind(this.candidates[0].classKind);
       }
-      this.found = ((this.candidates) && (this.candidates.length > 0));
+      this.found = this.findCandidate(this.value) !== undefined || (this.candidates.length > 0) || (this.value.length === 0);
     }
-
     if (changes.initialValue && changes.initialValue.isFirstChange() && !this.selected) {
+      console.log('initialValue');
       this.value = this.initialValue;
     }
-    if (changes.elementKind && !changes.elementKind.isFirstChange() &&
-      changes.elementKind.currentValue !== changes.elementKind.previousValue) {
-      this.onClearKeywords()
+    if (hasChanges(changes.elementKind) && !changes.elementKind.isFirstChange()) {
+      console.log('onClearKeywords');
+      this.onClearKeywords();
     }
   }
 
-  enterText(event: any) {
+  public get queryInfo(): QueryInfo {
+    return (this.elementKind) ? getQueryInfo(this.elementKind) : null;
+  }
+
+
+  public enterText(event: any, ref: DialogComponent) {
     this.value = event.target.value;
+    event.stopPropagation();
     if (event.key === 'Enter') {
       this.showAutoComplete = false;
-      const fieldName = this.queryInfo.fields[0];
-      const item = (this.found) ? this.candidates[0] :
-        (this.autoCreate) ? Factory.createFromSeed(this.elementKind, { [fieldName]: this.value.trim(), xmlLang: this.xmlLang }) : null;
+      const item = this.findCandidate(this.value);
       if (item) {
+        const fieldName = this.queryInfo.fields[0];
         this.value = item[fieldName];
         this.selected = true;
+        this.found = true;
         this.selectEvent.emit({ element: item, elementKind: this.elementKind });
+      } else if (this.autoCreate) {
+        this.found = false;
+        ref.open(event, null);
       }
+    } else if (event.key === 'Escape') {
+      this.showAutoComplete = false;
+      if (!this.selected) {
+        this.value = this.initialValue || null;
+        this.selected = true;
+        this.found = true;
+      }
+
     } else {
       this.searchKeysChange.next(this.value);
     }
   }
 
-  notFound(): boolean {
-    return (!this.found);
+  public onNewItem(event) {
+    if (event.result) {
+      const fieldName = this.queryInfo.fields[0];
+      const item = Factory.createFromSeed(this.elementKind, { [fieldName]: this.value.trim(), xmlLang: this.xmlLang })
+      this.value = item[fieldName];
+      this.selected = true;
+      this.selectEvent.emit({ element: item, elementKind: this.elementKind });
+    } else {
+      this.selected = false;
+    }
   }
 
-  invalid(): boolean {
+  public notFound(): boolean {
+    return (!this.found && this.value.length > 0);
+  }
+
+  public invalid(): boolean {
     return (!this.found && !this.autoCreate);
   }
 
-  onFocus() {
+  public onFocus() {
     this.showAutoComplete = true;
     this.focusEvent.emit('focus');
     this.filterItems(this.value);
   }
 
-  onBlur() {
+  public onBlur() {
     this.showAutoComplete = false;
-    if (!this.selected) {
-      this.value = this.initialValue || null;
-    }
+    // this.found = this.findCandidate(this.value) !== undefined;
   }
 
-  select(entity: IEntityAudit) {
+  public onClearKeywords() {
+    this.value = this.initialValue;
+    this.selected = false;
+    this.found = true;
+    this.filterItems('');
+    this.waitingForChange = true;
+    this.enterEvent.emit('');
+  }
+
+  public getLabel(entity: IEntityAudit) {
+    return this.getFieldValue(entity, this.queryInfo.fields) || '';
+  }
+
+
+  public onSelectCandidate(entity: IEntityAudit) {
     this.showAutoComplete = false;
     this.selected = true;
     const fieldName = this.queryInfo.fields[0];
@@ -116,17 +162,33 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
     this.selectEvent.emit({ element: entity, elementKind: this.elementKind });
   }
 
-  getLabel(entity: IEntityAudit) {
-    return this.getFieldValue(entity, this.queryInfo.fields);
+  private isLabel(entity: IEntityAudit): entity is ILabel {
+    return (entity as ILabel).label !== undefined && (entity as ILabel).label !== null;
   }
 
-  onClearKeywords() {
-    this.value = '';
-    this.selected = false;
-    this.filterItems('');
-    this.waitingForChange = true;
-    this.enterEvent.emit('');
+  private elementCompare(entity1: IEntityAudit, entity2: IEntityAudit): number {
+
+    if (this.isLabel(entity1) && this.isLabel(entity2)) {
+      const i = entity1.label.localeCompare(entity2.label);
+      if (i !== 0) return i;
+    }
+    return entity1.name.localeCompare(entity2.name)
   }
+
+  private findCandidate(value: string): IEntityAudit {
+    if (!this.candidates) return undefined;
+    const fieldName = this.queryInfo.fields[0];
+
+    let item = this.candidates.find(p => p[fieldName] === value) ||
+      this.candidates.find(p => (p[fieldName] as string).toUpperCase() === value.toUpperCase());
+
+    if (!item && fieldName !== 'name') {
+      item = this.candidates.find(p => p.name === value) ||
+        this.candidates.find(p => (p.name.toUpperCase() === value.toUpperCase()));
+    }
+    return item;
+  }
+
 
   private getFieldValue(entity: IEntityAudit, path: any) {
     if (path instanceof Array) {
@@ -150,7 +212,7 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
         } else {
           return this.filterItem(item, field, search);
         }
-      });
+      }).sort((a, b) => this.elementCompare(a, b));
   }
 
   private filterItem(item: any, path: any, search: string) {
@@ -173,8 +235,5 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
     return result.toLowerCase().indexOf(search.toLowerCase()) >= 0;
   }
 
-  ngOnDestroy(): void {
-    this.searchKeysChange.unsubscribe();
-  }
 
 }

@@ -26,7 +26,7 @@
           </a>
         </li>
       </ul>
-      <input name="name" type="text" placeholder="select responseDomain" readonly="true"
+      <input name="name" type="text" placeholder="select responseDomain" readonly="readonly"
         [ngModel]="responseDomain?.name">
       <label>Response Domain (V <qddt-version [element]="responseDomain"></qddt-version>) </label>
     </div>
@@ -52,11 +52,9 @@
           </a>
         </li>
       </ul>
-      <input name="missing" type="text" placeholder="select missing" readonly="true"
+      <input name="missing" type="text" placeholder="select missing" readonly="readonly"
         [ngModel]="responseDomain?.missing?.label">
       <label>Missing</label>
-      <div>
-      </div>
     </div>
   </div>
   <label class="descLabel">{{responseDomain?.description}}</label>
@@ -65,16 +63,18 @@
 <div id="MODAL-{{modalId}}" class="modal modal-fixed-footer">
   <div class="modal-content white black-text">
     <ng-container *ngIf="showResponseDomain">
-      <h4>Select Domain and Search</h4>
+      <h4>Select Domain & Search</h4>
       <qddt-element-revision-select [source]="RESPONSEDOMAIN" [xmlLang]="xmlLang"
         (revisionSelectedEvent)="onRevisionSelect($event)" (dismissEvent)="onDismiss()">
       </qddt-element-revision-select>
     </ng-container>
     <ng-container *ngIf="!showResponseDomain">
+      <h4>Select Missing & Edit</h4>
       <qddt-element-select *ngIf="!responseDomain?.missing" [source]="MISSING_GROUP" [xmlLang]="responseDomain?.xmlLang"
         (elementSelectedEvent)="onMissingSelect($event)">
       </qddt-element-select>
-      <form #missingForm="ngForm" *ngIf="responseDomain?.missing">
+
+      <form *ngIf="responseDomain?.missing" #hf="ngForm">
         <table>
           <thead>
             <tr>
@@ -83,27 +83,26 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let category of responseDomain.missing.children;trackBy:trackByCategoryId">
-              <td contenteditable=true [(contenteditableModel)]="category.code.value" required>
+            <tr *ngFor="let category of responseDomain.missing.children;trackBy:trackByCategoryId; let idx=index;">
+              <!-- <td contenteditable="true" [(contenteditableModel)]="category.code.value" required>
+              </td> -->
+              <td>
+                <input id="{{idx}}-value" name="{{idx}}-code-value" type="text" [(ngModel)]="category.code.value"
+                  class="validate" required placeholder="Enter Code">
               </td>
               <td>{{ category?.label }}</td>
             </tr>
           </tbody>
         </table>
         <div class="right-align">
-          <a class="btn btn-flat waves-effect waves-light green white-text" (click)="onOkMissing($event)">
-            ok
-          </a>
-          <a class="btn btn-flat btn-medium waves-effect waves-light red white-text" (click)="onDismiss($event)">
-            cancel
-          </a>
+          <button class="btn-flat waves-effect waves-light green white-text" [disabled]="!hf.form.valid"
+            (click)="onOkMissing($event)">Ok</button>
+          <a class="btn-flat waves-effect waves-light red white-text" (click)="onDismiss($event)">Cancel</a>
         </div>
       </form>
     </ng-container>
   </div>
   <div class="modal-footer">
-    <button class="btn red modal-action waves-effect waves-red" (click)="onDismiss()">
-      Dismiss
-    </button>
+    <a class="btn-flat waves-effect waves-light red white-text" (click)="onDismiss()">Dismiss</a>
   </div>
 </div>

@@ -1,7 +1,7 @@
-import { Component, Input,  OnChanges } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { RevisionService } from './revision.service';
 import { DEFAULT_CONFIG, LIST_CONFIG, RevisionConfig } from './revision-config';
-import {DomainKind, ElementKind, IElement, IEntityAudit, IEntityEditAudit, MessageService, ResponseDomain} from '../../lib';
+import { DomainKind, ElementKind, IElement, IEntityAudit, IEntityEditAudit, MessageService, ResponseDomain } from '../../lib';
 
 
 @Component({
@@ -23,7 +23,7 @@ export class RevisionComponent implements OnChanges {
     this.selectRevisionId = -1;
   }
 
-   ngOnChanges() {
+  ngOnChanges() {
     if (!this.config) {
       if (LIST_CONFIG.has(this.getElementKind())) {
 
@@ -46,7 +46,8 @@ export class RevisionComponent implements OnChanges {
     this.service.getRevisions(this.getElementKind(), this.current.id).then(
       (result: any) => {
         this.revisions = result.content;
-        this.showProgressBar = false; },
+        this.showProgressBar = false;
+      },
       (error) => {
         this.showProgressBar = false;
         throw error;
@@ -58,8 +59,8 @@ export class RevisionComponent implements OnChanges {
   }
 
   onPreviewRevision(id: number) {
-    const  ref: IElement =  { element: this.revisions[id].entity, elementKind: this.revisions[id].entity.classKind };
-    this.message.sendMessage( ref );
+    const ref: IElement = { element: this.revisions[id].entity, elementKind: this.revisions[id].entity.classKind };
+    this.message.sendMessage(ref);
   }
 
   private getElementKind(): ElementKind {
@@ -86,32 +87,32 @@ export class RevisionComponent implements OnChanges {
   private getResponseDomainConfig(): RevisionConfig[] {
     const config: RevisionConfig[] = [];
     if (this.getResponseKind() === DomainKind.SCALE) {
-      config.push({ name: ['managedRepresentation', 'inputLimit', 'minimum'], label: 'Start' } );
-      config.push({ name: ['managedRepresentation', 'inputLimit', 'maximum'], label: 'End' } );
-      config.push({ name: 'displayLayout', label: 'display Layout' } );
+      config.push({ name: ['managedRepresentation', 'inputLimit', 'minimum'], label: 'Start' });
+      config.push({ name: ['managedRepresentation', 'inputLimit', 'maximum'], label: 'End' });
+      config.push({ name: 'displayLayout', label: 'display Layout' });
       const size = this.getChildrenSize();
       for (let i = 0; i < size; i++) {
-          config.push({ name: ['managedRepresentation', 'children', i, 'label'], label: 'Category' + i});
-          config.push({ name: ['managedRepresentation', 'children', i, 'code', 'codeValue'], label: 'Code' + i});
-        }
-    } else if (this.getResponseKind()  === DomainKind.LIST) {
-        config.push({ name: ['managedRepresentation', 'inputLimit', 'maximum'], label: 'Number of Codes' } );
-        const size = this.getChildrenSize();
-        for (let i = 0; i < size; i++) {
-          config.push(  { name: ['managedRepresentation', 'children', i, 'label'], label: 'Category' + i});
-          config.push({ name: ['managedRepresentation', 'children', i, 'code', 'codeValue'], label: 'Code' + i});
-        }
-    } else if (this.getResponseKind()  === DomainKind.NUMERIC) {
-        config.push({ name: ['managedRepresentation', 'inputLimit', 'minimum'], label: 'Low' } );
-        config.push({ name: ['managedRepresentation', 'inputLimit', 'maximum'], label: 'High' } );
-        config.push({ name: ['managedRepresentation', 'format'], label: 'descimal' } );
-    } else if (this.getResponseKind()  === DomainKind.DATETIME) {
-        config.push({ name: ['managedRepresentation', 'inputLimit', 'minimum'], label: 'After' } );
-        config.push({ name: ['managedRepresentation', 'inputLimit', 'maximum'], label: 'Before' } );
-        config.push({ name: ['managedRepresentation', 'format'], label: 'Date format' } );
-    } else if (this.getResponseKind()  === DomainKind.TEXT) {
-        config.push({ name: ['managedRepresentation', 'inputLimit', 'minimum'], label: 'Min Length' } );
-        config.push({ name: ['managedRepresentation', 'inputLimit', 'maximum'], label: 'Max Length' } );
+        config.push({ name: ['managedRepresentation', 'children', i, 'label'], label: 'Cat-' + i });
+        config.push({ name: ['managedRepresentation', 'children', i, 'code', 'value'], label: 'Anchor-' + i });
+      }
+    } else if (this.getResponseKind() === DomainKind.LIST) {
+      config.push({ name: ['managedRepresentation', 'inputLimit', 'maximum'], label: 'Number of Codes' });
+      const size = this.getChildrenSize();
+      for (let i = 0; i < size; i++) {
+        config.push({ name: ['managedRepresentation', 'children', i, 'label'], label: 'Cat-' + i });
+        config.push({ name: ['managedRepresentation', 'children', i, 'code', 'value'], label: 'Code-' + i });
+      }
+    } else if (this.getResponseKind() === DomainKind.NUMERIC) {
+      config.push({ name: ['managedRepresentation', 'inputLimit', 'minimum'], label: 'Low' });
+      config.push({ name: ['managedRepresentation', 'inputLimit', 'maximum'], label: 'High' });
+      config.push({ name: ['managedRepresentation', 'format'], label: 'descimal' });
+    } else if (this.getResponseKind() === DomainKind.DATETIME) {
+      config.push({ name: ['managedRepresentation', 'inputLimit', 'minimum'], label: 'After' });
+      config.push({ name: ['managedRepresentation', 'inputLimit', 'maximum'], label: 'Before' });
+      config.push({ name: ['managedRepresentation', 'format'], label: 'Date format' });
+    } else if (this.getResponseKind() === DomainKind.TEXT) {
+      config.push({ name: ['managedRepresentation', 'inputLimit', 'minimum'], label: 'Min Length' });
+      config.push({ name: ['managedRepresentation', 'inputLimit', 'maximum'], label: 'Max Length' });
     }
     return DEFAULT_CONFIG.concat(config);
   }

@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { Component, EventEmitter, Input, Output, AfterViewInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
   ActionKind,
   Category,
@@ -16,6 +16,7 @@ import {
   styles: [
     '.descLabel {left: 1rem;top: -1rem;position: relative;width: 95%;display: inline-block;font-style: italic;}',
     'div:hover > ul.dropleft { display:block; } ',
+    'td { min-width: 200px; max-width: 300px}'
   ],
 })
 
@@ -46,16 +47,16 @@ export class ResponsedomainComponent {
   // tslint:disable-next-line:variable-name
   private _modalRef: M.Modal;
 
-  private readonly getRevAsync = (id: string) => {
-    console.log('getRevAsync');
-    return this.service.getByKindRevision(ElementKind.CATEGORY, id);
-  }
+  private readonly getRevAsync = (id: string) =>
+    this.service.getByKindRevision(ElementKind.CATEGORY, id);
+
 
   private readonly updateRevAsync = (responseDomain: ResponseDomain) =>
-    this.service.update<ResponseDomain>(responseDomain).toPromise()
+    this.service.update<ResponseDomain>(responseDomain).toPromise();
+
 
   private readonly updateMixedAsync = async (responseDomain: ResponseDomain) => {
-    console.log('updateMixedAsync');
+    // console.log('updateMixedAsync');
     if (responseDomain.isMixed) {
       let changed = false;
       const updatedpromises = responseDomain.managedRepresentation.children.map(async (child, _i) => {
@@ -85,14 +86,16 @@ export class ResponsedomainComponent {
 
   get modalRef(): M.Modal {
     if (!(this._modalRef)) {
-      this._modalRef = M.Modal.init(document.querySelector('#MODAL-' + this.modalId));
+      this._modalRef = M.Modal.init(document.querySelector('#MODAL-' + this.modalId),
+        {
+          inDuration: 500, outDuration: 400, startingTop: '0%', endingTop: '15%', preventScrolling: true, opacity: 0.3,
+          // onOpenEnd: () => {
+          //   M.updateTextFields();
+          // }
+        });
     }
     return this._modalRef;
   }
-
-  // public ngAfterViewInit(): void {
-  //   M.updateTextFields();
-  // }
 
   public trackByCategoryId(category: Category): string {
     return category.id;
@@ -146,7 +149,9 @@ export class ResponsedomainComponent {
 
   public onRevisionSelect(ref: ElementRevisionRef) {
     if (this.canEdit) {
-      this.selectedEvent.emit(ref);
+      if (ref) {
+        this.selectedEvent.emit(ref);
+      }
       this.modalRef.close();
     }
   }
@@ -161,13 +166,11 @@ export class ResponsedomainComponent {
 
   public onMissingRemove() {
     if (this.canDelete && this.responseDomain.isMixed) {
-      // const rd =  new ResponseDomain(JSON.parse(JSON.stringify(this.responseDomain)));
       const i = this.responseDomain.managedRepresentation.children.findIndex(e => e.categoryType === 'MISSING_GROUP');
       this.responseDomain.managedRepresentation.children.splice(i, 1);
       this.responseDomain.name =
         this.responseDomain.managedRepresentation.label =
         'Mixed [' + this.responseDomain.managedRepresentation.children[0].label + ']';
-      // this.responseDomain = rd;
     }
   }
 
@@ -186,6 +189,7 @@ export class ResponsedomainComponent {
   }
 
   public onDismiss(_event?: Event) {
+    this.RESPONSEDOMAIN.element = ''
     // event.stopPropagation();
     this.modalRef.close();
   }

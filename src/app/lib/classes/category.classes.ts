@@ -87,7 +87,7 @@ export class Category implements IEntityEditAudit {
     if (this.name && !this.label) {
       this.label = this.name;
     } else if (this.label && !this.name) {
-      this.name = this.label;
+      this.name = this.label.toLocaleUpperCase();
     }
     this.code = (init) ? new Code(init.code) : new Code();
     this.children = ((init) && (init.children)) ? init.children.map(value => new Category(value)) : [];

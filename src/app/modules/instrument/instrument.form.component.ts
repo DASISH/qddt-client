@@ -12,7 +12,7 @@ import {
   Parameter,
   SequenceConstruct,
   SEQUENCE_TYPES,
-  TreeNodeRevisionRefImpl, TreeNodeRevisionRef
+  TreeNodeRevisionRefImpl, TreeNodeRevisionRef, hasChanges
 } from '../../lib';
 
 @Component({
@@ -55,7 +55,7 @@ export class InstrumentFormComponent implements OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.instrument && changes.instrument.currentValue) {
+    if (hasChanges(changes.instrument)) {
       this.instrument = new Instrument(JSON.parse(JSON.stringify(changes.instrument.currentValue)));
       this.inParameters = [...this.instrument.parameters.values()];
       // console.log(this.inParameters || JSON);
@@ -80,7 +80,7 @@ export class InstrumentFormComponent implements OnChanges {
 
   public onSelectOption(value) {
     this.SOURCE = { element: '', elementKind: value };
-    // console.log(this.SOURCE);
+    console.log(this.SOURCE);
   }
 
   public onOpen() {
