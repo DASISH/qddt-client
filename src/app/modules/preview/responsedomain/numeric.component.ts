@@ -9,13 +9,13 @@ import { hasChanges } from 'src/app/lib/consts';
   template: `
 <ng-container  *ngIf="managedRepresentation">
   <div class="input-field">
-    <input  type="number" [min]="inputLimit?.minimum" [max]="inputLimit?.maximum" [step]="inputLimit?.stepUnit" class="validate" required
+    <input  type="number" [min]="inputLimit?.minimum" [max]="inputLimit?.maximum" [step]="parts(inputLimit?.stepUnit)" class="validate" required
       [id]="identifier"
-      name="number"
+      name="value"
       [ngModel]="value"
       (ngModelChange)="changeNumber($event)">
     <label [for]="identifier">{{managedRepresentation.label}}</label>
-    <span>Range from {{ inputLimit.minimum }} to {{ inputLimit.maximum }} steps {{ inputLimit.stepUnit }}</span>
+    <span>Range from {{ inputLimit.minimum }} to {{ inputLimit.maximum }} in steps {{ parts(inputLimit?.stepUnit) }}</span>
   </div>
 </ng-container>`,
   styles: [],
@@ -39,10 +39,7 @@ export class ResponsedomainNumericComponent implements OnChanges {
   public ngOnChanges(changes: SimpleChanges) {
     if (hasChanges(changes.managedRepresentation)) {
       this.inputLimit = this.managedRepresentation.inputLimit;
-      if (!this.managedRepresentation.format) {
-        this.managedRepresentation.format = '0';
-      }
-      this.inputLimit.stepUnit = this.parts(this.managedRepresentation.format);
+      // this.inputLimit.stepUnit = this.parts(this.managedRepresentation.format);
     }
   }
 
@@ -58,7 +55,7 @@ export class ResponsedomainNumericComponent implements OnChanges {
     this.selectedEvent.emit([{ label: this.managedRepresentation.label, value }]);
   }
 
-  parts(format: number): number {
+  public parts(format: number): number {
     return 1 / Math.pow(10, format);
   }
 

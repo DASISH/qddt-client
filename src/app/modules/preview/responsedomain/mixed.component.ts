@@ -6,44 +6,42 @@ import { Category, ResponseCardinality, UserResponse } from '../../../lib/classe
   selector: 'qddt-preview-rd-mixed',
   template: `
 <ng-container>
-  <label *ngIf="managedRepresentation && managedRepresentation.children.length > 0" class="active teal-text">
+  <label *ngIf="managedRepresentation && managedRepresentation.children.length > 0" class="active teal-text" title="Response Cardinality: from {{responseCardinality.minimum}} to {{responseCardinality.maximum}}">
       {{ managedRepresentation.label }} v.<qddt-version [element]="managedRepresentation" ></qddt-version>
   </label>
-  <!-- <ul> -->
-    <ng-container *ngFor="let rep of managedRepresentation.children">
+    <ng-container *ngFor="let rep of managedRepresentation.children; let idx = index;">
       <ng-container [ngSwitch]="rep.categoryType">
         <qddt-preview-rd-scale *ngSwitchCase="'SCALE'"
           [managedRepresentation]="rep"
           [inputGroupName]="managedRepresentation.name"
           [displayLayout]="displayLayout"
-          (selectedEvent)="onSelectedEvent($event)">
+          (selectedEvent)="onSelectedEvent($event,idx)">
         </qddt-preview-rd-scale>
         <qddt-preview-rd-codelist *ngSwitchCase="'LIST'"
           [managedRepresentation]="rep"
           [responseCardinality]="responseCardinality"
           [inputGroupName]="managedRepresentation.name"
-          (selectedEvent)="onSelectedEvent($event)">
+          (selectedEvent)="onSelectedEvent($event,idx)">
         </qddt-preview-rd-codelist>
         <qddt-preview-rd-datetime *ngSwitchCase="'DATETIME'"
           [managedRepresentation]="rep"
-          (selectedEvent)="onSelectedEvent($event)">
+          (selectedEvent)="onSelectedEvent($event,idx)">
         </qddt-preview-rd-datetime>
         <qddt-preview-rd-numeric *ngSwitchCase="'NUMERIC'"
           [managedRepresentation]="rep"
-         (selectedEvent)="onSelectedEvent($event)">
+         (selectedEvent)="onSelectedEvent($event,idx)">
         </qddt-preview-rd-numeric>
         <qddt-preview-rd-text *ngSwitchCase="'TEXT'"
           [managedRepresentation]="rep"
-         (selectedEvent)="onSelectedEvent($event)">
+         (selectedEvent)="onSelectedEvent($event,idx)">
         </qddt-preview-rd-text>
         <qddt-preview-rd-missing *ngSwitchCase="'MISSING_GROUP'"
           [managedRepresentation]="rep"
           [inputGroupName]="managedRepresentation.name"
-          (selectedEvent)="onSelectedEvent($event)">
+          (selectedEvent)="onSelectedEvent($event,idx)">
         </qddt-preview-rd-missing>
       </ng-container>
     </ng-container>
-  <!-- </ul> -->
 </ng-container>
 `
 })
@@ -54,8 +52,12 @@ export class ResponsedomainMixedComponent {
   @Input() responseCardinality: ResponseCardinality;
   @Input() displayLayout = 0;
 
+  public missingRef;
 
-  public onSelectedEvent(idxs: UserResponse[]) {
+  public onSelectedEvent(idxs: UserResponse[], missingRef?: any) {
+    if (missingRef) {
+      console.log('missingref');
+    }
     this.selectedEvent.emit(idxs);
   }
 }

@@ -114,22 +114,28 @@
         <div class="row hoverable">
           <div class="input-field col l2 m3">
             <input [id]="'RDC-'+formId+8" name="minimum" type="number" required
-              [max]=subtract([responseDomain.managedRepresentation.inputLimit.maximum],power10(+responseDomain.managedRepresentation.format))
+              [max]=subtract([responseDomain.managedRepresentation.inputLimit.maximum],power10(+responseDomain.managedRepresentation.inputLimit.stepUnit))
               [(ngModel)]="responseDomain.managedRepresentation.inputLimit.minimum"
               (ngModelChange)="buildPreviewResponseDomain()">
             <label [for]="'RDC-'+formId+8">Low</label>
           </div>
           <div class="input-field col l2 m3">
             <input [id]="'RDC-'+formId+9" name="maximum" type="number" required
-              [min]=addition([responseDomain.managedRepresentation.inputLimit.minimum],power10(+responseDomain.managedRepresentation.format))
+              [min]=addition([responseDomain.managedRepresentation.inputLimit.minimum],power10(+responseDomain.managedRepresentation.inputLimit.stepUnit))
               [(ngModel)]="responseDomain.managedRepresentation.inputLimit.maximum"
               (ngModelChange)="buildPreviewResponseDomain()">
             <label [for]="'RDC-'+formId+9">High</label>
           </div>
-          <div class="input-field col l3 m4">
-            <input [id]="'RDC-'+formId+10" name="format" type="number" min=0 max=10 required
+          <div class="input-field col l2 m3">
+            <input [id]="'RDC-'+formId+10" name="stepUnit" type="number" [min]="-10" [max]="10" required
+              [title]="'Number of Decimal'" [(ngModel)]="responseDomain.managedRepresentation.inputLimit.stepUnit"
+              (ngModelChange)="buildPreviewResponseDomain()">
+            <label [for]="'RDC-'+formId+10">Scale</label>
+          </div>
+          <div class="input-field col l4 m3">
+            <input [id]="'RDC-'+formId+11" name="format" type="text"
               [(ngModel)]="responseDomain.managedRepresentation.format" (ngModelChange)="buildPreviewResponseDomain()">
-            <label [for]="'RDC-'+formId+10">Number of Decimal</label>
+            <label [for]="'RDC-'+formId+11">Format</label>
           </div>
         </div>
 
@@ -195,6 +201,11 @@
             {{responseDomain.managedRepresentation.format}}
           </div>
         </div>
+        <qddt-preview-responsedomain [responseDomain]="previewResponseDomain">
+        </qddt-preview-responsedomain>
+      </ng-container>
+      <ng-container *ngSwitchCase="domainTypeDef.MIXED">
+
         <qddt-preview-responsedomain [responseDomain]="previewResponseDomain">
         </qddt-preview-responsedomain>
       </ng-container>

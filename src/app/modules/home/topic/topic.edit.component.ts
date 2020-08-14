@@ -6,19 +6,14 @@ import { ElementKind, TemplateService, Topic, LANGUAGE_MAP } from '../../../lib'
   template: `
 <div [hidden]="!(topic && isVisible)">
   <form class="row" id="{{formId}}" (ngSubmit)="onSave()" #topicForm="ngForm">
-    <!-- <div class="col s12 input-field">
-      <input name="name" type="text" [(ngModel)]="topic.name" required data-length ="250">
-      <label class="active">Name</label>
-    </div> -->
 
-    <!-- <div class="row"> -->
     <qddt-input class="col s10" required name="name" label="Name" type="text"
       [(ngModel)]="topic.name" data-length="250">
     </qddt-input>
     <qddt-select class="col s2" required name="xmlLang" label="Language" [(ngModel)]="topic.xmlLang"
       [lockups]="LANGUAGES">
     </qddt-select>
-    <!-- </div> -->
+
     <div class="col s12 input-field">
       <textarea name="description" class="materialize-textarea" [(ngModel)]="topic.description" required  data-length ="10000" >
       </textarea>

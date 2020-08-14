@@ -3,7 +3,8 @@ import { Category, ResponseCardinality, UserResponse } from '../../../lib/classe
 
 @Component({
   selector: 'qddt-preview-rd-codelist',
-
+  // styles: ['ul.invalid > li > label > span::before   { border-color: red !important;}',
+  // ],
   template: `
 <ul *ngIf="managedRepresentation">
     <li *ngFor="let row of rows;" >
@@ -27,6 +28,7 @@ export class ResponsedomainCodeListComponent implements OnChanges {
   public rows: UserResponse[] = [];
   public type: string;
 
+  public checked() { return this.rows.filter((e: any) => e.checked).length; }
 
   public ngOnChanges() {
     this.rows = [];
@@ -43,6 +45,9 @@ export class ResponsedomainCodeListComponent implements OnChanges {
 
   public checkOption(row: any, event: any) {
     try {
+      if (this.type === 'radio') {
+        this.rows.forEach(item => item.checked = false);
+      }
       row.checked = event.target.checked;
       // console.log('check here?');
       if (this.type === 'checkbox') {
@@ -64,5 +69,9 @@ export class ResponsedomainCodeListComponent implements OnChanges {
       throw ex;
     }
   }
+  // public isValid() {
+  //   const checked = this.rows.filter((e: any) => e.checked).length;
+  //   return (this.responseCardinality.maximum >= checked && checked >= this.responseCardinality.minimum);
+  // }
 
 }

@@ -1,3 +1,4 @@
+import { style } from '@angular/animations';
 import { Component, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { Category, DomainKind, ResponseCardinality, ResponseDomain, UserResponse } from '../../../lib';
 
@@ -6,7 +7,7 @@ import { Category, DomainKind, ResponseCardinality, ResponseDomain, UserResponse
   template: `
   <ng-container *ngIf="responseDomain">
     <div *ngIf="responseType" class="row card-panel grey lighten-5 grey-text text-darken-1">
-      <span *ngIf="responseType !== refKind.MIXED && showLabel" >
+      <span *ngIf="responseType !== refKind.MIXED && showLabel">
           {{ responseDomain?.name }}(V<qddt-version [element]="rep"></qddt-version>)
       </span>
       <ng-container [ngSwitch]="responseType">
@@ -41,9 +42,17 @@ import { Category, DomainKind, ResponseCardinality, ResponseDomain, UserResponse
         </qddt-preview-rd-text>
         <qddt-preview-rd-missing  *ngSwitchCase="refKind.MISSING"
           [inputGroupName]="responseDomain.name"
+          [missingSelected]="missingSelected"
           (selectedEvent)="onSelectedEvent($event)">
         </qddt-preview-rd-missing>
       </ng-container>
+      <div class="right"  style="font-size: 0.8rem;" *ngIf="!missingSelected"
+        [ngClass]="{'red-text': responseDomain.responseCardinality.minimum > checked, 'green-text': responseDomain.responseCardinality.minimum <= checked }" >
+        <em>Response Cardinality ({{checked}}): valid from {{responseDomain.responseCardinality.minimum}} to {{responseDomain.responseCardinality.maximum}}</em>
+      </div>
+      <div class="right green-text" style="font-size: 0.8rem;" *ngIf="missingSelected">
+        <em>Response Cardinality ({{checked}}): missing is valid </em>
+      </div>
     </div>
   </ng-container>`,
   providers: [],
@@ -59,6 +68,8 @@ export class PreviewResponsedomainComponent implements OnChanges {
   public cardinality: ResponseCardinality;
   public displayLayout: number;
   public rep: Category;
+  public checked = 0;
+  public missingSelected = false;
   // public compId = Math.round(Math.random() * 10000);
 
   public values: {};
@@ -73,8 +84,9 @@ export class PreviewResponsedomainComponent implements OnChanges {
   }
 
   public onSelectedEvent(idxs: UserResponse[]) {
+    this.checked = idxs.length;
+    this.missingSelected = (idxs[0].isMissing);
     this.selectedEvent.emit(idxs);
   }
-
 
 }

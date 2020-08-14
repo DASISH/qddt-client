@@ -58,10 +58,7 @@ import { computeMsgId } from '@angular/compiler';
       </qddt-element-revision-select>
     </div>
     <div class="modal-footer">
-      <button
-        class="btn btn-default red modal-action modal-close waves-effect waves-red" (click)="onDismiss()" >
-        Dismiss
-      </button>
+      <a class="btn btn-default red  waves-effect waves-light" (click)="onDismiss()" >Dismiss</a>
     </div>
   </div>
 `,

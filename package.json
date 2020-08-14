@@ -24,7 +24,7 @@
     "@angular/platform-browser-dynamic": "^10.0.9",
     "@angular/router": "^10.0.9",
     "materialize-css": "^1.0.0",
-    "rxjs": "^6.6.0",
+    "rxjs": "^6.6.2",
     "ts-md5": "^1.2.7",
     "tslib": "^1.13.0",
     "uuid": "^8.2.0",

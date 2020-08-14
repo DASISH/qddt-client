@@ -8,7 +8,7 @@ import { TemplateService } from '../template';
   templateUrl: './download.component.html',
   styles: [
     '.collection.with-header .collection-header { padding: 5px 10px 5px 0px; background-color: unset; }',
-    '.collection a.collection-item { color: #039be5; cursor: pointer; padding:5px 10px 5px 10px; background-color: unset; }'
+    '.collection a.collection-item { color: #039be5; cursor: pointer; padding:5px 10px 5px 10px;  }',
   ],
 })
 export class FileDownloadComponent implements OnChanges {

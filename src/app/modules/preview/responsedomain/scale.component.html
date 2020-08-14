@@ -8,7 +8,7 @@
           </th>
         </tr>
       </thead>
-      <tbody *ngIf="numberOfSteps(max,min,stepUnit) <= 15">
+      <tbody *ngIf=" numberOfSteps(max,min,stepUnit) <=15">
         <tr *ngFor="let row of rows;">
           <td *ngFor="let option of columns;let idx=index;">
             <label>

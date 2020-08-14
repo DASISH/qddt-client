@@ -44,6 +44,7 @@ export class UserResponse {
   value: any;
   checked?: boolean;
   disabled?: string;
+  isMissing?: boolean;
   public constructor(init?: Partial<UserResponse>) {
     Object.assign(this, init);
   }

@@ -89,6 +89,7 @@ export class RevisionComponent implements OnChanges {
     if (this.getResponseKind() === DomainKind.SCALE) {
       config.push({ name: ['managedRepresentation', 'inputLimit', 'minimum'], label: 'Start' });
       config.push({ name: ['managedRepresentation', 'inputLimit', 'maximum'], label: 'End' });
+      config.push({ name: ['managedRepresentation', 'inputLimit', 'step'], label: 'Range' });
       config.push({ name: 'displayLayout', label: 'display Layout' });
       const size = this.getChildrenSize();
       for (let i = 0; i < size; i++) {
@@ -96,7 +97,8 @@ export class RevisionComponent implements OnChanges {
         config.push({ name: ['managedRepresentation', 'children', i, 'code', 'value'], label: 'Anchor-' + i });
       }
     } else if (this.getResponseKind() === DomainKind.LIST) {
-      config.push({ name: ['managedRepresentation', 'inputLimit', 'maximum'], label: 'Number of Codes' });
+      config.push({ name: ['responseCardinality', 'minimum'], label: 'Cardinal-0' });
+      config.push({ name: ['responseCardinality', 'maximum'], label: 'Cardinal-1' });
       const size = this.getChildrenSize();
       for (let i = 0; i < size; i++) {
         config.push({ name: ['managedRepresentation', 'children', i, 'label'], label: 'Cat-' + i });
@@ -105,7 +107,8 @@ export class RevisionComponent implements OnChanges {
     } else if (this.getResponseKind() === DomainKind.NUMERIC) {
       config.push({ name: ['managedRepresentation', 'inputLimit', 'minimum'], label: 'Low' });
       config.push({ name: ['managedRepresentation', 'inputLimit', 'maximum'], label: 'High' });
-      config.push({ name: ['managedRepresentation', 'format'], label: 'descimal' });
+      config.push({ name: ['managedRepresentation', 'inputLimit', 'step'], label: 'Scale' });
+      config.push({ name: ['managedRepresentation', 'format'], label: 'Format' });
     } else if (this.getResponseKind() === DomainKind.DATETIME) {
       config.push({ name: ['managedRepresentation', 'inputLimit', 'minimum'], label: 'After' });
       config.push({ name: ['managedRepresentation', 'inputLimit', 'maximum'], label: 'Before' });

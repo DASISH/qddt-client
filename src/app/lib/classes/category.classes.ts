@@ -98,7 +98,10 @@ export class Category implements IEntityEditAudit {
     this.categoryType = CategoryKind[kind];
     if (kind.valueOf() <= CategoryKind.CATEGORY) {
       this.code = new Code({ value: '1' });
+    } else if (kind.valueOf() <= CategoryKind.MISSING_GROUP) {
+      this.inputLimit.minimum = 0;
     }
+
     return this;
   }
 

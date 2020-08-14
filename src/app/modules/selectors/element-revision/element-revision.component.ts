@@ -18,7 +18,7 @@ import {
 @Component({
   selector: 'qddt-element-revision-select',
   template: `
-  <qddt-element-select *ngIf="showAutoComplete" [source]="source" [xmlLang]="xmlLang"
+  <qddt-element-select *ngIf="showAutoComplete" [source]="source" [xmlLang]="xmlLang" [formName]=""
     (elementSelectedEvent)="onSelectElement($event)" >
   </qddt-element-select>
 

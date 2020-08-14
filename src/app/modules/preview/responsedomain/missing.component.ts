@@ -1,5 +1,6 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { Category, UserResponse } from '../../../lib/classes';
+import { hasChanges } from 'src/app/lib/consts';
 
 @Component({
   selector: 'qddt-preview-rd-missing',
@@ -11,7 +12,7 @@ import { Category, UserResponse } from '../../../lib/classes';
     <div *ngFor="let category of missing.children;" >
       <span class="codeValue"> {{ category.code?.value }} </span>
       <label>
-        <input [name]="inputGroupName" type="radio" (change)="checkOption(category)"/>
+        <input [name]="inputGroupName" type="radio" (change)="checkOption(category)" [checked]="unchecked"/>
         <span >{{category.label}}</span>
       </label>
     </div>
@@ -19,12 +20,23 @@ import { Category, UserResponse } from '../../../lib/classes';
 `,
 })
 
-export class ResponsedomainMissingComponent {
+export class ResponsedomainMissingComponent implements OnChanges {
   @Output() selectedEvent = new EventEmitter<UserResponse[]>();
   @Input() managedRepresentation: Category;
   @Input() inputGroupName = 'option-select'
+  @Input() missingSelected = false
 
   public compId = Math.round(Math.random() * 10000);
+  public unchecked = "";
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (hasChanges(changes.missingSelected)) {
+      console.log(this.missingSelected);
+      if (changes.missingSelected.currentValue === false) {
+        this.unchecked = '';
+      }
+    }
+  }
 
   public get missing() {
     if (this.managedRepresentation.categoryType === 'MISSING_GROUP') {
@@ -34,6 +46,7 @@ export class ResponsedomainMissingComponent {
   }
 
   public checkOption(category: Category) {
-    this.selectedEvent.emit([{ label: category.label, value: category.code.value }]);
+    this.missingSelected = true;
+    this.selectedEvent.emit([{ label: category.label, value: category.code.value, isMissing: true }]);
   }
 }
