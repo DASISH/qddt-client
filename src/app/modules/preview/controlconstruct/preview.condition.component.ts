@@ -1,22 +1,32 @@
+import { ConditionKind } from './../../../lib/classes/controlconstruct.classes';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ConditionConstruct, Parameter, UserResponse, tryParse, isParamTrue, isBoolean, isObject } from '../../../lib';
 
 @Component({
   selector: 'qddt-preview-conditionconstruct',
   template: `
-    <ul *ngIf="condition">
-      <qddt-parameter [inParameters]="condition.inParameter" [outParameters]="condition.outParameter">
+    <ul *ngIf="construct">
+      <qddt-parameter [inParameters]="construct.parameterIn" [outParameters]="construct.parameterOut">
       </qddt-parameter>
       <li class="collection-item card-panel" >
         <p><label>Condition</label></p>
         <code [innerHtml]="innerHtml"> </code>
         <p><label>Ref</label></p>
-        <p>{{condition?.condition?.ref?.toString()}}</p>
-        <ng-container *ngIf="condition?.condition?.elseIf">
-          <p><label>ElseIF</label></p>
-          <code [innerHtml]="innerHtml2"> </code>
-          <p><label>Ref2</label></p>
-          <p>{{condition?.condition?.elseConstructReference?.toString()}}</p>
+        <p>{{construct?.condition?.ref?.toString()}}</p>
+
+        <ng-container [ngSwitch]="construct.conditionKind">
+          <ng-container *ngSwitchCase="refKind.ComputationItem"></ng-container>
+          <ng-container *ngSwitchCase="refKind.IfThenElse">
+            <p><label>ElseIF</label></p>
+            <code [innerHtml]="innerHtml2"> </code>
+
+            <p><label>Ref2</label></p>
+            <p>{{(construct.condition[0]}</p>
+
+          </ng-container>
+          <ng-container *ngSwitchCase="refKind.Loop"></ng-container>
+          <ng-container *ngSwitchCase="refKind.RepeatUntil"></ng-container>
+          <ng-container *ngSwitchCase="refKind.RepeatWhile"></ng-container>
         </ng-container>
       </li>
   </ul>
@@ -24,19 +34,19 @@ import { ConditionConstruct, Parameter, UserResponse, tryParse, isParamTrue, isB
 })
 
 export class PreviewConditionConstructComponent implements OnChanges {
-  @Input() condition: ConditionConstruct;
+  @Input() construct: ConditionConstruct;
   @Input() inParameters: Map<string, Parameter>;
   @Input() showDetail = true;
+  @Input() get outParameter() {
+    return (this.construct && this.construct.parameterOut && this.construct.parameterOut.length === 1) ?
+      this.construct.parameterOut[0] : null;
+  }
 
   public innerHtml = '';
   public innerHtml2 = '';
-
+  public refKind = ConditionKind;
   public readonly isParamTrueRef = isParamTrue;
 
-  private get outParameter() {
-    return (this.condition && this.condition.outParameter && this.condition.outParameter.length === 1) ?
-      this.condition.outParameter[0] : null;
-  }
 
   private isDifferent = (current: Map<string, Parameter>, prior: Map<string, Parameter>) => {
     if (!current) return false;
@@ -52,12 +62,12 @@ export class PreviewConditionConstructComponent implements OnChanges {
 
   public ngOnChanges(changes: SimpleChanges): void {
 
-    if (changes.inParameters && this.isDifferent(changes.inParameters.currentValue, changes.inParameters.previousValue)
-      && this.condition && this.condition.condition.condition) {
-      let expression = this.condition.condition.condition.content
+    if (changes.parameterIn && this.isDifferent(changes.parameterIn.currentValue, changes.parameterIn.previousValue)
+      && this.construct && this.construct.condition.condition) {
+      let expression = this.construct.condition.condition.content
       let label = expression;
-      this.assignReferenceAndValueTo(this.condition.inParameter);
-      this.condition.inParameter.forEach(p => {
+      this.assignReferenceAndValueTo(this.construct.parameterIn);
+      this.construct.parameterIn.forEach(p => {
         if (p.value) {
           expression = expression.replace(new RegExp('\\[' + p.name + '\\]', 'ig'), '[' + p.value.map(pp => pp.value).join(',').toString() + ']');
           label = label.replace(
@@ -67,13 +77,13 @@ export class PreviewConditionConstructComponent implements OnChanges {
       });
 
       this.assignValueToOutPutParameter(expression);
-      this.innerHtml = label + ' = ' + this.outParameter.value[0].value || '?' + '\nRef: ' + this.condition.condition.ref;
+      this.innerHtml = label + ' = ' + this.outParameter.value[0].value || '?' + '\nRef: ' + this.construct.condition.ref;
     }
   }
 
   private reversed = () => [...this.inParameters.entries()].reverse();
 
-  private Idx = () => this.reversed().findIndex(pre => pre[0] === this.condition.outParameter[0].id);
+  private Idx = () => this.reversed().findIndex(pre => pre[0] === this.construct.parameterOut[0].id);
 
   // UPDATES inputvariables, triggers a new changes.condition
   private assignReferenceAndValueTo(parameters: Parameter[]) {

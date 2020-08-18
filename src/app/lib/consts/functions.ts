@@ -84,6 +84,11 @@ export const isParamTrue = (parameter: Parameter) => {
   }
 }
 
+export const isMap = <K, V>(element: Map<K, V> | any): element is Map<K, V> => {
+  return (element) && (element as Map<K, V>).size !== undefined;
+}
+
+
 export const isIEntityEditAudit = (element: IEntityEditAudit | any): element is IEntityEditAudit => {
   return (element) && (element as IEntityEditAudit).modified !== undefined;
 }

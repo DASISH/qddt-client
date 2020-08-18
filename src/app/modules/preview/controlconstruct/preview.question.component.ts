@@ -1,11 +1,11 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { QuestionConstruct, Parameter, UserResponse, hasChanges } from '../../../lib';
 import * as uuid from 'uuid';
 @Component({
   selector: 'qddt-preview-questionconstruct',
   template: `
   <ul class="row" *ngIf="controlConstruct">
-    <qddt-parameter [inParameters]="controlConstruct.inParameter" [outParameters]="controlConstruct.outParameter">
+    <qddt-parameter [inParameters]="controlConstruct.parameterIn" [outParameters]="controlConstruct.parameterOut">
     </qddt-parameter>
 
     <ng-container *ngIf="controlConstruct?.universe?.length>0">
@@ -60,6 +60,7 @@ export class PreviewQuestionConstructComponent implements OnChanges {
   @Input() controlConstruct: QuestionConstruct;
   @Input() inParameters: Map<string, Parameter>
   @Input() showDetail = true;
+  @Output() selectedEvent = new EventEmitter<UserResponse[]>();
 
   public readonly filterInstructions = (rank: string) => this.controlConstruct.controlConstructInstructions
     .filter(f => f.instructionRank === rank)
@@ -69,25 +70,28 @@ export class PreviewQuestionConstructComponent implements OnChanges {
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (hasChanges(changes.controlConstruct)) {
-      this.assignValueToParameters(this.controlConstruct.inParameter);
+      this.assignValueToParameters(this.controlConstruct.parameterIn);
     }
 
-    if (changes.inParameters && changes.inParameters.currentValue
-      && this.controlConstruct && this.controlConstruct.inParameter.length > 0) {
-      this.assignValueToParameters(this.controlConstruct.inParameter);
+    if (changes.parameterIn && changes.parameterIn.currentValue
+      && this.controlConstruct && this.controlConstruct.parameterIn.length > 0) {
+      this.assignValueToParameters(this.controlConstruct.parameterIn);
     }
   }
 
   public onSelectedEvent(urs: UserResponse[]) {
-    if (this.controlConstruct.outParameter[0]) {
-      this.controlConstruct.outParameter[0].value = urs;
+    console.log('onSelectedEvent');
+    if (this.controlConstruct.parameterOut[0]) {
+      this.controlConstruct.parameterOut[0].value = urs;
     } else {
-      this.controlConstruct.outParameter[0] = new Parameter({ id: uuid.v4(), name: this.controlConstruct.name, value: urs });
+      this.controlConstruct.parameterOut[0] = new Parameter({ id: uuid.v4(), name: this.controlConstruct.name, value: urs });
     }
+    this.selectedEvent.emit(urs);
   }
 
 
   private assignValueToParameters(inParameters: Parameter[]) {
+    console.log('assignValueToParameters');
     const reversed = [...this.inParameters.entries()].reverse();
     inParameters.forEach((p, i, refArray) => {
       if (!p.referencedId) {
@@ -104,8 +108,8 @@ export class PreviewQuestionConstructComponent implements OnChanges {
   }
 
   public insertParam(text: string): string {
-    if (this.controlConstruct && this.controlConstruct.inParameter) {
-      this.controlConstruct.inParameter.forEach(p => {
+    if (this.controlConstruct && this.controlConstruct.parameterIn) {
+      this.controlConstruct.parameterIn.forEach(p => {
         if (p.value) {
           text = text.replace(
             new RegExp('\\[' + p.name + '\\]', 'ig'), '<mark>' + p.value.map(pp => (pp.label) ? pp.label : pp.value).join(',') + '</mark>');

@@ -117,6 +117,12 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit {
     this.instance.close();
   }
 
+  public onCheckParams(id, event) {
+    this.inParameters.get(id).value = event;
+    // console.log(id + event);
+  }
+
+
   public onItemNew(event: Event) {
     event.stopPropagation();
     this.action = ActionKind.Create;

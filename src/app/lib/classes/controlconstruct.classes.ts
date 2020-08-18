@@ -77,8 +77,8 @@ export abstract class AbstractControlConstruct implements IEntityEditAudit {
   description?: string;
   classKind: string;
   xmlLang?: string;
-  inParameter?: Parameter[];
-  outParameter?: Parameter[];
+  parameterIn?: Parameter[];
+  parameterOut?: Parameter[];
   abstract get parameters(): Parameter[];
 }
 
@@ -96,10 +96,10 @@ export class QuestionConstruct implements AbstractControlConstruct {
   otherMaterials: IOtherMaterial[] = [];
   universe: Universe[] = [];
   controlConstructInstructions: ConstructInstruction[] = [];
-  inParameter?: Parameter[] = [];
-  outParameter?: Parameter[] = [];
+  parameterIn?: Parameter[] = [];
+  parameterOut?: Parameter[] = [];
   xmlLang?: string;
-  get parameters() { return this.outParameter; }
+  get parameters() { return this.parameterOut; }
   get preInstructions() { return this.controlConstructInstructions.filter(f => f.instructionRank === 'PRE').map(p => p.instruction); }
   get postInstructions() { return this.controlConstructInstructions.filter(f => f.instructionRank === 'POST').map(p => p.instruction); }
 
@@ -125,8 +125,8 @@ export class SequenceConstruct implements AbstractControlConstruct {
   agency?: Agency;
   archived?: boolean;
   otherMaterials?: IOtherMaterial[];
-  inParameter?: Parameter[] = [];
-  outParameter?: Parameter[] = [];
+  parameterIn?: Parameter[] = [];
+  parameterOut?: Parameter[] = [];
   xmlLang?: string;
   comments?: IComment[];
   classKind = ElementKind[ElementKind.SEQUENCE_CONSTRUCT];
@@ -145,11 +145,12 @@ export class StatementConstruct implements AbstractControlConstruct {
   id: string;
   name: string;
   statement: string;
-  inParameter?: Parameter[] = [];
-  outParameter?: Parameter[];
+  parameterIn?: Parameter[] = [];
+  parameterOut?: Parameter[] = [];
+
   xmlLang?: string;
   classKind = ElementKind[ElementKind.STATEMENT_CONSTRUCT];
-  get parameters() { return this.outParameter; }
+  get parameters() { return this.parameterOut; }
 
   public constructor(init?: Partial<StatementConstruct>) {
     Object.assign(this, init);
@@ -165,11 +166,11 @@ export class ConditionConstruct implements AbstractControlConstruct {
   description?: string;
   conditionKind: string;
   condition: IfThenElse | Loop | RepeatWhile | RepeatUntil;
-  inParameter?: Parameter[] = [];
-  outParameter?: Parameter[] = [];
+  parameterIn?: Parameter[] = [];
+  parameterOut?: Parameter[] = [];
   classKind = ElementKind[ElementKind.CONDITION_CONSTRUCT];
   xmlLang?: string;
-  get parameters() { return this.outParameter; }
+  get parameters() { return this.parameterOut; }
 
   public constructor(init?: Partial<ConditionConstruct>) {
     Object.assign(this, init);
@@ -214,8 +215,7 @@ export abstract class ConRef {
 export class IfThenElse implements ConRef {
   ifCondition: Condition = new Condition();
   thenConstructReference: ConstructReferenceKind = ConstructReferenceKind.NEXT_IN_LINE;
-  elseIf?: Condition = new Condition();
-  elseConstructReference?: ConstructReferenceKind = ConstructReferenceKind.NONE;
+  [index: number]: { ifCondition: Condition, thenConstructReference: ConstructReferenceKind };
   public constructor(init?: Partial<IfThenElse>) {
     Object.assign(this, init);
   }
@@ -294,5 +294,5 @@ export const isCondition = (element: any | Condition): element is Condition => {
 // }
 
 export const isAbstractControlConstruct = (element: any | AbstractControlConstruct): element is AbstractControlConstruct => {
-  return (element) && (element as AbstractControlConstruct).outParameter !== undefined;
+  return (element) && (element as AbstractControlConstruct).parameterOut !== undefined;
 }

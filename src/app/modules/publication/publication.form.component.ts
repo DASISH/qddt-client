@@ -1,3 +1,4 @@
+
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import {
   ActionKind,
@@ -8,8 +9,9 @@ import {
   PublicationStatus, SelectItem,
   TemplateService,
   Parameter,
-  SequenceConstruct
-} from '../../lib';
+  SequenceConstruct, LANGUAGE_MAP
+} from 'src/app/lib';
+
 
 
 @Component({
@@ -28,6 +30,7 @@ export class PublicationFormComponent implements OnChanges, OnInit, AfterViewIni
   public statusMap: SelectItem[];
 
   public readonly PUBLICATION = PUBLICATION_TYPES;
+  public readonly languageMap = LANGUAGE_MAP;
 
   private statusList: PublicationStatus[];
 

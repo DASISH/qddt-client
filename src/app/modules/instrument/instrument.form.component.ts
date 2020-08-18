@@ -31,8 +31,6 @@ export class InstrumentFormComponent implements OnChanges {
   public SOURCE: IElement | IRevisionRef | null;
   public readonly CONSTRUCT = SEQUENCE_TYPES;
 
-  public inParameters: Parameter[] = [];
-
   public readonly instrumentMap = INSTRUMENT_MAP;
   public readonly languageMap = LANGUAGE_MAP;
   public readonly constructMap = CONSTRUCT_MAP;
@@ -57,8 +55,6 @@ export class InstrumentFormComponent implements OnChanges {
   public ngOnChanges(changes: SimpleChanges): void {
     if (hasChanges(changes.instrument)) {
       this.instrument = new Instrument(JSON.parse(JSON.stringify(changes.instrument.currentValue)));
-      this.inParameters = [...this.instrument.parameters.values()];
-      // console.log(this.inParameters || JSON);
       this.currentInstrumentType = InstrumentKind[this.instrument.instrumentKind];
       this.service.canDoAction(ActionKind.Update, this.instrument)
         .then(can => this.readonly = !can);
@@ -95,7 +91,10 @@ export class InstrumentFormComponent implements OnChanges {
     const action = response.action as ActionKind;
     const ref = response.ref as TreeNodeRevisionRef;
     switch (action) {
-      case ActionKind.Read: this.inParameters = [...this.instrument.parameters.values()]; break;
+      case ActionKind.Read:
+        console.log('READ');
+        this.instrument.parameterOut.get(ref.id).value = ref.element.parameterOut[0].value;
+        break;
       case ActionKind.Create: this.onItemAdded(ref); break;
       case ActionKind.Update: this.onItemModified(ref); break;
       case ActionKind.Delete: this.onItemRemoved(ref); break;

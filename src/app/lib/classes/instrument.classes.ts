@@ -2,7 +2,6 @@ import { ActionKind, ElementKind } from '../enums';
 import { ISelectOption, IEntityAudit } from '../interfaces';
 import { UserResponse } from './responsedomain.classes';
 import { AbstractControlConstruct } from './controlconstruct.classes';
-import { Study } from './home.classes';
 import { TreeNodeRevisionRefImpl, TreeNodeRevisionRef } from './treenode-revision-ref';
 import { ElementRevisionRef } from './element-revision-ref';
 
@@ -102,40 +101,36 @@ export class Instrument implements IEntityAudit {
   comments: any[];
   xmlLang?: string;
   classKind = ElementKind[ElementKind.INSTRUMENT];
-  parameters: Map<string, Parameter>;
-  outParameters: Map<string, Parameter>;
   root: TreeNodeRevisionRefImpl<AbstractControlConstruct>;
+  parameterIn: Parameter[] = [];
+  parameterOut = new Map<string, Parameter>();
 
   public constructor(init?: Partial<Instrument>) {
     Object.assign(this, init);
     if (!this.root) {
       this.root = new TreeNodeRevisionRefImpl<AbstractControlConstruct>({ name: 'root', elementKind: 'SEQUENCE_CONSTRUCT' });
     }
-    if (init) {
-      this.parameters = new Map<string, Parameter>();
-      if (init.root && init.root.children.length > 0) {
-        mapTreeNodes(this.root.children).forEach((entity) => {
-          if (!this.parameters.has(entity.id)) {
-            this.parameters.set(entity.id, new Parameter({ id: entity.id, name: entity.name }))
+    if (init && init.root && init.root.children.length > 0) {
+      mapTreeNodes(this.root.children).forEach((entity) => {
+        entity.parameters.forEach((p) => {
+          if (getParameterKind(p.parameterKind) === ParameterKind.OUT) {
+            if (!this.parameterOut.has(entity.id)) {
+              this.parameterOut.set(entity.id, p);
+            }
+          } else {
+            if (this.parameterIn.findIndex(f => f.id === p.id && f.name === p.name))
+              this.parameterIn.push(p);
           }
         });
-      }
-
-      if (init.outParameters) {
-        this.outParameters = new Map<string, Parameter>();
-        Object.keys(init.outParameters).forEach(key => {
-          this.outParameters.set(key, init.outParameters[key]);
-        });
-      }
+      });
     }
-    // console.log(this.parameters || JSON);
   }
 }
-
 export class Parameter {
   id: string;
   name: string;
   referencedId?: string;
+  parameterKind: ParameterKind;
   value: UserResponse[] = [];
   public constructor(init?: Partial<Parameter>) {
     Object.assign(this, init);
@@ -144,14 +139,7 @@ export class Parameter {
     if (this.id !== arg0.id) return false;
     if (this.value.length !== arg0.value.length) return false;
 
-    for (var i = 0, l = this.value.length; i < l; i++) {
-      // Check if we have nested arrays
-      // if (this[i] instanceof Array && array[i] instanceof Array) {
-      //     // recurse into the nested arrays
-      //     if (!this[i].equals(array[i]))
-      //         return false;
-      // }
-      // else
+    for (let i = 0, l = this.value.length; i < l; i++) {
       if (this.value[i] !== arg0.value[i]) {
         return false;
       }
@@ -166,4 +154,13 @@ export class EventAction {
   public constructor(init?: Partial<EventAction>) {
     Object.assign(this, init);
   }
+}
+
+export enum ParameterKind {
+  IN,
+  OUT
+}
+
+export function getParameterKind(kind: string | ParameterKind): ParameterKind {
+  return ParameterKind[kind];
 }

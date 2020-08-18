@@ -1,8 +1,7 @@
-import { element } from 'protractor';
 import { Component, Input, AfterViewInit, SimpleChanges, OnChanges } from '@angular/core';
 import {
   ElementKind, ElementRevisionRefImpl, getElementKind, getIcon,
-  AbstractControlConstruct, PreviewService, SequenceConstruct, Parameter, isParamTrue, Factory, isAbstractControlConstruct, hasChanges
+  AbstractControlConstruct, PreviewService, SequenceConstruct, Parameter, hasChanges
 } from '../../../lib';
 
 
@@ -31,7 +30,7 @@ import {
               <ng-container *ngTemplateOutlet="sequenceConstructTmpl; context:{ sequence: cqi.element, counter: nextLevel(counter) }"></ng-container>
             </ng-container>
             <ng-container *ngSwitchCase="'CONDITION_CONSTRUCT'">
-              <qddt-preview-conditionconstruct [condition]="cqi.element" [inParameters]="inParameters"></qddt-preview-conditionconstruct>
+              <qddt-preview-conditionconstruct [construct]="cqi.element" [inParameters]="inParameters"></qddt-preview-conditionconstruct>
             </ng-container>
             <ng-container *ngSwitchCase="'STATEMENT_CONSTRUCT'">
               <qddt-preview-statementconstruct  [statement]="cqi.element" [inParameters]="inParameters"></qddt-preview-statementconstruct>

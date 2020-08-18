@@ -3,7 +3,7 @@
     <qddt-preview-concept [concept]="element"></qddt-preview-concept>
   </ng-container>
   <ng-container *ngSwitchCase=instanceRefEnum.CONDITION_CONSTRUCT>
-    <qddt-preview-conditionconstruct [condition]="element" [inParameters]="inParameters" [showDetail]="showDetail">
+    <qddt-preview-conditionconstruct [construct]="element" [inParameters]="inParameters" [showDetail]="showDetail">
     </qddt-preview-conditionconstruct>
   </ng-container>
   <ng-container *ngSwitchCase=instanceRefEnum.QUESTION_CONSTRUCT>
@@ -50,16 +50,10 @@
       <p [innerHtml]="element['description']"></p>
     </li>
   </ng-container>
-  <!-- <div *ngSwitchCase=instanceRefEnum.STATEMENT_CONSTRUCT>
-    <li class="collection-item" *ngIf="element['description']">
-      <p [innerHtml]="element['description']"></p>
-    </li>
-  </div> -->
+
   <ng-container *ngSwitchDefault>
     <!--CATEGORY = 0,-->
-    <!--...-->
     <!--PUBLICATION,-->
-    <!--...-->
     <!--INSTRUCTION,-->
     <!--UNIVERSE-->
     <ul class=" grey-text text-darken-3">

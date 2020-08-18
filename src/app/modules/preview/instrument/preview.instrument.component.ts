@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ElementRevisionRef, Instrument } from '../../../lib/classes';
+import { ElementRevisionRef, Instrument, UserResponse } from '../../../lib/classes';
 import { MessageService, PreviewService } from '../../../lib/services';
 
 @Component({
@@ -21,7 +21,7 @@ import { MessageService, PreviewService } from '../../../lib/services';
         </div>
       </div>
       <div class="collapsible-body">
-        <qddt-preview-controlconstruct [construct]="cc.element" [inParameters]="instrument.parameters.entries()">
+        <qddt-preview-controlconstruct [construct]="cc.element" [inParameters]="instrument.parameterOut" (selectedEvent)="checkParams(cc.id, $event)">
         </qddt-preview-controlconstruct>
       </div>
     </li>
@@ -46,5 +46,10 @@ export class PreviewInstrumentComponent {
         (result) => { element.element = result.entity; },
         (error) => { throw error; });
     }
+  }
+
+  public checkParams(id: string, response: UserResponse[]) {
+    console.log(id + ' ' + response[0]);
+    this.instrument.parameterOut.get(id).value = response;
   }
 }

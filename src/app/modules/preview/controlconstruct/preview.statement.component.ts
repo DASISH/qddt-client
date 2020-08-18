@@ -5,7 +5,7 @@ import { StatementConstruct, Parameter, hasChanges } from '../../../lib';
   selector: 'qddt-preview-statementconstruct',
   template: `
   <ul *ngIf="statement">
-    <qddt-parameter [inParameters]="statement.inParameter" [outParameters]="statement.outParameter">
+    <qddt-parameter [inParameters]="statement.parameterIn" [outParameters]="statement.parameterOut">
     </qddt-parameter>
     <li class="collection-item" >
       <p [innerHtml]="insertParam(statement?.statement)" style="font-style: italic"></p>
@@ -20,13 +20,13 @@ export class PreviewStatementConstructComponent implements OnChanges {
 
   public ngOnChanges(changes: SimpleChanges): void {
 
-    if (hasChanges(changes.statement) && changes.statement.currentValue.inParameter.length > 0) {
-      this.assignValueToParameters(this.statement.inParameter);
+    if (hasChanges(changes.statement) && changes.statement.currentValue.parameterIn.length > 0) {
+      this.assignValueToParameters(this.statement.parameterIn);
     }
 
-    if (changes.inParameters && changes.inParameters.currentValue
-      && this.statement && this.statement.inParameter.length > 0) {
-      this.assignValueToParameters(this.statement.inParameter);
+    if (changes.parameterIn && changes.parameterIn.currentValue
+      && this.statement && this.statement.parameterIn.length > 0) {
+      this.assignValueToParameters(this.statement.parameterIn);
     }
   }
 
@@ -47,8 +47,8 @@ export class PreviewStatementConstructComponent implements OnChanges {
   }
 
   public insertParam(text: string): string {
-    if (this.statement && this.statement.inParameter) {
-      this.statement.inParameter.forEach(p => {
+    if (this.statement && this.statement.parameterIn) {
+      this.statement.parameterIn.forEach(p => {
         if (p.value) {
           text = text.replace(
             new RegExp('\\[' + p.name + '\\]', 'ig'), '<mark>' + p.value.map(pp => (pp.label) ? pp.label : pp.value).join(',') + '</mark>');

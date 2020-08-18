@@ -25,18 +25,20 @@ import { ConstructReferenceKind, IElementRef, IfThenElse, toSelectItems } from '
     [lockups]="CONDITION"
     >
   </qddt-select>
+  <ng-container *ngFor="let item of element; index as idx">
   <qddt-textarea class="col s9"
-    name="elseif"
+    name="content-idx"
     label="ElseIf"
-    [(ngModel)]="element.elseIf.content"
+    [(ngModel)]="element[idx].ifCondition.content"
     data-length="100">
   </qddt-textarea>
   <qddt-select class="col s3"
-    name="elseconstructreference"
+    name="ref-idx"
     label="ElseConstructReference"
-    [(ngModel)]="element.elseConstructReference"
+    [(ngModel)]="element[idx].thenConstructReference"
     [lockups]="CONDITION">
   </qddt-select>
+  </ng-container>
 </form>
 `,
 })

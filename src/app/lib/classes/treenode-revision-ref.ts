@@ -1,17 +1,22 @@
 import { SequenceConstruct } from './controlconstruct.classes';
 import { ElementRevisionRef } from './element-revision-ref';
 import { IEntityEditAudit } from '../interfaces';
+import { Parameter } from './instrument.classes';
 
-import * as uuid from 'uuid';
-import { ElementKind } from '../enums';
+// import * as uuid from 'uuid';
+
 
 export abstract class TreeNodeRevisionRef extends ElementRevisionRef {
   id: string;
+  parameters: Parameter[]
   children: TreeNodeRevisionRef[] = [];
 
   public constructor(init?: Partial<TreeNodeRevisionRef>) {
     super();
     Object.assign(this, init);
+    if (init.parameters){
+
+    }
     // if (!init.id) {
     //   this.id = uuid.v4();
     // }

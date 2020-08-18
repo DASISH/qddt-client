@@ -1,20 +1,36 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Parameter, isParamTrue } from 'src/app/lib';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Parameter, isParamTrue, isMap, hasChanges } from 'src/app/lib';
 
 @Component({
   selector: 'qddt-parameter',
   templateUrl: './parameter.component.html',
 })
-export class ParameterComponent implements OnInit {
-  @Input() inParameters: Parameter[];
-  @Input() outParameters: Parameter[];
+export class ParameterComponent implements OnChanges {
+  @Input() inParameters: any; //Parameter[] | Map<string, Parameter>
+  @Input() outParameters: Parameter[] | Map<string, Parameter>
   @Input() showParameters = false;
+
+  public countIn = 0;
+  public countOut = 0;
   public readonly isTrue = isParamTrue;
+  public readonly isMapTrue = isMap;
+
 
   constructor() { }
+  ngOnChanges(changes: SimpleChanges): void {
+    this.countIn = hasChanges(changes.inParameters) ?
+      this.isMapTrue(changes.inParameters.currentValue) ?
+        changes.inParameters.currentValue.size :
+        changes.inParameters.currentValue.length :
+      0;
 
-  ngOnInit(): void {
+    this.countOut = hasChanges(changes.outParameters) ?
+      this.isMapTrue(changes.outParameters.currentValue) ?
+        changes.outParameters.currentValue.size :
+        changes.outParameters.currentValue.length :
+      0;
   }
+
   public onClickIgnore(event: Event) {
     event.stopPropagation();
     // console.log('ignore click');
@@ -22,7 +38,11 @@ export class ParameterComponent implements OnInit {
 
   public getParam(param: Parameter, divider: string): string {
     try {
-      return param.name + divider + ((param.value) ? param.value.map(p => '[' + p.value + ':' + p.label + ']').join(',') : '?');
+      const value = this.isMapTrue(this.outParameters) && (param.referencedId) ?
+        this.outParameters.get(param.referencedId).value :
+        param.value;
+
+      return param.name + divider + ((value) ? value.map(p => '[' + p.value + ':' + p.label + ']').join(',') : '?');
     } catch (ex) {
       // console.log(ex);
       return '?';
