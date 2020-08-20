@@ -26,6 +26,7 @@ export class PreviewStatementConstructComponent implements OnChanges {
 
     if (changes.parameterIn && changes.parameterIn.currentValue
       && this.statement && this.statement.parameterIn.length > 0) {
+      console.log('statement change');
       this.assignValueToParameters(this.statement.parameterIn);
     }
   }

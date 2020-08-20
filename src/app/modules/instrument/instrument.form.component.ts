@@ -93,7 +93,7 @@ export class InstrumentFormComponent implements OnChanges {
     switch (action) {
       case ActionKind.Read:
         console.log('READ');
-        this.instrument.parameterOut.get(ref.id).value = ref.element.parameterOut[0].value;
+        this.instrument.initParameters();
         break;
       case ActionKind.Create: this.onItemAdded(ref); break;
       case ActionKind.Update: this.onItemModified(ref); break;
@@ -102,6 +102,7 @@ export class InstrumentFormComponent implements OnChanges {
         console.error('wrong action recieved ' + ActionKind[action]);
       }
     }
+    // this.instrument.initParameters();
   }
 
   public onItemRemoved(ref: TreeNodeRevisionRef) {

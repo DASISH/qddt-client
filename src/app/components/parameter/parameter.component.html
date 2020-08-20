@@ -1,38 +1,38 @@
-<ul class="collection with-header hoverable row" *ngIf=" (countIn + countOut )> 0">
+<div class="collection with-header hoverable row" *ngIf=" (countIn + countOut )> 0" cdkDropListGroup>
   <div class="collection-header col s12" style="cursor: zoom-in;" (click)="showParameters=!showParameters">
     <label> <i class="material-icons small">compare_arrows</i>Parameters({{ countIn + countOut }})</label>
   </div>
 
-  <li *ngIf="countIn > 0 && showParameters" class="collection-item" cdkDropList cdkDrop [cdkDropListData]="inParameters"
-    (cdkDropListDropped)="onItemDrop($event)">
-    <div class="title">In Parameters [{{countIn}}]</div>
+  <div *ngIf="countIn > 0 && showParameters" class="collection-item">
+    <label>In ({{countIn}})</label>
     <ng-container *ngIf="isMapTrue(inParameters) && inParameters?.size>0">
       <div class="chip" style="margin-left: 0.75rem;" [ngClass]="{'green lighten-5': isTrue(entry.value) }"
-        title="In parameter" *ngFor="let entry of inParameters| keyvalue">
-        {{getParam(entry.value, '🢨')}}
+        [title]="entry.value.referencedId" *ngFor="let entry of inParameters| keyvalue:valueAscOrder">
+        {{getParam(entry.value)}}
       </div>
     </ng-container>
     <ng-container *ngIf="inParameters?.length>0">
       <div class="chip" style="margin-left: 0.75rem;" [ngClass]="{'green lighten-5': isTrue(parameter) }"
-        title="In parameter" *ngFor="let parameter of inParameters">
-        {{getParam(parameter, '🢨')}}
+        [title]="parameter.referencedId" cdkDrag *ngFor="let parameter of sortBy(inParameters,'idx')" cdkDropList
+        [cdkDropListEnterPredicate]="valid" (cdkDropListDropped)="onItemDrop($event.item.data, parameter)">
+        {{getParam(parameter)}}
       </div>
     </ng-container>
-  </li>
-  <li *ngIf="countOut > 0 && showParameters" class="collection-item">
-    <div class="title">Out Parameters [{{countOut}}]</div>
+  </div>
+  <div *ngIf="countOut > 0 && showParameters" class="collection-item" cdkDropList>
+    <label>Out ({{countOut}})</label>
     <ng-container *ngIf="isMapTrue(outParameters) && outParameters?.size>0">
-      <div class="chip" style="margin-left: 0.75rem; cursor: grab;" cdkDrag cdkDragHandle
-        [ngClass]="{'green lighten-5': isTrue(entry.value) }" title="Out parameter"
-        *ngFor="let entry of outParameters| keyvalue">
-        {{getParam(entry.value, '🢩')}}
+      <div class="chip" style="margin-left: 0.75rem; cursor: grab;"
+        [ngClass]="{'green lighten-5': isTrue(entry.value) }" [title]="entry.value.id"
+        *ngFor="let entry of outParameters | keyvalue:valueAscOrder;let idx=index;" cdkDrag [cdkDragData]="entry.value">
+        {{idx+1}}:{{getParam(entry.value)}}
       </div>
     </ng-container>
     <ng-container *ngIf="outParameters?.length>0">
       <div class="chip" style="margin-left: 0.75rem;" [ngClass]="{'green lighten-5': isTrue(parameter) }"
-        title="Out parameter" *ngFor="let parameter of outParameters">
-        {{getParam(parameter, '🢩')}}
+        [title]="parameter.id" *ngFor="let parameter of outParameters">
+        {{getParam(parameter)}}
       </div>
     </ng-container>
-  </li>
-</ul>
+  </div>
+</div>

@@ -12,17 +12,21 @@ import {
   Parameter,
   TreeNodeRevisionRef,
   ElementRevisionRef,
-  TreeNodeRevisionRefImpl
+  TreeNodeRevisionRefImpl,
+  mergeParameters
 } from '../../../lib';
 
 
 @Component({
   selector: 'qddt-instrument-treenode',
   styles: [
-    'ul.collapsible { padding: 1px; border: 0; margin-top:0; margin-bottom: 0; }',
+    'ul.collapsible { padding: 1px; border: 0; margin-top:0; margin-bottom: 0;  }',
     'ul.collapsible  ul.collapsible {  margin-left: 1rem; }',
     '.collapsible-header {padding: 0.75rem; }',
     '.collapsible-header:hover > ul.dropleft { display:block; }',
+    'ul.collapsible > li:not(.SEQ) {  counter-increment: item; }',
+    'ul.collapsible > li:not(.SEQ):before { content: counters(item, ".") ;  position: absolute; font-size: 0.6rem; }',
+
   ],
   templateUrl: './instrument-treenode.component.html'
 })
@@ -76,8 +80,7 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit {
   }
 
   public onOpenBody(item: TreeNodeRevisionRef) {
-
-    if (!item.element && !this.isSequence(item)) {
+    if (!item.element && (!this.isSequence(item) || item.children.length === 0)) {
       M.Collapsible.init(document.querySelectorAll('.collapsible'));
       const kind = getElementKind(item.elementKind);
       this.service.getByKindRevision(
@@ -85,9 +88,10 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit {
         item.elementId,
         item.elementRevision)
         .then((result) => {
-          // console.log('create from seed');
           item.element = Factory.createFromSeed(kind, result.entity);
+          mergeParameters(item);
           item.version = result.entity.version;
+          // console.log('create from seed');
           this.actionEvent.emit({ action: ActionKind.Read, ref: item });
         });
     }
@@ -155,6 +159,25 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit {
   }
 
   // -------------------------------------------------------------------
+
+
+  // private mergeParameters(construct: AbstractControlConstruct, parameters: Parameter[]) {
+  //   //update params from source, delete if no match
+  //   // insert no match params in source
+  //   console.log('mergeParameters');
+  //   construct.parameterOut = parameters.filter(f => (getParameterKind(f.parameterKind) === ParameterKind.OUT));
+  //   const paramIn = parameters.filter(f => (getParameterKind(f.parameterKind) === ParameterKind.IN));
+
+  //   construct.parameterIn.forEach(pi => {
+  //     let found = paramIn.find(pi2 => pi2.name === pi.name);
+  //     if (found) {
+  //       pi = found;
+  //     } else {
+  //       parameters.push(pi);
+  //     }
+  //   });
+
+  // }
 
 
 

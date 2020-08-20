@@ -86,10 +86,8 @@ const mapTreeNodes = (nodes: TreeNodeRevisionRef[]): TreeNodeRevisionRef[] =>
   [].concat(nodes.flatMap(node =>
     (node.children && node.children.length > 0) ? [...mapTreeNodes(node.children)] : [node]));
 
-// function* yieldTreeNodes(nodes: TreeNodeRevisionRef[]) {
-//     nodes.forEach(node =>
-//       (node.children && node.children.length > 0) ? yieldTreeNodes(node.children) : yield node);
-//     }
+
+
 
 export class Instrument implements IEntityAudit {
   id: string;
@@ -111,23 +109,30 @@ export class Instrument implements IEntityAudit {
       this.root = new TreeNodeRevisionRefImpl<AbstractControlConstruct>({ name: 'root', elementKind: 'SEQUENCE_CONSTRUCT' });
     }
     if (init && init.root && init.root.children.length > 0) {
-      mapTreeNodes(this.root.children).forEach((entity) => {
-        entity.parameters.forEach((p) => {
-          if (getParameterKind(p.parameterKind) === ParameterKind.OUT) {
-            if (!this.parameterOut.has(entity.id)) {
-              this.parameterOut.set(entity.id, p);
-            }
-          } else {
-            if (this.parameterIn.findIndex(f => f.id === p.id && f.name === p.name))
-              this.parameterIn.push(p);
-          }
-        });
-      });
+      this.initParameters();
     }
   }
+  initParameters = () => mapTreeNodes(this.root.children).forEach((entity, index) => {
+    entity.parameters.forEach((p) => {
+      p.id = entity.id;
+      p.idx = index;
+      if (getParameterKind(p.parameterKind) === ParameterKind.OUT) {
+        if (!this.parameterOut.has(entity.id)) {
+          this.parameterOut.set(entity.id, p);
+          // console.log(p);
+        }
+      } else {
+        if (this.parameterIn.findIndex(f => f.id === p.id && f.name === p.name) < 0) {
+          this.parameterIn.push(p);
+          // console.log(p);
+        }
+      }
+    });
+  });
 }
 export class Parameter {
   id: string;
+  idx?: number;
   name: string;
   referencedId?: string;
   parameterKind: ParameterKind;

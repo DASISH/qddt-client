@@ -18,7 +18,7 @@ import {
       <qddt-preview-sequenceconstruct [sequenceConstruct]="construct" [inParameters]="inParameters" ></qddt-preview-sequenceconstruct>
     </ng-container>
     <ng-container *ngSwitchCase="'CONDITION_CONSTRUCT'">
-      <qddt-preview-conditionconstruct [construct]="construct" [inParameters]="inParameters" ></qddt-preview-conditionconstruct>
+      <qddt-preview-conditionconstruct [construct]="construct" [inParameters]="inParameters" (selectedEvent)="onModified($event)" ></qddt-preview-conditionconstruct>
     </ng-container>
     <ng-container *ngSwitchCase="'STATEMENT_CONSTRUCT'">
       <qddt-preview-statementconstruct [statement]="construct" [inParameters]="inParameters" ></qddt-preview-statementconstruct>
@@ -49,7 +49,7 @@ export class PreviewControlConstructComponent {
   ElementKind.INSTRUCTION, ElementKind.STATEMENT_CONSTRUCT, ElementKind.INSTRUCTION];
 
   public onModified(event: UserResponse[]) {
-    console.log(event);
+    // console.log(event);
     this.selectedEvent.emit(event);
   }
 

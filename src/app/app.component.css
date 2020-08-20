@@ -98,6 +98,6 @@ ul.dropleft > li { display:inline-flex; padding: 0 10px 0  5px; }
 
 .question { white-space: nowrap; overflow: hidden;text-overflow: ellipsis; display: flow-root; line-height:30px; color: gray; }
 
-.codeValue { width: 30px; float: left;}
+.codeValue { width: max-content; float: left;}
 
 .editGreen {background-color: #e7ece7 !important;}

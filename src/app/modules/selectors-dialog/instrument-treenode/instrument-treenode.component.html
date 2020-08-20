@@ -6,7 +6,8 @@
 
     <ng-template #treeNodesImpl let-nodes="nodes" let-level="level">
       <ul *ngIf="nodes" class="collapsible" data-collapsible="accordion">
-        <li *ngFor="let node of nodes; trackBy:trackById;" (click)="onOpenBody(node)">
+        <li *ngFor="let node of nodes; trackBy:trackById;" (click)="onOpenBody(node)"
+          [ngClass]="{'SEQ': isSequence(node)}">
           <div class="collapsible-header" cdkDrag>
             <ul class="dropleft" *ngIf="!readonly && level==1">
               <li>
@@ -46,16 +47,12 @@
             <qddt-preview-controlconstruct *ngIf="!isSequence(node)" [construct]="node.element" [showDetail]="false"
               [inParameters]="inParameters" (selectedEvent)="onCheckParams(node.id, $event)">
             </qddt-preview-controlconstruct>
-
-            <!-- <qddt-preview-element *ngIf="!isSequence(node)" [element]="node.element" [showDetail]="false"
-              [inParameters]="node.parameter">
-            </qddt-preview-element> -->
           </div>
           <ng-container *ngTemplateOutlet="treeNodesImpl; context:{ nodes: node.children, level:level+1 }">
           </ng-container>
         </li>
         <li *ngIf="level==1">
-          <div class="collapsible-header " (click)="onItemNew($event)">
+          <div class="collapsible-header" (click)="onItemNew($event)">
             <i class="material-icons small teal-text text-lighten-3">vertical_align_top</i>
             <div class="col s12 blue-text text-lighten-2" [innerHtml]="'Add New Element'"></div>
           </div>

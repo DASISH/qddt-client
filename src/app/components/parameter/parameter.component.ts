@@ -1,5 +1,7 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Parameter, isParamTrue, isMap, hasChanges } from 'src/app/lib';
+import { CdkDrag } from '@angular/cdk/drag-drop';
+import { KeyValue } from '@angular/common';
 
 @Component({
   selector: 'qddt-parameter',
@@ -7,7 +9,7 @@ import { Parameter, isParamTrue, isMap, hasChanges } from 'src/app/lib';
 })
 export class ParameterComponent implements OnChanges {
   @Input() inParameters: any; //Parameter[] | Map<string, Parameter>
-  @Input() outParameters: Parameter[] | Map<string, Parameter>
+  @Input() outParameters: any; //Parameter[] | Map<string, Parameter>
   @Input() showParameters = false;
 
   public countIn = 0;
@@ -15,8 +17,28 @@ export class ParameterComponent implements OnChanges {
   public readonly isTrue = isParamTrue;
   public readonly isMapTrue = isMap;
 
+  private readonly in = '🢨';
+  private readonly out = '🢩';
+
+  public readonly valueAscOrder = (a: KeyValue<string, Parameter>, b: KeyValue<string, Parameter>): number => {
+    return a.value.idx - b.value.idx;
+  }
+
 
   constructor() { }
+
+
+  public refresh() {
+    this.countIn = this.isMapTrue(this.inParameters) ?
+      this.inParameters.size :
+      this.inParameters.length;
+
+    this.countOut = this.isMapTrue(this.outParameters) ?
+      this.outParameters.size :
+      this.outParameters.length;
+
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     this.countIn = hasChanges(changes.inParameters) ?
       this.isMapTrue(changes.inParameters.currentValue) ?
@@ -33,21 +55,39 @@ export class ParameterComponent implements OnChanges {
 
   public onClickIgnore(event: Event) {
     event.stopPropagation();
-    // console.log('ignore click');
+  }
+
+  /** Predicate function that only allows even numbers to be dropped into a list. */
+  valid(drag: CdkDrag) {
+    return true;
+  }
+
+  public onItemDrop(source: Parameter, target: Parameter) {
+    target.referencedId = source.id;
   }
 
   public getParam(param: Parameter, divider: string): string {
     try {
-      const value = this.isMapTrue(this.outParameters) && (param.referencedId) ?
-        this.outParameters.get(param.referencedId).value :
-        param.value;
+      const value = this.isMapTrue<string, Parameter>(this.outParameters) ?
+        (param.referencedId) ? this.outParameters.get(param.referencedId).value : param.value :
+        (param.referencedId) ? this.outParameters.find(f => f.id === param.referencedId).value : param.value;
 
-      return param.name + divider + ((value) ? value.map(p => '[' + p.value + ':' + p.label + ']').join(',') : '?');
+      if (param.parameterKind === 'OUT') {
+        return param.name + this.out + ((value) ? value.map(p => '[' + p.value + ':' + p.label + ']').join(',') : '?');
+      } else {
+
+
+        return param.name + this.in + ((value) ? value.map(p => '[' + p.value + ':' + p.label + ']').join(',') :
+          (param.referencedId) ? '?' : '#ref?');
+      }
+
     } catch (ex) {
-      // console.log(ex);
+      console.log('getparm feil');
       return '?';
     }
   }
 
-
+  public sortBy(source: [], prop: string) {
+    return source.sort((a, b) => a[prop] > b[prop] ? 1 : a[prop] === b[prop] ? 0 : -1);
+  }
 }

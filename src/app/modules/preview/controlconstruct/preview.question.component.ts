@@ -73,25 +73,29 @@ export class PreviewQuestionConstructComponent implements OnChanges {
       this.assignValueToParameters(this.controlConstruct.parameterIn);
     }
 
-    if (changes.parameterIn && changes.parameterIn.currentValue
+    if (changes.inParameters && changes.inParameters.currentValue
       && this.controlConstruct && this.controlConstruct.parameterIn.length > 0) {
       this.assignValueToParameters(this.controlConstruct.parameterIn);
+      console.log('question change')
     }
   }
 
   public onSelectedEvent(urs: UserResponse[]) {
-    console.log('onSelectedEvent');
+    // console.log('onSelectedEvent');
     if (this.controlConstruct.parameterOut[0]) {
       this.controlConstruct.parameterOut[0].value = urs;
     } else {
-      this.controlConstruct.parameterOut[0] = new Parameter({ id: uuid.v4(), name: this.controlConstruct.name, value: urs });
+      this.controlConstruct.parameterOut[0] = new Parameter({ id: uuid.v4(), name: this.controlConstruct.name, value: urs, parameterKind: 'OUT' });
     }
     this.selectedEvent.emit(urs);
   }
 
 
   private assignValueToParameters(inParameters: Parameter[]) {
-    console.log('assignValueToParameters');
+    // console.log('assignValueToParameters');
+    if ((!inParameters) || (!this.inParameters)) {
+      return;
+    }
     const reversed = [...this.inParameters.entries()].reverse();
     inParameters.forEach((p, i, refArray) => {
       if (!p.referencedId) {
@@ -101,18 +105,21 @@ export class PreviewQuestionConstructComponent implements OnChanges {
         }
       }
       if (p.referencedId) {
+        console.log('fetch value by ref');
         p.value = this.inParameters.get(p.referencedId).value;
       }
       refArray[i] = p;
     });
   }
 
+
   public insertParam(text: string): string {
-    if (this.controlConstruct && this.controlConstruct.parameterIn) {
+    if (this.controlConstruct && this.controlConstruct.parameterIn && this.inParameters) {
       this.controlConstruct.parameterIn.forEach(p => {
-        if (p.value) {
+        let value = this.inParameters.get(p.referencedId).value;
+        if (value) {
           text = text.replace(
-            new RegExp('\\[' + p.name + '\\]', 'ig'), '<mark>' + p.value.map(pp => (pp.label) ? pp.label : pp.value).join(',') + '</mark>');
+            new RegExp('\\[' + p.name + '\\]', 'ig'), '<mark>' + value.map(pp => (pp.label) ? pp.label : pp.value).join(',') + '</mark>');
         }
       });
     }

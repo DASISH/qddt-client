@@ -70,7 +70,7 @@ export class SequenceFormComponent implements OnChanges {
   }
 
   private onSetParameters(ref: ElementRevisionRef) {
-    this.parameterIn = new Map(this.sequence.parameters.map((p) => [p.id, p] as [string, Parameter]));
+    this.inParameters = new Map(this.sequence.parameters.map((p) => [p.id, p] as [string, Parameter]));
 
   }
 
