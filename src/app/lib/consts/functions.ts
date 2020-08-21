@@ -1,8 +1,8 @@
+import { SimpleChange } from '@angular/core';
 import { QDDT_QUERY_INFOES, HEADER_DETAILS } from './query-info.config';
 import { ElementKind, EnumType } from '../enums';
 import { QueryInfo, SelectItem, Parameter } from '../classes';
-import { ISelectOption, IEntityEditAudit } from '../interfaces';
-import { SimpleChange } from '@angular/core';
+import { ISelectOption, IEntityEditAudit, ITreeNode } from '../interfaces';
 
 
 export function ElementEnumAware(constructor: Function) {
@@ -74,15 +74,9 @@ export function hasChanges<T>(change?: SimpleChange, comparar?: (a: T, b: T) => 
   return false;
 }
 
+
 // IS tester
 
-export const isParamTrue = (parameter: Parameter) => {
-  if (parameter && parameter.value && parameter.value.length > 0) {
-    return (parameter.value[0].value === true || parameter.value[0].value === 'true')
-  } else {
-    return false;
-  }
-}
 
 export const isMap = <K, V>(element: Map<K, V> | any): element is Map<K, V> => {
   return (element) && (element as Map<K, V>).size !== undefined;
@@ -109,6 +103,18 @@ export const isObject = (value: object | any): value is object => {
 
 export const StringIsNumber = value => isNaN(Number(value)) === false;
 
+export function replaceNode(nodes: ITreeNode[], newNode: ITreeNode): ITreeNode {
+  if (!nodes) { return null; }
+  let i = -1;
+  while (++i < nodes.length) {
+    if (nodes[i].id === newNode.id) {
+      nodes[i] = newNode;
+      return nodes[i];
+    } else {
+      return replaceNode(nodes[i].children, newNode);
+    }
+  }
+}
 
 // borrowed from the net.
 export function saveAs(blob: Blob, fileName: string, type: string): void {
@@ -137,3 +143,5 @@ export function saveAs(blob: Blob, fileName: string, type: string): void {
     link.remove();
   }, 100);
 }
+
+

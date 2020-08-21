@@ -20,7 +20,8 @@
         [lockups]="SEQUENCE_LOOKUP">
       </qddt-select>
     </div>
-    <qddt-parameter [outParameters]="sequence.parameters" [showParameters]="true"></qddt-parameter>
+    <qddt-parameter [outParameters]="sequence.parameters" [showParameters]="true">
+    </qddt-parameter>
 
     <qddt-element-revision-ref class="row" [readonly]="readonly" [elementRevisions]="sequence.sequence"
       [inParameters]="inParameters" [xmlLang]="sequence.xmlLang" [selectOptions]="CONSTRUCT"

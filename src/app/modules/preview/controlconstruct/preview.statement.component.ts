@@ -5,7 +5,7 @@ import { StatementConstruct, Parameter, hasChanges } from '../../../lib';
   selector: 'qddt-preview-statementconstruct',
   template: `
   <ul *ngIf="statement">
-    <qddt-parameter [inParameters]="statement.parameterIn" [outParameters]="statement.parameterOut">
+    <qddt-parameter [inParameters]="statement.parameterIn" [outParameters]="statement.parameterOut" [parameters]="inParameters" >
     </qddt-parameter>
     <li class="collection-item" >
       <p [innerHtml]="insertParam(statement?.statement)" style="font-style: italic"></p>

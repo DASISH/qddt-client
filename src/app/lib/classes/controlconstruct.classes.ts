@@ -284,6 +284,12 @@ export const isCondition = (element: any | Condition): element is Condition => {
   return (element) && (element as Condition).content !== undefined;
 }
 
+
+export const isSequence = (element?: any | SequenceConstruct): element is SequenceConstruct =>
+  (element) && (element as SequenceConstruct).sequence !== undefined;
+
+
+
 // export const asConditionKind = (value: ConditionKind | any): value is ConditionKind => {
 //   return (value as ConditionKind) !== undefined;
 // }

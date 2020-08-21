@@ -9,10 +9,9 @@ import {
   IRevisionRef,
   LANGUAGE_MAP,
   TemplateService,
-  Parameter,
   SequenceConstruct,
   SEQUENCE_TYPES,
-  TreeNodeRevisionRefImpl, TreeNodeRevisionRef, hasChanges
+  TreeNodeRevisionRefImpl, TreeNodeRevisionRef, hasChanges, replaceNode
 } from '../../lib';
 
 @Component({
@@ -92,7 +91,7 @@ export class InstrumentFormComponent implements OnChanges {
     const ref = response.ref as TreeNodeRevisionRef;
     switch (action) {
       case ActionKind.Read:
-        console.log('READ');
+        replaceNode(this.instrument.root.children, new TreeNodeRevisionRefImpl(ref));
         this.instrument.initParameters();
         break;
       case ActionKind.Create: this.onItemAdded(ref); break;
@@ -133,6 +132,11 @@ export class InstrumentFormComponent implements OnChanges {
   public isSequence(entity?: any | SequenceConstruct): entity is SequenceConstruct {
     return (entity) && (entity as SequenceConstruct).sequence !== undefined;
   }
+
+  private findSubNode(ref: TreeNodeRevisionRef) {
+    return
+  }
+
 
 }
 

@@ -1,12 +1,13 @@
+import { hasChanges, isBoolean } from 'src/app/lib';
 import { ConditionKind } from './../../../lib/classes/controlconstruct.classes';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { ConditionConstruct, Parameter, UserResponse, tryParse, isParamTrue, isBoolean, isObject } from '../../../lib';
+import { ConditionConstruct, Parameter, UserResponse, tryParse, isParamTrue } from '../../../lib';
 
 @Component({
   selector: 'qddt-preview-conditionconstruct',
   template: `
     <ul *ngIf="construct">
-      <qddt-parameter [inParameters]="construct.parameterIn" [outParameters]="construct.parameterOut">
+      <qddt-parameter [inParameters]="construct.parameterIn" [outParameters]="construct.parameterOut" [parameters]="inParameters" >
       </qddt-parameter>
       <li class="collection-item card-panel" >
         <p><label>Condition</label></p>
@@ -48,22 +49,9 @@ export class PreviewConditionConstructComponent implements OnChanges {
   public readonly isParamTrueRef = isParamTrue;
 
 
-  private isDifferent = (current: Map<string, Parameter>, prior: Map<string, Parameter>) => {
-    if (!current) return false;
-    if (!prior) return true;
-    if (current.size !== prior.size) return true;
-
-    for (let key in current.keys()) {
-      if (!current.get(key).equals(prior.get(key)))
-        return false;
-    }
-    return true;
-  }
-
   public ngOnChanges(changes: SimpleChanges): void {
 
-    if (changes.parameterIn && this.isDifferent(changes.parameterIn.currentValue, changes.parameterIn.previousValue)
-      && this.construct && this.construct.condition.condition) {
+    if (hasChanges(changes.inParameters) && this.construct && this.construct.condition.condition) {
       let expression = this.construct.condition.condition.content
       let label = expression;
       this.assignReferenceAndValueTo(this.construct.parameterIn);
@@ -88,6 +76,22 @@ export class PreviewConditionConstructComponent implements OnChanges {
   // UPDATES inputvariables, triggers a new changes.condition
   private assignReferenceAndValueTo(parameters: Parameter[]) {
     const reversed = this.reversed();
+    const thisIdx = this.Idx();
+    if (thisIdx >= 0) {
+      console.group('INPUT...');
+      const searchables = reversed.filter((p, i) => i >= thisIdx);
+      parameters
+        .filter(f => f.name.startsWith('INPUT'))
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .forEach((para, index) => {
+          if (searchables[index + 1] && !para.referencedId) {
+            para.referencedId = searchables[index + 1][0]
+            // para.value = searchables[index + 1][1].value;
+          }
+        });
+    }
+
+
     parameters.forEach((p, i, refArray) => {
       if (!p.referencedId) {
         const find = reversed.find(o => o[1].name === p.name);
@@ -101,20 +105,6 @@ export class PreviewConditionConstructComponent implements OnChanges {
       }
       refArray[i] = p;
     });
-
-    // updates [INPUTxx] parameters
-    const thisIdx = this.Idx();
-    if (thisIdx >= 0) {
-      const searchables = reversed.filter((p, i) => i >= thisIdx);
-      parameters
-        .filter(f => f.name.startsWith('INPUT'))
-        .sort((a, b) => a.name.localeCompare(b.name))
-        .forEach((para, index) => {
-          if (searchables[index + 1]) {
-            para.value = searchables[index + 1][1].value;
-          }
-        });
-    }
   }
 
   private assignValueToOutPutParameter(label: string) {

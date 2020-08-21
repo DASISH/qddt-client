@@ -1,9 +1,8 @@
 import { ActionKind, ElementKind } from '../enums';
-import { ISelectOption, IEntityAudit } from '../interfaces';
-import { UserResponse } from './responsedomain.classes';
-import { AbstractControlConstruct } from './controlconstruct.classes';
-import { TreeNodeRevisionRefImpl, TreeNodeRevisionRef } from './treenode-revision-ref';
+import { ISelectOption, IEntityAudit, ITreeNode, IEntityEditAudit } from '../interfaces';
+import { AbstractControlConstruct, isSequence } from './controlconstruct.classes';
 import { ElementRevisionRef } from './element-revision-ref';
+
 
 export enum InstrumentKind {
   QUESTIONNAIRE = 1,
@@ -82,11 +81,19 @@ export const INSTRUMENT_MAP = [
   } as ISelectOption,
 ];
 
-const mapTreeNodes = (nodes: TreeNodeRevisionRef[]): TreeNodeRevisionRef[] =>
+export function getParameterKind(kind: string | ParameterKind): ParameterKind {
+  return ParameterKind[kind];
+}
+
+export const mapTreeNodes = (nodes: TreeNodeRevisionRef[]): TreeNodeRevisionRef[] =>
   [].concat(nodes.flatMap(node =>
     (node.children && node.children.length > 0) ? [...mapTreeNodes(node.children)] : [node]));
 
 
+export enum ParameterKind {
+  IN,
+  OUT
+}
 
 
 export class Instrument implements IEntityAudit {
@@ -124,12 +131,92 @@ export class Instrument implements IEntityAudit {
       } else {
         if (this.parameterIn.findIndex(f => f.id === p.id && f.name === p.name) < 0) {
           this.parameterIn.push(p);
-          // console.log(p);
+          console.log(p);
         }
       }
     });
   });
 }
+export class EventAction {
+  action: ActionKind;
+  ref: ElementRevisionRef;
+  public constructor(init?: Partial<EventAction>) {
+    Object.assign(this, init);
+  }
+}
+
+
+import * as uuid from 'uuid';
+import { UserResponse } from './responsedomain.classes';
+
+
+export abstract class TreeNodeRevisionRef extends ElementRevisionRef implements ITreeNode {
+  id: string;
+  parameters: Parameter[] = [];
+  children: TreeNodeRevisionRef[] = [];
+
+  public constructor(init?: Partial<TreeNodeRevisionRef>) {
+    super();
+    Object.assign(this, init);
+    if (!init.id) {
+      this.id = uuid.v4();
+    }
+  }
+}
+
+export const isParamTrue = (parameter: Parameter) => {
+  if (parameter && parameter.value && parameter.value.length > 0) {
+    return (parameter.value[0].value === true || parameter.value[0].value === 'true')
+  } else {
+    return false;
+  }
+}
+
+
+
+export class TreeNodeRevisionRefImpl<T extends IEntityEditAudit> extends TreeNodeRevisionRef {
+  element: T;
+
+  public constructor(init?: Partial<TreeNodeRevisionRef>) {
+    super(init);
+    this.elementKind = this.elementKind || this.element.classKind;
+    if (isSequence(this.element)) {
+      this.children = this.element.sequence.map(seq => new TreeNodeRevisionRefImpl(seq));
+    }
+  }
+}
+
+export const mergeParameters = (node: TreeNodeRevisionRefImpl<AbstractControlConstruct>) => {
+  // update params from source, delete if no match
+  // insert no match params in source
+  // console.log('mergeParameters');
+  const paramOut = node.parameters.filter(f => (getParameterKind(f.parameterKind) === ParameterKind.OUT));
+  const paramIn = node.parameters.filter(f => (getParameterKind(f.parameterKind) === ParameterKind.IN));
+
+  node.element.parameterOut.forEach(po => {
+    const found = paramOut.find(f => f.name === po.name);
+    if (found) {
+      po = found;
+    } else {
+      console.log('parameters.push(po)');
+      po.id = node.id;
+      node.parameters.push(po);
+    }
+  });
+
+  node.element.parameterIn.forEach(pi => {
+    const found = paramIn.find(pi2 => pi2.name === pi.name);
+    if (found) {
+      pi = found;
+    } else {
+      console.log('parameters.push(pi)');
+      node.parameters.push(pi);
+    }
+  });
+
+}
+
+
 export class Parameter {
   id: string;
   idx?: number;
@@ -139,10 +226,16 @@ export class Parameter {
   value: UserResponse[] = [];
   public constructor(init?: Partial<Parameter>) {
     Object.assign(this, init);
+    if (!init.id) {
+      this.id = uuid.v4();
+
+    }
   }
   equals(arg0: Parameter) {
-    if (this.id !== arg0.id) return false;
-    if (this.value.length !== arg0.value.length) return false;
+    if (this.id !== arg0.id)
+      return false;
+    if (this.value.length !== arg0.value.length)
+      return false;
 
     for (let i = 0, l = this.value.length; i < l; i++) {
       if (this.value[i] !== arg0.value[i]) {
@@ -153,19 +246,3 @@ export class Parameter {
   }
 }
 
-export class EventAction {
-  action: ActionKind;
-  ref: ElementRevisionRef;
-  public constructor(init?: Partial<EventAction>) {
-    Object.assign(this, init);
-  }
-}
-
-export enum ParameterKind {
-  IN,
-  OUT
-}
-
-export function getParameterKind(kind: string | ParameterKind): ParameterKind {
-  return ParameterKind[kind];
-}

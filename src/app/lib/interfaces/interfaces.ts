@@ -37,7 +37,8 @@ export interface IParentRef {
 }
 
 export interface ITreeNode {
-  children: ITreeNode;
+  id: string;
+  children: ITreeNode[];
 }
 export interface ISelectOption {
   id: number;

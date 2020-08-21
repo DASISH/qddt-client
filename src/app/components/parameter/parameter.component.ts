@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Parameter, isParamTrue, isMap, hasChanges } from 'src/app/lib';
+import { Parameter, isParamTrue, isMap, getParameterKind, ParameterKind } from 'src/app/lib';
 import { CdkDrag } from '@angular/cdk/drag-drop';
 import { KeyValue } from '@angular/common';
 
@@ -10,6 +10,7 @@ import { KeyValue } from '@angular/common';
 export class ParameterComponent implements OnChanges {
   @Input() inParameters: any; //Parameter[] | Map<string, Parameter>
   @Input() outParameters: any; //Parameter[] | Map<string, Parameter>
+  @Input() parameters = new Map<string, Parameter>();
   @Input() showParameters = false;
 
   public countIn = 0;
@@ -29,28 +30,18 @@ export class ParameterComponent implements OnChanges {
 
 
   public refresh() {
-    this.countIn = this.isMapTrue(this.inParameters) ?
+    this.countIn = (this.inParameters) ? this.isMapTrue(this.inParameters) ?
       this.inParameters.size :
-      this.inParameters.length;
+      this.inParameters.length : 0;
 
-    this.countOut = this.isMapTrue(this.outParameters) ?
+    this.countOut = (this.outParameters) ? this.isMapTrue(this.outParameters) ?
       this.outParameters.size :
-      this.outParameters.length;
+      this.outParameters.length : 0;
 
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.countIn = hasChanges(changes.inParameters) ?
-      this.isMapTrue(changes.inParameters.currentValue) ?
-        changes.inParameters.currentValue.size :
-        changes.inParameters.currentValue.length :
-      0;
-
-    this.countOut = hasChanges(changes.outParameters) ?
-      this.isMapTrue(changes.outParameters.currentValue) ?
-        changes.outParameters.currentValue.size :
-        changes.outParameters.currentValue.length :
-      0;
+    this.refresh();
   }
 
   public onClickIgnore(event: Event) {
@@ -66,23 +57,20 @@ export class ParameterComponent implements OnChanges {
     target.referencedId = source.id;
   }
 
-  public getParam(param: Parameter, divider: string): string {
+  public getParam(param: Parameter): string {
     try {
-      const value = this.isMapTrue<string, Parameter>(this.outParameters) ?
-        (param.referencedId) ? this.outParameters.get(param.referencedId).value : param.value :
-        (param.referencedId) ? this.outParameters.find(f => f.id === param.referencedId).value : param.value;
 
-      if (param.parameterKind === 'OUT') {
-        return param.name + this.out + ((value) ? value.map(p => '[' + p.value + ':' + p.label + ']').join(',') : '?');
+      param.value = (param.referencedId) ? this.parameters.get(param.referencedId).value : param.value;
+
+      if (getParameterKind(param.parameterKind) === ParameterKind.OUT) {
+        return param.name + this.out + ((param.value) ? param.value.map(p => '[' + p.value + ':' + p.label + ']').join(',') : '?');
       } else {
-
-
-        return param.name + this.in + ((value) ? value.map(p => '[' + p.value + ':' + p.label + ']').join(',') :
+        return param.name + this.in + ((param.value) ? param.value.map(p => '[' + p.value + ':' + p.label + ']').join(',') :
           (param.referencedId) ? '?' : '#ref?');
       }
 
     } catch (ex) {
-      console.log('getparm feil');
+      console.log(ex.message);
       return '?';
     }
   }

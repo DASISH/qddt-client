@@ -22,8 +22,8 @@
       <div class="col s7 infoText">{{getDescription(instrument.instrumentKind)}}</div>
     </div>
 
-    <qddt-parameter [inParameters]="instrument.parameterIn" [outParameters]="instrument.parameterOut" #params
-      [showParameters]="true">
+    <qddt-parameter [inParameters]="instrument.parameterIn" [outParameters]="instrument.parameterOut"
+      [parameters]="instrument.parameterOut" [showParameters]="true" #params>
     </qddt-parameter>
 
     <qddt-instrument-treenode [readonly]="readonly" [treeNodes]="instrument.root.children"

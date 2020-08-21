@@ -15,6 +15,10 @@ import {
     'li ul:not(.dropdownmenu) {  margin-left: 2rem; }',
     '.card.section.row { margin-left: -0.6rem; }',
     '.dropdownmenu { top:1rem; position:relative;}',
+    'ul:not(.dropdownmenu) > li { counter-increment: item; }',
+    'ul {  counter-reset: item;}',
+    'ul:not(.dropdownmenu) > li div.card:before { content: counters(item, ".") ". ";  position: absolute;top: 5px;left: 5px;display: block; }',
+    'li ul:not(.dropdownmenu) > li div.card:before { content: counters(item, ".") " "; }',
   ],
   templateUrl: './concept-tree-node.component.html',
 })
@@ -59,10 +63,13 @@ export class TreeNodeComponent {
     this.deleteEvent.emit(concept);
   }
 
-  onChildSave(newConcept: Concept, parentId: string) {
+  onChildSave(newConcept: Concept, parent: Concept) {
     this.showProgressBar = true;
-    this.templateService.create(new Concept(newConcept), parentId).subscribe(
-      (result) => { this.onConceptUpdated(result); },
+    this.templateService.create(new Concept(newConcept), parent.id).subscribe(
+      (result) => {
+        parent.children.push(result);
+        this.onConceptUpdated(result);
+      },
       (error) => { throw error; },
       () => { this.showProgressBar = false; });
 

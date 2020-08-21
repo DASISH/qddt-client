@@ -1,11 +1,12 @@
 import { Component, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
-import { QuestionConstruct, Parameter, UserResponse, hasChanges } from '../../../lib';
+import { QuestionConstruct, Parameter, UserResponse, hasChanges, ParameterKind } from '../../../lib';
 import * as uuid from 'uuid';
 @Component({
   selector: 'qddt-preview-questionconstruct',
   template: `
   <ul class="row" *ngIf="controlConstruct">
-    <qddt-parameter [inParameters]="controlConstruct.parameterIn" [outParameters]="controlConstruct.parameterOut">
+    <qddt-parameter [inParameters]="controlConstruct.parameterIn" [outParameters]="controlConstruct.parameterOut"
+    [parameters]="inParameters" >
     </qddt-parameter>
 
     <ng-container *ngIf="controlConstruct?.universe?.length>0">
@@ -85,14 +86,15 @@ export class PreviewQuestionConstructComponent implements OnChanges {
     if (this.controlConstruct.parameterOut[0]) {
       this.controlConstruct.parameterOut[0].value = urs;
     } else {
-      this.controlConstruct.parameterOut[0] = new Parameter({ id: uuid.v4(), name: this.controlConstruct.name, value: urs, parameterKind: 'OUT' });
+      this.controlConstruct.parameterOut[0] =
+        new Parameter({ id: uuid.v4(), name: this.controlConstruct.name, value: urs, parameterKind: ParameterKind.OUT });
     }
     this.selectedEvent.emit(urs);
   }
 
 
   private assignValueToParameters(inParameters: Parameter[]) {
-    // console.log('assignValueToParameters');
+    console.log('assignValueToParameters');
     if ((!inParameters) || (!this.inParameters)) {
       return;
     }
@@ -116,10 +118,12 @@ export class PreviewQuestionConstructComponent implements OnChanges {
   public insertParam(text: string): string {
     if (this.controlConstruct && this.controlConstruct.parameterIn && this.inParameters) {
       this.controlConstruct.parameterIn.forEach(p => {
-        let value = this.inParameters.get(p.referencedId).value;
-        if (value) {
-          text = text.replace(
-            new RegExp('\\[' + p.name + '\\]', 'ig'), '<mark>' + value.map(pp => (pp.label) ? pp.label : pp.value).join(',') + '</mark>');
+        if (p.referencedId) {
+          let value = this.inParameters.get(p.referencedId).value;
+          if (value) {
+            text = text.replace(
+              new RegExp('\\[' + p.name + '\\]', 'ig'), '<mark>' + value.map(pp => (pp.label) ? pp.label : pp.value).join(',') + '</mark>');
+          }
         }
       });
     }
