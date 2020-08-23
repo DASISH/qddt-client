@@ -8,7 +8,8 @@ import {
   TemplateService,
   HierarchyPosition,
   PropertyStoreService,
-  delay
+  delay,
+  LANGUAGE_MAP
 } from '../../../lib';
 
 
@@ -24,6 +25,7 @@ export class SurveyComponent implements OnInit {
   public readonly = false;
 
   private readonly SURVEY = ElementKind.SURVEY_PROGRAM;
+  public readonly LANGUAGES = LANGUAGE_MAP;
 
   constructor(private router: Router,
     private property: PropertyStoreService,

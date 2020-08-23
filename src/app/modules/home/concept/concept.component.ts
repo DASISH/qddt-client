@@ -5,7 +5,7 @@ import {
   ActionKind,
   PropertyStoreService,
   HomeService,
-  HierarchyPosition, Concept, TemplateService, delay
+  HierarchyPosition, Concept, TemplateService, delay, LANGUAGE_MAP
 } from '../../../lib';
 
 
@@ -18,6 +18,7 @@ import {
 
 export class ConceptComponent implements OnInit, AfterViewInit {
   public readonly CONCEPT = ElementKind.CONCEPT;
+  public readonly LANGUAGES = LANGUAGE_MAP;
 
   public showReuse = false;
   public showConceptForm = false;

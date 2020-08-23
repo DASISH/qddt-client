@@ -9,7 +9,7 @@ import {
   Topic,
   PropertyStoreService,
   MessageService,
-  HomeService, TemplateService, HierarchyPosition, ElementRevisionRef, delay
+  HomeService, TemplateService, HierarchyPosition, ElementRevisionRef, delay, LANGUAGE_MAP
 } from '../../../lib';
 
 
@@ -21,6 +21,7 @@ import {
 
 export class TopicComponent implements OnInit {
   public readonly TOPIC_KIND = ElementKind.TOPIC_GROUP;
+  public readonly LANGUAGES = LANGUAGE_MAP;
 
   public study: Study;
   public topics: Topic[];

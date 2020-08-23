@@ -12,10 +12,14 @@
 
     <div *ngIf="showEditForm" class="col s10 offset-s1 card-action">
       <form id="form1" #hf="ngForm">
-        <div class="row input-field">
-          <input id="name11" name="name" class="white-text validate" type="text" ngModel required data-length="250" />
-          <label for="name11" class="white-text">Name</label>
-        </div>
+        <div class="row">
+          <div class="col s10 input-field">
+            <input id="name11" name="name" class="white-text validate" type="text" ngModel required data-length="250" />
+            <label for="name11" class="white-text">Name</label>
+          </div>
+        <qddt-select class="col s2" required name="xmlLang" label="Language" ngModel [lockups]="LANGUAGES">
+      </qddt-select>
+    </div>
         <div class="row input-field white-text">
           <textarea id="desc11" name="description" class="materialize-textarea white-text validate" ngModel required
             data-length="10000"></textarea>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { LANGUAGE_MAP } from 'src/app/lib';
 import {
   ActionKind,
   ElementKind, HierarchyPosition,
@@ -25,6 +26,7 @@ export class StudyComponent implements OnInit {
   public revision: any;
 
   private readonly STUDY = ElementKind.STUDY;
+  public readonly LANGUAGES = LANGUAGE_MAP;
 
   constructor(private router: Router,
     private property: PropertyStoreService,
