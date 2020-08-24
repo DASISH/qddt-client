@@ -11,7 +11,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
           (cdkDropListDropped)="onItemDrop($event)">
     <ol class="section table-of-contents">
       <li *ngFor="let element of elements; let i = index;" cdkDrag (click)="isActive=i">
-        <a [ngClass]="{'active':isActive===i}" href="{{path}}#{{element.id}}" >{{ element.name }}</a>
+        <a [ngClass]="{'active':isActive===i}" href="{{path}}#{{element.id}}" >{{ element.name | titlecase }}</a>
       </li>
     </ol>
   </div>

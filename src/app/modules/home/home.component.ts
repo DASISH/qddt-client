@@ -5,7 +5,8 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'qddt-home',
   templateUrl: './home.component.html',
-  styles:  [  ],
+  styles: [
+  ],
 })
 
 export class HomeComponent {

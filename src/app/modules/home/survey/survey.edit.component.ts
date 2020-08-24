@@ -6,7 +6,7 @@ import { SurveyProgram, TemplateService } from '../../../lib';
   selector: 'qddt-survey-edit',
   providers: [{ provide: 'elementKind', useValue: 'SURVEY_PROGRAM' },],
   template: `
-<div *ngIf="isVisible">
+<ng-container *ngIf="isVisible">
   <form class="row" id="{{formId}}" (ngSubmit)="onSave()" #ngForm="ngForm">
       <qddt-input name="name"
         required
@@ -18,7 +18,7 @@ import { SurveyProgram, TemplateService } from '../../../lib';
         required
         label="Description"
         [(ngModel)]="survey.description"
-        data-length="10000">
+        data-length="20000">
       </qddt-textarea>
       <qddt-rational  [formName]="'RationalComp'" [element]="survey" [config]="{hidden: [2,3]}"></qddt-rational>
       <qddt-element-footer  [element]="survey"> </qddt-element-footer>
@@ -26,7 +26,7 @@ import { SurveyProgram, TemplateService } from '../../../lib';
       <button type="submit" class="btn btn-default" [disabled]="!ngForm.form.valid" >Submit</button>
     </div>
   </form>
-</div>
+</ng-container>
 `
 })
 
@@ -43,8 +43,8 @@ export class SurveyEditComponent {
   onSave() {
     this.service.update<SurveyProgram>(this.survey)
       .subscribe((result) => {
-        this.survey = null;
-        this.isVisible = true;
+        // this.survey = null;
+        this.isVisible = false;
         this.savedEvent.emit(result);
       }
         , (err: any) => {

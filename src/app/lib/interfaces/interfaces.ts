@@ -88,5 +88,9 @@ export interface IAuthority {
   authority: string;
 }
 
+export interface ISurveyOrder {
+  uuid: string;
+  index: number;
+}
 
 

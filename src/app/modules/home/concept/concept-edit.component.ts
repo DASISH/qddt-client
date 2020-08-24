@@ -28,7 +28,7 @@ import { Concept, LANGUAGE_MAP, TemplateService } from '../../../lib';
         placeholder="add description"
         label="Description"
         [(ngModel)]="concept.description"
-        data-length="10000">
+        data-length="20000">
       </qddt-textarea>
 
     <qddt-rational *ngIf="!readonly && isVisible"

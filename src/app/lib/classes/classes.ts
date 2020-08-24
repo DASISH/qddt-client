@@ -1,5 +1,5 @@
 import { ElementKind } from '../enums';
-import { IEntityAudit, IPageSearch, IRevisionResult, IUser } from '../interfaces';
+import { IEntityAudit, IPageSearch, IRevisionResult, IUser, ISurveyOrder } from '../interfaces';
 
 export class QueryInfo {
   id: ElementKind;
@@ -86,5 +86,14 @@ export class PageSearch implements IPageSearch {
     if (!this.xmlLang) {
       this.xmlLang = 'none';
     }
+  }
+}
+
+
+export class SurveyOrder implements ISurveyOrder {
+  uuid: string;
+  index: number;
+  public constructor(init?: Partial<ISurveyOrder>) {
+    Object.assign(this, init);
   }
 }

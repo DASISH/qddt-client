@@ -17,7 +17,7 @@ import { LANGUAGE_MAP, Study, ElementKind, TemplateService, ElementRevisionRef }
         placeholder="Name me"
         label="Description"
         [(ngModel)]="study.description"
-        data-length="10000">
+        data-length="20000">
       </qddt-textarea>
       <qddt-element-revision-collection class="col s12"
         [revisionRefs] = "study.instruments"

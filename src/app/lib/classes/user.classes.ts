@@ -1,3 +1,4 @@
+import { SurveyProgram } from './home.classes';
 import { IAuthority } from '../interfaces';
 
 
@@ -8,6 +9,7 @@ export class Agency {
   defaultXmlLang: string;
   classKind: string;
   users?: UserJson[];
+  surveyPrograms?: SurveyProgram[];
 }
 
 

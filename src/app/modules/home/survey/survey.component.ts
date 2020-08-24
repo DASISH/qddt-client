@@ -1,3 +1,4 @@
+import { UserService } from './../../../lib/services/user.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {
@@ -9,8 +10,11 @@ import {
   HierarchyPosition,
   PropertyStoreService,
   delay,
-  LANGUAGE_MAP
+  ISurveyOrder,
+  Factory,
+  SurveyOrder
 } from '../../../lib';
+import { ValueAccessorBase } from 'src/app/components/form/value-accessor.class';
 
 
 @Component({
@@ -25,12 +29,12 @@ export class SurveyComponent implements OnInit {
   public readonly = false;
 
   private readonly SURVEY = ElementKind.SURVEY_PROGRAM;
-  public readonly LANGUAGES = LANGUAGE_MAP;
 
   constructor(private router: Router,
     private property: PropertyStoreService,
     private homeService: HomeService<SurveyProgram>,
     private templateService: TemplateService,
+    private userService: UserService
   ) {
     this.readonly = !homeService.canDo(this.SURVEY).get(ActionKind.Create);
   }
@@ -41,11 +45,12 @@ export class SurveyComponent implements OnInit {
   }
 
 
-  onSurveySaved(surveyProgram: any) {
+  onSurveySaved(surveyProgram: SurveyProgram) {
     if (surveyProgram) {
-      const list = this.surveys.filter((q) => q.id !== surveyProgram.id);
-      if (surveyProgram.index) {
-        list.splice(surveyProgram.index, 0, surveyProgram);
+      const index = this.surveys.findIndex(item => item.id === surveyProgram.id)
+      const list = this.surveys;
+      if (index >= 0) {
+        list.splice(index, 1, surveyProgram);
       } else {
         list.push(surveyProgram);
       }
@@ -60,14 +65,12 @@ export class SurveyComponent implements OnInit {
     this.property.pathClear(HierarchyPosition.Topic);
     this.property.pathClear(HierarchyPosition.Concept);
     this.router.navigate(['study']);
-    // this.property.set('topic', null);
-    // this.property.set('study', null);
-    // this.property.set('concept', null);
   }
 
   onNewSave(survey) {
-    this.templateService.create(new SurveyProgram(survey)).subscribe(
-      result => this.onSurveySaved(result));
+    this.templateService.create(new SurveyProgram(survey)
+      .setLanguage(this.property.userSetting.xmlLang)).subscribe(
+        result => this.onSurveySaved(result));
     this.showEditForm = false;
   }
 
@@ -78,5 +81,14 @@ export class SurveyComponent implements OnInit {
         input => M.CharacterCounter.init(input));
     });
   }
+
+  async onHierarchyChanged(event) {
+    if (event) {
+      const orders = this.surveys.map<ISurveyOrder>((value, index) => new SurveyOrder({ uuid: value.id, index }))
+      this.homeService.arrangeSurveys(orders).subscribe((result) => this.surveys = result);
+    }
+    // console.log('moving event?');
+  }
+
 
 }

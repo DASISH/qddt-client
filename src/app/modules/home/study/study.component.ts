@@ -15,6 +15,7 @@ import {
 
 @Component({
   selector: 'qddt-study',
+  styles: ['qddt-select > div.select-wrapper  > input.select-dropdown  { color:white}'],
   templateUrl: './study.component.html',
 })
 
@@ -80,8 +81,9 @@ export class StudyComponent implements OnInit {
 
   onNewSave(study) {
     this.showEditForm = false;
-    this.templateService.create(new Study(study), this.survey.id).subscribe(
-      result => this.onStudySaved(result));
+    this.templateService.create<Study>(new Study(study)
+      .setLanguage(this.property.userSetting.xmlLang), this.survey.id).subscribe(
+        result => this.onStudySaved(result));
   }
 
 

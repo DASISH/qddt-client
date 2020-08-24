@@ -104,7 +104,7 @@ export class Factory {
     }
   }
 
-  static create<T>(type: (new () => T)): T {
+  static createbyType<T>(type: (new () => T)): T {
     return new type();
   }
 

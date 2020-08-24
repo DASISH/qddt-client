@@ -15,7 +15,7 @@ import { ElementKind, TemplateService, Topic, LANGUAGE_MAP } from '../../../lib'
     </qddt-select>
 
     <div class="col s12 input-field">
-      <textarea name="description" class="materialize-textarea" [(ngModel)]="topic.description" required  data-length ="10000" >
+      <textarea name="description" class="materialize-textarea" [(ngModel)]="topic.description" required  data-length ="20000" >
       </textarea>
       <label class="active">Description</label>
     </div>

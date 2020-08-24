@@ -27,6 +27,10 @@ export class SurveyProgram implements IEntityEditAudit {
   public constructor(init?: Partial<SurveyProgram>) {
     Object.assign(this, init);
   }
+  setLanguage(lang: string): SurveyProgram {
+    this.xmlLang = lang;
+    return this;
+  }
 }
 
 export class Study implements IEntityEditAudit {
@@ -52,6 +56,11 @@ export class Study implements IEntityEditAudit {
   public constructor(init?: Partial<Study>) {
     Object.assign(this, init);
   }
+  setLanguage(lang: string): Study {
+    this.xmlLang = lang;
+    return this;
+  }
+
 }
 
 export class Topic implements IEntityEditAudit {
@@ -79,6 +88,11 @@ export class Topic implements IEntityEditAudit {
   public constructor(init?: Partial<Topic>) {
     Object.assign(this, init);
   }
+  setLanguage(lang: string): Topic {
+    this.xmlLang = lang;
+    return this;
+  }
+
 }
 
 export class Concept implements IEntityEditAudit {
@@ -106,4 +120,9 @@ export class Concept implements IEntityEditAudit {
   public constructor(init?: Partial<Concept>) {
     Object.assign(this, init);
   }
+  setLanguage(lang: string): Concept {
+    this.xmlLang = lang;
+    return this;
+  }
+
 }

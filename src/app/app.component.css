@@ -101,3 +101,7 @@ ul.dropleft > li { display:inline-flex; padding: 0 10px 0  5px; }
 .codeValue { width: max-content; float: left;}
 
 .editGreen {background-color: #e7ece7 !important;}
+
+div.card-toc{ counter-increment: item; }
+
+div.card-toc:before { content: counters(item, ".") ". ";  position: absolute;top: 5px;left: 5px;display: block; }

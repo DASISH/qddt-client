@@ -16,6 +16,8 @@ import {
 @Component({
   selector: 'qddt-topic',
   providers: [{ provide: 'elementKind', useValue: 'TOPIC_GROUP' },],
+  styles: [],
+
   templateUrl: './topic.component.html',
 })
 
@@ -105,8 +107,9 @@ export class TopicComponent implements OnInit {
 
   onNewSave(newTopic) {
     this.showEditForm = false;
-    this.templateService.create(new Topic(newTopic), this.study.id).subscribe(
-      result => this.onTopicSaved(result));
+    this.templateService.create(new Topic(newTopic)
+      .setLanguage(this.property.userSetting.xmlLang), this.study.id).subscribe(
+        result => this.onTopicSaved(result));
   }
 
 
@@ -148,6 +151,7 @@ export class TopicComponent implements OnInit {
       });
     }
   }
+
 
   onHierarchyChanged(event) {
     // console.log('moving event?');

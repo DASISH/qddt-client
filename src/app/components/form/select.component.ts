@@ -17,8 +17,9 @@ import { delay, ISelectOption } from 'src/app/lib';
 
 @Component({
   selector: 'qddt-select',
+  styles: ['input.select-dropdown.dropdown-trigger {color:cyan;}'],
   template: `
-  <div class="input-field" *ngIf="hasChildren();  else ITEM">
+  <div class="input-field white-text" *ngIf="hasChildren();  else ITEM">
     <select  [disabled]="readonly" [id]="identifier" [(ngModel)]="value" >
       <option *ngIf="placeholder" value="" disabled >{{placeholder}}</option>
       <optgroup *ngFor="let item of lockups" [label]="item.label">
@@ -28,8 +29,8 @@ import { delay, ISelectOption } from 'src/app/lib';
     <label [for]="identifier">{{label}}</label>
   </div>
   <ng-template #ITEM>
-    <div class="input-field">
-      <select  [disabled]="readonly" [id]="identifier" [(ngModel)]="value" >
+    <div class="input-field white-text">
+      <select  [disabled]="readonly" [id]="identifier" [(ngModel)]="value">
         <option *ngIf="placeholder" value="" disabled >{{placeholder}}</option>
         <option *ngFor="let item of lockups" value="{{item.value}}">{{item.label}}</option>
       </select>
@@ -39,9 +40,7 @@ import { delay, ISelectOption } from 'src/app/lib';
   `,
   animations,
   providers: [{
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: FormSelectComponent,
-    multi: true,
+    provide: NG_VALUE_ACCESSOR, useExisting: FormSelectComponent, multi: true,
   }],
 })
 
