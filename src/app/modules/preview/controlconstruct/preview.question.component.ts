@@ -77,7 +77,6 @@ export class PreviewQuestionConstructComponent implements OnChanges {
     if (changes.inParameters && changes.inParameters.currentValue
       && this.controlConstruct && this.controlConstruct.parameterIn.length > 0) {
       this.assignValueToParameters(this.controlConstruct.parameterIn);
-      console.log('question change')
     }
   }
 
@@ -94,7 +93,6 @@ export class PreviewQuestionConstructComponent implements OnChanges {
 
 
   private assignValueToParameters(inParameters: Parameter[]) {
-    console.log('assignValueToParameters');
     if ((!inParameters) || (!this.inParameters)) {
       return;
     }
@@ -107,7 +105,7 @@ export class PreviewQuestionConstructComponent implements OnChanges {
         }
       }
       if (p.referencedId) {
-        console.log('fetch value by ref');
+        console.log('assignValueToParameters');
         p.value = this.inParameters.get(p.referencedId).value;
       }
       refArray[i] = p;

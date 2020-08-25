@@ -13,7 +13,6 @@ import {
   TreeNodeRevisionRef,
   ElementRevisionRef,
   TreeNodeRevisionRefImpl,
-  mergeParameters,
   AbstractControlConstruct
 } from '../../../lib';
 
@@ -92,8 +91,6 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit {
           item.element = Factory.createFromSeed(kind, result.entity);
           item.version = result.entity.version;
           item = new TreeNodeRevisionRefImpl<AbstractControlConstruct>(item);
-          mergeParameters(item);
-          console.log('create from seed');
           this.actionEvent.emit({ action: ActionKind.Read, ref: item });
         });
     }
@@ -124,8 +121,10 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit {
   }
 
   public onCheckParams(id, event) {
-    this.inParameters.get(id).value = event;
-    // console.log(id + event);
+    console.log(id);
+    console.log(event);
+    // console.log(this.inParameters.get(id).value);
+    // this.inParameters.get(id).value = event;
   }
 
 

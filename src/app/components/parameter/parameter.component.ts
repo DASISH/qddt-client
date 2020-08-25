@@ -48,6 +48,16 @@ export class ParameterComponent implements OnChanges {
     event.stopPropagation();
   }
 
+  public onChipClick(parameter: Parameter): void {
+    const element = document.getElementById(parameter.referencedId || parameter.id);
+    if (element) {
+      // TODO JUMP and open....
+      // element.focus();
+      // element.click();
+      // element.hidden = false;
+    }
+  }
+
   /** Predicate function that only allows even numbers to be dropped into a list. */
   valid(drag: CdkDrag) {
     return true;

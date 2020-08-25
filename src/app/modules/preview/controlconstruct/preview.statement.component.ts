@@ -5,7 +5,7 @@ import { StatementConstruct, Parameter, hasChanges } from '../../../lib';
   selector: 'qddt-preview-statementconstruct',
   template: `
   <ul *ngIf="statement">
-    <qddt-parameter [inParameters]="statement.parameterIn" [outParameters]="statement.parameterOut" [parameters]="inParameters" >
+    <qddt-parameter [inParameters]="statement.parameterIn" [parameters]="inParameters" >
     </qddt-parameter>
     <li class="collection-item" >
       <p [innerHtml]="insertParam(statement?.statement)" style="font-style: italic"></p>
@@ -26,26 +26,49 @@ export class PreviewStatementConstructComponent implements OnChanges {
 
     if (changes.parameterIn && changes.parameterIn.currentValue
       && this.statement && this.statement.parameterIn.length > 0) {
-      console.log('statement change');
       this.assignValueToParameters(this.statement.parameterIn);
     }
   }
 
+
   private assignValueToParameters(inParameters: Parameter[]) {
-    const reversed = [...this.inParameters.entries()].reverse();
+    if ((!inParameters) || (!this.inParameters)) {
+      return;
+    }
+
+    // const reversed = this.inParameters.values
     inParameters.forEach((p, i, refArray) => {
-      if (!p.referencedId) {
-        const found = reversed.find(o => o[1].name === p.name);
-        if (found) {
-          p.referencedId = found[1].id;
-        }
-      }
+      // if (!p.referencedId) {
+      //   const found = reversed.find(o => o[1].name === p.name);
+      //   if (found) {
+      //     p.referencedId = found[1].id;
+      //   }
+      // }
       if (p.referencedId) {
+        console.log('assignValueToStatementParameters');
         p.value = this.inParameters.get(p.referencedId).value;
       }
-      refArray[i] = p;
+      // refArray[i] = p;
     });
   }
+
+  // private assignValueToParameters(inParameters: Parameter[]) {
+  //   const reversed = [...this.inParameters.entries()].reverse();
+  //   inParameters.forEach((p, i, refArray) => {
+  //     if (!p.referencedId) {
+  //       const found = reversed.find(o => o[1].name === p.name);
+  //       if (found) {
+  //         p.referencedId = found[1].id;
+  //       }
+  //     }
+  //     if (p.referencedId) {
+  //       p.value = this.inParameters.get(p.referencedId).value;
+  //     }
+  //     console.log(refArray[i] || JSON);
+  //     refArray[i] = p;
+  //     console.log(refArray[i] || JSON);
+  //   });
+  // }
 
   public insertParam(text: string): string {
     if (this.statement && this.statement.parameterIn) {

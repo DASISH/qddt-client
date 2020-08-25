@@ -5,9 +5,9 @@
     <ng-container *ngTemplateOutlet="treeNodesImpl; context:{ nodes: treeNodes, level:1 }"></ng-container>
 
     <ng-template #treeNodesImpl let-nodes="nodes" let-level="level">
-      <ul *ngIf="nodes" class="collapsible" data-collapsible="accordion">
-        <li *ngFor="let node of nodes; trackBy:trackById;" (click)="onOpenBody(node)"
-          [ngClass]="{'SEQ': isSequence(node)}">
+      <ul [id]="'TREENODE-'+level" *ngIf="nodes" class="collapsible" data-collapsible="accordion">
+        <li [id]="node.id" *ngFor="let node of nodes; trackBy:trackById;" (click)="onOpenBody(node)"
+          [ngClass]="{'SEQ': isSequence(node)}" [title]="node.id">
           <div class="collapsible-header" cdkDrag>
             <ul class="dropleft" *ngIf="!readonly && level==1">
               <li>

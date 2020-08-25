@@ -91,8 +91,7 @@ export class InstrumentFormComponent implements OnChanges {
     const ref = response.ref as TreeNodeRevisionRef;
     switch (action) {
       case ActionKind.Read:
-        replaceNode(this.instrument.root.children, new TreeNodeRevisionRefImpl(ref));
-        this.instrument.initParameters();
+        console.log(replaceNode(this.instrument.root.children, ref));
         break;
       case ActionKind.Create: this.onItemAdded(ref); break;
       case ActionKind.Update: this.onItemModified(ref); break;
@@ -133,9 +132,6 @@ export class InstrumentFormComponent implements OnChanges {
     return (entity) && (entity as SequenceConstruct).sequence !== undefined;
   }
 
-  private findSubNode(ref: TreeNodeRevisionRef) {
-    return
-  }
 
 
 }

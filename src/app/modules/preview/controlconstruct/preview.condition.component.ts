@@ -22,7 +22,7 @@ import { ConditionConstruct, Parameter, UserResponse, tryParse, isParamTrue } fr
             <code [innerHtml]="innerHtml2"> </code>
 
             <p><label>Ref2</label></p>
-            <p>{{(construct.condition[0]}</p>
+            <p>{{construct.condition[0]}}</p>
 
           </ng-container>
           <ng-container *ngSwitchCase="refKind.Loop"></ng-container>
@@ -51,16 +51,14 @@ export class PreviewConditionConstructComponent implements OnChanges {
 
   public ngOnChanges(changes: SimpleChanges): void {
 
-    if (hasChanges(changes.inParameters) && this.construct && this.construct.condition.condition) {
+    if (hasChanges(changes.inParameters, this.compareMaps)) {
       let expression = this.construct.condition.condition.content
       let label = expression;
       this.assignReferenceAndValueTo(this.construct.parameterIn);
       this.construct.parameterIn.forEach(p => {
         if (p.value) {
           expression = expression.replace(new RegExp('\\[' + p.name + '\\]', 'ig'), '[' + p.value.map(pp => pp.value).join(',').toString() + ']');
-          label = label.replace(
-            new RegExp('\\[' + p.name + '\\]', 'ig'), '<mark>' + p.value.map(pp => pp.label || pp.value)
-              .join(',') + '</mark>');
+          label = label.replace(new RegExp('\\[' + p.name + '\\]', 'ig'), '<mark>' + p.value.map(pp => pp.label || pp.value).join(',') + '</mark>');
         }
       });
 
@@ -78,7 +76,6 @@ export class PreviewConditionConstructComponent implements OnChanges {
     const reversed = this.reversed();
     const thisIdx = this.Idx();
     if (thisIdx >= 0) {
-      console.group('INPUT...');
       const searchables = reversed.filter((p, i) => i >= thisIdx);
       parameters
         .filter(f => f.name.startsWith('INPUT'))
@@ -86,25 +83,9 @@ export class PreviewConditionConstructComponent implements OnChanges {
         .forEach((para, index) => {
           if (searchables[index + 1] && !para.referencedId) {
             para.referencedId = searchables[index + 1][0]
-            // para.value = searchables[index + 1][1].value;
           }
         });
     }
-
-
-    parameters.forEach((p, i, refArray) => {
-      if (!p.referencedId) {
-        const find = reversed.find(o => o[1].name === p.name);
-        if (find) {
-          p.referencedId = find[1].id;
-        }
-      }
-      if (p.referencedId) {
-        // console.log('assignValue ' + i);
-        p.value = this.inParameters.get(p.referencedId).value;
-      }
-      refArray[i] = p;
-    });
   }
 
   private assignValueToOutPutParameter(label: string) {
@@ -120,6 +101,22 @@ export class PreviewConditionConstructComponent implements OnChanges {
         throw ex;
       }
     }
+  }
+
+  private compareMaps(map1: Map<string, Parameter>, map2: Map<string, Parameter>) {
+    if (map1.size !== map2.size) {
+      return false;
+    }
+    for (let [key, val] of map1) {
+      if (!map2.has(key)) {
+        return false;
+      }
+      const param2 = map2.get(key);
+      if (!param2.equals(val)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   private isDone = (value: { done: any } | any): value is { done: any } => {

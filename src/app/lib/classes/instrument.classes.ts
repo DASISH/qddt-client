@@ -85,10 +85,10 @@ export function getParameterKind(kind: string | ParameterKind): ParameterKind {
   return ParameterKind[kind];
 }
 
-export const mapTreeNodes = (nodes: TreeNodeRevisionRef[]): TreeNodeRevisionRef[] =>
+export const mapTreeNodes = (nodes: TreeNodeRevisionRefImpl<AbstractControlConstruct>[]):
+  TreeNodeRevisionRefImpl<AbstractControlConstruct>[] =>
   [].concat(nodes.flatMap(node =>
     (node.children && node.children.length > 0) ? [...mapTreeNodes(node.children)] : [node]));
-
 
 export enum ParameterKind {
   IN,
@@ -126,12 +126,10 @@ export class Instrument implements IEntityAudit {
       if (getParameterKind(p.parameterKind) === ParameterKind.OUT) {
         if (!this.parameterOut.has(entity.id)) {
           this.parameterOut.set(entity.id, p);
-          // console.log(p);
         }
       } else {
         if (this.parameterIn.findIndex(f => f.id === p.id && f.name === p.name) < 0) {
           this.parameterIn.push(p);
-          console.log(p);
         }
       }
     });
@@ -174,13 +172,17 @@ export const isParamTrue = (parameter: Parameter) => {
 
 
 
-export class TreeNodeRevisionRefImpl<T extends IEntityEditAudit> extends TreeNodeRevisionRef {
+export class TreeNodeRevisionRefImpl<T extends AbstractControlConstruct> extends TreeNodeRevisionRef {
   element: T;
-
+  children: TreeNodeRevisionRefImpl<T>[] = [];
   public constructor(init?: Partial<TreeNodeRevisionRef>) {
     super(init);
     this.elementKind = this.elementKind || this.element.classKind;
+    if (this.element && this.parameters) {
+      mergeParameters(this);
+    }
     if (isSequence(this.element)) {
+      console.log('init new sequence')
       this.children = this.element.sequence.map(seq => new TreeNodeRevisionRefImpl(seq));
     }
   }
@@ -189,27 +191,32 @@ export class TreeNodeRevisionRefImpl<T extends IEntityEditAudit> extends TreeNod
 export const mergeParameters = (node: TreeNodeRevisionRefImpl<AbstractControlConstruct>) => {
   // update params from source, delete if no match
   // insert no match params in source
-  // console.log('mergeParameters');
+  console.log('mergeParameters');
   const paramOut = node.parameters.filter(f => (getParameterKind(f.parameterKind) === ParameterKind.OUT));
   const paramIn = node.parameters.filter(f => (getParameterKind(f.parameterKind) === ParameterKind.IN));
 
-  node.element.parameterOut.forEach(po => {
+  node.element.parameterOut.forEach((po, index, listRef) => {
     const found = paramOut.find(f => f.name === po.name);
     if (found) {
-      po = found;
+      console.log('parameter found assign(po)');
+      listRef[index] = found;
+      // po = found;
     } else {
-      console.log('parameters.push(po)');
+      console.log('parameter insert (po)');
       po.id = node.id;
       node.parameters.push(po);
     }
   });
 
-  node.element.parameterIn.forEach(pi => {
-    const found = paramIn.find(pi2 => pi2.name === pi.name);
+  node.element.parameterIn.forEach((pi, index, listRef) => {
+    const found = paramIn.find(f => f.name === pi.name);
     if (found) {
-      pi = found;
+      console.log('parameter found assign(po)');
+      listRef[index] = found;
+      // pi = found;
     } else {
-      console.log('parameters.push(pi)');
+      console.log('parameter insert push(pi)');
+      pi.id = node.id;
       node.parameters.push(pi);
     }
   });
