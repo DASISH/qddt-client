@@ -14,8 +14,9 @@
     <ng-container *ngIf="inParameters?.length>0">
       <div class="chip" style="margin-left: 0.75rem; cursor: pointer;"
         [ngClass]="{'green lighten-5': isTrue(parameter), 'red lighten-5': !parameter.referencedId }" cdkDrag
-        *ngFor="let parameter of sortBy(inParameters,'idx')" cdkDropList [cdkDropListEnterPredicate]="valid"
-        (cdkDropListDropped)="onItemDrop($event.item.data, parameter)" (click)="onChipClick(parameter)">
+        [title]="parameter.id" *ngFor="let parameter of sortBy(inParameters,'idx')" cdkDropList
+        [cdkDropListEnterPredicate]="valid" (cdkDropListDropped)="onItemDrop($event.item.data, parameter)"
+        (click)="onChipClick(parameter)">
         <a [routerLink]='"."' [fragment]="parameter.referencedId||parameter.id">{{getParam(parameter)}}</a>
       </div>
     </ng-container>

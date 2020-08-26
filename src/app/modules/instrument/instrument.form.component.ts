@@ -116,8 +116,8 @@ export class InstrumentFormComponent implements OnChanges {
   }
 
   public onItemModified(ref: TreeNodeRevisionRef) {
-    // console.log('onItemModified');
-    const idx = this.instrument.root.children.findIndex(f => f.id === ref.id);
+    console.log('onItemModified');
+    const idx = this.instrument.root.children.findIndex(f => f.elementId === ref.elementId);
     const seqNew: TreeNodeRevisionRef[] = [].concat(
       this.instrument.root.children.slice(0, idx),
       ref,

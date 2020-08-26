@@ -1,6 +1,6 @@
-import { style } from '@angular/animations';
+import { hasChanges } from 'src/app/lib';
 import { Component, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
-import { Category, DomainKind, ResponseCardinality, ResponseDomain, UserResponse } from '../../../lib';
+import { Category, DomainKind, ResponseCardinality, ResponseDomain, UserResponse, Parameter } from '../../../lib';
 
 @Component({
   selector: 'qddt-preview-responsedomain',
@@ -61,6 +61,8 @@ import { Category, DomainKind, ResponseCardinality, ResponseDomain, UserResponse
 export class PreviewResponsedomainComponent implements OnChanges {
   @Input() responseDomain: ResponseDomain;
   @Input() showLabel = true;
+  @Input() inParameters: Map<string, Parameter>
+  @Input() parameterIn: Parameter[] = [];
   @Output() selectedEvent = new EventEmitter<UserResponse[]>();
 
   public refKind = DomainKind;
@@ -75,9 +77,18 @@ export class PreviewResponsedomainComponent implements OnChanges {
   public values: {};
 
   public ngOnChanges(changes: SimpleChanges) {
-    if (this.responseDomain) {
+    if (hasChanges(changes.inParameters) && this.responseDomain) {
+      console.log('inParameters');
+      this.rep = this.insertParam(new Category(this.responseDomain.managedRepresentation));
+    }
+    if (hasChanges(changes.parameterIn) && this.responseDomain) {
+      console.log('parameterIn');
+      this.rep = this.insertParam(new Category(this.responseDomain.managedRepresentation));
+    }
+    if (hasChanges(changes.responseDomain)) {
+      console.log('responseDomain');
       this.responseType = DomainKind[this.responseDomain.responseKind];
-      this.rep = new Category(this.responseDomain.managedRepresentation);
+      this.rep = this.insertParam(new Category(this.responseDomain.managedRepresentation));
       this.cardinality = new ResponseCardinality(this.responseDomain.responseCardinality);
       this.displayLayout = +this.responseDomain.displayLayout;
     }
@@ -89,4 +100,20 @@ export class PreviewResponsedomainComponent implements OnChanges {
     this.selectedEvent.emit(idxs);
   }
 
+  public insertParam(root: Category): Category {
+    if (root && this.parameterIn && this.inParameters) {
+      this.parameterIn.forEach(p => {
+        if (p.referencedId) {
+          let value = this.inParameters.get(p.referencedId).value;
+          if (value) {
+            root.label = root.label.replace(
+              new RegExp('\\[' + p.name + '\\]', 'ig'), '<mark>' + value.map(pp => (pp.label) ? pp.label : pp.value).join(',') + '</mark>');
+          }
+        }
+      });
+      root.children = root.children.map(child => this.insertParam(child));
+    }
+    console.log(root || JSON);
+    return root;
+  }
 }

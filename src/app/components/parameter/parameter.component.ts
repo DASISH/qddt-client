@@ -85,6 +85,8 @@ export class ParameterComponent implements OnChanges {
     }
   }
 
+
+
   public sortBy(source: [], prop: string) {
     return source.sort((a, b) => a[prop] > b[prop] ? 1 : a[prop] === b[prop] ? 0 : -1);
   }

@@ -7,8 +7,8 @@
     <ng-template #treeNodesImpl let-nodes="nodes" let-level="level">
       <ul [id]="'TREENODE-'+level" *ngIf="nodes" class="collapsible" data-collapsible="accordion">
         <li [id]="node.id" *ngFor="let node of nodes; trackBy:trackById;" (click)="onOpenBody(node)"
-          [ngClass]="{'SEQ': isSequence(node)}" [title]="node.id">
-          <div class="collapsible-header" cdkDrag>
+          [ngClass]="{'SEQ': isSequence(node)|| getMatIcon(node.elementKind)==='record_voice_over' }">
+          <div class="collapsible-header" cdkDrag [title]="node.id">
             <ul class="dropleft" *ngIf="!readonly && level==1">
               <li>
                 <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green"
@@ -51,7 +51,7 @@
           <ng-container *ngTemplateOutlet="treeNodesImpl; context:{ nodes: node.children, level:level+1 }">
           </ng-container>
         </li>
-        <li *ngIf="level==1">
+        <li *ngIf="level==1" class="SEQ">
           <div class="collapsible-header" (click)="onItemNew($event)">
             <i class="material-icons small teal-text text-lighten-3">vertical_align_top</i>
             <div class="col s12 blue-text text-lighten-2" [innerHtml]="'Add New Element'"></div>

@@ -1,7 +1,8 @@
 
 export class Column {
   public name: any; // string|string[]; can't use this. join complains...
-  public label = '';                    // column header
+  public label = '';
+  public title?: string;                 // column header
   public sortable = false;              // whether sortable
   public direction = '';                // '' | 'asc' | 'desc'
 
@@ -14,7 +15,7 @@ export class Column {
       switch (this.direction) {
         case '': this.direction = 'asc';
           break;
-        case 'asc': this.direction =  'desc';
+        case 'asc': this.direction = 'desc';
           break;
         default: this.direction = '';
           break;

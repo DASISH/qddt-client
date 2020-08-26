@@ -7,6 +7,7 @@ export enum SequenceKind {
   QUESTIONNAIRE,
   SECTION,
   BATTERY,
+  LOOP,
   // UNIVERSE
 }
 
@@ -176,30 +177,36 @@ export class ConditionConstruct implements AbstractControlConstruct {
     Object.assign(this, init);
 
     if (init) {
+      // if (!init.conditionKind) {
+      // }
       switch (init.conditionKind) {
         case ConditionKind.ComputationItem:
           break;
         case ConditionKind.IfThenElse:
-          this.condition = new IfThenElse(JSON.parse(this.condition.toString()));
+          this.condition = new IfThenElse(JSON.parse(JSON.stringify(this.condition)));
           break;
         case ConditionKind.Loop:
-          this.condition = new Loop(JSON.parse(this.condition.toString()));
+          this.condition = new Loop(JSON.parse(JSON.stringify(this.condition)));
           break;
         case ConditionKind.RepeatUntil:
-          this.condition = new RepeatUntil(JSON.parse(this.condition.toString()));
+          this.condition = new RepeatUntil(JSON.parse(JSON.stringify(this.condition)));
           break;
         case ConditionKind.RepeatWhile:
-          this.condition = new RepeatWhile(JSON.parse(this.condition.toString()));
+          this.condition = new RepeatWhile(JSON.parse(JSON.stringify(this.condition)));
           break;
+        default:
+          this.conditionKind = ConditionKind.IfThenElse;
+          this.condition = new IfThenElse();
       }
-      // }
+      console.log('ConditionConstruct init');
     }
   }
 }
 
 
 export class Condition {
-  programmingLanguage?: 'JavaScript'; content = '';
+  programmingLanguage = 'JavaScript';
+  content = '';
   public constructor(init?: Partial<Condition>) {
     Object.assign(this, init);
   }
@@ -211,13 +218,20 @@ export abstract class ConRef {
   abstract get ref(): ConstructReferenceKind;
 }
 
+export interface IIfThenElse {
+  ifCondition: Condition;
+  thenConstructReference: ConstructReferenceKind;
+}
 
-export class IfThenElse implements ConRef {
+export class IfThenElse implements ConRef, IIfThenElse {
   ifCondition: Condition = new Condition();
   thenConstructReference: ConstructReferenceKind = ConstructReferenceKind.NEXT_IN_LINE;
-  [index: number]: { ifCondition: Condition, thenConstructReference: ConstructReferenceKind };
+  elseIf: { [index: number]: IIfThenElse; }
   public constructor(init?: Partial<IfThenElse>) {
     Object.assign(this, init);
+    if (!this.elseIf) {
+      this.elseIf = {};
+    }
   }
   get condition(): Condition {
     return this.ifCondition;

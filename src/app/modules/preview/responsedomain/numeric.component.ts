@@ -52,7 +52,7 @@ export class ResponsedomainNumericComponent implements OnChanges {
     } else if (value > this.inputLimit.maximum) {
       this.value = this.inputLimit.maximum;
     }
-    this.selectedEvent.emit([{ label: this.managedRepresentation.label, value }]);
+    this.selectedEvent.emit([{ label: null, value }]);
   }
 
   public parts(format: number): number {

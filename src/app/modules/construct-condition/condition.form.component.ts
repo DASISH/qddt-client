@@ -47,16 +47,17 @@ export class ConditionFormComponent implements AfterViewInit, OnChanges {
   }
 
 
-  public doCheck() {
-    switch (this.condition.conditionKind) {
+  public doCheck(condition: ConditionConstruct) {
+    console.log('do check');
+    switch (condition.conditionKind) {
       case ConditionKind.IfThenElse:
-        if (isString(this.condition.condition)) {
-          this.condition.condition = new IfThenElse(JSON.parse(this.condition.condition))
+        if (isString(condition.condition)) {
+          condition.condition = new IfThenElse(JSON.parse(condition.condition))
         }
         break;
       case ConditionKind.Loop:
-        if (isString(this.condition.condition)) {
-          this.condition.condition = new Loop(JSON.parse(this.condition.condition));
+        if (isString(condition.condition)) {
+          condition.condition = new Loop(JSON.parse(condition.condition));
         }
         break;
       default:
