@@ -7,7 +7,7 @@ import {
   ElementKind, ElementRevisionRef,
   LANGUAGE_MAP,
   SequenceConstruct, SequenceKind,
-  TemplateService, toSelectItems, Parameter, hasChanges
+  TemplateService, toSelectItems, Parameter, hasChanges, IElementRef
 } from '../../lib';
 
 @Component({
@@ -26,6 +26,7 @@ export class SequenceFormComponent implements OnChanges {
   public readonly LANGUAGE_LOOKUP = LANGUAGE_MAP;
   public readonly SEQUENCE_LOOKUP = toSelectItems(SequenceKind);
   public readonly CONSTRUCT = SEQUENCE_TYPES;
+  public readonly UNIVERSE = ElementKind.UNIVERSE;
   public readonly formId = Math.round(Math.random() * 10000);
 
   public inParameters = new Map<string, Parameter>();
@@ -91,6 +92,10 @@ export class SequenceFormComponent implements OnChanges {
       this.sequence.sequence.slice(idx + 1)
     );
     this.sequence.sequence = seqNew;
+  }
+
+  public onRemoveUniverse(item: IElementRef) {
+    this.sequence.universe = this.sequence.universe.filter(u => u.id !== item.elementId);
   }
 
   public isSequence(element?: any | SequenceConstruct): element is SequenceConstruct {

@@ -8,7 +8,6 @@ import {
   ConditionKind,
   toSelectItems,
   Loop,
-  Parameter,
   IfThenElse,
   isString,
   hasChanges,
@@ -48,10 +47,10 @@ export class ConditionFormComponent implements AfterViewInit, OnChanges {
 
 
   public doCheck(condition: ConditionConstruct) {
-    console.log('do check');
     switch (condition.conditionKind) {
       case ConditionKind.IfThenElse:
         if (isString(condition.condition)) {
+          console.log('do check init ifthenelse');
           condition.condition = new IfThenElse(JSON.parse(condition.condition))
         }
         break;
@@ -66,7 +65,7 @@ export class ConditionFormComponent implements AfterViewInit, OnChanges {
   }
 
   public onSave() {
-    // this.condition.condition = JSON.stringify(this.condition.condition);
+    this.condition.condition = JSON.stringify(this.condition.condition);
     this.service.update<ConditionConstruct>(this.condition).subscribe(
       (result) => {
         this.condition = new ConditionConstruct(result);

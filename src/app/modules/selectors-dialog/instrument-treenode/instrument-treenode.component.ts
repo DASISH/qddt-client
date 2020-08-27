@@ -5,6 +5,7 @@ import {
   ActionKind, delay,
   ElementKind, EventAction,
   getElementKind, getIcon,
+  getParameterKind, ParameterKind,
   Factory,
   IElement, IRevisionRef, ISelectOption,
   MessageService,
@@ -51,6 +52,8 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit {
   public readonly modalId = Math.round(Math.random() * 10000);
   public readonly trackById = (item: TreeNodeRevisionRef) => item.id;
   public readonly isSequence = (node: TreeNodeRevisionRef): boolean => getElementKind(node.elementKind) === ElementKind.SEQUENCE_CONSTRUCT;
+  public readonly isIn = (parameter: Parameter): boolean => getParameterKind(parameter.parameterKind) === ParameterKind.IN;
+
 
   constructor(private service: TemplateService, public message: MessageService, private router: Router) {
   }

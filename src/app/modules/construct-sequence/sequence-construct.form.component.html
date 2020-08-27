@@ -1,7 +1,7 @@
 <div *ngIf="sequence" class="col s12">
   <form [id]="formId" #hf="ngForm" (ngSubmit)="onSave()">
     <div class="row">
-      <qddt-input class="col s10" required name="name" label="Name" [(ngModel)]="sequence.name" data-length="100">
+      <qddt-input class="col s10" required name="name" label="Name" [(ngModel)]="sequence.name" data-length="50">
       </qddt-input>
 
       <qddt-select class="col s2" required name="xmlLang" label="Language" [(ngModel)]="sequence.xmlLang"
@@ -9,18 +9,24 @@
       </qddt-select>
     </div>
 
-    <qddt-input required name="label" label="Label" [(ngModel)]="sequence.label" data-length="255">
-    </qddt-input>
+    <div class="row">
+      <qddt-input class="col s9" required name="label" label="Label" [(ngModel)]="sequence.label" data-length="150">
+      </qddt-input>
+      <qddt-select class="col s3" required name="SequenceKind" label="SequenceKind" [(ngModel)]="sequence.sequenceKind"
+        [lockups]="SEQUENCE_LOOKUP">
+      </qddt-select>
+    </div>
+
 
     <qddt-textarea required name="description" label="Description" [(ngModel)]="sequence.description" data-length="255">
     </qddt-textarea>
 
-    <div class="row">
-      <qddt-select class="col s5" required name="SequenceKind" label="SequenceKind" [(ngModel)]="sequence.sequenceKind"
-        [lockups]="SEQUENCE_LOOKUP">
-      </qddt-select>
-    </div>
-    <qddt-parameter [outParameters]="sequence.parameters" [showParameters]="true">
+
+    <qddt-element-collection [(listItems)]="sequence.universe" [labelName]="'Universe'" [elementKind]="UNIVERSE"
+      [xmlLang]="sequence.xmlLang" [readonly]="false" (deletedEvent)="onRemoveUniverse($event)">
+    </qddt-element-collection>
+
+    <qddt-parameter [outParameters]="sequence.parameters" [inParameters]="sequence.parameterIn" [showParameters]="true">
     </qddt-parameter>
 
     <qddt-element-revision-ref class="row" [readonly]="readonly" [elementRevisions]="sequence.sequence"

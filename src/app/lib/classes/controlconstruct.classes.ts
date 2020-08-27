@@ -126,6 +126,7 @@ export class SequenceConstruct implements AbstractControlConstruct {
   agency?: Agency;
   archived?: boolean;
   otherMaterials?: IOtherMaterial[];
+  universe: Universe[] = [];
   parameterIn?: Parameter[] = [];
   parameterOut?: Parameter[] = [];
   xmlLang?: string;
@@ -147,11 +148,11 @@ export class StatementConstruct implements AbstractControlConstruct {
   name: string;
   statement: string;
   parameterIn?: Parameter[] = [];
-  parameterOut?: Parameter[] = [];
+  parameterOut?: Parameter[];
 
   xmlLang?: string;
   classKind = ElementKind[ElementKind.STATEMENT_CONSTRUCT];
-  get parameters() { return this.parameterOut; }
+  get parameters() { return null; }
 
   public constructor(init?: Partial<StatementConstruct>) {
     Object.assign(this, init);
@@ -166,7 +167,7 @@ export class ConditionConstruct implements AbstractControlConstruct {
   label?: string;
   description?: string;
   conditionKind: string;
-  condition: IfThenElse | Loop | RepeatWhile | RepeatUntil;
+  condition: IfThenElse | Loop | RepeatWhile | RepeatUntil | any;
   parameterIn?: Parameter[] = [];
   parameterOut?: Parameter[] = [];
   classKind = ElementKind[ElementKind.CONDITION_CONSTRUCT];
@@ -176,29 +177,32 @@ export class ConditionConstruct implements AbstractControlConstruct {
   public constructor(init?: Partial<ConditionConstruct>) {
     Object.assign(this, init);
 
-    if (init) {
-      // if (!init.conditionKind) {
-      // }
+    if (init && isString(init.condition)) {
+
       switch (init.conditionKind) {
         case ConditionKind.ComputationItem:
           break;
         case ConditionKind.IfThenElse:
-          this.condition = new IfThenElse(JSON.parse(JSON.stringify(this.condition)));
+          console.log('cnstr init ifthen else');
+          this.condition = new IfThenElse(JSON.parse(init.condition));
           break;
         case ConditionKind.Loop:
-          this.condition = new Loop(JSON.parse(JSON.stringify(this.condition)));
+          this.condition = new Loop(JSON.parse(init.condition));
           break;
         case ConditionKind.RepeatUntil:
-          this.condition = new RepeatUntil(JSON.parse(JSON.stringify(this.condition)));
+          this.condition = new RepeatUntil(JSON.parse(init.condition));
           break;
         case ConditionKind.RepeatWhile:
-          this.condition = new RepeatWhile(JSON.parse(JSON.stringify(this.condition)));
+          this.condition = new RepeatWhile(JSON.parse(init.condition));
           break;
         default:
           this.conditionKind = ConditionKind.IfThenElse;
           this.condition = new IfThenElse();
       }
-      console.log('ConditionConstruct init');
+    }
+    if (!this.conditionKind) {
+      this.conditionKind = ConditionKind.IfThenElse;
+      this.condition = new IfThenElse();
     }
   }
 }
@@ -226,11 +230,11 @@ export interface IIfThenElse {
 export class IfThenElse implements ConRef, IIfThenElse {
   ifCondition: Condition = new Condition();
   thenConstructReference: ConstructReferenceKind = ConstructReferenceKind.NEXT_IN_LINE;
-  elseIf: { [index: number]: IIfThenElse; }
+  elseIf: IIfThenElse[] = [];
   public constructor(init?: Partial<IfThenElse>) {
     Object.assign(this, init);
-    if (!this.elseIf) {
-      this.elseIf = {};
+    if (!this.elseIf.length) {
+      this.elseIf = [];
     }
   }
   get condition(): Condition {
@@ -303,6 +307,9 @@ export const isSequence = (element?: any | SequenceConstruct): element is Sequen
   (element) && (element as SequenceConstruct).sequence !== undefined;
 
 
+const isString = (value: string | any): value is string => {
+  return (typeof value === 'string') ? (value as string) !== undefined : false;
+}
 
 // export const asConditionKind = (value: ConditionKind | any): value is ConditionKind => {
 //   return (value as ConditionKind) !== undefined;

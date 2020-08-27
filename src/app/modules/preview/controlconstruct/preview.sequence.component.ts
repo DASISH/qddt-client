@@ -11,7 +11,7 @@ import {
   template: `
 <ng-container *ngIf="sequenceConstruct">
 
-  <qddt-parameter [outParameters]="sequenceConstruct.parameters" [showParameters]="false"></qddt-parameter>
+  <qddt-parameter [outParameters]="sequenceConstruct.parameters" [showParameters]="true"></qddt-parameter>
 
   <ng-container *ngTemplateOutlet="sequenceConstructTmpl; context:{ sequence: sequenceConstruct,  counter: 1 }"></ng-container>
 
@@ -26,7 +26,8 @@ import {
         <div class="collapsible-body">
           <ng-container [ngSwitch]="cqi.elementKind">
             <ng-container *ngSwitchCase="'SEQUENCE_CONSTRUCT'">
-              <span>{{ cqi.element?.description }}</span>
+
+              <qddt-parameter [inParameters]="cqi.element?.parameterIn" [parameters]="inParameters" ></qddt-parameter>
               <ng-container *ngTemplateOutlet="sequenceConstructTmpl; context:{ sequence: cqi.element, counter: nextLevel(counter) }"></ng-container>
             </ng-container>
             <ng-container *ngSwitchCase="'CONDITION_CONSTRUCT'">

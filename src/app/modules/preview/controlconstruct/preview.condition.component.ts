@@ -10,20 +10,18 @@ import { ConditionConstruct, Parameter, UserResponse, tryParse, isParamTrue } fr
       <qddt-parameter [inParameters]="construct.parameterIn" [outParameters]="construct.parameterOut" [parameters]="inParameters" >
       </qddt-parameter>
       <li class="collection-item card-panel" >
-        <p><label>Condition</label></p>
-        <code [innerHtml]="innerHtml"> </code>
-        <p><label>Ref</label></p>
-        <p>{{construct?.condition?.ref?.toString()}}</p>
+          <code>
+            If ({{construct.condition.ifCondition.content}}) Then Goto {{construct.condition.thenConstructReference}}
+          </code>
 
         <ng-container [ngSwitch]="construct.conditionKind">
           <ng-container *ngSwitchCase="refKind.ComputationItem"></ng-container>
           <ng-container *ngSwitchCase="refKind.IfThenElse">
-            <p><label>ElseIF</label></p>
-            <code [innerHtml]="innerHtml2"> </code>
-
-            <p><label>Ref2</label></p>
-            <p>{{construct.condition[0]}}</p>
-
+          <li *ngFor="let item of construct.condition.elseIf">
+            <code>
+              Else If ({{item.ifCondition.content}}) Then Goto {{item.thenConstructReference}}
+            </code>
+          </li>
           </ng-container>
           <ng-container *ngSwitchCase="refKind.Loop"></ng-container>
           <ng-container *ngSwitchCase="refKind.RepeatUntil"></ng-container>
@@ -51,7 +49,7 @@ export class PreviewConditionConstructComponent implements OnChanges {
 
   public ngOnChanges(changes: SimpleChanges): void {
 
-    if (hasChanges(changes.inParameters, this.compareMaps)) {
+    if (hasChanges(changes.inParameters, this.compareMaps) && this.construct.condition) {
       let expression = this.construct.condition.condition.content
       let label = expression;
       this.assignReferenceAndValueTo(this.construct.parameterIn);

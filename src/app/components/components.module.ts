@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
-import { LocalDatePipe, LocalNumberPipe } from '../lib';
+import { LocalDatePipe, LocalNumberPipe, FilterPipe } from '../lib';
 import { AuthorChipComponent } from './author/author.chip.component';
 import { QddtTableComponent } from './table/table.component';
 import { QddtPaginationComponent } from './pagination/pagination.component';
@@ -38,14 +38,14 @@ import { ConfirmRemoveComponent } from './dialog/remove.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, FormsModule, CompareModule, DragDropModule],
-  declarations: [LocalDatePipe, LocalNumberPipe, TemplateComponent, TemplateListComponent, TemplateDetailComponent,
+  declarations: [LocalDatePipe, LocalNumberPipe, FilterPipe, TemplateComponent, TemplateListComponent, TemplateDetailComponent,
     QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, FileDownloadComponent, ParameterComponent,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent, DialogBigComponent, ConfirmRemoveComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent, CommentCreateComponent, DialogComponent,
     RationalComponent, RevisionComponent, ConceptrefComponent, MustMatchDirective, SpinnerComponent,
     ParentFormConnectDirective, GravatarDirective, ContenteditableDirective, EqualValidator,
     FormSelectComponent, FormInputComponent, FormTextAreaComponent, FormInputNComponent, ValidationComponent],
-  exports: [LocalDatePipe, LocalNumberPipe, CommonModule, FormsModule, SpinnerComponent,
+  exports: [LocalDatePipe, LocalNumberPipe, FilterPipe, CommonModule, FormsModule, SpinnerComponent,
     QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, FileDownloadComponent,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
     ConfirmDeleteComponent, TocComponent, CommentListComponent, DialogComponent, DialogBigComponent, ConfirmRemoveComponent,

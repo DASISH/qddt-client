@@ -15,60 +15,64 @@ import { ConstructReferenceKind, IElementRef, IfThenElse, toSelectItems, IIfThen
     required
     name="count"
     label="Number of ElseIf"
+    min="0"
+    [ngModel]="element.elseIf.length"
     (change)="doElseIf($event.target.value)">
   </qddt-input-number>
-  <!-- <qddt-input class="col s2" type="number" name="count" (change)="doElseIf($event.target.value)"> -->
-  <ul class="col s12">
-    <li >
+  <div class="row">
+    <ul class=" col s12 card-panel grey lighten-5 grey-text text-darken-1" >
+      <li>
+        <code>
+          If ({{element.ifCondition.content}}) Then Goto {{element.thenConstructReference}}
+        </code>
+      </li>
+      <li *ngFor="let item of  element.elseIf">
+        <code>
+          Else If ({{item.ifCondition.content}}) Then Goto {{item.thenConstructReference}}
+        </code>
+      </li>
+    </ul>
+  </div>
+  <ul >
+    <li [id]="'CC-LI-0'" class="hoverable row">
       <qddt-textarea class="col s9"
         required
-        name="ifcondition"
-        label="IfCondition"
+        name="content"
+        label="If"
         [(ngModel)]="element.ifCondition.content"
         data-length="100">
       </qddt-textarea>
       <qddt-select class="col s3"
         required
         name="thenconstructreference"
-        label="ThenConstructReference"
+        label="Then Reference"
         [(ngModel)]="element.thenConstructReference"
         [lockups]="CONDITION">
       </qddt-select>
-  </li>
-  <li *ngFor="let item of  element.elseIf | keyvalue">
-    <qddt-textarea class="col s9"
-        required
-        name="ifcondition"
-        label="IfCondition"
-        [(ngModel)]="item.value.ifCondition.content"
-        data-length="100">
-      </qddt-textarea>
-      <qddt-select class="col s3"
-        required
-        name="thenconstructreference"
-        label="ThenConstructReference"
-        [(ngModel)]="item.value.thenConstructReference"
-        [lockups]="CONDITION">
-      </qddt-select>
-  </li>
-  <!-- <qddt-textarea class="col s9"
-    name="content-idx"
-    label="ElseIf"
-    [(ngModel)]="entry.value.ifCondition.content"
-    data-length="100">
-  </qddt-textarea>
-  <qddt-select class="col s3"
-    name="ref-idx"
-    label="ElseConstructReference"
-    [(ngModel)]="entry.value.thenConstructReference"
-    [lockups]="CONDITION">
-  </qddt-select> -->
+    </li>
+    <li [id]="'CC-LI-'+idx" class="hoverable row" *ngFor="let elseIf of element.elseIf; let idx=index">
+      <qddt-textarea class="col s9"
+          required
+          name="content-idx"
+          label="Else If"
+          [(ngModel)]="elseIf.ifCondition.content"
+          data-length="100">
+        </qddt-textarea>
+        <qddt-select class="col s3"
+          required
+          name="thenconstructreference-idx"
+          label="Then Reference"
+          [(ngModel)]="elseIf.thenConstructReference"
+          [lockups]="CONDITION">
+        </qddt-select>
+    </li>
   </ul>
+  <!-- </div> -->
 </form>
 `,
 })
 
-export class IfThenElseFormComponent implements AfterViewInit {
+export class IfThenElseFormComponent {
   @Input() element: IfThenElse;
   @Input() formName: string;
 
@@ -77,20 +81,27 @@ export class IfThenElseFormComponent implements AfterViewInit {
 
   constructor() { }
 
-  ngAfterViewInit(): void {
-
-  }
 
 
   public isIfThenElse(element: any | IfThenElse): element is IElementRef {
     return (element) && (element as IfThenElse).ifCondition !== undefined;
   }
 
-  public propsToArray(obj: { [index: string]: IIfThenElse; } | { [index: number]: IIfThenElse; }) {
-    return Object.keys(obj).map(prop => obj[prop]);
+  public doElseIf(num) {
+    const count = this.element.elseIf.length;
+    if (count === num) {
+      return;
+    }
+    if (count > num) {
+      this.element.elseIf = this.element.elseIf.slice(0, num);
+    } else if (count < num) {
+      for (let i = count; i < num; i++) {
+        this.element.elseIf.push({ ifCondition: new Condition(), thenConstructReference: ConstructReferenceKind.NEXT_IN_LINE });
+      }
+    } else if (num < 0) {
+      num = 0;
+      this.element.elseIf.length = 0;
+    }
   }
 
-  public doElseIf(event) {
-    this.element.elseIf[event] = { ifCondition: new Condition(), thenConstructReference: ConstructReferenceKind.NEXT_IN_LINE }
-  }
 }

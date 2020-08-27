@@ -41,8 +41,8 @@
           </div>
           <div class="collapsible-body">
             <ng-container *ngIf="isSequence(node)">
-              <label>Description</label>
-              <span>{{node.element?.description}}</span>
+              <qddt-parameter [inParameters]="node.parameters | qddtFilter: isIn " [parameters]="inParameters">
+              </qddt-parameter>
             </ng-container>
             <qddt-preview-controlconstruct *ngIf="!isSequence(node)" [construct]="node.element" [showDetail]="false"
               [inParameters]="inParameters" (selectedEvent)="onCheckParams(node.id, $event)">
