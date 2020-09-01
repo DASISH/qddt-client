@@ -74,6 +74,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         }
         this.pageSearch.sort = this.getSort();
         this.pageSearch.page.number = 0;
+        console.log('begin ' + Date.now().toString());
         this.showProgressBar = true;
         this.fetchEvent.emit(this.pageSearch);
       });
@@ -81,7 +82,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
 
   ngAfterViewInit() {
-    M.updateTextFields();
+    // M.updateTextFields();
   }
 
   public ngOnInit(): void {
@@ -96,8 +97,6 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-
-    this.showProgressBar = false;
 
     this.columns = this.getColumns();
 
@@ -144,6 +143,9 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       });
       this.rows.push(row);
     });
+    this.showProgressBar = false;
+    console.log('end ' + Date.now().toString());
+
   }
 
   public onDetail(item: IEntityEditAudit) {

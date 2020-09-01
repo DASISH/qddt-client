@@ -1,7 +1,10 @@
 import { ActionKind, ElementKind } from '../enums';
-import { ISelectOption, IEntityAudit, ITreeNode, IEntityEditAudit } from '../interfaces';
-import { AbstractControlConstruct, isSequence } from './controlconstruct.classes';
+import { ISelectOption, IEntityAudit, ITreeNode } from '../interfaces';
+import { AbstractControlConstruct, isSequence, Parameter, ParameterKind } from './controlconstruct.classes';
 import { ElementRevisionRef } from './element-revision-ref';
+
+import * as uuid from 'uuid';
+
 
 
 export enum InstrumentKind {
@@ -90,10 +93,7 @@ export const mapTreeNodes = (nodes: TreeNodeRevisionRefImpl<AbstractControlConst
   [].concat(nodes.flatMap(node =>
     (node.children && node.children.length > 0) ? [...mapTreeNodes(node.children)] : [node]));
 
-export enum ParameterKind {
-  IN,
-  OUT
-}
+
 
 
 export class Instrument implements IEntityAudit {
@@ -143,9 +143,6 @@ export class EventAction {
   }
 }
 
-
-import * as uuid from 'uuid';
-import { UserResponse } from './responsedomain.classes';
 
 
 export abstract class TreeNodeRevisionRef extends ElementRevisionRef implements ITreeNode {
@@ -198,11 +195,11 @@ export const mergeParameters = (node: TreeNodeRevisionRefImpl<AbstractControlCon
   node.element.parameterOut.forEach((po, index, listRef) => {
     const found = paramOut.find(f => f.name === po.name);
     if (found) {
-      console.log('parameter found assign(po)');
+      console.log('parameter found assign(po) ' + po.name);
       listRef[index] = found;
       // po = found;
     } else {
-      console.log('parameter insert (po)');
+      console.log('parameter insert (po) ' + po.name);
       po.id = node.id;
       node.parameters.push(po);
     }
@@ -211,45 +208,14 @@ export const mergeParameters = (node: TreeNodeRevisionRefImpl<AbstractControlCon
   node.element.parameterIn.forEach((pi, index, listRef) => {
     const found = paramIn.find(f => f.name === pi.name);
     if (found) {
-      console.log('parameter found assign(po)');
+      console.log('parameter found assign(pi) ' + pi.name);
       listRef[index] = found;
       // pi = found;
     } else {
-      console.log('parameter insert push(pi)');
+      console.log('parameter insert push(pi) ' + pi.name);
       pi.id = node.id;
       node.parameters.push(pi);
     }
   });
 
 }
-
-
-export class Parameter {
-  id: string;
-  idx?: number;
-  name: string;
-  referencedId?: string;
-  parameterKind: ParameterKind;
-  value: UserResponse[] = [];
-  public constructor(init?: Partial<Parameter>) {
-    Object.assign(this, init);
-    if (!init.id) {
-      this.id = uuid.v4();
-
-    }
-  }
-  equals(arg0: Parameter) {
-    if (this.id !== arg0.id)
-      return false;
-    if (this.value.length !== arg0.value.length)
-      return false;
-
-    for (let i = 0, l = this.value.length; i < l; i++) {
-      if (this.value[i] !== arg0.value[i]) {
-        return false;
-      }
-    }
-    return true;
-  }
-}
-

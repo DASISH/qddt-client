@@ -6,7 +6,7 @@ import {
   ElementKind, EventAction,
   getElementKind, getIcon,
   getParameterKind, ParameterKind,
-  Factory,
+  Factory, ICondition,
   IElement, IRevisionRef, ISelectOption,
   MessageService,
   TemplateService,
@@ -14,7 +14,9 @@ import {
   TreeNodeRevisionRef,
   ElementRevisionRef,
   TreeNodeRevisionRefImpl,
-  AbstractControlConstruct
+  AbstractControlConstruct,
+  ConditionKind,
+  IfThenElse, Loop
 } from '../../../lib';
 
 
@@ -27,7 +29,6 @@ import {
     '.collapsible-header:hover > ul.dropleft { display:block; }',
     'ul.collapsible > li:not(.SEQ) {  counter-increment: item; }',
     'ul.collapsible > li:not(.SEQ):before { content: counters(item, ".") ;  position: absolute; font-size: 0.6rem; }',
-
   ],
   templateUrl: './instrument-treenode.component.html'
 })
@@ -45,14 +46,43 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit {
   public SOURCE: IElement | IRevisionRef | null;
   public instance: M.Modal;
 
+
   private _showButton = false;
   private action = ActionKind.Create;
 
+  public readonly STATEMENT = ElementKind.STATEMENT_CONSTRUCT
 
   public readonly modalId = Math.round(Math.random() * 10000);
   public readonly trackById = (item: TreeNodeRevisionRef) => item.id;
   public readonly isSequence = (node: TreeNodeRevisionRef): boolean => getElementKind(node.elementKind) === ElementKind.SEQUENCE_CONSTRUCT;
+  public readonly isConditional = (node: TreeNodeRevisionRef): boolean =>
+    (node && node.element) ? getElementKind(node.elementKind) === ElementKind.CONDITION_CONSTRUCT : false;
   public readonly isIn = (parameter: Parameter): boolean => getParameterKind(parameter.parameterKind) === ParameterKind.IN;
+  public readonly isOut = (parameter: Parameter): boolean => getParameterKind(parameter.parameterKind) === ParameterKind.OUT;
+
+  private readonly parseCondition = (text: string): ICondition => {
+    try {
+      const cond = JSON.parse(text) as ICondition;
+      if (cond.conditionKind) {
+        switch (cond.conditionKind) {
+          case ConditionKind.ComputationItem:
+            break;
+          case ConditionKind.IfThenElse:
+            cond.condition = new IfThenElse(JSON.parse(cond.condition));
+            break;
+          case ConditionKind.Loop:
+            cond.condition = new Loop(JSON.parse(cond.condition));
+            break;
+          default:
+            console.log(cond.conditionKind);
+        }
+        return cond;
+      }
+    } catch (ex) {
+      // console.log(ex); just ignore
+    }
+    return null;
+  }
 
 
   constructor(private service: TemplateService, public message: MessageService, private router: Router) {
@@ -83,19 +113,45 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit {
   }
 
   public onOpenBody(item: TreeNodeRevisionRef) {
+    const kind = getElementKind(item.elementKind);
     if (!item.element && (!this.isSequence(item) || item.children.length === 0)) {
       M.Collapsible.init(document.querySelectorAll('.collapsible'));
-      const kind = getElementKind(item.elementKind);
-      this.service.getByKindRevision(
-        kind,
-        item.elementId,
-        item.elementRevision)
-        .then((result) => {
-          item.element = Factory.createFromSeed(kind, result.entity);
-          item.version = result.entity.version;
-          item = new TreeNodeRevisionRefImpl<AbstractControlConstruct>(item);
-          this.actionEvent.emit({ action: ActionKind.Read, ref: item });
-        });
+
+      let cond: ICondition;
+
+      if (kind === ElementKind.CONDITION_CONSTRUCT) {
+        cond = this.parseCondition(item.name);
+      }
+      if (cond) {
+        item.element = cond;
+        item.name = cond.name;
+        this.actionEvent.emit({ action: ActionKind.Read, ref: item });
+      } else {
+        this.service.getByKindRevision(
+          kind,
+          item.elementId,
+          item.elementRevision)
+          .then((result) => {
+            if (kind === ElementKind.CONDITION_CONSTRUCT) {
+              cond = result.entity as ICondition;
+              item.element = {
+                id: cond.id,
+                name: cond.name,
+                classKind: cond.classKind,
+                conditionKind: cond.conditionKind,
+                condition: cond.condition,
+                parameterIn: cond.parameterIn,
+                parameterOut: cond.parameterOut
+              } as ICondition;
+              console.log(item.element || JSON);
+            } else {
+              item.element = Factory.createFromSeed(kind, result.entity);
+            }
+            item.version = result.entity.version;
+            item = new TreeNodeRevisionRefImpl<AbstractControlConstruct>(item);
+            this.actionEvent.emit({ action: ActionKind.Read, ref: item });
+          });
+      }
     }
   }
 
@@ -105,6 +161,7 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit {
 
   // -------------------------------------------------------------------
   public onSelectElementKind(kind) {
+    this.selectedElementKind = kind;
     this.SOURCE = { element: '', elementKind: kind };
     // console.log(this.SOURCE);
   }
@@ -124,8 +181,8 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit {
   }
 
   public onCheckParams(id, event) {
-    console.log(id);
-    console.log(event);
+    // console.log(id);
+    // console.log(event);
     // console.log(this.inParameters.get(id).value);
     // this.inParameters.get(id).value = event;
   }

@@ -4,7 +4,7 @@
       <thead>
         <tr style="white-space: nowrap;">
           <th *ngFor="let item of headers">
-            <label>{{ item.label }}</label>
+            <label>{{ insertParam(item.label) }}</label>
           </th>
         </tr>
       </thead>
@@ -31,7 +31,7 @@
         <span class="codeValue"> {{ option.value }} </span>
         <label>
           <input [name]="inputGroupName" type="radio" (change)="checkOption(option.value)" />
-          <span>{{option.label}}</span>
+          <span>{{insertParam(option.label)}}</span>
         </label>
       </li>
     </ul>

@@ -1,5 +1,5 @@
-import { Component, Input, OnChanges, Output, EventEmitter } from '@angular/core';
-import { Category, ResponseCardinality, UserResponse } from '../../../lib/classes';
+import { Component, Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Category, ResponseCardinality, UserResponse, Parameter } from '../../../lib/classes';
 
 @Component({
   selector: 'qddt-preview-rd-codelist',
@@ -11,7 +11,7 @@ import { Category, ResponseCardinality, UserResponse } from '../../../lib/classe
       <span class="codeValue"> {{ row.value }} </span>
       <label>
         <input [name]="inputGroupName" [type]="type" [disabled]="row.disabled"  (change)="checkOption(row, $event)"/>
-        <span>{{row.label}}</span>
+        <span>{{insertParam(row.label)}}</span>
       </label >
     </li>
 </ul>
@@ -23,6 +23,7 @@ export class ResponsedomainCodeListComponent implements OnChanges {
   @Input() managedRepresentation: Category;
   @Input() responseCardinality: ResponseCardinality;
   @Input() inputGroupName = 'option-select'
+  @Input() parameterIn: Parameter[] = [];
 
   public compId = Math.round(Math.random() * 10000);
   public rows: UserResponse[] = [];
@@ -30,7 +31,8 @@ export class ResponsedomainCodeListComponent implements OnChanges {
 
   public checked() { return this.rows.filter((e: any) => e.checked).length; }
 
-  public ngOnChanges() {
+  public ngOnChanges(changes: SimpleChanges): void {
+    console.log('oncahnges....')
     this.rows = [];
     const rep = this.managedRepresentation;
 
@@ -41,6 +43,16 @@ export class ResponsedomainCodeListComponent implements OnChanges {
 
     this.type = (+this.responseCardinality.maximum > 1) ? 'checkbox' : 'radio';
 
+  }
+
+  public insertParam(text: string): string {
+    this.parameterIn.forEach(p => {
+      if (p.value) {
+        text = text.replace(
+          new RegExp('\\[' + p.name + '\\]', 'ig'), p.value.map(pp => (pp.label) ? pp.label : pp.value).join(','));
+      }
+    });
+    return text;
   }
 
   public checkOption(row: any, event: any) {
@@ -58,11 +70,11 @@ export class ResponsedomainCodeListComponent implements OnChanges {
         }
         this.selectedEvent.emit([...this.rows.filter(e => e.checked)
           .map((e: UserResponse) => {
-            const newLocal = { label: e.label, value: e.value } as UserResponse;
+            const newLocal = { label: this.insertParam(e.label), value: e.value } as UserResponse;
             return newLocal;
           })]);
       } else {
-        this.selectedEvent.emit([{ label: row.label, value: row.value }]);
+        this.selectedEvent.emit([{ label: this.insertParam(row.label), value: row.value }]);
       }
     } catch (ex) {
       console.log(ex);
@@ -73,5 +85,4 @@ export class ResponsedomainCodeListComponent implements OnChanges {
   //   const checked = this.rows.filter((e: any) => e.checked).length;
   //   return (this.responseCardinality.maximum >= checked && checked >= this.responseCardinality.minimum);
   // }
-
 }

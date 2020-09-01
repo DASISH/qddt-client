@@ -1,14 +1,10 @@
-import { KeyValue } from '@angular/common';
-import {
-  AfterViewInit,
-  Component,
-  Input,
-} from '@angular/core';
-import { ConstructReferenceKind, IElementRef, IfThenElse, toSelectItems, IIfThenElse, Condition } from 'src/app/lib';
+import { Component, Input, } from '@angular/core';
+import { ConstructReferenceKind, IElementRef, IfThenElse, toSelectItems, Condition } from 'src/app/lib';
 
 
 @Component({
   selector: 'qddt-if-then-else-form',
+  styles: ['code {white-space: pre-wrap; }'],
   template: `
 <form id="CON-{{formId}}" [parentFormConnect]="formName" *ngIf="isIfThenElse(element)">
   <qddt-input-number class="col s3"
@@ -20,18 +16,20 @@ import { ConstructReferenceKind, IElementRef, IfThenElse, toSelectItems, IIfThen
     (change)="doElseIf($event.target.value)">
   </qddt-input-number>
   <div class="row">
-    <ul class=" col s12 card-panel grey lighten-5 grey-text text-darken-1" >
-      <li>
+    <div class="col s12 card grey lighten-5 " >
+      <div class="card-content grey-text text-darken-1" >
         <code>
-          If ({{element.ifCondition.content}}) Then Goto {{element.thenConstructReference}}
+          If ( {{element.ifCondition.content}} ){{"\n"}}
+          Then Goto {{element.thenConstructReference}}
         </code>
-      </li>
-      <li *ngFor="let item of  element.elseIf">
-        <code>
-          Else If ({{item.ifCondition.content}}) Then Goto {{item.thenConstructReference}}
-        </code>
-      </li>
-    </ul>
+        <ng-container *ngFor="let item of element.elseIf">
+          <code>
+            Else If ({{item.ifCondition.content}}){{"\n"}}
+            Then Goto {{item.thenConstructReference}}
+          </code>
+        </ng-container>
+      </div>
+    </div>
   </div>
   <ul >
     <li [id]="'CC-LI-0'" class="hoverable row">
@@ -67,7 +65,6 @@ import { ConstructReferenceKind, IElementRef, IfThenElse, toSelectItems, IIfThen
         </qddt-select>
     </li>
   </ul>
-  <!-- </div> -->
 </form>
 `,
 })

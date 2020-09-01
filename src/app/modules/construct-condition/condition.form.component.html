@@ -14,10 +14,11 @@
     </qddt-select>
     <ng-container [ngSwitch]="condition.conditionKind">
       <ng-container *ngSwitchCase="'IF_THEN_ELSE'">
-        <qddt-if-then-else-form [(element)]=condition.condition [formName]="'IFTHENELSE'"></qddt-if-then-else-form>
+        <qddt-if-then-else-form [element]=condition.condition [formName]="'IFTHENELSE'">
+        </qddt-if-then-else-form>
       </ng-container>
       <ng-container *ngSwitchCase="'LOOP'">
-        <qddt-for-each-form [(element)]=condition.condition [formName]="'LOOP'"></qddt-for-each-form>
+        <qddt-for-each-form [element]=condition.condition [formName]="'LOOP'" class="row"></qddt-for-each-form>
       </ng-container>
       <ng-container *ngSwitchCase="'REPEAT_UNTIL'">
         REPEAT_UNTIL ?

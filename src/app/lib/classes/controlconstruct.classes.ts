@@ -1,6 +1,11 @@
-import { Parameter, Agency, QuestionItem, ElementRevisionRefImpl } from '.';
 import { IComment, IEntityEditAudit, IOtherMaterial, IUser, IVersion } from '../interfaces';
 import { ElementKind } from '../enums';
+import { ElementRevisionRefImpl } from './element-revision-ref';
+import { QuestionItem } from './questionitem.classes';
+import { Agency } from './user.classes';
+import { UserResponse } from './responsedomain.classes';
+
+import * as uuid from 'uuid';
 
 export enum SequenceKind {
   NA,
@@ -11,6 +16,10 @@ export enum SequenceKind {
   // UNIVERSE
 }
 
+export enum ParameterKind {
+  IN,
+  OUT
+}
 
 export enum ConditionKind {
   ComputationItem = 'COMPUTATION_ITEM',
@@ -60,6 +69,40 @@ export class Instruction implements IEntityEditAudit {
 }
 
 
+export class Parameter {
+  id: string;
+  idx?: number;
+  name: string;
+  referencedId?: string;
+  parameterKind: ParameterKind;
+  value: UserResponse[] = [];
+  public constructor(init?: Partial<Parameter>) {
+    Object.assign(this, init);
+    if (!init.id) {
+      this.id = uuid.v4();
+
+    }
+  }
+  equals(arg0: Parameter) {
+    if (this.id !== arg0.id)
+      return false;
+    if (this.value.length !== arg0.value.length)
+      return false;
+
+    for (let i = 0, l = this.value.length; i < l; i++) {
+      if (this.value[i] !== arg0.value[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
+}
+
+export class ConstructInstruction {
+  instruction: Instruction;
+  instructionRank: string;
+}
+
 export abstract class AbstractControlConstruct implements IEntityEditAudit {
   basedOnObject?: string;
   basedOnRevision?: number;
@@ -83,10 +126,6 @@ export abstract class AbstractControlConstruct implements IEntityEditAudit {
   abstract get parameters(): Parameter[];
 }
 
-export class ConstructInstruction {
-  instruction: Instruction;
-  instructionRank: string;
-}
 export class QuestionConstruct implements AbstractControlConstruct {
   id: string;
   name: string;
@@ -160,53 +199,7 @@ export class StatementConstruct implements AbstractControlConstruct {
 
 }
 
-
-export class ConditionConstruct implements AbstractControlConstruct {
-  id: string;
-  name: string;
-  label?: string;
-  description?: string;
-  conditionKind: string;
-  condition: IfThenElse | Loop | RepeatWhile | RepeatUntil | any;
-  parameterIn?: Parameter[] = [];
-  parameterOut?: Parameter[] = [];
-  classKind = ElementKind[ElementKind.CONDITION_CONSTRUCT];
-  xmlLang?: string;
-  get parameters() { return this.parameterOut; }
-
-  public constructor(init?: Partial<ConditionConstruct>) {
-    Object.assign(this, init);
-
-    if (init && isString(init.condition)) {
-
-      switch (init.conditionKind) {
-        case ConditionKind.ComputationItem:
-          break;
-        case ConditionKind.IfThenElse:
-          console.log('cnstr init ifthen else');
-          this.condition = new IfThenElse(JSON.parse(init.condition));
-          break;
-        case ConditionKind.Loop:
-          this.condition = new Loop(JSON.parse(init.condition));
-          break;
-        case ConditionKind.RepeatUntil:
-          this.condition = new RepeatUntil(JSON.parse(init.condition));
-          break;
-        case ConditionKind.RepeatWhile:
-          this.condition = new RepeatWhile(JSON.parse(init.condition));
-          break;
-        default:
-          this.conditionKind = ConditionKind.IfThenElse;
-          this.condition = new IfThenElse();
-      }
-    }
-    if (!this.conditionKind) {
-      this.conditionKind = ConditionKind.IfThenElse;
-      this.condition = new IfThenElse();
-    }
-  }
-}
-
+//  ConditionConstruct.Condition helper classes --- BEGIN
 
 export class Condition {
   programmingLanguage = 'JavaScript';
@@ -222,34 +215,11 @@ export abstract class ConRef {
   abstract get ref(): ConstructReferenceKind;
 }
 
-export interface IIfThenElse {
-  ifCondition: Condition;
-  thenConstructReference: ConstructReferenceKind;
-}
-
-export class IfThenElse implements ConRef, IIfThenElse {
-  ifCondition: Condition = new Condition();
-  thenConstructReference: ConstructReferenceKind = ConstructReferenceKind.NEXT_IN_LINE;
-  elseIf: IIfThenElse[] = [];
-  public constructor(init?: Partial<IfThenElse>) {
-    Object.assign(this, init);
-    if (!this.elseIf.length) {
-      this.elseIf = [];
-    }
-  }
-  get condition(): Condition {
-    return this.ifCondition;
-  }
-  get ref(): ConstructReferenceKind {
-    return this.thenConstructReference;
-  }
-}
-
 
 export class Loop implements ConRef {
-  loopWhile: Condition = new Condition({ content: '' });
   controlConstructReference: ConstructReferenceKind = ConstructReferenceKind.NEXT_IN_LINE;
-  loopVariableReference?: ConstructReferenceKind;
+  loopVariableReference = new Parameter({ name: 'INPUT1', parameterKind: ParameterKind.IN });
+  loopWhile?: Condition;
   initialValue?: number;
   stepValue?: number;
   public constructor(init?: Partial<Loop>) {
@@ -294,6 +264,97 @@ export class RepeatUntil implements ConRef {
 }
 
 
+
+export interface IIfThenElse {
+  ifCondition: Condition;
+  thenConstructReference: ConstructReferenceKind;
+}
+
+
+export class IfThenElse implements ConRef, IIfThenElse {
+  ifCondition: Condition = new Condition();
+  thenConstructReference: ConstructReferenceKind = ConstructReferenceKind.NEXT_IN_LINE;
+  elseIf: IIfThenElse[] = [];
+  public constructor(init?: Partial<IfThenElse>) {
+    Object.assign(this, init);
+    if (!this.elseIf.length) {
+      this.elseIf = [];
+    }
+  }
+  get condition(): Condition {
+    return this.ifCondition;
+  }
+  get ref(): ConstructReferenceKind {
+    return this.thenConstructReference;
+  }
+}
+
+export interface ICondition {
+  id: string;
+  name: string;
+  conditionKind: string;
+  classKind: string;
+  condition: IfThenElse | Loop | RepeatWhile | RepeatUntil | any;
+  parameterIn?: Parameter[];
+  parameterOut?: Parameter[];
+}
+// ConditionConstruct.Condition helper classes --- END
+
+
+export class ConditionConstruct implements AbstractControlConstruct, ICondition {
+  id: string;
+  name: string;
+  label?: string;
+  description?: string;
+  conditionKind: string;
+  condition: IfThenElse | Loop | RepeatWhile | RepeatUntil | any;
+  parameterIn?: Parameter[] = [];
+  parameterOut?: Parameter[] = [];
+  classKind = ElementKind[ElementKind.CONDITION_CONSTRUCT];
+  xmlLang?: string;
+  get parameters() { return this.parameterOut; }
+
+  public constructor(init?: Partial<ConditionConstruct>) {
+    Object.assign(this, init);
+    // if (isAbstractControlConstruct(init)){
+
+    // } else {
+
+    // }
+    if (init && isString(init.condition)) {
+
+      switch (init.conditionKind) {
+        case ConditionKind.ComputationItem:
+          break;
+        case ConditionKind.IfThenElse:
+          this.condition = new IfThenElse(JSON.parse(init.condition));
+          break;
+        case ConditionKind.Loop:
+          this.condition = new Loop(JSON.parse(init.condition));
+
+          if (!this.parameterIn.find(f => f.name === this.condition.loopVariableReference.name)) {
+            this.parameterIn.push(this.condition.loopVariableReference);
+          }
+          break;
+        case ConditionKind.RepeatUntil:
+          this.condition = new RepeatUntil(JSON.parse(init.condition));
+          break;
+        case ConditionKind.RepeatWhile:
+          this.condition = new RepeatWhile(JSON.parse(init.condition));
+          break;
+        default:
+          this.conditionKind = ConditionKind.IfThenElse;
+          this.condition = new IfThenElse();
+      }
+    }
+    if (!this.conditionKind) {
+      this.conditionKind = ConditionKind.IfThenElse;
+      this.condition = new IfThenElse();
+    }
+  }
+}
+
+
 export const isConRef = (element: any | ConRef): element is ConRef => {
   return (element) && (element as ConRef).condition !== undefined;
 }
@@ -302,24 +363,15 @@ export const isCondition = (element: any | Condition): element is Condition => {
   return (element) && (element as Condition).content !== undefined;
 }
 
-
 export const isSequence = (element?: any | SequenceConstruct): element is SequenceConstruct =>
   (element) && (element as SequenceConstruct).sequence !== undefined;
 
 
-const isString = (value: string | any): value is string => {
-  return (typeof value === 'string') ? (value as string) !== undefined : false;
-}
-
-// export const asConditionKind = (value: ConditionKind | any): value is ConditionKind => {
-//   return (value as ConditionKind) !== undefined;
-// }
-
-
-// export const isConditionKind = (maybeFruit: string): maybeFruit is keyof typeof ConditionKind => {
-//   return Object.values(ConditionKind).indexOf(maybeFruit) !== -1;
-// }
-
 export const isAbstractControlConstruct = (element: any | AbstractControlConstruct): element is AbstractControlConstruct => {
   return (element) && (element as AbstractControlConstruct).parameterOut !== undefined;
+}
+
+
+const isString = (value: string | any): value is string => {
+  return (typeof value === 'string') ? (value as string) !== undefined : false;
 }

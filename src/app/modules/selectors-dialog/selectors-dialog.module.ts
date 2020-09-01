@@ -10,11 +10,13 @@ import { ElementRevisionSelectComponent } from './element-revision/element-revis
 import { ElementRevisionRefComponent } from './element-revision-ref/element-revision-ref.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TreeNodeRevisionRefComponent } from './instrument-treenode/instrument-treenode.component';
+import { ConditionModule } from '../construct-condition/condition.module';
+import { TreeNodeEditComponent } from './instrument-treenode/instrument-treenode-edit.component';
 
 @NgModule({
-  imports: [ComponentsModule, PreviewModule, SelectorsModule, DragDropModule],
+  imports: [ComponentsModule, PreviewModule, SelectorsModule, DragDropModule, ConditionModule],
   declarations: [QuestionItemsComponent, ResponsedomainComponent, ElementCollectionComponent, ElementRevisionCollectionComponent,
-    ElementRevisionSelectComponent, ElementRevisionRefComponent, TreeNodeRevisionRefComponent],
+    ElementRevisionSelectComponent, ElementRevisionRefComponent, TreeNodeRevisionRefComponent, TreeNodeEditComponent],
   exports: [QuestionItemsComponent, ResponsedomainComponent, ElementCollectionComponent, ElementRevisionCollectionComponent,
     ElementRevisionSelectComponent, ElementRevisionRefComponent, TreeNodeRevisionRefComponent],
   providers: []

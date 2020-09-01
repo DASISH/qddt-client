@@ -80,7 +80,7 @@ export class ParameterComponent implements OnChanges {
       }
 
     } catch (ex) {
-      console.log(ex.message);
+      console.exception(ex.message);
       return '?';
     }
   }

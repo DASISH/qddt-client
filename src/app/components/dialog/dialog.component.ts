@@ -5,7 +5,7 @@ import { Component, EventEmitter, Input, Output, AfterViewInit } from '@angular/
 @Component({
   selector: 'qddt-dialog',
   template: `
-<div id="{{modalId}}" class="modal">
+<div id="{{modalId}}" class="modal" style="{z-index: 1009;}">
   <div class="modal-content">
     <ng-content></ng-content>
   </div>

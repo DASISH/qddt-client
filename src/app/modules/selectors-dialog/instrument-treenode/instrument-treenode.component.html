@@ -6,9 +6,9 @@
 
     <ng-template #treeNodesImpl let-nodes="nodes" let-level="level">
       <ul [id]="'TREENODE-'+level" *ngIf="nodes" class="collapsible" data-collapsible="accordion">
-        <li [id]="node.id" *ngFor="let node of nodes; trackBy:trackById;" (click)="onOpenBody(node)"
+        <li [id]="node.id" *ngFor="let node of nodes; trackBy:trackById;"
           [ngClass]="{'SEQ': isSequence(node)|| getMatIcon(node.elementKind)==='record_voice_over' }">
-          <div class="collapsible-header" cdkDrag [title]="node.id">
+          <div class="collapsible-header" cdkDrag [title]="node.id" (click)="onOpenBody(node)">
             <ul class="dropleft" *ngIf="!readonly && level==1">
               <li>
                 <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green"
@@ -44,9 +44,18 @@
               <qddt-parameter [inParameters]="node.parameters | qddtFilter: isIn " [parameters]="inParameters">
               </qddt-parameter>
             </ng-container>
-            <qddt-preview-controlconstruct *ngIf="!isSequence(node)" [construct]="node.element" [showDetail]="false"
-              [inParameters]="inParameters" (selectedEvent)="onCheckParams(node.id, $event)">
-            </qddt-preview-controlconstruct>
+            <ng-container *ngIf="isConditional(node)">
+              <qddt-parameter [inParameters]="node.parameters | qddtFilter: isIn"
+                [outParameters]="node.parameters | qddtFilter: isOut" [parameters]="inParameters">
+              </qddt-parameter>
+              <qddt-edit-conditional [conNode]="node" [formName]="'EEC'+node.id">
+              </qddt-edit-conditional>
+            </ng-container>
+            <ng-container *ngIf="!isSequence(node) && !isConditional(node)">
+              <qddt-preview-controlconstruct [construct]="node.element" [showDetail]="false"
+                [inParameters]="inParameters" (selectedEvent)="onCheckParams(node.id, $event)">
+              </qddt-preview-controlconstruct>
+            </ng-container>
           </div>
           <ng-container *ngTemplateOutlet="treeNodesImpl; context:{ nodes: node.children, level:level+1 }">
           </ng-container>
@@ -80,6 +89,14 @@
         </label>
       </div>
     </div>
+    <!-- <ng-container *ngIf="selectedElementKind===8">
+
+      <qddt-element-revision-select [autoCreate]="true" [source]="SOURCE" [xmlLang]="xmlLang"
+        (revisionSelectedEvent)="revisionSelectedEvent($event)" (dismissEvent)="onDismiss()">
+      </qddt-element-revision-select>
+
+
+    </ng-container> -->
     <qddt-element-revision-select [source]="SOURCE" [xmlLang]="xmlLang"
       (revisionSelectedEvent)="revisionSelectedEvent($event)" (dismissEvent)="onDismiss()">
     </qddt-element-revision-select>

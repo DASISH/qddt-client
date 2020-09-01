@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { Category, UserResponse } from '../../../lib/classes';
+import { Category, UserResponse, Parameter } from '../../../lib/classes';
 import { hasChanges } from 'src/app/lib/consts';
 
 @Component({
@@ -13,7 +13,7 @@ import { hasChanges } from 'src/app/lib/consts';
       <span class="codeValue"> {{ category.code?.value }} </span>
       <label>
         <input [name]="inputGroupName" type="radio" (change)="checkOption(category)" [checked]="unchecked"/>
-        <span >{{category.label}}</span>
+        <span >{{insertParam(category.label)}}</span>
       </label>
     </div>
 </ng-container>
@@ -25,6 +25,7 @@ export class ResponsedomainMissingComponent implements OnChanges {
   @Input() managedRepresentation: Category;
   @Input() inputGroupName = 'option-select'
   @Input() missingSelected = false
+  @Input() parameterIn: Parameter[] = [];
 
   public compId = Math.round(Math.random() * 10000);
   public unchecked = "";
@@ -47,6 +48,17 @@ export class ResponsedomainMissingComponent implements OnChanges {
 
   public checkOption(category: Category) {
     this.missingSelected = true;
-    this.selectedEvent.emit([{ label: category.label, value: category.code.value, isMissing: true }]);
+    this.selectedEvent.emit([{ label: this.insertParam(category.label), value: category.code.value, isMissing: true }]);
+  }
+
+
+  public insertParam(text: string): string {
+    this.parameterIn.forEach(p => {
+      if (p.value) {
+        text = text.replace(
+          new RegExp('\\[' + p.name + '\\]', 'ig'), p.value.map(pp => (pp.label) ? pp.label : pp.value).join(','));
+      }
+    });
+    return text;
   }
 }

@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, AfterViewInit, Output, EventEmitter } from '@angular/core';
-import { Category, UserResponse } from '../../../lib/classes';
+import { Category, UserResponse, Parameter } from '../../../lib/classes';
 
 class ScaleHead {
   // colspan: number;
@@ -26,6 +26,8 @@ export class ResponsedomainScaleComponent implements OnChanges, AfterViewInit {
   @Input() displayLayout = 0;
   @Input() numOfRows = 1;
   @Input() inputGroupName = 'option-select'
+  @Input() inParameters: Map<string, Parameter>
+  @Input() parameterIn: Parameter[] = [];
 
   public headers: ScaleHead[];
   public columns: UserResponse[];
@@ -69,9 +71,20 @@ export class ResponsedomainScaleComponent implements OnChanges, AfterViewInit {
 
   }
 
+
+  public insertParam(text: string): string {
+    this.parameterIn.forEach(p => {
+      if (p.value) {
+        text = text.replace(
+          new RegExp('\\[' + p.name + '\\]', 'ig'), p.value.map(pp => (pp.label) ? pp.label : pp.value).join(','));
+      }
+    });
+    return text;
+  }
+
   public checkOption(option: any | UserResponse) {
     if (option instanceof UserResponse) {
-      this.selectedEvent.emit([{ label: option.label, value: option.value }]);
+      this.selectedEvent.emit([{ label: this.insertParam(option.label), value: option.value }]);
     } else {
       this.selectedEvent.emit([{ label: '', value: option }]);
     }

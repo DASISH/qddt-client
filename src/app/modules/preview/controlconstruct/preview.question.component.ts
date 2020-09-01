@@ -36,7 +36,6 @@ import * as uuid from 'uuid';
       <qddt-preview-responsedomain
         *ngIf="controlConstruct?.questionItemRef && controlConstruct.questionItemRef.element"
         [responseDomain]="controlConstruct.questionItemRef.element.responseDomainRef.element"
-        [inParameters]="inParameters"
         [parameterIn]="controlConstruct.parameterIn"
         [showLabel]="false"
         (selectedEvent)="onSelectedEvent($event)">
@@ -65,6 +64,7 @@ export class PreviewQuestionConstructComponent implements OnChanges {
   @Input() showDetail = true;
   @Output() selectedEvent = new EventEmitter<UserResponse[]>();
 
+
   public readonly filterInstructions = (rank: string) => this.controlConstruct.controlConstructInstructions
     .filter(f => f.instructionRank === rank)
     .map(ci => ci.instruction);
@@ -76,9 +76,10 @@ export class PreviewQuestionConstructComponent implements OnChanges {
       this.assignValueToParameters(this.controlConstruct.parameterIn);
     }
 
-    if (changes.inParameters && changes.inParameters.currentValue
-      && this.controlConstruct && this.controlConstruct.parameterIn.length > 0) {
-      this.assignValueToParameters(this.controlConstruct.parameterIn);
+    if (changes.inParameters && changes.inParameters.currentValue) {
+      if (this.controlConstruct && this.controlConstruct.parameterIn.length > 0) {
+        this.assignValueToParameters(this.controlConstruct.parameterIn);
+      }
     }
   }
 

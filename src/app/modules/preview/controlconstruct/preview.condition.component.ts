@@ -10,20 +10,25 @@ import { ConditionConstruct, Parameter, UserResponse, tryParse, isParamTrue } fr
       <qddt-parameter [inParameters]="construct.parameterIn" [outParameters]="construct.parameterOut" [parameters]="inParameters" >
       </qddt-parameter>
       <li class="collection-item card-panel" >
-          <code>
-            If ({{construct.condition.ifCondition.content}}) Then Goto {{construct.condition.thenConstructReference}}
-          </code>
 
         <ng-container [ngSwitch]="construct.conditionKind">
           <ng-container *ngSwitchCase="refKind.ComputationItem"></ng-container>
           <ng-container *ngSwitchCase="refKind.IfThenElse">
-          <li *ngFor="let item of construct.condition.elseIf">
             <code>
-              Else If ({{item.ifCondition.content}}) Then Goto {{item.thenConstructReference}}
+              If ({{construct.condition.ifCondition.content}}) Then Goto {{construct.condition.thenConstructReference}}
             </code>
-          </li>
+            <li *ngFor="let item of construct.condition.elseIf">
+              <code>
+                Else If ({{item.ifCondition.content}}) Then Goto {{item.thenConstructReference}}
+              </code>
+            </li>
           </ng-container>
           <ng-container *ngSwitchCase="refKind.Loop"></ng-container>
+            <li>
+              <code>
+                Foreach ({{getParam(construct.parameterIn[0])}}) do {{construct.condition.controlConstructReference}}
+              </code>
+            </li>
           <ng-container *ngSwitchCase="refKind.RepeatUntil"></ng-container>
           <ng-container *ngSwitchCase="refKind.RepeatWhile"></ng-container>
         </ng-container>
@@ -41,15 +46,13 @@ export class PreviewConditionConstructComponent implements OnChanges {
       this.construct.parameterOut[0] : null;
   }
 
-  public innerHtml = '';
-  public innerHtml2 = '';
   public refKind = ConditionKind;
   public readonly isParamTrueRef = isParamTrue;
 
 
   public ngOnChanges(changes: SimpleChanges): void {
 
-    if (hasChanges(changes.inParameters, this.compareMaps) && this.construct.condition) {
+    if (hasChanges(changes.inParameters) && this.construct && this.construct.condition) {
       let expression = this.construct.condition.condition.content
       let label = expression;
       this.assignReferenceAndValueTo(this.construct.parameterIn);
@@ -61,7 +64,7 @@ export class PreviewConditionConstructComponent implements OnChanges {
       });
 
       this.assignValueToOutPutParameter(expression);
-      this.innerHtml = label + ' = ' + this.outParameter.value[0].value || '?' + '\nRef: ' + this.construct.condition.ref;
+      // this.innerHtml = label + ' = ' + this.outParameter.value[0].value || '?' + '\nRef: ' + this.construct.condition.ref;
     }
   }
 
@@ -89,14 +92,14 @@ export class PreviewConditionConstructComponent implements OnChanges {
   private assignValueToOutPutParameter(label: string) {
     if (this.outParameter && label) {
       try {
-
+        console.log('assignValueToOutPutParameter');
         const result = tryParse(label);
         const value = (isBoolean(result)) ? result : (this.isDone(result)) ? result.done : result;
-        this.outParameter.value = [new UserResponse({ label, value })];
+        this.outParameter.value = [new UserResponse({ label: this.outParameter.referencedId, value })];
 
       } catch (ex) {
         this.outParameter.value = [new UserResponse({ label, value: '?' })];
-        throw ex;
+        // throw ex;
       }
     }
   }
@@ -119,6 +122,11 @@ export class PreviewConditionConstructComponent implements OnChanges {
 
   private isDone = (value: { done: any } | any): value is { done: any } => {
     return (value) ? (value as { done: any }).done !== undefined : false;
+  }
+
+  public getParam(param: Parameter): string {
+    return param.name + '🢨' + ((param.value) ? param.value.map(p => '[' + p.value + ':' + p.label + ']').join(',') :
+      (param.referencedId) ? '?' : '#ref?');
   }
 
 }

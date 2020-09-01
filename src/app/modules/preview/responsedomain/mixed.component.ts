@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Category, ResponseCardinality, UserResponse } from '../../../lib/classes';
+import { Category, ResponseCardinality, UserResponse, Parameter } from '../../../lib/classes';
 
 
 @Component({
@@ -15,12 +15,14 @@ import { Category, ResponseCardinality, UserResponse } from '../../../lib/classe
           [managedRepresentation]="rep"
           [inputGroupName]="managedRepresentation.name"
           [displayLayout]="displayLayout"
+          [parameterIn]="parameterIn"
           (selectedEvent)="onSelectedEvent($event,idx)">
         </qddt-preview-rd-scale>
         <qddt-preview-rd-codelist *ngSwitchCase="'LIST'"
           [managedRepresentation]="rep"
           [responseCardinality]="responseCardinality"
           [inputGroupName]="managedRepresentation.name"
+          [parameterIn]="parameterIn"
           (selectedEvent)="onSelectedEvent($event,idx)">
         </qddt-preview-rd-codelist>
         <qddt-preview-rd-datetime *ngSwitchCase="'DATETIME'"
@@ -33,11 +35,13 @@ import { Category, ResponseCardinality, UserResponse } from '../../../lib/classe
         </qddt-preview-rd-numeric>
         <qddt-preview-rd-text *ngSwitchCase="'TEXT'"
           [managedRepresentation]="rep"
+          [parameterIn]="parameterIn"
          (selectedEvent)="onSelectedEvent($event,idx)">
         </qddt-preview-rd-text>
         <qddt-preview-rd-missing *ngSwitchCase="'MISSING_GROUP'"
           [managedRepresentation]="rep"
           [inputGroupName]="managedRepresentation.name"
+          [parameterIn]="parameterIn"
           (selectedEvent)="onSelectedEvent($event,idx)">
         </qddt-preview-rd-missing>
       </ng-container>
@@ -50,6 +54,7 @@ export class ResponsedomainMixedComponent {
   @Output() selectedEvent = new EventEmitter<UserResponse[]>();
   @Input() managedRepresentation: Category;
   @Input() responseCardinality: ResponseCardinality;
+  @Input() parameterIn: Parameter[] = [];
   @Input() displayLayout = 0;
 
   public missingRef;

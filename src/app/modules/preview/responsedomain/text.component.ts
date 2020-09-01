@@ -18,6 +18,9 @@ import { Category, UserResponse, ResponseCardinality, delay, hasChanges } from '
 export class ResponsedomainTextComponent implements OnChanges {
   @Output() selectedEvent = new EventEmitter<UserResponse[]>();
   @Input() managedRepresentation: Category;
+  @Input() inParameters: Map<string, Parameter>
+  @Input() parameterIn: Parameter[] = [];
+
 
   public inputLimit: ResponseCardinality
   public identifier;
