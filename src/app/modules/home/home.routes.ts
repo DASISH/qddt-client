@@ -17,14 +17,16 @@ export const homeRoutes: Routes = [
       { path: 'topic', redirectTo: 'module' },
       { path: 'survey', component: SurveyComponent, canActivate: [AuthGuard], },
       { path: 'study', component: StudyComponent, canActivate: [AuthGuard] },
+      { path: 'study/:id', component: StudyComponent, canActivate: [AuthGuard], },
       { path: 'module', component: TopicComponent, canActivate: [AuthGuard] },
+      { path: 'module/:id', component: TopicComponent, canActivate: [AuthGuard], },
       { path: 'concept', component: ConceptComponent, canActivate: [AuthGuard] }
     ],
-    }
+  }
 ];
 
 @NgModule({
-  imports: [ RouterModule.forChild(homeRoutes) ],
-  exports: [ RouterModule ]
+  imports: [RouterModule.forChild(homeRoutes)],
+  exports: [RouterModule]
 })
-export class HomeRoutingModule {}
+export class HomeRoutingModule { }

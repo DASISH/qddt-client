@@ -1,15 +1,17 @@
 import { SurveyProgram } from './home.classes';
-import { IAuthority } from '../interfaces';
+import { IAuthority, IVersion } from '../interfaces';
 
 
 export class Agency {
   id: string;
   name: string;
+  description?: string;
   modified?: number;
   defaultXmlLang: string;
   classKind: string;
+  version?: IVersion;
   users?: UserJson[];
-  surveyPrograms?: SurveyProgram[];
+  surveyPrograms?: SurveyJson[];
 }
 
 
@@ -43,4 +45,11 @@ export class UserJson {
     Object.assign(this, init);
   }
 
+}
+
+export class SurveyJson {
+  id: string;
+  name: string;
+  modified: number;
+  version: IVersion;
 }

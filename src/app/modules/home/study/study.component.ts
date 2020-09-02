@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { LANGUAGE_MAP } from 'src/app/lib';
 import {
   ActionKind,
@@ -33,6 +33,7 @@ export class StudyComponent implements OnInit {
     private property: PropertyStoreService,
     private message: MessageService,
     private homeService: HomeService<Study>,
+    private route: ActivatedRoute,
     private templateService: TemplateService) {
 
     this.readonly = !homeService.canDo(this.STUDY).get(ActionKind.Create);
@@ -41,7 +42,7 @@ export class StudyComponent implements OnInit {
 
   ngOnInit(): void {
     this.survey = this.property.get('survey');
-    const parentId = this.survey.id || this.property.menuPath[HierarchyPosition.Survey].id;
+    const parentId = this.route.snapshot.paramMap.get('id') || this.survey.id || this.property.menuPath[HierarchyPosition.Survey].id;
     this.templateService.getByKindEntity<SurveyProgram>(ElementKind.SURVEY_PROGRAM, parentId)
       .then((result) => {
         this.property.set('survey', this.survey = result);

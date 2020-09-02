@@ -43,6 +43,8 @@
             <ng-container *ngIf="isSequence(node)">
               <qddt-parameter [inParameters]="node.parameters | qddtFilter: isIn " [parameters]="inParameters">
               </qddt-parameter>
+              <qddt-input required name="name" label="Label" [(ngModel)]="node.name" data-length="100">
+              </qddt-input>
             </ng-container>
             <ng-container *ngIf="isConditional(node)">
               <qddt-parameter [inParameters]="node.parameters | qddtFilter: isIn"
@@ -52,6 +54,8 @@
               </qddt-edit-conditional>
             </ng-container>
             <ng-container *ngIf="!isSequence(node) && !isConditional(node)">
+              <qddt-input required name="name" label="Label" [(ngModel)]="node.name" data-length="100">
+              </qddt-input>
               <qddt-preview-controlconstruct [construct]="node.element" [showDetail]="false"
                 [inParameters]="inParameters" (selectedEvent)="onCheckParams(node.id, $event)">
               </qddt-preview-controlconstruct>
