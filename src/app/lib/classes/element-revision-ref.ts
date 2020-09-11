@@ -11,6 +11,7 @@ export abstract class ElementRevisionRef implements IElementRef, IRevisionRef, I
   name?: string;
   text?: string;
   version?: IVersion;
+  index?: number;
   public constructor(init?: Partial<ElementRevisionRef>) {
     Object.assign(this, init);
   }

@@ -37,6 +37,7 @@ export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
 
   public selectedElementKind = 0;
   public SOURCE: IElement | IRevisionRef | null;
+  public deleteIndex = -1;
   // tslint:disable-next-line:variable-name
   private _modalRef: M.Modal;
   // tslint:disable-next-line:variable-name
@@ -124,6 +125,7 @@ export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
 
   public onItemRemove(ref: ElementRevisionRef) {
     if (ref) {
+      ref.index = this.deleteIndex;
       this.actionEvent.emit({ action: ActionKind.Delete, ref });
     }
   }

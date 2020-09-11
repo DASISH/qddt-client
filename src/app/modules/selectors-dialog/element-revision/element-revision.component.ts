@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { ElementRevisionRef, IElement, IRevisionRef } from '../../../lib';
+import { ElementKind, ElementRevisionRef, IElement, IRevisionRef, getQueryInfo, getElementKind } from '../../../lib';
 
 
 @Component({
@@ -7,8 +7,8 @@ import { ElementRevisionRef, IElement, IRevisionRef } from '../../../lib';
   template: `
   <!-- Modal Structure -->
   <div  id="MODAL-{{modalId}}" class="modal modal-fixed-footer">
-    <div class="modal-content white black-text" >
-      <h4>Select Item version</h4>
+    <div *ngIf="source" class="modal-content white black-text" >
+      <h4>Select {{getLabelByKind()}} & version</h4>
       <qddt-element-revision-select
           [source] = "source"
           [xmlLang]="xmlLang"
@@ -34,6 +34,9 @@ export class ElementRevisionSelectComponent implements OnChanges {
 
   // tslint:disable-next-line:variable-name
   private _modalRef: M.Modal;
+
+  public readonly getKind = () => (this.source && this.source.elementKind) ? getElementKind(this.source.elementKind) : ElementKind.NONE;
+  public readonly getLabelByKind = () => (this.getKind() !== ElementKind.NONE) ? getQueryInfo(this.getKind()).label : 'Item?';
 
   constructor() {
     // console.log('ElementRevisionSelectComponent::CNSTR');

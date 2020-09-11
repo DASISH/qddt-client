@@ -4,7 +4,7 @@ import { ConstructReferenceKind, IElementRef, IfThenElse, toSelectItems, Conditi
 
 @Component({
   selector: 'qddt-if-then-else-form',
-  styles: ['code {white-space: pre-wrap; }'],
+  styles: ['code {white-space: pre-wrap; color:blue; }'],
   template: `
 <form id="CON-{{formId}}" [parentFormConnect]="formName" *ngIf="isIfThenElse(element)">
   <qddt-input-number class="col s3"
@@ -18,14 +18,12 @@ import { ConstructReferenceKind, IElementRef, IfThenElse, toSelectItems, Conditi
   <div class="row">
     <div class="col s12 card grey lighten-5 " >
       <div class="card-content grey-text text-darken-1" >
-        <code>
-          If ( {{element.ifCondition.content}} ){{"\n"}}
-          Then Goto {{element.thenConstructReference}}
+        <code>IF ( {{element.ifCondition.content}} ) THEN {{"\n"}} GOTO {{element.thenConstructReference}}
         </code>
         <ng-container *ngFor="let item of element.elseIf">
           <code>
-            Else If ({{item.ifCondition.content}}){{"\n"}}
-            Then Goto {{item.thenConstructReference}}
+          {{"\n"}}ELSE IF ( {{item.ifCondition.content}} ) THEN {{"\n"}}
+          GOTO {{item.thenConstructReference}}
           </code>
         </ng-container>
       </div>

@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, Output, EventEmitter, SimpleChanges } from '@angular/core';
-import { Category, UserResponse, ResponseCardinality, delay, hasChanges } from '../../../lib';
+import { Category, UserResponse, ResponseCardinality, delay, hasChanges, Parameter } from '../../../lib';
 
 @Component({
   selector: 'qddt-preview-rd-text',

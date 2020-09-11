@@ -2,62 +2,62 @@
   <div class="col s7">
     <div class="input-field">
       <ul *ngIf="canEdit" class="dropleft">
-        <li *ngIf="!responseDomain">
+        <li *ngIf="!localResponseDomain">
           <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green"
             (click)="onItemEdit($event,null)">
             <i class="material-icons" title="Add element">add</i>
           </a>
         </li>
-        <li *ngIf="responseDomain">
+        <li *ngIf="localResponseDomain">
           <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green"
-            (click)="onItemEdit($event,responseDomain)">
+            (click)="onItemEdit($event,localResponseDomain)">
             <i class="material-icons" title="Edit question">edit</i>
           </a>
         </li>
-        <li *ngIf="responseDomain">
+        <li *ngIf="localResponseDomain">
           <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue"
             (click)="onItemGetLatest()">
             <i class="material-icons" title="Get latest">autorenew</i>
           </a>
         </li>
-        <li *ngIf="canDelete && responseDomain">
+        <li *ngIf="canDelete && localResponseDomain">
           <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 red" (click)="onItemRemove()">
             <i class="material-icons" title="Remove">remove</i>
           </a>
         </li>
       </ul>
-      <input name="name" type="text" placeholder="select responseDomain" readonly="readonly"
-        [ngModel]="responseDomain?.name">
-      <label>Response Domain (V <qddt-version [element]="responseDomain"></qddt-version>) </label>
+      <input name="name" type="text" placeholder="select localResponseDomain" readonly="readonly"
+        [ngModel]="localResponseDomain?.name">
+      <label>Response Domain (V <qddt-version [element]="localResponseDomain"></qddt-version>) </label>
     </div>
   </div>
   <div class="col s5">
     <div class="input-field">
       <ul *ngIf="canEdit" class="dropleft">
-        <li *ngIf="responseDomain && !responseDomain.missing">
+        <li *ngIf="localResponseDomain && !localResponseDomain.missing">
           <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green"
             (click)="onMissingEdit($event)">
             <i class="material-icons" title="Add element">add</i>
           </a>
         </li>
-        <li *ngIf="responseDomain && responseDomain.missing">
+        <li *ngIf="localResponseDomain && localResponseDomain.missing">
           <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue"
             (click)="onMissingEdit($event)">
             <i class="material-icons" title="Edit">edit</i>
           </a>
         </li>
-        <li *ngIf="canDelete && responseDomain?.missing">
+        <li *ngIf="canDelete && localResponseDomain?.missing">
           <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 red" (click)="onMissingRemove()">
             <i class="material-icons" title="Remove">remove</i>
           </a>
         </li>
       </ul>
       <input name="missing" type="text" placeholder="select missing" readonly="readonly"
-        [ngModel]="responseDomain?.missing?.label">
+        [ngModel]="localResponseDomain?.missing?.label">
       <label>Missing</label>
     </div>
   </div>
-  <label class="descLabel">{{responseDomain?.description}}</label>
+  <label class="descLabel">{{localResponseDomain?.description}}</label>
 </div>
 <!-- Modal Structure -->
 <div id="MODAL-{{modalId}}" class="modal modal-fixed-footer">
@@ -70,11 +70,11 @@
     </ng-container>
     <ng-container *ngIf="!showResponseDomain">
       <h4>Select Missing & Edit</h4>
-      <qddt-element-select *ngIf="!responseDomain?.missing" [source]="MISSING_GROUP" [xmlLang]="responseDomain?.xmlLang"
-        (elementSelectedEvent)="onMissingSelect($event)">
+      <qddt-element-select *ngIf="!localResponseDomain?.missing" [source]="MISSING_GROUP"
+        [xmlLang]="localResponseDomain?.xmlLang" (elementSelectedEvent)="onMissingSelect($event)">
       </qddt-element-select>
 
-      <form *ngIf="responseDomain?.missing" #hf="ngForm">
+      <form *ngIf="localResponseDomain?.missing" #hf="ngForm">
         <table>
           <thead>
             <tr>
@@ -83,7 +83,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let category of responseDomain.missing.children;trackBy:trackByCategoryId; let idx=index;">
+            <tr *ngFor="let category of localResponseDomain.missing.children;trackBy:trackByCategoryId; let idx=index;">
               <!-- <td contenteditable="true" [(contenteditableModel)]="category.code.value" required>
               </td> -->
               <td>

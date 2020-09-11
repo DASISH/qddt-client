@@ -194,15 +194,10 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit {
     this.instance.open();
   }
 
-  public onDialogConfirm(ref) {
+  public onDialogConfirm(ref: TreeNodeRevisionRef) {
     if (ref) {
       this.actionEvent.emit({ action: ActionKind.Delete, ref });
     }
-  }
-
-  public onItemRemove(event: Event, ref: TreeNodeRevisionRef, dialog) {
-    event.stopPropagation();
-    dialog.open(ref);
   }
 
   public onItemEdit(event: Event, cqi: TreeNodeRevisionRef) {
@@ -218,28 +213,6 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit {
     this.SOURCE = cqi;
     this.instance.open();
   }
-
-  // -------------------------------------------------------------------
-
-
-  // private mergeParameters(construct: AbstractControlConstruct, parameters: Parameter[]) {
-  //   //update params from source, delete if no match
-  //   // insert no match params in source
-  //   console.log('mergeParameters');
-  //   construct.parameterOut = parameters.filter(f => (getParameterKind(f.parameterKind) === ParameterKind.OUT));
-  //   const paramIn = parameters.filter(f => (getParameterKind(f.parameterKind) === ParameterKind.IN));
-
-  //   construct.parameterIn.forEach(pi => {
-  //     let found = paramIn.find(pi2 => pi2.name === pi.name);
-  //     if (found) {
-  //       pi = found;
-  //     } else {
-  //       parameters.push(pi);
-  //     }
-  //   });
-
-  // }
-
 
 
 }

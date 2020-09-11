@@ -1,70 +1,89 @@
+import { Parameter, ElementKind, delay } from 'src/app/lib';
 import { Component, Input } from '@angular/core';
-import {getQueryInfo, ElementRevisionRef, PreviewService, Publication, QueryInfo} from '../../../lib';
+import { ElementRevisionRef, PreviewService, Publication, getIcon, getElementKind, Factory } from '../../../lib';
 
 @Component({
   selector: 'qddt-preview-publication',
   // templateUrl: './preview.publication.component.html',
-    template: `
-  <div class="row">
-    <div class="input-field col s11">
-      <label class="teal-text active">Name</label>
-      <P [innerHtml]="publication?.name"></P>
-    </div>
-  </div>
-  <div class="row">
-    <div class="input-field col s11">
-      <label class="teal-text active">Purpose</label>
-      <P [innerHtml]="publication?.purpose"></P>
-    </div>
-  </div>
-  <div class="row">
-    <div class="input-field col s11">
-      <label class="teal-text active">Status</label>
-      <P [innerHtml]="publication?.status.label"></P>
-    </div>
-  </div>
+  template: `
+  <ul>
+    <li class="collection-item" >
+      <label>Name</label>
+    </li>
+    <li class="collection-item" >
+      <p  [innerHtml]="publication?.name" ></p>
+    </li>
+    <li class="collection-item" >
+      <label>Purpose</label>
+    </li>
+    <li class="collection-item" >
+      <p [innerHtml]="publication?.purpose" ></p>
+    </li>
+    <li class="collection-item" >
+      <label>Status</label>
+    </li>
+    <li class="collection-item" >
+      <p  [innerHtml]="publication?.status.label"></p>
+    </li>
+  </ul>
+  <ul class="collapsible row">
+    <li *ngFor="let cqi of publication.publicationElements;let idx = index;" (click)="onOpenBody(cqi)">
+      <div class="collapsible-header">
+        <i  class="material-icons small teal-text text-lighten-3">{{getMatIcon(cqi.elementKind)}}</i>
+        <div class="col s9 m10 grey-text text-darken-1" [innerHtml]=cqi.name></div>
+        <qddt-version-label class="col s3 m2 right-align" [revisionRef]="cqi"></qddt-version-label>
+      </div>
+      <div class="collapsible-body">
+        <div class="row" *ngIf="showProgressBar" class="progress">
+          <div class="indeterminate"></div>
+        </div>
+        <qddt-preview-element [element]="cqi.element" [showDetail]="false" [inParameters]="inParameters">
+        </qddt-preview-element>
+      </div>
 
-  <div class="row">
-    <div *ngIf="publication?.publicationElements && publication?.publicationElements?.length > 0" class="section">
-      <ul *ngIf="publication?.publicationElements" class="collapsible popout"
-          data-collapsible="expandable" style="padding: 5pt;">
-        <li *ngFor="let cqi of publication.publicationElements;" (click)="onViewDetail(cqi)">
-          <div class="collapsible-header green lighten-5">
-            <div class="col s2">[{{ getQueryInfo(cqi?.elementKind).label }}]</div>
-            <div class="col s8">{{ cqi?.name }}</div>
-            <div class="col s2">
-              <qddt-version-label [element]="cqi"></qddt-version-label>
-            </div>
-          </div>
-          <div class="collapsible-body">
-            <qddt-preview-element *ngIf="cqi.element" [element]="cqi.element"></qddt-preview-element>
-          </div>
-        </li>
-      </ul>
-    </div>
+    </li>
+  </ul>
+  <qddt-element-footer [element]="publication"></qddt-element-footer>
 
-    <qddt-element-footer [element]="publication"></qddt-element-footer>
-
-    <qddt-comment-list [ownerId]="publication.id" [comments]="publication.comments"></qddt-comment-list>
-  </div>
+  <qddt-comment-list [ownerId]="publication.id" [comments]="publication.comments"></qddt-comment-list>
   `,
 
 })
 
-export class PreviewPublicationComponent  {
+export class PreviewPublicationComponent {
   @Input() publication: Publication;
+
+  public inParameters = new Map<string, Parameter>();
+  public compId = Math.round(Math.random() * 10000);
+  public showProgressBar = false;
+  public readonly trackByIndex = (index: number, cqi) => cqi.id;
 
   constructor(private service: PreviewService) { }
 
-  onViewDetail(element: ElementRevisionRef) {
-    if (!element.element) {
-      this.service.getRevisionByKind(element.elementKind, element.elementId, element.elementRevision).then(
-        (result) => { element.element = result.entity; },
-        (error) => { throw error; });
+
+  public onOpenBody(item: ElementRevisionRef) {
+    if (!item.element) {
+      this.showProgressBar = true;
+      delay(20).then(() => {
+        const kind = getElementKind(item.elementKind);
+        this.service.getRevisionByKind(item.elementKind, item.elementId, item.elementRevision).then(
+          (result) => {
+            item.element = Factory.createFromSeed(kind, result.entity);
+            item.version = result.entity.version;
+          },
+          (error) => { throw error; })
+          .finally(() => this.showProgressBar = false);
+      });
     }
   }
-  public  getQueryInfo(kind): QueryInfo {
-    return getQueryInfo(kind);
+
+  public getMatIcon(kind: ElementKind): string {
+    return getIcon(kind);
   }
+
+  // public getQueryInfo(kind): QueryInfo {
+  //   return getQueryInfo(kind);
+  // }
+
 
 }

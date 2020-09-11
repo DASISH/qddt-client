@@ -1,5 +1,6 @@
+import { hasChanges } from 'src/app/lib';
 import { Router } from '@angular/router';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 import {
   ActionKind,
   Category,
@@ -21,13 +22,8 @@ import {
 })
 
 
-export class ResponsedomainComponent {
-  @Input()
-  set responseDomain(responseDomain) {
-    // This will ensure that a new object is created...
-    this._localresponseDomain = (responseDomain) ? new ResponseDomain(JSON.parse(JSON.stringify(responseDomain))) : null;
-  }
-  get responseDomain(): ResponseDomain { return this._localresponseDomain; }
+export class ResponsedomainComponent implements OnChanges {
+  @Input() responseDomain: ResponseDomain;
   @Input() readonly = false;
   @Input() xmlLang = 'none';
   @Output() removeEvent = new EventEmitter<IElementRef>();
@@ -40,10 +36,10 @@ export class ResponsedomainComponent {
   public readonly canEdit: boolean;
   public readonly modalId = Math.round(Math.random() * 10000);
 
+  public localResponseDomain: ResponseDomain;
   public showResponseDomain = false;
 
   // tslint:disable-next-line:variable-name
-  private _localresponseDomain: ResponseDomain;
   // tslint:disable-next-line:variable-name
   private _modalRef: M.Modal;
 
@@ -83,15 +79,17 @@ export class ResponsedomainComponent {
     this.canDelete = access.canDo(ActionKind.Delete, ElementKind.RESPONSEDOMAIN);
     this.canEdit = access.canDo(ActionKind.Update, ElementKind.RESPONSEDOMAIN);
   }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (hasChanges(changes.responseDomain)) {
+      this.localResponseDomain = new ResponseDomain(JSON.parse(JSON.stringify(changes.responseDomain.currentValue)));
+    }
+  }
 
   get modalRef(): M.Modal {
     if (!(this._modalRef)) {
       this._modalRef = M.Modal.init(document.querySelector('#MODAL-' + this.modalId),
         {
-          inDuration: 500, outDuration: 400, startingTop: '0%', endingTop: '15%', preventScrolling: true, opacity: 0.3,
-          // onOpenEnd: () => {
-          //   M.updateTextFields();
-          // }
+          inDuration: 500, outDuration: 400, startingTop: '0%', endingTop: '15%', preventScrolling: true, opacity: 0.3
         });
     }
     return this._modalRef;
@@ -150,6 +148,7 @@ export class ResponsedomainComponent {
   public onRevisionSelect(ref: ElementRevisionRef) {
     if (this.canEdit) {
       if (ref) {
+        // this.localResponseDomain = ref.
         this.selectedEvent.emit(ref);
       }
       this.modalRef.close();
@@ -176,13 +175,15 @@ export class ResponsedomainComponent {
 
   public onMissingSelect(ref: IElement) {
     if (this.canEdit) {
-      this._localresponseDomain.addManagedRep(ref.element);
+      console.log('missing selected')
+      this.localResponseDomain.addManagedRep(ref.element);
     }
   }
 
   public onOkMissing(event: Event) {
     event.stopPropagation();
     if (this.canEdit) {
+      this.responseDomain = this.localResponseDomain;
       this.updateEvent.emit(this.responseDomain);
       this.modalRef.close();
     }
@@ -190,6 +191,7 @@ export class ResponsedomainComponent {
 
   public onDismiss(_event?: Event) {
     this.RESPONSEDOMAIN.element = ''
+    this.localResponseDomain = new ResponseDomain(JSON.parse(JSON.stringify(this.responseDomain)));
     // event.stopPropagation();
     this.modalRef.close();
   }

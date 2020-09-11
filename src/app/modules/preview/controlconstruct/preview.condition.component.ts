@@ -23,12 +23,13 @@ import { ConditionConstruct, Parameter, UserResponse, tryParse, isParamTrue } fr
               </code>
             </li>
           </ng-container>
-          <ng-container *ngSwitchCase="refKind.Loop"></ng-container>
+          <ng-container *ngSwitchCase="refKind.Loop">
             <li>
               <code>
                 Foreach ({{getParam(construct.parameterIn[0])}}) do {{construct.condition.controlConstructReference}}
               </code>
             </li>
+            </ng-container>
           <ng-container *ngSwitchCase="refKind.RepeatUntil"></ng-container>
           <ng-container *ngSwitchCase="refKind.RepeatWhile"></ng-container>
         </ng-container>
@@ -52,7 +53,12 @@ export class PreviewConditionConstructComponent implements OnChanges {
 
   public ngOnChanges(changes: SimpleChanges): void {
 
-    if (hasChanges(changes.inParameters) && this.construct && this.construct.condition) {
+    if (hasChanges(changes.construct)) {
+      this.construct = new ConditionConstruct(changes.construct.currentValue);
+    }
+
+    if ((hasChanges(changes.inParameters) || hasChanges(changes.construct))
+      && this.construct && this.construct.condition) {
       let expression = this.construct.condition.condition.content
       let label = expression;
       this.assignReferenceAndValueTo(this.construct.parameterIn);

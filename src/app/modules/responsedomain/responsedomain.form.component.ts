@@ -155,6 +155,7 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
         rep.children.push(new Category({ code: { value: '', }, xmlLang: this.responseDomain.xmlLang }));
       }
     }
+    rep.description = rep.children.map(c => c.label).join(' + ');
     this.buildPreviewResponseDomain();
   }
 

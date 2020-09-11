@@ -9,7 +9,7 @@ import {
 import {
   toSelectItems, Loop, ConditionConstruct, ElementKind,
   ConditionKind, TemplateService, ActionKind, hasChanges, isString,
-  IfThenElse, TreeNodeRevisionRefImpl, ICondition
+  IfThenElse, TreeNodeRevisionRefImpl, ICondition, AbstractControlConstruct
 } from 'src/app/lib';
 
 
@@ -20,7 +20,7 @@ import {
 <ul *ngIf="conNode" class="row">
   <form [id]="'ECC'+formId" #hf="ngForm" [parentFormConnect]="formName" >
     <li class="col s9">
-      <qddt-input required name="name" label="Label" [(ngModel)]="conNode.element.name" data-length="100">
+      <qddt-input required name="name" label="Label" [(ngModel)]="conNode.name" data-length="100">
       </qddt-input>
     </li>
     <li >
@@ -39,7 +39,7 @@ import {
 })
 
 export class TreeNodeEditComponent implements OnChanges {
-  @Input() conNode: TreeNodeRevisionRefImpl<ICondition>;
+  @Input() conNode: TreeNodeRevisionRefImpl<ConditionConstruct>;
   @Input() formName: string;
   @Input() readonly = false;
   @Output() modifiedEvent = new EventEmitter<ConditionConstruct>();
@@ -66,7 +66,7 @@ export class TreeNodeEditComponent implements OnChanges {
   }
 
 
-  public doCheck(condition: TreeNodeRevisionRefImpl<ICondition>) {
+  public doCheck(condition: TreeNodeRevisionRefImpl<ConditionConstruct>) {
     switch (condition.element.conditionKind) {
       case ConditionKind.IfThenElse:
         if (isString(condition.element.condition)) {

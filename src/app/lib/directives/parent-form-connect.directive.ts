@@ -25,6 +25,6 @@ export class ParentFormConnectDirective implements OnInit, OnDestroy {
     this.removeControlFunction();
   }
 
-  private removeControlFunction = () => this.parentForm.form.removeControl(this.parentFormConnect);
+  private removeControlFunction = () => (this.parentForm) ? this.parentForm.form.removeControl(this.parentFormConnect) : null;
 
 }

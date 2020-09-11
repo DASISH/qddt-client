@@ -76,8 +76,12 @@ export class SequenceFormComponent implements OnChanges {
   }
 
   public onItemRemoved(ref: ElementRevisionRef) {
-    this.sequence.sequence =
-      this.sequence.sequence.filter(f => !(f.elementId === ref.elementId && f.elementRevision === ref.elementRevision));
+    if (ref.index) {
+      this.sequence.sequence.splice(ref.index, 1);
+    } else {
+      this.sequence.sequence =
+        this.sequence.sequence.filter(f => !(f.elementId === ref.elementId && f.elementRevision === ref.elementRevision));
+    }
   }
 
   public onItemAdded(ref: ElementRevisionRef) {
