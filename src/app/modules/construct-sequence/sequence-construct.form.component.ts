@@ -1,6 +1,4 @@
-import { Observable } from 'rxjs';
 import { Component, Output, EventEmitter, Input, OnChanges, SimpleChanges } from '@angular/core';
-
 import {
   ActionKind,
   SEQUENCE_TYPES,

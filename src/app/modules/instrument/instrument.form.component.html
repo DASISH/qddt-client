@@ -43,28 +43,3 @@
     </div>
   </form>
 </div>
-
-
-<!-- Modal Structure -->
-<div id="MODAL-{{formId}}" class="modal modal-fixed-footer">
-  <div class="modal-content">
-    <h4>Select version</h4>
-    <div class="card-action">
-      <div class="row">
-        <div class="col left" *ngFor="let option of constructMap">
-          <label>
-            <input name="DOMAIN-TYPE-GROUP" type="radio" [checked]="selectId === option.id"
-              (click)="onSelectOption(option.value)" />
-            <span>{{ option.label }}</span>
-          </label>
-        </div>
-      </div>
-    </div>
-    <qddt-element-revision-select [source]="SOURCE" [xmlLang]="instrument?.xmlLang"
-      (revisionSelectedEvent)="onRevisionSelect($event)" (dismissEvent)="onDismiss()">
-    </qddt-element-revision-select>
-  </div>
-  <div class="modal-footer">
-    <a class="btn red waves-effect waves-red" (click)="onDismiss()">Dismiss</a>
-  </div>
-</div>

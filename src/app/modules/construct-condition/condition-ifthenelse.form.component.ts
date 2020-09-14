@@ -15,7 +15,7 @@ import { ConstructReferenceKind, IElementRef, IfThenElse, toSelectItems, Conditi
     [ngModel]="element.elseIf.length"
     (change)="doElseIf($event.target.value)">
   </qddt-input-number>
-  <div class="row">
+  <!-- <div class="row"> -->
     <div class="col s12 card grey lighten-5 " >
       <div class="card-content grey-text text-darken-1" >
         <code>IF ( {{element.ifCondition.content}} ) THEN {{"\n"}} GOTO {{element.thenConstructReference}}
@@ -28,8 +28,8 @@ import { ConstructReferenceKind, IElementRef, IfThenElse, toSelectItems, Conditi
         </ng-container>
       </div>
     </div>
-  </div>
-  <ul >
+  <!-- </div> -->
+  <ul class="col s12">
     <li [id]="'CC-LI-0'" class="hoverable row">
       <qddt-textarea class="col s9"
         required

@@ -144,7 +144,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       this.rows.push(row);
     });
     this.showProgressBar = false;
-    console.log('end ' + Date.now().toString());
+    // console.log('end ' + Date.now().toString());
 
   }
 

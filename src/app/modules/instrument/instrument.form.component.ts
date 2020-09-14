@@ -11,7 +11,7 @@ import {
   TemplateService,
   SequenceConstruct,
   SEQUENCE_TYPES,
-  TreeNodeRevisionRefImpl, TreeNodeRevisionRef, hasChanges, replaceNode
+  TreeNodeRevisionRef, hasChanges, replaceNode, getElementKind, ElementKind, ICondition
 } from '../../lib';
 
 @Component({
@@ -34,18 +34,10 @@ export class InstrumentFormComponent implements OnChanges {
   public readonly languageMap = LANGUAGE_MAP;
   public readonly constructMap = CONSTRUCT_MAP;
 
-  // tslint:disable-next-line:variable-name
-  private _modalRef: M.Modal;
 
   constructor(private service: TemplateService) {
   }
 
-  get modalRef(): M.Modal {
-    if (!(this._modalRef)) {
-      this._modalRef = M.Modal.init(document.querySelector('#MODAL-' + this.formId));
-    }
-    return this._modalRef;
-  }
 
   public getDescription(value: string): string {
     return this.instrumentMap.find(pre => pre.value === value).description;
@@ -54,6 +46,7 @@ export class InstrumentFormComponent implements OnChanges {
   public ngOnChanges(changes: SimpleChanges): void {
     if (hasChanges(changes.instrument)) {
       this.instrument = new Instrument(JSON.parse(JSON.stringify(changes.instrument.currentValue)));
+      this.instrument.root = this.postloadTreeNode(this.instrument.root);
       this.currentInstrumentType = InstrumentKind[this.instrument.instrumentKind];
       this.service.canDoAction(ActionKind.Update, this.instrument)
         .then(can => this.readonly = !can);
@@ -61,6 +54,7 @@ export class InstrumentFormComponent implements OnChanges {
   }
 
   public onUpdateInstrument() {
+    this.instrument.root = this.prePersistTreeNode(this.instrument.root);
     this.service.update<Instrument>(this.instrument).subscribe(
       (result) => {
         this.instrument = result;
@@ -69,21 +63,10 @@ export class InstrumentFormComponent implements OnChanges {
       (error) => { throw error; });
   }
 
-  public onRevisionSelect(ref: TreeNodeRevisionRef) {
-    this.instrument.root.children.push(new TreeNodeRevisionRefImpl(ref));
-  }
 
   public onSelectOption(value) {
     this.SOURCE = { element: '', elementKind: value };
     console.log(this.SOURCE);
-  }
-
-  public onOpen() {
-    this.modalRef.open();
-  }
-
-  public onDismiss() {
-    this.modalRef.close();
   }
 
   public onDoAction(response: { action: ActionKind; ref: TreeNodeRevisionRef }) {
@@ -91,7 +74,8 @@ export class InstrumentFormComponent implements OnChanges {
     const ref = response.ref as TreeNodeRevisionRef;
     switch (action) {
       case ActionKind.Read:
-        console.log(replaceNode(this.instrument.root.children, ref));
+        this.instrument.root.children.forEach(c => console.log(c.name));
+        // console.log(replaceNode(this.instrument.root.children, ref));
         break;
       case ActionKind.Create: this.onItemAdded(ref); break;
       case ActionKind.Update: this.onItemModified(ref); break;
@@ -110,13 +94,10 @@ export class InstrumentFormComponent implements OnChanges {
   }
 
   public onItemAdded(ref: TreeNodeRevisionRef) {
-    // console.log('onItemAdded');
-
     this.instrument.root.children.push(ref);
   }
 
   public onItemModified(ref: TreeNodeRevisionRef) {
-    console.log('onItemModified');
     const idx = this.instrument.root.children.findIndex(f => f.elementId === ref.elementId);
     const seqNew: TreeNodeRevisionRef[] = [].concat(
       this.instrument.root.children.slice(0, idx),
@@ -133,6 +114,45 @@ export class InstrumentFormComponent implements OnChanges {
   }
 
 
+  private prePersistTreeNode(node: TreeNodeRevisionRef): TreeNodeRevisionRef {
+    if (getElementKind(node.elementKind) === ElementKind.CONDITION_CONSTRUCT && node.element) {
+      const con = node.element as ICondition;
+      node.name = JSON.stringify({
+        id: con.id,
+        name: node.name,
+        conditionKind: con.conditionKind,
+        classKind: con.classKind,
+        condition: con.condition,
+        parameterIn: con.parameterIn,
+        parameterOut: con.parameterOut
+      } as ICondition)
+    }
+    node.element = null;
+    node.children = node.children.map(tn => this.prePersistTreeNode(tn));
+    return node;
+  }
+
+
+  private postloadTreeNode(node: TreeNodeRevisionRef): TreeNodeRevisionRef {
+    if (getElementKind(node.elementKind) === ElementKind.CONDITION_CONSTRUCT) {
+      if (!node.element) {
+        try {
+          const cc = JSON.parse(node.name) as ICondition;
+          if (cc.conditionKind) {
+            node.element = cc;
+            node.name = cc.name;
+            node.parameters = [].concat(...cc.parameterIn, ...cc.parameterOut);
+          }
+        } catch (ex) {
+
+        }
+      } else {
+        node.element.name = node.name;
+      }
+    }
+    node.children = node.children.map(tn => this.postloadTreeNode(tn));
+    return node;
+  }
 
 }
 

@@ -1,3 +1,4 @@
+import { element } from 'protractor';
 
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import {
@@ -74,6 +75,9 @@ export class PublicationFormComponent implements OnChanges, OnInit, AfterViewIni
   }
 
   public onUpdatePublication() {
+    this.publication.publicationElements.forEach((pe, idx, arr) => {
+      arr[idx].element = null;
+    });
     this.service.update(this.publication).subscribe(
       (result) => { this.publication = result; this.modifiedEvent.emit(this.publication); },
       (error) => { throw error; });

@@ -9,7 +9,7 @@ import {
 import {
   toSelectItems, Loop, ConditionConstruct, ElementKind,
   ConditionKind, TemplateService, ActionKind, hasChanges, isString,
-  IfThenElse, TreeNodeRevisionRefImpl, ICondition, AbstractControlConstruct
+  IfThenElse, TreeNodeRevisionRefImpl, ICondition, AbstractControlConstruct, mergeParameters
 } from 'src/app/lib';
 
 
@@ -58,6 +58,7 @@ export class TreeNodeEditComponent implements OnChanges {
   public ngOnChanges(changes: SimpleChanges): void {
     if (hasChanges(changes.conNode)) {
       this.doCheck(changes.conNode.currentValue);
+      mergeParameters(changes.conNode.currentValue);
       // const conditional = JSON.parse(changes.conNode.currentValue.name) as ICondition;
       // this.conNode.element = conditional;
       // this.conNode.name = this.conNode.element.name;

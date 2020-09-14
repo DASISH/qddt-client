@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import {
   ActionKind, delay,
@@ -16,7 +16,7 @@ import {
   TreeNodeRevisionRefImpl,
   AbstractControlConstruct,
   ConditionKind,
-  IfThenElse, Loop
+  IfThenElse, Loop, hasChanges
 } from '../../../lib';
 
 
@@ -89,6 +89,7 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit {
   }
 
 
+
   get showButton(): boolean {
     return this._showButton;
   }
@@ -109,6 +110,7 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit {
   public onItemDrop(event: CdkDragDrop<any[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      this.actionEvent.emit({ action: ActionKind.Read, ref: null });
     }
   }
 
@@ -117,6 +119,7 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit {
     if (!item.element && (!this.isSequence(item) || item.children.length === 0)) {
       M.Collapsible.init(document.querySelectorAll('.collapsible'));
 
+      console.log('open body...');
       let cond: ICondition;
 
       if (kind === ElementKind.CONDITION_CONSTRUCT) {
@@ -163,7 +166,6 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit {
   public onSelectElementKind(kind) {
     this.selectedElementKind = kind;
     this.SOURCE = { element: '', elementKind: kind };
-    // console.log(this.SOURCE);
   }
 
   public revisionSelectedEvent(ref: ElementRevisionRef) {
@@ -213,6 +215,8 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit {
     this.SOURCE = cqi;
     this.instance.open();
   }
+
+
 
 
 }

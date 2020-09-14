@@ -111,9 +111,13 @@ export function replaceNode(nodes: ITreeNode[], newNode: ITreeNode): ITreeNode {
       nodes[i] = newNode;
       return nodes[i];
     } else {
-      return replaceNode(nodes[i].children, newNode);
+      const retval = replaceNode(nodes[i].children, newNode);
+      if (retval) {
+        return retval;
+      }
     }
   }
+  return null;
 }
 
 // borrowed from the net.
