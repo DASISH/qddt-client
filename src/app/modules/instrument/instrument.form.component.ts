@@ -46,6 +46,7 @@ export class InstrumentFormComponent implements OnChanges {
   public ngOnChanges(changes: SimpleChanges): void {
     if (hasChanges(changes.instrument)) {
       this.instrument = new Instrument(JSON.parse(JSON.stringify(changes.instrument.currentValue)));
+      console.log(this.instrument.parameterOut || JSON);
       this.instrument.root = this.postloadTreeNode(this.instrument.root);
       this.currentInstrumentType = InstrumentKind[this.instrument.instrumentKind];
       this.service.canDoAction(ActionKind.Update, this.instrument)
@@ -74,6 +75,7 @@ export class InstrumentFormComponent implements OnChanges {
     const ref = response.ref as TreeNodeRevisionRef;
     switch (action) {
       case ActionKind.Read:
+        this.instrument.initParameters();
         this.instrument.root.children.forEach(c => console.log(c.name));
         // console.log(replaceNode(this.instrument.root.children, ref));
         break;
