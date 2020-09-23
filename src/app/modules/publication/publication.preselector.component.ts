@@ -7,9 +7,9 @@ import { MessageService, PropertyStoreService } from '../../lib/services';
   selector: 'qddt-publication-preselector',
   styles: ['.row { margin-bottom: auto; }'],
   template: `
-  <div class="card-action">
+  <div style="padding-top: 1rem;">
     <div class="row">
-    <div class="col left" *ngFor="let option of selectOptions; let idx=index" >
+    <div class="col left" *ngFor="let option of selectOptions; let idx=index;" >
       <label>
         <input name="DOMAIN-TYPE-GROUP" type="radio" [checked]="selectId === option.id" (click)="onSelectOption(idx)" />
         <span class="white-text">{{ option.label }}</span>
