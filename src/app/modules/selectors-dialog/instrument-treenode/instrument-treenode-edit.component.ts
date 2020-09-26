@@ -67,22 +67,23 @@ export class TreeNodeEditComponent implements OnChanges {
   }
 
 
-  public doCheck(condition: TreeNodeRevisionRefImpl<ConditionConstruct>) {
-    switch (condition.element.conditionKind) {
+  public doCheck(node: TreeNodeRevisionRefImpl<ConditionConstruct>) {
+    switch (node.element.conditionKind) {
       case ConditionKind.IfThenElse:
-        if (isString(condition.element.condition)) {
+        if (isString(node.element.condition)) {
           console.log('do check init ifthenelse');
-          condition.element.condition = new IfThenElse(JSON.parse(condition.element.condition))
+          node.element.condition = new IfThenElse(JSON.parse(node.element.condition))
         }
         break;
       case ConditionKind.Loop:
-        if (isString(condition.element.condition)) {
-          condition.element.condition = new Loop(JSON.parse(condition.element.condition));
+        if (isString(node.element.condition)) {
+          node.element.condition = new Loop(JSON.parse(node.element.condition));
         }
         break;
       default:
-        console.log('This kind isn\'t implemented yet; ' + condition.element.conditionKind);
+        console.log('This kind isn\'t implemented yet; ' + node.element.conditionKind);
     }
+    JSON.stringify(node.element.condition).match
   }
 
   public onSave() {

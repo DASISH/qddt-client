@@ -66,7 +66,7 @@
             </qddt-concept-edit>
 
             <ng-container *ngIf="!edit.isVisible">
-              <div [innerHtml]="concept?.description"></div>
+              <p [innerHtml]="concept?.description"></p>
 
               <qddt-question-items [revisionRefs]="concept.conceptQuestionItems"
                 [readonly]="concept.archived || !canUpdate" [xmlLang]="concept.xmlLang"

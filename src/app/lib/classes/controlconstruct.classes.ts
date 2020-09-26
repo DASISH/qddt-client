@@ -31,8 +31,6 @@ export enum ConditionKind {
 
 
 export enum ConstructReferenceKind {
-  NONE = 'NONE',
-  ASSIGN_LATER = 'ASSIGN_LATER',
   NEXT_IN_LINE = 'NEXT_IN_LINE',
   EXIT_SEQUENCE = 'EXIT_SEQUENCE',
 }

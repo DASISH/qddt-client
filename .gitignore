@@ -17,6 +17,8 @@
 .c9/
 *.launch
 .settings/
+.VSCodeCounter
+.github
 *.sublime-workspace
 
 # IDE - VSCode
