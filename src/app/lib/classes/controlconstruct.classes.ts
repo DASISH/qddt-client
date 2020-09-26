@@ -297,6 +297,7 @@ export interface ICondition {
   condition: IfThenElse | Loop | RepeatWhile | RepeatUntil | any;
   parameterIn?: Parameter[];
   parameterOut?: Parameter[];
+  sequence: ElementRevisionRefImpl<AbstractControlConstruct>[];
 }
 // ConditionConstruct.Condition helper classes --- END
 
@@ -310,6 +311,7 @@ export class ConditionConstruct implements AbstractControlConstruct, ICondition 
   condition: IfThenElse | Loop | RepeatWhile | RepeatUntil | any;
   parameterIn?: Parameter[] = [];
   parameterOut?: Parameter[] = [];
+  sequence: ElementRevisionRefImpl<AbstractControlConstruct>[] = [];
   classKind = ElementKind[ElementKind.CONDITION_CONSTRUCT];
   xmlLang?: string;
   get parameters() { return this.parameterOut; }
