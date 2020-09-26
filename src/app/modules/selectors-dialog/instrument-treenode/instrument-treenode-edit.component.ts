@@ -1,3 +1,4 @@
+import { NgForm } from '@angular/forms';
 import {
   Component,
   Input,
@@ -9,7 +10,7 @@ import {
 import {
   toSelectItems, Loop, ConditionConstruct, ElementKind,
   ConditionKind, TemplateService, ActionKind, hasChanges, isString,
-  IfThenElse, TreeNodeRevisionRefImpl, ICondition, AbstractControlConstruct, mergeParameters
+  IfThenElse, TreeNodeRevisionRefImpl, ICondition, AbstractControlConstruct, mergeParameters, refreshParameter
 } from 'src/app/lib';
 
 
@@ -26,7 +27,7 @@ import {
     <li >
       <ng-container [ngSwitch]="conNode.element.conditionKind">
         <ng-container *ngSwitchCase="'IF_THEN_ELSE'">
-          <qddt-if-then-else-form [(element)]=conNode.element.condition [formName]="'IFTHENELSE'"></qddt-if-then-else-form>
+          <qddt-if-then-else-form [(element)]=conNode.element.condition [formName]="'IFTHENELSE'" (change)="doCheckParam()" ></qddt-if-then-else-form>
         </ng-container>
         <ng-container *ngSwitchCase="'LOOP'">
           <qddt-for-each-form [(element)]=conNode.element.condition [formName]="'LOOP'"></qddt-for-each-form>
@@ -66,6 +67,12 @@ export class TreeNodeEditComponent implements OnChanges {
 
   }
 
+  public doCheckParam() {
+    refreshParameter(this.conNode);
+    if (this.conNode.element.conditionKind) {
+      // const ifthenelse = this.conNode.element.condition as IfThenElse;
+    }
+  }
 
   public doCheck(condition: TreeNodeRevisionRefImpl<ConditionConstruct>) {
     switch (condition.element.conditionKind) {

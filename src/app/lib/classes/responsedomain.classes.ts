@@ -24,6 +24,7 @@ export const DATE_FORMAT_MAP: ISelectOption[] = [
   { id: 6, value: 'yyyy-mm', label: 'gYearMonth', description: 'y-M' },
   { id: 7, value: 'd mmm yyyy', label: 'Date-text-short', description: 'd MMM y' },
   { id: 8, value: 'dddd d mmmm yyyy', label: 'Full-date-text', description: 'fullDate' },
+  { id: 9, value: 'PTnHnM', label: 'Duration', description: 'Duration in hours and minutes' },
 ];
 
 // { id: 7, value: 'HH:mm:SS', label: 'Time', description: '' },

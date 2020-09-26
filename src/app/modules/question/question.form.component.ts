@@ -30,12 +30,11 @@ export class QuestionFormComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-
     M.updateTextFields();
+    // if ([].find(p=>p.value)===undefined)
   }
 
   onSaveQuestionItem() {
-    // console.log('QI no managed rep saving...');
     this.service.update<QuestionItem>(this.questionItem)
       .subscribe((result) => {
         this.questionItem = result;
@@ -44,20 +43,14 @@ export class QuestionFormComponent implements AfterViewInit {
   }
 
   onResponseDomainSelected(item: ElementRevisionRefImpl<ResponseDomain>, form: FormGroup) {
-    console.log('onResponseDomainSelected');
-    console.log(form.errors);
-    console.log(form.invalid);
     this.questionItem.responseDomainRef = item;
   }
 
   onResponseDomainRemove() {
-    this.questionItem.responseDomainRef = new ElementRevisionRefImpl<ResponseDomain>();
+    this.questionItem.responseDomainRef = new ElementRevisionRefImpl<ResponseDomain>({ elementKind: ElementKind.RESPONSEDOMAIN });
   }
 
   onResponseDomainUpdate(element: ResponseDomain, form: FormGroup) {
-    console.log('onResponseDomainUpdate');
-    console.log(form.errors);
-    console.log(form.invalid);
     element.changeKind = 'CONCEPTUAL';
     element.changeComment = 'Values changed or managed representation added';
     this.service.update<ResponseDomain>(element).subscribe(result => {
@@ -69,3 +62,4 @@ export class QuestionFormComponent implements AfterViewInit {
     });
   }
 }
+
