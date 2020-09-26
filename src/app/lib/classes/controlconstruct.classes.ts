@@ -191,7 +191,7 @@ export class StatementConstruct implements AbstractControlConstruct {
 
   xmlLang?: string;
   classKind = ElementKind[ElementKind.STATEMENT_CONSTRUCT];
-  get parameters() { return null; }
+  get parameters() { return []; }
 
   public constructor(init?: Partial<StatementConstruct>) {
     Object.assign(this, init);

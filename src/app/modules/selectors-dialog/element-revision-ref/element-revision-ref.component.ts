@@ -34,6 +34,7 @@ export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
   @Output() actionEvent = new EventEmitter<EventAction>();
 
   public readonly modalId = Math.round(Math.random() * 10000);
+  public readonly isControlConstruct = (ref: ElementRevisionRef): boolean => [4,5,6].includes(getElementKind(ref.elementKind).valueOf());
 
   public selectedElementKind = 0;
   public SOURCE: IElement | IRevisionRef | null;
@@ -144,6 +145,12 @@ export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
     this.modalRef.open();
   }
 
+  public onCheckParams(id, event) {
+    console.log(id);
+    // console.log(event);
+    // console.log(this.inParameters.get(id).value);
+    // this.inParameters.get(id).value = event;
+  }
   // -------------------------------------------------------------------
 
 }

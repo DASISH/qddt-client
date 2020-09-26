@@ -31,8 +31,17 @@
         </div>
       </div>
       <div class="collapsible-body">
-        <qddt-preview-element [element]="cqi.element" [showDetail]="false" [inParameters]="inParameters">
-        </qddt-preview-element>
+        <ng-container *ngIf="isControlConstruct(cqi)">
+          <qddt-input required name="name" label="Label" [(ngModel)]="cqi.name" data-length="100">
+          </qddt-input>
+          <qddt-preview-controlconstruct [construct]="cqi.element" [showDetail]="false"
+            [inParameters]="inParameters" (selectedEvent)="onCheckParams(cqi, $event)">
+          </qddt-preview-controlconstruct>
+        </ng-container>
+        <ng-container *ngIf="!isControlConstruct(cqi)">
+          <qddt-preview-element [element]="cqi.element" [showDetail]="false" [inParameters]="inParameters">
+          </qddt-preview-element>
+      </ng-container>
       </div>
 
     </li>

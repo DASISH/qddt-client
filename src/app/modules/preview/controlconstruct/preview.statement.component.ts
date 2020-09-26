@@ -32,6 +32,7 @@ export class PreviewStatementConstructComponent implements OnChanges {
 
 
   private assignValueToParameters(inParameters: Parameter[]) {
+    console.log('break here');
     if ((!inParameters) || (!this.inParameters)) {
       return;
     }

@@ -120,6 +120,7 @@ export class Instrument implements IEntityAudit {
     }
   }
   initParameters = () => mapTreeNodes(this.root.children).forEach((entity, index) => {
+    console.log('INIT P ');
     entity.parameters.forEach((p) => {
       p.id = entity.id;
       p.idx = index;
@@ -128,7 +129,8 @@ export class Instrument implements IEntityAudit {
           this.parameterOut.set(entity.id, p);
         }
       } else {
-        if (this.parameterIn.findIndex(f => f.id === p.id && f.name === p.name) < 0) {
+        console.log('IN P ');
+        if (this.parameterIn.findIndex(f => f.id === p.id || f.name === p.name) < 0) {
           this.parameterIn.push(p);
         }
       }
