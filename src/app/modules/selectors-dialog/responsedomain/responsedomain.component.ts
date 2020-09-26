@@ -142,6 +142,7 @@ export class ResponsedomainComponent implements OnChanges {
     if (this.canDelete) {
       this.removeEvent.emit({ elementId: this.responseDomain.id, elementKind: this.responseDomain.classKind });
       this.responseDomain = null;
+      this.localResponseDomain = null;
     }
   }
 
@@ -170,6 +171,7 @@ export class ResponsedomainComponent implements OnChanges {
       this.responseDomain.name =
         this.responseDomain.managedRepresentation.label =
         'Mixed [' + this.responseDomain.managedRepresentation.children[0].label + ']';
+      this.localResponseDomain = new ResponseDomain(JSON.parse(JSON.stringify(this.responseDomain)));
     }
   }
 
