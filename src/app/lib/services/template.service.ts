@@ -106,6 +106,10 @@ export class TemplateService {
   public update<T extends IEntityAudit>(item: IEntityAudit): Observable<T> {
     const kind = getElementKind(item.classKind);
     const qe = getQueryInfo(kind);
+    console.log(item.basedOnObject);
+    if (item.id === item.basedOnObject) {
+      item.id = '';
+    }
     let path2 = '';
     if (qe.path === 'controlconstruct') { // silly exception to the simple rule
       if (kind === ElementKind.QUESTION_CONSTRUCT) {

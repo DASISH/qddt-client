@@ -1,6 +1,6 @@
 import { ActionKind, ElementKind } from '../enums';
 import { ISelectOption, IEntityAudit, ITreeNode } from '../interfaces';
-import { AbstractControlConstruct, isSequence, Parameter, ParameterKind } from './controlconstruct.classes';
+import { AbstractControlConstruct, isSequence, Parameter, ParameterKind, ConditionConstruct } from './controlconstruct.classes';
 import { ElementRevisionRef } from './element-revision-ref';
 
 import * as uuid from 'uuid';
@@ -219,5 +219,17 @@ export const mergeParameters = (node: TreeNodeRevisionRefImpl<AbstractControlCon
       node.parameters.push(pi);
     }
   });
+}
+
+export const refreshParameter = (node: TreeNodeRevisionRefImpl<ConditionConstruct>) => {
+  if (node.element) {
+    console.log('refreshParameter');
+
+    const expression = JSON.stringify(node.element.condition);
+    const match = expression.match('/[(.*?)/]');
+    if (match) {
+      match.forEach(m => console.log(m));
+    }
+  }
 
 }

@@ -88,7 +88,8 @@ export class PreviewConditionConstructComponent implements OnChanges {
         .filter(f => f.name.startsWith('INPUT'))
         .sort((a, b) => a.name.localeCompare(b.name))
         .forEach((para, index) => {
-          if (searchables[index + 1] && !para.referencedId) {
+          const linenumber = +para.name.slice(5) || 1;
+          if (searchables[index + linenumber] && !para.referencedId) {
             para.referencedId = searchables[index + 1][0]
           }
         });
@@ -132,7 +133,7 @@ export class PreviewConditionConstructComponent implements OnChanges {
 
   public getParam(param: Parameter): string {
     return param.name + '🢨' + ((param.value) ? param.value.map(p => '[' + p.value + ':' + p.label + ']').join(',') :
-      (param.referencedId) ? '?' : '#ref?');
+      (param.referencedId) ? '[null]' : '[no-ref]');
   }
 
 }

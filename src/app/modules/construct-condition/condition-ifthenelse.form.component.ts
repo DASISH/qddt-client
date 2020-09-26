@@ -50,14 +50,14 @@ import { ConstructReferenceKind, IElementRef, IfThenElse, toSelectItems, Conditi
     <li [id]="'CC-LI-'+idx" class="hoverable row" *ngFor="let elseIf of element.elseIf; let idx=index;">
       <qddt-textarea class="col s9"
           required
-          name="content-idx"
+          [name]="'content-'+idx"
           label="Else If"
           [(ngModel)]="elseIf.ifCondition.content"
           data-length="100" >
         </qddt-textarea>
         <qddt-select class="col s3"
           required
-          name="thenconstructreference-idx"
+          [name]="'thenconstructreference-'+idx"
           label="Then Reference"
           [(ngModel)]="elseIf.thenConstructReference"
           [lockups]="CONDITION">

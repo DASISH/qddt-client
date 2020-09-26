@@ -73,10 +73,10 @@ export class ParameterComponent implements OnChanges {
       param.value = (param.referencedId) ? this.parameters.get(param.referencedId).value : param.value;
 
       if (getParameterKind(param.parameterKind) === ParameterKind.OUT) {
-        return param.name + this.out + ((param.value) ? param.value.map(p => '[' + p.value + ':' + p.label + ']').join(',') : '?');
+        return param.name + this.out + ((param.value) ? param.value.map(p => '[' + p.value + ':' + p.label + ']').join(',') : '[null]');
       } else {
         return param.name + this.in + ((param.value) ? param.value.map(p => '[' + p.value + ':' + p.label + ']').join(',') :
-          (param.referencedId) ? '?' : '#ref?');
+          (param.referencedId) ? '[null]' : '[no-ref]');
       }
 
     } catch (ex) {

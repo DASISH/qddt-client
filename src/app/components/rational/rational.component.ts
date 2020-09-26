@@ -27,24 +27,26 @@ export class RationalComponent implements OnInit, OnChanges, AfterViewInit {
 
   public _RationalIndex: number;
   public _Rational2Index: number;
-  public originalId: any;
-
-  private savedId: any;
-  private savedbasedOnObject: any;
+  public original = { id: '', basedOnObject: '', basedOnRevision: 0 };
 
   constructor() {
     this._RationalIndex = 1;
     this._Rational2Index = 0;
     this.saveOptionIndex = 0;
-    this.savedId = null;
   }
+
+
+  public getJson = () => JSON.stringify(this.element);
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.element.isFirstChange()) {
       this.element.changeComment = '';
+      this.original.id = this.element.id;
+      this.original.basedOnObject = this.element.basedOnObject;
+      this.original.basedOnRevision = this.element.basedOnRevision;
       this.onSelectOption(0);
     }
-    this.originalId = this.element.id;
+
   }
 
   ngAfterViewInit(): void {
@@ -55,7 +57,7 @@ export class RationalComponent implements OnInit, OnChanges, AfterViewInit {
     if (this.config) {
       const hiddenIds = this.config.hidden || [];
       if (!('archived' in this.element)) {            // Hide Archived option if element don't have this field.
-        hiddenIds.push(4);
+        hiddenIds.push(3);
       }
       this.rationalDescriptionsFiltered = this.rationalDescriptions.filter(f => !hiddenIds.find(id => id === f.id));
     }
@@ -89,24 +91,16 @@ export class RationalComponent implements OnInit, OnChanges, AfterViewInit {
     if (this.rationalDescriptions[id].change) {
       this.element.changeKind = this.rationalDescriptions[id].change;
     }
-    if (id === 2) {
-      this.savedbasedOnObject = this.element.basedOnObject;
-      this.element.basedOnObject = null;
-      if (this.element.id === null) {
-        this.element.id = this.originalId;
-      }
-    } else if (id === 3) {
-      this.savedId = this.element.id;
-      this.element.basedOnObject = null;
-      this.element.modifiedBy = null;
-      this.element.id = null;
-      this.element.changeKind = null;
+    if (id === 2) {  // BASED ON
+      this.element.basedOnObject = this.original.id;
+      this.element.basedOnRevision = null;
+      // this.element.id = {};
     } else {
-      if (this.element.id === null) {
-        this.element.id = this.savedId;
-        this.element.basedOnObject = this.savedbasedOnObject;
-      }
+      this.element.id = this.original.id;
+      this.element.basedOnObject = this.original.basedOnObject;
+      this.element.basedOnRevision = this.original.basedOnRevision;
     }
+
   }
 
 }

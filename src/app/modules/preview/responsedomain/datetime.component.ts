@@ -10,9 +10,12 @@ import { delay, DATE_FORMAT_MAP, hasChanges } from 'src/app/lib';
 <ng-container *ngIf="managedRepresentation">
   <div class="input-field">
     <div style="color:rgb(200, 200, 200); position: Absolute ; top: 1rem; right:0; z-index: 1;" >[ {{managedRepresentation.format}} ]</div>
-    <input [id]="identifier" type="text" class="datepicker">
-    <label [for]="identifier" >{{managedRepresentation.label}}</label>
-    <span>Range  {{ managedRepresentation.inputLimit.minimum }} - {{ managedRepresentation.inputLimit.maximum }}</span>
+    <ng-container *ngIf="managedRepresentation.format" >
+      <input *ngIf="managedRepresentation.format.startsWith('PTn')" [id]="identifier" type="time" min="26:00" max="00:00" >
+      <input *ngIf="!managedRepresentation.format.startsWith('PTn')" [id]="identifier" type="text" class="datepicker">
+      <label [for]="identifier" >{{managedRepresentation.label}}</label>
+      <span>Range  {{ managedRepresentation.inputLimit.minimum }} - {{ managedRepresentation.inputLimit.maximum }}</span>
+    </ng-container>
   </div>
 </ng-container>
 `,
@@ -32,7 +35,6 @@ export class ResponsedomainDatetimeComponent implements OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges): void {
-
     if (hasChanges(changes.managedRepresentation)) {
       delay(20).then(() => {
         this.initDate(this.managedRepresentation);
@@ -52,19 +54,28 @@ export class ResponsedomainDatetimeComponent implements OnChanges {
 
   private initDate(rep: Category) {
 
-    const elems = document.querySelectorAll('.datepicker');
-    M.Datepicker.init(elems, {
-      format: rep.format,
-      autoClose: true,
-      yearRange: [rep.inputLimit.minimum, rep.inputLimit.maximum],
-      i18n: {
-        months: getLocaleMonthNames(rep.xmlLang, 1, 2),
-        monthsShort: getLocaleMonthNames(rep.xmlLang, 1, 1),
-        weekdays: getLocaleDayNames(rep.xmlLang, 1, 2),
-        weekdaysShort: getLocaleDayNames(rep.xmlLang, 1, 1)
-      },
-      onSelect: (date) => this.onSelect(date)
-    });
+    const elems = document.querySelectorAll('.datepicker')
+    if (elems) {
+      M.Datepicker.init(elems, {
+        format: rep.format,
+        autoClose: true,
+        yearRange: [rep.inputLimit.minimum, rep.inputLimit.maximum],
+        i18n: {
+          months: getLocaleMonthNames(rep.xmlLang, 1, 2),
+          monthsShort: getLocaleMonthNames(rep.xmlLang, 1, 1),
+          weekdays: getLocaleDayNames(rep.xmlLang, 1, 2),
+          weekdaysShort: getLocaleDayNames(rep.xmlLang, 1, 1)
+        },
+        onSelect: (date) => this.onSelect(date)
+      });
+    } else {
+      const elems = document.querySelectorAll('.timepicker');
+      M.Timepicker.init(elems, {
+        twelveHour: false,
+        autoClose: true,
+
+      });
+    }
 
   }
 

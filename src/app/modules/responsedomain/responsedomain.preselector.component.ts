@@ -14,9 +14,9 @@ import {
 
 @Component({
   selector: 'qddt-responsedomain-preselector',
-
+  styles: ['.row { margin-bottom: auto; }'],
   template: `
-<div class="card-action">
+<div style="padding-top: 1rem;">
   <div class="row">
     <div class="col left" *ngFor="let domain of domainTypeDescription" >
     <label>
@@ -26,8 +26,7 @@ import {
       </label>
     </div>
   </div>
-</div>` ,
-  styles: ['.row { margin-bottom: auto; }']
+</div>`
 })
 export class ResponsePreSelector implements OnInit {
 
