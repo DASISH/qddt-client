@@ -47,7 +47,9 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit {
   public instance: M.Modal;
 
 
+  public showLabel=false;
   private _showButton = false;
+
   private action = ActionKind.Create;
 
   public readonly STATEMENT = ElementKind.STATEMENT_CONSTRUCT

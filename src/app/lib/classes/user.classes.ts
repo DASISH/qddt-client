@@ -1,4 +1,3 @@
-import { SurveyProgram } from './home.classes';
 import { IAuthority, IVersion } from '../interfaces';
 
 

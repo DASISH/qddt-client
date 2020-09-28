@@ -1,9 +1,9 @@
-<div class="collection with-header hoverable row" *ngIf=" (countIn + countOut )> 0" cdkDropListGroup>
-  <div class="collection-header col s12" style="cursor: zoom-in;" (click)="showParameters=!showParameters">
+<ul class="collection with-header hoverable " *ngIf=" (countIn + countOut )> 0" cdkDropListGroup>
+  <li class="collection-header" style="cursor: zoom-in;" (click)="showParameters=!showParameters">
     <label> <i class="material-icons small">compare_arrows</i>Parameters({{ countIn + countOut }})</label>
-  </div>
+  </li>
 
-  <div *ngIf="countIn > 0 && showParameters" class="collection-item">
+  <li *ngIf="countIn > 0 && showParameters" class="collection-item">
     <label>In ({{countIn}})</label>
     <ng-container *ngIf="isMapTrue(inParameters) && inParameters?.size>0">
       <div class="chip" style="margin-left: 0.75rem;" [ngClass]="{'green lighten-5': isTrue(entry.value) }"
@@ -20,8 +20,8 @@
         <a [routerLink]='"."' [fragment]="parameter.referencedId||parameter.id">{{getParam(parameter)}}</a>
       </div>
     </ng-container>
-  </div>
-  <div *ngIf="countOut > 0 && showParameters" class="collection-item" cdkDropList>
+  </li>
+  <li *ngIf="countOut > 0 && showParameters" class="collection-item" cdkDropList>
     <label>Out ({{countOut}})</label>
     <ng-container *ngIf="isMapTrue(outParameters) && outParameters?.size>0">
       <div class="chip" style="margin-left: 0.75rem; cursor: grab;"
@@ -36,5 +36,5 @@
         {{getParam(parameter)}}
       </div>
     </ng-container>
-  </div>
-</div>
+  </li>
+</ul>

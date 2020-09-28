@@ -8,7 +8,7 @@ import { StatementConstruct, Parameter, hasChanges } from '../../../lib';
     <qddt-parameter [inParameters]="statement.parameterIn" [parameters]="inParameters" >
     </qddt-parameter>
     <li class="collection-item" >
-      <p [innerHtml]="insertParam(statement?.statement)" style="font-style: italic"></p>
+      <p class="card-panel grey lighten-5 grey-text text-darken-1 flow-text" [innerHtml]="insertParam(statement?.statement)" style="font-style: italic"></p>
     </li>
   </ul>
 `,

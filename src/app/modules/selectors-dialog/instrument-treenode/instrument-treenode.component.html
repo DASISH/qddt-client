@@ -1,11 +1,10 @@
 <div class="row" cdkDropList cdkDrop [cdkDropListData]="treeNodes" (cdkDropListDropped)="onItemDrop($event)">
 
   <ng-container>
-    <!-- <qddt-parameter [outParameters]="treeNodes.parameters" [showParameters]="false"></qddt-parameter> -->
     <ng-container *ngTemplateOutlet="treeNodesImpl; context:{ nodes: treeNodes, level:1 }"></ng-container>
 
     <ng-template #treeNodesImpl let-nodes="nodes" let-level="level">
-      <ul [id]="'TREENODE-'+level" *ngIf="nodes" class="collapsible" data-collapsible="accordion">
+      <ul [id]="'TREENODE-'+level" *ngIf="nodes" class="collapsible expandable" data-collapsible="expandable" >
         <li [id]="node.id" *ngFor="let node of nodes; trackBy:trackById;"
           [ngClass]="{'SEQ': isSequence(node)|| getMatIcon(node.elementKind)==='record_voice_over' }">
           <div class="collapsible-header" cdkDrag [title]="node.id" (click)="onOpenBody(node)">
@@ -40,11 +39,18 @@
             </div>
           </div>
           <div class="collapsible-body">
+            <ul class="collection with-header hoverable ">
+              <li class="collection-header" style="cursor: zoom-in;" (click)="showLabel=!showLabel">
+                <label><i class="material-icons small">format_quote</i>Label</label>
+              </li>
+
+              <li *ngIf="showLabel" class="collection-item">
+                <qddt-input required name="name" [(ngModel)]="node.name" data-length="100"></qddt-input>
+              </li>
+            </ul>
             <ng-container *ngIf="isSequence(node)">
               <qddt-parameter [inParameters]="node.parameters | qddtFilter: isIn " [parameters]="inParameters">
               </qddt-parameter>
-              <qddt-input required name="name" label="Label" [(ngModel)]="node.name" data-length="100">
-              </qddt-input>
             </ng-container>
             <ng-container *ngIf="isConditional(node)">
               <qddt-parameter [inParameters]="node.parameters | qddtFilter: isIn"
@@ -54,8 +60,6 @@
               </qddt-edit-conditional>
             </ng-container>
             <ng-container *ngIf="!isSequence(node) && !isConditional(node)">
-              <qddt-input required name="name" label="Label" [(ngModel)]="node.name" data-length="100">
-              </qddt-input>
               <qddt-preview-controlconstruct [construct]="node.element" [showDetail]="false"
                 [inParameters]="inParameters" (selectedEvent)="onCheckParams(node.id, $event)">
               </qddt-preview-controlconstruct>
@@ -64,11 +68,9 @@
           <ng-container *ngTemplateOutlet="treeNodesImpl; context:{ nodes: node.children, level:level+1 }">
           </ng-container>
         </li>
-        <li *ngIf="level==1" class="SEQ">
-          <div class="collapsible-header" (click)="onItemNew($event)">
+          <li *ngIf="level==1" class="collapsible-header SEQ" (click)="onItemNew($event)">
             <i class="material-icons small teal-text text-lighten-3">vertical_align_top</i>
             <div class="col s12 blue-text text-lighten-2" [innerHtml]="'Add New Element'"></div>
-          </div>
         </li>
       </ul>
     </ng-template>
@@ -93,14 +95,6 @@
         </label>
       </div>
     </div>
-    <!-- <ng-container *ngIf="selectedElementKind===8">
-
-      <qddt-element-revision-select [autoCreate]="true" [source]="SOURCE" [xmlLang]="xmlLang"
-        (revisionSelectedEvent)="revisionSelectedEvent($event)" (dismissEvent)="onDismiss()">
-      </qddt-element-revision-select>
-
-
-    </ng-container> -->
     <qddt-element-revision-select [source]="SOURCE" [xmlLang]="xmlLang"
       (revisionSelectedEvent)="revisionSelectedEvent($event)" (dismissEvent)="onDismiss()">
     </qddt-element-revision-select>

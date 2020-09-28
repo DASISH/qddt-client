@@ -20,10 +20,10 @@ import {
   template: `
 <ul *ngIf="conNode" class="row">
   <form [id]="'ECC'+formId" #hf="ngForm" [parentFormConnect]="formName" >
-    <li class="col s9">
+    <!-- <li class="col s9">
       <qddt-input required name="name" label="Label" [(ngModel)]="conNode.name" data-length="100">
       </qddt-input>
-    </li>
+    </li> -->
     <li >
       <ng-container [ngSwitch]="conNode.element.conditionKind">
         <ng-container *ngSwitchCase="'IF_THEN_ELSE'">

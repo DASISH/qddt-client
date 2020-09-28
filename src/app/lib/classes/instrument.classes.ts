@@ -224,12 +224,17 @@ export const mergeParameters = (node: TreeNodeRevisionRefImpl<AbstractControlCon
 export const refreshParameter = (node: TreeNodeRevisionRefImpl<ConditionConstruct>) => {
   if (node.element) {
     console.log('refreshParameter');
-
+    let regex = new RegExp(/\[(\w*)\]/gms);
     const expression = JSON.stringify(node.element.condition);
-    const match = expression.match('/[(.*?)/]');
-    if (match) {
-      match.forEach(m => console.log(m));
+    let result = regex.exec(expression);
+    while( result.)
+    if (result) {
+      result.forEach(m => console.log(m));
+    } else {
+      console.log('no match inner?');
     }
+  } else {
+    console.log('no match outer');
   }
 
 }
