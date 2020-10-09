@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { AfterViewInit, Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import {
   ActionKind, delay,
@@ -16,7 +16,7 @@ import {
   TreeNodeRevisionRefImpl,
   AbstractControlConstruct,
   ConditionKind,
-  IfThenElse, Loop, hasChanges
+  IfThenElse, Loop
 } from '../../../lib';
 
 
@@ -47,8 +47,7 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit {
   public instance: M.Modal;
 
 
-  public showLabel=false;
-  private _showButton = false;
+  public showLabel = new Map<string, boolean>();
 
   private action = ActionKind.Create;
 
@@ -90,14 +89,6 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit {
   constructor(private service: TemplateService, public message: MessageService, private router: Router) {
   }
 
-
-
-  get showButton(): boolean {
-    return this._showButton;
-  }
-  set showButton(value: boolean) {
-    this._showButton = value;
-  }
 
   public ngAfterViewInit(): void {
     this.instance = M.Modal.init(document.getElementById('MODAL-' + this.modalId),

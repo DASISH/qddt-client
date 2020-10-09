@@ -106,8 +106,8 @@ export class TemplateService {
   public update<T extends IEntityAudit>(item: IEntityAudit): Observable<T> {
     const kind = getElementKind(item.classKind);
     const qe = getQueryInfo(kind);
-    console.log(item.basedOnObject);
-    if (item.id === item.basedOnObject) {
+    // console.log(item.basedOnObject);
+    if (item.id === item['basedOnObject']) {
       item.id = '';
     }
     let path2 = '';

@@ -90,7 +90,7 @@ export class TreeNodeEditComponent implements OnChanges {
       default:
         console.log('This kind isn\'t implemented yet; ' + node.element.conditionKind);
     }
-    JSON.stringify(node.element.condition).match
+    // JSON.stringify(node.element.condition).match
   }
 
   public onSave() {

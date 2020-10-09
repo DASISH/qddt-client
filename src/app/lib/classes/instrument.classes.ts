@@ -122,7 +122,7 @@ export class Instrument implements IEntityAudit {
   initParameters = () => mapTreeNodes(this.root.children).forEach((entity, index) => {
     console.log('INIT P ');
     entity.parameters.forEach((p) => {
-      p.id = entity.id;
+      // p.id = entity.id;
       p.idx = index;
       if (getParameterKind(p.parameterKind) === ParameterKind.OUT) {
         if (!this.parameterOut.has(entity.id)) {
@@ -130,7 +130,7 @@ export class Instrument implements IEntityAudit {
         }
       } else {
         console.log('IN P ');
-        if (this.parameterIn.findIndex(f => f.id === p.id || f.name === p.name) < 0) {
+        if (this.parameterIn.findIndex(f => f.id === p.id && f.name === p.name) < 0) {
           this.parameterIn.push(p);
         }
       }
@@ -202,7 +202,7 @@ export const mergeParameters = (node: TreeNodeRevisionRefImpl<AbstractControlCon
       // po = found;
     } else {
       console.log('parameter insert (po) ' + po.name);
-      po.id = node.id;
+      // po.id = node.id;
       node.parameters.push(po);
     }
   });
@@ -215,7 +215,7 @@ export const mergeParameters = (node: TreeNodeRevisionRefImpl<AbstractControlCon
       // pi = found;
     } else {
       console.log('parameter insert push(pi) ' + pi.name);
-      pi.id = node.id;
+      // pi.id = node.id;
       node.parameters.push(pi);
     }
   });
@@ -224,10 +224,10 @@ export const mergeParameters = (node: TreeNodeRevisionRefImpl<AbstractControlCon
 export const refreshParameter = (node: TreeNodeRevisionRefImpl<ConditionConstruct>) => {
   if (node.element) {
     console.log('refreshParameter');
-    let regex = new RegExp(/\[(\w*)\]/gms);
+    let regex = new RegExp(/\[(\w*)\]/gm);
     const expression = JSON.stringify(node.element.condition);
     let result = regex.exec(expression);
-    while( result.)
+    // while( result.entries)
     if (result) {
       result.forEach(m => console.log(m));
     } else {
