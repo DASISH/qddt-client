@@ -1,10 +1,9 @@
 {
   "environmentSource": "environments/environment.ts",
   "environments": {
-  "dev": "environments/environment.ts",
-  "home": "environments/environment.home.ts",
-  "prod": "environments/environment.prod.ts",
-  "stage": "environments/environment.stage.ts"
+    "dev": "environments/environment.ts",
+    "production": "environments/environment.prod.ts",
+    "stage": "environments/environment.stage.ts"
   },
   "version": "1.0.0"
 }

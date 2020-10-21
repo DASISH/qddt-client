@@ -20,6 +20,7 @@ export class LocalDatePipe implements PipeTransform {
 
   transform(value: any, format?: string) {
 
+
     if (!value) { return ''; }
     if (!format) { format = 'shortDate'; }
 

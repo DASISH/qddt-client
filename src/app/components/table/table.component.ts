@@ -32,7 +32,7 @@ import {
 })
 
 @ElementEnumAware
-export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
+export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
   /**
    * number: the current page beginning with zero
    * size: the size of each page
@@ -81,9 +81,6 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   }
 
 
-  ngAfterViewInit() {
-    // M.updateTextFields();
-  }
 
   public ngOnInit(): void {
     this.columns = this.getColumns();
@@ -115,10 +112,11 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       const date: Date = new Date();
       date.setTime(item.modified);
 
+
       const row: any = {
         id: item.id,
         Version: (item.version) ? item.version.major + '.' + item.version.minor : '',
-        Modified: formatDate(date, 'shortDate', this.localID),
+        Modified: formatDate(date, 'shortDate', this.fixNO_nb_nn(this.localID)),
         Object: item,
       };
 
@@ -234,6 +232,10 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     this.canExport = this.access.canDo(ActionKind.Export, qe.id);
     this.canEdit = this.access.canDo(ActionKind.Update, qe.id);
     this.canPreview = (qe.id === ElementKind.CHANGE_LOG);
+  }
+
+  private fixNO_nb_nn(langcode: string): string {
+    return langcode.toLowerCase().includes('no') ? 'nb' : langcode;
   }
 
 }

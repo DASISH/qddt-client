@@ -41,10 +41,11 @@ import { SearchModule } from './modules/search/search.module';
 import { AppRoutingModule } from './app.routes';
 
 // dynamically load languages to support
-import('@angular/common/locales/global/nb').then(lang => registerLocaleData(lang.default));
-import('@angular/common/locales/global/en-GB').then(lang => registerLocaleData(lang.default, 'en-GB'));
-import('@angular/common/locales/global/en-CA').then(lang => registerLocaleData(lang.default, 'en-CA'));
-import('@angular/common/locales/global/fr-CA').then(lang => registerLocaleData(lang.default, 'fr-CA'));
+import('@angular/common/locales/global/nb');
+import('@angular/common/locales/global/en-GB');
+import('@angular/common/locales/global/en-CA');
+import('@angular/common/locales/global/en');
+import('@angular/common/locales/global/fr-CA');
 
 @NgModule({
   imports: [BrowserModule, HttpClientModule, DragDropModule, ComponentsModule, CoreModule, BrowserAnimationsModule, HomeModule, MenuModule,

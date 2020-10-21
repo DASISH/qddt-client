@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, ViewEncapsulation, OnDestroy, AfterViewInit, LOCALE_ID, Inject } from '@angular/core';
 import { IElement, IElementRef, IRevisionRef } from './lib';
 import { MessageService, PropertyStoreService, UserService } from './lib/services';
 
@@ -17,8 +17,8 @@ export class AppComponent implements OnDestroy, AfterViewInit {
   ref: IElementRef | IRevisionRef | IElement;
 
   constructor(private users: UserService, private properties: PropertyStoreService,
-    private messages: MessageService) {
-
+    private messages: MessageService, @Inject(LOCALE_ID) protected localID: string) {
+    console.log(localID);
     messages.getMessage().subscribe({
       next: (aMessage) => this.onPreivewShow(aMessage)
     });
