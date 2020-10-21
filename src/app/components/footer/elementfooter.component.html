@@ -5,7 +5,8 @@
     <label class="active">Version</label>
   </div>
   <div class="input-field col s5 m3">
-    <div class="chip" title="{{element?.modified | date:'full'}}">{{element?.modified | date:'mediumDate' }}</div>
+    <div class="chip" title="{{element?.modified | date:'full':undefined:fixNO_nb_nn(localID) }}">
+      {{element?.modified | date:'mediumDate':undefined:fixNO_nb_nn(localID) }}</div>
     <!-- <div class="chip">{{getTime()}}</div> -->
     <label class=" active">Last Saved</label>
   </div>

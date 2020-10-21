@@ -12,7 +12,7 @@ export class ElementFooterComponent {
 
   @Input() element: IEntityEditAudit;
 
-  constructor(private message: MessageService, @Inject(LOCALE_ID) protected localID: string) { }
+  constructor(private message: MessageService, @Inject(LOCALE_ID) public localID: string) { }
 
   onClick() {
     const ref: IRevisionRef = {
@@ -30,7 +30,7 @@ export class ElementFooterComponent {
     const date = new Date();
     date.setTime(m);
     console.log(this.localID);
-    return formatDate(date, 'longTime', this.localID);
+    return formatDate(date, 'longTime', this.fixNO_nb_nn(this.localID));
   }
 
   getVersion(): string {
@@ -41,4 +41,7 @@ export class ElementFooterComponent {
     return v.major + '.' + v.minor + rev + label;
   }
 
+  public fixNO_nb_nn(langcode: string): string {
+    return langcode.toLowerCase().includes('no') ? 'nb' : langcode;
+  }
 }
