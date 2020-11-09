@@ -1,7 +1,6 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { PropertyStoreService } from '../../../lib/services';
-import { delay } from 'src/app/lib';
 
 @Component({
   selector: 'qddt-useroption',

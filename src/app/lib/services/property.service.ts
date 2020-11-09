@@ -3,6 +3,8 @@ import { BehaviorSubject } from 'rxjs';
 import { HierarchyPosition } from '../enums';
 import { MenuItem } from '../interfaces';
 import { UserSettings } from '../classes';
+import {TemplateService} from './template.service';
+import {UserService} from './user.service';
 
 /**
  *
@@ -20,10 +22,13 @@ export class PropertyStoreService {
   private readonly userSettings: UserSettings;
 
 
-  constructor() {
+  constructor(private service: UserService) {
     try {
       this.path = JSON.parse(localStorage.getItem(PropertyStoreService.PATH)) || this.path;
       this.userSettings = new UserSettings(JSON.parse(localStorage.getItem(PropertyStoreService.USER_SETTINGS)));
+      if (!this.userSettings.xmlLang) {
+        service.getCurrentAgency().then( agency => this.userSettings.xmlLang = agency.defaultXmlLang);
+      }
       const pos = this.userSettings.hierarchyPosition || HierarchyPosition.Survey;
       this.currentChange$ = new BehaviorSubject<HierarchyPosition>(pos);
     } catch (e) {

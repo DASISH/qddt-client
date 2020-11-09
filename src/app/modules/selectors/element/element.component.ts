@@ -84,6 +84,7 @@ export class ElementComponent implements OnChanges {
   public onSearchElements(key) {
     this.pageSearch.key = key;
     this.pageSearch.xmlLang = this.xmlLang;
+    this.pageSearch.sort = this.pageSearch.key || [...this.pageSearch.keys.values()].flatMap( value => value).join(',')
     this.service.searchByKind(this.pageSearch).then((result) =>
       this.itemList = result.content.sort((a, b) =>
         a.name.localeCompare(b.name)));
