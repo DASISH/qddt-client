@@ -1,5 +1,5 @@
-<div class="col s12" *ngIf="instrument">
-  <form (ngSubmit)="onUpdateInstrument()" #instrumentform="ngForm">
+<div *ngIf="instrument" class="col s12">
+  <form [id]="formId" (ngSubmit)="onUpdateInstrument()" #hf="ngForm">
     <div class="row">
       <qddt-input [readonly]="readonly" class="col s10" required name="name" label="Name" [(ngModel)]="instrument.name"
         data-length="100">
@@ -31,14 +31,14 @@
       (actionEvent)="onDoAction($event); params.refresh();">
     </qddt-instrument-treenode>
 
+
     <qddt-rational [formName]="'RationalComp'" *ngIf="!readonly && instrument.id" [element]="instrument"
       [config]="{hidden: [3,4]}">
     </qddt-rational>
-
     <qddt-element-footer *ngIf="instrument.id" [element]="instrument"></qddt-element-footer>
 
     <div class="row right-align">
-      <button *ngIf="!readonly" [disabled]="!instrumentform.form.valid" type="submit" class="btn btn-default">Submit
+      <button *ngIf="!readonly" [disabled]="!hf.form.valid" type="submit" class="btn btn-default">Submit
       </button>
     </div>
   </form>

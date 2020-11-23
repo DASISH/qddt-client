@@ -8,6 +8,7 @@ import {
   PageSearch,
   TemplateService,
   hasChanges,
+  getQueryInfo,
 } from '../../../lib';
 
 @Component({
@@ -82,9 +83,11 @@ export class ElementComponent implements OnChanges {
   }
 
   public onSearchElements(key) {
+    const qi = getQueryInfo(this.pageSearch.kind);
+
     this.pageSearch.key = key;
     this.pageSearch.xmlLang = this.xmlLang;
-    this.pageSearch.sort = this.pageSearch.key || [...this.pageSearch.keys.values()].flatMap( value => value).join(',')
+    this.pageSearch.sort = [...qi.fields.filter((v, i) => i < 2).entries()].flatMap(value => value[1]).join(',');
     this.service.searchByKind(this.pageSearch).then((result) =>
       this.itemList = result.content.sort((a, b) =>
         a.name.localeCompare(b.name)));

@@ -42,6 +42,12 @@
         </li>
         <li *ngIf="localResponseDomain && localResponseDomain.missing">
           <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue"
+            (click)="onItemGetLatest()">
+            <i class="material-icons" title="Get latest">autorenew</i>
+          </a>
+        </li>
+        <li *ngIf="localResponseDomain && localResponseDomain.missing">
+          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue"
             (click)="onMissingEdit($event)">
             <i class="material-icons" title="Edit">edit</i>
           </a>

@@ -29,7 +29,7 @@
     <qddt-parameter [outParameters]="sequence.parameters" [inParameters]="sequence.parameterIn" [showParameters]="true">
     </qddt-parameter>
 
-    <qddt-element-revision-ref class="row" [readonly]="readonly" [elementRevisions]="sequence.sequence"
+    <qddt-element-revision-ref [readonly]="readonly" [elementRevisions]="sequence.sequence"
       [inParameters]="inParameters" [xmlLang]="sequence.xmlLang" [selectOptions]="CONSTRUCT"
       (actionEvent)="onDoAction($event)">
     </qddt-element-revision-ref>

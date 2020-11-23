@@ -1,10 +1,9 @@
 <div class="row" cdkDropList cdkDrop [cdkDropListData]="treeNodes" (cdkDropListDropped)="onItemDrop($event)">
-
   <ng-container>
     <ng-container *ngTemplateOutlet="treeNodesImpl; context:{ nodes: treeNodes, level:1 }"></ng-container>
 
     <ng-template #treeNodesImpl let-nodes="nodes" let-level="level">
-      <ul [id]="'TREENODE-'+level" *ngIf="nodes" class="collapsible expandable" data-collapsible="expandable">
+      <ul [id]="'TREENODE-'+level" *ngIf="nodes" class="collapsible">
         <li [id]="node.id" *ngFor="let node of nodes; trackBy:trackById;"
           [ngClass]="{'SEQ': isSequence(node)|| getMatIcon(node.elementKind)==='record_voice_over' }">
           <div class="collapsible-header" cdkDrag [title]="node.id" (click)="onOpenBody(node)">

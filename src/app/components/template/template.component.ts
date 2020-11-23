@@ -16,6 +16,9 @@ import {
 
 @Component({
   selector: 'qddt-template-component',
+  styles: [
+    'a.btn  {margin-bottom: 10px;}',
+  ],
   templateUrl: './template.component.html',
 })
 
