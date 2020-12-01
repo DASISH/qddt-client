@@ -48,8 +48,8 @@
               </li>
             </ul>
             <ng-container *ngIf="isSequence(node)">
-              <qddt-parameter [inParameters]="node.parameters | qddtFilter: isIn " [parameters]="inParameters">
-              </qddt-parameter>
+                <qddt-parameter [inParameters]="node.parameters | qddtFilter: isIn " [parameters]="inParameters">
+                </qddt-parameter>
             </ng-container>
             <ng-container *ngIf="isConditional(node)">
               <qddt-parameter [inParameters]="node.parameters | qddtFilter: isIn"

@@ -93,7 +93,7 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit {
   public ngAfterViewInit(): void {
     this.instance = M.Modal.init(document.getElementById('MODAL-' + this.modalId),
       {
-        inDuration: 750, outDuration: 750, startingTop: '50%', endingTop: '10%', preventScrolling: true,
+        inDuration: 750, outDuration: 1000, startingTop: '50%', endingTop: '10%', preventScrolling: true,
         onOpenEnd: () => M.updateTextFields(),
         onCloseEnd: () => this.router.navigate([{ outlets: { popup: null } }])
       });

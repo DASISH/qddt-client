@@ -33,24 +33,25 @@ export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
   @Input() inParameters: Map<string, Parameter>
   @Output() actionEvent = new EventEmitter<EventAction>();
 
-  public readonly modalId = Math.round(Math.random() * 10000);
-  public readonly isControlConstruct = (ref: ElementRevisionRef): boolean => [4,5,6].includes(getElementKind(ref.elementKind).valueOf());
-
   public selectedElementKind = 0;
   public SOURCE: IElement | IRevisionRef | null;
   public deleteIndex = -1;
-  // tslint:disable-next-line:variable-name
   private _modalRef: M.Modal;
-  // tslint:disable-next-line:variable-name
   private _showButton = false;
   private action = ActionKind.Create;
+
+  public readonly modalId = Math.round(Math.random() * 10000);
+  public readonly isControlConstruct = (ref: ElementRevisionRef): boolean => [4, 5, 6].includes(getElementKind(ref.elementKind).valueOf());
 
   constructor(private service: TemplateService, public message: MessageService, private router: Router) {
   }
 
   get modalRef(): M.Modal {
     if (!(this._modalRef)) {
-      this._modalRef = M.Modal.init(document.querySelector('#MODAL-' + this.modalId));
+      this._modalRef = M.Modal.init(document.querySelector('#MODAL-' + this.modalId),
+        {
+          inDuration: 750, outDuration: 1000, startingTop: '50%', endingTop: '10%', preventScrolling: true, opacity: 0.3
+        });
     }
     return this._modalRef;
   }

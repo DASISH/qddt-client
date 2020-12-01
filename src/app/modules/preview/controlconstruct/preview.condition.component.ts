@@ -1,7 +1,9 @@
-import { hasChanges, isBoolean } from 'src/app/lib';
-import { ConditionKind } from './../../../lib/classes/controlconstruct.classes';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { ConditionConstruct, Parameter, UserResponse, tryParse, isParamTrue } from '../../../lib';
+import {
+  hasChanges, isBoolean, ConditionKind,
+  ConditionConstruct, Parameter,
+  UserResponse, tryParse, isParamTrue
+} from 'src/app//lib';
 
 @Component({
   selector: 'qddt-preview-conditionconstruct',

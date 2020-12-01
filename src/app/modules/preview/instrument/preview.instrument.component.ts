@@ -48,7 +48,7 @@ import { Factory } from 'src/app/lib';
     <ng-container *ngTemplateOutlet="treeNodesImpl; context:{ nodes: instrument.root.children, level:1 }"></ng-container>
 
     <ng-template #treeNodesImpl let-nodes="nodes" let-level="level">
-      <ul [id]="'TREENODE-'+level" *ngIf="nodes" class="collapsible expandable">
+      <ul [id]="'TREENODE-'+level" *ngIf="nodes" class="collapsible">
         <li [id]="node.id" *ngFor="let node of nodes; trackBy:trackById;"
           [ngClass]="{'SEQ': isSequence(node)|| getMatIcon(node.elementKind)==='record_voice_over' }">
           <div class="collapsible-header" [title]="node.id" (click)="onOpenBody(node)">
@@ -58,15 +58,15 @@ import { Factory } from 'src/app/lib';
               <qddt-version-label class="col s3 m2 right-align" [revisionRef]="node"></qddt-version-label>
           </div>
           <div class="collapsible-body">
-            <ul class="collection with-header hoverable">
+            <ul class="collection with-header hoverable row">
               <li class="collection-header" style="cursor: zoom-in;" (click)="showLabel[node.id]=!showLabel[node.id]">
                 <label><i class="material-icons small">format_quote</i>Label</label>
               </li>
-
               <li *ngIf="showLabel[node.id]" class="collection-item">
                 <qddt-input required name="name" [(ngModel)]="node.name" data-length="100"></qddt-input>
               </li>
             </ul>
+
             <ng-container *ngIf="isSequence(node)">
               <qddt-parameter [inParameters]="node.parameters | qddtFilter: isIn " [parameters]="inParameters">
               </qddt-parameter>
@@ -106,19 +106,23 @@ export class PreviewInstrumentComponent implements AfterViewInit {
   public selectedElementKind = 0;
   public SOURCE: IElement | IRevisionRef | null;
   public instance: M.Modal;
-
   public showLabel = new Map<string, boolean>();
 
   public readonly modalId = Math.round(Math.random() * 10000);
-  public readonly trackById = (item: TreeNodeRevisionRef) => item.id;
+
+  public readonly trackById = (item: TreeNodeRevisionRef) => item.id || item.elementId || 666;
+
   public readonly isSequence = (node: TreeNodeRevisionRef): boolean => getElementKind(node.elementKind) === ElementKind.SEQUENCE_CONSTRUCT;
+
   public readonly isConditional = (node: TreeNodeRevisionRef): boolean =>
     (node && node.element) ? getElementKind(node.elementKind) === ElementKind.CONDITION_CONSTRUCT : false;
+
   public readonly isIn = (parameter: Parameter): boolean => getParameterKind(parameter.parameterKind) === ParameterKind.IN;
+
   public readonly isOut = (parameter: Parameter): boolean => getParameterKind(parameter.parameterKind) === ParameterKind.OUT;
+
   public readonly getInstrumentKind = (instrument): string =>
     (instrument) ? INSTRUMENT_MAP.find(p => p.value === instrument.instrumentKind).label : '?';
-
 
   private readonly parseCondition = (text: string): ICondition => {
     try {
@@ -151,14 +155,6 @@ export class PreviewInstrumentComponent implements AfterViewInit {
     M.Collapsible.init(elems, { inDuration: 1000, outDuration: 1000, accordion: false });
   }
 
-  // onViewDetail(element: ElementRevisionRef) {
-  //   if (!element.element) {
-  //     this.service.getRevisionByKind(element.elementKind, element.elementId, element.elementRevision).then(
-  //       (result) => { element.element = result.entity; },
-  //       (error) => { throw error; });
-  //   }
-  // }
-
   public checkParams(id: string, response: UserResponse[]) {
     console.log(id + ' ' + response[0]);
     this.instrument.parameterOut.get(id).value = response;
@@ -167,11 +163,10 @@ export class PreviewInstrumentComponent implements AfterViewInit {
   public onOpenBody(item: TreeNodeRevisionRef) {
     const kind = getElementKind(item.elementKind);
     if (!item.element && (!this.isSequence(item) || item.children.length === 0)) {
-      const elems = document.querySelectorAll('.collapsible');
-      M.Collapsible.init(elems, { inDuration: 1000, outDuration: 1000, accordion: false });
 
       console.log('open body...');
       let cond: ICondition;
+      console.log(cond || JSON);
 
       if (kind === ElementKind.CONDITION_CONSTRUCT) {
         cond = this.parseCondition(item.name);
@@ -181,10 +176,7 @@ export class PreviewInstrumentComponent implements AfterViewInit {
         item.name = cond.name;
         // this.actionEvent.emit({ action: ActionKind.Read, ref: item });
       } else {
-        this.service.getRevisionByKind(
-          kind,
-          item.elementId,
-          item.elementRevision)
+        this.service.getRevisionByKind(kind, item.elementId, item.elementRevision)
           .then((result) => {
             if (kind === ElementKind.CONDITION_CONSTRUCT) {
               cond = result.entity as ICondition;

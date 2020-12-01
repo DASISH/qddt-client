@@ -16,7 +16,7 @@ import {
   <ng-container *ngTemplateOutlet="sequenceConstructTmpl; context:{ sequence: sequenceConstruct,  counter: 1 }"></ng-container>
 
   <ng-template #sequenceConstructTmpl let-sequence="sequence" let-counter="counter">
-    <ul [id]="'UL-' + compId + '-' + counter" *ngIf="sequence?.sequence" class="collapsible expandable" >
+    <ul [id]="'UL-' + compId + '-' + counter" *ngIf="sequence?.sequence" class="collapsible" >
       <li [id]="'LI-' + trackByIndex(idx,counter)" *ngFor="let cqi of sequence.sequence; trackBy:trackByIndex; let idx=index;" (click)="onOpenBody(cqi,'UL-' + compId + '-' + (counter+1))" >
         <div class="collapsible-header" >
           <i class="material-icons small teal-text text-lighten-3">{{getMatIcon(cqi.elementKind)}}</i>

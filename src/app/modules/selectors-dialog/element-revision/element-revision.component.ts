@@ -46,7 +46,7 @@ export class ElementRevisionSelectComponent implements OnChanges {
     if (!(this._modalRef)) {
       this._modalRef = M.Modal.init(document.querySelector('#MODAL-' + this.modalId),
         {
-          inDuration: 750, outDuration: 750, startingTop: '50%', endingTop: '10%', preventScrolling: true, opacity: 0.3
+          inDuration: 750, outDuration: 1000, startingTop: '50%', endingTop: '10%', preventScrolling: true, opacity: 0.3
         });
     }
     return this._modalRef;
