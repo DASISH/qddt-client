@@ -42,7 +42,7 @@ export class ConfirmRemoveComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.instance = M.Modal.init(document.getElementById(this.modalId),
       {
-        inDuration: 400, outDuration: 300, startingTop: '5%', endingTop: '45%', preventScrolling: true, opacity: 0.3,
+        inDuration: 750, outDuration: 1000, startingTop: '75%', endingTop: '25%', preventScrolling: true, opacity: 0.3,
         onOpenEnd: () => M.updateTextFields(),
       });
   }

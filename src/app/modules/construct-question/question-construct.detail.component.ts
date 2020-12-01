@@ -11,7 +11,7 @@ export class QuestionConstructDetailComponent {
   @ViewChild('detail', { static: true }) templateDetail;
 
   public onFormModified(event) {
-    this.templateDetail.onHideDetail();
+    this.templateDetail.goBack();
   }
 
 }

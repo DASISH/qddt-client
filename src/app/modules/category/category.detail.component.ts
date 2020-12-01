@@ -7,10 +7,10 @@ import { Component, ViewChild } from '@angular/core';
 })
 
 export class CategoryDetailComponent {
-  @ViewChild('detail', {static: true}) templateDetail;
+  @ViewChild('detail', { static: true }) templateDetail;
 
   public onFormModified(event) {
-    this.templateDetail.onHideDetail();
+    this.templateDetail.goBack();
   }
 }
 

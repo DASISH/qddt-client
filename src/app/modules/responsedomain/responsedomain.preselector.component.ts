@@ -46,7 +46,7 @@ export class ResponsePreSelector implements OnInit {
   }
 
   ngOnInit(): void {
-    const kind = this.getPageSearch().keys.get(this.KEY);
+    const kind = this.getPageSearch().keys.get(this.KEY)
     if (kind) {
       this.domainType = DomainKind[kind];
     }

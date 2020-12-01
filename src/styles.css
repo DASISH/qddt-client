@@ -3,7 +3,7 @@ div > .card.section.row { margin-left: -0.6rem; }
 
 /*home menu hover*/
 .row:hover > .col > ul.dropdownmenu { display:block; }
-ul.dropdownmenu {  display:none;}
+.row > .col > ul.dropdownmenu {  display:none;   transition: display 0.75s;}
 ul:not(.browser-default) > li > a { margin-bottom: 10px; }
 
 /* You can add global styles to this file, and also import other style files */

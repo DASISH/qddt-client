@@ -1,4 +1,4 @@
-import { Component,  ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 
 @Component({
@@ -8,10 +8,11 @@ import { Component,  ViewChild } from '@angular/core';
 })
 
 
-export class SequenceDetailComponent  {
-  @ViewChild('detail', {static: true}) templateDetail;
+export class SequenceDetailComponent {
+  @ViewChild('detail', { static: true }) templateDetail;
 
   public onFormModified(event) {
-    this.templateDetail.onHideDetail();
+    this.templateDetail.goBack();
   }
+
 }

@@ -79,6 +79,7 @@ export class ResponsedomainComponent implements OnChanges {
     this.canDelete = access.canDo(ActionKind.Delete, ElementKind.RESPONSEDOMAIN);
     this.canEdit = access.canDo(ActionKind.Update, ElementKind.RESPONSEDOMAIN);
   }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (hasChanges(changes.responseDomain)) {
       this.localResponseDomain = new ResponseDomain(JSON.parse(JSON.stringify(changes.responseDomain.currentValue)));
@@ -89,7 +90,7 @@ export class ResponsedomainComponent implements OnChanges {
     if (!(this._modalRef)) {
       this._modalRef = M.Modal.init(document.querySelector('#MODAL-' + this.modalId),
         {
-          inDuration: 500, outDuration: 400, startingTop: '0%', endingTop: '15%', preventScrolling: true, opacity: 0.3
+          inDuration: 750, outDuration: 750, startingTop: '50%', endingTop: '10%', preventScrolling: true, opacity: 0.3
         });
     }
     return this._modalRef;

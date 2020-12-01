@@ -44,7 +44,10 @@ export class ElementRevisionSelectComponent implements OnChanges {
 
   get modalRef(): M.Modal {
     if (!(this._modalRef)) {
-      this._modalRef = M.Modal.init(document.querySelector('#MODAL-' + this.modalId));
+      this._modalRef = M.Modal.init(document.querySelector('#MODAL-' + this.modalId),
+        {
+          inDuration: 750, outDuration: 750, startingTop: '50%', endingTop: '10%', preventScrolling: true, opacity: 0.3
+        });
     }
     return this._modalRef;
   }
@@ -62,7 +65,6 @@ export class ElementRevisionSelectComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if ((changes.source) && changes.source.currentValue) {
-      // console.log(this.source);
       this.modalRef.open();
     }
   }

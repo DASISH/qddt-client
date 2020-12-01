@@ -83,14 +83,21 @@ input {
   padding: 5px 10px 5px 10px;
 }
 
-
+.collection .collection-item { background-color: unset; }
 .collection a.collection-item { cursor: pointer; padding-left: 10px;}
 
 .collapsible-header .col {white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 .collection-item:hover > ul.dropleft { display:block; }
 
-ul.dropleft { position: absolute; display: none; margin-top: 0px; margin-bottom: 0px;  margin-right: 10px; z-index: 1;}
+ul.dropleft {
+  position: absolute;
+  display: none;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-right: 10px;
+  z-index: 1;
+}
 
 ul.dropleft > li { display:inline-flex; padding: 0 10px 0  5px; }
 
@@ -105,3 +112,10 @@ ul.dropleft > li { display:inline-flex; padding: 0 10px 0  5px; }
 div.card-toc{ counter-increment: item; }
 
 div.card-toc:before { content: counters(item, ".") ". ";  position: absolute;top: 5px;left: 5px;display: block; }
+
+
+.hoverable {
+  transition: box-shadow 1s;
+}
+
+.modal { max-width: 1000px; width: 65%;}

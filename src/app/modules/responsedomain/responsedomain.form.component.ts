@@ -49,8 +49,6 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
   constructor(private service: TemplateService, private properties: PropertyStoreService) {
 
     this.numberOfAnchors = 0;
-    const page = this.getPageSearch();
-    this.domainType = (page) ? DomainKind[page.keys.get('ResponseKind')] : DomainKind.SCALE;
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.RESPONSEDOMAIN);
 
   }
@@ -63,6 +61,8 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
     if (!this.readonly) { this.readonly = false; }
     if (!this.responseDomain) { return; }
 
+    this.domainType = DomainKind[this.responseDomain.responseKind];
+
     this.numberOfAnchors = this.responseDomain.managedRepresentation.children.length;
 
     if (this.domainType === DomainKind.SCALE && this.responseDomain.displayLayout !== '90') {
@@ -73,8 +73,7 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (hasChanges(changes.responseDomain)) {
-      const page = this.getPageSearch();
-      this.domainType = (page) ? DomainKind[page.keys.get('ResponseKind')] : DomainKind[this.responseDomain.responseKind];
+      this.domainType = DomainKind[this.responseDomain.responseKind];
       this.numberOfAnchors = this.responseDomain.managedRepresentation.children.length;
       delay(20).then(() => {
         M.updateTextFields();

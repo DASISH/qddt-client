@@ -7,11 +7,12 @@ import { ElementEnumAware, ElementKind, IEntityAudit, PreviewService, Parameter,
     'table { table-layout: fixed;}',
     ':host ::ng-deep .row { min-height: 1rem; margin-left: auto; margin-right: auto; margin-bottom: 2px; }',
     '.row .col { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }',
-    'ul .collapsible { margin:unset; padding:5px; !important;}',
     'ul { border-color:lightyellow; }',
     'ul.question { border-color:#E8F5E9;}',
+    'ul .collapsible { margin:unset; padding:5px; !important;}',
     'collapsible-header { display: flow-root; margin-bottom: 0px; margin-left: unset; }',
   ],
+
   templateUrl: './preview.component.html',
 })
 
@@ -49,3 +50,4 @@ export class PreviewComponent implements AfterViewInit {
   }
 
 }
+

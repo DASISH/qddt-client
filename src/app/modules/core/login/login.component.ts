@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     this.formData.email = this.userService.getEmail();
     this.instance = M.Modal.init(document.getElementById('login-1'),
       {
-        inDuration: 500, outDuration: 300, startingTop: '5%', endingTop: '35%', preventScrolling: true,
+        inDuration: 750, outDuration: 1000, startingTop: '75%', endingTop: '35%', preventScrolling: true,
         onOpenEnd: () => M.updateTextFields()
       });
   }

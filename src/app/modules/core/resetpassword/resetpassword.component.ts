@@ -31,7 +31,7 @@ export class ResetpasswordComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.instance = M.Modal.init(document.getElementById('modalReset'),
       {
-        inDuration: 400, outDuration: 300, startingTop: '4%', endingTop: '25%', preventScrolling: true,
+        inDuration: 750, outDuration: 1000, startingTop: '75%', endingTop: '25%', preventScrolling: true,
         onOpenEnd: () => M.updateTextFields(),
         onCloseEnd: () => this.router.navigate([{ outlets: { popup: null } }])
       });

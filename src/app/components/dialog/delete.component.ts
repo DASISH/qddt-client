@@ -52,7 +52,7 @@ export class ConfirmDeleteComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.instance = M.Modal.init(this.modaldelete.nativeElement,
       {
-        inDuration: 500, outDuration: 400, startingTop: '5%', endingTop: '40%', preventScrolling: true, opacity: 0.3,
+        inDuration: 750, outDuration: 1000, startingTop: '75%', endingTop: '25%', preventScrolling: true, opacity: 0.3,
         onOpenEnd: () => M.updateTextFields(),
       });
   }

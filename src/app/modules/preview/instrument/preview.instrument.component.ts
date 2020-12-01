@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, AfterViewInit } from '@angular/core';
 import {
   ConditionKind,
   ICondition,
@@ -48,7 +48,7 @@ import { Factory } from 'src/app/lib';
     <ng-container *ngTemplateOutlet="treeNodesImpl; context:{ nodes: instrument.root.children, level:1 }"></ng-container>
 
     <ng-template #treeNodesImpl let-nodes="nodes" let-level="level">
-      <ul [id]="'TREENODE-'+level" *ngIf="nodes" class="collapsible expandable" data-collapsible="expandable">
+      <ul [id]="'TREENODE-'+level" *ngIf="nodes" class="collapsible expandable">
         <li [id]="node.id" *ngFor="let node of nodes; trackBy:trackById;"
           [ngClass]="{'SEQ': isSequence(node)|| getMatIcon(node.elementKind)==='record_voice_over' }">
           <div class="collapsible-header" [title]="node.id" (click)="onOpenBody(node)">
@@ -98,7 +98,7 @@ import { Factory } from 'src/app/lib';
   ,
 })
 
-export class PreviewInstrumentComponent {
+export class PreviewInstrumentComponent implements AfterViewInit {
   @Input() instrument: Instrument;
   @Input() showIcon = true;
   @Input() inParameters = new Map<string, Parameter>();
@@ -117,7 +117,7 @@ export class PreviewInstrumentComponent {
   public readonly isIn = (parameter: Parameter): boolean => getParameterKind(parameter.parameterKind) === ParameterKind.IN;
   public readonly isOut = (parameter: Parameter): boolean => getParameterKind(parameter.parameterKind) === ParameterKind.OUT;
   public readonly getInstrumentKind = (instrument): string =>
-    (instrument) ? INSTRUMENT_MAP.find(p => p.id === InstrumentKind[instrument.instrumentKind]).label : '?';
+    (instrument) ? INSTRUMENT_MAP.find(p => p.value === instrument.instrumentKind).label : '?';
 
 
   private readonly parseCondition = (text: string): ICondition => {
@@ -146,6 +146,11 @@ export class PreviewInstrumentComponent {
 
   constructor(private message: MessageService, private service: PreviewService) { }
 
+  public ngAfterViewInit(): void {
+    const elems = document.querySelectorAll('.collapsible');
+    M.Collapsible.init(elems, { inDuration: 1000, outDuration: 1000, accordion: false });
+  }
+
   // onViewDetail(element: ElementRevisionRef) {
   //   if (!element.element) {
   //     this.service.getRevisionByKind(element.elementKind, element.elementId, element.elementRevision).then(
@@ -162,7 +167,8 @@ export class PreviewInstrumentComponent {
   public onOpenBody(item: TreeNodeRevisionRef) {
     const kind = getElementKind(item.elementKind);
     if (!item.element && (!this.isSequence(item) || item.children.length === 0)) {
-      M.Collapsible.init(document.querySelectorAll('.collapsible'));
+      const elems = document.querySelectorAll('.collapsible');
+      M.Collapsible.init(elems, { inDuration: 1000, outDuration: 1000, accordion: false });
 
       console.log('open body...');
       let cond: ICondition;

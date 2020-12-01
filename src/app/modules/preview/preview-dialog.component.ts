@@ -3,7 +3,6 @@ import { getQueryInfo, IElement, IElementRef, IRevisionRef, PreviewService } fro
 
 @Component({
   selector: 'qddt-preview-dialog',
-
   template: `
     <div class="modal modal-fixed-footer" id="preview-id" #preview>
       <div class="modal-content teal-text" style="padding:36px;">
@@ -22,7 +21,6 @@ import { getQueryInfo, IElement, IElementRef, IRevisionRef, PreviewService } fro
 export class PreviewDialogComponent implements OnChanges, AfterViewInit {
   @Input() reference: IElementRef | IRevisionRef | IElement;
   @Output() doClose = new EventEmitter<boolean>(false);
-
   @ViewChild('preview', { static: false }) modalPreview: ElementRef;
 
   public element: any;
@@ -31,8 +29,7 @@ export class PreviewDialogComponent implements OnChanges, AfterViewInit {
   constructor(private service: PreviewService) { }
 
   ngAfterViewInit() {
-    this.modelRef = M.Modal.init(this.modalPreview.nativeElement);
-
+    this.modelRef = M.Modal.init(this.modalPreview.nativeElement, { inDuration: 1000, outDuration: 1250, startingTop: '50%', endingTop: '10%' });
   }
 
   public ngOnChanges(): void {
