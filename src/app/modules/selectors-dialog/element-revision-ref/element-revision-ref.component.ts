@@ -39,9 +39,9 @@ export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
   public selectedElementKind = 0;
   public SOURCE: IElement | IRevisionRef | null;
   public deleteIndex = -1;
-  // tslint:disable-next-line:variable-name
+  // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
   private _modalRef: M.Modal;
-  // tslint:disable-next-line:variable-name
+  // eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match
   private _showButton = false;
   private action = ActionKind.Create;
 

@@ -75,11 +75,11 @@ export class QuestionItemsComponent {
   public readonly modalId = Math.round(Math.random() * 10000);
 
   public SOURCE: IElement | IRevisionRef | null;
-  // tslint:disable-next-line:variable-name
+  // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
   private _modalRef: M.Modal;
-  // tslint:disable-next-line:variable-name
+  // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
   private _ShowRef = false;
-  // tslint:disable-next-line:variable-name
+  // eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match
   private _showButton = false;
   private action = ActionKind.Create;
 

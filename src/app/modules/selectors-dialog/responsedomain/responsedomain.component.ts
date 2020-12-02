@@ -39,8 +39,8 @@ export class ResponsedomainComponent implements OnChanges {
   public localResponseDomain: ResponseDomain;
   public showResponseDomain = false;
 
-  // tslint:disable-next-line:variable-name
-  // tslint:disable-next-line:variable-name
+  // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
+  // eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match
   private _modalRef: M.Modal;
 
   private readonly getRevAsync = (id: string) =>

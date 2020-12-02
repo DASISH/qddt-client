@@ -174,12 +174,12 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   public subtract(value1, value2): number {
-    // tslint:disable-next-line:radix
+    // eslint-disable-next-line radix
     return parseInt(value1) - parseInt(value2);
   }
 
   public addition(value1, value2): number {
-    // tslint:disable-next-line:radix
+    // eslint-disable-next-line radix
     return parseInt(value1) + parseInt(value2);
   }
 

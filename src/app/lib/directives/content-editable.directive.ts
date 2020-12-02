@@ -7,7 +7,7 @@ import {
 // hentet fra https://stackoverflow.com/questions/35378087/how-to-use-ngmodel-on-divs-contenteditable-in-angular2
 
 @Directive({
-  // tslint:disable-next-line: directive-selector
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[contenteditableModel]'
 })
 export class ContenteditableDirective implements OnChanges {
