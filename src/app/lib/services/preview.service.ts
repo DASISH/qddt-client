@@ -27,18 +27,18 @@ export class PreviewService {
     return this.http.get<IRevisionResult<IEntityEditAudit>>(this.api + 'audit/' + qe.path + '/' + id + '/' + rev).toPromise();
   }
 
-  public getRevisionsByKind(kind: ElementKind | string, id: string): Promise<any> {
-
-    const qe = getQueryInfo(kind);
-    if (qe) {
-      if (kind === ElementKind.CONCEPT || kind === ElementKind.TOPIC_GROUP) {
-        return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/allinclatest').toPromise();
-      } else {
-        return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/all').toPromise();
-      }
-    }
-    return new Promise(null);
-  }
+  // public getRevisionsByKind(kind: ElementKind | string, id: string): Promise<any> {
+  //
+  //   const qe = getQueryInfo(kind);
+  //   if (qe) {
+  //     if (kind === ElementKind.CONCEPT || kind === ElementKind.TOPIC_GROUP) {
+  //       return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/allinclatest').toPromise();
+  //     } else {
+  //       return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/all').toPromise();
+  //     }
+  //   }
+  //   return new Promise(null);
+  // }
 
   public getFile(om: IOtherMaterial): Promise<Blob> {
     // /files/{root}/{filename}
@@ -47,8 +47,10 @@ export class PreviewService {
   }
 
   public getPdf(element: IEntityEditAudit): Promise<Blob> {
-    const qe = getQueryInfo(element.classKind || element['refKind']);
-    const revision = element['refRev'] || element.version.revision;
+    // @ts-ignore
+    const qe = getQueryInfo(element.classKind || element.refKind);
+    // @ts-ignore
+    const revision = element.refRev || element.version.revision;
     if (revision) {
       return this.http.get(this.api + 'audit/' + qe.path + '/pdf/' + element.id + '/' + element.version.revision
         , { responseType: 'blob' }).toPromise();
@@ -68,14 +70,14 @@ export class PreviewService {
           .map(async (child, _i) =>
             (getElementKind(child.elementKind) === ElementKind.SEQUENCE_CONSTRUCT) ?
               await this.getCtrlRevRefAsync(child) :
-              await Promise.resolve(child));
+              await child);
         item.element.sequence = await Promise.all(sequencePromises);
       }
     }
     // else {
     //   console.log(item.element || JSON);
     // }
-    return await Promise.resolve(item);
+    return item;
   }
 
   public isSequence(element?: any | SequenceConstruct): element is SequenceConstruct {

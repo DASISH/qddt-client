@@ -3,7 +3,7 @@ import {
   hasChanges, isBoolean, ConditionKind,
   ConditionConstruct, Parameter,
   UserResponse, tryParse, isParamTrue
-} from 'src/app//lib';
+} from '../../../lib';
 
 @Component({
   selector: 'qddt-preview-conditionconstruct',

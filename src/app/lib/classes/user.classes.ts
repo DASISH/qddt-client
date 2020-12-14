@@ -24,8 +24,8 @@ export class User {
   exp: any;  // -> should be number, is expire date
   password?: string;
 
-  constructor(values: Object = {}) {
-    Object.assign(this, values);
+  public constructor(init?: Partial<User>) {
+    Object.assign(this, init);
   }
 }
 

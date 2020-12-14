@@ -39,6 +39,10 @@ export class PreviewConceptComponent implements AfterViewInit {
     return getIcon(cgi.elementKind);
   }
 
+  public getIconLocal(kind: string): string {
+    return getIcon(kind);
+  }
+
   public getLabelByElement(cgi: ElementRevisionRef): string {
     const kind = getElementKind(cgi.elementKind);
     return PUBLICATION_TYPES.find(e => e.id === kind).label;

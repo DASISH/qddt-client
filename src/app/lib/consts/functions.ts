@@ -1,7 +1,7 @@
 import { SimpleChange } from '@angular/core';
 import { QDDT_QUERY_INFOES, HEADER_DETAILS } from './query-info.config';
 import { ElementKind, EnumType } from '../enums';
-import { QueryInfo, SelectItem, Parameter } from '../classes';
+import { QueryInfo, SelectItem} from '../classes';
 import { ISelectOption, IEntityEditAudit, ITreeNode } from '../interfaces';
 
 

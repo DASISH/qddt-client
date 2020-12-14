@@ -11,8 +11,7 @@ import {
 import { NgModel, NG_VALUE_ACCESSOR, NG_VALIDATORS, NG_ASYNC_VALIDATORS } from '@angular/forms';
 import { ElementBase } from './element-base.class';
 import { animations } from './animations';
-import { delay, ISelectOption } from 'src/app/lib';
-
+import { delay, ISelectOption  } from '../../lib';
 
 
 @Component({

@@ -16,12 +16,15 @@
     <ul>
       <li class="row" *ngFor="let user of agency.users">
         <div class="col s3">
-          <img *ngIf="user.email" class="gravatar" gravatar [email]="user.email" [size]="32"
-            style="border-radius: 50%;">
-          {{user.name}}
+          <div class="chip">
+            <img *ngIf="user.email" class="gravatar" gravatar [email]="user.email" [size]="32">
+            <a [routerLink]="['/user/'+user.id]" [title]="user.name |titlecase">
+              {{user.name |titlecase }}
+            </a>
+          </div>
         </div>
         <div class="col s4">
-          {{user.email}}
+          <a href="mailto:{{user.email}}">{{user.email}}</a>
         </div>
         <div class=" col s2">{{user.modified | localDate}}</div>
       </li>

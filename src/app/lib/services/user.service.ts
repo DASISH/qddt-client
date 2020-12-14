@@ -44,12 +44,15 @@ export class UserService {
     // console.log('canDo -> Action:' + ActionKind[action] + ' Kind:' + kind);
     function canRead(roles: number) {
       if (kind >= ElementKind.INSTRUCTION && roles < AuthorityKind.ROLE_ADMIN) {
-        // console.log('canRead false ' + kind);
+        console.log('canRead false ' + kind);
         return false;
       }
       if (roles >= +AuthorityKind.ROLE_VIEW) {
+        console.log('canRead true ' + kind);
         return true;
       }
+      console.log('canRead ?' + kind + ' + ' + ElementKind.PUBLICATION + ' = ' + (kind == ElementKind.PUBLICATION));
+
       return (kind === ElementKind.PUBLICATION);
     }
 
@@ -60,7 +63,8 @@ export class UserService {
     }
 
     function canUpdate(roles: number) {
-      if ((kind === ElementKind.USER && roles < AuthorityKind.ROLE_ADMIN) || (kind === ElementKind.CHANGE_LOG)) {
+      if ((kind === ElementKind.USER && roles < AuthorityKind.ROLE_ADMIN)
+        || (kind === ElementKind.CHANGE_LOG || kind === ElementKind.REFERENCED || kind === ElementKind.AUTHOR)) {
         return false;
       } else if (roles >= +AuthorityKind.ROLE_EDITOR) {
         return true;

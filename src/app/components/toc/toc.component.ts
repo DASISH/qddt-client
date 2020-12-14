@@ -5,7 +5,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
   selector: 'qddt-toc',
   template: `
 <div class="col m3 hide-on-small-only">
-  <div class="toc-wrapper pinned" style="height: 100%; overflow-y: auto;" >
+  <div class="toc-wrapper pinned" style="height: calc(100% - 64px); overflow-y: auto;" >
     <h5>{{path | titlecase }} Toc</h5>
     <div cdkDropList cdkDrop [cdkDropListData]="elements"
           (cdkDropListDropped)="onItemDrop($event)">
@@ -17,7 +17,6 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
   </div>
 </div>
 `,
-  providers: []
 })
 export class TocComponent {
   @Input() path: string;

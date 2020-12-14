@@ -26,7 +26,7 @@ export class RevisionComponent implements OnChanges {
   public revisionlockups: ISelectOption[];
   public showProgressBar = false;
   public showPickRevision = false;
-  // tslint:disable-next-line:variable-name
+  // eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match
   private _revisionIndex: number;
 
   constructor(private service: TemplateService) { }

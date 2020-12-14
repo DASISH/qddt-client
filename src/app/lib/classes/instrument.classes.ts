@@ -224,9 +224,9 @@ export const mergeParameters = (node: TreeNodeRevisionRefImpl<AbstractControlCon
 export const refreshParameter = (node: TreeNodeRevisionRefImpl<ConditionConstruct>) => {
   if (node.element) {
     console.log('refreshParameter');
-    let regex = new RegExp(/\[(\w*)\]/gm);
+    const regex = new RegExp(/\[(\w*)]/gm);
     const expression = JSON.stringify(node.element.condition);
-    let result = regex.exec(expression);
+    const result = regex.exec(expression);
     // while( result.entries)
     if (result) {
       result.forEach(m => console.log(m));

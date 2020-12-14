@@ -1,5 +1,4 @@
 import { MessageService } from './../../lib/services/message.service';
-import { BrowserModule } from '@angular/platform-browser';
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
@@ -13,13 +12,11 @@ import {
   StringIsNumber, TemplateService,
   UserService
 } from '../../lib';
-import { isNumber } from 'util';
 
 
 
 @Component({
   selector: 'qddt-menu',
-  providers: [],
   styleUrls: ['./menu.component.css'],
   templateUrl: './menu.component.html',
 })

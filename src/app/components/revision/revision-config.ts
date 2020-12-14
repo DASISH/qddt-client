@@ -1,5 +1,4 @@
-import { IVersion } from '../../lib/interfaces';
-import { ElementKind } from '../../lib/enums';
+import { IVersion, ElementKind  } from '../../lib';
 
 
 export class RevisionConfig {
@@ -15,11 +14,11 @@ export const DEFAULT_CONFIG: RevisionConfig[] = [
   { name: 'changeKind', label: 'cKind' },
   {
     name: ['modified'], label: 'Modified',
-    init: function (o: number) { const date = new Date(); date.setTime(o); return date.toLocaleString(); }
+    init (o: number) { const date = new Date(); date.setTime(o); return date.toLocaleString(); }
   },
   { name: ['modifiedBy', 'name'], label: 'User' },
   {
-    name: ['version'], label: 'Ver', init: function (version: IVersion) {
+    name: ['version'], label: 'Ver', init (version: IVersion) {
       return (version) ? 'V' + version.major + '.' + version.minor : '';
     }
   }
@@ -29,23 +28,23 @@ const QUESTION_CONSTRUCT_CONFIG = DEFAULT_CONFIG.concat([
   { name: ['questionItemRef', 'text'], label: 'Question' },
   {
     name: ['questionItemRef', 'version'], label: 'QI-Ver',
-    init: function (version: IVersion) { return (version) ? 'V' + version.major + '.' + version.minor : ''; }
+    init (version: IVersion) { return (version) ? 'V' + version.major + '.' + version.minor : ''; }
   },
   {
     name: ['universe'], label: 'Uni',
-    init: function (o: any) { return (o) ? o.map((element) => element['description'] || '').sort().join(',') : ''; }
+    init (o: any) { return (o) ? o.map((element) => element.description || '').sort().join(',') : ''; }
   },
   {
     name: ['preInstructions'], label: 'Pre',
-    init: function (o: any) { return (o) ? o.map((element) => element['description'] || '').sort().join(',') : ''; }
+    init (o: any) { return (o) ? o.map((element) => element.description || '').sort().join(',') : ''; }
   },
   {
     name: ['postInstructions'], label: 'Post',
-    init: function (o: any) { return (o) ? o.map((element) => element['description'] || '').sort().join(',') : ''; }
+    init (o: any) { return (o) ? o.map((element) => element.description || '').sort().join(',') : ''; }
   },
   {
     name: ['otherMaterials'], label: 'Files',
-    init: function (o: any) { return (o) ? o.map((element) => element['originalName'] || '').sort().join(',') : ''; }
+    init (o: any) { return (o) ? o.map((element) => element.originalName || '').sort().join(',') : ''; }
   }
 ]);
 
@@ -54,18 +53,18 @@ const QUESTIONITEM_CONFIG = DEFAULT_CONFIG.concat([
   { name: 'intent', label: 'Intent' },
   {
     name: ['responseDomainRef', 'name'], label: 'RD-Name',
-    init: function (name) { return name; }
+    init (name) { return name; }
   },
   {
     name: ['responseDomainRef', 'version'], label: 'RD-Ver',
-    init: function (version: IVersion) { return (version) ? 'V' + version.major + '.' + version.minor : ''; }
+    init (version: IVersion) { return (version) ? 'V' + version.major + '.' + version.minor : ''; }
   },
 ]);
 
 const CATEGORY_CONFIG = DEFAULT_CONFIG.concat([
   {
     name: ['children'], label: 'Cat',
-    init: function (o: any) { return (o) ? o.map((element: any) => element['label'] || '').sort().join(',') : ''; }
+    init (o: any) { return (o) ? o.map((element: any) => element.label || '').sort().join(',') : ''; }
   }]
 );
 
@@ -73,7 +72,7 @@ const SEQUENCE_CONSTRUCT_CONFIG = DEFAULT_CONFIG.concat([
   { name: 'sequenceKind', label: 'Kind' },
   {
     name: ['sequence'], label: 'Sequence',
-    init: function (o: any) { return (o) ? o.map((element) => element['name'] || '').sort().join(',') : ''; }
+    init (o: any) { return (o) ? o.map((element) => element.name || '').sort().join(',') : ''; }
   },
 ]);
 
@@ -85,7 +84,7 @@ const PUBLICATION_CONFIG = DEFAULT_CONFIG.concat([
 const TOPIC_CONFIG = DEFAULT_CONFIG.concat([
   {
     name: ['otherMaterials'], label: 'Files',
-    init: function (o: any) { return (o) ? o.map((element) => element['originalName'] || '').sort().join(',') : ''; }
+    init (o: any) { return (o) ? o.map((element) => element.originalName || '').sort().join(',') : ''; }
   }
 ])
 // export const  RESPONSEDOMAIN_CONFIG = [];

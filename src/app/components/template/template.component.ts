@@ -10,6 +10,7 @@ import {
   MessageService,
   PropertyStoreService, ResponseDomain,
   UserService,
+  fadeInAnimation,
   PageSearch
 } from '../../lib';
 
@@ -20,6 +21,8 @@ import {
     'a.btn  {margin-bottom: 10px;}',
   ],
   templateUrl: './template.component.html',
+  animations: [fadeInAnimation],
+  host: { '[@fadeInAnimation]': '' }
 })
 
 export class TemplateComponent implements OnDestroy {

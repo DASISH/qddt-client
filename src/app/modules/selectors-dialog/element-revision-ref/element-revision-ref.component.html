@@ -32,8 +32,15 @@
       </div>
       <div class="collapsible-body">
         <ng-container *ngIf="isControlConstruct(cqi)">
-          <qddt-input required name="name" label="Label" [(ngModel)]="cqi.name" data-length="100">
-          </qddt-input>
+          <ul class="collection with-header hoverable">
+            <li class="collection-header" style="cursor: zoom-in;" (click)="showLabel[cqi.index]=!showLabel[cqi.index]">
+              <label><i class="material-icons small">format_quote</i>Label</label>
+            </li>
+
+            <li *ngIf="showLabel[cqi.index]" class="collection-item">
+              <qddt-input required name="name" [(ngModel)]="cqi.name" data-length="100"></qddt-input>
+            </li>
+          </ul>
           <qddt-preview-controlconstruct [construct]="cqi.element" [showDetail]="false" [inParameters]="inParameters"
             (selectedEvent)="onCheckParams(cqi, $event)">
           </qddt-preview-controlconstruct>

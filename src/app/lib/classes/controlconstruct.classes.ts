@@ -248,7 +248,7 @@ export class RepeatWhile implements ConRef {
 
 
 export class RepeatUntil implements ConRef {
-  untilCondition: Condition = new Condition();;
+  untilCondition: Condition = new Condition();
   untilConstructReference: ConstructReferenceKind = ConstructReferenceKind.NEXT_IN_LINE;
   public constructor(init?: Partial<RepeatUntil>) {
     Object.assign(this, init);

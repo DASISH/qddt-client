@@ -4,10 +4,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class FilterPipe implements PipeTransform {
   /**
    * Transform
-   *
-   * @param {any[]} items
-   * @param {string} searchText
-   * @returns {any[]}
    */
   transform(items: any[], callback: (n: any) => boolean): any[] {
     if (!items) {
@@ -17,11 +13,6 @@ export class FilterPipe implements PipeTransform {
       return items;
     }
     return items.filter(it => callback(it));
-    // return items.filter(it => {
-    //   const result = callback(it);
-    //   console.log(result);
-    //   return result;
-    // });
   }
 
 }

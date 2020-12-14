@@ -63,7 +63,7 @@
             "stage": {
               "optimization": true,
               "outputHashing": "all",
-              "sourceMap": false,
+              "sourceMap": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -73,26 +73,6 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.stage.ts"
-                }
-              ]
-            },
-            "home": {
-              "optimization": false,
-              "outputHashing": "all",
-              "sourceMap": true,
-              "namedChunks": true,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.home.ts"
-                },
-                {
-                  "replace": "src/index.html",
-                  "with": "src/index.home.html"
                 }
               ]
             }
@@ -109,9 +89,6 @@
             },
             "stage": {
               "browserTarget": "qddt-client:build:stage"
-            },
-            "home": {
-              "browserTarget": "qddt-client:build:home"
             }
           }
         },
@@ -141,15 +118,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
             ]
           }
         },

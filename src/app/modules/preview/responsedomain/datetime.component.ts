@@ -1,7 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges, Output, EventEmitter, Inject, LOCALE_ID } from '@angular/core';
 import { getLocaleMonthNames, getLocaleDayNames, formatDate } from '@angular/common';
-import { Category, UserResponse } from '../../../lib/classes';
-import { delay, DATE_FORMAT_MAP, hasChanges } from 'src/app/lib';
+import { delay, DATE_FORMAT_MAP, hasChanges, Category, UserResponse } from '../../../lib';
 
 @Component({
   selector: 'qddt-preview-rd-datetime',
@@ -56,6 +55,7 @@ export class ResponsedomainDatetimeComponent implements OnChanges {
 
     const elems = document.querySelectorAll('.datepicker')
     if (elems) {
+      // @ts-ignore
       M.Datepicker.init(elems, {
         format: rep.format,
         autoClose: true,

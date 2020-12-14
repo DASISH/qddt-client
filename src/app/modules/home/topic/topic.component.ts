@@ -1,4 +1,3 @@
-import { Factory } from './../../../lib/factory';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {
@@ -9,16 +8,16 @@ import {
   Topic,
   PropertyStoreService,
   MessageService,
-  HomeService, TemplateService, HierarchyPosition, ElementRevisionRef, delay, LANGUAGE_MAP
-} from '../../../lib';
+  HomeService, TemplateService, HierarchyPosition, ElementRevisionRef, delay, LANGUAGE_MAP, fadeInAnimation
+} from 'src/app/lib';
 
 
 @Component({
   selector: 'qddt-topic',
   providers: [{ provide: 'elementKind', useValue: 'TOPIC_GROUP' },],
-  styles: [],
-
   templateUrl: './topic.component.html',
+  animations: [fadeInAnimation],
+  host: { '[@fadeInAnimation]': '' }
 })
 
 export class TopicComponent implements OnInit {
@@ -42,7 +41,7 @@ export class TopicComponent implements OnInit {
     this.canDelete = homeService.canDo(this.TOPIC_KIND).get(ActionKind.Delete);
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.study = this.property.get('study');
     const parentId = this.study.id || this.property.menuPath[HierarchyPosition.Study].id;
     if (!this.study) {
@@ -62,14 +61,14 @@ export class TopicComponent implements OnInit {
       });
   }
 
-  onToggleTopicForm() {
+  public onToggleTopicForm() {
     this.showEditForm = !this.showEditForm;
     if (this.showEditForm) {
       this.showReuse = false;
     }
   }
 
-  onToggleReuse() {
+  public onToggleReuse() {
     this.showReuse = !this.showReuse;
     if (this.showReuse) {
       this.showEditForm = false;
@@ -77,12 +76,12 @@ export class TopicComponent implements OnInit {
   }
 
 
-  onSelectedRevsion(topic: Topic) {
+  public onSelectedRevsion(topic: Topic) {
     this.showReuse = false;
     this.onTopicSaved(topic);
   }
 
-  onSelectTopic(topic: Topic) {
+  public onSelectTopic(topic: Topic) {
     const prevTopic = this.property.get('topic');
     if (!prevTopic || prevTopic.id !== topic.id) {
       this.property.set('concepts', null);
@@ -90,10 +89,11 @@ export class TopicComponent implements OnInit {
     this.property.set('topic', topic);
     this.property.setCurrentMenu(HierarchyPosition.Topic, { id: topic.id, name: topic.name });
     this.property.setCurrentMenu(HierarchyPosition.Concept, { id: null, name: 'Concept' });
-    this.router.navigate(['concept']);
+
+    this.router.navigate(['concept', topic.id]);
   }
 
-  onTopicSaved(topic: Topic) {
+  public onTopicSaved(topic: Topic) {
     if (topic !== null) {
       const index = this.topics.findIndex((f) => f.id === topic.id);
       if (index > -1) {
@@ -105,7 +105,7 @@ export class TopicComponent implements OnInit {
     }
   }
 
-  onNewSave(newTopic) {
+  public onNewSave(newTopic) {
     this.showEditForm = false;
     this.templateService.create(new Topic(newTopic)
       .setLanguage(this.property.userSetting.xmlLang), this.study.id).subscribe(
@@ -143,7 +143,7 @@ export class TopicComponent implements OnInit {
       (result) => this.onTopicSaved(result));
   }
 
-  onRemoveTopic(topic: Topic) {
+  public onRemoveTopic(topic: Topic) {
     if (topic && topic.id) {
       this.templateService.delete(topic).subscribe(() => {
         this.topics = this.topics.filter((s: any) => s.id !== topic.id);

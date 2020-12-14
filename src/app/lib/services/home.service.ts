@@ -1,4 +1,4 @@
-import { SurveyProgram } from './../classes/home.classes';
+import { SurveyProgram } from '../classes';
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -75,11 +75,6 @@ export class HomeService<T extends IEntityEditAudit>  {
     return this.http.post<T>(this.api + qe.path + '/decombine?questionitemid=' + questionId +
       '&questionitemrevision=' + revision + '&parentId=' + id, {});
   }
-
-  moveTo(targetId: string, index: number, sourceId: string): Observable<T> {
-    return this.http.post<T>(this.api + 'concept/move/' + targetId + '/' + index + '/' + sourceId, {});
-  }
-
   arrangeSurveys(surveys: ISurveyOrder[]): Observable<SurveyProgram[]> {
     console.log(surveys);
     return this.http.post<SurveyProgram[]>(this.api + 'surveyprogram/reorder/', { content: surveys });

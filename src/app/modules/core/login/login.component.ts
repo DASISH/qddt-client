@@ -31,7 +31,7 @@ import { Password, UserService } from '../../../lib';
 `
 })
 export class LoginComponent implements OnInit, AfterViewInit {
-  public formData = { email: '', password: '' };
+  public formData = { email: 'guestw@example.org', password: 'password' };
   public loading = false;
 
   private instance: M.Modal;

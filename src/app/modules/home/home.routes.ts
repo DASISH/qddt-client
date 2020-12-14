@@ -20,7 +20,8 @@ export const homeRoutes: Routes = [
       { path: 'study/:id', component: StudyComponent, canActivate: [AuthGuard], },
       { path: 'module', component: TopicComponent, canActivate: [AuthGuard] },
       { path: 'module/:id', component: TopicComponent, canActivate: [AuthGuard], },
-      { path: 'concept', component: ConceptComponent, canActivate: [AuthGuard] }
+      { path: 'concept', component: ConceptComponent, canActivate: [AuthGuard] },
+      { path: 'concept/:id', component: ConceptComponent, canActivate: [AuthGuard], },
     ],
   }
 ];

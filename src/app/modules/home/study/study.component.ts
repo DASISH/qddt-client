@@ -1,22 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { LANGUAGE_MAP } from 'src/app/lib';
 import {
   ActionKind,
   ElementKind, HierarchyPosition,
   HomeService, Instrument,
   MessageService,
   PropertyStoreService,
+  fadeInAnimation, LANGUAGE_MAP,
   Study,
   SurveyProgram,
   TemplateService,
   delay
-} from '../../../lib';
+} from 'src/app/lib';
 
 @Component({
   selector: 'qddt-study',
   styles: ['qddt-select > div.select-wrapper  > input.select-dropdown  { color:white}'],
   templateUrl: './study.component.html',
+  animations: [fadeInAnimation],
+  host: { '[@fadeInAnimation]': '' }
 })
 
 export class StudyComponent implements OnInit {
@@ -58,7 +60,8 @@ export class StudyComponent implements OnInit {
 
     this.property.set('study', study);
     this.property.setCurrentMenu(HierarchyPosition.Study, { id: study.id, name: study.name });
-    this.router.navigate(['topic']);
+    this.router.navigate(['topic', study.id]);
+    // this.router.navigate(['topic']);
   }
 
   public onShowElement(element: Instrument) {

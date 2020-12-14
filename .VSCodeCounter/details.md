@@ -25,7 +25,7 @@ Total : 402 files,  29974 codes, 847 comments, 3019 blanks, all 33840 lines
 | [documents/QDDT master profile Sequence v1.xml](/documents/QDDT master profile Sequence v1.xml) | XML | 323 | 18 | 13 | 354 |
 | [e2e/app.e2e-spec.ts](/e2e/app.e2e-spec.ts) | TypeScript | 11 | 0 | 4 | 15 |
 | [e2e/app.po.ts](/e2e/app.po.ts) | TypeScript | 9 | 0 | 3 | 12 |
-| [e2e/tsconfig.e2e.json](/e2e/tsconfig.e2e.json) | JSON | 14 | 0 | 1 | 15 |
+| [e2e/tsconfig.e2e.json](/e2e/tsconfig.json) | JSON | 14 | 0 | 1 | 15 |
 | [karma.conf.js](/karma.conf.js) | JavaScript | 29 | 2 | 2 | 33 |
 | [package-lock.json](/package-lock.json) | JSON | 13,332 | 0 | 1 | 13,333 |
 | [package.json](/package.json) | JSON | 57 | 0 | 1 | 58 |

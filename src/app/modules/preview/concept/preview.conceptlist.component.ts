@@ -7,7 +7,7 @@ import { Concept, getIcon } from '../../../lib';
   styles: [],
   template: `
 <ng-container *ngIf="conceptList">
-  <ul  class="collapsible" data-collapsible="accordion">
+  <ul  class="collapsible" >
     <li *ngFor="let concept of conceptList; ">
       <div class="collapsible-header ">
         <i class="material-icons small teal-text text-lighten-3">{{getMatIcon(concept)}}</i>

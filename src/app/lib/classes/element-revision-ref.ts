@@ -1,5 +1,5 @@
 import { IElement, IElementRef, IRevisionRef, IVersion, IEntityEditAudit } from '../interfaces';
-import { ElementKind } from '../enums/element-kind';
+import { ElementKind } from '../enums';
 
 
 

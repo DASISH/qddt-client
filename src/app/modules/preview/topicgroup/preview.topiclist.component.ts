@@ -7,7 +7,7 @@ import { Component, Input, AfterViewInit } from '@angular/core';
     '.collapsible { border:1px  }',
   ],
   template: `
-  <ul *ngIf="topicList"  class="collapsible" data-collapsible="accordion">
+  <ul *ngIf="topicList"  class="collapsible" >
     <li *ngFor="let topic of topicList">
       <div class="collapsible-header yellow lighten-5">
         <!--<div class="row">-->
@@ -23,14 +23,14 @@ import { Component, Input, AfterViewInit } from '@angular/core';
     </li>
   </ul>
 `,
-  providers: [ ],
+  providers: [],
 })
 
 export class PreviewTopicListComponent implements AfterViewInit {
   @Input() topicList: any[];
 
   ngAfterViewInit(): void {
-    document.querySelectorAll('.collapsible').forEach( item => M.Collapsible.init(item));
+    document.querySelectorAll('.collapsible').forEach(item => M.Collapsible.init(item));
 
   }
 

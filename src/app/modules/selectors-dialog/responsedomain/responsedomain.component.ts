@@ -1,4 +1,3 @@
-import { hasChanges } from 'src/app/lib';
 import { Router } from '@angular/router';
 import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 import {
@@ -6,10 +5,10 @@ import {
   Category,
   ElementKind,
   ElementRevisionRef,
-  Factory,
+  hasChanges,
   IElement, IElementRef,
   ResponseDomain, TemplateService, UserService
-} from '../../../lib';
+} from 'src/app/lib';
 
 @Component({
   selector: 'qddt-responsedomain-select',
@@ -38,44 +37,28 @@ export class ResponsedomainComponent implements OnChanges {
 
   public localResponseDomain: ResponseDomain;
   public showResponseDomain = false;
+  public SOURCE: ResponseDomain;
 
-  // tslint:disable-next-line:variable-name
-  // tslint:disable-next-line:variable-name
+  // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
   private _modalRef: M.Modal;
 
   private readonly getRevAsync = (id: string) =>
     this.service.getByKindRevision(ElementKind.CATEGORY, id);
 
-
   private readonly updateRevAsync = (responseDomain: ResponseDomain) =>
     this.service.update<ResponseDomain>(responseDomain).toPromise();
 
-
-  private readonly updateMixedAsync = async (responseDomain: ResponseDomain) => {
-    // console.log('updateMixedAsync');
-    if (responseDomain.isMixed) {
-      let changed = false;
-      const updatedpromises = responseDomain.managedRepresentation.children.map(async (child, _i) => {
-        const rev = await this.getRevAsync(child.id);
-        if (child.modified !== rev.entity.modified) {
-          changed = true;
-          const codes = [child.code].concat(child.children.map(cc => cc.code));
-          child = rev.entity as Category;
-          child.code = codes[0];
-          child.children.forEach((ccc, j) => ccc.code = codes[j + 1]);
-        }
-        return child;
-      });
-      const updatedchildren = await Promise.all(updatedpromises);
-      if (changed) {
-        responseDomain.managedRepresentation.children = updatedchildren;
-        return await this.updateRevAsync(responseDomain);
-      }
+  public get modalRef(): M.Modal {
+    if (!(this._modalRef)) {
+      this._modalRef = M.Modal.init(document.querySelector('#MODAL-' + this.modalId),
+        {
+          inDuration: 750, outDuration: 1000, startingTop: '50%', endingTop: '10%', preventScrolling: true, opacity: 0.3
+        });
     }
-    return await Promise.resolve(responseDomain);
+    return this._modalRef;
   }
 
-  constructor(private service: TemplateService, private access: UserService, private router: Router) {
+  constructor(private service: TemplateService, access: UserService, private router: Router) {
     this.canDelete = access.canDo(ActionKind.Delete, ElementKind.RESPONSEDOMAIN);
     this.canEdit = access.canDo(ActionKind.Update, ElementKind.RESPONSEDOMAIN);
   }
@@ -86,15 +69,7 @@ export class ResponsedomainComponent implements OnChanges {
     }
   }
 
-  get modalRef(): M.Modal {
-    if (!(this._modalRef)) {
-      this._modalRef = M.Modal.init(document.querySelector('#MODAL-' + this.modalId),
-        {
-          inDuration: 750, outDuration: 1000, startingTop: '50%', endingTop: '10%', preventScrolling: true, opacity: 0.3
-        });
-    }
-    return this._modalRef;
-  }
+
 
   public trackByCategoryId(category: Category): string {
     return category.id;
@@ -113,30 +88,31 @@ export class ResponsedomainComponent implements OnChanges {
   }
 
   public async onItemGetLatest() {
+    this.SOURCE = this.responseDomain
 
-    const RD = await this.updateMixedAsync(this.responseDomain);
-    const result = await this.service.getLatestVersionByKindEntity(ElementKind.RESPONSEDOMAIN, this.responseDomain.id);
+    // const RD = await this.updateMixedAsync(this.responseDomain);
+    // const result = await this.service.getLatestVersionByKindEntity(ElementKind.RESPONSEDOMAIN, this.responseDomain.id);
 
-    if (RD.modified !== result.entity.modified) {
-      this.responseDomain = Factory.createFromSeed(ElementKind.RESPONSEDOMAIN, result.entity) as ResponseDomain;
-      this.selectedEvent.emit(
-        {
-          element: this.responseDomain,
-          elementId: this.responseDomain.id,
-          elementKind: ElementKind.RESPONSEDOMAIN,
-          elementRevision: result.revisionNumber
-        });
-      M.toast({
-        html: 'Updated Mixed responsedomain',
-        displayLength: 2000
-      });
+    // if (RD.modified !== result.entity.modified) {
+    //   this.responseDomain = Factory.createFromSeed(ElementKind.RESPONSEDOMAIN, result.entity) as ResponseDomain;
+    //   this.selectedEvent.emit(
+    //     {
+    //       element: this.responseDomain,
+    //       elementId: this.responseDomain.id,
+    //       elementKind: ElementKind.RESPONSEDOMAIN,
+    //       elementRevision: result.revisionNumber
+    //     });
+    //   M.toast({
+    //     html: 'Updated Mixed responsedomain',
+    //     displayLength: 2000
+    //   });
 
-    } else {
-      M.toast({
-        html: 'No updated managed representation available',
-        displayLength: 2000
-      });
-    }
+    // } else {
+    //   M.toast({
+    //     html: 'No updated managed representation available',
+    //     displayLength: 2000
+    //   });
+    // }
   }
 
   public onItemRemove() {
@@ -148,13 +124,10 @@ export class ResponsedomainComponent implements OnChanges {
   }
 
   public onRevisionSelect(ref: ElementRevisionRef) {
-    if (this.canEdit) {
-      if (ref) {
-        // this.localResponseDomain = ref.
-        this.selectedEvent.emit(ref);
-      }
-      this.modalRef.close();
+    if (this.canEdit && (ref)) {
+      this.selectedEvent.emit(ref);
     }
+    this.modalRef.close();
   }
 
   public onMissingEdit(event: Event) {
@@ -178,7 +151,6 @@ export class ResponsedomainComponent implements OnChanges {
 
   public onMissingSelect(ref: IElement) {
     if (this.canEdit) {
-      console.log('missing selected')
       this.localResponseDomain.addManagedRep(ref.element);
     }
   }
@@ -195,7 +167,6 @@ export class ResponsedomainComponent implements OnChanges {
   public onDismiss(_event?: Event) {
     this.RESPONSEDOMAIN.element = ''
     this.localResponseDomain = new ResponseDomain(JSON.parse(JSON.stringify(this.responseDomain)));
-    // event.stopPropagation();
     this.modalRef.close();
   }
 

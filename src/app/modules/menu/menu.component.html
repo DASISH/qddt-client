@@ -32,14 +32,14 @@
         </a>
       </div>
       <ul id="nav-leftmenuLarge" class="sidenav hide-on-med-and-down teal-text"
-        style="transform: translateX(0px); width: 200px;">
+        style="transform: translateX(0px); width: 215px;">
         <div class="container red lighten-2" style=" width: 100%; height: 64px; line-height: 64px;
         font-size: 2rem; text-align: center; vertical-align: middle">
           <img src="/assets/images/qddt-text.png" style="height:100%; left: 90%; " />
         </div>
         <div *ngIf="isLoggedIn$ | async as isLoggedIn">
           <li>
-            <div class="card horizontal input-field" style="height: 55px">
+            <div class="card horizontal input-field" style="padding-right: 5px;">
               <i class="material-icons prefix" style="top: unset;">search</i>
               <input id="icon_prefix" type="text" class="validate" placeholder="goto url/id"
                 (input)="onCheckUrl($event)">
@@ -86,7 +86,8 @@
                 <div class="collapsible-body">
                   <ul>
                     <ul>
-                      <li [ngClass]="{'active':isActive===8}" (click)="isActive=8">
+                      <li *ngIf="canSee[elementKindRef.CHANGE_LOG]" [ngClass]="{'active':isActive===8}"
+                        (click)="isActive=8">
                         <a class="teal-text waves-effect waves-teal active" [routerLink]="['/changelog']" tabindex="8">
                           <i class="material-icons teal-text left medium">timeline</i>Change Feed</a>
                       </li>

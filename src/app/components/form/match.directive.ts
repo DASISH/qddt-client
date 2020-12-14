@@ -4,7 +4,7 @@ import { NG_VALIDATORS, Validator, ValidationErrors, FormGroup } from '@angular/
 import { MustMatch } from './must-match.validator';
 
 @Directive({
-  // tslint:disable-next-line: directive-selector
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[mustMatch]',
   providers: [{ provide: NG_VALIDATORS, useExisting: MustMatchDirective, multi: true }]
 })

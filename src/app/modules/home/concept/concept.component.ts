@@ -5,14 +5,16 @@ import {
   ActionKind,
   PropertyStoreService,
   HomeService,
-  HierarchyPosition, Concept, TemplateService, delay, LANGUAGE_MAP
-} from '../../../lib';
+  HierarchyPosition, Concept, TemplateService, delay, LANGUAGE_MAP, fadeInAnimation
+} from 'src/app/lib';
 
 
 @Component({
   selector: 'qddt-concept',
   providers: [{ provide: 'elementKind', useValue: 'CONCEPT' },],
-  templateUrl: './concept.component.html'
+  templateUrl: './concept.component.html',
+  animations: [fadeInAnimation],
+  host: { '[@fadeInAnimation]': '' }
 })
 
 

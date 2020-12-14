@@ -1,8 +1,8 @@
-import { Agency } from 'src/app/lib';
 import { IParentRef, IEntityEditAudit, IUser, IVersion, IOtherMaterial, IComment } from '../interfaces';
 import { ElementKind } from '../enums';
 import { Instrument } from './instrument.classes';
 import { ElementRevisionRef } from './element-revision-ref';
+import { Agency } from './user.classes';
 
 
 export class SurveyProgram implements IEntityEditAudit {

@@ -1,4 +1,3 @@
-import { UserService } from './../../../lib/services/user.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {
@@ -7,20 +6,22 @@ import {
   ElementKind,
   HomeService,
   TemplateService,
+  UserService,
   HierarchyPosition,
   PropertyStoreService,
   delay,
   ISurveyOrder,
-  Factory,
-  SurveyOrder
-} from '../../../lib';
-import { ValueAccessorBase } from 'src/app/components/form/value-accessor.class';
+  SurveyOrder,
+  fadeInAnimation
+} from 'src/app/lib';
 
 
 @Component({
   selector: 'qddt-survey',
   styles: ['div .helper-text { color: white !important}'],
   templateUrl: './survey.component.html',
+  animations: [fadeInAnimation],
+  host: { '[@fadeInAnimation]': '' }
 })
 
 export class SurveyComponent implements OnInit {
@@ -64,7 +65,8 @@ export class SurveyComponent implements OnInit {
     this.property.pathClear(HierarchyPosition.Study);
     this.property.pathClear(HierarchyPosition.Topic);
     this.property.pathClear(HierarchyPosition.Concept);
-    this.router.navigate(['study']);
+    this.router.navigate(['study', surveyProgram.id]);
+    // this.router.navigate(['study']);
   }
 
   onNewSave(survey) {

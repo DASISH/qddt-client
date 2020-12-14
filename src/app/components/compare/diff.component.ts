@@ -1,6 +1,6 @@
-import { Component, Input, OnChanges, Output, EventEmitter, Inject, LOCALE_ID } from '@angular/core';
-import { DiffString } from './diff.string';
-import { formatDate } from '@angular/common';
+import {Component, EventEmitter, Inject, Input, LOCALE_ID, OnChanges, Output} from '@angular/core';
+import {DiffString} from './diff.string';
+import {formatDate} from '@angular/common';
 
 export class ElementFieldChange {
   name: string;
@@ -32,17 +32,16 @@ export class DiffComponent implements OnChanges {
   constructor(@Inject(LOCALE_ID) protected localID: string) { }
 
   ngOnChanges() {
-    this.elementChange.name = this.current['name'] || '';
+    this.elementChange.name = this.current.name || '';
     this.elementChange.version = this.compared.version.major + '.' + this.compared.version.minor
       + ' vs Current working version';
     this.elementChange.changes = [];
     this.config.forEach(e => {
       const elementFieldChange = new ElementFieldChange();
-      elementFieldChange.name = e['label'];
-      const init = e['init'];
-      const ret = this.diff.diff_main(this.getValue(this.compared, e['name'], init),
-        this.getValue(this.current, e['name'], init));
-      elementFieldChange.changes = ret;
+      const init = e.init;
+      elementFieldChange.name = e.label;
+      elementFieldChange.changes =
+        this.diff.diffMain(this.getValue(this.compared, e.name, init), this.getValue(this.current, e.name, init));
       this.elementChange.changes.push(elementFieldChange);
     });
   }
@@ -51,7 +50,7 @@ export class DiffComponent implements OnChanges {
     this.hideCompareEvent.emit('hide');
   }
 
-  private readonly isDate = (x) => (null != x) && !isNaN(x) && ("undefined" !== typeof x.getDate);
+  private readonly isDate = (x) => (null != x) && !isNaN(x) && ('undefined' !== typeof x.getDate);
 
   private getValue(obj: any, names: string | any[], init: any): string {
     if (names instanceof Array) {

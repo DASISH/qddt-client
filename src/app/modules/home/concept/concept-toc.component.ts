@@ -33,7 +33,7 @@ import { Topic } from '../../../lib';
 
 <!-- Initiate the recursive template rendering. -->
 
-<div class="toc-wrapper pinned" style="height: 100%; overflow-y: auto;" >
+<div class="toc-wrapper pinned" style="height: calc(100% - 64px); overflow-y: auto;" >
   <h5>Concept Toc</h5>
   <div cdkDropList cdkDrop [cdkDropListData]="topic.concepts" (cdkDropListDropped)="onItemDrop($event)">
     <ol class="section table-of-contents">

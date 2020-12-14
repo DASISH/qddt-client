@@ -1,8 +1,3 @@
-/**
- * Usage: number | localNumber:'format'
- * If no format is provided 2 decimals will be used.
- **/
-
 import { Pipe, PipeTransform, Inject, LOCALE_ID } from '@angular/core';
 import { formatNumber } from '@angular/common';
 

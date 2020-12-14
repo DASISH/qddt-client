@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { API_BASE_HREF } from '../../api';
-import {Agency, Publication, PublicationStatus} from '../classes';
+import { Publication, PublicationStatus} from '../classes';
 import {PropertyStoreService} from './property.service';
 
 

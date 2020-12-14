@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PublicationComponent } from './publication.component';
 import { PublicationDetailComponent } from './publication.detail.component';
-import { AuthGuard} from '../../lib/services';
-import { TemplateListComponent} from '../../components/template';
+import { AuthGuard } from '../../lib/services';
+import { TemplateListComponent } from '../../components/template';
 
 
 export const publicationRoutes: Routes = [
@@ -19,7 +19,7 @@ export const publicationRoutes: Routes = [
 ];
 
 @NgModule({
-  imports: [ RouterModule.forChild(publicationRoutes) ],
-  exports: [ RouterModule ]
+  imports: [RouterModule.forChild(publicationRoutes)],
+  exports: [RouterModule]
 })
-export class PublicationRoutingModule {}
+export class PublicationRoutingModule { }

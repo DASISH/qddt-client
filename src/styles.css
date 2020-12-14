@@ -6,9 +6,3 @@ div > .card.section.row { margin-left: -0.6rem; }
 .row > .col > ul.dropdownmenu {  display:none;   transition: display 0.75s;}
 ul:not(.browser-default) > li > a { margin-bottom: 10px; }
 
-/* You can add global styles to this file, and also import other style files */
-
-
-/* input .select-dropdown :invalid {
-  border-left-color: salmon;
-} */

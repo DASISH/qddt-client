@@ -21,7 +21,8 @@
           </a>
         </li>
         <li *ngIf="canDelete && localResponseDomain">
-          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 red" (click)="onItemRemove()">
+          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 red"
+            (click)="confirmDialog.showConfirmDeleting($event, localResponseDomain)">
             <i class="material-icons" title="Remove">remove</i>
           </a>
         </li>
@@ -112,3 +113,11 @@
     <a class="btn-flat waves-effect waves-light red white-text" (click)="onDismiss()">Dismiss</a>
   </div>
 </div>
+
+
+<qddt-element-collection-dialog [source]="SOURCE" [xmlLang]="xmlLang" (revSelectEvent)="onRevisionSelect($event)">
+</qddt-element-collection-dialog>
+
+
+<qddt-confirm-remove (dialogResult)="onItemRemove()" #confirmDialog>
+</qddt-confirm-remove>

@@ -17,7 +17,7 @@ import {
   AbstractControlConstruct,
   ConditionKind,
   IfThenElse, Loop
-} from '../../../lib';
+} from 'src/app/lib';
 
 
 @Component({

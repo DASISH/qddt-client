@@ -9,7 +9,7 @@ import { IComment } from '../../lib';
   providers: [CommentService]
 })
 
-export class CommentListComponent implements AfterViewInit, AfterContentChecked {
+export class CommentListComponent implements AfterViewInit {
   @Input() ownerId: string;
   @Input() comments: IComment[] = [];
   @Input() showPrivate = true;
@@ -49,10 +49,10 @@ export class CommentListComponent implements AfterViewInit, AfterContentChecked 
       }, 0).toString();
   }
 
-  ngAfterContentChecked(): void {
-    document.querySelectorAll('textarea').forEach(
-      input => M.textareaAutoResize(input));
-  }
+  // ngAfterContentChecked(): void {
+  //   // document.querySelectorAll('textarea').forEach(
+  //   //   input => M.textareaAutoResize(input));
+  // }
 
   ngAfterViewInit(): void {
     document.querySelectorAll('input[data-length], textarea[data-length]').forEach(

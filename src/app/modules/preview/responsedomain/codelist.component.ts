@@ -3,8 +3,6 @@ import { Category, ResponseCardinality, UserResponse, Parameter } from '../../..
 
 @Component({
   selector: 'qddt-preview-rd-codelist',
-  // styles: ['ul.invalid > li > label > span::before   { border-color: red !important;}',
-  // ],
   template: `
 <ul *ngIf="managedRepresentation">
     <li *ngFor="let row of rows;" >

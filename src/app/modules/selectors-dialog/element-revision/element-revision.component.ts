@@ -18,7 +18,7 @@ import { ElementKind, ElementRevisionRef, IElement, IRevisionRef, getQueryInfo, 
     </div>
     <div class="modal-footer">
       <button
-        class="btn btn-default red modal-action modal-close waves-effect waves-red" (click)="onDismiss()" >
+        class="btn btn-default red waves-effect waves-red" (click)="onDismiss()" >
         Dismiss
       </button>
     </div>
@@ -32,7 +32,7 @@ export class ElementRevisionSelectComponent implements OnChanges {
 
   public readonly modalId = Math.round(Math.random() * 10000);
 
-  // tslint:disable-next-line:variable-name
+  // eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle, id-blacklist, id-match
   private _modalRef: M.Modal;
 
   public readonly getKind = () => (this.source && this.source.elementKind) ? getElementKind(this.source.elementKind) : ElementKind.NONE;

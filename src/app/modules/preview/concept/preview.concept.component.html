@@ -15,7 +15,7 @@
   <li>
     <label>QuestionItem(s)</label>
     <ul [id]="'UL-' + compId" *ngIf="concept?.conceptQuestionItems && concept?.conceptQuestionItems?.length > 0"
-      class="collapsible" data-collapsible="accordion">
+      class="collapsible">
       <li [id]="'LI-' + compId + '-' + idx"
         *ngFor="let cqi of concept.conceptQuestionItems; trackBy:trackByIndex; let idx=index;"
         (click)="onViewDetail(cqi)">
@@ -31,18 +31,13 @@
       </li>
     </ul>
   </li>
-  <li>
-    <qddt-element-footer [element]="concept"></qddt-element-footer>
-  </li>
-  <li>
-    <qddt-comment-list [ownerId]="concept.id" [comments]="concept.comments"></qddt-comment-list>
-  </li>
-  <ng-container *ngIf="concept.children && concept.children.length > 0">
-    <ul [id]="'UL2-' + compId" class="collapsible" data-collapsible="accordion">
+  <li *ngIf="concept.children && concept.children.length > 0">
+    <label>Concept(s)</label>
+    <ul [id]="'UL2-' + compId" class="collapsible">
       <li [id]="'LI-' + compId + '-' + idx"
         *ngFor="let concept of concept.children; trackBy:trackByIndex; let idx=index;">
         <div class="collapsible-header ">
-          <i class="material-icons small teal-text text-lighten-3">{{getMatIcon(concept)}}</i>
+          <i class="material-icons small teal-text text-lighten-3">{{getIconLocal(concept.classKind)}}</i>
           <div class="col s9 m10 grey-text text-darken-1" [innerHtml]=concept.name></div>
           <qddt-version-label class="col s3 m2 right-align" [element]="concept"></qddt-version-label>
         </div>
@@ -51,5 +46,12 @@
         </div>
       </li>
     </ul>
-  </ng-container>
+  </li>
+
+  <li>
+    <qddt-element-footer [element]="concept"></qddt-element-footer>
+  </li>
+  <li>
+    <qddt-comment-list [ownerId]="concept.id" [comments]="concept.comments"></qddt-comment-list>
+  </li>
 </ul>

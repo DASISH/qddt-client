@@ -7,13 +7,10 @@ import {
 
 @Component({
   selector: 'qddt-preview-topic',
-
-  styles: [
-  ],
   templateUrl: 'preview.topic.component.html'
 })
 
-export class PreviewTopicComponent implements AfterViewInit {
+export class PreviewTopicComponent implements AfterViewInit  {
   @Input() topic: Topic;
 
   public compId = Math.round(Math.random() * 10000);
@@ -23,7 +20,9 @@ export class PreviewTopicComponent implements AfterViewInit {
 
 
   public ngAfterViewInit(): void {
-    document.querySelectorAll('.collapsible').forEach(item => M.Collapsible.init(item));
+    document.querySelectorAll('.collapsible').forEach(item => {
+      M.Collapsible.init(item)
+    });
   }
 
   public onViewDetail(element: ElementRevisionRef) {

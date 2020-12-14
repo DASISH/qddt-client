@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { IComment } from '../../lib';
 
 @Component({
@@ -23,29 +23,21 @@ import { IComment } from '../../lib';
   `,
   providers: []
 })
-export class CommentCreateComponent  {
+export class CommentCreateComponent {
 
-  @Output() updatedEvent  = new EventEmitter<IComment>();
+  @Output() updatedEvent = new EventEmitter<IComment>();
   @Input() ownerId: string;
 
-  public readonly formId = Math.round( Math.random() * 10000);
+  public readonly formId = Math.round(Math.random() * 10000);
   comment = this.newComment();
 
   onSave() {
-    this.updatedEvent.emit( {size: 0, comment: this.comment.comment, public: this.comment.public , ownerId: this.ownerId } );
+    this.updatedEvent.emit({ size: 0, comment: this.comment.comment, public: this.comment.public, ownerId: this.ownerId });
     this.comment = this.newComment();
   }
 
   private newComment(): IComment {
-    return {size: 0, comment: '', public: true , ownerId: this.ownerId };
+    return { size: 0, comment: '', public: true, ownerId: this.ownerId };
   }
-  // ngAfterContentChecked(): void {
-  //   document.querySelectorAll('textarea').forEach(
-  //     input => M.textareaAutoResize(input));
-  // }
 
-  // ngAfterViewInit(): void {
-  //   document.querySelectorAll('input[data-length], textarea[data-length]').forEach(
-  //     input => M.CharacterCounter.init(input));
-  // }
 }

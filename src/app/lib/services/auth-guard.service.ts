@@ -5,6 +5,8 @@ import {
 } from '@angular/router';
 import { UserService } from './user.service';
 import { PropertyStoreService } from './property.service';
+import { ActionKind, ElementKind } from '../enums';
+import { HEADER_DETAILS } from '../consts';
 
 
 
@@ -20,7 +22,13 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     if (state.url !== '/') {
       this.property.userSetting.url = state.url;
       this.property.userSetting.save();
+      const key = HEADER_DETAILS.get(state.url.substr(1));
+      const kind = key?.kind || ElementKind.NONE;
+      if (!this.authService.canDo(ActionKind.Read, kind)) return false;
     }
+
+
+
     if (!this.authService.isTokenExpired()) {
       return true;
     }

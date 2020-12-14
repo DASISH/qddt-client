@@ -1,7 +1,7 @@
-import { Agency } from 'src/app/lib';
 import { ElementKind } from '../enums';
-import { IComment, ISelectOption, IEntityEditAudit, IEntityAudit } from '../interfaces';
+import { IComment, ISelectOption, IEntityEditAudit} from '../interfaces';
 import { ElementRevisionRef } from './element-revision-ref';
+import { Agency } from './user.classes';
 
 export class Publication implements IEntityEditAudit {
   id: string;

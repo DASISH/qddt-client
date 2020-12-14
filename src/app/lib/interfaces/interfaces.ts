@@ -8,12 +8,6 @@ export interface IDetailAction {
   object: any;
 }
 
-export interface IMoveTo {
-  index: number;
-  target: string;
-  source: string;
-}
-
 export interface IElement {
   element: any;
   elementKind: ElementKind | string;

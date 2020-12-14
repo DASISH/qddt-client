@@ -2,7 +2,7 @@ import { Component, Optional, Inject, Input, ViewChild, AfterViewInit } from '@a
 import { NgModel, NG_VALUE_ACCESSOR, NG_VALIDATORS, NG_ASYNC_VALIDATORS } from '@angular/forms';
 import { ElementBase } from './element-base.class';
 import { animations } from './animations';
-import { delay } from 'src/app/lib';
+import { delay } from '../../lib';
 
 @Component({
   selector: 'qddt-input',

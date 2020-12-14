@@ -89,12 +89,13 @@ import { Factory } from 'src/app/lib';
     </ng-template>
   </ng-container>
 
+  <div class="row" style="padding-top:20px;">
+    <qddt-element-footer [element]="instrument"></qddt-element-footer>
+  </div>
   <div class="row">
     <qddt-comment-list [ownerId]="instrument.id" [comments]="instrument.comments"></qddt-comment-list>
   </div>
-  <div class="row">
-    <qddt-element-footer [element]="instrument"></qddt-element-footer>
-  </div>`
+`
   ,
 })
 

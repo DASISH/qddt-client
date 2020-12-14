@@ -33,6 +33,7 @@ export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
   @Input() inParameters: Map<string, Parameter>
   @Output() actionEvent = new EventEmitter<EventAction>();
 
+  public showLabel = new Map<string, boolean>();
   public selectedElementKind = 0;
   public SOURCE: IElement | IRevisionRef | null;
   public deleteIndex = -1;

@@ -1,7 +1,7 @@
-import { Agency, ISelectOption } from 'src/app/lib';
 import { Category, CategoryKind, ResponseCardinality } from './category.classes';
-import { IEntityAudit, IEntityEditAudit, IVersion } from '../interfaces';
+import { IEntityEditAudit, ISelectOption, IVersion} from '../interfaces';
 import { ElementKind } from '../enums';
+import { Agency } from './user.classes';
 
 export enum DomainKind {
   NONE = 0,
