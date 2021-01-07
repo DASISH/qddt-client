@@ -1,6 +1,5 @@
-import { element } from 'protractor';
-import { Component, Input } from '@angular/core';
-import { ElementRevisionRef, IEntityEditAudit, MessageService } from '../../lib';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { LocalDatePipe, ElementRevisionRef, hasChanges, IEntityEditAudit, MessageService } from '../../lib';
 
 
 @Component({
@@ -10,23 +9,37 @@ import { ElementRevisionRef, IEntityEditAudit, MessageService } from '../../lib'
     'i { margin:0px; vertical-align: middle;float: unset; display: unset; position: relative; }'
   ],
   template:
-    `<label class="teal-text" [title]="getDocInfo()">Version <qddt-version [element]="element" [revisionRef]="revisionRef" ></qddt-version>
+    `<label class="teal-text" [title]="titleInfo">Version <qddt-version [element]="element" [revisionRef]="revisionRef" ></qddt-version>
     <i *ngIf="element?.basedOnObject" (click)="onClick()" class="qddtIcon material-icons teal-text tiny"
     style="cursor: pointer;" title="based on preview">content_copy</i>
     </label>`
   ,
-  providers: []
+  providers: [LocalDatePipe]
 })
-export class VersionLabelComponent {
+export class VersionLabelComponent implements OnChanges {
   @Input() element: IEntityEditAudit;
   @Input() revisionRef: ElementRevisionRef;
 
+  public titleInfo = 'Last saved by: ?';
 
-  constructor(private message: MessageService) { }
+  constructor(private message: MessageService, private datePipe: LocalDatePipe) { }
 
-  public readonly getDocInfo = () => (this.element) ?
-    this.element.modifiedBy.name + '@' + this.element.agency.name + ' : ' + this.element.modified.toLocaleString() :
-    "?"
+  ngOnChanges(changes: SimpleChanges): void {
+    if (hasChanges(changes.element)) {
+      this.titleInfo = 'Last saved by: ' +
+        ((this.element.modifiedBy) ?
+          this.element.modifiedBy.name + '@' + this.element.modifiedBy.agencyName + ' : ' + (this.datePipe.transform(this.element.modified)) :
+          '?');
+    }
+    if (hasChanges(changes.revisionRef)) {
+      this.titleInfo = 'Last saved by:' +
+        ((this.revisionRef.element && this.revisionRef.element.modifiedBy) ?
+          this.revisionRef.element.modifiedBy.name + '@' + this.revisionRef.element.modifiedBy.agencyName + ' : ' + (this.datePipe.transform(this.revisionRef.element.modified)) :
+          '?');
+    }
+
+  }
+
 
   onClick() {
     if (this.element) {
@@ -39,5 +52,5 @@ export class VersionLabelComponent {
       this.message.sendMessage(this.revisionRef);
     }
   }
-
 }
+

@@ -139,12 +139,12 @@ export class PreviewInstrumentComponent implements AfterViewInit {
             cond.condition = new Loop(JSON.parse(cond.condition));
             break;
           default:
-            console.log(cond.conditionKind);
+            console.debug(cond.conditionKind);
         }
         return cond;
       }
     } catch (ex) {
-      // console.log(ex); just ignore
+      // console.debug(ex); just ignore
     }
     return null;
   }
@@ -157,7 +157,7 @@ export class PreviewInstrumentComponent implements AfterViewInit {
   }
 
   public checkParams(id: string, response: UserResponse[]) {
-    console.log(id + ' ' + response[0]);
+    console.debug(id + ' ' + response[0]);
     this.instrument.parameterOut.get(id).value = response;
   }
 
@@ -165,9 +165,9 @@ export class PreviewInstrumentComponent implements AfterViewInit {
     const kind = getElementKind(item.elementKind);
     if (!item.element && (!this.isSequence(item) || item.children.length === 0)) {
 
-      console.log('open body...');
+      console.debug('open body...');
       let cond: ICondition;
-      console.log(cond || JSON);
+      console.debug(cond || JSON);
 
       if (kind === ElementKind.CONDITION_CONSTRUCT) {
         cond = this.parseCondition(item.name);
@@ -190,7 +190,7 @@ export class PreviewInstrumentComponent implements AfterViewInit {
                 parameterIn: cond.parameterIn,
                 parameterOut: cond.parameterOut
               } as ICondition;
-              console.log(item.element || JSON);
+              console.debug(item.element || JSON);
             } else {
               item.element = Factory.createFromSeed(kind, result.entity);
             }
@@ -206,7 +206,7 @@ export class PreviewInstrumentComponent implements AfterViewInit {
     return getIcon(kind);
   }
   public onCheckParams(id, event) {
-    console.log(id);
+    console.debug(id);
   }
 
 }

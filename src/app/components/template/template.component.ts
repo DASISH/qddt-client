@@ -10,7 +10,7 @@ import {
   MessageService,
   PropertyStoreService, ResponseDomain,
   UserService,
-  fadeInAnimation,
+  fadeInAnimation, fadeOutAnimation,
   PageSearch
 } from '../../lib';
 

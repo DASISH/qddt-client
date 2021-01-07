@@ -66,11 +66,11 @@ export class QddtAutoCompleteComponent implements OnChanges, OnDestroy {
       this.found = this.findCandidate(this.value) !== undefined || (this.candidates.length > 0) || (this.value.length === 0);
     }
     if (changes.initialValue && changes.initialValue.isFirstChange() && !this.selected) {
-      console.log('initialValue');
+      console.debug('initialValue');
       this.value = this.initialValue;
     }
     if (hasChanges(changes.elementKind) && !changes.elementKind.isFirstChange()) {
-      console.log('onClearKeywords');
+      console.debug('onClearKeywords');
       this.onClearKeywords();
     }
   }

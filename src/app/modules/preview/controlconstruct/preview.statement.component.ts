@@ -32,7 +32,7 @@ export class PreviewStatementConstructComponent implements OnChanges {
 
 
   private assignValueToParameters(inParameters: Parameter[]) {
-    console.log('break here');
+    console.debug('break here');
     if ((!inParameters) || (!this.inParameters)) {
       return;
     }
@@ -46,7 +46,7 @@ export class PreviewStatementConstructComponent implements OnChanges {
       //   }
       // }
       if (p.referencedId) {
-        console.log('assignValueToStatementParameters');
+        console.debug('assignValueToStatementParameters');
         p.value = this.inParameters.get(p.referencedId).value;
       }
       // refArray[i] = p;
@@ -65,9 +65,9 @@ export class PreviewStatementConstructComponent implements OnChanges {
   //     if (p.referencedId) {
   //       p.value = this.inParameters.get(p.referencedId).value;
   //     }
-  //     console.log(refArray[i] || JSON);
+  //     console.debug(refArray[i] || JSON);
   //     refArray[i] = p;
-  //     console.log(refArray[i] || JSON);
+  //     console.debug(refArray[i] || JSON);
   //   });
   // }
 

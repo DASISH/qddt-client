@@ -45,7 +45,7 @@ export class TemplateListComponent implements OnInit, OnDestroy {
     this.messages.getAction().pipe(
       takeWhile(() => this.alive))
       .subscribe(event => {
-        // console.log('Action ' + ActionKind[event.action]);
+        // console.debug('Action ' + ActionKind[event.action]);
         if (event.action === ActionKind.Update || event.action === ActionKind.Create || event.action === ActionKind.Filter) {
           this.loadPage();
         }

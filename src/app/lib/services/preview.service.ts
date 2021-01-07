@@ -75,7 +75,7 @@ export class PreviewService {
       }
     }
     // else {
-    //   console.log(item.element || JSON);
+    //   console.debug(item.element || JSON);
     // }
     return item;
   }

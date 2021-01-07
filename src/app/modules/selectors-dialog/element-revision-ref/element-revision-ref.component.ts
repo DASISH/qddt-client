@@ -72,7 +72,7 @@ export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
 
   public onItemDrop(event: CdkDragDrop<any[]>) {
     if (event.previousContainer === event.container) {
-      // console.log('moving');
+      // console.debug('moving');
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     }
   }
@@ -86,7 +86,7 @@ export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
         item.elementId,
         item.elementRevision)
         .then((result) => {
-          // console.log('create from seed');
+          // console.debug('create from seed');
           item.element = Factory.createFromSeed(kind, result.entity);
           item.version = result.entity.version;
           this.actionEvent.emit({ action: ActionKind.Read, ref: item });
@@ -103,7 +103,7 @@ export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
   // -------------------------------------------------------------------
   public onSelectElementKind(kind) {
     this.SOURCE = { element: '', elementKind: kind };
-    // console.log(this.SOURCE);
+    // console.debug(this.SOURCE);
   }
 
   public revisionSelectedEvent(ref: ElementRevisionRef) {
@@ -148,9 +148,9 @@ export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
   }
 
   public onCheckParams(id, event) {
-    console.log(id);
-    // console.log(event);
-    // console.log(this.inParameters.get(id).value);
+    console.debug(id);
+    // console.debug(event);
+    // console.debug(this.inParameters.get(id).value);
     // this.inParameters.get(id).value = event;
   }
   // -------------------------------------------------------------------

@@ -39,7 +39,7 @@ export class ElementRevisionSelectComponent implements OnChanges {
   public readonly getLabelByKind = () => (this.getKind() !== ElementKind.NONE) ? getQueryInfo(this.getKind()).label : 'Item?';
 
   constructor() {
-    // console.log('ElementRevisionSelectComponent::CNSTR');
+    // console.debug('ElementRevisionSelectComponent::CNSTR');
   }
 
   get modalRef(): M.Modal {

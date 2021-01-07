@@ -87,7 +87,7 @@ export class TreeNodeComponent {
   }
 
   public onQuestionItemModified(ref: ElementRevisionRef, concept: Concept) {
-    console.log('onItemModified -> ' + ref || JSON);
+    console.debug('onItemModified -> ' + ref || JSON);
     const idx = concept.conceptQuestionItems.findIndex(f => f.elementId === ref.elementId);
     const seqNew: ElementRevisionRef[] = [].concat(
       concept.conceptQuestionItems.slice(0, idx),

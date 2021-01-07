@@ -38,7 +38,7 @@ export class UserFormComponent implements OnInit, OnChanges, AfterViewInit {
           this.getFirstAgency().then(agent => this.onSelectChange(agent.id));
         }
       }
-      // console.log('agency set');
+      // console.debug('agency set');
     }
   }
 

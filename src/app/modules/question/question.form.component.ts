@@ -57,7 +57,7 @@ export class QuestionFormComponent implements AfterViewInit {
       this.questionItem.responseDomainRef.elementRevision = 0;
       this.questionItem.responseDomainRef.elementId = result.id;
       this.questionItem.responseDomainRef.element = result;
-      // console.log('rd + rdref updated');
+      // console.debug('rd + rdref updated');
       // this will fetch latest revision of Rd, when QI is saved.
     });
   }

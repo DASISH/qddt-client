@@ -68,21 +68,21 @@ export class StudyEditComponent {
   }
 
   onInstrumentAdded(item: ElementRevisionRef) {
-    console.log('onInstrumentAdded');
+    console.debug('onInstrumentAdded');
     // this.service.getByKindEntity<Instrument>(this.INSTRUMENT, item.element.id)
     //   .then(instrument => {
     //     this.study.instruments.push(instrument);
     //   });
   }
   onInstrumentDeleted(item: ElementRevisionRef) {
-    console.log('onInstrumentDeleted');
+    console.debug('onInstrumentDeleted');
     // this.service.getByKindEntity<Instrument>(this.INSTRUMENT, item.element.id)
     // .then(instrument => {
     //   this.study.instruments.push(instrument);
     // });
   }
   onInstrumentListChanged(item: ElementRevisionRef) {
-    console.log('onInstrumentListChanged');
+    console.debug('onInstrumentListChanged');
     // this.service.getByKindEntity<Instrument>(this.INSTRUMENT, item.element.id)
     // .then(instrument => {
     //   this.study.instruments.push(instrument);

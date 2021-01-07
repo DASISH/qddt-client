@@ -61,7 +61,7 @@ export class ResponsedomainMixedComponent {
 
   public onSelectedEvent(idxs: UserResponse[], missingRef?: any) {
     if (missingRef) {
-      console.log('missingref');
+      console.debug('missingref');
     }
     this.selectedEvent.emit(idxs);
   }

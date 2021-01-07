@@ -74,7 +74,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
         }
         this.pageSearch.sort = this.getSort();
         this.pageSearch.page.number = 0;
-        console.log('begin ' + Date.now().toString());
+        console.debug('begin ' + Date.now().toString());
         this.showProgressBar = true;
         this.fetchEvent.emit(this.pageSearch);
       });
@@ -142,7 +142,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
       this.rows.push(row);
     });
     this.showProgressBar = false;
-    // console.log('end ' + Date.now().toString());
+    // console.debug('end ' + Date.now().toString());
 
   }
 

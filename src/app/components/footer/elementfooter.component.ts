@@ -29,7 +29,7 @@ export class ElementFooterComponent {
     if (!m) { return '?'; }
     const date = new Date();
     date.setTime(m);
-    console.log(this.localID);
+    console.debug(this.localID);
     return formatDate(date, 'longTime', this.fixNO_nb_nn(this.localID));
   }
 

@@ -79,7 +79,7 @@ export class ConceptComponent implements OnInit, AfterViewInit {
   }
 
   public onNewSave(newConcept) {
-    // console.log('newConcept');
+    // console.debug('newConcept');
     this.showConceptForm = false;
     this.showProgressBar = true;
     this.templateService.create(new Concept(newConcept), this.topic.id).subscribe(
@@ -98,7 +98,7 @@ export class ConceptComponent implements OnInit, AfterViewInit {
   }
 
   // async onMoveConcept(event: IMoveTo) {
-  //   console.log(event);
+  //   console.debug(event);
   //   const entity = this.removeConcept(this.topic.concepts, event.source);
   //   let targets: Concept[];
   //   if (event.target === this.topic.id) {
@@ -177,7 +177,7 @@ export class ConceptComponent implements OnInit, AfterViewInit {
     let found = false;
     let i = -1;
     while (!found && ++i < concepts.length) {
-      // console.log(i);
+      // console.debug(i);
       found = this.updateConcept(concepts[i].children, concept);
       if (concepts[i].id === concept.id) {
         concepts[i] = concept;

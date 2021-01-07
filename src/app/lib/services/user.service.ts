@@ -41,17 +41,17 @@ export class UserService {
   }
 
   public canDo(action: ActionKind, kind: ElementKind): boolean {
-    // console.log('canDo -> Action:' + ActionKind[action] + ' Kind:' + kind);
+    // console.debug('canDo -> Action:' + ActionKind[action] + ' Kind:' + kind);
     function canRead(roles: number) {
       if (kind >= ElementKind.INSTRUCTION && roles < AuthorityKind.ROLE_ADMIN) {
-        console.log('canRead false ' + kind);
+        console.debug('canRead false ' + kind);
         return false;
       }
       if (roles >= +AuthorityKind.ROLE_VIEW) {
-        console.log('canRead true ' + kind);
+        console.debug('canRead true ' + kind);
         return true;
       }
-      console.log('canRead ?' + kind + ' + ' + ElementKind.PUBLICATION + ' = ' + (kind == ElementKind.PUBLICATION));
+      console.debug('canRead ?' + kind + ' + ' + ElementKind.PUBLICATION + ' = ' + (kind == ElementKind.PUBLICATION));
 
       return (kind === ElementKind.PUBLICATION);
     }
@@ -174,7 +174,7 @@ export class UserService {
    */
   public logout(): void {
     localStorage.removeItem(TOKEN_NAME);
-    // console.log('loggin out fires');
+    // console.debug('loggin out fires');
     this.loggedIn.next(false);
   }
 
@@ -197,7 +197,7 @@ export class UserService {
   }
 
   public getUserId(): string {
-    // console.log('getUserId->' + this.getUser().id);
+    // console.debug('getUserId->' + this.getUser().id);
     return this.getUser().id || '';
   }
 
@@ -238,7 +238,7 @@ export class UserService {
     this.property.userSetting.email = this.user.email;
     this.roles = 0;
     this.getRoles().forEach((role) => this.roles += +AuthorityKind[role]);
-    // console.log('logged in fires');
+    // console.debug('logged in fires');
     this.loggedIn.next(true);
   }
 

@@ -84,7 +84,7 @@ export class PreviewQuestionConstructComponent implements OnChanges {
   }
 
   public onSelectedEvent(urs: UserResponse[]) {
-    // console.log('onSelectedEvent');
+    // console.debug('onSelectedEvent');
     if (this.controlConstruct.parameterOut[0]) {
       this.controlConstruct.parameterOut[0].value = urs;
     } else {
@@ -108,7 +108,7 @@ export class PreviewQuestionConstructComponent implements OnChanges {
         }
       }
       if (p.referencedId) {
-        console.log('assignValueToParameters');
+        console.debug('assignValueToParameters');
         p.value = this.inParameters.get(p.referencedId).value;
       }
       refArray[i] = p;

@@ -14,7 +14,7 @@ import { HEADER_DETAILS } from '../consts';
 export class AuthGuard implements CanActivate, CanActivateChild {
 
   constructor(private authService: UserService, private router: Router, private property: PropertyStoreService) {
-    // console.log('AuthGuard created');
+    // console.debug('AuthGuard created');
   }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
@@ -38,7 +38,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     this.router.navigate(['/login']);
 
     // const redirectUrl = next['_routerState']['url'];
-    // console.log('isTokenExpired -> redirecting to login ' + redirectUrl );
+    // console.debug('isTokenExpired -> redirecting to login ' + redirectUrl );
     // this.router.navigateByUrl(
     //   this.router.createUrlTree( ['/login'], { queryParams: { redirectUrl } } )
     // );

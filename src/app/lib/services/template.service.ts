@@ -14,7 +14,7 @@ import { Agency, PageSearch } from '../classes';
 export class TemplateService {
 
   constructor(protected http: HttpClient, private userService: UserService, @Inject(API_BASE_HREF) protected api: string) {
-    // console.log('TemplateService::CONST ' + api);
+    // console.debug('TemplateService::CONST ' + api);
   }
 
   public searchByUuid(id: string): Promise<any> {
@@ -106,7 +106,7 @@ export class TemplateService {
   public update<T extends IEntityAudit>(item: IEntityAudit): Observable<T> {
     const kind = getElementKind(item.classKind);
     const qe = getQueryInfo(kind);
-    // console.log(item.basedOnObject);
+    // console.debug(item.basedOnObject);
     if (item.id === item['basedOnObject']) {
       item.id = '';
     }
@@ -137,7 +137,7 @@ export class TemplateService {
   }
 
   public delete(item: IEntityAudit): Observable<any> {
-    // console.log(item || JSON);
+    // console.debug(item || JSON);
     const qe = getQueryInfo(item.classKind);
     return this.http.delete(this.api + qe.path + '/delete/' + item.id);
   }

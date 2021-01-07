@@ -120,7 +120,7 @@ export class Instrument implements IEntityAudit {
     }
   }
   initParameters = () => mapTreeNodes(this.root.children).forEach((entity, index) => {
-    console.log('INIT P ');
+    console.debug('INIT P ');
     entity.parameters.forEach((p) => {
       // p.id = entity.id;
       p.idx = index;
@@ -129,7 +129,7 @@ export class Instrument implements IEntityAudit {
           this.parameterOut.set(entity.id, p);
         }
       } else {
-        console.log('IN P ');
+        console.debug('IN P ');
         if (this.parameterIn.findIndex(f => f.id === p.id && f.name === p.name) < 0) {
           this.parameterIn.push(p);
         }
@@ -181,7 +181,7 @@ export class TreeNodeRevisionRefImpl<T extends AbstractControlConstruct> extends
       mergeParameters(this);
     }
     if (isSequence(this.element)) {
-      console.log('init new sequence')
+      console.debug('init new sequence')
       this.children = this.element.sequence.map(seq => new TreeNodeRevisionRefImpl(seq));
     }
   }
@@ -190,18 +190,18 @@ export class TreeNodeRevisionRefImpl<T extends AbstractControlConstruct> extends
 export const mergeParameters = (node: TreeNodeRevisionRefImpl<AbstractControlConstruct>) => {
   // update params from source, delete if no match
   // insert no match params in source
-  console.log('mergeParameters');
+  console.debug('mergeParameters');
   const paramOut = node.parameters.filter(f => (getParameterKind(f.parameterKind) === ParameterKind.OUT));
   const paramIn = node.parameters.filter(f => (getParameterKind(f.parameterKind) === ParameterKind.IN));
 
   node.element.parameterOut.forEach((po, index, listRef) => {
     const found = paramOut.find(f => f.name === po.name);
     if (found) {
-      console.log('parameter found assign(po) ' + po.name);
+      console.debug('parameter found assign(po) ' + po.name);
       listRef[index] = found;
       // po = found;
     } else {
-      console.log('parameter insert (po) ' + po.name);
+      console.debug('parameter insert (po) ' + po.name);
       // po.id = node.id;
       node.parameters.push(po);
     }
@@ -210,11 +210,11 @@ export const mergeParameters = (node: TreeNodeRevisionRefImpl<AbstractControlCon
   node.element.parameterIn.forEach((pi, index, listRef) => {
     const found = paramIn.find(f => f.name === pi.name);
     if (found) {
-      console.log('parameter found assign(pi) ' + pi.name);
+      console.debug('parameter found assign(pi) ' + pi.name);
       listRef[index] = found;
       // pi = found;
     } else {
-      console.log('parameter insert push(pi) ' + pi.name);
+      console.debug('parameter insert push(pi) ' + pi.name);
       // pi.id = node.id;
       node.parameters.push(pi);
     }
@@ -223,18 +223,18 @@ export const mergeParameters = (node: TreeNodeRevisionRefImpl<AbstractControlCon
 
 export const refreshParameter = (node: TreeNodeRevisionRefImpl<ConditionConstruct>) => {
   if (node.element) {
-    console.log('refreshParameter');
+    console.debug('refreshParameter');
     const regex = new RegExp(/\[(\w*)]/gm);
     const expression = JSON.stringify(node.element.condition);
     const result = regex.exec(expression);
     // while( result.entries)
     if (result) {
-      result.forEach(m => console.log(m));
+      result.forEach(m => console.debug(m));
     } else {
-      console.log('no match inner?');
+      console.debug('no match inner?');
     }
   } else {
-    console.log('no match outer');
+    console.debug('no match outer');
   }
 
 }

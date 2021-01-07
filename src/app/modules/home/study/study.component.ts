@@ -102,7 +102,7 @@ export class StudyComponent implements OnInit {
   }
 
   onHierarchyChanged(event) {
-    // console.log('moving event?');
+    // console.debug('moving event?');
     this.survey.changeKind = 'UPDATED_HIERARCHY_RELATION';
     this.survey.changeComment = 'Study order changed';
     this.templateService.update<SurveyProgram>(this.survey).subscribe((result) => {

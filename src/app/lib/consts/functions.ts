@@ -1,7 +1,7 @@
 import { SimpleChange } from '@angular/core';
 import { QDDT_QUERY_INFOES, HEADER_DETAILS } from './query-info.config';
 import { ElementKind, EnumType } from '../enums';
-import { QueryInfo, SelectItem} from '../classes';
+import { QueryInfo, SelectItem } from '../classes';
 import { ISelectOption, IEntityEditAudit, ITreeNode } from '../interfaces';
 
 
@@ -63,7 +63,8 @@ export function toSelectItems(enumerable: EnumType): ISelectOption[] {
 }
 
 export function hasChanges<T>(change?: SimpleChange, comparar?: (a: T, b: T) => boolean): boolean {
-  if (change && change.currentValue) {
+  console.debug('haschanges');
+  if ((change) && (change.currentValue)) {
     if (!change.previousValue) {
       return true;
     }

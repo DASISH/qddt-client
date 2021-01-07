@@ -24,7 +24,7 @@ export class SearchComponent implements OnInit {
           const filename = revision.substring(0, revision.length - 2).replace('_', '.').toLowerCase();
           this.downloadFile({ fileName: revision, originalName: filename, originalOwner: uuid, fileType: 'application/pdf' })
           // TODO filedownload
-          // console.log('filedownload ' + revision);
+          // console.debug('filedownload ' + revision);
         } else {
           this.msgService.sendMessage({
             elementId: result.id,

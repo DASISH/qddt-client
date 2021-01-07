@@ -50,7 +50,7 @@ export class ConditionFormComponent implements AfterViewInit, OnChanges {
     switch (condition.conditionKind) {
       case ConditionKind.IfThenElse:
         if (isString(condition.condition)) {
-          console.log('do check init ifthenelse');
+          console.debug('do check init ifthenelse');
           condition.condition = new IfThenElse(JSON.parse(condition.condition))
         }
         break;
@@ -60,7 +60,7 @@ export class ConditionFormComponent implements AfterViewInit, OnChanges {
         }
         break;
       default:
-        console.log('This kind isn\'t implemented yet; ' + this.condition.conditionKind);
+        console.debug('This kind isn\'t implemented yet; ' + this.condition.conditionKind);
     }
   }
 

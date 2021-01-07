@@ -51,15 +51,17 @@ export class FormTextAreaComponent extends ElementBase<string> implements OnChan
   constructor(
     @Optional() @Inject(NG_VALIDATORS) validators: Array<any>,
     @Optional() @Inject(NG_ASYNC_VALIDATORS) asyncValidators: Array<any>) {
-
     super(validators, asyncValidators);
 
   }
+
+
   ngAfterViewInit(): void {
-    const element = document.getElementById(this.idOuter);
-    if (element) {
-      delay(20).then(() => {
+    delay(50).then(() => {
+      const element = document.getElementById(this.idOuter);
+      if (element) {
         const max = element.parentElement.getAttribute('maxlength') || element.parentElement.dataset.length;
+        console.debug('TextArea View init');
         if (max) {
           element.firstElementChild.setAttribute('data-length', max);
           element.firstElementChild.setAttribute('maxlength', max);
@@ -69,14 +71,16 @@ export class FormTextAreaComponent extends ElementBase<string> implements OnChan
         if (min) {
           element.firstElementChild.setAttribute('minlength', min);
         }
-        M.updateTextFields();
-      });
-    }
+        console.debug('TextArea textareaAutoResize init');
+        M.textareaAutoResize(document.getElementById(this.identifier));
+      }
+    })
   }
 
   ngOnChanges(changes: SimpleChanges): void {
 
-    // console.log(changes || JSON);
+    if (changes) {
+    }
   }
 
 }

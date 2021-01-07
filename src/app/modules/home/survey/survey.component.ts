@@ -89,7 +89,7 @@ export class SurveyComponent implements OnInit {
       const orders = this.surveys.map<ISurveyOrder>((value, index) => new SurveyOrder({ uuid: value.id, index }))
       this.homeService.arrangeSurveys(orders).subscribe((result) => this.surveys = result);
     }
-    // console.log('moving event?');
+    // console.debug('moving event?');
   }
 
 

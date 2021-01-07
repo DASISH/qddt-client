@@ -46,7 +46,7 @@ export class InstrumentFormComponent implements OnChanges {
   public ngOnChanges(changes: SimpleChanges): void {
     if (hasChanges(changes.instrument)) {
       this.instrument = new Instrument(JSON.parse(JSON.stringify(changes.instrument.currentValue)));
-      console.log(this.instrument.parameterOut || JSON);
+      console.debug(this.instrument.parameterOut || JSON);
       this.instrument.root = this.postloadTreeNode(this.instrument.root);
       this.currentInstrumentType = InstrumentKind[this.instrument.instrumentKind];
       this.service.canDoAction(ActionKind.Update, this.instrument)
@@ -67,7 +67,7 @@ export class InstrumentFormComponent implements OnChanges {
 
   public onSelectOption(value) {
     this.SOURCE = { element: '', elementKind: value };
-    console.log(this.SOURCE);
+    console.debug(this.SOURCE);
   }
 
   public onDoAction(response: { action: ActionKind; ref: TreeNodeRevisionRef }) {
@@ -76,8 +76,8 @@ export class InstrumentFormComponent implements OnChanges {
     switch (action) {
       case ActionKind.Read:
         this.instrument.initParameters();
-        this.instrument.root.children.forEach(c => console.log(c.name));
-        // console.log(replaceNode(this.instrument.root.children, ref));
+        this.instrument.root.children.forEach(c => console.debug(c.name));
+        // console.debug(replaceNode(this.instrument.root.children, ref));
         break;
       case ActionKind.Create: this.onItemAdded(ref); break;
       case ActionKind.Update: this.onItemModified(ref); break;

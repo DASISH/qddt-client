@@ -68,7 +68,7 @@ export class CommentListComponent implements AfterViewInit {
 
   onDeleteComment(element: { id: any, name: string }) {
     if (element.id !== '') {
-      // console.log('delete...');
+      // console.debug('delete...');
       const comment = this.comments[element.id];
       this.commentService.delete(comment.id).subscribe(
         () => this.comments.splice(element.id, 1));

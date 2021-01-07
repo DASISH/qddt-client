@@ -74,19 +74,19 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterViewInit
   }
 
   onHideDetail() {
-    console.log('one up');
+    console.debug('one up');
     this.router.navigate(['../'], { relativeTo: this.route });
     this.closeState.emit(this.action);
   }
 
   goBack() {
-    console.log('goBack');
+    console.debug('goBack');
     this.location.back();
   }
 
   onDeleteConfirmModal(item: IEntityAudit) {
     if (item) {
-      // console.log(item || JSON);
+      // console.debug(item || JSON);
       this.service.delete(item)
         .subscribe(() => {
           this.action.action = ActionKind.Delete;

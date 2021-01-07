@@ -154,7 +154,7 @@ export class TopicComponent implements OnInit {
 
 
   onHierarchyChanged(event) {
-    // console.log('moving event?');
+    // console.debug('moving event?');
     this.study.changeKind = 'UPDATED_HIERARCHY_RELATION';
     this.study.changeComment = 'Topic order changed';
     this.study.topicGroups = this.topics;

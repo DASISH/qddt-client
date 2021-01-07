@@ -18,7 +18,7 @@ export class AppComponent implements OnDestroy, AfterViewInit {
 
   constructor(private users: UserService, private properties: PropertyStoreService,
     private messages: MessageService, @Inject(LOCALE_ID) protected localID: string) {
-    console.log(localID);
+    console.debug(localID);
     messages.getMessage().subscribe({
       next: (aMessage) => this.onPreivewShow(aMessage)
     });

@@ -49,7 +49,7 @@ export class PreviewControlConstructComponent {
   ElementKind.INSTRUCTION, ElementKind.STATEMENT_CONSTRUCT, ElementKind.INSTRUCTION];
 
   public onModified(event: UserResponse[]) {
-    // console.log(event);
+    // console.debug(event);
     this.selectedEvent.emit(event);
   }
 

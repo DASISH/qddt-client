@@ -42,7 +42,6 @@ form p {
   opacity: 0;
   position: absolute;
   z-index: 9999;
-  will-change: width, height;
 }
 
 input {

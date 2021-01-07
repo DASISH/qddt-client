@@ -3,11 +3,9 @@
   position: relative;
 }
 
-::placeholder {
-  color: teal;
-}
+::placeholder { color: teal; }
 
-.input-field > label { color: teeal;}
+.input-field > label { color: teal;}
 
 .autocomplete ul {
   position: absolute;
@@ -56,7 +54,6 @@
 }
 
 .input-field {
-  padding: auto;
   margin: 0;
 }
 

@@ -30,7 +30,7 @@ export class ResponsedomainCodeListComponent implements OnChanges {
   public checked() { return this.rows.filter((e: any) => e.checked).length; }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    console.log('oncahnges....')
+    console.debug('oncahnges....')
     this.rows = [];
     const rep = this.managedRepresentation;
 
@@ -59,7 +59,7 @@ export class ResponsedomainCodeListComponent implements OnChanges {
         this.rows.forEach(item => item.checked = false);
       }
       row.checked = event.target.checked;
-      // console.log('check here?');
+      // console.debug('check here?');
       if (this.type === 'checkbox') {
         if (this.rows.filter((e: any) => e.checked).length >= this.responseCardinality.maximum) {
           this.rows.filter((e: any) => !e.checked).forEach(e => e.disabled = 'true');

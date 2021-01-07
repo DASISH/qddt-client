@@ -105,6 +105,6 @@ export class IfThenElseFormComponent {
   }
 
   public onItemNew(event) {
-    console.log(event);
+    console.debug(event);
   }
 }

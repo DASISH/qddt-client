@@ -101,7 +101,7 @@ export class PreviewConditionConstructComponent implements OnChanges {
   private assignValueToOutPutParameter(label: string) {
     if (this.outParameter && label) {
       try {
-        console.log('assignValueToOutPutParameter');
+        console.debug('assignValueToOutPutParameter');
         const result = tryParse(label);
         const value = (isBoolean(result)) ? result : (this.isDone(result)) ? result.done : result;
         this.outParameter.value = [new UserResponse({ label: this.outParameter.referencedId, value })];

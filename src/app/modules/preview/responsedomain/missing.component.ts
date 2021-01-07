@@ -32,7 +32,7 @@ export class ResponsedomainMissingComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (hasChanges(changes.missingSelected)) {
-      console.log(this.missingSelected);
+      console.debug(this.missingSelected);
       if (changes.missingSelected.currentValue === false) {
         this.unchecked = '';
       }

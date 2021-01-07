@@ -42,7 +42,7 @@ export class RevisionComponent implements OnChanges {
     } else {
       this.selectedRevisionResult = this.revisionResultEntities.find(entity => entity.revisionNumber === this._revisionIndex);
     }
-    // console.log(this._selectedRevision + ' -> ' +  this.selectedRevisionResult || JSON);
+    // console.debug(this._selectedRevision + ' -> ' +  this.selectedRevisionResult || JSON);
   }
 
   public version(item: IEntityEditAudit) {
@@ -68,7 +68,7 @@ export class RevisionComponent implements OnChanges {
         },
         () => this.showProgressBar = false);
     } else {
-      // console.log(changes.toString());
+      // console.debug(changes.toString());
     }
   }
 

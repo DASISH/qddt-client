@@ -79,10 +79,10 @@ export class PreviewSequenceConstructComponent implements AfterViewInit, OnChang
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (hasChanges(changes.sequenceConstruct) && !this.isSequence(this.sequenceConstruct)) {
-      console.log('new SequenceConstruct');
+      console.debug('new SequenceConstruct');
       this.sequenceConstruct = new SequenceConstruct(changes.sequenceConstruct.currentValue);
     } else {
-      // console.log('seems to be fine...');
+      // console.debug('seems to be fine...');
     }
   }
 
@@ -105,9 +105,9 @@ export class PreviewSequenceConstructComponent implements AfterViewInit, OnChang
           const result = M.Collapsible.init(htmlElement);
           if (result) {
             this.initialized.push(key);
-            // console.log(key);
+            // console.debug(key);
           } else {
-            console.log('init failed');
+            console.debug('init failed');
           }
         }
 

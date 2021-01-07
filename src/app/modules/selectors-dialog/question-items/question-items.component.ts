@@ -101,7 +101,7 @@ export class QuestionItemsComponent {
   get modalRef(): M.Modal {
     if (!(this._modalRef)) {
       const ref = document.querySelector('#MODAL-' + this.modalId);
-      console.log(ref);
+      console.debug(ref);
       this._modalRef = M.Modal.init(ref, { inDuration: 750, outDuration: 1000, startingTop: '50%', endingTop: '10%', preventScrolling: true, opacity: 0.3, }
       );
     }
@@ -150,7 +150,7 @@ export class QuestionItemsComponent {
     if (cqi && cqi.elementRevision) {
       this.SOURCE = cqi;
     }
-    // console.log(this.SOURCE || JSON);
+    // console.debug(this.SOURCE || JSON);
     this.modalRef.open();
   }
 

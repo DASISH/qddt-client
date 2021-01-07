@@ -62,7 +62,7 @@ export class QuestionConstructFormComponent implements OnChanges {
   }
 
   public onAddPreInstruction(item: IElement) {
-    console.log('break here');
+    console.debug('break here');
     this.controlConstruct.controlConstructInstructions.push({ instruction: item.element, instructionRank: 'PRE' });
     this.preInstructions = this.filterInstructions('PRE');
   }

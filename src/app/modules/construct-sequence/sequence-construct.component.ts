@@ -13,7 +13,7 @@ export class SequenceConstructComponent {
 
 
   public onFormModified(event) {
-    // console.log(event);
+    // console.debug(event);
     this.templateDetail.onToggleForm();
   }
 }

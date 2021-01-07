@@ -75,12 +75,12 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit {
             cond.condition = new Loop(JSON.parse(cond.condition));
             break;
           default:
-            console.log(cond.conditionKind);
+            console.debug(cond.conditionKind);
         }
         return cond;
       }
     } catch (ex) {
-      // console.log(ex); just ignore
+      // console.debug(ex); just ignore
     }
     return null;
   }
@@ -112,7 +112,7 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit {
     if (!item.element && (!this.isSequence(item) || item.children.length === 0)) {
       M.Collapsible.init(document.querySelectorAll('.collapsible'));
 
-      console.log('open body...');
+      console.debug('open body...');
       let cond: ICondition;
 
       if (kind === ElementKind.CONDITION_CONSTRUCT) {
@@ -139,7 +139,7 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit {
                 parameterIn: cond.parameterIn,
                 parameterOut: cond.parameterOut
               } as ICondition;
-              console.log(item.element || JSON);
+              console.debug(item.element || JSON);
             } else {
               item.element = Factory.createFromSeed(kind, result.entity);
             }
@@ -176,9 +176,9 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit {
   }
 
   public onCheckParams(id, event) {
-    console.log(id);
-    // console.log(event);
-    // console.log(this.inParameters.get(id).value);
+    console.debug(id);
+    // console.debug(event);
+    // console.debug(this.inParameters.get(id).value);
     // this.inParameters.get(id).value = event;
   }
 

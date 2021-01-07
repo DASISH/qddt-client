@@ -78,7 +78,7 @@ export class TreeNodeEditComponent implements OnChanges {
     switch (node.element.conditionKind) {
       case ConditionKind.IfThenElse:
         if (isString(node.element.condition)) {
-          console.log('do check init ifthenelse');
+          console.debug('do check init ifthenelse');
           node.element.condition = new IfThenElse(JSON.parse(node.element.condition))
         }
         break;
@@ -88,7 +88,7 @@ export class TreeNodeEditComponent implements OnChanges {
         }
         break;
       default:
-        console.log('This kind isn\'t implemented yet; ' + node.element.conditionKind);
+        console.debug('This kind isn\'t implemented yet; ' + node.element.conditionKind);
     }
     // JSON.stringify(node.element.condition).match
   }

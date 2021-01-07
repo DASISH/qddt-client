@@ -19,7 +19,7 @@ export class ReferencedFormComponent implements OnChanges {
   constructor(private service: TemplateService) { }
 
   onSave() {
-    console.log('notin done...');
+    console.debug('notin done...');
   }
 
   ngOnChanges(changes: SimpleChanges): void {
