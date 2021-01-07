@@ -70,6 +70,7 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterViewInit
         M.CharacterCounter.init(input);
         M.AutoInit(input);
       });
+    M.updateTextFields();
   }
 
   onHideDetail() {

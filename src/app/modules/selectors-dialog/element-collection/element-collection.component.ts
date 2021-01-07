@@ -30,7 +30,7 @@ import {
           </a>
         </li>
       </ul>
-      <div class="question" [innerHtml]="item['description']"></div>
+      <div  [ngClass]="{'question': isQuestion(), 'instrument': !isQuestion() }"  [innerHtml]="item['description']"></div>
     </a>
   </div>
   <qddt-element-select *ngIf="showSearch" class="input-field" [source]="{ element:'', elementKind: elementKind }" [autoCreate]="true" [xmlLang]="xmlLang"
@@ -53,6 +53,7 @@ export class ElementCollectionComponent {
   // @Output() modifiedEvent = new EventEmitter<IElement>();
 
   public readonly modalId = Math.round(Math.random() * 10000);
+  public readonly isQuestion = () => this.elementKind === ElementKind.QUESTION_ITEM;
   public showButton = false;
   showSearch = false;
 

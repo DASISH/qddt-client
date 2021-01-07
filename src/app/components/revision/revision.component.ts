@@ -6,7 +6,6 @@ import { DomainKind, ElementKind, IElement, IEntityAudit, IEntityEditAudit, Mess
 
 @Component({
   selector: 'qddt-revision',
-
   styles: ['table { table-layout:auto;}'],
   templateUrl: './revision.component.html',
   providers: [RevisionService]

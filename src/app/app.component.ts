@@ -26,7 +26,7 @@ export class AppComponent implements OnDestroy, AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    M.AutoInit();
+    // M.AutoInit();
   }
 
   public ngOnDestroy() {

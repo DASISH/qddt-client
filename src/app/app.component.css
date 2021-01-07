@@ -18,9 +18,6 @@
   }
 }
 
- /* .ng-invalid:not(form) {
-  border-bottom: 1px solid red;
-} */
 
 p {
   text-align: justify;
@@ -48,10 +45,6 @@ form p {
   will-change: width, height;
 }
 
-.noItemFound { border: thick solid dodgerblue; }
-.itemInvalid { border: thick solid red; }
-.infoText { font-style: italic; color: grey; }
-
 input {
   margin: auto auto 0px;
 }
@@ -60,14 +53,8 @@ input {
   margin: 0 !important;
 }
 
-
 .collection { border:none; }
 
-/*.collection.with-header {*/
-/*  border-bottom: none;*/
-/*  padding: 5px 10px 5px 0px;*/
-/*  min-height: 3rem;*/
-/*}*/
 
 .collection.with-header .collection-header {
   background-color: unset;
@@ -77,6 +64,7 @@ input {
 }
 
 .collection a.collection-item {
+  cursor: pointer;
   background-color: unset;
   min-height: 3rem;
   border-bottom: none;
@@ -84,7 +72,6 @@ input {
 }
 
 .collection .collection-item { background-color: unset; }
-.collection a.collection-item { cursor: pointer; padding-left: 10px;}
 
 .collapsible-header .col {white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
@@ -101,14 +88,6 @@ ul.dropleft {
 
 ul.dropleft > li { display:inline-flex; padding: 0 10px 0  5px; }
 
-.qddtSearchCursor { cursor: zoom-in; }
-
-.question { white-space: nowrap; overflow: hidden;text-overflow: ellipsis; display: flow-root; line-height:30px; color: gray; }
-
-.codeValue { min-width:20px; width:max-content ; float: left; padding-right: 5px; }
-
-.editGreen {background-color: #e7ece7 !important;}
-
 div.card-toc{ counter-increment: item; }
 
 div.card-toc:before { content: counters(item, ".") ". ";  position: absolute;top: 5px;left: 5px;display: block; }
@@ -119,3 +98,21 @@ div.card-toc:before { content: counters(item, ".") ". ";  position: absolute;top
 }
 
 .modal { max-width: 1000px; width: 65%;}
+
+div > .card.section.row { margin-left: -0.6rem; }
+
+/*home menu hover*/
+.row:hover > .col > ul.dropdownmenu { display:block; }
+.row > .col > ul.dropdownmenu {  display:none;   transition: display 0.75s;}
+ul:not(.browser-default) > li > a { margin-bottom: 10px; }
+
+
+.qddtSearchCursor { cursor: zoom-in; }
+.question { white-space: nowrap; overflow: hidden;text-overflow: ellipsis; display: flow-root; line-height:30px; color: gray; }
+.instruction {  overflow: auto; display: flow-root; line-height:30px; color: gray; }
+.codeValue { min-width:20px; width:max-content ; float: left; padding-right: 5px; }
+.editGreen {background-color: #e7ece7 !important;}
+.noItemFound { border: thick solid dodgerblue; }
+.itemInvalid { border: thick solid red; }
+.infoText { font-style: italic; color: grey; }
+
