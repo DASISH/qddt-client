@@ -14,11 +14,13 @@ import { ElementKind, TemplateService, Topic, LANGUAGE_MAP } from '../../../lib'
       [lockups]="LANGUAGES">
     </qddt-select>
 
-    <div class="col s12 input-field">
-      <textarea name="description" class="materialize-textarea" [(ngModel)]="topic.description" required  data-length ="20000" >
-      </textarea>
-      <label class="active">Description</label>
-    </div>
+    <qddt-textarea class="col s12" name="description"
+        required
+        placeholder="Name me"
+        label="Description"
+        [(ngModel)]="topic.description"
+        data-length="20000">
+    </qddt-textarea>
 
     <qddt-download class="col s12" [fileStore]="fileStore" [entity]="topic" [readonly]="readonly"></qddt-download>
 

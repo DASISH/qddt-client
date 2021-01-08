@@ -12,13 +12,13 @@ import {
 @Component({
   selector: 'qddt-concept-treenode',
   styles: [
-    'li ul:not(.dropdownmenu) {  margin-left: 2rem; }',
     '.card.section.row { margin-left: -0.6rem; }',
     '.dropdownmenu { top:1rem; position:relative;}',
-    'ul:not(.dropdownmenu) > li { counter-increment: item; }',
     'ul {  counter-reset: item;}',
+    'ul:not(.dropdownmenu) > li { counter-increment: item; }',
     'ul:not(.dropdownmenu) > li div.card:before { content: counters(item, ".") ". ";  position: absolute;top: 5px;left: 5px;display: block; }',
     'li ul:not(.dropdownmenu) > li div.card:before { content: counters(item, ".") " "; }',
+    'li ul:not(.dropdownmenu) {  margin-left: 2rem; }',
   ],
   templateUrl: './concept-tree-node.component.html',
 })
