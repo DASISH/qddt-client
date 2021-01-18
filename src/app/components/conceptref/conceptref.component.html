@@ -1,10 +1,10 @@
 <div *ngIf="element && element?.parentRefs && element?.parentRefs?.length > 0">
-  <div class="hoverable row" (click)="showRefs = !showRefs" style="cursor: zoom-in; padding: 0 10px 1rem 10px;">
-    <label style="cursor: zoom-in;">
+  <div class="hoverable row" style="padding: 0 10px 1rem 10px;">
+    <label>
       Question referenced by ({{ element.parentRefs.length }})
     </label>
     <table class="highlight">
-      <thead class="teal-text text-lighten-2">
+      <thead class="teal-text text-lighten-2" style="cursor: zoom-in;" (click)="showRefs = !showRefs">
         <tr>
           <th>Study</th>
           <th>Module</th>
@@ -13,15 +13,15 @@
       </thead>
       <tbody *ngIf="showRefs">
         <tr *ngFor="let ref of getRefRoot()">
-          <td>
-            <a style="cursor: pointer;"
-              (click)="onClickStudy(ref.parentRef.parentRef.id)">{{ ref?.parentRef?.parentRef?.name }}</a>
+          <td style="cursor: pointer;" (click)="onClickStudy(ref.parentRef.parentRef.id)">
+            <a>{{
+              ref?.parentRef?.parentRef?.name }}</a>
           </td>
-          <td>
-            <a style="cursor: pointer;" (click)="onClickTopic(ref.parentRef.id)">{{ ref?.parentRef?.name }}</a>
+          <td style="cursor: pointer;" (click)="onClickTopic(ref.parentRef.id)">
+            <a>{{ ref?.parentRef?.name }}</a>
           </td>
-          <td *ngIf="ref.id">
-            <a style="cursor: pointer;" (click)="onClickConcept(ref.id)">{{ ref?.name }}</a>
+          <td *ngIf="ref.id" style="cursor: pointer;" (click)="onClickConcept(ref.id)">
+            <a>{{ ref?.name }}</a>
           </td>
         </tr>
       </tbody>

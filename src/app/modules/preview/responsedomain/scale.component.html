@@ -2,8 +2,10 @@
   <ng-container *ngIf="displayLayout === 0">
     <table>
       <thead>
-        <tr style="white-space: pre-line;">
+        <tr>
+          <!-- <tr> style="white-space: pre-line;"> -->
           <th *ngFor="let item of headers">
+            <!-- style="padding: 0; transform: rotate(-45deg);"> -->
             <label>{{ insertParam(item.label) }}</label>
           </th>
         </tr>

@@ -15,7 +15,7 @@ import {
   templateUrl: 'responsedomain.component.html',
   styles: [
     '.descLabel {left: 1rem;top: -1rem;position: relative;width: 95%;display: inline-block;font-style: italic;}',
-    'div:hover > ul.dropleft { display:block; } ',
+    'div:hover > ul.dropleft { opacity :1; } ',
     'td { min-width: 200px; max-width: 300px}'
   ],
 })

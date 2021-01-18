@@ -5,12 +5,12 @@ import { LocalDatePipe, ElementRevisionRef, hasChanges, IEntityEditAudit, Messag
 @Component({
   selector: 'qddt-version-label',
   styles: [
-    'label  { white-space: nowrap; vertical-align: middle; text-align: right; width: 90px; padding-left: 5px}',
-    'i { margin:0px; vertical-align: middle;float: unset; display: unset; position: relative; }'
+    'label  { white-space: nowrap; vertical-align: middle; text-align: right; width: 90px; padding-left: 5px;}',
+    'i { margin:0px; vertical-align: middle;float: unset; display: unset; position: relative; font-size:1rem;}'
   ],
   template:
     `<label class="teal-text" [title]="titleInfo">Version <qddt-version [element]="element" [revisionRef]="revisionRef" ></qddt-version>
-    <i *ngIf="element?.basedOnObject" (click)="onClick()" class="qddtIcon material-icons teal-text tiny"
+    <i *ngIf="element?.basedOnObject" (click)="onClick()" class="material-icons teal-text tiny"
     style="cursor: pointer;" title="based on preview">content_copy</i>
     </label>`
   ,

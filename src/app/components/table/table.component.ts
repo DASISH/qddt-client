@@ -1,6 +1,6 @@
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, Inject, LOCALE_ID } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, Inject, LOCALE_ID } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { Column } from './table.column';
 import { DEFAULT_COLUMNS, LIST_COLUMNS, RESPONSEDOMAIN_COLUMNS } from './table.column.config';
@@ -13,7 +13,7 @@ import {
   IPageSearch,
   IRevisionRef, MessageService,
   PreviewService,
-  QueryInfo, UserService, LANGUAGE_MAP, saveAs
+  QueryInfo, UserService, LANGUAGE_MAP, saveAs, delay
 } from '../../lib';
 
 
@@ -140,9 +140,14 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
         }
       });
       this.rows.push(row);
+      // console.debug('end ' + Date.now().toString());
+
     });
     this.showProgressBar = false;
-    // console.debug('end ' + Date.now().toString());
+    delay(20).then(() => {
+      M.updateTextFields();
+      console.log('updateTextFields ');
+    });
 
   }
 
