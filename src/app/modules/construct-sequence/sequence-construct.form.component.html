@@ -26,8 +26,11 @@
       [xmlLang]="sequence.xmlLang" [readonly]="false" (deletedEvent)="onRemoveUniverse($event)">
     </qddt-element-collection>
 
-    <qddt-parameter [outParameters]="sequence.parameters" [inParameters]="sequence.parameterIn" [showParameters]="true">
-    </qddt-parameter>
+    <div class="row">
+      <qddt-parameter [outParameters]="sequence.parameters" [inParameters]="sequence.parameterIn"
+        [showParameters]="true">
+      </qddt-parameter>
+    </div>
 
     <qddt-element-revision-ref [readonly]="readonly" [elementRevisions]="sequence.sequence"
       [inParameters]="inParameters" [xmlLang]="sequence.xmlLang" [selectOptions]="CONSTRUCT"

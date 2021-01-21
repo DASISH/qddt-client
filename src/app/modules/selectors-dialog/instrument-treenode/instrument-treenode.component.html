@@ -6,6 +6,7 @@
       <ul [id]="'TREENODE-'+level" *ngIf="nodes" class="collapsible">
         <li [id]="node.id" *ngFor="let node of nodes; trackBy:trackById;"
           [ngClass]="{'SEQ': isSequence(node)|| getMatIcon(node.elementKind)==='record_voice_over' }">
+
           <div class="collapsible-header" cdkDrag [title]="node.id" (click)="onOpenBody(node)">
             <ul class="dropleft" *ngIf="!readonly && level==1">
               <li>
@@ -37,8 +38,9 @@
               <i class="material-icons blue-text text-lighten-2" style=" display: inline; ">reorder</i>
             </div>
           </div>
+
           <div class="collapsible-body">
-            <ul class="collection with-header hoverable">
+            <ul class="collection with-header hoverable ">
               <li class="collection-header" style="cursor: zoom-in;" (click)="showLabel[node.id]=!showLabel[node.id]">
                 <label><i class="material-icons small">format_quote</i>Label</label>
               </li>
@@ -47,14 +49,17 @@
                 <qddt-input required name="name" [(ngModel)]="node.name" data-length="100"></qddt-input>
               </li>
             </ul>
+
             <ng-container *ngIf="isSequence(node)">
-                <qddt-parameter [inParameters]="node.parameters | qddtFilter: isIn " [parameters]="inParameters">
-                </qddt-parameter>
+              <qddt-parameter [inParameters]="node.parameters | qddtFilter: isIn " [parameters]="inParameters">
+              </qddt-parameter>
             </ng-container>
             <ng-container *ngIf="isConditional(node)">
-              <qddt-parameter [inParameters]="node.parameters | qddtFilter: isIn"
-                [outParameters]="node.parameters | qddtFilter: isOut" [parameters]="inParameters">
-              </qddt-parameter>
+              <ul>
+                <qddt-parameter [inParameters]="node.parameters | qddtFilter: isIn"
+                  [outParameters]="node.parameters | qddtFilter: isOut" [parameters]="inParameters">
+                </qddt-parameter>
+              </ul>
               <qddt-edit-conditional [conNode]="node" [formName]="'EEC'+node.id">
               </qddt-edit-conditional>
             </ng-container>

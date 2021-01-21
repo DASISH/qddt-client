@@ -16,7 +16,8 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'qddt-element-revision-ref',
   styles: [
-    'ul.collapsible { padding: 1px; border: 0; margin-top:0; margin-bottom: 0; }',
+    'ul.collapsible.row {margin-bottom: 20px;}',
+    'ul.collapsible { padding: 1px; border: 0; margin-top:0; }',
     'ul.collapsible  ul.collapsible {  margin-left: 1rem; }',
     '.collapsible-header {padding: 0.75rem; }',
     '.collapsible-header:hover > ul.dropleft { display:block; }',

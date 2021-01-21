@@ -89,6 +89,11 @@ ul.dropleft {
 
 ul.dropleft > li { display:inline-flex; padding: 0 10px 0  5px; }
 
+.collection.with-header.hoverable {
+  margin-bottom: 10px;
+  /* margin-left: 0px; */
+}
+
 div.card-toc{ counter-increment: item; }
 
 div.card-toc:before { content: counters(item, ".") ". ";  position: absolute;top: 5px;left: 5px;display: block; }

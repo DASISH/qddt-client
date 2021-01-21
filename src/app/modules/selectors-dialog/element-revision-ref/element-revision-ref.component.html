@@ -30,9 +30,10 @@
           <i class="material-icons blue-text text-lighten-2" style=" display: inline; ">reorder</i>
         </div>
       </div>
+
       <div class="collapsible-body">
         <ng-container *ngIf="isControlConstruct(cqi)">
-          <ul class="collection with-header hoverable">
+          <ul class="collection with-header hoverable ">
             <li class="collection-header" style="cursor: zoom-in;" (click)="showLabel[cqi.index]=!showLabel[cqi.index]">
               <label><i class="material-icons small">format_quote</i>Label</label>
             </li>
@@ -41,6 +42,7 @@
               <qddt-input required name="name" [(ngModel)]="cqi.name" data-length="100"></qddt-input>
             </li>
           </ul>
+
           <qddt-preview-controlconstruct [construct]="cqi.element" [showDetail]="false" [inParameters]="inParameters"
             (selectedEvent)="onCheckParams(cqi, $event)">
           </qddt-preview-controlconstruct>

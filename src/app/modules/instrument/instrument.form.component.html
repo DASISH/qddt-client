@@ -12,9 +12,11 @@
     <qddt-input [readonly]="readonly" required name="label" label="Label" [(ngModel)]="instrument.label"
       data-length="255">
     </qddt-input>
+
     <qddt-textarea [readonly]="readonly" required name="description" label="Description"
       [(ngModel)]="instrument.description" data-length="1000">
     </qddt-textarea>
+
     <div class="row">
       <qddt-select [readonly]="readonly" class="col s5" required name="instrumentKind" label="Instrument type"
         [(ngModel)]="instrument.instrumentKind" [lockups]="instrumentMap">
@@ -22,9 +24,12 @@
       <div class="col s7 infoText">{{getDescription(instrument.instrumentKind)}}</div>
     </div>
 
-    <qddt-parameter [inParameters]="instrument.parameterIn" [outParameters]="instrument.parameterOut"
-      [parameters]="instrument.parameterOut" [showParameters]="true" #params>
-    </qddt-parameter>
+    <div class="row">
+      <qddt-parameter [inParameters]="instrument.parameterIn" [outParameters]="instrument.parameterOut"
+        [parameters]="instrument.parameterOut" [showParameters]="true" #params>
+      </qddt-parameter>
+    </div>
+
 
     <qddt-instrument-treenode [readonly]="readonly" [treeNodes]="instrument.root.children"
       [inParameters]="instrument.parameterOut" [xmlLang]="instrument.xmlLang" [selectOptions]="CONSTRUCT"

@@ -58,7 +58,7 @@ import { Factory } from 'src/app/lib';
               <qddt-version-label class="col s3 m2 right-align" [revisionRef]="node"></qddt-version-label>
           </div>
           <div class="collapsible-body">
-            <ul class="collection with-header hoverable row">
+            <ul class="collection with-header hoverable ">
               <li class="collection-header" style="cursor: zoom-in;" (click)="showLabel[node.id]=!showLabel[node.id]">
                 <label><i class="material-icons small">format_quote</i>Label</label>
               </li>
