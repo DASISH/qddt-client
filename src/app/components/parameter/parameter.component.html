@@ -7,7 +7,7 @@
     <label>In ({{countIn}})</label>
     <ng-container *ngIf="isMapTrue(inParameters) && inParameters?.size>0">
       <div class="chip" style="margin-left: 0.75rem;" [ngClass]="{'green lighten-5': isTrue(entry.value) }"
-        [title]="entry.value.referencedId" *ngFor="let entry of inParameters| keyvalue:valueAscOrder">
+        [title]="(entry.value.referencedId||'failed?')" *ngFor="let entry of inParameters| keyvalue:valueAscOrder">
         {{getParam(entry.value)}}
       </div>
     </ng-container>
@@ -25,7 +25,7 @@
     <label>Out ({{countOut}})</label>
     <ng-container *ngIf="isMapTrue(outParameters) && outParameters?.size>0">
       <div class="chip" style="margin-left: 0.75rem; cursor: grab;"
-        [ngClass]="{'green lighten-5': isTrue(entry.value) }" [title]="entry.value.id"
+        [ngClass]="{'green lighten-5': isTrue(entry.value) }" [title]="(entry.value.id||'failed?')"
         *ngFor="let entry of outParameters | keyvalue:valueAscOrder;let idx=index;" cdkDrag [cdkDragData]="entry.value">
         {{idx+1}}:{{getParam(entry.value)}}
       </div>
