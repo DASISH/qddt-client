@@ -10,7 +10,7 @@ import {
 import {
   toSelectItems, Loop, ConditionConstruct, ElementKind,
   ConditionKind, TemplateService, ActionKind, hasChanges, isString,
-  IfThenElse, TreeNodeRevisionRefImpl, ICondition, AbstractControlConstruct, mergeParameters, refreshParameter
+  IfThenElse, TreeNodeRevisionRefImpl, ICondition, AbstractControlConstruct, mergeParameters, evaluateParameter
 } from 'src/app/lib';
 
 
@@ -68,7 +68,7 @@ export class TreeNodeEditComponent implements OnChanges {
   }
 
   public doCheckParam() {
-    refreshParameter(this.conNode);
+    evaluateParameter(this.conNode);
     if (this.conNode.element.conditionKind) {
       // const ifthenelse = this.conNode.element.condition as IfThenElse;
     }

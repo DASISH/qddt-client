@@ -176,10 +176,15 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit {
   }
 
   public onCheckParams(id, event) {
-    console.debug(id);
-    // console.debug(event);
-    // console.debug(this.inParameters.get(id).value);
+    // console.groupCollapsed('onCheckParams');
+
+    // console.debug(id);
+    // console.log(event);
+    // console.log(this.inParameters.get(id).value);
+    // console.groupEnd();
+    // usefull???
     // this.inParameters.get(id).value = event;
+
   }
 
 

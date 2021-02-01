@@ -228,7 +228,7 @@ export class UserService {
       localStorage.setItem(TOKEN_NAME, token);
       this.loadUserFromToken();
     } catch (e) {
-      console.log(e);
+      console.exception(e);
       localStorage.clear();
     }
   }

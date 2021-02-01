@@ -113,7 +113,7 @@ export class PreviewSequenceConstructComponent implements AfterViewInit, OnChang
 
       }
     } catch (ex) {
-      console.log(ex || JSON);
+      console.exception(ex || JSON);
     }
   }
 

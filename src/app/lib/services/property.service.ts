@@ -27,7 +27,7 @@ export class PropertyStoreService {
       const pos = this.userSettings.hierarchyPosition || HierarchyPosition.Survey;
       this.currentChange$ = new BehaviorSubject<HierarchyPosition>(pos);
     } catch (e) {
-      console.debug(e);
+      console.exception(e);
     }
   }
 

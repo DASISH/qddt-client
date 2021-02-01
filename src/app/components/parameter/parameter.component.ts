@@ -25,23 +25,48 @@ export class ParameterComponent implements OnChanges {
     return a.value.idx - b.value.idx;
   }
 
-
   constructor() { }
 
-
   public refresh() {
+    this.countOut = (this.outParameters) ? this.isMapTrue(this.outParameters) ?
+      this.outParameters.size :
+      this.outParameters.length : 0;
     this.countIn = (this.inParameters) ? this.isMapTrue(this.inParameters) ?
       this.inParameters.size :
       this.inParameters.length : 0;
 
-    this.countOut = (this.outParameters) ? this.isMapTrue(this.outParameters) ?
-      this.outParameters.size :
-      this.outParameters.length : 0;
-
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.refresh();
+    if (changes.inParameters?.currentValue) {
+      this.countIn = (this.inParameters) ? this.isMapTrue(this.inParameters) ?
+        this.inParameters.size :
+        this.inParameters.length : 0;
+    }
+    if (changes.outParameters?.currentValue) {
+      this.countOut = (this.outParameters) ? this.isMapTrue(this.outParameters) ?
+        this.outParameters.size :
+        this.outParameters.length : 0;
+
+    }
+    if (changes.parameters?.previousValue) {
+      console.groupCollapsed('OnChanges');
+      console.debug('... parameters');
+      let prev = changes.parameters.previousValue as Map<string, Parameter>;
+      this.parameters.forEach(
+        (v, k) => {
+          if (prev.has(k)) {
+            if (!prev[k].equal(v)) {
+              console.debug(prev[k]);
+              console.debug(v);
+            }
+          } else {
+            console.debug('NEW');
+            console.debug(v);
+          }
+        });
+      console.groupEnd();
+    }
   }
 
   public onClickIgnore(event: Event) {
