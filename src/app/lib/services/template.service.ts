@@ -55,7 +55,7 @@ export class TemplateService {
 
     if (pageSearch.sort) { query += '&sort=' + pageSearch.sort; }
 
-    return this.http.get<IPageResult<T>>(this.api + qe.path + '/page/search/' + query).toPromise();
+    return this.http.get<IPageResult<T>>(this.api + qe.path + '/search/findByQuery' + query).toPromise();
   }
 
   public getByKindEntity<T extends IEntityEditAudit>(kind: ElementKind, id: string): Promise<T> {
