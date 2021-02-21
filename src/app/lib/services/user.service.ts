@@ -7,6 +7,7 @@ import { Agency, IPassword, User, UserJson } from '../classes';
 import { ActionKind, AuthorityKind, ElementKind } from '../enums';
 import { TOKEN_NAME } from '../consts';
 import { IAuthority } from '../interfaces';
+import { TokenStorageService } from './token-storage.service';
 
 
 /**
@@ -32,7 +33,7 @@ export class UserService {
 
   private readonly getUserAsync = (id: string) => this.http.get<User>(this.api + 'user/' + id).toPromise();
 
-  constructor(private http: HttpClient, @Inject(API_BASE_HREF) private api: string, private property: PropertyStoreService) {
+  constructor(private http: HttpClient, private tokenStore: TokenStorageService, @Inject(API_BASE_HREF) private api: string, private property: PropertyStoreService) {
     if (this.isTokenExpired()) {
       this.logout();
     } else {
@@ -108,6 +109,7 @@ export class UserService {
 
   public async signIn(requestParam: IPassword) {
     const response = await this.http.post<any>(this.api + UserService.SIGNIN_URL, requestParam).toPromise();
+    console.log(response);
     if (response && response.token) {
       this.setToken(response.token);
     }
@@ -215,17 +217,19 @@ export class UserService {
 
 
   public getToken(): string {
-    const token = localStorage.getItem(TOKEN_NAME);
-    if (token === 'undefined') {
-      return null;
-    } else {
-      return token;
-    }
+    return this.tokenStore.getToken()
+    // const token = localStorage.getItem(TOKEN_NAME);
+    // if (token === 'undefined') {
+    //   return null;
+    // } else {
+    //   return token;
+    // }
   }
 
   private setToken(token: string): void {
     try {
-      localStorage.setItem(TOKEN_NAME, token);
+      this.tokenStore.saveToken(token)
+      // localStorage.setItem(TOKEN_NAME, token);
       this.loadUserFromToken();
     } catch (e) {
       console.exception(e);
