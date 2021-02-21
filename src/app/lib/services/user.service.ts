@@ -15,7 +15,7 @@ import { IAuthority } from '../interfaces';
  */
 @Injectable()
 export class UserService {
-  public static readonly SIGNIN_URL = 'auth/signin';
+  public static readonly SIGNIN_URL = 'login';
   public static readonly AGENCY_URL = 'agency/all';
   public static readonly RESET_PWD_URL = 'user/resetpassword';
   public static readonly UPDATE_URL = 'user';
