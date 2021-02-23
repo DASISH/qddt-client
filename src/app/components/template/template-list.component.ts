@@ -87,7 +87,7 @@ export class TemplateListComponent implements OnInit, OnDestroy {
     this.service.searchByKind(this.pageSearch).then(
       (result) => {
         this.pageSearch.page = new Page(result.page);
-        this.items = result.content;
+        this.items = result._embedded.items;
         this.setPageSearch(this.pageSearch);
       },
       (error) => { throw error; })

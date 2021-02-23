@@ -109,8 +109,8 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
     this.rows = [];
 
     this.items.forEach((item: IEntityEditAudit) => {
-      const date: Date = new Date();
-      date.setTime(item.modified);
+      const date: Date = new Date(item.modified);
+      // date.setTime();
 
 
       const row: any = {

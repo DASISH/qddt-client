@@ -3,8 +3,8 @@ import { Page } from '../classes';
 
 
 export interface IPageResult<T> {
-  content: T[];
-  links: [{ href: string, rel: string }];
+  _embedded: { items: T[] }
+  _links: [{ href: string, rel: string }];
   page: Page;
 }
 

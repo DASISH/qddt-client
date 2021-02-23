@@ -57,7 +57,7 @@ export class RevisionComponent implements OnChanges {
 
       this.service.getByKindRevisions(getElementKind(ref.elementKind), ref.elementId).then(
         (result) => {
-          this.revisionResultEntities = result.content.sort((e1: any, e2: any) => e2.revisionNumber - e1.revisionNumber);
+          this.revisionResultEntities = result._embedded.items.sort((e1: any, e2: any) => e2.revisionNumber - e1.revisionNumber);
           this.selectedRevision = ref.elementRevision;
           this.revisionlockups = this.revisionResultEntities.map(rev => new SelectItem({
             id: rev.revisionNumber,
