@@ -5,13 +5,15 @@ export class QueryInfo {
   id: ElementKind;
   label: string;
   path: string;
+  halName: string;
   fields: string[];
   parameter: string;
 
-  constructor(id: ElementKind, label: string, path: string, fields: any[], parameter: string) {
+  constructor(id: ElementKind, label: string, path: string, halName: string, fields: any[], parameter: string) {
     this.id = id;
     this.label = label;
     this.path = path;
+    this.halName = halName;
     this.fields = fields;
     this.parameter = parameter;
   }
@@ -28,6 +30,11 @@ export class QueryInfo {
     return message.slice(0, message.length - 5) + ']';
   }
 }
+
+
+const lowerFirstLetter = ([first, ...rest]: string, locale = navigator.language) =>
+  first.toLocaleLowerCase(locale) + rest.join('')
+
 
 export class RevisionResult<T extends IEntityAudit> {
   entity: T;

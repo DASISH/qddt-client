@@ -3,11 +3,12 @@ import { ElementKind } from '../enums';
 import { IHeaderDetail } from '../interfaces';
 
 export const QDDT_QUERY_INFOES: QueryInfo[] = [
-  new QueryInfo(ElementKind.NONE, '', '', [], null),
+  new QueryInfo(ElementKind.NONE, '', '', '', [], null),
   new QueryInfo(
     ElementKind.CATEGORY,
     'Category',
     'category',
+    'categories',
     ['label', 'description'],
     '&categoryKind=CATEGORY'
   ),
@@ -15,6 +16,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     ElementKind.MISSING_GROUP,
     'Missing Values',
     'category',
+    'categories',
     ['label', 'description'],
     '&categoryKind=MISSING_GROUP'
   ),
@@ -22,6 +24,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     ElementKind.CONCEPT,
     'Concept',
     'concept',
+    'concepts',
     ['name', 'description'],
     null
   ),
@@ -29,6 +32,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     ElementKind.CONTROL_CONSTRUCT,
     'Construct',
     'controlconstruct',
+    'controlConstructs',
     ['name'],
     '&constructKind=CONTROL_CONSTRUCT'
   ),
@@ -36,6 +40,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     ElementKind.CONDITION_CONSTRUCT,
     'Condition',
     'controlconstruct',
+    'conditionConstructs',
     ['name', 'description'],
     '&constructKind=CONDITION_CONSTRUCT'
   ),
@@ -43,6 +48,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     ElementKind.QUESTION_CONSTRUCT,
     'QuestionConstruct',
     'controlconstruct',
+    'questionConstructs',
     ['name', 'questionName', 'questionText'],
     '&constructKind=QUESTION_CONSTRUCT'
   ),
@@ -50,6 +56,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     ElementKind.SEQUENCE_CONSTRUCT,
     'Sequence',
     'controlconstruct',
+    'sequences',
     ['name', 'description', 'sequenceKind'],
     '&constructKind=SEQUENCE_CONSTRUCT'
   ),
@@ -57,6 +64,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     ElementKind.STATEMENT_CONSTRUCT,
     'Statement',
     'controlconstruct',
+    'statements',
     ['name', 'description'],
     '&constructKind=STATEMENT_CONSTRUCT'
   ),
@@ -64,6 +72,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     ElementKind.INSTRUMENT,
     'Instrument',
     'instrument',
+    'instruments',
     ['label', 'description', 'kind'],
     null
   ),
@@ -71,6 +80,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     ElementKind.PUBLICATION,
     'Publication',
     'publication',
+    'publications',
     ['name', 'purpose', 'publicationStatus'],
     null
   ),
@@ -78,6 +88,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     ElementKind.QUESTION_GRID,
     'QuestionGrid',
     'questiongrid',
+    'questionGrids',
     ['name', 'question'],
     null
   ),
@@ -85,6 +96,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     ElementKind.QUESTION_ITEM,
     'QuestionItem',
     'questionitem',
+    'questionItems',
     ['name', 'question', 'responseDomainName'],
     null
   ),
@@ -92,6 +104,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     ElementKind.RESPONSEDOMAIN,
     'ResponseDomain',
     'responsedomain',
+    'responseDomains',
     ['name', 'description', 'question', 'anchor'],
     null
   ),
@@ -99,6 +112,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     ElementKind.STUDY,
     'Study',
     'study',
+    'studies',
     ['name', 'description'],
     null
   ),
@@ -106,6 +120,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     ElementKind.SURVEY_PROGRAM,
     'Survey',
     'surveyprogram',
+    'surveyPrograms',
     ['name', 'description'],
     null
   ),
@@ -113,6 +128,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     ElementKind.TOPIC_GROUP,
     'Module',
     'topicgroup',
+    'topicGroups',
     ['name', 'description'],
     null
   ),
@@ -120,6 +136,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     ElementKind.INSTRUCTION,
     'Instruction',
     'instruction',
+    'instructions',
     ['description'],
     null
   ),
@@ -127,14 +144,16 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     ElementKind.UNIVERSE,
     'Universe',
     'universe',
+    'universes',
     ['description'],
     null
   ),
-  new QueryInfo(ElementKind.USER, 'User', 'user', ['name'], null),
+  new QueryInfo(ElementKind.USER, 'User', 'user', 'users', ['name'], null),
   new QueryInfo(
     ElementKind.CHANGE_LOG,
     'Feed',
     'changelog',
+    'changelogs',
     ['name', 'change', 'kind'],
     null
   ),
@@ -142,12 +161,14 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     ElementKind.AUTHOR,
     'Author',
     'author',
+    'authors',
     ['name', 'about', 'email'],
     null
   ),
   new QueryInfo(
     ElementKind.REFERENCED,
     'References',
+    'reference',
     'references',
     ['kind'],
     null
@@ -156,6 +177,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     ElementKind.AGENCY,
     'Agency',
     'agency',
+    'agencies',
     ['name'],
     null
   )

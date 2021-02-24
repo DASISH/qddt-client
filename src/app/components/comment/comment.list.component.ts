@@ -37,7 +37,7 @@ export class CommentListComponent implements AfterViewInit {
       this.commentService.getAll(this.ownerId).then(
         (result) => {
           this._hasShown = true;
-          this.comments = result._embedded.items;
+          this.comments = result._embedded["Comment"].entries;
         });
     }
   }
@@ -86,7 +86,7 @@ export class CommentListComponent implements AfterViewInit {
         this.commentService.update(comment).subscribe(
           (result) => this.comments.splice(idx, 1, result),
           (err) => {
-            this.commentService.getAll(this.ownerId).then((result) => this.comments = result._embedded.items);
+            this.commentService.getAll(this.ownerId).then((result) => this.comments = result._embedded["Comment"].entries);
             throw err;
           });
       }

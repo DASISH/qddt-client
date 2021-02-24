@@ -14,7 +14,7 @@ export interface IEntityEditAudit extends IEntityAudit {
   basedOnRevision?: number;
   changeComment?: string;
   changeKind?: string;
-  modified?: any;
+  modified?: number;
   modifiedBy?: IUser;
   version?: IVersion;
   agency?: Agency;
