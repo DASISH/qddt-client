@@ -1,3 +1,4 @@
+import { HalResource } from './../../lib/interfaces/http.interfaces';
 import { filter, takeWhile } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -10,7 +11,7 @@ import {
   Page,
   PageSearch,
   TemplateService,
-  MessageService, PropertyStoreService, DomainKind
+  MessageService, PropertyStoreService, DomainKind, getQueryInfo, HalLink
 } from '../../lib';
 
 
@@ -20,7 +21,7 @@ import {
   styles: [],
 })
 export class TemplateListComponent implements OnInit, OnDestroy {
-  public items: IEntityAudit[];
+  public items: HalResource<IEntityAudit>[];
   public showProgressBar = false;
   public pageSearch: IPageSearch;
   public toBeDeleted: IEntityAudit;
@@ -87,7 +88,8 @@ export class TemplateListComponent implements OnInit, OnDestroy {
     this.service.searchByKind(this.pageSearch).then(
       (result) => {
         this.pageSearch.page = new Page(result.page);
-        this.items = result._embedded.items;
+        let resourcename = getQueryInfo(this.pageSearch.kind).halName;
+        this.items = result._embedded[resourcename] as HalResource<IEntityAudit>[];
         this.setPageSearch(this.pageSearch);
       },
       (error) => { throw error; })

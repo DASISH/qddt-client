@@ -126,9 +126,9 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
             if (item.agency) {
               row[column.label] = item[column.name].name + '@' + item.agency.name;
             } else if (item[column.name]) {
-              row[column.label] = item[column.name].name + '@' + item[column.name].agencyName;
+              row[column.label] = item[column.name]; //.name + '@' + item[column.name].agencyName;
             } else {
-              row[column.label] = '';
+              row[column.label] = '?';
             }
           } else if (column.name instanceof Array) {
             let colref = item;

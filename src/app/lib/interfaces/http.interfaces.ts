@@ -1,13 +1,19 @@
 import { ElementKind } from '../enums';
 import { Page } from '../classes';
+import { IEntityAudit } from './entity-edit-audit';
 
 
 export interface IPageResult<T> {
 
-  _embedded: { [rel: string]: T[]; };
-  // _embedded: { items: T[] }
-  // _links: [{ href: string, rel: string }];
-  _links: { [rel: string]: HalLink | HalLink[]; };
+  _embedded?: {
+    [rel: string]: HalResource<T> | HalResource<T>[];
+  };
+
+  _links: {
+    [rel: string]: HalLink | HalLink[];
+  };
+  [property: string]: any;
+
   page: Page;
 }
 
@@ -158,7 +164,7 @@ interface LinkHints {
    * headers such as If-Modified-Since or If-Match for state-changing
    * requests such as PUT, POST, DELETE.
    */
-  'precondition-req'?: Array<'etag'|'last-modified'>;
+  'precondition-req'?: Array<'etag' | 'last-modified'>;
 
   /**
    * A list of authentication schemes that are required at the target
