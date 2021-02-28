@@ -55,7 +55,7 @@ export class TopicComponent implements OnInit {
     this.showProgressBar = true;
     this.homeService.getListByParent(this.TOPIC_KIND, parentId)
       .then((result) => {
-        this.property.set('topics', this.topics = result);
+        this.property.set('topics', this.topics = result._embedded['topicGroups']);
         this.showReuse = false;
         this.showProgressBar = false;
       });

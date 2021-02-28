@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { API_BASE_HREF } from '../../api';
 import { ActionKind, ElementKind } from '../enums';
-import { IEntityEditAudit, IEntityAudit, ISurveyOrder } from '../interfaces';
+import { IEntityEditAudit, IEntityAudit, ISurveyOrder, IPageResult } from '../interfaces';
 import { getQueryInfo } from '../consts';
 import { UserService } from './user.service';
 
@@ -57,10 +57,10 @@ export class HomeService<T extends IEntityEditAudit>  {
     return await this.http.get<S>(this.api + qe.path + '/' + id).toPromise();
   }
 
-  getListByParent(kind: ElementKind, parentId?: string): Promise<T[]> {
+  getListByParent(kind: ElementKind, parentId?: string): Promise<IPageResult<T>> {
     const qe = getQueryInfo(kind);
-    return (parentId) ? this.http.get<T[]>(this.api + qe.path + '/list/by-parent/' + parentId).toPromise() :
-      this.http.get<T[]>(this.api + qe.path + '/list').toPromise();
+    return (parentId) ? this.http.get<IPageResult<T>>(this.api + qe.path + '/list/by-parent/' + parentId).toPromise() :
+      this.http.get<IPageResult<T>>(this.api + qe.path + '/').toPromise();
   }
 
   attachQuestion(kind: ElementKind, id: string, questionId: string, revision: number): Observable<T> {

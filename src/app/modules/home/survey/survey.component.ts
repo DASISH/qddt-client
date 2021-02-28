@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { map } from 'rxjs/operators';
 import {
   ActionKind,
   SurveyProgram,
@@ -42,7 +43,11 @@ export class SurveyComponent implements OnInit {
 
   ngOnInit() {
     this.homeService.getListByParent(this.SURVEY).then(
-      (result) => this.surveys = result);
+      (result) => {
+
+        this.surveys = result._embedded['surveyPrograms'];
+
+      });
   }
 
 
