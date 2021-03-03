@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { API_BASE_HREF } from '../../api';
 import { UserService } from './user.service';
-import { IEntityAudit, IEntityEditAudit, IPageResult, IPageSearch, IRevisionResult, IOtherMaterial } from '../interfaces';
+import { IEntityAudit, IEntityEditAudit, IPageResult, IPageSearch, IRevisionResult, IOtherMaterial, HalResource } from '../interfaces';
 import { ElementKind, ActionKind } from '../enums';
 import { getQueryInfo, getElementKind } from '../consts';
 import { Agency, PageSearch } from '../classes';
@@ -91,11 +91,13 @@ export class TemplateService {
     return this.http.get<IRevisionResult<T>>(this.api + 'audit/' + qe.path + '/' + id + '/latestversion').toPromise();
   }
 
-  public create<T extends IEntityAudit>(item: T, parentId?: string): Observable<T> {
+  public create<T extends IEntityAudit>(item: T, parentId?: string): Observable<HalResource<T>> {
     const qe = getQueryInfo(item.classKind);
     return (parentId) ?
-      this.http.post<T>(this.api + qe.path + '/create/' + parentId, item) :
-      this.http.post<T>(this.api + qe.path + '/create', item);
+      this.http.post<HalResource>(this.api + qe.path + '/create/' + parentId, item).pipe( resource -> {
+    resource.
+      }) :
+      this.http.post<HalResource>(this.api + qe.path + '/create', item);
   }
 
   public copySource<T extends IEntityAudit>(elementKind: ElementKind, fromId: string, fromRev: number, toParentId: string): Observable<T> {

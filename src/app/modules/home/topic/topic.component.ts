@@ -8,7 +8,7 @@ import {
   Topic,
   PropertyStoreService,
   MessageService,
-  HomeService, TemplateService, HierarchyPosition, ElementRevisionRef, delay, LANGUAGE_MAP, fadeInAnimation
+  HomeService, TemplateService, HierarchyPosition, ElementRevisionRef, delay, LANGUAGE_MAP, fadeInAnimation, HalResource
 } from 'src/app/lib';
 
 
@@ -24,8 +24,8 @@ export class TopicComponent implements OnInit {
   public readonly TOPIC_KIND = ElementKind.TOPIC_GROUP;
   public readonly LANGUAGES = LANGUAGE_MAP;
 
-  public study: Study;
-  public topics: Topic[];
+  public study: HalResource<Study>;
+  public topics: HalResource<Topic>[];
 
   public showReuse = false;
   public showEditForm = false;
@@ -55,7 +55,7 @@ export class TopicComponent implements OnInit {
     this.showProgressBar = true;
     this.homeService.getListByParent(this.TOPIC_KIND, parentId)
       .then((result) => {
-        this.property.set('topics', this.topics = result._embedded['topicGroups']);
+        this.property.set('topics', this.topics = result._embedded['topicGroups'] as  HalResource<Topic>[] );
         this.showReuse = false;
         this.showProgressBar = false;
       });
@@ -93,7 +93,7 @@ export class TopicComponent implements OnInit {
     this.router.navigate(['concept', topic.id]);
   }
 
-  public onTopicSaved(topic: Topic) {
+  public onTopicSaved(topic: HalResource<Topic>) {
     if (topic !== null) {
       const index = this.topics.findIndex((f) => f.id === topic.id);
       if (index > -1) {

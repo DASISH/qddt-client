@@ -10,7 +10,8 @@ import {
   Study,
   SurveyProgram,
   TemplateService,
-  delay
+  delay,
+  HalResource
 } from 'src/app/lib';
 
 @Component({
@@ -25,7 +26,7 @@ export class StudyComponent implements OnInit {
   public showEditForm = false;
   public readonly: boolean;
   public canDelete: boolean;
-  public survey: SurveyProgram;
+  public survey: HalResource<SurveyProgram>;
   public revision: any;
 
   private readonly STUDY = ElementKind.STUDY;

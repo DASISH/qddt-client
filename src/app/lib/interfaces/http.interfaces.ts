@@ -3,16 +3,15 @@ import { Page } from '../classes';
 import { IEntityAudit } from './entity-edit-audit';
 
 
-export interface IPageResult<T> {
+export interface IPageResult {
 
   _embedded?: {
-    [rel: string]: HalResource<T> | HalResource<T>[];
+    [rel: string]: HalResource | HalResource[];
   };
 
   _links: {
     [rel: string]: HalLink | HalLink[];
   };
-  [property: string]: any;
 
   page: Page;
 }
@@ -78,7 +77,7 @@ export interface HalLink {
 /**
  * A HAL document
  */
-export interface HalResource<T> {
+export interface HalResource {
 
   /**
    * List of links, indexed by their relationship.
@@ -94,7 +93,7 @@ export interface HalResource<T> {
    * Embedded resources
    */
   _embedded?: {
-    [rel: string]: HalResource<T> | HalResource<T>[];
+    [rel: string]: HalResource | HalResource[];
   };
 
 }

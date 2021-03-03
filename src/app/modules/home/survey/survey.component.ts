@@ -13,7 +13,8 @@ import {
   delay,
   ISurveyOrder,
   SurveyOrder,
-  fadeInAnimation
+  fadeInAnimation,
+  HalResource
 } from 'src/app/lib';
 
 
@@ -26,7 +27,7 @@ import {
 })
 
 export class SurveyComponent implements OnInit {
-  public surveys: SurveyProgram[];
+  public surveys: HalResource<SurveyProgram>[];
   public showEditForm = false;
   public readonly = false;
 

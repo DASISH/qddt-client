@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { API_BASE_HREF } from '../../api';
 import { ActionKind, ElementKind } from '../enums';
-import { IEntityEditAudit, IEntityAudit, ISurveyOrder, IPageResult } from '../interfaces';
+import { IEntityEditAudit, IEntityAudit, ISurveyOrder, IPageResult, HalResource } from '../interfaces';
 import { getQueryInfo } from '../consts';
 import { UserService } from './user.service';
 
@@ -49,7 +49,7 @@ export class HomeService<T extends IEntityEditAudit>  {
 
   async get(kind: ElementKind, id: string) {
     const qe = getQueryInfo(kind);
-    return await this.http.get<T>(this.api + qe.path + '/' + id).toPromise();
+    return await this.http.get<HalResource<T>>(this.api + qe.path + '/' + id).toPromise();
   }
 
   async getExt<S extends IEntityAudit>(kind: ElementKind, id: string) {
