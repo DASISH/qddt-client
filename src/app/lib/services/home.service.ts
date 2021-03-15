@@ -49,7 +49,7 @@ export class HomeService<T extends IEntityEditAudit>  {
 
   async get(kind: ElementKind, id: string) {
     const qe = getQueryInfo(kind);
-    return await this.http.get<HalResource<T>>(this.api + qe.path + '/' + id).toPromise();
+    return await this.http.get<HalResource>(this.api + qe.path + '/' + id).toPromise();
   }
 
   async getExt<S extends IEntityAudit>(kind: ElementKind, id: string) {
@@ -57,10 +57,10 @@ export class HomeService<T extends IEntityEditAudit>  {
     return await this.http.get<S>(this.api + qe.path + '/' + id).toPromise();
   }
 
-  getListByParent(kind: ElementKind, parentId?: string): Promise<IPageResult<T>> {
+  getListByParent(kind: ElementKind, parentId?: string): Promise<IPageResult> {
     const qe = getQueryInfo(kind);
-    return (parentId) ? this.http.get<IPageResult<T>>(this.api + qe.path + '/list/by-parent/' + parentId).toPromise() :
-      this.http.get<IPageResult<T>>(this.api + qe.path + '/').toPromise();
+    return (parentId) ? this.http.get<IPageResult>(this.api + qe.path + '/list/by-parent/' + parentId).toPromise() :
+      this.http.get<IPageResult>(this.api + qe.path + '/').toPromise();
   }
 
   attachQuestion(kind: ElementKind, id: string, questionId: string, revision: number): Observable<T> {

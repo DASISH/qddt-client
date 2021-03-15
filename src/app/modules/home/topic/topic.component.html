@@ -18,7 +18,7 @@
     </a>
 
     <qddt-copy-select *ngIf="showReuse" [parentId]="study.id" [elementKind]="TOPIC_KIND"
-      (dismissEvent)="showReuse=false;" (itemSelected)="onSelectedRevsion($event)">
+      (dismissEvent)="showReuse=false;" (itemSelected)="onSelectedRevision($event)">
     </qddt-copy-select>
 
     <div *ngIf="showEditForm" class="col s10 offset-s1 card-action">

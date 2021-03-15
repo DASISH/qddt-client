@@ -18,11 +18,11 @@ export class CommentService  {
   }
 
   delete(id: string):  any {
-    return this.http.delete(this.api + 'comment/delete/' + id);
+    return this.http.delete(this.api + 'comment' + id);
   }
 
-  getAll(ownerId: string): Promise<IPageResult<IComment>> {
-    return this.http.get<IPageResult<IComment>>(this.api + 'comment/page/by-owner/' + ownerId + '?' + new Page( { size: 50 }))
+  getAll(ownerId: string): Promise<IPageResult> {
+    return this.http.get<IPageResult>(this.api + 'comment/search/byOwner?ownerId' + ownerId + '&' + new Page( { size: 50 }))
       .toPromise();
   }
 

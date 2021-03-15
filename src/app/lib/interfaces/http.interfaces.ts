@@ -74,7 +74,7 @@ export interface HalLink {
 
 }
 
-/**
+/** 
  * A HAL document
  */
 export interface HalResource {

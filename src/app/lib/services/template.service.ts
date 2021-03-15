@@ -1,12 +1,14 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, InteropObservable } from 'rxjs';
 import { API_BASE_HREF } from '../../api';
 import { UserService } from './user.service';
 import { IEntityAudit, IEntityEditAudit, IPageResult, IPageSearch, IRevisionResult, IOtherMaterial, HalResource } from '../interfaces';
 import { ElementKind, ActionKind } from '../enums';
 import { getQueryInfo, getElementKind } from '../consts';
 import { Agency, PageSearch } from '../classes';
+import { concatMap, map } from 'rxjs/operators';
+import { Factory } from '../factory';
 
 
 
@@ -21,7 +23,7 @@ export class TemplateService {
     return this.http.get(this.api + 'preview/' + id).toPromise();
   }
 
-  public searchByKind<T extends IEntityAudit>(pageSearch: IPageSearch): Promise<IPageResult<T>> {
+  public searchByKind<T extends IEntityAudit>(pageSearch: IPageSearch): Promise<IPageResult> {
     pageSearch = new PageSearch(pageSearch);
     const qe = getQueryInfo(pageSearch.kind);
     const queries = [];
@@ -55,7 +57,7 @@ export class TemplateService {
 
     if (pageSearch.sort) { query += '&sort=' + pageSearch.sort; }
 
-    return this.http.get<IPageResult<T>>(this.api + qe.path + '/search/findByQuery' + query).toPromise();
+    return this.http.get<IPageResult>(this.api + qe.path + '/search/findByQuery' + query).toPromise();
   }
 
   public getByKindEntity<T extends IEntityEditAudit>(kind: ElementKind, id: string): Promise<T> {
@@ -63,14 +65,14 @@ export class TemplateService {
     return this.http.get<T>(this.api + qe.path + '/' + id).toPromise();
   }
 
-  public getByKindRevisions<T extends IEntityAudit>(kind: ElementKind, id: string): Promise<IPageResult<IRevisionResult<T>>> {
+  public getByKindRevisions<T extends IEntityAudit>(kind: ElementKind, id: string): Promise<IPageResult> {
     const qe = getQueryInfo(kind);
     if (qe) {
       if (kind === ElementKind.CONCEPT || kind === ElementKind.TOPIC_GROUP) {
-        return this.http.get<IPageResult<IRevisionResult<T>>>
+        return this.http.get<IPageResult>
           (this.api + 'audit/' + qe.path + '/' + id + '/allinclatest').toPromise();
       } else {
-        return this.http.get<IPageResult<IRevisionResult<T>>>
+        return this.http.get<IPageResult>
           (this.api + 'audit/' + qe.path + '/' + id + '/all').toPromise();
       }
     }
@@ -91,13 +93,17 @@ export class TemplateService {
     return this.http.get<IRevisionResult<T>>(this.api + 'audit/' + qe.path + '/' + id + '/latestversion').toPromise();
   }
 
-  public create<T extends IEntityAudit>(item: T, parentId?: string): Observable<HalResource<T>> {
+  public create<T extends IEntityAudit>(item: T, parentId?: string): Observable<T> {
     const qe = getQueryInfo(item.classKind);
-    return (parentId) ?
-      this.http.post<HalResource>(this.api + qe.path + '/create/' + parentId, item).pipe( resource -> {
-    resource.
-      }) :
-      this.http.post<HalResource>(this.api + qe.path + '/create', item);
+    return ((parentId) ?
+      this.http.post<HalResource>(this.api + qe.path + '/create/' + parentId, item) :
+      this.http.post<HalResource>(this.api + qe.path + '/create', item))
+      .pipe(result => result.forEach( resource => {
+        let entity = Factory.createFromSeed(item.classKind, resource._embedded);
+        return entity;
+      })
+
+      );
   }
 
   public copySource<T extends IEntityAudit>(elementKind: ElementKind, fromId: string, fromRev: number, toParentId: string): Observable<T> {
@@ -170,3 +176,4 @@ export class TemplateService {
     return (entityAgency) ? ((await this.userService.getCurrentAgency()).id === entityAgency.id) : true;
   }
 }
+

@@ -26,7 +26,7 @@ export class StudyComponent implements OnInit {
   public showEditForm = false;
   public readonly: boolean;
   public canDelete: boolean;
-  public survey: HalResource<SurveyProgram>;
+  public survey: SurveyProgram;
   public revision: any;
 
   private readonly STUDY = ElementKind.STUDY;
@@ -48,7 +48,7 @@ export class StudyComponent implements OnInit {
     const parentId = this.route.snapshot.paramMap.get('id') || this.survey.id || this.property.menuPath[HierarchyPosition.Survey].id;
     this.templateService.getByKindEntity<SurveyProgram>(ElementKind.SURVEY_PROGRAM, parentId)
       .then((result) => {
-        this.property.set('survey', this.survey = result.);
+        this.property.set('survey', this.survey = result);
       });
   }
 

@@ -27,7 +27,7 @@ import {
 })
 
 export class SurveyComponent implements OnInit {
-  public surveys: HalResource<SurveyProgram>[];
+  public surveys: SurveyProgram[];
   public showEditForm = false;
   public readonly = false;
 

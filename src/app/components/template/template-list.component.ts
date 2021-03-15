@@ -21,7 +21,7 @@ import {
   styles: [],
 })
 export class TemplateListComponent implements OnInit, OnDestroy {
-  public items: HalResource<IEntityAudit>[];
+  public items: HalResource[];
   public showProgressBar = false;
   public pageSearch: IPageSearch;
   public toBeDeleted: IEntityAudit;
@@ -88,8 +88,8 @@ export class TemplateListComponent implements OnInit, OnDestroy {
     this.service.searchByKind(this.pageSearch).then(
       (result) => {
         this.pageSearch.page = new Page(result.page);
-        let resourcename = getQueryInfo(this.pageSearch.kind).halName;
-        this.items = result._embedded[resourcename] as HalResource<IEntityAudit>[];
+        let resourceName = getQueryInfo(this.pageSearch.kind).halName;
+        this.items = result._embedded[resourceName] as HalResource[];
         this.setPageSearch(this.pageSearch);
       },
       (error) => { throw error; })
