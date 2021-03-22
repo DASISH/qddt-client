@@ -35,11 +35,11 @@ import { Topic } from '../../../lib';
 
 <div class="toc-wrapper pinned" style="height: calc(100% - 64px); overflow-y: auto;" >
   <h5>Concept Toc</h5>
-  <div cdkDropList cdkDrop [cdkDropListData]="topic.concepts" (cdkDropListDropped)="onItemDrop($event)">
+  <div cdkDropList cdkDrop [cdkDropListData]="topic.children" (cdkDropListDropped)="onItemDrop($event)">
     <ol class="section table-of-contents">
       <ng-template
         [ngTemplateOutlet]="nodeTemplateRef"
-        [ngTemplateOutletContext]="{ source: topic.concepts }">
+        [ngTemplateOutletContext]="{ source: topic.children }">
       </ng-template>
     </ol>
   </div>

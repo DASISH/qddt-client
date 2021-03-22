@@ -55,7 +55,7 @@ export interface IComment {
   public: boolean;
   comments?: IComment[];
   size: number;
-  modifiedBy?: IUser;
+  modifiedBy?: IUser|string;
   modified?: number;
   ownerId?: string;
   ownerIdx?: number;

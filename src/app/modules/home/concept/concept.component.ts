@@ -56,7 +56,7 @@ export class ConceptComponent implements OnInit, AfterViewInit {
       new Topic(root) :
       new Topic(await this.homeService.getExt<Topic>(ElementKind.TOPIC_GROUP, parentId));
 
-    this.topic.concepts = await (list) ?
+    this.topic.children = await (list) ?
       list :
       await this.homeService.getListByParent(this.CONCEPT, parentId);
 
@@ -99,12 +99,12 @@ export class ConceptComponent implements OnInit, AfterViewInit {
 
   // async onMoveConcept(event: IMoveTo) {
   //   console.debug(event);
-  //   const entity = this.removeConcept(this.topic.concepts, event.source);
+  //   const entity = this.removeConcept(this.topic.children, event.source);
   //   let targets: Concept[];
   //   if (event.target === this.topic.id) {
-  //     targets = this.topic.concepts;
+  //     targets = this.topic.children;
   //   } else {
-  //     targets = this.findConcept(this.topic.concepts, event.target).children;
+  //     targets = this.findConcept(this.topic.children, event.target).children;
   //   }
 
   //   const start = targets.slice(0, event.index) || [];
@@ -113,23 +113,23 @@ export class ConceptComponent implements OnInit, AfterViewInit {
   //   targets.forEach(c => this.setUHR(c));
 
   //   if (event.target === this.topic.id) {
-  //     this.topic.concepts = targets;
+  //     this.topic.children = targets;
   //   } else {
-  //     this.findConcept(this.topic.concepts, event.target).children = targets;
+  //     this.findConcept(this.topic.children, event.target).children = targets;
   //   }
 
-  //   const result = await this.templateService.updateAll(this.topic.concepts, this.topic.id).toPromise();
+  //   const result = await this.templateService.updateAll(this.topic.children, this.topic.id).toPromise();
   //   const topic = await this.homeService.getExt<Topic>(ElementKind.TOPIC_GROUP, this.topic.id);
-  //   topic.concepts = result;
+  //   topic.children = result;
   //   this.property.set('topic', topic);
   //   this.topic = topic;
   // }
 
   public onConceptUpdated(concept: Concept) {
-    if (!this.updateConcept(this.topic.concepts, concept)) {
-      this.topic.concepts.push(concept);
+    if (!this.updateConcept(this.topic.children, concept)) {
+      this.topic.children.push(concept);
     }
-    this.property.set('concepts', this.topic.concepts);
+    this.property.set('concepts', this.topic.children);
     this.showProgressBar = false;
   }
 
@@ -150,8 +150,8 @@ export class ConceptComponent implements OnInit, AfterViewInit {
     this.templateService.delete(this.toDeletedConcept).subscribe(
       () => {
         this.instance.close();
-        this.removeConcept(this.topic.concepts, this.toDeletedConcept.id);
-        this.property.set('concepts', this.topic.concepts);
+        this.removeConcept(this.topic.children, this.toDeletedConcept.id);
+        this.property.set('concepts', this.topic.children);
       },
       response => { throw response; },
       () => {

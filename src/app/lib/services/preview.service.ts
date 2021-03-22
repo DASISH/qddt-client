@@ -24,7 +24,7 @@ export class PreviewService {
   public getRevisionByKind(kind: ElementKind | string, id: string, rev: number): Promise<IRevisionResult<IEntityEditAudit>> {
 
     const qe = getQueryInfo(kind);
-    return this.http.get<IRevisionResult<IEntityEditAudit>>(this.api + 'audit/' + qe.path + '/' + id + '/' + rev).toPromise();
+    return this.http.get<IRevisionResult<IEntityEditAudit>>(this.api + '/' + qe.path + '/' + id + ':' + rev).toPromise();
   }
 
   // public getRevisionsByKind(kind: ElementKind | string, id: string): Promise<any> {
@@ -52,10 +52,10 @@ export class PreviewService {
     // @ts-ignore
     const revision = element.refRev || element.version.revision;
     if (revision) {
-      return this.http.get(this.api + 'audit/' + qe.path + '/pdf/' + element.id + '/' + element.version.revision
+      return this.http.get(this.api + '/' + qe.path + '/' + element.id + ':' + element.version.revision + '/pdf'
         , { responseType: 'blob' }).toPromise();
     } else {
-      return this.http.get(this.api + qe.path + '/pdf/' + element.id, { responseType: 'blob' }).toPromise();
+      return this.http.get(this.api + '/' + qe.path + '/' + element.id + '/pdf', { responseType: 'blob' }).toPromise();
     }
   }
 

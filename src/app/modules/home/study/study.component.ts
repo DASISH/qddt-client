@@ -10,9 +10,7 @@ import {
   Study,
   SurveyProgram,
   TemplateService,
-  delay,
-  HalResource
-} from 'src/app/lib';
+  delay} from 'src/app/lib';
 
 @Component({
   selector: 'qddt-study',
@@ -75,11 +73,11 @@ export class StudyComponent implements OnInit {
 
   onStudySaved(study: Study) {
     if (study !== null) {
-      const index = this.survey.studies.findIndex((f) => f.id === study.id);
+      const index = this.survey.children.findIndex((f) => f.id === study.id);
       if (index > -1) {
-        this.survey.studies.splice(index, 1, study);
+        this.survey.children.splice(index, 1, study);
       } else {
-        this.survey.studies.push(study);
+        this.survey.children.push(study);
       }
     }
   }
@@ -96,8 +94,8 @@ export class StudyComponent implements OnInit {
     if (study) {
       this.templateService.delete(study)
         .subscribe(() => {
-          this.survey.studies = this.survey.studies.filter((s: any) => s.id !== study.id);
-          this.property.set('studies', this.survey.studies);
+          this.survey.children = this.survey.children.filter((s: any) => s.id !== study.id);
+          this.property.set('studies', this.survey.children);
         });
     }
   }

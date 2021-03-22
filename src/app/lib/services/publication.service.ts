@@ -22,7 +22,7 @@ export class PublicationService {
       const list = this.property.get(PUB_STATUS);
       return Promise.resolve(list);
     }
-    return this.http.get<PublicationStatus[]>(this.api + 'publicationstatus/list').toPromise()
+    return this.http.get<PublicationStatus[]>(this.api + 'publication/status').toPromise()
     .then(result => {
       this.property.set(PUB_STATUS, result );
       return result;

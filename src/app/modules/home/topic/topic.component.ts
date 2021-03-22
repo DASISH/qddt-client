@@ -45,7 +45,7 @@ export class TopicComponent implements OnInit {
     this.study = this.property.get('study');
     const parentId = this.study.id || this.property.menuPath[HierarchyPosition.Study].id;
     if (!this.study) {
-      this.homeService.get(ElementKind.STUDY, parentId)
+      this.templateService.getByKindEntity<Study>(ElementKind.STUDY, parentId)
         .then(result => this.property.set('study', this.study = result));
     }
     this.loadTopics(parentId);
@@ -55,7 +55,7 @@ export class TopicComponent implements OnInit {
     this.showProgressBar = true;
     this.homeService.getListByParent(this.TOPIC_KIND, parentId)
       .then((result) => {
-        this.property.set('topics', this.topics = result._embedded['topicGroups'] as  Topic[] );
+        this.property.set('topics', this.topics = result);
         this.showReuse = false;
         this.showProgressBar = false;
       });
@@ -157,7 +157,7 @@ export class TopicComponent implements OnInit {
     // console.debug('moving event?');
     this.study.changeKind = 'UPDATED_HIERARCHY_RELATION';
     this.study.changeComment = 'Topic order changed';
-    this.study.topicGroups = this.topics;
+    this.study.children = this.topics;
     this.templateService.update<Study>(this.study).subscribe((result) => {
       this.property.set('study', this.study = result);
       this.loadTopics(this.study.id);

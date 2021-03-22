@@ -18,8 +18,8 @@ import {Study} from '../../../lib';
   <div class="row">
     <qddt-comment-list [ownerId]="study.id" [comments]="study.comments"></qddt-comment-list>
   </div>
-  <div class="row" *ngIf="study?.topicGroups && study?.topicGroups?.length>0">
-    <qddt-preview-topic-list [topicList]="study.topicGroups"></qddt-preview-topic-list>
+  <div class="row" *ngIf="study?.children && study?.children?.length>0">
+    <qddt-preview-topic-list [topicList]="study.children"></qddt-preview-topic-list>
   </div>
   <div class="row">
     <qddt-element-footer [element]="study" ></qddt-element-footer>

@@ -1,13 +1,13 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, InteropObservable } from 'rxjs';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { API_BASE_HREF } from '../../api';
 import { UserService } from './user.service';
 import { IEntityAudit, IEntityEditAudit, IPageResult, IPageSearch, IRevisionResult, IOtherMaterial, HalResource } from '../interfaces';
 import { ElementKind, ActionKind } from '../enums';
 import { getQueryInfo, getElementKind } from '../consts';
 import { Agency, PageSearch } from '../classes';
-import { concatMap, map } from 'rxjs/operators';
 import { Factory } from '../factory';
 
 
@@ -68,23 +68,22 @@ export class TemplateService {
   public getByKindRevisions<T extends IEntityAudit>(kind: ElementKind, id: string): Promise<IPageResult> {
     const qe = getQueryInfo(kind);
     if (qe) {
-      if (kind === ElementKind.CONCEPT || kind === ElementKind.TOPIC_GROUP) {
-        return this.http.get<IPageResult>
-          (this.api + 'audit/' + qe.path + '/' + id + '/allinclatest').toPromise();
-      } else {
-        return this.http.get<IPageResult>
-          (this.api + 'audit/' + qe.path + '/' + id + '/all').toPromise();
-      }
+      // if (kind === ElementKind.CONCEPT || kind === ElementKind.TOPIC_GROUP) {
+      //   return this.http.get<IPageResult>
+      //     (this.api + '/' + qe.path + '/' + id + '/revisions').toPromise();
+      // } else {
+        return this.http.get<IPageResult>(this.api + '/' + qe.path + '/' + id + '/revisions').toPromise();
+      // }
     }
     return new Promise(null);
   }
 
-  public getByKindRevision(kind: ElementKind, id: string, rev?: number): Promise<IRevisionResult<IEntityEditAudit>> {
+  public getByKindRevision(kind: ElementKind, id: string, rev?: number): Promise<IEntityEditAudit> {
     const qe = getQueryInfo(kind);
     if (rev) {
-      return this.http.get<IRevisionResult<IEntityEditAudit>>(this.api + 'audit/' + qe.path + '/' + id + '/' + rev).toPromise();
+      return this.http.get<IEntityEditAudit>(this.api + '/' + qe.path + '/' + id + ':' + rev).toPromise();
     }
-    return this.http.get<IRevisionResult<IEntityEditAudit>>(this.api + 'audit/' + qe.path + '/' + id).toPromise();
+    return this.http.get<IEntityEditAudit>(this.api + '/' + qe.path + '/' + id).toPromise();
 
   }
 
@@ -96,14 +95,10 @@ export class TemplateService {
   public create<T extends IEntityAudit>(item: T, parentId?: string): Observable<T> {
     const qe = getQueryInfo(item.classKind);
     return ((parentId) ?
-      this.http.post<HalResource>(this.api + qe.path + '/create/' + parentId, item) :
-      this.http.post<HalResource>(this.api + qe.path + '/create', item))
-      .pipe(result => result.forEach( resource => {
-        let entity = Factory.createFromSeed(item.classKind, resource._embedded);
-        return entity;
-      })
+      this.http.post<HalResource>(this.api + qe.path + '/' + parentId, item) :
+      this.http.post<HalResource>(this.api + qe.path, item))
+      .pipe(map(response => Factory.createFromSeed(item.classKind, response._embedded) as T));
 
-      );
   }
 
   public copySource<T extends IEntityAudit>(elementKind: ElementKind, fromId: string, fromRev: number, toParentId: string): Observable<T> {
@@ -130,14 +125,17 @@ export class TemplateService {
         path2 = '/statement';
       }
     }
-    return this.http.post<T>(this.api + qe.path + path2, item);
+    return this.http.post<HalResource>(this.api + qe.path + path2, item)
+    .pipe(map(response => Factory.createFromSeed(item.classKind, response._embedded) as T));
   }
 
-  public updateAll<T extends IEntityAudit>(items: T[], parentId?: string,): Observable<T[]> {
-    const qe = getQueryInfo(items[0].classKind);
-    return (parentId) ? this.http.post<T[]>(this.api + qe.path + '/list/' + parentId, items) :
-      this.http.post<T[]>(this.api + qe.path + '/list', items);
-  }
+  // public updateAll<T extends IEntityAudit>(items: T[], parentId?: string,): Observable<T[]> {
+  //   const qe = getQueryInfo(items[0].classKind);
+  //   return (parentId) ? this.http.post<T[]>(this.api + qe.path + '/list/' + parentId, items) :
+  //     this.http.post<HalResource[]>(this.api + qe.path + '/list', items)
+  //     .pipe(map(response => Factory.createFromSeed(item.classKind, response._embedded) as T));
+
+  // }
 
   public updateWithFiles(kind: ElementKind, form: FormData): Observable<any> {
     const qe = getQueryInfo(kind);

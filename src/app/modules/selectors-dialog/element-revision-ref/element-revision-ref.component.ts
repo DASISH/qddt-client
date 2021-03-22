@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import {
@@ -10,7 +11,6 @@ import {
   TemplateService,
   Parameter
 } from '../../../lib';
-import { Router } from '@angular/router';
 
 
 @Component({
@@ -88,8 +88,8 @@ export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
         item.elementRevision)
         .then((result) => {
           // console.debug('create from seed');
-          item.element = Factory.createFromSeed(kind, result.entity);
-          item.version = result.entity.version;
+          item.element = Factory.createFromSeed(kind, result);
+          item.version = result.version;
           this.actionEvent.emit({ action: ActionKind.Read, ref: item });
         });
     } else {

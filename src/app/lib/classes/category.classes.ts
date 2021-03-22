@@ -74,7 +74,7 @@ export class Category implements IEntityEditAudit {
   basedOnRevision?: number;
   changeComment?: string;
   modified?: number;
-  modifiedBy?: IUser;
+  modifiedBy?: IUser|string;
   version?: IVersion;
   agency?: Agency;
   archived?: boolean;

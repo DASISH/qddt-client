@@ -5,7 +5,7 @@ import { API_BASE_HREF } from '../../api';
 import { PropertyStoreService } from './property.service';
 import { Agency, IPassword, User, UserJson } from '../classes';
 import { ActionKind, AuthorityKind, ElementKind } from '../enums';
-import { TOKEN_NAME } from '../consts';
+import { isString, TOKEN_NAME } from '../consts';
 import { IAuthority } from '../interfaces';
 import { TokenStorageService } from './token-storage.service';
 
@@ -111,10 +111,22 @@ export class UserService {
     const response = await this.http.post<any>(this.api + UserService.SIGNIN_URL, requestParam).toPromise();
     console.log(response);
     if (response && response.token) {
-      this.setToken(response.token);
+      this.tokenStore.saveToken(response.token)
+      this.loadUserFromToken();
     }
     return response;
   }
+
+  /**
+   * Removes token and user details from localStorage and service's variables
+  */
+  public logout(): void {
+      this.tokenStore.signOut()
+      localStorage.removeItem(TOKEN_NAME);
+      this.loggedIn.next(false);
+  }
+
+
 
   public saveUser(userdata: UserJson): Observable<any> {
     return this.http.post(this.api + UserService.UPDATE_URL, userdata);
@@ -171,17 +183,8 @@ export class UserService {
       });
   }
 
-  /**
-   * Removes token and user details from localStorage and service's variables
-   */
-  public logout(): void {
-    localStorage.removeItem(TOKEN_NAME);
-    // console.debug('loggin out fires');
-    this.loggedIn.next(false);
-  }
-
   public isTokenExpired(): boolean {
-    if (!this.getToken()) { return true; }
+    if (! this.tokenStore.getToken()) { return true; }
 
     const expire = new Date(0);
     expire.setUTCSeconds(this.getUser().exp);
@@ -208,37 +211,19 @@ export class UserService {
   }
 
   public getRoles(): string[] {
-    if ((this.getUser().role) && this.getUser().role instanceof Array) {
-      return this.getUser().role.map(e => e.authority);
+    let roles = this.getUser().role
+
+    if (isString(roles)) {
+
+      return roles.split(',').map(value => value.trim())
+
     } else {
-      return [];
-    }
-  }
-
-
-  public getToken(): string {
-    return this.tokenStore.getToken()
-    // const token = localStorage.getItem(TOKEN_NAME);
-    // if (token === 'undefined') {
-    //   return null;
-    // } else {
-    //   return token;
-    // }
-  }
-
-  private setToken(token: string): void {
-    try {
-      this.tokenStore.saveToken(token)
-      // localStorage.setItem(TOKEN_NAME, token);
-      this.loadUserFromToken();
-    } catch (e) {
-      console.exception(e);
-      localStorage.clear();
+      return roles
     }
   }
 
   private loadUserFromToken(): void {
-    this.user = this.getTokenClaims(this.getToken());
+    this.user = this.getTokenClaims(this.tokenStore.getToken());
     this.property.userSetting.email = this.user.email;
     this.roles = 0;
     this.getRoles().forEach((role) => this.roles += +AuthorityKind[role]);

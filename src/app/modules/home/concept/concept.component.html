@@ -53,7 +53,7 @@
   </div>
 
   <ng-container *ngIf="topic">
-    <qddt-concept-treenode [concepts]="topic.concepts" (deleteEvent)="onDeleteConcept($event)"
+    <qddt-concept-treenode [concepts]="topic.children" (deleteEvent)="onDeleteConcept($event)"
       (updatedEvent)="onConceptUpdated($event)">
     </qddt-concept-treenode>
   </ng-container>

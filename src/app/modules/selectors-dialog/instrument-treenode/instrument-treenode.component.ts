@@ -129,7 +129,7 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit {
           item.elementRevision)
           .then((result) => {
             if (kind === ElementKind.CONDITION_CONSTRUCT) {
-              cond = result.entity as ICondition;
+              cond = result as ICondition;
               item.element = {
                 id: cond.id,
                 name: cond.name,
@@ -141,9 +141,9 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit {
               } as ICondition;
               console.debug(item.element || JSON);
             } else {
-              item.element = Factory.createFromSeed(kind, result.entity);
+              item.element = Factory.createFromSeed(kind, result);
             }
-            item.version = result.entity.version;
+            item.version = result.version;
             item = new TreeNodeRevisionRefImpl<AbstractControlConstruct>(item);
             this.actionEvent.emit({ action: ActionKind.Read, ref: item });
           });

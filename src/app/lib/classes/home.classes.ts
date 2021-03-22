@@ -7,18 +7,19 @@ import { Agency } from './user.classes';
 
 export class SurveyProgram implements IEntityEditAudit {
   id: string;
+  label: string;
   name: string;
   description: string;
   authors?: any[];
   archived = false;
-  studies: Study[];
+  children: Study[];
   classKind = ElementKind[ElementKind.SURVEY_PROGRAM];
   changeKind?: string;
   basedOnObject?: string;
   basedOnRevision?: number;
   changeComment?: string;
   modified?: number;
-  modifiedBy?: IUser;
+  modifiedBy?: IUser|string;
   version?: IVersion;
   agency?: Agency;
   otherMaterials?: IOtherMaterial[];
@@ -35,11 +36,12 @@ export class SurveyProgram implements IEntityEditAudit {
 
 export class Study implements IEntityEditAudit {
   id: string;
+  label: string;
   name: string;
   description: string;
   archived = false;
   authors?: any[];
-  topicGroups?: Topic[];
+  children?: Topic[];
   instruments?: Instrument[]
   classKind = ElementKind[ElementKind.STUDY];
   changeKind?: string;
@@ -47,7 +49,7 @@ export class Study implements IEntityEditAudit {
   basedOnRevision?: number;
   changeComment?: string;
   modified?: number;
-  modifiedBy?: IUser;
+  modifiedBy?: IUser|string;
   version?: IVersion;
   agency?: Agency;
   otherMaterials?: IOtherMaterial[];
@@ -66,19 +68,19 @@ export class Study implements IEntityEditAudit {
 export class Topic implements IEntityEditAudit {
   id: string;
   name: string;
-
+  label: string;
   description: string;
   archived = false;
   authors?: any[];
   topicQuestionItems: ElementRevisionRef[];
-  concepts: Concept[];
+  children: Concept[];
   classKind = ElementKind[ElementKind.TOPIC_GROUP];
   changeKind?: string;
   basedOnObject?: string;
   basedOnRevision?: number;
   changeComment?: string;
   modified?: number;
-  modifiedBy?: IUser;
+  modifiedBy?: IUser|string;
   version?: IVersion;
   agency?: Agency;
   otherMaterials?: IOtherMaterial[];
@@ -112,7 +114,7 @@ export class Concept implements IEntityEditAudit {
   changeComment?: string;
   changeKind?: string;
   modified?: number;
-  modifiedBy?: IUser;
+  modifiedBy?: IUser|string;
   version?: IVersion;
   xmlLang?: string;
   comments?: IComment[];

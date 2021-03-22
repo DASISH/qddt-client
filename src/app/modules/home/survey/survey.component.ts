@@ -44,11 +44,7 @@ export class SurveyComponent implements OnInit {
 
   ngOnInit() {
     this.homeService.getListByParent(this.SURVEY).then(
-      (result) => {
-
-        this.surveys = result._embedded['surveyPrograms'];
-
-      });
+      (result) => this.surveys = result);
   }
 
 

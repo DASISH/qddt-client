@@ -20,12 +20,15 @@ export class User {
   email: string;
   agency?: Agency;
   modified?: number;
-  role: Array<any>;
+  role: string[]|string;
   exp: any;  // -> should be number, is expire date
   password?: string;
 
   public constructor(init?: Partial<User>) {
     Object.assign(this, init);
+    if (init && init.role){
+      this.role = init.role.toString().split(',')
+    }
   }
 }
 

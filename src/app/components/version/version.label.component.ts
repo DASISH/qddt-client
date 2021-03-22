@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { LocalDatePipe, ElementRevisionRef, hasChanges, IEntityEditAudit, MessageService } from '../../lib';
+import { LocalDatePipe, ElementRevisionRef, hasChanges, IEntityEditAudit, MessageService, isString } from '../../lib';
 
 
 @Component({
@@ -27,9 +27,10 @@ export class VersionLabelComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (hasChanges(changes.element)) {
       this.titleInfo = 'Last saved by: ' +
-        ((this.element.modifiedBy) ?
-          this.element.modifiedBy.name + '@' + this.element.modifiedBy.agencyName + ' : ' + (this.datePipe.transform(this.element.modified)) :
-          '?');
+        (isString(this.element.modifiedBy ) ?
+        this.element.modifiedBy + ' : ' + (this.datePipe.transform(this.element.modified)) :
+        this.element.modifiedBy.name + '@' + this.element.modifiedBy.agencyName + ' : ' + (this.datePipe.transform(this.element.modified))
+          );
     }
     if (hasChanges(changes.revisionRef)) {
       this.titleInfo = 'Last saved by:' +

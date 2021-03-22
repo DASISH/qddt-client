@@ -38,7 +38,7 @@ export class ResponsePreSelector implements OnInit {
 
   constructor(private messages: MessageService, private properties: PropertyStoreService, private userService: UserService) {
     // console.debug(userService.getUser().role || JSON);
-    if (userService.getUser().role.find(p => p.authority === 'ROLE_ADMIN')) {
+    if (userService.getRoles().find(p => p === 'ROLE_ADMIN')) {
       this.domainTypeDescription = DOMAIN_TYPE_DESCRIPTION.filter((e) => e.id !== DomainKind.NONE && e.id !== DomainKind.MISSING);
     } else {
       this.domainTypeDescription = DOMAIN_TYPE_DESCRIPTION.filter((e) => e.id > DomainKind.NONE && e.id < DomainKind.MISSING);

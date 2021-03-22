@@ -7,6 +7,8 @@ import { ActionKind, ElementKind } from '../enums';
 import { IEntityEditAudit, IEntityAudit, ISurveyOrder, IPageResult, HalResource } from '../interfaces';
 import { getQueryInfo } from '../consts';
 import { UserService } from './user.service';
+import { map } from 'rxjs/operators';
+import { Factory } from '../factory';
 
 
 
@@ -49,18 +51,27 @@ export class HomeService<T extends IEntityEditAudit>  {
 
   async get(kind: ElementKind, id: string) {
     const qe = getQueryInfo(kind);
-    return await this.http.get<HalResource>(this.api + qe.path + '/' + id).toPromise();
+    return await this.http.get<HalResource>(this.api + qe.path + '/' + id)
+    .pipe(map(response => Factory.createFromSeed(kind, response) as T))
+    .toPromise();
   }
 
   async getExt<S extends IEntityAudit>(kind: ElementKind, id: string) {
     const qe = getQueryInfo(kind);
-    return await this.http.get<S>(this.api + qe.path + '/' + id).toPromise();
+    return await this.http.get<S>(this.api + qe.path + '/' + id)
+    .pipe(map(response => Factory.createFromSeed(kind, response) as S))
+    .toPromise();
   }
 
-  getListByParent(kind: ElementKind, parentId?: string): Promise<IPageResult> {
+  getListByParent(kind: ElementKind, parentId?: string): Promise<T[]> {
     const qe = getQueryInfo(kind);
-    return (parentId) ? this.http.get<IPageResult>(this.api + qe.path + '/list/by-parent/' + parentId).toPromise() :
-      this.http.get<IPageResult>(this.api + qe.path + '/').toPromise();
+    return ((parentId) ?
+      this.http.get<IPageResult>(this.api + qe.path + '/list/by-parent/' + parentId) :
+      this.http.get<IPageResult>(this.api + qe.path + '/'))
+      .pipe(map(response => {
+        return response._embedded[qe.halName].map( result => Factory.createFromSeed(kind, result) as T)
+      })).toPromise()
+
   }
 
   attachQuestion(kind: ElementKind, id: string, questionId: string, revision: number): Observable<T> {

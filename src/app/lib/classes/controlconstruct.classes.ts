@@ -107,7 +107,7 @@ export abstract class AbstractControlConstruct implements IEntityEditAudit {
   changeComment?: string;
   changeKind?: string;
   modified?: number;
-  modifiedBy?: IUser;
+  modifiedBy?: IUser|string;
   version?: IVersion;
   agency?: Agency;
   archived?: boolean;
@@ -158,7 +158,7 @@ export class SequenceConstruct implements AbstractControlConstruct {
   changeComment?: string;
   changeKind?: string;
   modified?: number;
-  modifiedBy?: IUser;
+  modifiedBy?: IUser|string;
   version?: IVersion;
   agency?: Agency;
   archived?: boolean;
