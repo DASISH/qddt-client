@@ -18,8 +18,8 @@ import {SurveyProgram} from '../../../lib';
   <div class="row">
     <qddt-comment-list [ownerId]="survey.id" [comments]="survey.comments"></qddt-comment-list>
   </div>
-  <div class="row" *ngIf="survey.studies && survey.studies.length>0">
-    <qddt-preview-study-list [studyList]="survey.studies"></qddt-preview-study-list>
+  <div class="row" *ngIf="survey.children && survey.children.length>0">
+    <qddt-preview-study-list [studyList]="survey.children"></qddt-preview-study-list>
   </div>
   <div class="row">
     <qddt-element-footer [element]="survey"></qddt-element-footer>
