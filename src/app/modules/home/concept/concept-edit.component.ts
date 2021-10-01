@@ -9,20 +9,20 @@ import { Concept, LANGUAGE_MAP, TemplateService } from '../../../lib';
 <ng-container *ngIf="(concept && isVisible)">
   <form class="row" id="{{formId}}" (ngSubmit)="save()" #hf="ngForm">
     <qddt-input class="col s10" required name="name" label="Name" type="text" placeholder="If not specified, same as Label, but must be unique within the Agencys TopicGroups"
-                [(ngModel)]="topic.name" data-length="250">
+                [(ngModel)]="concept.name" data-length="250">
     </qddt-input>
-    <qddt-select class="col s2" required name="xmlLang" label="Language" [(ngModel)]="topic.xmlLang"
+    <qddt-select class="col s2" required name="xmlLang" label="Language" [(ngModel)]="concept.xmlLang"
                  [lockups]="LANGUAGES">
     </qddt-select>
     <qddt-input class="col s12" required name="label" label="Label" type="text" placeholder="This will be the visual representation of this Topic"
-                [(ngModel)]="topic.name" data-length="250">
+                [(ngModel)]="concept.label" data-length="250">
     </qddt-input>
 
     <qddt-textarea class="col s12" name="description"
                    required
                    placeholder="Describe each TopicGroup in a broad sense, if the TopicGroup is very narrow, you can choose to treat it as a Concept"
                    label="Description"
-                   [(ngModel)]="topic.description"
+                   [(ngModel)]="concept.description"
                    data-length="20000">
     </qddt-textarea>
 
