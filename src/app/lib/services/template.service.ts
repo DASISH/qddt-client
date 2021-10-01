@@ -62,7 +62,14 @@ export class TemplateService {
 
   public getByKindEntity<T extends IEntityEditAudit>(kind: ElementKind, id: string): Promise<T> {
     const qe = getQueryInfo(kind);
-    return this.http.get<T>(this.api + qe.path + '/' + id).toPromise();
+
+    return this.http.get<T>(this.api + qe.path + '/' + id)
+    .pipe<T>(result => result.forEach( next => {
+        this.http.get<Agency>(next._links.agency.href)
+        .toPromise()
+        .then( it => next.agency = it);
+      })
+    ).toPromise();
   }
 
   public getByKindRevisions<T extends IEntityAudit>(kind: ElementKind, id: string): Promise<IPageResult> {

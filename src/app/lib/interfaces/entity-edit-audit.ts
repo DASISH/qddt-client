@@ -1,5 +1,6 @@
 import { IComment, IOtherMaterial, IUser, IVersion } from './interfaces';
 import { Agency } from '../classes';
+import { HalLink, HalResource } from './http.interfaces';
 
 
 export interface IEntityAudit {
@@ -10,6 +11,7 @@ export interface IEntityAudit {
 }
 
 export interface IEntityEditAudit extends IEntityAudit {
+  [x: string]: any;
   basedOnObject?: string;
   basedOnRevision?: number;
   changeComment?: string;
@@ -21,6 +23,12 @@ export interface IEntityEditAudit extends IEntityAudit {
   archived?: boolean;
   otherMaterials?: IOtherMaterial[];
   comments?: IComment[];
+  _links: {
+    [rel: string]: HalLink | HalLink[];
+  };
+  _embedded?: {
+    [rel: string]: HalResource | HalResource[];
+  };
 }
 
 

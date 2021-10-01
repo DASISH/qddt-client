@@ -51,15 +51,17 @@ export class HomeService<T extends IEntityEditAudit>  {
 
   async get(kind: ElementKind, id: string) {
     const qe = getQueryInfo(kind);
-    return await this.http.get<HalResource>(this.api + qe.path + '/' + id)
-    .pipe(map(response => Factory.createFromSeed(kind, response) as T))
+    return this.http.get<HalResource>(this.api + qe.path + '/' + id)
+    .pipe(map(response =>
+      Factory.createFromSeed(kind, response) as T))
     .toPromise();
   }
 
   async getExt<S extends IEntityAudit>(kind: ElementKind, id: string) {
     const qe = getQueryInfo(kind);
-    return await this.http.get<S>(this.api + qe.path + '/' + id)
-    .pipe(map(response => Factory.createFromSeed(kind, response) as S))
+    return this.http.get<S>(this.api + qe.path + '/' + id)
+    .pipe(map(response =>
+      Factory.createFromSeed(kind, response) as S))
     .toPromise();
   }
 

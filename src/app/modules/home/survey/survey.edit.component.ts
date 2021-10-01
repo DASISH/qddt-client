@@ -48,8 +48,12 @@ export class SurveyEditComponent implements OnInit {
   constructor(private service: TemplateService) {}
 
   ngOnInit() {
+    console.log('loading');
     this.service.getByKindEntity<SurveyProgram>(this.SURVEY,this.survey.id).then(
-      (result) => this.survey = result);
+      (result) => {
+        console.log('loading2');
+        this.survey = result
+      });
   }
 
   onSave() {
