@@ -72,7 +72,7 @@ export class TemplateService {
       //   return this.http.get<IPageResult>
       //     (this.api + '/' + qe.path + '/' + id + '/revisions').toPromise();
       // } else {
-        return this.http.get<IPageResult>(this.api + '/' + qe.path + '/' + id + '/revisions').toPromise();
+        return this.http.get<IPageResult>(this.api + qe.path + '/' + id + '/revisions').toPromise();
       // }
     }
     return new Promise(null);
@@ -81,9 +81,9 @@ export class TemplateService {
   public getByKindRevision(kind: ElementKind, id: string, rev?: number): Promise<IEntityEditAudit> {
     const qe = getQueryInfo(kind);
     if (rev) {
-      return this.http.get<IEntityEditAudit>(this.api + '/' + qe.path + '/' + id + ':' + rev).toPromise();
+      return this.http.get<IEntityEditAudit>(this.api + qe.path + '/' + id + ':' + rev).toPromise();
     }
-    return this.http.get<IEntityEditAudit>(this.api + '/' + qe.path + '/' + id).toPromise();
+    return this.http.get<IEntityEditAudit>(this.api + qe.path + '/' + id).toPromise();
 
   }
 

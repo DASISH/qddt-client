@@ -1,5 +1,5 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { SurveyProgram, TemplateService } from '../../../lib';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { ElementKind, SurveyProgram, TemplateService } from '../../../lib';
 
 
 @Component({
@@ -8,10 +8,16 @@ import { SurveyProgram, TemplateService } from '../../../lib';
   template: `
 <ng-container *ngIf="isVisible">
   <form class="row" id="{{formId}}" (ngSubmit)="onSave()" #ngForm="ngForm">
-      <qddt-input name="name"
+  <qddt-input name="name"
         required
         label="Name"
         [(ngModel)]="survey.name"
+        data-length="250">
+      </qddt-input>
+      <qddt-input name="label"
+        required
+        label="Label"
+        [(ngModel)]="survey.label"
         data-length="250">
       </qddt-input>
       <qddt-textarea name="description"
@@ -31,15 +37,21 @@ import { SurveyProgram, TemplateService } from '../../../lib';
 `
 })
 
-export class SurveyEditComponent {
+export class SurveyEditComponent implements OnInit {
   @Input() survey: SurveyProgram;
   @Output() savedEvent = new EventEmitter<SurveyProgram>();
 
   public isVisible = false;
   public showRevision = false;    // used by parent form to keep track of revision comp
   public readonly formId = Math.round(Math.random() * 10000);
+  private readonly SURVEY = ElementKind.SURVEY_PROGRAM;
 
-  constructor(private service: TemplateService) { }
+  constructor(private service: TemplateService) {}
+
+  ngOnInit() {
+    this.service.getByKindEntity<SurveyProgram>(this.SURVEY,this.survey.id).then(
+      (result) => this.survey = result);
+  }
 
   onSave() {
     this.service.update<SurveyProgram>(this.survey)
