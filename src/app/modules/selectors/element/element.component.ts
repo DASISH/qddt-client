@@ -85,11 +85,12 @@ export class ElementComponent implements OnChanges {
   public onSearchElements(key) {
     const qi = getQueryInfo(this.pageSearch.kind);
 
+    console.log(qi);
     this.pageSearch.key = key;
     this.pageSearch.xmlLang = this.xmlLang;
     this.pageSearch.sort = [...qi.fields.filter((v, i) => i < 2).entries()].flatMap(value => value[1]).join(',');
     this.service.searchByKind(this.pageSearch).then((result) =>
-      this.itemList = result._embedded.items.sort((a, b) =>
+      this.itemList = result._embedded[qi.halName].sort((a, b) =>
         a.name.localeCompare(b.name)));
   }
 
