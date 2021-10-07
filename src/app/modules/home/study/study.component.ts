@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {
-  ActionKind,
-  ElementKind, HierarchyPosition,
-  HomeService, Instrument,
-  MessageService,
-  PropertyStoreService,
-  fadeInAnimation, LANGUAGE_MAP,
+  ActionKind, delay,
+  ElementKind,
+  fadeInAnimation,
+  HierarchyPosition,
+  HomeService,
+  Instrument,
+  LANGUAGE_MAP, MessageService, PropertyStoreService,
   Study,
-  SurveyProgram,
-  TemplateService,
-  delay} from 'src/app/lib';
+  SurveyProgram, TemplateService
+} from '../../../lib';
+
 
 @Component({
   selector: 'qddt-study',

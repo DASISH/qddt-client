@@ -15,6 +15,13 @@ import { Factory } from '../factory';
 @Injectable()
 export class TemplateService {
 
+  private addPad = (source: String) => {
+    console.log(source.charAt(source.length - 1));
+    if (source.charAt(source.length - 1) == "*")
+      return source;
+    return source + "*";
+  }
+
   constructor(protected http: HttpClient, private userService: UserService, @Inject(API_BASE_HREF) protected api: string) {
     // console.debug('TemplateService::CONST ' + api);
   }
@@ -30,12 +37,13 @@ export class TemplateService {
 
     if (!pageSearch.hasDetailSearch) {
       for (const field of qe.fields) {
-        queries.push(field + '=' + pageSearch.key.trim());
+        queries.push(field + '=' + this.addPad(pageSearch.key.trim()));
       }
       if (pageSearch.keys) {
         Array.from(pageSearch.keys)
           .filter((item) => !qe.fields.includes(item[0], 0))
           .forEach(key => {
+            console.log(key[0] + '=' + key[1]);
             queries.push(key[0] + '=' + key[1]);
           });
       }
@@ -56,6 +64,8 @@ export class TemplateService {
     if (qe.parameter) { query += qe.parameter; }
 
     if (pageSearch.sort) { query += '&sort=' + pageSearch.sort; }
+
+    console.log(query);
 
     return this.http.get<IPageResult>(this.api + qe.path + '/search/findByQuery' + query).toPromise();
   }
@@ -79,7 +89,7 @@ export class TemplateService {
       //   return this.http.get<IPageResult>
       //     (this.api + '/' + qe.path + '/' + id + '/revisions').toPromise();
       // } else {
-        return this.http.get<IPageResult>(this.api + qe.path + '/' + id + '/revisions').toPromise();
+      return this.http.get<IPageResult>(this.api + qe.path + '/' + id + '/revisions').toPromise();
       // }
     }
     return new Promise(null);
@@ -133,7 +143,7 @@ export class TemplateService {
       }
     }
     return this.http.post<HalResource>(this.api + qe.path + path2, item)
-    .pipe(map(response => Factory.createFromSeed(item.classKind, response._embedded) as T));
+      .pipe(map(response => Factory.createFromSeed(item.classKind, response._embedded) as T));
   }
 
   // public updateAll<T extends IEntityAudit>(items: T[], parentId?: string,): Observable<T[]> {

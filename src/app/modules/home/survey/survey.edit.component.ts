@@ -23,6 +23,7 @@ import { ElementKind, SurveyProgram, TemplateService } from '../../../lib';
       <qddt-textarea name="description"
         required
         label="Description"
+        placeholder="Describe why it was decided to start on this enquire..."
         [(ngModel)]="survey.description"
         data-length="20000">
       </qddt-textarea>

@@ -8,10 +8,28 @@ import { Concept, LANGUAGE_MAP, TemplateService } from '../../../lib';
   template: `
 <ng-container *ngIf="(concept && isVisible)">
   <form class="row" id="{{formId}}" (ngSubmit)="save()" #hf="ngForm">
-        <qddt-input class="col s10"
+    <qddt-input class="col s10" required name="name" label="Name" type="text" placeholder="If not specified, same as Label, but must be unique within the Agencys TopicGroups"
+                [(ngModel)]="concept.name" data-length="250">
+    </qddt-input>
+    <qddt-select class="col s2" required name="xmlLang" label="Language" [(ngModel)]="concept.xmlLang"
+                 [lockups]="LANGUAGES">
+    </qddt-select>
+    <qddt-input class="col s12" required name="label" label="Label" type="text" placeholder="This will be the visual representation of this Topic"
+                [(ngModel)]="concept.label" data-length="250">
+    </qddt-input>
+
+    <qddt-textarea class="col s12" name="description"
+                   required
+                   placeholder="Describe each TopicGroup in a broad sense, if the TopicGroup is very narrow, you can choose to treat it as a Concept"
+                   label="Description"
+                   [(ngModel)]="concept.description"
+                   data-length="20000">
+    </qddt-textarea>
+
+    <qddt-input class="col s10"
           required
           name="name"
-          placeholder="add concept name"
+          placeholder="If not specified, same as Label, but must be unique within the Agencys Concepts"
           label="Name"
           [(ngModel)]="concept.name"
           data-length="100">
@@ -23,9 +41,13 @@ import { Concept, LANGUAGE_MAP, TemplateService } from '../../../lib';
           [(ngModel)]="concept.xmlLang"
           [lockups]="LANGUAGES" >
         </qddt-select>
+    <qddt-input class="col s12" required name="label" label="Label" type="text" placeholder="This will be the visual representation of this Concept"
+                [(ngModel)]="concept.name" data-length="250">
+    </qddt-input>
+
       <qddt-textarea class="col s12" name="description"
         required
-        placeholder="add description"
+        placeholder="Describe each Concept with clear boundaries, if the Concept is complex, you can subdivide it further until satisfying boundaries are archived. "
         label="Description"
         [(ngModel)]="concept.description"
         data-length="20000">
