@@ -15,7 +15,7 @@ import { Factory } from '../factory';
 @Injectable()
 export class TemplateService {
 
-  private addPad = (source: String) => {
+  private padAsterisk = (source: String) => {
     console.log(source.charAt(source.length - 1));
     if (source.charAt(source.length - 1) == "*")
       return source;
@@ -37,7 +37,7 @@ export class TemplateService {
 
     if (!pageSearch.hasDetailSearch) {
       for (const field of qe.fields) {
-        queries.push(field + '=' + this.addPad(pageSearch.key.trim()));
+        queries.push(field + '=' + this.padAsterisk(pageSearch.key.trim()));
       }
       if (pageSearch.keys) {
         Array.from(pageSearch.keys)
@@ -72,14 +72,21 @@ export class TemplateService {
 
   public getByKindEntity<T extends IEntityEditAudit>(kind: ElementKind, id: string): Promise<T> {
     const qe = getQueryInfo(kind);
+    const promise = new Promise<T>((resolve, reject) => {
+      this.http.get<T>(this.api + qe.path + '/' + id).toPromise()
+        .then(async (result: T) => {
+          result.agency = await this.getAgency(result.agencyId);
+          // Success
+          resolve(result);
+        },
+          err => {
+            // Error
+            reject(err);
+          }
+        );
+    });
+    return promise;
 
-    return this.http.get<T>(this.api + qe.path + '/' + id)
-    .pipe<T>(result => result.forEach( next => {
-        this.http.get<Agency>(next._links.agency.href)
-        .toPromise()
-        .then( it => next.agency = it);
-      })
-    ).toPromise();
   }
 
   public getByKindRevisions<T extends IEntityAudit>(kind: ElementKind, id: string): Promise<IPageResult> {
@@ -189,6 +196,11 @@ export class TemplateService {
 
   public async hasOwnerRights(entityAgency?: Agency) {
     return (entityAgency) ? ((await this.userService.getCurrentAgency()).id === entityAgency.id) : true;
+  }
+
+  public async getAgency(uuid: String) {
+    let result = await this.userService.getAgencies();
+    return result.find(pre => pre.id == uuid)
   }
 }
 

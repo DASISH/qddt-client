@@ -17,13 +17,13 @@ export interface IEntityEditAudit extends IEntityAudit {
   changeComment?: string;
   changeKind?: string;
   modified?: number;
-  modifiedBy?: IUser|string;
+  modifiedBy?: IUser | string;
   version?: IVersion;
   agency?: Agency;
   archived?: boolean;
   otherMaterials?: IOtherMaterial[];
   comments?: IComment[];
-  _links: {
+  _links?: {
     [rel: string]: HalLink | HalLink[];
   };
   _embedded?: {

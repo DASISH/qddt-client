@@ -20,29 +20,24 @@ export class User {
   email: string;
   agency?: Agency;
   modified?: number;
-  role: string[]|string;
+  role: string[] | string;
   exp: any;  // -> should be number, is expire date
   password?: string;
 
   public constructor(init?: Partial<User>) {
     Object.assign(this, init);
-    if (init && init.role){
+    if (init && init.role) {
       this.role = init.role.toString().split(',')
     }
   }
 }
 
-
-
 export class UserJson {
   id: string;
-  name: string;
+  username: string;
   email: string;
-  agency: Agency;
-  modified: number;
-  authorities?: IAuthority[] = [{ id: 'null', name: 'none', authority: 'NONE' }];
-  enabled = true;
-  classKind: 'USER';
+  agencyId: string;
+  authority?: string[] | string;
   public constructor(init?: Partial<UserJson>) {
     Object.assign(this, init);
   }

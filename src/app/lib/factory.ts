@@ -51,8 +51,6 @@ export class Factory {
         return new Instruction();
       case ElementKind.UNIVERSE:
         return new Universe();
-      case ElementKind.USER:
-        return new UserJson();
       case ElementKind.AUTHOR:
         return new Author();
       default: return null;
@@ -96,8 +94,6 @@ export class Factory {
         return new Instruction(seed);
       case ElementKind.UNIVERSE:
         return new Universe(seed);
-      case ElementKind.USER:
-        return new UserJson(seed);
       case ElementKind.AUTHOR:
         return new Author(seed);
       default: return null;

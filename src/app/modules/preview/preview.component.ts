@@ -9,7 +9,7 @@ import { ElementEnumAware, ElementKind, IEntityAudit, PreviewService, Parameter,
     '.row .col { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }',
     'ul { border-color:lightyellow; }',
     'ul.question { border-color:#E8F5E9;}',
-    'ul .collapsible { margin:unset; padding:5px; !important;}',
+    'ul .collapsible { margin:unset; padding:5px;}',
     'collapsible-header { display: flow-root; margin-bottom: 0px; margin-left: unset; }',
   ],
 

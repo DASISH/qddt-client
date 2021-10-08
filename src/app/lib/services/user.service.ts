@@ -6,8 +6,9 @@ import { PropertyStoreService } from './property.service';
 import { Agency, IPassword, User, UserJson } from '../classes';
 import { ActionKind, AuthorityKind, ElementKind } from '../enums';
 import { isString, TOKEN_NAME } from '../consts';
-import { IAuthority } from '../interfaces';
+import { IAuthority, IPageResult } from '../interfaces';
 import { TokenStorageService } from './token-storage.service';
+import { timeStamp } from 'console';
 
 
 /**
@@ -17,21 +18,20 @@ import { TokenStorageService } from './token-storage.service';
 @Injectable()
 export class UserService {
   public static readonly SIGNIN_URL = 'login';
-  public static readonly AGENCY_URL = 'agency/all';
+  public static readonly AGENCY_URL = 'agency';
   public static readonly RESET_PWD_URL = 'user/resetpassword';
   public static readonly UPDATE_URL = 'user';
-  public static readonly AUTHORITY_URL = 'authority/all';
+  public static readonly AUTHORITY_URL = 'authority';
 
   private static readonly AGENCIES = 'AGENCIES';
   private static readonly AUTHORITIES = 'AUTHORITIES';
   private static readonly USER = 'USER_REF';
 
   public loggedIn = new BehaviorSubject<boolean>(false);
-
-  private user: User;
   private roles: number;
+  private user: User;
 
-  private readonly getUserAsync = (id: string) => this.http.get<User>(this.api + 'user/' + id).toPromise();
+  private readonly getUserAsync = (id: string) => this.http.get<UserJson>(this.api + 'user/' + id).toPromise();
 
   constructor(private http: HttpClient, private tokenStore: TokenStorageService, @Inject(API_BASE_HREF) private api: string, private property: PropertyStoreService) {
     if (this.isTokenExpired()) {
@@ -39,6 +39,8 @@ export class UserService {
     } else {
       this.loadUserFromToken();
     }
+
+
   }
 
   public canDo(action: ActionKind, kind: ElementKind): boolean {
@@ -121,12 +123,10 @@ export class UserService {
    * Removes token and user details from localStorage and service's variables
   */
   public logout(): void {
-      this.tokenStore.signOut()
-      localStorage.removeItem(TOKEN_NAME);
-      this.loggedIn.next(false);
+    this.tokenStore.signOut()
+    localStorage.removeItem(TOKEN_NAME);
+    this.loggedIn.next(false);
   }
-
-
 
   public saveUser(userdata: UserJson): Observable<any> {
     return this.http.post(this.api + UserService.UPDATE_URL, userdata);
@@ -139,24 +139,23 @@ export class UserService {
     return this.http.post(this.api + UserService.RESET_PWD_URL, password);
   }
 
-  public getCurrentUser(): Promise<User> {
+  public async getCurrentUser(): Promise<UserJson> {
     if (!this.getUserId) throw new Error('User not logged in');
-    if (this.property.has(UserService.USER)) {
-      const user = this.property.get(UserService.USER) as User;
-      if (user.id === this.getUserId()) {
-        return Promise.resolve(user);
-      }
-      this.property.delete(UserService.USER);
-    }
-    return this.getUserAsync(this.getUserId())
-      .then(result => {
-        this.property.set(UserService.USER, result);
-        return result;
-      });
+    return await this.getUserJson(this.getUserId());
   }
 
+  public getUserJson(uuid: string): Promise<UserJson> {
+    if (!this.property.has(uuid)) {
+      this.getUserAsync(uuid)
+        .then(value => this.property.set(uuid, value));
+    }
+    return Promise.resolve(this.property.get(uuid) as UserJson);
+  }
+
+
   public async getCurrentAgency(): Promise<Agency> {
-    return (await this.getCurrentUser()).agency;
+    const agencyId = (await this.getCurrentUser()).agencyId;
+    return (await this.getAgencies()).find(pre => pre.id == agencyId)
   }
 
   public getAgencies(): Promise<Agency[]> {
@@ -164,12 +163,14 @@ export class UserService {
       const list = this.property.get(UserService.AGENCIES);
       return Promise.resolve(list);
     }
-    return this.http.get<Agency[]>(this.api + UserService.AGENCY_URL).toPromise()
+    return this.http.get<IPageResult>(this.api + UserService.AGENCY_URL).toPromise()
       .then(result => {
-        this.property.set(UserService.AGENCIES, result);
-        return result;
+        this.property.set(UserService.AGENCIES, result._embedded.agencies);
+        return result._embedded.agencies as unknown as Agency[];
       });
   }
+
+
 
   public getAuthorities(): Promise<IAuthority[]> {
     if (this.property.has(UserService.AUTHORITIES)) {
@@ -184,7 +185,7 @@ export class UserService {
   }
 
   public isTokenExpired(): boolean {
-    if (! this.tokenStore.getToken()) { return true; }
+    if (!this.tokenStore.getToken()) { return true; }
 
     const expire = new Date(0);
     expire.setUTCSeconds(this.getUser().exp);
