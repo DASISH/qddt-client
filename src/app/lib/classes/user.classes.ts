@@ -21,7 +21,7 @@ export class UserJwt {
   agency?: Agency;
   modified?: number;
   role: string[] | string;
-  exp: any;  // -> should be number, is expire date
+  exp: any;  // -> should be number, is expire date 
   password?: string;
 
   public constructor(init?: Partial<UserJwt>) {
