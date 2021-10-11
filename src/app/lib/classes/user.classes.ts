@@ -9,12 +9,12 @@ export class Agency {
   defaultXmlLang: string;
   classKind: string;
   version?: IVersion;
-  users?: UserJson[];
+  users?: User[];
   surveyPrograms?: SurveyJson[];
 }
 
 
-export class User {
+export class UserJwt {
   id: string;
   sub: string; // -> name
   email: string;
@@ -24,7 +24,7 @@ export class User {
   exp: any;  // -> should be number, is expire date
   password?: string;
 
-  public constructor(init?: Partial<User>) {
+  public constructor(init?: Partial<UserJwt>) {
     Object.assign(this, init);
     if (init && init.role) {
       this.role = init.role.toString().split(',')
@@ -32,13 +32,14 @@ export class User {
   }
 }
 
-export class UserJson {
+export class User {
   id: string;
   username: string;
   email: string;
   agencyId: string;
   authority?: string[] | string;
-  public constructor(init?: Partial<UserJson>) {
+  isEnabled?:boolean;
+  public constructor(init?: Partial<User>) {
     Object.assign(this, init);
   }
 

@@ -3,12 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { API_BASE_HREF } from '../../api';
 import { PropertyStoreService } from './property.service';
-import { Agency, IPassword, User, UserJson } from '../classes';
+import { Agency, IPassword, UserJwt, User } from '../classes';
 import { ActionKind, AuthorityKind, ElementKind } from '../enums';
 import { isString, TOKEN_NAME } from '../consts';
 import { IAuthority, IPageResult } from '../interfaces';
 import { TokenStorageService } from './token-storage.service';
-import { timeStamp } from 'console';
 
 
 /**
@@ -29,9 +28,9 @@ export class UserService {
 
   public loggedIn = new BehaviorSubject<boolean>(false);
   private roles: number;
-  private user: User;
+  private user: UserJwt;
 
-  private readonly getUserAsync = (id: string) => this.http.get<UserJson>(this.api + 'user/' + id).toPromise();
+  private readonly getUserAsync = (id: string) => this.http.get<User>(this.api + 'user/' + id).toPromise();
 
   constructor(private http: HttpClient, private tokenStore: TokenStorageService, @Inject(API_BASE_HREF) private api: string, private property: PropertyStoreService) {
     if (this.isTokenExpired()) {
@@ -39,8 +38,6 @@ export class UserService {
     } else {
       this.loadUserFromToken();
     }
-
-
   }
 
   public canDo(action: ActionKind, kind: ElementKind): boolean {
@@ -105,8 +102,8 @@ export class UserService {
     }
   }
 
-  public getUser(): User {
-    return this.user || new User();
+  public getUserJwt(): UserJwt {
+    return this.user || new UserJwt();
   }
 
   public async signIn(requestParam: IPassword) {
@@ -128,7 +125,7 @@ export class UserService {
     this.loggedIn.next(false);
   }
 
-  public saveUser(userdata: UserJson): Observable<any> {
+  public saveUser(userdata: User): Observable<any> {
     return this.http.post(this.api + UserService.UPDATE_URL, userdata);
   }
 
@@ -139,17 +136,17 @@ export class UserService {
     return this.http.post(this.api + UserService.RESET_PWD_URL, password);
   }
 
-  public async getCurrentUser(): Promise<UserJson> {
+  public async getCurrentUser(): Promise<User> {
     if (!this.getUserId) throw new Error('User not logged in');
-    return await this.getUserJson(this.getUserId());
+    return this.getUser(this.getUserId());
   }
 
-  public getUserJson(uuid: string): Promise<UserJson> {
+  public getUser(uuid: string): Promise<User> {
     if (!this.property.has(uuid)) {
       this.getUserAsync(uuid)
         .then(value => this.property.set(uuid, value));
     }
-    return Promise.resolve(this.property.get(uuid) as UserJson);
+    return Promise.resolve(this.property.get(uuid) as User);
   }
 
 
@@ -188,7 +185,7 @@ export class UserService {
     if (!this.tokenStore.getToken()) { return true; }
 
     const expire = new Date(0);
-    expire.setUTCSeconds(this.getUser().exp);
+    expire.setUTCSeconds(this.getUserJwt().exp);
     if (expire === undefined) {
       console.log('usr exp undefined ->'); // + this.getUsername());
       return true;
@@ -199,20 +196,20 @@ export class UserService {
   }
 
   public getUsername(): string {
-    return this.getUser().sub || 'no name';
+    return this.getUserJwt().sub || 'no name';
   }
 
   public getUserId(): string {
     // console.debug('getUserId->' + this.getUser().id);
-    return this.getUser().id || '';
+    return this.getUserJwt().id || '';
   }
 
   public getEmail(): string {
-    return this.getUser().email || this.property.userSetting.email || '';
+    return this.getUserJwt().email || this.property.userSetting.email || '';
   }
 
   public getRoles(): string[] {
-    let roles = this.getUser().role
+    let roles = this.getUserJwt().role
 
     if (isString(roles)) {
 

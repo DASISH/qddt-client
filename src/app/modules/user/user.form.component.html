@@ -2,7 +2,7 @@
   <form [id]="formId" #hf="ngForm" (ngSubmit)="onSave()">
     <div class="row">
       <div class="col m6">
-        <qddt-input required name="name" label="Name" [(ngModel)]="user.name" data-length="25">
+        <qddt-input required name="name" label="Name" [(ngModel)]="user.username" data-length="25">
         </qddt-input>
 
         <qddt-input required name="email" inputType="email" label="Email" [(ngModel)]="user.email" data-length="120">
@@ -20,7 +20,7 @@
           <div *ngFor="let authority of (authorities)">
             <label>
               <input name="{{formId}}-autGroup" type="radio" (click)="onSelectRadio(authority)"
-                [checked]="user.authorities[0].id === authority.id" />
+                [checked]="user.authority === authority.name" />
               <span>{{ authority.name }}</span>
             </label>
           </div>
@@ -28,7 +28,7 @@
         <div class="row">
           <div class="switch">
             <label>
-              <input id="{{formId}}-enabled" type="checkbox" name="enabled" [(ngModel)]="user.enabled" />
+              <input id="{{formId}}-enabled" type="checkbox" name="enabled" [(ngModel)]="user.isEnabled" />
               <span class="lever"></span>Enabled
             </label>
           </div>

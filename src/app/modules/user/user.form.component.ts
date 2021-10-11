@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges, AfterViewInit } from '@angular/core';
-import { Agency, IAuthority, UserJson, UserService, delay } from '../../lib';
-import { SelectItem } from '../../lib/classes/selecteditem.classes';
+import { Agency, IAuthority, UserService, delay, SelectItem, User } from '../../lib';
 
 @Component({
   selector: 'qddt-user-form',
@@ -8,7 +7,7 @@ import { SelectItem } from '../../lib/classes/selecteditem.classes';
 })
 
 export class UserFormComponent implements OnInit, OnChanges, AfterViewInit {
-  @Input() user: UserJson;
+  @Input() user: User;
   @Input() readonly = false;
   @Output() modifiedEvent = new EventEmitter<string>();
 
@@ -51,14 +50,11 @@ export class UserFormComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   onSelectChange(id: string) {
-    this.selectedAgencyId = id;
-    this.getAgencies().then(result => {
-      this.user.agency = result.find(f => f.id === this.selectedAgencyId);
-    });
+    this.user.agencyId = this.selectedAgencyId = id;
   }
 
-  onSelectRadio(authority: IAuthority) {
-    this.user.authorities = [authority];
+  onSelectRadio(authority: string) {
+    this.user.authority = [authority];
   }
 
   onSave() {
@@ -71,11 +67,11 @@ export class UserFormComponent implements OnInit, OnChanges, AfterViewInit {
 
 
   private async getFirstAgency() {
-    return await this.getAgencies().then(result => result[0]);
+    return this.getAgencies().then(result => result[0]);
   }
 
   private async getAgencies() {
-    return await this.userService.getAgencies();
+    return this.userService.getAgencies();
   }
 
 }

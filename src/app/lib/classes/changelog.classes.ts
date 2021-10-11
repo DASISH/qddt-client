@@ -1,5 +1,5 @@
 import { ElementKind } from '../enums';
-import { User } from './user.classes';
+import { UserJwt } from './user.classes';
 
 
 export class ChangeLogJson {
@@ -7,7 +7,7 @@ export class ChangeLogJson {
   elementId?: string;
   elementKind?: ElementKind;
   elementRevision?: number;
-  modifiedBy?: User;
+  modifiedBy?: UserJwt;
   modified?: any;
   name: string;
   refChangeKind?: any;

@@ -9,7 +9,7 @@ import {
   ResponseDomain,
   SequenceConstruct, StatementConstruct, Study, SurveyProgram,
   Topic,
-  Universe, UserJson, ElementRevisionRefImpl, Author, AbstractControlConstruct
+  Universe, User, ElementRevisionRefImpl, Author, AbstractControlConstruct
 } from './classes';
 
 export class Factory {
