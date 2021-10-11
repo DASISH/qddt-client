@@ -14,7 +14,7 @@ class ScaleHead {
   templateUrl: './scale.component.html',
   styles: [
     'table { table-layout: fixed; }',
-    'td, th { text-align: right;',
+    'td, th { text-align: right;}',
     '[type="radio"] + label { padding-left: 25px; }',
   ],
 })

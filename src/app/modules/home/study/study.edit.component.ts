@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { LANGUAGE_MAP, Study, ElementKind, TemplateService, ElementRevisionRef } from 'src/app/lib';
+import {ElementKind, ElementRevisionRef, LANGUAGE_MAP, Study, TemplateService} from '../../../lib';
 
 @Component({
   selector: 'qddt-study-edit',
@@ -14,7 +14,7 @@ import { LANGUAGE_MAP, Study, ElementKind, TemplateService, ElementRevisionRef }
     </qddt-select>
       <qddt-textarea class="col s12" name="description"
         required
-        placeholder="Name me"
+        placeholder="In this particular round of inquire, which topics were decided to explore, and why..."
         label="Description"
         [(ngModel)]="study.description"
         data-length="20000">

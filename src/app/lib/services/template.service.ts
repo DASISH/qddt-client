@@ -15,6 +15,13 @@ import { Factory } from '../factory';
 @Injectable()
 export class TemplateService {
 
+  private padAsterisk = (source: String) => {
+    console.log(source.charAt(source.length - 1));
+    if (source.charAt(source.length - 1) == "*")
+      return source;
+    return source + "*";
+  }
+
   constructor(protected http: HttpClient, private userService: UserService, @Inject(API_BASE_HREF) protected api: string) {
     // console.debug('TemplateService::CONST ' + api);
   }
@@ -30,12 +37,13 @@ export class TemplateService {
 
     if (!pageSearch.hasDetailSearch) {
       for (const field of qe.fields) {
-        queries.push(field + '=' + pageSearch.key.trim());
+        queries.push(field + '=' + this.padAsterisk(pageSearch.key.trim()));
       }
       if (pageSearch.keys) {
         Array.from(pageSearch.keys)
           .filter((item) => !qe.fields.includes(item[0], 0))
           .forEach(key => {
+            console.log(key[0] + '=' + key[1]);
             queries.push(key[0] + '=' + key[1]);
           });
       }
@@ -57,12 +65,28 @@ export class TemplateService {
 
     if (pageSearch.sort) { query += '&sort=' + pageSearch.sort; }
 
+    console.log(query);
+
     return this.http.get<IPageResult>(this.api + qe.path + '/search/findByQuery' + query).toPromise();
   }
 
   public getByKindEntity<T extends IEntityEditAudit>(kind: ElementKind, id: string): Promise<T> {
     const qe = getQueryInfo(kind);
-    return this.http.get<T>(this.api + qe.path + '/' + id).toPromise();
+    const promise = new Promise<T>((resolve, reject) => {
+      this.http.get<T>(this.api + qe.path + '/' + id).toPromise()
+        .then(async (result: T) => {
+          result.agency = await this.getAgency(result.agencyId);
+          // Success
+          resolve(result);
+        },
+          err => {
+            // Error
+            reject(err);
+          }
+        );
+    });
+    return promise;
+
   }
 
   public getByKindRevisions<T extends IEntityAudit>(kind: ElementKind, id: string): Promise<IPageResult> {
@@ -72,7 +96,7 @@ export class TemplateService {
       //   return this.http.get<IPageResult>
       //     (this.api + '/' + qe.path + '/' + id + '/revisions').toPromise();
       // } else {
-        return this.http.get<IPageResult>(this.api + '/' + qe.path + '/' + id + '/revisions').toPromise();
+      return this.http.get<IPageResult>(this.api + qe.path + '/' + id + '/revisions').toPromise();
       // }
     }
     return new Promise(null);
@@ -81,9 +105,9 @@ export class TemplateService {
   public getByKindRevision(kind: ElementKind, id: string, rev?: number): Promise<IEntityEditAudit> {
     const qe = getQueryInfo(kind);
     if (rev) {
-      return this.http.get<IEntityEditAudit>(this.api + '/' + qe.path + '/' + id + ':' + rev).toPromise();
+      return this.http.get<IEntityEditAudit>(this.api + qe.path + '/' + id + ':' + rev).toPromise();
     }
-    return this.http.get<IEntityEditAudit>(this.api + '/' + qe.path + '/' + id).toPromise();
+    return this.http.get<IEntityEditAudit>(this.api + qe.path + '/' + id).toPromise();
 
   }
 
@@ -126,7 +150,7 @@ export class TemplateService {
       }
     }
     return this.http.post<HalResource>(this.api + qe.path + path2, item)
-    .pipe(map(response => Factory.createFromSeed(item.classKind, response._embedded) as T));
+      .pipe(map(response => Factory.createFromSeed(item.classKind, response._embedded) as T));
   }
 
   // public updateAll<T extends IEntityAudit>(items: T[], parentId?: string,): Observable<T[]> {
@@ -172,6 +196,11 @@ export class TemplateService {
 
   public async hasOwnerRights(entityAgency?: Agency) {
     return (entityAgency) ? ((await this.userService.getCurrentAgency()).id === entityAgency.id) : true;
+  }
+
+  public async getAgency(uuid: String) {
+    let result = await this.userService.getAgencies();
+    return result.find(pre => pre.id == uuid)
   }
 }
 

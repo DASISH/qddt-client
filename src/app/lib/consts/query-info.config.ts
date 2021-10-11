@@ -9,7 +9,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     'Category',
     'category',
     'categories',
-    ['label', 'description'],
+    ['label', 'name', 'description'],
     '&categoryKind=CATEGORY'
   ),
   new QueryInfo(
@@ -17,7 +17,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     'Missing Values',
     'category',
     'categories',
-    ['label', 'description'],
+    ['label', 'name', 'description'],
     '&categoryKind=MISSING_GROUP'
   ),
   new QueryInfo(
@@ -25,7 +25,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     'Concept',
     'concept',
     'concepts',
-    ['name', 'description'],
+    ['label', 'name', 'description'],
     null
   ),
   new QueryInfo(
@@ -33,7 +33,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     'Construct',
     'controlconstruct',
     'controlConstructs',
-    ['name'],
+    ['label', 'name'],
     '&constructKind=CONTROL_CONSTRUCT'
   ),
   new QueryInfo(
@@ -41,7 +41,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     'Condition',
     'controlconstruct',
     'conditionConstructs',
-    ['name', 'description'],
+    ['label', 'name', 'description'],
     '&constructKind=CONDITION_CONSTRUCT'
   ),
   new QueryInfo(
@@ -49,7 +49,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     'QuestionConstruct',
     'controlconstruct',
     'questionConstructs',
-    ['name', 'questionName', 'questionText'],
+    ['label', 'name', 'questionName', 'questionText'],
     '&constructKind=QUESTION_CONSTRUCT'
   ),
   new QueryInfo(
@@ -57,7 +57,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     'Sequence',
     'controlconstruct',
     'sequences',
-    ['name', 'description', 'sequenceKind'],
+    ['label', 'name', 'description', 'sequenceKind'],
     '&constructKind=SEQUENCE_CONSTRUCT'
   ),
   new QueryInfo(
@@ -65,7 +65,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     'Statement',
     'controlconstruct',
     'statements',
-    ['name', 'description'],
+    ['label', 'name', 'description'],
     '&constructKind=STATEMENT_CONSTRUCT'
   ),
   new QueryInfo(
@@ -73,7 +73,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     'Instrument',
     'instrument',
     'instruments',
-    ['label', 'description', 'kind'],
+    ['label', 'name', 'description', 'kind'],
     null
   ),
   new QueryInfo(
@@ -89,7 +89,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     'QuestionGrid',
     'questiongrid',
     'questionGrids',
-    ['name', 'question'],
+    ['label', 'name', 'question'],
     null
   ),
   new QueryInfo(
@@ -97,7 +97,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     'QuestionItem',
     'questionitem',
     'questionItems',
-    ['name', 'question', 'responseDomainName'],
+    ['label', 'name', 'question', 'responseDomainName'],
     null
   ),
   new QueryInfo(
@@ -105,7 +105,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     'ResponseDomain',
     'responsedomain',
     'responseDomains',
-    ['name', 'description', 'question', 'anchor'],
+    ['label', 'name', 'description', 'question', 'anchor'],
     null
   ),
   new QueryInfo(
@@ -113,7 +113,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     'Study',
     'study',
     'studies',
-    ['name', 'description'],
+    ['label', 'name', 'description'],
     null
   ),
   new QueryInfo(
@@ -121,7 +121,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     'Survey',
     'surveyprogram',
     'surveyPrograms',
-    ['name', 'description'],
+    ['label', 'name', 'description'],
     null
   ),
   new QueryInfo(
@@ -129,7 +129,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     'Module',
     'topicgroup',
     'topicGroups',
-    ['name', 'description'],
+    ['label', 'name', 'description'],
     null
   ),
   new QueryInfo(
