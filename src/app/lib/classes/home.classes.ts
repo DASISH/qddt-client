@@ -2,7 +2,7 @@ import { IParentRef, IEntityEditAudit, IUser, IVersion, IOtherMaterial, IComment
 import { ElementKind } from '../enums';
 import { Instrument } from './instrument.classes';
 import { ElementRevisionRef } from './element-revision-ref';
-import { Agency } from './user.classes';
+import { Agency, User } from './user.classes';
 
 
 export class SurveyProgram implements IEntityEditAudit {
@@ -19,7 +19,7 @@ export class SurveyProgram implements IEntityEditAudit {
   basedOnRevision?: number;
   changeComment?: string;
   modified?: number;
-  modifiedBy?: IUser|string;
+  modifiedBy?: User|string;
   version?: IVersion;
   agency?: Agency;
   otherMaterials?: IOtherMaterial[];
@@ -49,7 +49,7 @@ export class Study implements IEntityEditAudit {
   basedOnRevision?: number;
   changeComment?: string;
   modified?: number;
-  modifiedBy?: IUser|string;
+  modifiedBy?: User|string;
   version?: IVersion;
   agency?: Agency;
   otherMaterials?: IOtherMaterial[];
@@ -80,7 +80,7 @@ export class Topic implements IEntityEditAudit {
   basedOnRevision?: number;
   changeComment?: string;
   modified?: number;
-  modifiedBy?: IUser|string;
+  modifiedBy?: User|string;
   version?: IVersion;
   agency?: Agency;
   otherMaterials?: IOtherMaterial[];
@@ -114,7 +114,7 @@ export class Concept implements IEntityEditAudit {
   changeComment?: string;
   changeKind?: string;
   modified?: number;
-  modifiedBy?: IUser|string;
+  modifiedBy?: User|string;
   version?: IVersion;
   xmlLang?: string;
   comments?: IComment[];

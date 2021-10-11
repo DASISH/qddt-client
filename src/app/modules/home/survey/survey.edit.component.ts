@@ -11,14 +11,16 @@ import { ElementKind, SurveyProgram, TemplateService } from '../../../lib';
   <qddt-input name="name"
         required
         label="Name"
+        placeholder="coded or verbose name for survey"
         [(ngModel)]="survey.name"
         data-length="250">
       </qddt-input>
       <qddt-input name="label"
         required
         label="Label"
+        placeholder="short displayname for survey"
         [(ngModel)]="survey.label"
-        data-length="250">
+        data-length="40">
       </qddt-input>
       <qddt-textarea name="description"
         required

@@ -72,10 +72,11 @@ export class TemplateService {
 
   public getByKindEntity<T extends IEntityEditAudit>(kind: ElementKind, id: string): Promise<T> {
     const qe = getQueryInfo(kind);
-    const promise = new Promise<T>((resolve, reject) => {
+    return new Promise<T>((resolve, reject) => {
       this.http.get<T>(this.api + qe.path + '/' + id).toPromise()
         .then(async (result: T) => {
           result.agency = await this.getAgency(result.agencyId);
+          result.modifiedBy = await this.getUser(result.modifiedById)
           // Success
           resolve(result);
         },
@@ -85,10 +86,8 @@ export class TemplateService {
           }
         );
     });
-    return promise;
 
   }
-
   public getByKindRevisions<T extends IEntityAudit>(kind: ElementKind, id: string): Promise<IPageResult> {
     const qe = getQueryInfo(kind);
     if (qe) {
@@ -198,9 +197,13 @@ export class TemplateService {
     return (entityAgency) ? ((await this.userService.getCurrentAgency()).id === entityAgency.id) : true;
   }
 
-  public async getAgency(uuid: String) {
+  public async getAgency(uuid: string) {
     let result = await this.userService.getAgencies();
     return result.find(pre => pre.id == uuid)
   }
+  public async getUser(modifiedById: string) {
+    return await this.userService.getUser(modifiedById);
+  }
+
 }
 

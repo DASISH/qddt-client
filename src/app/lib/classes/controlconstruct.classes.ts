@@ -2,7 +2,7 @@ import { IComment, IEntityEditAudit, IOtherMaterial, IUser, IVersion } from '../
 import { ElementKind } from '../enums';
 import { ElementRevisionRefImpl } from './element-revision-ref';
 import { QuestionItem } from './questionitem.classes';
-import { Agency } from './user.classes';
+import { Agency, User } from './user.classes';
 import { UserResponse } from './responsedomain.classes';
 
 import * as uuid from 'uuid';
@@ -107,7 +107,7 @@ export abstract class AbstractControlConstruct implements IEntityEditAudit {
   changeComment?: string;
   changeKind?: string;
   modified?: number;
-  modifiedBy?: IUser|string;
+  modifiedBy?: User|string;
   version?: IVersion;
   agency?: Agency;
   archived?: boolean;
@@ -158,7 +158,7 @@ export class SequenceConstruct implements AbstractControlConstruct {
   changeComment?: string;
   changeKind?: string;
   modified?: number;
-  modifiedBy?: IUser|string;
+  modifiedBy?: User|string;
   version?: IVersion;
   agency?: Agency;
   archived?: boolean;

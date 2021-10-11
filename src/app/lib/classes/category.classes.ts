@@ -1,6 +1,6 @@
 import { ElementKind } from '../enums';
 import { IComment, IEntityEditAudit, IVersion, IUser, IOtherMaterial } from '../interfaces';
-import { Agency } from './user.classes';
+import { Agency, User } from './user.classes';
 
 
 export enum CategoryKind {
@@ -74,7 +74,7 @@ export class Category implements IEntityEditAudit {
   basedOnRevision?: number;
   changeComment?: string;
   modified?: number;
-  modifiedBy?: IUser|string;
+  modifiedBy?: User|string;
   version?: IVersion;
   agency?: Agency;
   archived?: boolean;
