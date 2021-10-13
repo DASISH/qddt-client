@@ -28,7 +28,10 @@
           </div>
           <div class="col s10">
             <h5 class="row">
-              <div class="col s10">{{ concept?.name }}</div>
+              <div class="col s10">
+                <h5>{{ concept?.name }}</h5>
+                {{ concept?.label }}
+              </div>
               <div class="col s2">
                 <qddt-version-label class="right" [element]="concept"></qddt-version-label>
               </div>

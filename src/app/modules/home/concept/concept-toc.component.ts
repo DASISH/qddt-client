@@ -21,7 +21,7 @@ import { Topic } from '../../../lib';
   template: `
 <ng-template #nodeTemplateRef let-children="source" >
   <li *ngFor="let child of children" cdkDrag >
-    <a [ngClass]="{'active':isActive===child.id}" href="concept#{{child.id}}" (click)="isActive=child.id" >{{ child.name | titlecase  }}</a>
+    <a [ngClass]="{'active':isActive===child.id}" href="concept#{{child.id}}" (click)="isActive=child.id" >{{ child.label ?? child.name | titlecase  }}</a>
     <ol *ngIf="child.children.length > 0">
       <ng-template
         [ngTemplateOutlet]="nodeTemplateRef"

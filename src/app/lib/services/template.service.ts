@@ -72,20 +72,7 @@ export class TemplateService {
 
   public getByKindEntity<T extends IEntityEditAudit>(kind: ElementKind, id: string): Promise<T> {
     const qe = getQueryInfo(kind);
-    const promise = new Promise<T>((resolve, reject) => {
-      this.http.get<T>(this.api + qe.path + '/' + id).toPromise()
-        .then(async (result: T) => {
-          result.agency = await this.getAgency(result.agencyId);
-          // Success
-          resolve(result);
-        },
-          err => {
-            // Error
-            reject(err);
-          }
-        );
-    });
-    return promise;
+    return this.http.get<T>(this.api + qe.path + '/' + id).toPromise();
 
   }
 
@@ -135,6 +122,7 @@ export class TemplateService {
     const qe = getQueryInfo(kind);
     if (item.id === item['basedOnObject']) {
       item.id = null;
+      /// TODO fix patch to post
       console.debug(item);
     }
     let path2 = '';
@@ -149,7 +137,7 @@ export class TemplateService {
         path2 = '/statement';
       }
     }
-    return this.http.post<HalResource>(this.api + qe.path + path2, item)
+    return this.http.patch<HalResource>(this.api + qe.path + path2 + '/' + item.id, item)
       .pipe(map(response => Factory.createFromSeed(item.classKind, response._embedded) as T));
   }
 
