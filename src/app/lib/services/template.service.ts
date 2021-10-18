@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { API_BASE_HREF } from '../../api';
@@ -162,12 +162,15 @@ export class TemplateService {
 
   public getPdf(item: IEntityEditAudit): Promise<Blob> {
     const qe = getQueryInfo(item.classKind);
-    return this.http.get(this.api + qe.path + '/pdf/' + item.id, { responseType: 'blob' }).toPromise();
+    let header = new HttpHeaders()
+      .set('Accept', 'application/pdf');
+
+    return this.http.get(this.api + qe.path + '/' + item.id, { responseType: 'blob', headers: header }).toPromise();
   }
 
   public getXML(item: IEntityEditAudit): Promise<Blob> {
     const qe = getQueryInfo(item.classKind);
-    return this.http.get(this.api + qe.path + '/xml/' + item.id, { responseType: 'blob' }).toPromise();
+    return this.http.get(this.api + qe.path + '/' + item.id, { responseType: 'blob' }).toPromise();
   }
 
   public getFile(om: IOtherMaterial): Promise<Blob> {
