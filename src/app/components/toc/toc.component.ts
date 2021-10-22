@@ -1,3 +1,4 @@
+import { element } from 'protractor';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
@@ -11,7 +12,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
           (cdkDropListDropped)="onItemDrop($event)">
     <ol class="section table-of-contents">
       <li *ngFor="let element of elements; let i = index;" cdkDrag (click)="isActive=i">
-        <a [ngClass]="{'active':isActive===i}" href="{{path}}#{{element.id}}" >{{ element.name | titlecase }}</a>
+        <a [ngClass]="{'active':isActive===i}" href="{{path}}#{{element.id}}" >{{ element.label ?? element.name | titlecase }}</a>
       </li>
     </ol>
   </div>

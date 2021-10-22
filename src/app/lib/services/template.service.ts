@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { API_BASE_HREF } from '../../api';
@@ -75,8 +75,8 @@ export class TemplateService {
     return new Promise<T>((resolve, reject) => {
       this.http.get<T>(this.api + qe.path + '/' + id).toPromise()
         .then(async (result: T) => {
-          result.agency = await this.getAgency(result.agencyId);
-          result.modifiedBy = await this.getUser(result.modifiedById)
+          result._embedded.agency = await this.getAgency(result.agencyId);
+          result._embedded.modifiedBy = await this.getUser(result.modifiedById)
           // Success
           resolve(result);
         },
@@ -134,6 +134,7 @@ export class TemplateService {
     const qe = getQueryInfo(kind);
     if (item.id === item['basedOnObject']) {
       item.id = null;
+      /// TODO fix patch to post
       console.debug(item);
     }
     let path2 = '';
@@ -148,7 +149,7 @@ export class TemplateService {
         path2 = '/statement';
       }
     }
-    return this.http.post<HalResource>(this.api + qe.path + path2, item)
+    return this.http.patch<HalResource>(this.api + qe.path + path2 + '/' + item.id, item)
       .pipe(map(response => Factory.createFromSeed(item.classKind, response._embedded) as T));
   }
 
@@ -173,12 +174,15 @@ export class TemplateService {
 
   public getPdf(item: IEntityEditAudit): Promise<Blob> {
     const qe = getQueryInfo(item.classKind);
-    return this.http.get(this.api + qe.path + '/pdf/' + item.id, { responseType: 'blob' }).toPromise();
+    let header = new HttpHeaders()
+      .set('Accept', 'application/pdf');
+
+    return this.http.get(this.api + qe.path + '/' + item.id, { responseType: 'blob', headers: header }).toPromise();
   }
 
   public getXML(item: IEntityEditAudit): Promise<Blob> {
     const qe = getQueryInfo(item.classKind);
-    return this.http.get(this.api + qe.path + '/xml/' + item.id, { responseType: 'blob' }).toPromise();
+    return this.http.get(this.api + qe.path + '/' + item.id, { responseType: 'blob' }).toPromise();
   }
 
   public getFile(om: IOtherMaterial): Promise<Blob> {

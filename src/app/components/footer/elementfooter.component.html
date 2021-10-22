@@ -12,13 +12,14 @@
   </div>
   <div class="input-field col s5 m3">
     <div class="chip">
-      <img *ngIf="element?.modifiedBy?.email" class="gravatar" gravatar [email]="element?.modifiedBy?.email"
+      <img *ngIf="element?._embedded?.modifiedBy?.email" class="gravatar" gravatar [email]="element?.modifiedBy?.email"
         [size]="32">
-      {{element?.modifiedBy?.name |titlecase }}</div>
+      {{element?._embedded?.modifiedBy?.name |titlecase }}
+    </div>
     <label class="active">Last Saved By</label>
   </div>
   <div class="input-field col s5 m3">
-    <div class="chip">{{element?.agency?.name}}</div>
+    <div class="chip">{{element?._embedded?.agency?.name}}</div>
     <label class="active">Agency</label>
   </div>
   <div class="input-field col s5 m2">
