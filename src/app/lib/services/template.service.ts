@@ -75,6 +75,9 @@ export class TemplateService {
     return new Promise<T>((resolve, reject) => {
       this.http.get<T>(this.api + qe.path + '/' + id).toPromise()
         .then(async (result: T) => {
+          if (!(result._embedded)) {
+            result._embedded = {};
+          }
           result._embedded.agency = await this.getAgency(result.agencyId);
           result._embedded.modifiedBy = await this.getUser(result.modifiedById)
           // Success
@@ -118,7 +121,7 @@ export class TemplateService {
   public create<T extends IEntityAudit>(item: T, parentId?: string): Observable<T> {
     const qe = getQueryInfo(item.classKind);
     return ((parentId) ?
-      this.http.post<HalResource>(this.api + qe.path + '/' + parentId, item) :
+      this.http.put<HalResource>(this.api + qe.parentPath + '/' + parentId + '/children', item) :
       this.http.post<HalResource>(this.api + qe.path, item))
       .pipe(map(response => Factory.createFromSeed(item.classKind, response._embedded) as T));
 

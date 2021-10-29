@@ -6,16 +6,20 @@ export class QueryInfo {
   label: string;
   path: string;
   halName: string;
+  // parent?: string;
   fields: string[];
   parameter: string;
+  parentPath: string="";
 
-  constructor(id: ElementKind, label: string, path: string, halName: string, fields: any[], parameter: string) {
+  constructor(id: ElementKind, label: string, path: string, halName: string, fields: any[], parameter: string, parentPath?:string) {
     this.id = id;
     this.label = label;
     this.path = path;
     this.halName = halName;
     this.fields = fields;
     this.parameter = parameter;
+    if (parentPath)
+      this.parentPath = parentPath;
   }
 
   isMultipleFields(): boolean {

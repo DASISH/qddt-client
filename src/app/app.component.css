@@ -43,6 +43,9 @@ form p {
   position: absolute;
   z-index: 9999;
 }
+.input-field > label {
+  color: rgb(110, 110, 110);
+}
 
 input {
   margin: auto auto 0px;

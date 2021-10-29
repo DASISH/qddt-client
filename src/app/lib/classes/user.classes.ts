@@ -21,7 +21,7 @@ export class UserJwt {
   agency?: Agency;
   modified?: number;
   role: string[] | string;
-  exp: any;  // -> should be number, is expire date 
+  exp: any;  // -> should be number, is expire date
   password?: string;
 
   public constructor(init?: Partial<UserJwt>) {
@@ -39,6 +39,10 @@ export class User {
   agencyId: string;
   authority?: string[] | string;
   isEnabled?:boolean;
+  get name():string {
+    return this.username;
+  }
+  classKind:string = "User"
   public constructor(init?: Partial<User>) {
     Object.assign(this, init);
   }

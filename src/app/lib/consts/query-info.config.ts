@@ -26,7 +26,8 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     'concept',
     'concepts',
     ['label', 'name', 'description'],
-    null
+    null,
+    "topicgroup"
   ),
   new QueryInfo(
     ElementKind.CONTROL_CONSTRUCT,
@@ -114,7 +115,8 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     'study',
     'studies',
     ['label', 'name', 'description'],
-    null
+    null,
+    "surveyprogram"
   ),
   new QueryInfo(
     ElementKind.SURVEY_PROGRAM,
@@ -130,7 +132,8 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     'topicgroup',
     'topicGroups',
     ['label', 'name', 'description'],
-    null
+    null,
+    "study"
   ),
   new QueryInfo(
     ElementKind.INSTRUCTION,

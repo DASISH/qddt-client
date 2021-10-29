@@ -141,12 +141,15 @@ export class UserService {
     return this.getUser(this.getUserId());
   }
 
-  public getUser(uuid: string): Promise<User> {
-    if (!this.property.has(uuid)) {
-      this.getUserAsync(uuid)
-        .then(value => this.property.set(uuid, value));
+  public async getUser(uuid: string): Promise<User> {
+    if (this.property.has(uuid)) {
+      return Promise.resolve(this.property.get(uuid));
     }
-    return Promise.resolve(this.property.get(uuid) as User);
+    return this.getUserAsync(uuid)
+    .then(result => {
+      this.property.set(uuid, result);
+      return result;
+    });
   }
 
 

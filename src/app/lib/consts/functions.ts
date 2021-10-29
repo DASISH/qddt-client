@@ -127,10 +127,10 @@ export function saveAs(blob: Blob, fileName: string, type: string): void {
 
   // IE doesn't allow using a blob object directly as link href
   // instead it is necessary to use msSaveOrOpenBlob
-  if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-    window.navigator.msSaveOrOpenBlob(newBlob);
-    return;
-  }
+  // if (window.navigator && window.navigator["msSaveOrOpenBlob"]) {
+  //   window.navigator.msSaveOrOpenBlob(newBlob);
+  //   return;
+  // }
 
   // For other browsers:
   // Create a link pointing to the ObjectURL containing the blob.

@@ -1,6 +1,6 @@
 import { IComment, IOtherMaterial, IUser, IVersion } from './interfaces';
 import { Agency } from '../classes';
-import { HalLink, HalResource } from './http.interfaces';
+import { HalLink } from './http.interfaces';
 import { User } from '../classes/user.classes';
 
 
@@ -28,7 +28,7 @@ export interface IEntityEditAudit extends IEntityAudit {
     [rel: string]: HalLink | HalLink[];
   };
   _embedded?: {
-    [rel: string]: HalResource | HalResource[];
+    [rel: string]: IEntityEditAudit;
   };
 }
 
