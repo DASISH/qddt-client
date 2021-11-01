@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
 import { ElementKind, SurveyProgram, TemplateService } from '../../../lib';
 
 
@@ -51,10 +51,10 @@ export class SurveyEditComponent implements OnInit {
   constructor(private service: TemplateService) {}
 
   ngOnInit() {
-    console.log('loading');
+    // console.log('loading');
     this.service.getByKindEntity<SurveyProgram>(this.SURVEY,this.survey.id).then(
       (result) => {
-        console.log('loading2');
+        // console.log('loading2');
         this.survey = result
       });
   }

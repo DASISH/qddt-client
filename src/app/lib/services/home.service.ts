@@ -68,8 +68,9 @@ export class HomeService<T extends IEntityEditAudit>  {
   getListByParent(kind: ElementKind, parentId?: string): Promise<T[]> {
     const qe = getQueryInfo(kind);
     return ((parentId) ?
-      this.http.get<IPageResult>(this.api + qe.path + '/list/by-parent/' + parentId) :
-      this.http.get<IPageResult>(this.api + qe.path + '/'))
+      this.http.get<HalResource>(this.api + qe.parentPath + '/' + parentId + '/children') :
+      // this.http.get<IPageResult>(this.api + qe.path + '/list/by-parent/' + parentId) :
+      this.http.get<HalResource>(this.api + qe.path + '/'))
       .pipe(map(response => {
         return response._embedded[qe.halName].map( result => Factory.createFromSeed(kind, result) as T)
       })).toPromise()

@@ -22,7 +22,7 @@ export class CommentService  {
   }
 
   getAll(ownerId: string): Promise<IPageResult> {
-    return this.http.get<IPageResult>(this.api + 'comment/search/byOwner?ownerId' + ownerId + '&' + new Page( { size: 50 }))
+    return this.http.get<IPageResult>(this.api + 'comment/search/byOwner?ownerId=' + ownerId )
       .toPromise();
   }
 

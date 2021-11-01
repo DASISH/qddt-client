@@ -70,7 +70,7 @@
       <div class="row" *ngIf="!edit.isVisible">
         <div class="col s12">
           <p [innerHtml]="surveyProgram.description"></p>
-          <qddt-author-chip [authors]="surveyProgram.authors"></qddt-author-chip>
+          <qddt-author-chip [authors]="surveyProgram._embedded?.authors"></qddt-author-chip>
         </div>
       </div>
 
@@ -78,8 +78,9 @@
 
       <qddt-revision *ngIf="edit.showRevision" [current]="surveyProgram"></qddt-revision>
 
-      <qddt-comment-list [hidden]="edit.isVisible" [ownerId]="surveyProgram.id" [comments]="surveyProgram.comments">
+      <qddt-comment-list [hidden]="edit.isVisible" [ownerId]="surveyProgram.id" [comments]="surveyProgram._embedded?.comments">
       </qddt-comment-list>
+      <!-- <pre>{{surveyProgram|json}}</pre> -->
     </div>
   </div>
 </div>

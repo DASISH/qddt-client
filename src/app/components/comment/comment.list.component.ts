@@ -37,7 +37,7 @@ export class CommentListComponent implements AfterViewInit {
       this.commentService.getAll(this.ownerId).then(
         (result) => {
           this._hasShown = true;
-          this.comments = result._embedded["Comment"].entries;
+          this.comments = result._embedded["comments"] as object as IComment[];
         });
     }
   }
