@@ -43,8 +43,10 @@ export class SurveyComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.homeService.getListByParent(this.SURVEY).then(
-      (result) => this.surveys = result);
+    this.homeService.getListByParent(this.SURVEY)
+      .then((result) => this.surveys = result);
+
+
   }
 
 

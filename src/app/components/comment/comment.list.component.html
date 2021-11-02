@@ -1,60 +1,63 @@
-<div class="row" >
-  <a class="btn btn-flat btn-medium waves-effect waves-light teal white-text" (click)="showComments = !showComments;" title="View Comment(s)">
-  <i class="material-icons left">message</i>{{ size }} </a>
+<div class="row" *ngIf="comments">
+  <a class="btn btn-flat btn-medium waves-effect waves-light teal white-text" (click)="showComments = !showComments;"
+    title="View Comment(s)">
+    <i class="material-icons left">message</i>{{ size }} </a>
   <ul *ngIf="showComments" class="collection">
-    <li class="collection-item avatar" *ngFor="let comment of comments; let idx=index;" (mouseenter)="hoverIndex = ownerId + idx" (mouseleave)="hoverIndex = null" style="min-height: 144px;" >
+    <li class="collection-item avatar" *ngFor="let comment of comments; let idx=index;"
+      (mouseenter)="hoverIndex = ownerId + idx" (mouseleave)="hoverIndex = null" style="min-height: 144px;">
       <div *ngIf="showPrivate || comment.public ">
-      <img  class="circle" gravatar [email]="comment?.modifiedEmail" [size]="48" >
+        <img class="circle" gravatar [email]="comment?.modifiedEmail" [size]="48">
         <p class="title" [style.color]="comment.public ? 'blue': 'grey'" i18n>
           <i *ngIf="comment.public" class="material-icons tiny" title="This comment is visible for all">public</i>
-          {{comment.modifiedBy}}  {{ comment?.modified | date:'long' }}
+          {{comment.modifiedBy}} {{ comment?.modified | date:'long' }}
         </p>
-        <div *ngIf="!isEditComment" [hidden] = "hoverIndex != ownerId + idx" >
+        <div *ngIf="!isEditComment" [hidden]="hoverIndex != ownerId + idx">
           <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
-              style="position: absolute; left: 15px; top: 50px;"
-              (click)="isEditComment=true;isPublic=comment.public;message=comment.comment;selectedCommentId=idx;">
-            <i class="material-icons left medium" title="Edit" >edit</i>
+            style="position: absolute; left: 15px; top: 50px;"
+            (click)="isEditComment=true;isPublic=comment.public;message=comment.comment;selectedCommentId=idx;">
+            <i class="material-icons left medium" title="Edit">edit</i>
           </a>
-          <qddt-confirm-delete  style="position: absolute; left: 15px; top: 90px;"
-                                [element]="commentAsElement(comment,idx)"
-                                (confirmAction)="onDeleteComment($event)">
+          <qddt-confirm-delete style="position: absolute; left: 15px; top: 90px;"
+            [element]="commentAsElement(comment,idx)" (confirmAction)="onDeleteComment($event)">
           </qddt-confirm-delete>
         </div>
-        <div *ngIf="isEditComment" [hidden] = "hoverIndex != ownerId + idx" >
-          <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal lighten-1" style="position: absolute; left: 15px; top: 50px;"
-              (click)="onUpdateComment(idx)">
-            <i class="material-icons" title="Save and close" >done_all</i>
+        <div *ngIf="isEditComment" [hidden]="hoverIndex != ownerId + idx">
+          <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal lighten-1"
+            style="position: absolute; left: 15px; top: 50px;" (click)="onUpdateComment(idx)">
+            <i class="material-icons" title="Save and close">done_all</i>
           </a>
-          <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal lighten-2 " style="position: absolute; left: 15px; top: 90px;"
-              (click)="isEditComment=false">
+          <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal lighten-2 "
+            style="position: absolute; left: 15px; top: 90px;" (click)="isEditComment=false">
             <i class="material-icons" title="Cancel edit">cancel</i>
           </a>
         </div>
-        <p *ngIf="!isEditComment || selectedCommentId !== idx" [innerHtml] = "comment.comment" style="padding:1rem 0 2rem; min-height: 4rem; "></p>
-        <div  [hidden]="!(isEditComment && selectedCommentId === idx)">
+        <p *ngIf="!isEditComment || selectedCommentId !== idx" [innerHtml]="comment.comment"
+          style="padding:1rem 0 2rem; min-height: 4rem; "></p>
+        <div [hidden]="!(isEditComment && selectedCommentId === idx)">
           <div class="input-field">
-            <textarea class="materialize-textarea" name="{{comment.id}}-comment" data-length="10000" [(ngModel)]="message">
+            <textarea class="materialize-textarea" name="{{comment.id}}-comment" data-length="10000"
+              [(ngModel)]="message">
             </textarea>
             <div class="switch right">
               <label>
-                <input type="checkbox" [(ngModel)]="isPublic" >
+                <input type="checkbox" [(ngModel)]="isPublic">
                 <span class="lever"></span>Published
               </label>
             </div>
-        </div>
+          </div>
           <!-- <div class="col s3">
 
           </div> -->
         </div>
         <!--<i class="secondary-content material-icons right ">comment</i>-->
-        <qddt-comment-list *ngIf="showComments" [showPrivate]="showPrivate"
-          [ownerId]="comment.id" [comments]="comment.comments">
+        <qddt-comment-list *ngIf="showComments" [showPrivate]="showPrivate" [ownerId]="comment.id"
+          [comments]="comment.comments">
         </qddt-comment-list>
       </div>
     </li>
     <li class="collection-item">
-        <qddt-comment-create (updatedEvent)="addComment($event)" [ownerId]="ownerId">
-        </qddt-comment-create>
+      <qddt-comment-create (updatedEvent)="addComment($event)" [ownerId]="ownerId">
+      </qddt-comment-create>
     </li>
   </ul>
 </div>

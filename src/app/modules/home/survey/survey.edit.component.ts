@@ -48,16 +48,17 @@ export class SurveyEditComponent implements OnInit {
   public readonly formId = Math.round(Math.random() * 10000);
   private readonly SURVEY = ElementKind.SURVEY_PROGRAM;
 
-  constructor(private service: TemplateService) {}
+  constructor(private service: TemplateService) {
 
-  ngOnInit() {
-    // console.log('loading');
-    this.service.getByKindEntity<SurveyProgram>(this.SURVEY,this.survey.id).then(
-      (result) => {
-        // console.log('loading2');
-        this.survey = result
+  }
+
+  ngOnInit(): void {
+    this.service.getByKindEntity<SurveyProgram>(this.SURVEY, this.survey.id)
+      .then((result) => {
+        this.survey = result;
       });
   }
+
 
   onSave() {
     this.service.update<SurveyProgram>(this.survey)

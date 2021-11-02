@@ -78,9 +78,12 @@
 
       <qddt-revision *ngIf="edit.showRevision" [current]="surveyProgram"></qddt-revision>
 
-      <qddt-comment-list [hidden]="edit.isVisible" [ownerId]="surveyProgram.id" [comments]="surveyProgram._embedded?.comments">
+      <qddt-comment-list [hidden]="edit.isVisible" [ownerId]="surveyProgram.id"
+        [comments]="surveyProgram._embedded?.comments">
       </qddt-comment-list>
+
       <!-- <pre>{{surveyProgram|json}}</pre> -->
+
     </div>
   </div>
 </div>
