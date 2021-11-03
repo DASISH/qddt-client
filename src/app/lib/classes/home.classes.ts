@@ -1,4 +1,4 @@
-import { IParentRef, IEntityEditAudit, IUser, IVersion, IOtherMaterial, IComment } from '../interfaces';
+import { IParentRef, IEntityEditAudit, IUser, IVersion, IOtherMaterial, IComment, HalLink } from '../interfaces';
 import { ElementKind } from '../enums';
 import { Instrument } from './instrument.classes';
 import { ElementRevisionRef } from './element-revision-ref';
@@ -19,12 +19,18 @@ export class SurveyProgram implements IEntityEditAudit {
   basedOnRevision?: number;
   changeComment?: string;
   modified?: number;
-  modifiedBy?: User|string;
+  modifiedBy?: User | string;
   version?: IVersion;
   agency?: Agency;
   otherMaterials?: IOtherMaterial[];
   xmlLang?: string;
   comments?: IComment[];
+  _links?: {
+    [rel: string]: HalLink;
+  };
+  _embedded?: {
+    [rel: string]: IEntityEditAudit;
+  };
   public constructor(init?: Partial<SurveyProgram>) {
     Object.assign(this, init);
   }
@@ -49,7 +55,7 @@ export class Study implements IEntityEditAudit {
   basedOnRevision?: number;
   changeComment?: string;
   modified?: number;
-  modifiedBy?: User|string;
+  modifiedBy?: User | string;
   version?: IVersion;
   agency?: Agency;
   otherMaterials?: IOtherMaterial[];
@@ -80,7 +86,7 @@ export class Topic implements IEntityEditAudit {
   basedOnRevision?: number;
   changeComment?: string;
   modified?: number;
-  modifiedBy?: User|string;
+  modifiedBy?: User | string;
   version?: IVersion;
   agency?: Agency;
   otherMaterials?: IOtherMaterial[];
@@ -114,7 +120,7 @@ export class Concept implements IEntityEditAudit {
   changeComment?: string;
   changeKind?: string;
   modified?: number;
-  modifiedBy?: User|string;
+  modifiedBy?: User | string;
   version?: IVersion;
   xmlLang?: string;
   comments?: IComment[];

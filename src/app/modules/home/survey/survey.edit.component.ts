@@ -53,10 +53,10 @@ export class SurveyEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.service.getByKindEntity<SurveyProgram>(this.SURVEY, this.survey.id)
-      .then((result) => {
-        this.survey = result;
-      });
+    // this.service.getByKindEntity<SurveyProgram>(this.SURVEY, this.survey.id)
+    //   .then((result) => {
+    //     this.survey = result;
+    //   });
   }
 
 

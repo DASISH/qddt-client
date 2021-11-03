@@ -76,10 +76,13 @@ export class TemplateService {
       this.http.get<T>(this.api + qe.path + '/' + id).toPromise()
         .then(async (result: T) => {
           if (!(result._embedded)) {
+            console.log(result._embedded)
             result._embedded = {};
           }
-          result._embedded.agency = await this.getAgency(result.agencyId);
-          result._embedded.modifiedBy = await this.getUser(result.modifiedById)
+          if (!(result._embedded.agency) && (result.agencyId))
+            result._embedded.agency = await this.getAgency(result.agencyId);
+          if (!(result._embedded.modifiedBy) && (result.modifiedById))
+            result._embedded.modifiedBy = await this.getUser(result.modifiedById)
           // Success
           resolve(result);
         },

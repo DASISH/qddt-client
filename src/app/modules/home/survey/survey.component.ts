@@ -33,6 +33,8 @@ export class SurveyComponent implements OnInit {
 
   private readonly SURVEY = ElementKind.SURVEY_PROGRAM;
 
+  private getId = (href: string): string => href.split('/').pop();
+
   constructor(private router: Router,
     private property: PropertyStoreService,
     private homeService: HomeService<SurveyProgram>,
@@ -44,8 +46,16 @@ export class SurveyComponent implements OnInit {
 
   ngOnInit() {
     this.homeService.getListByParent(this.SURVEY)
-      .then((result) => this.surveys = result);
-
+      .then((result) => {
+        this.surveys = []
+        result.forEach((survey, index) => {
+          this.templateService.getByKindEntity<SurveyProgram>(this.SURVEY, this.getId(survey._links?.self.href))
+            .then((item) => {
+              this.surveys.push(item);
+              console.log(item);
+            });
+        });
+      });
 
   }
 

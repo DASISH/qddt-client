@@ -33,7 +33,7 @@
 
 
   <div class="card section row card-toc scrollspy white grey-text text-darken-2" id="{{surveyProgram.id}}"
-    *ngFor="let surveyProgram of surveys" [ngClass]="{'editGreen': edit.isVisible}">
+    *ngFor="let surveyProgram of surveys | sortBy:'parentIdx'" [ngClass]="{'editGreen': edit.isVisible}">
     <div class="col s1">
       <ul class="dropdownmenu">
         <li *ngIf="!surveyProgram.archived && !readonly">
@@ -82,10 +82,9 @@
         [comments]="surveyProgram._embedded?.comments">
       </qddt-comment-list>
 
-      <!-- <pre>{{surveyProgram|json}}</pre> -->
-
     </div>
   </div>
+  <!-- <pre>{{surveys|json}}</pre> -->
 </div>
 
 <qddt-toc [elements]="surveys" [path]="'survey'" (hierarchyChanged)="onHierarchyChanged($event)"></qddt-toc>

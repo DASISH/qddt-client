@@ -45,6 +45,7 @@ import '@angular/common/locales/global/en-GB';
 import '@angular/common/locales/global/en-CA';
 import '@angular/common/locales/global/en';
 import '@angular/common/locales/global/fr-CA';
+// import { SortPipe } from './lib/pipes/sort.pipe';
 
 @NgModule({
   imports: [BrowserModule, HttpClientModule, DragDropModule, ComponentsModule, CoreModule, BrowserAnimationsModule, HomeModule, MenuModule,
