@@ -12,7 +12,7 @@ export class SurveyProgram implements IEntityEditAudit {
   description: string;
   authors?: any[];
   archived = false;
-  children: Study[];
+  // children: Study[];
   classKind = ElementKind[ElementKind.SURVEY_PROGRAM];
   changeKind?: string;
   basedOnObject?: string;
@@ -29,7 +29,7 @@ export class SurveyProgram implements IEntityEditAudit {
     [rel: string]: HalLink;
   };
   _embedded?: {
-    [rel: string]: IEntityEditAudit;
+    [rel: string]: any;
   };
   public constructor(init?: Partial<SurveyProgram>) {
     Object.assign(this, init);
@@ -47,7 +47,7 @@ export class Study implements IEntityEditAudit {
   description: string;
   archived = false;
   authors?: any[];
-  children?: Topic[];
+  // children?: Topic[];
   instruments?: Instrument[]
   classKind = ElementKind[ElementKind.STUDY];
   changeKind?: string;
@@ -61,6 +61,12 @@ export class Study implements IEntityEditAudit {
   otherMaterials?: IOtherMaterial[];
   xmlLang?: string;
   comments?: IComment[];
+  _links?: {
+    [rel: string]: HalLink;
+  };
+  _embedded?: {
+    [rel: string]: any;
+  };
   public constructor(init?: Partial<Study>) {
     Object.assign(this, init);
   }
@@ -79,7 +85,7 @@ export class Topic implements IEntityEditAudit {
   archived = false;
   authors?: any[];
   topicQuestionItems: ElementRevisionRef[];
-  children: Concept[];
+  // children: Concept[];
   classKind = ElementKind[ElementKind.TOPIC_GROUP];
   changeKind?: string;
   basedOnObject?: string;
@@ -93,6 +99,12 @@ export class Topic implements IEntityEditAudit {
   xmlLang?: string;
   comments?: IComment[];
   parentRef?: IParentRef;
+  _links?: {
+    [rel: string]: HalLink;
+  };
+  _embedded?: {
+    [rel: string]: any;
+  };
   public constructor(init?: Partial<Topic>) {
     Object.assign(this, init);
   }
@@ -112,7 +124,7 @@ export class Concept implements IEntityEditAudit {
   authors: any[];
 
   conceptQuestionItems: ElementRevisionRef[];
-  children: Concept[];
+  // children: Concept[];
   classKind = ElementKind[ElementKind.CONCEPT];
   agency: Agency;
   basedOnObject?: string;
@@ -125,6 +137,12 @@ export class Concept implements IEntityEditAudit {
   xmlLang?: string;
   comments?: IComment[];
   parentRef?: IParentRef;
+  _links?: {
+    [rel: string]: HalLink;
+  };
+  _embedded?: {
+    [rel: string]: any;
+  };
   public constructor(init?: Partial<Concept>) {
     Object.assign(this, init);
   }

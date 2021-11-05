@@ -26,6 +26,7 @@ export class StudyComponent implements OnInit {
   public readonly: boolean;
   public canDelete: boolean;
   public survey: SurveyProgram;
+  public studies: Study[];
   public revision: any;
 
   private readonly STUDY = ElementKind.STUDY;
@@ -45,9 +46,18 @@ export class StudyComponent implements OnInit {
   ngOnInit(): void {
     this.survey = this.property.get('survey');
     const parentId = this.route.snapshot.paramMap.get('id') || this.survey.id || this.property.menuPath[HierarchyPosition.Survey].id;
-    this.templateService.getByKindEntity<SurveyProgram>(ElementKind.SURVEY_PROGRAM, parentId)
+    this.loadStudies(parentId);
+    // this.templateService.getByKindEntity<SurveyProgram>(ElementKind.SURVEY_PROGRAM, parentId)
+    //   .then((result) => {
+    //     this.property.set('studies', this.survey = result);
+    //   });
+  }
+
+  private loadStudies(parentId: string) {
+    // this.showProgressBar = true;
+    this.homeService.getListByParent(this.STUDY, parentId)
       .then((result) => {
-        this.property.set('survey', this.survey = result);
+        this.property.set('studies', this.studies = result);
       });
   }
 
@@ -74,11 +84,11 @@ export class StudyComponent implements OnInit {
 
   onStudySaved(study: Study) {
     if (study !== null) {
-      const index = this.survey.children.findIndex((f) => f.id === study.id);
+      const index = this.survey._embedded.children.findIndex((f) => f.id === study.id);
       if (index > -1) {
-        this.survey.children.splice(index, 1, study);
+        this.survey._embedded.children.splice(index, 1, study);
       } else {
-        this.survey.children.push(study);
+        this.survey._embedded.children.push(study);
       }
     }
   }
@@ -95,8 +105,8 @@ export class StudyComponent implements OnInit {
     if (study) {
       this.templateService.delete(study)
         .subscribe(() => {
-          this.survey.children = this.survey.children.filter((s: any) => s.id !== study.id);
-          this.property.set('studies', this.survey.children);
+          this.survey._embedded.children = this.survey._embedded.children.filter((s: any) => s.id !== study.id);
+          this.property.set('studies', this.survey._embedded.children);
         });
     }
   }

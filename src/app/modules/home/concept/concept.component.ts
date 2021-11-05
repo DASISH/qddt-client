@@ -56,7 +56,7 @@ export class ConceptComponent implements OnInit, AfterViewInit {
       new Topic(root) :
       new Topic(await this.homeService.getExt<Topic>(ElementKind.TOPIC_GROUP, parentId));
 
-    this.topic.children = await (list) ?
+    this.topic._embedded.children = await (list) ?
       list :
       await this.homeService.getListByParent(this.CONCEPT, parentId);
 
@@ -126,10 +126,10 @@ export class ConceptComponent implements OnInit, AfterViewInit {
   // }
 
   public onConceptUpdated(concept: Concept) {
-    if (!this.updateConcept(this.topic.children, concept)) {
-      this.topic.children.push(concept);
+    if (!this.updateConcept(this.topic._embedded.children, concept)) {
+      this.topic._embedded.children.push(concept);
     }
-    this.property.set('concepts', this.topic.children);
+    this.property.set('concepts', this.topic._embedded.children);
     this.showProgressBar = false;
   }
 
@@ -150,8 +150,8 @@ export class ConceptComponent implements OnInit, AfterViewInit {
     this.templateService.delete(this.toDeletedConcept).subscribe(
       () => {
         this.instance.close();
-        this.removeConcept(this.topic.children, this.toDeletedConcept.id);
-        this.property.set('concepts', this.topic.children);
+        this.removeConcept(this.topic._embedded.children, this.toDeletedConcept.id);
+        this.property.set('concepts', this.topic._embedded.children);
       },
       response => { throw response; },
       () => {
@@ -178,7 +178,7 @@ export class ConceptComponent implements OnInit, AfterViewInit {
     let i = -1;
     while (!found && ++i < concepts.length) {
       // console.debug(i);
-      found = this.updateConcept(concepts[i].children, concept);
+      found = this.updateConcept(concepts[i]._embedded.children, concept);
       if (concepts[i].id === concept.id) {
         concepts[i] = concept;
         found = true;
@@ -191,7 +191,7 @@ export class ConceptComponent implements OnInit, AfterViewInit {
     let i = -1;
     while (++i < concepts.length) {
       if (concepts[i].id === conceptId) { return concepts.splice(i, 1)[0]; }
-      const deleted = this.removeConcept(concepts[i].children, conceptId);
+      const deleted = this.removeConcept(concepts[i]._embedded.children, conceptId);
       if (deleted) { return deleted; }
     }
     return null;

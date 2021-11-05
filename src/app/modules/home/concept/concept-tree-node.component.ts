@@ -67,7 +67,7 @@ export class TreeNodeComponent {
     this.showProgressBar = true;
     this.templateService.create(new Concept(newConcept), parent.id).subscribe(
       (result) => {
-        parent.children.push(result);
+        parent._embedded.children.push(result);
         this.onConceptUpdated(result);
       },
       (error) => { throw error; },

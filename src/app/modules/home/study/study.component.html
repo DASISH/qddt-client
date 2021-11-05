@@ -32,7 +32,7 @@
   </div>
 
   <div class="row card section scrollspy card-toc white grey-text text-darken-2" id="{{ study.id }}"
-    *ngFor="let study of survey?.children" [ngClass]="{'editGreen': edit.isVisible}">
+    *ngFor="let study of studies" [ngClass]="{'editGreen': edit.isVisible}">
     <div class="col s1">
       <ul class="dropdownmenu">
         <li *ngIf="!study.archived && !readonly">
@@ -89,4 +89,5 @@
   </div>
 </div>
 
-<qddt-toc [elements]="survey?.children" [path]="'study'" (hierarchyChanged)="onHierarchyChanged($event)"></qddt-toc>
+<qddt-toc [elements]="studies" [path]="'study'" (hierarchyChanged)="onHierarchyChanged($event)">
+</qddt-toc>

@@ -157,7 +157,7 @@ export class TopicComponent implements OnInit {
     // console.debug('moving event?');
     this.study.changeKind = 'UPDATED_HIERARCHY_RELATION';
     this.study.changeComment = 'Topic order changed';
-    this.study.children = this.topics;
+    this.study._embedded.children = this.topics;
     this.templateService.update<Study>(this.study).subscribe((result) => {
       this.property.set('study', this.study = result);
       this.loadTopics(this.study.id);
