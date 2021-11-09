@@ -111,7 +111,7 @@ export class TemplateListComponent implements OnInit, OnDestroy {
     }
     pageSearch.page.size = this.properties.userSetting.pageSize;
 
-    if (pageSearch.kind === ElementKind.USER && pageSearch.sort === 'modified,desc') {
+    if ((pageSearch.kind === ElementKind.USER || pageSearch.kind === ElementKind.AGENCY ) && pageSearch.sort === 'modified,desc') {
       pageSearch.sort = 'name,asc';
     }
 

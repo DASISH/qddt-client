@@ -146,17 +146,17 @@ const SCALE = [
   new Column({ label: 'Description', name: 'description', sortable: true }),
   new Column({
     label: 'Start',
-    name: ['managedRepresentation', 'inputLimit', 'minimum'],
+    name: ['anchor', [0],  'second'],
     sortable: false
   }),
   new Column({
     label: 'End',
-    name: ['managedRepresentation', 'inputLimit', 'maximum'],
+    name: ['anchor', [1],  'second'],
     sortable: false
   }),
   new Column({
     label: '# Ancors',
-    name: ['managedRepresentation', 'children', 'length'],
+    name: ['anchor', 'length'],
     sortable: false
   }),
   new Column({ label: 'Anchors', name: 'anchorLabel', sortable: false })

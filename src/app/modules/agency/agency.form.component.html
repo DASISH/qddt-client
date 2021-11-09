@@ -6,7 +6,7 @@
       <qddt-input class="col s10" required name="name" label="Name" type="text" [(ngModel)]="agency.name"
         data-length="250">
       </qddt-input>
-      <qddt-select class="col s2" required name="xmlLang" label="Default Language" [(ngModel)]="agency.defaultXmlLang"
+      <qddt-select class="col s2" required name="xmlLang" label="Default Language" [(ngModel)]="agency.xmlLang"
         [lockups]="LANGUAGES">
       </qddt-select>
       <!-- <qddt-element-footer *ngIf="agency.id" [element]="agency"></qddt-element-footer> -->
@@ -14,7 +14,7 @@
     <qddt-textarea name="description" label="Description" [(ngModel)]="agency.description" data-length="250">
     </qddt-textarea>
     <ul>
-      <li class="row" *ngFor="let user of agency.users">
+      <li class="row" *ngFor="let user of agency._embedded.users">
         <div class="col s3">
           <div class="chip">
             <img *ngIf="user.email" class="gravatar" gravatar [email]="user.email" [size]="32">
@@ -28,7 +28,7 @@
         </div>
         <div class=" col s2">{{user.modified | localDate}}</div>
       </li>
-      <li class="row" *ngFor="let survey of agency.surveyPrograms">
+      <li class="row" *ngFor="let survey of agency._embedded.surveyPrograms">
         <div class="col s3">
           <a class="teal-text waves-effect waves-teal" [routerLink]="['/survey']">
             <i class="material-icons teal-text left smal">store</i>{{survey.name}}

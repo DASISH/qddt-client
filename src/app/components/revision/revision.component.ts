@@ -78,7 +78,7 @@ export class RevisionComponent implements OnChanges {
 
   private getChildrenSize(): number {
     if (this.isResponseDomain(this.current)) {
-      return this.current.managedRepresentation.children.length;
+      return this.current._embedded?.managedRepresentation.children.length;
     }
     return 0;
   }

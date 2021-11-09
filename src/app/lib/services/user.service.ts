@@ -30,6 +30,7 @@ export class UserService {
   private roles: number;
   private user: UserJwt;
 
+
   private readonly getUserAsync = (id: string) => this.http.get<User>(this.api + 'user/' + id).toPromise();
 
   constructor(private http: HttpClient, private tokenStore: TokenStorageService, @Inject(API_BASE_HREF) private api: string, private property: PropertyStoreService) {
@@ -38,6 +39,7 @@ export class UserService {
     } else {
       this.loadUserFromToken();
     }
+
   }
 
   public canDo(action: ActionKind, kind: ElementKind): boolean {
@@ -141,6 +143,9 @@ export class UserService {
     return this.getUser(this.getUserId());
   }
 
+
+
+
   public async getUser(uuid: string): Promise<User> {
     if (this.property.has(uuid)) {
       return Promise.resolve(this.property.get(uuid));
@@ -151,7 +156,9 @@ export class UserService {
       return result;
     });
   }
-
+  public async getCurrentXmlLang() {
+    return (await this.getCurrentAgency()).xmlLang;
+  }
 
   public async getCurrentAgency(): Promise<Agency> {
     const agencyId = (await this.getCurrentUser()).agencyId;

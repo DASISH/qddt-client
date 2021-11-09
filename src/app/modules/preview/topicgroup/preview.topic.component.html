@@ -32,8 +32,8 @@
   </li>
 
   <label>Concept(s)</label>
-  <li *ngIf="topic.children && topic.children.length>0">
-    <qddt-preview-concept-list [conceptList]="topic.children"></qddt-preview-concept-list>
+  <li *ngIf="topic._embedded.children && topic._embedded.children.length>0">
+    <qddt-preview-concept-list [conceptList]="topic._embedded.children"></qddt-preview-concept-list>
   </li>
 
   <li>

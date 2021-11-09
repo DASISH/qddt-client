@@ -2,7 +2,7 @@ import { QueryInfo } from '../classes';
 import { ElementKind } from '../enums';
 import { IHeaderDetail } from '../interfaces';
 
-export const QDDT_QUERY_INFOES: QueryInfo[] = [
+export const QDDT_QUERY_INFOS: QueryInfo[] = [
   new QueryInfo(ElementKind.NONE, '', '', '', [], null),
   new QueryInfo(
     ElementKind.CATEGORY,
@@ -49,7 +49,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     ElementKind.QUESTION_CONSTRUCT,
     'QuestionConstruct',
     'controlconstruct',
-    'questionConstructs',
+    'controlConstructs',
     ['label', 'name', 'questionName', 'questionText'],
     '&constructKind=QUESTION_CONSTRUCT'
   ),
@@ -57,7 +57,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     ElementKind.SEQUENCE_CONSTRUCT,
     'Sequence',
     'controlconstruct',
-    'sequences',
+    'controlConstructs',
     ['label', 'name', 'description', 'sequenceKind'],
     '&constructKind=SEQUENCE_CONSTRUCT'
   ),
@@ -65,7 +65,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     ElementKind.STATEMENT_CONSTRUCT,
     'Statement',
     'controlconstruct',
-    'statements',
+    'controlConstructs',
     ['label', 'name', 'description'],
     '&constructKind=STATEMENT_CONSTRUCT'
   ),
@@ -165,7 +165,7 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
     'Author',
     'author',
     'authors',
-    ['name', 'about', 'email'],
+    ['name', 'email'],
     null
   ),
   new QueryInfo(
@@ -187,74 +187,15 @@ export const QDDT_QUERY_INFOES: QueryInfo[] = [
 ];
 
 export const HEADER_DETAILS = new Map<string, IHeaderDetail>([
-  [
-    'categories',
-    { icon: 'view_comfy', headerName: 'Categories', kind: ElementKind.CATEGORY }
-  ],
-  [
-    'missing',
-    {
-      icon: 'check_box_outline_blank',
-      headerName: 'Missing Values',
-      kind: ElementKind.MISSING_GROUP
-    }
-  ],
-  [
-    'questionitems',
-    {
-      icon: 'help',
-      headerName: 'QuestionItems',
-      kind: ElementKind.QUESTION_ITEM
-    }
-  ],
-  [
-    'questions',
-    {
-      icon: 'help_outline',
-      headerName: 'Question constructs',
-      kind: ElementKind.QUESTION_CONSTRUCT
-    }
-  ],
-  [
-    'sequences',
-    {
-      icon: 'view_list',
-      headerName: 'Sequence constructs',
-      kind: ElementKind.SEQUENCE_CONSTRUCT
-    }
-  ],
-  [
-    'conditions',
-    {
-      icon: 'device_hub',
-      headerName: 'Condition constructs',
-      kind: ElementKind.CONDITION_CONSTRUCT
-    }
-  ],
-  [
-    'statements',
-    {
-      icon: 'record_voice_over',
-      headerName: 'Statements',
-      kind: ElementKind.STATEMENT_CONSTRUCT
-    }
-  ],
-  [
-    'responsedomains',
-    {
-      icon: 'check_box',
-      headerName: 'Response domains',
-      kind: ElementKind.RESPONSEDOMAIN
-    }
-  ],
-  [
-    'instruments',
-    {
-      icon: 'tablet_mac',
-      headerName: 'Instruments',
-      kind: ElementKind.INSTRUMENT
-    }
-  ],
+  ['categories',{ icon: 'view_comfy', headerName: 'Categories', kind: ElementKind.CATEGORY }],
+  ['missing',{ icon: 'check_box_outline_blank',headerName: 'Missing Values',kind: ElementKind.MISSING_GROUP }],
+  ['questionitems',{ icon: 'help',headerName: 'QuestionItems',kind: ElementKind.QUESTION_ITEM }],
+  ['questions',{ icon: 'help_outline',headerName: 'Question constructs',kind: ElementKind.QUESTION_CONSTRUCT }],
+  ['sequences',{ icon: 'view_list',headerName: 'Sequence constructs',kind: ElementKind.SEQUENCE_CONSTRUCT }],
+  ['conditions',{ icon: 'device_hub',headerName: 'Condition constructs',kind: ElementKind.CONDITION_CONSTRUCT }],
+  ['statements',{ icon: 'record_voice_over', headerName: 'Statements',kind: ElementKind.STATEMENT_CONSTRUCT }],
+  ['responsedomains',{ icon: 'check_box',headerName: 'Response domains',kind: ElementKind.RESPONSEDOMAIN }],
+  ['instruments',{ icon: 'tablet_mac',headerName: 'Instruments',kind: ElementKind.INSTRUMENT }],
   ['publications', { icon: 'folder_special', headerName: 'Publication packages', kind: ElementKind.PUBLICATION }],
   ['instructions', { icon: 'speaker_notes', headerName: 'Instructions', kind: ElementKind.INSTRUCTION }],
   ['universes', { icon: 'public', headerName: 'Universes', kind: ElementKind.UNIVERSE }],

@@ -71,8 +71,8 @@
     </div>
 
     <qddt-preview-responsedomain
-      *ngIf="controlConstruct?.questionItemRef && controlConstruct.questionItemRef.element?.responseDomainRef?.element"
-      [responseDomain]="controlConstruct.questionItemRef.element.responseDomainRef.element">
+      *ngIf="controlConstruct?.questionItemRef && controlConstruct.questionItemRef.element?.responseDomain"
+      [responseDomain]="controlConstruct.questionItemRef.element.responseDomain">
     </qddt-preview-responsedomain>
 
     <qddt-element-collection [listItems]="postInstructions" [labelName]="'Post Instructions'"

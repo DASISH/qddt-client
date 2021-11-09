@@ -1,4 +1,4 @@
-import { IAuthority, IVersion } from '../interfaces';
+import { HalLink, IAuthority, IVersion } from '../interfaces';
 
 
 export class Agency {
@@ -6,11 +6,15 @@ export class Agency {
   name: string;
   description?: string;
   modified?: number;
-  defaultXmlLang: string;
+  xmlLang: string;
   classKind: string;
   version?: IVersion;
-  users?: User[];
-  surveyPrograms?: SurveyJson[];
+  _links?: {
+    [rel: string]: HalLink;
+  };
+  _embedded?: {
+    [rel: string]: any;
+  };
 }
 
 

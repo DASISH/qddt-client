@@ -1,5 +1,5 @@
 import { Category, CategoryKind, ResponseCardinality } from './category.classes';
-import { IEntityEditAudit, ISelectOption, IVersion} from '../interfaces';
+import { HalLink, IEntityEditAudit, ISelectOption, IVersion} from '../interfaces';
 import { ElementKind } from '../enums';
 import { Agency } from './user.classes';
 
@@ -57,13 +57,13 @@ export class ResponseDomain implements IEntityEditAudit {
   name: string;
   description: string;
   displayLayout = '0';
-  managedRepresentation: Category = new Category();
+  // managedRepresentation: Category = new Category();
   responseCardinality: ResponseCardinality = new ResponseCardinality();
   responseKind: string = DomainKind[DomainKind.NONE];
   classKind: string = ElementKind[ElementKind.RESPONSEDOMAIN];
   comments?: any[];
 
-  agency?: Agency;
+  // agency?: Agency;
   changeComment?: string;
   changeKind?: string;
   basedOnObject?: string;
@@ -71,27 +71,32 @@ export class ResponseDomain implements IEntityEditAudit {
   modified?: number;
   version?: IVersion = { major: 0, minor: 0 };
   xmlLang?: string;
-
+  _links?: {
+    [rel: string]: HalLink;
+  };
+  _embedded?: {
+    [rel: string]: any;
+  };
   public constructor(init?: Partial<ResponseDomain>) {
     Object.assign(this, init);
     if (init && init.xmlLang) {
-      this.managedRepresentation.xmlLang = init.xmlLang;
+      this._embedded.managedRepresentation.xmlLang = init.xmlLang;
     }
   }
 
   public get isMixed() { return (this.responseKind === 'MIXED'); }
 
   public get missing(): Category {
-    return this.managedRepresentation.children.find(e => e.categoryType === 'MISSING_GROUP');
+    return this._embedded.managedRepresentation.children.find(e => e.categoryType === 'MISSING_GROUP');
   }
 
   public setResponseKind(kind: DomainKind): ResponseDomain {
     this.responseKind = DomainKind[kind];
-    this.managedRepresentation.setKind(DOMAIN_TYPE_DESCRIPTION[kind].categoryType);
+    this._embedded.managedRepresentation.setKind(DOMAIN_TYPE_DESCRIPTION[kind].categoryType);
     if (kind === DomainKind.SCALE) {
-      this.managedRepresentation.inputLimit = { minimum: 1, maximum: 5, stepUnit: 1 }
+      this._embedded.managedRepresentation.inputLimit = { minimum: 1, maximum: 5, stepUnit: 1 }
     } else if (kind === DomainKind.DATETIME) {
-      this.managedRepresentation.inputLimit = { minimum: 1950, maximum: 2050, stepUnit: 1 }
+      this._embedded.managedRepresentation.inputLimit = { minimum: 1950, maximum: 2050, stepUnit: 1 }
 
     }
     return this;
@@ -99,21 +104,21 @@ export class ResponseDomain implements IEntityEditAudit {
 
   public addManagedRep(rep: Category) {
     if (!this.isMixed) {
-      this.managedRepresentation = new Category({
+      this._embedded.managedRepresentation = new Category({
         hierarchyLevel: 'GROUP_ENTITY',
         name: 'Mixed [ renamed in service ]',
         xmlLang: this.xmlLang,
-        children: [this.managedRepresentation]
+        children: [this._embedded.managedRepresentation]
       });
       this.id = null;
       this.setResponseKind(DomainKind.MIXED);
     }
-    const filtered = this.managedRepresentation.children.filter(e => e.categoryType !== rep.categoryType);
+    const filtered = this._embedded.managedRepresentation.children.filter(e => e.categoryType !== rep.categoryType);
     filtered.push(rep);
     // there is no other children or this is a mixed responseDomain....
-    this.managedRepresentation.children = filtered;
-    this.name = this.managedRepresentation.label =
-      'Mixed (' + this.managedRepresentation.children.map(c => c.label).join(' + ') + ')';
+    this._embedded.managedRepresentation.children = filtered;
+    this.name = this._embedded.managedRepresentation.label =
+      'Mixed (' + this._embedded.managedRepresentation.children.map(c => c.label).join(' + ') + ')';
   }
 
 }

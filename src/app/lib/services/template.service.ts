@@ -30,7 +30,7 @@ export class TemplateService {
     return this.http.get(this.api + 'preview/' + id).toPromise();
   }
 
-  public searchByKind<T extends IEntityAudit>(pageSearch: IPageSearch): Promise<IPageResult> {
+  public async searchByKind<T extends IEntityAudit>(pageSearch: IPageSearch): Promise<IPageResult> {
     pageSearch = new PageSearch(pageSearch);
     const qe = getQueryInfo(pageSearch.kind);
     const queries = [];
@@ -52,7 +52,7 @@ export class TemplateService {
         pageSearch.keys.forEach((value, key) => (value) ? queries.push(key + '=' + value) : '');
       }
     }
-    const xmlLang = ((pageSearch.xmlLang) && pageSearch.xmlLang !== 'none') ? pageSearch.xmlLang : '*';
+    const xmlLang = ((pageSearch.xmlLang) && pageSearch.xmlLang !== 'none') ? pageSearch.xmlLang : (await this.userService.getCurrentXmlLang());
     queries.push('xmlLang=' + xmlLang);
 
     let query = '?';
@@ -135,7 +135,9 @@ export class TemplateService {
     return this.http.post<T>(this.api + qe.path + '/copy/' + fromId + '/' + fromRev + '/' + toParentId, {});
   }
 
-  public update<T extends IEntityAudit>(item: IEntityAudit): Observable<T> {
+  public update<T extends IEntityAudit>(item: T): Observable<T> {
+    if (!(item.id))
+      return this.create<T>(item)
     const kind = getElementKind(item.classKind);
     const qe = getQueryInfo(kind);
     if (item.id === item['basedOnObject']) {

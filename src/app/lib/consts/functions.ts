@@ -1,5 +1,5 @@
 import { SimpleChange } from '@angular/core';
-import { QDDT_QUERY_INFOES, HEADER_DETAILS } from './query-info.config';
+import { QDDT_QUERY_INFOS as QDDT_QUERY_INFOS, HEADER_DETAILS } from './query-info.config';
 import { ElementKind, EnumType } from '../enums';
 import { QueryInfo, SelectItem } from '../classes';
 import { ISelectOption, IEntityEditAudit, ITreeNode } from '../interfaces';
@@ -15,7 +15,7 @@ export function getElementKind(kind: string | ElementKind): ElementKind {
 
 export function getQueryInfo(kind: string | ElementKind): QueryInfo {
   const key = getElementKind(kind);
-  return QDDT_QUERY_INFOES[key];
+  return QDDT_QUERY_INFOS[key];
 }
 
 

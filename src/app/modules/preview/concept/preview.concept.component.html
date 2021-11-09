@@ -31,11 +31,11 @@
       </li>
     </ul>
   </li>
-  <li *ngIf="concept.children && concept.children.length > 0">
+  <li *ngIf="concept._embedded.children && concept._embedded.children.length > 0">
     <label>Concept(s)</label>
     <ul [id]="'UL2-' + compId" class="collapsible">
       <li [id]="'LI-' + compId + '-' + idx"
-        *ngFor="let concept of concept.children; trackBy:trackByIndex; let idx=index;">
+        *ngFor="let concept of concept._embedded.children; trackBy:trackByIndex; let idx=index;">
         <div class="collapsible-header ">
           <i class="material-icons small teal-text text-lighten-3">{{getIconLocal(concept.classKind)}}</i>
           <div class="col s9 m10 grey-text text-darken-1" [innerHtml]=concept.name></div>
