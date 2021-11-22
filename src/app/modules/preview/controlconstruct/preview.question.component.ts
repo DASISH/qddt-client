@@ -35,7 +35,7 @@ import * as uuid from 'uuid';
     <li class="collection-item">
       <qddt-preview-responsedomain
         *ngIf="controlConstruct?.questionItemRef && controlConstruct.questionItemRef.element"
-        [responseDomain]="controlConstruct.questionItemRef.element.responseDomainRef.element"
+        [responseDomain]="controlConstruct.questionItemRef.element._embedded.responseDomain"
         [parameterIn]="controlConstruct.parameterIn"
         [showLabel]="false"
         (selectedEvent)="onSelectedEvent($event)">

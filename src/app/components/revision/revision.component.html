@@ -21,17 +21,17 @@
       <tbody>
         <tr *ngFor="let content of revisions; let idx=index">
           <td (click)="onPreviewRevision(idx)" [ngStyle]="{'cursor': 'zoom-in'}">
-            {{ content?.metadata?.revisionNumber }}
+            {{ content?.version?.rev }}
           </td>
           <td (click)="onSelectRevision(idx)" [ngStyle]="{'cursor': 'pointer'}">
             <i class="material-icons">transform</i>
           </td>
-          <td>{{ content?.entity?.version?.major }}.{{ content?.entity?.version?.minor }}
-            {{ content?.entity?.version?.versionLabel }}</td>
-          <td>{{ content?.metadata?.delegate?.timestamp | localDate }}</td>
-          <td>{{ content?.entity?.modifiedBy?.name }}</td>
-          <td>{{ content?.entity?.changeKind }}</td>
-          <td>{{ content?.entity?.changeComment }}</td>
+          <td>{{ content?.version?.major }}.{{ content?.version?.minor }}
+            {{ content?.version?.versionLabel }}</td>
+          <td>{{ content?.modified | localDate }}</td>
+          <td>{{ content?.modifiedBy?.username }}</td>
+          <td>{{ content?.changeKind }}</td>
+          <td>{{ content?.changeComment }}</td>
         </tr>
       </tbody>
     </table>

@@ -68,7 +68,7 @@ export class RevisionComponent implements OnChanges {
 
   private isResponseDomain(element: IEntityAudit): element is ResponseDomain { // magic happens here
     return (element as ResponseDomain).responseKind !== undefined;
-  }
+  }ng
   private getResponseKind(): DomainKind {
     if (this.isResponseDomain(this.current)) {
       return DomainKind[this.current.responseKind];
