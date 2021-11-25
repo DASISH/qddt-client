@@ -13,7 +13,7 @@ import { QuestionItem, ResponseDomain } from '../../../lib/classes';
   </li>
   <li class="collection-item" ><label>Responsedomain</label></li>
   <li class="collection-item" >
-    <qddt-preview-responsedomain  *ngIf="questionItem?._embedded?.responseDomain"
+    <qddt-preview-responsedomain  *ngIf="questionItem?._embedded.responseDomain"
       [responseDomain]="questionItem._embedded.responseDomain">
     </qddt-preview-responsedomain>
   </li>
