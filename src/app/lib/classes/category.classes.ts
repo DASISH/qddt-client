@@ -1,5 +1,5 @@
 import { ElementKind } from '../enums';
-import { IComment, IEntityEditAudit, IVersion, IUser, IOtherMaterial } from '../interfaces';
+import { IComment, IEntityEditAudit, IVersion, IUser, IOtherMaterial, IRevId } from '../interfaces';
 import { Agency, User } from './user.classes';
 
 
@@ -70,8 +70,8 @@ export class Category implements IEntityEditAudit {
   code?: Code;
   format?: any;
   changeKind?: string;
-  basedOnObject?: string;
-  basedOnRevision?: number;
+  basedOn?: IRevId;
+
   changeComment?: string;
   modified?: number;
   modifiedBy?: User|string;

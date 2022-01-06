@@ -1,4 +1,4 @@
-import { IParentRef, IEntityEditAudit, IUser, IVersion, IOtherMaterial, IComment, HalLink } from '../interfaces';
+import { IEntityEditAudit, IVersion, IOtherMaterial, IComment, HalLink, IRevId, IParentRef } from '../interfaces';
 import { ElementKind } from '../enums';
 import { Instrument } from './instrument.classes';
 import { ElementRevisionRef } from './element-revision-ref';
@@ -15,8 +15,9 @@ export class SurveyProgram implements IEntityEditAudit {
   // children: Study[];
   classKind = ElementKind[ElementKind.SURVEY_PROGRAM];
   changeKind?: string;
-  basedOnObject?: string;
-  basedOnRevision?: number;
+  basedOn?:IRevId
+  parentIdx?: number;
+  parentRef?: IParentRef;
   changeComment?: string;
   modified?: number;
   modifiedBy?: User | string;
@@ -47,12 +48,13 @@ export class Study implements IEntityEditAudit {
   description: string;
   archived = false;
   authors?: any[];
-  // children?: Topic[];
+  children?: Topic[];
   instruments?: Instrument[]
   classKind = ElementKind[ElementKind.STUDY];
   changeKind?: string;
-  basedOnObject?: string;
-  basedOnRevision?: number;
+  basedOn?:IRevId
+  parentIdx?: number;
+  parentRef?: IParentRef;
   changeComment?: string;
   modified?: number;
   modifiedBy?: User | string;
@@ -88,8 +90,9 @@ export class Topic implements IEntityEditAudit {
   // children: Concept[];
   classKind = ElementKind[ElementKind.TOPIC_GROUP];
   changeKind?: string;
-  basedOnObject?: string;
-  basedOnRevision?: number;
+  basedOn?:IRevId
+  parentIdx?: number;
+  parentRef?: IParentRef;
   changeComment?: string;
   modified?: number;
   modifiedBy?: User | string;
@@ -98,7 +101,6 @@ export class Topic implements IEntityEditAudit {
   otherMaterials?: IOtherMaterial[];
   xmlLang?: string;
   comments?: IComment[];
-  parentRef?: IParentRef;
   _links?: {
     [rel: string]: HalLink;
   };
@@ -127,8 +129,10 @@ export class Concept implements IEntityEditAudit {
   // children: Concept[];
   classKind = ElementKind[ElementKind.CONCEPT];
   agency: Agency;
-  basedOnObject?: string;
-  basedOnRevision?: number;
+  basedOn?:IRevId
+  parentIdx?: number;
+  parentRef?: IParentRef;
+
   changeComment?: string;
   changeKind?: string;
   modified?: number;
@@ -136,7 +140,7 @@ export class Concept implements IEntityEditAudit {
   version?: IVersion;
   xmlLang?: string;
   comments?: IComment[];
-  parentRef?: IParentRef;
+
   _links?: {
     [rel: string]: HalLink;
   };

@@ -1,4 +1,5 @@
 import { ActionKind, ElementKind } from '../enums';
+import { HalLink } from './http.interfaces';
 
 export interface MenuItem { id: string; name: string; }
 
@@ -27,7 +28,11 @@ export interface IRevisionRef extends IElementRef {
 export interface IParentRef {
   id: string;
   name: string;
+  version?: IVersion;
   parentRef?: IParentRef;
+  _links?: {
+    [rel: string]: HalLink;
+  };
 }
 
 export interface ITreeNode {

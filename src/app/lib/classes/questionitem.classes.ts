@@ -1,9 +1,7 @@
-import { ElementRevisionRef, ElementRevisionRefImpl } from './element-revision-ref';
-import { IEntityEditAudit, IVersion, IParentRef, HalLink } from '../interfaces';
+import { IEntityEditAudit, IVersion, IParentRef, HalLink, IRevId } from '../interfaces';
 import { ElementKind } from '../enums';
 import { ResponseDomain } from './responsedomain.classes';
 import { Agency } from './user.classes';
-import * as uuid from 'uuid';
 
 export class QuestionItem implements IEntityEditAudit {
   id: string;
@@ -19,7 +17,7 @@ export class QuestionItem implements IEntityEditAudit {
   question = '';
   intent: string;
   xmlLang = 'none';
-  responseDomainId: {id:uuid, rev:number };
+  responseDomainId: IRevId
   responseDomain: ResponseDomain;
   _links?: {
     [rel: string]: HalLink;

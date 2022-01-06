@@ -1,4 +1,4 @@
-import { IComment, IEntityEditAudit, IOtherMaterial, IUser, IVersion } from '../interfaces';
+import { IComment, IEntityEditAudit, IOtherMaterial, IRevId, IUser, IVersion } from '../interfaces';
 import { ElementKind } from '../enums';
 import { ElementRevisionRefImpl } from './element-revision-ref';
 import { QuestionItem } from './questionitem.classes';
@@ -153,8 +153,8 @@ export class SequenceConstruct implements AbstractControlConstruct {
   name: string;
   label?: string;
   description?: string;
-  basedOnObject?: string;
-  basedOnRevision?: number;
+  basedOn?: IRevId;
+
   changeComment?: string;
   changeKind?: string;
   modified?: number;

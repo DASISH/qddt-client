@@ -177,7 +177,7 @@ export class TemplateService {
   public delete(item: IEntityAudit): Observable<any> {
     // console.debug(item || JSON);
     const qe = getQueryInfo(item.classKind);
-    return this.http.delete(this.api + qe.path + '/delete/' + item.id);
+    return this.http.delete(this.api + qe.path + '/' + item.id);
   }
 
   public getPdf(item: IEntityEditAudit): Promise<Blob> {

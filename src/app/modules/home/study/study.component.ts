@@ -47,17 +47,13 @@ export class StudyComponent implements OnInit {
     this.survey = this.property.get('survey');
     const parentId = this.route.snapshot.paramMap.get('id') || this.survey.id || this.property.menuPath[HierarchyPosition.Survey].id;
     this.loadStudies(parentId);
-    // this.templateService.getByKindEntity<SurveyProgram>(ElementKind.SURVEY_PROGRAM, parentId)
-    //   .then((result) => {
-    //     this.property.set('studies', this.survey = result);
-    //   });
   }
 
   private loadStudies(parentId: string) {
-    // this.showProgressBar = true;
     this.homeService.getListByParent(this.STUDY, parentId)
       .then((result) => {
-        this.property.set('studies', this.studies = result);
+        this.studies = result;
+        this.property.set('studies', result);
       });
   }
 
@@ -103,10 +99,18 @@ export class StudyComponent implements OnInit {
 
   onRemoveStudy(study: Study) {
     if (study) {
+      console.log(this.survey.id);
+
       this.templateService.delete(study)
         .subscribe(() => {
-          this.survey._embedded.children = this.survey._embedded.children.filter((s: any) => s.id !== study.id);
-          this.property.set('studies', this.survey._embedded.children);
+
+          this.studies = this.studies
+            .filter((s: any) => s.id !== study.id)
+            .map((s:Study) => {
+              s.parentIdx
+              return s
+            })
+          this.property.set('studies', this.studies);
         });
     }
   }

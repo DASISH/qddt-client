@@ -1,5 +1,5 @@
 import { Category, CategoryKind, ResponseCardinality } from './category.classes';
-import { HalLink, IEntityEditAudit, ISelectOption, IVersion} from '../interfaces';
+import { HalLink, IEntityEditAudit, IRevId, ISelectOption, IVersion} from '../interfaces';
 import { ElementKind } from '../enums';
 import { Agency } from './user.classes';
 
@@ -66,8 +66,8 @@ export class ResponseDomain implements IEntityEditAudit {
   // agency?: Agency;
   changeComment?: string;
   changeKind?: string;
-  basedOnObject?: string;
-  basedOnRevision?: number;
+  basedOn?: IRevId;
+
   modified?: number;
   version?: IVersion = { major: 0, minor: 0 };
   xmlLang?: string;

@@ -57,7 +57,6 @@ export class TopicEditComponent {
 
   public async onSave() {
     const formData = new FormData();
-    this.topic.parentRef = null;
     formData.append('topicgroup', JSON.stringify(this.topic));
     this.fileStore.forEach((file) => { formData.append('files', file); });
 
