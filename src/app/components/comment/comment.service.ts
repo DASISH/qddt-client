@@ -13,8 +13,13 @@ export class CommentService  {
   //   return this.http.post<IComment>( this.api + 'comment/create/' + comment.ownerId, comment);
   // }
 
-  update(comment: IComment): Observable<IComment> {
-    return this.http.post<IComment>(this.api + 'comment', comment);
+  update(entity: IComment): Observable<IComment> {
+    var pojo = { id:entity.id, comment: entity.comment, public: entity.public }
+    if (entity.id) {
+      return this.http.put<IComment>(this.api + 'comment/'+ entity.id ,pojo);
+    } else {
+      return this.http.post<IComment>(this.api + 'comment', entity);
+    }
   }
 
   delete(id: string):  any {
