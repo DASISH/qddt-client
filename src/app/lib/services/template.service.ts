@@ -126,7 +126,7 @@ export class TemplateService {
     return ((parentId) ?
       this.http.put<HalResource>(this.api + qe.parentPath + '/' + parentId + '/children', item) :
       this.http.post<HalResource>(this.api + qe.path, item))
-      .pipe(map(response => Factory.createFromSeed(item.classKind, response._embedded) as T));
+      .pipe(map(response => Factory.createFromSeed(item.classKind, response) as T));
 
   }
 
