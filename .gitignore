@@ -13,6 +13,7 @@
 /.idea
 .project
 .classpath
+.angular
 .gradle
 .c9/
 *.launch
