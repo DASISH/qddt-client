@@ -75,7 +75,7 @@ export class ResponsedomainCodeListComponent implements OnChanges {
         this.selectedEvent.emit([{ label: this.insertParam(row.label), value: row.value }]);
       }
     } catch (ex) {
-      console.exception(ex);
+      console.error(ex);
       throw ex;
     }
   }

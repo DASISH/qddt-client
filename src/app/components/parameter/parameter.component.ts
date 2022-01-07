@@ -105,7 +105,7 @@ export class ParameterComponent implements OnChanges {
       }
 
     } catch (ex) {
-      console.exception(ex.message);
+      console.error(ex.message);
       return '?';
     }
   }
