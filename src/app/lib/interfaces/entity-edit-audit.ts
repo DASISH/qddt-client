@@ -23,7 +23,7 @@ export interface IEntityEditAudit extends IEntityAudit {
   modifiedBy?: User | string;
   version?: IVersion;
   agency?: Agency;
-  archived?: boolean;
+  isArchived?: boolean;
   otherMaterials?: IOtherMaterial[];
   comments?: IComment[];
   _links?: {

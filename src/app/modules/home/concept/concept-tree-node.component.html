@@ -7,7 +7,7 @@
         <div class="card section row grey-text text-darken-2" [ngClass]="{'editGreen': edit.isVisible}">
           <div class="col s1">
             <ul class="dropdownmenu">
-              <li *ngIf="canUpdate && !(concept.archived)">
+              <li *ngIf="canUpdate && !(concept.isArchived)">
                 <a class="btn-flat btn-floating btn-medium  green lighten-2" (click)="onToggleEdit(edit)">
                   <i class="material-icons" title="Edit Concept">mode_edit</i></a>
               </li>
@@ -16,11 +16,11 @@
                   (click)="edit.showRevision = !edit.showRevision">
                   <i class="material-icons" title="Revision history">history</i></a>
               </li>
-              <li *ngIf="canUpdate && !(concept.archived) && !edit.isVisible">
+              <li *ngIf="canUpdate && !(concept.isArchived) && !edit.isVisible">
                 <a class="btn-flat btn-floating btn-medium  teal" (click)="edit.showNew=!edit.showNew">
                   <i class="material-icons" title="Add sub concept">add</i></a>
               </li>
-              <li *ngIf="canDelete && !(concept.archived) && !edit.isVisible">
+              <li *ngIf="canDelete && !(concept.isArchived) && !edit.isVisible">
                 <a class="btn-flat btn-floating btn-medium red lighten-2" (click)="onDeleteConcept(concept)">
                   <i class="material-icons" title="Delete">delete_forever</i></a>
               </li>
@@ -54,7 +54,7 @@
                     </div>
                   </div>
                   <div class="card-action right-align">
-                    <button type="button" (click)="onChildSave(hf.value, concept); edit.showNew=false;"
+                    <button type="button" (click)="onChildSave(hf, concept); edit.showNew=false;"
                       class="btn btn-default " [disabled]="!hf.form.valid">submit</button>
                   </div>
                 </div>
@@ -68,8 +68,8 @@
             <ng-container *ngIf="!edit.isVisible">
               <p [innerHtml]="concept?.description"></p>
 
-              <qddt-question-items [revisionRefs]="concept.conceptQuestionItems"
-                [readonly]="concept.archived || !canUpdate" [xmlLang]="concept.xmlLang"
+              <qddt-question-items [revisionRefs]="concept.questionItems"
+                [readonly]="concept.isArchived || !canUpdate" [xmlLang]="concept.xmlLang"
                 (createdEvent)="onQuestionItemAdded($event,concept.id)"
                 (deletedEvent)="onQuestionItemRemoved($event,concept.id)"
                 (modifiedEvent)="onQuestionItemModified($event,concept)">

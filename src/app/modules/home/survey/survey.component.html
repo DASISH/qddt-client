@@ -36,7 +36,7 @@
     *ngFor="let surveyProgram of surveys | sortBy:'parentIdx'" [ngClass]="{'editGreen': edit.isVisible}">
     <div class="col s1">
       <ul class="dropdownmenu">
-        <li *ngIf="!surveyProgram.archived && !readonly">
+        <li *ngIf="!surveyProgram.isArchived && !readonly">
           <a class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2"
             (click)="edit.isVisible = !edit.isVisible; ">
             <i class="material-icons" title="Edit Concept">mode_edit</i>

@@ -77,7 +77,7 @@ export class Category implements IEntityEditAudit {
   modifiedBy?: User|string;
   version?: IVersion;
   agency?: Agency;
-  archived?: boolean;
+  isArchived?: boolean;
   otherMaterials?: IOtherMaterial[];
   xmlLang: string; // = 'en-GB';
   comments?: IComment[];

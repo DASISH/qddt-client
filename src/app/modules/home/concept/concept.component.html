@@ -2,13 +2,13 @@
   <div class="card-panel row white-text teal">
     <i class="material-icons large right">looks_3</i>
     <h4>Concepts for {{ topic.name }}</h4>
-    <a *ngIf="!topic.archived && canCreate" class="btn"
+    <a *ngIf="!topic.isArchived && canCreate" class="btn"
       (click)="showConceptForm = !showConceptForm; showReuse=false; initComp();">
       <i class="material-icons right" *ngIf="!showConceptForm">keyboard_arrow_down</i>
       <i class="material-icons right" *ngIf="showConceptForm">keyboard_arrow_up</i>
       New
     </a>
-    <a *ngIf="!topic.archived && canCreate" class="btn" (click)="showReuse = !showReuse; showConceptForm=false">
+    <a *ngIf="!topic.isArchived && canCreate" class="btn" (click)="showReuse = !showReuse; showConceptForm=false">
       <i class="material-icons right" *ngIf="!showReuse">keyboard_arrow_down</i>
       <i class="material-icons right" *ngIf="showReuse">keyboard_arrow_up</i>
       reuse
@@ -53,14 +53,14 @@
   </div>
 
   <ng-container *ngIf="topic">
-    <qddt-concept-treenode [concepts]="topic._embedded.children" (deleteEvent)="onDeleteConcept($event)"
+    <qddt-concept-treenode [concepts]="conceptList" (deleteEvent)="onDeleteConcept($event)"
       (updatedEvent)="onConceptUpdated($event)">
     </qddt-concept-treenode>
   </ng-container>
 </div>
 
-<div *ngIf="topic" class="col m3 hide-on-small-only ">
-  <qddt-concept-toc [topic]="topic" (hierarchyChanged)="onHierarchyChanged($event)"></qddt-concept-toc>
+<div *ngIf="conceptList" class="col m3 hide-on-small-only ">
+  <qddt-concept-toc [concepts]="conceptList" (hierarchyChanged)="onHierarchyChanged($event)"></qddt-concept-toc>
 </div>
 
 <div class="modal" #modalconceptdelete>

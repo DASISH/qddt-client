@@ -14,10 +14,10 @@
   </li>
   <li>
     <label>QuestionItem(s)</label>
-    <ul [id]="'UL-' + compId" *ngIf="concept?.conceptQuestionItems && concept?.conceptQuestionItems?.length > 0"
+    <ul [id]="'UL-' + compId" *ngIf="concept?.questionItems && concept?.questionItems?.length > 0"
       class="collapsible">
       <li [id]="'LI-' + compId + '-' + idx"
-        *ngFor="let cqi of concept.conceptQuestionItems; trackBy:trackByIndex; let idx=index;"
+        *ngFor="let cqi of concept.questionItems; trackBy:trackByIndex; let idx=index;"
         (click)="onViewDetail(cqi)">
         <div class="collapsible-header">
           <i class="material-icons small teal-text text-lighten-3">{{getMatIcon(cqi)}}</i>

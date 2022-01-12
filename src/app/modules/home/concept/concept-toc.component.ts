@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Topic } from '../../../lib';
+import { Concept } from '../../../lib/classes/home.classes';
 
 @Component({
   selector: 'qddt-concept-toc',
@@ -35,11 +36,11 @@ import { Topic } from '../../../lib';
 
 <div class="toc-wrapper pinned" style="height: calc(100% - 64px); overflow-y: auto;" >
   <h5>Concept Toc</h5>
-  <div cdkDropList cdkDrop [cdkDropListData]="topic._embedded.children" (cdkDropListDropped)="onItemDrop($event)">
+  <div cdkDropList cdkDrop [cdkDropListData]="concepts" (cdkDropListDropped)="onItemDrop($event)">
     <ol class="section table-of-contents">
       <ng-template
         [ngTemplateOutlet]="nodeTemplateRef"
-        [ngTemplateOutletContext]="{ source: topic._embedded.children }">
+        [ngTemplateOutletContext]="{ source: concepts }">
       </ng-template>
     </ol>
   </div>
@@ -48,7 +49,8 @@ import { Topic } from '../../../lib';
 })
 
 export class ConceptTocComponent {
-  @Input() topic: Topic;
+  // @Input() topic: Topic?;
+  @Input() concepts: Concept[]
   @Output() hierarchyChanged = new EventEmitter<any>();
 
   public isActive: string;

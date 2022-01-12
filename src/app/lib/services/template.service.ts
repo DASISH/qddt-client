@@ -101,7 +101,7 @@ export class TemplateService {
       //   return this.http.get<IPageResult>
       //     (this.api + '/' + qe.path + '/' + id + '/revisions').toPromise();
       // } else {
-      return this.http.get<IPageResult>(this.api + qe.path + '/' + id + '/revisions').toPromise();
+      return this.http.get<IPageResult>(this.api + 'revisions/'+ qe.path + '/' + id ).toPromise();
       // }
     }
     return new Promise(null);
@@ -110,9 +110,9 @@ export class TemplateService {
   public getByKindRevision(kind: ElementKind, id: string, rev?: number): Promise<IEntityEditAudit> {
     const qe = getQueryInfo(kind);
     if (rev) {
-      return this.http.get<IEntityEditAudit>(this.api + qe.path + '/' + id + ':' + rev).toPromise();
+      return this.http.get<IEntityEditAudit>(this.api + 'revision/'+ qe.path + '/' + id + ':' + rev).toPromise();
     }
-    return this.http.get<IEntityEditAudit>(this.api + qe.path + '/' + id).toPromise();
+    return this.http.get<IEntityEditAudit>(this.api + 'revisions/'+ qe.path + '/' + id).toPromise();
 
   }
 
@@ -121,12 +121,13 @@ export class TemplateService {
     return this.http.get<IRevisionResult<T>>(this.api + 'audit/' + qe.path + '/' + id + '/latestversion').toPromise();
   }
 
-  public create<T extends IEntityAudit>(item: T, parentId?: string): Observable<T> {
+  public create<T extends IEntityAudit>(item: T, parentId?: string, putUrl?:string): Observable<T> {
     const qe = getQueryInfo(item.classKind);
-    return ((parentId) ?
-      this.http.put<HalResource>(this.api + qe.parentPath + '/' + parentId + '/children', item) :
-      this.http.post<HalResource>(this.api + qe.path, item))
-      .pipe(map(response => Factory.createFromSeed(item.classKind, response._embedded) as T));
+    return (
+      (parentId) ? this.http.put<HalResource>(this.api + qe.parentPath + '/' + parentId + '/children', item) :
+        ((putUrl) ? this.http.put<HalResource>(putUrl, item) :
+        this.http.post<HalResource>(this.api + qe.path, item)))
+      .pipe(map(response => Factory.createFromSeed(item.classKind, response) as T));
 
   }
 
@@ -190,7 +191,10 @@ export class TemplateService {
 
   public getXML(item: IEntityEditAudit): Promise<Blob> {
     const qe = getQueryInfo(item.classKind);
-    return this.http.get(this.api + qe.path + '/' + item.id, { responseType: 'blob' }).toPromise();
+    let header = new HttpHeaders()
+    .set('Accept', 'application/xml');
+
+    return this.http.get(this.api + qe.path + '/' + item.id, { responseType: 'blob', headers: header }).toPromise();
   }
 
   public getFile(om: IOtherMaterial): Promise<Blob> {

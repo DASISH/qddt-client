@@ -110,7 +110,7 @@ export abstract class AbstractControlConstruct implements IEntityEditAudit {
   modifiedBy?: User|string;
   version?: IVersion;
   agency?: Agency;
-  archived?: boolean;
+  isArchived?: boolean;
   otherMaterials?: IOtherMaterial[];
   comments?: IComment[];
   id: string;
@@ -161,7 +161,7 @@ export class SequenceConstruct implements AbstractControlConstruct {
   modifiedBy?: User|string;
   version?: IVersion;
   agency?: Agency;
-  archived?: boolean;
+  isArchived?: boolean;
   otherMaterials?: IOtherMaterial[];
   universe: Universe[] = [];
   parameterIn?: Parameter[] = [];

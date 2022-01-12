@@ -11,7 +11,7 @@ export class SurveyProgram implements IEntityEditAudit {
   name: string;
   description: string;
   authors?: any[];
-  archived = false;
+  isArchived = false;
   // children: Study[];
   classKind = ElementKind[ElementKind.SURVEY_PROGRAM];
   changeKind?: string;
@@ -46,7 +46,7 @@ export class Study implements IEntityEditAudit {
   label: string;
   name: string;
   description: string;
-  archived = false;
+  isArchived = false;
   authors?: any[];
   children?: Topic[];
   instruments?: Instrument[]
@@ -84,9 +84,9 @@ export class Topic implements IEntityEditAudit {
   name: string;
   label: string;
   description: string;
-  archived = false;
+  isArchived = false;
   authors?: any[];
-  topicQuestionItems: ElementRevisionRef[];
+  questionItems: ElementRevisionRef[];
   // children: Concept[];
   classKind = ElementKind[ElementKind.TOPIC_GROUP];
   changeKind?: string;
@@ -122,10 +122,10 @@ export class Concept implements IEntityEditAudit {
   name: string;
   label: string;
   description: string;
-  archived = false;
+  isArchived = false;
   authors: any[];
 
-  conceptQuestionItems: ElementRevisionRef[];
+  questionItems: ElementRevisionRef[];
   // children: Concept[];
   classKind = ElementKind[ElementKind.CONCEPT];
   agency: Agency;

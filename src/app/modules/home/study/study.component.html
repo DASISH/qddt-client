@@ -4,7 +4,7 @@
     <i class="material-icons large right">looks_one</i>
     <h4>Studies for {{ survey?.name }}</h4>
 
-    <a *ngIf="!survey.archived && !readonly" class="btn" (click)="showEditForm = !showEditForm; initComp();">
+    <a *ngIf="!survey.isArchived && !readonly" class="btn" (click)="showEditForm = !showEditForm; initComp();">
       <i class="material-icons right" *ngIf="!showEditForm">keyboard_arrow_down</i>
       <i class="material-icons right" *ngIf="showEditForm">keyboard_arrow_up</i>
       New
@@ -35,7 +35,7 @@
     *ngFor="let study of studies" [ngClass]="{'editGreen': edit.isVisible}">
     <div class="col s1">
       <ul class="dropdownmenu">
-        <li *ngIf="!study.archived && !readonly">
+        <li *ngIf="!study.isArchived && !readonly">
           <a class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2"
             (click)="edit.isVisible = !edit.isVisible; ">
             <i class="material-icons" title="Edit Concept">mode_edit</i>
@@ -51,7 +51,7 @@
           <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="onShowTopic(study)">
             <i class="material-icons left medium" title="Go to child elements">play_arrow</i></a>
         </li>
-        <li *ngIf="!edit.isVisible && !study.archived  && canDelete">
+        <li *ngIf="!edit.isVisible && !study.isArchived  && canDelete">
           <qddt-confirm-delete [element]="study" (confirmAction)="onRemoveStudy($event)"></qddt-confirm-delete>
         </li>
       </ul>

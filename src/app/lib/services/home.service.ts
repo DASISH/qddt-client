@@ -69,7 +69,6 @@ export class HomeService<T extends IEntityEditAudit>  {
     const qe = getQueryInfo(kind);
     return ((parentId) ?
       this.http.get<HalResource>(this.api + qe.parentPath + '/' + parentId + '/children') :
-      // this.http.get<IPageResult>(this.api + qe.path + '/list/by-parent/' + parentId) :
       this.http.get<HalResource>(this.api + qe.path + '/'))
       .pipe(map(response => {
         return response._embedded[qe.halName].map( result => Factory.createFromSeed(kind, result) as T)
@@ -89,6 +88,7 @@ export class HomeService<T extends IEntityEditAudit>  {
     return this.http.post<T>(this.api + qe.path + '/decombine?questionitemid=' + questionId +
       '&questionitemrevision=' + revision + '&parentId=' + id, {});
   }
+
   arrangeSurveys(surveys: ISurveyOrder[]): Observable<SurveyProgram[]> {
     console.debug(surveys);
     return this.http.post<SurveyProgram[]>(this.api + 'surveyprogram/reorder/', { content: surveys });

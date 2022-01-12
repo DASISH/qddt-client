@@ -47,14 +47,13 @@ export class SurveyComponent implements OnInit {
   ngOnInit() {
     this.homeService.getListByParent(this.SURVEY)
       .then((result) => {
-        this.surveys = []
-        result.forEach((survey, index) => {
-          this.templateService.getByKindEntity<SurveyProgram>(this.SURVEY, this.getId(survey._links?.self.href))
-            .then((item) => {
-              this.surveys.push(item);
-              console.log(item);
-            });
+        result.forEach(async (survey, index) => {
+          await this.templateService
+            .getByKindEntity<SurveyProgram>(this.SURVEY, this.getId(survey._links?.self.href))
+            .then((item) => result[index] = item);
         });
+        console.log(result)
+        this.surveys = result
       });
 
   }

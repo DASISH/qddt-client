@@ -4,14 +4,14 @@
     <i class="material-icons large right">looks_two</i>
     <h4>Questionnaire modules for {{ study?.name }}</h4>
 
-    <a *ngIf="!study.archived && !readonly" class="btn"
+    <a *ngIf="!study.isArchived && !readonly" class="btn"
       (click)="showEditForm = !showEditForm; showReuse=false; initComp();">
       <i class="material-icons right" *ngIf="!showEditForm">keyboard_arrow_down</i>
       <i class="material-icons right" *ngIf="showEditForm">keyboard_arrow_up</i>
       New
     </a>
 
-    <a class="btn" *ngIf="!study.archived && !readonly" (click)="showReuse = !showReuse; showEditForm=false ">
+    <a class="btn" *ngIf="!study.isArchived && !readonly" (click)="showReuse = !showReuse; showEditForm=false ">
       <i class="material-icons right" *ngIf="!showReuse">keyboard_arrow_down</i>
       <i class="material-icons right" *ngIf="showReuse">keyboard_arrow_up</i>
       reuse
@@ -50,7 +50,7 @@
     class="row card section scrollspy card-toc white grey-text text-darken-2" [ngClass]="{'editGreen': edit.isVisible}">
     <div class="col s1">
       <ul class="dropdownmenu">
-        <li *ngIf="!topic.archived && !readonly">
+        <li *ngIf="!topic.isArchived && !readonly">
           <a class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2"
             (click)="edit.isVisible = !edit.isVisible;">
             <i class="material-icons" title="Edit Concept">mode_edit</i></a>
@@ -64,7 +64,7 @@
           <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="onSelectTopic(topic)">
             <i class="material-icons" title="Go to child elements">play_arrow</i></a>
         </li>
-        <li *ngIf="!edit.isVisible && !topic.archived  && canDelete">
+        <li *ngIf="!edit.isVisible && !topic.isArchived  && canDelete">
           <qddt-confirm-delete [element]="topic" (confirmAction)="onRemoveTopic($event)"></qddt-confirm-delete>
         </li>
       </ul>
@@ -86,7 +86,7 @@
         <div class="col s12">
           <p [innerHtml]="topic.description"></p>
 
-          <qddt-question-items [revisionRefs]="topic.topicQuestionItems" [readonly]="topic.archived || readonly"
+          <qddt-question-items [revisionRefs]="topic.questionItems" [readonly]="topic.isArchived || readonly"
             [xmlLang]="topic.xmlLang" (createdEvent)="onQuestionItemAdded($event,topic.id)"
             (deletedEvent)="onQuestionItemRemoved($event,topic.id)"
             (modifiedEvent)="onQuestionItemModified($event,topic.id)">

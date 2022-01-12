@@ -10,7 +10,7 @@ import {ElementRevisionRef} from '../../lib/classes';
   ],
   template: `
   {{version?.major}}.{{version?.minor}}
-  <i *ngIf="element?.archived" class="material-icons blue-text tiny"
+  <i *ngIf="element?.isArchived" class="material-icons blue-text tiny"
      title="Archived, (read only)">lock</i>
   <i *ngIf="version?.versionLabel=='In Development'" class="material-icons yellow-text text-darken-1 tiny "
     title="Latest changes, not saved as a version">error</i>

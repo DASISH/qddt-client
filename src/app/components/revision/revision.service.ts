@@ -20,14 +20,14 @@ export class RevisionService {
   public getRevisions(kind: ElementKind, id: string): Promise<any> {
 
     const qe = getQueryInfo(kind);
-    return this.http.get(this.api + 'revisions/' + qe.path + '/' + id).toPromise();
+    return this.http.get(this.api + '' + qe.path + '/revisions/' + id).toPromise();
 
   }
 
   public getRevisionPage(kind: ElementKind, id: string, page: Page): Promise<any> {
 
     const qe = getQueryInfo(kind);
-    return this.http.get(this.api + 'revisions/' + qe.path + '/' + id + '?' + page.queryPage).toPromise();
+    return this.http.get(this.api + '' + qe.path + '/revisions/' + id + '?' + page.queryPage).toPromise();
 
   }
 }

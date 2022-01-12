@@ -31,6 +31,7 @@ export class StudyComponent implements OnInit {
 
   private readonly STUDY = ElementKind.STUDY;
   public readonly LANGUAGES = LANGUAGE_MAP;
+  private getId = (href: string): string => href.split('/').pop();
 
   constructor(private router: Router,
     private property: PropertyStoreService,
@@ -50,13 +51,19 @@ export class StudyComponent implements OnInit {
   }
 
   private loadStudies(parentId: string) {
-    this.homeService.getListByParent(this.STUDY, parentId)
-      .then((result) => {
-        this.studies = result;
-        this.property.set('studies', result);
+    this.studies = []
+    this.homeService.getListByParent(this.STUDY,parentId)
+    .then((result) => {
+      result.forEach(async (survey, index) => {
+        await this.templateService
+          .getByKindEntity<Study>(this.STUDY, this.getId(survey._links?.self.href))
+          .then((item) => result[index] = item);
       });
+      console.log(result)
+      this.studies = result
+      this.property.set('studies', this.studies)
+    });
   }
-
 
   onShowTopic(study: Study) {
     const prevStudy = this.property.get('study');
@@ -106,8 +113,8 @@ export class StudyComponent implements OnInit {
 
           this.studies = this.studies
             .filter((s: any) => s.id !== study.id)
-            .map((s:Study) => {
-              s.parentIdx
+            .map((s:Study,index) => {
+              s.parentIdx = index
               return s
             })
           this.property.set('studies', this.studies);

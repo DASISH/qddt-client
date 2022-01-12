@@ -25,6 +25,7 @@ export class ElementFooterComponent {
 
 
   getTime(): string {
+    console.log(this.element);
     const m = this.element.modified;
     if (!m) { return '?'; }
     const date = new Date();

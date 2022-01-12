@@ -12,6 +12,9 @@ import {ElementKind, ElementRevisionRef, LANGUAGE_MAP, Study, TemplateService} f
     <qddt-select class="col s2" required name="xmlLang" label="Language" [(ngModel)]="study.xmlLang"
       [lockups]="LANGUAGES">
     </qddt-select>
+    <qddt-input class="col s12" required name="label" label="Label" type="text" placeholder="This will be the visual representation of this Topic"
+                [(ngModel)]="study.label" data-length="250">
+    </qddt-input>
       <qddt-textarea class="col s12" name="description"
         required
         placeholder="In this particular round of inquire, which topics were decided to explore, and why..."
@@ -20,7 +23,7 @@ import {ElementKind, ElementRevisionRef, LANGUAGE_MAP, Study, TemplateService} f
         data-length="20000">
       </qddt-textarea>
       <qddt-element-revision-collection class="col s12"
-        [revisionRefs] = "study.instruments"
+        [revisionRefs] = "study.instruments ||study._embedded.instruments"
         [labelName]="'Instruments'"
         [elementKind]="INSTRUMENT"
         (createdEvent) ="onInstrumentAdded($event)"

@@ -14,7 +14,7 @@ import { ElementKind, TemplateService, Topic, LANGUAGE_MAP } from '../../../lib'
       [lockups]="LANGUAGES">
     </qddt-select>
     <qddt-input class="col s12" required name="label" label="Label" type="text" placeholder="This will be the visual representation of this Topic"
-                [(ngModel)]="topic.name" data-length="250">
+                [(ngModel)]="topic.label" data-length="250">
     </qddt-input>
 
     <qddt-textarea class="col s12" name="description"

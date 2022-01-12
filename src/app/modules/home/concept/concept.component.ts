@@ -28,10 +28,12 @@ export class ConceptComponent implements OnInit, AfterViewInit {
 
   public toDeletedConcept: any;
   public topic: Topic;
+  public conceptList: Concept[] = []
   public canCreate: boolean;
 
+  private getId = (href: string): string => href.split('/').pop().replace("{?projection}","");
 
-  @ViewChild('modalconceptdelete', { static: false }) modalconceptdelete: ElementRef;
+  @ViewChild('modalconceptdelete', { static: false }) modalConceptDelete: ElementRef;
 
 
   private instance = null;
@@ -42,24 +44,22 @@ export class ConceptComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.instance = M.Modal.init(this.modalconceptdelete.nativeElement);
+    this.instance = M.Modal.init(this.modalConceptDelete.nativeElement);
   }
 
 
   async ngOnInit() {
-    const root = this.property.get('topic');
-    const list = this.property.get('concepts');
-    const parentId = root.id || this.property.menuPath[HierarchyPosition.Topic].id;
+    const parent = this.property.get('topic');
+    const parentId = parent.id || this.property.menuPath[HierarchyPosition.Topic].id;
 
     this.showProgressBar = true;
-    this.topic = await (root) ?
-      new Topic(root) :
-      new Topic(await this.homeService.getExt<Topic>(ElementKind.TOPIC_GROUP, parentId));
+    this.topic = await new Topic(await this.homeService.getExt<Topic>(ElementKind.TOPIC_GROUP, parentId))
 
-    this.topic._embedded.children = await (list) ?
-      list :
-      await this.homeService.getListByParent(this.CONCEPT, parentId);
+    var children = this.topic._embedded.children as Concept[]
 
+    children.forEach(async (concept, index) =>
+      children[index] = await this.templateService.getByKindEntity<Concept>(this.CONCEPT, this.getId(concept._links?.self.href)))
+      this.conceptList = children
     this.showProgressBar = false;
   }
 
@@ -139,7 +139,7 @@ export class ConceptComponent implements OnInit, AfterViewInit {
   }
 
   public canDelete(toDeletedConcept) {
-    return (toDeletedConcept && toDeletedConcept.conceptQuestionItems && toDeletedConcept.conceptQuestionItems.length === 0);
+    return (toDeletedConcept && toDeletedConcept.questionItems && toDeletedConcept.questionItems.length === 0);
   }
 
   public onCancel() {

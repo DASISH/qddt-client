@@ -47,7 +47,7 @@ import { Concept, LANGUAGE_MAP, TemplateService } from '../../../lib';
 
       <qddt-textarea class="col s12" name="description"
         required
-        placeholder="Describe each Concept with clear boundaries, if the Concept is complex, you can subdivide it further until satisfying boundaries are archived. "
+        placeholder="Describe each Concept with clear boundaries, if the Concept is complex, you can subdivide it further until satisfying boundaries are isArchived. "
         label="Description"
         [(ngModel)]="concept.description"
         data-length="20000">

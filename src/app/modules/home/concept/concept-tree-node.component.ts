@@ -63,10 +63,16 @@ export class TreeNodeComponent {
     this.deleteEvent.emit(concept);
   }
 
-  onChildSave(newConcept: Concept, parent: Concept) {
+  onChildSave(newConcept: any, parent: Concept) {
+    console.log(newConcept)
     this.showProgressBar = true;
-    this.templateService.create(new Concept(newConcept), parent.id).subscribe(
+    let href = parent._links.children.href.replace("{?projection}","")
+    this.templateService.create(new Concept(newConcept),null, href).subscribe(
       (result) => {
+        if (!parent._embedded) {
+          parent._embedded = {}
+          parent._embedded.children = []
+        }
         parent._embedded.children.push(result);
         this.onConceptUpdated(result);
       },
@@ -88,13 +94,13 @@ export class TreeNodeComponent {
 
   public onQuestionItemModified(ref: ElementRevisionRef, concept: Concept) {
     console.debug('onItemModified -> ' + ref || JSON);
-    const idx = concept.conceptQuestionItems.findIndex(f => f.elementId === ref.elementId);
+    const idx = concept.questionItems.findIndex(f => f.elementId === ref.elementId);
     const seqNew: ElementRevisionRef[] = [].concat(
-      concept.conceptQuestionItems.slice(0, idx),
+      concept.questionItems.slice(0, idx),
       ref,
-      concept.conceptQuestionItems.slice(idx + 1)
+      concept.questionItems.slice(idx + 1)
     );
-    concept.conceptQuestionItems = seqNew;
+    concept.questionItems = seqNew;
 
     this.templateService.update<Concept>(concept).subscribe(
       (result) => concept = result);

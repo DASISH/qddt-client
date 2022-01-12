@@ -33,6 +33,8 @@ export class TopicComponent implements OnInit {
   public readonly: boolean;
   public canDelete: boolean;
 
+  private getId = (href: string): string => href.split('/').pop();
+
   constructor(private router: Router, private property: PropertyStoreService,
     private message: MessageService, private homeService: HomeService<Topic>,
     private templateService: TemplateService) {
@@ -53,12 +55,28 @@ export class TopicComponent implements OnInit {
 
   private loadTopics(parentId: string) {
     this.showProgressBar = true;
-    this.homeService.getListByParent(this.TOPIC_KIND, parentId)
-      .then((result) => {
-        this.property.set('topics', this.topics = result);
-        this.showReuse = false;
-        this.showProgressBar = false;
+    this.topics = []
+    this.homeService.getListByParent(this.TOPIC_KIND,parentId)
+    .then((result) => {
+      result.forEach(async (topic, index) => {
+        await this.templateService
+          .getByKindEntity<Topic>(this.TOPIC_KIND, this.getId(topic._links?.self.href))
+          .then((item) => result[index] = item);
       });
+      console.log(result)
+      this.topics = result
+      this.property.set('topics', this.topics)
+      this.showReuse = false;
+      this.showProgressBar = false;
+  });
+
+
+    // this.homeService.getListByParent(this.TOPIC_KIND, parentId)
+    //   .then((result) => {
+    //     this.property.set('topics', this.topics = result);
+    //     this.showReuse = false;
+    //     this.showProgressBar = false;
+    //   });
   }
 
   public onToggleTopicForm() {
@@ -131,13 +149,13 @@ export class TopicComponent implements OnInit {
 
   public onQuestionItemModified(ref: ElementRevisionRef, topicId) {
     const topic = this.topics.find((f) => f.id === topicId);
-    const idx = topic.topicQuestionItems.findIndex(f => f.elementId === ref.elementId);
+    const idx = topic.questionItems.findIndex(f => f.elementId === ref.elementId);
     const seqNew: ElementRevisionRef[] = [].concat(
-      topic.topicQuestionItems.slice(0, idx),
+      topic.questionItems.slice(0, idx),
       ref,
-      topic.topicQuestionItems.slice(idx + 1)
+      topic.questionItems.slice(idx + 1)
     );
-    topic.topicQuestionItems = seqNew;
+    topic.questionItems = seqNew;
 
     this.templateService.update<Topic>(topic).subscribe(
       (result) => this.onTopicSaved(result));

@@ -1,4 +1,4 @@
-import { AfterContentChecked, AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, Input } from '@angular/core';
 import { CommentService } from './comment.service';
 import { IComment } from '../../lib';
 

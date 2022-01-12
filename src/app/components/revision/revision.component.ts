@@ -44,7 +44,7 @@ export class RevisionComponent implements OnChanges {
     this.showProgressBar = true;
     this.service.getRevisions(this.getElementKind(), this.current.id).then(
       (result: any) => {
-        this.revisions = result.content;
+        this.revisions = result._embedded.halRepresentationModels;
         this.showProgressBar = false;
       },
       (error) => {
@@ -58,7 +58,7 @@ export class RevisionComponent implements OnChanges {
   }
 
   onPreviewRevision(id: number) {
-    const ref: IElement = { element: this.revisions[id].entity, elementKind: this.revisions[id].entity.classKind };
+    const ref: IElement = { element: this.revisions[id], elementKind: this.revisions[id].classKind };
     this.message.sendMessage(ref);
   }
 
@@ -68,7 +68,7 @@ export class RevisionComponent implements OnChanges {
 
   private isResponseDomain(element: IEntityAudit): element is ResponseDomain { // magic happens here
     return (element as ResponseDomain).responseKind !== undefined;
-  }ng
+  }
   private getResponseKind(): DomainKind {
     if (this.isResponseDomain(this.current)) {
       return DomainKind[this.current.responseKind];

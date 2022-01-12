@@ -56,7 +56,7 @@ export class RationalComponent implements OnInit, OnChanges, AfterViewInit {
   ngOnInit() {
     if (this.config) {
       const hiddenIds = this.config.hidden || [];
-      if (!('archived' in this.element)) {            // Hide Archived option if element don't have this field.
+      if (!('isArchived' in this.element)) {            // Hide Archived option if element don't have this field.
         hiddenIds.push(3);
       }
       this.rationalDescriptionsFiltered = this.rationalDescriptions.filter(f => !hiddenIds.find(id => id === f.id));
