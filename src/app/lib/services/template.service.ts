@@ -112,7 +112,7 @@ export class TemplateService {
     if (rev) {
       return this.http.get<IEntityEditAudit>(this.api + 'revision/'+ qe.path + '/' + id + ':' + rev).toPromise();
     }
-    return this.http.get<IEntityEditAudit>(this.api + 'revisions/'+ qe.path + '/' + id).toPromise();
+    return this.http.get<IEntityEditAudit>(this.api + qe.path + '/' + id).toPromise();
 
   }
 
