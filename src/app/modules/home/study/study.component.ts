@@ -33,11 +33,10 @@ export class StudyComponent implements OnInit {
   public readonly LANGUAGES = LANGUAGE_MAP;
   private getId = (href: string): string => href.split('/').pop();
 
-  constructor(private router: Router,
+   constructor(private router: Router,
     private property: PropertyStoreService,
     private message: MessageService,
     private homeService: HomeService<Study>,
-    private route: ActivatedRoute,
     private templateService: TemplateService) {
 
     this.readonly = !homeService.canDo(this.STUDY).get(ActionKind.Create);
@@ -46,7 +45,7 @@ export class StudyComponent implements OnInit {
 
   ngOnInit(): void {
     this.survey = this.property.get('survey');
-    const parentId = this.route.snapshot.paramMap.get('id') || this.survey.id || this.property.menuPath[HierarchyPosition.Survey].id;
+    const parentId = this.survey.id || this.property.menuPath[HierarchyPosition.Survey].id;
     this.loadStudies(parentId);
   }
 
