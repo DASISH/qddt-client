@@ -63,7 +63,7 @@ import {
 `,
 })
 export class QuestionItemsComponent {
-  @Input() revisionRefs: ElementRevisionRef[];
+  @Input() revisionRefs: ElementRevisionRef[] = [];
   @Input() xmlLang = 'none';
   @Input() readonly = true;
   @Output() createdEvent = new EventEmitter<ElementRevisionRef>();

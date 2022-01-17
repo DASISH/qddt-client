@@ -51,7 +51,17 @@ export class TreeNodeComponent {
     this.canDelete = this.homeService.canDo(this.CONCEPT).get(ActionKind.Delete);
   }
 
-  async onToggleEdit(edit) {
+  async onToggleEdit(edit, conceptId) {
+    if (!edit.isVisible){
+
+
+      // const find = (root, conceptId) =>
+      //   root.id === conceptId ? root :
+      //   root.children?.reduce((result, n) => result || find(n, conceptId), undefined)
+
+      let index = this.concepts.findIndex( concept => concept.id == conceptId)
+      this.concepts[index] = await this.homeService.get(this.CONCEPT,conceptId )
+    }
     edit.isVisible = !edit.isVisible;
   }
 
@@ -69,11 +79,8 @@ export class TreeNodeComponent {
     let href = parent._links.children.href.replace("{?projection}","")
     this.templateService.create(new Concept(newConcept),null, href).subscribe(
       (result) => {
-        if (!parent._embedded) {
-          parent._embedded = {}
-          parent._embedded.children = []
-        }
-        parent._embedded.children.push(result);
+
+        parent.children.push(result);
         this.onConceptUpdated(result);
       },
       (error) => { throw error; },

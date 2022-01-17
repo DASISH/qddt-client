@@ -1,5 +1,5 @@
 <div id="scrollRevision" class="scrollspy" *ngIf="revisions">
-  <qddt-diff *ngIf="selectRevisionId >= 0" [current]="current" [compared]="revisions[selectRevisionId].entity"
+  <qddt-diff *ngIf="selectRevisionId >= 0" [current]="current" [compared]="revisions[selectRevisionId]"
     [config]="config" (hideCompareEvent)="onSelectRevision(-1);">
   </qddt-diff>
   <div class="hoverable row">
@@ -29,7 +29,7 @@
           <td>{{ content?.version?.major }}.{{ content?.version?.minor }}
             {{ content?.version?.versionLabel }}</td>
           <td>{{ content?.modified | localDate }}</td>
-          <td>{{ content?.modifiedBy?.username }}</td>
+          <td>{{ content?._embedded.modifiedBy?.username }}</td>
           <td>{{ content?.changeKind }}</td>
           <td>{{ content?.changeComment }}</td>
         </tr>

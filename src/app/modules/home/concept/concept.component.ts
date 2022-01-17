@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import {
   ElementKind,
   Topic,
@@ -39,7 +40,7 @@ export class ConceptComponent implements OnInit, AfterViewInit {
   private instance = null;
 
   constructor(private property: PropertyStoreService, private homeService: HomeService<Concept>,
-    private templateService: TemplateService) {
+    private templateService: TemplateService, private route: ActivatedRoute) {
     this.canCreate = this.homeService.canDo(this.CONCEPT).get(ActionKind.Create);
   }
 
@@ -48,20 +49,36 @@ export class ConceptComponent implements OnInit, AfterViewInit {
   }
 
 
-  async ngOnInit() {
-    const parent = this.property.get('topic');
-    const parentId = parent.id || this.property.menuPath[HierarchyPosition.Topic].id;
+  ngOnInit(): void {
+    this.topic = this.property.get('topic') as Topic;
+    const parentId = this.route.snapshot.paramMap.get('id') || this.property.menuPath[HierarchyPosition.Topic].id;
 
-    this.showProgressBar = true;
-    this.topic = await new Topic(await this.homeService.getExt<Topic>(ElementKind.TOPIC_GROUP, parentId))
-
-    var children = this.topic._embedded.children as Concept[]
-
-    children.forEach(async (concept, index) =>
-      children[index] = await this.templateService.getByKindEntity<Concept>(this.CONCEPT, this.getId(concept._links?.self.href)))
-      this.conceptList = children
-    this.showProgressBar = false;
+    try {
+      this.showProgressBar = true;
+      this.loadConcepts(parentId);
+    } finally {
+      this.showProgressBar = false
+    }
   }
+
+  private loadConcepts(parentId: string) {
+    this.conceptList = []
+    this.homeService.getListByParent(this.CONCEPT,parentId)
+    .then((result) => {
+      this.conceptList = result
+      console.log(result)
+    });
+  }
+
+  // private loadConcept(concept: Concept): Concept {
+  //   await this.templateService
+  //   .getByKindEntity<Concept>(this.CONCEPT, this.getId(concept._links?.self.href))
+  //   .then((item) => {
+  //     item._embedded.c
+  //     this.loadConcept(item)
+  //   });
+
+  // }
 
 
   onToggleConceptForm() {
@@ -126,10 +143,9 @@ export class ConceptComponent implements OnInit, AfterViewInit {
   // }
 
   public onConceptUpdated(concept: Concept) {
-    if (!this.updateConcept(this.topic._embedded.children, concept)) {
-      this.topic._embedded.children.push(concept);
+    if (!this.updateConcept(this.conceptList, concept)) {
+      this.conceptList.push(concept);
     }
-    this.property.set('concepts', this.topic._embedded.children);
     this.showProgressBar = false;
   }
 

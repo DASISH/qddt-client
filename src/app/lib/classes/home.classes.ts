@@ -126,7 +126,7 @@ export class Concept implements IEntityEditAudit {
   authors: any[];
 
   questionItems: ElementRevisionRef[];
-  // children: Concept[];
+  children?: Concept[];
   classKind = ElementKind[ElementKind.CONCEPT];
   agency: Agency;
   basedOn?:IRevId
