@@ -20,7 +20,7 @@ export class RevisionService {
   public getRevisions(kind: ElementKind, id: string): Promise<any> {
 
     const qe = getQueryInfo(kind);
-    return this.http.get(this.api + '' + qe.path + '/revisions/' + id).toPromise();
+    return this.http.get(this.api + qe.path + '/revisions/' + id).toPromise();
 
   }
 

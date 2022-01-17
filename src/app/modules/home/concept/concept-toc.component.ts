@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Topic } from '../../../lib';
 import { Concept } from '../../../lib/classes/home.classes';
 
 @Component({

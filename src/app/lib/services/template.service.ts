@@ -15,7 +15,7 @@ import { Factory } from '../factory';
 @Injectable()
 export class TemplateService {
 
-  private padAsterisk = (source: String) => {
+  private padAsterisk = (source: string) => {
     console.log(source.charAt(source.length - 1));
     if (source.charAt(source.length - 1) == "*")
       return source;
@@ -83,6 +83,7 @@ export class TemplateService {
             result._embedded.agency = await this.getAgency(result.agencyId);
           if (!(result._embedded.modifiedBy) && (result.modifiedById))
             result._embedded.modifiedBy = await this.getUser(result.modifiedById)
+
           // Success
           resolve(result);
         },

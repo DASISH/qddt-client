@@ -8,7 +8,7 @@
           <div class="col s1">
             <ul class="dropdownmenu">
               <li *ngIf="canUpdate && !(concept.isArchived)">
-                <a class="btn-flat btn-floating btn-medium  green lighten-2" (click)="onToggleEdit(edit)">
+                <a class="btn-flat btn-floating btn-medium  green lighten-2" (click)="onToggleEdit(edit,concept.id)">
                   <i class="material-icons" title="Edit Concept">mode_edit</i></a>
               </li>
               <li *ngIf="!edit.isVisible">
@@ -27,15 +27,15 @@
             </ul>
           </div>
           <div class="col s10">
-            <h5 class="row">
+            <div class="row">
               <div class="col s10">
-                <h5>{{ concept?.name }}</h5>
-                {{ concept?.label }}
+                <h5>{{ concept.name }}</h5>
+                {{ concept.label }}
               </div>
               <div class="col s2">
                 <qddt-version-label class="right" [element]="concept"></qddt-version-label>
               </div>
-            </h5>
+            </div>
 
             <div *ngIf="edit.showNew" class="col s12">
               <form #hf="ngForm">
@@ -54,7 +54,7 @@
                     </div>
                   </div>
                   <div class="card-action right-align">
-                    <button type="button" (click)="onChildSave(hf, concept); edit.showNew=false;"
+                    <button type="button" (click)="onChildSave(hf.value, concept); edit.showNew=false;"
                       class="btn btn-default " [disabled]="!hf.form.valid">submit</button>
                   </div>
                 </div>

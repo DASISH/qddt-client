@@ -1,4 +1,4 @@
-<div *ngIf="topic" class="col s12 m9">
+<div *ngIf="conceptList" class="col s12 m9">
   <div class="card-panel row white-text teal">
     <i class="material-icons large right">looks_3</i>
     <h4>Concepts for {{ topic.name }}</h4>
@@ -23,8 +23,7 @@
           <form id="form1" #hf="ngForm">
             <div class="row">
               <div class="col s10 input-field">
-                <input id="name11" name="name" class="white-text validate" type="text" ngModel required
-                  data-length="250" />
+                <input id="name11" name="name" class="white-text validate" type="text" ngModel required data-length="250" />
                 <label for="name11" class="white-text">Name</label>
               </div>
               <qddt-select class="col s2" required name="xmlLang" label="Language" ngModel [lockups]="LANGUAGES">
@@ -51,12 +50,9 @@
   <div *ngIf="showProgressBar" class="progress">
     <div class="indeterminate"></div>
   </div>
-
-  <ng-container *ngIf="topic">
-    <qddt-concept-treenode [concepts]="conceptList" (deleteEvent)="onDeleteConcept($event)"
-      (updatedEvent)="onConceptUpdated($event)">
-    </qddt-concept-treenode>
-  </ng-container>
+  <qddt-concept-treenode [concepts]="conceptList" (deleteEvent)="onDeleteConcept($event)"
+    (updatedEvent)="onConceptUpdated($event)">
+  </qddt-concept-treenode>
 </div>
 
 <div *ngIf="conceptList" class="col m3 hide-on-small-only ">

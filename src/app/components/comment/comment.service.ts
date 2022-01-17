@@ -23,7 +23,7 @@ export class CommentService  {
   }
 
   delete(id: string):  any {
-    return this.http.delete(this.api + 'comment' + id);
+    return this.http.delete(this.api + 'comment/' + id);
   }
 
   getAll(ownerId: string): Promise<IPageResult> {
