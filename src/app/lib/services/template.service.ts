@@ -102,7 +102,7 @@ export class TemplateService {
       //   return this.http.get<IPageResult>
       //     (this.api + '/' + qe.path + '/' + id + '/revisions').toPromise();
       // } else {
-      return this.http.get<IPageResult>(this.api + 'revisions/'+ qe.path + '/' + id ).toPromise();
+      return this.http.get<IPageResult>(this.api + qe.path + '/revisions/' + id ).toPromise();
       // }
     }
     return new Promise(null);

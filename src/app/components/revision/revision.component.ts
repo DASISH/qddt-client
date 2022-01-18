@@ -44,7 +44,7 @@ export class RevisionComponent implements OnChanges {
     this.showProgressBar = true;
     this.service.getRevisions(this.getElementKind(), this.current.id).then(
       (result: any) => {
-        this.revisions = result._embedded.halRepresentationModels;
+        this.revisions = result;
         this.showProgressBar = false;
       },
       (error) => {
