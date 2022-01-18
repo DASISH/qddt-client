@@ -89,7 +89,11 @@ export class TemplateListComponent implements OnInit, OnDestroy {
       (result) => {
         this.pageSearch.page = new Page(result.page);
         let resourceName = getQueryInfo(this.pageSearch.kind).halName;
-        this.items = result._embedded[resourceName] as HalResource[];
+        if (result._embedded) {
+          this.items = result._embedded[resourceName] as HalResource[];
+        }else{
+          this.items = []
+        }
         this.setPageSearch(this.pageSearch);
       },
       (error) => { throw error; })

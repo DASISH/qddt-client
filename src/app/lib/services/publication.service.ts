@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { API_BASE_HREF } from '../../api';
 import { Publication, PublicationStatus} from '../classes';
 import {PropertyStoreService} from './property.service';
+import { HalResource } from '../interfaces/http.interfaces';
 
 
 @Injectable()
@@ -22,10 +23,10 @@ export class PublicationService {
       const list = this.property.get(PUB_STATUS);
       return Promise.resolve(list);
     }
-    return this.http.get<PublicationStatus[]>(this.api + 'publication/status').toPromise()
+    return this.http.get<HalResource>(this.api + 'publicationstatus/search/all').toPromise()
     .then(result => {
-      this.property.set(PUB_STATUS, result );
-      return result;
+      this.property.set(PUB_STATUS, result._embedded.publicationStatuses);
+      return result._embedded.publicationStatuses as unknown as PublicationStatus[] ;
     });
   }
 

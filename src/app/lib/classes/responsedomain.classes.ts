@@ -2,6 +2,7 @@ import { Category, CategoryKind, ResponseCardinality } from './category.classes'
 import { HalLink, IEntityEditAudit, IRevId, ISelectOption, IVersion} from '../interfaces';
 import { ElementKind } from '../enums';
 import { Agency } from './user.classes';
+import { Factory } from '../factory';
 
 export enum DomainKind {
   NONE = 0,
@@ -80,7 +81,14 @@ export class ResponseDomain implements IEntityEditAudit {
   public constructor(init?: Partial<ResponseDomain>) {
     Object.assign(this, init);
     if (init && init.xmlLang) {
-      this._embedded.managedRepresentation.xmlLang = init.xmlLang;
+      if (!this._embedded)
+        this._embedded = {};
+      if (!this._embedded.managedRepresentation)
+        this._embedded.managedRepresentation =  new Category({
+          name: this.name,
+          xmlLang: this.xmlLang,
+          children: []
+        });
     }
   }
 

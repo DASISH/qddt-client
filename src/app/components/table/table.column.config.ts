@@ -43,7 +43,7 @@ const PUBLICATION_COLUMNS = [
   new Column({ name: 'name', label: 'Name', sortable: true }),
   new Column({ name: 'purpose', label: 'Purpose', sortable: true }),
   new Column({
-    name: ['status', 'label'],
+    name: ['_embedded','status', 'label'],
     label: 'Publication Status',
     sortable: false
   })
@@ -146,20 +146,20 @@ const SCALE = [
   new Column({ label: 'Description', name: 'description', sortable: true }),
   new Column({
     label: 'Start',
-    name: ['anchor', [0],  'second'],
+    name: ['_embedded','managedRepresentation', 'inputLimit', 'minimum'],
     sortable: false
   }),
   new Column({
     label: 'End',
-    name: ['anchor', [1],  'second'],
+    name: ['_embedded','managedRepresentation', 'inputLimit', 'maximum'],
     sortable: false
   }),
   new Column({
     label: '# Ancors',
-    name: ['anchor', 'length'],
+    name: ['_embedded', 'managedRepresentation', 'children', 'length'],
     sortable: false
   }),
-  new Column({ label: 'Anchors', name: 'anchorLabel', sortable: false })
+  new Column({ label: 'Anchors', name: 'anchorLabels', sortable: false })
 ];
 
 const LIST = [
@@ -167,10 +167,10 @@ const LIST = [
   new Column({ label: 'Description', name: 'description', sortable: true }),
   new Column({
     label: '# Codes',
-    name: ['managedRepresentation', 'children', 'length'],
+    name: ['_embedded', 'managedRepresentation', 'children', 'length'],
     sortable: false
   }),
-  new Column({ label: 'Codes', name: 'anchorLabel', sortable: false })
+  new Column({ label: 'Codes', name: 'anchorLabels', sortable: false })
 ];
 
 const MIXED = [
@@ -178,7 +178,7 @@ const MIXED = [
   new Column({ label: 'Description', name: 'description', sortable: true }),
   new Column({
     label: '# Managed rep',
-    name: ['managedRepresentation', 'children', 'length'],
+    name: ['_embedded', 'managedRepresentation', 'children', 'length'],
     sortable: false
   })
 ];
@@ -188,12 +188,12 @@ const NUMERIC = [
   new Column({ label: 'Description', name: 'description', sortable: true }),
   new Column({
     label: 'Low',
-    name: ['managedRepresentation', 'inputLimit', 'minimum'],
+    name: ['_embedded','managedRepresentation', 'inputLimit', 'minimum'],
     sortable: false
   }),
   new Column({
     label: 'High',
-    name: ['managedRepresentation', 'inputLimit', 'maximum'],
+    name: ['_embedded','managedRepresentation', 'inputLimit', 'maximum'],
     sortable: false
   })
 ];
@@ -203,12 +203,12 @@ const TEXT = [
   new Column({ label: 'Description', name: 'description', sortable: true }),
   new Column({
     label: 'Min Length',
-    name: ['managedRepresentation', 'inputLimit', 'minimum'],
+    name: ['_embedded','managedRepresentation', 'inputLimit', 'minimum'],
     sortable: false
   }),
   new Column({
     label: 'Max Length',
-    name: ['managedRepresentation', 'inputLimit', 'maximum'],
+    name: ['_embedded','managedRepresentation', 'inputLimit', 'maximum'],
     sortable: false
   })
 ];
@@ -218,12 +218,12 @@ const DATETIME = [
   new Column({ label: 'Description', name: 'description', sortable: true }),
   new Column({
     label: 'Low',
-    name: ['managedRepresentation', 'inputLimit', 'minimum'],
+    name: ['_embedded','managedRepresentation', 'inputLimit', 'minimum'],
     sortable: false
   }),
   new Column({
     label: 'High',
-    name: ['managedRepresentation', 'inputLimit', 'maximum'],
+    name: ['_embedded','managedRepresentation', 'inputLimit', 'maximum'],
     sortable: false
   })
 ];

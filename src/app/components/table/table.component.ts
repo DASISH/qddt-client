@@ -123,8 +123,8 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
       this.columns.forEach((column) => {
         if (row[column.label] === undefined) {
           if (column.name === 'modifiedBy') {
-            if (item.agency) {
-              row[column.label] = item[column.name].name + '@' + item.agency.name;
+            if (item._embedded?.agency) {
+              row[column.label] = item._embedded.modifiedBy.name + '@' + item._embedded.agency.name;
             } else if (item[column.name]) {
               row[column.label] = item[column.name]; //.name + '@' + item[column.name].agencyName;
             } else {

@@ -48,7 +48,7 @@ export class ResponseCardinality {
 }
 
 export class Code {
-  value: any;
+  value: string;
   public constructor(init?: Partial<Code>) {
     Object.assign(this, init);
   }
