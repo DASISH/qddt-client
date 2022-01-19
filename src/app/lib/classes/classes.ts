@@ -1,5 +1,5 @@
 import { ElementKind } from '../enums';
-import { IEntityAudit, IPageSearch, IRevisionResult, IUser, ISurveyOrder } from '../interfaces';
+import { IPageSearch, ISurveyOrder } from '../interfaces';
 
 export class QueryInfo {
   id: ElementKind;
@@ -38,20 +38,6 @@ export class QueryInfo {
 
 const lowerFirstLetter = ([first, ...rest]: string, locale = navigator.language) =>
   first.toLocaleLowerCase(locale) + rest.join('')
-
-
-export class RevisionResult<T extends IEntityAudit> {
-  entity: T;
-  revisionModifiedBy: IUser;
-  revisionDate: any;
-  revisionNumber: number;
-  constructor(init?: Partial<IRevisionResult<T>>) {
-    this.entity = init.entity;
-    this.revisionDate = init.metadata.revisionDate;
-    this.revisionNumber = init.metadata.revisionNumber;
-    this.revisionModifiedBy = init.metadata.delegate.modifiedBy;
-  }
-}
 
 
 /*

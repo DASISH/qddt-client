@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { API_BASE_HREF } from '../../api';
 import { UserService } from './user.service';
-import { IEntityAudit, IEntityEditAudit, IPageResult, IPageSearch, IRevisionResult, IOtherMaterial, HalResource } from '../interfaces';
+import { IEntityAudit, IEntityEditAudit, IPageResult, IPageSearch,  IOtherMaterial, HalResource } from '../interfaces';
 import { ElementKind, ActionKind } from '../enums';
 import { getQueryInfo, getElementKind } from '../consts';
 import { Agency, PageSearch } from '../classes';
@@ -76,15 +76,8 @@ export class TemplateService {
       this.http.get<T>(this.api + qe.path + '/' + id).toPromise()
         .then(async (result: T) => {
           if (!(result._embedded)) {
-            console.log(result._embedded)
             result._embedded = {};
           }
-          if (!(result._embedded.agency) && (result.agencyId))
-            result._embedded.agency = await this.getAgency(result.agencyId);
-          if (!(result._embedded.modifiedBy) && (result.modifiedById))
-            result._embedded.modifiedBy = await this.getUser(result.modifiedById)
-
-          // Success
           resolve(result);
         },
           err => {
@@ -95,31 +88,29 @@ export class TemplateService {
     });
 
   }
-  public getByKindRevisions<T extends IEntityAudit>(kind: ElementKind, id: string): Promise<IPageResult> {
-    const qe = getQueryInfo(kind);
-    if (qe) {
-      // if (kind === ElementKind.CONCEPT || kind === ElementKind.TOPIC_GROUP) {
-      //   return this.http.get<IPageResult>
-      //     (this.api + '/' + qe.path + '/' + id + '/revisions').toPromise();
-      // } else {
-      return this.http.get<IPageResult>(this.api + qe.path + '/revisions/' + id ).toPromise();
-      // }
-    }
-    return new Promise(null);
+  public getByKindRevisions<T extends IEntityAudit>(kind: ElementKind, id: string): Promise<any> {
+      return new Promise((resolve, reject) => {
+        const qe = getQueryInfo(kind);
+        this.http.get<HalResource>(this.api + qe.path + '/revisions/' + id).toPromise()
+          .then(
+            async result => resolve(result._embedded[qe.halName]),
+            err => reject(err)
+          );
+      });
   }
 
   public getByKindRevision(kind: ElementKind, id: string, rev?: number): Promise<IEntityEditAudit> {
     const qe = getQueryInfo(kind);
     if (rev) {
-      return this.http.get<IEntityEditAudit>(this.api + 'revision/'+ qe.path + '/' + id + ':' + rev).toPromise();
+      return this.http.get<IEntityEditAudit>(this.api + qe.path + '/revision/'+  id + ':' + rev).toPromise();
     }
     return this.http.get<IEntityEditAudit>(this.api + qe.path + '/' + id).toPromise();
 
   }
 
-  public getLatestVersionByKindEntity<T extends IEntityEditAudit>(kind: ElementKind, id: string): Promise<IRevisionResult<T>> {
+  public getLatestVersionByKindEntity<T extends IEntityEditAudit>(kind: ElementKind, id: string): Promise<T> {
     const qe = getQueryInfo(kind);
-    return this.http.get<IRevisionResult<T>>(this.api + 'audit/' + qe.path + '/' + id + '/latestversion').toPromise();
+    return this.http.get<T>(this.api + 'audit/' + qe.path + '/' + id + '/latestversion').toPromise();
   }
 
   public create<T extends IEntityAudit>(item: T, parentId?: string, putUrl?:string): Observable<T> {

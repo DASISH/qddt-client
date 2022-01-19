@@ -1,5 +1,3 @@
-import { element } from 'protractor';
-
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import {
   ActionKind,

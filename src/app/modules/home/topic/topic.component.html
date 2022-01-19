@@ -95,7 +95,7 @@
 
           <qddt-download [entity]="topic" [readonly]="true"></qddt-download>
 
-          <qddt-comment-list [ownerId]="topic.id" [comments]="topic.comments">
+          <qddt-comment-list [ownerId]="topic.id" [comments]="topic._embedded?.comments">
           </qddt-comment-list>
         </div>
       </div>

@@ -37,7 +37,7 @@ export class ElementFooterComponent {
   getVersion(): string {
     const v = this.element.version;
     if (!v) { return '?'; }
-    const rev = (v.revision) ? '.' + v.revision : '';
+    const rev = (v.rev) ? '.' + v.rev : '';
     const label = (v.versionLabel) ? ' - ' + v.versionLabel : '';
     return v.major + '.' + v.minor + rev + label;
   }

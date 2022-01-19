@@ -90,7 +90,7 @@ export class TreeNodeComponent {
   }
 
   public onQuestionItemAdded(ref: ElementRevisionRef, conceptId) {
-    this.homeService.attachQuestion(this.CONCEPT, conceptId, ref.elementId, ref.elementRevision)
+    this.homeService.attachQuestion(this.CONCEPT, conceptId, ref)
       .subscribe(result => this.onConceptUpdated(result));
   }
 

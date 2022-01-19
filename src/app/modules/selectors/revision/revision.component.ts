@@ -3,7 +3,6 @@ import {
   getElementKind,
   IEntityEditAudit,
   IRevisionRef,
-  IRevisionResultEntity,
   ISelectOption,
   SelectItem,
   TemplateService,
@@ -18,11 +17,11 @@ import {
 
 export class RevisionComponent implements OnChanges {
   @Input() revisionRef: IRevisionRef;
-  @Output() selectEvent = new EventEmitter<IRevisionResultEntity>();
+  @Output() selectEvent = new EventEmitter<IEntityEditAudit>();
   @Output() dismissEvent = new EventEmitter<boolean>();
 
-  public revisionResultEntities: IRevisionResultEntity[];
-  public selectedRevisionResult: IRevisionResultEntity;
+  public revisionResultEntities: IEntityEditAudit[];
+  public selectedRevisionResult: IEntityEditAudit;
   public revisionlockups: ISelectOption[];
   public showProgressBar = false;
   public showPickRevision = false;
@@ -40,7 +39,7 @@ export class RevisionComponent implements OnChanges {
     if (this._revisionIndex <= 1) {
       this.selectedRevisionResult = null;
     } else {
-      this.selectedRevisionResult = this.revisionResultEntities.find(entity => entity.revisionNumber === this._revisionIndex);
+      this.selectedRevisionResult = this.revisionResultEntities.find(entity => entity.version.rev === this._revisionIndex);
     }
     // console.debug(this._selectedRevision + ' -> ' +  this.selectedRevisionResult || JSON);
   }
@@ -57,11 +56,11 @@ export class RevisionComponent implements OnChanges {
 
       this.service.getByKindRevisions(getElementKind(ref.elementKind), ref.elementId).then(
         (result) => {
-          this.revisionResultEntities = result._embedded.items.sort((e1: any, e2: any) => e2.revisionNumber - e1.revisionNumber);
+          this.revisionResultEntities = result.sort((e1: any, e2: any) => e2.version.rev - e1.version.rev);
           this.selectedRevision = ref.elementRevision;
-          this.revisionlockups = this.revisionResultEntities.map(rev => new SelectItem({
-            id: rev.revisionNumber,
-            label: this.version(rev.entity)
+          this.revisionlockups = this.revisionResultEntities.map(entity => new SelectItem({
+            id: entity.version.rev,
+            label: this.version(entity)
           }));
           this.showPickRevision = true;
           this.showProgressBar = false;

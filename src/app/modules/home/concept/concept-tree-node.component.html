@@ -77,7 +77,7 @@
 
               <qddt-download [entity]="concept" [readonly]="true"></qddt-download>
 
-              <qddt-comment-list [ownerId]="concept.id" [comments]="concept.comments">
+              <qddt-comment-list [ownerId]="concept.id" [comments]="concept._embedded?.comments">
               </qddt-comment-list>
               <qddt-revision *ngIf="edit.showRevision" [current]="concept"></qddt-revision>
 

@@ -83,7 +83,7 @@
 
         <qddt-revision *ngIf="edit.showRevision" [current]="study"></qddt-revision>
       </ng-container>
-      <qddt-comment-list [hidden]="edit.isVisible" [ownerId]="study.id" [comments]="study.comments">
+      <qddt-comment-list [hidden]="edit.isVisible" [ownerId]="study.id" [comments]="study._embedded?.comments">
       </qddt-comment-list>
     </div>
   </div>

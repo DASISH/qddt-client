@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { API_BASE_HREF } from '../../api';
 import { ElementKind } from '../enums';
 import { getQueryInfo, getElementKind } from '../consts';
-import { IEntityEditAudit, IOtherMaterial, IRevisionResult } from '../interfaces';
+import { IEntityEditAudit, IOtherMaterial } from '../interfaces';
 import { ElementRevisionRefImpl, AbstractControlConstruct, isAbstractControlConstruct, SequenceConstruct } from '../classes';
 import { Factory } from '../factory';
 
@@ -21,24 +21,11 @@ export class PreviewService {
     return this.http.get(this.api + qe.path + '/' + id).toPromise();
   }
 
-  public getRevisionByKind(kind: ElementKind | string, id: string, rev: number): Promise<IRevisionResult<IEntityEditAudit>> {
+  public getRevisionByKind(kind: ElementKind | string, id: string, rev: number): Promise<IEntityEditAudit> {
 
     const qe = getQueryInfo(kind);
-    return this.http.get<IRevisionResult<IEntityEditAudit>>(this.api + '/' + qe.path + '/' + id + ':' + rev).toPromise();
+    return this.http.get<IEntityEditAudit>(this.api + '/' + qe.path + '/' + id + ':' + rev).toPromise();
   }
-
-  // public getRevisionsByKind(kind: ElementKind | string, id: string): Promise<any> {
-  //
-  //   const qe = getQueryInfo(kind);
-  //   if (qe) {
-  //     if (kind === ElementKind.CONCEPT || kind === ElementKind.TOPIC_GROUP) {
-  //       return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/allinclatest').toPromise();
-  //     } else {
-  //       return this.http.get(this.api + 'audit/' + qe.path + '/' + id + '/all').toPromise();
-  //     }
-  //   }
-  //   return new Promise(null);
-  // }
 
   public getFile(om: IOtherMaterial): Promise<Blob> {
     // /files/{root}/{filename}
@@ -50,9 +37,9 @@ export class PreviewService {
     // @ts-ignore
     const qe = getQueryInfo(element.classKind || element.refKind);
     // @ts-ignore
-    const revision = element.refRev || element.version.revision;
+    const revision = element.refRev || element.version.rev;
     if (revision) {
-      return this.http.get(this.api + '/' + qe.path + '/' + element.id + ':' + element.version.revision + '/pdf'
+      return this.http.get(this.api + '/' + qe.path + '/' + element.id + ':' + element.version.rev + '/pdf'
         , { responseType: 'blob' }).toPromise();
     } else {
       return this.http.get(this.api + '/' + qe.path + '/' + element.id + '/pdf', { responseType: 'blob' }).toPromise();

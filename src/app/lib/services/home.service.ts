@@ -1,4 +1,4 @@
-import { SurveyProgram } from '../classes';
+import { ElementRevisionRef, SurveyProgram } from '../classes';
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -76,11 +76,9 @@ export class HomeService<T extends IEntityEditAudit>  {
 
   }
 
-  attachQuestion(kind: ElementKind, id: string, questionId: string, revision: number): Observable<T> {
+  attachQuestion(kind: ElementKind, id: string, ref: ElementRevisionRef): Observable<T> {
     const qe = getQueryInfo(kind);
-    if (revision === null) { revision = 0; }
-    return this.http.post<T>(this.api + qe.path + '/combine?questionitemid=' + questionId +
-      '&questionitemrevision=' + revision + '&parentId=' + id, {});
+    return this.http.post<T>(this.api + qe.path + '/' + id +  '/questionitems', ref);
   }
 
   deattachQuestion(kind: ElementKind, id: string, questionId: string, revision: number): Observable<T> {

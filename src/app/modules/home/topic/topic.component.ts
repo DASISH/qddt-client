@@ -143,7 +143,7 @@ export class TopicComponent implements OnInit {
   }
 
   public onQuestionItemAdded(ref: ElementRevisionRef, topicId) {
-    this.homeService.attachQuestion(this.TOPIC_KIND, topicId, ref.elementId, ref.elementRevision)
+    this.homeService.attachQuestion(this.TOPIC_KIND,topicId,ref)
       .subscribe(result => this.onTopicSaved(result));
   }
 

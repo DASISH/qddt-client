@@ -19,7 +19,7 @@
         (change)="getDescription(publication.statusId)" [(ngModel)]="publication.statusId" [lockups]="statusMap"
         [readonly]="readonly">
       </qddt-select>
-      <div class="col s6 m7 l8 infoText">{{publication?.status?.description}}</div>
+      <div class="col s6 m7 l8 infoText">{{publication?._embedded.status?.description}}</div>
     </div>
     <label>Content list</label>
     <qddt-element-revision-ref class="row" [readonly]="readonly" [elementRevisions]="publication.publicationElements"

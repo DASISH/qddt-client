@@ -71,7 +71,7 @@ export interface IVersion {
   major: string | number;
   minor: string | number;
   versionLabel?: string;
-  revision?: string | number;
+  rev?:  number;
 }
 
 export interface IOtherMaterial {

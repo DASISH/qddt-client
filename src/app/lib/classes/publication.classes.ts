@@ -1,5 +1,5 @@
 import { ElementKind } from '../enums';
-import { IComment, ISelectOption, IEntityEditAudit} from '../interfaces';
+import { IComment, ISelectOption, IEntityEditAudit, HalLink} from '../interfaces';
 import { ElementRevisionRef } from './element-revision-ref';
 import { Agency } from './user.classes';
 
@@ -14,6 +14,13 @@ export class Publication implements IEntityEditAudit {
   agency?: Agency;
   publicationElements: ElementRevisionRef[] = [];
   comments?: IComment[];
+  _links?: {
+    [rel: string]: HalLink;
+  };
+  _embedded?: {
+    [rel: string]: any;
+  };
+  pu
   public constructor(init?: Partial<Publication>) {
     Object.assign(this, init);
   }

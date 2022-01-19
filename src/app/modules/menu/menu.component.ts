@@ -155,11 +155,11 @@ export class MenuComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private gotoUUID(uuid: string) {
     this.service.searchByUuid(uuid).then((result) => {
-      if (result.revision) {
+      if (result.rev) {
 
         this.msgService.sendMessage({
           elementId: result.id,
-          elementRevision: result.revision,
+          elementRevision: result.rev,
           elementKind: result.elementKind
         });
       } else {

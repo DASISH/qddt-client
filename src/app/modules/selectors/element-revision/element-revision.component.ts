@@ -1,4 +1,3 @@
-import { CopySourceComponent } from './../../home/copysource/copy-source.component';
 import { delay, hasChanges } from 'src/app/lib';
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import {
@@ -8,7 +7,6 @@ import {
   getElementKind,
   IElement,
   IRevisionRef,
-  IRevisionResultEntity,
   QuestionConstruct,
   StatementConstruct,
   QuestionItem,
@@ -73,7 +71,7 @@ export class ElementRevisionComponent implements OnChanges {
     }
   }
 
-  public onSelectedRevision(revision: IRevisionResultEntity) {
+  public onSelectedRevision(revision: IEntityEditAudit) {
     this.revisionSelectedEvent.emit(this.getRevisionRef(revision));
     this.revisionRef = null;
   }
@@ -93,15 +91,15 @@ export class ElementRevisionComponent implements OnChanges {
   }
 
 
-  private getRevisionRef(elementRevision: IRevisionResultEntity): ElementRevisionRef {
-    const kind = getElementKind(elementRevision.entity.classKind);
+  private getRevisionRef(revision: IEntityEditAudit): ElementRevisionRef {
+    const kind = getElementKind(revision.classKind);
     return new ElementRevisionRefImpl<IEntityEditAudit>({
-      elementId: elementRevision.entity.id,
-      elementRevision: elementRevision.revisionNumber,
+      elementId: revision.id,
+      elementRevision: revision.version.rev,
       elementKind: ElementKind[kind],
-      element: Factory.createFromSeed(ElementKind[kind], elementRevision.entity),
-      version: elementRevision.entity.version,
-      name: this.getName(kind, elementRevision.entity)
+      element: Factory.createFromSeed(ElementKind[kind], revision),
+      version: revision.version,
+      name: this.getName(kind, revision)
     });
   }
 
