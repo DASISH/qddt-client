@@ -53,12 +53,7 @@ export class TreeNodeComponent {
 
   async onToggleEdit(edit, conceptId) {
     if (!edit.isVisible){
-
-
-      // const find = (root, conceptId) =>
-      //   root.id === conceptId ? root :
-      //   root.children?.reduce((result, n) => result || find(n, conceptId), undefined)
-
+      ///TODO fix recursive update replace
       let index = this.concepts.findIndex( concept => concept.id == conceptId)
       this.concepts[index] = await this.homeService.get(this.CONCEPT,conceptId )
     }
