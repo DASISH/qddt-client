@@ -37,7 +37,7 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterViewInit
         const path = event[0].path;
         this.kind = HEADER_DETAILS.get(path).kind;
         this.canDelete = service.can(ActionKind.Delete, this.kind);
-        this.item = Factory.createInstance(this.kind);
+        // this.item = Factory.createInstance(this.kind);
       });
   }
 

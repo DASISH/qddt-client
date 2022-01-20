@@ -53,32 +53,16 @@ export class ConceptComponent implements OnInit, AfterViewInit {
     this.topic = this.property.get('topic') as Topic;
     const parentId = this.route.snapshot.paramMap.get('id') || this.property.menuPath[HierarchyPosition.Topic].id;
 
-    try {
-      this.showProgressBar = true;
       this.loadConcepts(parentId);
-    } finally {
-      this.showProgressBar = false
-    }
   }
 
   private loadConcepts(parentId: string) {
+    this.showProgressBar = true;
     this.conceptList = []
     this.homeService.getListByParent(this.CONCEPT,parentId)
-    .then((result) => {
-      this.conceptList = result
-      console.log(result)
-    });
-  }
-
-  // private loadConcept(concept: Concept): Concept {
-  //   await this.templateService
-  //   .getByKindEntity<Concept>(this.CONCEPT, this.getId(concept._links?.self.href))
-  //   .then((item) => {
-  //     item._embedded.c
-  //     this.loadConcept(item)
-  //   });
-
-  // }
+      .then((result) => this.conceptList = result)
+      .finally(()=> this.showProgressBar = false);
+}
 
 
   onToggleConceptForm() {

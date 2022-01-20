@@ -74,7 +74,6 @@ export class TreeNodeComponent {
     let href = parent._links.children.href.replace("{?projection}","")
     this.templateService.create(new Concept(newConcept),null, href).subscribe(
       (result) => {
-
         parent.children.push(result);
         this.onConceptUpdated(result);
       },
