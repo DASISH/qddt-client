@@ -86,6 +86,8 @@ export class StudyComponent implements OnInit {
 
   onStudySaved(study: Study) {
     if (study !== null) {
+      this.survey._embedded.children = this.survey._embedded.children || [];
+
       const index = this.survey._embedded.children.findIndex((f) => f.id === study.id);
       if (index > -1) {
         this.survey._embedded.children.splice(index, 1, study);
