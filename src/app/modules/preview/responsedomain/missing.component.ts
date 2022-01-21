@@ -40,10 +40,10 @@ export class ResponsedomainMissingComponent implements OnChanges {
   }
 
   public get missing() {
-    if (this.managedRepresentation.categoryType === 'MISSING_GROUP') {
+    if (this.managedRepresentation.categoryKind === 'MISSING_GROUP') {
       return this.managedRepresentation;
     }
-    return this.managedRepresentation.children.find(e => e.categoryType === 'MISSING_GROUP');
+    return this.managedRepresentation.children.find(e => e.categoryKind === 'MISSING_GROUP');
   }
 
   public checkOption(category: Category) {

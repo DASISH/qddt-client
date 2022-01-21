@@ -1,4 +1,4 @@
-import { IComment, IOtherMaterial, IUser, IVersion } from './interfaces';
+import { IComment, IOtherMaterial, IVersion } from './interfaces';
 import { Agency } from '../classes';
 import { HalLink } from './http.interfaces';
 import { User } from '../classes/user.classes';

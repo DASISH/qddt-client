@@ -63,10 +63,9 @@ export class Category implements IEntityEditAudit {
   label = '';
   description = '';
   hierarchyLevel = HierarchyLevel[CATEGORY_INFO[CategoryKind.CATEGORY].level];
-  categoryType = CategoryKind[CategoryKind.CATEGORY];
+  categoryKind = CategoryKind[CategoryKind.CATEGORY];
   classKind = ElementKind[ElementKind.CATEGORY];
   inputLimit = new ResponseCardinality();
-  children: Category[] = [];
   code?: Code;
   format?: any;
   changeKind?: string;
@@ -81,7 +80,16 @@ export class Category implements IEntityEditAudit {
   otherMaterials?: IOtherMaterial[];
   xmlLang: string; // = 'en-GB';
   comments?: IComment[];
+  get children(): Category[] {
+    return this._embedded.children;
+  }
+  set children(value: Category[]) {
+    this._embedded.children = value;
+  }
 
+  _embedded?: {
+    [rel: string]: any;
+  } = {}
   public constructor(init?: Partial<Category>) {
     Object.assign(this, init);
     if (this.name && !this.label) {
@@ -95,13 +103,18 @@ export class Category implements IEntityEditAudit {
 
   public setKind(kind: CategoryKind): Category {
     this.hierarchyLevel = HierarchyLevel[CATEGORY_INFO[kind].level];
-    this.categoryType = CategoryKind[kind];
+    this.categoryKind = CategoryKind[kind];
     if (kind.valueOf() <= CategoryKind.CATEGORY) {
       this.code = new Code({ value: '1' });
     } else if (kind.valueOf() <= CategoryKind.MISSING_GROUP) {
       this.inputLimit.minimum = 0;
     }
 
+    return this;
+  }
+
+  setEmbedded() : Category{
+    if (this._embedded.m)
     return this;
   }
 

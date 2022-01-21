@@ -1,4 +1,4 @@
-import { HalLink, IAuthority, IVersion } from '../interfaces';
+import { HalLink, IVersion } from '../interfaces';
 
 
 export class Agency {
@@ -40,9 +40,9 @@ export class User {
   id: string;
   username: string;
   email: string;
-  agencyId: string;
   authority?: string[] | string;
   isEnabled?:boolean;
+  agency?: Agency;
   get name():string {
     return this.username;
   }

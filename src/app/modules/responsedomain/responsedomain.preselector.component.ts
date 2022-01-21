@@ -31,7 +31,7 @@ import {
 export class ResponsePreSelector implements OnInit {
 
   public domainType = DomainKind.SCALE;
-  public readonly domainTypeDescription: { id: DomainKind; label: string; categoryType: CategoryKind; }[];
+  public readonly domainTypeDescription: { id: DomainKind; label: string; categoryKind: CategoryKind; }[];
 
   private readonly KEY = 'ResponseKind';
   private readonly path = 'responsedomains';

@@ -1,8 +1,6 @@
 import { Category, CategoryKind, ResponseCardinality } from './category.classes';
 import { HalLink, IEntityEditAudit, IRevId, ISelectOption, IVersion} from '../interfaces';
 import { ElementKind } from '../enums';
-import { Agency } from './user.classes';
-import { Factory } from '../factory';
 
 export enum DomainKind {
   NONE = 0,
@@ -31,14 +29,14 @@ export const DATE_FORMAT_MAP: ISelectOption[] = [
 // { id: 7, value: 'HH:mm:SS', label: 'Time', description: '' },
 
 export const DOMAIN_TYPE_DESCRIPTION = [
-  { id: DomainKind.NONE, label: '', categoryType: null },
-  { id: DomainKind.SCALE, label: 'Scale Domain', categoryType: CategoryKind.SCALE },
-  { id: DomainKind.LIST, label: 'Code Domain', categoryType: CategoryKind.LIST },
-  { id: DomainKind.NUMERIC, label: 'Numeric Domain', categoryType: CategoryKind.NUMERIC },
-  { id: DomainKind.DATETIME, label: 'DateTime Domain', categoryType: CategoryKind.DATETIME },
-  { id: DomainKind.TEXT, label: 'Text Domain', categoryType: CategoryKind.TEXT },
-  { id: DomainKind.MISSING, label: 'Missing Domain', categoryType: CategoryKind.MISSING_GROUP },
-  { id: DomainKind.MIXED, label: 'Mixed Domain', categoryType: CategoryKind.MIXED },
+  { id: DomainKind.NONE, label: '', categoryKind: null },
+  { id: DomainKind.SCALE, label: 'Scale Domain', categoryKind: CategoryKind.SCALE },
+  { id: DomainKind.LIST, label: 'Code Domain', categoryKind: CategoryKind.LIST },
+  { id: DomainKind.NUMERIC, label: 'Numeric Domain', categoryKind: CategoryKind.NUMERIC },
+  { id: DomainKind.DATETIME, label: 'DateTime Domain', categoryKind: CategoryKind.DATETIME },
+  { id: DomainKind.TEXT, label: 'Text Domain', categoryKind: CategoryKind.TEXT },
+  { id: DomainKind.MISSING, label: 'Missing Domain', categoryKind: CategoryKind.MISSING_GROUP },
+  { id: DomainKind.MIXED, label: 'Mixed Domain', categoryKind: CategoryKind.MIXED },
 ];
 
 export class UserResponse {
@@ -95,12 +93,12 @@ export class ResponseDomain implements IEntityEditAudit {
   public get isMixed() { return (this.responseKind === 'MIXED'); }
 
   public get missing(): Category {
-    return this._embedded.managedRepresentation.children.find(e => e.categoryType === 'MISSING_GROUP');
+    return this._embedded.managedRepresentation.children.find(e => e.categoryKind === 'MISSING_GROUP');
   }
 
   public setResponseKind(kind: DomainKind): ResponseDomain {
     this.responseKind = DomainKind[kind];
-    this._embedded.managedRepresentation.setKind(DOMAIN_TYPE_DESCRIPTION[kind].categoryType);
+    this._embedded.managedRepresentation.setKind(DOMAIN_TYPE_DESCRIPTION[kind].categoryKind);
     if (kind === DomainKind.SCALE) {
       this._embedded.managedRepresentation.inputLimit = { minimum: 1, maximum: 5, stepUnit: 1 }
     } else if (kind === DomainKind.DATETIME) {
@@ -113,7 +111,6 @@ export class ResponseDomain implements IEntityEditAudit {
   public addManagedRep(rep: Category) {
     if (!this.isMixed) {
       this._embedded.managedRepresentation = new Category({
-        hierarchyLevel: 'GROUP_ENTITY',
         name: 'Mixed [ renamed in service ]',
         xmlLang: this.xmlLang,
         children: [this._embedded.managedRepresentation]
@@ -121,7 +118,7 @@ export class ResponseDomain implements IEntityEditAudit {
       this.id = null;
       this.setResponseKind(DomainKind.MIXED);
     }
-    const filtered = this._embedded.managedRepresentation.children.filter(e => e.categoryType !== rep.categoryType);
+    const filtered = this._embedded.managedRepresentation.children.filter(e => e.categoryKind !== rep.categoryKind);
     filtered.push(rep);
     // there is no other children or this is a mixed responseDomain....
     this._embedded.managedRepresentation.children = filtered;

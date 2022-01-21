@@ -161,8 +161,8 @@ export class UserService {
   }
 
   public async getCurrentAgency(): Promise<Agency> {
-    const agencyId = (await this.getCurrentUser()).agencyId;
-    return (await this.getAgencies()).find(pre => pre.id == agencyId)
+    return  (await this.getCurrentUser()).agency;
+    // return (await this.getAgencies()).find(pre => pre.id == agencyId)
   }
 
   public getAgencies(): Promise<Agency[]> {

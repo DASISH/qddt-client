@@ -73,6 +73,7 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (hasChanges(changes.responseDomain)) {
+      console.log(this.responseDomain)
       this.domainType = DomainKind[this.responseDomain.responseKind];
       this.numberOfAnchors = this.responseDomain._embedded?.managedRepresentation.children.length;
       delay(20).then(() => {
@@ -97,14 +98,20 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   public onCreateCategory(event, idx) {
-    this.service.update(event).subscribe(
+    this.service.update<Category>(event).subscribe(
       (result) => {
         this.onAnchorChanged(result, idx);
       }
     );
   }
 
-  public onSave() {
+  public async onSave() {
+    let managed = this.responseDomain._embedded.managedRepresentation as Category
+    if (!managed.id) {
+      managed.setEmbedded()
+      this.responseDomain._embedded.managedRepresentation = await this.service.update<Category>(managed).toPromise()
+    }
+
     this.service.update<ResponseDomain>(this.responseDomain).subscribe(
       (rdResult) => {
         this.responseDomain = rdResult;

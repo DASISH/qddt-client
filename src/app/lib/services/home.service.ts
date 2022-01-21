@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { API_BASE_HREF } from '../../api';
 import { ActionKind, ElementKind } from '../enums';
-import { IEntityEditAudit, IEntityAudit, ISurveyOrder, IPageResult, HalResource } from '../interfaces';
+import { IEntityEditAudit, IEntityAudit, ISurveyOrder, HalResource } from '../interfaces';
 import { getQueryInfo } from '../consts';
 import { UserService } from './user.service';
 import { map } from 'rxjs/operators';
