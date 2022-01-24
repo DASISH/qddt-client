@@ -43,6 +43,7 @@ export class User {
   authority?: string[] | string;
   isEnabled?:boolean;
   agency?: Agency;
+  userAgencyName?: string;
   get name():string {
     return this.username;
   }

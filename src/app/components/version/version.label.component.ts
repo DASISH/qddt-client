@@ -30,14 +30,14 @@ export class VersionLabelComponent implements OnChanges {
       this.titleInfo = 'Last saved by: ' +
         (isString(modifiedBy) ?
           modifiedBy + ' : ' + (this.datePipe.transform(this.element.modified)) :
-          modifiedBy.username + '@' + modifiedBy.agency.name + ' : ' + (this.datePipe.transform(this.element.modified))
+          modifiedBy.userAgencyName + ' : ' + (this.datePipe.transform(this.element.modified))
         );
     }
     if (hasChanges(changes.revisionRef)) {
       let element = this.revisionRef.element
       this.titleInfo = 'Last saved by:' +
         ((element && element._embedded?.modifiedBy) ?
-          element._embedded?.modifiedBy.username + '@' + element._embedded?.agency.name + ' : ' + (this.datePipe.transform(element.modified)) :
+          element._embedded?.modifiedBy.userAgencyName  + ' : ' + (this.datePipe.transform(element.modified)) :
           '?');
     }
 

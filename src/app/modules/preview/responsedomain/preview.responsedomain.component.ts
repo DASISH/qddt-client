@@ -81,7 +81,7 @@ export class PreviewResponsedomainComponent implements OnChanges {
   public ngOnChanges(changes: SimpleChanges) {
     if (hasChanges(changes.responseDomain)) {
       this.responseType = DomainKind[this.responseDomain.responseKind];
-      this.rep = new Category(this.responseDomain._embedded?.managedRepresentation);
+      this.rep = new Category(this.responseDomain.managedRepresentation);
       // this.rep = this.insertParam(new Category(this.responseDomain._embedded?.managedRepresentation));
       this.cardinality = new ResponseCardinality(this.responseDomain.responseCardinality);
       this.displayLayout = +this.responseDomain.displayLayout;

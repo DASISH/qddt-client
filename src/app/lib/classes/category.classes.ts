@@ -114,10 +114,4 @@ export class Category implements IEntityEditAudit {
     return this;
   }
 
-  setEmbedded() : Category{
-    if (this._embedded.m)
-    return this;
-  }
-
-
 }

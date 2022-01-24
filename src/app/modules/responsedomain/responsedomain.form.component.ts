@@ -18,7 +18,6 @@ import {
   PropertyStoreService,
   ResponseDomain, TemplateService, toSelectItems, DATE_FORMAT_MAP, delay, hasChanges
 } from '../../lib';
-import { threadId } from 'worker_threads';
 
 @Component({
   selector: 'qddt-responsedomain-form',
@@ -63,7 +62,7 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
 
     this.domainType = DomainKind[this.responseDomain.responseKind];
 
-    this.numberOfAnchors = this.responseDomain._embedded?.managedRepresentation.children.length;
+    this.numberOfAnchors = 0
 
     if (this.domainType === DomainKind.SCALE && this.responseDomain.displayLayout !== '90') {
       this.responseDomain.displayLayout = '0';
@@ -73,12 +72,13 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (hasChanges(changes.responseDomain)) {
-      console.log(this.responseDomain)
+      this.responseDomain = new ResponseDomain(changes.responseDomain.currentValue)
       this.domainType = DomainKind[this.responseDomain.responseKind];
-      this.numberOfAnchors = this.responseDomain._embedded?.managedRepresentation.children.length;
+      this.numberOfAnchors = this.responseDomain.managedRepresentation.children.length;
       delay(20).then(() => {
         M.updateTextFields();
         this.buildPreviewResponseDomain();
+        console.log(this.previewResponseDomain)
       });
     }
   }
@@ -88,7 +88,7 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   public onSelectCategory(item: IElement, idx) {
-    const code = this.responseDomain._embedded?.managedRepresentation.children[idx].code;
+    const code = this.responseDomain.managedRepresentation.children[idx].code;
     item.element.code = code;
     if (item.element.id === undefined) {
       this.onCreateCategory(item.element, idx);
@@ -106,13 +106,12 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   public async onSave() {
-    let managed = this.responseDomain._embedded.managedRepresentation as Category
+    let managed = this.previewResponseDomain.managedRepresentation as Category
     if (!managed.id) {
-      managed.setEmbedded()
-      this.responseDomain._embedded.managedRepresentation = await this.service.update<Category>(managed).toPromise()
+      this.responseDomain.managedRepresentation = await this.service.update<Category>(managed).toPromise()
     }
 
-    this.service.update<ResponseDomain>(this.responseDomain).subscribe(
+    this.service.update<ResponseDomain>(new ResponseDomain(this.responseDomain)).subscribe(
       (rdResult) => {
         this.responseDomain = rdResult;
         this.modifiedEvent.emit(rdResult);
@@ -121,22 +120,22 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   public onAnchorChanged(event, idx) {
-    this.responseDomain._embedded.managedRepresentation.children[idx] = event;
+    this.responseDomain.managedRepresentation.children[idx] = event;
     this.buildPreviewResponseDomain();
   }
 
   public onChangeNumberOfCategories(num: number) {
-    this.responseDomain._embedded.managedRepresentation.inputLimit.maximum = num;
+    this.responseDomain.managedRepresentation.inputLimit.maximum = num;
     this.onChangeNumberOfAnchors(num);
   }
 
   public onSelectDateFormatChange(format: string) {
-    this.responseDomain._embedded.managedRepresentation.format = format;
+    this.responseDomain.managedRepresentation.format = format;
     this.buildPreviewResponseDomain();
   }
 
   public onChangeNumberOfAnchors(num: number) {
-    const rep = this.responseDomain._embedded.managedRepresentation;
+    const rep = this.responseDomain.managedRepresentation;
     if (rep.children.length === num) {
       return;
     }
