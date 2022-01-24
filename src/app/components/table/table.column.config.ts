@@ -2,14 +2,9 @@ import { Column } from './table.column';
 import { DomainKind, ElementKind } from '../../lib';
 
 export const DEFAULT_COLUMNS = [
-  new Column({
-    name: 'modified',
-    label: 'Modified',
-    sortable: true,
-    direction: 'desc'
-  }),
+  new Column({ name: 'modified', label: 'Modified', sortable: true, direction: 'desc'}),
   new Column({ name: 'version', label: 'Version' }),
-  new Column({ name: 'modifiedBy', label: 'User@Agency' })
+  new Column({ name:  ['userAgencyName'], label: 'User@Agency' })
 ];
 
 const LOOKUP_COLUMNS = [
@@ -59,11 +54,7 @@ const CATEGORY_COLUMNS = [
 const QUESTIONITEM_COLUMNS = [
   new Column({ name: 'name', label: 'Name', sortable: true }),
   new Column({ name: 'question', label: 'Question Text', sortable: true }),
-  new Column({
-    name: 'responseDomainName',
-    label: 'ResponseDomain',
-    sortable: true
-  })
+  new Column({ name: 'responseDomainName', label: 'ResponseDomain',sortable: true })
 ];
 
 const INSTRUMENT_COLUMNS = [
@@ -81,12 +72,7 @@ export const USER_COLUMNS = [
     label: 'Authority',
     sortable: false
   }),
-  new Column({
-    name: 'modified',
-    label: 'Modified',
-    sortable: true,
-    direction: 'desc'
-  }),
+  new Column({name: 'modified', label: 'Modified', sortable: true, direction: 'desc' }),
   new Column({ name: ['agency', 'name'], label: 'Agency', sortable: true })
 ];
 
@@ -111,12 +97,7 @@ export const REFERENCED_COLUMNS = [
 export const AUTHOR_COLUMNS = [
   new Column({ name: 'name', label: 'Name', sortable: true }),
   new Column({ name: 'email', label: 'Email', sortable: true }),
-  new Column({
-    name: 'modified',
-    label: 'Modified',
-    sortable: true,
-    direction: 'desc'
-  })
+  new Column({ name: 'modified',label: 'Modified', sortable: true, direction: 'desc'})
 ];
 
 export const AGENCY_COLUMNS = [
@@ -146,17 +127,17 @@ const SCALE = [
   new Column({ label: 'Description', name: 'description', sortable: true }),
   new Column({
     label: 'Start',
-    name: ['_embedded','managedRepresentation', 'inputLimit', 'minimum'],
+    name: ['managedRepresentation', 'inputLimit', 'minimum'],
     sortable: false
   }),
   new Column({
     label: 'End',
-    name: ['_embedded','managedRepresentation', 'inputLimit', 'maximum'],
+    name: ['managedRepresentation', 'inputLimit', 'maximum'],
     sortable: false
   }),
   new Column({
     label: '# Ancors',
-    name: ['_embedded', 'managedRepresentation', 'children', 'length'],
+    name: [ 'managedRepresentation', 'children', 'length'],
     sortable: false
   }),
   new Column({ label: 'Anchors', name: 'anchorLabels', sortable: false })
@@ -167,7 +148,7 @@ const LIST = [
   new Column({ label: 'Description', name: 'description', sortable: true }),
   new Column({
     label: '# Codes',
-    name: ['_embedded', 'managedRepresentation', 'children', 'length'],
+    name: [ 'managedRepresentation', 'children', 'length'],
     sortable: false
   }),
   new Column({ label: 'Codes', name: 'anchorLabels', sortable: false })
@@ -178,7 +159,7 @@ const MIXED = [
   new Column({ label: 'Description', name: 'description', sortable: true }),
   new Column({
     label: '# Managed rep',
-    name: ['_embedded', 'managedRepresentation', 'children', 'length'],
+    name: [ 'managedRepresentation', 'children', 'length'],
     sortable: false
   })
 ];
@@ -188,12 +169,12 @@ const NUMERIC = [
   new Column({ label: 'Description', name: 'description', sortable: true }),
   new Column({
     label: 'Low',
-    name: ['_embedded','managedRepresentation', 'inputLimit', 'minimum'],
+    name: ['managedRepresentation', 'inputLimit', 'minimum'],
     sortable: false
   }),
   new Column({
     label: 'High',
-    name: ['_embedded','managedRepresentation', 'inputLimit', 'maximum'],
+    name: ['managedRepresentation', 'inputLimit', 'maximum'],
     sortable: false
   })
 ];
@@ -203,12 +184,12 @@ const TEXT = [
   new Column({ label: 'Description', name: 'description', sortable: true }),
   new Column({
     label: 'Min Length',
-    name: ['_embedded','managedRepresentation', 'inputLimit', 'minimum'],
+    name: ['managedRepresentation', 'inputLimit', 'minimum'],
     sortable: false
   }),
   new Column({
     label: 'Max Length',
-    name: ['_embedded','managedRepresentation', 'inputLimit', 'maximum'],
+    name: ['managedRepresentation', 'inputLimit', 'maximum'],
     sortable: false
   })
 ];
@@ -218,12 +199,12 @@ const DATETIME = [
   new Column({ label: 'Description', name: 'description', sortable: true }),
   new Column({
     label: 'Low',
-    name: ['_embedded','managedRepresentation', 'inputLimit', 'minimum'],
+    name: ['managedRepresentation', 'inputLimit', 'minimum'],
     sortable: false
   }),
   new Column({
     label: 'High',
-    name: ['_embedded','managedRepresentation', 'inputLimit', 'maximum'],
+    name: ['managedRepresentation', 'inputLimit', 'maximum'],
     sortable: false
   })
 ];
@@ -242,22 +223,10 @@ export const LIST_COLUMNS: Map<ElementKind, Column[]> = new Map([
   [ElementKind.CATEGORY, CATEGORY_COLUMNS.concat(DEFAULT_COLUMNS)],
   [ElementKind.MISSING_GROUP, CATEGORY_COLUMNS.concat(DEFAULT_COLUMNS)],
   [ElementKind.RESPONSEDOMAIN, null],
-  [
-    ElementKind.QUESTION_CONSTRUCT,
-    QUESTION_CONSTRUCT_COLUMNS.concat(DEFAULT_COLUMNS)
-  ],
-  [
-    ElementKind.SEQUENCE_CONSTRUCT,
-    SEQUENCE_CONSTRUCT_COLUMNS.concat(DEFAULT_COLUMNS)
-  ],
-  [
-    ElementKind.CONDITION_CONSTRUCT,
-    CONDITION_CONSTRUCT_COLUMNS.concat(DEFAULT_COLUMNS)
-  ],
-  [
-    ElementKind.STATEMENT_CONSTRUCT,
-    STATEMENT_CONSTRUCT_COLUMNS.concat(DEFAULT_COLUMNS)
-  ],
+  [ElementKind.QUESTION_CONSTRUCT,QUESTION_CONSTRUCT_COLUMNS.concat(DEFAULT_COLUMNS)],
+  [ElementKind.SEQUENCE_CONSTRUCT,SEQUENCE_CONSTRUCT_COLUMNS.concat(DEFAULT_COLUMNS)],
+  [ElementKind.CONDITION_CONSTRUCT,CONDITION_CONSTRUCT_COLUMNS.concat(DEFAULT_COLUMNS)],
+  [ElementKind.STATEMENT_CONSTRUCT,STATEMENT_CONSTRUCT_COLUMNS.concat(DEFAULT_COLUMNS)],
   [ElementKind.INSTRUMENT, INSTRUMENT_COLUMNS.concat(DEFAULT_COLUMNS)],
   [ElementKind.PUBLICATION, PUBLICATION_COLUMNS.concat(DEFAULT_COLUMNS)],
   [ElementKind.UNIVERSE, LOOKUP_COLUMNS.concat(DEFAULT_COLUMNS)],

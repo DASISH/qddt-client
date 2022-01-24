@@ -9,7 +9,7 @@ import { AlignmentKind, Category, ElementKind, enumKeys, IElement, ResponseCardi
 <form  [id]="'AP-'+formId"  [parentFormConnect]="formName" (change)="onChange()">
   <div class="col s3 input-field" >
     <input [id]="'CV-' + formId" name="value" type="number" [min]="inputLimit.minimum" [max]="inputLimit.maximum" [step]="inputLimit.stepUnit"
-     [(ngModel)]="category.code.value" required class="validate">
+     [(ngModel)]="baseFare" required class="validate">
      <label [for]="'CV-' + formId">Anchor</label>
   </div>
   <qddt-element-select  class="col s9 input-field"
@@ -33,6 +33,14 @@ export class AnchorPointComponent implements AfterViewInit {
 
   public readonly formId = Math.round(Math.random() * 10000);
   public alignments2 = enumKeys(AlignmentKind);
+
+  get baseFare(): number {
+    return +this.category.code.value
+  }
+  set baseFare(value: number) {
+    this.category.code.value = value.toString()
+  }
+
 
   public getSource(category: Category): IElement {
     return { element: category, elementKind: ElementKind.CATEGORY };

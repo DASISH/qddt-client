@@ -1,3 +1,4 @@
+import { registerLocaleData } from '@angular/common';
 import { ElementKind } from '../enums';
 import { IComment, IEntityEditAudit, IVersion, IUser, IOtherMaterial, IRevId } from '../interfaces';
 import { Agency, User } from './user.classes';
@@ -72,7 +73,7 @@ export class Category implements IEntityEditAudit {
   basedOn?: IRevId;
 
   changeComment?: string;
-  modified?: number;
+  modified: number =0;
   modifiedBy?: User|string;
   version?: IVersion;
   agency?: Agency;

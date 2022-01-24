@@ -150,7 +150,7 @@ export class TemplateService {
         path2 = '/statement';
       }
     }
-    return this.http.patch<HalResource>(this.api + qe.path + path2 + '/' + item.id, item)
+    return this.http.put<HalResource>(this.api + qe.path + path2 + '/' + item.id, item)
       .pipe(map(response => Factory.createFromSeed(item.classKind, response._embedded) as T));
   }
 
