@@ -14,7 +14,7 @@ export class GlobalErrorHandler extends ErrorHandler {
   handleError(error: any) {
     if (this.lastError === error.message) {
       if ((new Date().valueOf() - this.lastHandled.valueOf()) < 5000) {
-        console.debug(error.message);
+        console.error(error);
         this.lastHandled = new Date();
         return;
       }

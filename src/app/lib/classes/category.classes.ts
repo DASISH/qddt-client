@@ -82,6 +82,8 @@ export class Category implements IEntityEditAudit {
   xmlLang: string; // = 'en-GB';
   comments?: IComment[];
   get children(): Category[] {
+    if (!this._embedded.children)
+      this._embedded.children = []
     return this._embedded.children;
   }
   set children(value: Category[]) {
@@ -99,6 +101,9 @@ export class Category implements IEntityEditAudit {
       this.name = this.label.toLocaleUpperCase();
     }
     this.code = (init) ? new Code(init.code) : new Code();
+    if (!this._embedded)
+      this._embedded = {}
+
     this.children = ((init) && (init.children)) ? init.children.map(value => new Category(value)) : [];
   }
 

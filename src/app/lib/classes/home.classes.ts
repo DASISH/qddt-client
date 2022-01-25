@@ -126,20 +126,21 @@ export class Concept implements IEntityEditAudit {
   authors: any[];
 
   questionItems: ElementRevisionRef[];
-  children?: Concept[];
+  children?: Concept[] = [];
   classKind = ElementKind[ElementKind.CONCEPT];
-  agency: Agency;
   basedOn?:IRevId
   parentIdx?: number;
-  parentRef?: IParentRef;
 
   changeComment?: string;
   changeKind?: string;
   modified?: number;
-  modifiedBy?: User | string;
   version?: IVersion;
   xmlLang?: string;
-  comments?: IComment[];
+  // comments?: IComment[];
+
+  // modifiedBy?: User | string;
+  // agency: Agency;
+  // parentRef?: IParentRef;
 
   _links?: {
     [rel: string]: HalLink;
@@ -149,6 +150,10 @@ export class Concept implements IEntityEditAudit {
   };
   public constructor(init?: Partial<Concept>) {
     Object.assign(this, init);
+    if (init._embedded?.children) {
+      this.children = init._embedded.children
+      this._embedded.children = null
+    }
   }
   setLanguage(lang: string): Concept {
     this.xmlLang = lang;

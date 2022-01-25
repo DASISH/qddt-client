@@ -177,7 +177,6 @@ export class ConceptComponent implements OnInit, AfterViewInit {
     let found = false;
     let i = -1;
     while (!found && ++i < concepts.length) {
-      // console.debug(i);
       found = this.updateConcept(concepts[i]._embedded.children, concept);
       if (concepts[i].id === concept.id) {
         concepts[i] = concept;
@@ -196,6 +195,5 @@ export class ConceptComponent implements OnInit, AfterViewInit {
     }
     return null;
   }
-
 
 }

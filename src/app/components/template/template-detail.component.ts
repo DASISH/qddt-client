@@ -1,12 +1,13 @@
 import { Location } from '@angular/common';
 import { AfterViewInit, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { takeWhile } from 'rxjs/operators';
 import {
-  ActionKind, ElementKind, Factory, HEADER_DETAILS,
+  ActionKind, ElementKind, HEADER_DETAILS,
   IDetailAction, IEntityAudit, IEntityEditAudit,
   TemplateService,
-  saveAs
+  saveAs,
+  delay
 } from '../../lib';
 
 
@@ -61,16 +62,22 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterViewInit
   }
 
   ngAfterViewInit(): void {
+    // this just stopped working.... view not finished , hack, wait 75 ms.
+    delay(75).then(() => {
+      let items = document.querySelectorAll('.fixed-action-btn')
+      items.forEach(
+        input => {
+          console.log(input.nodeName)
+          M.FloatingActionButton.init(input)
+        });
 
-    document.querySelectorAll('.fixed-action-btn').forEach(
-      input => M.FloatingActionButton.init(input));
-
-    document.querySelectorAll('input[data-length], textarea[data-length]').forEach(
-      input => {
-        M.CharacterCounter.init(input);
-        M.AutoInit(input);
+      document.querySelectorAll('input[data-length], textarea[data-length]').forEach(
+        input => {
+          M.CharacterCounter.init(input);
+          M.AutoInit(input);
+        });
+      M.updateTextFields();
       });
-    M.updateTextFields();
   }
 
   onHideDetail() {

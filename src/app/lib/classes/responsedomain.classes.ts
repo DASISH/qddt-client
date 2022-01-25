@@ -1,7 +1,6 @@
 import { Category, CategoryKind, ResponseCardinality } from './category.classes';
 import { HalLink, IEntityEditAudit, IRevId, ISelectOption, IVersion} from '../interfaces';
 import { ElementKind } from '../enums';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 export enum DomainKind {
   NONE = 0,
@@ -77,21 +76,27 @@ export class ResponseDomain implements IEntityEditAudit {
   _embedded?: {
     [rel: string]: any;
   };
-  managedRepresentation?: Category
+
+  get managedRepresentation(): Category {
+    if (!this._embedded.managedRepresentation)
+      this.managedRepresentation = new Category().setKind(DOMAIN_TYPE_DESCRIPTION[DomainKind[this.responseKind]].categoryKind)
+      // console.debug(this._embedded.managedRepresentation)
+    return this._embedded.managedRepresentation
+  }
+  set managedRepresentation(value) {
+    this._embedded.managedRepresentation = value;
+  }
   public constructor(init?: Partial<ResponseDomain>) {
     Object.assign(this, init);
     if (init && init.xmlLang) {
       if (!this._embedded)
         this._embedded = {};
 
-      if (this._embedded.managedRepresentation) {
-      this.managedRepresentation = this._embedded.managedRepresentation
-      this._embedded.managedRepresentation = null
+      // if (this._embedded.managedRepresentation) {
+      // this.managedRepresentation = this._embedded.managedRepresentation
+      // this._embedded.managedRepresentation = null
     }
   }
-  }
-
-
 
   public get isMixed() { return (this.responseKind === 'MIXED'); }
 

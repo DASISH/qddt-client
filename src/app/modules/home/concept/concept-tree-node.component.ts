@@ -53,12 +53,30 @@ export class TreeNodeComponent {
 
   async onToggleEdit(edit, conceptId) {
     if (!edit.isVisible){
-      ///TODO fix recursive update replace
-      let index = this.concepts.findIndex( concept => concept.id == conceptId)
-      this.concepts[index] = await this.homeService.get(this.CONCEPT,conceptId )
+      this.updateNodeById(this.concepts, await this.homeService.get(this.CONCEPT,conceptId ))
     }
     edit.isVisible = !edit.isVisible;
   }
+
+  updateNodeById(children: Concept[], concept: Concept) {
+    if ((!children) || children.length == 0)
+      return;
+
+    let index = children.findIndex( it => it.id == concept.id)
+
+    if (index >= 0) {
+      children[index] = concept
+    } else {
+      children.forEach(it=>{
+         if (it.children) {
+          this.updateNodeById(it.children, concept)
+         }else{
+          this.updateNodeById(it._embedded?.children, concept)
+         }
+      })
+    }
+  }
+
 
   onConceptUpdated(concept: Concept) {
     this.updatedEvent.emit(concept);

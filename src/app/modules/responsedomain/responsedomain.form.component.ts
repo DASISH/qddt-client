@@ -62,7 +62,7 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
 
     this.domainType = DomainKind[this.responseDomain.responseKind];
 
-    this.numberOfAnchors = 0
+    this.numberOfAnchors = 0;
 
     if (this.domainType === DomainKind.SCALE && this.responseDomain.displayLayout !== '90') {
       this.responseDomain.displayLayout = '0';
@@ -73,13 +73,13 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
   public ngOnChanges(changes: SimpleChanges): void {
     if (hasChanges(changes.responseDomain)) {
       this.responseDomain = new ResponseDomain(changes.responseDomain.currentValue)
-      this.domainType = DomainKind[this.responseDomain.responseKind];
-      this.numberOfAnchors = this.responseDomain.managedRepresentation.children.length;
+      this.domainType = DomainKind[this.responseDomain.responseKind]
+      this.numberOfAnchors = this.responseDomain.managedRepresentation.children.length
       delay(20).then(() => {
-        M.updateTextFields();
-        this.buildPreviewResponseDomain();
+        M.updateTextFields()
+        this.buildPreviewResponseDomain()
         console.debug(this.previewResponseDomain)
-      });
+      })
     }
   }
 

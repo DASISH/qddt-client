@@ -78,13 +78,12 @@ export class HomeService<T extends IEntityEditAudit>  {
 
   attachQuestion(kind: ElementKind, id: string, ref: ElementRevisionRef): Observable<T> {
     const qe = getQueryInfo(kind);
-    return this.http.post<T>(this.api + qe.path + '/' + id +  '/questionitems', ref);
+    return this.http.put<T>(this.api + qe.path + '/' + id +  '/questionitems', ref);
   }
 
   deattachQuestion(kind: ElementKind, id: string, questionId: string, revision: number): Observable<T> {
     const qe = getQueryInfo(kind);
-    return this.http.post<T>(this.api + qe.path + '/decombine?questionitemid=' + questionId +
-      '&questionitemrevision=' + revision + '&parentId=' + id, {});
+    return this.http.delete<T>(this.api + qe.path + '/' + id +  '/questionitems/' + questionId + ':' + revision);
   }
 
   arrangeSurveys(surveys: ISurveyOrder[]): Observable<SurveyProgram[]> {

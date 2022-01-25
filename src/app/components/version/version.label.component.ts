@@ -26,7 +26,7 @@ export class VersionLabelComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (hasChanges(changes.element)) {
-      let modifiedBy = this.element.modifiedBy || this.element._embedded?.modifiedBy
+      let modifiedBy = this.element.modifiedBy || this.element._embedded?.modifiedBy || this.element.userAgencyName || "?"
       this.titleInfo = 'Last saved by: ' +
         (isString(modifiedBy) ?
           modifiedBy + ' : ' + (this.datePipe.transform(this.element.modified)) :

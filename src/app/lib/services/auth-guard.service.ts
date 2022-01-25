@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
-import {
-  CanActivate, CanActivateChild,
-  Router, ActivatedRouteSnapshot, RouterStateSnapshot
-} from '@angular/router';
 import { UserService } from './user.service';
 import { PropertyStoreService } from './property.service';
 import { ActionKind, ElementKind } from '../enums';
 import { HEADER_DETAILS } from '../consts';
+import { CanActivate, CanActivateChild, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 
 
