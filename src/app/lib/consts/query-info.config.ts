@@ -156,8 +156,8 @@ export const QDDT_QUERY_INFOS: QueryInfo[] = [
     ElementKind.CHANGE_LOG,
     'Feed',
     'changelog',
-    'changelogs',
-    ['name', 'change', 'kind'],
+    'changeFeeds',
+    ['name', 'kind', 'changeKind'],
     null
   ),
   new QueryInfo(

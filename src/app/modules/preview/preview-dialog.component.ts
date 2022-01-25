@@ -37,7 +37,7 @@ export class PreviewDialogComponent implements OnChanges, AfterViewInit {
     if (this.isRevisionRef(this.reference)) {
       this.service.getRevisionByKind(this.reference.elementKind, this.reference.elementId, this.reference.elementRevision)
         .then(result => {
-          this.element = result.entity;
+          this.element = result;
           this.modelRef.open();
         });
 

@@ -24,7 +24,7 @@ export class PreviewService {
   public getRevisionByKind(kind: ElementKind | string, id: string, rev: number): Promise<IEntityEditAudit> {
 
     const qe = getQueryInfo(kind);
-    return this.http.get<IEntityEditAudit>(this.api + '/' + qe.path + '/' + id + ':' + rev).toPromise();
+    return this.http.get<IEntityEditAudit>(this.api + qe.path + '/revision/' + id + ':' + rev).toPromise();
   }
 
   public getFile(om: IOtherMaterial): Promise<Blob> {
