@@ -42,8 +42,11 @@ export class User {
   email: string;
   authority?: string[] | string;
   isEnabled?:boolean;
-  agency?: Agency;
   userAgencyName?: string;
+  agency?: Agency;
+  _embedded?: {
+    [rel: string]: any;
+  };
   get name():string {
     return this.username;
   }

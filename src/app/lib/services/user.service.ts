@@ -110,7 +110,7 @@ export class UserService {
 
   public async signIn(requestParam: IPassword) {
     const response = await this.http.post<any>(this.api + UserService.SIGNIN_URL, requestParam).toPromise();
-    console.log(response);
+    console.debug(response);
     if (response && response.token) {
       this.tokenStore.saveToken(response.token)
       this.loadUserFromToken();
@@ -161,7 +161,7 @@ export class UserService {
   }
 
   public async getCurrentAgency(): Promise<Agency> {
-    return  (await this.getCurrentUser()).agency;
+    return  (await this.getCurrentUser())._embedded?.agency;
     // return (await this.getAgencies()).find(pre => pre.id == agencyId)
   }
 
@@ -197,7 +197,7 @@ export class UserService {
     const expire = new Date(0);
     expire.setUTCSeconds(this.getUserJwt().exp);
     if (expire === undefined) {
-      console.log('usr exp undefined ->'); // + this.getUsername());
+      console.debug('usr exp undefined ->'); // + this.getUsername());
       return true;
     }
     const clientTime = new Date();

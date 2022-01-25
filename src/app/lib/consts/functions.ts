@@ -63,7 +63,7 @@ export function toSelectItems(enumerable: EnumType): ISelectOption[] {
 }
 
 export function hasChanges<T>(change?: SimpleChange, comparar?: (a: T, b: T) => boolean): boolean {
-  console.debug('haschanges');
+  // console.debug('haschanges');
   if ((change) && (change.currentValue)) {
     if (!change.previousValue) {
       return true;

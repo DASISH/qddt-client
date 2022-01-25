@@ -63,7 +63,7 @@ export class TopicComponent implements OnInit {
           .getByKindEntity<Topic>(this.TOPIC_KIND, this.getId(topic._links?.self.href))
           .then((item) => result[index] = item);
       });
-      console.log(result)
+      console.debug(result)
       this.topics = result
       this.property.set('topics', this.topics)
       this.showReuse = false;

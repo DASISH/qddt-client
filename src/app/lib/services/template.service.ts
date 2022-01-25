@@ -16,7 +16,7 @@ import { Factory } from '../factory';
 export class TemplateService {
 
   private padAsterisk = (source: string) => {
-    console.log(source.charAt(source.length - 1));
+    console.debug(source.charAt(source.length - 1));
     if (source.charAt(source.length - 1) == "*")
       return source;
     return source + "*";
@@ -43,7 +43,7 @@ export class TemplateService {
         Array.from(pageSearch.keys)
           .filter((item) => !qe.fields.includes(item[0], 0))
           .forEach(key => {
-            console.log(key[0] + '=' + key[1]);
+            console.debug(key[0] + '=' + key[1]);
             queries.push(key[0] + '=' + key[1]);
           });
       }
@@ -65,7 +65,7 @@ export class TemplateService {
 
     if (pageSearch.sort) { query += '&sort=' + pageSearch.sort; }
 
-    console.log(query);
+    console.debug(query);
 
     return this.http.get<IPageResult>(this.api + qe.path + '/search/findByQuery' + query).toPromise();
   }

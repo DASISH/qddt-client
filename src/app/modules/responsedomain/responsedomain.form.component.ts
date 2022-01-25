@@ -78,7 +78,7 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
       delay(20).then(() => {
         M.updateTextFields();
         this.buildPreviewResponseDomain();
-        console.log(this.previewResponseDomain)
+        console.debug(this.previewResponseDomain)
       });
     }
   }

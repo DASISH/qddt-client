@@ -146,7 +146,7 @@ export class QddtTableComponent implements OnInit, OnChanges, OnDestroy {
     this.showProgressBar = false;
     delay(20).then(() => {
       M.updateTextFields();
-      console.log('updateTextFields ');
+      console.debug('updateTextFields ');
     });
 
   }

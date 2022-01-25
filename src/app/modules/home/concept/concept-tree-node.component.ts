@@ -69,7 +69,7 @@ export class TreeNodeComponent {
   }
 
   onChildSave(newConcept: any, parent: Concept) {
-    console.log(newConcept)
+    console.debug(newConcept)
     this.showProgressBar = true;
     let href = parent._links.children.href.replace("{?projection}","")
     this.templateService.create(new Concept(newConcept),null, href).subscribe(

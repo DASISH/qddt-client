@@ -18,7 +18,7 @@ export class GlobalErrorHandler extends ErrorHandler {
         this.lastHandled = new Date();
         return;
       }
-      console.log('same error longtime...');
+      console.debug('same error longtime...');
     }
     this.lastError = error.message;
     this.lastHandled = new Date();

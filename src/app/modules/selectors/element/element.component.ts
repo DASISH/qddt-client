@@ -85,7 +85,7 @@ export class ElementComponent implements OnChanges {
   public onSearchElements(key) {
     const qi = getQueryInfo(this.pageSearch.kind);
 
-    console.log(qi);
+    console.debug(qi);
     this.pageSearch.key = key;
     this.pageSearch.xmlLang = this.xmlLang;
     this.pageSearch.sort = [...qi.fields.filter((v, i) => i < 2).entries()].flatMap(value => value[1]).join(',');

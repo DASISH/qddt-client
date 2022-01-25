@@ -1,4 +1,3 @@
-import { HalResource } from './../../lib/interfaces/http.interfaces';
 import { filter, takeWhile } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -11,8 +10,8 @@ import {
   Page,
   PageSearch,
   TemplateService,
-  MessageService, PropertyStoreService, DomainKind, getQueryInfo, HalLink
-} from '../../lib';
+  MessageService, PropertyStoreService, DomainKind, getQueryInfo, HalResource} from '../../lib';
+
 
 
 @Component({

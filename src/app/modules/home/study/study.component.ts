@@ -58,7 +58,7 @@ export class StudyComponent implements OnInit {
           .getByKindEntity<Study>(this.STUDY, this.getId(survey._links?.self.href))
           .then((item) => result[index] = item);
       });
-      console.log(result)
+      console.debug(result)
       this.studies = result
       this.property.set('studies', this.studies)
     });
@@ -107,7 +107,7 @@ export class StudyComponent implements OnInit {
 
   onRemoveStudy(study: Study) {
     if (study) {
-      console.log(this.survey.id);
+      console.debug(this.survey.id);
 
       this.templateService.delete(study)
         .subscribe(() => {

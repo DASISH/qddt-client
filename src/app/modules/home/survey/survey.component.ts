@@ -52,7 +52,7 @@ export class SurveyComponent implements OnInit {
             .getByKindEntity<SurveyProgram>(this.SURVEY, this.getId(survey._links?.self.href))
             .then((item) => result[index] = item);
         });
-        console.log(result)
+        console.debug(result)
         this.surveys = result
       });
 

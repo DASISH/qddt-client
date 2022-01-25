@@ -135,7 +135,7 @@ export class Instrument implements IEntityAudit {
           this.parameterIn.push(p);
         }
       }
-      console.log(p);
+      console.debug(p);
     });
     console.groupEnd();
   });
