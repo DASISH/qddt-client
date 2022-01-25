@@ -140,7 +140,7 @@ export class ResponsedomainComponent implements OnChanges {
 
   public onMissingRemove() {
     if (this.canDelete && this.responseDomain.isMixed) {
-      const i = this.responseDomain._embedded.managedRepresentation.children.findIndex(e => e.categoryType === 'MISSING_GROUP');
+      const i = this.responseDomain._embedded.managedRepresentation.children.findIndex(e => e.categoryKind === 'MISSING_GROUP');
       this.responseDomain._embedded.managedRepresentation.children.splice(i, 1);
       this.responseDomain.name =
         this.responseDomain._embedded.managedRepresentation.label =

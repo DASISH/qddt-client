@@ -20,10 +20,10 @@
     </qddt-textarea>
 
 
-    <div class="row" *ngIf="category.categoryType !== 'CATEGORY'">
+    <div class="row" *ngIf="category.categoryKind !== 'CATEGORY'">
       <div class="input-field col s2 ">
         <label for="ctype" class="teal-text">Type</label>
-        <input id="ctype" name="ctype" type="text" class="validate" [(ngModel)]="category.categoryType" readonly />
+        <input id="ctype" name="ctype" type="text" class="validate" [(ngModel)]="category.categoryKind" readonly />
       </div>
       <div class="input-field col s2 offset-m1">
         <input id="min" name="mini" type="number" class="validate" readonly min="0"

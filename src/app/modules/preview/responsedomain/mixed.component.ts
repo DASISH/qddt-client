@@ -10,7 +10,7 @@ import { Category, ResponseCardinality, UserResponse, Parameter } from '../../..
       {{ managedRepresentation.label }} v.<qddt-version [element]="managedRepresentation" ></qddt-version>
   </label>
     <ng-container *ngFor="let rep of managedRepresentation.children; let idx = index;">
-      <ng-container [ngSwitch]="rep.categoryType">
+      <ng-container [ngSwitch]="rep.categoryKind">
         <qddt-preview-rd-scale *ngSwitchCase="'SCALE'"
           [managedRepresentation]="rep"
           [inputGroupName]="managedRepresentation.name"
