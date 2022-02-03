@@ -15,8 +15,8 @@ class ScaleHead {
   styles: [
     'table { table-layout: fixed; }',
     'td, th { text-align: right;}',
-    '[type="radio"] + label { padding-left: 25px; }',
-  ],
+    '[type="radio"] + label { padding-left: 25px; }'
+  ]
 })
 
 
@@ -98,10 +98,10 @@ export class ResponsedomainScaleComponent implements OnChanges, AfterViewInit {
     if (!rep) { return; }
 
     const categories = rep.children.map(x => Object.assign({}, x))
-      .sort((a, b) => a.code.getValue() - b.code.getValue());
+      .sort((a, b) => +a.code.value - +b.code.value);
 
     for (let i = this.min; i <= this.max; i += this.stepUnit) {
-      const current = categories.find(category => category.code && category.code.getValue() === i);
+      const current = categories.find(category => category.code && +category.code.value === i);
       this.columns.push({ label: current !== undefined ? current.label : '', value: i });
       this.headers.push({ label: current !== undefined ? current.label : '' });
 

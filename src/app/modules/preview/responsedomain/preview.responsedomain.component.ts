@@ -6,11 +6,11 @@ import { Category, DomainKind, ResponseCardinality, ResponseDomain, UserResponse
   selector: 'qddt-preview-responsedomain',
   template: `
   <ng-container *ngIf="responseDomain">
-    <div *ngIf="responseType" class="row card-panel grey lighten-5 grey-text text-darken-1">
-      <span *ngIf="responseType !== refKind.MIXED && showLabel">
+    <div *ngIf="responseKind" class="row card-panel grey lighten-5 grey-text text-darken-1">
+      <span *ngIf="responseKind !== refKind.MIXED && showLabel">
           {{ responseDomain?.name }}(V<qddt-version [element]="rep"></qddt-version>)
       </span>
-      <ng-container [ngSwitch]="responseType">
+      <ng-container [ngSwitch]="responseKind">
         <qddt-preview-rd-mixed *ngSwitchCase="refKind.MIXED"
           [managedRepresentation]="rep"
           [displayLayout]="displayLayout"
@@ -70,7 +70,7 @@ export class PreviewResponsedomainComponent implements OnChanges {
   @Output() selectedEvent = new EventEmitter<UserResponse[]>();
 
   public refKind = DomainKind;
-  public responseType: DomainKind;
+  public responseKind: DomainKind;
   public cardinality: ResponseCardinality;
   public displayLayout: number;
   public rep: Category;
@@ -80,9 +80,9 @@ export class PreviewResponsedomainComponent implements OnChanges {
 
   public ngOnChanges(changes: SimpleChanges) {
     if (hasChanges(changes.responseDomain)) {
-      this.responseType = DomainKind[this.responseDomain.responseKind];
-      this.rep = new Category(this.responseDomain.managedRepresentation);
-      // this.rep = this.insertParam(new Category(this.responseDomain._embedded?.managedRepresentation));
+      this.responseDomain = new ResponseDomain(changes.responseDomain.currentValue)
+      this.responseKind = DomainKind[this.responseDomain.responseKind];
+      this.rep =  this.responseDomain.managedRep
       this.cardinality = new ResponseCardinality(this.responseDomain.responseCardinality);
       this.displayLayout = +this.responseDomain.displayLayout;
     }

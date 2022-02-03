@@ -22,9 +22,7 @@ export class TemplateService {
     return source + "*";
   }
 
-  constructor(protected http: HttpClient, private userService: UserService, @Inject(API_BASE_HREF) protected api: string) {
-    // console.debug('TemplateService::CONST ' + api);
-  }
+  constructor(protected http: HttpClient, private userService: UserService, @Inject(API_BASE_HREF) protected api: string) {  }
 
   public searchByUuid(id: string): Promise<any> {
     return this.http.get(this.api + 'preview/' + id).toPromise();
@@ -115,10 +113,23 @@ export class TemplateService {
 
   public create<T extends IEntityAudit>(item: T, parentId?: string, putUrl?:string): Observable<T> {
     const qe = getQueryInfo(item.classKind);
+    const kind = getElementKind(item.classKind);
+    let path2 = '';
+    if (qe.path === 'controlconstruct') { // silly exception to the simple rule
+      if (kind === ElementKind.QUESTION_CONSTRUCT) {
+        path2 = '/question';
+      } else if (kind === ElementKind.SEQUENCE_CONSTRUCT) {
+        path2 = '/sequence';
+      } else if (kind === ElementKind.CONDITION_CONSTRUCT) {
+        path2 = '/condition';
+      } else if (kind === ElementKind.STATEMENT_CONSTRUCT) {
+        path2 = '/statement';
+      }
+    }
     return (
       (parentId) ? this.http.put<HalResource>(this.api + qe.parentPath + '/' + parentId + '/children', item) :
         ((putUrl) ? this.http.put<HalResource>(putUrl, item) :
-        this.http.post<HalResource>(this.api + qe.path, item)))
+        this.http.post<HalResource>(this.api + qe.path + path2 , item)))
       .pipe(map(response => Factory.createFromSeed(item.classKind, response) as T));
 
   }
@@ -184,7 +195,7 @@ export class TemplateService {
   public getXML(item: IEntityEditAudit): Promise<Blob> {
     const qe = getQueryInfo(item.classKind);
     let header = new HttpHeaders()
-    .set('Accept', 'application/xml');
+    .set('Accept', 'text/xml');
 
     return this.http.get(this.api + qe.path + '/' + item.id, { responseType: 'blob', headers: header }).toPromise();
   }
@@ -198,7 +209,7 @@ export class TemplateService {
   }
 
   public async canDoAction(action: ActionKind, entity: IEntityEditAudit) {
-    return this.userService.canDo(action, getElementKind(entity.classKind)) && (await this.hasOwnerRights(entity.agency));
+    return this.userService.canDo(action, getElementKind(entity.classKind)) && (this.hasOwnerRights(entity.agency));
   }
 
   public async hasOwnerRights(entityAgency?: Agency) {
@@ -210,7 +221,7 @@ export class TemplateService {
     return result.find(pre => pre.id == uuid)
   }
   public async getUser(modifiedById: string) {
-    return await this.userService.getUser(modifiedById);
+    return this.userService.getUser(modifiedById);
   }
 
 }

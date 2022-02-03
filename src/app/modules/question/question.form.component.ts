@@ -43,8 +43,8 @@ export class QuestionFormComponent implements AfterViewInit {
   }
 
   onResponseDomainSelected(item: ElementRevisionRefImpl<ResponseDomain>, form: FormGroup) {
-    this.questionItem.responseDomainId.id = item.elementId;
-    this.questionItem.responseDomainId.rev = item.elementRevision;
+    this.questionItem.responseId.id = item.elementId;
+    this.questionItem.responseId.rev = item.elementRevision;
     this.questionItem.responseDomain = item.element;
   }
 
@@ -56,8 +56,8 @@ export class QuestionFormComponent implements AfterViewInit {
     element.changeKind = 'CONCEPTUAL';
     element.changeComment = 'Values changed or managed representation added';
     this.service.update<ResponseDomain>(element).subscribe(result => {
-      this.questionItem.responseDomainId.rev = 0;
-      this.questionItem.responseDomainId.id = result.id;
+      this.questionItem.responseId.rev = 0;
+      this.questionItem.responseId.id = result.id;
       this.questionItem.responseDomain = result;
       // console.debug('rd + rdref updated');
       // this will fetch latest revision of Rd, when QI is saved.

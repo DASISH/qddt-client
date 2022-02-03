@@ -10,27 +10,24 @@ export class QuestionItem implements IEntityEditAudit {
   modified: number;
   version: IVersion = { major: 0, minor: 0 };
   classKind = ElementKind[ElementKind.QUESTION_ITEM];
-  basedOnObject: string;
-  basedOnRevision: number;
+  basedOn?: IRevId;
   changeComment?: string;
   changeKind?: string;
   question = '';
   intent: string;
   xmlLang = 'none';
-  responseDomainId: IRevId
+  responseId: IRevId;
   responseDomain: ResponseDomain;
+  parentRefs: IParentRef[];
+
   _links?: {
     [rel: string]: HalLink;
   };
   _embedded?: {
     [rel: string]: any;
   };
-  // responseDomainRef: ElementRevisionRefImpl<ResponseDomain>;
-  parentRefs: IParentRef[];
   public constructor(init?: Partial<QuestionItem>) {
     Object.assign(this, init);
-    // if (!this.responseDomainRef) {
-    //   this.responseDomainRef = new ElementRevisionRefImpl<ResponseDomain>({ elementKind: 'RESPONSE_DOMAIN' });
-    // }
+
   }
 }

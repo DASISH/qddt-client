@@ -6,7 +6,7 @@ import {
   OnInit,
   OnChanges,
   SimpleChanges, AfterViewInit
-} from '@angular/core';
+} from  '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import {
   ActionKind,
@@ -31,7 +31,7 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() readonly: boolean;
   @Output() modifiedEvent = new EventEmitter<ResponseDomain>();
 
-  public previewResponseDomain: any;
+  public previewResponseDomain: ResponseDomain;
 
   public readonly CATEGORY = ElementKind.CATEGORY;
   public domainTypeDef = DomainKind;
@@ -74,7 +74,7 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
     if (hasChanges(changes.responseDomain)) {
       this.responseDomain = new ResponseDomain(changes.responseDomain.currentValue)
       this.domainType = DomainKind[this.responseDomain.responseKind]
-      this.numberOfAnchors = this.responseDomain.managedRepresentation.children.length
+      this.numberOfAnchors = this.responseDomain.managedRep.children.length
       delay(20).then(() => {
         M.updateTextFields()
         this.buildPreviewResponseDomain()
@@ -88,7 +88,7 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   public onSelectCategory(item: IElement, idx) {
-    const code = this.responseDomain.managedRepresentation.children[idx].code;
+    const code = this.responseDomain.managedRep.children[idx].code;
     item.element.code = code;
     if (item.element.id === undefined) {
       this.onCreateCategory(item.element, idx);
@@ -106,10 +106,9 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   public async onSave() {
-    let managed = this.previewResponseDomain.managedRepresentation as Category
-    if (!managed.id) {
-      this.responseDomain.managedRepresentation = await this.service.update<Category>(managed).toPromise()
-    }
+    let managed = this.previewResponseDomain.managedRep
+    managed.name = this.previewResponseDomain.name
+    this.responseDomain.managedRep = await this.service.update<Category>(managed).toPromise()
 
     this.service.update<ResponseDomain>(new ResponseDomain(this.responseDomain)).subscribe(
       (rdResult) => {
@@ -120,22 +119,22 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   public onAnchorChanged(event, idx) {
-    this.responseDomain.managedRepresentation.children[idx] = event;
+    this.responseDomain.managedRep.children[idx] = event;
     this.buildPreviewResponseDomain();
   }
 
   public onChangeNumberOfCategories(num: number) {
-    this.responseDomain.managedRepresentation.inputLimit.maximum = num;
+    this.responseDomain.managedRep.inputLimit.maximum = num;
     this.onChangeNumberOfAnchors(num);
   }
 
   public onSelectDateFormatChange(format: string) {
-    this.responseDomain.managedRepresentation.format = format;
+    this.responseDomain.managedRep.format = format;
     this.buildPreviewResponseDomain();
   }
 
   public onChangeNumberOfAnchors(num: number) {
-    const rep = this.responseDomain.managedRepresentation;
+    const rep = this.responseDomain.managedRep;
     if (rep.children.length === num) {
       return;
     }

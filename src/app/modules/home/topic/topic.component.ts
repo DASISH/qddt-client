@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { OnInit, Component, OnChanges, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   ActionKind,
@@ -7,20 +7,23 @@ import {
   Study,
   Topic,
   PropertyStoreService,
-  MessageService,
-  HomeService, TemplateService, HierarchyPosition, ElementRevisionRef, delay, LANGUAGE_MAP, fadeInAnimation, HalResource
-} from 'src/app/lib';
+  HomeService, TemplateService, HierarchyPosition, ElementRevisionRef, delay, LANGUAGE_MAP, fadeInAnimation} from 'src/app/lib';
 
 
 @Component({
   selector: 'qddt-topic',
   providers: [{ provide: 'elementKind', useValue: 'TOPIC_GROUP' },],
+  styles: [
+    '.card.section.row { margin-left: -0.6rem; }',
+    '.dropdownmenu { top:1rem; position:relative;}',
+    'ul {  counter-reset: item;}'
+  ],
   templateUrl: './topic.component.html',
   animations: [fadeInAnimation],
   host: { '[@fadeInAnimation]': '' }
 })
 
-export class TopicComponent implements OnInit {
+export class TopicComponent implements OnInit, OnChanges {
   public readonly TOPIC_KIND = ElementKind.TOPIC_GROUP;
   public readonly LANGUAGES = LANGUAGE_MAP;
 
@@ -30,17 +33,26 @@ export class TopicComponent implements OnInit {
   public showReuse = false;
   public showEditForm = false;
   public showProgressBar = false;
-  public readonly: boolean;
-  public canDelete: boolean;
 
-  private getId = (href: string): string => href.split('/').pop();
+  public readonly canCreate: boolean;
+  public readonly canUpdate: boolean;
+  public readonly canDelete: boolean;
+
+  public readonly trackByIndex = (index: number, entity) => entity.id;
+
+  private readonly getId = (href: string): string => href.split('/').pop();
 
   constructor(private router: Router, private property: PropertyStoreService,
-    private message: MessageService, private homeService: HomeService<Topic>,
-    private templateService: TemplateService) {
+    private homeService: HomeService<Topic>, private templateService: TemplateService) {
 
-    this.readonly = !homeService.canDo(this.TOPIC_KIND).get(ActionKind.Create);
-    this.canDelete = homeService.canDo(this.TOPIC_KIND).get(ActionKind.Delete);
+      this.canCreate = this.homeService.canDo(this.TOPIC_KIND).get(ActionKind.Create);
+      this.canUpdate = this.homeService.canDo(this.TOPIC_KIND).get(ActionKind.Update);
+      this.canDelete = this.homeService.canDo(this.TOPIC_KIND).get(ActionKind.Delete);
+
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // console.debug(changes.)
   }
 
   public ngOnInit(): void {
@@ -58,25 +70,12 @@ export class TopicComponent implements OnInit {
     this.topics = []
     this.homeService.getListByParent(this.TOPIC_KIND,parentId)
     .then((result) => {
-      result.forEach(async (topic, index) => {
-        await this.templateService
-          .getByKindEntity<Topic>(this.TOPIC_KIND, this.getId(topic._links?.self.href))
-          .then((item) => result[index] = item);
-      });
       console.debug(result)
       this.topics = result
       this.property.set('topics', this.topics)
       this.showReuse = false;
       this.showProgressBar = false;
-  });
-
-
-    // this.homeService.getListByParent(this.TOPIC_KIND, parentId)
-    //   .then((result) => {
-    //     this.property.set('topics', this.topics = result);
-    //     this.showReuse = false;
-    //     this.showProgressBar = false;
-    //   });
+    });
   }
 
   public onToggleTopicForm() {
@@ -99,7 +98,9 @@ export class TopicComponent implements OnInit {
     this.onTopicSaved(topic);
   }
 
-  public onSelectTopic(topic: Topic) {
+
+  public async onGotoChild(topic: Topic) {
+    console.debug('onSelectTopic')
     const prevTopic = this.property.get('topic');
     if (!prevTopic || prevTopic.id !== topic.id) {
       this.property.set('concepts', null);
@@ -110,6 +111,16 @@ export class TopicComponent implements OnInit {
 
     this.router.navigate(['concept', topic.id]);
   }
+
+
+  async onToggleEdit(edit, topicId) {
+    if (!edit.isVisible){
+      let index = this.topics.findIndex( pre => pre.id == topicId)
+      this.topics[index] = await this.homeService.get(this.TOPIC_KIND,topicId )
+    }
+    edit.isVisible = !edit.isVisible;
+  }
+
 
   public onTopicSaved(topic: Topic) {
     if (topic !== null) {

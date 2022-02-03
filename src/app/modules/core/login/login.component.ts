@@ -3,6 +3,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Password, UserService } from '../../../lib';
+import { message } from '../../../components/form/validate.function';
 
 
 @Component({
@@ -62,7 +63,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
       (error) => {
         document.getElementById('password-1').classList.add('invalid');
         document.querySelector('.helper-text')
-          .setAttribute('data-error', error.error.exceptionMessage);
+          .setAttribute('data-error', error.message);
       },
     ).then(() => this.loading = false);
   }

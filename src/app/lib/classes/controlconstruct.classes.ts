@@ -102,8 +102,7 @@ export class ConstructInstruction {
 }
 
 export abstract class AbstractControlConstruct implements IEntityEditAudit {
-  basedOnObject?: string;
-  basedOnRevision?: number;
+  basedOn?: IRevId;
   changeComment?: string;
   changeKind?: string;
   modified?: number;
@@ -130,7 +129,8 @@ export class QuestionConstruct implements AbstractControlConstruct {
   label?: string;
   description?: string;
   classKind = ElementKind[ElementKind.QUESTION_CONSTRUCT];
-  questionItemRef: ElementRevisionRefImpl<QuestionItem>;
+  questionId: IRevId;
+  questionItem: QuestionItem;
   otherMaterials: IOtherMaterial[] = [];
   universe: Universe[] = [];
   controlConstructInstructions: ConstructInstruction[] = [];
@@ -138,11 +138,17 @@ export class QuestionConstruct implements AbstractControlConstruct {
   parameterOut?: Parameter[] = [];
   xmlLang?: string;
   get parameters() { return this.parameterOut; }
-  get preInstructions() { return this.controlConstructInstructions.filter(f => f.instructionRank === 'PRE').map(p => p.instruction); }
-  get postInstructions() { return this.controlConstructInstructions.filter(f => f.instructionRank === 'POST').map(p => p.instruction); }
+  get preInstructions():Instruction[] { return this.controlConstructInstructions.filter(f => f.instructionRank === 'PRE').map(p => p.instruction).concat([]); }
+  get postInstructions():Instruction[] { return this.controlConstructInstructions.filter(f => f.instructionRank === 'POST').map(p => p.instruction).concat([]); }
 
   public constructor(init?: Partial<QuestionConstruct>) {
     Object.assign(this, init);
+    if (!this.universe) {
+      this.universe = []
+    }
+    if(!this.controlConstructInstructions) {
+      this.controlConstructInstructions = []
+    }
   }
 
 }
@@ -176,6 +182,7 @@ export class SequenceConstruct implements AbstractControlConstruct {
   }
   public constructor(init?: Partial<SequenceConstruct>) {
     Object.assign(this, init);
+
   }
 }
 

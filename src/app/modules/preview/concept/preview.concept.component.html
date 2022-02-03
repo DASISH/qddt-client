@@ -1,10 +1,10 @@
 <ul>
-  <li *ngIf="concept.parentRef">
+  <li *ngIf="concept?.parentRef">
     <label>Path</label>
     <p>
       <a style="cursor: pointer;"
-        (click)="onClickStudy(concept.parentRef.parentRef.id)">{{ concept?.parentRef?.parentRef?.name }}</a>\
-      <a style="cursor: pointer;" (click)="onClickTopic(concept.parentRef.id)">{{ concept?.parentRef?.name }}</a>\
+        (click)="onClickStudy(concept.parentRef?.parentRef?.id)">{{ concept.parentRef?.parentRef?.name }}</a>\
+      <a style="cursor: pointer;" (click)="onClickTopic(concept.parentRef?.id)">{{ concept.parentRef?.name }}</a>\
       <a> {{ concept.name }} </a>
     </p>
   </li>
@@ -52,6 +52,6 @@
     <qddt-element-footer [element]="concept"></qddt-element-footer>
   </li>
   <li>
-    <qddt-comment-list [ownerId]="concept.id" [comments]="concept.comments"></qddt-comment-list>
+    <qddt-comment-list [ownerId]="concept.id" [comments]="concept._embedded?.comments"></qddt-comment-list>
   </li>
 </ul>

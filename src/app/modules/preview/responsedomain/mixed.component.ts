@@ -13,7 +13,7 @@ import { Category, ResponseCardinality, UserResponse, Parameter } from '../../..
       <ng-container [ngSwitch]="rep.categoryKind">
         <qddt-preview-rd-scale *ngSwitchCase="'SCALE'"
           [managedRepresentation]="rep"
-          [inputGroupName]="managedRepresentation.name"
+          [inputGroupName]="managedRepresentation.label"
           [displayLayout]="displayLayout"
           [parameterIn]="parameterIn"
           (selectedEvent)="onSelectedEvent($event,idx)">
@@ -21,7 +21,7 @@ import { Category, ResponseCardinality, UserResponse, Parameter } from '../../..
         <qddt-preview-rd-codelist *ngSwitchCase="'LIST'"
           [managedRepresentation]="rep"
           [responseCardinality]="responseCardinality"
-          [inputGroupName]="managedRepresentation.name"
+          [inputGroupName]="managedRepresentation.label"
           [parameterIn]="parameterIn"
           (selectedEvent)="onSelectedEvent($event,idx)">
         </qddt-preview-rd-codelist>
@@ -40,7 +40,7 @@ import { Category, ResponseCardinality, UserResponse, Parameter } from '../../..
         </qddt-preview-rd-text>
         <qddt-preview-rd-missing *ngSwitchCase="'MISSING_GROUP'"
           [managedRepresentation]="rep"
-          [inputGroupName]="managedRepresentation.name"
+          [inputGroupName]="managedRepresentation.label"
           [parameterIn]="parameterIn"
           (selectedEvent)="onSelectedEvent($event,idx)">
         </qddt-preview-rd-missing>

@@ -1,4 +1,4 @@
-<div *ngIf="controlConstruct" class="col s12">
+<div *ngIf="controlConstruct?.id" class="col s12">
 
   <form id="{{formId}}" #hf="ngForm" (ngSubmit)="onSave()">
 
@@ -21,7 +21,7 @@
       [xmlLang]="controlConstruct.xmlLang" [readonly]="false" (createdEvent)="onAddUniverse($event)" (deletedEvent)="onRemoveUniverse($event)">
     </qddt-element-collection>
 
-    <qddt-element-collection [listItems]="preInstructions" [labelName]="'Pre Instructions'"
+    <qddt-element-collection [listItems]="controlConstruct.preInstructions" [labelName]="'Pre Instructions'"
       [xmlLang]="controlConstruct.xmlLang" [elementKind]="INSTRUCTION" [readonly]="false"
       (createdEvent)="onAddPreInstruction($event)" (deletedEvent)="onRemovePreInstruction($event)">
     </qddt-element-collection>
@@ -31,12 +31,12 @@
       <a class="collection-header col s12" (click)="onQuestionSearch()" style="cursor: zoom-in">
         <label>
           <i class="material-icons small">help</i>
-          <span [innerHtml]="'Question ➫ ' + controlConstruct?.questionItemRef?.name"></span>
+          <span [innerHtml]="'Question ➫ ' + controlConstruct?.questionItem?.name"></span>
         </label>
         <a *ngIf="showButton" class="secondary-content btn-flat btn-floating btn-small waves-effect waves-light teal">
           <i class="material-icons" title="add QuestionItem">add</i>
         </a>
-        <qddt-version-label *ngIf="!showButton" class="right" [revisionRef]="controlConstruct?.questionItemRef">
+        <qddt-version-label *ngIf="!showButton" class="right" [revisionRef]="controlConstruct.questionItem">
         </qddt-version-label>
       </a>
       <div class="col s12" style="padding: 1px 1px;">
@@ -65,22 +65,22 @@
               </a>
             </li>
           </ul>
-          <p [innerHtml]="controlConstruct?.questionItemRef?.text" style="font-style: italic"></p>
+          <p [innerHtml]="controlConstruct?.questionItem?.text" style="font-style: italic"></p>
         </div>
       </div>
     </div>
 
     <qddt-preview-responsedomain
-      *ngIf="controlConstruct?.questionItemRef && controlConstruct.questionItemRef.element?.responseDomain"
-      [responseDomain]="controlConstruct.questionItemRef.element.responseDomain">
+      *ngIf="controlConstruct.questionItem && controlConstruct.questionItem.responseDomain"
+      [responseDomain]="controlConstruct.questionItem.responseDomain">
     </qddt-preview-responsedomain>
 
-    <qddt-element-collection [listItems]="postInstructions" [labelName]="'Post Instructions'"
+    <qddt-element-collection [listItems]="controlConstruct.postInstructions" [labelName]="'Post Instructions'"
       [xmlLang]="controlConstruct.xmlLang" [elementKind]="INSTRUCTION" [readonly]="false"
       (createdEvent)="onAddPostInstruction($event)" (deletedEvent)="onRemovePostInstruction($event)">
     </qddt-element-collection>
 
-    <qddt-conceptref [element]="controlConstruct?.questionItemRef?.element.parentRefs"></qddt-conceptref>
+    <qddt-conceptref [element]="controlConstruct.questionItem?.parentRefs"></qddt-conceptref>
 
     <qddt-download [fileStore]="fileStore" [entity]="controlConstruct" [readonly]="false"></qddt-download>
 

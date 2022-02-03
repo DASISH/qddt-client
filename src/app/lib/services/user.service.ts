@@ -2,11 +2,11 @@ import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { API_BASE_HREF } from '../../api';
-import { PropertyStoreService } from './property.service';
-import { Agency, IPassword, UserJwt, User } from '../classes';
-import { ActionKind, AuthorityKind, ElementKind } from '../enums';
 import { isString, TOKEN_NAME } from '../consts';
+import { ActionKind, AuthorityKind, ElementKind } from '../enums';
+import { Agency, IPassword, UserJwt, User } from '../classes';
 import { IAuthority, IPageResult } from '../interfaces';
+import { PropertyStoreService } from './property.service';
 import { TokenStorageService } from './token-storage.service';
 
 
@@ -144,8 +144,6 @@ export class UserService {
   }
 
 
-
-
   public async getUser(uuid: string): Promise<User> {
     if (this.property.has(uuid)) {
       return Promise.resolve(this.property.get(uuid));
@@ -162,7 +160,6 @@ export class UserService {
 
   public async getCurrentAgency(): Promise<Agency> {
     return  (await this.getCurrentUser())._embedded?.agency;
-    // return (await this.getAgencies()).find(pre => pre.id == agencyId)
   }
 
   public getAgencies(): Promise<Agency[]> {
@@ -184,11 +181,19 @@ export class UserService {
       const list = this.property.get(UserService.AUTHORITIES);
       return Promise.resolve(list);
     }
-    return this.http.get<IAuthority[]>(this.api + UserService.AUTHORITY_URL).toPromise()
-      .then(result => {
-        this.property.set(UserService.AUTHORITIES, result);
-        return result;
-      });
+    return new Promise<IAuthority[]>((resolve, reject) => {
+      this.http.get<IPageResult>(this.api + UserService.AUTHORITY_URL).toPromise()
+        .then(async (result) => {
+          this.property.set(UserService.AUTHORITIES, result._embedded.authorities);
+          // resolve(result._embedded.authorities);
+          return result._embedded.authorities
+        },
+          err => {
+            // Error
+            reject(err);
+          }
+        );
+    });
   }
 
   public isTokenExpired(): boolean {
@@ -202,7 +207,12 @@ export class UserService {
     }
     const clientTime = new Date();
     const diff = expire.getTime() - clientTime.getTime();
-    return (diff < 0);
+    const isExpired = (diff < 0)
+    if (isExpired){
+      this.logout()
+    }
+
+    return isExpired;
   }
 
   public getUsername(): string {

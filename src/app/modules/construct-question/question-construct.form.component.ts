@@ -38,12 +38,21 @@ export class QuestionConstructFormComponent implements OnChanges {
   public showButton = false;
   public fileStore: File[] = [];
 
-  public preInstructions: Instruction[] = [];
-  public postInstructions: Instruction[] = [];
+  // public preInstructions: Instruction[] = [];
+  // public postInstructions: Instruction[] = [];
 
   private readonly filterInstructions = (rank: string) => this.controlConstruct.controlConstructInstructions
     .filter(f => f.instructionRank === rank)
-    .map(ci => ci.instruction);
+    .map(ci => ci.instruction)
+    .concat([])
+
+  private readonly  questionRevRef = (controlConstruct:QuestionConstruct):IRevisionRef => {
+    return {
+      elementId:controlConstruct.questionId.id,
+      elementRevision:controlConstruct.questionId.id,
+      elementKind: controlConstruct.questionItem.classKind
+      } as IRevisionRef
+  }
 
   constructor(private service: TemplateService, private router: Router, private message: MessageService,) {
     this.showUploadFileForm = false;
@@ -52,8 +61,8 @@ export class QuestionConstructFormComponent implements OnChanges {
   }
   public ngOnChanges(changes: SimpleChanges): void {
     if (hasChanges(changes.controlConstruct)) {
-      this.preInstructions = this.filterInstructions('PRE');
-      this.postInstructions = this.filterInstructions('POST');
+      this.controlConstruct = new QuestionConstruct(changes.controlConstruct.currentValue)
+      console.debug(this.controlConstruct)
     }
   }
 
@@ -64,12 +73,12 @@ export class QuestionConstructFormComponent implements OnChanges {
   public onAddPreInstruction(item: IElement) {
     console.debug('break here');
     this.controlConstruct.controlConstructInstructions.push({ instruction: item.element, instructionRank: 'PRE' });
-    this.preInstructions = this.filterInstructions('PRE');
+    // this.preInstructions = this.filterInstructions('PRE');
   }
 
   public onAddPostInstruction(item: IElement) {
     this.controlConstruct.controlConstructInstructions.push({ instruction: item.element, instructionRank: 'POST' });
-    this.preInstructions = this.filterInstructions('POST');
+    // this.preInstructions = this.filterInstructions('POST');
   }
 
   public onRemoveUniverse(item: IElementRef) {
@@ -79,27 +88,27 @@ export class QuestionConstructFormComponent implements OnChanges {
   public onRemovePreInstruction(item: IElementRef) {
     this.controlConstruct.controlConstructInstructions =
       this.controlConstruct.controlConstructInstructions.filter(u => u.instruction.id !== item.elementId);
-    this.preInstructions = this.filterInstructions('PRE');
+    // this.preInstructions = this.filterInstructions('PRE');
   }
 
   public onRemovePostInstruction(item: IElementRef) {
     this.controlConstruct.controlConstructInstructions =
       this.controlConstruct.controlConstructInstructions.filter(u => u.instruction.id !== item.elementId);
-    this.preInstructions = this.filterInstructions('POST');
+    // this.preInstructions = this.filterInstructions('POST');
   }
 
   public onQuestionEdit() {
-    this.service.searchByUuid(this.controlConstruct.questionItemRef.elementId).then(
+    this.service.searchByUuid(this.controlConstruct.questionId.id).then(
       (result) => { this.router.navigate([result.url]); },
       (error) => { throw error; });
   }
 
   public onQuestionRemove() {
-    this.controlConstruct.questionItemRef = null;
+    this.controlConstruct.questionItem = null;
   }
 
   public onQuestionSync() {
-    this.SOURCE = this.controlConstruct.questionItemRef
+    this.SOURCE = this.questionRevRef(this.controlConstruct)
   }
 
   public onQuestionSearch() {
@@ -109,12 +118,18 @@ export class QuestionConstructFormComponent implements OnChanges {
   public onRevisionSelect(rev: ElementRevisionRefImpl<QuestionItem>) {
     rev.name = rev.element.name;
     rev.text = rev.element.question;
-    this.controlConstruct.questionItemRef = rev;
+    this.controlConstruct.questionId.id = rev.elementId;
+    this.controlConstruct.questionId.rev = rev.elementRevision;
+    this.controlConstruct.questionItem = rev.element;
     this.SOURCE = null;
   }
 
   public onQuestionPreview() {
-    this.message.sendMessage(this.controlConstruct.questionItemRef);
+    const revRef = {
+      elementId:this.controlConstruct.questionId.id,
+      elementRevision:this.controlConstruct.questionId.id,
+      elementKind: this.controlConstruct.questionItem.classKind } as IRevisionRef
+    this.message.sendMessage( revRef);
   }
 
   async onSave() {

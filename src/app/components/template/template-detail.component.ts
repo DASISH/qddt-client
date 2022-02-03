@@ -116,7 +116,7 @@ export class TemplateDetailComponent implements OnInit, OnDestroy, AfterViewInit
 
   onGetXml(item: IEntityEditAudit) {
     this.service.getXML(item).then(
-      (data) => { saveAs(data, item.name + '.xml', 'application/xml'); },
+      (data) => { saveAs(data, item.name + '.xml', 'text/xml'); },
       (error) => { throw error; });
   }
 

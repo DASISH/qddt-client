@@ -20,7 +20,7 @@
     <div class="row">
       <div class="col s4 m3 ">
         <div class="input-field">
-          <input [id]="'COUNT-'+ formId" name="COUNT" type="number" min="1" max="25" [ngModel]="missing.children.length"
+          <input [id]="'COUNT-'+ formId" name="COUNT" type="number" min="1" max="25" [ngModel]="missing.children?.length"
             (ngModelChange)="numbers($event)">
           <label [for]="'COUNT-' +formId"># Missing Codes</label>
         </div>

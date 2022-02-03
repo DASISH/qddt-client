@@ -1,109 +1,187 @@
 <div class="col s12 m9">
-
   <div class="card-panel row white-text teal">
     <i class="material-icons large right">looks_two</i>
     <h4>Questionnaire modules for {{ study?.name }}</h4>
 
-    <a *ngIf="!study.isArchived && !readonly" class="btn"
-      (click)="showEditForm = !showEditForm; showReuse=false; initComp();">
-      <i class="material-icons right" *ngIf="!showEditForm">keyboard_arrow_down</i>
+    <a
+      *ngIf="!study.isArchived && canCreate"
+      class="btn"
+      (click)="showEditForm = !showEditForm; showReuse = false; initComp()"
+    >
+      <i class="material-icons right" *ngIf="!showEditForm"
+        >keyboard_arrow_down</i
+      >
       <i class="material-icons right" *ngIf="showEditForm">keyboard_arrow_up</i>
       New
     </a>
 
-    <a class="btn" *ngIf="!study.isArchived && !readonly" (click)="showReuse = !showReuse; showEditForm=false ">
+    <a
+      class="btn"
+      *ngIf="!study.isArchived && canCreate"
+      (click)="showReuse = !showReuse; showEditForm = false"
+    >
       <i class="material-icons right" *ngIf="!showReuse">keyboard_arrow_down</i>
       <i class="material-icons right" *ngIf="showReuse">keyboard_arrow_up</i>
       reuse
     </a>
 
-    <qddt-copy-select *ngIf="showReuse" [parentId]="study.id" [elementKind]="TOPIC_KIND"
-      (dismissEvent)="showReuse=false;" (itemSelected)="onSelectedRevision($event)">
+    <qddt-copy-select
+      *ngIf="showReuse"
+      [parentId]="study.id"
+      [elementKind]="TOPIC_KIND"
+      (dismissEvent)="showReuse = false"
+      (itemSelected)="onSelectedRevision($event)"
+    >
     </qddt-copy-select>
 
     <div *ngIf="showEditForm" class="col s10 offset-s1 card-action">
       <form id="form1" #hf="ngForm">
         <div class="row input-field white-text">
-          <input id="name11" name="name" class="validate white-text" type="text" ngModel required data-length="250" />
+          <input
+            id="name11"
+            name="name"
+            class="validate white-text"
+            type="text"
+            ngModel
+            required
+            data-length="250"
+          />
           <label for="name11" class="white-text">Name</label>
         </div>
         <div class="row input-field white-text">
-          <textarea id="desc11" name="description" class="materialize-textarea white-text validate" ngModel required
-            data-length="20000"></textarea>
+          <textarea
+            id="desc11"
+            name="description"
+            class="materialize-textarea white-text validate"
+            ngModel
+            required
+            data-length="20000"
+          ></textarea>
           <label for="desc11" class="white-text">Description</label>
         </div>
         <div class="row right-align">
-          <button type="button" (click)="onNewSave(hf.value)" class="btn btn-default" [disabled]="!hf.form.valid">
+          <button
+            type="button"
+            (click)="onNewSave(hf.value)"
+            class="btn btn-default"
+            [disabled]="!hf.form.valid"
+          >
             Submit
           </button>
         </div>
       </form>
     </div>
-
   </div>
 
   <div *ngIf="showProgressBar" class="progress">
     <div class="indeterminate"></div>
   </div>
-
-  <div id="{{topic.id}}" *ngFor="let topic of topics"
-    class="row card section scrollspy card-toc white grey-text text-darken-2" [ngClass]="{'editGreen': edit.isVisible}">
-    <div class="col s1">
-      <ul class="dropdownmenu">
-        <li *ngIf="!topic.isArchived && !readonly">
-          <a class="btn-flat btn-floating btn-medium waves-effect waves-light green lighten-2"
-            (click)="edit.isVisible = !edit.isVisible;">
-            <i class="material-icons" title="Edit Concept">mode_edit</i></a>
-        </li>
-        <li *ngIf="!edit.isVisible">
-          <a class="btn-flat btn-floating btn-medium waves-effect waves-light blue lighten-2"
-            (click)="edit.showRevision = !edit.showRevision">
-            <i class="material-icons" title="Revision history">history</i></a>
-        </li>
-        <li *ngIf="!edit.isVisible">
-          <a class="btn-flat btn-floating btn-medium waves-effect waves-light teal" (click)="onSelectTopic(topic)">
-            <i class="material-icons" title="Go to child elements">play_arrow</i></a>
-        </li>
-        <li *ngIf="!edit.isVisible && !topic.isArchived  && canDelete">
-          <qddt-confirm-delete [element]="topic" (confirmAction)="onRemoveTopic($event)"></qddt-confirm-delete>
-        </li>
-      </ul>
-    </div>
-    <div class="col s10">
-      <div class="row">
+  <ul *ngIf="topics">
+    <li
+      *ngFor="let topic of topics; trackBy: trackByIndex"
+      class="scrollspy"
+      [id]="topic.id"
+    >
+      <div
+        class="card section row card-toc grey-text text-darken-2"
+        [ngClass]="{ editGreen: edit.isVisible }"
+      >
+        <!-- <div class="row card section scrollspy card-toc white grey-text text-darken-2" [ngClass]="{'editGreen': edit.isVisible}"> -->
+        <div class="col s1">
+          <ul class="dropdownmenu">
+            <li *ngIf="canUpdate && !topic.isArchived">
+              <a
+                class="btn-flat btn-floating btn-medium green lighten-2"
+                (click)="onToggleEdit(edit, topic.id)"
+              >
+                <i class="material-icons" title="Edit Topic">mode_edit</i></a
+              >
+            </li>
+            <li *ngIf="!edit.isVisible">
+              <a
+                class="btn-flat btn-floating btn-medium waves-effect waves-light blue lighten-2"
+                (click)="edit.showRevision = !edit.showRevision"
+              >
+                <i class="material-icons" title="Revision history"
+                  >history</i
+                ></a
+              >
+            </li>
+            <li *ngIf="!edit.isVisible">
+              <a
+                class="btn-flat btn-floating btn-medium waves-effect waves-light teal"
+                (click)="onGotoChild(topic)"
+              >
+                <i class="material-icons" title="Go to child elements"
+                  >play_arrow</i
+                ></a
+              >
+            </li>
+            <li *ngIf="canDelete && !topic.isArchived && !edit.isVisible">
+              <qddt-confirm-delete
+                [element]="topic"
+                (confirmAction)="onRemoveTopic($event)"
+              ></qddt-confirm-delete>
+            </li>
+          </ul>
+        </div>
         <div class="col s10">
-          <h5>{{ topic.name }}</h5>
-          {{ topic.label }}
-        </div>
-        <div class="col s2">
-          <qddt-version-label class="right" [element]="topic"></qddt-version-label>
+          <div class="row">
+            <div class="col s10">
+              <h5>{{ topic.name }}</h5>
+              {{ topic.label }}
+            </div>
+            <div class="col s2">
+              <qddt-version-label
+                class="right"
+                [element]="topic"
+              ></qddt-version-label>
+            </div>
+          </div>
+
+          <qddt-topic-edit
+            [topic]="topic"
+            #edit
+            (topicChanged)="onTopicSaved($event)"
+          >
+          </qddt-topic-edit>
+
+          <div *ngIf="!edit.isVisible" class="row">
+            <div class="col s12">
+              <p [innerHtml]="topic.description"></p>
+
+              <qddt-question-items
+                [revisionRefs]="topic.questionItems"
+                [readonly]="topic.isArchived || canUpdate"
+                [xmlLang]="topic.xmlLang"
+                (createdEvent)="onQuestionItemAdded($event, topic.id)"
+                (deletedEvent)="onQuestionItemRemoved($event, topic.id)"
+                (modifiedEvent)="onQuestionItemModified($event, topic.id)"
+              >
+              </qddt-question-items>
+
+              <qddt-download [entity]="topic" [readonly]="true"></qddt-download>
+
+              <qddt-comment-list
+                [ownerId]="topic.id"
+                [comments]="topic._embedded?.comments"
+              >
+              </qddt-comment-list>
+            </div>
+          </div>
+
+          <qddt-revision
+            *ngIf="edit.showRevision"
+            [current]="topic"
+          ></qddt-revision>
         </div>
       </div>
-
-      <qddt-topic-edit #edit [topic]="topic" (savedEvent)="onTopicSaved($event)">
-      </qddt-topic-edit>
-
-      <div *ngIf="!edit.isVisible" class="row">
-        <div class="col s12">
-          <p [innerHtml]="topic.description"></p>
-
-          <qddt-question-items [revisionRefs]="topic.questionItems" [readonly]="topic.isArchived || readonly"
-            [xmlLang]="topic.xmlLang" (createdEvent)="onQuestionItemAdded($event,topic.id)"
-            (deletedEvent)="onQuestionItemRemoved($event,topic.id)"
-            (modifiedEvent)="onQuestionItemModified($event,topic.id)">
-          </qddt-question-items>
-
-          <qddt-download [entity]="topic" [readonly]="true"></qddt-download>
-
-          <qddt-comment-list [ownerId]="topic.id" [comments]="topic._embedded?.comments">
-          </qddt-comment-list>
-        </div>
-      </div>
-
-      <qddt-revision *ngIf="edit.showRevision" [current]="topic"></qddt-revision>
-
-    </div>
-  </div>
+    </li>
+  </ul>
 </div>
 
-<qddt-toc [path]="'module'" [elements]="topics" (hierarchyChanged)="onHierarchyChanged($event)"></qddt-toc>
+<qddt-toc
+  [path]="'module'"
+  [elements]="topics"
+  (hierarchyChanged)="onHierarchyChanged($event)"
+></qddt-toc>

@@ -87,7 +87,7 @@ export class Topic implements IEntityEditAudit {
   isArchived = false;
   authors?: any[];
   questionItems: ElementRevisionRef[];
-  // children: Concept[];
+  children?: Concept[];
   classKind = ElementKind[ElementKind.TOPIC_GROUP];
   changeKind?: string;
   basedOn?:IRevId
@@ -97,7 +97,6 @@ export class Topic implements IEntityEditAudit {
   modified?: number;
   modifiedBy?: User | string;
   version?: IVersion;
-  agency?: Agency;
   otherMaterials?: IOtherMaterial[];
   xmlLang?: string;
   comments?: IComment[];
@@ -109,6 +108,14 @@ export class Topic implements IEntityEditAudit {
   };
   public constructor(init?: Partial<Topic>) {
     Object.assign(this, init);
+    if(!init._embedded) {
+      this._embedded = { }
+      this._embedded.modifiedBy = init.modifiedBy
+    }
+    if (init._embedded?.children) {
+      this.children = init._embedded.children
+      this._embedded.children = null
+    }
   }
   setLanguage(lang: string): Topic {
     this.xmlLang = lang;
@@ -140,7 +147,7 @@ export class Concept implements IEntityEditAudit {
 
   // modifiedBy?: User | string;
   // agency: Agency;
-  // parentRef?: IParentRef;
+  parentRef?: IParentRef;
 
   _links?: {
     [rel: string]: HalLink;

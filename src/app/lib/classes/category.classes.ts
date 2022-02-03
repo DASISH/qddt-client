@@ -81,14 +81,15 @@ export class Category implements IEntityEditAudit {
   otherMaterials?: IOtherMaterial[];
   xmlLang: string; // = 'en-GB';
   comments?: IComment[];
-  get children(): Category[] {
-    if (!this._embedded.children)
-      this._embedded.children = []
-    return this._embedded.children;
-  }
-  set children(value: Category[]) {
-    this._embedded.children = value;
-  }
+  children?: Category[]
+  // get children(): Category[] {
+  //   if (!this._embedded.children)
+  //     this._embedded.children = []
+  //   return this._embedded.children;
+  // }
+  // set children(value: Category[]) {
+  //   this._embedded.children = value;
+  // }
 
   _embedded?: {
     [rel: string]: any;
@@ -119,4 +120,8 @@ export class Category implements IEntityEditAudit {
     return this;
   }
 
+  public setChildren(children: Category[]): Category {
+    this._embedded.children = children
+    return this
+  }
 }

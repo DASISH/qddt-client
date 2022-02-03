@@ -109,7 +109,7 @@ export class ElementRevisionComponent implements OnChanges {
       // case ElementKind.CONDITION_CONSTRUCT:
       //   return name;
       case ElementKind.QUESTION_CONSTRUCT:
-        return name + ' ➫ ' + (entity as QuestionConstruct).questionItemRef.element.question || (entity as QuestionConstruct).description;
+        return name + ' ➫ ' + (entity as QuestionConstruct).questionItem.question || (entity as QuestionConstruct).description;
       case ElementKind.STATEMENT_CONSTRUCT:
         return name + ' ➫ ' + (entity as StatementConstruct).statement;
       case ElementKind.QUESTION_ITEM:

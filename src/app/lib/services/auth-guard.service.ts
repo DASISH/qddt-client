@@ -30,6 +30,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
       return true;
     }
 
+    this.authService.logout()
     // this.router.navigate([{ outlets: { popup: ['login'] } }]);
 
     this.router.navigate(['/login']);

@@ -1,5 +1,5 @@
 import { ElementRevisionRef, SurveyProgram } from '../classes';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { API_BASE_HREF } from '../../api';

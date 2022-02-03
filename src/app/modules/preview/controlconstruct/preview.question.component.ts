@@ -29,13 +29,13 @@ import * as uuid from 'uuid';
 
     <li class="collection-item" >
       <p class="card-panel grey lighten-5 grey-text text-darken-1"
-      [innerHtml]="insertParam(controlConstruct?.questionItemRef?.text)" style="font-style: italic"></p>
+      [innerHtml]="insertParam(controlConstruct?.questionItem?.text)" style="font-style: italic"></p>
     </li>
 
     <li class="collection-item">
       <qddt-preview-responsedomain
-        *ngIf="controlConstruct?.questionItemRef && controlConstruct.questionItemRef.element"
-        [responseDomain]="controlConstruct.questionItemRef.element._embedded.responseDomain"
+        *ngIf="controlConstruct?.questionItem && controlConstruct.questionItem"
+        [responseDomain]="controlConstruct.questionItem._embedded.responseDomain"
         [parameterIn]="controlConstruct.parameterIn"
         [showLabel]="false"
         (selectedEvent)="onSelectedEvent($event)">

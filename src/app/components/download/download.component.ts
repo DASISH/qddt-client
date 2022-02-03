@@ -63,7 +63,7 @@ export class FileDownloadComponent implements OnChanges {
     const fileName = element.name + '-ddi32-' + element.version.major + element.version.minor + '.xml';
     this.service.getXML(element).then(
       (data: any) => {
-        saveAs(data, fileName, 'application/xml');
+        saveAs(data, fileName, 'text/xml');
       });
   }
 

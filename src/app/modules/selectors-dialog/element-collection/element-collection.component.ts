@@ -16,7 +16,7 @@ import {
         <i class="material-icons" title="add Item">playlist_add</i>
       </a>
     </a>
-    <a class="collection-item col s12 black-text text-lighten-3" *ngFor="let item of listItems.sort()" (click)="onItemPreview($event,item)" >
+    <a class="collection-item col s12 black-text text-lighten-3" *ngFor="let item of listItems?.sort()" (click)="onItemPreview($event,item)" >
       <qddt-version-label class="right" [revisionRef]="item" ></qddt-version-label>
       <ul  class="dropleft">
         <li>
@@ -43,7 +43,7 @@ import {
 `,
 })
 export class ElementCollectionComponent {
-  @Input() listItems: IEntityAudit[];
+  @Input() listItems: IEntityAudit[]=[];
   @Input() elementKind: ElementKind;
   @Input() labelName = 'where is my label?';
   @Input() xmlLang = 'none';
@@ -58,11 +58,12 @@ export class ElementCollectionComponent {
   showSearch = false;
 
   constructor(private service: TemplateService, public message: MessageService, private router: Router) {
+
   }
 
 
   public onElementSelectedEvent(ref: IElement) {
-    this.listItems.push(ref.element);
+    // this.listItems.push(ref.element);
     this.createdEvent.emit(ref);
     this.showSearch = false;
   }
