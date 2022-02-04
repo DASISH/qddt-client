@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { UserService } from './user.service';
+import { toast } from 'materialize-css';
 
 
 
@@ -20,7 +21,7 @@ export class ErrorLogService {
     } else if (error instanceof TypeError) {
 
       console.error(error.stack);
-      M.toast({ html: '<em style="color:yellow">' + (error as TypeError).message + '</em>', displayLength: 5000 });
+      toast({ html: '<em style="color:yellow">' + (error as TypeError).message + '</em>', displayLength: 5000 });
 
     } else if (error instanceof Error) {
 
@@ -30,11 +31,11 @@ export class ErrorLogService {
         this.logError(error.rejection);
         return;
       }
-      M.toast({ html: error.message, displayLength: 5000 });
+      toast({ html: error.message, displayLength: 5000 });
     } else {
 
       console.error('Nobody threw an error but something happened!', error);
-      M.toast({ html: error.message, displayLength: 5000 });
+      toast({ html: error.message, displayLength: 5000 });
 
     }
   }
@@ -42,7 +43,7 @@ export class ErrorLogService {
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
-      M.toast({ html: error.error.message });
+      toast({ html: error.error.message });
     } else {
       if (error.status === 401) {
         this.authService.logout();
@@ -50,12 +51,12 @@ export class ErrorLogService {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
       if (error.error.userfriendlyMessage) {
-        M.toast({
+        toast({
           html: error.error.userfriendlyMessage,
           displayLength: 5000
         });
       } else {
-        M.toast({
+        toast({
           html: `Error code ${error.status}, <br> ${error.error.exceptionMessage}`,
           displayLength: 5000
         });

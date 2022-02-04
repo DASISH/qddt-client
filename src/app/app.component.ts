@@ -1,12 +1,11 @@
 import { Component, ViewEncapsulation, OnDestroy, AfterViewInit, LOCALE_ID, Inject } from '@angular/core';
 import { IElement, IElementRef, IRevisionRef } from './lib';
-import { MessageService, PropertyStoreService, UserService } from './lib/services';
+import { MessageService, UserService } from './lib/services';
 
 // declare var $: any;
 
 
 @Component({
-
   selector: 'qddt-app',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
@@ -16,8 +15,7 @@ import { MessageService, PropertyStoreService, UserService } from './lib/service
 export class AppComponent implements OnDestroy, AfterViewInit {
   ref: IElementRef | IRevisionRef | IElement;
 
-  constructor(private users: UserService, private properties: PropertyStoreService,
-    private messages: MessageService, @Inject(LOCALE_ID) protected localID: string) {
+  constructor(private users: UserService, private messages: MessageService, @Inject(LOCALE_ID) protected localID: string) {
     console.debug(localID);
     messages.getMessage().subscribe({
       next: (aMessage) => this.onPreivewShow(aMessage)
