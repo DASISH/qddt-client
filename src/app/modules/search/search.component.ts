@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, ParamMap, Params } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PropertyStoreService, MessageService, TemplateService, IOtherMaterial, saveAs } from 'src/app/lib';
 
 @Component({

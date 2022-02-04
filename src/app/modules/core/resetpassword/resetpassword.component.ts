@@ -1,5 +1,6 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { toast } from 'materialize-css';
 
 import { Password, UserService } from '../../../lib';
 
@@ -18,7 +19,7 @@ export class ResetpasswordComponent implements AfterViewInit {
   register(f) {
     this.loading = true;
     this.authenticationService.resetPassword(new Password(f)).subscribe(
-      (result) => { M.toast({ html: result.message, displayLength: 5000 }); },
+      (result) => { toast({ html: result.message, displayLength: 5000 }); },
       (error) => { throw error; },
       () => this.loading = false
     );
