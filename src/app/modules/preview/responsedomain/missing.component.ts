@@ -5,11 +5,11 @@ import { hasChanges } from 'src/app/lib/consts';
 @Component({
   selector: 'qddt-preview-rd-missing',
   template: `
-<ng-container *ngIf="missing?.children">
+<ng-container *ngIf="missing?.anchors">
   <span style="font-weight: bold;">
     <label>Missing</label>
   </span>
-    <div *ngFor="let category of missing.children;" >
+    <div *ngFor="let category of missing.anchors;" >
       <span class="codeValue"> {{ category.code?.value }} </span>
       <label>
         <input [name]="inputGroupName" type="radio" (change)="checkOption(category)" [checked]="unchecked"/>
@@ -43,7 +43,7 @@ export class ResponsedomainMissingComponent implements OnChanges {
     if (this.managedRepresentation.categoryKind === 'MISSING_GROUP') {
       return this.managedRepresentation;
     }
-    return this.managedRepresentation.children.find(e => e.categoryKind === 'MISSING_GROUP');
+    return this.managedRepresentation.anchors.find(e => e.categoryKind === 'MISSING_GROUP');
   }
 
   public checkOption(category: Category) {

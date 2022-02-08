@@ -1,4 +1,4 @@
-<div *ngIf="item">
+<!-- <div *ngIf="item"> -->
 
   <div class="fixed-action-btn vertical click-to-toggle direction-top">
     <a class="btn-floating btn-large cyan"><i class="large material-icons">menu</i></a>
@@ -48,7 +48,7 @@
 
     <qddt-revision class="row" *ngIf="revisionIsVisible" [current]="item"> </qddt-revision>
 
-    <qddt-comment-list [ownerId]="item.id" [comments]="item.comments">
+    <qddt-comment-list [ownerId]="item?.id" [comments]="item?.comments">
     </qddt-comment-list>
   </div>
-</div>
+<!-- </div> -->

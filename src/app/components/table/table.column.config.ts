@@ -25,6 +25,7 @@ const SEQUENCE_CONSTRUCT_COLUMNS = [
 ];
 
 const CONDITION_CONSTRUCT_COLUMNS = [
+  new Column({ label: 'Label', name: 'label', sortable: true }),
   new Column({ label: 'Name', name: 'name', sortable: true }),
   new Column({ label: 'Condition', name: 'condition', sortable: true })
 ];
@@ -47,7 +48,7 @@ const PUBLICATION_COLUMNS = [
 const CATEGORY_COLUMNS = [
   new Column({ name: 'label', label: 'Label', sortable: true }),
   new Column({ name: 'name', label: 'Name', sortable: true }),
-  new Column({ name: 'description', label: 'Description', sortable: true }),
+  // new Column({ name: 'description', label: 'Description', sortable: true }),
   new Column({ name: 'xmlLang', label: 'Language', sortable: true })
 ];
 

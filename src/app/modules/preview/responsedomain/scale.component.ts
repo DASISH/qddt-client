@@ -97,7 +97,7 @@ export class ResponsedomainScaleComponent implements OnChanges, AfterViewInit {
 
     if (!rep) { return; }
 
-    const categories = rep.children.map(x => Object.assign({}, x))
+    const categories = rep.anchors.map(x => Object.assign({}, x))
       .sort((a, b) => +a.code.value - +b.code.value);
 
     for (let i = this.min; i <= this.max; i += this.stepUnit) {
@@ -113,8 +113,8 @@ export class ResponsedomainScaleComponent implements OnChanges, AfterViewInit {
     this.headers = [];
     let categories: any[] = [];
     const rep = this.managedRepresentation;
-    if (rep !== undefined && rep.children !== undefined) {
-      categories = rep.children;
+    if (rep !== undefined && rep.anchors !== undefined) {
+      categories = rep.anchors;
     }
     for (let i = this.min; i <= this.max; i++) {
       const c = categories

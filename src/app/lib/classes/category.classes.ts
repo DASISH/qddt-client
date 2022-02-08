@@ -73,7 +73,7 @@ export class Category implements IEntityEditAudit {
   basedOn?: IRevId;
 
   changeComment?: string;
-  modified: number =0;
+  modified?: number;
   modifiedBy?: User|string;
   version?: IVersion;
   agency?: Agency;
@@ -82,15 +82,6 @@ export class Category implements IEntityEditAudit {
   xmlLang: string; // = 'en-GB';
   comments?: IComment[];
   children?: Category[]
-  // get children(): Category[] {
-  //   if (!this._embedded.children)
-  //     this._embedded.children = []
-  //   return this._embedded.children;
-  // }
-  // set children(value: Category[]) {
-  //   this._embedded.children = value;
-  // }
-
   _embedded?: {
     [rel: string]: any;
   } = {}
@@ -101,12 +92,28 @@ export class Category implements IEntityEditAudit {
     } else if (this.label && !this.name) {
       this.name = this.label.toLocaleUpperCase();
     }
-    this.code = (init) ? new Code(init.code) : new Code();
-    if (!this._embedded)
+    this.code = ((init) && (init.code)) ? new Code(init.code) : null
+    if (!this._embedded) {
       this._embedded = {}
-
-    this.children = ((init) && (init.children)) ? init.children.map(value => new Category(value)) : [];
+    }
+    console.group(this.name)
+    console.debug(this.anchors)
+    console.groupEnd()
+    this.anchors?.forEach(value => new Category(value));
   }
+
+get anchors() : Category[]{
+   return this.children || this._embedded.children as Category[] || []
+}
+set anchors(category:Category[]) {
+  if (this.children){
+    this.children = category
+  } else {
+    this._embedded.children = category
+  }
+}
+
+
 
   public setKind(kind: CategoryKind): Category {
     this.hierarchyLevel = HierarchyLevel[CATEGORY_INFO[kind].level];
@@ -120,8 +127,5 @@ export class Category implements IEntityEditAudit {
     return this;
   }
 
-  public setChildren(children: Category[]): Category {
-    this._embedded.children = children
-    return this
-  }
+
 }

@@ -6,10 +6,10 @@ import { Category, ResponseCardinality, UserResponse, Parameter } from '../../..
   selector: 'qddt-preview-rd-mixed',
   template: `
 <ng-container>
-  <label *ngIf="managedRepresentation && managedRepresentation.children.length > 0" class="active teal-text" title="Response Cardinality: from {{responseCardinality.minimum}} to {{responseCardinality.maximum}}">
+  <label *ngIf="managedRepresentation && managedRepresentation.anchors.length > 0" class="active teal-text" title="Response Cardinality: from {{responseCardinality.minimum}} to {{responseCardinality.maximum}}">
       {{ managedRepresentation.label }} v.<qddt-version [element]="managedRepresentation" ></qddt-version>
   </label>
-    <ng-container *ngFor="let rep of managedRepresentation.children; let idx = index;">
+    <ng-container *ngFor="let rep of managedRepresentation.anchors; let idx = index;">
       <ng-container [ngSwitch]="rep.categoryKind">
         <qddt-preview-rd-scale *ngSwitchCase="'SCALE'"
           [managedRepresentation]="rep"

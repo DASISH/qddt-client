@@ -74,7 +74,7 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
     if (hasChanges(changes.responseDomain)) {
       this.responseDomain = new ResponseDomain(changes.responseDomain.currentValue)
       this.domainType = DomainKind[this.responseDomain.responseKind]
-      this.numberOfAnchors = this.responseDomain.managedRep.children.length
+      this.numberOfAnchors = this.responseDomain.managedRepresentation.anchors.length
       delay(20).then(() => {
         M.updateTextFields()
         this.buildPreviewResponseDomain()
@@ -88,7 +88,7 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   public onSelectCategory(item: IElement, idx) {
-    const code = this.responseDomain.managedRep.children[idx].code;
+    const code = this.responseDomain.managedRepresentation.anchors[idx].code;
     item.element.code = code;
     if (item.element.id === undefined) {
       this.onCreateCategory(item.element, idx);
@@ -106,9 +106,9 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   public async onSave() {
-    let managed = this.previewResponseDomain.managedRep
+    let managed = this.previewResponseDomain.managedRepresentation
     managed.name = this.previewResponseDomain.name
-    this.responseDomain.managedRep = await this.service.update<Category>(managed).toPromise()
+    // this.responseDomain.managedRepresentation = await this.service.update<Category>(managed).toPromise()
 
     this.service.update<ResponseDomain>(new ResponseDomain(this.responseDomain)).subscribe(
       (rdResult) => {
@@ -119,23 +119,23 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   public onAnchorChanged(event, idx) {
-    this.responseDomain.managedRep.children[idx] = event;
+    this.responseDomain.managedRepresentation.anchors[idx] = event;
     this.buildPreviewResponseDomain();
   }
 
   public onChangeNumberOfCategories(num: number) {
-    this.responseDomain.managedRep.inputLimit.maximum = num;
+    this.responseDomain.managedRepresentation.inputLimit.maximum = num;
     this.onChangeNumberOfAnchors(num);
   }
 
   public onSelectDateFormatChange(format: string) {
-    this.responseDomain.managedRep.format = format;
+    this.responseDomain.managedRepresentation.format = format;
     this.buildPreviewResponseDomain();
   }
 
   public onChangeNumberOfAnchors(num: number) {
-    const rep = this.responseDomain.managedRep;
-    if (rep.children.length === num) {
+    const rep = this.responseDomain.managedRepresentation;
+    if (rep.anchors.length === num) {
       return;
     }
     const count = rep.inputLimit.maximum - rep.inputLimit.minimum + 1;
@@ -147,19 +147,20 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
       this.numberOfAnchors = num;
     }
 
-    rep.children = rep.children.slice(0, this.numberOfAnchors);
+    let anchorsNew = rep.anchors.slice(0, this.numberOfAnchors);
 
     if (this.domainType === DomainKind.LIST) {
-      for (let i = rep.children.length; i < this.numberOfAnchors; i++) {
-        rep.children.push(new Category({ code: { value: String(i + 1) }, xmlLang: this.responseDomain.xmlLang }));
+      for (let i = rep.anchors.length; i < this.numberOfAnchors; i++) {
+        anchorsNew.push(new Category({ code: { value: String(i + 1) }, xmlLang: this.responseDomain.xmlLang }));
       }
     } else if (this.domainType === DomainKind.SCALE) {
-      const len = rep.children.length;
+      const len = rep.anchors.length;
       for (let i = len; i < this.numberOfAnchors; i++) {
-        rep.children.push(new Category({ code: { value: '', }, xmlLang: this.responseDomain.xmlLang }));
+        anchorsNew.push(new Category({ code: { value: '', }, xmlLang: this.responseDomain.xmlLang }));
       }
     }
-    rep.description = rep.children.map(c => c.label).join(' + ');
+    rep.anchors = anchorsNew
+    rep.description = rep.anchors.map(c => c.label).join(' + ');
     this.buildPreviewResponseDomain();
   }
 

@@ -1,6 +1,5 @@
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-// import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, Inject, LOCALE_ID } from '@angular/core';
 import { Component,OnInit, OnChanges, OnDestroy, Input, Output, EventEmitter, Inject, LOCALE_ID, SimpleChanges } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { Column } from './table.column';

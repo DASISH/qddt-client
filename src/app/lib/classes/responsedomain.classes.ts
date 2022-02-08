@@ -68,7 +68,7 @@ export class ResponseDomain implements IEntityEditAudit {
   basedOn?: IRevId;
 
   modified?: number;
-  version?: IVersion = { major: 0, minor: 0 };
+  version?: IVersion = { major: 1, minor: 0 };
   xmlLang?: string;
   _links?: {
     [rel: string]: HalLink;
@@ -77,31 +77,34 @@ export class ResponseDomain implements IEntityEditAudit {
     [rel: string]: any;
   };
 
-  get managedRep(): Category {
-    return this.managedRepresentation || this._embedded.managedRepresentation
-  }
-  set managedRep(category:Category) {
-    if (this.managedRepresentation){
-      this.managedRepresentation = category
-    } else {
-      this._embedded.managedRepresentation = category
-    }
-  }
-
   public constructor(init?: Partial<ResponseDomain>) {
+    if (init?._embedded?.managedRepresentation) {
+      init.managedRepresentation = init?._embedded?.managedRepresentation
+      init._embedded.managedRepresentation = null
+    }
+
     Object.assign(this, init);
     if (init && init.xmlLang) {
-      if (!this._embedded)
+      if (!this._embedded) {
         this._embedded = {};
+      }
+      if(!this.managedRepresentation) {
+        console.debug("ingen managedRepresentation?")
+        this.managedRepresentation = new Category({xmlLang: init.xmlLang, name: init.name})
+      } else {
+        console.debug("init managedRepresentation")
+        this.managedRepresentation = new Category(this.managedRepresentation)
+        this.managedRepresentation.name = this.name
+      }
   }
 }
 
+
 public get isMixed() { return (this.responseKind === 'MIXED'); }
 
-public get getChildren() { return this.managedRepresentation._embedded?.children || this.managedRepresentation.children; }
 
 public get missing(): Category {
-    return this.getChildren.find(e => e.categoryKind === 'MISSING_GROUP');
+    return this.managedRepresentation.anchors.find(e => e.categoryKind === 'MISSING_GROUP');
   }
 
   public setResponseKind(kind: DomainKind): ResponseDomain {
@@ -121,17 +124,17 @@ public get missing(): Category {
       this.managedRepresentation = new Category({
         name: 'Mixed [ renamed in service ]',
         xmlLang: this.xmlLang,
-      }).setChildren([this.managedRepresentation]);
+        children:[this.managedRepresentation]
+      })
       this.id = null;
       this.setResponseKind(DomainKind.MIXED);
     }
-    const filtered = this.getChildren.filter(e => e.categoryKind !== rep.categoryKind);
+    const filtered = this.managedRepresentation.anchors.filter(e => e.categoryKind !== rep.categoryKind);
     filtered.push(rep);
     // there is no other children or this is a mixed responseDomain....
-    this.managedRepresentation.children = filtered;
+    this.managedRepresentation.anchors = filtered;
     this.name = this.managedRepresentation.label =
-      'Mixed (' + this.managedRepresentation.children.map(c => c.label).join(' + ') + ')';
+      'Mixed (' + this.managedRepresentation.anchors.map(c => c.label).join(' + ') + ')';
   }
-
 }
 

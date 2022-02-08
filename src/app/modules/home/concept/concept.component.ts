@@ -14,6 +14,10 @@ import {
   selector: 'qddt-concept',
   providers: [{ provide: 'elementKind', useValue: 'CONCEPT' },],
   templateUrl: './concept.component.html',
+  styles: [
+    '.card.section.row { margin-left: -0.6rem; }',
+    '.dropdownmenu { top:1rem; position:relative;}'
+  ],
   animations: [fadeInAnimation],
   host: { '[@fadeInAnimation]': '' }
 })

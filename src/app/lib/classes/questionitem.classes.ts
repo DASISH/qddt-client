@@ -8,7 +8,7 @@ export class QuestionItem implements IEntityEditAudit {
   agency: Agency;
   name = '';
   modified: number;
-  version: IVersion = { major: 0, minor: 0 };
+  version: IVersion = { major: 1, minor: 0 };
   classKind = ElementKind[ElementKind.QUESTION_ITEM];
   basedOn?: IRevId;
   changeComment?: string;

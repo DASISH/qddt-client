@@ -41,7 +41,7 @@ export const QDDT_QUERY_INFOS: QueryInfo[] = [
     ElementKind.CONDITION_CONSTRUCT,
     'Condition',
     'controlconstruct',
-    'controlConstructs',
+    'conditionConstructs',
     ['label', 'name', 'description'],
     '&constructKind=CONDITION_CONSTRUCT'
   ),
@@ -65,7 +65,7 @@ export const QDDT_QUERY_INFOS: QueryInfo[] = [
     ElementKind.STATEMENT_CONSTRUCT,
     'Statement',
     'controlconstruct',
-    'controlConstructs',
+    'statementItems',
     ['label', 'name', 'description'],
     '&constructKind=STATEMENT_CONSTRUCT'
   ),

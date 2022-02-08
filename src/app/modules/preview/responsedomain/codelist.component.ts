@@ -34,7 +34,7 @@ export class ResponsedomainCodeListComponent implements OnChanges {
     this.rows = [];
     const rep = this.managedRepresentation;
 
-    for (const c of rep.children) {
+    for (const c of rep.anchors) {
       const newLocal = { label: c.label, value: c.code.value, checked: false } as UserResponse;
       this.rows.push(newLocal);
     }

@@ -82,7 +82,7 @@ export class PreviewResponsedomainComponent implements OnChanges {
     if (hasChanges(changes.responseDomain)) {
       this.responseDomain = new ResponseDomain(changes.responseDomain.currentValue)
       this.responseKind = DomainKind[this.responseDomain.responseKind];
-      this.rep =  this.responseDomain.managedRep
+      this.rep =  this.responseDomain.managedRepresentation
       this.cardinality = new ResponseCardinality(this.responseDomain.responseCardinality);
       this.displayLayout = +this.responseDomain.displayLayout;
     }
