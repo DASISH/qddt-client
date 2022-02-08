@@ -1,13 +1,6 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  OnInit,
-  OnChanges,
-  SimpleChanges, AfterViewInit
-} from  '@angular/core';
+
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { EventEmitter, Component, OnInit, OnChanges, AfterViewInit, Input, Output, SimpleChanges } from '@angular/core';
 import {
   ActionKind,
   Category, DisplayLayoutKind,

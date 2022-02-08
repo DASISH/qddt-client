@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { ActionKind, Category, ElementKind, IElement, LANGUAGE_MAP, TemplateService, } from '../../lib';
 
 @Component({
@@ -6,7 +6,7 @@ import { ActionKind, Category, ElementKind, IElement, LANGUAGE_MAP, TemplateServ
   templateUrl: './missing.form.component.html'
 })
 
-export class MissingFormComponent {
+export class MissingFormComponent implements OnChanges {
   @Input() missing: Category;
   @Input() readonly = false;
   @Output() modifiedEvent = new EventEmitter<Category>();
@@ -20,6 +20,11 @@ export class MissingFormComponent {
 
   constructor(private service: TemplateService) {
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.MISSING_GROUP);
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.missing.currentValue) {
+      this.missing = new Category(changes.missing.currentValue)
+    }
   }
 
 

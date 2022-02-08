@@ -43,8 +43,9 @@ export class QuestionFormComponent implements AfterViewInit {
   }
 
   onResponseDomainSelected(item: ElementRevisionRefImpl<ResponseDomain>, form: FormGroup) {
-    this.questionItem.responseId.id = item.elementId;
-    this.questionItem.responseId.rev = item.elementRevision;
+    this.questionItem.responseId = {
+      id: item.elementId, rev: item.elementRevision
+    }
     this.questionItem.responseDomain = item.element;
   }
 

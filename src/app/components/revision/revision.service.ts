@@ -1,5 +1,5 @@
-import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable, Inject } from '@angular/core';
 import { API_BASE_HREF } from '../../api';
 import { ElementKind, getQueryInfo, HalResource, Page } from '../../lib';
 
@@ -18,16 +18,26 @@ export class RevisionService {
   }
 
   public getRevisions(kind: ElementKind, id: string): Promise<any> {
-
-    const qe = getQueryInfo(kind);
-    return this.http.get(this.api + 'revision/' + qe.path + '/' + id).toPromise();
+    return new Promise((resolve, reject) => {
+      const qe = getQueryInfo(kind);
+      this.http.get<HalResource>(this.api + qe.path + '/revisions/' + id).toPromise()
+        .then(
+          async result => resolve(result._embedded[qe.halName]),
+          err => reject(err)
+        );
+    });
 
   }
 
   public getRevisionPage(kind: ElementKind, id: string, page: Page): Promise<any> {
-
-    const qe = getQueryInfo(kind);
-    return this.http.get(this.api + 'revision/' + qe.path + '/' + id + '?' + page.queryPage).toPromise();
+    return new Promise((resolve, reject) => {
+      const qe = getQueryInfo(kind);
+      this.http.get<HalResource>(this.api + qe.path + '/revisions/' + id + '?' + page.queryPage).toPromise()
+        .then(
+          async result => resolve(result._embedded[qe.halName]),
+          err => reject(err)
+        );
+    });
 
   }
 }

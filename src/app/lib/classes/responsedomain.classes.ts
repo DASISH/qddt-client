@@ -1,5 +1,5 @@
 import { Category, CategoryKind, ResponseCardinality } from './category.classes';
-import { HalLink, IEntityEditAudit, IRevId, ISelectOption, IVersion} from '../interfaces';
+import { HalLink, IEntityEditAudit, IRevId, ISelectOption, IVersion } from '../interfaces';
 import { ElementKind } from '../enums';
 
 export enum DomainKind {
@@ -80,30 +80,31 @@ export class ResponseDomain implements IEntityEditAudit {
   public constructor(init?: Partial<ResponseDomain>) {
     if (init?._embedded?.managedRepresentation) {
       init.managedRepresentation = init?._embedded?.managedRepresentation
-      init._embedded.managedRepresentation = null
+      init._embedded = {
+        agency: init?._embedded?.agency,
+        modifiedBy: init?._embedded?.modifiedBy,
+      }
     }
 
     Object.assign(this, init);
+
     if (init && init.xmlLang) {
-      if (!this._embedded) {
-        this._embedded = {};
-      }
-      if(!this.managedRepresentation) {
+      if (!this.managedRepresentation) {
         console.debug("ingen managedRepresentation?")
-        this.managedRepresentation = new Category({xmlLang: init.xmlLang, name: init.name})
+        this.managedRepresentation = new Category({ xmlLang: init.xmlLang, name: init.name })
       } else {
         console.debug("init managedRepresentation")
         this.managedRepresentation = new Category(this.managedRepresentation)
         this.managedRepresentation.name = this.name
       }
+    }
   }
-}
 
 
-public get isMixed() { return (this.responseKind === 'MIXED'); }
+  public get isMixed() { return (this.responseKind === 'MIXED'); }
 
 
-public get missing(): Category {
+  public get missing(): Category {
     return this.managedRepresentation.anchors.find(e => e.categoryKind === 'MISSING_GROUP');
   }
 
@@ -124,7 +125,7 @@ public get missing(): Category {
       this.managedRepresentation = new Category({
         name: 'Mixed [ renamed in service ]',
         xmlLang: this.xmlLang,
-        children:[this.managedRepresentation]
+        children: [this.managedRepresentation]
       })
       this.id = null;
       this.setResponseKind(DomainKind.MIXED);

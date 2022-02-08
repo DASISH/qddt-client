@@ -19,8 +19,8 @@ export class TokenInterceptor implements HttpInterceptor {
         headers: req.headers.set(TOKEN_HEADER_KEY, 'Bearer ' + token)
           .append('Access-Control-Allow-Origin', '*')
           .append('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
-          .append('Accept','application/prs.hal-forms+json, application/hal+json')
-          // .append('Content-Type', 'application/hal+json, charset=UTF-8')
+          .append('Accept', 'application/prs.hal-forms+json, application/hal+json,application/json')
+          .append('Content-Type', 'application/hal+json;charset=UTF-8')
       })
     }
     return next.handle(authReq);

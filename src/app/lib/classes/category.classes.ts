@@ -74,7 +74,7 @@ export class Category implements IEntityEditAudit {
 
   changeComment?: string;
   modified?: number;
-  modifiedBy?: User|string;
+  modifiedBy?: User | string;
   version?: IVersion;
   agency?: Agency;
   isArchived?: boolean;
@@ -84,34 +84,44 @@ export class Category implements IEntityEditAudit {
   children?: Category[]
   _embedded?: {
     [rel: string]: any;
-  } = {}
+  }
   public constructor(init?: Partial<Category>) {
+    if (init?._embedded?.children) {
+      init.children = init?._embedded?.children
+      init._embedded = {
+        agency: init?._embedded?.agency,
+        modifiedBy: init?._embedded?.modifiedBy,
+      }
+    }
+
     Object.assign(this, init);
+
     if (this.name && !this.label) {
       this.label = this.name;
     } else if (this.label && !this.name) {
       this.name = this.label.toLocaleUpperCase();
     }
-    this.code = ((init) && (init.code)) ? new Code(init.code) : null
-    if (!this._embedded) {
-      this._embedded = {}
+    if (!this.children) {
+      this.children = []
     }
+    this.code = ((init) && (init.code)) ? new Code(init.code) : null
+
     console.group(this.name)
     console.debug(this.anchors)
     console.groupEnd()
     this.anchors?.forEach(value => new Category(value));
   }
 
-get anchors() : Category[]{
-   return this.children || this._embedded.children as Category[] || []
-}
-set anchors(category:Category[]) {
-  if (this.children){
-    this.children = category
-  } else {
-    this._embedded.children = category
+  get anchors(): Category[] {
+    return this.children || this._embedded?.children as Category[] || []
   }
-}
+  set anchors(category: Category[]) {
+    if (this.children) {
+      this.children = category
+    } else {
+      this._embedded.children = category
+    }
+  }
 
 
 
