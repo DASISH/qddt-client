@@ -18,35 +18,16 @@ export class RevisionService {
   }
 
   public getRevisions(kind: ElementKind, id: string): Promise<any> {
-    return new Promise((resolve, reject) => {
-      const qe = getQueryInfo(kind);
-      this.http.get<HalResource>(this.api + qe.path + '/revisions/' + id).toPromise()
-        .then(
-          async result => {
-            // const qe = getQueryInfo(kind);
-            resolve(result._embedded[qe.halName]);
-          },
-          err => {
-            reject(err);
-          }
-        );
-    });
+
+    const qe = getQueryInfo(kind);
+    return this.http.get(this.api + 'revision/' + qe.path + '/' + id).toPromise();
+
   }
 
   public getRevisionPage(kind: ElementKind, id: string, page: Page): Promise<any> {
 
-    return new Promise((resolve, reject) => {
-      const qe = getQueryInfo(kind);
-      this.http.get<HalResource>(this.api + '' + qe.path + '/revisions/' + id + '?' + page.queryPage).toPromise()
-        .then(
-          async result => {
-            resolve(result._embedded[qe.halName]);
-          },
-          err => {
-            reject(err);
-          }
-        );
-    });
+    const qe = getQueryInfo(kind);
+    return this.http.get(this.api + 'revision/' + qe.path + '/' + id + '?' + page.queryPage).toPromise();
 
   }
 }
