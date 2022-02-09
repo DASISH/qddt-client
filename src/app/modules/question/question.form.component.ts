@@ -46,7 +46,8 @@ export class QuestionFormComponent implements AfterViewInit {
     this.questionItem.responseId = {
       id: item.elementId, rev: item.elementRevision
     }
-    this.questionItem.responseDomain = item.element;
+    this.questionItem._embedded.responseDomain = item.element;
+    // this.questionItem.responseDomain = item.element;
   }
 
   onResponseDomainRemove() {
@@ -59,7 +60,7 @@ export class QuestionFormComponent implements AfterViewInit {
     this.service.update<ResponseDomain>(element).subscribe(result => {
       this.questionItem.responseId.rev = 0;
       this.questionItem.responseId.id = result.id;
-      this.questionItem.responseDomain = result;
+      this.questionItem._embedded.responseDomain = result;
       // console.debug('rd + rdref updated');
       // this will fetch latest revision of Rd, when QI is saved.
     });

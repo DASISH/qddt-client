@@ -35,7 +35,7 @@ import { Category, QuestionItem } from '../../../lib/classes';
           </tbody>
         </table>
       </div>
-      <div class="col s6" *ngIf="questionItem.responseDomain">
+      <div class="col s6" *ngIf="questionItem._embedded.responseDomain">
         <qddt-preview-rd-scale [managedRepresentation]="rep"
           [numOfRows]="1"> <!-- trenger ny klasse QuestionGrid questionItem.question.children.length+ -->
         </qddt-preview-rd-scale>
@@ -51,8 +51,8 @@ export class PreviewQuestionitemGridComponent implements OnChanges {
   public rep: Category;
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.questionItem.responseDomain) {
-      this.rep = this.questionItem.responseDomain._embedded?.managedRepresentation;
+    if (this.questionItem._embedded.responseDomain) {
+      this.rep = this.questionItem._embedded.responseDomain.managedRepresentation;
     }
   }
 

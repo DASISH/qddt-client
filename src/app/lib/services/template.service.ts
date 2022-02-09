@@ -25,7 +25,7 @@ export class TemplateService {
   constructor(protected http: HttpClient, private userService: UserService, @Inject(API_BASE_HREF) protected api: string) {  }
 
   public searchByUuid(id: string): Promise<any> {
-    return this.http.get(this.api + 'preview/' + id).toPromise();
+    return this.http.get(this.api + 'search/' + id).toPromise();
   }
 
   public async searchByKind<T extends IEntityAudit>(pageSearch: IPageSearch): Promise<IPageResult> {

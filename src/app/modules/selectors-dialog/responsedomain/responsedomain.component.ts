@@ -5,6 +5,7 @@ import {
   Category,
   ElementKind,
   ElementRevisionRef,
+  Factory,
   hasChanges,
   IElement, IElementRef,
   ResponseDomain, TemplateService, UserService
@@ -14,7 +15,7 @@ import {
   selector: 'qddt-responsedomain-select',
   templateUrl: 'responsedomain.component.html',
   styles: [
-    '.descLabel {left: 1rem;top: -1rem;position: relative;width: 95%;display: inline-block;font-style: italic;}',
+    '.descLabel {position: relative;left: 0.75rem;font-style: italic;}',
     'div:hover > ul.dropleft { opacity :1; } ',
     'td { min-width: 200px; max-width: 300px}'
   ],
@@ -42,10 +43,10 @@ export class ResponsedomainComponent implements OnChanges {
   // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
   private _modalRef: M.Modal;
 
-  private readonly getRevAsync = (id: string) =>
+  private readonly getResponseAsync = (id: string) =>
     this.service.getByKindRevision(ElementKind.CATEGORY, id);
 
-  private readonly updateRevAsync = (responseDomain: ResponseDomain) =>
+  private readonly updateResponseAsync = (responseDomain: ResponseDomain) =>
     this.service.update<ResponseDomain>(responseDomain).toPromise();
 
   public get modalRef(): M.Modal {
@@ -90,30 +91,32 @@ export class ResponsedomainComponent implements OnChanges {
   public async onItemGetLatest() {
     this.SOURCE = this.responseDomain
 
-    // const RD = await this.updateMixedAsync(this.responseDomain);
-    // const result = await this.service.getLatestVersionByKindEntity(ElementKind.RESPONSEDOMAIN, this.responseDomain.id);
+    const RD = await this.getResponseAsync(this.responseDomain.id);
+    const result = await this.service.getLatestVersionByKindEntity(ElementKind.RESPONSEDOMAIN, this.responseDomain.id);
 
-    // if (RD.modified !== result.entity.modified) {
-    //   this.responseDomain = Factory.createFromSeed(ElementKind.RESPONSEDOMAIN, result.entity) as ResponseDomain;
-    //   this.selectedEvent.emit(
-    //     {
-    //       element: this.responseDomain,
-    //       elementId: this.responseDomain.id,
-    //       elementKind: ElementKind.RESPONSEDOMAIN,
-    //       elementRevision: result.revisionNumber
-    //     });
-    //   M.toast({
-    //     html: 'Updated Mixed responsedomain',
-    //     displayLength: 2000
-    //   });
+    if (RD.modified !== result.entity.modified) {
+      this.responseDomain = Factory.createFromSeed(ElementKind.RESPONSEDOMAIN, result.entity) as ResponseDomain;
+      this.selectedEvent.emit(
+        {
+          element: this.responseDomain,
+          elementId: this.responseDomain.id,
+          elementKind: ElementKind.RESPONSEDOMAIN,
+          elementRevision: result.revisionNumber
+        });
+      M.toast({
+        html: 'Updated Mixed responsedomain',
+        displayLength: 2000
+      });
 
-    // } else {
-    //   M.toast({
-    //     html: 'No updated managed representation available',
-    //     displayLength: 2000
-    //   });
-    // }
+    } else {
+      M.toast({
+        html: 'No updated managed representation available',
+        displayLength: 2000
+      });
+    }
   }
+
+
 
   public onItemRemove() {
     if (this.canDelete) {
