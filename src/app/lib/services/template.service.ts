@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { API_BASE_HREF } from '../../api';
 import { UserService } from './user.service';
-import { IEntityAudit, IEntityEditAudit, IPageResult, IPageSearch,  IOtherMaterial, HalResource } from '../interfaces';
+import { IEntityAudit, IEntityEditAudit, IPageResult, IPageSearch, IOtherMaterial, HalResource } from '../interfaces';
 import { ElementKind, ActionKind } from '../enums';
 import { getQueryInfo, getElementKind } from '../consts';
 import { Agency, PageSearch } from '../classes';
@@ -22,7 +22,7 @@ export class TemplateService {
     return source + "*";
   }
 
-  constructor(protected http: HttpClient, private userService: UserService, @Inject(API_BASE_HREF) protected api: string) {  }
+  constructor(protected http: HttpClient, private userService: UserService, @Inject(API_BASE_HREF) protected api: string) { }
 
   public searchByUuid(id: string): Promise<any> {
     return this.http.get(this.api + 'search/' + id).toPromise();
@@ -87,20 +87,20 @@ export class TemplateService {
 
   }
   public getByKindRevisions<T extends IEntityAudit>(kind: ElementKind, id: string): Promise<any> {
-      return new Promise((resolve, reject) => {
-        const qe = getQueryInfo(kind);
-        this.http.get<HalResource>(this.api + qe.path + '/revisions/' + id).toPromise()
-          .then(
-            async result => resolve(result._embedded[qe.halName]),
-            err => reject(err)
-          );
-      });
+    return new Promise((resolve, reject) => {
+      const qe = getQueryInfo(kind);
+      this.http.get<HalResource>(this.api + qe.path + '/revisions/' + id).toPromise()
+        .then(
+          async result => resolve(result._embedded[qe.halName]),
+          err => reject(err)
+        );
+    });
   }
 
   public getByKindRevision(kind: ElementKind, id: string, rev?: number): Promise<IEntityEditAudit> {
     const qe = getQueryInfo(kind);
     if (rev) {
-      return this.http.get<IEntityEditAudit>(this.api + qe.path + '/revision/'+  id + ':' + rev).toPromise();
+      return this.http.get<IEntityEditAudit>(this.api + qe.path + '/revision/' + id + ':' + rev).toPromise();
     }
     return this.http.get<IEntityEditAudit>(this.api + qe.path + '/' + id).toPromise();
 
@@ -111,7 +111,7 @@ export class TemplateService {
     return this.http.get<T>(this.api + 'audit/' + qe.path + '/' + id + '/latestversion').toPromise();
   }
 
-  public create<T extends IEntityAudit>(item: T, parentId?: string, putUrl?:string): Observable<T> {
+  public create<T extends IEntityAudit>(item: T, parentId?: string, putUrl?: string): Observable<T> {
     const qe = getQueryInfo(item.classKind);
     const kind = getElementKind(item.classKind);
     let path2 = '';
@@ -129,7 +129,7 @@ export class TemplateService {
     return (
       (parentId) ? this.http.put<HalResource>(this.api + qe.parentPath + '/' + parentId + '/children', item) :
         ((putUrl) ? this.http.put<HalResource>(putUrl, item) :
-        this.http.post<HalResource>(this.api + qe.path + path2 , item)))
+          this.http.post<HalResource>(this.api + qe.path + path2, item)))
       .pipe(map(response => Factory.createFromSeed(item.classKind, response) as T));
 
   }
@@ -195,7 +195,7 @@ export class TemplateService {
   public getXML(item: IEntityEditAudit): Promise<Blob> {
     const qe = getQueryInfo(item.classKind);
     let header = new HttpHeaders()
-    .set('Accept', 'text/xml');
+      .set('Accept', 'text/xml');
 
     return this.http.get(this.api + qe.path + '/' + item.id, { responseType: 'blob', headers: header }).toPromise();
   }

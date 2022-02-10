@@ -49,11 +49,11 @@ export class TopicEditComponent {
 
   public readonly formId = Math.round(Math.random() * 10000);
   public readonly LANGUAGES = LANGUAGE_MAP;
+  public readonly TOPIC_KIND = ElementKind.TOPIC_GROUP;
   public showRevision = false;
   public showNew = false;
   public isVisible = false;
   public fileStore: File[] = [];
-  private TOPIC_KIND: ElementKind.TOPIC_GROUP
 
 
   constructor(private service: TemplateService) { }
