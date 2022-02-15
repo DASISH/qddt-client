@@ -47,6 +47,7 @@ export class QuestionFormComponent implements AfterViewInit {
       id: item.elementId, rev: item.elementRevision
     }
     this.questionItem._embedded.responseDomain = item.element;
+    this.questionItem.responseName = item.element.name
     // this.questionItem.responseDomain = item.element;
   }
 

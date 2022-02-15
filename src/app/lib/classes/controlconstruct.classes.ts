@@ -1,4 +1,4 @@
-import { IComment, IEntityEditAudit, IOtherMaterial, IRevId, IUser, IVersion } from '../interfaces';
+import { HalLink, IComment, IEntityEditAudit, IOtherMaterial, IRevId, IUser, IVersion } from '../interfaces';
 import { ElementKind } from '../enums';
 import { ElementRevisionRefImpl } from './element-revision-ref';
 import { QuestionItem } from './questionitem.classes';
@@ -121,6 +121,12 @@ export abstract class AbstractControlConstruct implements IEntityEditAudit {
   parameterIn?: Parameter[];
   parameterOut?: Parameter[];
   abstract get parameters(): Parameter[];
+  _links?: {
+    [rel: string]: HalLink;
+  };
+  _embedded?: {
+    [rel: string]: any;
+  };
 }
 
 export class QuestionConstruct implements AbstractControlConstruct {
@@ -130,26 +136,36 @@ export class QuestionConstruct implements AbstractControlConstruct {
   description?: string;
   classKind = ElementKind[ElementKind.QUESTION_CONSTRUCT];
   questionId: IRevId;
-  questionItem: QuestionItem;
-  otherMaterials: IOtherMaterial[] = [];
-  universe: Universe[] = [];
   controlConstructInstructions: ConstructInstruction[] = [];
   parameterIn?: Parameter[] = [];
   parameterOut?: Parameter[] = [];
   xmlLang?: string;
-  get parameters() { return this.parameterOut; }
-  get preInstructions():Instruction[] { return this.controlConstructInstructions.filter(f => f.instructionRank === 'PRE').map(p => p.instruction).concat([]); }
-  get postInstructions():Instruction[] { return this.controlConstructInstructions.filter(f => f.instructionRank === 'POST').map(p => p.instruction).concat([]); }
-
+  _links?: {
+    [rel: string]: HalLink;
+  };
+  _embedded?: {
+    [rel: string]: any;
+  };
   public constructor(init?: Partial<QuestionConstruct>) {
     Object.assign(this, init);
-    if (!this.universe) {
-      this.universe = []
-    }
+    this.questionItem = new QuestionItem(init._embedded.questionItem)
     if(!this.controlConstructInstructions) {
       this.controlConstructInstructions = []
     }
   }
+
+  get questionItem(): QuestionItem { return this._embedded.questionItem; }
+  set questionItem(value: QuestionItem) {
+    this._embedded.questionItem = value
+  }
+  get universe(): Universe[] { return this._embedded?.universe; }
+  set universe(value: Universe[]) {
+    this._embedded.universe = value
+  }
+  get parameters():Parameter[] { return this.parameterOut; }
+  get preInstructions():Instruction[] { return this.controlConstructInstructions.filter(f => f.instructionRank === 'PRE').map(p => p.instruction).concat([]); }
+  get postInstructions():Instruction[] { return this.controlConstructInstructions.filter(f => f.instructionRank === 'POST').map(p => p.instruction).concat([]); }
+
 
 }
 

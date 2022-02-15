@@ -125,15 +125,15 @@ export class ResponseDomain implements IEntityEditAudit {
       this.managedRepresentation = new Category({
         name: 'Mixed [ renamed in service ]',
         xmlLang: this.xmlLang,
-        children: [this.managedRepresentation]
+        children: [this.managedRepresentation, rep]
       })
       this.id = null;
       this.setResponseKind(DomainKind.MIXED);
     }
-    const filtered = this.managedRepresentation.anchors.filter(e => e.categoryKind !== rep.categoryKind);
-    filtered.push(rep);
-    // there is no other children or this is a mixed responseDomain....
-    this.managedRepresentation.anchors = filtered;
+    // const filtered = this.managedRepresentation.anchors.filter(e => e.categoryKind !== rep.categoryKind);
+    // filtered.push(rep);
+    // // there is no other children or this is a mixed responseDomain....
+    // this.managedRepresentation.anchors = filtered;
     this.name = this.managedRepresentation.label =
       'Mixed (' + this.managedRepresentation.anchors.map(c => c.label).join(' + ') + ')';
   }

@@ -65,11 +65,18 @@ export class TemplateService {
 
     console.debug(query);
 
-    return this.http.get<IPageResult>(this.api + qe.path + '/search/findByQuery' + query).toPromise();
+    let customPath = (( qe.id === ElementKind.QUESTION_CONSTRUCT) ||
+                    (qe.id === ElementKind.SEQUENCE_CONSTRUCT) ||
+                    ( qe.id === ElementKind.CONDITION_CONSTRUCT) ||
+                    ( qe.id === ElementKind.STATEMENT_CONSTRUCT) )
+        ? "controlconstruct":qe.path
+
+    return this.http.get<IPageResult>(this.api + customPath + '/search/findByQuery' + query).toPromise();
   }
 
   public getByKindEntity<T extends IEntityEditAudit>(kind: ElementKind, id: string): Promise<T> {
     const qe = getQueryInfo(kind);
+
     return new Promise<T>((resolve, reject) => {
       this.http.get<T>(this.api + qe.path + '/' + id).toPromise()
         .then(async (result: T) => {
@@ -114,22 +121,21 @@ export class TemplateService {
   public create<T extends IEntityAudit>(item: T, parentId?: string, putUrl?: string): Observable<T> {
     const qe = getQueryInfo(item.classKind);
     const kind = getElementKind(item.classKind);
-    let path2 = '';
-    if (qe.path === 'controlconstruct') { // silly exception to the simple rule
-      if (kind === ElementKind.QUESTION_CONSTRUCT) {
-        path2 = '/question';
-      } else if (kind === ElementKind.SEQUENCE_CONSTRUCT) {
-        path2 = '/sequence';
-      } else if (kind === ElementKind.CONDITION_CONSTRUCT) {
-        path2 = '/condition';
-      } else if (kind === ElementKind.STATEMENT_CONSTRUCT) {
-        path2 = '/statement';
-      }
-    }
+    // let customPath = if (kind === ElementKind.QUESTION_CONSTRUCT) {
+    //     '/questionconstruct'
+    //   } else if (kind === ElementKind.SEQUENCE_CONSTRUCT) {
+    //     '/sequence'
+    //   } else if (kind === ElementKind.CONDITION_CONSTRUCT) {
+    //     '/conditionconstruct'
+    //   } else if (kind === ElementKind.STATEMENT_CONSTRUCT) {
+    //      '/statementitem'
+    //   } else
+    //     qe.path
+
     return (
       (parentId) ? this.http.put<HalResource>(this.api + qe.parentPath + '/' + parentId + '/children', item) :
         ((putUrl) ? this.http.put<HalResource>(putUrl, item) :
-          this.http.post<HalResource>(this.api + qe.path + path2, item)))
+          this.http.post<HalResource>(this.api + qe.path, item)))
       .pipe(map(response => Factory.createFromSeed(item.classKind, response) as T));
 
   }
