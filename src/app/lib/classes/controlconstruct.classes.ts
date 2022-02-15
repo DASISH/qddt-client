@@ -97,6 +97,9 @@ export class Parameter {
 }
 
 export class ConstructInstruction {
+  _embedded?: {
+    [rel: string]: any;
+  };
   instruction: Instruction;
   instructionRank: string;
 }
@@ -163,8 +166,8 @@ export class QuestionConstruct implements AbstractControlConstruct {
     this._embedded.universe = value
   }
   get parameters():Parameter[] { return this.parameterOut; }
-  get preInstructions():Instruction[] { return this.controlConstructInstructions.filter(f => f.instructionRank === 'PRE').map(p => p.instruction).concat([]); }
-  get postInstructions():Instruction[] { return this.controlConstructInstructions.filter(f => f.instructionRank === 'POST').map(p => p.instruction).concat([]); }
+  get preInstructions():Instruction[] { return this.controlConstructInstructions.filter(f => f.instructionRank === 'PRE').map(p => p._embedded?.instruction).concat([]); }
+  get postInstructions():Instruction[] { return this.controlConstructInstructions.filter(f => f.instructionRank === 'POST').map(p => p._embedded?.instruction).concat([]); }
 
 
 }
