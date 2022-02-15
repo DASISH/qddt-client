@@ -109,7 +109,7 @@ export abstract class AbstractControlConstruct implements IEntityEditAudit {
   changeComment?: string;
   changeKind?: string;
   modified?: number;
-  modifiedBy?: User|string;
+  modifiedBy?: User | string;
   version?: IVersion;
   agency?: Agency;
   isArchived?: boolean;
@@ -139,6 +139,8 @@ export class QuestionConstruct implements AbstractControlConstruct {
   description?: string;
   classKind = ElementKind[ElementKind.QUESTION_CONSTRUCT];
   questionId: IRevId;
+  questionName?: String;
+  questionText?: String;
   controlConstructInstructions: ConstructInstruction[] = [];
   parameterIn?: Parameter[] = [];
   parameterOut?: Parameter[] = [];
@@ -151,8 +153,11 @@ export class QuestionConstruct implements AbstractControlConstruct {
   };
   public constructor(init?: Partial<QuestionConstruct>) {
     Object.assign(this, init);
-    this.questionItem = new QuestionItem(init._embedded.questionItem)
-    if(!this.controlConstructInstructions) {
+    if (!this._embedded) {
+      this._embedded = {}
+    }
+    this.questionItem = new QuestionItem(this._embedded?.questionItem)
+    if (!this.controlConstructInstructions) {
       this.controlConstructInstructions = []
     }
   }
@@ -160,14 +165,16 @@ export class QuestionConstruct implements AbstractControlConstruct {
   get questionItem(): QuestionItem { return this._embedded.questionItem; }
   set questionItem(value: QuestionItem) {
     this._embedded.questionItem = value
+    this.questionName = value.name
+    this.questionText = value.question
   }
   get universe(): Universe[] { return this._embedded?.universe; }
   set universe(value: Universe[]) {
     this._embedded.universe = value
   }
-  get parameters():Parameter[] { return this.parameterOut; }
-  get preInstructions():Instruction[] { return this.controlConstructInstructions.filter(f => f.instructionRank === 'PRE').map(p => p._embedded?.instruction).concat([]); }
-  get postInstructions():Instruction[] { return this.controlConstructInstructions.filter(f => f.instructionRank === 'POST').map(p => p._embedded?.instruction).concat([]); }
+  get parameters(): Parameter[] { return this.parameterOut; }
+  get preInstructions(): Instruction[] { return this.controlConstructInstructions.filter(f => f.instructionRank === 'PRE').map(p => p._embedded?.instruction).concat([]); }
+  get postInstructions(): Instruction[] { return this.controlConstructInstructions.filter(f => f.instructionRank === 'POST').map(p => p._embedded?.instruction).concat([]); }
 
 
 }
@@ -183,7 +190,7 @@ export class SequenceConstruct implements AbstractControlConstruct {
   changeComment?: string;
   changeKind?: string;
   modified?: number;
-  modifiedBy?: User|string;
+  modifiedBy?: User | string;
   version?: IVersion;
   agency?: Agency;
   isArchived?: boolean;

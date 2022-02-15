@@ -119,8 +119,7 @@ export class QuestionConstructFormComponent implements OnChanges {
   public onRevisionSelect(rev: ElementRevisionRefImpl<QuestionItem>) {
     rev.name = rev.element.name;
     rev.text = rev.element.question;
-    this.controlConstruct.questionId.id = rev.elementId;
-    this.controlConstruct.questionId.rev = rev.elementRevision;
+    this.controlConstruct.questionId = { id: rev.elementId, rev: rev.elementRevision }
     this.controlConstruct.questionItem = rev.element;
     this.SOURCE = null;
   }

@@ -15,9 +15,10 @@ export class ElementFooterComponent {
   constructor(private message: MessageService, @Inject(LOCALE_ID) public localID: string) { }
 
   onClick() {
+
     const ref: IRevisionRef = {
-      elementId: this.element.basedOnObject,
-      elementRevision: this.element.basedOnRevision,
+      elementId: this.element.basedOn.id,
+      elementRevision: this.element.basedOn.rev,
       elementKind: this.element.classKind
     };
     this.message.sendMessage(ref);

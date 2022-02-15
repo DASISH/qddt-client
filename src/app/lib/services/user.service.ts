@@ -149,17 +149,17 @@ export class UserService {
       return Promise.resolve(this.property.get(uuid));
     }
     return this.getUserAsync(uuid)
-    .then(result => {
-      this.property.set(uuid, result);
-      return result;
-    });
+      .then(result => {
+        this.property.set(uuid, result);
+        return result;
+      });
   }
   public async getCurrentXmlLang() {
     return (await this.getCurrentAgency()).xmlLang;
   }
 
   public async getCurrentAgency(): Promise<Agency> {
-    return  (await this.getCurrentUser())._embedded?.agency;
+    return (await this.getCurrentUser())._embedded?.agency;
   }
 
   public getAgencies(): Promise<Agency[]> {
@@ -208,7 +208,7 @@ export class UserService {
     const clientTime = new Date();
     const diff = expire.getTime() - clientTime.getTime();
     const isExpired = (diff < 0)
-    if (isExpired){
+    if (isExpired) {
       this.logout()
     }
 
@@ -243,6 +243,9 @@ export class UserService {
   private loadUserFromToken(): void {
     this.user = this.getTokenClaims(this.tokenStore.getToken());
     this.property.userSetting.email = this.user.email;
+    if (!this.property.userSetting.xmlLang) {
+      this.getCurrentXmlLang().then(value => this.property.userSetting.xmlLang = value)
+    }
     this.roles = 0;
     this.getRoles().forEach((role) => this.roles += +AuthorityKind[role]);
     // console.debug('logged in fires');

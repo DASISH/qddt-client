@@ -10,7 +10,7 @@ import { LocalDatePipe, ElementRevisionRef, hasChanges, IEntityEditAudit, Messag
   ],
   template:
     `<label class="teal-text" [title]="titleInfo">Version <qddt-version [element]="element" [revisionRef]="revisionRef" ></qddt-version>
-    <i *ngIf="element?.basedOnObject" (click)="onClick()" class="material-icons teal-text tiny"
+    <i *ngIf="element?.basedOn" (click)="onClick()" class="material-icons teal-text tiny"
     style="cursor: pointer;" title="based on preview">content_copy</i>
     </label>`
   ,
@@ -37,7 +37,7 @@ export class VersionLabelComponent implements OnChanges {
       let element = this.revisionRef.element
       this.titleInfo = 'Last saved by:' +
         ((element && element._embedded?.modifiedBy) ?
-          element._embedded?.modifiedBy.userAgencyName  + ' : ' + (this.datePipe.transform(element.modified)) :
+          element._embedded?.modifiedBy.userAgencyName + ' : ' + (this.datePipe.transform(element.modified)) :
           '?');
     }
 
@@ -47,8 +47,8 @@ export class VersionLabelComponent implements OnChanges {
   onClick() {
     if (this.element) {
       this.message.sendMessage({
-        elementId: this.element.basedOnObject,
-        elementRevision: this.element.basedOnRevision,
+        elementId: this.element.basedOn.id,
+        elementRevision: this.element.basedOn.rev,
         elementKind: this.element.classKind
       });
     } else {

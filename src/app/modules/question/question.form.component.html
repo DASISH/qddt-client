@@ -5,8 +5,7 @@
       style="font-style: italic"></p>
   </div>
 
-  <qddt-preview-responsedomain *ngIf="questionItem._embedded.responseDomain"
-    [responseDomain]="questionItem._embedded.responseDomain">
+  <qddt-preview-responsedomain *ngIf="questionItem.response" [responseDomain]="questionItem.response">
   </qddt-preview-responsedomain>
 
   <qddt-conceptref [element]="questionItem"></qddt-conceptref>

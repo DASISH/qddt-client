@@ -84,7 +84,12 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "qddt-client:build"
+            "browserTarget": "qddt-client:build",
+            "host": "0.0.0.0",
+            "allowedHosts": [
+              "localhost",
+              "nsd404"
+            ]
           },
           "configurations": {
             "production": {

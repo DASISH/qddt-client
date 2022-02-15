@@ -7,24 +7,24 @@
         [lockups]="LANGUAGES">
       </qddt-select>
     </div>
-    <qddt-textarea class="row" name="about" placeholder="about author" label="Description" [(ngModel)]="author.about"
+    <qddt-textarea name="about" placeholder="about author" label="Description" [(ngModel)]="author.about"
       data-length="1000">
     </qddt-textarea>
 
-    <qddt-input class="row" type="email" name="email" label="Email" [(ngModel)]="author.email" data-length="100">
+    <qddt-input type="email" name="email" label="Email" [(ngModel)]="author.email" data-length="100">
     </qddt-input>
 
-    <qddt-input class="row" type="URL" name="homepage" label="homepage" [(ngModel)]="author.homepage" data-length="100">
+    <qddt-input type="URL" name="homepage" label="homepage" [(ngModel)]="author.homepage" data-length="100">
     </qddt-input>
 
-    <qddt-input class="row" type="URL" name="picture" label="picture" [(ngModel)]="author.picture" data-length="100">
+    <qddt-input type="URL" name="picture" label="picture" [(ngModel)]="author.picture" data-length="100">
     </qddt-input>
 
-    <qddt-input class="row" required name="authorsAffiliation" label="Authors affiliation"
-      [(ngModel)]="author.authorsAffiliation" data-length="100">
+    <qddt-input required name="authorsAffiliation" label="Authors affiliation" [(ngModel)]="author.authorsAffiliation"
+      data-length="100">
     </qddt-input>
 
-    <qddt-rational *ngIf="!readonly && author.id" [formName]="'RationalComp'" [element]="author"
+    <qddt-rational class="row" *ngIf="!readonly && author.id" [formName]="'RationalComp'" [element]="author"
       [config]="{ hidden: [4] }"></qddt-rational>
 
     <qddt-element-footer *ngIf="author.id" [element]="author"></qddt-element-footer>

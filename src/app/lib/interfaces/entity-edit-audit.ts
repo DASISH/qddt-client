@@ -2,7 +2,6 @@ import { IComment, IOtherMaterial, IVersion } from './interfaces';
 import { Agency } from '../classes';
 import { HalLink } from './http.interfaces';
 import { User } from '../classes/user.classes';
-import * as uuid from 'uuid';
 
 
 export interface IEntityAudit {
@@ -12,7 +11,7 @@ export interface IEntityAudit {
   xmlLang?: string;
 }
 
-export interface IRevId {id:uuid; rev?: number}
+export interface IRevId { id: string; rev?: number }
 
 export interface IEntityEditAudit extends IEntityAudit {
   [x: string]: any;

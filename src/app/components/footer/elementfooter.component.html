@@ -12,8 +12,7 @@
   </div>
   <div class="input-field col s5 m3">
     <div class="chip" *ngIf="element._embedded.modifiedBy?.email">
-      <img  class="gravatar" gravatar
-        [email]="element._embedded.modifiedBy.email" [size]="32">
+      <img class="gravatar" gravatar [email]="element._embedded.modifiedBy.email" [size]="32">
       {{element._embedded.modifiedBy.username |titlecase }}
     </div>
     <label class="active">Last Saved By</label>
@@ -23,7 +22,7 @@
     <label class="active">Agency</label>
   </div>
   <div class="input-field col s5 m2">
-    <div class="chip" *ngIf="element.basedOnObject" [ngStyle]="{'cursor': 'pointer'}" (click)="onClick()">Detail</div>
+    <div class="chip" *ngIf="element.basedOn" [ngStyle]="{'cursor': 'pointer'}" (click)="onClick()">Detail</div>
     <label class="active">Based On Object</label>
   </div>
 </div>

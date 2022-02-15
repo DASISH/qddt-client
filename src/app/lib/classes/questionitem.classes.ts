@@ -29,11 +29,13 @@ export class QuestionItem implements IEntityEditAudit {
   responseName: string;
   public constructor(init?: Partial<QuestionItem>) {
     Object.assign(this, init);
-
+    if (!this._embedded) {
+      this._embedded = {}
+    }
   }
 
   get response(): ResponseDomain {
-    return  this._embedded?.responseDomain
+    return this._embedded?.responseDomain
   }
   set response(responseDomain: ResponseDomain) {
     if (!this._embedded) {

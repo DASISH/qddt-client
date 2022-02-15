@@ -24,6 +24,8 @@ export class PropertyStoreService {
     try {
       this.path = JSON.parse(localStorage.getItem(PropertyStoreService.PATH)) || this.path;
       this.userSettings = new UserSettings(JSON.parse(localStorage.getItem(PropertyStoreService.USER_SETTINGS)));
+      console.debug(this.userSetting.xmlLang)
+
       const pos = this.userSettings.hierarchyPosition || HierarchyPosition.Survey;
       this.currentChange$ = new BehaviorSubject<HierarchyPosition>(pos);
     } catch (e) {

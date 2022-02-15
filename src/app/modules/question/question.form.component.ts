@@ -1,5 +1,6 @@
+import { hasChanges } from 'src/app/lib';
 import { FormGroup } from '@angular/forms';
-import { Component, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
 import {
   ActionKind,
   ElementKind,
@@ -16,7 +17,7 @@ import {
   templateUrl: './question.form.component.html'
 })
 
-export class QuestionFormComponent implements AfterViewInit {
+export class QuestionFormComponent implements AfterViewInit, OnChanges {
   @Input() questionItem: QuestionItem;
   @Input() readonly = false;
   @Output() modifiedEvent = new EventEmitter<QuestionItem>();
@@ -27,6 +28,11 @@ export class QuestionFormComponent implements AfterViewInit {
 
   constructor(private service: TemplateService) {
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.QUESTION_ITEM);
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (hasChanges(changes.questionItem)) {
+      this.questionItem = new QuestionItem(changes.questionItem.currentValue)
+    }
   }
 
   ngAfterViewInit(): void {
