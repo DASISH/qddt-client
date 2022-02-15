@@ -5,18 +5,18 @@ import { ResponseDomain } from './responsedomain.classes';
 
 export class QuestionItem implements IEntityEditAudit {
   id: string;
-  agency: Agency;
   name = '';
-  modified: number;
-  version: IVersion = { major: 1, minor: 0 };
-  classKind = ElementKind[ElementKind.QUESTION_ITEM];
-  basedOn?: IRevId;
-  changeComment?: string;
-  changeKind?: string;
   question = '';
   intent: string;
+  modified: number;
   xmlLang?: string;
+  version: IVersion = { major: 1, minor: 0 };
+  classKind = ElementKind[ElementKind.QUESTION_ITEM];
+  changeKind?: string;
+  changeComment?: string;
+  basedOn?: IRevId;
   responseId: IRevId;
+  responseName: string;
   // responseDomain: ResponseDomain;
   parentRefs: IParentRef[];
 
@@ -26,7 +26,6 @@ export class QuestionItem implements IEntityEditAudit {
   _embedded?: {
     [rel: string]: any;
   };
-  responseName: string;
   public constructor(init?: Partial<QuestionItem>) {
     Object.assign(this, init);
     if (!this._embedded) {

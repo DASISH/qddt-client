@@ -27,7 +27,7 @@ export class RationalComponent implements OnInit, OnChanges, AfterViewInit {
 
   public _RationalIndex: number;
   public _Rational2Index: number;
-  public original = { id: '', basedOnObject: '', basedOnRevision: 0 };
+  public original = { id: '', basedOn: { id:"", rev:0 } };
 
   constructor() {
     this._RationalIndex = 1;
@@ -42,8 +42,7 @@ export class RationalComponent implements OnInit, OnChanges, AfterViewInit {
     if (changes.element.isFirstChange()) {
       this.element.changeComment = '';
       this.original.id = this.element.id;
-      this.original.basedOnObject = this.element.basedOnObject;
-      this.original.basedOnRevision = this.element.basedOnRevision;
+      this.original.basedOn = this.element.basedOn;
       this.onSelectOption(0);
     }
 
@@ -92,13 +91,11 @@ export class RationalComponent implements OnInit, OnChanges, AfterViewInit {
       this.element.changeKind = this.rationalDescriptions[id].change;
     }
     if (id === 2) {  // BASED ON
-      this.element.basedOnObject = this.original.id;
-      this.element.basedOnRevision = null;
-      // this.element.id = {};
+      this.element.basedOn.id = this.original.id;
+      this.element.basedOn.rev = null;
     } else {
       this.element.id = this.original.id;
-      this.element.basedOnObject = this.original.basedOnObject;
-      this.element.basedOnRevision = this.original.basedOnRevision;
+      this.element.basedOn = this.original.basedOn;
     }
 
   }

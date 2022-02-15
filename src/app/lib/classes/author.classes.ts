@@ -1,5 +1,6 @@
-import { IEntityEditAudit } from '../interfaces';
+import { HalLink, IComment, IEntityEditAudit, IOtherMaterial, IRevId, IVersion } from '../interfaces';
 import { ElementKind } from '../enums';
+import { User, Agency } from './user.classes';
 
 export class Author implements IEntityEditAudit {
   id: string;

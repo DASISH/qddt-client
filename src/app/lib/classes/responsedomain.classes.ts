@@ -65,7 +65,7 @@ export class ResponseDomain implements IEntityEditAudit {
   // agency?: Agency;
   changeComment?: string;
   changeKind?: string;
-  basedOn?: IRevId;
+  basedOn: IRevId;
 
   modified?: number;
   version?: IVersion = { major: 1, minor: 0 };
@@ -103,10 +103,7 @@ export class ResponseDomain implements IEntityEditAudit {
 
   public get isMixed() { return (this.responseKind === 'MIXED'); }
 
-
-  public get missing(): Category {
-    return this.managedRepresentation.anchors.find(e => e.categoryKind === 'MISSING_GROUP');
-  }
+  public get missing(): Category { return this.managedRepresentation.anchors.find(e => e.categoryKind === 'MISSING_GROUP');}
 
   public setResponseKind(kind: DomainKind): ResponseDomain {
     this.responseKind = DomainKind[kind];

@@ -41,7 +41,7 @@ import {
             </ng-container>
             <ng-container *ngSwitchCase="'INSTRUCTION'">
               <div *ngIf="cqi?.element">
-                <p [innerHtml]="cqi?.element['description']"></p>
+                <p [innerHtml]="cqi?.element?.description"></p>
               </div>
             </ng-container>
           </ng-container>

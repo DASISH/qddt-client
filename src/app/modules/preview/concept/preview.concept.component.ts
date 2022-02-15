@@ -1,5 +1,6 @@
 import { Component,AfterViewInit, Input } from '@angular/core';
 import { Concept, ElementKind, ElementRevisionRef, MessageService, PreviewService, getIcon, PUBLICATION_TYPES, getElementKind } from '../../../lib';
+import { Factory } from '../../../lib/factory';
 
 @Component({
   selector: 'qddt-preview-concept',
@@ -22,7 +23,7 @@ export class PreviewConceptComponent implements AfterViewInit {
   public onViewDetail(element: ElementRevisionRef) {
     if (!element.element) {
       this.service.getRevisionByKind(element.elementKind, element.elementId, element.elementRevision).then(
-        (result) => { element.element = result.entity; },
+        (result) => { element.element = result; },
         (error) => { throw error; });
     }
   }

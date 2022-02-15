@@ -50,6 +50,15 @@ export class Universe implements IEntityEditAudit {
   }
 }
 
+export class SimpleInstruction {
+  id: string;
+  description: string;
+  version: IVersion;
+  public constructor(init?: Partial<SimpleInstruction>) {
+    Object.assign(this, init);
+  }
+}
+
 
 export class Instruction implements IEntityEditAudit {
   id: string;
@@ -105,24 +114,22 @@ export class ConstructInstruction {
 }
 
 export abstract class AbstractControlConstruct implements IEntityEditAudit {
-  basedOn?: IRevId;
-  changeComment?: string;
-  changeKind?: string;
-  modified?: number;
-  modifiedBy?: User | string;
-  version?: IVersion;
-  agency?: Agency;
-  isArchived?: boolean;
-  otherMaterials?: IOtherMaterial[];
-  comments?: IComment[];
   id: string;
-  name: string;
   label?: string;
+  name: string;
   description?: string;
   classKind: string;
   xmlLang?: string;
+  version?: IVersion;
+  changeKind?: string;
+  changeComment?: string;
+  modified?: number;
+  modifiedBy?: User | string;
+  isArchived?: boolean;
+  otherMaterials?: IOtherMaterial[];
   parameterIn?: Parameter[];
   parameterOut?: Parameter[];
+  basedOn: IRevId=null;
   abstract get parameters(): Parameter[];
   _links?: {
     [rel: string]: HalLink;
@@ -132,19 +139,14 @@ export abstract class AbstractControlConstruct implements IEntityEditAudit {
   };
 }
 
-export class QuestionConstruct implements AbstractControlConstruct {
-  id: string;
-  name: string;
-  label?: string;
-  description?: string;
-  classKind = ElementKind[ElementKind.QUESTION_CONSTRUCT];
+export class QuestionConstruct extends AbstractControlConstruct {
   questionId: IRevId;
-  questionName?: String;
-  questionText?: String;
+  questionName?: string;
+  questionText?: string;
+  preInstructions: SimpleInstruction[];
+  postInstructions: SimpleInstruction[];
   controlConstructInstructions: ConstructInstruction[] = [];
-  parameterIn?: Parameter[] = [];
-  parameterOut?: Parameter[] = [];
-  xmlLang?: string;
+  universe: Universe[] = [];
   _links?: {
     [rel: string]: HalLink;
   };
@@ -152,6 +154,8 @@ export class QuestionConstruct implements AbstractControlConstruct {
     [rel: string]: any;
   };
   public constructor(init?: Partial<QuestionConstruct>) {
+    super()
+    this.classKind = ElementKind[ElementKind.QUESTION_CONSTRUCT];
     Object.assign(this, init);
     if (!this._embedded) {
       this._embedded = {}
@@ -168,45 +172,28 @@ export class QuestionConstruct implements AbstractControlConstruct {
     this.questionName = value.name
     this.questionText = value.question
   }
-  get universe(): Universe[] { return this._embedded?.universe; }
-  set universe(value: Universe[]) {
-    this._embedded.universe = value
-  }
+  // get universe(): Universe[] { return this._embedded?.universe || []}
+  // set universe(value: Universe[]) {
+  //   this._embedded.universe = value
+  // }
   get parameters(): Parameter[] { return this.parameterOut; }
-  get preInstructions(): Instruction[] { return this.controlConstructInstructions.filter(f => f.instructionRank === 'PRE').map(p => p._embedded?.instruction).concat([]); }
-  get postInstructions(): Instruction[] { return this.controlConstructInstructions.filter(f => f.instructionRank === 'POST').map(p => p._embedded?.instruction).concat([]); }
+  // get preInstructions(): Instruction[] { return this.controlConstructInstructions.filter(f => f.instructionRank === 'PRE').map(p => p._embedded?.instruction).concat([]); }
+  // get postInstructions(): Instruction[] { return this.controlConstructInstructions.filter(f => f.instructionRank === 'POST').map(p => p._embedded?.instruction).concat([]); }
 
 
 }
 
 
-export class SequenceConstruct implements AbstractControlConstruct {
-  id: string;
-  name: string;
-  label?: string;
-  description?: string;
-  basedOn?: IRevId;
-
-  changeComment?: string;
-  changeKind?: string;
-  modified?: number;
-  modifiedBy?: User | string;
-  version?: IVersion;
-  agency?: Agency;
-  isArchived?: boolean;
-  otherMaterials?: IOtherMaterial[];
+export class SequenceConstruct extends AbstractControlConstruct {
   universe: Universe[] = [];
-  parameterIn?: Parameter[] = [];
-  parameterOut?: Parameter[] = [];
-  xmlLang?: string;
-  comments?: IComment[];
-  classKind = ElementKind[ElementKind.SEQUENCE_CONSTRUCT];
   sequenceKind = SequenceKind[SequenceKind.SECTION];
   sequence: ElementRevisionRefImpl<AbstractControlConstruct>[] = [];
   get parameters(): Parameter[] {
     return [].concat(...this.sequence.map(seq => (seq.element) ? seq.element.parameters : []));
   }
   public constructor(init?: Partial<SequenceConstruct>) {
+    super()
+    this.classKind = ElementKind[ElementKind.SEQUENCE_CONSTRUCT];
     Object.assign(this, init);
 
   }
@@ -219,6 +206,7 @@ export class StatementConstruct implements AbstractControlConstruct {
   statement: string;
   parameterIn?: Parameter[] = [];
   parameterOut?: Parameter[];
+  basedOn: IRevId;
 
   xmlLang?: string;
   classKind = ElementKind[ElementKind.STATEMENT_CONSTRUCT];
@@ -344,6 +332,7 @@ export class ConditionConstruct implements AbstractControlConstruct, ICondition 
   parameterOut?: Parameter[] = [];
   sequence: ElementRevisionRefImpl<AbstractControlConstruct>[] = [];
   classKind = ElementKind[ElementKind.CONDITION_CONSTRUCT];
+  basedOn: IRevId;
   xmlLang?: string;
   get parameters() { return this.parameterOut; }
 

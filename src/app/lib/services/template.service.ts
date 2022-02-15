@@ -150,7 +150,7 @@ export class TemplateService {
       return this.create<T>(item)
     const kind = getElementKind(item.classKind);
     const qe = getQueryInfo(kind);
-    if (item.id === item['basedOnObject']) {
+    if (item.id === item.basedOn?.id) {
       item.id = null;
       /// TODO fix patch to post
       console.debug(item);

@@ -7,6 +7,7 @@ import { User } from '../classes/user.classes';
 export interface IEntityAudit {
   id: string;
   name: string;
+  basedOn?: IRevId;
   classKind: string;
   xmlLang?: string;
 }
@@ -15,7 +16,6 @@ export interface IRevId { id: string; rev?: number }
 
 export interface IEntityEditAudit extends IEntityAudit {
   [x: string]: any;
-  basedOn?: IRevId;
   changeComment?: string;
   changeKind?: string;
   modified?: number;

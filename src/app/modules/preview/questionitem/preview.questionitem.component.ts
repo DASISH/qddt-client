@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { QuestionItem, ResponseDomain } from '../../../lib/classes';
+import { hasChanges } from '../../../lib/consts/functions';
 
 @Component({
   selector: 'qddt-preview-questionitem',
@@ -13,8 +14,8 @@ import { QuestionItem, ResponseDomain } from '../../../lib/classes';
   </li>
   <li class="collection-item" ><label>Responsedomain</label></li>
   <li class="collection-item" >
-    <qddt-preview-responsedomain  *ngIf="questionItem?._embedded.responseDomain"
-      [responseDomain]="questionItem._embedded.responseDomain">
+    <qddt-preview-responsedomain  *ngIf="questionItem.response"
+      [responseDomain]="questionItem.response">
     </qddt-preview-responsedomain>
   </li>
   <li class="collection-item" *ngIf="questionItem?.intent" ><label>Intent</label></li>
@@ -29,13 +30,19 @@ import { QuestionItem, ResponseDomain } from '../../../lib/classes';
       <qddt-element-footer [element]="questionItem" ></qddt-element-footer>
   </li>
 </ul>
-
 `,
   providers: [],
 })
 
-export class PreviewQuestionitemComponent {
+export class PreviewQuestionitemComponent implements OnChanges {
   @Input() questionItem: QuestionItem;
 
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (hasChanges(changes.questionItem)) {
+        this.questionItem = new QuestionItem(changes.questionItem.currentValue)
+        console.debug(this.questionItem)
+    }
+  }
 
 }

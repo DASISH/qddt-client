@@ -61,8 +61,8 @@
       <li class="collection-item">
         <p>{{ element?.classKind }}</p>
       </li>
-      <li class="collection-item" *ngIf="element['description']"><label>Description</label></li>
-      <li class="collection-item" *ngIf="element['description']">
+      <li class="collection-item" *ngIf="element && element['description']"><label>Description</label></li>
+      <li class="collection-item" *ngIf="element && element['description']">
         <p [innerHtml]="element['description']"></p>
       </li>
       <li class="collection-item">

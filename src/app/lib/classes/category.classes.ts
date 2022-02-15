@@ -63,25 +63,23 @@ export class Category implements IEntityEditAudit {
   name = '';
   label = '';
   description = '';
+  format?: any;
+  xmlLang: string;
   hierarchyLevel = HierarchyLevel[CATEGORY_INFO[CategoryKind.CATEGORY].level];
   categoryKind = CategoryKind[CategoryKind.CATEGORY];
   classKind = ElementKind[ElementKind.CATEGORY];
   inputLimit = new ResponseCardinality();
   code?: Code;
-  format?: any;
-  changeKind?: string;
-  basedOn?: IRevId;
+  otherMaterials?: IOtherMaterial[];
+  children?: Category[]
 
+  basedOn?: IRevId;
+  version?: IVersion;
+  changeKind?: string;
   changeComment?: string;
   modified?: number;
   modifiedBy?: User | string;
-  version?: IVersion;
-  agency?: Agency;
   isArchived?: boolean;
-  otherMaterials?: IOtherMaterial[];
-  xmlLang: string; // = 'en-GB';
-  comments?: IComment[];
-  children?: Category[]
   _embedded?: {
     [rel: string]: any;
   }
