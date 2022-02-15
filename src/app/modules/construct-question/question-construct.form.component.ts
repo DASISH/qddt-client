@@ -1,4 +1,3 @@
-import { Instruction } from './../../lib/classes/controlconstruct.classes';
 import { Router } from '@angular/router';
 import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 import {
@@ -7,6 +6,7 @@ import {
   IElement,
   IElementRef,
   IRevisionRef,
+  Instruction,
   LANGUAGE_MAP,
   MessageService,
   QuestionConstruct,
@@ -46,12 +46,12 @@ export class QuestionConstructFormComponent implements OnChanges {
     .map(ci => ci.instruction)
     .concat([])
 
-  private readonly  questionRevRef = (controlConstruct:QuestionConstruct):IRevisionRef => {
+  private readonly questionRevRef = (controlConstruct: QuestionConstruct): IRevisionRef => {
     return {
-      elementId:controlConstruct.questionId.id,
-      elementRevision:controlConstruct.questionId.id,
+      elementId: controlConstruct.questionId.id,
+      elementRevision: controlConstruct.questionId.id,
       elementKind: controlConstruct.questionItem.classKind
-      } as IRevisionRef
+    } as IRevisionRef
   }
 
   constructor(private service: TemplateService, private router: Router, private message: MessageService,) {
@@ -126,10 +126,11 @@ export class QuestionConstructFormComponent implements OnChanges {
 
   public onQuestionPreview() {
     const revRef = {
-      elementId:this.controlConstruct.questionId.id,
-      elementRevision:this.controlConstruct.questionId.id,
-      elementKind: this.controlConstruct.questionItem.classKind } as IRevisionRef
-    this.message.sendMessage( revRef);
+      elementId: this.controlConstruct.questionId.id,
+      elementRevision: this.controlConstruct.questionId.id,
+      elementKind: this.controlConstruct.questionItem.classKind
+    } as IRevisionRef
+    this.message.sendMessage(revRef);
   }
 
   async onSave() {

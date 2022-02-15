@@ -18,7 +18,8 @@
     </div>
 
     <qddt-element-collection [listItems]="controlConstruct.universe" [labelName]="'Universe'" [elementKind]="UNIVERSE"
-      [xmlLang]="controlConstruct.xmlLang" [readonly]="false" (createdEvent)="onAddUniverse($event)" (deletedEvent)="onRemoveUniverse($event)">
+      [xmlLang]="controlConstruct.xmlLang" [readonly]="false" (createdEvent)="onAddUniverse($event)"
+      (deletedEvent)="onRemoveUniverse($event)">
     </qddt-element-collection>
 
     <qddt-element-collection [listItems]="controlConstruct.preInstructions" [labelName]="'Pre Instructions'"
@@ -71,8 +72,8 @@
     </div>
 
     <qddt-preview-responsedomain
-      *ngIf="controlConstruct.questionItem && controlConstruct.questionItem.responseDomain"
-      [responseDomain]="controlConstruct.questionItem.responseDomain">
+      *ngIf="controlConstruct.questionItem && controlConstruct.questionItem._embedded?.responseDomain"
+      [responseDomain]="controlConstruct.questionItem._embedded?.responseDomain">
     </qddt-preview-responsedomain>
 
     <qddt-element-collection [listItems]="controlConstruct.postInstructions" [labelName]="'Post Instructions'"
