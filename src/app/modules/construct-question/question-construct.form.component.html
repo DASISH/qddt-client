@@ -66,14 +66,13 @@
               </a>
             </li>
           </ul>
-          <p [innerHtml]="controlConstruct?.questionItem?.text" style="font-style: italic"></p>
+          <p [innerHtml]="controlConstruct?.questionItem?.question" style="font-style: italic"></p>
         </div>
       </div>
     </div>
 
-    <qddt-preview-responsedomain
-      *ngIf="controlConstruct.questionItem && controlConstruct.questionItem._embedded?.responseDomain"
-      [responseDomain]="controlConstruct.questionItem._embedded?.responseDomain">
+    <qddt-preview-responsedomain *ngIf="controlConstruct.questionItem && controlConstruct.questionItem.response"
+      [responseDomain]="controlConstruct.questionItem?.response">
     </qddt-preview-responsedomain>
 
     <qddt-element-collection [listItems]="controlConstruct.postInstructions" [labelName]="'Post Instructions'"

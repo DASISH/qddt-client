@@ -26,6 +26,7 @@ export class QuestionItem implements IEntityEditAudit {
   _embedded?: {
     [rel: string]: any;
   };
+  responseName: string;
   public constructor(init?: Partial<QuestionItem>) {
     Object.assign(this, init);
 

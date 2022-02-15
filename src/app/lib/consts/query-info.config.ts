@@ -48,7 +48,7 @@ export const QDDT_QUERY_INFOS: QueryInfo[] = [
   new QueryInfo(
     ElementKind.QUESTION_CONSTRUCT,
     'QuestionConstruct',
-    'controlconstruct',
+    'questionconstruct',
     'questionConstructs',
     ['label', 'name', 'questionName', 'questionText'],
     '&constructKind=QUESTION_CONSTRUCT'

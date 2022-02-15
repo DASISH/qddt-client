@@ -49,7 +49,7 @@ export class QuestionConstructFormComponent implements OnChanges {
   private readonly questionRevRef = (controlConstruct: QuestionConstruct): IRevisionRef => {
     return {
       elementId: controlConstruct.questionId.id,
-      elementRevision: controlConstruct.questionId.id,
+      elementRevision: controlConstruct.questionId.rev,
       elementKind: controlConstruct.questionItem.classKind
     } as IRevisionRef
   }
@@ -104,6 +104,7 @@ export class QuestionConstructFormComponent implements OnChanges {
   }
 
   public onQuestionRemove() {
+    this.controlConstruct.questionId = null;
     this.controlConstruct.questionItem = null;
   }
 
@@ -127,7 +128,7 @@ export class QuestionConstructFormComponent implements OnChanges {
   public onQuestionPreview() {
     const revRef = {
       elementId: this.controlConstruct.questionId.id,
-      elementRevision: this.controlConstruct.questionId.id,
+      elementRevision: this.controlConstruct.questionId.rev,
       elementKind: this.controlConstruct.questionItem.classKind
     } as IRevisionRef
     this.message.sendMessage(revRef);
@@ -140,8 +141,7 @@ export class QuestionConstructFormComponent implements OnChanges {
     this.fileStore.forEach((file) => { formData.append('files', file); });
 
     this.modifiedEvent.emit(
-      this.controlConstruct =
-      await this.service.updateWithFiles(ElementKind.QUESTION_CONSTRUCT, formData).toPromise());
+      this.controlConstruct = await this.service.updateWithFiles(ElementKind.QUESTION_CONSTRUCT, formData).toPromise());
   }
 
 }
