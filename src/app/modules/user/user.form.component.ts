@@ -29,10 +29,10 @@ export class UserFormComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.user.currentValue) {
+    if (changes['user'].currentValue) {
       if (this.user) {
-        if (this.user._embedded.agency.id) {
-          this.onSelectChange(this.user._embedded.agency.id);
+        if (this.user._embedded['agency'].id) {
+          this.onSelectChange(this.user._embedded['agency'].id);
         } else {
           this.getFirstAgency().then(agent => this.onSelectChange(agent.id));
         }
@@ -49,7 +49,7 @@ export class UserFormComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   onSelectChange(id: string) {
-    this.user._embedded.agency.id = this.selectedAgencyId = id;
+    this.user._embedded['agency'].id = this.selectedAgencyId = id;
   }
 
   onSelectRadio(authority: string) {

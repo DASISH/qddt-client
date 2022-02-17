@@ -52,17 +52,17 @@ export class HomeService<T extends IEntityEditAudit>  {
   async get(kind: ElementKind, id: string) {
     const qe = getQueryInfo(kind);
     return this.http.get<HalResource>(this.api + qe.path + '/' + id)
-    .pipe(map(response =>
-      Factory.createFromSeed(kind, response) as T))
-    .toPromise();
+      .pipe(map(response =>
+        Factory.createFromSeed(kind, response) as T))
+      .toPromise();
   }
 
   async getExt<S extends IEntityAudit>(kind: ElementKind, id: string) {
     const qe = getQueryInfo(kind);
     return this.http.get<S>(this.api + qe.path + '/' + id)
-    .pipe(map(response =>
-      Factory.createFromSeed(kind, response) as S))
-    .toPromise();
+      .pipe(map(response =>
+        Factory.createFromSeed(kind, response) as S))
+      .toPromise();
   }
 
   getListByParent(kind: ElementKind, parentId?: string): Promise<T[]> {
@@ -71,19 +71,19 @@ export class HomeService<T extends IEntityEditAudit>  {
       this.http.get<HalResource>(this.api + qe.parentPath + '/' + parentId + '/children') :
       this.http.get<HalResource>(this.api + qe.path + '/'))
       .pipe(map(response => {
-        return response._embedded[qe.halName].map( result => Factory.createFromSeed(kind, result) as T)
+        return response._embedded[qe.halName].map(result => Factory.createFromSeed(kind, result) as T)
       })).toPromise()
 
   }
 
-  attachQuestion(kind: ElementKind, id: string, ref: ElementRevisionRef): Observable<T> {
+  attachQuestion(kind: ElementKind, id: string, ref: ElementRevisionRef): Observable<ElementRevisionRef[]> {
     const qe = getQueryInfo(kind);
-    return this.http.put<T>(this.api + qe.path + '/' + id +  '/questionitems', ref);
+    return this.http.put<ElementRevisionRef[]>(this.api + qe.path + '/' + id + '/questionitems', ref);
   }
 
-  deattachQuestion(kind: ElementKind, id: string, questionId: string, revision: number): Observable<T> {
+  deattachQuestion(kind: ElementKind, id: string, questionId: string, revision: number): Observable<ElementRevisionRef[]> {
     const qe = getQueryInfo(kind);
-    return this.http.delete<T>(this.api + qe.path + '/' + id +  '/questionitems/' + questionId + ':' + revision);
+    return this.http.delete<ElementRevisionRef[]>(this.api + qe.path + '/' + id + '/questionitems/' + questionId + ':' + revision);
   }
 
   arrangeSurveys(surveys: ISurveyOrder[]): Observable<SurveyProgram[]> {

@@ -5,6 +5,7 @@ import {
   Category,
   ElementKind,
   ElementRevisionRef,
+  ElementRevisionRefImpl,
   Factory,
   hasChanges,
   IElement, IElementRef,
@@ -96,13 +97,11 @@ export class ResponsedomainComponent implements OnChanges {
 
     if (RD.modified !== result.entity.modified) {
       this.responseDomain = Factory.createFromSeed(ElementKind.RESPONSEDOMAIN, result.entity) as ResponseDomain;
-      this.selectedEvent.emit(
-        {
-          element: this.responseDomain,
-          elementId: this.responseDomain.id,
-          elementKind: ElementKind.RESPONSEDOMAIN,
-          elementRevision: result.revisionNumber
-        });
+      this.selectedEvent.emit(new ElementRevisionRefImpl({
+        element: this.responseDomain,
+        uri: { id: this.responseDomain.id, rev: result.revisionNumber },
+        elementKind: ElementKind.RESPONSEDOMAIN,
+      }));
       M.toast({
         html: 'Updated Mixed responsedomain',
         displayLength: 2000

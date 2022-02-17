@@ -7,7 +7,8 @@ import {
   Study,
   Topic,
   PropertyStoreService,
-  HomeService, TemplateService, HierarchyPosition, ElementRevisionRef, delay, LANGUAGE_MAP, fadeInAnimation} from 'src/app/lib';
+  HomeService, TemplateService, HierarchyPosition, ElementRevisionRef, delay, LANGUAGE_MAP, fadeInAnimation
+} from 'src/app/lib';
 
 
 @Component({
@@ -45,9 +46,9 @@ export class TopicComponent implements OnInit, OnChanges {
   constructor(private router: Router, private property: PropertyStoreService,
     private homeService: HomeService<Topic>, private templateService: TemplateService) {
 
-      this.canCreate = this.homeService.canDo(this.TOPIC_KIND).get(ActionKind.Create);
-      this.canUpdate = this.homeService.canDo(this.TOPIC_KIND).get(ActionKind.Update);
-      this.canDelete = this.homeService.canDo(this.TOPIC_KIND).get(ActionKind.Delete);
+    this.canCreate = this.homeService.canDo(this.TOPIC_KIND).get(ActionKind.Create);
+    this.canUpdate = this.homeService.canDo(this.TOPIC_KIND).get(ActionKind.Update);
+    this.canDelete = this.homeService.canDo(this.TOPIC_KIND).get(ActionKind.Delete);
 
   }
 
@@ -68,14 +69,14 @@ export class TopicComponent implements OnInit, OnChanges {
   private loadTopics(parentId: string) {
     this.showProgressBar = true;
     this.topics = []
-    this.homeService.getListByParent(this.TOPIC_KIND,parentId)
-    .then((result) => {
-      console.debug(result)
-      this.topics = result
-      this.property.set('topics', this.topics)
-      this.showReuse = false;
-      this.showProgressBar = false;
-    });
+    this.homeService.getListByParent(this.TOPIC_KIND, parentId)
+      .then((result) => {
+        console.debug(result)
+        this.topics = result
+        this.property.set('topics', this.topics)
+        this.showReuse = false;
+        this.showProgressBar = false;
+      });
   }
 
   public onToggleTopicForm() {
@@ -114,9 +115,9 @@ export class TopicComponent implements OnInit, OnChanges {
 
 
   async onToggleEdit(edit, topicId) {
-    if (!edit.isVisible){
-      let index = this.topics.findIndex( pre => pre.id == topicId)
-      this.topics[index] = await this.homeService.get(this.TOPIC_KIND,topicId )
+    if (!edit.isVisible) {
+      let index = this.topics.findIndex(pre => pre.id == topicId)
+      this.topics[index] = await this.homeService.get(this.TOPIC_KIND, topicId)
     }
     edit.isVisible = !edit.isVisible;
   }
@@ -148,19 +149,26 @@ export class TopicComponent implements OnInit, OnChanges {
       (error) => { throw error; });
   }
 
-  public onQuestionItemRemoved(ref: ElementRevisionRef, topicId) {
-    this.homeService.deattachQuestion(this.TOPIC_KIND, topicId, ref.elementId, ref.elementRevision)
-      .subscribe(result => this.onTopicSaved(result));
+
+  public onQuestionItemRemoved(ref: ElementRevisionRef, topic: Topic) {
+    this.homeService.deattachQuestion(this.TOPIC_KIND, topic.id, ref.elementId, ref.elementRevision)
+      .subscribe(result => {
+        topic.questionItems = result
+        this.onTopicSaved(topic)
+      });
   }
 
-  public onQuestionItemAdded(ref: ElementRevisionRef, topicId) {
-    this.homeService.attachQuestion(this.TOPIC_KIND,topicId,ref)
-      .subscribe(result => this.onTopicSaved(result));
+  public onQuestionItemAdded(ref: ElementRevisionRef, topic: Topic) {
+    this.homeService.attachQuestion(this.TOPIC_KIND, topic.id, ref)
+      .subscribe(result => {
+        topic.questionItems = result
+        this.onTopicSaved(topic)
+      });
   }
 
-  public onQuestionItemModified(ref: ElementRevisionRef, topicId) {
-    const topic = this.topics.find((f) => f.id === topicId);
-    const idx = topic.questionItems.findIndex(f => f.elementId === ref.elementId);
+  public onQuestionItemModified(ref: ElementRevisionRef, topic: Topic) {
+    console.debug('onItemModified -> ' + ref || JSON);
+    const idx = topic.questionItems.findIndex(f => f.equal(ref.uri));
     const seqNew: ElementRevisionRef[] = [].concat(
       topic.questionItems.slice(0, idx),
       ref,
@@ -171,6 +179,7 @@ export class TopicComponent implements OnInit, OnChanges {
     this.templateService.update<Topic>(topic).subscribe(
       (result) => this.onTopicSaved(result));
   }
+
 
   public onRemoveTopic(topic: Topic) {
     if (topic && topic.id) {

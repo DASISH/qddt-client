@@ -52,8 +52,8 @@ export class TreeNodeComponent {
   }
 
   async onToggleEdit(edit, conceptId) {
-    if (!edit.isVisible){
-      this.updateNodeById(this.concepts, await this.homeService.get(this.CONCEPT,conceptId ))
+    if (!edit.isVisible) {
+      this.updateNodeById(this.concepts, await this.homeService.get(this.CONCEPT, conceptId))
     }
     edit.isVisible = !edit.isVisible;
   }
@@ -62,17 +62,17 @@ export class TreeNodeComponent {
     if ((!children) || children.length == 0)
       return;
 
-    let index = children.findIndex( it => it.id == concept.id)
+    let index = children.findIndex(it => it.id == concept.id)
 
     if (index >= 0) {
       children[index] = concept
     } else {
-      children.forEach(it=>{
-         if (it.children) {
+      children.forEach(it => {
+        if (it.children) {
           this.updateNodeById(it.children, concept)
-         }else{
+        } else {
           this.updateNodeById(it._embedded?.children, concept)
-         }
+        }
       })
     }
   }
@@ -89,8 +89,8 @@ export class TreeNodeComponent {
   onChildSave(newConcept: any, parent: Concept) {
     console.debug(newConcept)
     this.showProgressBar = true;
-    let href = parent._links.children.href.replace("{?projection}","")
-    this.templateService.create(new Concept(newConcept),null, href).subscribe(
+    let href = parent._links.children.href.replace("{?projection}", "")
+    this.templateService.create(new Concept(newConcept), null, href).subscribe(
       (result) => {
         parent.children.push(result);
         this.onConceptUpdated(result);
@@ -101,19 +101,25 @@ export class TreeNodeComponent {
   }
 
 
-  public onQuestionItemRemoved(ref: ElementRevisionRef, conceptId) {
-    this.homeService.deattachQuestion(this.CONCEPT, conceptId, ref.elementId, ref.elementRevision)
-      .subscribe(result => this.onConceptUpdated(result));
+  public onQuestionItemRemoved(ref: ElementRevisionRef, concept: Concept) {
+    this.homeService.deattachQuestion(this.CONCEPT, concept.id, ref.elementId, ref.elementRevision)
+      .subscribe(result => {
+        concept.questionItems = result
+        this.onConceptUpdated(concept)
+      });
   }
 
-  public onQuestionItemAdded(ref: ElementRevisionRef, conceptId) {
-    this.homeService.attachQuestion(this.CONCEPT, conceptId, ref)
-      .subscribe(result => this.onConceptUpdated(result));
+  public onQuestionItemAdded(ref: ElementRevisionRef, concept: Concept) {
+    this.homeService.attachQuestion(this.CONCEPT, concept.id, ref)
+      .subscribe(result => {
+        concept.questionItems = result
+        this.onConceptUpdated(concept)
+      });
   }
 
   public onQuestionItemModified(ref: ElementRevisionRef, concept: Concept) {
     console.debug('onItemModified -> ' + ref || JSON);
-    const idx = concept.questionItems.findIndex(f => f.elementId === ref.elementId);
+    const idx = concept.questionItems.findIndex(f => f.equal(ref.uri));
     const seqNew: ElementRevisionRef[] = [].concat(
       concept.questionItems.slice(0, idx),
       ref,

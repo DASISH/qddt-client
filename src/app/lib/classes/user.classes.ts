@@ -15,6 +15,9 @@ export class Agency {
   _embedded?: {
     [rel: string]: any;
   };
+  public constructor(init?: Partial<Agency>) {
+    Object.assign(this, init);
+  }
 }
 
 
@@ -41,16 +44,15 @@ export class User {
   username: string;
   email: string;
   authority?: string[] | string;
-  isEnabled?:boolean;
+  isEnabled?: boolean;
   userAgencyName?: string;
-  agency?: Agency;
   _embedded?: {
     [rel: string]: any;
   };
-  get name():string {
+  get name(): string {
     return this.username;
   }
-  classKind:string = "User"
+  classKind: string = "User"
   public constructor(init?: Partial<User>) {
     Object.assign(this, init);
   }

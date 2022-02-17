@@ -4,7 +4,8 @@
   <ng-template #conceptTemplateRef let-concepts="children" let-level="level">
     <ul *ngIf="concepts">
       <li *ngFor="let concept of concepts; trackBy:trackByIndex;" class="scrollspy" [id]="concept.id">
-        <div class="card section row grey-text text-darken-2" [ngClass]="{'editGreen': edit.isVisible}" style="margin-left: -0.6rem;" >
+        <div class="card section row grey-text text-darken-2" [ngClass]="{'editGreen': edit.isVisible}"
+          style="margin-left: -0.6rem;">
           <div class="col s1">
             <ul class="dropdownmenu">
               <li *ngIf="canUpdate && !(concept.isArchived)">
@@ -68,10 +69,9 @@
             <ng-container *ngIf="!edit.isVisible">
               <p [innerHtml]="concept?.description"></p>
 
-              <qddt-question-items [revisionRefs]="concept.questionItems"
-                [readonly]="concept.isArchived || !canUpdate" [xmlLang]="concept.xmlLang"
-                (createdEvent)="onQuestionItemAdded($event,concept.id)"
-                (deletedEvent)="onQuestionItemRemoved($event,concept.id)"
+              <qddt-question-items [revisionRefs]="concept.questionItems" [readonly]="concept.isArchived || !canUpdate"
+                [xmlLang]="concept.xmlLang" (createdEvent)="onQuestionItemAdded($event,concept)"
+                (deletedEvent)="onQuestionItemRemoved($event,concept)"
                 (modifiedEvent)="onQuestionItemModified($event,concept)">
               </qddt-question-items>
 

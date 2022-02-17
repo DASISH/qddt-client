@@ -60,7 +60,7 @@ export interface IComment {
   public: boolean;
   comments?: IComment[];
   size: number;
-  modifiedBy?: IUser|string;
+  modifiedBy?: IUser | string;
   modified?: number;
   ownerId?: string;
   ownerIdx?: number;
@@ -71,7 +71,7 @@ export interface IVersion {
   major: string | number;
   minor: string | number;
   versionLabel?: string;
-  rev?:  number;
+  rev?: number;
 }
 
 export interface IOtherMaterial {

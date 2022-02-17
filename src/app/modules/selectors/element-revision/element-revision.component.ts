@@ -94,8 +94,7 @@ export class ElementRevisionComponent implements OnChanges {
   private getRevisionRef(revision: IEntityEditAudit): ElementRevisionRef {
     const kind = getElementKind(revision.classKind);
     return new ElementRevisionRefImpl<IEntityEditAudit>({
-      elementId: revision.id,
-      elementRevision: revision.version.rev,
+      uri: { id: revision.id, rev: revision.version.rev },
       elementKind: ElementKind[kind],
       element: Factory.createFromSeed(ElementKind[kind], revision),
       version: revision.version,
