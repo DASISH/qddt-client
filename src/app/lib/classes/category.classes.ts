@@ -74,7 +74,7 @@ export class Category implements IEntityEditAudit {
   children?: Category[]
 
   basedOn?: IRevId;
-  version?: IVersion;
+  version?: IVersion = { major: 1, minor: 0 };
   changeKind?: string;
   changeComment?: string;
   modified?: number;

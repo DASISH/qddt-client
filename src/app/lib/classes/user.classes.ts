@@ -8,7 +8,7 @@ export class Agency {
   modified?: number;
   xmlLang: string;
   classKind: string;
-  version?: IVersion;
+  version?: IVersion = { major: 1, minor: 0 };
   _links?: {
     [rel: string]: HalLink;
   };

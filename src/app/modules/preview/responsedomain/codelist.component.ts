@@ -35,8 +35,11 @@ export class ResponsedomainCodeListComponent implements OnChanges {
     const rep = this.managedRepresentation;
 
     for (const c of rep.anchors) {
-      const newLocal = { label: c.label, value: c.code.value, checked: false } as UserResponse;
-      this.rows.push(newLocal);
+      this.rows.push(
+        { label: c.label,
+          value: c.code.value,
+          checked: false } as UserResponse
+        );
     }
 
     this.type = (+this.responseCardinality.maximum > 1) ? 'checkbox' : 'radio';
@@ -59,7 +62,6 @@ export class ResponsedomainCodeListComponent implements OnChanges {
         this.rows.forEach(item => item.checked = false);
       }
       row.checked = event.target.checked;
-      // console.debug('check here?');
       if (this.type === 'checkbox') {
         if (this.rows.filter((e: any) => e.checked).length >= this.responseCardinality.maximum) {
           this.rows.filter((e: any) => !e.checked).forEach(e => e.disabled = 'true');
@@ -68,8 +70,9 @@ export class ResponsedomainCodeListComponent implements OnChanges {
         }
         this.selectedEvent.emit([...this.rows.filter(e => e.checked)
           .map((e: UserResponse) => {
-            const newLocal = { label: this.insertParam(e.label), value: e.value } as UserResponse;
-            return newLocal;
+            return {
+              label: this.insertParam(e.label),
+              value: e.value } as UserResponse;
           })]);
       } else {
         this.selectedEvent.emit([{ label: this.insertParam(row.label), value: row.value }]);
@@ -79,8 +82,4 @@ export class ResponsedomainCodeListComponent implements OnChanges {
       throw ex;
     }
   }
-  // public isValid() {
-  //   const checked = this.rows.filter((e: any) => e.checked).length;
-  //   return (this.responseCardinality.maximum >= checked && checked >= this.responseCardinality.minimum);
-  // }
 }

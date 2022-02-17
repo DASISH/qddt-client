@@ -150,15 +150,13 @@
             <div class="col s12">
               <p [innerHtml]="topic.description"></p>
 
-              <qddt-question-items
-                [revisionRefs]="topic.questionItems"
-                [readonly]="topic.isArchived || canUpdate"
-                [xmlLang]="topic.xmlLang"
-                (createdEvent)="onQuestionItemAdded($event, topic.id)"
-                (deletedEvent)="onQuestionItemRemoved($event, topic.id)"
-                (modifiedEvent)="onQuestionItemModified($event, topic.id)"
-              >
-              </qddt-question-items>
+              <qddt-question-items [revisionRefs]="topic.questionItems"
+              [readonly]="topic.isArchived || !canUpdate" [xmlLang]="topic.xmlLang"
+              (createdEvent)="onQuestionItemAdded($event,topic.id)"
+              (deletedEvent)="onQuestionItemRemoved($event,topic.id)"
+              (modifiedEvent)="onQuestionItemModified($event,topic)">
+            </qddt-question-items>
+
 
               <qddt-download [entity]="topic" [readonly]="true"></qddt-download>
 

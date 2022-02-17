@@ -2,10 +2,7 @@ import { Component, Input, OnChanges, AfterViewInit, Output, EventEmitter } from
 import { Category, UserResponse, Parameter } from '../../../lib/classes';
 
 class ScaleHead {
-  // colspan: number;
-  // class: string;
   label: string;
-  // width: number;
 }
 
 @Component({

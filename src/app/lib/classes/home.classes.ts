@@ -21,7 +21,7 @@ export class SurveyProgram implements IEntityEditAudit {
   changeComment?: string;
   modified?: number;
   modifiedBy?: User | string;
-  version?: IVersion;
+  version?: IVersion = { major: 1, minor: 0 };
   agency?: Agency;
   otherMaterials?: IOtherMaterial[];
   xmlLang?: string;
@@ -58,7 +58,7 @@ export class Study implements IEntityEditAudit {
   changeComment?: string;
   modified?: number;
   modifiedBy?: User | string;
-  version?: IVersion;
+  version?: IVersion = { major: 1, minor: 0 };
   agency?: Agency;
   otherMaterials?: IOtherMaterial[];
   xmlLang?: string;
@@ -96,7 +96,7 @@ export class Topic implements IEntityEditAudit {
   changeComment?: string;
   modified?: number;
   modifiedBy?: User | string;
-  version?: IVersion;
+  version?: IVersion = { major: 1, minor: 0 };
   otherMaterials?: IOtherMaterial[];
   xmlLang?: string;
   comments?: IComment[];
@@ -141,7 +141,7 @@ export class Concept implements IEntityEditAudit {
   changeComment?: string;
   changeKind?: string;
   modified?: number;
-  version?: IVersion;
+  version?: IVersion = { major: 1, minor: 0 };
   xmlLang?: string;
   // comments?: IComment[];
 

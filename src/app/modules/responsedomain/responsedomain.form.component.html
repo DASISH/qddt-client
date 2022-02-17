@@ -2,43 +2,43 @@
   <form [id]="formId" #hf="ngForm" (ngSubmit)="onSave()">
     <div class="row">
       <qddt-input class="col s10" required name="name" label="Name" [(ngModel)]="responseDomain.name"
-        (ngModelChange)="buildPreviewResponseDomain()" data-length="100">
+      (ngModelChange)="buildPreviewResponseDomain()" data-length="100">
       </qddt-input>
       <qddt-select class="col s2" required name="xmlLang" label="Language" [(ngModel)]="responseDomain.xmlLang"
         (ngModelChange)="buildPreviewResponseDomain()" [lockups]="LANGUAGES">
       </qddt-select>
     </div>
     <qddt-textarea name="description" label="Description" [(ngModel)]="responseDomain.description"
-      (ngModelChange)="buildPreviewResponseDomain()" data-length="255">
+    (ngModelChange)="buildPreviewResponseDomain()" data-length="255">
     </qddt-textarea>
     <ng-container [ngSwitch]="domainType">
       <ng-container *ngSwitchCase="domainTypeDef.SCALE">
         <div class="row hoverable">
           <div class="col s2 input-field">
             <input [id]="'RDC-'+formId+1" class="validate" name="minimum" type="number"
-              [max]="responseDomain.managedRepresentation.inputLimit.maximum"
+              [max]="responseDomain.responseCardinality.maximum"
               (ngModelChange)="buildPreviewResponseDomain()"
-              [(ngModel)]="responseDomain.managedRepresentation.inputLimit.minimum" required>
+              [(ngModel)]="responseDomain.responseCardinality.minimum" required>
             <label [for]="'RDC-'+formId+1">Start</label>
           </div>
           <div class="col s2 input-field">
             <input class="validate" [id]="'RDC-'+formId+2" name="maximum" type="number"
-              [min]="responseDomain.managedRepresentation.inputLimit.minimum"
-              [step]="responseDomain.managedRepresentation.inputLimit.stepUnit"
+              [min]="responseDomain.responseCardinality.minimum"
+              [step]="responseDomain.responseCardinality.stepUnit"
               (ngModelChange)="buildPreviewResponseDomain()"
-              [(ngModel)]="responseDomain.managedRepresentation.inputLimit.maximum" required>
+              [(ngModel)]="responseDomain.responseCardinality.maximum" required>
             <label [for]="'RDC-'+formId+2">End</label>
           </div>
           <div class="col s2 input-field">
             <input class="validate" [id]="'RDC-'+formId+3" name="stepUnit" type="number" [min]="1"
-              [max]="responseDomain.managedRepresentation.inputLimit.maximum/2" [step]="1"
+              [max]="responseDomain.responseCardinality.maximum/2" [step]="1"
               (ngModelChange)="buildPreviewResponseDomain()"
-              [(ngModel)]="responseDomain.managedRepresentation.inputLimit.stepUnit" required>
+              [(ngModel)]="responseDomain.responseCardinality.stepUnit" required>
             <label [for]="'RDC-'+formId+3">Range</label>
           </div>
           <div class="col s3 input-field">
             <input [id]="'RDC-'+formId+4" name="scale_anchor" placeholder="number of anchors" type="number" [min]="0"
-              [max]="responseDomain.managedRepresentation.inputLimit.maximum" [(ngModel)]="numberOfAnchors"
+              [max]="responseDomain.responseCardinality.maximum" [(ngModel)]="numberOfAnchors"
               (ngModelChange)="onChangeNumberOfAnchors($event)" required class="validate">
             <label [for]="'RDC-'+formId+4">Number of Anchor</label>
           </div>
@@ -52,7 +52,7 @@
         <ul [hidden]="numberOfAnchors === 0">
           <li class="hoverable row"
             *ngFor="let category of responseDomain.managedRepresentation.anchors; let idx=index;">
-            <qddt-anchor-point [category]="category" [inputLimit]="responseDomain.managedRepresentation.inputLimit"
+            <qddt-anchor-point [category]="category" [inputLimit]="responseDomain.responseCardinality"
               [formName]="'AP'+idx" (changeEvent)="onAnchorChanged($event,idx)"
               (createEvent)="onCreateCategory($event,idx)">
             </qddt-anchor-point>
@@ -63,7 +63,7 @@
         <div class="row hoverable">
           <div class="col s3 input-field ">
             <input class="validate" [id]="'RDC-'+formId+5" name="code_number" type="number" placeholder="#" min=0
-              [ngModel]="responseDomain.managedRepresentation.inputLimit.maximum"
+              [ngModel]="responseDomain.managedRepresentation.anchors.length"
               (ngModelChange)="onChangeNumberOfCategories($event)" required>
             <label [for]="'RDC-'+formId+5">Number of Codes</label>
           </div>
@@ -77,7 +77,7 @@
           <div class="col s4  input-field">
             <input class="validate" [id]="'RDC-'+formId+7" name="responseCardinality_maximum" type="number"
               placeholder="max" (ngModelChange)="buildPreviewResponseDomain()" [min]="1"
-              [max]="responseDomain.managedRepresentation.inputLimit.maximum"
+              [max]="responseDomain.managedRepresentation.anchors.length"
               [(ngModel)]="responseDomain.responseCardinality.maximum" required>
             <label [for]="'RDC-'+formId+7">Max # of Response Cardinality</label>
           </div>
@@ -113,21 +113,21 @@
         <div class="row hoverable">
           <div class="input-field col l2 m3">
             <input [id]="'RDC-'+formId+8" name="minimum" type="number" required
-              [max]=subtract([responseDomain.managedRepresentation.inputLimit.maximum],power10(+responseDomain.managedRepresentation.inputLimit.stepUnit))
-              [(ngModel)]="responseDomain.managedRepresentation.inputLimit.minimum"
+              [max]=subtract([responseDomain.responseCardinality.maximum],power10(+responseDomain.responseCardinality.stepUnit))
+              [(ngModel)]="responseDomain.responseCardinality.minimum"
               (ngModelChange)="buildPreviewResponseDomain()">
             <label [for]="'RDC-'+formId+8">Low</label>
           </div>
           <div class="input-field col l2 m3">
             <input [id]="'RDC-'+formId+9" name="maximum" type="number" required
-              [min]=addition([responseDomain.managedRepresentation.inputLimit.minimum],power10(+responseDomain.managedRepresentation.inputLimit.stepUnit))
-              [(ngModel)]="responseDomain.managedRepresentation.inputLimit.maximum"
+              [min]=addition([responseDomain.responseCardinality.minimum],power10(+responseDomain.responseCardinality.stepUnit))
+              [(ngModel)]="responseDomain.responseCardinality.maximum"
               (ngModelChange)="buildPreviewResponseDomain()">
             <label [for]="'RDC-'+formId+9">High</label>
           </div>
           <div class="input-field col l2 m3">
             <input [id]="'RDC-'+formId+10" name="stepUnit" type="number" [min]="-10" [max]="10" required
-              [title]="'Number of Decimal'" [(ngModel)]="responseDomain.managedRepresentation.inputLimit.stepUnit"
+              [title]="'Number of Decimal'" [(ngModel)]="responseDomain.responseCardinality.stepUnit"
               (ngModelChange)="buildPreviewResponseDomain()">
             <label [for]="'RDC-'+formId+10">Scale</label>
           </div>
@@ -151,15 +151,15 @@
         <div class="row hoverable">
           <div class="input-field col l2">
             <input [id]="'RDC-'+formId+11+formId" name="minimum" type="number" [min]="0" required
-              [max]="subtract(+responseDomain.managedRepresentation.inputLimit.maximum,1)"
-              [(ngModel)]="responseDomain.managedRepresentation.inputLimit.minimum"
+              [max]="subtract(+responseDomain.responseCardinality.maximum,1)"
+              [(ngModel)]="responseDomain.responseCardinality.minimum"
               (ngModelChange)="buildPreviewResponseDomain()">
             <label [for]="'RDC-'+formId+11">Low</label>
           </div>
           <div class="input-field col l2">
             <input [id]="'RDC-'+formId+12+formId" name="maximum" type="number" required
-              [min]=addition(+responseDomain.managedRepresentation.inputLimit.minimum,1)
-              [(ngModel)]="responseDomain.managedRepresentation.inputLimit.maximum"
+              [min]=addition(+responseDomain.responseCardinality.minimum,1)
+              [(ngModel)]="responseDomain.responseCardinality.maximum"
               (ngModelChange)="buildPreviewResponseDomain()">
             <label [for]="'RDC-'+formId+12">High</label>
           </div>
@@ -178,15 +178,15 @@
         <div class="row hoverable">
           <div class="input-field col s2">
             <input [id]="'RDC-'+formId+13" name="minimum" type="number" placeholder="low" required
-              [max]="responseDomain.managedRepresentation.inputLimit.maximum - 1"
-              [(ngModel)]="responseDomain.managedRepresentation.inputLimit.minimum"
+              [max]="responseDomain.responseCardinality.maximum - 1"
+              [(ngModel)]="responseDomain.responseCardinality.minimum"
               (ngModelChange)="buildPreviewResponseDomain()">
             <label [for]="'RDC-'+formId+13">From</label>
           </div>
           <div class="input-field col s2">
             <input [id]="'RDC-'+formId+14+formId" name="maximum" type="number" placeholder="high" required
-              [min]="responseDomain.managedRepresentation.inputLimit.minimum + 1"
-              [(ngModel)]="responseDomain.managedRepresentation.inputLimit.maximum"
+              [min]="responseDomain.responseCardinality.minimum + 1"
+              [(ngModel)]="responseDomain.responseCardinality.maximum"
               (ngModelChange)="buildPreviewResponseDomain()">
             <label [for]="'RDC-'+formId+14">To</label>
           </div>

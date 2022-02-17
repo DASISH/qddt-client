@@ -37,10 +37,10 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
   public readonly DISPLAYLAYOUTS = toSelectItems(DisplayLayoutKind);
 
   public readonly trackByIndex = (index: number, entity) => entity.id || index;
+  public readonly trackByFunc = (idx: any, category: { id: any; }) =>  category?.id || idx;
 
   constructor(private service: TemplateService, private properties: PropertyStoreService) {
 
-    this.numberOfAnchors = 0;
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.RESPONSEDOMAIN);
 
   }
@@ -99,11 +99,8 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   public async onSave() {
-    let managed = this.previewResponseDomain.managedRepresentation
-    managed.name = this.previewResponseDomain.name
-    // this.responseDomain.managedRepresentation = await this.service.update<Category>(managed).toPromise()
-
-    this.service.update<ResponseDomain>(new ResponseDomain(this.responseDomain)).subscribe(
+    this.responseDomain.managedRepresentation.inputLimit = this.responseDomain.responseCardinality
+    this.service.update<ResponseDomain>(this.responseDomain).subscribe(
       (rdResult) => {
         this.responseDomain = rdResult;
         this.modifiedEvent.emit(rdResult);
@@ -118,6 +115,7 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
 
   public onChangeNumberOfCategories(num: number) {
     this.responseDomain.managedRepresentation.inputLimit.maximum = num;
+    this.responseDomain.responseCardinality.maximum = num
     this.onChangeNumberOfAnchors(num);
   }
 
@@ -127,11 +125,11 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   public onChangeNumberOfAnchors(num: number) {
-    const rep = this.responseDomain.managedRepresentation;
-    if (rep.anchors.length === num) {
+    const managed = this.responseDomain.managedRepresentation;
+    if (managed.anchors.length === num) {
       return;
     }
-    const count = rep.inputLimit.maximum - rep.inputLimit.minimum + 1;
+    const count = managed.inputLimit.maximum - managed.inputLimit.minimum + 1;
     if (count < num) {
       this.numberOfAnchors = count;
     } else if (num < 0) {
@@ -140,20 +138,20 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
       this.numberOfAnchors = num;
     }
 
-    let anchorsNew = rep.anchors.slice(0, this.numberOfAnchors);
+    let anchorsNew = managed.anchors.slice(0, this.numberOfAnchors);
 
     if (this.domainType === DomainKind.LIST) {
-      for (let i = rep.anchors.length; i < this.numberOfAnchors; i++) {
+      for (let i = managed.anchors.length; i < this.numberOfAnchors; i++) {
         anchorsNew.push(new Category({ code: { value: String(i + 1) }, xmlLang: this.responseDomain.xmlLang }));
       }
     } else if (this.domainType === DomainKind.SCALE) {
-      const len = rep.anchors.length;
+      const len = managed.anchors.length;
       for (let i = len; i < this.numberOfAnchors; i++) {
         anchorsNew.push(new Category({ code: { value: '', }, xmlLang: this.responseDomain.xmlLang }));
       }
     }
-    rep.anchors = anchorsNew
-    rep.description = rep.anchors.map(c => c.label).join(' + ');
+    managed.anchors = anchorsNew
+    managed.description = managed.anchors.map(c => c.label).join(' + ');
     this.buildPreviewResponseDomain();
   }
 
@@ -165,6 +163,7 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
 
 
   public buildPreviewResponseDomain() {
+    this.responseDomain.managedRepresentation.inputLimit = this.responseDomain.responseCardinality
     this.previewResponseDomain = new ResponseDomain(this.responseDomain);
   }
 
@@ -182,10 +181,6 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
     return parseInt(value1) + parseInt(value2);
   }
 
-  public trackByFunc(idx: any, category: { id: any; }) {
-    if (!category) return null;
-    return category.id;
-  }
 
   public onItemDrop(event: CdkDragDrop<any[]>) {
     if (event.previousContainer === event.container) {

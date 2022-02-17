@@ -51,6 +51,7 @@ import { Category, DomainKind, ResponseCardinality, ResponseDomain, UserResponse
           (selectedEvent)="onSelectedEvent($event)">
         </qddt-preview-rd-missing>
       </ng-container>
+      <label *ngIf="showLabel" class="descLabel">{{responseDomain?.description}}</label>
       <div class="right"  style="font-size: 0.8rem;" *ngIf="!missingSelected"
         [ngClass]="{'red-text': responseDomain.responseCardinality.minimum > checked, 'green-text': responseDomain.responseCardinality.minimum <= checked }" >
         <em>Response Cardinality ({{checked}}): valid from {{responseDomain.responseCardinality.minimum}} to {{responseDomain.responseCardinality.maximum}}</em>

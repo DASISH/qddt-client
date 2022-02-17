@@ -16,6 +16,7 @@ import { hasChanges } from 'src/app/lib/consts';
       (ngModelChange)="changeNumber($event)">
     <label [for]="identifier">{{managedRepresentation.label}}</label>
     <span>Range from {{ inputLimit.minimum }} to {{ inputLimit.maximum }} in steps {{ parts(inputLimit?.stepUnit) }}</span>
+
   </div>
 </ng-container>`,
   styles: [],
