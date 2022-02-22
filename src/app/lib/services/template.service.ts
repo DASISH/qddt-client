@@ -203,11 +203,13 @@ export class TemplateService {
     let header = new HttpHeaders()
       .set('Accept', 'text/xml');
 
-    return this.http.get(this.api + qe.path + '/' + item.id, { responseType: 'blob', headers: header }).toPromise();
+    return this.http.get(this.api + qe.path + '/xml/' + item.id, { responseType: 'blob', headers: header }).toPromise();
   }
 
   public getFile(om: IOtherMaterial): Promise<Blob> {
-    return this.http.get(this.api + 'othermaterial/files/' + om.originalOwner + '/' + om.fileName, { responseType: 'blob' }).toPromise();
+    let header = new HttpHeaders()
+    .set('Accept', 'application/octet-stream');
+    return this.http.get(this.api + 'othermaterial/files/' + om.originalOwner + '/' + om.fileName, {   responseType: 'blob', headers: header  }).toPromise();
   }
 
   public can(action: ActionKind, kind: ElementKind): boolean {

@@ -99,7 +99,7 @@ export class ResponsedomainComponent implements OnChanges {
       this.responseDomain = Factory.createFromSeed(ElementKind.RESPONSEDOMAIN, result.entity) as ResponseDomain;
       this.selectedEvent.emit(new ElementRevisionRefImpl({
         element: this.responseDomain,
-        uri: { id: this.responseDomain.id, rev: result.revisionNumber },
+        uri: { id: this.responseDomain.id, rev: result.revisionNumber as number},
         elementKind: ElementKind.RESPONSEDOMAIN,
       }));
       M.toast({
