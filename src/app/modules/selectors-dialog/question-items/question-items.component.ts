@@ -5,7 +5,8 @@ import {
   IElement, IRevisionRef,
   MessageService,
   TemplateService,
-  ActionKind
+  ActionKind,
+  ElementRevisionRefImpl
 } from '../../../lib';
 
 
@@ -131,15 +132,16 @@ export class QuestionItemsComponent {
   }
 
   public onItemRemove(cqi: ElementRevisionRef) {
-    if (cqi) {
-      this.revisionRefs = this.revisionRefs.filter(qi => !(qi.elementId === cqi.elementId && qi.elementRevision === cqi.elementRevision));
-      this.deletedEvent.emit(cqi);
+    let ref = new ElementRevisionRefImpl(cqi)
+    if (ref) {
+      this.revisionRefs = this.revisionRefs.filter(qi => !(qi.uri.id === ref.uri.id && qi.uri.rev === ref.uri.rev));
+      this.deletedEvent.emit(ref);
     }
   }
 
   public onItemEdit(event: Event, cqi: ElementRevisionRef) {
     event.stopPropagation();
-    this.service.searchByUuid(cqi.elementId).then(
+    this.service.searchByUuid(cqi.uri.id).then(
       (result) => { this.router.navigate([result.url]); },
       (error) => { throw error; });
   }
@@ -147,15 +149,18 @@ export class QuestionItemsComponent {
   public onItemUpdate(event: Event, cqi: ElementRevisionRef) {
     event.stopPropagation();
     this.action = ActionKind.Update;
-    if (cqi && cqi.elementRevision) {
+    if (cqi && cqi.uri.rev) {
       this.SOURCE = cqi;
     }
     // console.debug(this.SOURCE || JSON);
     this.modalRef.open();
   }
 
-  public onItemPreview(event: Event, item: ElementRevisionRef) {
+  public async onItemPreview(event: Event, item: ElementRevisionRef) {
     event.stopPropagation();
+    if (!(item.element))
+      item.element = await this.service.getByKindRevision(this.QUESTION, item.uri.id, item.uri.rev)
+
     this.message.sendMessage(item);
   }
 

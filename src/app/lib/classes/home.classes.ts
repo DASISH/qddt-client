@@ -1,7 +1,7 @@
 import { IEntityEditAudit, IVersion, IOtherMaterial, IComment, HalLink, IRevId, IParentRef } from '../interfaces';
 import { ElementKind } from '../enums';
 import { Instrument } from './instrument.classes';
-import { ElementRevisionRef } from './element-revision-ref';
+import { ElementRevisionRef, ElementRevisionRefImpl } from './element-revision-ref';
 import { Agency, User } from './user.classes';
 
 
@@ -15,7 +15,7 @@ export class SurveyProgram implements IEntityEditAudit {
   // children: Study[];
   classKind = ElementKind[ElementKind.SURVEY_PROGRAM];
   changeKind?: string;
-  basedOn?:IRevId
+  basedOn?: IRevId
   parentIdx?: number;
   parentRef?: IParentRef;
   changeComment?: string;
@@ -52,7 +52,7 @@ export class Study implements IEntityEditAudit {
   instruments?: Instrument[]
   classKind = ElementKind[ElementKind.STUDY];
   changeKind?: string;
-  basedOn?:IRevId
+  basedOn?: IRevId
   parentIdx?: number;
   parentRef?: IParentRef;
   changeComment?: string;
@@ -90,7 +90,7 @@ export class Topic implements IEntityEditAudit {
   children?: Concept[];
   classKind = ElementKind[ElementKind.TOPIC_GROUP];
   changeKind?: string;
-  basedOn?:IRevId
+  basedOn?: IRevId
   parentIdx?: number;
   parentRef?: IParentRef;
   changeComment?: string;
@@ -108,13 +108,16 @@ export class Topic implements IEntityEditAudit {
   };
   public constructor(init?: Partial<Topic>) {
     Object.assign(this, init);
-    if(!init._embedded) {
-      this._embedded = { }
+    if (!init._embedded) {
+      this._embedded = {}
       this._embedded.modifiedBy = init.modifiedBy
     }
     if (init._embedded?.children) {
       this.children = init._embedded.children
       this._embedded.children = null
+    }
+    if (this.questionItems) {
+      this.questionItems.forEach(item => new ElementRevisionRefImpl(item))
     }
   }
   setLanguage(lang: string): Topic {
@@ -135,7 +138,7 @@ export class Concept implements IEntityEditAudit {
   questionItems: ElementRevisionRef[];
   children?: Concept[] = [];
   classKind = ElementKind[ElementKind.CONCEPT];
-  basedOn?:IRevId
+  basedOn?: IRevId
   parentIdx?: number;
 
   changeComment?: string;

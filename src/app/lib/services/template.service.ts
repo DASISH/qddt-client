@@ -65,11 +65,11 @@ export class TemplateService {
 
     console.debug(query);
 
-    let customPath = (( qe.id === ElementKind.QUESTION_CONSTRUCT) ||
-                    (qe.id === ElementKind.SEQUENCE_CONSTRUCT) ||
-                    ( qe.id === ElementKind.CONDITION_CONSTRUCT) ||
-                    ( qe.id === ElementKind.STATEMENT_CONSTRUCT) )
-        ? "controlconstruct":qe.path
+    let customPath = ((qe.id === ElementKind.QUESTION_CONSTRUCT) ||
+      (qe.id === ElementKind.SEQUENCE_CONSTRUCT) ||
+      (qe.id === ElementKind.CONDITION_CONSTRUCT) ||
+      (qe.id === ElementKind.STATEMENT_CONSTRUCT))
+      ? "controlconstruct" : qe.path
 
     return this.http.get<IPageResult>(this.api + customPath + '/search/findByQuery' + query).toPromise();
   }
@@ -83,7 +83,7 @@ export class TemplateService {
           if (!(result._embedded)) {
             result._embedded = {};
           }
-          resolve(result);
+          resolve(Factory.createFromSeed(kind, result) as T);
         },
           err => {
             // Error
@@ -208,8 +208,8 @@ export class TemplateService {
 
   public getFile(om: IOtherMaterial): Promise<Blob> {
     let header = new HttpHeaders()
-    .set('Accept', 'application/octet-stream');
-    return this.http.get(this.api + 'othermaterial/files/' + om.originalOwner + '/' + om.fileName, {   responseType: 'blob', headers: header  }).toPromise();
+      .set('Accept', 'application/octet-stream');
+    return this.http.get(this.api + 'othermaterial/files/' + om.originalOwner + '/' + om.fileName, { responseType: 'blob', headers: header }).toPromise();
   }
 
   public can(action: ActionKind, kind: ElementKind): boolean {

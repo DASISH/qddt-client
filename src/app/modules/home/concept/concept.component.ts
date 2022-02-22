@@ -36,7 +36,7 @@ export class ConceptComponent implements OnInit, AfterViewInit {
   public conceptList: Concept[] = []
   public canCreate: boolean;
 
-  private getId = (href: string): string => href.split('/').pop().replace("{?projection}","");
+  private getId = (href: string): string => href.split('/').pop().replace("{?projection}", "");
 
   @ViewChild('modalconceptdelete', { static: false }) modalConceptDelete: ElementRef;
 
@@ -57,16 +57,16 @@ export class ConceptComponent implements OnInit, AfterViewInit {
     this.topic = this.property.get('topic') as Topic;
     const parentId = this.route.snapshot.paramMap.get('id') || this.property.menuPath[HierarchyPosition.Topic].id;
 
-      this.loadConcepts(parentId);
+    this.loadConcepts(parentId);
   }
 
   private loadConcepts(parentId: string) {
     this.showProgressBar = true;
     this.conceptList = []
-    this.homeService.getListByParent(this.CONCEPT,parentId)
+    this.homeService.getListByParent(this.CONCEPT, parentId)
       .then((result) => this.conceptList = result)
-      .finally(()=> this.showProgressBar = false);
-}
+      .finally(() => this.showProgressBar = false);
+  }
 
 
   onToggleConceptForm() {
@@ -181,7 +181,7 @@ export class ConceptComponent implements OnInit, AfterViewInit {
     let found = false;
     let i = -1;
     while (!found && ++i < concepts.length) {
-      found = this.updateConcept(concepts[i]._embedded.children, concept);
+      found = this.updateConcept(concepts[i].children, concept);
       if (concepts[i].id === concept.id) {
         concepts[i] = concept;
         found = true;
@@ -194,7 +194,7 @@ export class ConceptComponent implements OnInit, AfterViewInit {
     let i = -1;
     while (++i < concepts.length) {
       if (concepts[i].id === conceptId) { return concepts.splice(i, 1)[0]; }
-      const deleted = this.removeConcept(concepts[i]._embedded.children, conceptId);
+      const deleted = this.removeConcept(concepts[i].children, conceptId);
       if (deleted) { return deleted; }
     }
     return null;

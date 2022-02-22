@@ -8,6 +8,7 @@ import { Agency, IPassword, UserJwt, User } from '../classes';
 import { IAuthority, IPageResult } from '../interfaces';
 import { PropertyStoreService } from './property.service';
 import { TokenStorageService } from './token-storage.service';
+import { threadId } from 'worker_threads';
 
 
 /**
@@ -19,7 +20,7 @@ export class UserService {
   public static readonly SIGNIN_URL = 'login';
   public static readonly AGENCY_URL = 'agency';
   public static readonly RESET_PWD_URL = 'user/resetpassword';
-  public static readonly UPDATE_URL = 'user';
+  public static readonly UPDATE_URL = 'user/';
   public static readonly AUTHORITY_URL = 'authority';
 
   private static readonly AGENCIES = 'AGENCIES';
@@ -128,7 +129,13 @@ export class UserService {
   }
 
   public saveUser(userdata: User): Observable<any> {
-    return this.http.post(this.api + UserService.UPDATE_URL, userdata);
+    console.log(userdata._embedded['authorities']);
+
+    if (userdata._embedded['authorities']) {
+      let result = this.http.put(this.api + UserService.UPDATE_URL + userdata.id + '/authorites', userdata._embedded['authorities']).toPromise()
+      console.log(result);
+    }
+    return this.http.put(this.api + UserService.UPDATE_URL + userdata.id, userdata);
   }
 
   public resetPassword(password: IPassword): Observable<any> {

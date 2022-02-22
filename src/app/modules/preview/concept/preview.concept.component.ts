@@ -1,4 +1,4 @@
-import { Component,AfterViewInit, Input } from '@angular/core';
+import { Component, AfterViewInit, Input } from '@angular/core';
 import { Concept, ElementKind, ElementRevisionRef, MessageService, PreviewService, getIcon, PUBLICATION_TYPES, getElementKind } from '../../../lib';
 import { Factory } from '../../../lib/factory';
 
@@ -22,7 +22,7 @@ export class PreviewConceptComponent implements AfterViewInit {
 
   public onViewDetail(element: ElementRevisionRef) {
     if (!element.element) {
-      this.service.getRevisionByKind(element.elementKind, element.elementId, element.elementRevision).then(
+      this.service.getRevisionByKind(element.elementKind, element.uri.id, element.uri.rev).then(
         (result) => { element.element = result; },
         (error) => { throw error; });
     }

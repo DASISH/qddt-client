@@ -14,8 +14,7 @@
   </li>
   <li>
     <label>QuestionItem(s)</label>
-    <ul [id]="'UL-' + compId" *ngIf="topic.questionItems && topic.questionItems?.length > 0"
-      class="collapsible">
+    <ul [id]="'UL-' + compId" *ngIf="topic.questionItems && topic.questionItems?.length > 0" class="collapsible">
       <li [id]="'LI-' + compId + '-' + idx"
         *ngFor="let cqi of topic.questionItems; trackBy:trackByIndex; let idx=index;" (click)="onViewDetail(cqi)">
         <div class="collapsible-header">
@@ -24,7 +23,6 @@
           <qddt-version-label class="col s3 m2 right-align" [revisionRef]="cqi"></qddt-version-label>
         </div>
         <div class="collapsible-body">
-          HJELP
           <qddt-preview-questionitem *ngIf="cqi.element" [questionItem]="cqi.element">
           </qddt-preview-questionitem>
         </div>

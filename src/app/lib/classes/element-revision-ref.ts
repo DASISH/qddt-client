@@ -12,7 +12,6 @@ export abstract class ElementRevisionRef implements IElement, IRevisionRef {
   get elementId() { return this.uri.id }
   get elementRevision() { return this.uri.rev }
 
-
   abstract element: any;
 
   text?: string;

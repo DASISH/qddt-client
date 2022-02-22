@@ -125,8 +125,8 @@ export class TreeNodeRevisionRefComponent implements AfterViewInit {
       } else {
         this.service.getByKindRevision(
           kind,
-          item.elementId,
-          item.elementRevision)
+          item.uri.id,
+          item.uri.rev)
           .then((result) => {
             if (kind === ElementKind.CONDITION_CONSTRUCT) {
               cond = result as ICondition;

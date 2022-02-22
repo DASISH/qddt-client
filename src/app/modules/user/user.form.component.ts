@@ -52,8 +52,9 @@ export class UserFormComponent implements OnInit, OnChanges, AfterViewInit {
     this.user._embedded['agency'].id = this.selectedAgencyId = id;
   }
 
-  onSelectRadio(authority: string) {
-    this.user.authority = [authority];
+  onSelectRadio(authority: IAuthority) {
+    this.user._embedded['authorities'] = [authority];
+    this.user.authority = [authority.authority]
   }
 
   onSave() {

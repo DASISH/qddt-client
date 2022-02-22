@@ -40,12 +40,16 @@ export class ResponsedomainComponent implements OnChanges {
   public localResponseDomain: ResponseDomain;
   public showResponseDomain = false;
   public SOURCE: ResponseDomain;
+  public readonly trackByCategoryId = (category: Category): string => category.id;
 
   // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
   private _modalRef: M.Modal;
 
   private readonly getResponseAsync = (id: string) =>
-    this.service.getByKindRevision(ElementKind.CATEGORY, id);
+    this.service.getByKindRevision(ElementKind.RESPONSEDOMAIN, id);
+
+  private readonly getMissingAsync = (id: string) =>
+    this.service.getByKindEntity<Category>(ElementKind.CATEGORY, id);
 
   private readonly updateResponseAsync = (responseDomain: ResponseDomain) =>
     this.service.update<ResponseDomain>(responseDomain).toPromise();
@@ -73,10 +77,6 @@ export class ResponsedomainComponent implements OnChanges {
 
 
 
-  public trackByCategoryId(category: Category): string {
-    return category.id;
-  }
-
   public onItemEdit(event: Event, rd: ResponseDomain) {
     event.stopPropagation();
     if (rd) {
@@ -99,7 +99,7 @@ export class ResponsedomainComponent implements OnChanges {
       this.responseDomain = Factory.createFromSeed(ElementKind.RESPONSEDOMAIN, result.entity) as ResponseDomain;
       this.selectedEvent.emit(new ElementRevisionRefImpl({
         element: this.responseDomain,
-        uri: { id: this.responseDomain.id, rev: result.revisionNumber as number},
+        uri: { id: this.responseDomain.id, rev: result.revisionNumber as number },
         elementKind: ElementKind.RESPONSEDOMAIN,
       }));
       M.toast({
@@ -151,9 +151,10 @@ export class ResponsedomainComponent implements OnChanges {
     }
   }
 
-  public onMissingSelect(ref: IElement) {
+  public async onMissingSelect(ref: IElement) {
     if (this.canEdit) {
-      this.localResponseDomain.addManagedRep(ref.element);
+      let missing = await this.getMissingAsync(ref.element.id)
+      this.localResponseDomain.addManagedRep(missing);
     }
   }
 

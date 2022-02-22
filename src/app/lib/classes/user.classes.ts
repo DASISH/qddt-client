@@ -1,3 +1,4 @@
+import { IAuthority } from './../interfaces/interfaces';
 import { HalLink, IVersion } from '../interfaces';
 
 
@@ -49,6 +50,7 @@ export class User {
   _embedded?: {
     [rel: string]: any;
   };
+  // authorities?: IAuthority[];
   get name(): string {
     return this.username;
   }

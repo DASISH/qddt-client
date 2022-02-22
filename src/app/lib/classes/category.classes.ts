@@ -69,7 +69,7 @@ export class Category implements IEntityEditAudit {
   categoryKind = CategoryKind[CategoryKind.CATEGORY];
   classKind = ElementKind[ElementKind.CATEGORY];
   inputLimit = new ResponseCardinality();
-  code?: Code;
+  code?: Code = new Code();
   otherMaterials?: IOtherMaterial[];
   children?: Category[]
 
@@ -86,10 +86,6 @@ export class Category implements IEntityEditAudit {
   public constructor(init?: Partial<Category>) {
     if (init?._embedded?.children) {
       init.children = init?._embedded?.children
-      init._embedded = {
-        agency: init?._embedded?.agency,
-        modifiedBy: init?._embedded?.modifiedBy,
-      }
     }
 
     Object.assign(this, init);
@@ -101,12 +97,19 @@ export class Category implements IEntityEditAudit {
     }
     if (!this.children) {
       this.children = []
+    } else {
+      this.children.forEach(item => {
+        if (!item.code) item.code = new Code();
+      });
     }
+
     this.code = ((init) && (init.code)) ? new Code(init.code) : null
 
-    console.group(this.name)
-    console.debug(this.anchors)
-    console.groupEnd()
+    if (this.hierarchyLevel == HierarchyLevel.GROUP_ENTITY.toString()) {
+      console.group(this.name)
+      console.debug(this.anchors)
+      console.groupEnd()
+    }
     this.anchors?.forEach(value => new Category(value));
   }
 

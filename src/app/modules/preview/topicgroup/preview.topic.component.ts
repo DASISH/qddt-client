@@ -10,7 +10,7 @@ import {
   templateUrl: 'preview.topic.component.html'
 })
 
-export class PreviewTopicComponent implements AfterViewInit  {
+export class PreviewTopicComponent implements AfterViewInit {
   @Input() topic: Topic;
 
   public compId = Math.round(Math.random() * 10000);
@@ -27,8 +27,8 @@ export class PreviewTopicComponent implements AfterViewInit  {
 
   public onViewDetail(element: ElementRevisionRef) {
     if (!element.element) {
-      this.service.getRevisionByKind(element.elementKind, element.elementId, element.elementRevision).then(
-        (result) => { element.element = result.entity; },
+      this.service.getRevisionByKind(element.elementKind, element.uri.id, element.uri.rev).then(
+        (result) => { element.element = result; },
         (error) => { throw error; });
     }
   }
