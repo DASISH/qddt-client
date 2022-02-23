@@ -1,5 +1,5 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { Concept, LANGUAGE_MAP, TemplateService } from '../../../lib';
+import { Concept, ConceptPojo, LANGUAGE_MAP, TemplateService } from '../../../lib';
 
 
 @Component({
@@ -67,7 +67,8 @@ export class ConceptEditComponent {
 
 
   save() {
-    this.service.update<Concept>(this.concept)
+    console.debug(new ConceptPojo(this.concept));
+    this.service.update<Concept>(new ConceptPojo(this.concept)as Concept)
       .subscribe((result) => {
         this.concept = result;
         this.conceptChanged.emit(result);

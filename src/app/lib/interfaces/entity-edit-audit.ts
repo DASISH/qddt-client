@@ -15,7 +15,6 @@ export interface IEntityAudit {
 export interface IRevId { id: string; rev?: number }
 
 export interface IEntityEditAudit extends IEntityAudit {
-  [x: string]: any;
   changeComment?: string;
   changeKind?: string;
   modified?: number;
@@ -31,6 +30,7 @@ export interface IEntityEditAudit extends IEntityAudit {
   _embedded?: {
     [rel: string]: IEntityEditAudit;
   };
+  [x: string]: any;
 }
 
 

@@ -84,7 +84,11 @@ export const CHANGE_LOG_COLUMNS = [
   new Column({ name: 'refChangeKind', label: 'ChangeKind', sortable: true }),
   new Column({ name: 'refAction', label: 'Action', sortable: true }),
   new Column({ name: 'modified', label: 'Modified', sortable: true }),
-  new Column({ name: 'modifiedBy', label: 'ModifiedBy', sortable: false })
+  new Column({
+    name: ['_embedded','modifiedBy', 'username'],
+    label: 'ModifiedBy',
+    sortable: false
+  })
 ];
 
 export const REFERENCED_COLUMNS = [

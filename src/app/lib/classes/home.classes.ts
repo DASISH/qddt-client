@@ -3,6 +3,7 @@ import { ElementKind } from '../enums';
 import { Instrument } from './instrument.classes';
 import { ElementRevisionRef, ElementRevisionRefImpl } from './element-revision-ref';
 import { Agency, User } from './user.classes';
+import { filter } from 'rxjs/operators';
 
 
 export class SurveyProgram implements IEntityEditAudit {
@@ -133,10 +134,11 @@ export class Concept implements IEntityEditAudit {
   label: string;
   description: string;
   isArchived = false;
-  authors: any[];
 
+  authors: any[];
   questionItems: ElementRevisionRef[];
   children?: Concept[] = [];
+
   classKind = ElementKind[ElementKind.CONCEPT];
   basedOn?: IRevId
   parentIdx?: number;
@@ -159,15 +161,40 @@ export class Concept implements IEntityEditAudit {
     [rel: string]: any;
   };
   public constructor(init?: Partial<Concept>) {
-    Object.assign(this, init);
     if (init._embedded?.children) {
-      this.children = init._embedded.children
-      this._embedded.children = null
+      init.children = init._embedded.children
+      init._embedded = { agency : init._embedded.agency, modifiedBy : init._embedded.modifiedBy}
     }
+    Object.assign(this, init);
   }
   setLanguage(lang: string): Concept {
     this.xmlLang = lang;
     return this;
   }
 
+}
+
+
+export class ConceptPojo  {
+  id: string;
+  name: string;
+  label: string;
+  description: string;
+  isArchived = false;
+  classKind = ElementKind[ElementKind.CONCEPT];
+  basedOn: IRevId
+  changeComment: string;
+  changeKind: string;
+  modified: number;
+  version: IVersion = { major: 1, minor: 0 };
+  xmlLang: string;
+  parentIdx: number;
+
+  public constructor(init?: Partial<Concept>) {
+    for(const key in init){
+      if(this.hasOwnProperty(key)){
+        this[key] = init[key];
+      }
+    }
+  }
 }
