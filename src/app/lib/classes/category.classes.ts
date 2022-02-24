@@ -98,9 +98,7 @@ export class Category implements IEntityEditAudit {
     if (!this.children) {
       this.children = []
     } else {
-      this.children.forEach(item => {
-        if (!item.code) item.code = new Code();
-      });
+      this.children = this.children.map(item => new Category(item));
     }
 
     this.code = ((init) && (init.code)) ? new Code(init.code) : null

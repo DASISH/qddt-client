@@ -3,7 +3,7 @@ import { ElementKind, ElementRevisionRef, IElement, IRevisionRef, getQueryInfo, 
 
 
 @Component({
-  selector: 'qddt-element-collection-dialog',
+  selector: 'qddt-element-revision',
   template: `
   <!-- Modal Structure -->
   <div  id="MODAL-{{modalId}}" class="modal modal-fixed-footer">

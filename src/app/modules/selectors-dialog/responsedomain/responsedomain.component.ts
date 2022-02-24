@@ -1,14 +1,14 @@
-import { Router } from '@angular/router';
 import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   ActionKind,
   Category,
   ElementKind,
   ElementRevisionRef,
   ElementRevisionRefImpl,
-  Factory,
   hasChanges,
   IElement, IElementRef,
+  IRevisionRef,
   ResponseDomain, TemplateService, UserService
 } from 'src/app/lib';
 
@@ -21,8 +21,6 @@ import {
     'td { min-width: 200px; max-width: 300px}'
   ],
 })
-
-
 export class ResponsedomainComponent implements OnChanges {
   @Input() responseDomain: ResponseDomain;
   @Input() readonly = false;
@@ -39,7 +37,7 @@ export class ResponsedomainComponent implements OnChanges {
 
   public localResponseDomain: ResponseDomain;
   public showResponseDomain = false;
-  public SOURCE: ResponseDomain;
+  public SOURCE: IRevisionRef;
   public readonly trackByCategoryId = (category: Category): string => category.id;
 
   // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
@@ -90,29 +88,35 @@ export class ResponsedomainComponent implements OnChanges {
   }
 
   public async onItemGetLatest() {
-    this.SOURCE = this.responseDomain
+    this.SOURCE = new ElementRevisionRefImpl({
+          element: this.responseDomain,
+          uri: { id: this.responseDomain.id, rev: null },
+          elementKind: ElementKind.RESPONSEDOMAIN,
+        });
+    // this.showResponseDomain = true;
+    // this.modalRef.open();
 
-    const RD = await this.getResponseAsync(this.responseDomain.id);
-    const result = await this.service.getLatestVersionByKindEntity(ElementKind.RESPONSEDOMAIN, this.responseDomain.id);
+    // const RD = await this.getResponseAsync(this.responseDomain.id);
+    // const result = await this.service.getLatestVersionByKindEntity(ElementKind.RESPONSEDOMAIN, this.responseDomain.id);
 
-    if (RD.modified !== result.entity.modified) {
-      this.responseDomain = Factory.createFromSeed(ElementKind.RESPONSEDOMAIN, result.entity) as ResponseDomain;
-      this.selectedEvent.emit(new ElementRevisionRefImpl({
-        element: this.responseDomain,
-        uri: { id: this.responseDomain.id, rev: result.revisionNumber as number },
-        elementKind: ElementKind.RESPONSEDOMAIN,
-      }));
-      M.toast({
-        html: 'Updated Mixed responsedomain',
-        displayLength: 2000
-      });
+    // if (RD.modified !== result.entity.modified) {
+    //   this.responseDomain = Factory.createFromSeed(ElementKind.RESPONSEDOMAIN, result.entity) as ResponseDomain;
+    //   this.selectedEvent.emit(new ElementRevisionRefImpl({
+    //     element: this.responseDomain,
+    //     uri: { id: this.responseDomain.id, rev: result.revisionNumber as number },
+    //     elementKind: ElementKind.RESPONSEDOMAIN,
+    //   }));
+    //   M.toast({
+    //     html: 'Updated Mixed responsedomain',
+    //     displayLength: 2000
+    //   });
 
-    } else {
-      M.toast({
-        html: 'No updated managed representation available',
-        displayLength: 2000
-      });
-    }
+    // } else {
+    //   M.toast({
+    //     html: 'No updated managed representation available',
+    //     displayLength: 2000
+    //   });
+    // }
   }
 
 

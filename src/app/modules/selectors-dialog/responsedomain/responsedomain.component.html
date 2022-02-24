@@ -115,8 +115,8 @@
 </div>
 
 
-<qddt-element-collection-dialog [source]="SOURCE" [xmlLang]="xmlLang" (revSelectEvent)="onRevisionSelect($event)">
-</qddt-element-collection-dialog>
+<qddt-element-revision [source]="SOURCE" [xmlLang]="xmlLang" (revSelectEvent)="onRevisionSelect($event)">
+</qddt-element-revision>
 
 
 <qddt-confirm-remove (dialogResult)="onItemRemove()" #confirmDialog>
