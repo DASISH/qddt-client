@@ -1,7 +1,7 @@
 <div cdkDropList cdkDrop [cdkDropListData]="elementRevisions" (cdkDropListDropped)="onItemDrop($event)">
   <ul class="collapsible row">
     <li *ngFor="let cqi of elementRevisions;let idx = index;" cdkDrag (mouseenter)="showButton = !readonly"
-      (mouseleave)="showButton = false" (click)="onOpenBody(cqi)">
+      (mouseleave)="showButton = false" (click)="onOpenBody($event,cqi)">
       <div class="collapsible-header">
         <ul class="dropleft" *ngIf="!readonly">
           <li>

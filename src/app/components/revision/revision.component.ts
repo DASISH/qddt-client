@@ -57,8 +57,8 @@ export class RevisionComponent implements OnChanges {
     this.selectRevisionId = id;
   }
 
-  onPreviewRevision(id: number) {
-    const ref: IElement = { element: this.revisions[id], elementKind: this.revisions[id].classKind };
+  onPreviewRevision(idx: number) {
+    const ref: IElement = { element: this.revisions[idx], elementKind: this.revisions[idx].classKind };
     this.message.sendMessage(ref);
   }
 
@@ -78,7 +78,7 @@ export class RevisionComponent implements OnChanges {
 
   private getChildrenSize(): number {
     if (this.isResponseDomain(this.current)) {
-      return this.current.managedRepresentation.children.length;
+      return this.current.managedRepresentation.anchors.length;
     }
     return 0;
   }
@@ -92,16 +92,16 @@ export class RevisionComponent implements OnChanges {
       config.push({ name: 'displayLayout', label: 'display Layout' });
       const size = this.getChildrenSize();
       for (let i = 0; i < size; i++) {
-        config.push({ name: ['managedRepresentation', 'children', i, 'label'], label: 'Cat-' + i });
-        config.push({ name: ['managedRepresentation', 'children', i, 'code', 'value'], label: 'Anchor-' + i });
+        config.push({ name: ['managedRepresentation', 'anchors', i, 'label'], label: 'Cat-' + i });
+        config.push({ name: ['managedRepresentation', 'anchors', i, 'code', 'value'], label: 'Anchor-' + i });
       }
     } else if (this.getResponseKind() === DomainKind.LIST) {
       config.push({ name: ['responseCardinality', 'minimum'], label: 'Cardinal-0' });
       config.push({ name: ['responseCardinality', 'maximum'], label: 'Cardinal-1' });
       const size = this.getChildrenSize();
       for (let i = 0; i < size; i++) {
-        config.push({ name: ['managedRepresentation', 'children', i, 'label'], label: 'Cat-' + i });
-        config.push({ name: ['managedRepresentation', 'children', i, 'code', 'value'], label: 'Code-' + i });
+        config.push({ name: ['managedRepresentation', 'anchors', i, 'label'], label: 'Cat-' + i });
+        config.push({ name: ['managedRepresentation', 'anchors', i, 'code', 'value'], label: 'Code-' + i });
       }
     } else if (this.getResponseKind() === DomainKind.NUMERIC) {
       config.push({ name: ['managedRepresentation', 'inputLimit', 'minimum'], label: 'Low' });

@@ -45,6 +45,14 @@
   <ng-container *ngSwitchCase=instanceRefEnum.TOPIC_GROUP>
     <qddt-preview-topic [topic]="element"></qddt-preview-topic>
   </ng-container>
+  <ng-container *ngSwitchCase=instanceRefEnum.CATEGORY>
+    <div *ngFor="let category of elementAsMissing(element).anchors;">
+      <span class="codeValue"> {{ category.code?.value || '?' }} </span>
+      <label>
+        <span>{{category.label}}</span>
+      </label>
+    </div>
+  </ng-container>
   <ng-container *ngSwitchCase=instanceRefEnum.INSTRUCTION>
     <li class="collection-item" *ngIf="element['description']">
       <p [innerHtml]="element['description']"></p>

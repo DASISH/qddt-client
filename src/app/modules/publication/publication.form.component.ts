@@ -103,7 +103,7 @@ export class PublicationFormComponent implements OnChanges, OnInit, AfterViewIni
 
 
   public onItemRemoved(ref: ElementRevisionRef) {
-    const idx = this.publication.publicationElements.findIndex(p => p.elementId === ref.elementId);
+    const idx = this.publication.publicationElements.findIndex(p => p.uri === ref.uri);
     if (idx >= 0) {
       this.publication.publicationElements.splice(idx, 1);
     }

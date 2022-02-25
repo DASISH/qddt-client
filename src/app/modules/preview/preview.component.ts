@@ -1,3 +1,5 @@
+import { element } from 'protractor';
+import { Category } from 'src/app/lib';
 import { AfterViewInit, Component, Input } from '@angular/core';
 import { ElementEnumAware, ElementKind, IEntityAudit, PreviewService, Parameter, saveAs } from '../../lib';
 
@@ -25,6 +27,8 @@ export class PreviewComponent implements AfterViewInit {
   public instanceRefEnum = ElementKind;
   public revisionIsVisible = false;
   // public readonly compId = Math.round(Math.random() * 10000);
+  public readonly elementAsMissing = (element: IEntityAudit): Category => new Category(element);
+
   private readonly hide = [ElementKind.AGENCY, ElementKind.AUTHOR, ElementKind.CONDITION_CONSTRUCT,
   ElementKind.INSTRUCTION, ElementKind.STATEMENT_CONSTRUCT, ElementKind.INSTRUCTION];
 
@@ -48,6 +52,7 @@ export class PreviewComponent implements AfterViewInit {
     const result = this.hide.findIndex(p => p.valueOf() === idx);
     return (result < 0);
   }
+
 
 }
 

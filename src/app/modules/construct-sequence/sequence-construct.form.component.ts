@@ -41,13 +41,15 @@ export class SequenceFormComponent implements OnChanges {
   }
 
   public onSave() {
-    this.service.update<SequenceConstruct>(this.sequence).subscribe(
+    this.sequence.sequence.forEach((pe, idx, arr) => {
+      arr[idx].element = null;
+    });
+    this.service.update(this.sequence).subscribe(
       (result) => {
         this.sequence = result;
-        this.modifiedEvent.emit(result);
+        this.modifiedEvent.emit(this.sequence);
       },
-      (error) => { throw error; }
-    );
+      (error) => { throw error; });
   }
 
   public onSelectChange(event) {
@@ -74,11 +76,11 @@ export class SequenceFormComponent implements OnChanges {
   }
 
   public onItemRemoved(ref: ElementRevisionRef) {
-    if (ref.index) {
+    if (ref.index >= 0) {
       this.sequence.sequence.splice(ref.index, 1);
     } else {
       this.sequence.sequence =
-        this.sequence.sequence.filter(f => !(f.elementId === ref.elementId && f.elementRevision === ref.elementRevision));
+        this.sequence.sequence.filter(f => !(f.uri === ref.uri));
     }
   }
 

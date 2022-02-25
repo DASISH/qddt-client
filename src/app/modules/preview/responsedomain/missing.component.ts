@@ -10,7 +10,7 @@ import { hasChanges } from 'src/app/lib/consts';
     <label>Missing</label>
   </span>
     <div *ngFor="let category of missing.anchors;" >
-      <span class="codeValue"> {{ category.code?.value }} </span>
+      <span class="codeValue"> {{ category.code?.value || '?' }} </span>
       <label>
         <input [name]="inputGroupName" type="radio" (change)="checkOption(category)" [checked]="unchecked"/>
         <span >{{insertParam(category.label)}}</span>

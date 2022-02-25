@@ -78,14 +78,14 @@ export class ElementRevisionRefComponent implements AfterViewInit, OnChanges {
     }
   }
 
-  public onOpenBody(item: ElementRevisionRef) {
+  public onOpenBody(event, item: ElementRevisionRef) {
 
     if (!item.element) {
       const kind = getElementKind(item.elementKind);
       this.service.getByKindRevision(
         kind,
-        item.elementId,
-        item.elementRevision)
+        item.uri.id,
+        item.uri.rev)
         .then((result) => {
           // console.debug('create from seed');
           item.element = Factory.createFromSeed(kind, result);
