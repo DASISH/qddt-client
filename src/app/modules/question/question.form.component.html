@@ -30,11 +30,12 @@
       (removeEvent)="onResponseDomainRemove()">
     </qddt-responsedomain-select>
 
-    <qddt-rational *ngIf="!readonly && questionItem.id" [formName]="'RationalComp'" [element]="questionItem"
+
+    <qddt-rational *ngIf="!readonly && questionItem.modified" [formName]="'RationalComp'" [element]="questionItem"
       [config]="{hidden: [4]}">
     </qddt-rational>
 
-    <qddt-element-footer *ngIf="questionItem.id" [element]="questionItem"></qddt-element-footer>
+    <qddt-element-footer *ngIf="questionItem.modified" [element]="questionItem"></qddt-element-footer>
     <div class="row right-align">
       <button *ngIf="!readonly" [disabled]="!hf.form.valid" type="submit" class="btn btn-default">Submit</button>
     </div>

@@ -91,7 +91,7 @@ export class RationalComponent implements OnInit, OnChanges, AfterViewInit {
       this.element.changeKind = this.rationalDescriptions[id].change;
     }
     if (id === 2) {  // BASED ON
-      this.element.basedOn = { id:this.original.id, rev:null};
+      this.element.basedOn = { id:this.original.id, rev:0};
       this.element.id = null
     } else {
       this.element.id = this.original.id;
