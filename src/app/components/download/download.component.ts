@@ -28,9 +28,7 @@ export class FileDownloadComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (hasChanges(changes.entity)) {
       const ek = getElementKind(this.entity.classKind);
-      if (!this.readonly) {
-        this.readonly = !this.service.can(ActionKind.Create, ek);
-      }
+      this.readonly = !this.service.can(ActionKind.Create, ek);
       this.showXmlDownload = !(ek === ElementKind.SURVEY_PROGRAM || ek === ElementKind.STUDY);
       this.label = (this.entity.otherMaterials) ? 'External aid & Exports' : 'Exports ';
     }
@@ -48,6 +46,12 @@ export class FileDownloadComponent implements OnChanges {
     this.service.getFile(o).then(
       (data) => { saveAs(data, fileName, o.fileType); },
       (error) => { throw error; });
+  }
+
+  onUpladFiles() {
+    this.fileStore.forEach(file => {
+      this.service.uploadFile(this.entity.id, file)
+    });
   }
 
 
@@ -72,6 +76,10 @@ export class FileDownloadComponent implements OnChanges {
     for (let i = 0; i < list.length; i++) {
       this.fileStore.push(list.item(i));
     }
+    this.fileStore.forEach(file => {
+      this.service.uploadFile(this.entity.id, file).toPromise().then(result => console.log(result))
+    });
+    // this.onUpladFiles()
     this.showUploadFileForm = false;
   }
 

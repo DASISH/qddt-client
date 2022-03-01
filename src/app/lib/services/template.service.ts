@@ -93,6 +93,7 @@ export class TemplateService {
     });
 
   }
+
   public getByKindRevisions<T extends IEntityAudit>(kind: ElementKind, id: string): Promise<any> {
     return new Promise((resolve, reject) => {
       const qe = getQueryInfo(kind);
@@ -147,7 +148,7 @@ export class TemplateService {
 
   public update<T extends IEntityAudit>(item: T, parentId?: string): Observable<T> {
     if (!(item.id))
-      return this.create<T>(item,parentId)
+      return this.create<T>(item, parentId)
     const kind = getElementKind(item.classKind);
     const qe = getQueryInfo(kind);
     if (item.id === item.basedOn?.id) {
@@ -171,13 +172,6 @@ export class TemplateService {
       .pipe(map(response => Factory.createFromSeed(item.classKind, response._embedded) as T));
   }
 
-  // public updateAll<T extends IEntityAudit>(items: T[], parentId?: string,): Observable<T[]> {
-  //   const qe = getQueryInfo(items[0].classKind);
-  //   return (parentId) ? this.http.post<T[]>(this.api + qe.path + '/list/' + parentId, items) :
-  //     this.http.post<HalResource[]>(this.api + qe.path + '/list', items)
-  //     .pipe(map(response => Factory.createFromSeed(item.classKind, response._embedded) as T));
-
-  // }
 
   public updateWithFiles(kind: ElementKind, form: FormData): Observable<any> {
     const qe = getQueryInfo(kind);
@@ -192,10 +186,12 @@ export class TemplateService {
 
   public getPdf(item: IEntityEditAudit): Promise<Blob> {
     const qe = getQueryInfo(item.classKind);
+    // let header = new HttpHeaders()
+    // .set('Accept', 'application/pdf');
     let header = new HttpHeaders()
-      .set('Accept', 'application/pdf');
+      .set('Accept', 'application/octet-stream');
 
-    return this.http.get(this.api + qe.path + '/' + item.id, { responseType: 'blob', headers: header }).toPromise();
+    return this.http.get(this.api + qe.path + '/pdf/' + item.id, { responseType: 'blob', headers: header }).toPromise();
   }
 
   public getXML(item: IEntityEditAudit): Promise<Blob> {
@@ -211,6 +207,13 @@ export class TemplateService {
       .set('Accept', 'application/octet-stream');
     return this.http.get(this.api + 'othermaterial/files/' + om.originalOwner + '/' + om.fileName, { responseType: 'blob', headers: header }).toPromise();
   }
+
+  public uploadFile(parentId: string, file: File): Observable<any> {
+    let header = new HttpHeaders()
+      .set('Accept', 'application/octet-stream');
+    return this.http.post(this.api + 'othermaterial/upload/' + parentId, file, { reportProgress: true, headers: header });
+  }
+
 
   public can(action: ActionKind, kind: ElementKind): boolean {
     return this.userService.canDo(action, kind);

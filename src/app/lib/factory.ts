@@ -1,3 +1,4 @@
+import { Agency } from 'src/app/lib';
 import { IEntityAudit } from './interfaces';
 import { ElementKind } from './enums';
 import { getElementKind } from './consts';
@@ -53,6 +54,10 @@ export class Factory {
         return new Universe();
       case ElementKind.AUTHOR:
         return new Author();
+      case ElementKind.AGENCY:
+        return new Agency();
+      case ElementKind.USER:
+        return new User();
       default: return null;
     }
   }
@@ -96,6 +101,10 @@ export class Factory {
         return new Universe(seed);
       case ElementKind.AUTHOR:
         return new Author(seed);
+      case ElementKind.AGENCY:
+        return new Agency(seed);
+      case ElementKind.USER:
+        return new User(seed)
       default: return null;
     }
   }
