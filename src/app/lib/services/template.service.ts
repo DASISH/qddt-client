@@ -145,9 +145,9 @@ export class TemplateService {
     return this.http.post<T>(this.api + qe.path + '/copy/' + fromId + '/' + fromRev + '/' + toParentId, {});
   }
 
-  public update<T extends IEntityAudit>(item: T): Observable<T> {
+  public update<T extends IEntityAudit>(item: T, parentId?: string): Observable<T> {
     if (!(item.id))
-      return this.create<T>(item)
+      return this.create<T>(item,parentId)
     const kind = getElementKind(item.classKind);
     const qe = getQueryInfo(kind);
     if (item.id === item.basedOn?.id) {

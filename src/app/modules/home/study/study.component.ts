@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 import {
   ActionKind, delay,
   ElementKind,
@@ -26,42 +27,54 @@ export class StudyComponent implements OnInit {
   public readonly: boolean;
   public canDelete: boolean;
   public survey: SurveyProgram;
-  public studies: Study[];
   public revision: any;
 
-  private readonly STUDY = ElementKind.STUDY;
   public readonly LANGUAGES = LANGUAGE_MAP;
-  private getId = (href: string): string => href.split('/').pop();
 
-   constructor(private router: Router,
-    private property: PropertyStoreService,
-    private message: MessageService,
-    private homeService: HomeService<Study>,
-    private templateService: TemplateService) {
+  private parentId: string;
+  private readonly STUDY = ElementKind.STUDY;
+
+  private getId = (href: string): string => href.split('/').pop().split('{')[0];
+  private getStudy = (href: string) => this.templateService.getByKindEntity<Study>(this.STUDY, this.getId(href));
+  public get studies() : Study[] {
+    return  this.property.get('studies')
+  }
+  private set studies(values : Study[]) {
+    this.property.set('studies', values)
+  }
+
+
+  constructor(private router: Router,private property: PropertyStoreService,private message: MessageService,
+                private homeService: HomeService<Study>,private templateService: TemplateService) {
 
     this.readonly = !homeService.canDo(this.STUDY).get(ActionKind.Create);
     this.canDelete = homeService.canDo(this.STUDY).get(ActionKind.Delete);
+
   }
 
   ngOnInit(): void {
     this.survey = this.property.get('survey');
-    const parentId = this.survey.id || this.property.menuPath[HierarchyPosition.Survey].id;
-    this.loadStudies(parentId);
+    this.parentId = this.survey.id || this.property.menuPath[HierarchyPosition.Survey].id;
+    this.loadStudies(this.parentId);
   }
 
-  private loadStudies(parentId: string) {
-    this.studies = []
-    this.homeService.getListByParent(this.STUDY,parentId)
-    .then((result) => {
-      result.forEach(async (survey, index) => {
-        await this.templateService
-          .getByKindEntity<Study>(this.STUDY, this.getId(survey._links?.self.href))
-          .then((item) => result[index] = item);
+  private async loadStudies(parentId: string) {
+
+    if (this.survey && this.survey._embedded?.children) {
+      let tmp:Study[] = []
+      this.survey._embedded.children.forEach(async (study) =>{
+        tmp.push( await this.getStudy(study._links?.self.href))
       });
-      console.debug(result)
-      this.studies = result
-      this.property.set('studies', this.studies)
-    });
+      this.studies = tmp;
+
+    } else {
+      this.homeService.getListByParent(this.STUDY,parentId)
+        .then((result) => {
+          result.forEach(async (study, index) =>  result[index] = await this.getStudy(study._links?.self.href));
+          this.studies = result;
+        });
+    }
+    console.debug(this.studies)
   }
 
   onShowTopic(study: Study) {
@@ -86,29 +99,28 @@ export class StudyComponent implements OnInit {
 
   onStudySaved(study: Study) {
     if (study !== null) {
-      this.survey._embedded.children = this.survey._embedded.children || [];
+      let oldItems = this.studies
 
-      const index = this.survey._embedded.children.findIndex((f) => f.id === study.id);
+      const index = oldItems.findIndex((f) => f.id === study.id);
       if (index > -1) {
-        this.survey._embedded.children.splice(index, 1, study);
+        oldItems.splice(index, 1, study);
       } else {
-        this.survey._embedded.children.push(study);
+        oldItems.push(study);
       }
+      this.studies = oldItems
     }
   }
 
   onNewSave(study) {
     this.showEditForm = false;
     this.templateService.create<Study>(new Study(study)
-      .setLanguage(this.property.userSetting.xmlLang), this.survey.id).subscribe(
+      .setLanguage(this.property.userSetting.xmlLang), this.parentId).subscribe(
         result => this.onStudySaved(result));
   }
 
 
   onRemoveStudy(study: Study) {
     if (study) {
-      console.debug(this.survey.id);
-
       this.templateService.delete(study)
         .subscribe(() => {
 

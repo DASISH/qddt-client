@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import {ElementKind, ElementRevisionRef, LANGUAGE_MAP, Study, TemplateService} from '../../../lib';
+import {ElementKind, ElementRevisionRef, LANGUAGE_MAP, Study, SurveyProgram, TemplateService} from '../../../lib';
+import { PropertyStoreService } from 'src/app/lib';
 
 @Component({
   selector: 'qddt-study-edit',
@@ -55,10 +56,15 @@ export class StudyEditComponent {
   public isVisible = false;
   public showRevision = false;    // used by parent form to keep track of revision comp
 
-  constructor(private service: TemplateService) { }
+  private survey: SurveyProgram
+
+  constructor(private service: TemplateService,private property: PropertyStoreService) {
+    this.survey = this.property.get('survey');
+
+  }
 
   onSave() {
-    this.service.update<Study>(this.study)
+    this.service.update<Study>(this.study,this.survey.id)
       .subscribe((result) => {
         this.study = null;
         this.isVisible = true;
