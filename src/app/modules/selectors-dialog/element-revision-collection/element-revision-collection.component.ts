@@ -21,7 +21,7 @@ import {
           <i class="material-icons" title="Associate QuestionItem with element">playlist_add</i>
         </a>
       </a>
-      <a class="collection-item col s12 black-text text-lighten-3" *ngFor="let cqi of revisionRefs.sort()" (click)="onItemPreview($event,cqi)" >
+      <a class="collection-item col s12 black-text text-lighten-3" *ngFor="let cqi of revisionRefs?.sort()" (click)="onItemPreview($event,cqi)" >
         <qddt-version-label class="right" [revisionRef]="cqi" ></qddt-version-label>
         <ul *ngIf="!readonly" class="dropleft">
           <li>

@@ -7,6 +7,7 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { RATIONAL_DESCRIPTIONS, RationalDescription } from './rationaldescription';
+import { hasChanges } from '../../lib/consts/functions';
 
 @Component({
   selector: 'qddt-rational',
@@ -39,8 +40,10 @@ export class RationalComponent implements OnInit, OnChanges, AfterViewInit {
   public getJson = () => JSON.stringify(this.element);
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.element.isFirstChange()) {
+    if (hasChanges(changes.element)){
       this.element.changeComment = '';
+    }
+    if (changes.element.isFirstChange()) {
       this.original.id = this.element.id;
       this.original.basedOn = this.element.basedOn;
       this.onSelectOption(0);
