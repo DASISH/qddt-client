@@ -181,7 +181,7 @@ export class ConceptComponent implements OnInit, AfterViewInit {
     let found = false;
     let i = -1;
     while (!found && ++i < concepts.length) {
-      found = this.updateConcept(concepts[i].children, concept);
+      found = this.updateConcept(concepts[i].children||concepts[i]._embedded.children , concept);
       if (concepts[i].id === concept.id) {
         concepts[i] = concept;
         found = true;
@@ -194,7 +194,7 @@ export class ConceptComponent implements OnInit, AfterViewInit {
     let i = -1;
     while (++i < concepts.length) {
       if (concepts[i].id === conceptId) { return concepts.splice(i, 1)[0]; }
-      const deleted = this.removeConcept(concepts[i].children, conceptId);
+      const deleted = this.removeConcept(concepts[i]._embedded?.children, conceptId);
       if (deleted) { return deleted; }
     }
     return null;

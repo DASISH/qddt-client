@@ -22,10 +22,10 @@ import { Concept } from '../../../lib/classes/home.classes';
 <ng-template #nodeTemplateRef let-children="source" >
   <li *ngFor="let child of children" cdkDrag >
     <a [ngClass]="{'active':isActive===child.id}" href="concept#{{child.id}}" (click)="isActive=child.id" >{{ child.label ?? child.name | titlecase  }}</a>
-    <ol *ngIf="child.children.length > 0">
+    <ol *ngIf="subConcepts(child).length > 0">
       <ng-template
         [ngTemplateOutlet]="nodeTemplateRef"
-        [ngTemplateOutletContext]="{ source: child.children }">
+        [ngTemplateOutletContext]="{ source: subConcepts(child) }">
       </ng-template>
     </ol>
   </li>
@@ -53,6 +53,8 @@ export class ConceptTocComponent {
   @Output() hierarchyChanged = new EventEmitter<any>();
 
   public isActive: string;
+
+  public readonly subConcepts = (concept:Concept):Concept[] => concept._embedded?.children || concept.children || [];
 
   constructor() { }
 

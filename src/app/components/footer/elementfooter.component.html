@@ -7,18 +7,17 @@
   <div class="input-field col s5 m3">
     <div class="chip" title="{{element.modified | date:'full':undefined:fixNO_nb_nn(localID) }}">
       {{element.modified | date:'mediumDate':undefined:fixNO_nb_nn(localID) }}</div>
-    <!-- <div class="chip">{{getTime()}}</div> -->
     <label class=" active">Last Saved</label>
   </div>
   <div class="input-field col s5 m3">
-    <div class="chip" *ngIf="element._embedded.modifiedBy?.email">
+    <div class="chip" *ngIf="element._embedded?.modifiedBy?.email">
       <img class="gravatar" gravatar [email]="element._embedded.modifiedBy.email" [size]="32">
       {{element._embedded.modifiedBy.username |titlecase }}
     </div>
     <label class="active">Last Saved By</label>
   </div>
   <div class="input-field col s5 m3">
-    <div class="chip">{{element._embedded.agency?.name||element['agencyName']}}</div>
+    <div class="chip">{{element._embedded?.agency?.name||element['agencyName']}}</div>
     <label class="active">Agency</label>
   </div>
   <div class="input-field col s5 m2">

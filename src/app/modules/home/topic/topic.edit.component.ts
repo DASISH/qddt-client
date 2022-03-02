@@ -60,11 +60,11 @@ export class TopicEditComponent {
 
   public async onSave() {
     console.debug('onSave')
-    const formData = new FormData();
-    formData.append('topicgroup', JSON.stringify(this.topic));
-    this.fileStore.forEach((file) => { formData.append('files', file); });
+    // const formData = new FormData();
+    // formData.append('topicgroup', JSON.stringify(this.topic));
+    // this.fileStore.forEach((file) => { formData.append('files', file); });
 
-    this.topic = await this.service.updateWithFiles(this.TOPIC_KIND, formData).toPromise();
+    this.topic = await this.service.update(this.topic, this.topic.parentId).toPromise();
     this.topicChanged.emit(this.topic);
     this.isVisible = false
   }

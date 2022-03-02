@@ -1,5 +1,6 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
-import { Concept, ConceptPojo, LANGUAGE_MAP, TemplateService } from '../../../lib';
+import { Component, Input, EventEmitter, Output, OnChanges, SimpleChanges } from '@angular/core';
+import { Concept, ConceptPojo, ElementKind, LANGUAGE_MAP, TemplateService } from '../../../lib';
+import { hasChanges } from '../../../lib/consts/functions';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { Concept, ConceptPojo, LANGUAGE_MAP, TemplateService } from '../../../li
     <qddt-input class="col s10"
           required
           name="name"
-          placeholder="If not specified, same as Label, but must be unique within the Agencys Concepts"
+          placeholder="If not specified, same as Label, but must be unique within the Agency's concepts"
           label="Name"
           [(ngModel)]="concept.name"
           data-length="100">
@@ -52,7 +53,7 @@ import { Concept, ConceptPojo, LANGUAGE_MAP, TemplateService } from '../../../li
 </ng-container>
 `
 })
-export class ConceptEditComponent {
+export class ConceptEditComponent implements OnChanges{
   @Input() concept: Concept;
   @Output() conceptChanged = new EventEmitter<Concept>();
   @Input() readonly = false;
@@ -65,10 +66,20 @@ export class ConceptEditComponent {
 
   constructor(private service: TemplateService) { }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if(hasChanges(changes.isVisible)){
+      //  this.service
+      //   .getByKindEntity<Concept>(ElementKind.CONCEPT, this.concept.id)
+      //   .then( result => this.concept = result);
+
+        console.debug("fetching latest");
+    }
+  }
+
 
   save() {
     console.debug(new ConceptPojo(this.concept));
-    this.service.update<Concept>(new ConceptPojo(this.concept)as Concept)
+    this.service.update<Concept>(this.concept)
       .subscribe((result) => {
         this.concept = result;
         this.conceptChanged.emit(result);

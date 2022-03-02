@@ -42,7 +42,7 @@ export class TreeNodeComponent {
   public readonly canDelete: boolean;
 
   public readonly trackByIndex = (index: number, entity) => entity.id;
-
+  public readonly subConcepts = (concept:Concept):Concept[] => concept._embedded?.children || concept.children || [];
 
   constructor(private homeService: HomeService<Concept>, private router: Router,
     private message: MessageService, private templateService: TemplateService) {
@@ -51,32 +51,14 @@ export class TreeNodeComponent {
     this.canDelete = this.homeService.canDo(this.CONCEPT).get(ActionKind.Delete);
   }
 
-  async onToggleEdit(edit, conceptId) {
+  async onToggleEdit(edit, concept:Concept) {
     if (!edit.isVisible) {
-      this.updateNodeById(this.concepts, await this.homeService.get(this.CONCEPT, conceptId))
+      this.homeService
+      .get(this.CONCEPT, concept.id)
+      .then( result => this.onConceptUpdated(result));
     }
     edit.isVisible = !edit.isVisible;
   }
-
-  updateNodeById(children: Concept[], concept: Concept) {
-    if ((!children) || children.length == 0)
-      return;
-
-    let index = children.findIndex(it => it.id == concept.id)
-
-    if (index >= 0) {
-      children[index] = concept
-    } else {
-      children.forEach(it => {
-        if (it.children) {
-          this.updateNodeById(it.children, concept)
-        } else {
-          this.updateNodeById(it._embedded?.children, concept)
-        }
-      })
-    }
-  }
-
 
   onConceptUpdated(concept: Concept) {
     this.updatedEvent.emit(concept);
@@ -87,12 +69,12 @@ export class TreeNodeComponent {
   }
 
   onChildSave(newConcept: any, parent: Concept) {
-    console.debug(newConcept)
+    // console.debug(newConcept)
     this.showProgressBar = true;
     let href = parent._links.children.href.replace("{?projection}", "")
     this.templateService.create(new Concept(newConcept), null, href).subscribe(
       (result) => {
-        parent.children.push(result);
+        parent._embedded?.children.push(result);
         this.onConceptUpdated(result);
       },
       (error) => { throw error; },

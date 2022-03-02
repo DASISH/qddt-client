@@ -8,6 +8,10 @@
       <a> {{ concept.name }} </a>
     </p>
   </li>
+  <li *ngIf="concept?.label">
+    <label>Label</label>
+    <P [innerHtml]="concept?.label"></P>
+  </li>
   <li *ngIf="concept?.description">
     <label>Description</label>
     <P [innerHtml]="concept?.description"></P>

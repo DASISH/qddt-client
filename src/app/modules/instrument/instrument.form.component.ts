@@ -11,7 +11,7 @@ import {
   TemplateService,
   SequenceConstruct,
   SEQUENCE_TYPES,
-  TreeNodeRevisionRef, hasChanges, replaceNode, getElementKind, ElementKind, ICondition
+  TreeNodeRevisionRef, hasChanges, getElementKind, ElementKind, ICondition
 } from '../../lib';
 
 @Component({

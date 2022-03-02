@@ -7,7 +7,9 @@ export abstract class ElementRevisionRef implements IElement, IRevisionRef {
   uri: IRevId;
   elementKind: ElementKind | string;
   name?: string;
+  text?: string;
   version?: IVersion = { major: 1, minor: 0 };
+  index?: number;
 
   get elementId() { return this.uri.id }
   set elementId(id:string) { this.uri.id = id }
@@ -16,8 +18,6 @@ export abstract class ElementRevisionRef implements IElement, IRevisionRef {
 
   abstract element: any;
 
-  text?: string;
-  index?: number;
   public constructor(init?: Partial<ElementRevisionRef>) {
     this.uri = { id:"", rev:0}
     Object.assign(this, init);

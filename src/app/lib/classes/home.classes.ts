@@ -3,30 +3,27 @@ import { ElementKind } from '../enums';
 import { Instrument } from './instrument.classes';
 import { ElementRevisionRef, ElementRevisionRefImpl } from './element-revision-ref';
 import { Agency, User } from './user.classes';
-import { filter } from 'rxjs/operators';
-
 
 export class SurveyProgram implements IEntityEditAudit {
   id: string;
   label: string;
   name: string;
   description: string;
+  xmlLang?: string;
+
+  otherMaterials?: IOtherMaterial[];
   authors?: any[];
-  isArchived = false;
-  // children: Study[];
-  classKind = ElementKind[ElementKind.SURVEY_PROGRAM];
+
+  modified?: number;
+  version?: IVersion = { major: 1, minor: 0 };
   changeKind?: string;
+  changeComment?: string;
   basedOn?: IRevId
+  parentId?: string;
   parentIdx?: number;
   parentRef?: IParentRef;
-  changeComment?: string;
-  modified?: number;
-  modifiedBy?: User | string;
-  version?: IVersion = { major: 1, minor: 0 };
-  agency?: Agency;
-  otherMaterials?: IOtherMaterial[];
-  xmlLang?: string;
-  comments?: IComment[];
+  classKind = ElementKind[ElementKind.SURVEY_PROGRAM];
+  isArchived = false;
   _links?: {
     [rel: string]: HalLink;
   };
@@ -47,23 +44,24 @@ export class Study implements IEntityEditAudit {
   label: string;
   name: string;
   description: string;
-  isArchived = false;
+  xmlLang?: string;
+
+  otherMaterials?: IOtherMaterial[];
   authors?: any[];
-  children?: Topic[];
   instruments?: Instrument[]
-  classKind = ElementKind[ElementKind.STUDY];
+
+  modified?: number;
+  version?: IVersion = { major: 1, minor: 0 };
   changeKind?: string;
+  changeComment?: string;
   basedOn?: IRevId
+  parentId?: string;
   parentIdx?: number;
   parentRef?: IParentRef;
-  changeComment?: string;
-  modified?: number;
+  classKind = ElementKind[ElementKind.STUDY];
+  isArchived = false;
+
   modifiedBy?: User | string;
-  version?: IVersion = { major: 1, minor: 0 };
-  agency?: Agency;
-  otherMaterials?: IOtherMaterial[];
-  xmlLang?: string;
-  comments?: IComment[];
   _links?: {
     [rel: string]: HalLink;
   };
@@ -82,25 +80,27 @@ export class Study implements IEntityEditAudit {
 
 export class Topic implements IEntityEditAudit {
   id: string;
-  name: string;
   label: string;
+  name: string;
   description: string;
-  isArchived = false;
-  authors?: any[];
+  xmlLang?: string;
+
   questionItems: ElementRevisionRef[];
-  children?: Concept[];
-  classKind = ElementKind[ElementKind.TOPIC_GROUP];
+  otherMaterials?: IOtherMaterial[];
+  authors?: any[];
+
+  modified?: number;
+  version?: IVersion = { major: 1, minor: 0 };
   changeKind?: string;
+  changeComment?: string;
   basedOn?: IRevId
+  parentId?: string;
   parentIdx?: number;
   parentRef?: IParentRef;
-  changeComment?: string;
-  modified?: number;
+  classKind = ElementKind[ElementKind.TOPIC_GROUP];
+  isArchived = false;
+
   modifiedBy?: User | string;
-  version?: IVersion = { major: 1, minor: 0 };
-  otherMaterials?: IOtherMaterial[];
-  xmlLang?: string;
-  comments?: IComment[];
   _links?: {
     [rel: string]: HalLink;
   };
@@ -113,10 +113,10 @@ export class Topic implements IEntityEditAudit {
       this._embedded = {}
       this._embedded.modifiedBy = init.modifiedBy
     }
-    if (init._embedded?.children) {
-      this.children = init._embedded.children
-      this._embedded.children = null
-    }
+    // if (init._embedded?.children) {
+    //   this.children = init._embedded.children
+    //   this._embedded.children = null
+    // }
     if (this.questionItems) {
       this.questionItems.forEach(item => new ElementRevisionRefImpl(item))
     }
@@ -130,29 +130,26 @@ export class Topic implements IEntityEditAudit {
 
 export class Concept implements IEntityEditAudit {
   id: string;
-  name: string;
   label: string;
+  name: string;
   description: string;
-  isArchived = false;
+  xmlLang?: string;
 
-  authors: any[];
   questionItems: ElementRevisionRef[];
-  children?: Concept[] = [];
+  otherMaterials?: IOtherMaterial[];
+  authors?: any[];
+  children?: Concept[]
 
-  classKind = ElementKind[ElementKind.CONCEPT];
-  basedOn?: IRevId
-  parentIdx?: number;
-
-  changeComment?: string;
-  changeKind?: string;
   modified?: number;
   version?: IVersion = { major: 1, minor: 0 };
-  xmlLang?: string;
-  // comments?: IComment[];
-
-  // modifiedBy?: User | string;
-  // agency: Agency;
+  changeKind?: string;
+  changeComment?: string;
+  basedOn?: IRevId
+  parentId?: string;
+  parentIdx?: number;
   parentRef?: IParentRef;
+  classKind = ElementKind[ElementKind.CONCEPT];
+  isArchived = false;
 
   _links?: {
     [rel: string]: HalLink;
@@ -161,16 +158,18 @@ export class Concept implements IEntityEditAudit {
     [rel: string]: any;
   };
   public constructor(init?: Partial<Concept>) {
-    if (init._embedded?.children) {
-      init.children = init._embedded.children
-      init._embedded = { agency : init._embedded.agency, modifiedBy : init._embedded.modifiedBy}
-    }
+    // if (init._embedded?.children) {
+    //   init.children = init._embedded.children
+    //   init._embedded = { agency : init._embedded.agency, modifiedBy : init._embedded.modifiedBy}
+    // }
     Object.assign(this, init);
   }
   setLanguage(lang: string): Concept {
     this.xmlLang = lang;
     return this;
   }
+
+  // public get subConcepts(){ return this.children || this._embedded?.children || []}
 
 }
 

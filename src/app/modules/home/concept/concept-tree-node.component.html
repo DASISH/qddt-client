@@ -9,7 +9,7 @@
           <div class="col s1">
             <ul class="dropdownmenu">
               <li *ngIf="canUpdate && !(concept.isArchived)">
-                <a class="btn-flat btn-floating btn-medium  green lighten-2" (click)="onToggleEdit(edit,concept.id)">
+                <a class="btn-flat btn-floating btn-medium  green lighten-2" (click)="onToggleEdit(edit,concept)">
                   <i class="material-icons" title="Edit Concept">mode_edit</i></a>
               </li>
               <li *ngIf="!edit.isVisible">
@@ -85,7 +85,7 @@
 
           </div>
         </div>
-        <ng-container *ngTemplateOutlet="conceptTemplateRef; context:{ children: concept.children, level:level+1 }">
+        <ng-container *ngTemplateOutlet="conceptTemplateRef; context:{ children: subConcepts(concept), level:level+1 }">
         </ng-container>
       </li>
     </ul>

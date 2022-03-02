@@ -7,8 +7,9 @@ import { UserService } from './user.service';
 import { IEntityAudit, IEntityEditAudit, IPageResult, IPageSearch, IOtherMaterial, HalResource } from '../interfaces';
 import { ElementKind, ActionKind } from '../enums';
 import { getQueryInfo, getElementKind } from '../consts';
-import { Agency, PageSearch } from '../classes';
+import { Agency, PageSearch, QueryInfo } from '../classes';
 import { Factory } from '../factory';
+import { HalLink } from '../interfaces/http.interfaces';
 
 
 
@@ -122,16 +123,7 @@ export class TemplateService {
   public create<T extends IEntityAudit>(item: T, parentId?: string, putUrl?: string): Observable<T> {
     const qe = getQueryInfo(item.classKind);
     const kind = getElementKind(item.classKind);
-    // let customPath = if (kind === ElementKind.QUESTION_CONSTRUCT) {
-    //     '/questionconstruct'
-    //   } else if (kind === ElementKind.SEQUENCE_CONSTRUCT) {
-    //     '/sequence'
-    //   } else if (kind === ElementKind.CONDITION_CONSTRUCT) {
-    //     '/conditionconstruct'
-    //   } else if (kind === ElementKind.STATEMENT_CONSTRUCT) {
-    //      '/statementitem'
-    //   } else
-    //     qe.path
+    let customPath = this.path2(qe)
 
     return (
       (parentId) ? this.http.put<HalResource>(this.api + qe.parentPath + '/' + parentId + '/children', item) :
@@ -156,20 +148,10 @@ export class TemplateService {
       /// TODO fix patch to post
       console.debug(item);
     }
-    let path2 = '';
-    if (qe.path === 'controlconstruct') { // silly exception to the simple rule
-      if (kind === ElementKind.QUESTION_CONSTRUCT) {
-        path2 = '/question';
-      } else if (kind === ElementKind.SEQUENCE_CONSTRUCT) {
-        path2 = '/sequence';
-      } else if (kind === ElementKind.CONDITION_CONSTRUCT) {
-        path2 = '/condition';
-      } else if (kind === ElementKind.STATEMENT_CONSTRUCT) {
-        path2 = '/statement';
-      }
-    }
-    return this.http.put<HalResource>(this.api + qe.path + path2 + '/' + item.id, item)
-      .pipe(map(response => Factory.createFromSeed(item.classKind, response._embedded) as T));
+    let path2 = this.path2(qe)
+
+    return this.http.patch<HalResource>( (item._links.self as HalLink).href, item)
+      .pipe(map(response => Factory.createFromSeed(item.classKind, response) as T));
   }
 
 
@@ -233,6 +215,22 @@ export class TemplateService {
   }
   public async getUser(modifiedById: string) {
     return this.userService.getUser(modifiedById);
+  }
+
+private path2(qe: QueryInfo){
+  let path2 =''
+    if (qe.path === 'controlconstruct') { // silly exception to the simple rule
+      if (qe.id === ElementKind.QUESTION_CONSTRUCT) {
+        path2 = '/question';
+      } else if (qe.id === ElementKind.SEQUENCE_CONSTRUCT) {
+        path2 = '/sequence';
+      } else if (qe.id === ElementKind.CONDITION_CONSTRUCT) {
+        path2 = '/condition';
+      } else if (qe.id === ElementKind.STATEMENT_CONSTRUCT) {
+        path2 = '/statement';
+      }
+    }
+    return path2
   }
 
 }

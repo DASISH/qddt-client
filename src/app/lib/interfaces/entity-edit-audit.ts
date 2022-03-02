@@ -10,9 +10,15 @@ export interface IEntityAudit {
   basedOn?: IRevId;
   classKind: string;
   xmlLang?: string;
+  _links?: {
+    [rel: string]: HalLink | HalLink[];
+  };
+  _embedded?: {
+    [rel: string]: IEntityEditAudit;
+  };
 }
 
-export interface IRevId { id: string; rev?: number }
+export interface IRevId { id?: string; rev?: number }
 
 export interface IEntityEditAudit extends IEntityAudit {
   changeComment?: string;
@@ -24,12 +30,7 @@ export interface IEntityEditAudit extends IEntityAudit {
   isArchived?: boolean;
   otherMaterials?: IOtherMaterial[];
   comments?: IComment[];
-  _links?: {
-    [rel: string]: HalLink | HalLink[];
-  };
-  _embedded?: {
-    [rel: string]: IEntityEditAudit;
-  };
+
   [x: string]: any;
 }
 
