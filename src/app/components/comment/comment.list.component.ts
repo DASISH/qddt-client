@@ -1,4 +1,6 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
+import { hasChanges } from 'src/app/lib';
+import { IEntityEditAudit } from './../../lib/interfaces/entity-edit-audit';
+import { AfterViewInit, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommentService } from './comment.service';
 import { IComment } from '../../lib';
 
@@ -9,7 +11,8 @@ import { IComment } from '../../lib';
   providers: [CommentService]
 })
 
-export class CommentListComponent implements AfterViewInit {
+export class CommentListComponent implements AfterViewInit, OnChanges {
+  @Input() source: IEntityEditAudit;
   @Input() ownerId: string;
   @Input() comments: IComment[] = [];
   @Input() showPrivate = true;
@@ -21,8 +24,15 @@ export class CommentListComponent implements AfterViewInit {
   message = '';
   private _showComments = false;
   private _hasShown = false;
+
   constructor(private commentService: CommentService) {
     this.selectedCommentId = 0;
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (hasChanges(changes.source)) {
+      this.comments = this.source.comments || this.source._embedded.comments as IComment[]
+      this.ownerId = this.source.id
+    }
   }
 
   private isRetrieved() { return (this._hasShown || (this.comments && this.comments.length > 0)); }
@@ -68,7 +78,7 @@ export class CommentListComponent implements AfterViewInit {
 
   onDeleteComment(element: { id: any, name: string }) {
     if (element.id !== '') {
-      console.debug('delete $0...',element.id );
+      console.debug('delete $0...', element.id);
       const comment = this.comments[element.id];
       this.commentService.delete(comment.id).subscribe(
         () => this.comments.splice(element.id, 1));

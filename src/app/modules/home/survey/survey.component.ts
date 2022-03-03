@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router }  from '@angular/router';
+import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import {
   ActionKind,
@@ -52,8 +52,12 @@ export class SurveyComponent implements OnInit {
             .getByKindEntity<SurveyProgram>(this.SURVEY, this.getId(survey._links?.self.href))
             .then((item) => result[index] = item);
         });
+        this.surveys = result.sort((a, b) => {
+          let result = a.name.localeCompare(b.name)
+          console.log(result, a.name, b.name)
+          return result
+        })
         console.debug(result)
-        this.surveys = result
       });
 
   }

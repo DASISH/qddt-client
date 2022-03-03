@@ -129,7 +129,7 @@ export abstract class AbstractControlConstruct implements IEntityEditAudit {
   otherMaterials?: IOtherMaterial[];
   parameterIn?: Parameter[];
   parameterOut?: Parameter[];
-  basedOn: IRevId=null;
+  basedOn: IRevId = null;
   abstract get parameters(): Parameter[];
   _links?: {
     [rel: string]: HalLink;
@@ -195,7 +195,9 @@ export class SequenceConstruct extends AbstractControlConstruct {
     super()
     this.classKind = ElementKind[ElementKind.SEQUENCE_CONSTRUCT];
     Object.assign(this, init);
-
+    this.sequence.forEach((item, idx, array) => {
+      array[idx] = new ElementRevisionRefImpl(item)
+    })
   }
 }
 

@@ -14,7 +14,7 @@ export interface IEntityAudit {
     [rel: string]: HalLink | HalLink[];
   };
   _embedded?: {
-    [rel: string]: IEntityEditAudit;
+    [rel: string]: any;
   };
 }
 

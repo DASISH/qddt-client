@@ -1,6 +1,6 @@
 import { ElementKind } from '../enums';
-import { IComment, ISelectOption, IEntityEditAudit, HalLink} from '../interfaces';
-import { ElementRevisionRef } from './element-revision-ref';
+import { IComment, ISelectOption, IEntityEditAudit, HalLink } from '../interfaces';
+import { ElementRevisionRef, ElementRevisionRefImpl } from './element-revision-ref';
 import { Agency } from './user.classes';
 
 export class Publication implements IEntityEditAudit {
@@ -11,7 +11,6 @@ export class Publication implements IEntityEditAudit {
   status: PublicationStatus;  // = { id: 0, published: 'NOT_PUBLISHED', label: 'No publication' };  // magic number NOT_PUBLISHED
   classKind = ElementKind[ElementKind.PUBLICATION];
   xmlLang?: string;
-  agency?: Agency;
   publicationElements: ElementRevisionRef[] = [];
   comments?: IComment[];
   _links?: {
@@ -20,11 +19,12 @@ export class Publication implements IEntityEditAudit {
   _embedded?: {
     [rel: string]: any;
   };
-  pu
   public constructor(init?: Partial<Publication>) {
     Object.assign(this, init);
+    this.publicationElements.forEach((item, idx, array) => {
+      array[idx] = new ElementRevisionRefImpl(item)
+    })
   }
-
 }
 
 export class PublicationStatus implements ISelectOption {

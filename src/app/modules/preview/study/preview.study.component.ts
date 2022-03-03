@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import {Study} from '../../../lib';
+import { Study } from '../../../lib';
 
 @Component({
   selector: 'qddt-preview-study',
@@ -16,7 +16,7 @@ import {Study} from '../../../lib';
     <qddt-author-chip [authors]="study.authors"></qddt-author-chip>
   </div>
   <div class="row">
-    <qddt-comment-list [ownerId]="study.id" [comments]="study.comments"></qddt-comment-list>
+    <qddt-comment-list [source]="study"></qddt-comment-list>
   </div>
   <div class="row" *ngIf="study?._embedded.children && study?._embedded.children?.length>0">
     <qddt-preview-topic-list [topicList]="study._embedded.children"></qddt-preview-topic-list>
@@ -25,7 +25,7 @@ import {Study} from '../../../lib';
     <qddt-element-footer [element]="study" ></qddt-element-footer>
   </div>`
   ,
-  providers: [ ],
+  providers: [],
 })
 
 export class PreviewStudyComponent {

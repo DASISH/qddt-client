@@ -118,7 +118,13 @@ export class Instrument implements IEntityAudit {
     if (init && init.root && init.root.children.length > 0) {
       this.initParameters();
     }
+    if (this.root.children && this.root.children.length > 0) {
+      this.root.children.forEach((item, idx, array) => {
+        array[idx] = new TreeNodeRevisionRefImpl(item)
+      })
+    }
   }
+
   initParameters = () => mapTreeNodes(this.root.children).forEach((entity, index) => {
     console.groupCollapsed('Param init');
     entity.parameters.forEach((p) => {

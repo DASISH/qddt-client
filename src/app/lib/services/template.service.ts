@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { API_BASE_HREF } from '../../api';
@@ -150,7 +150,7 @@ export class TemplateService {
     }
     let path2 = this.path2(qe)
 
-    return this.http.patch<HalResource>( (item._links.self as HalLink).href, item)
+    return this.http.patch<HalResource>((item._links.self as HalLink).href, item)
       .pipe(map(response => Factory.createFromSeed(item.classKind, response) as T));
   }
 
@@ -190,10 +190,29 @@ export class TemplateService {
     return this.http.get(this.api + 'othermaterial/files/' + om.originalOwner + '/' + om.fileName, { responseType: 'blob', headers: header }).toPromise();
   }
 
-  public uploadFile(parentId: string, file: File): Observable<any> {
+  public upload(parentId: string, file: File): Observable<HttpEvent<any>> {
+    const formData: FormData = new FormData();
+
+    formData.append('file', file);
+
+    const req = new HttpRequest('POST', `${this.api}topicgroup/${parentId}/otherMaterial`, formData, {
+      reportProgress: true,
+      responseType: 'json'
+    });
+
+    return this.http.request(req);
+  }
+
+  public deleteFile(otherMaterial: IOtherMaterial): Promise<any> {
+    return this.http.delete(`${this.api}topicgroup/${otherMaterial.originalOwner}/otherMaterial/${otherMaterial.fileName}`).toPromise();
+  }
+
+
+  public uploadFile(parentId: string, file: FormData): Observable<any> {
     let header = new HttpHeaders()
-      .set('Accept', 'application/octet-stream');
-    return this.http.post(this.api + 'othermaterial/upload/' + parentId, file, { reportProgress: true, headers: header });
+      .set('Accept', 'application/hal+json')
+      .set('Content-Type', 'multipart/form-data');
+    return this.http.post(this.api + 'topicgroup/' + parentId + '/otherMaterial', file, { reportProgress: true, headers: header });
   }
 
 
@@ -217,8 +236,8 @@ export class TemplateService {
     return this.userService.getUser(modifiedById);
   }
 
-private path2(qe: QueryInfo){
-  let path2 =''
+  private path2(qe: QueryInfo) {
+    let path2 = ''
     if (qe.path === 'controlconstruct') { // silly exception to the simple rule
       if (qe.id === ElementKind.QUESTION_CONSTRUCT) {
         path2 = '/question';

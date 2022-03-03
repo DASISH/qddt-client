@@ -1,0 +1,19 @@
+<div class="col s10 file-field input-field">
+  <div class="btn">
+    <span>File</span>
+    <input type="file" (change)="selectFile($event)" />
+  </div>
+  <div class="file-path-wrapper">
+    <input class="file-path validate" type="text" placeholder="Upload one file" />
+  </div>
+  <div *ngIf="currentFile" class="progress">
+    <div class="determinate" id="loader"></div>
+  </div>
+</div>
+
+
+<button class="col s2 btn btn-success" [disabled]="!selectedFiles" (click)="upload()">
+  Upload
+</button>
+
+<div class="alert alert-light" role="alert">{{ message }}</div>

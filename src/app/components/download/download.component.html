@@ -11,7 +11,8 @@
 
   <ng-container *ngIf="!isHidden">
     <a class="collection-item col s12" *ngIf="showUploadFileForm && !readonly">
-      <div class="file-field input-field">
+      <qddt-upload-files [entity]="entity"></qddt-upload-files>
+      <!-- <div class="file-field input-field">
         <div class="btn">
           <span>File</span>
           <input type="file" (change)="onSelectFile($event)" />
@@ -19,8 +20,9 @@
         <div class="file-path-wrapper">
           <input class="file-path validate" type="text" placeholder="Upload one file" />
         </div>
-      </div>
+      </div> -->
     </a>
+
     <a class="collection-item col s12" *ngFor="let m of entity?.otherMaterials; let idx = index"
       (click)="onDownloadFile(m)">
       <span>

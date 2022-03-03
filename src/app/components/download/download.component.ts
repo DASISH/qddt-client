@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { ActionKind, ElementKind, getElementKind, IEntityEditAudit, IOtherMaterial, saveAs, hasChanges } from '../../lib';
 import { TemplateService } from '../template';
 
@@ -16,6 +16,7 @@ export class FileDownloadComponent implements OnChanges {
   @Input() entity: IEntityEditAudit;
   @Input() readonly = true;
   @Input() isHidden = false;
+  @Output() entityChanged = new EventEmitter<IEntityEditAudit>();
 
   public showButton = false;
   public showUploadFileForm = false;
@@ -48,11 +49,11 @@ export class FileDownloadComponent implements OnChanges {
       (error) => { throw error; });
   }
 
-  onUpladFiles() {
-    this.fileStore.forEach(file => {
-      this.service.uploadFile(this.entity.id, file)
-    });
-  }
+  // onUpladFiles() {
+  //   const formData = new FormData();
+  //   this.fileStore.forEach((file) => { formData.append('files', file); });
+  //   this.service.uploadFile(this.entity.id, formData)
+  // }
 
 
   getPdf(element: IEntityEditAudit) {
@@ -76,17 +77,22 @@ export class FileDownloadComponent implements OnChanges {
     for (let i = 0; i < list.length; i++) {
       this.fileStore.push(list.item(i));
     }
-    this.fileStore.forEach(file => {
-      this.service.uploadFile(this.entity.id, file).toPromise().then(result => console.log(result))
-    });
+    const formData = new FormData();
+    this.fileStore.forEach((file) => { formData.append('files', file); });
+    this.service.uploadFile(this.entity.id, formData).subscribe(result => this.entity = result)
+    // this.fileStore.forEach(file => {
+    //   this.service.uploadFile(this.entity.id, file).toPromise().then(result => console.log(result))
+    // });
     // this.onUpladFiles()
     this.showUploadFileForm = false;
   }
 
   onMarkForDeletion(idx: number) {
     if (this.entity.otherMaterials && this.entity.otherMaterials.length > idx) {
-      this.entity.otherMaterials.splice(idx, 1);
+      this.service.deleteFile(this.entity.otherMaterials.splice(idx, 1)[0])
+        .then(result => console.debug(result));
     }
+
   }
 
   onDeleteFileFromLocal(idx: number) {

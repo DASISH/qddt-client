@@ -35,6 +35,7 @@ import { FormInputNComponent } from './form/input-number.component';
 import { ParameterComponent } from './parameter/parameter.component';
 import { MustMatchDirective } from './form/match.directive';
 import { ConfirmRemoveComponent } from './dialog/remove.component';
+import { UploadFilesComponent } from './upload-files/upload-files.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, FormsModule, CompareModule, DragDropModule],
@@ -44,7 +45,7 @@ import { ConfirmRemoveComponent } from './dialog/remove.component';
     ConfirmDeleteComponent, TocComponent, CommentListComponent, CommentCreateComponent, DialogComponent,
     RationalComponent, RevisionComponent, ConceptrefComponent, MustMatchDirective, SpinnerComponent,
     ParentFormConnectDirective, GravatarDirective, ContenteditableDirective, EqualValidator,
-    FormSelectComponent, FormInputComponent, FormTextAreaComponent, FormInputNComponent, ValidationComponent],
+    FormSelectComponent, FormInputComponent, FormTextAreaComponent, FormInputNComponent, ValidationComponent, UploadFilesComponent],
   exports: [LocalDatePipe, LocalNumberPipe, FilterPipe, SortPipe, CommonModule, FormsModule, SpinnerComponent,
     QddtTableComponent, QddtPaginationComponent, QddtAutoCompleteComponent, FileDownloadComponent,
     AuthorChipComponent, ElementFooterComponent, VersionComponent, VersionLabelComponent,
@@ -52,7 +53,7 @@ import { ConfirmRemoveComponent } from './dialog/remove.component';
     RationalComponent, RevisionComponent, ConceptrefComponent, MustMatchDirective,
     TemplateComponent, TemplateListComponent, TemplateDetailComponent, ParameterComponent,
     ParentFormConnectDirective, GravatarDirective, EqualValidator, ContenteditableDirective,
-    FormSelectComponent, FormInputComponent, FormTextAreaComponent, FormInputNComponent],
+    FormSelectComponent, FormInputComponent, FormTextAreaComponent, FormInputNComponent, UploadFilesComponent],
   providers: [TemplateService]
 })
 

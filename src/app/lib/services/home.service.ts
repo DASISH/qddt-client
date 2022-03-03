@@ -88,7 +88,7 @@ export class HomeService<T extends IEntityEditAudit>  {
 
   arrangeSurveys(surveys: ISurveyOrder[]): Observable<SurveyProgram[]> {
     console.debug(surveys);
-    return this.http.post<SurveyProgram[]>(this.api + 'surveyprogram/reorder/', { content: surveys });
+    return this.http.put<SurveyProgram[]>(this.api + 'surveyprogram/reorder/', { content: surveys });
     // throw new Error("Method not implemented.");
   }
 
