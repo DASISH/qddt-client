@@ -2,38 +2,36 @@
   <form [id]="formId" #hf="ngForm" (ngSubmit)="onSave()">
     <div class="row">
       <qddt-input class="col s10" required name="name" label="Name" [(ngModel)]="responseDomain.name"
-      (ngModelChange)="buildPreviewResponseDomain()" data-length="100">
+        (ngModelChange)="buildPreviewResponseDomain()" data-length="100">
       </qddt-input>
       <qddt-select class="col s2" required name="xmlLang" label="Language" [(ngModel)]="responseDomain.xmlLang"
         (ngModelChange)="buildPreviewResponseDomain()" [lockups]="LANGUAGES">
       </qddt-select>
     </div>
     <qddt-textarea name="description" label="Description" [(ngModel)]="responseDomain.description"
-    (ngModelChange)="buildPreviewResponseDomain()" data-length="255">
+      (ngModelChange)="buildPreviewResponseDomain()" data-length="255">
     </qddt-textarea>
     <ng-container [ngSwitch]="domainType">
       <ng-container *ngSwitchCase="domainTypeDef.SCALE">
         <div class="row hoverable">
           <div class="col s2 input-field">
             <input [id]="'RDC-'+formId+1" class="validate" name="minimum" type="number"
-              [max]="responseDomain.responseCardinality.maximum"
-              (ngModelChange)="buildPreviewResponseDomain()"
+              [max]="responseDomain.responseCardinality.maximum" (ngModelChange)="buildPreviewResponseDomain()"
               [(ngModel)]="responseDomain.responseCardinality.minimum" required>
             <label [for]="'RDC-'+formId+1">Start</label>
           </div>
           <div class="col s2 input-field">
             <input class="validate" [id]="'RDC-'+formId+2" name="maximum" type="number"
-              [min]="responseDomain.responseCardinality.minimum"
-              [step]="responseDomain.responseCardinality.stepUnit"
-              (ngModelChange)="buildPreviewResponseDomain()"
-              [(ngModel)]="responseDomain.responseCardinality.maximum" required>
+              [min]="responseDomain.responseCardinality.minimum" [step]="responseDomain.responseCardinality.stepUnit"
+              (ngModelChange)="buildPreviewResponseDomain()" [(ngModel)]="responseDomain.responseCardinality.maximum"
+              required>
             <label [for]="'RDC-'+formId+2">End</label>
           </div>
           <div class="col s2 input-field">
             <input class="validate" [id]="'RDC-'+formId+3" name="stepUnit" type="number" [min]="1"
               [max]="responseDomain.responseCardinality.maximum/2" [step]="1"
-              (ngModelChange)="buildPreviewResponseDomain()"
-              [(ngModel)]="responseDomain.responseCardinality.stepUnit" required>
+              (ngModelChange)="buildPreviewResponseDomain()" [(ngModel)]="responseDomain.responseCardinality.stepUnit"
+              required>
             <label [for]="'RDC-'+formId+3">Range</label>
           </div>
           <div class="col s3 input-field">
@@ -114,15 +112,13 @@
           <div class="input-field col l2 m3">
             <input [id]="'RDC-'+formId+8" name="minimum" type="number" required
               [max]=subtract([responseDomain.responseCardinality.maximum],power10(+responseDomain.responseCardinality.stepUnit))
-              [(ngModel)]="responseDomain.responseCardinality.minimum"
-              (ngModelChange)="buildPreviewResponseDomain()">
+              [(ngModel)]="responseDomain.responseCardinality.minimum" (ngModelChange)="buildPreviewResponseDomain()">
             <label [for]="'RDC-'+formId+8">Low</label>
           </div>
           <div class="input-field col l2 m3">
             <input [id]="'RDC-'+formId+9" name="maximum" type="number" required
               [min]=addition([responseDomain.responseCardinality.minimum],power10(+responseDomain.responseCardinality.stepUnit))
-              [(ngModel)]="responseDomain.responseCardinality.maximum"
-              (ngModelChange)="buildPreviewResponseDomain()">
+              [(ngModel)]="responseDomain.responseCardinality.maximum" (ngModelChange)="buildPreviewResponseDomain()">
             <label [for]="'RDC-'+formId+9">High</label>
           </div>
           <div class="input-field col l2 m3">
@@ -152,15 +148,13 @@
           <div class="input-field col l2">
             <input [id]="'RDC-'+formId+11+formId" name="minimum" type="number" [min]="0" required
               [max]="subtract(+responseDomain.responseCardinality.maximum,1)"
-              [(ngModel)]="responseDomain.responseCardinality.minimum"
-              (ngModelChange)="buildPreviewResponseDomain()">
+              [(ngModel)]="responseDomain.responseCardinality.minimum" (ngModelChange)="buildPreviewResponseDomain()">
             <label [for]="'RDC-'+formId+11">Low</label>
           </div>
           <div class="input-field col l2">
             <input [id]="'RDC-'+formId+12+formId" name="maximum" type="number" required
               [min]=addition(+responseDomain.responseCardinality.minimum,1)
-              [(ngModel)]="responseDomain.responseCardinality.maximum"
-              (ngModelChange)="buildPreviewResponseDomain()">
+              [(ngModel)]="responseDomain.responseCardinality.maximum" (ngModelChange)="buildPreviewResponseDomain()">
             <label [for]="'RDC-'+formId+12">High</label>
           </div>
         </div>
@@ -179,15 +173,13 @@
           <div class="input-field col s2">
             <input [id]="'RDC-'+formId+13" name="minimum" type="number" placeholder="low" required
               [max]="responseDomain.responseCardinality.maximum - 1"
-              [(ngModel)]="responseDomain.responseCardinality.minimum"
-              (ngModelChange)="buildPreviewResponseDomain()">
+              [(ngModel)]="responseDomain.responseCardinality.minimum" (ngModelChange)="buildPreviewResponseDomain()">
             <label [for]="'RDC-'+formId+13">From</label>
           </div>
           <div class="input-field col s2">
             <input [id]="'RDC-'+formId+14+formId" name="maximum" type="number" placeholder="high" required
               [min]="responseDomain.responseCardinality.minimum + 1"
-              [(ngModel)]="responseDomain.responseCardinality.maximum"
-              (ngModelChange)="buildPreviewResponseDomain()">
+              [(ngModel)]="responseDomain.responseCardinality.maximum" (ngModelChange)="buildPreviewResponseDomain()">
             <label [for]="'RDC-'+formId+14">To</label>
           </div>
           <div class="col s4">
@@ -204,57 +196,59 @@
         </qddt-preview-responsedomain>
       </ng-container>
       <ng-container *ngSwitchCase="domainTypeDef.MIXED">
-         <div class="row">
-          <div class="col s8">
+        <div class="row">
+          <div class="col s12">
             <div class="input-field">
-              <ul  class="dropleft">
-                <li *ngIf="responseDomain">
-                  <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green"
-                    (click)="onGotoEdit($event,responseDomain.missing.id)">
-                    <i class="material-icons" title="Edit source">edit</i>
-                  </a>
-                </li>
-                <li *ngIf="responseDomain">
-                  <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue"
-                    (click)="onMissingSelect()">
-                    <i class="material-icons" title="Select version">autorenew</i>
-                  </a>
-                </li>
-              </ul>
-              <input name="missing-name" type="text" placeholder="missing?" readonly="readonly"
-                [ngModel]="responseDomain.missing.label">
-              <label>Missing representation (V <qddt-version [element]="responseDomain.missing"></qddt-version>) </label>
-            </div>
-          </div>
-          <div class="col s4">
-            <div class="input-field">
-              <ul  class="dropleft">
+              <ul class="dropleft">
                 <li *ngIf="responseDomain">
                   <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green"
                     (click)="onGotoEdit($event,responseDomain.basedOn?.id)">
                     <i class="material-icons" title="Edit source">edit</i>
                   </a>
                 </li>
-                <li *ngIf="responseDomain">
+                <!-- <li *ngIf="responseDomain">
                   <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue"
                     (click)="onResponsedomainSelect()">
                     <i class="material-icons" title="Select version">autorenew</i>
                   </a>
-                </li>
+                </li> -->
               </ul>
               <input name="name" type="text" placeholder="select ResponseDomain" readonly="readonly"
                 [ngModel]="responseDomain?.managedRepresentation.children[0].label">
-              <label>Response Domain (V <qddt-version [element]="responseDomain?.managedRepresentation.children[0]"></qddt-version>) </label>
+              <label>Response Domain (V <qddt-version [element]="responseDomain?.managedRepresentation.children[0]">
+                </qddt-version>) </label>
+            </div>
+          </div>
+          <div class="col s12">
+            <div class="input-field">
+              <ul class="dropleft">
+                <li *ngIf="responseDomain">
+                  <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green"
+                    (click)="onGotoEdit($event,responseDomain.missing.id)">
+                    <i class="material-icons" title="Edit source">edit</i>
+                  </a>
+                </li>
+                <!-- <li *ngIf="responseDomain">
+                  <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue"
+                    (click)="onMissingSelect()">
+                    <i class="material-icons" title="Select version">autorenew</i>
+                  </a>
+                </li> -->
+              </ul>
+              <input name="missing-name" type="text" placeholder="missing?" readonly="readonly"
+                [ngModel]="responseDomain.missing.label">
+              <label>Missing representation (V <qddt-version [element]="responseDomain.missing"></qddt-version>)
+              </label>
             </div>
           </div>
 
         </div>
         <label>Missing</label>
         <ul class="row">
-          <li  *ngFor="let category of responseDomain.missing.children;let idx=index;">
-            <qddt-input class="col s3" id="{{idx}}-value" name="{{idx}}-code-value"  required data-length="25"
-             [label]="category.label" [(ngModel)]="category.code.value" (ngModelChange)="buildPreviewResponseDomain()">
-          </qddt-input>
+          <li *ngFor="let category of responseDomain.missing.children;let idx=index;">
+            <qddt-input class="col s3" id="{{idx}}-value" name="{{idx}}-code-value" required data-length="25"
+              [label]="category.label" [(ngModel)]="category.code.value" (ngModelChange)="buildPreviewResponseDomain()">
+            </qddt-input>
           </li>
         </ul>
         <qddt-preview-responsedomain [responseDomain]="previewResponseDomain">
@@ -276,7 +270,8 @@
 </div>
 
 
-<qddt-element-revision [source]="referenced" [xmlLang]="responseDomain?.xmlLang" (revSelectEvent)="onRevisionSelect($event)">
+<qddt-element-revision [source]="referenced" [xmlLang]="responseDomain?.xmlLang"
+  (revSelectEvent)="onRevisionSelect($event)">
 </qddt-element-revision>
 
 

@@ -6,7 +6,8 @@ import { IEntityEditAudit } from 'src/app/lib';
 
 @Component({
   selector: 'qddt-upload-files',
-  templateUrl: './upload-files.component.html'
+  templateUrl: './upload-files.component.html',
+
 })
 export class UploadFilesComponent implements OnInit {
   @Input() entity: IEntityEditAudit;
