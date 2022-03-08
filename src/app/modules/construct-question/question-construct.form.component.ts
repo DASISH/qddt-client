@@ -67,7 +67,7 @@ export class QuestionConstructFormComponent implements OnChanges {
   }
 
   public onAddUniverse(item: IElement) {
-    this.controlConstruct.universe.push(item.element);
+    this.controlConstruct._embedded.universe.push(item.element);
   }
 
   public onAddPreInstruction(item: IElement) {
@@ -82,7 +82,7 @@ export class QuestionConstructFormComponent implements OnChanges {
   }
 
   public onRemoveUniverse(item: IElementRef) {
-    this.controlConstruct.universe = this.controlConstruct.universe.filter(u => u.id !== item.elementId);
+    this.controlConstruct._embedded.universe = this.controlConstruct.universe.filter(u => u.id !== item.elementId);
   }
 
   public onRemovePreInstruction(item: IElementRef) {

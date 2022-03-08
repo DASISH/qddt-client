@@ -12,7 +12,8 @@
     </div>
 
     <div class="row">
-      <qddt-input class="col s6" required name="label" label="Label" [(ngModel)]="controlConstruct.label" data-length="50">
+      <qddt-input class="col s6" required name="label" label="Label" [(ngModel)]="controlConstruct.label"
+        data-length="50">
       </qddt-input>
     </div>
     <div class="row">
@@ -21,9 +22,9 @@
       </qddt-textarea>
     </div>
 
-    <qddt-element-collection [listItems]="controlConstruct.universe" [labelName]="'Universe'" [elementKind]="UNIVERSE"
-      [xmlLang]="controlConstruct.xmlLang" [readonly]="false" (createdEvent)="onAddUniverse($event)"
-      (deletedEvent)="onRemoveUniverse($event)">
+    <qddt-element-collection [listItems]="controlConstruct._embedded?.universe" [labelName]="'Universe'"
+      [elementKind]="UNIVERSE" [xmlLang]="controlConstruct.xmlLang" [readonly]="false"
+      (createdEvent)="onAddUniverse($event)" (deletedEvent)="onRemoveUniverse($event)">
     </qddt-element-collection>
 
     <qddt-element-collection [listItems]="controlConstruct.preInstructions" [labelName]="'Pre Instructions'"

@@ -50,7 +50,7 @@ export class PreviewService {
     if (!item.element) {
       const kind = getElementKind(item.elementKind);
       const result = await this.getRevisionByKind(kind, item.elementId, item.elementRevision);
-      const element = Factory.createFromSeed(kind, result.entity);
+      const element = Factory.createFromSeed(kind, result);
       item.element = isAbstractControlConstruct(element) ? element : null;
       if (this.isSequence(item.element)) {
         const sequencePromises = item.element.sequence

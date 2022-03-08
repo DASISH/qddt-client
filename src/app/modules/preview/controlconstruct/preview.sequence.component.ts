@@ -105,7 +105,7 @@ export class PreviewSequenceConstructComponent implements AfterViewInit, OnChang
           const result = M.Collapsible.init(htmlElement);
           if (result) {
             this.initialized.push(key);
-            // console.debug(key);
+            console.debug(key);
           } else {
             console.debug('init failed');
           }
