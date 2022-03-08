@@ -44,7 +44,7 @@
         <li *ngIf="localResponseDomain && localResponseDomain.missing">
           <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue"
             (click)="onItemGetLatest()">
-            <i class="material-icons" title="Get latest">autorenew</i>
+            <i class="material-icons" title="Select version">autorenew</i>
           </a>
         </li>
         <li *ngIf="localResponseDomain && localResponseDomain.missing">
@@ -94,7 +94,7 @@
               <!-- <td contenteditable="true" [(contenteditableModel)]="category.code.value" required>
               </td> -->
               <td>
-                <input id="{idx}-value" name="{idx}-code-value" type="text" [(ngModel)]="category.code.value"
+                <input id="{{idx}}-value" name="{{idx}}-code-value" type="text" [(ngModel)]="category.code.value"
                   class="validate" required placeholder="Enter Code">
               </td>
               <td>{{ category?.label }}</td>

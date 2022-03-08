@@ -4,22 +4,21 @@ import { ElementKind } from '../enums';
 
 
 export abstract class ElementRevisionRef implements IElement, IRevisionRef {
-  uri: IRevId;
+  uri: IRevId =  { id:"", rev:0};
   elementKind: ElementKind | string;
   name?: string;
   text?: string;
   version?: IVersion = { major: 1, minor: 0 };
   index?: number;
-
-  get elementId() { return this.uri.id }
-  set elementId(id:string) { this.uri.id = id }
-  get elementRevision() { return this.uri.rev }
-  set elementRevision(rev: number) { this.uri.rev = rev }
-
   abstract element: any;
 
+  get elementId() { return this.uri?.id }
+  set elementId(id:string) { this.uri.id = id }
+  get elementRevision() { return this.uri?.rev }
+  set elementRevision(rev: number) { this.uri.rev = rev }
+
+
   public constructor(init?: Partial<ElementRevisionRef>) {
-    this.uri = { id:"", rev:0}
     Object.assign(this, init);
   }
 
@@ -37,6 +36,12 @@ export class ElementRevisionRefImpl<T extends IEntityEditAudit> extends ElementR
   public constructor(init?: Partial<ElementRevisionRef>) {
     super(init);
     this.elementKind = this.elementKind || this.element.classKind;
-    // this.version = (this.element) ? this.element.version;
+    if(this.element){
+      this.version = this.element.version;
+      if (!this.uri.id){
+        this.uri.id = this.element.id
+      }
+    }
+
   }
 }

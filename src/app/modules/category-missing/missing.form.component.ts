@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { ActionKind, Category, ElementKind, IElement, LANGUAGE_MAP, TemplateService, } from '../../lib';
+import { hasChanges } from '../../lib/consts/functions';
 
 @Component({
   selector: 'qddt-missing-form',
@@ -22,7 +23,7 @@ export class MissingFormComponent implements OnChanges {
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.MISSING_GROUP);
   }
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.missing.currentValue) {
+    if (hasChanges(changes.missing)) {
       this.missing = new Category(changes.missing.currentValue)
     }
   }

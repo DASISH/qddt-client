@@ -26,7 +26,8 @@
 
     <qddt-responsedomain-select [xmlLang]="questionItem.xmlLang"
       [(responseDomain)]="questionItem._embedded.responseDomain"
-      (selectedEvent)="onResponseDomainSelected($event,hf.form)" (updateEvent)="onResponseDomainUpdate($event, hf.form)"
+      (selectedEvent)="onResponseDomainSelected($event,hf.form)"
+      (updateEvent)="onResponseDomainUpdate($event, hf.form)"
       (removeEvent)="onResponseDomainRemove()">
     </qddt-responsedomain-select>
 

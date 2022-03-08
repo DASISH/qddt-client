@@ -86,6 +86,10 @@ export class Category implements IEntityEditAudit {
   public constructor(init?: Partial<Category>) {
     if (init?._embedded?.children) {
       init.children = init?._embedded?.children
+      init._embedded = {
+        agency: init?._embedded?.agency,
+        modifiedBy: init?._embedded?.modifiedBy,
+      }
     }
 
     Object.assign(this, init);
@@ -101,7 +105,7 @@ export class Category implements IEntityEditAudit {
       this.children = this.children.map(item => new Category(item));
     }
 
-    this.code = ((init) && (init.code)) ? new Code(init.code) : null
+    this.code = ((init) && (init.code)) ? new Code(init.code) : new Code()
 
     if (this.hierarchyLevel == HierarchyLevel.GROUP_ENTITY.toString()) {
       console.group(this.name)

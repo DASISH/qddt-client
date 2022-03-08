@@ -1,6 +1,7 @@
 
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { EventEmitter, Component, OnInit, OnChanges, AfterViewInit, Input, Output, SimpleChanges } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   ActionKind,
   Category, DisplayLayoutKind,
@@ -9,7 +10,7 @@ import {
   IElement,
   IPageSearch, LANGUAGE_MAP,
   PropertyStoreService,
-  ResponseDomain, TemplateService, toSelectItems, DATE_FORMAT_MAP, delay, hasChanges
+  ResponseDomain, TemplateService, toSelectItems, DATE_FORMAT_MAP, delay, hasChanges, IRevisionRef, ElementRevisionRefImpl, ElementRevisionRef, IEntityEditAudit
 } from '../../lib';
 
 @Component({
@@ -25,12 +26,12 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
   @Output() modifiedEvent = new EventEmitter<ResponseDomain>();
 
   public previewResponseDomain: ResponseDomain;
+  public numberOfAnchors: number;
+  public domainTypeDef = DomainKind;
+  public domainType: DomainKind;
+  public referenced: ElementRevisionRefImpl<IEntityEditAudit>;
 
   public readonly CATEGORY = ElementKind.CATEGORY;
-  public domainTypeDef = DomainKind;
-  public numberOfAnchors: number;
-  public domainType: DomainKind;
-
   public readonly formId = Math.round(Math.random() * 10000);
   public readonly DATE_FORMATS = DATE_FORMAT_MAP;
   public readonly LANGUAGES = LANGUAGE_MAP;
@@ -39,7 +40,7 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
   public readonly trackByIndex = (index: number, entity) => entity.id || index;
   public readonly trackByFunc = (idx: any, category: { id: any; }) =>  category?.id || idx;
 
-  constructor(private service: TemplateService, private properties: PropertyStoreService) {
+  constructor(private service: TemplateService, private router: Router, private properties: PropertyStoreService) {
 
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.RESPONSEDOMAIN);
 
@@ -68,6 +69,7 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
       this.responseDomain = new ResponseDomain(changes.responseDomain.currentValue)
       this.domainType = DomainKind[this.responseDomain.responseKind]
       this.numberOfAnchors = this.responseDomain.managedRepresentation.anchors.length
+
       delay(20).then(() => {
         M.updateTextFields()
         this.buildPreviewResponseDomain()
@@ -75,6 +77,42 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
       })
     }
   }
+
+
+
+  public onGotoEdit(event: Event, id: string) {
+    event.stopPropagation();
+    this.service.searchByUuid(id).then(
+      (result) => { this.router.navigate([result.url]); },
+      (error) => { throw error; });
+  }
+
+  public async onResponsedomainSelect() {
+    this.referenced = new ElementRevisionRefImpl({
+        uri: this.responseDomain.basedOn,
+        elementKind: ElementKind.RESPONSEDOMAIN,
+      });
+  }
+
+  public async onMissingSelect() {
+    this.referenced = new ElementRevisionRefImpl({
+        element: this.responseDomain.missing
+      });
+      console.debug(this.referenced)
+  }
+
+    public onItemRemove() {
+      // if (this.canDelete) {
+      //   this.removeEvent.emit({ elementId: this.responseDomain.id, elementKind: this.responseDomain.classKind });
+      //   this.responseDomain = null;
+      //   this.localResponseDomain = null;
+      // }
+    }
+
+    public onRevisionSelect(ref: ElementRevisionRef) {
+      console.debug(ref)
+      this.referenced = null
+    }
 
   public getSource(category: Category): IElement {
     return { element: category, elementKind: ElementKind.CATEGORY };
@@ -187,10 +225,6 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
       this.buildPreviewResponseDomain();
     }
-  }
-
-  private getPageSearch(): IPageSearch {
-    return this.properties.get('responsedomains');
   }
 
 }

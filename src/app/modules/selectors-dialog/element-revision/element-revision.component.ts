@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { ElementKind, ElementRevisionRef, IElement, IRevisionRef, getQueryInfo, getElementKind } from '../../../lib';
+import { hasChanges } from '../../../lib/consts/functions';
 
 
 @Component({
@@ -64,7 +65,7 @@ export class ElementRevisionSelectComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if ((changes.source) && changes.source.currentValue) {
+    if (hasChanges(changes.source)) {
       this.modalRef.open();
     }
   }

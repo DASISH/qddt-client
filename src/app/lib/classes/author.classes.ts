@@ -7,8 +7,8 @@ export class Author implements IEntityEditAudit {
   name: string;
   email: string;
   about: string;
-  homepage: string;
-  picture: string;
+  homepageUrl: string;
+  pictureUrl: string;
   authorsAffiliation: string;
   classKind = ElementKind[ElementKind.AUTHOR];
   xmlLang = 'none';

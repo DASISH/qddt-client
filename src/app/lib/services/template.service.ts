@@ -150,7 +150,7 @@ export class TemplateService {
     }
     let path2 = this.path2(qe)
 
-    return this.http.patch<HalResource>((item._links.self as HalLink).href, item)
+    return this.http.put<HalResource>((item._links.self as HalLink).href, item)
       .pipe(map(response => Factory.createFromSeed(item.classKind, response) as T));
   }
 

@@ -75,6 +75,8 @@
                 (modifiedEvent)="onQuestionItemModified($event,concept)">
               </qddt-question-items>
 
+              <qddt-author-chip [authors]="concept.authors||concept._embedded?.authors" ></qddt-author-chip>
+
               <qddt-download [entity]="concept" [readonly]="true"></qddt-download>
 
               <qddt-comment-list [ownerId]="concept.id" [comments]="concept._embedded?.comments">

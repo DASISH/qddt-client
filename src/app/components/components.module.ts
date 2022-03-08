@@ -1,10 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { DragDropModule } from '@angular/cdk/drag-drop';
-
-
 import { LocalDatePipe, LocalNumberPipe, FilterPipe, SortPipe } from '../lib';
 import { AuthorChipComponent } from './author/author.chip.component';
 import { QddtTableComponent } from './table/table.component';
@@ -36,6 +34,7 @@ import { ParameterComponent } from './parameter/parameter.component';
 import { MustMatchDirective } from './form/match.directive';
 import { ConfirmRemoveComponent } from './dialog/remove.component';
 import { UploadFilesComponent } from './upload-files/upload-files.component';
+
 
 @NgModule({
   imports: [CommonModule, RouterModule, FormsModule, CompareModule, DragDropModule],

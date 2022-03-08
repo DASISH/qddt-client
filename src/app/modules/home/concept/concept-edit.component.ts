@@ -1,6 +1,6 @@
 import { Component, Input, EventEmitter, Output, OnChanges, SimpleChanges } from '@angular/core';
-import { Concept, ConceptPojo, ElementKind, LANGUAGE_MAP, TemplateService } from '../../../lib';
-import { hasChanges } from '../../../lib/consts/functions';
+import { Concept, ConceptPojo, hasChanges, LANGUAGE_MAP, TemplateService } from '../../../lib';
+
 
 
 @Component({
@@ -36,6 +36,11 @@ import { hasChanges } from '../../../lib/consts/functions';
         [(ngModel)]="concept.description"
         data-length="20000">
     </qddt-textarea>
+<!--
+    <div class="col s12  chips input-field">
+      <div class="chip" tabindex="0">yghgjklø<i class="material-icons close">close</i></div>
+      <input class="input" id="d9647163-9533-1061-2202-3fcc28fe2c03">
+    </div> -->
 
     <qddt-rational *ngIf="!readonly && isVisible"
       class="col s12"
@@ -64,7 +69,10 @@ export class ConceptEditComponent implements OnChanges{
   public showNew = false;
   public isVisible = false;
 
-  constructor(private service: TemplateService) { }
+  constructor(private service: TemplateService) {
+    var elems = document.querySelectorAll('.chips');
+     M.Chips.init(elems);
+   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if(hasChanges(changes.isVisible)){
