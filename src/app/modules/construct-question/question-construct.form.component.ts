@@ -67,22 +67,22 @@ export class QuestionConstructFormComponent implements OnChanges {
   }
 
   public onAddUniverse(item: IElement) {
-    this.controlConstruct._embedded.universe.push(item.element);
+    this.controlConstruct.universe.push(item.element);
   }
 
   public onAddPreInstruction(item: IElement) {
     console.debug('break here');
-    this.controlConstruct.controlConstructInstructions.push({ instruction: item.element, instructionRank: 'PRE' });
+    this.controlConstruct.controlConstructInstructions.push({ uri: {id:item.element.id },   instruction: item.element, instructionRank: 'PRE' });
     // this.preInstructions = this.filterInstructions('PRE');
   }
 
   public onAddPostInstruction(item: IElement) {
-    this.controlConstruct.controlConstructInstructions.push({ instruction: item.element, instructionRank: 'POST' });
+    this.controlConstruct.controlConstructInstructions.push({ uri: {id:item.element.id }, instruction: item.element, instructionRank: 'POST' });
     // this.preInstructions = this.filterInstructions('POST');
   }
 
   public onRemoveUniverse(item: IElementRef) {
-    this.controlConstruct._embedded.universe = this.controlConstruct.universe.filter(u => u.id !== item.elementId);
+    this.controlConstruct.universe = this.controlConstruct.universe.filter(u => u.id !== item.elementId);
   }
 
   public onRemovePreInstruction(item: IElementRef) {

@@ -106,9 +106,7 @@ export class Parameter {
 }
 
 export class ConstructInstruction {
-  _embedded?: {
-    [rel: string]: any;
-  };
+  uri: IRevId;
   instruction: Instruction;
   instructionRank: string;
 }
@@ -137,14 +135,15 @@ export abstract class AbstractControlConstruct implements IEntityEditAudit {
   _embedded?: {
     [rel: string]: any;
   };
+  // public constructor(init?: Partial<AbstractControlConstruct>) {
+
+  // }
 }
 
 export class QuestionConstruct extends AbstractControlConstruct {
   questionId: IRevId;
   questionName?: string;
   questionText?: string;
-  preInstructions: SimpleInstruction[];
-  postInstructions: SimpleInstruction[];
   controlConstructInstructions: ConstructInstruction[] = [];
   universe: Universe[] = [];
   _links?: {
@@ -156,14 +155,33 @@ export class QuestionConstruct extends AbstractControlConstruct {
   public constructor(init?: Partial<QuestionConstruct>) {
     super()
     this.classKind = ElementKind[ElementKind.QUESTION_CONSTRUCT];
-    Object.assign(this, init);
-    if (!this._embedded) {
-      this._embedded = {}
+    if (init?._embedded?.universe) {
+      init.universe = init?._embedded?.universe
+      init._embedded = {
+        agency: init?._embedded?.agency,
+        modifiedBy: init?._embedded?.modifiedBy,
+        questionItem: init?._embedded?.questionItem
+      }
     }
+    Object.assign(this, init);
+
     this.questionItem = new QuestionItem(this._embedded?.questionItem)
     if (!this.controlConstructInstructions) {
       this.controlConstructInstructions = []
     }
+  }
+
+  get preInstructions(): SimpleInstruction[] {
+    return this.controlConstructInstructions
+    .filter(f => f.instructionRank === "PRE")
+    .map(ci => new SimpleInstruction(ci.instruction))
+    .concat([])
+  }
+  get postInstructions(): SimpleInstruction[] {
+    return this.controlConstructInstructions
+    .filter(f => f.instructionRank === "POST")
+    .map(ci => new SimpleInstruction(ci.instruction))
+    .concat([])
   }
 
   get questionItem(): QuestionItem { return this._embedded.questionItem; }
