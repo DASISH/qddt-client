@@ -17,7 +17,7 @@
         <li *ngIf="localResponseDomain">
           <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue"
             (click)="onItemGetLatest()">
-            <i class="material-icons" title="Get latest">autorenew</i>
+            <i class="material-icons" title="Select version">autorenew</i>
           </a>
         </li>
         <li *ngIf="canDelete && localResponseDomain">
@@ -34,31 +34,6 @@
   </div>
   <div class="col s5">
     <div class="input-field">
-      <ul *ngIf="canEdit" class="dropleft">
-        <li *ngIf="localResponseDomain && !localResponseDomain.missing">
-          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green"
-            (click)="onMissingEdit($event)">
-            <i class="material-icons" title="Add element">add</i>
-          </a>
-        </li>
-        <li *ngIf="localResponseDomain && localResponseDomain.missing">
-          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue"
-            (click)="onItemGetLatest()">
-            <i class="material-icons" title="Select version">autorenew</i>
-          </a>
-        </li>
-        <li *ngIf="localResponseDomain && localResponseDomain.missing">
-          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue"
-            (click)="onMissingEdit($event)">
-            <i class="material-icons" title="Edit">edit</i>
-          </a>
-        </li>
-        <li *ngIf="canDelete && localResponseDomain?.missing">
-          <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 red" (click)="onMissingRemove()">
-            <i class="material-icons" title="Remove">remove</i>
-          </a>
-        </li>
-      </ul>
       <input name="missing" type="text" placeholder="select missing" readonly="readonly"
         [ngModel]="localResponseDomain?.missing?.label">
       <label>Missing</label>
@@ -74,39 +49,6 @@
       <qddt-element-revision-select [source]="RESPONSEDOMAIN" [xmlLang]="xmlLang"
         (revisionSelectedEvent)="onRevisionSelect($event)" (dismissEvent)="onDismiss()">
       </qddt-element-revision-select>
-    </ng-container>
-    <ng-container *ngIf="!showResponseDomain">
-      <h4>Select Missing & Edit</h4>
-      <qddt-element-select *ngIf="!localResponseDomain?.missing" [source]="MISSING_GROUP"
-        [xmlLang]="localResponseDomain?.xmlLang" (elementSelectedEvent)="onMissingSelect($event)">
-      </qddt-element-select>
-
-      <form *ngIf="localResponseDomain?.missing" #hf="ngForm">
-        <table>
-          <thead>
-            <tr>
-              <td>Code</td>
-              <td>Category</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let category of localResponseDomain.missing.children;trackBy:trackByCategoryId; let idx=index;">
-              <!-- <td contenteditable="true" [(contenteditableModel)]="category.code.value" required>
-              </td> -->
-              <td>
-                <input id="{{idx}}-value" name="{{idx}}-code-value" type="text" [(ngModel)]="category.code.value"
-                  class="validate" required placeholder="Enter Code">
-              </td>
-              <td>{{ category?.label }}</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="right-align">
-          <button class="btn-flat waves-effect waves-light green white-text" [disabled]="!hf.form.valid"
-            (click)="onOkMissing($event)">Ok</button>
-          <a class="btn-flat waves-effect waves-light red white-text" (click)="onDismiss($event)">Cancel</a>
-        </div>
-      </form>
     </ng-container>
   </div>
   <div class="modal-footer">

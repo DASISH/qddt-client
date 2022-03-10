@@ -22,9 +22,9 @@
       </qddt-textarea>
     </div>
 
-    <qddt-element-collection [listItems]="controlConstruct.universe" [labelName]="'Universe'"
-      [elementKind]="UNIVERSE" [xmlLang]="controlConstruct.xmlLang" [readonly]="false"
-      (createdEvent)="onAddUniverse($event)" (deletedEvent)="onRemoveUniverse($event)">
+    <qddt-element-collection [listItems]="controlConstruct.universe" [labelName]="'Universe'" [elementKind]="UNIVERSE"
+      [xmlLang]="controlConstruct.xmlLang" [readonly]="false" (createdEvent)="onAddUniverse($event)"
+      (deletedEvent)="onRemoveUniverse($event)">
     </qddt-element-collection>
 
     <qddt-element-collection [listItems]="controlConstruct.preInstructions" [labelName]="'Pre Instructions'"

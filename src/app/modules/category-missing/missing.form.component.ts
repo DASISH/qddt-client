@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ActionKind, Category, ElementKind, IElement, LANGUAGE_MAP, TemplateService, } from '../../lib';
 import { hasChanges } from '../../lib/consts/functions';
 
@@ -28,6 +29,12 @@ export class MissingFormComponent implements OnChanges {
     }
   }
 
+  public onItemDrop(event: CdkDragDrop<any[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      // this.buildPreviewResponseDomain();
+    }
+  }
 
   public getSource(category: Category): IElement {
     return { element: (category) ? category : '*', elementKind: ElementKind.CATEGORY };

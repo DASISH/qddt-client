@@ -21,9 +21,9 @@
     <qddt-textarea required name="description" label="Description" [(ngModel)]="sequence.description" data-length="255">
     </qddt-textarea>
 
-
-    <qddt-element-collection [(listItems)]="sequence.universe" [labelName]="'Universe'" [elementKind]="UNIVERSE"
-      [xmlLang]="sequence.xmlLang" [readonly]="false" (deletedEvent)="onRemoveUniverse($event)">
+    <qddt-element-collection [listItems]="sequence.universe" [labelName]="'Universe'" [elementKind]="UNIVERSE"
+      [xmlLang]="sequence.xmlLang" [readonly]="false" (createdEvent)="onAddUniverse($event)"
+      (deletedEvent)="onRemoveUniverse($event)">
     </qddt-element-collection>
 
     <div class="row">

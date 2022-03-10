@@ -5,7 +5,7 @@ import {
   ElementKind, ElementRevisionRef,
   LANGUAGE_MAP,
   SequenceConstruct, SequenceKind,
-  TemplateService, toSelectItems, Parameter, hasChanges, IElementRef
+  TemplateService, toSelectItems, Parameter, hasChanges, IElementRef, IElement
 } from '../../lib';
 
 @Component({
@@ -100,6 +100,10 @@ export class SequenceFormComponent implements OnChanges {
 
   public onRemoveUniverse(item: IElementRef) {
     this.sequence.universe = this.sequence.universe.filter(u => u.id !== item.elementId);
+  }
+
+  public onAddUniverse(item: IElement) {
+    this.sequence.universe.push(item.element);
   }
 
   public isSequence(element?: any | SequenceConstruct): element is SequenceConstruct {

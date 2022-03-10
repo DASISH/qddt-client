@@ -18,21 +18,37 @@
     </qddt-textarea>
 
     <div class="row">
-      <div class="col s4 m3 ">
+      <div class="col s3 m2 ">
         <div class="input-field">
-          <input [id]="'COUNT-'+ formId" name="COUNT" type="number" min="1" max="25" [ngModel]="missing.children?.length"
-            (ngModelChange)="numbers($event)">
+          <input [id]="'COUNT-'+ formId" name="COUNT" type="number" min="1" max="25"
+            [ngModel]="missing.children?.length" (ngModelChange)="numbers($event)">
           <label [for]="'COUNT-' +formId"># Missing Codes</label>
         </div>
       </div>
-      <ul class="col offset-m1 s7 m8">
+    </div>
+    <div cdkDropList cdkDrop [cdkDropListData]="missing.children" (cdkDropListDropped)="onItemDrop($event)">
+      <ul class="row">
+        <li class="hoverable minirow" cdkDrag *ngFor="let category of missing.children; let idx=index;">
+
+          <qddt-element-select class="input-field minicol" [source]="getSource(category)" [autoCreate]="true"
+            [validate]="true" [formName]="'EC'+idx" [xmlLang]="missing.xmlLang" style="width: 75%"
+            (elementSelectedEvent)="onSelectCategory($event,idx)">
+          </qddt-element-select>
+          <div class="minicol" cdkDragHandle style="width: 5%; top: 2rem; position: relative; cursor: grab;"
+            title="Grab...">
+            <i class="material-icons blue-text text-lighten-2" style=" display: inline; ">reorder</i>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <!-- <ul class="col offset-m1 s7 m8">
         <li *ngFor="let cat of missing.children; let idx=index;">
           <qddt-element-select [source]="getSource(cat)" [autoCreate]="true" [xmlLang]="missing.xmlLang"
             [formName]="'AP-'+formId+idx" [validate]="true" (elementSelectedEvent)="onSelectCategory($event,idx)">
           </qddt-element-select>
         </li>
-      </ul>
-    </div>
+      </ul> -->
+
 
 
     <qddt-rational *ngIf="missing.modified && !readonly" [formName]="'RationalComp'" [element]="missing"

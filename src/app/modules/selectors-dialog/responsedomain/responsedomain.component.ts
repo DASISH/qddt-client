@@ -69,11 +69,28 @@ export class ResponsedomainComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (hasChanges(changes.responseDomain)) {
+      console.debug('localResponseDomain')
       this.localResponseDomain = new ResponseDomain(JSON.parse(JSON.stringify(changes.responseDomain.currentValue)));
     }
   }
 
+  public async onItemGetLatest() {
+    this.SOURCE = new ElementRevisionRefImpl({
+      element: this.responseDomain,
+      uri: { id: this.responseDomain.id, rev: null },
+      elementKind: ElementKind.RESPONSEDOMAIN,
+    });
 
+  }
+
+
+  public onItemRemove() {
+    if (this.canDelete) {
+      this.removeEvent.emit({ elementId: this.responseDomain.id, elementKind: this.responseDomain.classKind });
+      this.responseDomain = null;
+      this.localResponseDomain = null;
+    }
+  }
 
   public onItemEdit(event: Event, rd: ResponseDomain) {
     event.stopPropagation();
@@ -86,49 +103,6 @@ export class ResponsedomainComponent implements OnChanges {
       this.modalRef.open();
     }
   }
-
-  public async onItemGetLatest() {
-    this.SOURCE = new ElementRevisionRefImpl({
-          element: this.responseDomain,
-          uri: { id: this.responseDomain.id, rev: null },
-          elementKind: ElementKind.RESPONSEDOMAIN,
-        });
-    // this.showResponseDomain = true;
-    // this.modalRef.open();
-
-    // const RD = await this.getResponseAsync(this.responseDomain.id);
-    // const result = await this.service.getLatestVersionByKindEntity(ElementKind.RESPONSEDOMAIN, this.responseDomain.id);
-
-    // if (RD.modified !== result.entity.modified) {
-    //   this.responseDomain = Factory.createFromSeed(ElementKind.RESPONSEDOMAIN, result.entity) as ResponseDomain;
-    //   this.selectedEvent.emit(new ElementRevisionRefImpl({
-    //     element: this.responseDomain,
-    //     uri: { id: this.responseDomain.id, rev: result.revisionNumber as number },
-    //     elementKind: ElementKind.RESPONSEDOMAIN,
-    //   }));
-    //   M.toast({
-    //     html: 'Updated Mixed responsedomain',
-    //     displayLength: 2000
-    //   });
-
-    // } else {
-    //   M.toast({
-    //     html: 'No updated managed representation available',
-    //     displayLength: 2000
-    //   });
-    // }
-  }
-
-
-
-  public onItemRemove() {
-    if (this.canDelete) {
-      this.removeEvent.emit({ elementId: this.responseDomain.id, elementKind: this.responseDomain.classKind });
-      this.responseDomain = null;
-      this.localResponseDomain = null;
-    }
-  }
-
   public onRevisionSelect(ref: ElementRevisionRef) {
     if (this.canEdit && (ref)) {
       this.selectedEvent.emit(ref);
@@ -136,45 +110,49 @@ export class ResponsedomainComponent implements OnChanges {
     this.modalRef.close();
   }
 
-  public onMissingEdit(event: Event) {
-    event.stopPropagation();
-    if (this.canEdit) {
-      this.showResponseDomain = false;
-      this.modalRef.open();
-    }
-  }
-
-  public onMissingRemove() {
-    if (this.canDelete && this.responseDomain.isMixed) {
-      const i = this.responseDomain._embedded.managedRepresentation._embedded.children.findIndex(e => e.categoryKind === 'MISSING_GROUP');
-      this.responseDomain._embedded.managedRepresentation._embedded.children.splice(i, 1);
-      this.responseDomain.name =
-        this.responseDomain._embedded.managedRepresentation.label =
-        `Mixed [${this.responseDomain._embedded.managedRepresentation._embedded.children[0].label}]`;
-      this.localResponseDomain = new ResponseDomain(JSON.parse(JSON.stringify(this.responseDomain)));
-    }
-  }
-
-  public async onMissingSelect(ref: IElement) {
-    if (this.canEdit) {
-      let missing = await this.getMissingAsync(ref.element.id)
-      this.localResponseDomain.addManagedRep(missing);
-    }
-  }
-
-  public onOkMissing(event: Event) {
-    event.stopPropagation();
-    if (this.canEdit) {
-      this.responseDomain = this.localResponseDomain;
-      this.updateEvent.emit(this.responseDomain);
-      this.modalRef.close();
-    }
-  }
-
   public onDismiss(_event?: Event) {
     this.RESPONSEDOMAIN.element = ''
     this.localResponseDomain = new ResponseDomain(JSON.parse(JSON.stringify(this.responseDomain)));
     this.modalRef.close();
   }
+
+
+  // public onMissingEdit(event: Event) {
+  //   event.stopPropagation();
+  //   if (this.canEdit) {
+  //     this.showResponseDomain = false;
+  //     this.modalRef.open();
+  //   }
+  // }
+
+  // public onMissingRemove() {
+  //   if (this.canDelete && this.localResponseDomain.isMixed) {
+  //     const i = this.localResponseDomain.managedRepresentation.children.findIndex(e => e.categoryKind === 'MISSING_GROUP');
+  //     this.localResponseDomain.managedRepresentation.children.splice(i, 1);
+  //     this.localResponseDomain.name =
+  //       this.localResponseDomain.managedRepresentation.label =
+  //       `Mixed [${this.localResponseDomain.managedRepresentation.children[0].label}]`;
+  //     console.debug('debug')
+  //     this.responseDomain = new ResponseDomain(JSON.parse(JSON.stringify(this.localResponseDomain)));
+  //     this.updateEvent.emit(this.responseDomain);
+  //   }
+  // }
+
+  // public async onMissingSelect(ref: IElement) {
+  //   if (this.canEdit) {
+  //     let missing = await this.getMissingAsync(ref.element.id)
+  //     this.localResponseDomain.addManagedRep(missing);
+  //   }
+  // }
+
+  // public onOkMissing(event: Event) {
+  //   event.stopPropagation();
+  //   if (this.canEdit) {
+  //     this.responseDomain = this.localResponseDomain;
+  //     this.updateEvent.emit(this.responseDomain);
+  //     this.modalRef.close();
+  //   }
+  // }
+
 
 }

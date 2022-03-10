@@ -173,15 +173,15 @@ export class QuestionConstruct extends AbstractControlConstruct {
 
   get preInstructions(): SimpleInstruction[] {
     return this.controlConstructInstructions
-    .filter(f => f.instructionRank === "PRE")
-    .map(ci => new SimpleInstruction(ci.instruction))
-    .concat([])
+      .filter(f => f.instructionRank === "PRE")
+      .map(ci => new SimpleInstruction(ci.instruction))
+      .concat([])
   }
   get postInstructions(): SimpleInstruction[] {
     return this.controlConstructInstructions
-    .filter(f => f.instructionRank === "POST")
-    .map(ci => new SimpleInstruction(ci.instruction))
-    .concat([])
+      .filter(f => f.instructionRank === "POST")
+      .map(ci => new SimpleInstruction(ci.instruction))
+      .concat([])
   }
 
   get questionItem(): QuestionItem { return this._embedded.questionItem; }
@@ -212,6 +212,13 @@ export class SequenceConstruct extends AbstractControlConstruct {
   public constructor(init?: Partial<SequenceConstruct>) {
     super()
     this.classKind = ElementKind[ElementKind.SEQUENCE_CONSTRUCT];
+    if (init?._embedded?.universe) {
+      init.universe = init?._embedded?.universe
+      init._embedded = {
+        agency: init?._embedded?.agency,
+        modifiedBy: init?._embedded?.modifiedBy
+      }
+    }
     Object.assign(this, init);
     this.sequence.forEach((item, idx, array) => {
       array[idx] = new ElementRevisionRefImpl(item)

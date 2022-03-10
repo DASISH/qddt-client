@@ -70,20 +70,28 @@ export class QuestionConstructFormComponent implements OnChanges {
     this.controlConstruct.universe.push(item.element);
   }
 
-  public onAddPreInstruction(item: IElement) {
-    console.debug('break here');
-    this.controlConstruct.controlConstructInstructions.push({ uri: {id:item.element.id },   instruction: item.element, instructionRank: 'PRE' });
-    // this.preInstructions = this.filterInstructions('PRE');
-  }
-
-  public onAddPostInstruction(item: IElement) {
-    this.controlConstruct.controlConstructInstructions.push({ uri: {id:item.element.id }, instruction: item.element, instructionRank: 'POST' });
-    // this.preInstructions = this.filterInstructions('POST');
-  }
-
   public onRemoveUniverse(item: IElementRef) {
     this.controlConstruct.universe = this.controlConstruct.universe.filter(u => u.id !== item.elementId);
   }
+
+  public async onAddPreInstruction(item: IElement) {
+    if (item.element.id === undefined) {
+      item.element = await this.createInstruction(item.element);
+    }
+    this.controlConstruct.controlConstructInstructions.push({ uri: { id: item.element.id }, instruction: item.element, instructionRank: 'PRE' });
+  }
+
+  private async createInstruction(element: Instruction): Promise<Instruction> {
+    return await this.service.create<Instruction>(element).toPromise();
+  }
+
+  public async onAddPostInstruction(item: IElement) {
+    if (item.element.id === undefined) {
+      item.element = await this.createInstruction(item.element);
+    }
+    this.controlConstruct.controlConstructInstructions.push({ uri: { id: item.element.id }, instruction: item.element, instructionRank: 'POST' });
+  }
+
 
   public onRemovePreInstruction(item: IElementRef) {
     this.controlConstruct.controlConstructInstructions =
