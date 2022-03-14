@@ -87,7 +87,7 @@
             <li class="hoverable minirow" cdkDrag
               *ngFor="let category of responseDomain.managedRepresentation.anchors; let idx=index;trackBy:trackByIndex">
               <div class="input-field minicol" style="width: 20%;">
-                <input name="{{idx}}-code-value" type="text" (ngModelChange)="buildPreviewResponseDomain()"
+                <input name="{{formId}}{{idx}}-code-value" type="text" (ngModelChange)="buildPreviewResponseDomain()"
                   [(ngModel)]="category.code.value" class="validate" required>
               </div>
               <qddt-element-select class="input-field minicol" [source]="getSource(category)" [autoCreate]="true"
@@ -206,48 +206,55 @@
                     <i class="material-icons" title="Edit source">edit</i>
                   </a>
                 </li>
-                <!-- <li *ngIf="responseDomain">
+                <li *ngIf="responseDomain">
                   <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue"
                     (click)="onResponsedomainSelect()">
                     <i class="material-icons" title="Select version">autorenew</i>
                   </a>
-                </li> -->
+                </li>
               </ul>
-              <input name="name" type="text" placeholder="select ResponseDomain" readonly="readonly"
-                [ngModel]="responseDomain?.managedRepresentation.children[0].label">
-              <label>Response Domain (V <qddt-version [element]="responseDomain?.managedRepresentation.children[0]">
-                </qddt-version>) </label>
+              <ng-container *ngIf="responseDomain?.managedRepresentation?.children[0]">
+                <input name="name" type="text" placeholder="select ResponseDomain" readonly="readonly"
+                  [ngModel]="responseDomain?.managedRepresentation?.children[0]?.label">
+                <label>Response Domain (V <qddt-version [element]="responseDomain?.managedRepresentation?.children[0]"></qddt-version>)
+                </label>
+              </ng-container>
             </div>
           </div>
           <div class="col s12">
             <div class="input-field">
               <ul class="dropleft">
-                <li *ngIf="responseDomain">
-                  <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green"
-                    (click)="onGotoEdit($event,responseDomain.missing.id)">
-                    <i class="material-icons" title="Edit source">edit</i>
-                  </a>
-                </li>
-                <!-- <li *ngIf="responseDomain">
+                <li>
                   <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue"
                     (click)="onMissingSelect()">
-                    <i class="material-icons" title="Select version">autorenew</i>
+                    <i class="material-icons" title="Select missing & version">autorenew</i>
                   </a>
-                </li> -->
+                <li *ngIf="responseDomain.missing">
+                  <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 red"
+                    (click)="confirmDialog.showConfirmDeleting($event, responseDomain)">
+                    <i class="material-icons" title="Remove">remove</i>
+                  </a>
+                </li>
+                <li *ngIf="responseDomain.missing">
+                </li>
               </ul>
-              <input name="missing-name" type="text" placeholder="missing?" readonly="readonly"
-                [ngModel]="responseDomain.missing.label">
-              <label>Missing representation (V <qddt-version [element]="responseDomain.missing"></qddt-version>)
-              </label>
+              <ng-container *ngIf="responseDomain.missing">
+                  <!-- <div *ngIf="responseDomain.missing" class="input-field"> -->
+                <input name="missing-name" type="text" placeholder="missing?" readonly="readonly"
+                  [ngModel]="responseDomain.missing.label">
+                <label>Missing representation (V <qddt-version [element]="responseDomain.missing"></qddt-version>)
+                </label>
+              </ng-container>
             </div>
+          <!-- </div> -->
           </div>
 
         </div>
         <label>Missing</label>
-        <div cdkDropList cdkDrop [cdkDropListData]="responseDomain.missing.children"
-          (cdkDropListDropped)="onItemDrop($event)">
+        <!-- <div cdkDropList cdkDrop [cdkDropListData]="responseDomain.missing.children"
+          (cdkDropListDropped)="onItemDrop($event)"> -->
           <ul class="row">
-            <li class="hoverable minirow" cdkDrag
+            <li class="hoverable minirow"
               *ngFor="let category of responseDomain.missing.children; let idx=index;trackBy:trackByIndex">
               <div class="input-field minicol" style="width: 20%;">
                 <input name="{{idx}}-code-value" type="text" (ngModelChange)="buildPreviewResponseDomain()"
@@ -257,13 +264,14 @@
                 [validate]="true" [formName]="'EC'+idx" [xmlLang]="responseDomain.xmlLang" style="width: 75%"
                 (elementSelectedEvent)="onSelectCategory($event,idx)">
               </qddt-element-select>
-              <div class="minicol" cdkDragHandle style="width: 5%; top: 2rem; position: relative; cursor: grab;"
+              <!-- <div class="minicol" cdkDragHandle style="width: 5%; top: 2rem; position: relative; cursor: grab;"
                 title="Grab...">
                 <i class="material-icons blue-text text-lighten-2" style=" display: inline; ">reorder</i>
-              </div>
+              </div> -->
             </li>
           </ul>
-        </div>
+        <!-- </div> -->
+
         <qddt-preview-responsedomain [responseDomain]="previewResponseDomain">
         </qddt-preview-responsedomain>
       </ng-container>
@@ -282,6 +290,20 @@
   </form>
 </div>
 
+<!-- Modal Structure -->
+<!-- <div id="MODAL-{{modalId}}" class="modal modal-fixed-footer">
+  <div class="modal-content white black-text">
+    <ng-container *ngIf="true">
+      <h4>Select Missing & Search</h4>
+      <qddt-element-revision-select [source]="referenced" [xmlLang]="responseDomain.xmlLang"
+        (revisionSelectedEvent)="onRevisionSelect($event)" (dismissEvent)="onDismiss()">
+      </qddt-element-revision-select>
+    </ng-container>
+  </div>
+  <div class="modal-footer">
+    <a class="btn-flat waves-effect waves-light red white-text" (click)="onDismiss()">Dismiss</a>
+  </div>
+</div> -->
 
 <qddt-element-revision [source]="referenced" [xmlLang]="responseDomain?.xmlLang"
   (revSelectEvent)="onRevisionSelect($event)">

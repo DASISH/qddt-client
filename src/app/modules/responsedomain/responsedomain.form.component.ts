@@ -10,7 +10,7 @@ import {
   IElement,
   IPageSearch, LANGUAGE_MAP,
   PropertyStoreService,
-  ResponseDomain, TemplateService, toSelectItems, DATE_FORMAT_MAP, delay, hasChanges, IRevisionRef, ElementRevisionRefImpl, ElementRevisionRef, IEntityEditAudit
+  ResponseDomain, TemplateService, toSelectItems, DATE_FORMAT_MAP, delay, hasChanges, IRevisionRef, ElementRevisionRefImpl, ElementRevisionRef, IEntityEditAudit, UserService
 } from '../../lib';
 
 @Component({
@@ -30,9 +30,12 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
   public domainTypeDef = DomainKind;
   public domainType: DomainKind;
   public referenced: ElementRevisionRefImpl<IEntityEditAudit>;
+  public canDelete: boolean;
+  public canEdit: boolean;
 
   public readonly CATEGORY = ElementKind.CATEGORY;
   public readonly formId = Math.round(Math.random() * 10000);
+  public readonly modalId = Math.round(Math.random() * 10000);
   public readonly DATE_FORMATS = DATE_FORMAT_MAP;
   public readonly LANGUAGES = LANGUAGE_MAP;
   public readonly DISPLAYLAYOUTS = toSelectItems(DisplayLayoutKind);
@@ -40,8 +43,22 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
   public readonly trackByIndex = (index: number, entity) => entity.id || index;
   public readonly trackByFunc = (idx: any, category: { id: any; }) =>  category?.id || idx;
 
+  private _modalRef: M.Modal;
+  public get modalRef(): M.Modal {
+    if (!(this._modalRef)) {
+      this._modalRef = M.Modal.init(document.querySelector('#MODAL-' + this.modalId),
+        {
+          inDuration: 750, outDuration: 1000, startingTop: '50%', endingTop: '10%', preventScrolling: true, opacity: 0.3
+        });
+    }
+    return this._modalRef;
+  }
+
+
   constructor(private service: TemplateService, private router: Router, private properties: PropertyStoreService) {
 
+    this.canDelete = !this.service.can(ActionKind.Delete, ElementKind.RESPONSEDOMAIN);
+    this.canEdit = !this.service.can(ActionKind.Update, ElementKind.RESPONSEDOMAIN);
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.RESPONSEDOMAIN);
 
   }
@@ -101,13 +118,41 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
       console.debug(this.referenced)
   }
 
-    public onItemRemove() {
-      // if (this.canDelete) {
-      //   this.removeEvent.emit({ elementId: this.responseDomain.id, elementKind: this.responseDomain.classKind });
-      //   this.responseDomain = null;
-      //   this.localResponseDomain = null;
-      // }
+    public onMissingEdit(event: Event) {
+    event.stopPropagation();
+    if (this.canEdit) {
+      // this.showResponseDomain = false;
+      this.modalRef.open();
     }
+  }
+
+  public onMissingRemove() {
+    if (this.canDelete && this.responseDomain.isMixed) {
+      const i = this.responseDomain.managedRepresentation.children.findIndex(e => e.categoryKind === 'MISSING_GROUP');
+      this.responseDomain.managedRepresentation.children.splice(i, 1);
+      this.responseDomain.name =
+        this.responseDomain.managedRepresentation.label =
+        `Mixed [${this.responseDomain.managedRepresentation.children[0].label}]`;
+      console.debug('debug')
+      this.responseDomain = new ResponseDomain(JSON.parse(JSON.stringify(this.responseDomain)));
+    }
+  }
+
+  // public async onMissingSelect(ref: IElement) {
+  //   if (this.canEdit) {
+  //     let missing = await this.getMissingAsync(ref.element.id)
+  //     this.localResponseDomain.addManagedRep(missing);
+  //   }
+  // }
+
+  public onItemRemove() {
+  if (this.canDelete) {
+    console.debug("")
+    // this.removeEvent.emit({ elementId: this.responseDomain.id, elementKind: this.responseDomain.classKind });
+    // this.responseDomain = null;
+    // this.localResponseDomain = null;
+   }
+  }
 
     public onRevisionSelect(ref: ElementRevisionRef) {
       console.debug(ref)
