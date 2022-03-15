@@ -48,7 +48,7 @@ export class ElementRevisionComponent implements OnChanges {
     // if (hasChanges<IElement | IRevisionRef>(changes.source, (a1, a2) => a1.elementKind === a2.elementKind)) {
     if (hasChanges<IElement | IRevisionRef>(changes.source)) {
       const entity = changes.source.currentValue as IElement | IRevisionRef;
-
+      console.debug(entity)
       if (this.isElementRevision(entity)) {
         this.revisionRef = new ElementRevisionRefImpl(entity);
         this.showRevisionSelect = true;

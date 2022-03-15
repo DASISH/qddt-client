@@ -11,7 +11,7 @@
   </div>
   <div class="input-field col s5 m3">
     <div class="chip" *ngIf="element._embedded?.modifiedBy?.email">
-      <img class="gravatar" gravatar [email]="element._embedded.modifiedBy.email" [size]="32">
+      <img class="gravatar" gravatar [email]="element._embedded.modifiedBy.email" [size]="32" aria-label="avatar">
       {{element._embedded.modifiedBy.username |titlecase }}
     </div>
     <label class="active">Last Saved By</label>

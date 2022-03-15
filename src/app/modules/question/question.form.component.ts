@@ -66,9 +66,11 @@ export class QuestionFormComponent implements AfterViewInit, OnChanges {
     element.changeKind = 'CONCEPTUAL';
     element.changeComment = 'Values changed or managed representation added';
     this.service.update<ResponseDomain>(element).subscribe(result => {
+
       this.questionItem.responseId.rev = 0;
       this.questionItem.responseId.id = result.id;
       this.questionItem._embedded.responseDomain = result;
+      this.questionItem.responseName = result.name
       // console.debug('rd + rdref updated');
       // this will fetch latest revision of Rd, when QI is saved.
     });

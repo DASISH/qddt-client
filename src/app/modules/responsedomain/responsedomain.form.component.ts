@@ -41,7 +41,7 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
   public readonly DISPLAYLAYOUTS = toSelectItems(DisplayLayoutKind);
 
   public readonly trackByIndex = (index: number, entity) => entity.id || index;
-  public readonly trackByFunc = (idx: any, category: { id: any; }) =>  category?.id || idx;
+  public readonly trackByFunc = (idx: any, category: { id: any; }) => category?.id || idx;
 
   private _modalRef: M.Modal;
   public get modalRef(): M.Modal {
@@ -106,19 +106,19 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
 
   public async onResponsedomainSelect() {
     this.referenced = new ElementRevisionRefImpl({
-        uri: this.responseDomain.basedOn,
-        elementKind: ElementKind.RESPONSEDOMAIN,
-      });
+      uri: this.responseDomain.basedOn,
+      elementKind: ElementKind.RESPONSEDOMAIN,
+    });
   }
 
   public async onMissingSelect() {
     this.referenced = new ElementRevisionRefImpl({
-        element: this.responseDomain.missing
-      });
-      console.debug(this.referenced)
+      element: this.responseDomain.missing
+    });
+    console.debug(this.referenced)
   }
 
-    public onMissingEdit(event: Event) {
+  public onMissingEdit(event: Event) {
     event.stopPropagation();
     if (this.canEdit) {
       // this.showResponseDomain = false;
@@ -146,18 +146,18 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
   // }
 
   public onItemRemove() {
-  if (this.canDelete) {
-    console.debug("")
-    // this.removeEvent.emit({ elementId: this.responseDomain.id, elementKind: this.responseDomain.classKind });
-    // this.responseDomain = null;
-    // this.localResponseDomain = null;
-   }
+    if (this.canDelete) {
+      console.debug("")
+      // this.removeEvent.emit({ elementId: this.responseDomain.id, elementKind: this.responseDomain.classKind });
+      // this.responseDomain = null;
+      // this.localResponseDomain = null;
+    }
   }
 
-    public onRevisionSelect(ref: ElementRevisionRef) {
-      console.debug(ref)
-      this.referenced = null
-    }
+  public onRevisionSelect(ref: ElementRevisionRef) {
+    console.debug(ref)
+    this.referenced = null
+  }
 
   public getSource(category: Category): IElement {
     return { element: category, elementKind: ElementKind.CATEGORY };
@@ -246,6 +246,7 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
 
 
   public buildPreviewResponseDomain() {
+
     this.responseDomain.managedRepresentation.inputLimit = this.responseDomain.responseCardinality
     this.previewResponseDomain = new ResponseDomain(this.responseDomain);
   }

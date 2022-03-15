@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 import {
   ActionKind, delay,
   ElementKind,
@@ -36,16 +35,16 @@ export class StudyComponent implements OnInit {
 
   private getId = (href: string): string => href.split('/').pop().split('{')[0];
   private getStudy = (href: string) => this.templateService.getByKindEntity<Study>(this.STUDY, this.getId(href));
-  public get studies() : Study[] {
-    return  this.property.get('studies')
+  public get studies(): Study[] {
+    return this.property.get('studies')
   }
-  private set studies(values : Study[]) {
+  private set studies(values: Study[]) {
     this.property.set('studies', values)
   }
 
 
-  constructor(private router: Router,private property: PropertyStoreService,private message: MessageService,
-                private homeService: HomeService<Study>,private templateService: TemplateService) {
+  constructor(private router: Router, private property: PropertyStoreService, private message: MessageService,
+    private homeService: HomeService<Study>, private templateService: TemplateService) {
 
     this.readonly = !homeService.canDo(this.STUDY).get(ActionKind.Create);
     this.canDelete = homeService.canDo(this.STUDY).get(ActionKind.Delete);
@@ -61,16 +60,16 @@ export class StudyComponent implements OnInit {
   private async loadStudies(parentId: string) {
 
     if (this.survey && this.survey._embedded?.children) {
-      let tmp:Study[] = []
-      this.survey._embedded.children.forEach(async (study) =>{
-        tmp.push( await this.getStudy(study._links?.self.href))
+      let tmp: Study[] = []
+      this.survey._embedded.children.forEach(async (study) => {
+        tmp.push(await this.getStudy(study._links?.self.href))
       });
       this.studies = tmp;
 
     } else {
-      this.homeService.getListByParent(this.STUDY,parentId)
+      this.homeService.getListByParent(this.STUDY, parentId)
         .then((result) => {
-          result.forEach(async (study, index) =>  result[index] = await this.getStudy(study._links?.self.href));
+          result.forEach(async (study, index) => result[index] = await this.getStudy(study._links?.self.href));
           this.studies = result;
         });
     }
@@ -126,7 +125,7 @@ export class StudyComponent implements OnInit {
 
           this.studies = this.studies
             .filter((s: any) => s.id !== study.id)
-            .map((s:Study,index) => {
+            .map((s: Study, index) => {
               s.parentIdx = index
               return s
             })

@@ -17,7 +17,7 @@
       <li class="row" *ngFor="let user of agency._embedded.users">
         <div class="col s3">
           <div class="chip">
-            <img *ngIf="user.email" class="gravatar" gravatar [email]="user.email" [size]="32">
+            <img *ngIf="user.email" class="gravatar" gravatar [email]="user.email" [size]="32" aria-label="avatar">
             <a [routerLink]="['/user/'+user.id]" [title]="user.username |titlecase">
               {{user.username |titlecase }}
             </a>

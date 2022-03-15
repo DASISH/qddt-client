@@ -1,9 +1,9 @@
 <div class="row">
   <div id="qtc-{{formId}}" class="col s12">
-    <div class="card-panel row teal text-lighten-2">
+    <div class="card-panel row teal darken-1">
       <i class="material-icons large white-text right">{{icon}}</i>
       <h4 class="white-text ">{{headerName}}</h4>
-      <a *ngIf="canWrite()" class="btn white-text" (click)="onToggleForm()">
+      <a *ngIf="canWrite()" class="btn white-text teal darken-1" (click)="onToggleForm()">
         <i class="material-icons right" *ngIf="!showForm">keyboard_arrow_down</i>
         <i class="material-icons right" *ngIf="showForm">keyboard_arrow_up</i>
         New

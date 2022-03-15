@@ -1,13 +1,14 @@
 <div id="nav-bar1" class="navbar-fixed">
-  <nav>
-    <div class="nav-wrapper red lighten-2">
-      <a href="#" data-target="nav-leftmenuSmal" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+  <nav aria-label="navbar container">
+    <div class="nav-wrapper red lighten-2" aria-label="navbar-container">
+      <a href="#" data-target="nav-leftmenuSmal" class="sidenav-trigger" aria-label="smal left menu"><i
+          class="material-icons">menu</i></a>
       <div style="height: 60px; overflow: hidden;">
         <ul class="right">
           <li>
             <a class="dropdown-trigger" href="#!" data-target="admin-menu1">
               {{ username }} <i class="material-icons left">arrow_drop_down</i>
-              <img class="gravatar" gravatar [email]="getEmail()" [size]="48" />
+              <img class="gravatar" gravatar [email]="getEmail()" [size]="48" aria-label="avatar" />
             </a>
           </li>
         </ul>
@@ -31,11 +32,11 @@
           [Concept]
         </a>
       </div>
-      <ul id="nav-leftmenuLarge" class="sidenav hide-on-med-and-down teal-text"
+      <ul id="nav-leftmenuLarge" class="sidenav hide-on-med-and-down teal-text" aria-label="large left menu"
         style="transform: translateX(0px); width: 215px;">
         <div class="container red lighten-2" style=" width: 100%; height: 64px; line-height: 64px;
         font-size: 2rem; text-align: center; vertical-align: middle">
-          <img src="/assets/images/qddt-text.png" style="height:100%; left: 90%; " />
+          <img src="/assets/images/qddt-text.png" style="height:100%; left: 90%; " aria-label="Qddt logo" />
         </div>
         <div *ngIf="isLoggedIn$ | async as isLoggedIn">
           <li>

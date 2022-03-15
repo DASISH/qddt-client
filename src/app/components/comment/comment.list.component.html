@@ -1,12 +1,11 @@
 <div class="row">
-  <a class="btn-flat waves-effect teal white-text" (click)="showComments = !showComments;"
-    title="View Comment(s)">
+  <a class="btn-flat waves-effect teal white-text" (click)="showComments = !showComments;" title="View Comment(s)">
     <i class="material-icons left">message</i>{{ size }} </a>
   <ul *ngIf="showComments" class="collection">
     <li class="collection-item avatar" *ngFor="let comment of comments; let idx=index;"
       (mouseenter)="hoverIndex = ownerId + idx" (mouseleave)="hoverIndex = null" style="min-height: 144px;">
       <div *ngIf="showPrivate || comment.public ">
-        <img class="circle" gravatar [email]="comment?.modifiedEmail" [size]="48">
+        <img class="circle" gravatar [email]="comment?.modifiedEmail" [size]="48" aria-label="avatar">
         <p class="title" [style.color]="comment.public ? 'blue': 'grey'" i18n>
           <i *ngIf="comment.public" class="material-icons tiny" title="This comment is visible for all">public</i>
           {{comment.modifiedBy}} {{ comment?.modified | date:'long' }}

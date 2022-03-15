@@ -102,7 +102,7 @@ export class ResponseDomain implements IEntityEditAudit {
 
   public get isMixed() { return (this.responseKind === 'MIXED'); }
 
-  public get missing(): Category { return this.managedRepresentation.anchors.find(e => e.categoryKind === 'MISSING_GROUP'); }
+  public get missing(): Category { return this.managedRepresentation.anchors.find(e => e.categoryKind === 'MISSING_GROUP') }
 
   public setResponseKind(kind: DomainKind): ResponseDomain {
     this.responseKind = DomainKind[kind];

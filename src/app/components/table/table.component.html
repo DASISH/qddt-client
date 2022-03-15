@@ -1,6 +1,6 @@
 <form name="filterForm" class="col s12">
   <ng-container *ngIf="!pageSearch.hasDetailSearch">
-    <div class="input-field col s10 m9 l8">
+    <div class="input-field col s10 m9 l8" name="simpleSearch">
       <i class="material-icons prefix">search</i>
       <input id="simpleSearch" name="simpleSearch" type="search" required [(ngModel)]="fields.simpleSearch"
         (ngModelChange)="searchKeysChange.next({ name: 'simpleSearch', value: $event })">
@@ -9,7 +9,7 @@
     </div>
   </ng-container>
   <ng-container *ngIf="pageSearch.hasDetailSearch">
-    <div class="col s{{ (10-10%fieldNames.length)/fieldNames.length}} input-field"
+    <div class="col s{{ (10-10%fieldNames.length)/fieldNames.length}} input-field" name="AdvancedSearch"
       *ngFor="let field of fieldNames; let idx=index;">
       <i class="material-icons prefix">search</i>
       <input id="field-{{idx}}" name="{{field}}" type="search" required [(ngModel)]="fields[field]"
