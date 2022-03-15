@@ -203,7 +203,7 @@ export class TemplateService {
     return this.http.request(req);
   }
 
-  public deleteFile(otherMaterial: IOtherMaterial): Promise<any> {
+  public deleteTopicFile(otherMaterial: IOtherMaterial): Promise<any> {
     return this.http.delete(`${this.api}topicgroup/${otherMaterial.originalOwner}/otherMaterial/${otherMaterial.fileName}`).toPromise();
   }
 
@@ -221,7 +221,7 @@ export class TemplateService {
   }
 
   public async canDoAction(action: ActionKind, entity: IEntityEditAudit) {
-    return this.userService.canDo(action, getElementKind(entity.classKind)) && (this.hasOwnerRights(entity.agency));
+    return this.userService.canDo(action, getElementKind(entity.classKind)) && (this.hasOwnerRights(entity._embedded.agency));
   }
 
   public async hasOwnerRights(entityAgency?: Agency) {

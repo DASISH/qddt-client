@@ -118,11 +118,11 @@ export class Category implements IEntityEditAudit {
   get anchors(): Category[] {
     return this.children || this._embedded?.children as Category[] || []
   }
-  set anchors(category: Category[]) {
+  set anchors(categories: Category[]) {
     if (this.children) {
-      this.children = category
+      this.children = categories
     } else {
-      this._embedded.children = category
+      this._embedded.children = categories
     }
   }
 

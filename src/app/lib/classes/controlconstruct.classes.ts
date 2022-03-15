@@ -155,6 +155,10 @@ export class QuestionConstruct extends AbstractControlConstruct {
   public constructor(init?: Partial<QuestionConstruct>) {
     super()
     this.classKind = ElementKind[ElementKind.QUESTION_CONSTRUCT];
+
+    if (!init?._embedded) {
+      init._embedded = {}     // this is required to create new instances
+    }
     if (init?._embedded?.universe) {
       init.universe = init?._embedded?.universe
       init._embedded = {

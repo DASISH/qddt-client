@@ -89,7 +89,7 @@ export class FileDownloadComponent implements OnChanges {
 
   onMarkForDeletion(idx: number) {
     if (this.entity.otherMaterials && this.entity.otherMaterials.length > idx) {
-      this.service.deleteFile(this.entity.otherMaterials.splice(idx, 1)[0])
+      this.service.deleteTopicFile(this.entity.otherMaterials.splice(idx, 1)[0])
         .then(result => console.debug(result));
     }
 

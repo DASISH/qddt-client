@@ -25,6 +25,7 @@ export class QuestionFormComponent implements AfterViewInit, OnChanges {
   public showButton = false;
   public formId = Math.round(Math.random() * 10000);
   public readonly LANGUAGES = LANGUAGE_MAP;
+  public readonly RESPONSEDOMAIN = { element: '', elementKind: ElementKind.RESPONSEDOMAIN };
 
   constructor(private service: TemplateService) {
     this.readonly = !this.service.can(ActionKind.Create, ElementKind.QUESTION_ITEM);

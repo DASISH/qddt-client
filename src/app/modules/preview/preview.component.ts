@@ -1,4 +1,3 @@
-import { element } from 'protractor';
 import { Category } from 'src/app/lib';
 import { AfterViewInit, Component, Input } from '@angular/core';
 import { ElementEnumAware, ElementKind, IEntityAudit, PreviewService, Parameter, saveAs } from '../../lib';
@@ -12,10 +11,9 @@ import { ElementEnumAware, ElementKind, IEntityAudit, PreviewService, Parameter,
     'ul { border-color:lightyellow; }',
     'ul.question { border-color:#E8F5E9;}',
     'ul .collapsible { margin:unset; padding:5px;}',
-    'collapsible-header { display: flow-root; margin-bottom: 0px; margin-left: unset; }',
+    'collapsible-header { display: flow-root; margin-bottom: 0px; margin-left: unset; }'
   ],
-
-  templateUrl: './preview.component.html',
+  templateUrl: './preview.component.html'
 })
 
 @ElementEnumAware
