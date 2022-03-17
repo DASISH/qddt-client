@@ -14,11 +14,12 @@ export class MissingFormComponent implements OnChanges {
   @Input() readonly = false;
   @Output() modifiedEvent = new EventEmitter<Category>();
 
+  public missingIndex: number;
+
   public readonly formId = Math.round(Math.random() * 10000);
   public readonly CATEGORY = ElementKind.CATEGORY;
   public readonly LANGUAGES = LANGUAGE_MAP;
-
-  public missingIndex: number;
+  public readonly trackByIndex = (index: number, entity) => entity.id || index;
 
 
   constructor(private service: TemplateService) {
