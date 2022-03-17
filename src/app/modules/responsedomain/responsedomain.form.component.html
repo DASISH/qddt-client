@@ -81,9 +81,9 @@
           </div>
         </div>
         <qddt-preview-responsedomain [responseDomain]="previewResponseDomain"></qddt-preview-responsedomain>
-        <div cdkDropList cdkDrop [cdkDropListData]="responseDomain.managedRepresentation.anchors"
+        <div class="row" cdkDropList cdkDrop [cdkDropListData]="responseDomain.managedRepresentation.anchors"
           (cdkDropListDropped)="onItemDrop($event)">
-          <ul class="row">
+          <ul >
             <li class="hoverable minirow" cdkDrag
               *ngFor="let category of responseDomain.managedRepresentation.anchors; let idx=index;trackBy:trackByIndex">
               <div class="input-field minicol" style="width: 20%;">
@@ -214,7 +214,7 @@
                 </li>
               </ul>
               <ng-container>
-                <input name="name" type="text" placeholder="select ResponseDomain..." readonly="readonly"
+                <input class="col s8" name="managedRepresentation-label" type="text" placeholder="select ResponseDomain..." readonly="readonly"
                   [ngModel]="responseDomain.managedRepresentation?.children[0]?.label">
                 <label>Response Domain (V <qddt-version [element]="responseDomain.managedRepresentation?.children[0]">
                   </qddt-version>)
@@ -225,6 +225,12 @@
           <div class="col s12">
             <div class="input-field">
               <ul class="dropleft">
+                <li *ngIf="responseDomain.missing">
+                  <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 green"
+                    (click)="onGotoEdit($event,responseDomain.missing.id)">
+                    <i class="material-icons" title="Edit source">edit</i>
+                  </a>
+                </li>
                 <li>
                   <a class="btn-flat btn-floating btn-small waves-effect waves-light lighten-2 blue"
                     (click)="onMissingSelect()">
@@ -236,12 +242,10 @@
                     <i class="material-icons" title="Remove">remove</i>
                   </a>
                 </li>
-                <li *ngIf="responseDomain.missing">
-                </li>
               </ul>
               <ng-container>
                 <!-- <div *ngIf="responseDomain.missing" class="input-field"> -->
-                <input name="missing-name" type="text" placeholder="select Missing..." readonly="readonly"
+                <input  class="col s8" name="missing-label" type="text" placeholder="select Missing..." readonly="readonly"
                   [ngModel]="responseDomain.missing?.label">
                 <label>Missing representation (V <qddt-version [element]="responseDomain.missing"></qddt-version>)
                 </label>
@@ -253,11 +257,11 @@
         <ul class="row">
           <li class="hoverable minirow"
             *ngFor="let category of responseDomain.missing?.children; let idx=index;trackBy:trackByIndex">
-            <div class="input-field minicol" style="width: 20%;">
+            <div class="input-field minicol" style="width: 15%;">
               <input name="{{idx}}1-code-value" type="text" (change)="buildPreviewResponseDomain()"
                 [(ngModel)]="category.code.value" class="validate" required placeholder="Text or number">
             </div>
-            <div class="input-field minicol" style="width: 60%;cursor:not-allowed;">
+            <div class="input-field minicol" style="width: 52.6%;cursor:not-allowed;">
               <input name="{{idx}}2-code-value" type="text" readonly [(ngModel)]="category.label"
                 style="cursor:not-allowed;">
             </div>

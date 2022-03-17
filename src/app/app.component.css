@@ -127,3 +127,6 @@ ul:not(.browser-default) > li > a { margin-bottom: 10px; }
 .itemInvalid { border: thick solid red; }
 .infoText { font-style: italic; color: grey; }
 
+.minicol { float: left;box-sizing: border-box;padding: 0 0.75rem;min-height: 1px;margin-left: auto;left: auto;right: auto;}
+
+.minirow::after { content: "";display: table;clear: both;}

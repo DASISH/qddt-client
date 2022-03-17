@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ActionKind, Category, ElementKind, IElement, LANGUAGE_MAP, TemplateService, } from '../../lib';
 import { hasChanges } from '../../lib/consts/functions';
+import { style } from '@angular/animations';
 
 @Component({
   selector: 'qddt-missing-form',

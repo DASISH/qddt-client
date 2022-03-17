@@ -156,6 +156,11 @@ export class ResponseFormComponent implements OnInit, OnChanges, AfterViewInit {
 
   public onRevisionSelect(ref: ElementRevisionRef) {
     console.debug(ref)
+    if (ref.elementKind == 'RESPONSEDOMAIN') {
+      this.responseDomain.managedRepresentation.children[0] = ref.element.managedRepresentation
+    } else  {
+      this.responseDomain.managedRepresentation.children[1] = ref.element
+    }
     this.referenced = null
   }
 

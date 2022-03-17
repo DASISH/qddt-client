@@ -1,7 +1,6 @@
-import { registerLocaleData } from '@angular/common';
 import { ElementKind } from '../enums';
-import { IComment, IEntityEditAudit, IVersion, IUser, IOtherMaterial, IRevId } from '../interfaces';
-import { Agency, User } from './user.classes';
+import { IEntityEditAudit, IVersion, IOtherMaterial, IRevId } from '../interfaces';
+import { User } from './user.classes';
 
 
 export enum CategoryKind {

@@ -40,6 +40,7 @@ export class ElementRevisionRefImpl<T extends IEntityEditAudit> extends ElementR
       this.version = this.element.version;
       if (!this.uri.id){
         this.uri.id = this.element.id
+        this.uri.rev = this.element.version.rev
       }
     }
 
